@@ -420,12 +420,12 @@ ComboFilter:
   AbilityLabel: Capacités
   ModeSelector:
     Simple: Simple
-    Advanced: Avancé
+    Advanced: Expert
   RowControls:
     Add: +
     Remove: "-"
     ResetConfirm:
-      Description: Réinitialiser tous les paramètres de rotation Simple / Avancé?
+      Description: Réinitialiser tous les paramètres de rotation Simple / Expert?
   CounterLabels:
     Dot: Dsd
   ComboOptions:
@@ -438,10 +438,10 @@ ComboFilter:
     Break: Rupture
     MemoSkill: Compᴹ
     MemoTalent: Talentᴹ
-  RotationButton: Rotation avancée
+  RotationButton: Rotation Expert
 ComboDrawer:
   NoConditionals: Pas de passifs conditionnels
-  Title: Guide de l'utilisateur de Rotation Avancée
+  Title: Guide de l'utilisateur de Rotation Expert
   Placeholders:
     Sets: Conditionnels de set de relique
     Ornaments: Conditionnels de set d'ornements

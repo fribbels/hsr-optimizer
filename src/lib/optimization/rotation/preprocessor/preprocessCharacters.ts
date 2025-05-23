@@ -1,7 +1,7 @@
 import { AbilityTriggeredStackPreprocessor } from 'lib/optimization/rotation/preprocessor/utils/abilityTriggeredStackPreprocessor'
 import { AbilityPreprocessorBase, setComboBooleanCategoryCharacterActivation, setComboNumberCategoryCharacterActivation } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
-import { AbilityKind, TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
-import { CASTORICE, HOOK, THE_HERTA, YUNLI } from 'lib/simulations/tests/testMetadataConstants'
+import { AbilityKind, TurnAbility, TurnMarker } from 'lib/optimization/rotation/turnAbilityConfig'
+import { ARCHER, CASTORICE, HOOK, JINGLIU_B1, PHAINON, SABER, THE_HERTA, YUNLI } from 'lib/simulations/tests/testMetadataConstants'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
 export class CastoricePreprocessor extends AbilityPreprocessorBase {
@@ -108,6 +108,100 @@ export class HookPreprocessor extends AbilityTriggeredStackPreprocessor {
         consumeKinds: [AbilityKind.SKILL],
         activationFn: setComboBooleanCategoryCharacterActivation,
         key: 'enhancedSkill',
+      },
+    )
+  }
+}
+
+export class PhainonPreprocessor extends AbilityPreprocessorBase {
+  id = PHAINON
+  defaultState = { transformedState: false }
+  state = { ...this.defaultState }
+
+  reset() {
+    this.state = { ...this.defaultState }
+  }
+
+  processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
+    const { kind } = turnAbility
+
+    if (kind == AbilityKind.ULT) {
+      if (this.state.transformedState == false) {
+        setComboBooleanCategoryCharacterActivation(comboState, 'transformedState', index, false)
+        this.state.transformedState = true
+      } else {
+        setComboBooleanCategoryCharacterActivation(comboState, 'transformedState', index, true)
+        this.state.transformedState = false
+      }
+    } else {
+      setComboBooleanCategoryCharacterActivation(comboState, 'transformedState', index, this.state.transformedState)
+    }
+  }
+}
+
+export class SaberPreprocessor extends AbilityPreprocessorBase {
+  id = SABER
+  defaultState = { enhancedSkill: false }
+  state = { ...this.defaultState }
+
+  reset() {
+    this.state = { ...this.defaultState }
+  }
+
+  processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
+    const { kind } = turnAbility
+
+    if (kind == AbilityKind.SKILL) {
+      if (this.state.enhancedSkill == false) {
+        setComboBooleanCategoryCharacterActivation(comboState, 'enhancedSkill', index, false)
+        this.state.enhancedSkill = true
+      } else {
+        setComboBooleanCategoryCharacterActivation(comboState, 'enhancedSkill', index, true)
+        this.state.enhancedSkill = false
+      }
+    } else {
+      setComboBooleanCategoryCharacterActivation(comboState, 'enhancedSkill', index, this.state.enhancedSkill)
+    }
+  }
+}
+
+export class ArcherPreprocessor extends AbilityPreprocessorBase {
+  id = ARCHER
+  defaultState = { skillEnhances: 0 }
+  state = { ...this.defaultState }
+
+  reset() {
+    this.state = { ...this.defaultState }
+  }
+
+  processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
+    const { kind, marker } = turnAbility
+
+    const e = comboState.comboCharacter.metadata.characterEidolon
+
+    if (kind == AbilityKind.SKILL && (marker == TurnMarker.START || marker == TurnMarker.WHOLE)) {
+      setComboNumberCategoryCharacterActivation(comboState, 'skillEnhances', index, 0)
+      this.state.skillEnhances++
+    } else if (kind == AbilityKind.SKILL) {
+      setComboNumberCategoryCharacterActivation(comboState, 'skillEnhances', index, Math.min(e >= 6 ? 3 : 2, this.state.skillEnhances))
+      this.state.skillEnhances++
+    }
+
+    if (marker == TurnMarker.END || marker == TurnMarker.WHOLE) {
+      this.state.skillEnhances = 0
+    }
+  }
+}
+
+export class JingliuB1Preprocessor extends AbilityTriggeredStackPreprocessor {
+  constructor() {
+    super(
+      JINGLIU_B1,
+      {
+        triggerKinds: [AbilityKind.ULT],
+        consumeKinds: [AbilityKind.SKILL],
+        activationFn: setComboBooleanCategoryCharacterActivation,
+        key: 'e2SkillDmgBuff',
       },
     )
   }

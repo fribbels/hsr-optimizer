@@ -1,0 +1,34 @@
+Title: 基准生成器
+LeftPanel:
+  Header: 基准
+MiddlePanel:
+  CharacterHeader: 角色
+  LCHeader: 光锥
+  TeammatesHeader: 队友
+RightPanel:
+  Settings:
+    Header: 设置
+    SPD: 基准基础速度
+    ERR: 能量回复绳
+    SubDPS: 副C
+  SetsHeader: 基准套装
+  ButtonText:
+    Generate: 生成基准
+    Clear: 清除
+ResultsGrid:
+  Combo: 连招伤害
+  Delta: 增量
+  Sets: 套装
+ResultsTabs:
+  WithSpeed:
+    100: 100% 基准配装（{{Speed}}速）
+    200: 200% 基准配装（{{Speed}}速）
+  WithoutSpeed:
+    100: 100% 基准配装
+    200: 200% 基准配装
+ResultsPanel:
+  BasicStats: 基础属性
+  CombatStats: 战斗属性
+  Rolls: 副词条升级次数
+  Combo: 连招循环
+  Damage: 技能伤害

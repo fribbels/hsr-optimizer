@@ -163,7 +163,7 @@ function generateTeamGrid(characters: DBMetadataCharacter[]) {
 
 function SimulationComboDashboard() {
   const characters = Object.values(DB.getMetadata().characters)
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter.ComboOptions' })
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   return (
     <Flex vertical gap={40}>
       <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Destruction), t)}/>
@@ -178,7 +178,7 @@ function SimulationComboDashboard() {
   )
 }
 
-function generateComboGrid(characters: DBMetadataCharacter[], t: TFunction<'optimizerTab', 'ComboFilter.ComboOptions'>) {
+function generateComboGrid(characters: DBMetadataCharacter[], t: TFunction<'optimizerTab', 'ComboFilter'>) {
   let i = 0
   const comboByCharacter = [
     Array<ReactElement>(2)
@@ -196,7 +196,10 @@ function generateComboGrid(characters: DBMetadataCharacter[], t: TFunction<'opti
     i = 0
     const row: ReactElement[] = Array(2).fill(<Icon key={i++} src={Assets.getBlank()}/>)
     row[0] = <Icon key={0} src={Assets.getCharacterAvatarById(character.id)}/>
-    const text = combo.filter((x) => x != NULL_TURN_ABILITY_NAME).map(formatComboAction).join(' - ')
+    const text = combo
+      .filter((x) => x != NULL_TURN_ABILITY_NAME)
+      .map((action) => formatComboAction(action, t))
+      .join(' - ')
 
     row[1] = <Flex style={{ whiteSpace: 'nowrap', justifyContent: 'flex-start', marginRight: 10, marginLeft: 10, width: 600 }}>{text}</Flex>
     comboByCharacter.push(row)
@@ -204,8 +207,8 @@ function generateComboGrid(characters: DBMetadataCharacter[], t: TFunction<'opti
   return comboByCharacter
 }
 
-function formatComboAction(action: TurnAbilityName) {
-  return toI18NVisual(toTurnAbility(action))
+function formatComboAction(action: TurnAbilityName, t: TFunction<'optimizerTab', 'ComboFilter'>) {
+  return toI18NVisual(toTurnAbility(action), t)
 }
 
 // =========================================== ConditionalSetsPresetsDashboard ===========================================

@@ -1,9 +1,11 @@
 CharacterSelector:
   Character: Personaje
+Sets: Conjuntos
 OptimizerOptions:
   Priority:
     Header: Prioridad
 Grid:
+  To: a
   Headers:
     Basic:
       ATK: ATQ
@@ -17,6 +19,12 @@ Grid:
       BE: EdR
       OHB: BCR
       ERR: RdE
+Sidebar:
+  Results: Resultados
+  ResultsGroup:
+    Header: Resultados
+FormRowLabels:
+  Teammates: Aliados
 SetConditionals:
   SelectOptions:
     Wastelander:
@@ -54,8 +62,11 @@ MinMaxFilters:
   ERRLabel: RdE
 ComboFilter:
   ComboOptions:
+    None: 'Ninguno'
     Break: Ruptura
 StatSimulation:
+  SetSelection:
+    Header: Conjuntos
   MainStatsSelection:
     BodyPlaceholder: Torso
     FeetPlaceholder: Piernas
@@ -68,7 +79,17 @@ ExpandedDataPanel:
     YAxisLabel:
       BREAK_DMG: Ruptura
   BuffsAnalysisDisplay:
+    Sources:
+      E1: E1
+      E2: E2
+      E4: E4
+      E6: E6
     Stats:
       CompositeLabels:
         Prefix:
           Break: Ruptura
+        Suffix:
+          Vulnerability: Vulnerabilidad
+          DEF PEN: PEN DEF
+      Misc:
+        Combo DMG: Daño de combo

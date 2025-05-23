@@ -1,0 +1,34 @@
+Title: crwdns45320:0crwdne45320:0
+LeftPanel:
+  Header: crwdns45322:0crwdne45322:0
+MiddlePanel:
+  CharacterHeader: crwdns45324:0crwdne45324:0
+  LCHeader: crwdns45326:0crwdne45326:0
+  TeammatesHeader: crwdns45328:0crwdne45328:0
+RightPanel:
+  Settings:
+    Header: crwdns45330:0crwdne45330:0
+    SPD: crwdns45332:0crwdne45332:0
+    ERR: crwdns45334:0crwdne45334:0
+    SubDPS: crwdns45336:0crwdne45336:0
+  SetsHeader: crwdns45338:0crwdne45338:0
+  ButtonText:
+    Generate: crwdns45340:0crwdne45340:0
+    Clear: crwdns45342:0crwdne45342:0
+ResultsGrid:
+  Combo: crwdns45344:0crwdne45344:0
+  Delta: crwdns45346:0crwdne45346:0
+  Sets: crwdns45348:0crwdne45348:0
+ResultsTabs:
+  WithSpeed:
+    100: crwdns45350:0{{Speed}}crwdne45350:0
+    200: crwdns45352:0{{Speed}}crwdne45352:0
+  WithoutSpeed:
+    100: crwdns45354:0crwdne45354:0
+    200: crwdns45356:0crwdne45356:0
+ResultsPanel:
+  BasicStats: crwdns45358:0crwdne45358:0
+  CombatStats: crwdns45360:0crwdne45360:0
+  Rolls: crwdns45362:0crwdne45362:0
+  Combo: crwdns45364:0crwdne45364:0
+  Damage: crwdns45366:0crwdne45366:0

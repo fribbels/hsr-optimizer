@@ -880,6 +880,203 @@
       },
       "unreleased": false
     },
+    "1014": {
+      "id": "1014",
+      "name": "Saber",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Wind",
+      "traces": {
+        "HP%": 0.1,
+        "Wind DMG Boost": 0.176,
+        "CRIT Rate": 0.12,
+        "ATK%": 0.06
+      },
+      "traceTree": [
+        {
+          "id": "1014201_3.4v1",
+          "stat": "Wind DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1014202_3.4v1",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": [
+            {
+              "id": "1014203_3.4v1",
+              "stat": "Wind DMG Boost",
+              "value": 0.032,
+              "pre": "1014202_3.4v1",
+              "children": [
+                {
+                  "id": "1014204_3.4v1",
+                  "stat": "HP%",
+                  "value": 0.04,
+                  "pre": "1014203_3.4v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1014205_3.4v1",
+          "stat": "Wind DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1014206_3.4v1",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "1014205_3.4v1",
+              "children": [
+                {
+                  "id": "1014207_3.4v1",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "1014206_3.4v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1014208_3.4v1",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1014209_3.4v1",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "1014208_3.4v1",
+              "children": []
+            },
+            {
+              "id": "1014210_3.4v1",
+              "stat": "Wind DMG Boost",
+              "value": 0.064,
+              "pre": "1014208_3.4v1",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "max_sp": 360,
+      "stats": {
+        "HP": 1358.28,
+        "ATK": 562.716,
+        "DEF": 630.63,
+        "SPD": 101,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1015": {
+      "id": "1015",
+      "name": "Archer",
+      "rarity": 5,
+      "path": "Hunt",
+      "element": "Quantum",
+      "traces": {
+        "CRIT Rate": 0.067,
+        "Quantum DMG Boost": 0.224,
+        "HP%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1015201_3.4v1",
+          "stat": "Quantum DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1015202_3.4v1",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1015203_3.4v1",
+              "stat": "Quantum DMG Boost",
+              "value": 0.032,
+              "pre": "1015202_3.4v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1015204_3.4v1",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1015205_3.4v1",
+          "stat": "Quantum DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1015206_3.4v1",
+              "stat": "HP%",
+              "value": 0.06,
+              "pre": "1015205_3.4v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1015207_3.4v1",
+          "stat": "Quantum DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1015208_3.4v1",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1015209_3.4v1",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "1015208_3.4v1",
+              "children": []
+            },
+            {
+              "id": "1015210_3.4v1",
+              "stat": "Quantum DMG Boost",
+              "value": 0.064,
+              "pre": "1015208_3.4v1",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "max_sp": 240,
+      "stats": {
+        "HP": 1086.624,
+        "ATK": 620.928,
+        "DEF": 485.1,
+        "SPD": 105,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
     "1101": {
       "id": "1101",
       "name": "Bronya",
@@ -6272,37 +6469,37 @@
       },
       "traceTree": [
         {
-          "id": "1406201_3.3v3",
+          "id": "1406201",
           "stat": "SPD",
           "value": 2,
           "pre": null,
           "children": [
             {
-              "id": "1406210_3.3v3",
+              "id": "1406210",
               "stat": "SPD",
               "value": 4,
-              "pre": "1406201_3.3v3",
+              "pre": "1406201",
               "children": []
             }
           ]
         },
         {
-          "id": "1406202_3.3v3",
+          "id": "1406202",
           "stat": "Quantum DMG Boost",
           "value": 0.032,
           "pre": null,
           "children": [
             {
-              "id": "1406203_3.3v3",
+              "id": "1406203",
               "stat": "SPD",
               "value": 2,
-              "pre": "1406202_3.3v3",
+              "pre": "1406202",
               "children": [
                 {
-                  "id": "1406204_3.3v3",
+                  "id": "1406204",
                   "stat": "Effect Hit Rate",
                   "value": 0.04,
-                  "pre": "1406203_3.3v3",
+                  "pre": "1406203",
                   "children": []
                 }
               ]
@@ -6310,22 +6507,22 @@
           ]
         },
         {
-          "id": "1406205_3.3v3",
+          "id": "1406205",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": [
             {
-              "id": "1406206_3.3v3",
+              "id": "1406206",
               "stat": "Quantum DMG Boost",
               "value": 0.048,
-              "pre": "1406205_3.3v3",
+              "pre": "1406205",
               "children": [
                 {
-                  "id": "1406207_3.3v3",
+                  "id": "1406207",
                   "stat": "SPD",
                   "value": 3,
-                  "pre": "1406206_3.3v3",
+                  "pre": "1406206",
                   "children": []
                 }
               ]
@@ -6333,14 +6530,14 @@
           ]
         },
         {
-          "id": "1406208_3.3v3",
+          "id": "1406208",
           "stat": "Effect Hit Rate",
           "value": 0.06,
           "pre": null,
           "children": []
         },
         {
-          "id": "1406209_3.3v3",
+          "id": "1406209",
           "stat": "Quantum DMG Boost",
           "value": 0.064,
           "pre": null,
@@ -6455,6 +6652,105 @@
       },
       "unreleased": false
     },
+    "1408": {
+      "id": "1408",
+      "name": "Phainon",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Physical",
+      "traces": {
+        "SPD": 5,
+        "CRIT DMG": 0.373,
+        "CRIT Rate": 0.12
+      },
+      "traceTree": [
+        {
+          "id": "1408201_3.4v1",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1408202_3.4v1",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": [
+            {
+              "id": "1408203_3.4v1",
+              "stat": "CRIT DMG",
+              "value": 0.053,
+              "pre": "1408202_3.4v1",
+              "children": [
+                {
+                  "id": "1408204_3.4v1",
+                  "stat": "SPD",
+                  "value": 2,
+                  "pre": "1408203_3.4v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1408205_3.4v1",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1408206_3.4v1",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "1408205_3.4v1",
+              "children": [
+                {
+                  "id": "1408207_3.4v1",
+                  "stat": "CRIT DMG",
+                  "value": 0.08,
+                  "pre": "1408206_3.4v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1408208_3.4v1",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": [
+            {
+              "id": "1408209_3.4v1",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "1408208_3.4v1",
+              "children": []
+            },
+            {
+              "id": "1408210_3.4v1",
+              "stat": "CRIT DMG",
+              "value": 0.107,
+              "pre": "1408208_3.4v1",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "max_sp": 12,
+      "stats": {
+        "HP": 1435.896,
+        "ATK": 562.716,
+        "DEF": 727.65,
+        "SPD": 94,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
     "1409": {
       "id": "1409",
       "name": "Hyacine",
@@ -6468,72 +6764,72 @@
       },
       "traceTree": [
         {
-          "id": "1409201_3.3v3",
+          "id": "1409201",
           "stat": "SPD",
           "value": 2,
           "pre": null,
           "children": [
             {
-              "id": "1409202_3.3v3",
+              "id": "1409202",
               "stat": "Effect RES",
               "value": 0.04,
-              "pre": "1409201_3.3v3",
+              "pre": "1409201",
               "children": []
             },
             {
-              "id": "1409203_3.3v3",
+              "id": "1409203",
               "stat": "SPD",
               "value": 2,
-              "pre": "1409201_3.3v3",
+              "pre": "1409201",
               "children": []
             }
           ]
         },
         {
-          "id": "1409204_3.3v3",
+          "id": "1409204",
           "stat": "HP%",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1409205_3.3v3",
+          "id": "1409205",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": []
         },
         {
-          "id": "1409206_3.3v3",
+          "id": "1409206",
           "stat": "Effect RES",
           "value": 0.06,
           "pre": null,
           "children": []
         },
         {
-          "id": "1409207_3.3v3",
+          "id": "1409207",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": []
         },
         {
-          "id": "1409208_3.3v3",
+          "id": "1409208",
           "stat": "HP%",
           "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "1409209_3.3v3",
+              "id": "1409209",
               "stat": "Effect RES",
               "value": 0.08,
-              "pre": "1409208_3.3v3",
+              "pre": "1409208",
               "children": [
                 {
-                  "id": "1409210_3.3v3",
+                  "id": "1409210",
                   "stat": "SPD",
                   "value": 4,
-                  "pre": "1409209_3.3v3",
+                  "pre": "1409209",
                   "children": []
                 }
               ]
@@ -7333,6 +7629,402 @@
         "CRIT DMG": 0.5
       },
       "unreleased": false
+    },
+    "1212b1": {
+      "id": "1212b1",
+      "name": "Jingliu",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Ice",
+      "traces": {
+        "HP%": 0.1,
+        "CRIT DMG": 0.373,
+        "SPD": 9
+      },
+      "traceTree": [
+        {
+          "id": "11212201",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11212202",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": [
+            {
+              "id": "11212203",
+              "stat": "CRIT DMG",
+              "value": 0.053,
+              "pre": "11212202",
+              "children": [
+                {
+                  "id": "11212204",
+                  "stat": "HP%",
+                  "value": 0.04,
+                  "pre": "11212203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11212205",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "11212206",
+              "stat": "SPD",
+              "value": 3,
+              "pre": "11212205",
+              "children": [
+                {
+                  "id": "11212207",
+                  "stat": "CRIT DMG",
+                  "value": 0.08,
+                  "pre": "11212206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11212208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "11212209",
+              "stat": "SPD",
+              "value": 4,
+              "pre": "11212208",
+              "children": []
+            },
+            {
+              "id": "11212210",
+              "stat": "CRIT DMG",
+              "value": 0.107,
+              "pre": "11212208",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "max_sp": 140,
+      "stats": {
+        "HP": 1435.896,
+        "ATK": 679.14,
+        "DEF": 485.1,
+        "SPD": 96,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1205b1": {
+      "id": "1205b1",
+      "name": "Blade",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Wind",
+      "traces": {
+        "Effect RES": 0.1,
+        "HP%": 0.28,
+        "CRIT Rate": 0.12
+      },
+      "traceTree": [
+        {
+          "id": "11205201",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11205202",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": [
+            {
+              "id": "11205203",
+              "stat": "HP%",
+              "value": 0.04,
+              "pre": "11205202",
+              "children": [
+                {
+                  "id": "11205204",
+                  "stat": "Effect RES",
+                  "value": 0.04,
+                  "pre": "11205203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11205205",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "11205206",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "11205205",
+              "children": [
+                {
+                  "id": "11205207",
+                  "stat": "HP%",
+                  "value": 0.06,
+                  "pre": "11205206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11205208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "11205209",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "11205208",
+              "children": []
+            },
+            {
+              "id": "11205210",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "11205208",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "max_sp": 130,
+      "stats": {
+        "HP": 1358.28,
+        "ATK": 543.312,
+        "DEF": 485.1,
+        "SPD": 97,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1005b1": {
+      "id": "1005b1",
+      "name": "Kafka",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Lightning",
+      "traces": {
+        "Effect Hit Rate": 0.18,
+        "HP%": 0.1,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "11005201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "11005210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "11005201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "11005202",
+          "stat": "Effect Hit Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "11005203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "11005202",
+              "children": [
+                {
+                  "id": "11005204",
+                  "stat": "HP%",
+                  "value": 0.04,
+                  "pre": "11005203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11005205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "11005206",
+              "stat": "Effect Hit Rate",
+              "value": 0.06,
+              "pre": "11005205",
+              "children": [
+                {
+                  "id": "11005207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "11005206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11005208",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11005209",
+          "stat": "Effect Hit Rate",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
+      "max_sp": 120,
+      "stats": {
+        "HP": 1086.624,
+        "ATK": 679.14,
+        "DEF": 485.1,
+        "SPD": 100,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1006b1": {
+      "id": "1006b1",
+      "name": "Silver Wolf",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Quantum",
+      "traces": {
+        "Effect Hit Rate": 0.18,
+        "Quantum DMG Boost": 0.08,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "11006201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "11006210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "11006201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "11006202",
+          "stat": "Effect Hit Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "11006203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "11006202",
+              "children": [
+                {
+                  "id": "11006204",
+                  "stat": "Quantum DMG Boost",
+                  "value": 0.032,
+                  "pre": "11006203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11006205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "11006206",
+              "stat": "Effect Hit Rate",
+              "value": 0.06,
+              "pre": "11006205",
+              "children": [
+                {
+                  "id": "11006207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "11006206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11006208",
+          "stat": "Quantum DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11006209",
+          "stat": "Effect Hit Rate",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
+      "max_sp": 110,
+      "stats": {
+        "HP": 1047.816,
+        "ATK": 640.332,
+        "DEF": 460.845,
+        "SPD": 107,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
     }
   },
   "lightCones": {
@@ -8236,6 +8928,114 @@
       },
       "unreleased": false
     },
+    "21053": {
+      "id": "21053",
+      "name": "Journey, Forever Peaceful",
+      "rarity": 4,
+      "path": "Preservation",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 370.44,
+        "DEF": 529.2
+      },
+      "unreleased": true
+    },
+    "21054": {
+      "id": "21054",
+      "name": "The Story's Next Page",
+      "rarity": 4,
+      "path": "Remembrance",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 370.44,
+        "DEF": 396.9
+      },
+      "unreleased": true
+    },
+    "21055": {
+      "id": "21055",
+      "name": "Unto Tomorrow's Morrow",
+      "rarity": 4,
+      "path": "Abundance",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 476.28,
+        "DEF": 396.9
+      },
+      "unreleased": true
+    },
+    "21056": {
+      "id": "21056",
+      "name": "Pursuit of the Wind",
+      "rarity": 4,
+      "path": "Harmony",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 476.28,
+        "DEF": 396.9
+      },
+      "unreleased": true
+    },
+    "21057": {
+      "id": "21057",
+      "name": "The Flower Remembers",
+      "rarity": 4,
+      "path": "Remembrance",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 529.2,
+        "DEF": 330.75
+      },
+      "unreleased": true
+    },
+    "21058": {
+      "id": "21058",
+      "name": "A Trail of Bygone Blood",
+      "rarity": 4,
+      "path": "Destruction",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 529.2,
+        "DEF": 330.75
+      },
+      "unreleased": true
+    },
+    "21060": {
+      "id": "21060",
+      "name": "A Dream Scented in Wheat",
+      "rarity": 4,
+      "path": "Erudition",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 529.2,
+        "DEF": 396.9
+      },
+      "unreleased": true
+    },
+    "21061": {
+      "id": "21061",
+      "name": "Holiday Thermae Escapade",
+      "rarity": 4,
+      "path": "Nihility",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 529.2,
+        "DEF": 330.75
+      },
+      "unreleased": true
+    },
+    "21062": {
+      "id": "21062",
+      "name": "See You at the End",
+      "rarity": 4,
+      "path": "Hunt",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 529.2,
+        "DEF": 396.9
+      },
+      "unreleased": true
+    },
     "22000": {
       "id": "22000",
       "name": "Before the Tutorial Mission Starts",
@@ -8824,6 +9624,42 @@
       },
       "unreleased": false
     },
+    "23044": {
+      "id": "23044",
+      "name": "Thus Burns the Dawn",
+      "rarity": 5,
+      "path": "Destruction",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 687.96,
+        "DEF": 396.9
+      },
+      "unreleased": true
+    },
+    "23045": {
+      "id": "23045",
+      "name": "A Thankless Coronation",
+      "rarity": 5,
+      "path": "Destruction",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 582.12,
+        "DEF": 529.2
+      },
+      "unreleased": true
+    },
+    "23046": {
+      "id": "23046",
+      "name": "The Hell Where Ideals Burn",
+      "rarity": 5,
+      "path": "Hunt",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 582.12,
+        "DEF": 529.2
+      },
+      "unreleased": true
+    },
     "24000": {
       "id": "24000",
       "name": "On the Fall of an Aeon",
@@ -8898,6 +9734,16 @@
     }
   },
   "relics": [
+    {
+      "id": "322",
+      "name": "Revelry by the Sea",
+      "skills": "Increases the wearer's DoT DMG by <b>12%</b>. When the wearer's ATK is higher than or equal to <b>2400</b>/<b>3600</b>, additionally increases the DoT DMG dealt by <b>12%</b>/<b>24%</b>."
+    },
+    {
+      "id": "321",
+      "name": "Arcadia of Woven Dreams",
+      "skills": "When the number of ally targets on the field is not 4, for every 1 extra/missing ally target, increases the wearer's and their memosprite's DMG by <b>9%</b>/<b>12%</b>, stacking up to <b>4</b>/<b>3</b> time(s)."
+    },
     {
       "id": "320",
       "name": "Giant Tree of Rapt Brooding",

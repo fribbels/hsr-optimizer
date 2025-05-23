@@ -28,6 +28,21 @@ export const Hint = {
     }
   },
 
+  comboFilters: (): HintContent => {
+    return {
+      title: i18next.t('hint:ComboFilters.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:ComboFilters.p1')}</p>
+        </Flex>
+        /*
+         Title: Combo rotation,
+         p1: Define the ability rotation to measure Combo DMG. Rotations are defined with [ as the start of a turn, and ] as the end of a turn. See the Advanced Rotation menu and user guide for more details.
+         */
+      ),
+    }
+  },
+
   combatBuffs: (): HintContent => {
     return {
       title: i18next.t('hint:CombatBuffs.Title'),

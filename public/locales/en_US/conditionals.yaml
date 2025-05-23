@@ -961,7 +961,7 @@ Characters:
         text: Skill ATK buff
         content: When using skill, there is a 120% base chance to Weaken one designated enemy and adjacent targets, decreasing their DMG dealt by 10% and increasing Cipher's ATK by 30%, lasting for 2 turns.
       fuaCdBoost:
-        text: Fua CD boost
+        text: FUA CD boost
         content: Increases the CRIT DMG dealt by the Talent's Follow-up ATK by 100%.
       spdBasedBuffs:
         text: SPD based buffs
@@ -976,7 +976,7 @@ Characters:
         text: E4 Additional DMG
         content: After "Patron" is attacked by an ally target, Cipher deals Quantum Additional DMG equal to 50% of Cipher's ATK to it.
       e6FuaDmg:
-        text: E6 Fua DMG
+        text: E6 FUA DMG
         content: Increases DMG dealt by Follow-up ATKs caused by Cipher's Talent by 350%.
   Clara:
     Content:
@@ -1283,7 +1283,7 @@ Characters:
   Jade:
     Content:
       enhancedFollowUp:
-        text: Enhanced FuA
+        text: Enhanced FUA
         content: Jade enhances her Talent's follow-up attack, increasing its DMG multiplier by {{ultFuaScalingBuff}}%.
       pawnedAssetStacks:
         text: Pawned Asset stacks

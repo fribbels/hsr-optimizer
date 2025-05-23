@@ -1,0 +1,9 @@
+MiddlePanel:
+  CharacterHeader: Personaggi
+RightPanel:
+  Settings:
+    Header: Impostazioni
+ResultsGrid:
+  Combo: DANNO della combo
+ResultsPanel:
+  CombatStats: Statistiche in battaglia

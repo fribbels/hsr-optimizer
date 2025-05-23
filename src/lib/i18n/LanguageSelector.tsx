@@ -35,11 +35,12 @@ export function LanguageSelector() {
       options={selectOptions}
       optionRender={(option) => option.data.label}
       onChange={(e: string) => {
+        if (i18n.resolvedLanguage === 'aa_ER') window.jipt?.stop()
         i18n.changeLanguage(e)
           .then(() => {
-            // !!do not replace this check with isBeta!!
-            if (BASE_PATH === BasePath.BETA) {
-              e === 'aa_ER' ? window.jipt.start() : window.jipt.stop()
+            if (e === 'aa_ER') {
+              window.jipt?.start()
+              return console.log('beginning inContext translation')
             }
             console.log('setting language to:', i18n.resolvedLanguage)
           })

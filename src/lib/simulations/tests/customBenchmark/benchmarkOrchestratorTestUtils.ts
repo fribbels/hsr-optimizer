@@ -1,7 +1,11 @@
 import { Stats } from 'lib/constants/constants'
+import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runCustomBenchmarkOrchestrator'
 import { TestInput } from 'lib/simulations/tests/simTestUtils'
 import DB from 'lib/state/db'
+import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
+import { applyScoringMetadataPresets, applySetConditionalPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { expect } from 'vitest'
 
 export async function expectBenchmarkResultsToMatch(
@@ -21,7 +25,7 @@ export async function expectBenchmarkResultsToMatch(
     mains,
   } = input
 
-  const benchmarkForm = {
+  const benchmarkForm: BenchmarkForm = {
     characterId: character.characterId,
     lightCone: character.lightCone,
     characterEidolon: character.characterEidolon,
@@ -35,7 +39,12 @@ export async function expectBenchmarkResultsToMatch(
     teammate0: teammate0,
     teammate1: teammate1,
     teammate2: teammate2,
+    setConditionals: TsUtils.clone(defaultSetConditionals),
   }
+
+  applySetConditionalPresets(benchmarkForm)
+  applyScoringMetadataPresets(benchmarkForm)
+
   const orchestrator = await runCustomBenchmarkOrchestrator(benchmarkForm)
   const benchmarkSimScore = orchestrator.benchmarkSimResult?.simScore!
   const perfectionSimScore = orchestrator.perfectionSimResult?.simScore!

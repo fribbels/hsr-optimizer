@@ -6,7 +6,7 @@ CharacterMenu:
     Label: Personaje
     Options:
       Add: Añadir nuevo personaje
-      Switch: Cambiar artefactos con
+      Switch: Intercambiar artefactos con
       Unequip: Desequipar personaje
       Delete: Eliminar personaje
   Scoring:
@@ -16,8 +16,8 @@ CharacterMenu:
   Priority:
     Label: Prioridad
     Options:
-      SortByScore: Ordenar todos los personajes por puntuación
-      MoveToTop: Mover al personaje al inicio
+      SortByScore: Ordenar todos los personajes por puntaje
+      MoveToTop: Mover personaje al inicio de la lista
 SearchPlaceholder: Buscar
 GridHeaders:
   Priority: Prioridad
@@ -25,7 +25,7 @@ GridHeaders:
 Messages:
   RemoveSuccess: Personaje eliminado con éxito
   UnequipSuccess: Personaje desequipado con éxito
-  SwitchSuccess: "Artefactos cambiados con éxito con $t(gameData:Characters.{{charId}}.Name)"
+  SwitchSuccess: "Artefactos intercambiados con éxito con $t(gameData:Characters.{{charId}}.Name)"
 CharacterPreview:
   CustomizationSidebar:
     Label: Personalización
@@ -36,18 +36,23 @@ CharacterPreview:
     PaletteLabel: Paleta de color del retrato
   EditCharacter: Editar personaje
   EditPortrait: Editar imagen
-  CharacterScore: "Puntuación del personaje: {{score}} {{grade}}"
+  CharacterScore: "Puntaje del personaje: {{score}} {{grade}}"
   Messages:
     AddedRelic: Artefacto añadido con éxito
   ScoreHeader:
     Title: Simulador de combate
   AlgorithmSlider:
-    Title: "Algoritmo de puntuación:"
+    Title: "Alg. de puntuación:"
     Labels:
-      CombatScore: Puntuación de combate
+      CombatScore: Puntaje de combate
+      NoneScore: Ninguno
+  DetailsSlider:
+    Labels:
+      CombatStats: Atributos de combate
   DMGUpgrades: Mejoras de daño
   BuildAnalysis:
     Rotation:
+      DOTS: "DOTS:"
       BREAKS: "RUPTURAS:"
     CombatResults:
       Primary: "Habilidad principal:"

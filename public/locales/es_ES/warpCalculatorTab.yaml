@@ -1,2 +1,66 @@
+StrategyLabels:
+  S1: Primero S1
+  E0: Primero E0
+  E1: Primero E1
+  E2: Primero E2
+  E3: Primero E3
+  E4: Primero E4
+  E5: Primero E5
+  E6: Primero E6
+RefundLabels:
+  REFUND_NONE: Ninguna
+  REFUND_NONE_FULL: Ninguna
+  REFUND_LOW: "{{Percentage}}% devolución"
+  REFUND_LOW_FULL: "{{Percentage}}% devolución (Bajo)"
+  REFUND_AVG: "{{Percentage}}% devolución"
+  REFUND_AVG_FULL: "{{Percentage}}% devolución (Promedio)"
+  REFUND_HIGH: "{{Percentage}}% devolución"
+  REFUND_HIGH_FULL: "{{Percentage}}% devolución (Alto)"
+EidolonLevels:
+  NONE: Ninguno
+  E0: E0
+  E1: E1
+  E2: E2
+  E3: E3
+  E4: E4
+  E5: E5
+  E6: E6
+SuperimpositionLevels:
+  NONE: Ninguno
+  S1: S1
+  S2: S2
+  S3: S3
+  S4: S4
+  S5: S5
+IncomeOptions:
+  Label: "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
+  Type:
+    0: Ninguno
+    1: F2P
+    2: Pase mensual
+    3: Pase mensual y de batalla
+PityCounter:
+  PityCounter: Contador de saltos
+  CurrentEidolonSuperImp: Actual
+  Guaranteed: Garantizado
+TotalAvailable: "Total de saltos disponibles:"
 SectionTitles:
+  Planner: Planificador de saltos
+  Results: Resultados
+  Settings: Ajustes
   Character: Personaje
+  LightCone: Cono de luz
+  Passes: Pases
+  Jades: Jades
+  Strategy: Estrategia
+  Starlight: Cosmiluz
+  Banner: Salto
+  New: Nuevo
+  Rerun: Rerun
+  AdditionalResources: Recursos adicionales
+  Calculate: Calcular
+ColumnTitles:
+  Goal: Meta
+  Chance: "Porcentaje de éxito con {{ticketCount}} <1/>"
+  Average: "# promedio de <1/> necesarios"
+TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'

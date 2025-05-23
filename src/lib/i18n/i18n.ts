@@ -26,6 +26,7 @@ const namespaces = [
   'settings',
   'sidebar',
   'warpCalculatorTab',
+  'benchmarksTab',
 ] as const
 export type Namespaces = typeof namespaces[number]
 

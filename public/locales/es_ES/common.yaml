@@ -6,6 +6,7 @@ Confirm: Confirmar
 EidolonNShort: "E{{eidolon}}"
 SuperimpositionNShort: "S{{superimposition}}"
 LevelShort: "Niv{{level}}"
+CombatStats: Atributos de combate
 Parts:
   Head: Cabeza
   Hands: Manos
@@ -96,7 +97,7 @@ ReadableStats:
   Effect Hit Rate: Acierto de efecto
   Effect RES: RES a efecto
   Break Effect: Efecto de Ruptura
-  Energy Regeneration Rate: Recuperación de energía
+  Energy Regeneration Rate: Rec. de energía
   Physical DMG Boost: "Daño $t(gameData:Elements.Physical)"
   Fire DMG Boost: "Daño $t(gameData:Elements.Fire)"
   Ice DMG Boost: "Daño $t(gameData:Elements.Ice)"
@@ -135,3 +136,5 @@ Elements:
   Wind: "$t(gameData:Elements.Wind)"
   Quantum: "$t(gameData:Elements.Quantum)"
   Imaginary: "$t(gameData:Elements.Imaginary)"
+DMGTypes:
+  simScore: Daño de combo

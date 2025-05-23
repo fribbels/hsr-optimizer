@@ -9,6 +9,9 @@ RatingFilter:
 CombatBuffs:
   Title: Buffs de combate
   p1: Buffs adicionais da equipe a serem aplicados nos cálculos. Observe que os buffs das auto-buffs e passivas do personagem / cone de luz e traços já estão incluídos nos cálculos.
+ComboFilters:
+  Title: Rotação Combo
+  p1: Defina a rotação de habilidades para medir o Dano de Combo. Rotação são definidas com [ o início de um turno, e ] o fim de um turno. Veja o menu de Rotação Avançada e guia de usuário para mais detalhes.
 StatFilters:
   Title: Filtros de atributos
   p1: Filtros Min (esquerda) / Max (direita) para estatísticas do personagem, inclusive. O otimizador mostrará apenas resultados dentro desses intervalos.

@@ -177,6 +177,13 @@ Lightcones:
     Content:
       defPen:
         text: PÉN de DÉF
+        content: >-
+          Lorsque le porteur utilise une attaque, il a 120% de chances de base d'appliquer l'effet Bouche-bée à chaque cible ennemie. Lorsqu'un ennemi est Bouche-bée, sa DÉF diminue de {{DefShred}}% pendant 2 tours. ::BR:: Si la VIT du porteur est supérieure ou égale à 170, il a 120% de chances de base d'appliquer Vol à chaque cible ennemie. Lorsqu'un ennemi est affecté par Vol, sa DÉF diminue de {{AdditionalDefShred}}% pendant 2 tours.
+    TeammateContent:
+      additionalDefPen:
+        text: "VIT > 170"
+        content: >-
+          Lorsque le porteur utilise une attaque, il a 120% de chances de base d'appliquer l'effet Bouche-bée à chaque cible ennemie. Lorsqu'un ennemi est Bouche-bée, sa DÉF diminue de {{DefShred}}% pendant 2 tours. ::BR:: Si la VIT du porteur est supérieure ou égale à 170, il a 120% de chances de base d'appliquer Vol à chaque cible ennemie. Lorsqu'un ennemi est affecté par Vol, sa DÉF diminue de {{AdditionalDefShred}}% pendant 2 tours.
   LifeShouldBeCastToFlames:
     Content:
       dmgBoost:
@@ -200,6 +207,7 @@ Lightcones:
     Content:
       vulnerability:
         text: Vulnérabilité
+        content: Lorsque le mnémesprit du porteur utilise la compétence du mnémesprit, augmente les DGT subis par tous les ennemis de {{Vulnerability}}% pendant 2 tours. Les effets de même type ne peuvent pas se cumuler.
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
@@ -946,8 +954,30 @@ Characters:
           Lorsque Castorice ou Aile du néant infligent des DGT, la PÉN de RÉS quantique augmente de 20%.::BR::Le nombre de rebonds de son talent Ailes ravageuses de ruines augmente de 3.
   Cipher:
     Content:
+      vulnerability:
+        text: Vulnérabilité
+        content: Lorsque Cipher est sur le champ de bataille, les DGT subis par toutes les cibles ennemies augmentent de 40%.
       skillAtkBuff:
         text: Bonus d'ATQ de la Compétence
+        content: Lorsque Cipher utilise sa compétence, il y a 120% de chances de base d'appliquer Affaiblissement à un ennemi désigné et aux cibles adjacentes, ce qui diminue les DGT qu'ils infligent de 10%, et l'ATQ de Cipher augmente de 30% pendant 2 tours. 
+      fuaCdBoost:
+        text: Bonus de DC d'ADS
+        content: Les DGT critiques infligés par l'ATQ de suivi du talent augmentent de 100%.
+      spdBasedBuffs:
+        text: Bonus basés sur la VIT
+        content: Lorsque la VIT de Cipher est supérieure ou égale à 140/170, ses chances de coup critique augmentent de 25%/50%.
+      e1AtkBuff:
+        text: 'E1: Bonus d''ATQ'
+        content: Déclencher l'ATQ de suivi du talent de Cipher augmente son ATQ de 80% pendant 2 tours.
+      e2Vulnerability:
+        text: 'E2: Vulnérabilité'
+        content: Lorsque Cipher touche un ennemi, il y a 120% de chances de base d'augmenter les DGT qu'il subit de 30% pendant 2 tours.
+      e4AdditionalDmg:
+        text: 'E4: Dégâts additionnels'
+        content: Lorsqu'une cible alliée attaque le Patron, Cipher lui inflige des DGT quantiques supplémentaires équivalents à 50% de l'ATQ de Cipher.
+      e6FuaDmg:
+        text: 'E6: Dégâts d''ADS'
+        content: Augmente de 350% les DGT infligés par l'ATQ de suivi du talent de Cipher.
   Clara:
     Content:
       ultBuff:
@@ -1207,8 +1237,33 @@ Characters:
         content: Lorsque Huohuo soigne une cible alliée, les DGT de la cible alliée augmentent de 50% pendant 2 tours.
   Hyacine:
     Content:
+      healTargetHp50:
+        text: Cible de soins PV ≤ 50%
+        content: Lorsque Hyacine et Ica soignent une cible alliée dont les PV sont inférieurs ou égaux à 50% de ses PV max, les soins prodigués par Hyacine et Ica augmentent de 25%.
+      resBuff:
+        text: Bonus de RAE
+        content: Augmente la RÉS aux effets de Hyacine de 50%.
+      spd200HpBuff:
+        text: Bonus VIT ≥ 200
+        content: Quand la VIT de Hyacine est supérieure à 200, les PV max de Hyacine et d'Ica augmentent de 20%. D'autre part, pour chaque point de VIT en excédent, les soins prodigués par Hyacine et Ica augmentent de 1%. Un excédent maximal de 200 points de VIT peut être comptabilisé pour cet effet.
+      clearSkies:
+        text: État Pétrichor
+        content: Après avoir utilisé son ultime, Hyacine entre dans l'état Pétrichor pendant 3 tours. La durée de l'état diminue de 1 à chaque fois que Hyacine débute son tour. Dans l'état Pétrichor, les PV max de tous les alliés augmentent de {{UltHpBuffScaling}}% +{{UltHpBuffFlat}}.
+      healingDmgStacks:
+        text: Cumuls de bonus de DGT du talent
+        content: Lorsqu'Hyacine ou Ica prodiguent des soins, les DGT infligés par Ica augmentent de {{TalentDmgBuff}}% pendant 2 tours. Cumulable jusqu'à 3 fois.
+      e1HpBuff:
+        text: 'E1: Bonus de PV'
+        content: Lorsque Hyacine est dans l'état Pétrichor, augmente les PV max de tous les alliés de 50% supplémentaires.
+      e2SpdBuff:
+        text: 'E2: Bonus de VIT'
+        content: Lorsque les PV d'une cible alliée diminuent, la VIT de cette unité augmente de 30% pendant 2 tours.
       e4CdBuff:
         text: 'E4: Bonus de DC'
+        content: Renforce la Trace «Arrêt tempétueux». Augmente les DGT critiques de Hyacine et d'Ica de 2% supplémentaires pour chaque point de VIT en excédent.
+      e6ResPen:
+        text: 'E6: PÉN de RÉS'
+        content: Lorsqu'Ica est sur le champ de bataille, la PÉN de RÉS à tous les types de toutes les cibles alliées augmente de 20%.
   ImbibitorLunae:
     Content:
       basicEnhanced:

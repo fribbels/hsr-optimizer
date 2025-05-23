@@ -1,0 +1,34 @@
+Title: Generador de evaluaciones
+LeftPanel:
+  Header: Evaluación
+MiddlePanel:
+  CharacterHeader: Personaje
+  LCHeader: Cono de luz
+  TeammatesHeader: Aliados
+RightPanel:
+  Settings:
+    Header: Ajustes
+    SPD: VEL básica de la eval.
+    ERR: Cuerda de energía
+    SubDPS: DPS secundario
+  SetsHeader: Conjuntos de la evaluación
+  ButtonText:
+    Generate: Generar evaluaciones
+    Clear: Restablecer
+ResultsGrid:
+  Combo: Daño de combo
+  Delta: Delta
+  Sets: Conjuntos
+ResultsTabs:
+  WithSpeed:
+    100: Equipamientos del evaluador al 100% ({{Speed}} VEL)
+    200: Equipamientos del evaluador al 200% ({{Speed}} VEL)
+  WithoutSpeed:
+    100: Equipamientos del evaluador al 100%
+    200: Equipamientos del evaluador al 200%
+ResultsPanel:
+  BasicStats: Atr. básicos
+  CombatStats: Atr. de combate
+  Rolls: Mejoras de atr. sec.
+  Combo: Rotación del combo
+  Damage: Daño de habilidad

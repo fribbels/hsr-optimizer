@@ -12,11 +12,11 @@ Characters:
     Name: 瓦爾特
     LongName: 瓦爾特
   "1005":
-    Name: 卡芙卡
-    LongName: 卡芙卡
+    Name: (旧) 卡芙卡
+    LongName: (旧) 卡芙卡
   "1006":
-    Name: 銀狼
-    LongName: 銀狼
+    Name: (旧) 銀狼
+    LongName: (旧) 銀狼
   "1008":
     Name: 阿蘭
     LongName: 阿蘭
@@ -26,6 +26,12 @@ Characters:
   "1013":
     Name: 黑塔
     LongName: 黑塔
+  "1014":
+    Name: Saber
+    LongName: Saber
+  "1015":
+    Name: Archer
+    LongName: Archer
   "1101":
     Name: 布洛妮婭
     LongName: 布洛妮婭
@@ -75,8 +81,8 @@ Characters:
     Name: 景元
     LongName: 景元
   "1205":
-    Name: 刃
-    LongName: 刃
+    Name: (旧) 刃
+    LongName: (旧) 刃
   "1206":
     Name: 素裳
     LongName: 素裳
@@ -96,8 +102,8 @@ Characters:
     Name: 白露
     LongName: 白露
   "1212":
-    Name: 鏡流
-    LongName: 鏡流
+    Name: (旧) 鏡流
+    LongName: (旧) 鏡流
   "1213":
     Name: 丹恆•飲月
     LongName: 丹恆•飲月
@@ -192,14 +198,17 @@ Characters:
     Name: 那刻夏
     LongName: 那刻夏
   "1406":
-    Name: Cipher
-    LongName: Cipher
+    Name: 賽飛兒
+    LongName: 賽飛兒
   "1407":
     Name: 遐蝶
     LongName: 遐蝶
+  "1408":
+    Name: 白厄
+    LongName: 白厄
   "1409":
-    Name: Hyacine
-    LongName: Hyacine
+    Name: 風堇
+    LongName: 風堇
   "8001":
     Name: 穹
     LongName: 穹 (毀滅)
@@ -224,6 +233,18 @@ Characters:
   "8008":
     Name: 星
     LongName: 星 (記憶)
+  1212b1:
+    Name: (新) 鏡流
+    LongName: (新) 鏡流
+  1205b1:
+    Name: (新) 刃
+    LongName: (新) 刃
+  1005b1:
+    Name: (新) 卡芙卡
+    LongName: (新) 卡芙卡
+  1006b1:
+    Name: (新) 銀狼
+    LongName: (新) 銀狼
 RelicSets:
   "101":
     Name: 雲無留跡的過客
@@ -322,13 +343,13 @@ RelicSets:
     Description2pc: 量子屬性傷害提高10%。
     Description4pc: 使裝備者的速度降低8%。進入戰鬥前，若裝備者的速度小於110/95，使裝備者的暴擊率提高20%/32%。該效果同時對裝備者的憶靈生效。
   "125":
-    Name: Warrior Goddess of Sun and Thunder
-    Description2pc: Increases SPD by 6%.
-    Description4pc: When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains "Gentle Rain," which can be triggered up to 1 time per turn, lasting for 2 turns. While the wearer has "Gentle Rain," increases their SPD by 6% and all allies' CRIT DMG by 15%. This effect cannot be stacked.
+    Name: 烈陽驚雷的女武神
+    Description2pc: 速度提高6%。
+    Description4pc: 當裝備者及其憶靈為裝備者及其憶靈以外的我方目標提供治療後，使裝備者獲得【甘霖】，每回合最多觸發1次，持續2回合。裝備者持有【甘霖】時，速度提高6%，我方全體暴擊傷害提高15%，該效果無法疊加。
   "126":
-    Name: Wavestrider Captain
-    Description2pc: Increases CRIT DMG by 16%.
-    Description4pc: When the wearer becomes the target of another ally target's ability, gains 1 stack of "Help," stacking up to 2 times. If there are 2 stacks of "Help" when the wearer uses their Ultimate, consumes all "Help" to increase the wearer's ATK by 48% for 1 turn.
+    Name: 惡海逐波的船長
+    Description2pc: 暴擊傷害提高16%。
+    Description4pc: 裝備者成為其他我方目標的技能目標時，獲得1層【助力】，最多疊加2層。施放終結技時，若持有2層【助力】，消耗所有【助力】，使裝備者攻擊力提高48%，持續1回合。
   "301":
     Name: 太空封印站
     Description2pc: 使裝備者的攻擊力提高12%。當裝備者的速度大於等於120時，攻擊力額外提高12%。
@@ -389,6 +410,12 @@ RelicSets:
   "320":
     Name: 淵思寂慮的巨樹
     Description2pc: 使裝備者的速度提高6%。當裝備者的速度大於等於135/180時，使裝備者及其憶靈的治療量提高12%/20%。
+  "321":
+    Name: 妖精织梦的乐园
+    Description2pc: 队伍中在场的我方目标数量不等于4时，每多/少1名我方目标，使装备者及其忆灵造成的伤害提高 9% / 12% ，最多叠加 4 / 3 层。
+  "322":
+    Name: 沉欢醉饮的海隅
+    Description2pc: "使装备者造成的持续伤害提高 12% 。当装备者的攻击力大于等于 2400 / 3600 时，使造成的持续伤害额外提高 12% / 24% "
 Lightcones:
   "20000":
     Name: 鋒鏑
@@ -540,6 +567,24 @@ Lightcones:
     Name: 天才們的問候
   "21052":
     Name: 多流汗，少流淚
+  "21053":
+    Name: 愿旅途永远坦然
+  "21054":
+    Name: 故事的下一页
+  "21055":
+    Name: 直到明天的明天
+  "21056":
+    Name: 追逐风的时候
+  "21057":
+    Name: 花儿不会忘记
+  "21058":
+    Name: 一行往日的血
+  "21060":
+    Name: 氤氲麦香的梦
+  "21061":
+    Name: 假日浴场大冒险
+  "21062":
+    Name: 于那终点再见
   "22000":
     Name: 新手任務開始前
   "22001":
@@ -635,9 +680,15 @@ Lightcones:
   "23041":
     Name: 生命當付之一炬
   "23042":
-    Name: Long May Rainbows Adorn the Sky
+    Name: 願虹光永駐天空
   "23043":
-    Name: Lies Dance on the Breeze
+    Name: 謊言在風中飄揚
+  "23044":
+    Name: 黎明恰如此燃烧
+  "23045":
+    Name: 没有回报的加冕
+  "23046":
+    Name: 理想燃烧的地狱
   "24000":
     Name: 記一位星神的殞落
   "24001":

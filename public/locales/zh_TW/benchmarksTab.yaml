@@ -1,0 +1,6 @@
+MiddlePanel:
+  CharacterHeader: 角色
+ResultsGrid:
+  Combo: 連招傷害
+ResultsPanel:
+  CombatStats: 戰鬥屬性

@@ -3,6 +3,7 @@ import { generateTestRelics, StatDeltaAnalysis, testWrapper } from 'lib/gpu/test
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { A_THANKLESS_CORONATION, ANAXA, ARCHER, HYACINE, LIFE_SHOULD_BE_CAST_TO_FLAMES, LONG_MAY_RAINBOWS_ADORN_THE_SKY, PHAINON, SABER, THE_HELL_WHERE_IDEALS_BURN, THUS_BURNS_THE_DAWN } from 'lib/simulations/tests/testMetadataConstants'
 
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import DB from 'lib/state/db'
@@ -95,6 +96,11 @@ const baseCharacterLightConeMappings: Array<{ characterId: CharacterId; lightCon
   { characterId: '1404', lightConeId: '23039' }, // Mydei
   { characterId: '1405', lightConeId: '23041' }, // Anaxa
   { characterId: '1407', lightConeId: '23040' }, // Castorice
+  { characterId: ANAXA, lightConeId: LIFE_SHOULD_BE_CAST_TO_FLAMES },
+  { characterId: HYACINE, lightConeId: LONG_MAY_RAINBOWS_ADORN_THE_SKY },
+  { characterId: PHAINON, lightConeId: THUS_BURNS_THE_DAWN },
+  { characterId: SABER, lightConeId: A_THANKLESS_CORONATION },
+  { characterId: ARCHER, lightConeId: THE_HELL_WHERE_IDEALS_BURN },
   { characterId: '8001', lightConeId: basicLc }, // Trailblazer
   { characterId: '8002', lightConeId: basicLc }, // Trailblazer
   { characterId: '8003', lightConeId: basicLc }, // Trailblazer

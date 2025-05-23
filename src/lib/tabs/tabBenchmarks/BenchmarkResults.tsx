@@ -1,7 +1,7 @@
 import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons'
 import { Flex, Table, TableProps, Tabs, TabsProps, Tag, Typography } from 'antd'
 import chroma from 'chroma-js'
-import i18next from 'i18next'
+import i18next, { TFunction } from 'i18next'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
 import { ComboRotationSummary } from 'lib/characterPreview/summary/ComboRotationSummary'
@@ -18,8 +18,10 @@ import { useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabSt
 import { arrowColor } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { localeNumber_0 } from 'lib/utils/i18nUtils'
+import { currentLocale, localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography
 
@@ -41,53 +43,56 @@ type BenchmarkRow = {
   orchestrator: BenchmarkSimulationOrchestrator
 }
 
-const columns: TableProps<BenchmarkRow>['columns'] = [
-  {
-    title: 'Combo DMG',
-    dataIndex: 'comboDmg',
-    align: 'center',
-    render: renderComboDmg(),
-    width: 200,
-  },
-  {
-    title: 'Delta',
-    dataIndex: 'deltaPercent',
-    align: 'center',
-    render: renderDeltaPercent(),
-    width: 100,
-  },
-  {
-    title: 'Body',
-    dataIndex: 'simBody',
-    align: 'center',
-    render: renderStat(),
-  },
-  {
-    title: 'Feet',
-    dataIndex: 'simFeet',
-    align: 'center',
-    render: renderStat(),
-  },
-  {
-    title: 'Planar Sphere',
-    dataIndex: 'simPlanarSphere',
-    align: 'center',
-    render: renderStat(),
-  },
-  {
-    title: 'Link Rope',
-    dataIndex: 'simLinkRope',
-    align: 'center',
-    render: renderStat(),
-  },
-  {
-    title: 'Sets',
-    dataIndex: 'simRelicSet1',
-    align: 'center',
-    render: renderSets(),
-    width: 150,
-  },
-]
+function generateColumns(t: TFunction<'benchmarksTab', 'ResultsGrid'>): TableProps<BenchmarkRow>['columns'] {
+  const tCommon = i18next.getFixedT(null, 'common', 'Parts')
+  return [
+    {
+      title: t('Combo'), // 'Combo DMG'
+      dataIndex: 'comboDmg',
+      align: 'center',
+      render: renderComboDmg(),
+      width: 200,
+    },
+    {
+      title: t('Delta'), // 'Delta'
+      dataIndex: 'deltaPercent',
+      align: 'center',
+      render: renderDeltaPercent(),
+      width: 100,
+    },
+    {
+      title: tCommon('Body'), // 'Body'
+      dataIndex: 'simBody',
+      align: 'center',
+      render: renderStat(),
+    },
+    {
+      title: tCommon('Feet'), // 'Feet'
+      dataIndex: 'simFeet',
+      align: 'center',
+      render: renderStat(),
+    },
+    {
+      title: tCommon('PlanarSphere'), // 'Planar Sphere'
+      dataIndex: 'simPlanarSphere',
+      align: 'center',
+      render: renderStat(),
+    },
+    {
+      title: tCommon('LinkRope'), // 'Link Rope'
+      dataIndex: 'simLinkRope',
+      align: 'center',
+      render: renderStat(),
+    },
+    {
+      title: t('Sets'), // 'Sets'
+      dataIndex: 'simRelicSet1',
+      align: 'center',
+      render: renderSets(),
+      width: 150,
+    },
+  ]
+}
 
 export function BenchmarkResults() {
   const { orchestrators } = useBenchmarksTabStore()
@@ -95,7 +100,7 @@ export function BenchmarkResults() {
   const { rows100, rows200 } = generateBenchmarkRows(orchestrators)
 
   return (
-    <Flex vertical>
+    <Flex vertical style={{width: '100%'}}>
       <PercentageTabs dataSource100={rows100} dataSource200={rows200}/>
     </Flex>
   )
@@ -103,6 +108,9 @@ export function BenchmarkResults() {
 
 function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
   const { loading } = useBenchmarksTabStore()
+  const { t } = useTranslation('benchmarksTab', { keyPrefix: 'ResultsGrid' })
+
+  const columns = useMemo(() => generateColumns(t), [t])
 
   return (
     <div
@@ -145,19 +153,19 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
 
 function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: BenchmarkRow[]; dataSource200: BenchmarkRow[] }) {
   const spd = dataSource100[0]?.orchestrator.flags.benchmarkBasicSpdTarget
-  const suffix = spd == null ? '' : `(${TsUtils.precisionRound(spd)} SPD)`
-  const items: TabsProps['items'] = [
+  const { t } = useTranslation('benchmarksTab', { keyPrefix: `ResultsTabs.${spd == null ? 'WithoutSpeed' : 'WithSpeed'}` })
+  const items: TabsProps['items'] = useMemo(() => [
     {
       key: '100',
-      label: `100% Benchmark Builds ${suffix}`,
+      label: t('100', { Speed: TsUtils.precisionRound(spd).toLocaleString(currentLocale()) }),
       children: <BenchmarkTable dataSource={dataSource100}/>,
     },
     {
       key: '200',
-      label: `200% Perfection Builds ${suffix}`,
+      label: t('200', { Speed: TsUtils.precisionRound(spd).toLocaleString(currentLocale()) }),
       children: <BenchmarkTable dataSource={dataSource200}/>,
     },
-  ]
+  ], [t, spd, dataSource100, dataSource200])
 
   return (
     <Tabs
@@ -174,6 +182,7 @@ function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: Bench
 }
 
 function ExpandedRow({ row }: { row: BenchmarkRow }) {
+  const { t } = useTranslation('benchmarksTab', { keyPrefix: 'ResultsPanel' })
   const simulation = row.simulation
   const orchestrator = row.orchestrator
   const result = simulation.result!
@@ -185,7 +194,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
   return (
     <Flex style={{ margin: 8 }} gap={10} justify='space-around'>
       <Flex vertical style={{ minWidth: 300 }} align='center' gap={5}>
-        <HeaderText style={{ fontSize: 16 }}>Basic Stats</HeaderText>
+        <HeaderText style={{ fontSize: 16 }}>{t('BasicStats')/* Basic Stats */}</HeaderText>
 
         <CharacterStatSummary
           characterId={characterId}
@@ -200,7 +209,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
       <VerticalDivider/>
 
       <Flex vertical style={{ minWidth: 300 }} align='center' gap={5}>
-        <HeaderText style={{ fontSize: 16 }}>Combat Stats</HeaderText>
+        <HeaderText style={{ fontSize: 16 }}>{t('CombatStats')/* Combat Stats */}</HeaderText>
 
         <CharacterStatSummary
           characterId={characterId}
@@ -215,7 +224,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
       <VerticalDivider/>
 
       <Flex vertical align='center' gap={5}>
-        <HeaderText style={{ fontSize: 16 }}>Substat Rolls</HeaderText>
+        <HeaderText style={{ fontSize: 16 }}>{t('Rolls')/* Substat Rolls */}</HeaderText>
 
         <SubstatRollsSummary
           simRequest={simulation.request}
@@ -229,12 +238,12 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 
       <Flex vertical align='center' justify='space-between'>
         <Flex vertical align='center' gap={5}>
-          <HeaderText style={{ fontSize: 16 }}>Combo Rotation</HeaderText>
+          <HeaderText style={{ fontSize: 16 }}>{t('Combo')/* Combo Rotation */}</HeaderText>
           <ComboRotationSummary simMetadata={orchestrator.metadata}/>
         </Flex>
 
         <Flex vertical align='center' gap={5}>
-          <HeaderText style={{ fontSize: 16 }}>Ability Damage</HeaderText>
+          <HeaderText style={{ fontSize: 16 }}>{t('Damage')/* Ability Damage */}</HeaderText>
           <AbilityDamageSummary simResult={simulation.result!}/>
         </Flex>
       </Flex>
@@ -243,13 +252,13 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 }
 
 function renderStat() {
-  const t = i18next.getFixedT(null, 'common')
+  const t = i18next.getFixedT(null, 'common', 'ReadableStats')
 
-  return (stat: string) => (
+  return (stat: SubStats) => (
     <Flex align='center' justify='center' gap={2}>
       <img src={Assets.getStatIcon(stat)} style={{ width: ICON_SIZE }}/>
       <span>
-        {t(`ReadableStats.${stat as SubStats}`)}
+        {t(stat)}
       </span>
     </Flex>
   )

@@ -491,7 +491,8 @@ export const DB = {
 
     for (const character of Object.values(dbCharacters)) {
       // Deduplicate scoring optimal main stat
-      for (const part of Object.keys(Constants.Parts)) {
+      for (const part of Object.keys(Constants.Parts) as Parts[]) {
+        if (part === Parts.Hands || part === Parts.Head) continue
         character.scoringMetadata.parts[part] = deduplicateStringArray(character.scoringMetadata.parts[part])
       }
     }

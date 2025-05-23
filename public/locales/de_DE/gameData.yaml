@@ -12,11 +12,11 @@ Characters:
     Name: Welt
     LongName: Welt
   "1005":
-    Name: Kafka
-    LongName: Kafka
+    Name: (Old) Kafka
+    LongName: (Old) Kafka
   "1006":
-    Name: Silberwolf
-    LongName: Silberwolf
+    Name: (Old) Silberwolf
+    LongName: (Old) Silberwolf
   "1008":
     Name: Arlan
     LongName: Arlan
@@ -26,6 +26,12 @@ Characters:
   "1013":
     Name: Herta
     LongName: Herta
+  "1014":
+    Name: Saber
+    LongName: Saber
+  "1015":
+    Name: Archer
+    LongName: Archer
   "1101":
     Name: Bronya
     LongName: Bronya
@@ -75,8 +81,8 @@ Characters:
     Name: Jing Yuan
     LongName: Jing Yuan
   "1205":
-    Name: Blade
-    LongName: Blade
+    Name: (Old) Blade
+    LongName: (Old) Blade
   "1206":
     Name: Sushang
     LongName: Sushang
@@ -96,8 +102,8 @@ Characters:
     Name: Bailu
     LongName: Bailu
   "1212":
-    Name: Jingliu
-    LongName: Jingliu
+    Name: (Old) Jingliu
+    LongName: (Old) Jingliu
   "1213":
     Name: Dan Heng – Imbibitor Lunae
     LongName: Dan Heng – Imbibitor Lunae
@@ -197,6 +203,9 @@ Characters:
   "1407":
     Name: Castorice
     LongName: Castorice
+  "1408":
+    Name: Phainon
+    LongName: Phainon
   "1409":
     Name: Hyacine
     LongName: Hyacine
@@ -224,6 +233,18 @@ Characters:
   "8008":
     Name: Stella
     LongName: Stella (Das Gedenken)
+  1212b1:
+    Name: (New) Jingliu
+    LongName: (New) Jingliu
+  1205b1:
+    Name: (New) Blade
+    LongName: (New) Blade
+  1005b1:
+    Name: (New) Kafka
+    LongName: (New) Kafka
+  1006b1:
+    Name: (New) Silberwolf
+    LongName: (New) Silberwolf
 RelicSets:
   "101":
     Name: Wanderer der vorbeiziehenden Wolke
@@ -322,13 +343,13 @@ RelicSets:
     Description2pc: Erhöht Quanten-SCH um 10%.
     Description4pc: Reduziert die GES des Trägers um 8%. Wenn die GES des Trägers vor dem Kampfeintritt unter 110/95 liegt, wird die KRIT-Rate des Trägers um 20%/32% erhöht. Dieser Effekt wirkt auch auf den Memogeist des Trägers.
   "125":
-    Name: Warrior Goddess of Sun and Thunder
-    Description2pc: Increases SPD by 6%.
-    Description4pc: When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains "Gentle Rain," which can be triggered up to 1 time per turn, lasting for 2 turns. While the wearer has "Gentle Rain," increases their SPD by 6% and all allies' CRIT DMG by 15%. This effect cannot be stacked.
+    Name: Kriegsgöttin der lodernden Sonne und des Donners
+    Description2pc: Erhöht GES um 6%.
+    Description4pc: Erhält „Sanfter Regen“, nachdem der Träger und sein Memogeist Verbündete außer sich selbst Heilung geleistet haben. Dieser Effekt kann bis zu 1-mal pro Runde ausgelöst werden und hält 2 Rd. an. Wenn der Träger Sanfter Regen besitzt, wird seine GES um 6% und der KRIT-SCH aller Verbündeten um 15% erhöht. Dieser Effekt ist nicht stapelbar.
   "126":
-    Name: Wavestrider Captain
-    Description2pc: Increases CRIT DMG by 16%.
-    Description4pc: When the wearer becomes the target of another ally target's ability, gains 1 stack of "Help," stacking up to 2 times. If there are 2 stacks of "Help" when the wearer uses their Ultimate, consumes all "Help" to increase the wearer's ATK by 48% for 1 turn.
+    Name: Kapitän über den verfluchten Wellen
+    Description2pc: Erhöht KRIT-SCH um 16%.
+    Description4pc: Wenn der Träger zum Ziel der Fähigkeit eines anderen Verbündeten wird, erhält er 1 Stapelung „Unterstützen“, bis zu 2 Stapelungen. Verbraucht beim Einsatz des Ultimates alle Stapelungen von Unterstützen und erhöht den ANG des Trägers für 1 Rd. um 48%, wenn 2 Stapelungen vorhanden sind.
   "301":
     Name: Raumstation für Versiegelung
     Description2pc: Erhöht ANG des Trägers um 12%. Wenn die GES des Trägers 120 oder höher erreicht, wird sein ANG zusätzlich um 12% erhöht.
@@ -389,6 +410,12 @@ RelicSets:
   "320":
     Name: Riesenbaum des versunkenen Grübelns
     Description2pc: Erhöht die GES des Trägers um 6%. Wenn die GES des Trägers 135/180 oder höher erreicht, wird die bewirkte Heilung des Trägers und seines Memogeists um 12%/20% erhöht.
+  "321":
+    Name: Arcadia of Woven Dreams
+    Description2pc: When the number of ally targets on the field is not 4, for every 1 extra/missing ally target, increases the wearer's and their memosprite's DMG by 9%/12%, stacking up to 4/3 times.
+  "322":
+    Name: Revelry by the Sea
+    Description2pc: Increases the wearer's DoT DMG by 12%. When the wearer's ATK is higher than or equal to 2400/3600, additionally increases the DoT DMG dealt by 12%/24%.
 Lightcones:
   "20000":
     Name: Pfeile
@@ -540,6 +567,24 @@ Lightcones:
     Name: Der Gruß der Genies
   "21052":
     Name: Mehr Schwitzen, weniger Weinen
+  "21053":
+    Name: Journey, Forever Peaceful
+  "21054":
+    Name: The Story's Next Page
+  "21055":
+    Name: Unto Tomorrow's Morrow
+  "21056":
+    Name: Pursuit of the Wind
+  "21057":
+    Name: The Flower Remembers
+  "21058":
+    Name: A Trail of Bygone Blood
+  "21060":
+    Name: A Dream Scented in Wheat
+  "21061":
+    Name: Holiday Thermae Escapade
+  "21062":
+    Name: See You at the End
   "22000":
     Name: Bevor das Tutorial beginnt
   "22001":
@@ -635,9 +680,15 @@ Lightcones:
   "23041":
     Name: Das Leben sollte in Flammen aufgehen
   "23042":
-    Name: Long May Rainbows Adorn the Sky
+    Name: Mögen Regenbögen am Himmel bleiben
   "23043":
-    Name: Lies Dance on the Breeze
+    Name: Vom Winde verwehte Lügen
+  "23044":
+    Name: Thus Burns the Dawn
+  "23045":
+    Name: A Thankless Coronation
+  "23046":
+    Name: The Hell Where Ideals Burn
   "24000":
     Name: Der Niedergang eines Äons
   "24001":

@@ -34,13 +34,28 @@ import { HsrOptimizerStore } from 'types/store'
 import { StoreApi, UseBoundStore } from 'zustand'
 
 type Jipt = {
-  start()
-  stop()
+  start(): void
+  stop(): void
+}
+
+type SaveFilePickerOptions = {
+  excludeAcceptAllOption?: boolean
+  id?: string
+  // A FileSystemHandle or a well known directory ("desktop", "documents", "downloads", "music", "pictures", or "videos") to open the dialog in.
+  startIn?: FileSystemHandle | string
+  suggestedName?: string
+  types?: {
+    description?: string
+    // An Object with the keys set to the MIME type and the values an Array of file extensions
+    accept?: Record<string, string[]>
+  }[]
 }
 
 declare global {
   interface Window {
-    jipt: Jipt
+    // only exists on dreary-quibbles\
+    // added by github CI
+    jipt?: Jipt
     notificationApi: NotificationInstance
     messageApi: MessageInstance
     modalApi: HookAPI

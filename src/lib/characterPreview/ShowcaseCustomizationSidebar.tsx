@@ -1,9 +1,15 @@
-import { CameraOutlined, CheckOutlined, CloseOutlined, DownloadOutlined, MoonOutlined, SettingOutlined, SunOutlined } from '@ant-design/icons'
+import {
+  CameraOutlined,
+  CheckOutlined,
+  CloseOutlined,
+  DownloadOutlined,
+  MoonOutlined,
+  SettingOutlined,
+  SunOutlined
+} from '@ant-design/icons'
 import { Button, ColorPicker, Flex, InputNumber, Segmented, Select } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
-import { usePublish } from 'hooks/usePublish'
-import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/UseAsyncSimScoringExecution'
 import { ShowcaseColorMode, Stats } from 'lib/constants/constants'
@@ -26,6 +32,7 @@ import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react
 import { useTranslation } from 'react-i18next'
 import { Character, CharacterId } from 'types/character'
 import { ShowcasePreferences } from 'types/metadata'
+import { ShowcaseSource } from './CharacterPreviewComponents'
 
 export interface ShowcaseCustomizationSidebarRef {
   onPortraitLoad: (src: string, characterId: CharacterId) => void
@@ -45,9 +52,6 @@ export interface ShowcaseCustomizationSidebarProps {
   setColorMode: (colorMode: ShowcaseColorMode) => void
 }
 
-const debugColors: { defaults: string[] } = {
-  defaults: [],
-}
 
 const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef, ShowcaseCustomizationSidebarProps>(
   (props, ref) => {
@@ -65,7 +69,6 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
 
     const { t: tCustomization } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
     const { t: tScoring } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar' })
-    const pubRefreshRelicsScore = usePublish()
     const [colors, setColors] = useState<string[]>([])
     const globalShowcasePreferences = window.store((s) => s.showcasePreferences)
     const setGlobalShowcasePreferences = window.store((s) => s.setShowcasePreferences)
@@ -516,7 +519,7 @@ function SelectSpdPresets(props: {
   )
 }
 
-function clipboardClicked(elementId: string, action: string, setLoading: (b: boolean) => void, color: string) {
+function clipboardClicked(elementId: string, action: string, setLoading: (b: boolean) => void, _color: string) {
   setLoading(true)
   setTimeout(() => {
     Utils.screenshotElementById(elementId, action).finally(() => {
@@ -582,7 +585,9 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
     1003: ['#d6b5c2'], // himeko
     1004: ['#6385d8'], // welt
     1005: ['#ea8abc'], // kafka
+    '1005b1': ['#ea8abc'], // kafka
     1006: ['#8483eb'], // silverwolf
+    '1006b1': ['#8483eb'], // silverwolf
     1008: ['#817fd1'], // arlan
     1009: ['#9e80e6'], // asta
     1013: ['#8969ea'], // herta
@@ -603,6 +608,7 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
     1203: ['#8ce2f4'], // luocha
     1204: ['#94e6f1'], // jingyuan
     1205: ['#4d69be'], // blade
+    '1205b1': ['#4d69be'], // blade
     1206: ['#81adf1'], // sushang
     1207: ['#90a0e6'], // yukong
     1208: ['#dd9cf2'], // fuxuan
@@ -610,6 +616,7 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
     1210: ['#88aade'], // guinaifen
     1211: ['#5f9ce2'], // bailu
     1212: ['#3e65f2'], // jingliu
+    '1212b1': ['#3e65f2'], // jingliu
     1213: ['#72c3de'], // imbibitorlunae
     1214: ['#3571e7'], // xueyi
     1215: ['#9a90e6'], // hanya
@@ -656,6 +663,10 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
 
     1406: ['#5962ff'], // cipher
     1409: ['#a8ffde'], // hyacine
+
+    1408: ['#97c2fa'], // phainon
+    1014: ['#3e65f2'], // saber
+    1015: ['#ff999a'], // archer
   }
 
   return (defaults[characterId] ?? ['#000000'])[0]

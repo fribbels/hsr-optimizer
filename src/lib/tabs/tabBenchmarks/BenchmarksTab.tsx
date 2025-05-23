@@ -1,5 +1,5 @@
 import { CheckOutlined, CloseOutlined, DeleteOutlined, SettingOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { Form as AntDForm, Button, Card, Flex, InputNumber, Radio, Select } from 'antd'
+import { Alert, Form as AntDForm, Button, Card, Flex, InputNumber, Radio, Select } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Sets } from 'lib/constants/constants'
 import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
@@ -23,7 +23,6 @@ import { CenteredImage } from 'lib/ui/CenteredImage'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { CustomHorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character, CharacterId } from 'types/character'
@@ -66,6 +65,7 @@ const defaultForm: Partial<BenchmarkForm> = {
 }
 
 export default function BenchmarksTab(): ReactElement {
+  const { t } = useTranslation('benchmarksTab')
   const [benchmarkForm] = AntDForm.useForm<BenchmarkForm>()
   const {
     isCharacterModalOpen,
@@ -90,11 +90,11 @@ export default function BenchmarksTab(): ReactElement {
   return (
     <Flex vertical style={{ minHeight: 1500, width: 1200, marginBottom: 200 }} align='center'>
       <ColorizedTitleWithInfo
-        text='Benchmark Generator'
+        text={t('Title')/* 'Benchmark Generator' */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmark-generator.md'
       />
 
-      <Card style={{ width: 900, marginBottom: 30 }}>
+      <Card style={{ width: 900, marginBottom: 8 }}>
         <AntDForm
           form={benchmarkForm}
           initialValues={initialForm}
@@ -103,6 +103,13 @@ export default function BenchmarksTab(): ReactElement {
           <BenchmarkInputs/>
         </AntDForm>
       </Card>
+
+      <Alert
+        message={<>Note: Combo DMG is meant to compare different relics relative to the selected team, and should <u>NOT</u> be used to compare different teams / eidolons!</>}
+        type='info'
+        showIcon
+        style={{ marginBottom: 8, width: '100%' }}
+      />
 
       <BenchmarkResults/>
 
@@ -117,8 +124,6 @@ export default function BenchmarksTab(): ReactElement {
 }
 
 function BenchmarkInputs() {
-  const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
-
   return (
     <Flex vertical align='center'>
       <Flex gap={GAP * 3} style={{ width: '100%' }} justify='space-between'>
@@ -131,6 +136,7 @@ function BenchmarkInputs() {
 }
 
 function LeftPanel() {
+  const { t } = useTranslation('benchmarksTab', { keyPrefix: 'LeftPanel' })
   const form = AntDForm.useFormInstance<BenchmarkForm>()
   const characterId = AntDForm.useWatch('characterId', form) ?? ''
   const lightCone = AntDForm.useWatch('lightCone', form) ?? ''
@@ -141,7 +147,7 @@ function LeftPanel() {
   return (
     <Flex vertical gap={GAP}>
       <Flex vertical gap={GAP}>
-        <HeaderText>Benchmark</HeaderText>
+        <HeaderText>{t('Header')/* Benchmark */}</HeaderText>
         <CenteredImage
           src={Assets.getCharacterPreviewById(characterId)}
           containerW={250}
@@ -161,13 +167,14 @@ function LeftPanel() {
 }
 
 function MiddlePanel() {
+  const { t } = useTranslation('benchmarksTab', { keyPrefix: 'MiddlePanel' })
   const form = AntDForm.useFormInstance<BenchmarkForm>()
   const characterId = AntDForm.useWatch('characterId', form) ?? ''
 
   return (
     <Flex vertical gap={GAP} style={{ width: MID_PANEL_WIDTH }} justify='space-between'>
       <Flex vertical gap={GAP}>
-        <HeaderText>Character</HeaderText>
+        <HeaderText>{t('CharacterHeader')/* Character */}</HeaderText>
         <AntDForm.Item name='characterId' noStyle>
           <CharacterSelect
             value={null}
@@ -178,7 +185,7 @@ function MiddlePanel() {
       </Flex>
 
       <Flex vertical gap={GAP}>
-        <HeaderText>Light Cone</HeaderText>
+        <HeaderText>{t('LCHeader')/* Light Cone */}</HeaderText>
         <AntDForm.Item name='lightCone' noStyle>
           <LightConeSelect value={null} characterId={characterId}/>
         </AntDForm.Item>
@@ -198,22 +205,22 @@ function RightPanel() {
     resetCache,
   } = useBenchmarksTabStore()
   const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
-  const { t: tCommon } = useTranslation(['optimizerTab', 'common'])
-  const characterId = AntDForm.useWatch('characterId', benchmarkForm) ?? ''
+  const { t } = useTranslation('benchmarksTab', { keyPrefix: 'RightPanel' })
+  const { t: tOptimizerTab } = useTranslation('optimizerTab')
 
   return (
     <Flex vertical style={{ width: RIGHT_PANEL_WIDTH }} justify='space-between'>
       <Flex vertical gap={GAP}>
-        <HeaderText>Settings</HeaderText>
+        <HeaderText>{t('Settings.Header')/* Settings */}</HeaderText>
 
         <SpdBenchmarkSetting/>
-        <BenchmarkSetting label='Energy regen rope' itemName='errRope'>
+        <BenchmarkSetting label='ERR' itemName='errRope'>
           <Radio.Group buttonStyle='solid' size='small' block style={{ width: INPUT_WIDTH }}>
             <Radio.Button value={true}><CheckOutlined/></Radio.Button>
             <Radio.Button value={false}><CloseOutlined/></Radio.Button>
           </Radio.Group>
         </BenchmarkSetting>
-        <BenchmarkSetting label='Sub DPS' itemName='subDps'>
+        <BenchmarkSetting label='SubDPS' itemName='subDps'>
           <Radio.Group buttonStyle='solid' size='small' block style={{ width: INPUT_WIDTH }}>
             <Radio.Button value={true}><CheckOutlined/></Radio.Button>
             <Radio.Button value={false}><CloseOutlined/></Radio.Button>
@@ -222,7 +229,7 @@ function RightPanel() {
 
         <CustomHorizontalDivider height={8}/>
 
-        <HeaderText>Benchmark sets</HeaderText>
+        <HeaderText>{t('SetsHeader')/* Benchmark sets */}</HeaderText>
 
         <Flex vertical gap={HEADER_GAP}>
           <SetsSection simType={StatSimTypes.Benchmarks}/>
@@ -231,7 +238,7 @@ function RightPanel() {
             icon={<SettingOutlined/>}
             type='dashed'
           >
-            {tCommon('SetConditionals.Title')/* Conditional set effects */}
+            {tOptimizerTab('SetConditionals.Title')/* Conditional set effects */}
           </Button>
 
         </Flex>
@@ -251,7 +258,7 @@ function RightPanel() {
           style={{ width: '100%', height: 40 }}
           type='primary'
         >
-          Generate benchmarks
+          {t('ButtonText.Generate')/* Generate benchmarks */}
         </Button>
         <Button
           onClick={() => {
@@ -261,7 +268,7 @@ function RightPanel() {
           type='default'
           icon={<DeleteOutlined/>}
         >
-          Clear
+          {t('ButtonText.Clear')/* Clear */}
         </Button>
       </Flex>
     </Flex>
@@ -269,16 +276,16 @@ function RightPanel() {
 }
 
 function SpdBenchmarkSetting() {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
+  const { t: tOptimizerTab } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
   const { t: tCharacterTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd' })
   const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
 
   const presetOptions = useMemo(() => {
     // Optimizer has SPD0 as undefined for filters, we want to set it to 0
-    const presets = TsUtils.clone(generateSpdPresets(t))
+    const presets = generateSpdPresets(tOptimizerTab)
     presets.SPD0.value = 0
     return Object.values(presets)
-  }, [])
+  }, [tOptimizerTab])
 
   const options = [
     {
@@ -288,7 +295,7 @@ function SpdBenchmarkSetting() {
   ]
 
   return (
-    <BenchmarkSetting label='Benchmark basic SPD' itemName='basicSpd'>
+    <BenchmarkSetting label='SPD' itemName='basicSpd'>
       <InputNumber
         size='small'
         controls={false}
@@ -311,9 +318,10 @@ function SpdBenchmarkSetting() {
 }
 
 function TeammatesSection() {
+  const { t } = useTranslation('benchmarksTab', { keyPrefix: 'MiddlePanel' })
   return (
     <Flex vertical>
-      <HeaderText>Teammates</HeaderText>
+      <HeaderText>{t('TeammatesHeader')/* Teammates */}</HeaderText>
       <Flex justify='space-around'>
         <Teammate index={0}/>
         <Teammate index={1}/>
@@ -326,7 +334,7 @@ function TeammatesSection() {
 const iconSize = 64
 
 function Teammate({ index }: { index: number }) {
-  const { t } = useTranslation(['charactersTab', 'modals', 'common'])
+  const { t } = useTranslation('common')
   const {
     setCharacterModalOpen,
     setCharacterModalInitialCharacter,
@@ -371,7 +379,7 @@ function Teammate({ index }: { index: number }) {
         />
 
         <OverlayText
-          text={t('common:EidolonNShort', { eidolon: characterEidolon })}
+          text={t('EidolonNShort', { eidolon: characterEidolon })}
           top={-12}
         />
 
@@ -381,7 +389,7 @@ function Teammate({ index }: { index: number }) {
         />
 
         <OverlayText
-          text={t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })}
+          text={t('SuperimpositionNShort', { superimposition: lightConeSuperimposition })}
           top={-18}
         />
       </Flex>

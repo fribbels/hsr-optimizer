@@ -12,11 +12,11 @@ Characters:
     Name: Welt
     LongName: Welt
   "1005":
-    Name: Kafka
-    LongName: Kafka
+    Name: (Old) Kafka
+    LongName: (Old) Kafka
   "1006":
-    Name: Silver Wolf
-    LongName: Silver Wolf
+    Name: (Old) Silver Wolf
+    LongName: (Old) Silver Wolf
   "1008":
     Name: Arlan
     LongName: Arlan
@@ -26,6 +26,12 @@ Characters:
   "1013":
     Name: Herta
     LongName: Herta
+  "1014":
+    Name: Saber
+    LongName: Saber
+  "1015":
+    Name: Archer
+    LongName: Archer
   "1101":
     Name: Bronya
     LongName: Bronya
@@ -75,8 +81,8 @@ Characters:
     Name: Jing Yuan
     LongName: Jing Yuan
   "1205":
-    Name: Blade
-    LongName: Blade
+    Name: (Old) Blade
+    LongName: (Old) Blade
   "1206":
     Name: Sushang
     LongName: Sushang
@@ -96,8 +102,8 @@ Characters:
     Name: Bailu
     LongName: Bailu
   "1212":
-    Name: Jingliu
-    LongName: Jingliu
+    Name: (Old) Jingliu
+    LongName: (Old) Jingliu
   "1213":
     Name: Imbibitor Lunae
     LongName: Dan Heng - Imbibitor Lunae
@@ -192,11 +198,14 @@ Characters:
     Name: Anaxa
     LongName: Anaxa
   "1406":
-    Name: Cipher
-    LongName: Cipher
+    Name: Cífer
+    LongName: Cífer
   "1407":
     Name: Castorice
     LongName: Castorice
+  "1408":
+    Name: Phainon
+    LongName: Phainon
   "1409":
     Name: Hyacine
     LongName: Hyacine
@@ -224,6 +233,18 @@ Characters:
   "8008":
     Name: Estela
     LongName: Estela (Reminiscencia)
+  1212b1:
+    Name: (New) Jingliu
+    LongName: (New) Jingliu
+  1205b1:
+    Name: (New) Blade
+    LongName: (New) Blade
+  1005b1:
+    Name: (New) Kafka
+    LongName: (New) Kafka
+  1006b1:
+    Name: (New) Silver Wolf
+    LongName: (New) Silver Wolf
 RelicSets:
   "101":
     Name: Transeúnte de la nube pasajera
@@ -322,13 +343,13 @@ RelicSets:
     Description2pc: Daño Cuántico +10%.
     Description4pc: La VEL del portador se reduce en un 8%. Antes de entrar en combate, si la VEL del portador es inferior a 110/95, su Prob. CRIT aumenta en un 20%/32%. Este efecto también aplica al mnemoduende del portador.
   "125":
-    Name: Warrior Goddess of Sun and Thunder
-    Description2pc: Increases SPD by 6%.
-    Description4pc: When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains "Gentle Rain," which can be triggered up to 1 time per turn, lasting for 2 turns. While the wearer has "Gentle Rain," increases their SPD by 6% and all allies' CRIT DMG by 15%. This effect cannot be stacked.
+    Name: Guerrera celestial del sol y el trueno
+    Description2pc: VEL +6%.
+    Description4pc: El portador obtiene Lluvia benéfica después de que él o su mnemoduende curen a un aliado que no sea el portador ni su mnemoduende. Puede activarse 1 vez por turno y dura 2 turnos. Cuando el portador tiene Lluvia benéfica, su VEL aumenta en un 6% y el Daño CRIT de todos los aliados aumenta en un 15%. Este efecto no se puede acumular.
   "126":
-    Name: Wavestrider Captain
-    Description2pc: Increases CRIT DMG by 16%.
-    Description4pc: When the wearer becomes the target of another ally target's ability, gains 1 stack of "Help," stacking up to 2 times. If there are 2 stacks of "Help" when the wearer uses their Ultimate, consumes all "Help" to increase the wearer's ATK by 48% for 1 turn.
+    Name: Capitán del mar maldito
+    Description2pc: Daño CRIT +16%.
+    Description4pc: Cuando el portador se convierte en el objetivo de la habilidad de otro aliado, obtiene 1 acumulación de Ayuda (hasta 2 como máximo). Si el portador tiene 2 acumulaciones de Ayuda al lanzar la habilidad definitiva, las consume todas y su ATQ aumenta en un 48% durante 1 turno.
   "301":
     Name: Estación sellaespacios
     Description2pc: El ATQ del portador aumenta en un 12%. Cuando su VEL es igual o superior a 120, el ATQ aumenta en un 12% adicional.
@@ -389,6 +410,12 @@ RelicSets:
   "320":
     Name: Árbol gigante en meditación profunda
     Description2pc: La VEL del portador aumenta en un 6%. Cuando su VEL es igual o superior a 135/180, la curación realizada del portador y su mnemoduende aumenta en un 12%/20%.
+  "321":
+    Name: Arcadia of Woven Dreams
+    Description2pc: When the number of ally targets on the field is not 4, for every 1 extra/missing ally target, increases the wearer's and their memosprite's DMG by 9%/12%, stacking up to 4/3 times.
+  "322":
+    Name: Revelry by the Sea
+    Description2pc: Increases the wearer's DoT DMG by 12%. When the wearer's ATK is higher than or equal to 2400/3600, additionally increases the DoT DMG dealt by 12%/24%.
 Lightcones:
   "20000":
     Name: Flechas
@@ -540,6 +567,24 @@ Lightcones:
     Name: Saludo entre genios
   "21052":
     Name: Más sudor y menos lágrimas
+  "21053":
+    Name: Journey, Forever Peaceful
+  "21054":
+    Name: The Story's Next Page
+  "21055":
+    Name: Unto Tomorrow's Morrow
+  "21056":
+    Name: Pursuit of the Wind
+  "21057":
+    Name: The Flower Remembers
+  "21058":
+    Name: A Trail of Bygone Blood
+  "21060":
+    Name: A Dream Scented in Wheat
+  "21061":
+    Name: Holiday Thermae Escapade
+  "21062":
+    Name: See You at the End
   "22000":
     Name: Antes de que comience la misión del tutorial
   "22001":
@@ -635,9 +680,15 @@ Lightcones:
   "23041":
     Name: La vida en llamas
   "23042":
-    Name: Long May Rainbows Adorn the Sky
+    Name: Que el arcoíris siempre esté en el cielo
   "23043":
-    Name: Lies Dance on the Breeze
+    Name: Mentiras que vuelan en el viento
+  "23044":
+    Name: Thus Burns the Dawn
+  "23045":
+    Name: A Thankless Coronation
+  "23046":
+    Name: The Hell Where Ideals Burn
   "24000":
     Name: Sobre la caída de un Eón
   "24001":

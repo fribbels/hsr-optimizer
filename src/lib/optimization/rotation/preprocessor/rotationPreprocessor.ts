@@ -1,4 +1,4 @@
-import { CastoricePreprocessor, HookPreprocessor, PhainonPreprocessor, SaberPreprocessor, TheHertaPreprocessor, YunliPreprocessor } from 'lib/optimization/rotation/preprocessor/preprocessCharacters'
+import { ArcherPreprocessor, CastoricePreprocessor, HookPreprocessor, PhainonPreprocessor, SaberPreprocessor, TheHertaPreprocessor, YunliPreprocessor } from 'lib/optimization/rotation/preprocessor/preprocessCharacters'
 import { BandOfSizzlingThunderPreprocessor, FiresmithOfLavaForging as FiresmithOfLavaForgingPreprocessor, HunterOfGlacialForestPreprocessor, ScholarLostInEruditionPreprocessor, WavestriderCaptainPreprocessor } from 'lib/optimization/rotation/preprocessor/preprocessSets'
 import { AbilityPreprocessorBase } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
 import { toTurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
@@ -13,6 +13,7 @@ export const characterPreprocessors: AbilityPreprocessorBase[] = [
   new HookPreprocessor(),
   new PhainonPreprocessor(),
   new SaberPreprocessor(),
+  new ArcherPreprocessor(),
 ]
 
 export const setPreprocessors: AbilityPreprocessorBase[] = [

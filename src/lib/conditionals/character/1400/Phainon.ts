@@ -2,7 +2,6 @@ import i18next from "i18next"
 import { AbilityType, FUA_DMG_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
-import { wgslTrue } from "lib/gpu/injection/wgslUtils"
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { Eidolon } from 'types/character'
@@ -37,13 +36,11 @@ export default (e: Eidolon): CharacterConditionalsController => {
   const fuaDmgScaling = skill(e, 0.40, 0.44)
   const fuaDmgExtraScaling = skill(e, 0.30, 0.33)
 
-
   const talentAtkBuffScaling = talent(e, 0.80, 0.88)
   const talentHpBuffScaling = talent(e, 2.40, 2.64)
   const talentCdBuffScaling = talent(e, 0.30, 0.33)
 
   const ultScaling = ult(e, 9.60, 10.56)
-
 
   const defaults = {
     transformedState: true,
@@ -192,20 +189,8 @@ export default (e: Eidolon): CharacterConditionalsController => {
       x.SPD_P.buffTeam(m.spdBuff ? 0.15 : 0, SOURCE_TALENT)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-      if (r.transformedState) {
-        x.SPD.set((e >= 1 && r.e1Buffs) ? 0.72 * context.baseSPD : 0.60 * context.baseSPD, SOURCE_ULT)
-        // TODO: Same for gpu
-      }
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      return `
-if (${wgslTrue(r.transformedState)}) {
-  x.SPD = ${(e >= 1 && r.e1Buffs) ? 0.72 * context.baseSPD : 0.60 * context.baseSPD};
-}
-`
     },
   }
 }

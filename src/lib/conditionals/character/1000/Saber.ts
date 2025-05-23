@@ -30,6 +30,9 @@ export default (e: Eidolon): CharacterConditionalsController => {
   const skillScaling = skill(e, 1.50, 1.65)
   const skillStackScaling = skill(e, 0.14, 0.154)
 
+  const ultScaling = ult(e, 2.80, 3.08)
+  const ultBounceScaling = ult(e, 1.10, 1.21)
+
   const talentDmgBuffScaling = talent(e, 0.40, 0.44)
 
   const defaults = {
@@ -152,6 +155,9 @@ export default (e: Eidolon): CharacterConditionalsController => {
 
       x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
       x.SKILL_ATK_SCALING.buff(r.enhancedSkill ? r.coreResonanceStacks * skillStackScaling : 0, SOURCE_SKILL)
+
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.ULT_ATK_SCALING.buff(ultBounceScaling * 10 / context.enemyCount, SOURCE_ULT)
 
       x.BASIC_TOUGHNESS_DMG.buff(r.enhancedBasic ? 20 : 10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)

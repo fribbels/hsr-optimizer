@@ -6356,7 +6356,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1407": {
       "id": "1407",
@@ -6550,7 +6550,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "8001": {
       "id": "8001",
@@ -8810,7 +8810,7 @@
         "ATK": 476.28,
         "DEF": 529.2
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23043": {
       "id": "23043",
@@ -8822,7 +8822,7 @@
         "ATK": 582.12,
         "DEF": 529.2
       },
-      "unreleased": true
+      "unreleased": false
     },
     "24000": {
       "id": "24000",

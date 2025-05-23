@@ -12,11 +12,11 @@ Characters:
     Name: ヴェルト
     LongName: ヴェルト
   "1005":
-    Name: カフカ
-    LongName: カフカ
+    Name: (Old) カフカ
+    LongName: (Old) カフカ
   "1006":
-    Name: 銀狼
-    LongName: 銀狼
+    Name: (Old) 銀狼
+    LongName: (Old) 銀狼
   "1008":
     Name: アーラン
     LongName: アーラン
@@ -81,8 +81,8 @@ Characters:
     Name: 景元
     LongName: 景元
   "1205":
-    Name: 刃
-    LongName: 刃
+    Name: (Old) 刃
+    LongName: (Old) 刃
   "1206":
     Name: 素裳
     LongName: 素裳
@@ -102,8 +102,8 @@ Characters:
     Name: 白露
     LongName: 白露
   "1212":
-    Name: 鏡流
-    LongName: 鏡流
+    Name: (Old) 鏡流
+    LongName: (Old) 鏡流
   "1213":
     Name: 丹恒・飲月
     LongName: 丹恒・飲月
@@ -209,18 +209,6 @@ Characters:
   "1409":
     Name: ヒアンシー
     LongName: ヒアンシー
-  "2005":
-    Name: カフカ
-    LongName: カフカ
-  "2006":
-    Name: 銀狼
-    LongName: 銀狼
-  "2205":
-    Name: 刃
-    LongName: 刃
-  "2212":
-    Name: 鏡流
-    LongName: 鏡流
   "8001":
     Name: 穹
     LongName: 穹 (壊滅)
@@ -245,6 +233,18 @@ Characters:
   "8008":
     Name: 星
     LongName: 星 (記憶)
+  1212b1:
+    Name: (New) 鏡流
+    LongName: (New) 鏡流
+  1205b1:
+    Name: (New) 刃
+    LongName: (New) 刃
+  1005b1:
+    Name: (New) カフカ
+    LongName: (New) カフカ
+  1006b1:
+    Name: (New) 銀狼
+    LongName: (New) 銀狼
 RelicSets:
   "101":
     Name: 流雲無痕の過客

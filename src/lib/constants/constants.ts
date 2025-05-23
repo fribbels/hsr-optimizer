@@ -1,5 +1,6 @@
 // Represents the version of the latest info, which should be the beta leaks version at the time of the major update
 import gameData from 'data/game_data.json' with { type: 'json' }
+import { ARCHER, BLADE_B1, JINGLIU_B1, KAFKA_B1, PHAINON, SABER } from 'lib/simulations/tests/testMetadataConstants'
 
 // Semver defined optimizer version
 export const CURRENT_OPTIMIZER_VERSION = 'v3.4.1'
@@ -9,6 +10,12 @@ export const CURRENT_DATA_VERSION = '3.4v1'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
+  [PHAINON]: 'V1 characters WIP - Numbers may change',
+  [SABER]: 'V1 characters WIP - Numbers may change',
+  [ARCHER]: 'V1 characters WIP - Numbers may change',
+  [KAFKA_B1]: 'V1 buffs WIP - Numbers may change',
+  [BLADE_B1]: 'V1 buffs WIP - Numbers may change',
+  [JINGLIU_B1]: 'V1 buffs WIP - Numbers may change',
 }
 
 export const Stats = {

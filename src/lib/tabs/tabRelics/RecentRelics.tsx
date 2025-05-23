@@ -1,8 +1,8 @@
-import { Flex } from "antd"
-import { useScannerState } from "../tabImport/ScannerWebsocketClient"
-import React from "react"
-import { RecentRelicCard } from "./RecentRelicCard"
-import { CharacterId } from "types/character"
+import { Flex } from 'antd'
+import { useScannerState } from '../tabImport/ScannerWebsocketClient'
+import React from 'react'
+import { RecentRelicCard } from './RecentRelicCard'
+import { CharacterId } from 'types/character'
 
 function padArray<T>(array: T[], length: number, filler: T): T[] {
   return [...array, ...Array(length - array.length).fill(filler)]
@@ -12,34 +12,32 @@ export const RecentRelics = React.memo((props: {
   scoringCharacter?: CharacterId
   setSelectedRelicID?: (relicID: string) => void
   selectedRelicID?: string
-  excludedRelicPotentialCharacters?: string[]
 }): React.JSX.Element => {
-    const recentRelicIDs = useScannerState((s) => s.recentRelics)
-    const allRelics = window.store((s) => s.relicsById)
-    const recentRelics = recentRelicIDs.map((id) => allRelics[id]).filter((relic) => relic != null)
+  const recentRelicIDs = useScannerState((s) => s.recentRelics)
+  const allRelics = window.store((s) => s.relicsById)
+  const recentRelics = recentRelicIDs.map((id) => allRelics[id]).filter((relic) => relic != null)
 
-    return (
-        <Flex
-            gap={10}
-            justify="space-evenly"
-            style={{
-                paddingTop: 10,
-                paddingBottom: 10,
-            }}
-        >
-            {
-                padArray(recentRelics.slice(0, 6), 6, undefined).map((relic, i) => (
-                  <RecentRelicCard
-                    key={relic?.id ?? i}
-                    relic={relic}
-                    isSelected={relic?.id === props.selectedRelicID}
-                    scoringCharacter={props.scoringCharacter}
-                    setSelectedRelicID={props.setSelectedRelicID}
-                    excludedRelicPotentialCharacters={props.excludedRelicPotentialCharacters}
-                  />
-                ))
-            }
-        </Flex>
-    )
+  return (
+    <Flex
+      gap={10}
+      justify='space-evenly'
+      style={{
+        paddingTop: 10,
+        paddingBottom: 10,
+      }}
+    >
+      {
+        padArray(recentRelics.slice(0, 6), 6, undefined).map((relic, i) => (
+          <RecentRelicCard
+            key={relic?.id ?? i}
+            relic={relic}
+            isSelected={relic?.id === props.selectedRelicID}
+            scoringCharacter={props.scoringCharacter}
+            setSelectedRelicID={props.setSelectedRelicID}
+          />
+        ))
+      }
+    </Flex>
+  )
 })
 RecentRelics.displayName = 'RecentRelics'

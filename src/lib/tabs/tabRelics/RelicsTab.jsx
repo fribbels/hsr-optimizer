@@ -726,22 +726,23 @@ export default function RelicsTab() {
         />
 
         <Collapse 
-          size="small"
+          size='small'
           items={[
             {
               key: '1',
               label: t('RelicGrid.RecentRelics', 'Recent Relics'),
-              children: <RecentRelics 
-                scoringCharacter={focusCharacter}
-                selectedRelicID={selectedRelicID}
-                setSelectedRelicID={(id) => {
-                  const node = gridRef.current.api.getRowNode(id)
-                  node.setSelected(true, true)
-                  gridRef.current.api.ensureNodeVisible(node, 'middle')
-                  setSelectedRelicID(id)
-                }}
-                excludedRelicPotentialCharacters={excludedRelicPotentialCharacters}
-              />,
+              children: (
+                <RecentRelics 
+                  scoringCharacter={focusCharacter}
+                  selectedRelicID={selectedRelicID}
+                  setSelectedRelicID={(id) => {
+                    const node = gridRef.current.api.getRowNode(id)
+                    node.setSelected(true, true)
+                    gridRef.current.api.ensureNodeVisible(node, 'middle')
+                    setSelectedRelicID(id)
+                  }}
+                />
+              ),
             },
           ]} 
         />

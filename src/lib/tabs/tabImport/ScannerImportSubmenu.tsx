@@ -1,5 +1,5 @@
 import { UploadOutlined } from '@ant-design/icons'
-import { Button, Checkbox, Divider, Flex, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
+import { Button, Checkbox, Divider, Flex, Input, Popconfirm, Steps, Switch, Typography, Upload } from 'antd'
 import { HoyolabData, hoyolabParser } from 'lib/importer/hoyoLabFormatParser'
 import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig'
 import { ScannerParserJson } from 'lib/importer/kelzFormatParser'
@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
 import { Relic } from 'types/relic'
+import { useScannerState } from './ScannerWebsocketClient'
 
 // FIXME MED
 
@@ -38,6 +39,7 @@ export function ScannerImportSubmenu() {
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
   const [onlyImportExisting, setOnlyImportExisting] = useState(false)
+  const { connected, ingest, setIngest, ingestCharacters, setIngestCharacters } = useScannerState()
   const { t } = useTranslation(['importSaveTab', 'common'])
 
   function beforeUpload(file: Blob): Promise<any> {
@@ -239,6 +241,29 @@ export function ScannerImportSubmenu() {
                   }
                 }}
               />
+
+              {t('Import.Stage1.Or')}
+
+              <Flex gap={20} align='center'>
+                <Flex gap={10} align='center'>
+                  <Switch
+                    disabled={!connected}
+                    checked={connected && ingest}
+                    onChange={(checked) => setIngest(checked)}
+                  />
+
+                  <Text>Live Import</Text>
+                </Flex>
+                <Flex gap={10} align='center'>
+                  <Switch
+                    disabled={!connected || !ingest}
+                    checked={connected && ingest && ingestCharacters}
+                    onChange={(checked) => setIngestCharacters(checked)}
+                  />
+
+                  <Text>Live Characters</Text>
+                </Flex>
+              </Flex>
             </Flex>
           </Flex>
         </Flex>

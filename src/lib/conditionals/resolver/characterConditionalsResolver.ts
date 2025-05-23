@@ -75,6 +75,10 @@ import { CharacterConditionalsController } from 'types/conditionals'
 import saber from '../character/1000/Saber'
 import archer from '../character/1000/Archer'
 import phainon from '../character/1400/Phainon'
+import kafkaB1 from "lib/conditionals/character/1000/KafkaB1";
+import silverWolfB1 from "lib/conditionals/character/1000/SilverWolfB1";
+import bladeB1 from "lib/conditionals/character/1200/BladeB1";
+import jingliuB1 from "lib/conditionals/character/1200/JingliuB1";
 
 export type CharacterConditionalFunction = (e: Eidolon, withContent: boolean) => CharacterConditionalsController
 
@@ -159,6 +163,11 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
   1014: saber,
   1015: archer,
   1408: phainon,
+
+  '1005b1': kafkaB1,
+  '1006b1': silverWolfB1,
+  '1205b1': bladeB1,
+  '1212b1': jingliuB1,
 }
 
 /**

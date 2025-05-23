@@ -1,4 +1,12 @@
-import { CameraOutlined, CheckOutlined, CloseOutlined, DownloadOutlined, MoonOutlined, SettingOutlined, SunOutlined } from '@ant-design/icons'
+import {
+  CameraOutlined,
+  CheckOutlined,
+  CloseOutlined,
+  DownloadOutlined,
+  MoonOutlined,
+  SettingOutlined,
+  SunOutlined
+} from '@ant-design/icons'
 import { Button, ColorPicker, Flex, InputNumber, Segmented, Select } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
@@ -577,7 +585,9 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
     1003: ['#d6b5c2'], // himeko
     1004: ['#6385d8'], // welt
     1005: ['#ea8abc'], // kafka
+    '1005b1': ['#ea8abc'], // kafka
     1006: ['#8483eb'], // silverwolf
+    '1006b1': ['#8483eb'], // silverwolf
     1008: ['#817fd1'], // arlan
     1009: ['#9e80e6'], // asta
     1013: ['#8969ea'], // herta
@@ -598,6 +608,7 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
     1203: ['#8ce2f4'], // luocha
     1204: ['#94e6f1'], // jingyuan
     1205: ['#4d69be'], // blade
+    '1205b1': ['#4d69be'], // blade
     1206: ['#81adf1'], // sushang
     1207: ['#90a0e6'], // yukong
     1208: ['#dd9cf2'], // fuxuan
@@ -605,6 +616,7 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
     1210: ['#88aade'], // guinaifen
     1211: ['#5f9ce2'], // bailu
     1212: ['#3e65f2'], // jingliu
+    '1212b1': ['#3e65f2'], // jingliu
     1213: ['#72c3de'], // imbibitorlunae
     1214: ['#3571e7'], // xueyi
     1215: ['#9a90e6'], // hanya

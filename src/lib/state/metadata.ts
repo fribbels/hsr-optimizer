@@ -2,9 +2,45 @@ import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
 import { Constants, Parts, PartsMainStats, Sets, Stats } from 'lib/constants/constants'
-import { DEFAULT_BASIC, DEFAULT_BREAK, DEFAULT_DOT, DEFAULT_FUA, DEFAULT_MEMO_SKILL, DEFAULT_MEMO_TALENT, DEFAULT_SKILL, DEFAULT_ULT, END_BASIC, END_BREAK, END_DOT, END_FUA, END_SKILL, END_ULT, NULL_TURN_ABILITY_NAME, START_BASIC, START_SKILL, START_ULT, WHOLE_BASIC, WHOLE_SKILL } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  DEFAULT_BASIC,
+  DEFAULT_BREAK,
+  DEFAULT_DOT,
+  DEFAULT_FUA,
+  DEFAULT_MEMO_SKILL,
+  DEFAULT_MEMO_TALENT,
+  DEFAULT_SKILL,
+  DEFAULT_ULT,
+  END_BASIC,
+  END_BREAK,
+  END_DOT,
+  END_FUA,
+  END_SKILL,
+  END_ULT,
+  NULL_TURN_ABILITY_NAME,
+  START_BASIC,
+  START_SKILL,
+  START_ULT,
+  WHOLE_BASIC,
+  WHOLE_SKILL
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { A_GROUNDED_ASCENT, CIPHER, DANCE_DANCE_DANCE, EARTHLY_ESCAPADE, FLOWING_NIGHTGLOW, HUOHUO, LIES_AFLUTTER_IN_THE_WIND, LUOCHA, MULTIPLICATION, NIGHT_OF_FRIGHT, ROBIN, SPARKLE, SUNDAY, TINGYUN } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  A_GROUNDED_ASCENT,
+  CIPHER,
+  DANCE_DANCE_DANCE,
+  EARTHLY_ESCAPADE,
+  FLOWING_NIGHTGLOW,
+  HUOHUO,
+  LIES_AFLUTTER_IN_THE_WIND,
+  LUOCHA,
+  MULTIPLICATION,
+  NIGHT_OF_FRIGHT,
+  ROBIN,
+  SPARKLE,
+  SUNDAY,
+  TINGYUN
+} from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { DBMetadata, DBMetadataCharacter, DBMetadataLightCone, DBMetadataSets, ScoringMetadata } from 'types/metadata'
@@ -763,7 +799,13 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.HP_P]: 0.28 },
       5: { [Constants.Stats.HP_P]: 0.32 },
     },
-    21055: {},
+    21055: {
+      1: {[Constants.Stats.OHB]: 0.12},
+      2: {[Constants.Stats.OHB]: 0.15},
+      3: {[Constants.Stats.OHB]: 0.18},
+      4: {[Constants.Stats.OHB]: 0.21},
+      5: {[Constants.Stats.OHB]: 0.24},
+    },
     21056: {},
     21057: {
       1: { [Constants.Stats.CD]: 0.24 },
@@ -7485,7 +7527,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
       },
     },
-    '1005_1': { // Kafka
+    '1005b1': { // Kafka
       stats: {
         [Stats.ATK]: 1,
         [Stats.ATK_P]: 1,
@@ -7595,7 +7637,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
       },
     },
-    '1006_1': { // Silver Wolf
+    '1006b1': { // Silver Wolf
       stats: {
         [Stats.ATK]: 0,
         [Stats.ATK_P]: 0,
@@ -7637,7 +7679,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       sortOption: SortOption.ULT,
       hiddenColumns: [SortOption.FUA, SortOption.DOT],
     },
-    '1205_1': { // Blade
+    '1205b1': { // Blade
       stats: {
         [Stats.ATK]: 0.25,
         [Stats.ATK_P]: 0.25,
@@ -7744,7 +7786,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
       },
     },
-    '1212_1': { // Jingliu
+    '1212b1': { // Jingliu
       stats: {
         [Stats.ATK]: 0,
         [Stats.ATK_P]: 0,

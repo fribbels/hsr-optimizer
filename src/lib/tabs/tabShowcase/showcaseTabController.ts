@@ -67,7 +67,7 @@ export function presetCharacters(): Preset[] {
     { characterId: char(AGLAEA), lightConeId: lc(TIME_WOVEN_INTO_GOLD), rerun: true },
 
     { custom: true },
-  ]
+  ].filter(x => x.custom || !!x.characterId) as Preset[]
 }
 
 export function onCharacterModalOk(form: ShowcaseTabCharacter['form']) {

@@ -7727,7 +7727,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": false
+      "unreleased": true
     },
     "1205b1": {
       "id": "1205b1",
@@ -7826,7 +7826,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": false
+      "unreleased": true
     },
     "1005b1": {
       "id": "1005b1",
@@ -7925,7 +7925,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": false
+      "unreleased": true
     },
     "1006b1": {
       "id": "1006b1",
@@ -8024,7 +8024,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": false
+      "unreleased": true
     }
   },
   "lightCones": {

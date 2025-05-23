@@ -994,6 +994,19 @@ function getLightConeOverrideCenter(): Record<string, number> {
     23043: 370,
 
     // TODO
+    23044: 210,
+    23045: 180,
+    23046: 200,
+
+    21053: 220,
+    21054: 170,
+    21055: 230,
+    21056: 220,
+    21057: 330,
+    21058: 170,
+    21060: 200,
+    21061: 180,
+    21062: 165,
   }
 }
 
@@ -7409,6 +7422,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
 
         ],
         comboDot: 0,
+        errRopeEidolon: 0,
         relicSets: [
           [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
@@ -7506,17 +7520,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
-          START_SKILL,
+          START_ULT,
+          DEFAULT_SKILL,
           DEFAULT_SKILL,
           END_SKILL,
-          START_ULT,
           DEFAULT_FUA,
-          DEFAULT_SKILL,
+          START_SKILL,
           DEFAULT_SKILL,
           END_SKILL,
           DEFAULT_FUA,
         ],
         comboDot: 0,
+        errRopeEidolon: 0,
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],

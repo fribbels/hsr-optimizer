@@ -1,15 +1,15 @@
+import i18next from "i18next"
 import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { CURRENT_DATA_VERSION } from "lib/constants/constants"
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
-import i18next from "i18next";
-import { CURRENT_DATA_VERSION } from "lib/constants/constants";
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.JourneyForeverPeaceful')
-  const { SOURCE_LC } = Source.lightCone('21053')
+  const { SOURCE_LC } = Source.lightCone('21055')
 
   const sValuesDmgBoost = [0.12, 0.14, 0.16, 0.18, 0.20]
 

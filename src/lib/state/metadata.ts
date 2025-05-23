@@ -1027,7 +1027,17 @@ function getOverrideImageCenter(): Record<string, {
       y: 950,
       z: 1.1,
     },
+    '1005b1': { // KafkaB1
+      x: 1000,
+      y: 950,
+      z: 1.1,
+    },
     1006: { // Silver Wolf
+      x: 1050,
+      y: 950,
+      z: 1,
+    },
+    '1006b1': { // Silver WolfB1
       x: 1050,
       y: 950,
       z: 1,
@@ -1132,6 +1142,11 @@ function getOverrideImageCenter(): Record<string, {
       y: 800,
       z: 1,
     },
+    '1205b1': { // BladeB1
+      x: 990,
+      y: 800,
+      z: 1,
+    },
     1206: { // Sushang
       x: 1075,
       y: 1015,
@@ -1163,6 +1178,11 @@ function getOverrideImageCenter(): Record<string, {
       z: 1.05,
     },
     1212: { // Jingliu
+      x: 1024,
+      y: 930,
+      z: 1,
+    },
+    '1212b1': { // JingliuB1
       x: 1024,
       y: 930,
       z: 1,

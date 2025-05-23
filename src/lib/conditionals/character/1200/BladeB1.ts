@@ -1,18 +1,14 @@
-import { AbilityType, ASHBLAZING_ATK_STACK, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuBoostAshblazingAtkP } from 'lib/conditionals/conditionalFinalizers'
-import {
-  AbilityEidolon,
-  calculateAshblazingSetP,
-  Conditionals,
-  ContentDefinition
-} from 'lib/conditionals/conditionalUtils'
+import i18next from 'i18next'
+import { AbilityType, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { BLADE_B1 } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
-import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
@@ -31,29 +27,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1205')
+  } = Source.character(BLADE_B1)
 
   const enhancedStateDmgBoost = skill(e, 0.40, 0.456)
   const hpPercentLostTotalMax = 0.90
 
-  const basicScaling = basic(e, 1.0, 1.1)
-  const basicEnhancedAtkScaling = skill(e, 0.40, 0.44)
-  const basicEnhancedHpScaling = skill(e, 1.00, 1.10)
-  const ultAtkScaling = ult(e, 0.40, 0.432)
-  const ultHpScaling = ult(e, 1.00, 1.08)
-  const ultLostHpScaling = ult(e, 1.00, 1.08)
-  const fuaAtkScaling = talent(e, 0.44, 0.484)
-  const fuaHpScaling = talent(e, 1.10, 1.21)
+  const basicScaling = basic(e, 0.50, 0.55)
+  const basicEnhancedHpScaling = skill(e, 1.30, 1.43)
 
-  const hitMultiByTargets: NumberToNumberMap = {
-    1: ASHBLAZING_ATK_STACK * (1 * 0.33 + 2 * 0.33 + 3 * 0.34),
-    3: ASHBLAZING_ATK_STACK * (2 * 0.33 + 5 * 0.33 + 8 * 0.34),
-    5: ASHBLAZING_ATK_STACK * (3 * 0.33 + 8 * 0.33 + 8 * 0.34),
-  }
+  const ultHpScaling = ult(e, 1.50, 1.62)
+  const ultLostHpScaling = ult(e, 1.00, 1.08)
+
+  const fuaHpScaling = talent(e, 1.30, 1.43)
 
   const defaults = {
     enhancedStateActive: true,
     hpPercentLostTotal: hpPercentLostTotalMax,
+    e1BasicUltMultiBoost: true,
+    e2CrBuff: true,
     e4MaxHpIncreaseStacks: 2,
   }
 
@@ -69,6 +60,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       formItem: 'slider',
       text: t('Content.hpPercentLostTotal.text'),
       content: t('Content.hpPercentLostTotal.content', { hpPercentLostTotalMax: TsUtils.precisionRound(100 * hpPercentLostTotalMax) }),
+      min: 0,
+      max: hpPercentLostTotalMax,
+      percent: true,
+    },
+    e1BasicUltMultiBoost: {
+      id: 'e1BasicUltMultiBoost',
+      formItem: 'slider',
+      text: 'E1 Ult Basic boost',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      min: 0,
+      max: hpPercentLostTotalMax,
+      percent: true,
+    },
+    e2CrBuff: {
+      id: 'e2CrBuff',
+      formItem: 'slider',
+      text: 'E2 CR buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
       max: hpPercentLostTotalMax,
       percent: true,
@@ -92,21 +101,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.CR.buff((e >= 2 && r.enhancedStateActive) ? 0.15 : 0, SOURCE_E2)
+      x.CR.buff((e >= 2 && r.enhancedStateActive && r.e2CrBuff) ? 0.15 : 0, SOURCE_E2)
       x.HP_P.buff((e >= 4) ? r.e4MaxHpIncreaseStacks * 0.20 : 0, SOURCE_E4)
 
       // Scaling
       if (r.enhancedStateActive) {
-        x.BASIC_ATK_SCALING.buff(basicEnhancedAtkScaling, SOURCE_BASIC)
         x.BASIC_HP_SCALING.buff(basicEnhancedHpScaling, SOURCE_BASIC)
+        x.BASIC_HP_SCALING.buff((e >= 1 && r.e1BasicUltMultiBoost) ? 1.50 * r.hpPercentLostTotal : 0, SOURCE_E1)
       } else {
-        x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+        x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
       }
-      x.ULT_ATK_SCALING.buff(ultAtkScaling, SOURCE_ULT)
+
       x.ULT_HP_SCALING.buff(ultHpScaling, SOURCE_ULT)
       x.ULT_HP_SCALING.buff(ultLostHpScaling * r.hpPercentLostTotal, SOURCE_ULT)
-      x.ULT_HP_SCALING.buff((e >= 1 && context.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal : 0, SOURCE_E1)
-      x.FUA_ATK_SCALING.buff(fuaAtkScaling, SOURCE_TALENT)
+      x.ULT_HP_SCALING.buff((e >= 1 && r.e1BasicUltMultiBoost) ? 1.50 * r.hpPercentLostTotal : 0, SOURCE_E1)
+
       x.FUA_HP_SCALING.buff(fuaHpScaling, SOURCE_TALENT)
       x.FUA_HP_SCALING.buff((e >= 6) ? 0.50 : 0, SOURCE_E6)
 
@@ -121,9 +130,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return x
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const hitMulti = hitMultiByTargets[context.enemyCount]
-      x.FUA_ATK_P_BOOST.buff(calculateAshblazingSetP(x, action, context, hitMulti), Source.NONE)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuBoostAshblazingAtkP(hitMultiByTargets[context.enemyCount]),
+    gpuFinalizeCalculations: () => '',
   }
 }

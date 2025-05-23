@@ -190,7 +190,6 @@ export default (e: Eidolon): CharacterConditionalsController => {
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-    },
+    gpuFinalizeCalculations: () => '',
   }
 }

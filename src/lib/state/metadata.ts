@@ -7527,7 +7527,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
       },
     },
-    '1005b1': { // Kafka
+    '1005b1': { // KafkaB1
       stats: {
         [Stats.ATK]: 1,
         [Stats.ATK_P]: 1,
@@ -7538,13 +7538,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Stats.SPD]: 1,
         [Stats.CR]: 0,
         [Stats.CD]: 0,
-        [Stats.EHR]: 0.5,
+        [Stats.EHR]: 1,
         [Stats.RES]: 0,
         [Stats.BE]: 0,
       },
       parts: {
         [Parts.Body]: [
           Stats.ATK_P,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.SPD,
@@ -7556,6 +7557,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [
@@ -7591,7 +7593,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CD,
         ],
         breakpoints: {
-          [Stats.EHR]: 0.67,
+          [Stats.EHR]: 0.75,
         },
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
@@ -7608,6 +7610,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           DEFAULT_FUA,
         ],
         comboDot: 16,
+        errRopeEidolon: 0,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -7679,10 +7682,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       sortOption: SortOption.ULT,
       hiddenColumns: [SortOption.FUA, SortOption.DOT],
     },
-    '1205b1': { // Blade
+    '1205b1': { // BladeB1
       stats: {
-        [Stats.ATK]: 0.25,
-        [Stats.ATK_P]: 0.25,
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
         [Stats.DEF]: 0,
         [Stats.DEF_P]: 0,
         [Stats.HP]: 1,
@@ -7698,6 +7701,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CD,
           Stats.CR,
+          Stats.HP_P,
         ],
         [Parts.Feet]: [
           Stats.SPD,
@@ -7722,6 +7726,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Parts.Body]: [
             Stats.CR,
             Stats.CD,
+            Stats.HP_P,
           ],
           [Parts.Feet]: [
             Stats.HP_P,
@@ -7740,7 +7745,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CR,
           Stats.HP_P,
           Stats.HP,
-          Stats.ATK_P,
         ],
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
@@ -7786,7 +7790,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
       },
     },
-    '1212b1': { // Jingliu
+    '1212b1': { // JingliuB1
       stats: {
         [Stats.ATK]: 0,
         [Stats.ATK_P]: 0,
@@ -7865,6 +7869,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
+          Sets.BoneCollectionsSereneDemesne,
           Sets.RutilantArena,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],

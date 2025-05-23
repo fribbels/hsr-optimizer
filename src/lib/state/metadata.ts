@@ -32,7 +32,7 @@ import {
   EARTHLY_ESCAPADE,
   FLOWING_NIGHTGLOW,
   HUOHUO,
-  LIES_AFLUTTER_IN_THE_WIND,
+  LIES_DANCE_ON_THE_BREEZE,
   LUOCHA,
   MULTIPLICATION,
   NIGHT_OF_FRIGHT,
@@ -7534,7 +7534,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: CIPHER,
-            lightCone: LIES_AFLUTTER_IN_THE_WIND,
+            lightCone: LIES_DANCE_ON_THE_BREEZE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

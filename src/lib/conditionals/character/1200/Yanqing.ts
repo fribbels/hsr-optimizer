@@ -9,6 +9,131 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Frost Thorn
+
+Basic ATK+1+20
+
+Deals Ice DMG equal to 100% of Yanqing's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Darting Ironthorn
+
+Skill-1+30
+
+Deals Ice DMG equal to 220% of Yanqing's ATK to a single enemy and activates Soulsteel Sync for 1 turn.
+
+ Single 20
+
+Lv10
+
+Amidst the Raining Bliss
+
+Ultimate140+5
+
+Increases Yanqing's CRIT Rate by 60%. When Soulsteel Sync is active, increases Yanqing's CRIT DMG by an extra 50%. This buff lasts for one turn. Afterwards, deals Ice DMG equal to 350% of Yanqing's ATK to a single enemy.
+
+ Single 30
+
+Lv10
+
+One With the Sword
+
+Talent+10
+
+When Soulsteel Sync is active, Yanqing is less likely to be attacked by enemies. Yanqing's CRIT Rate increases by 20% and his CRIT DMG increases by 30%. After Yanqing attacks an enemy, there is a 60% fixed chance to launch Follow-up ATK, dealing Ice DMG equal to 50% of Yanqing's ATK to the enemy, which has a 65% base chance to Freeze the enemy for 1 turn.
+The Frozen target cannot take action and receives Ice Additional DMG equal to 50% of Yanqing's ATK at the beginning of each turn.
+When Yanqing receives DMG, the Soulsteel Sync effect will disappear.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+ Single 10
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+The One True Sword
+
+Technique
+
+After using his Technique, at the start of the next battle, Yanqing deals 30% more DMG for 2 turn(s) to enemies whose current HP percentage is 50% or higher.
+
+
+Stat Boosts
+
+ +28.0% ATK
+ +14.4% Ice DMG Boost
+ +10.0% HP
+
+Icing on the Kick
+
+After Yanqing attacks, deals Ice Additional DMG equal to 30% of Yanqing's ATK to enemies with Ice Weakness.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+
+Frost Favors the Brave
+
+When Soulsteel Sync is active, Effect RES increases by 20%.
+
+
+Gentle Blade
+
+When a CRIT Hit is triggered, increases SPD by 10% for 2 turn(s).
+
+
+
+1 Svelte Saber
+
+When Yanqing attacks a Frozen enemy, he deals Ice Additional DMG equal to 60% of his ATK.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+
+
+2 Supine Serenade
+
+When Soulsteel Sync is active, Energy Regeneration Rate increases by an extra 10%.
+
+
+
+3 Sword Savant
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Searing Sting
+
+When the current HP percentage is 80% or higher, this unit's Ice RES PEN increases by 12%.
+
+
+
+5 Surging Strife
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Swift Swoop
+
+If the buffs from "Soulsteel Sync" or the Ultimate are in effect when an enemy is defeated, the duration of these buffs is extended by 1 turn.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yanqing')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5

@@ -13,6 +13,119 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Oracle Brush
+
+Basic ATK+1+20
+
+Deals Physical DMG equal to 100% of Hanya's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Samsara, Locked
+
+Skill-1+30
+
+Deals Physical DMG equal to 240% of Hanya's ATK to a single target enemy, then applies Burden to them.
+For every 2 Basic ATKs, Skills, or Ultimates allies use on an enemy with Burden, allies will immediately recover 1 Skill Point. Burden is only active on the latest target it is applied to, and will be dispelled automatically after the Skill Point recovery effect has been triggered 2 times.
+
+ Single 20
+
+Lv10
+
+Ten-Lords' Decree, All Shall Obey
+
+Ultimate140+5
+
+Increases the SPD of a target ally by 20% of Hanya's SPD and increases the same target ally's ATK by 60%, lasting for 2 turn(s).
+
+Lv10
+
+Sanction
+
+Talent
+
+When an ally uses a Basic ATK, Skill, or Ultimate on an enemy inflicted with Burden, the DMG dealt increases by 30%, lasting for 2 turn(s).
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Netherworld Judgment
+
+Technique
+
+Immediately attacks the enemy. After entering battle, applies Burden equivalent to that applied by the Skill to a random enemy.
+
+ Single 20
+
+
+Stat Boosts
+
+ +28.0% ATK
+ +9.0 SPD
+ +10.0% HP
+
+Scrivener
+
+Allies triggering Burden's Skill Point recovery effect have their ATK increased by 10% for 1 turn(s).
+
+
+Netherworld
+
+If the trigger count for the Burden's Skill Point recovery effect is 1 or lower when an enemy with Burden is defeated, then additionally recovers 1 Skill Point(s).
+
+
+Reanimated
+
+When Burden's Skill Point recovery effect is triggered, this character regenerates 2 Energy.
+
+
+
+1 One Heart
+
+When an ally target with Hanya's Ultimate effect defeats an enemy, Hanya's action advances by 15%. This effect can only be triggered 1 time(s) per turn.
+
+
+
+2 Two Views
+
+After using the Skill, this character's SPD increases by 20% for 1 turn(s).
+
+
+
+3 Three Temptations
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Four Truths
+
+The Ultimate's duration is additionally extended for 1 turn(s).
+
+
+
+5 Five Skandhas
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Six Reverences
+
+Increase the DMG Boost effect of the Talent by an additional 10%.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hanya')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5

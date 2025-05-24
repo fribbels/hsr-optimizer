@@ -11,6 +11,118 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Gleaming Admonition
+
+Basic ATK+1+20
+
+Deals Imaginary DMG equal to 100% of Sunday's ATK to one designated enemy.
+
+ Single 10
+
+Lv6
+
+Benison of Paper and Rites
+
+Skill-1+30
+
+Enables one designated ally character and their summon to immediately take action, and increases their DMG dealt by 30%. If the target has a summon, then the dealt DMG increase is further boosted by an additional 50%, lasting for 2 turn(s).
+After using Skill on The Beatified, recovers 1 Skill Point.
+When Sunday uses this ability on characters following the Path of Harmony, cannot trigger the "immediate action" effect.
+Hidden Stat: 1
+
+Lv10
+
+Ode to Caress and Cicatrix
+
+Ultimate130+5
+
+Regenerates Energy by 20% of Max Energy for one designated ally character, and turns the target and their summon into "The Beatified." "The Beatified" have their CRIT DMG increased by an amount equal to 30% of Sunday's CRIT DMG plus 12%.
+At the start of Sunday's each turn, the duration of "The Beatified" decreases by 1 turn, lasting for a total of 3 turn(s). And it only takes effect on the most recent target of the Ultimate (excluding Sunday himself). When Sunday is knocked down, "The Beatified" will also be dispelled.
+
+Lv10
+
+The Sorrowing Body
+
+Talent
+
+When using Skill, increases the target's CRIT Rate by 20%, lasting for 3 turn(s).
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+The Glorious Mysteries
+
+Technique
+
+After this Technique is used, the first time Sunday uses an ability on an ally target in the next battle, the target's DMG dealt increases by 50%, lasting for 2 turn(s).
+
+
+Stat Boosts
+
+ +37.3% CRIT DMG
+ +18.0% Effect RES
+ +12.5% DEF
+
+Rest Day's Longing
+
+When using Ultimate, if the Energy regenerated for the target is less than 40, increases the regenerated Energy to 40.
+
+
+Exalted Sweep
+
+When battle starts, Sunday regenerates 25 Energy.
+
+
+Haven in Palm
+
+When using Skill, dispels 1 debuff(s) from the target.
+
+
+
+1 Millennium's Quietus
+
+When Sunday uses Skill, the target character can ignore 16% of enemy target's DEF to deal DMG and their summon can ignore 40% of enemy target's DEF to deal DMG, lasting for 2 turn(s).
+
+
+
+2 Faith Outstrips Frailty
+
+After the first use of Ultimate, recovers 2 Skill Point(s). The DMG dealt by "The Beatified" increases by 30%.
+
+
+
+3 Hermitage of Thorns
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Sculpture's Preamble
+
+When the turn starts, regenerates 8 Energy.
+
+
+
+5 Paper Raft in Silver Bay
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Dawn of Sidereal Cacophony
+
+The Talent's CRIT Rate boost effect becomes stackable up to 3 time(s), and the Talent's duration increases by 1 turn(s). When Sunday uses Ultimate, can also apply the Talent's CRIT Rate boost effect to the target. When the Talent's CRIT Rate boost takes effect and the target's CRIT Rate exceeds 100%, every 1% of excess CRIT Rate increases CRIT DMG by 2%.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sunday')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5

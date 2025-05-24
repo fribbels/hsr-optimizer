@@ -12,6 +12,171 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+First Light Heals the World
+
+Talent
+
+The memosprite Little Ica initially has Max HP equal to 50% of Hyacine's Max HP. When Hyacine or Little Ica provides healing, increases Little Ica's DMG dealt by 80% for 2 turn(s). Stacks up to 3 time(s).
+Hidden Stat: 1
+
+Lv10
+
+Rainclouds, Time to Go!
+
+Memosprite Skill+5
+
+Deals Wind DMG to all enemies equal to 20% of the tally of healing done by Hyacine and Little Ica in the current battle, and clears 50% of the tally of healing.
+
+ All 10
+
+Lv6
+
+Take Sky in Hand
+
+Memosprite Talent
+
+Little Ica's SPD remains at 0, is immune to debuffs, and they will not appear on the Action Order.
+If ally targets (except Little Ica) have their HP reduced, then Little Ica will consume HP equal to 4% of their own Max HP and restore HP equal to 2% of Hyacine's Max HP plus 20 for the ally target with reduced HP at the start of any target's turn or after any target takes action.
+While Hyacine is in the "After Rain" state, Little Ica immediately obtains 1 extra turn and automatically uses "Rainclouds, Time to Go!" after Hyacine uses an ability. Moreover, when Little Ica triggers their Talent's healing effect, additionally restores HP for all ally targets by an amount equal to 2% of Hyacine's Max HP plus 20. After Little Ica uses an ability, all Continuous Effects' duration decreases by 1 turn.
+
+Extra Turn
+Gain 1 extra turn that won't expend your remaining turns when taking action. During this extra turn, no Ultimate can be used.
+
+Continuous Effect
+Includes buffs, debuffs, and other effects.
+
+Lv6
+
+Soar, Unto the Sunlight
+
+Memosprite Talent
+
+When summoned, additionally regenerates 15 Energy for Hyacine. When first summoned, additionally regenerates 30 Energy.
+
+Lv6
+
+Fall, Then Take Wing
+
+Memosprite Talent
+
+Upon disappearing, advances the action of Hyacine by 30%.
+
+Lv6
+
+When Breeze Kisses Cirrus
+
+Basic ATK+1+20
+
+Deals Wind DMG equal to 50% of Hyacine's Max HP to a designated enemy target.
+
+ Single 10
+
+Lv6
+
+Love Over the Rainbow
+
+Skill-1+30
+
+Summons memosprite Little Ica, restores HP equal to 8% of Hyacine's Max HP plus 160 for all allies aside from Little Ica, and restores HP equal to 10% of Hyacine's Max HP plus 200 for Little Ica.
+
+Summon Memosprite
+Summon the memosprite to the field. If the memosprite is already on the field, dispels all Crowd Control debuffs the memosprite is afflicted with.
+
+Lv10
+
+We Who Fly Into Twilight
+
+Ultimate140+5
+
+Summons memosprite Little Ica, restores HP equal to 10% of Hyacine's Max HP plus 200 for all allies aside from Little Ica, and restores HP equal to 12% of Hyacine's Max HP plus 240 for Little Ica. Hyacine enters the "After Rain" state for 3 turn(s) afterward. Reduces the state's duration by 1 turn each time Hyacine's turn begins. When in "After Rain" state, increases Max HP for all allies by 30% plus 600.
+
+Lv10
+
+First Light Heals the World
+
+Talent
+
+The memosprite Little Ica initially has Max HP equal to 50% of Hyacine's Max HP. When Hyacine or Little Ica provides healing, increases Little Ica's DMG dealt by 80% for 2 turn(s). Stacks up to 3 time(s).
+Hidden Stat: 1
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Day So Right, Life So Fine!
+
+Technique
+
+At the start of the next battle, restores HP equal to 30% of Hyacine's Max HP plus 600 for all allies and increases their Max HP by 20% for 2 turn(s).
+
+
+Stat Boosts
+
+ +14.0 SPD
+ +18.0% Effect RES
+ +10.0% HP
+
+Gloomy Grin
+
+Increases Hyacine and Little Ica's CRIT Rate by 100%. When providing healing to an ally target with less than or equal to 50% this unit's Max HP, increases Hyacine and Little Ica's Outgoing Healing by 25%.
+
+
+Stormy Caress
+
+Increases Hyacine's Effect RES by 50%. When using Skill and Ultimate, dispels 1 debuff(s) from all ally targets.
+
+
+Tempestuous Halt
+
+When Hyacine's SPD exceeds 200, increases her and Little Ica's Max HP by 20%. Then, for every 1 excess SPD, increases Hyacine's and Little Ica's Outgoing Healing by 1%. Up to a max of 200 excess SPD can be taken into account for this effect.
+
+
+
+1 Cradle the Candle of Night
+
+When Hyacine is in the "After Rain" state, additionally increases the Max HP of all ally targets by 50%, and immediately restores HP equal to 8% of Hyacine's Max HP after using an attack.
+
+
+
+2 Come Sit in My Courtyard
+
+When any ally target's HP decreases, this unit's SPD increases by 30% for 2 turn(s).
+
+
+
+3 Depart, Unto the Sun!
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+Memosprite Skill Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Sunlit Amber, Yours to Keep
+
+The "Tempestuous Halt" Trace is enhanced. For every 1 of SPD exceeded, additionally increases Hyacine and Little Ica's CRIT DMG by 2%.
+
+
+
+5 Twilight Drapes the Tide
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+Memosprite Talent Lv. +1, up to a maximum of Lv. 10.
+
+
+
+6 O Sky, Heed My Plea
+
+Little Ica uses Memosprite Skill and changes the amount of Healing tally cleared to 12%. When Little Ica is on the field, increases all ally targets' All-Type RES PEN by 20%.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hyacine.Content')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')

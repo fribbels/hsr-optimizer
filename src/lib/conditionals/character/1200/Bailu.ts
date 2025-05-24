@@ -10,6 +10,117 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Diagnostic Kick
+
+Basic ATK+1+20
+
+Deals Lightning DMG equal to 100% of Bailu's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Singing Among Clouds
+
+Skill-1+30
+
+Heals a single ally for 11.7% of Bailu's Max HP plus 312. Bailu then heals random allies 2 time(s). After each healing, HP restored from the next healing is reduced by 15%.
+
+Lv10
+
+Felicitous Thunderleap
+
+Ultimate100+5
+
+Heals all allies for 13.5% of Bailu's Max HP plus 360.
+Bailu applies Invigoration to allies that are not already Invigorated. For those already Invigorated, Bailu extends the duration of their Invigoration by 1 turn.
+The effect of Invigoration can last for 2 turn(s). This effect cannot stack.
+
+Lv10
+
+Gourdful of Elixir
+
+Talent
+
+After an ally target with Invigoration is hit, restores the ally's HP for 5.4% of Bailu's Max HP plus 144. This effect can trigger 2 time(s).
+When Bailu's teammate receives a killing blow, they will not be knocked down. Bailu immediately heals the ally for 18% of Bailu's Max HP plus 480 HP. This effect can be triggered 1 time per battle.
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Saunter in the Rain
+
+Technique
+
+After Technique is used, at the start of the next battle, all allies are granted Invigoration for 2 turn(s).
+
+
+Stat Boosts
+
+ +28.0% HP
+ +22.5% DEF
+ +10.0% Effect RES
+
+Qihuang Analects
+
+When Bailu heals a target ally above their normal Max HP, the target's Max HP increases by 10% for 2 turns.
+
+
+Vidyadhara Ichor Lines
+
+Invigoration can trigger 1 more time(s).
+
+
+Aquatic Benediction
+
+Characters with Invigoration receive 10% less DMG.
+
+
+
+1 Ambrosial Aqua
+
+If the target ally's current HP is equal to their Max HP when Invigoration ends, regenerates 8 extra Energy for this target.
+
+
+
+2 Sylphic Slumber
+
+After using her Ultimate, Bailu's Outgoing Healing increases by an additional 15% for 2 turn(s).
+
+
+
+3 Omniscient Opulence
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+4 Evil Excision
+
+Every healing provided by the Skill makes the recipient deal 10% more DMG for 2 turn(s). This effect can stack up to 3 time(s).
+
+
+
+5 Waning Worries
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+6 Drooling Drop of Draconic Divinity
+
+Bailu can heal allies who received a killing blow 1 more time(s) in a single battle.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Bailu')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')

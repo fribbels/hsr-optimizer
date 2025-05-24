@@ -10,6 +10,127 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+System Warning
+
+Basic ATK+1+20
+
+Deals Quantum DMG equal to 100% of Silver Wolf's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Allow Changes?
+
+Skill-1+30
+
+There is a 85% base chance to add 1 Weakness of an on-field character's Type to the target enemy. This also reduces the enemy's DMG RES to that Weakness Type by 20% for 2 turn(s). If the enemy already has that Type Weakness, the effect of DMG RES reduction to that Weakness Type will not be triggered.
+Each enemy can only have 1 Weakness implanted by Silver Wolf. When Silver Wolf implants another Weakness to the target, only the most recent implanted Weakness will be kept.
+In addition, there is a 100% base chance to further reduce the All-Type RES of the enemy by 10% for 2 turn(s).
+Deals Quantum DMG equal to 196% of Silver Wolf's ATK to this enemy.
+
+ Single 20
+
+Lv10
+
+User Banned
+
+Ultimate110+5
+
+There's a 100% base chance to decrease the target enemy's DEF by 45% for 3 turn(s). And at the same time, deals Quantum DMG equal to 380% of Silver Wolf's ATK to the target enemy.
+
+ Single 30
+
+Lv10
+
+Awaiting System Response...
+
+Talent
+
+Silver Wolf can create three types of Bugs: Reduce ATK by 10%, reduce DEF by 8%, and reduce SPD by 6%.
+Every time Silver Wolf attacks, she has a 72% base chance to implant a random Bug that lasts for 3 turn(s) in an enemy target.
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Force Quit Program
+
+Technique
+
+Immediately attacks the enemy. After entering battle, deals Quantum DMG equal to 80% of Silver Wolf's ATK to all enemies, and ignores Weakness Types and reduces Toughness from all enemies. Enemies with their Weakness Broken in this way will trigger the Quantum Weakness Break effect.
+
+ Single 20
+
+
+Stat Boosts
+
+ +28.0% ATK
+ +18.0% Effect Hit Rate
+ +8.0% Quantum DMG Boost
+
+Generate
+
+"Bug"'s duration is extended for 1 turn(s). Every time an enemy is inflicted with Weakness Break, Silver Wolf has a 65% base chance of implanting a random "Bug" in the enemy.
+
+
+Inject
+
+The duration of the Weakness implanted by Silver Wolf's Skill increases by 1 turn(s).
+
+
+Side Note
+
+If there are 3 or more debuff(s) affecting the enemy when the Skill is used, then the Skill decreases the enemy's All-Type RES by an additional 3%.
+
+
+
+1 Social Engineering
+
+After using her Ultimate to attack enemies, Silver Wolf regenerates 7 Energy for every debuff that the target enemy currently has. This effect can be triggered up to 5 time(s) in each use of her Ultimate.
+
+
+
+2 Zombie Network
+
+When an enemy enters battle, reduces their Effect RES by 20%.
+
+
+
+3 Payload
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+4 Bounce Attack
+
+After using her Ultimate to attack enemies, deals Quantum Additional DMG equal to 20% of Silver Wolf's ATK for every debuff currently on the enemy target. This effect can be triggered for a maximum of 5 time(s) during each use of her Ultimate.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+
+
+5 Brute Force Attack
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+6 Overlay Network
+
+For every debuff the enemy target has, the DMG dealt by Silver Wolf increases by 20%, up to a limit of 100%.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SilverWolf')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5

@@ -10,6 +10,120 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Lightning Rush
+
+Basic ATK+1+20
+
+Deals Lightning DMG equal to 100% of Arlan's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Shackle Breaker
+
+Skill+30
+
+Consumes Arlan's HP equal to 15% of his Max HP to deal Lightning DMG equal to 240% of Arlan's ATK to a single enemy. If Arlan does not have sufficient HP, his HP will be reduced to 1 after using his Skill.
+
+ Single 20
+
+Lv10
+
+Frenzied Punishment
+
+Ultimate110+5
+
+Deals Lightning DMG equal to 320% of Arlan's ATK to a single enemy and Lightning DMG equal to 160% of Arlan's ATK to enemies adjacent to it.
+
+ Single 20 | Other 20
+
+Lv10
+
+Pain and Anger
+
+Talent
+
+Based on Arlan's current missing HP percentage, gains DMG bonus, up to a maximum increase of 72% DMG dealt by Arlan.
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Swift Harvest
+
+Technique
+
+Immediately attacks the enemy. After entering battle, deals Lightning DMG equal to 80% of Arlan's ATK to all enemies.
+
+ Single 20
+
+
+Stat Boosts
+
+ +28.0% ATK
+ +18.0% Effect RES
+ +10.0% HP
+
+Revival
+
+If the current HP percentage is 30% or lower when defeating an enemy, immediately restores HP equal to 20% of Max HP.
+
+
+Endurance
+
+The chance to resist DoT Debuffs increases by 50%.
+
+
+Repel
+
+Upon entering battle, if Arlan's HP percentage is less than or equal to 50%, he can nullify all DMG received except for DoTs until he is attacked.
+
+
+
+1 To the Bitter End
+
+When HP percentage is lower than or equal to 50% of Max HP, increases DMG dealt by Skill by 10%.
+
+
+
+2 Breaking Free
+
+Using Skill or Ultimate removes 1 debuff from this unit.
+
+
+
+3 Power Through
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Turn the Tables
+
+When struck by a killing blow after entering battle, instead of becoming knocked down, Arlan immediately restores his HP to 25% of his Max HP. This effect is automatically removed after it is triggered once or after 2 turn(s) have elapsed.
+
+
+
+5 Hammer and Tongs
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Self-Sacrifice
+
+When the current HP percentage drops to 50% or below, Ultimate deals 20% more DMG, and the DMG multiplier for adjacent targets is raised to the same level as that for the primary target.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Arlan')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5

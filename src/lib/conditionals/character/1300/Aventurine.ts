@@ -12,6 +12,128 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Straight Bet
+
+Basic ATK+1+20
+
+Deals Imaginary DMG equal to 100% of Aventurine's DEF to a single target enemy.
+
+ Single 10
+
+Lv6
+
+Cornerstone Deluxe
+
+Skill-1+30
+
+Provides all allies with a Fortified Wager shield that can block DMG equal to 24% of Aventurine's DEF plus 320, lasting for 3 turn(s). When Fortified Wager is gained repeatedly, the Shield Effect can stack, up to 200% of the current Shield Effect provided by the Skill.
+
+Lv10
+
+Roulette Shark
+
+Ultimate110+5
+
+Randomly gains 1 to 7 points of Blind Bet. Then, inflicts Unnerved on a single target enemy for 3 turn(s) and deals Imaginary DMG equal to 270% of Aventurine's DEF to the single target enemy. When an ally hits an Unnerved enemy target, the CRIT DMG dealt increases by 15%.
+
+ Single 30
+
+Lv10
+
+Shot Loaded Right
+
+Talent+1
+
+For any single ally with Fortified Wager, their Effect RES increases by 50%, and when they get attacked, Aventurine gains 1 point of Blind Bet. When Aventurine has Fortified Wager, he can resist Crowd Control debuffs. This effect can trigger again after 2 turn(s). Aventurine additionally gains 1 point(s) of Blind Bet after getting attacked. Upon reaching 7 points of Blind Bet, Aventurine consumes the 7 points to launch a 7-hit Follow-up ATK, with each hit dealing Imaginary DMG equal to 25% of Aventurine's DEF to a single random enemy. Blind Bet is capped at 10 points.
+
+Crowd Control debuff
+Freeze, Entanglement, Imprisonment, Dominated, Outrage, Strong Reverberation, Alien Dream, Snarelock, Terrified.
+
+ Single 10/3
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+The Red or the Black
+
+Technique
+
+After using the Technique, 1 of the following effects will be granted:
+There is a chance for DEF to increase by 24%.
+There is a high chance for DEF to increase by 36%.
+There is a small chance for DEF to increase by 60%.
+
+When this Technique is used repeatedly, the acquired effect with the highest buff value is retained.
+When the next battle starts, increases all allies' DEF by the corresponding value, lasting for 3 turn(s).
+
+
+Stat Boosts
+
+ +35.0% DEF
+ +14.4% Imaginary DMG Boost
+ +10.0% Effect RES
+
+Leverage
+
+For every 100 of Aventurine's DEF that exceeds 1600, increases his own CRIT Rate by 2%, up to a maximum increase of 48%.
+
+
+Hot Hand
+
+When battle starts, grants all allies a Fortified Wager shield, whose Shield Effect is equal to 100% of the one provided by the Skill, lasting for 3 turn(s).
+
+
+Bingo!
+
+After a teammate with Fortified Wager launches Follow-up ATK, Aventurine accumulates 1 Blind Bet point. This effect can trigger up to 3 time(s). Its trigger count resets at the start of Aventurine's turn. After Aventurine launches his Talent's Follow-up ATK, provides all ally targets with a Fortified Wager that can block DMG equal to 7.2% of Aventurine's DEF plus 96, and additionally grants a Fortified Wager that can block DMG equal to 7.2% of Aventurine's DEF plus 96 to the ally with the lowest Shield Effect, lasting for 3 turns.
+
+
+
+1 Prisoner's Dilemma
+
+Increases CRIT DMG by 20% for ally targets with Fortified Wager. After using the Ultimate, provides all allies with a Fortified Wager shield, whose Shield Effect is equal to 100% of the one provided by the Skill, lasting for 3 turn(s).
+
+
+
+2 Bounded Rationality
+
+When using the Basic ATK, reduces the target's All-Type RES by 12% for 3 turn(s).
+Hidden Stat: 1.2
+
+
+
+3 Droprate Maxing
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Unexpected Hanging Paradox
+
+When triggering his Talent's Follow-up ATK, first increases Aventurine's DEF by 40% for 2 turn(s), and additionally increases the Hits Per Action for his talent's Follow-up ATK by 3.
+
+
+
+5 Ambiguity Aversion
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Stag Hunt Game
+
+For every teammate that holds a Shield, the DMG dealt by Aventurine increases by 50%, up to a maximum of 150%.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aventurine')
   const tShield = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.ShieldAbility')

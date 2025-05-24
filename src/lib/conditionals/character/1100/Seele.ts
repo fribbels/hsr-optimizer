@@ -10,6 +10,127 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Thwack
+
+Basic ATK+1+20
+
+Deals Quantum DMG equal to 100% of Seele's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Sheathed Blade
+
+Skill-1+30
+
+Increases Seele's SPD by 25% for 2 turn(s) and deals Quantum DMG equal to 220% of Seele's ATK to a single enemy.
+
+ Single 20
+
+Lv10
+
+Butterfly Flurry
+
+Ultimate120+5
+
+Seele enters the Amplification state and deals Quantum DMG equal to 425% of her ATK to a single enemy.
+
+ Single 30
+
+Lv10
+
+Resurgence
+
+Talent
+
+Enters the Amplification state upon defeating an enemy with Basic ATK, Skill, or Ultimate, and receives an extra turn. While in the Amplification state, the DMG of Seele's attacks increases by 80% for 1 turn(s).
+Enemies defeated in the extra turn provided by "Resurgence" will not trigger another "Resurgence."
+
+Extra Turn
+Gain 1 extra turn that won't expend your remaining turns when taking action. During this extra turn, no Ultimate can be used.
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Phantom Illusion
+
+Technique
+
+After using her Technique, Seele gains Stealth for 20 second(s). While Stealth is active, Seele cannot be detected by enemies. And when entering battle by attacking enemies, Seele will immediately enter the Amplification state.
+
+
+Stat Boosts
+
+ +28.0% ATK
+ +24.0% CRIT DMG
+ +12.5% DEF
+
+Nightshade
+
+When current HP percentage is 50% or lower, reduces the chance of being attacked by enemies.
+Hidden Stat: 0.5
+
+
+Lacerate
+
+While Seele is in the Amplification state, her Quantum RES PEN increases by 20%.
+
+
+Rippling Waves
+
+After using a Basic ATK, Seele's next action advances by 20%.
+
+
+
+1 Extirpating Slash
+
+When dealing DMG to an enemy whose HP percentage is 80% or lower, CRIT Rate increases by 15%.
+
+
+
+2 Dancing Butterfly
+
+The SPD Boost effect of Seele's Skill can stack up to 2 time(s).
+
+
+
+3 Dazzling Tumult
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+4 Flitting Phantasm
+
+Seele regenerates 15 Energy when she defeats an enemy.
+
+
+
+5 Piercing Shards
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+6 Shattering Shambles
+
+After Seele uses Ultimate, inflict the attacked enemy with "Butterfly Flurry" for 1 turn(s). Enemies in "Butterfly Flurry" will additionally take 1 instance of Quantum Additional DMG equal to 15% of Seele's Ultimate DMG every time they are attacked. If the target is defeated by the "Butterfly Flurry" state's Additional DMG triggered by other allies' attacks, Seele's Talent will not be triggered.
+When Seele is knocked down, the "Butterfly Flurry" inflicted on the enemies will be removed.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Seele')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5

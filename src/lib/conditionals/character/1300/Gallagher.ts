@@ -13,6 +13,131 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Corkage Fee
+
+Basic ATK+1+20
+
+Deals Fire DMG equal to 100% of Gallagher's ATK to a single target enemy.
+
+ Single 10
+
+Lv6
+Nectar Blitz
+
+Basic ATK+1+20
+
+Deals Fire DMG equal to 250% of Gallagher's ATK to a single target enemy. Reduces the target's ATK by 15%, lasting for 2 turn(s).
+
+ Single 30
+
+Lv6
+
+Special Brew
+
+Skill-1+30
+
+Immediately heals a target ally for 1600 HP.
+
+Lv10
+
+Champagne Etiquette
+
+Ultimate110+5
+
+Inflicts Besotted on all enemies, lasting for 2 turn(s). At the same time, deals Fire DMG equal to 150% of Gallagher's ATK to all enemies, and enhances his next Basic ATK to Nectar Blitz.
+
+ All 20
+
+Lv10
+
+Tipsy Tussle
+
+Talent
+
+The Besotted state makes targets receive 12% more Break DMG. Every time a Besotted target gets attacked by an ally, the attacking ally's HP is restored by 640.
+
+Break DMG
+Break DMG increases with higher Break Effect, higher target max Toughness, and higher character levels.
+Break DMG cannot CRIT Hit and is not affected by DMG Boost effects.
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Artisan Elixir
+
+Technique
+
+Immediately attacks the enemy. Upon entering battle, inflicts Besotted on all enemies, lasting for 2 turn(s). And deals Fire DMG equal to 50% of Gallagher's ATK to all enemies.
+
+ Single 20
+
+
+Stat Boosts
+
+ +28.0% Effect RES
+ +13.3% Break Effect
+ +18.0% HP
+
+Novel Concoction
+
+Increases this unit's Outgoing Healing by an amount equal to 50% of Break Effect, up to a maximum Outgoing Healing increase of 75%.
+
+
+Organic Yeast
+
+After using the Ultimate, immediately advances action for this unit by 100%.
+
+
+Bottoms Up
+
+When Gallagher uses Nectar Blitz to attack Besotted enemies, the HP Restore effect of his Talent will also apply to teammates for this time.
+
+
+
+1 Salty Dog
+
+When entering the battle, Gallagher regenerates 20 Energy and increases Effect RES by 50%.
+
+
+
+2 Lion's Tail
+
+When using the Skill, dispels 1 debuff(s) from the designated ally. At the same time, increases their Effect RES by 30% for 2 turn(s).
+
+
+
+3 Corpse Reviver
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Last Word
+
+Extends the duration of the Besotted state inflicted by Gallagher's Ultimate by 1 turn(s).
+
+
+
+5 Death in the Afternoon
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Blood and Sand
+
+Increases Gallagher's Break Effect by 20% and Weakness Break Efficiency by 20%.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Gallagher')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')

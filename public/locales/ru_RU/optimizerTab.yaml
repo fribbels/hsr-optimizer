@@ -76,7 +76,7 @@ Grid:
       CD: Σ КУ
       EHR: Σ эHP
       RES: Σ Сопр
-      BE: Σ Пробитие
+      BE: ΣПробитие
       ERR: Σ ВосстЭн
       DMG: Σ УРОН
       EHP: эHP
@@ -198,10 +198,12 @@ ExpandedDataPanel:
           Basic: БазАтака
           Skill: Навык
           Ult: Ульта
-          Break: ЭП
+          Break: Пробитие
+          Memo Skill: Навыкᴹ
         Suffix:
           DMG boost: Урон↑
           Vulnerability: Слабость
+          RES PEN: Игнор Сопр
           DEF PEN: Игнор Защиты
       Misc:
         Combo DMG: Урон Комбо

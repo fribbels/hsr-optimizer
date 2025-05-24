@@ -12,6 +12,10 @@ If you see install failures due to depedency graph failures, try:
 `npm install --legacy-peer-deps`
 If you still see failures, please report an [issue](https://github.com/fribbels/hsr-optimizer/issues/new)!
 
+#### Formatter & Linter
+
+See Instructions at https://github.com/fribbels/hsr-optimizer/pull/1185 for setup
+
 #### Confirm your environment is stable and working
 
 `npm start` from the root directory. In a moment, your default browser should open to the local server and HSR Optimizer will load after a few moments.

@@ -763,7 +763,7 @@ Characters:
   Arlan:
     Content:
       selfCurrentHpPercent:
-        text: PV% propios actuales
+        text: '%PV propios actuales'
         content: Arlan obtiene una bonificación de daño según el porcentaje de PV que haya perdido hasta el momento. Como máximo puede infligir un {{talentMissingHpDmgBoostMax}}% más de daño.
   Asta:
     Content:
@@ -839,58 +839,302 @@ Characters:
       e4EffResPen:
         text: E4 Reducción de RES a efecto
         content: En el estado de Desvelación, la RES a efecto de los objetivos enemigos se reduce en un 10%.
+  Blade:
+    Content:
+      enhancedStateActive:
+        text: Panorama infernal
+        content: "Aumenta el daño en un {{enhancedStateDmgBoost}}%. El ATQ básico Espada fragmentada se potencia y se transforma en Bosque de espadas durante 3 turnos.::BR::E2: Su Prob. CRIT aumenta en un 15%."
+      hpPercentLostTotal:
+        text: Total de %PV perdidos
+        content: El daño de Definitiva aumenta con el recuento de PV que ha perdido en esta batalla. El recuento de PV perdidos en esta batalla no puede superar el {{hpPercentLostTotalMax}}% de los PV máx. de Blade.
+      e4MaxHpIncreaseStacks:
+        text: E4 Acumulaciones de PV máx.
+        content: Los PV máx. aumentan en un 20%. Este efecto se puede acumular hasta 2 veces.
   Boothill:
     Content:
+      standoffActive:
+        text: Duelo a muerte activado
+        content: >-
+          Hace que Boothill y un enemigo entren en el estado de Duelo a muerte. El ATQ básico de Boothill se potencia y no puede usar la habilidad básica durante 2 turnos. Esta duración se reduce en 1 al comienzo del turno de Boothill. El objetivo enemigo con Duelo a muerte es afectado con Provocación. Cuando el enemigo/Boothill reciben un ataque uno del otro, el daño recibido aumenta en un {{standoffVulnerabilityBoost}}%/15%.
+      pocketTrickshotStacks:
+        text: Ventajas en el bolsillo
+        content: Cada acumulación de Ventaja en el bolsillo aumenta la Reducción de Firmeza del ATQ básico potenciado en un 50%, hasta un máximo de 3 acumulaciones.
+      beToCritBoost:
+        text: Mejora de EdR a PC / DC
+        content: Aumenta su Prob. CRIT/Daño CRIT en una cantidad equivalente al 10%/50% del efecto de Ruptura. La Prob. CRIT/Daño CRIT puede aumentar hasta un máximo del 30%/150%.
+      talentBreakDmgScaling:
+        text: Daño de rupt. de Talento (forzar rupt. de debilidad)
+        content: >-
+          Si el enemigo está afectado por Ruptura de Debilidad cuando usa el ATQ básico potenciado, inflige a ese enemigo un Daño de Ruptura equivalente al Daño de Ruptura Físico de Boothill, en función de las acumulaciones de Ventaja en el bolsillo. La Firmeza máxima calculada para este daño no puede superar 16 veces la Reducción de Firmeza de base que tiene el ATQ básico "Espuelas rompetestas".
       e1DefShred:
         text: E1 PEN DEF
+        content: Al inicio de la batalla, obtiene 1 acumulación de Ventaja en el bolsillo. Cuando Boothill inflige daño, ignora un 16% de la DEF del objetivo.
+      e2BeBuff:
+        text: E2 Mejora de EdR
+        content: >-
+          Cuando está en el estado de Duelo a muerte y obtiene Ventaja en el bolsillo, recupera 1 pt. de habilidad básica y aumenta su efecto de Ruptura en un 30% durante 2 turnos. Este efecto no se puede activar repetidamente en el mismo turno, y también se puede activar al obtener acumulaciones de Ventaja en el bolsillo por encima del límite.
+      e4TargetStandoffVulnerability:
+        text: E4 Vulnerabilidad de Habilidad
+        content: >-
+          Cuando el enemigo con Duelo a muerte es atacado por Boothill, el daño recibido aumenta un 12% adicional. Cuando Boothill es atacado por un enemigo con Duelo a muerte, el efecto de aumento de daño recibido disminuye en un 12%.
+      e6AdditionalBreakDmg:
+        text: E6 Aumento de Daño de Ruptura
+        content: >-
+          Cuando inflige Daño de Ruptura activado por el talento, inflige adicionalmente un 40% del multiplicador de Daño de Ruptura al objetivo y un 70% del multiplicador del Daño de Ruptura a los objetivos adyacentes.
   Bronya:
     Content:
       teamDmgBuff:
         text: Mejora de daño al equipo
+        content: Cuando Bronya está en la batalla, el daño que infligen todos los aliados aumenta en un 10%.
+      skillBuff:
+        text: Mejora de daño de Habilidad
+        content: Elimina un estado negativo de un aliado, hace que realice una acción inmediatamente y aumenta el daño que inflige en un {{skillDmgBoostValue}}% durante 1 turno.
+      ultBuff:
+        text: Mejora ATQ / PC de Definitiva
+        content: El ATQ de todos los aliados aumenta en un {{ultAtkBoostValue}}% y el Daño CRIT se incrementa en un {{ultCdBoostValue}}% del Daño CRIT de Bronya + {{ultCdBoostBaseValue}}% durante 2 turnos.
+      battleStartDefBuff:
+        text: Mejora de DEF inicial
+        content: Al comenzar la batalla, la DEF de todos los aliados aumenta en un 20% durante 2 turnos.
+      techniqueBuff:
+        text: Mejora de ATQ de Técnica
+        content: Tras usar la técnica, al comenzar la siguiente batalla, el ATQ de todos los aliados aumenta en un 15% durante 2 turnos.
+      e2SkillSpdBuff:
+        text: E2 Mejora de VEL de Habilidad
+        content: Al usar la habilidad básica, cuando el aliado objetivo realiza una acción, su VEL aumenta en un 30% durante 1 turno.
+    TeammateContent:
+      teammateCDValue:
+        text: DC en combate de Bronya
+        content: El ATQ de todos los aliados aumenta en un {{ultAtkBoostValue}}% y el Daño CRIT se incrementa en un {{ultCdBoostValue}}% del Daño CRIT de Bronya + {{ultCdBoostBaseValue}}% durante 2 turnos.
   Castorice:
     Content:
+      memospriteActive:
+        text: Mnemoduende activado
+        content: Mientras Dragón Caído esté en el campo, se activa el Territorio Inframundo perdido, que reduce la RES a todos los tipos de todos los enemigos en un {{ResDown}}%.
       spdBuff:
         text: Mejora de VEL
+        content: Cuando los PV actuales de Castorice son iguales o superiores al 50% de sus PV máx., su VEL aumenta en un 40%.
+      talentDmgStacks:
+        text: Acum. daño del Talento
+        content: Cuando los aliados pierden PV, el daño que infligen Castorice y el Dragón Caído aumenta en un {{DmgBuff}}%. Este efecto se puede acumular hasta 3 veces y dura 3 turnos.
+      memoSkillEnhances:
+        text: Potenciaciones de Habilidad mnemo
+        content: Puede lanzar repetidamente Aliento que prende las sombras en un ataque. Al lanzarlo repetidamente, el multiplicador de daño aumenta sucesivamente hasta el {{Multiplier1Enhance}}% / {{Multiplier2Enhance}}%. Tras alcanzar el {{Multiplier2Enhance}}%, ya no sigue aumentando. El efecto de aumento del multiplicador de daño no disminuye hasta que el Dragón Caído desaparezca.
+      memoTalentHits:
+        text: Golpes Talento mnemo
+        content: "Cuando el Dragón Caído desaparece, inflige daño {{BounceCount}} veces. Cada vez inflige a un enemigo al azar un Daño Cuántico equivalente al {{Scaling}}% de los PV máx. de Castorice.\n"
       teamDmgBoost:
-        text: Aumento de daño al equipo
+        text: Aum. de daño al equipo
+        content: Cuando el Dragón Caído es invocado, el daño que infligen todos los aliados aumenta en un 10% durante 3 turnos.
+      memoDmgStacks:
+        text: Acum. de daño mnemo
+        content: Cada vez que el Dragón Caído lanza Aliento que prende las sombras, el daño que inflige aumenta en un 30%. Este efecto se puede acumular hasta 6 veces y dura hasta el final de ese turno.
+      e1EnemyHp50:
+        text: E1 PV del enemigo ≤ 50%
+        content: Cuando los PV actuales del enemigo son iguales o inferiores al 50% de sus PV máx., el daño que le infligen Garra ósea, abrazo del dragón lóbrego, Garras que rasgan la oscuridad, Aliento que prende las sombras y Alas que abaten las ruinas es un 140% del daño original.
       e6Buffs:
         text: E6 Mejoras
+        content: >-
+          Cuando Castorice o el Dragón Caído infligen daño, la PEN de la RES a Cuántico aumenta en un 20%. ::BR:: Aumenta la cantidad de rebotes del talento Alas que abaten las ruinas en 3.
+  Cipher:
+    Content:
+      vulnerability:
+        text: Vulnerabilidad
+        content: Cuando Cífer está en el campo de batalla, el daño que reciben todos los enemigos aumenta en un 40%.
+      skillAtkBuff:
+        text: Mejora de ATQ de Habilidad
+        content: Al usar la Habilidad, tiene una probabilidad base del 120% de afectar con Debilitación a un enemigo y a los objetivos adyacentes, lo que reduce el daño que infligen en un 10%, y el ATQ de Cífer aumenta en un 30%, durante 2 turnos.
+      fuaCdBoost:
+        text: Aumento de DC ataque adicional
+        content: El Daño CRIT que inflige el ataque adicional del talento aumenta en un 100%.
+      spdBasedBuffs:
+        text: Mejoras por VEL
+        content: Cuando la VEL de Cífer es igual o superior a 140/170, su Prob. CRIT aumenta en un 25%/50%.
+      e1AtkBuff:
+        text: E1 Mejora de ATQ
+        content: Cuando se lanza el ataque adicional del talento, el ATQ de Cífer aumenta en un 80% durante 2 turnos.
+      e2Vulnerability:
+        text: E2 Vulnerabilidad
+        content: Cuando Cífer golpea a un enemigo, tiene una probabilidad base del 120% de hacer que el daño que recibe ese objetivo aumente en un 30% durante 2 turnos.
+      e4AdditionalDmg:
+        text: E4 Daño adicional
+        content: Después de que el Cliente habitual reciba un ataque de un aliado, Cífer le inflige un 50% de su ATQ como Daño Cuántico adicional.
+      e6FuaDmg:
+        text: E6 Daño de ataque adicional
+        content: El daño que inflige el ataque adicional del talento de Cífer aumenta en un 350%.
   Clara:
     Content:
+      ultBuff:
+        text: Mejoras de Definitiva
+        content: "Tras usar su habilidad definitiva, aumenta el daño de Contraataque de Svarog en un {{ultFuaExtraScaling}}%. Reduce el daño que recibe Clara en un {{ultDmgReductionValue}}% adicional durante 2 turnos.\n"
+      talentEnemyMarked:
+        text: Enemigo Marcado
+        content: Inflige Daño Físico adicional equivalente al {{skillScaling}}% del ATQ de Clara a los enemigos marcados por Svarog con Marca de represalia.
       e2UltAtkBuff:
         text: E2 Mejora de ATQ de Definitiva
+        content: Tras usar su habilidad definitiva, su ATQ aumenta en un 30% durante 2 turnos.
+      e4DmgReductionBuff:
+        text: E4 Mejora de reducción de daño
+        content: Reduce el daño recibido en un 30%.
   DanHeng:
     Content:
+      talentPenBuff:
+        text: Mejora de PEN RES del Talento
+        content: Cuando Dan Heng es el objetivo de la habilidad de un aliado, la PEN de la RES a Viento de su siguiente ataque aumenta en un {{extraPenValue}}%.
+      enemySlowed:
+        text: Enemigo ralentizado
+        content: El ATQ básico inflige un 40% más de daño a los enemigos afectados por Ralentización.
       spdBuff:
         text: Mejora de VEL
+        content: Tras atacar, hay una probabilidad fija del 50% de aumentar la VEL propia en un 20% durante 2 turnos.
+      e1EnemyHp50:
+        text: "E1 Aumento de PC por\nPV enemigo ≥ 50%"
+        content: Cuando el porcentaje de PV del objetivo golpeado es igual o superior al 50%, la Prob. CRIT aumenta en un 12%.
+  DrRatio:
+    Content:
+      summationStacks:
+        text: Acumulaciones de Inducción
+        content: Cuando Dr. Ratio usa su Habilidad, por cada estado negativo del objetivo, la Prob. CRIT aumenta en un 2.5% y su Daño CRIT aumenta en un 5%. Este efecto se puede acumular hasta {{summationStacksMax}} veces.
+      enemyDebuffStacks:
+        text: Acumulaciones de afecciones en enemigo
+        content: >-
+          Al usar su habilidad básica, el Dr. Ratio tiene una probabilidad fija del 40% de lanzar un ataque adicional contra el objetivo e infligir un Daño Imaginario equivalente al {{FuaScaling}}% de su ATQ. Por cada estado negativo que tenga el objetivo, la probabilidad fija de lanzar el ataque adicional aumenta en un 20%. Si el objetivo es derrotado antes de que se lance el ataque adicional, el ataque adicional se dirige contra otro enemigo al azar.::BR::Al infligir daño, si el objetivo tiene 3 o más estados negativos, el Dr. Ratio le inflige un 10% más de daño por cada estado negativo, hasta un aumento máximo del 50%.::BR::E2: Cuando el ataque adicional de su talento golpea a un enemigo, el Dr. Ratio inflige un 20% de su ATQ como Daño Imaginario adicional por cada estado negativo que tenga el objetivo. Este efecto se puede activar un máximo de 4 veces cada vez que use su ataque adicional.
   Feixiao:
     Content:
+      weaknessBrokenUlt:
+        text: Definitiva debilidad rota (forzar rupt. de debilidad)
+        content: Sobreescribe la debilidad a la ruptura para que cuente como activada.
+      talentDmgBuff:
+        text: Mejora daño de Talento
+        content: >-
+          Después de que un compañero de equipo de Feixiao lance un ataque contra el enemigo, Feixiao lanza inmediatamente contra el objetivo principal un ataque adicional que inflige un {{FuaMultiplier}}% del ATQ de Feixiao como Daño de Viento. Si no hay un objetivo principal que pueda ser atacado, ataca a un enemigo al azar. Este efecto solo puede activarse 1 vez en cada turno y el contador se reinicia al comienzo del turno de Feixiao. Al lanzar este ataque, el daño que inflige aumenta en un {{DmgBuff}}% durante 2 turnos.
+      skillAtkBuff:
+        text: Mejora de ATQ de Habilidad
+        content: Al lanzar la habilidad básica, su ATQ aumenta en un 48% durante 3 turnos.
+      e1OriginalDmgBoost:
+        text: E1 Aumento de daño original
+        content: Tras lanzar Danza de cortes relámpago o Aluvión de hachazos hendedores, el daño de habilidad definitiva que inflige Feixiao aumenta adicionalmente en un 10% del daño original. Puede acumularse hasta 5 veces y dura hasta que termina la acción de la habilidad definitiva.
+      e4Buffs:
+        text: E4 Mejoras
+        content: La Reducción de Firmeza del ataque adicional del talento aumenta en un 100% y, al ser lanzado, su VEL aumenta en un 8% durante 2 turnos.
       e6Buffs:
         text: E6 Mejoras
+        content: >-
+          La PEN de la RES a todos los tipos del daño de habilidad definitiva que inflige Feixiao aumenta en un 20%. A su vez, el daño de ataque adicional del talento se considera como daño de habilidad definitiva, y su multiplicador de daño aumenta en un 140%.
   Firefly:
     Content:
+      enhancedStateActive:
+        text: Estado potenciado
+        content: Entra en el estado de Combustión completa, su acción se adelanta un 100% y su ATQ básico y su habilidad básica se potencian.
+      enhancedStateSpdBuff:
+        text: Mejora de VEL potenciamiento
+        content: En el estado de Combustión completa, su VEL aumenta en {{ultSpdBuff}} pts.
+      superBreakDmg:
+        text: Ultrarruptura habilitada (forzar rupt. de debilidad)
+        content: >-
+          Si el efecto de Ruptura de SAM es igual o superior al 200%/360% cuando está en el estado de Combustión completa, tras atacar a un enemigo con Ruptura de Debilidad, la Reducción de Firmeza de este ataque se convertirá 1 vez en un 35%/50% de Daño de Ultrarruptura.
+      atkToBeConversion:
+        text: Mejora de ATQ a EdR
+        content: Si el ATQ de SAM es superior a 1800, por cada 10 pts. de ATQ que superen este valor, el efecto de Ruptura de SAM aumenta en un 0.8%.
+      talentDmgReductionBuff:
+        text: Mejora de PVE máx.
+        content: >-
+          Cuantos menos PV tenga, menos daño recibe. Cuando tenga un 20% o menos de PV, alcanza el máximo efecto de reducción de daño, hasta una reducción máxima del {{talentDmgReductionBuff}}%. Mientras esté en el estado de Combustión completa, el efecto de reducción de daño se mantiene al máximo y su RES a efecto aumenta en un {{talentResBuff}}%.
       e1DefShred:
         text: E1 PEN DEF
+        content: La habilidad básica potenciada ignora un 15% de la DEF de los objetivos y no consume pts. de habilidad básica.
+      e4ResBuff:
+        text: E4 Mejora de RES
+        content: En el estado de Combustión completa, la RES a efecto de SAM aumenta en un 50%.
       e6Buffs:
         text: E6 Mejoras
+        content: Cuando SAM está en el estado de Combustión completa, su PEN de la RES a Fuego aumenta en un 20%. Al usar el ATQ básico potenciado o la habilidad básica potenciada, su eficiencia de la Ruptura de Debilidad aumenta en un 50%.
+  Fugue:
+    Content:
+      torridScorch:
+        text: Estado Llama tórrida
+        content: Cuando está en el estado de Llama tórrida, el ATQ básico de Fugue se potencia.
+      foxianPrayer:
+        text: Mejora de EdR de Plegaria raposiana
+        content: >-
+          El efecto de Ruptura del aliado con Plegaria raposiana aumenta en un {{BreakBuff}}%. Además, también puede reducir la Firmeza de los enemigos que no tengan Debilidad de su mismo tipo en un 50% de la Reducción de Firmeza original. Esto no puede acumularse con otros efectos que permiten reducir la Firmeza ignorando los tipos de Debilidad.
+      defReduction:
+        text: Reducción DEF de Habilidad
+        content: >-
+          Cada vez que el aliado con Plegaria raposiana ataca, Fugue tiene una probabilidad base del 100% de reducir la DEF del enemigo atacado en un {{DefShred}}% durante 2 turnos.
+      superBreakDmg:
+        text: Daño de Ultrarruptura (forzar rupt. de debilidad)
+        content: >-
+          Después de que los aliados ataquen a enemigos con Ruptura de Debilidad cuando Fugue está en el campo de batalla, la reducción de Firmeza de este ataque se convierte en un {{SuperBreakMultiplier}}% de Daño de Ultrarruptura.
+      e4BreakDmg:
+        text: E4 Aumento de Daño de Ruptura
+        content: El Daño de Ruptura que infligen los aliados con Plegaria raposiana aumenta en un 20%.
+      e6BreakEfficiency:
+        text: E6 Aumento de eficiencia de ruptura
+        content: >-
+          La eficiencia de la Ruptura de Debilidad de Fugue aumenta en un 50%. Cuando Fugue está en el estado de Llama tórrida, el efecto de Plegaria raposiana aplica a todos los aliados.
+    TeammateContent:
+      be220Buff:
+        text: EdR ≥ 220%
+        content: >-
+          Cuando se rompe la Debilidad de algún enemigo, el efecto de Ruptura de los demás compañeros de equipo aumenta en un 6%. Si el efecto de Ruptura de Fugue es igual o superior al 220%, el aumento del efecto de Ruptura se incrementa en un 12% adicional. Este efecto dura 2 turnos y se puede acumular hasta 2 veces.
+      weaknessBreakBeStacks:
+        text: Acumulaciones de EdR por enemigo roto
+        content: >-
+          Cuando se rompe la Debilidad de algún enemigo, el efecto de Ruptura de los demás compañeros de equipo aumenta en un 6%. Si el efecto de Ruptura de Fugue es igual o superior al 220%, el aumento del efecto de Ruptura se incrementa en un 12% adicional. Este efecto dura 2 turnos y se puede acumular hasta 2 veces.
+  FuXuan:
+    Content:
+      talentActive:
+        text: Reducción daño al equipo
+        content: Mientras Fu Xuan no haya sido derrotada, todos los aliados obtienen Escape del infortunio. En este estado, el daño que reciben todos los aliados se reduce en un {{talentDmgReductionValue}}%.
+      skillActive:
+        text: Habilidad activada
+        content: >-
+          Activa Matriz del Presagio y todos los aliados de Fu Xuan traspasan un 65% del daño que reciben (antes de que un escudo mitigue el daño) a Fu Xuan durante 3 turnos. Mientras están afectados por Matriz del Presagio, todos los aliados obtienen Conocimiento. En este estado, los PV máx. de los aliados aumentan en una cantidad equivalente al {{skillHpBuffValue}}% de los PV máx. de Fu Xuan y su Prob. CRIT aumenta en un {{skillCrBuffValue}}%.
+      e6TeamHpLostPercent:
+        text: E6 PV perdidos del equipo
+        content: Cuando se activa Matriz del Presagio, se hace un recuento de los PV perdidos por todos los aliados en esta batalla. El daño infligido por la habilidad definitiva de Fu Xuan aumenta en un 200% de este recuento de PV perdidos. El recuento de PV perdidos en esta batalla no puede superar el 120% de los PV máx. de Fu Xuan.
+    TeammateContent:
+      teammateHPValue:
+        text: PV en combate de Fu Xuan
+        content: Mientras están afectados por Matriz del Presagio, todos los aliados obtienen Conocimiento. En este estado, los PV máx. de los aliados aumentan en una cantidad equivalente al {{skillHpBuffValue}}% de los PV máx. de Fu Xuan.
+  Hanya:
+    Content:
+      e2SkillSpdBuff:
+        text: E2 Mejora de VEL de Habilidad
   Herta:
     Content:
       enemyHpGte50:
         text: Aumento de daño de Habilidad
+      techniqueBuff:
+        text: Mejora de ATQ de Técnica
   Himeko:
     Content:
       e2EnemyHp50DmgBoost:
         content: Cuando el objetivo tiene un porcentaje de PV igual o inferior al 50%, recibe un 15% más de daño.
+  Jingliu:
+    Content:
+      talentEnhancedState:
+        text: Estado potenciado
+  Lingsha:
+    Content:
+      e2BeBuff:
+        text: E2 Mejora de EdR
   Rappa:
     Content:
       e1DefPen:
         text: E1 PEN DEF
+  Robin:
+    Content:
+      skillDmgBuff:
+        text: Mejora de daño de Habilidad
   Sampo:
     Content:
       skillExtraHits:
         text: Golpes extra de Habilidad
   Sunday:
     Content:
+      skillDmgBuff:
+        text: Mejora de daño de Habilidad
       e1DefPen:
         text: E1 PEN DEF
   Sushang:
@@ -905,11 +1149,21 @@ Characters:
     Content:
       ultDmgBuff:
         text: Mejora de daño de Definitiva
+  TrailblazerHarmony:
+    Content:
+      superBreakDmg:
+        text: Daño de Ultrarruptura (forzar rupt. de debilidad)
+  Welt:
+    Content:
+      enemySlowed:
+        text: Enemigo ralentizado
   Yanqing:
     Content:
       critSpdBuff:
         text: Mejora de VEL
   Yunli:
     Content:
+      e4ResBuff:
+        text: E4 Mejora de RES
       e6Buffs:
         text: E6 Mejoras

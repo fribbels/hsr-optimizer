@@ -45,6 +45,7 @@ export class BenchmarkSimulationOrchestrator {
   public spdBenchmark?: number
   public benchmarkCombatSpdTarget?: number
   public originalSpd?: number
+  public optimizationAlgorithm?: 'greedy' | 'global'
 
   public baselineSim?: Simulation
   public baselineSimRequest?: SimulationRequest
@@ -159,6 +160,10 @@ export class BenchmarkSimulationOrchestrator {
 
   public setSimSets(simSets: SimulationSets) {
     this.simSets = simSets
+  }
+
+  public setOptimizationAlgorithm(algorithm?: 'greedy' | 'global') {
+    this.optimizationAlgorithm = algorithm || 'greedy'
   }
 
   public setSimForm(form: SimpleCharacter) {
@@ -325,6 +330,7 @@ export class BenchmarkSimulationOrchestrator {
         metadata: metadata,
         scoringParams: clonedBenchmarkScoringParams,
         simulationFlags: flags,
+        optimizationAlgorithm: this.optimizationAlgorithm,
       }
       return globalThis.SEQUENTIAL_BENCHMARKS
         ? computeOptimalSimulationWorker({ data: input } as MessageEvent<ComputeOptimalSimulationWorkerInput>)
@@ -386,6 +392,7 @@ export class BenchmarkSimulationOrchestrator {
         metadata: metadata,
         scoringParams: TsUtils.clone(maximumScoringParams),
         simulationFlags: flags,
+        optimizationAlgorithm: this.optimizationAlgorithm,
       }
 
       return globalThis.SEQUENTIAL_BENCHMARKS

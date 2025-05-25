@@ -16,6 +16,7 @@ export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkFor
   orchestrator.setOriginalSimRequest(simulationRequest)
   orchestrator.setSimSets(simulationSets)
   orchestrator.setSimForm(benchmarkForm)
+  orchestrator.setOptimizationAlgorithm(benchmarkForm.optimizationAlgorithm)
 
   if (benchmarkForm.setConditionals) {
     orchestrator.form!.setConditionals = benchmarkForm.setConditionals

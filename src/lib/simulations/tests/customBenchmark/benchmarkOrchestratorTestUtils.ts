@@ -33,6 +33,7 @@ export async function expectBenchmarkResultsToMatch(
     basicSpd: basicSpd,
     errRope: mains.simLinkRope == Stats.ERR,
     subDps: false,
+    optimizationAlgorithm: 'greedy',
     simRelicSet1: sets.simRelicSet1,
     simRelicSet2: sets.simRelicSet2,
     simOrnamentSet: sets.simOrnamentSet,

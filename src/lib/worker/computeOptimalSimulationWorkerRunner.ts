@@ -16,6 +16,7 @@ export interface ComputeOptimalSimulationWorkerInput extends BaseWorkerInput {
   metadata: SimulationMetadata
   scoringParams: ScoringParams
   simulationFlags: SimulationFlags
+  optimizationAlgorithm?: 'greedy' | 'global'
   workerType: WorkerType
 }
 

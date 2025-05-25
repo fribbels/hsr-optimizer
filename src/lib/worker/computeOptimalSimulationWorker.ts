@@ -1,4 +1,5 @@
 import { Stats, SubStats } from 'lib/constants/constants'
+import { optimizeBenchmarkGlobally } from 'lib/optimization/globalBenchmarkOptimizer'
 import { StatToKey } from 'lib/optimization/computedStatsArray'
 import { applyScoringFunction, SimulationResult, substatRollsModifier } from 'lib/scoring/simScoringUtils'
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
@@ -13,7 +14,16 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
 
   const context = input.context
   initializeContextConditionals(context)
-  const optimalSimulation = computeOptimalSimulation(input)
+  
+  let optimalSimulation: Simulation
+  
+  // Choose optimization algorithm based on input parameter
+  if (input.optimizationAlgorithm === 'global') {
+    optimalSimulation = computeOptimalSimulationGlobal(input)
+  } else {
+    // Default to greedy algorithm
+    optimalSimulation = computeOptimalSimulation(input)
+  }
 
   // @ts-ignore
   delete optimalSimulation.result.x
@@ -27,6 +37,61 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
   }
 
   self.postMessage(workerOutput)
+}
+
+function computeOptimalSimulationGlobal(input: ComputeOptimalSimulationWorkerInput): Simulation {
+  const {
+    partialSimulationWrapper,
+    inputMinSubstatRollCounts,
+    inputMaxSubstatRollCounts,
+    simulationForm,
+    context,
+    metadata,
+    scoringParams,
+    simulationFlags,
+  } = input
+
+  scoringParams.substatRollsModifier = scoringParams.quality == 0.8
+    ? substatRollsModifier
+    : (rolls: number) => rolls
+
+  const minSubstatRollCounts = inputMinSubstatRollCounts
+  const maxSubstatRollCounts = inputMaxSubstatRollCounts
+  const targetRolls = scoringParams.substatGoal
+
+  const baseSimulation = partialSimulationWrapper.simulation
+
+  // Use global optimization
+  const optimizedSimulation = optimizeBenchmarkGlobally(
+    baseSimulation,
+    minSubstatRollCounts,
+    maxSubstatRollCounts,
+    targetRolls,
+    simulationForm,
+    context,
+    metadata,
+    scoringParams,
+    simulationFlags,
+  )
+
+  // Run final simulation to ensure result is stable
+  optimizedSimulation.result = runStatSimulations([optimizedSimulation], simulationForm, context, {
+    ...scoringParams,
+    substatRollsModifier: scoringParams.substatRollsModifier,
+    simulationFlags: simulationFlags,
+  })[0]
+
+  applyScoringFunction(optimizedSimulation.result, metadata)
+
+  console.log(
+    'Global optimization complete',
+    partialSimulationWrapper.simulation.request.simBody,
+    partialSimulationWrapper.simulation.request.simFeet,
+    partialSimulationWrapper.simulation.request.simLinkRope,
+    partialSimulationWrapper.simulation.request.simPlanarSphere,
+  )
+
+  return optimizedSimulation
 }
 
 function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerInput) {

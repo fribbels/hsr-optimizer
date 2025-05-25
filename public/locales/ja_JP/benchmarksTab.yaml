@@ -11,7 +11,6 @@ RightPanel:
     SPD: 基礎速度
     ERR: EP回復縄を装備
     SubDPS: サブ DPS
-    OptimizationAlgorithm: 最適化アルゴリズム
   SetsHeader: 使用する装備
   ButtonText:
     Generate: ベンチマークを生成

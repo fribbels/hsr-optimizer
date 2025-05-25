@@ -4,7 +4,6 @@ MiddlePanel:
 RightPanel:
   Settings:
     Header: Настройки
-    OptimizationAlgorithm: Алгоритм оптимизации
 ResultsGrid:
   Combo: Урон Комбо
 ResultsPanel:

@@ -11,6 +11,7 @@ RightPanel:
     SPD: VIT basique de référence
     ERR: Corde TRE
     SubDPS: DPS secondaire
+    OptimizationAlgorithm: Algorithme d'optimisation
   SetsHeader: Sets de référence
   ButtonText:
     Generate: Générer les builds

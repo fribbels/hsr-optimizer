@@ -11,6 +11,7 @@ RightPanel:
     SPD: 基准基础速度
     ERR: 能量回复绳
     SubDPS: 副C
+    OptimizationAlgorithm: 优化算法
   SetsHeader: 基准套装
   ButtonText:
     Generate: 生成基准

@@ -1,5 +1,8 @@
 MiddlePanel:
   CharacterHeader: 角色
+RightPanel:
+  Settings:
+    OptimizationAlgorithm: 最佳化演算法
 ResultsGrid:
   Combo: 連招傷害
 ResultsPanel:

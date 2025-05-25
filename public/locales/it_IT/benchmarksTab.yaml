@@ -3,6 +3,7 @@ MiddlePanel:
 RightPanel:
   Settings:
     Header: Impostazioni
+    OptimizationAlgorithm: Algoritmo di ottimizzazione
 ResultsGrid:
   Combo: DANNO della combo
 ResultsPanel:

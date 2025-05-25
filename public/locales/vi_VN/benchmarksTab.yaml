@@ -5,6 +5,7 @@ MiddlePanel:
 RightPanel:
   Settings:
     Header: Cài đặt
+    OptimizationAlgorithm: Thuật toán tối ưu hóa
   ButtonText:
     Clear: Xóa
 ResultsGrid:

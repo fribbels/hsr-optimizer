@@ -11,6 +11,7 @@ RightPanel:
     SPD: crwdns45332:0crwdne45332:0
     ERR: crwdns45334:0crwdne45334:0
     SubDPS: crwdns45336:0crwdne45336:0
+    OptimizationAlgorithm: crwdns45370:0crwdne45370:0
   SetsHeader: crwdns45338:0crwdne45338:0
   ButtonText:
     Generate: crwdns45340:0crwdne45340:0

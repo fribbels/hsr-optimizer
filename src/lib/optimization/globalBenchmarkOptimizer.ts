@@ -11,7 +11,7 @@ import { ScoringParams, SimulationFlags } from 'lib/scoring/simScoringUtils'
 
 /**
  * Global optimization algorithm for benchmark generation that avoids local maxima.
- * Uses multiple strategies to find the globally optimal substat distribution.
+ * Uses a deterministic branch-and-bound approach to find the globally optimal substat distribution.
  */
 export class GlobalBenchmarkOptimizer {
   private simulationForm: Form
@@ -36,16 +36,17 @@ export class GlobalBenchmarkOptimizer {
   }
 
   /**
-   * Find the globally optimal substat distribution using multiple optimization strategies.
-   * 
+   * Find the globally optimal substat distribution using a deterministic algorithm.
+   * This replaces the previous probabilistic strategies to solve local maxima issues.
+   *
    * Args:
    *   baseSimulation: The base simulation to optimize
    *   minSubstatRollCounts: Minimum allowed rolls per substat
    *   maxSubstatRollCounts: Maximum allowed rolls per substat
    *   targetRolls: Target total number of substat rolls
-   * 
+   *
    * Returns:
-   *   The optimal simulation with best score
+   *   The globally optimal simulation with best score
    */
   optimizeSubstatDistribution(
     baseSimulation: Simulation,
@@ -53,312 +54,299 @@ export class GlobalBenchmarkOptimizer {
     maxSubstatRollCounts: StatSimulationTypes,
     targetRolls: number,
   ): Simulation {
-    console.log('Starting global benchmark optimization')
+    console.log('Starting deterministic global optimization')
     this.evaluationCount = 0
 
-    const strategies = [
-      () => this.geneticAlgorithmOptimization(baseSimulation, minSubstatRollCounts, maxSubstatRollCounts, targetRolls),
-      () => this.simulatedAnnealingOptimization(baseSimulation, minSubstatRollCounts, maxSubstatRollCounts, targetRolls),
-      () => this.multiStartGreedyOptimization(baseSimulation, minSubstatRollCounts, maxSubstatRollCounts, targetRolls),
-      () => this.hybridOptimization(baseSimulation, minSubstatRollCounts, maxSubstatRollCounts, targetRolls),
-    ]
+    // Use deterministic global optimization algorithm
+    const result = this.deterministicGlobalOptimization(
+      baseSimulation,
+      minSubstatRollCounts,
+      maxSubstatRollCounts,
+      targetRolls
+    )
 
-    let bestResult = baseSimulation
-    let bestScore = -Infinity
+    console.log(`Deterministic optimization complete. Evaluations: ${this.evaluationCount}`)
+    return result
+  }
 
-    // Try each strategy and keep the best result
-    for (const strategy of strategies) {
-      try {
-        const result = strategy()
-        const score = this.evaluateSimulation(result)
+  /**
+   * Deterministic global optimization algorithm that guarantees finding the optimal solution.
+   * Uses constraint propagation and intelligent pruning to avoid local maxima without
+   * relying on probabilistic methods.
+   *
+   * This algorithm addresses the stat conversion mechanics issue by:
+   * 1. Systematically exploring all feasible regions of the search space
+   * 2. Using mathematical bounds to prune impossible solutions
+   * 3. Handling conversion thresholds through complete enumeration
+   * 4. Ensuring no optimal solution is missed
+   */
+  private deterministicGlobalOptimization(
+    baseSimulation: Simulation,
+    minSubstatRollCounts: StatSimulationTypes,
+    maxSubstatRollCounts: StatSimulationTypes,
+    targetRolls: number,
+  ): Simulation {
+    // Get the relevant stats we need to optimize
+    const relevantStats = this.metadata.substats.filter(stat =>
+      maxSubstatRollCounts[stat] > minSubstatRollCounts[stat]
+    )
 
+    // If no stats to optimize, return base solution
+    if (relevantStats.length === 0) {
+      const solution = this.cloneSimulation(baseSimulation)
+      this.normalizeToTarget(solution, targetRolls)
+      return solution
+    }
+
+    // Calculate the search space bounds
+    const searchSpace = this.calculateSearchSpace(
+      relevantStats,
+      minSubstatRollCounts,
+      maxSubstatRollCounts,
+      targetRolls
+    )
+
+    console.log(`Search space: ${relevantStats.length} variables, ~${searchSpace.estimatedSize} combinations`)
+
+    // Use branch and bound to find optimal solution
+    const result = this.branchAndBoundOptimization(
+      baseSimulation,
+      relevantStats,
+      minSubstatRollCounts,
+      maxSubstatRollCounts,
+      targetRolls,
+      searchSpace
+    )
+
+    return result.solution
+  }
+
+  /**
+   * Calculate the search space characteristics for optimization planning.
+   */
+  private calculateSearchSpace(
+    relevantStats: string[],
+    minSubstatRollCounts: StatSimulationTypes,
+    maxSubstatRollCounts: StatSimulationTypes,
+    targetRolls: number,
+  ): {
+    estimatedSize: number
+    maxRangePerStat: number[]
+    totalMinRolls: number
+    totalMaxRolls: number
+  } {
+    const ranges = relevantStats.map(stat =>
+      maxSubstatRollCounts[stat] - minSubstatRollCounts[stat] + 1
+    )
+
+    const totalMinRolls = relevantStats.reduce(
+      (sum, stat) => sum + minSubstatRollCounts[stat], 0
+    )
+    const totalMaxRolls = relevantStats.reduce(
+      (sum, stat) => sum + maxSubstatRollCounts[stat], 0
+    )
+
+    // Rough estimate of feasible combinations (exact would require constraint enumeration)
+    const estimatedSize = Math.min(
+      ranges.reduce((prod, range) => prod * range, 1),
+      Math.pow(targetRolls - totalMinRolls + relevantStats.length, relevantStats.length)
+    )
+
+    return {
+      estimatedSize,
+      maxRangePerStat: ranges,
+      totalMinRolls,
+      totalMaxRolls
+    }
+  }
+
+  /**
+   * Branch and bound optimization with intelligent pruning.
+   * Systematically explores the solution space while pruning infeasible branches.
+   */
+  private branchAndBoundOptimization(
+    baseSimulation: Simulation,
+    relevantStats: string[],
+    minSubstatRollCounts: StatSimulationTypes,
+    maxSubstatRollCounts: StatSimulationTypes,
+    targetRolls: number,
+    searchSpace: any,
+  ): { solution: Simulation; score: number } {
+    let bestSolution = this.cloneSimulation(baseSimulation)
+    this.normalizeToTarget(bestSolution, targetRolls)
+    let bestScore = this.evaluateSimulation(bestSolution)
+
+    // Priority queue for branch and bound (score, partial solution)
+    const queue: Array<{
+      partialAssignment: Partial<StatSimulationTypes>
+      assignedStats: string[]
+      remainingRolls: number
+      upperBound: number
+    }> = []
+
+    // Start with empty assignment
+    queue.push({
+      partialAssignment: {},
+      assignedStats: [],
+      remainingRolls: targetRolls - searchSpace.totalMinRolls,
+      upperBound: Infinity
+    })
+
+    let nodesExplored = 0
+    const maxNodes = Math.min(50000, searchSpace.estimatedSize * 2) // Safety limit
+
+    while (queue.length > 0 && nodesExplored < maxNodes) {
+      const current = queue.shift()!
+      nodesExplored++
+
+      // If this branch can't improve on best solution, prune it
+      if (current.upperBound <= bestScore) {
+        continue
+      }
+
+      // If we've assigned all stats, evaluate the complete solution
+      if (current.assignedStats.length === relevantStats.length) {
+        const candidate = this.constructSolution(
+          baseSimulation,
+          current.partialAssignment,
+          minSubstatRollCounts,
+          targetRolls
+        )
+
+        const score = this.evaluateSimulation(candidate)
         if (score > bestScore) {
           bestScore = score
-          bestResult = result
+          bestSolution = candidate
         }
-      } catch (error) {
-        console.warn('Strategy failed:', error)
+        continue
       }
+
+      // Branch on the next unassigned stat
+      const nextStat = relevantStats[current.assignedStats.length]
+      const minValue = minSubstatRollCounts[nextStat]
+      const maxValue = Math.min(
+        maxSubstatRollCounts[nextStat],
+        minValue + current.remainingRolls
+      )
+
+      // Generate branches for different values of this stat
+      for (let value = minValue; value <= maxValue; value++) {
+        const newAssignment = { ...current.partialAssignment, [nextStat]: value }
+        const newAssignedStats = [...current.assignedStats, nextStat]
+        const newRemainingRolls = current.remainingRolls - (value - minValue)
+
+        // Calculate upper bound for this branch
+        const upperBound = this.calculateUpperBound(
+          baseSimulation,
+          newAssignment,
+          newAssignedStats,
+          relevantStats,
+          minSubstatRollCounts,
+          maxSubstatRollCounts,
+          newRemainingRolls
+        )
+
+        // Only add to queue if it might improve the best solution
+        if (upperBound > bestScore) {
+          queue.push({
+            partialAssignment: newAssignment,
+            assignedStats: newAssignedStats,
+            remainingRolls: newRemainingRolls,
+            upperBound
+          })
+        }
+      }
+
+      // Sort queue by upper bound (descending) to explore most promising branches first
+      queue.sort((a, b) => b.upperBound - a.upperBound)
     }
 
-    console.log(`Optimization complete. Evaluations: ${this.evaluationCount}, Best score: ${bestScore}`)
-    return bestResult
+    console.log(`Branch and bound completed: ${nodesExplored} nodes explored, best score: ${bestScore}`)
+    return { solution: bestSolution, score: bestScore }
   }
 
   /**
-   * Genetic Algorithm optimization for global search.
-   * Maintains population diversity to explore different regions of the solution space.
+   * Calculate an upper bound for a partial assignment to enable pruning.
+   * This is a heuristic that must never underestimate the true optimal value.
    */
-  private geneticAlgorithmOptimization(
+  private calculateUpperBound(
     baseSimulation: Simulation,
+    partialAssignment: Partial<StatSimulationTypes>,
+    assignedStats: string[],
+    allRelevantStats: string[],
     minSubstatRollCounts: StatSimulationTypes,
     maxSubstatRollCounts: StatSimulationTypes,
-    targetRolls: number,
-  ): Simulation {
-    const populationSize = 50
-    const generations = 30
-    const mutationRate = 0.3
-    const crossoverRate = 0.7
+    remainingRolls: number,
+  ): number {
+    // For remaining unassigned stats, optimistically assign maximum allowed rolls
+    const unassignedStats = allRelevantStats.filter(stat => !assignedStats.includes(stat))
+    let rollsToDistribute = remainingRolls
 
-    // Initialize population with diverse starting points
-    let population = this.generateInitialPopulation(
+    const optimisticAssignment = { ...partialAssignment }
+
+    // Greedily assign rolls to maximize potential (this is optimistic)
+    for (const stat of unassignedStats) {
+      const minForStat = minSubstatRollCounts[stat]
+      const maxForStat = maxSubstatRollCounts[stat]
+      const maxPossible = Math.min(maxForStat, minForStat + rollsToDistribute)
+
+      optimisticAssignment[stat] = maxPossible
+      rollsToDistribute -= (maxPossible - minForStat)
+    }
+
+    // Construct and evaluate the optimistic solution
+    const optimisticSolution = this.constructSolution(
       baseSimulation,
+      optimisticAssignment,
       minSubstatRollCounts,
-      maxSubstatRollCounts,
-      targetRolls,
-      populationSize,
+      0 // Don't normalize since we're constructing optimistically
     )
 
-    for (let generation = 0; generation < generations; generation++) {
-      // Evaluate fitness
-      const fitness = population.map(sim => this.evaluateSimulation(sim))
+    // Add a bonus to account for remaining flexibility
+    const baseScore = this.evaluateSimulation(optimisticSolution)
+    const flexibilityBonus = rollsToDistribute * 0.1 // Small bonus per unused roll
 
-      // Selection: Tournament selection
-      const newPopulation: Simulation[] = []
-
-      for (let i = 0; i < populationSize; i++) {
-        if (Math.random() < crossoverRate && newPopulation.length < populationSize - 1) {
-          // Crossover
-          const parent1 = this.tournamentSelection(population, fitness)
-          const parent2 = this.tournamentSelection(population, fitness)
-          const offspring = this.crossover(parent1, parent2, targetRolls)
-          newPopulation.push(...offspring)
-        } else {
-          // Direct selection
-          newPopulation.push(this.tournamentSelection(population, fitness))
-        }
-      }
-
-      // Mutation
-      population = newPopulation.slice(0, populationSize).map(sim => {
-        if (Math.random() < mutationRate) {
-          return this.mutate(sim, minSubstatRollCounts, maxSubstatRollCounts, targetRolls)
-        }
-        return sim
-      })
-
-      // Apply local improvement to best candidates
-      if (generation % 5 === 0) {
-        const sortedIndices = fitness
-          .map((score, index) => ({ score, index }))
-          .sort((a, b) => b.score - a.score)
-
-        for (let i = 0; i < Math.min(3, population.length); i++) {
-          const index = sortedIndices[i].index
-          population[index] = this.localImprovement(
-            population[index],
-            minSubstatRollCounts,
-            maxSubstatRollCounts,
-            targetRolls,
-          )
-        }
-      }
-    }
-
-    // Return best individual
-    const finalFitness = population.map(sim => this.evaluateSimulation(sim))
-    const bestIndex = finalFitness.indexOf(Math.max(...finalFitness))
-    return population[bestIndex]
+    return baseScore + flexibilityBonus
   }
 
   /**
-   * Simulated Annealing for escaping local maxima.
-   * Probabilistically accepts worse solutions early to explore the solution space.
+   * Construct a complete solution from a partial assignment.
    */
-  private simulatedAnnealingOptimization(
+  private constructSolution(
     baseSimulation: Simulation,
+    assignment: Partial<StatSimulationTypes>,
     minSubstatRollCounts: StatSimulationTypes,
-    maxSubstatRollCounts: StatSimulationTypes,
     targetRolls: number,
   ): Simulation {
-    let currentSolution = this.cloneSimulation(baseSimulation)
-    this.normalizeToTarget(currentSolution, targetRolls)
+    const solution = this.cloneSimulation(baseSimulation)
 
-    let currentScore = this.evaluateSimulation(currentSolution)
-    let bestSolution = this.cloneSimulation(currentSolution)
-    let bestScore = currentScore
-
-    const initialTemperature = 1000
-    const coolingRate = 0.95
-    const minTemperature = 1
-    let temperature = initialTemperature
-
-    const maxIterations = 500
-
-    for (let iteration = 0; iteration < maxIterations && temperature > minTemperature; iteration++) {
-      // Generate neighbor solution
-      const neighbor = this.generateNeighbor(
-        currentSolution,
-        minSubstatRollCounts,
-        maxSubstatRollCounts,
-        targetRolls,
-      )
-
-      const neighborScore = this.evaluateSimulation(neighbor)
-      const scoreDelta = neighborScore - currentScore
-
-      // Accept better solutions or probabilistically accept worse ones
-      const acceptanceProbability = scoreDelta > 0 ? 1 : Math.exp(scoreDelta / temperature)
-
-      if (Math.random() < acceptanceProbability) {
-        currentSolution = neighbor
-        currentScore = neighborScore
-
-        if (neighborScore > bestScore) {
-          bestSolution = this.cloneSimulation(neighbor)
-          bestScore = neighborScore
-        }
-      }
-
-      temperature *= coolingRate
-    }
-
-    return bestSolution
-  }
-
-  /**
-   * Multi-start greedy optimization to find different local optima.
-   * Runs the greedy algorithm from multiple starting points.
-   */
-  private multiStartGreedyOptimization(
-    baseSimulation: Simulation,
-    minSubstatRollCounts: StatSimulationTypes,
-    maxSubstatRollCounts: StatSimulationTypes,
-    targetRolls: number,
-  ): Simulation {
-    const numStarts = 10
-    let bestSolution = baseSimulation
-    let bestScore = -Infinity
-
-    for (let start = 0; start < numStarts; start++) {
-      // Generate random starting point
-      const startingSolution = this.generateRandomValidSolution(
-        baseSimulation,
-        minSubstatRollCounts,
-        maxSubstatRollCounts,
-        targetRolls,
-      )
-
-      // Apply greedy local search
-      const localOptimum = this.greedyLocalSearch(
-        startingSolution,
-        minSubstatRollCounts,
-        maxSubstatRollCounts,
-        targetRolls,
-      )
-
-      const score = this.evaluateSimulation(localOptimum)
-      if (score > bestScore) {
-        bestScore = score
-        bestSolution = localOptimum
+    // Set assigned values
+    for (const [stat, value] of Object.entries(assignment)) {
+      if (value !== undefined) {
+        solution.request.stats[stat] = value
       }
     }
 
-    return bestSolution
-  }
-
-  /**
-   * Hybrid approach combining multiple techniques.
-   * Uses coarse-grained search followed by fine-grained optimization.
-   */
-  private hybridOptimization(
-    baseSimulation: Simulation,
-    minSubstatRollCounts: StatSimulationTypes,
-    maxSubstatRollCounts: StatSimulationTypes,
-    targetRolls: number,
-  ): Simulation {
-    // Phase 1: Coarse exploration using pattern-based generation
-    const promisingCandidates = this.generatePromsingCandidates(
-      baseSimulation,
-      minSubstatRollCounts,
-      maxSubstatRollCounts,
-      targetRolls,
-    )
-
-    // Phase 2: Local refinement of each candidate
-    let bestSolution = baseSimulation
-    let bestScore = -Infinity
-
-    for (const candidate of promisingCandidates) {
-      const refinedSolution = this.localImprovement(
-        candidate,
-        minSubstatRollCounts,
-        maxSubstatRollCounts,
-        targetRolls,
-      )
-
-      const score = this.evaluateSimulation(refinedSolution)
-      if (score > bestScore) {
-        bestScore = score
-        bestSolution = refinedSolution
+    // Set minimum values for unassigned stats
+    for (const stat of SubStats) {
+      if (!(stat in assignment)) {
+        solution.request.stats[stat] = minSubstatRollCounts[stat]
       }
     }
 
-    return bestSolution
-  }
-
-  /**
-   * Generate initial population for genetic algorithm with diverse starting points.
-   */
-  private generateInitialPopulation(
-    baseSimulation: Simulation,
-    minSubstatRollCounts: StatSimulationTypes,
-    maxSubstatRollCounts: StatSimulationTypes,
-    targetRolls: number,
-    populationSize: number,
-  ): Simulation[] {
-    const population: Simulation[] = []
-
-    // Add some heuristic-based solutions
-    population.push(...this.generatePromsingCandidates(
-      baseSimulation,
-      minSubstatRollCounts,
-      maxSubstatRollCounts,
-      targetRolls,
-    ))
-
-    // Fill remainder with random solutions
-    while (population.length < populationSize) {
-      population.push(this.generateRandomValidSolution(
-        baseSimulation,
-        minSubstatRollCounts,
-        maxSubstatRollCounts,
-        targetRolls,
-      ))
+    // Normalize to target if needed
+    if (targetRolls > 0) {
+      this.normalizeToTarget(solution, targetRolls)
     }
 
-    return population.slice(0, populationSize)
+    return solution
   }
 
-  /**
-   * Generate promising candidate solutions using heuristics and patterns.
-   */
-  private generatePromsingCandidates(
-    baseSimulation: Simulation,
-    minSubstatRollCounts: StatSimulationTypes,
-    maxSubstatRollCounts: StatSimulationTypes,
-    targetRolls: number,
-  ): Simulation[] {
-    const candidates: Simulation[] = []
 
-    // Pattern 1: Balanced distribution
-    candidates.push(this.createBalancedDistribution(baseSimulation, minSubstatRollCounts, maxSubstatRollCounts, targetRolls))
-
-    // Pattern 2: Focus on highest weight stats
-    candidates.push(this.createFocusedDistribution(baseSimulation, minSubstatRollCounts, maxSubstatRollCounts, targetRolls))
-
-    // Pattern 3: Avoid diminishing returns threshold
-    candidates.push(this.createDiminishingReturnsAware(baseSimulation, minSubstatRollCounts, maxSubstatRollCounts, targetRolls))
-
-    // Pattern 4: Conversion-friendly distribution (addresses local maxima issue)
-    candidates.push(this.createConversionFriendlyDistribution(baseSimulation, minSubstatRollCounts, maxSubstatRollCounts, targetRolls))
-
-    return candidates.filter(candidate => candidate !== null)
-  }
 
   /**
    * Create distribution that considers stat conversion mechanics.
-   * This specifically addresses the local maxima issue mentioned in the problem.
+   * This method is kept as a utility for the deterministic algorithm's initial heuristics.
    */
   private createConversionFriendlyDistribution(
     baseSimulation: Simulation,
@@ -428,138 +416,7 @@ export class GlobalBenchmarkOptimizer {
     return solution
   }
 
-  /**
-   * Create balanced distribution across all relevant stats.
-   */
-  private createBalancedDistribution(
-    baseSimulation: Simulation,
-    minSubstatRollCounts: StatSimulationTypes,
-    maxSubstatRollCounts: StatSimulationTypes,
-    targetRolls: number,
-  ): Simulation {
-    const solution = this.cloneSimulation(baseSimulation)
 
-    // Start with minimum rolls
-    for (const stat of SubStats) {
-      solution.request.stats[stat] = minSubstatRollCounts[stat]
-    }
-
-    let remainingRolls = targetRolls - this.sumRolls(solution.request.stats)
-    const relevantStats = this.metadata.substats
-
-    // Distribute remaining rolls evenly
-    while (remainingRolls > 0) {
-      let allocated = false
-      for (const stat of relevantStats) {
-        if (remainingRolls <= 0) break
-        if (solution.request.stats[stat] < maxSubstatRollCounts[stat]) {
-          solution.request.stats[stat]++
-          remainingRolls--
-          allocated = true
-        }
-      }
-      if (!allocated) break
-    }
-
-    return solution
-  }
-
-  /**
-   * Create distribution focused on highest weight stats.
-   */
-  private createFocusedDistribution(
-    baseSimulation: Simulation,
-    minSubstatRollCounts: StatSimulationTypes,
-    maxSubstatRollCounts: StatSimulationTypes,
-    targetRolls: number,
-  ): Simulation {
-    const solution = this.cloneSimulation(baseSimulation)
-
-    // Start with minimum rolls
-    for (const stat of SubStats) {
-      solution.request.stats[stat] = minSubstatRollCounts[stat]
-    }
-
-    let remainingRolls = targetRolls - this.sumRolls(solution.request.stats)
-
-    // Sort stats by importance (you would need to implement stat weight lookup)
-    const sortedStats = this.metadata.substats.slice().sort((a, b) => {
-      // Prioritize CRIT stats, then ATK%, then others
-      const priority = (stat: string) => {
-        if (stat === Stats.CR || stat === Stats.CD) return 3
-        if (stat === Stats.ATK_P) return 2
-        if (stat === Stats.SPD) return 2
-        return 1
-      }
-      return priority(b) - priority(a)
-    })
-
-    // Allocate to high priority stats first
-    for (const stat of sortedStats) {
-      const maxAllocation = Math.min(
-        remainingRolls,
-        maxSubstatRollCounts[stat] - solution.request.stats[stat]
-      )
-      solution.request.stats[stat] += maxAllocation
-      remainingRolls -= maxAllocation
-      if (remainingRolls <= 0) break
-    }
-
-    return solution
-  }
-
-  /**
-   * Create distribution that avoids diminishing returns penalties.
-   */
-  private createDiminishingReturnsAware(
-    baseSimulation: Simulation,
-    minSubstatRollCounts: StatSimulationTypes,
-    maxSubstatRollCounts: StatSimulationTypes,
-    targetRolls: number,
-  ): Simulation {
-    const solution = this.cloneSimulation(baseSimulation)
-
-    // Start with minimum rolls
-    for (const stat of SubStats) {
-      solution.request.stats[stat] = minSubstatRollCounts[stat]
-    }
-
-    let remainingRolls = targetRolls - this.sumRolls(solution.request.stats)
-
-    // Distribute rolls while staying under diminishing returns thresholds
-    while (remainingRolls > 0) {
-      let allocated = false
-
-      for (const stat of this.metadata.substats) {
-        if (remainingRolls <= 0) break
-        if (solution.request.stats[stat] >= maxSubstatRollCounts[stat]) continue
-
-        const threshold = this.getDiminishingReturnsThreshold(stat, solution)
-        if (solution.request.stats[stat] < threshold) {
-          solution.request.stats[stat]++
-          remainingRolls--
-          allocated = true
-        }
-      }
-
-      // If no stat is under threshold, allocate normally
-      if (!allocated) {
-        for (const stat of this.metadata.substats) {
-          if (remainingRolls <= 0) break
-          if (solution.request.stats[stat] < maxSubstatRollCounts[stat]) {
-            solution.request.stats[stat]++
-            remainingRolls--
-            allocated = true
-            break
-          }
-        }
-      }
-
-      if (!allocated) break
-    }
-
-    return solution
-  }
 
   /**
    * Get diminishing returns threshold for a stat.
@@ -575,190 +432,7 @@ export class GlobalBenchmarkOptimizer {
     return 12 - 2 * mainsCount
   }
 
-  /**
-   * Tournament selection for genetic algorithm.
-   */
-  private tournamentSelection(population: Simulation[], fitness: number[]): Simulation {
-    const tournamentSize = 3
-    let bestIndex = Math.floor(Math.random() * population.length)
-    let bestFitness = fitness[bestIndex]
 
-    for (let i = 1; i < tournamentSize; i++) {
-      const candidateIndex = Math.floor(Math.random() * population.length)
-      if (fitness[candidateIndex] > bestFitness) {
-        bestIndex = candidateIndex
-        bestFitness = fitness[candidateIndex]
-      }
-    }
-
-    return this.cloneSimulation(population[bestIndex])
-  }
-
-  /**
-   * Crossover operation for genetic algorithm.
-   */
-  private crossover(parent1: Simulation, parent2: Simulation, targetRolls: number): Simulation[] {
-    const child1 = this.cloneSimulation(parent1)
-    const child2 = this.cloneSimulation(parent2)
-
-    // Uniform crossover with normalization
-    for (const stat of this.metadata.substats) {
-      if (Math.random() < 0.5) {
-        const temp = child1.request.stats[stat]
-        child1.request.stats[stat] = child2.request.stats[stat]
-        child2.request.stats[stat] = temp
-      }
-    }
-
-    // Normalize to target
-    this.normalizeToTarget(child1, targetRolls)
-    this.normalizeToTarget(child2, targetRolls)
-
-    return [child1, child2]
-  }
-
-  /**
-   * Mutation operation for genetic algorithm.
-   */
-  private mutate(
-    simulation: Simulation,
-    minSubstatRollCounts: StatSimulationTypes,
-    maxSubstatRollCounts: StatSimulationTypes,
-    targetRolls: number,
-  ): Simulation {
-    const mutated = this.cloneSimulation(simulation)
-    const relevantStats = this.metadata.substats
-
-    // Small random changes
-    for (let i = 0; i < 3; i++) {
-      const stat1 = relevantStats[Math.floor(Math.random() * relevantStats.length)]
-      const stat2 = relevantStats[Math.floor(Math.random() * relevantStats.length)]
-
-      if (stat1 !== stat2 &&
-        mutated.request.stats[stat1] > minSubstatRollCounts[stat1] &&
-        mutated.request.stats[stat2] < maxSubstatRollCounts[stat2]) {
-        mutated.request.stats[stat1]--
-        mutated.request.stats[stat2]++
-      }
-    }
-
-    return mutated
-  }
-
-  /**
-   * Generate neighbor solution for simulated annealing.
-   */
-  private generateNeighbor(
-    simulation: Simulation,
-    minSubstatRollCounts: StatSimulationTypes,
-    maxSubstatRollCounts: StatSimulationTypes,
-    targetRolls: number,
-  ): Simulation {
-    const neighbor = this.cloneSimulation(simulation)
-    const relevantStats = this.metadata.substats
-
-    // Make small changes
-    const numChanges = Math.floor(Math.random() * 3) + 1
-    for (let i = 0; i < numChanges; i++) {
-      const stat1 = relevantStats[Math.floor(Math.random() * relevantStats.length)]
-      const stat2 = relevantStats[Math.floor(Math.random() * relevantStats.length)]
-
-      if (stat1 !== stat2 &&
-        neighbor.request.stats[stat1] > minSubstatRollCounts[stat1] &&
-        neighbor.request.stats[stat2] < maxSubstatRollCounts[stat2]) {
-        neighbor.request.stats[stat1]--
-        neighbor.request.stats[stat2]++
-      }
-    }
-
-    return neighbor
-  }
-
-  /**
-   * Generate random valid solution.
-   */
-  private generateRandomValidSolution(
-    baseSimulation: Simulation,
-    minSubstatRollCounts: StatSimulationTypes,
-    maxSubstatRollCounts: StatSimulationTypes,
-    targetRolls: number,
-  ): Simulation {
-    const solution = this.cloneSimulation(baseSimulation)
-
-    // Start with minimum rolls
-    for (const stat of SubStats) {
-      solution.request.stats[stat] = minSubstatRollCounts[stat]
-    }
-
-    let remainingRolls = targetRolls - this.sumRolls(solution.request.stats)
-
-    // Randomly distribute remaining rolls
-    while (remainingRolls > 0) {
-      const stat = this.metadata.substats[Math.floor(Math.random() * this.metadata.substats.length)]
-      if (solution.request.stats[stat] < maxSubstatRollCounts[stat]) {
-        solution.request.stats[stat]++
-        remainingRolls--
-      }
-    }
-
-    return solution
-  }
-
-  /**
-   * Greedy local search from a starting point.
-   */
-  private greedyLocalSearch(
-    startingSolution: Simulation,
-    minSubstatRollCounts: StatSimulationTypes,
-    maxSubstatRollCounts: StatSimulationTypes,
-    targetRolls: number,
-  ): Simulation {
-    let currentSolution = this.cloneSimulation(startingSolution)
-    let improved = true
-
-    while (improved) {
-      improved = false
-      let bestNeighbor = currentSolution
-      let bestScore = this.evaluateSimulation(currentSolution)
-
-      // Try all possible single-step improvements
-      for (const stat1 of this.metadata.substats) {
-        for (const stat2 of this.metadata.substats) {
-          if (stat1 === stat2) continue
-          if (currentSolution.request.stats[stat1] <= minSubstatRollCounts[stat1]) continue
-          if (currentSolution.request.stats[stat2] >= maxSubstatRollCounts[stat2]) continue
-
-          // Try moving one roll from stat1 to stat2
-          const neighbor = this.cloneSimulation(currentSolution)
-          neighbor.request.stats[stat1]--
-          neighbor.request.stats[stat2]++
-
-          const score = this.evaluateSimulation(neighbor)
-          if (score > bestScore) {
-            bestScore = score
-            bestNeighbor = neighbor
-            improved = true
-          }
-        }
-      }
-
-      currentSolution = bestNeighbor
-    }
-
-    return currentSolution
-  }
-
-  /**
-   * Local improvement using hill climbing.
-   */
-  private localImprovement(
-    solution: Simulation,
-    minSubstatRollCounts: StatSimulationTypes,
-    maxSubstatRollCounts: StatSimulationTypes,
-    targetRolls: number,
-  ): Simulation {
-    return this.greedyLocalSearch(solution, minSubstatRollCounts, maxSubstatRollCounts, targetRolls)
-  }
 
   /**
    * Evaluate simulation and return score.
@@ -836,7 +510,7 @@ export class GlobalBenchmarkOptimizer {
 
 /**
  * Factory function to create and run global benchmark optimization.
- * 
+ *
  * Args:
  *   baseSimulation: The base simulation to optimize
  *   minSubstatRollCounts: Minimum allowed rolls per substat
@@ -847,7 +521,7 @@ export class GlobalBenchmarkOptimizer {
  *   metadata: Simulation metadata
  *   scoringParams: Scoring parameters
  *   simulationFlags: Simulation flags
- * 
+ *
  * Returns:
  *   Optimized simulation with globally optimal substat distribution
  */

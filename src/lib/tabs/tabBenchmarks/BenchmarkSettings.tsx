@@ -13,7 +13,7 @@ export function BenchmarkSetting({ label, itemName, children }: BenchmarkSetting
   const { t } = useTranslation('benchmarksTab', { keyPrefix: 'RightPanel.Settings' })
   return (
     <Flex align='center' gap={10} justify='space-between'>
-      {t(label as any)}
+      {t(label)}
       <AntDForm.Item name={itemName} noStyle>
         {children}
       </AntDForm.Item>

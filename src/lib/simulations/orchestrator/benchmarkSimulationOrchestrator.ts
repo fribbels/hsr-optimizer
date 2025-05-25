@@ -307,7 +307,7 @@ export class BenchmarkSimulationOrchestrator {
       const mainsCount = partialSimulationWrapper.simulation.request.simFeet == Stats.SPD ? 1 : 0
       const rolls = TsUtils.precisionRound(invertDiminishingReturnsSpdFormula(mainsCount, targetSpd - finalSpeed, clonedBenchmarkScoringParams.speedRollValue), 3)
 
-      partialSimulationWrapper.speedRollsDeduction = Math.min(Math.max(0, rolls), spdRollsCap(partialSimulationWrapper.simulation, clonedBenchmarkScoringParams))
+      partialSimulationWrapper.speedRollsDeduction = Math.min(Math.max(0, Math.ceil(rolls)), spdRollsCap(partialSimulationWrapper.simulation, clonedBenchmarkScoringParams))
       if (partialSimulationWrapper.speedRollsDeduction >= 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
         console.log('Rejected candidate sim with non SPD boots')
         return null
@@ -371,7 +371,7 @@ export class BenchmarkSimulationOrchestrator {
       const finalSpeed = simulationResult.xa[Key.SPD]
       const rolls = TsUtils.precisionRound((targetSpd - finalSpeed) / clonedPerfectionScoringParams.speedRollValue, 3)
 
-      partialSimulationWrapper.speedRollsDeduction = Math.min(Math.max(0, rolls), spdRollsCap(partialSimulationWrapper.simulation, clonedPerfectionScoringParams))
+      partialSimulationWrapper.speedRollsDeduction = Math.min(Math.max(0, Math.ceil(rolls)), spdRollsCap(partialSimulationWrapper.simulation, clonedPerfectionScoringParams))
       if (partialSimulationWrapper.speedRollsDeduction >= 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
         console.log('Rejected candidate sim with non SPD boots')
         return null

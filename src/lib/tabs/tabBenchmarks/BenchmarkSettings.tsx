@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
 
 interface BenchmarkSettingProps {
-  label: 'SPD' | 'ERR' | 'SubDPS' | 'OptimizationAlgorithm'
+  label: 'SPD' | 'ERR' | 'SubDPS' | 'OptimizationAlgorithm.Label'
   itemName: string
   children: ReactElement
 }

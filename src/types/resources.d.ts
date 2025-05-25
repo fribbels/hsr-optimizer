@@ -15,7 +15,11 @@ interface Resources {
         "SPD": "Benchmark basic SPD",
         "ERR": "Energy regen rope",
         "SubDPS": "Sub DPS",
-        "OptimizationAlgorithm": "Optimization algorithm"
+        "OptimizationAlgorithm": {
+          "Label": "Optimization algorithm",
+          "Greedy": "Greedy",
+          "Global": "Global"
+        }
       },
       "SetsHeader": "Benchmark sets",
       "ButtonText": {

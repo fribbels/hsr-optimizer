@@ -227,10 +227,10 @@ function RightPanel() {
             <Radio.Button value={false}><CloseOutlined/></Radio.Button>
           </Radio.Group>
         </BenchmarkSetting>
-        <BenchmarkSetting label='OptimizationAlgorithm' itemName='optimizationAlgorithm'>
+        <BenchmarkSetting label='OptimizationAlgorithm.Label' itemName='optimizationAlgorithm'>
           <Radio.Group buttonStyle='solid' size='small' block style={{ width: INPUT_WIDTH * 1.5 }}>
-            <Radio.Button value='greedy'>Greedy</Radio.Button>
-            <Radio.Button value='global'>Global</Radio.Button>
+            <Radio.Button value='greedy'>{t('Settings.OptimizationAlgorithm.Greedy')}</Radio.Button>
+            <Radio.Button value='global'>{t('Settings.OptimizationAlgorithm.Global')}</Radio.Button>
           </Radio.Group>
         </BenchmarkSetting>
 

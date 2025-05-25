@@ -13,6 +13,7 @@ export type BenchmarkForm = {
   basicSpd: number
   errRope: boolean
   subDps: boolean
+  optimizationAlgorithm: 'greedy' | 'global'
   simRelicSet1?: string
   simRelicSet2?: string
   simOrnamentSet?: string

@@ -62,6 +62,7 @@ const defaultForm: Partial<BenchmarkForm> = {
   lightConeSuperimposition: 1,
   errRope: false,
   subDps: false,
+  optimizationAlgorithm: 'greedy',
 }
 
 export default function BenchmarksTab(): ReactElement {
@@ -224,6 +225,12 @@ function RightPanel() {
           <Radio.Group buttonStyle='solid' size='small' block style={{ width: INPUT_WIDTH }}>
             <Radio.Button value={true}><CheckOutlined/></Radio.Button>
             <Radio.Button value={false}><CloseOutlined/></Radio.Button>
+          </Radio.Group>
+        </BenchmarkSetting>
+        <BenchmarkSetting label='OptimizationAlgorithm' itemName='optimizationAlgorithm'>
+          <Radio.Group buttonStyle='solid' size='small' block style={{ width: INPUT_WIDTH * 1.5 }}>
+            <Radio.Button value='greedy'>Greedy</Radio.Button>
+            <Radio.Button value='global'>Global</Radio.Button>
           </Radio.Group>
         </BenchmarkSetting>
 

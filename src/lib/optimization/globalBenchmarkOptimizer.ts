@@ -66,6 +66,17 @@ export class GlobalBenchmarkOptimizer {
     )
 
     console.log(`Deterministic optimization complete. Evaluations: ${this.evaluationCount}`)
+    
+    // Final validation to ensure we never exceed target rolls
+    const finalRolls = this.sumRolls(result.request.stats)
+    if (finalRolls > targetRolls) {
+      console.error(`CRITICAL ERROR: Final result has ${finalRolls} rolls, exceeds target ${targetRolls}`)
+      this.normalizeToTarget(result, targetRolls, minSubstatRollCounts, maxSubstatRollCounts)
+      console.log(`Corrected to ${this.sumRolls(result.request.stats)} rolls`)
+    } else {
+      console.log(`Final result has ${finalRolls} rolls (target: ${targetRolls})`)
+    }
+    
     return result
   }
 
@@ -94,7 +105,7 @@ export class GlobalBenchmarkOptimizer {
     // If no stats to optimize, return base solution
     if (relevantStats.length === 0) {
       const solution = this.cloneSimulation(baseSimulation)
-      this.normalizeToTarget(solution, targetRolls)
+      this.normalizeToTarget(solution, targetRolls, minSubstatRollCounts, maxSubstatRollCounts)
       return solution
     }
 
@@ -173,7 +184,7 @@ export class GlobalBenchmarkOptimizer {
     searchSpace: any,
   ): { solution: Simulation; score: number } {
     let bestSolution = this.cloneSimulation(baseSimulation)
-    this.normalizeToTarget(bestSolution, targetRolls)
+    this.normalizeToTarget(bestSolution, targetRolls, minSubstatRollCounts, maxSubstatRollCounts)
     let bestScore = this.evaluateSimulation(bestSolution)
 
     // Priority queue for branch and bound (score, partial solution)
@@ -210,7 +221,8 @@ export class GlobalBenchmarkOptimizer {
           baseSimulation,
           current.partialAssignment,
           minSubstatRollCounts,
-          targetRolls
+          targetRolls,
+          maxSubstatRollCounts
         )
 
         const score = this.evaluateSimulation(candidate)
@@ -299,7 +311,8 @@ export class GlobalBenchmarkOptimizer {
       baseSimulation,
       optimisticAssignment,
       minSubstatRollCounts,
-      0 // Don't normalize since we're constructing optimistically
+      0, // Don't normalize since we're constructing optimistically
+      maxSubstatRollCounts
     )
 
     // Add a bonus to account for remaining flexibility
@@ -317,6 +330,7 @@ export class GlobalBenchmarkOptimizer {
     assignment: Partial<StatSimulationTypes>,
     minSubstatRollCounts: StatSimulationTypes,
     targetRolls: number,
+    maxSubstatRollCounts?: StatSimulationTypes,
   ): Simulation {
     const solution = this.cloneSimulation(baseSimulation)
 
@@ -336,7 +350,7 @@ export class GlobalBenchmarkOptimizer {
 
     // Normalize to target if needed
     if (targetRolls > 0) {
-      this.normalizeToTarget(solution, targetRolls)
+      this.normalizeToTarget(solution, targetRolls, minSubstatRollCounts, maxSubstatRollCounts)
     }
 
     return solution
@@ -456,9 +470,21 @@ export class GlobalBenchmarkOptimizer {
   }
 
   /**
-   * Normalize simulation to target roll count.
+   * Normalize simulation to exact target roll count while respecting min/max constraints.
+   * This method ensures the total never exceeds the target rolls limit.
+   *
+   * Args:
+   *   simulation: The simulation to normalize
+   *   targetRolls: Target total number of substat rolls
+   *   minSubstatRollCounts: Minimum allowed rolls per substat (optional)
+   *   maxSubstatRollCounts: Maximum allowed rolls per substat (optional)
    */
-  private normalizeToTarget(simulation: Simulation, targetRolls: number): void {
+  private normalizeToTarget(
+    simulation: Simulation, 
+    targetRolls: number, 
+    minSubstatRollCounts?: StatSimulationTypes, 
+    maxSubstatRollCounts?: StatSimulationTypes
+  ): void {
     const currentRolls = this.sumRolls(simulation.request.stats)
     const difference = targetRolls - currentRolls
 
@@ -467,21 +493,82 @@ export class GlobalBenchmarkOptimizer {
     const relevantStats = this.metadata.substats
 
     if (difference > 0) {
-      // Add rolls
+      // Add rolls while respecting maximum constraints
       let remaining = difference
-      while (remaining > 0) {
-        const stat = relevantStats[Math.floor(Math.random() * relevantStats.length)]
-        simulation.request.stats[stat]++
-        remaining--
+      
+      // Sort stats by current roll count (ascending) for deterministic allocation
+      const sortedStats = relevantStats
+        .filter(stat => !maxSubstatRollCounts || simulation.request.stats[stat] < maxSubstatRollCounts[stat])
+        .sort((a, b) => simulation.request.stats[a] - simulation.request.stats[b])
+      
+      for (const stat of sortedStats) {
+        if (remaining <= 0) break
+        
+        const currentValue = simulation.request.stats[stat]
+        const maxValue = maxSubstatRollCounts ? maxSubstatRollCounts[stat] : Number.MAX_SAFE_INTEGER
+        const canAdd = Math.min(remaining, maxValue - currentValue)
+        
+        if (canAdd > 0) {
+          simulation.request.stats[stat] += canAdd
+          remaining -= canAdd
+        }
+      }
+      
+      if (remaining > 0) {
+        console.warn(`Cannot add ${remaining} more rolls - all stats at maximum. Total: ${this.sumRolls(simulation.request.stats)}`)
       }
     } else {
-      // Remove rolls
+      // Remove rolls while respecting minimum constraints
       let remaining = -difference
-      while (remaining > 0) {
-        const stat = relevantStats[Math.floor(Math.random() * relevantStats.length)]
-        if (simulation.request.stats[stat] > 0) {
-          simulation.request.stats[stat]--
-          remaining--
+      
+      // Sort stats by current roll count (descending) for deterministic removal
+      const sortedStats = relevantStats
+        .filter(stat => {
+          const currentValue = simulation.request.stats[stat]
+          const minValue = minSubstatRollCounts ? minSubstatRollCounts[stat] : 0
+          return currentValue > minValue
+        })
+        .sort((a, b) => simulation.request.stats[b] - simulation.request.stats[a])
+      
+      for (const stat of sortedStats) {
+        if (remaining <= 0) break
+        
+        const currentValue = simulation.request.stats[stat]
+        const minValue = minSubstatRollCounts ? minSubstatRollCounts[stat] : 0
+        const canRemove = Math.min(remaining, currentValue - minValue)
+        
+        if (canRemove > 0) {
+          simulation.request.stats[stat] -= canRemove
+          remaining -= canRemove
+        }
+      }
+      
+      if (remaining > 0) {
+        console.warn(`Cannot remove ${remaining} more rolls - all stats at minimum. Total: ${this.sumRolls(simulation.request.stats)}`)
+      }
+    }
+
+    // Final validation - ensure we never exceed the target
+    const finalRolls = this.sumRolls(simulation.request.stats)
+    if (finalRolls > targetRolls) {
+      console.error(`CRITICAL: Total rolls ${finalRolls} exceeds target ${targetRolls}. Forcing correction.`)
+      
+      // Emergency correction: remove excess rolls from stats with highest counts first
+      let excess = finalRolls - targetRolls
+      const statsWithRolls = relevantStats
+        .filter(stat => simulation.request.stats[stat] > (minSubstatRollCounts ? minSubstatRollCounts[stat] : 0))
+        .sort((a, b) => simulation.request.stats[b] - simulation.request.stats[a])
+      
+      for (const stat of statsWithRolls) {
+        if (excess <= 0) break
+        
+        const currentValue = simulation.request.stats[stat]
+        const minValue = minSubstatRollCounts ? minSubstatRollCounts[stat] : 0
+        const canRemove = Math.min(excess, currentValue - minValue)
+        
+        if (canRemove > 0) {
+          simulation.request.stats[stat] -= canRemove
+          excess -= canRemove
         }
       }
     }

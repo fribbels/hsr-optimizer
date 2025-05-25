@@ -11,6 +11,7 @@ RightPanel:
     SPD: Benchmark basic SPD
     ERR: Energy regen rope
     SubDPS: Sub DPS
+    OptimizationAlgorithm: Optimization algorithm
   SetsHeader: Benchmark sets
   ButtonText:
     Generate: Generate benchmarks

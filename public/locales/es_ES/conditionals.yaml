@@ -1097,6 +1097,31 @@ Characters:
       teammateHPValue:
         text: PV en combate de Fu Xuan
         content: Mientras están afectados por Matriz del Presagio, todos los aliados obtienen Conocimiento. En este estado, los PV máx. de los aliados aumentan en una cantidad equivalente al {{skillHpBuffValue}}% de los PV máx. de Fu Xuan.
+  Gallagher:
+    Content:
+      basicEnhanced:
+        text: Básico potenciado
+        content: Luego de usar la Definitiva su siguiente ATQ básico se potencia y se convierte en Espuma desbordante.
+      breakEffectToOhbBoost:
+        text: Mejora de EdR a BCR
+        content: Aumenta su curación realizada en una cantidad equivalente al 50% del efecto de Ruptura. La curación realizada puede aumentar un 75% como máximo.
+      targetBesotted:
+        text: Enemigo con Melopea
+        content: Melopea aumenta el Daño de Ruptura que reciben los objetivos en un {{talentBesottedScaling}}%.
+      e1ResBuff:
+        text: E1 Mejora de RES
+        content: Cuando Gallagher entra en combate, recupera 20 pts. de energía y su RES a efecto aumenta en un 50%.
+      e2ResBuff:
+        text: E2 Mejora de RES
+        content: Al usar la habilidad básica, se disipa 1 estado negativo del objetivo aliado y aumenta su RES a efecto en un 30% durante 2 turnos.
+      e6BeBuff:
+        text: E6 Mejora de EdR
+        content: El efecto de Ruptura de Gallagher aumenta en un 20% y su eficiencia de la Ruptura de Debilidad aumenta en un 20%.
+  Gepard:
+    Content:
+      e4TeamResBuff:
+        text: E4 Mejora RES al equipo
+        content: Cuando Gepard está en la batalla, la RES a efecto de todos los aliados aumenta en un 20%.
   Hanya:
     Content:
       e2SkillSpdBuff:
@@ -1119,6 +1144,18 @@ Characters:
     Content:
       e2BeBuff:
         text: E2 Mejora de EdR
+  Luka:
+    Content:
+      basicEnhanced:
+        text: Básico potenciado
+  March7thImaginary:
+    Content:
+      enhancedBasic:
+        text: Básico potenciado
+  Qingque:
+    Content:
+      basicEnhanced:
+        text: Básico potenciado
   Rappa:
     Content:
       e1DefPen:
@@ -1127,6 +1164,8 @@ Characters:
     Content:
       skillDmgBuff:
         text: Mejora de daño de Habilidad
+      e4TeamResBuff:
+        text: E4 Mejora RES al equipo
   Sampo:
     Content:
       skillExtraHits:
@@ -1153,6 +1192,10 @@ Characters:
     Content:
       superBreakDmg:
         text: Daño de Ultrarruptura (forzar rupt. de debilidad)
+  TrailblazerPreservation:
+    Content:
+      enhancedBasic:
+        text: Básico potenciado
   Welt:
     Content:
       enemySlowed:

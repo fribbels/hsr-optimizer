@@ -1313,27 +1313,144 @@ Characters:
   Jingliu:
     Content:
       talentEnhancedState:
-        text: Estado potenciado
+        text: Transmigración espectral
+        content: >-
+          Cuando Jingliu tiene 2 acumulaciones de Sizigia, entra en el estado de Transmigración espectral, su acción se adelanta un 100% y su Prob. CRIT aumenta en un {{talentCrBuff}}%. Después, la habilidad básica Destello trascendental se potencia y se convierte en Reflejo helado de la luna (solo puede usar esta habilidad básica).
+      talentHpDrainAtkBuff:
+        text: Mejora de ATQ por robo de PV
+        content: >-
+          Al lanzar un ataque en el estado de Transmigración espectral, consume PV de los aliados y el ATQ de Jingliu aumenta dependiendo de la cantidad total de PV consumidos, hasta un máximo del {{talentHpDrainAtkBuffMax}}% del ATQ base de Jingliu. Dura hasta que termine el ataque actual.
+      e1CdBuff:
+        text: E1 Definitiva activada
+        content: Al lanzar la habilidad definitiva o la habilidad básica potenciada, el Daño CRIT de Jingliu aumenta en un 24% durante 1 turno. Si solo golpea a 1 enemigo, le inflige de forma adicional un 100% del ATQ de Jingliu como Daño de Hielo.
+      e2SkillDmgBuff:
+        text: E2 Mejora de Habilidad
+        content: Tras usar la habilidad definitiva, el daño de la siguiente habilidad básica potenciada aumenta en un 80%.
+  JingYuan:
+    Content:
+      skillCritBuff:
+        text: Mejora PC por Habilidad
+        content: Tras usar la habilidad básica, la Prob. CRIT de Jing Yuan aumenta en un 10% durante 2 turnos.
+      talentHitsPerAction:
+        text: Acumulaciones del caballero divino
+        content: El caballero divino puede acumular 10 golpes por acción como máximo.
+      talentAttacks:
+        text: Golpes en objetivo del caballero divino
+        content: Cantidad de golpes en el objetivo. Normalmente se pone el mismo valor que acumulaciones del caballero divino.
+      e2DmgBuff:
+        text: E2 Aumento de daño
+        content: Tras la acción del caballero divino, el ATQ básico, la habilidad básica y la habilidad definitiva de Jing Yuan infligen un 20% más de daño durante 2 turnos.
+      e6FuaVulnerabilityStacks:
+        text: E6 Acumulaciones de Vulnerabilidad
+        content: Cada golpe que inflige el caballero divino hace que el objetivo enemigo entre en un estado de Vulnerabilidad. Los enemigos vulnerables reciben un 12% más de daño hasta que termine el ataque actual del caballero divino. Este efecto se puede acumular hasta 3 veces (aplica a todos los golpes).
+  Kafka:
+    Content:
+      e1DotDmgReceivedDebuff:
+        text: E1 Vulnerabilidad de Daño con el tiempo
+        content: Cuando el talento activa un ataque adicional, hay un 100% de probabilidad base de que el Daño con el tiempo que recibe el objetivo aumente en un 30% durante 2 turnos.
+      e2TeamDotBoost:
+        text: E2 Aumento de Daño con el tiempo al equipo
+        content: Cuando Kafka está en la batalla, el Daño con el tiempo que infligen todos los aliados aumenta en un 25%.
   Lingsha:
     Content:
+      beConversion:
+        text: "Mejora de\nEdR a ATQ / BCR"
+        content: Aumenta su ATQ/curación realizada en una cantidad equivalente al 25%/10% del efecto de Ruptura, hasta un aumento máximo del 50%/20% respectivamente.
+      befogState:
+        text: Estado Obnubilación
+        content: En el estado de Obnubilación, el Daño de Ruptura que reciben los enemigos aumenta en un {{BefogVulnerability}}%.
+      e1DefShred:
+        text: E1 Mejoras de Ruptura de Debilidad
+        content: La eficiencia de la Ruptura de Debilidad de Lingsha aumenta en un 50%. Cuando se rompe la Debilidad de un enemigo, reduce su DEF en un 20%.
       e2BeBuff:
         text: E2 Mejora de EdR
+        content: Al lanzar la habilidad definitiva, el efecto de Ruptura de todos los aliados aumenta en un 40%.
       e6ResShred:
         text: E6 Reducción de RES
+        content: Cuando Fuyuan está en el campo de batalla, la RES a todos los tipos de todos los enemigos se reduce en un 20%.
   Luka:
     Content:
       basicEnhanced:
         text: Básico potenciado
+        content: Potencia el ATQ básico para infligir daño adicional, y tiene la posibilidad de activar golpes adicionales.
+      targetUltDebuffed:
+        text: Afección vulnerabilidad de Definitiva
+        content: Aumenta en un {{targetUltDebuffDmgTakenValue}}% el daño que recibe un enemigo durante 3 turnos.
+      basicEnhancedExtraHits:
+        text: Golpes extra del Básico potenciado
+        content: Aumenta la cantidad de golpes del Básico potenciado.
+      e1TargetBleeding:
+        text: E1 Objetivo sangrando
+        content: Cuando Luka realiza una acción, si el objetivo está afectado por Sangrado, el daño que inflige Luka aumenta en un 15% durante 2 turnos.
+      e4TalentStacks:
+        text: E4 Acumulaciones del Talento
+        content: Por cada acumulación de Voluntad luchadora, el ATQ aumenta en un 5%. Este efecto se puede acumular hasta 4 veces.
   Luocha:
     Content:
+      fieldActive:
+        text: Campo activado
+        content: Mientras el campo está activo, el ATQ de todos los aliados aumenta en un 20%.
       e6ResReduction:
         text: E6 Reducción de RES
+        content: Al usar la habilidad definitiva, reduce la RES a todos los tipos de todos los enemigos en un 20% durante 2 turnos.
+  Lynx:
+    Content:
+      skillBuff:
+        text: Mejora de PV máx. de la Habilidad
+        content: >-
+          Aplica Reacción de supervivencia a un aliado y aumenta sus PV máx. en una cantidad equivalente al {{skillHpPercentBuff}}% de los PV máx. de Lynx + {{skillHpFlatBuff}}.::BR::E4: Al obtener Reacción de supervivencia, el ATQ del objetivo aumenta en una cantidad equivalente al 3% de los PV máx. de Lynx durante 1 turno.::BR::E6: El efecto de aumento de los PV máx. de Reacción de supervivencia se incrementa de forma adicional en una cantidad equivalente al 6% de los PV máx. de Lynx. Además, la RES a efecto aumenta en un 30%.
+    TeammateContent:
+      teammateHPValue:
+        text: PV de Lynx
+        content: >-
+          Aplica Reacción de supervivencia a un aliado y aumenta sus PV máx. en una cantidad equivalente al {{skillHpPercentBuff}}% de los PV máx. de Lynx + {{skillHpFlatBuff}}.::BR::E4: Al obtener Reacción de supervivencia, el ATQ del objetivo aumenta en una cantidad equivalente al 3% de los PV máx. de Lynx durante 1 turno.::BR::E6: El efecto de aumento de los PV máx. de Reacción de supervivencia se incrementa de forma adicional en una cantidad equivalente al 6% de los PV máx. de Lynx. Además, la RES a efecto aumenta en un 30%.
   March7thImaginary:
     Content:
       enhancedBasic:
         text: Básico potenciado
+        content: >-
+          Inicialmente, inflige daño 3 veces. Cada vez, inflige un {{BasicEnhancedScaling}}% del ATQ de Siete de Marzo como Daño Imaginario a un enemigo. Después de infligir daño la última vez, tiene una probabilidad fija del 60% de infligir daño 1 vez adicional, hasta un máximo de 3 veces adicionales.
+      basicAttackHits:
+        text: Golpes del Básico potenciado
+        content: >-
+          Inicialmente, inflige daño 3 veces. Cada vez, inflige un {{BasicEnhancedScaling}}% del ATQ de Siete de Marzo como Daño Imaginario a un enemigo. Después de infligir daño la última vez, tiene una probabilidad fija del 60% de infligir daño 1 vez adicional, hasta un máximo de 3 veces adicionales.
+      masterAdditionalDmgBuff:
+        text: Mejora de Maestro DPS
+        content: "Cuando usa su ATQ básico o inflige daño 1 vez con su ATQ básico potenciado, inflige un daño adicional equivalente al {{ShifuDmgBuff}}% del ATQ de Siete de Marzo.\n"
+      masterToughnessRedBuff:
+        text: Mejora de Maestro apoyo
+        content: Cuando usa su ATQ básico o inflige daño 1 vez con su ATQ básico potenciado, la Reducción de Firmeza del daño infligido esta vez aumenta en un 100%.
+      talentDmgBuff:
+        text: Mejora de daño Básico del Talento
+        content: >-
+          Siete de Marzo obtiene hasta 1 pt. de carga después de que el Maestro lance un ataque o use la habilidad definitiva.::BR::Cuando alcanza 7 o más pts. de carga, Siete de Marzo actúa inmediatamente. El daño que inflige aumenta en un {{TalentDmgBuff}}%.
       selfSpdBuff:
         text: E1 Mejora de VEL
+        content: Cuando el Maestro está en el campo de batalla, la VEL de Siete de Marzo aumenta en un 10%.
+      e6CdBuff:
+        text: E6 Aumento de DC del Básico
+        content: Tras usar la habilidad definitiva, el Daño CRIT que inflige el siguiente ATQ básico potenciado aumenta en un 50%.
+    TeammateContent:
+      masterBuff:
+        text: Mejora del Maestro
+        content: Hace que otro aliado distinto a sí misma se convierta en Maestro. La VEL del Maestro aumenta en un {{ShifuSpeedBuff}}%.
+      masterCdBeBuffs:
+        text: Mejoras de DC / EdR del Maestro
+        content: Tras usar el ATQ básico potenciado, el Daño CRIT y el efecto de Ruptura del Maestro aumentan respectivamente en un 60% y en un 36% durante 2 turnos.
+  Misha:
+    Content:
+      ultHitsOnTarget:
+        text: Golpes de la Definitiva en el objetivo
+        content: Número de golpes de la Definitiva en el objetivo principal, infligiendo daño equivalente a {{ultStackScaling}}% del ATQ por golpe.
+      enemyFrozen:
+        text: Enemigo congelado
+        content: Cuando inflige daño a enemigos congelados, el Daño CRIT aumenta en un 30%.
+      e2DefReduction:
+        text: E2 Reducción de DEF
+        content: Reduce la DEF del objetivo en un 16% durante 3 turnos.
+      e6UltDmgBoost:
+        text: E6 Aumento de daño por Definitiva
+        content: Al usar la habilidad definitiva, inflige un 30% más de daño hasta que termine su turno.
   Mydei:
     Content:
       e4CdBuff:
@@ -1392,6 +1509,8 @@ Characters:
         text: Básico potenciado
   Welt:
     Content:
+      enemyDmgTakenDebuff:
+        text: Afección vulnerabilidad de Definitiva
       enemySlowed:
         text: Enemigo ralentizado
   Yanqing:

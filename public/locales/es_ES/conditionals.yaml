@@ -1122,20 +1122,194 @@ Characters:
       e4TeamResBuff:
         text: E4 Mejora RES al equipo
         content: Cuando Gepard está en la batalla, la RES a efecto de todos los aliados aumenta en un 20%.
+  Guinaifen:
+    Content:
+      talentDebuffStacks:
+        text: Acumulaciones de Beso ardiente
+        content: En el estado de Beso ardiente, el daño que recibe el enemigo aumenta en un {{talentDebuffDmgIncreaseValue}}% durante 3 turnos. Se puede acumular hasta {{talentDebuffMax}} veces.
+      enemyBurned:
+        text: Enemigo quemado
+        content: Inflige un 20% más de daño a los enemigos afectados por Quemadura.
+      skillDot:
+        text: Usar % de Daño con el tiempo de la Habilidad
+        content: Activado, usa el 100% de probabilidad de infligir Daño con el tiempo de la Habilidad en vez del 80% del Básico.
+      e1EffectResShred:
+        text: E1 Reducción de RES a efecto
+        content: Al usar la habilidad básica, hay una probabilidad base del 100% de reducir la RES a efecto del enemigo que recibe el ataque en un 10% durante 2 turnos.
+      e2BurnMultiBoost:
+        text: E2 Aumento multiplicador de quemadura
+        content: Cuando el objetivo está afectado por Quemadura, el ATQ básico y la habilidad básica de Guinaifen aumentan el multiplicador de daño de su efecto de Quemadura en un 40%.
   Hanya:
     Content:
+      ultBuff:
+        text: Mejora de VEL / ATQ de Definitiva
+        content: Aumenta la VEL de un aliado en un {{ultSpdBuffValue}}% de la VEL de Hanya, y el ATQ de ese aliado en un {{ultAtkBuffValue}}%.
+      targetBurdenActive:
+        text: Afección Lastre en el objetivo
+        content: Cuando un aliado usa el ATQ básico, la habilidad básica o la habilidad definitiva contra un enemigo afectado por Lastre, el daño que inflige aumenta en un {{talentDmgBoostValue}}% durante 2 turnos.
+      burdenAtkBuff:
+        text: Mejora de ATQ por Lastre
+        content: Aumenta el ATQ de los aliados que activan el efecto de recuperación de pts. de habilidad básica de Lastre en un 10% durante 1 turno.
       e2SkillSpdBuff:
-        text: E2 Mejora de VEL de Habilidad
+        text: E2 Mejora VEL Habilidad
+        content: Tras usar su habilidad básica, su VEL aumenta en un 20% durante 1 turno.
+    TeammateContent:
+      teammateSPDValue:
+        text: VEL de Hanya
+        content: Aumenta la VEL de un aliado en un {{ultSpdBuffValue}}% de la VEL de Hanya, y el ATQ de ese aliado en un {{ultAtkBuffValue}}%.
   Herta:
     Content:
+      fuaStacks:
+        text: Golpes de ataque adicional
+        content: Cuando el ataque de un aliado reduce el porcentaje de PV del objetivo al 50% o menos, Herta lanza un ataque adicional de Daño de Hielo.
+      targetFrozen:
+        text: Objetivo congelado
+        content: La habilidad definitiva de Herta inflige un 20% más de daño a los enemigos afectados por Congelación.
       enemyHpGte50:
-        text: Aumento de daño de Habilidad
+        text: Aumento daño Habilidad
+        content: Si el porcentaje de PV del enemigo es igual o superior al 50%, el daño infligido a ese objetivo aumenta en un 20%.
       techniqueBuff:
         text: Mejora de ATQ de Técnica
+        content: El ATQ aumenta en un 40% durante 3 turnos.
+      enemyHpLte50:
+        text: E1 Aumento de escalado de Básico
+        content: Si el objetivo tiene un porcentaje de PV igual o inferior al 50%, el ATQ básico de Herta inflige un Daño de Hielo adicional equivalente al 40% de su ATQ.
+      e2TalentCritStacks:
+        text: E2 Acumulaciones de PC de Talento
+        content: La Prob. CRIT aumenta en un 3%. Este efecto se puede acumular hasta 5 veces.
+      e6UltAtkBuff:
+        text: E6 Mejora ATQ Definitiva
+        content: Tras usar la habilidad definitiva, su ATQ aumenta en un 25% durante 1 turno.
   Himeko:
     Content:
+      targetBurned:
+        text: Objetivo quemado
+        content: El daño que la habilidad básica inflige a los enemigos afectados por Quemadura aumenta en un 20%.
+      selfCurrentHp80Percent:
+        text: "Mejora de PC por\nPV propio ≥ 80%"
+        content: Si el porcentaje de PV es igual o superior al 80%, la Prob. CRIT aumenta en un 15%.
+      e1TalentSpdBuff:
+        text: E1 Mejora de VEL
+        content: Cuando se activa Carrera de la victoria, la VEL de Himeko aumenta en un 20% durante 2 turnos.
       e2EnemyHp50DmgBoost:
+        text: E2 Aumento de daño por PV del enemigo ≤ 50%
         content: Cuando el objetivo tiene un porcentaje de PV igual o inferior al 50%, recibe un 15% más de daño.
+      e6UltExtraHits:
+        text: E6 Golpes extra de la Definitiva
+        content: La habilidad definitiva inflige daño 2 veces adicionales. Cada vez, inflige a un enemigo al azar un Daño de Fuego equivalente al 40% del daño original recibido.
+  Hook:
+    Content:
+      enhancedSkill:
+        text: Habilidad potenciada
+        content: >-
+          Tras usar la habilidad definitiva, potencia la habilidad básica la siguiente vez que se use. La habilidad básica potenciada inflige Daño de Fuego equivalente a {{skillEnhancedScaling}}% del ATQ de Hook a un enemigo y daño reducido a los enemigos adyacentes.
+      targetBurned:
+        text: Objetivo quemado
+        content: >-
+          Al atacar a un enemigo afectado por Quemadura, inflige un {{targetBurnedExtraScaling}}% del ATQ de Hook como Daño de Fuego adicional.::BR::E6: Hook inflige un 20% más de daño a los enemigos afectados por Quemadura.
+  Huohuo:
+    Content:
+      ultBuff:
+        text: Mejora ATQ Definitiva
+        content: Aumenta el ATQ de todos los aliados en un {{ultBuffValue}}% durante 2 turnos luego de usar la Definitiva.
+      skillBuff:
+        text: E1 Mejora de VEL
+        content: Cuando Huohuo tiene Vida sacrificada, la VEL de todos los aliados aumenta en un 12%.
+      e6DmgBuff:
+        text: E6 Mejora de daño
+        content: Al curar a un aliado, el daño infligido por el aliado aumenta en un 50% durante 2 turnos.
+  Hyacine:
+    Content:
+      healTargetHp50:
+        text: Objet. curación PV ≤ 50% 
+        content: Al curar a un aliado cuyos PV actuales sean iguales o inferiores al 50% de sus PV máx., la curación realizada por Hyacine o Ica aumenta en un 25%.
+      resBuff:
+        text: Mejora RES a efecto
+        content: La RES a efecto de Hyacine aumenta en un 50%.
+      spd200HpBuff:
+        text: Mejora VEL ≥ 200
+        content: Cuando la VEL de Hyacine es superior a 200, sus PV máx. y los de Ica aumentan en un 20%. Entonces, la curación realizada por Hyacine e Ica aumenta en un 1% por cada 1 pt. de VEL de exceso. Se cuentan como máximo 200 pts. de VEL de exceso.
+      clearSkies:
+        text: Estado Cielo lavado
+        content: Luego de usar su Definitiva, Hyacine entra en el estado de Cielo lavado durante 3 turnos. La duración se reduce en 1 cada vez que Hyacine comienza su turno. En el estado Cielo lavado, los PV máx. de todos los aliados aumentan en un {{UltHpBuffScaling}}% + {{UltHpBuffFlat}}.
+      healingDmgStacks:
+        text: Acumulaciones de daño por curación
+        content: Cuando Hyacine o Ica realizan una curación, el daño que inflige Ica aumenta en un {{TalentDmgBuff}}% durante 2 turnos. Se puede acumular hasta 3 veces.
+      e1HpBuff:
+        text: E1 Mejora de PV
+        content: Cuando Hyacine está en el estado de Cielo lavado, todos los aliados aumentan sus PV máx. en un 50% adicional.
+      e2SpdBuff:
+        text: E2 Mejora de VEL
+        content: Cuando los PV de un aliado se reducen, la VEL aumenta en un 30% durante 2 turnos.
+      e4CdBuff:
+        text: E4 Mejora de DC
+        content: El Rastro "Respiro en el vendaval" se potencia. Por cada 1 pt. de VEL de exceso, el Daño CRIT de Hyacine e Ica aumenta en un 2% adicional.
+      e6ResPen:
+        text: E6 PEN RES
+        content: Cuando Ica está en el campo de batalla, la PEN de la RES a todos los tipos de todos los aliados aumenta en un 20%.
+  ImbibitorLunae:
+    Content:
+      basicEnhanced:
+        text: Potenciación de Básico
+        content: >-
+          0 acumulaciones: Lanza un ataque de 2 golpes e inflige un {{basicScaling}}% del ATQ como Daño Imaginario a un enemigo.::BR::1 acumulación: Lanza un ataque de 3 golpes e inflige un {{basicEnhanced1Scaling}}% del ATQ como Daño Imaginario a un enemigo.::BR::2 acumulaciones: Lanza un ataque de 5 golpes que inflige un {{basicEnhanced2Scaling}}% de su ATQ como Daño Imaginario a un enemigo y daño reducido a enemigos adyacentes.::BR::3 acumulaciones: Lanza un ataque de 7 golpes que inflige un {{basicEnhanced3Scaling}}% de su ATQ como Daño Imaginario a un enemigo y daño reducido a enemigos adyacentes.
+      skillOutroarStacks:
+        text: Acumulaciones de Rugido dominante
+        content: >-
+          Al lanzar Lanza divina o Salto fulgurante, a partir del 4.º golpe obtiene 1 acumulación de Rugido dominante antes de cada golpe. Rugido dominante hace que el Daño CRIT de Dan Heng - Imbibitor Lunae aumente en un {{outroarStackCdValue}}%. Este efecto se puede acumular un máximo de 4 veces (aplica a todos los golpes).
+      talentRighteousHeartStacks:
+        text: Acumulaciones de Corazón justo
+        content: Dan Heng - Imbibitor Lunae obtiene 1 acumulación de Corazón justo después de cada golpe y el daño que inflige aumenta en un {{righteousHeartDmgValue}}% (aplica a todos los golpes).
+      e6ResPenStacks:
+        text: E6 Acumulaciones de PEN RES
+        content: Cuando otro personaje aliado usa su habilidad definitiva, la PEN de la RES a Imaginario del siguiente Salto fulgurante de Dan Heng - Imbibitor Lunae aumenta en un 20%. Este efecto se puede acumular hasta 3 veces.
+  Jade:
+    Content:
+      enhancedFollowUp:
+        text: Ataque adicional potenciado
+        content: Potencia el ataque adicional del talento de Jade. El multiplicador del daño que infligen los ataques adicionales aumenta en un {{ultFuaScalingBuff}}%.
+      pawnedAssetStacks:
+        text: Acumulaciones de Prenda
+        content: >-
+          Jade obtiene inmediatamente 5 acumulaciones de Prenda cuando activa el ataque adicional del talento. Cada acumulación aumenta su Daño CRIT en un {{pawnedAssetCdScaling}}%. Puede acumularse hasta 50 veces. Cada acumulación de Prenda del talento aumenta el ATQ de Jade en un 0.5% adicional.
+      e1FuaDmgBoost:
+        text: E1 Aumento de daño de ataque adicional
+        content: El daño de ataque adicional del talento de Jade aumenta en un 32%. Si un personaje en el estado de Cobrador de deudas golpea a 2/1 enemigos tras atacar, Jade obtiene 1/2 puntos de carga adicionales respectivamente.
+      e2CrBuff:
+        text: E2 Mejora de PC
+        content: Cuando hay 15 acumulaciones de Prenda, la Prob. CRIT de Jade aumenta en un 18%.
+      e4DefShredBuff:
+        text: E4 Mejora reducción DEF
+        content: Al usar la habilidad definitiva, el daño que inflige Jade ignora un 12% de la DEF del enemigo durante 3 turnos.
+      e6ResShredBuff:
+        text: E6 Mejora de PEN RES
+        content: Cuando hay personajes en el estado de Cobrador de deudas en el campo de batalla, la PEN de la RES a Cuántico de Jade aumenta en un 20%, y Jade obtiene el estado de Cobrador de deudas.
+    TeammateContent:
+      debtCollectorSpdBuff:
+        text: Mejora VEL Cobrador de deudas
+        content: Convierte a un aliado en Cobrador de deudas y aumenta su VEL en 30 pts. durante 3 turnos.
+  Jiaoqiu:
+    Content:
+      ashenRoastStacks:
+        text: Acumulaciones de Asado al rescoldo
+        content: >-
+          Después de que Jiaoqiu golpee a un enemigo con el ATQ básico, la habilidad básica o la habilidad definitiva, tiene una probabilidad base del 100% de aplicarle 1 acumulación de Asado al rescoldo. Con 1 acumulación, el daño que recibe el enemigo aumenta en un {{AshenRoastInitialVulnerability}}%, y cada acumulación posterior aumenta el daño que recibe en un {{AshenRoastAdditionalVulnerability}}%.::BR::Asado al rescoldo se puede acumular hasta 5 veces y dura 2 turnos.::BR::Cuando un enemigo está en el estado de Asado al rescoldo, se considera que también está afectado con Quemadura. Al comienzo de cada turno, recibe un {{AshenRoastDotMultiplier}}% del ATQ de Jiaoqiu como Daño de Fuego con el tiempo.
+      ultFieldActive:
+        text: Campo de definitiva activado
+        content: >-
+          Iguala las acumulaciones de Asado al rescoldo que tiene cada enemigo a las que tenga el efecto de Asado al rescoldo con más acumulaciones en el campo de batalla. Luego, activa un campo e inflige un {{UltScaling}}% del ATQ de Jiaoqiu como Daño de Fuego a todos los enemigos.::BR::Los enemigos dentro del campo reciben un {{UltVulnerability}}% más de daño de habilidad definitiva y tienen una probabilidad base del {{ZoneDebuffChance}}% de recibir 1 acumulación de Asado al rescoldo al actuar. Este efecto solo se puede activar 6 veces mientras dura el campo, y solo puede activarse 1 vez por cada turno de cada enemigo. El recuento de activaciones se reinicia cada vez que Jiaoqiu lanza la habilidad definitiva.
+      ehrToAtkBoost:
+        text: Mejora de AdE a ATQ
+        content: Cuando el acierto de efecto de Jiaoqiu es superior al 80%, por cada 15% de exceso, el ATQ aumenta en un 60% adicional, hasta un máximo del 240%.
+      e1DmgBoost:
+        text: E1 Aumento de daño
+        content: El daño que infligen los aliados a los enemigos afectados con Asado al rescoldo aumenta en un 40%.
+      e2Dot:
+        text: E2 Escalado de Daño con el tiempo
+        content: Cuando un enemigo está en el estado de Asado al rescoldo, el multiplicador del Daño de Fuego con el tiempo que le inflige Asado al rescoldo aumenta en un 300%.
+      e6ResShred:
+        text: E6 Reducción de RES
+        content: El límite de acumulaciones de Asado al rescoldo aumenta a 9. Cada acumulación de Asado al rescoldo reduce la RES a todos los tipos del objetivo en un 3%.
   Jingliu:
     Content:
       talentEnhancedState:
@@ -1144,14 +1318,26 @@ Characters:
     Content:
       e2BeBuff:
         text: E2 Mejora de EdR
+      e6ResShred:
+        text: E6 Reducción de RES
   Luka:
     Content:
       basicEnhanced:
         text: Básico potenciado
+  Luocha:
+    Content:
+      e6ResReduction:
+        text: E6 Reducción de RES
   March7thImaginary:
     Content:
       enhancedBasic:
         text: Básico potenciado
+      selfSpdBuff:
+        text: E1 Mejora de VEL
+  Mydei:
+    Content:
+      e4CdBuff:
+        text: E4 Mejora de DC
   Qingque:
     Content:
       basicEnhanced:
@@ -1166,6 +1352,10 @@ Characters:
         text: Mejora de daño de Habilidad
       e4TeamResBuff:
         text: E4 Mejora RES al equipo
+  RuanMei:
+    Content:
+      ultFieldActive:
+        text: Campo de definitiva activado
   Sampo:
     Content:
       skillExtraHits:
@@ -1182,6 +1372,10 @@ Characters:
         text: Golpes extra de Habilidad
   TheHerta:
     Content:
+      enhancedSkill:
+        text: Habilidad potenciada
+      ultAtkBuff:
+        text: Mejora ATQ Definitiva
       e6Buffs:
         text: E6 Mejoras
   Tingyun:

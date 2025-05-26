@@ -35,16 +35,16 @@ export function CharacterGrid(props: {
   }), [])
 
   const columnDefs: ColDef<Character>[] = useMemo(() => [
-    // set field to 'id' to satisfy type constraint
     { field: 'id', headerName: t('GridHeaders.Icon')/* Icon */, cellRenderer: cellImageRenderer, width: 52 },
     {
-      field: 'id',
+      field: 'rank',
       headerName: t('GridHeaders.Priority')/* Priority */,
       cellRenderer: cellRankRenderer,
       width: 60,
       rowDrag: true,
     },
-    { field: 'id', headerName: t('GridHeaders.Character')/* Character */, flex: 1, cellRenderer: cellNameRenderer },
+    // no valueFormatter makes the grid very unhappy, so just provide a dummy formatter
+    { field: 'equipped', headerName: t('GridHeaders.Character')/* Character */, flex: 1, cellRenderer: cellNameRenderer, valueFormatter: () => '' },
   ], [t])
 
   const defaultColDef = useMemo(() => ({

@@ -25,7 +25,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
 
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 1.50, 1.65)
-  const basicEnhancedExtraScaling = basic(e, 0.70, 0.77)
+  const basicEnhancedExtraScaling = basic(e, 2.20, 2.42)
 
   const skillScaling = skill(e, 1.50, 1.65)
   const skillStackScaling = skill(e, 0.14, 0.154)
@@ -150,7 +150,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
 
       x.BASIC_ATK_SCALING.buff(r.enhancedBasic ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
       if (context.enemyCount == 1) {
-        x.BASIC_ATK_SCALING.buff(r.enhancedBasic ? basicEnhancedExtraScaling : basicScaling, SOURCE_BASIC)
+        x.BASIC_ATK_SCALING.buff(r.enhancedBasic ? basicEnhancedExtraScaling : 0, SOURCE_BASIC)
       }
 
       x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)

@@ -888,35 +888,34 @@
       "element": "Wind",
       "traces": {
         "HP%": 0.1,
-        "Wind DMG Boost": 0.176,
-        "CRIT Rate": 0.12,
-        "ATK%": 0.06
+        "Wind DMG Boost": 0.224,
+        "CRIT Rate": 0.12
       },
       "traceTree": [
         {
-          "id": "1014201_3.4v1",
+          "id": "1014201_3.4v2",
           "stat": "Wind DMG Boost",
           "value": 0.032,
           "pre": null,
           "children": []
         },
         {
-          "id": "1014202_3.4v1",
+          "id": "1014202_3.4v2",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": [
             {
-              "id": "1014203_3.4v1",
+              "id": "1014203_3.4v2",
               "stat": "Wind DMG Boost",
               "value": 0.032,
-              "pre": "1014202_3.4v1",
+              "pre": "1014202_3.4v2",
               "children": [
                 {
-                  "id": "1014204_3.4v1",
+                  "id": "1014204_3.4v2",
                   "stat": "HP%",
                   "value": 0.04,
-                  "pre": "1014203_3.4v1",
+                  "pre": "1014203_3.4v2",
                   "children": []
                 }
               ]
@@ -924,22 +923,22 @@
           ]
         },
         {
-          "id": "1014205_3.4v1",
+          "id": "1014205_3.4v2",
           "stat": "Wind DMG Boost",
           "value": 0.048,
           "pre": null,
           "children": [
             {
-              "id": "1014206_3.4v1",
+              "id": "1014206_3.4v2",
               "stat": "CRIT Rate",
               "value": 0.04,
-              "pre": "1014205_3.4v1",
+              "pre": "1014205_3.4v2",
               "children": [
                 {
-                  "id": "1014207_3.4v1",
-                  "stat": "ATK%",
-                  "value": 0.06,
-                  "pre": "1014206_3.4v1",
+                  "id": "1014207_3.4v2",
+                  "stat": "Wind DMG Boost",
+                  "value": 0.048,
+                  "pre": "1014206_3.4v2",
                   "children": []
                 }
               ]
@@ -947,23 +946,23 @@
           ]
         },
         {
-          "id": "1014208_3.4v1",
+          "id": "1014208_3.4v2",
           "stat": "HP%",
           "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "1014209_3.4v1",
+              "id": "1014209_3.4v2",
               "stat": "CRIT Rate",
               "value": 0.053,
-              "pre": "1014208_3.4v1",
+              "pre": "1014208_3.4v2",
               "children": []
             },
             {
-              "id": "1014210_3.4v1",
+              "id": "1014210_3.4v2",
               "stat": "Wind DMG Boost",
               "value": 0.064,
-              "pre": "1014208_3.4v1",
+              "pre": "1014208_3.4v2",
               "children": []
             }
           ]
@@ -993,74 +992,74 @@
       },
       "traceTree": [
         {
-          "id": "1015201_3.4v1",
+          "id": "1015201_3.4v2",
           "stat": "Quantum DMG Boost",
           "value": 0.032,
           "pre": null,
           "children": []
         },
         {
-          "id": "1015202_3.4v1",
+          "id": "1015202_3.4v2",
           "stat": "HP%",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1015203_3.4v1",
+              "id": "1015203_3.4v2",
               "stat": "Quantum DMG Boost",
               "value": 0.032,
-              "pre": "1015202_3.4v1",
+              "pre": "1015202_3.4v2",
               "children": []
             }
           ]
         },
         {
-          "id": "1015204_3.4v1",
+          "id": "1015204_3.4v2",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": []
         },
         {
-          "id": "1015205_3.4v1",
+          "id": "1015205_3.4v2",
           "stat": "Quantum DMG Boost",
           "value": 0.048,
           "pre": null,
           "children": [
             {
-              "id": "1015206_3.4v1",
+              "id": "1015206_3.4v2",
               "stat": "HP%",
               "value": 0.06,
-              "pre": "1015205_3.4v1",
+              "pre": "1015205_3.4v2",
               "children": []
             }
           ]
         },
         {
-          "id": "1015207_3.4v1",
+          "id": "1015207_3.4v2",
           "stat": "Quantum DMG Boost",
           "value": 0.048,
           "pre": null,
           "children": []
         },
         {
-          "id": "1015208_3.4v1",
+          "id": "1015208_3.4v2",
           "stat": "CRIT Rate",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1015209_3.4v1",
+              "id": "1015209_3.4v2",
               "stat": "HP%",
               "value": 0.08,
-              "pre": "1015208_3.4v1",
+              "pre": "1015208_3.4v2",
               "children": []
             },
             {
-              "id": "1015210_3.4v1",
+              "id": "1015210_3.4v2",
               "stat": "Quantum DMG Boost",
               "value": 0.064,
-              "pre": "1015208_3.4v1",
+              "pre": "1015208_3.4v2",
               "children": []
             }
           ]
@@ -6665,29 +6664,29 @@
       },
       "traceTree": [
         {
-          "id": "1408201_3.4v1",
+          "id": "1408201_3.4v2",
           "stat": "CRIT DMG",
           "value": 0.053,
           "pre": null,
           "children": []
         },
         {
-          "id": "1408202_3.4v1",
+          "id": "1408202_3.4v2",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": [
             {
-              "id": "1408203_3.4v1",
+              "id": "1408203_3.4v2",
               "stat": "CRIT DMG",
               "value": 0.053,
-              "pre": "1408202_3.4v1",
+              "pre": "1408202_3.4v2",
               "children": [
                 {
-                  "id": "1408204_3.4v1",
+                  "id": "1408204_3.4v2",
                   "stat": "SPD",
                   "value": 2,
-                  "pre": "1408203_3.4v1",
+                  "pre": "1408203_3.4v2",
                   "children": []
                 }
               ]
@@ -6695,22 +6694,22 @@
           ]
         },
         {
-          "id": "1408205_3.4v1",
+          "id": "1408205_3.4v2",
           "stat": "CRIT DMG",
           "value": 0.08,
           "pre": null,
           "children": [
             {
-              "id": "1408206_3.4v1",
+              "id": "1408206_3.4v2",
               "stat": "CRIT Rate",
               "value": 0.04,
-              "pre": "1408205_3.4v1",
+              "pre": "1408205_3.4v2",
               "children": [
                 {
-                  "id": "1408207_3.4v1",
+                  "id": "1408207_3.4v2",
                   "stat": "CRIT DMG",
                   "value": 0.08,
-                  "pre": "1408206_3.4v1",
+                  "pre": "1408206_3.4v2",
                   "children": []
                 }
               ]
@@ -6718,23 +6717,23 @@
           ]
         },
         {
-          "id": "1408208_3.4v1",
+          "id": "1408208_3.4v2",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": [
             {
-              "id": "1408209_3.4v1",
+              "id": "1408209_3.4v2",
               "stat": "CRIT Rate",
               "value": 0.053,
-              "pre": "1408208_3.4v1",
+              "pre": "1408208_3.4v2",
               "children": []
             },
             {
-              "id": "1408210_3.4v1",
+              "id": "1408210_3.4v2",
               "stat": "CRIT DMG",
               "value": 0.107,
-              "pre": "1408208_3.4v1",
+              "pre": "1408208_3.4v2",
               "children": []
             }
           ]
@@ -7727,7 +7726,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1205b1": {
       "id": "1205b1",
@@ -7826,7 +7825,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1005b1": {
       "id": "1005b1",
@@ -7925,7 +7924,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1006b1": {
       "id": "1006b1",
@@ -8024,7 +8023,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     }
   },
   "lightCones": {

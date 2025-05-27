@@ -1,9 +1,26 @@
 BetaMessage: "Versión actual: {{Version}} - Los cálculos están sujetos a cambios."
 Common:
+  BuffPriority:
+    Text: "Prioridad de las mejoras"
+    Content: "Selecciona al receptor de preferencia para las mejoras de objetivo único"
+    Self: "Prioridad mejoras: A sí mismo"
+    Memo: "Prioridad mejoras: Mnemo"
   HealAbility:
-    Content: "Selecciona la habilidad para los cálculos de curación"
+    Text: "Recurso de curación"
+    Content: "Selecciona el recurso para los cálculos de curación"
+    Basic: "Recurso curación: Básico"
+    Skill: "Recurso curación: Habilidad"
+    Ult: "Recurso curación: Definitiva"
+    Talent: "Recurso curación: Talento"
+    Trace: "Recurso curación: Rastro"
   ShieldAbility:
-    Content: "Selecciona la habilidad para los cálculos de escudo"
+    Text: "Recurso de escudo"
+    Content: "Selecciona el recurso para los cálculos de escudo"
+    Basic: "Recurso escudo: Básico"
+    Skill: "Recurso escudo: Habilidad"
+    Ult: "Recurso escudo: Definitiva"
+    Talent: "Recurso escudo: Talento"
+    Trace: "Recurso escudo: Rastro"
 Lightcones:
   AGroundedAscent:
     Content:
@@ -1657,16 +1674,79 @@ Characters:
         text: Afecciones del objetivo
         content: >-
           Al usar la habilidad básica, si el enemigo tiene 3 o más estados negativos, su RES a todos los tipos se reduce en un 3% adicional.::BR::E4: Tras usar su habilidad definitiva para atacar a un enemigo, Silver Wolf inflige un 20% de su ATQ como Daño Cuántico adicional por cada estado negativo que tenga el objetivo. Este efecto se puede activar un máximo de 5 veces cada vez que ataque con su habilidad definitiva.::BR::E6: Por cada estado negativo que tenga el objetivo enemigo, el daño que inflige Silver Wolf aumenta en un 20%, hasta un máximo del 100%.
+  Sparkle:
+    Content:
+      skillCdBuff:
+        text: Mejora DC de Habilidad
+        content: >-
+          Aumenta el Daño CRIT de un aliado en un valor equivalente al {{skillCdBuffScaling}}% del Daño CRIT de Sparkle + {{skillCdBuffBase}}% durante 1 turno.::BR::E6: El efecto de aumento de Daño CRIT de la habilidad básica aumenta adicionalmente en una cantidad equivalente al 30% del Daño CRIT de Sparkle. Cuando Sparkle usa su habilidad básica, el efecto de aumento de Daño CRIT de la habilidad básica se aplica a todos los aliados que tengan Adivinanza. Cuando Sparkle usa su habilidad definitiva, si un aliado tiene el efecto de aumento de Daño CRIT de la habilidad básica, este efecto se extiende a todos los aliados que tengan Adivinanza.
+
+      cipherBuff:
+        text: Mejora Adivinanza
+        content: >-
+          Para los aliados con Adivinanza, el efecto de aumento de daño que proporciona el talento de Sparkle se incrementa de forma adicional en un {{cipherTalentStackBoost}}% por cada acumulación durante 2 turnos.::BR::E1: La duración de Adivinanza otorgada por la habilidad definitiva aumenta en 1 turno. El ATQ de los aliados con Adivinanza aumenta en un 40%.
+      talentStacks:
+        text: Acumulaciones de daño del Talento
+        content: >-
+          Cuando un aliado consume 1 pt. de habilidad básica, el daño de todos los aliados aumenta en un {{talentBaseStackBoost}}% durante 2 turnos. Se puede acumular hasta 3 veces.::BR::E2: Por cada acumulación del efecto del talento, los aliados ignoran un 8% de la DEF del objetivo cuando infligen daño.
+      quantumAlliesAtkBuff:
+        text: Mejora ATQ aliados Cuánticos
+        content: Cuando en el equipo aliado hay 1/2/3 personajes de tipo Cuántico, el ATQ de los aliados de tipo Cuántico aumenta en un 5%/15%/30% adicional.
+    TeammateContent:
+      teammateCDValue:
+        text: DC en combate de Sparkle
+        content: Aumenta el Daño CRIT de un aliado en un valor equivalente al {{skillCdBuffScaling}}% del Daño CRIT de Sparkle + {{skillCdBuffBase}}% durante 1 turno
   Sunday:
     Content:
       skillDmgBuff:
         text: Mejora de daño de Habilidad
+        content: >-
+          Hace que un personaje aliado y su invocación actúen inmediatamente y aumenta en un {{DmgBoost}}% el daño que infligen. Si el objetivo tiene una invocación, el efecto de aumento de daño se incrementa en un {{SummonDmgBoost}}% adicional.
+      talentCrBuffStacks:
+        text: Acum. de la mejora de PC del Talento
+        content: Al lanzar la habilidad básica, la Prob. CRIT del objetivo aumenta en un {{CritRateBoost}}%. Dura 3 turnos.
+      techniqueDmgBuff:
+        text: Mejora daño de Técnica
+        content: La primera vez que Sunday lance una habilidad sobre un aliado en la siguiente batalla, el daño que inflige el objetivo aumenta en un 50% durante 2 turnos.
       e1DefPen:
         text: E1 PEN DEF
+        content: >-
+          Cuando Sunday lanza la habilidad básica, hace que el personaje y la invocación objetivos de la habilidad ignoren respectivamente un 16% y un 40% de la DEF del enemigo al infligir daño durante 2 turnos.
+      e2DmgBuff:
+        text: E2 Mejora daño Beatitud
+        content: El daño que inflige el aliado con Beatitud aumenta en un 30%.
+    TeammateContent:
+      beatified:
+        text: Mejora de DC de la Definitiva
+        content: >-
+          El Daño CRIT de los aliados con Beatitud aumenta en una cantidad equivalente al {{CritBuffScaling}}% del Daño CRIT de Sunday + {{CritBuffFlat}}%.
+      teammateCDValue:
+        text: DC en combate de Sunday
+        content: >-
+          El Daño CRIT de los aliados con Beatitud aumenta en una cantidad equivalente al {{CritBuffScaling}}% del Daño CRIT de Sunday + {{CritBuffFlat}}%.
+      e6CrToCdConversion:
+        text: E6 Conversión de PC a DC
+        content: >-
+          Cuando el efecto de aumento de la Prob. CRIT del talento está activo y la Prob. CRIT del objetivo sobrepasa el 100%, cada 1% de Prob. CRIT excedente aumenta el Daño CRIT en un 2%.
   Sushang:
     Content:
+      ultBuffedState:
+        text: Estado mejorado de la Definitiva
+        content: >-
+          El ATQ de Sushang aumenta en un {{ultBuffedAtk}}% y al usar la habilidad básica tiene 2 oportunidades extra de activar Postura espadachina durante 2 turnos. Si Postura espadachina se activa con las oportunidades extra, el daño que inflige es un 50% del daño original.
       skillExtraHits:
         text: Golpes extra de Habilidad
+        content: Aumenta el número de golpes extra de Postura espadachina de la Habilidad.
+      skillTriggerStacks:
+        text: Acum. de activaciones de la Habilidad
+        content: El daño que inflige Postura espadachina aumenta en un 2.5% cada vez que se activa. Este efecto se puede acumular hasta 10 veces.
+      talentSpdBuffStacks:
+        text: Acum. de mejora de VEL del Talento
+        content: >-
+          Cuando se rompe la Debilidad de un enemigo en la batalla, la VEL de Sushang aumenta en un {{talentSpdBuffValue}}% durante 2 turnos.::BR::E6: El efecto de aumento de VEL del talento se puede acumular hasta 2 veces.
+      e2DmgReductionBuff:
+        text: E2 Mejora de reducción de daño
+        content: Tras activar Postura espadachina, el daño que recibe Sushang se reduce en un 20% durante 1 turno.
   TheHerta:
     Content:
       enhancedSkill:

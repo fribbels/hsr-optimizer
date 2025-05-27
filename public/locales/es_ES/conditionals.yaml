@@ -220,7 +220,7 @@ Lightcones:
         text: Acumulaciones mejora de ATQ
         content: Cuando el portador lanza un ataque, su ATQ aumenta en un {{AtkBuff}}% durante esa batalla. Este efecto se puede acumular hasta 4 veces.
       weaknessBreakDmgBuff:
-        text: Mejora de daño por ruptura de debilidad
+        text: Mejora de daño por Ruptura de Debilidad
         content: Cuando el portador rompe la Debilidad del enemigo, el daño que inflige aumenta en un {{DmgBuff}}% durante 2 turnos.
   PastSelfInTheMirror:
     Content:
@@ -1002,7 +1002,7 @@ Characters:
     Content:
       weaknessBrokenUlt:
         text: Definitiva debilidad rota (forzar rupt. de debilidad)
-        content: Sobreescribe la debilidad a la ruptura para que cuente como activada.
+        content: Sobreescribe la ruptura de debilidad para que cuente como activada.
       talentDmgBuff:
         text: Mejora daño de Talento
         content: >-
@@ -1451,32 +1451,212 @@ Characters:
       e6UltDmgBoost:
         text: E6 Aumento de daño por Definitiva
         content: Al usar la habilidad definitiva, inflige un 30% más de daño hasta que termine su turno.
+  Moze:
+    Content:
+      preyMark:
+        text: Presa marcada
+        content: >-
+          Moze entra en el estado de Ausente mientras haya una Presa en el campo de batalla.::BR::Después de que un objetivo aliado ataque a la Presa, Moze le inflige 1 vez un Daño de Rayo adicional equivalente al {{PreyAdditionalMultiplier}}% de su ATQ, y gasta 1 punto de carga. Por cada 3 puntos de carga gastados, Moze lanza 1 ataque adicional a la Presa que le inflige un {{FuaScaling}}% de su ATQ como Daño de Rayo. Cuando la carga llega a 0, se disipa el estado de Presa del objetivo y se reinicia el contador de pts. de carga requeridos para lanzar los ataques adicionales.
+      e2CdBoost:
+        text: E2 Aumento de DC
+        content: El Daño CRIT que infligen todos los objetivos aliados a los enemigos marcados como Presa aumenta en un 40%.
+      e4DmgBuff:
+        text: E4 Mejora de daño
+        content: Al lanzar la habilidad definitiva, el daño que inflige Moze aumenta en un 30% durante 2 turnos.
+      e6MultiplierIncrease:
+        text: E6 Mejora multiplicador de ataque adicional
+        content: El multiplicador de daño del ataque adicional del talento aumenta en un 25%.
   Mydei:
     Content:
+      skillEnhances:
+        text: Potenciaciones de habilidad
+        content: >-
+          Selecciona el nivel de potenciación de la Habilidad de Midei. ::BR:: Morir mil veces sin remordimientos (mejora 0): Consume un 50% de sus PV actuales e inflige un {{SkillPrimaryScaling}}% de sus PV máx. como Daño Imaginario a un enemigo y un {{SkillAdjacentScaling}}% de sus PV máx. como Daño Imaginario a los objetivos adyacentes. ::BR:: Regicidio, ascenso al trono (mejora 1): Consume un 35% de sus PV actuales e inflige un {{EnhancedSkillPrimaryScaling}}% de sus PV máx. como Daño Imaginario a un enemigo y un {{EnhancedSkillAdjacentScaling}}% de sus PV máx. como Daño Imaginario a los objetivos adyacentes. ::BR:: Deicidio, ascenso divino (mejora 2): Consume 150 puntos de carga e inflige un {{EnhancedSkill2PrimaryScaling}}% de sus PV máx. como Daño Imaginario a un enemigo y un {{EnhancedSkill2AdjacentScaling}}% de sus PV máx. como Daño Imaginario a los objetivos adyacentes.
+      vendettaState:
+        text: Venganza de sangre
+        content: >-
+          Acumula 1 punto de carga por cada 1% de PV que pierde, hasta un máximo de 200 puntos. Cuando la carga alcanza 100, consume 100 puntos de carga para entrar en el estado de Venganza de sangre, regenera un {{HpRestoration}}% de los PV máx. de Midei, y además adelanta su acción un 100%. ::BR:: En el estado de Venganza de sangre, sus PV máx. aumentan en un 50% de sus PV máx. actuales y su DEF se mantiene en 0. Al comenzar su turno, lanza automáticamente Regicidio, ascenso al trono. Cuando la carga en el estado de Venganza de sangre alcanza 150 puntos, Midei obtiene inmediatamente 1 turno adicional y lanza automáticamente Deicidio, ascenso divino.
+      hpToCrConversion:
+        text: Conversión PV a PC
+        content: Al comenzar la batalla, si los PV máx. de Midei son superiores a 4000, por cada 100 PV de exceso su Prob. CRIT aumenta en un 1.2%, la proporción de carga obtenida al recibir daño de los enemigos aumenta en un 2.5%, y los PV regenerados al recibir curación aumentan en un 0.75%. Se pueden calcular como máximo 4000 PV de exceso.
+      e1EnhancedSkillBuff:
+        text: E1 Aumento de Habilidad potenciada
+        content: El multiplicador del daño que Deicidio, ascenso divino inflige al objetivo principal aumenta en un 30%. Deicidio, ascenso divino pasa a infligir a todos los enemigos un Daño Imaginario equivalente al multiplicador de daño del objetivo principal.
+      e2DefPen:
+        text: E2 PEN DEF
+        content: Durante el estado de Venganza de sangre, el daño que inflige Midei ignora un 15% de la DEF de los enemigos. Tras recibir una curación, un 40% de la curación recibida se convierte en carga. La carga convertida acumulada no puede superar 40 pts. Después de que cualquier unidad actúe, se restablece la carga que se puede acumular.
       e4CdBuff:
         text: E4 Mejora de DC
+        content: Durante el estado de Venganza de sangre, el Daño CRIT aumenta en un 30%. Tras recibir un ataque enemigo, regenera un 10% de sus PV máx.
+  Pela:
+    Content:
+      teamEhrBuff:
+        text: Mejora de AdE al equipo
+        content: Cuando Pela está en la batalla, el acierto de efecto de todos los aliados aumenta en un 10%.
+      enemyDebuffed:
+        text: Enemigo afectado
+        content: Inflige un 20% más de daño a los enemigos afectados por estados negativos.
+      skillRemovedBuff:
+        text: Mejoras por remover mejora con la Habilidad
+        content: "Cuando la habilidad básica disipa un efecto positivo, el daño del siguiente ataque aumenta en un 20%.::BR::E2: Cuando la habilidad básica disipa un efecto positivo de un enemigo, la VEL aumenta en un 10% durante 2 turnos."
+      ultDefPenDebuff:
+        text: Reducción DEF Definitiva
+        content: La DEF de los enemigos afectados por Desprotección se reduce en un {{ultDefPenValue}}% durante 2 turnos.
+      e4SkillResShred:
+        text: E4 Reducción de la RES a Hielo de la Habilidad
+        content: Al usar la habilidad básica, hay una probabilidad base del 100% de reducir la RES a Hielo del enemigo en un 12% durante 2 turnos.
   Qingque:
     Content:
       basicEnhanced:
         text: Básico potenciado
+        content: El ATQ de Qingque aumenta en un {{talentAtkBuff}}%, su ATQ básico "Combinación oculta" se potencia y se convierte en "¡Fuera la ficha del muro muerto!".
+      basicEnhancedSpdBuff:
+        text: Mejora de VEL del Básico potenciado
+        content: Tras utilizar el ATQ básico potenciado, la VEL de Qingque aumenta en un 10% durante 1 turno.
+      skillDmgIncreaseStacks:
+        text: Acum. de aumento de daño por Habilidad
+        content: Roba 2 fichas de jade e inflige un {{skillStackDmg}}% más de daño hasta que termine el turno. Este efecto se puede acumular hasta 4 veces.
   Rappa:
     Content:
+      sealformActive:
+        text: Forma de sello (forzar ruptura de debilidad)
+        content: >-
+          Entra en el estado de Forma de sello y obtiene inmediatamente 1 turno adicional y 3 pts. de Tinta cromática. Además, su eficiencia de la Ruptura de Debilidad y su efecto de Ruptura aumentan en un 50% y un {{ultBeBuff}}% respectivamente.
+      atkToBreakVulnerability:
+        text: Vulnerabilidad ATQ a Ruptura
+        content: Cuando se rompe la Debilidad de un enemigo, el Daño de Ruptura recibido aumenta en un 2%. Si el ATQ actual de Rappa es superior a 2400 pts., ese Daño de Ruptura aumenta en un 1% adicional por cada 100 pts. de ATQ de exceso, hasta un máximo de 8%.
+      chargeStacks:
+        text: Acumulaciones de carga
+        content: Por cada pt. de carga, el multiplicador del Daño de Ruptura de este golpe aumenta en un {{talentChargeMultiplier}}% y la Reducción de Firmeza que ignora los tipos de Debilidad aumenta en 1 punto.
       e1DefPen:
         text: E1 PEN DEF
+        content: Mientras está en el estado de Forma de sello tras lanzar la habilidad definitiva, el daño que inflige Rappa ignora un 15% de la DEF de los objetivos.
+      e2Buffs:
+        text: E2 Mejoras de ruptura
+        content: Aumenta en un 50% la Reducción de Firmeza de los 2 primeros golpes del ATQ básico potenciado contra el enemigo designado.
+      e4SpdBuff:
+        text: E4 Mejora de VEL
+        content: Durante el estado de Forma de sello, la VEL de todos los aliados aumenta en un 12%.
+    TeammateContent:
+      teammateBreakVulnerability:
+        text: Vulnerabilidad a la ruptura
+        content: Cuando se rompe la Debilidad de un enemigo, el Daño de Ruptura recibido aumenta en un 2%. Si el ATQ actual de Rappa es superior a 2400 pts., ese Daño de Ruptura aumenta en un 1% adicional por cada 100 pts. de ATQ de exceso, hasta un máximo de 8%.
+      e4SpdBuff:
+        text: E4 Mejora de VEL
+        content: Durante el estado de Forma de sello, la VEL de todos los aliados aumenta en un 12%.
   Robin:
     Content:
+      concertoActive:
+        text: Concierto activado
+        content: >-
+          Mientras está en el estado de Concierto, el ATQ de todos los aliados aumenta en una cantidad equivalente al {{ultAtkBuffScalingValue}}% + {{ultAtkBuffFlatValue}} del ATQ de Robin. Después de cada ataque de los aliados, Robin inflige 1 vez un {{ultScaling}}% de su ATQ como Daño Físico adicional. La Prob. CRIT de este daño se fija en el 100% y el Daño CRIT se fija en el 150%.
       skillDmgBuff:
-        text: Mejora de daño de Habilidad
+        text: Mejora daño Habilidad
+        content: Aumenta en un {{skillDmgBuffValue}}% el daño que infligen todos los aliados durante 3 turnos.
+      talentCdBuff:
+        text: Mejora DC Talento
+        content: Aumenta el Daño CRIT de todos los aliados en un {{talentCdBuffValue}}%.
+      e1UltResPen:
+        text: E1 PEN RES Definitiva
+        content: Cuando está en el estado de Concierto, la PEN de la RES a todos los tipos de todos los aliados aumenta en un 24%.
       e4TeamResBuff:
         text: E4 Mejora RES al equipo
+        content: Al usar su habilidad definitiva, disipa los estados negativos de Control de todos los aliados. Cuando Robin está en el estado de Concierto, la RES a efecto de todos los aliados aumenta en un 50%.
+      e6UltCDBoost:
+        text: E6 Aumento de DC del daño de Definitiva
+        content: >-
+          Cuando está en el estado de Concierto, el Daño CRIT del Daño Físico adicional infligido por la habilidad definitiva aumenta en un 450%. El efecto de Noche sin luna se puede activar hasta 8 veces. Cada vez que usa la habilidad definitiva, se reinicia el número de veces que se puede activar.
+    TeammateContent:
+      teammateATKValue:
+        text: ATQ en combate de Robin
+        content: >-
+          Mientras está en el estado de Concierto, el ATQ de todos los aliados aumenta en una cantidad equivalente al {{ultAtkBuffScalingValue}}% + {{ultAtkBuffFlatValue}} del ATQ de Robin.::BR::Configura esto al ATQ propio de Robin que usa para mejorar a aliados.
+      traceFuaCdBoost:
+        text: Aumento DC ataque adicional
+        content: Cuando está en el estado de Concierto, el Daño CRIT que infligen todos los aliados con sus ataques adicionales aumenta en un 25%.
+      e2UltSpdBuff:
+        text: E2 Mejora VEL Definitiva
+        content: Cuando está en el estado de Concierto, la VEL de todos los aliados aumenta en un 16%.
   RuanMei:
     Content:
+      skillOvertoneBuff:
+        text: Mejora Sobretono
+        content: >-
+          Tras usar su habilidad básica, Ruan Mei obtiene Sobretono durante 3 turnos. Esta duración se reduce en 1 al comienzo del turno de Ruan Mei. Cuando Ruan Mei tiene Sobretono, el daño de todos los aliados aumenta en un {{skillScaling}}% y la eficiencia de la Ruptura de Debilidad aumenta en un 50%.
+      teamBEBuff:
+        text: Mejora de EdR al equipo
+        content: El efecto de Ruptura de todos los aliados aumenta en un 20%.
       ultFieldActive:
         text: Campo de definitiva activado
+        content: >-
+          Dentro del campo, la PEN de la RES a todos los tipos de todos los aliados aumenta en un {{fieldResPenValue}}%.::BR::E1: Mientras el campo de la habilidad definitiva está activo, el daño que infligen todos los aliados ignora un 20% de la DEF del objetivo.
+      e2AtkBoost:
+        text: E2 Aumento de ATQ contra enemigo roto
+        content: Cuando Ruan Mei está en la batalla, el ATQ de todos los aliados aumenta en un 40% cuando infligen daño a enemigos con Ruptura de Debilidad.
+      e4BeBuff:
+        text: E4 Mejora de EdR
+        content: Cuando un enemigo es afectado por Ruptura de Debilidad, el efecto de Ruptura de Ruan Mei aumenta en un 100% durante 3 turnos.
+    TeammateContent:
+      teamSpdBuff:
+        text: Mejora de VEL al equipo
+        content: La VEL de todos los aliados (excepto Ruan Mei) aumenta en un {{talentSpdScaling}}%.
+      teamDmgBuff:
+        text: Aumento de EdR a daño
+        content: Durante la batalla, cuando el efecto de Ruptura de Ruan Mei es superior al 120%, por cada 10% de exceso, su habilidad básica aumenta el daño de todos los aliados en un 6% adicional, hasta un máximo del 36%.
   Sampo:
     Content:
+      targetDotTakenDebuff:
+        text: Vulnerabilidad Daño con el tiempo de la Definitiva
+        content: Los objetivos afectados por la Definitiva de Sampo reciben Daño con el tiempo aumentado en un {{dotVulnerabilityValue}}% durante 2 turnos.
       skillExtraHits:
         text: Golpes extra de Habilidad
+        content: Número de golpes extra de la Habilidad.
+      targetWindShear:
+        text: Objetivo a la intemperie
+        content: El daño que los enemigos afectados por Intemperie infligen a Sampo se reduce en un 15%.
+  Seele:
+    Content:
+      buffedState:
+        text: Estado mejorado
+        content: >-
+          Al eliminar a un objetivo enemigo usando su ATQ básico, habilidad básica o habilidad definitiva, obtiene inmediatamente un turno adicional y entra en un estado potenciado. Este estado hace que el daño de los ataques de Seele aumente en un {{buffedStateDmgBuff}}% durante 1 turno.::BR::Cuando Seele está en el estado potenciado, su PEN de la RES a Cuántico aumenta en un 20%.
+      speedBoostStacks:
+        text: Acumulaciones de la mejora de velocidad
+        content: "Luego de usar su Habilidad, Seele aumenta su VEL en un 25% durante 2 turnos.::BR::E2: El efecto de aumento de VEL de la habilidad básica se puede acumular hasta 2 veces."
+      e1EnemyHp80CrBoost:
+        text: "E1 Aumento de PC por\nPV enemigo  ≤ 80%"
+        content: Cuando inflige daño a un objetivo que tiene un porcentaje de PV igual o inferior al 80%, la Prob. CRIT aumenta en un 15%.
+      e6UltTargetDebuff:
+        text: E6 Mariposa desbocada
+        content: Tras usar la habilidad definitiva de Seele, el objetivo entra en el estado de Mariposa desbocada durante 1 turno. Cuando un enemigo afectado por Mariposa desbocada es atacado, recibe un Daño Cuántico adicional equivalente al 15% del daño de habilidad definitiva de Seele.
+  Serval:
+    Content:
+      targetShocked:
+        text: Enemigo electrocutado
+        content: Tras lanzar un ataque, inflige un {{talentExtraDmgScaling}}% del ATQ de Serval como Daño de Rayo adicional a todos los enemigos afectados por Electrocución.
+      enemyDefeatedBuff:
+        text: Mejora por enemigo derrotado
+        content: Tras eliminar a un enemigo, el ATQ aumenta en un 20% durante 2 turnos.
+  SilverWolf:
+    Content:
+      skillResShredDebuff:
+        text: Reducción de RES de la Habilidad
+        content: >-
+          Reduce la RES a todos los tipos del objetivo en un {{skillResShredValue}}% durante 2 turnos.::BR::Al usar la habilidad básica, si el enemigo tiene 3 o más estados negativos, su RES a todos los tipos se reduce en un 3% adicional.
+      skillWeaknessResShredDebuff:
+        text: Reducción de RES por debilidad implantada por Habilidad
+        content: >-
+          Tiene una probabilidad base del {{implantChance}}% de aplicar a un enemigo 1 Debilidad del mismo tipo que el de algún aliado en el campo de batalla y reducir su RES al tipo de esa Debilidad en un 20% durante 2 turnos. Si el objetivo enemigo ya tenía ese tipo de Debilidad, entonces no se activará la reducción de RES al tipo correspondiente a esa Debilidad.
+      talentDefShredDebuff:
+        text: Reducción de DEF del error
+        content: El error de Silver Wolf reduce la DEF del enemigo en un {{talentDefShredDebuffValue}}% durante 3 turnos.
+      ultDefShredDebuff:
+        text: Reducción DEF Definitiva
+        content: Reduce la DEF de un enemigo en un {{ultDefShredValue}}% durante 3 turnos.
+      targetDebuffs:
+        text: Afecciones del objetivo
+        content: >-
+          Al usar la habilidad básica, si el enemigo tiene 3 o más estados negativos, su RES a todos los tipos se reduce en un 3% adicional.::BR::E4: Tras usar su habilidad definitiva para atacar a un enemigo, Silver Wolf inflige un 20% de su ATQ como Daño Cuántico adicional por cada estado negativo que tenga el objetivo. Este efecto se puede activar un máximo de 5 veces cada vez que ataque con su habilidad definitiva.::BR::E6: Por cada estado negativo que tenga el objetivo enemigo, el daño que inflige Silver Wolf aumenta en un 20%, hasta un máximo del 100%.
   Sunday:
     Content:
       skillDmgBuff:
@@ -1513,6 +1693,12 @@ Characters:
         text: Afección vulnerabilidad de Definitiva
       enemySlowed:
         text: Enemigo ralentizado
+  Xueyi:
+    Content:
+      beToDmgBoost:
+        text: Aumento de EdR a daño
+      e4BeBuff:
+        text: E4 Mejora de EdR
   Yanqing:
     Content:
       critSpdBuff:

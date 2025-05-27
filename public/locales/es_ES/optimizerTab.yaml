@@ -89,6 +89,7 @@ ExpandedDataPanel:
         Prefix:
           Break: Ruptura
         Suffix:
+          DMG boost: Aumento de daño
           Vulnerability: Vulnerabilidad
           DEF PEN: PEN DEF
       Misc:

@@ -3,19 +3,19 @@ import gameData from 'data/game_data.json' with { type: 'json' }
 import { ARCHER, BLADE_B1, JINGLIU_B1, KAFKA_B1, PHAINON, SABER } from 'lib/simulations/tests/testMetadataConstants'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v3.4.1'
+export const CURRENT_OPTIMIZER_VERSION = 'v3.4.2'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '3.4v1'
+export const CURRENT_DATA_VERSION = '3.4v2'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  [PHAINON]: 'V1 - Numbers may change. Assumes Foundation skills.',
-  [SABER]: 'V1 - Numbers may change.',
-  [ARCHER]: 'V1 - Numbers may change',
-  [KAFKA_B1]: 'V1 buffs - Numbers may change',
-  [BLADE_B1]: 'V1 buffs - Numbers may change',
-  [JINGLIU_B1]: 'V1 buffs - Numbers may change',
+  [PHAINON]: 'V2 - Numbers may change. Assumes Foundation skills.',
+  [SABER]: 'V2 - Numbers may change. Traces & EBA updated.',
+  [ARCHER]: 'V2 - Numbers may change',
+  [KAFKA_B1]: 'V2 buffs - Numbers may change',
+  [BLADE_B1]: 'V2 buffs - Numbers may change',
+  [JINGLIU_B1]: 'V2 buffs - Numbers may change',
 }
 
 export const Stats = {

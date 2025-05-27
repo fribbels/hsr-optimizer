@@ -1751,28 +1751,113 @@ Characters:
     Content:
       enhancedSkill:
         text: Habilidad potenciada
+        content: Tras lanzar su Definitiva, la Sra. Herta actúa inmediatamente y obtiene una acumulación de Inspiración, hasta un máximo de 4 acumulaciones. Cuando tiene Inspiración, su habilidad básica se potencia y se convierte en Tengo una idea genial.
+      eruditionTeammate:
+        text: Aliado erudición
+        content: >-
+          Cuando el objetivo principal de la habilidad básica potenciada tiene Interpretación, el multiplicador de daño aumenta. Por cada acumulación, el daño que recibe el objetivo principal/los demás objetivos aumenta en un {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}%.::BR::Si en el equipo hay 2 o más personajes de la Vía de la Erudición, el daño que recibe el objetivo principal/los demás objetivos aumenta en un {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% adicional por cada acumulación.::BR::A4: Al entrar en combate, si en el equipo hay 2 o más personajes de la Vía de la Erudición, el Daño CRIT de todos los aliados aumenta en un 80%.
       ultAtkBuff:
         text: Mejora ATQ Definitiva
+        content: >-
+          Al lanzar la habilidad definitiva, el ATQ de la Sra. Herta aumenta en un {{AtkBuff}}% durante 3 turnos.
+      interpretationStacks:
+        text: Acumulaciones de Interpretación
+        content: >-
+          Cuando el objetivo principal de la habilidad básica potenciada tiene Interpretación, el multiplicador de daño aumenta. Por cada acumulación, el daño que recibe el objetivo principal/los demás objetivos aumenta en un {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}%.::BR::Si en el equipo hay 2 o más personajes de la Vía de la Erudición, el daño que recibe el objetivo principal/los demás objetivos aumenta en un {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% adicional por cada acumulación.::BR::E1: Cuando la habilidad básica potenciada calcula las acumulaciones de Interpretación, se calculan adicionalmente un 50% de las acumulaciones de Interpretación del objetivo que más acumulaciones tenga de entre el objetivo principal y los objetivos adyacentes.
+      totalInterpretationStacks:
+        text: Acumulaciones de Respuesta
+        content: Por cada acumulación de Interpretación que se aplique al enemigo, la Sra. Herta obtiene una acumulación de Respuesta, hasta un máximo de 99 acumulaciones. Al lanzar la habilidad definitiva, el multiplicador de daño de la habilidad definitiva lanzada esta vez aumenta en un 1% por cada acumulación de Respuesta.
+      e1BonusStacks:
+        text: E1 Acumulaciones extra
+        content: Cuando la habilidad básica potenciada calcula las acumulaciones de Interpretación, se calculan adicionalmente un 50% de las acumulaciones de Interpretación del objetivo que más acumulaciones tenga de entre el objetivo principal y los objetivos adyacentes.
+      e4EruditionSpdBuff:
+        text: E4 Mejora VEL erudición
+        content: Aumenta en un 12% la VEL de los personajes del equipo que siguen la Vía de la Erudición.
       e6Buffs:
         text: E6 Mejoras
+        content: La PEN de la RES a Hielo de la Sra. Herta aumenta en un 20%. Si hay 3 (o más)/2/1 enemigos en el campo de batalla, el multiplicador de daño de la habilidad definitiva aumenta en un 140%/250%/400%.
   Tingyun:
     Content:
+      benedictionBuff:
+        text: Mejora Gracia
+        content: >-
+          Otorga una Gracia a un aliado y aumenta el ATQ de ese aliado en un {{skillAtkBoostScaling}}% (sin superar el {{skillAtkBoostMax}}% del ATQ actual de Tingyun). Cuando el aliado que ha recibido la Gracia lanza un ataque, inflige un Daño de Rayo adicional equivalente al {{skillLightningDmgBoostScaling}}% de su ATQ. La Gracia dura 3 turnos.
+      skillSpdBuff:
+        text: Mejora VEL de Habilidad
+        content: La VEL de Tingyun aumenta en un 20% durante 1 turno al usar la habilidad básica.
       ultDmgBuff:
-        text: Mejora de daño de Definitiva
+        text: Mejora de daño Definitiva
+        content: "Hace que un aliado recupere 50 pts. de energía e inflija un {{ultDmgBoost}}% más de daño durante 2 turnos.::BR::E6: La habilidad definitiva hace que el objetivo aliado recupere 10 pts. de energía adicionales."
+      ultSpdBuff:
+        text: E1 Mejora VEL Definitiva
+        content: Cuando el aliado con la Gracia usa la habilidad definitiva, su VEL aumenta en un 20% durante 1 turno.
+    TeammateContent:
+      teammateAtkBuffValue:
+        text: "Valor de la mejora de ATQ\nde la Habilidad"
+        content: >-
+          Otorga una Gracia a un aliado y aumenta el ATQ de ese aliado en un {{skillAtkBoostScaling}}% (sin superar el {{skillAtkBoostMax}}% del ATQ actual de Tingyun). Cuando el aliado que ha recibido la Gracia lanza un ataque, inflige un Daño de Rayo adicional equivalente al {{skillLightningDmgBoostScaling}}% de su ATQ. La Gracia dura 3 turnos.
+  Topaz:
+    Content:
+      enemyProofOfDebtDebuff:
+        text: "Afección Certificado\nde deuda"
+        content: Hace que un enemigo entre en el estado Certificado de deuda y aumenta en un {{proofOfDebtFuaVulnerability}}% el daño de ataque adicional que recibe.
+      numbyEnhancedState:
+        text: "Estado potenciado\nde Conti"
+        content: Conti entra en el estado Subida increíble. Su multiplicador de daño aumenta en un {{enhancedStateFuaScalingBoost}}% y su Daño CRIT en un {{enhancedStateFuaCdBoost}}%.
+      e1DebtorStacks:
+        text: E1 Acumulaciones de Endeudamiento
+        content: Cuando un enemigo afectado por Certificado de deuda recibe un ataque adicional, entra en el estado de Endeudamiento. Se puede activar 1 vez como máximo por ataque. Endeudamiento hace que el Daño CRIT de los ataques adicionales que recibe el objetivo aumente en un 25%. Se puede acumular hasta 2 veces. Cuando Certificado de deuda se disipa, Endeudamiento también se elimina.
+  TrailblazerDestruction:
+    Content:
+      enhancedUlt:
+        text: Definitiva AdE
+        content: >-
+          Elige entre dos formas de dar un fuerte golpe.::BR::Victoria total: (ATQ individual) Golpe de despedida inflige un {{ultScaling}}% del ATQ de la(del) Trazacaminos como Daño Físico a un enemigo.::BR::Victoria total: (Ráfaga) Carrera final inflige un {{ultEnhancedScaling}}% del ATQ de la(del) Trazacaminos como Daño Físico a un objetivo y un {{ultEnhancedScaling2}}% del ATQ de la(del) Trazacaminos como Daño Físico a los enemigos adyacentes.
+      talentStacks:
+        text: Acumulaciones Talento
+        content: Cada Ruptura de Debilidad que inflige al objetivo enemigo aumenta el ATQ de la(del) Trazacaminos en un {{talentAtkScalingValue}}% y la DEF en un 10%. Este efecto puede acumularse hasta 2 veces.
   TrailblazerHarmony:
     Content:
+      backupDancer:
+        text: "Mejora de EdR\nBailarín de Apoyo"
+        content: >-
+          Aplica a todos los aliados el efecto Bailarín de apoyo durante 3 turnos. La duración del efecto se reduce en 1 cada vez que comience el turno de la(del) Trazacaminos. El efecto de Ruptura de los aliados bajo el efecto de Bailarín de apoyo aumenta en un {{ultBeScaling}}%.
       superBreakDmg:
         text: Daño de Ultrarruptura (forzar rupt. de debilidad)
+        content: >-
+          Cuando aliados con el efecto Bailarín de apoyo atacan a enemigos con Ruptura de Debilidad, convierten la Reducción de Firmeza de este ataque en Daño de Ultrarruptura 1 vez.::BR::El Daño de Ultrarruptura se agrega a cada una de las columnas de daño BÁSICO / HABILIDAD / DEFINITIVA / ATAQUE ADICIONAL. Por ejemplo, activado, la columna HABILIDAD se convierte en la suma del daño base de la Habilidad + Daño de Ultrarruptura de acuerdo al daño de Firmeza de la Habilidad. Esta opción también sobreescribe la Ruptura de Debilidad del enemigo a activada.
+      skillHitsOnTarget:
+        text: Golpes extra en objetivo de Habilidad
+        content: Inflige Daño Imaginario a un enemigo y después inflige daño 4 veces más. Cada golpe inflige Daño Imaginario a un enemigo al azar.
+      e2EnergyRegenBuff:
+        text: E2 Mejora de RdE
+        content: Al comenzar la batalla, la recuperación de energía de la(del) Trazacaminos aumenta en un 25% durante 3 turnos.
+    TeammateContent:
+      teammateBeValue:
+        text: E4 EdR en combate
+        content: Mientras la(el) Trazacaminos está en el campo de batalla, el efecto de Ruptura de todos los aliados excepto ella(él) aumenta en una cantidad equivalente al 15% del efecto de Ruptura de la(del) Trazacaminos.
   TrailblazerPreservation:
     Content:
       enhancedBasic:
         text: Básico potenciado
+        content: El ATQ básico potenciado inflige un {{basicEnhancedAtkScaling}}% del ATQ de la(del) Trazacaminos como Daño de Fuego a un enemigo y daño reducido a los enemigos adyacentes.
+      skillActive:
+        text: Reducción de daño de la Habilidad
+        content: Tras usar la habilidad básica, el daño que recibe la(el) Trazacaminos se reduce en un {{skillDamageReductionValue}}%. También se reduce el daño que reciben todos los aliados en un 15% durante 1 turno.
+      shieldActive:
+        text: Escudo activado
+        content: "Si la(el) Trazacaminos está protegida(o) por un escudo, su ATQ aumenta en un 15%.\n"
+      e6DefStacks:
+        text: E6 Acumulaciones de la mejora de DEF
+        content: Aumenta la DEF en un 10% por acumulación.
   Welt:
     Content:
       enemyDmgTakenDebuff:
         text: Afección vulnerabilidad de Definitiva
       enemySlowed:
         text: Enemigo ralentizado
+      skillExtraHits:
+        text: Golpes extra en objetivo de Habilidad
   Xueyi:
     Content:
       beToDmgBoost:

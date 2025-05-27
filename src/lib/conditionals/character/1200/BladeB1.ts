@@ -72,6 +72,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       min: 0,
       max: hpPercentLostTotalMax,
       percent: true,
+      disabled: e < 1,
     },
     e2CrBuff: {
       id: 'e2CrBuff',
@@ -81,6 +82,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       min: 0,
       max: hpPercentLostTotalMax,
       percent: true,
+      disabled: e < 2,
     },
     e4MaxHpIncreaseStacks: {
       id: 'e4MaxHpIncreaseStacks',

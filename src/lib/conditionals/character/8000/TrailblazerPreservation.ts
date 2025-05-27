@@ -9,6 +9,129 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Ice-Breaking Light
+
+Basic ATK+1+20
+
+Deals Fire DMG equal to 100% of the Trailblazer's ATK to a single enemy and gains 1 stack of Magma Will.
+
+ Single 10
+
+Lv6
+
+Ice-Breaking Light
+
+Basic ATK+1+30
+
+Consumes 4 stacks of Magma Will to enhance Basic ATK, dealing Fire DMG equal to 135% of the Trailblazer's ATK to a single enemy and Fire DMG to equal to 54% of the Trailblazer's ATK to enemies adjacent to it.
+
+ Single 20 | Other 10
+
+Lv6
+
+Ever-Burning Amber
+
+Skill-1+30
+
+Increases the Trailblazer's DMG Reduction by 50% and gains 1 stack of Magma Will, with a 100% base chance to Taunt all enemies for 1 turn(s).
+
+Lv10
+
+War-Flaming Lance
+
+Ultimate120+5
+
+Deals Fire DMG equal to 100% of the Trailblazer's ATK plus 150% of the Trailblazer's DEF to all enemies. The next Basic ATK will be automatically enhanced and does not cost Magma Will.
+
+ All 20
+
+Lv10
+
+Treasure of the Architects
+
+Talent
+
+Each time the Trailblazer is hit, they gain 1 stack of Magma Will for a max of 8 stack(s).
+When Magma Will has no fewer than 4 stacks, the Trailblazer's Basic ATK becomes enhanced, dealing DMG to a single enemy and enemies adjacent to it.
+When the Trailblazer uses Basic ATK, Skill, or Ultimate, apply a Shield to all allies that absorbs DMG equal to 6% of the Trailblazer's DEF plus 80. The Shield lasts for 2 turn(s).
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Call of the Guardian
+
+Technique
+
+After using Technique, at the start of the next battle, gains a Shield that absorbs DMG equal to 30% of the Trailblazer's DEF plus 384 for 1 turn(s).
+
+
+Stat Boosts
+
+ +35.0% DEF
+ +18.0% ATK
+ +10.0% HP
+
+The Strong Defend the Weak
+
+After using the Skill, the DMG taken by all allies reduces by 15% for 1 turn(s).
+Hidden Stat: 10.0
+
+
+Unwavering Gallantry
+
+Using Enhanced Basic ATK restores the Trailblazer's HP by 5% of their Max HP.
+
+
+Action Beats Overthinking
+
+When the Trailblazer is protected by a Shield at the beginning of the turn, increases their ATK by 15% and regenerates 5 Energy until the action is over.
+
+
+
+1 Earth-Shaking Resonance
+
+When the Trailblazer uses their Basic ATK, additionally deals Fire DMG equal to 25% of the Trailblazer's DEF. When the Trailblazer uses their enhanced Basic ATK, additionally deals Fire DMG equal to 50% of the Trailblazer's DEF.
+
+
+
+2 Time-Defying Tenacity
+
+The Shield applied to all allies from the Trailblazer's Talent will block extra DMG equal to 2% of the Trailblazer's DEF plus 27.
+
+
+
+3 Trail-Blazing Blueprint
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+4 Nation-Building Oath
+
+At the start of the battle, immediately gains 4 stack(s) of Magma Will.
+
+
+
+5 Spirit-Warming Flame
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+6 City-Forging Bulwarks
+
+After the Trailblazer uses enhanced Basic ATK or Ultimate, their DEF increases by 10%. Stacks up to 3 time(s).
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerPreservation')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5

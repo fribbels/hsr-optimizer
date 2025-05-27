@@ -11,6 +11,126 @@ import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+What Are You Looking At?
+
+Basic ATK+1+20
+
+Deals Ice DMG equal to 100% of Herta's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+One-Time Offer
+
+Skill-1+30
+
+Deals Ice DMG equal to 100% of Herta's ATK to all enemies. If the enemy's HP percentage is 50% or higher, DMG dealt to this target increases by 20%.
+
+ All 10
+
+Lv10
+
+It's Magic, I Added Some Magic
+
+Ultimate110+5
+
+Deals Ice DMG equal to 200% of Herta's ATK to all enemies.
+
+ All 20
+
+Lv10
+
+Fine, I'll Do It Myself
+
+Talent+5
+
+When an ally's attack causes an enemy's HP percentage to fall to 50% or lower, Herta will launch a Follow-up ATK, dealing Ice DMG equal to 40% of Herta's ATK to all enemies.
+
+ All 5
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+It Can Still Be Optimized
+
+Technique
+
+After using her Technique, Herta's ATK increases by 40% for 3 turn(s) at the beginning of the next battle.
+
+
+Stat Boosts
+
+ +22.4% Ice DMG Boost
+ +22.5% DEF
+ +6.7% CRIT Rate
+
+Efficiency
+
+When Skill is used, the DMG Boost effect on target enemies increases by an extra 25%.
+
+
+Puppet
+
+Increases the chance to resist Crowd Control debuffs by 35%.
+
+Crowd Control debuff
+Freeze, Entanglement, Imprisonment, Dominated, Outrage, Strong Reverberation, Alien Dream, Snarelock, Terrified.
+
+
+Icing
+
+When Ultimate is used, deals 20% more DMG to Frozen enemies.
+
+
+
+1 Kick You When You're Down
+
+When using Basic ATK, if the designated enemy's HP percentage is at 50% or less, additionally deals Ice Additional DMG equal to 40% of Herta's ATK.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+
+
+2 Keep the Ball Rolling
+
+Every time Talent is triggered, this character's CRIT Rate increases by 3%. This effect can stack up to 5 time(s).
+
+
+
+3 That's the Kind of Girl I Am
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Hit Where It Hurts
+
+When Talent is triggered, DMG increases by 10%.
+
+
+
+5 Cuss Big or Cuss Nothing
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 No One Can Betray Me
+
+After using Ultimate, this character's ATK increases by 25% for 1 turn(s).
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Herta')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5

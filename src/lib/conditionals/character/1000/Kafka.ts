@@ -11,6 +11,124 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Midnight Tumult
+
+Basic ATK+1+20
+
+Deals Lightning DMG equal to 100% of Kafka's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Caressing Moonlight
+
+Skill-1+30
+
+Deals Lightning DMG equal to 160% of Kafka's ATK to a target enemy and Lightning DMG equal to 60% of Kafka's ATK to enemies adjacent to it.
+If the target enemy is currently receiving DoT, all DoTs currently placed on that enemy immediately produce DMG equal to 75% of their original DMG.
+
+ Single 20 | Other 10
+
+Lv10
+
+Twilight Trill
+
+Ultimate120+5
+
+Deals Lightning DMG equal to 80% of Kafka's ATK to all enemies, with a 100% base chance for enemies hit to become Shocked and immediately take DMG from their current Shock state, equal to 100% of its original DMG. Shock lasts for 2 turn(s).
+While Shocked, enemies receive Lightning DoT equal to 290% of Kafka's ATK at the beginning of each turn.
+
+ All 20
+
+Lv10
+
+Gentle but Cruel
+
+Talent+10
+
+After Kafka's teammate uses Basic ATK on an enemy target, Kafka immediately launches Follow-up ATK and deals Lightning DMG equal to 140% of her ATK to that target, with a 100% base chance to inflict Shock equivalent to that applied by her Ultimate to the attacked enemy target, lasting for 2 turns. This effect can only be triggered 1 time per turn.
+
+ Single 10
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Mercy Is Not Forgiveness
+
+Technique
+
+Immediately attacks all enemies within a set range. After entering battle, deals Lightning DMG equal to 50% of Kafka's ATK to all enemies, with a 100% base chance to inflict Shock equivalent to that applied by her Ultimate on every enemy target for 2 turn(s).
+
+ Single 20
+
+
+Stat Boosts
+
+ +28.0% ATK
+ +18.0% Effect Hit Rate
+ +10.0% HP
+
+Torture
+
+When the Ultimate is used, enemy targets will now receive DMG immediately from all currently applied DoT sources instead of just receiving DMG immediately from the currently applied Shock state.
+
+
+Plunder
+
+If an enemy is defeated while Shocked, Kafka additionally regenerates 5 Energy.
+
+
+Thorns
+
+The base chance for target enemies to be Shocked by the Ultimate, the Technique, and the Talent-triggered Follow-up ATK increases by 30%.
+
+
+
+1 Da Capo
+
+When the Talent triggers a Follow-up ATK, there is a 100% base chance to increase the DoT received by the target by 30% for 2 turn(s).
+
+
+
+2 Fortississimo
+
+While Kafka is on the field, DoT dealt by all allies increases by 25%.
+
+
+
+3 Capriccio
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Recitativo
+
+When an enemy target takes DMG from the Shock status inflicted by Kafka, Kafka additionally regenerates 2 Energy.
+
+
+
+5 Doloroso
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Leggiero
+
+The Shock inflicted on the enemy target by the Ultimate, the Technique, or the Talent-triggered Follow-up ATK has a DMG multiplier increase of 156% and lasts 1 turn(s) longer.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Kafka')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5

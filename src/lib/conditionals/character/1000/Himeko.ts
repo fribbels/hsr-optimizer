@@ -10,6 +10,123 @@ import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Sawblade Tuning
+
+Basic ATK+1+20
+
+Deals Fire DMG equal to 100% of Himeko's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Molten Detonation
+
+Skill-1+30
+
+Deals Fire DMG equal to 200% of Himeko's ATK to a single enemy and Fire DMG equal to 80% of Himeko's ATK to enemies adjacent to it.
+
+ Single 20 | Other 10
+
+Lv10
+
+Heavenly Flare
+
+Ultimate120+5
+
+Deals Fire DMG equal to 230% of Himeko's ATK to all enemies. Himeko regenerates 5 extra Energy for each enemy defeated.
+
+ All 20
+
+Lv10
+
+Victory Rush
+
+Talent+10
+
+When an enemy is inflicted with Weakness Break, Himeko gains 1 point of Charge (max 3 points).
+If Himeko is fully Charged when an ally performs an attack, Himeko immediately performs 1 Follow-up ATK and deals Fire DMG equal to 140% of her ATK to all enemies, consuming all Charge points.
+At the start of the battle, Himeko gains 1 point of Charge.
+
+ All 10
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Incomplete Combustion
+
+Technique
+
+After using Technique, creates a Special Dimension that lasts for 15 second(s). After entering battle with enemies in the Special Dimension, there is a 100% base chance to increase Fire DMG taken by enemies by 10% for 2 turn(s). Only 1 Dimension Effect created by allies can exist at the same time.
+
+
+Stat Boosts
+
+ +22.4% Fire DMG Boost
+ +18.0% ATK
+ +10.0% Effect RES
+
+Starfire
+
+After using an attack, there is a 50% base chance to inflict Burn on enemies, lasting for 2 turn(s).
+When afflicted with Burn, enemies take Fire DoT equal to 30% of Himeko's ATK at the start of each turn.
+
+
+Magma
+
+Skill deals 20% more DMG to enemies currently afflicted with Burn.
+
+
+Benchmark
+
+When current HP percentage is 80% or higher, CRIT Rate increases by 15%.
+
+
+
+1 Childhood
+
+After "Victory Rush" is triggered, Himeko's SPD increases by 20% for 2 turn(s).
+
+
+
+2 Convergence
+
+Deals 15% more DMG to enemies whose HP percentage is 50% or less.
+
+
+
+3 Poised
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Dedication
+
+When Himeko's Skill inflicts Weakness Break on an enemy, she gains 1 extra point(s) of Charge.
+
+
+
+5 Aspiration
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Trailblaze!
+
+Ultimate deals 2 extra instances of Fire DMG equal to 40% of the original DMG to one random enemy.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Himeko')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5

@@ -11,6 +11,126 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Cloudfencer Art: Starshine
+
+Basic ATK+1+20
+
+Deals Physical DMG equal to 100% of Sushang's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Cloudfencer Art: Mountainfall
+
+Skill-1+30
+
+Deals Physical DMG equal to 210% of Sushang's ATK to a single enemy. In addition, there is a 33% chance to trigger Sword Stance on the final hit, dealing Physical Additional DMG equal to 100% of Sushang's ATK to the enemy.
+If the enemy is inflicted with Weakness Break, Sword Stance is guaranteed to trigger.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+ Single 20
+
+Lv10
+
+Shape of Taixu: Dawn Herald
+
+Ultimate120+5
+
+Deals Physical DMG equal to 320% of Sushang's ATK to a single enemy target, and she immediately takes action. In addition, Sushang's ATK increases by 30% and using her Skill has 2 extra chances to trigger Sword Stance for 2 turn(s).
+Sword Stance triggered from the extra chances deals 50% of the original DMG.
+
+ Single 30
+
+Lv10
+
+Dancing Blade
+
+Talent
+
+When an enemy has their Weakness Broken on the field, Sushang's SPD increases by 20% for 2 turn(s).
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Cloudfencer Art: Warcry
+
+Technique
+
+Immediately attacks the enemy. Upon entering battle, Sushang deals Physical DMG equal to 80% of her ATK to all enemies.
+
+ Single 20
+
+
+Stat Boosts
+
+ +28.0% ATK
+ +18.0% HP
+ +12.5% DEF
+
+Guileless
+
+When current HP percentage is 50% or lower, reduces the chance of being attacked by enemies.
+Hidden Stat: 0.5
+
+
+Riposte
+
+For every Sword Stance triggered, the DMG dealt by Sword Stance increases by 2.5%. Stacks up to 10 time(s).
+
+
+Vanquisher
+
+After using Basic ATK or Skill, if there are enemies on the field that are Weakness Broken, Sushang's action advances by 15%.
+
+
+
+1 Cut With Ease
+
+After using Skill against a Weakness Broken enemy, regenerates 1 Skill Point.
+
+
+
+2 Refine in Toil
+
+After Sword Stance is triggered, the DMG taken by Sushang is reduced by 20% for 1 turn.
+
+
+
+3 Rise From Fame
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+4 Cleave With Heart
+
+Sushang's Break Effect increases by 40%.
+
+
+
+5 Prevail via Taixu
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+6 Dwell Like Water
+
+Talent's SPD Boost is stackable and can stack up to 2 times. Additionally, after entering battle, Sushang immediately gains 1 stack of her Talent's SPD Boost.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sushang')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5

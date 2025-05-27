@@ -9,6 +9,133 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Lucent Moonglow
+
+Basic ATK+1+20
+
+Deals Ice DMG equal to 100% of Jingliu's ATK to a single enemy.
+
+ Single 10
+
+Lv6
+
+Moon On Glacial River
+
+Skill+30
+
+Deals Ice DMG equal to 250% of Jingliu's ATK to a single enemy, and deals Ice DMG equal to 125% of Jingliu's ATK to adjacent enemies. Consumes 1 stack(s) of Syzygy. Using this ability does not consume Skill Points.
+
+ Single 20 | Other 10
+
+Lv10
+
+Transcendent Flash
+
+Skill-1+20
+
+Deals Ice DMG equal to 200% of Jingliu's ATK to a single enemy and obtains 1 stack(s) of Syzygy.
+
+ Single 20
+
+Lv10
+
+Florephemeral Dreamflux
+
+Ultimate140+5
+
+Deals Ice DMG equal to 300% of Jingliu's ATK to a single enemy, and deals Ice DMG equal to 150% of Jingliu's ATK to any adjacent enemies. Gains 1 stack(s) of Syzygy after attack ends.
+Hidden Stat: 1
+
+ Single 20 | Other 20
+
+Lv10
+
+Crescent Transmigration
+
+Talent
+
+When Jingliu has 2 stack(s) of Syzygy, she enters the Spectral Transmigration state with her action advanced by 100% and her CRIT Rate increases by 50%. Then, Jingliu's Skill "Transcendent Flash" is enhanced to "Moon On Glacial River," and only this enhanced Skill is available for use in battle. When Jingliu uses an attack in the Spectral Transmigration state, she consumes HP from her teammates equal to 4% of their respective Max HP (this cannot reduce teammates' HP to lower than 1). Jingliu's ATK increases by 540% of the total HP consumed from all allies in this attack, capped at 180% of her base ATK, lasting until the current attack ends. Jingliu cannot enter the Spectral Transmigration state again until the current Spectral Transmigration state ends. Syzygy can stack up to 3 times. When Syzygy stacks become 0, Jingliu will exit the Spectral Transmigration state.
+Hidden Stat: 0.3
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Shine of Truth
+
+Technique
+
+After using this Technique, creates a Special Dimension around Jingliu that lasts for 20 seconds, and all enemies in this Special Dimension will become Frozen. After entering combat with enemies in the Special Dimension, Jingliu immediately regenerates 15 Energy and obtains 1 stack(s) of Syzygy, with a 100% base chance of Freezing enemy targets for 1 turn(s). While Frozen, enemy targets cannot take action, and receive Ice Additional DMG equal to 80% of Jingliu's ATK at the start of every turn. Only 1 Dimension Effect created by allies can exist at the same time.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+
+
+Stat Boosts
+
+ +37.3% CRIT DMG
+ +9.0 SPD
+ +10.0% HP
+
+Deathrealm
+
+While in the Spectral Transmigration state, increases Effect RES by 35%.
+
+
+Sword Champion
+
+After using "Transcendent Flash," the next action advances by 10%.
+
+
+Frost Wraith
+
+While in the Spectral Transmigration state, increases DMG dealt by Ultimate by 20%.
+
+
+
+1 Moon Crashes Tianguan Gate
+
+When using her Ultimate or Enhanced Skill, Jingliu's CRIT DMG increases by 24% for 1 turn(s). If only one enemy target is attacked, the target will additionally be dealt Ice DMG equal to 100% of Jingliu's ATK.
+
+
+
+2 Crescent Shadows Qixing Dipper
+
+After using Ultimate, increases the DMG of the next Enhanced Skill by 80%.
+
+
+
+3 Halfmoon Gapes Mercurial Haze
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+4 Lunarlance Shines Skyward Dome
+
+During the Spectral Transmigration state, the ATK gained from consuming teammates' HP is additionally increased by 90% of the total HP consumed from the entire team. The cap for ATK gained this way also increases by 30%.
+
+
+
+5 Night Shades Astral Radiance
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+6 Eclipse Hollows Corporeal Husk
+
+When Jingliu enters the Spectral Transmigration state, the Syzygy stack limit increases by 1, and Jingliu obtains 1 stack(s) of Syzygy. While she is in the Spectral Transmigration state, her CRIT DMG increases by 50%.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jingliu')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5

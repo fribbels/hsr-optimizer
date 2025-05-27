@@ -11,6 +11,125 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
+/*
+
+Frost Shot
+
+Basic ATK+1+20
+
+Deals Ice DMG equal to 100% of Pela's ATK to a single target enemy.
+
+ Single 10
+
+Lv6
+
+Frostbite
+
+Skill-1+30
+
+Removes 1 buff(s) and deals Ice DMG equal to 210% of Pela's ATK to one designated target enemy.
+
+ Single 20
+
+Lv10
+
+Zone Suppression
+
+Ultimate110+5
+
+Deals Ice DMG equal to 100% of Pela's ATK to all enemies, with a 100% base chance to inflict Exposed on all enemies.
+When Exposed, enemies' DEF is reduced by 40% for 2 turn(s).
+
+ All 20
+
+Lv10
+
+Data Collecting
+
+Talent
+
+If the enemy is debuffed after Pela's attack, Pela will restore 10 additional Energy. This effect can only be triggered 1 time per attack.
+
+Lv10
+
+Attack
+
+Attacks an enemy, and when the battle starts, reduces their Toughness of the corresponding Type.
+
+ Single 10
+
+
+Preemptive Strike
+
+Technique
+
+Immediately attacks the enemy. Upon entering battle, Pela deals Ice DMG equal to 80% of her ATK to a random enemy, with a 100% base chance of lowering the DEF of all enemies by 20% for 2 turn(s).
+
+ Single 20
+
+
+Stat Boosts
+
+ +22.4% Ice DMG Boost
+ +18.0% ATK
+ +10.0% Effect Hit Rate
+
+Bash
+
+Deals 20% more DMG to debuffed enemy targets.
+
+
+The Secret Strategy
+
+When Pela is on the battlefield, all allies' Effect Hit Rate increases by 10%.
+
+
+Wipe Out
+
+When using Skill to dispel buff(s), increases the DMG dealt by the next attack by 20%.
+
+
+
+1 Victory Report
+
+When an enemy is defeated, Pela regenerates 5 Energy.
+
+
+
+2 Adamant Charge
+
+Using Skill to dispel buff(s) increases SPD by 10% for 2 turn(s).
+Hidden Stat: 1.0
+
+
+
+3 Suppressive Force
+
+Skill Lv. +2, up to a maximum of Lv. 15.
+Basic ATK Lv. +1, up to a maximum of Lv. 10.
+
+
+
+4 Full Analysis
+
+When using Skill, there is a 100% base chance to reduce the target enemy's Ice RES by 12% for 2 turn(s).
+
+
+
+5 Absolute Jeopardy
+
+Ultimate Lv. +2, up to a maximum of Lv. 15.
+Talent Lv. +2, up to a maximum of Lv. 15.
+
+
+
+6 Feeble Pursuit
+
+After Pela attacks, if the enemy target is debuffed, deals Ice Additional DMG equal to 40% of Pela's ATK to the enemy.
+
+Additional DMG
+Causes the target being hit to take extra DMG, which is not considered an attack.
+ */
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Pela')
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5

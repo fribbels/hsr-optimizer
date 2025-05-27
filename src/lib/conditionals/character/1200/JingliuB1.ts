@@ -113,10 +113,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Scaling
       x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.SKILL_HP_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.SKILL_HP_SCALING.buff((e >= 1 && r.talentEnhancedState && context.enemyCount == 1) ? 0.80 : 0, SOURCE_SKILL)
+      x.SKILL_HP_SCALING.buff((e >= 1 && r.e1Buffs && r.talentEnhancedState) ? 0.80 : 0, SOURCE_SKILL)
 
       x.ULT_HP_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.ULT_HP_SCALING.buff((e >= 1 && context.enemyCount == 1) ? 0.80 : 0, SOURCE_ULT)
+      x.ULT_HP_SCALING.buff((e >= 1 && r.e1Buffs) ? 0.80 : 0, SOURCE_ULT)
 
       // BOOST
       buffAbilityDmg(x, SKILL_DMG_TYPE, (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff) ? 0.80 : 0, SOURCE_E2)

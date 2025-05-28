@@ -61,6 +61,7 @@ MinMaxFilters:
   BELabel: EdR
   ERRLabel: RdE
 ComboFilter:
+  AbilityLabel: Habilidades
   ComboOptions:
     None: 'Ninguno'
     Break: Ruptura
@@ -89,6 +90,7 @@ ExpandedDataPanel:
         Prefix:
           Break: Ruptura
         Suffix:
+          DMG boost: Aumento de daño
           Vulnerability: Vulnerabilidad
           DEF PEN: PEN DEF
       Misc:

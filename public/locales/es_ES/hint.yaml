@@ -1,3 +1,19 @@
+RatingFilter:
+  Title: Filtros de puntaje
+  p1: >-
+    PVE - PV Efectivos, miden el aguante de un personaje a nivel máximo. Se calcula usando PV, DEF, y pasivas de reducción de daño.
+  p2: >-
+    Básico / Habilidad / Definitiva / Ataque adicional / Daño con el tiempo / Ruptura - Cálculos de daño de habilidad, de acuerdo a las variables de entorno en las pasivas de personaje / pasivas de conos de luz / opciones del enemigo.
+  p3: >-
+    Curación / Escudo - Otros cálculos de habilidad, de acuerdo a las variables de entorno en las pasivas de personaje / pasivas de conos de luz / opciones del enemigo.
+CombatBuffs:
+  Title: Mejoras de combate
+  p1: Mejoras adicionales de equipo para aplicar a los cálculos. Ten en cuenta que las mejoras propias de los personajes, conos de luz, pasivas y rastros ya están incluidas en los cálculos.
+ComboFilters:
+  Title: Rotación del combo
+  p1: Define la rotación de habilidades para medir el Daño de combo. Las rotaciones se definen con [ al comienzo del turno, y ] al final del turno. Vea el menú de Rotación avanzada y la guía de usuario para más información.
+StatFilters:
+  Title: Filtros de atributos
 Sets:
   Title: Conjuntos
 Character:

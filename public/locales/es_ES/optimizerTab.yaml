@@ -1,7 +1,12 @@
 CharacterSelector:
   Character: Personaje
+  Lightcone: Cono de luz
+LightconePassives: Pasivas de cono de luz
+CharacterPassives: Pasivas de personaje
+MainStats: Atributos principales
 Sets: Conjuntos
 OptimizerOptions:
+  Header: Opciones del optimizador
   Priority:
     Header: Prioridad
 Grid:
@@ -21,6 +26,8 @@ Grid:
       ERR: RdE
 Sidebar:
   Results: Resultados
+  StatViewGroup:
+    Header: Vista de atributo y filtro
   ResultsGroup:
     Header: Resultados
 FormRowLabels:
@@ -40,6 +47,7 @@ CombatBuffs:
   SPD: VEL
   SPD_P: VEL %
 WeightFilter:
+  WeightFilterHeader: Filtro de importancia de atributo secundario
   HPFilterText: PV
   ATKFilterText: ATQ
   DEFFilterText: DEF
@@ -65,10 +73,13 @@ ComboFilter:
   ComboOptions:
     None: 'Ninguno'
     Break: Ruptura
+TeammateCard:
+  RelicsPlaceholder: Artefactos
 StatSimulation:
   SetSelection:
     Header: Conjuntos
   MainStatsSelection:
+    Header: Atributos principales
     BodyPlaceholder: Torso
     FeetPlaceholder: Piernas
     SpherePlaceholder: Esfera

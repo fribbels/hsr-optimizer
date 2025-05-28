@@ -95,7 +95,7 @@ ValueColumns:
   p1: Puedes optar por mostrar un número de columnas que evalúan el "valor" relativo de un artefacto.
   p2: Potencial
   p3: Potencial es un porcentaje, específico del personaje, de qué tan bueno puede ser el artefacto (o "es", si está mejorado al máximo) comparado con los atributos de un artefacto "perfecto" mejorado al máximo en esa ranura.
-  p4: Potencial puede buscar entre todos los personajes o solo los adquiridos. Luego toma el porcentaje máximo para cualquier personaje.
+  p4: Potencial puede buscar entre todos los personajes o sólo los adquiridos. Luego toma el porcentaje máximo para cualquier personaje.
   p5: Potencial es útil para encontrar artefactos que no son buenos para ningún personaje, o gemas ocultas que pueden ser buenas una vez mejoradas.
   p6: "Nota: ordenar por potencial puede no coincidir con las importancias, en caso de que los cálculos de importancia prefieran atributos principales ideales de menor importancia."
 RelicInsights:
@@ -106,3 +106,13 @@ RelicInsights:
   p3: "Top 10 toma los 10 personajes para los que este artefacto podría ser mejor, y muestra el rango en \"% de perfección\" que puede resultar de mejorar el artefacto."
 RelicLocation:
   Title: Ubicación de artefacto
+  p1: Cuando se selecciona un artefacto en la grilla, su posición en el inventario dentro del juego se muestra aquí.
+  p2: Si los filtros de conjunto / ranura están activados, aplica esos mismos filtros dentro del juego, luego ordena por Fecha de obtención (nuevos primero) para encontrar el artefacto.
+  p3: '⚠️Notas de uso⚠️'
+  p4: Esto sólo es compatible con la importación del Reliquary Archiver.
+  p5: Si se borraron u obtuvieron nuevos artefactos desde la última importación, deben ser re-escaneados e importados.
+  p6: Selecciona el Ancho de inventario apropiado para obtener ubicaciones precisas. El ancho depende de la pantalla del juego y el ancho del menú.
+LocatorParams:
+  Title: Opciones del Buscador de artefacto
+  p1: <0>Ancho de inventario</0> - Selecciona el número de columnas que el inventario tiene en el juego para que el buscador pueda encontrar tu artefacto con precisión.
+  p2: <0>Filtrar filas automáticamente</0> - Número máximo de filas antes de que el Buscador de artefacto aplique un filtro de ranura/conjunto para intentar llevar el artefacto buscado a la parte superior del inventario

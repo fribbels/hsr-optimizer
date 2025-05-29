@@ -1,14 +1,22 @@
 ScreenshotMessages:
   ScreenshotSuccess: Captura de pantalla copiada al portapapeles
+  ScreenshotFailed: No se pudo guardar la captura en el portapapeles, intenta el botón de descarga a la derecha
   DownloadSuccess: Captura de pantalla descargada
 CharacterMenu:
+  ButtonText: Menú de personaje
   Character:
     Label: Personaje
     Options:
       Add: Añadir nuevo personaje
+      Edit: Editar personaje / cono de luz
       Switch: Intercambiar artefactos con
       Unequip: Desequipar personaje
       Delete: Eliminar personaje
+  Build:
+    Label: Equipamientos
+    Options:
+      Save: Guardar equipamiento actual
+      View: Ver equipamientos guardados
   Scoring:
     Label: Puntuación
     Options:
@@ -17,16 +25,44 @@ CharacterMenu:
     Label: Prioridad
     Options:
       SortByScore: Ordenar todos los personajes por puntaje
-      MoveToTop: Mover personaje al inicio de la lista
+      MoveToTop: Mover personaje al tope de la lista
 SearchPlaceholder: Buscar
 GridHeaders:
+  Icon: Ícono
   Priority: Prioridad
   Character: Personaje
 Messages:
   RemoveSuccess: Personaje eliminado con éxito
   UnequipSuccess: Personaje desequipado con éxito
+  NoSelectedCharacter: No hay personaje seleccionado
   SwitchSuccess: "Artefactos intercambiados con éxito con $t(gameData:Characters.{{charId}}.Name)"
+  SortByScoreWarning: '¿De verdad quieres ordenar todos los personajes? Perderás cualquier clasificación personalizada.'
+  SaveSuccess: "Equipamiento guardado con éxito: {{name}}"
+  UnequipWarning: "¿De verdad quieres desequipar a $t(gameData:Characters.{{charId}}.Name)?"
+  DeleteWarning: "¿De verdad quieres eliminar a $t(gameData:Characters.{{charId}}.Name)?"
 CharacterPreview:
+  ScoringSidebar:
+    Stats:
+      Header: Atributos
+      ButtonText: Rastros
+    SpdPrecision:
+      Header: Precisión de VEL
+      Low: ".0"
+      High: ".000"
+    SpdWeight:
+      Header: Importancia VEL
+      Max: 100%
+      Min: 0%
+    BenchmarkSpd:
+      Header: Evaluación VEL
+      BenchmarkOptionsLabel: Opciones del evaluador
+      CurrentSpdLabel: VEL actual - El evaluador usará tu VEL básica
+      BaseSpdLabel: VEL base - El evaluador buscará un equipamiento con VEL mínima
+      CommonBreakpointsLabel: Preajustes de umbrales comunes de VEL (mejoras de VEL consideradas aparte)
+    BuffPriority:
+      Header: Modo DPS
+      High: Princip.
+      Low: Sec.
   CustomizationSidebar:
     Label: Personalización
     Modes:
@@ -34,13 +70,21 @@ CharacterPreview:
       Custom: Personalizado
       Standard: Estándar
     PaletteLabel: Paleta de color del retrato
+    ShowUID: Mostrar UID
+  ArtBy: "Arte por {{artistName}}"
   EditCharacter: Editar personaje
-  EditPortrait: Editar imagen
+  EditPortrait: Editar retrato
   CharacterScore: "Puntaje del personaje: {{score}} {{grade}}"
   Messages:
     AddedRelic: Artefacto añadido con éxito
+    SavedPortrait: Retrato guardado con éxito
+    RevertedPortrait: Retrato revertido con éxito
+    NoSelectedCharacter: No hay personaje seleccionado
+    NoSelectedLightCone: No hay cono de luz seleccionado
   ScoreHeader:
-    Title: Simulador de combate
+    Title: Simulación de combate
+    TitleBenchmark: "Evaluación {{spd}} VEL"
+    Score: "Puntaje DPS {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "Alg. de puntuación:"
     Labels:
@@ -58,6 +102,8 @@ CharacterPreview:
       Primary: "Habilidad principal:"
       Character: "Daño del personaje:"
       Maximum: "Daño máximo:"
+    CombatBuffs:
+      Header: Mejoras de combate
   ScoringColumn:
     Character:
       Abilities: Daño de habilidad del personaje

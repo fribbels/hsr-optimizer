@@ -15,7 +15,7 @@ import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
-import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { UseWarpCalculatorStore } from 'lib/tabs/tabWarp/UseWarpCalculatorStore'
 import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
@@ -147,8 +147,6 @@ window.store = create((set) => {
     scoringMetadataOverrides: {},
     showcasePreferences: {},
     showcaseTemporaryOptionsByCharacter: {},
-    warpRequest: {} as WarpRequest,
-    warpResult: {} as WarpResult,
     statDisplay: DEFAULT_STAT_DISPLAY,
     memoDisplay: DEFAULT_MEMO_DISPLAY,
     statSimulationDisplay: StatSimTypes.Disabled,
@@ -239,8 +237,6 @@ window.store = create((set) => {
     setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
     setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
     setShowcaseTemporaryOptionsByCharacter: (x) => set(() => ({ showcaseTemporaryOptionsByCharacter: x })),
-    setWarpRequest: (x) => set(() => ({ warpRequest: x })),
-    setWarpResult: (x) => set(() => ({ warpResult: x })),
     setStatDisplay: (x) => set(() => ({ statDisplay: x })),
     setMemoDisplay: (x) => set(() => ({ memoDisplay: x })),
     setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
@@ -571,9 +567,7 @@ export const DB = {
       window.store.getState().setShowcasePreferences(saveData.showcasePreferences || {})
     }
 
-    if (saveData.warpRequest) {
-      window.store.getState().setWarpRequest(saveData.warpRequest || {})
-    }
+    UseWarpCalculatorStore.getState().setRequest(saveData.warpRequest)
 
     if (saveData.optimizerMenuState) {
       const menuState = window.store.getState().optimizerMenuState

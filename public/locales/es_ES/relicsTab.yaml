@@ -146,7 +146,7 @@ Toolbar:
   RelicLocator:
     Width: Ancho de inventario
     Filter: Filtrar filas automáticamente
-    NoneSelected: Selecciona un artefacto para encontrar
+    NoneSelected: Selecciona artefacto a encontrar
     Location: "Ubicación - Fila {{rowIndex}} / Col. {{columnIndex}}"
   InsightOptions:
     Buckets: "Análisis de artefacto: Rangos"

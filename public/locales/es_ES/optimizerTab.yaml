@@ -32,6 +32,8 @@ Sidebar:
     Header: Resultados
 FormRowLabels:
   Teammates: Aliados
+TracesDrawer:
+  ButtonText: Guardar cambios
 SetConditionals:
   SelectOptions:
     Wastelander:

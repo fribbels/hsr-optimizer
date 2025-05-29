@@ -1,5 +1,62 @@
+Scoring:
+  StatWeightsHeader: Importancias de atributo
+  MainstatsHeader: Atributos principales óptimos
+  WeightMethodology:
+    Header: '¿Cómo se calcula el Puntaje de atributo?'
+  Footer:
+    Reset: Restablecer a por defecto
+    ResetAll: Restablecer todos los personajes
+    Save: Guardar cambios
+  ResetAllConfirm:
+    Title: '¿Restablecer el algoritmo de puntuación para todos los personajes?'
+    Description: Perderás cualquier cambio en los ajustes de puntuación que hayas hecho en los personajes.
+0Perms:
+  Title: La búsqueda generó 0 permutaciones
+  Description: Esto significa que tus filtros están mal configurados o son muy restrictivos, por lo que ninguna posibilidad coincide. Las permutaciones aparecen en la barra lateral.
+  RootCauses:
+    IMPORT:
+      Description: Importa los artefactos de tu cuenta en la pestaña Importar
+      ButtonText: Ir a la pestaña Importar
+      SuccessMessage: Elige un método de importación para tus artefactos y personajes
+    Body_MAIN:
+      Description: "Puede que el filtro de atributo principal para $t(common:Parts.Body) sea muy restrictivo"
+      ButtonText: "Borrar filtros de atributo principal para $t(common:Parts.Body)"
+      SuccessMessage: "Filtros de atributo principal de $t(common:Parts.Body) borrados"
+    Feet_MAIN:
+      Description: "Puede que el filtro de atributo principal para $t(common:Parts.Feet) sea muy restrictivo"
+      ButtonText: "Borrar filtros de atributo principal para $t(common:Parts.Feet)"
+      SuccessMessage: "Filtros de atributo principal de $t(common:Parts.Feet) borrados"
+    PlanarSphere_MAIN:
+      Description: "Puede que el filtro de atributo principal para $t(common:Parts.PlanarSphere) sea muy restrictivo"
+      ButtonText: "Borrar filtros de atributo principal para $t(common:Parts.PlanarSphere)"
+      SuccessMessage: "Filtros de atributo principal de $t(common:Parts.PlanarSphere) borrados"
+    LinkRope_MAIN:
+      Description: "Puede que el filtro de atributo principal para $t(common:Parts.LinkRope) sea muy restrictivo"
+      ButtonText: "Borrar filtros de atributo principal para $t(common:Parts.LinkRope)"
+      SuccessMessage: "Filtros de atributo principal de $t(common:Parts.LinkRope) borrados"
+    RELIC_SETS:
+      Description: Puede que los filtros de conjunto de artefactos sean muy restrictivos
+      ButtonText: Borrar filtros de conjunto de artefactos
+      SuccessMessage: Filtros de conjunto de artefactos borrados
+    ORNAMENT_SETS:
+      Description: Puede que los filtros de conjunto de ornamentos sean muy restrictivos
+      ButtonText: Borrar filtros de conjunto de ornamentos
+      SuccessMessage: Filtros de conjunto de ornamentos borrados
+    KEEP_CURRENT:
+      Description: La opción "Mantener artefactos actuales" está habilitada, lo que fuerza a la búsqueda a no cambiar ningún artefacto equipado en el personaje
+      ButtonText: Deshabilitar "Mantener artefactos actuales"
+      SuccessMessage: '"Mantener artefactos actuales" deshabilitado'
+    PRIORITY:
+      Description: El personaje está por debajo de otros personajes en la lista de prioridad. Cuando el "Filtro de prioridad de personaje" está habilitado, los personajes sólo pueden tomar artefactos de personajes con menos prioridad
+      ButtonText: "Poner al personaje en la prioridad #1"
+      SuccessMessage: "Personaje puesto en la prioridad #1"
+    EXCLUDE_ENABLED:
+      Description: El filtro "Excluir" tiene personajes seleccionados, por lo que este personaje no puede tomar artefactos de esos personajes
+      ButtonText: Borrar personajes excluidos
+      SuccessMessage: Personajes excluidos borrados
 EditCharacter:
   Character: Personaje
+  Lightcone: Cono de luz
 ScoreFooter:
   TeamOptions:
     Custom: Personalizado
@@ -7,3 +64,5 @@ CharacterSelect:
   SingleSelect:
     Placeholder: Personaje
   ClearButton: Restablecer
+LightconeSelect:
+  Placeholder: Cono de luz

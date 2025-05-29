@@ -13,6 +13,7 @@ Grid:
   To: a
   Headers:
     Basic:
+      Set: Conjunto
       ATK: ATQ
       DEF: DEF
       HP: PV
@@ -24,12 +25,15 @@ Grid:
       BE: EdR
       OHB: BCR
       ERR: RdE
+    Combat:
+      Set: Conjunto
 Sidebar:
   Results: Resultados
   StatViewGroup:
     Header: Vista de atributo y filtro
   ResultsGroup:
     Header: Resultados
+    Equip: Equipar
 FormRowLabels:
   Teammates: Aliados
 TracesDrawer:

@@ -2,6 +2,7 @@ import { Divider, Flex, Progress, ProgressProps, theme, Tooltip, Typography } fr
 import chroma from 'chroma-js'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
+import DB from 'lib/state/db'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
@@ -39,12 +40,26 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
       .filter((id) => !excludedRelicPotentialCharacters.includes(id))
       .map((id) => ({
         id,
+        rarity: chars[id].rarity,
         name: t(`gameData:Characters.${id}.Name`),
         score: RelicScorer.scoreRelicPotential(relic, id, false),
         isSelected: id === scoringCharacter,
         icon: Assets.getCharacterAvatarById(id),
-      }))
-      .sort((a, b) => b.score.bestPct - a.score.bestPct)
+      })).sort((a, b) => {
+        // Break ties by score -> rarity -> character priority
+        const pctDiff = b.score.bestPct - a.score.bestPct;
+        if (pctDiff !== 0) {
+          return pctDiff
+        }
+
+        const rarityDiff = b.rarity - a.rarity
+        if (rarityDiff !== 0) {
+          return rarityDiff
+        }
+
+        const priorityDiff = (DB.getCharacterById(a.id)?.rank ?? 999) - (DB.getCharacterById(b.id)?.rank ?? 999)
+        return priorityDiff
+      })
       .slice(0, 5)
   }, [relic, scoringCharacter, excludedRelicPotentialCharacters, t])
 
@@ -185,6 +200,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                             fontWeight: char.isSelected ? 600 : 400,
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
+                            marginRight: 2
                           }}
                           >
                             {char.name}

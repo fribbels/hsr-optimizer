@@ -1,0 +1,34 @@
+TabLabels:
+  Import: Importador de escáner de artefactos
+  Load: Cargar datos del optimizador
+  Save: Guardar datos del optimizador
+  Clear: Borrar datos del optimizador
+Import:
+  ErrorMsg:
+    Unknown: Error desconocido
+    InvalidFile: Archivo de escáner inválido
+    InvalidJson: JSON inválido
+    Fragment: "Ocurrió un error al importar el archivo: "
+  ParserError:
+    BadSource: Línea fuente incorrecta, fue "{{jsonSource}}", se esperaba "{{configSource}}"
+    BadVersion: Versión de json incorrecta, fue "{{jsonVersion}}", se esperaba "{{configVersion}}"
+    OutdatedVersion: "¡La versión de tu escáner {{buildVersion}} está desactualizada y puede resultar en importaciones incorrectas! Por favor actualiza a la última versión en Github:"
+    BadMainstat: No se pudo interpretar el atributo principal para el artefacto con atributo principal {{mainstat}} y ranura {{part}}
+  ParserWarning:
+    BadRollInfo: El archivo del escáner está desactualizado / puede contener información inválida. Por favor actualiza tu escáner.
+  Stage1:
+    Header: "Instala y ejecuta una de las opciones de escáner de artefactos:"
+    ReliquaryDesc:
+      Title: (Recomendado) Reliquary Archiver de IceDynamix
+      Link: Github
+      OnlineMsg: "Estado: Actualizado para el parche {{version}}"
+      OfflineMsg: "***** Estado: De baja por mantenimiento luego del parche {{version}} *****"
+      l1: Decimales de velocidad precisos, escaneo instantáneo
+      l2: Importa el inventario entero y todos los personajes
+    KelzDesc:
+      Title: HSR Scanner de Kel-Z
+      Link: Github
+      l1: Decimales de velocidad imprecisos, escaneo OCR de 5-10 minutos
+      l2: Importa el inventario entero y todos los personajes
+    ScorerDesc:
+      l1: Decimales de velocidad precisos, escaneo instantáneo

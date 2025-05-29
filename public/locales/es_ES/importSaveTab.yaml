@@ -31,4 +31,61 @@ Import:
       l1: Decimales de velocidad imprecisos, escaneo OCR de 5-10 minutos
       l2: Importa el inventario entero y todos los personajes
     ScorerDesc:
+      Title: Importación del Evaluador de artefactos
+      Link: Evaluador de artefactos
       l1: Decimales de velocidad precisos, escaneo instantáneo
+      l2: No requiere descarga, pero está limitado a los 8 personajes exhibidos en el perfil
+    HoyolabDesc:
+      Title: Importar desde HoyoLab
+      Link: Instrucciones
+      l1: Decimales de velocidad imprecisos, escaneo instantáneo
+      l2: No requiere descarga, pero limitado a los artefactos equipados en los personajes
+    ButtonText: Cargar archivo json del escáner
+    Or: o
+    Placeholder: Pegar contenido del archivo json
+  Stage2:
+    Or: O
+    FileInfo: >-
+      El archivo contiene $t(common:RelicWithCount, {"count": {{relicCount}}}) y $t(common:CharacterWithCount, {"count": {{characterCount}}}).
+    NoRelics: Archivo de escáner inválido, por favor intenta otro archivo
+    RelicsImport:
+      Label: >-
+        Sólo importar $t(common:Relic, {"count": {{relicCount}}}). Actualiza el optimizador con los nuevos datos de $t(common:Relic, {"count": {{relicCount}}}) y no sobreescribe equipamientos.
+      ButtonText: >-
+        Importar $t(common:Relic, {"count": {{relicCount}}})
+    CharactersImport:
+      Label: >-
+        Importar $t(common:Relic, {"count": {{relicCount}}}) y $t(common:Character, {"count": {{characterCount}}}). Reemplaza los equipamientos del optimizador con los de dentro del juego.
+      ButtonText: >-
+        Importar $t(common:Relic, {"count": {{relicCount}}}) y $t(common:Character, {"count": {{characterCount}}})
+      WarningTitle: Sobreescribir equipamientos del optimizador
+      WarningDescription: '¿De verdad quieres sobreescribir tus equipamientos del optimizador con los de dentro del juego?'
+      OnlyImportExisting: "Sólo importar personajes existentes"
+  Stage3:
+    SuccessMessage: '¡Hecho!'
+LoadData:
+  Stage1:
+    Label: Cargar tus datos del optimizador desde un archivo.
+    ButtonText: Cargar datos guardados
+  Stage2:
+    ErrorMsg: Archivo de guardado inválido, por favor intenta un archivo diferente. ¿Tal vez querías usar la pestaña Importador de escáner de artefactos?
+    Label: >-
+      El archivo contiene $t(common:RelicWithCount, {"count": {{relicCount}}}) y $t(common:CharacterWithCount, {"count": {{characterCount}}}). ¿Reemplazar tus datos actuales con los cargados?
+    ButtonText: Usar datos cargados
+  Stage3:
+    SuccessMessage: '¡Hecho!'
+SaveData:
+  Label: Guardar tus datos del optimizador a un archivo.
+  ButtonText: Guardar datos
+  SuccessMessage: Hecho
+ClearData:
+  Label: Borrar todos los datos del optimizador.
+  ButtonText: Borrar datos
+  SuccessMessage: Datos borrados
+  WarningTitle: Borrar todos los datos
+  WarningDescription: '¿De verdad quieres borrar todos los artefactos y personajes?'
+PartialImport:
+  OldRelics: >-
+    Atributos actualizados para {{count}} $t(common:Relic, {"count": {{count}}}) existentes
+  NewRelics: >-
+    Agregados {{count}} nuevos $t(common:Relic, {"count": {{count}}})

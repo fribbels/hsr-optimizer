@@ -61,7 +61,7 @@ CharacterPreview:
       CommonBreakpointsLabel: Preajustes de umbrales comunes de VEL (mejoras de VEL consideradas aparte)
     BuffPriority:
       Header: Modo DPS
-      High: Princip.
+      High: Princ.
       Low: Sec.
   CustomizationSidebar:
     Label: Personalización
@@ -86,24 +86,99 @@ CharacterPreview:
     TitleBenchmark: "Evaluación {{spd}} VEL"
     Score: "Puntaje DPS {{score}}% {{grade}}"
   AlgorithmSlider:
-    Title: "Alg. de puntuación:"
+    Title: "Algorit. de puntuación:"
     Labels:
       CombatScore: Puntaje de combate
+      CombatScoreTBD: Combate (a definir)
+      StatScore: Puntaje de atributos
       NoneScore: Ninguno
   DetailsSlider:
     Labels:
       CombatStats: Atributos de combate
+      SubDpsCombatStats: Atr. de combate (DPS sec.)
   DMGUpgrades: Mejoras de daño
+  SubstatUpgradeComparisons:
+    Header: Comparación de mejoras de atributos secundarios
+    MainStatHeader: Comparación de mejoras de atributos principales
+    AddedRoll: "+1x mejora {{stat}}"
+    MainStatUpgrade: Mejora de atr. principal
+    SubStatUpgrade: Mejora de atr. secundario
+    DpsScorePercentUpgrade: Δ % Puntaje DPS
+    UpgradedDpsScore: Puntaje DPS mejorado
+    ComboDmgPercentUpgrade: Δ % Daño de combo
+    ComboDmgUpgrade: Δ Daño de combo
   BuildAnalysis:
+    ScoringNote: >-
+      El Puntaje DPS califica la calidad del equipamiento comparando el daño de una rotación de habilidades con el de equipamientos de prueba con los mismos aliados / conos de luz / eidolones. Puntajes y Daño de combo sólo se miden relativamente al equipo seleccionado, y no debe ser comparado entre diferentes configuraciones.
+    RelicRarityHeader: Comparaciones de rareza de mejora de artefactos
+    RelicRarityNote: |-
+      El PTC estimado mide el tiempo promedio en Días y Poder trazacaminos requeridos para mejorar cada artefacto de acuerdo a los atributos priorizados del personaje.
+      Esta es una métrica de rareza estadística para la planificación de la progresión, y no refleja ni tiene impacto en el Puntaje DPS o el Daño de combo.
+    Header: Cálculos de Puntaje DPS
+    SimulationTeammates: Aliados de la simulación
+    SimulatedBenchmarks: Equipamientos del evaluador simulados
+    SimulationSets: Conj. de la sim.
     Rotation:
-      DOTS: "DOTS:"
+      Header: Rotación de Daño de combo
+      BASIC: BÁSICO
+      SKILL: HABILIDAD
+      ULT: DEFINITIVA
+      FUA: ATQ. ADICIONAL
+      MEMO_SKILL: HABILIDADᴹ
+      MEMO_TALENT: TALENTOᴹ
+      DOTS: "ATQ. ADIC."
       BREAKS: "RUPTURAS:"
     CombatResults:
-      Primary: "Habilidad principal:"
+      Header: Resultados de daño de combate
+      Primary: "Habilidad princ.:"
       Character: "Daño del personaje:"
+      Benchmark: "Daño de la eval.:"
+      Baseline: "Daño base:"
       Maximum: "Daño máximo:"
+      Score: "Puntaje DPS %:"
+      Abilities:
+        BASIC: DAÑO BÁSICO
+        SKILL: DAÑO HABILIDAD
+        ULT: DAÑO DEFINITIVA
+        FUA: DAÑO ATQ. ADIC.
+        DOT: DAÑO DOT
+        BREAK: DAÑO RUPTURA
+        MEMO_SKILL: DAÑO HABILIDADᴹ
+        MEMO_TALENT: DAÑO TALENTOᴹ
+        COMBO: DAÑO DE COMBO
     CombatBuffs:
       Header: Mejoras de combate
+      SubDpsHeader: Mejoras de combate (DPS secundario)
   ScoringColumn:
     Character:
+      Header: "Equip. del personaje ({{score}}%)"
+      BasicStats: Atributos base del personaje
+      CombatStats: <1>Atributos de combate</1> del personaje
+      Substats: Atr. sec. del personje (mín. mejoras)
+      Mainstats: Atributos principales del personaje
       Abilities: Daño de habilidad del personaje
+    Benchmark:
+      Header: "Equip. del evaluador ({{score}}%)"
+      BasicStats: Evaluación al 100% de atributos básicos
+      CombatStats: Evaluación al 100% de <1>atributos de combate</1>
+      Substats: Eval. 100% de atr. sec. (mín. mejoras)
+      Mainstats: Eval. al 100% de atributos principales
+      Abilities: Evaluación al 100% de daño de habilidad
+    Perfect:
+      Header: "Equip. perfecto ({{score}}%)"
+      BasicStats: 200% Atributos básicos perfectos
+      CombatStats: 200% <1>Atributos de combate</1> perfectos
+      Substats: 200% Atr. sec. perfectos (máx. mejoras)
+      Mainstats: 200% Atributos principales perfectos
+      Abilities: 200% Daño de habilidad perfecto
+  ScoringDetails:
+    Header: '¿Cómo se calcula el Puntaje DPS?'
+  EST-TBP:
+    Header: Análisis del Puntaje de atributos
+    RollsCard:
+      Perfection: Perfección
+    MetricsCard:
+      Days: Días
+      Rolls: Mejoras priorizadas
+      TBP: PTC estimado
+      Potential: Potencial de reasignación

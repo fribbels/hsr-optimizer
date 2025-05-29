@@ -68,6 +68,11 @@ MinMaxFilters:
   RESLabel: RES
   BELabel: EdR
   ERRLabel: RdE
+  BASICLabel: BÁSICO
+  SKILLLabel: HABILIDAD
+  ULTLabel: DEFINITIVA
+  FUALabel: ATQ. ADICIONAL
+  MEMOSKILLLabel: HABILIDADᴹ
 ComboFilter:
   AbilityLabel: Habilidades
   ComboOptions:

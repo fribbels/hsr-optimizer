@@ -95,7 +95,13 @@ ExpandedDataPanel:
       breakDmg: Ruptura
     YAxisLabel:
       BREAK_DMG: Ruptura
+    TooltipText:
+      breakDmg: Daño Ruptura
+      dotDmg: Daño DoT
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: "No"
+      BoolTrue: "Sí"
     Sources:
       E1: E1
       E2: E2

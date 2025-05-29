@@ -725,14 +725,15 @@ export default function RelicsTab() {
           valueColumnOptions={valueColumnOptions}
         />
 
-        <Collapse 
+        <Collapse
           size='small'
+          defaultActiveKey={['1']}
           items={[
             {
               key: '1',
               label: t('RelicGrid.RecentRelics', 'Recent Relics'),
               children: (
-                <RecentRelics 
+                <RecentRelics
                   scoringCharacter={focusCharacter}
                   selectedRelicID={selectedRelicID}
                   setSelectedRelicID={(id) => {
@@ -744,7 +745,7 @@ export default function RelicsTab() {
                 />
               ),
             },
-          ]} 
+          ]}
         />
 
         {!gridDestroyed && (

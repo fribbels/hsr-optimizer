@@ -1,8 +1,8 @@
 import { Flex } from 'antd'
-import { useScannerState } from '../tabImport/ScannerWebsocketClient'
 import React from 'react'
-import { RecentRelicCard } from './RecentRelicCard'
 import { CharacterId } from 'types/character'
+import { useScannerState } from '../tabImport/ScannerWebsocketClient'
+import { RecentRelicCard } from './RecentRelicCard'
 
 function padArray<T>(array: T[], length: number, filler: T): T[] {
   return [...array, ...Array(length - array.length).fill(filler)]
@@ -20,10 +20,9 @@ export const RecentRelics = React.memo((props: {
   return (
     <Flex
       gap={10}
-      justify='space-evenly'
+      justify='space-between'
       style={{
-        paddingTop: 10,
-        paddingBottom: 10,
+        padding: 10
       }}
     >
       {

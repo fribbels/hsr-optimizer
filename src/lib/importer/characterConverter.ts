@@ -1,7 +1,7 @@
 import { Constants, MainStats, Parts, SubStats } from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
-import { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
+import { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { Utils } from 'lib/utils/utils'
 import { CharacterId } from 'types/character'
 import { LightCone } from 'types/lightCone'

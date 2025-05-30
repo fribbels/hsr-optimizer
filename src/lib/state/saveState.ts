@@ -1,7 +1,7 @@
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import DB from 'lib/state/db'
-import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
-import { UseWarpCalculatorStore } from 'lib/tabs/tabWarp/UseWarpCalculatorStore'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { HsrOptimizerSaveFormat } from 'types/store'
 
 let saveTimeout: NodeJS.Timeout | null
@@ -11,7 +11,7 @@ export const SaveState = {
     const globalState = window.store.getState()
     const showcaseTabSession = useShowcaseTabStore.getState().savedSession
     const globalSession = globalState.savedSession
-    const warpCalculatorTabState = UseWarpCalculatorStore.getState()
+    const warpCalculatorTabState = useWarpCalculatorStore.getState()
     const state: HsrOptimizerSaveFormat = {
       relics: DB.getRelics(),
       characters: DB.getCharacters(),

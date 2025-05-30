@@ -1,5 +1,5 @@
 import { SaveState } from 'lib/state/saveState'
-import { UseWarpCalculatorStore } from 'lib/tabs/tabWarp/UseWarpCalculatorStore'
+import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { characterCumulative, characterDistribution, lightConeCumulative, lightConeDistribution } from 'lib/tabs/tabWarp/warpRates'
 
 // Notes: 626 to e6 and 960 to e6s5, 952 with 0.78125 on lc
@@ -176,11 +176,11 @@ function generateOptionKey(version: string, phase: number, type: WarpIncomeType)
 
 export function handleWarpRequest(originalRequest: WarpRequest) {
   console.log('simulate Warps', originalRequest)
-  UseWarpCalculatorStore.getState().setRequest(originalRequest)
+  useWarpCalculatorStore.getState().setRequest(originalRequest)
 
   const warpResult = simulateWarps(originalRequest)
 
-  UseWarpCalculatorStore.getState().setResult(warpResult)
+  useWarpCalculatorStore.getState().setResult(warpResult)
   SaveState.delayedSave()
 }
 

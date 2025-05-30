@@ -1,9 +1,9 @@
 import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { Button, Card, Flex, Form as AntDForm, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
+import { Form as AntDForm, Button, Card, Flex, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
-import { UseWarpCalculatorStore } from 'lib/tabs/tabWarp/UseWarpCalculatorStore'
+import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { BannerRotation, DEFAULT_WARP_REQUEST, EidolonLevel, handleWarpRequest, StarlightMultiplier, StarlightRefund, SuperimpositionLevel, WarpIncomeDefinition, WarpIncomeOptions, WarpIncomeType, WarpMilestoneResult, WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
@@ -45,7 +45,7 @@ export function sanitizeWarpRequest(warpRequest: WarpRequest) {
 
 function Inputs() {
   const { t } = useTranslation('warpCalculatorTab', { keyPrefix: 'SectionTitles' })
-  const storedWarpRequest = UseWarpCalculatorStore((s) => s.request)
+  const storedWarpRequest = useWarpCalculatorStore((s) => s.request)
   const [form] = Form.useForm<WarpRequest>()
 
   const warpRequest = sanitizeWarpRequest(storedWarpRequest)
@@ -193,7 +193,7 @@ function Inputs() {
             block
             style={{ height: 45 }}
             onClick={() => {
-              UseWarpCalculatorStore.getState().setResult(null)
+              useWarpCalculatorStore.getState().setResult(null)
               setTimeout(() => handleWarpRequest(form.getFieldsValue()), 50)
             }}
             icon={<ThunderboltFilled/>}
@@ -221,7 +221,7 @@ function Title(props: { children: React.ReactNode }) {
 
 function Results() {
   const { t, i18n } = useTranslation('warpCalculatorTab')
-  const warpResult = UseWarpCalculatorStore((s) => s.result)
+  const warpResult = useWarpCalculatorStore((s) => s.result)
 
   if (!warpResult?.request) {
     return <></>

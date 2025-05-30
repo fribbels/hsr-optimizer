@@ -14,8 +14,8 @@ import { SaveState } from 'lib/state/saveState'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
-import { UseWarpCalculatorStore } from 'lib/tabs/tabWarp/UseWarpCalculatorStore'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
@@ -567,7 +567,7 @@ export const DB = {
       window.store.getState().setShowcasePreferences(saveData.showcasePreferences || {})
     }
 
-    UseWarpCalculatorStore.getState().setRequest(saveData.warpRequest)
+    useWarpCalculatorStore.getState().setRequest(saveData.warpRequest)
 
     if (saveData.optimizerMenuState) {
       const menuState = window.store.getState().optimizerMenuState

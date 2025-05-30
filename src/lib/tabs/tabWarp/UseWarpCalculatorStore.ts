@@ -15,7 +15,7 @@ type WarpCalculatorStateActions = {
 
 type WarpCalculatorStoreState = WarpCalculatorStateValues & WarpCalculatorStateActions
 
-export const UseWarpCalculatorStore = create<WarpCalculatorStoreState>()((set) => ({
+export const useWarpCalculatorStore = create<WarpCalculatorStoreState>()((set) => ({
   ...defaultStateValues,
 
   setRequest: (request: WarpRequest | null | undefined) => set({ request: request ?? DEFAULT_WARP_REQUEST }),

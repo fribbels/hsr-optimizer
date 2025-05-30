@@ -1,5 +1,5 @@
 import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { Form as AntDForm, Button, Card, Flex, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
+import { Button, Card, Flex, Form as AntDForm, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'

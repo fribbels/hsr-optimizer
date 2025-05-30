@@ -30,7 +30,7 @@ const namespaces = [
 ] as const
 export type Namespaces = typeof namespaces[number]
 
-export const isBeta = BASE_PATH !== BasePath.BETA
+export const isBeta = BASE_PATH === BasePath.BETA
 
 export const supportedLanguages = isBeta ? Object.keys(languages) : completedLocales
 void i18next

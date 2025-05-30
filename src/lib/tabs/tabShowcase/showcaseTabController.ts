@@ -18,7 +18,7 @@ import {
 import DB, { AppPage, AppPages, PageToRoute } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { APIResponse, processEnkaData, processMihomoData } from 'lib/tabs/tabShowcase/dataProcessors'
-import { ShowcaseTabCharacter, useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
+import { ShowcaseTabCharacter, useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'

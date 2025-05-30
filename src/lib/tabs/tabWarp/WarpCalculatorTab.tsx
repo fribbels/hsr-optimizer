@@ -1,5 +1,5 @@
 import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { Form as AntDForm, Button, Card, Flex, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
+import { Button, Card, Flex, Form as AntDForm, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
@@ -70,7 +70,7 @@ function Inputs() {
               <Flex gap={25} justify='space-between'>
                 <Flex align='flex-end' gap={8} flex={1}>
                   <Flex vertical>
-                    <HeaderText>{t('Jades')/* Jades */}</HeaderText>
+                    <HeaderText>{t('Jads')/* Jades */}</HeaderText>
                     <Form.Item name='jades'>
                       <InputNumber
                         placeholder='0'

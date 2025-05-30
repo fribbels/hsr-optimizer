@@ -1,14 +1,89 @@
 CharacterSelector:
   Character: Personaje
   Lightcone: Cono de luz
+  Presets: Preajustes
+  Target: Objetivo de la optimización
+  ResultsPlaceholder: Hallar mejores resultados
+  TargetPlaceholder: Ordenados por
+  EidolonPlaceholder: E
+  SuperimpositionPlaceholder: S
 LightconePassives: Pasivas de cono de luz
 CharacterPassives: Pasivas de personaje
+NoConditionals: Sin pasivas condicionales
+NoTeamConditionals: Sin pasivas de equipo condicionales
+ResultLimitN: "Mejores {{limit}} resultados"
 MainStats: Atributos principales
 Sets: Conjuntos
+RelicSetSelector:
+  Placeholder: Conjunto de artefactos
+  4pcLabel: 4 Piezas
+  2+2pcLabel: 2 + 2 Piezas
+  2pcLabel: 2 + Cualquiera
+OrnamentSetSelector:
+  Placeholder: Conjunto de ornamentos
+SortOptions:
+  DMGLabel: Cálculos de daño
+  StatLabel: Atributos
+  COMBO: Ord. por daño de Combo
+  BASIC: Ord. por daño Básico
+  SKILL: Ord. por daño de Habilidad
+  ULT: Ord. por daño de Definitiva
+  FUA: Ord. por daño de Atq. Adic.
+  MEMO_SKILL: Ord. por daño de Habilidadᴹ
+  MEMO_TALENT: Ord. por daño de Talentoᴹ
+  DOT: Ord. por Daño con el tiempo
+  BREAK: Ord. por Daño de Ruptura
+  HEAL: Ord. por Curación
+  SHIELD: Ord. por Escudo
+  HP: "Ord. por $t(common:ReadableStats.HP)"
+  ATK: "Ord. por $t(common:ReadableStats.ATK)"
+  DEF: "Ord. por $t(common:ReadableStats.DEF)"
+  SPD: "Ord. por $t(common:ReadableStats.SPD)"
+  CR: "Ord. por $t(common:ReadableStats.CRIT Rate)"
+  CD: "Ord. por $t(common:ReadableStats.CRIT DMG)"
+  EHR: "Ord. por $t(common:ReadableStats.Effect Hit Rate)"
+  RES: "Ord. por $t(common:ReadableStats.Effect RES)"
+  BE: "Ord. por $t(common:ReadableStats.Break Effect)"
+  OHB: "Ord. por $t(common:ReadableStats.Outgoing Healing Boost)"
+  ERR: "Ord. por $t(common:ReadableStats.Energy Regeneration Rate)"
+  DMG: Ord. por Daño Elemental
+  EHP: Ord. por PV efectivos
 OptimizerOptions:
   Header: Opciones del optimizador
+  PriorityFilter: Filtro de prioridad de personaje
   Priority:
     Header: Prioridad
+    Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
+    Name: "# {{rank}}"
+  AllowEquipped: Permitir artefactos equipados
+  KeepCurrent: Mantener artefactos actuales
+  Exclude: Excluir
+  MinEnhance:
+    Header: Nivel mínimo
+    Label0: "+0"
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
+  MinRarity:
+    Header: Rareza mínima
+    Label2: 2 ★ +
+    Label3: 3 ★ +
+    Label4: 4  ★ +
+    Label5: 5  ★
+  BoostMain:
+    Header: Aumentar atributo principal
+    Label0: "+0"
+    Label3: "+3"
+    Label6: "+6"
+    Label9: "+9"
+    Label12: "+12"
+    Label15: "+15"
+AdvancedOptions:
+  Header: Opciones avanzadas
+  EnemyConfigButtonText: Ajustes del enemigo
+  CombatBuffsButtonTextNone: Mejoras de combate extra
 Grid:
   To: a
   Headers:
@@ -52,6 +127,9 @@ CombatBuffs:
   DEF_P: DEF %
   SPD: VEL
   SPD_P: VEL %
+  Title: Mejoras de combate extra
+EnemyConfiguration:
+  Title: Ajustes del enemigo
 WeightFilter:
   WeightFilterHeader: Filtro de importancia de atributo secundario
   HPFilterText: PV
@@ -84,11 +162,15 @@ ComboFilter:
   ComboOptions:
     None: 'Ninguno'
     Break: Ruptura
+ComboDrawer:
+  NoConditionals: Sin pasivas condicionales
 TeammateCard:
   RelicsPlaceholder: Artefactos
 StatSimulation:
   SetSelection:
     Header: Conjuntos
+    RelicPlaceholder: Conjunto de artefactos
+    OrnamentPlaceholder: Conjunto de ornamentos
   MainStatsSelection:
     Header: Atributos principales
     BodyPlaceholder: Torso

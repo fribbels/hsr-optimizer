@@ -116,7 +116,6 @@ export type HsrOptimizerStore = {                                               
   setColorTheme: (x: ColorThemeOverrides) => void                                                        // global
   setOptimizerBuild: (x: Build) => void                                                                  // optimizerTab
   setOptimizerSelectedRowData: (x: OptimizerDisplayDataStatSim | null) => void                           // optimizerTab
-  setOptimizerBuffGroups: (x: Record<BUFF_TYPE, Record<string, Buff[]>>) => void                         // unused??
   setSavedSession: (x: GlobalSavedSession) => void                                                       // global
   setOptimizerFormSelectedLightCone: (x: LightCone['id'] | null) => void                                 // optimizerTab
   setOptimizerFormCharacterEidolon: (x: Eidolon) => void                                                 // optimizerTab

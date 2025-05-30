@@ -1,5 +1,14 @@
 import i18next from 'i18next'
-import { COMPUTE_ENGINE_GPU_STABLE, ComputeEngine, Constants, CURRENT_OPTIMIZER_VERSION, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Parts, SubStats } from 'lib/constants/constants'
+import {
+  COMPUTE_ENGINE_GPU_STABLE,
+  ComputeEngine,
+  Constants,
+  CURRENT_OPTIMIZER_VERSION,
+  DEFAULT_MEMO_DISPLAY,
+  DEFAULT_STAT_DISPLAY,
+  Parts,
+  SubStats
+} from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
@@ -262,7 +271,6 @@ window.store = create((set) => {
     setColorTheme: (x) => set(() => ({ colorTheme: x })),
     setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
     setOptimizerSelectedRowData: (x) => set(() => ({ optimizerSelectedRowData: x })),
-    setOptimizerBuffGroups: (x) => set(() => ({ optimizerBuffGroups: x })),
     setGlobalThemeConfig: (x) => set(() => ({ globalThemeConfig: x })),
   }
   return store

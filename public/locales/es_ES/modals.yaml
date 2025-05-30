@@ -1,9 +1,360 @@
+Scoring:
+  StatWeightsHeader: Importancias de atributo
+  MainstatsHeader: Atributos principales óptimos
+  WeightMethodology:
+    Header: '¿Cómo se calcula el Puntaje de atributo?'
+  Footer:
+    Reset: Restablecer a por defecto
+    ResetAll: Restablecer todos los personajes
+    Save: Guardar cambios
+  ResetAllConfirm:
+    Title: '¿Restablecer el algoritmo de puntuación para todos los personajes?'
+    Description: Perderás cualquier cambio en los ajustes de puntuación que hayas hecho en los personajes.
+0Perms:
+  Title: La búsqueda generó 0 permutaciones
+  Description: Esto significa que tus filtros están mal configurados o son muy restrictivos, por lo que ninguna posibilidad coincide. Las permutaciones aparecen en la barra lateral.
+  RootCauses:
+    IMPORT:
+      Description: Importa los artefactos de tu cuenta en la pestaña Importar
+      ButtonText: Ir a la pestaña Importar
+      SuccessMessage: Elige un método de importación para tus artefactos y personajes
+    Body_MAIN:
+      Description: "Puede que el filtro de atributo principal para $t(common:Parts.Body) sea muy restrictivo"
+      SuccessMessage: "Filtros de atributo principal de $t(common:Parts.Body) borrados"
+    Feet_MAIN:
+      Description: "Puede que el filtro de atributo principal para $t(common:Parts.Feet) sea muy restrictivo"
+      SuccessMessage: "Filtros de atributo principal de $t(common:Parts.Feet) borrados"
+    PlanarSphere_MAIN:
+      Description: "Puede que el filtro de atributo principal para $t(common:Parts.PlanarSphere) sea muy restrictivo"
+      ButtonText: "Borrar filtros de atr. principal para $t(common:ReadableParts.PlanarSphere)"
+      SuccessMessage: "Filtros de atributo principal de $t(common:Parts.PlanarSphere) borrados"
+    LinkRope_MAIN:
+      Description: "Puede que el filtro de atributo principal para $t(common:Parts.LinkRope) sea muy restrictivo"
+      SuccessMessage: "Filtros de atributo principal de $t(common:Parts.LinkRope) borrados"
+    RELIC_SETS:
+      Description: Puede que los filtros de conjunto de artefactos sean muy restrictivos
+      SuccessMessage: Filtros de conjunto de artefactos borrados
+    ORNAMENT_SETS:
+      Description: Puede que los filtros de conjunto de ornamentos sean muy restrictivos
+      SuccessMessage: Filtros de conjunto de ornamentos borrados
+    KEEP_CURRENT:
+      Description: La opción "Mantener artefactos actuales" está habilitada, lo que fuerza a la búsqueda a no cambiar ningún artefacto equipado en el personaje
+      ButtonText: Deshabilitar "Mantener artefactos actuales"
+      SuccessMessage: '"Mantener artefactos actuales" deshabilitado'
+    PRIORITY:
+      Description: El personaje está por debajo de otros personajes en la lista de prioridad. Cuando el "Filtro de prioridad de personaje" está habilitado, los personajes sólo pueden tomar artefactos de personajes con menos prioridad
+      ButtonText: "Poner al personaje en la prioridad #1"
+      SuccessMessage: "Personaje puesto en la prioridad #1"
+    EXCLUDE_ENABLED:
+      Description: El filtro "Excluir" tiene personajes seleccionados, por lo que este personaje no puede tomar artefactos de esos personajes
+      ButtonText: Borrar personajes excluidos
+      SuccessMessage: Personajes excluidos borrados
+    EQUIPPED_DISABLED:
+      Description: El filtro "Permitir artefactos equipados" está deshabilitado, por lo que este personaje no puede usar ningún artefacto ya equipado por otro personaje
+      ButtonText: Habilitar "Permitir artefactos equipados"
+      SuccessMessage: '"Permitir artefactos equipados" habilitado'
+    MINIMUM_ROLLS:
+      Description: Puede que el umbral de mejora mínimo del filtro de importancia de atributo secundario sea muy alto
+      ButtonText: Establecer mínimo de mejoras en 0
+      SuccessMessage: Mínimo de mejoras establecido en 0
+0Results:
+  Title: La búsqueda generó 0 resultados
+  ResetAll:
+    ButtonText: Restablecer todos los filtros
+    SuccessMessage: Todos los filtros restablecidos
+    Description: Esto significa que tus filtros de atributo y/o puntaje son muy restrictivos.
+  RootCauses:
+    StatView:
+      SuccessMessage: "Se cambió a la vista Atributos de combate"
+      Description: "Tus filtros de atributo están configurados para atributos básicos, sin incluir mejoras. La vista Atributos de combate mostrará las estadísticas mejoradas por habilidades / aliados / artefactos / etc."
+      ButtonText: "Cambiar a la vista Atributos de combate"
+    MAX_HP:
+      SuccessMessage: "Filtro de $t(common:Stats.HP) máximos restablecido"
+      Description: "Puede que los $t(common:Stats.HP) máximos sean muy bajos"
+      ButtonText: "Restablecer filtro de $t(common:Stats.HP) máximos"
+    MIN_HP:
+      SuccessMessage: "Filtro de $t(common:Stats.HP) mínimos restablecido"
+      Description: "Puede que los $t(common:Stats.HP) mínimos sean muy altos"
+      ButtonText: "Restablecer filtro de $t(common:Stats.HP) mínimos"
+    MAX_ATK:
+      SuccessMessage: "Filtro de $t(common:Stats.ATK) máximo restablecido"
+      Description: "Puede que el $t(common:Stats.ATK) máximo sea muy bajo"
+      ButtonText: "Restablecer filtro de $t(common:Stats.ATK) máximo"
+    MIN_ATK:
+      SuccessMessage: "Filtro de $t(common:Stats.ATK) mínimo restablecido"
+      Description: "Puede que el $t(common:Stats.ATK) mínimo sea muy alto"
+      ButtonText: "Restablecer filtro de $t(common:Stats.ATK) mínimo"
+    MAX_DEF:
+      SuccessMessage: "Filtro de $t(common:Stats.DEF) máxima restablecido"
+      Description: "Puede que la $t(common:Stats.DEF) máxima sea muy baja"
+      ButtonText: "Restablecer filtro de $t(common:Stats.DEF) máxima"
+    MIN_DEF:
+      SuccessMessage: "Filtro de $t(common:Stats.DEF) mínima restablecido"
+      Description: "Puede que la $t(common:Stats.DEF) mínima sea muy alta"
+      ButtonText: "Restablecer filtro de $t(common:Stats.DEF) mínima"
+    MAX_SPD:
+      SuccessMessage: "Filtro de $t(common:Stats.SPD) máxima restablecido"
+      Description: "Puede que la $t(common:Stats.SPD) máxima sea muy baja"
+      ButtonText: "Restablecer filtro de $t(common:Stats.SPD) máxima"
+    MIN_SPD:
+      SuccessMessage: "Filtro de $t(common:Stats.SPD) mínima restablecido"
+      Description: "Puede que la $t(common:Stats.SPD) mínima sea muy alta"
+      ButtonText: "Restablecer filtro de $t(common:Stats.SPD) mínima"
+    MAX_CR:
+      SuccessMessage: "Filtro de $t(common:Stats.CRIT Rate) máxima restablecido"
+      Description: "Puede que la $t(common:Stats.CRIT Rate) máxima sea muy baja"
+      ButtonText: "Filtro de $t(common:Stats.CRIT Rate) máxima restablecido"
+    MIN_CR:
+      SuccessMessage: "Filtro de $t(common:Stats.CRIT Rate) mínima restablecido"
+      Description: "Puede que la $t(common:Stats.CRIT Rate) mínima sea muy alta"
+      ButtonText: "Filtro de $t(common:Stats.CRIT Rate) mínima restablecido"
+    MAX_CD:
+      SuccessMessage: "Filtro de $t(common:Stats.CRIT DMG) máximo restablecido"
+      Description: "Puede que el $t(common:Stats.CRIT DMG) máximo sea muy bajo"
+      ButtonText: "Filtro de $t(common:Stats.CRIT DMG) máximo restablecido"
+    MIN_CD:
+      SuccessMessage: "Filtro de $t(common:Stats.CRIT DMG) mínimo restablecido"
+      Description: "Puede que el $t(common:Stats.CRIT DMG) mínimo sea muy alto"
+      ButtonText: "Filtro de $t(common:Stats.CRIT DMG) mínimo restablecido"
+    MAX_EHR:
+      SuccessMessage: "Filtro de $t(common:Stats.Effect Hit Rate) máximo restablecido"
+      Description: "Puede que el $t(common:Stats.Effect Hit Rate) máximo sea muy bajo"
+      ButtonText: "Filtro de $t(common:Stats.Effect Hit Rate) máximo restablecido"
+    MIN_EHR:
+      SuccessMessage: "Filtro de $t(common:Stats.Effect Hit Rate) mínimo restablecido"
+      Description: "Puede que el $t(common:Stats.Effect Hit Rate) mínimo sea muy alto"
+      ButtonText: "Filtro de $t(common:Stats.Effect Hit Rate) mínimo restablecido"
+    MAX_RES:
+      SuccessMessage: "Filtro de $t(common:Stats.Effect RES) máxima restablecido"
+      Description: "Puede que la $t(common:Stats.Effect RES) máxima sea muy baja"
+      ButtonText: "Filtro de $t(common:Stats.Effect RES) máxima restablecido"
+    MIN_RES:
+      SuccessMessage: "Filtro de $t(common:Stats.Effect RES) mínima restablecido"
+      Description: "Puede que la $t(common:Stats.Effect RES) mínima sea muy alta"
+      ButtonText: "Filtro de $t(common:Stats.Effect RES) mínima restablecido"
+    MAX_BE:
+      SuccessMessage: "Filtro de $t(common:Stats.Break Effect) máximo restablecido"
+      Description: "Puede que el $t(common:Stats.Break Effect) máximo sea muy bajo"
+      ButtonText: "Filtro de $t(common:Stats.Break Effect) máximo restablecido"
+    MIN_BE:
+      SuccessMessage: "Filtro de $t(common:Stats.Break Effect) mínimo restablecido"
+      Description: "Puede que el $t(common:Stats.Break Effect) mínimo sea muy alto"
+      ButtonText: "Filtro de $t(common:Stats.Break Effect) mínimo restablecido"
+    MAX_ERR:
+      SuccessMessage: "Filtro de $t(common:Stats.Energy Regeneration Rate) máxima restablecido"
+      Description: "Puede que la $t(common:Stats.Energy Regeneration Rate) máxima sea muy baja"
+      ButtonText: "Filtro de $t(common:Stats.Energy Regeneration Rate) máxima restablecido"
+    MIN_ERR:
+      SuccessMessage: "Filtro de $t(common:Stats.Energy Regeneration Rate) mínima restablecido"
+      Description: "Puede que la $t(common:Stats.Energy Regeneration Rate) mínima sea muy alta"
+      ButtonText: "Filtro de $t(common:Stats.Energy Regeneration Rate) mínima restablecido"
+    MAX_EHP:
+      SuccessMessage: "Filtro de PVE máximos restablecido"
+      Description: "Puede que los PVE máximos sean muy bajos"
+      ButtonText: "Restablecer filtro de PVE máximos"
+    MIN_EHP:
+      SuccessMessage: "Filtro de PVE mínimos restablecido"
+      Description: "Puede que los PVE mínimos sean muy altos"
+      ButtonText: "Restablecer filtro de PVE mínimos"
+    MAX_BASIC:
+      SuccessMessage: "Filtro de Básico máximo restablecido"
+      Description: "Puede que el daño máximo de ataque básico sea muy bajo"
+      ButtonText: "Restablecer filtro de Básico máximo"
+    MIN_BASIC:
+      SuccessMessage: "Filtro de Básico mínimo restablecido"
+      Description: "Puede que el daño mínimo de ataque básico sea muy alto"
+      ButtonText: "Restablecer filtro de Básico mínimo"
+    MAX_SKILL:
+      SuccessMessage: "Filtro de Habilidad máxima restablecido"
+      Description: "Puede que el daño máximo de habilidad sea muy bajo"
+      ButtonText: "Restablecer filtro de Habilidad máxima"
+    MIN_SKILL:
+      SuccessMessage: "Filtro de Habilidad mínima restablecido"
+      Description: "Puede que el daño mínimo de habilidad sea muy alto"
+      ButtonText: "Restablecer filtro de Habilidad mínima"
+    MAX_ULT:
+      SuccessMessage: "Filtro de Definitiva máxima restablecido"
+      Description: "Puede que el daño máximo de definitiva sea muy bajo"
+      ButtonText: "Restablecer filtro de Definitiva máxima"
+    MIN_ULT:
+      SuccessMessage: "Filtro de Definitiva mínima restablecido"
+      Description: "Puede que el daño mínimo de definitiva sea muy alto"
+      ButtonText: "Restablecer filtro de Definitiva mínima"
+    MAX_FUA:
+      SuccessMessage: "Filtro de Ataque adicional máximo restablecido"
+      Description: "Puede que el daño máximo de ataque adicional sea muy bajo"
+      ButtonText: "Restablecer filtro de Ataque adicional máximo"
+    MIN_FUA:
+      SuccessMessage: "Filtro de Ataque adicional mínimo restablecido"
+      Description: "Puede que el daño mínimo de ataque adicional sea muy alto"
+      ButtonText: "Restablecer filtro de Ataque adicional mínimo"
+    MAX_DOT:
+      SuccessMessage: "Filtro de Daño con el tiempo máximo restablecido"
+      Description: "Puede que el daño con el tiempo máximo sea muy bajo"
+      ButtonText: "Restablecer filtro de Daño con el tiempo máximo"
+    MIN_DOT:
+      SuccessMessage: "Filtro de Daño con el tiempo mínimo restablecido"
+      Description: "Puede que el daño con el tiempo mínimo sea muy alto"
+      ButtonText: "Restablecer filtro de Daño con el tiempo mínimo"
+    MAX_BREAK:
+      SuccessMessage: "Filtro de Ruptura máxima restablecido"
+      Description: "Puede que el daño de ruptura máximo sea muy bajo"
+      ButtonText: "Restablecer filtro de Ruptura máxima"
+    MIN_BREAK:
+      SuccessMessage: "Filtro de Ruptura mínima restablecido"
+      Description: "Puede que el daño de ruptura mínimo sea muy alto"
+      ButtonText: "Restablecer filtro de Ruptura mínima"
+    MAX_MEMO_SKILL:
+      SuccessMessage: "Filtro de Habilidad mnemo máxima restablecido"
+      Description: "Puede que el daño máximo de habilidad mnemo sea muy bajo"
+      ButtonText: "Restablecer filtro de Habilidad mnemo máxima"
+    MIN_MEMO_SKILL:
+      SuccessMessage: "Filtro de Habilidad mnemo mínima establecido"
+      Description: "Puede que el daño mínimo de habilidad mnemo sea muy alto"
+      ButtonText: "Restablecer filtro de Habilidad mnemo mínima"
+    MAX_MEMO_TALENT:
+      SuccessMessage: "Filtro de Talento mnemo máximo restablecido"
+      Description: "Puede que el daño máximo de talento mnemo sea muy bajo"
+      ButtonText: "Restablecer filtro de Talento mnemo máximo"
+    MIN_MEMO_TALENT:
+      SuccessMessage: "Filtro de Talento mnemo mínimo restablecido"
+      Description: "Puede que el daño mínimo de talento mnemo sea muy alto"
+      ButtonText: "Restablecer filtro de Talento mnemo mínimo"
+    MAX_HEAL:
+      SuccessMessage: "Filtro de CURACIÓN máxima restablecido"
+      Description: "Puede que la CURACIÓN máxima sea muy baja"
+      ButtonText: "Restablecer filtro de CURACIÓN máxima"
+    MIN_HEAL:
+      SuccessMessage: "Filtro de CURACIÓN mínima restablecido"
+      Description: "Puede que la CURACIÓN mínima sea muy alta"
+      ButtonText: "Restablecer filtro de CURACIÓN mínima"
+    MAX_SHIELD:
+      SuccessMessage: "Filtro de ESCUDO máximo restablecido"
+      Description: "Puede que el ESCUDO máximo sea muy bajo"
+      ButtonText: "Restablecer filtro de ESCUDO máximo"
+    MIN_SHIELD:
+      SuccessMessage: "Filtro de ESCUDO mínimo restablecido"
+      Description: "Puede que el ESCUDO mínimo sea muy alto"
+      ButtonText: "Restablecer filtro de ESCUDO mínimo"
+    MAX_COMBO:
+      SuccessMessage: "Filtro de Combo máximo restablecido"
+      Description: "Puede que el daño de combo máximo sea muy bajo"
+      ButtonText: "Restablecer filtro de Combo máximo"
+    MIN_COMBO:
+      SuccessMessage: "Filtro de Combo mínimo restablecido"
+      Description: "Puede que el daño de combo mínimo sea muy alto"
+      ButtonText: "Restablecer filtro de Combo mínimo"
+ManyPerms:
+  Title: Se solicitó una búsqueda muy grande
+  Text: >-
+    Esta búsqueda de optimización tomará un tiempo significativo para completarse. Puede que quieras habilitar la aceleración por GPU o limitar la búsqueda a conjuntos o atributos principales específicos, o usar el filtro de importancia de atributos secundarios para reducir el número de permutaciones.
+  Cancel: Cancelar búsqueda
+  Proceed: Proceder con la búsqueda
 EditCharacter:
+  EidolonButton: >-
+    $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
+  SuperimpositionButton: >-
+    $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
   Character: Personaje
+  Lightcone: Cono de luz
+Relic:
+  Part: Ranura
+  Wearer: Equipado por
+  Set: Conjunto
+  Enhance: Nivel / Rareza
+  Mainstat: Atributo principal
+  Substat: Atributos secundarios
+  SubstatPlaceholder: Atributo secundario
+  SpdInputWarning: Nota - La VEL dentro del juego contiene decimales ocultos por lo que será imprecisa si se ingresa manualmente. Para valores de VEL precisos, usa la pestaña Exhibidor o el importador Reliquary Archiver.
+  Upgrades: Mejoras de atr. secundario
+  Messages:
+    SubmitFail: '¡Falló la carga!'
+    EditSuccess: Artefacto editado con éxito
+    Error:
+      PartMissing: Falta el campo de ranura
+      MainstatMissing: Falta el atributo principal
+      SetMissing: Falta el campo de conjunto
+      EnhanceMissing: Falta el campo de nivel
+      GradeMissing: Falta el campo de rareza
+      EnhanceInvalid: Valor de nivel inválido
+      GradeInvalid: Valor de rareza inválido
+      EnhanceTooHigh: El nivel es muy alto para esta rareza
+      SetInvalid: El valor del conjunto es inválido
+      SetNotOrnament: El conjunto seleccionado no es un conjunto de ornamentos
+      SetNotRelic: El conjunto seleccionado no es un conjunto de artefactos
+      SubNInvalid: "El atributo secundario {{number}} es inválido"
+      SubsOutOfOrder: Atributos secundarios fuera de orden
+      DuplicateSubs: Atributo secundario duplicado, sólo se permite uno de cada tipo
+      MainAsSub: El atributo secundario coincide con el principal
+      SubTooBig: El valor del atributo secundario es muy grande
+      MainTooBig: El valor del atributo principal es muy grande
+      SubTooSmall: Los valores de atributos secundarios deben ser positivos
+      MainTooSmall: Los valores de atributos principales deben ser positivos
+EditImage:
+  DefaultTitle: Editar imagen
+  Upload:
+    Title: Añadir imagen
+    Radio:
+      Upload: Cargar imagen
+      Url: Ingresa URL de la imagen
+      Default: Por defecto
+    Upload:
+      Method: Pulsa o arrastra una imagen a esta área para cargarla
+      Limit: "Se acepta .jpg .jpeg .png .gif (Máx.: 20MB)"
+    Url:
+      Label: Imagen
+      Rule: Por favor introduce una URL de imagen válida
+  Edit:
+    Title: Recortar imagen
+    Zoom: Ampliar
+    Drag: Arrastra para mover
+    Pinch: Usa la rueda para ampliar
+    ArtBy: "(Opcional) Arte por:"
+    CreditPlaceholder: Acredita al artista si es posible
+  Footer:
+    Change: Cambiar imagen
+    Previous: Anterior
+    Next: Siguiente
+SaveBuild:
+  Label: Nombre de equipamiento
+  Rule: Ingresa un nombre por favor
+SwitchRelics:
+  Title: Intercambiar artefactos con personaje
+Builds:
+  DeleteAll: Borrar todo
+  Equip: Equipar
+  ConfirmEquip:
+    Content: Equipar esto desequipará a los personajes que usen los artefactos en este equipamiento
+    SuccessMessage: "Equipamiento cargado con éxito: {{buildName}}"
+  ConfirmDelete:
+    DeleteAll: '¿Deseas borrar todos los equipamientos?'
+    DeleteSingle: "¿Deseas borrar {{name}}?"
+    SuccessMessageAll: "Borrados con éxito todos los equipamientos para {{characterName}}"
+    SuccessMessageSingle: "Borrado con éxito el equipamiento: {{name}}"
+  NoBuilds:
+    NoneSaved: No hay equipamientos guardados
 ScoreFooter:
+  ModalTitle: Ajustes de puntación de la simulación de combate
+  OkText: OK
+  ResetButtonText: Restablecer equipo al por defecto
+  ResetSuccessMsg: Equipos por defecto restablecidos
+  SyncButtonText: Actualizar eidolones / conos de luz importados
+  SyncSuccessMsg: Aliados actualizados
   TeamOptions:
+    Default: Por defecto
     Custom: Personalizado
 CharacterSelect:
+  MultiSelect:
+    Placeholder: Personalizar personajes
+    MaxTagPlaceholderSome: "{{count}} personajes excluidos"
+    MaxTagPlaceholderNone: Habilitados todos los personajes
+    ModalTitle: Selecciona personajes para excluir
   SingleSelect:
     Placeholder: Personaje
+    ModalTitle: Selecciona un personaje
+  SearchPlaceholder: Buscar personaje por nombre
+  ExcludeButton: Excluir todos
   ClearButton: Restablecer
+LightconeSelect:
+  Placeholder: Cono de luz
+  Title: Selecciona un cono de luz

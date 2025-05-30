@@ -12,7 +12,7 @@ Scoring:
     Description: Vous perdrez tous les paramètres d'appréciation customisés que vous avez définis sur vos personnages.
 0Perms:
   Title: La recherche a générée 0 permutations
-  Description: Cela signifie que vos filtres sont mal configurés ou trop restrictifs, et aucune possibilité ne correspond aux filtres. Les permutations sont affichées sur le voler d'optimiseur
+  Description: Cela signifie que vos filtres sont mal configurés ou trop restrictifs, et aucune possibilité ne correspond aux filtres. Les permutations sont affichées sur le volet d'optimiseur
   RootCauses:
     IMPORT:
       Description: Importer les reliques depuis votre compte sur l'onglet d'importateur

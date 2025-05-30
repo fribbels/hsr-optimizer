@@ -934,7 +934,7 @@ Characters:
         text: Acum. daño del Talento
         content: Cuando los aliados pierden PV, el daño que infligen Castorice y el Dragón Caído aumenta en un {{DmgBuff}}%. Este efecto se puede acumular hasta 3 veces y dura 3 turnos.
       memoSkillEnhances:
-        text: Potenciaciones de Habilidad mnemo
+        text: Potenc. Habilidadᴹ
         content: Puede lanzar repetidamente Aliento que prende las sombras en un ataque. Al lanzarlo repetidamente, el multiplicador de daño aumenta sucesivamente hasta el {{Multiplier1Enhance}}% / {{Multiplier2Enhance}}%. Tras alcanzar el {{Multiplier2Enhance}}%, ya no sigue aumentando. El efecto de aumento del multiplicador de daño no disminuye hasta que el Dragón Caído desaparezca.
       memoTalentHits:
         text: Golpes Talento mnemo

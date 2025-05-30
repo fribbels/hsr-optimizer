@@ -84,8 +84,13 @@ AdvancedOptions:
   Header: Opciones avanzadas
   EnemyConfigButtonText: Ajustes del enemigo
   CombatBuffsButtonTextNone: Mejoras de combate extra
+  CombatBuffsButtonText: "Mejoras de combate ({{activeCount}})"
+  CustomTracesButtonText: Rastros de atributo pers.
 Grid:
   To: a
+  Of: de
+  Page: Página
+  PageSelectorLabel: "Tamaño de página:"
   Headers:
     Basic:
       Set: Conjunto
@@ -100,8 +105,17 @@ Grid:
       BE: EdR
       OHB: BCR
       ERR: RdE
+      DMG: DAÑO
+      EHP: PVE
+      WEIGHT: |-
+        IMPORTANCIA
+        DE ATRIBUTO
     Combat:
-      Set: Conjunto
+      Set: Conj.
+      EHP: PVE
+      WEIGHT: |-
+        IMPORTANCIA
+        DE ATRIBUTO
 Sidebar:
   Results: Resultados
   StatViewGroup:
@@ -112,6 +126,7 @@ Sidebar:
 FormRowLabels:
   Teammates: Aliados
 TracesDrawer:
+  Title: Rastros de atributo pers.
   ButtonText: Guardar cambios
 SetConditionals:
   SelectOptions:
@@ -152,6 +167,7 @@ MinMaxFilters:
   RESLabel: RES
   BELabel: EdR
   ERRLabel: RdE
+  EHPLabel: PVE
   BASICLabel: BÁSICO
   SKILLLabel: HABILIDAD
   ULTLabel: DEFINITIVA
@@ -203,5 +219,6 @@ ExpandedDataPanel:
           DMG boost: Aumento de daño
           Vulnerability: Vulnerabilidad
           DEF PEN: PEN DEF
+          DMG: DAÑO
       Misc:
         Combo DMG: Daño de combo

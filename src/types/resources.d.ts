@@ -3236,12 +3236,12 @@ interface Resources {
         "LongName": "Welt"
       },
       "1005": {
-        "Name": "(Old) Kafka",
-        "LongName": "(Old) Kafka"
+        "Name": "⚰️Kafka",
+        "LongName": "⚰️Kafka"
       },
       "1006": {
-        "Name": "(Old) Silver Wolf",
-        "LongName": "(Old) Silver Wolf"
+        "Name": "⚰️Silver Wolf",
+        "LongName": "⚰️Silver Wolf"
       },
       "1008": {
         "Name": "Arlan",
@@ -3328,8 +3328,8 @@ interface Resources {
         "LongName": "Jing Yuan"
       },
       "1205": {
-        "Name": "(Old) Blade",
-        "LongName": "(Old) Blade"
+        "Name": "⚰️Blade",
+        "LongName": "⚰️Blade"
       },
       "1206": {
         "Name": "Sushang",
@@ -3356,8 +3356,8 @@ interface Resources {
         "LongName": "Bailu"
       },
       "1212": {
-        "Name": "(Old) Jingliu",
-        "LongName": "(Old) Jingliu"
+        "Name": "⚰️Jingliu",
+        "LongName": "⚰️Jingliu"
       },
       "1213": {
         "Name": "Imbibitor Lunae",
@@ -3532,20 +3532,20 @@ interface Resources {
         "LongName": "Stelle (Remembrance)"
       },
       "1212b1": {
-        "Name": "(New) Jingliu",
-        "LongName": "(New) Jingliu"
+        "Name": "Jingliu",
+        "LongName": "Jingliu"
       },
       "1205b1": {
-        "Name": "(New) Blade",
-        "LongName": "(New) Blade"
+        "Name": "Blade",
+        "LongName": "Blade"
       },
       "1005b1": {
-        "Name": "(New) Kafka",
-        "LongName": "(New) Kafka"
+        "Name": "Kafka",
+        "LongName": "Kafka"
       },
       "1006b1": {
-        "Name": "(New) Silver Wolf",
-        "LongName": "(New) Silver Wolf"
+        "Name": "Silver Wolf",
+        "LongName": "Silver Wolf"
       }
     },
     "RelicSets": {
@@ -3761,11 +3761,11 @@ interface Resources {
       },
       "321": {
         "Name": "Arcadia of Woven Dreams",
-        "Description2pc": "When the number of ally targets on the field is not 4, for every 1 extra/missing ally target, increases the wearer's and their memosprite's DMG by 9%/12%, stacking up to 4/3 times."
+        "Description2pc": "When there are more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks."
       },
       "322": {
         "Name": "Revelry by the Sea",
-        "Description2pc": "Increases the wearer's DoT DMG by 12%. When the wearer's ATK is higher than or equal to 2400/3600, additionally increases the DoT DMG dealt by 12%/24%."
+        "Description2pc": "Increases the wearer's DoT DMG by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%."
       }
     },
     "Lightcones": {

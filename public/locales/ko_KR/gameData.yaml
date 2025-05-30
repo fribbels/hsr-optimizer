@@ -12,11 +12,11 @@ Characters:
     Name: 웰트
     LongName: 웰트
   "1005":
-    Name: (Old) 카프카
-    LongName: (Old) 카프카
+    Name: ⚰️카프카
+    LongName: ⚰️카프카
   "1006":
-    Name: (Old) 은랑
-    LongName: (Old) 은랑
+    Name: ⚰️은랑
+    LongName: ⚰️은랑
   "1008":
     Name: 아를란
     LongName: 아를란
@@ -81,8 +81,8 @@ Characters:
     Name: 경원
     LongName: 경원
   "1205":
-    Name: (Old) 블레이드
-    LongName: (Old) 블레이드
+    Name: ⚰️블레이드
+    LongName: ⚰️블레이드
   "1206":
     Name: 소상
     LongName: 소상
@@ -102,8 +102,8 @@ Characters:
     Name: 백로
     LongName: 백로
   "1212":
-    Name: (Old) 경류
-    LongName: (Old) 경류
+    Name: ⚰️경류
+    LongName: ⚰️경류
   "1213":
     Name: 단항•음월
     LongName: 단항•음월
@@ -234,17 +234,17 @@ Characters:
     Name: 스텔레
     LongName: 스텔레 (기억)
   1212b1:
-    Name: (New) 경류
-    LongName: (New) 경류
+    Name: 경류
+    LongName: 경류
   1205b1:
-    Name: (New) 블레이드
-    LongName: (New) 블레이드
+    Name: 블레이드
+    LongName: 블레이드
   1005b1:
-    Name: (New) 카프카
-    LongName: (New) 카프카
+    Name: 카프카
+    LongName: 카프카
   1006b1:
-    Name: (New) 은랑
-    LongName: (New) 은랑
+    Name: 은랑
+    LongName: 은랑
 RelicSets:
   "101":
     Name: "흔적을\_남기지\_않은\_과객"

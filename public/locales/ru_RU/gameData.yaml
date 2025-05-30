@@ -234,17 +234,17 @@ Characters:
     Name: Стелла
     LongName: Стелла (Память)
   1212b1:
-    Name: Jingliu
-    LongName: Jingliu
+    Name: Цзинлю
+    LongName: Цзинлю
   1205b1:
-    Name: Blade
-    LongName: Blade
+    Name: Блэйд
+    LongName: Блэйд
   1005b1:
-    Name: Kafka
-    LongName: Kafka
+    Name: Кафка
+    LongName: Кафка
   1006b1:
-    Name: Silver Wolf
-    LongName: Silver Wolf
+    Name: Серебряный Волк
+    LongName: Серебряный Волк
 RelicSets:
   "101":
     Name: Скиталец блуждающего облака

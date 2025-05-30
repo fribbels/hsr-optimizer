@@ -234,8 +234,8 @@ Characters:
     Name: 星
     LongName: 星 (記憶)
   1212b1:
-    Name: 镜流
-    LongName: 镜流
+    Name: 鏡流
+    LongName: 鏡流
   1205b1:
     Name: 刃
     LongName: 刃
@@ -243,8 +243,8 @@ Characters:
     Name: 卡芙卡
     LongName: 卡芙卡
   1006b1:
-    Name: 银狼
-    LongName: 银狼
+    Name: 銀狼
+    LongName: 銀狼
 RelicSets:
   "101":
     Name: 雲無留跡的過客

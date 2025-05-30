@@ -70,7 +70,7 @@ function Inputs() {
               <Flex gap={25} justify='space-between'>
                 <Flex align='flex-end' gap={8} flex={1}>
                   <Flex vertical>
-                    <HeaderText>{t('Jads')/* Jades */}</HeaderText>
+                    <HeaderText>{t('Jades')/* Jades */}</HeaderText>
                     <Form.Item name='jades'>
                       <InputNumber
                         placeholder='0'

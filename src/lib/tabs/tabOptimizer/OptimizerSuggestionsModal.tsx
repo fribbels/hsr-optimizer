@@ -1,7 +1,7 @@
 import { Button, Flex, Modal, Typography } from 'antd'
 import { TFunction } from 'i18next'
 import { Parts } from 'lib/constants/constants'
-import { OpenCloseIDs, openCloseStore, setClose, setOpen, useOpenClose } from 'lib/hooks/useOpenClose'
+import { OpenCloseIDs, setClose, setOpen, useOpenClose } from 'lib/hooks/useOpenClose'
 import { Message } from 'lib/interactions/message'
 import { Optimizer } from 'lib/optimization/optimizer'
 import DB, { AppPages } from 'lib/state/db'
@@ -239,7 +239,7 @@ function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRoot
     successMessageKey: string
   }
   return (
-    <Flex justify='space-between' align='center' style={{ height: 45 }} key={Utils.randomId()}>
+    <Flex justify='space-between' align='center' style={{ height: 45 }} key={Utils.randomId()} gap={10}>
       <Text style={{ width: 550 }}>
         {t(fixes.descriptionKey as never)}
       </Text>
@@ -249,7 +249,7 @@ function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRoot
           window.onOptimizerFormValuesChange({} as Form, OptimizerTabController.getForm())
           Message.success(t(fixes.successMessageKey as never), 2)
         }}
-        style={{ width: 250 }}
+        style={{ width: 350 }}
         type='primary'
       >
         {t(fixes.buttonTextKey as never)}
@@ -273,7 +273,7 @@ export function ZeroPermutationsSuggestionsModal() {
     <Modal
       title={t('0Perms.Title')/* Search generated 0 permutations */}
       open={isOpenZeroPermsModal}
-      width={900}
+      width={950}
       destroyOnClose
       centered
       onOk={closeZeroPermsModal}
@@ -489,7 +489,7 @@ export function ZeroResultSuggestionModal() {
     <Modal
       title={t('0Results.Title')/* Search generated 0 results */}
       open={isOpenZeroResultsModal}
-      width={900}
+      width={950}
       destroyOnClose
       centered
       onOk={closeZeroResultsModal}
@@ -512,7 +512,7 @@ export function ZeroResultSuggestionModal() {
               Message.success(t('0Results.ResetAll.SuccessMessage'))/* Cleared all filters */
               closeZeroResultsModal()
             }}
-            style={{ width: 250 }}
+            style={{ width: 350 }}
             type='primary'
           >
             {t('0Results.ResetAll.ButtonText')/* Reset all filters */}

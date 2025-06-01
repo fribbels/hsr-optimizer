@@ -1,5 +1,5 @@
 import { CheckOutlined, CloseOutlined, DeleteOutlined, SettingOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { Alert, Form as AntDForm, Button, Card, Flex, InputNumber, Radio, Select } from 'antd'
+import { Button, Card, Flex, Form as AntDForm, InputNumber, Radio, Select } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Sets } from 'lib/constants/constants'
 import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
@@ -19,6 +19,7 @@ import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/compone
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
+import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import { CenteredImage } from 'lib/ui/CenteredImage'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { CustomHorizontalDivider } from 'lib/ui/Dividers'
@@ -104,12 +105,7 @@ export default function BenchmarksTab(): ReactElement {
         </AntDForm>
       </Card>
 
-      <Alert
-        message={<>Note: Combo DMG is meant to compare different relics relative to the selected team, and should <u>NOT</u> be used to compare different teams / eidolons!</>}
-        type='info'
-        showIcon
-        style={{ marginBottom: 8, width: '100%' }}
-      />
+      <DPSScoreDisclaimer style={{ marginBottom: 8, width: '100%' }}/>
 
       <BenchmarkResults/>
 

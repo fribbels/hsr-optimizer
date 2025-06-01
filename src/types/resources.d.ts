@@ -5765,7 +5765,8 @@ interface Resources {
       "AllCharacters": "Import all characters & all relics into optimizer"
     },
     "SimulateRelics": "Simulate relics on another character",
-    "OptimizeOnCharacter": "Optimize character stats"
+    "OptimizeOnCharacter": "Optimize character stats",
+    "Disclaimer": "Note: Combo DMG is meant to compare different relics relative to the selected team, and should <1>NOT</1> be used to compare different teams / LCs / eidolons!"
   },
   "relicsTab": {
     "RelicFilterBar": {
@@ -5938,7 +5939,8 @@ interface Resources {
     "Tools": {
       "Title": "Tools",
       "Showcase": "Showcase",
-      "WarpPlanner": "Warp Planner"
+      "WarpPlanner": "Warp Planner",
+      "Benchmarks": "Benchmarks"
     },
     "Optimization": {
       "Title": "Optimization",

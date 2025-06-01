@@ -1,4 +1,10 @@
-import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityType,
+  BUFF_PRIORITY_MEMO,
+  BUFF_PRIORITY_SELF,
+  SKILL_DMG_TYPE,
+  ULT_DMG_TYPE
+} from 'lib/conditionals/conditionalConstants'
 import { gpuStandardHpHealFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
@@ -213,8 +219,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.HP.buffTeam((m.clearSkies) ? ultHpBuffFlat : 0, SOURCE_ULT)
       x.HP_P.buffTeam((m.clearSkies) ? ultHpBuffPercent : 0, SOURCE_ULT)
-      // x.HP.buffTeam((e >= 1 && m.clearSkies) ? ultHpBuffFlat * 0.50 : 0, SOURCE_E1)
-      x.HP_P.buffTeam((e >= 1 && m.clearSkies) ? 0.50 : 0, SOURCE_E1)
+      x.HP_P.buffTeam((e >= 1 && m.e1HpBuff && m.clearSkies) ? 0.50 : 0, SOURCE_E1)
 
       x.SPD_P.buffTeam((e >= 2 && m.e2SpdBuff) ? 0.30 : 0, SOURCE_E2)
       x.RES_PEN.buffTeam((e >= 6 && m.e6ResPen) ? 0.20 : 0, SOURCE_E6)

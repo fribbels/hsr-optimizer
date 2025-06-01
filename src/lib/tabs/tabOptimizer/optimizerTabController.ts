@@ -1,4 +1,4 @@
-import { CellClickedEvent, IGetRowsParams, IRowNode } from 'ag-grid-community'
+import { IGetRowsParams, IRowNode } from 'ag-grid-community'
 import { inPlaceSort } from 'fast-sort'
 import { Constants, DEFAULT_STAT_DISPLAY, Parts, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
@@ -194,13 +194,13 @@ export const OptimizerTabController = {
     OptimizerTabController.updateFilters()
   },
 
-  cellClicked: (event: CellClickedEvent) => {
-    const data = event.data as OptimizerDisplayDataStatSim
+  cellClicked: (node: IRowNode<OptimizerDisplayDataStatSim>) => {
+    const data = node.data!
     const gridApi = optimizerGridApi()
 
     window.store.getState().setOptimizerSelectedRowData(data)
 
-    if (event.rowPinned == 'top') {
+    if (node.rowPinned == 'top') {
       // Clicking the top row should display current relics
       console.log('Top row clicked', data)
       const form = OptimizerTabController.getForm()
@@ -219,7 +219,7 @@ export const OptimizerTabController = {
           window.store.getState().setOptimizerBuild(build)
 
           // Find the row by its string ID and select it
-          const rowNode: IRowNode<OptimizerDisplayData> = gridApi.getRowNode(String(data.id)) as IRowNode<OptimizerDisplayData>
+          const rowNode: IRowNode<OptimizerDisplayData> = gridApi.getRowNode(String(data.id))!
           if (rowNode) {
             const currentPinned: OptimizerDisplayData[] = gridApi.getGridOption('pinnedTopRowData') ?? []
 
@@ -237,7 +237,7 @@ export const OptimizerTabController = {
       return
     }
 
-    console.log('cellClicked', event)
+    console.log('cellClicked', node)
 
     if (data.statSim) {
       const key = data.statSim.key

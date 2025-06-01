@@ -5082,6 +5082,7 @@ interface Resources {
       "Of": "of",
       "Page": "Page",
       "PageSelectorLabel": "Page Size:",
+      "Loading": "Loading...",
       "Headers": {
         "Basic": {
           "Set": "Set",

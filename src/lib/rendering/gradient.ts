@@ -1,4 +1,6 @@
+import { CellClassParams } from 'ag-grid-community'
 import type { GlobalToken } from 'antd/es/theme/interface'
+import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import tinygradient from 'tinygradient'
@@ -50,17 +52,17 @@ export const Gradient = {
     return gradient.rgbAt(decimal).toHexString()
   },
 
-  getOptimizerColumnGradient: (params: GridParams) => {
+  getOptimizerColumnGradient: (params: CellClassParams<OptimizerDisplayDataStatSim, number>) => {
     const aggregations = OptimizerTabController.getAggregations()
 
     try {
-      const colId = params.column.colId
+      const colId = params.column.getColId()
 
       const columnsToAggregate = OptimizerTabController.getColumnsToAggregateMap() as Record<string, boolean>
       if (params.data && aggregations && columnsToAggregate[colId]) {
         const min = aggregations.min[colId]
         const max = aggregations.max[colId]
-        const value = params.value
+        const value = params.value!
 
         let range = (value - min) / (max - min)
         if (max == min) {

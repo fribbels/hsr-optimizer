@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import { COMPUTE_ENGINE_CPU, Constants, Parts, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
@@ -83,6 +84,7 @@ export const Optimizer = {
   },
 
   optimize: async function (request: Form) {
+    const t = i18next.getFixedT(null, 'optimizerTab', 'ValidationMessages')
     CANCEL = false
 
     const [relics] = this.getFilteredRelics(request)
@@ -101,7 +103,7 @@ export const Optimizer = {
     }
 
     if (sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize > 2147483647) {
-      Message.warning(`Too many permutations, please apply stricter filters or set minimum enhance to at least +3.`, 15)
+      Message.error(t('Error.TooManyPerms'), 15)
       return
     }
 
@@ -156,7 +158,7 @@ export const Optimizer = {
     if (computeEngine != COMPUTE_ENGINE_CPU) {
       void getWebgpuDevice(true).then((device) => {
         if (device == null) {
-          Message.warning(`GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server`,
+          Message.error(t('Error.GPUNotAvailable'),
             15)
           window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
           computeEngine = COMPUTE_ENGINE_CPU

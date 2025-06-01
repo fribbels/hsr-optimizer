@@ -1,4 +1,5 @@
 import { FormInstance } from 'antd/es/form/hooks/useForm'
+import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
@@ -103,24 +104,25 @@ function invalidSimpleCharacter(simpleCharacter?: SimpleCharacter) {
 }
 
 function invalidBenchmarkForm(benchmarkForm: BenchmarkForm) {
+  const t = i18next.getFixedT(null, 'benchmarksTab', 'Messages.Error')
   if (invalidSimpleCharacter(benchmarkForm)
     || invalidSimpleCharacter(benchmarkForm.teammate0)
     || invalidSimpleCharacter(benchmarkForm.teammate1)
     || invalidSimpleCharacter(benchmarkForm.teammate2)
   ) {
-    Message.error('Missing character/lightcone/teammates', 10)
+    Message.error(t('MissingField'), 10)
     return true
   }
 
   const scoringMetadata = DB.getScoringMetadata(benchmarkForm.characterId)
   const simulationMetadata = scoringMetadata?.simulation
   if (!simulationMetadata) {
-    Message.error('DPS benchmarks are not supported for this character', 10)
+    Message.error(t('UnsupportedCharacter'), 10)
     return true
   }
 
   if (benchmarkForm.basicSpd == null) {
-    Message.error('Select the target benchmark basic SPD', 10)
+    Message.error(t('SPDUnselected'), 10)
     return true
   }
 
@@ -129,11 +131,12 @@ function invalidBenchmarkForm(benchmarkForm: BenchmarkForm) {
 
 export function handleCharacterSelectChange(id: CharacterId | null | undefined, formInstance: FormInstance<BenchmarkForm>) {
   if (!id) return
+  const t = i18next.getFixedT(null, 'benchmarksTab', 'Messages.Error')
 
   const scoringMetadata = DB.getScoringMetadata(id)
   const simulationMetadata = scoringMetadata?.simulation
   if (!simulationMetadata) {
-    return Message.error('DPS benchmarks are not supported for this character', 10)
+    return Message.error(t('UnsupportedCharacter'), 10)
   }
 
   const form = formInstance.getFieldsValue()

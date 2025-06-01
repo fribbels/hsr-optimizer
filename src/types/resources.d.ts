@@ -43,6 +43,13 @@ interface Resources {
       "Rolls": "Substat Rolls",
       "Combo": "Combo Rotation",
       "Damage": "Ability Damage"
+    },
+    "Messages": {
+      "Error": {
+        "MissingField": "Missing character/lightcone/teammates",
+        "UnsupportedCharacter": "DPS benchmarks are not supported for this character",
+        "SPDUnselected": "Select the target benchmark basic SPD"
+      }
     }
   },
   "charactersTab": {
@@ -98,7 +105,10 @@ interface Resources {
       "SortByScoreWarning": "Are you sure you want to sort all characters? You will lose any custom rankings you have set.",
       "SaveSuccess": "Successfully saved build: {{name}}",
       "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?",
-      "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?"
+      "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?",
+      "BuildAlreadyExists": "Build name {{name}} already exists",
+      "ImageUploadFailed": "Image upload failed",
+      "InvalidFile": "File is not a valid image file"
     },
     "CharacterPreview": {
       "ScoringSidebar": {
@@ -289,6 +299,7 @@ interface Resources {
     "Yes": "Yes",
     "No": "No",
     "Save": "Save",
+    "Saved": "Saved",
     "Score": "Score",
     "Reset": "Reset",
     "EidolonNShort": "E{{eidolon}}",
@@ -4979,6 +4990,20 @@ interface Resources {
     }
   },
   "optimizerTab": {
+    "ValidationMessages": {
+      "Warning": {
+        "MissingTeammates": "Select teammates for more accurate optimization results.",
+        "PathMismatch": "Character path doesn't match light cone path."
+      },
+      "Error": {
+        "TopPercent": "All substat weights are set to 0. Make sure to set the substat weights for your character or use the Recommended presets button.",
+        "MissingTarget": "Missing optimization target fields",
+        "MissingCharacter": "Missing character fields",
+        "MissingLightCone": "Missing light cone fields",
+        "TooManyPerms": "Too many permutations, please apply stricter filters or set minimum enhance to at least +3.",
+        "GPUNotAvailable": "GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server"
+      }
+    },
     "CharacterSelector": {
       "Character": "Character",
       "Lightcone": "Light cone",
@@ -5192,6 +5217,7 @@ interface Resources {
       "ResultsGroup": {
         "Header": "Results",
         "Equip": "Equip",
+        "EquipSuccessMessage": "Equipped",
         "Filter": "Filter",
         "Pin": "Pin builds",
         "Clear": "Clear pins"
@@ -5763,7 +5789,8 @@ interface Resources {
     "Messages": {
       "AddRelicSuccess": "Successfully added relic",
       "NoRelicSelected": "No relic selected",
-      "DeleteRelicSuccess": "Successfully deleted relic"
+      "DeleteRelicSuccess": "Successfully deleted relic",
+      "UnableToDeleteRelic": "Unable to delete relic"
     },
     "RelicGrid": {
       "To": "to",

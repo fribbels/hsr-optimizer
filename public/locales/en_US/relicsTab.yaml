@@ -19,6 +19,7 @@ Messages:
   AddRelicSuccess: Successfully added relic
   NoRelicSelected: No relic selected
   DeleteRelicSuccess: Successfully deleted relic
+  UnableToDeleteRelic: Unable to delete relic
 RelicGrid:
   To: to
   Of: of

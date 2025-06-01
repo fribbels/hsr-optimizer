@@ -145,13 +145,14 @@ function addToPinned() {
   const gridApi = optimizerGridApi()
   const currentPinnedRows = gridApi.getGridOption('pinnedTopRowData')! as OptimizerDisplayDataStatSim[]
   const selectedNodes = gridApi.getSelectedNodes() as IRowNode<OptimizerDisplayDataStatSim>[]
+  const t = i18next.getFixedT(null, 'optimizerTab', 'Sidebar.Pinning.Messages')
 
   if (!selectedNodes || selectedNodes.length == 0) {
-    Message.warning(i18next.t('optimizerTab:Sidebar.Pinning.Messages.NoneSelected')/* 'No row selected' */)
+    Message.warning(t('NoneSelected')/* 'No row selected' */)
   } else if (selectedNodes[0].data!.statSim) {
-    Message.warning(i18next.t('optimizerTab:Sidebar.Pinning.Messages.SimSelected')/* 'Custom simulation rows are not pinnable' */)
+    Message.warning(t('SimSelected')/* 'Custom simulation rows are not pinnable' */)
   } else if (currentPinnedRows.find((row) => String(row.id) == String(selectedNodes[0].data!.id))) {
-    Message.warning(i18next.t('optimizerTab:Sidebar.Pinning.Messages.AlreadyPinned')/* 'This build is already pinned' */)
+    Message.warning(t('AlreadyPinned')/* 'This build is already pinned' */)
   } else {
     const selectedRow = selectedNodes[0].data
     if (selectedRow) {

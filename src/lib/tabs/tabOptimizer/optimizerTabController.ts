@@ -1,5 +1,6 @@
 import { IGetRowsParams, IRowNode } from 'ag-grid-community'
 import { inPlaceSort } from 'fast-sort'
+import i18next from 'i18next'
 import { Constants, DEFAULT_STAT_DISPLAY, Parts, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { RelicsByPart, SingleRelicByPart } from 'lib/gpu/webgpuTypes'
@@ -187,7 +188,7 @@ export const OptimizerTabController = {
     const build = OptimizerTabController.calculateRelicIdsFromId(row.id) as Build
 
     DB.equipRelicIdsToCharacter(Object.values(build), characterId)
-    Message.success('Equipped relics')
+    Message.success(i18next.t('optimizerTab:Sidebar.ResultsGroup.EquipSuccessMessage') /*'Equipped relics'*/)
     OptimizerTabController.setTopRow(row)
     window.store.getState().setOptimizerBuild(build)
     SaveState.delayedSave()
@@ -366,26 +367,27 @@ export const OptimizerTabController = {
 
   validateForm: (form: Form) => {
     console.log('validate', form)
+    const t = i18next.getFixedT(null, 'optimizerTab', 'ValidationMessages')
     if (!form.lightCone || !form.lightConeSuperimposition) {
-      Message.error('Missing light cone fields')
+      Message.error(t('Error.MissingLightCone'))
       console.log('Missing light cone')
       return false
     }
 
     if (!form.characterId || form.characterEidolon == undefined) {
-      Message.error('Missing character fields')
+      Message.error(t('Error.MissingCharacter'))
       console.log('Missing character')
       return false
     }
 
     if (!form.resultsLimit || !form.resultSort) {
-      Message.error('Missing optimization target fields')
+      Message.error(t('Error.MissingTarget'))
       console.log('Missing optimization target fields')
       return false
     }
 
     if (Object.values(Constants.SubStats).map((stat) => form.weights[stat]).filter((x) => !!x).length == 0) {
-      Message.error('All substat weights are set to 0. Make sure to set the substat weights for your character or use the Recommended presets button.', 10)
+      Message.error(t('Error.TopPercent'), 10)
       console.log('Top percent')
       return false
     }
@@ -395,12 +397,12 @@ export const OptimizerTabController = {
     const charMeta = metadata.characters[form.characterId]
 
     if (lcMeta.path != charMeta.path) {
-      Message.warning('Character path doesn\'t match light cone path.', 10)
+      Message.warning(t('Warning.PathMismatch'), 10)
       console.log('Path mismatch')
     }
 
     if (charMeta.scoringMetadata.simulation && (!form.teammate0?.characterId || !form.teammate1?.characterId || !form.teammate2?.characterId)) {
-      Message.warning('Select teammates for more accurate optimization results.', 10)
+      Message.warning(t('Warning.MissingTeammates'), 10)
       console.log('Missing teammates')
     }
 

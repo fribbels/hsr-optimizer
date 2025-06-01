@@ -6,7 +6,7 @@ import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { getGridTheme } from 'lib/rendering/theme'
 import DB from 'lib/state/db'
-import { getBasicColumnDefs, getCombatColumnDefs, getMemoBasicColumnDefs, getMemoCombatColumnDefs, optimizerGridDefaultColDef, optimizerGridOptions } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import { getBasicColumnDefs, getCombatColumnDefs, getMemoBasicColumnDefs, getMemoCombatColumnDefs, OptimizerGridColumnDef, optimizerGridDefaultColDef, optimizerGridOptions } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
@@ -52,7 +52,7 @@ export function OptimizerGrid() {
   const showMemo = hasMemo && memoDisplay === 'memo'
 
   const columnDefs = useMemo(() => {
-    let columnDefinitions = statDisplay === 'combat'
+    let columnDefinitions: OptimizerGridColumnDef = statDisplay === 'combat'
       ? (showMemo ? getMemoCombatColumnDefs(t) : getCombatColumnDefs(t))
       : (showMemo ? getMemoBasicColumnDefs(t) : getBasicColumnDefs(t))
 
@@ -67,7 +67,6 @@ export function OptimizerGrid() {
           : (showMemo ? column.memoBasicGridColumn : column.basicGridColumn),
         )
 
-      //@ts-ignore
       columnDefinitions = columnDefinitions.filter((column) => !hiddenFields.includes(column.field))
     }
 

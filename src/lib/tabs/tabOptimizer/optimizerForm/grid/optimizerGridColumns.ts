@@ -825,3 +825,11 @@ export function getMemoCombatColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
     },
   ]
 }
+
+// this stops ts from whining when we filter the columns later on
+export type OptimizerGridColumnDef = Array<
+  | ReturnType<typeof getMemoBasicColumnDefs>[number]
+  | ReturnType<typeof getMemoCombatColumnDefs>[number]
+  | ReturnType<typeof getBasicColumnDefs>[number]
+  | ReturnType<typeof getCombatColumnDefs>[number]
+>

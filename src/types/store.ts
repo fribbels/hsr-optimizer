@@ -82,8 +82,8 @@ export type HsrOptimizerStore = {
   setInventoryWidth: (width: number) => void
   setRowLimit: (rowLimit: number) => void
   relicsById: Record<string, Relic>
-  statDisplay: string
-  memoDisplay: string
+  statDisplay: statDisplay
+  memoDisplay: memoDisplay
   settings: UserSettings
   optimizerBuild: Build | null
   optimizerSelectedRowData: OptimizerDisplayDataStatSim | null
@@ -110,8 +110,8 @@ export type HsrOptimizerStore = {
   setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void
   setStatTracesDrawerFocusCharacter: (id: CharacterId | null | undefined) => void
   setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void
-  setStatDisplay: (display: string) => void
-  setMemoDisplay: (display: string) => void
+  setStatDisplay: (display: statDisplay) => void
+  setMemoDisplay: (display: memoDisplay) => void
   setCharacters: (characters: Character[]) => void
   setCharactersById: (charactersById: Partial<Record<CharacterId, Character>>) => void
   setOptimizerFormSelectedLightConeSuperimposition: (x: SuperImpositionLevel) => void
@@ -199,3 +199,6 @@ export type HsrOptimizerSaveFormat = {
     rowLimit: number
   }
 }
+
+export type statDisplay = 'combat' | 'base'
+export type memoDisplay = 'memo' | 'summoner'

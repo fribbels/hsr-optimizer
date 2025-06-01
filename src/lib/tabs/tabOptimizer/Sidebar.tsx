@@ -506,7 +506,7 @@ function StatsViewSelect() {
     <Radio.Group
       onChange={(e) => {
         const { target: { value } } = e
-        setStatDisplay(value as string)
+        setStatDisplay(value as 'combat' | 'base')
       }}
       optionType='button'
       buttonStyle='solid'
@@ -540,7 +540,7 @@ function MemoViewSelect(props: { isFullSize: boolean }) {
     <Radio.Group
       onChange={(e) => {
         const { target: { value } } = e
-        setMemoDisplay(value as string)
+        setMemoDisplay(value as 'summoner' | 'memo')
       }}
       optionType='button'
       buttonStyle='solid'

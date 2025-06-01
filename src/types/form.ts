@@ -10,6 +10,7 @@ import { ConditionalValueMap } from 'types/conditionals'
 import { LightCone, SuperImpositionLevel } from 'types/lightCone'
 import { ScoringMetadata } from 'types/metadata'
 import { RelicEnhance, RelicGrade } from 'types/relic'
+import { memoDisplay, statDisplay } from 'types/store'
 
 export type Teammate = {
   characterId: CharacterId
@@ -66,8 +67,8 @@ export type Form = {
   mainStatUpscaleLevel: number
   rankFilter: boolean
   relicSets: ([pieces: string, set: SetsRelics] | [pieces: string, set1: SetsRelics, set2: SetsRelics])[]
-  statDisplay: string
-  memoDisplay: string
+  statDisplay: statDisplay
+  memoDisplay: memoDisplay
 
   weights: ScoringMetadata['stats']
 

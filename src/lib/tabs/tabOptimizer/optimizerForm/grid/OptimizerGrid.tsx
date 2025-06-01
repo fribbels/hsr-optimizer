@@ -48,8 +48,7 @@ export function OptimizerGrid() {
 
   const statDisplay = window.store((s) => s.statDisplay)
   const memoDisplay = window.store((s) => s.memoDisplay)
-  const hasMemo = isRemembrance(optimizerTabFocusCharacter)
-  const showMemo = hasMemo && memoDisplay === 'memo'
+  const showMemo = memoDisplay === 'memo' && isRemembrance(optimizerTabFocusCharacter)
 
   const columnDefs = useMemo(() => {
     let columnDefinitions: OptimizerGridColumnDef = statDisplay === 'combat'

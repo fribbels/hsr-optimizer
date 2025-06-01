@@ -1,6 +1,7 @@
-import { GetRowIdParams, IGetRowsParams, SortDirection } from 'ag-grid-community'
+import { ColDef, GetRowIdParams, GridOptions } from 'ag-grid-community'
 import { TFunction } from 'i18next'
 import { Constants } from 'lib/constants/constants'
+import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { Utils } from 'lib/utils/utils'
@@ -14,11 +15,11 @@ export const optimizerTabDefaultGap = 5
 export const panelWidth = 211
 export const defaultPadding = 11
 
-export const optimizerGridOptions = {
+export const optimizerGridOptions: GridOptions<OptimizerDisplayDataStatSim> = {
   rowHeight: 33,
   pagination: true,
-  rowModelType: 'infinite' as const,
-  datasource: undefined as undefined | { getRows: (params: IGetRowsParams) => void },
+  rowModelType: 'infinite',
+  datasource: undefined,
   paginationPageSize: 500,
   paginationPageSizeSelector: [100, 500, 1000],
   cacheBlockSize: 500,
@@ -27,13 +28,13 @@ export const optimizerGridOptions = {
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
   suppressMultiSort: true,
-  getRowId: (params: GetRowIdParams) => String(params.data.id || Utils.randomId()),
+  getRowId: (params: GetRowIdParams<OptimizerDisplayDataStatSim>) => String(params.data.id || Utils.randomId()),
 }
 
-export const optimizerGridDefaultColDef = {
+export const optimizerGridDefaultColDef: ColDef<OptimizerDisplayDataStatSim> = {
   cellStyle: Gradient.getOptimizerColumnGradient,
   sortable: true,
-  sortingOrder: ['desc', 'asc'] as SortDirection[],
+  sortingOrder: ['desc', 'asc'],
   wrapHeaderText: true,
   autoHeaderHeight: true,
 }

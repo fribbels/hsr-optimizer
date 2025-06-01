@@ -1,4 +1,4 @@
-import { GetLocaleTextParams, IRowNode, NavigateToNextCellParams, PaginationNumberFormatterParams } from 'ag-grid-community'
+import { CellClickedEvent, GetLocaleTextParams, IRowNode, NavigateToNextCellParams, PaginationNumberFormatterParams } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
 import { Flex, theme } from 'antd'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
@@ -107,6 +107,10 @@ export function OptimizerGrid() {
     return localeNumber(param.value)
   }, [i18n.resolvedLanguage])
 
+  const onCellClicked = useCallback((event: CellClickedEvent<OptimizerDisplayDataStatSim>) => {
+    return OptimizerTabController.cellClicked(event.node)
+  }, [])
+
   return (
     <Flex>
       {gridDestroyed && <div style={{ width: GRID_DIMENSIONS.WIDTH, height: GRID_DIMENSIONS.HEIGHT }}/>}
@@ -132,7 +136,7 @@ export function OptimizerGrid() {
             defaultColDef={optimizerGridDefaultColDef}
             gridOptions={optimizerGridOptions}
             headerHeight={24}
-            onCellClicked={(event) => OptimizerTabController.cellClicked(event.node)}
+            onCellClicked={onCellClicked}
             ref={optimizerGrid}
             paginationNumberFormatter={paginationNumberFormatter}
             getLocaleText={getLocaleText}

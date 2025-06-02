@@ -1,7 +1,7 @@
 import { Flex } from 'antd'
 import { StatRow } from 'lib/characterPreview/StatRow'
 import StatText from 'lib/characterPreview/StatText'
-import { useAsyncSimScoringExecution } from 'lib/characterPreview/UseAsyncSimScoringExecution'
+import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'

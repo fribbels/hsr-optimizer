@@ -1,4 +1,119 @@
+RatingFilter:
+  Title: Filtros de puntaje
+  p1: >-
+    PVE - PV Efectivos, miden el aguante de un personaje a nivel máximo. Se calcula usando PV, DEF, y pasivas de reducción de daño.
+  p2: >-
+    Básico / Habilidad / Definitiva / Ataque adicional / Daño con el tiempo / Ruptura - Cálculos de daño de habilidad, de acuerdo a las variables de entorno en las pasivas de personaje / pasivas de conos de luz / opciones del enemigo.
+  p3: >-
+    Curación / Escudo - Otros cálculos de habilidad, de acuerdo a las variables de entorno en las pasivas de personaje / pasivas de conos de luz / opciones del enemigo.
+CombatBuffs:
+  Title: Mejoras de combate
+  p1: Mejoras adicionales de equipo para aplicar a los cálculos. Ten en cuenta que las mejoras propias de los personajes, conos de luz, pasivas y rastros ya están incluidas en los cálculos.
+ComboFilters:
+  Title: Rotación del combo
+  p1: Define la rotación de habilidades para medir el Daño de combo. Las rotaciones se definen con [ al comienzo del turno, y ] al final del turno. Vea el menú de Rotación avanzada y la guía de usuario para más información.
+StatFilters:
+  Title: Filtros de atributos
+  p1: Filtros mín. (izqquierda) / máx. (derecha) para los atributos de personaje, inclusivos. El optimizador sólo mostrará resultados en estos rangos.
+  p2: Las abreviaciones de atributos son ATQ / PV / DEF / VEL / Prob. CRIT / Daño CRIT / Acierto de efecto / RES a efecto / Efecto de Ruptura / Recuperación de energía.
+  p3: "NOTA: Los decimales de velocidad están truncados en el juego así que puede que veas valores de velocidad más altos en el juego que aquí. Esto es porque el importador OCR no puede detectar los decimales ocultos."
+Mainstats:
+  Title: Atributos principales
+  p1: Selecciona atributos principales para la búsqueda de optimización. Se pueden seleccionar múltiples valores para más opciones.
 Sets:
   Title: Conjuntos
+  p1: Selecciona los conjuntos de artefactos y ornamentos para filtrar los resultados. Se pueden seleccionar múltiples conjuntos para más opciones.
+  p2: Los efectos de los conjuntos se tienen en cuenta para los cálculos, usa el menú de Efectos condicionales de conjunto para personalizar los efectos activados.
 Character:
   Title: Personaje
+  p1: Selecciona el personaje y eidolon. Se asume que el personaje es nivel 80 con los rastros al máximo en los cálculos de optimización.
+CharacterPassives:
+  Title: Pasivas de personaje
+  p1: Selecciona los efectos condicionales a aplicar al personaje.
+  p2: Los efectos que dependen de atributos de combate o estado del entorno serán aplicados por defecto, así que sólo las opciones que requieren intervención del usuario son listadas aquí.
+LightconePassives:
+  Title: Pasivas de cono de luz
+  p1: Selecciona los efectos condicionales a aplicar al cono de luz.
+  p2: Los efectos que dependen de atributos de combate o estado del entorno serán aplicados por defecto, así que sólo las opciones que requieren intervención del usuario son listadas aquí.
+Lightcone:
+  Title: Cono de luz
+  p1: Selecciona el cono de luz y la superimposición. Se asume que el cono de luz es nivel 80 en los cálculos de optimización.
+  p2: Los efectos pasivos se aplican bajo el panel de Pasivas de conos de luz.
+Actions:
+  Title: Acciones
+  p1: Equipar - Equipa los artefactos seleccionados en la grilla al personaje
+  p2: Filtrar - Reaplica los filtros de búsqueda a los resultados existentes. Usa esto para ajustar los filtros sin reiniciar la búsqueda
+  p3: Fijar equipamiento - Fija la fila seleccionada arriba de la grilla. Usa esto para comparar varios equipamientos con facilidad
+  p4: Quitar fijados - Quita todos los equipamientos fijados arriba de la grilla
+OptimizerOptions:
+  Title: Opciones del optimizador
+  p1: >-
+    <0>Filtro de prioridad de personaje</0> - Cuando esta opción está habilitada, el personaje sólo podrá quitarle artefactos a personajes con menor prioridad. El optimizador ignorará artefactos equipados por personajes con mayor prioridad. Cambia el orden de los personajes en el selector de prioridad o arrastrándolos en la página de Personajes.
+  p2: >-
+    <0>Aumentar atributo principal</0> - Calcula los atributos principales de los artefactos como si fueran de este nivel (o su máximo si no pueden llegar a este nivel) si no lo están. Los atributos secundarios no se ven afectados, por lo que puede que artefactos con niveles bajos sean más fuertes una vez mejorados.
+  p3: <0>Mantener artefactos actuales</0> - El personaje debe usar los artefactos que tiene equipados y el optimizador intentará llenar las ranuras vacías.
+  p4: <0>Permitir artefactos equipados</0> - Si está habilitado, el optimizador podrá usar artefactos equipados por un personaje en la búsqueda. Sino, se excluirán todos los artefactos equipados.
+  p5: "<0>Prioridad</0> - Véase: Filtro de prioridad de personaje. Cambiar este ajuste cambiará la prioridad del personaje."
+  p6: <0>Excluir</0> - Elige personajes específicos para excluir sus artefactos de la búsqueda. Este ajuste sobreescribe el filtro de prioridad.
+  p7: <0>Nivel / rareza</0> - Elige el mínimo de nivel y de rareza para incluir un artefacto en la búsqueda.
+Relics:
+  Title: Artefactos
+  p1: >-
+    Nota - Potencial es un puntaje porcentual que compara un artefacto con el mejor artefacto +15 posible en esa ranura para el personaje. Este puntaje se basa en las prioridades del algoritmo de puntuación. Esto significa que artefactos +0 sin mejorar pueden llegar a tener un potencial mayor que artefactos que actualmente estén +15, porque pueden mejorar específicamente los atributos deseados del personaje.
+  p2: "Personaje seleccionado: Puntaje - El puntaje del artefacto actual, definido por el algoritmo de puntuación para el personaje seleccionado."
+  p3: "Personaje seleccionado: Potencial promedio - El potencial del artefacto a su nivel máximo, promediado entre todas las posibles mejoras que pueda tener hasta llegar a +15."
+  p4: "Personaje seleccionado: Potencial máximo - El potencial máximo del artefacto si todas las mejoras van a los atributos deseados del personaje."
+  p5: "Todos los personajes: Potencial máximo - El potencial máximo del artefacto, entre todos los personajes del juego."
+OptimizationDetails:
+  Title: Detalles de optimización
+  p1: Muestra cuántos artefactos están siendo usados en la búsqueda de optimización, luego de aplicar todos los filtros.
+  p2: Perms. - Número de permutaciones que deben evaluarse. Ajusta tus filtros para reducir las permutaciones y el tiempo de búsqueda
+  p3: Evaluadas - Número de permutaciones ya evaluadas
+  p4: Resultados - Número de resultados visualizados que cumplen con los filtros de atributo
+EnemyOptions:
+  Title: Opciones del enemigo
+  p1: Nivel - Nivel del enemigo, afecta los cálculos de la DEF del enemigo
+  p2: RES a efecto - RES a efecto del enemigo. Se usa la RES a efecto para los cálculos relacionados al Daño con el tiempo
+  p3: RES al daño - RES al Daño elemental del enemigo. La RES es 0 cuando se habilita la debilidad elemental del enemigo.
+  p4: Firmeza máxima - El valor máximo de la barra de firmeza del enemigo. Afecta los cálculos relacionados al Daño de Ruptura.
+  p5: Objetivos - Número de objetivos en la batalla. Siempre se asume que el enemigo objetivo está en el centro, y que los cálculos de daño son sólo para el objetivo principal.
+  p6: Debilidad elemental - Si el enemigo es débil al elemento del personaje. Habilitar esta opción reduce la RES % elemental del enemigo a 0.
+  p7: Ruptura de Debilidad - Si la barra de firmeza del enemigo está rota. Afecta los cálculos de daño y ciertas pasivas de personaje.
+SubstatWeightFilter:
+  Title: Filtro de importancia de atributo secundario
+  p1: Este filtro se utiliza para reducir el número de permutaciones que el optimizador tiene que procesar.
+  p2: Funciona primero puntuando cada artefacto por ranura con las importancias definidas, y luego filtrando por el número mínimo de mejoras importantes que tiene el artefacto.
+  p3: Sólo artefactos que tengan más del número especificado de mejoras importantes serán usados para la búsqueda de optimización.
+  p4: >-
+    Ten en cuenta que poner un mínimo de mejoras muy alto puede resultar en que no se muestren ciertos equipamientos, si el filtro llega a excluir un artefacto clave. Usa este filtro con precaución, pero en búsquedas grandes tiene un gran impacto reduciendo el tiempo de búsqueda.
+StatDisplay:
+  Title: Vista de atributo y filtro
+  p1: Esto permite cambiar entre ver los resultados como Atributos básicos vs. Atributos de combate. Los filtros de atributos también serán aplicados a la vista seleccionada.
+  p2: Atributos básicos - Los atributos como se muestran en la página del personaje dentro del juego, sin mejoras de combate aplicadas.
+  p3: "Atributos de combate - Los atributos del personaje con todos los modificadores de atributos en combate incluidos: mejoras de habilidad, pasivas de personaje y cono de luz, aliados, efectos condicionales de conjuntos, etc."
+ValueColumns:
+  Title: Columnas de valuación
+  p1: Puedes optar por mostrar un número de columnas que evalúan el "valor" relativo de un artefacto.
+  p2: Potencial
+  p3: Potencial es un porcentaje, específico del personaje, de qué tan bueno puede ser el artefacto (o "es", si está mejorado al máximo) comparado con los atributos de un artefacto "perfecto" mejorado al máximo en esa ranura.
+  p4: Potencial puede buscar entre todos los personajes o sólo los adquiridos. Luego toma el porcentaje máximo para cualquier personaje.
+  p5: Potencial es útil para encontrar artefactos que no son buenos para ningún personaje, o gemas ocultas que pueden ser buenas una vez mejoradas.
+  p6: "Nota: ordenar por potencial puede no coincidir con las importancias, en caso de que los cálculos de importancia prefieran atributos principales ideales de menor importancia."
+RelicInsights:
+  Title: Detalle de artefacto
+  p1: Cuando se selecciona un artefacto en la tabla superior, puedes elegir un análisis para ver su gráfico.
+  p2: >-
+    "Rangos" se fija en qué tan perfecto cada artefacto puede ser (con las mejores mejoras posibles) para cada personaje, y los agrupa en porcentajes.<1/>Si mueves el cursor sobre el retrato de un personaje verás los nuevos atributos y/o mejoras necesarias para alcanzar el potencial máximo de este artefacto.<3/>⚠️Puede que artefactos con mejoras secundarias faltantes tengan rangos engañosamente altos, ya que el análisis del mejor caso de mejora asume que el nuevo atributo será el mejor para el personaje.
+  p3: "Top 10 toma los 10 personajes para los que este artefacto podría ser mejor, y muestra el rango en \"% de perfección\" que puede resultar de mejorar el artefacto."
+RelicLocation:
+  Title: Ubicación de artefacto
+  p1: Cuando se selecciona un artefacto en la grilla, su posición en el inventario dentro del juego se muestra aquí.
+  p2: Si los filtros de conjunto / ranura están activados, aplica esos mismos filtros dentro del juego, luego ordena por Fecha de obtención (nuevos primero) para encontrar el artefacto.
+  p3: '⚠️Notas de uso⚠️'
+  p4: Esto sólo es compatible con la importación del Reliquary Archiver.
+  p5: Si se borraron u obtuvieron nuevos artefactos desde la última importación, deben ser re-escaneados e importados.
+  p6: Selecciona el Ancho de inventario apropiado para obtener ubicaciones precisas. El ancho depende de la pantalla del juego y el ancho del menú.
+LocatorParams:
+  Title: Opciones del Buscador de artefacto
+  p1: <0>Ancho de inventario</0> - Selecciona el número de columnas que el inventario tiene en el juego para que el buscador pueda encontrar tu artefacto con precisión.
+  p2: <0>Filtrar filas automáticamente</0> - Número máximo de filas antes de que el Buscador de artefacto aplique un filtro de ranura/conjunto para intentar llevar el artefacto buscado a la parte superior del inventario

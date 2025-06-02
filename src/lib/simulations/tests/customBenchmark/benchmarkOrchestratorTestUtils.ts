@@ -3,8 +3,11 @@ import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runCustomBenchmarkOrchestrator'
 import { TestInput } from 'lib/simulations/tests/simTestUtils'
 import DB from 'lib/state/db'
-import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
-import { applyScoringMetadataPresets, applySetConditionalPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
+import {
+  applyScoringMetadataPresets,
+  applySetConditionalPresets
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { expect } from 'vitest'
 

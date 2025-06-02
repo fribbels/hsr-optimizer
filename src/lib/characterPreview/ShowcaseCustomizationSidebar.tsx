@@ -12,7 +12,7 @@ import { Assets } from 'lib/rendering/assets'
 
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import { ScoringType, SimulationScore } from 'lib/scoring/simScoringUtils'
-import DB from 'lib/state/db'
+import DB, { AppPages } from 'lib/state/db'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
@@ -568,10 +568,10 @@ function getActiveCharacterName() {
   const t = i18next.getFixedT(null, 'gameData', 'Characters')
   let charId: CharacterId | null | undefined
   switch (window.store.getState().activeKey) {
-    case "CHARACTERS":
+    case AppPages.CHARACTERS:
       charId = window.store.getState().characterTabFocusCharacter
       break
-    case "SHOWCASE":
+    case AppPages.SHOWCASE:
       charId = useShowcaseTabStore.getState().selectedCharacter?.id
       break
     default:

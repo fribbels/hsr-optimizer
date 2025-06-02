@@ -310,6 +310,7 @@ export default function CharacterTab() {
     DB.setCharacters(scoredCharacters)
     DB.refreshCharacters()
     SaveState.delayedSave()
+    characterGrid.current.api.redrawRows()
   }
 
   function clipboardClicked() {

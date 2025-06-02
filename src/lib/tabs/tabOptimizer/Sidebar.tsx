@@ -21,6 +21,7 @@ import { Utils } from 'lib/utils/utils'
 import { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
+import { MemoDisplay, StatDisplay } from 'types/store'
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
@@ -506,7 +507,7 @@ function StatsViewSelect() {
     <Radio.Group
       onChange={(e) => {
         const { target: { value } } = e
-        setStatDisplay(value as 'combat' | 'base')
+        setStatDisplay(value as StatDisplay)
       }}
       optionType='button'
       buttonStyle='solid'
@@ -540,7 +541,7 @@ function MemoViewSelect(props: { isFullSize: boolean }) {
     <Radio.Group
       onChange={(e) => {
         const { target: { value } } = e
-        setMemoDisplay(value as 'summoner' | 'memo')
+        setMemoDisplay(value as MemoDisplay)
       }}
       optionType='button'
       buttonStyle='solid'

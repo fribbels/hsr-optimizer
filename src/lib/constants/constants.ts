@@ -10,12 +10,12 @@ export const CURRENT_DATA_VERSION = '3.4v3'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  [PHAINON]: 'V2 - Numbers may change. Assumes Foundation skills.',
-  [SABER]: 'V2 - Numbers may change. Traces & EBA updated.',
-  [ARCHER]: 'V2 - Numbers may change',
-  [KAFKA_B1]: 'V2 buffs - Numbers may change',
-  [BLADE_B1]: 'V2 buffs - Numbers may change',
-  [JINGLIU_B1]: 'V2 buffs - Numbers may change',
+  [PHAINON]: 'V3 - Numbers may change. Assumes Foundation skills.',
+  [SABER]: 'V3 - Numbers may change.',
+  [ARCHER]: 'V3 - Numbers may change',
+  [KAFKA_B1]: 'V3 buffs - Numbers may change',
+  [BLADE_B1]: 'V3 buffs - Numbers may change',
+  [JINGLIU_B1]: 'V3 buffs - Numbers may change',
 }
 
 export const Stats = {

@@ -285,6 +285,7 @@ export default function CharacterTab() {
     DB.insertCharacter(characterTabFocusCharacter, 0)
     DB.refreshCharacters()
     SaveState.delayedSave()
+    characterGrid.current.api.redrawRows()
   }
 
   async function sortByScoreClicked() {
@@ -309,6 +310,7 @@ export default function CharacterTab() {
     DB.setCharacters(scoredCharacters)
     DB.refreshCharacters()
     SaveState.delayedSave()
+    characterGrid.current.api.redrawRows()
   }
 
   function clipboardClicked() {

@@ -1,5 +1,14 @@
 import i18next from 'i18next'
-import { COMPUTE_ENGINE_GPU_STABLE, ComputeEngine, Constants, CURRENT_OPTIMIZER_VERSION, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Parts, SubStats } from 'lib/constants/constants'
+import {
+  COMPUTE_ENGINE_GPU_STABLE,
+  ComputeEngine,
+  Constants,
+  CURRENT_OPTIMIZER_VERSION,
+  DEFAULT_MEMO_DISPLAY,
+  DEFAULT_STAT_DISPLAY,
+  Parts,
+  SubStats
+} from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
@@ -14,9 +23,8 @@ import { SaveState } from 'lib/state/saveState'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
-import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
-import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
@@ -27,6 +35,7 @@ import { DBMetadata, ScoringMetadata, SimulationMetadata } from 'types/metadata'
 import { Relic, Stat } from 'types/relic'
 import { GlobalSavedSession, HsrOptimizerSaveFormat, HsrOptimizerStore, UserSettings } from 'types/store'
 import { create } from 'zustand'
+import { useRelicLocatorStore } from "lib/tabs/tabRelics/RelicLocator";
 
 export type HsrOptimizerMetadataState = {
   metadata: DBMetadata
@@ -146,8 +155,6 @@ window.store = create((set) => {
     scoringMetadataOverrides: {},
     showcasePreferences: {},
     showcaseTemporaryOptionsByCharacter: {},
-    warpRequest: {} as WarpRequest,
-    warpResult: {} as WarpResult,
     statDisplay: DEFAULT_STAT_DISPLAY,
     memoDisplay: DEFAULT_MEMO_DISPLAY,
     statSimulationDisplay: StatSimTypes.Disabled,
@@ -236,8 +243,6 @@ window.store = create((set) => {
     setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
     setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
     setShowcaseTemporaryOptionsByCharacter: (x) => set(() => ({ showcaseTemporaryOptionsByCharacter: x })),
-    setWarpRequest: (x) => set(() => ({ warpRequest: x })),
-    setWarpResult: (x) => set(() => ({ warpResult: x })),
     setStatDisplay: (x) => set(() => ({ statDisplay: x })),
     setMemoDisplay: (x) => set(() => ({ memoDisplay: x })),
     setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
@@ -263,7 +268,6 @@ window.store = create((set) => {
     setColorTheme: (x) => set(() => ({ colorTheme: x })),
     setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
     setOptimizerSelectedRowData: (x) => set(() => ({ optimizerSelectedRowData: x })),
-    setOptimizerBuffGroups: (x) => set(() => ({ optimizerBuffGroups: x })),
     setGlobalThemeConfig: (x) => set(() => ({ globalThemeConfig: x })),
   }
   return store
@@ -568,9 +572,7 @@ export const DB = {
       window.store.getState().setShowcasePreferences(saveData.showcasePreferences || {})
     }
 
-    if (saveData.warpRequest) {
-      window.store.getState().setWarpRequest(saveData.warpRequest || {})
-    }
+    useWarpCalculatorStore.getState().setRequest(saveData.warpRequest)
 
     if (saveData.optimizerMenuState) {
       const menuState = window.store.getState().optimizerMenuState
@@ -711,11 +713,11 @@ export const DB = {
   },
 
   saveCharacterBuild: (name: string,
-    characterId: CharacterId,
-    score: {
-      rating: string
-      score: string
-    }) => {
+                       characterId: CharacterId,
+                       score: {
+                         rating: string
+                         score: string
+                       }) => {
     const character = DB.getCharacterById(characterId)
     if (!character) {
       console.warn('No character selected')

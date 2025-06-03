@@ -8,7 +8,7 @@ import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/default
 import { NULL_TURN_ABILITY_NAME, WHOLE_BASIC } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
-import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
+import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'

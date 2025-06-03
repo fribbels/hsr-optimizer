@@ -1,0 +1,18 @@
+Title: Ajustes
+RelicEquippingBehaviour:
+  Label: Equipar artefactos de otro personaje
+  Replace: "Por defecto: Reemplazar artefactos sin intercambiar"
+  Swap: Intercambiar artefactos con el dueño anterior
+PermutationSidebarBehaviour:
+  Label: Reducir barra lateral del optimizador en pant. pequeñas
+  XL: "Por defecto: Minimizar si la mayoría de la barra lateral está oculta"
+  XXL: Minimizar si alguna parte de la barra lateral está oculta
+  NoShow: Mantener siempre la barra lateral a la derecha
+RelicPotentialLoadBehaviour:
+  Label: Puntuar potencial de artefactos al cargar
+  OnStartup: "Por defecto: Puntuar automáticamente los artefactos al cargar la página"
+  Manual: Solo puntuar artefactos al presionar "Reaplicar puntuaciones" (carga de página más rápida)
+ExpandedInfoPanelPosition:
+  Label: Posición del panel de información ampliada del optimizador
+  Above: Mostrar información ampliada sobre la vista previa de artefactos
+  Below: "Por defecto: Mostrar información ampliada bajo la vista previa de artefactos"

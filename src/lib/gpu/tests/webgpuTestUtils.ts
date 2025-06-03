@@ -36,8 +36,6 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
   const arrayBuffer = gpuReadBuffer.getMappedRange(0, 10000)
   const array = new Float32Array(arrayBuffer)
 
-  // @ts-ignore
-
   const relicsByPart = {
     Head: relics.Head[0],
     Hands: relics.Hands[0],

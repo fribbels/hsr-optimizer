@@ -224,7 +224,6 @@ const presetToSetMapping: Record<string, string> = {
 }
 
 function ConditionalSetsPresetsDashboard() {
-  // @ts-ignore
   const sets = gameData.relics.slice().reverse()
   const characters = Object.values(DB.getMetadata().characters)
 

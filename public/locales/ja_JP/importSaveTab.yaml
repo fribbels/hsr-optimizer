@@ -7,7 +7,7 @@ Import:
   ErrorMsg:
     Unknown: 不明なエラー
     InvalidFile: 無効なファイルです
-    InvalidJson: 無効なJSONです
+    InvalidJson: 無効な JSON です
     Fragment: "ファイルのインポート中にエラーが発生しました： "
   ParserError:
     BadSource: 不正なソース文字列です。'{{configSource}}' である必要がありましたが、'{{jsonSource}}'を受け取りました。

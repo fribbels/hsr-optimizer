@@ -12,11 +12,11 @@ Characters:
     Name: Welt
     LongName: Welt
   "1005":
-    Name: Kafka
-    LongName: Kafka
+    Name: (Antigo) Kafka
+    LongName: (Antigo) Kafka
   "1006":
-    Name: Loba Prateada
-    LongName: Loba Prateada
+    Name: (Antigo) Loba Prateada
+    LongName: (Antigo) Loba Prateada
   "1008":
     Name: Arlan
     LongName: Arlan
@@ -26,6 +26,12 @@ Characters:
   "1013":
     Name: Herta
     LongName: Herta
+  "1014":
+    Name: Saber
+    LongName: Saber
+  "1015":
+    Name: Archer
+    LongName: Archer
   "1101":
     Name: Bronya
     LongName: Bronya
@@ -75,8 +81,8 @@ Characters:
     Name: Jing Yuan
     LongName: Jing Yuan
   "1205":
-    Name: Blade
-    LongName: Blade
+    Name: (Antigo) Blade
+    LongName: (Antigo) Blade
   "1206":
     Name: Sushang
     LongName: Sushang
@@ -96,8 +102,8 @@ Characters:
     Name: Bailu
     LongName: Bailu
   "1212":
-    Name: Jingliu
-    LongName: Jingliu
+    Name: (Antigo) Jingliu
+    LongName: (Antigo) Jingliu
   "1213":
     Name: Embebidor Lunae
     LongName: Dan Heng - Embebidor Lunae
@@ -197,6 +203,9 @@ Characters:
   "1407":
     Name: Castorice
     LongName: Castorice
+  "1408":
+    Name: Phainon
+    LongName: Phainon
   "1409":
     Name: Hyacine
     LongName: Hyacine
@@ -224,6 +233,18 @@ Characters:
   "8008":
     Name: Stelle
     LongName: Stelle (A Recordação)
+  1212b1:
+    Name: (Novo) Jingliu
+    LongName: (Novo) Jingliu
+  1205b1:
+    Name: (Novo) Blade
+    LongName: (Novo) Blade
+  1005b1:
+    Name: (Novo) Kafka
+    LongName: (Novo) Kafka
+  1006b1:
+    Name: (Novo) Loba Prateada
+    LongName: (Novo) Loba Prateada
 RelicSets:
   "101":
     Name: Transeunte da Nuvem Errante
@@ -283,7 +304,7 @@ RelicSets:
     Description4pc: Quando o usuário usa a sua Perícia Suprema em um aliado, a VEL de todos os aliados aumenta em 12% por 1 rodada. Este efeito não pode acumular.
   "115":
     Name: Grão-Duque em Brasas
-    Description2pc: Aumenta o Dano causado pelos Ataques Extras em 20%.
+    Description2pc: Aumenta o Dano causado pelos <u>Ataques Extras</u> em 20%.
     Description4pc: Quando o usuário usa um Ataque Extra, aumenta o ATQ do usuário em 6% a cada vez que o Ataque Extra causa Dano. Este efeito pode ser chegar até um máximo de 8 acúmulos e dura por 3 rodadas. Este efeito é removido na próxima vez que o usuário utilizar um Ataque Extra.
   "116":
     Name: Prisioneiro em Confinamento Profundo
@@ -322,13 +343,13 @@ RelicSets:
     Description2pc: Aumenta o Dano Quântico em 10%.
     Description4pc: Reduz a VEL do usuário em 8%. Antes de entrar em batalha, se a VEL do usuário estiver abaixo de 110/95, aumenta a Chance de CRIT do usuário em 20%/32%. Este efeito também se aplica no Memoespírito do usuário.
   "125":
-    Name: Warrior Goddess of Sun and Thunder
-    Description2pc: Increases SPD by 6%.
-    Description4pc: When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains "Gentle Rain," which can be triggered up to 1 time per turn, lasting for 2 turns. While the wearer has "Gentle Rain," increases their SPD by 6% and all allies' CRIT DMG by 15%. This effect cannot be stacked.
+    Name: Deusa Guerreira do Sol e do Trovão
+    Description2pc: Aumenta a VEL em 6%.
+    Description4pc: Quando o usuário ou seu Memoespírito fornecem cura aos aliados-alvo que não sejam eles mesmos, o usuário recebe "Chuva Suave", que dura 2 rodadas e só pode ser ativada uma vez por rodada. Enquanto o usuário estiver com "Chuva Suave", a VEL aumenta em 6% e o Dano CRIT de todos os aliados aumenta em 15%. Esse efeito não pode ser acumulado.
   "126":
-    Name: Wavestrider Captain
-    Description2pc: Increases CRIT DMG by 16%.
-    Description4pc: When the wearer becomes the target of another ally target's ability, gains 1 stack of "Help," stacking up to 2 times. If there are 2 stacks of "Help" when the wearer uses their Ultimate, consumes all "Help" to increase the wearer's ATK by 48% for 1 turn.
+    Name: Capitão Navegante de Ondas
+    Description2pc: Aumenta o Dano CRIT em 16%.
+    Description4pc: Quando o usuário se torna o alvo da habilidade de outro aliado-alvo, ganha 1 acúmulo de "Ajuda", acumulando até 2 vezes. Se tiver 2 acúmulos de "Ajuda" quando o usuário usar sua Perícia Suprema, consome toda a "Ajuda" para aumentar o ATQ do usuário em 48% por 1 rodada.
   "301":
     Name: Estação de Vedação Espacial
     Description2pc: Aumenta em 12% o ATQ do usuário. Quando a VEL do usuário chegar a 120 ou mais, aumenta em um extra de 12% o ATQ do usuário.
@@ -373,7 +394,7 @@ RelicSets:
     Description2pc: Aumenta o ATQ do usuário em 12%. Ao entrar em batalha, se ao menos um outro aliado seguir o mesmo Caminho que o usuário, a Chance de CRIT do usuário aumenta em 12%.
   "315":
     Name: Duran, Dinastia dos Lobos Errantes
-    Description2pc: Quando um aliado utiliza um Ataque Extra, o usuário recebe 1 acúmulo de Mérito, acumulando até 5 vezes. Cada acúmulo de Mérito aumenta o Dano causado pelos Ataques Extras do usuário em 5%. Com 5 acúmulos, aumenta adicionalmente o Dano CRIT do usuário em 25%.
+    Description2pc: Quando um aliado utiliza um <u>Ataque Extra</u>, o usuário recebe 1 acúmulo de Mérito, acumulando até 5 vezes. Cada acúmulo de Mérito aumenta o Dano causado pelos <u>Ataques Extras</u> do usuário em 5%. Com 5 acúmulos, aumenta adicionalmente o Dano CRIT do usuário em 25%.
   "316":
     Name: Forja da Lanterna Kalpagni
     Description2pc: Aumenta a VEL do usuário em 6%. Quando o usuário atinge um inimigo-alvo com Fraqueza contra Fogo, o Efeito de Quebra do usuário aumenta em 40%, durando por 1 rodada.
@@ -389,6 +410,12 @@ RelicSets:
   "320":
     Name: Árvore Gigante da Reflexão Arrebatadora
     Description2pc: Aumenta a VEL do usuário em 6%. Quando a VEL do usuário é 135/180 ou maior, a <u>Cura Realizada</u> do usuário e de seu Memoespírito aumenta em 12%/20%.
+  "321":
+    Name: Arcadia of Woven Dreams
+    Description2pc: When the number of ally targets on the field is not 4, for every 1 extra/missing ally target, increases the wearer's and their memosprite's DMG by 9%/12%, stacking up to 4/3 times.
+  "322":
+    Name: Revelry by the Sea
+    Description2pc: Increases the wearer's DoT DMG by 12%. When the wearer's ATK is higher than or equal to 2400/3600, additionally increases the DoT DMG dealt by 12%/24%.
 Lightcones:
   "20000":
     Name: Flechas
@@ -540,6 +567,24 @@ Lightcones:
     Name: Saudações dos Gênios
   "21052":
     Name: Suar Para Não Chorar
+  "21053":
+    Name: Journey, Forever Peaceful
+  "21054":
+    Name: The Story's Next Page
+  "21055":
+    Name: Unto Tomorrow's Morrow
+  "21056":
+    Name: Pursuit of the Wind
+  "21057":
+    Name: The Flower Remembers
+  "21058":
+    Name: A Trail of Bygone Blood
+  "21060":
+    Name: A Dream Scented in Wheat
+  "21061":
+    Name: Holiday Thermae Escapade
+  "21062":
+    Name: See You at the End
   "22000":
     Name: Antes do Início da Missão do Tutorial
   "22001":
@@ -635,9 +680,15 @@ Lightcones:
   "23041":
     Name: A Vida Forjada em Chamas
   "23042":
-    Name: Long May Rainbows Adorn the Sky
+    Name: Que o Arco-Íris Permaneça no Céu
   "23043":
-    Name: Lies Dance on the Breeze
+    Name: Mentiras Dançando ao Vento
+  "23044":
+    Name: Thus Burns the Dawn
+  "23045":
+    Name: A Thankless Coronation
+  "23046":
+    Name: The Hell Where Ideals Burn
   "24000":
     Name: Na Queda de Um Aeon
   "24001":

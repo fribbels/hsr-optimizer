@@ -9,7 +9,7 @@ import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { CharacterPreset, importClicked, initialiseShowcaseTab, onCharacterModalOk, Preset, presetCharacters, ShowcaseTabForm, submitForm } from 'lib/tabs/tabShowcase/showcaseTabController'
-import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { Utils } from 'lib/utils/utils'
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -41,9 +41,9 @@ export default function ShowcaseTab() {
   return (
     <div>
       <Flex vertical gap={0} align='center'>
-        {/* <Flex gap={10} vertical align='center'> */}
-        {/*  <Text><h3 style={{ color: '#ffaa4f' }}>{t('Header.DowntimeWarning', { game_version: 3.2 })}</h3></Text> */}
-        {/* </Flex> */}
+        {/*<Flex gap={10} vertical align='center'>*/}
+        {/* <Text><h3 style={{ color: '#ffaa4f' }}>{t('Header.DowntimeWarning', { game_version: 3.3 })}</h3></Text>*/}
+        {/*</Flex>*/}
 
         <Flex gap={10} vertical align='center'>
           <Text>

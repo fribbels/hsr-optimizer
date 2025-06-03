@@ -1,4 +1,8 @@
 TryOut:
   DocumentationTitle: Ver guía completa
   ButtonText: '¡Pruébalo!'
+  description: |-
+    ¿Cargar archivo de ejemplo?
+    ⚠️¡Esto remplazará todos tus datos actuales!⚠️
+  SuccessMessage: Datos cargados con éxito
   Header: '¡Pruébalo!'

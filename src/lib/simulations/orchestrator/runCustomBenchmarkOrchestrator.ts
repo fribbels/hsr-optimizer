@@ -3,7 +3,7 @@ import { StatCalculator } from 'lib/relics/statCalculator'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
-import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
+import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkForm) {

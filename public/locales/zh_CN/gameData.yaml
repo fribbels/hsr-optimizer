@@ -12,11 +12,11 @@ Characters:
     Name: 瓦尔特
     LongName: 瓦尔特
   "1005":
-    Name: 卡芙卡
-    LongName: 卡芙卡
+    Name: (旧) 卡芙卡
+    LongName: (旧) 卡芙卡
   "1006":
-    Name: 银狼
-    LongName: 银狼
+    Name: (旧) 银狼
+    LongName: (旧) 银狼
   "1008":
     Name: 阿兰
     LongName: 阿兰
@@ -26,6 +26,12 @@ Characters:
   "1013":
     Name: 黑塔
     LongName: 黑塔
+  "1014":
+    Name: Saber
+    LongName: Saber
+  "1015":
+    Name: Archer
+    LongName: Archer
   "1101":
     Name: 布洛妮娅
     LongName: 布洛妮娅
@@ -75,8 +81,8 @@ Characters:
     Name: 景元
     LongName: 景元
   "1205":
-    Name: 刃
-    LongName: 刃
+    Name: (旧) 刃
+    LongName: (旧) 刃
   "1206":
     Name: 素裳
     LongName: 素裳
@@ -96,8 +102,8 @@ Characters:
     Name: 白露
     LongName: 白露
   "1212":
-    Name: 镜流
-    LongName: 镜流
+    Name: (旧) 镜流
+    LongName: (旧) 镜流
   "1213":
     Name: 丹恒•饮月
     LongName: 丹恒•饮月
@@ -197,6 +203,9 @@ Characters:
   "1407":
     Name: 遐蝶
     LongName: 遐蝶
+  "1408":
+    Name: 白厄
+    LongName: 白厄
   "1409":
     Name: 风堇
     LongName: 风堇
@@ -224,6 +233,18 @@ Characters:
   "8008":
     Name: 星
     LongName: 星 (记忆)
+  1212b1:
+    Name: (新) 镜流
+    LongName: (新) 镜流
+  1205b1:
+    Name: (新) 刃
+    LongName: (新) 刃
+  1005b1:
+    Name: (新) 卡芙卡
+    LongName: (新) 卡芙卡
+  1006b1:
+    Name: (新) 银狼
+    LongName: (新) 银狼
 RelicSets:
   "101":
     Name: 云无留迹的过客
@@ -323,12 +344,12 @@ RelicSets:
     Description4pc: 使装备者的速度降低8%。进入战斗前，若装备者的速度小于110/95，使装备者的暴击率提高20%/32%。该效果同时对装备者的忆灵生效。
   "125":
     Name: 烈阳惊雷的女武神
-    Description2pc: 速度提高 6% 。
-    Description4pc: 当装备者及其忆灵为装备者及其忆灵以外的我方目标提供治疗后，使装备者获得【甘霖】，每回合最多触发1次，持续 2 回合。装备者持有【甘霖】时，速度提高 6% ，我方全体暴击伤害提高 15% ，该效果无法叠加。
+    Description2pc: 速度提高6%。
+    Description4pc: 当装备者及其忆灵为装备者及其忆灵以外的我方目标提供治疗后，使装备者获得【甘霖】，每回合最多触发1次，持续2回合。装备者持有【甘霖】时，速度提高6%，我方全体暴击伤害提高15%，该效果无法叠加。
   "126":
     Name: 恶海逐波的船长
-    Description2pc: 暴击伤害提高 16% 。
-    Description4pc: 装备者成为其他我方目标的技能目标时，获得1层【助力】，最多叠加 2 层。施放终结技时，若持有 2 层【助力】，消耗所有【助力】，使装备者攻击力提高 48% ，持续 1 回合。
+    Description2pc: 暴击伤害提高16%。
+    Description4pc: 装备者成为其他我方目标的技能目标时，获得1层【助力】，最多叠加2层。施放终结技时，若持有2层【助力】，消耗所有【助力】，使装备者攻击力提高48%，持续1回合。
   "301":
     Name: 太空封印站
     Description2pc: 使装备者的攻击力提高12%。当装备者的速度大于等于120时，攻击力额外提高12%。
@@ -389,6 +410,12 @@ RelicSets:
   "320":
     Name: 渊思寂虑的巨树
     Description2pc: 使装备者的速度提高6%。当装备者的速度大于等于135/180时，使装备者及其忆灵的治疗量提高12%/20%。
+  "321":
+    Name: 妖精织梦的乐园
+    Description2pc: 队伍中在场的我方目标数量不等于4时，每多/少1名我方目标，使装备者及其忆灵造成的伤害提高 9% / 12% ，最多叠加 4 / 3 层。
+  "322":
+    Name: 沉欢醉饮的海隅
+    Description2pc: "使装备者造成的持续伤害提高 12% 。当装备者的攻击力大于等于 2400 / 3600 时，使造成的持续伤害额外提高 12% / 24% "
 Lightcones:
   "20000":
     Name: 锋镝
@@ -540,6 +567,24 @@ Lightcones:
     Name: 天才们的问候
   "21052":
     Name: 多流汗，少流泪
+  "21053":
+    Name: 愿旅途永远坦然
+  "21054":
+    Name: 故事的下一页
+  "21055":
+    Name: 直到明天的明天
+  "21056":
+    Name: 追逐风的时候
+  "21057":
+    Name: 花儿不会忘记
+  "21058":
+    Name: 一行往日的血
+  "21060":
+    Name: 氤氲麦香的梦
+  "21061":
+    Name: 假日浴场大冒险
+  "21062":
+    Name: 于那终点再见
   "22000":
     Name: 新手任务开始前
   "22001":
@@ -638,6 +683,12 @@ Lightcones:
     Name: 愿虹光永驻天空
   "23043":
     Name: 谎言在风中飘扬
+  "23044":
+    Name: 黎明恰如此燃烧
+  "23045":
+    Name: 没有回报的加冕
+  "23046":
+    Name: 理想燃烧的地狱
   "24000":
     Name: 记一位星神的陨落
   "24001":

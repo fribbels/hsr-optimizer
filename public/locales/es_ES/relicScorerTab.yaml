@@ -1,4 +1,23 @@
 Messages:
+  ThrottleWarning: "Por favor espere {{seconds}} segundos antes de volver a intentarlo"
+  InvalidIdWarning: ID inválido
+  IdLoadError: Error cargando la ID
+  SuccessMsg: Perfil cargado con éxito
+  LookupError: Error durante la búsqueda, por favor intenta en un momento
   NoCharacterSelected: Ningún personaje seleccionado
+  CharacterAlreadyExists: El personaje seleccionado ya existe
+  UnknownButtonClicked: Botón desconocido presionado
+Header:
+  DowntimeWarning: "Puede que el evaluador de artefactos esté de baja por mantenimiento luego del parche {{game_version}}, por favor intenta más tarde"
+  WithVersion: "Ingresa la UID de tu cuenta para evaluar los personajes de tu perfil que sean nivel 80 y tengan los rastros al máximo. Cierra sesión para actualizar instantáneamente. (Versión actual {{beta_version}})"
+  WithoutVersion: Ingresa la UID de tu cuenta para evaluar los personajes de tu perfil que sean nivel 80 y tengan los rastros al máximo. Cierra sesión para actualizar instantáneamente.
 SubmissionBar:
+  Placeholder: UID de la cuenta
   AlgorithmButton: Algoritmo de puntuación
+CopyScreenshot: Copiar captura de pantalla
+ImportLabels:
+  Relics: Importar artefactos al optimizador
+  SingleCharacter: Importar personaje seleccionado y todos los artefactos al optimizador
+  AllCharacters: Importar todos los personajes y todos los artefactos al optimizador
+SimulateRelics: Simular artefactos en otro personaje
+OptimizeOnCharacter: Optimizar atributos del personaje

@@ -19,6 +19,12 @@ export function setComboBooleanCategoryCharacterActivation(comboState: ComboStat
     category.activations[index] = value
   }
 }
+export function setComboBooleanCategoryLightConeActivation(comboState: ComboState, conditional: string, index: number, value: boolean) {
+  const category = comboState.comboCharacter.lightConeConditionals[conditional] as ComboBooleanConditional
+  if (category) {
+    category.activations[index] = value
+  }
+}
 
 export function setComboNumberCategoryCharacterActivation(comboState: ComboState, conditional: string, index: number, value: number) {
   const category = comboState.comboCharacter.characterConditionals[conditional] as ComboNumberConditional

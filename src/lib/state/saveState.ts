@@ -1,8 +1,9 @@
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import DB from 'lib/state/db'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
-import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
 import { HsrOptimizerSaveFormat } from 'types/store'
+import { useWarpCalculatorStore } from "lib/tabs/tabWarp/useWarpCalculatorStore";
+import { useShowcaseTabStore } from "lib/tabs/tabShowcase/useShowcaseTabStore";
 
 let saveTimeout: NodeJS.Timeout | null
 
@@ -15,6 +16,7 @@ export const SaveState = {
 
     // @ts-ignore TODO remove once migration complete | added on 02/05/2025 (dd/mm/yyyy)
     delete globalSession.relicScorerSidebarOpen
+    const warpCalculatorTabState = useWarpCalculatorStore.getState()
     const state: HsrOptimizerSaveFormat = {
       relics: DB.getRelics(),
       characters: DB.getCharacters(),
@@ -28,7 +30,7 @@ export const SaveState = {
       },
       settings: globalState.settings,
       version: CURRENT_OPTIMIZER_VERSION,
-      warpRequest: globalState.warpRequest,
+      warpRequest: warpCalculatorTabState.request,
       relicLocator: {
         inventoryWidth: relicLocatorSession.inventoryWidth,
         rowLimit: relicLocatorSession.rowLimit,

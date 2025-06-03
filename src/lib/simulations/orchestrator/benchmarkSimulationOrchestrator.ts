@@ -23,14 +23,23 @@ import { generatePartialSimulations } from 'lib/simulations/benchmarks/simulateB
 import { generateStatImprovements, SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { convertRelicsToSimulation } from 'lib/simulations/statSimulationController'
-import { RunSimulationsParams, RunStatSimulationsResult, Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/statSimulationTypes'
+import {
+  RunSimulationsParams,
+  RunStatSimulationsResult,
+  Simulation,
+  SimulationRequest,
+  StatSimTypes
+} from 'lib/simulations/statSimulationTypes'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
 import { runComputeOptimalSimulationWorker } from 'lib/simulations/workerPool'
-import { SimpleCharacter } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
+import { SimpleCharacter } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { computeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorker'
-import { ComputeOptimalSimulationWorkerInput, ComputeOptimalSimulationWorkerOutput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import {
+  ComputeOptimalSimulationWorkerInput,
+  ComputeOptimalSimulationWorkerOutput
+} from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { WorkerType } from 'lib/worker/workerUtils'
 import { Form, OptimizerForm } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'

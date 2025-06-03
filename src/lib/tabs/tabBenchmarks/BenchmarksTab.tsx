@@ -1,19 +1,28 @@
 import { CheckOutlined, CloseOutlined, DeleteOutlined, SettingOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { Button, Card, Flex, Form as AntDForm, InputNumber, Radio, Select } from 'antd'
+import { Alert, Button, Card, Flex, Form as AntDForm, InputNumber, Radio, Select } from 'antd'
 import { OverlayText, showcaseOutline } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Sets } from 'lib/constants/constants'
 import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import { INTO_THE_UNREACHABLE_VEIL, JADE, LINGSHA, SCENT_ALONE_STAYS_TRUE, STELLE_REMEMBRANCE, THE_HERTA, VICTORY_IN_A_BLINK, YET_HOPE_IS_PRICELESS } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  INTO_THE_UNREACHABLE_VEIL,
+  JADE,
+  LINGSHA,
+  SCENT_ALONE_STAYS_TRUE,
+  STELLE_REMEMBRANCE,
+  THE_HERTA,
+  VICTORY_IN_A_BLINK,
+  YET_HOPE_IS_PRICELESS
+} from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
 import { BenchmarkSetting } from 'lib/tabs/tabBenchmarks/BenchmarkSettings'
 import { handleBenchmarkFormSubmit, handleCharacterSelectChange } from 'lib/tabs/tabBenchmarks/benchmarksTabController'
 import { CharacterEidolonFormRadio } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
 import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
-import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
+import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormSetConditionals'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
@@ -94,7 +103,7 @@ export default function BenchmarksTab(): ReactElement {
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmark-generator.md'
       />
 
-      <Card style={{ width: 900, marginBottom: 30 }}>
+      <Card style={{ width: 900, marginBottom: 8 }}>
         <AntDForm
           form={benchmarkForm}
           initialValues={initialForm}
@@ -103,6 +112,13 @@ export default function BenchmarksTab(): ReactElement {
           <BenchmarkInputs/>
         </AntDForm>
       </Card>
+
+      <Alert
+        message={<>Note: Combo DMG is meant to compare different relics relative to the selected team, and should <u>NOT</u> be used to compare different teams / eidolons!</>}
+        type='info'
+        showIcon
+        style={{ marginBottom: 8, width: '100%' }}
+      />
 
       <BenchmarkResults/>
 

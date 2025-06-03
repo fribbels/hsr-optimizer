@@ -1,5 +1,12 @@
-import { DeleteOutlined, DoubleLeftOutlined, DownOutlined, SettingOutlined, SwapOutlined, UpOutlined } from '@ant-design/icons'
-import { Form as AntDForm, Button, Flex, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
+import {
+  DeleteOutlined,
+  DoubleLeftOutlined,
+  DownOutlined,
+  SettingOutlined,
+  SwapOutlined,
+  UpOutlined
+} from '@ant-design/icons'
+import { Button, Flex, Form as AntDForm, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
 import { Parts, Stats, SubStats } from 'lib/constants/constants'
 import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
@@ -11,7 +18,7 @@ import {
   startOptimizerStatSimulation,
 } from 'lib/simulations/statSimulationController'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
+import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'

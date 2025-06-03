@@ -475,7 +475,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: '敵2体以下時の会心率バフ'
+        text: "敵2体以下時の会心率バフ"
         content: フィールド上の敵の数が2体以下の場合、装備キャラの会心率+{{CritBuff}}%。
   PastAndFuture:
     Content:
@@ -541,7 +541,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: '会心ダメバフ'
+        text: "会心ダメバフ"
         content: 装備キャラが攻撃を行った後、攻撃を受けた敵のうち、装備キャラの属性に対応する弱点属性を持つ敵が2体以上の場合、装備キャラの会心ダメージ+{{CritBuff}}%、2ターン継続。
   TheGreatCosmicEnterprise:
     Content:

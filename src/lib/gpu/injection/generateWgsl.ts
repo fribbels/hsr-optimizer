@@ -18,6 +18,7 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
   wgsl = injectComputeShader(wgsl)
   wgsl = injectConditionals(wgsl, request, context, gpuParams)
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)
+  wgsl = injectRelicIndexStrategy(wgsl, relics)
   wgsl = injectBasicFilters(wgsl, request, gpuParams)
   wgsl = injectCombatFilters(wgsl, request, gpuParams)
   wgsl = injectRatingFilters(wgsl, request, gpuParams)
@@ -322,4 +323,42 @@ for (var actionIndex = 0; actionIndex < actionCount; actionIndex++) {
   }
 
   return wgsl
+}
+
+/**
+ * Decides which {@link https://web.archive.org/web/20250531050143/https://en.wikipedia.org/wiki/Mixed_radix mixed-radix}
+ * strategy should be used for accessing the relics array slots. This is needed because, as of now,  wgsl only supports
+ * 32 bit types, which can overflow if not used cautiously.
+ */
+function injectRelicIndexStrategy(wgsl: string, relics: RelicsByPart): string {
+  const injectionLabel = '/* INJECT RELIC SLOT INDEX STRATEGY */'
+  const overflows = (relics.LinkRope.length
+    * relics.PlanarSphere.length
+    * relics.Feet.length
+    * relics.Body.length
+    * relics.Hands.length
+  ) > 2147483647
+  if (overflows) {
+    return wgsl.replace(injectionLabel, `
+    let l = (index % lSize);
+    let indexCarryL = index / lSize;
+    let p = (indexCarryL % pSize);
+    let indexCarryP = indexCarryL / pSize;
+    let f = (indexCarryP % fSize);
+    let indexCarryF = indexCarryP / fSize;
+    let b = (indexCarryF % bSize);
+    let indexCarryB = indexCarryF / bSize;
+    let g = (indexCarryB % gSize);
+    let indexCarryG = indexCarryB / gSize;
+    let h = (indexCarryG % hSize);
+  `)
+  }
+  return wgsl.replace(injectionLabel, `
+    let l = (index % lSize);
+    let p = (((index - l) / lSize) % pSize);
+    let f = (((index - p * lSize - l) / (lSize * pSize)) % fSize);
+    let b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize);
+    let g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize);
+    let h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize);
+  `)
 }

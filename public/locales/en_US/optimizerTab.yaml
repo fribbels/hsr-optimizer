@@ -1,3 +1,14 @@
+ValidationMessages:
+  Warning:
+    MissingTeammates: Select teammates for more accurate optimization results.
+    PathMismatch: Character path doesn't match light cone path.
+  Error:
+    TopPercent: All substat weights are set to 0. Make sure to set the substat weights for your character or use the Recommended presets button.
+    MissingTarget: Missing optimization target fields
+    MissingCharacter: Missing character fields
+    MissingLightCone: Missing light cone fields
+    TooManyPerms: Too many permutations, please apply stricter filters or set minimum enhance to at least +3.
+    GPUNotAvailable: "GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server"
 CharacterSelector:
   Character: Character
   Lightcone: Light cone
@@ -91,6 +102,7 @@ Grid:
   Of: of
   Page: Page
   PageSelectorLabel: "Page Size:"
+  Loading: Loading...
   Headers:
     Basic:
       Set: Set
@@ -107,9 +119,6 @@ Grid:
       ERR: ERR
       DMG: DMG
       EHP: EHP
-      WEIGHT: |-
-        STAT
-        WEIGHT
       HEAL: HEAL
       SHIELD: SHIELD
       BASIC: |-
@@ -154,9 +163,6 @@ Grid:
       ERR: Σ ERR
       DMG: Σ DMG
       EHP: EHP
-      WEIGHT: |-
-        STAT
-        WEIGHT
       HEAL: HEAL
       SHIELD: SHIELD
       BASIC: |-
@@ -229,6 +235,7 @@ Sidebar:
   ResultsGroup:
     Header: Results
     Equip: Equip
+    EquipSuccessMessage: Equipped
     Filter: Filter
     Pin: Pin builds
     Clear: Clear pins

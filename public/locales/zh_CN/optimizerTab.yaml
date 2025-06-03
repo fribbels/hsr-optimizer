@@ -107,9 +107,6 @@ Grid:
       ERR: 能量恢复
       DMG: 伤害
       EHP: 有效生命
-      WEIGHT: |-
-        属性
-        权重
       HEAL: 治疗值
       SHIELD: 护盾值
       BASIC: |-
@@ -154,9 +151,6 @@ Grid:
       ERR: Σ 能量
       DMG: Σ 伤害
       EHP: 有效生命
-      WEIGHT: |-
-        属性
-        权重
       HEAL: 治疗值
       SHIELD: 护盾值
       BASIC: |-
@@ -229,6 +223,7 @@ Sidebar:
   ResultsGroup:
     Header: 结果
     Equip: 装备
+    EquipSuccessMessage: 已装备
     Filter: 过滤
     Pin: 置顶配装
     Clear: 清除所有置顶
@@ -429,7 +424,7 @@ ComboFilter:
   CounterLabels:
     Dot: 持续伤害数量
   ComboOptions:
-    None: '无'
+    None: "无"
     Basic: 普攻
     Skill: 战技
     Ult: 终结技
@@ -535,7 +530,7 @@ StatSimulation:
 ExpandedDataPanel:
   SubstatUpgrades:
     ColumnHeaders:
-      Substat: '+1x 副词条'
+      Substat: "+1x 副词条"
       COMBO_DMG: Δ连招伤害
       COMBO_DMG_P: Δ%连招伤害
       EHP: Δ有效生命
@@ -551,7 +546,7 @@ ExpandedDataPanel:
       breakDmg: 击破
       superBreakDmg: 超击破
       additionalDmg: 额外
-      trueDmg: '真实'
+      trueDmg: "真实"
       jointDmg: 连携
       dotDmg: 持续
       memoDmg: 忆灵

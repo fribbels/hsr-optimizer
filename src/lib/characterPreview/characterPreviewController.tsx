@@ -247,21 +247,21 @@ export function handleTeamSelection(
 }
 
 export function getShowcaseMetadata(character: Character) {
-  const t = i18next.getFixedT(null, ['charactersTab', 'modals', 'common'])
+  const t = i18next.getFixedT(null, 'gameData')
 
   const characterId = character.form.characterId
   const characterMetadata = DB.getMetadata().characters[characterId]
   const characterElement = characterMetadata.element
   const characterLevel = 80
   const characterEidolon = character.form.characterEidolon
-  const characterName = characterId ? t(`gameData:Characters.${characterId}.Name` as never) : ''
+  const characterName = characterId ? t(`Characters.${characterId}.Name`) : ''
   const characterPath = characterMetadata.path
 
   const lightConeId = character.form.lightCone
   const lightConeLevel = 80
   const lightConeSuperimposition = character.form.lightConeSuperimposition
   const lightConeMetadata = DB.getMetadata().lightCones[lightConeId]
-  const lightConeName = lightConeId ? t(`gameData:Lightcones.${lightConeId}.Name` as never) : ''
+  const lightConeName = lightConeId ? t(`Lightcones.${lightConeId}.Name`) : ''
   const lightConeSrc = Assets.getLightConePortrait(lightConeMetadata) || ''
 
   const elementalDmgType = ElementToDamage[characterElement]

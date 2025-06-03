@@ -28,20 +28,20 @@ export default (e: Eidolon): CharacterConditionalsController => {
   const skillScaling = skill(e, 4.00, 4.40)
   const skillEnhancedExtraScaling = skill(e, 1.00, 1.08)
 
-  const ultScaling = skill(e, 12.00, 12.96)
+  const ultScaling = skill(e, 10.00, 10.80)
 
-  const fuaScaling = talent(e, 2.40, 2.64)
+  const fuaScaling = talent(e, 2.00, 2.20)
 
   const defaults = {
     cdBuff: true,
     skillEnhances: e >= 6 ? 3 : 2,
-    e2UltDmgBoost: true,
-    e4QuantumResPen: true,
+    e2QuantumResPen: true,
+    e4UltDmg: true,
     e6Buffs: true,
   }
 
   const teammateDefaults = {
-    e4QuantumResPen: true,
+    e2QuantumResPen: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -59,17 +59,17 @@ export default (e: Eidolon): CharacterConditionalsController => {
       min: 0,
       max: e >= 6 ? 3 : 2,
     },
-    e2UltDmgBoost: {
-      id: 'e2UltDmgBoost',
+    e2QuantumResPen: {
+      id: 'e2QuantumResPen',
       formItem: 'switch',
-      text: 'E2 Ult DMG',
+      text: 'E2 Quantum RES PEN',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
     },
-    e4QuantumResPen: {
-      id: 'e4QuantumResPen',
+    e4UltDmg: {
+      id: 'e4UltDmg',
       formItem: 'switch',
-      text: 'E4 Quantum RES PEN (force weakness break)',
+      text: 'E4 Ult DMG',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 4,
     },
@@ -83,7 +83,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
-    e4QuantumResPen: content.e4QuantumResPen
+    e2QuantumResPen: content.e2QuantumResPen
   }
 
   return {
@@ -94,18 +94,13 @@ export default (e: Eidolon): CharacterConditionalsController => {
     teammateDefaults: () => teammateDefaults,
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-
-      if (e >= 4 && r.e4QuantumResPen) {
-        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_ULT)
-      }
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.CD.buff(r.cdBuff ? 0.60 : 0, SOURCE_TRACE)
+      x.CD.buff(r.cdBuff ? 1.20 : 0, SOURCE_TRACE)
 
-      x.ULT_DMG_BOOST.buff((e >= 2 && r.e2UltDmgBoost) ? 1.20 : 0, SOURCE_E2)
-
+      x.ULT_DMG_BOOST.buff((e >= 4 && r.e4UltDmg) ? 1.50 : 0, SOURCE_E4)
       x.SKILL_DEF_PEN.buff((e >= 6 && r.e6Buffs) ? 0.20 : 0, SOURCE_E6)
 
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
@@ -122,7 +117,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.QUANTUM_RES_PEN.buffTeam((e >= 4 && m.e4QuantumResPen) ? 0.10 : 0, SOURCE_E4)
+      x.QUANTUM_RES_PEN.buffTeam((e >= 2 && m.e2QuantumResPen) ? 0.20 : 0, SOURCE_E2)
     },
     finalizeCalculations: () => {
     },

@@ -104,7 +104,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
     },
-    e2CdBuff: {
+    e2Buffs: {
       id: 'e2Buffs',
       formItem: 'switch',
       text: 'E2 buffs',

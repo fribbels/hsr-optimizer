@@ -1,13 +1,27 @@
-import { Stats, SubStats } from 'lib/constants/constants'
+import {
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
-import { ComputedStatsArray, ComputedStatsArrayCore, Key, StatToKey } from 'lib/optimization/computedStatsArray'
+import {
+  ComputedStatsArray,
+  ComputedStatsArrayCore,
+  Key,
+  StatToKey,
+} from 'lib/optimization/computedStatsArray'
 import { StatCalculator } from 'lib/relics/statCalculator'
 
 import { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
-import { RunStatSimulationsResult, Simulation } from 'lib/simulations/statSimulationTypes'
+import {
+  RunStatSimulationsResult,
+  Simulation,
+} from 'lib/simulations/statSimulationTypes'
 import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
-import { DBMetadataCharacter, SimulationMetadata } from 'types/metadata'
+import {
+  DBMetadataCharacter,
+  SimulationMetadata,
+} from 'types/metadata'
 import { Relic } from 'types/relic'
 
 export enum ScoringType {
@@ -17,76 +31,76 @@ export enum ScoringType {
 }
 
 export type ScoringParams = {
-  quality: number
-  speedRollValue: number
-  substatGoal: number
-  freeRolls: number
-  maxPerSub: number
-  deductionPerMain: number
-  baselineFreeRolls: number
-  limitFlatStats: boolean
-  enforcePossibleDistribution: boolean
+  quality: number,
+  speedRollValue: number,
+  substatGoal: number,
+  freeRolls: number,
+  maxPerSub: number,
+  deductionPerMain: number,
+  baselineFreeRolls: number,
+  limitFlatStats: boolean,
+  enforcePossibleDistribution: boolean,
   substatRollsModifier: (
     rolls: number,
     stat: string,
     sim: Simulation,
-  ) => number
+  ) => number,
 }
 
 export type SimulationResult = OptimizerDisplayData & {
-  unpenalizedSimScore: number
-  penaltyMultiplier: number
-  simScore: number
-  xa: Float32Array
-  ca: Float32Array
+  unpenalizedSimScore: number,
+  penaltyMultiplier: number,
+  simScore: number,
+  xa: Float32Array,
+  ca: Float32Array,
 }
 
 export type SimulationScore = {
-  percent: number
+  percent: number,
 
-  originalSim: Simulation
-  baselineSim: Simulation
-  benchmarkSim: Simulation
-  maximumSim: Simulation
+  originalSim: Simulation,
+  baselineSim: Simulation,
+  benchmarkSim: Simulation,
+  maximumSim: Simulation,
 
-  originalSimResult: RunStatSimulationsResult
-  baselineSimResult: RunStatSimulationsResult
-  benchmarkSimResult: RunStatSimulationsResult
-  maximumSimResult: RunStatSimulationsResult
+  originalSimResult: RunStatSimulationsResult,
+  baselineSimResult: RunStatSimulationsResult,
+  benchmarkSimResult: RunStatSimulationsResult,
+  maximumSimResult: RunStatSimulationsResult,
 
-  originalSimScore: number
-  baselineSimScore: number
-  benchmarkSimScore: number
-  maximumSimScore: number
+  originalSimScore: number,
+  baselineSimScore: number,
+  benchmarkSimScore: number,
+  maximumSimScore: number,
 
-  substatUpgrades: SimulationStatUpgrade[]
-  setUpgrades: SimulationStatUpgrade[]
-  mainUpgrades: SimulationStatUpgrade[]
+  substatUpgrades: SimulationStatUpgrade[],
+  setUpgrades: SimulationStatUpgrade[],
+  mainUpgrades: SimulationStatUpgrade[],
 
-  simulationForm: Form
-  simulationMetadata: SimulationMetadata
-  characterMetadata?: DBMetadataCharacter
+  simulationForm: Form,
+  simulationMetadata: SimulationMetadata,
+  characterMetadata?: DBMetadataCharacter,
 
-  originalSpd: number
-  spdBenchmark: number | undefined
-  simulationFlags: SimulationFlags
+  originalSpd: number,
+  spdBenchmark: number | undefined,
+  simulationFlags: SimulationFlags,
 }
 
 export type RelicBuild = {
-  [key: string]: Relic
+  [key: string]: Relic,
 }
 
 export type PartialSimulationWrapper = {
-  simulation: Simulation
-  speedRollsDeduction: number
+  simulation: Simulation,
+  speedRollsDeduction: number,
 }
 
 export type SimulationFlags = {
-  overcapCritRate: boolean
-  simPoetActive: boolean
-  characterPoetActive: boolean
-  forceErrRope: boolean
-  benchmarkBasicSpdTarget: number
+  overcapCritRate: boolean,
+  simPoetActive: boolean,
+  characterPoetActive: boolean,
+  forceErrRope: boolean,
+  benchmarkBasicSpdTarget: number,
 }
 
 export const benchmarkScoringParams: ScoringParams = {
@@ -143,7 +157,7 @@ export function diminishingReturnsFormula(mainsCount: number, rolls: number) {
     return rolls
   }
 
-  const excess = Math.max(0, rolls - (lowerLimit))
+  const excess = Math.max(0, rolls - lowerLimit)
   const diminishedExcess = excess / (Math.pow(excess, 0.25))
 
   return lowerLimit + diminishedExcess
@@ -155,7 +169,7 @@ export function spdDiminishingReturnsFormula(mainsCount: number, rolls: number) 
     return rolls
   }
 
-  const excess = Math.max(0, rolls - (lowerLimit))
+  const excess = Math.max(0, rolls - lowerLimit)
   const diminishedExcess = excess / (Math.pow(excess, 0.10))
 
   return lowerLimit + diminishedExcess
@@ -246,8 +260,12 @@ export function calculatePenaltyMultiplier(
         newPenaltyMultiplier *= (Math.min(1, simulationResult.xa[StatToKey[stat]] / metadata.breakpoints[stat]) + 1) / 2
       } else {
         // Percents are penalize by half of the missing stat's breakpoint roll percentage
-        newPenaltyMultiplier *= Math.min(1,
-          1 - (metadata.breakpoints[stat] - simulationResult.xa[StatToKey[stat]]) / StatCalculator.getMaxedSubstatValue(stat as SubStats, scoringParams.quality))
+        newPenaltyMultiplier *= Math.min(
+          1,
+          1
+            - (metadata.breakpoints[stat] - simulationResult.xa[StatToKey[stat]])
+              / StatCalculator.getMaxedSubstatValue(stat as SubStats, scoringParams.quality),
+        )
       }
     }
   }

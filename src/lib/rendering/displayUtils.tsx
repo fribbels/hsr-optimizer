@@ -6,17 +6,17 @@ import { Character } from 'types/character'
 import { ReactElement } from 'types/components'
 
 type GenerateCharacterListOptions = {
-  currentCharacters: Character[]
-  excludeCharacters?: Character[]
-  withNobodyOption?: boolean
-  longNameLabel?: boolean
-  longNameTitle?: boolean
+  currentCharacters: Character[],
+  excludeCharacters?: Character[],
+  withNobodyOption?: boolean,
+  longNameLabel?: boolean,
+  longNameTitle?: boolean,
 }
 
 type OptionType = {
-  value: string
-  label: ReactElement | string
-  title: string
+  value: string,
+  label: ReactElement | string,
+  title: string,
 }
 
 // Character selector options from current characters with some customization parameters
@@ -40,20 +40,17 @@ export function generateCharacterList(
     .filter((character) => !excludeCharacters.includes(character))
     .map((character): OptionType => ({
       value: character.id,
-      label:
-        (
-          <Flex gap={5} align='center'>
-            <img
-              src={Assets.getCharacterAvatarById(character.id)}
-              style={{ height: 22, marginRight: 4 }}
-            />
-            {
-              listOptions.longNameLabel
-                ? i18next.t(`gameData:Characters.${character.id}.LongName`)
-                : i18next.t(`gameData:Characters.${character.id}.Name`)
-            }
-          </Flex>
-        ),
+      label: (
+        <Flex gap={5} align='center'>
+          <img
+            src={Assets.getCharacterAvatarById(character.id)}
+            style={{ height: 22, marginRight: 4 }}
+          />
+          {listOptions.longNameLabel
+            ? i18next.t(`gameData:Characters.${character.id}.LongName`)
+            : i18next.t(`gameData:Characters.${character.id}.Name`)}
+        </Flex>
+      ),
       title: listOptions.longNameTitle
         ? i18next.t(`gameData:Characters.${character.id}.LongName`)
         : i18next.t(`gameData:Characters.${character.id}.Name`),

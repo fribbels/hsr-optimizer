@@ -1,4 +1,8 @@
-import { DEFAULT_WARP_REQUEST, WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
+import {
+  DEFAULT_WARP_REQUEST,
+  WarpRequest,
+  WarpResult,
+} from 'lib/tabs/tabWarp/warpCalculatorController'
 import { create } from 'zustand'
 
 const defaultStateValues = {
@@ -9,8 +13,8 @@ const defaultStateValues = {
 type WarpCalculatorStateValues = typeof defaultStateValues
 
 type WarpCalculatorStateActions = {
-  setRequest: (request: WarpRequest) => void
-  setResult: (result: WarpResult) => void
+  setRequest: (request: WarpRequest) => void,
+  setResult: (result: WarpResult) => void,
 }
 
 type WarpCalculatorStoreState = WarpCalculatorStateValues & WarpCalculatorStateActions

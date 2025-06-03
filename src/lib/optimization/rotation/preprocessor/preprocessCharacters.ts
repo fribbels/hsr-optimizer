@@ -1,7 +1,24 @@
 import { AbilityTriggeredStackPreprocessor } from 'lib/optimization/rotation/preprocessor/utils/abilityTriggeredStackPreprocessor'
-import { AbilityPreprocessorBase, setComboBooleanCategoryCharacterActivation, setComboNumberCategoryCharacterActivation } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
-import { AbilityKind, TurnAbility, TurnMarker } from 'lib/optimization/rotation/turnAbilityConfig'
-import { ARCHER, CASTORICE, HOOK, JINGLIU_B1, PHAINON, SABER, THE_HERTA, YUNLI } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  AbilityPreprocessorBase,
+  setComboBooleanCategoryCharacterActivation,
+  setComboNumberCategoryCharacterActivation,
+} from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
+import {
+  AbilityKind,
+  TurnAbility,
+  TurnMarker,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  ARCHER,
+  CASTORICE,
+  HOOK,
+  JINGLIU_B1,
+  PHAINON,
+  SABER,
+  THE_HERTA,
+  YUNLI,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
 export class CastoricePreprocessor extends AbilityPreprocessorBase {

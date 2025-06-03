@@ -1,11 +1,16 @@
 import { Flex } from 'antd'
 import i18next from 'i18next'
-import { Constants, SetsOrnaments, setToId, UnreleasedSets } from 'lib/constants/constants'
+import {
+  Constants,
+  SetsOrnaments,
+  setToId,
+  UnreleasedSets,
+} from 'lib/constants/constants'
 
 import { Assets } from 'lib/rendering/assets'
 
 // This should be memoized with either the t function or resolved language as a dependency
-const GenerateOrnamentsOptions = (): { value: string; label: JSX.Element }[] => {
+const GenerateOrnamentsOptions = (): { value: string, label: JSX.Element }[] => {
   return Object.values(SetsOrnaments)
     .filter((x) => !UnreleasedSets[x])
     .map((x) => {

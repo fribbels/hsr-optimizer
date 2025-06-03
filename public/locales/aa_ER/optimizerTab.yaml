@@ -409,7 +409,7 @@ ComboFilter:
   CounterLabels:
     Dot: crwdns43266:0crwdne43266:0
   ComboOptions:
-    None: 'crwdns45228:0crwdne45228:0'
+    None: "crwdns45228:0crwdne45228:0"
     Basic: crwdns43270:0crwdne43270:0
     Skill: crwdns43272:0crwdne43272:0
     Ult: crwdns43274:0crwdne43274:0
@@ -515,7 +515,7 @@ StatSimulation:
 ExpandedDataPanel:
   SubstatUpgrades:
     ColumnHeaders:
-      Substat: 'crwdns44680:0crwdne44680:0'
+      Substat: "crwdns44680:0crwdne44680:0"
       COMBO_DMG: crwdns44682:0crwdne44682:0
       COMBO_DMG_P: crwdns44684:0crwdne44684:0
       EHP: crwdns44686:0crwdne44686:0
@@ -531,7 +531,7 @@ ExpandedDataPanel:
       breakDmg: crwdns44702:0crwdne44702:0
       superBreakDmg: crwdns44704:0crwdne44704:0
       additionalDmg: crwdns44706:0crwdne44706:0
-      trueDmg: 'crwdns44708:0crwdne44708:0'
+      trueDmg: "crwdns44708:0crwdne44708:0"
       jointDmg: crwdns44710:0crwdne44710:0
       dotDmg: crwdns44712:0crwdne44712:0
       memoDmg: crwdns44714:0crwdne44714:0

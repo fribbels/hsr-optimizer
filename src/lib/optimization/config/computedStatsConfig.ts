@@ -1,4 +1,15 @@
-import { AbilityType, ADDITIONAL_DMG_TYPE, BASIC_DMG_TYPE, BREAK_DMG_TYPE, DOT_DMG_TYPE, FUA_DMG_TYPE, MEMO_DMG_TYPE, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityType,
+  ADDITIONAL_DMG_TYPE,
+  BASIC_DMG_TYPE,
+  BREAK_DMG_TYPE,
+  DOT_DMG_TYPE,
+  FUA_DMG_TYPE,
+  MEMO_DMG_TYPE,
+  SKILL_DMG_TYPE,
+  SUPER_BREAK_DMG_TYPE,
+  ULT_DMG_TYPE,
+} from 'lib/conditionals/conditionalConstants'
 import { Namespaces } from 'lib/i18n/i18n'
 import Resources from 'types/resources'
 
@@ -8,13 +19,13 @@ enum StatCategory {
 }
 
 export type ComputedStatsConfigBaseType = {
-  category?: StatCategory
-  default?: number
-  flat?: boolean
-  whole?: boolean
-  separated?: boolean
-  bool?: boolean
-  label: Label
+  category?: StatCategory,
+  default?: number,
+  flat?: boolean,
+  whole?: boolean,
+  separated?: boolean,
+  bool?: boolean,
+  label: Label,
 }
 
 interface tInput {
@@ -38,8 +49,8 @@ type Label = CompositeLabel | SimpleLabel
 const keyPrefix = 'ExpandedDataPanel.BuffsAnalysisDisplay.Stats'
 type Prefixed = Resources['optimizerTab']['ExpandedDataPanel']['BuffsAnalysisDisplay']['Stats']
 
-const createI18nKey = <K extends string>(ns: SimpleLabel['ns'], path: string, argName?: string) =>
-  (value: K): SimpleLabel => argName
+const createI18nKey = <K extends string>(ns: SimpleLabel['ns'], path: string, argName?: string) => (value: K): SimpleLabel =>
+  argName
     ? { ns, key: path, args: { [argName]: value } }
     : { ns, key: `${path}.${value}` }
 
@@ -202,8 +213,7 @@ export const newBaseComputedStatsAbilityPropertiesConfig = {
 
 type AbilityTypeKeys = keyof typeof AbilityType
 type FilteredKeys = {
-  [K in keyof typeof newBaseComputedStatsAbilityPropertiesConfig]:
-  typeof newBaseComputedStatsAbilityPropertiesConfig[K] extends { separated: true } ? never : K
+  [K in keyof typeof newBaseComputedStatsAbilityPropertiesConfig]: typeof newBaseComputedStatsAbilityPropertiesConfig[K] extends { separated: true } ? never : K
 }[keyof typeof newBaseComputedStatsAbilityPropertiesConfig]
 
 const abilityTypeLabels: Record<AbilityTypeKeys, SimpleLabel> = {
@@ -252,18 +262,18 @@ export const BaseComputedStatsConfig = {
 export type ComputedStatKeys = keyof typeof BaseComputedStatsConfig
 
 export type StatConfig = {
-  name: string
-  label: Label
-  index: number
-  default: number
-  flat: boolean
-  whole: boolean
-  bool: boolean
-  category: StatCategory
+  name: string,
+  label: Label,
+  index: number,
+  default: number,
+  flat: boolean,
+  whole: boolean,
+  bool: boolean,
+  category: StatCategory,
 }
 
 export type ComputedStatsConfigType = {
-  [K in ComputedStatKeys]: StatConfig;
+  [K in ComputedStatKeys]: StatConfig
 }
 
 export const StatsConfig: ComputedStatsConfigType = Object.fromEntries(
@@ -287,7 +297,7 @@ export const StatsConfig: ComputedStatsConfigType = Object.fromEntries(
 ) as ComputedStatsConfigType
 
 export type ComputedStatsObject = {
-  [K in keyof typeof StatsConfig]: number;
+  [K in keyof typeof StatsConfig]: number
 }
 
 export const baseComputedStatsObject: ComputedStatsObject = Object.fromEntries(

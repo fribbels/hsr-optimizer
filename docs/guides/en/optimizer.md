@@ -9,18 +9,18 @@ sidebar to load a sample save file and check out the features.
 
 The optimizer needs a database of relics to run against. Install and run one of the relic scanner options:
 
-* (Recommended) IceDynamix Reliquary Archiver
-  * Accurate speed decimals, instant scan
-  * Imports full inventory and character roster
-* Kel-Z HSR Scanner
-  * Inaccurate speed decimals, 5-10 minutes OCR scan
-  * Imports full inventory and character roster
-* Relic Scorer Import
-  * Accurate speed decimals, instant scan
-  * No download needed, but limited to relics from the 8 characters on profile showcase
-* HoyoLab Import
-  * Inaccurate speed decimals, instant scan
-  * No download needed, but limited to ingame characters equipped relics
+- (Recommended) IceDynamix Reliquary Archiver
+  - Accurate speed decimals, instant scan
+  - Imports full inventory and character roster
+- Kel-Z HSR Scanner
+  - Inaccurate speed decimals, 5-10 minutes OCR scan
+  - Imports full inventory and character roster
+- Relic Scorer Import
+  - Accurate speed decimals, instant scan
+  - No download needed, but limited to relics from the 8 characters on profile showcase
+- HoyoLab Import
+  - Inaccurate speed decimals, instant scan
+  - No download needed, but limited to ingame characters equipped relics
 
 ## Step 2 - Select a character
 
@@ -91,9 +91,9 @@ rating can make it easier to find desired builds.
 This section shows the number of permutations the optimizer has to search and details on the number of matching relics
 per slot. If any of the numbers are zero, that indicates that no relics were found that would satisfy the constraints.
 
-* Perms - Number of permutations that need to be searched. Stricter filters will reduce permutations and search time
-* Searched - Number of permutations completed in an in-progress search
-* Results - Number of displayed results that satisfy the stat filters
+- Perms - Number of permutations that need to be searched. Stricter filters will reduce permutations and search time
+- Searched - Number of permutations completed in an in-progress search
+- Results - Number of displayed results that satisfy the stat filters
 
 ### Selected build
 

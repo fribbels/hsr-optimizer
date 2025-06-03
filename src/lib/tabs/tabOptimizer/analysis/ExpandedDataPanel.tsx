@@ -1,13 +1,25 @@
-import { Flex, Form as AntDForm } from 'antd'
+import {
+  Flex,
+  Form as AntDForm,
+} from 'antd'
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import DB, { AppPages } from 'lib/state/db'
 import { DamageSplits } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
-import { generateAnalysisData, getCachedForm, getPinnedRowData, mismatchedCharacter, OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import {
+  generateAnalysisData,
+  getCachedForm,
+  getPinnedRowData,
+  mismatchedCharacter,
+  OptimizerResultAnalysis,
+} from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { StatsDiffCard } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { DamageUpgrades } from 'lib/tabs/tabOptimizer/analysis/SubstatUpgrades'
 import FilterContainer from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
-import { FormRow, OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
+import {
+  FormRow,
+  OptimizerMenuIds,
+} from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import React, { useMemo } from 'react'
 
@@ -43,7 +55,7 @@ export function ExpandedDataPanel() {
   const analysis = generateAnalysisData(pinnedRowData, selectedRowData, form)
   console.log('Optimizer result', analysis)
 
-  return <MemoizedExpandedDataPanel analysis={analysis}/>
+  return <MemoizedExpandedDataPanel analysis={analysis} />
 }
 
 function MemoizedExpandedDataPanel(props: { analysis: OptimizerResultAnalysis }) {
@@ -51,7 +63,7 @@ function MemoizedExpandedDataPanel(props: { analysis: OptimizerResultAnalysis })
 
   const memoized = useMemo(() => {
     return delayedProps
-      ? <AnalysisRender analysis={delayedProps.analysis}/>
+      ? <AnalysisRender analysis={delayedProps.analysis} />
       : null
   }, [delayedProps])
 
@@ -67,12 +79,12 @@ function AnalysisRender(props: { analysis: OptimizerResultAnalysis }) {
       <FormRow id={OptimizerMenuIds.analysis}>
         <Flex justify='space-between' style={{ width: '100%', paddingTop: 4 }} gap={10}>
           <Flex vertical gap={10}>
-            <StatsDiffCard analysis={analysis}/>
-            <DamageSplits analysis={analysis}/>
-            <DamageUpgrades analysis={analysis}/>
+            <StatsDiffCard analysis={analysis} />
+            <DamageSplits analysis={analysis} />
+            <DamageUpgrades analysis={analysis} />
           </Flex>
 
-          <BuffsAnalysisDisplay buffGroups={analysis.buffGroups} singleColumn={true}/>
+          <BuffsAnalysisDisplay buffGroups={analysis.buffGroups} singleColumn={true} />
         </Flex>
       </FormRow>
     </FilterContainer>

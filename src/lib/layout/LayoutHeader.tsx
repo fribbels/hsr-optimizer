@@ -1,6 +1,18 @@
-import { CloseOutlined, MenuOutlined } from '@ant-design/icons'
-import { Button, Flex, Layout, theme, Typography } from 'antd'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import {
+  CloseOutlined,
+  MenuOutlined,
+} from '@ant-design/icons'
+import {
+  Button,
+  Flex,
+  Layout,
+  theme,
+  Typography,
+} from 'antd'
+import {
+  OpenCloseIDs,
+  useOpenClose,
+} from 'lib/hooks/useOpenClose'
 import { LanguageSelector } from 'lib/i18n/LanguageSelector'
 import { Assets } from 'lib/rendering/assets'
 import { BASE_PATH } from 'lib/state/db'
@@ -29,7 +41,7 @@ export function LayoutHeader() {
         <Flex>
           <Button
             type='text'
-            icon={isOpenMenuSidebar ? <CloseOutlined/> : <MenuOutlined/>}
+            icon={isOpenMenuSidebar ? <CloseOutlined /> : <MenuOutlined />}
             onClick={toggleMenuSidebar}
             style={{
               fontSize: '16px',
@@ -56,7 +68,7 @@ export function LayoutHeader() {
           </a>
         </Flex>
         <Flex>
-          <LanguageSelector/>
+          <LanguageSelector />
           <a href='https://ko-fi.com/fribbels' target='_blank' rel='noreferrer'>
             <Flex>
               <img src={Assets.getKofi()} style={{ height: 36, marginRight: 6, borderRadius: 5 }}></img>

@@ -1,12 +1,27 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { Constants, OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
+import {
+  Constants,
+  OrnamentSetToIndex,
+  RelicSetToIndex,
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
+import {
+  BasicStatsArray,
+  BasicStatsArrayCore,
+} from 'lib/optimization/basicStatsArray'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
 import { Source } from 'lib/optimization/buffSource'
-import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimization/calculateConditionals'
-import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
+import {
+  calculateContextConditionalRegistry,
+  wrapTeammateDynamicConditional,
+} from 'lib/optimization/calculateConditionals'
+import {
+  calculateBaseMultis,
+  calculateDamage,
+} from 'lib/optimization/calculateDamage'
 import {
   calculateBaseStats,
   calculateBasicEffects,
@@ -16,12 +31,24 @@ import {
   calculateRelicStats,
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
-import { ComputedStatsArray, ComputedStatsArrayCore, Key, KeysType } from 'lib/optimization/computedStatsArray'
+import {
+  ComputedStatsArray,
+  ComputedStatsArrayCore,
+  Key,
+  KeysType,
+} from 'lib/optimization/computedStatsArray'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
-import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
+import {
+  SortOption,
+  SortOptionProperties,
+} from 'lib/optimization/sortOptions'
 import { SimulationRelicArrayByPart } from 'lib/simulations/statSimulationTypes'
 import { Form } from 'types/form'
-import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  CharacterMetadata,
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 import { Relic } from 'types/relic'
 
 const relicSetCount = Object.values(SetsRelics).length
@@ -29,21 +56,21 @@ const ornamentSetCount = Object.values(SetsOrnaments).length
 
 type OptimizerEventData = {
   relics: {
-    LinkRope: Relic[]
-    PlanarSphere: Relic[]
-    Feet: Relic[]
-    Body: Relic[]
-    Hands: Relic[]
-    Head: Relic[]
-  }
-  request: Form
-  context: OptimizerContext
-  buffer: ArrayBuffer
-  relicSetSolutions: number[]
-  ornamentSetSolutions: number[]
-  permutations: number
-  WIDTH: number
-  skip: number
+    LinkRope: Relic[],
+    PlanarSphere: Relic[],
+    Feet: Relic[],
+    Body: Relic[],
+    Hands: Relic[],
+    Head: Relic[],
+  },
+  request: Form,
+  context: OptimizerContext,
+  buffer: ArrayBuffer,
+  relicSetSolutions: number[],
+  ornamentSetSolutions: number[],
+  permutations: number,
+  WIDTH: number,
+  skip: number,
 }
 
 export function optimizerWorker(e: MessageEvent) {
@@ -126,12 +153,14 @@ export function optimizerWorker(e: MessageEvent) {
       break
     }
 
-    const l = (index % lSize)
-    const p = (((index - l) / lSize) % pSize)
-    const f = (((index - p * lSize - l) / (lSize * pSize)) % fSize)
-    const b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
-    const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
-    const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
+    const l = index % lSize
+    const p = ((index - l) / lSize) % pSize
+    const f = ((index - p * lSize - l) / (lSize * pSize)) % fSize
+    const b = ((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize
+    const g = ((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize
+    const h =
+      ((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize))
+      % hSize
 
     const head = relics.Head[h]
     const hands = relics.Hands[g]

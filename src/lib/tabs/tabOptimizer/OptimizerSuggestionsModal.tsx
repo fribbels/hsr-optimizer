@@ -1,7 +1,17 @@
-import { Button, Flex, Modal, Typography } from 'antd'
+import {
+  Button,
+  Flex,
+  Modal,
+  Typography,
+} from 'antd'
 import { TFunction } from 'i18next'
 import { Parts } from 'lib/constants/constants'
-import { OpenCloseIDs, setClose, setOpen, useOpenClose } from 'lib/hooks/useOpenClose'
+import {
+  OpenCloseIDs,
+  setClose,
+  setOpen,
+  useOpenClose,
+} from 'lib/hooks/useOpenClose'
 import { Message } from 'lib/interactions/message'
 import { Optimizer } from 'lib/optimization/optimizer'
 import DB, { AppPages } from 'lib/state/db'
@@ -133,20 +143,20 @@ export function activateZeroPermutationsSuggestionsModal(request: Form) {
 
   const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request) as [
     {
-      Body: Relic[]
-      Feet: Relic[]
-      PlanarSphere: Relic[]
-      LinkRope: Relic[]
-      Head: Relic[]
-      Hands: Relic[]
+      Body: Relic[],
+      Feet: Relic[],
+      PlanarSphere: Relic[],
+      LinkRope: Relic[],
+      Head: Relic[],
+      Hands: Relic[],
     },
     {
-      Body: Relic[]
-      Feet: Relic[]
-      PlanarSphere: Relic[]
-      LinkRope: Relic[]
-      Head: Relic[]
-      Hands: Relic[]
+      Body: Relic[],
+      Feet: Relic[],
+      PlanarSphere: Relic[],
+      LinkRope: Relic[],
+      Head: Relic[],
+      Hands: Relic[],
     },
   ]
   const allRelics = DB.getRelics()
@@ -227,7 +237,7 @@ export function activateZeroPermutationsSuggestionsModal(request: Form) {
 type Fixes = typeof ZeroPermRootCauseFixes[ZeroPermRootCause] | typeof ZeroResultRootCauseFixes[ZeroResultRootCause]
 
 function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRootCause, t: TFunction<'modals', undefined>): ReactElement {
-  const fixes: Fixes = (ZeroPermRootCauseFixes[rootCause as ZeroPermRootCause] || ZeroResultRootCauseFixes[rootCause as ZeroResultRootCause])
+  const fixes: Fixes = ZeroPermRootCauseFixes[rootCause as ZeroPermRootCause] || ZeroResultRootCauseFixes[rootCause as ZeroResultRootCause]
   return (
     <Flex justify='space-between' align='center' style={{ height: 45 }} key={Utils.randomId()} gap={10}>
       <Text style={{ width: 550 }}>
@@ -261,7 +271,7 @@ export function ZeroPermutationsSuggestionsModal() {
 
   return (
     <Modal
-      title={t('0Perms.Title')/* Search generated 0 permutations */}
+      title={t('0Perms.Title') /* Search generated 0 permutations */}
       open={isOpenZeroPermsModal}
       width={950}
       destroyOnClose
@@ -272,9 +282,13 @@ export function ZeroPermutationsSuggestionsModal() {
     >
       <Flex vertical gap={15} style={{ marginBottom: 15 }}>
         <Text>
-          {t('0Perms.Description')/* This means your filters are misconfigured or too restrictive, and no possibilities match the filters. Permutations are shown on the sidebar. */}
+          {
+            t(
+              '0Perms.Description',
+            ) /* This means your filters are misconfigured or too restrictive, and no possibilities match the filters. Permutations are shown on the sidebar. */
+          }
         </Text>
-        <HorizontalDivider/>
+        <HorizontalDivider />
         {rootCauseDisplay}
       </Flex>
     </Modal>
@@ -464,7 +478,7 @@ export function ZeroResultSuggestionModal() {
 
   return (
     <Modal
-      title={t('0Results.Title')/* Search generated 0 results */}
+      title={t('0Results.Title') /* Search generated 0 results */}
       open={isOpenZeroResultsModal}
       width={950}
       destroyOnClose
@@ -476,7 +490,7 @@ export function ZeroResultSuggestionModal() {
       <Flex vertical gap={15} style={{ marginBottom: 15 }}>
         <Flex justify='space-between' align='center' style={{ height: 45 }}>
           <Text>
-            {t('0Results.ResetAll.Description')/* This means your stat and/or rating filters are too restrictive. */}
+            {t('0Results.ResetAll.Description') /* This means your stat and/or rating filters are too restrictive. */}
           </Text>
           <Button
             onClick={() => {
@@ -486,16 +500,16 @@ export function ZeroResultSuggestionModal() {
               }
               const setStatDisplay = window.store.getState().setStatDisplay
               setStatDisplay('combat')
-              Message.success(t('0Results.ResetAll.SuccessMessage'))/* Cleared all filters */
+              Message.success(t('0Results.ResetAll.SuccessMessage')) /* Cleared all filters */
               closeZeroResultsModal()
             }}
             style={{ width: 350 }}
             type='primary'
           >
-            {t('0Results.ResetAll.ButtonText')/* Reset all filters */}
+            {t('0Results.ResetAll.ButtonText') /* Reset all filters */}
           </Button>
         </Flex>
-        <HorizontalDivider/>
+        <HorizontalDivider />
         {rootCauseDisplay}
       </Flex>
     </Modal>

@@ -5,27 +5,27 @@ import { WorkerType } from 'lib/worker/workerUtils'
 import { Relic } from 'types/relic'
 
 export type EstTbpRunnerInput = {
-  displayRelics: SingleRelicByPart
-  weights: Record<string, number>
+  displayRelics: SingleRelicByPart,
+  weights: Record<string, number>,
 }
 
 export type EstTbpRunnerOutput = {
-  LinkRope: number
-  PlanarSphere: number
-  Feet: number
-  Body: number
-  Hands: number
-  Head: number
+  LinkRope: number,
+  PlanarSphere: number,
+  Feet: number,
+  Body: number,
+  Hands: number,
+  Head: number,
 }
 
 export type EstTbpWorkerInput = {
-  relic: Relic
-  weights: Record<string, number>
-  workerType: WorkerType
+  relic: Relic,
+  weights: Record<string, number>,
+  workerType: WorkerType,
 }
 
 export type EstTbpWorkerOutput = {
-  days: number
+  days: number,
 }
 
 export async function runEstTbpWorker(

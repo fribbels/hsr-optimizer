@@ -3,12 +3,12 @@ import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import React from 'react'
 
 export function CenteredImage(props: {
-  src: string
-  containerW: number
-  containerH: number
-  zoom?: number // Optional zoom factor, defaults to 1.0
-  centerY?: number // Vertical point to center (in px from top of original image)
-  relativeHeight?: number // Original height that centerY is relative to
+  src: string,
+  containerW: number,
+  containerH: number,
+  zoom?: number, // Optional zoom factor, defaults to 1.0
+  centerY?: number, // Vertical point to center (in px from top of original image)
+  relativeHeight?: number, // Original height that centerY is relative to
 }) {
   const {
     src,

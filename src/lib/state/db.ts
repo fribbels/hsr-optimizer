@@ -7,38 +7,62 @@ import {
   DEFAULT_MEMO_DISPLAY,
   DEFAULT_STAT_DISPLAY,
   Parts,
-  SubStats
+  SubStats,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
-import { DefaultSettingOptions, SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
+import {
+  DefaultSettingOptions,
+  SettingOptions,
+} from 'lib/overlays/drawers/SettingsDrawer'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
-import { getGlobalThemeConfigFromColorTheme, Themes } from 'lib/rendering/theme'
+import {
+  getGlobalThemeConfigFromColorTheme,
+  Themes,
+} from 'lib/rendering/theme'
 import { oldCharacterScoringMetadata } from 'lib/scoring/oldCharacterScoringMetadata'
 import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
-import { Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
+import {
+  Simulation,
+  StatSimTypes,
+} from 'lib/simulations/statSimulationTypes'
 import { SaveState } from 'lib/state/saveState'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { Character, CharacterId } from 'types/character'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
 import { CustomImageConfig } from 'types/customImage'
 import { Form } from 'types/form'
-import { DBMetadata, ScoringMetadata, SimulationMetadata } from 'types/metadata'
-import { Relic, Stat } from 'types/relic'
-import { GlobalSavedSession, HsrOptimizerSaveFormat, HsrOptimizerStore, UserSettings } from 'types/store'
+import {
+  DBMetadata,
+  ScoringMetadata,
+  SimulationMetadata,
+} from 'types/metadata'
+import {
+  Relic,
+  Stat,
+} from 'types/relic'
+import {
+  GlobalSavedSession,
+  HsrOptimizerSaveFormat,
+  HsrOptimizerStore,
+  UserSettings,
+} from 'types/store'
 import { create } from 'zustand'
-import { useRelicLocatorStore } from "lib/tabs/tabRelics/RelicLocator";
 
 export type HsrOptimizerMetadataState = {
-  metadata: DBMetadata
+  metadata: DBMetadata,
 }
 
 const state: HsrOptimizerMetadataState = {
@@ -262,9 +286,10 @@ window.store = create((set) => {
     setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
     setSettings: (x: UserSettings) => set(() => ({ settings: x })),
     setSavedSession: (x) => set(() => ({ savedSession: x })),
-    setSavedSessionKey: (key, x) => set((state) => ({
-      savedSession: { ...state.savedSession, [key]: x },
-    })),
+    setSavedSessionKey: (key, x) =>
+      set((state) => ({
+        savedSession: { ...state.savedSession, [key]: x },
+      })),
     setColorTheme: (x) => set(() => ({ colorTheme: x })),
     setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
     setOptimizerSelectedRowData: (x) => set(() => ({ optimizerSelectedRowData: x })),
@@ -673,9 +698,9 @@ export const DB = {
       window.characterGrid.current.api.updateGridOptions({ rowData: characters })
       window.characterGrid.current.api.forEachNode((node: {
         data: {
-          id: CharacterId
-        }
-        setSelected: (b: boolean) => void
+          id: CharacterId,
+        },
+        setSelected: (b: boolean) => void,
       }) => {
         if (node.data.id == found.id) node.setSelected(true)
       })
@@ -712,12 +737,10 @@ export const DB = {
     console.log('Deleted portrait', DB.getState())
   },
 
-  saveCharacterBuild: (name: string,
-                       characterId: CharacterId,
-                       score: {
-                         rating: string
-                         score: string
-                       }) => {
+  saveCharacterBuild: (name: string, characterId: CharacterId, score: {
+    rating: string,
+    score: string,
+  }) => {
     const character = DB.getCharacterById(characterId)
     if (!character) {
       console.warn('No character selected')
@@ -823,7 +846,8 @@ export const DB = {
       DB.unequipRelicById(prevRelic.id)
     }
 
-    const swap = forceSwap || DB.getState().settings[SettingOptions.RelicEquippingBehavior.name as keyof UserSettings] == SettingOptions.RelicEquippingBehavior.Swap
+    const swap = forceSwap
+      || DB.getState().settings[SettingOptions.RelicEquippingBehavior.name as keyof UserSettings] == SettingOptions.RelicEquippingBehavior.Swap
 
     // only re-equip prevRelic if it would go to a different character
     if (prevOwnerId !== characterId && prevCharacter) {
@@ -1016,8 +1040,8 @@ export const DB = {
     const updatedOldRelics: Relic[] = []
     const addedNewRelics: Relic[] = []
     const equipUpdates: {
-      relic: Relic
-      equippedBy: CharacterId | undefined
+      relic: Relic,
+      equippedBy: CharacterId | undefined,
     }[] = []
 
     for (const newRelic of newRelics) {

@@ -10,7 +10,7 @@ Messages:
 Header:
   DowntimeWarning: "{{game_version}} 패치 후 유지보수를 위해 유물 점수 계산은 일시적으로 이용하지 못할 수 있습니다. 나중에 다시 시도해주세요."
   WithVersion: "계정 UID를 입력하면 레벨 80 및 개방된 프로필 내의 캐릭터를 평가할 수 있습니다. 로그아웃 후 새로고침 하세요. (현재 버전: {{beta_version}})"
-  WithoutVersion: 계정 UID를 입력하면 레벨 80 및 개방된 프로필 내의 캐릭터를 평가할 수 있습니다. 로그아웃 후 새로고침 하세요. 
+  WithoutVersion: 계정 UID를 입력하면 레벨 80 및 개방된 프로필 내의 캐릭터를 평가할 수 있습니다. 로그아웃 후 새로고침 하세요.
 SubmissionBar:
   Placeholder: 계정 UID
   AlgorithmButton: 점수 계산 알고리즘

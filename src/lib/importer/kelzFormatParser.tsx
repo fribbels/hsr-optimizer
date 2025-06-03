@@ -2,7 +2,13 @@ import { Typography } from 'antd'
 
 import gameData from 'data/game_data.json'
 import i18next from 'i18next'
-import { Constants, Parts, PathName, PathNames, Sets } from 'lib/constants/constants'
+import {
+  Constants,
+  Parts,
+  PathName,
+  PathNames,
+  Sets,
+} from 'lib/constants/constants'
 import { rollCounter } from 'lib/importer/characterConverter'
 import { ScannerConfig } from 'lib/importer/importConfig'
 import { Message } from 'lib/interactions/message'
@@ -10,7 +16,10 @@ import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
 import semver from 'semver'
-import { Character, CharacterId } from 'types/character'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
 import { Form } from 'types/form'
 import { Relic } from 'types/relic'
 
@@ -21,61 +30,61 @@ const { Text } = Typography
 const characterList = Object.values(gameData.characters)
 
 type V4ParserLightCone = {
-  id: string
-  name: string
-  level: number
-  ascension: number
-  superimposition: number
-  location: string
-  lock: boolean
-  _uid: string
+  id: string,
+  name: string,
+  level: number,
+  ascension: number,
+  superimposition: number,
+  location: string,
+  lock: boolean,
+  _uid: string,
 }
 
 type V4ParserCharacter = {
-  id: string
-  name: string
-  path: string
-  level: number
-  ascension: number
-  eidolon: number
+  id: string,
+  name: string,
+  path: string,
+  level: number,
+  ascension: number,
+  eidolon: number,
 }
 
 type V4ParserRelic = {
-  set_id: string
-  name: string
-  slot: string
-  rarity: number
-  level: number
-  mainstat: string
+  set_id: string,
+  name: string,
+  slot: string,
+  rarity: number,
+  level: number,
+  mainstat: string,
   substats: {
-    key: string
-    value: number
-    count?: number // only present on reliquary scans
-    step?: number // only present on reliquary scans
-  }[]
-  location: string
-  lock: boolean
-  discard: boolean
-  _uid: string
+    key: string,
+    value: number,
+    count?: number, // only present on reliquary scans
+    step?: number, // only present on reliquary scans
+  }[],
+  location: string,
+  lock: boolean,
+  discard: boolean,
+  _uid: string,
 }
 
 const relicSetMapping = gameData.relics.reduce((map, relic) => {
-  map[relic.id] = relic as { id: Relic['id']; name: Sets; skills: string }
+  map[relic.id] = relic as { id: Relic['id'], name: Sets, skills: string }
   return map
-}, {} as Record<string, { id: Relic['id']; name: Sets; skills: string }>)
+}, {} as Record<string, { id: Relic['id'], name: Sets, skills: string }>)
 
 export type ScannerParserJson = {
-  source: string
-  build: string
-  version: number
+  source: string,
+  build: string,
+  version: number,
   metadata: {
-    uid: number
-    trailblazer: 'Stelle' | 'Caelus'
-    current_trailblazer_path?: PathName
-  }
-  characters: V4ParserCharacter[]
-  light_cones: V4ParserLightCone[]
-  relics: V4ParserRelic[]
+    uid: number,
+    trailblazer: 'Stelle' | 'Caelus',
+    current_trailblazer_path?: PathName,
+  },
+  characters: V4ParserCharacter[],
+  light_cones: V4ParserLightCone[],
+  relics: V4ParserRelic[],
 }
 
 export class KelzFormatParser { // TODO abstract class
@@ -103,14 +112,14 @@ export class KelzFormatParser { // TODO abstract class
       throw new Error(tError('BadSource', {
         jsonSource: json.source,
         configSource: this.config.sourceString,
-      })/* `Incorrect source string, was '${json.source}', expected '${this.config.sourceString}'` */)
+      }) /* `Incorrect source string, was '${json.source}', expected '${this.config.sourceString}'` */)
     }
 
     if (json.version !== this.config.latestOutputVersion) {
       throw new Error(tError('BadVersion', {
         jsonVersion: json.version,
         configVersion: this.config.latestOutputVersion,
-      })/* `Incorrect json version, was '${json.version}', expected '${this.config.latestOutputVersion}'` */)
+      }) /* `Incorrect json version, was '${json.version}', expected '${this.config.latestOutputVersion}'` */)
     }
 
     const buildVersion = json.build || 'v0.0.0'
@@ -118,14 +127,16 @@ export class KelzFormatParser { // TODO abstract class
 
     if (isOutOfDate) {
       console.log(`Current: ${buildVersion}, Latest: ${this.config.latestBuildVersion}`)
-      Message.warning((
-        <Text>
-          {/* `Your scanner version ${buildVersion} is out of date and may result in incorrect imports! Please update to the latest version from Github:` */}
-          {tError('OutdatedVersion', { buildVersion })}
-          {' '}
-          <a target='_blank' style={{ color: '#3f8eff' }} href={this.config.releases} rel='noreferrer'>{this.config.releases}</a>
-        </Text>
-      ), 15)
+      Message.warning(
+        (
+          <Text>
+            {/* `Your scanner version ${buildVersion} is out of date and may result in incorrect imports! Please update to the latest version from Github:` */}
+            {tError('OutdatedVersion', { buildVersion })}{' '}
+            <a target='_blank' style={{ color: '#3f8eff' }} href={this.config.releases} rel='noreferrer'>{this.config.releases}</a>
+          </Text>
+        ),
+        15,
+      )
     }
 
     parsed.metadata.trailblazer = json.metadata.trailblazer || 'Stelle'
@@ -222,15 +233,15 @@ function readRelic(relic: V4ParserRelic, scanner: KelzFormatParser): Relic {
 }
 
 type MainData = {
-  base: number
-  step: number
+  base: number,
+  step: number,
 }
 
 type Affixes = {
-  affix_id: string
-  property: string
-  base: number
-  step: number
+  affix_id: string,
+  property: string,
+  base: number,
+  step: number,
 }
 
 function parseMainStat(relic: V4ParserRelic, part: string) {
@@ -250,7 +261,7 @@ function readRelicStats(relic: V4ParserRelic, part: string, grade: number, enhan
     throw new Error(i18next.t('importSaveTab:Import.ParserError.BadMainstat', {
       mainstat: relic.mainstat,
       part,
-    })/* `Could not parse mainstat for relic with mainstat ${relic.mainstat} and part ${part}` */)
+    }) /* `Could not parse mainstat for relic with mainstat ${relic.mainstat} and part ${part}` */)
   }
   const partId = mapPartIdToIndex(part)
   const query = `${grade}${partId}`
@@ -269,12 +280,14 @@ function readRelicStats(relic: V4ParserRelic, part: string, grade: number, enhan
         }
       }
 
-      if (s.step == undefined
+      if (
+        s.step == undefined
         || s.count == undefined
         || s.count > Math.max(1, relic.rarity * 2 - 4)
         || s.count <= 0
         || s.step > 2 * s.count
-        || s.step < 0) {
+        || s.step < 0
+      ) {
         scanner.badRollInfo = true
         return {
           stat: mapSubstatToId(s.key),

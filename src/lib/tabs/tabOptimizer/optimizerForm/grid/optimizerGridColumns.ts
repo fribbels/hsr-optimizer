@@ -1,4 +1,8 @@
-import { ColDef, GetRowIdParams, GridOptions } from 'ag-grid-community'
+import {
+  ColDef,
+  GetRowIdParams,
+  GridOptions,
+} from 'ag-grid-community'
 import { TFunction } from 'i18next'
 import { Constants } from 'lib/constants/constants'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'

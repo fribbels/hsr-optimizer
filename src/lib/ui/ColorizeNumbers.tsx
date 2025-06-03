@@ -12,8 +12,8 @@ const ColorizeNumbers = (text: string, color: string = '#ebb434') => {
       let num = ''
       let isNum = false
       if (ret.length > 0) {
-        ret.push(<br key={key++}/>)
-        ret.push(<br key={key++}/>)
+        ret.push(<br key={key++} />)
+        ret.push(<br key={key++} />)
       }
 
       for (let i = 0; i < item.length; i++) {

@@ -1,13 +1,14 @@
 import { Alert } from 'antd'
 import i18next from 'i18next'
-import { CharacterAnnouncementMessages, CURRENT_DATA_VERSION } from 'lib/constants/constants'
+import {
+  CharacterAnnouncementMessages,
+  CURRENT_DATA_VERSION,
+} from 'lib/constants/constants'
 
 export function CharacterAnnouncement(props: { characterId: string }) {
   const { characterId } = props
   if (!characterId || !CharacterAnnouncementMessages[characterId]) {
-    return (
-      <></>
-    )
+    return <></>
   }
   return (
     <Alert

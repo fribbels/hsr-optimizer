@@ -20,7 +20,7 @@ Messages:
   NoRelicSelected: 无选中遗器
   DeleteRelicSuccess: 成功删除遗器
 RelicGrid:
-  To: '-'
+  To: "-"
   Of: /
   Headers:
     EquippedBy: 装备者

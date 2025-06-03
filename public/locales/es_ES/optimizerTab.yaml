@@ -176,7 +176,7 @@ MinMaxFilters:
 ComboFilter:
   AbilityLabel: Habilidades
   ComboOptions:
-    None: 'Ninguno'
+    None: "Ninguno"
     Break: Ruptura
 ComboDrawer:
   NoConditionals: Sin pasivas condicionales

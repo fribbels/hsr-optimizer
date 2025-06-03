@@ -1,13 +1,24 @@
-import i18next from "i18next"
-import { AbilityType, FUA_DMG_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import i18next from 'i18next'
+import {
+  AbilityType,
+  FUA_DMG_TYPE,
+  SKILL_DMG_TYPE,
+} from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import { PHAINON } from "lib/simulations/tests/testMetadataConstants"
+import { PHAINON } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export enum PhainonEnhancedSkillType {
   FOUNDATION = 0,
@@ -109,21 +120,21 @@ export default (e: Eidolon): CharacterConditionalsController => {
       formItem: 'switch',
       text: 'E1 buffs',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 1
+      disabled: e < 1,
     },
     e2ResPen: {
       id: 'e2ResPen',
       formItem: 'switch',
       text: 'E2 RES PEN',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 2
+      disabled: e < 2,
     },
     e6TrueDmg: {
       id: 'e6TrueDmg',
       formItem: 'switch',
       text: 'E6 True DMG',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 6
+      disabled: e < 6,
     },
   }
 

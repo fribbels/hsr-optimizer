@@ -1,8 +1,17 @@
-import { Flex, Form, Select, Typography } from 'antd'
+import {
+  Flex,
+  Form,
+  Select,
+  Typography,
+} from 'antd'
 import { SelectOptionContent } from 'lib/optimization/rotation/setConditionalContent'
 import { getItemName } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import WithPopover from 'lib/ui/WithPopover'
-import { ComponentProps, ComponentType, useState } from 'react'
+import {
+  ComponentProps,
+  ComponentType,
+  useState,
+} from 'react'
 import styled from 'styled-components'
 
 const justify = 'flex-start'
@@ -56,15 +65,13 @@ export const FormSelect: ComponentType<FormSelectProps> = (props) => {
 
   return (
     <Flex justify={justify} align={align} style={{ width: props.fullWidth ? '100%' : undefined }}>
-      {
-        props.removeForm
-          ? internalSelect
-          : (
-            <Form.Item name={itemName} style={{ width: props.fullWidth ? '100%' : undefined }}>
-              {internalSelect}
-            </Form.Item>
-          )
-      }
+      {props.removeForm
+        ? internalSelect
+        : (
+          <Form.Item name={itemName} style={{ width: props.fullWidth ? '100%' : undefined }}>
+            {internalSelect}
+          </Form.Item>
+        )}
       <Text>{props.fullWidth ? null : props.text}</Text>
     </Flex>
   )

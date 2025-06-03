@@ -1,13 +1,22 @@
-import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import i18next from 'i18next'
+import {
+  SKILL_DMG_TYPE,
+  ULT_DMG_TYPE,
+} from 'lib/conditionals/conditionalConstants'
+import {
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
+import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
-import i18next from "i18next";
-import { CURRENT_DATA_VERSION } from "lib/constants/constants";
-import { buffAbilityDmg } from "lib/optimization/calculateBuffs";
-import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from "lib/conditionals/conditionalConstants";
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ATrailOfBygoneBlood')
@@ -28,7 +37,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
   }
-
 
   return {
     content: () => Object.values(content),

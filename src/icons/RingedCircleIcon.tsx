@@ -12,7 +12,7 @@ const IconSVG = (props: { color?: string }) => {
         fillRule='evenodd'
       />
 
-      <path d='M512 240C362.2 240 240 362.2 240 512s122.2 272 272 272 272-122.2 272-272S661.8 240 512 240z' fillRule='evenodd'/>
+      <path d='M512 240C362.2 240 240 362.2 240 512s122.2 272 272 272 272-122.2 272-272S661.8 240 512 240z' fillRule='evenodd' />
     </svg>
   )
 }
@@ -22,7 +22,7 @@ export const RingedCircleIcon = React.forwardRef<HTMLDivElement, IconExtractedPr
 
   return (
     <Flex ref={ref} className={className} style={style} {...restProps}>
-      <IconSVG color={color}/>
+      <IconSVG color={color} />
     </Flex>
   )
 })

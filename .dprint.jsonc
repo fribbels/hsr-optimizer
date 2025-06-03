@@ -74,6 +74,8 @@
   "excludes": [
     "**/node_modules",
     "**/*-lock.json",
+    "**/CharacterScoringSummary.tsx",
+    "**/WarpCalculatorTab.tsx",
   ],
   "plugins": [
     "https://plugins.dprint.dev/typescript-0.95.3.wasm",

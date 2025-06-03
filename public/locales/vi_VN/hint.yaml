@@ -1,5 +1,5 @@
 RatingFilter:
-  Title: 'Lọc Điểm Số:'
+  Title: "Lọc Điểm Số:"
   p1: >-
     Ehp - HP hiệu quả, đo lường mức độ chống chịu của một nhân vật cấp tối đa. Được tính bằng HP, phòng thủ và các nội tại giảm sát thương
   p2: >-
@@ -106,7 +106,7 @@ RelicLocation:
   Title: Vị trí dị vật
   p1: Khi một di vật được chọn trong lưới, vị trí của nó trong Túi sẽ được hiển thị ở đây.
   p2: Nếu lọc bộ đang hoạt động, hãy áp dụng những bộ lọc đó trong y vậy trong game và sau đó sắp xếp theo Thứ Tự Nhận (mới nhất ưu tiên) để tìm di vật.
-  p3: '⚠️ Ghi chú sử dụng ⚠️'
+  p3: "⚠️ Ghi chú sử dụng ⚠️"
   p4: Mục này chỉ được hỗ trợ với nhập từ Reliquary Archiver
   p5: Nếu có di vật mới bị xóa hoặc nhận được kể từ lần nhập trước, bạn phải quét lại và nhập lại.
   p6: Chọn cài đặt chiều rộng thanh đồ phù hợp để có vị trí chính xác. Chiều rộng phụ thuộc vào màn hình và menu trong game

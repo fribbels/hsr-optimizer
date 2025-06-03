@@ -1,13 +1,25 @@
-import { Flex, Table } from 'antd'
+import {
+  Flex,
+  Table,
+} from 'antd'
 import i18next from 'i18next'
-import { Sets, setToId } from 'lib/constants/constants'
+import {
+  Sets,
+  setToId,
+} from 'lib/constants/constants'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
-import { ComputedStatsObject, StatsConfig } from 'lib/optimization/config/computedStatsConfig'
+import {
+  ComputedStatsObject,
+  StatsConfig,
+} from 'lib/optimization/config/computedStatsConfig'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { Assets } from 'lib/rendering/assets'
-import { originalScoringParams, SimulationScore } from 'lib/scoring/simScoringUtils'
+import {
+  originalScoringParams,
+  SimulationScore,
+} from 'lib/scoring/simScoringUtils'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
@@ -17,10 +29,10 @@ import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type BuffsAnalysisProps = {
-  result?: SimulationScore
-  buffGroups?: Record<BUFF_TYPE, Record<string, Buff[]>>
-  singleColumn?: boolean
-  size?: BuffDisplaySize
+  result?: SimulationScore,
+  buffGroups?: Record<BUFF_TYPE, Record<string, Buff[]>>,
+  singleColumn?: boolean,
+  size?: BuffDisplaySize,
 }
 
 export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
@@ -37,19 +49,19 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
   const size = props.size ?? BuffDisplaySize.SMALL
 
   for (const [id, buffs] of Object.entries(buffGroups.PRIMARY)) {
-    buffsDisplayLeft.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.PRIMARY} key={groupKey++} size={size}/>)
+    buffsDisplayLeft.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.PRIMARY} key={groupKey++} size={size} />)
   }
 
   for (const [id, buffs] of Object.entries(buffGroups.SETS)) {
-    buffsDisplayLeft.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.SETS} key={groupKey++} size={size}/>)
+    buffsDisplayLeft.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.SETS} key={groupKey++} size={size} />)
   }
 
   for (const [id, buffs] of Object.entries(buffGroups.CHARACTER)) {
-    buffsDisplayRight.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.CHARACTER} key={groupKey++} size={size}/>)
+    buffsDisplayRight.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.CHARACTER} key={groupKey++} size={size} />)
   }
 
   for (const [id, buffs] of Object.entries(buffGroups.LIGHTCONE)) {
-    buffsDisplayRight.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.LIGHTCONE} key={groupKey++} size={size}/>)
+    buffsDisplayRight.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.LIGHTCONE} key={groupKey++} size={size} />)
   }
 
   if (props.singleColumn) {
@@ -83,7 +95,7 @@ function rerunSim(result?: SimulationScore) {
   return aggregateCombatBuffs(x, result.simulationForm)
 }
 
-function BuffGroup(props: { id: string; buffs: Buff[]; buffType: BUFF_TYPE; size: BuffDisplaySize }) {
+function BuffGroup(props: { id: string, buffs: Buff[], buffType: BUFF_TYPE, size: BuffDisplaySize }) {
   const { i18n } = useTranslation() // needed to trigger re-render on language change
   const { id, buffs, buffType, size } = props
 
@@ -96,21 +108,21 @@ function BuffGroup(props: { id: string; buffs: Buff[]; buffType: BUFF_TYPE; size
 
   return (
     <Flex align='center' gap={5}>
-      <img src={src} style={{ width: 64, height: 64 }}/>
+      <img src={src} style={{ width: 64, height: 64 }} />
 
-      <BuffTable buffs={buffs} size={size}/>
+      <BuffTable buffs={buffs} size={size} />
     </Flex>
   )
 }
 
 type BuffTableItem = {
-  key: number
-  value: string
-  statLabel: string
-  sourceLabel: string
+  key: number,
+  value: string,
+  statLabel: string,
+  sourceLabel: string,
 }
 
-function BuffTable(props: { buffs: Buff[]; size: BuffDisplaySize }) {
+function BuffTable(props: { buffs: Buff[], size: BuffDisplaySize }) {
   const { buffs } = props
   const { t: tOptimizerTab } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay' })
   const { t: tGameData } = useTranslation('gameData')

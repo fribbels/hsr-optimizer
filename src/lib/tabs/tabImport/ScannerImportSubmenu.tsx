@@ -1,12 +1,32 @@
 import { UploadOutlined } from '@ant-design/icons'
-import { Button, Checkbox, Divider, Flex, Input, Popconfirm, Steps, Typography, Upload } from 'antd'
-import { HoyolabData, hoyolabParser } from 'lib/importer/hoyoLabFormatParser'
-import { KelzScannerConfig, ScannerSourceToParser, ValidScannerSources } from 'lib/importer/importConfig'
+import {
+  Button,
+  Checkbox,
+  Divider,
+  Flex,
+  Input,
+  Popconfirm,
+  Steps,
+  Typography,
+  Upload,
+} from 'antd'
+import {
+  HoyolabData,
+  hoyolabParser,
+} from 'lib/importer/hoyoLabFormatParser'
+import {
+  KelzScannerConfig,
+  ScannerSourceToParser,
+  ValidScannerSources,
+} from 'lib/importer/importConfig'
 import { ScannerParserJson } from 'lib/importer/kelzFormatParser'
 import { Message } from 'lib/interactions/message'
 import DB, { AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { importerTabButtonWidth, importerTabSpinnerMs } from 'lib/tabs/tabImport/importerTabUiConstants'
+import {
+  importerTabButtonWidth,
+  importerTabSpinnerMs,
+} from 'lib/tabs/tabImport/importerTabUiConstants'
 import { ReliquaryDescription } from 'lib/tabs/tabImport/ReliquaryDescription'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { useState } from 'react'
@@ -20,9 +40,9 @@ import { Relic } from 'types/relic'
 const { Text } = Typography
 
 type ParsedCharacter = {
-  characterId: CharacterId
-  characterLevel: number
-  lightConeLevel: number
+  characterId: CharacterId,
+  characterLevel: number,
+  lightConeLevel: number,
 }
 
 enum Stages {
@@ -60,7 +80,7 @@ export function ScannerImportSubmenu() {
       setLoading1(true)
 
       if (!json) {
-        throw new Error(t('Import.ErrorMsg.InvalidJson')/* Invalid JSON */)
+        throw new Error(t('Import.ErrorMsg.InvalidJson') /* Invalid JSON */)
       }
 
       if (json.data) {
@@ -85,7 +105,7 @@ export function ScannerImportSubmenu() {
       }
 
       if (!ValidScannerSources.includes(json.source)) {
-        throw new Error(t('Import.ErrorMsg.InvalidFile')/* Invalid scanner file */)
+        throw new Error(t('Import.ErrorMsg.InvalidFile') /* Invalid scanner file */)
       }
 
       const parser = ScannerSourceToParser[json.source]
@@ -108,11 +128,11 @@ export function ScannerImportSubmenu() {
         setOnlyImportExisting(false)
       }, importerTabSpinnerMs)
     } catch (e) {
-      let message: string = t('Import.ErrorMsg.Unknown'/* Unknown Error */)
+      let message: string = t('Import.ErrorMsg.Unknown' /* Unknown Error */)
       if (e instanceof Error) message = e.message
 
       console.error(e)
-      Message.error(t('Import.ErrorMsg.Fragment'/* Error occurred while importing file: */) + message, 10)
+      Message.error(t('Import.ErrorMsg.Fragment' /* Error occurred while importing file: */) + message, 10)
 
       setTimeout(() => {
         setLoading1(false)
@@ -162,7 +182,7 @@ export function ScannerImportSubmenu() {
           </Text>
           <Text>
             <ul>
-              <ReliquaryDescription/>
+              <ReliquaryDescription />
               <li>
                 {t('Import.Stage1.KelzDesc.Title')} (
                 <ColorizedLinkWithIcon
@@ -213,7 +233,7 @@ export function ScannerImportSubmenu() {
               >
                 <Button
                   style={{ width: importerTabButtonWidth }}
-                  icon={<UploadOutlined/>}
+                  icon={<UploadOutlined />}
                   loading={loading1}
                   onClick={() => setCurrentStage(Stages.LOAD_FILE)}
                 >
@@ -280,7 +300,9 @@ export function ScannerImportSubmenu() {
             {t('Import.Stage2.RelicsImport.ButtonText', { relicCount: currentRelics.length ?? 0 })}
           </Button>
 
-          <Divider><Text style={{ fontSize: 12 }}>{t('Import.Stage2.Or')}</Text></Divider>
+          <Divider>
+            <Text style={{ fontSize: 12 }}>{t('Import.Stage2.Or')}</Text>
+          </Divider>
           <Text>
             {t('Import.Stage2.CharactersImport.Label', {
               relicCount: currentRelics.length ?? 0,

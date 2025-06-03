@@ -1,15 +1,20 @@
 import { AbilityPreprocessorBase } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
-import { AbilityKind, TurnAbility, TurnMarker } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  TurnAbility,
+  TurnMarker,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
-export type ActivationFunction = ((comboState: ComboState, key: string, index: number, value: boolean) => void) |
-  ((comboState: ComboState, key: string, index: number, value: number) => void)
+export type ActivationFunction =
+  | ((comboState: ComboState, key: string, index: number, value: boolean) => void)
+  | ((comboState: ComboState, key: string, index: number, value: number) => void)
 
 export class TurnTriggeredStackPreprocessor extends AbilityPreprocessorBase {
   id: string
 
   private triggerKinds: AbilityKind[]
-  private activationFn: ((comboState: ComboState, key: string, index: number, value: boolean | number) => void)
+  private activationFn: (comboState: ComboState, key: string, index: number, value: boolean | number) => void
   private key: string
   private isNumber: boolean
   private defaultActivationValue: boolean | number
@@ -28,13 +33,13 @@ export class TurnTriggeredStackPreprocessor extends AbilityPreprocessorBase {
   constructor(
     id: string,
     options: {
-      key: string
-      triggerKinds: AbilityKind[]
-      activeTurns: number
-      isNumber?: boolean
-      activationValue?: boolean | number
-      defaultActivationValue?: boolean | number
-      activationFn: ActivationFunction
+      key: string,
+      triggerKinds: AbilityKind[],
+      activeTurns: number,
+      isNumber?: boolean,
+      activationValue?: boolean | number,
+      defaultActivationValue?: boolean | number,
+      activationFn: ActivationFunction,
     },
   ) {
     super()

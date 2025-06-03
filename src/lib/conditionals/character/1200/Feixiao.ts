@@ -1,14 +1,30 @@
-import { AbilityType, ASHBLAZING_ATK_STACK, FUA_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, calculateAshblazingSetP, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityType,
+  ASHBLAZING_ATK_STACK,
+  FUA_DMG_TYPE,
+  ULT_DMG_TYPE,
+} from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityEidolon,
+  calculateAshblazingSetP,
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityCd, buffAbilityResPen } from 'lib/optimization/calculateBuffs'
+import {
+  buffAbilityCd,
+  buffAbilityResPen,
+} from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Feixiao')
@@ -37,15 +53,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const fuaScaling = talent(e, 1.10, 1.21)
   const talentDmgBuff = talent(e, 0.60, 0.66)
 
-  const ultHitCountMulti = (1 * 0.1285 + 2 * 0.1285 + 3 * 0.1285 + 4 * 0.1285 + 5 * 0.1285 + 6 * 0.1285 + 7 * 0.2285)
-  const ultBrokenHitCountMulti = (
-    1 * 0.1285 * 0.1 + 2 * 0.1285 * 0.9
+  const ultHitCountMulti = 1 * 0.1285 + 2 * 0.1285 + 3 * 0.1285 + 4 * 0.1285 + 5 * 0.1285 + 6 * 0.1285 + 7 * 0.2285
+  const ultBrokenHitCountMulti = 1 * 0.1285 * 0.1 + 2 * 0.1285 * 0.9
     + 3 * 0.1285 * 0.1 + 4 * 0.1285 * 0.9
     + 5 * 0.1285 * 0.1 + 6 * 0.1285 * 0.9
     + 7 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9
     + 8 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9
     + 8 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9
-    + 8 * 0.2285)
+    + 8 * 0.2285
 
   function getUltHitMulti(action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals as Conditionals<typeof content>

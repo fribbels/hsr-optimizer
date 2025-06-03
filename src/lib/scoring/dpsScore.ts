@@ -1,16 +1,30 @@
-import { Constants, Parts } from 'lib/constants/constants'
+import {
+  Constants,
+  Parts,
+} from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { RelicBuild, SimulationScore } from 'lib/scoring/simScoringUtils'
-import { resolveDpsScoreSimulationMetadata, retrieveBenchmarkCache, runDpsScoreBenchmarkOrchestrator, setBenchmarkCache } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
+import {
+  RelicBuild,
+  SimulationScore,
+} from 'lib/scoring/simScoringUtils'
+import {
+  resolveDpsScoreSimulationMetadata,
+  retrieveBenchmarkCache,
+  runDpsScoreBenchmarkOrchestrator,
+  setBenchmarkCache,
+} from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Character } from 'types/character'
-import { ShowcaseTemporaryOptions, SimulationMetadata } from 'types/metadata'
+import {
+  ShowcaseTemporaryOptions,
+  SimulationMetadata,
+} from 'types/metadata'
 
 export type AsyncSimScoringExecution = {
-  done: boolean
-  result: SimulationScore | null
-  promise: Promise<SimulationScore | null> | null
+  done: boolean,
+  result: SimulationScore | null,
+  promise: Promise<SimulationScore | null> | null,
 }
 
 export function getShowcaseSimScoringExecution(
@@ -75,9 +89,9 @@ export function getShowcaseSimScoringExecution(
 }
 
 export type SimulationSets = {
-  relicSet1: string
-  relicSet2: string
-  ornamentSet: string
+  relicSet1: string,
+  relicSet2: string,
+  ornamentSet: string,
 }
 
 export function calculateSimSets(relicSetName0: string, relicSetName1: string, ornamentSetName: string, metadata: SimulationMetadata): SimulationSets {

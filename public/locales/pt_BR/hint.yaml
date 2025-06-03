@@ -25,7 +25,7 @@ Sets:
   p1: Selecione os conjuntos de relíquias e ornamentos para filtrar os resultados. Vários conjuntos podem ser selecionados para mais opções.
   p2: Os efeitos dos conjuntos serão considerados nos cálculos; use o menu de efeitos de conjunto condicionais para personalizar quais efeitos estão ativos.
 Character:
-  Title: Personagem 
+  Title: Personagem
   p1: Selecione o personagem e o eidolon. Assume-se que o personagem esteja no nível 80 com traços maximizados nos cálculos de otimização.
 CharacterPassives:
   Title: Passivas do personagem
@@ -109,7 +109,7 @@ RelicLocation:
   Title: Localização da Relíquia
   p1: Quando uma relíquia é selecionada na grade, sua posição no inventário do jogo é exibida aqui.
   p2: Se os filtros de conjunto / parte estiverem ativos, aplique esses mesmos filtros no jogo e, em seguida, classifique por Data de Aquisição (mais recente primeiro) para encontrar a relíquia.
-  p3: '⚠️Notas de uso⚠️'
+  p3: "⚠️Notas de uso⚠️"
   p4: Isso só é suportado com importação do Arquipélago Reliquário
   p5: Se novas relíquias foram excluídas ou obtidas desde a última importação, elas devem ser reescaneadas e importadas
   p6: Selecione a configuração de largura de inventário apropriada para obter locais precisos. A largura depende da largura da tela e do menu no jogo

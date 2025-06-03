@@ -1,5 +1,13 @@
-import { MainStats, Parts, Stats, SubStats } from 'lib/constants/constants'
-import { getRollQualityDistribution, thresholdProbability } from 'lib/relics/estTbp/convolution'
+import {
+  MainStats,
+  Parts,
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
+import {
+  getRollQualityDistribution,
+  thresholdProbability,
+} from 'lib/relics/estTbp/convolution'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Relic } from 'types/relic'
 
@@ -65,7 +73,7 @@ export function* substatGeneratorFromRelic(relic: Relic): Generator<Array<SubSta
     // we assume that all relics are upgraded to have the fourth substat unlocked, so we subtract
     // from the upgrade count and add to the initial count until the initial count is 4
     const upgradeCount = relic.grade - (4 - initialCount)
-    yield * substatGenerator(relic.main.stat, 4, upgradeCount)
+    yield* substatGenerator(relic.main.stat, 4, upgradeCount)
   }
 }
 
@@ -225,26 +233,20 @@ export function binomialCoefficient(n: number, k: number): number {
 export function* permutations<T>(arr: Array<T>): Generator<Array<T>> {
   if (arr.length < 2) return yield arr
   const [first, ...rest] = arr
-  for (const ps of permutations(rest))
-    for (const i of arr.keys())
-      yield [...ps.slice(0, i), first, ...ps.slice(i)]
+  for (const ps of permutations(rest)) for (const i of arr.keys()) yield [...ps.slice(0, i), first, ...ps.slice(i)]
 }
 
 // https://gist.github.com/xuab/c96bd47769ec459b60db8da4e796a0ff
 // "kSubSets"
 export function* combinations<T>(l: Array<T>, k: number): Generator<Array<T>> {
   if (k < 1) return yield []
-  for (const [i, x] of l.entries())
-    for (const set of combinations(l.slice(i + 1), k - 1))
-      yield [x, ...set]
+  for (const [i, x] of l.entries()) for (const set of combinations(l.slice(i + 1), k - 1)) yield [x, ...set]
 }
 
 // modified myself from combinations()
 export function* combinationsWithReplacement<T>(l: Array<T>, k: number): Generator<Array<T>> {
   if (k < 1) return yield []
-  for (const [i, x] of l.entries())
-    for (const set of combinationsWithReplacement(l.slice(i), k - 1))
-      yield [x, ...set]
+  for (const [i, x] of l.entries()) for (const set of combinationsWithReplacement(l.slice(i), k - 1)) yield [x, ...set]
 }
 
 export function debugEstTbp() {

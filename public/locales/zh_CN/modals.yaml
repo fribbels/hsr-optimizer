@@ -43,7 +43,7 @@ Scoring:
       ButtonText: 清除位面饰品套装筛选条件
       SuccessMessage: 已清除位面饰品套装筛选条件
     KEEP_CURRENT:
-      Description: '“保持当前遗器”选项已启用，这会强制在搜索中保持角色上当前装备的任何遗器不变'
+      Description: "“保持当前遗器”选项已启用，这会强制在搜索中保持角色上当前装备的任何遗器不变"
       ButtonText: 禁用“保持当前遗器”
       SuccessMessage: 已禁用“保持当前遗器”
     PRIORITY:
@@ -51,11 +51,11 @@ Scoring:
       ButtonText: "将角色优先级移至第1位"
       SuccessMessage: "已将角色优先级移至第1位"
     EXCLUDE_ENABLED:
-      Description: '“排除”过滤条件中选择了一些角色，这意味着当前角色无法从所选角色中获得遗器'
+      Description: "“排除”过滤条件中选择了一些角色，这意味着当前角色无法从所选角色中获得遗器"
       ButtonText: 清除被排除的角色
       SuccessMessage: 已清除被排除的角色。
     EQUIPPED_DISABLED:
-      Description: '“包含已装备的遗器” 筛选条件已禁用，这意味着该角色无法获得被其他角色已装备的任何遗器'
+      Description: "“包含已装备的遗器” 筛选条件已禁用，这意味着该角色无法获得被其他角色已装备的任何遗器"
       ButtonText: 启用“包含已装备的遗器”
       SuccessMessage: 已启用“包含已装备的遗器”
     MINIMUM_ROLLS:

@@ -73,10 +73,11 @@ export const openCloseStore = create<OpenCloseStates>((set) => ({
   state: {
     [OpenCloseIDs.MENU_SIDEBAR]: true,
   } as Record<OpenCloseIDs, boolean>,
-  setIsOpen: (id: OpenCloseIDs, isOpen: boolean) => set((state) => ({
-    state: {
-      ...state.state,
-      [id]: isOpen,
-    },
-  })),
+  setIsOpen: (id: OpenCloseIDs, isOpen: boolean) =>
+    set((state) => ({
+      state: {
+        ...state.state,
+        [id]: isOpen,
+      },
+    })),
 }))

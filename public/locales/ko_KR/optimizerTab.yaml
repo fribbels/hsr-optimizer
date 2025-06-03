@@ -242,7 +242,7 @@ FormRowLabels:
   Analysis: 옵티마이저 결과 분석
 TracesDrawer:
   Title: 행적 편집
-  Header: '열린 행적 (기본값 : 열림)'
+  Header: "열린 행적 (기본값 : 열림)"
   ButtonText: 변경 사항 저장
 SetConditionals:
   Title: 세트 효과 수정
@@ -429,7 +429,7 @@ ComboFilter:
   CounterLabels:
     Dot: 지속 피해
   ComboOptions:
-    None: '없음'
+    None: "없음"
     Basic: 기본 공격
     Skill: 전투 스킬
     Ult: 필살기
@@ -535,7 +535,7 @@ StatSimulation:
 ExpandedDataPanel:
   SubstatUpgrades:
     ColumnHeaders:
-      Substat: '+1x 부 옵션'
+      Substat: "+1x 부 옵션"
       COMBO_DMG: Δ사이클 총 피해량
       COMBO_DMG_P: Δ%사이클 총 피해량
       EHP: Δ EHP
@@ -551,7 +551,7 @@ ExpandedDataPanel:
       breakDmg: 격파
       superBreakDmg: 슈퍼 격파
       additionalDmg: 추가
-      trueDmg: '확정'
+      trueDmg: "확정"
       jointDmg: 연계
       dotDmg: 지속피해
       memoDmg: 기억정령

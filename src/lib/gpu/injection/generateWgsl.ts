@@ -1,12 +1,21 @@
-import { Constants, PathNames } from 'lib/constants/constants'
+import {
+  Constants,
+  PathNames,
+} from 'lib/constants/constants'
 import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
 import { injectConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
 import { indent } from 'lib/gpu/injection/wgslUtils'
-import { GpuConstants, RelicsByPart } from 'lib/gpu/webgpuTypes'
+import {
+  GpuConstants,
+  RelicsByPart,
+} from 'lib/gpu/webgpuTypes'
 import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
 import structs from 'lib/gpu/wgsl/structs.wgsl?raw'
-import { AbilityKind, getAbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  getAbilityKind,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
@@ -45,8 +54,12 @@ function injectSuppressions(wgsl: string, request: Form, context: OptimizerConte
     if (context.resultSort != SortOption.SKILL.key && request.minSkill == 0 && request.maxSkill == Constants.MAX_INT) wgsl = suppress(wgsl, 'SKILL CALC')
     if (context.resultSort != SortOption.ULT.key && request.minUlt == 0 && request.maxUlt == Constants.MAX_INT) wgsl = suppress(wgsl, 'ULT CALC')
     if (context.resultSort != SortOption.FUA.key && request.minFua == 0 && request.maxFua == Constants.MAX_INT) wgsl = suppress(wgsl, 'FUA CALC')
-    if (context.resultSort != SortOption.MEMO_SKILL.key && request.minMemoSkill == 0 && request.maxMemoSkill == Constants.MAX_INT) wgsl = suppress(wgsl, 'MEMO_SKILL CALC')
-    if (context.resultSort != SortOption.MEMO_TALENT.key && request.minMemoTalent == 0 && request.maxMemoTalent == Constants.MAX_INT) wgsl = suppress(wgsl, 'MEMO_TALENT CALC')
+    if (context.resultSort != SortOption.MEMO_SKILL.key && request.minMemoSkill == 0 && request.maxMemoSkill == Constants.MAX_INT) {
+      wgsl = suppress(wgsl, 'MEMO_SKILL CALC')
+    }
+    if (context.resultSort != SortOption.MEMO_TALENT.key && request.minMemoTalent == 0 && request.maxMemoTalent == Constants.MAX_INT) {
+      wgsl = suppress(wgsl, 'MEMO_TALENT CALC')
+    }
   }
 
   return wgsl
@@ -82,17 +95,23 @@ function filterFn(request: Form) {
 }
 
 function format(text: string, levels: number = 2) {
-  return indent((text.length > 0 ? text : 'false'), levels)
+  return indent(text.length > 0 ? text : 'false', levels)
 }
 
 function injectSetFilters(wgsl: string, gpuParams: GpuConstants) {
   // CTRL+ F: RESULTS ASSIGNMENT
-  return wgsl.replace('/* INJECT SET FILTERS */', indent(`
+  return wgsl.replace(
+    '/* INJECT SET FILTERS */',
+    indent(
+      `
 if (relicSetSolutionsMatrix[relicSetIndex] < 1 || ornamentSetSolutionsMatrix[ornamentSetIndex] < 1) {
   results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
   continue;
 }
-  `, 2))
+  `,
+      2,
+    ),
+  )
 }
 
 function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
@@ -131,7 +150,10 @@ function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants
   ].filter((str) => str.length > 0).join(' ||\n')
 
   // CTRL+ F: RESULTS ASSIGNMENT
-  wgsl = wgsl.replace('/* INJECT BASIC STAT FILTERS */', indent(`
+  wgsl = wgsl.replace(
+    '/* INJECT BASIC STAT FILTERS */',
+    indent(
+      `
 if (statDisplay == 1) {
   if (
 ${format(basicFilters)}
@@ -140,7 +162,10 @@ ${format(basicFilters)}
     break;
   }
 }
-  `, 4))
+  `,
+      4,
+    ),
+  )
 
   return wgsl
 }
@@ -197,7 +222,10 @@ function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstant
   ].filter((str) => str.length > 0).join(' ||\n')
 
   // CTRL+ F: RESULTS ASSIGNMENT
-  wgsl = wgsl.replace('/* INJECT COMBAT STAT FILTERS */', indent(`
+  wgsl = wgsl.replace(
+    '/* INJECT COMBAT STAT FILTERS */',
+    indent(
+      `
 if (statDisplay == 0) {
   if (
 ${format(combatFilters)}
@@ -206,7 +234,10 @@ ${format(combatFilters)}
     break;
   }
 }
-  `, 4))
+  `,
+      4,
+    ),
+  )
 
   return wgsl
 }
@@ -240,14 +271,20 @@ function injectRatingFilters(wgsl: string, request: Form, gpuParams: GpuConstant
   ].filter((str) => str.length > 0).join(' ||\n')
 
   // CTRL+ F: RESULTS ASSIGNMENT
-  wgsl = wgsl.replace('/* INJECT RATING STAT FILTERS */', indent(`
+  wgsl = wgsl.replace(
+    '/* INJECT RATING STAT FILTERS */',
+    indent(
+      `
 if (
 ${format(ratingFilters, 1)}
 ) {
   results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
   break;
 }
-  `, 4))
+  `,
+      4,
+    ),
+  )
 
   return wgsl
 }
@@ -269,22 +306,31 @@ const DEBUG_BREAK_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbi
 `
   }
 
-  wgsl = wgsl.replace('/* INJECT GPU PARAMS */', `
+  wgsl = wgsl.replace(
+    '/* INJECT GPU PARAMS */',
+    `
 const WORKGROUP_SIZE = ${gpuParams.WORKGROUP_SIZE};
 const BLOCK_SIZE = ${gpuParams.BLOCK_SIZE};
 const CYCLES_PER_INVOCATION = ${cyclesPerInvocation};
 const DEBUG = ${gpuParams.DEBUG ? 1 : 0};
 ${debugValues}
-  `)
+  `,
+  )
 
   if (gpuParams.DEBUG) {
-    wgsl = wgsl.replace('/* INJECT RESULTS BUFFER */', `
+    wgsl = wgsl.replace(
+      '/* INJECT RESULTS BUFFER */',
+      `
 @group(2) @binding(0) var<storage, read_write> results : array<ComputedStats>; // DEBUG
-    `)
+    `,
+    )
   } else {
-    wgsl = wgsl.replace('/* INJECT RESULTS BUFFER */', `
+    wgsl = wgsl.replace(
+      '/* INJECT RESULTS BUFFER */',
+      `
 @group(2) @binding(0) var<storage, read_write> results : array<f32>;
-    `)
+    `,
+    )
   }
 
   // eslint-disable-next-line
@@ -295,12 +341,21 @@ ${debugValues}
 
   // CTRL+ F: RESULTS ASSIGNMENT
   if (gpuParams.DEBUG) {
-    wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
+    wgsl = wgsl.replace(
+      '/* INJECT RETURN VALUE */',
+      indent(
+        `
 results[index] = x; // DEBUG
 results[index + 1] = m; // DEBUG
-    `, 4))
+    `,
+        4,
+      ),
+    )
   } else {
-    wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
+    wgsl = wgsl.replace(
+      '/* INJECT RETURN VALUE */',
+      indent(
+        `
 if (statDisplay == 0) {
   results[index] = x.${sortOptionGpu};
   failures = 1;
@@ -308,17 +363,32 @@ if (statDisplay == 0) {
   results[index] = ${valueString};
   failures = 1;
 }
-    `, 4))
+    `,
+        4,
+      ),
+    )
   }
 
   if (context.resultSort == SortOption.COMBO.key) {
-    wgsl = wgsl.replace('/* INJECT ACTION ITERATOR */', indent(`
+    wgsl = wgsl.replace(
+      '/* INJECT ACTION ITERATOR */',
+      indent(
+        `
 for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
-    `, 4))
+    `,
+        4,
+      ),
+    )
   } else {
-    wgsl = wgsl.replace('/* INJECT ACTION ITERATOR */', indent(`
+    wgsl = wgsl.replace(
+      '/* INJECT ACTION ITERATOR */',
+      indent(
+        `
 for (var actionIndex = 0; actionIndex < actionCount; actionIndex++) {
-    `, 4))
+    `,
+        4,
+      ),
+    )
   }
 
   return wgsl

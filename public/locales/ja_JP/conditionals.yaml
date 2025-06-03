@@ -25,13 +25,13 @@ Lightcones:
   AGroundedAscent:
     Content:
       dmgBuffStacks:
-        text: '「聖なる詠唱」層数'
+        text: "「聖なる詠唱」層数"
         content: >-
           装備キャラが味方キャラ単体に戦闘スキル、または必殺技を発動すると、スキルターゲットは「聖なる詠唱」を1層獲得する、3ターン継続。最大で3層累積できる。「聖なる詠唱」1層につき、所持者の与ダメージ+{{DmgBuff}}%。
   AlongThePassingShore:
     Content:
       emptyBubblesDebuff:
-        text: '「泡影」付与済み'
+        text: "「泡影」付与済み"
         content: >-
           装備キャラの攻撃が敵に命中する時、敵を「泡影」状態にする、1ターン継続。この効果は装備キャラが攻撃を行うたびに、敵それぞれに1回まで発動できる。「泡影」状態の敵に対する装備キャラの与ダメージ+{{DmgBoost}}%、さらに必殺技によるダメージ+{{UltDmgBoost}}%。
   AnInstantBeforeAGaze:
@@ -45,19 +45,19 @@ Lightcones:
         text: 会心ダメ層数
         content: 敵にあるデバフ1つにつき、その敵に対する装備キャラの会心ダメージ+{{DmgStep}}%、最大で3層累積できる。
       postUltBuff:
-        text: '「論弁」効果'
+        text: "「論弁」効果"
         content: >-
           必殺技で敵を攻撃する時、装備キャラは「論弁」効果を獲得し、与ダメージ+{{DmgStep}}%、追加攻撃が敵の防御力を{{DefIgnore}}%無視する、この効果は2ターン継続する。
   BeforeDawn:
     Content:
       fuaDmgBoost:
-        text: '「夢身」効果'
+        text: "「夢身」効果"
         content: >-
           装備キャラが戦闘スキル、または必殺技を発動した後、「夢身」効果を獲得する。追加攻撃を行う時、「夢身」を消費し、追加攻撃ダメージ+{{DmgBuff}}%。
   BrighterThanTheSun:
     Content:
       dragonsCallStacks:
-        text: '「龍吟」層数'
+        text: "「龍吟」層数"
         content: >-
           装備キャラが通常攻撃を行ったとき、「龍吟」を1層獲得する、2ターン継続。「龍吟」1層につき、装備キャラの攻撃力+{{AtkBuff}}%、EP回復効率+{{RegenBuff}}%。「龍吟」は最大で2層累積できる。
   ButTheBattleIsntOver:
@@ -76,13 +76,13 @@ Lightcones:
   DanceAtSunset:
     Content:
       fuaDmgStacks:
-        text: '「炎舞」層数'
+        text: "「炎舞」層数"
         content: >-
           装備キャラが必殺技を発動した後、「炎舞」を1層獲得する、2ターン継続、最大で2層累積できる。「炎舞」1層につき、装備キャラの追加攻撃ダメージ+{{DmgBoost}}%。
   EarthlyEscapade:
     Content:
       maskActive:
-        text: '「仮面」有効'
+        text: "「仮面」有効"
         content: >-
           戦闘開始時、装備キャラは「仮面」を獲得する、3ターン継続。装備キャラに「仮面」がある時、装備キャラ以外の味方の会心率+{{CritRateBuff}}%、会心ダメージ+{{CritDmgBuff}}%。装備キャラがSPを1回復するたびに、「虹色の炎」を1層獲得する（SPを回復する際、上限を超えた分もカウントされる）。「虹色の炎」が4層に達した後、すべての「虹色の炎」を解除し、「仮面」を獲得する、4ターン継続。
   EchoesOfTheCoffin:
@@ -110,17 +110,17 @@ Lightcones:
   FlowingNightglow:
     Content:
       cadenzaActive:
-        text: '「華彩」有効'
+        text: "「華彩」有効"
         content: >-
           味方が攻撃を行うたび、装備キャラは「朗唱」を1層獲得する。「朗唱」1層につき、装備キャラのEP回復効率+{{RegenBuff}}%、最大で5層累積できる。装備キャラが必殺技を発動する時、「朗唱」を解除し「華彩」を獲得する。「華彩」がある時、装備キャラの攻撃力+{{AtkBuff}}%、味方全体の与ダメージ+{{DmgBuff}}%、1ターン継続。
       cantillationStacks:
-        text: '「朗唱」層数'
+        text: "「朗唱」層数"
         content: >-
           味方が攻撃を行うたび、装備キャラは「朗唱」を1層獲得する。「朗唱」1層につき、装備キャラのEP回復効率+{{RegenBuff}}%、最大で5層累積できる。装備キャラが必殺技を発動する時、「朗唱」を解除し「華彩」を獲得する。「華彩」がある時、装備キャラの攻撃力+{{AtkBuff}}%、味方全体の与ダメージ+{{DmgBuff}}%、1ターン継続。
   IfTimeWereAFlower:
     Content:
       presage:
-        text: '「啓示」有効'
+        text: "「啓示」有効"
         content: 装備キャラが追加攻撃を行った後、さらにEPを12回復し、「啓示」を獲得する、2ターン継続。装備キャラが「啓示」を所持している場合、味方全体の会心ダメージ+{{CdBuff}}%。戦闘に入る時、装備キャラのEPが21回復し、「啓示」を獲得する、2ターン継続。
   IncessantRain:
     Content:
@@ -128,7 +128,7 @@ Lightcones:
         text: 敵デバフ数≥3時の会心率バフ
         content: デバフが3つ以上ある敵にダメージを与える時、装備キャラの会心率+{{CritBuff}}%。
       targetCodeDebuff:
-        text: '「エーテルコード」付与済み'
+        text: "「エーテルコード」付与済み"
         content: >-
           装備キャラが通常攻撃、戦闘スキルまたは必殺技を発動した後、100%の基礎確率で攻撃を受けた敵の中から、「エーテルコード」を付与されてないランダムな敵1体に「エーテルコード」を付与する。「エーテルコード」を付与された敵の受けるダメージ+{{DmgIncrease}}%、1ターン継続。
   InherentlyUnjustDestiny:
@@ -161,16 +161,16 @@ Lightcones:
   IShallBeMyOwnSword:
     Content:
       eclipseStacks:
-        text: '「月蝕」層数'
+        text: "「月蝕」層数"
         content: >-
           自身以外の味方が攻撃を受ける、またはHPを消費した後、装備キャラは「月蝕」を1層獲得する。この効果は最大で3層累積できる。「月蝕」1層につき、装備キャラの次の攻撃の与ダメージ+{{DmgBuff}}%。
       maxStackDefPen:
-        text: '「月蝕」3層時の防御力無視'
-        content: '「月蝕」が上限の3層に累積した時、その回の攻撃は敵の防御力を{{DefIgnore}}%無視する。この効果は装備キャラが攻撃を行った後に解除される。'
+        text: "「月蝕」3層時の防御力無視"
+        content: "「月蝕」が上限の3層に累積した時、その回の攻撃は敵の防御力を{{DefIgnore}}%無視する。この効果は装備キャラが攻撃を行った後に解除される。"
   IVentureForthToHunt:
     Content:
       luminfluxUltStacks:
-        text: '「流光」層数'
+        text: "「流光」層数"
         content: >-
           装備キャラが追加攻撃を行う時、「流光」を1層獲得する。「流光」は最大で2層累積できる。「流光」が1層あるごとに、装備キャラの与える必殺技ダメージが敵の防御力を{{DefIgnore}}%無視する。装備キャラのターン終了時、「流光」が1層解除される。
   LiesAflutterInTheWind:
@@ -195,13 +195,13 @@ Lightcones:
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
-        text: '「着火」層数'
+        text: "「着火」層数"
         content: >-
           敵が弱点撃破される時、100%の基礎確率で「着火」状態を付与し、敵が受ける弱点撃破ダメージ+{{breakVulnerability}}%。2ターン継続、最大2層累積できる。
   MakeFarewellsMoreBeautiful:
     Content:
       deathFlower:
-        text: '「冥花」防御力無視'
+        text: "「冥花」防御力無視"
         content: 装備キャラまたは装備キャラの記憶の精霊が自身のターンでHPを失った時、装備キャラは「冥花」を獲得する。「冥花」を持つ場合、装備キャラおよびその記憶の精霊によるダメージは、ターゲットの防御力を{{DefIgnore}}%無視する。2ターン継続。
   MayRainbowsRemainInTheSky:
     Content:
@@ -250,13 +250,13 @@ Lightcones:
         text: 速度バフ層数
         content: 装備キャラが攻撃を行った後、速度+{{SpdBuff}}%、最大で3層累積できる。
       dotEffect:
-        text: '「遊糸」付与済み（未実装）'
+        text: "「遊糸」付与済み（未実装）"
         content: >-
           装備キャラの攻撃が敵に命中する時、その敵が「遊糸」状態でない場合、100%の基礎確率で敵を「遊糸」状態にする。敵が「遊糸」状態の時、感電状態と見なされる。「遊糸」状態の敵はターンが回ってくるたびに、装備キャラの攻撃力{{Multiplier}}%分の雷属性持続ダメージを受ける、1ターン継続。
   ReforgedRemembrance:
     Content:
       prophetStacks:
-        text: '「予見」層数'
+        text: "「予見」層数"
         content: >-
           装備キャラが風化、燃焼、感電、または裂創状態の敵にダメージを与える時、それぞれ「予見」を1層獲得する、最大で4層累積できる。一度の戦闘において、各種類の持続ダメージ系デバフがそれぞれ累積できる「予見」は1層のみ。「予見」1層につき、装備キャラの攻撃力+{{AtkBuff}}%、与える持続ダメージが敵の防御力を{{DefIgnore}}%無視する。
   SailingTowardsASecondLife:
@@ -270,7 +270,7 @@ Lightcones:
   ScentAloneStaysTrue:
     Content:
       woefreeState:
-        text: '「忘憂」付与済み'
+        text: "「忘憂」付与済み"
         content: >-
           装備キャラが必殺技を発動して敵を攻撃した後、その敵を「忘憂」状態にする、2ターン継続。「忘憂」状態の敵が受けるダメージ+{{Vulnerability}}%。装備キャラの撃破特効が150%以上の場合、敵の受けるダメージアップ効果がさらに+{{AdditionalVulnerability}}%。
     TeammateContent:
@@ -313,11 +313,11 @@ Lightcones:
   ThoseManySprings:
     Content:
       unarmoredVulnerability:
-        text: '「甲卸」付与済み'
+        text: "「甲卸」付与済み"
         content: >-
           装備キャラが通常攻撃、戦闘スキル、または必殺技を発動して敵に攻撃した後、60%の基礎確率で敵を「甲卸」状態にする。 「甲卸」状態の敵の受けるダメージ+{{UnarmoredVulnerability}}%、2ターン継続。ターゲットが装備キャラによって持続ダメージ系デバフを付与されている場合、60%の基礎確率で装備キャラが付与した「甲卸」状態を「窮寇」状態に強化し、さらに敵の受けるダメージ+{{CorneredVulnerability}}%、2ターン継続。
       corneredVulnerability:
-        text: '「窮寇」付与済み'
+        text: "「窮寇」付与済み"
         content: >-
           装備キャラが通常攻撃、戦闘スキル、または必殺技を発動して敵に攻撃した後、60%の基礎確率で敵を「甲卸」状態にする。 「甲卸」状態の敵の受けるダメージ+{{UnarmoredVulnerability}}%、2ターン継続。ターゲットが装備キャラによって持続ダメージ系デバフを付与されている場合、60%の基礎確率で装備キャラが付与した「甲卸」状態を「窮寇」状態に強化し、さらに敵の受けるダメージ+{{CorneredVulnerability}}%、2ターン継続。
   TimeWaitsForNoOne:
@@ -329,7 +329,7 @@ Lightcones:
   TimeWovenIntoGold:
     Content:
       brocadeStacks:
-        text: '「錦を織って」層数'
+        text: "「錦を織って」層数"
         content: >-
           装備キャラまたはその記憶の精霊が攻撃を行った後、装備キャラに「錦を織って」を1層付与する。::BR::「錦を織って」1層につき、装備キャラおよびその記憶の精霊の会心ダメージ+{{CdBuff}}%、最大で6層累積できる。::BR::「錦を織って」の層数が上限に達すると、1層につき、追加で通常攻撃ダメージ+{{DmgBuff}}%。
       maxStacksBasicDmgBoost:
@@ -339,13 +339,13 @@ Lightcones:
   WhereaboutsShouldDreamsRest:
     Content:
       routedVulnerability:
-        text: '「敗走」付与済み'
+        text: "「敗走」付与済み"
         content: >-
           装備キャラが敵に弱点撃破ダメージを与える時、敵に「敗走」状態を付与する、2ターン継続。「敗走」状態の敵は速度-20%、装備キャラから受ける弱点撃破ダメージ+{{Vulnerability}}%。同系統のスキルは累積できない。
   WorrisomeBlissful:
     Content:
       targetTameStacks:
-        text: '「従順」層数'
+        text: "「従順」層数"
         content: >-
           装備キャラが追加攻撃を行った後、敵を「従順」状態にする。この効果は最大で2層累積できる。味方の攻撃が「従順」状態の敵に命中する時、「従順」1層につき会心ダメージ+{{CritBuff}}%。
   YetHopeIsPriceless:
@@ -417,7 +417,7 @@ Lightcones:
   FinalVictor:
     Content:
       goodFortuneStacks:
-        text: '「好運」層数'
+        text: "「好運」層数"
         content: >-
           装備キャラが敵に攻撃を行い、会心が発生した後、「好運」を1層獲得する、最大で4層累積できる。「好運」1層につき、装備キャラの会心ダメージ+{{CritBuff}}%。「好運」は装備キャラのターン終了時に解除される。
   FlamesAfar:
@@ -459,7 +459,7 @@ Lightcones:
   ItsShowtime:
     Content:
       trickStacks:
-        text: '「トリック」層数'
+        text: "「トリック」層数"
         content: >-
           装備キャラが敵にデバフを付与した後、「トリック」を1層獲得する。「トリック」1層につき、装備キャラの与ダメージ+{{DmgBuff}}%、1ターン継続、最大で3層累積できる。装備キャラの効果命中が80%以上の時、攻撃力+{{AtkBuff}}%。
   MakeTheWorldClamor:
@@ -475,7 +475,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: '敵2体以下時の会心率バフ'
+        text: "敵2体以下時の会心率バフ"
         content: フィールド上の敵の数が2体以下の場合、装備キャラの会心率+{{CritBuff}}%。
   PastAndFuture:
     Content:
@@ -505,7 +505,7 @@ Lightcones:
   ResolutionShinesAsPearlsOfSweat:
     Content:
       targetEnsnared:
-        text: '「陥落」付与済み'
+        text: "「陥落」付与済み"
         content: 装備キャラの攻撃が敵に命中する時、その敵が「陥落」状態でない場合、{{BaseChance}}%の基礎確率で敵を「陥落」状態にする。「陥落」状態の敵は防御力-{{DefShred}}%、1ターン継続。
   RiverFlowsInSpring:
     Content:
@@ -541,7 +541,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: '会心ダメバフ'
+        text: "会心ダメバフ"
         content: 装備キャラが攻撃を行った後、攻撃を受けた敵のうち、装備キャラの属性に対応する弱点属性を持つ敵が2体以上の場合、装備キャラの会心ダメージ+{{CritBuff}}%、2ターン継続。
   TheGreatCosmicEnterprise:
     Content:
@@ -661,7 +661,7 @@ Lightcones:
   Reminiscence:
     Content:
       dmgStacks:
-        text: '「追懐」層数'
+        text: "「追懐」層数"
         content: 記憶の精霊のターンが回ってきた時、装備キャラおよびその記憶の精霊それぞれに「追懐」を1層付与する。「追懐」1層につき与ダメージ+{{DmgBuff}}%、最大で4層累積できる。記憶の精霊が消える時、装備キャラおよびその記憶の精霊の「追懐」は解除される。
   Sagacity:
     Content:
@@ -682,7 +682,7 @@ Characters:
   Acheron:
     Content:
       crimsonKnotStacks:
-        text: '「集真赤」付与数'
+        text: "「集真赤」付与数"
         content: >-
           「啼沢斬り」：指定した敵単体に黄泉の攻撃力{{RainbladeScaling}}%分の雷属性ダメージを与え、その敵にある「集真赤」を最大で3層消去する。「集真赤」が消去された時、敵全体に黄泉の攻撃力{{CrimsonKnotScaling}}%分の雷属性ダメージを与える。消去した「集真赤」1層につき、ダメージ倍率がさらにアップする。::BR::必殺技の「啼沢斬り」が「集真赤」を持つ敵に命中する時、黄泉の与ダメージ+30%、この効果は最大で3層累積できる。
       nihilityTeammatesBuff:
@@ -690,10 +690,10 @@ Characters:
         content: >-
           パーティ内に黄泉以外の「虚無」の運命を歩むキャラクターが1名/2名存在する場合、黄泉の通常攻撃、戦闘スキル、および必殺技によるダメージが本来の115%/160%になる。::BR::2凸： 軌跡「奈落」の効果の最大値に達するために必要な「虚無」の運命を歩むキャラクターの数-1名。自身のターンが回ってきた時、「残夢」を1層獲得し、「集真赤」が最も多い敵に「集真赤」を1層付与する。
       thunderCoreStacks:
-        text: '「雷心」層数'
+        text: "「雷心」層数"
         content: 必殺技の「啼沢斬り」が「集真赤」を持つ敵に命中する時、黄泉の与ダメージ+30%、この効果は最大で3層累積でき、3ターン継続。
       stygianResurgeHitsOnTarget:
-        text: '「黄泉返り」ヒット数'
+        text: "「黄泉返り」ヒット数"
         content: >-
           また、「黄泉返り」を発動する時、さらに6ヒットする。1ヒットごとにランダムな敵単体に黄泉の攻撃力25%分の雷属性ダメージを与える、このダメージは必殺技ダメージと見なされる。
       e1EnemyDebuffed:
@@ -709,7 +709,7 @@ Characters:
   Aglaea:
     Content:
       supremeStanceState:
-        text: '「至高の姿」状態'
+        text: "「至高の姿」状態"
         content: >-
           「至高の姿」状態のアグライアは、ラフトラの天賦の速度アップ効果を獲得する（層数はラフトラと同じ）。1層につき、自身の速度+{{SpdBuff}}%。通常攻撃「サイフォスの蜜」が「剣先より千の口付けを」に強化され、戦闘スキルが発動できなくなる。
       seamStitch:
@@ -722,7 +722,7 @@ Characters:
           「隙を縫う糸」状態の敵を攻撃した後、自身の速度+{{SpdBuff}}。この効果は最大で{{StackLimit}}層累積できる。
       e1Vulnerability:
         text: 1凸 敵被ダメージ増加
-        content: '「隙を縫う糸」状態の敵の受けるダメージ+15%。アグライアまたはラフトラが「隙を縫う糸」状態の敵を攻撃した後、さらにEPを20回復する。'
+        content: "「隙を縫う糸」状態の敵の受けるダメージ+15%。アグライアまたはラフトラが「隙を縫う糸」状態の敵を攻撃した後、さらにEPを20回復する。"
       e2DefShredStacks:
         text: 2凸 敵防御力無視数
         content: >-
@@ -769,8 +769,8 @@ Characters:
         text: 敵HP≤50%時のダメバフ
         content: 残りHPが50%以下の敵に対して与ダメージ+15%。
       talentStacks:
-        text: '「栄達」層数'
-        content: '「栄達」1層につき、アルジェンティの会心率+{{talentCrStackValue}}%、この効果は最大で{{talentMaxStacks}}層累積できる。'
+        text: "「栄達」層数"
+        content: "「栄達」1層につき、アルジェンティの会心率+{{talentCrStackValue}}%、この効果は最大で{{talentMaxStacks}}層累積できる。"
       ultEnhancedExtraHits:
         text: 強化必殺技の追加ヒット
         content: 1ヒットごとに、ランダムな敵単体にアルジェンティの攻撃力{{ultEnhancedExtraHitScaling}}%分の物理属性ダメージを与える。
@@ -788,7 +788,7 @@ Characters:
         text: スキルの追加ヒット数
         content: "指定した敵単体にアスターの攻撃力{{skillScaling}}%分の炎属性ダメージを与え、さらに{{skillExtraDmgHitsMax}}ヒットする。1ヒットごとに、ランダムな敵単体にアスターの攻撃力{{skillScaling}}%分の炎属性ダメージを与える。::BR::1凸：戦闘スキルを発動した時、さらにランダムな敵単体にダメージを1回与える。"
       talentBuffStacks:
-        text: '「蓄エネ」層数'
+        text: "「蓄エネ」層数"
         content: "アスターが持つ蓄エネ1層につき、味方全体の攻撃力+14%、最大で5回累積できる。::BR::4凸::天賦の蓄エネが2層以上の時、アスターのEP回復効率+15%。"
       ultSpdBuff:
         text: 必殺技の速度バフ有効
@@ -802,11 +802,11 @@ Characters:
         text: 防御力での会心率バフ
         content: アベンチュリンの防御力が1600を超えた場合、超過した防御力100につき、自身の会心率+2%、最大で+48%。
       fortifiedWagerBuff:
-        text: '「堅固なチップ」有効'
+        text: "「堅固なチップ」有効"
         content: >-
           「堅固なチップ」を持つ味方単体の効果抵抗+{{talentResScaling}}%、攻撃を受けた後にアベンチュリンの「ブラインドベット」+1。::BR::1凸：「堅固なチップ」を持つ味方の会心ダメージ+20%。必殺技を発動した後、味方全体に「堅固なチップ」バリアを付与する、3ターン継続。バリア耐久値は戦闘スキルで付与できるバリア耐久値の100%。
       enemyUnnervedDebuff:
-        text: '「動揺」付与済み'
+        text: "「動揺」付与済み"
         content: 味方の攻撃が「動揺」状態の敵に命中する時、会心ダメージ+{{ultCdBoost}}%。
       fuaHitsOnTarget:
         text: 天賦追加攻撃ヒット数
@@ -827,8 +827,8 @@ Characters:
         text: 味方治癒超過時のHPバフ
         content: 白露が味方に最大HPを超える治癒を行った時、その味方の最大HP+10%、2ターン継続。
       talentDmgReductionBuff:
-        text: '「生生」付与済み'
-        content: '「生生」を付与されたキャラの受けるダメージ-10%。'
+        text: "「生生」付与済み"
+        content: "「生生」を付与されたキャラの受けるダメージ-10%。"
       e2UltHealingBuff:
         text: 2凸 必殺後の治癒量バフ
         content: 必殺技を発動した後、白露の治癒量+15%、2ターン継続。
@@ -841,13 +841,13 @@ Characters:
         text: 効果命中での与ダメバフ
         content: 自身の与ダメージが、効果命中の60%分アップする。最大で与ダメージ+72%。
       epiphanyDebuff:
-        text: '「開示」付与済み'
-        content: '「開示」状態の敵は、自身のターンでの受けるダメージ+{{epiphanyDmgTakenBoost}}%。'
+        text: "「開示」付与済み"
+        content: "「開示」状態の敵は、自身のターンでの受けるダメージ+{{epiphanyDmgTakenBoost}}%。"
       defDecreaseDebuff:
         text: 敵防御力デバフ
         content: 隣接する敵の防御力-{{defShredValue}}%。
       arcanaStacks:
-        text: '「アルカナ」付与数'
+        text: "「アルカナ」付与数"
         content: >-
           「アルカナ」状態の敵はターンが回ってくるたびにブラックスワンの攻撃力{{dotScaling}}%分の風属性持続ダメージを受ける、「アルカナ」1層につき、ダメージ倍率+{{arcanaStackMultiplier}}%。持続ダメージが発生した後、「アルカナ」は1層にリセットされる。「アルカナ」は最大で50層累積できる。::BR::3層以上：隣接する敵にブラックスワンの攻撃力180%分の風属性持続ダメージを与え、65%の基礎確率で「アルカナ」を1層付与する。7層以上：今回発生する持続ダメージが、ターゲットおよび隣接する敵の防御力を20%無視する。
       e1ResReduction:
@@ -855,11 +855,11 @@ Characters:
         content: ブラックスワンが戦闘可能状態の時、風化、裂創、燃焼、感電状態の敵の対応する風、物理、炎、雷属性の耐性がそれぞれ25%ダウンする。
       e4EffResPen:
         text: 4凸 敵効果抵抗低下
-        content: '「開示」状態の敵の効果抵抗-10%。'
+        content: "「開示」状態の敵の効果抵抗-10%。"
   Blade:
     Content:
       enhancedStateActive:
-        text: '「地獄変」状態'
+        text: "「地獄変」状態"
         content: "「地獄変」状態では戦闘スキルを発動できず、自身の与ダメージ+{{enhancedStateDmgBoost}}%、通常攻撃「支離剣」が「無間剣樹」に強化される、3ターン継続。::BR::E2::刃が「地獄変」状態の時、会心率+15%。"
       hpPercentLostTotal:
         text: 戦闘中失ったHPの累計
@@ -870,13 +870,13 @@ Characters:
   Boothill:
     Content:
       standoffActive:
-        text: '「九死の決闘」有効'
+        text: "「九死の決闘」有効"
         content: >-
 
           指定した敵単体と自身を「九死の決闘」状態にする。この状態のブートヒルは戦闘スキルを発動できず、通常攻撃が「ファニング」に強化される、2ターン継続。ブートヒルのターンが回ってくるたびに、「九死の決闘」の継続時間-1ターン。 「九死の決闘」状態にある敵は、挑発状態と見なされる。その敵がブートヒルの攻撃を受ける時、受けるダメージ+{{standoffVulnerabilityBoost}}%。また、ブートヒルがその敵の攻撃を受ける時、受けるダメージ+15%。
       pocketTrickshotStacks:
-        text: '｢ﾎﾟｹｯﾄｱﾄﾞﾊﾞﾝﾃｰｼﾞ｣層数'
-        content: '「ポケットアドバンテージ」1層につき、「ファニング」の削靭値+50%、最大で3累積できる。'
+        text: "｢ﾎﾟｹｯﾄｱﾄﾞﾊﾞﾝﾃｰｼﾞ｣層数"
+        content: "「ポケットアドバンテージ」1層につき、「ファニング」の削靭値+50%、最大で3累積できる。"
       beToCritBoost:
         text: 撃破特効での会心率/ダメバフ
         content: 自身の会心率を、撃破特効の10%分アップする。最大で会心率+30%。自身の会心ダメージを、撃破特効の50%分アップする。最大で会心ダメージ+150%。
@@ -926,7 +926,7 @@ Characters:
   Castorice:
     Content:
       memospriteActive:
-        text: '「死竜」召喚済み'
+        text: "「死竜」召喚済み"
         content: 記憶の精霊「死竜」を召喚している間、境界「遺世の冥域」を展開し、敵全体の全属性耐性を{{ResDown}}%ダウンさせる。
       spdBuff:
         text: 速度バフ
@@ -975,7 +975,7 @@ Characters:
         content: サフェルの攻撃が敵に命中する時、120%の基礎確率で敵の被ダメージ+30%、2ターン継続。
       e4AdditionalDmg:
         text: 4凸 付加ダメージ
-        content: '「常連さん」が味方の攻撃を受けた後、サフェルはその敵にサフェルの攻撃力50%分の量子属性付加ダメージを与える。'
+        content: "「常連さん」が味方の攻撃を受けた後、サフェルはその敵にサフェルの攻撃力50%分の量子属性付加ダメージを与える。"
       e6FuaDmg:
         text: 6凸 追加攻撃ダメージ
         content: サフェルの天賦による追加攻撃の与ダメージ+350%。
@@ -985,7 +985,7 @@ Characters:
         text: 必殺技のバフ
         content: スヴァローグのカウンターを強化。任意の味方が攻撃を受けた後、スヴァローグが攻撃者にカウンターを行い、カウンターのダメージ倍率+{{ultFuaExtraScaling}}%。必殺技を発動した後、さらにクラーラの受けるダメージ-{{ultDmgReductionValue}}%、2ターン継続。
       talentEnemyMarked:
-        text: '「反撃の印」付与済み'
+        text: "「反撃の印」付与済み"
         content: スヴァローグに「反撃の印」を付与された敵に対し、さらにクラーラの攻撃力{{skillScaling}}%分の物理属性ダメージを与える。
       e2UltAtkBuff:
         text: 2凸 必殺後の攻撃力バフ
@@ -1010,7 +1010,7 @@ Characters:
   DrRatio:
     Content:
       summationStacks:
-        text: '「帰納」層数'
+        text: "「帰納」層数"
         content: 戦闘スキルを発動する時、ターゲットにあるデバフ1つにつき、Dr.レイシオの会心率+2.5%、会心ダメージ+5%、最大で{{summationStacksMax}}層累積できる。
       enemyDebuffStacks:
         text: 敵デバフ数
@@ -1030,7 +1030,7 @@ Characters:
         content: 戦闘スキルを発動する時、攻撃力+48%、3ターン継続。
       e1OriginalDmgBoost:
         text: 1凸 必殺技ダメ増加
-        content: '「閃裂刃舞」または「斧貫衝天」を発動した後、飛霄の与える必殺技ダメージがさらに本来のダメージの10%分アップする。最大5層累積でき、必殺技の行動終了まで継続する。'
+        content: "「閃裂刃舞」または「斧貫衝天」を発動した後、飛霄の与える必殺技ダメージがさらに本来のダメージの10%分アップする。最大5層累積でき、必殺技の行動終了まで継続する。"
       e4Buffs:
         text: 4凸 追加攻撃の強化
         content: 天賦による追加攻撃の削靭値+100%。天賦による追加攻撃を行う時、自身の速度+8%、2ターン継続。
@@ -1041,11 +1041,11 @@ Characters:
   Firefly:
     Content:
       enhancedStateActive:
-        text: '「完全燃焼」状態'
-        content: '「完全燃焼」状態に入り、自身の行動順を100%早める。また、通常攻撃が「ファイアフライ-IV-底火斬撃」に、戦闘スキルが「ファイアフライ-IV-死星オーバーロード」に強化される。'
+        text: "「完全燃焼」状態"
+        content: "「完全燃焼」状態に入り、自身の行動順を100%早める。また、通常攻撃が「ファイアフライ-IV-底火斬撃」に、戦闘スキルが「ファイアフライ-IV-死星オーバーロード」に強化される。"
       enhancedStateSpdBuff:
-        text: '「完全燃焼」の速度バフ'
-        content: '「完全燃焼」状態の時、速度+60。'
+        text: "「完全燃焼」の速度バフ"
+        content: "「完全燃焼」状態の時、速度+60。"
       superBreakDmg:
         text: 超撃破ダメージ有効
         content: >-
@@ -1063,17 +1063,17 @@ Characters:
         content: 強化戦闘スキル「ファイアフライ-IV-死星オーバーロード」を発動する時、ターゲットの防御力を15%無視し、SPを消費しない。
       e4ResBuff:
         text: 4凸 効果抵抗バフ
-        content: '「完全燃焼」状態の時、装甲「サム」の効果抵抗+50%。'
+        content: "「完全燃焼」状態の時、装甲「サム」の効果抵抗+50%。"
       e6Buffs:
         text: 6凸 バフ
-        content: '「完全燃焼」状態の時、装甲「サム」の炎属性耐性貫通+20%。強化通常攻撃「ファイアフライ-IV-底火斬撃」または強化戦闘スキル「ファイアフライ-IV-死星オーバーロード」を発動する時、弱点撃破効率+50%。'
+        content: "「完全燃焼」状態の時、装甲「サム」の炎属性耐性貫通+20%。強化通常攻撃「ファイアフライ-IV-底火斬撃」または強化戦闘スキル「ファイアフライ-IV-死星オーバーロード」を発動する時、弱点撃破効率+50%。"
   Fugue:
     Content:
       torridScorch:
-        text: '「灼熱」状態'
+        text: "「灼熱」状態"
         content: 帰忘の流離人が「灼熱」状態の時、通常攻撃「燦然たる日月の尾」が「緩緩たる熾炎」に強化される。
       foxianPrayer:
-        text: '「狐の祈り」有効'
+        text: "「狐の祈り」有効"
         content: >-
           「狐の祈り」が付与されている味方の撃破特効+{{BreakBuff}}%、かつ攻撃を行う際、対応する弱点属性を持たない敵の靭性値を、本来の削靭値50%分削る。この効果は、他の弱点属性を無視して靭性を削る効果と重ね掛けできない。
       defReduction:
@@ -1086,7 +1086,7 @@ Characters:
           帰忘の流離人がフィールド上にいる時、味方が弱点撃破状態の敵に攻撃を行った後、その回の攻撃の削靭値を1回の{{SuperBreakMultiplier}}%分の超撃破ダメージに転換する。
       e4BreakDmg:
         text: 4凸 味方撃破ダメバフ
-        content: '「狐の祈り」状態の味方の弱点撃破ダメージ+20%。'
+        content: "「狐の祈り」状態の味方の弱点撃破ダメージ+20%。"
       e6BreakEfficiency:
         text: 6凸 弱点撃破効率増加
         content: >-
@@ -1103,19 +1103,19 @@ Characters:
   FuXuan:
     Content:
       talentActive:
-        text: '「避邪」有効'
+        text: "「避邪」有効"
         content: 符玄が戦闘可能状態の時、味方全体に「避邪」を付与する。「避邪」状態の味方の受けるダメージ-18%。
       skillActive:
-        text: '「窮観の陣」有効'
+        text: "「窮観の陣」有効"
         content: >-
           スキル発動時、「窮観の陣」を起動し、符玄以外の味方が受ける、バリアに防がれる前のダメージの65%を符玄が分担する、3ターン継続。「窮観の陣」の中にいる味方全体は「鑑知」を得る。「鑑知」状態の味方は、最大HPが符玄の最大HPの{{skillHpBuffValue}}%分アップし、会心率+{{skillCrBuffValue}}%。符玄が戦闘不能状態になった時、「窮観の陣」は解除される。
       e6TeamHpLostPercent:
         text: 6凸 味方HP減少量
-        content: '「窮観の陣」が起動している時、味方全体が戦闘中失った累計HPをカウントする。符玄の必殺技によるダメージが、戦闘中失った累計HP200%分アップする。戦闘中失った累計HPのカウントは、符玄の最大HPの120%を超えず、必殺技を発動した後にリセットされる。'
+        content: "「窮観の陣」が起動している時、味方全体が戦闘中失った累計HPをカウントする。符玄の必殺技によるダメージが、戦闘中失った累計HP200%分アップする。戦闘中失った累計HPのカウントは、符玄の最大HPの120%を超えず、必殺技を発動した後にリセットされる。"
     TeammateContent:
       teammateHPValue:
         text: HP（戦闘時）
-        content: '「鑑知」状態の味方は、最大HPが符玄の最大HPの{{skillHpBuffValue}}%分アップ。'
+        content: "「鑑知」状態の味方は、最大HPが符玄の最大HPの{{skillHpBuffValue}}%分アップ。"
   Gallagher:
     Content:
       basicEnhanced:
@@ -1125,8 +1125,8 @@ Characters:
         text: 撃破特効での治癒量バフ
         content: 自身の治癒量が、撃破特効50%分アップする。最大で治癒量+75%。
       targetBesotted:
-        text: '「酩酊」付与済み'
-        content: '「酩酊」状態の敵が受ける弱点撃破ダメージ+{{talentBesottedScaling}}%。'
+        text: "「酩酊」付与済み"
+        content: "「酩酊」状態の敵が受ける弱点撃破ダメージ+{{talentBesottedScaling}}%。"
       e1ResBuff:
         text: 1凸 効果抵抗アップ
         content: 戦闘に入った後、ギャラガーはEPを20回復する。同時にギャラガーの効果抵抗+50%。
@@ -1144,8 +1144,8 @@ Characters:
   Guinaifen:
     Content:
       talentDebuffStacks:
-        text: '「火喰い」層数'
-        content: '「火喰い」状態の敵の受けるダメージ+{{talentDebuffDmgIncreaseValue}}%、3ターン継続。最大で{{talentDebuffMax}}層累積できる。'
+        text: "「火喰い」層数"
+        content: "「火喰い」状態の敵の受けるダメージ+{{talentDebuffDmgIncreaseValue}}%、3ターン継続。最大で{{talentDebuffMax}}層累積できる。"
       enemyBurned:
         text: 敵燃焼状態
         content: 燃焼状態の敵に対する与ダメージ+20%。
@@ -1164,11 +1164,11 @@ Characters:
         text: 必殺技の速度/攻撃力バフ
         content: 指定した味方の速度を、寒鴉の速度の{{ultSpdBuffValue}}%分アップし、その味方の攻撃力+{{ultAtkBuffValue}}%、2ターン継続。
       targetBurdenActive:
-        text: '「承負」付与済み'
+        text: "「承負」付与済み"
         content: 味方が「承負」状態の敵に通常攻撃、戦闘スキル、または必殺技を発動した時、与ダメージ+{{talentDmgBoostValue}}%、2ターン継続。
       burdenAtkBuff:
-        text: '「承負」の攻撃力バフ'
-        content: '「承負」によるSP回復効果を発動させた味方の攻撃力+10%、1ターン継続。'
+        text: "「承負」の攻撃力バフ"
+        content: "「承負」によるSP回復効果を発動させた味方の攻撃力+10%、1ターン継続。"
       e2SkillSpdBuff:
         text: 2凸 スキルの速度バフ
         content: 戦闘スキルを発動した後、速度+20%、1ターン継続。
@@ -1209,7 +1209,7 @@ Characters:
         content: 残りHPが80%以上の場合、会心率+15%。
       e1TalentSpdBuff:
         text: 1凸 速度バフ
-        content: '「乗勝追撃」発動後、姫子の速度+20%、2ターン継続。'
+        content: "「乗勝追撃」発動後、姫子の速度+20%、2ターン継続。"
       e2EnemyHp50DmgBoost:
         text: 2凸 敵HP≤50%時のダメバフ
         content: 残りHPが50%以下の敵に対して与ダメージ+15%。
@@ -1249,7 +1249,7 @@ Characters:
         text: 速度 ≥ 200時のHPバフ
         content: ヒアンシーの速度が200を超える時、ヒアンシーと「イカルン」の最大HP+20%。超過した速度1につき、ヒアンシーとイカルンの治癒量+1%、超過した速度は最大200までカウントされる。
       clearSkies:
-        text: '「雨上がり」状態'
+        text: "「雨上がり」状態"
         content: 必殺技を発動した時、ヒアンシーは「雨上がり」状態になる、3ターン継続。ヒアンシーのターンが回ってくるたびに継続時間-1ターン。ヒアンシーが「雨上がり」状態の時、味方それぞれの最大HP+{{UltHpBuffScaling}}%+{{UltHpBuffFlat}}。
       healingDmgStacks:
         text: 治癒時のダメージ増加数
@@ -1265,7 +1265,7 @@ Characters:
         content: 軌跡「凪いだ暴風」が強化される。超過した速度1につき、ヒアンシーと「イカルン」の会心ダメージ+2%。
       e6ResPen:
         text: 6凸 全属性耐性貫通
-        content: '「イカルン」がフィールド上にいる時、味方全体の全属性耐性貫通+20%。'
+        content: "「イカルン」がフィールド上にいる時、味方全体の全属性耐性貫通+20%。"
   ImbibitorLunae:
     Content:
       basicEnhanced:
@@ -1273,11 +1273,11 @@ Characters:
         content: >-
           0回：2段の攻撃を行い、指定した敵単体に丹恒・飲月の攻撃力{{basicScaling}}%分の虚数属性ダメージを与える。::BR::1回：3段の攻撃を行い、指定した敵単体に丹恒・飲月の攻撃力{{basicEnhanced1Scaling}}%分の虚数属性ダメージを与える。::BR::2回：5段の攻撃を行い、指定した敵単体に丹恒・飲月の攻撃力{{basicEnhanced2Scaling}}%分の虚数属性ダメージを与える。4段目以降の攻撃は隣接する敵にも虚数属性ダメージを与える。::BR::3回：7段の攻撃を行い、指定した敵単体に丹恒・飲月の攻撃力{{basicEnhanced3Scaling}}%分の虚数属性ダメージを与える。4段目以降の攻撃は隣接する敵にも虚数属性ダメージを与える。
       skillOutroarStacks:
-        text: '「叱咤」層数'
+        text: "「叱咤」層数"
         content: >-
           「天矢陰」または「躍動せし耀鱗」を発動した時、4段目以降の攻撃の前に、それぞれ「叱咤」を1層獲得し、丹恒・飲月の会心ダメージ+{{outroarStackCdValue}}%。この効果は最大で4層累積でき、自身のターンが終了するまで継続。（全ての攻撃に適用されます）
       talentRighteousHeartStacks:
-        text: '「亢心」層数'
+        text: "「亢心」層数"
         content: 丹恒・飲月は1段の攻撃を行うたびに「亢心」を1層獲得する。「亢心」1層につき自身の与ダメージ+{{righteousHeartDmgValue}}%。（全ての攻撃に適用されます）
       e6ResPenStacks:
         text: 6凸 虚数貫通バフ数
@@ -1288,7 +1288,7 @@ Characters:
         text: 強化追加攻撃
         content: ジェイドの天賦の追加攻撃を強化し、追加攻撃のダメージ倍率+80%、この強化追加攻撃は2回まで発動できる。
       pawnedAssetStacks:
-        text: '「質草」層数'
+        text: "「質草」層数"
         content: >-
           ジェイドが天賦の追加攻撃を行う時、即座に「質草」を5層獲得する。「質草」1層につき、会心ダメージ+{{pawnedAssetCdScaling}}%、最大で50層累積できる。「質草」1層につき、ジェイドの攻撃力+0.5%。
       e1FuaDmgBoost:
@@ -1296,7 +1296,7 @@ Characters:
         content: ジェイドの天賦による追加攻撃ダメージ+32%。「債権回収者」状態の味方キャラが攻撃を行い、命中した敵の数が2体/1体の時、ジェイドはチャージを追加で1/2獲得する。
       e2CrBuff:
         text: 2凸 会心率アップ
-        content: '「質草」が15層以上の時、ジェイドの会心率+18%。'
+        content: "「質草」が15層以上の時、ジェイドの会心率+18%。"
       e4DefShredBuff:
         text: 4凸 必殺時の防御力無視
         content: 必殺技を発動する時、ジェイドの与えるダメージが敵の防御力を12%無視する、3ターン継続。
@@ -1305,12 +1305,12 @@ Characters:
         content: 6凸 フィールド上に「債権回収者」状態のキャラがいる時、ジェイドの量子属性耐性貫通+20%。同時にジェイドも「債権回収者」状態を獲得する。
     TeammateContent:
       debtCollectorSpdBuff:
-        text: '「債権回収者」有効'
+        text: "「債権回収者」有効"
         content: 指定した味方単体を「債権回収者」状態にし、その味方の速度+30、3ターン継続。
   Jiaoqiu:
     Content:
       ashenRoastStacks:
-        text: '「焼尽」付与数'
+        text: "「焼尽」付与数"
         content: >-
 
           椒丘の通常攻撃、戦闘スキルまたは必殺技が敵に命中した時、100%の基礎確率でその敵に「焼尽」状態を1層付与する。「焼尽」状態が1層の時、敵の受けるダメージ+{{AshenRoastInitialVulnerability}}%。2層目から、「焼尽」状態1層につき、敵の受けるダメージ+{{AshenRoastAdditionalVulnerability}}%。::BR::「焼尽」状態にある敵は、燃焼状態と見なされ、ターンが回ってくるたびに、椒丘の攻撃力{{AshenRoastDotMultiplier}}%分の炎属性持続ダメージを受ける。
@@ -1323,17 +1323,17 @@ Characters:
         content: 椒丘の効果命中が80%を超えた時、超過した効果命中15%につき、攻撃力+60%、最大で+240%。
       e1DmgBoost:
         text: 1凸 与ダメージバフ
-        content: '「焼尽」状態の敵に対する味方の与ダメージ+40%。'
+        content: "「焼尽」状態の敵に対する味方の与ダメージ+40%。"
       e2Dot:
         text: 2凸 持続ダメ強化
         content: 敵が「焼尽」状態にある時、「焼尽」状態による炎属性持続ダメージの倍率+300%。
       e6ResShred:
         text: 6凸 敵全属性耐性ダウン
-        content: '「焼尽」状態の累積上限が9層にアップする。「焼尽」1層につき、敵の全属性耐性-3%。'
+        content: "「焼尽」状態の累積上限が9層にアップする。「焼尽」1層につき、敵の全属性耐性-3%。"
   Jingliu:
     Content:
       talentEnhancedState:
-        text: '「転魄」状態'
+        text: "「転魄」状態"
         content: >-
           「朔望」を2層所持する時、鏡流は「転魄」状態に入り、行動順を100%早め、会心率+{{talentCrBuff}}%。戦闘スキル「無罅の飛光」が「寒川映月」に強化される。「転魄」状態の鏡流はこの強化戦闘スキルのみを使用できる。
       talentHpDrainAtkBuff:
@@ -1352,17 +1352,17 @@ Characters:
         text: スキル後の会心率バフ
         content: 戦闘スキルを発動した後、会心率+10%、2ターン継続。
       talentHitsPerAction:
-        text: '「神君」の攻撃段数'
-        content: '「神君」の攻撃段数は最大で10段。'
+        text: "「神君」の攻撃段数"
+        content: "「神君」の攻撃段数は最大で10段。"
       talentAttacks:
-        text: '「神君」のヒット数'
+        text: "「神君」のヒット数"
         content: ターゲットが「神君」から受けた攻撃回数。通常は「神君」の攻撃段数と同じ値に設定してください。
       e2DmgBuff:
         text: 2凸 ダメバフ
-        content: '「神君」が行動した後、景元の通常攻撃、戦闘スキル、および必殺技によるダメージ+20%、2ターン継続。'
+        content: "「神君」が行動した後、景元の通常攻撃、戦闘スキル、および必殺技によるダメージ+20%、2ターン継続。"
       e6FuaVulnerabilityStacks:
         text: 6凸 敵被ダメアップ数
-        content: '「神君」が1段の攻撃を行うたびに、メインターゲットを被ダメージアップ状態にする。 被ダメージアップ状態の敵の受けるダメージ+12%、「神君」のその回の攻撃が終了するまで継続、最大で3回累積できる。'
+        content: "「神君」が1段の攻撃を行うたびに、メインターゲットを被ダメージアップ状態にする。 被ダメージアップ状態の敵の受けるダメージ+12%、「神君」のその回の攻撃が終了するまで継続、最大で3回累積できる。"
   Kafka:
     Content:
       e1DotDmgReceivedDebuff:
@@ -1377,8 +1377,8 @@ Characters:
         text: 撃破特効での攻撃力/治癒量バフ
         content: 自身の攻撃力を撃破特効25%分アップする、最大で攻撃力+50%。また、自身の治癒量を撃破特効10%分アップする、最大で治癒量+20%。
       befogState:
-        text: '「芳酔」付与済み'
-        content: '「芳酔」状態の敵が受ける弱点撃破ダメージ+{{BefogVulnerability}}%、2ターン継続。'
+        text: "「芳酔」付与済み"
+        content: "「芳酔」状態の敵が受ける弱点撃破ダメージ+{{BefogVulnerability}}%、2ターン継続。"
       e1DefShred:
         text: 弱点撃破時のバフ
         content: 霊砂の弱点撃破効率+50%。敵が弱点撃破される時、その敵の防御力-20%。
@@ -1387,7 +1387,7 @@ Characters:
         content: 必殺技を発動する時、味方全体の撃破特効+40%。
       e6ResShred:
         text: 6凸 敵全属性耐性ダウン
-        content: '「浮元」がフィールド上に存在する時、敵全体の全属性耐性-20%。'
+        content: "「浮元」がフィールド上に存在する時、敵全体の全属性耐性-20%。"
   Luka:
     Content:
       basicEnhanced:
@@ -1404,7 +1404,7 @@ Characters:
         content: ルカが行動する時、指定した敵が裂創状態の場合、ルカの与ダメージ+15%、2ターン継続。
       e4TalentStacks:
         text: 4凸 「闘志」層数
-        content: '「闘志」を1層獲得するごとに、攻撃力+5%。この効果は最大で4層累積できる。'
+        content: "「闘志」を1層獲得するごとに、攻撃力+5%。この効果は最大で4層累積できる。"
   Luocha:
     Content:
       fieldActive:
@@ -1416,7 +1416,7 @@ Characters:
   Lynx:
     Content:
       skillBuff:
-        text: '「サバイバル反応」有効'
+        text: "「サバイバル反応」有効"
         content: >-
           指定した味方単体に「サバイバル反応」を付与し、最大HPをリンクスの最大HP7.5%+200分アップさせる。::BR::E4::「サバイバル反応」を獲得した時、ターゲットの攻撃力がリンクスの最大HPの3%分アップする。1ターン継続。::BR::E6：「サバイバル反応」の最大HPアップ効果が、さらにリンクスの最大HPの6%分アップする。「サバイバル反応」を持つ味方の効果抵抗+30%。
     TeammateContent:
@@ -1436,10 +1436,10 @@ Characters:
           初期攻撃段数は3。1段の攻撃につき、指定した敵単体に三月なのかの攻撃力{{BasicEnhancedScaling}}%分の虚数属性ダメージを与える。最後の1段の攻撃を行うたびに、60%の固定確率でさらに1段の攻撃を行う、追加で行える攻撃は最大3段まで。
       masterAdditionalDmgBuff:
         text: 師匠DPS時のバフ
-        content: '「師匠」の歩む運命が「知恵」、「壊滅」または「巡狩」の場合：通常攻撃を行う、または強化通常攻撃「一に眉間、二に心臓」によるダメージを1段与える時、三月なのかの攻撃力{{ShifuDmgBuff}}%分の、「師匠」の属性に応じた付加ダメージを与える。'
+        content: "「師匠」の歩む運命が「知恵」、「壊滅」または「巡狩」の場合：通常攻撃を行う、または強化通常攻撃「一に眉間、二に心臓」によるダメージを1段与える時、三月なのかの攻撃力{{ShifuDmgBuff}}%分の、「師匠」の属性に応じた付加ダメージを与える。"
       masterToughnessRedBuff:
         text: 師匠サポート時のバフ
-        content: '「師匠」の歩む運命が「調和」、「虚無」、「存護」または「豊穣」の場合：通常攻撃を行う、または強化通常攻撃「一に眉間、二に心臓」によるダメージを1段与える時、その回の攻撃の削靭値+100%。'
+        content: "「師匠」の歩む運命が「調和」、「虚無」、「存護」または「豊穣」の場合：通常攻撃を行う、または強化通常攻撃「一に眉間、二に心臓」によるダメージを1段与える時、その回の攻撃の削靭値+100%。"
       talentDmgBuff:
         text: 天賦による通常攻撃バフ
         content: >-
@@ -1452,10 +1452,10 @@ Characters:
         content: 必殺技を発動した後、次の強化通常攻撃「一に眉間、二に心臓」によるダメージの会心ダメージ+50%。
     TeammateContent:
       masterBuff:
-        text: '「師匠」有効'
+        text: "「師匠」有効"
         content: 指定した自身以外の味方単体を「師匠」にする。「師匠」の速度+{{ShifuSpeedBuff}}%。
       masterCdBeBuffs:
-        text: '「師匠」の会心/撃破特効バフ'
+        text: "「師匠」の会心/撃破特効バフ"
         content: 強化通常攻撃を行った後、「師匠」の会心ダメージ+60%、撃破特効+36%、2ターン継続。
   Misha:
     Content:
@@ -1474,7 +1474,7 @@ Characters:
   Moze:
     Content:
       preyMark:
-        text: '「獲物」付与済み'
+        text: "「獲物」付与済み"
         content: >-
           フィールド上に「獲物」状態の敵がいる時、モゼは一時離脱状態に入る。::BR::味方が「獲物」状態の敵を攻撃した後、モゼはその敵に自身の攻撃力{{PreyAdditionalMultiplier}}%分の雷属性付加ダメージを与え、チャージを1消費する。チャージを3消費するたびに、モゼは「獲物」状態の敵に対して追加攻撃を1回行い、自身の攻撃力{{FuaScaling}}%分の雷属性ダメージを与える。チャージが0になると敵の「獲物」状態が解除され、追加攻撃発動に必要なチャージ数がリセットされる。
       e2CdBoost:
@@ -1493,7 +1493,7 @@ Characters:
         content: >-
           モーディスのスキルの強化レベルを選択します。::BR:: 万死に悔いなし（強化レベル0）：モーディスの現在の残りHP50%分のHPを消費し、指定した敵単体にモーディスの最大HP{{SkillPrimaryScaling}}%分の虚数属性ダメージを与え、隣接する敵にモーディスの最大HP{{SkillAdjacentScaling}}%分の虚数属性ダメージを与える。::BR:: 王を殺め王となる（強化レベル1）： モーディスの現在の残りHP35%分のHPを消費する。敵単体にモーディスの最大HP{{EnhancedSkillPrimaryScaling}}%分の虚数属性ダメージを与え、隣接する敵にモーディスの最大HP{{EnhancedSkillAdjacentScaling}}%分の虚数属性ダメージを与える。::BR:: 神を殺め神となる （強化レベル2）： チャージを150消費して、敵単体にモーディスの最大HP{{EnhancedSkill2PrimaryScaling}}%分の虚数属性ダメージを与え、隣接する敵にモーディスの最大HP{{EnhancedSkill2AdjacentScaling}}%分の虚数属性ダメージを与える。
       vendettaState:
-        text: '「血の報復」状態'
+        text: "「血の報復」状態"
         content: >-
           HPを1%失うごとにチャージを1貯める、最大200までチャージ可能。チャージが100になると、チャージを100消費して「血の報復」状態に入り、モーディスの最大HP{{HpRestoration}}%分のHPを回復し、行動順を100%早める。::BR::「血の報復」状態では最大HPが現在の最大HPの50%分アップする。防御力は0に固定される。チャージが150に達した時、モーディスは追加ターンを1つ獲得し、「神を殺め神となる」を発動する。
       hpToCrConversion:
@@ -1501,13 +1501,13 @@ Characters:
         content: 戦闘開始時、モーディスの最大HPが4000を超えた場合、超過したHP100につき、自身の会心率+1.2% 。モーディスが敵からの攻撃でダメージを受けた際に得られるチャージ割合+2.5% 、治癒を受けた時の回復量+0.75% 。超過したHPは最大で4000までカウントされる。
       e1EnhancedSkillBuff:
         text: 1凸 強化スキル強化
-        content: '「神を殺め神となる」のメインターゲットに対するダメージ倍率+30% 、敵全体にメインターゲットに対するダメージ倍率分の虚数属性ダメージを与える。'
+        content: "「神を殺め神となる」のメインターゲットに対するダメージ倍率+30% 、敵全体にメインターゲットに対するダメージ倍率分の虚数属性ダメージを与える。"
       e2DefPen:
         text: 2凸 敵防御力無視
-        content: '「血の報復」状態の間、モーディスが与えるダメージは敵の防御力を15%無視する。治癒を受けた時に治癒量の 40% 分がチャージに変換され、累計で40まで変換できる。任意のユニットが行動した後、累積可能なチャージはリセットされる。'
+        content: "「血の報復」状態の間、モーディスが与えるダメージは敵の防御力を15%無視する。治癒を受けた時に治癒量の 40% 分がチャージに変換され、累計で40まで変換できる。任意のユニットが行動した後、累積可能なチャージはリセットされる。"
       e4CdBuff:
         text: 4凸 会心ダメバフ
-        content: '「血の報復」状態の間、会心ダメージ+30% 。敵から攻撃を受けた後、自身の最大HP10%分のHPを回復する。'
+        content: "「血の報復」状態の間、会心ダメージ+30% 。敵から攻撃を受けた後、自身の最大HP10%分のHPを回復する。"
   Pela:
     Content:
       teamEhrBuff:
@@ -1520,8 +1520,8 @@ Characters:
         text: 敵のバフ解除済み
         content: "指定した敵単体のバフを1つ解除し、ペラの攻撃力210%分の氷属性ダメージを与える。::BR::2凸：戦闘スキルを発動してバフを解除する時、速度+10%、2ターン継続。"
       ultDefPenDebuff:
-        text: '「一般解」付与済み'
-        content: '「一般解」状態の敵の防御力-{{ultDefPenValue}}%、2ターン継続。'
+        text: "「一般解」付与済み"
+        content: "「一般解」状態の敵の防御力-{{ultDefPenValue}}%、2ターン継続。"
       e4SkillResShred:
         text: 4凸 スキル時の氷耐性デバフ
         content: 戦闘スキルを発動した時、100%の基礎確率で敵の氷属性耐性-12%、2ターン継続。
@@ -1539,7 +1539,7 @@ Characters:
   Rappa:
     Content:
       sealformActive:
-        text: '「結印」状態'
+        text: "「結印」状態"
         content: >-
           「結印」状態に入り、即座に追加ターンを1ターン、「彩墨」を3獲得する。同時に弱点撃破効率+50%、撃破特効+{{ultBeBuff}}%。
       atkToBreakVulnerability:
@@ -1556,18 +1556,18 @@ Characters:
         content: 指定した敵単体に対する、強化通常攻撃の1、2段目の削靭値+50%。
       e4SpdBuff:
         text: 4凸 味方速度バフ
-        content: '「結印」状態の間、味方全体の速度+12%。'
+        content: "「結印」状態の間、味方全体の速度+12%。"
     TeammateContent:
       teammateBreakVulnerability:
         text: 敵撃破ダメージ増加
         content: 敵が弱点撃破される時に受ける弱点撃破ダメージ+2%。その際、乱破の攻撃力が2400を超えている場合、超過した攻撃力100につき、敵が受ける弱点撃破ダメージが+1%、最大で+8%まで。この効果は2ターン継続する。
       e4SpdBuff:
         text: 4凸 味方速度バフ
-        content: '「結印」状態の間、味方全体の速度+12%。'
+        content: "「結印」状態の間、味方全体の速度+12%。"
   Robin:
     Content:
       concertoActive:
-        text: '「協奏」有効'
+        text: "「協奏」有効"
         content: >-
           「協奏」状態の時、味方全体の攻撃力を、ロビンの攻撃力22.8%分+200アップする。また、味方が攻撃を行った後、ロビンは自身の攻撃力120%分の物理属性付加ダメージを敵に1回与える、このダメージの会心率は100%、会心ダメージは150%に固定される。
       skillDmgBuff:
@@ -1578,7 +1578,7 @@ Characters:
         content: 味方全体の会心ダメージ+20%。
       e1UltResPen:
         text: 1凸 必殺技の全耐性貫通
-        content: '「協奏」状態の時、味方全体の全属性耐性貫通+24%。'
+        content: "「協奏」状態の時、味方全体の全属性耐性貫通+24%。"
       e4TeamResBuff:
         text: 4凸 味方効果抵抗バフ
         content: 必殺技を発動する時、味方全体の行動制限系デバフを解除する。ロビンが「協奏」状態の時、味方全体の効果抵抗+50%。
@@ -1593,14 +1593,14 @@ Characters:
           「協奏」状態の時、味方全体の攻撃力を、ロビンの攻撃力{{ultAtkBuffScalingValue}}%分+{{ultAtkBuffFlatValue}}アップする。::BR::ロビン自身の攻撃力ステータスをここに入力してください。
       traceFuaCdBoost:
         text: 追加攻撃の会心ダメバフ
-        content: '「協奏」状態の時、味方全体の追加攻撃ダメージの会心ダメージ+25%。'
+        content: "「協奏」状態の時、味方全体の追加攻撃ダメージの会心ダメージ+25%。"
       e2UltSpdBuff:
         text: 2凸 必殺技の速度バフ
-        content: '「協奏」状態の時、味方全体の速度+16%。'
+        content: "「協奏」状態の時、味方全体の速度+16%。"
   RuanMei:
     Content:
       skillOvertoneBuff:
-        text: '「弦外の音」有効'
+        text: "「弦外の音」有効"
         content: >-
           戦闘スキルを発動した後、ルアン・メェイは3ターン継続する「弦外の音」を獲得する。ルアン・メェイのターンが回ってくるたびに、「弦外の音」の継続時間-1ターン。ルアン・メェイに「弦外の音」がある時、味方全体の与ダメージ+{{skillScaling}}%、弱点撃破効率+50%。
       teamBEBuff:
@@ -1637,7 +1637,7 @@ Characters:
   Seele:
     Content:
       buffedState:
-        text: '「増幅」状態'
+        text: "「増幅」状態"
         content: >-
           通常攻撃、戦闘スキル、必殺技で敵を倒すと追加ターンを1獲得し、増幅状態に入る。増幅状態のゼーレの与ダメージ+{{buffedStateDmgBuff}}%、1ターン継続。::BR::増幅状態の時、ゼーレの量子属性耐性貫通+20%。
       speedBoostStacks:
@@ -1668,7 +1668,7 @@ Characters:
         content: >-
           {{implantChance}}%の基礎確率で指定した敵単体に、フィールド上の味方が有する属性の内1つを弱点として埋め込む、さらにその弱点属性の属性耐性-20%、2ターン継続。元からあった弱点を埋め込んだ場合、対応属性の属性耐性がダウンする効果は発動されない。
       talentDefShredDebuff:
-        text: '「欠陥」付与済み'
+        text: "「欠陥」付与済み"
         content: 銀狼は「欠陥」を作成できる：防御力-8%。
       ultDefShredDebuff:
         text: 必殺技の防御力デバフ
@@ -1684,7 +1684,7 @@ Characters:
         content: >-
           指定した味方単体の会心ダメージを、花火の会心ダメージ{{skillCdBuffScaling}}%分+{{skillCdBuffBase}}%アップする、1ターン継続。その味方の行動順を50%早める。::BR::6凸: 戦闘スキルの会心ダメージアップ効果が、さらに花火の会心ダメージ30%分アップする。花火が戦闘スキルを発動する時、戦闘スキルの会心ダメージアップ効果が、「奇怪な謎」を持つすべての味方に対して有効になる。花火が必殺技を発動する時、花火の戦闘スキルによる会心ダメージアップ効果を持つ味方が存在する場合、「奇怪な謎」を持つ味方にその効果を拡散する。
       cipherBuff:
-        text: '「奇怪な謎」有効'
+        text: "「奇怪な謎」有効"
         content: >-
           SPを4回復し、味方全体に「奇怪な謎」を付与する。「奇怪な謎」が付与されている味方は、花火の天賦の与ダメージアップ効果がさらに各層{{cipherTalentStackBoost}}%アップする、2ターン継続。::BR::1凸：必殺技が付与する「奇怪な謎」の継続時間+1ターン。「奇怪な謎」を持つ味方の攻撃力+40%。
       talentStacks:
@@ -1716,7 +1716,7 @@ Characters:
           サンデーが戦闘スキルを発動する時、スキルターゲットに以下の効果を付与する。キャラがダメージを与える時、敵の防御力を16%無視する。召喚物がダメージを与える時、敵の防御力を40%無視する。2ターン継続。
       e2DmgBuff:
         text: 2凸 味方の与ダメ増加
-        content: '「祝福されし者」状態の味方の与ダメージ+30%。'
+        content: "「祝福されし者」状態の味方の与ダメージ+30%。"
     TeammateContent:
       beatified:
         text: 必殺技の会心ダメバフ
@@ -1738,17 +1738,17 @@ Characters:
           素裳の攻撃力+{{ultBuffedAtk}}%、戦闘スキルを発動した時に「剣勢」発動の判定回数+2、2ターン継続。追加の判定で発動した「剣勢」のダメージは、本来のダメージの50%。
       skillExtraHits:
         text: スキルの追加ヒット数
-        content: '「剣勢」の追加ヒット数を増やします。'
+        content: "「剣勢」の追加ヒット数を増やします。"
       skillTriggerStacks:
-        text: '「剣勢」発動回数'
-        content: '「剣勢」を発動するたび、「剣勢」ダメージ+2%、最大で10回累積できる。'
+        text: "「剣勢」発動回数"
+        content: "「剣勢」を発動するたび、「剣勢」ダメージ+2%、最大で10回累積できる。"
       talentSpdBuffStacks:
         text: 天賦による速度バフ数
         content: >-
           フィールド上の敵が弱点撃破された時、素裳の速度+{{talentSpdBuffValue}}%、2ターン継続。::BR::E6::天賦の加速効果が累積できるようになる、最大で2層累積できる。戦闘に入った後、素裳は天賦の加速効果を1層獲得する。
       e2DmgReductionBuff:
         text: 2凸 被ダメージ減少
-        content: '「剣勢」発動後、素裳の被ダメージ-20%、1ターン継続。'
+        content: "「剣勢」発動後、素裳の被ダメージ-20%、1ターン継続。"
   TheHerta:
     Content:
       enhancedSkill:
@@ -1763,11 +1763,11 @@ Characters:
         content: >-
           必殺技を発動する時、マダム・ヘルタの攻撃力+80%、3ターン継続。
       interpretationStacks:
-        text: '「解読」層数'
+        text: "「解読」層数"
         content: >-
           強化戦闘スキルのメインターゲットに「解読」がある時、強化戦闘スキルのダメージ倍率がアップする。「解読」1層につき、メインターゲットに対するダメージ倍率+{{PrimaryScalingBonus}}%、他のターゲットに対するダメージ倍率+{{AdjacentScalingBonus}}%。::BR::パーティ内の「知恵」の運命を歩むキャラクターが2名以上の場合、さらに「解読」1層につき、メインターゲットに対するダメージ倍率+{{PrimaryScalingBonus}}%、他のターゲットに対するダメージ倍率+{{AdjacentScalingBonus}}%。::BR::1凸：強化戦闘スキルで「解読」の層数を計算する時、スキルのメインターゲットおよび隣接する敵の中で、最も「解読」の層数が多い敵1体の層数50%分を計算に加える。
       totalInterpretationStacks:
-        text: '「回答」層数'
+        text: "「回答」層数"
         content: 敵に「解読」が1層付与されるたびに、マダム・ヘルタは「回答」を1層獲得する、最大で99層累積できる。必殺技を発動する時、「回答」1層につき、その回の必殺技のダメージ倍率+1.0%。
       e1BonusStacks:
         text: 1凸 「解読」の層数増加
@@ -1781,7 +1781,7 @@ Characters:
   Tingyun:
     Content:
       benedictionBuff:
-        text: '「賜福」有効'
+        text: "「賜福」有効"
         content: >-
           指定した味方単体に「賜福」を付与し、その味方の攻撃力+{{skillAtkBoostScaling}}%、攻撃力アップ量は停雲の現在の攻撃力の{{skillAtkBoostMax}}%を超えない。「賜福」を付与された味方が攻撃を行った後、敵にその味方の攻撃力{{skillLightningDmgBoostScaling}}%分の雷属性付加ダメージを1回与える。3ターン継続。
       skillSpdBuff:
@@ -1792,7 +1792,7 @@ Characters:
         content: "指定した味方単体のEPを50回復し、その味方の与ダメージ+{{ultDmgBoost}}%、2ターン継続。"
       ultSpdBuff:
         text: 1凸 味方速度バフ
-        content: '「賜福」を与えられた味方単体は、必殺技を発動した後に速度+20%、1ターン継続。'
+        content: "「賜福」を与えられた味方単体は、必殺技を発動した後に速度+20%、1ターン継続。"
     TeammateContent:
       teammateAtkBuffValue:
         text: スキルの攻撃力増加値
@@ -1801,14 +1801,14 @@ Characters:
   Topaz:
     Content:
       enemyProofOfDebtDebuff:
-        text: '「負債証明」付与済み'
+        text: "「負債証明」付与済み"
         content: 指定した敵単体に「負債証明」状態を付与し、その敵が受ける追加攻撃ダメージを{{proofOfDebtFuaVulnerability}}%アップさせる。
       numbyEnhancedState:
         text: カブ強化状態
         content: カブが「心躍る上昇幅！」状態に入り、ダメージ倍率+{{enhancedStateFuaScalingBoost}}%、会心ダメージ+{{enhancedStateFuaCdBoost}}%。
       e1DebtorStacks:
         text: 1凸 「強制執行」数
-        content: '「負債証明」状態の敵が追加攻撃ダメージを受ける時、「強制執行」状態を付与される。この効果は1回の攻撃で1回まで付与できる。「強制執行」状態の敵が受ける追加攻撃ダメージの会心ダメージ+25%、最大で2層累積できる。「負債証明」が解除される時、「強制執行」も解除される。'
+        content: "「負債証明」状態の敵が追加攻撃ダメージを受ける時、「強制執行」状態を付与される。この効果は1回の攻撃で1回まで付与できる。「強制執行」状態の敵が受ける追加攻撃ダメージの会心ダメージ+25%、最大で2層累積できる。「負債証明」が解除される時、「強制執行」も解除される。"
   TrailblazerDestruction:
     Content:
       enhancedUlt:
@@ -1821,7 +1821,7 @@ Characters:
   TrailblazerHarmony:
     Content:
       backupDancer:
-        text: '「バックダンス」有効'
+        text: "「バックダンス」有効"
         content: >-
           味方全体に「バックダンス」を付与する、3ターン継続。開拓者のターンが回ってくるたびに「バックダンス」の継続時間-1ターン。「バックダンス」を持つ味方の撃破特効+{{ultBeScaling}}%。
       superBreakDmg:
@@ -1892,7 +1892,7 @@ Characters:
   Tribbie:
     Content:
       numinosity:
-        text: '「天啓」有効'
+        text: "「天啓」有効"
         content: スキル使用後、「天啓」を獲得し、3ターン継続する。自身のターンが回ってくるたびに、「天啓」の継続時間-1ターン。トリビーに「天啓」がある時、味方全体の全属性耐性貫通+{{ResPen}}%。
       ultZone:
         text: 必殺技の結界有効
@@ -1911,7 +1911,7 @@ Characters:
         content: 結界による付加ダメージが本来のダメージの120%にアップする。結界が付加ダメージを与えた時、さらに1回付加ダメージを与える。
       e4DefPen:
         text: 4凸 敵防御力無視
-        content: '「神の啓示」が継続している間、味方全体がダメージを与える時、敵の防御力を18%無視する。'
+        content: "「神の啓示」が継続している間、味方全体がダメージを与える時、敵の防御力を18%無視する。"
       e6FuaScaling:
         text: 6凸 追加攻撃ダメージ
         content: トリビーが必殺技を発動した後、敵全体に天賦による追加攻撃を行う。天賦による追加攻撃が与えるダメージが729%アップ。
@@ -1954,7 +1954,7 @@ Characters:
         text: 必殺技のバフ
         content: 自身の会心率+60%、彦卿に「智剣連心」がある場合、さらに会心ダメージ+{{ultCdBuffValue}}%。
       soulsteelBuffActive:
-        text: '「智剣連心」状態'
+        text: "「智剣連心」状態"
         content: >-
           彦卿に「智剣連心」がある場合、自身の会心率+{{talentCrBuffValue}}%、会心ダメージ+{{talentCdBuffValue}}%。::BR::必殺技を発動する前に彦卿に「智剣連心」がある場合、さらに会心ダメージ+{{ultCdBuffValue}}%。::BR::「智剣連心」がある場合、効果抵抗+20%。::BR::2凸：彦卿に「智剣連心」がある場合、さらにEP回復効率+10%。
       critSpdBuff:
@@ -1972,7 +1972,7 @@ Characters:
         text: 味方虚数ダメバフ
         content: 御空がフィールド上にいる時、味方全体の虚数属性ダメージ+12%。御空がフィールド上にいる時、味方全体の虚数属性ダメージ+12%。
       roaringBowstringsActive:
-        text: '「鳴弦号令」層数'
+        text: "「鳴弦号令」層数"
         content: "「鳴弦号令」を2層獲得する。「鳴弦号令」は最大で2層累積できる。御空に「鳴弦号令」がある時、味方全体の攻撃力+{{skillAtkBuffValue}}%。::BR::4凸::「鳴弦号令」がある時、御空の与ダメージ+30%。"
       ultBuff:
         text: 必殺技の会心率/ダメバフ
@@ -1984,8 +1984,8 @@ Characters:
   Yunli:
     Content:
       blockActive:
-        text: '「構え」状態'
-        content: '「構え」状態の時、行動制限系デバフに抵抗し、受けるダメージ-20%。'
+        text: "「構え」状態"
+        content: "「構え」状態の時、行動制限系デバフに抵抗し、受けるダメージ-20%。"
       ultCull:
         text: "「看破・滅」有効"
         content: >-

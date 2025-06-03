@@ -1,4 +1,7 @@
-import { Stats, SubStats } from 'lib/constants/constants'
+import {
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
 import { nullUndefinedToZero } from 'lib/overlays/modals/ScoringModal'
 import { ScoringMetadata } from 'types/metadata'
 

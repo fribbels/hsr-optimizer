@@ -6,16 +6,16 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import tinygradient from 'tinygradient'
 
 type GridParams = {
-  value: number
-  data: object
+  value: number,
+  data: object,
   column: {
-    colId: string
-  }
+    colId: string,
+  },
 }
 
 export type GridAggregations = {
-  min: Record<string, number>
-  max: Record<string, number>
+  min: Record<string, number>,
+  max: Record<string, number>,
 }
 
 const optimizerGridGradient = tinygradient([

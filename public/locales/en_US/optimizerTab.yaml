@@ -437,7 +437,7 @@ ComboFilter:
   CounterLabels:
     Dot: Dots
   ComboOptions:
-    None: 'None'
+    None: "None"
     Basic: Basic
     Skill: Skill
     Ult: Ult
@@ -543,7 +543,7 @@ StatSimulation:
 ExpandedDataPanel:
   SubstatUpgrades:
     ColumnHeaders:
-      Substat: '+1x Substat'
+      Substat: "+1x Substat"
       COMBO_DMG: Δ Combo DMG
       COMBO_DMG_P: Δ% Combo DMG
       EHP: Δ EHP
@@ -559,7 +559,7 @@ ExpandedDataPanel:
       breakDmg: Break
       superBreakDmg: Super Break
       additionalDmg: Additional
-      trueDmg: 'True'
+      trueDmg: "True"
       jointDmg: Joint
       dotDmg: Dot
       memoDmg: Memo

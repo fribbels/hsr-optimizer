@@ -1,15 +1,15 @@
 import { KelzFormatParser } from 'lib/importer/kelzFormatParser'
 
 export type ScannerConfig = {
-  name: string
-  author: string
-  homepage: string
-  releases: string
-  defaultFileName: string
-  sourceString: string
-  latestBuildVersion: string
-  latestOutputVersion: number
-  speedVerified: boolean
+  name: string,
+  author: string,
+  homepage: string,
+  releases: string,
+  defaultFileName: string,
+  sourceString: string,
+  latestBuildVersion: string,
+  latestOutputVersion: number,
+  speedVerified: boolean,
 }
 
 export const KelzScannerConfig: ScannerConfig = {

@@ -1,30 +1,72 @@
-import { CameraOutlined, CheckOutlined, CloseOutlined, DownloadOutlined, MoonOutlined, SettingOutlined, SunOutlined } from '@ant-design/icons'
-import { Button, ColorPicker, Flex, InputNumber, Segmented, Select } from 'antd'
+import {
+  CameraOutlined,
+  CheckOutlined,
+  CloseOutlined,
+  DownloadOutlined,
+  MoonOutlined,
+  SettingOutlined,
+  SunOutlined,
+} from '@ant-design/icons'
+import {
+  Button,
+  ColorPicker,
+  Flex,
+  InputNumber,
+  Segmented,
+  Select,
+} from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
 import i18next from 'i18next'
-import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
+import {
+  DEFAULT_SHOWCASE_COLOR,
+  editShowcasePreferences,
+} from 'lib/characterPreview/showcaseCustomizationController'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
-import { ShowcaseColorMode, Stats } from 'lib/constants/constants'
+import {
+  ShowcaseColorMode,
+  Stats,
+} from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
+import {
+  OpenCloseIDs,
+  setOpen,
+} from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
-import { ScoringType, SimulationScore } from 'lib/scoring/simScoringUtils'
+import {
+  ScoringType,
+  SimulationScore,
+} from 'lib/scoring/simScoringUtils'
 import DB, { AppPages } from 'lib/state/db'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { modifyCustomColor, organizeColors, selectClosestColor } from 'lib/utils/colorUtils'
+import {
+  modifyCustomColor,
+  organizeColors,
+  selectClosestColor,
+} from 'lib/utils/colorUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
-import React, { forwardRef, useImperativeHandle, useMemo, useState } from 'react'
+import {
+  getPalette,
+  PaletteResponse,
+} from 'lib/utils/vibrantFork'
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character, CharacterId } from 'types/character'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
 import { ShowcasePreferences } from 'types/metadata'
 import { ShowcaseSource } from './CharacterPreviewComponents'
 
@@ -45,7 +87,6 @@ export interface ShowcaseCustomizationSidebarProps {
   colorMode: ShowcaseColorMode
   setColorMode: (colorMode: ShowcaseColorMode) => void
 }
-
 
 const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef, ShowcaseCustomizationSidebarProps>(
   (props, ref) => {
@@ -79,7 +120,9 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
       onPortraitLoad: (img: string, characterId: CharacterId) => {
         if (DB.getCharacterById(characterId)?.portrait) {
           getPalette(img, (palette: PaletteResponse) => {
-            const primary = modifyCustomColor(selectClosestColor([palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]))
+            const primary = modifyCustomColor(
+              selectClosestColor([palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]),
+            )
 
             setSeedColor(primary)
             urlToColorCache[img] = primary
@@ -213,16 +256,16 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     const { spdPrecisionOptions, spdWeightOptions, buffPriorityOptions } = useMemo(() => {
       return {
         spdPrecisionOptions: [
-          { value: false, label: tScoring('SpdPrecision.Low')/* '.0' */ },
-          { value: true, label: tScoring('SpdPrecision.High')/* '.000' */ },
+          { value: false, label: tScoring('SpdPrecision.Low') /* '.0' */ },
+          { value: true, label: tScoring('SpdPrecision.High') /* '.000' */ },
         ],
         spdWeightOptions: [
-          { value: 1, label: tScoring('SpdWeight.Max')/* '100%' */ },
-          { value: 0, label: tScoring('SpdWeight.Min')/* '0%' */ },
+          { value: 1, label: tScoring('SpdWeight.Max') /* '100%' */ },
+          { value: 0, label: tScoring('SpdWeight.Min') /* '0%' */ },
         ],
         buffPriorityOptions: [
-          { value: false, label: tScoring('BuffPriority.High')/* 'Main' */ },
-          { value: true, label: tScoring('BuffPriority.Low')/* 'Sub' */ },
+          { value: false, label: tScoring('BuffPriority.High') /* 'Main' */ },
+          { value: true, label: tScoring('BuffPriority.Low') /* 'Sub' */ },
         ],
       }
     }, [tScoring])
@@ -252,31 +295,32 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
           <Flex justify='space-between' align='center' style={{ position: 'relative' }}>
             <span></span>
             <HeaderText style={{ textAlign: 'center', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
-              {tScoring('Stats.Header')/* Stats */}
+              {tScoring('Stats.Header') /* Stats */}
             </HeaderText>
 
             <a
               href='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/score-customization.md'
               target='_blank'
-              style={{ display: 'inline-flex', alignItems: 'center' }} rel='noreferrer'
+              style={{ display: 'inline-flex', alignItems: 'center' }}
+              rel='noreferrer'
             >
-              <img src={Assets.getQuestion()} style={{ height: 16, width: 16, opacity: 0.6, marginLeft: 'auto' }}/>
+              <img src={Assets.getQuestion()} style={{ height: 16, width: 16, opacity: 0.6, marginLeft: 'auto' }} />
             </a>
           </Flex>
 
-          <HorizontalDivider/>
+          <HorizontalDivider />
 
           <Button
-            icon={<SettingOutlined/>}
+            icon={<SettingOutlined />}
             onClick={onTraceClick}
           >
-            {tScoring('Stats.ButtonText')/* Traces */}
+            {tScoring('Stats.ButtonText') /* Traces */}
           </Button>
 
-          <HorizontalDivider/>
+          <HorizontalDivider />
 
           <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-            {tScoring('SpdPrecision.Header')/* SPD precision */}
+            {tScoring('SpdPrecision.Header') /* SPD precision */}
           </HeaderText>
 
           <Segmented
@@ -287,71 +331,70 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
           />
 
           {scoringType != ScoringType.NONE
-          && (
-            <>
-              <HorizontalDivider/>
+            && (
+              <>
+                <HorizontalDivider />
 
-              <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                {tScoring('SpdWeight.Header')/* SPD weight */}
-              </HeaderText>
+                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                  {tScoring('SpdWeight.Header') /* SPD weight */}
+                </HeaderText>
 
-              <Segmented
-                options={spdWeightOptions}
-                block
-                value={spdValue}
-                onChange={onShowcaseSpdValueChange}
-              />
-            </>
-          )}
-
-          {scoringType == ScoringType.COMBAT_SCORE
-          && (
-            <>
-              <HorizontalDivider/>
-
-              <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                {tScoring('BenchmarkSpd.Header')/* SPD benchmark */}
-              </HeaderText>
-
-              <InputNumber
-                size='small'
-                controls={false}
-                style={{ width: '100%' }}
-                value={sanitizePositiveNumberElseUndefined(window.store.getState().showcaseTemporaryOptionsByCharacter[characterId]?.spdBenchmark)}
-                addonAfter={(
-                  <SelectSpdPresets
-                    spdFilter={simScoringExecution?.result?.originalSpd}
-                    onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
-                    characterId={characterId}
-                    simScoringResult={simScoringExecution?.result ?? null}
-                  />
-                )}
-                placeholder='...'
-                min={0}
-                onBlur={onShowcaseSpdBenchmarkChangeEvent}
-                onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
-              />
-            </>
-          )}
+                <Segmented
+                  options={spdWeightOptions}
+                  block
+                  value={spdValue}
+                  onChange={onShowcaseSpdValueChange}
+                />
+              </>
+            )}
 
           {scoringType == ScoringType.COMBAT_SCORE
-          && (
-            <>
-              <HorizontalDivider/>
+            && (
+              <>
+                <HorizontalDivider />
 
-              <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                {tScoring('BuffPriority.Header')/* Buff priority */}
-              </HeaderText>
+                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                  {tScoring('BenchmarkSpd.Header') /* SPD benchmark */}
+                </HeaderText>
 
-              <Segmented
-                options={buffPriorityOptions}
-                block
-                value={deprioritizeBuffs}
-                onChange={onShowcaseDeprioritizeBuffsChange}
-              />
-            </>
-          )}
+                <InputNumber
+                  size='small'
+                  controls={false}
+                  style={{ width: '100%' }}
+                  value={sanitizePositiveNumberElseUndefined(window.store.getState().showcaseTemporaryOptionsByCharacter[characterId]?.spdBenchmark)}
+                  addonAfter={
+                    <SelectSpdPresets
+                      spdFilter={simScoringExecution?.result?.originalSpd}
+                      onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
+                      characterId={characterId}
+                      simScoringResult={simScoringExecution?.result ?? null}
+                    />
+                  }
+                  placeholder='...'
+                  min={0}
+                  onBlur={onShowcaseSpdBenchmarkChangeEvent}
+                  onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
+                />
+              </>
+            )}
 
+          {scoringType == ScoringType.COMBAT_SCORE
+            && (
+              <>
+                <HorizontalDivider />
+
+                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                  {tScoring('BuffPriority.Header') /* Buff priority */}
+                </HeaderText>
+
+                <Segmented
+                  options={buffPriorityOptions}
+                  block
+                  value={deprioritizeBuffs}
+                  onChange={onShowcaseDeprioritizeBuffsChange}
+                />
+              </>
+            )}
         </Flex>
 
         <Flex
@@ -368,7 +411,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
             {tCustomization('Label')}
           </HeaderText>
 
-          <HorizontalDivider/>
+          <HorizontalDivider />
 
           <ColorPicker
             presets={presets}
@@ -383,7 +426,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
             showText
           />
 
-          <HorizontalDivider/>
+          <HorizontalDivider />
 
           <Segmented
             vertical
@@ -396,46 +439,44 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
             onChange={onColorModeChange}
           />
 
-          <HorizontalDivider/>
+          <HorizontalDivider />
 
           <Segmented
             options={[
-              { value: false, label: <SunOutlined/> },
-              { value: true, label: <MoonOutlined/> },
+              { value: false, label: <SunOutlined /> },
+              { value: true, label: <MoonOutlined /> },
             ]}
             block
             value={showcaseDarkMode}
             onChange={onBrightnessModeChange}
           />
 
-          {
-            source == ShowcaseSource.SHOWCASE_TAB
+          {source == ShowcaseSource.SHOWCASE_TAB
             && (
               <>
-                <HorizontalDivider/>
+                <HorizontalDivider />
 
                 <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
-                  {tCustomization('ShowUID')/* Show UID */}
+                  {tCustomization('ShowUID') /* Show UID */}
                 </HeaderText>
 
                 <Segmented
                   options={[
-                    { value: true, label: <CheckOutlined/> },
-                    { value: false, label: <CloseOutlined/> },
+                    { value: true, label: <CheckOutlined /> },
+                    { value: false, label: <CloseOutlined /> },
                   ]}
                   block
                   value={showcaseUID}
                   onChange={onShowUIDChange}
                 />
               </>
-            )
-          }
+            )}
 
-          <HorizontalDivider/>
+          <HorizontalDivider />
 
           <Flex justify='space-between'>
             <Button
-              icon={<CameraOutlined style={{ fontSize: 30 }}/>}
+              icon={<CameraOutlined style={{ fontSize: 30 }} />}
               loading={loading}
               onClick={() => clipboardClicked(id, 'clipboard', setLoading, props.seedColor)}
               type='primary'
@@ -443,7 +484,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
             >
             </Button>
             <Button
-              icon={<DownloadOutlined style={{ fontSize: 30 }}/>}
+              icon={<DownloadOutlined style={{ fontSize: 30 }} />}
               loading={loading}
               onClick={() => clipboardClicked(id, 'download', setLoading, props.seedColor)}
               type='primary'
@@ -461,10 +502,10 @@ ShowcaseCustomizationSidebar.displayName = 'ShowcaseCustomizationSidebar'
 export default ShowcaseCustomizationSidebar
 
 function SelectSpdPresets(props: {
-  characterId: string
-  onShowcaseSpdBenchmarkChange: (n: number) => void
-  simScoringResult: SimulationScore | null
-  spdFilter?: number
+  characterId: string,
+  onShowcaseSpdBenchmarkChange: (n: number) => void,
+  simScoringResult: SimulationScore | null,
+  spdFilter?: number,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
   const { t: tCharacterTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd' })
@@ -479,21 +520,25 @@ function SelectSpdPresets(props: {
 
     return [
       {
-        label: <span>{tCharacterTab('BenchmarkOptionsLabel')/* Benchmark options */}</span>,
+        label: <span>{tCharacterTab('BenchmarkOptionsLabel') /* Benchmark options */}</span>,
         title: 'benchmark',
         options: [
           {
-            label: <b><span>{tCharacterTab('CurrentSpdLabel')/* Current SPD - The benchmark will match your basic SPD */}</span></b>,
+            label: (
+              <b>
+                <span>{tCharacterTab('CurrentSpdLabel') /* Current SPD - The benchmark will match your basic SPD */}</span>
+              </b>
+            ),
             value: -1,
           },
           {
-            label: <span>{tCharacterTab('BaseSpdLabel')/* Base SPD - The benchmark will target a minimal SPD build */}</span>,
+            label: <span>{tCharacterTab('BaseSpdLabel') /* Base SPD - The benchmark will target a minimal SPD build */}</span>,
             value: 0,
           },
         ],
       },
       {
-        label: <span>{tCharacterTab('CommonBreakpointsLabel')/* Common SPD breakpoint presets (SPD buffs considered separately) */}</span>,
+        label: <span>{tCharacterTab('CommonBreakpointsLabel') /* Common SPD breakpoint presets (SPD buffs considered separately) */}</span>,
         options: presets,
       },
     ]

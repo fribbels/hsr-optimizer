@@ -132,7 +132,7 @@ RelicGrid:
       SetsPotential:
         Label: Потенциал наборов реликвий / планарок
         Header: |-
-          ВСЕ: Макс. 
+          ВСЕ: Макс.
           Потенциал + Наборы
 Toolbar:
   RelicLocator:

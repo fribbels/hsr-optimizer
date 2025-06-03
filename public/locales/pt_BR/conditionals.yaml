@@ -376,26 +376,26 @@ Lightcones:
       atkBuffActive:
         text: Buff de ATK ativo
         content: >-
-          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:  
-          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.  
-          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.  
-          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.  
+          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:
+          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.
+          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.
+          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.
           ::BR::O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
       cdBuffActive:
         text: Buff de CD ativo.
         content: >-
-          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:  
-          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.  
-          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.  
-          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.  
+          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:
+          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.
+          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.
+          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.
           ::BR::O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
       errBuffActive:
         text: Buff de ERR ativo
         content: >-
-          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:  
-          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.  
-          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.  
-          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.  
+          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:
+          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.
+          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.
+          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.
           ::BR::O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
   ConcertForTwo:
     Content:
@@ -487,7 +487,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: 'Buff de CR para ≤ 2 inimigos'
+        text: "Buff de CR para ≤ 2 inimigos"
         content: Se houver 2 ou menos inimigos no campo, aumenta a taxa de CRIT do portador em {{CritBuff}}%.
   PastAndFuture:
     Content:
@@ -553,7 +553,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: 'Buff de cooldown para alvos com ≥ 2 fraquezas'
+        text: "Buff de cooldown para alvos com ≥ 2 fraquezas"
         content: Quando o portador usa um ataque e pelo menos 2 inimigos atacados têm a fraqueza correspondente, o CRIT DMG do portador aumenta em {{CritBuff}}% por 2 turnos.
   TheGreatCosmicEnterprise:
     Content:
@@ -1974,7 +1974,7 @@ Characters:
         text: E1 inimigo congelado
         content: Quando Yanqing ataca um inimigo congelado, ele causa DMG de Gelo Adicional igual a 60% de seu ATK.
       e4CurrentHp80:
-        text: 'E4: quando a HP do personagem está ≥ 80%, aumenta a PEN de RES.'
+        text: "E4: quando a HP do personagem está ≥ 80%, aumenta a PEN de RES."
         content: Quando a porcentagem de HP atual está em 80% ou mais, a PEN de RES de Gelo aumenta em 12%.
   Yukong:
     Content:
@@ -1989,7 +1989,7 @@ Characters:
         content: >-
           Se as Cordas de Arco Rugidoras estiverem ativas em Yukong quando seu Ultimate for usado, aumenta adicionalmente a Taxa de CRIT de todos os aliados em {{ultCrBuffValue}}% e o DMG CRIT em {{ultCdBuffValue}}%. Ao mesmo tempo, causa DMG Imaginário igual a {{ultScaling}}% do ATK de Yukong a um único inimigo.
       initialSpeedBuff:
-        text: 'E1: aumento inicial de SPD'
+        text: "E1: aumento inicial de SPD"
         content: No início da batalha, aumenta a SPD de todos os aliados em 10% por 2 turnos.
   Yunli:
     Content:

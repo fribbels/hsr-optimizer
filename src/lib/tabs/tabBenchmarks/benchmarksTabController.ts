@@ -5,19 +5,23 @@ import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runCustomBenchmarkOrchestrator'
 import DB from 'lib/state/db'
-import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
+import {
+  BenchmarkForm,
+  SimpleCharacter,
+  useBenchmarksTabStore,
+} from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import {
   applyScoringMetadataPresets,
-  applySetConditionalPresets
+  applySetConditionalPresets,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { filterUniqueStringify } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 
 export type BenchmarkResultWrapper = {
-  fullHash: string
-  promise: Promise<BenchmarkSimulationOrchestrator>
-  orchestrator?: BenchmarkSimulationOrchestrator
+  fullHash: string,
+  promise: Promise<BenchmarkSimulationOrchestrator>,
+  orchestrator?: BenchmarkSimulationOrchestrator,
 }
 
 const customBenchmarkCache: Record<string, BenchmarkSimulationOrchestrator> = {}
@@ -108,7 +112,8 @@ function invalidSimpleCharacter(simpleCharacter?: SimpleCharacter) {
 
 function invalidBenchmarkForm(benchmarkForm: BenchmarkForm) {
   const t = i18next.getFixedT(null, 'benchmarksTab', 'Messages.Error')
-  if (invalidSimpleCharacter(benchmarkForm)
+  if (
+    invalidSimpleCharacter(benchmarkForm)
     || invalidSimpleCharacter(benchmarkForm.teammate0)
     || invalidSimpleCharacter(benchmarkForm.teammate1)
     || invalidSimpleCharacter(benchmarkForm.teammate2)

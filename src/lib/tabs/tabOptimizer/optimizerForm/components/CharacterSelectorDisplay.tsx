@@ -1,15 +1,25 @@
-import { Flex, Form, Select } from 'antd'
+import {
+  Flex,
+  Form,
+  Select,
+} from 'antd'
 import { Hint } from 'lib/interactions/hint'
 import { SortOption } from 'lib/optimization/sortOptions'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { RecommendedPresetsButton } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import { optimizerTabDefaultGap, panelWidth } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import {
+  optimizerTabDefaultGap,
+  panelWidth,
+} from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { Utils } from 'lib/utils/utils'
-import { useEffect, useMemo } from 'react'
+import {
+  useEffect,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function CharacterSelectorDisplay() {
@@ -29,7 +39,7 @@ export default function CharacterSelectorDisplay() {
   }, [optimizerTabFocusCharacter])
 
   const eidolonOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
+    const options: { value: number, label: string }[] = []
     for (let i = 0; i <= 6; i++) {
       options.push({ value: i, label: t('common:EidolonNShort', { eidolon: i }) })
     }
@@ -37,7 +47,7 @@ export default function CharacterSelectorDisplay() {
   }, [t])
 
   const superimpositionOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
+    const options: { value: number, label: string }[] = []
     for (let i = 1; i <= 5; i++) {
       options.push({ value: i, label: t('common:SuperimpositionNShort', { superimposition: i }) })
     }
@@ -45,7 +55,7 @@ export default function CharacterSelectorDisplay() {
   }, [t])
 
   const resultLimitOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
+    const options: { value: number, label: string }[] = []
     for (let i = 64; i <= 65536; i = i * 2) {
       // `Find top ${limit} results`
       options.push({ value: i, label: t('ResultLimitN', { limit: i }) })
@@ -95,8 +105,8 @@ export default function CharacterSelectorDisplay() {
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
       <Flex justify='space-between' align='center'>
-        <HeaderText>{t('CharacterSelector.Character')/* Character */}</HeaderText>
-        <TooltipImage type={Hint.character()}/>
+        <HeaderText>{t('CharacterSelector.Character') /* Character */}</HeaderText>
+        <TooltipImage type={Hint.character()} />
       </Flex>
       <Flex gap={optimizerTabDefaultGap}>
         <Form.Item name='characterId'>
@@ -121,8 +131,8 @@ export default function CharacterSelectorDisplay() {
         </Form.Item>
       </Flex>
       <Flex justify='space-between' align='center'>
-        <HeaderText>{t('CharacterSelector.Lightcone')/* Light cone */}</HeaderText>
-        <TooltipImage type={Hint.lightCone()}/>
+        <HeaderText>{t('CharacterSelector.Lightcone') /* Light cone */}</HeaderText>
+        <TooltipImage type={Hint.lightCone()} />
       </Flex>
       <Flex vertical gap={optimizerTabDefaultGap}>
         <Flex gap={optimizerTabDefaultGap}>
@@ -149,13 +159,13 @@ export default function CharacterSelectorDisplay() {
       </Flex>
 
       <Flex justify='space-between' align='center' style={{ marginTop: 30 }}>
-        <HeaderText>{t('CharacterSelector.Presets')/* Presets */}</HeaderText>
+        <HeaderText>{t('CharacterSelector.Presets') /* Presets */}</HeaderText>
       </Flex>
 
-      <RecommendedPresetsButton/>
+      <RecommendedPresetsButton />
 
       <Flex justify='space-between' align='center' style={{ marginTop: 30 }}>
-        <HeaderText>{t('CharacterSelector.Target')/* Optimization target */}</HeaderText>
+        <HeaderText>{t('CharacterSelector.Target') /* Optimization target */}</HeaderText>
       </Flex>
 
       <Form.Item name='resultsLimit'>
@@ -163,7 +173,7 @@ export default function CharacterSelectorDisplay() {
           showSearch
           style={{ width: panelWidth }}
           options={resultLimitOptions}
-          placeholder={t('CharacterSelector.ResultsPlaceholder')}// 'Find top results'
+          placeholder={t('CharacterSelector.ResultsPlaceholder')} // 'Find top results'
           listHeight={800}
         />
       </Form.Item>
@@ -175,7 +185,7 @@ export default function CharacterSelectorDisplay() {
           options={resultSortOptions}
           listHeight={900}
           popupMatchSelectWidth={250}
-          placeholder={t('CharacterSelector.TargetPlaceholder')}// 'Sorted by'
+          placeholder={t('CharacterSelector.TargetPlaceholder')} // 'Sorted by'
           filterOption={Utils.labelFilterOption}
         />
       </Form.Item>

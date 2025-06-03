@@ -2,7 +2,7 @@ Title: Gerador Benchmark
 LeftPanel:
   Header: Benchmark
 MiddlePanel:
-  CharacterHeader: Personagem 
+  CharacterHeader: Personagem
   LCHeader: Cone de Luz
   TeammatesHeader: Membros de equipe
 RightPanel:

@@ -4,7 +4,10 @@ import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 import { LightCone } from 'types/lightCone'
-import { DBMetadataCharacter, DBMetadataLightCone } from 'types/metadata'
+import {
+  DBMetadataCharacter,
+  DBMetadataLightCone,
+} from 'types/metadata'
 
 export function generateCharacterOptions() {
   const t = i18next.getFixedT(null, 'gameData', 'Characters')
@@ -39,5 +42,5 @@ export function generateLightConeOptions(characterId?: CharacterId) {
     .sort(sortAlphabeticEmojiLast('label'))
 }
 
-type LcOptions = Record<LightCone['id'], DBMetadataLightCone & { value: DBMetadataLightCone['id']; label: string }>
-type CharacterOptions = Record<CharacterId, DBMetadataCharacter & { value: DBMetadataCharacter['id']; label: string }>
+type LcOptions = Record<LightCone['id'], DBMetadataLightCone & { value: DBMetadataLightCone['id'], label: string }>
+type CharacterOptions = Record<CharacterId, DBMetadataCharacter & { value: DBMetadataCharacter['id'], label: string }>

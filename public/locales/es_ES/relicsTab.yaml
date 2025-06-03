@@ -157,7 +157,7 @@ Toolbar:
   EditRelic: Editar artefacto
   DeleteRelic:
     ButtonText: Borrar artefacto
-    Warning_one: '¿Borrar el artefacto seleccionado?'
+    Warning_one: "¿Borrar el artefacto seleccionado?"
     Warning_other: "¿Borrar los {{count}} artefactos seleccionados?"
   AddRelic: Añadir nuevo artefacto
 RelicInsights:

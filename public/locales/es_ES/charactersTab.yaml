@@ -36,7 +36,7 @@ Messages:
   UnequipSuccess: Personaje desequipado con éxito
   NoSelectedCharacter: No hay personaje seleccionado
   SwitchSuccess: "Artefactos intercambiados con éxito con $t(gameData:Characters.{{charId}}.Name)"
-  SortByScoreWarning: '¿De verdad quieres ordenar todos los personajes? Perderás cualquier clasificación personalizada.'
+  SortByScoreWarning: "¿De verdad quieres ordenar todos los personajes? Perderás cualquier clasificación personalizada."
   SaveSuccess: "Equipamiento guardado con éxito: {{name}}"
   UnequipWarning: "¿De verdad quieres desequipar a $t(gameData:Characters.{{charId}}.Name)?"
   DeleteWarning: "¿De verdad quieres eliminar a $t(gameData:Characters.{{charId}}.Name)?"
@@ -172,7 +172,7 @@ CharacterPreview:
       Mainstats: 200% Atributos principales perfectos
       Abilities: 200% Daño de habilidad perfecto
   ScoringDetails:
-    Header: '¿Cómo se calcula el Puntaje DPS?'
+    Header: "¿Cómo se calcula el Puntaje DPS?"
   EST-TBP:
     Header: Análisis del Puntaje de atributos
     RollsCard:

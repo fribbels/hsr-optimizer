@@ -8,14 +8,12 @@ export const DAMAGE_SPLITS_CHART_WIDTH = 730
 export const DAMAGE_SPLITS_CHART_HEIGHT = 400
 
 export function DamageSplits(props: {
-  analysis: OptimizerResultAnalysis
+  analysis: OptimizerResultAnalysis,
 }) {
   const splits = props.analysis.newX.dmgSplits
 
   if (!splits) {
-    return (
-      <div/>
-    )
+    return <div />
   }
 
   splits.MEMO_SKILL_DMG = props.analysis.newX.m.dmgSplits.MEMO_SKILL_DMG
@@ -25,7 +23,9 @@ export function DamageSplits(props: {
 
   return (
     <Flex
-      vertical align='center' gap={8}
+      vertical
+      align='center'
+      gap={8}
       style={{
         width: DAMAGE_SPLITS_CHART_WIDTH,
         height: DAMAGE_SPLITS_CHART_HEIGHT,
@@ -35,7 +35,7 @@ export function DamageSplits(props: {
         background: '#243356',
       }}
     >
-      <DamageSplitsChart data={data}/>
+      <DamageSplitsChart data={data} />
     </Flex>
   )
 }

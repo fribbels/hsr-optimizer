@@ -2,10 +2,23 @@ import { DownOutlined } from '@ant-design/icons'
 import { ApplyColumnStateParams } from 'ag-grid-community'
 import { Dropdown } from 'antd'
 import { TFunction } from 'i18next'
-import { Constants, ElementNames, PathNames, Sets, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
+import {
+  Constants,
+  ElementNames,
+  PathNames,
+  Sets,
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
-import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/defaultForm'
-import { NULL_TURN_ABILITY_NAME, WHOLE_BASIC } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  defaultSetConditionals,
+  getDefaultForm,
+} from 'lib/optimization/defaultForm'
+import {
+  NULL_TURN_ABILITY_NAME,
+  WHOLE_BASIC,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
@@ -34,10 +47,10 @@ import { ScoringMetadata } from 'types/metadata'
  * 200.00 (3 actions in first cycle)
  */
 export type PresetDefinition = {
-  name: string
-  set: SetsRelics | SetsOrnaments
-  value: number | boolean
-  index?: number
+  name: string,
+  set: SetsRelics | SetsOrnaments,
+  value: number | boolean,
+  index?: number,
 }
 
 export const PresetEffects = {
@@ -113,10 +126,10 @@ export function setSortColumn(columnId: string) {
 }
 
 export type SpdPresets = Record<string, {
-  key: string
-  label: string | ReactElement
-  value: number | undefined
-  disabled?: boolean
+  key: string,
+  label: string | ReactElement,
+  value: number | undefined,
+  disabled?: boolean,
 }>
 
 export function generateSpdPresets(t: TFunction<'optimizerTab', 'Presets'>) {
@@ -143,7 +156,7 @@ export function generateSpdPresets(t: TFunction<'optimizerTab', 'Presets'>) {
     },
     SPD133: {
       key: 'SPD133',
-      label: t('SpdValues.SPD133')/* 133.334 SPD - 2 actions in first cycle, 6 actions in first four cycles */,
+      label: t('SpdValues.SPD133'), /* 133.334 SPD - 2 actions in first cycle, 6 actions in first four cycles */
       value: 133.334,
     },
     SPD142: {
@@ -189,7 +202,7 @@ export const RecommendedPresetsButton = () => {
   }, [t])
 
   const standardSpdOptions = Object.values(spdPresets)
-  standardSpdOptions.map((x) => x.label = (<div style={{ minWidth: 450 }}>{x.label}</div>))
+  standardSpdOptions.map((x) => x.label = <div style={{ minWidth: 450 }}>{x.label}</div>)
 
   function generateStandardSpdOptions(label: string) {
     return {
@@ -199,24 +212,24 @@ export const RecommendedPresetsButton = () => {
     }
   }
 
-  const items = useMemo(function () {
+  const items = useMemo(function() {
     if (!optimizerTabFocusCharacter) return []
     const character = DB.getMetadata().characters[optimizerTabFocusCharacter]
     if (!character) return []
 
     // "Standard" Placeholder for now until we have customized builds
-    return [generateStandardSpdOptions(t('StandardLabel', { id: character.id }))]// Standard ${CharacterName})
+    return [generateStandardSpdOptions(t('StandardLabel', { id: character.id }))] // Standard ${CharacterName})
   }, [optimizerTabFocusCharacter, t])
 
   const actionsMenuProps = {
     items,
     onClick: (event: {
-      key: string
+      key: string,
     }) => {
       if (spdPresets[event.key]) {
         applySpdPreset(spdPresets[event.key].value!, optimizerTabFocusCharacter)
       } else {
-        Message.warning(t('PresetNotAvailable')/* 'Preset not available, please select another option' */)
+        Message.warning(t('PresetNotAvailable') /* 'Preset not available, please select another option' */)
       }
     },
   }
@@ -227,10 +240,10 @@ export const RecommendedPresetsButton = () => {
       type='primary'
       menu={actionsMenuProps}
       onClick={() => applySpdPreset(spdPresets.SPD0.value!, optimizerTabFocusCharacter)}
-      icon={<DownOutlined/>}
+      icon={<DownOutlined />}
       style={{ flex: 1, width: '100%' }}
     >
-      {t('RecommendedPresets')/* Recommended presets */}
+      {t('RecommendedPresets') /* Recommended presets */}
     </Dropdown.Button>
   )
 }

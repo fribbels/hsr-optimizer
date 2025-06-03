@@ -109,7 +109,7 @@ RelicLocation:
   Title: Ubicación de artefacto
   p1: Cuando se selecciona un artefacto en la grilla, su posición en el inventario dentro del juego se muestra aquí.
   p2: Si los filtros de conjunto / ranura están activados, aplica esos mismos filtros dentro del juego, luego ordena por Fecha de obtención (nuevos primero) para encontrar el artefacto.
-  p3: '⚠️Notas de uso⚠️'
+  p3: "⚠️Notas de uso⚠️"
   p4: Esto sólo es compatible con la importación del Reliquary Archiver.
   p5: Si se borraron u obtuvieron nuevos artefactos desde la última importación, deben ser re-escaneados e importados.
   p6: Selecciona el Ancho de inventario apropiado para obtener ubicaciones precisas. El ancho depende de la pantalla del juego y el ancho del menú.

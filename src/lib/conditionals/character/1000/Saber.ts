@@ -1,12 +1,19 @@
 import i18next from 'i18next'
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (e: Eidolon): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Phainon.Content')
@@ -49,8 +56,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
     e6ResPen: true,
   }
 
-  const teammateDefaults = {
-  }
+  const teammateDefaults = {}
 
   const content: ContentDefinition<typeof defaults> = {
     enhancedBasic: {
@@ -75,7 +81,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
       id: 'coreResonanceCdBuff',
       formItem: 'switch',
       text: 'Core Resonance CD buff',
-      content: i18next.t('BetaMessage', {ns: 'conditionals', Version: CURRENT_DATA_VERSION}),
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     coreResonanceStacks: {
       id: 'coreResonanceStacks',
@@ -127,8 +133,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
     },
   }
 
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
-  }
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {}
 
   return {
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],

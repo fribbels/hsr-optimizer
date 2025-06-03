@@ -1,22 +1,25 @@
-import { theme, ThemeConfig } from 'antd'
+import {
+  theme,
+  ThemeConfig,
+} from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
 
 export type ColorTheme = {
-  colorTextBase: string
-  colorBgBase: string
-  colorPrimary: string
-  colorSecondary: string
-  colorTertiary: string
-  colorBgContainer: string
-  colorBgMenu: string
-  headerBg: string
+  colorTextBase: string,
+  colorBgBase: string,
+  colorPrimary: string,
+  colorSecondary: string,
+  colorTertiary: string,
+  colorBgContainer: string,
+  colorBgMenu: string,
+  headerBg: string,
 }
 
 // Only the fields we care about
 export type ColorThemeOverrides = {
-  colorTextBase: string
-  colorBgBase: string
-  colorPrimary: string
+  colorTextBase: string,
+  colorBgBase: string,
+  colorPrimary: string,
 }
 
 export const Themes: { [key: string]: ColorThemeOverrides } = {

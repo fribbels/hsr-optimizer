@@ -1,29 +1,38 @@
-import { Button, Flex, Form as AntDForm, Modal, Select } from 'antd'
+import {
+  Button,
+  Flex,
+  Form as AntDForm,
+  Modal,
+  Select,
+} from 'antd'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
-import React, { useEffect, useMemo } from 'react'
+import React, {
+  useEffect,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 import { ReactElement } from 'types/components'
 
 export type SwitchRelicsFormSelectedCharacter = {
-  key: string
-  label: ReactElement
-  title: string
-  value: string
+  key: string,
+  label: ReactElement,
+  title: string,
+  value: string,
 }
 
 export type SwitchRelicsForm = {
-  selectedCharacter: SwitchRelicsFormSelectedCharacter
+  selectedCharacter: SwitchRelicsFormSelectedCharacter,
 }
 
 export default function SwitchRelicsModal(props: {
-  onOk: (selectedCharacter: SwitchRelicsFormSelectedCharacter) => void
-  open: boolean
-  setOpen: (value: boolean) => void
-  currentCharacter: Character
+  onOk: (selectedCharacter: SwitchRelicsFormSelectedCharacter) => void,
+  open: boolean,
+  setOpen: (value: boolean) => void,
+  currentCharacter: Character,
 }) {
   const { onOk, open, setOpen, currentCharacter } = props
   const [characterForm] = AntDForm.useForm()
@@ -32,13 +41,14 @@ export default function SwitchRelicsModal(props: {
   const { t } = useTranslation('modals', { keyPrefix: 'SwitchRelics' })
   const { t: tCommon } = useTranslation('common')
 
-  const characterOptions = useMemo(() => generateCharacterList({
-    currentCharacters: characters,
-    excludeCharacters: [currentCharacter],
-    withNobodyOption: false,
-    longNameLabel: true,
-    longNameTitle: true,
-  }), [characters, currentCharacter, t])
+  const characterOptions = useMemo(() =>
+    generateCharacterList({
+      currentCharacters: characters,
+      excludeCharacters: [currentCharacter],
+      withNobodyOption: false,
+      longNameLabel: true,
+      longNameTitle: true,
+    }), [characters, currentCharacter, t])
 
   useEffect(() => {
     if (!open) return
@@ -71,10 +81,10 @@ export default function SwitchRelicsModal(props: {
       onCancel={handleCancel}
       footer={[
         <Button key='back' onClick={handleCancel}>
-          {tCommon('Cancel')/* Cancel */}
+          {tCommon('Cancel') /* Cancel */}
         </Button>,
         <Button key='submit' type='primary' onClick={onModalOk}>
-          {tCommon('Save')/* Save */}
+          {tCommon('Save') /* Save */}
         </Button>,
       ]}
     >
@@ -84,7 +94,7 @@ export default function SwitchRelicsModal(props: {
         layout='vertical'
       >
         <Flex justify='space-between' align='center'>
-          <HeaderText>{t('Title')/* Switch relics with character */}</HeaderText>
+          <HeaderText>{t('Title') /* Switch relics with character */}</HeaderText>
         </Flex>
 
         <Flex vertical gap={defaultGap}>

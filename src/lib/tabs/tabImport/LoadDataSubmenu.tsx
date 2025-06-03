@@ -1,8 +1,20 @@
-import { ImportOutlined, UploadOutlined } from '@ant-design/icons'
-import { Button, Flex, Steps, Typography, Upload } from 'antd'
+import {
+  ImportOutlined,
+  UploadOutlined,
+} from '@ant-design/icons'
+import {
+  Button,
+  Flex,
+  Steps,
+  Typography,
+  Upload,
+} from 'antd'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { importerTabButtonWidth, importerTabSpinnerMs } from 'lib/tabs/tabImport/importerTabUiConstants'
+import {
+  importerTabButtonWidth,
+  importerTabSpinnerMs,
+} from 'lib/tabs/tabImport/importerTabUiConstants'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { HsrOptimizerSaveFormat } from 'types/store'
@@ -74,7 +86,7 @@ export function LoadDataSubmenu() {
       <Flex style={{ minHeight: 100 }}>
         <Flex vertical gap={10}>
           <Text>
-            {t('Stage1.Label')/* Load your optimizer data from a file. */}
+            {t('Stage1.Label') /* Load your optimizer data from a file. */}
           </Text>
           <Upload
             accept='.json'
@@ -83,11 +95,11 @@ export function LoadDataSubmenu() {
           >
             <Button
               style={{ width: importerTabButtonWidth }}
-              icon={<UploadOutlined/>}
+              icon={<UploadOutlined />}
               loading={loading1}
               onClick={() => setCurrentStage(Stages.LOAD_FILE)}
             >
-              {t('Stage1.ButtonText')/* Load save data */}
+              {t('Stage1.ButtonText') /* Load save data */}
             </Button>
           </Upload>
         </Flex>
@@ -117,8 +129,8 @@ export function LoadDataSubmenu() {
               t('Stage2.Label', { relicCount: currentSave.relics.length, characterCount: currentSave.characters.length })
             }
           </Text>
-          <Button style={{ width: importerTabButtonWidth }} icon={<ImportOutlined/>} type='primary' onClick={loadConfirmed} loading={loading2}>
-            {t('Stage2.ButtonText')/* Use uploaded data */}
+          <Button style={{ width: importerTabButtonWidth }} icon={<ImportOutlined />} type='primary' onClick={loadConfirmed} loading={loading2}>
+            {t('Stage2.ButtonText') /* Use uploaded data */}
           </Button>
         </Flex>
       </Flex>
@@ -130,7 +142,7 @@ export function LoadDataSubmenu() {
       <Flex style={{ minHeight: 100 }}>
         <Flex vertical gap={10} style={{ display: currentStage >= Stages.FINISHED ? 'flex' : 'none' }}>
           <Text>
-            {t('Stage3.SuccessMessage')/* Done! */}
+            {t('Stage3.SuccessMessage') /* Done! */}
           </Text>
         </Flex>
       </Flex>

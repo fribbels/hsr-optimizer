@@ -1,4 +1,7 @@
-import { expect, test as setup } from '@playwright/test'
+import {
+  expect,
+  test as setup,
+} from '@playwright/test'
 import { STORAGE_STATE } from './playwright.config'
 
 setup('HSR Optimizer loading test data', async ({ page }) => {

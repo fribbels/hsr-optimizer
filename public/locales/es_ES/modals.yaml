@@ -2,13 +2,13 @@ Scoring:
   StatWeightsHeader: Importancias de atributo
   MainstatsHeader: Atributos principales óptimos
   WeightMethodology:
-    Header: '¿Cómo se calcula el Puntaje de atributo?'
+    Header: "¿Cómo se calcula el Puntaje de atributo?"
   Footer:
     Reset: Restablecer a por defecto
     ResetAll: Restablecer todos los personajes
     Save: Guardar cambios
   ResetAllConfirm:
-    Title: '¿Restablecer el algoritmo de puntuación para todos los personajes?'
+    Title: "¿Restablecer el algoritmo de puntuación para todos los personajes?"
     Description: Perderás cualquier cambio en los ajustes de puntuación que hayas hecho en los personajes.
 0Perms:
   Title: La búsqueda generó 0 permutaciones
@@ -268,7 +268,7 @@ Relic:
   SpdInputWarning: Nota - La VEL dentro del juego contiene decimales ocultos por lo que será imprecisa si se ingresa manualmente. Para valores de VEL precisos, usa la pestaña Exhibidor o el importador Reliquary Archiver.
   Upgrades: Mejoras de atr. secundario
   Messages:
-    SubmitFail: '¡Falló la carga!'
+    SubmitFail: "¡Falló la carga!"
     EditSuccess: Artefacto editado con éxito
     Error:
       PartMissing: Falta el campo de ranura
@@ -327,7 +327,7 @@ Builds:
     Content: Equipar esto desequipará a los personajes que usen los artefactos en este equipamiento
     SuccessMessage: "Equipamiento cargado con éxito: {{buildName}}"
   ConfirmDelete:
-    DeleteAll: '¿Deseas borrar todos los equipamientos?'
+    DeleteAll: "¿Deseas borrar todos los equipamientos?"
     DeleteSingle: "¿Deseas borrar {{name}}?"
     SuccessMessageAll: "Borrados con éxito todos los equipamientos para {{characterName}}"
     SuccessMessageSingle: "Borrado con éxito el equipamiento: {{name}}"

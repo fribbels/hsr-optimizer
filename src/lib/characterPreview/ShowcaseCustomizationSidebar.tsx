@@ -1,15 +1,8 @@
-import {
-  CameraOutlined,
-  CheckOutlined,
-  CloseOutlined,
-  DownloadOutlined,
-  MoonOutlined,
-  SettingOutlined,
-  SunOutlined
-} from '@ant-design/icons'
+import { CameraOutlined, CheckOutlined, CloseOutlined, DownloadOutlined, MoonOutlined, SettingOutlined, SunOutlined } from '@ant-design/icons'
 import { Button, ColorPicker, Flex, InputNumber, Segmented, Select } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
+import i18next from 'i18next'
 import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences } from 'lib/characterPreview/showcaseCustomizationController'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
 import { ShowcaseColorMode, Stats } from 'lib/constants/constants'
@@ -19,9 +12,10 @@ import { Assets } from 'lib/rendering/assets'
 
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import { ScoringType, SimulationScore } from 'lib/scoring/simScoringUtils'
-import DB from 'lib/state/db'
+import DB, { AppPages } from 'lib/state/db'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { modifyCustomColor, organizeColors, selectClosestColor } from 'lib/utils/colorUtils'
@@ -522,7 +516,7 @@ function SelectSpdPresets(props: {
 function clipboardClicked(elementId: string, action: string, setLoading: (b: boolean) => void, _color: string) {
   setLoading(true)
   setTimeout(() => {
-    Utils.screenshotElementById(elementId, action).finally(() => {
+    Utils.screenshotElementById(elementId, action, getActiveCharacterName()).finally(() => {
       setLoading(false)
     })
   }, 100)
@@ -568,6 +562,23 @@ export function getOverrideColorMode(
   }
 
   return savedColorMode
+}
+
+function getActiveCharacterName() {
+  const t = i18next.getFixedT(null, 'gameData', 'Characters')
+  let charId: CharacterId | null | undefined
+  switch (window.store.getState().activeKey) {
+    case AppPages.CHARACTERS:
+      charId = window.store.getState().characterTabFocusCharacter
+      break
+    case AppPages.SHOWCASE:
+      charId = useShowcaseTabStore.getState().selectedCharacter?.id
+      break
+    default:
+      return
+  }
+  if (!charId) return
+  return t(`${charId}.LongName`)
 }
 
 export function getDefaultColor(characterId: CharacterId, portraitUrl: string, colorMode: ShowcaseColorMode) {

@@ -541,7 +541,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: 'Mejora de DC por golpe a ≥ 2 enemigos con misma debilidad'
+        text: "Mejora de DC por golpe a ≥ 2 enemigos con misma debilidad"
         content: Cuando el portador lanza un ataque y golpea como mínimo a 2 enemigos que tengan su tipo de Debilidad, el Daño CRIT del portador aumenta en un {{CritBuff}}% durante 2 turnos.
   TheGreatCosmicEnterprise:
     Content:

@@ -96,6 +96,7 @@ Sidebar:
     Header: Управление
   ResultsGroup:
     Header: Результаты
+    EquipSuccessMessage: Экипировано
 TracesDrawer:
   Title: Настройка следов персонажа
   Header: Активные следы (по умолчанию включены все)
@@ -153,7 +154,7 @@ MinMaxFilters:
   SHIELDLabel: Щит
 ComboFilter:
   ComboOptions:
-    None: 'Нет'
+    None: "Нет"
     Basic: БазАтака
     Skill: Навык
     Ult: Ульта

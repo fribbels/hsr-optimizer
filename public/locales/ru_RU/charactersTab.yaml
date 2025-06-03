@@ -35,11 +35,11 @@ Messages:
   RemoveSuccess: Персонаж успешно удален
   UnequipSuccess: Реликвии персонажа успешно сняты
   NoSelectedCharacter: Нет выбранного персонажа
-  SwitchSuccess: "Успешная смена реликвий с $t(gameData:Characters.{{charId}}.Name)"
+  SwitchSuccess: 'Успешная смена реликвий с $t(gameData:Characters.{{charId}}.Name)'
   SortByScoreWarning: Вы уверены, что хотите отсортировать персонажей?
-  SaveSuccess: "Сборка {{name}} успешно сохранена"
-  UnequipWarning: "Вы уверены, что хотите снять реликвии с $t(gameData:Characters.{{charId}}.Name)?"
-  DeleteWarning: "Вы уверены, что хотите удалить $t(gameData:Characters.{{charId}}.Name)?"
+  SaveSuccess: 'Сборка {{name}} успешно сохранена'
+  UnequipWarning: 'Вы уверены, что хотите снять реликвии с $t(gameData:Characters.{{charId}}.Name)?'
+  DeleteWarning: 'Вы уверены, что хотите удалить $t(gameData:Characters.{{charId}}.Name)?'
 CharacterPreview:
   ScoringSidebar:
     Stats:
@@ -47,8 +47,8 @@ CharacterPreview:
       ButtonText: Следы
     SpdPrecision:
       Header: Точность СКР
-      Low: ".0"
-      High: ".000"
+      Low: '.0'
+      High: '.000'
     SpdWeight:
       Header: Приоритет СКР
       Max: 100%
@@ -71,10 +71,10 @@ CharacterPreview:
       Standard: Стандартный
     PaletteLabel: Портретная цветовая палитра
     ShowUID: Показать UID
-  ArtBy: "Арт от {{artistName}}"
+  ArtBy: 'Арт от {{artistName}}'
   EditCharacter: Настройка персонажа
   EditPortrait: Изменить картинку персонажа
-  CharacterScore: "Оценка персонажа: {{score}} {{grade}}"
+  CharacterScore: 'Оценка персонажа: {{score}} {{grade}}'
   Messages:
     AddedRelic: Реликвия успешно добавлена
     SavedPortrait: Картинка успешно сохранён
@@ -83,10 +83,10 @@ CharacterPreview:
     NoSelectedLightCone: Конус не выбран
   ScoreHeader:
     Title: Эффективность сборки
-    TitleBenchmark: "Эталонная СКР {{spd}}"
-    Score: "Оценка урона {{score}}% {{grade}}"
+    TitleBenchmark: 'Эталонная СКР {{spd}}'
+    Score: 'Оценка урона {{score}}% {{grade}}'
   AlgorithmSlider:
-    Title: "Способ оценки:"
+    Title: 'Способ оценки:'
     Labels:
       CombatScore: В бою
       CombatScoreTBD: В бою (недоступно)
@@ -100,7 +100,7 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: Сравнение статов для повышения урона
     MainStatHeader: Сравнение главных статов реликвий
-    AddedRoll: "+1x прок {{stat}}"
+    AddedRoll: '+1x прок {{stat}}'
     MainStatUpgrade: Смена главного стата
     SubStatUpgrade: Стат для улучшения
     DpsScorePercentUpgrade: Δ оценки урона %
@@ -126,16 +126,16 @@ CharacterPreview:
       FUA: Бонусная атака
       MEMO_SKILL: Навыкᴹ
       MEMO_TALENT: Талантᴹ
-      DOTS: "Доты"
-      BREAKS: "Урон пробитием"
+      DOTS: 'Доты'
+      BREAKS: 'Урон пробитием'
     CombatResults:
       Header: Значения урона в бою
-      Primary: "Основная способность:"
-      Character: "Урон в текущей сборке:"
-      Benchmark: "Урон сборки 100%:"
-      Baseline: "Урон сборки 0%:"
-      Maximum: "Урон сборки 200%:"
-      Score: "Оценка урона %:"
+      Primary: 'Основная способность:'
+      Character: 'Урон в текущей сборке:'
+      Benchmark: 'Урон сборки 100%:'
+      Baseline: 'Урон сборки 0%:'
+      Maximum: 'Урон сборки 200%:'
+      Score: 'Оценка урона %:'
       Abilities:
         BASIC: БАЗОВЫЙ УРОН
         SKILL: Навык
@@ -151,21 +151,21 @@ CharacterPreview:
       SubDpsHeader: Баффы в бою (Доп DPS)
   ScoringColumn:
     Character:
-      Header: "Текущая сборка ({{score}}%)"
+      Header: 'Текущая сборка ({{score}}%)'
       BasicStats: Cтаты персонажа
       CombatStats: Статы <1>с командой в бою</1>
       Substats: Распределение статов в сборке
       Mainstats: Основные статы реликвий
       Abilities: Урон способностей персонажа
     Benchmark:
-      Header: "Тестовая сборка ({{score}}%)"
+      Header: 'Тестовая сборка ({{score}}%)'
       BasicStats: Тестовые статы персонажа (100%)
       CombatStats: Тестовые статы (100%) <1>с командой в бою</1>
       Substats: Распределение статов в сборке 100%
       Mainstats: Основные статы реликвий в сборке 100%
       Abilities: Урон способностей в сборке 100%
     Perfect:
-      Header: "Идеальная сборка ({{score}}%)"
+      Header: 'Идеальная сборка ({{score}}%)'
       BasicStats: Тестовые статы персонажа (200%)
       CombatStats: Тестовые статы (200%) <1>с командой в бою</1>
       Substats: Распределение статов в идеальной сборке 200%

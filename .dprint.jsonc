@@ -70,6 +70,7 @@
   "markdown": {
   },
   "yaml": {
+    "quotes": "preferSingle",
   },
   "excludes": [
     "**/node_modules",

@@ -126,4 +126,3 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     gpuFinalizeCalculations: () => '',
   }
 }
-

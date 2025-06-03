@@ -35,11 +35,11 @@ Messages:
   RemoveSuccess: Personnage supprimé avec succès
   UnequipSuccess: Personnage déséquipé avec succès
   NoSelectedCharacter: Aucun personnage sélectionné
-  SwitchSuccess: "Échange de reliques avec $t(gameData:Characters.{{charId}}.Name) réussi"
+  SwitchSuccess: 'Échange de reliques avec $t(gameData:Characters.{{charId}}.Name) réussi'
   SortByScoreWarning: Êtes-vous sûr de vouloir trier tous les personnages ? Vous perdrez tous les classements personnalisés que vous avez définis.
-  SaveSuccess: "Arsenal {{name}} enregistré avec succès"
-  UnequipWarning: "Êtes-vous sûr de vouloir déséquiper $t(gameData:Characters.{{charId}}.Name)?"
-  DeleteWarning: "Êtes-vous sûr de vouloir supprimer $t(gameData:Characters.{{charId}}.Name)?"
+  SaveSuccess: 'Arsenal {{name}} enregistré avec succès'
+  UnequipWarning: 'Êtes-vous sûr de vouloir déséquiper $t(gameData:Characters.{{charId}}.Name)?'
+  DeleteWarning: 'Êtes-vous sûr de vouloir supprimer $t(gameData:Characters.{{charId}}.Name)?'
 CharacterPreview:
   ScoringSidebar:
     Stats:
@@ -47,8 +47,8 @@ CharacterPreview:
       ButtonText: Traces
     SpdPrecision:
       Header: Précision VIT
-      Low: ",0"
-      High: ",000"
+      Low: ',0'
+      High: ',000'
     SpdWeight:
       Header: Poids de VIT
       Max: 100%
@@ -71,10 +71,10 @@ CharacterPreview:
       Standard: Standard
     PaletteLabel: Palette de couleurs de portrait
     ShowUID: Afficher l'UID
-  ArtBy: "Art réalisé par {{artistName}}"
+  ArtBy: 'Art réalisé par {{artistName}}'
   EditCharacter: Modifier le personnage
   EditPortrait: Modifier le portrait
-  CharacterScore: "Note de Pers.: {{score}} {{grade}}"
+  CharacterScore: 'Note de Pers.: {{score}} {{grade}}'
   Messages:
     AddedRelic: Relique ajoutée avec succès
     SavedPortrait: Portrait enregistré avec succès
@@ -83,8 +83,8 @@ CharacterPreview:
     NoSelectedLightCone: Aucun cône de lumière sélectionné
   ScoreHeader:
     Title: Sim de combat
-    TitleBenchmark: "Référence à {{spd}} VIT"
-    Score: "Note DPS {{score}}% {{grade}}"
+    TitleBenchmark: 'Référence à {{spd}} VIT'
+    Score: 'Note DPS {{score}}% {{grade}}'
   AlgorithmSlider:
     Title: "Mode d'évaluation:"
     Labels:
@@ -100,7 +100,7 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: Comparaisons d'améliorations de substats
     MainStatHeader: Comparaisons d'améliorations de mainstat
-    AddedRoll: "+1x roll {{stat}}"
+    AddedRoll: '+1x roll {{stat}}'
     MainStatUpgrade: Améliorations de mainstat
     SubStatUpgrade: Améliorations de substats
     DpsScorePercentUpgrade: Note DPS ∆ %
@@ -126,16 +126,16 @@ CharacterPreview:
       FUA: ADS
       MEMO_SKILL: COMPᴹ
       MEMO_TALENT: Talentᴹ
-      DOTS: "DSD:"
-      BREAKS: "RUPTURES:"
+      DOTS: 'DSD:'
+      BREAKS: 'RUPTURES:'
     CombatResults:
       Header: Résultats des dégâts de combat
-      Primary: "Capacité principale:"
-      Character: "DGT du personnage:"
-      Benchmark: "DGT de référence:"
-      Baseline: "DGT de ligne de base:"
-      Maximum: "DGT maximum:"
-      Score: "Note DPS %:"
+      Primary: 'Capacité principale:'
+      Character: 'DGT du personnage:'
+      Benchmark: 'DGT de référence:'
+      Baseline: 'DGT de ligne de base:'
+      Maximum: 'DGT maximum:'
+      Score: 'Note DPS %:'
       Abilities:
         BASIC: NORMALE
         SKILL: COMPÉTENCE
@@ -151,21 +151,21 @@ CharacterPreview:
       SubDpsHeader: Buffs de Combat (sous-DPS)
   ScoringColumn:
     Character:
-      Header: "Build personnage ({{score}}%)"
+      Header: 'Build personnage ({{score}}%)'
       BasicStats: Stats basiques du personnage
       CombatStats: <1>stats de combat</1> du personnage
       Substats: Substats du personnage (rolls min)
       Mainstats: Mainstats du personnage
       Abilities: Dégâts des capacités du personnage
     Benchmark:
-      Header: "Build référence ({{score}}%)"
+      Header: 'Build référence ({{score}}%)'
       BasicStats: Stats basiques de référence
       CombatStats: <1>stats de combat</1> de référence
       Substats: Substats de référence 100% (rolls min)
       Mainstats: Mainstats de référence
       Abilities: Dégâts de capacités de référence
     Perfect:
-      Header: "Build parfaite ({{score}}%)"
+      Header: 'Build parfaite ({{score}}%)'
       BasicStats: Stats basiques parfaites
       CombatStats: <1>stats de combat</1> parfaites
       Substats: Substats parfaites 200% (rolls max)

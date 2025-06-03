@@ -35,11 +35,11 @@ Messages:
   RemoveSuccess: crwdns39640:0crwdne39640:0
   UnequipSuccess: crwdns39642:0crwdne39642:0
   NoSelectedCharacter: crwdns39644:0crwdne39644:0
-  SwitchSuccess: "crwdns39646:0$t(gameData:Characters.{{charId}}.Name)crwdne39646:0"
+  SwitchSuccess: 'crwdns39646:0$t(gameData:Characters.{{charId}}.Name)crwdne39646:0'
   SortByScoreWarning: crwdns39648:0crwdne39648:0
-  SaveSuccess: "crwdns39650:0{{name}}crwdne39650:0"
-  UnequipWarning: "crwdns39652:0$t(gameData:Characters.{{charId}}.Name)crwdne39652:0"
-  DeleteWarning: "crwdns39654:0$t(gameData:Characters.{{charId}}.Name)crwdne39654:0"
+  SaveSuccess: 'crwdns39650:0{{name}}crwdne39650:0'
+  UnequipWarning: 'crwdns39652:0$t(gameData:Characters.{{charId}}.Name)crwdne39652:0'
+  DeleteWarning: 'crwdns39654:0$t(gameData:Characters.{{charId}}.Name)crwdne39654:0'
 CharacterPreview:
   ScoringSidebar:
     Stats:
@@ -47,8 +47,8 @@ CharacterPreview:
       ButtonText: crwdns44472:0crwdne44472:0
     SpdPrecision:
       Header: crwdns44474:0crwdne44474:0
-      Low: "crwdns44476:0crwdne44476:0"
-      High: "crwdns44478:0crwdne44478:0"
+      Low: 'crwdns44476:0crwdne44476:0'
+      High: 'crwdns44478:0crwdne44478:0'
     SpdWeight:
       Header: crwdns44568:0crwdne44568:0
       Max: crwdns44482:0crwdne44482:0
@@ -71,10 +71,10 @@ CharacterPreview:
       Standard: crwdns39662:0crwdne39662:0
     PaletteLabel: crwdns39664:0crwdne39664:0
     ShowUID: crwdns44572:0crwdne44572:0
-  ArtBy: "crwdns39666:0{{artistName}}crwdne39666:0"
+  ArtBy: 'crwdns39666:0{{artistName}}crwdne39666:0'
   EditCharacter: crwdns39668:0crwdne39668:0
   EditPortrait: crwdns39670:0crwdne39670:0
-  CharacterScore: "crwdns39672:0{{score}}crwdnd39672:0{{grade}}crwdne39672:0"
+  CharacterScore: 'crwdns39672:0{{score}}crwdnd39672:0{{grade}}crwdne39672:0'
   Messages:
     AddedRelic: crwdns39674:0crwdne39674:0
     SavedPortrait: crwdns39676:0crwdne39676:0
@@ -83,10 +83,10 @@ CharacterPreview:
     NoSelectedLightCone: crwdns45205:0crwdne45205:0
   ScoreHeader:
     Title: crwdns39682:0crwdne39682:0
-    TitleBenchmark: "crwdns44466:0{{spd}}crwdne44466:0"
-    Score: "crwdns39684:0{{score}}crwdnd39684:0{{grade}}crwdne39684:0"
+    TitleBenchmark: 'crwdns44466:0{{spd}}crwdne44466:0'
+    Score: 'crwdns39684:0{{score}}crwdnd39684:0{{grade}}crwdne39684:0'
   AlgorithmSlider:
-    Title: "crwdns39686:0crwdne39686:0"
+    Title: 'crwdns39686:0crwdne39686:0'
     Labels:
       CombatScore: crwdns39688:0crwdne39688:0
       CombatScoreTBD: crwdns43670:0crwdne43670:0
@@ -100,7 +100,7 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: crwdns39702:0crwdne39702:0
     MainStatHeader: crwdns44824:0crwdne44824:0
-    AddedRoll: "crwdns44889:0{{stat}}crwdne44889:0"
+    AddedRoll: 'crwdns44889:0{{stat}}crwdne44889:0'
     MainStatUpgrade: crwdns44826:0crwdne44826:0
     SubStatUpgrade: crwdns44828:0crwdne44828:0
     DpsScorePercentUpgrade: crwdns44830:0crwdne44830:0
@@ -125,16 +125,16 @@ CharacterPreview:
       FUA: crwdns39722:0crwdne39722:0
       MEMO_SKILL: crwdns39724:0crwdne39724:0
       MEMO_TALENT: crwdns44748:0crwdne44748:0
-      DOTS: "crwdns39726:0crwdne39726:0"
-      BREAKS: "crwdns39728:0crwdne39728:0"
+      DOTS: 'crwdns39726:0crwdne39726:0'
+      BREAKS: 'crwdns39728:0crwdne39728:0'
     CombatResults:
       Header: crwdns39730:0crwdne39730:0
-      Primary: "crwdns39732:0crwdne39732:0"
-      Character: "crwdns39734:0crwdne39734:0"
-      Benchmark: "crwdns39736:0crwdne39736:0"
-      Baseline: "crwdns39738:0crwdne39738:0"
-      Maximum: "crwdns39740:0crwdne39740:0"
-      Score: "crwdns39742:0crwdne39742:0"
+      Primary: 'crwdns39732:0crwdne39732:0'
+      Character: 'crwdns39734:0crwdne39734:0'
+      Benchmark: 'crwdns39736:0crwdne39736:0'
+      Baseline: 'crwdns39738:0crwdne39738:0'
+      Maximum: 'crwdns39740:0crwdne39740:0'
+      Score: 'crwdns39742:0crwdne39742:0'
       Abilities:
         BASIC: crwdns39744:0crwdne39744:0
         SKILL: crwdns39746:0crwdne39746:0
@@ -150,21 +150,21 @@ CharacterPreview:
       SubDpsHeader: crwdns44885:0crwdne44885:0
   ScoringColumn:
     Character:
-      Header: "crwdns39758:0{{score}}crwdne39758:0"
+      Header: 'crwdns39758:0{{score}}crwdne39758:0'
       BasicStats: crwdns39760:0crwdne39760:0
       CombatStats: crwdns39762:0crwdne39762:0
       Substats: crwdns39764:0crwdne39764:0
       Mainstats: crwdns39766:0crwdne39766:0
       Abilities: crwdns39768:0crwdne39768:0
     Benchmark:
-      Header: "crwdns39770:0{{score}}crwdne39770:0"
+      Header: 'crwdns39770:0{{score}}crwdne39770:0'
       BasicStats: crwdns39772:0crwdne39772:0
       CombatStats: crwdns39774:0crwdne39774:0
       Substats: crwdns39776:0crwdne39776:0
       Mainstats: crwdns39778:0crwdne39778:0
       Abilities: crwdns39780:0crwdne39780:0
     Perfect:
-      Header: "crwdns39782:0{{score}}crwdne39782:0"
+      Header: 'crwdns39782:0{{score}}crwdne39782:0'
       BasicStats: crwdns39784:0crwdne39784:0
       CombatStats: crwdns39786:0crwdne39786:0
       Substats: crwdns39788:0crwdne39788:0

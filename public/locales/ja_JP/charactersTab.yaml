@@ -35,11 +35,11 @@ Messages:
   RemoveSuccess: キャラクターを削除しました
   UnequipSuccess: キャラクターの遺物を外しました
   NoSelectedCharacter: キャラクターを選択してください
-  SwitchSuccess: "$t(gameData:Characters.{{charId}}.Name) と遺物を交換しました"
+  SwitchSuccess: '$t(gameData:Characters.{{charId}}.Name) と遺物を交換しました'
   SortByScoreWarning: 本当にすべてのキャラクターを並び替えますか？以前の設定内容はすべて失われます。
-  SaveSuccess: "ビルドを保存しました: {{name}}"
-  UnequipWarning: "本当に$t(gameData:Characters.{{charId}}.Name)の遺物を全て外しますか？"
-  DeleteWarning: "本当に$t(gameData:Characters.{{charId}}.Name)を削除しますか？"
+  SaveSuccess: 'ビルドを保存しました: {{name}}'
+  UnequipWarning: '本当に$t(gameData:Characters.{{charId}}.Name)の遺物を全て外しますか？'
+  DeleteWarning: '本当に$t(gameData:Characters.{{charId}}.Name)を削除しますか？'
 CharacterPreview:
   ScoringSidebar:
     Stats:
@@ -47,8 +47,8 @@ CharacterPreview:
       ButtonText: 軌跡
     SpdPrecision:
       Header: 速度の精度
-      Low: ".0"
-      High: ".000"
+      Low: '.0'
+      High: '.000'
     SpdWeight:
       Header: 速度の重み
       Max: 100%
@@ -71,7 +71,7 @@ CharacterPreview:
       Standard: スタンダード
     PaletteLabel: カラーパレット
     ShowUID: UID を表示
-  ArtBy: "出典 {{artistName}}"
+  ArtBy: '出典 {{artistName}}'
   EditCharacter: キャラクターを編集
   EditPortrait: 画像を変更
   CharacterScore: "キャラクタースコア\n {{score}} {{grade}}"
@@ -83,10 +83,10 @@ CharacterPreview:
     NoSelectedLightCone: 光円錐が選択されていません
   ScoreHeader:
     Title: 戦闘シミュレーション
-    TitleBenchmark: "{{spd}} 基準速度"
-    Score: "DPSスコア {{score}}% {{grade}}"
+    TitleBenchmark: '{{spd}} 基準速度'
+    Score: 'DPSスコア {{score}}% {{grade}}'
   AlgorithmSlider:
-    Title: "スコア計算方法"
+    Title: 'スコア計算方法'
     Labels:
       CombatScore: 戦闘スコア
       CombatScoreTBD: 戦闘 (TBD)
@@ -100,7 +100,7 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: サブステータス強化比較
     MainStatHeader: メインステータス強化比較
-    AddedRoll: "+1x サブ {{stat}}"
+    AddedRoll: '+1x サブ {{stat}}'
     MainStatUpgrade: メインステータス強化
     SubStatUpgrade: サブステータス強化
     DpsScorePercentUpgrade: DPS スコア変化率
@@ -125,16 +125,16 @@ CharacterPreview:
       FUA: 追加攻撃
       MEMO_SKILL: 精霊スキル
       MEMO_TALENT: 精霊天賦
-      DOTS: "持続 "
-      BREAKS: "撃破 "
+      DOTS: '持続 '
+      BREAKS: '撃破 '
     CombatResults:
       Header: 結果
-      Primary: "主に使うアビリティ"
-      Character: "現在の与ダメージ"
-      Benchmark: "基準となる与ダメージ"
-      Baseline: "素の与ダメージ"
-      Maximum: "完璧な与ダメージ"
-      Score: "スコア比率%"
+      Primary: '主に使うアビリティ'
+      Character: '現在の与ダメージ'
+      Benchmark: '基準となる与ダメージ'
+      Baseline: '素の与ダメージ'
+      Maximum: '完璧な与ダメージ'
+      Score: 'スコア比率%'
       Abilities:
         BASIC: 通常攻撃
         SKILL: 戦闘スキル
@@ -150,21 +150,21 @@ CharacterPreview:
       SubDpsHeader: 戦闘バフ（サブ DPS）
   ScoringColumn:
     Character:
-      Header: "選択キャラのビルド（{{score}}％）"
+      Header: '選択キャラのビルド（{{score}}％）'
       BasicStats: 非戦闘ステータス（選択キャラ）
       CombatStats: <1>戦闘</1>ステータス（選択キャラ）
       Substats: サブステータス（最小数）（選択キャラ）
       Mainstats: メインステータス（選択キャラ）
       Abilities: 与ダメージ（選択キャラ）
     Benchmark:
-      Header: "基準ビルド（{{score}}%）"
+      Header: '基準ビルド（{{score}}%）'
       BasicStats: 非戦闘ステータス（基準ビルド）
       CombatStats: <1>戦闘</1>ステータス（基準ビルド）
       Substats: サブステータス（最小数）（基準ビルド）
       Mainstats: メインステータス（基準ビルド）
       Abilities: 与ダメージ（基準ビルド）
     Perfect:
-      Header: "完璧ビルド（{{score}}%）"
+      Header: '完璧ビルド（{{score}}%）'
       BasicStats: 非戦闘ステータス（完璧ビルド）
       CombatStats: <1>戦闘</1>ステータス（完璧ビルド）
       Substats: サブステータス（最大数）（完璧ビルド）

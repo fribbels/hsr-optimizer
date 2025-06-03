@@ -1,5 +1,5 @@
 Messages:
-  ThrottleWarning: "Xin hãy đợi {{seconds}} giây trước khi thử lại"
+  ThrottleWarning: 'Xin hãy đợi {{seconds}} giây trước khi thử lại'
   InvalidIdWarning: ID không hợp lệ
   IdLoadError: Lỗi ID
   SuccessMsg: Tải profile thành công
@@ -8,8 +8,8 @@ Messages:
   CharacterAlreadyExists: Nhân vật được chọn đã tồn tại
   UnknownButtonClicked: Nút được nhấn không xác định.
 Header:
-  DowntimeWarning: "Chấm điểm di vật đang bảo trì cho phiên bản {{game_version}}, hãy thử lại sau"
-  WithVersion: "Hãy nhập UID của tài khoản để chấm điểm các nhân vật trên hồ sơ nhân vật ở level 80 với vết tích cấp tối đa. Đăng xuất trong game để tải lại hồ sơ. (Hiện tại phiên bản {{beta_version}})"
+  DowntimeWarning: 'Chấm điểm di vật đang bảo trì cho phiên bản {{game_version}}, hãy thử lại sau'
+  WithVersion: 'Hãy nhập UID của tài khoản để chấm điểm các nhân vật trên hồ sơ nhân vật ở level 80 với vết tích cấp tối đa. Đăng xuất trong game để tải lại hồ sơ. (Hiện tại phiên bản {{beta_version}})'
   WithoutVersion: Hãy nhập UID của tài khoản để chấm điểm các nhân vật trên hồ sơ nhân vật ở level 80 với vết tích cấp tối đa. Đăng xuất trong game để tải lại hồ sơ.
 SubmissionBar:
   Placeholder: UID Tài Khoản

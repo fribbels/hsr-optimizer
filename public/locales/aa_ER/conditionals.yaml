@@ -1,26 +1,26 @@
-BetaMessage: "crwdns40136:0{{Version}}crwdne40136:0"
+BetaMessage: 'crwdns40136:0{{Version}}crwdne40136:0'
 Common:
   BuffPriority:
-    Text: "crwdns43690:0crwdne43690:0"
-    Content: "crwdns43692:0crwdne43692:0"
-    Self: "crwdns43694:0crwdne43694:0"
-    Memo: "crwdns43696:0crwdne43696:0"
+    Text: 'crwdns43690:0crwdne43690:0'
+    Content: 'crwdns43692:0crwdne43692:0'
+    Self: 'crwdns43694:0crwdne43694:0'
+    Memo: 'crwdns43696:0crwdne43696:0'
   HealAbility:
-    Text: "crwdns40138:0crwdne40138:0"
-    Content: "crwdns40140:0crwdne40140:0"
-    Basic: "crwdns40142:0crwdne40142:0"
-    Skill: "crwdns40144:0crwdne40144:0"
-    Ult: "crwdns40146:0crwdne40146:0"
-    Talent: "crwdns40148:0crwdne40148:0"
-    Trace: "crwdns40150:0crwdne40150:0"
+    Text: 'crwdns40138:0crwdne40138:0'
+    Content: 'crwdns40140:0crwdne40140:0'
+    Basic: 'crwdns40142:0crwdne40142:0'
+    Skill: 'crwdns40144:0crwdne40144:0'
+    Ult: 'crwdns40146:0crwdne40146:0'
+    Talent: 'crwdns40148:0crwdne40148:0'
+    Trace: 'crwdns40150:0crwdne40150:0'
   ShieldAbility:
-    Text: "crwdns40152:0crwdne40152:0"
-    Content: "crwdns40154:0crwdne40154:0"
-    Basic: "crwdns40156:0crwdne40156:0"
-    Skill: "crwdns40158:0crwdne40158:0"
-    Ult: "crwdns40160:0crwdne40160:0"
-    Talent: "crwdns40162:0crwdne40162:0"
-    Trace: "crwdns40164:0crwdne40164:0"
+    Text: 'crwdns40152:0crwdne40152:0'
+    Content: 'crwdns40154:0crwdne40154:0'
+    Basic: 'crwdns40156:0crwdne40156:0'
+    Skill: 'crwdns40158:0crwdne40158:0'
+    Ult: 'crwdns40160:0crwdne40160:0'
+    Talent: 'crwdns40162:0crwdne40162:0'
+    Trace: 'crwdns40164:0crwdne40164:0'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -181,7 +181,7 @@ Lightcones:
           crwdns45242:0{{DefShred}}crwdnd45242:0:BR:crwdnd45242:0{{AdditionalDefShred}}crwdne45242:0
     TeammateContent:
       additionalDefPen:
-        text: "crwdns45244:0crwdne45244:0"
+        text: 'crwdns45244:0crwdne45244:0'
         content: >-
           crwdns45246:0{{DefShred}}crwdnd45246:0:BR:crwdnd45246:0{{AdditionalDefShred}}crwdne45246:0
   LifeShouldBeCastToFlames:
@@ -475,7 +475,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: "crwdns40474:0crwdne40474:0"
+        text: 'crwdns40474:0crwdne40474:0'
         content: crwdns40476:0{{CritBuff}}crwdne40476:0
   PastAndFuture:
     Content:
@@ -496,7 +496,7 @@ Lightcones:
     Content:
       cdBuff:
         text: crwdns40490:0crwdne40490:0
-        content: "crwdns44046:0{{CritBuff}}crwdne44046:0"
+        content: 'crwdns44046:0{{CritBuff}}crwdne44046:0'
   PostOpConversation:
     Content:
       postUltHealingBoost:
@@ -541,7 +541,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: "crwdns40522:0crwdne40522:0"
+        text: 'crwdns40522:0crwdne40522:0'
         content: crwdns44054:0{{CritBuff}}crwdne44054:0
   TheGreatCosmicEnterprise:
     Content:
@@ -786,10 +786,10 @@ Characters:
     Content:
       skillExtraDmgHits:
         text: crwdns40674:0crwdne40674:0
-        content: "crwdns44460:0{{skillScaling}}crwdnd44460:0{{skillExtraDmgHitsMax}}crwdnd44460:0{{skillScaling}}crwdnd44460:0:BR:crwdnd44460:0:E1:crwdne44460:0"
+        content: 'crwdns44460:0{{skillScaling}}crwdnd44460:0{{skillExtraDmgHitsMax}}crwdnd44460:0{{skillScaling}}crwdnd44460:0:BR:crwdnd44460:0:E1:crwdne44460:0'
       talentBuffStacks:
         text: crwdns40678:0crwdne40678:0
-        content: "crwdns40680:0{{talentStacksAtkBuff}}crwdnd40680:0:BR:crwdnd40680:0:E4:crwdne40680:0"
+        content: 'crwdns40680:0{{talentStacksAtkBuff}}crwdnd40680:0:BR:crwdnd40680:0:E4:crwdne40680:0'
       ultSpdBuff:
         text: crwdns40682:0crwdne40682:0
         content: crwdns44080:0{{ultSpdBuffValue}}crwdne44080:0
@@ -860,7 +860,7 @@ Characters:
     Content:
       enhancedStateActive:
         text: crwdns40754:0crwdne40754:0
-        content: "crwdns44094:0{{enhancedStateDmgBoost}}crwdnd44094:0:BR:crwdnd44094:0:E2:crwdne44094:0"
+        content: 'crwdns44094:0{{enhancedStateDmgBoost}}crwdnd44094:0:BR:crwdnd44094:0:E2:crwdne44094:0'
       hpPercentLostTotal:
         text: crwdns40758:0crwdne40758:0
         content: crwdns40760:0{{hpPercentLostTotalMax}}crwdne40760:0
@@ -1515,7 +1515,7 @@ Characters:
         content: crwdns41346:0crwdne41346:0
       skillRemovedBuff:
         text: crwdns41348:0crwdne41348:0
-        content: "crwdns44208:0:BR:crwdnd44208:0:E2:crwdne44208:0"
+        content: 'crwdns44208:0:BR:crwdnd44208:0:E2:crwdne44208:0'
       ultDefPenDebuff:
         text: crwdns41352:0crwdne41352:0
         content: crwdns44210:0{{ultDefPenValue}}crwdne44210:0
@@ -1639,7 +1639,7 @@ Characters:
           crwdns44230:0{{buffedStateDmgBuff}}crwdnd44230:0:BR:crwdne44230:0
       speedBoostStacks:
         text: crwdns41484:0crwdne41484:0
-        content: "crwdns44464:0:BR:crwdnd44464:0:E2:crwdne44464:0"
+        content: 'crwdns44464:0:BR:crwdnd44464:0:E2:crwdne44464:0'
       e1EnemyHp80CrBoost:
         text: crwdns41488:0crwdne41488:0
         content: crwdns44412:0crwdne44412:0
@@ -1786,7 +1786,7 @@ Characters:
         content: crwdns41602:0crwdne41602:0
       ultDmgBuff:
         text: crwdns41604:0crwdne41604:0
-        content: "crwdns44422:0{{ultDmgBoost}}crwdnd44422:0:BR:crwdnd44422:0:E6:crwdne44422:0"
+        content: 'crwdns44422:0{{ultDmgBoost}}crwdnd44422:0:BR:crwdnd44422:0:E6:crwdne44422:0'
       ultSpdBuff:
         text: crwdns41608:0crwdne41608:0
         content: crwdns44424:0crwdne44424:0
@@ -1970,7 +1970,7 @@ Characters:
         content: crwdns41730:0crwdne41730:0
       roaringBowstringsActive:
         text: crwdns41732:0crwdne41732:0
-        content: "crwdns41734:0{{skillAtkBuffValue}}crwdnd41734:0:BR:crwdnd41734:0:E4:crwdne41734:0"
+        content: 'crwdns41734:0{{skillAtkBuffValue}}crwdnd41734:0:BR:crwdnd41734:0:E4:crwdne41734:0'
       ultBuff:
         text: crwdns41736:0crwdne41736:0
         content: >-
@@ -1984,11 +1984,11 @@ Characters:
         text: crwdns41744:0crwdne41744:0
         content: crwdns44286:0crwdne44286:0
       ultCull:
-        text: "crwdns41748:0crwdne41748:0"
+        text: 'crwdns41748:0crwdne41748:0'
         content: >-
           crwdns41750:0{{CullScaling}}crwdnd41750:0{{CullAdjacentScaling}}crwdnd41750:0{{CullAdditionalScaling}}crwdne41750:0
       ultCullHits:
-        text: "crwdns41752:0crwdne41752:0"
+        text: 'crwdns41752:0crwdne41752:0'
         content: >-
           crwdns41754:0{{CullScaling}}crwdnd41754:0{{CullAdjacentScaling}}crwdnd41754:0{{CullAdditionalScaling}}crwdne41754:0
       counterAtkBuff:
@@ -1996,13 +1996,13 @@ Characters:
         content: crwdns44288:0crwdne44288:0
       e1UltBuff:
         text: crwdns41760:0crwdne41760:0
-        content: "crwdns44442:0crwdne44442:0"
+        content: 'crwdns44442:0crwdne44442:0'
       e2DefShred:
         text: crwdns41764:0crwdne41764:0
         content: crwdns44292:0crwdne44292:0
       e4ResBuff:
         text: crwdns41768:0crwdne41768:0
-        content: "crwdns44294:0crwdne44294:0"
+        content: 'crwdns44294:0crwdne44294:0'
       e6Buffs:
         text: crwdns41772:0crwdne41772:0
         content: >-

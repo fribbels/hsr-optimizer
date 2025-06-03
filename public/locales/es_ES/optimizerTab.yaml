@@ -107,15 +107,9 @@ Grid:
       ERR: RdE
       DMG: DAÑO
       EHP: PVE
-      WEIGHT: |-
-        IMPORTANCIA
-        DE ATRIBUTO
     Combat:
       Set: Conj.
       EHP: PVE
-      WEIGHT: |-
-        IMPORTANCIA
-        DE ATRIBUTO
 Sidebar:
   Results: Resultados
   StatViewGroup:
@@ -123,6 +117,7 @@ Sidebar:
   ResultsGroup:
     Header: Resultados
     Equip: Equipar
+    EquipSuccessMessage: Equipado
 FormRowLabels:
   Teammates: Aliados
 TracesDrawer:
@@ -176,7 +171,7 @@ MinMaxFilters:
 ComboFilter:
   AbilityLabel: Habilidades
   ComboOptions:
-    None: 'Ninguno'
+    None: "Ninguno"
     Break: Ruptura
 ComboDrawer:
   NoConditionals: Sin pasivas condicionales

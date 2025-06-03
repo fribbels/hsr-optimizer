@@ -1,14 +1,1 @@
 Title: Impostazioni
-RelicEquippingBehaviour:
-  Label: Equipaggia reliquie di un altro personaggio
-  Replace: "Predefinito: Sostituisci le reliquie senza scambiarle."
-  Swap: Scambia reliquie con il proprietario precedente
-PermutationSidebarBehaviour:
-  Label: Riduci la barra laterale dell'ottimizzatore su schermi più piccoli
-  XL: "Predefinito: Minimizza se parte della barra laterale è nascosta."
-  XXL: Minimizza se parte della barra laterale è nascosta
-  NoShow: Mantieni sempre la barra laterale a destra
-RelicPotentialLoadBehaviour:
-  Label: Punteggio potenziale delle reliquie al caricamento
-  OnStartup: "Predefinito: Calcola automaticamente i punteggi delle reliquie al caricamento della pagina."
-  Manual: Calcola i punteggi delle reliquie quando viene cliccato "Riapplica punteggi" (caricamento più veloce)

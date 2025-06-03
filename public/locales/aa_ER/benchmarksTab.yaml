@@ -32,3 +32,8 @@ ResultsPanel:
   Rolls: crwdns45362:0crwdne45362:0
   Combo: crwdns45364:0crwdne45364:0
   Damage: crwdns45366:0crwdne45366:0
+Messages:
+  Error:
+    MissingField: crwdns45398:0crwdne45398:0
+    UnsupportedCharacter: crwdns45400:0crwdne45400:0
+    SPDUnselected: crwdns45402:0crwdne45402:0

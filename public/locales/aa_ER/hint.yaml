@@ -16,7 +16,7 @@ StatFilters:
   Title: crwdns41798:0crwdne41798:0
   p1: crwdns41800:0crwdne41800:0
   p2: crwdns41802:0crwdne41802:0
-  p3: 'crwdns41804:0crwdne41804:0'
+  p3: "crwdns41804:0crwdne41804:0"
 Mainstats:
   Title: crwdns41806:0crwdne41806:0
   p1: crwdns41808:0crwdne41808:0
@@ -53,16 +53,16 @@ OptimizerOptions:
     crwdns41852:0crwdne41852:0
   p3: crwdns41854:0crwdne41854:0
   p4: crwdns41856:0crwdne41856:0
-  p5: 'crwdns41858:0crwdne41858:0'
+  p5: "crwdns41858:0crwdne41858:0"
   p6: crwdns41860:0crwdne41860:0
   p7: crwdns41862:0crwdne41862:0
 Relics:
   Title: crwdns41864:0crwdne41864:0
   p1: >-
     crwdns41866:0crwdne41866:0
-  p2: 'crwdns41868:0crwdne41868:0'
-  p3: 'crwdns41870:0crwdne41870:0'
-  p4: 'crwdns41872:0crwdne41872:0'
+  p2: "crwdns41868:0crwdne41868:0"
+  p3: "crwdns41870:0crwdne41870:0"
+  p4: "crwdns41872:0crwdne41872:0"
   p5: 'crwdns41874:0crwdne41874:0'
 OptimizationDetails:
   Title: crwdns41876:0crwdne41876:0
@@ -90,7 +90,7 @@ StatDisplay:
   Title: crwdns41912:0crwdne41912:0
   p1: crwdns41914:0crwdne41914:0
   p2: crwdns41916:0crwdne41916:0
-  p3: 'crwdns41918:0crwdne41918:0'
+  p3: "crwdns41918:0crwdne41918:0"
 ValueColumns:
   Title: crwdns41920:0crwdne41920:0
   p1: crwdns41922:0crwdne41922:0
@@ -104,7 +104,7 @@ RelicInsights:
   p1: crwdns41936:0crwdne41936:0
   p2: >-
     crwdns41938:0crwdne41938:0
-  p3: 'crwdns41940:0crwdne41940:0'
+  p3: "crwdns41940:0crwdne41940:0"
 RelicLocation:
   Title: crwdns41942:0crwdne41942:0
   p1: crwdns41944:0crwdne41944:0

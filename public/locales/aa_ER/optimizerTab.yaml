@@ -1,3 +1,14 @@
+ValidationMessages:
+  Warning:
+    MissingTeammates: crwdns45412:0crwdne45412:0
+    PathMismatch: crwdns45414:0crwdne45414:0
+  Error:
+    TopPercent: crwdns45416:0crwdne45416:0
+    MissingTarget: crwdns45418:0crwdne45418:0
+    MissingCharacter: crwdns45420:0crwdne45420:0
+    MissingLightCone: crwdns45422:0crwdne45422:0
+    TooManyPerms: crwdns45424:0crwdne45424:0
+    GPUNotAvailable: "crwdns45426:0crwdne45426:0"
 CharacterSelector:
   Character: crwdns42644:0crwdne42644:0
   Lightcone: crwdns42646:0crwdne42646:0
@@ -91,6 +102,7 @@ Grid:
   Of: crwdns42796:0crwdne42796:0
   Page: crwdns42798:0crwdne42798:0
   PageSelectorLabel: "crwdns42800:0crwdne42800:0"
+  Loading: crwdns45428:0crwdne45428:0
   Headers:
     Basic:
       Set: crwdns42802:0crwdne42802:0
@@ -107,8 +119,6 @@ Grid:
       ERR: crwdns42824:0crwdne42824:0
       DMG: crwdns42826:0crwdne42826:0
       EHP: crwdns42828:0crwdne42828:0
-      WEIGHT: |-
-        crwdns42830:0crwdne42830:0
       HEAL: crwdns42832:0crwdne42832:0
       SHIELD: crwdns42834:0crwdne42834:0
       BASIC: |-
@@ -144,8 +154,6 @@ Grid:
       ERR: crwdns42874:0crwdne42874:0
       DMG: crwdns42876:0crwdne42876:0
       EHP: crwdns42878:0crwdne42878:0
-      WEIGHT: |-
-        crwdns42880:0crwdne42880:0
       HEAL: crwdns42882:0crwdne42882:0
       SHIELD: crwdns42884:0crwdne42884:0
       BASIC: |-
@@ -209,6 +217,7 @@ Sidebar:
   ResultsGroup:
     Header: crwdns42956:0crwdne42956:0
     Equip: crwdns42958:0crwdne42958:0
+    EquipSuccessMessage: crwdns45430:0crwdne45430:0
     Filter: crwdns42960:0crwdne42960:0
     Pin: crwdns42962:0crwdne42962:0
     Clear: crwdns42964:0crwdne42964:0
@@ -409,7 +418,7 @@ ComboFilter:
   CounterLabels:
     Dot: crwdns43266:0crwdne43266:0
   ComboOptions:
-    None: 'crwdns45228:0crwdne45228:0'
+    None: "crwdns45228:0crwdne45228:0"
     Basic: crwdns43270:0crwdne43270:0
     Skill: crwdns43272:0crwdne43272:0
     Ult: crwdns43274:0crwdne43274:0
@@ -515,7 +524,7 @@ StatSimulation:
 ExpandedDataPanel:
   SubstatUpgrades:
     ColumnHeaders:
-      Substat: 'crwdns44680:0crwdne44680:0'
+      Substat: "crwdns44680:0crwdne44680:0"
       COMBO_DMG: crwdns44682:0crwdne44682:0
       COMBO_DMG_P: crwdns44684:0crwdne44684:0
       EHP: crwdns44686:0crwdne44686:0
@@ -531,7 +540,7 @@ ExpandedDataPanel:
       breakDmg: crwdns44702:0crwdne44702:0
       superBreakDmg: crwdns44704:0crwdne44704:0
       additionalDmg: crwdns44706:0crwdne44706:0
-      trueDmg: 'crwdns44708:0crwdne44708:0'
+      trueDmg: "crwdns44708:0crwdne44708:0"
       jointDmg: crwdns44710:0crwdne44710:0
       dotDmg: crwdns44712:0crwdne44712:0
       memoDmg: crwdns44714:0crwdne44714:0

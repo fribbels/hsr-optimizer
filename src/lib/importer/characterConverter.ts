@@ -1,4 +1,9 @@
-import { Constants, MainStats, Parts, SubStats } from 'lib/constants/constants'
+import {
+  Constants,
+  MainStats,
+  Parts,
+  SubStats,
+} from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
 import { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
@@ -48,20 +53,20 @@ export const statConversion = {
 }
 
 export type UnconvertedCharacter = {
-  relicList?: PreRelic[]
-  equipment?: PreLightCone
-  rank?: number
-  avatarId: CharacterId
+  relicList?: PreRelic[],
+  equipment?: PreLightCone,
+  rank?: number,
+  avatarId: CharacterId,
 }
 
 type PreRelic = {
-  tid: string
-  level: number
-  mainAffixId: number
+  tid: string,
+  level: number,
+  mainAffixId: number,
   main_affix: {
-    type: keyof typeof statConversion
-  }
-  subAffixList: SubAffix[]
+    type: keyof typeof statConversion,
+  },
+  subAffixList: SubAffix[],
 }
 
 interface SubAffixBase {
@@ -83,9 +88,9 @@ interface SubAffixCount extends SubAffixBase {
 type SubAffix = SubAffixCnt | SubAffixCount
 
 type PreLightCone = {
-  tid: LightCone['id']
-  level: number
-  rank: number
+  tid: LightCone['id'],
+  level: number,
+  rank: number,
 }
 
 export const CharacterConverter = {

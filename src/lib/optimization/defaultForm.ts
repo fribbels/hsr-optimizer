@@ -1,11 +1,23 @@
-import { CombatBuffs, Constants, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
+import {
+  CombatBuffs,
+  Constants,
+  DEFAULT_MEMO_DISPLAY,
+  DEFAULT_STAT_DISPLAY,
+  Sets,
+} from 'lib/constants/constants'
 import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
-import { applyScoringMetadataPresets, applySetConditionalPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import {
+  applyScoringMetadataPresets,
+  applySetConditionalPresets,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
-import { Form, Teammate } from 'types/form'
+import {
+  Form,
+  Teammate,
+} from 'types/form'
 
 // FIXME HIGH
 

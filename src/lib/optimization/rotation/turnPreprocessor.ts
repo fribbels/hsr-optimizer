@@ -14,17 +14,17 @@ import {
 import { TsUtils } from 'lib/utils/TsUtils'
 
 type TurnState = {
-  turnStarts: boolean[]
-  turnEnds: boolean[]
+  turnStarts: boolean[],
+  turnEnds: boolean[],
 
-  turnRanges: { start: number; end: number }[]
+  turnRanges: { start: number, end: number }[],
 
   // Reference to the original and normalized abilities
-  originalAbilities: TurnAbility[]
-  normalizedAbilities: TurnAbility[]
+  originalAbilities: TurnAbility[],
+  normalizedAbilities: TurnAbility[],
 
-  inTurn: boolean[] // Tracks which abilities are inside turns
-  hasBasicOrSkill: boolean[] // Tracks which turns have BASIC/SKILL
+  inTurn: boolean[], // Tracks which abilities are inside turns
+  hasBasicOrSkill: boolean[], // Tracks which turns have BASIC/SKILL
 }
 
 export function preprocessTurnAbilityNames(input: TurnAbilityName[]) {
@@ -105,7 +105,7 @@ function normalizeAbilities(state: TurnState): void {
   state.normalizedAbilities = state.originalAbilities.map((ability) =>
     ability
       ? createAbility(ability.kind, TurnMarker.DEFAULT)
-      : NULL_TURN_ABILITY,
+      : NULL_TURN_ABILITY
   )
 }
 

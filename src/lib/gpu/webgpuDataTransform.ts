@@ -1,5 +1,15 @@
-import { OrnamentSetToIndex, RelicSetToIndex, SetsOrnaments, SetsRelics, SetsRelicsNames, Stats } from 'lib/constants/constants'
-import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
+import {
+  OrnamentSetToIndex,
+  RelicSetToIndex,
+  SetsOrnaments,
+  SetsRelics,
+  SetsRelicsNames,
+  Stats,
+} from 'lib/constants/constants'
+import {
+  GpuExecutionContext,
+  RelicsByPart,
+} from 'lib/gpu/webgpuTypes'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { StringToNumberMap } from 'types/common'
 import { Relic } from 'types/relic'
@@ -42,12 +52,14 @@ export function generateParamsMatrix(
   const gSize = relics.Hands.length
   const hSize = relics.Head.length
 
-  const l = (offset % lSize)
-  const p = (((offset - l) / lSize) % pSize)
-  const f = (((offset - p * lSize - l) / (lSize * pSize)) % fSize)
-  const b = (((offset - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
-  const g = (((offset - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
-  const h = (((offset - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
+  const l = offset % lSize
+  const p = ((offset - l) / lSize) % pSize
+  const f = ((offset - p * lSize - l) / (lSize * pSize)) % fSize
+  const b = ((offset - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize
+  const g = ((offset - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize
+  const h =
+    ((offset - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize))
+    % hSize
 
   return new Float32Array([
     l,

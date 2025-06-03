@@ -23,7 +23,7 @@ FeatureCards:
       Organiza tus artefactos puntuando y ordenándolos de acuerdo a su potencial, y encuentra los mejores artefactos a potenciar para cada personaje.
 Welcome: Bienvenido al<1/>Optimizador Star Rail de Fribbels
 SearchBar:
-  Placeholder: UID 
+  Placeholder: UID
   Label: "Ingresa tu UID para ver tus personajes exhibidos"
   Api: "Utiliza Enka.Network"
   Message: Entrada inválida - Este debe ser su UUID de 9 dígitos

@@ -1,5 +1,14 @@
-import { Sets, Stats } from 'lib/constants/constants'
-import { generateE6S5Test, testCharacter, testMains, testSets, testStatSpread } from 'lib/simulations/tests/simTestUtils'
+import {
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
+import {
+  generateE6S5Test,
+  testCharacter,
+  testMains,
+  testSets,
+  testStatSpread,
+} from 'lib/simulations/tests/simTestUtils'
 import { expectSimResultsToMatch } from 'lib/simulations/tests/statSim/statSimTestUtils'
 import {
   A_GROUNDED_ASCENT,

@@ -133,14 +133,14 @@ CharacterPreview:
       Score: "Điểm DPS:"
       Abilities:
         BASIC: ST TẤN CÔNG THƯỜNG
-        SKILL: 'ST CHIẾN KỸ:'
-        ULT: 'TUYỆT KỸ:'
-        FUA: 'ĐÒN ĐÁNH THEO SAU:'
-        DOT: 'ST DUY TRÌ:'
-        BREAK: 'ST Kích Phá:'
+        SKILL: "ST CHIẾN KỸ:"
+        ULT: "TUYỆT KỸ:"
+        FUA: "ĐÒN ĐÁNH THEO SAU:"
+        DOT: "ST DUY TRÌ:"
+        BREAK: "ST Kích Phá:"
         MEMO_SKILL: ST KỸ NĂNG LHKY
         MEMO_TALENT: ST THIÊN PHÚ LHKY
-        COMBO: 'ST COMBO:'
+        COMBO: "ST COMBO:"
     CombatBuffs:
       Header: Buffs trong combat
   ScoringColumn:

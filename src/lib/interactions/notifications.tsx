@@ -1,5 +1,9 @@
 import { UnorderedListOutlined } from '@ant-design/icons'
-import { Button, Flex, Space } from 'antd'
+import {
+  Button,
+  Flex,
+  Space,
+} from 'antd'
 import i18next from 'i18next'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import { AppPages } from 'lib/state/db'
@@ -21,7 +25,7 @@ export function checkForUpdatesNotification(version: string) {
       <Space>
         <Button
           type='primary'
-          icon={<UnorderedListOutlined/>}
+          icon={<UnorderedListOutlined />}
           onClick={() => {
             window.notificationApi.destroy()
             window.store.getState().setActiveKey(AppPages.CHANGELOG)
@@ -70,14 +74,14 @@ export function webgpuNotSupportedNotification() {
 
           <div>
             <ul>
-              <li>{t('Description.l2')/* Windows & Mac — Chrome, Opera, Edge */}</li>
+              <li>{t('Description.l2') /* Windows & Mac — Chrome, Opera, Edge */}</li>
               <li>
                 {/* @ts-ignore colorized link takes text prop from translation */}
                 <Trans
                   t={t}
                   i18nKey='Description.l3'
                   // @ts-ignore
-                  components={{ CustomLink: <ColorizedLinkWithIcon url='https://github.com/gpuweb/gpuweb/wiki/Implementation-Status' linkIcon={true}/> }}
+                  components={{ CustomLink: <ColorizedLinkWithIcon url='https://github.com/gpuweb/gpuweb/wiki/Implementation-Status' linkIcon={true} /> }}
                 />
                 {/* Linux — <ColorizedLink text='Behind a flag' url='https://github.com/gpuweb/gpuweb/wiki/Implementation-Status'/> */}
               </li>
@@ -96,7 +100,11 @@ export function webgpuNotSupportedNotification() {
               t={tCrash}
               i18nKey='Description.l2'
               // @ts-ignore
-              components={{ CustomLink: <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/troubleshooting.md#gpu' linkIcon={true}/> }}
+              components={{
+                CustomLink: (
+                  <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/troubleshooting.md#gpu' linkIcon={true} />
+                ),
+              }}
             />
           </p>
         </Flex>
@@ -126,7 +134,11 @@ export function webgpuCrashNotification() {
               t={t}
               i18nKey='Description.l2'
               // @ts-ignore
-              components={{ CustomLink: <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/troubleshooting.md#gpu' linkIcon={true}/> }}
+              components={{
+                CustomLink: (
+                  <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/troubleshooting.md#gpu' linkIcon={true} />
+                ),
+              }}
             />
           </div>
         </Flex>

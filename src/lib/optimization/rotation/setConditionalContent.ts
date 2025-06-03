@@ -1,19 +1,23 @@
 import { TFunction } from 'i18next'
-import { ConditionalDataType, Constants, Sets } from 'lib/constants/constants'
+import {
+  ConditionalDataType,
+  Constants,
+  Sets,
+} from 'lib/constants/constants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 export type SelectOptionContent = {
-  display: string
-  value: number
-  label: string
+  display: string,
+  value: number,
+  label: string,
 }
 
 type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
 
 export type SetMetadata = {
-  type: ConditionalDataType
-  modifiable?: boolean
-  selectionOptions?: (t: SetConditionalTFunction) => SelectOptionContent[]
+  type: ConditionalDataType,
+  modifiable?: boolean,
+  selectionOptions?: (t: SetConditionalTFunction) => SelectOptionContent[],
 }
 
 export function generateSetConditionalContent(t: SetConditionalTFunction) {
@@ -214,7 +218,7 @@ function SetContentSacerdosRelivedOrdealOptions(t: SetConditionalTFunction) {
     options.push({
       display: t('Sacerdos.Display', { stackCount: i }), // i + 'x',
       value: i,
-      label: t('Sacerdos.Label', { stackCount: i, buffValue: TsUtils.precisionRound((18 * i)) }), // `${i} stacks (+${i * 18}% CD)`,
+      label: t('Sacerdos.Label', { stackCount: i, buffValue: TsUtils.precisionRound(18 * i) }), // `${i} stacks (+${i * 18}% CD)`,
     })
   }
 
@@ -347,11 +351,11 @@ function SetContentDuranDynastyOfRunningWolves(t: SetConditionalTFunction) {
     options.push({
       display: t('Duran.Display', { stackCount: i }), // i + 'x',
       value: i,
-      label: t('Duran.Label', { stackCount: i, buffValue: TsUtils.precisionRound((5 * i)) }), // `${i} stacks (+${5 * i}% FUA DMG)`,
+      label: t('Duran.Label', { stackCount: i, buffValue: TsUtils.precisionRound(5 * i) }), // `${i} stacks (+${5 * i}% FUA DMG)`,
     })
   }
 
-  options[5].label = t('Duran.Label5')// `${5} stacks (+${5 * 5}% FUA DMG + 25% CD)`
+  options[5].label = t('Duran.Label5') // `${5} stacks (+${5 * 5}% FUA DMG + 25% CD)`
 
   return options
 }

@@ -87,7 +87,7 @@ AdvancedOptions:
   CombatBuffsButtonText: "额外战斗增益 ({{activeCount}})"
   CustomTracesButtonText: 自定义属性行迹
 Grid:
-  To: '-'
+  To: "-"
   Of: /
   Page: 页
   PageSelectorLabel: "页面大小："
@@ -429,7 +429,7 @@ ComboFilter:
   CounterLabels:
     Dot: 持续伤害数量
   ComboOptions:
-    None: '无'
+    None: "无"
     Basic: 普攻
     Skill: 战技
     Ult: 终结技
@@ -535,7 +535,7 @@ StatSimulation:
 ExpandedDataPanel:
   SubstatUpgrades:
     ColumnHeaders:
-      Substat: '+1x 副词条'
+      Substat: "+1x 副词条"
       COMBO_DMG: Δ连招伤害
       COMBO_DMG_P: Δ%连招伤害
       EHP: Δ有效生命
@@ -551,7 +551,7 @@ ExpandedDataPanel:
       breakDmg: 击破
       superBreakDmg: 超击破
       additionalDmg: 额外
-      trueDmg: '真实'
+      trueDmg: "真实"
       jointDmg: 连携
       dotDmg: 持续
       memoDmg: 忆灵

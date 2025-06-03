@@ -1,11 +1,17 @@
-import { Popover, Typography } from 'antd'
-import React, { ComponentType, ReactNode } from 'react'
+import {
+  Popover,
+  Typography,
+} from 'antd'
+import React, {
+  ComponentType,
+  ReactNode,
+} from 'react'
 
 const { Text } = Typography
 
 export type WithPopoverProps<T> = {
-  title: string
-  content: ReactNode
+  title: string,
+  content: ReactNode,
 } & T
 
 function WithPopover<T>(WrappedComponent: ComponentType<T>): ComponentType<WithPopoverProps<T>> {
@@ -13,7 +19,7 @@ function WithPopover<T>(WrappedComponent: ComponentType<T>): ComponentType<WithP
     const [open, setOpen] = React.useState(false)
     const content = (
       <Text style={{ width: 400, display: 'block' }}>
-        <hr/>
+        <hr />
         {props.content}
       </Text>
     )
@@ -28,7 +34,7 @@ function WithPopover<T>(WrappedComponent: ComponentType<T>): ComponentType<WithP
         onOpenChange={setOpen}
       >
         <span style={{ width: '100%' }}>
-          <WrappedComponent {...props}/>
+          <WrappedComponent {...props} />
         </span>
       </Popover>
     )

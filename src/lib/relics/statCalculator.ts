@@ -1,4 +1,10 @@
-import { Constants, MainStats, Stats, SubStats, SubStatValues } from 'lib/constants/constants'
+import {
+  Constants,
+  MainStats,
+  Stats,
+  SubStats,
+  SubStatValues,
+} from 'lib/constants/constants'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { isFlat } from 'lib/utils/statUtils'
 

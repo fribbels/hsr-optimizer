@@ -24,9 +24,17 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ANAXA } from 'lib/simulations/tests/testMetadataConstants'
 import { Metadata } from 'lib/state/metadata'
-import { ComboBooleanConditional, ComboNumberConditional, ComboState, initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import {
+  ComboBooleanConditional,
+  ComboNumberConditional,
+  ComboState,
+  initializeComboState,
+} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { expect, test } from 'vitest'
+import {
+  expect,
+  test,
+} from 'vitest'
 
 Metadata.initialize()
 
@@ -88,10 +96,22 @@ test('One turn duration buff', () => {
   )
 
   const sequence = [
-    WHOLE_BASIC, START_ULT, DEFAULT_SKILL, END_BASIC, START_BASIC, END_SKILL, WHOLE_BASIC,
+    WHOLE_BASIC,
+    START_ULT,
+    DEFAULT_SKILL,
+    END_BASIC,
+    START_BASIC,
+    END_SKILL,
+    WHOLE_BASIC,
   ]
   const expected = [
-    false, true, true, true, true, true, false,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
   ]
 
   const result = processSequence(preprocessor, sequence)
@@ -113,10 +133,20 @@ test('Set activation for WavestriderCaptain', () => {
   )
 
   const sequence = [
-    START_ULT, END_BASIC, START_BASIC, END_BASIC, START_BASIC, END_ULT,
+    START_ULT,
+    END_BASIC,
+    START_BASIC,
+    END_BASIC,
+    START_BASIC,
+    END_ULT,
   ]
   const expected = [
-    true, true, true, true, false, true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    true,
   ]
 
   const result = processSequence(preprocessor, sequence)
@@ -138,10 +168,22 @@ test('Two turn duration buff', () => {
   )
 
   const sequence = [
-    START_BASIC, DEFAULT_ULT, END_BASIC, START_BASIC, END_BASIC, WHOLE_BASIC, WHOLE_BASIC,
+    START_BASIC,
+    DEFAULT_ULT,
+    END_BASIC,
+    START_BASIC,
+    END_BASIC,
+    WHOLE_BASIC,
+    WHOLE_BASIC,
   ]
   const expected = [
-    false, true, true, true, true, true, false,
+    false,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
   ]
 
   const result = processSequence(preprocessor, sequence)
@@ -167,10 +209,18 @@ test('Numeric activation', () => {
   )
 
   const sequence = [
-    WHOLE_BASIC, START_ULT, END_BASIC, WHOLE_BASIC, WHOLE_SKILL,
+    WHOLE_BASIC,
+    START_ULT,
+    END_BASIC,
+    WHOLE_BASIC,
+    WHOLE_SKILL,
   ]
   const expected = [
-    false, true, true, true, false,
+    false,
+    true,
+    true,
+    true,
+    false,
   ]
 
   const result = processSequence(preprocessor, sequence)
@@ -192,10 +242,20 @@ test('Re-triggering resets duration, multiple trigger types', () => {
   )
 
   const sequence = [
-    START_ULT, END_BASIC, START_FUA, END_BASIC, WHOLE_SKILL, WHOLE_SKILL,
+    START_ULT,
+    END_BASIC,
+    START_FUA,
+    END_BASIC,
+    WHOLE_SKILL,
+    WHOLE_SKILL,
   ]
   const expected = [
-    true, true, true, true, true, false,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
   ]
 
   const result = processSequence(preprocessor, sequence)
@@ -217,10 +277,18 @@ test('Buff active for entire WHOLE marker before expiring', () => {
   )
 
   const sequence = [
-    START_ULT, END_SKILL, DEFAULT_DOT, WHOLE_BASIC, DEFAULT_DOT,
+    START_ULT,
+    END_SKILL,
+    DEFAULT_DOT,
+    WHOLE_BASIC,
+    DEFAULT_DOT,
   ]
   const expected = [
-    true, true, true, true, false,
+    true,
+    true,
+    true,
+    true,
+    false,
   ]
 
   const result = processSequence(preprocessor, sequence)
@@ -242,10 +310,18 @@ test('Trigger at the end of a turn', () => {
   )
 
   const sequence = [
-    START_BASIC, DEFAULT_SKILL, END_ULT, WHOLE_BASIC, WHOLE_BASIC,
+    START_BASIC,
+    DEFAULT_SKILL,
+    END_ULT,
+    WHOLE_BASIC,
+    WHOLE_BASIC,
   ]
   const expected = [
-    false, false, true, true, false,
+    false,
+    false,
+    true,
+    true,
+    false,
   ]
 
   const result = processSequence(preprocessor, sequence)

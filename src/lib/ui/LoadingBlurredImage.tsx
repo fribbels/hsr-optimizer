@@ -1,5 +1,8 @@
 import { TsUtils } from 'lib/utils/TsUtils'
-import React, { useEffect, useState } from 'react'
+import React, {
+  useEffect,
+  useState,
+} from 'react'
 
 interface LoadingBlurredImageProps extends React.ImgHTMLAttributes<string> {
   src: string
@@ -8,8 +11,8 @@ interface LoadingBlurredImageProps extends React.ImgHTMLAttributes<string> {
 }
 
 type ImageProperties = {
-  src: string
-  style: React.CSSProperties
+  src: string,
+  style: React.CSSProperties,
 }
 
 export const LoadingBlurredImage: React.FC<LoadingBlurredImageProps> = ({ src, style, callback }) => {

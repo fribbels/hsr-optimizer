@@ -1,17 +1,41 @@
-import { CellClickedEvent, GetLocaleTextParams, IRowNode, NavigateToNextCellParams, PaginationNumberFormatterParams } from 'ag-grid-community'
+import {
+  CellClickedEvent,
+  GetLocaleTextParams,
+  IRowNode,
+  NavigateToNextCellParams,
+  PaginationNumberFormatterParams,
+} from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
-import { Flex, theme } from 'antd'
+import {
+  Flex,
+  theme,
+} from 'antd'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { getGridTheme } from 'lib/rendering/theme'
 import DB from 'lib/state/db'
-import { getBasicColumnDefs, getCombatColumnDefs, getMemoBasicColumnDefs, getMemoCombatColumnDefs, OptimizerGridColumnDef, optimizerGridDefaultColDef, optimizerGridOptions } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import {
+  getBasicColumnDefs,
+  getCombatColumnDefs,
+  getMemoBasicColumnDefs,
+  getMemoCombatColumnDefs,
+  OptimizerGridColumnDef,
+  optimizerGridDefaultColDef,
+  optimizerGridOptions,
+} from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
 import { localeNumber } from 'lib/utils/i18nUtils'
-import React, { MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, {
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 
 const { useToken } = theme
@@ -61,9 +85,10 @@ export function OptimizerGrid() {
       const addedColumns = new Set(scoringMetadata.addedColumns ?? [])
 
       const hiddenFields = Array.from(hiddenColumns)
-        .filter((column) => !addedColumns.has(column)).map((column) => statDisplay === 'combat'
-          ? (showMemo ? column.memoCombatGridColumn : column.combatGridColumn)
-          : (showMemo ? column.memoBasicGridColumn : column.basicGridColumn),
+        .filter((column) => !addedColumns.has(column)).map((column) =>
+          statDisplay === 'combat'
+            ? (showMemo ? column.memoCombatGridColumn : column.combatGridColumn)
+            : (showMemo ? column.memoBasicGridColumn : column.basicGridColumn)
         )
 
       columnDefinitions = columnDefinitions.filter((column) => !hiddenFields.includes(column.field))
@@ -112,7 +137,7 @@ export function OptimizerGrid() {
 
   return (
     <Flex>
-      {gridDestroyed && <div style={{ width: GRID_DIMENSIONS.WIDTH, height: GRID_DIMENSIONS.HEIGHT }}/>}
+      {gridDestroyed && <div style={{ width: GRID_DIMENSIONS.WIDTH, height: GRID_DIMENSIONS.HEIGHT }} />}
       {!gridDestroyed && (
         <div
           id='optimizerGridContainer'

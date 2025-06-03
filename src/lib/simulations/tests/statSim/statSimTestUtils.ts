@@ -1,4 +1,8 @@
-import { collectResults, TestInput, TestResultByName } from 'lib/simulations/tests/simTestUtils'
+import {
+  collectResults,
+  TestInput,
+  TestResultByName,
+} from 'lib/simulations/tests/simTestUtils'
 import DB from 'lib/state/db'
 import { Metadata } from 'lib/state/metadata'
 import { expect } from 'vitest'

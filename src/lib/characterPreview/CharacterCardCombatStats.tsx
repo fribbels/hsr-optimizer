@@ -1,18 +1,36 @@
-import { Divider, Flex } from 'antd'
+import {
+  Divider,
+  Flex,
+} from 'antd'
 import { UpArrow } from 'icons/UpArrow'
 import { damageStats } from 'lib/characterPreview/StatRow'
 import { StatTextSm } from 'lib/characterPreview/StatText'
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
-import { ElementToDamage, Stats, StatsValues, SubStats } from 'lib/constants/constants'
+import {
+  ElementToDamage,
+  Stats,
+  StatsValues,
+  SubStats,
+} from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { iconSize } from 'lib/constants/constantsUi'
-import { Key, StatToKey } from 'lib/optimization/computedStatsArray'
+import {
+  Key,
+  StatToKey,
+} from 'lib/optimization/computedStatsArray'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { filterUnique, getIndexOf } from 'lib/utils/arrayUtils'
-import { localeNumber, localeNumber_0, localeNumber_000 } from 'lib/utils/i18nUtils'
+import {
+  filterUnique,
+  getIndexOf,
+} from 'lib/utils/arrayUtils'
+import {
+  localeNumber,
+  localeNumber_0,
+  localeNumber_000,
+} from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { ReactElement } from 'react'
@@ -20,7 +38,7 @@ import { useTranslation } from 'react-i18next'
 import { DBMetadataCharacter } from 'types/metadata'
 
 export function CharacterCardCombatStats(props: {
-  result: SimulationScore
+  result: SimulationScore,
 }) {
   const { t } = useTranslation('common')
   const { t: tCharactersTab } = useTranslation('charactersTab')
@@ -47,14 +65,14 @@ export function CharacterCardCombatStats(props: {
     // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
     rows.push(
       <Flex key={Utils.randomId()} justify='space-between' align='center' style={{ width: '100%' }}>
-        <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
+        <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
         <Flex gap={1} align='center'>
           <StatTextSm>
             {statName}
           </StatTextSm>
-          {upgraded && <Arrow/>}
+          {upgraded && <Arrow />}
         </Flex>
-        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
+        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
         <StatTextSm>{`${display}${flat ? '' : '%'}`}</StatTextSm>
       </Flex>,
     )
@@ -75,10 +93,10 @@ export function CharacterCardCombatStats(props: {
 }
 
 type StatDisplayWrapper = {
-  stat: StatsValues
-  display: string
-  flat: boolean
-  upgraded: boolean
+  stat: StatsValues,
+  display: string,
+  flat: boolean,
+  upgraded: boolean,
 }
 
 function aggregateCombatStats(xa: Float32Array, ca: Float32Array, upgradeStats: StatsValues[], preciseSpd: boolean) {
@@ -149,7 +167,7 @@ const percentFlatStats: Record<string, boolean> = {
 function Arrow() {
   return (
     <Flex align='center'>
-      <UpArrow/>
+      <UpArrow />
     </Flex>
   )
 }

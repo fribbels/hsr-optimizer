@@ -260,7 +260,7 @@ EditCharacter:
     $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
   SuperimpositionButton: >-
     $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
-  Character: Personagem 
+  Character: Personagem
   Lightcone: Cone de luz
 Relic:
   Part: Parte
@@ -355,7 +355,7 @@ CharacterSelect:
     MaxTagPlaceholderNone: Todos os personagens habilitados
     ModalTitle: Selecione personagens para excluir
   SingleSelect:
-    Placeholder: Personagem 
+    Placeholder: Personagem
     ModalTitle: Selecionar um personagem
   SearchPlaceholder: Procurar nome do personagem
   ExcludeButton: Excluir todos

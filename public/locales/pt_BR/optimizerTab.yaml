@@ -1,5 +1,5 @@
 CharacterSelector:
-  Character: Personagem 
+  Character: Personagem
   Lightcone: Cone de luz
   Presets: Predefinições
   Target: Meta de otimização
@@ -202,7 +202,7 @@ Sidebar:
   Pinning:
     Messages:
       NoneSelected: Nenhuma linha selecionada
-      SimSelected: ' As linhas de simulação personalizadas não podem ser fixadas'
+      SimSelected: " As linhas de simulação personalizadas não podem ser fixadas"
       AlreadyPinned: Essa build já está fixada
   Permutations: Permutações
   Perms: Perms
@@ -306,10 +306,10 @@ SetConditionals:
   Conditionals:
     DefaultMessage: Habilitado por padrão — efeitos serão aplicados nos cálculos de combate
     Hunter: "Quando habilitado, buff de dano crítico é aplicado aos cálculos de atributos de combate.\n"
-    Streetwise: ' O bônus de ATQ% selecionado é aplicado aos cálculos de atributos de combate com base no número de acúmulos.'
-    Firesmith: ' O aumento do dano de habilidade está sempre ativo por padrão. Quando ativado, o bônus de dano de fogo é aplicado aos cálculos de atributos de combate.'
-    Genius: ' O aumento de 10% de penetração de defesa está sempre ativo por padrão. Quando ativado, trata o inimigo como tendo fraqueza à Quantum e penetra 10% a mais de DEF.'
-    Thunder: ' Quando ativado, o bônus de ATQ% é aplicado aos cálculos de atributos de combate.'
+    Streetwise: " O bônus de ATQ% selecionado é aplicado aos cálculos de atributos de combate com base no número de acúmulos."
+    Firesmith: " O aumento do dano de habilidade está sempre ativo por padrão. Quando ativado, o bônus de dano de fogo é aplicado aos cálculos de atributos de combate."
+    Genius: " O aumento de 10% de penetração de defesa está sempre ativo por padrão. Quando ativado, trata o inimigo como tendo fraqueza à Quantum e penetra 10% a mais de DEF."
+    Thunder: " Quando ativado, o bônus de ATQ% é aplicado aos cálculos de atributos de combate."
     Wastelander: Aplica os buffs selecionados aos cálculos de estatísticas de combate.
     Longevous: O buff de CR selecionado é aplicado aos cálculos de estatísticas de combate com base no número de acúmulos.
     Messenger: Quando ativado, o bônus de SPD% é aplicado aos cálculos de estatísticas de combate.
@@ -429,7 +429,7 @@ ComboFilter:
   CounterLabels:
     Dot: DOTs
   ComboOptions:
-    None: 'Nenhum'
+    None: "Nenhum"
     Basic: Basic
     Skill: Skill
     Ult: Ult
@@ -535,10 +535,10 @@ StatSimulation:
 ExpandedDataPanel:
   SubstatUpgrades:
     ColumnHeaders:
-      Substat: '+1x Subatributo'
+      Substat: "+1x Subatributo"
       COMBO_DMG: Δ Dano Combo
       COMBO_DMG_P: Δ% Dano Combo
-      EHP: '% EHP'
+      EHP: "% EHP"
       EHP_P: Δ% EHP
       HEAL_VALUE: Δ Cura
       HEAL_VALUE_P: Δ% Cura
@@ -551,7 +551,7 @@ ExpandedDataPanel:
       breakDmg: Quebra
       superBreakDmg: Super Quebra
       additionalDmg: Adicional
-      trueDmg: 'Real'
+      trueDmg: "Real"
       jointDmg: Conjunto
       dotDmg: Dot
       memoDmg: Memo

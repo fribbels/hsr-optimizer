@@ -5,7 +5,7 @@ ScreenshotMessages:
 CharacterMenu:
   ButtonText: Menu de personagens
   Character:
-    Label: Personagem 
+    Label: Personagem
     Options:
       Add: Adicionar novo personagem
       Edit: Editar personagem / cone de luz
@@ -30,7 +30,7 @@ SearchPlaceholder: Buscar
 GridHeaders:
   Icon: Ícone
   Priority: Prioridade
-  Character: Personagem 
+  Character: Personagem
 Messages:
   RemoveSuccess: Personagem removido com sucesso
   UnequipSuccess: Personagem desequipado com sucesso

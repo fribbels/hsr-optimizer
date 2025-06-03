@@ -1,6 +1,10 @@
 import { ABILITY_LIMIT } from 'lib/constants/constants'
 import { TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
-import { ComboBooleanConditional, ComboNumberConditional, ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import {
+  ComboBooleanConditional,
+  ComboNumberConditional,
+  ComboState,
+} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
 export abstract class AbilityPreprocessorBase {
   abstract id: string

@@ -1,11 +1,17 @@
-import i18next from "i18next"
-import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from "lib/constants/constants"
+import i18next from 'i18next'
+import {
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.JourneyForeverPeaceful')
@@ -34,7 +40,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     hp50DmgBoost: content.hp50DmgBoost,
   }
-
 
   return {
     content: () => Object.values(content),

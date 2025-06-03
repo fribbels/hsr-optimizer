@@ -1,10 +1,16 @@
-import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import {
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.InherentlyUnjustDestiny')
@@ -35,7 +41,10 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       id: 'targetVulnerability',
       formItem: 'switch',
       text: t('Content.targetVulnerability.text'),
-      content: t('Content.targetVulnerability.content', { baseChance: TsUtils.precisionRound(100 + 15 * s), Vulnerability: TsUtils.precisionRound(100 * sValuesVulnerability[s]) }),
+      content: t('Content.targetVulnerability.content', {
+        baseChance: TsUtils.precisionRound(100 + 15 * s),
+        Vulnerability: TsUtils.precisionRound(100 * sValuesVulnerability[s]),
+      }),
     },
   }
 

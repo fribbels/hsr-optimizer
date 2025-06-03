@@ -4,7 +4,7 @@ CharacterSelector:
   Presets: Mẫu Cho Sẵn
   Target: Mục tiêu tối ưu hóa
   ResultsPlaceholder: Tìm kết quả tốt nhất
-  TargetPlaceholder: 'Sắp xếp theo:'
+  TargetPlaceholder: "Sắp xếp theo:"
   EidolonPlaceholder: E
   SuperimpositionPlaceholder: S
 LightconePassives: Kỹ Năng Nón Ánh Sáng
@@ -421,7 +421,7 @@ ComboFilter:
   CounterLabels:
     Dot: Dots
   ComboOptions:
-    None: 'Không có'
+    None: "Không có"
     Basic: Tấn công thường
     Skill: Chiến kỹ
     Ult: Tuyệt Kỹ
@@ -439,7 +439,7 @@ ComboDrawer:
     Ornaments: Điều kiện của bộ vị diện
   GroupHeaders:
     Sets: Điều kiện của di vật và vị diện
-    Teammate1: ' Điều kiện của đồng đội 1'
+    Teammate1: " Điều kiện của đồng đội 1"
     Teammate2: Điều kiện của đồng đội 2
     Teammate3: Điều kiện của đồng đội 3
 TeammateCard:
@@ -523,7 +523,7 @@ StatSimulation:
 ExpandedDataPanel:
   SubstatUpgrades:
     ColumnHeaders:
-      Substat: '+1x Thuộc tính phụ'
+      Substat: "+1x Thuộc tính phụ"
       COMBO_DMG: Δ ST Combo
       COMBO_DMG_P: Δ% ST Combo
       EHP: Δ EHP
@@ -539,7 +539,7 @@ ExpandedDataPanel:
       breakDmg: Kích Phá
       superBreakDmg: Siêu Phá Vỡ
       additionalDmg: Bổ sung
-      trueDmg: 'ST Chuẩn'
+      trueDmg: "ST Chuẩn"
       jointDmg: ST Chung
       dotDmg: Dot
       memoDmg: LH Ký Ức

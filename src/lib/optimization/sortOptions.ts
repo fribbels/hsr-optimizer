@@ -4,43 +4,43 @@
 import { Key } from 'lib/optimization/computedStatsArray'
 
 export type SortOptionProperties = {
-  key: keyof typeof SortOption
-  gpuProperty: string
-  basicProperty: string
-  combatProperty: string
-  basicGridColumn: string
-  combatGridColumn: string
-  memoBasicGridColumn: string
-  memoCombatGridColumn: string
-  optimizerKey: number
-  isComputedRating?: boolean
+  key: keyof typeof SortOption,
+  gpuProperty: string,
+  basicProperty: string,
+  combatProperty: string,
+  basicGridColumn: string,
+  combatGridColumn: string,
+  memoBasicGridColumn: string,
+  memoCombatGridColumn: string,
+  optimizerKey: number,
+  isComputedRating?: boolean,
 }
 
 export const SortOption: {
-  ATK: SortOptionProperties
-  DEF: SortOptionProperties
-  HP: SortOptionProperties
-  SPD: SortOptionProperties
-  CR: SortOptionProperties
-  CD: SortOptionProperties
-  EHR: SortOptionProperties
-  RES: SortOptionProperties
-  BE: SortOptionProperties
-  OHB: SortOptionProperties
-  ERR: SortOptionProperties
-  ELEMENTAL_DMG: SortOptionProperties
-  EHP: SortOptionProperties
-  BASIC: SortOptionProperties
-  SKILL: SortOptionProperties
-  ULT: SortOptionProperties
-  FUA: SortOptionProperties
-  MEMO_SKILL: SortOptionProperties
-  MEMO_TALENT: SortOptionProperties
-  DOT: SortOptionProperties
-  BREAK: SortOptionProperties
-  COMBO: SortOptionProperties
-  HEAL: SortOptionProperties
-  SHIELD: SortOptionProperties
+  ATK: SortOptionProperties,
+  DEF: SortOptionProperties,
+  HP: SortOptionProperties,
+  SPD: SortOptionProperties,
+  CR: SortOptionProperties,
+  CD: SortOptionProperties,
+  EHR: SortOptionProperties,
+  RES: SortOptionProperties,
+  BE: SortOptionProperties,
+  OHB: SortOptionProperties,
+  ERR: SortOptionProperties,
+  ELEMENTAL_DMG: SortOptionProperties,
+  EHP: SortOptionProperties,
+  BASIC: SortOptionProperties,
+  SKILL: SortOptionProperties,
+  ULT: SortOptionProperties,
+  FUA: SortOptionProperties,
+  MEMO_SKILL: SortOptionProperties,
+  MEMO_TALENT: SortOptionProperties,
+  DOT: SortOptionProperties,
+  BREAK: SortOptionProperties,
+  COMBO: SortOptionProperties,
+  HEAL: SortOptionProperties,
+  SHIELD: SortOptionProperties,
 } = {
   ATK: {
     key: 'ATK',

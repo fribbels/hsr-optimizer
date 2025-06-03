@@ -1,39 +1,55 @@
-import { ElementToResPenType, Stats } from 'lib/constants/constants'
+import {
+  ElementToResPenType,
+  Stats,
+} from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
+import {
+  BasicStatsArray,
+  BasicStatsArrayCore,
+} from 'lib/optimization/basicStatsArray'
 import { BuffSource } from 'lib/optimization/buffSource'
-import { BaseComputedStatsConfig, baseComputedStatsObject, ComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
-import { ElementalDamageType, ElementalResPenType } from 'types/metadata'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  BaseComputedStatsConfig,
+  baseComputedStatsObject,
+  ComputedStatsObject,
+} from 'lib/optimization/config/computedStatsConfig'
+import {
+  ElementalDamageType,
+  ElementalResPenType,
+} from 'types/metadata'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export type Buff = {
-  stat: string
-  key: number
-  value: number
-  source: BuffSource
-  memo?: boolean
+  stat: string,
+  key: number,
+  value: number,
+  source: BuffSource,
+  memo?: boolean,
 }
 export type DefaultActionDamageValues = {
-  BASIC_DMG: DamageBreakdown
-  SKILL_DMG: DamageBreakdown
-  ULT_DMG: DamageBreakdown
-  FUA_DMG: DamageBreakdown
-  DOT_DMG: DamageBreakdown
-  BREAK_DMG: DamageBreakdown
-  MEMO_SKILL_DMG: DamageBreakdown
-  MEMO_TALENT_DMG: DamageBreakdown
+  BASIC_DMG: DamageBreakdown,
+  SKILL_DMG: DamageBreakdown,
+  ULT_DMG: DamageBreakdown,
+  FUA_DMG: DamageBreakdown,
+  DOT_DMG: DamageBreakdown,
+  BREAK_DMG: DamageBreakdown,
+  MEMO_SKILL_DMG: DamageBreakdown,
+  MEMO_TALENT_DMG: DamageBreakdown,
 }
 
 export type DamageBreakdown = {
-  name: string
-  abilityDmg: number
-  additionalDmg: number
-  breakDmg: number
-  superBreakDmg: number
-  jointDmg: number
-  trueDmg: number
-  dotDmg: number
-  memoDmg: number
+  name: string,
+  abilityDmg: number,
+  additionalDmg: number,
+  breakDmg: number,
+  superBreakDmg: number,
+  jointDmg: number,
+  trueDmg: number,
+  dotDmg: number,
+  memoDmg: number,
 }
 
 function generateDefaultDamageValues() {
@@ -74,32 +90,32 @@ export const Key: Record<KeysType, number> = Object.keys(baseComputedStatsObject
 )
 
 export type StatController = {
-  buff: (value: number, source: BuffSource) => void
-  buffSingle: (value: number, source: BuffSource) => void
-  buffMemo: (value: number, source: BuffSource) => void
-  buffTeam: (value: number, source: BuffSource) => void
-  buffDual: (value: number, source: BuffSource) => void
-  buffBaseDual: (value: number, source: BuffSource) => void
-  multiply: (value: number, source: BuffSource) => void
-  multiplyTeam: (value: number, source: BuffSource) => void
-  set: (value: number, source: BuffSource) => void
-  config: (value: number, source: BuffSource) => void
-  buffDynamic: (value: number, source: BuffSource, action: OptimizerAction, context: OptimizerContext) => void
-  buffBaseDualDynamic: (value: number, source: BuffSource, action: OptimizerAction, context: OptimizerContext) => void
-  get: () => number
-  memoGet: () => number
+  buff: (value: number, source: BuffSource) => void,
+  buffSingle: (value: number, source: BuffSource) => void,
+  buffMemo: (value: number, source: BuffSource) => void,
+  buffTeam: (value: number, source: BuffSource) => void,
+  buffDual: (value: number, source: BuffSource) => void,
+  buffBaseDual: (value: number, source: BuffSource) => void,
+  multiply: (value: number, source: BuffSource) => void,
+  multiplyTeam: (value: number, source: BuffSource) => void,
+  set: (value: number, source: BuffSource) => void,
+  config: (value: number, source: BuffSource) => void,
+  buffDynamic: (value: number, source: BuffSource, action: OptimizerAction, context: OptimizerContext) => void,
+  buffBaseDualDynamic: (value: number, source: BuffSource, action: OptimizerAction, context: OptimizerContext) => void,
+  get: () => number,
+  memoGet: () => number,
 }
 
 type ComputedStatsArrayStatExtensions = {
-  [K in keyof typeof BaseComputedStatsConfig]: StatController;
+  [K in keyof typeof BaseComputedStatsConfig]: StatController
 }
 
 type ComputedStatsArrayStatDirectAccess = {
-  [K in keyof typeof BaseComputedStatsConfig as `$${K}`]: number;
+  [K in keyof typeof BaseComputedStatsConfig as `$${K}`]: number
 }
 
 export type ComputedStatsArray =
-  ComputedStatsArrayCore
+  & ComputedStatsArrayCore
   & ComputedStatsArrayStatExtensions
   & ComputedStatsArrayStatDirectAccess
 
@@ -126,14 +142,12 @@ export class ComputedStatsArrayCore {
     // @ts-ignore
     this.dmgSplits = this.trace ? generateDefaultDamageValues() : null
     Object.keys(baseComputedStatsObject).forEach((stat, key) => {
-      const trace
-        = (value: number, source: BuffSource) => this.trace && this.buffs.push({ stat, key, value, source })
-      const traceMemo
-        = (value: number, source: BuffSource) => this.trace && this.buffsMemo.push({ stat, key, value, source })
-      const traceOverwrite
-        = (value: number, source: BuffSource) => this.trace && (this.buffs = this.buffs.filter((b) => b.key !== key).concat({ stat, key, value, source }))
-      const traceMemoOverwrite
-        = (value: number, source: BuffSource) => this.trace && (this.buffsMemo = this.buffsMemo.filter((b) => b.key !== key).concat({ stat, key, value, source }))
+      const trace = (value: number, source: BuffSource) => this.trace && this.buffs.push({ stat, key, value, source })
+      const traceMemo = (value: number, source: BuffSource) => this.trace && this.buffsMemo.push({ stat, key, value, source })
+      const traceOverwrite = (value: number, source: BuffSource) =>
+        this.trace && (this.buffs = this.buffs.filter((b) => b.key !== key).concat({ stat, key, value, source }))
+      const traceMemoOverwrite = (value: number, source: BuffSource) =>
+        this.trace && (this.buffsMemo = this.buffsMemo.filter((b) => b.key !== key).concat({ stat, key, value, source }))
 
       Object.defineProperty(this, stat, {
         value: {
@@ -386,54 +400,57 @@ export function buffElementalDamageType(x: ComputedStatsArray, type: ElementalDa
   x.a[key] += value
 }
 
-export type ComputedStatsObjectExternal = Omit<ComputedStatsObject,
-  'HP_P'
-  | 'ATK_P'
-  | 'DEF_P'
-  | 'SPD_P'
-  | 'HP'
-  | 'ATK'
-  | 'DEF'
-  | 'SPD'
-  | 'CD'
-  | 'CR'
-  | 'EHR'
-  | 'RES'
-  | 'BE'
-  | 'ERR'
-  | 'OHB'
-  | 'PHYSICAL_DMG_BOOST'
-  | 'FIRE_DMG_BOOST'
-  | 'ICE_DMG_BOOST'
-  | 'LIGHTNING_DMG_BOOST'
-  | 'WIND_DMG_BOOST'
-  | 'QUANTUM_DMG_BOOST'
-  | 'IMAGINARY_DMG_BOOST'
-> & {
-  ['HP%']: number
-  ['ATK%']: number
-  ['DEF%']: number
-  ['SPD%']: number
-  ['HP']: number
-  ['ATK']: number
-  ['DEF']: number
-  ['SPD']: number
-  ['CRIT Rate']: number
-  ['CRIT DMG']: number
-  ['Effect Hit Rate']: number
-  ['Effect RES']: number
-  ['Break Effect']: number
-  ['Energy Regeneration Rate']: number
-  ['Outgoing Healing Boost']: number
+export type ComputedStatsObjectExternal =
+  & Omit<
+    ComputedStatsObject,
+    | 'HP_P'
+    | 'ATK_P'
+    | 'DEF_P'
+    | 'SPD_P'
+    | 'HP'
+    | 'ATK'
+    | 'DEF'
+    | 'SPD'
+    | 'CD'
+    | 'CR'
+    | 'EHR'
+    | 'RES'
+    | 'BE'
+    | 'ERR'
+    | 'OHB'
+    | 'PHYSICAL_DMG_BOOST'
+    | 'FIRE_DMG_BOOST'
+    | 'ICE_DMG_BOOST'
+    | 'LIGHTNING_DMG_BOOST'
+    | 'WIND_DMG_BOOST'
+    | 'QUANTUM_DMG_BOOST'
+    | 'IMAGINARY_DMG_BOOST'
+  >
+  & {
+    ['HP%']: number,
+    ['ATK%']: number,
+    ['DEF%']: number,
+    ['SPD%']: number,
+    ['HP']: number,
+    ['ATK']: number,
+    ['DEF']: number,
+    ['SPD']: number,
+    ['CRIT Rate']: number,
+    ['CRIT DMG']: number,
+    ['Effect Hit Rate']: number,
+    ['Effect RES']: number,
+    ['Break Effect']: number,
+    ['Energy Regeneration Rate']: number,
+    ['Outgoing Healing Boost']: number,
 
-  ['Physical DMG Boost']: number
-  ['Fire DMG Boost']: number
-  ['Ice DMG Boost']: number
-  ['Lightning DMG Boost']: number
-  ['Wind DMG Boost']: number
-  ['Quantum DMG Boost']: number
-  ['Imaginary DMG Boost']: number
-}
+    ['Physical DMG Boost']: number,
+    ['Fire DMG Boost']: number,
+    ['Ice DMG Boost']: number,
+    ['Lightning DMG Boost']: number,
+    ['Wind DMG Boost']: number,
+    ['Quantum DMG Boost']: number,
+    ['Imaginary DMG Boost']: number,
+  }
 
 export const StatToKey: Record<string, number> = {
   [Stats.ATK_P]: Key.ATK_P,

@@ -264,13 +264,13 @@ EditCharacter:
   Lightcone: 광추
 Relic:
   Part: 부위
-  Wearer: '장착됨 : '
+  Wearer: "장착됨 : "
   Set: 세트
   Enhance: 강화 / 등급
   Mainstat: 주 옵션
   Substat: 부 옵션
   SubstatPlaceholder: 부 옵션
-  SpdInputWarning: '주의: 게임 내에 표시되는 속도 하위 상태에는 작은 수치가 숨어 있기 때문에 수동으로 입력한 속도 값은 부정확하게 되어 버립니다. 정확한 속도 값을 입력하려면 쇼케이스 탭 또는Reliquary Archive를 사용하여 가져와야 합니다.'
+  SpdInputWarning: "주의: 게임 내에 표시되는 속도 하위 상태에는 작은 수치가 숨어 있기 때문에 수동으로 입력한 속도 값은 부정확하게 되어 버립니다. 정확한 속도 값을 입력하려면 쇼케이스 탭 또는Reliquary Archive를 사용하여 가져와야 합니다."
   Upgrades: 부 옵션 레벨업
   Messages:
     SubmitFail: 제출 실패!

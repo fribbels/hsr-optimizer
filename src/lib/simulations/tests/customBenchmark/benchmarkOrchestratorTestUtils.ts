@@ -6,7 +6,7 @@ import DB from 'lib/state/db'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import {
   applyScoringMetadataPresets,
-  applySetConditionalPresets
+  applySetConditionalPresets,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { expect } from 'vitest'

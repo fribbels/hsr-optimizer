@@ -1,4 +1,7 @@
-import { useEffect, useState } from 'react'
+import {
+  useEffect,
+  useState,
+} from 'react'
 
 // Delays rendering a component for performance, useful to memoize heavy component renders
 export function useDelayedProps<T>(props: T, delay = 100) {

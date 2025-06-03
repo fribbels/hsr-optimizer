@@ -1,5 +1,13 @@
-import { Flex, Table, TableProps } from 'antd'
-import { sharedScoreUpgradeColumns, sharedSimResultComparator, tableStyle } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
+import {
+  Flex,
+  Table,
+  TableProps,
+} from 'antd'
+import {
+  sharedScoreUpgradeColumns,
+  sharedSimResultComparator,
+  tableStyle,
+} from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
@@ -8,15 +16,15 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 type SubstatUpgradeItem = {
-  stat: SubStats
-  scorePercentUpgrade: number
-  scoreValueUpgrade: number
-  damagePercentUpgrade: number
-  damageValueUpgrade: number
+  stat: SubStats,
+  scorePercentUpgrade: number,
+  scoreValueUpgrade: number,
+  damagePercentUpgrade: number,
+  damageValueUpgrade: number,
 }
 
 export function DpsScoreSubstatUpgradesTable(props: {
-  simScore: SimulationScore
+  simScore: SimulationScore,
 }) {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ShortSpacedStats' })
@@ -41,9 +49,9 @@ export function DpsScoreSubstatUpgradesTable(props: {
       rowScope: 'row',
       render: (text: SubStats, upgrade: SubstatUpgradeItem) => (
         <Flex>
-          <img src={Assets.getStatIcon(text)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }}/>
+          <img src={Assets.getStatIcon(text)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }} />
           <span style={{ marginRight: 10 }}>
-            {t('AddedRoll', { stat: tCommon(text) })/* +1x roll {{stat}} */}
+            {t('AddedRoll', { stat: tCommon(text) }) /* +1x roll {{stat}} */}
           </span>
         </Flex>
       ),

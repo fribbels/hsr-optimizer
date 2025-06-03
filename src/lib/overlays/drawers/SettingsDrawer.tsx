@@ -1,9 +1,21 @@
-import { Drawer, Flex, Form, Select, Typography } from 'antd'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import {
+  Drawer,
+  Flex,
+  Form,
+  Select,
+  Typography,
+} from 'antd'
+import {
+  OpenCloseIDs,
+  useOpenClose,
+} from 'lib/hooks/useOpenClose'
 import { SaveState } from 'lib/state/saveState'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { ReactNode, useEffect } from 'react'
+import {
+  ReactNode,
+  useEffect,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { UserSettings } from 'types/store'
@@ -65,63 +77,65 @@ export const SettingsDrawer = () => {
   const optionsRelicEquippingBehavior = [
     {
       value: SettingOptions.RelicEquippingBehavior.Replace,
-      label: <span>{t('RelicEquippingBehavior.Replace')/* Default: Replace relics without swapping */}</span>,
+      label: <span>{t('RelicEquippingBehavior.Replace') /* Default: Replace relics without swapping */}</span>,
     },
     {
       value: SettingOptions.RelicEquippingBehavior.Swap,
-      label: <span>{t('RelicEquippingBehavior.Swap')/* Swap relics with previous owner */}</span>,
+      label: <span>{t('RelicEquippingBehavior.Swap') /* Swap relics with previous owner */}</span>,
     },
   ]
 
   const optionsPermutationsSidebarBehavior = [
     {
       value: SettingOptions.PermutationsSidebarBehavior.ShowXL,
-      label: <span>{t('PermutationsSidebarBehavior.ShowXL')/* Default: Minimize if most of the sidebar is hidden */}</span>,
+      label: <span>{t('PermutationsSidebarBehavior.ShowXL') /* Default: Minimize if most of the sidebar is hidden */}</span>,
     },
     {
       value: SettingOptions.PermutationsSidebarBehavior.ShowXXL,
-      label: <span>{t('PermutationsSidebarBehavior.ShowXXL')/* Minimize if any of the sidebar is hidden */}</span>,
+      label: <span>{t('PermutationsSidebarBehavior.ShowXXL') /* Minimize if any of the sidebar is hidden */}</span>,
     },
     {
       value: SettingOptions.PermutationsSidebarBehavior.NoShow,
-      label: <span>{t('PermutationsSidebarBehavior.NoShow')/* Always keep the sidebar on the right */}</span>,
+      label: <span>{t('PermutationsSidebarBehavior.NoShow') /* Always keep the sidebar on the right */}</span>,
     },
   ]
 
   const optionsRelicPotentialLoadBehavior = [
     {
       value: SettingOptions.RelicPotentialLoadBehavior.ScoreAtStartup,
-      label: <span>{t('RelicPotentialLoadBehavior.ScoreAtStartup')/* Default: Automatically score relics on page load */}</span>,
+      label: <span>{t('RelicPotentialLoadBehavior.ScoreAtStartup') /* Default: Automatically score relics on page load */}</span>,
     },
     {
       value: SettingOptions.RelicPotentialLoadBehavior.ManuallyClickReapplyScores,
-      label: <span>{t('RelicPotentialLoadBehavior.ManuallyClickReapplyScores')/* Only score relics when \"Reapply scores\" is clicked (faster page load) */}</span>,
+      label: (
+        <span>{t('RelicPotentialLoadBehavior.ManuallyClickReapplyScores') /* Only score relics when \"Reapply scores\" is clicked (faster page load) */}</span>
+      ),
     },
   ]
 
   const optionsExpandedInfoPanelPosition = [
     {
       value: SettingOptions.ExpandedInfoPanelPosition.Above,
-      label: <span>{t('ExpandedInfoPanelPosition.Above')/* Show expanded info above relics preview */}</span>,
+      label: <span>{t('ExpandedInfoPanelPosition.Above') /* Show expanded info above relics preview */}</span>,
     },
     {
       value: SettingOptions.ExpandedInfoPanelPosition.Below,
-      label: <span>{t('ExpandedInfoPanelPosition.Below')/* Default: Show expanded info below relics preview */}</span>,
+      label: <span>{t('ExpandedInfoPanelPosition.Below') /* Default: Show expanded info below relics preview */}</span>,
     },
   ]
 
   const optionsShowLocatorInRelicsModal = [
     {
       value: SettingOptions.ShowLocatorInRelicsModal.No,
-      label: <span>{t('ShowLocatorInRelicsModal.No')/* Default: Do not show the relic locator in the relic editor */}</span>,
+      label: <span>{t('ShowLocatorInRelicsModal.No') /* Default: Do not show the relic locator in the relic editor */}</span>,
     },
     {
       value: SettingOptions.ShowLocatorInRelicsModal.Yes,
-      label: <span>{t('ShowLocatorInRelicsModal.Yes')/* Show the relic locator in the relic editor */}</span>,
+      label: <span>{t('ShowLocatorInRelicsModal.Yes') /* Show the relic locator in the relic editor */}</span>,
     },
   ]
 
-  const optionsMap: Record<keyof UserSettings, { value: string; label: ReactNode }[]> = {
+  const optionsMap: Record<keyof UserSettings, { value: string, label: ReactNode }[]> = {
     RelicEquippingBehavior: optionsRelicEquippingBehavior,
     PermutationsSidebarBehavior: optionsPermutationsSidebarBehavior,
     RelicPotentialLoadBehavior: optionsRelicPotentialLoadBehavior,
@@ -148,7 +162,7 @@ export const SettingsDrawer = () => {
       onValuesChange={onValuesChange}
     >
       <Drawer
-        title={t('Title')}/* 'Settings' */
+        title={t('Title')} /* 'Settings' */
         placement='right'
         onClose={closeSettingsDrawer}
         open={isOpenSettingsDrawer}

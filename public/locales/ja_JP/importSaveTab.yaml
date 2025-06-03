@@ -19,7 +19,7 @@ Import:
   Stage1:
     Header: "以下の遺物スキャナーのいずれかをインストールして実行してください"
     ReliquaryDesc:
-      Title: '（推奨）IceDynamix Reliquary Archiver'
+      Title: "（推奨）IceDynamix Reliquary Archiver"
       Link: GitHub
       OnlineMsg: "ステータス：バージョン{{version}}に対応済み"
       OfflineMsg: "***** ステータス: バージョン{{version}}適用後、メンテナンス中です。 *****"

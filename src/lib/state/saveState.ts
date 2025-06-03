@@ -1,9 +1,9 @@
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import DB from 'lib/state/db'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { HsrOptimizerSaveFormat } from 'types/store'
-import { useWarpCalculatorStore } from "lib/tabs/tabWarp/useWarpCalculatorStore";
-import { useShowcaseTabStore } from "lib/tabs/tabShowcase/useShowcaseTabStore";
 
 let saveTimeout: NodeJS.Timeout | null
 

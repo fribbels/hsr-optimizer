@@ -1,4 +1,7 @@
-import { Constants, RelicSetFilterOptions } from 'lib/constants/constants'
+import {
+  Constants,
+  RelicSetFilterOptions,
+} from 'lib/constants/constants'
 import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
 

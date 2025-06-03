@@ -1,4 +1,7 @@
-import { Flex, Typography } from 'antd'
+import {
+  Flex,
+  Typography,
+} from 'antd'
 import React, { CSSProperties } from 'react'
 
 const { Text } = Typography
@@ -35,8 +38,8 @@ export const showcaseButtonStyle: CSSProperties = {
 }
 
 export function OverlayText(props: {
-  text: string
-  top: number
+  text: string,
+  top: number,
 }) {
   const top = props.top
   return (

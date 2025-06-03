@@ -429,7 +429,7 @@ ComboFilter:
   CounterLabels:
     Dot: Dsd
   ComboOptions:
-    None: 'Aucun'
+    None: "Aucun"
     Basic: Norm
     Skill: Comp
     Ult: Ult
@@ -535,7 +535,7 @@ StatSimulation:
 ExpandedDataPanel:
   SubstatUpgrades:
     ColumnHeaders:
-      Substat: '+1x Substat'
+      Substat: "+1x Substat"
       COMBO_DMG: Δ DGT Combo
       COMBO_DMG_P: Δ% DGT Combo
       EHP: Δ PVE
@@ -551,7 +551,7 @@ ExpandedDataPanel:
       breakDmg: Rupture
       superBreakDmg: Rupture Extrême
       additionalDmg: Additionnels
-      trueDmg: 'Réels'
+      trueDmg: "Réels"
       jointDmg: Conjointe
       dotDmg: DsD
       memoDmg: Mnémesprit

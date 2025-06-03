@@ -1,12 +1,28 @@
-import { COMPUTE_ENGINE_GPU_EXPERIMENTAL, ComputeEngine } from 'lib/constants/constants'
+import {
+  COMPUTE_ENGINE_GPU_EXPERIMENTAL,
+  ComputeEngine,
+} from 'lib/constants/constants'
 import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
-import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
-import { GpuExecutionContext, RelicsByPart } from 'lib/gpu/webgpuTypes'
+import {
+  destroyPipeline,
+  generateExecutionPass,
+  initializeGpuPipeline,
+} from 'lib/gpu/webgpuInternals'
+import {
+  GpuExecutionContext,
+  RelicsByPart,
+} from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { webgpuCrashNotification } from 'lib/interactions/notifications'
-import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
+import {
+  BasicStatsArray,
+  BasicStatsArrayCore,
+} from 'lib/optimization/basicStatsArray'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
-import { ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
+import {
+  ComputedStatsArray,
+  ComputedStatsArrayCore,
+} from 'lib/optimization/computedStatsArray'
 import { formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
@@ -21,14 +37,14 @@ import { OptimizerContext } from 'types/optimizer'
 globalThis.WEBGPU_DEBUG = false
 
 export async function gpuOptimize(props: {
-  device: GPUDevice | null
-  context: OptimizerContext
-  request: Form
-  relics: RelicsByPart
-  permutations: number
-  computeEngine: string
-  relicSetSolutions: number[]
-  ornamentSetSolutions: number[]
+  device: GPUDevice | null,
+  context: OptimizerContext,
+  request: Form,
+  relics: RelicsByPart,
+  permutations: number,
+  computeEngine: string,
+  relicSetSolutions: number[],
+  ornamentSetSolutions: number[],
 }) {
   const { context, request, relics, permutations, computeEngine, relicSetSolutions, ornamentSetSolutions } = props
 
@@ -137,7 +153,6 @@ export async function gpuOptimize(props: {
 
 // eslint-disable-next-line
 async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: GpuExecutionContext, elementOffset: number = 0) {
-
   await gpuReadBuffer.mapAsync(GPUMapMode.READ, elementOffset)
 
   const arrayBuffer = gpuReadBuffer.getMappedRange(elementOffset * 4)
@@ -214,12 +229,14 @@ function outputResults(gpuContext: GpuExecutionContext) {
   for (let i = 0; i < resultArray.length; i++) {
     const index = resultArray[i].index
 
-    const l = (index % lSize)
-    const p = (((index - l) / lSize) % pSize)
-    const f = (((index - p * lSize - l) / (lSize * pSize)) % fSize)
-    const b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
-    const g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
-    const h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
+    const l = index % lSize
+    const p = ((index - l) / lSize) % pSize
+    const f = ((index - p * lSize - l) / (lSize * pSize)) % fSize
+    const b = ((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize
+    const g = ((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize
+    const h =
+      ((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize))
+      % hSize
 
     const relicsByPart = {
       Head: relics.Head[h],

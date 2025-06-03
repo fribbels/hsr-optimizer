@@ -475,7 +475,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: '≤2个敌人时暴击率增益'
+        text: "≤2个敌人时暴击率增益"
         content: 当场上的敌方目标数量小于等于2时，装备者的暴击率提高{{CritBuff}}%.
   PastAndFuture:
     Content:
@@ -541,7 +541,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: '≥2个对应属性弱点目标暴击伤害增益'
+        text: "≥2个对应属性弱点目标暴击伤害增益"
         content: 装备者施放攻击后，若有不少于2个被攻击的敌方目标具有对应属性弱点，装备者的暴击伤害提高{{CritBuff}}%，持续2回合。
   TheGreatCosmicEnterprise:
     Content:
@@ -842,7 +842,7 @@ Characters:
         content: 使自身造成的伤害提高，提高数值等同于效果命中的60%，最多使造成的伤害提高72%。
       epiphanyDebuff:
         text: 揭露负面效果
-        content: '【揭露】状态下，敌方目标自身回合内受到的伤害提高{{epiphanyDmgTakenBoost}}%。'
+        content: "【揭露】状态下，敌方目标自身回合内受到的伤害提高{{epiphanyDmgTakenBoost}}%。"
       defDecreaseDebuff:
         text: 防御力降低负面效果
         content: 目标防御力降低{{defShredValue}}%。
@@ -855,7 +855,7 @@ Characters:
         content: 当黑天鹅处于可战斗状态时，处于风化、裂伤、灼烧、触电状态下的敌方目标对应的风、物理、火、雷属性抗性分别降低25%。
       e4EffResPen:
         text: 4魂效果抵抗降低
-        content: '【揭露】状态下，敌方目标效果抵抗降低10%。'
+        content: "【揭露】状态下，敌方目标效果抵抗降低10%。"
   Blade:
     Content:
       enhancedStateActive:
@@ -974,7 +974,7 @@ Characters:
         content: 赛飞儿击中敌方目标时，有120%的基础概率使其受到的伤害提高30%，持续2回合。
       e4AdditionalDmg:
         text: 4魂附加伤害
-        content: '【老主顾】受到我方目标攻击后，赛飞儿对其造成等同于赛飞儿50%攻击力的量子属性附加伤害。'
+        content: "【老主顾】受到我方目标攻击后，赛飞儿对其造成等同于赛飞儿50%攻击力的量子属性附加伤害。"
       e6FuaDmg:
         text: 6魂追加攻击伤害
         content: 赛飞儿天赋的追加攻击造成的伤害提高350%。
@@ -1044,7 +1044,7 @@ Characters:
         content: 进入「完全燃烧」状态，自身行动提前100%并获得强化普攻和强化战技。
       enhancedStateSpdBuff:
         text: 强化状态速度增益
-        content: '「完全燃烧」状态下速度提高{{ultSpdBuff}}点。'
+        content: "「完全燃烧」状态下速度提高{{ultSpdBuff}}点。"
       superBreakDmg:
         text: 启用超击破伤害（强制弱点击破）
         content: >-
@@ -1061,10 +1061,10 @@ Characters:
         content: 施放强化战技时无视目标15%的防御，且强化战技不消耗战技点。
       e4ResBuff:
         text: 4魂效果抵抗增益
-        content: '「完全燃烧」状态下，装甲「萨姆」的效果抵抗提高50%。'
+        content: "「完全燃烧」状态下，装甲「萨姆」的效果抵抗提高50%。"
       e6Buffs:
         text: 6魂增益
-        content: '「完全燃烧」状态下装甲「萨姆」的火属性抗性穿透提高20%。施放强化普攻、强化战技时弱点击破效率提高50%。'
+        content: "「完全燃烧」状态下装甲「萨姆」的火属性抗性穿透提高20%。施放强化普攻、强化战技时弱点击破效率提高50%。"
   Fugue:
     Content:
       torridScorch:
@@ -1109,7 +1109,7 @@ Characters:
           开启【穷观阵】，使符玄队友所承受的未受护盾抵挡之前的伤害的65%分摊给符玄，持续3回合。处于【穷观阵】的我方全体获得【鉴知】。【鉴知】状态下的我方目标生命上限提高，提高数值等同于符玄生命上限的{{skillHpBuffValue}}%，暴击率提高{{skillCrBuffValue}}%。
       e6TeamHpLostPercent:
         text: 6魂团队易损生命值
-        content: '【穷观阵】开启时，会累计我方全体本场战斗中的已损失生命值。符玄施放终结技造成的伤害提高，提高数值等同于本场战斗中累计已损失生命值的200%。本场战斗中累计已损失生命值最高不超过符玄生命上限的120%，施放终结技后会清空并进行重新累计。'
+        content: "【穷观阵】开启时，会累计我方全体本场战斗中的已损失生命值。符玄施放终结技造成的伤害提高，提高数值等同于本场战斗中累计已损失生命值的200%。本场战斗中累计已损失生命值最高不超过符玄生命上限的120%，施放终结技后会清空并进行重新累计。"
     TeammateContent:
       teammateHPValue:
         text: 符玄战斗中生命上限
@@ -1124,7 +1124,7 @@ Characters:
         content: 使自身提供的治疗量提高，提高数值等同于击破特攻的50%，最多使提供的治疗量提高75%。
       targetBesotted:
         text: 目标处于酩酊状态
-        content: '【酩酊】使目标受到的击破伤害提高{{talentBesottedScaling}}%。'
+        content: "【酩酊】使目标受到的击破伤害提高{{talentBesottedScaling}}%。"
       e1ResBuff:
         text: 1魂效果抵抗增益
         content: 加拉赫进入战斗后会恢复20点能量，效果抵抗提高50%。
@@ -1143,7 +1143,7 @@ Characters:
     Content:
       talentDebuffStacks:
         text: 吞火层数
-        content: '【吞火】状态下敌方目标受到的伤害提高{{talentDebuffDmgIncreaseValue}}%，持续3回合，最多叠加{{talentDebuffMax}}层。'
+        content: "【吞火】状态下敌方目标受到的伤害提高{{talentDebuffDmgIncreaseValue}}%，持续3回合，最多叠加{{talentDebuffMax}}层。"
       enemyBurned:
         text: 敌人处于灼烧状态
         content: 对陷入灼烧状态的敌方目标造成的伤害提高20%。
@@ -1207,7 +1207,7 @@ Characters:
         content: 若当前生命值百分比大于等于80%，则暴击率提高15%。
       e1TalentSpdBuff:
         text: 1魂速度增益
-        content: '【乘胜追击】触发后，姬子的速度提高20%，持续2回合。'
+        content: "【乘胜追击】触发后，姬子的速度提高20%，持续2回合。"
       e2EnemyHp50DmgBoost:
         text: 2魂敌人生命值≤50%时伤害提高
         content: 对当前生命值百分比小于等于50%的敌方目标造成的伤害提高15% 。
@@ -1294,7 +1294,7 @@ Characters:
         content: 翡翠天赋的追加攻击伤害提高32%，持有【收债人】状态的角色施放攻击后击中敌方目标数量等于2/1名时，翡翠额外获得1/2点充能。
       e2CrBuff:
         text: 2魂暴击率增益
-        content: '【当品】叠加至15层时，翡翠暴击率提高18%。'
+        content: "【当品】叠加至15层时，翡翠暴击率提高18%。"
       e4DefShredBuff:
         text: 4魂防御穿透增益
         content: 施放终结技时，使翡翠造成的伤害无视敌方目标12%的防御力，持续3回合。
@@ -1350,16 +1350,16 @@ Characters:
         content: 施放战技后，暴击率提升10%，持续2回合。
       talentHitsPerAction:
         text: 神君层数
-        content: '【神君】最多累计10段攻击段数'
+        content: "【神君】最多累计10段攻击段数"
       talentAttacks:
         text: 神君对目标的击中次数
         content: 对目标的击中次数。通常应设置为与神君层数相同的值。
       e2DmgBuff:
         text: 2魂伤害提高
-        content: '【神君】行动后，景元的普攻、战技、终结技造成的伤害提高20%，持续2回合。'
+        content: "【神君】行动后，景元的普攻、战技、终结技造成的伤害提高20%，持续2回合。"
       e6FuaVulnerabilityStacks:
         text: 6魂易伤层数
-        content: '【神君】每段攻击后会使指定敌方目标额外陷入易伤状态。易伤状态下的敌方目标受到的伤害提高12%，持续至【神君】本次攻击结束，该效果最多叠加3层。（应用于所有攻击次数）'
+        content: "【神君】每段攻击后会使指定敌方目标额外陷入易伤状态。易伤状态下的敌方目标受到的伤害提高12%，持续至【神君】本次攻击结束，该效果最多叠加3层。（应用于所有攻击次数）"
   Kafka:
     Content:
       e1DotDmgReceivedDebuff:
@@ -1375,7 +1375,7 @@ Characters:
         content: 使自身攻击力/治疗量提高，提高数值等同于击破特攻的25%/10%，最多使攻击力/治疗量提高50%/20%。
       befogState:
         text: 醇醉状态
-        content: '【醇醉】状态下，使目标受到的击破伤害提高{{BefogVulnerability}}%，持续2回合。'
+        content: "【醇醉】状态下，使目标受到的击破伤害提高{{BefogVulnerability}}%，持续2回合。"
       e1DefShred:
         text: 1魂弱点击破增益
         content: 灵砂的弱点击破效率提高50%。当有敌方单位的弱点被击破时，使其防御力降低20%。
@@ -1384,7 +1384,7 @@ Characters:
         content: 施放终结技时，使我方全体击破特攻提高40%，持续3回合。
       e6ResShred:
         text: 6魂抗性削弱
-        content: '【浮元】在场时，使敌方全体全属性抗性降低20%。'
+        content: "【浮元】在场时，使敌方全体全属性抗性降低20%。"
   Luka:
     Content:
       basicEnhanced:
@@ -1498,13 +1498,13 @@ Characters:
         content: 战斗开始时，若万敌的生命上限高于4000点，每超过100点生命值可使自身暴击率提高1.2%，万敌受到来自敌方目标伤害造成的充能比例提高2.5%，受到治疗时的回复量提高0.75%，超出部分最多计入4000点生命值。
       e1EnhancedSkillBuff:
         text: 1魂强化战技提升
-        content: '【弑神登神】对主目标造成的伤害倍率提高30%，且变成对敌方全体造成等同于主目标伤害倍率的虚数属性伤害。'
+        content: "【弑神登神】对主目标造成的伤害倍率提高30%，且变成对敌方全体造成等同于主目标伤害倍率的虚数属性伤害。"
       e2DefPen:
         text: 2魂防御穿透
-        content: '【血仇】状态期间，万敌造成的伤害无视敌方目标15%的防御力，且受到治疗时会将40%的治疗数值转化为充能，累计转化的充能不超过40点。任意单位行动后重置可累计的充能。'
+        content: "【血仇】状态期间，万敌造成的伤害无视敌方目标15%的防御力，且受到治疗时会将40%的治疗数值转化为充能，累计转化的充能不超过40点。任意单位行动后重置可累计的充能。"
       e4CdBuff:
         text: 4魂爆伤增益
-        content: '【血仇】状态期间暴击伤害提高30%，且受到来自敌方目标的攻击后回复等同于自身10%生命上限的生命值。'
+        content: "【血仇】状态期间暴击伤害提高30%，且受到来自敌方目标的攻击后回复等同于自身10%生命上限的生命值。"
   Pela:
     Content:
       teamEhrBuff:
@@ -1518,7 +1518,7 @@ Characters:
         content: "施放战技解除增益效果时，下一次攻击造成的伤害提高20%。::BR::2魂：施放战技解除增益效果时，速度提高10%，持续2回合。"
       ultDefPenDebuff:
         text: 终结技防御力削弱
-        content: '【通解】状态下，敌方目标防御力降低{{ultDefPenValue}}%，持续2回合。'
+        content: "【通解】状态下，敌方目标防御力降低{{ultDefPenValue}}%，持续2回合。"
       e4SkillResShred:
         text: 4魂冰抗性削弱
         content: 施放战技时，有100%的基础概率使敌方目标冰属性抗性降低12%，持续2回合。
@@ -1553,14 +1553,14 @@ Characters:
         content: 强化普攻的前2段攻击对指定敌方单体的削韧值提高50%。
       e4SpdBuff:
         text: 4魂速度增益
-        content: '【结印】状态期间，我方全体速度提高12%。'
+        content: "【结印】状态期间，我方全体速度提高12%。"
     TeammateContent:
       teammateBreakVulnerability:
         text: 击破易伤
         content: 敌方目标的弱点被击破时，受到的击破伤害提高2%，若乱破当前攻击力高于2400点，每超过100点攻击力可使该数值额外提高1% ，最多额外提高8% 。
       e4SpdBuff:
         text: 4魂速度增益
-        content: '【结印】状态期间，我方全体速度提高12%。'
+        content: "【结印】状态期间，我方全体速度提高12%。"
   Robin:
     Content:
       concertoActive:
@@ -1713,7 +1713,7 @@ Characters:
           星期日施放战技时，使目标角色造成伤害时无视目标16%的防御力，召唤物造成伤害时无视目标40%的防御力，持续2回合。
       e2DmgBuff:
         text: 2魂蒙福者伤害增益
-        content: '【蒙福者】造成的伤害提高30%。'
+        content: "【蒙福者】造成的伤害提高30%。"
     TeammateContent:
       beatified:
         text: 终结技暴击伤害增益
@@ -1909,7 +1909,7 @@ Characters:
         content: 结界造成的附加伤害提高至原伤害的120%。结界造成附加伤害时，会额外造成1次附加伤害。
       e4DefPen:
         text: 4魂防御穿透
-        content: '【神启】持续期间，我方全体造成伤害时无视目标18%的防御力。'
+        content: "【神启】持续期间，我方全体造成伤害时无视目标18%的防御力。"
       e6FuaScaling:
         text: 6魂追加攻击伤害
         content: 缇宝施放终结技后，对敌方全体发动天赋的追加攻击。天赋的追加攻击造成的伤害提高729%。
@@ -1983,7 +1983,7 @@ Characters:
     Content:
       blockActive:
         text: 格挡状态激活
-        content: '【格挡】状态下抵抗受到的控制类负面效果，并使受到的伤害降低20%。'
+        content: "【格挡】状态下抵抗受到的控制类负面效果，并使受到的伤害降低20%。"
       ultCull:
         text: "【勘破•灭】激活"
         content: >-

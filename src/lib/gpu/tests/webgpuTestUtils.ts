@@ -1,8 +1,20 @@
-import { COMPUTE_ENGINE_GPU_STABLE, SetsOrnaments, SetsRelics, Stats } from 'lib/constants/constants'
+import {
+  COMPUTE_ENGINE_GPU_STABLE,
+  SetsOrnaments,
+  SetsRelics,
+  Stats,
+} from 'lib/constants/constants'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
-import { destroyPipeline, generateExecutionPass, initializeGpuPipeline } from 'lib/gpu/webgpuInternals'
+import {
+  destroyPipeline,
+  generateExecutionPass,
+  initializeGpuPipeline,
+} from 'lib/gpu/webgpuInternals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
-import { Key, KeyToStat } from 'lib/optimization/computedStatsArray'
+import {
+  Key,
+  KeyToStat,
+} from 'lib/optimization/computedStatsArray'
 import { baseComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -55,22 +67,22 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
 }
 
 export type StatDeltaAnalysis = {
-  allPass: boolean
-  statDeltas: StatDeltas
+  allPass: boolean,
+  statDeltas: StatDeltas,
 }
 
 export type StatDeltas = {
-  [key: string]: StatDelta
+  [key: string]: StatDelta,
 }
 
 export type StatDelta = {
-  key: string
-  cpu: string
-  gpu: string
-  deltaValue: number
-  deltaString: string
-  precision: number
-  pass: boolean
+  key: string,
+  cpu: string,
+  gpu: string,
+  deltaValue: number,
+  deltaString: string,
+  precision: number,
+  pass: boolean,
 }
 
 const EXACT = 0

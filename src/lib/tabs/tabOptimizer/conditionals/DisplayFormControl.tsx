@@ -3,9 +3,15 @@ import { FormSelectWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSe
 import { FormSliderWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
-import { ComponentType, ReactElement } from 'react'
+import {
+  ComponentType,
+  ReactElement,
+} from 'react'
 import { useTranslation } from 'react-i18next'
-import { ContentComponentMap, ContentItem } from 'types/conditionals'
+import {
+  ContentComponentMap,
+  ContentItem,
+} from 'types/conditionals'
 
 export const FormItemComponentMap: ContentComponentMap = {
   switch: FormSwitchWithPopover,
@@ -28,15 +34,15 @@ const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({
 
   if (!content) {
     if (teammateIndex != null) {
-      ret.push(<div key={i++}>{t('NoTeamConditionals')/* No conditional team passives */}</div>)
+      ret.push(<div key={i++}>{t('NoTeamConditionals') /* No conditional team passives */}</div>)
     } else {
-      ret.push(<div key={i++}>{t('NoConditionals')/* No conditional passives */}</div>)
+      ret.push(<div key={i++}>{t('NoConditionals') /* No conditional passives */}</div>)
     }
   } else if (content.length === 0) {
     if (teammateIndex != null) {
-      ret.push(<div key={i++}>{t('NoTeamConditionals')/* No conditional team passives */}</div>)
+      ret.push(<div key={i++}>{t('NoTeamConditionals') /* No conditional team passives */}</div>)
     } else {
-      ret.push(<div key={i++}>{t('NoConditionals')/* No conditional passives */}</div>)
+      ret.push(<div key={i++}>{t('NoConditionals') /* No conditional passives */}</div>)
     }
   } else {
     content.forEach((passive) => {
@@ -57,7 +63,7 @@ const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({
     })
   }
 
-  return (<Flex vertical gap={6}>{ret}</Flex>)
+  return <Flex vertical gap={6}>{ret}</Flex>
 }
 
 export default DisplayFormControl

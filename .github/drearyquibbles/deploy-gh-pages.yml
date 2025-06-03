@@ -2,7 +2,7 @@ name: deploy-gh-pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          cache: "npm"
       - run: git config --global user.email "fribbelsgithub@gmail.com"
       - run: git config --global user.name "GH Actions"
       - run: git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/fribbels/dreary-quibbles

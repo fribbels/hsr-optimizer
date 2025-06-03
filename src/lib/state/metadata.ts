@@ -1,7 +1,13 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
-import { Constants, Parts, PartsMainStats, Sets, Stats } from 'lib/constants/constants'
+import {
+  Constants,
+  Parts,
+  PartsMainStats,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import {
   DEFAULT_BASIC,
   DEFAULT_BREAK,
@@ -22,7 +28,7 @@ import {
   START_SKILL,
   START_ULT,
   WHOLE_BASIC,
-  WHOLE_SKILL
+  WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
@@ -39,12 +45,17 @@ import {
   ROBIN,
   SPARKLE,
   SUNDAY,
-  TINGYUN
+  TINGYUN,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import { DBMetadata, DBMetadataCharacter, DBMetadataLightCone, DBMetadataSets, ScoringMetadata } from 'types/metadata'
-
+import {
+  DBMetadata,
+  DBMetadataCharacter,
+  DBMetadataLightCone,
+  DBMetadataSets,
+  ScoringMetadata,
+} from 'types/metadata'
 
 const characters: Record<string, DBMetadataCharacter> = gameData.characters as unknown as Record<string, DBMetadataCharacter>
 const lightCones: Record<string, DBMetadataLightCone> = gameData.lightCones as unknown as Record<string, DBMetadataLightCone>
@@ -1011,9 +1022,9 @@ function getLightConeOverrideCenter(): Record<string, number> {
 }
 
 function getOverrideImageCenter(): Record<string, {
-  x: number
-  y: number
-  z: number
+  x: number,
+  y: number,
+  z: number,
 }> {
   return {
     1001: { // March 7th
@@ -2381,7 +2392,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Sets.SprightlyVonwacq,
           ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-          ...SPREAD_ORNAMENTS_2P_SUPPORT
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
         ],
         teammates: [
           {
@@ -3065,7 +3076,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Sets.TheWondrousBananAmusementPark,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-          ...SPREAD_ORNAMENTS_2P_SUPPORT
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
         ],
         teammates: [
           {
@@ -4615,7 +4626,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Sets.IzumoGenseiAndTakamaDivineRealm,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-          ...SPREAD_ORNAMENTS_2P_SUPPORT
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
         ],
         teammates: [
           {
@@ -4724,7 +4735,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Sets.RutilantArena,
           Sets.IzumoGenseiAndTakamaDivineRealm,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-          ...SPREAD_ORNAMENTS_2P_SUPPORT
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
         ],
         teammates: [
           {
@@ -4829,7 +4840,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Sets.ForgeOfTheKalpagniLantern,
           Sets.TaliaKingdomOfBanditry,
           ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
-          ...SPREAD_ORNAMENTS_2P_SUPPORT
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
         ],
         teammates: [
           {
@@ -6969,7 +6980,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Sets.SpaceSealingStation,
           Sets.FirmamentFrontlineGlamoth,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-          ...SPREAD_ORNAMENTS_2P_SUPPORT
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
         ],
         teammates: [
           {
@@ -7426,7 +7437,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           END_BASIC,
           WHOLE_SKILL,
           WHOLE_SKILL,
-
         ],
         comboDot: 0,
         errRopeEidolon: 0,
@@ -7661,7 +7671,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.FirmamentFrontlineGlamoth,
-          ...SPREAD_ORNAMENTS_2P_SUPPORT
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
         ],
         teammates: [
           {

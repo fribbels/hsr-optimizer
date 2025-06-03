@@ -3,7 +3,10 @@ import { RelicRollGrader } from 'lib/relics/relicRollGrader'
 import DB from 'lib/state/db'
 import { Metadata } from 'lib/state/metadata'
 import { Relic } from 'types/relic'
-import { expect, test } from 'vitest'
+import {
+  expect,
+  test,
+} from 'vitest'
 
 Metadata.initialize()
 
@@ -116,7 +119,8 @@ test('Test when the value is not an exact addition from constants', () => {
       value: 100,
     },
     substats: [
-      { stat: 'Effect Hit Rate', value: 10, rolls: { high: 0, mid: 0, low: 0 } }],
+      { stat: 'Effect Hit Rate', value: 10, rolls: { high: 0, mid: 0, low: 0 } },
+    ],
     id: 'dc5ff7ac-f38b-4404-b261-9fdbb1db9173',
     equippedBy: character,
     weightScore: 0,

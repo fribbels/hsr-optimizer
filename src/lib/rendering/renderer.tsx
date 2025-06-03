@@ -1,5 +1,12 @@
-import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons'
-import { Flex, Image, Tooltip } from 'antd'
+import {
+  CheckCircleFilled,
+  CloseCircleFilled,
+} from '@ant-design/icons'
+import {
+  Flex,
+  Image,
+  Tooltip,
+} from 'antd'
 import i18next from 'i18next'
 import { CircleIcon } from 'icons/CircleIcon'
 import { RingedCircle4Icon } from 'icons/RingedCircle4Icon'
@@ -7,9 +14,16 @@ import { RingedCircleCheckIcon } from 'icons/RingedCircleCheckIcon'
 import { RingedCircleIcon } from 'icons/RingedCircleIcon'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { currentLocale, localeNumber, localeNumber_0 } from 'lib/utils/i18nUtils'
+import {
+  currentLocale,
+  localeNumber,
+  localeNumber_0,
+} from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
-import { Relic, Stat } from 'types/relic'
+import {
+  Relic,
+  Stat,
+} from 'types/relic'
 
 export const Renderer = {
   floor: (x: { value: number }) => {
@@ -19,12 +33,12 @@ export const Renderer = {
 
   x100Tenths: (x: { value: number }) => {
     if (x?.value == undefined) return ''
-    return localeNumber_0((Math.floor(Utils.precisionRound(x.value * 100) * 10) / 10))
+    return localeNumber_0(Math.floor(Utils.precisionRound(x.value * 100) * 10) / 10)
   },
 
   tenths: (x: { value: number }) => {
     if (x?.value == undefined) return ''
-    return localeNumber_0((Math.floor(Utils.precisionRound(x.value) * 10) / 10))
+    return localeNumber_0(Math.floor(Utils.precisionRound(x.value) * 10) / 10)
   },
 
   relicSet: (x: { value: number }) => {
@@ -58,8 +72,8 @@ export const Renderer = {
 
     return (
       <Flex justify='center' style={{ marginTop: -1 }}>
-        <SetDisplay asset={setImages[0]}/>
-        <SetDisplay asset={setImages[1]}/>
+        <SetDisplay asset={setImages[0]} />
+        <SetDisplay asset={setImages[1]} />
       </Flex>
     )
   },
@@ -79,7 +93,7 @@ export const Renderer = {
       setImage = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
       return (
         <Flex justify='center' style={{ marginTop: -1 }}>
-          <SetDisplay asset={setImage}/>
+          <SetDisplay asset={setImage} />
         </Flex>
       )
     } else {
@@ -87,19 +101,19 @@ export const Renderer = {
     }
   },
 
-  anySet: (x: { value: number; data: Relic }) => {
+  anySet: (x: { value: number, data: Relic }) => {
     if (x?.value == undefined) return ''
     const part = x.data.part
 
     const src = Assets.getSetImage(x.data.set, part)
     return (
       <Flex justify='center' title={x.data.set} style={{ marginTop: -1 }}>
-        <SetDisplay asset={src}/>
+        <SetDisplay asset={src} />
       </Flex>
     )
   },
 
-  characterIcon: (x: { value: string; data: Relic }) => {
+  characterIcon: (x: { value: string, data: Relic }) => {
     if (x?.value == undefined) return ''
     const equippedBy = x.data.equippedBy
     if (!equippedBy) return ''
@@ -107,7 +121,7 @@ export const Renderer = {
     const src = Assets.getCharacterAvatarById(equippedBy)
     return (
       <Flex justify='center' style={{ marginTop: -1 }}>
-        <SetDisplay asset={src}/>
+        <SetDisplay asset={src} />
       </Flex>
     )
   },
@@ -128,7 +142,7 @@ export const Renderer = {
     if (x?.value == undefined) return ''
     return (
       <Flex justify='center' style={{ marginTop: -1, width: 20, marginBottom: 3 }}>
-        <SetDisplay asset={Assets.getPart(x.value)}/>
+        <SetDisplay asset={Assets.getPart(x.value)} />
       </Flex>
     )
   },
@@ -138,14 +152,14 @@ export const Renderer = {
   },
 
   // Unverified: 6, Verified: 6.0
-  hideZeroes10thsRelicTabSpd: (x: { value: number; data: Relic }) => {
+  hideZeroes10thsRelicTabSpd: (x: { value: number, data: Relic }) => {
     if (x.value == 0) return ''
 
     const value = Utils.precisionRound(Math.floor(x.value * 10) / 10)
     return x.data.verified ? value.toFixed(1) : value
   },
 
-  mainValueRenderer: (x: { value: number; data: Relic }) => {
+  mainValueRenderer: (x: { value: number, data: Relic }) => {
     const part = x.data.part
     if (part == Constants.Parts.Hands || part == Constants.Parts.Head) {
       return x.value == 0 ? '' : localeNumber(Math.floor(x.value))
@@ -194,33 +208,33 @@ export const Renderer = {
             title={i18next.t('Verified4LinerHoverText')}
             // Relic substats and initial roll count verified by relic scorer (accurate speed decimals + 4 initial substats)
           >
-            <RingedCircleCheckIcon color={circleColor}/>
+            <RingedCircleCheckIcon color={circleColor} />
           </Tooltip>
         )
-        : <RingedCircleIcon color={circleColor}/>
+        : <RingedCircleIcon color={circleColor} />
     } else {
       return relic.verified
         ? (
           <Tooltip
             mouseEnterDelay={0.4}
-            title={i18next.t('VerifiedRelicHoverText')/* Relic substats verified by relic scorer (speed decimals) */}
+            title={i18next.t('VerifiedRelicHoverText') /* Relic substats verified by relic scorer (speed decimals) */}
           >
-            <CheckCircleFilled style={{ fontSize: '14px', color: color }}/>
+            <CheckCircleFilled style={{ fontSize: '14px', color: color }} />
           </Tooltip>
         )
-        : <CircleIcon color={circleColor}/>
+        : <CircleIcon color={circleColor} />
     }
   },
   renderEquippedBy: (equippedBy: string) => {
     return (
       equippedBy == 'true'
-        ? <CheckCircleFilled style={{ fontSize: '14px', color: '#6de362' }}/>
-        : <CloseCircleFilled style={{ fontSize: '14px', color: '#de5555' }}/>
+        ? <CheckCircleFilled style={{ fontSize: '14px', color: '#6de362' }} />
+        : <CloseCircleFilled style={{ fontSize: '14px', color: '#de5555' }} />
     )
   },
   renderInitialRolls: (relic: Relic) => {
     return relic.initialRolls == 4
-      ? <RingedCircle4Icon color={gradeToColor[5]}/>
+      ? <RingedCircle4Icon color={gradeToColor[5]} />
       : Renderer.renderGrade(relic, true)
   },
 }

@@ -40,31 +40,31 @@ const setsSourceExpansion = Object.fromEntries(
 export type BuffSource = CharacterBuffSource | SetsBuffSource | LightConeBuffSource | NoneBuffSource
 
 type CharacterBuffSource = {
-  id: CharacterId
-  label: `${CharacterId}_${Exclude<BUFF_ABILITY, BUFF_ABILITY.LC | BUFF_ABILITY.SETS | BUFF_ABILITY.NONE>}`
-  ability: Exclude<BUFF_ABILITY, BUFF_ABILITY.LC | BUFF_ABILITY.SETS | BUFF_ABILITY.NONE>
-  buffType: BUFF_TYPE.CHARACTER
+  id: CharacterId,
+  label: `${CharacterId}_${Exclude<BUFF_ABILITY, BUFF_ABILITY.LC | BUFF_ABILITY.SETS | BUFF_ABILITY.NONE>}`,
+  ability: Exclude<BUFF_ABILITY, BUFF_ABILITY.LC | BUFF_ABILITY.SETS | BUFF_ABILITY.NONE>,
+  buffType: BUFF_TYPE.CHARACTER,
 }
 
 type SetsBuffSource = {
-  id: keyof typeof Sets
-  label: Sets
-  ability: BUFF_ABILITY.SETS
-  buffType: BUFF_TYPE.SETS
+  id: keyof typeof Sets,
+  label: Sets,
+  ability: BUFF_ABILITY.SETS,
+  buffType: BUFF_TYPE.SETS,
 }
 
 type LightConeBuffSource = {
-  id: LightCone['id']
-  label: `${LightCone['id']}_LC`
-  ability: BUFF_ABILITY.LC
-  buffType: BUFF_TYPE.LIGHTCONE
+  id: LightCone['id'],
+  label: `${LightCone['id']}_LC`,
+  ability: BUFF_ABILITY.LC,
+  buffType: BUFF_TYPE.LIGHTCONE,
 }
 
 type NoneBuffSource = {
-  id: 'NONE'
-  label: 'NONE'
-  ability: BUFF_ABILITY.NONE
-  buffType: BUFF_TYPE.NONE
+  id: 'NONE',
+  label: 'NONE',
+  ability: BUFF_ABILITY.NONE,
+  buffType: BUFF_TYPE.NONE,
 }
 
 export const Source = {

@@ -1,4 +1,12 @@
-import { Constants, Parts, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets, setToId, Stats } from 'lib/constants/constants'
+import {
+  Constants,
+  Parts,
+  SACERDOS_RELIVED_ORDEAL_1_STACK,
+  SACERDOS_RELIVED_ORDEAL_2_STACK,
+  Sets,
+  setToId,
+  Stats,
+} from 'lib/constants/constants'
 import { BASE_PATH } from 'lib/state/db'
 import { Languages } from 'lib/utils/i18nUtils'
 

@@ -1,6 +1,25 @@
-import { Sets, Stats } from 'lib/constants/constants'
-import { collectResults, generateE6S5Test, testCharacter, testMains, testSets, testStatSpread } from 'lib/simulations/tests/simTestUtils'
-import { A_GROUNDED_ASCENT, ANAXA, FLOWING_NIGHTGLOW, HUOHUO, LIFE_SHOULD_BE_CAST_TO_FLAMES, NIGHT_OF_FRIGHT, ROBIN, SUNDAY } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
+import {
+  collectResults,
+  generateE6S5Test,
+  testCharacter,
+  testMains,
+  testSets,
+  testStatSpread,
+} from 'lib/simulations/tests/simTestUtils'
+import {
+  A_GROUNDED_ASCENT,
+  ANAXA,
+  FLOWING_NIGHTGLOW,
+  HUOHUO,
+  LIFE_SHOULD_BE_CAST_TO_FLAMES,
+  NIGHT_OF_FRIGHT,
+  ROBIN,
+  SUNDAY,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { Metadata } from 'lib/state/metadata'
 import { test } from 'vitest'
 

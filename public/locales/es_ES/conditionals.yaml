@@ -38,7 +38,7 @@ Lightcones:
     Content:
       maxEnergyDmgBoost:
         text: Mejora de daño por energía máxima
-        content: 'Cuando el portador usa la habilidad definitiva, el daño que inflige su habilidad definitiva aumenta según su energía máxima: por cada punto de energía, el daño aumenta en un {{DmgStep}}%. Se cuentan un máximo de 180 pts. de energía.'
+        content: "Cuando el portador usa la habilidad definitiva, el daño que inflige su habilidad definitiva aumenta según su energía máxima: por cada punto de energía, el daño aumenta en un {{DmgStep}}%. Se cuentan un máximo de 180 pts. de energía."
   BaptismOfPureThought:
     Content:
       debuffCdStacks:
@@ -135,7 +135,7 @@ Lightcones:
     Content:
       shieldCdBuff:
         text: Mejora DC por escudo
-        content: Cuando el portador proporciona un escudo a un aliado, el Daño CRIT del portador aumenta en un {{CritBuff}}% durante 2 turnos. 
+        content: Cuando el portador proporciona un escudo a un aliado, el Daño CRIT del portador aumenta en un {{CritBuff}}% durante 2 turnos.
       targetVulnerability:
         text: Afección de vulnerabilidad en objetivo
         content: Cuando el portador golpea al enemigo con sus ataques adicionales, hay un {{baseChance}}% de probabilidad base de que el daño que recibe el enemigo atacado aumente en un {{Vulnerability}}% durante 2 turnos.
@@ -541,7 +541,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: 'Mejora de DC por golpe a ≥ 2 enemigos con misma debilidad'
+        text: "Mejora de DC por golpe a ≥ 2 enemigos con misma debilidad"
         content: Cuando el portador lanza un ataque y golpea como mínimo a 2 enemigos que tengan su tipo de Debilidad, el Daño CRIT del portador aumenta en un {{CritBuff}}% durante 2 turnos.
   TheGreatCosmicEnterprise:
     Content:
@@ -780,7 +780,7 @@ Characters:
   Arlan:
     Content:
       selfCurrentHpPercent:
-        text: '%PV propios actuales'
+        text: "%PV propios actuales"
         content: Arlan obtiene una bonificación de daño según el porcentaje de PV que haya perdido hasta el momento. Como máximo puede infligir un {{talentMissingHpDmgBoostMax}}% más de daño.
   Asta:
     Content:
@@ -800,7 +800,7 @@ Characters:
     Content:
       defToCrBoost:
         text: Mejora DEF a PC
-        content: 'Si la DEF de Aventurino es superior a 1600, por cada 100 pts. de DEF que superen ese valor, su Prob. CRIT aumenta en un 2%. Aumento máximo: 48%.'
+        content: "Si la DEF de Aventurino es superior a 1600, por cada 100 pts. de DEF que superen ese valor, su Prob. CRIT aumenta en un 2%. Aumento máximo: 48%."
       fortifiedWagerBuff:
         text: Mejora Apuesta reforzada
         content: >-
@@ -1238,7 +1238,7 @@ Characters:
   Hyacine:
     Content:
       healTargetHp50:
-        text: Objet. curación PV ≤ 50% 
+        text: Objet. curación PV ≤ 50%
         content: Al curar a un aliado cuyos PV actuales sean iguales o inferiores al 50% de sus PV máx., la curación realizada por Hyacine o Ica aumenta en un 25%.
       resBuff:
         text: Mejora RES a efecto
@@ -1927,7 +1927,7 @@ Characters:
           Inflige un {{skillScaling}}% del ATQ de Welt como Daño Imaginario a un enemigo e inflige daño 2 veces más. Cada golpe inflige un {{skillScaling}}% del ATQ de Welt como Daño Imaginario a un enemigo al azar.
       e1EnhancedState:
         text: E1 Estado potenciado
-        content: 'Tras usar su habilidad definitiva, Welt obtiene una potenciación: las 2 siguientes veces que ataque usando el ATQ básico o la habilidad básica, inflige daño adicional igual al 50% del multiplicador del daño de ATQ básico o igual al 80% del multiplicador del daño de habilidad básica respectivamente.'
+        content: "Tras usar su habilidad definitiva, Welt obtiene una potenciación: las 2 siguientes veces que ataque usando el ATQ básico o la habilidad básica, inflige daño adicional igual al 50% del multiplicador del daño de ATQ básico o igual al 80% del multiplicador del daño de habilidad básica respectivamente."
   Xueyi:
     Content:
       beToDmgBoost:

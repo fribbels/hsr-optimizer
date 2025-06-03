@@ -76,7 +76,7 @@ RelicGrid:
       RerollAvg:
         Label: "Nhân vật đã chọn: Tiềm năng chia lại chỉ số trung bình."
         Header: |-
-          Nhân vật chọn  
+          Nhân vật chọn
           Chia lại
       RerollAvgDelta:
         Label: "Nhân vật đã chọn: Xoay lại tiềm năng delta trung bình"
@@ -85,8 +85,8 @@ RelicGrid:
       RerollAvgEquippedDelta:
         Label: "Nhân vật đã chọn: Tiềm năng reroll delta trung bình so với đồ đang mặc"
         Header: |-
-          Nhân vật được chọn  
-          ∆ Trung bình reroll  
+          Nhân vật được chọn
+          ∆ Trung bình reroll
           So với trang bị
     CustomCharacters:
       Label: Tùy chọn nhân vật
@@ -101,7 +101,7 @@ RelicGrid:
       RerollAvg:
         Label: "Nhân vật tùy chỉnh: Tiềm năng xoay lại trung bình"
         Header: |-
-          Nhân vật tùy chỉnh  
+          Nhân vật tùy chỉnh
           Xoay lại trung bình
     AllCharacters:
       Label: Tất cả nhân vật
@@ -118,7 +118,7 @@ RelicGrid:
       RerollAvg:
         Label: "Tất cả nhân vật: Tiềm năng xoay lại trung bình"
         Header: |-
-          Tất cả nhân vật  
+          Tất cả nhân vật
           Xoay lại trung bình
     ComingSoon:
       Label: Sắp ra mắt

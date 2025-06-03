@@ -7,13 +7,16 @@ import { Renderer } from 'lib/rendering/renderer'
 import { Utils } from 'lib/utils/utils'
 import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Relic, StatRolls } from 'types/relic'
+import {
+  Relic,
+  StatRolls,
+} from 'types/relic'
 
 export type SubstatDetails = {
-  stat: SubStats
-  value: number
-  rolls?: StatRolls
-  addedRolls?: number
+  stat: SubStats,
+  value: number,
+  rolls?: StatRolls,
+  addedRolls?: number,
 }
 
 export const GenerateStat = (stat: SubstatDetails, main: boolean, relic: Relic) => {
@@ -63,12 +66,10 @@ export const GenerateStat = (stat: SubstatDetails, main: boolean, relic: Relic) 
 function generateRolls(stat: SubstatDetails) {
   const result: ReactElement[] = []
   for (let i = 0; i < stat.addedRolls!; i++) {
-    result.push(<RightIcon key={i} style={{ marginRight: -5, opacity: 0.75 }}/>)
+    result.push(<RightIcon key={i} style={{ marginRight: -5, opacity: 0.75 }} />)
   }
   if (stat.addedRolls == 0) {
     result.push(<div key={0}></div>)
   }
-  return (
-    result
-  )
+  return result
 }

@@ -59,10 +59,10 @@ Import:
       ButtonText: >-
         Importar $t(common:Relic, {"count": {{relicCount}}}) y $t(common:Character, {"count": {{characterCount}}})
       WarningTitle: Sobreescribir equipamientos del optimizador
-      WarningDescription: '¿De verdad quieres sobreescribir tus equipamientos del optimizador con los de dentro del juego?'
+      WarningDescription: "¿De verdad quieres sobreescribir tus equipamientos del optimizador con los de dentro del juego?"
       OnlyImportExisting: "Sólo importar personajes existentes"
   Stage3:
-    SuccessMessage: '¡Hecho!'
+    SuccessMessage: "¡Hecho!"
 LoadData:
   Stage1:
     Label: Cargar tus datos del optimizador desde un archivo.
@@ -73,7 +73,7 @@ LoadData:
       El archivo contiene $t(common:RelicWithCount, {"count": {{relicCount}}}) y $t(common:CharacterWithCount, {"count": {{characterCount}}}). ¿Reemplazar tus datos actuales con los cargados?
     ButtonText: Usar datos cargados
   Stage3:
-    SuccessMessage: '¡Hecho!'
+    SuccessMessage: "¡Hecho!"
 SaveData:
   Label: Guardar tus datos del optimizador a un archivo.
   ButtonText: Guardar datos
@@ -83,7 +83,7 @@ ClearData:
   ButtonText: Borrar datos
   SuccessMessage: Datos borrados
   WarningTitle: Borrar todos los datos
-  WarningDescription: '¿De verdad quieres borrar todos los artefactos y personajes?'
+  WarningDescription: "¿De verdad quieres borrar todos los artefactos y personajes?"
 PartialImport:
   OldRelics: >-
     Atributos actualizados para {{count}} $t(common:Relic, {"count": {{count}}}) existentes

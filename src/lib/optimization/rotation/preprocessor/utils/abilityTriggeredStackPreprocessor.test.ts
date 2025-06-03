@@ -10,7 +10,12 @@ import {
   WHOLE_ULT,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { beforeEach, expect, test, vi } from 'vitest'
+import {
+  beforeEach,
+  expect,
+  test,
+  vi,
+} from 'vitest'
 
 const TEST_CHARACTER_ID = 'test-character'
 const TEST_SET_ID = 'test-set'

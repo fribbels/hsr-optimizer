@@ -1,7 +1,14 @@
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants/constants'
 import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
-import { generateParamsMatrix, mergeRelicsIntoArray } from 'lib/gpu/webgpuDataTransform'
-import { GpuExecutionContext, GpuResult, RelicsByPart } from 'lib/gpu/webgpuTypes'
+import {
+  generateParamsMatrix,
+  mergeRelicsIntoArray,
+} from 'lib/gpu/webgpuDataTransform'
+import {
+  GpuExecutionContext,
+  GpuResult,
+  RelicsByPart,
+} from 'lib/gpu/webgpuTypes'
 import postComputeShader from 'lib/gpu/wgsl/postComputeShader.wgsl?raw'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { Form } from 'types/form'

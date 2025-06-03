@@ -1,6 +1,9 @@
 // Custom hook to track AsyncSimScoringExecution state
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
-import { useEffect, useState } from 'react'
+import {
+  useEffect,
+  useState,
+} from 'react'
 
 export function useAsyncSimScoringExecution(asyncSimScoringExecution: AsyncSimScoringExecution | null) {
   const [forceRender, setForceRender] = useState(0)

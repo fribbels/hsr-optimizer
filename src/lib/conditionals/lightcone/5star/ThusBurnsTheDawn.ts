@@ -11,8 +11,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThusBurnsTheDawn')
   const { SOURCE_LC } = Source.lightCone('23044')
 
-  const sValuesDefPen = [0.18, 0.21, 0.24, 0.27, 0.30]
-  const sValuesDmgBuff = [0.60, 0.75, 0.90, 1.05, 1.20]
+  const sValuesDefPen = [0.18, 0.225, 0.27, 0.315, 0.36]
+  const sValuesDmgBuff = [0.60, 0.78, 0.96, 1.14, 1.132]
 
   const defaults = {
     defPen: true,

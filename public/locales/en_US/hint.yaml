@@ -69,7 +69,7 @@ Relics:
   p2: "Selected character: Score - The relic's current score as defined by the scoring algorithm for the currently selected character"
   p3: "Selected character: Average potential - The relic's potential at its maximum level, averaged across all the possible rolls it could have on the way to +15"
   p4: "Selected character: Max potential - The relic's maximum potential if all future rolls went into the character's desired stats"
-  p5: 'All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game.'
+  p5: "All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game."
 OptimizationDetails:
   Title: Optimization details
   p1: Shows how many relics are being used in the optimization search, after all filters are applied
@@ -106,7 +106,7 @@ ValueColumns:
   p3: Potential is a character-specific percentage of how good the relic could be (or 'is', if fully upgraded), compared against the stats on a fully upgraded 'perfect' relic in that slot.
   p4: Potential can look at all characters or just owned. It then takes the maximum percentage for any character.
   p5: Potential is useful for finding relics that aren't good on any character, or hidden gems that could be great when upgraded.
-  p6: 'Note: ordering by potential can be mismatched against weights, due to weight calculations preferring lower weight ideal mainstats.'
+  p6: "Note: ordering by potential can be mismatched against weights, due to weight calculations preferring lower weight ideal mainstats."
 RelicInsights:
   Title: Relic Insight
   p1: When a relic is selected in the table above, you can choose an analysis to view a plot of.

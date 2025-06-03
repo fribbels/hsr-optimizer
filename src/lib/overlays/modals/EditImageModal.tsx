@@ -321,16 +321,18 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   }
 
   const handleBeforeUpload = async (file: RcFile) => {
+    const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
     // Check if the file is not a valid image file
     if (!(await isValidImageFile(file))) {
       console.error('File is not a valid image file')
+      Message.error(t('InvalidFile'))
       return false
     }
 
     // Attempt to upload the file to Imgur
     const imgurLink = await uploadToImgurByFile(file)
     if (!(imgurLink)) {
-      Message.error('Image upload failed')
+      Message.error(t('ImageUploadFailed'))
       return false
     }
 

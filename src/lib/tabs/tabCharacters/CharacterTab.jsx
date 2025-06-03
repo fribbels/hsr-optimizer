@@ -19,7 +19,6 @@ import { SaveState } from 'lib/state/saveState'
 import { cellImageRenderer, CharacterGrid } from 'lib/tabs/tabCharacters/CharacterGrid'
 import { generateElementTags, generatePathTags, SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents.tsx'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { Utils } from 'lib/utils/utils'
 import React, { Suspense, useCallback, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
@@ -311,27 +310,6 @@ export default function CharacterTab() {
     DB.refreshCharacters()
     SaveState.delayedSave()
     characterGrid.current.api.redrawRows()
-  }
-
-  function clipboardClicked() {
-    setScreenshotLoading(true)
-    // Use a small timeout here so the spinner doesn't lag while the image is being generated
-    setTimeout(() => {
-      Utils.screenshotElementById('characterTabPreview', 'clipboard').finally(() => {
-        setScreenshotLoading(false)
-      })
-    }, 100)
-  }
-
-  function downloadClicked() {
-    setDownloadLoading(true)
-    // Use a small timeout here so the spinner doesn't lag while the image is being generated
-    setTimeout(() => {
-      const name = selectedCharacter ? t(`gameData:Characters.${selectedCharacter.id}.Name`) : null
-      Utils.screenshotElementById('characterTabPreview', 'download', name).finally(() => {
-        setDownloadLoading(false)
-      })
-    }, 100)
   }
 
   function confirmSaveBuild(name) {

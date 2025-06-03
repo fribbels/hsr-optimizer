@@ -229,7 +229,7 @@ type Fixes = typeof ZeroPermRootCauseFixes[ZeroPermRootCause] | typeof ZeroResul
 function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRootCause, t: TFunction<'modals', undefined>): ReactElement {
   const fixes: Fixes = (ZeroPermRootCauseFixes[rootCause as ZeroPermRootCause] || ZeroResultRootCauseFixes[rootCause as ZeroResultRootCause])
   return (
-    <Flex justify='space-between' align='center' style={{ height: 45 }} key={Utils.randomId()}>
+    <Flex justify='space-between' align='center' style={{ height: 45 }} key={Utils.randomId()} gap={10}>
       <Text style={{ width: 550 }}>
         {t(fixes.descriptionKey)}
       </Text>
@@ -239,7 +239,7 @@ function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRoot
           window.onOptimizerFormValuesChange({} as Form, OptimizerTabController.getForm())
           Message.success(t(fixes.successMessageKey), 2)
         }}
-        style={{ width: 250 }}
+        style={{ width: 350 }}
         type='primary'
       >
         {t(fixes.buttonTextKey)}
@@ -263,7 +263,7 @@ export function ZeroPermutationsSuggestionsModal() {
     <Modal
       title={t('0Perms.Title')/* Search generated 0 permutations */}
       open={isOpenZeroPermsModal}
-      width={900}
+      width={950}
       destroyOnClose
       centered
       onOk={closeZeroPermsModal}
@@ -466,7 +466,7 @@ export function ZeroResultSuggestionModal() {
     <Modal
       title={t('0Results.Title')/* Search generated 0 results */}
       open={isOpenZeroResultsModal}
-      width={900}
+      width={950}
       destroyOnClose
       centered
       onOk={closeZeroResultsModal}
@@ -489,7 +489,7 @@ export function ZeroResultSuggestionModal() {
               Message.success(t('0Results.ResetAll.SuccessMessage'))/* Cleared all filters */
               closeZeroResultsModal()
             }}
-            style={{ width: 250 }}
+            style={{ width: 350 }}
             type='primary'
           >
             {t('0Results.ResetAll.ButtonText')/* Reset all filters */}

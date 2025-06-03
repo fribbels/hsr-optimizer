@@ -47,7 +47,7 @@ const MenuDrawer = () => {
           <Flex>
             <ProjectOutlined style={{ marginRight: 5, width: 16 }}/>
             {' '}
-            Benchmarks
+            {t('Tools.Benchmarks')/*Benchmarks*/}
           </Flex>
         ),
         AppPages.BENCHMARKS),

@@ -6,7 +6,6 @@ To completely rewrite in TS:
 * CharacterTab.jsx
 * RelicScorerTab.jsx
 * FormSetConditionals.jsx
-* OptimizerGrid.jsx
 * RelicsTab.jsx
 
 Files where a refactor is needed will be commented with priority, based on impact and severity

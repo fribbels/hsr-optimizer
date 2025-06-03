@@ -726,7 +726,7 @@ export const DB = {
 
     const build = character.builds?.find((x) => x.name == name)
     if (build) {
-      const errorMessage = `Build name [${name}] already exists`
+      const errorMessage = i18next.t('charactersTab:Messages.BuildAlreadyExists', { name })
       console.warn(errorMessage)
       return { error: errorMessage }
     } else {
@@ -864,7 +864,7 @@ export const DB = {
   },
 
   deleteRelic: (id: string) => {
-    if (!id) return Message.error('Unable to delete relic')
+    if (!id) return Message.error(i18next.t('relicsTab:Messages.UnableToDeleteRelic'))
     DB.unequipRelicById(id)
     const relicsById = window.store.getState().relicsById
     delete relicsById[id]

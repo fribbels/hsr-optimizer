@@ -76,8 +76,8 @@ export type HsrOptimizerStore = {                                               
   comboState: ComboState                                                                                 // optimizerTab
   formValues: Form | undefined                                                                           // optimizerTab
   relicsById: Record<string, Relic>                                                                      // global
-  statDisplay: string                                                                                    // optimizerTab
-  memoDisplay: string                                                                                    // optimizerTab
+  statDisplay: StatDisplay                                                                               // optimizerTab
+  memoDisplay: MemoDisplay                                                                               // optimizerTab
   settings: UserSettings                                                                                 // global
   optimizerBuild: Build | null                                                                           // optimizerTab
   optimizerSelectedRowData: OptimizerDisplayDataStatSim | null                                           // optimizerTab
@@ -104,8 +104,8 @@ export type HsrOptimizerStore = {                                               
   setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void                        // give own store?
   setStatTracesDrawerFocusCharacter: (id: CharacterId | null | undefined) => void                        // give own store?
   setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void                                  // optimizerTab
-  setStatDisplay: (display: string) => void                                                              // optimizerTab
-  setMemoDisplay: (display: string) => void                                                              // optimizerTab
+  setStatDisplay: (display: StatDisplay) => void                                                         // optimizerTab
+  setMemoDisplay: (display: MemoDisplay) => void                                                         // optimizerTab
   setCharacters: (characters: Character[]) => void                                                       // characterTab
   setCharactersById: (charactersById: Partial<Record<CharacterId, Character>>) => void                   // characterTab
   setOptimizerFormSelectedLightConeSuperimposition: (x: SuperImpositionLevel) => void                    // optimizerTab
@@ -191,3 +191,6 @@ export type HsrOptimizerSaveFormat = {
     rowLimit: number
   }
 }
+
+export type StatDisplay = 'combat' | 'base'
+export type MemoDisplay = 'memo' | 'summoner'

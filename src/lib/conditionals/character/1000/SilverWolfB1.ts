@@ -3,7 +3,7 @@ import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { standardAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
-import { CURRENT_DATA_VERSION, ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -137,7 +137,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
+      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
 
       return x
     },

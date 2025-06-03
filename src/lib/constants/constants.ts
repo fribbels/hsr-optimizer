@@ -6,16 +6,16 @@ import { ARCHER, BLADE_B1, JINGLIU_B1, KAFKA_B1, PHAINON, SABER } from 'lib/simu
 export const CURRENT_OPTIMIZER_VERSION = 'v3.4.1'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '3.4v2'
+export const CURRENT_DATA_VERSION = '3.4v3'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  [PHAINON]: 'V2 - Numbers may change. Assumes Foundation skills.',
-  [SABER]: 'V2 - Numbers may change. Traces & EBA updated.',
-  [ARCHER]: 'V2 - Numbers may change',
-  [KAFKA_B1]: 'V2 buffs - Numbers may change',
-  [BLADE_B1]: 'V2 buffs - Numbers may change',
-  [JINGLIU_B1]: 'V2 buffs - Numbers may change',
+  [PHAINON]: 'V3 - Numbers may change. Assumes Foundation skills.',
+  [SABER]: 'V3 - Numbers may change.',
+  [ARCHER]: 'V3 - Numbers may change',
+  [KAFKA_B1]: 'V3 buffs - Numbers may change',
+  [BLADE_B1]: 'V3 buffs - Numbers may change',
+  [JINGLIU_B1]: 'V3 buffs - Numbers may change',
 }
 
 export const Stats = {

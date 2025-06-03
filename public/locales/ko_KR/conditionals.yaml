@@ -475,7 +475,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: '≤ 2 적 일 때 치확 버프'
+        text: "≤ 2 적 일 때 치확 버프"
         content: 필드 위의 적이 2명 이하일 경우, 장착한 캐릭터의 치명타 확률이 {{CritBuff}}% 증가한다.
   PastAndFuture:
     Content:
@@ -541,7 +541,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: '≥ 2 약점 속성을 지닐 때 버프'
+        text: "≥ 2 약점 속성을 지닐 때 버프"
         content: '장착한 캐릭터가 공격 발동 후 피격된 적 2기 이상이 대응하는 약점 속성을 보유하고 있으면 장착한 캐릭터의 치명타 피해가 {{CritBuff}}% 증가한다. 지속 시간: 2턴'
   TheGreatCosmicEnterprise:
     Content:

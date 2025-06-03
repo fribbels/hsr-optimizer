@@ -2381,6 +2381,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Sets.SprightlyVonwacq,
           ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT
         ],
         teammates: [
           {
@@ -3064,6 +3065,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Sets.TheWondrousBananAmusementPark,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT
         ],
         teammates: [
           {
@@ -4613,6 +4615,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Sets.IzumoGenseiAndTakamaDivineRealm,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT
         ],
         teammates: [
           {
@@ -4720,6 +4723,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Sets.RutilantArena,
           Sets.IzumoGenseiAndTakamaDivineRealm,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT
         ],
         teammates: [
           {
@@ -4824,6 +4828,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Sets.ForgeOfTheKalpagniLantern,
           Sets.TaliaKingdomOfBanditry,
           ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT
         ],
         teammates: [
           {
@@ -6963,6 +6968,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Sets.SpaceSealingStation,
           Sets.FirmamentFrontlineGlamoth,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT
         ],
         teammates: [
           {
@@ -7430,6 +7436,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.InertSalsotto,
+          Sets.FirmamentFrontlineGlamoth,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
@@ -7653,6 +7660,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.FirmamentFrontlineGlamoth,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT
         ],
         teammates: [
           {

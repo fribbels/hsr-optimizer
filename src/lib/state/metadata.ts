@@ -4603,6 +4603,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           DEFAULT_FUA,
         ],
         comboDot: 0,
+        errRopeEidolon: 0,
         deprioritizeBuffs: true,
         errRopeEidolon: 0,
         relicSets: [
@@ -4713,6 +4714,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           DEFAULT_FUA,
         ],
         comboDot: 0,
+        errRopeEidolon: 0,
         deprioritizeBuffs: true,
         relicSets: [
           [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],

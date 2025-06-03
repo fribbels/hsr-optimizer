@@ -8,13 +8,13 @@ import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { AppPage } from 'lib/state/db'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { Build, Character, CharacterId, Eidolon } from 'types/character'
 import { Form } from 'types/form'
 import { LightCone, SuperImpositionLevel } from 'types/lightCone'
 import { ScoringMetadata, ShowcasePreferences, ShowcaseTemporaryOptions } from 'types/metadata'
 import { Relic } from 'types/relic'
+import { ShowcaseTabSavedSession } from "lib/tabs/tabShowcase/useShowcaseTabStore";
 
 type PermutationDetails = {
   Head: number
@@ -52,7 +52,6 @@ export type HsrOptimizerStore = {                                               
   scoringAlgorithmFocusCharacter?: CharacterId | null                                                    // give own store?
   statTracesDrawerFocusCharacter?: CharacterId | null                                                    // give own store?
   relicsTabFocusCharacter?: CharacterId | null                                                           // relicsTab
-  rowLimit: number                                                                                       // relicLocator (done)
   activeKey: AppPage                                                                                     // global
   characters: Character[]                                                                                // characterTab
   charactersById: Partial<Record<CharacterId, Character>>                                                // characterTab
@@ -76,9 +75,6 @@ export type HsrOptimizerStore = {                                               
 
   comboState: ComboState                                                                                 // optimizerTab
   formValues: Form | undefined                                                                           // optimizerTab
-  inventoryWidth: number                                                                                 // relicLocator (done)
-  setInventoryWidth: (width: number) => void                                                             // relicLocator (done)
-  setRowLimit: (rowLimit: number) => void                                                                // relicLocator (done)
   relicsById: Record<string, Relic>                                                                      // global
   statDisplay: string                                                                                    // optimizerTab
   memoDisplay: string                                                                                    // optimizerTab
@@ -172,6 +168,7 @@ export type UserSettings = {
   PermutationsSidebarBehavior: string
   RelicPotentialLoadBehavior: string
   ExpandedInfoPanelPosition: string
+  ShowLocatorInRelicsModal: string
 }
 
 // The JSON format we save to localstorage / save file

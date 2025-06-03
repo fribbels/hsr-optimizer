@@ -35,6 +35,7 @@ import { DBMetadata, ScoringMetadata, SimulationMetadata } from 'types/metadata'
 import { Relic, Stat } from 'types/relic'
 import { GlobalSavedSession, HsrOptimizerSaveFormat, HsrOptimizerStore, UserSettings } from 'types/store'
 import { create } from 'zustand'
+import { useRelicLocatorStore } from "lib/tabs/tabRelics/RelicLocator";
 
 export type HsrOptimizerMetadataState = {
   metadata: DBMetadata
@@ -143,8 +144,6 @@ window.store = create((set) => {
     scoringAlgorithmFocusCharacter: undefined,
     statTracesDrawerFocusCharacter: undefined,
     relicsTabFocusCharacter: undefined,
-    inventoryWidth: 9,
-    rowLimit: 10,
 
     activeKey: getDefaultActiveKey(),
     characters: [],
@@ -229,8 +228,6 @@ window.store = create((set) => {
     setFormValues: (x) => set(() => ({ formValues: x })),
     setCharacters: (x) => set(() => ({ characters: x })),
     setCharactersById: (x) => set(() => ({ charactersById: x })),
-    setInventoryWidth: (x) => set(() => ({ inventoryWidth: x })),
-    setRowLimit: (x) => set(() => ({ rowLimit: x })),
     setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
     setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
     setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
@@ -614,8 +611,8 @@ export const DB = {
     // Set relics tab state
     window.store.getState().setExcludedRelicPotentialCharacters(saveData.excludedRelicPotentialCharacters || [])
     window.store.getState().setVersion(saveData.version)
-    window.store.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth ?? 9)
-    window.store.getState().setRowLimit(saveData.relicLocator?.rowLimit ?? 10)
+    useRelicLocatorStore.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth)
+    useRelicLocatorStore.getState().setRowLimit(saveData.relicLocator?.rowLimit)
 
     assignRanks(saveData.characters)
     DB.setRelics(saveData.relics)
@@ -716,11 +713,11 @@ export const DB = {
   },
 
   saveCharacterBuild: (name: string,
-    characterId: CharacterId,
-    score: {
-      rating: string
-      score: string
-    }) => {
+                       characterId: CharacterId,
+                       score: {
+                         rating: string
+                         score: string
+                       }) => {
     const character = DB.getCharacterById(characterId)
     if (!character) {
       console.warn('No character selected')

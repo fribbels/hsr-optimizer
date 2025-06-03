@@ -475,7 +475,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: 'Bonus de TC ≤ 2 ennemis'
+        text: "Bonus de TC ≤ 2 ennemis"
         content: Augmente les chances de coup critique de {{CritBuff}}% s'il y a 2 ennemis ou moins sur le champ de bataille.
   PastAndFuture:
     Content:
@@ -541,7 +541,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: 'Bonus de DC ≥ 2 cibles de bonne faiblesse'
+        text: "Bonus de DC ≥ 2 cibles de bonne faiblesse"
         content: Lorsque le porteur utilise une attaque et touche au moins 2 ennemis qui ont la Faiblesse correspondante, ses DGT critiques augmentent de {{CritBuff}}% pendant 2 tours.
   TheGreatCosmicEnterprise:
     Content:

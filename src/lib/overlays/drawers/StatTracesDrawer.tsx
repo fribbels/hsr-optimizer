@@ -14,7 +14,7 @@ import { TraceNode } from 'types/metadata'
 const { Text } = Typography
 
 export const StatTracesDrawer = () => {
-  const { t: tCommon } = useTranslation('common', { keyPrefix: 'Stats' })
+  const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TracesDrawer' })
   const { close: closeTracesDrawer, isOpen: isOpenTracesDrawer } = useOpenClose(OpenCloseIDs.TRACES_DRAWER)
 
@@ -136,7 +136,7 @@ export const StatTracesDrawer = () => {
                 {
                   `${Utils.isFlat(traceNode.stat)
                     ? traceNode.value
-                    : Utils.precisionRound(traceNode.value * 100) + '%'} - ${tCommon(traceNode.stat)}`
+                    : Utils.precisionRound(traceNode.value * 100) + '%'} - ${tCommon(`Stats.${traceNode.stat}`)}`
                 }
               </div>
             </Flex>
@@ -163,7 +163,7 @@ export const StatTracesDrawer = () => {
             DB.updateCharacterScoreOverrides(statTraceDrawerFocusCharacter, scoringMetadata)
 
             setTimeout(() => {
-              Message.success('Saved')
+              Message.success(tCommon('Saved'))
               setLoading(false)
               SaveState.delayedSave()
               closeTracesDrawer()

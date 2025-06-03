@@ -43,6 +43,13 @@ interface Resources {
       "Rolls": "Substat Rolls",
       "Combo": "Combo Rotation",
       "Damage": "Ability Damage"
+    },
+    "Messages": {
+      "Error": {
+        "MissingField": "Missing character/lightcone/teammates",
+        "UnsupportedCharacter": "DPS benchmarks are not supported for this character",
+        "SPDUnselected": "Select the target benchmark basic SPD"
+      }
     }
   },
   "charactersTab": {
@@ -98,7 +105,10 @@ interface Resources {
       "SortByScoreWarning": "Are you sure you want to sort all characters? You will lose any custom rankings you have set.",
       "SaveSuccess": "Successfully saved build: {{name}}",
       "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?",
-      "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?"
+      "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?",
+      "BuildAlreadyExists": "Build name {{name}} already exists",
+      "ImageUploadFailed": "Image upload failed",
+      "InvalidFile": "File is not a valid image file"
     },
     "CharacterPreview": {
       "ScoringSidebar": {
@@ -289,6 +299,7 @@ interface Resources {
     "Yes": "Yes",
     "No": "No",
     "Save": "Save",
+    "Saved": "Saved",
     "Score": "Score",
     "Reset": "Reset",
     "EidolonNShort": "E{{eidolon}}",
@@ -1834,7 +1845,7 @@ interface Resources {
             "content": "When using skill, there is a 120% base chance to Weaken one designated enemy and adjacent targets, decreasing their DMG dealt by 10% and increasing Cipher's ATK by 30%, lasting for 2 turns."
           },
           "fuaCdBoost": {
-            "text": "Fua CD boost",
+            "text": "FUA CD boost",
             "content": "Increases the CRIT DMG dealt by the Talent's Follow-up ATK by 100%."
           },
           "spdBasedBuffs": {
@@ -1854,7 +1865,7 @@ interface Resources {
             "content": "After \"Patron\" is attacked by an ally target, Cipher deals Quantum Additional DMG equal to 50% of Cipher's ATK to it."
           },
           "e6FuaDmg": {
-            "text": "E6 Fua DMG",
+            "text": "E6 FUA DMG",
             "content": "Increases DMG dealt by Follow-up ATKs caused by Cipher's Talent by 350%."
           }
         }
@@ -2268,7 +2279,7 @@ interface Resources {
       "Jade": {
         "Content": {
           "enhancedFollowUp": {
-            "text": "Enhanced FuA",
+            "text": "Enhanced FUA",
             "content": "Jade enhances her Talent's follow-up attack, increasing its DMG multiplier by {{ultFuaScalingBuff}}%."
           },
           "pawnedAssetStacks": {
@@ -3236,12 +3247,12 @@ interface Resources {
         "LongName": "Welt"
       },
       "1005": {
-        "Name": "Kafka",
-        "LongName": "Kafka"
+        "Name": "⚰️Kafka",
+        "LongName": "⚰️Kafka"
       },
       "1006": {
-        "Name": "Silver Wolf",
-        "LongName": "Silver Wolf"
+        "Name": "⚰️Silver Wolf",
+        "LongName": "⚰️Silver Wolf"
       },
       "1008": {
         "Name": "Arlan",
@@ -3254,6 +3265,14 @@ interface Resources {
       "1013": {
         "Name": "Herta",
         "LongName": "Herta"
+      },
+      "1014": {
+        "Name": "Saber",
+        "LongName": "Saber"
+      },
+      "1015": {
+        "Name": "Archer",
+        "LongName": "Archer"
       },
       "1101": {
         "Name": "Bronya",
@@ -3320,8 +3339,8 @@ interface Resources {
         "LongName": "Jing Yuan"
       },
       "1205": {
-        "Name": "Blade",
-        "LongName": "Blade"
+        "Name": "⚰️Blade",
+        "LongName": "⚰️Blade"
       },
       "1206": {
         "Name": "Sushang",
@@ -3348,8 +3367,8 @@ interface Resources {
         "LongName": "Bailu"
       },
       "1212": {
-        "Name": "Jingliu",
-        "LongName": "Jingliu"
+        "Name": "⚰️Jingliu",
+        "LongName": "⚰️Jingliu"
       },
       "1213": {
         "Name": "Imbibitor Lunae",
@@ -3483,6 +3502,10 @@ interface Resources {
         "Name": "Castorice",
         "LongName": "Castorice"
       },
+      "1408": {
+        "Name": "Phainon",
+        "LongName": "Phainon"
+      },
       "1409": {
         "Name": "Hyacine",
         "LongName": "Hyacine"
@@ -3518,6 +3541,22 @@ interface Resources {
       "8008": {
         "Name": "Stelle",
         "LongName": "Stelle (Remembrance)"
+      },
+      "1212b1": {
+        "Name": "Jingliu",
+        "LongName": "Jingliu"
+      },
+      "1205b1": {
+        "Name": "Blade",
+        "LongName": "Blade"
+      },
+      "1005b1": {
+        "Name": "Kafka",
+        "LongName": "Kafka"
+      },
+      "1006b1": {
+        "Name": "Silver Wolf",
+        "LongName": "Silver Wolf"
       }
     },
     "RelicSets": {
@@ -3644,7 +3683,7 @@ interface Resources {
       "125": {
         "Name": "Warrior Goddess of Sun and Thunder",
         "Description2pc": "Increases SPD by 6%.",
-        "Description4pc": "When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains \"Gentle Rain,\" which can be triggered up to 1 time per turn, lasting for 2 turns. While the wearer has \"Gentle Rain,\" increases their SPD by 6% and all allies' CRIT DMG by 15%. This effect cannot be stacked."
+        "Description4pc": "When the wearer or their memosprite provides healing to ally targets other than themselves, the wearer gains \"Gentle Rain,\" which lasts for 2 turns and can only trigger once per turn. While the wearer has \"Gentle Rain,\" SPD increases by 6% and all allies' CRIT DMG increases by 15%. This effect cannot stack."
       },
       "126": {
         "Name": "Wavestrider Captain",
@@ -3730,6 +3769,14 @@ interface Resources {
       "320": {
         "Name": "Giant Tree of Rapt Brooding",
         "Description2pc": "Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%."
+      },
+      "321": {
+        "Name": "Arcadia of Woven Dreams",
+        "Description2pc": "When there are more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks."
+      },
+      "322": {
+        "Name": "Revelry by the Sea",
+        "Description2pc": "Increases the wearer's DoT DMG by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%."
       }
     },
     "Lightcones": {
@@ -3958,6 +4005,33 @@ interface Resources {
       "21052": {
         "Name": "Sweat Now, Cry Less"
       },
+      "21053": {
+        "Name": "Journey, Forever Peaceful"
+      },
+      "21054": {
+        "Name": "The Story's Next Page"
+      },
+      "21055": {
+        "Name": "Unto Tomorrow's Morrow"
+      },
+      "21056": {
+        "Name": "Pursuit of the Wind"
+      },
+      "21057": {
+        "Name": "The Flower Remembers"
+      },
+      "21058": {
+        "Name": "A Trail of Bygone Blood"
+      },
+      "21060": {
+        "Name": "A Dream Scented in Wheat"
+      },
+      "21061": {
+        "Name": "Holiday Thermae Escapade"
+      },
+      "21062": {
+        "Name": "See You at the End"
+      },
       "22000": {
         "Name": "Before the Tutorial Mission Starts"
       },
@@ -4105,6 +4179,15 @@ interface Resources {
       "23043": {
         "Name": "Lies Dance on the Breeze"
       },
+      "23044": {
+        "Name": "Thus Burns the Dawn"
+      },
+      "23045": {
+        "Name": "A Thankless Coronation"
+      },
+      "23046": {
+        "Name": "The Hell Where Ideals Burn"
+      },
       "24000": {
         "Name": "On the Fall of an Aeon"
       },
@@ -4164,6 +4247,10 @@ interface Resources {
     "CombatBuffs": {
       "Title": "Combat buffs",
       "p1": "Additional team buffs to apply to the calculations. Note that buffs from character / light cone self-buffs and passives and traces are already included in calculations."
+    },
+    "ComboFilters": {
+      "Title": "Combo rotation",
+      "p1": "Define the ability rotation to measure Combo DMG. Rotations are defined with [ as the start of a turn, and ] as the end of a turn. See the Advanced Rotation menu and user guide for more details."
     },
     "StatFilters": {
       "Title": "Stat filters",
@@ -4903,6 +4990,20 @@ interface Resources {
     }
   },
   "optimizerTab": {
+    "ValidationMessages": {
+      "Warning": {
+        "MissingTeammates": "Select teammates for more accurate optimization results.",
+        "PathMismatch": "Character path doesn't match light cone path."
+      },
+      "Error": {
+        "TopPercent": "All substat weights are set to 0. Make sure to set the substat weights for your character or use the Recommended presets button.",
+        "MissingTarget": "Missing optimization target fields",
+        "MissingCharacter": "Missing character fields",
+        "MissingLightCone": "Missing light cone fields",
+        "TooManyPerms": "Too many permutations, please apply stricter filters or set minimum enhance to at least +3.",
+        "GPUNotAvailable": "GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server"
+      }
+    },
     "CharacterSelector": {
       "Character": "Character",
       "Lightcone": "Light cone",
@@ -5006,6 +5107,7 @@ interface Resources {
       "Of": "of",
       "Page": "Page",
       "PageSelectorLabel": "Page Size:",
+      "Loading": "Loading...",
       "Headers": {
         "Basic": {
           "Set": "Set",
@@ -5022,7 +5124,6 @@ interface Resources {
           "ERR": "ERR",
           "DMG": "DMG",
           "EHP": "EHP",
-          "WEIGHT": "STAT\nWEIGHT",
           "HEAL": "HEAL",
           "SHIELD": "SHIELD",
           "BASIC": "BASIC\nDMG",
@@ -5050,7 +5151,6 @@ interface Resources {
           "ERR": "Σ ERR",
           "DMG": "Σ DMG",
           "EHP": "EHP",
-          "WEIGHT": "STAT\nWEIGHT",
           "HEAL": "HEAL",
           "SHIELD": "SHIELD",
           "BASIC": "BASIC\nDMG",
@@ -5117,6 +5217,7 @@ interface Resources {
       "ResultsGroup": {
         "Header": "Results",
         "Equip": "Equip",
+        "EquipSuccessMessage": "Equipped",
         "Filter": "Filter",
         "Pin": "Pin builds",
         "Clear": "Clear pins"
@@ -5664,7 +5765,8 @@ interface Resources {
       "AllCharacters": "Import all characters & all relics into optimizer"
     },
     "SimulateRelics": "Simulate relics on another character",
-    "OptimizeOnCharacter": "Optimize character stats"
+    "OptimizeOnCharacter": "Optimize character stats",
+    "Disclaimer": "Note: Combo DMG is meant to compare different relics relative to the selected team, and should <1>NOT</1> be used to compare different teams / LCs / eidolons!"
   },
   "relicsTab": {
     "RelicFilterBar": {
@@ -5688,7 +5790,8 @@ interface Resources {
     "Messages": {
       "AddRelicSuccess": "Successfully added relic",
       "NoRelicSelected": "No relic selected",
-      "DeleteRelicSuccess": "Successfully deleted relic"
+      "DeleteRelicSuccess": "Successfully deleted relic",
+      "UnableToDeleteRelic": "Unable to delete relic"
     },
     "RelicGrid": {
       "To": "to",
@@ -5810,33 +5913,39 @@ interface Resources {
   },
   "settings": {
     "Title": "Settings",
-    "RelicEquippingBehaviour": {
+    "RelicEquippingBehavior": {
       "Label": "Equipping relics from another character",
       "Replace": "Default: Replace relics without swapping",
       "Swap": "Swap relics with previous owner"
     },
-    "PermutationSidebarBehaviour": {
+    "PermutationsSidebarBehavior": {
       "Label": "Shrink optimizer sidebar on smaller screens",
-      "XL": "Default: Minimize if most of the sidebar is hidden",
-      "XXL": "Minimize if any of the sidebar is hidden",
+      "ShowXL": "Default: Minimize if most of the sidebar is hidden",
+      "ShowXXL": "Minimize if any of the sidebar is hidden",
       "NoShow": "Always keep the sidebar on the right"
     },
-    "RelicPotentialLoadBehaviour": {
+    "RelicPotentialLoadBehavior": {
       "Label": "Relic potential scoring on load",
-      "OnStartup": "Default: Automatically score relics on page load",
-      "Manual": "Only score relics when \"Reapply scores\" is clicked (faster page load)"
+      "ScoreAtStartup": "Default: Automatically score relics on page load",
+      "ManuallyClickReapplyScores": "Only score relics when \"Reapply scores\" is clicked (faster page load)"
     },
     "ExpandedInfoPanelPosition": {
       "Label": "Optimizer Expanded info panel position",
       "Above": "Show expanded info above relics preview",
       "Below": "Default: Show expanded info below relics preview"
+    },
+    "ShowLocatorInRelicsModal": {
+      "Label": "Relic locator in relic editor",
+      "Yes": "Show the relic locator in the relic editor",
+      "No": "Default: Do not show the relic locator in the relic editor"
     }
   },
   "sidebar": {
     "Tools": {
       "Title": "Tools",
       "Showcase": "Showcase",
-      "WarpPlanner": "Warp Planner"
+      "WarpPlanner": "Warp Planner",
+      "Benchmarks": "Benchmarks"
     },
     "Optimization": {
       "Title": "Optimization",

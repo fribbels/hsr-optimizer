@@ -21,6 +21,7 @@ import { Utils } from 'lib/utils/utils'
 import { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
+import { MemoDisplay, StatDisplay } from 'types/store'
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
@@ -145,13 +146,14 @@ function addToPinned() {
   const gridApi = optimizerGridApi()
   const currentPinnedRows = gridApi.getGridOption('pinnedTopRowData')! as OptimizerDisplayDataStatSim[]
   const selectedNodes = gridApi.getSelectedNodes() as IRowNode<OptimizerDisplayDataStatSim>[]
+  const t = i18next.getFixedT(null, 'optimizerTab', 'Sidebar.Pinning.Messages')
 
   if (!selectedNodes || selectedNodes.length == 0) {
-    Message.warning(i18next.t('optimizerTab:Sidebar.Pinning.Messages.NoneSelected')/* 'No row selected' */)
+    Message.warning(t('NoneSelected')/* 'No row selected' */)
   } else if (selectedNodes[0].data!.statSim) {
-    Message.warning(i18next.t('optimizerTab:Sidebar.Pinning.Messages.SimSelected')/* 'Custom simulation rows are not pinnable' */)
+    Message.warning(t('SimSelected')/* 'Custom simulation rows are not pinnable' */)
   } else if (currentPinnedRows.find((row) => String(row.id) == String(selectedNodes[0].data!.id))) {
-    Message.warning(i18next.t('optimizerTab:Sidebar.Pinning.Messages.AlreadyPinned')/* 'This build is already pinned' */)
+    Message.warning(t('AlreadyPinned')/* 'This build is already pinned' */)
   } else {
     const selectedRow = selectedNodes[0].data
     if (selectedRow) {
@@ -505,7 +507,7 @@ function StatsViewSelect() {
     <Radio.Group
       onChange={(e) => {
         const { target: { value } } = e
-        setStatDisplay(value as string)
+        setStatDisplay(value as StatDisplay)
       }}
       optionType='button'
       buttonStyle='solid'
@@ -539,7 +541,7 @@ function MemoViewSelect(props: { isFullSize: boolean }) {
     <Radio.Group
       onChange={(e) => {
         const { target: { value } } = e
-        setMemoDisplay(value as string)
+        setMemoDisplay(value as MemoDisplay)
       }}
       optionType='button'
       buttonStyle='solid'

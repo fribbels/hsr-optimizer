@@ -1,5 +1,14 @@
 import i18next from 'i18next'
-import { COMPUTE_ENGINE_GPU_STABLE, ComputeEngine, Constants, CURRENT_OPTIMIZER_VERSION, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Parts, SubStats } from 'lib/constants/constants'
+import {
+  COMPUTE_ENGINE_GPU_STABLE,
+  ComputeEngine,
+  Constants,
+  CURRENT_OPTIMIZER_VERSION,
+  DEFAULT_MEMO_DISPLAY,
+  DEFAULT_STAT_DISPLAY,
+  Parts,
+  SubStats
+} from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
@@ -14,8 +23,8 @@ import { SaveState } from 'lib/state/saveState'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
-import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
@@ -26,6 +35,7 @@ import { DBMetadata, ScoringMetadata, SimulationMetadata } from 'types/metadata'
 import { Relic, Stat } from 'types/relic'
 import { GlobalSavedSession, HsrOptimizerSaveFormat, HsrOptimizerStore, UserSettings } from 'types/store'
 import { create } from 'zustand'
+import { useRelicLocatorStore } from "lib/tabs/tabRelics/RelicLocator";
 
 export type HsrOptimizerMetadataState = {
   metadata: DBMetadata
@@ -134,8 +144,6 @@ window.store = create((set) => {
     scoringAlgorithmFocusCharacter: undefined,
     statTracesDrawerFocusCharacter: undefined,
     relicsTabFocusCharacter: undefined,
-    inventoryWidth: 9,
-    rowLimit: 10,
 
     activeKey: getDefaultActiveKey(),
     characters: [],
@@ -147,8 +155,6 @@ window.store = create((set) => {
     scoringMetadataOverrides: {},
     showcasePreferences: {},
     showcaseTemporaryOptionsByCharacter: {},
-    warpRequest: {} as WarpRequest,
-    warpResult: {} as WarpResult,
     statDisplay: DEFAULT_STAT_DISPLAY,
     memoDisplay: DEFAULT_MEMO_DISPLAY,
     statSimulationDisplay: StatSimTypes.Disabled,
@@ -222,8 +228,6 @@ window.store = create((set) => {
     setFormValues: (x) => set(() => ({ formValues: x })),
     setCharacters: (x) => set(() => ({ characters: x })),
     setCharactersById: (x) => set(() => ({ charactersById: x })),
-    setInventoryWidth: (x) => set(() => ({ inventoryWidth: x })),
-    setRowLimit: (x) => set(() => ({ rowLimit: x })),
     setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
     setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
     setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
@@ -239,8 +243,6 @@ window.store = create((set) => {
     setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
     setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
     setShowcaseTemporaryOptionsByCharacter: (x) => set(() => ({ showcaseTemporaryOptionsByCharacter: x })),
-    setWarpRequest: (x) => set(() => ({ warpRequest: x })),
-    setWarpResult: (x) => set(() => ({ warpResult: x })),
     setStatDisplay: (x) => set(() => ({ statDisplay: x })),
     setMemoDisplay: (x) => set(() => ({ memoDisplay: x })),
     setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
@@ -266,7 +268,6 @@ window.store = create((set) => {
     setColorTheme: (x) => set(() => ({ colorTheme: x })),
     setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
     setOptimizerSelectedRowData: (x) => set(() => ({ optimizerSelectedRowData: x })),
-    setOptimizerBuffGroups: (x) => set(() => ({ optimizerBuffGroups: x })),
     setGlobalThemeConfig: (x) => set(() => ({ globalThemeConfig: x })),
   }
   return store
@@ -571,9 +572,7 @@ export const DB = {
       window.store.getState().setShowcasePreferences(saveData.showcasePreferences || {})
     }
 
-    if (saveData.warpRequest) {
-      window.store.getState().setWarpRequest(saveData.warpRequest || {})
-    }
+    useWarpCalculatorStore.getState().setRequest(saveData.warpRequest)
 
     if (saveData.optimizerMenuState) {
       const menuState = window.store.getState().optimizerMenuState
@@ -612,8 +611,8 @@ export const DB = {
     // Set relics tab state
     window.store.getState().setExcludedRelicPotentialCharacters(saveData.excludedRelicPotentialCharacters || [])
     window.store.getState().setVersion(saveData.version)
-    window.store.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth ?? 9)
-    window.store.getState().setRowLimit(saveData.relicLocator?.rowLimit ?? 10)
+    useRelicLocatorStore.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth)
+    useRelicLocatorStore.getState().setRowLimit(saveData.relicLocator?.rowLimit)
 
     assignRanks(saveData.characters)
     DB.setRelics(saveData.relics)
@@ -714,11 +713,11 @@ export const DB = {
   },
 
   saveCharacterBuild: (name: string,
-    characterId: CharacterId,
-    score: {
-      rating: string
-      score: string
-    }) => {
+                       characterId: CharacterId,
+                       score: {
+                         rating: string
+                         score: string
+                       }) => {
     const character = DB.getCharacterById(characterId)
     if (!character) {
       console.warn('No character selected')
@@ -727,7 +726,7 @@ export const DB = {
 
     const build = character.builds?.find((x) => x.name == name)
     if (build) {
-      const errorMessage = `Build name [${name}] already exists`
+      const errorMessage = i18next.t('charactersTab:Messages.BuildAlreadyExists', { name })
       console.warn(errorMessage)
       return { error: errorMessage }
     } else {
@@ -865,7 +864,7 @@ export const DB = {
   },
 
   deleteRelic: (id: string) => {
-    if (!id) return Message.error('Unable to delete relic')
+    if (!id) return Message.error(i18next.t('relicsTab:Messages.UnableToDeleteRelic'))
     DB.unequipRelicById(id)
     const relicsById = window.store.getState().relicsById
     delete relicsById[id]

@@ -207,12 +207,16 @@ function translatedLabel(stat: keyof ComputedStatsObject, isMemo = false) {
   const label = StatsConfig[stat]?.label
   if (!label) return stat
   if (label.composite) {
-    const prefix: string = i18next.t(`${label.prefix.ns}:${label.prefix.key}` as never, label.prefix.args)
-    const suffix: string = i18next.t(`${label.suffix.ns}:${label.suffix.key}` as never, label.suffix.args)
+    // type conformity is enforced by the helper functions in src/lib/optimization/config/setsConfig
+    // @ts-ignore
+    const prefix: string = i18next.t(`${label.prefix.ns}:${label.prefix.key}`, label.prefix.args)
+    // @ts-ignore
+    const suffix: string = i18next.t(`${label.suffix.ns}:${label.suffix.key}`, label.suffix.args)
     const finalLabel = i18next.t('optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Stats.CompositeLabels.Label', { prefix, suffix }) as string
     return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) : finalLabel
   } else {
-    const finalLabel: string = i18next.t(`${label.ns}:${label.key}` as never, label.args)
+    // @ts-ignore
+    const finalLabel: string = i18next.t(`${label.ns}:${label.key}`, label.args)
     return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) : finalLabel
   }
 }

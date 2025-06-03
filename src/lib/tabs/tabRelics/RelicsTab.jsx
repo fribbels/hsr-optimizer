@@ -1,7 +1,8 @@
-import { SettingOutlined } from '@ant-design/icons'
 import { AgGridReact } from 'ag-grid-react'
-import { Button, Flex, InputNumber, Popconfirm, Popover, Select, theme, Typography } from 'antd'
+import { Button, Flex, Popconfirm, Select, theme } from 'antd'
 import { Constants, Stats } from 'lib/constants/constants'
+
+import { OpenCloseIDs } from 'lib/hooks/useOpenClose'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'
@@ -15,10 +16,8 @@ import { getGridTheme } from 'lib/rendering/theme'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import RelicFilterBar from 'lib/tabs/tabRelics/RelicFilterBar'
-
-import { OpenCloseIDs } from 'lib/hooks/useOpenClose'
+import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator.js'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
-import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { currentLocale } from 'lib/utils/i18nUtils.js'
 import Plotly from 'plotly.js/dist/plotly-basic'
@@ -56,12 +55,6 @@ export default function RelicsTab() {
   const [gridDestroyed, setGridDestroyed] = useState(false)
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)
-
-  const inventoryWidth = window.store((s) => s.inventoryWidth)
-  const setInventoryWidth = window.store((s) => s.setInventoryWidth)
-
-  const rowLimit = window.store((s) => s.rowLimit)
-  const setRowLimit = window.store((s) => s.setRowLimit)
 
   const { t, i18n } = useTranslation(['relicsTab', 'common', 'gameData'])
   const initialLanguage = useRef(i18n.resolvedLanguage)
@@ -204,42 +197,6 @@ export default function RelicsTab() {
     // Apply to grid
     window.relicsGrid.current.api.setFilterModel(filterModel)
   }, [relicTabFilters])
-
-  const [relicPositionIndex, setRelicPositionIndex] = useState(0)
-  const [locatorFilters, setLocatorFilters] = useState({ set: undefined, part: undefined })
-
-  useEffect(() => {
-    if (!selectedRelic) return
-    const indexLimit = Math.max(1, rowLimit) * Math.max(1, inventoryWidth)
-    const newerRelics = DB.getRelics().filter((x) => x.ageIndex <= selectedRelic.ageIndex)
-
-    // No filter
-    // if (selectedRelic.ageIndex < indexLimit) {
-    //   setRelicPositionIndex(selectedRelic.ageIndex)
-    //   setLocatorFilters({ set: undefined, part: undefined })
-    //   return
-    // }
-
-    // Part-only filter
-    const partFilteredIndex = newerRelics.filter((x) => selectedRelic.part == x.part).length - 1
-    if (partFilteredIndex < indexLimit) {
-      setRelicPositionIndex(partFilteredIndex)
-      setLocatorFilters({ set: undefined, part: selectedRelic.part })
-      return
-    }
-
-    // Set-only filter
-    // const setFilteredIndex = newerRelics.filter((x) => selectedRelic.set == x.set).length - 1
-    // if (setFilteredIndex < indexLimit) {
-    //   setRelicPositionIndex(setFilteredIndex)
-    //   setLocatorFilters({ set: selectedRelic.set, part: undefined })
-    //   return
-    // }
-
-    const filteredIndex = newerRelics.filter((x) => selectedRelic.part == x.part && selectedRelic.set == x.set).length - 1
-    setRelicPositionIndex(filteredIndex)
-    setLocatorFilters({ set: selectedRelic.set, part: selectedRelic.part })
-  }, [selectedRelic, inventoryWidth, rowLimit])
 
   const valueColumnOptions = useMemo(() => [
     {
@@ -671,7 +628,6 @@ export default function RelicsTab() {
   return (
     <Flex style={{ width: TAB_WIDTH, marginBottom: 100 }}>
       <RelicModal
-        selectedRelic={selectedRelic}
         type='add'
         onOk={onAddOk}
         setOpen={setAddModalOpen}
@@ -727,7 +683,7 @@ export default function RelicsTab() {
           </div>
         )}
         {gridDestroyed && (
-          <div style={{ width: TAB_WIDTH, height: 500 }} />
+          <div style={{ width: TAB_WIDTH, height: 500 }}/>
         )}
         <Flex gap={10} justify='space-between'>
           <Button
@@ -756,101 +712,11 @@ export default function RelicsTab() {
             {t('Toolbar.AddRelic')/* Add New Relic */}
           </Button>
 
-          <Popover
-            trigger='click'
-            onOpenChange={(open) => {
-              if (!open) {
-                SaveState.delayedSave()
-              }
-            }}
-            content={(
-              <Flex gap={8} style={{ minWidth: 260 }}>
-                <Flex vertical>
-                  <Flex justify='space-between' align='center'>
-                    <HeaderText>{t('Toolbar.RelicLocator.Width')/* Inventory width */}</HeaderText>
-                  </Flex>
-                  <InputNumber
-                    defaultValue={window.store.getState().inventoryWidth}
-                    style={{ width: 'auto' }}
-                    min={1}
-                    onChange={(e) => {
-                      setInventoryWidth(e)
-                    }}
-                  />
-                </Flex>
-
-                <Flex vertical>
-                  <Flex justify='space-between' align='center' gap={10}>
-                    <HeaderText>{t('Toolbar.RelicLocator.Filter')/* Auto filter rows */}</HeaderText>
-                    <TooltipImage type={Hint.locatorParams()} />
-                  </Flex>
-                  <InputNumber
-                    defaultValue={window.store.getState().rowLimit}
-                    style={{ width: 'auto' }}
-                    min={1}
-                    onChange={(e) => {
-                      setRowLimit(e)
-                    }}
-                  />
-                </Flex>
-              </Flex>
-            )}
-          >
-            <Flex
-              justify='space-between'
-              align='center'
-              style={{
-                cursor: 'pointer',
-                paddingLeft: 8,
-                paddingRight: 10,
-                width: 285,
-                marginTop: 1,
-                borderRadius: 5,
-                height: 30,
-                background: 'rgba(36, 51, 86)',
-                boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
-                outline: '1px solid rgba(63, 90, 150)',
-              }}
-            >
-              {
-                selectedRelic && (
-                  <Flex align='center' justify='space-between' style={{ width: '100%' }}>
-                    <Flex gap={5} style={{ minWidth: 10 }} justify='flex-start'>
-                      {locatorFilters.part && <img src={Assets.getPart(locatorFilters.part)} style={{ height: 25 }} />}
-                      {locatorFilters.set
-                        && <img src={Assets.getSetImage(locatorFilters.set, undefined, true)} style={{ height: 26 }} />}
-                      {!locatorFilters.part && !locatorFilters.set && <div style={{ width: 10 }}></div>}
-                    </Flex>
-                    <Typography>
-                      {/* Location - Row {{rowIndex}} / Col {{columnIndex}} */}
-                      {!selectedRelic
-                        ? ''
-                        : t('Toolbar.RelicLocator.Location', {
-                          columnIndex: relicPositionIndex % inventoryWidth + 1,
-                          rowIndex: Math.ceil((relicPositionIndex + 1) / inventoryWidth),
-                        })}
-                    </Typography>
-                    <SettingOutlined />
-                  </Flex>
-
-                )
-              }
-              {
-                !selectedRelic && (
-                  <Flex style={{ width: '100%', paddingBottom: 2 }} justify='space-between'>
-                    <div style={{ width: 10 }}></div>
-                    {/* Select a relic to locate */}
-                    <div>{t('Toolbar.RelicLocator.NoneSelected')}</div>
-                    <SettingOutlined />
-                  </Flex>
-                )
-              }
-            </Flex>
-          </Popover>
-
+          <RelicLocator relic={selectedRelic}/>
           <Flex style={{ display: 'block' }}>
-            <TooltipImage type={Hint.relicLocation()} />
+            <TooltipImage type={Hint.relicLocation()}/>
           </Flex>
+
           <Select
             value={relicInsight}
             onChange={setRelicInsight}
@@ -858,7 +724,7 @@ export default function RelicsTab() {
             style={{ width: 275 }}
           />
           <Flex style={{ display: 'block' }}>
-            <TooltipImage type={Hint.relicInsight()} />
+            <TooltipImage type={Hint.relicInsight()}/>
           </Flex>
           <Select
             value={plottedCharacterType}
@@ -875,7 +741,7 @@ export default function RelicsTab() {
             score={score}
           />
           <Flex style={{ display: 'block' }}>
-            <TooltipImage type={Hint.relics()} />
+            <TooltipImage type={Hint.relics()}/>
           </Flex>
 
           {relicInsight === 'top10' && scores && (

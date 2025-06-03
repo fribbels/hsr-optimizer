@@ -9,10 +9,10 @@ import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { CharacterPreset, importClicked, initialiseShowcaseTab, onCharacterModalOk, Preset, presetCharacters, ShowcaseTabForm, submitForm } from 'lib/tabs/tabShowcase/showcaseTabController'
-import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { Utils } from 'lib/utils/utils'
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { CSSProperties, Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 
 const RERUN_PRESET_SIZE = 45
@@ -41,9 +41,9 @@ export default function ShowcaseTab() {
   return (
     <div>
       <Flex vertical gap={0} align='center'>
-        {/* <Flex gap={10} vertical align='center'> */}
-        {/*  <Text><h3 style={{ color: '#ffaa4f' }}>{t('Header.DowntimeWarning', { game_version: 3.2 })}</h3></Text> */}
-        {/* </Flex> */}
+        {/*<Flex gap={10} vertical align='center'>*/}
+        {/* <Text><h3 style={{ color: '#ffaa4f' }}>{t('Header.DowntimeWarning', { game_version: 3.3 })}</h3></Text>*/}
+        {/*</Flex>*/}
 
         <Flex gap={10} vertical align='center'>
           <Text>
@@ -242,12 +242,7 @@ function CharacterPreviewSelection() {
         </Flex>
 
         { (availableCharacters?.length != undefined && availableCharacters.length > 0) && (
-          <Alert
-            message={<>Note: Combo DMG is meant to compare different relics relative to the selected team, and should <u>NOT</u> be used to compare different teams / eidolons!</>}
-            type='info'
-            showIcon
-            style={{ marginBottom: 5, width: '100%', backgroundColor: '#7f4327', borderColor: '#c3561e' }}
-          />
+          <DPSScoreDisclaimer style={{ marginBottom: 5, width: '100%', backgroundColor: '#7f4327', borderColor: '#c3561e' }}/>
         )}
 
         <Segmented
@@ -387,6 +382,22 @@ function PresetButton(props: { preset: CharacterPreset }) {
         outline: '1px solid rgba(255, 255, 255, 0.2)',
         background: 'rgba(255, 255, 255, 0.05)',
       }}
+    />
+  )
+}
+
+export function DPSScoreDisclaimer(props: {style: CSSProperties}) {
+  const { t } = useTranslation('relicScorerTab')
+  return (
+    <Alert
+      message={
+        <Trans t={t} i18nKey='Disclaimer'>
+          Note: Combo DMG is meant to compare different relics relative to the selected team, and should <u>NOT</u> be used to compare different teams / LCs / eidolons!
+        </Trans>
+      }
+      type='info'
+      showIcon
+      style={props.style}
     />
   )
 }

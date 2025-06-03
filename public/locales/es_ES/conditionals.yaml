@@ -1,32 +1,2010 @@
 BetaMessage: "Versión actual: {{Version}} - Los cálculos están sujetos a cambios."
+Common:
+  BuffPriority:
+    Text: "Prioridad de las mejoras"
+    Content: "Selecciona al receptor de preferencia para las mejoras de objetivo único"
+    Self: "Prioridad mejoras: A sí mismo"
+    Memo: "Prioridad mejoras: Mnemo"
+  HealAbility:
+    Text: "Recurso de curación"
+    Content: "Selecciona el recurso para los cálculos de curación"
+    Basic: "Recurso curación: Básico"
+    Skill: "Recurso curación: Habilidad"
+    Ult: "Recurso curación: Definitiva"
+    Talent: "Recurso curación: Talento"
+    Trace: "Recurso curación: Rastro"
+  ShieldAbility:
+    Text: "Recurso de escudo"
+    Content: "Selecciona el recurso para los cálculos de escudo"
+    Basic: "Recurso escudo: Básico"
+    Skill: "Recurso escudo: Habilidad"
+    Ult: "Recurso escudo: Definitiva"
+    Talent: "Recurso escudo: Talento"
+    Trace: "Recurso escudo: Rastro"
 Lightcones:
+  AGroundedAscent:
+    Content:
+      dmgBuffStacks:
+        text: Acumulaciones de aumento de daño
+        content: >-
+          Después de que el portador lance la habilidad básica o la habilidad definitiva sobre un personaje aliado, el objetivo recibe 1 acumulación de Himno sagrado durante 3 turnos. Se puede acumular hasta 3 veces. Cada acumulación de Himno sagrado aumenta el daño en un {{DmgBuff}}%.
   AlongThePassingShore:
     Content:
       emptyBubblesDebuff:
-        text: Estado negativo de Ilusión vacía
+        text: Afección Ilusión vacía
+        content: >-
+          Cuando el portador golpea a un enemigo, lo afecta con Ilusión vacía durante 1 turno. Solo se puede activar 1 vez por objetivo en cada ataque del portador. El daño que el portador inflige a los objetivos afectados por Ilusión vacía aumenta en un {{DmgBoost}}% y el daño que inflige la habilidad definitiva aumenta en un {{UltDmgBoost}}% adicional.
+  AnInstantBeforeAGaze:
+    Content:
+      maxEnergyDmgBoost:
+        text: Mejora de daño por energía máxima
+        content: 'Cuando el portador usa la habilidad definitiva, el daño que inflige su habilidad definitiva aumenta según su energía máxima: por cada punto de energía, el daño aumenta en un {{DmgStep}}%. Se cuentan un máximo de 180 pts. de energía.'
   BaptismOfPureThought:
     Content:
       debuffCdStacks:
-        text: Estados negativos de CD acumulados
+        text: Acumulaciones DC por afecciones
+        content: Por cada estado negativo que tenga el objetivo, el Daño CRIT que le inflige el portador aumenta en un {{DmgStep}}%. Se puede acumular hasta 3 veces.
       postUltBuff:
-        text: Efecto Disputa
+        text: Mejoras Disputa
+        content: >-
+          Al atacar a un objetivo con la habilidad definitiva, el portador obtiene el efecto Disputa, el daño que inflige aumenta en un {{DmgStep}}% y sus ataques adicionales ignoran un {{DefIgnore}}% de la DEF del objetivo. Este efecto dura 2 turnos.
   BeforeDawn:
     Content:
       fuaDmgBoost:
-        text: Aumento de daño adicional
+        text: Aumento de daño de ataque adicional
+        content: >-
+          Cuando el portador utiliza la habilidad básica o la habilidad definitiva, obtiene Somnus corpus. Al lanzar un ataque adicional, se consume Somnus corpus y el daño que inflige el ataque adicional aumenta en un {{DmgBuff}}%.
   BrighterThanTheSun:
     Content:
       dragonsCallStacks:
-        text: Acumulación de Canto del dragón
+        text: Acumulaciones de Canto del dragón
+        content: >-
+          Cuando el portador usa el ATQ básico, obtiene 1 acumulación de Canto del dragón durante 2 turnos. Cada acumulación de Canto del dragón aumenta el ATQ del portador en un {{AtkBuff}}% y la recuperación de energía en un {{RegenBuff}}%. Canto del dragón se puede acumular hasta 2 veces.
   ButTheBattleIsntOver:
     Content:
       postSkillDmgBuff:
-        text: Aumento de daño después de la habilidad elemental
+        text: Mejora de daño post-Habilidad
+        content: Cuando el portador utiliza su habilidad básica, el daño que inflige el siguiente aliado que actúe (que no sea el portador) aumenta en un {{DmgBuff}}% durante 1 turno.
+  CruisingInTheStellarSea:
+    Content:
+      enemyHp50CrBoost:
+        text: Mejora de PC por PV enemigo ≤ 50%
+        content: La Prob. CRIT del portador aumenta contra enemigos que tengan un porcentaje de PV igual o inferior al 50% aumenta en un {{CritBuff}}% adicional.
+      enemyDefeatedAtkBuff:
+        text: Mejora de ATQ por enemigo derrotado
+        content: Cuando el portador derrota a un enemigo, su ATQ aumenta en un {{AtkBuff}}% durante 2 turnos.
+  DanceAtSunset:
+    Content:
+      fuaDmgStacks:
+        text: Acumulaciones de daño de ataque adicional
+        content: >-
+          Después de que el portador use la habilidad definitiva, obtiene 1 acumulación de Danza ígnea durante 2 turnos. Se puede acumular hasta 2 veces. Cada acumulación de Danza ígnea aumenta el daño que infligen los ataques adicionales del portador en un {{DmgBoost}}%.
+  EarthlyEscapade:
+    Content:
+      maskActive:
+        text: Máscara activa
+        content: >-
+          Al comienzo de la batalla, el portador obtiene Máscara durante 3 turnos. Mientras el portador tiene Máscara, la Prob. CRIT de los aliados del portador aumenta en un {{CritRateBuff}}% y el Daño CRIT aumenta en un {{CritDmgBuff}}%. Cada vez que el portador recupera 1 pt. de habilidad básica (incluyendo los pts. que exceden el límite), obtiene 1 acumulación de Llama radiante. Cuando tiene 4 acumulaciones de Llama radiante, se eliminan todas y obtiene Máscara durante 4 turnos.
+  EchoesOfTheCoffin:
+    Content:
+      postUltSpdBuff:
+        text: Mejora de VEL post-Definitiva
+        content: >-
+          Después de que el portador lance un ataque, por cada enemigo distinto golpeado, recupera {{EnergyRecovered}} pts. de energía. Cada ataque puede recuperar energía de esta manera hasta 3 veces. Después de que el portador use la habilidad definitiva, la VEL de todos los aliados aumenta en {{SpdBuff}} pts. durante 1 turno.
+  EternalCalculus:
+    Content:
+      atkBuffStacks:
+        text: Acumulaciones mejora de ATQ
+        content: Tras lanzar un ataque, el ATQ aumenta en un {{AtkBuff}}% adicional por cada enemigo golpeado. Este efecto se puede acumular hasta 5 veces y dura hasta el siguiente ataque.
+      spdBuff:
+        text: Mejora de VEL por golpear 3 objetivos
+        content: Si se golpean a 3 o más enemigos, la VEL del portador aumenta en un {{SpdBuff}}% durante 1 turno.
+  FlameOfBloodBlazeMyPath:
+    Content:
+      skillUltDmgBoost:
+        text: Aumento de daño de Habilidad / Definitiva
+        content: Al lanzar la habilidad básica o la habilidad definitiva, aumenta el daño que inflige ese ataque en un {{DmgBoost}}%.
+      bonusBoost:
+        text: Aumento de daño adicional
+        content: Al lanzar la habilidad básica o la habilidad definitiva, consume un {{HpConsumption}}% de sus PV máx. Si el efecto consume más de 500 PV, el daño aumenta en un {{BonusDmgBoost}}% adicional.
+  FlowingNightglow:
+    Content:
+      cadenzaActive:
+        text: Cadenza activa
+        content: >-
+          Cada vez que un aliado ataca, el portador obtiene 1 acumulación de Tonada. Cada acumulación de Tonada aumenta la recuperación de energía del portador en un {{RegenBuff}}%, hasta un máximo de 5 acumulaciones. Después de que el portador use su habilidad definitiva, elimina Tonada y obtiene Cadenza. Cadenza aumenta en un {{AtkBuff}}% el ATQ del portador y aumenta en un {{DmgBuff}}% el daño que infligen todos los aliados durante 1 turno.
+      cantillationStacks:
+        text: Acumulaciones de Tonada
+        content: >-
+          Cada vez que un aliado ataca, el portador obtiene 1 acumulación de Tonada. Cada acumulación de Tonada aumenta la recuperación de energía del portador en un {{RegenBuff}}%, hasta un máximo de 5 acumulaciones. Después de que el portador use su habilidad definitiva, elimina Tonada y obtiene Cadenza. Cadenza aumenta en un {{AtkBuff}}% el ATQ del portador y aumenta en un {{DmgBuff}}% el daño que infligen todos los aliados durante 1 turno.
+  IfTimeWereAFlower:
+    Content:
+      presage:
+        text: Vaticinio activado
+        content: Tras lanzar un ataque adicional, el portador recupera adicionalmente 12 pts. de energía y obtiene Vaticinio durante 2 turnos. Cuando el portador tiene Vaticinio, el Daño CRIT de todos los aliados aumenta en un {{CdBuff}}%. Al entrar en combate, el portador recupera 21 pts. de energía y obtiene Vaticinio durante 2 turnos.
+  IncessantRain:
+    Content:
+      enemy3DebuffsCrBoost:
+        text: Mejora de PC por ≥ 3 enemigos afligidos
+        content: Cuando el portador inflige daño a un enemigo que tenga 3 o más estados negativos, su Prob. CRIT aumenta en un {{CritBuff}}%.
+      targetCodeDebuff:
+        text: Afección Código de éter en objetivo
+        content: >-
+          Después de usar el ATQ básico, la habilidad básica o la habilidad definitiva, el portador tiene un 100% de probabilidad base de aplicar Código de éter a 1 objetivo al azar de los golpeados que no lo tenga ya aplicado. El daño que reciben los enemigos con Código de éter aumenta en un {{DmgIncrease}}% durante 1 turno.
+  InherentlyUnjustDestiny:
+    Content:
+      shieldCdBuff:
+        text: Mejora DC por escudo
+        content: Cuando el portador proporciona un escudo a un aliado, el Daño CRIT del portador aumenta en un {{CritBuff}}% durante 2 turnos. 
+      targetVulnerability:
+        text: Afección de vulnerabilidad en objetivo
+        content: Cuando el portador golpea al enemigo con sus ataques adicionales, hay un {{baseChance}}% de probabilidad base de que el daño que recibe el enemigo atacado aumente en un {{Vulnerability}}% durante 2 turnos.
+  InTheNameOfTheWorld:
+    Content:
+      enemyDebuffedDmgBoost:
+        text: Aumento de daño por enemigo afectado
+        content: El portador inflige un {{DmgBuff}}% más de daño a los enemigos afectados por estados negativos.
+      skillAtkBoost:
+        text: Mejora de ATQ para Habilidad (sin implementar)
+        content: Cuando el portador usa su habilidad básica, su acierto de efecto en ese ataque aumenta en un {{EhrBuff}}% y su ATQ en un {{AtkBuff}}%.
+  InTheNight:
+    Content:
+      spdScalingBuffs:
+        text: Mejoras de conversión de VEL
+        content: >-
+          Cuando el portador tenga más de 100 pts. de VEL durante la batalla, por cada 10 pts. adicionales de VEL el daño que infligen su ATQ básico y habilidad básica aumenta en un {{DmgBuff}}% y el Daño CRIT de su habilidad definitiva aumenta en un {{CritBuff}}%. Este efecto se puede acumular hasta 6 veces.
+  IntoTheUnreachableVeil:
+    Content:
+      skillUltDmgBoost:
+        text: Aumento de daño de Habilidad / Definitiva
+        content: Cuando el portador lanza la habilidad definitiva, el daño de habilidad básica y habilidad definitiva que inflige aumenta en un {{DmgBuff}}%.
+  IShallBeMyOwnSword:
+    Content:
+      eclipseStacks:
+        text: Acumulaciones de Eclipse
+        content: >-
+          Cuando un aliado recibe un ataque o consume PV, el portador obtiene 1 acumulación de Eclipse. Se puede acumular hasta 3 veces. Por cada acumulación, el daño que inflige el siguiente ataque del portador aumenta en un {{DmgBuff}}%.
+      maxStackDefPen:
+        text: Acumulación máxima PEN DEF
+        content: Cuando se alcanzan 3 acumulaciones, el ataque actual ignora un {{DefIgnore}}% de la DEF del objetivo. Este efecto se elimina después de que el portador lance un ataque.
+  IVentureForthToHunt:
+    Content:
+      luminfluxUltStacks:
+        text: Acumulaciones de Resplandor
+        content: >-
+          Cuando el portador lanza un ataque adicional, obtiene 1 acumulación de Resplandor. Se puede acumular hasta 2 veces. Por cada acumulación de Resplandor, el daño de habilidad definitiva que inflige el portador ignora un {{DefIgnore}}% de la DEF del objetivo. Cuando termina el turno del portador, se elimina 1 acumulación de Resplandor.
+  LiesAflutterInTheWind:
+    Content:
+      defPen:
+        text: PEN DEF
+        content: >-
+          Después de que el portador ataque, cada enemigo tiene un 120% de probabilidad base de ser afectado con Desconcierto. La DEF de los enemigos en el estado de Desconcierto se reduce en un {{DefShred}}% durante 2 turnos. ::BR:: Si la VEL del portador es igual o superior a 170, cada enemigo tiene un 120% de probabilidad base de ser afectado con Robado. La DEF de los enemigos en el estado de Robado se reduce en un {{AdditionalDefShred}}% durante 2 turnos.
+    TeammateContent:
+      additionalDefPen:
+        text: "VEL > 170"
+        content: >-
+          Después de que el portador ataque, cada enemigo tiene un 120% de probabilidad base de ser afectado con Desconcierto. La DEF de los enemigos en el estado de Desconcierto se reduce en un {{DefShred}}% durante 2 turnos. ::BR:: Si la VEL del portador es igual o superior a 170, cada enemigo tiene un 120% de probabilidad base de ser afectado con Robado. La DEF de los enemigos en el estado de Robado se reduce en un {{AdditionalDefShred}}% durante 2 turnos.
+  LifeShouldBeCastToFlames:
+    Content:
+      dmgBoost:
+        text: Aumento de daño
+        content: Si el enemigo tiene una Debilidad implantada por el portador, el daño que le inflige el portador aumenta en un {{DmgBuff}}%.
+      defPen:
+        text: PEN DEF
+        content: Cuando el enemigo recibe un ataque del portador, su DEF se reduce en un {{DefShred}}% durante 2 turnos.
+  LongRoadLeadsHome:
+    Content:
+      breakVulnerabilityStacks:
+        text: Acumulaciones de vulnerabilidad a ruptura
+        content: >-
+          Cuando se rompe la Debilidad de un enemigo, hay una probabilidad base del 100% de afectarlo con Calcinación y hacer que reciba un {{breakVulnerability}}% más de Daño de Ruptura durante 2 turnos. Este efecto se puede acumular 2 veces.
+  MakeFarewellsMoreBeautiful:
+    Content:
+      deathFlower:
+        text: Flor de ultratumba PEN DEF
+        content: Cuando el portador o su mnemoduende pierden PV durante su propio turno, el portador obtiene Flor de ultratumba. Flor de ultratumba hace que el portador y su mnemoduende ignoren un {{DefIgnore}}% de la DEF de los objetivos al infligir daño durante 2 turnos.
+  MayRainbowsRemainInTheSky:
+    Content:
+      vulnerability:
+        text: Vulnerabilidad
+        content: Cuando el mnemoduende del portador lanza la habilidad del mnemoduende, el daño que reciben todos los enemigos aumenta en un {{Vulnerability}}% durante 2 turnos. Los efectos del mismo tipo no se pueden acumular.
+  MemorysCurtainNeverFalls:
+    Content:
+      teamDmgBoost:
+        text: Aumento de daño al equipo
+        content: Después de que el portador lance la habilidad básica, el daño que infligen todos los aliados aumenta en un {{DmgBoost}}% durante 3 turnos.
+  MomentOfVictory:
+    Content:
+      selfAttackedDefBuff:
+        text: Mejora de DEF por ser atacado
+        content: Incrementa la probabilidad de recibir ataques enemigos. Cuando el portador recibe un ataque, su DEF aumenta en un {{DefBuff}}% adicional hasta el final de su turno.
+  NightOfFright:
+    Content:
+      atkBuffStacks:
+        text: Acumulaciones mejora de ATQ
+        content: Cuando el portador cura a un aliado, el ATQ del objetivo aumenta en un {{AtkBuff}}%. Este efecto se puede acumular hasta 5 veces y dura 2 turnos.
+  NightOnTheMilkyWay:
+    Content:
+      enemyCountAtkBuff:
+        text: Mejora de ATQ por cantidad de enemigos
+        content: Por cada enemigo que haya en el campo de batalla, el ATQ del portador aumenta en un {{AtkBuff}}%. Este efecto se puede acumular hasta 5 veces.
+      enemyWeaknessBreakDmgBuff:
+        text: Mejora de daño por enemigo roto
+        content: Si algún enemigo es afectado por Ruptura de Debilidad, el daño que inflige el portador aumenta en un {{DmgBuff}}% durante 1 turno.
+  OnTheFallOfAnAeon:
+    Content:
+      atkBoostStacks:
+        text: Acumulaciones mejora de ATQ
+        content: Cuando el portador lanza un ataque, su ATQ aumenta en un {{AtkBuff}}% durante esa batalla. Este efecto se puede acumular hasta 4 veces.
+      weaknessBreakDmgBuff:
+        text: Mejora de daño por Ruptura de Debilidad
+        content: Cuando el portador rompe la Debilidad del enemigo, el daño que inflige aumenta en un {{DmgBuff}}% durante 2 turnos.
+  PastSelfInTheMirror:
+    Content:
+      postUltDmgBuff:
+        text: Mejora de daño post-Definitiva
+        content: Cuando el portador usa la habilidad definitiva, el daño que infligen todos los aliados aumenta en un {{DmgBuff}}% durante 3 turnos.
+  PatienceIsAllYouNeed:
+    Content:
+      spdStacks:
+        text: Acumulaciones de VEL
+        content: Después de cada ataque del portador, su VEL aumenta en un {{SpdBuff}}%. Este efecto se puede acumular hasta 3 veces.
+      dotEffect:
+        text: Efecto daño con el tiempo (sin implementar)
+        content: >-
+          Cuando el portador golpea a un objetivo, si este no está afectado por Erosión, hay un 100% de probabilidad base de afectarlo con Erosión. Cuando el objetivo está afectado por Erosión, se considera que también está afectado por Electrocución. En el estado de Erosión, al comienzo de cada turno el objetivo recibe un Daño de Rayo con el tiempo equivalente al {{Multiplier}}% del ATQ del portador durante 1 turno.
+  ReforgedRemembrance:
+    Content:
+      prophetStacks:
+        text: Acumulaciones de Profeta
+        content: >-
+          Cuando el portador inflige daño a un enemigo afectado por Intemperie, Quemadura, Electrocución o Sangrado, obtiene 1 acumulación de Profeta, hasta un máximo de 4 acumulaciones. En una sola batalla, cada tipo de estado de Daño con el tiempo solo puede acumular Profeta 1 vez. Cada acumulación de Profeta aumenta el ATQ del portador en un {{AtkBuff}}%. Además, el Daño con el tiempo infligido ignora un {{DefIgnore}}% de la DEF del objetivo.
+  SailingTowardsASecondLife:
+    Content:
+      breakDmgDefShred:
+        text: DEF ignorada por el Daño de Ruptura
+        content: El Daño de Ruptura que inflige el portador ignora un {{DefIgnore}}% de la DEF del objetivo.
+      spdBuffConditional:
+        text: "Mejora de VEL por\nEdR ≥ 150"
+        content: Cuando el efecto de Ruptura del portador sea igual o superior al 150% durante la batalla, su VEL aumenta en un {{SpdBuff}}%.
+  ScentAloneStaysTrue:
+    Content:
+      woefreeState:
+        text: Vulnerabilidad Imperturbable
+        content: >-
+          Los enemigos a los que ataca el portador con su habilidad definitiva entran en el estado de Imperturbable durante 2 turnos después de ser atacados. El daño que reciben los objetivos afectados con Imperturbable aumenta en un {{Vulnerability}}%. Si el efecto de Ruptura actual del portador es igual o superior al 150%, este daño aumenta en un {{AdditionalVulnerability}}% adicional.
+    TeammateContent:
+      additionalVulnerability:
+        text: Vulnerabilidad adicional
+        content: >-
+          Los enemigos a los que ataca el portador con su habilidad definitiva entran en el estado de Imperturbable durante 2 turnos después de ser atacados. El daño que reciben los objetivos afectados con Imperturbable aumenta en un {{Vulnerability}}%. Si el efecto de Ruptura actual del portador es igual o superior al 150%, este daño aumenta en un {{AdditionalVulnerability}}% adicional.
+  SheAlreadyShutHerEyes:
+    Content:
+      hpLostDmgBuff:
+        text: Mejora de daño por PV perdidos
+        content: Cuando se reducen los PV del portador, el daño que infligen todos los aliados aumenta en un {{DmgBuff}}% durante 2 turnos.
+  SleepLikeTheDead:
+    Content:
+      missedCritCrBuff:
+        text: Mejora de PC por crítico fallido
+        content: Cuando el portador no causa ningún Golpe CRIT al infligir daño de ATQ básico o daño de habilidad básica, su Prob. CRIT aumenta en un {{CritBuff}}% durante 1 turno. Este efecto se puede activar una vez cada 3 turnos.
+  SolitaryHealing:
+    Content:
+      postUltDotDmgBuff:
+        text: Mejora de Daño con el tiempo post-Definitiva
+        content: Cuando el portador usa la habilidad definitiva, el Daño con el tiempo que inflige aumenta en un {{DmgBuff}}% durante 2 turnos.
+  SomethingIrreplaceable:
+    Content:
+      dmgBuff:
+        text: "Mejora de daño por enemigo derrotado /\nser atacado"
+        content: >-
+          Cuando el portador elimina a un enemigo o recibe un ataque, regenera PV equivalentes al {{Multiplier}}% de su ATQ y el daño que inflige aumenta en un {{DmgBuff}}% hasta que termine su siguiente turno. Este efecto no se puede acumular y solo se puede activar una vez en cada turno.
+  TextureOfMemories:
+    Content:
+      activeShieldDmgDecrease:
+        text: Reducción de daño por escudo activado
+        content: >-
+          Cuando el portador recibe un ataque, si no tiene ningún escudo, obtiene uno equivalente al {{ShieldHp}}% de sus PV máx. durante 2 turnos. Este efecto solo se puede activar 1 vez cada 3 turnos. Cuando el portador tiene un escudo, el daño que recibe se reduce en un {{DmgReduction}}%.
+  TheUnreachableSide:
+    Content:
+      dmgBuff:
+        text: Mejora de daño por PV consumidos / ser atacado
+        content: Cuando el portador recibe un ataque o consume sus propios PV, el daño que inflige aumenta en un {{DmgBuff}}%. Este último efecto se elimina después de que el portador lance un ataque.
+  ThoseManySprings:
+    Content:
+      unarmoredVulnerability:
+        text: Vulnerabilidad Sin armadura
+        content: >-
+          Después de que el portador ataque al enemigo con su ATQ básico, habilidad básica o habilidad definitiva, tiene una probabilidad base del 60% de afectar al enemigo con Sin armadura. En el estado de Sin armadura, el daño que recibe el enemigo aumenta en un {{UnarmoredVulnerability}}% durante 2 turnos. Si el objetivo está afectado por un estado de Daño con el tiempo aplicado por el portador, hay una probabilidad base del 60% de mejorar el estado de Sin armadura aplicado por el portador al estado de Arrinconado, lo que aumenta el daño que recibe el enemigo en un {{CorneredVulnerability}}% adicional durante 2 turnos.
+      corneredVulnerability:
+        text: Vulnerabilidad Arrinconado
+        content: >-
+          Después de que el portador ataque al enemigo con su ATQ básico, habilidad básica o habilidad definitiva, tiene una probabilidad base del 60% de afectar al enemigo con Sin armadura. En el estado de Sin armadura, el daño que recibe el enemigo aumenta en un {{UnarmoredVulnerability}}% durante 2 turnos. Si el objetivo está afectado por un estado de Daño con el tiempo aplicado por el portador, hay una probabilidad base del 60% de mejorar el estado de Sin armadura aplicado por el portador al estado de Arrinconado, lo que aumenta el daño que recibe el enemigo en un {{CorneredVulnerability}}% adicional durante 2 turnos.
+  TimeWaitsForNoOne:
+    Content:
+      healingBasedDmgProc:
+        text: Instancia de daño por curación realizada (sin implementar)
+        content: >-
+          Cuando el portador cura a los aliados, se registra la curación realizada. Cuando un aliado lanza un ataque, un enemigo al azar de los atacados recibe una cantidad de daño adicional equivalente al {{Multiplier}}% de la curación realizada que se registró para ese aliado. Este daño adicional es del mismo tipo que el del portador, no se ve afectado por otras bonificaciones y ocurre como máximo 1 vez por turno.
+  TimeWovenIntoGold:
+    Content:
+      brocadeStacks:
+        text: Acumulaciones de Bordado
+        content: >-
+          Después de que el portador o su mnemoduende ataquen, el portador obtiene una acumulación de Bordado.::BR:: Cada acumulación de Bordado aumenta el Daño CRIT del portador y de su mnemoduende en un {{CdBuff}}%. Se puede acumular hasta 6 veces.::BR:: Cuando las acumulaciones llegan al límite, cada acumulación de Bordado aumenta el daño de ATQ básico infligido en un {{DmgBuff}}% adicional.
+      maxStacksBasicDmgBoost:
+        text: Aumento de daño Básico acumulado
+        content: >-
+          Después de que el portador o su mnemoduende ataquen, el portador obtiene una acumulación de Bordado.::BR:: Cada acumulación de Bordado aumenta el Daño CRIT del portador y de su mnemoduende en un {{CdBuff}}%. Se puede acumular hasta 6 veces.::BR:: Cuando las acumulaciones llegan al límite, cada acumulación de Bordado aumenta el daño de ATQ básico infligido en un {{DmgBuff}}% adicional.
+  WhereaboutsShouldDreamsRest:
+    Content:
+      routedVulnerability:
+        text: Vulnerabilidad Vencido
+        content: >-
+          Cuando el portador inflige Daño de Ruptura a un enemigo, este entra en el estado de Vencido durante 2 turnos. Los objetivos afectados con Vencido reciben un {{Vulnerability}}% más de Daño de Ruptura del portador y su VEL se reduce en un 20%. Los efectos del mismo tipo no se pueden acumular.
+  WorrisomeBlissful:
+    Content:
+      targetTameStacks:
+        text: Acumulaciones de Doma en el objetivo
+        content: >-
+          Cuando el portador lanza un ataque adicional, afecta con Doma al objetivo. Este efecto se puede acumular hasta 2 veces. Cuando un aliado golpea a un objetivo afectado por Doma, el Daño CRIT infligido aumenta en un {{CritBuff}}% por cada acumulación.
+  YetHopeIsPriceless:
+    Content:
+      fuaDmgBoost:
+        text: Aumento de daño DC a ataques adicionales
+        content: Cuando el Daño CRIT del portador es superior al 120% en el combate, por cada 20% en exceso, el daño que infligen los ataques adicionales aumenta en un {{DmgBuff}}%. Este efecto se puede acumular hasta 4 veces.
+      ultFuaDefShred:
+        text: PEN DEF para Definitiva / ataques adicionales
+        content: Al comenzar el combate y después de que el portador use el ATQ básico, el daño que infligen su habilidad definitiva o ataques adicionales ignora un {{DefShred}}% de la DEF del objetivo durante 2 turnos.
+  AfterTheCharmonyFall:
+    Content:
+      spdBuff:
+        text: Mejora de VEL
+        content: Después de que el portador use su habilidad definitiva, la VEL aumenta en un {{SpdBuff}}% durante 2 turnos.
+  ASecretVow:
+    Content:
+      enemyHpHigherDmgBoost:
+        text: "Mejora de daño por enemigo con\n%PV más alto"
+        content: El daño que inflige a los enemigos con un porcentaje de PV igual o superior al suyo aumenta en un {{DmgBuff}}% adicional.
+  BoundlessChoreo:
+    Content:
+      enemyDefReducedSlowed:
+        text: DEF del enemigo reducida / ralentizado
+        content: El Daño CRIT que el portador inflige a los enemigos afectados por reducción de DEF o Ralentización aumenta en un {{CritBuff}}%.
+  CarveTheMoonWeaveTheClouds:
+    Content:
+      atkBuffActive:
+        text: Mejora de ATQ activada
+        content: >-
+          Cuando comienza la batalla y al empezar cada turno del portador, se activa uno de los siguientes efectos al azar (el nuevo efecto será distinto del anterior y lo sustituirá):::BR:: el ATQ de todos los aliados aumenta en un {{AtkBuff}}%.::BR::El Daño CRIT de todos los aliados aumenta en un {{CritBuff}}%.::BR::La recuperación de energía de todos los aliados aumenta en un {{RegenBuff}}%.::BR::Estos efectos no se pueden acumular con otros del mismo tipo y se disipan cuando el portador es derrotado.
+      cdBuffActive:
+        text: Mejora de DC activada
+        content: >-
+          Cuando comienza la batalla y al empezar cada turno del portador, se activa uno de los siguientes efectos al azar (el nuevo efecto será distinto del anterior y lo sustituirá):::BR:: el ATQ de todos los aliados aumenta en un {{AtkBuff}}%.::BR::El Daño CRIT de todos los aliados aumenta en un {{CritBuff}}%.::BR::La recuperación de energía de todos los aliados aumenta en un {{RegenBuff}}%.::BR::Estos efectos no se pueden acumular con otros del mismo tipo y se disipan cuando el portador es derrotado.
+      errBuffActive:
+        text: Mejora de RdE activada
+        content: >-
+          Cuando comienza la batalla y al empezar cada turno del portador, se activa uno de los siguientes efectos al azar (el nuevo efecto será distinto del anterior y lo sustituirá):::BR:: el ATQ de todos los aliados aumenta en un {{AtkBuff}}%.::BR::El Daño CRIT de todos los aliados aumenta en un {{CritBuff}}%.::BR::La recuperación de energía de todos los aliados aumenta en un {{RegenBuff}}%.::BR::Estos efectos no se pueden acumular con otros del mismo tipo y se disipan cuando el portador es derrotado.
+  ConcertForTwo:
+    Content:
+      teammateShieldStacks:
+        text: Acumulaciones de daño por escudo en aliados
+        content: Por cada personaje con escudo que haya en el campo de batalla, el daño que inflige el portador aumenta en un {{DmgBuff}}%.
+  DayOneOfMyNewLife:
+    Content:
+      dmgResBuff:
+        text: Mejora de RES al daño
+        content: Tras entrar en combate, aumenta la RES a todos los tipos de todos los aliados en un {{ResBuff}}%. Los efectos del mismo tipo no se pueden activar varias veces.
+  DreamvilleAdventure:
+    Content:
+      ultDmgBuff:
+        text: Aumento de daño de Definitiva
+        content: >-
+          Cuando el portador usa un ATQ básico, una habilidad básica o una habilidad definitiva, todos los aliados obtienen Inocencia infantil, que aumenta el daño que inflige el ATQ básico, la habilidad básica o la habilidad definitiva (según lo que haya usado el portador) en un {{DmgBuff}}%. Inocencia infantil solo tiene efecto con el último tipo de habilidad que haya usado el portador y no se puede acumular.
+      skillDmgBuff:
+        text: Aumento de daño de Habilidad
+        content: >-
+          Cuando el portador usa un ATQ básico, una habilidad básica o una habilidad definitiva, todos los aliados obtienen Inocencia infantil, que aumenta el daño que inflige el ATQ básico, la habilidad básica o la habilidad definitiva (según lo que haya usado el portador) en un {{DmgBuff}}%. Inocencia infantil solo tiene efecto con el último tipo de habilidad que haya usado el portador y no se puede acumular.
+      basicDmgBuff:
+        text: Aumento de daño de Básico
+        content: >-
+          Cuando el portador usa un ATQ básico, una habilidad básica o una habilidad definitiva, todos los aliados obtienen Inocencia infantil, que aumenta el daño que inflige el ATQ básico, la habilidad básica o la habilidad definitiva (según lo que haya usado el portador) en un {{DmgBuff}}%. Inocencia infantil solo tiene efecto con el último tipo de habilidad que haya usado el portador y no se puede acumular.
+  Fermata:
+    Content:
+      enemyShockWindShear:
+        text: Enemigo electrocutado / a la intemperie
+        content: Aumenta el daño que el portador inflige a los enemigos afectados por Electrocución o Intemperie en un {{DmgBuff}}%. Este efecto también es válido para el Daño con el tiempo.
+  FinalVictor:
+    Content:
+      goodFortuneStacks:
+        text: Acumulaciones de Fortuna
+        content: >-
+          Cuando el portador inflige Golpe CRIT a un enemigo, obtiene una acumulación de Fortuna. Este efecto se puede acumular hasta 4 veces. Cada acumulación de Fortuna aumenta el Daño CRIT del portador en un {{CritBuff}}%. Fortuna se disipa cuando termina el turno del portador.
+  FlamesAfar:
+    Content:
+      dmgBuff:
+        text: Mejora de daño
+        content: >-
+          Cuando los PV que pierde el portador durante un único ataque superan el 25% de sus PV máx., o si los PV que consume de una sola vez superan el 25% de sus PV máx., el portador regenera inmediatamente un 15% de sus PV máx. y el daño que inflige aumenta en un {{DmgBuff}}% durante 2 turnos. Este efecto solo se puede activar una vez cada 3 turnos.
+  ForTomorrowsJourney:
+    Content:
+      ultDmgBuff:
+        text: Mejora de daño por uso de Definitiva
+        content: Cuando el portador usa su habilidad definitiva, el daño infligido aumenta en un {{DmgBuff}}% durante 1 turno.
+  GeniusesGreetings:
+    Content:
+      basicDmgBoost:
+        text: Aumento de daño de Básico
+        content: Después de que el portador lance su habilidad definitiva, el daño de ATQ básico que infligen el portador y el mnemoduende aumenta en un {{DmgBuff}}%.
+  GeniusesRepose:
+    Content:
+      defeatedEnemyCdBuff:
+        text: Mejora de DC por enemigo derrotado
+        content: Cuando el portador derrota a un enemigo, su Daño CRIT aumenta en un {{DmgBuff}}% durante 3 turnos.
+  GoodNightAndSleepWell:
+    Content:
+      debuffStacksDmgIncrease:
+        text: Aumento de daño por acumulación de afecciones
+        content: Por cada estado negativo que tenga el enemigo, el daño infligido por el portador aumenta en un {{DmgBuff}}%. Se puede acumular hasta 3 veces. Este efecto también es válido para el Daño con el tiempo.
+  HeyOverHere:
+    Content:
+      postSkillHealBuff:
+        text: Mejora de curación post-Habilidad
+        content: Cuando el portador utiliza la habilidad básica, la curación realizada aumenta en un {{HealingBoost}}% durante 2 turnos.
+  IndeliblePromise:
+    Content:
+      crBuff:
+        text: Mejora de PC de Definitiva
+        content: Cuando el portador lanza la habilidad definitiva, la Prob. CRIT aumenta en un {{CritBuff}}% durante 2 turnos.
+  ItsShowtime:
+    Content:
+      trickStacks:
+        text: Acumulaciones de Truco de magia
+        content: >-
+          Cuando el portador inflige un estado negativo a un enemigo, obtiene una acumulación de Truco de magia. Cada acumulación de Truco de magia aumenta el daño que inflige el portador en un {{DmgBuff}}%. Se puede acumular hasta 3 veces y dura 1 turno. Cuando el acierto de efecto del portador es igual o superior al 80%, el ATQ aumenta en un {{AtkBuff}}%.
+  MakeTheWorldClamor:
+    Content:
+      ultDmgBuff:
+        text: Mejora de daño de Definitiva
+        content: Cuando el portador entra en combate, recupera inmediatamente {{Energy}} pts. de energía y el daño que inflige su habilidad definitiva aumenta en un {{DmgBuff}}%.
+  NinjaRecordSoundHunt:
+    Content:
+      cdBuff:
+        text: Mejora de DC
+        content: Al perder o regenerar sus propios PV, el Daño CRIT aumenta en un {{sValuesCd}}% durante 2 turnos.
+  OnlySilenceRemains:
+    Content:
+      enemies2CrBuff:
+        text: "Mejora de PC por\n≤ 2 enemigos"
+        content: Si hay 2 o menos enemigos en el campo de batalla, aumenta la Prob. CRIT del portador en un {{CritBuff}}%.
   PastAndFuture:
     Content:
       postSkillDmgBuff:
         text: Aumento de daño después de la habilidad elemental
+        content: Cuando el portador utiliza su habilidad básica, el daño que inflige el siguiente aliado que actúe (que no sea el portador) aumenta en un {{DmgBuff}}% durante 1 turno.
+  PerfectTiming:
+    Content:
+      resToHealingBoost:
+        text: RES a bonificación de curación
+        content: Aumenta la curación realizada del portador en una cantidad equivalente al {{Scaling}}% de la RES a efecto, hasta un máximo del {{Limit}}% de curación realizada.
+  PlanetaryRendezvous:
+    Content:
+      alliesSameElement:
+        text: Aumento de daño aliado del mismo elemento
+        content: Tras entrar en combate, cuando un aliado inflige un daño del mismo tipo que el portador, el daño infligido aumenta en un {{DmgBuff}}%.
+  PoisedToBloom:
+    Content:
+      cdBuff:
+        text: Mejora de DC por aliados misma vía
+        content: "Al entrar en combate, si hay dos o más aliados de la misma Vía, el Daño CRIT de esos aliados aumenta en un {{CritBuff}}%."
+  PostOpConversation:
+    Content:
+      postUltHealingBoost:
+        text: Aumento de curación de Definitiva
+        content: Al usar la habilidad definitiva, aumenta la curación realizada en un {{HealingBoost}}%.
+  ResolutionShinesAsPearlsOfSweat:
+    Content:
+      targetEnsnared:
+        text: Objetivo con Cepo
+        content: Cuando el portador golpea a un objetivo, si este no está afectado por Cepo, hay un {{BaseChance}}% de probabilidad base de afectarlo con Cepo. En este estado, la DEF del objetivo se reduce en un {{DefShred}}% durante 1 turno.
+  RiverFlowsInSpring:
+    Content:
+      spdDmgBuff:
+        text: Mejora de VEL / daño activada
+        content: >-
+          Tras entrar en combate, la VEL del portador aumenta en un {{SpdBuff}}% y el daño que inflige aumenta en un {{DmgBuff}}%. Cuando recibe daño, el efecto desaparece y se recupera cuando termine el siguiente turno.
+  ShadowedByNight:
+    Content:
+      spdBuff:
+        text: Mejora de VEL
+        content: Al entrar en combate o tras infligir Daño de Ruptura, la VEL aumenta en un {{SpdBuff}}% durante 2 turnos.
+  SubscribeForMore:
+    Content:
+      maxEnergyDmgBoost:
+        text: Mejora de daño por energía máxima
+        content: El daño que infligen el ATQ básico y la habilidad básica del portador aumenta en un {{DmgBuff}}%. Cuando la energía del portador está al máximo, el efecto aumenta en un {{DmgBuff}}% adicional.
+  SweatNowCryLess:
+    Content:
+      dmgBoost:
+        text: Aumento de daño del Invocador / Mnemoduende
+        content: Cuando el mnemoduende del portador está en la batalla, el daño que infligen el portador y el mnemoduende aumenta en un {{DmgBuff}}%.
+  Swordplay:
+    Content:
+      sameTargetHitStacks:
+        text: Acumulaciones de golpes en el mismo objetivo
+        content: Cuando el portador golpea a un mismo objetivo varias veces, el daño infligido cada vez aumenta en un {{DmgBuff}}%. Este efecto se puede acumular hasta 5 veces y se elimina si se cambia de objetivo.
+  TheBirthOfTheSelf:
+    Content:
+      enemyHp50FuaBuff:
+        text: Mejora de ataques adicionales por PV del enemigo ≤ 50%
+        content: Si el objetivo enemigo tiene un porcentaje de PV igual o inferior al 50%, el daño que infligen los ataques adicionales aumenta en un {{DmgBuff}}% adicional.
+  TheDayTheCosmosFell:
+    Content:
+      cdBuffActive:
+        text: 'Mejora de DC por golpe a ≥ 2 enemigos con misma debilidad'
+        content: Cuando el portador lanza un ataque y golpea como mínimo a 2 enemigos que tengan su tipo de Debilidad, el Daño CRIT del portador aumenta en un {{CritBuff}}% durante 2 turnos.
+  TheGreatCosmicEnterprise:
+    Content:
+      weaknessTypes:
+        text: Tipos de debilidad
+        content: Por cada Debilidad de un tipo distinto que tenga un enemigo, el daño que inflige el portador a ese objetivo aumenta en un {{DmgBuff}}%. Se cuentan como máximo 7 tipos de Debilidad.
+  TheMolesWelcomeYou:
+    Content:
+      atkBuffStacks:
+        text: Acumulaciones mejora de ATQ
+        content: Cuando el portador ataca al enemigo con su ATQ básico, habilidad básica o habilidad definitiva, acumula Picardía una sola vez por cada tipo de ataque. Por cada acumulación, su ATQ aumenta en un {{AtkBuff}}%.
+  TheSeriousnessOfBreakfast:
+    Content:
+      dmgBoost:
+        text: Aumento de daño
+        content: El daño que inflige el portador aumenta en un {{DmgBuff}}%.
+      defeatedEnemyAtkStacks:
+        text: Acumulaciones de ATQ por enemigos derrotados
+        content: Por cada enemigo que elimina, su ATQ aumenta en un {{AtkBuff}}%. Este efecto se puede acumular hasta 3 veces.
+  ThisIsMe:
+    Content:
+      defScalingUltDmg:
+        text: Daño de Definitiva aumentado por DEF (sin implementar)
+        content: >-
+          Cuando el portador usa la habilidad definitiva, el daño que inflige aumenta en una cantidad equivalente al {{Multiplier}}% de su DEF. Este efecto solo se activa una vez con cada enemigo por cada vez que se utilice la habilidad definitiva.
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:
         text: Energía máxima
+        content: Tras entrar en combate, el daño que inflige el portador aumenta según su energía máx. Por cada punto de energía, el daño aumenta en un {{DmgStep}}%, hasta un máximo de 160 pts.
+  UnderTheBlueSky:
+    Content:
+      defeatedEnemyCrBuff:
+        text: Mejora de PC por enemigo derrotado
+        content: Cuando el portador derrota a un enemigo, su Prob. CRIT aumenta en un {{CritBuff}}% durante 3 turnos.
+  VictoryInABlink:
+    Content:
+      teamDmgBuff:
+        text: Mejora de daño al equipo
+        content: Cuando el mnemoduende del portador lanza una habilidad a un aliado, el daño que infligen todos los aliados aumenta en un {{DmgBuff}}% durante 3 turnos.
+  WeAreWildfire:
+    Content:
+      initialDmgReductionBuff:
+        text: Mejora de reducción de daño inicial
+        content: >-
+          Al comenzar la batalla, el daño que reciben todos los aliados se reduce en un {{DmgReduction}}% durante 5 turnos. Además, todos los aliados regeneran un {{Healing}}% de los PV que haya perdido cada uno.
+  WeWillMeetAgain:
+    Content:
+      extraDmgProc:
+        text: Instancia de daño adicional
+        content: Cuando el portador usa su ATQ básico o su habilidad básica, inflige un daño adicional equivalente al {{Multiplier}}% de su ATQ a un enemigo al azar de los atacados.
+  WoofWalkTime:
+    Content:
+      enemyBurnedBleeding:
+        text: Aumento de daño por enemigo sangrando / quemado
+        content: Aumenta el daño que inflige el portador a los enemigos afectados por Quemadura o Sangrado aumenta en un {{DmgBuff}}%. Este efecto también es válido para el Daño con el tiempo.
+  Adversarial:
+    Content:
+      defeatedEnemySpdBuff:
+        text: Mejora de VEL por enemigo derrotado
+        content: Cuando el portador elimina a un enemigo, su VEL aumenta en un {{SpdBuff}}% durante 2 turnos.
+  Amber:
+    Content:
+      hp50DefBuff:
+        text: Mejora por PV < 50% DEF
+        content: Si el porcentaje de PV del portador es inferior al 50%, su DEF aumenta en un {{DefBuff}}% adicional.
+  Arrows:
+    Content:
+      critBuff:
+        text: Mejora de PC inicial
+        content: Al comenzar la batalla, la Prob. CRIT del portador aumenta en un {{CritBuff}}% durante 3 turnos.
+  Chorus:
+    Content:
+      inBattleAtkBuff:
+        text: Mejora de ATQ inicial
+        content: Tras entrar en combate, el ATQ de todos los aliados aumenta en un {{AtkBuff}}%. Los efectos del mismo tipo no se pueden activar varias veces.
+  CollapsingSky:
+    Content:
+      basicSkillDmgBuff:
+        text: Mejora de daño de Básico / Habilidad
+        content: El daño que infligen el ATQ básico y la habilidad básica del portador aumenta en un {{DmgBuff}}%.
+  Cornucopia:
+    Content:
+      healingBuff:
+        text: Mejora de curación
+        content: Cuando el portador usa la habilidad básica o la habilidad definitiva, su curación realizada aumenta en un {{HealingBuff}}%.
+  DartingArrow:
+    Content:
+      defeatedEnemyAtkBuff:
+        text: Mejora de ATQ por enemigo derrotado
+        content: Cuando el portador elimina a un enemigo, su ATQ aumenta en un {{AtkBuff}}% durante 3 turnos.
+  DataBank:
+    Content:
+      ultDmgBuff:
+        text: Mejora de daño de Definitiva
+        content: El daño que inflige la habilidad definitiva del portador aumenta en un {{DmgBuff}}%.
+  HiddenShadow:
+    Content:
+      basicAtkBuff:
+        text: Daño adicional de ATQ básico
+        content: Tras usar la habilidad básica, el siguiente ATQ básico del portador inflige al objetivo un daño adicional equivalente al {{MultiplierBonus}}% de su ATQ.
+  Loop:
+    Content:
+      enemySlowedDmgBuff:
+        text: Mejora de daño por enemigo ralentizado
+        content: El daño que el portador inflige a los enemigos afectados por Ralentización aumenta en un {{DmgBuff}}%.
+  Mediation:
+    Content:
+      initialSpdBuff:
+        text: Mejora de VEL inicial
+        content: Tras entrar en combate, la VEL de todos los aliados aumenta en {{SpdBuff}} pts. durante 1 turno.
+  MutualDemise:
+    Content:
+      selfHp80CrBuff:
+        text: "Mejora de PC por\nPV propios < 80%"
+        content: Si el portador tiene un porcentaje de PV inferior al 80%, su Prob. CRIT aumenta en un {{CritBuff}}%.
+  Reminiscence:
+    Content:
+      dmgStacks:
+        text: Acumulaciones de daño
+        content: Cuando comienza el turno del mnemoduende, tanto el portador como el mnemoduende obtienen 1 acumulación de Conmemoración. Cada acumulación aumenta el daño infligido en un {{DmgBuff}}%. Conmemoración se puede acumular hasta 4 veces. Cuando el mnemoduende es eliminado, se disipa Conmemoración del portador y del mnemoduende.
+  Sagacity:
+    Content:
+      postUltAtkBuff:
+        text: Mejora de ATQ post-Definitiva
+        content: Cuando el portador usa su habilidad definitiva, su ATQ aumenta en un {{AtkBuff}}% durante 2 turnos.
+  ShatteredHome:
+    Content:
+      enemyHp50Buff:
+        text: Mejora de daño por PV del enemigo > 50%
+        content: El daño que el portador inflige a los enemigos cuyo porcentaje de PV sea superior al 50% aumenta en un {{DmgBuff}}%.
+  Void:
+    Content:
+      initialEhrBuff:
+        text: Mejora de AdE inicial
+        content: Al comenzar la batalla, el acierto de efecto del portador aumenta en un {{EhrBuff}}% durante 3 turnos.
+Characters:
+  Acheron:
+    Content:
+      crimsonKnotStacks:
+        text: Acumulaciones de Rojo sacrificial
+        content: >-
+          Pluviespada: inflige un {{RainbladeScaling}}% del ATQ de Acheron como Daño de Rayo a un enemigo y elimina hasta 3 acumulaciones de Rojo sacrificial del objetivo. Cuando se elimina Rojo sacrificial, inflige a todos los enemigos un {{CrimsonKnotScaling}}% del ATQ de Acheron como Daño de Rayo y, por cada acumulación de Rojo sacrificial eliminada, el multiplicador de daño de este ataque aumenta de forma adicional.::BR::Cuando Pluviespada de la habilidad definitiva de Acheron golpea a un objetivo enemigo con Rojo sacrificial, su aumenta en un 30%. Se puede acumular hasta 3 veces.
+      nihilityTeammatesBuff:
+        text: Mejora compañeros Nihilidad
+        content: >-
+          Cuando en el equipo hay 1 o 2 personajes de la Vía de la Nihilidad (sin contar a Acheron), el daño que infligen el ATQ básico, la habilidad básica y la habilidad definitiva de Acheron aumenta al 115% o el 160% del daño original respectivamente.::BR::E2: La cantidad de personajes de la Vía de la Nihilidad que se requieren para el valor más alto del Rastro "El abismo" se reduce en 1. Al comenzar su propio turno, obtiene 1 pt. de Sueños rotos y aplica 1 acumulación de Rojo sacrificial al enemigo que más acumulaciones tenga.
+      thunderCoreStacks:
+        text: Acumulaciones de Núcleo relampagueante
+        content: Cuando Pluviespada de la habilidad definitiva de Acheron golpea a un objetivo enemigo con Rojo sacrificial, su daño aumenta en un 30%. Se puede acumular hasta 3 veces y dura 3 turnos.
+      stygianResurgeHitsOnTarget:
+        text: Golpes de Resurgimiento estigio
+        content: >-
+          Cuando se activa Resurgimiento estigio, inflige daño 6 veces más. Cada vez inflige un Daño de Rayo equivalente al 25% del ATQ de Acheron a un objetivo enemigo y se considera daño de habilidad definitiva.
+      e1EnemyDebuffed:
+        text: E1 Aumento de PC
+        content: Al infligir daño a enemigos con estados negativos, la Prob. CRIT aumenta en un 18%.
+      e4UltVulnerability:
+        text: E4 Vulnerabilidad de Definitiva
+        content: Cuando el enemigo entra en combate, le aplica Vulnerabilidad a daño de habilidad definitiva, lo que aumenta el daño de habilidad definitiva recibido en un 8%.
+      e6UltBuffs:
+        text: E6 Mejoras de Definitiva
+        content: >-
+          La PEN de la RES a todos los tipos del daño de habilidad definitiva infligido por Acheron aumenta en un 20%. El daño infligido por su ATQ básico o habilidad básica se considera daño de habilidad definitiva, y consume la Firmeza del enemigo ignorando sus tipos de Debilidad. Al romper la Debilidad de un enemigo, activa el efecto de Ruptura de Rayo.
+  Aglaea:
+    Content:
+      supremeStanceState:
+        text: Disposición suprema
+        content: >-
+          En el estado de Disposición suprema, Aglaea obtiene las acumulaciones de aumento de VEL del talento del mnemoduende Sastre. Cada acumulación aumenta su VEL en un {{SpdBuff}}%. El ataque básico se convierte en Mil besos afilados y no puede lanzar su habilidad básica.
+      seamStitch:
+        text: Hilván
+        content: >-
+          Cuando Aglaea ataca mientras el Sastre está en la batalla, afecta con Hilván al objetivo. Tras atacar a un objetivo en el estado de Hilván, inflige adicionalmente un {{Scaling}}% del ATQ de Aglaea como Daño de Rayo adicional. Hilván solo afecta al último enemigo al que se le haya aplicado.
+      memoSpdStacks:
+        text: Acumulaciones de VEL mnemo
+        content: >-
+          Tras atacar a un enemigo en el estado de Hilván, su VEL aumenta en {{SpdBuff}} pts. Este efecto puede acumularse hasta {{StackLimit}} veces.
+      e1Vulnerability:
+        text: E1 Vulnerabilidad
+        content: El daño que recibe el enemigo afectado con Hilván aumenta en un 15%.
+      e2DefShredStacks:
+        text: E2 Acumulaciones de PEN DEF
+        content: >-
+          Cuando Aglaea o el Sastre actúan, el daño que infligen Aglaea y el Sastre ignora un 14% de la DEF del objetivo. Este efecto se puede acumular hasta 3 veces y dura hasta que cualquier unidad que no sea el Sastre o Aglaea lance una habilidad de forma proactiva.
+      e6Buffs:
+        text: E6 Mejoras
+        content: >-
+          Cuando Aglaea está en el estado de Disposición suprema, su PEN de la RES a Rayo y la del Sastre aumentan en un 20%. Cuando la VEL de Aglaea o el Sastre es superior a 160/240/320 pts., su daño de ataque combinado aumenta en un 10%/30%/60% respectivamente.
+  Anaxa:
+    Content:
+      skillHits:
+        text: Golpes adicionales de la Habilidad
+        content: Cantidad de golpes de la Habilidad en el objetivo principal
+      exposedNature:
+        text: Desvelación Cualitativa
+        content: >-
+          Cuando Anaxa está en el campo de batalla, afecta con Desvelación cualitativa a los enemigos que tengan al menos 5 tipos de Debilidad distintos. Anaxa inflige un {{DmgBuff}}% más de daño a los objetivos con Desvelación cualitativa.
+      eruditionTeammateBuffs:
+        text: Mejoras compañero erudición
+        content: >-
+          En el combate en curso se activa 1 de los siguientes efectos según la cantidad de personajes de la Vía de la Erudición que haya en el equipo aliado:::BR:: 1: El Daño CRIT de Anaxa aumenta en un 140%.::BR:: Al menos 2: El daño que infligen todos los aliados aumenta en un 50%.
+      enemyWeaknessTypes:
+        text: Debilidades del enemigo
+        content: Por cada Debilidad de un tipo distinto que tenga un enemigo, el daño que inflige Anaxa a ese objetivo ignora un 4% de su DEF. Se cuentan como máximo 7 tipos de Debilidad.
+      e1DefPen:
+        text: E1 PEN DEF
+        content: Cuando golpea a un enemigo con la habilidad básica, reduce la DEF del objetivo en un 16% durante 2 turnos.
+      e2ResPen:
+        text: E2 PEN RES
+        content: Cuando un enemigo entra en la batalla, se activa 1 vez el efecto de implantación de Debilidad del talento y la RES a todos los tipos de ese enemigo se reduce en un 20%.
+      e4AtkBuffStacks:
+        text: E4 Acumulaciones de mejora de ATQ
+        content: Al lanzar la habilidad básica, el ATQ aumenta en un 30% durante 2 turnos. Este efecto se puede acumular hasta 2 veces.
+      e6Buffs:
+        text: E6 Mejoras
+        content: El daño que inflige Anaxa es el 130% del daño original. Los dos efectos del Rastro "Vacío necesario" se activan directamente y ya no dependen de la cantidad de personajes de la Vía de la Erudición que haya en el equipo aliado.
+  Argenti:
+    Content:
+      ultEnhanced:
+        text: Definitiva potenciada
+        content: >-
+          Consume 180 pts. de energía e inflige un {{ultEnhancedScaling}}% del ATQ de Argenti como Daño Físico a todos los enemigos. Además, inflige daño 6 veces más, y cada vez inflige un Daño Físico equivalente al {{ultEnhancedExtraHitScaling}}% del ATQ de Argenti a un enemigo al azar.
+      enemyHp50:
+        text: "Aumento de daño\nPV del enemigo ≤ 50%"
+        content: Cuando el objetivo tiene un porcentaje de PV igual o inferior al 50%, recibe un 15% más de daño.
+      talentStacks:
+        text: Acumulaciones de Elevación
+        content: Aumenta su Prob. CRIT en un {{talentCrStackValue}}% por acumulación. Este efecto se puede acumular hasta {{talentMaxStacks}} veces.
+      ultEnhancedExtraHits:
+        text: Golpes extra en el objetivo de Definitiva potenciada
+        content: La Definitiva potenciada golpea a un enemigo al azar por {{ultEnhancedExtraHitScaling}}% ATQ por golpe.
+      e2UltAtkBuff:
+        text: E2 Mejora de ATQ de Definitiva
+        content: Al usar la habilidad definitiva, si el número de enemigos es igual o superior a 3, el ATQ aumenta en un 40% durante 1 turno.
+  Arlan:
+    Content:
+      selfCurrentHpPercent:
+        text: '%PV propios actuales'
+        content: Arlan obtiene una bonificación de daño según el porcentaje de PV que haya perdido hasta el momento. Como máximo puede infligir un {{talentMissingHpDmgBoostMax}}% más de daño.
+  Asta:
+    Content:
+      skillExtraDmgHits:
+        text: Golpes extra de Habilidad
+        content: "Inflige un {{skillScaling}}% del ATQ de Asta como Daño de Fuego a un enemigo y después inflige daño {{skillExtraDmgHitsMax}} veces más. Cada golpe inflige un {{skillScaling}}% del ATQ de Asta como Daño de Fuego a un enemigo al azar.::BR::E1: Al usar la habilidad básica, inflige daño a un enemigo al azar una vez más."
+      talentBuffStacks:
+        text: Acumulaciones mejora de ATQ del Talento
+        content: "Por cada acumulación de Recarga que tenga Asta, el ATQ de todos los aliados aumenta en un {{talentStacksAtkBuff}}%.::BR::E4: Cuando hay 2 o más acumulaciones de Recarga del talento, la recuperación de energía de Asta aumenta en un 15%."
+      ultSpdBuff:
+        text: Mejora de VEL de Definitiva activada
+        content: La VEL de todos los aliados aumenta en {{ultSpdBuffValue}} pts. durante 2 turnos.
+      fireDmgBoost:
+        text: Mejora Daño de Fuego
+        content: Cuando Asta está en la batalla, el Daño de Fuego que infligen todos los aliados aumenta en un 18%.
+  Aventurine:
+    Content:
+      defToCrBoost:
+        text: Mejora DEF a PC
+        content: 'Si la DEF de Aventurino es superior a 1600, por cada 100 pts. de DEF que superen ese valor, su Prob. CRIT aumenta en un 2%. Aumento máximo: 48%.'
+      fortifiedWagerBuff:
+        text: Mejora Apuesta reforzada
+        content: >-
+          La RES a efecto de un aliado con Apuesta reforzada aumenta en un {{talentResScaling}}%, y cuando ese aliado recibe un ataque, Aventurino obtiene 1 pt. de Apuesta ciega.::BR::E1: El Daño CRIT de los aliados con Apuesta reforzada aumenta en un 20%. Tras usar la habilidad definitiva, proporciona un escudo Apuesta reforzada a todos los aliados. El efecto de escudo es equivalente al 100% del que proporciona la habilidad básica y dura 3 turnos.
+      enemyUnnervedDebuff:
+        text: Enemigo con Sobresalto
+        content: Cuando un objetivo aliado golpea a un enemigo con Sobresalto, el Daño CRIT infligido aumenta en un {{ultCdBoost}}%.
+      fuaHitsOnTarget:
+        text: Golpes de ataque adicional en el objetivo
+        content: >-
+          Tras alcanzar 7 pts. de Apuesta ciega, Aventurino los consume y lanza un ataque adicional de 7 golpes. Cada golpe inflige a un enemigo aleatorio un {{talentDmgScaling}}% de la DEF de Aventurino como Daño Imaginario. Apuesta ciega puede acumular 10 pts. como máximo.::BR::E4: Al activar el ataque adicional del talento, la DEF de Aventurino aumenta primero en un 40% durante 2 turnos. Además, los golpes por acción del ataque adicional de su talento aumentan en 3.
+      e2ResShred:
+        text: E2 Reducción de RES
+        content: Al usar el ATQ básico, reduce la RES a todos los tipos del objetivo en un 12% durante 3 turnos.
+      e4DefBuff:
+        text: E4 Mejora de DEF
+        content: Al activar el ataque adicional del talento, la DEF de Aventurino aumenta primero en un 40% durante 2 turnos.
+      e6ShieldStacks:
+        text: E6 Acumulaciones de escudo
+        content: Por cada aliado que tenga un escudo, el daño que inflige Aventurino aumenta en un 50%, hasta un aumento máximo del 150%.
+  Bailu:
+    Content:
+      healingMaxHpBuff:
+        text: Mejora de PV máximos por curación
+        content: Cuando Bailu cura a un aliado por encima de sus PV máx., los PV máx. del objetivo aumentan en un 10% durante 2 turnos.
+      talentDmgReductionBuff:
+        text: Reducción de daño por Definitiva
+        content: El daño que reciben los personajes con Vigor se reduce en un 10%.
+      e2UltHealingBuff:
+        text: E2 Mejora de curación por Definitiva
+        content: Tras usar la habilidad definitiva, la curación realizada por Bailu aumenta en un 15%.
+      e4SkillHealingDmgBuffStacks:
+        text: E4 Acumulaciones aumento de daño de Habilidad
+        content: Cada curación proporcionada por la habilidad básica de Bailu aumenta el daño que inflige el receptor de la curación en un 10%. Se puede acumular hasta 3 veces y dura 2 turnos.
+  BlackSwan:
+    Content:
+      ehrToDmgBoost:
+        text: AdE a aumento de daño
+        content: Aumenta el daño que inflige en una cantidad equivalente al 60% de su acierto de efecto. El daño puede aumentar hasta un máximo del 72% mediante este efecto.
+      epiphanyDebuff:
+        text: Afección Desvelación
+        content: En el estado de Desvelación, el daño que reciben los objetivos durante su propio turno aumenta en un {{epiphanyDmgTakenBoost}}%.
+      defDecreaseDebuff:
+        text: Afección reducción DEF
+        content: La DEF de los enemigos se reduce en un {{defShredValue}}%.
+      arcanaStacks:
+        text: Acumulaciones de Arcano
+        content: >-
+          Los enemigos afectados por Arcano reciben un Daño de Viento con el tiempo equivalente al {{dotScaling}}% del ATQ de Cisne Negro al comienzo de cada turno. Cada acumulación de Arcano aumenta este multiplicador de daño en un {{arcanaStackMultiplier}}%. Arcano se puede acumular hasta 50 veces.::BR::Si tiene 3 o más acumulaciones, inflige un Daño de Viento con el tiempo a los objetivos adyacentes. Si tiene 7 o más acumulaciones, el Daño con el tiempo infligido esta vez ignora un 20% de la DEF del objetivo y de los objetivos adyacentes.
+      e1ResReduction:
+        text: E1 Reducción de RES
+        content: Cuando Cisne Negro está activa en la batalla, la RES a Viento, Físico, Fuego o Rayo de los enemigos afectados por Intemperie, Sangrado, Quemadura o Electrocución, respectivamente, se reduce en un 25%.
+      e4EffResPen:
+        text: E4 Reducción de RES a efecto
+        content: En el estado de Desvelación, la RES a efecto de los objetivos enemigos se reduce en un 10%.
+  Blade:
+    Content:
+      enhancedStateActive:
+        text: Panorama infernal
+        content: "Aumenta el daño en un {{enhancedStateDmgBoost}}%. El ATQ básico Espada fragmentada se potencia y se transforma en Bosque de espadas durante 3 turnos.::BR::E2: Su Prob. CRIT aumenta en un 15%."
+      hpPercentLostTotal:
+        text: Total de %PV perdidos
+        content: El daño de Definitiva aumenta con el recuento de PV que ha perdido en esta batalla. El recuento de PV perdidos en esta batalla no puede superar el {{hpPercentLostTotalMax}}% de los PV máx. de Blade.
+      e4MaxHpIncreaseStacks:
+        text: E4 Acumulaciones de PV máx.
+        content: Los PV máx. aumentan en un 20%. Este efecto se puede acumular hasta 2 veces.
+  Boothill:
+    Content:
+      standoffActive:
+        text: Duelo a muerte activado
+        content: >-
+          Hace que Boothill y un enemigo entren en el estado de Duelo a muerte. El ATQ básico de Boothill se potencia y no puede usar la habilidad básica durante 2 turnos. Esta duración se reduce en 1 al comienzo del turno de Boothill. El objetivo enemigo con Duelo a muerte es afectado con Provocación. Cuando el enemigo/Boothill reciben un ataque uno del otro, el daño recibido aumenta en un {{standoffVulnerabilityBoost}}%/15%.
+      pocketTrickshotStacks:
+        text: Ventajas en el bolsillo
+        content: Cada acumulación de Ventaja en el bolsillo aumenta la Reducción de Firmeza del ATQ básico potenciado en un 50%, hasta un máximo de 3 acumulaciones.
+      beToCritBoost:
+        text: Mejora de EdR a PC / DC
+        content: Aumenta su Prob. CRIT/Daño CRIT en una cantidad equivalente al 10%/50% del efecto de Ruptura. La Prob. CRIT/Daño CRIT puede aumentar hasta un máximo del 30%/150%.
+      talentBreakDmgScaling:
+        text: Daño de rupt. de Talento (forzar rupt. de debilidad)
+        content: >-
+          Si el enemigo está afectado por Ruptura de Debilidad cuando usa el ATQ básico potenciado, inflige a ese enemigo un Daño de Ruptura equivalente al Daño de Ruptura Físico de Boothill, en función de las acumulaciones de Ventaja en el bolsillo. La Firmeza máxima calculada para este daño no puede superar 16 veces la Reducción de Firmeza de base que tiene el ATQ básico "Espuelas rompetestas".
+      e1DefShred:
+        text: E1 PEN DEF
+        content: Al inicio de la batalla, obtiene 1 acumulación de Ventaja en el bolsillo. Cuando Boothill inflige daño, ignora un 16% de la DEF del objetivo.
+      e2BeBuff:
+        text: E2 Mejora de EdR
+        content: >-
+          Cuando está en el estado de Duelo a muerte y obtiene Ventaja en el bolsillo, recupera 1 pt. de habilidad básica y aumenta su efecto de Ruptura en un 30% durante 2 turnos. Este efecto no se puede activar repetidamente en el mismo turno, y también se puede activar al obtener acumulaciones de Ventaja en el bolsillo por encima del límite.
+      e4TargetStandoffVulnerability:
+        text: E4 Vulnerabilidad de Habilidad
+        content: >-
+          Cuando el enemigo con Duelo a muerte es atacado por Boothill, el daño recibido aumenta un 12% adicional. Cuando Boothill es atacado por un enemigo con Duelo a muerte, el efecto de aumento de daño recibido disminuye en un 12%.
+      e6AdditionalBreakDmg:
+        text: E6 Aumento de Daño de Ruptura
+        content: >-
+          Cuando inflige Daño de Ruptura activado por el talento, inflige adicionalmente un 40% del multiplicador de Daño de Ruptura al objetivo y un 70% del multiplicador del Daño de Ruptura a los objetivos adyacentes.
+  Bronya:
+    Content:
+      teamDmgBuff:
+        text: Mejora de daño al equipo
+        content: Cuando Bronya está en la batalla, el daño que infligen todos los aliados aumenta en un 10%.
+      skillBuff:
+        text: Mejora de daño de Habilidad
+        content: Elimina un estado negativo de un aliado, hace que realice una acción inmediatamente y aumenta el daño que inflige en un {{skillDmgBoostValue}}% durante 1 turno.
+      ultBuff:
+        text: Mejora ATQ / PC de Definitiva
+        content: El ATQ de todos los aliados aumenta en un {{ultAtkBoostValue}}% y el Daño CRIT se incrementa en un {{ultCdBoostValue}}% del Daño CRIT de Bronya + {{ultCdBoostBaseValue}}% durante 2 turnos.
+      battleStartDefBuff:
+        text: Mejora de DEF inicial
+        content: Al comenzar la batalla, la DEF de todos los aliados aumenta en un 20% durante 2 turnos.
+      techniqueBuff:
+        text: Mejora de ATQ de Técnica
+        content: Tras usar la técnica, al comenzar la siguiente batalla, el ATQ de todos los aliados aumenta en un 15% durante 2 turnos.
+      e2SkillSpdBuff:
+        text: E2 Mejora de VEL de Habilidad
+        content: Al usar la habilidad básica, cuando el aliado objetivo realiza una acción, su VEL aumenta en un 30% durante 1 turno.
+    TeammateContent:
+      teammateCDValue:
+        text: DC en combate de Bronya
+        content: El ATQ de todos los aliados aumenta en un {{ultAtkBoostValue}}% y el Daño CRIT se incrementa en un {{ultCdBoostValue}}% del Daño CRIT de Bronya + {{ultCdBoostBaseValue}}% durante 2 turnos.
+  Castorice:
+    Content:
+      memospriteActive:
+        text: Mnemoduende activado
+        content: Mientras Dragón Caído esté en el campo, se activa el Territorio Inframundo perdido, que reduce la RES a todos los tipos de todos los enemigos en un {{ResDown}}%.
+      spdBuff:
+        text: Mejora de VEL
+        content: Cuando los PV actuales de Castorice son iguales o superiores al 50% de sus PV máx., su VEL aumenta en un 40%.
+      talentDmgStacks:
+        text: Acum. daño del Talento
+        content: Cuando los aliados pierden PV, el daño que infligen Castorice y el Dragón Caído aumenta en un {{DmgBuff}}%. Este efecto se puede acumular hasta 3 veces y dura 3 turnos.
+      memoSkillEnhances:
+        text: Potenc. Habilidadᴹ
+        content: Puede lanzar repetidamente Aliento que prende las sombras en un ataque. Al lanzarlo repetidamente, el multiplicador de daño aumenta sucesivamente hasta el {{Multiplier1Enhance}}% / {{Multiplier2Enhance}}%. Tras alcanzar el {{Multiplier2Enhance}}%, ya no sigue aumentando. El efecto de aumento del multiplicador de daño no disminuye hasta que el Dragón Caído desaparezca.
+      memoTalentHits:
+        text: Golpes Talento mnemo
+        content: "Cuando el Dragón Caído desaparece, inflige daño {{BounceCount}} veces. Cada vez inflige a un enemigo al azar un Daño Cuántico equivalente al {{Scaling}}% de los PV máx. de Castorice.\n"
+      teamDmgBoost:
+        text: Aum. de daño al equipo
+        content: Cuando el Dragón Caído es invocado, el daño que infligen todos los aliados aumenta en un 10% durante 3 turnos.
+      memoDmgStacks:
+        text: Acum. de daño mnemo
+        content: Cada vez que el Dragón Caído lanza Aliento que prende las sombras, el daño que inflige aumenta en un 30%. Este efecto se puede acumular hasta 6 veces y dura hasta el final de ese turno.
+      e1EnemyHp50:
+        text: E1 PV del enemigo ≤ 50%
+        content: Cuando los PV actuales del enemigo son iguales o inferiores al 50% de sus PV máx., el daño que le infligen Garra ósea, abrazo del dragón lóbrego, Garras que rasgan la oscuridad, Aliento que prende las sombras y Alas que abaten las ruinas es un 140% del daño original.
+      e6Buffs:
+        text: E6 Mejoras
+        content: >-
+          Cuando Castorice o el Dragón Caído infligen daño, la PEN de la RES a Cuántico aumenta en un 20%. ::BR:: Aumenta la cantidad de rebotes del talento Alas que abaten las ruinas en 3.
+  Cipher:
+    Content:
+      vulnerability:
+        text: Vulnerabilidad
+        content: Cuando Cífer está en el campo de batalla, el daño que reciben todos los enemigos aumenta en un 40%.
+      skillAtkBuff:
+        text: Mejora de ATQ de Habilidad
+        content: Al usar la Habilidad, tiene una probabilidad base del 120% de afectar con Debilitación a un enemigo y a los objetivos adyacentes, lo que reduce el daño que infligen en un 10%, y el ATQ de Cífer aumenta en un 30%, durante 2 turnos.
+      fuaCdBoost:
+        text: Aumento de DC ataque adicional
+        content: El Daño CRIT que inflige el ataque adicional del talento aumenta en un 100%.
+      spdBasedBuffs:
+        text: Mejoras por VEL
+        content: Cuando la VEL de Cífer es igual o superior a 140/170, su Prob. CRIT aumenta en un 25%/50%.
+      e1AtkBuff:
+        text: E1 Mejora de ATQ
+        content: Cuando se lanza el ataque adicional del talento, el ATQ de Cífer aumenta en un 80% durante 2 turnos.
+      e2Vulnerability:
+        text: E2 Vulnerabilidad
+        content: Cuando Cífer golpea a un enemigo, tiene una probabilidad base del 120% de hacer que el daño que recibe ese objetivo aumente en un 30% durante 2 turnos.
+      e4AdditionalDmg:
+        text: E4 Daño adicional
+        content: Después de que el Cliente habitual reciba un ataque de un aliado, Cífer le inflige un 50% de su ATQ como Daño Cuántico adicional.
+      e6FuaDmg:
+        text: E6 Daño de ataque adicional
+        content: El daño que inflige el ataque adicional del talento de Cífer aumenta en un 350%.
+  Clara:
+    Content:
+      ultBuff:
+        text: Mejoras de Definitiva
+        content: "Tras usar su habilidad definitiva, aumenta el daño de Contraataque de Svarog en un {{ultFuaExtraScaling}}%. Reduce el daño que recibe Clara en un {{ultDmgReductionValue}}% adicional durante 2 turnos.\n"
+      talentEnemyMarked:
+        text: Enemigo Marcado
+        content: Inflige Daño Físico adicional equivalente al {{skillScaling}}% del ATQ de Clara a los enemigos marcados por Svarog con Marca de represalia.
+      e2UltAtkBuff:
+        text: E2 Mejora de ATQ de Definitiva
+        content: Tras usar su habilidad definitiva, su ATQ aumenta en un 30% durante 2 turnos.
+      e4DmgReductionBuff:
+        text: E4 Mejora de reducción de daño
+        content: Reduce el daño recibido en un 30%.
+  DanHeng:
+    Content:
+      talentPenBuff:
+        text: Mejora de PEN RES del Talento
+        content: Cuando Dan Heng es el objetivo de la habilidad de un aliado, la PEN de la RES a Viento de su siguiente ataque aumenta en un {{extraPenValue}}%.
+      enemySlowed:
+        text: Enemigo ralentizado
+        content: El ATQ básico inflige un 40% más de daño a los enemigos afectados por Ralentización.
+      spdBuff:
+        text: Mejora de VEL
+        content: Tras atacar, hay una probabilidad fija del 50% de aumentar la VEL propia en un 20% durante 2 turnos.
+      e1EnemyHp50:
+        text: "E1 Aumento de PC por\nPV enemigo ≥ 50%"
+        content: Cuando el porcentaje de PV del objetivo golpeado es igual o superior al 50%, la Prob. CRIT aumenta en un 12%.
+  DrRatio:
+    Content:
+      summationStacks:
+        text: Acumulaciones de Inducción
+        content: Cuando Dr. Ratio usa su Habilidad, por cada estado negativo del objetivo, la Prob. CRIT aumenta en un 2.5% y su Daño CRIT aumenta en un 5%. Este efecto se puede acumular hasta {{summationStacksMax}} veces.
+      enemyDebuffStacks:
+        text: Acumulaciones de afecciones en enemigo
+        content: >-
+          Al usar su habilidad básica, el Dr. Ratio tiene una probabilidad fija del 40% de lanzar un ataque adicional contra el objetivo e infligir un Daño Imaginario equivalente al {{FuaScaling}}% de su ATQ. Por cada estado negativo que tenga el objetivo, la probabilidad fija de lanzar el ataque adicional aumenta en un 20%. Si el objetivo es derrotado antes de que se lance el ataque adicional, el ataque adicional se dirige contra otro enemigo al azar.::BR::Al infligir daño, si el objetivo tiene 3 o más estados negativos, el Dr. Ratio le inflige un 10% más de daño por cada estado negativo, hasta un aumento máximo del 50%.::BR::E2: Cuando el ataque adicional de su talento golpea a un enemigo, el Dr. Ratio inflige un 20% de su ATQ como Daño Imaginario adicional por cada estado negativo que tenga el objetivo. Este efecto se puede activar un máximo de 4 veces cada vez que use su ataque adicional.
+  Feixiao:
+    Content:
+      weaknessBrokenUlt:
+        text: Definitiva debilidad rota (forzar rupt. de debilidad)
+        content: Sobreescribe la ruptura de debilidad para que cuente como activada.
+      talentDmgBuff:
+        text: Mejora daño de Talento
+        content: >-
+          Después de que un compañero de equipo de Feixiao lance un ataque contra el enemigo, Feixiao lanza inmediatamente contra el objetivo principal un ataque adicional que inflige un {{FuaMultiplier}}% del ATQ de Feixiao como Daño de Viento. Si no hay un objetivo principal que pueda ser atacado, ataca a un enemigo al azar. Este efecto solo puede activarse 1 vez en cada turno y el contador se reinicia al comienzo del turno de Feixiao. Al lanzar este ataque, el daño que inflige aumenta en un {{DmgBuff}}% durante 2 turnos.
+      skillAtkBuff:
+        text: Mejora de ATQ de Habilidad
+        content: Al lanzar la habilidad básica, su ATQ aumenta en un 48% durante 3 turnos.
+      e1OriginalDmgBoost:
+        text: E1 Aumento de daño original
+        content: Tras lanzar Danza de cortes relámpago o Aluvión de hachazos hendedores, el daño de habilidad definitiva que inflige Feixiao aumenta adicionalmente en un 10% del daño original. Puede acumularse hasta 5 veces y dura hasta que termina la acción de la habilidad definitiva.
+      e4Buffs:
+        text: E4 Mejoras
+        content: La Reducción de Firmeza del ataque adicional del talento aumenta en un 100% y, al ser lanzado, su VEL aumenta en un 8% durante 2 turnos.
+      e6Buffs:
+        text: E6 Mejoras
+        content: >-
+          La PEN de la RES a todos los tipos del daño de habilidad definitiva que inflige Feixiao aumenta en un 20%. A su vez, el daño de ataque adicional del talento se considera como daño de habilidad definitiva, y su multiplicador de daño aumenta en un 140%.
+  Firefly:
+    Content:
+      enhancedStateActive:
+        text: Estado potenciado
+        content: Entra en el estado de Combustión completa, su acción se adelanta un 100% y su ATQ básico y su habilidad básica se potencian.
+      enhancedStateSpdBuff:
+        text: Mejora de VEL potenciamiento
+        content: En el estado de Combustión completa, su VEL aumenta en {{ultSpdBuff}} pts.
+      superBreakDmg:
+        text: Ultrarruptura habilitada (forzar rupt. de debilidad)
+        content: >-
+          Si el efecto de Ruptura de SAM es igual o superior al 200%/360% cuando está en el estado de Combustión completa, tras atacar a un enemigo con Ruptura de Debilidad, la Reducción de Firmeza de este ataque se convertirá 1 vez en un 35%/50% de Daño de Ultrarruptura.
+      atkToBeConversion:
+        text: Mejora de ATQ a EdR
+        content: Si el ATQ de SAM es superior a 1800, por cada 10 pts. de ATQ que superen este valor, el efecto de Ruptura de SAM aumenta en un 0.8%.
+      talentDmgReductionBuff:
+        text: Mejora de PVE máx.
+        content: >-
+          Cuantos menos PV tenga, menos daño recibe. Cuando tenga un 20% o menos de PV, alcanza el máximo efecto de reducción de daño, hasta una reducción máxima del {{talentDmgReductionBuff}}%. Mientras esté en el estado de Combustión completa, el efecto de reducción de daño se mantiene al máximo y su RES a efecto aumenta en un {{talentResBuff}}%.
+      e1DefShred:
+        text: E1 PEN DEF
+        content: La habilidad básica potenciada ignora un 15% de la DEF de los objetivos y no consume pts. de habilidad básica.
+      e4ResBuff:
+        text: E4 Mejora de RES
+        content: En el estado de Combustión completa, la RES a efecto de SAM aumenta en un 50%.
+      e6Buffs:
+        text: E6 Mejoras
+        content: Cuando SAM está en el estado de Combustión completa, su PEN de la RES a Fuego aumenta en un 20%. Al usar el ATQ básico potenciado o la habilidad básica potenciada, su eficiencia de la Ruptura de Debilidad aumenta en un 50%.
+  Fugue:
+    Content:
+      torridScorch:
+        text: Estado Llama tórrida
+        content: Cuando está en el estado de Llama tórrida, el ATQ básico de Fugue se potencia.
+      foxianPrayer:
+        text: Mejora de EdR de Plegaria raposiana
+        content: >-
+          El efecto de Ruptura del aliado con Plegaria raposiana aumenta en un {{BreakBuff}}%. Además, también puede reducir la Firmeza de los enemigos que no tengan Debilidad de su mismo tipo en un 50% de la Reducción de Firmeza original. Esto no puede acumularse con otros efectos que permiten reducir la Firmeza ignorando los tipos de Debilidad.
+      defReduction:
+        text: Reducción DEF de Habilidad
+        content: >-
+          Cada vez que el aliado con Plegaria raposiana ataca, Fugue tiene una probabilidad base del 100% de reducir la DEF del enemigo atacado en un {{DefShred}}% durante 2 turnos.
+      superBreakDmg:
+        text: Daño de Ultrarruptura (forzar rupt. de debilidad)
+        content: >-
+          Después de que los aliados ataquen a enemigos con Ruptura de Debilidad cuando Fugue está en el campo de batalla, la reducción de Firmeza de este ataque se convierte en un {{SuperBreakMultiplier}}% de Daño de Ultrarruptura.
+      e4BreakDmg:
+        text: E4 Aumento de Daño de Ruptura
+        content: El Daño de Ruptura que infligen los aliados con Plegaria raposiana aumenta en un 20%.
+      e6BreakEfficiency:
+        text: E6 Aumento de eficiencia de ruptura
+        content: >-
+          La eficiencia de la Ruptura de Debilidad de Fugue aumenta en un 50%. Cuando Fugue está en el estado de Llama tórrida, el efecto de Plegaria raposiana aplica a todos los aliados.
+    TeammateContent:
+      be220Buff:
+        text: EdR ≥ 220%
+        content: >-
+          Cuando se rompe la Debilidad de algún enemigo, el efecto de Ruptura de los demás compañeros de equipo aumenta en un 6%. Si el efecto de Ruptura de Fugue es igual o superior al 220%, el aumento del efecto de Ruptura se incrementa en un 12% adicional. Este efecto dura 2 turnos y se puede acumular hasta 2 veces.
+      weaknessBreakBeStacks:
+        text: Acumulaciones de EdR por enemigo roto
+        content: >-
+          Cuando se rompe la Debilidad de algún enemigo, el efecto de Ruptura de los demás compañeros de equipo aumenta en un 6%. Si el efecto de Ruptura de Fugue es igual o superior al 220%, el aumento del efecto de Ruptura se incrementa en un 12% adicional. Este efecto dura 2 turnos y se puede acumular hasta 2 veces.
+  FuXuan:
+    Content:
+      talentActive:
+        text: Reducción daño al equipo
+        content: Mientras Fu Xuan no haya sido derrotada, todos los aliados obtienen Escape del infortunio. En este estado, el daño que reciben todos los aliados se reduce en un {{talentDmgReductionValue}}%.
+      skillActive:
+        text: Habilidad activada
+        content: >-
+          Activa Matriz del Presagio y todos los aliados de Fu Xuan traspasan un 65% del daño que reciben (antes de que un escudo mitigue el daño) a Fu Xuan durante 3 turnos. Mientras están afectados por Matriz del Presagio, todos los aliados obtienen Conocimiento. En este estado, los PV máx. de los aliados aumentan en una cantidad equivalente al {{skillHpBuffValue}}% de los PV máx. de Fu Xuan y su Prob. CRIT aumenta en un {{skillCrBuffValue}}%.
+      e6TeamHpLostPercent:
+        text: E6 PV perdidos del equipo
+        content: Cuando se activa Matriz del Presagio, se hace un recuento de los PV perdidos por todos los aliados en esta batalla. El daño infligido por la habilidad definitiva de Fu Xuan aumenta en un 200% de este recuento de PV perdidos. El recuento de PV perdidos en esta batalla no puede superar el 120% de los PV máx. de Fu Xuan.
+    TeammateContent:
+      teammateHPValue:
+        text: PV en combate de Fu Xuan
+        content: Mientras están afectados por Matriz del Presagio, todos los aliados obtienen Conocimiento. En este estado, los PV máx. de los aliados aumentan en una cantidad equivalente al {{skillHpBuffValue}}% de los PV máx. de Fu Xuan.
+  Gallagher:
+    Content:
+      basicEnhanced:
+        text: Básico potenciado
+        content: Luego de usar la Definitiva su siguiente ATQ básico se potencia y se convierte en Espuma desbordante.
+      breakEffectToOhbBoost:
+        text: Mejora de EdR a BCR
+        content: Aumenta su curación realizada en una cantidad equivalente al 50% del efecto de Ruptura. La curación realizada puede aumentar un 75% como máximo.
+      targetBesotted:
+        text: Enemigo con Melopea
+        content: Melopea aumenta el Daño de Ruptura que reciben los objetivos en un {{talentBesottedScaling}}%.
+      e1ResBuff:
+        text: E1 Mejora de RES
+        content: Cuando Gallagher entra en combate, recupera 20 pts. de energía y su RES a efecto aumenta en un 50%.
+      e2ResBuff:
+        text: E2 Mejora de RES
+        content: Al usar la habilidad básica, se disipa 1 estado negativo del objetivo aliado y aumenta su RES a efecto en un 30% durante 2 turnos.
+      e6BeBuff:
+        text: E6 Mejora de EdR
+        content: El efecto de Ruptura de Gallagher aumenta en un 20% y su eficiencia de la Ruptura de Debilidad aumenta en un 20%.
+  Gepard:
+    Content:
+      e4TeamResBuff:
+        text: E4 Mejora RES al equipo
+        content: Cuando Gepard está en la batalla, la RES a efecto de todos los aliados aumenta en un 20%.
+  Guinaifen:
+    Content:
+      talentDebuffStacks:
+        text: Acumulaciones de Beso ardiente
+        content: En el estado de Beso ardiente, el daño que recibe el enemigo aumenta en un {{talentDebuffDmgIncreaseValue}}% durante 3 turnos. Se puede acumular hasta {{talentDebuffMax}} veces.
+      enemyBurned:
+        text: Enemigo quemado
+        content: Inflige un 20% más de daño a los enemigos afectados por Quemadura.
+      skillDot:
+        text: Usar % de Daño con el tiempo de la Habilidad
+        content: Activado, usa el 100% de probabilidad de infligir Daño con el tiempo de la Habilidad en vez del 80% del Básico.
+      e1EffectResShred:
+        text: E1 Reducción de RES a efecto
+        content: Al usar la habilidad básica, hay una probabilidad base del 100% de reducir la RES a efecto del enemigo que recibe el ataque en un 10% durante 2 turnos.
+      e2BurnMultiBoost:
+        text: E2 Aumento multiplicador de quemadura
+        content: Cuando el objetivo está afectado por Quemadura, el ATQ básico y la habilidad básica de Guinaifen aumentan el multiplicador de daño de su efecto de Quemadura en un 40%.
+  Hanya:
+    Content:
+      ultBuff:
+        text: Mejora de VEL / ATQ de Definitiva
+        content: Aumenta la VEL de un aliado en un {{ultSpdBuffValue}}% de la VEL de Hanya, y el ATQ de ese aliado en un {{ultAtkBuffValue}}%.
+      targetBurdenActive:
+        text: Afección Lastre en el objetivo
+        content: Cuando un aliado usa el ATQ básico, la habilidad básica o la habilidad definitiva contra un enemigo afectado por Lastre, el daño que inflige aumenta en un {{talentDmgBoostValue}}% durante 2 turnos.
+      burdenAtkBuff:
+        text: Mejora de ATQ por Lastre
+        content: Aumenta el ATQ de los aliados que activan el efecto de recuperación de pts. de habilidad básica de Lastre en un 10% durante 1 turno.
+      e2SkillSpdBuff:
+        text: E2 Mejora VEL Habilidad
+        content: Tras usar su habilidad básica, su VEL aumenta en un 20% durante 1 turno.
+    TeammateContent:
+      teammateSPDValue:
+        text: VEL de Hanya
+        content: Aumenta la VEL de un aliado en un {{ultSpdBuffValue}}% de la VEL de Hanya, y el ATQ de ese aliado en un {{ultAtkBuffValue}}%.
+  Herta:
+    Content:
+      fuaStacks:
+        text: Golpes de ataque adicional
+        content: Cuando el ataque de un aliado reduce el porcentaje de PV del objetivo al 50% o menos, Herta lanza un ataque adicional de Daño de Hielo.
+      targetFrozen:
+        text: Objetivo congelado
+        content: La habilidad definitiva de Herta inflige un 20% más de daño a los enemigos afectados por Congelación.
+      enemyHpGte50:
+        text: Aumento daño Habilidad
+        content: Si el porcentaje de PV del enemigo es igual o superior al 50%, el daño infligido a ese objetivo aumenta en un 20%.
+      techniqueBuff:
+        text: Mejora de ATQ de Técnica
+        content: El ATQ aumenta en un 40% durante 3 turnos.
+      enemyHpLte50:
+        text: E1 Aumento de escalado de Básico
+        content: Si el objetivo tiene un porcentaje de PV igual o inferior al 50%, el ATQ básico de Herta inflige un Daño de Hielo adicional equivalente al 40% de su ATQ.
+      e2TalentCritStacks:
+        text: E2 Acumulaciones de PC de Talento
+        content: La Prob. CRIT aumenta en un 3%. Este efecto se puede acumular hasta 5 veces.
+      e6UltAtkBuff:
+        text: E6 Mejora ATQ Definitiva
+        content: Tras usar la habilidad definitiva, su ATQ aumenta en un 25% durante 1 turno.
+  Himeko:
+    Content:
+      targetBurned:
+        text: Objetivo quemado
+        content: El daño que la habilidad básica inflige a los enemigos afectados por Quemadura aumenta en un 20%.
+      selfCurrentHp80Percent:
+        text: "Mejora de PC por\nPV propio ≥ 80%"
+        content: Si el porcentaje de PV es igual o superior al 80%, la Prob. CRIT aumenta en un 15%.
+      e1TalentSpdBuff:
+        text: E1 Mejora de VEL
+        content: Cuando se activa Carrera de la victoria, la VEL de Himeko aumenta en un 20% durante 2 turnos.
+      e2EnemyHp50DmgBoost:
+        text: E2 Aumento de daño por PV del enemigo ≤ 50%
+        content: Cuando el objetivo tiene un porcentaje de PV igual o inferior al 50%, recibe un 15% más de daño.
+      e6UltExtraHits:
+        text: E6 Golpes extra de la Definitiva
+        content: La habilidad definitiva inflige daño 2 veces adicionales. Cada vez, inflige a un enemigo al azar un Daño de Fuego equivalente al 40% del daño original recibido.
+  Hook:
+    Content:
+      enhancedSkill:
+        text: Habilidad potenciada
+        content: >-
+          Tras usar la habilidad definitiva, potencia la habilidad básica la siguiente vez que se use. La habilidad básica potenciada inflige Daño de Fuego equivalente a {{skillEnhancedScaling}}% del ATQ de Hook a un enemigo y daño reducido a los enemigos adyacentes.
+      targetBurned:
+        text: Objetivo quemado
+        content: >-
+          Al atacar a un enemigo afectado por Quemadura, inflige un {{targetBurnedExtraScaling}}% del ATQ de Hook como Daño de Fuego adicional.::BR::E6: Hook inflige un 20% más de daño a los enemigos afectados por Quemadura.
+  Huohuo:
+    Content:
+      ultBuff:
+        text: Mejora ATQ Definitiva
+        content: Aumenta el ATQ de todos los aliados en un {{ultBuffValue}}% durante 2 turnos luego de usar la Definitiva.
+      skillBuff:
+        text: E1 Mejora de VEL
+        content: Cuando Huohuo tiene Vida sacrificada, la VEL de todos los aliados aumenta en un 12%.
+      e6DmgBuff:
+        text: E6 Mejora de daño
+        content: Al curar a un aliado, el daño infligido por el aliado aumenta en un 50% durante 2 turnos.
+  Hyacine:
+    Content:
+      healTargetHp50:
+        text: Objet. curación PV ≤ 50% 
+        content: Al curar a un aliado cuyos PV actuales sean iguales o inferiores al 50% de sus PV máx., la curación realizada por Hyacine o Ica aumenta en un 25%.
+      resBuff:
+        text: Mejora RES a efecto
+        content: La RES a efecto de Hyacine aumenta en un 50%.
+      spd200HpBuff:
+        text: Mejora VEL ≥ 200
+        content: Cuando la VEL de Hyacine es superior a 200, sus PV máx. y los de Ica aumentan en un 20%. Entonces, la curación realizada por Hyacine e Ica aumenta en un 1% por cada 1 pt. de VEL de exceso. Se cuentan como máximo 200 pts. de VEL de exceso.
+      clearSkies:
+        text: Estado Cielo lavado
+        content: Luego de usar su Definitiva, Hyacine entra en el estado de Cielo lavado durante 3 turnos. La duración se reduce en 1 cada vez que Hyacine comienza su turno. En el estado Cielo lavado, los PV máx. de todos los aliados aumentan en un {{UltHpBuffScaling}}% + {{UltHpBuffFlat}}.
+      healingDmgStacks:
+        text: Acumulaciones de daño por curación
+        content: Cuando Hyacine o Ica realizan una curación, el daño que inflige Ica aumenta en un {{TalentDmgBuff}}% durante 2 turnos. Se puede acumular hasta 3 veces.
+      e1HpBuff:
+        text: E1 Mejora de PV
+        content: Cuando Hyacine está en el estado de Cielo lavado, todos los aliados aumentan sus PV máx. en un 50% adicional.
+      e2SpdBuff:
+        text: E2 Mejora de VEL
+        content: Cuando los PV de un aliado se reducen, la VEL aumenta en un 30% durante 2 turnos.
+      e4CdBuff:
+        text: E4 Mejora de DC
+        content: El Rastro "Respiro en el vendaval" se potencia. Por cada 1 pt. de VEL de exceso, el Daño CRIT de Hyacine e Ica aumenta en un 2% adicional.
+      e6ResPen:
+        text: E6 PEN RES
+        content: Cuando Ica está en el campo de batalla, la PEN de la RES a todos los tipos de todos los aliados aumenta en un 20%.
+  ImbibitorLunae:
+    Content:
+      basicEnhanced:
+        text: Potenciación de Básico
+        content: >-
+          0 acumulaciones: Lanza un ataque de 2 golpes e inflige un {{basicScaling}}% del ATQ como Daño Imaginario a un enemigo.::BR::1 acumulación: Lanza un ataque de 3 golpes e inflige un {{basicEnhanced1Scaling}}% del ATQ como Daño Imaginario a un enemigo.::BR::2 acumulaciones: Lanza un ataque de 5 golpes que inflige un {{basicEnhanced2Scaling}}% de su ATQ como Daño Imaginario a un enemigo y daño reducido a enemigos adyacentes.::BR::3 acumulaciones: Lanza un ataque de 7 golpes que inflige un {{basicEnhanced3Scaling}}% de su ATQ como Daño Imaginario a un enemigo y daño reducido a enemigos adyacentes.
+      skillOutroarStacks:
+        text: Acumulaciones de Rugido dominante
+        content: >-
+          Al lanzar Lanza divina o Salto fulgurante, a partir del 4.º golpe obtiene 1 acumulación de Rugido dominante antes de cada golpe. Rugido dominante hace que el Daño CRIT de Dan Heng - Imbibitor Lunae aumente en un {{outroarStackCdValue}}%. Este efecto se puede acumular un máximo de 4 veces (aplica a todos los golpes).
+      talentRighteousHeartStacks:
+        text: Acumulaciones de Corazón justo
+        content: Dan Heng - Imbibitor Lunae obtiene 1 acumulación de Corazón justo después de cada golpe y el daño que inflige aumenta en un {{righteousHeartDmgValue}}% (aplica a todos los golpes).
+      e6ResPenStacks:
+        text: E6 Acumulaciones de PEN RES
+        content: Cuando otro personaje aliado usa su habilidad definitiva, la PEN de la RES a Imaginario del siguiente Salto fulgurante de Dan Heng - Imbibitor Lunae aumenta en un 20%. Este efecto se puede acumular hasta 3 veces.
+  Jade:
+    Content:
+      enhancedFollowUp:
+        text: Ataque adicional potenciado
+        content: Potencia el ataque adicional del talento de Jade. El multiplicador del daño que infligen los ataques adicionales aumenta en un {{ultFuaScalingBuff}}%.
+      pawnedAssetStacks:
+        text: Acumulaciones de Prenda
+        content: >-
+          Jade obtiene inmediatamente 5 acumulaciones de Prenda cuando activa el ataque adicional del talento. Cada acumulación aumenta su Daño CRIT en un {{pawnedAssetCdScaling}}%. Puede acumularse hasta 50 veces. Cada acumulación de Prenda del talento aumenta el ATQ de Jade en un 0.5% adicional.
+      e1FuaDmgBoost:
+        text: E1 Aumento de daño de ataque adicional
+        content: El daño de ataque adicional del talento de Jade aumenta en un 32%. Si un personaje en el estado de Cobrador de deudas golpea a 2/1 enemigos tras atacar, Jade obtiene 1/2 puntos de carga adicionales respectivamente.
+      e2CrBuff:
+        text: E2 Mejora de PC
+        content: Cuando hay 15 acumulaciones de Prenda, la Prob. CRIT de Jade aumenta en un 18%.
+      e4DefShredBuff:
+        text: E4 Mejora reducción DEF
+        content: Al usar la habilidad definitiva, el daño que inflige Jade ignora un 12% de la DEF del enemigo durante 3 turnos.
+      e6ResShredBuff:
+        text: E6 Mejora de PEN RES
+        content: Cuando hay personajes en el estado de Cobrador de deudas en el campo de batalla, la PEN de la RES a Cuántico de Jade aumenta en un 20%, y Jade obtiene el estado de Cobrador de deudas.
+    TeammateContent:
+      debtCollectorSpdBuff:
+        text: Mejora VEL Cobrador de deudas
+        content: Convierte a un aliado en Cobrador de deudas y aumenta su VEL en 30 pts. durante 3 turnos.
+  Jiaoqiu:
+    Content:
+      ashenRoastStacks:
+        text: Acumulaciones de Asado al rescoldo
+        content: >-
+          Después de que Jiaoqiu golpee a un enemigo con el ATQ básico, la habilidad básica o la habilidad definitiva, tiene una probabilidad base del 100% de aplicarle 1 acumulación de Asado al rescoldo. Con 1 acumulación, el daño que recibe el enemigo aumenta en un {{AshenRoastInitialVulnerability}}%, y cada acumulación posterior aumenta el daño que recibe en un {{AshenRoastAdditionalVulnerability}}%.::BR::Asado al rescoldo se puede acumular hasta 5 veces y dura 2 turnos.::BR::Cuando un enemigo está en el estado de Asado al rescoldo, se considera que también está afectado con Quemadura. Al comienzo de cada turno, recibe un {{AshenRoastDotMultiplier}}% del ATQ de Jiaoqiu como Daño de Fuego con el tiempo.
+      ultFieldActive:
+        text: Campo de definitiva activado
+        content: >-
+          Iguala las acumulaciones de Asado al rescoldo que tiene cada enemigo a las que tenga el efecto de Asado al rescoldo con más acumulaciones en el campo de batalla. Luego, activa un campo e inflige un {{UltScaling}}% del ATQ de Jiaoqiu como Daño de Fuego a todos los enemigos.::BR::Los enemigos dentro del campo reciben un {{UltVulnerability}}% más de daño de habilidad definitiva y tienen una probabilidad base del {{ZoneDebuffChance}}% de recibir 1 acumulación de Asado al rescoldo al actuar. Este efecto solo se puede activar 6 veces mientras dura el campo, y solo puede activarse 1 vez por cada turno de cada enemigo. El recuento de activaciones se reinicia cada vez que Jiaoqiu lanza la habilidad definitiva.
+      ehrToAtkBoost:
+        text: Mejora de AdE a ATQ
+        content: Cuando el acierto de efecto de Jiaoqiu es superior al 80%, por cada 15% de exceso, el ATQ aumenta en un 60% adicional, hasta un máximo del 240%.
+      e1DmgBoost:
+        text: E1 Aumento de daño
+        content: El daño que infligen los aliados a los enemigos afectados con Asado al rescoldo aumenta en un 40%.
+      e2Dot:
+        text: E2 Escalado de Daño con el tiempo
+        content: Cuando un enemigo está en el estado de Asado al rescoldo, el multiplicador del Daño de Fuego con el tiempo que le inflige Asado al rescoldo aumenta en un 300%.
+      e6ResShred:
+        text: E6 Reducción de RES
+        content: El límite de acumulaciones de Asado al rescoldo aumenta a 9. Cada acumulación de Asado al rescoldo reduce la RES a todos los tipos del objetivo en un 3%.
+  Jingliu:
+    Content:
+      talentEnhancedState:
+        text: Transmigración espectral
+        content: >-
+          Cuando Jingliu tiene 2 acumulaciones de Sizigia, entra en el estado de Transmigración espectral, su acción se adelanta un 100% y su Prob. CRIT aumenta en un {{talentCrBuff}}%. Después, la habilidad básica Destello trascendental se potencia y se convierte en Reflejo helado de la luna (solo puede usar esta habilidad básica).
+      talentHpDrainAtkBuff:
+        text: Mejora de ATQ por robo de PV
+        content: >-
+          Al lanzar un ataque en el estado de Transmigración espectral, consume PV de los aliados y el ATQ de Jingliu aumenta dependiendo de la cantidad total de PV consumidos, hasta un máximo del {{talentHpDrainAtkBuffMax}}% del ATQ base de Jingliu. Dura hasta que termine el ataque actual.
+      e1CdBuff:
+        text: E1 Definitiva activada
+        content: Al lanzar la habilidad definitiva o la habilidad básica potenciada, el Daño CRIT de Jingliu aumenta en un 24% durante 1 turno. Si solo golpea a 1 enemigo, le inflige de forma adicional un 100% del ATQ de Jingliu como Daño de Hielo.
+      e2SkillDmgBuff:
+        text: E2 Mejora de Habilidad
+        content: Tras usar la habilidad definitiva, el daño de la siguiente habilidad básica potenciada aumenta en un 80%.
+  JingYuan:
+    Content:
+      skillCritBuff:
+        text: Mejora PC por Habilidad
+        content: Tras usar la habilidad básica, la Prob. CRIT de Jing Yuan aumenta en un 10% durante 2 turnos.
+      talentHitsPerAction:
+        text: Acumulaciones del caballero divino
+        content: El caballero divino puede acumular 10 golpes por acción como máximo.
+      talentAttacks:
+        text: Golpes en objetivo del caballero divino
+        content: Cantidad de golpes en el objetivo. Normalmente se pone el mismo valor que acumulaciones del caballero divino.
+      e2DmgBuff:
+        text: E2 Aumento de daño
+        content: Tras la acción del caballero divino, el ATQ básico, la habilidad básica y la habilidad definitiva de Jing Yuan infligen un 20% más de daño durante 2 turnos.
+      e6FuaVulnerabilityStacks:
+        text: E6 Acumulaciones de Vulnerabilidad
+        content: Cada golpe que inflige el caballero divino hace que el objetivo enemigo entre en un estado de Vulnerabilidad. Los enemigos vulnerables reciben un 12% más de daño hasta que termine el ataque actual del caballero divino. Este efecto se puede acumular hasta 3 veces (aplica a todos los golpes).
+  Kafka:
+    Content:
+      e1DotDmgReceivedDebuff:
+        text: E1 Vulnerabilidad de Daño con el tiempo
+        content: Cuando el talento activa un ataque adicional, hay un 100% de probabilidad base de que el Daño con el tiempo que recibe el objetivo aumente en un 30% durante 2 turnos.
+      e2TeamDotBoost:
+        text: E2 Aumento de Daño con el tiempo al equipo
+        content: Cuando Kafka está en la batalla, el Daño con el tiempo que infligen todos los aliados aumenta en un 25%.
+  Lingsha:
+    Content:
+      beConversion:
+        text: "Mejora de\nEdR a ATQ / BCR"
+        content: Aumenta su ATQ/curación realizada en una cantidad equivalente al 25%/10% del efecto de Ruptura, hasta un aumento máximo del 50%/20% respectivamente.
+      befogState:
+        text: Estado Obnubilación
+        content: En el estado de Obnubilación, el Daño de Ruptura que reciben los enemigos aumenta en un {{BefogVulnerability}}%.
+      e1DefShred:
+        text: E1 Mejoras de Ruptura de Debilidad
+        content: La eficiencia de la Ruptura de Debilidad de Lingsha aumenta en un 50%. Cuando se rompe la Debilidad de un enemigo, reduce su DEF en un 20%.
+      e2BeBuff:
+        text: E2 Mejora de EdR
+        content: Al lanzar la habilidad definitiva, el efecto de Ruptura de todos los aliados aumenta en un 40%.
+      e6ResShred:
+        text: E6 Reducción de RES
+        content: Cuando Fuyuan está en el campo de batalla, la RES a todos los tipos de todos los enemigos se reduce en un 20%.
+  Luka:
+    Content:
+      basicEnhanced:
+        text: Básico potenciado
+        content: Potencia el ATQ básico para infligir daño adicional, y tiene la posibilidad de activar golpes adicionales.
+      targetUltDebuffed:
+        text: Afección vulnerabilidad de Definitiva
+        content: Aumenta en un {{targetUltDebuffDmgTakenValue}}% el daño que recibe un enemigo durante 3 turnos.
+      basicEnhancedExtraHits:
+        text: Golpes extra del Básico potenciado
+        content: Aumenta la cantidad de golpes del Básico potenciado.
+      e1TargetBleeding:
+        text: E1 Objetivo sangrando
+        content: Cuando Luka realiza una acción, si el objetivo está afectado por Sangrado, el daño que inflige Luka aumenta en un 15% durante 2 turnos.
+      e4TalentStacks:
+        text: E4 Acumulaciones del Talento
+        content: Por cada acumulación de Voluntad luchadora, el ATQ aumenta en un 5%. Este efecto se puede acumular hasta 4 veces.
+  Luocha:
+    Content:
+      fieldActive:
+        text: Campo activado
+        content: Mientras el campo está activo, el ATQ de todos los aliados aumenta en un 20%.
+      e6ResReduction:
+        text: E6 Reducción de RES
+        content: Al usar la habilidad definitiva, reduce la RES a todos los tipos de todos los enemigos en un 20% durante 2 turnos.
+  Lynx:
+    Content:
+      skillBuff:
+        text: Mejora de PV máx. de la Habilidad
+        content: >-
+          Aplica Reacción de supervivencia a un aliado y aumenta sus PV máx. en una cantidad equivalente al {{skillHpPercentBuff}}% de los PV máx. de Lynx + {{skillHpFlatBuff}}.::BR::E4: Al obtener Reacción de supervivencia, el ATQ del objetivo aumenta en una cantidad equivalente al 3% de los PV máx. de Lynx durante 1 turno.::BR::E6: El efecto de aumento de los PV máx. de Reacción de supervivencia se incrementa de forma adicional en una cantidad equivalente al 6% de los PV máx. de Lynx. Además, la RES a efecto aumenta en un 30%.
+    TeammateContent:
+      teammateHPValue:
+        text: PV de Lynx
+        content: >-
+          Aplica Reacción de supervivencia a un aliado y aumenta sus PV máx. en una cantidad equivalente al {{skillHpPercentBuff}}% de los PV máx. de Lynx + {{skillHpFlatBuff}}.::BR::E4: Al obtener Reacción de supervivencia, el ATQ del objetivo aumenta en una cantidad equivalente al 3% de los PV máx. de Lynx durante 1 turno.::BR::E6: El efecto de aumento de los PV máx. de Reacción de supervivencia se incrementa de forma adicional en una cantidad equivalente al 6% de los PV máx. de Lynx. Además, la RES a efecto aumenta en un 30%.
+  March7thImaginary:
+    Content:
+      enhancedBasic:
+        text: Básico potenciado
+        content: >-
+          Inicialmente, inflige daño 3 veces. Cada vez, inflige un {{BasicEnhancedScaling}}% del ATQ de Siete de Marzo como Daño Imaginario a un enemigo. Después de infligir daño la última vez, tiene una probabilidad fija del 60% de infligir daño 1 vez adicional, hasta un máximo de 3 veces adicionales.
+      basicAttackHits:
+        text: Golpes del Básico potenciado
+        content: >-
+          Inicialmente, inflige daño 3 veces. Cada vez, inflige un {{BasicEnhancedScaling}}% del ATQ de Siete de Marzo como Daño Imaginario a un enemigo. Después de infligir daño la última vez, tiene una probabilidad fija del 60% de infligir daño 1 vez adicional, hasta un máximo de 3 veces adicionales.
+      masterAdditionalDmgBuff:
+        text: Mejora de Maestro DPS
+        content: "Cuando usa su ATQ básico o inflige daño 1 vez con su ATQ básico potenciado, inflige un daño adicional equivalente al {{ShifuDmgBuff}}% del ATQ de Siete de Marzo.\n"
+      masterToughnessRedBuff:
+        text: Mejora de Maestro apoyo
+        content: Cuando usa su ATQ básico o inflige daño 1 vez con su ATQ básico potenciado, la Reducción de Firmeza del daño infligido esta vez aumenta en un 100%.
+      talentDmgBuff:
+        text: Mejora de daño Básico del Talento
+        content: >-
+          Siete de Marzo obtiene hasta 1 pt. de carga después de que el Maestro lance un ataque o use la habilidad definitiva.::BR::Cuando alcanza 7 o más pts. de carga, Siete de Marzo actúa inmediatamente. El daño que inflige aumenta en un {{TalentDmgBuff}}%.
+      selfSpdBuff:
+        text: E1 Mejora de VEL
+        content: Cuando el Maestro está en el campo de batalla, la VEL de Siete de Marzo aumenta en un 10%.
+      e6CdBuff:
+        text: E6 Aumento de DC del Básico
+        content: Tras usar la habilidad definitiva, el Daño CRIT que inflige el siguiente ATQ básico potenciado aumenta en un 50%.
+    TeammateContent:
+      masterBuff:
+        text: Mejora del Maestro
+        content: Hace que otro aliado distinto a sí misma se convierta en Maestro. La VEL del Maestro aumenta en un {{ShifuSpeedBuff}}%.
+      masterCdBeBuffs:
+        text: Mejoras de DC / EdR del Maestro
+        content: Tras usar el ATQ básico potenciado, el Daño CRIT y el efecto de Ruptura del Maestro aumentan respectivamente en un 60% y en un 36% durante 2 turnos.
+  Misha:
+    Content:
+      ultHitsOnTarget:
+        text: Golpes de la Definitiva en el objetivo
+        content: Número de golpes de la Definitiva en el objetivo principal, infligiendo daño equivalente a {{ultStackScaling}}% del ATQ por golpe.
+      enemyFrozen:
+        text: Enemigo congelado
+        content: Cuando inflige daño a enemigos congelados, el Daño CRIT aumenta en un 30%.
+      e2DefReduction:
+        text: E2 Reducción de DEF
+        content: Reduce la DEF del objetivo en un 16% durante 3 turnos.
+      e6UltDmgBoost:
+        text: E6 Aumento de daño por Definitiva
+        content: Al usar la habilidad definitiva, inflige un 30% más de daño hasta que termine su turno.
+  Moze:
+    Content:
+      preyMark:
+        text: Presa marcada
+        content: >-
+          Moze entra en el estado de Ausente mientras haya una Presa en el campo de batalla.::BR::Después de que un objetivo aliado ataque a la Presa, Moze le inflige 1 vez un Daño de Rayo adicional equivalente al {{PreyAdditionalMultiplier}}% de su ATQ, y gasta 1 punto de carga. Por cada 3 puntos de carga gastados, Moze lanza 1 ataque adicional a la Presa que le inflige un {{FuaScaling}}% de su ATQ como Daño de Rayo. Cuando la carga llega a 0, se disipa el estado de Presa del objetivo y se reinicia el contador de pts. de carga requeridos para lanzar los ataques adicionales.
+      e2CdBoost:
+        text: E2 Aumento de DC
+        content: El Daño CRIT que infligen todos los objetivos aliados a los enemigos marcados como Presa aumenta en un 40%.
+      e4DmgBuff:
+        text: E4 Mejora de daño
+        content: Al lanzar la habilidad definitiva, el daño que inflige Moze aumenta en un 30% durante 2 turnos.
+      e6MultiplierIncrease:
+        text: E6 Mejora multiplicador de ataque adicional
+        content: El multiplicador de daño del ataque adicional del talento aumenta en un 25%.
+  Mydei:
+    Content:
+      skillEnhances:
+        text: Potenciaciones de habilidad
+        content: >-
+          Selecciona el nivel de potenciación de la Habilidad de Midei. ::BR:: Morir mil veces sin remordimientos (mejora 0): Consume un 50% de sus PV actuales e inflige un {{SkillPrimaryScaling}}% de sus PV máx. como Daño Imaginario a un enemigo y un {{SkillAdjacentScaling}}% de sus PV máx. como Daño Imaginario a los objetivos adyacentes. ::BR:: Regicidio, ascenso al trono (mejora 1): Consume un 35% de sus PV actuales e inflige un {{EnhancedSkillPrimaryScaling}}% de sus PV máx. como Daño Imaginario a un enemigo y un {{EnhancedSkillAdjacentScaling}}% de sus PV máx. como Daño Imaginario a los objetivos adyacentes. ::BR:: Deicidio, ascenso divino (mejora 2): Consume 150 puntos de carga e inflige un {{EnhancedSkill2PrimaryScaling}}% de sus PV máx. como Daño Imaginario a un enemigo y un {{EnhancedSkill2AdjacentScaling}}% de sus PV máx. como Daño Imaginario a los objetivos adyacentes.
+      vendettaState:
+        text: Venganza de sangre
+        content: >-
+          Acumula 1 punto de carga por cada 1% de PV que pierde, hasta un máximo de 200 puntos. Cuando la carga alcanza 100, consume 100 puntos de carga para entrar en el estado de Venganza de sangre, regenera un {{HpRestoration}}% de los PV máx. de Midei, y además adelanta su acción un 100%. ::BR:: En el estado de Venganza de sangre, sus PV máx. aumentan en un 50% de sus PV máx. actuales y su DEF se mantiene en 0. Al comenzar su turno, lanza automáticamente Regicidio, ascenso al trono. Cuando la carga en el estado de Venganza de sangre alcanza 150 puntos, Midei obtiene inmediatamente 1 turno adicional y lanza automáticamente Deicidio, ascenso divino.
+      hpToCrConversion:
+        text: Conversión PV a PC
+        content: Al comenzar la batalla, si los PV máx. de Midei son superiores a 4000, por cada 100 PV de exceso su Prob. CRIT aumenta en un 1.2%, la proporción de carga obtenida al recibir daño de los enemigos aumenta en un 2.5%, y los PV regenerados al recibir curación aumentan en un 0.75%. Se pueden calcular como máximo 4000 PV de exceso.
+      e1EnhancedSkillBuff:
+        text: E1 Aumento de Habilidad potenciada
+        content: El multiplicador del daño que Deicidio, ascenso divino inflige al objetivo principal aumenta en un 30%. Deicidio, ascenso divino pasa a infligir a todos los enemigos un Daño Imaginario equivalente al multiplicador de daño del objetivo principal.
+      e2DefPen:
+        text: E2 PEN DEF
+        content: Durante el estado de Venganza de sangre, el daño que inflige Midei ignora un 15% de la DEF de los enemigos. Tras recibir una curación, un 40% de la curación recibida se convierte en carga. La carga convertida acumulada no puede superar 40 pts. Después de que cualquier unidad actúe, se restablece la carga que se puede acumular.
+      e4CdBuff:
+        text: E4 Mejora de DC
+        content: Durante el estado de Venganza de sangre, el Daño CRIT aumenta en un 30%. Tras recibir un ataque enemigo, regenera un 10% de sus PV máx.
+  Pela:
+    Content:
+      teamEhrBuff:
+        text: Mejora de AdE al equipo
+        content: Cuando Pela está en la batalla, el acierto de efecto de todos los aliados aumenta en un 10%.
+      enemyDebuffed:
+        text: Enemigo afectado
+        content: Inflige un 20% más de daño a los enemigos afectados por estados negativos.
+      skillRemovedBuff:
+        text: Mejoras por remover mejora con la Habilidad
+        content: "Cuando la habilidad básica disipa un efecto positivo, el daño del siguiente ataque aumenta en un 20%.::BR::E2: Cuando la habilidad básica disipa un efecto positivo de un enemigo, la VEL aumenta en un 10% durante 2 turnos."
+      ultDefPenDebuff:
+        text: Reducción DEF Definitiva
+        content: La DEF de los enemigos afectados por Desprotección se reduce en un {{ultDefPenValue}}% durante 2 turnos.
+      e4SkillResShred:
+        text: E4 Reducción de la RES a Hielo de la Habilidad
+        content: Al usar la habilidad básica, hay una probabilidad base del 100% de reducir la RES a Hielo del enemigo en un 12% durante 2 turnos.
+  Qingque:
+    Content:
+      basicEnhanced:
+        text: Básico potenciado
+        content: El ATQ de Qingque aumenta en un {{talentAtkBuff}}%, su ATQ básico "Combinación oculta" se potencia y se convierte en "¡Fuera la ficha del muro muerto!".
+      basicEnhancedSpdBuff:
+        text: Mejora de VEL del Básico potenciado
+        content: Tras utilizar el ATQ básico potenciado, la VEL de Qingque aumenta en un 10% durante 1 turno.
+      skillDmgIncreaseStacks:
+        text: Acum. de aumento de daño por Habilidad
+        content: Roba 2 fichas de jade e inflige un {{skillStackDmg}}% más de daño hasta que termine el turno. Este efecto se puede acumular hasta 4 veces.
+  Rappa:
+    Content:
+      sealformActive:
+        text: Forma de sello (forzar ruptura de debilidad)
+        content: >-
+          Entra en el estado de Forma de sello y obtiene inmediatamente 1 turno adicional y 3 pts. de Tinta cromática. Además, su eficiencia de la Ruptura de Debilidad y su efecto de Ruptura aumentan en un 50% y un {{ultBeBuff}}% respectivamente.
+      atkToBreakVulnerability:
+        text: Vulnerabilidad ATQ a Ruptura
+        content: Cuando se rompe la Debilidad de un enemigo, el Daño de Ruptura recibido aumenta en un 2%. Si el ATQ actual de Rappa es superior a 2400 pts., ese Daño de Ruptura aumenta en un 1% adicional por cada 100 pts. de ATQ de exceso, hasta un máximo de 8%.
+      chargeStacks:
+        text: Acumulaciones de carga
+        content: Por cada pt. de carga, el multiplicador del Daño de Ruptura de este golpe aumenta en un {{talentChargeMultiplier}}% y la Reducción de Firmeza que ignora los tipos de Debilidad aumenta en 1 punto.
+      e1DefPen:
+        text: E1 PEN DEF
+        content: Mientras está en el estado de Forma de sello tras lanzar la habilidad definitiva, el daño que inflige Rappa ignora un 15% de la DEF de los objetivos.
+      e2Buffs:
+        text: E2 Mejoras de ruptura
+        content: Aumenta en un 50% la Reducción de Firmeza de los 2 primeros golpes del ATQ básico potenciado contra el enemigo designado.
+      e4SpdBuff:
+        text: E4 Mejora de VEL
+        content: Durante el estado de Forma de sello, la VEL de todos los aliados aumenta en un 12%.
+    TeammateContent:
+      teammateBreakVulnerability:
+        text: Vulnerabilidad a la ruptura
+        content: Cuando se rompe la Debilidad de un enemigo, el Daño de Ruptura recibido aumenta en un 2%. Si el ATQ actual de Rappa es superior a 2400 pts., ese Daño de Ruptura aumenta en un 1% adicional por cada 100 pts. de ATQ de exceso, hasta un máximo de 8%.
+      e4SpdBuff:
+        text: E4 Mejora de VEL
+        content: Durante el estado de Forma de sello, la VEL de todos los aliados aumenta en un 12%.
+  Robin:
+    Content:
+      concertoActive:
+        text: Concierto activado
+        content: >-
+          Mientras está en el estado de Concierto, el ATQ de todos los aliados aumenta en una cantidad equivalente al {{ultAtkBuffScalingValue}}% + {{ultAtkBuffFlatValue}} del ATQ de Robin. Después de cada ataque de los aliados, Robin inflige 1 vez un {{ultScaling}}% de su ATQ como Daño Físico adicional. La Prob. CRIT de este daño se fija en el 100% y el Daño CRIT se fija en el 150%.
+      skillDmgBuff:
+        text: Mejora daño Habilidad
+        content: Aumenta en un {{skillDmgBuffValue}}% el daño que infligen todos los aliados durante 3 turnos.
+      talentCdBuff:
+        text: Mejora DC Talento
+        content: Aumenta el Daño CRIT de todos los aliados en un {{talentCdBuffValue}}%.
+      e1UltResPen:
+        text: E1 PEN RES Definitiva
+        content: Cuando está en el estado de Concierto, la PEN de la RES a todos los tipos de todos los aliados aumenta en un 24%.
+      e4TeamResBuff:
+        text: E4 Mejora RES al equipo
+        content: Al usar su habilidad definitiva, disipa los estados negativos de Control de todos los aliados. Cuando Robin está en el estado de Concierto, la RES a efecto de todos los aliados aumenta en un 50%.
+      e6UltCDBoost:
+        text: E6 Aumento de DC del daño de Definitiva
+        content: >-
+          Cuando está en el estado de Concierto, el Daño CRIT del Daño Físico adicional infligido por la habilidad definitiva aumenta en un 450%. El efecto de Noche sin luna se puede activar hasta 8 veces. Cada vez que usa la habilidad definitiva, se reinicia el número de veces que se puede activar.
+    TeammateContent:
+      teammateATKValue:
+        text: ATQ en combate de Robin
+        content: >-
+          Mientras está en el estado de Concierto, el ATQ de todos los aliados aumenta en una cantidad equivalente al {{ultAtkBuffScalingValue}}% + {{ultAtkBuffFlatValue}} del ATQ de Robin.::BR::Configura esto al ATQ propio de Robin que usa para mejorar a aliados.
+      traceFuaCdBoost:
+        text: Aumento DC ataque adicional
+        content: Cuando está en el estado de Concierto, el Daño CRIT que infligen todos los aliados con sus ataques adicionales aumenta en un 25%.
+      e2UltSpdBuff:
+        text: E2 Mejora VEL Definitiva
+        content: Cuando está en el estado de Concierto, la VEL de todos los aliados aumenta en un 16%.
+  RuanMei:
+    Content:
+      skillOvertoneBuff:
+        text: Mejora Sobretono
+        content: >-
+          Tras usar su habilidad básica, Ruan Mei obtiene Sobretono durante 3 turnos. Esta duración se reduce en 1 al comienzo del turno de Ruan Mei. Cuando Ruan Mei tiene Sobretono, el daño de todos los aliados aumenta en un {{skillScaling}}% y la eficiencia de la Ruptura de Debilidad aumenta en un 50%.
+      teamBEBuff:
+        text: Mejora de EdR al equipo
+        content: El efecto de Ruptura de todos los aliados aumenta en un 20%.
+      ultFieldActive:
+        text: Campo de definitiva activado
+        content: >-
+          Dentro del campo, la PEN de la RES a todos los tipos de todos los aliados aumenta en un {{fieldResPenValue}}%.::BR::E1: Mientras el campo de la habilidad definitiva está activo, el daño que infligen todos los aliados ignora un 20% de la DEF del objetivo.
+      e2AtkBoost:
+        text: E2 Aumento de ATQ contra enemigo roto
+        content: Cuando Ruan Mei está en la batalla, el ATQ de todos los aliados aumenta en un 40% cuando infligen daño a enemigos con Ruptura de Debilidad.
+      e4BeBuff:
+        text: E4 Mejora de EdR
+        content: Cuando un enemigo es afectado por Ruptura de Debilidad, el efecto de Ruptura de Ruan Mei aumenta en un 100% durante 3 turnos.
+    TeammateContent:
+      teamSpdBuff:
+        text: Mejora de VEL al equipo
+        content: La VEL de todos los aliados (excepto Ruan Mei) aumenta en un {{talentSpdScaling}}%.
+      teamDmgBuff:
+        text: Aumento de EdR a daño
+        content: Durante la batalla, cuando el efecto de Ruptura de Ruan Mei es superior al 120%, por cada 10% de exceso, su habilidad básica aumenta el daño de todos los aliados en un 6% adicional, hasta un máximo del 36%.
+  Sampo:
+    Content:
+      targetDotTakenDebuff:
+        text: Vulnerabilidad Daño con el tiempo de la Definitiva
+        content: Los objetivos afectados por la Definitiva de Sampo reciben Daño con el tiempo aumentado en un {{dotVulnerabilityValue}}% durante 2 turnos.
+      skillExtraHits:
+        text: Golpes extra de Habilidad
+        content: Número de golpes extra de la Habilidad.
+      targetWindShear:
+        text: Objetivo a la intemperie
+        content: El daño que los enemigos afectados por Intemperie infligen a Sampo se reduce en un 15%.
+  Seele:
+    Content:
+      buffedState:
+        text: Estado mejorado
+        content: >-
+          Al eliminar a un objetivo enemigo usando su ATQ básico, habilidad básica o habilidad definitiva, obtiene inmediatamente un turno adicional y entra en un estado potenciado. Este estado hace que el daño de los ataques de Seele aumente en un {{buffedStateDmgBuff}}% durante 1 turno.::BR::Cuando Seele está en el estado potenciado, su PEN de la RES a Cuántico aumenta en un 20%.
+      speedBoostStacks:
+        text: Acumulaciones de la mejora de velocidad
+        content: "Luego de usar su Habilidad, Seele aumenta su VEL en un 25% durante 2 turnos.::BR::E2: El efecto de aumento de VEL de la habilidad básica se puede acumular hasta 2 veces."
+      e1EnemyHp80CrBoost:
+        text: "E1 Aumento de PC por\nPV enemigo  ≤ 80%"
+        content: Cuando inflige daño a un objetivo que tiene un porcentaje de PV igual o inferior al 80%, la Prob. CRIT aumenta en un 15%.
+      e6UltTargetDebuff:
+        text: E6 Mariposa desbocada
+        content: Tras usar la habilidad definitiva de Seele, el objetivo entra en el estado de Mariposa desbocada durante 1 turno. Cuando un enemigo afectado por Mariposa desbocada es atacado, recibe un Daño Cuántico adicional equivalente al 15% del daño de habilidad definitiva de Seele.
+  Serval:
+    Content:
+      targetShocked:
+        text: Enemigo electrocutado
+        content: Tras lanzar un ataque, inflige un {{talentExtraDmgScaling}}% del ATQ de Serval como Daño de Rayo adicional a todos los enemigos afectados por Electrocución.
+      enemyDefeatedBuff:
+        text: Mejora por enemigo derrotado
+        content: Tras eliminar a un enemigo, el ATQ aumenta en un 20% durante 2 turnos.
+  SilverWolf:
+    Content:
+      skillResShredDebuff:
+        text: Reducción de RES de la Habilidad
+        content: >-
+          Reduce la RES a todos los tipos del objetivo en un {{skillResShredValue}}% durante 2 turnos.::BR::Al usar la habilidad básica, si el enemigo tiene 3 o más estados negativos, su RES a todos los tipos se reduce en un 3% adicional.
+      skillWeaknessResShredDebuff:
+        text: Reducción de RES por debilidad implantada por Habilidad
+        content: >-
+          Tiene una probabilidad base del {{implantChance}}% de aplicar a un enemigo 1 Debilidad del mismo tipo que el de algún aliado en el campo de batalla y reducir su RES al tipo de esa Debilidad en un 20% durante 2 turnos. Si el objetivo enemigo ya tenía ese tipo de Debilidad, entonces no se activará la reducción de RES al tipo correspondiente a esa Debilidad.
+      talentDefShredDebuff:
+        text: Reducción de DEF del error
+        content: El error de Silver Wolf reduce la DEF del enemigo en un {{talentDefShredDebuffValue}}% durante 3 turnos.
+      ultDefShredDebuff:
+        text: Reducción DEF Definitiva
+        content: Reduce la DEF de un enemigo en un {{ultDefShredValue}}% durante 3 turnos.
+      targetDebuffs:
+        text: Afecciones del objetivo
+        content: >-
+          Al usar la habilidad básica, si el enemigo tiene 3 o más estados negativos, su RES a todos los tipos se reduce en un 3% adicional.::BR::E4: Tras usar su habilidad definitiva para atacar a un enemigo, Silver Wolf inflige un 20% de su ATQ como Daño Cuántico adicional por cada estado negativo que tenga el objetivo. Este efecto se puede activar un máximo de 5 veces cada vez que ataque con su habilidad definitiva.::BR::E6: Por cada estado negativo que tenga el objetivo enemigo, el daño que inflige Silver Wolf aumenta en un 20%, hasta un máximo del 100%.
+  Sparkle:
+    Content:
+      skillCdBuff:
+        text: Mejora DC de Habilidad
+        content: >-
+          Aumenta el Daño CRIT de un aliado en un valor equivalente al {{skillCdBuffScaling}}% del Daño CRIT de Sparkle + {{skillCdBuffBase}}% durante 1 turno.::BR::E6: El efecto de aumento de Daño CRIT de la habilidad básica aumenta adicionalmente en una cantidad equivalente al 30% del Daño CRIT de Sparkle. Cuando Sparkle usa su habilidad básica, el efecto de aumento de Daño CRIT de la habilidad básica se aplica a todos los aliados que tengan Adivinanza. Cuando Sparkle usa su habilidad definitiva, si un aliado tiene el efecto de aumento de Daño CRIT de la habilidad básica, este efecto se extiende a todos los aliados que tengan Adivinanza.
+
+      cipherBuff:
+        text: Mejora Adivinanza
+        content: >-
+          Para los aliados con Adivinanza, el efecto de aumento de daño que proporciona el talento de Sparkle se incrementa de forma adicional en un {{cipherTalentStackBoost}}% por cada acumulación durante 2 turnos.::BR::E1: La duración de Adivinanza otorgada por la habilidad definitiva aumenta en 1 turno. El ATQ de los aliados con Adivinanza aumenta en un 40%.
+      talentStacks:
+        text: Acumulaciones de daño del Talento
+        content: >-
+          Cuando un aliado consume 1 pt. de habilidad básica, el daño de todos los aliados aumenta en un {{talentBaseStackBoost}}% durante 2 turnos. Se puede acumular hasta 3 veces.::BR::E2: Por cada acumulación del efecto del talento, los aliados ignoran un 8% de la DEF del objetivo cuando infligen daño.
+      quantumAlliesAtkBuff:
+        text: Mejora ATQ aliados Cuánticos
+        content: Cuando en el equipo aliado hay 1/2/3 personajes de tipo Cuántico, el ATQ de los aliados de tipo Cuántico aumenta en un 5%/15%/30% adicional.
+    TeammateContent:
+      teammateCDValue:
+        text: DC en combate de Sparkle
+        content: Aumenta el Daño CRIT de un aliado en un valor equivalente al {{skillCdBuffScaling}}% del Daño CRIT de Sparkle + {{skillCdBuffBase}}% durante 1 turno
+  Sunday:
+    Content:
+      skillDmgBuff:
+        text: Mejora de daño de Habilidad
+        content: >-
+          Hace que un personaje aliado y su invocación actúen inmediatamente y aumenta en un {{DmgBoost}}% el daño que infligen. Si el objetivo tiene una invocación, el efecto de aumento de daño se incrementa en un {{SummonDmgBoost}}% adicional.
+      talentCrBuffStacks:
+        text: Acum. de la mejora de PC del Talento
+        content: Al lanzar la habilidad básica, la Prob. CRIT del objetivo aumenta en un {{CritRateBoost}}%. Dura 3 turnos.
+      techniqueDmgBuff:
+        text: Mejora daño de Técnica
+        content: La primera vez que Sunday lance una habilidad sobre un aliado en la siguiente batalla, el daño que inflige el objetivo aumenta en un 50% durante 2 turnos.
+      e1DefPen:
+        text: E1 PEN DEF
+        content: >-
+          Cuando Sunday lanza la habilidad básica, hace que el personaje y la invocación objetivos de la habilidad ignoren respectivamente un 16% y un 40% de la DEF del enemigo al infligir daño durante 2 turnos.
+      e2DmgBuff:
+        text: E2 Mejora daño Beatitud
+        content: El daño que inflige el aliado con Beatitud aumenta en un 30%.
+    TeammateContent:
+      beatified:
+        text: Mejora de DC de la Definitiva
+        content: >-
+          El Daño CRIT de los aliados con Beatitud aumenta en una cantidad equivalente al {{CritBuffScaling}}% del Daño CRIT de Sunday + {{CritBuffFlat}}%.
+      teammateCDValue:
+        text: DC en combate de Sunday
+        content: >-
+          El Daño CRIT de los aliados con Beatitud aumenta en una cantidad equivalente al {{CritBuffScaling}}% del Daño CRIT de Sunday + {{CritBuffFlat}}%.
+      e6CrToCdConversion:
+        text: E6 Conversión de PC a DC
+        content: >-
+          Cuando el efecto de aumento de la Prob. CRIT del talento está activo y la Prob. CRIT del objetivo sobrepasa el 100%, cada 1% de Prob. CRIT excedente aumenta el Daño CRIT en un 2%.
+  Sushang:
+    Content:
+      ultBuffedState:
+        text: Estado mejorado de la Definitiva
+        content: >-
+          El ATQ de Sushang aumenta en un {{ultBuffedAtk}}% y al usar la habilidad básica tiene 2 oportunidades extra de activar Postura espadachina durante 2 turnos. Si Postura espadachina se activa con las oportunidades extra, el daño que inflige es un 50% del daño original.
+      skillExtraHits:
+        text: Golpes extra de Habilidad
+        content: Aumenta el número de golpes extra de Postura espadachina de la Habilidad.
+      skillTriggerStacks:
+        text: Acum. de activaciones de la Habilidad
+        content: El daño que inflige Postura espadachina aumenta en un 2.5% cada vez que se activa. Este efecto se puede acumular hasta 10 veces.
+      talentSpdBuffStacks:
+        text: Acum. de mejora de VEL del Talento
+        content: >-
+          Cuando se rompe la Debilidad de un enemigo en la batalla, la VEL de Sushang aumenta en un {{talentSpdBuffValue}}% durante 2 turnos.::BR::E6: El efecto de aumento de VEL del talento se puede acumular hasta 2 veces.
+      e2DmgReductionBuff:
+        text: E2 Mejora de reducción de daño
+        content: Tras activar Postura espadachina, el daño que recibe Sushang se reduce en un 20% durante 1 turno.
+  TheHerta:
+    Content:
+      enhancedSkill:
+        text: Habilidad potenciada
+        content: Tras lanzar su Definitiva, la Sra. Herta actúa inmediatamente y obtiene una acumulación de Inspiración, hasta un máximo de 4 acumulaciones. Cuando tiene Inspiración, su habilidad básica se potencia y se convierte en Tengo una idea genial.
+      eruditionTeammate:
+        text: Aliado erudición
+        content: >-
+          Cuando el objetivo principal de la habilidad básica potenciada tiene Interpretación, el multiplicador de daño aumenta. Por cada acumulación, el daño que recibe el objetivo principal/los demás objetivos aumenta en un {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}%.::BR::Si en el equipo hay 2 o más personajes de la Vía de la Erudición, el daño que recibe el objetivo principal/los demás objetivos aumenta en un {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% adicional por cada acumulación.::BR::A4: Al entrar en combate, si en el equipo hay 2 o más personajes de la Vía de la Erudición, el Daño CRIT de todos los aliados aumenta en un 80%.
+      ultAtkBuff:
+        text: Mejora ATQ Definitiva
+        content: >-
+          Al lanzar la habilidad definitiva, el ATQ de la Sra. Herta aumenta en un {{AtkBuff}}% durante 3 turnos.
+      interpretationStacks:
+        text: Acumulaciones de Interpretación
+        content: >-
+          Cuando el objetivo principal de la habilidad básica potenciada tiene Interpretación, el multiplicador de daño aumenta. Por cada acumulación, el daño que recibe el objetivo principal/los demás objetivos aumenta en un {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}%.::BR::Si en el equipo hay 2 o más personajes de la Vía de la Erudición, el daño que recibe el objetivo principal/los demás objetivos aumenta en un {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% adicional por cada acumulación.::BR::E1: Cuando la habilidad básica potenciada calcula las acumulaciones de Interpretación, se calculan adicionalmente un 50% de las acumulaciones de Interpretación del objetivo que más acumulaciones tenga de entre el objetivo principal y los objetivos adyacentes.
+      totalInterpretationStacks:
+        text: Acumulaciones de Respuesta
+        content: Por cada acumulación de Interpretación que se aplique al enemigo, la Sra. Herta obtiene una acumulación de Respuesta, hasta un máximo de 99 acumulaciones. Al lanzar la habilidad definitiva, el multiplicador de daño de la habilidad definitiva lanzada esta vez aumenta en un 1% por cada acumulación de Respuesta.
+      e1BonusStacks:
+        text: E1 Acumulaciones extra
+        content: Cuando la habilidad básica potenciada calcula las acumulaciones de Interpretación, se calculan adicionalmente un 50% de las acumulaciones de Interpretación del objetivo que más acumulaciones tenga de entre el objetivo principal y los objetivos adyacentes.
+      e4EruditionSpdBuff:
+        text: E4 Mejora VEL erudición
+        content: Aumenta en un 12% la VEL de los personajes del equipo que siguen la Vía de la Erudición.
+      e6Buffs:
+        text: E6 Mejoras
+        content: La PEN de la RES a Hielo de la Sra. Herta aumenta en un 20%. Si hay 3 (o más)/2/1 enemigos en el campo de batalla, el multiplicador de daño de la habilidad definitiva aumenta en un 140%/250%/400%.
+  Tingyun:
+    Content:
+      benedictionBuff:
+        text: Mejora Gracia
+        content: >-
+          Otorga una Gracia a un aliado y aumenta el ATQ de ese aliado en un {{skillAtkBoostScaling}}% (sin superar el {{skillAtkBoostMax}}% del ATQ actual de Tingyun). Cuando el aliado que ha recibido la Gracia lanza un ataque, inflige un Daño de Rayo adicional equivalente al {{skillLightningDmgBoostScaling}}% de su ATQ. La Gracia dura 3 turnos.
+      skillSpdBuff:
+        text: Mejora VEL de Habilidad
+        content: La VEL de Tingyun aumenta en un 20% durante 1 turno al usar la habilidad básica.
+      ultDmgBuff:
+        text: Mejora de daño Definitiva
+        content: "Hace que un aliado recupere 50 pts. de energía e inflija un {{ultDmgBoost}}% más de daño durante 2 turnos.::BR::E6: La habilidad definitiva hace que el objetivo aliado recupere 10 pts. de energía adicionales."
+      ultSpdBuff:
+        text: E1 Mejora VEL Definitiva
+        content: Cuando el aliado con la Gracia usa la habilidad definitiva, su VEL aumenta en un 20% durante 1 turno.
+    TeammateContent:
+      teammateAtkBuffValue:
+        text: "Valor de la mejora de ATQ\nde la Habilidad"
+        content: >-
+          Otorga una Gracia a un aliado y aumenta el ATQ de ese aliado en un {{skillAtkBoostScaling}}% (sin superar el {{skillAtkBoostMax}}% del ATQ actual de Tingyun). Cuando el aliado que ha recibido la Gracia lanza un ataque, inflige un Daño de Rayo adicional equivalente al {{skillLightningDmgBoostScaling}}% de su ATQ. La Gracia dura 3 turnos.
+  Topaz:
+    Content:
+      enemyProofOfDebtDebuff:
+        text: "Afección Certificado\nde deuda"
+        content: Hace que un enemigo entre en el estado Certificado de deuda y aumenta en un {{proofOfDebtFuaVulnerability}}% el daño de ataque adicional que recibe.
+      numbyEnhancedState:
+        text: "Estado potenciado\nde Conti"
+        content: Conti entra en el estado Subida increíble. Su multiplicador de daño aumenta en un {{enhancedStateFuaScalingBoost}}% y su Daño CRIT en un {{enhancedStateFuaCdBoost}}%.
+      e1DebtorStacks:
+        text: E1 Acumulaciones de Endeudamiento
+        content: Cuando un enemigo afectado por Certificado de deuda recibe un ataque adicional, entra en el estado de Endeudamiento. Se puede activar 1 vez como máximo por ataque. Endeudamiento hace que el Daño CRIT de los ataques adicionales que recibe el objetivo aumente en un 25%. Se puede acumular hasta 2 veces. Cuando Certificado de deuda se disipa, Endeudamiento también se elimina.
+  TrailblazerDestruction:
+    Content:
+      enhancedUlt:
+        text: Definitiva AdE
+        content: >-
+          Elige entre dos formas de dar un fuerte golpe.::BR::Victoria total: (ATQ individual) Golpe de despedida inflige un {{ultScaling}}% del ATQ de la(del) Trazacaminos como Daño Físico a un enemigo.::BR::Victoria total: (Ráfaga) Carrera final inflige un {{ultEnhancedScaling}}% del ATQ de la(del) Trazacaminos como Daño Físico a un objetivo y un {{ultEnhancedScaling2}}% del ATQ de la(del) Trazacaminos como Daño Físico a los enemigos adyacentes.
+      talentStacks:
+        text: Acumulaciones Talento
+        content: Cada Ruptura de Debilidad que inflige al objetivo enemigo aumenta el ATQ de la(del) Trazacaminos en un {{talentAtkScalingValue}}% y la DEF en un 10%. Este efecto puede acumularse hasta 2 veces.
+  TrailblazerHarmony:
+    Content:
+      backupDancer:
+        text: "Mejora de EdR\nBailarín de Apoyo"
+        content: >-
+          Aplica a todos los aliados el efecto Bailarín de apoyo durante 3 turnos. La duración del efecto se reduce en 1 cada vez que comience el turno de la(del) Trazacaminos. El efecto de Ruptura de los aliados bajo el efecto de Bailarín de apoyo aumenta en un {{ultBeScaling}}%.
+      superBreakDmg:
+        text: Daño de Ultrarruptura (forzar rupt. de debilidad)
+        content: >-
+          Cuando aliados con el efecto Bailarín de apoyo atacan a enemigos con Ruptura de Debilidad, convierten la Reducción de Firmeza de este ataque en Daño de Ultrarruptura 1 vez.::BR::El Daño de Ultrarruptura se agrega a cada una de las columnas de daño BÁSICO / HABILIDAD / DEFINITIVA / ATAQUE ADICIONAL. Por ejemplo, activado, la columna HABILIDAD se convierte en la suma del daño base de la Habilidad + Daño de Ultrarruptura de acuerdo al daño de Firmeza de la Habilidad. Esta opción también sobreescribe la Ruptura de Debilidad del enemigo a activada.
+      skillHitsOnTarget:
+        text: Golpes extra en objetivo de Habilidad
+        content: Inflige Daño Imaginario a un enemigo y después inflige daño 4 veces más. Cada golpe inflige Daño Imaginario a un enemigo al azar.
+      e2EnergyRegenBuff:
+        text: E2 Mejora de RdE
+        content: Al comenzar la batalla, la recuperación de energía de la(del) Trazacaminos aumenta en un 25% durante 3 turnos.
+    TeammateContent:
+      teammateBeValue:
+        text: E4 EdR en combate
+        content: Mientras la(el) Trazacaminos está en el campo de batalla, el efecto de Ruptura de todos los aliados excepto ella(él) aumenta en una cantidad equivalente al 15% del efecto de Ruptura de la(del) Trazacaminos.
+  TrailblazerPreservation:
+    Content:
+      enhancedBasic:
+        text: Básico potenciado
+        content: El ATQ básico potenciado inflige un {{basicEnhancedAtkScaling}}% del ATQ de la(del) Trazacaminos como Daño de Fuego a un enemigo y daño reducido a los enemigos adyacentes.
+      skillActive:
+        text: Reducción de daño de la Habilidad
+        content: Tras usar la habilidad básica, el daño que recibe la(el) Trazacaminos se reduce en un {{skillDamageReductionValue}}%. También se reduce el daño que reciben todos los aliados en un 15% durante 1 turno.
+      shieldActive:
+        text: Escudo activado
+        content: "Si la(el) Trazacaminos está protegida(o) por un escudo, su ATQ aumenta en un 15%.\n"
+      e6DefStacks:
+        text: E6 Acumulaciones de la mejora de DEF
+        content: Aumenta la DEF en un 10% por acumulación.
+  TrailblazerRemembrance:
+    Content:
+      memoSkillHits:
+        text: Golpes de Habilidad Mnemo
+        content: >-
+          Inflige daño 4 veces. Cada vez inflige un {{SingleScaling}}% del ATQ de Mem como Daño de Hielo a un enemigo al azar. Después inflige un {{AoeScaling}}% del ATQ de Mem como Daño de Hielo a todos los enemigos.
+      teamCdBuff:
+        text: Mejora de DC al equipo
+        content: >-
+          Aumenta el Daño CRIT de todos los aliados en una cantidad equivalente al {{ScalingBuff}}% del Daño CRIT de Mem + {{FlatBuff}}%.
+      memsSupport:
+        text: >-
+          Daño verdadero de Apoyo de Mem
+        content: >-
+          Adelanta la acción de un aliado un 100% y le otorga Apoyo de Mem durante 3 turnos. Cada vez que un objetivo con Apoyo de Mem inflige daño, inflige de forma adicional un Daño verdadero equivalente al {{TrueDmgScaling}}% del daño original.::BR::E1: Cuando un aliado tiene Apoyo de Mem, el efecto de Apoyo de Mem también se aplica a su mnemoduende o mnemomédium.::BR::E4: Cuando un aliado cuya energía máxima sea 0 lanza una habilidad de forma proactiva, Mem también obtiene un 3% de carga y el multiplicador del Daño verdadero que ese objetivo inflige gracias a Apoyo de Mem aumenta en un 6% adicional.
+      energyTrueDmgValue:
+        text: Daño verdadero energía máx.
+        content: >-
+          Cuando la energía máxima de un aliado con Apoyo de Mem es superior a 100 pts., el multiplicador de Daño verdadero infligido mediante Apoyo de Mem aumenta en un 2% adicional por cada 10 pts. excedentes, hasta un máximo de un 20%.
+      e1CrBuff:
+        text: E1 Mejora de PC
+        content: >-
+          La Prob. CRIT del aliado con Apoyo de Mem aumenta en un 10%.
+      e4TrueDmgBoost:
+        text: E4 Aumento de daño verdadero
+        content: >-
+          Cuando un aliado cuya energía máxima sea 0 lanza una habilidad de forma proactiva, Mem también obtiene un 3% de carga y el multiplicador del Daño verdadero que ese objetivo inflige gracias a Apoyo de Mem aumenta en un 6% adicional.
+      e6UltCrBoost:
+        text: E6 Aumento de PC Definitiva
+        content: >-
+          La Prob. CRIT de la habilidad definitiva se fija en el 100%.
+    TeammateContent:
+      memCDValue:
+        text: >-
+          DC en combate de Mem
+        content: >-
+          Aumenta el Daño CRIT de todos los aliados en una cantidad equivalente al {{ScalingBuff}}% del Daño CRIT de Mem + {{FlatBuff}}%.
+  Tribbie:
+    Content:
+      numinosity:
+        text: Numinosidad
+        content: Luego de usar la Habilidad, Tribbie obtiene Numinosidad durante 3 turnos. La duración se reduce en 1 al comienzo de su turno. Cuando Tribbie tiene Numinosidad, la PEN de la RES a todos los tipos de todos los aliados aumenta en un {{ResPen}}%.
+      ultZone:
+        text: Campo de Definitiva activado
+        content: Luego de que Tribbie use su Definitiva, crea un campo e inflige un {{UltScaling}}% de los PV máx. de Tribbie como Daño Cuántico a todos los enemigos. Mientras el campo esté activo, el daño que reciben los enemigos aumenta en un {{ZoneVulnerability}}%. Cuando un aliado ataca, inflige al objetivo con los PV más altos de entre los atacados un Daño Cuántico adicional equivalente al {{AdditionalDmgScaling}}% de los PV máx. de Tribbie por cada objetivo golpeado. El campo dura 2 turnos. Al comienzo de cada turno de Tribbie, los turnos del campo disminuyen en 1.
+      alliesMaxHp:
+        text: PV máx. de aliados
+        content: Mientras el campo está activo, los PV máx. de Tribbie aumentan en un 9% de la suma de los PV máx. de todos los personajes aliados.
+      talentFuaStacks:
+        text: Acumulaciones de ataque adicional
+        content: Después de lanzar el ataque adicional del talento, el daño que inflige Tribbie aumenta en un 72%. Este efecto se puede acumular hasta 3 veces y dura 3 turnos.
+      e1TrueDmg:
+        text: E1 Daño verdadero
+        content: Después de que un aliado ataque al enemigo mientras el campo está activo, inflige adicionalmente al objetivo que recibe el daño adicional del campo un Daño verdadero equivalente al 24% del daño total del ataque.
+      e2AdditionalDmg:
+        text: E2 Daño adicional
+        content: El daño adicional que inflige el campo aumenta al 120% del daño original. Cuando el campo inflige daño adicional, inflige daño adicional 1 vez más.
+      e4DefPen:
+        text: E4 PEN DEF
+        content: Mientras dura Numinosidad, el daño que infligen todos los aliados ignora un 18% de la DEF del objetivo.
+      e6FuaScaling:
+        text: E6 Daño de ataque adicional
+        content: Cuando Tribbie usa su habilidad definitiva, lanza el ataque adicional del talento contra todos los enemigos. El daño que inflige el ataque adicional del talento aumenta en un 729%.
+  Welt:
+    Content:
+      enemyDmgTakenDebuff:
+        text: Afección vulnerabilidad de Definitiva
+        content: Al usar la habilidad definitiva, hay una probabilidad base del 100% de infligir un 12% más de daño a los objetivos durante 2 turnos.
+      enemySlowed:
+        text: Enemigo ralentizado
+        content: Al golpear a un objetivo ya afectado por Ralentización, inflige un {{talentScaling}}% del ATQ de Welt como Daño Imaginario adicional.
+      skillExtraHits:
+        text: Golpes extra en objetivo de Habilidad
+        content: >-
+          Inflige un {{skillScaling}}% del ATQ de Welt como Daño Imaginario a un enemigo e inflige daño 2 veces más. Cada golpe inflige un {{skillScaling}}% del ATQ de Welt como Daño Imaginario a un enemigo al azar.
+      e1EnhancedState:
+        text: E1 Estado potenciado
+        content: 'Tras usar su habilidad definitiva, Welt obtiene una potenciación: las 2 siguientes veces que ataque usando el ATQ básico o la habilidad básica, inflige daño adicional igual al 50% del multiplicador del daño de ATQ básico o igual al 80% del multiplicador del daño de habilidad básica respectivamente.'
+  Xueyi:
+    Content:
+      beToDmgBoost:
+        text: Aumento de EdR a daño
+        content: Aumenta el daño que inflige en una cantidad equivalente al 100% del efecto de Ruptura. El daño puede aumentar hasta un máximo del 240% mediante este efecto.
+      enemyToughness50:
+        text: Engranajes intrépidos
+        content: Si la Firmeza del objetivo enemigo es igual o superior al 50% de su Firmeza máxima, el daño de la habilidad definitiva aumenta en un 10%.
+      toughnessReductionDmgBoost:
+        text: Aumento de daño de Definitiva
+        content: Durante la Definitiva, cuanta más Firmeza consuma, más daño inflige, hasta un aumento máximo de un {{ultBoostMax}}%.
+      fuaHits:
+        text: Golpes de ataque adicional
+        content: >-
+          Cuando las acumulaciones de Karma llegan al máximo, las consume todas y lanza un ataque adicional a un enemigo que inflige daño 3 veces. Cada vez inflige a un enemigo al azar un Daño Cuántico equivalente al {{fuaScaling}}% del ATQ de Xueyi.
+      e4BeBuff:
+        text: E4 Mejora de EdR
+        content: Al usar la habilidad definitiva, su efecto de Ruptura aumenta en un 40% durante 2 turnos.
+  Yanqing:
+    Content:
+      ultBuffActive:
+        text: Mejora de Definitiva activada
+        content: Aumenta su Prob. CRIT en un 60%. Cuando Estocada empática está activa, su Daño CRIT aumenta en un {{ultCdBuffValue}}% adicional.
+      soulsteelBuffActive:
+        text: Estocada empática activada
+        content: >-
+          Cuando Estocada empática está activa, la Prob. CRIT de Yanqing aumenta en un {{talentCrBuffValue}}% y su Daño CRIT en un {{talentCdBuffValue}}%.::BR::Antes de lanzar la Definitiva, cuando Estocada empática está activa, aumenta el Daño CRIT de Yanqing en un {{ultCdBuffValue}}% extra.::BR::Cuando Estocada empática está activa, la RES a efecto aumenta en un 20%.::BR::E2: Cuando Estocada empática está activa, la recuperación de energía aumenta en un 10% adicional.
+      critSpdBuff:
+        text: Mejora de VEL
+        content: Al lograr un Golpe CRIT, la VEL aumenta en un 10% durante 2 turnos.
+      e1TargetFrozen:
+        text: E1 Enemigo congelado
+        content: Si el enemigo al que ataca Yanqing está afectado por Congelación, le inflige inmediatamente un 60% del ATQ de Yanqing como Daño de Hielo adicional.
+      e4CurrentHp80:
+        text: E4 Mejora de PEN RES por PV propios ≥ 80%
+        content: Cuando el porcentaje de PV es igual o superior al 80%, su PEN de la RES a Hielo aumenta en un 12%.
+  Yukong:
+    Content:
+      teamImaginaryDmgBoost:
+        text: Aumento de daño Imaginario al equipo
+        content: Cuando Yukong está en la batalla, el Daño Imaginario que infligen todos los aliados aumenta en un 12%.
+      roaringBowstringsActive:
+        text: Sonido de cuerda
+        content: "Cuando Yukong tiene Sonido de cuerda, el ATQ de todos los aliados aumenta en un {{skillAtkBuffValue}}%.::BR::E4: Cuando tiene Sonido de cuerda, el daño que inflige Yukong aumenta en un 30%."
+      ultBuff:
+        text: Mejoras de PC / DC de Definitiva
+        content: >-
+          Tras usar la habilidad definitiva, si Yukong tiene Sonido de cuerda, la Prob. CRIT de todos los aliados aumenta en un {{ultCrBuffValue}}% y el Daño CRIT en un {{ultCdBuffValue}}%. Además, inflige a un enemigo un Daño Imaginario equivalente al {{ultScaling}}% del ATQ de Yukong.
+      initialSpeedBuff:
+        text: E1 Mejora de VEL inicial
+        content: Al entrar en combate, la VEL de todos los aliados aumenta en un 10% durante 2 turnos.
+  Yunli:
+    Content:
+      blockActive:
+        text: Bloqueo activado
+        content: En el estado de Bloqueo, resiste los estados negativos de Control que reciba y reduce el daño recibido en un 20%.
+      ultCull:
+        text: "Capción: Exterminio activada"
+        content: >-
+          Capción: Exterminio: Yunli inflige un {{CullScaling}}% de su ATQ como Daño Físico a un enemigo y un {{CullAdjacentScaling}}% de su ATQ como Daño Físico a los enemigos adyacentes, y a continuación inflige daño 6 veces más. Cada vez, inflige un {{CullAdditionalScaling}}% del ATQ de Yunli como Daño Físico a un enemigo al azar.
+      ultCullHits:
+        text: "Golpes de\nCapción: Exterminio"
+        content: >-
+          Capción: Exterminio: Yunli inflige un {{CullScaling}}% de su ATQ como Daño Físico a un enemigo y un {{CullAdjacentScaling}}% de su ATQ como Daño Físico a los enemigos adyacentes, y a continuación inflige daño 6 veces más. Cada vez, inflige un {{CullAdditionalScaling}}% del ATQ de Yunli como Daño Físico a un enemigo al azar.
+      counterAtkBuff:
+        text: Mejora de ATQ de Contraataque
+        content: Al lanzar un contraataque, el ATQ de Yunli aumenta en un 30% durante 1 turno.
+      e1UltBuff:
+        text: E1 Mejora de Definitiva
+        content: "El daño que infligen Capción: Sajadura y Capción: Exterminio aumenta en un 20%, y las veces adicionales que Capción: Exterminio inflige daño aumentan en 3."
+      e2DefShred:
+        text: E2 PEN DEF de ataque adicional
+        content: Cuando inflige daño con un contraataque, ignora un 20% de la DEF del enemigo.
+      e4ResBuff:
+        text: E4 Mejora de RES
+        content: "Después de lanzar Capción: Sajadura o Capción: Exterminio, su RES a efecto aumenta en un 50% durante 1 turno."
+      e6Buffs:
+        text: E6 Mejoras
+        content: >-
+          Si el enemigo lanza una habilidad por iniciativa propia mientras dura el estado de Bloqueo, Capción: Exterminio se activa independientemente de si ataca a Yunli o no, y el efecto de Bloqueo se disipa. Cuando inflige daño al lanzar Capción: Exterminio o Capción: Sajadura, su Prob. CRIT aumenta en un 15% y su PEN de la RES a Físico aumenta en un 20%.

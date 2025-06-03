@@ -302,14 +302,15 @@ function autosave() {
 
 export function importOptimizerBuild() {
   const selectedRow = window.optimizerGrid.current!.api.getSelectedRows()[0] as OptimizerDisplayData
+  const t = i18next.getFixedT(null, 'optimizerTab', 'StatSimulation')
 
   if (!selectedRow) {
-    Message.warning(i18next.t('optimizerTab:StatSimulation.NothingToImport'))// 'Run the optimizer first, then select a row from the optimizer results to import'
+    Message.warning(t('NothingToImport'))// 'Run the optimizer first, then select a row from the optimizer results to import'
     return
   }
 
   if (selectedRow.statSim) {
-    Message.warning(i18next.t('optimizerTab:StatSimulation.BuildAlreadyImported'))// 'The selected optimizer build is already a simulation'
+    Message.warning(t('BuildAlreadyImported'))// 'The selected optimizer build is already a simulation'
     return
   }
 

@@ -124,7 +124,7 @@ export function getShowcaseDisplayDimensions(character: Character, simScore: boo
 
   const charCenter = DB.getMetadata().characters[character.id].imageCenter
   // @ts-ignore Some APIs return empty light cone as '0'
-  const lcCenter = (character.form.lightCone && character.form.lightCone != '0')
+  const lcCenter = (character.form.lightCone && character.form.lightCone != '0' && DB.getMetadata().lightCones[character.form.lightCone])
     ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter
     : 0
 
@@ -247,21 +247,21 @@ export function handleTeamSelection(
 }
 
 export function getShowcaseMetadata(character: Character) {
-  const t = i18next.getFixedT(null, ['charactersTab', 'modals', 'common'])
+  const t = i18next.getFixedT(null, 'gameData')
 
   const characterId = character.form.characterId
   const characterMetadata = DB.getMetadata().characters[characterId]
   const characterElement = characterMetadata.element
   const characterLevel = 80
   const characterEidolon = character.form.characterEidolon
-  const characterName = characterId ? t(`gameData:Characters.${characterId}.Name` as never) : ''
+  const characterName = characterId ? t(`Characters.${characterId}.Name`) : ''
   const characterPath = characterMetadata.path
 
   const lightConeId = character.form.lightCone
   const lightConeLevel = 80
   const lightConeSuperimposition = character.form.lightConeSuperimposition
   const lightConeMetadata = DB.getMetadata().lightCones[lightConeId]
-  const lightConeName = lightConeId ? t(`gameData:Lightcones.${lightConeId}.Name` as never) : ''
+  const lightConeName = lightConeId ? t(`Lightcones.${lightConeId}.Name`) : ''
   const lightConeSrc = Assets.getLightConePortrait(lightConeMetadata) || ''
 
   const elementalDmgType = ElementToDamage[characterElement]

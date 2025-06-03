@@ -4,7 +4,7 @@ import { useDelayedProps } from 'hooks/useDelayedProps'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
-import { useAsyncSimScoringExecution } from 'lib/characterPreview/UseAsyncSimScoringExecution'
+import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 

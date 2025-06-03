@@ -13,6 +13,7 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
   private key: string
   private isNumber: boolean
   private defaultActivationValue: boolean | number
+  private disableFn: (comboState: ComboState) => boolean
 
   defaultState = { stacks: 0 }
   state = { ...this.defaultState }
@@ -28,6 +29,7 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
       maxStacks?: number
       defaultActivationValue?: boolean | number
       activationFn: ((comboState: ComboState, key: string, index: number, value: boolean) => void) | ((comboState: ComboState, key: string, index: number, value: number) => void)
+      disableFn?: (comboState: ComboState) => boolean
     },
   ) {
     super()
@@ -41,6 +43,7 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
     this.maxStacks = options.maxStacks ?? 1
     this.defaultActivationValue = options.defaultActivationValue ?? (this.isNumber ? 0 : false)
     this.activationFn = options.activationFn as (comboState: ComboState, key: string, index: number, value: boolean | number) => void
+    this.disableFn = options.disableFn ?? ((comboState: ComboState) => false)
   }
 
   reset() {
@@ -49,6 +52,8 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
 
   processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
     const { kind } = turnAbility
+
+    if (this.disableFn(comboState)) return
 
     // Handle consume ability
     if (this.consumeKinds.includes(kind)) {

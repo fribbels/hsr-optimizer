@@ -13,7 +13,7 @@ export function ReliquaryDescription(): ReactElement {
         )
         <ul>
           {/* <li><b style={{ color: '#ffaa4f' }}>{t('OfflineMsg', { version: 3.2 })}</b></li> */}
-          <li><b style={{ color: '#82e192' }}>{t('OnlineMsg', { version: '3.2' })}</b></li>
+          <li><b style={{ color: '#82e192' }}>{t('OnlineMsg', { version: '3.3' })}</b></li>
           <li>{t('l1')/* Inaccurate speed decimals, 5-10 minutes OCR scan */}</li>
           <li>{t('l2')/* Imports full inventory and character roster */}</li>
         </ul>

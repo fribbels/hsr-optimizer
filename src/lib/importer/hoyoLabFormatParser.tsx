@@ -1,4 +1,4 @@
-import { Constants, MainStats, Parts, Sets, StatsValues, SubStats } from 'lib/constants/constants'
+import { Constants, MainStats, Parts, StatsValues, SubStats } from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'

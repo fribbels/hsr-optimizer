@@ -58,5 +58,6 @@ export const useShowcaseTabStore = create<ShowcaseTabState>()((set) => ({
     console.log('selectionChange', selected)
     return { selectedCharacter: s.availableCharacters?.find((x) => x.id === selected) ?? null }
   }),
-
 }))
+
+// Its this file

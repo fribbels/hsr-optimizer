@@ -6,19 +6,29 @@ import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import { INTO_THE_UNREACHABLE_VEIL, JADE, LINGSHA, SCENT_ALONE_STAYS_TRUE, STELLE_REMEMBRANCE, THE_HERTA, VICTORY_IN_A_BLINK, YET_HOPE_IS_PRICELESS } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  INTO_THE_UNREACHABLE_VEIL,
+  JADE,
+  LINGSHA,
+  SCENT_ALONE_STAYS_TRUE,
+  STELLE_REMEMBRANCE,
+  THE_HERTA,
+  VICTORY_IN_A_BLINK,
+  YET_HOPE_IS_PRICELESS
+} from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
 import { BenchmarkSetting } from 'lib/tabs/tabBenchmarks/BenchmarkSettings'
 import { handleBenchmarkFormSubmit, handleCharacterSelectChange } from 'lib/tabs/tabBenchmarks/benchmarksTabController'
 import { CharacterEidolonFormRadio } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
 import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
-import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
+import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormSetConditionals'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
+import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import { CenteredImage } from 'lib/ui/CenteredImage'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { CustomHorizontalDivider } from 'lib/ui/Dividers'
@@ -94,7 +104,7 @@ export default function BenchmarksTab(): ReactElement {
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmark-generator.md'
       />
 
-      <Card style={{ width: 900, marginBottom: 30 }}>
+      <Card style={{ width: 900, marginBottom: 8 }}>
         <AntDForm
           form={benchmarkForm}
           initialValues={initialForm}
@@ -103,6 +113,8 @@ export default function BenchmarksTab(): ReactElement {
           <BenchmarkInputs/>
         </AntDForm>
       </Card>
+
+      <DPSScoreDisclaimer style={{ marginBottom: 8, width: '100%' }}/>
 
       <BenchmarkResults/>
 

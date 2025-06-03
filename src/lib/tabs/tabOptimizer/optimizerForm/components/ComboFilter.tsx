@@ -3,6 +3,7 @@ import { Button, Flex, Form, Input, Popconfirm, Radio } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
 import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
+import { Hint } from 'lib/interactions/hint'
 import { ComboType, getDefaultComboTurnAbilities } from 'lib/optimization/rotation/comboStateTransform'
 import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME, TurnAbilityName, WHOLE_BASIC } from 'lib/optimization/rotation/turnAbilityConfig'
 import DB from 'lib/state/db'
@@ -12,6 +13,7 @@ import { TurnAbilitySelector, TurnAbilitySelectorSimple } from 'lib/tabs/tabOpti
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { OptimizerForm } from 'types/form'
@@ -39,7 +41,10 @@ export const ComboFilters = () => {
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
-      <HeaderText>{t('Header')/* Rotation COMBO formula */}</HeaderText>
+      <Flex justify='space-between' align='center'>
+        <HeaderText>{t('Header')/* Rotation COMBO formula */}</HeaderText>
+        <TooltipImage type={Hint.comboFilters()}/>
+      </Flex>
       <Form.Item name='comboType'>
         <Radio.Group
           size='small'

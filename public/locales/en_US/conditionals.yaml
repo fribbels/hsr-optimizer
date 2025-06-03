@@ -475,7 +475,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: '≤ 2 enemies CR buff'
+        text: "≤ 2 enemies CR buff"
         content: If there are 2 or fewer enemies on the field, increases wearer's CRIT Rate by {{CritBuff}}%.
   PastAndFuture:
     Content:
@@ -541,7 +541,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: '≥ 2 weakness targets CD buff'
+        text: "≥ 2 weakness targets CD buff"
         content: When the wearer uses an attack and at least 2 attacked enemies have the corresponding Weakness, the wearer's CRIT DMG increases by {{CritBuff}}% for 2 turns.
   TheGreatCosmicEnterprise:
     Content:

@@ -496,7 +496,7 @@ Lightcones:
     Content:
       cdBuff:
         text: crwdns40490:0crwdne40490:0
-        content: 'crwdns44046:0{{CritBuff}}crwdne44046:0'
+        content: "crwdns44046:0{{CritBuff}}crwdne44046:0"
   PostOpConversation:
     Content:
       postUltHealingBoost:
@@ -786,10 +786,10 @@ Characters:
     Content:
       skillExtraDmgHits:
         text: crwdns40674:0crwdne40674:0
-        content: 'crwdns44460:0{{skillScaling}}crwdnd44460:0{{skillExtraDmgHitsMax}}crwdnd44460:0{{skillScaling}}crwdnd44460:0:BR:crwdnd44460:0:E1:crwdne44460:0'
+        content: "crwdns44460:0{{skillScaling}}crwdnd44460:0{{skillExtraDmgHitsMax}}crwdnd44460:0{{skillScaling}}crwdnd44460:0:BR:crwdnd44460:0:E1:crwdne44460:0"
       talentBuffStacks:
         text: crwdns40678:0crwdne40678:0
-        content: 'crwdns40680:0{{talentStacksAtkBuff}}crwdnd40680:0:BR:crwdnd40680:0:E4:crwdne40680:0'
+        content: "crwdns40680:0{{talentStacksAtkBuff}}crwdnd40680:0:BR:crwdnd40680:0:E4:crwdne40680:0"
       ultSpdBuff:
         text: crwdns40682:0crwdne40682:0
         content: crwdns44080:0{{ultSpdBuffValue}}crwdne44080:0
@@ -1515,7 +1515,7 @@ Characters:
         content: crwdns41346:0crwdne41346:0
       skillRemovedBuff:
         text: crwdns41348:0crwdne41348:0
-        content: 'crwdns44208:0:BR:crwdnd44208:0:E2:crwdne44208:0'
+        content: "crwdns44208:0:BR:crwdnd44208:0:E2:crwdne44208:0"
       ultDefPenDebuff:
         text: crwdns41352:0crwdne41352:0
         content: crwdns44210:0{{ultDefPenValue}}crwdne44210:0
@@ -1639,7 +1639,7 @@ Characters:
           crwdns44230:0{{buffedStateDmgBuff}}crwdnd44230:0:BR:crwdne44230:0
       speedBoostStacks:
         text: crwdns41484:0crwdne41484:0
-        content: 'crwdns44464:0:BR:crwdnd44464:0:E2:crwdne44464:0'
+        content: "crwdns44464:0:BR:crwdnd44464:0:E2:crwdne44464:0"
       e1EnemyHp80CrBoost:
         text: crwdns41488:0crwdne41488:0
         content: crwdns44412:0crwdne44412:0
@@ -1786,7 +1786,7 @@ Characters:
         content: crwdns41602:0crwdne41602:0
       ultDmgBuff:
         text: crwdns41604:0crwdne41604:0
-        content: 'crwdns44422:0{{ultDmgBoost}}crwdnd44422:0:BR:crwdnd44422:0:E6:crwdne44422:0'
+        content: "crwdns44422:0{{ultDmgBoost}}crwdnd44422:0:BR:crwdnd44422:0:E6:crwdne44422:0"
       ultSpdBuff:
         text: crwdns41608:0crwdne41608:0
         content: crwdns44424:0crwdne44424:0
@@ -2002,7 +2002,7 @@ Characters:
         content: crwdns44292:0crwdne44292:0
       e4ResBuff:
         text: crwdns41768:0crwdne41768:0
-        content: 'crwdns44294:0crwdne44294:0'
+        content: "crwdns44294:0crwdne44294:0"
       e6Buffs:
         text: crwdns41772:0crwdne41772:0
         content: >-

@@ -1,26 +1,26 @@
-BetaMessage: "Current version: {{Version}} - Calculations are subject to change."
+BetaMessage: 'Current version: {{Version}} - Calculations are subject to change.'
 Common:
   BuffPriority:
-    Text: "Buff priority target"
-    Content: "Select the preferred recipient for single target buffs"
-    Self: "Buff priority: Self"
-    Memo: "Buff priority: Memo"
+    Text: 'Buff priority target'
+    Content: 'Select the preferred recipient for single target buffs'
+    Self: 'Buff priority: Self'
+    Memo: 'Buff priority: Memo'
   HealAbility:
-    Text: "Healing ability"
-    Content: "Select the ability for heal calculations"
-    Basic: "Healing ability: Basic"
-    Skill: "Healing ability: Skill"
-    Ult: "Healing ability: Ult"
-    Talent: "Healing ability: Talent"
-    Trace: "Healing ability: Trace"
+    Text: 'Healing ability'
+    Content: 'Select the ability for heal calculations'
+    Basic: 'Healing ability: Basic'
+    Skill: 'Healing ability: Skill'
+    Ult: 'Healing ability: Ult'
+    Talent: 'Healing ability: Talent'
+    Trace: 'Healing ability: Trace'
   ShieldAbility:
-    Text: "Shielding ability"
-    Content: "Select the ability for shield calculations"
-    Basic: "Shielding ability: Basic"
-    Skill: "Shielding ability: Skill"
-    Ult: "Shielding ability: Ult"
-    Talent: "Shielding ability: Talent"
-    Trace: "Shielding ability: Trace"
+    Text: 'Shielding ability'
+    Content: 'Select the ability for shield calculations'
+    Basic: 'Shielding ability: Basic'
+    Skill: 'Shielding ability: Skill'
+    Ult: 'Shielding ability: Ult'
+    Talent: 'Shielding ability: Talent'
+    Trace: 'Shielding ability: Trace'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -181,7 +181,7 @@ Lightcones:
           After the wearer uses an attack, there is a 120% base chance to inflict the "Bamboozle" state on every enemy target, reducing their DEF by {{DefShred}}% for 2 turns. ::BR:: If the wearer's SPD is higher than or equal to 170, there is a 120% base chance to inflict the "Theft" state on every enemy target, further reducing their def by {{AdditionalDefShred}}% for 2 turns.
     TeammateContent:
       additionalDefPen:
-        text: "SPD > 170"
+        text: 'SPD > 170'
         content: >-
           After the wearer uses an attack, there is a 120% base chance to inflict the "Bamboozle" state on every enemy target, reducing their DEF by {{DefShred}}% for 2 turns. ::BR:: If the wearer's SPD is higher than or equal to 170, there is a 120% base chance to inflict the "Theft" state on every enemy target, further reducing their def by {{AdditionalDefShred}}% for 2 turns.
   LifeShouldBeCastToFlames:
@@ -475,7 +475,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: "≤ 2 enemies CR buff"
+        text: '≤ 2 enemies CR buff'
         content: If there are 2 or fewer enemies on the field, increases wearer's CRIT Rate by {{CritBuff}}%.
   PastAndFuture:
     Content:
@@ -541,7 +541,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: "≥ 2 weakness targets CD buff"
+        text: '≥ 2 weakness targets CD buff'
         content: When the wearer uses an attack and at least 2 attacked enemies have the corresponding Weakness, the wearer's CRIT DMG increases by {{CritBuff}}% for 2 turns.
   TheGreatCosmicEnterprise:
     Content:
@@ -860,7 +860,7 @@ Characters:
     Content:
       enhancedStateActive:
         text: Hellscape state
-        content: "Increases DMG by {{enhancedStateDmgBoost}}% and his Basic ATK Shard Sword is enhanced to Forest of Swords for 3 turns.::BR::E2: Increases CRIT Rate by 15%."
+        content: 'Increases DMG by {{enhancedStateDmgBoost}}% and his Basic ATK Shard Sword is enhanced to Forest of Swords for 3 turns.::BR::E2: Increases CRIT Rate by 15%.'
       hpPercentLostTotal:
         text: HP% lost total
         content: Ultimate DMG scales off of the tally of Blade's HP loss in the current battle. The tally of Blade's HP loss in the current battle is capped at {{hpPercentLostTotalMax}}% of his Max HP.
@@ -1970,7 +1970,7 @@ Characters:
         content: When Yukong is on the field, Imaginary DMG dealt by all allies increases by 12%.
       roaringBowstringsActive:
         text: Roaring Bowstrings
-        content: "When Roaring Bowstrings is active, the ATK of all allies increases by {{skillAtkBuffValue}}%.::BR::E4: When Roaring Bowstrings is active, Yukong deals 30% more DMG to enemies."
+        content: 'When Roaring Bowstrings is active, the ATK of all allies increases by {{skillAtkBuffValue}}%.::BR::E4: When Roaring Bowstrings is active, Yukong deals 30% more DMG to enemies.'
       ultBuff:
         text: Ult CR / CD buffs
         content: >-
@@ -1984,11 +1984,11 @@ Characters:
         text: Parry active
         content: While in the Parry state, resists Crowd Control debuffs received and reduces DMG received by 20%.
       ultCull:
-        text: "Intuit: Cull enabled"
+        text: 'Intuit: Cull enabled'
         content: >-
           Intuit: Cull: Deals Physical DMG equal to {{CullScaling}}% of Yunli's ATK to the target, and deals Physical DMG equal to {{CullAdjacentScaling}}% of Yunli's ATK to adjacent targets. Then, additionally deals 6 instances of DMG, each dealing Physical DMG equal to {{CullAdditionalScaling}}% of Yunli's ATK to a random single enemy.
       ultCullHits:
-        text: "Intuit: Cull hits"
+        text: 'Intuit: Cull hits'
         content: >-
           Intuit: Cull: Deals Physical DMG equal to {{CullScaling}}% of Yunli's ATK to the target, and deals Physical DMG equal to {{CullAdjacentScaling}}% of Yunli's ATK to adjacent targets. Then, additionally deals 6 instances of DMG, each dealing Physical DMG equal to {{CullAdditionalScaling}}% of Yunli's ATK to a random single enemy.
       counterAtkBuff:
@@ -1996,7 +1996,7 @@ Characters:
         content: When using a Counter, increases Yunli's ATK by 30%, lasting for 1 turn.
       e1UltBuff:
         text: E1 Ult buff
-        content: "Increases DMG dealt by Intuit: Slash and Intuit: Cull by 20%. Increases the number of additional DMG instances for Intuit: Cull by 3."
+        content: 'Increases DMG dealt by Intuit: Slash and Intuit: Cull by 20%. Increases the number of additional DMG instances for Intuit: Cull by 3.'
       e2DefShred:
         text: E2 FUA DEF PEN
         content: When dealing DMG via Counter, ignores 20% of the target's DEF.

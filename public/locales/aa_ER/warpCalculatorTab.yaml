@@ -10,12 +10,12 @@ StrategyLabels:
 RefundLabels:
   REFUND_NONE: crwdns44909:0crwdne44909:0
   REFUND_NONE_FULL: crwdns44911:0crwdne44911:0
-  REFUND_LOW: "crwdns44913:0{{Percentage}}crwdne44913:0"
-  REFUND_LOW_FULL: "crwdns44915:0{{Percentage}}crwdne44915:0"
-  REFUND_AVG: "crwdns44917:0{{Percentage}}crwdne44917:0"
-  REFUND_AVG_FULL: "crwdns44919:0{{Percentage}}crwdne44919:0"
-  REFUND_HIGH: "crwdns44921:0{{Percentage}}crwdne44921:0"
-  REFUND_HIGH_FULL: "crwdns44923:0{{Percentage}}crwdne44923:0"
+  REFUND_LOW: 'crwdns44913:0{{Percentage}}crwdne44913:0'
+  REFUND_LOW_FULL: 'crwdns44915:0{{Percentage}}crwdne44915:0'
+  REFUND_AVG: 'crwdns44917:0{{Percentage}}crwdne44917:0'
+  REFUND_AVG_FULL: 'crwdns44919:0{{Percentage}}crwdne44919:0'
+  REFUND_HIGH: 'crwdns44921:0{{Percentage}}crwdne44921:0'
+  REFUND_HIGH_FULL: 'crwdns44923:0{{Percentage}}crwdne44923:0'
 EidolonLevels:
   NONE: crwdns44840:0crwdne44840:0
   E0: crwdns44842:0crwdne44842:0
@@ -33,7 +33,7 @@ SuperimpositionLevels:
   S4: crwdns44864:0crwdne44864:0
   S5: crwdns44866:0crwdne44866:0
 IncomeOptions:
-  Label: "crwdns44580:0{{versionNumber}}crwdnd44580:0{{phaseNumber}}crwdnd44580:0{{type}}crwdne44580:0"
+  Label: 'crwdns44580:0{{versionNumber}}crwdnd44580:0{{phaseNumber}}crwdnd44580:0{{type}}crwdne44580:0'
   Type:
     0: crwdns44526:0crwdne44526:0
     1: crwdns44528:0crwdne44528:0
@@ -43,7 +43,7 @@ PityCounter:
   PityCounter: crwdns44534:0crwdne44534:0
   CurrentEidolonSuperImp: crwdns44868:0crwdne44868:0
   Guaranteed: crwdns44536:0crwdne44536:0
-TotalAvailable: "crwdns44538:0crwdne44538:0"
+TotalAvailable: 'crwdns44538:0crwdne44538:0'
 SectionTitles:
   Planner: crwdns44540:0crwdne44540:0
   Results: crwdns44542:0crwdne44542:0
@@ -61,6 +61,6 @@ SectionTitles:
   Calculate: crwdns44558:0crwdne44558:0
 ColumnTitles:
   Goal: crwdns44560:0crwdne44560:0
-  Chance: "crwdns44562:0{{ticketCount}}crwdne44562:0"
-  Average: "crwdns44564:0crwdne44564:0"
+  Chance: 'crwdns44562:0{{ticketCount}}crwdne44562:0'
+  Average: 'crwdns44564:0crwdne44564:0'
 TargetLabel: 'crwdns44566:0$t(common:EidolonNShort, {"eidolon": {{eidolon}}})crwdnd44566:0$t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})crwdne44566:0'

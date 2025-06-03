@@ -17,31 +17,31 @@ jobs:
         with:
           find: "\"homepage\": \"https://fribbels.github.io/hsr-optimizer\""
           replace: "\"homepage\": \"https://starrailoptimizer.github.io\""
-          include: "package.json"
+          include: 'package.json'
       - name: Find and Replace vite page
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "base: '/hsr-optimizer'"
           replace: "base: ''"
-          include: "vite.config.ts"
+          include: 'vite.config.ts'
       - name: Find and Replace router path
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "const BASE_PATH: BasePath = BasePath.MAIN"
+          find: 'const BASE_PATH: BasePath = BasePath.MAIN'
           replace: "const BASE_PATH = ''"
-          include: "src/lib/state/db.ts"
+          include: 'src/lib/state/db.ts'
       - name: Find and Replace Beta header
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "Fribbels Honkai Star Rail Optimizer"
-          replace: "Fribbels Honkai Star Rail Optimizer (No leaks)"
-          include: "src/lib/layout/LayoutHeader.tsx"
+          find: 'Fribbels Honkai Star Rail Optimizer'
+          replace: 'Fribbels Honkai Star Rail Optimizer (No leaks)'
+          include: 'src/lib/layout/LayoutHeader.tsx'
       - name: Find and Replace officialOnly
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "export const officialOnly = false"
-          replace: "export const officialOnly = true"
-          include: "src/lib/constants/constants.ts"
+          find: 'export const officialOnly = false'
+          replace: 'export const officialOnly = true'
+          include: 'src/lib/constants/constants.ts'
       - run: rm -rf .github/workflows
       - run: mv .github/starrailoptimizer .github/workflows
       - name: Pushes to another repository
@@ -49,7 +49,7 @@ jobs:
         env:
           SSH_DEPLOY_KEY: ${{ secrets.STAR_RAIL_OPTIMIZER_SSH_DEPLOY_KEY }}
         with:
-          source-directory: "."
-          destination-github-username: "starrailoptimizer"
-          destination-repository-name: "starrailoptimizer.github.io"
+          source-directory: '.'
+          destination-github-username: 'starrailoptimizer'
+          destination-repository-name: 'starrailoptimizer.github.io'
           target-branch: main

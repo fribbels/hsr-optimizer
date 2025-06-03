@@ -3,13 +3,13 @@
     IMPORT:
       SuccessMessage: 選擇導入方法，然后導入你的遺器和角色
     Body_MAIN:
-      SuccessMessage: "已清除$t(common:Parts.Body)的主屬性篩選條件"
+      SuccessMessage: '已清除$t(common:Parts.Body)的主屬性篩選條件'
     Feet_MAIN:
-      SuccessMessage: "已清除$t(common:Parts.Feet)的主屬性篩選條件"
+      SuccessMessage: '已清除$t(common:Parts.Feet)的主屬性篩選條件'
     PlanarSphere_MAIN:
-      SuccessMessage: "已清除$t(common:Parts.PlanarSphere)的主屬性篩選條件"
+      SuccessMessage: '已清除$t(common:Parts.PlanarSphere)的主屬性篩選條件'
     LinkRope_MAIN:
-      SuccessMessage: "已清除$t(common:Parts.LinkRope)的主屬性篩選條件"
+      SuccessMessage: '已清除$t(common:Parts.LinkRope)的主屬性篩選條件'
     RELIC_SETS:
       SuccessMessage: 已清除遺器套裝篩選條件
     ORNAMENT_SETS:
@@ -17,7 +17,7 @@
     KEEP_CURRENT:
       SuccessMessage: 已禁用“保持當前遺器”
     PRIORITY:
-      SuccessMessage: "已將角色優先級移至第1位"
+      SuccessMessage: '已將角色優先級移至第1位'
     EXCLUDE_ENABLED:
       SuccessMessage: 已清除被排除的角色
     EQUIPPED_DISABLED:
@@ -29,127 +29,127 @@
     SuccessMessage: 已清除所有篩選條件
   RootCauses:
     StatView:
-      SuccessMessage: "已切換至戰鬥內屬性視角"
+      SuccessMessage: '已切換至戰鬥內屬性視角'
     MAX_HP:
-      SuccessMessage: "已重設最大$t(common:Stats.HP)的篩選條件"
-      ButtonText: "已重設最大$t(common:Stats.HP)的篩選條件"
+      SuccessMessage: '已重設最大$t(common:Stats.HP)的篩選條件'
+      ButtonText: '已重設最大$t(common:Stats.HP)的篩選條件'
     MIN_HP:
-      SuccessMessage: "已重設最小$t(common:Stats.HP)的篩選條件"
-      ButtonText: "已重設最小$t(common:Stats.HP)的篩選條件"
+      SuccessMessage: '已重設最小$t(common:Stats.HP)的篩選條件'
+      ButtonText: '已重設最小$t(common:Stats.HP)的篩選條件'
     MAX_ATK:
-      SuccessMessage: "已重設最大$t(common:Stats.ATK)的篩選條件"
-      ButtonText: "已重設最大$t(common:Stats.ATK)的篩選條件"
+      SuccessMessage: '已重設最大$t(common:Stats.ATK)的篩選條件'
+      ButtonText: '已重設最大$t(common:Stats.ATK)的篩選條件'
     MIN_ATK:
-      SuccessMessage: "已重設最小$t(common:Stats.ATK)的篩選條件"
-      ButtonText: "已重設最小$t(common:Stats.ATK)的篩選條件"
+      SuccessMessage: '已重設最小$t(common:Stats.ATK)的篩選條件'
+      ButtonText: '已重設最小$t(common:Stats.ATK)的篩選條件'
     MAX_DEF:
-      SuccessMessage: "已重設最大$t(common:Stats.DEF)的篩選條件"
-      ButtonText: "已重設最大$t(common:Stats.DEF)的篩選條件"
+      SuccessMessage: '已重設最大$t(common:Stats.DEF)的篩選條件'
+      ButtonText: '已重設最大$t(common:Stats.DEF)的篩選條件'
     MIN_DEF:
-      SuccessMessage: "已重設最小$t(common:Stats.DEF)的篩選條件"
-      ButtonText: "已重設最小$t(common:Stats.DEF)的篩選條件"
+      SuccessMessage: '已重設最小$t(common:Stats.DEF)的篩選條件'
+      ButtonText: '已重設最小$t(common:Stats.DEF)的篩選條件'
     MAX_SPD:
-      SuccessMessage: "已重設最大$t(common:Stats.SPD)的篩選條件"
-      ButtonText: "已重設最大$t(common:Stats.SPD)的篩選條件"
+      SuccessMessage: '已重設最大$t(common:Stats.SPD)的篩選條件'
+      ButtonText: '已重設最大$t(common:Stats.SPD)的篩選條件'
     MIN_SPD:
-      SuccessMessage: "已重設最小$t(common:Stats.SPD)的篩選條件"
-      ButtonText: "已重設最小$t(common:Stats.SPD)的篩選條件"
+      SuccessMessage: '已重設最小$t(common:Stats.SPD)的篩選條件'
+      ButtonText: '已重設最小$t(common:Stats.SPD)的篩選條件'
     MAX_CR:
-      SuccessMessage: "已重設最大$t(common:Stats.CRIT Rate)的篩選條件"
-      ButtonText: "已重設最大$t(common:Stats.CRIT Rate)的篩選條件"
+      SuccessMessage: '已重設最大$t(common:Stats.CRIT Rate)的篩選條件'
+      ButtonText: '已重設最大$t(common:Stats.CRIT Rate)的篩選條件'
     MIN_CR:
-      SuccessMessage: "已重設最小$t(common:Stats.CRIT Rate)的篩選條件"
-      ButtonText: "已重設最小$t(common:Stats.CRIT Rate)的篩選條件"
+      SuccessMessage: '已重設最小$t(common:Stats.CRIT Rate)的篩選條件'
+      ButtonText: '已重設最小$t(common:Stats.CRIT Rate)的篩選條件'
     MAX_CD:
-      SuccessMessage: "已重設最大$t(common:Stats.CRIT DMG)的篩選條件"
-      ButtonText: "已重設最大$t(common:Stats.CRIT DMG)的篩選條件"
+      SuccessMessage: '已重設最大$t(common:Stats.CRIT DMG)的篩選條件'
+      ButtonText: '已重設最大$t(common:Stats.CRIT DMG)的篩選條件'
     MIN_CD:
-      SuccessMessage: "已重設最小$t(common:Stats.CRIT DMG)的篩選條件"
-      ButtonText: "已重設最小$t(common:Stats.CRIT DMG)的篩選條件"
+      SuccessMessage: '已重設最小$t(common:Stats.CRIT DMG)的篩選條件'
+      ButtonText: '已重設最小$t(common:Stats.CRIT DMG)的篩選條件'
     MAX_EHR:
-      SuccessMessage: "已重設最大$t(common:Stats.Effect Hit Rate)的篩選條件"
-      ButtonText: "已重設最大$t(common:Stats.Effect Hit Rate)的篩選條件"
+      SuccessMessage: '已重設最大$t(common:Stats.Effect Hit Rate)的篩選條件'
+      ButtonText: '已重設最大$t(common:Stats.Effect Hit Rate)的篩選條件'
     MIN_EHR:
-      SuccessMessage: "已重設最小$t(common:Stats.Effect Hit Rate)的篩選條件"
-      ButtonText: "已重設最小$t(common:Stats.Effect Hit Rate)的篩選條件"
+      SuccessMessage: '已重設最小$t(common:Stats.Effect Hit Rate)的篩選條件'
+      ButtonText: '已重設最小$t(common:Stats.Effect Hit Rate)的篩選條件'
     MAX_RES:
-      SuccessMessage: "已重設最大$t(common:Stats.Effect RES)的篩選條件"
-      ButtonText: "已重設最大$t(common:Stats.Effect RES)的篩選條件"
+      SuccessMessage: '已重設最大$t(common:Stats.Effect RES)的篩選條件'
+      ButtonText: '已重設最大$t(common:Stats.Effect RES)的篩選條件'
     MIN_RES:
-      SuccessMessage: "已重設最小$t(common:Stats.Effect RES)的篩選條件"
-      ButtonText: "已重設最小$t(common:Stats.Effect RES)的篩選條件"
+      SuccessMessage: '已重設最小$t(common:Stats.Effect RES)的篩選條件'
+      ButtonText: '已重設最小$t(common:Stats.Effect RES)的篩選條件'
     MAX_BE:
-      SuccessMessage: "已重設最大$t(common:Stats.Break Effect)的篩選條件"
-      ButtonText: "已重設最大$t(common:Stats.Break Effect)的篩選條件"
+      SuccessMessage: '已重設最大$t(common:Stats.Break Effect)的篩選條件'
+      ButtonText: '已重設最大$t(common:Stats.Break Effect)的篩選條件'
     MIN_BE:
-      SuccessMessage: "已重設最小$t(common:Stats.Break Effect)的篩選條件"
-      ButtonText: "已重設最小$t(common:Stats.Break Effect)的篩選條件"
+      SuccessMessage: '已重設最小$t(common:Stats.Break Effect)的篩選條件'
+      ButtonText: '已重設最小$t(common:Stats.Break Effect)的篩選條件'
     MAX_ERR:
-      SuccessMessage: "已重設最大$t(common:Stats.Energy Regeneration Rate)的篩選條件"
-      ButtonText: "已重設最大$t(common:Stats.Energy Regeneration Rate)的篩選條件"
+      SuccessMessage: '已重設最大$t(common:Stats.Energy Regeneration Rate)的篩選條件'
+      ButtonText: '已重設最大$t(common:Stats.Energy Regeneration Rate)的篩選條件'
     MIN_ERR:
-      SuccessMessage: "已重設最小$t(common:Stats.Energy Regeneration Rate)的篩選條件"
-      ButtonText: "已重設最小$t(common:Stats.Energy Regeneration Rate)的篩選條件"
+      SuccessMessage: '已重設最小$t(common:Stats.Energy Regeneration Rate)的篩選條件'
+      ButtonText: '已重設最小$t(common:Stats.Energy Regeneration Rate)的篩選條件'
     MAX_EHP:
-      SuccessMessage: "已重設最大有效生命值的篩選條件"
-      ButtonText: "已重設最大有效生命值的篩選條件"
+      SuccessMessage: '已重設最大有效生命值的篩選條件'
+      ButtonText: '已重設最大有效生命值的篩選條件'
     MIN_EHP:
-      SuccessMessage: "已重設最小有效生命值的篩選條件"
-      ButtonText: "已重設最小有效生命值的篩選條件"
+      SuccessMessage: '已重設最小有效生命值的篩選條件'
+      ButtonText: '已重設最小有效生命值的篩選條件'
     MAX_BASIC:
-      SuccessMessage: "已重設最大普攻傷害的過濾條件"
-      ButtonText: "已重設最大普攻傷害的過濾條件"
+      SuccessMessage: '已重設最大普攻傷害的過濾條件'
+      ButtonText: '已重設最大普攻傷害的過濾條件'
     MIN_BASIC:
-      SuccessMessage: "已重設最小普攻傷害的過濾條件"
-      ButtonText: "已重設最小普攻傷害的過濾條件"
+      SuccessMessage: '已重設最小普攻傷害的過濾條件'
+      ButtonText: '已重設最小普攻傷害的過濾條件'
     MAX_SKILL:
-      SuccessMessage: "已重設最大戰技傷害的過濾條件"
-      ButtonText: "已重設最大戰技傷害的過濾條件"
+      SuccessMessage: '已重設最大戰技傷害的過濾條件'
+      ButtonText: '已重設最大戰技傷害的過濾條件'
     MIN_SKILL:
-      SuccessMessage: "已重設最小戰技傷害的過濾條件"
-      ButtonText: "已重設最小戰技傷害的過濾條件"
+      SuccessMessage: '已重設最小戰技傷害的過濾條件'
+      ButtonText: '已重設最小戰技傷害的過濾條件'
     MAX_ULT:
-      SuccessMessage: "已重設最大終結技傷害的過濾條件"
-      ButtonText: "已重設最大終結技傷害的過濾條件"
+      SuccessMessage: '已重設最大終結技傷害的過濾條件'
+      ButtonText: '已重設最大終結技傷害的過濾條件'
     MIN_ULT:
-      SuccessMessage: "已重設最小終結技傷害的過濾條件"
-      ButtonText: "已重設最小終結技傷害的過濾條件"
+      SuccessMessage: '已重設最小終結技傷害的過濾條件'
+      ButtonText: '已重設最小終結技傷害的過濾條件'
     MAX_FUA:
-      SuccessMessage: "已重設最大追加攻擊傷害的過濾條件"
-      ButtonText: "已重設最大追加攻擊傷害的過濾條件"
+      SuccessMessage: '已重設最大追加攻擊傷害的過濾條件'
+      ButtonText: '已重設最大追加攻擊傷害的過濾條件'
     MIN_FUA:
-      SuccessMessage: "已重設最小追加攻擊傷害的過濾條件"
-      ButtonText: "已重設最小追加攻擊傷害的過濾條件"
+      SuccessMessage: '已重設最小追加攻擊傷害的過濾條件'
+      ButtonText: '已重設最小追加攻擊傷害的過濾條件'
     MAX_DOT:
-      SuccessMessage: "已重設最大持續傷害的過濾條件"
-      ButtonText: "已重設最大持續傷害的過濾條件"
+      SuccessMessage: '已重設最大持續傷害的過濾條件'
+      ButtonText: '已重設最大持續傷害的過濾條件'
     MIN_DOT:
-      SuccessMessage: "已重設最小持續傷害的過濾條件"
-      ButtonText: "已重設最小持續傷害的過濾條件"
+      SuccessMessage: '已重設最小持續傷害的過濾條件'
+      ButtonText: '已重設最小持續傷害的過濾條件'
     MAX_BREAK:
-      SuccessMessage: "已重設最大擊破傷害的過濾條件"
-      ButtonText: "已重設最大擊破傷害的過濾條件"
+      SuccessMessage: '已重設最大擊破傷害的過濾條件'
+      ButtonText: '已重設最大擊破傷害的過濾條件'
     MIN_BREAK:
-      SuccessMessage: "已重設最小擊破傷害的過濾條件"
-      ButtonText: "已重設最小擊破傷害的過濾條件"
+      SuccessMessage: '已重設最小擊破傷害的過濾條件'
+      ButtonText: '已重設最小擊破傷害的過濾條件'
     MAX_HEAL:
-      SuccessMessage: "已重設最大治療量的過濾條件"
-      ButtonText: "已重設最大治療量的過濾條件"
+      SuccessMessage: '已重設最大治療量的過濾條件'
+      ButtonText: '已重設最大治療量的過濾條件'
     MIN_HEAL:
-      SuccessMessage: "已重設最小治療量的過濾條件"
-      ButtonText: "已重設最小治療量的過濾條件"
+      SuccessMessage: '已重設最小治療量的過濾條件'
+      ButtonText: '已重設最小治療量的過濾條件'
     MAX_SHIELD:
-      SuccessMessage: "已重設最大護盾值的過濾條件"
-      ButtonText: "已重設最大護盾值的過濾條件"
+      SuccessMessage: '已重設最大護盾值的過濾條件'
+      ButtonText: '已重設最大護盾值的過濾條件'
     MIN_SHIELD:
-      SuccessMessage: "已重設最小護盾值的過濾條件"
-      ButtonText: "已重設最小護盾值的過濾條件"
+      SuccessMessage: '已重設最小護盾值的過濾條件'
+      ButtonText: '已重設最小護盾值的過濾條件'
     MAX_COMBO:
-      SuccessMessage: "已重設最大連招傷害的過濾條件"
-      ButtonText: "已重設最大連招傷害的過濾條件"
+      SuccessMessage: '已重設最大連招傷害的過濾條件'
+      ButtonText: '已重設最大連招傷害的過濾條件'
     MIN_COMBO:
-      SuccessMessage: "已重設最小連招傷害的過濾條件"
-      ButtonText: "已重設最小連招傷害的過濾條件"
+      SuccessMessage: '已重設最小連招傷害的過濾條件'
+      ButtonText: '已重設最小連招傷害的過濾條件'
 EditCharacter:
   Character: 角色
 Relic:
@@ -157,10 +157,10 @@ Relic:
     EditSuccess: 成功編輯遺器
 Builds:
   ConfirmEquip:
-    SuccessMessage: "成功裝備配裝:{{buildName}}"
+    SuccessMessage: '成功裝備配裝:{{buildName}}'
   ConfirmDelete:
-    SuccessMessageAll: "成功刪除{{characterName}}的所有配裝"
-    SuccessMessageSingle: "成功刪除配裝:{{name}}"
+    SuccessMessageAll: '成功刪除{{characterName}}的所有配裝'
+    SuccessMessageSingle: '成功刪除配裝:{{name}}'
 ScoreFooter:
   ResetSuccessMsg: 已重設為預設隊伍
   SyncSuccessMsg: 已同步隊友

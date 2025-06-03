@@ -35,7 +35,7 @@ FeatureCards:
 Welcome: Welcome to the<1/>Fribbels Star Rail Optimizer
 SearchBar:
   Placeholder: UID
-  Label: "Enter your UID to view your showcase characters"
-  Api: "Uses Enka.Network"
+  Label: 'Enter your UID to view your showcase characters'
+  Api: 'Uses Enka.Network'
   Message: Invalid input - This should be your 9 digit ingame UUID
   Search: Search

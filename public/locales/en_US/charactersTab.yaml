@@ -35,12 +35,12 @@ Messages:
   RemoveSuccess: Successfully removed character
   UnequipSuccess: Successfully unequipped character
   NoSelectedCharacter: No selected character
-  SwitchSuccess: 'Successfully switched relics with $t(gameData:Characters.{{charId}}.Name)'
+  SwitchSuccess: "Successfully switched relics with $t(gameData:Characters.{{charId}}.Name)"
   SortByScoreWarning: Are you sure you want to sort all characters? You will lose any custom rankings you have set.
-  SaveSuccess: 'Successfully saved build: {{name}}'
-  UnequipWarning: 'Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?'
-  DeleteWarning: 'Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?'
-  BuildAlreadyExists: 'Build name {{name}} already exists'
+  SaveSuccess: "Successfully saved build: {{name}}"
+  UnequipWarning: "Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?"
+  DeleteWarning: "Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?"
+  BuildAlreadyExists: "Build name {{name}} already exists"
   ImageUploadFailed: Image upload failed
   InvalidFile: File is not a valid image file
 CharacterPreview:
@@ -50,8 +50,8 @@ CharacterPreview:
       ButtonText: Traces
     SpdPrecision:
       Header: SPD precision
-      Low: '.0'
-      High: '.000'
+      Low: ".0"
+      High: ".000"
     SpdWeight:
       Header: SPD weight
       Max: 100%
@@ -74,10 +74,10 @@ CharacterPreview:
       Standard: Standard
     PaletteLabel: Portrait color palette
     ShowUID: Show UID
-  ArtBy: 'Art by {{artistName}}'
+  ArtBy: "Art by {{artistName}}"
   EditCharacter: Edit character
   EditPortrait: Edit portrait
-  CharacterScore: 'Character Score: {{score}} {{grade}}'
+  CharacterScore: "Character Score: {{score}} {{grade}}"
   Messages:
     AddedRelic: Successfully added relic
     SavedPortrait: Successfully saved portrait
@@ -86,10 +86,10 @@ CharacterPreview:
     NoSelectedLightCone: No Selected light cone
   ScoreHeader:
     Title: Combat Sim
-    TitleBenchmark: '{{spd}} SPD Benchmark'
-    Score: 'DPS Score {{score}}% {{grade}}'
+    TitleBenchmark: "{{spd}} SPD Benchmark"
+    Score: "DPS Score {{score}}% {{grade}}"
   AlgorithmSlider:
-    Title: 'Scoring algorithm:'
+    Title: "Scoring algorithm:"
     Labels:
       CombatScore: Combat Score
       CombatScoreTBD: Combat (TBD)
@@ -103,7 +103,7 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: Substat upgrade comparisons
     MainStatHeader: Main stat upgrade comparisons
-    AddedRoll: '+1x roll {{stat}}'
+    AddedRoll: "+1x roll {{stat}}"
     MainStatUpgrade: Main Stat Upgrade
     SubStatUpgrade: Substat Upgrade
     DpsScorePercentUpgrade: DPS Score Δ %
@@ -130,16 +130,16 @@ CharacterPreview:
       FUA: FUA
       MEMO_SKILL: SKILLᴹ
       MEMO_TALENT: TALENTᴹ
-      DOTS: 'DOTS:'
-      BREAKS: 'BREAKS:'
+      DOTS: "DOTS:"
+      BREAKS: "BREAKS:"
     CombatResults:
       Header: Combat damage results
-      Primary: 'Primary ability:'
-      Character: 'Character DMG:'
-      Benchmark: 'Benchmark DMG:'
-      Baseline: 'Baseline DMG:'
-      Maximum: 'Maximum DMG:'
-      Score: 'DPS score %:'
+      Primary: "Primary ability:"
+      Character: "Character DMG:"
+      Benchmark: "Benchmark DMG:"
+      Baseline: "Baseline DMG:"
+      Maximum: "Maximum DMG:"
+      Score: "DPS score %:"
       Abilities:
         BASIC: BASIC DMG
         SKILL: SKILL DMG
@@ -155,21 +155,21 @@ CharacterPreview:
       SubDpsHeader: Combat buffs (Sub DPS)
   ScoringColumn:
     Character:
-      Header: 'Character build ({{score}}%)'
+      Header: "Character build ({{score}}%)"
       BasicStats: Character basic stats
       CombatStats: Character <1>combat stats</1>
       Substats: Character subs (min rolls)
       Mainstats: Character main stats
       Abilities: Character ability damage
     Benchmark:
-      Header: 'Benchmark build ({{score}}%)'
+      Header: "Benchmark build ({{score}}%)"
       BasicStats: 100% benchmark basic stats
       CombatStats: 100% benchmark <1>combat stats</1>
       Substats: 100% benchmark subs (min rolls)
       Mainstats: 100% benchmark main stats
       Abilities: 100% benchmark ability damage
     Perfect:
-      Header: 'Perfect build ({{score}}%)'
+      Header: "Perfect build ({{score}}%)"
       BasicStats: 200% perfect basic stats
       CombatStats: 200% perfect <1>combat stats</1>
       Substats: 200% perfect subs (max rolls)

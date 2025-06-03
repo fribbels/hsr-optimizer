@@ -107,9 +107,6 @@ Grid:
       ERR: 에충
       DMG: 데미지
       EHP: EHP
-      WEIGHT: |-
-        스텟
-        가중치
       HEAL: 치유량
       SHIELD: 실드량
       BASIC: |-
@@ -154,9 +151,6 @@ Grid:
       ERR: Σ 에충
       DMG: Σ 데미지
       EHP: EHP
-      WEIGHT: |-
-        스텟
-        가중치
       HEAL: 치유량
       SHIELD: 실드량
       BASIC: |-
@@ -229,6 +223,7 @@ Sidebar:
   ResultsGroup:
     Header: 결과
     Equip: 장착
+    EquipSuccessMessage: 장착 중
     Filter: 필터
     Pin: 빌드 고정
     Clear: 고정 해제
@@ -429,7 +424,7 @@ ComboFilter:
   CounterLabels:
     Dot: 지속 피해
   ComboOptions:
-    None: '없음'
+    None: "없음"
     Basic: 기본 공격
     Skill: 전투 스킬
     Ult: 필살기
@@ -535,7 +530,7 @@ StatSimulation:
 ExpandedDataPanel:
   SubstatUpgrades:
     ColumnHeaders:
-      Substat: '+1x 부 옵션'
+      Substat: "+1x 부 옵션"
       COMBO_DMG: Δ사이클 총 피해량
       COMBO_DMG_P: Δ%사이클 총 피해량
       EHP: Δ EHP
@@ -551,7 +546,7 @@ ExpandedDataPanel:
       breakDmg: 격파
       superBreakDmg: 슈퍼 격파
       additionalDmg: 추가
-      trueDmg: '확정'
+      trueDmg: "확정"
       jointDmg: 연계
       dotDmg: 지속피해
       memoDmg: 기억정령

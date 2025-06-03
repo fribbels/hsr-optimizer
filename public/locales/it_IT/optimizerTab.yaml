@@ -9,6 +9,8 @@ Sidebar:
       CPU: Motore di calcolo impostato su CPU
       Stable: Motore di calcolo impostato su GPU (Stabile)
       Experimental: Motore di calcolo impostato su GPU (Sperimentale)
+  ResultsGroup:
+    EquipSuccessMessage: Equipaggiato
 TeammateCard:
   TeammateSyncSuccessMessage: Informazioni compagno di squadra sincronizzate
 ExpandedDataPanel:

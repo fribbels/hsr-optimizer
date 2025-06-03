@@ -40,6 +40,9 @@ Messages:
   SaveSuccess: "Build salva com sucesso: {{name}}"
   UnequipWarning: "Você tem certeza que quer desequipar $t(gameData:Characters.{{charId}}.Name)?"
   DeleteWarning: "Você tem certeza que quer deletar $t(gameData:Characters.{{charId}}.Name)?"
+  BuildAlreadyExists: "Build nome {{name}} já existe"
+  ImageUploadFailed: Falha no envio da imagem
+  InvalidFile: Arquivo não é um arquivo de imagem válido
 CharacterPreview:
   ScoringSidebar:
     Stats:

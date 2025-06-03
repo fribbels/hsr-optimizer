@@ -107,9 +107,6 @@ Grid:
       ERR: ERR
       DMG: DANO
       EHP: EHP
-      WEIGHT: |-
-        PESO
-        ATR.
       HEAL: CURA
       SHIELD: ESCUDO
       BASIC: |-
@@ -154,9 +151,6 @@ Grid:
       ERR: Σ ERR
       DMG: Σ DANO
       EHP: EHP
-      WEIGHT: |-
-        PESO
-        ATR.
       HEAL: CURA
       SHIELD: ESCUDO
       BASIC: |-
@@ -229,6 +223,7 @@ Sidebar:
   ResultsGroup:
     Header: Resultados
     Equip: Equipar
+    EquipSuccessMessage: Equipado
     Filter: Filtro
     Pin: Builds fixadas
     Clear: Limpar fixados
@@ -429,7 +424,7 @@ ComboFilter:
   CounterLabels:
     Dot: DOTs
   ComboOptions:
-    None: 'Nenhum'
+    None: "Nenhum"
     Basic: Basic
     Skill: Skill
     Ult: Ult
@@ -535,7 +530,7 @@ StatSimulation:
 ExpandedDataPanel:
   SubstatUpgrades:
     ColumnHeaders:
-      Substat: '+1x Subatributo'
+      Substat: "+1x Subatributo"
       COMBO_DMG: Δ Dano Combo
       COMBO_DMG_P: Δ% Dano Combo
       EHP: '% EHP'
@@ -551,7 +546,7 @@ ExpandedDataPanel:
       breakDmg: Quebra
       superBreakDmg: Super Quebra
       additionalDmg: Adicional
-      trueDmg: 'Real'
+      trueDmg: "Real"
       jointDmg: Conjunto
       dotDmg: Dot
       memoDmg: Memo

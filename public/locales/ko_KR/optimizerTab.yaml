@@ -87,7 +87,7 @@ AdvancedOptions:
   CombatBuffsButtonText: '추가 전투 버프 ({{activeCount}})'
   CustomTracesButtonText: 행적 편집
 Grid:
-  To: '~'
+  To: "~"
   Of: /
   Page: 페이지
   PageSelectorLabel: '페이지 크기 :'
@@ -107,9 +107,6 @@ Grid:
       ERR: 에충
       DMG: 데미지
       EHP: EHP
-      WEIGHT: |-
-        스텟
-        가중치
       HEAL: 치유량
       SHIELD: 실드량
       BASIC: |-
@@ -154,9 +151,6 @@ Grid:
       ERR: Σ 에충
       DMG: Σ 데미지
       EHP: EHP
-      WEIGHT: |-
-        스텟
-        가중치
       HEAL: 치유량
       SHIELD: 실드량
       BASIC: |-
@@ -229,6 +223,7 @@ Sidebar:
   ResultsGroup:
     Header: 결과
     Equip: 장착
+    EquipSuccessMessage: 장착 중
     Filter: 필터
     Pin: 빌드 고정
     Clear: 고정 해제
@@ -606,7 +601,7 @@ ExpandedDataPanel:
           DEF scaling: 방어력 배율
           HP scaling: HP 배율
           Special scaling: 특수 배율
-          'ATK % boost': 공격력 % 증가
+          "ATK % boost": 공격력 % 증가
           Crit Rate boost: 치명타 확률 증가
           Crit DMG boost: 치명타 데미지 증가
           DMG boost: 데미지 버프

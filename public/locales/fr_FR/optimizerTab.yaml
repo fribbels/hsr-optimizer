@@ -107,9 +107,6 @@ Grid:
       ERR: TRE
       DMG: DGT
       EHP: PVE
-      WEIGHT: |-
-        POIDS
-        STAT
       HEAL: SOIN
       SHIELD: BOUCLIER
       BASIC: |-
@@ -154,9 +151,6 @@ Grid:
       ERR: Σ TRE
       DMG: Σ DGT
       EHP: PVE
-      WEIGHT: |-
-        POIDS
-        STAT
       HEAL: SOIN
       SHIELD: BOUCLIER
       BASIC: |-
@@ -229,6 +223,7 @@ Sidebar:
   ResultsGroup:
     Header: Résultats
     Equip: Équiper
+    EquipSuccessMessage: Équipée
     Filter: Filtrer
     Pin: Épingler
     Clear: Désépingler
@@ -606,7 +601,7 @@ ExpandedDataPanel:
           DEF scaling: Multiplicateur de DÉF
           HP scaling: Multiplicateur de PV
           Special scaling: Multiplicateur spécial
-          'ATK % boost': Bonus de % d'ATQ
+          "ATK % boost": Bonus de % d'ATQ
           Crit Rate boost: Bonus de Taux Critique
           Crit DMG boost: Bonus de DGT Critique
           DMG boost: Bonus de DGT

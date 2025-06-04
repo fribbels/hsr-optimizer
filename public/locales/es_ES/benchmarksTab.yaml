@@ -32,3 +32,8 @@ ResultsPanel:
   Rolls: Mejoras de atr. sec.
   Combo: Rotación del combo
   Damage: Daño de habilidad
+Messages:
+  Error:
+    MissingField: Falta personaje/cono de luz/aliados
+    UnsupportedCharacter: Las evaluaciones de DPS no están disponibles para este personaje
+    SPDUnselected: Selecciona la VEL básica de la evaluación

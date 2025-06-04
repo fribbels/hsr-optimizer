@@ -228,7 +228,7 @@ Sidebar:
     CombatStats: Atr. combate
     BasicStats: Atr. básicos
     SummonerStats: Invocador
-    MemospriteStats: Mnemo
+    MemospriteStats: Mnemoduende
   ResultsGroup:
     Header: Resultados
     Equip: Equipar
@@ -605,11 +605,46 @@ ExpandedDataPanel:
           Memo Skill: Habilidad mnemo
           Memo Talent: Talento mnemo
         Suffix:
-          DMG boost: Aumento de daño
+          ATK scaling: Escalado de ATQ
+          DEF scaling: Escalado de DEF
+          HP scaling: Escalado de PV
+          Special scaling: Escalado especial
+          "ATK % boost": Mejora de ATQ %
+          Crit Rate boost: Mejora de Prob. CRIT
+          Crit DMG boost: Mejora de Daño CRIT
+          DMG boost: Mejora de daño
           Vulnerability: Vulnerabilidad
+          RES PEN: PEN RES
           DEF PEN: PEN DEF
+          Break DEF PEN: PEN DEF a Ruptura
+          Toughness DMG: Daño de firmeza
+          Super Break multiplier: Multiplic. de ultrarruptura
+          Break Efficiency boost: Mejora de Eficiencia de Ruptura
+          True DMG multiplier: Multiplic. de Daño verdadero
+          Final DMG multiplier: Multiplic. de Daño final
+          Break DMG multiplier: Multiplic. de Daño de Ruptura
+          Additional DMG scaling: Escalado de Daño adicional
           Additional DMG: Daño adicional
-          DMG: DAÑO
+          DMG: Daño
       Misc:
-        Memosprite: Mnemo
+        Base HP: PV base
+        Base ATK: ATQ base
+        Base DEF: DEF base
+        Base SPD: VEL base
+        Memosprite base HP scaling: Escalado de PV base del mnemoduende
+        Memosprite base DEF scaling: Escalado de DEF base del mnemoduende
+        Memosprite base ATK scaling: Escalado de ATQ base del mnemoduende
+        Memosprite base SPD scaling: Escalado de VEL base del mnemoduende
+        Memosprite base HP flat: PV base planos del mnemoduende
+        Memosprite base DEF flat: DEF base plana del mnemoduende
+        Memosprite base ATK flat: ATQ base plano del mnemoduende
+        Memosprite base SPD flat: VEL base plana del mnemoduende
+        Elemental DMG: Daño elemental
+        DMG reduction: Reducción de daño
+        Effective HP: PV efectivos
+        Summons: Invocaciones
+        Memosprite: Mnemoduende
+        Enemy weakness broken: Enemigo con ruptura de debilidad
+        Prioritize memosprite buffs: Priorizar mejoras del mnemoduende
+        Deprioritize buffs: Despriorizar mejoras
         Combo DMG: Daño de combo

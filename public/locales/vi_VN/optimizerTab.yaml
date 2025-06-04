@@ -107,9 +107,6 @@ Grid:
       ERR: ERR
       DMG: ST
       EHP: EHP
-      WEIGHT: |-
-        ĐIỂM CHỈ
-        SỐ
       HEAL: TRỊ LIỆU
       SHIELD: LÁ CHẮN
       BASIC: |-
@@ -151,9 +148,6 @@ Grid:
       ERR: Σ ERR
       DMG: Σ DMG
       EHP: EHP
-      WEIGHT: |-
-        ĐIỂM CHỈ
-        SỐ
       HEAL: TRỊ LIỆU
       SHIELD: LÁ CHẮN
       BASIC: |-
@@ -225,6 +219,7 @@ Sidebar:
   ResultsGroup:
     Header: Kết quả
     Equip: Trang bị
+    EquipSuccessMessage: Đã trang bị
     Filter: Lọc
     Pin: Ghim lối lên đồ
     Clear: Dọn sạch ghim

@@ -1,5 +1,15 @@
+ValidationMessages:
+  Warning:
+    MissingTeammates: Selecione membros da equipe para resultados de otimização mais precisos.
+    PathMismatch: O caminho do personagem não combina com o caminho cone de luz.
+  Error:
+    TopPercent: Todos os pesos de substatus são definidos como 0. Certifique-se de definir os pesos de substatus para o seu personagem ou usar o botão de predefinições recomendadas.
+    MissingTarget: Campos alvos de otimização faltando
+    MissingCharacter: Faltando campo de personagem
+    MissingLightCone: Faltando campo de cone de luz
+    GPUNotAvailable: 'A aceleração da GPU não está disponível neste navegador - apenas o Chrome e o Opera são suportados. Se você está em um navegador suportado, relate um erro ao servidor do Discord'
 CharacterSelector:
-  Character: Personagem
+  Character: Personagem 
   Lightcone: Cone de luz
   Presets: Predefinições
   Target: Meta de otimização
@@ -91,6 +101,7 @@ Grid:
   Of: de
   Page: Página
   PageSelectorLabel: 'Tamanho da Página:'
+  Loading: Carregando...
   Headers:
     Basic:
       Set: Set
@@ -107,9 +118,6 @@ Grid:
       ERR: ERR
       DMG: DANO
       EHP: EHP
-      WEIGHT: |-
-        PESO
-        ATR.
       HEAL: CURA
       SHIELD: ESCUDO
       BASIC: |-
@@ -154,9 +162,6 @@ Grid:
       ERR: Σ ERR
       DMG: Σ DANO
       EHP: EHP
-      WEIGHT: |-
-        PESO
-        ATR.
       HEAL: CURA
       SHIELD: ESCUDO
       BASIC: |-
@@ -229,6 +234,7 @@ Sidebar:
   ResultsGroup:
     Header: Resultados
     Equip: Equipar
+    EquipSuccessMessage: Equipado
     Filter: Filtro
     Pin: Builds fixadas
     Clear: Limpar fixados
@@ -606,7 +612,7 @@ ExpandedDataPanel:
           DEF scaling: Scaling de DEF
           HP scaling: Scaling de HP
           Special scaling: Scaling Especial
-          'ATK % boost': Aumento de ATQ %
+          "ATK % boost": Aumento de ATQ %
           Crit Rate boost: Aumento de Taxa Crítica
           Crit DMG boost: Aumento de Dano Crítico
           DMG boost: Boost de DMG

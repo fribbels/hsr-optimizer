@@ -96,6 +96,7 @@ Sidebar:
     Header: Управление
   ResultsGroup:
     Header: Результаты
+    EquipSuccessMessage: Экипировано
 TracesDrawer:
   Title: Настройка следов персонажа
   Header: Активные следы (по умолчанию включены все)

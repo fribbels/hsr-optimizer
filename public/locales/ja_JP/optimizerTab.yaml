@@ -87,7 +87,7 @@ AdvancedOptions:
   CombatBuffsButtonText: '戦闘バフを追加（{{activeCount}}）'
   CustomTracesButtonText: 軌跡を編集
 Grid:
-  To: '~'
+  To: "~"
   Of: /
   Page: ページ
   PageSelectorLabel: '表示件数：'
@@ -107,9 +107,6 @@ Grid:
       ERR: EP回復効率
       DMG: ダメージ
       EHP: EHP
-      WEIGHT: |-
-        STAT
-        WEIGHT
       HEAL: 治癒量
       SHIELD: シールド量
       BASIC: |-
@@ -146,9 +143,6 @@ Grid:
       ERR: Σ EP回復
       DMG: Σ ダメージ
       EHP: EHP
-      WEIGHT: |-
-        STAT
-        WEIGHT
       HEAL: 回復
       SHIELD: シールド
       BASIC: |-
@@ -213,6 +207,7 @@ Sidebar:
   ResultsGroup:
     Header: 結果
     Equip: 装備
+    EquipSuccessMessage: 装備済み
     Filter: フィルター
     Pin: ピン留め
     Clear: ピン解除
@@ -577,20 +572,20 @@ ExpandedDataPanel:
       CompositeLabels:
         Label: '{{prefix}}　{{suffix}}'
         Prefix:
-          Basic: 通常攻撃
+          Basic: 通常攻撃　
           Skill: 戦闘スキル
           Ult: 必殺技攻撃
-          Fua: 追加攻撃
-          Dot: 持続攻撃
-          Break: 撃破攻撃
+          Fua: 追加攻撃　
+          Dot: 持続攻撃　
+          Break: 撃破攻撃　
           Memo Skill: 精霊スキル
-          Memo Talent: 精霊天賦
+          Memo Talent: 精霊天賦　
         Suffix:
           ATK scaling: 攻撃力倍率
           DEF scaling: 防御力倍率
           HP scaling: HP倍率
           Special scaling: 特殊倍率
-          'ATK % boost': 攻撃力割合増加
+          "ATK % boost": 攻撃力割合増加
           Crit Rate boost: 会心率増加
           Crit DMG boost: 会心ダメージ増加
           DMG boost: ダメージバフ

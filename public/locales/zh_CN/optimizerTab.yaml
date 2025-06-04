@@ -107,9 +107,6 @@ Grid:
       ERR: 能量恢复
       DMG: 伤害
       EHP: 有效生命
-      WEIGHT: |-
-        属性
-        权重
       HEAL: 治疗值
       SHIELD: 护盾值
       BASIC: |-
@@ -154,9 +151,6 @@ Grid:
       ERR: Σ 能量
       DMG: Σ 伤害
       EHP: 有效生命
-      WEIGHT: |-
-        属性
-        权重
       HEAL: 治疗值
       SHIELD: 护盾值
       BASIC: |-
@@ -229,6 +223,7 @@ Sidebar:
   ResultsGroup:
     Header: 结果
     Equip: 装备
+    EquipSuccessMessage: 已装备
     Filter: 过滤
     Pin: 置顶配装
     Clear: 清除所有置顶
@@ -606,7 +601,7 @@ ExpandedDataPanel:
           DEF scaling: 防御值加成
           HP scaling: 生命值加成
           Special scaling: 特殊加成
-          'ATK % boost': 攻击力%提升
+          "ATK % boost": 攻击力%提升
           Crit Rate boost: 暴击率提升
           Crit DMG boost: 暴击伤害提升
           DMG boost: 伤害提高

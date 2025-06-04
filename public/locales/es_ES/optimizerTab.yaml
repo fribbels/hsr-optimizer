@@ -101,9 +101,10 @@ Grid:
   Of: de
   Page: Página
   PageSelectorLabel: 'Tamaño de página:'
+  Loading: Cargando...
   Headers:
     Basic:
-      Set: Conjunto
+      Set: Conj.
       ATK: ATQ
       DEF: DEF
       HP: PV
@@ -277,6 +278,7 @@ SetConditionals:
       Label: '{{stackCount}} acumulaciones (+{{buffValue}}% ATQ)'
     Prisoner:
       Display: '{{stackCount}}x'
+      Label: '{{stackCount}} acumulaciones (+{{buffValue}}% DEF ignorada)'
     Diver:
       Off:
         Display: 0x

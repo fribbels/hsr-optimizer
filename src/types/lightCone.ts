@@ -5,11 +5,11 @@ import { DBMetadataSuperimpositions } from 'lib/state/metadata'
 export type SuperImpositionLevel = number
 
 export type LightCone = {
-  id: keyof typeof data.lightCones
-  name: string
-  displayName: string
-  path: string
-  rarity: number
-  superimpositions: DBMetadataSuperimpositions
-  imageCenter: number
+  id: keyof typeof data.lightCones,
+  name: string,
+  displayName: string,
+  path: string,
+  rarity: number,
+  superimpositions: DBMetadataSuperimpositions,
+  imageCenter: number,
 }

@@ -1,14 +1,27 @@
 import { BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import {
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Stats,
+} from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDefPen } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import {
+  ComputedStatsArray,
+  Key,
+} from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.SailingTowardsASecondLife')
@@ -55,7 +68,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.BE],
         chainsTo: [Stats.SPD],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.lightConeConditionals as Conditionals<typeof content>
 
           return r.spdBuffConditional && x.a[Key.BE] >= 1.50
@@ -63,8 +76,10 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
           x.SPD.buffDynamic((sValuesSpdBuff[s]) * context.baseSPD, SOURCE_LC, action, context)
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          return conditionalWgslWrapper(this, `
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
+          return conditionalWgslWrapper(
+            this,
+            `
 if (
   (*p_state).SailingTowardsASecondLifeConditional == 0.0 &&
   x.BE >= 1.50
@@ -72,7 +87,8 @@ if (
   (*p_state).SailingTowardsASecondLifeConditional = 1.0;
   (*p_x).SPD += ${sValuesSpdBuff[s]} * baseSPD;
 }
-    `)
+    `,
+          )
         },
       },
     ],

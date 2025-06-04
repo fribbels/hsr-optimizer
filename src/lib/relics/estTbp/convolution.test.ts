@@ -1,5 +1,8 @@
 import { uniformDistribution } from 'lib/relics/estTbp/convolution'
-import { expect, test } from 'vitest'
+import {
+  expect,
+  test,
+} from 'vitest'
 
 test('uniform distribution adds up to 1', () => {
   const dist = uniformDistribution([1, 2, 3])

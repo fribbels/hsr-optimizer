@@ -1,4 +1,9 @@
-import i18next, { DefaultNamespace, KeyPrefix, Namespace, TFunction } from 'i18next'
+import i18next, {
+  DefaultNamespace,
+  KeyPrefix,
+  Namespace,
+  TFunction,
+} from 'i18next'
 import stringify from 'json-stable-stringify'
 import { Constants } from 'lib/constants/constants'
 

@@ -1,6 +1,16 @@
-import { PartialSimulationWrapper, ScoringParams, SimulationFlags } from 'lib/scoring/simScoringUtils'
-import { Simulation, StatSimulationTypes } from 'lib/simulations/statSimulationTypes'
-import { BaseWorkerInput, BaseWorkerOutput } from 'lib/simulations/workerPool'
+import {
+  PartialSimulationWrapper,
+  ScoringParams,
+  SimulationFlags,
+} from 'lib/scoring/simScoringUtils'
+import {
+  Simulation,
+  StatSimulationTypes,
+} from 'lib/simulations/statSimulationTypes'
+import {
+  BaseWorkerInput,
+  BaseWorkerOutput,
+} from 'lib/simulations/workerPool'
 import { DEBUG } from 'lib/worker/computeOptimalSimulationWorker'
 import { WorkerType } from 'lib/worker/workerUtils'
 import { Form } from 'types/form'

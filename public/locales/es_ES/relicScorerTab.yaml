@@ -1,5 +1,5 @@
 Messages:
-  ThrottleWarning: "Por favor espere {{seconds}} segundos antes de volver a intentarlo"
+  ThrottleWarning: 'Por favor espere {{seconds}} segundos antes de volver a intentarlo'
   InvalidIdWarning: ID inválido
   IdLoadError: Error cargando la ID
   SuccessMsg: Perfil cargado con éxito
@@ -8,8 +8,8 @@ Messages:
   CharacterAlreadyExists: El personaje seleccionado ya existe
   UnknownButtonClicked: Botón desconocido presionado
 Header:
-  DowntimeWarning: "Puede que el evaluador de artefactos esté de baja por mantenimiento luego del parche {{game_version}}, por favor intenta más tarde"
-  WithVersion: "Ingresa la UID de tu cuenta para evaluar los personajes de tu perfil que sean nivel 80 y tengan los rastros al máximo. Cierra sesión para actualizar instantáneamente. (Versión actual {{beta_version}})"
+  DowntimeWarning: 'Puede que el evaluador de artefactos esté de baja por mantenimiento luego del parche {{game_version}}, por favor intenta más tarde'
+  WithVersion: 'Ingresa la UID de tu cuenta para evaluar los personajes de tu perfil que sean nivel 80 y tengan los rastros al máximo. Cierra sesión para actualizar instantáneamente. (Versión actual {{beta_version}})'
   WithoutVersion: Ingresa la UID de tu cuenta para evaluar los personajes de tu perfil que sean nivel 80 y tengan los rastros al máximo. Cierra sesión para actualizar instantáneamente.
 SubmissionBar:
   Placeholder: UID de la cuenta

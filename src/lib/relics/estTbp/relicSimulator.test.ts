@@ -1,8 +1,18 @@
-import { MainStats, Parts, Stats } from 'lib/constants/constants'
-import { probabilityOfCorrectSlot, probabilityOfCorrectStat } from 'lib/relics/estTbp/estTbp'
+import {
+  MainStats,
+  Parts,
+  Stats,
+} from 'lib/constants/constants'
+import {
+  probabilityOfCorrectSlot,
+  probabilityOfCorrectStat,
+} from 'lib/relics/estTbp/estTbp'
 import { Metadata } from 'lib/state/metadata'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Relic, RelicSubstatMetadata } from 'types/relic'
+import {
+  Relic,
+  RelicSubstatMetadata,
+} from 'types/relic'
 import { test } from 'vitest'
 
 Metadata.initialize()

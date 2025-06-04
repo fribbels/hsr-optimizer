@@ -1,9 +1,20 @@
 import { CloseOutlined } from '@ant-design/icons'
 import { IRowNode } from 'ag-grid-community'
-import { Empty, Flex, Table, TableColumnsType } from 'antd'
+import {
+  Empty,
+  Flex,
+  Table,
+  TableColumnsType,
+} from 'antd'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
-import { deleteStatSimulationBuild, renderDefaultSimulationName } from 'lib/simulations/statSimulationController'
-import { Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
+import {
+  deleteStatSimulationBuild,
+  renderDefaultSimulationName,
+} from 'lib/simulations/statSimulationController'
+import {
+  Simulation,
+  StatSimTypes,
+} from 'lib/simulations/statSimulationTypes'
 import { STAT_SIMULATION_GRID_WIDTH } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { useEffect } from 'react'
@@ -21,7 +32,7 @@ interface DataType {
 
 const columns: TableColumnsType<DataType> = [
   {
-    title: (<Flex style={{ marginLeft: 5 }}>Simulation details</Flex>),
+    title: <Flex style={{ marginLeft: 5 }}>Simulation details</Flex>,
     dataIndex: 'name',
     fixed: 'left',
     width: '560',
@@ -41,9 +52,10 @@ const columns: TableColumnsType<DataType> = [
         <a
           onClick={() => {
             deleteStatSimulationBuild(record)
-          }} style={{ display: 'flex', justifyContent: 'center' }}
+          }}
+          style={{ display: 'flex', justifyContent: 'center' }}
         >
-          <CloseOutlined/>
+          <CloseOutlined />
         </a>
       )
     },
@@ -55,7 +67,7 @@ const columns: TableColumnsType<DataType> = [
 function zeroesToNull<T extends Record<string, number | null | undefined>>(obj: T): T {
   for (const [key, value] of Object.entries(obj)) {
     if (value === 0) {
-      (obj as Record<string, number | null>)[key] = null
+      ;(obj as Record<string, number | null>)[key] = null
     }
   }
   return obj
@@ -106,7 +118,7 @@ export function SimulatedBuildsGrid() {
   return (
     <Table
       showHeader={false}
-      locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('NoStatSimulations')}/* 'No custom stat simulations selected' *//> }}
+      locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('NoStatSimulations')} /* 'No custom stat simulations selected' */ /> }}
       rowSelection={{
         selectedRowKeys: selectedStatSimulations as string[],
         type: 'radio',

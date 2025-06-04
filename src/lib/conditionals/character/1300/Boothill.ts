@@ -1,16 +1,30 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Stats,
+} from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import {
+  ComputedStatsArray,
+  Key,
+} from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Boothill')
@@ -141,14 +155,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Since his toughness scaling is capped at 1600% x 30, we invert the toughness scaling on the original break dmg and apply the new scaling
       const newMaxToughness = Math.min(16.00 * 30, context.enemyMaxToughness)
       const inverseBreakToughnessMultiplier = 1 / (0.5 + context.enemyMaxToughness / 120)
-      const newBreakToughnessMultiplier = (0.5 + newMaxToughness / 120)
+      const newBreakToughnessMultiplier = 0.5 + newMaxToughness / 120
       let talentBreakDmgScaling = pocketTrickshotsToTalentBreakDmg[r.pocketTrickshotStacks]
       talentBreakDmgScaling += (e >= 6 && r.e6AdditionalBreakDmg) ? 0.40 : 0
       x.BASIC_BREAK_DMG_MODIFIER.buff(
         (r.talentBreakDmgScaling && r.standoffActive)
           ? inverseBreakToughnessMultiplier * newBreakToughnessMultiplier * talentBreakDmgScaling
-          : 0
-        , SOURCE_TALENT)
+          : 0,
+        SOURCE_TALENT,
+      )
 
       return x
     },
@@ -160,12 +175,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       activation: ConditionalActivation.CONTINUOUS,
       dependsOn: [Stats.BE],
       chainsTo: [Stats.CR, Stats.CD],
-      condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+      condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
 
         return r.beToCritBoost
       },
-      effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+      effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
         const stateValue = action.conditionalState[this.id] || 0
 
         const stateCrBuffValue = Math.min(0.30, 0.10 * stateValue)
@@ -179,10 +194,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.CR.buffDynamic(crBuffValue - stateCrBuffValue, SOURCE_TRACE, action, context)
         x.CD.buffDynamic(cdBuffValue - stateCdBuffValue, SOURCE_TRACE, action, context)
       },
-      gpu: function (action: OptimizerAction, context: OptimizerContext) {
+      gpu: function(action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
 
-        return conditionalWgslWrapper(this, `
+        return conditionalWgslWrapper(
+          this,
+          `
 if (${wgslFalse(r.beToCritBoost)}) {
   return;
 }
@@ -200,7 +217,8 @@ let cdBuffValue = min(1.50, 0.50 * be);
 
 (*p_x).CR += crBuffValue - stateCrBuffValue;
 (*p_x).CD += cdBuffValue - stateCdBuffValue;
-    `)
+    `,
+        )
       },
     }],
   }

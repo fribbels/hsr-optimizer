@@ -1,10 +1,27 @@
-import { CellClickedEvent, CellDoubleClickedEvent, CellPosition, ColDef, GetRowIdParams, IRowNode, IsExternalFilterPresentParams, NavigateToNextCellParams, RowDragEvent } from 'ag-grid-community'
+import {
+  CellClickedEvent,
+  CellDoubleClickedEvent,
+  CellPosition,
+  ColDef,
+  GetRowIdParams,
+  IRowNode,
+  IsExternalFilterPresentParams,
+  NavigateToNextCellParams,
+  RowDragEvent,
+} from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
-import { Flex, Typography } from 'antd'
+import {
+  Flex,
+  Typography,
+} from 'antd'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
-import { MutableRefObject, useMemo, useState } from 'react'
+import {
+  MutableRefObject,
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 
@@ -13,14 +30,14 @@ const { Text } = Typography
 // FIXME HIGH
 
 export function CharacterGrid(props: {
-  characterGrid: MutableRefObject<AgGridReact<Character>>
-  cellClickedListener: (x: CellClickedEvent<Character>) => void
-  cellDoubleClickedListener: (x: CellDoubleClickedEvent<Character>) => void
-  onRowDragEnd: (e: RowDragEvent<Character>) => void
-  onRowDragLeave: (e: RowDragEvent<Character>) => void
-  navigateToNextCell: (x: NavigateToNextCellParams<Character>) => CellPosition | null
-  isExternalFilterPresent: (x: IsExternalFilterPresentParams<Character>) => boolean
-  doesExternalFilterPass: (x: IRowNode<Character>) => boolean
+  characterGrid: MutableRefObject<AgGridReact<Character>>,
+  cellClickedListener: (x: CellClickedEvent<Character>) => void,
+  cellDoubleClickedListener: (x: CellDoubleClickedEvent<Character>) => void,
+  onRowDragEnd: (e: RowDragEvent<Character>) => void,
+  onRowDragLeave: (e: RowDragEvent<Character>) => void,
+  navigateToNextCell: (x: NavigateToNextCellParams<Character>) => CellPosition | null,
+  isExternalFilterPresent: (x: IsExternalFilterPresentParams<Character>) => boolean,
+  doesExternalFilterPass: (x: IRowNode<Character>) => boolean,
 }) {
   const { t } = useTranslation(['charactersTab', 'common', 'gameData'])
   const [characterRows, setCharacterRows] = useState(DB.getCharacters())
@@ -35,16 +52,16 @@ export function CharacterGrid(props: {
   }), [])
 
   const columnDefs: ColDef<Character>[] = useMemo(() => [
-    { field: 'id', headerName: t('GridHeaders.Icon')/* Icon */, cellRenderer: cellImageRenderer, width: 52 },
+    { field: 'id', headerName: t('GridHeaders.Icon'), /* Icon */ cellRenderer: cellImageRenderer, width: 52 },
     {
       field: 'rank',
-      headerName: t('GridHeaders.Priority')/* Priority */,
+      headerName: t('GridHeaders.Priority'), /* Priority */
       cellRenderer: cellRankRenderer,
       width: 60,
       rowDrag: true,
     },
     // no valueFormatter makes the grid very unhappy, so just provide a dummy formatter
-    { field: 'equipped', headerName: t('GridHeaders.Character')/* Character */, flex: 1, cellRenderer: cellNameRenderer, valueFormatter: () => '' },
+    { field: 'equipped', headerName: t('GridHeaders.Character'), /* Character */ flex: 1, cellRenderer: cellNameRenderer, valueFormatter: () => '' },
   ], [t])
 
   const defaultColDef = useMemo(() => ({
@@ -55,16 +72,12 @@ export function CharacterGrid(props: {
   return (
     <AgGridReact
       ref={props.characterGrid}
-
       rowData={characterRows}
       gridOptions={gridOptions}
       getRowId={(params: GetRowIdParams<Character>) => params.data.id}
-
       columnDefs={columnDefs}
       defaultColDef={defaultColDef}
-
       headerHeight={24}
-
       onCellClicked={props.cellClickedListener}
       onCellDoubleClicked={props.cellDoubleClickedListener}
       onRowDragEnd={props.onRowDragEnd}
@@ -102,9 +115,7 @@ function cellNameRenderer(params: IRowNode<Character>) {
       .map((section) => section.trim())
 
   const nameSectionRender = nameSections
-    .map((section, index) => (
-      <span key={index} style={{ display: 'inline-block' }}>{section}</span>
-    ))
+    .map((section, index) => <span key={index} style={{ display: 'inline-block' }}>{section}</span>)
 
   const equippedNumber = data.equipped ? Object.values(data.equipped).filter((x) => x != undefined).length : 0
   let color = '#81d47e'
@@ -128,7 +139,7 @@ function cellNameRenderer(params: IRowNode<Character>) {
       >
         {nameSectionRender}
       </Text>
-      <div style={{ display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2 }}/>
+      <div style={{ display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2 }} />
     </Flex>
   )
 }

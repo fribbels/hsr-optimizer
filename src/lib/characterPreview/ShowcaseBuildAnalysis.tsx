@@ -1,4 +1,8 @@
-import { Flex, Segmented, Typography } from 'antd'
+import {
+  Flex,
+  Segmented,
+  Typography,
+} from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
@@ -9,7 +13,10 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
-import { ScoringType, SimulationScore } from 'lib/scoring/simScoringUtils'
+import {
+  ScoringType,
+  SimulationScore,
+} from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { useMemo } from 'react'
@@ -75,7 +82,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
           align='center'
         >
           <Text style={{ width: 150 }}>
-            {t('CharacterPreview.AlgorithmSlider.Title')/* Scoring algorithm: */}
+            {t('CharacterPreview.AlgorithmSlider.Title') /* Scoring algorithm: */}
           </Text>
           <Segmented
             style={{ width: 354, height: 30 }}
@@ -89,7 +96,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
             options={[
               {
                 label: characterMetadata.scoringMetadata.simulation == null
-                  ? t('CharacterPreview.AlgorithmSlider.Labels.CombatScoreTBD')/* Combat Score (TBD) */
+                  ? t('CharacterPreview.AlgorithmSlider.Labels.CombatScoreTBD') /* Combat Score (TBD) */
                   : t('CharacterPreview.AlgorithmSlider.Labels.CombatScore'), /* Combat Score */
                 value: ScoringType.COMBAT_SCORE,
                 disabled: characterMetadata.scoringMetadata.simulation == null,
@@ -126,9 +133,9 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
 }
 
 function StatScoringSummary(props: {
-  scoringType: ScoringType
-  displayRelics: SingleRelicByPart
-  showcaseMetadata: ShowcaseMetadata
+  scoringType: ScoringType,
+  displayRelics: SingleRelicByPart,
+  showcaseMetadata: ShowcaseMetadata,
 }) {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP' })
 
@@ -139,7 +146,7 @@ function StatScoringSummary(props: {
   return (
     <Flex vertical align='center'>
       <ColorizedTitleWithInfo
-        text={t('Header')/* Stat Score Analysis */}
+        text={t('Header') /* Stat Score Analysis */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
       />
       <EstimatedTbpRelicsDisplay
@@ -152,9 +159,9 @@ function StatScoringSummary(props: {
 }
 
 function MemoizedCharacterScoringSummary(props: {
-  simScoringResult?: SimulationScore
-  displayRelics: SingleRelicByPart
-  showcaseMetadata: ShowcaseMetadata
+  simScoringResult?: SimulationScore,
+  displayRelics: SingleRelicByPart,
+  showcaseMetadata: ShowcaseMetadata,
 }) {
   const delayedProps = useDelayedProps(props, 250)
 

@@ -6,7 +6,10 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CharacterId, Eidolon } from 'types/character'
+import {
+  CharacterId,
+  Eidolon,
+} from 'types/character'
 
 export interface CharacterConditionalDisplayProps {
   id?: CharacterId
@@ -22,8 +25,8 @@ export const CharacterConditionalsDisplay = memo(({ id, eidolon, teammateIndex }
   if (!id || !characterOptionMapping[characterId]) {
     return (
       <Flex justify='space-between' align='center'>
-        <HeaderText>{t('CharacterPassives')/* Character passives */}</HeaderText>
-        <TooltipImage type={Hint.characterPassives()}/>
+        <HeaderText>{t('CharacterPassives') /* Character passives */}</HeaderText>
+        <TooltipImage type={Hint.characterPassives()} />
       </Flex>
     )
   }
@@ -37,16 +40,14 @@ export const CharacterConditionalsDisplay = memo(({ id, eidolon, teammateIndex }
 
   return (
     <Flex vertical gap={5}>
-      {
-        (teammateIndex == null)
+      {(teammateIndex == null)
         && (
           <Flex justify='space-between' align='center'>
-            <HeaderText>{t('CharacterPassives')/* Character passives */}</HeaderText>
-            <TooltipImage type={Hint.characterPassives()}/>
+            <HeaderText>{t('CharacterPassives') /* Character passives */}</HeaderText>
+            <TooltipImage type={Hint.characterPassives()} />
           </Flex>
-        )
-      }
-      <DisplayFormControl content={content} teammateIndex={teammateIndex}/>
+        )}
+      <DisplayFormControl content={content} teammateIndex={teammateIndex} />
     </Flex>
   )
 })

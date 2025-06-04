@@ -1,12 +1,19 @@
 import i18next from 'i18next'
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (e: Eidolon): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Phainon.Content')
@@ -33,23 +40,23 @@ export default (e: Eidolon): CharacterConditionalsController => {
   const ultScaling = ult(e, 2.80, 3.08)
   const ultBounceScaling = ult(e, 1.10, 1.21)
 
-  const talentDmgBuffScaling = talent(e, 0.40, 0.44)
+  const talentDmgBuffScaling = talent(e, 0.60, 0.66)
 
   const defaults = {
     enhancedBasic: true,
     enhancedSkill: true,
+    coreResonanceCdBuff: true,
     coreResonanceStacks: 12,
     talentDmgBuff: true,
     crBuff: true,
     cdBuff: true,
     e1DmgBuff: true,
-    e2CdBuff: true,
+    e2Buffs: true,
     e4ResPen: true,
     e6ResPen: true,
   }
 
-  const teammateDefaults = {
-  }
+  const teammateDefaults = {}
 
   const content: ContentDefinition<typeof defaults> = {
     enhancedBasic: {
@@ -68,6 +75,12 @@ export default (e: Eidolon): CharacterConditionalsController => {
       id: 'talentDmgBuff',
       formItem: 'switch',
       text: 'Talent DMG buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    coreResonanceCdBuff: {
+      id: 'coreResonanceCdBuff',
+      formItem: 'switch',
+      text: 'Core Resonance CD buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     coreResonanceStacks: {
@@ -97,10 +110,10 @@ export default (e: Eidolon): CharacterConditionalsController => {
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
     },
-    e2CdBuff: {
-      id: 'e2CdBuff',
+    e2Buffs: {
+      id: 'e2Buffs',
       formItem: 'switch',
-      text: 'E2 CD buff',
+      text: 'E2 buffs',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 2,
     },
@@ -120,8 +133,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
     },
   }
 
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
-  }
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {}
 
   return {
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
@@ -137,14 +149,15 @@ export default (e: Eidolon): CharacterConditionalsController => {
 
       x.CD.buff(r.cdBuff ? 0.50 : 0, SOURCE_TRACE)
       x.CR.buff(r.crBuff ? 0.20 : 0, SOURCE_TRACE)
+      x.CD.buff(r.coreResonanceCdBuff ? 0.04 * 8 : 0, SOURCE_TRACE)
       x.ELEMENTAL_DMG.buff(r.talentDmgBuff ? talentDmgBuffScaling : 0, SOURCE_TALENT)
 
-      x.ELEMENTAL_DMG.buff((e >= 1 && r.e1DmgBuff) ? 0.50 : 0, SOURCE_E1)
+      x.ELEMENTAL_DMG.buff((e >= 1 && r.e1DmgBuff) ? 0.60 : 0, SOURCE_E1)
 
-      x.BASIC_CD_BOOST.buff((e >= 2 && r.e2CdBuff && r.enhancedBasic) ? 0.50 + 0.05 * 10 : 0, SOURCE_E2)
-      x.SKILL_CD_BOOST.buff((e >= 2 && r.e2CdBuff && r.enhancedSkill) ? 0.50 + 0.05 * 10 : 0, SOURCE_E2)
+      x.DEF_PEN.buff((e >= 2 && r.e2Buffs) ? 0.01 * 15 : 0, SOURCE_E2)
+      x.SKILL_ATK_SCALING.buff((e >= 2 && r.e2Buffs) ? 0.07 * r.coreResonanceStacks : 0, SOURCE_E2)
 
-      x.WIND_RES_PEN.buff((e >= 4 && r.e4ResPen) ? 0.04 + 0.04 * 4 : 0, SOURCE_E4)
+      x.WIND_RES_PEN.buff((e >= 4 && r.e4ResPen) ? 0.08 + 0.04 * 3 : 0, SOURCE_E4)
 
       x.ULT_RES_PEN.buff((e >= 6 && r.e6ResPen) ? 0.20 : 0, SOURCE_E6)
 

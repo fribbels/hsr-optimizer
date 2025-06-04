@@ -21,8 +21,10 @@ import Sagacity from 'lib/conditionals/lightcone/3star/Sagacity'
 import Shadowburn from 'lib/conditionals/lightcone/3star/Shadowburn'
 import ShatteredHome from 'lib/conditionals/lightcone/3star/ShatteredHome'
 import Void from 'lib/conditionals/lightcone/3star/Void'
+import ADreamScentedInWheat from 'lib/conditionals/lightcone/4star/ADreamScentedInWheat'
 import AfterTheCharmonyFall from 'lib/conditionals/lightcone/4star/AfterTheCharmonyFall'
 import ASecretVow from 'lib/conditionals/lightcone/4star/ASecretVow'
+import ATrailOfBygoneBlood from 'lib/conditionals/lightcone/4star/ATrailOfBygoneBlood'
 import BeforeTheTutorialMissionStarts from 'lib/conditionals/lightcone/4star/BeforeTheTutorialMissionStarts'
 import BoundlessChoreo from 'lib/conditionals/lightcone/4star/BoundlessChoreo'
 import CarveTheMoonWeaveTheClouds from 'lib/conditionals/lightcone/4star/CarveTheMoonWeaveTheClouds'
@@ -41,8 +43,10 @@ import GeniusesGreetings from 'lib/conditionals/lightcone/4star/GeniusesGreeting
 import GeniusesRepose from 'lib/conditionals/lightcone/4star/GeniusesRepose'
 import GoodNightAndSleepWell from 'lib/conditionals/lightcone/4star/GoodNightAndSleepWell'
 import HeyOverHere from 'lib/conditionals/lightcone/4star/HeyOverHere'
+import HolidayThermaeEscapade from 'lib/conditionals/lightcone/4star/HolidayThermaeEscapade'
 import IndeliblePromise from 'lib/conditionals/lightcone/4star/IndeliblePromise'
 import ItsShowtime from 'lib/conditionals/lightcone/4star/ItsShowtime'
+import JourneyForeverPeaceful from 'lib/conditionals/lightcone/4star/JourneyForeverPeaceful'
 import LandausChoice from 'lib/conditionals/lightcone/4star/LandausChoice'
 import MakeTheWorldClamor from 'lib/conditionals/lightcone/4star/MakeTheWorldClamor'
 import MemoriesOfThePast from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
@@ -54,10 +58,12 @@ import PerfectTiming from 'lib/conditionals/lightcone/4star/PerfectTiming'
 import PlanetaryRendezvous from 'lib/conditionals/lightcone/4star/PlanetaryRendezvous'
 import PoisedToBloom from 'lib/conditionals/lightcone/4star/PoisedToBloom'
 import PostOpConversation from 'lib/conditionals/lightcone/4star/PostOpConversation'
+import PursuitOfTheWind from 'lib/conditionals/lightcone/4star/PursuitOfTheWind'
 import QuidProQuo from 'lib/conditionals/lightcone/4star/QuidProQuo'
 import ResolutionShinesAsPearlsOfSweat from 'lib/conditionals/lightcone/4star/ResolutionShinesAsPearlsOfSweat'
 import ReturnToDarkness from 'lib/conditionals/lightcone/4star/ReturnToDarkness'
 import RiverFlowsInSpring from 'lib/conditionals/lightcone/4star/RiverFlowsInSpring'
+import SeeYouAtTheEnd from 'lib/conditionals/lightcone/4star/SeeYouAtTheEnd'
 import ShadowedByNight from 'lib/conditionals/lightcone/4star/ShadowedByNight'
 import SharedFeeling from 'lib/conditionals/lightcone/4star/SharedFeeling'
 import SubscribeForMore from 'lib/conditionals/lightcone/4star/SubscribeForMore'
@@ -65,13 +71,16 @@ import SweatNowCryLess from 'lib/conditionals/lightcone/4star/SweatNowCryLess'
 import Swordplay from 'lib/conditionals/lightcone/4star/Swordplay'
 import TheBirthOfTheSelf from 'lib/conditionals/lightcone/4star/TheBirthOfTheSelf'
 import TheDayTheCosmosFell from 'lib/conditionals/lightcone/4star/TheDayTheCosmosFell'
+import TheFlowerRemembers from 'lib/conditionals/lightcone/4star/TheFlowerRemembers'
 import TheGreatCosmicEnterprise from 'lib/conditionals/lightcone/4star/TheGreatCosmicEnterprise'
 import TheMolesWelcomeYou from 'lib/conditionals/lightcone/4star/TheMolesWelcomeYou'
 import TheSeriousnessOfBreakfast from 'lib/conditionals/lightcone/4star/TheSeriousnessOfBreakfast'
+import TheStorysNextPage from 'lib/conditionals/lightcone/4star/TheStorysNextPage'
 import ThisIsMe from 'lib/conditionals/lightcone/4star/ThisIsMe'
 import TodayIsAnotherPeacefulDay from 'lib/conditionals/lightcone/4star/TodayIsAnotherPeacefulDay'
 import TrendOfTheUniversalMarket from 'lib/conditionals/lightcone/4star/TrendOfTheUniversalMarket'
 import UnderTheBlueSky from 'lib/conditionals/lightcone/4star/UnderTheBlueSky'
+import UntoTomorrowsMorrow from 'lib/conditionals/lightcone/4star/UntoTomorrowsMorrow'
 import VictoryInABlink from 'lib/conditionals/lightcone/4star/VictoryInABlink'
 import WarmthShortensColdNights from 'lib/conditionals/lightcone/4star/WarmthShortensColdNights'
 import WeAreWildfire from 'lib/conditionals/lightcone/4star/WeAreWildfire'
@@ -81,6 +90,7 @@ import WoofWalkTime from 'lib/conditionals/lightcone/4star/WoofWalkTime'
 import AGroundedAscent from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import AlongThePassingShore from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
 import AnInstantBeforeAGaze from 'lib/conditionals/lightcone/5star/AnInstantBeforeAGaze'
+import AThanklessCoronation from 'lib/conditionals/lightcone/5star/AThanklessCoronation'
 import BaptismOfPureThought from 'lib/conditionals/lightcone/5star/BaptismOfPureThought'
 import BeforeDawn from 'lib/conditionals/lightcone/5star/BeforeDawn'
 import BrighterThanTheSun from 'lib/conditionals/lightcone/5star/BrighterThanTheSun'
@@ -109,8 +119,7 @@ import MemorysCurtainNeverFalls from 'lib/conditionals/lightcone/5star/MemorysCu
 import MomentOfVictory from 'lib/conditionals/lightcone/5star/MomentOfVictory'
 import NightOfFright from 'lib/conditionals/lightcone/5star/NightOfFright'
 import NightOnTheMilkyWay from 'lib/conditionals/lightcone/5star/NightOnTheMilkyWay'
-import NinjutsuInscriptionDazzlingEvilbreaker
-  from 'lib/conditionals/lightcone/5star/NinjutsuInscriptionDazzlingEvilbreaker'
+import NinjutsuInscriptionDazzlingEvilbreaker from 'lib/conditionals/lightcone/5star/NinjutsuInscriptionDazzlingEvilbreaker'
 import OnTheFallOfAnAeon from 'lib/conditionals/lightcone/5star/OnTheFallOfAnAeon'
 import PastSelfInTheMirror from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
 import PatienceIsAllYouNeed from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
@@ -122,28 +131,21 @@ import SleepLikeTheDead from 'lib/conditionals/lightcone/5star/SleepLikeTheDead'
 import SolitaryHealing from 'lib/conditionals/lightcone/5star/SolitaryHealing'
 import SomethingIrreplaceable from 'lib/conditionals/lightcone/5star/SomethingIrreplaceable'
 import TextureOfMemories from 'lib/conditionals/lightcone/5star/TextureOfMemories'
+import TheHellWhereIdealsBurn from 'lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn'
 import TheUnreachableSide from 'lib/conditionals/lightcone/5star/TheUnreachableSide'
 import ThoseManySprings from 'lib/conditionals/lightcone/5star/ThoseManySprings'
+import ThusBurnsTheDawn from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import TimeWaitsForNoOne from 'lib/conditionals/lightcone/5star/TimeWaitsForNoOne'
 import TimeWovenIntoGold from 'lib/conditionals/lightcone/5star/TimeWovenIntoGold'
 import WhereaboutsShouldDreamsRest from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import WorrisomeBlissful from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import YetHopeIsPriceless from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
-import { ElementName, PathName } from 'lib/constants/constants'
+import {
+  ElementName,
+  PathName,
+} from 'lib/constants/constants'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import TheHellWhereIdealsBurn from "lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn";
-import AThanklessCoronation from "lib/conditionals/lightcone/5star/AThanklessCoronation";
-import ThusBurnsTheDawn from "lib/conditionals/lightcone/5star/ThusBurnsTheDawn";
-import JourneyForeverPeaceful from "lib/conditionals/lightcone/4star/JourneyForeverPeaceful";
-import TheStorysNextPage from "lib/conditionals/lightcone/4star/TheStorysNextPage";
-import UntoTomorrowsMorrow from "lib/conditionals/lightcone/4star/UntoTomorrowsMorrow";
-import PursuitOfTheWind from "lib/conditionals/lightcone/4star/PursuitOfTheWind";
-import TheFlowerRemembers from "lib/conditionals/lightcone/4star/TheFlowerRemembers";
-import ATrailOfBygoneBlood from "lib/conditionals/lightcone/4star/ATrailOfBygoneBlood";
-import ADreamScentedInWheat from "lib/conditionals/lightcone/4star/ADreamScentedInWheat";
-import HolidayThermaeEscapade from "lib/conditionals/lightcone/4star/HolidayThermaeEscapade";
-import SeeYouAtTheEnd from "lib/conditionals/lightcone/4star/SeeYouAtTheEnd";
 
 export type WearerMetadata = { element: ElementName }
 
@@ -315,7 +317,7 @@ export const lightConeOptionMapping: Record<string, LightConeConditionalFunction
 
 export const LightConeConditionalsResolver = {
   get: (
-    request: { lightCone: string; lightConeSuperimposition: number; lightConePath: PathName; path: PathName; element: ElementName },
+    request: { lightCone: string, lightConeSuperimposition: number, lightConePath: PathName, path: PathName, element: ElementName },
     withContent = false,
   ): LightConeConditionalsController => {
     const lcFn = lightConeOptionMapping[request.lightCone]

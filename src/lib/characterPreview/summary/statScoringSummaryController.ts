@@ -1,4 +1,7 @@
-import { Parts, Stats } from 'lib/constants/constants'
+import {
+  Parts,
+  Stats,
+} from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { rollCounter } from 'lib/importer/characterConverter'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
@@ -11,23 +14,23 @@ import { ScoringMetadata } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 export type EnrichedRelics = {
-  LinkRope?: RelicAnalysis
-  PlanarSphere?: RelicAnalysis
-  Feet?: RelicAnalysis
-  Body?: RelicAnalysis
-  Hands?: RelicAnalysis
-  Head?: RelicAnalysis
+  LinkRope?: RelicAnalysis,
+  PlanarSphere?: RelicAnalysis,
+  Feet?: RelicAnalysis,
+  Body?: RelicAnalysis,
+  Hands?: RelicAnalysis,
+  Head?: RelicAnalysis,
 }
 
 export type RelicAnalysis = {
-  relic: Relic
-  estTbp: number
-  estDays: number
-  currentPotential: number
-  rerollPotential: number
-  rerollDelta: number
-  weights: Record<string, number>
-  weightedRolls: number
+  relic: Relic,
+  estTbp: number,
+  estDays: number,
+  currentPotential: number,
+  rerollPotential: number,
+  rerollDelta: number,
+  weights: Record<string, number>,
+  weightedRolls: number,
 }
 
 export function enrichRelicAnalysis(
@@ -95,9 +98,9 @@ function countRelicRolls(relic: Relic, scoringMetadata: ScoringMetadata) {
       const rolls = substat.addedRolls! + 1
       const expectedStep = stat == Stats.SPD ? 0.3 : StatCalculator.getMaxedSubstatValue(stat) / 10
       const actualStat = substat.value
-      const expectedStat = StatCalculator.getMaxedSubstatValue(stat, 0.8) * (rolls)
+      const expectedStat = StatCalculator.getMaxedSubstatValue(stat, 0.8) * rolls
       const diff = Math.max(0, actualStat - expectedStat)
-      const roughStep = diff / (expectedStep)
+      const roughStep = diff / expectedStep
       const step = TsUtils.precisionRound(roughStep, 0)
 
       const result = rollCounter(rolls, step)

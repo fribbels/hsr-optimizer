@@ -1,21 +1,21 @@
-BetaMessage: "當前版本：{{Version}} - 計算結果可能會發生變化。"
+BetaMessage: '當前版本：{{Version}} - 計算結果可能會發生變化。'
 Common:
   HealAbility:
-    Text: "治療技能"
-    Content: "選擇用於計算治療量的技能"
-    Basic: "治療技能: 普攻"
-    Skill: "治療技能: 戰技"
-    Ult: "治療技能: 終結技"
-    Talent: "治療技能: 天賦"
-    Trace: "治療技能: 行跡"
+    Text: '治療技能'
+    Content: '選擇用於計算治療量的技能'
+    Basic: '治療技能: 普攻'
+    Skill: '治療技能: 戰技'
+    Ult: '治療技能: 終結技'
+    Talent: '治療技能: 天賦'
+    Trace: '治療技能: 行跡'
   ShieldAbility:
-    Text: "護盾技能"
-    Content: "選擇用於計算護盾量的技能"
-    Basic: "護盾技能: 普攻"
-    Skill: "護盾技能: 戰技"
-    Ult: "護盾技能: 終結技"
-    Talent: "護盾技能: 天賦"
-    Trace: "護盾技能: 行跡"
+    Text: '護盾技能'
+    Content: '選擇用於計算護盾量的技能'
+    Basic: '護盾技能: 普攻'
+    Skill: '護盾技能: 戰技'
+    Ult: '護盾技能: 終結技'
+    Talent: '護盾技能: 天賦'
+    Trace: '護盾技能: 行跡'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -565,7 +565,7 @@ Characters:
         text: 戰技額外擊中次數
       talentBuffStacks:
         text: 天賦攻擊力增益層數
-        content: "艾絲妲每擁有1層蓄能，會使我方全體攻擊力提高{{talentStacksAtkBuff}}%。 ::BR::E4:天賦的蓄能層數大於等於2時，艾絲妲的能量恢復效率提高15% 。"
+        content: '艾絲妲每擁有1層蓄能，會使我方全體攻擊力提高{{talentStacksAtkBuff}}%。 ::BR::E4:天賦的蓄能層數大於等於2時，艾絲妲的能量恢復效率提高15% 。'
       ultSpdBuff:
         text: 終結技速度增益激活
       fireDmgBoost:

@@ -1,9 +1,20 @@
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
-import { Flex, Form, Switch, Typography } from 'antd'
+import {
+  CheckOutlined,
+  CloseOutlined,
+} from '@ant-design/icons'
+import {
+  Flex,
+  Form,
+  Switch,
+  Typography,
+} from 'antd'
 import { FormSelectProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import WithPopover from 'lib/ui/WithPopover'
-import { ComponentProps, ComponentType } from 'react'
+import {
+  ComponentProps,
+  ComponentType,
+} from 'react'
 import styled from 'styled-components'
 
 const justify = 'flex-start'
@@ -53,8 +64,8 @@ export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
 
   const internalSwitch = (
     <Switch
-      checkedChildren={<CheckOutlined/>}
-      unCheckedChildren={<CloseOutlined/>}
+      checkedChildren={<CheckOutlined />}
+      unCheckedChildren={<CloseOutlined />}
       disabled={props.disabled}
       style={{ width: 45, marginRight: 5 }}
       onChange={props.onChange}
@@ -64,15 +75,13 @@ export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
 
   return (
     <Flex justify={justify} align={align}>
-      {
-        props.removeForm
-          ? internalSwitch
-          : (
-            <Form.Item name={itemName} valuePropName='checked'>
-              {internalSwitch}
-            </Form.Item>
-          )
-      }
+      {props.removeForm
+        ? internalSwitch
+        : (
+          <Form.Item name={itemName} valuePropName='checked'>
+            {internalSwitch}
+          </Form.Item>
+        )}
       <Text>{props.text}</Text>
     </Flex>
   )

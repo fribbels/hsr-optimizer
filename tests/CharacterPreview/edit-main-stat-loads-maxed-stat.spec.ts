@@ -1,4 +1,7 @@
-import { expect, test } from '@playwright/test'
+import {
+  expect,
+  test,
+} from '@playwright/test'
 
 test('Editing relics show the correct main stat at maxed value', async ({ page }) => {
   // navigate to Relics tab

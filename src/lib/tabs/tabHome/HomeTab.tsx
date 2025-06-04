@@ -1,6 +1,18 @@
-import { ExportOutlined, SearchOutlined } from '@ant-design/icons'
+import {
+  ExportOutlined,
+  SearchOutlined,
+} from '@ant-design/icons'
 import { RightOutlined } from '@ant-design/icons/lib/icons'
-import { Button, Card, Collapse, Divider, Flex, Input, InputRef, Space } from 'antd'
+import {
+  Button,
+  Card,
+  Collapse,
+  Divider,
+  Flex,
+  Input,
+  InputRef,
+  Space,
+} from 'antd'
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
@@ -10,7 +22,10 @@ import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { Languages } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { useRef } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import {
+  Trans,
+  useTranslation,
+} from 'react-i18next'
 
 const headerHeight = 900
 const headerWidth = 1600
@@ -20,7 +35,7 @@ export default function HomeTab() {
 
   if (activeKey != AppPages.HOME) {
     // Don't load unless tab active
-    return (<></>)
+    return <></>
   }
 
   return (
@@ -33,9 +48,9 @@ export default function HomeTab() {
       }}
       align='center'
     >
-      <HeaderImage/>
-      <Header/>
-      <ContentCollapse/>
+      <HeaderImage />
+      <Header />
+      <ContentCollapse />
     </Flex>
   )
 }
@@ -43,13 +58,13 @@ export default function HomeTab() {
 const collapseItems = [
   {
     key: '1',
-    label: <CollapseLabel i18nkey='Explore'/* Explore the features *//>,
-    children: <FeaturesCollapse/>,
+    label: <CollapseLabel i18nkey='Explore' /* Explore the features */ />,
+    children: <FeaturesCollapse />,
   },
   {
     key: '2',
-    label: <CollapseLabel i18nkey='Join'/* Join the community *//>,
-    children: <CommunityCollapse/>,
+    label: <CollapseLabel i18nkey='Join' /* Join the community */ />,
+    children: <CommunityCollapse />,
   },
 ]
 
@@ -73,12 +88,13 @@ function CommunityCollapse() {
       <Flex vertical style={{ flex: 1, fontSize: 20 }} gap={20}>
         <Trans t={t} i18nKey='CommunityCollapse'>
           <span>
-            A huge thanks to all our contributors, translators, users, and everyone who provided feedback, for supporting this project and helping to build it together!
+            A huge thanks to all our contributors, translators, users, and everyone who provided feedback, for supporting this project and helping to build it
+            together!
           </span>
 
           <span>
-            Come be a part of our Star Rail community! Join the <ColorizedLinkWithIcon url='https://discord.gg/rDmB4Un7qg'/> server to hang out,
-            or check out the <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer'/> repo if you'd like to contribute.
+            Come be a part of our Star Rail community! Join the <ColorizedLinkWithIcon url='https://discord.gg/rDmB4Un7qg' />{' '}
+            server to hang out, or check out the <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer' /> repo if you'd like to contribute.
           </span>
         </Trans>
       </Flex>
@@ -105,7 +121,7 @@ function ContentCollapse() {
         width: '100%',
         maxWidth: headerWidth,
       }}
-      expandIcon={({ isActive }) => <RightOutlined style={{ marginLeft: 10 }} rotate={isActive ? 90 : 0}/>}
+      expandIcon={({ isActive }) => <RightOutlined style={{ marginLeft: 10 }} rotate={isActive ? 90 : 0} />}
       items={collapseItems}
       defaultActiveKey={collapseItems.map((x) => x.key)}
     />
@@ -158,15 +174,15 @@ function CardImage(props: { id: string }) {
   )
 }
 
-function FeatureCard(props: { title: string; id: string; content: string; url: string }) {
+function FeatureCard(props: { title: string, id: string, content: string, url: string }) {
   const { t } = useTranslation('hometab', { keyPrefix: 'FeatureCards' })
   return (
     <Card
-      title={(
+      title={
         <span style={{ fontSize: 20 }}>
           {props.title}
         </span>
-      )}
+      }
       style={{
         flex: 1,
         cursor: 'default',
@@ -174,7 +190,7 @@ function FeatureCard(props: { title: string; id: string; content: string; url: s
         minWidth: 500,
       }}
       hoverable={true}
-      cover={<CardImage id={props.id}/>}
+      cover={<CardImage id={props.id} />}
     >
       <Flex align='center' gap={10} justify='space-between'>
         <span>
@@ -185,9 +201,9 @@ function FeatureCard(props: { title: string; id: string; content: string; url: s
           iconPosition='end'
           href={props.url}
           target='_blank'
-          icon={<ExportOutlined/>}
+          icon={<ExportOutlined />}
         >
-          {t('LearnMore')/* Learn more */}
+          {t('LearnMore') /* Learn more */}
         </Button>
       </Flex>
     </Card>
@@ -202,7 +218,7 @@ function FeaturesCollapse() {
       <Flex vertical style={{ width: '100%' }} gap={cardGap}>
         <Flex gap={cardGap}>
           <FeatureCard
-            title={t('Showcase.Title')/* Character Showcase */}
+            title={t('Showcase.Title') /* Character Showcase */}
             id='showcase'
             content={
               t('Showcase.Content')
@@ -211,7 +227,7 @@ function FeaturesCollapse() {
             url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
           />
           <FeatureCard
-            title={t('Optimizer.Title')/* Relic Optimizer */}
+            title={t('Optimizer.Title') /* Relic Optimizer */}
             id='optimizer'
             content={
               t('Optimizer.Content')
@@ -222,7 +238,7 @@ function FeaturesCollapse() {
         </Flex>
         <Flex gap={cardGap} style={{ width: '100%' }}>
           <FeatureCard
-            title={t('Calculator.Title')/* Damage Calculator */}
+            title={t('Calculator.Title') /* Damage Calculator */}
             id='calculator'
             content={
               t('Calculator.Content')
@@ -231,7 +247,7 @@ function FeaturesCollapse() {
             url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/advanced-rotations.md'
           />
           <FeatureCard
-            title={t('Organizer.Title')/* Inventory Organizer */}
+            title={t('Organizer.Title') /* Inventory Organizer */}
             id='relics'
             content={
               t('Organizer.Content')
@@ -270,10 +286,10 @@ function Header() {
         }}
       >
         <Trans t={t} i18nKey='Welcome'>
-          Welcome to the<br/>Fribbels Star Rail Optimizer
+          Welcome to the<br />Fribbels Star Rail Optimizer
         </Trans>
       </h1>
-      <SearchBar/>
+      <SearchBar />
     </Flex>
   )
 }
@@ -289,7 +305,7 @@ function SearchBar() {
 
     const validated = TsUtils.validateUuid(uuid)
     if (!validated) {
-      return Message.warning(t('Message')/* 'Invalid input - This should be your 9 digit ingame UUID' */)
+      return Message.warning(t('Message') /* 'Invalid input - This should be your 9 digit ingame UUID' */)
     }
 
     window.history.pushState({}, '', `/hsr-optimizer#showcase?id=${uuid}`)
@@ -306,25 +322,28 @@ function SearchBar() {
       gap={5}
     >
       <Flex justify='space-between' style={{ width: '100%' }}>
-        <Flex justify='flex-start' style={{ paddingLeft: 3, paddingBottom: 5, fontSize: 17, textShadow: 'rgb(0, 0, 0) 2px 2px 20px, rgb(0, 0, 0) 0px 0px 5px' }}>
-          {t('Label')/* Enter your UUID to showcase characters: */}
+        <Flex
+          justify='flex-start'
+          style={{ paddingLeft: 3, paddingBottom: 5, fontSize: 17, textShadow: 'rgb(0, 0, 0) 2px 2px 20px, rgb(0, 0, 0) 0px 0px 5px' }}
+        >
+          {t('Label') /* Enter your UUID to showcase characters: */}
         </Flex>
 
         <Flex style={{ fontSize: 16, opacity: 0.8, marginRight: 2 }}>
-          <ColorizedLinkWithIcon text={t('Api') /* Uses Enka.Network */} noUnderline={true} url='https://enka.network/?hsr'/>
+          <ColorizedLinkWithIcon text={t('Api') /* Uses Enka.Network */} noUnderline={true} url='https://enka.network/?hsr' />
         </Flex>
       </Flex>
       <Space.Compact style={{ width: '100%' }}>
         <Button
           size='large'
           type='primary'
-          icon={<SearchOutlined/>}
+          icon={<SearchOutlined />}
           style={{ width: 60 }}
           onClick={handleSearchSubmit}
         />
         <Input
           ref={inputRef}
-          placeholder={t('Placeholder')/* 'UID' */}
+          placeholder={t('Placeholder') /* 'UID' */}
           style={{
             width: '100%',
           }}
@@ -338,7 +357,7 @@ function SearchBar() {
   )
 }
 
-function TranslatedImage(props: { src: string; fallbackSrc: string; style: React.CSSProperties }) {
+function TranslatedImage(props: { src: string, fallbackSrc: string, style: React.CSSProperties }) {
   const [errored, setErrored] = React.useState(false)
   return (
     <img

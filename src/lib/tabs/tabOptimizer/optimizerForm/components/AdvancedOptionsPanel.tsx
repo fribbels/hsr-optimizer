@@ -1,6 +1,13 @@
 import { SettingOutlined } from '@ant-design/icons'
-import { Button, Flex, Form } from 'antd'
-import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
+import {
+  Button,
+  Flex,
+  Form,
+} from 'antd'
+import {
+  OpenCloseIDs,
+  setOpen,
+} from 'lib/hooks/useOpenClose'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useMemo } from 'react'
@@ -21,21 +28,21 @@ export const AdvancedOptionsPanel = () => {
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
-      <HeaderText style={{ marginTop: 25 }}>{t('Header')/* Advanced options */}</HeaderText>
+      <HeaderText style={{ marginTop: 25 }}>{t('Header') /* Advanced options */}</HeaderText>
 
       <Button
         onClick={() => {
           setOpen(OpenCloseIDs.TRACES_DRAWER)
           setStatTracesDrawerFocusCharacter(window.store.getState().optimizerTabFocusCharacter!)
         }}
-        icon={<SettingOutlined/>}
+        icon={<SettingOutlined />}
       >
-        {t('CustomTracesButtonText')/* Custom stat traces */}
+        {t('CustomTracesButtonText') /* Custom stat traces */}
       </Button>
 
       <Button
         onClick={() => setOpen(OpenCloseIDs.COMBAT_BUFFS_DRAWER)}
-        icon={<SettingOutlined/>}
+        icon={<SettingOutlined />}
       >
         {
           buffsActive ? t('CombatBuffsButtonText', { activeCount: buffsActive }) : t('CombatBuffsButtonTextNone')
@@ -45,9 +52,9 @@ export const AdvancedOptionsPanel = () => {
 
       <Button
         onClick={() => setOpen(OpenCloseIDs.ENEMY_DRAWER)}
-        icon={<SettingOutlined/>}
+        icon={<SettingOutlined />}
       >
-        {t('EnemyConfigButtonText')/* Enemy configurations */}
+        {t('EnemyConfigButtonText') /* Enemy configurations */}
       </Button>
     </Flex>
   )

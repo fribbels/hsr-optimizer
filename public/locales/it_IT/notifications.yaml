@@ -2,7 +2,7 @@ GPU:
   Message: WebGPU non è supportato su questo browser!
   Description:
     l1: "Si prega di utilizzare uno dei seguenti browser supportati per abilitare l'accelerazione GPU:"
-    l2: "Windows e Mac — Chrome, Opera, Edge"
+    l2: 'Windows e Mac — Chrome, Opera, Edge'
     l3: >-
       Linux — <CustomLink text="Dietro una flag"/>
 Changelog:

@@ -1,12 +1,25 @@
-import { Stats, SubStats } from 'lib/constants/constants'
+import {
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
 import { StatToKey } from 'lib/optimization/computedStatsArray'
-import { applyScoringFunction, SimulationResult, substatRollsModifier } from 'lib/scoring/simScoringUtils'
+import {
+  applyScoringFunction,
+  SimulationResult,
+  substatRollsModifier,
+} from 'lib/scoring/simScoringUtils'
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
-import { Simulation, StatSimulationTypes } from 'lib/simulations/statSimulationTypes'
+import {
+  Simulation,
+  StatSimulationTypes,
+} from 'lib/simulations/statSimulationTypes'
 import { sumArray } from 'lib/utils/mathUtils'
 import { Utils } from 'lib/utils/utils'
-import { ComputeOptimalSimulationWorkerInput, ComputeOptimalSimulationWorkerOutput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import {
+  ComputeOptimalSimulationWorkerInput,
+  ComputeOptimalSimulationWorkerOutput,
+} from 'lib/worker/computeOptimalSimulationWorkerRunner'
 
 export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSimulationWorkerInput>) {
   const input = e.data
@@ -72,11 +85,11 @@ function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerInput) {
   // Track the substats per part and make sure there are enough slots being used
   const possibleDistributionTracker: {
     parts: {
-      main: string
+      main: string,
       substats: {
-        [key: string]: boolean
-      }
-    }[]
+        [key: string]: boolean,
+      },
+    }[],
   } = { parts: [] }
   if (scoringParams.enforcePossibleDistribution) {
     speedCap = false
@@ -264,5 +277,4 @@ function sumSubstatRolls(maxSubstatRollCounts: StatSimulationTypes) {
 }
 
 export function DEBUG() {
-
 }

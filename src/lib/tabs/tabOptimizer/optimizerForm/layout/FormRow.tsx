@@ -1,5 +1,11 @@
-import { Collapse, Flex } from 'antd'
-import { ReactElement, useMemo } from 'react'
+import {
+  Collapse,
+  Flex,
+} from 'antd'
+import {
+  ReactElement,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 
 export const OptimizerMenuIds = {
@@ -10,7 +16,7 @@ export const OptimizerMenuIds = {
   analysis: 'Analysis',
 }
 
-export function FormRow(props: { id: string; label?: string; children: ReactElement | ReactElement[] }) {
+export function FormRow(props: { id: string, label?: string, children: ReactElement | ReactElement[] }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'FormRowLabels' })
   const optimizerMenuState = window.store((s) => s.optimizerMenuState)
   const setOptimizerMenuState = window.store((s) => s.setOptimizerMenuState)
@@ -68,7 +74,7 @@ export function FormRow(props: { id: string; label?: string; children: ReactElem
   )
 }
 
-export function TeammateFormRow(props: { id: string; children: ReactElement | ReactElement[] }) {
+export function TeammateFormRow(props: { id: string, children: ReactElement | ReactElement[] }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateRow' })
   const teammateCount = window.store((s) => s.teammateCount)
 

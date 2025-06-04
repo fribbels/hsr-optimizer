@@ -1,4 +1,10 @@
-import { Constants, MainStats, Parts, Sets, StatsValues, SubStats } from 'lib/constants/constants'
+import {
+  Constants,
+  MainStats,
+  Parts,
+  StatsValues,
+  SubStats,
+} from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
@@ -46,61 +52,61 @@ import { Relic } from 'types/relic'
  */
 
 type HoyolabRelic = {
-  id: number
-  level: number
-  pos: number
-  rarity: number
-  main_property: Property
-  properties: Property[]
+  id: number,
+  level: number,
+  pos: number,
+  rarity: number,
+  main_property: Property,
+  properties: Property[],
 }
 
 type Property = {
-  property_type: number
-  value: string
-  times: number
+  property_type: number,
+  value: string,
+  times: number,
 }
 
 type Equip = {
-  id: number
-  level: number
-  rank: number
-  rarity: number
+  id: number,
+  level: number,
+  rank: number,
+  rarity: number,
 }
 
 type Avatar = {
-  id: number
-  level: number
-  name: string
-  rank: number
-  equip: Equip
-  relics: HoyolabRelic[]
-  ornaments: HoyolabRelic[]
+  id: number,
+  level: number,
+  name: string,
+  rank: number,
+  equip: Equip,
+  relics: HoyolabRelic[],
+  ornaments: HoyolabRelic[],
 }
 
 export type HoyolabData = {
   data: {
-    avatar_list: Avatar[]
-  }
+    avatar_list: Avatar[],
+  },
 }
 
 type HoyolabOutput = {
   metadata: {
-    trailblazer: string
-    current_trailblazer_path: string
-  }
-  characters: HoyolabCharacter[]
-  relics: HoyolabRelicOut[]
+    trailblazer: string,
+    current_trailblazer_path: string,
+  },
+  characters: HoyolabCharacter[],
+  relics: HoyolabRelicOut[],
 }
 
 type HoyolabRelicOut = Pick<Relic, 'enhance' | 'equippedBy' | 'grade' | 'id' | 'part' | 'set' | 'main' | 'substats' | 'verified'>
 
 type HoyolabCharacter = {
-  characterEidolon: number
-  characterId: CharacterId
-  characterLevel: number
-  lightCone: LightCone['id'] | null
-  lightConeLevel: number
-  lightConeSuperimposition: number
+  characterEidolon: number,
+  characterId: CharacterId,
+  characterLevel: number,
+  lightCone: LightCone['id'] | null,
+  lightConeLevel: number,
+  lightConeSuperimposition: number,
 }
 
 export function hoyolabParser(json: HoyolabData) {
@@ -131,8 +137,8 @@ export function hoyolabParser(json: HoyolabData) {
     const relics: HoyolabRelic[] = [...character.relics, ...character.ornaments]
     for (const relic of relics) {
       const substats: {
-        stat: SubStats
-        value: number
+        stat: SubStats,
+        value: number,
       }[] = []
       for (const property of relic.properties) {
         const substat = {
@@ -171,7 +177,7 @@ function readValue(value: string) {
   return Utils.precisionRound(parseFloat(value))
 }
 
-type TrailblazerMetadata = { trailblazer: string; current_trailblazer_path: string }
+type TrailblazerMetadata = { trailblazer: string, current_trailblazer_path: string }
 const trailblazerMetadataLookup: { [key: number]: TrailblazerMetadata } = {
   8001: { trailblazer: 'Caelus', current_trailblazer_path: 'Destruction' },
   8002: { trailblazer: 'Stelle', current_trailblazer_path: 'Destruction' },

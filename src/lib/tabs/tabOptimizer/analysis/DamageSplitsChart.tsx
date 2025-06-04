@@ -1,11 +1,25 @@
 import { Flex } from 'antd'
 import i18next from 'i18next'
-import { DamageBreakdown, DefaultActionDamageValues } from 'lib/optimization/computedStatsArray'
-import { DAMAGE_SPLITS_CHART_HEIGHT, DAMAGE_SPLITS_CHART_WIDTH } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
+import {
+  DamageBreakdown,
+  DefaultActionDamageValues,
+} from 'lib/optimization/computedStatsArray'
+import {
+  DAMAGE_SPLITS_CHART_HEIGHT,
+  DAMAGE_SPLITS_CHART_WIDTH,
+} from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Bar, BarChart, LabelList, Legend, Tooltip, XAxis, YAxis } from 'recharts'
+import {
+  Bar,
+  BarChart,
+  LabelList,
+  Legend,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts'
 
 type DamageBreakdownKeys = Exclude<keyof DamageBreakdown, 'name'>
 
@@ -25,14 +39,13 @@ type SummedDamageBreakdown = DamageBreakdown & { sum: number }
 const chartColor = '#DDD'
 
 export function DamageSplitsChart(props: {
-  data: DamageBreakdown[]
+  data: DamageBreakdown[],
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageSplits' })
   const [barHovered, setBarHovered] = useState<string | null>(null)
 
   const data = props.data
-  const filteredData: SummedDamageBreakdown[] = data.filter((row) =>
-    keys.some((key) => row[key] !== 0), // Keep only rows with non-zero values
+  const filteredData: SummedDamageBreakdown[] = data.filter((row) => keys.some((key) => row[key] !== 0) // Keep only rows with non-zero values
   ).map((item) => {
     const summed = item as SummedDamageBreakdown
     let sum = 0
@@ -60,10 +73,9 @@ export function DamageSplitsChart(props: {
   })
 
   return (
-
     <Flex justify='center' className='pre-font'>
       <span style={{ position: 'absolute', marginTop: 20, fontSize: 14 }}>
-        {t('Title')/* Damage Type Distribution */}
+        {t('Title') /* Damage Type Distribution */}
       </span>
       <BarChart
         layout='vertical'
@@ -98,7 +110,7 @@ export function DamageSplitsChart(props: {
           cursor={false}
           isAnimationActive={false}
           // @ts-ignore
-          content={<CustomTooltip bar={barHovered}/>}
+          content={<CustomTooltip bar={barHovered} />}
         />
         <Legend
           formatter={(s: DamageBreakdownKeys) => t(`Legend.${s}`)}
@@ -135,18 +147,18 @@ function renderBar(
       onMouseEnter={() => setBarHovered(dataKey)}
       onMouseLeave={() => setBarHovered(null)}
     >
-      {label && <LabelList dataKey='sum' position='right' formatter={renderThousandsK}/>}
+      {label && <LabelList dataKey='sum' position='right' formatter={renderThousandsK} />}
     </Bar>
   )
 }
 
 type BarsTooltipData = {
-  dataKey: string
-  value: number
-  payload: DamageBreakdown
+  dataKey: string,
+  value: number,
+  payload: DamageBreakdown,
 }
 
-const CustomTooltip = (props: { active: boolean; payload: BarsTooltipData[]; label: string; bar: DamageBreakdownKeys | null }) => {
+const CustomTooltip = (props: { active: boolean, payload: BarsTooltipData[], label: string, bar: DamageBreakdownKeys | null }) => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageSplits.TooltipText' })
   const { active, payload, bar } = props
   if (!bar || !payload || !active) {

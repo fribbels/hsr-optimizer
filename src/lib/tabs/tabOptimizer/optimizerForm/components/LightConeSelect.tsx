@@ -1,13 +1,31 @@
-import { Card, Flex, Input, InputRef, Modal, Select } from 'antd'
+import {
+  Card,
+  Flex,
+  Input,
+  InputRef,
+  Modal,
+  Select,
+} from 'antd'
 import { PathName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { generateLightConeOptions } from 'lib/rendering/optionGenerator'
 import DB from 'lib/state/db'
-import { CardGridItemContent, generatePathTags, generateRarityTags, SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
+import {
+  CardGridItemContent,
+  generatePathTags,
+  generateRarityTags,
+  SegmentedFilterRow,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
-import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  ReactNode,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { LightCone } from 'types/lightCone'
@@ -41,7 +59,9 @@ const parentH = 150
 const innerW = 115
 const innerH = 150
 
-const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, onChange, selectStyle, initialPath, withIcon, externalOpen, setExternalOpen }) => {
+const LightConeSelect: React.FC<LightConeSelectProps> = (
+  { characterId, value, onChange, selectStyle, initialPath, withIcon, externalOpen, setExternalOpen },
+) => {
   // console.log('==================================== LC SELECT')
   const metadata = DB.getMetadata()
   const [open, setOpen] = useState(false)
@@ -59,7 +79,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
   const lightConeOptions = useMemo(() => generateLightConeOptions(), [t])
 
   const labelledOptions = useMemo(() => {
-    const labelledOptions: { value: string; label: ReactNode }[] = []
+    const labelledOptions: { value: string, label: ReactNode }[] = []
     for (const option of lightConeOptions) {
       labelledOptions.push({
         value: option.value,
@@ -83,7 +103,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
     }
   }, [open, externalOpen])
 
-  function applyFilters(x: DBMetadataLightCone & { value: string; label: string; id: string }) {
+  function applyFilters(x: DBMetadataLightCone & { value: string, label: string, id: string }) {
     if (currentFilters.rarity.length && !currentFilters.rarity.includes(x.rarity)) {
       return false
     }
@@ -105,7 +125,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
         style={selectStyle}
         value={value}
         options={withIcon ? labelledOptions : lightConeOptions}
-        placeholder={t('Placeholder')/* Lightcone */}
+        placeholder={t('Placeholder') /* Lightcone */}
         allowClear
         onClear={() => {
           if (onChange) onChange(null)
@@ -139,7 +159,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
               <Input
                 size='large'
                 style={{ height: 40 }}
-                placeholder={t('Placeholder')/* Select a lightcone */}
+                placeholder={t('Placeholder') /* Select a lightcone */}
                 ref={inputRef}
                 onChange={(e) => {
                   const newFilters = TsUtils.clone(currentFilters)
@@ -179,26 +199,24 @@ const LightConeSelect: React.FC<LightConeSelectProps> = ({ characterId, value, o
           </Flex>
 
           <div style={{ display: 'grid', gridTemplateColumns: `repeat(auto-fill, minmax(${parentW}px, 1fr))`, gridGap: 8 }}>
-            {
-              lightConeOptions
-                .sort(Utils.sortRarityDesc)
-                .filter(applyFilters)
-                .map((option) => (
-                  <Card
-                    key={option.id}
-                    hoverable
-                    style={{
-                      background: rarityToBg[option.rarity],
-                      overflow: 'hidden',
-                      height: `${parentH}px`,
-                    }}
-                    onMouseDown={() => handleClick(option.id)}
-                    styles={{ body: { padding: 1 } }}
-                  >
-                    <CardGridItemContent imgSrc={Assets.getLightConeIconById(option.id)} text={option.label} innerW={innerW} innerH={innerH} rows={2}/>
-                  </Card>
-                ))
-            }
+            {lightConeOptions
+              .sort(Utils.sortRarityDesc)
+              .filter(applyFilters)
+              .map((option) => (
+                <Card
+                  key={option.id}
+                  hoverable
+                  style={{
+                    background: rarityToBg[option.rarity],
+                    overflow: 'hidden',
+                    height: `${parentH}px`,
+                  }}
+                  onMouseDown={() => handleClick(option.id)}
+                  styles={{ body: { padding: 1 } }}
+                >
+                  <CardGridItemContent imgSrc={Assets.getLightConeIconById(option.id)} text={option.label} innerW={innerW} innerH={innerH} rows={2} />
+                </Card>
+              ))}
           </div>
         </Flex>
       </Modal>

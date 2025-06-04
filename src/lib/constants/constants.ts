@@ -1,21 +1,28 @@
 // Represents the version of the latest info, which should be the beta leaks version at the time of the major update
 import gameData from 'data/game_data.json' with { type: 'json' }
-import { ARCHER, BLADE_B1, JINGLIU_B1, KAFKA_B1, PHAINON, SABER } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  ARCHER,
+  BLADE_B1,
+  JINGLIU_B1,
+  KAFKA_B1,
+  PHAINON,
+  SABER,
+} from 'lib/simulations/tests/testMetadataConstants'
 
 // Semver defined optimizer version
 export const CURRENT_OPTIMIZER_VERSION = 'v3.4.1'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '3.4v2'
+export const CURRENT_DATA_VERSION = '3.4v3'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  [PHAINON]: 'V2 - Numbers may change. Assumes Foundation skills.',
-  [SABER]: 'V2 - Numbers may change. Traces & EBA updated.',
-  [ARCHER]: 'V2 - Numbers may change',
-  [KAFKA_B1]: 'V2 buffs - Numbers may change',
-  [BLADE_B1]: 'V2 buffs - Numbers may change',
-  [JINGLIU_B1]: 'V2 buffs - Numbers may change',
+  [PHAINON]: 'V3 - Numbers may change. Assumes Foundation skills.',
+  [SABER]: 'V3 - Numbers may change.',
+  [ARCHER]: 'V3 - Numbers may change',
+  [KAFKA_B1]: 'V3 buffs - Numbers may change',
+  [BLADE_B1]: 'V3 buffs - Numbers may change',
+  [JINGLIU_B1]: 'V3 buffs - Numbers may change',
 }
 
 export const Stats = {
@@ -94,7 +101,7 @@ export const AllStats = [
   Stats.Wind_DMG,
 ]
 
-export const MainStatsValues: Record<string, Record<number, { base: number; increment: number }>> = {
+export const MainStatsValues: Record<string, Record<number, { base: number, increment: number }>> = {
   [Stats.HP_P]: {
     5: { base: 6.912, increment: 2.4192 },
     4: { base: 5.5296, increment: 1.9354 },
@@ -367,7 +374,18 @@ export const PartsMainStats = {
   [Parts.Hands]: [Stats.ATK],
   [Parts.Body]: [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.CR, Stats.CD, Stats.OHB, Stats.EHR],
   [Parts.Feet]: [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.SPD],
-  [Parts.PlanarSphere]: [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.Physical_DMG, Stats.Fire_DMG, Stats.Ice_DMG, Stats.Lightning_DMG, Stats.Wind_DMG, Stats.Quantum_DMG, Stats.Imaginary_DMG],
+  [Parts.PlanarSphere]: [
+    Stats.HP_P,
+    Stats.ATK_P,
+    Stats.DEF_P,
+    Stats.Physical_DMG,
+    Stats.Fire_DMG,
+    Stats.Ice_DMG,
+    Stats.Lightning_DMG,
+    Stats.Wind_DMG,
+    Stats.Quantum_DMG,
+    Stats.Imaginary_DMG,
+  ],
   [Parts.LinkRope]: [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.BE, Stats.ERR],
 }
 
@@ -702,7 +720,7 @@ export const COMPUTE_ENGINE_CPU = 'CPU'
 export const COMPUTE_ENGINE_GPU_STABLE = 'GPU Stable'
 export const COMPUTE_ENGINE_GPU_EXPERIMENTAL = 'GPU Experimental'
 export type ComputeEngine =
-  typeof COMPUTE_ENGINE_CPU
+  | typeof COMPUTE_ENGINE_CPU
   | typeof COMPUTE_ENGINE_GPU_EXPERIMENTAL
   | typeof COMPUTE_ENGINE_GPU_STABLE
 

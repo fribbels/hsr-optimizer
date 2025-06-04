@@ -1,5 +1,12 @@
 import { GpuExecutionContext } from 'lib/gpu/webgpuTypes'
-import { ComputedStatsArray, ComputedStatsArrayCore, ComputedStatsObjectExternal, InternalKeyToExternal, Key, KeysType } from 'lib/optimization/computedStatsArray'
+import {
+  ComputedStatsArray,
+  ComputedStatsArrayCore,
+  ComputedStatsObjectExternal,
+  InternalKeyToExternal,
+  Key,
+  KeysType,
+} from 'lib/optimization/computedStatsArray'
 import { baseComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -7,7 +14,7 @@ export function logIterationTimer(i: number, gpuContext: GpuExecutionContext) {
   const endTime = new Date().getTime()
   const timeTaken = (endTime - gpuContext.startTime) / 1000
   const permsCompleted = i * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
-  const perSec = Math.floor(permsCompleted / (timeTaken))
+  const perSec = Math.floor(permsCompleted / timeTaken)
   console.log(`Iteration: ${i}, Time: ${timeTaken}s, Completed: ${permsCompleted}, Per sec: ${perSec.toLocaleString()}`)
 }
 

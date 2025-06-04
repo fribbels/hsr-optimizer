@@ -1,8 +1,16 @@
 import { DeleteOutlined } from '@ant-design/icons'
-import { Button, Flex, Popconfirm, Typography } from 'antd'
+import {
+  Button,
+  Flex,
+  Popconfirm,
+  Typography,
+} from 'antd'
 import { Message } from 'lib/interactions/message'
 import DB from 'lib/state/db'
-import { importerTabButtonWidth, importerTabSpinnerMs } from 'lib/tabs/tabImport/importerTabUiConstants'
+import {
+  importerTabButtonWidth,
+  importerTabSpinnerMs,
+} from 'lib/tabs/tabImport/importerTabUiConstants'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -20,25 +28,25 @@ export function ClearDataSubmenu() {
       setLoading(false)
       DB.resetStore()
 
-      Message.success(t('SuccessMessage')/* Cleared data */)
+      Message.success(t('SuccessMessage') /* Cleared data */)
     }, importerTabSpinnerMs)
   }
 
   return (
     <Flex vertical gap={5}>
       <Text>
-        {t('Label')/* Clear all optimizer data. */}
+        {t('Label') /* Clear all optimizer data. */}
       </Text>
       <Popconfirm
-        title={t('WarningTitle')/* Erase all data */}
-        description={t('WarningDescription')/* Are you sure you want to clear all relics and characters */}
+        title={t('WarningTitle') /* Erase all data */}
+        description={t('WarningDescription') /* Are you sure you want to clear all relics and characters */}
         onConfirm={clearDataClicked}
         placement='bottom'
-        okText={tCommon('Yes')/* Yes */}
-        cancelText={tCommon('Cancel')/* Cancel */}
+        okText={tCommon('Yes') /* Yes */}
+        cancelText={tCommon('Cancel') /* Cancel */}
       >
-        <Button type='primary' icon={<DeleteOutlined/>} loading={loading} style={{ width: importerTabButtonWidth }}>
-          {t('ButtonText')/* Clear data */}
+        <Button type='primary' icon={<DeleteOutlined />} loading={loading} style={{ width: importerTabButtonWidth }}>
+          {t('ButtonText') /* Clear data */}
         </Button>
       </Popconfirm>
     </Flex>

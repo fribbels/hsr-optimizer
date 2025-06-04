@@ -1,5 +1,16 @@
-import { Drawer, Flex, Form, Popover, Select, Switch, Typography } from 'antd'
-import { Constants, setToId } from 'lib/constants/constants'
+import {
+  Drawer,
+  Flex,
+  Form,
+  Popover,
+  Select,
+  Switch,
+  Typography,
+} from 'antd'
+import {
+  Constants,
+  setToId,
+} from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
 import { VerticalDivider } from 'lib/ui/Dividers'
@@ -15,7 +26,7 @@ const setConditionalsNameWidth = 200
 const setConditionalsWidth = 80
 const defaultGap = 5
 
-export function FormSetConditionals(props/* : { open: boolean; setOpen: (boolean) => void } */) {
+export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolean) => void } */) {
   // eslint-disable-next-line react/prop-types
   const id = props.id
 
@@ -166,7 +177,7 @@ export function FormSetConditionals(props/* : { open: boolean; setOpen: (boolean
 
   return (
     <Drawer
-      title={t('Title')}// 'Conditional set effects'
+      title={t('Title')} // 'Conditional set effects'
       placement='right'
       onClose={() => close()}
       open={isOpen}
@@ -461,14 +472,14 @@ function ConditionalSetOption(props) {
     <Flex vertical gap={10}>
       <Flex vertical>
         <HeaderText>
-          <p>{t('DescriptionHeader')/* Set description */}</p>
+          <p>{t('DescriptionHeader') /* Set description */}</p>
         </HeaderText>
         <p>{ColorizeNumbers(props.description)}</p>
       </Flex>
 
       <Flex vertical>
         <HeaderText>
-          <p>{t('EffectHeader')/* Enabled effect */}</p>
+          <p>{t('EffectHeader') /* Enabled effect */}</p>
         </HeaderText>
         <p>{props.conditional}</p>
       </Flex>
@@ -477,7 +488,7 @@ function ConditionalSetOption(props) {
 
   if (Constants.SetsRelicsNames.includes(props.set)) {
     // Relics
-    let inputType = (<Switch disabled={props.p4Checked} />)
+    let inputType = <Switch disabled={props.p4Checked} />
     if (props.selectOptions) {
       inputType = (
         <Select
@@ -515,7 +526,8 @@ function ConditionalSetOption(props) {
               overflow: 'hidden',
               whiteSpace: 'nowrap',
             }}
-          >{t('SetName', { id: setToId[props.set] })}
+          >
+            {t('SetName', { id: setToId[props.set] })}
           </Text>
           <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
             <Form.Item
@@ -530,7 +542,7 @@ function ConditionalSetOption(props) {
     )
   } else {
     // Ornaments
-    let inputType = (<Switch disabled={props.p2Checked} />)
+    let inputType = <Switch disabled={props.p2Checked} />
     if (props.selectOptions) {
       inputType = (
         <Select
@@ -567,7 +579,8 @@ function ConditionalSetOption(props) {
               overflow: 'hidden',
               whiteSpace: 'nowrap',
             }}
-          >{t('SetName', { id: setToId[props.set] })}
+          >
+            {t('SetName', { id: setToId[props.set] })}
           </Text>
           <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
             <Form.Item

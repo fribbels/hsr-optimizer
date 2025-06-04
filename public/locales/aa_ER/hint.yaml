@@ -63,7 +63,7 @@ Relics:
   p2: "crwdns41868:0crwdne41868:0"
   p3: "crwdns41870:0crwdne41870:0"
   p4: "crwdns41872:0crwdne41872:0"
-  p5: "crwdns41874:0crwdne41874:0"
+  p5: 'crwdns41874:0crwdne41874:0'
 OptimizationDetails:
   Title: crwdns41876:0crwdne41876:0
   p1: crwdns41878:0crwdne41878:0
@@ -98,7 +98,7 @@ ValueColumns:
   p3: crwdns41926:0crwdne41926:0
   p4: crwdns41928:0crwdne41928:0
   p5: crwdns41930:0crwdne41930:0
-  p6: "crwdns41932:0crwdne41932:0"
+  p6: 'crwdns41932:0crwdne41932:0'
 RelicInsights:
   Title: crwdns41934:0crwdne41934:0
   p1: crwdns41936:0crwdne41936:0

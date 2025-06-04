@@ -1,10 +1,10 @@
 name: Typecheck
 on:
   push:
-    branches: [ main, beta ]
+    branches: [main, beta]
   pull_request:
-    branches: [ main, beta ]
-    types: [ opened, reopened, synchronize, review_requested, ready_for_review ]
+    branches: [main, beta]
+    types: [opened, reopened, synchronize, review_requested, ready_for_review]
 jobs:
   test:
     if: github.event.pull_request.draft == false

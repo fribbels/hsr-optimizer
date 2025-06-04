@@ -1,11 +1,14 @@
 import { Flex } from 'antd'
 import i18next from 'i18next'
-import { Trans, useTranslation } from 'react-i18next'
+import {
+  Trans,
+  useTranslation,
+} from 'react-i18next'
 import { ReactElement } from 'types/components'
 
 export type HintContent = {
-  title: string
-  content: ReactElement
+  title: string,
+  content: ReactElement,
 }
 
 export const Hint = {
@@ -198,7 +201,7 @@ export const Hint = {
 
   optimizerOptions: (): HintContent => {
     return {
-      title: i18next.t('hint:OptimizerOptions.Title')/* Optimizer options */,
+      title: i18next.t('hint:OptimizerOptions.Title'), /* Optimizer options */
       content: (() => {
         const { t } = useTranslation('hint', { keyPrefix: 'OptimizerOptions' })
         return (
@@ -206,16 +209,15 @@ export const Hint = {
             <p>
               <Trans t={t} i18nKey='p1'>
                 <strong>Character priority filter</strong>
-                - When this option is enabled, the character may only steal relics from lower priority characters.
-                The optimizer will ignore relics equipped by higher priority characters on the list.
-                Change character ranks from the priority selector or by dragging them on the Characters page.
+                - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by
+                higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.
               </Trans>
             </p>
             <p>
               <Trans t={t} i18nKey='p2'>
                 <strong>Boost main stat</strong>
-                - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it.
-                Substats are not changed accordingly, so builds with lower level relics may be stronger once you level them.
+                - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats
+                are not changed accordingly, so builds with lower level relics may be stronger once you level them.
               </Trans>
             </p>
             <p>
@@ -311,7 +313,7 @@ export const Hint = {
           <p>{i18next.t('hint:EnemyOptions.p6')}</p>
           <p>{i18next.t('hint:EnemyOptions.p7')}</p>
         </Flex>
-      /* Title: Enemy options
+        /* Title: Enemy options
       p1: Level - Enemy level, affects enemy DEF calculations
       p2: Effect RES - Enemy effect RES. Effect res is used for calculations relating to DOT damage
       p3: Damage RES - Enemy elemental RES. RES is set to 0 when the enemy's elemental weakness is enabled.
@@ -369,7 +371,9 @@ export const Hint = {
       content: (
         <Flex vertical gap={10}>
           <p>{i18next.t('hint:ValueColumns.p1')}</p>
-          <p><b>{i18next.t('hint:ValueColumns.p2')}</b></p>
+          <p>
+            <b>{i18next.t('hint:ValueColumns.p2')}</b>
+          </p>
           <p>{i18next.t('hint:ValueColumns.p3')}</p>
           <p>{i18next.t('hint:ValueColumns.p4')}</p>
           <p>{i18next.t('hint:ValueColumns.p5')}</p>
@@ -394,22 +398,28 @@ export const Hint = {
 
   relicInsight: (): HintContent => {
     return {
-      title: i18next.t('hint:RelicInsights.Title')/* Relic Insight */,
+      title: i18next.t('hint:RelicInsights.Title'), /* Relic Insight */
       content: (() => {
         const { t } = useTranslation('hint', { keyPrefix: 'RelicInsights' })
         return (
           <Flex vertical gap={10}>
-            <p>{t('p1')/* When a relic is selected in the table above, you can choose an analysis to view a plot of. */}</p>
+            <p>{t('p1') /* When a relic is selected in the table above, you can choose an analysis to view a plot of. */}</p>
             <p>
               <Trans t={t} i18nKey='p2'>
                 'Buckets' looks at how perfect this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.
-                <br/>
+                <br />
                 If you hover over a character portrait you'll see the new stats and/or rolls necessary to reach the max potential of this relic.
-                <br/>
+                <br />
                 ⚠️ Relics with missing substats may have misleadingly high buckets, as best-case upgrade analysis assumes the best new substat per character.
               </Trans>
             </p>
-            <p>{t('p3')/* 'Top 10' takes the top 10 characters that this relic could be best for, and shows the range of '% perfection' upgrading this relic could result in. */}</p>
+            <p>
+              {
+                t(
+                  'p3',
+                ) /* 'Top 10' takes the top 10 characters that this relic could be best for, and shows the range of '% perfection' upgrading this relic could result in. */
+              }
+            </p>
           </Flex>
         )
       })(),
@@ -418,10 +428,10 @@ export const Hint = {
 
   relicLocation: (): HintContent => {
     return {
-      title: i18next.t('hint:RelicLocation.Title')/* Relic Location */,
+      title: i18next.t('hint:RelicLocation.Title'), /* Relic Location */
       content: (
         <Flex vertical gap={10}>
-          <p>{i18next.t('hint:RelicLocation.p1')/* When a relic is selected in the grid, its position in the ingame inventory is displayed here. */}</p>
+          <p>{i18next.t('hint:RelicLocation.p1') /* When a relic is selected in the grid, its position in the ingame inventory is displayed here. */}</p>
           <p>
             {
               i18next.t('hint:RelicLocation.p2')
@@ -430,10 +440,12 @@ export const Hint = {
           </p>
 
           <Flex vertical>
-            <div>{i18next.t('hint:RelicLocation.p3')/* ⚠️Usage notes⚠️ */}</div>
+            <div>{i18next.t('hint:RelicLocation.p3') /* ⚠️Usage notes⚠️ */}</div>
             <ul>
-              <li>{i18next.t('hint:RelicLocation.p4')/* This is only supported with Reliquary Archiver import */}</li>
-              <li>{i18next.t('hint:RelicLocation.p5')/* If new relics were deleted or obtained since the last import, they must be re-scanned and imported */}</li>
+              <li>{i18next.t('hint:RelicLocation.p4') /* This is only supported with Reliquary Archiver import */}</li>
+              <li>
+                {i18next.t('hint:RelicLocation.p5') /* If new relics were deleted or obtained since the last import, they must be re-scanned and imported */}
+              </li>
               <li>
                 {
                   i18next.t('hint:RelicLocation.p6')
@@ -449,7 +461,7 @@ export const Hint = {
 
   locatorParams: (): HintContent => {
     return {
-      title: i18next.t('hint:LocatorParams.Title')/* Relic Locator Options */,
+      title: i18next.t('hint:LocatorParams.Title'), /* Relic Locator Options */
       content: (() => {
         const { t } = useTranslation('hint', { keyPrefix: 'LocatorParams' })
         return (
@@ -463,7 +475,8 @@ export const Hint = {
             <p>
               <Trans t={t} i18nKey='p2'>
                 <strong>Auto Filter rows</strong>
-                - Maximum number of rows before the relic locator applies a part/set filter to try and bring the searched relic closer to the top of your inventory
+                - Maximum number of rows before the relic locator applies a part/set filter to try and bring the searched relic closer to the top of your
+                inventory
               </Trans>
             </p>
           </Flex>

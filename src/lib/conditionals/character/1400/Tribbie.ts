@@ -1,4 +1,7 @@
-import { AbilityType, DOT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityType,
+  DOT_DMG_TYPE,
+} from 'lib/conditionals/conditionalConstants'
 import {
   basicAdditionalDmgHpFinalizer,
   fuaAdditionalDmgHpFinalizer,
@@ -7,15 +10,26 @@ import {
   gpuUltAdditionalDmgHpFinalizer,
   ultAdditionalDmgHpFinalizer,
 } from 'lib/conditionals/conditionalFinalizers'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { allTypesExcept, buffAbilityTrueDmg, Target } from 'lib/optimization/calculateBuffs'
+import {
+  allTypesExcept,
+  buffAbilityTrueDmg,
+  Target,
+} from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Tribbie.Content')
@@ -165,10 +179,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.RES_PEN.buffTeam((m.numinosity ? skillResPen : 0), SOURCE_SKILL)
-      x.VULNERABILITY.buffTeam((m.ultZone ? ultVulnerability : 0), SOURCE_ULT)
+      x.RES_PEN.buffTeam(m.numinosity ? skillResPen : 0, SOURCE_SKILL)
+      x.VULNERABILITY.buffTeam(m.ultZone ? ultVulnerability : 0, SOURCE_ULT)
 
-      buffAbilityTrueDmg(x, allTypesExcept(DOT_DMG_TYPE), (e >= 1 && m.ultZone && m.e1TrueDmg ? 0.24 : 0), SOURCE_E1, Target.TEAM)
+      buffAbilityTrueDmg(x, allTypesExcept(DOT_DMG_TYPE), e >= 1 && m.ultZone && m.e1TrueDmg ? 0.24 : 0, SOURCE_E1, Target.TEAM)
 
       x.DEF_PEN.buffTeam((e >= 4 && m.numinosity && m.e4DefPen) ? 0.18 : 0, SOURCE_E4)
     },

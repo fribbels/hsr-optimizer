@@ -24,7 +24,7 @@ FeatureCards:
 Welcome: Bienvenue à <1/> l'Optimiseur Star Rail de Fribbels
 SearchBar:
   Placeholder: UID
-  Label: "Entrez votre UID pour afficher vos personnages de vitrine"
-  Api: "Via Enka.Network"
+  Label: 'Entrez votre UID pour afficher vos personnages de vitrine'
+  Api: 'Via Enka.Network'
   Message: Entrée invalide - Cela doit être votre UUID à 9 chiffres
   Search: Rechercher

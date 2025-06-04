@@ -1,13 +1,26 @@
-import { Button, Flex, Select } from 'antd'
-import { completedLocales, isBeta } from 'lib/i18n/i18n'
+import {
+  Button,
+  Flex,
+  Select,
+} from 'antd'
+import {
+  completedLocales,
+  isBeta,
+} from 'lib/i18n/i18n'
 import { Assets } from 'lib/rendering/assets'
-import { BASE_PATH, BasePath } from 'lib/state/db'
-import { languages, Languages } from 'lib/utils/i18nUtils'
+import {
+  BASE_PATH,
+  BasePath,
+} from 'lib/state/db'
+import {
+  Languages,
+  languages,
+} from 'lib/utils/i18nUtils'
 import { useTranslation } from 'react-i18next'
 
 export function LanguageSelector() {
   const { i18n } = useTranslation()
-  const selectOptions = Object.values(languages as Record<Languages, { locale: Languages; nativeName: string; shortName: string }>)
+  const selectOptions = Object.values(languages as Record<Languages, { locale: Languages, nativeName: string, shortName: string }>)
     .filter((x) => {
       if (x.locale !== 'aa_ER') return isBeta || completedLocales.includes(x.locale)
       return BASE_PATH === BasePath.BETA
@@ -17,7 +30,7 @@ export function LanguageSelector() {
       value: locale,
       display: (
         <Flex align='center' gap={10}>
-          <img style={{ width: 22 }} src={Assets.getGlobe()}/>
+          <img style={{ width: 22 }} src={Assets.getGlobe()} />
           {shortName}
         </Flex>
       ),

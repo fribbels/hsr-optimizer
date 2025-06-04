@@ -1,5 +1,8 @@
 import { runDpsScoreBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
-import { generateTestSingleRelicsByPart, TestInput } from 'lib/simulations/tests/simTestUtils'
+import {
+  generateTestSingleRelicsByPart,
+  TestInput,
+} from 'lib/simulations/tests/simTestUtils'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Character } from 'types/character'

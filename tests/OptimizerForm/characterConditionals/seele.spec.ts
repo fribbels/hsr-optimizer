@@ -1,4 +1,7 @@
-import { expect, test } from '@playwright/test'
+import {
+  expect,
+  test,
+} from '@playwright/test'
 
 test('test', async ({ page }) => {
   await page.goto('/#showcase')
@@ -7,7 +10,7 @@ test('test', async ({ page }) => {
   await page.locator('#characterGrid').getByText('Seele').dblclick()
 
   await page.locator('#OPTIMIZER').getByText('Buffed state').hover()
-  const t1 = await page.locator('.ant-popover-content').getByText("Increases Elemental DMG by 80% and reduces the target's RES by 20%.")
+  const t1 = await page.locator('.ant-popover-content').getByText('Increases Elemental DMG by 80% and reduces the target\'s RES by 20%.')
   expect(t1).toBeTruthy()
 
   await page.locator('#OPTIMIZER').getByText('Speed buff stacks').hover()
@@ -15,6 +18,6 @@ test('test', async ({ page }) => {
   expect(t2).toBeTruthy()
 
   await page.locator('#OPTIMIZER').getByText('E6 Butterfly Flurry').hover()
-  const t3 = await page.locator('.ant-popover-content').getByText("Increases DMG by 15% against enemies affected by Seele's Ultimate.")
+  const t3 = await page.locator('.ant-popover-content').getByText('Increases DMG by 15% against enemies affected by Seele\'s Ultimate.')
   expect(t3).toBeTruthy()
 })

@@ -1,7 +1,10 @@
-import path from 'path'
-import { defineConfig, devices } from '@playwright/test'
+import {
+  defineConfig,
+  devices,
+} from '@playwright/test'
 import { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import path from 'path'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 export const STORAGE_STATE = path.join(
@@ -46,13 +49,13 @@ export default defineConfig({
         storageState: STORAGE_STATE,
       },
       dependencies: ['setup'],
-    } /* {
+    }, /* {
       name: 'NO test data',
       use: {
         ...devices['Desktop Chrome'],
       },
       testMatch: '!global.setup.ts',
-    }, */,
+    }, */
   ],
   // Run your local dev server before starting the tests.
   webServer: {

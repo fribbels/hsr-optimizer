@@ -1,9 +1,26 @@
 import { ClearOutlined } from '@ant-design/icons'
-import { Button, Flex, Select, theme, Tooltip, Typography } from 'antd'
+import {
+  Button,
+  Flex,
+  Select,
+  theme,
+  Tooltip,
+  Typography,
+} from 'antd'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { useSubscribe } from 'hooks/useSubscribe'
-import { Constants, Sets, SetsRelics, setToId, Stats, UnreleasedSets } from 'lib/constants/constants'
-import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
+import {
+  Constants,
+  Sets,
+  SetsRelics,
+  setToId,
+  Stats,
+  UnreleasedSets,
+} from 'lib/constants/constants'
+import {
+  OpenCloseIDs,
+  setOpen,
+} from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
@@ -16,7 +33,11 @@ import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Char
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { useEffect, useMemo, useState } from 'react'
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { ReactElement } from 'types/components'
@@ -32,12 +53,12 @@ const imgWidth = 34
 const BLANK = Assets.getBlank()
 
 export default function RelicFilterBar(props: {
-  setValueColumns: () => void
+  setValueColumns: () => void,
   valueColumnOptions: {
-    label: string
-    options: unknown[]
-  }[]
-  valueColumns: string[]
+    label: string,
+    options: unknown[],
+  }[],
+  valueColumns: string[],
 }) {
   const setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
   const setRelicsTabFocusCharacter = window.store((s) => s.setRelicsTabFocusCharacter)
@@ -71,12 +92,10 @@ export default function RelicFilterBar(props: {
         ? (
           // @ts-ignore
           <Tooltip title={i18n.exists(`common:Stats.${key}`) ? t(`common:Stats.${key}`) : t(`gameData:RelicSets.${setToId[key]}.Name`)} mouseEnterDelay={0.2}>
-            <img style={{ width: width }} src={src}/>
+            <img style={{ width: width }} src={src} />
           </Tooltip>
         )
-        : (
-          <img style={{ width: width }} src={src}/>
-        )
+        : <img style={{ width: width }} src={src} />
     }
 
     return arr.map((x) => {
@@ -140,8 +159,7 @@ export default function RelicFilterBar(props: {
 
   const gradeData = generateGradeTags([2, 3, 4, 5])
   const verifiedData = generateVerifiedTags(['true', 'false'])
-  const setsData = generateImageTags(Object.values(Sets).filter((x) => !UnreleasedSets[x]),
-    (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), true)
+  const setsData = generateImageTags(Object.values(Sets).filter((x) => !UnreleasedSets[x]), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), true)
   const partsData = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x), false)
   const mainStatsData = generateImageTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true), true)
   const subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)
@@ -294,55 +312,55 @@ export default function RelicFilterBar(props: {
     <Flex vertical gap={2}>
       <Flex gap={10}>
         <Flex vertical flex={1}>
-          <HeaderText>{t('RelicFilterBar.Part')/* Part */}</HeaderText>
-          <FilterRow name='part' tags={partsData} flexBasis='15%'/>
+          <HeaderText>{t('RelicFilterBar.Part') /* Part */}</HeaderText>
+          <FilterRow name='part' tags={partsData} flexBasis='15%' />
         </Flex>
         <Flex vertical style={{ height: '100%' }} flex={1}>
-          <HeaderText>{t('RelicFilterBar.Enhance')/* Enhance */}</HeaderText>
-          <FilterRow name='enhance' tags={enhanceData} flexBasis='15%'/>
+          <HeaderText>{t('RelicFilterBar.Enhance') /* Enhance */}</HeaderText>
+          <FilterRow name='enhance' tags={enhanceData} flexBasis='15%' />
         </Flex>
         <Flex vertical flex={0.5}>
-          <HeaderText>{t('RelicFilterBar.Grade')/* Grade */}</HeaderText>
-          <FilterRow name='grade' tags={gradeData} flexBasis='15%'/>
+          <HeaderText>{t('RelicFilterBar.Grade') /* Grade */}</HeaderText>
+          <FilterRow name='grade' tags={gradeData} flexBasis='15%' />
         </Flex>
         <Flex vertical flex={0.25}>
-          <HeaderText>{t('RelicFilterBar.InitialRolls')/* Initial rolls */ }</HeaderText>
-          <FilterRow name='initialRolls' tags={initialRollsData} flexBasis='15%'/>
+          <HeaderText>{t('RelicFilterBar.InitialRolls') /* Initial rolls */}</HeaderText>
+          <FilterRow name='initialRolls' tags={initialRollsData} flexBasis='15%' />
         </Flex>
         <Flex vertical flex={0.25}>
-          <HeaderText>{t('RelicFilterBar.Verified')/* Verified */}</HeaderText>
-          <FilterRow name='verified' tags={verifiedData} flexBasis='15%'/>
+          <HeaderText>{t('RelicFilterBar.Verified') /* Verified */}</HeaderText>
+          <FilterRow name='verified' tags={verifiedData} flexBasis='15%' />
         </Flex>
         <Flex vertical flex={0.25}>
-          <HeaderText>{t('RelicFilterBar.Equipped')/* Equipped */}</HeaderText>
-          <FilterRow name='equippedBy' tags={equippedByData} flexBasis='15%'/>
+          <HeaderText>{t('RelicFilterBar.Equipped') /* Equipped */}</HeaderText>
+          <FilterRow name='equippedBy' tags={equippedByData} flexBasis='15%' />
         </Flex>
         <Flex vertical flex={0.4}>
-          <HeaderText>{t('RelicFilterBar.Clear')/* Clear */}</HeaderText>
-          <Button icon={<ClearOutlined/>} onClick={clearClicked} style={{ flexGrow: 1, height: '100%' }}>
-            {t('RelicFilterBar.ClearButton')/* Clear all filters */}
+          <HeaderText>{t('RelicFilterBar.Clear') /* Clear */}</HeaderText>
+          <Button icon={<ClearOutlined />} onClick={clearClicked} style={{ flexGrow: 1, height: '100%' }}>
+            {t('RelicFilterBar.ClearButton') /* Clear all filters */}
           </Button>
         </Flex>
       </Flex>
 
       <Flex vertical>
-        <HeaderText>{t('RelicFilterBar.Set')/* Set */}</HeaderText>
-        <FilterRow name='set' tags={setsData} flexBasis={`${100 / Object.values(SetsRelics).length}%`}/>
+        <HeaderText>{t('RelicFilterBar.Set') /* Set */}</HeaderText>
+        <FilterRow name='set' tags={setsData} flexBasis={`${100 / Object.values(SetsRelics).length}%`} />
       </Flex>
 
       <Flex vertical>
-        <HeaderText>{t('RelicFilterBar.Mainstat')/* Main stats */}</HeaderText>
-        <FilterRow name='mainStats' tags={mainStatsData}/>
+        <HeaderText>{t('RelicFilterBar.Mainstat') /* Main stats */}</HeaderText>
+        <FilterRow name='mainStats' tags={mainStatsData} />
       </Flex>
 
       <Flex vertical>
-        <HeaderText>{t('RelicFilterBar.Substat')/* Substats */}</HeaderText>
-        <FilterRow name='subStats' tags={subStatsData}/>
+        <HeaderText>{t('RelicFilterBar.Substat') /* Substats */}</HeaderText>
+        <FilterRow name='subStats' tags={subStatsData} />
       </Flex>
 
       <Flex gap={10}>
         <Flex vertical flex={0.5}>
-          <HeaderText>{t('RelicFilterBar.RecommendationHeader')/* Relic recommendation character */}</HeaderText>
+          <HeaderText>{t('RelicFilterBar.RecommendationHeader') /* Relic recommendation character */}</HeaderText>
           <Flex gap={10}>
             <CharacterSelect
               value={currentlySelectedCharacterId}
@@ -357,13 +375,13 @@ export default function RelicFilterBar(props: {
               onClick={rescoreClicked}
               style={{ flex: 1, padding: '0px' }}
             >
-              {t('RelicFilterBar.ReapplyButton')/* Reapply scores */}
+              {t('RelicFilterBar.ReapplyButton') /* Reapply scores */}
             </Button>
             <Button
               onClick={scoringClicked}
               style={{ flex: 1, padding: '0px' }}
             >
-              {t('RelicFilterBar.ScoringButton')/* Scoring algorithm */}
+              {t('RelicFilterBar.ScoringButton') /* Scoring algorithm */}
             </Button>
           </Flex>
         </Flex>
@@ -371,8 +389,8 @@ export default function RelicFilterBar(props: {
         <Flex vertical flex={0.25} gap={10}>
           <Flex vertical>
             <Flex justify='space-between' align='center'>
-              <HeaderText>{t('RelicFilterBar.Rating')/* Relic ratings */}</HeaderText>
-              <TooltipImage type={Hint.valueColumns()}/>
+              <HeaderText>{t('RelicFilterBar.Rating') /* Relic ratings */}</HeaderText>
+              <TooltipImage type={Hint.valueColumns()} />
             </Flex>
             <Flex gap={10}>
               <Select
@@ -391,7 +409,7 @@ export default function RelicFilterBar(props: {
         </Flex>
 
         <Flex vertical flex={0.25}>
-          <HeaderText>{t('RelicFilterBar.CustomCharsHeader')/* Custom potential characters */}</HeaderText>
+          <HeaderText>{t('RelicFilterBar.CustomCharsHeader') /* Custom potential characters */}</HeaderText>
           <CharacterSelect
             value={window.store.getState().excludedRelicPotentialCharacters}
             selectStyle={{ flex: 1 }}
@@ -412,14 +430,14 @@ export default function RelicFilterBar(props: {
 }
 
 type FilterTag = {
-  key: string | number
-  display: ReactElement
+  key: string | number,
+  display: ReactElement,
 }
 
 function FilterRow(props: {
-  name: keyof RelicTabFilters
-  tags: FilterTag[]
-  flexBasis?: string
+  name: keyof RelicTabFilters,
+  tags: FilterTag[],
+  flexBasis?: string,
 }) {
   const { token } = useToken()
 
@@ -473,21 +491,21 @@ function FilterRow(props: {
 }
 
 export type RelicScoringWeights = {
-  average: number
-  current: number
-  best: number
-  potentialSelected: PotentialWeights
-  potentialAllAll: PotentialWeights
-  potentialAllCustom: PotentialWeights
-  rerollAllAll: PotentialWeights
-  rerollAllCustom: PotentialWeights
-  rerollAvgSelected: number
-  rerollAvgSelectedDelta: number
-  rerollAvgSelectedEquippedDelta: number
+  average: number,
+  current: number,
+  best: number,
+  potentialSelected: PotentialWeights,
+  potentialAllAll: PotentialWeights,
+  potentialAllCustom: PotentialWeights,
+  rerollAllAll: PotentialWeights,
+  rerollAllCustom: PotentialWeights,
+  rerollAvgSelected: number,
+  rerollAvgSelectedDelta: number,
+  rerollAvgSelectedEquippedDelta: number,
 }
 
 type PotentialWeights = {
-  bestPct: number
-  averagePct: number
-  rerollAvgPct: number
+  bestPct: number,
+  averagePct: number,
+  rerollAvgPct: number,
 }

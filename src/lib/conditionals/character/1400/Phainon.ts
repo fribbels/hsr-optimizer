@@ -1,13 +1,24 @@
-import i18next from "i18next"
-import { AbilityType, FUA_DMG_TYPE, SKILL_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import i18next from 'i18next'
+import {
+  AbilityType,
+  FUA_DMG_TYPE,
+  SKILL_DMG_TYPE,
+} from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import { PHAINON } from "lib/simulations/tests/testMetadataConstants"
+import { PHAINON } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export enum PhainonEnhancedSkillType {
   FOUNDATION = 0,
@@ -39,7 +50,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
   const fuaDmgExtraScaling = skill(e, 0.30, 0.33)
 
   const talentAtkBuffScaling = talent(e, 0.80, 0.88)
-  const talentHpBuffScaling = talent(e, 2.40, 2.64)
+  const talentHpBuffScaling = talent(e, 2.70, 2.97)
   const talentCdBuffScaling = talent(e, 0.30, 0.33)
 
   const ultScaling = ult(e, 9.60, 10.56)
@@ -52,7 +63,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
     sustainDmgBuff: true,
     spdBuff: false,
     e1Buffs: true,
-    e2FinalDmg: true,
+    e2ResPen: true,
     e6TrueDmg: true,
   }
 
@@ -109,21 +120,21 @@ export default (e: Eidolon): CharacterConditionalsController => {
       formItem: 'switch',
       text: 'E1 buffs',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 1
+      disabled: e < 1,
     },
-    e2FinalDmg: {
-      id: 'e2FinalDmg',
+    e2ResPen: {
+      id: 'e2ResPen',
       formItem: 'switch',
-      text: 'E2 Final DMG',
+      text: 'E2 RES PEN',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 2
+      disabled: e < 2,
     },
     e6TrueDmg: {
       id: 'e6TrueDmg',
       formItem: 'switch',
       text: 'E6 True DMG',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 6
+      disabled: e < 6,
     },
   }
 
@@ -145,15 +156,15 @@ export default (e: Eidolon): CharacterConditionalsController => {
 
       x.CD.buff(r.cdBuff ? talentCdBuffScaling : 0, SOURCE_TALENT)
       x.ATK_P.buff(r.atkBuffStacks * 0.50, SOURCE_TRACE)
-      x.ELEMENTAL_DMG.buff(r.sustainDmgBuff ? 0.40 : 0, SOURCE_TRACE)
+      x.ELEMENTAL_DMG.buff(r.sustainDmgBuff ? 0.45 : 0, SOURCE_TRACE)
 
-      x.PHYSICAL_RES_PEN.buff(e >= 1 && r.e1Buffs ? 0.15 : 0, SOURCE_E1)
+      x.CD.buff(e >= 1 && r.e1Buffs ? 0.40 : 0, SOURCE_E1)
 
       if (r.transformedState) {
         x.ATK_P.buff(talentAtkBuffScaling, SOURCE_TALENT)
         x.HP_P.buff(talentHpBuffScaling, SOURCE_TALENT)
 
-        x.FINAL_DMG_BOOST.buff(e >= 2 && r.e2FinalDmg ? 0.20 : 0, SOURCE_E2)
+        x.PHYSICAL_RES_PEN.buff(e >= 2 && r.e2ResPen ? 0.20 : 0, SOURCE_E2)
 
         x.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_BASIC)
 
@@ -164,7 +175,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
           x.SKILL_ATK_SCALING.buff(26 * enhancedSkillFoundationSingleHitScaling / context.enemyCount, SOURCE_SKILL)
           x.SKILL_TOUGHNESS_DMG.buff(16 * 3.33333 / context.enemyCount + 20, SOURCE_SKILL)
 
-          x.SKILL_TRUE_DMG_MODIFIER.buff(e >= 6 && r.e6TrueDmg ? 0.20 : 0, SOURCE_E6)
+          x.SKILL_TRUE_DMG_MODIFIER.buff(e >= 6 && r.e6TrueDmg ? 0.36 : 0, SOURCE_E6)
         }
 
         x.FUA_ATK_SCALING.buff(fuaDmgScaling + 4 * fuaDmgExtraScaling, SOURCE_SKILL)

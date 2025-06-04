@@ -1,7 +1,23 @@
-import { Button, Divider, Flex, Form, InputNumber, Modal, Popconfirm, Select, Typography } from 'antd'
+import {
+  Button,
+  Divider,
+  Flex,
+  Form,
+  InputNumber,
+  Modal,
+  Popconfirm,
+  Select,
+  Typography,
+} from 'antd'
 import { usePublish } from 'hooks/usePublish'
-import { Parts, Stats } from 'lib/constants/constants'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import {
+  Parts,
+  Stats,
+} from 'lib/constants/constants'
+import {
+  OpenCloseIDs,
+  useOpenClose,
+} from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
@@ -72,7 +88,7 @@ export default function ScoringModal() {
     return (
       <Flex justify='flex-start' style={{ width: panelWidth }} align='center' gap={5}>
         <Form.Item name={['stats', props.stat]}>
-          <InputNumberStyled controls={false} size='small' min={0} max={1}/>
+          <InputNumberStyled controls={false} size='small' min={0} max={1} />
         </Form.Item>
         <Flex>
           <img src={Assets.getStatIcon(props.stat)} style={{ width: 25, height: 25, marginRight: 3 }}></img>
@@ -148,18 +164,18 @@ export default function ScoringModal() {
 
     return (
       <Popconfirm
-        title={t('Scoring.ResetAllConfirm.Title')/* Reset the scoring algorithm for all characters? */}
-        description={t('Scoring.ResetAllConfirm.Description')/* You will lose any custom scoring settings you have set on any character. */}
+        title={t('Scoring.ResetAllConfirm.Title') /* Reset the scoring algorithm for all characters? */}
+        description={t('Scoring.ResetAllConfirm.Description') /* You will lose any custom scoring settings you have set on any character. */}
         onConfirm={resetAllCharacters}
-        okText={t('common:Yes')/* Yes */}
-        cancelText={t('common:No')/* No */}
+        okText={t('common:Yes') /* Yes */}
+        cancelText={t('common:No') /* No */}
       >
-        <Button danger>{t('Scoring.Footer.ResetAll')/* Reset all characters */}</Button>
+        <Button danger>{t('Scoring.Footer.ResetAll') /* Reset all characters */}</Button>
       </Popconfirm>
     )
   }
 
-  const previewSrc = (scoringAlgorithmFocusCharacter) ? Assets.getCharacterPreviewById(scoringAlgorithmFocusCharacter) : Assets.getBlank()
+  const previewSrc = scoringAlgorithmFocusCharacter ? Assets.getCharacterPreviewById(scoringAlgorithmFocusCharacter) : Assets.getBlank()
 
   return (
     <Modal
@@ -172,14 +188,14 @@ export default function ScoringModal() {
       onCancel={closeScoringModal}
       footer={[
         <Button key='back' onClick={closeScoringModal}>
-          {t('common:Cancel')/* Cancel */}
+          {t('common:Cancel') /* Cancel */}
         </Button>,
         <Button key='default' onClick={handleResetDefault}>
-          {t('Scoring.Footer.Reset')/* Reset to default */}
+          {t('Scoring.Footer.Reset') /* Reset to default */}
         </Button>,
-        <ResetAllCharactersButton key='resetAll'/>,
+        <ResetAllCharactersButton key='resetAll' />,
         <Button key='submit' type='primary' onClick={onModalOk}>
-          {t('Scoring.Footer.Save')/* Save changes */}
+          {t('Scoring.Footer.Save') /* Save changes */}
         </Button>,
       ]}
     >
@@ -189,8 +205,7 @@ export default function ScoringModal() {
         layout='vertical'
         onFinish={onFinish}
       >
-
-        <TitleDivider>{t('Scoring.StatWeightsHeader')/* Stat weights */}</TitleDivider>
+        <TitleDivider>{t('Scoring.StatWeightsHeader') /* Stat weights */}</TitleDivider>
 
         <Flex gap={20}>
           <Flex vertical gap={5}>
@@ -202,11 +217,11 @@ export default function ScoringModal() {
               />
             </Form.Item>
             <div style={{ height: 230, width: panelWidth, overflow: 'hidden' }}>
-              <img src={previewSrc} style={{ width: panelWidth }}/>
+              <img src={previewSrc} style={{ width: panelWidth }} />
             </div>
           </Flex>
 
-          <VerticalDivider/>
+          <VerticalDivider />
 
           <Flex vertical>
             <Flex justify='space-between'>
@@ -313,18 +328,18 @@ export default function ScoringModal() {
             </Flex>
           </Flex>
 
-          <VerticalDivider/>
+          <VerticalDivider />
 
           <Flex vertical gap={3}>
-            <StatValueRow stat={Stats.ATK}/>
-            <StatValueRow stat={Stats.HP}/>
-            <StatValueRow stat={Stats.DEF}/>
-            <StatValueRow stat={Stats.SPD}/>
-            <StatValueRow stat={Stats.CR}/>
-            <StatValueRow stat={Stats.CD}/>
-            <StatValueRow stat={Stats.EHR}/>
-            <StatValueRow stat={Stats.RES}/>
-            <StatValueRow stat={Stats.BE}/>
+            <StatValueRow stat={Stats.ATK} />
+            <StatValueRow stat={Stats.HP} />
+            <StatValueRow stat={Stats.DEF} />
+            <StatValueRow stat={Stats.SPD} />
+            <StatValueRow stat={Stats.CR} />
+            <StatValueRow stat={Stats.CD} />
+            <StatValueRow stat={Stats.EHR} />
+            <StatValueRow stat={Stats.RES} />
+            <StatValueRow stat={Stats.BE} />
           </Flex>
         </Flex>
 

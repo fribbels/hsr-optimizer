@@ -25,7 +25,7 @@ export const RingedCircleCheckIcon = React.forwardRef<HTMLDivElement, IconExtrac
 
   return (
     <Flex ref={ref} className={className} style={style} {...restProps}>
-      <IconSVG color={color}/>
+      <IconSVG color={color} />
     </Flex>
   )
 })

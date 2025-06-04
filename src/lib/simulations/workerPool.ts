@@ -1,5 +1,8 @@
 import ComputeOptimalSimulationWorker from 'lib/worker/baseWorker.ts?worker&inline'
-import { ComputeOptimalSimulationWorkerInput, ComputeOptimalSimulationWorkerOutput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import {
+  ComputeOptimalSimulationWorkerInput,
+  ComputeOptimalSimulationWorkerOutput,
+} from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { WorkerType } from 'lib/worker/workerUtils'
 
 // Base interfaces for worker input and output
@@ -95,7 +98,7 @@ export class WorkerPool<TInput extends BaseWorkerInput, TOutput extends BaseWork
     this.queue = []
   }
 
-  getStats(): { workers: number; available: number; queued: number } {
+  getStats(): { workers: number, available: number, queued: number } {
     return {
       workers: this.workers.length,
       available: this.available.length,

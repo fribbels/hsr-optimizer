@@ -1,5 +1,13 @@
-import { DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
-import { Button, Card, Flex, Modal } from 'antd'
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+} from '@ant-design/icons'
+import {
+  Button,
+  Card,
+  Flex,
+  Modal,
+} from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Parts } from 'lib/constants/constants'
@@ -10,9 +18,15 @@ import { SaveState } from 'lib/state/saveState'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TsUtils } from 'lib/utils/TsUtils'
 import * as React from 'react'
-import { useEffect, useMemo } from 'react'
+import {
+  useEffect,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character, SavedBuild } from 'types/character'
+import {
+  Character,
+  SavedBuild,
+} from 'types/character'
 import { Relic } from 'types/relic'
 
 // FIXME LOW
@@ -54,7 +68,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
 
       console.log('Previewing builds character:', previewCharacter)
       // @ts-ignore we don't need the character modal to be accessible from here
-      return <CharacterPreview character={previewCharacter} source={ShowcaseSource.BUILDS_MODAL} id='relicScorerPreview'/>
+      return <CharacterPreview character={previewCharacter} source={ShowcaseSource.BUILDS_MODAL} id='relicScorerPreview' />
     }
 
     return <div style={{ width: 656, height: 856, border: '1px solid #354b7d' }}></div>
@@ -69,10 +83,10 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
         onOk={() => setOpen(false)}
         onCancel={() => setOpen(false)}
         centered
-        okText={t('common:Ok')/* Ok */}
-        cancelText={t('common:Cancel')/* Cancel */}
+        okText={t('common:Ok') /* Ok */}
+        cancelText={t('common:Cancel') /* Cancel */}
       >
-        {t('Builds.NoBuilds.NoneSaved')/* No saved builds */}
+        {t('Builds.NoBuilds.NoneSaved') /* No saved builds */}
         {contextHolder}
       </Modal>
     )
@@ -80,11 +94,11 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
 
   async function confirm(content: React.ReactNode) {
     return confirmationModal.confirm({
-      title: t('common:Confirm')/* Confirm */,
-      icon: <ExclamationCircleOutlined/>,
+      title: t('common:Confirm'), /* Confirm */
+      icon: <ExclamationCircleOutlined />,
       content: content,
-      okText: t('common:Confirm')/* Confirm */,
-      cancelText: t('common:Cancel')/* Cancel */,
+      okText: t('common:Confirm'), /* Confirm */
+      cancelText: t('common:Cancel'), /* Cancel */
       centered: true,
     })
   }
@@ -110,25 +124,25 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
 
   const handleDeleteAllBuilds = async () => {
     const characterName = t(`gameData:Characters.${selectedCharacter.id}.Name`)
-    const result = await confirm(t('Builds.ConfirmDelete.DeleteAll')/* Are you sure you want to delete all builds? */)
+    const result = await confirm(t('Builds.ConfirmDelete.DeleteAll') /* Are you sure you want to delete all builds? */)
     if (result) {
       setSelectedBuild(null)
       DB.clearCharacterBuilds(selectedCharacter?.id)
       window.forceCharacterTabUpdate()
       SaveState.delayedSave()
-      Message.success(t('Builds.ConfirmDelete.SuccessMessageAll', { characterName: characterName })/* Successfully deleted all builds for {{characterName}} */)
+      Message.success(t('Builds.ConfirmDelete.SuccessMessageAll', { characterName: characterName }) /* Successfully deleted all builds for {{characterName}} */)
       setOpen(false)
     }
   }
 
   const handleDeleteSingleBuild = async (name: string) => {
-    const result = await confirm(t('Builds.ConfirmDelete.DeleteSingle', { name: name })/* Are you sure you want to delete {{name}}? */)
+    const result = await confirm(t('Builds.ConfirmDelete.DeleteSingle', { name: name }) /* Are you sure you want to delete {{name}}? */)
     if (result) {
       setSelectedBuild(null)
       DB.deleteCharacterBuild(selectedCharacter?.id, name)
       window.forceCharacterTabUpdate()
       SaveState.delayedSave()
-      Message.success(t('Builds.ConfirmDelete.SuccessMessageSingle', { name: name })/* Successfully deleted build: {{name}} */)
+      Message.success(t('Builds.ConfirmDelete.SuccessMessageSingle', { name: name }) /* Successfully deleted build: {{name}} */)
 
       if (selectedCharacter?.builds.length == 0) {
         setOpen(false)
@@ -137,7 +151,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
   }
 
   const handleEquip = async (build: SavedBuild) => {
-    const result = await confirm(t('Builds.ConfirmEquip.Content')/* Equipping this will unequip characters that use the relics in this build */)
+    const result = await confirm(t('Builds.ConfirmEquip.Content') /* Equipping this will unequip characters that use the relics in this build */)
     if (result) {
       DB.equipRelicIdsToCharacter(
         Object.values(build.build),
@@ -145,7 +159,7 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
       )
       window.forceCharacterTabUpdate()
       SaveState.delayedSave()
-      Message.success(t('Builds.ConfirmEquip.SuccessMessage', { buildName: build.name })/* Successfully equipped build: {{buildName}} */)
+      Message.success(t('Builds.ConfirmEquip.SuccessMessage', { buildName: build.name }) /* Successfully equipped build: {{buildName}} */)
       handleCancel()
     }
   }
@@ -160,10 +174,10 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
       onCancel={handleCancel}
       footer={[
         <Button key='delete' onClick={() => handleDeleteAllBuilds()}>
-          {t('Builds.DeleteAll')/* Delete All */}
+          {t('Builds.DeleteAll') /* Delete All */}
         </Button>,
         <Button key='back' onClick={handleCancel}>
-          {t('common:Cancel')/* Cancel */}
+          {t('common:Cancel') /* Cancel */}
         </Button>,
       ]}
     >
@@ -196,7 +210,6 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
                   key={index}
                   hoverable
                 >
-
                   <Flex justify='space-between' gap={8} align='center'>
                     <Flex vertical align='flex-start'>
                       <HeaderText style={{ flex: 1, fontSize: 16, fontWeight: 600 }}>{build.name}</HeaderText>
@@ -207,12 +220,12 @@ const BuildsModal: React.FC<BuildsModalProps> = ({
                           handleEquip(build)
                         }}
                       >
-                        {t('Builds.Equip')/* Equip */}
+                        {t('Builds.Equip') /* Equip */}
                       </Button>
                       <Button
                         style={{ width: 35 }}
                         type='primary'
-                        icon={<DeleteOutlined/>}
+                        icon={<DeleteOutlined />}
                         onClick={() => {
                           handleDeleteSingleBuild(build.name)
                         }}

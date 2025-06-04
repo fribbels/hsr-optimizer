@@ -1,18 +1,30 @@
-import { Button, Flex, Form as AntDForm, Modal, Radio } from 'antd'
+import {
+  Button,
+  Flex,
+  Form as AntDForm,
+  Modal,
+  Radio,
+} from 'antd'
 import DB from 'lib/state/db'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { HeaderText } from 'lib/ui/HeaderText'
-import React, { useEffect, useState } from 'react'
+import React, {
+  useEffect,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character, CharacterId } from 'types/character'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
 import { Form } from 'types/form'
 
 export default function CharacterModal(props: {
-  open: boolean
-  onOk: (form: Form) => void
-  setOpen: (open: boolean) => void
-  initialCharacter?: Character | null
+  open: boolean,
+  onOk: (form: Form) => void,
+  setOpen: (open: boolean) => void,
+  initialCharacter?: Character | null,
 }) {
   const [characterForm] = AntDForm.useForm()
 
@@ -98,13 +110,13 @@ export default function CharacterModal(props: {
                 buttonStyle='solid'
                 style={{ width: '100%', display: 'flex' }}
               >
-                <RadioButton text={t('EidolonButton', { eidolon: 0 })} value={0}/>
-                <RadioButton text={t('EidolonButton', { eidolon: 1 })} value={1}/>
-                <RadioButton text={t('EidolonButton', { eidolon: 2 })} value={2}/>
-                <RadioButton text={t('EidolonButton', { eidolon: 3 })} value={3}/>
-                <RadioButton text={t('EidolonButton', { eidolon: 4 })} value={4}/>
-                <RadioButton text={t('EidolonButton', { eidolon: 5 })} value={5}/>
-                <RadioButton text={t('EidolonButton', { eidolon: 6 })} value={6}/>
+                <RadioButton text={t('EidolonButton', { eidolon: 0 })} value={0} />
+                <RadioButton text={t('EidolonButton', { eidolon: 1 })} value={1} />
+                <RadioButton text={t('EidolonButton', { eidolon: 2 })} value={2} />
+                <RadioButton text={t('EidolonButton', { eidolon: 3 })} value={3} />
+                <RadioButton text={t('EidolonButton', { eidolon: 4 })} value={4} />
+                <RadioButton text={t('EidolonButton', { eidolon: 5 })} value={5} />
+                <RadioButton text={t('EidolonButton', { eidolon: 6 })} value={6} />
               </Radio.Group>
             </AntDForm.Item>
           </Flex>
@@ -128,11 +140,11 @@ export default function CharacterModal(props: {
                 buttonStyle='solid'
                 style={{ width: '100%', display: 'flex' }}
               >
-                <RadioButton text={t('SuperimpositionButton', { superimposition: 1 })} value={1}/>
-                <RadioButton text={t('SuperimpositionButton', { superimposition: 2 })} value={2}/>
-                <RadioButton text={t('SuperimpositionButton', { superimposition: 3 })} value={3}/>
-                <RadioButton text={t('SuperimpositionButton', { superimposition: 4 })} value={4}/>
-                <RadioButton text={t('SuperimpositionButton', { superimposition: 5 })} value={5}/>
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 1 })} value={1} />
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 2 })} value={2} />
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 3 })} value={3} />
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 4 })} value={4} />
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 5 })} value={5} />
               </Radio.Group>
             </AntDForm.Item>
           </Flex>
@@ -144,10 +156,8 @@ export default function CharacterModal(props: {
 
 // Full width radio buttons
 function RadioButton(props: {
-  text: string
-  value: number
+  text: string,
+  value: number,
 }) {
-  return (
-    <Radio.Button value={props.value} style={{ flex: 1, padding: 'unset', textAlign: 'center' }}>{props.text}</Radio.Button>
-  )
+  return <Radio.Button value={props.value} style={{ flex: 1, padding: 'unset', textAlign: 'center' }}>{props.text}</Radio.Button>
 }

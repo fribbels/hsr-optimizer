@@ -1,7 +1,20 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition, countTeamElement } from 'lib/conditionals/conditionalUtils'
-import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
-import { ConditionalActivation, ConditionalType, ElementNames, Stats } from 'lib/constants/constants'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  countTeamElement,
+} from 'lib/conditionals/conditionalUtils'
+import {
+  dynamicStatConversion,
+  gpuDynamicStatConversion,
+} from 'lib/conditionals/evaluation/statConversion'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  ElementNames,
+  Stats,
+} from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -10,7 +23,10 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sparkle')
@@ -133,16 +149,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Main damage type
       x.ATK_P.buffTeam(0.15, SOURCE_TRACE)
-      x.ATK_P.buffDual(context.element == ElementNames.Quantum && m.quantumAlliesAtkBuff
-        ? atkBoostByQuantumAllies[countTeamElement(context, ElementNames.Quantum)]
-        : 0, SOURCE_TRACE)
+      x.ATK_P.buffDual(
+        context.element == ElementNames.Quantum && m.quantumAlliesAtkBuff
+          ? atkBoostByQuantumAllies[countTeamElement(context, ElementNames.Quantum)]
+          : 0,
+        SOURCE_TRACE,
+      )
       x.ATK_P.buffTeam((e >= 1 && m.cipherBuff) ? 0.40 : 0, SOURCE_E1)
 
       x.ELEMENTAL_DMG.buffTeam(
         (m.cipherBuff)
           ? m.talentStacks * (talentBaseStackBoost + cipherTalentStackBoost)
           : m.talentStacks * talentBaseStackBoost,
-        SOURCE_TALENT)
+        SOURCE_TALENT,
+      )
       x.DEF_PEN.buffTeam((e >= 2) ? 0.08 * m.talentStacks : 0, SOURCE_E2)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -169,20 +189,32 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CD],
         chainsTo: [Stats.CD],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return r.skillCdBuff
         },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.CD, Stats.CD, this, x, action, context, SOURCE_SKILL,
+        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversion(
+            Stats.CD,
+            Stats.CD,
+            this,
+            x,
+            action,
+            context,
+            SOURCE_SKILL,
             (convertibleValue) => convertibleValue * (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)),
           )
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return gpuDynamicStatConversion(Stats.CD, Stats.CD, this, action, context,
+          return gpuDynamicStatConversion(
+            Stats.CD,
+            Stats.CD,
+            this,
+            action,
+            context,
             `${skillCdBuffScaling + (e >= 6 ? 0.30 : 0)} * convertibleValue`,
             `${wgslTrue(r.skillCdBuff)}`,
           )

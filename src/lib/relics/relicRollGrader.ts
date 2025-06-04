@@ -1,7 +1,10 @@
 import { SubStatValues } from 'lib/constants/constants'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { StatRolls, UnaugmentedRelic } from 'types/relic'
+import {
+  StatRolls,
+  UnaugmentedRelic,
+} from 'types/relic'
 
 // FIXME LOW
 

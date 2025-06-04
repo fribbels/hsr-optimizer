@@ -1,8 +1,17 @@
-import { ConvertibleStatsType, statConversionConfig } from 'lib/conditionals/evaluation/statConversionConfig'
-import { conditionalWgslWrapper, DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import {
+  ConvertibleStatsType,
+  statConversionConfig,
+} from 'lib/conditionals/evaluation/statConversionConfig'
+import {
+  conditionalWgslWrapper,
+  DynamicConditional,
+} from 'lib/gpu/conditionals/dynamicConditionals'
 import { BuffSource } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export function dynamicStatConversion(
   sourceStat: ConvertibleStatsType,
@@ -47,7 +56,9 @@ export function gpuDynamicStatConversion(
   const statConfig = statConversionConfig[sourceStat]
   const destConfig = statConversionConfig[destinationStat]
 
-  return conditionalWgslWrapper(conditional, `
+  return conditionalWgslWrapper(
+    conditional,
+    `
 if (!(${activeConditionWgsl})) {
   return;
 }

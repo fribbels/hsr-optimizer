@@ -1,8 +1,29 @@
-import { DownOutlined, ThunderboltFilled } from '@ant-design/icons'
+import {
+  DownOutlined,
+  ThunderboltFilled,
+} from '@ant-design/icons'
 import { IRowNode } from 'ag-grid-community'
-import { Button, Divider, Dropdown, Flex, Grid, Modal, Popconfirm, Progress, Radio, theme, Typography } from 'antd'
+import {
+  Button,
+  Divider,
+  Dropdown,
+  Flex,
+  Grid,
+  Modal,
+  Popconfirm,
+  Progress,
+  Radio,
+  theme,
+  Typography,
+} from 'antd'
 import i18next from 'i18next'
-import { COMPUTE_ENGINE_CPU, COMPUTE_ENGINE_GPU_EXPERIMENTAL, COMPUTE_ENGINE_GPU_STABLE, ComputeEngine, PathNames } from 'lib/constants/constants'
+import {
+  COMPUTE_ENGINE_CPU,
+  COMPUTE_ENGINE_GPU_EXPERIMENTAL,
+  COMPUTE_ENGINE_GPU_STABLE,
+  ComputeEngine,
+  PathNames,
+} from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
 import { Hint } from 'lib/interactions/hint'
@@ -18,16 +39,23 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
-import { ReactElement, useState } from 'react'
+import {
+  ReactElement,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
+import {
+  MemoDisplay,
+  StatDisplay,
+} from 'types/store'
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
 
 const { Text } = Typography
 
-type GpuOption = { label: ReactElement; key: ComputeEngine }
+type GpuOption = { label: ReactElement, key: ComputeEngine }
 
 function getGpuOptions(computeEngine: ComputeEngine): GpuOption[] {
   return [
@@ -61,7 +89,7 @@ function getGpuOptions(computeEngine: ComputeEngine): GpuOption[] {
   ]
 }
 
-function PermutationDisplay(props: { total?: number; right: number; left: string }) {
+function PermutationDisplay(props: { total?: number, right: number, left: string }) {
   const rightText = props.total
     ? `${localeNumberComma(props.right)} / ${localeNumberComma(props.total)} - (${localeNumberComma(Math.ceil(props.right / props.total * 100))}%)`
     : `${localeNumberComma(props.right)}`
@@ -70,7 +98,7 @@ function PermutationDisplay(props: { total?: number; right: number; left: string
       <Text style={{ lineHeight: '24px' }}>
         {props.left}
       </Text>
-      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
+      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
       <Text style={{ lineHeight: '24px' }}>
         {rightText}
       </Text>
@@ -91,7 +119,7 @@ export default function Sidebar() {
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const isFullSize = breakpointNoShow || !((lg && breakpointShowXL && !xl) || (lg && breakpointShowXXL && !xxl))
 
-  return <OptimizerSidebar isFullSize={isFullSize}/>
+  return <OptimizerSidebar isFullSize={isFullSize} />
 }
 
 function ComputeEngineSelect() {
@@ -105,7 +133,7 @@ function ComputeEngineSelect() {
           const key = e.key as GpuOption['key']
           if (key === COMPUTE_ENGINE_CPU) {
             window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
-            Message.success(t('EngineSwitchSuccessMsg.CPU')/* Switched compute engine to CPU */)
+            Message.success(t('EngineSwitchSuccessMsg.CPU') /* Switched compute engine to CPU */)
           } else {
             verifyWebgpuSupport(true).then((device) => {
               if (device) {
@@ -123,7 +151,7 @@ function ComputeEngineSelect() {
     >
       <Button style={{ padding: 3 }}>
         <Flex justify='space-around' align='center' style={{ width: '100%' }}>
-          <div style={{ width: 1 }}/>
+          <div style={{ width: 1 }} />
           <Text>
             {
               t(`Display.${computeEngine}`)
@@ -134,7 +162,7 @@ function ComputeEngineSelect() {
                */
             }
           </Text>
-          <DownOutlined/>
+          <DownOutlined />
         </Flex>
       </Button>
     </Dropdown>
@@ -145,13 +173,14 @@ function addToPinned() {
   const gridApi = optimizerGridApi()
   const currentPinnedRows = gridApi.getGridOption('pinnedTopRowData')! as OptimizerDisplayDataStatSim[]
   const selectedNodes = gridApi.getSelectedNodes() as IRowNode<OptimizerDisplayDataStatSim>[]
+  const t = i18next.getFixedT(null, 'optimizerTab', 'Sidebar.Pinning.Messages')
 
   if (!selectedNodes || selectedNodes.length == 0) {
-    Message.warning(i18next.t('optimizerTab:Sidebar.Pinning.Messages.NoneSelected')/* 'No row selected' */)
+    Message.warning(t('NoneSelected') /* 'No row selected' */)
   } else if (selectedNodes[0].data!.statSim) {
-    Message.warning(i18next.t('optimizerTab:Sidebar.Pinning.Messages.SimSelected')/* 'Custom simulation rows are not pinnable' */)
+    Message.warning(t('SimSelected') /* 'Custom simulation rows are not pinnable' */)
   } else if (currentPinnedRows.find((row) => String(row.id) == String(selectedNodes[0].data!.id))) {
-    Message.warning(i18next.t('optimizerTab:Sidebar.Pinning.Messages.AlreadyPinned')/* 'This build is already pinned' */)
+    Message.warning(t('AlreadyPinned') /* 'This build is already pinned' */)
   } else {
     const selectedRow = selectedNodes[0].data
     if (selectedRow) {
@@ -180,7 +209,8 @@ function calculateProgressText(
   permutations: number,
   permutationsSearched: number,
   optimizationInProgress: boolean,
-  optimizerRunningEngine: ComputeEngine) {
+  optimizerRunningEngine: ComputeEngine,
+) {
   if (!startTime) {
     return i18next.t('optimizerTab:Sidebar.ProgressText.Progress') // Progress
   }
@@ -211,11 +241,11 @@ function calculateProgressText(
     })
 }
 
-function ManyPermsModal(props: { manyPermsModalOpen: boolean; setManyPermsModalOpen: (open: boolean) => void; startSearch: () => void }) {
+function ManyPermsModal(props: { manyPermsModalOpen: boolean, setManyPermsModalOpen: (open: boolean) => void, startSearch: () => void }) {
   const { t } = useTranslation('modals', { keyPrefix: 'ManyPerms' })
   return (
     <Modal
-      title={t('Title')/* Very large search requested */}
+      title={t('Title') /* Very large search requested */}
       open={props.manyPermsModalOpen}
       width={900}
       destroyOnClose
@@ -238,7 +268,7 @@ function ManyPermsModal(props: { manyPermsModalOpen: boolean; setManyPermsModalO
           style={{ width: 250 }}
           type='primary'
         >
-          {t('Cancel')/* Cancel search */}
+          {t('Cancel') /* Cancel search */}
         </Button>
         <Button
           onClick={() => {
@@ -248,7 +278,7 @@ function ManyPermsModal(props: { manyPermsModalOpen: boolean; setManyPermsModalO
           style={{ width: 250 }}
           type='primary'
         >
-          {t('Proceed')/* Proceed with search */}
+          {t('Proceed') /* Proceed with search */}
         </Button>
       </Flex>
     </Modal>
@@ -292,9 +322,9 @@ function OptimizerSidebar(props: { isFullSize: boolean }) {
             : undefined}
         >
           <Flex vertical={props.isFullSize} gap={props.isFullSize ? 5 : 20}>
-            <PermutationsGroup isFullSize={props.isFullSize}/>
-            <OptimizerControlsGroup isFullSize={props.isFullSize}/>
-            <ResultsGroup isFullSize={props.isFullSize}/>
+            <PermutationsGroup isFullSize={props.isFullSize} />
+            <OptimizerControlsGroup isFullSize={props.isFullSize} />
+            <ResultsGroup isFullSize={props.isFullSize} />
           </Flex>
         </Flex>
       </Flex>
@@ -312,30 +342,28 @@ function PermutationsGroup(props: { isFullSize: boolean }) {
   return (
     <Flex vertical gap={props.isFullSize ? 10 : 5} style={{ minWidth: 211 }}>
       <Flex justify='space-between' align='center'>
-        <HeaderText>{t('Permutations')/* Permutations */}</HeaderText>
-        <TooltipImage type={Hint.optimizationDetails()}/>
+        <HeaderText>{t('Permutations') /* Permutations */}</HeaderText>
+        <TooltipImage type={Hint.optimizationDetails()} />
       </Flex>
 
       {props.isFullSize && (
         <Flex vertical>
-          <PermutationDisplay left={tCommon('Head')} right={permutationDetails.Head} total={permutationDetails.HeadTotal}/>
-          <PermutationDisplay left={tCommon('Hands')} right={permutationDetails.Hands} total={permutationDetails.HandsTotal}/>
-          <PermutationDisplay left={tCommon('Body')} right={permutationDetails.Body} total={permutationDetails.BodyTotal}/>
-          <PermutationDisplay left={tCommon('Feet')} right={permutationDetails.Feet} total={permutationDetails.FeetTotal}/>
-          <PermutationDisplay left={tCommon('PlanarSphere')} right={permutationDetails.PlanarSphere} total={permutationDetails.PlanarSphereTotal}/>
-          <PermutationDisplay left={tCommon('LinkRope')} right={permutationDetails.LinkRope} total={permutationDetails.LinkRopeTotal}/>
+          <PermutationDisplay left={tCommon('Head')} right={permutationDetails.Head} total={permutationDetails.HeadTotal} />
+          <PermutationDisplay left={tCommon('Hands')} right={permutationDetails.Hands} total={permutationDetails.HandsTotal} />
+          <PermutationDisplay left={tCommon('Body')} right={permutationDetails.Body} total={permutationDetails.BodyTotal} />
+          <PermutationDisplay left={tCommon('Feet')} right={permutationDetails.Feet} total={permutationDetails.FeetTotal} />
+          <PermutationDisplay left={tCommon('PlanarSphere')} right={permutationDetails.PlanarSphere} total={permutationDetails.PlanarSphereTotal} />
+          <PermutationDisplay left={tCommon('LinkRope')} right={permutationDetails.LinkRope} total={permutationDetails.LinkRopeTotal} />
         </Flex>
       )}
 
       <Flex vertical>
-        <PermutationDisplay left={t('Perms')/* Perms */} right={permutations}/>
-        <PermutationDisplay left={t('Searched')/* Searched */} right={permutationsSearched}/>
-        <PermutationDisplay left={t('Results')/* Results */} right={permutationsResults}/>
+        <PermutationDisplay left={t('Perms') /* Perms */} right={permutations} />
+        <PermutationDisplay left={t('Searched') /* Searched */} right={permutationsSearched} />
+        <PermutationDisplay left={t('Results') /* Results */} right={permutationsResults} />
       </Flex>
 
-      {props.isFullSize && (
-        <ProgressDisplay/>
-      )}
+      {props.isFullSize && <ProgressDisplay />}
     </Flex>
   )
 }
@@ -369,23 +397,23 @@ function ResultsGroup(props: { isFullSize: boolean }) {
   return (
     <Flex vertical gap={5}>
       <Flex justify='space-between' align='center'>
-        <HeaderText>{t('Header')/* Results */}</HeaderText>
-        <TooltipImage type={Hint.actions()}/>
+        <HeaderText>{t('Header') /* Results */}</HeaderText>
+        <TooltipImage type={Hint.actions()} />
       </Flex>
       <Flex gap={props.isFullSize ? defaultGap : 8} justify='space-around'>
         <Button type='primary' onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }}>
-          {t('Equip')/* Equip */}
+          {t('Equip') /* Equip */}
         </Button>
         <Button onClick={filterClicked} style={{ width: '100px' }}>
-          {t('Filter')/* Filter */}
+          {t('Filter') /* Filter */}
         </Button>
       </Flex>
       <Flex gap={props.isFullSize ? defaultGap : 8} justify='space-around'>
         <Button style={{ width: '100px' }} onClick={addToPinned}>
-          {t('Pin')/* Pin build */}
+          {t('Pin') /* Pin build */}
         </Button>
         <Button style={{ width: '100px' }} onClick={clearPinned}>
-          {t('Clear')/* Clear pins */}
+          {t('Clear') /* Clear pins */}
         </Button>
       </Flex>
     </Flex>
@@ -414,9 +442,11 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
   }
 
   function startClicked() {
-    if (permutations < 1000000000
+    if (
+      permutations < 1000000000
       || computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL
-      || computeEngine == COMPUTE_ENGINE_GPU_STABLE) {
+      || computeEngine == COMPUTE_ENGINE_GPU_STABLE
+    ) {
       startOptimizer()
     } else {
       setManyPermsModalOpen(true)
@@ -434,39 +464,39 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
       gap={props.isFullSize ? 5 : 20}
       style={props.isFullSize ? { display: 'flex', flexDirection: 'column' } : { display: 'flex', flexDirection: 'row-reverse' }}
     >
-      <ManyPermsModal startSearch={startOptimizer} manyPermsModalOpen={manyPermsModalOpen} setManyPermsModalOpen={setManyPermsModalOpen}/>
+      <ManyPermsModal startSearch={startOptimizer} manyPermsModalOpen={manyPermsModalOpen} setManyPermsModalOpen={setManyPermsModalOpen} />
       <Flex vertical gap={5}>
-        <HeaderText>{t('ControlsGroup.Header')/* Controls */}</HeaderText>
+        <HeaderText>{t('ControlsGroup.Header') /* Controls */}</HeaderText>
         <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
           <Flex gap={defaultGap}>
             <Button
-              icon={<ThunderboltFilled/>}
+              icon={<ThunderboltFilled />}
               type='primary'
               loading={optimizationInProgress}
               onClick={startClicked}
               style={{ flex: 1, minWidth: 211 }}
             >
-              {t('ControlsGroup.Start')/* Start optimizer */}
+              {t('ControlsGroup.Start') /* Start optimizer */}
             </Button>
           </Flex>
 
-          {props.isFullSize && (<ComputeEngineSelect/>)}
+          {props.isFullSize && <ComputeEngineSelect />}
 
           <Flex gap={defaultGap}>
             <Button onClick={cancelClicked} style={{ flex: 1 }}>
-              {tCommon('Cancel')/* Cancel */}
+              {tCommon('Cancel') /* Cancel */}
             </Button>
 
             <Popconfirm
-              title={t('ControlsGroup.ResetConfirm.Title')}// 'Reset all filters?'
-              description={t('ControlsGroup.ResetConfirm.Description')}// 'All filters will be reset to their default values'
+              title={t('ControlsGroup.ResetConfirm.Title')} // 'Reset all filters?'
+              description={t('ControlsGroup.ResetConfirm.Description')} // 'All filters will be reset to their default values'
               onConfirm={resetClicked}
-              okText={tCommon('Yes')}// 'Yes'
-              cancelText={tCommon('No')}// 'No'
+              okText={tCommon('Yes')} // 'Yes'
+              cancelText={tCommon('No')} // 'No'
               placement='bottomRight'
             >
               <Button style={{ flex: 1 }}>
-                {tCommon('Reset')/* Reset */}
+                {tCommon('Reset') /* Reset */}
               </Button>
             </Popconfirm>
           </Flex>
@@ -475,23 +505,23 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
 
       <Flex vertical gap={5} style={{ flex: 1, minWidth: 211 }}>
         <Flex justify='space-between' align='center'>
-          <HeaderText>{t('StatViewGroup.Header')/* Stat and filter view */}</HeaderText>
-          <TooltipImage type={Hint.statDisplay()}/>
+          <HeaderText>{t('StatViewGroup.Header') /* Stat and filter view */}</HeaderText>
+          <TooltipImage type={Hint.statDisplay()} />
         </Flex>
 
-        <StatsViewSelect/>
+        <StatsViewSelect />
 
-        <MemoViewSelect isFullSize={props.isFullSize}/>
+        <MemoViewSelect isFullSize={props.isFullSize} />
       </Flex>
 
       {!props.isFullSize
-      && (
-        <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
-          <HeaderText>{t('ComputeEngine')/* Compute engine */}</HeaderText>
-          <ComputeEngineSelect/>
-          <ProgressDisplay/>
-        </Flex>
-      )}
+        && (
+          <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
+            <HeaderText>{t('ComputeEngine') /* Compute engine */}</HeaderText>
+            <ComputeEngineSelect />
+            <ProgressDisplay />
+          </Flex>
+        )}
     </Flex>
   )
 }
@@ -505,7 +535,7 @@ function StatsViewSelect() {
     <Radio.Group
       onChange={(e) => {
         const { target: { value } } = e
-        setStatDisplay(value as string)
+        setStatDisplay(value as StatDisplay)
       }}
       optionType='button'
       buttonStyle='solid'
@@ -513,14 +543,14 @@ function StatsViewSelect() {
       style={{ width: '100%', display: 'flex' }}
     >
       <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value='combat'>
-        {t('StatViewGroup.CombatStats')/* Combat stats */}
+        {t('StatViewGroup.CombatStats') /* Combat stats */}
       </Radio>
       <Radio
         style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
         value='base'
         defaultChecked
       >
-        {t('StatViewGroup.BasicStats')/* Basic stats */}
+        {t('StatViewGroup.BasicStats') /* Basic stats */}
       </Radio>
     </Radio.Group>
   )
@@ -539,7 +569,7 @@ function MemoViewSelect(props: { isFullSize: boolean }) {
     <Radio.Group
       onChange={(e) => {
         const { target: { value } } = e
-        setMemoDisplay(value as string)
+        setMemoDisplay(value as MemoDisplay)
       }}
       optionType='button'
       buttonStyle='solid'
@@ -548,14 +578,14 @@ function MemoViewSelect(props: { isFullSize: boolean }) {
       style={{ width: '100%', display: hasMemo || !props.isFullSize ? 'flex' : 'none' }}
     >
       <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value='summoner'>
-        {t('SummonerStats')/* Summoner */}
+        {t('SummonerStats') /* Summoner */}
       </Radio>
       <Radio
         style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
         value='memo'
         defaultChecked
       >
-        {t('MemospriteStats')/* Memosprite */}
+        {t('MemospriteStats') /* Memosprite */}
       </Radio>
     </Radio.Group>
   )

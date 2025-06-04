@@ -1,6 +1,15 @@
-import { Flex, Spin } from 'antd'
+import {
+  Flex,
+  Spin,
+} from 'antd'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
-import { EnrichedRelics, enrichRelicAnalysis, flatReduction, hashEstTbpRun, RelicAnalysis } from 'lib/characterPreview/summary/statScoringSummaryController'
+import {
+  EnrichedRelics,
+  enrichRelicAnalysis,
+  flatReduction,
+  hashEstTbpRun,
+  RelicAnalysis,
+} from 'lib/characterPreview/summary/statScoringSummaryController'
 import { iconSize } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Assets } from 'lib/rendering/assets'
@@ -9,9 +18,20 @@ import DB from 'lib/state/db'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { HorizontalDivider } from 'lib/ui/Dividers'
-import { localeNumber_0, localeNumber_00, localeNumberComma } from 'lib/utils/i18nUtils'
-import { EstTbpRunnerInput, EstTbpRunnerOutput, runEstTbpWorker } from 'lib/worker/estTbpWorkerRunner'
-import React, { useEffect, useState } from 'react'
+import {
+  localeNumber_0,
+  localeNumber_00,
+  localeNumberComma,
+} from 'lib/utils/i18nUtils'
+import {
+  EstTbpRunnerInput,
+  EstTbpRunnerOutput,
+  runEstTbpWorker,
+} from 'lib/worker/estTbpWorkerRunner'
+import React, {
+  useEffect,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
 
@@ -20,9 +40,9 @@ const IN_PROGRESS = {} as EnrichedRelics
 let cachedId = ''
 
 export const EstimatedTbpRelicsDisplay = (props: {
-  scoringType: ScoringType
-  displayRelics: SingleRelicByPart
-  showcaseMetadata: ShowcaseMetadata
+  scoringType: ScoringType,
+  displayRelics: SingleRelicByPart,
+  showcaseMetadata: ShowcaseMetadata,
 }) => {
   const [enrichedRelics, setEnrichedRelics] = useState<EnrichedRelics | null>(null)
   const [loading, setLoading] = useState(false)
@@ -80,12 +100,12 @@ export const EstimatedTbpRelicsDisplay = (props: {
   return (
     <Flex vertical align='center' style={{ width: '100%' }}>
       <Flex vertical gap={35} style={gridStyle}>
-        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Head}/>
-        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Hands}/>
-        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Body}/>
-        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Feet}/>
-        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.PlanarSphere}/>
-        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.LinkRope}/>
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Head} />
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Hands} />
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Body} />
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Feet} />
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.PlanarSphere} />
+        <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.LinkRope} />
       </Flex>
     </Flex>
   )
@@ -94,12 +114,12 @@ export const EstimatedTbpRelicsDisplay = (props: {
 function LoadingSpinner() {
   return (
     <Flex justify='center' align='center' style={{ height: '100px' }}>
-      <Spin size='large'/>
+      <Spin size='large' />
     </Flex>
   )
 }
 
-function RelicContainer(props: { ready: boolean; relicAnalysis?: RelicAnalysis }) {
+function RelicContainer(props: { ready: boolean, relicAnalysis?: RelicAnalysis }) {
   const { ready, relicAnalysis } = props
 
   const cardStyle = {
@@ -120,16 +140,14 @@ function RelicContainer(props: { ready: boolean; relicAnalysis?: RelicAnalysis }
     return (
       <div style={cardStyle}>
         <Flex style={{ width: '100%', height: '100%' }} align='center' justify='space-around'>
-          <LoadingSpinner/>
+          <LoadingSpinner />
         </Flex>
       </div>
     )
   }
 
   if (!relicAnalysis) {
-    return (
-      <div style={cardStyle}/>
-    )
+    return <div style={cardStyle} />
   }
 
   return (
@@ -137,8 +155,8 @@ function RelicContainer(props: { ready: boolean; relicAnalysis?: RelicAnalysis }
       style={cardStyle}
       gap={10}
     >
-      <RelicPreview setSelectedRelic={() => { }} relic={relicAnalysis.relic} unhoverable={true} score={relicAnalysis.relic.scoringResult}/>
-      <RelicAnalysisCard relicAnalysis={relicAnalysis}/>
+      <RelicPreview setSelectedRelic={() => {}} relic={relicAnalysis.relic} unhoverable={true} score={relicAnalysis.relic.scoringResult} />
+      <RelicAnalysisCard relicAnalysis={relicAnalysis} />
     </Flex>
   )
 }
@@ -160,19 +178,17 @@ function RelicAnalysisCard(props: { relicAnalysis?: RelicAnalysis }) {
   const { relicAnalysis } = props
 
   if (!relicAnalysis) {
-    return (
-      <div style={cardStyle}/>
-    )
+    return <div style={cardStyle} />
   }
 
   return (
     <Flex vertical style={{ width: '100%' }} gap={10}>
       <Flex style={{ height: 111 }} gap={10}>
-        <MetricCard relicAnalysis={relicAnalysis} index={0}/>
-        <MetricCard relicAnalysis={relicAnalysis} index={1}/>
+        <MetricCard relicAnalysis={relicAnalysis} index={0} />
+        <MetricCard relicAnalysis={relicAnalysis} index={1} />
       </Flex>
       <Flex style={{ ...cardStyle, padding: '12px 14px 0px 14px', paddingLeft: 15 }} gap={10}>
-        <RollsCard relicAnalysis={relicAnalysis}/>
+        <RollsCard relicAnalysis={relicAnalysis} />
       </Flex>
     </Flex>
   )
@@ -189,37 +205,39 @@ function RollsCard(props: { relicAnalysis: RelicAnalysis }) {
   return (
     <Flex vertical justify='space-between' style={{ width: '100%' }}>
       <Flex vertical>
-        <RollLine index={0} relicAnalysis={relicAnalysis}/>
-        <RollLine index={1} relicAnalysis={relicAnalysis}/>
-        <RollLine index={2} relicAnalysis={relicAnalysis}/>
-        <RollLine index={3} relicAnalysis={relicAnalysis}/>
+        <RollLine index={0} relicAnalysis={relicAnalysis} />
+        <RollLine index={1} relicAnalysis={relicAnalysis} />
+        <RollLine index={2} relicAnalysis={relicAnalysis} />
+        <RollLine index={3} relicAnalysis={relicAnalysis} />
       </Flex>
       <Flex vertical style={{ height: 46, paddingBottom: 10 }} justify='space-between' gap={4}>
-        <HorizontalDivider style={{ margin: 0, paddingBottom: 2 }}/>
+        <HorizontalDivider style={{ margin: 0, paddingBottom: 2 }} />
         <Flex justify='space-between'>
-          <span style={textStyle}>{t('Perfection')/* Perfection */}</span>
+          <span style={textStyle}>{t('Perfection') /* Perfection */}</span>
           <span>{percentDisplay}%</span>
         </Flex>
-        <div style={{
-          height: '100%',
-          width: '100%',
-          backgroundColor: '#304878',
-          borderRadius: '20px',
-          overflow: 'hidden',
-        }}
-        >
-          <div style={{
+        <div
+          style={{
             height: '100%',
-            width: `${percent}%`,
-            background: `linear-gradient(
+            width: '100%',
+            backgroundColor: '#304878',
+            borderRadius: '20px',
+            overflow: 'hidden',
+          }}
+        >
+          <div
+            style={{
+              height: '100%',
+              width: `${percent}%`,
+              background: `linear-gradient(
               to right,
               ${lowRollColor} 0%,
               ${midRollColor} 40%,
               ${highRollColor} 80%
             )`,
-            backgroundSize: `${100 / (percent || 1) * 100}% 100%`,
-            borderRadius: '4px 0 0 4px',
-          }}
+              backgroundSize: `${100 / (percent || 1) * 100}% 100%`,
+              borderRadius: '4px 0 0 4px',
+            }}
           >
           </div>
         </div>
@@ -228,7 +246,7 @@ function RollsCard(props: { relicAnalysis: RelicAnalysis }) {
   )
 }
 
-function MetricCard(props: { relicAnalysis: RelicAnalysis; index: number }) {
+function MetricCard(props: { relicAnalysis: RelicAnalysis, index: number }) {
   const { relicAnalysis, index } = props
 
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP.MetricsCard' })
@@ -312,13 +330,11 @@ function LowRoll() {
   )
 }
 
-function RollLine(props: { index: number; relicAnalysis: RelicAnalysis }) {
+function RollLine(props: { index: number, relicAnalysis: RelicAnalysis }) {
   const { index, relicAnalysis } = props
   const substat = relicAnalysis.relic.substats[index]
   if (substat == null) {
-    return (
-      <div style={{ height: 22, width: '100%' }}/>
-    )
+    return <div style={{ height: 22, width: '100%' }} />
   }
 
   const weight = relicAnalysis.weights[substat.stat] ?? 0
@@ -327,9 +343,9 @@ function RollLine(props: { index: number; relicAnalysis: RelicAnalysis }) {
   const display: ReactElement[] = []
 
   let key = 0
-  for (let i = 0; i < rolls.high; i++) display.push(<HighRoll key={key++}/>)
-  for (let i = 0; i < rolls.mid; i++) display.push(<MidRoll key={key++}/>)
-  for (let i = 0; i < rolls.low; i++) display.push(<LowRoll key={key++}/>)
+  for (let i = 0; i < rolls.high; i++) display.push(<HighRoll key={key++} />)
+  for (let i = 0; i < rolls.mid; i++) display.push(<MidRoll key={key++} />)
+  for (let i = 0; i < rolls.low; i++) display.push(<LowRoll key={key++} />)
 
   return (
     <Flex style={{ height: 22, width: '100%', opacity: (weight ? 1 : 0.05) }} justify='space-between'>

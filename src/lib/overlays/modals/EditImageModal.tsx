@@ -1,5 +1,21 @@
-import { DragOutlined, InboxOutlined, ZoomInOutlined } from '@ant-design/icons'
-import { Button, Flex, Form, Input, Modal, Radio, RadioChangeEvent, Slider, Spin, Steps, Typography } from 'antd'
+import {
+  DragOutlined,
+  InboxOutlined,
+  ZoomInOutlined,
+} from '@ant-design/icons'
+import {
+  Button,
+  Flex,
+  Form,
+  Input,
+  Modal,
+  Radio,
+  RadioChangeEvent,
+  Slider,
+  Spin,
+  Steps,
+  Typography,
+} from 'antd'
 import { RcFile } from 'antd/es/upload'
 import Dragger from 'antd/es/upload/Dragger'
 import i18next from 'i18next'
@@ -7,7 +23,13 @@ import { Message } from 'lib/interactions/message'
 import * as React from 'react'
 import Cropper from 'react-easy-crop'
 import { useTranslation } from 'react-i18next'
-import { CroppedArea, CustomImageConfig, CustomImageParams, CustomImagePayload, ImageDimensions } from 'types/customImage'
+import {
+  CroppedArea,
+  CustomImageConfig,
+  CustomImageParams,
+  CustomImagePayload,
+  ImageDimensions,
+} from 'types/customImage'
 
 const { Text } = Typography
 
@@ -42,7 +64,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   open,
   setOpen,
   onOk,
-  title = i18next.t('modals:EditImage.DefaultTitle')/* Edit image */,
+  title = i18next.t('modals:EditImage.DefaultTitle'), /* Edit image */
   width = 400,
   defaultImageUrl,
 }) => {
@@ -54,11 +76,15 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
 
   const [isVerificationLoading, setIsVerificationLoading] = React.useState(false)
   const [verifiedImageUrl, setVerifiedImageUrl] = React.useState('')
-  const [originalDimensions, setOriginalDimensions] = React.useState<ImageDimensions>(existingConfig ? existingConfig.originalDimensions : DEFAULT_IMAGE_DIMENSIONS)
+  const [originalDimensions, setOriginalDimensions] = React.useState<ImageDimensions>(
+    existingConfig ? existingConfig.originalDimensions : DEFAULT_IMAGE_DIMENSIONS,
+  )
 
   const [crop, setCrop] = React.useState(existingConfig ? existingConfig.cropper.crop : DEFAULT_CROP)
   const [zoom, setZoom] = React.useState(existingConfig ? existingConfig.cropper.zoom : DEFAULT_ZOOM)
-  const [customImageParams, setCustomImageParams] = React.useState<CustomImageParams>(existingConfig ? existingConfig.customImageParams : DEFAULT_CUSTOM_IMAGE_PARAMS)
+  const [customImageParams, setCustomImageParams] = React.useState<CustomImageParams>(
+    existingConfig ? existingConfig.customImageParams : DEFAULT_CUSTOM_IMAGE_PARAMS,
+  )
 
   const [radio, setRadio] = React.useState<'upload' | 'url' | 'default'>('url')
 
@@ -321,16 +347,18 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   }
 
   const handleBeforeUpload = async (file: RcFile) => {
+    const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
     // Check if the file is not a valid image file
     if (!(await isValidImageFile(file))) {
       console.error('File is not a valid image file')
+      Message.error(t('InvalidFile'))
       return false
     }
 
     // Attempt to upload the file to Imgur
     const imgurLink = await uploadToImgurByFile(file)
-    if (!(imgurLink)) {
-      Message.error('Image upload failed')
+    if (!imgurLink) {
+      Message.error(t('ImageUploadFailed'))
       return false
     }
 
@@ -424,9 +452,9 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         <>
           <Flex justify='center' style={{ marginBottom: 16 }}>
             <Radio.Group onChange={onRadioChange} value={radio} buttonStyle='solid'>
-              <Radio.Button value='upload'>{t('Upload.Radio.Upload')/* Upload image */}</Radio.Button>
-              <Radio.Button value='url'>{t('Upload.Radio.Url')/* Enter image URL */}</Radio.Button>
-              {defaultImageUrl && <Radio.Button value='default'>{t('Upload.Radio.Default')/* Use default image */}</Radio.Button>}
+              <Radio.Button value='upload'>{t('Upload.Radio.Upload') /* Upload image */}</Radio.Button>
+              <Radio.Button value='url'>{t('Upload.Radio.Url') /* Enter image URL */}</Radio.Button>
+              {defaultImageUrl && <Radio.Button value='default'>{t('Upload.Radio.Default') /* Use default image */}</Radio.Button>}
             </Radio.Group>
           </Flex>
 
@@ -443,16 +471,16 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                 {isVerificationLoading
                   ? (
                     <Flex style={{ height: '300px' }} justify='center' align='center'>
-                      <Spin size='large'/>
+                      <Spin size='large' />
                     </Flex>
                   )
                   : (
                     <Flex style={{ height: '300px' }} justify='center' align='center' vertical>
                       <p className='ant-upload-drag-icon'>
-                        <InboxOutlined/>
+                        <InboxOutlined />
                       </p>
-                      <p className='ant-upload-text'>{t('Upload.Upload.Method')/* Click or drag image file to this area to upload */}</p>
-                      <p className='ant-upload-hint'>{t('Upload.Upload.Limit')/* Accepts .jpg .jpeg .png .gif (Max: 20MB) */}</p>
+                      <p className='ant-upload-text'>{t('Upload.Upload.Method') /* Click or drag image file to this area to upload */}</p>
+                      <p className='ant-upload-hint'>{t('Upload.Upload.Limit') /* Accepts .jpg .jpeg .png .gif (Max: 20MB) */}</p>
                     </Flex>
                   )}
               </Dragger>
@@ -462,17 +490,17 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           {radio === 'url' && (
             <Form.Item
               name='imageUrl'
-              label={t('Upload.Url.Label')/* Image */}
+              label={t('Upload.Url.Label') /* Image */}
               style={{ margin: '0 20px' }}
-              rules={[{ required: true, message: t('Upload.Url.Rule')/* Please input a valid image URL */ }]}
+              rules={[{ required: true, message: t('Upload.Url.Rule') /* Please input a valid image URL */ }]}
             >
-              <Input autoComplete='off'/>
+              <Input autoComplete='off' />
             </Form.Item>
           )}
 
           {radio === 'default' && (
             <Flex justify='center' style={{ height: '400px' }}>
-              <img src={defaultImageUrl}/>
+              <img src={defaultImageUrl} />
             </Flex>
           )}
         </>
@@ -517,7 +545,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           </div>
           <Flex style={{ width: '100%', marginTop: 4 }} gap={8} align='center'>
             <label style={{ whiteSpace: 'nowrap' }}>
-              {t('Edit.Zoom')/* Zoom */}
+              {t('Edit.Zoom') /* Zoom */}
             </label>
             <Slider
               style={{ width: '100%' }}
@@ -534,24 +562,22 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           <Flex style={{ marginTop: 0 }}>
             <Flex vertical style={{ flex: 1 }}>
               <div>
-                <DragOutlined style={{ marginRight: 8 }}/>
-                {t('Edit.Drag')/* Drag to move */}
+                <DragOutlined style={{ marginRight: 8 }} />
+                {t('Edit.Drag') /* Drag to move */}
               </div>
               <div style={{ flex: 1, marginTop: 8 }}>
-                <ZoomInOutlined style={{ marginRight: 8 }}/>
-                {t('Edit.Pinch')/* Pinch or scroll to zoom */}
+                <ZoomInOutlined style={{ marginRight: 8 }} />
+                {t('Edit.Pinch') /* Pinch or scroll to zoom */}
               </div>
             </Flex>
             <Flex vertical style={{ flex: 1 }}>
               <Text style={{ flex: 1, marginLeft: 3 }}>
-                {t('Edit.ArtBy')/* (Optional) Art by: */}
+                {t('Edit.ArtBy') /* (Optional) Art by: */}
               </Text>
-              <Form.Item
-                name='artistName'
-              >
+              <Form.Item name='artistName'>
                 <Input
                   style={{ flex: 1, marginTop: 3 }}
-                  placeholder={t('Edit.CreditPlaceholder')/* Credit the artist if possible */}
+                  placeholder={t('Edit.CreditPlaceholder') /* Credit the artist if possible */}
                   autoComplete='off'
                 />
               </Form.Item>
@@ -577,28 +603,28 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         footer={[
           <Flex key={1} justify='flex-end'>
             <Flex style={{ marginTop: 16 }} justify='center' align='center' gap={8}>
-              {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size='large'/>}
+              {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size='large' />}
               <Button onClick={() => setOpen(false)}>
-                {tCommon('Cancel')/* Cancel */}
+                {tCommon('Cancel') /* Cancel */}
               </Button>
               {(current > 0 && existingConfig) && (
                 <Button onClick={prev} danger>
-                  {t('Footer.Change')/* Change image */}
+                  {t('Footer.Change') /* Change image */}
                 </Button>
               )}
               {(current > 0 && !existingConfig) && (
                 <Button onClick={prev}>
-                  {t('Footer.Previous')/* Previous */}
+                  {t('Footer.Previous') /* Previous */}
                 </Button>
               )}
               {current < steps.length - 1 && (
                 <Button type='primary' onClick={next} disabled={radio === 'upload'}>
-                  {t('Footer.Next')/* Next */}
+                  {t('Footer.Next') /* Next */}
                 </Button>
               )}
               {current === steps.length - 1 && (
                 <Button type='primary' onClick={handleOk}>
-                  {tCommon('Submit')/* Submit */}
+                  {tCommon('Submit') /* Submit */}
                 </Button>
               )}
             </Flex>
@@ -608,13 +634,16 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       >
         <div style={{ height: '505px', position: 'relative' }}>
           {!existingConfig
-          && (
-            <Steps current={current} style={{ marginBottom: 12 }}>
-              {steps.map((item) => (// make this cleaner if ever adding more steps
-                <Steps.Step key={item.title} title={item.title == 'Provide image' ? t('Upload.Title')/* Provide image */ : t('Edit.Title')/* Crop image */}/>
-              ))}
-            </Steps>
-          )}
+            && (
+              <Steps current={current} style={{ marginBottom: 12 }}>
+                {steps.map((item) => ( // make this cleaner if ever adding more steps
+                  <Steps.Step
+                    key={item.title}
+                    title={item.title == 'Provide image' ? t('Upload.Title') /* Provide image */ : t('Edit.Title') /* Crop image */}
+                  />
+                ))}
+              </Steps>
+            )}
           {steps.map((step, index) => (
             <div key={step.title} style={{ display: current === index ? 'block' : 'none' }}>
               {step.content}

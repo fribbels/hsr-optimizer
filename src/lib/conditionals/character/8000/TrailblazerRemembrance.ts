@@ -1,15 +1,33 @@
-import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import {
+  AbilityType,
+  BUFF_PRIORITY_MEMO,
+  BUFF_PRIORITY_SELF,
+} from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Stats,
+} from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import {
+  ComputedStatsArray,
+  Key,
+} from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerRemembrance')
@@ -82,8 +100,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'memoSkillHits',
       formItem: 'slider',
       text: t('Content.memoSkillHits.text'),
-      content: t('Content.memoSkillHits.content',
-        { SingleScaling: TsUtils.precisionRound(memoSkillHitScaling * 100), AoeScaling: TsUtils.precisionRound(memoSkillFinalScaling * 100) }),
+      content: t('Content.memoSkillHits.content', {
+        SingleScaling: TsUtils.precisionRound(memoSkillHitScaling * 100),
+        AoeScaling: TsUtils.precisionRound(memoSkillFinalScaling * 100),
+      }),
       min: 0,
       max: 4,
     },
@@ -91,8 +111,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'teamCdBuff',
       formItem: 'switch',
       text: t('Content.teamCdBuff.text'),
-      content: t('Content.teamCdBuff.content',
-        { ScalingBuff: TsUtils.precisionRound(memoTalentCdBuffScaling * 100), FlatBuff: TsUtils.precisionRound(memoTalentCdBuffFlat * 100) }),
+      content: t('Content.teamCdBuff.content', {
+        ScalingBuff: TsUtils.precisionRound(memoTalentCdBuffScaling * 100),
+        FlatBuff: TsUtils.precisionRound(memoTalentCdBuffFlat * 100),
+      }),
     },
     memsSupport: {
       id: 'memsSupport',
@@ -187,7 +209,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       if (m.memsSupport) {
-        const energyTrueDmg = Math.min(0.20, (m.energyTrueDmgValue ? Math.max((context.baseEnergy - 100) / 10, 0) * 2 * 0.01 : 0))
+        const energyTrueDmg = Math.min(0.20, m.energyTrueDmgValue ? Math.max((context.baseEnergy - 100) / 10, 0) * 2 * 0.01 : 0)
         const trueDmg = trueDmgScaling
           + energyTrueDmg
           + (e >= 4 && m.e4TrueDmgBoost ? 0.06 : 0)
@@ -217,10 +239,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CD],
         chainsTo: [Stats.CD],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return true
         },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           if (!r.teamCdBuff) {
             return
@@ -243,10 +265,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           x.CD.buffDynamic(finalBuffCd, SOURCE_MEMO, action, context)
           x.summoner().CD.buffDynamic(finalBuffCd, SOURCE_MEMO, action, context)
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return conditionalWgslWrapper(this, `
+          return conditionalWgslWrapper(
+            this,
+            `
 if (${wgslFalse(r.teamCdBuff)}) {
   return;
 }
@@ -264,7 +288,8 @@ let finalBuffCd = max(0.0, buffCD - select(0.0, stateBuffCD, stateValue > 0.0));
 
 (*p_m).CD += finalBuffCd;
 (*p_x).CD += finalBuffCd;
-`)
+`,
+          )
         },
       },
     ],

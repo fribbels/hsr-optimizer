@@ -1,6 +1,16 @@
-import { Sets, Stats } from 'lib/constants/constants'
+import {
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { expectDpsScoreResultsToMatch } from 'lib/simulations/tests/dpsScore/dpsScoreOrchestratorTestUtils'
-import { generateE6S5Test, testCharacter, testMains, testSets, testStatSpread, testStatSpreadSpd } from 'lib/simulations/tests/simTestUtils'
+import {
+  generateE6S5Test,
+  testCharacter,
+  testMains,
+  testSets,
+  testStatSpread,
+  testStatSpreadSpd,
+} from 'lib/simulations/tests/simTestUtils'
 import {
   A_GROUNDED_ASCENT,
   ACHERON,

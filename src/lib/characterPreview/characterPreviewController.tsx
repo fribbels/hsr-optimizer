@@ -1,14 +1,30 @@
 import i18next from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { CUSTOM_TEAM, DEFAULT_TEAM, ElementToDamage, Parts } from 'lib/constants/constants'
-import { innerW, lcInnerH, lcInnerW, lcParentH, lcParentW, parentH, parentW } from 'lib/constants/constantsUi'
+import {
+  CUSTOM_TEAM,
+  DEFAULT_TEAM,
+  ElementToDamage,
+  Parts,
+} from 'lib/constants/constants'
+import {
+  innerW,
+  lcInnerH,
+  lcInnerW,
+  lcParentH,
+  lcParentW,
+  parentH,
+  parentW,
+} from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicFilters } from 'lib/relics/relicFilters'
-import { RelicScorer, RelicScoringResult } from 'lib/relics/relicScorerPotential'
+import {
+  RelicScorer,
+  RelicScoringResult,
+} from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
@@ -21,45 +37,56 @@ import { filterNonNull } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { MutableRefObject } from 'react'
-import { Character, CharacterId } from 'types/character'
-import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
-import { DBMetadataCharacter, DBMetadataLightCone, ElementalDamageType, ImageCenter } from 'types/metadata'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
+import {
+  CustomImageConfig,
+  CustomImagePayload,
+} from 'types/customImage'
+import {
+  DBMetadataCharacter,
+  DBMetadataLightCone,
+  ElementalDamageType,
+  ImageCenter,
+} from 'types/metadata'
 import { Relic } from 'types/relic'
 
 export type ShowcaseMetadata = {
-  characterId: CharacterId
-  characterMetadata: DBMetadataCharacter
-  characterElement: string
-  characterLevel: number
-  characterEidolon: number
-  characterName: string
-  characterPath: string
-  lightConeId: string
-  lightConeLevel: number
-  lightConeSuperimposition: number
-  lightConeMetadata: DBMetadataLightCone
-  lightConeName: string
-  lightConeSrc: string
-  elementalDmgType: ElementalDamageType
+  characterId: CharacterId,
+  characterMetadata: DBMetadataCharacter,
+  characterElement: string,
+  characterLevel: number,
+  characterEidolon: number,
+  characterName: string,
+  characterPath: string,
+  lightConeId: string,
+  lightConeLevel: number,
+  lightConeSuperimposition: number,
+  lightConeMetadata: DBMetadataLightCone,
+  lightConeName: string,
+  lightConeSrc: string,
+  elementalDmgType: ElementalDamageType,
 }
 
 export type ShowcaseDisplayDimensions = {
-  tempLcParentW: number
-  tempLcParentH: number
-  tempLcInnerW: number
-  tempLcInnerH: number
-  tempInnerW: number
-  tempParentH: number
-  newLcHeight: number
-  newLcMargin: number
-  lcCenter: number
-  charCenter: ImageCenter
+  tempLcParentW: number,
+  tempLcParentH: number,
+  tempLcInnerW: number,
+  tempLcInnerH: number,
+  tempInnerW: number,
+  tempParentH: number,
+  newLcHeight: number,
+  newLcMargin: number,
+  lcCenter: number,
+  charCenter: ImageCenter,
 }
 
 export type ScoringResults = {
-  relics: RelicScoringResult[]
-  totalScore: number
-  totalRating: string
+  relics: RelicScoringResult[],
+  totalScore: number,
+  totalRating: string,
 }
 
 export function getPreviewRelics(source: ShowcaseSource, character: Character, relicsById: Record<string, Relic>) {
@@ -192,7 +219,7 @@ export function showcaseOnAddOk(relic: Relic, setSelectedRelic: (r: Relic) => vo
   setSelectedRelic(relic)
   SaveState.delayedSave()
 
-  Message.success(t('CharacterPreview.Messages.AddedRelic')/* Successfully added relic */)
+  Message.success(t('CharacterPreview.Messages.AddedRelic') /* Successfully added relic */)
 }
 
 export function showcaseOnEditPortraitOk(
@@ -208,13 +235,13 @@ export function showcaseOnEditPortraitOk(
     case 'add':
       setCustomPortrait(config)
       DB.saveCharacterPortrait(character.id, config)
-      Message.success(t('CharacterPreview.Messages.SavedPortrait')/* Successfully saved portrait */)
+      Message.success(t('CharacterPreview.Messages.SavedPortrait') /* Successfully saved portrait */)
       SaveState.delayedSave()
       break
     case 'delete':
       DB.deleteCharacterPortrait(character.id)
       setCustomPortrait(undefined)
-      Message.success(t('CharacterPreview.Messages.RevertedPortrait')/* Successfully reverted portrait */)
+      Message.success(t('CharacterPreview.Messages.RevertedPortrait') /* Successfully reverted portrait */)
       SaveState.delayedSave()
       break
     default:
@@ -247,21 +274,21 @@ export function handleTeamSelection(
 }
 
 export function getShowcaseMetadata(character: Character) {
-  const t = i18next.getFixedT(null, ['charactersTab', 'modals', 'common'])
+  const t = i18next.getFixedT(null, 'gameData')
 
   const characterId = character.form.characterId
   const characterMetadata = DB.getMetadata().characters[characterId]
   const characterElement = characterMetadata.element
   const characterLevel = 80
   const characterEidolon = character.form.characterEidolon
-  const characterName = characterId ? t(`gameData:Characters.${characterId}.Name` as never) : ''
+  const characterName = characterId ? t(`Characters.${characterId}.Name`) : ''
   const characterPath = characterMetadata.path
 
   const lightConeId = character.form.lightCone
   const lightConeLevel = 80
   const lightConeSuperimposition = character.form.lightConeSuperimposition
   const lightConeMetadata = DB.getMetadata().lightCones[lightConeId]
-  const lightConeName = lightConeId ? t(`gameData:Lightcones.${lightConeId}.Name` as never) : ''
+  const lightConeName = lightConeId ? t(`Lightcones.${lightConeId}.Name`) : ''
   const lightConeSrc = Assets.getLightConePortrait(lightConeMetadata) || ''
 
   const elementalDmgType = ElementToDamage[characterElement]

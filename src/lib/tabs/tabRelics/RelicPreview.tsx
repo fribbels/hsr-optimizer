@@ -1,6 +1,14 @@
-import { Card, Divider, Flex } from 'antd'
+import {
+  Card,
+  Divider,
+  Flex,
+} from 'antd'
 import i18next from 'i18next'
-import { showcaseShadow, showcaseShadowInsetAddition, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import {
+  showcaseShadow,
+  showcaseShadowInsetAddition,
+  ShowcaseSource,
+} from 'lib/characterPreview/CharacterPreviewComponents'
 import { iconSize } from 'lib/constants/constantsUi'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
@@ -8,31 +16,37 @@ import { Assets } from 'lib/rendering/assets'
 import { Renderer } from 'lib/rendering/renderer'
 import { ScoreCategory } from 'lib/scoring/scoreComparison'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
-import { GenerateStat, SubstatDetails } from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
+import {
+  GenerateStat,
+  SubstatDetails,
+} from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
 import RelicStatText from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
 import { showcaseTransition } from 'lib/utils/colorUtils'
-import { Languages, localeNumberComma_0 } from 'lib/utils/i18nUtils'
+import {
+  Languages,
+  localeNumberComma_0,
+} from 'lib/utils/i18nUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
 
 export type ShowcaseTheme = {
-  cardBackgroundColor: string
-  cardBorderColor: string
+  cardBackgroundColor: string,
+  cardBorderColor: string,
 }
 
 export function RelicPreview(props: {
-  relic?: Relic
-  source?: ShowcaseSource
-  characterId?: CharacterId
-  score?: RelicScoringResult
-  scoringType?: ScoringType
-  setEditModalOpen?: (open: boolean) => void
-  setAddModalOpen?: (open: boolean) => void
-  setSelectedRelic: (relic: Relic) => void
-  showcaseTheme?: ShowcaseTheme
-  unhoverable?: boolean
+  relic?: Relic,
+  source?: ShowcaseSource,
+  characterId?: CharacterId,
+  score?: RelicScoringResult,
+  scoringType?: ScoringType,
+  setEditModalOpen?: (open: boolean) => void,
+  setAddModalOpen?: (open: boolean) => void,
+  setSelectedRelic: (relic: Relic) => void,
+  showcaseTheme?: ShowcaseTheme,
+  unhoverable?: boolean,
 }) {
   const {
     source,
@@ -131,11 +145,11 @@ export function RelicPreview(props: {
             />
           </Flex>
 
-          <Divider style={{ margin: '6px 0px 6px 0px' }}/>
+          <Divider style={{ margin: '6px 0px 6px 0px' }} />
 
           {GenerateStat(relic.main as SubstatDetails, true, relic)}
 
-          <Divider style={{ margin: '6px 0px 6px 0px' }}/>
+          <Divider style={{ margin: '6px 0px 6px 0px' }} />
 
           <Flex vertical gap={STAT_GAP}>
             {GenerateStat(relic.substats[0], false, relic)}
@@ -144,7 +158,7 @@ export function RelicPreview(props: {
             {GenerateStat(relic.substats[3], false, relic)}
           </Flex>
 
-          {scoringType != ScoringType.NONE && <ScoreFooter score={score}/>}
+          {scoringType != ScoringType.NONE && <ScoreFooter score={score} />}
         </Flex>
       </RelicStatText>
     </Card>
@@ -175,14 +189,14 @@ function ScoreFooter(props: { score?: RelicScoringResult }) {
 
   return (
     <>
-      <Divider style={{ margin: '6px 0px 6px 0px' }}/>
+      <Divider style={{ margin: '6px 0px 6px 0px' }} />
 
       <Flex justify='space-between'>
         <Flex>
           <img src={icon} style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}></img>
-          {(scored) ? `${t('Score')}${asterisk ? ' *' : ''}` : ''}
+          {scored ? `${t('Score')}${asterisk ? ' *' : ''}` : ''}
         </Flex>
-        {(scored) ? `${localeNumberComma_0(Number(score.score))} (${score.rating})` : ''}
+        {scored ? `${localeNumberComma_0(Number(score.score))} (${score.rating})` : ''}
       </Flex>
     </>
   )

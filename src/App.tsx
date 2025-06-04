@@ -1,4 +1,11 @@
-import { ConfigProvider, Layout, message, Modal, notification, theme } from 'antd'
+import {
+  ConfigProvider,
+  Layout,
+  message,
+  Modal,
+  notification,
+  theme,
+} from 'antd'
 import { checkForUpdatesNotification } from 'lib/interactions/notifications'
 import { LayoutHeader } from 'lib/layout/LayoutHeader'
 import { LayoutSider } from 'lib/layout/LayoutSider'
@@ -41,9 +48,9 @@ const App = () => {
       {notificationContextHolder}
       {modalContextHolder}
       <Layout style={{ minHeight: '100%' }}>
-        <LayoutHeader/>
+        <LayoutHeader />
         <Layout hasSider>
-          <LayoutSider/>
+          <LayoutSider />
           <Content
             style={{
               padding: 10,
@@ -57,11 +64,11 @@ const App = () => {
               width: '100%',
             }}
           >
-            <Tabs/>
+            <Tabs />
           </Content>
-          <SettingsDrawer/>
-          <GettingStartedDrawer/>
-          <StatTracesDrawer/>
+          <SettingsDrawer />
+          <GettingStartedDrawer />
+          <StatTracesDrawer />
         </Layout>
       </Layout>
     </ConfigProvider>
@@ -69,7 +76,5 @@ const App = () => {
 }
 
 export default function WrappedApp() {
-  return (
-    <App/>
-  )
+  return <App />
 }

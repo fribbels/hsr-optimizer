@@ -3,7 +3,7 @@ Import:
     Unknown: Bilinmeyen Hata
     InvalidFile: Geçersiz tarayıcı dosyası
     InvalidJson: Geçersiz JSON
-    Fragment: "Dosyayı içe aktarırken hata meydana geldi."
+    Fragment: 'Dosyayı içe aktarırken hata meydana geldi.'
   Stage3:
     SuccessMessage: Tamamlandı!
 LoadData:

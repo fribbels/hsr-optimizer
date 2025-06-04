@@ -4,8 +4,14 @@ import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { FormSelectWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
-import { ComponentProps, ComponentType } from 'react'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  ComponentProps,
+  ComponentType,
+} from 'react'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 // Interface to an instance of a Character or Light Cone conditional controller
 export interface ConditionalsController {
@@ -61,18 +67,19 @@ export interface CharacterConditionalsController extends ConditionalsController 
 export type ConditionalValueMap = Record<string, number | boolean>
 
 export type ContentComponentMap = {
-  switch: ComponentType<FormSwitchWithPopoverProps>
-  slider: ComponentType<FormSliderWithPopoverProps>
-  select: ComponentType<FormSelectWithPopoverProps>
+  switch: ComponentType<FormSwitchWithPopoverProps>,
+  slider: ComponentType<FormSliderWithPopoverProps>,
+  select: ComponentType<FormSelectWithPopoverProps>,
 }
 
 // Extracted content to apply to <DisplayFormControl />
 export type ContentItem = {
-  [K in keyof ContentComponentMap]: {
-    formItem: K
-    id: string
-    content: string
-    teammateIndex?: number
-  }
-  & Omit<ComponentProps<ContentComponentMap[K]>, 'content' | 'title'>
+  [K in keyof ContentComponentMap]:
+    & {
+      formItem: K,
+      id: string,
+      content: string,
+      teammateIndex?: number,
+    }
+    & Omit<ComponentProps<ContentComponentMap[K]>, 'content' | 'title'>
 }[keyof ContentComponentMap]

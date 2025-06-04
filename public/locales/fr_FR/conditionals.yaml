@@ -1,26 +1,26 @@
-BetaMessage: "Version actuelle : {{Version}} - Les calculs sont susceptibles de changer."
+BetaMessage: 'Version actuelle : {{Version}} - Les calculs sont susceptibles de changer.'
 Common:
   BuffPriority:
-    Text: "Cible de buff"
-    Content: "Sélectionnez la cible préférée pour les buffs à cible unique"
-    Self: "Cible de buff: Soi-même"
-    Memo: "Cible de buff: mnémesprit"
+    Text: 'Cible de buff'
+    Content: 'Sélectionnez la cible préférée pour les buffs à cible unique'
+    Self: 'Cible de buff: Soi-même'
+    Memo: 'Cible de buff: mnémesprit'
   HealAbility:
-    Text: "Capacité de soins"
-    Content: "Sélectionnez la capacité pour les calculs de soins"
-    Basic: "Capacité de soins: Normale"
-    Skill: "Capacité de soins: Compétence"
-    Ult: "Capacité de soins: Ult"
-    Talent: "Capacité de soins: Talent"
-    Trace: "Capacité de soins: Trace"
+    Text: 'Capacité de soins'
+    Content: 'Sélectionnez la capacité pour les calculs de soins'
+    Basic: 'Capacité de soins: Normale'
+    Skill: 'Capacité de soins: Compétence'
+    Ult: 'Capacité de soins: Ult'
+    Talent: 'Capacité de soins: Talent'
+    Trace: 'Capacité de soins: Trace'
   ShieldAbility:
-    Text: "Capacité de bouclier"
-    Content: "Sélectionnez la capacité pour les calculs de bouclier"
-    Basic: "Capacité de bouclier: Normale"
-    Skill: "Capacité de bouclier: Compétence"
-    Ult: "Capacité de bouclier: Ult"
-    Talent: "Capacité de bouclier: Talent"
-    Trace: "Capacité de bouclier: Trace"
+    Text: 'Capacité de bouclier'
+    Content: 'Sélectionnez la capacité pour les calculs de bouclier'
+    Basic: 'Capacité de bouclier: Normale'
+    Skill: 'Capacité de bouclier: Compétence'
+    Ult: 'Capacité de bouclier: Ult'
+    Talent: 'Capacité de bouclier: Talent'
+    Trace: 'Capacité de bouclier: Trace'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -84,7 +84,7 @@ Lightcones:
       maskActive:
         text: Masque actif
         content: >-
-           Le porteur obtient l'effet Masque pendant 3 tours en début de combat. Tant que le porteur bénéficie de Masque, ses alliés voient leurs chances de coup critique augmenter de {{CritRateBuff}}% et leurs DGT critiques de {{CritDmgBuff}}%. Chaque fois que le porteur régénère 1 point de compétence (y compris des points de compétence au-delà de la limite), il gagne 1 cumul de Flamme radieuse. À 4 cumuls de Flamme radieuse, il perd tous les cumuls et gagne Masque. Dure 4 tours.
+          Le porteur obtient l'effet Masque pendant 3 tours en début de combat. Tant que le porteur bénéficie de Masque, ses alliés voient leurs chances de coup critique augmenter de {{CritRateBuff}}% et leurs DGT critiques de {{CritDmgBuff}}%. Chaque fois que le porteur régénère 1 point de compétence (y compris des points de compétence au-delà de la limite), il gagne 1 cumul de Flamme radieuse. À 4 cumuls de Flamme radieuse, il perd tous les cumuls et gagne Masque. Dure 4 tours.
   EchoesOfTheCoffin:
     Content:
       postUltSpdBuff:
@@ -181,7 +181,7 @@ Lightcones:
           Lorsque le porteur utilise une attaque, il a 120% de chances de base d'appliquer l'effet Bouche-bée à chaque cible ennemie. Lorsqu'un ennemi est Bouche-bée, sa DÉF diminue de {{DefShred}}% pendant 2 tours. ::BR:: Si la VIT du porteur est supérieure ou égale à 170, il a 120% de chances de base d'appliquer Vol à chaque cible ennemie. Lorsqu'un ennemi est affecté par Vol, sa DÉF diminue de {{AdditionalDefShred}}% pendant 2 tours.
     TeammateContent:
       additionalDefPen:
-        text: "VIT > 170"
+        text: 'VIT > 170'
         content: >-
           Lorsque le porteur utilise une attaque, il a 120% de chances de base d'appliquer l'effet Bouche-bée à chaque cible ennemie. Lorsqu'un ennemi est Bouche-bée, sa DÉF diminue de {{DefShred}}% pendant 2 tours. ::BR:: Si la VIT du porteur est supérieure ou égale à 170, il a 120% de chances de base d'appliquer Vol à chaque cible ennemie. Lorsqu'un ennemi est affecté par Vol, sa DÉF diminue de {{AdditionalDefShred}}% pendant 2 tours.
   LifeShouldBeCastToFlames:
@@ -496,7 +496,7 @@ Lightcones:
     Content:
       cdBuff:
         text: Bonus de DC allié(s) du même chemin
-        content: "Si au moins deux personnages suivent la même Voie une fois le combat engagé, les DGT critiques de ces personnages augmentent de {{CritBuff}}%."
+        content: 'Si au moins deux personnages suivent la même Voie une fois le combat engagé, les DGT critiques de ces personnages augmentent de {{CritBuff}}%.'
   PostOpConversation:
     Content:
       postUltHealingBoost:
@@ -959,7 +959,7 @@ Characters:
         content: Lorsque Cipher est sur le champ de bataille, les DGT subis par toutes les cibles ennemies augmentent de 40%.
       skillAtkBuff:
         text: Bonus d'ATQ de la Compétence
-        content: Lorsque Cipher utilise sa compétence, il y a 120% de chances de base d'appliquer Affaiblissement à un ennemi désigné et aux cibles adjacentes, ce qui diminue les DGT qu'ils infligent de 10%, et l'ATQ de Cipher augmente de 30% pendant 2 tours. 
+        content: Lorsque Cipher utilise sa compétence, il y a 120% de chances de base d'appliquer Affaiblissement à un ennemi désigné et aux cibles adjacentes, ce qui diminue les DGT qu'ils infligent de 10%, et l'ATQ de Cipher augmente de 30% pendant 2 tours.
       fuaCdBoost:
         text: Bonus de DC d'ADS
         content: Les DGT critiques infligés par l'ATQ de suivi du talent augmentent de 100%.
@@ -1820,7 +1820,7 @@ Characters:
       backupDancer:
         text: Bonus d'ER de Soutien sur scène
         content: >-
-          Applique l'effet Soutien sur scène à tous les alliés, pour une durée de 3 tours. La durée de l'effet diminue de 1 tour au début de chaque tour du pionnier/de la pionnière. L'effet de Rupture des alliés qui bénéficient de Soutien sur scène augmente de {{ultBeScaling}}%. 
+          Applique l'effet Soutien sur scène à tous les alliés, pour une durée de 3 tours. La durée de l'effet diminue de 1 tour au début de chaque tour du pionnier/de la pionnière. L'effet de Rupture des alliés qui bénéficient de Soutien sur scène augmente de {{ultBeScaling}}%.
       superBreakDmg:
         text: Rupture extrême (force l'état de rupture)
         content: >-

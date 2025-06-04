@@ -1,4 +1,8 @@
-import { ElementToDamage, ElementToResPenType, Stats } from 'lib/constants/constants'
+import {
+  ElementToDamage,
+  ElementToResPenType,
+  Stats,
+} from 'lib/constants/constants'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import { emptyLightCone } from 'lib/optimization/optimizerUtils'
 import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
@@ -6,9 +10,16 @@ import { StatCalculator } from 'lib/relics/statCalculator'
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
 import DB from 'lib/state/db'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { Form, Teammate } from 'types/form'
+import {
+  Form,
+  Teammate,
+} from 'types/form'
 import { DBMetadata } from 'types/metadata'
-import { CharacterMetadata, CharacterStatsBreakdown, OptimizerContext } from 'types/optimizer'
+import {
+  CharacterMetadata,
+  CharacterStatsBreakdown,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export function generateContext(request: Form): OptimizerContext {
   const context: OptimizerContext = {} as OptimizerContext

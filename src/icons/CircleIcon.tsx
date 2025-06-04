@@ -6,11 +6,11 @@ const IconSVG = (props: { color?: string }) => {
 
   return (
     <svg width='14' height='14' viewBox='0 0 14 14' style={{ display: 'inline-block', verticalAlign: 'middle' }}>
-      <circle cx='7' cy='7' r='7' fill={color == '' ? 'transparent' : color}/>
+      <circle cx='7' cy='7' r='7' fill={color == '' ? 'transparent' : color} />
     </svg>
   )
 }
 
 export const CircleIcon = (props: React.ComponentProps<typeof Icon> & { color?: string }) => {
-  return <Icon component={() => IconSVG(props)} {...props}/>
+  return <Icon component={() => IconSVG(props)} {...props} />
 }

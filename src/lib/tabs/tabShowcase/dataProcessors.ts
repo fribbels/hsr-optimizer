@@ -39,9 +39,9 @@ export function processEnkaData(data: EnkaApiResponse): UnconvertedCharacter[] {
 export type APIResponse = MihomoApiResponse | EnkaApiResponse
 
 type MihomoApiResponse = {
-  source: 'mihomo'
+  source: 'mihomo',
 }
 
 type EnkaApiResponse = {
-  source: 'enka'
+  source: 'enka',
 }

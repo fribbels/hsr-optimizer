@@ -1,9 +1,14 @@
-import { Button, Form, Input, Modal } from 'antd'
+import {
+  Button,
+  Form,
+  Input,
+  Modal,
+} from 'antd'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 
 type CharacterForm = {
-  name: string
+  name: string,
 }
 
 interface NameBuildProps {
@@ -39,21 +44,21 @@ const NameBuild: React.FC<NameBuildProps> = ({ open, setOpen, onOk }) => {
       onCancel={handleCancel}
       footer={[
         <Button key='back' onClick={handleCancel}>
-          {tCommon('Cancel')/* Cancel */}
+          {tCommon('Cancel') /* Cancel */}
         </Button>,
         <Button key='submit' type='primary' onClick={onModalOk}>
-          {tCommon('Save')/* Save */}
+          {tCommon('Save') /* Save */}
         </Button>,
       ]}
     >
       <Form form={characterForm} preserve={false} layout='vertical'>
         <Form.Item
           name='name'
-          label={t('Label')/* Build name */}
-          rules={[{ required: true, message: t('Rule')/* Please input a name */ }]}
+          label={t('Label') /* Build name */}
+          rules={[{ required: true, message: t('Rule') /* Please input a name */ }]}
           style={{ width: panelWidth }}
         >
-          <Input/>
+          <Input />
         </Form.Item>
       </Form>
     </Modal>

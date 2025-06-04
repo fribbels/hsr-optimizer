@@ -10,12 +10,12 @@ StrategyLabels:
 RefundLabels:
   REFUND_NONE: None
   REFUND_NONE_FULL: None
-  REFUND_LOW: '{{Percentage}}% refund'
-  REFUND_LOW_FULL: '{{Percentage}}% refund (Low)'
-  REFUND_AVG: '{{Percentage}}% refund'
-  REFUND_AVG_FULL: '{{Percentage}}% refund (Average)'
-  REFUND_HIGH: '{{Percentage}}% refund'
-  REFUND_HIGH_FULL: '{{Percentage}}% refund (High)'
+  REFUND_LOW: "{{Percentage}}% refund"
+  REFUND_LOW_FULL: "{{Percentage}}% refund (Low)"
+  REFUND_AVG: "{{Percentage}}% refund"
+  REFUND_AVG_FULL: "{{Percentage}}% refund (Average)"
+  REFUND_HIGH: "{{Percentage}}% refund"
+  REFUND_HIGH_FULL: "{{Percentage}}% refund (High)"
 EidolonLevels:
   NONE: None
   E0: E0
@@ -33,7 +33,7 @@ SuperimpositionLevels:
   S4: S4
   S5: S5
 IncomeOptions:
-  Label: '[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: '
+  Label: "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
   Type:
     0: None
     1: F2P
@@ -43,7 +43,7 @@ PityCounter:
   PityCounter: Pity counter
   CurrentEidolonSuperImp: Current
   Guaranteed: Guaranteed
-TotalAvailable: 'Total warps available:'
+TotalAvailable: "Total warps available:"
 SectionTitles:
   Planner: Warp Planner
   Results: Results
@@ -61,6 +61,6 @@ SectionTitles:
   Calculate: Calculate
 ColumnTitles:
   Goal: Goal
-  Chance: 'Success chance with {{ticketCount}} <1/>'
-  Average: 'Average # of <1/> required'
+  Chance: "Success chance with {{ticketCount}} <1/>"
+  Average: "Average # of <1/> required"
 TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'

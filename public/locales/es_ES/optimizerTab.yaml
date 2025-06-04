@@ -1,3 +1,6 @@
+ValidationMessages:
+  Warning:
+    MissingTeammates: Selecciona aliados para resultados de optimización más precisos.
 CharacterSelector:
   Character: Personaje
   Lightcone: Cono de luz

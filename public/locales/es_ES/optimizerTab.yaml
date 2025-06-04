@@ -199,8 +199,8 @@ Sidebar:
       Stable: Se cambió el motor de cómputo a GPU (estable)
       Experimental: Se cambió el motor de cómputo a GPU (experimental)
     Display:
-      GPU Experimental: 'Aceleración por GPU: Activada'
-      GPU Stable: 'Aceleración por GPU: Activada'
+      GPU Experimental: 'Aceleración GPU: Activada'
+      GPU Stable: 'Aceleración GPU: Activada'
       CPU: 'Aceleración GPU: Desactivada'
   Pinning:
     Messages:
@@ -526,27 +526,56 @@ StatSimulation:
   SimulationNamePlaceholder: Nombre de la sim. (opcional)
   OptionsHeader: Opciones
   RollsHeader: Mejoras máx. de atr. sec.
+  TotalsHeader: Valor total de atributo secundario
   MainStatsSelection:
     Header: Atributos principales
     BodyPlaceholder: Torso
     FeetPlaceholder: Piernas
     SpherePlaceholder: Esfera
     RopePlaceholder: Cuerda
+    ShortStat: '$t(common:ShortReadableStats.{{stat}})'
+    LabelStat: '$t(common:ReadableStats.{{stat}})'
 ExpandedDataPanel:
+  SubstatUpgrades:
+    ColumnHeaders:
+      Substat: '+1x Atr. sec.'
+      COMBO_DMG: Δ Daño Combo
+      COMBO_DMG_P: Δ% Daño Combo
+      EHP: Δ PVE
+      EHP_P: Δ% PVE
+      HEAL_VALUE: Δ Curación
+      HEAL_VALUE_P: Δ% Curación
+      SHIELD_VALUE: Δ Escudo
+      SHIELD_VALUE_P: Δ% Escudo
   DamageSplits:
+    Title: Distribución de tipo de daño
     Legend:
+      abilityDmg: Base
       breakDmg: Ruptura
+      superBreakDmg: Ultrarruptura
+      additionalDmg: Adicional
+      trueDmg: 'Verdadero'
+      jointDmg: Combinado
+      dotDmg: DOT
+      memoDmg: Mnemo
     YAxisLabel:
       BASIC_DMG: Básico
-      SKILL_DMG: Habilidad
-      ULT_DMG: Definitiva
-      FUA_DMG: Atq. Adic.
+      SKILL_DMG: Habilid.
+      ULT_DMG: Definit.
+      FUA_DMG: Atq.Adic.
+      DOT_DMG: DOT
       BREAK_DMG: Ruptura
-      MEMO_SKILL_DMG: Habilidadᴹ
+      MEMO_SKILL_DMG: Habil.ᴹ
       MEMO_TALENT_DMG: Talentoᴹ
     TooltipText:
-      breakDmg: Daño Ruptura
-      dotDmg: Daño DoT
+      abilityDmg: Daño base
+      breakDmg: Daño de Ruptura
+      superBreakDmg: Daño de Ultrarruptura
+      additionalDmg: Daño adicional
+      trueDmg: Daño verdadero
+      jointDmg: Daño combinado
+      dotDmg: Daño con el tiempo
+      memoDmg: Daño de mnemo
   BuffsAnalysisDisplay:
     Values:
       BoolFalse: 'No'
@@ -555,22 +584,31 @@ ExpandedDataPanel:
       Basic: Básico
       Skill: Habilidad
       Ult: Definitiva
+      Talent: Talento
+      Technique: Técnica
+      Trace: Rastro
+      Memo: Mnemo
       E1: E1
       E2: E2
       E4: E4
       E6: E6
     Stats:
       CompositeLabels:
+        Label: '{{suffix}} de {{prefix}}'
         Prefix:
           Basic: Básico
           Skill: Habilidad
           Ult: Definitiva
           Fua: Atq. Adic.
+          Dot: DOT
           Break: Ruptura
+          Memo Skill: Habilidadᴹ
+          Memo Talent: Talentoᴹ
         Suffix:
           DMG boost: Aumento de daño
           Vulnerability: Vulnerabilidad
           DEF PEN: PEN DEF
+          Additional DMG: Daño adicional
           DMG: DAÑO
       Misc:
         Memosprite: Mnemo

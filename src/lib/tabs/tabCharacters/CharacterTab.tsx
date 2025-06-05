@@ -64,14 +64,11 @@ export default function CharacterTab() {
   const { token } = useToken()
 
   const [confirmationModal, contextHolder] = Modal.useModal()
-  const [screenshotLoading, setScreenshotLoading] = useState(false)
-  const [downloadLoading, setDownloadLoading] = useState(false)
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [isSwitchRelicsModalOpen, setSwitchRelicsModalOpen] = useState(false)
   const [isSaveBuildModalOpen, setIsSaveBuildModalOpen] = useState(false)
   const [isBuildsModalOpen, setIsBuildsModalOpen] = useState(false)
-  const [characterModalAdd, setCharacterModalAdd] = useState(false)
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState()
   const nameFilter = useRef('')
 
@@ -368,12 +365,10 @@ export default function CharacterTab() {
 
     switch (e.key) {
       case 'add':
-        setCharacterModalAdd(true)
         setCharacterModalInitialCharacter(null)
         setCharacterModalOpen(true)
         break
       case 'edit':
-        setCharacterModalAdd(false)
         setCharacterModalInitialCharacter(selectedCharacter)
         setCharacterModalOpen(true)
         break
@@ -458,7 +453,9 @@ export default function CharacterTab() {
             id='characterGrid'
             className='ag-theme-balham-dark'
             style={{
-              ...{ display: 'block', width: '100%', height: parentH },
+              display: 'block',
+              width: '100%',
+              height: parentH,
               ...getGridTheme(token),
             }}
           >
@@ -521,7 +518,6 @@ export default function CharacterTab() {
             character={selectedCharacter}
             setOriginalCharacterModalOpen={setCharacterModalOpen}
             setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
-            setCharacterModalAdd={setCharacterModalAdd}
           />
         </Suspense>
       </Flex>

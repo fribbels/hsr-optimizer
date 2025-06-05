@@ -23,7 +23,6 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { applyPreset } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
 import {
@@ -38,6 +37,7 @@ import {
 } from 'types/form'
 import { DBMetadata } from 'types/metadata'
 import { BasicForm } from 'types/optimizer'
+import { applyPreset } from "lib/conditionals/evaluation/applyPresets";
 
 export type ComboConditionals = {
   [key: string]: ComboConditionalCategory,

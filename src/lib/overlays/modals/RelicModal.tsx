@@ -392,10 +392,11 @@ export default function RelicModal(props: {
         open={props.open} //
         onCancel={() => props.setOpen(false)}
         footer={
-          <Flex key='footer' justify='space-between'>
+          <Flex key='footer' justify={showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes ? 'space-between' : 'flex-end'}>
             <Flex style={{ width: 298, paddingLeft: 1 }}>
               {props.selectedRelic && showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes && <RelicLocator relic={props.selectedRelic} />}
             </Flex>
+
             <Flex gap={10} style={{ width: 180 }}>
               <Button onClick={handleCancel} style={{ flex: 1 }}>
                 {t('common:Cancel')}

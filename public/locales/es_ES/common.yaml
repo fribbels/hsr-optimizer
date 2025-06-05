@@ -8,7 +8,7 @@ LightconeWithCount_one: "{{count}} cono de luz"
 LightconeWithCount_other: "{{count}} conos de luz"
 ThousandsSuffix: K
 DecimalSeparator: "."
-ThousandsSeparator: " "
+ThousandsSeparator: ","
 I18nNumber: "{{value, number}}"
 Cancel: Cancelar
 Confirm: Confirmar

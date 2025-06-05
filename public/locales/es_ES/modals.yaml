@@ -19,18 +19,21 @@ Scoring:
       ButtonText: Ir a la pestaña Importar
       SuccessMessage: Elige un método de importación para tus artefactos y personajes
     Body_MAIN:
-      Description: "Puede que el filtro de atributo principal para $t(common:Parts.Body) sea muy restrictivo"
-      SuccessMessage: "Filtros de atributo principal de $t(common:Parts.Body) borrados"
+      Description: "Puede que el filtro de atributo principal para el $t(common:Parts.Body) sea muy restrictivo"
+      ButtonText: "Borrar filtro de atributo principal para el $t(common:Parts.Body)"
+      SuccessMessage: "Filtro de atributo principal para el $t(common:Parts.Body) borrado"
     Feet_MAIN:
-      Description: "Puede que el filtro de atributo principal para $t(common:Parts.Feet) sea muy restrictivo"
-      SuccessMessage: "Filtros de atributo principal de $t(common:Parts.Feet) borrados"
+      Description: "Puede que el filtro de atributo principal para las $t(common:Parts.Feet) sea muy restrictivo"
+      ButtonText: "Borrar filtro de atributo principal para las $t(common:Parts.Feet)"
+      SuccessMessage: "Filtro de atributo principal para las $t(common:Parts.Feet) borrado"
     PlanarSphere_MAIN:
-      Description: "Puede que el filtro de atributo principal para $t(common:Parts.PlanarSphere) sea muy restrictivo"
-      ButtonText: "Borrar filtros de atr. principal para $t(common:ReadableParts.PlanarSphere)"
-      SuccessMessage: "Filtros de atributo principal de $t(common:Parts.PlanarSphere) borrados"
+      Description: "Puede que el filtro de atributo principal para la $t(common:Parts.PlanarSphere) sea muy restrictivo"
+      ButtonText: "Borrar filtro de atr. principal para la $t(common:Parts.PlanarSphere)"
+      SuccessMessage: "Filtro de atributo principal de la $t(common:Parts.PlanarSphere) borrado"
     LinkRope_MAIN:
-      Description: "Puede que el filtro de atributo principal para $t(common:Parts.LinkRope) sea muy restrictivo"
-      SuccessMessage: "Filtros de atributo principal de $t(common:Parts.LinkRope) borrados"
+      Description: "Puede que el filtro de atributo principal para la $t(common:Parts.LinkRope) sea muy restrictivo"
+      ButtonText: "Borrar filtro de atr. principal para la $t(common:Parts.LinkRope)"
+      SuccessMessage: "Filtro de atributo principal de $t(common:Parts.LinkRope) borrado"
     RELIC_SETS:
       Description: Puede que los filtros de conjunto de artefactos sean muy restrictivos
       SuccessMessage: Filtros de conjunto de artefactos borrados

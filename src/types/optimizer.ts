@@ -77,6 +77,7 @@ export type SetConditional = {
   valueSigoniaTheUnclaimedDesolation: number,
   valueDuranDynastyOfRunningWolves: number,
   valueSacerdosRelivedOrdeal: number,
+  valueArcadiaOfWovenDreams: number,
 }
 
 export type CharacterStatsBreakdown = {

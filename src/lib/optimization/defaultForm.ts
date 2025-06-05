@@ -183,4 +183,6 @@ export const defaultSetConditionals = {
   [Sets.TheWondrousBananAmusementPark]: [undefined, false],
   [Sets.BoneCollectionsSereneDemesne]: [undefined, true],
   [Sets.GiantTreeOfRaptBrooding]: [undefined, true],
+  [Sets.ArcadiaOfWovenDreams]: [undefined, 4],
+  [Sets.RevelryByTheSea]: [undefined, true],
 }

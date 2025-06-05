@@ -1,5 +1,6 @@
 import {
   BASIC_DMG_TYPE,
+  DOT_DMG_TYPE,
   FUA_DMG_TYPE,
   SKILL_DMG_TYPE,
   ULT_DMG_TYPE,
@@ -208,6 +209,20 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     index: 19,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.SPD_P.buff(0.06, Source.GiantTreeOfRaptBrooding)
+    },
+  },
+  ArcadiaOfWovenDreams: {
+    key: 'ArcadiaOfWovenDreams',
+    index: 20,
+    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+      x.ELEMENTAL_DMG.buffBaseDual(arcadiaSetIndexToCd[setConditionals.valueArcadiaOfWovenDreams], Source.ArcadiaOfWovenDreams)
+    },
+  },
+  RevelryByTheSea: {
+    key: 'RevelryByTheSea',
+    index: 21,
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+      c.ATK_P.buff(0.12, Source.RevelryByTheSea)
     },
   },
 }
@@ -542,4 +557,15 @@ const pioneerSetIndexToCd: Record<number, number> = {
   2: 0.12,
   3: 0.16,
   4: 0.24,
+}
+
+const arcadiaSetIndexToCd: Record<number, number> = {
+  1: 0.36,
+  2: 0.24,
+  3: 0.12,
+  4: 0.00,
+  5: 0.09,
+  6: 0.18,
+  7: 0.27,
+  8: 0.36,
 }

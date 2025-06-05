@@ -1,8 +1,22 @@
-import { Constants, ElementNames, PathNames, Sets, } from 'lib/constants/constants'
-import { defaultSetConditionals, getDefaultForm, } from 'lib/optimization/defaultForm'
-import { NULL_TURN_ABILITY_NAME, WHOLE_BASIC, } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  Constants,
+  ElementNames,
+  PathNames,
+  Sets,
+} from 'lib/constants/constants'
+import {
+  defaultSetConditionals,
+  getDefaultForm,
+} from 'lib/optimization/defaultForm'
+import {
+  NULL_TURN_ABILITY_NAME,
+  WHOLE_BASIC,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { MOZE, PHAINON, } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  MOZE,
+  PHAINON,
+} from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import {
@@ -106,3 +120,4 @@ export function applySetConditionalPresets(form: Form | BenchmarkForm) {
   const mozes = allyIds.filter((id) => id == MOZE).length
   form.setConditionals[Sets.ArcadiaOfWovenDreams][1] = form.characterId == PHAINON ? 1 : 4 + memosprites - mozes
 }
+

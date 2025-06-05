@@ -19,7 +19,10 @@ import {
   PHAINON,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
-import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
+import {
+  BenchmarkForm,
+  SimpleCharacter,
+} from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import {
   PresetDefinition,
   setSortColumn,
@@ -112,14 +115,20 @@ export function applySetConditionalPresets(form: Form | BenchmarkForm) {
   applyTeamAwareSetConditionalPresets(form)
 }
 
-export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm) {
+export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, teammateIds?: (CharacterId | undefined)[]) {
   const metadataCharacters = DB.getMetadata().characters
 
   const allyIds = [
     form.characterId,
-    form.teammate0?.characterId,
-    form.teammate1?.characterId,
-    form.teammate2?.characterId,
+    ...(
+      teammateIds
+        ? teammateIds
+        : [
+          form.teammate0?.characterId,
+          form.teammate1?.characterId,
+          form.teammate2?.characterId,
+        ]
+    ),
   ]
 
   const allyPaths = allyIds.map((id) => id ? metadataCharacters[id].path : null)
@@ -128,9 +137,27 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm) 
   form.setConditionals[Sets.ArcadiaOfWovenDreams][1] = form.characterId == PHAINON ? 1 : 4 + memosprites - mozes
 }
 
-export function applyTeamAwareSetConditionalPresetsToFormInstance(formInstance: FormInstance<Form>) {
+export function applyTeamAwareSetConditionalPresetsToOptimizerFormInstance(formInstance: FormInstance<Form>) {
   const form = formInstance.getFieldsValue()
   applyTeamAwareSetConditionalPresets(form)
+
+  formInstance.setFieldValue(['setConditionals', Sets.ArcadiaOfWovenDreams, 1], form.setConditionals[Sets.ArcadiaOfWovenDreams][1])
+}
+
+export function applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance(
+  formInstance: FormInstance<BenchmarkForm>,
+  teammate0?: SimpleCharacter,
+  teammate1?: SimpleCharacter,
+  teammate2?: SimpleCharacter,
+) {
+  const form = formInstance.getFieldsValue()
+  const teammateIds = [
+    teammate0?.characterId,
+    teammate1?.characterId,
+    teammate2?.characterId,
+  ]
+
+  applyTeamAwareSetConditionalPresets(form, teammateIds)
 
   formInstance.setFieldValue(['setConditionals', Sets.ArcadiaOfWovenDreams, 1], form.setConditionals[Sets.ArcadiaOfWovenDreams][1])
 }

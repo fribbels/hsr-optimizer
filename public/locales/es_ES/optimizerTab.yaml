@@ -620,12 +620,12 @@ ExpandedDataPanel:
           DEF PEN: PEN DEF
           Break DEF PEN: PEN DEF a Ruptura
           Toughness DMG: Daño de firmeza
-          Super Break multiplier: Multiplic. de ultrarruptura
-          Break Efficiency boost: Mejora de Eficiencia de Ruptura
+          Super Break multiplier: Multiplic. de Ultrarruptura
+          Break Efficiency boost: Mejora de Eficiencia de Rupt.
           True DMG multiplier: Multiplic. de Daño verdadero
           Final DMG multiplier: Multiplic. de Daño final
           Break DMG multiplier: Multiplic. de Daño de Ruptura
-          Additional DMG scaling: Escalado de Daño adicional
+          Additional DMG scaling: Escalado de Daño adic.
           Additional DMG: Daño adicional
           DMG: Daño
       Misc:
@@ -633,10 +633,10 @@ ExpandedDataPanel:
         Base ATK: ATQ base
         Base DEF: DEF base
         Base SPD: VEL base
-        Memosprite base HP scaling: Escalado de PV base del mnemoduende
-        Memosprite base DEF scaling: Escalado de DEF base del mnemoduende
-        Memosprite base ATK scaling: Escalado de ATQ base del mnemoduende
-        Memosprite base SPD scaling: Escalado de VEL base del mnemoduende
+        Memosprite base HP scaling: Escalado de PV base del mnemo
+        Memosprite base DEF scaling: Escalado de DEF base del mnemo
+        Memosprite base ATK scaling: Escalado de ATQ base del mnemo
+        Memosprite base SPD scaling: Escalado de VEL base del mnemo
         Memosprite base HP flat: PV base planos del mnemoduende
         Memosprite base DEF flat: DEF base plana del mnemoduende
         Memosprite base ATK flat: ATQ base plano del mnemoduende
@@ -650,3 +650,36 @@ ExpandedDataPanel:
         Prioritize memosprite buffs: Priorizar mejoras del mnemoduende
         Deprioritize buffs: Despriorizar mejoras
         Combo DMG: Daño de combo
+        Dot base chance: Probabilidad base de DOT
+        Effect RES PEN: PEN RES a efecto
+        Dot DMG split: División de daño DOT
+        Dot stacks: Acumulaciones de DOT
+        Heal ability type: Tipo de habilidad de curación
+        Heal flat: Curación plana
+        Heal scaling: Escalado de curación
+        Heal value: Valor de la curación
+        Shield flat: Escudo plano
+        Shield scaling: Escalado de escudo
+        Shield value: Valor de escudo
+        Shield boost: Mejora de escudo
+        Skill Outgoing Healing Boost: Bonif. curación de la Habilidad
+        Ult Outgoing Healing Boost: Bonif. curación de la Definitiva
+        Super Break DEF PEN: PEN DEF de la Ultrarruptura
+        Super Break DMG Boost: Mejora al Daño de Ultrarruptura
+        Super Break Vulnerability: Vulnerabilidad a la Ultrarruptura
+        Additional DMG boost: Mejora de Daño adicional
+        Ult Additional DMG CR override: PC fija del daño adic. de Definitiva
+        Ult Additional DMG CD override: DC fijo del daño adic. de Definitiva
+      DmgTypes:
+        Basic: Tipo de daño Básico
+        Skill: Tipo de daño Habilidad
+        Ult: Tipo de daño Definitiva
+        Fua: Tipo de daño Ataque adicional
+        Dot: Tipo de Daño con el tiempo
+        Break: Tipo de Daño de Ruptura
+        MemoSkill: Tipo de daño de Habilidad mnemo
+        MemoTalent: Tipo de daño de Talento mnemo
+        Additional: Tipo de Daño adicional
+        SuperBreak: Tipo de Daño de Ultrarruptura
+      ResPen: 'PEN RES $t(common:Elements.{{element}})'
+      Unconvertible: '$t(common:Stats.{{stat}}) inconvertible'

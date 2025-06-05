@@ -10,6 +10,7 @@ import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Character } from 'types/character'
+import { Form } from 'types/form'
 
 export const CharacterTabController = {
   cellClickedCallback: (node: IRowNode<Character>) => {
@@ -52,6 +53,13 @@ export const CharacterTabController = {
     CharacterTabController.drag(e, e.overIndex)
   },
 
+  onCharacterModalOk: (form: Form) => {
+    const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
+    if (!form.characterId) return Message.error(t('NoSelectedCharacter'))
+    const character = DB.addFromForm(form)
+    window.characterGrid.current?.api?.ensureIndexVisible(character.rank)
+  },
+
   confirmSaveBuild: (name: string) => {
     const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
     const selectedCharacter = useCharacterTabStore.getState().selectedCharacter
@@ -80,5 +88,47 @@ export const CharacterTabController = {
     SaveState.delayedSave()
     window.forceCharacterTabUpdate()
     window.relicsGrid.current?.api?.redrawRows()
+  },
+
+  unequipFocusCharacter: () => {
+    const focusCharacter = useCharacterTabStore.getState().focusCharacter
+    if (!focusCharacter) return
+    const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
+    DB.unequipCharacter(focusCharacter)
+    window.forceCharacterTabUpdate()
+    SaveState.delayedSave()
+    Message.success(t('UnequipSuccess'))
+  },
+
+  removeFocusCharacter: () => {
+    const focusCharacter = useCharacterTabStore.getState().focusCharacter
+    if (!focusCharacter) return
+    const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
+    DB.removeCharacter(focusCharacter)
+    useCharacterTabStore.getState().setFocusCharacter(null)
+    window.forceCharacterTabUpdate()
+    SaveState.delayedSave()
+    Message.success(t('RemoveSuccess'))
+  },
+
+  moveFocusCharacterToTop: () => {
+    const focusCharacter = useCharacterTabStore.getState().focusCharacter
+    if (!focusCharacter) return
+    DB.insertCharacter(focusCharacter, 0)
+    DB.refreshCharacters()
+    window.forceCharacterTabUpdate()
+    SaveState.delayedSave()
+  },
+
+  sortByScore: () => {
+    const characters = DB.getCharacters()
+    const sortedCharacters = characters
+      .map((character) => ({ score: RelicScorer.scoreCharacter(character), character }))
+      .sort((a, b) => b.score.totalScore - a.score.totalScore)
+      .map((x) => x.character)
+    DB.setCharacters(sortedCharacters)
+    DB.refreshCharacters()
+    SaveState.delayedSave()
+    window.forceCharacterTabUpdate()
   },
 }

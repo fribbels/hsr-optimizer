@@ -27,6 +27,7 @@ type CharacterTabValues = {
   characters: Character[],
   charactersById: Partial<Record<CharacterId, Character>>,
   characterModalInitialCharacter: Character | null,
+  characterModalOpen: boolean,
   filters: CharacterTabFilters,
 }
 
@@ -35,6 +36,7 @@ type CharacterTabActions = {
   setCharacters: (characters: Character[]) => void,
   setCharactersById: (charactersById: Partial<Record<CharacterId, Character>>) => void,
   setCharacterModalInitialCharacter: (character: Character | null) => void,
+  setCharacterModalOpen: (characterModalOpen: boolean) => void,
 
   setFilters: (filters: CharacterTabFilters) => void,
   setNameFilter: (name: CharacterTabFilters['name']) => void,
@@ -50,6 +52,7 @@ export const useCharacterTabStore = create<CharacterTabState>()((set) => ({
   characters: [],
   charactersById: {},
   characterModalInitialCharacter: null,
+  characterModalOpen: false,
   filters: defaultFilters,
 
   setFocusCharacter: (focusCharacter: CharacterId | null) =>
@@ -62,6 +65,7 @@ export const useCharacterTabStore = create<CharacterTabState>()((set) => ({
   setCharacters: (characters: Character[]) => set({ characters }),
   setCharactersById: (charactersById: Partial<Record<CharacterId, Character>>) => set({ charactersById }),
   setCharacterModalInitialCharacter: (character: Character | null) => set({ characterModalInitialCharacter: character }),
+  setCharacterModalOpen: (characterModalOpen: boolean) => set({ characterModalOpen }),
 
   setFilters: (filters: CharacterTabFilters) => set({ filters }),
   setNameFilter: (name: string) => set((s) => ({ filters: { ...s.filters, name } })),

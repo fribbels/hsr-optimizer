@@ -7,6 +7,7 @@ import {
   Typography,
 } from 'antd'
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
+import { applyTeamAwareSetConditionalPresetsToOptimizerFormInstance } from 'lib/conditionals/evaluation/applyPresets'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
@@ -289,6 +290,7 @@ const TeammateCard = (props: {
       teammateValues.characterConditionals = Object.assign({}, characterConditionals.teammateDefaults(), teammateValues.characterConditionals)
     }
 
+    applyTeamAwareSetConditionalPresetsToOptimizerFormInstance(window.optimizerForm)
     window.optimizerForm.setFieldValue([teammateProperty], teammateValues)
   }
 

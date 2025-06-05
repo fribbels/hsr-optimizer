@@ -152,6 +152,7 @@ const action${i} = Action( // ${action.actionIndex}
     ${action.setConditionals.valueSigoniaTheUnclaimedDesolation},${gpuParams.DEBUG ? ' // valueSigoniaTheUnclaimedDesolation' : ''}
     ${action.setConditionals.valueDuranDynastyOfRunningWolves},${gpuParams.DEBUG ? ' // valueDuranDynastyOfRunningWolves' : ''}
     ${action.setConditionals.valueSacerdosRelivedOrdeal},${gpuParams.DEBUG ? ' // valueSacerdosRelivedOrdeal' : ''}
+    ${action.setConditionals.valueArcadiaOfWovenDreams},${gpuParams.DEBUG ? ' // valueArcadiaOfWovenDreams' : ''}
   ),
 );`
   }

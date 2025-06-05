@@ -18,6 +18,10 @@ import {
   OverlayText,
   showcaseOutline,
 } from 'lib/characterPreview/CharacterPreviewComponents'
+import {
+  applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance,
+  applyTeamAwareSetConditionalPresetsToOptimizerFormInstance,
+} from 'lib/conditionals/evaluation/applyPresets'
 import { Sets } from 'lib/constants/constants'
 import {
   OpenCloseIDs,
@@ -70,6 +74,7 @@ import {
   CharacterId,
 } from 'types/character'
 import { ReactElement } from 'types/components'
+import { BenchFactory } from 'vitest'
 
 const GAP = 8
 const HEADER_GAP = 5
@@ -116,6 +121,9 @@ export default function BenchmarksTab(): ReactElement {
     setCharacterModalOpen,
     onCharacterModalOk,
     updateTeammate,
+    teammate0,
+    teammate1,
+    teammate2,
   } = useBenchmarksTabStore()
 
   const initialForm = useMemo(() => {
@@ -129,6 +137,10 @@ export default function BenchmarksTab(): ReactElement {
     updateTeammate(2, initialForm.teammate2)
     handleCharacterSelectChange(initialForm.characterId, benchmarkForm)
   }, [])
+
+  useEffect(() => {
+    applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance(benchmarkForm, teammate0, teammate1, teammate2)
+  }, [teammate0, teammate1, teammate2])
 
   return (
     <Flex vertical style={{ minHeight: 1500, width: 1200, marginBottom: 200 }} align='center'>

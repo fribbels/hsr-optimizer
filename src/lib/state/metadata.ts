@@ -4352,7 +4352,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           END_FUA,
           DEFAULT_FUA,
           START_ULT,
-          WHOLE_SKILL,
+          DEFAULT_SKILL,
           END_FUA,
           DEFAULT_FUA,
         ],

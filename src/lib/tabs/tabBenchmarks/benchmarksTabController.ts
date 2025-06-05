@@ -10,13 +10,10 @@ import {
   SimpleCharacter,
   useBenchmarksTabStore,
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
-import {
-  applyScoringMetadataPresets,
-  applySetConditionalPresets,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { filterUniqueStringify } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
+import { applyScoringMetadataPresets, applySetConditionalPresets } from "lib/conditionals/evaluation/applyPresets";
 
 export type BenchmarkResultWrapper = {
   fullHash: string,

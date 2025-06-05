@@ -1,37 +1,37 @@
-BetaMessage: "현재 버전: {{Version}} - 계산된 값은 변경될 수 있습니다."
+BetaMessage: '현재 버전: {{Version}} - 계산된 값은 변경될 수 있습니다.'
 Common:
   BuffPriority:
-    Text: "버프 우선 순위 대상"
-    Content: "버프를 우선적으로 부여할 대상을 선택하세요."
-    Self: "버프 우선: 자신"
-    Memo: "버프 우선: 기억 정령"
+    Text: '버프 우선 순위 대상'
+    Content: '버프를 우선적으로 부여할 대상을 선택하세요.'
+    Self: '버프 우선: 자신'
+    Memo: '버프 우선: 기억 정령'
   HealAbility:
-    Text: "치유 기술"
-    Content: "치유 기술을 선택하세요."
-    Basic: "치유 기술: 일반"
-    Skill: "치유 기술: 전투 스킬"
-    Ult: "치유 기술: 필살기"
-    Talent: "치유 기술: 비술"
-    Trace: "치유 기술: 행적"
+    Text: '치유 기술'
+    Content: '치유 기술을 선택하세요.'
+    Basic: '치유 기술: 일반'
+    Skill: '치유 기술: 전투 스킬'
+    Ult: '치유 기술: 필살기'
+    Talent: '치유 기술: 비술'
+    Trace: '치유 기술: 행적'
   ShieldAbility:
-    Text: "보호막 기술"
-    Content: "보호막 기술을 선택하세요."
-    Basic: "보호막 기술: 일반"
-    Skill: "보호막 기술: 전투 스킬"
-    Ult: "보호막 기술: 필살기"
-    Talent: "보호막 기술: 비술"
-    Trace: "보호막 기술: 행적"
+    Text: '보호막 기술'
+    Content: '보호막 기술을 선택하세요.'
+    Basic: '보호막 기술: 일반'
+    Skill: '보호막 기술: 전투 스킬'
+    Ult: '보호막 기술: 필살기'
+    Talent: '보호막 기술: 비술'
+    Trace: '보호막 기술: 행적'
 Lightcones:
   AGroundedAscent:
     Content:
       dmgBuffStacks:
-        text: "[신성한 영창] 스택"
+        text: '[신성한 영창] 스택'
         content: >-
           장착한 캐릭터가 단일 아군 캐릭터에게 전투 스킬 또는 필살기를 발동하면 스킬 목표는 [신성한 영창]을 1 스택 획득한다. 지속 시간: 3턴, 최대 중첩수: 3스택. [신성한 영창] 스택마다 보유자가 가하는 피해가 {{DmgBuff}}% 증가한다.
   AlongThePassingShore:
     Content:
       emptyBubblesDebuff:
-        text: "[포영] 상태"
+        text: '[포영] 상태'
         content: >-
           장착한 캐릭터가 적 명중 시 적을 [포영] 상태에 빠트린다. 지속 시간: 1턴. 장착한 캐릭터가 공격할 때마다 적 1기당 1회만 발동한다. 장착한 캐릭터가 [포영] 상태에 빠진 적에게 가하는 피해가 {{DmgBoost}}% 증가하고, 필살기로 가하는 피해가 추가로 {{DmgBoost}}% 증가한다
   AnInstantBeforeAGaze:
@@ -43,9 +43,9 @@ Lightcones:
     Content:
       debuffCdStacks:
         text: 디퍼프 갯수
-        content: "적이 보유한 디버프 효과 1개당 장착한 캐릭터가 해당 적에게 가하는 치명타 피해가 추가로 {{DmgStep}}% 증가한다, 해당 효과 최대 중첩수: 3스택"
+        content: '적이 보유한 디버프 효과 1개당 장착한 캐릭터가 해당 적에게 가하는 치명타 피해가 추가로 {{DmgStep}}% 증가한다, 해당 효과 최대 중첩수: 3스택'
       postUltBuff:
-        text: "[변론] 버프"
+        text: '[변론] 버프'
         content: >-
           필살기로 적 공격 시 장착한 캐릭터는 [변론] 효과를 획득해 가하는 피해가 {{DmgStep}} 증가하고, 추가 공격은 목표의 방어력을 {{DefIgnore}}% 무시한다, 해당 효과 지속 시간: 2턴
   BeforeDawn:
@@ -57,14 +57,14 @@ Lightcones:
   BrighterThanTheSun:
     Content:
       dragonsCallStacks:
-        text: "[용의 포효] 스택"
+        text: '[용의 포효] 스택'
         content: >-
           장착한 캐릭터가 일반 공격을 발동하면 [용의 포효]를 1스택 획득한다. 지속 시간: 2턴. [용의 포효] 스택마다 장착한 캐릭터의 공격력이 {{AtkBuff}}% 증가하고, 에너지 회복효율이 {{RegenBuff}}% 증가한다. [용의 포효] 최대 중첩수: 2스택
   ButTheBattleIsntOver:
     Content:
       postSkillDmgBuff:
         text: 전투 스킬 후 버프
-        content: "장착한 캐릭터가 전투 스킬 발동 후 다음에 행동하는 다른 아군이 가하는 피해가  {{DmgBuff}}% 증가한다. 지속 시간: 1턴"
+        content: '장착한 캐릭터가 전투 스킬 발동 후 다음에 행동하는 다른 아군이 가하는 피해가  {{DmgBuff}}% 증가한다. 지속 시간: 1턴'
   CruisingInTheStellarSea:
     Content:
       enemyHp50CrBoost:
@@ -82,7 +82,7 @@ Lightcones:
   EarthlyEscapade:
     Content:
       maskActive:
-        text: "[가면] 적용"
+        text: '[가면] 적용'
         content: >-
           전투 시작 시 장착한 캐릭터가 [가면]을 획득한다, 지속 시간: 3턴. 장착한 캐릭터가 [가면] 보유 시, 장착한 캐릭터 동료의 치명타 확률이 {{CritRateBuff}}% 증가하고 치명타 피해가 {{CritDmgBuff}}% 증가한다. 장착한 캐릭터가 전투 스킬 포인트를 1pt 회복할 때마다 [무지개 화염]을 1스택 획득하고, 회복 시 초과한 전투 스킬 포인트도 계산에 포함된다. [무지개 화염]이 4스택에 도달하면 모든 [무지개 화염]을 해제하고 [가면]을 획득한다, 지속 시간: 4턴
   EchoesOfTheCoffin:
@@ -95,10 +95,10 @@ Lightcones:
     Content:
       atkBuffStacks:
         text: 공격력 버프 스택
-        content: "공격 발동 후 적을 1기 명중할 때마다 공격력이 추가로 {{AtkBuff}}% 증가한다, 최대 중첩수: 5회"
+        content: '공격 발동 후 적을 1기 명중할 때마다 공격력이 추가로 {{AtkBuff}}% 증가한다, 최대 중첩수: 5회'
       spdBuff:
         text: 3명 명중 속도 버프
-        content: "3기 이상의 적을 명중하면 자신의 속도가 {{SpdBuff}}% 증가한다, 지속 시간: 1턴"
+        content: '3기 이상의 적을 명중하면 자신의 속도가 {{SpdBuff}}% 증가한다, 지속 시간: 1턴'
   FlameOfBloodBlazeMyPath:
     Content:
       skillUltDmgBoost:
@@ -110,35 +110,35 @@ Lightcones:
   FlowingNightglow:
     Content:
       cadenzaActive:
-        text: "[카덴차] 버프"
+        text: '[카덴차] 버프'
         content: >-
           아군 캐릭터가 공격할 때마다 장착한 캐릭터가 [노래]를 1스택 획득한다. [노래] 스택마다 장착한 캐릭터의 에너지 회복효율이 {{RegenBuff}}% 증가한다. 최대 중첩수: 5스택. 장착한 캐릭터가 필살기를 발동하면 [노래]가 해제되고 [카덴차]를 획득한다. [카덴차]는 장착한 캐릭터의 공격력을 {{AtkBuff}}% 증가시키고, 모든 아군이 가하는 피해를 {{DmgBuff}}% 증가시킨다, 지속 시간: 1턴
       cantillationStacks:
-        text: "[노래] 스택"
+        text: '[노래] 스택'
         content: >-
           아군 캐릭터가 공격할 때마다 장착한 캐릭터가 [노래]를 1스택 획득한다. [노래] 스택마다 장착한 캐릭터의 에너지 회복효율이 {{RegenBuff}}% 증가한다. 최대 중첩수: 5스택. 장착한 캐릭터가 필살기를 발동하면 [노래]가 해제되고 [카덴차]를 획득한다. [카덴차]는 장착한 캐릭터의 공격력을 {{AtkBuff}}% 증가시키고, 모든 아군이 가하는 피해를 {{DmgBuff}}% 증가시킨다, 지속 시간: 1턴
   IfTimeWereAFlower:
     Content:
       presage:
-        text: "[지시]상태"
-        content: "장착한 캐릭터가 추가 공격 발동 후 추가로 에너지를 12pt 회복하고 [지시]를 획득한다, 지속 시간: 2턴. 장착한 캐릭터가 [지시] 보유 시 모든 아군의 치명타 피해가 {{CdBuff}}% 증가한다. 전투 진입 시 장착한 캐릭터가 에너지를 21pt 회복하고 [지시]를 획득한다, 지속 시간: 2턴"
+        text: '[지시]상태'
+        content: '장착한 캐릭터가 추가 공격 발동 후 추가로 에너지를 12pt 회복하고 [지시]를 획득한다, 지속 시간: 2턴. 장착한 캐릭터가 [지시] 보유 시 모든 아군의 치명타 피해가 {{CdBuff}}% 증가한다. 전투 진입 시 장착한 캐릭터가 에너지를 21pt 회복하고 [지시]를 획득한다, 지속 시간: 2턴'
   IncessantRain:
     Content:
       enemy3DebuffsCrBoost:
         text: 적 디버프 ≥ 3 크리티컬 확률 증가
         content: 장착한 캐릭터가 동시에 디버프 효과 3개 이상인 적에게 피해를 가하면 치명타 확률이 {{CritBuff}}% 증가한다.
       targetCodeDebuff:
-        text: "[에테르 코드] 상태"
+        text: '[에테르 코드] 상태'
         content: >-
           장착한 캐릭터가 일반 공격, 전투 스킬, 필살기 발동 후 100%의 기본 확률로 [에테르 코드]를 보유하지 않은 랜덤 피격 목표 1기에 [에테르 코드]를 부여한다. [에테르 코드]를 보유한 목표가 받는 피해가 {{DmgIncrease}}% 증가한다. 지속 시간: 1턴
   InherentlyUnjustDestiny:
     Content:
       shieldCdBuff:
         text: 쉴드 치명타 피해 버프
-        content: "장착한 캐릭터가 아군에게 실드 제공 시, 장착한 캐릭터의 치명타 피해가 40% 증가한다. 지속 시간: 2턴"
+        content: '장착한 캐릭터가 아군에게 실드 제공 시, 장착한 캐릭터의 치명타 피해가 40% 증가한다. 지속 시간: 2턴'
       targetVulnerability:
         text: 받는 피해 증가
-        content: "장착한 캐릭터가 추가 공격을 발동해 적을 명중하면, {{baseChance}}%의 기본 확률로 피격된 적이 받는 피해가 {{Vulnerability}}% 증가한다. 지속 시간: 2턴"
+        content: '장착한 캐릭터가 추가 공격을 발동해 적을 명중하면, {{baseChance}}%의 기본 확률로 피격된 적이 받는 피해가 {{Vulnerability}}% 증가한다. 지속 시간: 2턴'
   InTheNameOfTheWorld:
     Content:
       enemyDebuffedDmgBoost:
@@ -157,20 +157,20 @@ Lightcones:
     Content:
       skillUltDmgBoost:
         text: 전투 스킬 / 필살기 버프
-        content: "장착한 캐릭터가 필살기 발동 시 장착한 캐릭터가 가하는 전투 스킬과 필살기 피해가 {{DmgBuff}}% 증가한다, 지속 시간: 3턴"
+        content: '장착한 캐릭터가 필살기 발동 시 장착한 캐릭터가 가하는 전투 스킬과 필살기 피해가 {{DmgBuff}}% 증가한다, 지속 시간: 3턴'
   IShallBeMyOwnSword:
     Content:
       eclipseStacks:
-        text: "[월식] 스택"
+        text: '[월식] 스택'
         content: >-
           동료가 공격을 받거나 HP를 소모하면 장착한 캐릭터는 [월식]을 1스택 획득한다. 최대 중첩수: 3스택. [월식] 스택당 장착한 캐릭터의 다음번 공격이 가하는 피해가 {{DmgBuff}}% 증가한다.
       maxStackDefPen:
-        text: "[월식] 3스택 방어력 무시"
+        text: '[월식] 3스택 방어력 무시'
         content: 3스택까지 중첩 시, 이번 공격은 추가로 목표의 방어력을 {{DefIgnore}}% 무시한다
   IVentureForthToHunt:
     Content:
       luminfluxUltStacks:
-        text: "[유광] 스택"
+        text: '[유광] 스택'
         content: >-
           장착한 캐릭터가 추가 공격 발동 시 [유광]을 1스택 획득한다, 최대 중첩수: 2스택. [유광] 1스택마다 장착한 캐릭터가 가하는 필살기 피해가 목표의 방어력을 {{DefIgnore}}% 무시한다. 장착한 캐릭터의 턴 종료 시 [유광]이 1스택 해제된다.
   LiesAflutterInTheWind:
@@ -181,7 +181,7 @@ Lightcones:
           장착한 캐릭터가 공격을 발동하면 120%의 기본 확률로 각 단일 적을 [망연] 상태에 빠트리며, [망연] 상태의 적은 방어력이 {{DefShred}}% 감소한다, 지속 시간: 2턴. ::BR:: 장착한 캐릭터의 속도가 170 이상일 경우 120%의 기본 확률로 각 단일 적을 [도난] 상태에 빠트리며, [도난] 상태의 적은 방어력이 {{AdditionalDefShred}}% 감소한다, 지속 시간: 2턴
     TeammateContent:
       additionalDefPen:
-        text: "속도 > 170"
+        text: '속도 > 170'
         content: >-
           장착한 캐릭터가 공격을 발동하면 120%의 기본 확률로 각 단일 적을 [망연] 상태에 빠트리며, [망연] 상태의 적은 방어력이 {{DefShred}}% 감소한다, 지속 시간: 2턴. ::BR:: 장착한 캐릭터의 속도가 170 이상일 경우 120%의 기본 확률로 각 단일 적을 [도난] 상태에 빠트리며, [도난] 상태의 적은 방어력이 {{AdditionalDefShred}}% 감소한다, 지속 시간: 2턴
   LifeShouldBeCastToFlames:
@@ -191,28 +191,28 @@ Lightcones:
         content: 적이 장착한 캐릭터가 부여한 약점을 보유했을 경우 장착한 캐릭터가 대상에게 가하는 피해가 {{DmgBuff}}% 증가한다.
       defPen:
         text: 방어력 무시
-        content: "적이 장착한 캐릭터의 공격을 받을 시 장착한 캐릭터가 대상의 방어력을 {{DefShred}}% 감소시킨다, 지속 시간: 2턴. 같은 유형의 효과는 중첩되지 않는다"
+        content: '적이 장착한 캐릭터의 공격을 받을 시 장착한 캐릭터가 대상의 방어력을 {{DefShred}}% 감소시킨다, 지속 시간: 2턴. 같은 유형의 효과는 중첩되지 않는다'
   LongRoadLeadsHome:
     Content:
       breakVulnerabilityStacks:
-        text: "[타오름] 스택"
+        text: '[타오름] 스택'
         content: >-
           적의 약점이 격파될 시 100%의 기본 확률로 대상을 [타오름] 상태에 빠트리고 받는 격파 피해를 {{breakVulnerability}}% 증가시킨다, 지속 시간: 2턴. 해당 효과는 2스택 중첩 가능하다.
   MakeFarewellsMoreBeautiful:
     Content:
       deathFlower:
-        text: "[저승의 꽃]"
-        content: "장착한 캐릭터 또는 장착한 캐릭터의 기억 정령이 자신의 턴 동안 HP를 잃을 시, 장착한 캐릭터가 [저승의 꽃]을 획득한다. [저승의 꽃]은 장착한 캐릭터와 장착한 캐릭터의 기억 정령이 피해를 가할 시 목표의 방어력을 {{DefIgnore}}% 무시하게 한다, 지속 시간: 2턴"
+        text: '[저승의 꽃]'
+        content: '장착한 캐릭터 또는 장착한 캐릭터의 기억 정령이 자신의 턴 동안 HP를 잃을 시, 장착한 캐릭터가 [저승의 꽃]을 획득한다. [저승의 꽃]은 장착한 캐릭터와 장착한 캐릭터의 기억 정령이 피해를 가할 시 목표의 방어력을 {{DefIgnore}}% 무시하게 한다, 지속 시간: 2턴'
   MayRainbowsRemainInTheSky:
     Content:
       vulnerability:
         text: 취약
-        content: "장착한 캐릭터의 기억 정령이 기억 정령 스킬 발동 시, 모든 적이 받는 피해가 {{Vulnerability}}% 증가한다, 지속 시간: 2턴. 같은 유형의 효과는 중첩되지 않는다"
+        content: '장착한 캐릭터의 기억 정령이 기억 정령 스킬 발동 시, 모든 적이 받는 피해가 {{Vulnerability}}% 증가한다, 지속 시간: 2턴. 같은 유형의 효과는 중첩되지 않는다'
   MemorysCurtainNeverFalls:
     Content:
       teamDmgBoost:
         text: 아군 가하는 피해 증가
-        content: "장착한 캐릭터가 전투 스킬을 발동하면 모든 아군이 가하는 피해가 {{DmgBoost}}% 증가한다, 지속 시간: 3턴"
+        content: '장착한 캐릭터가 전투 스킬을 발동하면 모든 아군이 가하는 피해가 {{DmgBoost}}% 증가한다, 지속 시간: 3턴'
   MomentOfVictory:
     Content:
       selfAttackedDefBuff:
@@ -222,23 +222,23 @@ Lightcones:
     Content:
       atkBuffStacks:
         text: 공격력 버프 스택
-        content: "장착한 캐릭터가 아군에게 치유 제공 시, 해당 아군의 공격력이 {{AtkBuff}}% 증가한다. 해당 효과 최대 중첩수: 5스택. 지속 시간: 2턴"
+        content: '장착한 캐릭터가 아군에게 치유 제공 시, 해당 아군의 공격력이 {{AtkBuff}}% 증가한다. 해당 효과 최대 중첩수: 5스택. 지속 시간: 2턴'
   NightOnTheMilkyWay:
     Content:
       enemyCountAtkBuff:
-        text: "장착한 캐릭터가 아군에게 치유 제공 시, 해당 아군의 공격력이 {{AtkBuff}}% 증가한다. 해당 효과 최대 중첩수: 5스택. 지속 시간: 2턴"
-        content: "필드에 적이 1기 있을 때마다 장착한 캐릭터의 공격력이 {{AtkBuff}}% 증가한다. 해당 효과 최대 중첩수: 5스택"
+        text: '장착한 캐릭터가 아군에게 치유 제공 시, 해당 아군의 공격력이 {{AtkBuff}}% 증가한다. 해당 효과 최대 중첩수: 5스택. 지속 시간: 2턴'
+        content: '필드에 적이 1기 있을 때마다 장착한 캐릭터의 공격력이 {{AtkBuff}}% 증가한다. 해당 효과 최대 중첩수: 5스택'
       enemyWeaknessBreakDmgBuff:
         text: 약점 격파 시 데미지 버프
-        content: "적의 약점이 격파될 시 장착한 캐릭터가 가하는 피해가 {{DmgBuff}}% 증가한다. 지속 시간: 1턴"
+        content: '적의 약점이 격파될 시 장착한 캐릭터가 가하는 피해가 {{DmgBuff}}% 증가한다. 지속 시간: 1턴'
   OnTheFallOfAnAeon:
     Content:
       atkBoostStacks:
         text: 공격력 버프 스택
-        content: "장착한 캐릭터가 공격 발동 시 장착한 캐릭터의 이번 전투에서 공격력이 {{AtkBuff}}% 증가한다. 해당 효과 최대 중첩수: 4스택"
+        content: '장착한 캐릭터가 공격 발동 시 장착한 캐릭터의 이번 전투에서 공격력이 {{AtkBuff}}% 증가한다. 해당 효과 최대 중첩수: 4스택'
       weaknessBreakDmgBuff:
         text: 격파 후 데미지 버프
-        content: "장착한 캐릭터는 적의 약점을 격파한 후 가하는 피해가 {{DmgBuff}}% 증가한다. 지속 시간: 2턴"
+        content: '장착한 캐릭터는 적의 약점을 격파한 후 가하는 피해가 {{DmgBuff}}% 증가한다. 지속 시간: 2턴'
   PastSelfInTheMirror:
     Content:
       postUltDmgBuff:
@@ -248,15 +248,15 @@ Lightcones:
     Content:
       spdStacks:
         text: 속도 스택
-        content: "장착한 캐릭터가 공격을 발동할 때마다 속도가 {{SpdBuff}}% 증가한다. 최대 중첩수: 3스택"
+        content: '장착한 캐릭터가 공격을 발동할 때마다 속도가 {{SpdBuff}}% 증가한다. 최대 중첩수: 3스택'
       dotEffect:
-        text: "[흐름] 효과 (미구현)"
+        text: '[흐름] 효과 (미구현)'
         content: >-
           장착한 캐릭터가 적 명중 시, 해당 목표가 [흐름] 상태가 아니면 해당 목표는 100%의 기본 확률로 [흐름] 상태에 빠진다. [흐름] 상태는 감전과 동일한 상태로 간주한다. [흐름] 상태에서 적은 턴이 시작될 때마다 장착한 캐릭터 공격력의 {{Multiplier}}%만큼 번개 속성 지속 피해를 받는다. 지속 시간: 1턴
   ReforgedRemembrance:
     Content:
       prophetStacks:
-        text: "[예지] 스택"
+        text: '[예지] 스택'
         content: >-
           장착한 캐릭터가 풍화, 연소, 감전, 열상 상태에 빠진 적에게 피해를 가하면 각각 [예지]를 1스택 획득한다. 최대 중첩수: 4스택. 단일 전투에서 지속 피해 상태 유형마다 [예지] 효과를 1회 중첩할 수 있다. [예지] 1스택당 장착한 캐릭터의 공격력이 {{AtkBuff}}% 증가하고, 가하는 지속 피해가 목표의 방어력을 {{DefIgnore}}% 무시한다
   SailingTowardsASecondLife:
@@ -270,7 +270,7 @@ Lightcones:
   ScentAloneStaysTrue:
     Content:
       woefreeState:
-        text: "[망우] 상태"
+        text: '[망우] 상태'
         content: >-
           장착한 캐릭터가 필살기를 발동하여 적 공격 후 해당 적을 [망우] 상태에 빠트린다, 지속 시간: 2턴. [망우] 상태의 적은 받는 피해가 {{Vulnerability}}% 증가하고, 장착한 캐릭터의 현재 격파 특수효과가 150% 이상이면 받는 피해 증가 효과가 추가로 {{AdditionalVulnerability}}% 증가한다
     TeammateContent:
@@ -282,17 +282,17 @@ Lightcones:
     Content:
       hpLostDmgBuff:
         text: HP를 잃을 때 버프
-        content: "장착한 캐릭터의 HP가 감소하면, 모든 아군이 가하는 피해가 {{DmgBuff}}% 증가한다. 지속 시간: 2턴"
+        content: '장착한 캐릭터의 HP가 감소하면, 모든 아군이 가하는 피해가 {{DmgBuff}}% 증가한다. 지속 시간: 2턴'
   SleepLikeTheDead:
     Content:
       missedCritCrBuff:
         text: 치명타 미발동
-        content: "장착한 캐릭터의 일반 공격 혹은 전투 스킬 피해가 치명타를 발동하지 않으면 자신의 치명타 확률이 {{CritBuff}}% 증가한다. 지속 시간: 1턴. 해당 효과는 3턴마다 1회만 발동할 수 있다"
+        content: '장착한 캐릭터의 일반 공격 혹은 전투 스킬 피해가 치명타를 발동하지 않으면 자신의 치명타 확률이 {{CritBuff}}% 증가한다. 지속 시간: 1턴. 해당 효과는 3턴마다 1회만 발동할 수 있다'
   SolitaryHealing:
     Content:
       postUltDotDmgBuff:
         text: 필살기 후 버프
-        content: "장착한 캐릭터가 필살기 발동 시 장착한 캐릭터가 가하는 지속 피해가 {{DmgBuff}}% 증가한다. 지속 시간: 2턴"
+        content: '장착한 캐릭터가 필살기 발동 시 장착한 캐릭터가 가하는 지속 피해가 {{DmgBuff}}% 증가한다. 지속 시간: 2턴'
   SomethingIrreplaceable:
     Content:
       dmgBuff:
@@ -313,11 +313,11 @@ Lightcones:
   ThoseManySprings:
     Content:
       unarmoredVulnerability:
-        text: "[무장해제] 상태"
+        text: '[무장해제] 상태'
         content: >-
           장착한 캐릭터가 일반 공격, 전투 스킬, 필살기를 발동해 적을 공격하면 60%의 기본 확률로 해당 목표를 [무장해제] 상태에 빠트린다. [무장해제] 상태의 적은 받는 피해가 {{UnarmoredVulnerability}}% 증가한다, 지속 시간: 2턴. 목표가 장착한 캐릭터가 부여한 지속 피해 상태일 시 60%의 기본 확률로 장착한 캐릭터가 부여한 [무장해제] 상태가 [궁지 몰이] 상태로 업그레이드되며, 적이 받는 피해가 추가로 {{CorneredVulnerability}}% 증가한다, 지속 시간: 2턴, 지속 시간 동안 장착한 캐릭터는 해당 목표에게 [무장해제]를 부여할 수 없다
       corneredVulnerability:
-        text: "[궁지 몰이] 상태"
+        text: '[궁지 몰이] 상태'
         content: >-
           장착한 캐릭터가 일반 공격, 전투 스킬, 필살기를 발동해 적을 공격하면 60%의 기본 확률로 해당 목표를 [무장해제] 상태에 빠트린다. [무장해제] 상태의 적은 받는 피해가 {{UnarmoredVulnerability}}% 증가한다, 지속 시간: 2턴. 목표가 장착한 캐릭터가 부여한 지속 피해 상태일 시 60%의 기본 확률로 장착한 캐릭터가 부여한 [무장해제] 상태가 [궁지 몰이] 상태로 업그레이드되며, 적이 받는 피해가 추가로 {{CorneredVulnerability}}% 증가한다, 지속 시간: 2턴, 지속 시간 동안 장착한 캐릭터는 해당 목표에게 [무장해제]를 부여할 수 없다
   TimeWaitsForNoOne:
@@ -329,23 +329,23 @@ Lightcones:
   TimeWovenIntoGold:
     Content:
       brocadeStacks:
-        text: "[비단] 스택"
+        text: '[비단] 스택'
         content: >-
           장착한 캐릭터 및 장착한 캐릭터의 기억 정령이 공격 후 장착한 캐릭터는 ::BR:: [비단]을 1스택 획득하며, [비단] 스택마다 장착한 캐릭터 및 장착한 캐릭터의 기억 정령의 치명타 피해가 {{CdBuff}}% 증가한다, 최대 중첩수: 6스택. 최대 중첩수에 도달하면 ::BR::[비단] 스택마다 가하는 일반 공격 피해가 추가로 {{DmgBuff}}% 증가한다
       maxStacksBasicDmgBoost:
-        text: "[비단] 최대 중첩"
+        text: '[비단] 최대 중첩'
         content: >-
           장착한 캐릭터 및 장착한 캐릭터의 기억 정령이 공격 후 장착한 캐릭터는 [비단]을 1스택 획득하며, [비단] 스택마다 장착한 캐릭터 및 장착한 캐릭터의 기억 정령의 치명타 피해가 {{CdBuff}}% 증가한다, 최대 중첩수: 6스택. ::BR:: [비단]이 최대 스택에 도달하면 스택마다 가하는 일반 공격 피해가 추가로 {{DmgBuff}}% 증가한다
   WhereaboutsShouldDreamsRest:
     Content:
       routedVulnerability:
-        text: "[궤멸] 상태"
+        text: '[궤멸] 상태'
         content: >-
           장착한 캐릭터가 적에게 격파 피해를 가할 시 적을 [궤멸] 상태에 빠트린다, 지속 시간: 2턴. [궤멸] 상태에서 목표가 장착한 캐릭터로부터 받는 격파 피해가 {{Vulnerability}}% 증가하고 속도가 20% 감소하며, 같은 유형의 효과는 중첩되지 않는다
   WorrisomeBlissful:
     Content:
       targetTameStacks:
-        text: "[온순] 스택"
+        text: '[온순] 스택'
         content: >-
           장착한 캐릭터가 추가 공격을 발동하면 목표가 [온순] 상태에 빠진다. 해당 효과 최대 중첩수: 2스택. 아군이 [온순] 상태의 적을 명중하면 [온순] 스택마다 가하는 치명타 피해가 {{CritBuff}}% 증가한다
   YetHopeIsPriceless:
@@ -355,12 +355,12 @@ Lightcones:
         content: 전투 중 장착한 캐릭터의 치명타 피해가 120% 초과 시 20%를 초과할 때마다 추가 공격으로 가하는 피해가 {{DmgBuff}}% 증가하며, 해당 효과는 4스택 중첩 가능하다.
       ultFuaDefShred:
         text: 치피 / 추공 방어력 무시 증가
-        content: "전투 시작 시 및 장착한 캐릭터가 일반 공격 발동 후, 필살기 또는 추가 공격이 가하는 피해는 목표의 방어력을 {{DefShred}}% 무시한다, 지속 시간: 2턴"
+        content: '전투 시작 시 및 장착한 캐릭터가 일반 공격 발동 후, 필살기 또는 추가 공격이 가하는 피해는 목표의 방어력을 {{DefShred}}% 무시한다, 지속 시간: 2턴'
   AfterTheCharmonyFall:
     Content:
       spdBuff:
         text: 속도 버프
-        content: "장착한 캐릭터가 필살기 발동 후 속도가 {{SpdBuff}}% 증가한다, 지속 시간: 2턴"
+        content: '장착한 캐릭터가 필살기 발동 후 속도가 {{SpdBuff}}% 증가한다, 지속 시간: 2턴'
   ASecretVow:
     Content:
       enemyHpHigherDmgBoost:
@@ -417,7 +417,7 @@ Lightcones:
   FinalVictor:
     Content:
       goodFortuneStacks:
-        text: "[행운] 스택"
+        text: '[행운] 스택'
         content: >-
           장착한 캐릭터가 적에게 치명타를 가하면 [행운]을 1스택 획득한다. 최대 중첩수: 4스택. [행운] 스택당 장착한 캐릭터의 치명타 피해가 {{CritBuff}}% 증가한다. [행운]은 장착한 캐릭터의 턴 종료 시 해제된다
   FlamesAfar:
@@ -430,36 +430,36 @@ Lightcones:
     Content:
       ultDmgBuff:
         text: 필살기 사용 버프
-        content: "장착한 캐릭터가 필살기를 발동한 후 가하는 피해가 {{DmgBuff}}% 증가한다, 지속 시간: 1턴"
+        content: '장착한 캐릭터가 필살기를 발동한 후 가하는 피해가 {{DmgBuff}}% 증가한다, 지속 시간: 1턴'
   GeniusesGreetings:
     Content:
       basicDmgBoost:
         text: 일반 공격 데미지 버프
-        content: "장착한 캐릭터가 필살기 발동 후 장착한 캐릭터와 기억 정령이 가하는 일반 공격 피해가 {{DmgBuff}}% 증가한다. 지속 시간: 3턴"
+        content: '장착한 캐릭터가 필살기 발동 후 장착한 캐릭터와 기억 정령이 가하는 일반 공격 피해가 {{DmgBuff}}% 증가한다. 지속 시간: 3턴'
   GeniusesRepose:
     Content:
       defeatedEnemyCdBuff:
         text: 적 처치 버프
-        content: "장착한 캐릭터는 적을 처치한 후 치명타 피해가 {{DmgBuff}}% 증가한다. 지속 시간: 3턴"
+        content: '장착한 캐릭터는 적을 처치한 후 치명타 피해가 {{DmgBuff}}% 증가한다. 지속 시간: 3턴'
   GoodNightAndSleepWell:
     Content:
       debuffStacksDmgIncrease:
         text: 디버프 스택
-        content: "적이 디버프 효과 1개를 보유할 때마다 장착한 캐릭터가 대상에게 가하는 피해가 {{DmgBuff}}% 증가한다. 최대 중첩수: 3스택. 해당 효과는 지속 피해에도 적용된다."
+        content: '적이 디버프 효과 1개를 보유할 때마다 장착한 캐릭터가 대상에게 가하는 피해가 {{DmgBuff}}% 증가한다. 최대 중첩수: 3스택. 해당 효과는 지속 피해에도 적용된다.'
   HeyOverHere:
     Content:
       postSkillHealBuff:
         text: 전투 스킬 후 버프
-        content: "장착한 캐릭터가 전투 스킬 발동 시 치유량이 {{HealingBoost}}% 증가한다. 지속 시간: 2턴"
+        content: '장착한 캐릭터가 전투 스킬 발동 시 치유량이 {{HealingBoost}}% 증가한다. 지속 시간: 2턴'
   IndeliblePromise:
     Content:
       crBuff:
         text: 필살기 치확 버프
-        content: "장착한 캐릭터가 필살기 발동 시 치명타 확률이 {{CritBuff}}% 증가한다. 지속 시간: 2턴"
+        content: '장착한 캐릭터가 필살기 발동 시 치명타 확률이 {{CritBuff}}% 증가한다. 지속 시간: 2턴'
   ItsShowtime:
     Content:
       trickStacks:
-        text: "[트릭] 스택"
+        text: '[트릭] 스택'
         content: >-
           장착한 캐릭터가 적에게 디버프 상태를 부여한 후 [트릭]을 1스택 획득한다. [트릭] 스택당 장착한 캐릭터가 가하는 피해가 {{DmgBuff}}% 증가한다. 최대 중첩수: 3스택, 지속 시간: 1턴. 장착한 캐릭터의 효과 명중이 80% 이상일 시, 공격력이 {{AtkBuff}}% 증가한다.
   MakeTheWorldClamor:
@@ -471,17 +471,17 @@ Lightcones:
     Content:
       cdBuff:
         text: 치명타 피해 버프
-        content: "자신의 HP를 잃거나 회복하면 치명타 피해가 {{sValuesCd}}% 증가한다, 지속 시간: 2턴, 해당 효과는 턴마다 1회만 발동한다."
+        content: '자신의 HP를 잃거나 회복하면 치명타 피해가 {{sValuesCd}}% 증가한다, 지속 시간: 2턴, 해당 효과는 턴마다 1회만 발동한다.'
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: "≤ 2 적 일 때 치확 버프"
+        text: '≤ 2 적 일 때 치확 버프'
         content: 필드 위의 적이 2명 이하일 경우, 장착한 캐릭터의 치명타 확률이 {{CritBuff}}% 증가한다.
   PastAndFuture:
     Content:
       postSkillDmgBuff:
         text: 전투 스킬 후 버프
-        content: "장착한 캐릭터가 전투 스킬 발동 후 다음에 행동하는 다른 아군이 가하는 피해가 {{DmgBuff}}% 증가한다. 지속 시간: 1턴"
+        content: '장착한 캐릭터가 전투 스킬 발동 후 다음에 행동하는 다른 아군이 가하는 피해가 {{DmgBuff}}% 증가한다. 지속 시간: 1턴'
   PerfectTiming:
     Content:
       resToHealingBoost:
@@ -496,7 +496,7 @@ Lightcones:
     Content:
       cdBuff:
         text: 동일 운명의 길 2명 이상 버프
-        content: "전투 진입 시 운명의 길이 같은 아군 캐릭터가 2명 이상일 경우, 해당 캐릭터들의 치명타 피해가 {{CritBuff}}% 증가한다. 같은 유형의 스킬 효과는 중복 적용되지 않는다."
+        content: '전투 진입 시 운명의 길이 같은 아군 캐릭터가 2명 이상일 경우, 해당 캐릭터들의 치명타 피해가 {{CritBuff}}% 증가한다. 같은 유형의 스킬 효과는 중복 적용되지 않는다.'
   PostOpConversation:
     Content:
       postUltHealingBoost:
@@ -505,8 +505,8 @@ Lightcones:
   ResolutionShinesAsPearlsOfSweat:
     Content:
       targetEnsnared:
-        text: "[함락] 상태"
-        content: "장착한 캐릭터는 적 명중 시 만일 해당 목표가 [함락] 상태가 아닐 경우 {{BaseChance}}%의 기본 확률로 대상을 [함락] 상태에 빠트린다. [함락] 상태의 적은 방어력이 {{DefShred}}% 감소한다. 지속 시간: 1턴"
+        text: '[함락] 상태'
+        content: '장착한 캐릭터는 적 명중 시 만일 해당 목표가 [함락] 상태가 아닐 경우 {{BaseChance}}%의 기본 확률로 대상을 [함락] 상태에 빠트린다. [함락] 상태의 적은 방어력이 {{DefShred}}% 감소한다. 지속 시간: 1턴'
   RiverFlowsInSpring:
     Content:
       spdDmgBuff:
@@ -517,7 +517,7 @@ Lightcones:
     Content:
       spdBuff:
         text: 속도 버프
-        content: "전투 진입 시 또는 격파 피해를 가한 후 속도가 {{SpdBuff}}% 증가한다. 지속 시간: 2턴, 해당 효과는 턴마다 1회만 발동할 수 있다."
+        content: '전투 진입 시 또는 격파 피해를 가한 후 속도가 {{SpdBuff}}% 증가한다. 지속 시간: 2턴, 해당 효과는 턴마다 1회만 발동할 수 있다.'
   SubscribeForMore:
     Content:
       maxEnergyDmgBoost:
@@ -532,7 +532,7 @@ Lightcones:
     Content:
       sameTargetHitStacks:
         text: 같은 적 공격
-        content: "장착한 캐릭터가 동일한 적을 여러 회 명중 후 매번 가하는 피해가 {{DmgBuff}}% 증가한다. 해당 효과 최대 중첩수: 5스택. 공격 목표에 변화가 생길 경우 현재 버프 효과가 해제된다."
+        content: '장착한 캐릭터가 동일한 적을 여러 회 명중 후 매번 가하는 피해가 {{DmgBuff}}% 증가한다. 해당 효과 최대 중첩수: 5스택. 공격 목표에 변화가 생길 경우 현재 버프 효과가 해제된다.'
   TheBirthOfTheSelf:
     Content:
       enemyHp50FuaBuff:
@@ -541,8 +541,8 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: "≥ 2 약점 속성을 지닐 때 버프"
-        content: "장착한 캐릭터가 공격 발동 후 피격된 적 2기 이상이 대응하는 약점 속성을 보유하고 있으면 장착한 캐릭터의 치명타 피해가 {{CritBuff}}% 증가한다. 지속 시간: 2턴"
+        text: '≥ 2 약점 속성을 지닐 때 버프'
+        content: '장착한 캐릭터가 공격 발동 후 피격된 적 2기 이상이 대응하는 약점 속성을 보유하고 있으면 장착한 캐릭터의 치명타 피해가 {{CritBuff}}% 증가한다. 지속 시간: 2턴'
   TheGreatCosmicEnterprise:
     Content:
       weaknessTypes:
@@ -560,7 +560,7 @@ Lightcones:
         content: 장착한 캐릭터가 가하는 피해가 {{DmgBuff}}% 증가한다.
       defeatedEnemyAtkStacks:
         text: 처치한 적
-        content: "적 1기를 처치할 때마다, 장착한 캐릭터의 공격력이 {{AtkBuff}}% 증가한다. 해당 효과 최대 중첩수: 3스택"
+        content: '적 1기를 처치할 때마다, 장착한 캐릭터의 공격력이 {{AtkBuff}}% 증가한다. 해당 효과 최대 중첩수: 3스택'
   ThisIsMe:
     Content:
       defScalingUltDmg:
@@ -571,17 +571,17 @@ Lightcones:
     Content:
       maxEnergyDmgBoost:
         text: 최대 에너지
-        content: "전투 진입 후 장착한 캐릭터의 에너지 최대치에 따라 장착한 캐릭터가 가하는 피해가 증가한다: 에너지 1pt당 {{DmgStep}}% 증가. 최대 160pt까지 계산한다."
+        content: '전투 진입 후 장착한 캐릭터의 에너지 최대치에 따라 장착한 캐릭터가 가하는 피해가 증가한다: 에너지 1pt당 {{DmgStep}}% 증가. 최대 160pt까지 계산한다.'
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:
         text: 적 처치 후 버프
-        content: "장착한 캐릭터는 적을 처치한 후 치명타 확률이 {{CritBuff}}% 증가한다. 지속 시간: 3턴"
+        content: '장착한 캐릭터는 적을 처치한 후 치명타 확률이 {{CritBuff}}% 증가한다. 지속 시간: 3턴'
   VictoryInABlink:
     Content:
       teamDmgBuff:
         text: 팀 버프
-        content: "장착한 캐릭터의 기억 정령이 아군에게 스킬 발동 시 모든 아군이 가하는 피해가 {{DmgBuff}}% 증가한다. 지속 시간: 3턴"
+        content: '장착한 캐릭터의 기억 정령이 아군에게 스킬 발동 시 모든 아군이 가하는 피해가 {{DmgBuff}}% 증가한다. 지속 시간: 3턴'
   WeAreWildfire:
     Content:
       initialDmgReductionBuff:
@@ -602,7 +602,7 @@ Lightcones:
     Content:
       defeatedEnemySpdBuff:
         text: 적 처치 속도 버프
-        content: "장착한 캐릭터는 적을 처치한 후 속도가 {{SpdBuff}}% 증가한다. 지속 시간: 2턴"
+        content: '장착한 캐릭터는 적을 처치한 후 속도가 {{SpdBuff}}% 증가한다. 지속 시간: 2턴'
   Amber:
     Content:
       hp50DefBuff:
@@ -612,7 +612,7 @@ Lightcones:
     Content:
       critBuff:
         text: 전투 진입 버프
-        content: "전투 시작 시 장착한 캐릭터의 치명타 확률이 {{CritBuff}}% 증가한다. 지속 시간: 3턴"
+        content: '전투 시작 시 장착한 캐릭터의 치명타 확률이 {{CritBuff}}% 증가한다. 지속 시간: 3턴'
   Chorus:
     Content:
       inBattleAtkBuff:
@@ -632,7 +632,7 @@ Lightcones:
     Content:
       defeatedEnemyAtkBuff:
         text: 적 처치 버프
-        content: "장착한 캐릭터는 적을 처치한 후 공격력이 {{AtkBuff}}% 증가한다. 지속 시간: 3턴"
+        content: '장착한 캐릭터는 적을 처치한 후 공격력이 {{AtkBuff}}% 증가한다. 지속 시간: 3턴'
   DataBank:
     Content:
       ultDmgBuff:
@@ -652,7 +652,7 @@ Lightcones:
     Content:
       initialSpdBuff:
         text: 전투 진입 버프
-        content: "전투 진입 시, 모든 아군의 속도가 {{SpdBuff}}pt 증가한다. 지속 시간: 1턴"
+        content: '전투 진입 시, 모든 아군의 속도가 {{SpdBuff}}pt 증가한다. 지속 시간: 1턴'
   MutualDemise:
     Content:
       selfHp80CrBuff:
@@ -661,13 +661,13 @@ Lightcones:
   Reminiscence:
     Content:
       dmgStacks:
-        text: "[회고] 스택"
-        content: "기억 정령의 턴 시작 시 장착한 캐릭터와 기억 정령이 각각 [회고]를 1스택 획득하며, 스택마다 가하는 피해가 {{DmgBuff}}% 증가한다, 최대 중첩수: 4스택. 기억 정령이 사라질 시 장착한 캐릭터와 기억 정령의 [회고]가 해제된다."
+        text: '[회고] 스택'
+        content: '기억 정령의 턴 시작 시 장착한 캐릭터와 기억 정령이 각각 [회고]를 1스택 획득하며, 스택마다 가하는 피해가 {{DmgBuff}}% 증가한다, 최대 중첩수: 4스택. 기억 정령이 사라질 시 장착한 캐릭터와 기억 정령의 [회고]가 해제된다.'
   Sagacity:
     Content:
       postUltAtkBuff:
         text: 필살기 이후 버프
-        content: "장착한 캐릭터가 필살기 발동 시 공격력이 {{AtkBuff}}% 증가한다. 지속 시간: 2턴"
+        content: '장착한 캐릭터가 필살기 발동 시 공격력이 {{AtkBuff}}% 증가한다. 지속 시간: 2턴'
   ShatteredHome:
     Content:
       enemyHp50Buff:
@@ -677,12 +677,12 @@ Lightcones:
     Content:
       initialEhrBuff:
         text: 전투 진입 버프
-        content: "전투 시작 시 장착한 캐릭터의 효과 명중이 {{EhrBuff}}% 증가한다. 지속 시간: 3턴"
+        content: '전투 시작 시 장착한 캐릭터의 효과 명중이 {{EhrBuff}}% 증가한다. 지속 시간: 3턴'
 Characters:
   Acheron:
     Content:
       crimsonKnotStacks:
-        text: "[아즈사카] 스택"
+        text: '[아즈사카] 스택'
         content: >-
           [눈물 베기]: 지정된 단일 적에게 아케론 공격력의 {{RainbladeScaling}}%만큼 번개 속성 피해를 가하고, 목표의 [아즈사카]를 최대 3스택 소거한다. [아즈사카] 소거 시 즉시 모든 적에게 아케론 공격력의 {{CrimsonKnotScaling}}%만큼 번개 속성 피해를 가하고, [아즈사카]를 1스택 소거할 때마다 이번 피해 배율이 추가로 증가한다.
           ::BR::필살기의 [눈물 베기]로 [아즈사카]를 보유한 적 명중 시 아케론이 가하는 피해가 30% 증가한다. 해당 효과 최대 중첩수: 3스택
@@ -692,9 +692,9 @@ Characters:
           아군 파티에 아케론을 제외한 「공허」 운명의 길 캐릭터가 1명/2명 존재 시, 아케론의 일반 공격, 전투 스킬, 필살기로 가하는 피해가 기존 피해의 115%/160%가 된다.::E2: 행적 [나락] 최대치 도달에 필요한 「공허」 운명의 길 캐릭터의 수가 1명 감소한다. 자신의 턴이 시작되면 [꿈 조각]을 1pt 획득하고, 동시에 [아즈사카]가 가장 많은 적에게 [아즈사카]를 1스택 부여한다.
       thunderCoreStacks:
         text: 뇌심 스택
-        content: "필살기의 [눈물 베기]로 [아즈사카]를 보유한 적 명중 시 아케론이 가하는 피해가 30% 증가한다. 해당 효과 최대 중첩수: 3스택, 지속 시간: 3턴필살기의 [눈물 베기]로 [아즈사카]를 보유한 적 명중 시 아케론이 가하는 피해가 30% 증가한다. 해당 효과 최대 중첩수: 3스택, 지속 시간: 3턴"
+        content: '필살기의 [눈물 베기]로 [아즈사카]를 보유한 적 명중 시 아케론이 가하는 피해가 30% 증가한다. 해당 효과 최대 중첩수: 3스택, 지속 시간: 3턴필살기의 [눈물 베기]로 [아즈사카]를 보유한 적 명중 시 아케론이 가하는 피해가 30% 증가한다. 해당 효과 최대 중첩수: 3스택, 지속 시간: 3턴'
       stygianResurgeHitsOnTarget:
-        text: "[황천의 귀환] 피해"
+        text: '[황천의 귀환] 피해'
         content: >-
           [황천의 귀환] 발동 시 추가로 피해를 6회 가하고, 피해를 가할 때마다 랜덤 단일 적에게 아케론 공격력의 25%만큼 번개 속성 피해를 가하며, 해당 피해는 필살기 피해로 간주한다.
       e1EnemyDebuffed:
@@ -710,20 +710,20 @@ Characters:
   Aglaea:
     Content:
       supremeStanceState:
-        text: "[지고의 자태] 상태"
+        text: '[지고의 자태] 상태'
         content: >-
           [지고의 자태] 상태에서 아글라이아는 의상공 기억 정령 특성의 속도 증가 스택을 획득하고, 스택마다 자신의 속도가 {{SpdBuff}}% 증가하며, 일반 공격이 [고독한 검날의 입맞춤]으로 강화되고 전투 스킬을 발동할 수 없다.
       seamStitch:
-        text: "[틈새를 메우는 실] 상대"
+        text: '[틈새를 메우는 실] 상대'
         content: >-
           의상공이 필드에 있을 시 아글라이아가 공격을 발동하면 목표를 [틈새를 메우는 실] 상태에 빠트리며, [틈새를 메우는 실] 상태의 적을 공격하면 추가로 아글라이아 공격력의 {{Scaling}}%만큼 번개 속성 추가 피해를 가한다. [틈새를 메우는 실]은 가장 최근에 부여된 목표에게만 적용된다.
       memoSpdStacks:
-        text: "[의사공] 속도 스택"
+        text: '[의사공] 속도 스택'
         content: >-
           [틈새를 메우는 실] 상태의 적 공격 후 자신의 속도가 {{SpdBuff}}pt 증가한다, 해당 효과 최대 중첩수: {{StackLimit}}스택.
       e1Vulnerability:
         text: 1돌 받는 피해 증가
-        content: "[틈새를 메우는 실] 상태의 적이 받는 피해가 15% 증가한다."
+        content: '[틈새를 메우는 실] 상태의 적이 받는 피해가 15% 증가한다.'
       e2DefShredStacks:
         text: 2돌 방어력 무시
         content: >-
@@ -738,7 +738,7 @@ Characters:
         text: 전투스킬 추가 사용
         content: 전투 스킬 메인 타겟 수
       exposedNature:
-        text: "[성질 발로]"
+        text: '[성질 발로]'
         content: >-
           아낙사가 필드에 있을 시, 최소 5가지 다른 속성 약점을 보유한 적을 [성질 발로] 상태에 빠트린다. 아낙사가 [성질 발로] 상태의 목표에게 가하는 피해가 {{DmgBuff}}% 증가한다
       eruditionTeammateBuffs:
@@ -750,13 +750,13 @@ Characters:
         content: 적이 서로 다른 속성의 약점을 1개 보유할 때마다 아낙사가 대상에게 가하는 피해는 방어력을 4% 무시하며, 최대 7개까지 계산된다
       e1DefPen:
         text: 1돌 방어력 무시
-        content: "처음 전투 스킬을 발동한 후 전투 스킬 포인트를 1pt 회복한다. 전투 스킬을 발동해 적 명중 시 목표의 방어력을 16% 감소시킨다, 지속 시간: 2턴"
+        content: '처음 전투 스킬을 발동한 후 전투 스킬 포인트를 1pt 회복한다. 전투 스킬을 발동해 적 명중 시 목표의 방어력을 16% 감소시킨다, 지속 시간: 2턴'
       e2ResPen:
         text: 2돌 속성 저항 감소
         content: 적이 필드 진입 시 특성의 약점 부여 효과를 1회 발동하며, 대상의 모든 속성 저항을 20% 감소시킨다
       e4AtkBuffStacks:
         text: 4돌 공경력 증가
-        content: "전투 스킬 발동 시 공격력이 30% 증가한다, 지속 시간: 2턴, 해당 효과 최대 중첩수: 2스택"
+        content: '전투 스킬 발동 시 공격력이 30% 증가한다, 지속 시간: 2턴, 해당 효과 최대 중첩수: 2스택'
       e6Buffs:
         text: 6돌 버프
         content: 아낙사가 가하는 피해가 기존 피해의 130%가 된다. 행적 [필요한 공백]의 두 가지 효과가 바로 발동되며, 더 이상 아군 파티 내 「지식」 운명의 길 캐릭터 수에 의존하지 않는다
@@ -770,14 +770,14 @@ Characters:
         text: 적 HP ≤ 50% 일 때 데미지 증가
         content: 현재 HP 백분율이 50% 이하인 적에게 주는 피해가 15% 증가한다.
       talentStacks:
-        text: "[승격] 스택"
-        content: "[승격]을 1스택 획득하며, 아젠티의 치명타 확률이 {{talentCrStackValue}}% 증가한다. 해당 효과 최대 중첩수: {{talentMaxStacks}}스택"
+        text: '[승격] 스택'
+        content: '[승격]을 1스택 획득하며, 아젠티의 치명타 확률이 {{talentCrStackValue}}% 증가한다. 해당 효과 최대 중첩수: {{talentMaxStacks}}스택'
       ultEnhancedExtraHits:
         text: 강화 필살기 추가 타겟
         content: 강화 필살기는 랜덤한 적을 아젠티 공격력의 {{ultEnhancedExtraHitScaling}}%의 물리 속성 피해를 준다
       e2UltAtkBuff:
         text: 2돌 필살기 강화
-        content: "필살기 발동 시 적이 3기 이상일 경우 공격력이 40% 증가한다. 지속 시간: 1턴"
+        content: '필살기 발동 시 적이 3기 이상일 경우 공격력이 40% 증가한다. 지속 시간: 1턴'
   Arlan:
     Content:
       selfCurrentHpPercent:
@@ -787,13 +787,13 @@ Characters:
     Content:
       skillExtraDmgHits:
         text: 전투 스킬 추가 타격
-        content: "지정된 단일 적에게 아스타 공격력 {{skillScaling}}%만큼의 화염 속성 피해를 주며, 추가로 피해를 {{skillExtraDmgHitsMax}}회 가한다. 피해를 가할 때마다 임의의 단일 적에게 아스타 공격력 {{skillScaling}}%만큼의 화염 속성 피해를 준다.::E1: 전투 스킬 발동 시 임의의 단일 적에게 추가로 1회 피해를 가한다."
+        content: '지정된 단일 적에게 아스타 공격력 {{skillScaling}}%만큼의 화염 속성 피해를 주며, 추가로 피해를 {{skillExtraDmgHitsMax}}회 가한다. 피해를 가할 때마다 임의의 단일 적에게 아스타 공격력 {{skillScaling}}%만큼의 화염 속성 피해를 준다.::E1: 전투 스킬 발동 시 임의의 단일 적에게 추가로 1회 피해를 가한다.'
       talentBuffStacks:
         text: 특성 버프 스택
-        content: "아스타가 에너지 충전을 1스택 보유할 때마다 모든 아군의 공격력이 {{talentStacksAtkBuff}}% 증가한다. 해당 효과 최대 중첩수: 5스택 ::E4:특성 에너지 충전 스택이 2 이상일 경우 아스타의 에너지 회복효율이 15% 증가한다."
+        content: '아스타가 에너지 충전을 1스택 보유할 때마다 모든 아군의 공격력이 {{talentStacksAtkBuff}}% 증가한다. 해당 효과 최대 중첩수: 5스택 ::E4:특성 에너지 충전 스택이 2 이상일 경우 아스타의 에너지 회복효율이 15% 증가한다.'
       ultSpdBuff:
         text: 필살기 속도 버프
-        content: "모든 아군의 속도가 {{ultSpdBuffValue}}pt 증가한다. 지속 시간: 2턴"
+        content: '모든 아군의 속도가 {{ultSpdBuffValue}}pt 증가한다. 지속 시간: 2턴'
       fireDmgBoost:
         text: 화염 속성 피해 증가 버프
         content: 아스타가 필드에 있으면 모든 아군이 가하는 화염 속성 피해가 18% 증가한다
@@ -803,11 +803,11 @@ Characters:
         text: 방어력 비례 치확 버프
         content: 어벤츄린의 방어력이 1600pt보다 높으면 방어력이 100pt 초과할 때마다 자신의 치명타 확률이 2% 증가하며, 최대 48% 증가한다.
       fortifiedWagerBuff:
-        text: "[견고한 칩] 버프"
+        text: '[견고한 칩] 버프'
         content: >-
           [견고한 칩]을 보유한 단일 아군의 효과 저항이 {{talentResScaling}}% 증가한다. 해당 아군이 피격되면 어벤츄린은 [블라인드 베팅]을 1pt 획득한다.::BR: [견고한 칩]을 보유한 아군의 치명타 피해가 20% 증가한다. 필살기 발동 후 모든 아군에게 실드 [견고한 칩]을 제공한다. 실드량은 전투 스킬이 제공하는 실드량의 100%다. 지속 시간: 3턴
       enemyUnnervedDebuff:
-        text: "[당황] 상태"
+        text: '[당황] 상태'
         content: 아군이 [당황] 상태의 적 명중 시 가하는 치명타 피해가 {{ultCdBoost}}% 증가한다
       fuaHitsOnTarget:
         text: 추가 공격 적중
@@ -815,10 +815,10 @@ Characters:
           블라인드 베팅]이 7pt를 도달하면 어벤츄린은 충전 포인트를 7pt 소모하여 7단 추가 공격을 발동하고, 공격 단수마다 랜덤 단일 적에게 어벤츄린 방어력의 {{talentDmgScaling}}%만큼 허수 속성 피해를 가한다. [블라인드 베팅] 최대치: 10pt::E4: 특성의 추가 공격 발동 시, 우선 어벤츄린의 방어력이 40% 증가한다, 지속 시간: 2턴. 또한, 특성 추가 공격의 공격 단수가 추가로 3단 증가한다.
       e2ResShred:
         text: 2돌 속성 저항 감소
-        content: "일반 공격 발동 시 목표의 모든 속성 저항이 12% 감소한다. 지속 시간: 3턴"
+        content: '일반 공격 발동 시 목표의 모든 속성 저항이 12% 감소한다. 지속 시간: 3턴'
       e4DefBuff:
         text: 4돌 방어력 버프
-        content: "특성의 추가 공격 발동 시, 우선 어벤츄린의 방어력이 40% 증가한다. 지속 시간: 2턴"
+        content: '특성의 추가 공격 발동 시, 우선 어벤츄린의 방어력이 40% 증가한다. 지속 시간: 2턴'
       e6ShieldStacks:
         text: 6돌 쉴드 스택
         content: 실드를 보유한 동료 1명마다 어벤츄린이 가하는 피해가 50% 증가하며, 최대 150%를 초과하지 않는다.
@@ -826,29 +826,29 @@ Characters:
     Content:
       healingMaxHpBuff:
         text: 초과 치유 버프
-        content: "백로가 아군에게 초과 치유할 시 대상 HP 최대치가 10% 증가한다. 지속 시간: 2턴"
+        content: '백로가 아군에게 초과 치유할 시 대상 HP 최대치가 10% 증가한다. 지속 시간: 2턴'
       talentDmgReductionBuff:
-        text: "[생명] 효과"
-        content: "[생명]을 보유한 캐릭터가 받는 피해가 10% 감소한다."
+        text: '[생명] 효과'
+        content: '[생명]을 보유한 캐릭터가 받는 피해가 10% 감소한다.'
       e2UltHealingBuff:
         text: 2돌 치유량 버프
-        content: "필살기 발동 후 백로의 치유량이 15% 증가한다. 지속 시간: 2턴"
+        content: '필살기 발동 후 백로의 치유량이 15% 증가한다. 지속 시간: 2턴'
       e4SkillHealingDmgBuffStacks:
         text: 4돌 데미지 버프
-        content: "전투 스킬이 제공하는 치유를 받을 때마다 치유를 받는 아군은 가하는 피해가 추가로 10% 증가한다. 최대 중첩수: 3스택. 지속 시간: 2턴"
+        content: '전투 스킬이 제공하는 치유를 받을 때마다 치유를 받는 아군은 가하는 피해가 추가로 10% 증가한다. 최대 중첩수: 3스택. 지속 시간: 2턴'
   BlackSwan:
     Content:
       ehrToDmgBoost:
         text: 효과 명중 비례 데미지 증가
         content: 자신이 가하는 피해를 효과 명중의 60%만큼 증가시킨다. 최대 72% 증가한다.
       epiphanyDebuff:
-        text: "[발로] 상태"
-        content: "[발로] 상태에서 적은 자신의 턴 동안 받는 피해가 {{epiphanyDmgTakenBoost}}% 증가한다."
+        text: '[발로] 상태'
+        content: '[발로] 상태에서 적은 자신의 턴 동안 받는 피해가 {{epiphanyDmgTakenBoost}}% 증가한다.'
       defDecreaseDebuff:
         text: 방어력 감소 디버프
         content: 목표 및 인접한 목표의 방어력을 {{defShredValue}}% 감소시킨다.
       arcanaStacks:
-        text: "[아르카나] 스택"
+        text: '[아르카나] 스택'
         content: >-
           [아르카나] 상태에서 적의 턴이 시작될 때마다 적은 블랙 스완 공격력의 {{dotScaling}}%만큼 바람 속성 지속 피해를 받는다. [아르카나] 스택당 해당 피해 배율이 {{arcanaStackMultiplier}}% 증가하며, 이후 1스택으로 초기화된다. [아르카나] 최대 중첩수: 50스택::BR: 3스택 이상 일 경우, 인접한 목표를 [아르카나] 1스택에 빠트린다. 7스택 이상일 경우, 이번에 가하는 지속 피해는 해당 목표 및 인접한 목표의 방어력을 20% 무시한다.
       e1ResReduction:
@@ -860,24 +860,24 @@ Characters:
   Blade:
     Content:
       enhancedStateActive:
-        text: "[지옥변] 상태"
-        content: "[지옥변] 상태에서는 전투 스킬을 발동할 수 없으며, 자신이 가하는 피해가 {{enhancedStateDmgBoost}}% 증가하고, 일반 공격 [지리검(支離劍)]이 강화되어 [무간검수(無間劍樹)]로 바뀐다. 지속 시간: 3턴::E2: 블레이드가 [지옥변] 상태일 때 치명타 확률이 15% 증가한다."
+        text: '[지옥변] 상태'
+        content: '[지옥변] 상태에서는 전투 스킬을 발동할 수 없으며, 자신이 가하는 피해가 {{enhancedStateDmgBoost}}% 증가하고, 일반 공격 [지리검(支離劍)]이 강화되어 [무간검수(無間劍樹)]로 바뀐다. 지속 시간: 3턴::E2: 블레이드가 [지옥변] 상태일 때 치명타 확률이 15% 증가한다.'
       hpPercentLostTotal:
         text: 잃은 HP 총량
         content: 이번 전투에서 누적 손실한 HP는 블레이드 HP 최대치의 {{hpPercentLostTotalMax}}%를 넘을 수 없다. 필살기 발동 후 리셋하고 다시 누적된다
       e4MaxHpIncreaseStacks:
         text: 4돌 최대 HP 증가 버프
-        content: "현재 HP 백분율이 50%를 초과한 상태에서 50% 이하로 떨어지면 HP 최대치가 20% 증가한다. 해당 효과 최대 중첩수: 2스택"
+        content: '현재 HP 백분율이 50%를 초과한 상태에서 50% 이하로 떨어지면 HP 최대치가 20% 증가한다. 해당 효과 최대 중첩수: 2스택'
   Boothill:
     Content:
       standoffActive:
-        text: "[목숨 건 대치] 상태"
+        text: '[목숨 건 대치] 상태'
         content: >-
           지정된 단일 적과 자신이 [목숨 건 대치] 상태에 진입한다. 부트힐의 일반 공격이 강화되고 전투 스킬을 발동할 수 없다, 지속 시간: 2턴. 부트힐의 턴이 시작될 때마다 지속 턴 수가 1 감소한다.
           [목숨 건 대치] 상태의 적은 도발 상태에 빠진다. 해당 목표/부트힐이 상대의 공격을 받을 시 받는 피해가 {{standoffVulnerabilityBoost}}%/15% 증가한다.
       pocketTrickshotStacks:
-        text: "[포켓 어드벤티지]"
-        content: "[포켓 어드벤티지] 1스택마다 강화된 일반 공격의 강인성 감소 수치가 50% 증가한다. 최대 중첩수: 3스택"
+        text: '[포켓 어드벤티지]'
+        content: '[포켓 어드벤티지] 1스택마다 강화된 일반 공격의 강인성 감소 수치가 50% 증가한다. 최대 중첩수: 3스택'
       beToCritBoost:
         text: 격특 비례 치명타 확률 / 피해 버프
         content: 자신의 치명타 확률/치명타 피해가 증가한다. 증가 수치는 격파 특수효과의 10%/50%이며, 치명타 확률/치명타 피해는 최대 30%/150% 증가한다.
@@ -907,23 +907,23 @@ Characters:
         content: 브로냐가 필드에 있으면 모든 아군이 가하는 피해가 10% 증가한다.
       skillBuff:
         text: 전투 스킬 데미지 버프
-        content: "지정된 단일 아군의 디버프 효과를 1개 해제하며, 해당 목표는 즉시 행동하고, 가하는 피해가 {{skillDmgBoostValue}}% 증가한다. 지속 시간: 1턴"
+        content: '지정된 단일 아군의 디버프 효과를 1개 해제하며, 해당 목표는 즉시 행동하고, 가하는 피해가 {{skillDmgBoostValue}}% 증가한다. 지속 시간: 1턴'
       ultBuff:
         text: 필살기 버프
-        content: "모든 아군의 공격력이 {{ultAtkBoostValue}}% 증가하고, 동시에 브로냐 치명타 피해 {{ultCdBoostValue}}%+{{ultCdBoostBaseValue}}%만큼의 치명타 피해가 증가한다. 지속 시간: 2턴"
+        content: '모든 아군의 공격력이 {{ultAtkBoostValue}}% 증가하고, 동시에 브로냐 치명타 피해 {{ultCdBoostValue}}%+{{ultCdBoostBaseValue}}%만큼의 치명타 피해가 증가한다. 지속 시간: 2턴'
       battleStartDefBuff:
         text: 전투 진입 버프
-        content: "전투 시작 시 모든 아군의 방어력이 20% 증가한다. 지속 시간: 2턴"
+        content: '전투 시작 시 모든 아군의 방어력이 20% 증가한다. 지속 시간: 2턴'
       techniqueBuff:
         text: 비술 버프
-        content: "비술 발동 후 다음 전투 시작 시 모든 아군의 공격력이 15% 증가한다. 지속 시간: 2턴"
+        content: '비술 발동 후 다음 전투 시작 시 모든 아군의 공격력이 15% 증가한다. 지속 시간: 2턴'
       e2SkillSpdBuff:
         text: 2돌 속도 버프
-        content: "전투 스킬 발동 시 지정된 아군은 행동 후 속도가 30% 증가한다. 지속 시간: 1턴"
+        content: '전투 스킬 발동 시 지정된 아군은 행동 후 속도가 30% 증가한다. 지속 시간: 1턴'
     TeammateContent:
       teammateCDValue:
         text: 치피 (전투)
-        content: "모든 아군의 공격력이 {{ultAtkBoostValue}}% 증가하고, 동시에 브로냐 치명타 피해 {{ultCdBoostValue}}%+{{ultCdBoostBaseValue}}%만큼의 치명타 피해가 증가한다. 지속 시간: 2턴"
+        content: '모든 아군의 공격력이 {{ultAtkBoostValue}}% 증가하고, 동시에 브로냐 치명타 피해 {{ultCdBoostValue}}%+{{ultCdBoostBaseValue}}%만큼의 치명타 피해가 증가한다. 지속 시간: 2턴'
   Castorice:
     Content:
       memospriteActive:
@@ -934,7 +934,7 @@ Characters:
         content: 카스토리스의 현재 HP가 자신의 HP 최대치의 50% 이상일 시 카스토리스의 속도가 40% 증가한다
       talentDmgStacks:
         text: 특성 스택
-        content: "아군이 HP를 잃을 시 카스토리스와 죽음의 용이 가하는 피해가 {{DmgBuff}}% 증가한다, 해당 효과 최대 중첩수: 3스택, 지속 시간: 3턴"
+        content: '아군이 HP를 잃을 시 카스토리스와 죽음의 용이 가하는 피해가 {{DmgBuff}}% 증가한다, 해당 효과 최대 중첩수: 3스택, 지속 시간: 3턴'
       memoSkillEnhances:
         text: 기억 정령 강화 전스
         content: 1회의 공격 동안 [암흑을 불태우는 화염의 숨결]을 중복 발동할 수 있으며, 중복 발동 시 피해 배율이 순차대로 {{Multiplier1Enhance}}%/{{Multiplier2Enhance}}%로 증가하며, {{Multiplier2Enhance}}%에 도달하면 더 이상 증가하지 않는다. 피해 배율 증가 효과는 죽음의 용이 사라지기 전까지 감소하지 않는다
@@ -943,10 +943,10 @@ Characters:
         content: 죽음의 용이 사라질 시 피해를 {{BounceCount}}회 가하며, 피해당 랜덤 단일 적에게 카스토리스 HP 최대치의 {{Scaling}}%만큼 양자 속성 피해를 가한다
       teamDmgBoost:
         text: 아군 가하는 피해 증가
-        content: "죽음의 용이 소환될 시, 모든 아군이 가하는 피해가 10% 증가한다, 지속 시간: 3턴"
+        content: '죽음의 용이 소환될 시, 모든 아군이 가하는 피해가 10% 증가한다, 지속 시간: 3턴'
       memoDmgStacks:
         text: 기억정령 가피증 스택
-        content: "죽음의 용이 [암흑을 불태우는 화염의 숨결]을 발동할 때마다 가하는 피해가 30% 증가한다, 해당 효과 최대 중첩수: 6스택, 이번 턴이 종료될 때까지 지속된다"
+        content: '죽음의 용이 [암흑을 불태우는 화염의 숨결]을 발동할 때마다 가하는 피해가 30% 증가한다, 해당 효과 최대 중첩수: 6스택, 이번 턴이 종료될 때까지 지속된다'
       e1EnemyHp50:
         text: 1돌 적 HP ≤ 50%
         content: 적의 현재 HP가 자신의 HP 최대치의 80%/50% 이하일 시, [뼈의 발톱, 저승 용의 포옹], [어둠을 찢는 발톱], [암흑을 불태우는 화염의 숨결], [묘지를 불사르는 어둠의 날개]가 대상에게 가하는 피해가 기존 피해의 120%/140%가 된다
@@ -961,22 +961,22 @@ Characters:
         content: 사이퍼가 필드에 있을 시 모든 적이 받는 피해가 40% 증가한다.
       skillAtkBuff:
         text: 전투 스킬 버프
-        content: "사이퍼가 적 명중 시 120%의 기본 확률로 대상이 받는 피해가 30% 증가한다, 지속 시간: 2턴"
+        content: '사이퍼가 적 명중 시 120%의 기본 확률로 대상이 받는 피해가 30% 증가한다, 지속 시간: 2턴'
       fuaCdBoost:
         text: 추공 치피 버프
         content: 추가 공격이 가하는 치명타 피해가 100% 증가한다.
       spdBasedBuffs:
         text: 기초 속도 버프
-        content: " 사이퍼의 속도가 140/170 이상일 시 치명타 확률이 25%/50% 증가한다."
+        content: ' 사이퍼의 속도가 140/170 이상일 시 치명타 확률이 25%/50% 증가한다.'
       e1AtkBuff:
         text: 1돌 공경력 버프
-        content: "특성의 추가 공격 발동 시 사이퍼의 공격력이 80% 증가한다, 지속 시간: 2"
+        content: '특성의 추가 공격 발동 시 사이퍼의 공격력이 80% 증가한다, 지속 시간: 2'
       e2Vulnerability:
         text: 2돌 받피증
-        content: "사이퍼가 적 명중 시 120%의 기본 확률로 대상이 받는 피해가 30% 증가한다, 지속 시간: 2턴"
+        content: '사이퍼가 적 명중 시 120%의 기본 확률로 대상이 받는 피해가 30% 증가한다, 지속 시간: 2턴'
       e4AdditionalDmg:
         text: 4돌 추가피해
-        content: "[단골손님]이 아군의 공격을 받은 후, 사이퍼는 대상에게 사이퍼 공격력의 50%만큼 양자 속성 추가 피해를 가한다."
+        content: '[단골손님]이 아군의 공격을 받은 후, 사이퍼는 대상에게 사이퍼 공격력의 50%만큼 양자 속성 추가 피해를 가한다.'
       e6FuaDmg:
         text: 6돌 추공 가피증
         content: 사이퍼 특성의 추가 공격이 가하는 피해가 350% 증가한다.
@@ -986,11 +986,11 @@ Characters:
         text: 필살기 버프
         content: "필살기 발동 후 클라라가 적에게 받는 피해가 추가로 {{ultDmgReductionValue}}% 감소하고, 적에게 피격될 확률이 대폭 증가한다. 지속 시간: 2턴\n동시에 스바로그의 반격이 강화되어 임의의 아군이 피격 후 스바로그는 바로 반격하며, 적에게 가하는 피해 배율이 {{ultFuaExtraScaling}}% 증가하고 인접한 목표에게 주목표에게 가하는 50%만큼의 피해를 준다. 강화 효과는 2회 적용된다"
       talentEnemyMarked:
-        text: "[반격 표식]"
-        content: "[반격 표식]이 부여된 모든 적에게 추가로 클라라 공격력 {{skillScaling}}%만큼의 물리 속성 피해를 준다."
+        text: '[반격 표식]'
+        content: '[반격 표식]이 부여된 모든 적에게 추가로 클라라 공격력 {{skillScaling}}%만큼의 물리 속성 피해를 준다.'
       e2UltAtkBuff:
         text: 2돌 필살기 강화
-        content: "필살기 발동 후 공격력이 30% 증가한다. 지속 시간: 2턴"
+        content: '필살기 발동 후 공격력이 30% 증가한다. 지속 시간: 2턴'
       e4DmgReductionBuff:
         text: 4돌 받는 피해 감소
         content: 피격 후 클라라가 받는 피해가 30% 감소하며, 해당 효과는 자신의 다음번 턴까지 지속된다.
@@ -1004,15 +1004,15 @@ Characters:
         content: 일반 공격이 감속 상태의 적에게 가하는 피해가 40% 증가한다
       spdBuff:
         text: 속도 버프
-        content: "공격 발동 후 50%의 고정 확률로 자신의 속도가 20% 증가한다. 지속 시간: 2턴"
+        content: '공격 발동 후 50%의 고정 확률로 자신의 속도가 20% 증가한다. 지속 시간: 2턴'
       e1EnemyHp50:
         text: 1돌 적 HP ≥ 50% 치확 버프
         content: 피격된 적의 현재 HP 백분율이 50% 이상이면, 치명타 확률이 12% 증가한다.
   DrRatio:
     Content:
       summationStacks:
-        text: "[귀납] 스택"
-        content: "전투 스킬 발동 시 목표가 보유한 디버프 효과 1개당 Dr. 레이시오의 치명타 확률이 2.5% 증가하고, 치명타 피해가 5% 증가한다. 최대 중첩수: {{summationStacksMax}}스택"
+        text: '[귀납] 스택'
+        content: '전투 스킬 발동 시 목표가 보유한 디버프 효과 1개당 Dr. 레이시오의 치명타 확률이 2.5% 증가하고, 치명타 피해가 5% 증가한다. 최대 중첩수: {{summationStacksMax}}스택'
       enemyDebuffStacks:
         text: 적 디버프 수
         content: >-
@@ -1028,13 +1028,13 @@ Characters:
           비소의 동료가 적에게 공격 발동 후 비소가 즉시 주목표에게 추가 공격을 발동하고, 비소 공격력의 {{FuaMultiplier}}%만큼 바람 속성 피해를 가한다. 공격 가능한 주목표가 없을 시 랜덤 단일 적을 공격한다. 해당 효과는 턴마다 최대 1회 발동하며, 비소의 턴 시작 시 발동 횟수가 초기화된다. 해당 공격 발동 시 자신이 가하는 피해가 {{DmgBuff}}% 증가한다, 지속 시간: 2턴
       skillAtkBuff:
         text: 전투 스킬 버프
-        content: "전투 스킬 발동 시 공격력이 48% 증가한다. 지속 시간: 3턴"
+        content: '전투 스킬 발동 시 공격력이 48% 증가한다. 지속 시간: 3턴'
       e1OriginalDmgBoost:
         text: 1돌 기존 피해 버프
-        content: "[섬렬의 검무] 또는 [하늘을 꿰뚫는 도끼] 발동 후 비소가 가하는 필살기 피해가 기존 피해의 10%만큼 추가로 증가한다. 최대 5스택 중첩되며, 필살기 행동이 종료될 때까지 지속된다."
+        content: '[섬렬의 검무] 또는 [하늘을 꿰뚫는 도끼] 발동 후 비소가 가하는 필살기 피해가 기존 피해의 10%만큼 추가로 증가한다. 최대 5스택 중첩되며, 필살기 행동이 종료될 때까지 지속된다.'
       e4Buffs:
         text: 4돌 버프
-        content: "특성 추가 공격의 강인성 감소 수치가 100% 증가하고, 발동 시 자신의 속도가 8% 증가한다. 지속 시간: 2턴"
+        content: '특성 추가 공격의 강인성 감소 수치가 100% 증가하고, 발동 시 자신의 속도가 8% 증가한다. 지속 시간: 2턴'
       e6Buffs:
         text: 6돌 버프
         content: >-
@@ -1042,11 +1042,11 @@ Characters:
   Firefly:
     Content:
       enhancedStateActive:
-        text: "[완전 연소] 상태"
-        content: "[완전연소] 상태에 진입하고 자신의 행동 게이지가 100% 증가하며, 일반 공격 강화 및 전투 스킬 강화를 획득한다."
+        text: '[완전 연소] 상태'
+        content: '[완전연소] 상태에 진입하고 자신의 행동 게이지가 100% 증가하며, 일반 공격 강화 및 전투 스킬 강화를 획득한다.'
       enhancedStateSpdBuff:
-        text: "[완전 연소] 속도 버프"
-        content: "[완전 연소] 상태에서는 속도가 {{ultSpdBuff}}pt 증가한다."
+        text: '[완전 연소] 속도 버프'
+        content: '[완전 연소] 상태에서는 속도가 {{ultSpdBuff}}pt 증가한다.'
       superBreakDmg:
         text: 슈퍼 격파 적용 (격파 상태)
         content: >-
@@ -1063,17 +1063,17 @@ Characters:
         content: 강화된 전투 스킬 발동 시 목표의 방어력을 15% 무시하고, 강화된 전투 스킬은 전투 스킬 포인트를 소모하지 않는다.
       e4ResBuff:
         text: 4돌 효과 저항 버프
-        content: "[완전연소] 상태일 때 기갑 「샘」의 효과 저항이 50% 증가한다"
+        content: '[완전연소] 상태일 때 기갑 「샘」의 효과 저항이 50% 증가한다'
       e6Buffs:
         text: 6돌 버프
-        content: "[완전연소] 상태에서 기갑 [샘]의 화염 속성 저항 관통이 20% 증가한다. 강화된 일반 공격, 강화된 전투 스킬 발동 시 약점 격파 효율이 50% 증가한다."
+        content: '[완전연소] 상태에서 기갑 [샘]의 화염 속성 저항 관통이 20% 증가한다. 강화된 일반 공격, 강화된 전투 스킬 발동 시 약점 격파 효율이 50% 증가한다.'
   Fugue:
     Content:
       torridScorch:
-        text: "[염화 상태]"
-        content: "[염화] 상태일 시 망귀인의 일반 공격이 강화된다."
+        text: '[염화 상태]'
+        content: '[염화] 상태일 시 망귀인의 일반 공격이 강화된다.'
       foxianPrayer:
-        text: "[여우의 기도] 버프"
+        text: '[여우의 기도] 버프'
         content: >-
           [여우의 기도]를 보유한 아군의 격파 특수효과가 {{BreakBuff}}% 증가한다. 대응하는 약점 속성을 보유하지 않은 적을 공격해도 강인성을 감소시킬 수 있다. 효과는 기존 강인성 감소 수치의 50%이며, 약점 속성을 무시하는 다른 강인성 감소 효과와 중첩될 수 없다.
       defReduction:
@@ -1086,7 +1086,7 @@ Characters:
           망귀인이 필드에 있을 시 아군이 약점 격파 상태의 적을 공격하면, 이번 공격의 강인성 감소 수치를 100%의 슈퍼 격파 피해로 1회 전환한다
       e4BreakDmg:
         text: 4돌 격파 피해 버프
-        content: "[여우의 기도]를 보유한 아군이 가하는 격파 피해가 20% 증가한다"
+        content: '[여우의 기도]를 보유한 아군이 가하는 격파 피해가 20% 증가한다'
       e6BreakEfficiency:
         text: 6돌 격파 효율 버프
         content: >-
@@ -1103,10 +1103,10 @@ Characters:
   FuXuan:
     Content:
       talentActive:
-        text: "[피액] 상태"
-        content: "부현이 전투 가능 상태일 때 모든 아군에게 [피액(避厄)] 효과를 부여한다. [피액]: 아군이 받는 피해가 {{talentDmgReductionValue}}% 감소한다."
+        text: '[피액] 상태'
+        content: '부현이 전투 가능 상태일 때 모든 아군에게 [피액(避厄)] 효과를 부여한다. [피액]: 아군이 받는 피해가 {{talentDmgReductionValue}}% 감소한다.'
       skillActive:
-        text: "[궁관진] 상태"
+        text: '[궁관진] 상태'
         content: >-
           [궁관진]을 활성화하여, 부현의 동료가 실드로 막기 전에 받은 피해의 65%를 부현이 분담한다. 지속 시간: 3턴
           [궁관진] 상태의 모든 아군이 [감식] 효과를 획득한다. [감식]: 아군 HP 최대치가 부현 HP 최대치의 {{skillHpBuffValue}}%만큼 증가하고, 치명타 확률이 {{skillCrBuffValue}}% 증가한다.
@@ -1116,7 +1116,7 @@ Characters:
     TeammateContent:
       teammateHPValue:
         text: HP (전투 시)
-        content: "[궁관진] 상태의 모든 아군이 [감식] 효과를 획득한다. [감식]: 아군 HP 최대치가 부현 HP 최대치의 {{skillHpBuffValue}}%만큼 증가한다."
+        content: '[궁관진] 상태의 모든 아군이 [감식] 효과를 획득한다. [감식]: 아군 HP 최대치가 부현 HP 최대치의 {{skillHpBuffValue}}%만큼 증가한다.'
   Gallagher:
     Content:
       basicEnhanced:
@@ -1126,14 +1126,14 @@ Characters:
         text: 격특 비례 치유량 증가
         content: 자신이 제공하는 치유량이 격파 특수효과의 50%만큼 증가한다. 제공하는 치유량은 최대 75% 증가한다.
       targetBesotted:
-        text: "[만취] 상태"
-        content: "[만취]는 목표가 받는 격파 피해를 {{talentBesottedScaling}}% 증가시킨다."
+        text: '[만취] 상태'
+        content: '[만취]는 목표가 받는 격파 피해를 {{talentBesottedScaling}}% 증가시킨다.'
       e1ResBuff:
         text: 1돌 효과 저항 버프
         content: 갤러거가 전투 진입 후 에너지를 20pt 회복하고, 효과 저항이 50% 증가한다.
       e2ResBuff:
         text: 2돌 효과 저항 버프
-        content: "전투 스킬 발동 시 지정된 단일 아군의 디버프 효과를 1개 해제하고, 해당 아군의 효과 저항을 30% 증가시킨다. 지속 시간: 2턴"
+        content: '전투 스킬 발동 시 지정된 단일 아군의 디버프 효과를 1개 해제하고, 해당 아군의 효과 저항을 30% 증가시킨다. 지속 시간: 2턴'
       e6BeBuff:
         text: 6돌 격특 버프
         content: 갤러거의 격파 특수효과가 20% 증가하고, 약점 격파 효율이 20% 증가한다
@@ -1145,8 +1145,8 @@ Characters:
   Guinaifen:
     Content:
       talentDebuffStacks:
-        text: "[불쇼] 스택"
-        content: "[불쇼] 상태의 적이 받는 피해가 {{talentDebuffDmgIncreaseValue}}% 증가한다. 지속 시간: 3턴. 최대 중첩수: {{talentDebuffMax}}스택"
+        text: '[불쇼] 스택'
+        content: '[불쇼] 상태의 적이 받는 피해가 {{talentDebuffDmgIncreaseValue}}% 증가한다. 지속 시간: 3턴. 최대 중첩수: {{talentDebuffMax}}스택'
       enemyBurned:
         text: 연소 상태
         content: 연소 상태에 빠진 적에게 가하는 피해가 20% 증가한다.
@@ -1155,7 +1155,7 @@ Characters:
         content: 100%의 기본 확률로 목표 및 인접한 목표를 연소 상태에 빠트린다. 일반 공격이 80%의 기본 확률로 적을 전투 스킬과 동일한 연소 상태에 빠트린다.
       e1EffectResShred:
         text: 1돌 효과 저항 감소
-        content: "전투 스킬 발동 시 100%의 기본 확률로 피격된 적의 효과 저항이 10% 감소한다. 지속 시간: 2턴"
+        content: '전투 스킬 발동 시 100%의 기본 확률로 피격된 적의 효과 저항이 10% 감소한다. 지속 시간: 2턴'
       e2BurnMultiBoost:
         text: 2돌 연소 피해 배율
         content: 적이 연소 상태면 계네빈의 일반 공격과 전투 스킬이 해당 적에게 부여하는 연소 상태의 피해 배율이 40% 증가한다.
@@ -1163,20 +1163,20 @@ Characters:
     Content:
       ultBuff:
         text: 필살기 속도 / 공격력 버프
-        content: "지정된 단일 아군의 속도를 한아 속도의 {{ultSpdBuffValue}}%만큼 증가시키고, 해당 목표의 공격력을 {{ultAtkBuffValue}}% 증가시킨다. 지속 시간: 2턴"
+        content: '지정된 단일 아군의 속도를 한아 속도의 {{ultSpdBuffValue}}%만큼 증가시키고, 해당 목표의 공격력을 {{ultAtkBuffValue}}% 증가시킨다. 지속 시간: 2턴'
       targetBurdenActive:
-        text: "[부담] 상태"
-        content: "아군이 [부담] 상태에 빠진 적에게 일반 공격, 전투 스킬, 필살기 발동 시, 가하는 피해가 {{talentDmgBoostValue}}% 증가한다. 지속 시간: 2턴"
+        text: '[부담] 상태'
+        content: '아군이 [부담] 상태에 빠진 적에게 일반 공격, 전투 스킬, 필살기 발동 시, 가하는 피해가 {{talentDmgBoostValue}}% 증가한다. 지속 시간: 2턴'
       burdenAtkBuff:
-        text: "[부담] 공격력 버프"
-        content: "[부담]의 전투 스킬 포인트 회복 효과를 발동하는 단일 아군의 공격력이 10% 증가한다. 지속 시간: 1턴"
+        text: '[부담] 공격력 버프'
+        content: '[부담]의 전투 스킬 포인트 회복 효과를 발동하는 단일 아군의 공격력이 10% 증가한다. 지속 시간: 1턴'
       e2SkillSpdBuff:
         text: 2돌 속도 버프
-        content: "전투 스킬 발동 후 속도가 20% 증가한다. 지속 시간: 1턴"
+        content: '전투 스킬 발동 후 속도가 20% 증가한다. 지속 시간: 1턴'
     TeammateContent:
       teammateSPDValue:
         text: 한아의 속도
-        content: "지정된 단일 아군의 속도를 한아 속도의 {{ultSpdBuffValue}}%만큼 증가시키고, 해당 목표의 공격력을 {{ultAtkBuffValue}}% 증가시킨다. 지속 시간: 2턴"
+        content: '지정된 단일 아군의 속도를 한아 속도의 {{ultSpdBuffValue}}%만큼 증가시키고, 해당 목표의 공격력을 {{ultAtkBuffValue}}% 증가시킨다. 지속 시간: 2턴'
   Herta:
     Content:
       fuaStacks:
@@ -1190,16 +1190,16 @@ Characters:
         content: 해당 적의 현재 HP 백분율이 50% 이상이면 해당 적에게 가하는 피해가 20% 증가한다.
       techniqueBuff:
         text: 비술 버프
-        content: "비술 발동 후 다음 전투 시작 시 헤르타의 공격력이 40% 증가한다. 지속 시간: 3턴"
+        content: '비술 발동 후 다음 전투 시작 시 헤르타의 공격력이 40% 증가한다. 지속 시간: 3턴'
       enemyHpLte50:
         text: 1돌 추가 피해
         content: 일반 공격 발동 시 지정된 단일 적의 HP 백분율이 50% 이하일 경우 추가로 헤르타 공격력의 40%만큼 얼음 속성 추가 피해를 가한다.
       e2TalentCritStacks:
         text: 2돌 치확 스택
-        content: "특성을 1회 발동할 때마다 자신의 치명타 확률이 3% 증가한다. 해당 효과 최대 중첩수: 5스택"
+        content: '특성을 1회 발동할 때마다 자신의 치명타 확률이 3% 증가한다. 해당 효과 최대 중첩수: 5스택'
       e6UltAtkBuff:
         text: 6돌 필살기 버프
-        content: "필살기 발동 후 공격력이 25% 증가한다. 지속 시간: 1턴"
+        content: '필살기 발동 후 공격력이 25% 증가한다. 지속 시간: 1턴'
   Himeko:
     Content:
       targetBurned:
@@ -1210,7 +1210,7 @@ Characters:
         content: 현재 HP 백분율이 80% 이상이면, 치명타 확률이 15% 증가한다.
       e1TalentSpdBuff:
         text: 1돌 속도 버프
-        content: "[기세 몰이] 발동 후 히메코의 속도가 20% 증가한다. 지속 시간: 2턴"
+        content: '[기세 몰이] 발동 후 히메코의 속도가 20% 증가한다. 지속 시간: 2턴'
       e2EnemyHp50DmgBoost:
         text: 2돌 HP ≤ 50% 데미지 버프
         content: 현재 HP 백분율이 50% 이하인 적에게 주는 피해가 15% 증가한다.
@@ -1231,13 +1231,13 @@ Characters:
     Content:
       ultBuff:
         text: 필살기 공격력 버프
-        content: "공격력을 {{ultBuffValue}}% 증가시킨다. 지속 시간: 2턴"
+        content: '공격력을 {{ultBuffValue}}% 증가시킨다. 지속 시간: 2턴'
       skillBuff:
         text: 1돌 속도 버프
         content: 곽향이 [양명]을 보유할 시 모든 아군의 속도가 12% 증가한다.
       e6DmgBuff:
         text: 6돌 데미지 버프
-        content: "아군에게 치유 제공 시, 목표가 가하는 피해가 50% 증가한다. 지속 시간: 2턴"
+        content: '아군에게 치유 제공 시, 목표가 가하는 피해가 50% 증가한다. 지속 시간: 2턴'
   Hyacine:
     Content:
       healTargetHp50:
@@ -1250,17 +1250,17 @@ Characters:
         text: 속도  ≥ 200 HP 증가
         content: 히아킨의 속도가 200보다 높을 시 히아킨과 이카의 HP 최대치가 20% 증가하고, 이후 속도가 1pt 초과할 때마다 히아킨과 이카가 제공하는 치유량이 1% 증가한다. 초과한 속도는 최대 200pt까지 계산된다.
       clearSkies:
-        text: "[비 온 뒤 맑음] 상태"
-        content: "히아킨이 [비 온 뒤 맑음] 상태에 진입한다, 지속 시간: 3턴. 히아킨의 턴이 시작될 때마다 지속 턴 수가 1 감소한다. [비 온 뒤 맑음] 상태일 시 모든 아군의 HP 최대치가 {{UltHpBuffScaling}}%+{{UltHpBuffFlat}}pt 증가한다"
+        text: '[비 온 뒤 맑음] 상태'
+        content: '히아킨이 [비 온 뒤 맑음] 상태에 진입한다, 지속 시간: 3턴. 히아킨의 턴이 시작될 때마다 지속 턴 수가 1 감소한다. [비 온 뒤 맑음] 상태일 시 모든 아군의 HP 최대치가 {{UltHpBuffScaling}}%+{{UltHpBuffFlat}}pt 증가한다'
       healingDmgStacks:
         text: 가하는 피해 증가 중첩
-        content: "히아킨 또는 이카가 치유 제공 시 이카가 가하는 피해가 80% 증가한다, 지속 시간: 2턴, 최대 중첩수: 3스택"
+        content: '히아킨 또는 이카가 치유 제공 시 이카가 가하는 피해가 80% 증가한다, 지속 시간: 2턴, 최대 중첩수: 3스택'
       e1HpBuff:
         text: 1돌 HP 버프
         content: 히아킨이 [비 온 뒤 맑음] 상태일 시 모든 아군의 HP 최대치가 추가로 50% 증가한다.
       e2SpdBuff:
         text: 2돌 속도 버프
-        content: "아군의 HP가 감소하면 속도가 30% 증가한다, 지속 시간: 2턴"
+        content: '아군의 HP가 감소하면 속도가 30% 증가한다, 지속 시간: 2턴'
       e4CdBuff:
         text: 4돌 치피 버프
         content: 행적 [잔잔해진 폭풍]이 강화된다. 속도가 1pt를 초과할 때마다 히아킨과 이카의 치명타 피해가 추가로 2% 증가한다.
@@ -1274,22 +1274,22 @@ Characters:
         content: >-
           일반 공격의 효과가 강화되며, 최대 3회 연속 강화할 수 있다. 해당 스킬 발동 시 {{basicScaling}}%의 허수 속성 피해를 주고 전투 스킬 포인트가 소모되지 않으며, 전투 스킬을 사용하지 않은 것으로 간주한다.::BR::강화 1회: [연화]에서 {{basicEnhanced1Scaling}}%의 허수 속성 피해를 주는 [순간]으로 전환.::BR::강화 2회: [연화]에서 {{basicEnhanced2Scaling}}%의 허수 속성 피해를 주는 [신성의 창]으로 전환.::BR::강화 3회: [연화]에서 {{basicEnhanced3Scaling}}%의 허수 속성 피해를 주는 [빛나는 도약]으로 전환한다.
       skillOutroarStacks:
-        text: "[노호] 스택"
+        text: '[노호] 스택'
         content: >-
           [신성의 창] 또는 [빛나는 도약] 발동 시, 4단 공격부터 공격 단수마다 공격하기 전에 [노호]를 1스택 획득한다. [노호] 1스택마다 단항•음월의 치명타 피해가 {{outroarStackCdValue}}% 증가한다. 해당 효과는 최대 4스택 중첩 가능하며, 자신의 턴이 종료될 때까지 지속된다.
       talentRighteousHeartStacks:
-        text: "[긍지] 스택"
+        text: '[긍지] 스택'
         content: 단항•음월의 공격 단수마다 [긍지] 효과를 1스택 획득하고, 스택당 자신이 가하는 피해가 {{righteousHeartDmgValue}}% 증가한다. 해당 효과는 6스택 중첩 가능하며, 자신의 턴이 종료될 때까지 지속된다.
       e6ResPenStacks:
         text: 6돌 속성 저항 관통
-        content: "다른 아군 캐릭터가 필살기를 발동하면 단항•음월이 다음 번에 [빛나는 도약] 발동 시 허수 속성 저항 관통이 20% 증가한다. 해당 효과 최대 중첩수: 3스택"
+        content: '다른 아군 캐릭터가 필살기를 발동하면 단항•음월이 다음 번에 [빛나는 도약] 발동 시 허수 속성 저항 관통이 20% 증가한다. 해당 효과 최대 중첩수: 3스택'
   Jade:
     Content:
       enhancedFollowUp:
         text: 강화 추가 공격
         content: 제이드 특성의 추가 공격이 강화되고, 추가 공격으로 가하는 피해 배율이 {{ultFuaScalingBuff}}% 증가한다. 강화 효과는 2회 적용된다
       pawnedAssetStacks:
-        text: "[전당품] 스택"
+        text: '[전당품] 스택'
         content: >-
           제이드가 특성의 추가 공격을 발동하면 즉시 [전당품]을 5스택 획득하며, [전당품] 스택마다 치명타 피해가 {{pawnedAssetCdScaling}} 증가한다, 최대 중첩수: 50스택
       e1FuaDmgBoost:
@@ -1297,25 +1297,25 @@ Characters:
         content: 제이드 특성의 추가 공격 피해가 32% 증가한다. [빚 수금업자] 상태를 보유한 캐릭터가 공격 발동 후 명중한 적의 수량이 2/1기일 시 제이드가 충전을 추가로 1/2pt 획득한다
       e2CrBuff:
         text: 2돌 치확 버프
-        content: "[전당품]이 15스택까지 중첩될 시 제이드의 치명타 확률이 18% 증가한다."
+        content: '[전당품]이 15스택까지 중첩될 시 제이드의 치명타 확률이 18% 증가한다.'
       e4DefShredBuff:
         text: 4돌 방어력 무시 버프
-        content: "필살기 발동 시 제이드가 가하는 피해가 적의 방어력을 12% 무시한다. 지속 시간: 3턴"
+        content: '필살기 발동 시 제이드가 가하는 피해가 적의 방어력을 12% 무시한다. 지속 시간: 3턴'
       e6ResShredBuff:
         text: 6돌 속성 저항 관통 버프
         content: 필드 위에 [빚 수금업자] 상태인 캐릭터가 있을 시 제이드의 양자 속성 저항 관통이 20% 증가하고, 제이드가 [빚 수금업자] 상태를 획득한다.
     TeammateContent:
       debtCollectorSpdBuff:
-        text: "[빚 수금업자] 속도 버프"
-        content: "지정된 단일 아군을 [빚 수금업자]로 만들며, 해당 목표의 속도가 30pt 증가한다. 지속 시간: 3턴"
+        text: '[빚 수금업자] 속도 버프'
+        content: '지정된 단일 아군을 [빚 수금업자]로 만들며, 해당 목표의 속도가 30pt 증가한다. 지속 시간: 3턴'
   Jiaoqiu:
     Content:
       ashenRoastStacks:
-        text: "[훈작] 스택"
+        text: '[훈작] 스택'
         content: >-
           초구가 일반 공격, 전투 스킬, 필살기를 사용해 적 명중 시 100%의 기본 확률로 해당 적에게 [훈작]을 1스택 부여한다. 1스택일 시 적이 받는 피해가 {{AshenRoastInitialVulnerability}}% 증가하고, 이후 1스택 중첩될 때마다 {{AshenRoastAdditionalVulnerability}}% 증가한다.::BR::[훈작] 최대 중첩수: 5스택, 지속 시간: 2턴::BR::적이 [훈작] 상태일 시 동시에 연소 상태에 빠진 것으로 간주하며, 턴이 시작될 때마다 초구 공격력의 {{AshenRoastDotMultiplier}}%만큼 화염 속성 지속 피해를 받는다
       ultFieldActive:
-        text: "[결계] 상태"
+        text: '[결계] 상태'
         content: >-
           적이 보유한 [훈작] 스택 수를 필드 위 [훈작] 스택 최대치로 일괄 설정한 후, 결계를 펼치고 모든 적에게 초구 공격력의 {{UltScaling}}%만큼 화염 속성 피해를 가한다.::BR::결계 안에 있을 시 적이 받는 필살기 피해가 {{UltVulnerability}}% 증가하고, 행동 시 {{ZoneDebuffChance}}%의 기본 확률로 [훈작]이 1스택 부여된다. 결계가 존재하는 동안 해당 효과는 최대 6회 발동하며, 적 1기당 턴마다 1회만 발동한다. 초구가 필살기를 발동할 때마다 발동 횟수는 초기화된다. 결계는 3턴 동안 지속되며, 자신의 턴이 시작될 때마다 결계의 지속 턴 수가 1 감소한다. 초구가 전투 불능 상태에 빠질 시 결계도 해제된다
       ehrToAtkBoost:
@@ -1333,7 +1333,7 @@ Characters:
   Jingliu:
     Content:
       talentEnhancedState:
-        text: "[완전 연소] 상태"
+        text: '[완전 연소] 상태'
         content: >-
           [삭망] 2스택 보유 시, 경류가 [전백(轉魄)] 상태에 진입하고 행동 게이지가 100% 증가, 치명타 확률이 {{talentCrBuff}}% 증가한다. 이후 전투 스킬 [무결의 섬광]이 [한천(寒川)에 비친 달]로 강화되며 해당 전투 스킬만 사용할 수 있다.
       talentHpDrainAtkBuff:
@@ -1342,7 +1342,7 @@ Characters:
           [전백] 상태일 때 공격을 발동하면 동료 HP를 각각 동료 HP 최대치를 소모한다(모든 동료의 HP는 최대 1까지 소모 가능). 이번에 모든 아군이 소모한 HP 총량의 {{talentHpDrainAtkBuffMax}}%만큼 경류의 공격력이 증가하고 최대 경류 기초 공격력의 180%를 넘지 않는다. 해당 효과는 이번 공격이 종료될 때까지 지속된다.
       e1CdBuff:
         text: 1돌 필살기 버프
-        content: "필살기를 발동하거나 전투 스킬 강화 시 경류의 치명타 피해가 24% 증가한다. 지속 시간: 1턴. 적을 1기만 공격하면 해당 목표에게 추가로 경류 공격력의 100%만큼 얼음 속성 피해를 가한다."
+        content: '필살기를 발동하거나 전투 스킬 강화 시 경류의 치명타 피해가 24% 증가한다. 지속 시간: 1턴. 적을 1기만 공격하면 해당 목표에게 추가로 경류 공격력의 100%만큼 얼음 속성 피해를 가한다.'
       e2SkillDmgBuff:
         text: 2돌 전투 스킬 버프
         content: 필살기 발동 후 다음 강화 전투 스킬의 피해가 80% 증가한다.
@@ -1350,24 +1350,24 @@ Characters:
     Content:
       skillCritBuff:
         text: 전투 스킬 크확 버프
-        content: "전투 스킬 발동 후 치명타 확률이 10% 증가한다. 지속 시간: 2턴"
+        content: '전투 스킬 발동 후 치명타 확률이 10% 증가한다. 지속 시간: 2턴'
       talentHitsPerAction:
-        text: "[신군] 스택"
-        content: "[신군]의 공격 단수는 최대 10단이다."
+        text: '[신군] 스택'
+        content: '[신군]의 공격 단수는 최대 10단이다.'
       talentAttacks:
-        text: "[신군]이 적중 시"
+        text: '[신군]이 적중 시'
         content: 적이 [신군]으로부터 받은 공격 단수. 일반적으로 [신군]의 공격 단수와 같은 값으로 설정해 주세요.
       e2DmgBuff:
         text: 2돌 데미지 버프
-        content: "[신군]이 행동한 후 경원은 일반 공격, 전투 스킬, 필살기로 가하는 피해가 20% 증가한다. 지속 시간: 2턴"
+        content: '[신군]이 행동한 후 경원은 일반 공격, 전투 스킬, 필살기로 가하는 피해가 20% 증가한다. 지속 시간: 2턴'
       e6FuaVulnerabilityStacks:
         text: 6돌 취약 스택
-        content: "[신군]의 공격은 단마다 지정된 적을 추가로 취약 상태에 빠트린다. 취약 상태의 적은 받는 피해가 12% 증가하며, 이번 [신군] 공격 종료까지 지속된다. 해당 효과 최대 중첩수: 3스택"
+        content: '[신군]의 공격은 단마다 지정된 적을 추가로 취약 상태에 빠트린다. 취약 상태의 적은 받는 피해가 12% 증가하며, 이번 [신군] 공격 종료까지 지속된다. 해당 효과 최대 중첩수: 3스택'
   Kafka:
     Content:
       e1DotDmgReceivedDebuff:
         text: 1돌 지속 피해 증가
-        content: "특성으로 추가 공격 발동 시 100%의 기본 확률로 목표가 받는 지속 피해가 30% 증가한다. 지속 시간: 2턴"
+        content: '특성으로 추가 공격 발동 시 100%의 기본 확률로 목표가 받는 지속 피해가 30% 증가한다. 지속 시간: 2턴'
       e2TeamDotBoost:
         text: 2돌 아군 지속 피해 증가
         content: 카프카가 필드에 있으면 모든 아군이 가하는 지속 피해가 25% 증가한다.
@@ -1377,42 +1377,42 @@ Characters:
         text: 격특 비례 공격력 / 치유량 버프
         content: 자신의 공격력/치유량이 격파 특수효과의 25%/10%만큼 증가하며, 공격력/치유량은 최대 50%/20% 증가한다.
       befogState:
-        text: "[감취] 상태"
-        content: "[감취] 상태에서는 목표가 받는 격파 피해가 {{BefogVulnerability}}% 증가한다, 지속 시간: 2턴"
+        text: '[감취] 상태'
+        content: '[감취] 상태에서는 목표가 받는 격파 피해가 {{BefogVulnerability}}% 증가한다, 지속 시간: 2턴'
       e1DefShred:
         text: 1돌 격파 상태 버프
         content: 영사의 약점 격파 효율이 50% 증가한다. 적의 약점이 격파될 시 해당 적의 방어력이 20% 감소한다.
       e2BeBuff:
         text: 2돌 격특 버프
-        content: "필살기 발동 시 모든 아군의 격파 특수효과가 40% 증가한다. 지속 시간: 3턴"
+        content: '필살기 발동 시 모든 아군의 격파 특수효과가 40% 증가한다. 지속 시간: 3턴'
       e6ResShred:
         text: 6돌 속성 저항 감소
-        content: "[부원]이 필드에 있을 시 모든 적의 모든 속성 저항이 20% 감소한다."
+        content: '[부원]이 필드에 있을 시 모든 적의 모든 속성 저항이 20% 감소한다.'
   Luka:
     Content:
       basicEnhanced:
         text: 강화 공격
-        content: "[투지] 2스택을 소모하여 먼저 [돌격 펀치]를 사용해 3단 공격을 발동한다."
+        content: '[투지] 2스택을 소모하여 먼저 [돌격 펀치]를 사용해 3단 공격을 발동한다.'
       targetUltDebuffed:
         text: 필살기 받는 피해 증가
-        content: "지정된 단일 적이 받는 피해가 20% 증가한다. 지속 시간: 3턴"
+        content: '지정된 단일 적이 받는 피해가 20% 증가한다. 지속 시간: 3턴'
       basicEnhancedExtraHits:
         text: 강화 공격 단수
         content: 공격 단수마다 지정된 단일 적에게 물리 속성 피해를 가한다.
       e1TargetBleeding:
         text: 1돌 피해 증가
-        content: "루카 행동 시 지정된 적이 열상 상태이면 루카가 가하는 피해는 15% 증가한다. 지속 시간: 2턴"
+        content: '루카 행동 시 지정된 적이 열상 상태이면 루카가 가하는 피해는 15% 증가한다. 지속 시간: 2턴'
       e4TalentStacks:
         text: 4돌 [투지]  스택
-        content: "[투지]를 1스택 획득할 때마다 공격력이 5% 증가한다. 해당 효과 최대 중첩수: 4스택"
+        content: '[투지]를 1스택 획득할 때마다 공격력이 5% 증가한다. 해당 효과 최대 중첩수: 4스택'
   Luocha:
     Content:
       fieldActive:
-        text: "[결계] 상태"
+        text: '[결계] 상태'
         content: 결계 효과 발동 시 모든 아군의 공격력이 20% 증가한다.
       e6ResReduction:
         text: 6돌 속성 저항 감소
-        content: "필살기 발동 시 100%의 고정 확률로 모든 적의 모든 속성 저항이 20% 감소한다. 지속 시간: 2턴"
+        content: '필살기 발동 시 100%의 고정 확률로 모든 적의 모든 속성 저항이 20% 감소한다. 지속 시간: 2턴'
   Lynx:
     Content:
       skillBuff:
@@ -1435,10 +1435,10 @@ Characters:
         content: >-
           기본 상태에서 3단 피해를 가한다. 단수마다 지정된 단일 적에게 Mar. 7th 공격력의 {{BasicEnhancedScaling}}%만큼 허수 속성 피해를 가한다. 마지막 1단 피해를 가할 때마다 60%의 고정 확률로 다시 1단 피해를 가하고, 추가로 최대 3단 피해를 가한다. 강화된 일반 공격을 발동해 회복하는 에너지는 단수에 따라 증가하지 않는다.
       masterAdditionalDmgBuff:
-        text: "[사부] 피해 버프"
-        content: "[사부] 속성에 따른 추가 피해를 Mar. 7th 공격력의 20%만큼 추가로 가한다."
+        text: '[사부] 피해 버프'
+        content: '[사부] 속성에 따른 추가 피해를 Mar. 7th 공격력의 20%만큼 추가로 가한다.'
       masterToughnessRedBuff:
-        text: "[사부] 서포터 버프"
+        text: '[사부] 서포터 버프'
         content: 이번 피해의 강인성 감소 수치가 100% 증가한다.
       talentDmgBuff:
         text: 특성 기본 피해 버프
@@ -1452,11 +1452,11 @@ Characters:
         content: 필살기 발동 후 다음번 강화된 일반 공격이 가하는 치명타 피해가 50% 증가한다.
     TeammateContent:
       masterBuff:
-        text: "[사부] 버프"
+        text: '[사부] 버프'
         content: 자신 이외의 지정된 단일 아군을 [사부]로 만들고, [사부]의 속도가 {{ShifuSpeedBuff}}% 증가한다.
       masterCdBeBuffs:
-        text: "[사부] 치피 / 격특 버프"
-        content: "강화된 일반 공격 발동 후 [사부]의 치명타 피해가 60% 증가하고, 격파 특수효과가 36% 증가한다. 지속 시간: 2턴"
+        text: '[사부] 치피 / 격특 버프'
+        content: '강화된 일반 공격 발동 후 [사부]의 치명타 피해가 60% 증가하고, 격파 특수효과가 36% 증가한다. 지속 시간: 2턴'
   Misha:
     Content:
       ultHitsOnTarget:
@@ -1467,14 +1467,14 @@ Characters:
         content: 빙결 상태에 빠진 적에게 피해를 가할 시 치명타 피해가 30% 증가한다.
       e2DefReduction:
         text: 2돌 방어력 감소
-        content: "필살기의 단수별 공격 전 24%의 기본 확률로 목표의 방어력을 16% 감소시킨다. 지속 시간: 3턴"
+        content: '필살기의 단수별 공격 전 24%의 기본 확률로 목표의 방어력을 16% 감소시킨다. 지속 시간: 3턴'
       e6UltDmgBoost:
         text: 6돌 필살기 버프
         content: 필살기 발동 시, 자신이 가하는 피해가 자신의 턴이 종료될 때까지 30% 증가한다.
   Moze:
     Content:
       preyMark:
-        text: "[사냥감] 목표"
+        text: '[사냥감] 목표'
         content: >-
           필드 위에 [사냥감]이 있을 시 맥택이 퇴장 상태에 진입한다.::BR::아군이 [사냥감]을 공격하면 맥택은 추가로 자신의 공격력의 {{PreyAdditionalMultiplier}}%만큼 번개 속성 추가 피해를 1회 가하고, 충전을 1pt 소모한다. 충전을 3pt 소모할 때마다 맥택이 [사냥감]에게 추가 공격을 1회 발동하며, 자신의 공격력의 {{FuaScaling}}%만큼 번개 속성 피해를 가한다. 충전이 0일 시 목표의 [사냥감] 상태를 해제하고, 추가 공격 발동에 필요한 충전 포인트 계산을 초기화한다. 특성의 추가 공격은 충전을 소모하지 않는다.
       e2CdBoost:
@@ -1482,7 +1482,7 @@ Characters:
         content: 모든 아군이 [사냥감]이 된 적에게 피해를 가할 시 치명타 피해가 40% 증가한다.
       e4DmgBuff:
         text: 4돌 데미지 버프
-        content: "필살기 발동 시 맥택이 가하는 피해가 30% 증가한다. 지속 시간: 2턴"
+        content: '필살기 발동 시 맥택이 가하는 피해가 30% 증가한다. 지속 시간: 2턴'
       e6MultiplierIncrease:
         text: 6돌 추공 배율 버프
         content: 특성의 추가 공격 피해 배율이 25% 증가한다.
@@ -1494,7 +1494,7 @@ Characters:
           강화 전투스킬 단계 선택. ::BR:: 후회 없는 수많은 죽음 (0단계) : 마이데이 현재 HP의 50%만큼 HP를 소모해 지정된 단일 적에게 마이데이 HP 최대치의 {{SkillPrimaryScaling}}%만큼 허수 속성 피해를 가하고, 인접한 목표에게 마이데이 HP 최대치의 {{SkillAdjacentScaling}}%만큼 허수 속성 피해를 가한다. ::BR:: 왕을 죽여 왕이 된 자 (1단계) : 마이데이 현재 HP의 35%만큼 HP를 소모해 단일 적에게 마이데이 HP 최대치의 {{EnhancedSkillPrimaryScaling}}%만큼 허수 속성 피해를 가하고, 인접한 목표에게 마이데이 HP 최대치의 {{EnhancedSkillAdjacentScaling}}%만큼 허수 속성 피해를 가한다.
           현재 HP가 부족하면 전투 스킬 발동 시 마이데이의 현재 HP가 1pt까지 감소한다. ::BR:: 신을 죽여 신이 된 자 (2단계) : 단일 적에게 마이데이 HP 최대치의 {{EnhancedSkill2PrimaryScaling}}%만큼 허수 속성 피해를 가하고 인접한 목표에게 마이데이 HP 최대치의 {{EnhancedSkill2AdjacentScaling}}%만큼 허수 속성 피해를 가한다.
       vendettaState:
-        text: "[피의 원한] 상태"
+        text: '[피의 원한] 상태'
         content: >-
           HP를 1% 잃을 때마다 충전을 1pt 적립하고, 최대 200pt까지 적립할 수 있다. 충전이 100에 도달하면 충전을 100pt 소모해 [피의 원한] 상태에 진입하고 마이데이의 HP 최대치 {{HpRestoration}}%만큼 HP를 회복하며 행동 게이지가 100% 증가한다. ::BR:: [피의 원한] 상태에서는 HP 최대치가 현재 HP 최대치의 50%만큼 증가하고 방어력이 0으로 유지된다. 자신의 턴이 시작되면 [왕을 죽여 왕이 된 자]가 자동으로 발동된다.
           [피의 원한] 상태 동안 충전이 150pt에 도달하면 마이데이가 보너스 턴을 1회 획득하고, [신을 죽여 신이 된 자]가 자동으로 발동된다.
@@ -1503,13 +1503,13 @@ Characters:
         content: 전투 시작 시 마이데이의 HP 최대치가 4000pt보다 높으면 4000pt 초과할 때마다 자신의 치명타 확률이 1.2% 증가하며, 최대 2.5% 증가한다.
       e1EnhancedSkillBuff:
         text: 1돌 강화 전투스킬 버프
-        content: "[신을 죽여 신이 된 자]의 주 목표에 대한 데미지가 30% 증가한다. 그리고 [신을 죽여 신이 된 자]가 모든 적에게 주목표 피해 배율 만큼의 허수 속성 피해을 가한다."
+        content: '[신을 죽여 신이 된 자]의 주 목표에 대한 데미지가 30% 증가한다. 그리고 [신을 죽여 신이 된 자]가 모든 적에게 주목표 피해 배율 만큼의 허수 속성 피해을 가한다.'
       e2DefPen:
         text: 2돌 방어력 무시
-        content: "[피의 원한] 상태 동안, 마이데이가 가하는 피해는 적의 방어력을 15% 무시하며, 치유를 받을 때마다 치유량의 40%가 마이데이 HP 최대치에 따라 충전으로 전환된다. 변환된 충전은 40pt를 넘을 수 없습니다."
+        content: '[피의 원한] 상태 동안, 마이데이가 가하는 피해는 적의 방어력을 15% 무시하며, 치유를 받을 때마다 치유량의 40%가 마이데이 HP 최대치에 따라 충전으로 전환된다. 변환된 충전은 40pt를 넘을 수 없습니다.'
       e4CdBuff:
         text: 4돌 치피 버프
-        content: "[피의 원한] 상태 동안, 치명타 피해가 30% 증가하고 공격받은 후 최대 HP의 10%를 회복한다."
+        content: '[피의 원한] 상태 동안, 치명타 피해가 30% 증가하고 공격받은 후 최대 HP의 10%를 회복한다.'
   Pela:
     Content:
       teamEhrBuff:
@@ -1520,13 +1520,13 @@ Characters:
         content: 디버프 효과를 보유한 적에게 가하는 피해가 20% 증가한다.
       skillRemovedBuff:
         text: 지정된 단일 적의 버프 효과 1개를 해제한다.
-        content: "전투 스킬 발동으로 버프 효과를 해제할 시 다음 공격으로 가하는 피해가 20% 증가한다.::BR::E2: 전투 스킬을 발동해 버프 효과를 해제하면 속도가 10% 증가한다. 지속 시간: 2턴"
+        content: '전투 스킬 발동으로 버프 효과를 해제할 시 다음 공격으로 가하는 피해가 20% 증가한다.::BR::E2: 전투 스킬을 발동해 버프 효과를 해제하면 속도가 10% 증가한다. 지속 시간: 2턴'
       ultDefPenDebuff:
-        text: "[분석] 상태"
-        content: "[분석] 상태의 적은 방어력이 {{ultDefPenValue}}% 감소한다. 지속 시간: 2턴"
+        text: '[분석] 상태'
+        content: '[분석] 상태의 적은 방어력이 {{ultDefPenValue}}% 감소한다. 지속 시간: 2턴'
       e4SkillResShred:
         text: 4돌 얼음 속성 저항 감소
-        content: "전투 스킬 발동 시 100%의 기본 확률로 적의 얼음 속성 저항이 12% 감소한다. 지속 시간: 2턴"
+        content: '전투 스킬 발동 시 100%의 기본 확률로 적의 얼음 속성 저항이 12% 감소한다. 지속 시간: 2턴'
   Qingque:
     Content:
       basicEnhanced:
@@ -1534,19 +1534,19 @@ Characters:
         content: 자신의 공격력이 {{talentAtkBuff}}% 증가하고, 일반 공격 [판쓸이]가 [아싸~ 가오리!]로 강화된다.
       basicEnhancedSpdBuff:
         text: 강화 공격 후 속도 버프
-        content: "일반 공격 강화 발동 후 청작의 속도가 10% 증가한다. 지속 시간: 1턴"
+        content: '일반 공격 강화 발동 후 청작의 속도가 10% 증가한다. 지속 시간: 1턴'
       skillDmgIncreaseStacks:
         text: 전투 스킬 데미지 버프
-        content: "즉시 경옥패를 2장 뽑는다. 자신이 가하는 피해가 {{skillStackDmg}}% 증가하며, 이번 턴이 끝날 때까지 지속된다. 최대 중첩수: 4스택. 해당 전투 스킬 발동 후 그 턴은 종료되지 않는다."
+        content: '즉시 경옥패를 2장 뽑는다. 자신이 가하는 피해가 {{skillStackDmg}}% 증가하며, 이번 턴이 끝날 때까지 지속된다. 최대 중첩수: 4스택. 해당 전투 스킬 발동 후 그 턴은 종료되지 않는다.'
   Rappa:
     Content:
       sealformActive:
-        text: "[결인] 상태 (격파 상태)"
+        text: '[결인] 상태 (격파 상태)'
         content: >-
           [결인] 상태에 진입하고 즉시 보너스 턴 1개 및 [채묵]을 3pt 획득한다. 동시에 약점 격파 효율이 50% 증가하고 격파 특수효과가 {{ultBeBuff}}% 증가한다.
       atkToBreakVulnerability:
         text: 공격력 비례 격특 버프
-        content: "적의 약점이 격파될 시 받는 격파 피해가 2% 증가한다. 만약 라파의 현재 공격력이 2400pt보다 높을 경우, 공격력이 100pt 초과할 때마다 해당 수치가 추가로 1% 증가한다(최대 추가로 8% 증가). 효과 지속 시간: 2턴"
+        content: '적의 약점이 격파될 시 받는 격파 피해가 2% 증가한다. 만약 라파의 현재 공격력이 2400pt보다 높을 경우, 공격력이 100pt 초과할 때마다 해당 수치가 추가로 1% 증가한다(최대 추가로 8% 증가). 효과 지속 시간: 2턴'
       chargeStacks:
         text: 충전 스택
         content: 충전 1pt당 이번 격파 피해 배율이 {{talentChargeMultiplier}}% 증가하고, 약점 속성을 무시하는 강인성 감소 수치가 1pt 증가한다.
@@ -1558,29 +1558,29 @@ Characters:
         content: 강화된 일반 공격의 처음 2단 공격이 지정된 단일 적에게 가하는 강인성 감소 수치가 50% 증가한다.
       e4SpdBuff:
         text: 4돌 속도 버프
-        content: "[결인] 상태 동안 모든 아군의 속도가 12% 증가한다."
+        content: '[결인] 상태 동안 모든 아군의 속도가 12% 증가한다.'
     TeammateContent:
       teammateBreakVulnerability:
         text: 격파 상태
-        content: "적의 약점이 격파될 시 받는 격파 피해가 2% 증가한다. 만약 라파의 현재 공격력이 2400pt보다 높을 경우, 공격력이 100pt 초과할 때마다 해당 수치가 추가로 1% 증가한다(최대 추가로 8% 증가). 효과 지속 시간: 2턴"
+        content: '적의 약점이 격파될 시 받는 격파 피해가 2% 증가한다. 만약 라파의 현재 공격력이 2400pt보다 높을 경우, 공격력이 100pt 초과할 때마다 해당 수치가 추가로 1% 증가한다(최대 추가로 8% 증가). 효과 지속 시간: 2턴'
       e4SpdBuff:
         text: 4돌 속도 버프
-        content: "[결인] 상태 동안 모든 아군의 속도가 12% 증가한다."
+        content: '[결인] 상태 동안 모든 아군의 속도가 12% 증가한다.'
   Robin:
     Content:
       concertoActive:
-        text: "[협주] 상태"
+        text: '[협주] 상태'
         content: >-
           [협주] 상태일 시 모든 아군의 공격력이 증가한다. 증가 수치는 로빈 공격력의 {{ultAtkBuffScalingValue}}%+{{ultAtkBuffFlatValue}}pt이며, 아군이 공격을 발동할 때마다 로빈은 추가로 자신의 공격력의 {{ultScaling}}%만큼 물리 속성 추가 피해를 1회 가한다. 해당 피해의 치명타 확률은 100%, 치명타 피해는 150%로 고정된다.
       skillDmgBuff:
         text: 전투 스킬 데미지 버프
-        content: "모든 아군이 가하는 피해를 {{skillDmgBuffValue}}% 증가시킨다, 지속 시간: 3턴. 로빈 턴이 시작될 때마다 지속 턴 수가 1 감소한다."
+        content: '모든 아군이 가하는 피해를 {{skillDmgBuffValue}}% 증가시킨다, 지속 시간: 3턴. 로빈 턴이 시작될 때마다 지속 턴 수가 1 감소한다.'
       talentCdBuff:
         text: 특성 치피 버프
         content: 모든 아군의 치명타 피해가 20% 증가한다.
       e1UltResPen:
         text: 1돌 속성 저항 관통
-        content: "[협주] 상태일 시 모든 아군의 모든 속성 저항 관통이 24% 증가한다."
+        content: '[협주] 상태일 시 모든 아군의 모든 속성 저항 관통이 24% 증가한다.'
       e4TeamResBuff:
         text: 4돌 팀 효과 저항 버프
         content: 필살기 발동 시 모든 아군의 제어류 디버프 상태를 해제하고, 모든 아군은 로빈이 [협주] 상태일 동안 효과 저항이 50% 증가한다.
@@ -1595,21 +1595,21 @@ Characters:
           [협주] 상태일 시 모든 아군의 공격력이 증가한다. 증가 수치는 로빈 공격력의 {{ultAtkBuffScalingValue}}%+{{ultAtkBuffFlatValue}}pt이다.
       traceFuaCdBoost:
         text: 추가 공격 치피 버프
-        content: "[협주] 상태일 시 모든 아군이 추가 공격을 발동하여 가하는 치명타 피해가 25% 증가한다."
+        content: '[협주] 상태일 시 모든 아군이 추가 공격을 발동하여 가하는 치명타 피해가 25% 증가한다.'
       e2UltSpdBuff:
         text: 2돌 속도 버프
-        content: "[협주] 상태일 시 모든 아군의 속도가 16% 증가한다. 특성의 에너지 회복 효과가 추가로 1pt 증가한다."
+        content: '[협주] 상태일 시 모든 아군의 속도가 16% 증가한다. 특성의 에너지 회복 효과가 추가로 1pt 증가한다.'
   RuanMei:
     Content:
       skillOvertoneBuff:
-        text: "[현의 여음] 상태"
+        text: '[현의 여음] 상태'
         content: >-
           전투 스킬 발동 후 완•매는 [현의 여음]을 획득한다. 지속 시간: 3턴. 완•매의 턴이 시작될 때마다 지속 턴 수가 1 감소한다. 완•매가 [현의 여음]을 보유하면 모든 아군의 피해가 {{skillScaling}}% 증가하며 약점 격파 효율이 50% 증가한다.
       teamBEBuff:
         text: 팀 격특 버프
         content: 모든 아군의 격파 특수효과가 20% 증가한다.
       ultFieldActive:
-        text: "[결계] 상태"
+        text: '[결계] 상태'
         content: >-
           결계 안에 있는 모든 아군의 모든 속성 저항 관통이 {{fieldResPenValue}}% 증가하고, 공격 시 적에게 [다시 핀 매화]를 부여한다.::BR::E1: 필살기로 펼친 결계가 활성화되는 동안 모든 아군이 가하는 피해는 목표의 방어력을 20% 무시한다.
       e2AtkBoost:
@@ -1617,7 +1617,7 @@ Characters:
         content: 완•매가 필드에 있으면 모든 아군이 약점 격파 상태의 적에게 피해를 가할 때 공격력이 40% 증가한다.
       e4BeBuff:
         text: 4돌 격특 버프
-        content: "적의 약점이 격파될 시 완•매의 격파 특수효과가 100% 증가한다. 지속 시간: 3턴"
+        content: '적의 약점이 격파될 시 완•매의 격파 특수효과가 100% 증가한다. 지속 시간: 3턴'
     TeammateContent:
       teamSpdBuff:
         text: 팀 속도 버프
@@ -1639,18 +1639,18 @@ Characters:
   Seele:
     Content:
       buffedState:
-        text: "[증폭] 상태"
+        text: '[증폭] 상태'
         content: >-
           일반 공격, 전투 스킬, 필살기를 발동해 적을 처치한 후 즉시 보너스 턴을 1턴 획득하고 증폭 상태에 진입한다. 증폭 상태의 제레는 공격 발동으로 가하는 피해가 {{buffedStateDmgBuff}}% 증가한다. 지속 시간: 1턴::BR:: 증폭 상태일 때 제레의 양자 속성 저항 관통이 20% 증가한다.
       speedBoostStacks:
         text: 속도 버프 스택
-        content: "제레의 속도가 25% 증가하고, 지정된 단일 적에게 제레 공격력 220%만큼의 양자 속성 피해를 준다. 속도 증가 효과 지속 시간: 2턴"
+        content: '제레의 속도가 25% 증가하고, 지정된 단일 적에게 제레 공격력 220%만큼의 양자 속성 피해를 준다. 속도 증가 효과 지속 시간: 2턴'
       e1EnemyHp80CrBoost:
         text: 1돌 적 HP ≤ 80%  치확 버프
         content: 현재 HP 백분율이 80% 이하인 적에게 피해를 가할 시 치명타 확률이 15% 증가한다.
       e6UltTargetDebuff:
         text: 6돌 [혼란의 나비]
-        content: "필살기 발동 후 피격된 단일 적은 [혼란의 나비] 상태에 빠진다, 지속 시간: 1턴. [혼란의 나비] 상태의 적은 피격 후 추가로 제레 필살기 피해의 15%만큼 양자 속성 추가 피해를 1회 받는다. 다른 아군의 공격으로 [혼란의 나비] 상태의 추가 피해가 발동되어 해당 적이 처치되면 제레의 특성이 발동하지 않는다."
+        content: '필살기 발동 후 피격된 단일 적은 [혼란의 나비] 상태에 빠진다, 지속 시간: 1턴. [혼란의 나비] 상태의 적은 피격 후 추가로 제레 필살기 피해의 15%만큼 양자 속성 추가 피해를 1회 받는다. 다른 아군의 공격으로 [혼란의 나비] 상태의 추가 피해가 발동되어 해당 적이 처치되면 제레의 특성이 발동하지 않는다.'
   Serval:
     Content:
       targetShocked:
@@ -1658,7 +1658,7 @@ Characters:
         content: 공격 발동 후 모든 감전 상태의 적에게 서벌 공격력 {{talentExtraDmgScaling}}%만큼의 번개 속성 추가 피해를 가한다.
       enemyDefeatedBuff:
         text: 적 처치 버프
-        content: "적 처치 후 공격력이 20% 증가한다. 지속 시간: 2턴"
+        content: '적 처치 후 공격력이 20% 증가한다. 지속 시간: 2턴'
   SilverWolf:
     Content:
       skillResShredDebuff:
@@ -1670,11 +1670,11 @@ Characters:
         content: >-
           지정된 단일 적에게 필드에 있는 아군이 보유한 속성의 약점을 {{implantChance}}%의 기본 확률로 1개 부여하고, 해당 약점에 대응하는 속성의 저항이 20% 감소한다. 지속 시간: 2턴. 적이 보유한 속성과 동일한 약점이 부여되면 대응하는 속성 저항 감소 효과가 발동되지 않는다. 은랑은 단일 적에게 1개의 약점만 부여할 수 있고, 약점 재부여 시 새로 부여된 약점만 존재한다.
       talentDefShredDebuff:
-        text: "[결함] 상태"
-        content: "[결함]에 의하여 방어력 {{talentDefShredDebuffValue}}% 감소한다. 지속 시간: 3턴"
+        text: '[결함] 상태'
+        content: '[결함]에 의하여 방어력 {{talentDefShredDebuffValue}}% 감소한다. 지속 시간: 3턴'
       ultDefShredDebuff:
-        text: "[분석] 상태"
-        content: "방어력 {{ultDefShredValue}}% 감소한다. 지속 시간: 3턴"
+        text: '[분석] 상태'
+        content: '방어력 {{ultDefShredValue}}% 감소한다. 지속 시간: 3턴'
       targetDebuffs:
         text: 디버프 보유 수
         content: >-
@@ -1686,7 +1686,7 @@ Characters:
         content: >-
           지정된 단일 아군의 치명타 피해가 스파클 치명타 피해의 {{skillCdBuffScaling}}%에 {{skillCdBuffBase}}%를 더한 값만큼 증가한다. 지속 시간: 1턴 또한, 해당 목표의 행동 게이지가 50% 증가한다. 스파클이 자신에게 해당 스킬을 발동하면 행동 게이지 증가 효과가 발동하지 않는다.::BR::E6: 전투 스킬의 치명타 피해 증가 효과가 스파클 치명타 피해의 30%만큼 추가로 증가한다. 스파클이 전투 스킬을 발동하면, 전투 스킬의 치명타 피해 증가 효과는 [기이한 수수께끼]를 보유한 모든 동료에게 적용된다. 스파클이 필살기 발동 시 단일 아군 중 전투 스킬의 치명타 피해 증가 효과를 보유한 목표가 있으면, 해당 효과는 [기이한 수수께끼]를 보유한 동료에게까지 확산된다.
       cipherBuff:
-        text: "[기이한 수수꼐끼] 상태"
+        text: '[기이한 수수꼐끼] 상태'
         content: >-
           [기이한 수수께끼]를 보유한 아군은 스파클 특성으로 발동되는 피해 증가 효과가 스택당 추가로 {{cipherTalentStackBoost}}% 증가한다. 지속 시간: 2턴::BR::E1: 필살기가 부여하는 [기이한 수수께끼]의 지속 시간이 추가로 1턴 증가하며, [기이한 수수께끼]를 보유한 아군의 공격력이 40% 증가한다.
       talentStacks:
@@ -1699,7 +1699,7 @@ Characters:
     TeammateContent:
       teammateCDValue:
         text: 스파클 치피 (전투시)
-        content: "지정된 단일 아군의 치명타 피해가 스파클 치명타 피해의 {{skillCdBuffScaling}}%에 {{skillCdBuffBase}}%를 더한 값만큼 증가한다. 지속 시간: 1턴"
+        content: '지정된 단일 아군의 치명타 피해가 스파클 치명타 피해의 {{skillCdBuffScaling}}%에 {{skillCdBuffBase}}%를 더한 값만큼 증가한다. 지속 시간: 1턴'
   Sunday:
     Content:
       skillDmgBuff:
@@ -1708,17 +1708,17 @@ Characters:
           지정된 단일 아군 캐릭터 및 해당 캐릭터의 소환물을 즉시 행동하게 하고, 대상이 가하는 피해를 {{DmgBoost}}% 증가시키며, 목표가 소환물을 보유하면 가하는 피해 증가 효과가 추가로 {{SummonDmgBoost}}% 증가한다, 지속 시간: 2턴
       talentCrBuffStacks:
         text: 특성 치피 버프
-        content: "전투 스킬 발동 시 목표의 치명타 확률이 20% 증가한다. 지속 시간: 3턴"
+        content: '전투 스킬 발동 시 목표의 치명타 확률이 20% 증가한다. 지속 시간: 3턴'
       techniqueDmgBuff:
         text: 비술 데미지 버프
-        content: "비술 사용 후 다음 전투에서 선데이가 처음으로 아군에게 스킬을 발동하면 목표가 가하는 피해가 50% 증가한다. 지속 시간: 2턴"
+        content: '비술 사용 후 다음 전투에서 선데이가 처음으로 아군에게 스킬을 발동하면 목표가 가하는 피해가 50% 증가한다. 지속 시간: 2턴'
       e1DefPen:
         text: 1돌 방어력 무시
         content: >-
           선데이가 전투 스킬 발동 시 목표 캐릭터가 피해를 가하면 목표의 방어력을 16% 무시하고, 소환물이 피해를 가하면 목표의 방어력을 40% 무시한다. 지속 시간: 2턴
       e2DmgBuff:
         text: 2돌 [은혜 입은 자] 버프
-        content: "[은혜 입은 자]가 가하는 피해가 30% 증가한다."
+        content: '[은혜 입은 자]가 가하는 피해가 30% 증가한다.'
     TeammateContent:
       beatified:
         text: 필살기 치피 버프
@@ -1740,17 +1740,17 @@ Characters:
           소상의 공격력이 {{ultBuffedAtk}}% 증가하고 전투 스킬 발동 시 [검세]의 발동 판정이 추가로 2회 증가한다. 지속 시간: 2턴 추가 판정으로 발동된 [검세]의 피해는 기존 피해의 50%이다.
       skillExtraHits:
         text: 전투 스킬 추가 타격
-        content: "[검세] 단수 증가"
+        content: '[검세] 단수 증가'
       skillTriggerStacks:
-        text: "[검세] 단수"
-        content: "[검세]를 1회 발동할 때마다 [검세]가 가하는 피해가 2% 증가한다. 해당 효과 최대 중첩수: 10스택"
+        text: '[검세] 단수'
+        content: '[검세]를 1회 발동할 때마다 [검세]가 가하는 피해가 2% 증가한다. 해당 효과 최대 중첩수: 10스택'
       talentSpdBuffStacks:
         text: 특성 속도 스택
         content: >-
           필드 위 적의 약점이 격파될 시 소상의 속도가 {{talentSpdBuffValue}}% 증가한다. 지속 시간: 2턴 ::BR::E6: 특성의 가속 효과는 최대 2스택 중첩 가능하고 전투 진입 후 소상은 즉시 특성의 가속 효과를 1스택 획득한다.
       e2DmgReductionBuff:
         text: 2돌 받는 피해 감소
-        content: "[검세] 발동 후 소상이 받는 피해가 20% 감소한다. 지속 시간: 1턴"
+        content: '[검세] 발동 후 소상이 받는 피해가 20% 감소한다. 지속 시간: 1턴'
   TheHerta:
     Content:
       enhancedSkill:
@@ -1765,12 +1765,12 @@ Characters:
         content: >-
           필살기 발동 시 더 헤르타의 공격력이 80% 증가한다. 지속 시간: 3턴
       interpretationStacks:
-        text: "[해독] 스택"
+        text: '[해독] 스택'
         content: >-
           강화된 전투 스킬의 주목표가 [해독] 보유 시, 스택마다 주목표/다른 목표에게 가하는 피해 배율이 {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% 증가한다.::BR:: 파티에 「지식」 운명의 길 캐릭터가 2명 이상 있을 시, 스택마다 주목표/다른 목표에게 가하는 피해 배율이 추가로 {{PrimaryScalingBonus}}%/{{AdjacentScalingBonus}}% 증가한다.::BR::E1: 강화된 전투 스킬이 [해독] 스택 수 계산 시, 추가로 주목표 및 인접한 목표 중 스택이 가장 높은 목표의 현재 [해독] 스택 수의 50%를 계산한다. 강화된 전투 스킬을 발동해 [해독] 초기화 시 스택 수가 15스택으로 초기화된다.
       totalInterpretationStacks:
-        text: "[수수께끼의 답]"
-        content: "적에게 [해독]이 1스택 부여될 때마다 더 헤르타가 [수수께끼의 답]을 1스택 획득한다. 최대 중첩수: 99스택필살기 발동 시 [수수께끼의 답]을 1스택 보유할 때마다 이번 필살기의 피해 배율이 1% 증가한다."
+        text: '[수수께끼의 답]'
+        content: '적에게 [해독]이 1스택 부여될 때마다 더 헤르타가 [수수께끼의 답]을 1스택 획득한다. 최대 중첩수: 99스택필살기 발동 시 [수수께끼의 답]을 1스택 보유할 때마다 이번 필살기의 피해 배율이 1% 증가한다.'
       e1BonusStacks:
         text: 1돌 [해독] 추가 스택
         content: 강화된 전투 스킬이 [해독] 스택 수 계산 시, 추가로 주목표 및 인접한 목표 중 스택이 가장 높은 목표의 현재 [해독] 스택 수의 50%를 계산한다.
@@ -1783,18 +1783,18 @@ Characters:
   Tingyun:
     Content:
       benedictionBuff:
-        text: "[축복] 상태"
+        text: '[축복] 상태'
         content: >-
           지정된 단일 아군에게 [축복]을 제공한다. 대상의 공격력을 {{skillAtkBoostScaling}}% 증가시키며 현재 정운 공격력의 {{skillAtkBoostMax}}%을 넘지 않는다. [축복]을 획득한 대상은 공격 발동 후 추가로 자신의 공격력 {{skillLightningDmgBoostScaling}}%만큼의 번개 속성 추가 피해를 1회 가한다. [축복] 지속 시간: 3턴
       skillSpdBuff:
         text: 전투 스킬 속도 버프
-        content: "전투 스킬 발동 시 정운의 속도가 20% 증가한다. 지속 시간: 1턴"
+        content: '전투 스킬 발동 시 정운의 속도가 20% 증가한다. 지속 시간: 1턴'
       ultDmgBuff:
         text: 필살기 데미지 버프
-        content: "지정된 단일 아군의 에너지를 50pt 회복하고, 목표가 가하는 피해가 {{ultDmgBoost}}% 증가한다. 지속 시간: 2턴::BR::E6: 필살기로 회복하는 아군 대상의 에너지가 10pt 증가한다."
+        content: '지정된 단일 아군의 에너지를 50pt 회복하고, 목표가 가하는 피해가 {{ultDmgBoost}}% 증가한다. 지속 시간: 2턴::BR::E6: 필살기로 회복하는 아군 대상의 에너지가 10pt 증가한다.'
       ultSpdBuff:
         text: 1돌 속도 버프
-        content: "[축복] 효과를 획득한 단일 아군은 필살기 발동 후 속도가 20% 증가한다. 지속 시간:1턴"
+        content: '[축복] 효과를 획득한 단일 아군은 필살기 발동 후 속도가 20% 증가한다. 지속 시간:1턴'
     TeammateContent:
       teammateAtkBuffValue:
         text: 전투 스킬 버프
@@ -1803,14 +1803,14 @@ Characters:
   Topaz:
     Content:
       enemyProofOfDebtDebuff:
-        text: "[부채 증명] 디버프"
+        text: '[부채 증명] 디버프'
         content: 지정된 단일 적을 [부채 증명] 상태에 빠트려 적이 받는 추가 공격 피해를 {{proofOfDebtFuaVulnerability}}% 증가시킨다.
       numbyEnhancedState:
-        text: "[폭증!] 상태"
+        text: '[폭증!] 상태'
         content: 복순이가 [폭증!] 상태에 진입하고 복순이의 피해 배율이 {{enhancedStateFuaScalingBoost}}%, 치명타 피해가 {{enhancedStateFuaCdBoost}}% 증가한다.
       e1DebtorStacks:
         text: 1돌 [강제 집행] 스택
-        content: "[부채 증명] 상태에 빠진 적이 추가 공격을 받을 시 [강제 집행] 상태에 빠진다. 해당 상태는 단일 공격 내에 최대 1회 적용된다. [강제 집행]은 적이 받는 추가 공격의 치명타 피해를 25% 증가시킨다. 최대 중첩수: 2스택. [부채 증명]이 해제되면 [강제 집행]도 해제된다."
+        content: '[부채 증명] 상태에 빠진 적이 추가 공격을 받을 시 [강제 집행] 상태에 빠진다. 해당 상태는 단일 공격 내에 최대 1회 적용된다. [강제 집행]은 적이 받는 추가 공격의 치명타 피해를 25% 증가시킨다. 최대 중첩수: 2스택. [부채 증명]이 해제되면 [강제 집행]도 해제된다.'
   TrailblazerDestruction:
     Content:
       enhancedUlt:
@@ -1819,11 +1819,11 @@ Characters:
           두 가지 모드 중 하나를 선택해 전력의 일격을 가한다.::BR::[압승•끝내기 안타]: 지정된 단일 적에게 개척자 공격력 {{ultScaling}}%만큼의 물리 속성 피해를 준다.::BR::Blowout: [압승•안식 홈런]: 지정된 단일 적에게 개척자 공격력 {{ultEnhancedScaling}}%만큼의 물리 속성 피해를 주고, 인접한 목표에게도 개척자 공격력 {{ultEnhancedScaling2}}%만큼의 물리 속성 피해를 준다
       talentStacks:
         text: 특성 스택
-        content: "적의 약점을 격파할 때마다 개척자의 공격력이 {{talentAtkScalingValue}}% 증가한다. 최대 중첩수: 2스택"
+        content: '적의 약점을 격파할 때마다 개척자의 공격력이 {{talentAtkScalingValue}}% 증가한다. 최대 중첩수: 2스택'
   TrailblazerHarmony:
     Content:
       backupDancer:
-        text: "[댄스 파트너] 버프"
+        text: '[댄스 파트너] 버프'
         content: >-
           모든 아군에게 [댄스 파트너] 효과를 부여한다. 지속 시간: 3턴. 개척자의 턴이 시작될 때마다 지속 턴 수가 1 감소한다. [댄스 파트너]를 보유한 아군의 격파 특수효과가 {{ultBeScaling}}% 증가한다.
       superBreakDmg:
@@ -1835,7 +1835,7 @@ Characters:
         content: 지정된 단일 적에게 허수 속성 피해를 가하며, 추가로 피해를 4회 가한다.
       e2EnergyRegenBuff:
         text: 2돌 에회 버프
-        content: "전투 시작 시 개척자의 에너지 회복효율이 25% 증가한다. 지속 시간: 3턴"
+        content: '전투 시작 시 개척자의 에너지 회복효율이 25% 증가한다. 지속 시간: 3턴'
     TeammateContent:
       teammateBeValue:
         text: 4돌 격특 버프
@@ -1853,7 +1853,7 @@ Characters:
         content: 턴 시작 시 개척자가 실드의 가호를 지닌 경우, 행동이 끝날 때까지 공격력이 15% 증가한다.
       e6DefStacks:
         text: 6돌 방어력 버프
-        content: "일반 공격 강화 혹은 필살기 발동 후 개척자의 방어력이 10% 증가한다. 최대 중첩수: 3스택"
+        content: '일반 공격 강화 혹은 필살기 발동 후 개척자의 방어력이 10% 증가한다. 최대 중첩수: 3스택'
   TrailblazerRemembrance:
     Content:
       memoSkillHits:
@@ -1894,17 +1894,17 @@ Characters:
   Tribbie:
     Content:
       numinosity:
-        text: "[신의 계시] 상태"
+        text: '[신의 계시] 상태'
         content: 3턴 동안 지속되는 [신의 계시]를 획득하며, 자신의 턴이 시작될 때마다 지속 턴 수가 1 감소한다. 트리비가 [신의 계시]를 보유할 시 모든 아군의 모든 속성 저항 관통이 {{ResPen}}% 증가한다.
       ultZone:
-        text: "[결계] 상태"
+        text: '[결계] 상태'
         content: "결계를 활성화하고, 모든 적에게 트리비 HP 최대치의 {{UltScaling}}%만큼 양자 속성 피해를 가한다.\n결계 지속 시간 동안 적이 받는 피해가 {{ZoneVulnerability}}% 증가한다. 아군에게 피격 후, 피격된 목표가 1기 있을 때마다 피격된 목표 중 현재 HP가 가장 높은 목표에게 트리비 HP 최대치의 {{AdditionalDmgScaling}}%만큼 양자 속성 추가 피해를 1회 가한다.\n결계는 2턴 동안 지속되며, 자신의 턴이 시작될 때마다 결계 지속 턴 수가 1 감소한다."
       alliesMaxHp:
         text: 아군의 최대 HP
         content: 결계 지속 시간 동안 트리비의 HP 최대치가 모든 아군 캐릭터 HP 최대치 총합의 9%만큼 증가한다.
       talentFuaStacks:
         text: 추가 공격 스택
-        content: "특성의 추가 공격 발동 후, 트리비가 가하는 피해가 72% 증가한다, 해당 효과 최대 중첩수: 3스택. 지속 시간: 3턴"
+        content: '특성의 추가 공격 발동 후, 트리비가 가하는 피해가 72% 증가한다, 해당 효과 최대 중첩수: 3스택. 지속 시간: 3턴'
       e1TrueDmg:
         text: 1돌 확정 피해
         content: 결계 지속 시간 동안 아군이 적을 공격하면 결계가 추가 피해를 가하는 목표에게 추가로 이번 공격 총 피해량의 24%만큼 확정 피해를 가한다.
@@ -1913,7 +1913,7 @@ Characters:
         content: 결계가 가하는 추가 피해가 기존 피해의 120%로 증가한다. 결계가 추가 피해를 가할 시 추가 피해를 1회 추가로 가한다.
       e4DefPen:
         text: 4돌 방어력 무시
-        content: "[신의 계시] 지속 시간 동안, 모든 아군이 피해를 가할 시 목표의 방어력을 18% 무시한다."
+        content: '[신의 계시] 지속 시간 동안, 모든 아군이 피해를 가할 시 목표의 방어력을 18% 무시한다.'
       e6FuaScaling:
         text: 6돌 추가공격 피해량
         content: 트리비가 필살기 발동 후, 모든 적에게 특성의 추가 공격을 발동한다. 특성의 추가 공격이 가하는 피해가 729% 증가한다.
@@ -1921,7 +1921,7 @@ Characters:
     Content:
       enemyDmgTakenDebuff:
         text: 필살기 받는 피해 증가
-        content: "필살기 발동 시 100%의 기본 확률로 목표가 받는 피해가 12% 증가한다. 지속 시간: 2턴"
+        content: '필살기 발동 시 100%의 기본 확률로 목표가 받는 피해가 12% 증가한다. 지속 시간: 2턴'
       enemySlowed:
         text: 적 감속
         content: 감속 상태의 적을 공격 시 추가로 웰트 공격력 {{talentScaling}}%만큼의 허수 속성 추가 피해를 1회 준다
@@ -1938,7 +1938,7 @@ Characters:
         text: 격특 비례 데미지 버프
         content: 자신이 가하는 피해를 격파 특수효과의 100%만큼 증가시킨다. 최대 240% 증가한다.
       enemyToughness50:
-        text: "[서슬 축수]"
+        text: '[서슬 축수]'
         content: 적의 현재 강인성이 본인 강인성 최대치의 50% 이상일 경우, 필살기로 가하는 피해가 10% 증가한다.
       toughnessReductionDmgBoost:
         text: 필살기 데미지 버프
@@ -1949,19 +1949,19 @@ Characters:
           [업보]를 최대치까지 중첩하면 현재 모든 [업보]를 소모하고 즉시 적에게 추가 공격을 발동해 피해를 3회 주고, 피해를 줄 때마다 랜덤 단일 적에게 설의 공격력의 {{fuaScaling}}%만큼 양자 속성 피해를 준다. 해당 추가 공격은 [업보]를 중첩할 수 없다.
       e4BeBuff:
         text: 4돌 격특 버프
-        content: "필살기 발동 시 격파 특수효과가 40% 증가한다. 지속 시간: 2턴"
+        content: '필살기 발동 시 격파 특수효과가 40% 증가한다. 지속 시간: 2턴'
   Yanqing:
     Content:
       ultBuffActive:
         text: 필살기 버프
         content: 자신의 치명타 확률이 60% 증가하고 만일 연경이 [신검합일] 효과를 가지고 있다면 치명타 피해가 추가로 {{ultCdBuffValue}}% 증가한다.
       soulsteelBuffActive:
-        text: "[심검합일] 상태"
+        text: '[심검합일] 상태'
         content: >-
           연경이 [신검합일] 상태일 경우 피격될 확률이 감소하고 자신의 치명타 확률이 {{talentCrBuffValue}}%, 치명타 피해가 {{talentCdBuffValue}}% 증가한다.::BR::필살기 사용 후 [신검합일] 효과를 가지고 있다면 치명타 피해가 추가로 {{ultCdBuffValue}}% 증가한다.:BR::[신검합일] 상태일 경우 효과 저항이 20% 증가한다.::BR::E2: [신검합일] 효과 상태일 경우 에너지 회복효율이 추가로 10% 증가한다.
       critSpdBuff:
         text: 속도 버프
-        content: "치명타 발동 시 속도가 10% 증가한다. 지속 시간: 2턴"
+        content: '치명타 발동 시 속도가 10% 증가한다. 지속 시간: 2턴'
       e1TargetFrozen:
         text: 1돌 빙결 상태
         content: 연경이 적을 공격할 때, 목표가 빙결 상태일 경우 즉시 목표에게 연경 공격력의 60%만큼 얼음 속성 추가 피해를 가한다.
@@ -1974,40 +1974,40 @@ Characters:
         text: 허수 속성 데미지 증가
         content: 어공이 필드에 있으면 모든 아군이 가하는 허수 속성 피해가 12% 증가한다.
       roaringBowstringsActive:
-        text: "[활시위 호령] 상태"
-        content: "[활시위 호령] 2스택을 획득한다. (최대 2스택 보유) 어공이 [활시위 호령] 효과를 보유할 경우 모든 아군의 공격력이 {{skillAtkBuffValue}}% 증가한다.::BR::E4: [활시위 호령] 효과 보유 시 어공이 가하는 피해가 30% 증가한다."
+        text: '[활시위 호령] 상태'
+        content: '[활시위 호령] 2스택을 획득한다. (최대 2스택 보유) 어공이 [활시위 호령] 효과를 보유할 경우 모든 아군의 공격력이 {{skillAtkBuffValue}}% 증가한다.::BR::E4: [활시위 호령] 효과 보유 시 어공이 가하는 피해가 30% 증가한다.'
       ultBuff:
         text: 필살기 치확 / 치피 버프
         content: >-
           필살기 발동 시, 어공이 [활시위 호령]을 보유 중이면 추가로 모든 아군의 치명타 확률이 {{ultCrBuffValue}}%, 치명타 피해가 {{ultCdBuffValue}}% 증가한다. 동시에 지정된 단일 적에게 어공 공격력 {{ultScaling}}%만큼의 허수 속성 피해를 가한다.
       initialSpeedBuff:
         text: 1돌 전투 진입 버프
-        content: "전투 진입 시 모든 아군의 속도가 10% 증가한다. 지속 시간: 2턴"
+        content: '전투 진입 시 모든 아군의 속도가 10% 증가한다. 지속 시간: 2턴'
   Yunli:
     Content:
       blockActive:
-        text: "[막기] 상태"
-        content: "[막기] 상태에서 받는 제어류 디버프 효과에 저항하며, 받는 피해가 20% 감소한다."
+        text: '[막기] 상태'
+        content: '[막기] 상태에서 받는 제어류 디버프 효과에 저항하며, 받는 피해가 20% 감소한다.'
       ultCull:
-        text: "[간파•멸]"
+        text: '[간파•멸]'
         content: >-
           [간파•멸]: 목표에게 운리 공격력의 {{CullScaling}}%만큼 물리 속성 피해를 가하고, 인접한 목표에게 운리 공격력의 {{CullAdjacentScaling}}%만큼 물리 속성 피해를 가한다. 이후 추가로 피해를 6회 가하며, 피해 1회당 랜덤 단일 적에게 운리 공격력의 {{CullAdditionalScaling}}%만큼 물리 피해를 가한다.
       ultCullHits:
-        text: "[간파•멸] 적중 수"
+        text: '[간파•멸] 적중 수'
         content: >-
           [간파•멸]: 목표에게 운리 공격력의 {{CullScaling}}%만큼 물리 속성 피해를 가하고, 인접한 목표에게 운리 공격력의 {{CullAdjacentScaling}}%만큼 물리 속성 피해를 가한다. 이후 추가로 피해를 6회 가하며, 피해 1회당 랜덤 단일 적에게 운리 공격력의 {{CullAdditionalScaling}}%만큼 물리 피해를 가한다.
       counterAtkBuff:
         text: 반격 버프
-        content: "반격 발동 시, 운리의 공격력이 30% 증가한다. 지속 시간: 1턴"
+        content: '반격 발동 시, 운리의 공격력이 30% 증가한다. 지속 시간: 1턴'
       e1UltBuff:
         text: 1돌 필살기 버프
-        content: "[간파•참]과 [간파•멸]이 가하는 피해가 20% 증가하고, [간파•멸]의 추가 피해 횟수가 3회 증가한다."
+        content: '[간파•참]과 [간파•멸]이 가하는 피해가 20% 증가하고, [간파•멸]의 추가 피해 횟수가 3회 증가한다.'
       e2DefShred:
         text: 2돌 반격 버프
         content: 반격을 발동해 피해를 가할 시 적의 방어력을 20% 무시한다.
       e4ResBuff:
         text: 4돌 효과 저항 버프
-        content: "[간파•참] 또는 [간파•멸] 발동 후 자신의 효과 저항이 50% 증가한다. 지속 시간: 1턴"
+        content: '[간파•참] 또는 [간파•멸] 발동 후 자신의 효과 저항이 50% 증가한다. 지속 시간: 1턴'
       e6Buffs:
         text: 6돌 버프
         content: >-

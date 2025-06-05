@@ -5296,7 +5296,6 @@ interface Resources {
         MissingTarget: 'Missing optimization target fields',
         MissingCharacter: 'Missing character fields',
         MissingLightCone: 'Missing light cone fields',
-        TooManyPerms: 'Too many permutations, please apply stricter filters or set minimum enhance to at least +3.',
         GPUNotAvailable:
           'GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server',
       },

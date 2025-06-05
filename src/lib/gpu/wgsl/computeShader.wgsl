@@ -57,7 +57,7 @@ fn main(
     workgroup_id.z * num_workgroups.x * num_workgroups.y;
   let indexGlobal = i32(workgroup_index * WORKGROUP_SIZE + local_invocation_index);
 
-  // Load params
+  // Load offset params
   let xl = i32(params.xl);
   let xp = i32(params.xp);
   let xf = i32(params.xf);
@@ -77,14 +77,15 @@ fn main(
 
     let index = cycleIndex + i;
 
-    // Calculate relic index per slot
+    // Calculate relic index per slot based on the index (global index + invocation index)
 
-    let l = (index % lSize);
-    let p = (((index - l) / lSize) % pSize);
-    let f = (((index - p * lSize - l) / (lSize * pSize)) % fSize);
-    let b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize);
-    let g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize);
-    let h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize);
+    // START RELIC SLOT INDEX STRATEGY
+    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+    /* INJECT RELIC SLOT INDEX STRATEGY */
+    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+    // START RELIC SLOT INDEX STRATEGY
+
+    // Sum this invocation slots with the block offset
 
     let finalL = (l + xl) % lSize;
     let carryL = (l + xl) / lSize;

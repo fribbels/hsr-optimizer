@@ -1,35 +1,35 @@
 Relic_one: artefacto
 Relic_other: artefactos
-RelicWithCount_one: "{{count}} artefacto"
-RelicWithCount_other: "{{count}} artefactos"
+RelicWithCount_one: '{{count}} artefacto'
+RelicWithCount_other: '{{count}} artefactos'
 Lightcone_one: cono de luz
 Lightcone_other: conos de luz
-LightconeWithCount_one: "{{count}} cono de luz"
-LightconeWithCount_other: "{{count}} conos de luz"
+LightconeWithCount_one: '{{count}} cono de luz'
+LightconeWithCount_other: '{{count}} conos de luz'
 ThousandsSuffix: K
-DecimalSeparator: "."
-ThousandsSeparator: " "
-I18nNumber: "{{value, number}}"
+DecimalSeparator: '.'
+ThousandsSeparator: ' '
+I18nNumber: '{{value, number}}'
 Cancel: Cancelar
 Confirm: Confirmar
 Submit: Enviar
 Ok: Ok
-Yes: "Sí"
-No: "No"
+Yes: 'Sí'
+No: 'No'
 Save: Guardar
 Score: Puntaje
 Reset: Reiniciar
-EidolonNShort: "E{{eidolon}}"
-SuperimpositionNShort: "S{{superimposition}}"
-LevelShort: "Niv{{level}}"
-CharacterWithCount_one: "{{count}} personaje"
-CharacterWithCount_other: "{{count}} personajes"
+EidolonNShort: 'E{{eidolon}}'
+SuperimpositionNShort: 'S{{superimposition}}'
+LevelShort: 'Niv{{level}}'
+CharacterWithCount_one: '{{count}} personaje'
+CharacterWithCount_other: '{{count}} personajes'
 Character_one: personaje
 Character_other: personajes
 VerifiedRelicHoverText: Atributos secundarios de los artefactos verificados por el calificador de artefactos (decimales de velocidad)
 Verified4LinerHoverText: Atributos secundarios y mejoras iniciales verificadas por el calificador de artefactos (decimales de velocidad precisos + 4 atributos secundarios iniciales)
 CombatStats: Atributos de combate
-MemospriteLabel: "{{label}}ᴹ"
+MemospriteLabel: '{{label}}ᴹ'
 Parts:
   Head: Cabeza
   Hands: Manos
@@ -45,13 +45,13 @@ ReadableParts:
   PlanarSphere: Esfera
   LinkRope: Cuerda
 Stats:
-  "HP%": PV%
+  'HP%': PV%
   HP: PV
-  "ATK%": ATQ%
+  'ATK%': ATQ%
   ATK: ATQ
-  "DEF%": DEF%
+  'DEF%': DEF%
   DEF: DEF
-  "SPD%": VEL%
+  'SPD%': VEL%
   SPD: VEL
   CRIT Rate: Prob. CRIT
   CRIT DMG: Daño CRIT
@@ -60,21 +60,21 @@ Stats:
   Break Effect: Efecto de Ruptura
   Energy Regeneration Rate: Recuperación de energía
   Outgoing Healing Boost: Bonif. curación realizada
-  Physical DMG Boost: "Aumento de daño $t(gameData:Elements.Physical)"
-  Fire DMG Boost: "Aumento de daño de $t(gameData:Elements.Fire)"
-  Ice DMG Boost: "Aumento de daño de $t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "Aumento de daño de $t(gameData:Elements.Thunder) "
-  Wind DMG Boost: "Aumento de daño de $t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "Aumento de daño $t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "Aumento de daño $t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: 'Aumento de daño $t(gameData:Elements.Physical)'
+  Fire DMG Boost: 'Aumento de daño de $t(gameData:Elements.Fire)'
+  Ice DMG Boost: 'Aumento de daño de $t(gameData:Elements.Ice)'
+  Lightning DMG Boost: 'Aumento de daño de $t(gameData:Elements.Thunder) '
+  Wind DMG Boost: 'Aumento de daño de $t(gameData:Elements.Wind)'
+  Quantum DMG Boost: 'Aumento de daño $t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: 'Aumento de daño $t(gameData:Elements.Imaginary)'
 ShortStats:
-  "HP%": PV%
+  'HP%': PV%
   HP: PV
-  "ATK%": ATQ%
+  'ATK%': ATQ%
   ATK: ATQ
-  "DEF%": DEF%
+  'DEF%': DEF%
   DEF: DEF
-  "SPD%": VEL%
+  'SPD%': VEL%
   SPD: VEL
   CRIT Rate: PC
   CRIT DMG: DC
@@ -83,21 +83,21 @@ ShortStats:
   Break Effect: EdR
   Energy Regeneration Rate: RdE
   Outgoing Healing Boost: BCR
-  Physical DMG Boost: "$t(gameData:Elements.Physical)"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: '$t(gameData:Elements.Physical)'
+  Fire DMG Boost: '$t(gameData:Elements.Fire)'
+  Ice DMG Boost: '$t(gameData:Elements.Ice)'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder)'
+  Wind DMG Boost: '$t(gameData:Elements.Wind)'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
 ShortSpacedStats:
-  "HP%": PV %
+  'HP%': PV %
   HP: PV
-  "ATK%": ATQ %
+  'ATK%': ATQ %
   ATK: ATQ
-  "DEF%": DEF %
+  'DEF%': DEF %
   DEF: DEF
-  "SPD%": VEL %
+  'SPD%': VEL %
   SPD: VEL
   CRIT Rate: PC
   CRIT DMG: DC
@@ -106,23 +106,23 @@ ShortSpacedStats:
   Break Effect: EdR
   Energy Regeneration Rate: RdE
   Outgoing Healing Boost: BCR
-  Physical DMG Boost: "$t(gameData:Elements.Physical)"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: '$t(gameData:Elements.Physical)'
+  Fire DMG Boost: '$t(gameData:Elements.Fire)'
+  Ice DMG Boost: '$t(gameData:Elements.Ice)'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder)'
+  Wind DMG Boost: '$t(gameData:Elements.Wind)'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
 Damage: DAÑO
 DamagePercent: DAÑO %
 ReadableStats:
-  "HP%": PV %
+  'HP%': PV %
   HP: PV
-  "ATK%": ATQ %
+  'ATK%': ATQ %
   ATK: ATQ
-  "DEF%": DEF %
+  'DEF%': DEF %
   DEF: DEF
-  "SPD%": VEL %
+  'SPD%': VEL %
   SPD: VEL
   CRIT Rate: Prob. CRIT
   CRIT DMG: Daño CRIT
@@ -131,21 +131,21 @@ ReadableStats:
   Break Effect: Efec. Ruptura
   Energy Regeneration Rate: Rec. de energía
   Outgoing Healing Boost: Bonif. curación
-  Physical DMG Boost: "Daño $t(gameData:Elements.Physical)"
-  Fire DMG Boost: "Daño $t(gameData:Elements.Fire)"
-  Ice DMG Boost: "Daño $t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "Daño $t(gameData:Elements.Thunder)"
-  Wind DMG Boost: "Daño $t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "Daño $t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "Daño $t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: 'Daño $t(gameData:Elements.Physical)'
+  Fire DMG Boost: 'Daño $t(gameData:Elements.Fire)'
+  Ice DMG Boost: 'Daño $t(gameData:Elements.Ice)'
+  Lightning DMG Boost: 'Daño $t(gameData:Elements.Thunder)'
+  Wind DMG Boost: 'Daño $t(gameData:Elements.Wind)'
+  Quantum DMG Boost: 'Daño $t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: 'Daño $t(gameData:Elements.Imaginary)'
 ShortReadableStats:
-  "HP%": PV %
+  'HP%': PV %
   HP: PV
-  "ATK%": ATQ %
+  'ATK%': ATQ %
   ATK: ATQ
-  "DEF%": DEF %
+  'DEF%': DEF %
   DEF: DEF
-  "SPD%": VEL %
+  'SPD%': VEL %
   SPD: VEL
   CRIT Rate: Prob. CRIT
   CRIT DMG: Daño CRIT
@@ -154,21 +154,21 @@ ShortReadableStats:
   Break Effect: Ruptura
   Energy Regeneration Rate: Energía
   Outgoing Healing Boost: Curación
-  Physical DMG Boost: "$t(gameData:Elements.Physical)"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: '$t(gameData:Elements.Physical)'
+  Fire DMG Boost: '$t(gameData:Elements.Fire)'
+  Ice DMG Boost: '$t(gameData:Elements.Ice)'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder)'
+  Wind DMG Boost: '$t(gameData:Elements.Wind)'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
 Elements:
-  Physical: "$t(gameData:Elements.Physical)"
-  Fire: "$t(gameData:Elements.Fire)"
-  Ice: "$t(gameData:Elements.Ice)"
-  Lightning: "$t(gameData:Elements.Thunder)"
-  Wind: "$t(gameData:Elements.Wind)"
-  Quantum: "$t(gameData:Elements.Quantum)"
-  Imaginary: "$t(gameData:Elements.Imaginary)"
+  Physical: '$t(gameData:Elements.Physical)'
+  Fire: '$t(gameData:Elements.Fire)'
+  Ice: '$t(gameData:Elements.Ice)'
+  Lightning: '$t(gameData:Elements.Thunder)'
+  Wind: '$t(gameData:Elements.Wind)'
+  Quantum: '$t(gameData:Elements.Quantum)'
+  Imaginary: '$t(gameData:Elements.Imaginary)'
 DMGTypes:
   simScore: Daño de combo
   BASIC: Daño Básico
@@ -190,4 +190,4 @@ ShortDMGTypes:
   Dot: Daño DoT
   Break: Daño Ruptura
   CV: VC
-CurrentVersion: "Versión actual: ({{Version}})"
+CurrentVersion: 'Versión actual: ({{Version}})'

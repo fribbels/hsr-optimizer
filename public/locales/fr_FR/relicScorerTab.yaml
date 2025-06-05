@@ -1,5 +1,5 @@
 Messages:
-  ThrottleWarning: "Veuillez attendre {{seconds}} secondes avant de réessayer"
+  ThrottleWarning: 'Veuillez attendre {{seconds}} secondes avant de réessayer'
   InvalidIdWarning: UID invalide
   IdLoadError: Erreur lors du chargement de l'UID
   SuccessMsg: Chargement du profil réussi

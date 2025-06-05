@@ -11,7 +11,7 @@ LightconePassives: Pasivas de cono de luz
 CharacterPassives: Pasivas de personaje
 NoConditionals: Sin pasivas condicionales
 NoTeamConditionals: Sin pasivas de equipo condicionales
-ResultLimitN: "Mejores {{limit}} resultados"
+ResultLimitN: 'Mejores {{limit}} resultados'
 MainStats: Atributos principales
 Sets: Conjuntos
 RelicSetSelector:
@@ -35,17 +35,17 @@ SortOptions:
   BREAK: Ord. por Daño de Ruptura
   HEAL: Ord. por Curación
   SHIELD: Ord. por Escudo
-  HP: "Ord. por $t(common:ReadableStats.HP)"
-  ATK: "Ord. por $t(common:ReadableStats.ATK)"
-  DEF: "Ord. por $t(common:ReadableStats.DEF)"
-  SPD: "Ord. por $t(common:ReadableStats.SPD)"
-  CR: "Ord. por $t(common:ReadableStats.CRIT Rate)"
-  CD: "Ord. por $t(common:ReadableStats.CRIT DMG)"
-  EHR: "Ord. por $t(common:ReadableStats.Effect Hit Rate)"
-  RES: "Ord. por $t(common:ReadableStats.Effect RES)"
-  BE: "Ord. por $t(common:ReadableStats.Break Effect)"
-  OHB: "Ord. por $t(common:ReadableStats.Outgoing Healing Boost)"
-  ERR: "Ord. por $t(common:ReadableStats.Energy Regeneration Rate)"
+  HP: 'Ord. por $t(common:ReadableStats.HP)'
+  ATK: 'Ord. por $t(common:ReadableStats.ATK)'
+  DEF: 'Ord. por $t(common:ReadableStats.DEF)'
+  SPD: 'Ord. por $t(common:ReadableStats.SPD)'
+  CR: 'Ord. por $t(common:ReadableStats.CRIT Rate)'
+  CD: 'Ord. por $t(common:ReadableStats.CRIT DMG)'
+  EHR: 'Ord. por $t(common:ReadableStats.Effect Hit Rate)'
+  RES: 'Ord. por $t(common:ReadableStats.Effect RES)'
+  BE: 'Ord. por $t(common:ReadableStats.Break Effect)'
+  OHB: 'Ord. por $t(common:ReadableStats.Outgoing Healing Boost)'
+  ERR: 'Ord. por $t(common:ReadableStats.Energy Regeneration Rate)'
   DMG: Ord. por Daño Elemental
   EHP: Ord. por PV efectivos
 OptimizerOptions:
@@ -53,19 +53,19 @@ OptimizerOptions:
   PriorityFilter: Filtro de prioridad de personaje
   Priority:
     Header: Prioridad
-    Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
-    Name: "# {{rank}}"
+    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
+    Name: '# {{rank}}'
   AllowEquipped: Permitir artefactos equipados
   KeepCurrent: Mantener artefactos actuales
   Exclude: Excluir
   MinEnhance:
     Header: Nivel mínimo
-    Label0: "+0"
-    Label3: "+3"
-    Label6: "+6"
-    Label9: "+9"
-    Label12: "+12"
-    Label15: "+15"
+    Label0: '+0'
+    Label3: '+3'
+    Label6: '+6'
+    Label9: '+9'
+    Label12: '+12'
+    Label15: '+15'
   MinRarity:
     Header: Rareza mínima
     Label2: 2 ★ +
@@ -74,23 +74,23 @@ OptimizerOptions:
     Label5: 5  ★
   BoostMain:
     Header: Aumentar atributo principal
-    Label0: "+0"
-    Label3: "+3"
-    Label6: "+6"
-    Label9: "+9"
-    Label12: "+12"
-    Label15: "+15"
+    Label0: '+0'
+    Label3: '+3'
+    Label6: '+6'
+    Label9: '+9'
+    Label12: '+12'
+    Label15: '+15'
 AdvancedOptions:
   Header: Opciones avanzadas
   EnemyConfigButtonText: Ajustes del enemigo
   CombatBuffsButtonTextNone: Mejoras de combate extra
-  CombatBuffsButtonText: "Mejoras de combate ({{activeCount}})"
+  CombatBuffsButtonText: 'Mejoras de combate ({{activeCount}})'
   CustomTracesButtonText: Rastros de atributo pers.
 Grid:
   To: a
   Of: de
   Page: Página
-  PageSelectorLabel: "Tamaño de página:"
+  PageSelectorLabel: 'Tamaño de página:'
   Headers:
     Basic:
       Set: Conjunto
@@ -107,15 +107,9 @@ Grid:
       ERR: RdE
       DMG: DAÑO
       EHP: PVE
-      WEIGHT: |-
-        IMPORTANCIA
-        DE ATRIBUTO
     Combat:
       Set: Conj.
       EHP: PVE
-      WEIGHT: |-
-        IMPORTANCIA
-        DE ATRIBUTO
 Sidebar:
   Results: Resultados
   StatViewGroup:
@@ -123,6 +117,7 @@ Sidebar:
   ResultsGroup:
     Header: Resultados
     Equip: Equipar
+    EquipSuccessMessage: Equipado
 FormRowLabels:
   Teammates: Aliados
 TracesDrawer:
@@ -176,7 +171,7 @@ MinMaxFilters:
 ComboFilter:
   AbilityLabel: Habilidades
   ComboOptions:
-    None: "Ninguno"
+    None: 'Ninguno'
     Break: Ruptura
 ComboDrawer:
   NoConditionals: Sin pasivas condicionales
@@ -204,8 +199,8 @@ ExpandedDataPanel:
       dotDmg: Daño DoT
   BuffsAnalysisDisplay:
     Values:
-      BoolFalse: "No"
-      BoolTrue: "Sí"
+      BoolFalse: 'No'
+      BoolTrue: 'Sí'
     Sources:
       E1: E1
       E2: E2

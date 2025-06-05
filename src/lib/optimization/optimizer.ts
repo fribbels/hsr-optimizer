@@ -131,11 +131,6 @@ export const Optimizer = {
       lSize: relics.LinkRope.length,
     }
 
-    if (sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize > 2147483647) {
-      Message.error(t('Error.TooManyPerms'), 15)
-      return
-    }
-
     const permutations = sizes.hSize * sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize
     OptimizerTabController.setMetadata(sizes, relics)
 

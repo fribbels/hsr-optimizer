@@ -24,7 +24,7 @@ FeatureCards:
 Welcome: Bem-vindo ao<1/>Fribbels Star Rail Optimizer
 SearchBar:
   Placeholder: UID
-  Label: "Insira seu UID para ver sua demostração de personagens"
-  Api: "Usa Enka.Network"
+  Label: 'Insira seu UID para ver sua demostração de personagens'
+  Api: 'Usa Enka.Network'
   Message: Entrada inválida - Este deve ser seu UUID de 9 dígitos
   Search: Buscar

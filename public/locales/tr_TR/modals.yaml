@@ -1,13 +1,13 @@
 0Perms:
   RootCauses:
     Body_MAIN:
-      SuccessMessage: "$t(common:Parts.Body) ana istatistik filtreleri temizlendi"
+      SuccessMessage: '$t(common:Parts.Body) ana istatistik filtreleri temizlendi'
     Feet_MAIN:
-      SuccessMessage: "$t(common:Parts.Feet) ana istatistik filtreleri temizlendi"
+      SuccessMessage: '$t(common:Parts.Feet) ana istatistik filtreleri temizlendi'
     PlanarSphere_MAIN:
-      SuccessMessage: "$t(common:Parts.PlanarSphere) ana istatistik filtreleri temizlendi"
+      SuccessMessage: '$t(common:Parts.PlanarSphere) ana istatistik filtreleri temizlendi'
     LinkRope_MAIN:
-      SuccessMessage: "$t(common:Parts.LinkRope) ana istatistik filtreleri temizlendi"
+      SuccessMessage: '$t(common:Parts.LinkRope) ana istatistik filtreleri temizlendi'
     RELIC_SETS:
       SuccessMessage: Relic seti filtreleri temizlendi
     ORNAMENT_SETS:
@@ -15,7 +15,7 @@
     KEEP_CURRENT:
       SuccessMessage: '"Şu anki relicleri koru" devre dışı bırakıldı'
     PRIORITY:
-      SuccessMessage: "Karakter #1 önceliğe getirildi"
+      SuccessMessage: 'Karakter #1 önceliğe getirildi'
     EQUIPPED_DISABLED:
       SuccessMessage: '"Kuşanılan relicleri dahil et" aktifleşti'
 0Results:
@@ -36,7 +36,7 @@ Relic:
       SetInvalid: Set değeri geçersiz
       SetNotOrnament: Seçilen set bir ornament seti değil
       SetNotRelic: Seçilen set bir relic seti değil
-      SubNInvalid: "Alt istatistik {{number}} geçersiz"
+      SubNInvalid: 'Alt istatistik {{number}} geçersiz'
       SubsOutOfOrder: Alt isatistikler sırasız
       DuplicateSubs: Birden fazla aynı alt istatistik, her tipten sadece bir tanesine izin var
       MainAsSub: Alt istatistik ana istatistik ile aynı

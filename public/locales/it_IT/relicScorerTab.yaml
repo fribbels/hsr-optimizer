@@ -1,5 +1,5 @@
 Messages:
-  ThrottleWarning: "Attendi {{seconds}} secondi prima di riprovare"
+  ThrottleWarning: 'Attendi {{seconds}} secondi prima di riprovare'
   InvalidIdWarning: ID invalido
   IdLoadError: Errore caricamento ID
   SuccessMsg: Profilo caricato con successo
@@ -8,7 +8,7 @@ Messages:
   CharacterAlreadyExists: Il personaggio selezionato esiste già
   UnknownButtonClicked: Pulsante cliccato sconosciuto
 Header:
-  DowntimeWarning: "Il punteggio delle reliquie potrebbe essere non disponibile per manutenzione dopo la patch {{game_version}}, riprova più tardi."
+  DowntimeWarning: 'Il punteggio delle reliquie potrebbe essere non disponibile per manutenzione dopo la patch {{game_version}}, riprova più tardi.'
   WithVersion: "Inserisci l'UID per calcolare il punteggio dei personaggi del tuo profilo a livello 80 e con le traces massimizzate. Effettua il logout per aggiornare istantaneamente. (Current version {{beta_version}})"
   WithoutVersion: Inserisci l'UID per calcolare il punteggio dei personaggi del tuo profilo a livello 80 e con le traces massimizzate. Effettua il logout per aggiornare istantaneamente.
 SubmissionBar:

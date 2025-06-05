@@ -15,37 +15,37 @@ jobs:
         with:
           find: "\"homepage\": \"https://fribbels.github.io/hsr-optimizer\""
           replace: "\"homepage\": \"https://fribbels.github.io/dreary-quibbles\""
-          include: "package.json"
+          include: 'package.json'
       - name: Add in-Context script tags
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "<!--CROWDIN_IN-CONTEXT_SCRIPT-->"
+          find: '<!--CROWDIN_IN-CONTEXT_SCRIPT-->'
           replace: "<script type=\"text/javascript\">var _jipt = [];_jipt.push([ 'project', 'hsr-optimizer' ]);_jipt.push(['start_type', 'manual']);</script><script type=\"text/javascript\" src=\"//cdn.crowdin.com/jipt/jipt.js\"></script>"
-          include: "index.html"
+          include: 'index.html'
       - name: Find and Replace vite page
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "base: '/hsr-optimizer'"
           replace: "base: '/dreary-quibbles'"
-          include: "vite.config.ts"
+          include: 'vite.config.ts'
       - name: Find and Replace router path
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "const BASE_PATH: BasePath = BasePath.MAIN"
-          replace: "const BASE_PATH: BasePath = BasePath.BETA"
-          include: "src/lib/state/db.ts"
+          find: 'const BASE_PATH: BasePath = BasePath.MAIN'
+          replace: 'const BASE_PATH: BasePath = BasePath.BETA'
+          include: 'src/lib/state/db.ts'
       - name: Find and Replace Beta header
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "Fribbels Honkai Star Rail Optimizer"
-          replace: "Fribbels Honkai Star Rail Optimizer (Beta)"
-          include: "src/lib/layout/LayoutHeader.tsx"
+          find: 'Fribbels Honkai Star Rail Optimizer'
+          replace: 'Fribbels Honkai Star Rail Optimizer (Beta)'
+          include: 'src/lib/layout/LayoutHeader.tsx'
       - name: Enable console.*
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "drop_console: true,"
-          replace: "drop_console: false,"
-          include: "vite.config.ts"
+          find: 'drop_console: true,'
+          replace: 'drop_console: false,'
+          include: 'vite.config.ts'
       - run: rm -rf .github/workflows
       - run: mv .github/drearyquibbles .github/workflows
       - name: Pushes to another repository
@@ -53,7 +53,7 @@ jobs:
         env:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
         with:
-          source-directory: "."
-          destination-github-username: "fribbels"
-          destination-repository-name: "dreary-quibbles"
+          source-directory: '.'
+          destination-github-username: 'fribbels'
+          destination-repository-name: 'dreary-quibbles'
           target-branch: main

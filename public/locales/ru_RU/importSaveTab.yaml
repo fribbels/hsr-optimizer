@@ -8,20 +8,20 @@ Import:
     Unknown: Неизвестная ошибка
     InvalidFile: Неверный файл сканера
     InvalidJson: Неверный формат JSON
-    Fragment: "Произошла ошибка при импорте файла: "
+    Fragment: 'Произошла ошибка при импорте файла: '
   ParserError:
     BadSource: Некорректная исходная строка '{{jsonSource}}', ожидается '{{configSource}}'
     BadVersion: Некорректная версия json  '{{jsonVersion}}', ожидается '{{configVersion}}'
-    OutdatedVersion: "Ваша версия сканера {{buildVersion}} устарела и может привести к некорректному импорту! Пожалуйста, обновите до последней версии из Github:"
+    OutdatedVersion: 'Ваша версия сканера {{buildVersion}} устарела и может привести к некорректному импорту! Пожалуйста, обновите до последней версии из Github:'
   ParserWarning:
     BadRollInfo: Файл сканера устарел / может содержать некорректную информацию. Пожалуйста, обновите сканер.
   Stage1:
-    Header: "Загрузите и запустите один из сканеров реликвий:"
+    Header: 'Загрузите и запустите один из сканеров реликвий:'
     ReliquaryDesc:
       Title: (Рекомендуется) IceDynamix Reliquary Archiver
       Link: Github
-      OnlineMsg: "Статус: Обновлен для патча {{version}}"
-      OfflineMsg: "***** Статус: На обслуживании после патча {{version}} *****"
+      OnlineMsg: 'Статус: Обновлен для патча {{version}}'
+      OfflineMsg: '***** Статус: На обслуживании после патча {{version}} *****'
       l1: Точная десятичная часть значений скорости, мгновенное сканирование
       l2: Импорт всех реликвий в инвентаре и всех персонажей
     KelzDesc:
@@ -60,7 +60,7 @@ Import:
         Импортировать $t(common:Relic, {"count": {{relicCount}}}) и $t(common:Character, {"count": {{characterCount}}})
       WarningTitle: Перезаписать оптимизированные сборки
       WarningDescription: Вы уверены, что хотите перезаписать свои оптимизированные сборки с игровыми сборками?
-      OnlyImportExisting: "Импортировать только существующих персонажей"
+      OnlyImportExisting: 'Импортировать только существующих персонажей'
   Stage3:
     SuccessMessage: Готово!
 LoadData:

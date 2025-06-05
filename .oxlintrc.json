@@ -1,5 +1,4 @@
 // JSON Comments are OK in this file even if the IDE complains
-
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   "plugins": [
@@ -99,7 +98,6 @@
     "typescript/no-duplicate-enum-values": "warn",
     "typescript/no-extra-non-null-assertion": "warn",
     "typescript/no-misused-new": "warn",
-    "typescript/no-non-null-asserted-optional-chain": "warn",
     "typescript/no-this-alias": "warn",
     "typescript/no-unnecessary-parameter-property-assignment": "warn",
     "typescript/no-unsafe-declaration-merging": "warn",
@@ -126,7 +124,7 @@
     "no-zero-fractions": "off",
     "no-magic-numbers": "off",
     "explicit-function-return-type": "off",
-    "no-non-null-asserted-optional-chain": "off"
+    "typescript/no-non-null-asserted-optional-chain": "off"
   },
   "settings": {
     "jsx-a11y": {

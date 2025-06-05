@@ -1,3 +1,4 @@
+import { FormInstance } from 'antd/es/form/hooks/useForm'
 import {
   Constants,
   ElementNames,
@@ -108,6 +109,12 @@ export function applySetConditionalPresets(form: Form | BenchmarkForm) {
   form.setConditionals[Sets.HeroOfTriumphantSong][1] = path == PathNames.Remembrance
   form.setConditionals[Sets.WarriorGoddessOfSunAndThunder][1] = path == PathNames.Remembrance
 
+  applyTeamAwareSetConditionalPresets(form)
+}
+
+export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm) {
+  const metadataCharacters = DB.getMetadata().characters
+
   const allyIds = [
     form.characterId,
     form.teammate0?.characterId,
@@ -121,3 +128,9 @@ export function applySetConditionalPresets(form: Form | BenchmarkForm) {
   form.setConditionals[Sets.ArcadiaOfWovenDreams][1] = form.characterId == PHAINON ? 1 : 4 + memosprites - mozes
 }
 
+export function applyTeamAwareSetConditionalPresetsToFormInstance(formInstance: FormInstance<Form>) {
+  const form = formInstance.getFieldsValue()
+  applyTeamAwareSetConditionalPresets(form)
+
+  formInstance.setFieldValue(['setConditionals', Sets.ArcadiaOfWovenDreams, 1], form.setConditionals[Sets.ArcadiaOfWovenDreams][1])
+}

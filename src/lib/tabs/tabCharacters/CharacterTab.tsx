@@ -1,90 +1,41 @@
-import {
-  DownOutlined,
-  ExclamationCircleOutlined,
-  UserOutlined,
-} from '@ant-design/icons'
+import { DownOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
-import {
-  CellDoubleClickedEvent,
-  IRowNode,
-  NavigateToNextCellParams,
-  RowDragEvent,
-} from 'ag-grid-community'
-import { AgGridReact } from 'ag-grid-react'
-
-import {
-  Button,
-  Dropdown,
-  Flex,
-  Modal,
-  theme,
-  Typography,
-} from 'antd'
+import { Button, Dropdown, Flex, Modal, theme } from 'antd'
 import { MenuProps } from 'antd/lib'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import {
-  OpenCloseIDs,
-  setOpen,
-} from 'lib/hooks/useOpenClose'
-import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
+import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import { Message } from 'lib/interactions/message'
-import BuildsModal from 'lib/overlays/modals/BuildsModal'
+import { BuildsModal } from 'lib/overlays/modals/BuildsModal'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
-import NameBuild from 'lib/overlays/modals/SaveBuildModal'
-import SwitchRelicsModal, { SwitchRelicsForm } from 'lib/overlays/modals/SwitchRelicsModal'
+import { SaveBuildModal } from 'lib/overlays/modals/SaveBuildModal'
+import { SwitchRelicsModal } from 'lib/overlays/modals/SwitchRelicsModal'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { getGridTheme } from 'lib/rendering/theme'
-import DB, { AppPages } from 'lib/state/db'
+import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { CharacterGrid } from 'lib/tabs/tabCharacters/CharacterGrid'
 import { FilterBar } from 'lib/tabs/tabCharacters/FilterBar'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import React, {
-  MutableRefObject,
-  ReactNode,
-  Suspense,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
-import {
-  Trans,
-  useTranslation,
-} from 'react-i18next'
-import { Character } from 'types/character'
+import React, { ReactNode, Suspense, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { Form } from 'types/form'
 
 const { useToken } = theme
-const { Text } = Typography
-
-const defaultFilters = {
-  path: [],
-  element: [],
-}
 
 export default function CharacterTab() {
   const { token } = useToken()
 
   const [confirmationModal, contextHolder] = Modal.useModal()
 
-  const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
-  const [isSwitchRelicsModalOpen, setSwitchRelicsModalOpen] = useState(false)
-  const [isSaveBuildModalOpen, setIsSaveBuildModalOpen] = useState(false)
-  const [isBuildsModalOpen, setIsBuildsModalOpen] = useState(false)
-  const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState<Character | null>(null)
-
-  const characterFilters = useCharacterTabStore((s) => s.filters)
+  const [isCharacterModalOpen, setIsCharacterModalOpen] = useState(false)
+  const characterModalInitialCharacter = useCharacterTabStore((s) => s.characterModalInitialCharacter)
+  const setCharacterModalInitialCharacter = useCharacterTabStore((s) => s.setCharacterModalInitialCharacter)
 
   const { t } = useTranslation(['charactersTab', 'common', 'gameData'])
 
   console.log('======================================================================= RENDER CharacterTab')
-
-  const characterGrid = useRef<AgGridReact<Character> | null>(null) // Optional - for accessing Grid's API
-  window.characterGrid = characterGrid
 
   const characterTabFocusCharacter = window.store((s) => s.characterTabFocusCharacter)
   const setCharacterTabFocusCharacter = window.store((s) => s.setCharacterTabFocusCharacter)
@@ -97,8 +48,8 @@ export default function CharacterTab() {
     forceUpdate()
 
     // no charGrid in scorer tab
-    if (characterGrid?.current?.api?.redrawRows) {
-      characterGrid.current.api.redrawRows()
+    if (window.characterGrid?.current?.api?.redrawRows) {
+      window.characterGrid.current.api.redrawRows()
     } else {
       console.log('@forceCharacterTabUpdate: No characterGrid.current.api')
     }
@@ -175,82 +126,14 @@ export default function CharacterTab() {
     },
   ]
 
-  const externalFilterChanged = useCallback(() => {
+  /*const externalFilterChanged = useCallback(() => {
     characterGrid.current?.api.onFilterChanged()
   }, [])
 
-  useEffect(externalFilterChanged, [characterFilters.name])
-
-  const doesExternalFilterPass = useCallback(
-    (node: IRowNode<Character>) => {
-      const filteredCharacter = DB.getMetadata().characters[node.data!.id]
-      if (characterFilters.element.length && !characterFilters.element.includes(filteredCharacter.element)) {
-        return false
-      }
-      if (characterFilters.path.length && !characterFilters.path.includes(filteredCharacter.path)) {
-        return false
-      }
-      return t(`gameData:Characters.${node.data!.id}.LongName`).toLowerCase().includes(characterFilters.name)
-    },
-    [characterFilters.element, characterFilters.path, characterFilters.name],
-  )
-
-  const isExternalFilterPresent = useCallback(() => {
-    return characterFilters.element.length + characterFilters.path.length + characterFilters.name.length > 0
-  }, [characterFilters.element, characterFilters.path, characterFilters.name])
-
-  const cellClickedListener = useCallback((event: IRowNode<Character>) => {
-    const data = event.data
-    if (!data) return
-
-    // Only blur if different character
-    setCharacterTabFocusCharacter(data.id)
-    console.log(`@CharacterTab::setCharacterTabFocusCharacter - [${data.id}]`, event.data)
-  }, [setCharacterTabFocusCharacter])
-
-  // TODO: implement routing to handle this
-  const setActiveKey = window.store((s) => s.setActiveKey)
-
-  const cellDoubleClickedListener = useCallback((e: CellDoubleClickedEvent<Character>) => {
-    setActiveKey(AppPages.OPTIMIZER)
-    if (e.data) OptimizerTabController.setCharacter(e.data!.id)
-    console.log(`@CharacterTab.cellDoubleClickedListener::setOptimizerTabFocusCharacter - focus [${e.data?.id}]`, e.data)
-  }, [])
-
-  const navigateToNextCell = useCallback((params: NavigateToNextCellParams<Character>) => {
-    return arrowKeyGridNavigation(
-      params,
-      characterGrid as MutableRefObject<AgGridReact<Character>>,
-      (selectedNode) => cellClickedListener(selectedNode),
-    )
-  }, [])
-
-  function drag(event: RowDragEvent<Character>, index: number) {
-    const dragged = event.node.data!
-    DB.insertCharacter(dragged.id, index)
-    SaveState.delayedSave()
-    characterGrid.current?.api.redrawRows()
-  }
-
-  const onRowDragEnd = useCallback((event: RowDragEvent<Character>) => {
-    drag(event, event.overIndex)
-  }, [])
-
-  // The grid can do weird things when you drag rows beyond its bounds, cap the behavior
-  const onRowDragLeave = useCallback((event: RowDragEvent<Character>) => {
-    if (event.overIndex == 0) {
-      drag(event, 0)
-    } else if (event.overIndex == -1 && event.vDirection == 'down') {
-      drag(event, DB.getCharacters().length)
-    } else if (event.overIndex == -1 && event.vDirection == 'up') {
-      drag(event, 0)
-    } else {
-      drag(event, event.overIndex)
-    }
-  }, [])
+  useEffect(externalFilterChanged, [characterFilters.name])*/
 
   function removeClicked() {
-    const selectedNodes = characterGrid.current?.api.getSelectedNodes()
+    const selectedNodes = window.characterGrid.current?.api.getSelectedNodes()
     if (!selectedNodes || selectedNodes.length == 0) {
       return
     }
@@ -273,7 +156,7 @@ export default function CharacterTab() {
   function unequipClicked() {
     console.log('unequipClicked', DB.getCharacterById(characterTabFocusCharacter!))
 
-    const selectedNodes = characterGrid.current?.api.getSelectedNodes()
+    const selectedNodes = window.characterGrid.current?.api.getSelectedNodes()
     if (!selectedNodes || selectedNodes.length == 0) {
       return
     }
@@ -282,7 +165,7 @@ export default function CharacterTab() {
 
     DB.unequipCharacter(id)
 
-    characterGrid.current?.api.redrawRows()
+    window.characterGrid.current?.api.redrawRows()
     window.forceCharacterTabUpdate()
     Message.success(t('Messages.UnequipSuccess') /* Successfully unequipped character */)
     window.relicsGrid.current?.api.redrawRows()
@@ -300,21 +183,6 @@ export default function CharacterTab() {
     window.characterGrid.current?.api.ensureIndexVisible(character.rank)
   }
 
-  function onSwitchRelicsModalOk(switchToCharacter: SwitchRelicsForm['selectedCharacter']) {
-    if (!switchToCharacter) {
-      return Message.error(t('Messages.NoSelectedCharacter') /* No selected character */)
-    }
-
-    DB.switchRelics(selectedCharacter!.id, switchToCharacter.value)
-    SaveState.delayedSave()
-
-    characterGrid.current?.api.redrawRows()
-    window.forceCharacterTabUpdate()
-    /* Successfully switched relics with ${CharacterName} */
-    Message.success(t('Messages.SwitchSuccess', { charId: switchToCharacter.value }))
-    window.relicsGrid.current?.api.redrawRows()
-  }
-
   function scoringAlgorithmClicked() {
     if (characterTabFocusCharacter) setScoringAlgorithmFocusCharacter(characterTabFocusCharacter)
     setOpen(OpenCloseIDs.SCORING_MODAL)
@@ -324,18 +192,16 @@ export default function CharacterTab() {
     DB.insertCharacter(characterTabFocusCharacter!, 0)
     DB.refreshCharacters()
     SaveState.delayedSave()
-    characterGrid.current?.api.redrawRows()
+    window.characterGrid.current?.api.redrawRows()
   }
 
   async function sortByScoreClicked() {
     if (
       !await confirm(
-        <>
-          {/* Are you sure you want to sort all characters? <0/>You will lose any custom rankings you have set. */}
-          <Trans t={t} i18nKey='Messages.SortByScoreWarning'>
-            <br />
-          </Trans>
-        </>,
+        /* Are you sure you want to sort all characters? <0/>You will lose any custom rankings you have set. */
+        <Trans t={t} i18nKey='Messages.SortByScoreWarning'>
+          <br />
+        </Trans>,
       )
     ) {
       return
@@ -351,23 +217,7 @@ export default function CharacterTab() {
     DB.setCharacters(scoredCharacters)
     DB.refreshCharacters()
     SaveState.delayedSave()
-    characterGrid.current?.api.redrawRows()
-  }
-
-  function confirmSaveBuild(name: string) {
-    if (!selectedCharacter) return
-    const score = RelicScorer.scoreCharacter(selectedCharacter)
-    const res = DB.saveCharacterBuild(name, selectedCharacter.id, {
-      score: score.totalScore.toFixed(0),
-      rating: score.totalRating,
-    })
-    if (res) {
-      Message.error(res.error)
-      return
-    }
-    Message.success(t('charactersTab:Messages.SaveSuccess', /* Successfully saved build: {{name}} */ { name: name }))
-    SaveState.delayedSave()
-    setIsSaveBuildModalOpen(false)
+    window.characterGrid.current?.api.redrawRows()
   }
 
   const handleActionsMenuClick: MenuProps['onClick'] = async (e) => {
@@ -379,14 +229,14 @@ export default function CharacterTab() {
     switch (e.key) {
       case 'add':
         setCharacterModalInitialCharacter(null)
-        setCharacterModalOpen(true)
+        setIsCharacterModalOpen(true)
         break
       case 'edit':
         setCharacterModalInitialCharacter(selectedCharacter)
-        setCharacterModalOpen(true)
+        setIsCharacterModalOpen(true)
         break
       case 'switchRelics':
-        setSwitchRelicsModalOpen(true)
+        setOpen(OpenCloseIDs.SWITCH_RELICS_MODAL)
         break
       case 'unequip':
         /* Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)? */
@@ -399,10 +249,10 @@ export default function CharacterTab() {
         removeClicked()
         break
       case 'saveBuild':
-        setIsSaveBuildModalOpen(true)
+        setOpen(OpenCloseIDs.SAVE_BUILDS_MODAL)
         break
       case 'viewBuilds':
-        setIsBuildsModalOpen(true)
+        setOpen(OpenCloseIDs.BUILDS_MODAL)
         break
       case 'scoring':
         scoringAlgorithmClicked()
@@ -411,7 +261,7 @@ export default function CharacterTab() {
         moveToTopClicked()
         break
       case 'sortByScore':
-        sortByScoreClicked()
+        await sortByScoreClicked()
         break
       default:
         console.error(`Unknown key ${e.key} in handleActionsMenuClick`)
@@ -461,6 +311,7 @@ export default function CharacterTab() {
             <DownOutlined />
           </Button>
         </Dropdown>
+
         <Flex vertical gap={8} style={{ minWidth: 240 }}>
           <div
             id='characterGrid'
@@ -472,49 +323,38 @@ export default function CharacterTab() {
               ...getGridTheme(token),
             }}
           >
-            <CharacterGrid
-              characterGrid={characterGrid}
-              cellClickedListener={(e) => cellClickedListener(e.node)}
-              cellDoubleClickedListener={cellDoubleClickedListener}
-              onRowDragEnd={onRowDragEnd}
-              onRowDragLeave={onRowDragLeave}
-              navigateToNextCell={navigateToNextCell}
-              isExternalFilterPresent={isExternalFilterPresent}
-              doesExternalFilterPass={doesExternalFilterPass}
-            />
+            <CharacterGrid />
           </div>
         </Flex>
       </Flex>
+
       <Flex vertical gap={defaultGap}>
         <FilterBar />
+
         <Suspense>
           <CharacterPreview
             id='characterTabPreview'
             source={ShowcaseSource.CHARACTER_TAB}
             character={selectedCharacter}
-            setOriginalCharacterModalOpen={setCharacterModalOpen}
+            setOriginalCharacterModalOpen={setIsCharacterModalOpen}
             setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
           />
         </Suspense>
       </Flex>
+
       <CharacterModal
         onOk={onCharacterModalOk}
         open={isCharacterModalOpen}
-        setOpen={setCharacterModalOpen}
+        setOpen={setIsCharacterModalOpen}
         initialCharacter={characterModalInitialCharacter}
       />
-      <SwitchRelicsModal
-        onOk={onSwitchRelicsModalOk}
-        open={isSwitchRelicsModalOpen}
-        setOpen={setSwitchRelicsModalOpen}
-        currentCharacter={selectedCharacter!}
-      />
-      <NameBuild open={isSaveBuildModalOpen} setOpen={setIsSaveBuildModalOpen} onOk={confirmSaveBuild} />
-      <BuildsModal
-        open={isBuildsModalOpen}
-        setOpen={setIsBuildsModalOpen}
-        selectedCharacter={selectedCharacter!}
-      />
+
+      <SwitchRelicsModal />
+
+      <SaveBuildModal />
+
+      <BuildsModal />
+
       {contextHolder}
     </Flex>
   )

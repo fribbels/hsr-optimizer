@@ -1,13 +1,36 @@
-import { Card, Flex, Input, InputRef, Modal, Select } from 'antd'
+import {
+  Card,
+  Flex,
+  Input,
+  InputRef,
+  Modal,
+  Select,
+} from 'antd'
 import { PathName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { generateLightConeOptions, LcOptions } from 'lib/rendering/optionGenerator'
+import {
+  generateLightConeOptions,
+  LcOptions,
+} from 'lib/rendering/optionGenerator'
 import DB from 'lib/state/db'
-import { CardGridItemContent, generatePathTags, generateRarityTags, SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
+import {
+  CardGridItemContent,
+  generatePathTags,
+  generateRarityTags,
+  SegmentedFilterRow,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
-import { ChangeEvent, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  ChangeEvent,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { LightCone } from 'types/lightCone'

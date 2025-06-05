@@ -33,7 +33,6 @@ export function FilterBar() {
         placeholder={t('SearchPlaceholder') /* Search */}
         onChange={(e) => {
           setNameFilter(e.target.value.toLowerCase())
-          // externalFilterChanged()
         }}
       />
       <Flex style={{ flex: 1 }}>

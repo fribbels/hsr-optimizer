@@ -227,7 +227,6 @@ window.store = create((set) => {
       name: '',
       element: [],
       path: [],
-      rarity: [],
     },
     excludedRelicPotentialCharacters: [],
 
@@ -625,8 +624,6 @@ export const DB = {
         useShowcaseTabStore.getState().setSavedSession(saveData.savedSession.showcaseTab)
       }
     }
-    // @ts-expect-error TODO remove once migration period is over
-    if (saveData.scorerId) useShowcaseTabStore.getState().setScorerId(saveData.scorerId as string)
 
     if (saveData.settings) {
       window.store.getState().setSettings(saveData.settings)

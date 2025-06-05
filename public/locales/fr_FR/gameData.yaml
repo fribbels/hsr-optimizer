@@ -415,7 +415,7 @@ RelicSets:
     Description2pc: When there are more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks.
   "322":
     Name: Revelry by the Sea
-    Description2pc: Increases the wearer's DoT DMG by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%.
+    Description2pc: Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%.
 Lightcones:
   "20000":
     Name: Flèches

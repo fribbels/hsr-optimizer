@@ -1,23 +1,11 @@
-import {
-  Button,
-  Flex,
-  Form as AntDForm,
-  Modal,
-  Radio,
-} from 'antd'
+import { Button, Flex, Form as AntDForm, Modal, Radio } from 'antd'
 import DB from 'lib/state/db'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { HeaderText } from 'lib/ui/HeaderText'
-import React, {
-  useEffect,
-  useState,
-} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  Character,
-  CharacterId,
-} from 'types/character'
+import { Character, CharacterId } from 'types/character'
 import { Form } from 'types/form'
 
 export default function CharacterModal(props: {
@@ -26,7 +14,7 @@ export default function CharacterModal(props: {
   setOpen: (open: boolean) => void,
   initialCharacter?: Character | null,
 }) {
-  const [characterForm] = AntDForm.useForm()
+  const [characterForm] = AntDForm.useForm<Form>()
 
   const { t } = useTranslation('modals', { keyPrefix: 'EditCharacter' })
   const { t: tCommon } = useTranslation('common')
@@ -53,7 +41,7 @@ export default function CharacterModal(props: {
   }, [props.open])
 
   function onModalOk() {
-    const formValues = characterForm.getFieldsValue() as Form
+    const formValues = characterForm.getFieldsValue()
     console.log('Character modal submitted with form:', formValues)
     props.onOk(formValues)
     props.setOpen(false)

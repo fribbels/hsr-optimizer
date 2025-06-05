@@ -14,14 +14,17 @@ import React, {
   useMemo,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character } from 'types/character'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
 import { ReactElement } from 'types/components'
 
 export type SwitchRelicsFormSelectedCharacter = {
   key: string,
   label: ReactElement,
   title: string,
-  value: string,
+  value: CharacterId,
 }
 
 export type SwitchRelicsForm = {

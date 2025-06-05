@@ -43,7 +43,6 @@ export function ShowcasePortrait(props: {
   artistName: string | undefined,
   setOriginalCharacterModalInitialCharacter: (c: Character) => void,
   setOriginalCharacterModalOpen: (b: boolean) => void,
-  setCharacterModalAdd: (b: boolean) => void,
   onPortraitLoad: (img: string) => void,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
@@ -64,7 +63,6 @@ export function ShowcasePortrait(props: {
     artistName,
     setOriginalCharacterModalInitialCharacter,
     setOriginalCharacterModalOpen,
-    setCharacterModalAdd,
     onPortraitLoad,
   } = props
 
@@ -122,7 +120,6 @@ export function ShowcasePortrait(props: {
               className='character-build-portrait-button'
               icon={<EditOutlined />}
               onClick={() => {
-                setCharacterModalAdd(false)
                 setOriginalCharacterModalInitialCharacter(character)
                 setOriginalCharacterModalOpen(true)
               }}

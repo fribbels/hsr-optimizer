@@ -244,7 +244,6 @@ window.store = create((set) => {
     settings: DefaultSettingOptions,
     optimizerBuild: null,
     optimizerSelectedRowData: null,
-    optimizerBuffGroups: undefined,
 
     setComboState: (x) => set(() => ({ comboState: x })),
     setVersion: (x) => set(() => ({ version: x })),
@@ -466,7 +465,7 @@ export const DB = {
 
     SaveState.delayedSave()
   },
-  updateSimulationScoreOverrides: (id: string, updatedSimulation: SimulationMetadata) => {
+  updateSimulationScoreOverrides: (id: CharacterId, updatedSimulation: SimulationMetadata) => {
     if (!updatedSimulation) return
 
     const overrides = window.store.getState().scoringMetadataOverrides
@@ -756,7 +755,7 @@ export const DB = {
       if (!character.builds) character.builds = []
       character.builds.push({
         name: name,
-        build: [...Object.values(character.equipped)] as string[],
+        build: Object.values(character.equipped) as string[],
         score: score,
       })
       DB.setCharacter(character)

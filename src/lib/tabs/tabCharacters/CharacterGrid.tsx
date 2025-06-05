@@ -30,7 +30,7 @@ const { Text } = Typography
 // FIXME HIGH
 
 export function CharacterGrid(props: {
-  characterGrid: MutableRefObject<AgGridReact<Character>>,
+  characterGrid: MutableRefObject<AgGridReact<Character> | null>,
   cellClickedListener: (x: CellClickedEvent<Character>) => void,
   cellDoubleClickedListener: (x: CellDoubleClickedEvent<Character>) => void,
   onRowDragEnd: (e: RowDragEvent<Character>) => void,

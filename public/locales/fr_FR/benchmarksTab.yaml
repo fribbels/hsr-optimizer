@@ -32,3 +32,8 @@ ResultsPanel:
   Rolls: Rolls de Substats
   Combo: Rotation COMBO
   Damage: Dégâts de capacité
+Messages:
+  Error:
+    MissingField: Personnage/coéquipier/cône de lumière manquant
+    UnsupportedCharacter: Les Références DPS ne sont pas disponibles pour ce personnage
+    SPDUnselected: Sélectionnez la VIT basique ciblée

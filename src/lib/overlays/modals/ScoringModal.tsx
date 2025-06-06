@@ -20,6 +20,7 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
+import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
@@ -144,7 +145,7 @@ export default function ScoringModal() {
   function ResetAllCharactersButton() {
     const resetAllCharacters = () => {
       console.log('Reset the scoring algorithm for all characters')
-      const charactersById = window.store.getState().charactersById
+      const charactersById = useCharacterTabStore.getState().charactersById
       for (const character of Object.keys(charactersById) as CharacterId[]) {
         const defaultScoringMetadata = DB.getMetadata().characters[character].scoringMetadata
         const scoringMetadataToMerge: Partial<ScoringMetadata> = {

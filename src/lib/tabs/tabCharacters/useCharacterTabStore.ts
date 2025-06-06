@@ -15,7 +15,7 @@ export type CharacterTabFilters = {
   path: PathName[],
 }
 
-export const defaultFilters: CharacterTabFilters = {
+const defaultFilters: CharacterTabFilters = {
   name: '',
   element: [],
   path: [],
@@ -33,8 +33,6 @@ type CharacterTabValues = {
 
 type CharacterTabActions = {
   setFocusCharacter: (focusCharacter: CharacterId | null) => void,
-  setCharacters: (characters: Character[]) => void,
-  setCharactersById: (charactersById: Partial<Record<CharacterId, Character>>) => void,
   setCharacterModalInitialCharacter: (character: Character | null) => void,
   setCharacterModalOpen: (characterModalOpen: boolean) => void,
 
@@ -42,6 +40,10 @@ type CharacterTabActions = {
   setNameFilter: (name: CharacterTabFilters['name']) => void,
   setElementFilter: (element: CharacterTabFilters['element']) => void,
   setPathFilter: (path: CharacterTabFilters['path']) => void,
+
+  setCharacters: (characters: Character[]) => void,
+
+  setCharacter: (character: Character) => void,
 }
 
 type CharacterTabState = CharacterTabValues & CharacterTabActions
@@ -55,20 +57,40 @@ export const useCharacterTabStore = create<CharacterTabState>()((set) => ({
   characterModalOpen: false,
   filters: defaultFilters,
 
-  setFocusCharacter: (focusCharacter: CharacterId | null) =>
+  setFocusCharacter: (focusCharacter) =>
     set(() => {
       if (!focusCharacter) return { focusCharacter: null, selectedCharacter: null }
       const selectedCharacter = DB.getCharacterById(focusCharacter)
       if (!selectedCharacter) return { focusCharacter: null, selectedCharacter: null }
       return { focusCharacter, selectedCharacter }
     }),
-  setCharacters: (characters: Character[]) => set({ characters }),
-  setCharactersById: (charactersById: Partial<Record<CharacterId, Character>>) => set({ charactersById }),
-  setCharacterModalInitialCharacter: (character: Character | null) => set({ characterModalInitialCharacter: character }),
-  setCharacterModalOpen: (characterModalOpen: boolean) => set({ characterModalOpen }),
+  setCharacterModalInitialCharacter: (character) => set({ characterModalInitialCharacter: character }),
+  setCharacterModalOpen: (characterModalOpen) => set({ characterModalOpen }),
 
-  setFilters: (filters: CharacterTabFilters) => set({ filters }),
-  setNameFilter: (name: string) => set((s) => ({ filters: { ...s.filters, name } })),
-  setElementFilter: (element: ElementName[]) => set((s) => ({ filters: { ...s.filters, element } })),
-  setPathFilter: (path: PathName[]) => set((s) => ({ filters: { ...s.filters, path } })),
+  setFilters: (filters) => set({ filters }),
+  setNameFilter: (name) => set((s) => ({ filters: { ...s.filters, name } })),
+  setElementFilter: (element) => set((s) => ({ filters: { ...s.filters, element } })),
+  setPathFilter: (path) => set((s) => ({ filters: { ...s.filters, path } })),
+
+  setCharacters: (characters) =>
+    set(() => {
+      const charactersById = characters.reduce((acc, cur) => {
+        acc[cur.id] = cur
+        return acc
+      }, {} as Partial<Record<CharacterId, Character>>)
+      return { characters, charactersById }
+    }),
+
+  setCharacter: (character) =>
+    set((s) => {
+      const characters = s.characters.map((x) => {
+        if (x.id === character.id) return character
+        return x
+      })
+      const charactersById = characters.reduce((acc, cur) => {
+        acc[cur.id] = cur
+        return acc
+      }, {} as Partial<Record<CharacterId, Character>>)
+      return { characters, charactersById }
+    }),
 }))

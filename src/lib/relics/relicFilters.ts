@@ -12,6 +12,7 @@ import {
 } from 'lib/gpu/webgpuTypes'
 import { StatToKey } from 'lib/optimization/computedStatsArray'
 import DB from 'lib/state/db'
+import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
@@ -145,7 +146,7 @@ export const RelicFilters = {
     const characterId = request.characterId || '99999999'
     // TODO: refactor after https://github.com/fribbels/hsr-optimizer/issues/56 is completed
     let blacklist: string[] = []
-    window.store.getState().characters.forEach((char) => {
+    useCharacterTabStore.getState().characters.forEach((char) => {
       if (char.id == characterId) return
       const equipped: string[] = Object.values(char.equipped).filter((x) => x != undefined)
       blacklist = blacklist.concat(equipped)

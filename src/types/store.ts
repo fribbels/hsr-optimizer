@@ -8,7 +8,6 @@ import {
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
 import { AppPage } from 'lib/state/db'
-import { CharacterTabFilters } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
@@ -61,13 +60,10 @@ export type HsrOptimizerStore = { // global store separation plan
   /* global                   */ colorTheme: ColorThemeOverrides,
   /* optimizerTab             */ optimizerGrid: unknown,
   /* optimizerTab             */ optimizerTabFocusCharacter?: CharacterId | null,
-  /* characterTab             */ characterTabFocusCharacter?: CharacterId | null,
   /* give own store?          */ scoringAlgorithmFocusCharacter?: CharacterId | null,
   /* give own store?          */ statTracesDrawerFocusCharacter?: CharacterId | null,
   /* relicsTab                */ relicsTabFocusCharacter?: CharacterId | null,
   /* global                   */ activeKey: AppPage,
-  /* characterTab             */ characters: Character[],
-  /* characterTab             */ charactersById: Partial<Record<CharacterId, Character>>,
   /* optimizerTab             */ permutations: number,
   /* optimizerTab             */ permutationsResults: number,
   /* optimizerTab             */ permutationsSearched: number,
@@ -118,8 +114,6 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void,
   /* optimizerTab             */ setStatDisplay: (display: StatDisplay) => void,
   /* optimizerTab             */ setMemoDisplay: (display: MemoDisplay) => void,
-  /* characterTab             */ setCharacters: (characters: Character[]) => void,
-  /* characterTab             */ setCharactersById: (charactersById: Partial<Record<CharacterId, Character>>) => void,
   /* optimizerTab             */ setOptimizerFormSelectedLightConeSuperimposition: (x: SuperImpositionLevel) => void,
   /* global                   */ setColorTheme: (x: ColorThemeOverrides) => void,
   /* optimizerTab             */ setOptimizerBuild: (x: Build) => void,
@@ -134,11 +128,9 @@ export type HsrOptimizerStore = { // global store separation plan
   /* relicsTab                */ setScoringMetadataOverrides: (x: Partial<Record<CharacterId, ScoringMetadata>>) => void,
   /* characterTab/showcaseTab */ setShowcasePreferences: (x: Partial<Record<CharacterId, ShowcasePreferences>>) => void,
   /* characterTab/showcaseTab */ setShowcaseTemporaryOptionsByCharacter: (x: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>) => void,
-  /* characterTab             */ setCharacterTabFilters: (x: CharacterTabFilters) => void,
   /* optimizerTab             */ setPermutations: (x: number) => void,
   /* optimizerTab             */ setPermutationDetails: (x: PermutationDetails) => void,
   /* relicsTab                */ setRelicsTabFocusCharacter: (x: CharacterId | null | undefined) => void,
-  /* characterTab             */ setCharacterTabFocusCharacter: (x: CharacterId | null | undefined) => void,
   /* global                   */ setVersion: (x: string) => void,
   /* optimizerTab             */ setOptimizerMenuState: (x: OptimizerMenuState) => void,
   /* global                   */ setGlobalThemeConfig: (x: ThemeConfig) => void,
@@ -146,7 +138,6 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ permutationDetails: PermutationDetails,
 
   /* relicsTab                */ relicTabFilters: RelicTabFilters,
-  /* characterTab             */ characterTabFilters: CharacterTabFilters,
   /* relicsTab                */ excludedRelicPotentialCharacters: CharacterId[],
 
   /* optimizerTab             */ optimizerMenuState: OptimizerMenuState,

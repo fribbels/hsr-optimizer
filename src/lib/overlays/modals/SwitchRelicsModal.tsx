@@ -25,7 +25,7 @@ export type SwitchRelicsForm = {
 export function SwitchRelicsModal() {
   const currentCharacter = useCharacterTabStore((s) => s.selectedCharacter)
   const [characterForm] = AntDForm.useForm()
-  const characters = window.store((s) => s.characters)
+  const characters = useCharacterTabStore((s) => s.characters)
   const { isOpen, close } = useOpenClose(OpenCloseIDs.SWITCH_RELICS_MODAL)
 
   const { t } = useTranslation('modals', { keyPrefix: 'SwitchRelics' })
@@ -34,7 +34,7 @@ export function SwitchRelicsModal() {
   const characterOptions = useMemo(() =>
     generateCharacterList({
       currentCharacters: characters,
-      excludeCharacters: currentCharacter ? [currentCharacter] : undefined,
+      excludeCharacters: currentCharacter ? [currentCharacter] : [],
       withNobodyOption: false,
       longNameLabel: true,
       longNameTitle: true,

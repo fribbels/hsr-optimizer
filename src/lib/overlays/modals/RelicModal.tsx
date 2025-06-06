@@ -38,6 +38,7 @@ import {
   lockScroll,
   unlockScroll,
 } from 'lib/rendering/scrollController'
+import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { HeaderText } from 'lib/ui/HeaderText'
 import {
@@ -54,7 +55,6 @@ import React, {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character } from 'types/character'
 import { EmptyObject } from 'types/common'
 import { Relic } from 'types/relic'
 
@@ -136,7 +136,7 @@ export default function RelicModal(props: {
   const { token } = useToken()
   const [relicForm] = Form.useForm<RelicForm>()
   const [mainStatOptions, setMainStatOptions] = useState<MainStatOption[]>([])
-  const characters: Character[] = window.store((s) => s.characters)
+  const characters = useCharacterTabStore((s) => s.characters)
   const showLocator = window.store((s) => s.settings.ShowLocatorInRelicsModal)
 
   useEffect(() => {

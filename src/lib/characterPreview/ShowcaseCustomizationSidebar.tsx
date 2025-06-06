@@ -40,6 +40,7 @@ import {
   SimulationScore,
 } from 'lib/scoring/simScoringUtils'
 import DB, { AppPages } from 'lib/state/db'
+import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
@@ -614,7 +615,7 @@ function getActiveCharacterName() {
   let charId: CharacterId | null | undefined
   switch (window.store.getState().activeKey) {
     case AppPages.CHARACTERS:
-      charId = window.store.getState().characterTabFocusCharacter
+      charId = useCharacterTabStore.getState().focusCharacter
       break
     case AppPages.SHOWCASE:
       charId = useShowcaseTabStore.getState().selectedCharacter?.id

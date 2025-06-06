@@ -1,7 +1,11 @@
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
-import { Flex, Modal, theme } from 'antd'
+import {
+  Flex,
+  Modal,
+  theme,
+} from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { BuildsModal } from 'lib/overlays/modals/BuildsModal'
@@ -14,7 +18,10 @@ import { CharacterMenu } from 'lib/tabs/tabCharacters/CharacterMenu'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { FilterBar } from 'lib/tabs/tabCharacters/FilterBar'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import React, { ReactNode, Suspense } from 'react'
+import React, {
+  ReactNode,
+  Suspense,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 
 const { useToken } = theme
@@ -29,7 +36,7 @@ export default function CharacterTab() {
   const characterModalInitialCharacter = useCharacterTabStore((s) => s.characterModalInitialCharacter)
   const setCharacterModalInitialCharacter = useCharacterTabStore((s) => s.setCharacterModalInitialCharacter)
 
-  const { t } = useTranslation(['charactersTab', 'common', 'gameData'])
+  const { t } = useTranslation('common')
 
   console.log('======================================================================= RENDER CharacterTab')
 
@@ -56,11 +63,11 @@ export default function CharacterTab() {
 
   async function confirm(content: ReactNode) {
     return confirmationModal.confirm({
-      title: t('common:Confirm'), // 'Confirm',
+      title: t('Confirm'), // 'Confirm',
       icon: <ExclamationCircleOutlined />,
       content: content,
-      okText: t('common:Confirm'), // 'Confirm',
-      cancelText: t('common:Cancel'), // 'Cancel',
+      okText: t('Confirm'), // 'Confirm',
+      cancelText: t('Cancel'), // 'Cancel',
       centered: true,
     })
   }

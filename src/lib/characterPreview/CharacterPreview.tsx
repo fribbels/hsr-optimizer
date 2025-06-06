@@ -74,9 +74,9 @@ export function CharacterPreview(props: {
   const darkMode = window.store((s) => s.savedSession.showcaseDarkMode)
 
   // Using these to trigger updates on changes
-  const refreshOnSpdValueChange = !character ? undefined : window.store((s) => s.scoringMetadataOverrides[character.id]?.stats?.[Stats.SPD])
-  const refreshOnTraceChange = !character ? undefined : window.store((s) => s.scoringMetadataOverrides[character.id]?.traces)
-  const refreshOnDeprioritizeBuffsChange = !character ? undefined : window.store((s) => s.scoringMetadataOverrides[character.id]?.simulation?.deprioritizeBuffs)
+  const refreshOnSpdValueChange = window.store((s) => !character ? undefined : s.scoringMetadataOverrides[character.id]?.stats?.[Stats.SPD])
+  const refreshOnTraceChange = window.store((s) => !character ? undefined : s.scoringMetadataOverrides[character.id]?.traces)
+  const refreshOnDeprioritizeBuffsChange = window.store((s) => !character ? undefined : s.scoringMetadataOverrides[character.id]?.simulation?.deprioritizeBuffs)
   const showcaseTemporaryOptionsByCharacter = window.store((s) => s.showcaseTemporaryOptionsByCharacter)
 
   if (!character || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE)) {

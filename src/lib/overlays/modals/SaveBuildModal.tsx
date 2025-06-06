@@ -1,5 +1,13 @@
-import { Button, Form, Input, Modal } from 'antd'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import {
+  Button,
+  Form,
+  Input,
+  Modal,
+} from 'antd'
+import {
+  OpenCloseIDs,
+  useOpenClose,
+} from 'lib/hooks/useOpenClose'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { useTranslation } from 'react-i18next'
 

@@ -74,7 +74,7 @@ export const CharacterTabController = {
       },
     )
     if (res) return Message.error(res.error)
-    Message.success(t('SaveSuccess'))
+    Message.success(t('SaveSuccess', { name }))
     SaveState.delayedSave()
     setClose(OpenCloseIDs.SAVE_BUILDS_MODAL)
   },

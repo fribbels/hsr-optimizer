@@ -16,3 +16,7 @@ ExpandedInfoPanelPosition:
   Label: Position du panneau d'analyse de résultats de l'optimiseur
   Above: Afficher le panneau au-dessus de l'aperçu de reliques
   Below: "Par défaut: Afficher le panneau en dessous de l'aperçu de reliques"
+ShowLocatorInRelicsModal:
+  Label: Localisateur de relique dans l'éditeur de reliques
+  Yes: Afficher le localisateur de reliques dans l'éditeur de reliques
+  No: "Par défaut : Ne pas afficher le localisateur de relique dans l'éditeur de reliques"

@@ -1,12 +1,24 @@
-import { Button, Flex, Form as AntDForm, Modal, Select } from 'antd'
+import {
+  Button,
+  Flex,
+  Form as AntDForm,
+  Modal,
+  Select,
+} from 'antd'
 import { defaultGap } from 'lib/constants/constantsUi'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import {
+  OpenCloseIDs,
+  useOpenClose,
+} from 'lib/hooks/useOpenClose'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
-import { useEffect, useMemo } from 'react'
+import {
+  useEffect,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { ReactElement } from 'types/components'

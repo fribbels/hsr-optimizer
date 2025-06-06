@@ -1,13 +1,28 @@
-import { DownOutlined, UserOutlined } from '@ant-design/icons'
-import { Button, Dropdown } from 'antd'
+import {
+  DownOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
+import {
+  Button,
+  Dropdown,
+} from 'antd'
 import { MenuProps } from 'antd/lib'
 import { TFunction } from 'i18next'
-import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
+import {
+  OpenCloseIDs,
+  setOpen,
+} from 'lib/hooks/useOpenClose'
 import { Message } from 'lib/interactions/message'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import React, { ReactNode, useMemo } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import React, {
+  ReactNode,
+  useMemo,
+} from 'react'
+import {
+  Trans,
+  useTranslation,
+} from 'react-i18next'
 
 export function CharacterMenu(props: { confirm: (content: ReactNode) => Promise<boolean> }) {
   const { confirm } = props

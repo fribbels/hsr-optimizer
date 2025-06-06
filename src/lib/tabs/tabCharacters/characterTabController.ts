@@ -1,11 +1,23 @@
-import { CellClickedEvent, CellDoubleClickedEvent, IRowNode, NavigateToNextCellParams, RowDragEvent } from 'ag-grid-community'
+import {
+  CellClickedEvent,
+  CellDoubleClickedEvent,
+  IRowNode,
+  NavigateToNextCellParams,
+  RowDragEvent,
+} from 'ag-grid-community'
 import i18next from 'i18next'
-import { OpenCloseIDs, setClose } from 'lib/hooks/useOpenClose'
+import {
+  OpenCloseIDs,
+  setClose,
+} from 'lib/hooks/useOpenClose'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Message } from 'lib/interactions/message'
 import { SwitchRelicsFormSelectedCharacter } from 'lib/overlays/modals/SwitchRelicsModal'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
-import { AppPages, DB } from 'lib/state/db'
+import {
+  AppPages,
+  DB,
+} from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'

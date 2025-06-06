@@ -1,3 +1,13 @@
+ValidationMessages:
+  Warning:
+    MissingTeammates: Sélectionnez les coéquipiers pour des résultats d'optimisation plus exactes.
+    PathMismatch: La voie du cône de lumière ne correspond pas à celle du personnage.
+  Error:
+    TopPercent: Tous les poids de substat sont réglés à 0. Assurez-vous de définir les poids de substat pour votre personnage ou utilisez le bouton Préréglages recommandés
+    MissingTarget: Champ de cibles d'optimisation manquant
+    MissingCharacter: Champ de personnage manquant
+    MissingLightCone: Champ de cône de lumière manquant
+    GPUNotAvailable: 'L''accélération GPU n''est pas disponible sur ce navigateur - seuls les navigateurs de bureau Chrome et Opera sont supportés. Si vous êtes sur un navigateur compatible, signalez un bug sur le serveur Discord'
 CharacterSelector:
   Character: Personnage
   Lightcone: Cône de lumière
@@ -91,6 +101,7 @@ Grid:
   Of: de
   Page: Page
   PageSelectorLabel: 'Taille de page'
+  Loading: Chargement...
   Headers:
     Basic:
       Set: Set

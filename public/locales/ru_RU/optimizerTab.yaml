@@ -23,9 +23,12 @@ SortOptions:
   SHIELD: По Щиту
 OptimizerOptions:
   Header: Параметры оптимизатора
+  PriorityFilter: Фильтр по приоритету 
   Priority:
     Header: Приоритет
     Name: '# {{rank}}'
+  AllowEquipped: Разрешить поиск по надетым реликвиям
+  KeepCurrent: Оставить текущие реликвии
   Exclude: Исключить
   MinEnhance:
     Header: Мин. усиление

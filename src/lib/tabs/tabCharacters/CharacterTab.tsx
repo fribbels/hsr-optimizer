@@ -55,12 +55,6 @@ export default function CharacterTab() {
     }
   }
 
-  /*const externalFilterChanged = useCallback(() => {
-    characterGrid.current?.api.onFilterChanged()
-  }, [])
-
-  useEffect(externalFilterChanged, [characterFilters.name])*/
-
   async function confirm(content: ReactNode) {
     return confirmationModal.confirm({
       title: t('Confirm'), // 'Confirm',

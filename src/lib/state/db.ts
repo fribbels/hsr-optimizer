@@ -300,7 +300,9 @@ export const DB = {
     useCharacterTabStore.getState().setCharacter(character)
   },
   addCharacter: (character: Character) => {
-    DB.setCharacters([...DB.getCharacters(), character])
+    const characters = DB.getCharacters()
+    characters.push(character)
+    DB.setCharacters(characters)
   },
   insertCharacter: (id: CharacterId, index: number) => {
     console.log('insert', id, index)

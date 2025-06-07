@@ -735,9 +735,9 @@ export const DB = {
       build = Object.values(character.equipped)
       if (!character.builds) character.builds = []
       character.builds.push({
-        name: name,
-        build: Object.values(character.equipped),
-        score: score,
+        name,
+        build,
+        score,
       })
       DB.setCharacter(character)
       console.log('Saved build', build, useCharacterTabStore.getState())

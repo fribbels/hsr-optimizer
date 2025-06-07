@@ -18,25 +18,17 @@ import { CharacterMenu } from 'lib/tabs/tabCharacters/CharacterMenu'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { FilterBar } from 'lib/tabs/tabCharacters/FilterBar'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import React, {
-  ReactNode,
-  Suspense,
-} from 'react'
-import { useTranslation } from 'react-i18next'
+import React, { Suspense } from 'react'
 
 const { useToken } = theme
 
 export default function CharacterTab() {
   const { token } = useToken()
 
-  const [confirmationModal, contextHolder] = Modal.useModal()
-
   const characterModalOpen = useCharacterTabStore((s) => s.characterModalOpen)
   const setCharacterModalOpen = useCharacterTabStore((s) => s.setCharacterModalOpen)
   const characterModalInitialCharacter = useCharacterTabStore((s) => s.characterModalInitialCharacter)
   const setCharacterModalInitialCharacter = useCharacterTabStore((s) => s.setCharacterModalInitialCharacter)
-
-  const { t } = useTranslation('common')
 
   console.log('======================================================================= RENDER CharacterTab')
 
@@ -55,17 +47,6 @@ export default function CharacterTab() {
     }
   }
 
-  async function confirm(content: ReactNode) {
-    return confirmationModal.confirm({
-      title: t('Confirm'), // 'Confirm',
-      icon: <ExclamationCircleOutlined />,
-      content: content,
-      okText: t('Confirm'), // 'Confirm',
-      cancelText: t('Cancel'), // 'Cancel',
-      centered: true,
-    })
-  }
-
   const defaultGap = 8
   const parentH = 280 * 3 + defaultGap * 2
 
@@ -79,7 +60,7 @@ export default function CharacterTab() {
       gap={defaultGap}
     >
       <Flex vertical gap={defaultGap}>
-        <CharacterMenu confirm={confirm} />
+        <CharacterMenu />
 
         <Flex vertical gap={8} style={{ minWidth: 240 }}>
           <div
@@ -123,8 +104,6 @@ export default function CharacterTab() {
       <SaveBuildModal />
 
       <BuildsModal />
-
-      {contextHolder}
     </Flex>
   )
 }

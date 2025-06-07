@@ -89,11 +89,11 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
   const [currentFilters, setCurrentFilters] = useState(TsUtils.clone(defaultFilters))
   const lightConeOptions = useMemo(() => generateLightConeOptions(), [t])
 
-  const setPathFilter = (path: LightConeFilters['path']) =>    setCurrentFilters({ ...currentFilters, path })
+  const setPathFilter = (path: LightConeFilters['path']) => setCurrentFilters({ ...currentFilters, path })
 
-  const setRarityFilter = (rarity: LightConeFilters['rarity']) =>    setCurrentFilters({ ...currentFilters, rarity })
+  const setRarityFilter = (rarity: LightConeFilters['rarity']) => setCurrentFilters({ ...currentFilters, rarity })
 
-  const setNameFilter = (e: ChangeEvent<HTMLInputElement>) =>    setCurrentFilters({ ...currentFilters, name: e.target.value.toLowerCase() })
+  const setNameFilter = (e: ChangeEvent<HTMLInputElement>) => setCurrentFilters({ ...currentFilters, name: e.target.value.toLowerCase() })
 
   const labelledOptions = useMemo(() => {
     const labelledOptions: { value: string, label: ReactNode }[] = []

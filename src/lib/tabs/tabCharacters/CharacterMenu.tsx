@@ -1,10 +1,12 @@
 import {
   DownOutlined,
+  ExclamationCircleOutlined,
   UserOutlined,
 } from '@ant-design/icons'
 import {
   Button,
   Dropdown,
+  Modal,
 } from 'antd'
 import { MenuProps } from 'antd/lib'
 import { TFunction } from 'i18next'
@@ -17,6 +19,7 @@ import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabContr
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import React, {
   ReactNode,
+  useCallback,
   useMemo,
 } from 'react'
 import {
@@ -24,9 +27,22 @@ import {
   useTranslation,
 } from 'react-i18next'
 
-export function CharacterMenu(props: { confirm: (content: ReactNode) => Promise<boolean> }) {
-  const { confirm } = props
+export function CharacterMenu() {
   const { t } = useTranslation('charactersTab')
+  const { t: tCommon } = useTranslation('common')
+  const [confirmationModal, contextHolder] = Modal.useModal()
+
+  const confirm = useCallback(async (content: ReactNode) => {
+    return confirmationModal.confirm({
+      title: tCommon('Confirm'), // 'Confirm',
+      icon: <ExclamationCircleOutlined />,
+      content: content,
+      okText: tCommon('Confirm'), // 'Confirm',
+      cancelText: tCommon('Cancel'), // 'Cancel',
+      centered: true,
+    })
+  }, [tCommon, confirmationModal])
+
   const onClick = useMemo(() => generateOnClickHandler(confirm, t), [confirm, t])
 
   const items = useMemo(() => generateItems(t), [t])
@@ -34,20 +50,23 @@ export function CharacterMenu(props: { confirm: (content: ReactNode) => Promise<
   const actionsMenuProps = { items, onClick }
 
   return (
-    <Dropdown
-      placement='topLeft'
-      menu={actionsMenuProps}
-      trigger={['hover']}
-    >
-      <Button
-        style={{ width: '100%', height: 40, boxShadow: 'unset', borderRadius: 8 }}
-        icon={<UserOutlined />}
-        type='default'
+    <>
+      <Dropdown
+        placement='topLeft'
+        menu={actionsMenuProps}
+        trigger={['hover']}
       >
-        {t('CharacterMenu.ButtonText') /* Character menu */}
-        <DownOutlined />
-      </Button>
-    </Dropdown>
+        <Button
+          style={{ width: '100%', height: 40, boxShadow: 'unset', borderRadius: 8 }}
+          icon={<UserOutlined />}
+          type='default'
+        >
+          {t('CharacterMenu.ButtonText') /* Character menu */}
+          <DownOutlined />
+        </Button>
+      </Dropdown>
+      {contextHolder}
+    </>
   )
 }
 

@@ -1,12 +1,39 @@
-import { Button, Card, Flex, Input, InputRef, Modal, Select } from 'antd'
-import { ElementName, PathName } from 'lib/constants/constants'
+import {
+  Button,
+  Card,
+  Flex,
+  Input,
+  InputRef,
+  Modal,
+  Select,
+} from 'antd'
+import {
+  ElementName,
+  PathName,
+} from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { CharacterOptions, generateCharacterOptions } from 'lib/rendering/optionGenerator'
-import { CardGridItemContent, generateElementTags, generatePathTags, SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
+import {
+  CharacterOptions,
+  generateCharacterOptions,
+} from 'lib/rendering/optionGenerator'
+import {
+  CardGridItemContent,
+  generateElementTags,
+  generatePathTags,
+  SegmentedFilterRow,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
-import { ChangeEvent, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  ChangeEvent,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 

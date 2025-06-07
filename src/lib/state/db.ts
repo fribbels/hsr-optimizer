@@ -722,20 +722,21 @@ export const DB = {
       return
     }
 
-    const build = character.builds?.find((x) => x.name == name)
+    let build = character.builds?.find((x) => x.name == name)?.build
     if (build) {
       const errorMessage = i18next.t('charactersTab:Messages.BuildAlreadyExists', { name })
       console.warn(errorMessage)
       return { error: errorMessage }
     } else {
+      build = Object.values(character.equipped)
       if (!character.builds) character.builds = []
       character.builds.push({
         name: name,
-        build: Object.values(character.equipped) as string[],
+        build: Object.values(character.equipped),
         score: score,
       })
       DB.setCharacter(character)
-      console.log('Saved build', DB.getState())
+      console.log('Saved build', build, useCharacterTabStore.getState())
     }
   },
 

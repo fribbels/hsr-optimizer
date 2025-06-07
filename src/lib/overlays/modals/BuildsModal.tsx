@@ -52,7 +52,7 @@ export function BuildsModal() {
 
   // Reuse the character preview for the saved build
   const statDisplay = useMemo(() => {
-    if (selectedBuild && selectedCharacter?.builds?.[selectedBuild].build) {
+    if (selectedBuild != null && selectedCharacter?.builds?.[selectedBuild].build) {
       const relicsById = window.store.getState().relicsById
       const relics = Object.values(selectedCharacter.builds[selectedBuild].build).map((x) => relicsById[x])
 

@@ -97,14 +97,12 @@ export function CharacterPreview(props: {
   character: Character | null,
   setOriginalCharacterModalOpen: (open: boolean) => void,
   setOriginalCharacterModalInitialCharacter: (character: Character) => void,
-  setCharacterModalAdd: (add: boolean) => void,
 }) {
   const {
     source,
     character,
     setOriginalCharacterModalOpen,
     setOriginalCharacterModalInitialCharacter,
-    setCharacterModalAdd,
   } = props
 
   const { token } = useToken()
@@ -131,9 +129,9 @@ export function CharacterPreview(props: {
   const darkMode = window.store((s) => s.savedSession.showcaseDarkMode)
 
   // Using these to trigger updates on changes
-  const refreshOnSpdValueChange = window.store((s) => s.scoringMetadataOverrides[character?.id!]?.stats?.[Stats.SPD])
-  const refreshOnTraceChange = window.store((s) => s.scoringMetadataOverrides[character?.id!]?.traces)
-  const refreshOnDeprioritizeBuffsChange = window.store((s) => s.scoringMetadataOverrides[character?.id!]?.simulation?.deprioritizeBuffs)
+  const refreshOnSpdValueChange = window.store((s) => !character ? undefined : s.scoringMetadataOverrides[character.id]?.stats?.[Stats.SPD])
+  const refreshOnTraceChange = window.store((s) => !character ? undefined : s.scoringMetadataOverrides[character.id]?.traces)
+  const refreshOnDeprioritizeBuffsChange = window.store((s) => !character ? undefined : s.scoringMetadataOverrides[character.id]?.simulation?.deprioritizeBuffs)
   const showcaseTemporaryOptionsByCharacter = window.store((s) => s.showcaseTemporaryOptionsByCharacter)
 
   if (!character || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE)) {
@@ -317,7 +315,6 @@ export function CharacterPreview(props: {
                 artistName={artistName}
                 setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
                 setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                setCharacterModalAdd={setCharacterModalAdd}
                 onPortraitLoad={(img: string) => sidebarRef.current?.onPortraitLoad!(img, character.id)}
               />
 
@@ -329,7 +326,6 @@ export function CharacterPreview(props: {
                   displayDimensions={displayDimensions}
                   setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
                   setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                  setCharacterModalAdd={setCharacterModalAdd}
                 />
               )}
             </Flex>
@@ -410,7 +406,6 @@ export function CharacterPreview(props: {
                   displayDimensions={displayDimensions}
                   setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
                   setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                  setCharacterModalAdd={setCharacterModalAdd}
                 />
               </>
             )}

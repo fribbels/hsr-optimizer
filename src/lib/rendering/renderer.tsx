@@ -156,7 +156,7 @@ export const Renderer = {
     if (x.value == 0) return ''
 
     const value = Utils.precisionRound(Math.floor(x.value * 10) / 10)
-    return x.data.verified ? value.toFixed(1) : value
+    return x.data.verified ? localeNumber_0(value) : localeNumber(value)
   },
 
   mainValueRenderer: (x: { value: number, data: Relic }) => {

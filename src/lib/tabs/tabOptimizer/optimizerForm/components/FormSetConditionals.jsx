@@ -11,13 +11,13 @@ import {
   Constants,
   setToId,
 } from 'lib/constants/constants'
+import { useOpenClose } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useOpenClose } from '../../../../hooks/useOpenClose'
 
 const { Text } = Typography
 

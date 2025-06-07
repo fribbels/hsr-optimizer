@@ -63,17 +63,11 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   const [selected, setSelected] = useState<Map<CharacterId, boolean>>(new Map())
   const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
 
-  const setElementFilter = useCallback((element: CharacterFilters['element']) => {
-    setCurrentFilters({ ...currentFilters, element })
-  }, [])
+  const setElementFilter = (element: CharacterFilters['element']) => setCurrentFilters({ ...currentFilters, element })
 
-  const setPathFilter = useCallback((path: CharacterFilters['path']) => {
-    setCurrentFilters({ ...currentFilters, path })
-  }, [])
+  const setPathFilter = (path: CharacterFilters['path']) => setCurrentFilters({ ...currentFilters, path })
 
-  const setNameFilter = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setCurrentFilters({ ...currentFilters, name: e.target.value.toLowerCase() })
-  }, [])
+  const setNameFilter = (e: ChangeEvent<HTMLInputElement>) => setCurrentFilters({ ...currentFilters, name: e.target.value.toLowerCase() })
 
   const labelledOptions: { value: string, label: ReactNode }[] = []
   for (const option of characterOptions) {

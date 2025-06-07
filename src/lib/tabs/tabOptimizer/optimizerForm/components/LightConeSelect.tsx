@@ -7,6 +7,7 @@ import {
   Select,
 } from 'antd'
 import { PathName } from 'lib/constants/constants'
+import { setOpen } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import {
   generateLightConeOptions,
@@ -88,17 +89,11 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
   const [currentFilters, setCurrentFilters] = useState(TsUtils.clone(defaultFilters))
   const lightConeOptions = useMemo(() => generateLightConeOptions(), [t])
 
-  const setPathFilter = useCallback((path: LightConeFilters['path']) => {
-    setCurrentFilters({ ...currentFilters, path })
-  }, [])
+  const setPathFilter = (path: LightConeFilters['path']) =>    setCurrentFilters({ ...currentFilters, path })
 
-  const setRarityFilter = useCallback((rarity: LightConeFilters['rarity']) => {
-    setCurrentFilters({ ...currentFilters, rarity })
-  }, [])
+  const setRarityFilter = (rarity: LightConeFilters['rarity']) =>    setCurrentFilters({ ...currentFilters, rarity })
 
-  const setNameFilter = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setCurrentFilters({ ...currentFilters, name: e.target.value.toLowerCase() })
-  }, [])
+  const setNameFilter = (e: ChangeEvent<HTMLInputElement>) =>    setCurrentFilters({ ...currentFilters, name: e.target.value.toLowerCase() })
 
   const labelledOptions = useMemo(() => {
     const labelledOptions: { value: string, label: ReactNode }[] = []

@@ -332,6 +332,8 @@ export const DB = {
       relicsById[relic.id] = relic
     }
     window.store.getState().setRelicsById(relicsById)
+    // bandaid fix while waiting in proper immutable state
+    if (window.forceCharacterTabUpdate) window.forceCharacterTabUpdate()
   },
   getRelicById: (id: string) => window.store.getState().relicsById[id],
 
@@ -370,6 +372,8 @@ export const DB = {
       }
       setRelic(relic)
     }
+    // bandaid fix while waiting in proper immutable state
+    if (window.forceCharacterTabUpdate) window.forceCharacterTabUpdate()
   },
 
   refreshRelics: () => {

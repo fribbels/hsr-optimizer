@@ -39,7 +39,7 @@ export default function CharacterTab() {
     forceUpdate()
 
     window.setCharacterRows(DB.getCharacters())
-    window.characterGrid.current?.api.redrawRows()
+    window.characterGrid.current?.api?.redrawRows()
   }
 
   const defaultGap = 8

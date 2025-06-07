@@ -95,7 +95,7 @@ function generateOnClickHandler(confirm: (content: ReactNode) => Promise<boolean
         break
 
       case 'scoring':
-        if (!focusCharacter) return
+        if (focusCharacter) window.store.getState().setScoringAlgorithmFocusCharacter(focusCharacter)
         setOpen(OpenCloseIDs.SCORING_MODAL)
         break
 

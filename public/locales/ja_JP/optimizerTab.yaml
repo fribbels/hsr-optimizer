@@ -1,3 +1,13 @@
+ValidationMessages:
+  Warning:
+    MissingTeammates: 最適化結果の精度を上げるため、チームメンバーを選択してください。
+    PathMismatch: 選択キャラと光円錐の運命が一致しません
+  Error:
+    TopPercent: サブステータスの重みが全て0に設定されています。選択キャラクターのサブステータスの重みを設定するか、おすすめプリセットボタンを使用してください。
+    MissingTarget: 最適化の目標部分を入力してください
+    MissingCharacter: キャラクター部分を入力してください
+    MissingLightCone: 光円錐部分を入力してください
+    GPUNotAvailable: 'このブラウザでは GPU アクセラレーションを使用することはできません。デスクトップ版 Chrome と Opera のみで使用可能です。もしそれらのブラウザを使用しているなら、Discord サーバーにてバグ報告をしてください。'
 CharacterSelector:
   Character: キャラクター
   Lightcone: 光円錐
@@ -91,6 +101,7 @@ Grid:
   Of: /
   Page: ページ
   PageSelectorLabel: '表示件数：'
+  Loading: 読み込み中...
   Headers:
     Basic:
       Set: セット

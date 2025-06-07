@@ -107,12 +107,12 @@ export function CharacterGrid() {
 }
 
 function cellRankRenderer(params: IRowNode<Character>) {
-  const data = params.data!
-  const character = DB.getCharacters().find((x) => x.id == data.id)!
+  const rank = params.data?.rank
+  if (rank == undefined) return <></>
 
   return (
     <Text style={{ height: '100%' }}>
-      {character.rank + 1}
+      {rank + 1}
     </Text>
   )
 }

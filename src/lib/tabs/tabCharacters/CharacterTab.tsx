@@ -1,9 +1,7 @@
-import { ExclamationCircleOutlined } from '@ant-design/icons'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
 import {
   Flex,
-  Modal,
   theme,
 } from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
@@ -13,6 +11,7 @@ import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { SaveBuildModal } from 'lib/overlays/modals/SaveBuildModal'
 import { SwitchRelicsModal } from 'lib/overlays/modals/SwitchRelicsModal'
 import { getGridTheme } from 'lib/rendering/theme'
+import DB from 'lib/state/db'
 import { CharacterGrid } from 'lib/tabs/tabCharacters/CharacterGrid'
 import { CharacterMenu } from 'lib/tabs/tabCharacters/CharacterMenu'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
@@ -39,12 +38,8 @@ export default function CharacterTab() {
     console.log('__________ CharacterTab forceCharacterTabUpdate')
     forceUpdate()
 
-    // no charGrid in scorer tab
-    if (window.characterGrid?.current?.api?.redrawRows) {
-      window.characterGrid.current.api.redrawRows()
-    } else {
-      console.log('@forceCharacterTabUpdate: No characterGrid.current.api')
-    }
+    window.setCharacterRows(DB.getCharacters())
+    window.characterGrid.current?.api.redrawRows()
   }
 
   const defaultGap = 8

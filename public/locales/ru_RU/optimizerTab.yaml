@@ -156,6 +156,9 @@ MinMaxFilters:
   HEALLabel: Исцеление
   SHIELDLabel: Щит
 ComboFilter:
+  RowControls:
+    Header: Управление
+    PresetsHeader: Шаблоны
   ComboOptions:
     None: 'Нет'
     Basic: БазАтака

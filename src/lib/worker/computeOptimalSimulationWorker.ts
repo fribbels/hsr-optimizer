@@ -15,11 +15,13 @@ import {
   StatSimulationTypes,
 } from 'lib/simulations/statSimulationTypes'
 import { sumArray } from 'lib/utils/mathUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import {
   ComputeOptimalSimulationWorkerInput,
   ComputeOptimalSimulationWorkerOutput,
 } from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import { SubstatDistributionValidator } from 'lib/worker/maxima/substatDistributionValidator'
 
 export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSimulationWorkerInput>) {
   const input = e.data
@@ -60,6 +62,8 @@ function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerInput) {
 
   const minSubstatRollCounts = inputMinSubstatRollCounts
   const maxSubstatRollCounts = inputMaxSubstatRollCounts
+
+  const substatValidator = new SubstatDistributionValidator(input)
 
   const breakpoints = metadata.breakpoints
   const goal = scoringParams.substatGoal
@@ -126,6 +130,8 @@ function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerInput) {
 
   // Tracker for stats that cant be reduced further
   const excludedStats: Record<string, boolean> = {}
+
+  let iteration = 0
 
   while (sum > goal) {
     let bestSim: Simulation = undefined as unknown as Simulation
@@ -205,40 +211,62 @@ function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerInput) {
     // if (scoringParams.enforcePossibleDistribution) {
     //   console.log(debug)
     // }
+    iteration++
 
     if (scoringParams.enforcePossibleDistribution && bestSimStats[reducedStat] < 6) {
-      const stat = reducedStat
-
-      // How many stats the sim's iteration is attempting
-      const simStatCount = bestSimStats[stat]
-      // How many slots are open for the stat in question
-      const statSlotCount = possibleDistributionTracker
-        .parts
-        .map((part) => part.substats[stat])
-        .filter((hasSubstat) => hasSubstat)
-        .length
-
-      if (simStatCount < statSlotCount) {
-        // We need to reduce the slots to fit the sim
-        let deleted = false
-        for (const part of possibleDistributionTracker.parts) {
-          // Can't do anything since it's not in the subs
-          if (!part.substats[stat]) continue
-          // Can't do anything since we need all 4 slots filled
-          if (Object.values(part.substats).length <= 4) continue
-
-          // Found one that we can reduce, and exit
-          delete part.substats[stat]
-          deleted = true
-          break
+      if (
+        input.partialSimulationWrapper.simulation.request.simBody == Stats.ATK_P && input.partialSimulationWrapper.simulation.request.simFeet == Stats.ATK_P
+        && input.partialSimulationWrapper.simulation.request.simPlanarSphere == Stats.Lightning_DMG
+        && input.partialSimulationWrapper.simulation.request.simLinkRope == Stats.ATK_P
+      ) {
+        console.log('!!!', iteration, bestSimResult.simScore, TsUtils.clone(bestSim.request))
+        if (iteration == 44) {
+          console.log('bug')
         }
+      }
+      // const stat = reducedStat
+      //
+      // // How many stats the sim's iteration is attempting
+      // const simStatCount = bestSimStats[stat]
+      // // How many slots are open for the stat in question
+      // const statSlotCount = possibleDistributionTracker
+      //   .parts
+      //   .map((part) => part.substats[stat])
+      //   .filter((hasSubstat) => hasSubstat)
+      //   .length
+      //
+      // if (simStatCount < statSlotCount) {
+      //   // We need to reduce the slots to fit the sim
+      //   let deleted = false
+      //   for (const part of possibleDistributionTracker.parts) {
+      //     // Can't do anything since it's not in the subs
+      //     if (!part.substats[stat]) continue
+      //     // Can't do anything since we need all 4 slots filled
+      //     if (Object.values(part.substats).length <= 4) continue
+      //
+      //     // Found one that we can reduce, and exit
+      //     delete part.substats[stat]
+      //     deleted = true
+      //     break
+      //   }
+      //
+      //   if (!deleted) {
+      //     // We didn't delete anything, so this distribution must be invalid
+      //     // Don't reduce the stat and continue the search
+      //     excludedStats[stat] = true
+      //     continue
+      //   }
+      // }
 
-        if (!deleted) {
-          // We didn't delete anything, so this distribution must be invalid
-          // Don't reduce the stat and continue the search
-          excludedStats[stat] = true
-          continue
+      if (!substatValidator.isValidDistribution(bestSimStats)) {
+        if (
+          input.partialSimulationWrapper.simulation.request.simBody == Stats.ATK_P && input.partialSimulationWrapper.simulation.request.simFeet == Stats.ATK_P
+          && input.partialSimulationWrapper.simulation.request.simPlanarSphere == Stats.Lightning_DMG
+          && input.partialSimulationWrapper.simulation.request.simLinkRope == Stats.ATK_P
+        ) {
+          console.log(iteration, 'INVALID')
         }
+        continue
       }
     }
 

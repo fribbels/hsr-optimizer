@@ -10,12 +10,12 @@ StrategyLabels:
 RefundLabels:
   REFUND_NONE: 없음
   REFUND_NONE_FULL: 없음
-  REFUND_LOW: '{{Percentage}}% 환급'
-  REFUND_LOW_FULL: '{{Percentage}}% 환급 (최소)'
-  REFUND_AVG: '{{Percentage}}% 환급'
-  REFUND_AVG_FULL: '{{Percentage}}% 환급 (평균)'
-  REFUND_HIGH: '{{Percentage}}% 환급'
-  REFUND_HIGH_FULL: '{{Percentage}}% 환급 (최대)'
+  REFUND_LOW: "{{Percentage}}% 환급"
+  REFUND_LOW_FULL: "{{Percentage}}% 환급 (최소)"
+  REFUND_AVG: "{{Percentage}}% 환급"
+  REFUND_AVG_FULL: "{{Percentage}}% 환급 (평균)"
+  REFUND_HIGH: "{{Percentage}}% 환급"
+  REFUND_HIGH_FULL: "{{Percentage}}% 환급 (최대)"
 EidolonLevels:
   NONE: 없음
   E0: 0돌
@@ -33,7 +33,7 @@ SuperimpositionLevels:
   S4: 4재
   S5: 5재
 IncomeOptions:
-  Label: '[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: '
+  Label: "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
   Type:
     0: 없음
     1: 무과금
@@ -43,7 +43,7 @@ PityCounter:
   PityCounter: 뽑은 횟수
   CurrentEidolonSuperImp: 현재
   Guaranteed: 확정 천장
-TotalAvailable: '총 티켓 갯수'
+TotalAvailable: "총 티켓 갯수"
 SectionTitles:
   Planner: 워프 계획
   Results: 결과
@@ -61,6 +61,6 @@ SectionTitles:
   Calculate: 계산
 ColumnTitles:
   Goal: 목표
-  Chance: '{{ticketCount}} <1/> 의 성공 확률'
-  Average: '평균적으로 필요한 <1/> 갯수'
+  Chance: "{{ticketCount}} <1/> 의 성공 확률"
+  Average: "평균적으로 필요한 <1/> 갯수"
 TargetLabel: "$t(common:EidolonNShort, {\"eidolon\": {{eidolon}}})\n$t(common:SuperimpositionNShort, {\"superimposition\": {{superimposition}}})"

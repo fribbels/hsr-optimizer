@@ -3483,12 +3483,12 @@ interface Resources {
         LongName: 'Welt',
       },
       '1005': {
-        Name: '⚰️Kafka',
-        LongName: '⚰️Kafka',
+        Name: '⚰️ Kafka',
+        LongName: '⚰️ Kafka',
       },
       '1006': {
-        Name: '⚰️Silver Wolf',
-        LongName: '⚰️Silver Wolf',
+        Name: '⚰️ Silver Wolf',
+        LongName: '⚰️ Silver Wolf',
       },
       '1008': {
         Name: 'Arlan',
@@ -3575,8 +3575,8 @@ interface Resources {
         LongName: 'Jing Yuan',
       },
       '1205': {
-        Name: '⚰️Blade',
-        LongName: '⚰️Blade',
+        Name: '⚰️ Blade',
+        LongName: '⚰️ Blade',
       },
       '1206': {
         Name: 'Sushang',
@@ -3603,8 +3603,8 @@ interface Resources {
         LongName: 'Bailu',
       },
       '1212': {
-        Name: '⚰️Jingliu',
-        LongName: '⚰️Jingliu',
+        Name: '⚰️ Jingliu',
+        LongName: '⚰️ Jingliu',
       },
       '1213': {
         Name: 'Imbibitor Lunae',
@@ -5740,11 +5740,13 @@ interface Resources {
         Advanced: 'Advanced',
       },
       RowControls: {
+        Header: 'Controls',
         Add: '+',
         Remove: '-',
         ResetConfirm: {
           Description: 'Reset all Simple / Advanced rotation settings to default?',
         },
+        PresetsHeader: 'Presets',
       },
       CounterLabels: {
         Dot: 'Dots',

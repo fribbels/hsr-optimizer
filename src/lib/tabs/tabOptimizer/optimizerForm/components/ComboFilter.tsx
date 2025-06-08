@@ -190,7 +190,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string, label: str
 
       <Flex vertical gap={20} flex={1} align='flex-start'>
         <Flex vertical style={{ width: '100%' }} gap={5}>
-          <HeaderText>{tSidebar('ControlsGroup.Header') /* Controls */}</HeaderText>
+          <HeaderText>{t('RowControls.Header') /* Controls */}</HeaderText>
           <Popconfirm
             title={tCommon('Confirm')}
             description={t('RowControls.ResetConfirm.Description')}
@@ -214,7 +214,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string, label: str
         </Flex>
 
         <Flex vertical style={{ width: '100%' }} gap={5}>
-          <HeaderText>Presets</HeaderText>
+          <HeaderText>{t('RowControls.PresetsHeader')/*Presets*/}</HeaderText>
           <Form.Item name='comboPreprocessor'>
             <Radio.Group buttonStyle='solid' block size='small' disabled={disabled}>
               <Radio.Button value={true}>

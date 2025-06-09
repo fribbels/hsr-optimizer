@@ -1,26 +1,26 @@
-BetaMessage: '현재 버전: {{Version}} - 계산된 값은 변경될 수 있습니다.'
+BetaMessage: "현재 버전: {{Version}} - 계산된 값은 변경될 수 있습니다."
 Common:
   BuffPriority:
-    Text: '버프 우선 순위 대상'
-    Content: '버프를 우선적으로 부여할 대상을 선택하세요.'
-    Self: '버프 우선: 자신'
-    Memo: '버프 우선: 기억 정령'
+    Text: "버프 우선 순위 대상"
+    Content: "버프를 우선적으로 부여할 대상을 선택하세요."
+    Self: "버프 우선: 자신"
+    Memo: "버프 우선: 기억 정령"
   HealAbility:
-    Text: '치유 기술'
-    Content: '치유 기술을 선택하세요.'
-    Basic: '치유 기술: 일반'
-    Skill: '치유 기술: 전투 스킬'
-    Ult: '치유 기술: 필살기'
-    Talent: '치유 기술: 비술'
-    Trace: '치유 기술: 행적'
+    Text: "치유 기술"
+    Content: "치유 기술을 선택하세요."
+    Basic: "치유 기술: 일반"
+    Skill: "치유 기술: 전투 스킬"
+    Ult: "치유 기술: 필살기"
+    Talent: "치유 기술: 비술"
+    Trace: "치유 기술: 행적"
   ShieldAbility:
-    Text: '보호막 기술'
-    Content: '보호막 기술을 선택하세요.'
-    Basic: '보호막 기술: 일반'
-    Skill: '보호막 기술: 전투 스킬'
-    Ult: '보호막 기술: 필살기'
-    Talent: '보호막 기술: 비술'
-    Trace: '보호막 기술: 행적'
+    Text: "보호막 기술"
+    Content: "보호막 기술을 선택하세요."
+    Basic: "보호막 기술: 일반"
+    Skill: "보호막 기술: 전투 스킬"
+    Ult: "보호막 기술: 필살기"
+    Talent: "보호막 기술: 비술"
+    Trace: "보호막 기술: 행적"
 Lightcones:
   AGroundedAscent:
     Content:
@@ -181,7 +181,7 @@ Lightcones:
           장착한 캐릭터가 공격을 발동하면 120%의 기본 확률로 각 단일 적을 [망연] 상태에 빠트리며, [망연] 상태의 적은 방어력이 {{DefShred}}% 감소한다, 지속 시간: 2턴. ::BR:: 장착한 캐릭터의 속도가 170 이상일 경우 120%의 기본 확률로 각 단일 적을 [도난] 상태에 빠트리며, [도난] 상태의 적은 방어력이 {{AdditionalDefShred}}% 감소한다, 지속 시간: 2턴
     TeammateContent:
       additionalDefPen:
-        text: '속도 > 170'
+        text: "속도 > 170"
         content: >-
           장착한 캐릭터가 공격을 발동하면 120%의 기본 확률로 각 단일 적을 [망연] 상태에 빠트리며, [망연] 상태의 적은 방어력이 {{DefShred}}% 감소한다, 지속 시간: 2턴. ::BR:: 장착한 캐릭터의 속도가 170 이상일 경우 120%의 기본 확률로 각 단일 적을 [도난] 상태에 빠트리며, [도난] 상태의 적은 방어력이 {{AdditionalDefShred}}% 감소한다, 지속 시간: 2턴
   LifeShouldBeCastToFlames:
@@ -341,7 +341,7 @@ Lightcones:
       routedVulnerability:
         text: '[궤멸] 상태'
         content: >-
-          장착한 캐릭터가 적에게 격파 피해를 가할 시 적을 [궤멸] 상태에 빠트린다, 지속 시간: 2턴. [궤멸] 상태에서 목표가 장착한 캐릭터로부터 받는 격파 피해가 {{Vulnerability}}% 증가하고 속도가 20% 감소하며, 같은 유형의 효과는 중첩되지 않는다
+           장착한 캐릭터가 적에게 격파 피해를 가할 시 적을 [궤멸] 상태에 빠트린다, 지속 시간: 2턴. [궤멸] 상태에서 목표가 장착한 캐릭터로부터 받는 격파 피해가 {{Vulnerability}}% 증가하고 속도가 20% 감소하며, 같은 유형의 효과는 중첩되지 않는다
   WorrisomeBlissful:
     Content:
       targetTameStacks:
@@ -475,7 +475,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: '≤ 2 적 일 때 치확 버프'
+        text: "≤ 2 적 일 때 치확 버프"
         content: 필드 위의 적이 2명 이하일 경우, 장착한 캐릭터의 치명타 확률이 {{CritBuff}}% 증가한다.
   PastAndFuture:
     Content:
@@ -496,7 +496,7 @@ Lightcones:
     Content:
       cdBuff:
         text: 동일 운명의 길 2명 이상 버프
-        content: '전투 진입 시 운명의 길이 같은 아군 캐릭터가 2명 이상일 경우, 해당 캐릭터들의 치명타 피해가 {{CritBuff}}% 증가한다. 같은 유형의 스킬 효과는 중복 적용되지 않는다.'
+        content: "전투 진입 시 운명의 길이 같은 아군 캐릭터가 2명 이상일 경우, 해당 캐릭터들의 치명타 피해가 {{CritBuff}}% 증가한다. 같은 유형의 스킬 효과는 중복 적용되지 않는다."
   PostOpConversation:
     Content:
       postUltHealingBoost:
@@ -541,7 +541,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: '≥ 2 약점 속성을 지닐 때 버프'
+        text: "≥ 2 약점 속성을 지닐 때 버프"
         content: '장착한 캐릭터가 공격 발동 후 피격된 적 2기 이상이 대응하는 약점 속성을 보유하고 있으면 장착한 캐릭터의 치명타 피해가 {{CritBuff}}% 증가한다. 지속 시간: 2턴'
   TheGreatCosmicEnterprise:
     Content:
@@ -787,10 +787,10 @@ Characters:
     Content:
       skillExtraDmgHits:
         text: 전투 스킬 추가 타격
-        content: '지정된 단일 적에게 아스타 공격력 {{skillScaling}}%만큼의 화염 속성 피해를 주며, 추가로 피해를 {{skillExtraDmgHitsMax}}회 가한다. 피해를 가할 때마다 임의의 단일 적에게 아스타 공격력 {{skillScaling}}%만큼의 화염 속성 피해를 준다.::E1: 전투 스킬 발동 시 임의의 단일 적에게 추가로 1회 피해를 가한다.'
+        content: "지정된 단일 적에게 아스타 공격력 {{skillScaling}}%만큼의 화염 속성 피해를 주며, 추가로 피해를 {{skillExtraDmgHitsMax}}회 가한다. 피해를 가할 때마다 임의의 단일 적에게 아스타 공격력 {{skillScaling}}%만큼의 화염 속성 피해를 준다.::E1: 전투 스킬 발동 시 임의의 단일 적에게 추가로 1회 피해를 가한다."
       talentBuffStacks:
         text: 특성 버프 스택
-        content: '아스타가 에너지 충전을 1스택 보유할 때마다 모든 아군의 공격력이 {{talentStacksAtkBuff}}% 증가한다. 해당 효과 최대 중첩수: 5스택 ::E4:특성 에너지 충전 스택이 2 이상일 경우 아스타의 에너지 회복효율이 15% 증가한다.'
+        content: "아스타가 에너지 충전을 1스택 보유할 때마다 모든 아군의 공격력이 {{talentStacksAtkBuff}}% 증가한다. 해당 효과 최대 중첩수: 5스택 ::E4:특성 에너지 충전 스택이 2 이상일 경우 아스타의 에너지 회복효율이 15% 증가한다."
       ultSpdBuff:
         text: 필살기 속도 버프
         content: '모든 아군의 속도가 {{ultSpdBuffValue}}pt 증가한다. 지속 시간: 2턴'
@@ -861,7 +861,7 @@ Characters:
     Content:
       enhancedStateActive:
         text: '[지옥변] 상태'
-        content: '[지옥변] 상태에서는 전투 스킬을 발동할 수 없으며, 자신이 가하는 피해가 {{enhancedStateDmgBoost}}% 증가하고, 일반 공격 [지리검(支離劍)]이 강화되어 [무간검수(無間劍樹)]로 바뀐다. 지속 시간: 3턴::E2: 블레이드가 [지옥변] 상태일 때 치명타 확률이 15% 증가한다.'
+        content: "[지옥변] 상태에서는 전투 스킬을 발동할 수 없으며, 자신이 가하는 피해가 {{enhancedStateDmgBoost}}% 증가하고, 일반 공격 [지리검(支離劍)]이 강화되어 [무간검수(無間劍樹)]로 바뀐다. 지속 시간: 3턴::E2: 블레이드가 [지옥변] 상태일 때 치명타 확률이 15% 증가한다."
       hpPercentLostTotal:
         text: 잃은 HP 총량
         content: 이번 전투에서 누적 손실한 HP는 블레이드 HP 최대치의 {{hpPercentLostTotalMax}}%를 넘을 수 없다. 필살기 발동 후 리셋하고 다시 누적된다
@@ -1520,7 +1520,7 @@ Characters:
         content: 디버프 효과를 보유한 적에게 가하는 피해가 20% 증가한다.
       skillRemovedBuff:
         text: 지정된 단일 적의 버프 효과 1개를 해제한다.
-        content: '전투 스킬 발동으로 버프 효과를 해제할 시 다음 공격으로 가하는 피해가 20% 증가한다.::BR::E2: 전투 스킬을 발동해 버프 효과를 해제하면 속도가 10% 증가한다. 지속 시간: 2턴'
+        content: "전투 스킬 발동으로 버프 효과를 해제할 시 다음 공격으로 가하는 피해가 20% 증가한다.::BR::E2: 전투 스킬을 발동해 버프 효과를 해제하면 속도가 10% 증가한다. 지속 시간: 2턴"
       ultDefPenDebuff:
         text: '[분석] 상태'
         content: '[분석] 상태의 적은 방어력이 {{ultDefPenValue}}% 감소한다. 지속 시간: 2턴'
@@ -1644,7 +1644,7 @@ Characters:
           일반 공격, 전투 스킬, 필살기를 발동해 적을 처치한 후 즉시 보너스 턴을 1턴 획득하고 증폭 상태에 진입한다. 증폭 상태의 제레는 공격 발동으로 가하는 피해가 {{buffedStateDmgBuff}}% 증가한다. 지속 시간: 1턴::BR:: 증폭 상태일 때 제레의 양자 속성 저항 관통이 20% 증가한다.
       speedBoostStacks:
         text: 속도 버프 스택
-        content: '제레의 속도가 25% 증가하고, 지정된 단일 적에게 제레 공격력 220%만큼의 양자 속성 피해를 준다. 속도 증가 효과 지속 시간: 2턴'
+        content: "제레의 속도가 25% 증가하고, 지정된 단일 적에게 제레 공격력 220%만큼의 양자 속성 피해를 준다. 속도 증가 효과 지속 시간: 2턴"
       e1EnemyHp80CrBoost:
         text: 1돌 적 HP ≤ 80%  치확 버프
         content: 현재 HP 백분율이 80% 이하인 적에게 피해를 가할 시 치명타 확률이 15% 증가한다.
@@ -1791,7 +1791,7 @@ Characters:
         content: '전투 스킬 발동 시 정운의 속도가 20% 증가한다. 지속 시간: 1턴'
       ultDmgBuff:
         text: 필살기 데미지 버프
-        content: '지정된 단일 아군의 에너지를 50pt 회복하고, 목표가 가하는 피해가 {{ultDmgBoost}}% 증가한다. 지속 시간: 2턴::BR::E6: 필살기로 회복하는 아군 대상의 에너지가 10pt 증가한다.'
+        content: "지정된 단일 아군의 에너지를 50pt 회복하고, 목표가 가하는 피해가 {{ultDmgBoost}}% 증가한다. 지속 시간: 2턴::BR::E6: 필살기로 회복하는 아군 대상의 에너지가 10pt 증가한다."
       ultSpdBuff:
         text: 1돌 속도 버프
         content: '[축복] 효과를 획득한 단일 아군은 필살기 발동 후 속도가 20% 증가한다. 지속 시간:1턴'
@@ -1928,7 +1928,7 @@ Characters:
       skillExtraHits:
         text: 전투 스킬 적중 수
         content: >-
-          지정된 단일 적에게 웰트 공격력 {{skillScaling}}%만큼의 허수 속성 피해를 주고, 추가로 피해를 2회 가한다. 피해를 가할 때마다 임의의 단일 적에게 웰트 공격력 {{skillScaling}}%만큼의 허수 속성 피해를 준다.
+          지정된 단일 적에게 웰트 공격력 {{skillScaling}}%만큼의 허수 속성 피해를 주고, 추가로 피해를 2회 가한다. 피해를 가할 때마다 임의의 단일 적에게 웰트 공격력 {{skillScaling}}%만큼의 허수 속성 피해를 준다. 
       e1EnhancedState:
         text: 1돌 강화 상태
         content: 필살기 발동 후 웰트는 강화를 획득하며 다음 2번의 일반 공격 혹은 전투 스킬 발동 시 적에게 1회 추가 피해를 가한다. 일반 공격 발동 시의 추가 피해는 일반 공격 피해 배율의 50%이고, 전투 스킬 발동 시의 추가 피해는 전투 스킬 피해 배율의 80%이다.
@@ -1975,7 +1975,7 @@ Characters:
         content: 어공이 필드에 있으면 모든 아군이 가하는 허수 속성 피해가 12% 증가한다.
       roaringBowstringsActive:
         text: '[활시위 호령] 상태'
-        content: '[활시위 호령] 2스택을 획득한다. (최대 2스택 보유) 어공이 [활시위 호령] 효과를 보유할 경우 모든 아군의 공격력이 {{skillAtkBuffValue}}% 증가한다.::BR::E4: [활시위 호령] 효과 보유 시 어공이 가하는 피해가 30% 증가한다.'
+        content: "[활시위 호령] 2스택을 획득한다. (최대 2스택 보유) 어공이 [활시위 호령] 효과를 보유할 경우 모든 아군의 공격력이 {{skillAtkBuffValue}}% 증가한다.::BR::E4: [활시위 호령] 효과 보유 시 어공이 가하는 피해가 30% 증가한다."
       ultBuff:
         text: 필살기 치확 / 치피 버프
         content: >-
@@ -1989,11 +1989,11 @@ Characters:
         text: '[막기] 상태'
         content: '[막기] 상태에서 받는 제어류 디버프 효과에 저항하며, 받는 피해가 20% 감소한다.'
       ultCull:
-        text: '[간파•멸]'
+        text: "[간파•멸]"
         content: >-
           [간파•멸]: 목표에게 운리 공격력의 {{CullScaling}}%만큼 물리 속성 피해를 가하고, 인접한 목표에게 운리 공격력의 {{CullAdjacentScaling}}%만큼 물리 속성 피해를 가한다. 이후 추가로 피해를 6회 가하며, 피해 1회당 랜덤 단일 적에게 운리 공격력의 {{CullAdditionalScaling}}%만큼 물리 피해를 가한다.
       ultCullHits:
-        text: '[간파•멸] 적중 수'
+        text: "[간파•멸] 적중 수"
         content: >-
           [간파•멸]: 목표에게 운리 공격력의 {{CullScaling}}%만큼 물리 속성 피해를 가하고, 인접한 목표에게 운리 공격력의 {{CullAdjacentScaling}}%만큼 물리 속성 피해를 가한다. 이후 추가로 피해를 6회 가하며, 피해 1회당 랜덤 단일 적에게 운리 공격력의 {{CullAdditionalScaling}}%만큼 물리 피해를 가한다.
       counterAtkBuff:
@@ -2001,13 +2001,13 @@ Characters:
         content: '반격 발동 시, 운리의 공격력이 30% 증가한다. 지속 시간: 1턴'
       e1UltBuff:
         text: 1돌 필살기 버프
-        content: '[간파•참]과 [간파•멸]이 가하는 피해가 20% 증가하고, [간파•멸]의 추가 피해 횟수가 3회 증가한다.'
+        content: "[간파•참]과 [간파•멸]이 가하는 피해가 20% 증가하고, [간파•멸]의 추가 피해 횟수가 3회 증가한다."
       e2DefShred:
         text: 2돌 반격 버프
         content: 반격을 발동해 피해를 가할 시 적의 방어력을 20% 무시한다.
       e4ResBuff:
         text: 4돌 효과 저항 버프
-        content: '[간파•참] 또는 [간파•멸] 발동 후 자신의 효과 저항이 50% 증가한다. 지속 시간: 1턴'
+        content: "[간파•참] 또는 [간파•멸] 발동 후 자신의 효과 저항이 50% 증가한다. 지속 시간: 1턴"
       e6Buffs:
         text: 6돌 버프
         content: >-

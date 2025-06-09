@@ -11,17 +11,17 @@
     Description: Questo significa che i tuoi filtri sulle statistiche e/o valutazioni sono troppo restrittivi.
   RootCauses:
     MAX_EHP:
-      SuccessMessage: 'Filtro PVE Massimi Reimpostato'
-      ButtonText: 'Filtro PVE Massimi Reimpostato'
+      SuccessMessage: "Filtro PVE Massimi Reimpostato"
+      ButtonText: "Filtro PVE Massimi Reimpostato"
     MIN_EHP:
-      SuccessMessage: 'Filtro PVE Minimi Reimpostato'
-      ButtonText: 'Filtro PVE Minimi Reimpostato'
+      SuccessMessage: "Filtro PVE Minimi Reimpostato"
+      ButtonText: "Filtro PVE Minimi Reimpostato"
     MAX_COMBO:
-      SuccessMessage: 'Filtro Combo Massima reimpostato'
-      ButtonText: 'Filtro Combo Massima reimpostato'
+      SuccessMessage: "Filtro Combo Massima reimpostato"
+      ButtonText: "Filtro Combo Massima reimpostato"
     MIN_COMBO:
-      SuccessMessage: 'Filtro Combo Minima reimpostato'
-      ButtonText: 'Filtro Combo Minima reimpostato'
+      SuccessMessage: "Filtro Combo Minima reimpostato"
+      ButtonText: "Filtro Combo Minima reimpostato"
 EditCharacter:
   Character: Personaggi
 Relic:
@@ -30,10 +30,10 @@ Relic:
     EditSuccess: Reliquia modificata con successo
 Builds:
   ConfirmEquip:
-    SuccessMessage: 'Build equipaggiata con successo: {{buildName}}'
+    SuccessMessage: "Build equipaggiata con successo: {{buildName}}"
   ConfirmDelete:
-    SuccessMessageAll: 'Eliminate con successo tutte le build di {{characterName}}'
-    SuccessMessageSingle: 'Build eliminata con successo: {{name}}'
+    SuccessMessageAll: "Eliminate con successo tutte le build di {{characterName}}"
+    SuccessMessageSingle: "Build eliminata con successo: {{name}}"
 ScoreFooter:
   ResetSuccessMsg: Squadra predefinita ripristinata
   SyncSuccessMsg: Compagni di squadra sincronizzati

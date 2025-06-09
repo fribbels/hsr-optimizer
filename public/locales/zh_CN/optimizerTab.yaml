@@ -417,10 +417,12 @@ ComboFilter:
     Simple: 简易
     Advanced: 高级
   RowControls:
+    Header: 控制
     Add: +
     Remove: '-'
     ResetConfirm:
       Description: 重置所有简易 / 高级循环设置为默认值？
+    PresetsHeader: 预设
   CounterLabels:
     Dot: 持续伤害数量
   ComboOptions:

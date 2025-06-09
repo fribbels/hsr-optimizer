@@ -1,5 +1,5 @@
 Messages:
-  ThrottleWarning: 'Por favor aguarde {{seconds}} segundos antes de tentar novamente'
+  ThrottleWarning: "Por favor aguarde {{seconds}} segundos antes de tentar novamente"
   InvalidIdWarning: ID inválido
   IdLoadError: Erro ao carregar ID
   SuccessMsg: Perfil carregado com sucesso
@@ -8,8 +8,8 @@ Messages:
   CharacterAlreadyExists: Personagem selecionado já existe
   UnknownButtonClicked: Botão desconhecido clicado
 Header:
-  DowntimeWarning: 'O pontuador de relíquias pode estar off-line para manutenção após a atualização {{game_version}}, por favor tente mais tarde'
-  WithVersion: 'Insira o UID da sua conta para verificar a pontuação dos personagens no seu perfil no nível 80 e com traços maximizados. Deslogue para atualizar instantaneamente. (Versão atual {{beta_version}})'
+  DowntimeWarning: "O pontuador de relíquias pode estar off-line para manutenção após a atualização {{game_version}}, por favor tente mais tarde"
+  WithVersion: "Insira o UID da sua conta para verificar a pontuação dos personagens no seu perfil no nível 80 e com traços maximizados. Deslogue para atualizar instantaneamente. (Versão atual {{beta_version}})"
   WithoutVersion: Insira o UID da sua conta para verificar a pontuação dos personagens no seu perfil no nível 80 e com traços maximizados. Deslogue para atualizar instantaneamente.
 SubmissionBar:
   Placeholder: UID da conta
@@ -21,3 +21,4 @@ ImportLabels:
   AllCharacters: Importar todos os personagens e todas as relíquias no otimizador
 SimulateRelics: Simular relíquias em outro char
 OptimizeOnCharacter: Otimizar atributos do char
+Disclaimer: "Nota: Combo DMG destina-se a comparar diferentes relíquias em relação à equipe selecionada, e deve <1>NÃO</1> ser usado para comparar diferentes equipes / CL / eidolons!"

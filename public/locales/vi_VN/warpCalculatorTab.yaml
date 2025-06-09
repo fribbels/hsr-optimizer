@@ -10,12 +10,12 @@ StrategyLabels:
 RefundLabels:
   REFUND_NONE: Không có
   REFUND_NONE_FULL: Không có
-  REFUND_LOW: '{{Percentage}}% hoàn lại'
-  REFUND_LOW_FULL: '{{Percentage}}%  hoàn lại (Thấp)'
-  REFUND_AVG: '{{Percentage}}% hoàn lại'
-  REFUND_AVG_FULL: '{{Percentage}}% hoàn lại (Trung bình)'
-  REFUND_HIGH: '{{Percentage}}% hoàn lại'
-  REFUND_HIGH_FULL: '{{Percentage}}% hoàn lại (Cao)'
+  REFUND_LOW: "{{Percentage}}% hoàn lại"
+  REFUND_LOW_FULL: "{{Percentage}}%  hoàn lại (Thấp)"
+  REFUND_AVG: "{{Percentage}}% hoàn lại"
+  REFUND_AVG_FULL: "{{Percentage}}% hoàn lại (Trung bình)"
+  REFUND_HIGH: "{{Percentage}}% hoàn lại"
+  REFUND_HIGH_FULL: "{{Percentage}}% hoàn lại (Cao)"
 EidolonLevels:
   NONE: Không có
   E0: E0
@@ -33,7 +33,7 @@ SuperimpositionLevels:
   S4: S4
   S5: S5
 IncomeOptions:
-  Label: '[PB{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: '
+  Label: "[PB{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
   Type:
     0: Không có
     1: F2P
@@ -43,7 +43,7 @@ PityCounter:
   PityCounter: Số Pity (lần nhảy)
   CurrentEidolonSuperImp: Hiện tại
   Guaranteed: Có Bảo Hiểm
-TotalAvailable: 'Vé Tinh Cầu đang có:'
+TotalAvailable: "Vé Tinh Cầu đang có:"
 SectionTitles:
   Planner: Lên Kế Hoạch Gacha
   Results: Kết quả
@@ -61,6 +61,6 @@ SectionTitles:
   Calculate: Tính
 ColumnTitles:
   Goal: Mục Tiêu
-  Chance: 'Tỉ lệ thành công với {{ticketCount}} <1/>'
-  Average: 'Số vé trung bình <1/> cần tới'
+  Chance: "Tỉ lệ thành công với {{ticketCount}} <1/>"
+  Average: "Số vé trung bình <1/> cần tới"
 TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'

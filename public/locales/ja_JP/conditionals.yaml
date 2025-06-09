@@ -1,26 +1,26 @@
-BetaMessage: '現在のバージョン： {{Version}} - 計算結果は変更される場合があります。'
+BetaMessage: "現在のバージョン： {{Version}} - 計算結果は変更される場合があります。"
 Common:
   BuffPriority:
-    Text: 'バフを優先する対象'
-    Content: '優先してバフを付与する対象を選択'
-    Self: 'バフ優先：自身'
-    Memo: 'バフ優先：精霊'
+    Text: "バフを優先する対象"
+    Content: "優先してバフを付与する対象を選択"
+    Self: "バフ優先：自身"
+    Memo: "バフ優先：精霊"
   HealAbility:
-    Text: '治癒能力'
-    Content: '治癒量の計算に使用するアビリティを選択します。'
-    Basic: '治癒：通常'
-    Skill: '治癒：スキル'
-    Ult: '治癒：必殺'
-    Talent: '治癒：天賦'
-    Trace: '治癒：軌跡'
+    Text: "治癒能力"
+    Content: "治癒量の計算に使用するアビリティを選択します。"
+    Basic: "治癒：通常"
+    Skill: "治癒：スキル"
+    Ult: "治癒：必殺"
+    Talent: "治癒：天賦"
+    Trace: "治癒：軌跡"
   ShieldAbility:
-    Text: 'シールド能力'
-    Content: 'シールド量の計算に使用するアビリティを選択します。'
-    Basic: 'シールド：通常'
-    Skill: 'シールド：スキル'
-    Ult: 'シールド：必殺'
-    Talent: 'シールド：天賦'
-    Trace: 'シールド：軌跡'
+    Text: "シールド能力"
+    Content: "シールド量の計算に使用するアビリティを選択します。"
+    Basic: "シールド：通常"
+    Skill: "シールド：スキル"
+    Ult: "シールド：必殺"
+    Talent: "シールド：天賦"
+    Trace: "シールド：軌跡"
 Lightcones:
   AGroundedAscent:
     Content:
@@ -181,7 +181,7 @@ Lightcones:
           装備キャラが攻撃を行った後、120%の基礎確率で敵単体それぞれを「茫然」状態にする。「茫然」状態の敵の防御力-{{DefShred}}%、2ターン継続。::BR::装備キャラの速度が170以上の場合、120%の基礎確率で敵単体それぞれを「盗難」状態にする。「盗難」状態の敵の防御力-{{AdditionalDefShred}}%、2ターン継続。
     TeammateContent:
       additionalDefPen:
-        text: '速度 > 170'
+        text: "速度 > 170"
         content: >-
           装備キャラが攻撃を行った後、120%の基礎確率で敵単体それぞれを「茫然」状態にする。「茫然」状態の敵の防御力-{{DefShred}}%、2ターン継続。::BR::装備キャラの速度が170以上の場合、120%の基礎確率で敵単体それぞれを「盗難」状態にする。「盗難」状態の敵の防御力-{{AdditionalDefShred}}%、2ターン継続。
   LifeShouldBeCastToFlames:
@@ -475,7 +475,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: '敵2体以下時の会心率バフ'
+        text: "敵2体以下時の会心率バフ"
         content: フィールド上の敵の数が2体以下の場合、装備キャラの会心率+{{CritBuff}}%。
   PastAndFuture:
     Content:
@@ -496,7 +496,7 @@ Lightcones:
     Content:
       cdBuff:
         text: 同運命の味方の会心ダメバフ
-        content: '戦闘に入る時、パーティに同じ運命の味方が2名以上いる場合、それらの味方の会心ダメージ+{{CritBuff}}%。同系統のスキルは重ね掛け不可。'
+        content: "戦闘に入る時、パーティに同じ運命の味方が2名以上いる場合、それらの味方の会心ダメージ+{{CritBuff}}%。同系統のスキルは重ね掛け不可。"
   PostOpConversation:
     Content:
       postUltHealingBoost:
@@ -541,7 +541,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: '会心ダメバフ'
+        text: "会心ダメバフ"
         content: 装備キャラが攻撃を行った後、攻撃を受けた敵のうち、装備キャラの属性に対応する弱点属性を持つ敵が2体以上の場合、装備キャラの会心ダメージ+{{CritBuff}}%、2ターン継続。
   TheGreatCosmicEnterprise:
     Content:
@@ -786,10 +786,10 @@ Characters:
     Content:
       skillExtraDmgHits:
         text: スキルの追加ヒット数
-        content: '指定した敵単体にアスターの攻撃力{{skillScaling}}%分の炎属性ダメージを与え、さらに{{skillExtraDmgHitsMax}}ヒットする。1ヒットごとに、ランダムな敵単体にアスターの攻撃力{{skillScaling}}%分の炎属性ダメージを与える。::BR::1凸：戦闘スキルを発動した時、さらにランダムな敵単体にダメージを1回与える。'
+        content: "指定した敵単体にアスターの攻撃力{{skillScaling}}%分の炎属性ダメージを与え、さらに{{skillExtraDmgHitsMax}}ヒットする。1ヒットごとに、ランダムな敵単体にアスターの攻撃力{{skillScaling}}%分の炎属性ダメージを与える。::BR::1凸：戦闘スキルを発動した時、さらにランダムな敵単体にダメージを1回与える。"
       talentBuffStacks:
         text: '「蓄エネ」層数'
-        content: 'アスターが持つ蓄エネ1層につき、味方全体の攻撃力+14%、最大で5回累積できる。::BR::4凸::天賦の蓄エネが2層以上の時、アスターのEP回復効率+15%。'
+        content: "アスターが持つ蓄エネ1層につき、味方全体の攻撃力+14%、最大で5回累積できる。::BR::4凸::天賦の蓄エネが2層以上の時、アスターのEP回復効率+15%。"
       ultSpdBuff:
         text: 必殺技の速度バフ有効
         content: 味方全体の速度+{{ultSpdBuffValue}}、2ターン継続。
@@ -860,7 +860,7 @@ Characters:
     Content:
       enhancedStateActive:
         text: '「地獄変」状態'
-        content: '「地獄変」状態では戦闘スキルを発動できず、自身の与ダメージ+{{enhancedStateDmgBoost}}%、通常攻撃「支離剣」が「無間剣樹」に強化される、3ターン継続。::BR::E2::刃が「地獄変」状態の時、会心率+15%。'
+        content: "「地獄変」状態では戦闘スキルを発動できず、自身の与ダメージ+{{enhancedStateDmgBoost}}%、通常攻撃「支離剣」が「無間剣樹」に強化される、3ターン継続。::BR::E2::刃が「地獄変」状態の時、会心率+15%。"
       hpPercentLostTotal:
         text: 戦闘中失ったHPの累計
         content: 戦闘中失ったHPの累計のカウントは、刃の最大HPの90%を超えず、必殺技を発動した後にリセットされる。
@@ -1518,7 +1518,7 @@ Characters:
         content: デバフ状態の敵に対して与ダメージ+20%。
       skillRemovedBuff:
         text: 敵のバフ解除済み
-        content: '指定した敵単体のバフを1つ解除し、ペラの攻撃力210%分の氷属性ダメージを与える。::BR::2凸：戦闘スキルを発動してバフを解除する時、速度+10%、2ターン継続。'
+        content: "指定した敵単体のバフを1つ解除し、ペラの攻撃力210%分の氷属性ダメージを与える。::BR::2凸：戦闘スキルを発動してバフを解除する時、速度+10%、2ターン継続。"
       ultDefPenDebuff:
         text: '「一般解」付与済み'
         content: '「一般解」状態の敵の防御力-{{ultDefPenValue}}%、2ターン継続。'
@@ -1642,7 +1642,7 @@ Characters:
           通常攻撃、戦闘スキル、必殺技で敵を倒すと追加ターンを1獲得し、増幅状態に入る。増幅状態のゼーレの与ダメージ+{{buffedStateDmgBuff}}%、1ターン継続。::BR::増幅状態の時、ゼーレの量子属性耐性貫通+20%。
       speedBoostStacks:
         text: 速度バフ層数
-        content: 'ゼーレの速度+25%、2ターン継続。::BR::2凸：戦闘スキルの加速効果が累積できるようになる、最大で2層累積できる。'
+        content: "ゼーレの速度+25%、2ターン継続。::BR::2凸：戦闘スキルの加速効果が累積できるようになる、最大で2層累積できる。"
       e1EnemyHp80CrBoost:
         text: 1凸 敵HP≤80%時の会心率バフ
         content: 残りHPが80%以下の敵にダメージを与える時、会心率+15%。
@@ -1789,7 +1789,7 @@ Characters:
         content: 戦闘スキルを発動した時、停雲の速度+20%、1ターン継続。
       ultDmgBuff:
         text: 必殺技の味方ダメバフ
-        content: '指定した味方単体のEPを50回復し、その味方の与ダメージ+{{ultDmgBoost}}%、2ターン継続。'
+        content: "指定した味方単体のEPを50回復し、その味方の与ダメージ+{{ultDmgBoost}}%、2ターン継続。"
       ultSpdBuff:
         text: 1凸 味方速度バフ
         content: '「賜福」を与えられた味方単体は、必殺技を発動した後に速度+20%、1ターン継続。'
@@ -1973,7 +1973,7 @@ Characters:
         content: 御空がフィールド上にいる時、味方全体の虚数属性ダメージ+12%。御空がフィールド上にいる時、味方全体の虚数属性ダメージ+12%。
       roaringBowstringsActive:
         text: '「鳴弦号令」層数'
-        content: '「鳴弦号令」を2層獲得する。「鳴弦号令」は最大で2層累積できる。御空に「鳴弦号令」がある時、味方全体の攻撃力+{{skillAtkBuffValue}}%。::BR::4凸::「鳴弦号令」がある時、御空の与ダメージ+30%。'
+        content: "「鳴弦号令」を2層獲得する。「鳴弦号令」は最大で2層累積できる。御空に「鳴弦号令」がある時、味方全体の攻撃力+{{skillAtkBuffValue}}%。::BR::4凸::「鳴弦号令」がある時、御空の与ダメージ+30%。"
       ultBuff:
         text: 必殺技の会心率/ダメバフ
         content: >-
@@ -1987,11 +1987,11 @@ Characters:
         text: '「構え」状態'
         content: '「構え」状態の時、行動制限系デバフに抵抗し、受けるダメージ-20%。'
       ultCull:
-        text: '「看破・滅」有効'
+        text: "「看破・滅」有効"
         content: >-
           「看破・滅」：敵に雲璃の攻撃力{{CullScaling}}%分の物理属性ダメージを与え、隣接する敵に雲璃の攻撃力{{CullAdjacentScaling}}%分の物理属性ダメージを与える。その後、追加で6ヒットする。1ヒットにつき、ランダムな敵単体に雲璃の攻撃力{{CullAdditionalScaling}}%分の物理属性ダメージを与える。
       ultCullHits:
-        text: '「看破・滅」ヒット数'
+        text: "「看破・滅」ヒット数"
         content: >-
           「看破・滅」：敵に雲璃の攻撃力{{CullScaling}}%分の物理属性ダメージを与え、隣接する敵に雲璃の攻撃力{{CullAdjacentScaling}}%分の物理属性ダメージを与える。その後、追加で6ヒットする。1ヒットにつき、ランダムな敵単体に雲璃の攻撃力{{CullAdditionalScaling}}%分の物理属性ダメージを与える。
       counterAtkBuff:
@@ -1999,13 +1999,13 @@ Characters:
         content: カウンターを発動する時、雲璃の攻撃力+30%、1ターン継続。
       e1UltBuff:
         text: 1凸 必殺技強化
-        content: '「看破・斬」の与ダメージと「看破・滅」の与ダメージ+20%。「看破・滅」の追加のヒット数+3。'
+        content: "「看破・斬」の与ダメージと「看破・滅」の与ダメージ+20%。「看破・滅」の追加のヒット数+3。"
       e2DefShred:
         text: 2凸 カウンターの防御力無視
         content: カウンターを発動してダメージを与える時、敵の防御力を20%無視する。
       e4ResBuff:
         text: 4凸 効果抵抗バフ
-        content: '「看破・斬」または「看破・滅」を発動した後、自身の効果抵抗+50%、1ターン継続。'
+        content: "「看破・斬」または「看破・滅」を発動した後、自身の効果抵抗+50%、1ターン継続。"
       e6Buffs:
         text: 6凸 バフ
         content: >-

@@ -10,12 +10,12 @@ StrategyLabels:
 RefundLabels:
   REFUND_NONE: Нет
   REFUND_NONE_FULL: Нет
-  REFUND_LOW: '{{Percentage}}% возврат'
-  REFUND_LOW_FULL: 'Возврат {{Percentage}}% (Низкий)'
-  REFUND_AVG: 'Возврат {{Percentage}}%'
-  REFUND_AVG_FULL: 'Возврат {{Percentage}}% (Средний)'
-  REFUND_HIGH: '{{Percentage}}% возврат'
-  REFUND_HIGH_FULL: 'Возврат {{Percentage}}% (Высокий)'
+  REFUND_LOW: "{{Percentage}}% возврат"
+  REFUND_LOW_FULL: "Возврат {{Percentage}}% (Низкий)"
+  REFUND_AVG: "Возврат {{Percentage}}%"
+  REFUND_AVG_FULL: "Возврат {{Percentage}}% (Средний)"
+  REFUND_HIGH: "{{Percentage}}% возврат"
+  REFUND_HIGH_FULL: "Возврат {{Percentage}}% (Высокий)"
 EidolonLevels:
   NONE: Нет
   E0: E0
@@ -33,7 +33,7 @@ SuperimpositionLevels:
   S4: S4
   S5: S5
 IncomeOptions:
-  Label: '[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: '
+  Label: "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
   Type:
     0: Нет
     1: Ф2П
@@ -43,7 +43,7 @@ PityCounter:
   PityCounter: Круток уже сделано
   CurrentEidolonSuperImp: Текущий
   Guaranteed: Гарант
-TotalAvailable: 'Итого круток:'
+TotalAvailable: "Итого круток:"
 SectionTitles:
   Planner: Планировщик круток
   Results: Результаты
@@ -61,6 +61,6 @@ SectionTitles:
   Calculate: Рассчитать
 ColumnTitles:
   Goal: Цель
-  Chance: 'Шанс успеха с {{ticketCount}} <1/>'
-  Average: 'Необходимо в среднем  <1/>'
+  Chance: "Шанс успеха с {{ticketCount}} <1/>"
+  Average: "Необходимо в среднем  <1/>"
 TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'

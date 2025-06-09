@@ -1,26 +1,26 @@
-BetaMessage: 'Versão atual: {{Version}} - Os cálculos estão sujeitos a alterações.'
+BetaMessage: "Versão atual: {{Version}} - Os cálculos estão sujeitos a alterações."
 Common:
   BuffPriority:
-    Text: 'Alvo prioritário de Buff'
-    Content: 'Selecionar o destinatário preferido para buffs de alvo único'
-    Self: 'Prioridade Buff: Próprio'
-    Memo: 'Prioridade Buff: Memo'
+    Text: "Alvo prioritário de Buff"
+    Content: "Selecionar o destinatário preferido para buffs de alvo único"
+    Self: "Prioridade Buff: Próprio"
+    Memo: "Prioridade Buff: Memo"
   HealAbility:
-    Text: 'Habilidade de cura'
-    Content: 'Selecione a habilidade para cálculos de cura'
-    Basic: 'Habilidade de cura: Básico'
-    Skill: 'Habilidade de cura: Perícia'
-    Ult: 'Habilidade de cura: Ult'
-    Talent: 'Habilidade de cura: Talento'
-    Trace: 'Habilidade de cura: Rastro'
+    Text: "Habilidade de cura"
+    Content: "Selecione a habilidade para cálculos de cura"
+    Basic: "Habilidade de cura: Básico"
+    Skill: "Habilidade de cura: Perícia"
+    Ult: "Habilidade de cura: Ult"
+    Talent: "Habilidade de cura: Talento"
+    Trace: "Habilidade de cura: Rastro"
   ShieldAbility:
-    Text: 'Habilidade de escudo'
-    Content: 'Selecione a habilidade para cálculos de escudo'
-    Basic: 'Habilidade de escudo: Básica'
-    Skill: 'Habilidade de escudo: Perícia'
-    Ult: 'Habilidade de escudo: Ult'
-    Talent: 'Habilidade de proteção: Talento'
-    Trace: 'Habilidade de escudo: Rastro'
+    Text: "Habilidade de escudo"
+    Content: "Selecione a habilidade para cálculos de escudo"
+    Basic: "Habilidade de escudo: Básica"
+    Skill: "Habilidade de escudo: Perícia"
+    Ult: "Habilidade de escudo: Ult"
+    Talent: "Habilidade de proteção: Talento"
+    Trace: "Habilidade de escudo: Rastro"
 Lightcones:
   AGroundedAscent:
     Content:
@@ -181,7 +181,7 @@ Lightcones:
           Após o usuário realizar um ataque, há uma chance-base de 120% de infligir o estado de "Engano" em cada inimigo-alvo. Enquanto estiver no estado de "Engano", a DEF do inimigo-alvo diminui em {{DefShred}}% por 2 rodada(s). Se a VEL do usuário for maior ou igual a 170, há uma chance-base de 120% de infligir o estado de "Roubo" em todos os inimigos-alvo. Enquanto estiver sob o estado de "Roubo", a DEF do inimigo-alvo diminui em {{AdditionalDefShred}}% por 2 rodada(s).
     TeammateContent:
       additionalDefPen:
-        text: 'VEL > 170'
+        text: "VEL > 170"
         content: >-
           Após o usuário realizar um ataque, há uma chance-base de 120% de infligir o estado de "Engano" em cada inimigo-alvo. Enquanto estiver no estado de "Engano", a DEF do inimigo-alvo diminui em {{DefShred}}% por 2 rodada(s). Se a VEL do usuário for maior ou igual a 170, há uma chance-base de 120% de infligir o estado de "Roubo" em todos os inimigos-alvo. Enquanto estiver sob o estado de "Roubo", a DEF do inimigo-alvo diminui em {{AdditionalDefShred}}% por 2 rodada(s).
   LifeShouldBeCastToFlames:
@@ -376,26 +376,26 @@ Lightcones:
       atkBuffActive:
         text: Buff de ATK ativo
         content: >-
-          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:
-          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.
-          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.
-          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.
+          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:  
+          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.  
+          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.  
+          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.  
           ::BR::O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
       cdBuffActive:
         text: Buff de CD ativo.
         content: >-
-          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:
-          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.
-          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.
-          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.
+          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:  
+          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.  
+          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.  
+          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.  
           ::BR::O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
       errBuffActive:
         text: Buff de ERR ativo
         content: >-
-          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:
-          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.
-          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.
-          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.
+          No início da batalha e sempre que o turno do usuário começa, um dos seguintes efeitos é aplicado aleatoriamente:  
+          ::BR::- O ATK de todos os aliados aumenta em {{AtkBuff}}%.  
+          ::BR::- O CRIT DMG de todos os aliados aumenta em {{CritBuff}}%.  
+          ::BR::- A Taxa de Regeneração de Energia de todos os aliados aumenta em {{RegenBuff}}%.  
           ::BR::O efeito aplicado não pode ser idêntico ao último efeito aplicado e substituirá o efeito anterior. O efeito aplicado será removido quando o usuário for derrubado. Efeitos do mesmo tipo não podem ser acumulados.
   ConcertForTwo:
     Content:
@@ -487,7 +487,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: 'Buff de CR para ≤ 2 inimigos'
+        text: "Buff de CR para ≤ 2 inimigos"
         content: Se houver 2 ou menos inimigos no campo, aumenta a taxa de CRIT do portador em {{CritBuff}}%.
   PastAndFuture:
     Content:
@@ -508,7 +508,7 @@ Lightcones:
     Content:
       cdBuff:
         text: Buff de cooldown para caminho duplo
-        content: 'Ao entrar em batalha, se dois ou mais personagens seguirem o mesmo Caminho, o CRIT DMG desses personagens aumenta em {{CritBuff}}%.'
+        content: "Ao entrar em batalha, se dois ou mais personagens seguirem o mesmo Caminho, o CRIT DMG desses personagens aumenta em {{CritBuff}}%."
   PostOpConversation:
     Content:
       postUltHealingBoost:
@@ -553,7 +553,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: 'Buff de cooldown para alvos com ≥ 2 fraquezas'
+        text: "Buff de cooldown para alvos com ≥ 2 fraquezas"
         content: Quando o portador usa um ataque e pelo menos 2 inimigos atacados têm a fraqueza correspondente, o CRIT DMG do portador aumenta em {{CritBuff}}% por 2 turnos.
   TheGreatCosmicEnterprise:
     Content:
@@ -798,10 +798,10 @@ Characters:
     Content:
       skillExtraDmgHits:
         text: Habilidade de hits extras
-        content: 'Causa Dano Fogo igual a {{skillScaling}}% do ATK de Welt a um único inimigo e, adicionalmente, causa Dano {{skillExtraDmgHitsMax}} vezes a mais, com cada ataque causando Dano Fogo igual a {{skillScaling}}% do ATK de Welt a um inimigo aleatório. :BR::E1: Quando usar perícia, da dano 1 vez extra à um inimigo aleatório.'
+        content: "Causa Dano Fogo igual a {{skillScaling}}% do ATK de Welt a um único inimigo e, adicionalmente, causa Dano {{skillExtraDmgHitsMax}} vezes a mais, com cada ataque causando Dano Fogo igual a {{skillScaling}}% do ATK de Welt a um inimigo aleatório. :BR::E1: Quando usar perícia, da dano 1 vez extra à um inimigo aleatório."
       talentBuffStacks:
         text: Acúmulo de buff de ATK do talento
-        content: 'Aumenta o ATK dos aliados em {{talentStacksAtkBuff}}% para cada acúmulo.::BR::E4: A taxa de regeneração de energia de Asta aumenta em 15% quando ela possui 2 ou mais acúmulos de Carga.'
+        content: "Aumenta o ATK dos aliados em {{talentStacksAtkBuff}}% para cada acúmulo.::BR::E4: A taxa de regeneração de energia de Asta aumenta em 15% quando ela possui 2 ou mais acúmulos de Carga."
       ultSpdBuff:
         text: Buff de SPD ativo da ult
         content: Aumenta a SPD de todos os aliados em {{ultSpdBuffValue}} por 2 turnos.
@@ -872,7 +872,7 @@ Characters:
     Content:
       enhancedStateActive:
         text: Estado de Inferno
-        content: 'Aumenta o DMG em {{enhancedStateDmgBoost}}% e seu ATK Básico Espada Fragmentada é aprimorado para Floresta de Espadas por 3 turnos.::BR::E2: Aumenta a taxa de CRIT em 15%.'
+        content: "Aumenta o DMG em {{enhancedStateDmgBoost}}% e seu ATK Básico Espada Fragmentada é aprimorado para Floresta de Espadas por 3 turnos.::BR::E2: Aumenta a taxa de CRIT em 15%."
       hpPercentLostTotal:
         text: HP% perdido total
         content: O DMG da Ultimate escala com base na contagem da perda de HP de Blade na batalha atual. A contagem da perda de HP de Blade na batalha atual é limitada a {{hpPercentLostTotalMax}}% de seu HP máximo.
@@ -1528,7 +1528,7 @@ Characters:
         content: Causa 20% mais de dano a inimigos debilitados.
       skillRemovedBuff:
         text: Buff de inimigo removido. Buffs de habilidades.
-        content: 'Usar habilidade para remover buffs aumenta o dano do próximo ataque de Pela em 20%.::BR::E2: Usar habilidade para remover buffs aumenta a velocidade em 10% por 2 turnos.'
+        content: "Usar habilidade para remover buffs aumenta o dano do próximo ataque de Pela em 20%.::BR::E2: Usar habilidade para remover buffs aumenta a velocidade em 10% por 2 turnos."
       ultDefPenDebuff:
         text: Redução de DEF final
         content: Quando expostos, a DEF dos inimigos é reduzida em {{ultDefPenValue}}% por 2 turnos.
@@ -1652,7 +1652,7 @@ Characters:
           Entra no estado de buff ao derrotar um inimigo com ATK Básico, Habilidade ou Ultimativa, e recebe um turno extra. Enquanto estiver no estado de buff, o DMG dos ataques de Seele aumenta em {{buffedStateDmgBuff}}% por 1 turno.::BR::Enquanto Seele estiver no estado de buff, sua PEN de RES Quantum aumenta em 20%.
       speedBoostStacks:
         text: Acúmulos de buff de velocidade
-        content: 'Após usar sua perícia, aumenta a VEL de Seele em 25% por 2 rodadas.:BR::E2: O aumento de VEL da perícia pode acumular até 2 vezes.'
+        content: "Após usar sua perícia, aumenta a VEL de Seele em 25% por 2 rodadas.:BR::E2: O aumento de VEL da perícia pode acumular até 2 vezes."
       e1EnemyHp80CrBoost:
         text: E1 HP do inimigo ≤ 80% aumento de CR
         content: Ao causar DMG a um inimigo cuja porcentagem de HP é 80% ou inferior, a Taxa de CRIT aumenta em 15%.
@@ -1799,7 +1799,7 @@ Characters:
         content: A SPD de Tingyun aumenta em 20% por 1 turno após usar a Habilidade.
       ultDmgBuff:
         text: Buff de DMG da ultimate
-        content: 'Regenera 50 de Energia para um único aliado e aumenta o DMG do alvo em {{ultDmgBoost}}% por 2 turnos.:BR::E6: Ultimate regenera mais 10 Energia para o aliado alvo.'
+        content: "Regenera 50 de Energia para um único aliado e aumenta o DMG do alvo em {{ultDmgBoost}}% por 2 turnos.:BR::E6: Ultimate regenera mais 10 Energia para o aliado alvo."
       ultSpdBuff:
         text: Buff de SPD da Ultimativa E1
         content: Após usar sua Ultimativa, o aliado com Benção ganha um aumento de 20% na SPD por 1 turno.
@@ -1983,7 +1983,7 @@ Characters:
         content: Quando Yukong está em campo, o DMG Imaginário causado por todos os aliados aumenta em 12%.
       roaringBowstringsActive:
         text: Cordas de Arco Rugidoras
-        content: 'Quando as Cordas de Arco Rugidoras estão ativas, o ATK de todos os aliados aumenta em {{skillAtkBuffValue}}%.::BR::E4: Quando as Cordas de Arco Rugidoras estão ativas, Yukong causa 30% a mais de DMG aos inimigos.'
+        content: "Quando as Cordas de Arco Rugidoras estão ativas, o ATK de todos os aliados aumenta em {{skillAtkBuffValue}}%.::BR::E4: Quando as Cordas de Arco Rugidoras estão ativas, Yukong causa 30% a mais de DMG aos inimigos."
       ultBuff:
         text: Aumentos de CR / CD do Ultimate
         content: >-
@@ -1997,11 +1997,11 @@ Characters:
         text: Bloqueio ativo
         content: Enquanto estiver no estado de Bloqueio resiste a debuffs de Controle de Multidão recebidos e reduz o DMG recebido em 20%.
       ultCull:
-        text: 'Intuit: Colheita habilitada'
+        text: "Intuit: Colheita habilitada"
         content: >-
           Intuit: Colheita: Causa DMG Físico igual a {{CullScaling}}% do ATK de Yunli ao alvo e causa DMG Físico igual a {{CullAdjacentScaling}}% do ATK de Yunli a alvos adjacentes. Em seguida, causa adicionalmente 6 instâncias de DMG, cada uma causando DMG Físico igual a {{CullAdditionalScaling}}% do ATK de Yunli a um inimigo único aleatório.
       ultCullHits:
-        text: 'Intuit: Colheitas atingidas'
+        text: "Intuit: Colheitas atingidas"
         content: >-
           Intuit: Colheita: Causa DMG Físico igual a {{CullScaling}}% do ATK de Yunli ao alvo e causa DMG Físico igual a {{CullAdjacentScaling}}% do ATK de Yunli a alvos adjacentes. Em seguida, causa adicionalmente 6 instâncias de DMG, cada uma causando DMG Físico igual a {{CullAdditionalScaling}}% do ATK de Yunli a um inimigo único aleatório.
       counterAtkBuff:
@@ -2009,13 +2009,13 @@ Characters:
         content: Ao usar um Contra-ataque, aumenta o ATK de Yunli em 30%, com duração de 1 turno.
       e1UltBuff:
         text: Buff da ultimate E1
-        content: 'Aumenta o DMG causado por Intuit: Corte e Intuit: Colheita em 20%. Aumenta o número de instâncias adicionais de DMG para Intuit: Colheita em 3.'
+        content: "Aumenta o DMG causado por Intuit: Corte e Intuit: Colheita em 20%. Aumenta o número de instâncias adicionais de DMG para Intuit: Colheita em 3."
       e2DefShred:
         text: PEN de DEF FUA E2
         content: Ao causar DMG por meio de Contra-ataque, ignora 20% da DEF do alvo.
       e4ResBuff:
         text: Buff de RES E4
-        content: 'Após lançar Intuit: Corte ou Intuit: Colheita, aumenta a RES de Efeito desta unidade em 50%, com duração de 1 turno.'
+        content: "Após lançar Intuit: Corte ou Intuit: Colheita, aumenta a RES de Efeito desta unidade em 50%, com duração de 1 turno."
       e6Buffs:
         text: Buffs E6
         content: >-

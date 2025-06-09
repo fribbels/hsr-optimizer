@@ -34,16 +34,16 @@ Messages:
   RemoveSuccess: Personaggio rimosso con successo
   UnequipSuccess: Personaggio disequipaggiato con successo
   NoSelectedCharacter: Nessun personaggio selezionato
-  SwitchSuccess: 'Scambiate reliquie con $t(gameData:Characters.{{charId}}.Name) con successo'
+  SwitchSuccess: "Scambiate reliquie con $t(gameData:Characters.{{charId}}.Name) con successo"
   SortByScoreWarning: Sei sicuro di voler ordinare tutti i personaggi? Perderai tutti i cambiamenti sull'ordine attuale.
-  SaveSuccess: 'Build salvata con successo: {{name}}'
-  UnequipWarning: 'Sei sicuro di voler disequipaggiare $t(gameData:Characters.{{charId}}.Name)?'
-  DeleteWarning: 'Sei sicuro di voler eliminare $t(gameData:Characters.{{charId}}.Name)?'
+  SaveSuccess: "Build salvata con successo: {{name}}"
+  UnequipWarning: "Sei sicuro di voler disequipaggiare $t(gameData:Characters.{{charId}}.Name)?"
+  DeleteWarning: "Sei sicuro di voler eliminare $t(gameData:Characters.{{charId}}.Name)?"
 CharacterPreview:
-  ArtBy: 'Immagine di {{artistName}}'
+  ArtBy: "Immagine di {{artistName}}"
   EditCharacter: Modifica personaggio
   EditPortrait: Modifica ritratto
-  CharacterScore: 'Punteggio personaggio: {{score}} {{grade}}'
+  CharacterScore: "Punteggio personaggio: {{score}} {{grade}}"
   Messages:
     AddedRelic: Reliquia aggiunta con successo
     SavedPortrait: Immagine di copertina salvata con successo
@@ -51,9 +51,9 @@ CharacterPreview:
     NoSelectedCharacter: Nessun personaggio selezionato
   ScoreHeader:
     Title: Sim battaglia
-    Score: 'Punteggio DPS {{score}}% {{grade}}'
+    Score: "Punteggio DPS {{score}}% {{grade}}"
   AlgorithmSlider:
-    Title: 'Algoritmo del punteggio:'
+    Title: "Algoritmo del punteggio:"
     Labels:
       CombatScore: Punteggio in battaglia
       StatScore: Punteggio statistiche
@@ -70,29 +70,29 @@ CharacterPreview:
       Header: DANNO della combo
     CombatResults:
       Header: Risultato del danno in battaglia
-      Primary: 'Abilità primaria:'
-      Character: 'DANNO del Personaggio:'
-      Benchmark: 'DANNO del Benchmark:'
-      Baseline: 'DANNO in linea di base:'
-      Maximum: 'DANNO massimo:'
-      Score: 'punteggio DPS %:'
+      Primary: "Abilità primaria:"
+      Character: "DANNO del Personaggio:"
+      Benchmark: "DANNO del Benchmark:"
+      Baseline: "DANNO in linea di base:"
+      Maximum: "DANNO massimo:"
+      Score: "punteggio DPS %:"
   ScoringColumn:
     Character:
-      Header: 'Build personaggio ({{score}}%)'
+      Header: "Build personaggio ({{score}}%)"
       BasicStats: Statistiche base del personaggio
       CombatStats: <1>Statistiche in battaglia</1> del personaggio
       Substats: Statistiche secondarie del personaggio (min rolls)
       Mainstats: Statistica principale del personaggio
       Abilities: Danno abilità del personaggio
     Benchmark:
-      Header: 'Build benchmark ({{score}}%)'
+      Header: "Build benchmark ({{score}}%)"
       BasicStats: Statistiche base 100% benchmark
       CombatStats: <1>Statistiche in battaglia</1> 100% benchmark
       Substats: Statistiche secondarie 100% (min rolls)
       Mainstats: Statistiche principale 100%
       Abilities: Danno abilità 100% benchmark
     Perfect:
-      Header: 'Build perfetta ({{score}}%)'
+      Header: "Build perfetta ({{score}}%)"
       BasicStats: Statistiche base perfette 200%
       CombatStats: <1>Statistiche in battaglia</1> 200% perfette
       Substats: Statistiche secondarie 200% (max rolls)

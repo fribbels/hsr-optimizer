@@ -62,8 +62,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 if (${wgslFalse(r.skillUltDmgBoost)}) {
   return;
 }
-(*p_x).SKILL_DMG += select(0.0, ${sValuesSkillUltDmg[s]}, (p_x).HP * ${sValuesHpDrain[s]} > 500)
-(*p_x).ULT_DMG += select(0.0, ${sValuesSkillUltDmg[s]}, (p_x).HP * ${sValuesHpDrain[s]} > 500)
+(*p_x).SKILL_DMG += select(0.0, ${sValuesSkillUltDmg[s]}, (p_x).HP * ${sValuesHpDrain[s]} > 500);
+(*p_x).ULT_DMG += select(0.0, ${sValuesSkillUltDmg[s]}, (p_x).HP * ${sValuesHpDrain[s]} > 500);
 `
     },
   }

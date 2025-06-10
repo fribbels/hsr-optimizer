@@ -23,10 +23,6 @@ import {
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import {
-  applyMetadataPresetToForm,
-  applyPreset,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { ConditionalValueMap } from 'types/conditionals'
@@ -35,6 +31,7 @@ import {
   Teammate,
 } from 'types/form'
 import { OptimizerCombatBuffs } from 'types/optimizer'
+import { applyMetadataPresetToForm, applyPreset } from "lib/conditionals/evaluation/applyPresets";
 
 // Convert the rendered form values into an internal form
 export function displayToForm(form: Form) {

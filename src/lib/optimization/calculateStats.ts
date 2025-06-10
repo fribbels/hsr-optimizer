@@ -1,6 +1,7 @@
 import {
   BASIC_DMG_TYPE,
   BREAK_DMG_TYPE,
+  DOT_DMG_TYPE,
   FUA_DMG_TYPE,
   SKILL_DMG_TYPE,
   SUPER_BREAK_DMG_TYPE,
@@ -290,6 +291,14 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
 
     if (p2(SetKeys.InertSalsotto, sets) && x.a[Key.CR] >= 0.50) {
       buffAbilityDmg(x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, Source.InertSalsotto)
+    }
+
+    if (p2(SetKeys.RevelryByTheSea, sets)) {
+      if (x.a[Key.ATK] >= 3600) {
+        buffAbilityDmg(x, DOT_DMG_TYPE, 0.24, Source.RevelryByTheSea)
+      } else if (x.a[Key.ATK] >= 2400) {
+        buffAbilityDmg(x, DOT_DMG_TYPE, 0.12, Source.RevelryByTheSea)
+      }
     }
   }
 

@@ -35,11 +35,11 @@ Messages:
   RemoveSuccess: Xóa nhân vật thành công
   UnequipSuccess: Gỡ đồ nhân vật thành công
   NoSelectedCharacter: Không nhân vật được chọn
-  SwitchSuccess: 'Đổi dị vật với $t(gameData:Characters.{{charId}}.Name) thành công'
+  SwitchSuccess: "Đổi dị vật với $t(gameData:Characters.{{charId}}.Name) thành công"
   SortByScoreWarning: Bạn có chắc rằng mình muốn sắp xếp lại tất cả nhân vật? Mọi sắp xếp thủ công trước đó sẽ bị thay đổi.
-  SaveSuccess: 'Lưu lối lên đồ cho {{name}} thành công'
-  UnequipWarning: 'Bạn chắc chắn muốn gỡ đồ của $t(gameData:Characters.{{charId}}.Name)?'
-  DeleteWarning: 'Bạn chắc chắn muốn xóa đồ của $t(gameData:Characters.{{charId}}.Name)?'
+  SaveSuccess: "Lưu lối lên đồ cho {{name}} thành công"
+  UnequipWarning: "Bạn chắc chắn muốn gỡ đồ của $t(gameData:Characters.{{charId}}.Name)?"
+  DeleteWarning: "Bạn chắc chắn muốn xóa đồ của $t(gameData:Characters.{{charId}}.Name)?"
 CharacterPreview:
   ScoringSidebar:
     Stats:
@@ -47,8 +47,8 @@ CharacterPreview:
       ButtonText: Vết Tích
     SpdPrecision:
       Header: Tốc độ chính xác
-      Low: '.0'
-      High: '.000'
+      Low: ".0"
+      High: ".000"
     SpdWeight:
       Header: Tốc độ
       Max: 100%
@@ -71,10 +71,10 @@ CharacterPreview:
       Standard: Mặc định
     PaletteLabel: Bảng màu khung
     ShowUID: Hiện UID
-  ArtBy: 'Tranh bởi {{artistName}}'
+  ArtBy: "Tranh bởi {{artistName}}"
   EditCharacter: Sửa đổi nhân vật
   EditPortrait: Sửa đổi ảnh
-  CharacterScore: 'Nhận xét nhân vật: {{score}} {{grade}}'
+  CharacterScore: "Nhận xét nhân vật: {{score}} {{grade}}"
   Messages:
     AddedRelic: Thêm di vật mới thành công
     SavedPortrait: Thêm ảnh mới thành công
@@ -83,10 +83,10 @@ CharacterPreview:
     NoSelectedLightCone: Không nón ánh sáng nào được chọn
   ScoreHeader:
     Title: Giả lập combat
-    TitleBenchmark: '{{spd}} Mốc chuẩn SPD'
-    Score: 'Điểm DPS {{score}}% {{grade}}'
+    TitleBenchmark: "{{spd}} Mốc chuẩn SPD"
+    Score: "Điểm DPS {{score}}% {{grade}}"
   AlgorithmSlider:
-    Title: 'Thuật toán chấm điểm:'
+    Title: "Thuật toán chấm điểm:"
     Labels:
       CombatScore: Điểm combat
       CombatScoreTBD: Combat (TBD)
@@ -100,7 +100,7 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: So sánh nâng cấp thuộc tính dị vật
     MainStatHeader: So sánh nâng cấp chính di vật
-    AddedRoll: '+1x roll {{stat}}'
+    AddedRoll: "+1x roll {{stat}}"
     MainStatUpgrade: Nâng Cấp Dòng Chính
     SubStatUpgrade: Nâng cấp thuộc tính phụ
     DpsScorePercentUpgrade: Điểm DPS Δ %
@@ -121,16 +121,16 @@ CharacterPreview:
       FUA: Đòn Đánh Theo Sau
       MEMO_SKILL: SKILLᴹ
       MEMO_TALENT: THIÊN PHÚ LHKY
-      DOTS: 'Sát thương duy trì:'
-      BREAKS: 'ST Kích Phá:'
+      DOTS: "Sát thương duy trì:"
+      BREAKS: "ST Kích Phá:"
     CombatResults:
       Header: Kết quả sát thương
-      Primary: 'Kĩ năng chính:'
-      Character: 'ST nhân vật:'
-      Benchmark: 'ST tiêu chuẩn:'
-      Baseline: 'ST cơ bản:'
-      Maximum: 'ST tối đa:'
-      Score: 'Điểm DPS:'
+      Primary: "Kĩ năng chính:"
+      Character: "ST nhân vật:"
+      Benchmark: "ST tiêu chuẩn:"
+      Baseline: "ST cơ bản:"
+      Maximum: "ST tối đa:"
+      Score: "Điểm DPS:"
       Abilities:
         BASIC: ST TẤN CÔNG THƯỜNG
         SKILL: 'ST CHIẾN KỸ:'
@@ -145,21 +145,21 @@ CharacterPreview:
       Header: Buffs trong combat
   ScoringColumn:
     Character:
-      Header: 'Lối lên đồ của bạn ({{score}}%)'
+      Header: "Lối lên đồ của bạn ({{score}}%)"
       BasicStats: Chỉ số cơ bản
       CombatStats: <1>Chỉ số combat</1> nhân vật
       Substats: Thuộc tính phụ nhân vật (Roll tối thiểu)
       Mainstats: Thuộc tính chính nhân vật
       Abilities: Sát thương nhân vật
     Benchmark:
-      Header: 'Lối lên đồ tiêu chuẩn ({{score}}%)'
+      Header: "Lối lên đồ tiêu chuẩn ({{score}}%)"
       BasicStats: Chỉ số cơ bản 100% tiêu chuẩn
       CombatStats: <1>Chỉ số combat</1> 100% tiêu chuẩn
       Substats: Thuộc tính phụ 100% tiêu chuẩn (Roll tối thiểu)
       Mainstats: Thuộc tính chính 100% tiêu chuẩn
       Abilities: Sát thương 100% tiêu chuẩn
     Perfect:
-      Header: 'Lối lên đồ hoàn hảo ({{score}}%)'
+      Header: "Lối lên đồ hoàn hảo ({{score}}%)"
       BasicStats: Chỉ số cơ bản 200% hoàn hảo
       CombatStats: <1>Chỉ số combat</1> 200% hoàn hảo
       Substats: Thuộc tính phụ 200% hoàn hảo (Roll tối đa)

@@ -35,11 +35,14 @@ Messages:
   RemoveSuccess: Personaje eliminado con éxito
   UnequipSuccess: Personaje desequipado con éxito
   NoSelectedCharacter: No hay personaje seleccionado
-  SwitchSuccess: 'Artefactos intercambiados con éxito con $t(gameData:Characters.{{charId}}.Name)'
+  SwitchSuccess: "Artefactos intercambiados con éxito con $t(gameData:Characters.{{charId}}.Name)"
   SortByScoreWarning: '¿De verdad quieres ordenar todos los personajes? Perderás cualquier clasificación personalizada.'
-  SaveSuccess: 'Equipamiento guardado con éxito: {{name}}'
-  UnequipWarning: '¿De verdad quieres desequipar a $t(gameData:Characters.{{charId}}.Name)?'
-  DeleteWarning: '¿De verdad quieres eliminar a $t(gameData:Characters.{{charId}}.Name)?'
+  SaveSuccess: "Equipamiento guardado con éxito: {{name}}"
+  UnequipWarning: "¿De verdad quieres desequipar a $t(gameData:Characters.{{charId}}.Name)?"
+  DeleteWarning: "¿De verdad quieres eliminar a $t(gameData:Characters.{{charId}}.Name)?"
+  BuildAlreadyExists: "Ya existe un equipamiento llamado {{name}}"
+  ImageUploadFailed: Falló la carga de la imagen
+  InvalidFile: El archivo no es un archivo de imagen válido
 CharacterPreview:
   ScoringSidebar:
     Stats:
@@ -47,8 +50,8 @@ CharacterPreview:
       ButtonText: Rastros
     SpdPrecision:
       Header: Precisión de VEL
-      Low: '.0'
-      High: '.000'
+      Low: ".0"
+      High: ".000"
     SpdWeight:
       Header: Importancia VEL
       Max: 100%
@@ -71,10 +74,10 @@ CharacterPreview:
       Standard: Estándar
     PaletteLabel: Paleta de color del retrato
     ShowUID: Mostrar UID
-  ArtBy: 'Arte por {{artistName}}'
+  ArtBy: "Arte por {{artistName}}"
   EditCharacter: Editar personaje
   EditPortrait: Editar retrato
-  CharacterScore: 'Puntaje del personaje: {{score}} {{grade}}'
+  CharacterScore: "Puntaje del personaje: {{score}} {{grade}}"
   Messages:
     AddedRelic: Artefacto añadido con éxito
     SavedPortrait: Retrato guardado con éxito
@@ -83,10 +86,10 @@ CharacterPreview:
     NoSelectedLightCone: No hay cono de luz seleccionado
   ScoreHeader:
     Title: Simulación de combate
-    TitleBenchmark: 'Evaluación {{spd}} VEL'
-    Score: 'Puntaje DPS {{score}}% {{grade}}'
+    TitleBenchmark: "Evaluación {{spd}} VEL"
+    Score: "Puntaje DPS {{score}}% {{grade}}"
   AlgorithmSlider:
-    Title: 'Algorit. de puntuación:'
+    Title: "Algorit. de puntuación:"
     Labels:
       CombatScore: Puntaje de combate
       CombatScoreTBD: Combate (a definir)
@@ -100,7 +103,7 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: Comparación de mejoras de atributos secundarios
     MainStatHeader: Comparación de mejoras de atributos principales
-    AddedRoll: '+1x mejora {{stat}}'
+    AddedRoll: "+1x mejora {{stat}}"
     MainStatUpgrade: Mejora de atr. principal
     SubStatUpgrade: Mejora de atr. secundario
     DpsScorePercentUpgrade: Δ % Puntaje DPS
@@ -126,16 +129,16 @@ CharacterPreview:
       FUA: ATQ. ADICIONAL
       MEMO_SKILL: HABILIDADᴹ
       MEMO_TALENT: TALENTOᴹ
-      DOTS: 'ATQ. ADIC.'
-      BREAKS: 'RUPTURAS:'
+      DOTS: "DOTS:"
+      BREAKS: "RUPTURAS:"
     CombatResults:
       Header: Resultados de daño de combate
-      Primary: 'Habilidad princ.:'
-      Character: 'Daño del personaje:'
-      Benchmark: 'Daño de la eval.:'
-      Baseline: 'Daño base:'
-      Maximum: 'Daño máximo:'
-      Score: 'Puntaje DPS %:'
+      Primary: "Habilidad princ.:"
+      Character: "Daño del personaje:"
+      Benchmark: "Daño de la eval.:"
+      Baseline: "Daño base:"
+      Maximum: "Daño máximo:"
+      Score: "Puntaje DPS %:"
       Abilities:
         BASIC: DAÑO BÁSICO
         SKILL: DAÑO HABILIDAD
@@ -151,21 +154,21 @@ CharacterPreview:
       SubDpsHeader: Mejoras de combate (DPS secundario)
   ScoringColumn:
     Character:
-      Header: 'Equip. del personaje ({{score}}%)'
+      Header: "Equip. del personaje ({{score}}%)"
       BasicStats: Atributos base del personaje
       CombatStats: <1>Atributos de combate</1> del personaje
       Substats: Atr. sec. del personje (mín. mejoras)
       Mainstats: Atributos principales del personaje
       Abilities: Daño de habilidad del personaje
     Benchmark:
-      Header: 'Equip. del evaluador ({{score}}%)'
+      Header: "Equip. del evaluador ({{score}}%)"
       BasicStats: Evaluación al 100% de atributos básicos
       CombatStats: Evaluación al 100% de <1>atributos de combate</1>
       Substats: Eval. 100% de atr. sec. (mín. mejoras)
       Mainstats: Eval. al 100% de atributos principales
       Abilities: Evaluación al 100% de daño de habilidad
     Perfect:
-      Header: 'Equip. perfecto ({{score}}%)'
+      Header: "Equip. perfecto ({{score}}%)"
       BasicStats: 200% Atributos básicos perfectos
       CombatStats: 200% <1>Atributos de combate</1> perfectos
       Substats: 200% Atr. sec. perfectos (máx. mejoras)

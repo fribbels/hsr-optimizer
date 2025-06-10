@@ -410,10 +410,12 @@ ComboFilter:
     Simple: crwdns43256:0crwdne43256:0
     Advanced: crwdns43258:0crwdne43258:0
   RowControls:
+    Header: crwdns45438:0crwdne45438:0
     Add: crwdns43260:0crwdne43260:0
     Remove: 'crwdns43262:0crwdne43262:0'
     ResetConfirm:
       Description: crwdns43264:0crwdne43264:0
+    PresetsHeader: crwdns45440:0crwdne45440:0
   CounterLabels:
     Dot: crwdns43266:0crwdne43266:0
   ComboOptions:
@@ -594,7 +596,7 @@ ExpandedDataPanel:
           DEF scaling: crwdns45055:0crwdne45055:0
           HP scaling: crwdns45057:0crwdne45057:0
           Special scaling: crwdns45059:0crwdne45059:0
-          'ATK % boost': crwdns45061:0crwdne45061:0
+          "ATK % boost": crwdns45061:0crwdne45061:0
           Crit Rate boost: crwdns45063:0crwdne45063:0
           Crit DMG boost: crwdns45065:0crwdne45065:0
           DMG boost: crwdns45067:0crwdne45067:0

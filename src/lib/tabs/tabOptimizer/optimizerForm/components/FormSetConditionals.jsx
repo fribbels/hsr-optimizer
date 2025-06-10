@@ -172,6 +172,50 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
 
     return options
   }, [t])
+  const setArcadiaOfWovenDreams = useMemo(() => {
+    return [
+      {
+        display: '1x',
+        value: 1,
+        label: '1 ally (+36% DMG)',
+      },
+      {
+        display: '2x',
+        value: 2,
+        label: '2 allies (+24% DMG)',
+      },
+      {
+        display: '3x',
+        value: 3,
+        label: '3 allies (+12% DMG)',
+      },
+      {
+        display: '4x',
+        value: 4,
+        label: '4 allies (+0% DMG)',
+      },
+      {
+        display: '5x',
+        value: 5,
+        label: '5 allies (+9% DMG)',
+      },
+      {
+        display: '6x',
+        value: 6,
+        label: '6 allies (+18% DMG)',
+      },
+      {
+        display: '7x',
+        value: 7,
+        label: '7 allies (+27% DMG)',
+      },
+      {
+        display: '8x',
+        value: 8,
+        label: '8 allies (+36% DMG)',
+      },
+    ]
+  }, [t])
 
   // defaultMessage = 'Enabled by default - effects will apply to combat calculations.'
 
@@ -457,6 +501,18 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
           <ConditionalSetOption
             set={Constants.Sets.GiantTreeOfRaptBrooding}
             description={t('PlanarDescription', { id: 320 })}
+            conditional={t('Conditionals.DefaultMessage')} // 'The selected buff is applied to damage calculations.'
+            p2Checked
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.ArcadiaOfWovenDreams}
+            description={t('PlanarDescription', { id: 321 })}
+            conditional={t('Conditionals.DefaultMessage')} // 'The selected buff is applied to damage calculations.'
+            selectOptions={setArcadiaOfWovenDreams}
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.RevelryByTheSea}
+            description={t('PlanarDescription', { id: 322 })}
             conditional={t('Conditionals.DefaultMessage')} // 'The selected buff is applied to damage calculations.'
             p2Checked
           />

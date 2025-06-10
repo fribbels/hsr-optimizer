@@ -207,6 +207,10 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
   const basicStats = toBasicStatsObject(result.ca)
   const combatStats = toComputedStatsObject(result.xa)
   const element = DB.getMetadata().characters[characterId].element
+  const elementalDmgValue = ElementToDamage[element]
+
+  basicStats[elementalDmgValue] = basicStats.ELEMENTAL_DMG
+  combatStats[elementalDmgValue] = combatStats.ELEMENTAL_DMG
 
   return (
     <Flex style={{ margin: 8 }} gap={10} justify='space-around'>

@@ -78,6 +78,7 @@
     "**/CharacterScoringSummary.tsx",
     "**/WarpCalculatorTab.tsx",
     "**/resources.d.ts",
+    "**/gameData.yaml"
   ],
   "plugins": [
     "https://plugins.dprint.dev/typescript-0.95.3.wasm",

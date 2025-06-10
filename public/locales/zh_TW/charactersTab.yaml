@@ -35,11 +35,11 @@ Messages:
   RemoveSuccess: 成功移除角色
   UnequipSuccess: 成功卸下角色遺器
   NoSelectedCharacter: 未選擇角色
-  SwitchSuccess: '成功與$t(gameData:Characters.{{charId}}.Name)互換遺器'
+  SwitchSuccess: "成功與$t(gameData:Characters.{{charId}}.Name)互換遺器"
   SortByScoreWarning: 你確定要對所有角色進行排序嗎？ 你將失去你所設定的任何自訂義排序。
-  SaveSuccess: '成功保存配裝: {{name}}'
-  UnequipWarning: '你確定你要卸下$t(gameData:Characters.{{charId}}.Name)的遺器嗎?'
-  DeleteWarning: '你確定你要刪除$t(gameData:Characters.{{charId}}.Name)嗎?'
+  SaveSuccess: "成功保存配裝: {{name}}"
+  UnequipWarning: "你確定你要卸下$t(gameData:Characters.{{charId}}.Name)的遺器嗎?"
+  DeleteWarning: "你確定你要刪除$t(gameData:Characters.{{charId}}.Name)嗎?"
 CharacterPreview:
   CustomizationSidebar:
     Label: 自訂
@@ -48,10 +48,10 @@ CharacterPreview:
       Custom: 自訂
       Standard: 標準
     PaletteLabel: 頭像色調
-  ArtBy: '{{artistName}}的作品'
+  ArtBy: "{{artistName}}的作品"
   EditCharacter: 編輯角色
   EditPortrait: 編輯角色圖像
-  CharacterScore: '角色評分: {{score}} {{grade}}'
+  CharacterScore: "角色評分: {{score}} {{grade}}"
   Messages:
     AddedRelic: 成功添加遺器
     SavedPortrait: 成功保存角色圖像
@@ -59,9 +59,9 @@ CharacterPreview:
     NoSelectedCharacter: 未選擇角色
   ScoreHeader:
     Title: 戰鬥模擬
-    Score: 'DPS評分 {{score}}% {{grade}}'
+    Score: "DPS評分 {{score}}% {{grade}}"
   AlgorithmSlider:
-    Title: '評分算法'
+    Title: "評分算法"
     Labels:
       CombatScore: 戰鬥評分
       StatScore: 屬性評分
@@ -81,16 +81,16 @@ CharacterPreview:
       ULT: 終結技
       FUA: 追加攻擊
       MEMO_SKILL: 憶靈戰技
-      DOTS: '持續傷害次數'
-      BREAKS: '擊破次數'
+      DOTS: "持續傷害次數"
+      BREAKS: "擊破次數"
     CombatResults:
       Header: 戰鬥傷害結果
-      Primary: '主要傷害'
-      Character: '角色傷害'
-      Benchmark: '基準傷害'
-      Baseline: '基礎傷害'
-      Maximum: '最高傷害'
-      Score: 'DPS評分%:'
+      Primary: "主要傷害"
+      Character: "角色傷害"
+      Benchmark: "基準傷害"
+      Baseline: "基礎傷害"
+      Maximum: "最高傷害"
+      Score: "DPS評分%:"
       Abilities:
         BASIC: 普攻傷害
         SKILL: 戰技傷害
@@ -101,21 +101,21 @@ CharacterPreview:
         COMBO: 連招傷害
   ScoringColumn:
     Character:
-      Header: '角色配裝 ({{score}}%)'
+      Header: "角色配裝 ({{score}}%)"
       BasicStats: 角色基礎屬性
       CombatStats: 角色<1>戰鬥屬性</1>
       Substats: 角色遺器副詞條 (最少升級次數)
       Mainstats: 角色遺器主詞條
       Abilities: 角色技能傷害
     Benchmark:
-      Header: '基準配裝 ({{score}}%)'
+      Header: "基準配裝 ({{score}}%)"
       BasicStats: 100% 基準基礎屬性
       CombatStats: 100% 基準<1>戰鬥屬性</1>
       Substats: 100% 基準副詞條 (最少升級次數)
       Mainstats: 100% 基準主詞條
       Abilities: 100% 基準技能傷害
     Perfect:
-      Header: '完美配装 ({{score}}%)'
+      Header: "完美配装 ({{score}}%)"
       BasicStats: 200% 完美基礎屬性
       CombatStats: 200% 完美<1>戰鬥屬性</1>
       Substats: 200% 完美副詞條 (最大升級次數)

@@ -10,12 +10,12 @@ StrategyLabels:
 RefundLabels:
   REFUND_NONE: Ninguna
   REFUND_NONE_FULL: Ninguna
-  REFUND_LOW: '{{Percentage}}% devolución'
-  REFUND_LOW_FULL: '{{Percentage}}% devolución (Bajo)'
-  REFUND_AVG: '{{Percentage}}% devolución'
-  REFUND_AVG_FULL: '{{Percentage}}% devolución (Promedio)'
-  REFUND_HIGH: '{{Percentage}}% devolución'
-  REFUND_HIGH_FULL: '{{Percentage}}% devolución (Alto)'
+  REFUND_LOW: "{{Percentage}}% devolución"
+  REFUND_LOW_FULL: "{{Percentage}}% devolución (Bajo)"
+  REFUND_AVG: "{{Percentage}}% devolución"
+  REFUND_AVG_FULL: "{{Percentage}}% devolución (Promedio)"
+  REFUND_HIGH: "{{Percentage}}% devolución"
+  REFUND_HIGH_FULL: "{{Percentage}}% devolución (Alto)"
 EidolonLevels:
   NONE: Ninguno
   E0: E0
@@ -33,7 +33,7 @@ SuperimpositionLevels:
   S4: S4
   S5: S5
 IncomeOptions:
-  Label: '[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: '
+  Label: "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
   Type:
     0: Ninguno
     1: F2P
@@ -43,7 +43,7 @@ PityCounter:
   PityCounter: Contador de saltos
   CurrentEidolonSuperImp: Actual
   Guaranteed: Garantizado
-TotalAvailable: 'Total de saltos disponibles:'
+TotalAvailable: "Total de saltos disponibles:"
 SectionTitles:
   Planner: Planificador de saltos
   Results: Resultados
@@ -61,6 +61,6 @@ SectionTitles:
   Calculate: Calcular
 ColumnTitles:
   Goal: Meta
-  Chance: 'Porcentaje de éxito con {{ticketCount}} <1/>'
-  Average: '# promedio de <1/> necesarios'
+  Chance: "Porcentaje de éxito con {{ticketCount}} <1/>"
+  Average: "# promedio de <1/> necesarios"
 TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'

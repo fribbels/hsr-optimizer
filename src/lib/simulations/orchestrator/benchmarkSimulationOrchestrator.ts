@@ -1,3 +1,4 @@
+import { applyTeamAwareSetConditionalPresets } from 'lib/conditionals/evaluation/applyPresets'
 import {
   Parts,
   Sets,
@@ -221,6 +222,8 @@ export class BenchmarkSimulationOrchestrator {
     simulationForm.teammate2 = simulationFormT2
 
     simulationForm.deprioritizeBuffs = this.metadata.deprioritizeBuffs
+
+    applyTeamAwareSetConditionalPresets(simulationForm)
 
     this.form = simulationForm
   }

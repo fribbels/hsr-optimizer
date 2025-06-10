@@ -52,14 +52,14 @@ export const CharacterStatSummary = (props: {
         )}
         <StatRow finalStats={props.finalStats} stat={props.elementalDmgValue} edits={edits} />
 
-        {props.asyncSimScoringExecution == null && (
+        {!props.asyncSimScoringExecution?.done && props.asyncSimScoringExecution?.result == null && (
           <StatRow
             finalStats={props.finalStats}
             stat='simScore'
             value={props.simScore}
           />
         )}
-        {props.asyncSimScoringExecution != null && (
+        {props.asyncSimScoringExecution?.result != null && (
           <StatRow
             finalStats={props.finalStats}
             stat='simScore'

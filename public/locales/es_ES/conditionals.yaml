@@ -1,26 +1,26 @@
-BetaMessage: 'Versión actual: {{Version}} - Los cálculos están sujetos a cambios.'
+BetaMessage: "Versión actual: {{Version}} - Los cálculos están sujetos a cambios."
 Common:
   BuffPriority:
-    Text: 'Prioridad de las mejoras'
-    Content: 'Selecciona al receptor de preferencia para las mejoras de objetivo único'
-    Self: 'Prioridad mejoras: A sí mismo'
-    Memo: 'Prioridad mejoras: Mnemo'
+    Text: "Prioridad de las mejoras"
+    Content: "Selecciona al receptor de preferencia para las mejoras de objetivo único"
+    Self: "Prioridad mejoras: A sí mismo"
+    Memo: "Prioridad mejoras: Mnemo"
   HealAbility:
-    Text: 'Recurso de curación'
-    Content: 'Selecciona el recurso para los cálculos de curación'
-    Basic: 'Recurso curación: Básico'
-    Skill: 'Recurso curación: Habilidad'
-    Ult: 'Recurso curación: Definitiva'
-    Talent: 'Recurso curación: Talento'
-    Trace: 'Recurso curación: Rastro'
+    Text: "Recurso de curación"
+    Content: "Selecciona el recurso para los cálculos de curación"
+    Basic: "Recurso curación: Básico"
+    Skill: "Recurso curación: Habilidad"
+    Ult: "Recurso curación: Definitiva"
+    Talent: "Recurso curación: Talento"
+    Trace: "Recurso curación: Rastro"
   ShieldAbility:
-    Text: 'Recurso de escudo'
-    Content: 'Selecciona el recurso para los cálculos de escudo'
-    Basic: 'Recurso escudo: Básico'
-    Skill: 'Recurso escudo: Habilidad'
-    Ult: 'Recurso escudo: Definitiva'
-    Talent: 'Recurso escudo: Talento'
-    Trace: 'Recurso escudo: Rastro'
+    Text: "Recurso de escudo"
+    Content: "Selecciona el recurso para los cálculos de escudo"
+    Basic: "Recurso escudo: Básico"
+    Skill: "Recurso escudo: Habilidad"
+    Ult: "Recurso escudo: Definitiva"
+    Talent: "Recurso escudo: Talento"
+    Trace: "Recurso escudo: Rastro"
 Lightcones:
   AGroundedAscent:
     Content:
@@ -135,7 +135,7 @@ Lightcones:
     Content:
       shieldCdBuff:
         text: Mejora DC por escudo
-        content: Cuando el portador proporciona un escudo a un aliado, el Daño CRIT del portador aumenta en un {{CritBuff}}% durante 2 turnos.
+        content: Cuando el portador proporciona un escudo a un aliado, el Daño CRIT del portador aumenta en un {{CritBuff}}% durante 2 turnos. 
       targetVulnerability:
         text: Afección de vulnerabilidad en objetivo
         content: Cuando el portador golpea al enemigo con sus ataques adicionales, hay un {{baseChance}}% de probabilidad base de que el daño que recibe el enemigo atacado aumente en un {{Vulnerability}}% durante 2 turnos.
@@ -181,7 +181,7 @@ Lightcones:
           Después de que el portador ataque, cada enemigo tiene un 120% de probabilidad base de ser afectado con Desconcierto. La DEF de los enemigos en el estado de Desconcierto se reduce en un {{DefShred}}% durante 2 turnos. ::BR:: Si la VEL del portador es igual o superior a 170, cada enemigo tiene un 120% de probabilidad base de ser afectado con Robado. La DEF de los enemigos en el estado de Robado se reduce en un {{AdditionalDefShred}}% durante 2 turnos.
     TeammateContent:
       additionalDefPen:
-        text: 'VEL > 170'
+        text: "VEL > 170"
         content: >-
           Después de que el portador ataque, cada enemigo tiene un 120% de probabilidad base de ser afectado con Desconcierto. La DEF de los enemigos en el estado de Desconcierto se reduce en un {{DefShred}}% durante 2 turnos. ::BR:: Si la VEL del portador es igual o superior a 170, cada enemigo tiene un 120% de probabilidad base de ser afectado con Robado. La DEF de los enemigos en el estado de Robado se reduce en un {{AdditionalDefShred}}% durante 2 turnos.
   LifeShouldBeCastToFlames:
@@ -496,7 +496,7 @@ Lightcones:
     Content:
       cdBuff:
         text: Mejora de DC por aliados misma vía
-        content: 'Al entrar en combate, si hay dos o más aliados de la misma Vía, el Daño CRIT de esos aliados aumenta en un {{CritBuff}}%.'
+        content: "Al entrar en combate, si hay dos o más aliados de la misma Vía, el Daño CRIT de esos aliados aumenta en un {{CritBuff}}%."
   PostOpConversation:
     Content:
       postUltHealingBoost:
@@ -541,7 +541,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: 'Mejora de DC por golpe a ≥ 2 enemigos con misma debilidad'
+        text: "Mejora de DC por golpe a ≥ 2 enemigos con misma debilidad"
         content: Cuando el portador lanza un ataque y golpea como mínimo a 2 enemigos que tengan su tipo de Debilidad, el Daño CRIT del portador aumenta en un {{CritBuff}}% durante 2 turnos.
   TheGreatCosmicEnterprise:
     Content:
@@ -786,10 +786,10 @@ Characters:
     Content:
       skillExtraDmgHits:
         text: Golpes extra de Habilidad
-        content: 'Inflige un {{skillScaling}}% del ATQ de Asta como Daño de Fuego a un enemigo y después inflige daño {{skillExtraDmgHitsMax}} veces más. Cada golpe inflige un {{skillScaling}}% del ATQ de Asta como Daño de Fuego a un enemigo al azar.::BR::E1: Al usar la habilidad básica, inflige daño a un enemigo al azar una vez más.'
+        content: "Inflige un {{skillScaling}}% del ATQ de Asta como Daño de Fuego a un enemigo y después inflige daño {{skillExtraDmgHitsMax}} veces más. Cada golpe inflige un {{skillScaling}}% del ATQ de Asta como Daño de Fuego a un enemigo al azar.::BR::E1: Al usar la habilidad básica, inflige daño a un enemigo al azar una vez más."
       talentBuffStacks:
         text: Acumulaciones mejora de ATQ del Talento
-        content: 'Por cada acumulación de Recarga que tenga Asta, el ATQ de todos los aliados aumenta en un {{talentStacksAtkBuff}}%.::BR::E4: Cuando hay 2 o más acumulaciones de Recarga del talento, la recuperación de energía de Asta aumenta en un 15%.'
+        content: "Por cada acumulación de Recarga que tenga Asta, el ATQ de todos los aliados aumenta en un {{talentStacksAtkBuff}}%.::BR::E4: Cuando hay 2 o más acumulaciones de Recarga del talento, la recuperación de energía de Asta aumenta en un 15%."
       ultSpdBuff:
         text: Mejora de VEL de Definitiva activada
         content: La VEL de todos los aliados aumenta en {{ultSpdBuffValue}} pts. durante 2 turnos.
@@ -860,7 +860,7 @@ Characters:
     Content:
       enhancedStateActive:
         text: Panorama infernal
-        content: 'Aumenta el daño en un {{enhancedStateDmgBoost}}%. El ATQ básico Espada fragmentada se potencia y se transforma en Bosque de espadas durante 3 turnos.::BR::E2: Su Prob. CRIT aumenta en un 15%.'
+        content: "Aumenta el daño en un {{enhancedStateDmgBoost}}%. El ATQ básico Espada fragmentada se potencia y se transforma en Bosque de espadas durante 3 turnos.::BR::E2: Su Prob. CRIT aumenta en un 15%."
       hpPercentLostTotal:
         text: Total de %PV perdidos
         content: El daño de Definitiva aumenta con el recuento de PV que ha perdido en esta batalla. El recuento de PV perdidos en esta batalla no puede superar el {{hpPercentLostTotalMax}}% de los PV máx. de Blade.
@@ -1238,7 +1238,7 @@ Characters:
   Hyacine:
     Content:
       healTargetHp50:
-        text: Objet. curación PV ≤ 50%
+        text: Objet. curación PV ≤ 50% 
         content: Al curar a un aliado cuyos PV actuales sean iguales o inferiores al 50% de sus PV máx., la curación realizada por Hyacine o Ica aumenta en un 25%.
       resBuff:
         text: Mejora RES a efecto
@@ -1515,7 +1515,7 @@ Characters:
         content: Inflige un 20% más de daño a los enemigos afectados por estados negativos.
       skillRemovedBuff:
         text: Mejoras por remover mejora con la Habilidad
-        content: 'Cuando la habilidad básica disipa un efecto positivo, el daño del siguiente ataque aumenta en un 20%.::BR::E2: Cuando la habilidad básica disipa un efecto positivo de un enemigo, la VEL aumenta en un 10% durante 2 turnos.'
+        content: "Cuando la habilidad básica disipa un efecto positivo, el daño del siguiente ataque aumenta en un 20%.::BR::E2: Cuando la habilidad básica disipa un efecto positivo de un enemigo, la VEL aumenta en un 10% durante 2 turnos."
       ultDefPenDebuff:
         text: Reducción DEF Definitiva
         content: La DEF de los enemigos afectados por Desprotección se reduce en un {{ultDefPenValue}}% durante 2 turnos.
@@ -1639,7 +1639,7 @@ Characters:
           Al eliminar a un objetivo enemigo usando su ATQ básico, habilidad básica o habilidad definitiva, obtiene inmediatamente un turno adicional y entra en un estado potenciado. Este estado hace que el daño de los ataques de Seele aumente en un {{buffedStateDmgBuff}}% durante 1 turno.::BR::Cuando Seele está en el estado potenciado, su PEN de la RES a Cuántico aumenta en un 20%.
       speedBoostStacks:
         text: Acumulaciones de la mejora de velocidad
-        content: 'Luego de usar su Habilidad, Seele aumenta su VEL en un 25% durante 2 turnos.::BR::E2: El efecto de aumento de VEL de la habilidad básica se puede acumular hasta 2 veces.'
+        content: "Luego de usar su Habilidad, Seele aumenta su VEL en un 25% durante 2 turnos.::BR::E2: El efecto de aumento de VEL de la habilidad básica se puede acumular hasta 2 veces."
       e1EnemyHp80CrBoost:
         text: "E1 Aumento de PC por\nPV enemigo  ≤ 80%"
         content: Cuando inflige daño a un objetivo que tiene un porcentaje de PV igual o inferior al 80%, la Prob. CRIT aumenta en un 15%.
@@ -1703,7 +1703,7 @@ Characters:
         content: >-
           Hace que un personaje aliado y su invocación actúen inmediatamente y aumenta en un {{DmgBoost}}% el daño que infligen. Si el objetivo tiene una invocación, el efecto de aumento de daño se incrementa en un {{SummonDmgBoost}}% adicional.
       talentCrBuffStacks:
-        text: Acum. de la mejora de PC del Talento
+        text: Acum. de la mejora de PC
         content: Al lanzar la habilidad básica, la Prob. CRIT del objetivo aumenta en un {{CritRateBoost}}%. Dura 3 turnos.
       techniqueDmgBuff:
         text: Mejora daño de Técnica
@@ -1787,7 +1787,7 @@ Characters:
         content: La VEL de Tingyun aumenta en un 20% durante 1 turno al usar la habilidad básica.
       ultDmgBuff:
         text: Mejora de daño Definitiva
-        content: 'Hace que un aliado recupere 50 pts. de energía e inflija un {{ultDmgBoost}}% más de daño durante 2 turnos.::BR::E6: La habilidad definitiva hace que el objetivo aliado recupere 10 pts. de energía adicionales.'
+        content: "Hace que un aliado recupere 50 pts. de energía e inflija un {{ultDmgBoost}}% más de daño durante 2 turnos.::BR::E6: La habilidad definitiva hace que el objetivo aliado recupere 10 pts. de energía adicionales."
       ultSpdBuff:
         text: E1 Mejora VEL Definitiva
         content: Cuando el aliado con la Gracia usa la habilidad definitiva, su VEL aumenta en un 20% durante 1 turno.
@@ -1971,7 +1971,7 @@ Characters:
         content: Cuando Yukong está en la batalla, el Daño Imaginario que infligen todos los aliados aumenta en un 12%.
       roaringBowstringsActive:
         text: Sonido de cuerda
-        content: 'Cuando Yukong tiene Sonido de cuerda, el ATQ de todos los aliados aumenta en un {{skillAtkBuffValue}}%.::BR::E4: Cuando tiene Sonido de cuerda, el daño que inflige Yukong aumenta en un 30%.'
+        content: "Cuando Yukong tiene Sonido de cuerda, el ATQ de todos los aliados aumenta en un {{skillAtkBuffValue}}%.::BR::E4: Cuando tiene Sonido de cuerda, el daño que inflige Yukong aumenta en un 30%."
       ultBuff:
         text: Mejoras de PC / DC de Definitiva
         content: >-
@@ -1985,7 +1985,7 @@ Characters:
         text: Bloqueo activado
         content: En el estado de Bloqueo, resiste los estados negativos de Control que reciba y reduce el daño recibido en un 20%.
       ultCull:
-        text: 'Capción: Exterminio activada'
+        text: "Capción: Exterminio activada"
         content: >-
           Capción: Exterminio: Yunli inflige un {{CullScaling}}% de su ATQ como Daño Físico a un enemigo y un {{CullAdjacentScaling}}% de su ATQ como Daño Físico a los enemigos adyacentes, y a continuación inflige daño 6 veces más. Cada vez, inflige un {{CullAdditionalScaling}}% del ATQ de Yunli como Daño Físico a un enemigo al azar.
       ultCullHits:
@@ -1997,13 +1997,13 @@ Characters:
         content: Al lanzar un contraataque, el ATQ de Yunli aumenta en un 30% durante 1 turno.
       e1UltBuff:
         text: E1 Mejora de Definitiva
-        content: 'El daño que infligen Capción: Sajadura y Capción: Exterminio aumenta en un 20%, y las veces adicionales que Capción: Exterminio inflige daño aumentan en 3.'
+        content: "El daño que infligen Capción: Sajadura y Capción: Exterminio aumenta en un 20%, y las veces adicionales que Capción: Exterminio inflige daño aumentan en 3."
       e2DefShred:
         text: E2 PEN DEF de ataque adicional
         content: Cuando inflige daño con un contraataque, ignora un 20% de la DEF del enemigo.
       e4ResBuff:
         text: E4 Mejora de RES
-        content: 'Después de lanzar Capción: Sajadura o Capción: Exterminio, su RES a efecto aumenta en un 50% durante 1 turno.'
+        content: "Después de lanzar Capción: Sajadura o Capción: Exterminio, su RES a efecto aumenta en un 50% durante 1 turno."
       e6Buffs:
         text: E6 Mejoras
         content: >-

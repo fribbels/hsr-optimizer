@@ -439,6 +439,8 @@ export const SetsOrnaments = {
   TheWondrousBananAmusementPark: 'The Wondrous BananAmusement Park',
   BoneCollectionsSereneDemesne: 'Bone Collection\'s Serene Demesne',
   GiantTreeOfRaptBrooding: 'Giant Tree of Rapt Brooding',
+  ArcadiaOfWovenDreams: 'Arcadia of Woven Dreams',
+  RevelryByTheSea: 'Revelry by the Sea',
 } as const
 
 // Delete unreleased data
@@ -706,6 +708,8 @@ export const setToId = {
   [Sets.TheWondrousBananAmusementPark]: '318',
   [Sets.BoneCollectionsSereneDemesne]: '319',
   [Sets.GiantTreeOfRaptBrooding]: '320',
+  [Sets.ArcadiaOfWovenDreams]: '321',
+  [Sets.RevelryByTheSea]: '322',
 } as const
 
 export const ABILITY_LIMIT = 12

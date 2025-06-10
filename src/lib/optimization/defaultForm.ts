@@ -1,4 +1,8 @@
 import {
+  applyScoringMetadataPresets,
+  applySetConditionalPresets,
+} from 'lib/conditionals/evaluation/applyPresets'
+import {
   CombatBuffs,
   Constants,
   DEFAULT_MEMO_DISPLAY,
@@ -8,10 +12,6 @@ import {
 import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
-import {
-  applyScoringMetadataPresets,
-  applySetConditionalPresets,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 import {
@@ -183,4 +183,6 @@ export const defaultSetConditionals = {
   [Sets.TheWondrousBananAmusementPark]: [undefined, false],
   [Sets.BoneCollectionsSereneDemesne]: [undefined, true],
   [Sets.GiantTreeOfRaptBrooding]: [undefined, true],
+  [Sets.ArcadiaOfWovenDreams]: [undefined, 4],
+  [Sets.RevelryByTheSea]: [undefined, true],
 }

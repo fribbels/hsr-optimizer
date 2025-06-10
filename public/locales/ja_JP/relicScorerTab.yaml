@@ -1,5 +1,5 @@
 Messages:
-  ThrottleWarning: '再試行する前に、{{seconds}}秒お待ちください。'
+  ThrottleWarning: "再試行する前に、{{seconds}}秒お待ちください。"
   InvalidIdWarning: 無効なIDです
   IdLoadError: IDの読み込みに失敗しました
   SuccessMsg: プロファイルを読み込みました
@@ -8,8 +8,8 @@ Messages:
   CharacterAlreadyExists: 選択したキャラクターは既に存在します
   UnknownButtonClicked: 不明なボタンをクリックしました
 Header:
-  DowntimeWarning: 'バージョン{{game_version}}後のメンテナンスのため、遺物スコア計算は一時的に利用できない可能性があります。後でもう一度お試しください。'
-  WithVersion: 'アカウント UID を入力して、レベル80および軌跡が全開放されているプロフィール内のキャラクターを評価します。即時更新するにはログアウトしてください。（現在のバージョン：{{beta_version}}）'
+  DowntimeWarning: "バージョン{{game_version}}後のメンテナンスのため、遺物スコア計算は一時的に利用できない可能性があります。後でもう一度お試しください。"
+  WithVersion: "アカウント UID を入力して、レベル80および軌跡が全開放されているプロフィール内のキャラクターを評価します。即時更新するにはログアウトしてください。（現在のバージョン：{{beta_version}}）"
   WithoutVersion: アカウント UID を入力して、レベル80および軌跡が全開放されているプロフィール内のキャラクターを評価します。即時更新するにはログアウトしてください。
 SubmissionBar:
   Placeholder: アカウントUID
@@ -21,3 +21,4 @@ ImportLabels:
   AllCharacters: 全てのキャラクターと全ての遺物をインポート
 SimulateRelics: 他のキャラクターで遺物をシミュレート
 OptimizeOnCharacter: キャラクターのステータスを最適化
+Disclaimer: "注意：コンボダメージは、選択中のチーム編成における遺物の性能を比較するための指標です。異なるチーム、光円錐、星魂の比較には<1>使用しないで</1>ください。"

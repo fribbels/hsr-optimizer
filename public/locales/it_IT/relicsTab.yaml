@@ -33,41 +33,41 @@ RelicGrid:
     SelectedCharacter:
       Label: Personaggio scelto
       ScoreCol:
-        Label: 'Personaggio scelto: Punteggio'
+        Label: "Personaggio scelto: Punteggio"
         Header: |-
           PG Selezionato
           Punteggio
       AvgPotCol:
-        Label: 'Personaggio scelto: Potenziale medio'
+        Label: "Personaggio scelto: Potenziale medio"
         Header: |-
           PG Selezionato
           Valore Medio
       MaxPotCol:
-        Label: 'Personaggio scelto: Potenziale massimo'
+        Label: "Personaggio scelto: Potenziale massimo"
         Header: |-
           PG Selezionato
           Valore Massimo
     CustomCharacters:
       Label: Personaggi selezionati
       AvgPotCol:
-        Label: 'Personaggi selezionati: Potenziale medio'
+        Label: "Personaggi selezionati: Potenziale medio"
         Header: |-
           PG Personalizzato
           Valore Medio
       MaxPotCol:
-        Label: 'Personaggi selezionati: Potenziale massimo'
+        Label: "Personaggi selezionati: Potenziale massimo"
         Header: |-
           PG Personalizzato
           Valore Massimo
     AllCharacters:
       Label: Tutti i personaggi
       AvgPotCol:
-        Label: 'Tutti i personaggi: Valore medio'
+        Label: "Tutti i personaggi: Valore medio"
         Header: |-
           Tutti i Personaggi
           Valore Medio
       MaxPotCol:
-        Label: 'Tutti i personaggi: Valore massimo'
+        Label: "Tutti i personaggi: Valore massimo"
         Header: |-
           Tutti i Personaggi
           Valore Massimo
@@ -83,10 +83,10 @@ Toolbar:
     Width: Larghezza dell'inventario
     Filter: Filtra automaticamente le righe
     NoneSelected: Seleziona una reliquia da localizzare
-    Location: 'Posizione - Riga {{rowIndex}} / Colonna {{columnIndex}}'
+    Location: "Posizione - Riga {{rowIndex}} / Colonna {{columnIndex}}"
   InsightOptions:
-    Buckets: 'Reliquia consigliata: Buckets'
-    Top10: 'Reliquia consigliata: Top 10'
+    Buckets: "Reliquia consigliata: Buckets"
+    Top10: "Reliquia consigliata: Top 10"
   PlotOptions:
     PlotAll: Mostra tutti i personaggi
     PlotCustom: Mostra personaggi personalizzati
@@ -96,5 +96,5 @@ Toolbar:
     Warning_one: Eliminare la reliquia selezionata?
   AddRelic: Aggiungi nuove reliquie
 RelicInsights:
-  NewStats: 'Nuove statistiche: '
-  UpgradedStats: 'Statistiche potenziate: '
+  NewStats: "Nuove statistiche: "
+  UpgradedStats: "Statistiche potenziate: "

@@ -10,12 +10,12 @@ StrategyLabels:
 RefundLabels:
   REFUND_NONE: なし
   REFUND_NONE_FULL: なし
-  REFUND_LOW: '{{Percentage}}% 還元'
-  REFUND_LOW_FULL: '{{Percentage}}% 還元（低）'
-  REFUND_AVG: '{{Percentage}}% 還元'
-  REFUND_AVG_FULL: '{{Percentage}}% 還元（平均）'
-  REFUND_HIGH: '{{Percentage}}% 還元'
-  REFUND_HIGH_FULL: '{{Percentage}}% 還元（高）'
+  REFUND_LOW: "{{Percentage}}% 還元"
+  REFUND_LOW_FULL: "{{Percentage}}% 還元（低）"
+  REFUND_AVG: "{{Percentage}}% 還元"
+  REFUND_AVG_FULL: "{{Percentage}}% 還元（平均）"
+  REFUND_HIGH: "{{Percentage}}% 還元"
+  REFUND_HIGH_FULL: "{{Percentage}}% 還元（高）"
 EidolonLevels:
   NONE: なし
   E0: 無凸
@@ -33,7 +33,7 @@ SuperimpositionLevels:
   S4: 4重
   S5: 5重
 IncomeOptions:
-  Label: '［ver{{versionNumber}}（{{phaseNumber}}/2）｜{{type}}］：'
+  Label: "［ver{{versionNumber}}（{{phaseNumber}}/2）｜{{type}}］："
   Type:
     0: なし
     1: 無課金
@@ -43,7 +43,7 @@ PityCounter:
   PityCounter: 天井カウント
   CurrentEidolonSuperImp: 現状
   Guaranteed: 確定天井
-TotalAvailable: '利用可能な跳躍数'
+TotalAvailable: "利用可能な跳躍数"
 SectionTitles:
   Planner: 跳躍計画
   Results: 結果
@@ -61,6 +61,6 @@ SectionTitles:
   Calculate: 計算
 ColumnTitles:
   Goal: 目標
-  Chance: '{{ticketCount}} <1/> での成功率'
-  Average: '<1/> の平均必要数'
+  Chance: "{{ticketCount}} <1/> での成功率"
+  Average: "<1/> の平均必要数"
 TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'

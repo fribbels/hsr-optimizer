@@ -83,6 +83,7 @@ const SPREAD_ORNAMENTS_2P_FUA = [
 
 const SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS = [
   Sets.SigoniaTheUnclaimedDesolation,
+  Sets.ArcadiaOfWovenDreams,
 ]
 
 const SPREAD_ORNAMENTS_2P_ENERGY_REGEN = [
@@ -1879,6 +1880,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.FirmamentFrontlineGlamoth,
+          Sets.RevelryByTheSea,
         ],
         teammates: [
           {
@@ -2713,6 +2715,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
+          Sets.RevelryByTheSea,
           Sets.FirmamentFrontlineGlamoth,
         ],
         teammates: [
@@ -2963,6 +2966,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ornamentSets: [
           Sets.TaliaKingdomOfBanditry,
           Sets.FirmamentFrontlineGlamoth,
+          Sets.RevelryByTheSea,
         ],
         teammates: [
           {
@@ -3827,7 +3831,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       presets: [
         PresetEffects.PRISONER_SET,
       ],
-      sortOption: SortOption.DOT,
+      sortOption: SortOption.SPD,
       hiddenColumns: [SortOption.FUA],
     },
     1211: { // Bailu
@@ -4352,7 +4356,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           END_FUA,
           DEFAULT_FUA,
           START_ULT,
-          WHOLE_SKILL,
+          DEFAULT_SKILL,
           END_FUA,
           DEFAULT_FUA,
         ],
@@ -5371,6 +5375,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
+          Sets.RevelryByTheSea,
           Sets.FirmamentFrontlineGlamoth,
           Sets.PanCosmicCommercialEnterprise,
         ],
@@ -7670,8 +7675,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
+          Sets.RevelryByTheSea,
           Sets.FirmamentFrontlineGlamoth,
           ...SPREAD_ORNAMENTS_2P_SUPPORT,
+          ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
         ],
         teammates: [
           {

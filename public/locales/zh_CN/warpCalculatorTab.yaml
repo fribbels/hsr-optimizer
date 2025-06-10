@@ -10,12 +10,12 @@ StrategyLabels:
 RefundLabels:
   REFUND_NONE: 无
   REFUND_NONE_FULL: 无
-  REFUND_LOW: '{{Percentage}}%返还'
-  REFUND_LOW_FULL: '{{Percentage}}%返还（低）'
-  REFUND_AVG: '{{Percentage}}%返还'
-  REFUND_AVG_FULL: '{{Percentage}}%返还（中）'
-  REFUND_HIGH: '{{Percentage}}%返还'
-  REFUND_HIGH_FULL: '{{Percentage}}%返还（高）'
+  REFUND_LOW: "{{Percentage}}%返还"
+  REFUND_LOW_FULL: "{{Percentage}}%返还（低）"
+  REFUND_AVG: "{{Percentage}}%返还"
+  REFUND_AVG_FULL: "{{Percentage}}%返还（中）"
+  REFUND_HIGH: "{{Percentage}}%返还"
+  REFUND_HIGH_FULL: "{{Percentage}}%返还（高）"
 EidolonLevels:
   NONE: 无
   E0: 0魂
@@ -33,7 +33,7 @@ SuperimpositionLevels:
   S4: 叠4
   S5: 叠5
 IncomeOptions:
-  Label: '【版本{{versionNumber}} ({{phaseNumber}}/2) | {{type}}】: '
+  Label: "【版本{{versionNumber}} ({{phaseNumber}}/2) | {{type}}】: "
   Type:
     0: 无
     1: 零氪
@@ -43,7 +43,7 @@ PityCounter:
   PityCounter: 小保底计数
   CurrentEidolonSuperImp: 当前
   Guaranteed: 大保底
-TotalAvailable: '可用跃迁总数：'
+TotalAvailable: "可用跃迁总数："
 SectionTitles:
   Planner: 跃迁规划器
   Results: 结果
@@ -61,6 +61,6 @@ SectionTitles:
   Calculate: 计算
 ColumnTitles:
   Goal: 目标
-  Chance: '使用 {{ticketCount}} <1/> 的成功概率 '
-  Average: '平均需要的 <1/> 数量'
+  Chance: "使用 {{ticketCount}} <1/> 的成功概率 "
+  Average: "平均需要的 <1/> 数量"
 TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'

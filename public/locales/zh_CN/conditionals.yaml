@@ -1,26 +1,26 @@
-BetaMessage: '当前版本：{{Version}} - 计算结果可能会发生变化。'
+BetaMessage: "当前版本：{{Version}} - 计算结果可能会发生变化。"
 Common:
   BuffPriority:
-    Text: '增益优先目标'
-    Content: '选择优先获得单体增益的目标'
-    Self: '增益优先级：自身'
-    Memo: '增益优先级：忆灵'
+    Text: "增益优先目标"
+    Content: "选择优先获得单体增益的目标"
+    Self: "增益优先级：自身"
+    Memo: "增益优先级：忆灵"
   HealAbility:
-    Text: '治疗技能'
-    Content: '选择用于计算治疗量的技能'
-    Basic: '治疗技能：普攻'
-    Skill: '治疗技能：战技'
-    Ult: '治疗技能：终结技'
-    Talent: '治疗技能：天赋'
-    Trace: '治疗技能：行迹'
+    Text: "治疗技能"
+    Content: "选择用于计算治疗量的技能"
+    Basic: "治疗技能：普攻"
+    Skill: "治疗技能：战技"
+    Ult: "治疗技能：终结技"
+    Talent: "治疗技能：天赋"
+    Trace: "治疗技能：行迹"
   ShieldAbility:
-    Text: '护盾技能'
-    Content: '选择用于计算护盾量的技能'
-    Basic: '护盾技能：普攻'
-    Skill: '护盾技能：战技'
-    Ult: '护盾技能：终结技'
-    Talent: '护盾技能：天赋'
-    Trace: '护盾技能：行迹'
+    Text: "护盾技能"
+    Content: "选择用于计算护盾量的技能"
+    Basic: "护盾技能：普攻"
+    Skill: "护盾技能：战技"
+    Ult: "护盾技能：终结技"
+    Talent: "护盾技能：天赋"
+    Trace: "护盾技能：行迹"
 Lightcones:
   AGroundedAscent:
     Content:
@@ -181,7 +181,7 @@ Lightcones:
           装备者施放攻击后，有120%的基础概率使敌方每个单体目标陷入【茫然】状态，【茫然】状态下的敌方目标防御力降低{{DefShred}}%，持续2回合。::BR::若装备者的速度大于等于170，有120%的基础概率使敌方每个单体目标陷入【失窃】状态，【失窃】状态下的敌方目标防御力降低{{AdditionalDefShred}}%，持续2回合。【茫然】或【失窃】被重复施加时，仅最新施加的生效。
     TeammateContent:
       additionalDefPen:
-        text: '速度 > 170'
+        text: "速度 > 170"
         content: >-
           装备者施放攻击后，有120%的基础概率使敌方每个单体目标陷入【茫然】状态，【茫然】状态下的敌方目标防御力降低{{DefShred}}%，持续2回合。::BR::若装备者的速度大于等于170，有120%的基础概率使敌方每个单体目标陷入【失窃】状态，【失窃】状态下的敌方目标防御力降低{{AdditionalDefShred}}%，持续2回合。【茫然】或【失窃】被重复施加时，仅最新施加的生效。
   LifeShouldBeCastToFlames:
@@ -475,7 +475,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: '≤2个敌人时暴击率增益'
+        text: "≤2个敌人时暴击率增益"
         content: 当场上的敌方目标数量小于等于2时，装备者的暴击率提高{{CritBuff}}%.
   PastAndFuture:
     Content:
@@ -496,7 +496,7 @@ Lightcones:
     Content:
       cdBuff:
         text: 相同命途暴击伤害增益
-        content: '进入战斗时，若有两名及以上我方角色拥有任意相同命途，使这些角色的暴击伤害提高{{CritBuff}}%。同类技能无法重复生效。'
+        content: "进入战斗时，若有两名及以上我方角色拥有任意相同命途，使这些角色的暴击伤害提高{{CritBuff}}%。同类技能无法重复生效。"
   PostOpConversation:
     Content:
       postUltHealingBoost:
@@ -541,7 +541,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: '≥2个对应属性弱点目标暴击伤害增益'
+        text: "≥2个对应属性弱点目标暴击伤害增益"
         content: 装备者施放攻击后，若有不少于2个被攻击的敌方目标具有对应属性弱点，装备者的暴击伤害提高{{CritBuff}}%，持续2回合。
   TheGreatCosmicEnterprise:
     Content:
@@ -786,10 +786,10 @@ Characters:
     Content:
       skillExtraDmgHits:
         text: 战技额外击中次数
-        content: '对指定敌方单体造成等同于艾丝妲{{skillScaling}}%攻击力的火属性伤害，并额外造成{{skillExtraDmgHitsMax}}次伤害。每次伤害对随机敌方单体造成等同于艾丝妲{{skillScaling}}%攻击力的火属性伤害。::BR::1魂：施放战技时，对敌方随机单体额外造成1次伤害。'
+        content: "对指定敌方单体造成等同于艾丝妲{{skillScaling}}%攻击力的火属性伤害，并额外造成{{skillExtraDmgHitsMax}}次伤害。每次伤害对随机敌方单体造成等同于艾丝妲{{skillScaling}}%攻击力的火属性伤害。::BR::1魂：施放战技时，对敌方随机单体额外造成1次伤害。"
       talentBuffStacks:
         text: 天赋攻击力增益层数
-        content: '艾丝妲每拥有1层蓄能，会使我方全体攻击力提高{{talentStacksAtkBuff}}%。::BR::4魂：天赋的蓄能层数大于等于2时，艾丝妲的能量恢复效率提高15% 。'
+        content: "艾丝妲每拥有1层蓄能，会使我方全体攻击力提高{{talentStacksAtkBuff}}%。::BR::4魂：天赋的蓄能层数大于等于2时，艾丝妲的能量恢复效率提高15% 。"
       ultSpdBuff:
         text: 终结技速度增益激活
         content: 使我方全体速度提高{{ultSpdBuffValue}}点，持续2回合。
@@ -860,7 +860,7 @@ Characters:
     Content:
       enhancedStateActive:
         text: 地狱变状态
-        content: '使自身造成的伤害提高{{enhancedStateDmgBoost}}%，普攻【支离剑】强化为【无间剑树】，持续3回合。::BR::2魂：刃处于【地狱变】状态时，暴击率提高15%。'
+        content: "使自身造成的伤害提高{{enhancedStateDmgBoost}}%，普攻【支离剑】强化为【无间剑树】，持续3回合。::BR::2魂：刃处于【地狱变】状态时，暴击率提高15%。"
       hpPercentLostTotal:
         text: 累计已损失生命值%
         content: 终结技伤害会根据刃在当前战斗中的生命值损失计数进行加成。 本场战斗中累计已损失生命值最高不超过刃生命上限的{{hpPercentLostTotalMax}}%，施放终结技后会清空并进行重新累计。
@@ -1515,7 +1515,7 @@ Characters:
         content: 对处于负面效果的敌方目标造成的伤害提高20%。
       skillRemovedBuff:
         text: 敌人被解除增益效果后增益
-        content: '施放战技解除增益效果时，下一次攻击造成的伤害提高20%。::BR::2魂：施放战技解除增益效果时，速度提高10%，持续2回合。'
+        content: "施放战技解除增益效果时，下一次攻击造成的伤害提高20%。::BR::2魂：施放战技解除增益效果时，速度提高10%，持续2回合。"
       ultDefPenDebuff:
         text: 终结技防御力削弱
         content: '【通解】状态下，敌方目标防御力降低{{ultDefPenValue}}%，持续2回合。'
@@ -1639,7 +1639,7 @@ Characters:
           施放普攻、战技、终结技消灭敌方目标时立即获得1个额外回合并进入增幅状态，增幅状态下希儿施放攻击造成的伤害提高{{buffedStateDmgBuff}}%，持续1回合。::BR::增幅状态下希儿的量子属性抗性穿透提高20%。
       speedBoostStacks:
         text: 速度增益层数
-        content: '使用战技后，希儿的速度提高25%，持续2回合。::BR::2魂：战技的加速效果可以叠加，最多叠加2层。'
+        content: "使用战技后，希儿的速度提高25%，持续2回合。::BR::2魂：战技的加速效果可以叠加，最多叠加2层。"
       e1EnemyHp80CrBoost:
         text: 1魂敌人生命值≤80%时暴击率提升
         content: 对当前生命值百分比小于等于80%的敌方目标造成伤害时，暴击率提高15%。
@@ -1786,7 +1786,7 @@ Characters:
         content: 施放战技时，停云自身速度提高20%，持续1回合。
       ultDmgBuff:
         text: 终结技伤害增益
-        content: '为指定我方单体恢复50点能量，同时使目标造成的伤害提高{{ultDmgBoost}}%，持续2回合。::BR::6魂：终结技为我方目标恢复的能量提高10点。'
+        content: "为指定我方单体恢复50点能量，同时使目标造成的伤害提高{{ultDmgBoost}}%，持续2回合。::BR::6魂：终结技为我方目标恢复的能量提高10点。"
       ultSpdBuff:
         text: 1魂终结技速度增益
         content: 得到【赐福】的我方单体施放终结技后速度提高20%，持续1回合。
@@ -1971,7 +1971,7 @@ Characters:
         content: 驭空在场时，我方全体造成的虚数属性伤害提高12%。
       roaringBowstringsActive:
         text: 鸣弦号令激活
-        content: '当驭空持有【鸣弦号令】时，我方全体攻击力提高{{skillAtkBuffValue}}%。::BR::4魂：持有【鸣弦号令】时，驭空造成的伤害提高30%。'
+        content: "当驭空持有【鸣弦号令】时，我方全体攻击力提高{{skillAtkBuffValue}}%。::BR::4魂：持有【鸣弦号令】时，驭空造成的伤害提高30%。"
       ultBuff:
         text: 终结技暴击率 / 暴击伤害增益
         content: >-
@@ -1985,11 +1985,11 @@ Characters:
         text: 格挡状态激活
         content: '【格挡】状态下抵抗受到的控制类负面效果，并使受到的伤害降低20%。'
       ultCull:
-        text: '【勘破•灭】激活'
+        text: "【勘破•灭】激活"
         content: >-
           【勘破•灭】：对目标造成等同于云璃{{CullScaling}}%攻击力的物理属性伤害，对其相邻目标造成等同于云{{CullAdjacentScaling}}%攻击力的物理属性伤害，随后额外造成6次伤害，每次伤害对随机敌方单体造成等同于云璃{{CullAdditionalScaling}}%攻击力的物理伤害。
       ultCullHits:
-        text: '【勘破•灭】击中次数'
+        text: "【勘破•灭】击中次数"
         content: >-
           【勘破•灭】：对目标造成等同于云璃{{CullScaling}}%攻击力的物理属性伤害，对其相邻目标造成等同于云{{CullAdjacentScaling}}%攻击力的物理属性伤害，随后额外造成6次伤害，每次伤害对随机敌方单体造成等同于云璃{{CullAdditionalScaling}}%攻击力的物理伤害。
       counterAtkBuff:
@@ -1997,13 +1997,13 @@ Characters:
         content: 施放反击时，云璃的攻击力提高30%，持续1回合。
       e1UltBuff:
         text: 1魂终结技增益
-        content: '【勘破•斩】与【勘破•灭】造成的伤害提高20%，【勘破•灭】的额外伤害次数增加3次。'
+        content: "【勘破•斩】与【勘破•灭】造成的伤害提高20%，【勘破•灭】的额外伤害次数增加3次。"
       e2DefShred:
         text: 2魂追加攻击防御穿透
         content: 发动反击造成伤害时无视敌方目标20%的防御力。
       e4ResBuff:
         text: 4魂效果抵抗增益
-        content: '发动【勘破•斩】或【勘破•灭】后使自身效果抵抗提高50%，持续1回合。'
+        content: "发动【勘破•斩】或【勘破•灭】后使自身效果抵抗提高50%，持续1回合。"
       e6Buffs:
         text: 6魂增益
         content: >-

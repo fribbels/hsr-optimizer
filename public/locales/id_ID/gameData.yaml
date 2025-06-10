@@ -1,236 +1,236 @@
 Characters:
-  '1001':
+  "1001":
     Name: March 7th
     LongName: March 7th (Preservation)
-  '1002':
+  "1002":
     Name: Dan Heng
     LongName: Dan Heng
-  '1003':
+  "1003":
     Name: Himeko
     LongName: Himeko
-  '1004':
+  "1004":
     Name: Welt
     LongName: Welt
-  '1005':
+  "1005":
     Name: ⚰️ Kafka
     LongName: ⚰️ Kafka
-  '1006':
+  "1006":
     Name: ⚰️ Silver Wolf
     LongName: ⚰️ Silver Wolf
-  '1008':
+  "1008":
     Name: Arlan
     LongName: Arlan
-  '1009':
+  "1009":
     Name: Asta
     LongName: Asta
-  '1013':
+  "1013":
     Name: Herta
     LongName: Herta
-  '1014':
+  "1014":
     Name: Saber
     LongName: Saber
-  '1015':
+  "1015":
     Name: Archer
     LongName: Archer
-  '1101':
+  "1101":
     Name: Bronya
     LongName: Bronya
-  '1102':
+  "1102":
     Name: Seele
     LongName: Seele
-  '1103':
+  "1103":
     Name: Serval
     LongName: Serval
-  '1104':
+  "1104":
     Name: Gepard
     LongName: Gepard
-  '1105':
+  "1105":
     Name: Natasha
     LongName: Natasha
-  '1106':
+  "1106":
     Name: Pela
     LongName: Pela
-  '1107':
+  "1107":
     Name: Clara
     LongName: Clara
-  '1108':
+  "1108":
     Name: Sampo
     LongName: Sampo
-  '1109':
+  "1109":
     Name: Hook
     LongName: Hook
-  '1110':
+  "1110":
     Name: Lynx
     LongName: Lynx
-  '1111':
+  "1111":
     Name: Luka
     LongName: Luka
-  '1112':
+  "1112":
     Name: Topaz & Numby
     LongName: Topaz & Numby
-  '1201':
+  "1201":
     Name: Qingque
     LongName: Qingque
-  '1202':
+  "1202":
     Name: Tingyun
     LongName: Tingyun
-  '1203':
+  "1203":
     Name: Luocha
     LongName: Luocha
-  '1204':
+  "1204":
     Name: Jing Yuan
     LongName: Jing Yuan
-  '1205':
+  "1205":
     Name: ⚰️ Blade
     LongName: ⚰️ Blade
-  '1206':
+  "1206":
     Name: Sushang
     LongName: Sushang
-  '1207':
+  "1207":
     Name: Yukong
     LongName: Yukong
-  '1208':
+  "1208":
     Name: Fu Xuan
     LongName: Fu Xuan
-  '1209':
+  "1209":
     Name: Yanqing
     LongName: Yanqing
-  '1210':
+  "1210":
     Name: Guinaifen
     LongName: Guinaifen
-  '1211':
+  "1211":
     Name: Bailu
     LongName: Bailu
-  '1212':
+  "1212":
     Name: ⚰️ Jingliu
     LongName: ⚰️ Jingliu
-  '1213':
+  "1213":
     Name: Dan Heng · Imbibitor Lunae
     LongName: Dan Heng · Imbibitor Lunae
-  '1214':
+  "1214":
     Name: Xueyi
     LongName: Xueyi
-  '1215':
+  "1215":
     Name: Hanya
     LongName: Hanya
-  '1217':
+  "1217":
     Name: Huohuo
     LongName: Huohuo
-  '1218':
+  "1218":
     Name: Jiaoqiu
     LongName: Jiaoqiu
-  '1220':
+  "1220":
     Name: Feixiao
     LongName: Feixiao
-  '1221':
+  "1221":
     Name: Yunli
     LongName: Yunli
-  '1222':
+  "1222":
     Name: Lingsha
     LongName: Lingsha
-  '1223':
+  "1223":
     Name: Moze
     LongName: Moze
-  '1224':
+  "1224":
     Name: March 7th
     LongName: March 7th (Hunt)
-  '1225':
+  "1225":
     Name: Fugue
     LongName: Fugue
-  '1301':
+  "1301":
     Name: Gallagher
     LongName: Gallagher
-  '1302':
+  "1302":
     Name: Argenti
     LongName: Argenti
-  '1303':
+  "1303":
     Name: Ruan Mei
     LongName: Ruan Mei
-  '1304':
+  "1304":
     Name: Aventurine
     LongName: Aventurine
-  '1305':
+  "1305":
     Name: Dr. Ratio
     LongName: Dr. Ratio
-  '1306':
+  "1306":
     Name: Sparkle
     LongName: Sparkle
-  '1307':
+  "1307":
     Name: Black Swan
     LongName: Black Swan
-  '1308':
+  "1308":
     Name: Acheron
     LongName: Acheron
-  '1309':
+  "1309":
     Name: Robin
     LongName: Robin
-  '1310':
+  "1310":
     Name: Firefly
     LongName: Firefly
-  '1312':
+  "1312":
     Name: Misha
     LongName: Misha
-  '1313':
+  "1313":
     Name: Sunday
     LongName: Sunday
-  '1314':
+  "1314":
     Name: Jade
     LongName: Jade
-  '1315':
+  "1315":
     Name: Boothill
     LongName: Boothill
-  '1317':
+  "1317":
     Name: Rappa
     LongName: Rappa
-  '1401':
+  "1401":
     Name: The Herta
     LongName: The Herta
-  '1402':
+  "1402":
     Name: Aglaea
     LongName: Aglaea
-  '1403':
+  "1403":
     Name: Tribbie
     LongName: Tribbie
-  '1404':
+  "1404":
     Name: Mydei
     LongName: Mydei
-  '1405':
+  "1405":
     Name: Anaxa
     LongName: Anaxa
-  '1406':
+  "1406":
     Name: Cipher
     LongName: Cipher
-  '1407':
+  "1407":
     Name: Castorice
     LongName: Castorice
-  '1408':
+  "1408":
     Name: Phainon
     LongName: Phainon
-  '1409':
+  "1409":
     Name: Hyacine
     LongName: Hyacine
-  '8001':
+  "8001":
     Name: Caelus
     LongName: Caelus (Destruction)
-  '8002':
+  "8002":
     Name: Stelle
     LongName: Stelle (Destruction)
-  '8003':
+  "8003":
     Name: Caelus
     LongName: Caelus (Preservation)
-  '8004':
+  "8004":
     Name: Stelle
     LongName: Stelle (Preservation)
-  '8005':
+  "8005":
     Name: Caelus
     LongName: Caelus (Harmony)
-  '8006':
+  "8006":
     Name: Stelle
     LongName: Stelle (Harmony)
-  '8007':
+  "8007":
     Name: Caelus
     LongName: Caelus (Remembrance)
-  '8008':
+  "8008":
     Name: Stelle
     LongName: Stelle (Remembrance)
   1212b1:
@@ -246,460 +246,460 @@ Characters:
     Name: Silver Wolf
     LongName: Silver Wolf
 RelicSets:
-  '101':
+  "101":
     Name: Passerby of Wandering Cloud
     Description2pc: Outgoing Healing +10%
     Description4pc: Segera memulihkan 1 Poin Skill saat pertempuran dimulai.
-  '102':
+  "102":
     Name: Musketeer of Wild Wheat
     Description2pc: ATK +12%.
     Description4pc: SPD pengguna +6%, DMG yang diakibatkan Basic Attack pengguna +10%.
-  '103':
+  "103":
     Name: Knight of Purity Palace
     Description2pc: DEF +15%.
     Description4pc: Meningkatkan 20% kekuatan Shield yang dibuat oleh pengguna.
-  '104':
+  "104":
     Name: Hunter of Glacial Forest
     Description2pc: Ice DMG +10%.
     Description4pc: Saat melancarkan Ultimate, CRIT DMG meningkat 25% selama 2 giliran.
-  '105':
+  "105":
     Name: Champion of Streetwise Boxing
     Description2pc: Physical DMG +10%.
     Description4pc: Setelah pengguna melancarkan atau menerima serangan, ATK pengguna meningkat 5% selama pertempuran, dapat ditumpuk hingga 5 lapis.
-  '106':
+  "106":
     Name: Guard of Wuthering Snow
     Description2pc: DMG yang diterima -8%
     Description4pc: Saat giliran dimulai, jika HP pengguna saat ini kurang dari atau sama dengan 50%, maka HP pengguna akan dipulihkan sebesar 8% Max HP-nya dan memulihkan 5 Energy.
-  '107':
+  "107":
     Name: Firesmith of Lava-Forging
     Description2pc: Fire DMG +10%.
     Description4pc: Meningkatkan 12% DMG yang diakibatkan oleh Skill pengguna. Setelah melancarkan Ultimate, Fire DMG pengguna untuk serangan berikutnya meningkat 12%.
-  '108':
+  "108":
     Name: Genius of Brilliant Stars
     Description2pc: Quantum DMG +10%.
     Description4pc: Saat pengguna mengakibatkan DMG pada target musuh, 10% DEF target tersebut akan diabaikan. Jika target memiliki Quantum Weakness, maka jumlah DEF yang diabaikan bertambah 10% lagi.
-  '109':
+  "109":
     Name: Band of Sizzling Thunder
     Description2pc: Lightning DMG +10%.
     Description4pc: Saat pengguna melancarkan Skill, meningkatkan 20% ATK pengguna selama 1 giliran.
-  '110':
+  "110":
     Name: Eagle of Twilight Line
     Description2pc: Wind DMG +10%.
     Description4pc: Setelah pengguna melancarkan Ultimate, aksinya akan didahulukan 25%.
-  '111':
+  "111":
     Name: Thief of Shooting Meteor
     Description2pc: Break Effect +16%.
     Description4pc: Meningkatkan 16% Break Effect pengguna. Memulihkan 3 Energy setelah pengguna mengakibatkan Weakness Break pada musuh.
-  '112':
+  "112":
     Name: Wastelander of Banditry Desert
     Description2pc: Imaginary DMG +10%.
     Description4pc: Meningkatkan 10% CRIT Rate pengguna saat menyerang target musuh yang memiliki efek Debuff dan meningkatkan 20% CRIT DMG pengguna saat menyerang target musuh berstatus Imprisonment.
-  '113':
+  "113":
     Name: Longevous Disciple
     Description2pc: Max HP +12%.
     Description4pc: Setelah pengguna terkena serangan atau HP-nya dikonsumsi oleh rekan tim (termasuk pengguna sendiri), CRIT Rate akan meningkat 8% selama 2 giliran. Efek ini dapat ditumpuk hingga 2 lapis.
-  '114':
+  "114":
     Name: Messenger Traversing Hackerspace
     Description2pc: SPD +6%.
     Description4pc: Saat pengguna melancarkan Ultimate pada rekan tim (termasuk pengguna sendiri), SPD seluruh rekan tim meningkat 12% selama 1 giliran. Efek ini tidak dapat ditumpuk.
-  '115':
+  "115":
     Name: The Ashblazing Grand Duke
     Description2pc: Meningkatkan 20% DMG yang diakibatkan Serangan Lanjutan.
     Description4pc: Saat pengguna melancarkan Serangan Lanjutan, meningkatkan 6% ATK pengguna setiap kali Serangan Lanjutan tersebut mengakibatkan DMG. Efek ini dapat ditumpuk hingga 8 kali dan berlangsung selama 3 giliran. Efek ini akan dihapus saat pengguna melancarkan Serangan Lanjutan yang berikutnya.
-  '116':
+  "116":
     Name: Prisoner in Deep Confinement
     Description2pc: ATK +12%.
     Description4pc: Untuk setiap 1 efek DoT yang dimiliki target musuh, saat pengguna mengakibatkan DMG pada target tersebut, akan mengabaikan 6% DEF-nya. Berlaku untuk maksimal 3 DoT.
-  '117':
+  "117":
     Name: Pioneer Diver of Dead Waters
     Description2pc: Meningkatkan 12% DMG yang diakibatkan pada musuh yang terkena pengaruh status Debuff.
     Description4pc: Meningkatkan 4% CRIT Rate. Meningkatkan 8%/12% CRIT DMG pengguna pada target musuh yang memiliki setidaknya 2/3 efek Debuff. Setelah pengguna menambahkan efek debuff pada target musuh, efek peningkatan di atas meningkat 100% selama 1 giliran.
-  '118':
+  "118":
     Name: Watchmaker, Master of Dream Machinations
     Description2pc: Break Effect +16%.
     Description4pc: Saat pengguna melancarkan Ultimate pada rekan tim (termasuk pengguna sendiri), Break Effect seluruh rekan tim akan meningkat 30% selama 2 giliran. Efek ini tidak dapat ditumpuk.
-  '119':
+  "119":
     Name: Iron Cavalry Against the Scourge
     Description2pc: Break Effect +16%.
     Description4pc: Saat Break Effect pengguna lebih dari atau sama dengan 150%, Break DMG yang diakibatkan pada target musuh akan mengabaikan 10% DEF. Saat Break Effect pengguna lebih dari atau sama dengan 250%, Super Break DMG yang diakibatkan pada target musuh akan mengabaikan ekstra 15% DEF.
-  '120':
+  "120":
     Name: The Wind-Soaring Valorous
     Description2pc: ATK +12%.
     Description4pc: Meningkatkan 6% CRIT Rate pengguna. Saat pengguna melancarkan Serangan Lanjutan, DMG yang diakibatkan Ultimate meningkat 36%, berlangsung selama 1 giliran.
-  '121':
+  "121":
     Name: Sacerdos' Relived Ordeal
     Description2pc: SPD +6%.
     Description4pc: Saat melancarkan Skill atau Ultimate pada 1 rekan tim, akan meningkatkan 18% CRIT DMG target kemampuan tersebut selama 2 giliran. Efek ini dapat ditumpuk 2 kali.
-  '122':
+  "122":
     Name: Scholar Lost in Erudition
     Description2pc: CRIT Rate +8%.
     Description4pc: Meningkatkan 20% DMG yang diakibatkan Skill dan Ultimate. Setelah melancarkan Ultimate, DMG yang diakibatkan pelancaran Skill berikutnya akan meningkat ekstra 25%.
-  '123':
+  "123":
     Name: Hero of Triumphant Song
     Description2pc: ATK +12%.
     Description4pc: Saat Memosprite pengguna ada di medan pertempuran, SPD pengguna meningkat 6%. Saat Memosprite pengguna menyerang, CRIT DMG pengguna dan Memosprite miliknya akan meningkat 30%, berlangsung selama 2 giliran.
-  '124':
+  "124":
     Name: Poet of Mourning Collapse
     Description2pc: Quantum DMG +10%.
     Description4pc: Mengurangi 8% SPD pengguna. Sebelum memasuki pertempuran, jika SPD pengguna kurang dari 110/95, CRIT Rate pengguna akan meningkat 20%/32%. Efek ini juga berlaku pada Memosprite pengguna.
-  '125':
+  "125":
     Name: Warrior Goddess of Sun and Thunder
     Description2pc: SPD +6%.
     Description4pc: Setelah pengguna dan Memosprite miliknya memberikan pemulihan pada rekan tim selain pengguna dan Memosprite miliknya, pengguna akan memperoleh "Gentle Rain", yang dapat dipicu hingga 1 kali setiap giliran dan berlangsung selama 2 giliran. Saat pengguna memiliki "Gentle Rain", SPD pengguna akan meningkat 6%, dan CRIT DMG seluruh rekan tim akan meningkat 15%. Efek ini tidak dapat ditumpuk.
-  '126':
+  "126":
     Name: Wavestrider Captain
     Description2pc: CRIT DMG +16%.
     Description4pc: Saat pengguna menjadi target kemampuan dari rekan tim lainnya, pengguna akan memperoleh 1 lapis "Help", dapat ditumpuk hingga 2 lapis. Saat melancarkan Ultimate, jika memiliki 2 lapis "Help", akan mengonsumsi semua "Help" dan meningkatkan 48% ATK pengguna selama 1 giliran.
-  '301':
+  "301":
     Name: Space Sealing Station
     Description2pc: Meningkatkan 12% ATK pengguna. Meningkatkan 12% ATK tambahan ketika SPD pengguna lebih dari atau sama dengan 120.
-  '302':
+  "302":
     Name: Fleet of the Ageless
     Description2pc: Meningkatkan 12% Max HP pengguna. Meningkatkan 8% ATK seluruh rekan tim ketika SPD pengguna lebih dari atau sama dengan 120.
-  '303':
+  "303":
     Name: Pan-Cosmic Commercial Enterprise
     Description2pc: Meningkatkan 10% Effect Hit Rate pengguna. Pada saat yang sama, ATK pengguna meningkat sebesar 25% Effect Hit Rate saat ini, maks. hingga 25%.
-  '304':
+  "304":
     Name: Belobog of the Architects
     Description2pc: Meningkatkan 15% DEF pengguna. Meningkatkan 15% DEF tambahan ketika Effect Hit Rate pengguna lebih dari atau sama dengan 50%.
-  '305':
+  "305":
     Name: Celestial Differentiator
     Description2pc: Meningkatkan 16% CRIT DMG pengguna. Saat CRIT DMG pengguna lebih dari atau sama dengan 120%, CRIT Rate pengguna akan meningkat 60% setelah memasuki pertempuran, efek ini akan hilang setelah pengguna melancarkan serangan pertamanya dalam pertempuran.
-  '306':
+  "306":
     Name: Inert Salsotto
     Description2pc: Meningkatkan 8% CRIT Rate pengguna. Meningkatkan 15% DMG yang diakibatkan Ultimate dan Serangan Lanjutan ketika CRIT Rate pengguna saat ini lebih dari atau sama dengan 50%.
-  '307':
-    Name: 'Talia: Kingdom of Banditry'
+  "307":
+    Name: "Talia: Kingdom of Banditry"
     Description2pc: Meningkatkan 16% Break Effect pengguna. Meningkatkan 20% Break Effect tambahan ketika SPD pengguna lebih dari atau sama dengan 145.
-  '308':
+  "308":
     Name: Sprightly Vonwacq
     Description2pc: Meningkatkan 5% Energy Regeneration Rate pengguna. Ketika SPD pengguna lebih dari atau sama dengan 120, segera mendahulukan 40% aksi saat memasuki pertempuran.
-  '309':
+  "309":
     Name: Rutilant Arena
     Description2pc: Meningkatkan 8% CRIT Rate pengguna. Meningkatkan 20% DMG yang diakibatkan Basic Attack dan Skill ketika CRIT Rate pengguna saat ini lebih dari atau sama dengan 70%.
-  '310':
+  "310":
     Name: Broken Keel
     Description2pc: Meningkatkan 10% Effect RES pengguna. Saat Effect RES pengguna lebih dari atau sama dengan 30%, CRIT DMG seluruh rekan tim meningkat 10%.
-  '311':
-    Name: 'Firmament Frontline: Glamoth'
+  "311":
+    Name: "Firmament Frontline: Glamoth"
     Description2pc: Meningkatkan 12% ATK pengguna. Saat SPD pengguna lebih dari atau sama dengan 135/160, DMG yang diakibatkan pengguna meningkat 12%/18%.
-  '312':
+  "312":
     Name: Penacony, Land of the Dreams
     Description2pc: Meningkatkan 5% Energy Regeneration Rate pengguna. Meningkatkan 10% DMG yang diakibatkan rekan lain yang Tipenya sama dengan pengguna.
-  '313':
+  "313":
     Name: Sigonia, the Unclaimed Desolation
     Description2pc: Meningkatkan 4% CRIT Rate pengguna. Saat target musuh dikalahkan, CRIT DMG pengguna akan meningkat 4%, dapat ditumpuk hingga 10 lapis.
-  '314':
+  "314":
     Name: Izumo Gensei and Takama Divine Realm
     Description2pc: Meningkatkan 12% ATK pengguna. Saat memasuki pertempuran, jika setidaknya ada 1 rekan tim pengguna dengan Path yang sama dengan pengguna, maka CRIT Rate pengguna akan meningkat 12%.
-  '315':
+  "315":
     Name: Duran, Dynasty of Running Wolves
     Description2pc: Saat rekan tim melancarkan Serangan Lanjutan, pengguna akan memperoleh 1 lapis "Merit", yang dapat ditumpuk hingga 5 lapis. Setiap lapis "Merit" akan meningkatkan DMG yang diakibatkan Serangan Lanjutan pengguna sebesar 5%. Saat mencapai 5 lapis, CRIT DMG pengguna akan meningkat sebesar 25%.
-  '316':
+  "316":
     Name: Forge of the Kalpagni Lantern
     Description2pc: Meningkatkan 6% SPD pengguna. Saat serangan pengguna mengenai target musuh dengan Fire Weakness, Break Effect akan meningkat 40% selama 1 giliran.
-  '317':
+  "317":
     Name: Lushaka, the Sunken Seas
     Description2pc: Meningkatkan 5% Energy Regeneration Rate pengguna. Jika pengguna bukan karakter pertama dalam lineup tim, maka akan meningkatkan 12% ATK karakter pertama dalam lineup tim.
-  '318':
+  "318":
     Name: The Wondrous BananAmusement Park
     Description2pc: Meningkatkan 16% CRIT DMG pengguna. Saat terdapat target yang dipanggil oleh pengguna, CRIT DMG meningkat ekstra 32%.
-  '319':
+  "319":
     Name: Bone Collection's Serene Demesne
     Description2pc: Meningkatkan 12% Max HP pengguna. Saat Max HP pengguna lebih dari atau sama dengan 5000, akan meningkatkan 28% CRIT DMG pengguna dan Memosprite miliknya.
-  '320':
+  "320":
     Name: Giant Tree of Rapt Brooding
     Description2pc: Meningkatkan 6% SPD pengguna. Saat SPD pengguna lebih dari atau sama dengan 135/180, Outgoing Healing pengguna dan Memosprite miliknya akan meningkat 12%/20%.
-  '321':
+  "321":
     Name: Arcadia of Woven Dreams
-    Description2pc: When there are more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks.
-  '322':
+    Description2pc: When there are currently more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks.
+  "322":
     Name: Revelry by the Sea
-    Description2pc: Increases the wearer's DoT DMG by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%.
+    Description2pc: Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%.
 Lightcones:
-  '20000':
+  "20000":
     Name: Arrows
-  '20001':
+  "20001":
     Name: Cornucopia
-  '20002':
+  "20002":
     Name: Collapsing Sky
-  '20003':
+  "20003":
     Name: Amber
-  '20004':
+  "20004":
     Name: Void
-  '20005':
+  "20005":
     Name: Chorus
-  '20006':
+  "20006":
     Name: Data Bank
-  '20007':
+  "20007":
     Name: Darting Arrow
-  '20008':
+  "20008":
     Name: Fine Fruit
-  '20009':
+  "20009":
     Name: Shattered Home
-  '20010':
+  "20010":
     Name: Defense
-  '20011':
+  "20011":
     Name: Loop
-  '20012':
+  "20012":
     Name: Meshing Cogs
-  '20013':
+  "20013":
     Name: Passkey
-  '20014':
+  "20014":
     Name: Adversarial
-  '20015':
+  "20015":
     Name: Multiplication
-  '20016':
+  "20016":
     Name: Mutual Demise
-  '20017':
+  "20017":
     Name: Pioneering
-  '20018':
+  "20018":
     Name: Hidden Shadow
-  '20019':
+  "20019":
     Name: Mediation
-  '20020':
+  "20020":
     Name: Sagacity
-  '20021':
+  "20021":
     Name: Shadowburn
-  '20022':
+  "20022":
     Name: Reminiscence
-  '21000':
+  "21000":
     Name: Post-Op Conversation
-  '21001':
+  "21001":
     Name: Good Night and Sleep Well
-  '21002':
+  "21002":
     Name: Day One of My New Life
-  '21003':
+  "21003":
     Name: Only Silence Remains
-  '21004':
+  "21004":
     Name: Memories of the Past
-  '21005':
+  "21005":
     Name: The Moles Welcome You
-  '21006':
+  "21006":
     Name: The Birth of the Self
-  '21007':
+  "21007":
     Name: Shared Feeling
-  '21008':
+  "21008":
     Name: Eyes of the Prey
-  '21009':
+  "21009":
     Name: Landau's Choice
-  '21010':
+  "21010":
     Name: Swordplay
-  '21011':
+  "21011":
     Name: Planetary Rendezvous
-  '21012':
+  "21012":
     Name: A Secret Vow
-  '21013':
+  "21013":
     Name: Make the World Clamor
-  '21014':
+  "21014":
     Name: Perfect Timing
-  '21015':
+  "21015":
     Name: Resolution Shines As Pearls of Sweat
-  '21016':
+  "21016":
     Name: Trend of the Universal Market
-  '21017':
+  "21017":
     Name: Subscribe for More!
-  '21018':
+  "21018":
     Name: Dance! Dance! Dance!
-  '21019':
+  "21019":
     Name: Under the Blue Sky
-  '21020':
+  "21020":
     Name: Geniuses' Repose
-  '21021':
+  "21021":
     Name: Quid Pro Quo
-  '21022':
+  "21022":
     Name: Fermata
-  '21023':
+  "21023":
     Name: We Are Wildfire
-  '21024':
+  "21024":
     Name: River Flows in Spring
-  '21025':
+  "21025":
     Name: Past and Future
-  '21026':
+  "21026":
     Name: Woof! Walk Time!
-  '21027':
+  "21027":
     Name: The Seriousness of Breakfast
-  '21028':
+  "21028":
     Name: Warmth Shortens Cold Nights
-  '21029':
+  "21029":
     Name: We Will Meet Again
-  '21030':
+  "21030":
     Name: This Is Me!
-  '21031':
+  "21031":
     Name: Return to Darkness
-  '21032':
+  "21032":
     Name: Carve the Moon, Weave the Clouds
-  '21033':
+  "21033":
     Name: Nowhere to Run
-  '21034':
+  "21034":
     Name: Today Is Another Peaceful Day
-  '21035':
+  "21035":
     Name: What Is Real?
-  '21036':
+  "21036":
     Name: Dreamville Adventure
-  '21037':
+  "21037":
     Name: Final Victor
-  '21038':
+  "21038":
     Name: Flames Afar
-  '21039':
+  "21039":
     Name: Destiny's Threads Forewoven
-  '21040':
+  "21040":
     Name: The Day The Cosmos Fell
-  '21041':
+  "21041":
     Name: It's Showtime
-  '21042':
+  "21042":
     Name: Indelible Promise
-  '21043':
+  "21043":
     Name: Concert for Two
-  '21044':
+  "21044":
     Name: Boundless Choreo
-  '21045':
+  "21045":
     Name: After the Charmony Fall
-  '21046':
+  "21046":
     Name: Poised to Bloom
-  '21047':
+  "21047":
     Name: Shadowed by Night
-  '21048':
+  "21048":
     Name: Dream's Montage
-  '21050':
+  "21050":
     Name: Victory In a Blink
-  '21051':
+  "21051":
     Name: Geniuses' Greetings
-  '21052':
+  "21052":
     Name: Sweat Now, Cry Less
-  '21053':
+  "21053":
     Name: Journey, Forever Peaceful
-  '21054':
+  "21054":
     Name: The Story's Next Page
-  '21055':
+  "21055":
     Name: Unto Tomorrow's Morrow
-  '21056':
-    Name: Pursuit of the Wind
-  '21057':
+  "21056":
+    Name: In Pursuit of the Wind
+  "21057":
     Name: The Flower Remembers
-  '21058':
+  "21058":
     Name: A Trail of Bygone Blood
-  '21060':
+  "21060":
     Name: A Dream Scented in Wheat
-  '21061':
+  "21061":
     Name: Holiday Thermae Escapade
-  '21062':
+  "21062":
     Name: See You at the End
-  '22000':
+  "22000":
     Name: Before the Tutorial Mission Starts
-  '22001':
+  "22001":
     Name: Hey, Over Here
-  '22002':
+  "22002":
     Name: For Tomorrow's Journey
-  '22003':
-    Name: 'Ninja Record: Sound Hunt'
-  '22004':
+  "22003":
+    Name: "Ninja Record: Sound Hunt"
+  "22004":
     Name: The Great Cosmic Enterprise
-  '23000':
+  "23000":
     Name: Night on the Milky Way
-  '23001':
+  "23001":
     Name: In the Night
-  '23002':
+  "23002":
     Name: Something Irreplaceable
-  '23003':
+  "23003":
     Name: But the Battle Isn't Over
-  '23004':
+  "23004":
     Name: In the Name of the World
-  '23005':
+  "23005":
     Name: Moment of Victory
-  '23006':
+  "23006":
     Name: Patience Is All You Need
-  '23007':
+  "23007":
     Name: Incessant Rain
-  '23008':
+  "23008":
     Name: Echoes of the Coffin
-  '23009':
+  "23009":
     Name: The Unreachable Side
-  '23010':
+  "23010":
     Name: Before Dawn
-  '23011':
+  "23011":
     Name: She Already Shut Her Eyes
-  '23012':
+  "23012":
     Name: Sleep Like the Dead
-  '23013':
+  "23013":
     Name: Time Waits for No One
-  '23014':
+  "23014":
     Name: I Shall Be My Own Sword
-  '23015':
+  "23015":
     Name: Brighter Than the Sun
-  '23016':
+  "23016":
     Name: Worrisome, Blissful
-  '23017':
+  "23017":
     Name: Night of Fright
-  '23018':
+  "23018":
     Name: An Instant Before A Gaze
-  '23019':
+  "23019":
     Name: Past Self in Mirror
-  '23020':
+  "23020":
     Name: Baptism of Pure Thought
-  '23021':
+  "23021":
     Name: Earthly Escapade
-  '23022':
+  "23022":
     Name: Reforged Remembrance
-  '23023':
+  "23023":
     Name: Inherently Unjust Destiny
-  '23024':
+  "23024":
     Name: Along the Passing Shore
-  '23025':
+  "23025":
     Name: Whereabouts Should Dreams Rest
-  '23026':
+  "23026":
     Name: Flowing Nightglow
-  '23027':
+  "23027":
     Name: Sailing Towards a Second Life
-  '23028':
+  "23028":
     Name: Yet Hope Is Priceless
-  '23029':
+  "23029":
     Name: Those Many Springs
-  '23030':
+  "23030":
     Name: Dance at Sunset
-  '23031':
+  "23031":
     Name: I Venture Forth to Hunt
-  '23032':
+  "23032":
     Name: Scent Alone Stays True
-  '23033':
-    Name: 'Ninjutsu Inscription: Dazzling Evilbreaker'
-  '23034':
+  "23033":
+    Name: "Ninjutsu Inscription: Dazzling Evilbreaker"
+  "23034":
     Name: A Grounded Ascent
-  '23035':
+  "23035":
     Name: Long Road Leads Home
-  '23036':
+  "23036":
     Name: Time Woven Into Gold
-  '23037':
+  "23037":
     Name: Into the Unreachable Veil
-  '23038':
+  "23038":
     Name: If Time Were a Flower
-  '23039':
+  "23039":
     Name: Flame of Blood, Blaze My Path
-  '23040':
+  "23040":
     Name: Make Farewells More Beautiful
-  '23041':
+  "23041":
     Name: Life Should Be Cast to Flames
-  '23042':
+  "23042":
     Name: Long May Rainbows Adorn the Sky
-  '23043':
+  "23043":
     Name: Lies Dance on the Breeze
-  '23044':
+  "23044":
     Name: Thus Burns the Dawn
-  '23045':
+  "23045":
     Name: A Thankless Coronation
-  '23046':
+  "23046":
     Name: The Hell Where Ideals Burn
-  '24000':
+  "24000":
     Name: On the Fall of an Aeon
-  '24001':
+  "24001":
     Name: Cruising in the Stellar Sea
-  '24002':
+  "24002":
     Name: Texture of Memories
-  '24003':
+  "24003":
     Name: Solitary Healing
-  '24004':
+  "24004":
     Name: Eternal Calculus
-  '24005':
+  "24005":
     Name: Memory's Curtain Never Falls
 Paths:
   Warrior: Destruction

@@ -13,7 +13,7 @@ import {
 export const CURRENT_OPTIMIZER_VERSION = 'v3.4.1'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '3.4v3'
+export const CURRENT_DATA_VERSION = '3.4v4'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {

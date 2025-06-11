@@ -53,7 +53,7 @@ const App = () => {
           <LayoutSider />
           <Content
             style={{
-              padding: 10,
+              padding: '10px 10px 0 10px',
               margin: 0,
               minHeight: 280,
               marginLeft: 'auto',

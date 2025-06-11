@@ -19,6 +19,7 @@ Messages:
   AddRelicSuccess: 遺物を追加しました
   NoRelicSelected: 遺物が選択されていません
   DeleteRelicSuccess: 遺物を削除しました
+  UnableToDeleteRelic: 遺物を削除できませんでした
 RelicGrid:
   To: "~"
   Of: /

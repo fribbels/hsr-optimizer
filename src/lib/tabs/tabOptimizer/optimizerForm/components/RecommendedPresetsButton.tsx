@@ -2,22 +2,17 @@ import { DownOutlined } from '@ant-design/icons'
 import { ApplyColumnStateParams } from 'ag-grid-community'
 import { Dropdown } from 'antd'
 import { TFunction } from 'i18next'
-import { Constants, ElementNames, PathNames, Sets, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
+import { applySpdPreset } from 'lib/conditionals/evaluation/applyPresets'
+import {
+  Sets,
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
-import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/defaultForm'
-import { NULL_TURN_ABILITY_NAME, WHOLE_BASIC } from 'lib/optimization/rotation/turnAbilityConfig'
-import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
-import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { TsUtils } from 'lib/utils/TsUtils'
-import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CharacterId } from 'types/character'
 import { ReactElement } from 'types/components'
-import { Form } from 'types/form'
-import { ScoringMetadata } from 'types/metadata'
 
 // FIXME HIGH
 
@@ -34,10 +29,10 @@ import { ScoringMetadata } from 'types/metadata'
  * 200.00 (3 actions in first cycle)
  */
 export type PresetDefinition = {
-  name: string
-  set: SetsRelics | SetsOrnaments
-  value: number | boolean
-  index?: number
+  name: string,
+  set: SetsRelics | SetsOrnaments,
+  value: number | boolean,
+  index?: number,
 }
 
 export const PresetEffects = {
@@ -113,10 +108,10 @@ export function setSortColumn(columnId: string) {
 }
 
 export type SpdPresets = Record<string, {
-  key: string
-  label: string | ReactElement
-  value: number | undefined
-  disabled?: boolean
+  key: string,
+  label: string | ReactElement,
+  value: number | undefined,
+  disabled?: boolean,
 }>
 
 export function generateSpdPresets(t: TFunction<'optimizerTab', 'Presets'>) {
@@ -143,7 +138,7 @@ export function generateSpdPresets(t: TFunction<'optimizerTab', 'Presets'>) {
     },
     SPD133: {
       key: 'SPD133',
-      label: t('SpdValues.SPD133')/* 133.334 SPD - 2 actions in first cycle, 6 actions in first four cycles */,
+      label: t('SpdValues.SPD133'), /* 133.334 SPD - 2 actions in first cycle, 6 actions in first four cycles */
       value: 133.334,
     },
     SPD142: {
@@ -189,7 +184,7 @@ export const RecommendedPresetsButton = () => {
   }, [t])
 
   const standardSpdOptions = Object.values(spdPresets)
-  standardSpdOptions.map((x) => x.label = (<div style={{ minWidth: 450 }}>{x.label}</div>))
+  standardSpdOptions.map((x) => x.label = <div style={{ minWidth: 450 }}>{x.label}</div>)
 
   function generateStandardSpdOptions(label: string) {
     return {
@@ -199,24 +194,24 @@ export const RecommendedPresetsButton = () => {
     }
   }
 
-  const items = useMemo(function () {
+  const items = useMemo(function() {
     if (!optimizerTabFocusCharacter) return []
     const character = DB.getMetadata().characters[optimizerTabFocusCharacter]
     if (!character) return []
 
     // "Standard" Placeholder for now until we have customized builds
-    return [generateStandardSpdOptions(t('StandardLabel', { id: character.id }))]// Standard ${CharacterName})
+    return [generateStandardSpdOptions(t('StandardLabel', { id: character.id }))] // Standard ${CharacterName})
   }, [optimizerTabFocusCharacter, t])
 
   const actionsMenuProps = {
     items,
     onClick: (event: {
-      key: string
+      key: string,
     }) => {
       if (spdPresets[event.key]) {
         applySpdPreset(spdPresets[event.key].value!, optimizerTabFocusCharacter)
       } else {
-        Message.warning(t('PresetNotAvailable')/* 'Preset not available, please select another option' */)
+        Message.warning(t('PresetNotAvailable') /* 'Preset not available, please select another option' */)
       }
     },
   }
@@ -227,88 +222,10 @@ export const RecommendedPresetsButton = () => {
       type='primary'
       menu={actionsMenuProps}
       onClick={() => applySpdPreset(spdPresets.SPD0.value!, optimizerTabFocusCharacter)}
-      icon={<DownOutlined/>}
+      icon={<DownOutlined />}
       style={{ flex: 1, width: '100%' }}
     >
-      {t('RecommendedPresets')/* Recommended presets */}
+      {t('RecommendedPresets') /* Recommended presets */}
     </Dropdown.Button>
   )
-}
-
-export function applySpdPreset(spd: number, characterId: CharacterId | null | undefined) {
-  if (!characterId) return
-
-  const character = DB.getMetadata().characters[characterId]
-  const metadata = TsUtils.clone(character.scoringMetadata)
-
-  // Using the user's current form so we don't overwrite their other numeric filter values
-  const form: Form = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
-  const defaultForm: Form = OptimizerTabController.formToDisplay(getDefaultForm(character))
-  form.setConditionals = defaultForm.setConditionals
-
-  const overrides = window.store.getState().scoringMetadataOverrides[characterId]
-  if (overrides) {
-    Utils.mergeDefinedValues(metadata.parts, overrides.parts)
-    Utils.mergeDefinedValues(metadata.stats, overrides.stats)
-  }
-  form.minSpd = spd
-
-  applyMetadataPresetToForm(form, metadata)
-
-  // We don't use the clone here because serializing messes up the applyPreset functions
-  const sortOption = metadata.simulation ? SortOption.COMBO : metadata.sortOption
-  form.resultSort = sortOption.key
-  setSortColumn(sortOption.combatGridColumn)
-
-  window.optimizerForm.setFieldsValue(form)
-  window.onOptimizerFormValuesChange({} as Form, form)
-}
-
-export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMetadata) {
-  // @ts-ignore TODO getDefaultForm currently has handling for no character id but is set to be changed
-  Utils.mergeUndefinedValues(form, getDefaultForm())
-
-  form.comboTurnAbilities = scoringMetadata?.simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, WHOLE_BASIC]
-  form.comboDot = scoringMetadata?.simulation?.comboDot ?? 0
-
-  // @ts-ignore
-  form.maxSpd = undefined
-  form.mainBody = scoringMetadata.parts[Constants.Parts.Body]
-  form.mainFeet = scoringMetadata.parts[Constants.Parts.Feet]
-  form.mainPlanarSphere = scoringMetadata.parts[Constants.Parts.PlanarSphere]
-  form.mainLinkRope = scoringMetadata.parts[Constants.Parts.LinkRope]
-  form.weights = { ...form.weights, ...scoringMetadata.stats }
-  form.weights.headHands = form.weights.headHands ?? 0
-  form.weights.bodyFeet = form.weights.bodyFeet ?? 0
-  form.weights.sphereRope = form.weights.sphereRope ?? 0
-
-  applySetConditionalPresets(form)
-  applyScoringMetadataPresets(form)
-}
-
-export function applyScoringMetadataPresets(form: Form | BenchmarkForm) {
-  const character = DB.getMetadata().characters[form.characterId]
-  const presets = character?.scoringMetadata?.presets ?? []
-
-  for (const preset of presets) {
-    applyPreset(form, preset)
-  }
-}
-
-export function applyPreset(form: Form | BenchmarkForm, preset: PresetDefinition) {
-  form.setConditionals[preset.set][preset.index ?? 1] = preset.value
-}
-
-export function applySetConditionalPresets(form: Form | BenchmarkForm) {
-  const characterMetadata = DB.getMetadata().characters[form.characterId]
-  Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
-
-  // Disable elemental conditions by default if the character is not of the same element
-  const element = characterMetadata?.element
-  form.setConditionals[Sets.GeniusOfBrilliantStars][1] = element == ElementNames.Quantum
-  form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = element == ElementNames.Fire
-
-  const path = characterMetadata?.path
-  form.setConditionals[Sets.HeroOfTriumphantSong][1] = path == PathNames.Remembrance
-  form.setConditionals[Sets.WarriorGoddessOfSunAndThunder][1] = path == PathNames.Remembrance
 }

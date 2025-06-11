@@ -43,6 +43,13 @@ interface Resources {
       "Rolls": "Substat Rolls",
       "Combo": "Combo Rotation",
       "Damage": "Ability Damage"
+    },
+    "Messages": {
+      "Error": {
+        "MissingField": "Missing character/lightcone/teammates",
+        "UnsupportedCharacter": "DPS benchmarks are not supported for this character",
+        "SPDUnselected": "Select the target benchmark basic SPD"
+      }
     }
   },
   "charactersTab": {
@@ -98,7 +105,10 @@ interface Resources {
       "SortByScoreWarning": "Are you sure you want to sort all characters? You will lose any custom rankings you have set.",
       "SaveSuccess": "Successfully saved build: {{name}}",
       "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?",
-      "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?"
+      "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?",
+      "BuildAlreadyExists": "Build name {{name}} already exists",
+      "ImageUploadFailed": "Image upload failed",
+      "InvalidFile": "File is not a valid image file"
     },
     "CharacterPreview": {
       "ScoringSidebar": {
@@ -289,6 +299,7 @@ interface Resources {
     "Yes": "Yes",
     "No": "No",
     "Save": "Save",
+    "Saved": "Saved",
     "Score": "Score",
     "Reset": "Reset",
     "EidolonNShort": "E{{eidolon}}",
@@ -3236,12 +3247,12 @@ interface Resources {
         "LongName": "Welt"
       },
       "1005": {
-        "Name": "(Old) Kafka",
-        "LongName": "(Old) Kafka"
+        "Name": "⚰️ Kafka",
+        "LongName": "⚰️ Kafka"
       },
       "1006": {
-        "Name": "(Old) Silver Wolf",
-        "LongName": "(Old) Silver Wolf"
+        "Name": "⚰️ Silver Wolf",
+        "LongName": "⚰️ Silver Wolf"
       },
       "1008": {
         "Name": "Arlan",
@@ -3328,8 +3339,8 @@ interface Resources {
         "LongName": "Jing Yuan"
       },
       "1205": {
-        "Name": "(Old) Blade",
-        "LongName": "(Old) Blade"
+        "Name": "⚰️ Blade",
+        "LongName": "⚰️ Blade"
       },
       "1206": {
         "Name": "Sushang",
@@ -3356,8 +3367,8 @@ interface Resources {
         "LongName": "Bailu"
       },
       "1212": {
-        "Name": "(Old) Jingliu",
-        "LongName": "(Old) Jingliu"
+        "Name": "⚰️ Jingliu",
+        "LongName": "⚰️ Jingliu"
       },
       "1213": {
         "Name": "Imbibitor Lunae",
@@ -3532,20 +3543,20 @@ interface Resources {
         "LongName": "Stelle (Remembrance)"
       },
       "1212b1": {
-        "Name": "(New) Jingliu",
-        "LongName": "(New) Jingliu"
+        "Name": "Jingliu",
+        "LongName": "Jingliu"
       },
       "1205b1": {
-        "Name": "(New) Blade",
-        "LongName": "(New) Blade"
+        "Name": "Blade",
+        "LongName": "Blade"
       },
       "1005b1": {
-        "Name": "(New) Kafka",
-        "LongName": "(New) Kafka"
+        "Name": "Kafka",
+        "LongName": "Kafka"
       },
       "1006b1": {
-        "Name": "(New) Silver Wolf",
-        "LongName": "(New) Silver Wolf"
+        "Name": "Silver Wolf",
+        "LongName": "Silver Wolf"
       }
     },
     "RelicSets": {
@@ -3761,11 +3772,11 @@ interface Resources {
       },
       "321": {
         "Name": "Arcadia of Woven Dreams",
-        "Description2pc": "When the number of ally targets on the field is not 4, for every 1 extra/missing ally target, increases the wearer's and their memosprite's DMG by 9%/12%, stacking up to 4/3 times."
+        "Description2pc": "When there are currently more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks."
       },
       "322": {
         "Name": "Revelry by the Sea",
-        "Description2pc": "Increases the wearer's DoT DMG by 12%. When the wearer's ATK is higher than or equal to 2400/3600, additionally increases the DoT DMG dealt by 12%/24%."
+        "Description2pc": "Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%."
       }
     },
     "Lightcones": {
@@ -4004,7 +4015,7 @@ interface Resources {
         "Name": "Unto Tomorrow's Morrow"
       },
       "21056": {
-        "Name": "Pursuit of the Wind"
+        "Name": "In Pursuit of the Wind"
       },
       "21057": {
         "Name": "The Flower Remembers"
@@ -4979,6 +4990,19 @@ interface Resources {
     }
   },
   "optimizerTab": {
+    "ValidationMessages": {
+      "Warning": {
+        "MissingTeammates": "Select teammates for more accurate optimization results.",
+        "PathMismatch": "Character path doesn't match light cone path."
+      },
+      "Error": {
+        "TopPercent": "All substat weights are set to 0. Make sure to set the substat weights for your character or use the Recommended presets button.",
+        "MissingTarget": "Missing optimization target fields",
+        "MissingCharacter": "Missing character fields",
+        "MissingLightCone": "Missing light cone fields",
+        "GPUNotAvailable": "GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server"
+      }
+    },
     "CharacterSelector": {
       "Character": "Character",
       "Lightcone": "Light cone",
@@ -5082,6 +5106,7 @@ interface Resources {
       "Of": "of",
       "Page": "Page",
       "PageSelectorLabel": "Page Size:",
+      "Loading": "Loading...",
       "Headers": {
         "Basic": {
           "Set": "Set",
@@ -5098,7 +5123,6 @@ interface Resources {
           "ERR": "ERR",
           "DMG": "DMG",
           "EHP": "EHP",
-          "WEIGHT": "STAT\nWEIGHT",
           "HEAL": "HEAL",
           "SHIELD": "SHIELD",
           "BASIC": "BASIC\nDMG",
@@ -5126,7 +5150,6 @@ interface Resources {
           "ERR": "Σ ERR",
           "DMG": "Σ DMG",
           "EHP": "EHP",
-          "WEIGHT": "STAT\nWEIGHT",
           "HEAL": "HEAL",
           "SHIELD": "SHIELD",
           "BASIC": "BASIC\nDMG",
@@ -5193,6 +5216,7 @@ interface Resources {
       "ResultsGroup": {
         "Header": "Results",
         "Equip": "Equip",
+        "EquipSuccessMessage": "Equipped",
         "Filter": "Filter",
         "Pin": "Pin builds",
         "Clear": "Clear pins"
@@ -5417,11 +5441,13 @@ interface Resources {
         "Advanced": "Advanced"
       },
       "RowControls": {
+        "Header": "Controls",
         "Add": "+",
         "Remove": "-",
         "ResetConfirm": {
           "Description": "Reset all Simple / Advanced rotation settings to default?"
-        }
+        },
+        "PresetsHeader": "Presets"
       },
       "CounterLabels": {
         "Dot": "Dots"
@@ -5740,7 +5766,8 @@ interface Resources {
       "AllCharacters": "Import all characters & all relics into optimizer"
     },
     "SimulateRelics": "Simulate relics on another character",
-    "OptimizeOnCharacter": "Optimize character stats"
+    "OptimizeOnCharacter": "Optimize character stats",
+    "Disclaimer": "Note: Combo DMG is meant to compare different relics relative to the selected team, and should <1>NOT</1> be used to compare different teams / LCs / eidolons!"
   },
   "relicsTab": {
     "RelicFilterBar": {
@@ -5764,7 +5791,8 @@ interface Resources {
     "Messages": {
       "AddRelicSuccess": "Successfully added relic",
       "NoRelicSelected": "No relic selected",
-      "DeleteRelicSuccess": "Successfully deleted relic"
+      "DeleteRelicSuccess": "Successfully deleted relic",
+      "UnableToDeleteRelic": "Unable to delete relic"
     },
     "RelicGrid": {
       "To": "to",
@@ -5886,33 +5914,39 @@ interface Resources {
   },
   "settings": {
     "Title": "Settings",
-    "RelicEquippingBehaviour": {
+    "RelicEquippingBehavior": {
       "Label": "Equipping relics from another character",
       "Replace": "Default: Replace relics without swapping",
       "Swap": "Swap relics with previous owner"
     },
-    "PermutationSidebarBehaviour": {
+    "PermutationsSidebarBehavior": {
       "Label": "Shrink optimizer sidebar on smaller screens",
-      "XL": "Default: Minimize if most of the sidebar is hidden",
-      "XXL": "Minimize if any of the sidebar is hidden",
+      "ShowXL": "Default: Minimize if most of the sidebar is hidden",
+      "ShowXXL": "Minimize if any of the sidebar is hidden",
       "NoShow": "Always keep the sidebar on the right"
     },
-    "RelicPotentialLoadBehaviour": {
+    "RelicPotentialLoadBehavior": {
       "Label": "Relic potential scoring on load",
-      "OnStartup": "Default: Automatically score relics on page load",
-      "Manual": "Only score relics when \"Reapply scores\" is clicked (faster page load)"
+      "ScoreAtStartup": "Default: Automatically score relics on page load",
+      "ManuallyClickReapplyScores": "Only score relics when \"Reapply scores\" is clicked (faster page load)"
     },
     "ExpandedInfoPanelPosition": {
       "Label": "Optimizer Expanded info panel position",
       "Above": "Show expanded info above relics preview",
       "Below": "Default: Show expanded info below relics preview"
+    },
+    "ShowLocatorInRelicsModal": {
+      "Label": "Relic locator in relic editor",
+      "Yes": "Show the relic locator in the relic editor",
+      "No": "Default: Do not show the relic locator in the relic editor"
     }
   },
   "sidebar": {
     "Tools": {
       "Title": "Tools",
       "Showcase": "Showcase",
-      "WarpPlanner": "Warp Planner"
+      "WarpPlanner": "Warp Planner",
+      "Benchmarks": "Benchmarks"
     },
     "Optimization": {
       "Title": "Optimization",

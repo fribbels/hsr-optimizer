@@ -1,89 +1,112 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { ABILITY_LIMIT, ConditionalDataType, ElementName, PathName, SetsOrnaments, SetsOrnamentsNames, SetsRelics, SetsRelicsNames } from 'lib/constants/constants'
-import { defaultSetConditionals, getDefaultForm } from 'lib/optimization/defaultForm'
+import {
+  ABILITY_LIMIT,
+  ConditionalDataType,
+  ElementName,
+  PathName,
+  SetsOrnaments,
+  SetsOrnamentsNames,
+  SetsRelics,
+  SetsRelicsNames,
+} from 'lib/constants/constants'
+import {
+  defaultSetConditionals,
+  getDefaultForm,
+} from 'lib/optimization/defaultForm'
 import { getComboTypeAbilities } from 'lib/optimization/rotation/comboStateTransform'
 import { precomputeConditionalActivations } from 'lib/optimization/rotation/preprocessor/rotationPreprocessor'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
-import { NULL_TURN_ABILITY_NAME, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  NULL_TURN_ABILITY_NAME,
+  TurnAbilityName,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { applyPreset } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
-import { CharacterConditionalsController, ConditionalValueMap, ContentItem, LightConeConditionalsController } from 'types/conditionals'
-import { Form, Teammate } from 'types/form'
+import {
+  CharacterConditionalsController,
+  ConditionalValueMap,
+  ContentItem,
+  LightConeConditionalsController,
+} from 'types/conditionals'
+import {
+  Form,
+  Teammate,
+} from 'types/form'
 import { DBMetadata } from 'types/metadata'
 import { BasicForm } from 'types/optimizer'
+import { applyPreset } from "lib/conditionals/evaluation/applyPresets";
 
 export type ComboConditionals = {
-  [key: string]: ComboConditionalCategory
+  [key: string]: ComboConditionalCategory,
 }
 
 export type ComboConditionalCategory = ComboBooleanConditional | ComboNumberConditional | ComboSelectConditional
 
 export type ComboBooleanConditional = {
-  type: ConditionalDataType.BOOLEAN
-  activations: boolean[]
-  display?: boolean
+  type: ConditionalDataType.BOOLEAN,
+  activations: boolean[],
+  display?: boolean,
 }
 
 export type ComboNumberConditional = {
-  type: ConditionalDataType.NUMBER
-  partitions: ComboSubNumberConditional[]
-  display?: boolean
+  type: ConditionalDataType.NUMBER,
+  partitions: ComboSubNumberConditional[],
+  display?: boolean,
 }
 
 export type ComboSubNumberConditional = {
-  value: number
-  activations: boolean[]
+  value: number,
+  activations: boolean[],
 }
 
 export type ComboSelectConditional = {
-  type: ConditionalDataType.SELECT
-  partitions: ComboSubSelectConditional[]
-  display?: boolean
+  type: ConditionalDataType.SELECT,
+  partitions: ComboSubSelectConditional[],
+  display?: boolean,
 }
 
 export type ComboSubSelectConditional = {
-  value: number
-  activations: boolean[]
+  value: number,
+  activations: boolean[],
 }
 
 export type ComboCharacterMetadata = {
-  characterId: string
-  characterEidolon: number
-  path: PathName
-  lightCone: string
-  lightConeSuperimposition: number
-  lightConePath: PathName
-  element: ElementName
+  characterId: string,
+  characterEidolon: number,
+  path: PathName,
+  lightCone: string,
+  lightConeSuperimposition: number,
+  lightConePath: PathName,
+  element: ElementName,
 }
 
 export type ComboCharacter = {
-  metadata: ComboCharacterMetadata
-  characterConditionals: ComboConditionals
-  lightConeConditionals: ComboConditionals
-  setConditionals: ComboConditionals
-  displayedRelicSets: string[]
-  displayedOrnamentSets: string[]
+  metadata: ComboCharacterMetadata,
+  characterConditionals: ComboConditionals,
+  lightConeConditionals: ComboConditionals,
+  setConditionals: ComboConditionals,
+  displayedRelicSets: string[],
+  displayedOrnamentSets: string[],
 }
 
 export type ComboTeammate = {
-  metadata: ComboCharacterMetadata
-  characterConditionals: ComboConditionals
-  lightConeConditionals: ComboConditionals
-  relicSetConditionals: ComboConditionals
-  ornamentSetConditionals: ComboConditionals
+  metadata: ComboCharacterMetadata,
+  characterConditionals: ComboConditionals,
+  lightConeConditionals: ComboConditionals,
+  relicSetConditionals: ComboConditionals,
+  ornamentSetConditionals: ComboConditionals,
 }
 
 export type ComboState = {
-  comboCharacter: ComboCharacter
-  comboTeammate0: ComboTeammate | null
-  comboTeammate1: ComboTeammate | null
-  comboTeammate2: ComboTeammate | null
-  comboTurnAbilities: TurnAbilityName[]
-  version?: string
+  comboCharacter: ComboCharacter,
+  comboTeammate0: ComboTeammate | null,
+  comboTeammate1: ComboTeammate | null,
+  comboTeammate2: ComboTeammate | null,
+  comboTurnAbilities: TurnAbilityName[],
+  version?: string,
 }
 
 export const COMBO_STATE_JSON_VERSION = '1.1'
@@ -609,10 +632,10 @@ export function updatePartitionActivation(keyString: string, comboState: ComboSt
 }
 
 export type ComboDataKey = {
-  id: string
-  source: string
-  partitionIndex: number
-  index: number
+  id: string,
+  source: string,
+  partitionIndex: number,
+  index: number,
 }
 
 export function updateAddPartition(sourceKey: string, contentItemId: string, partitionIndex: number) {
@@ -744,7 +767,7 @@ function shiftLeft(arr: boolean[], index: number) {
 }
 
 type NestedObject = {
-  [key: string]: unknown
+  [key: string]: unknown,
 }
 
 function shiftAllActivations(obj: NestedObject, index: number): void {
@@ -806,10 +829,14 @@ export function updateFormState(comboState: ComboState) {
   SaveState.delayedSave(1000)
 }
 
-function change(changeConditional: {
-  // eslint-disable-next-line
-  [key: string]: any
-}, originalConditional: ComboConditionals, set: boolean = false) {
+function change(
+  changeConditional: {
+    // eslint-disable-next-line
+    [key: string]: any,
+  },
+  originalConditional: ComboConditionals,
+  set: boolean = false,
+) {
   for (const [key, value] of Object.entries(changeConditional)) {
     const comboCategory = originalConditional[key]
     if (!comboCategory) continue

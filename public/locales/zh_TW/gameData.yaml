@@ -12,11 +12,11 @@ Characters:
     Name: 瓦爾特
     LongName: 瓦爾特
   "1005":
-    Name: (旧) 卡芙卡
-    LongName: (旧) 卡芙卡
+    Name: ⚰️ 卡芙卡
+    LongName: ⚰️ 卡芙卡
   "1006":
-    Name: (旧) 銀狼
-    LongName: (旧) 銀狼
+    Name: ⚰️ 銀狼
+    LongName: ⚰️ 銀狼
   "1008":
     Name: 阿蘭
     LongName: 阿蘭
@@ -81,8 +81,8 @@ Characters:
     Name: 景元
     LongName: 景元
   "1205":
-    Name: (旧) 刃
-    LongName: (旧) 刃
+    Name: ⚰️ 刃
+    LongName: ⚰️ 刃
   "1206":
     Name: 素裳
     LongName: 素裳
@@ -102,8 +102,8 @@ Characters:
     Name: 白露
     LongName: 白露
   "1212":
-    Name: (旧) 鏡流
-    LongName: (旧) 鏡流
+    Name: ⚰️ 鏡流
+    LongName: ⚰️ 鏡流
   "1213":
     Name: 丹恆•飲月
     LongName: 丹恆•飲月
@@ -234,17 +234,17 @@ Characters:
     Name: 星
     LongName: 星 (記憶)
   1212b1:
-    Name: (新) 鏡流
-    LongName: (新) 鏡流
+    Name: 鏡流
+    LongName: 鏡流
   1205b1:
-    Name: (新) 刃
-    LongName: (新) 刃
+    Name: 刃
+    LongName: 刃
   1005b1:
-    Name: (新) 卡芙卡
-    LongName: (新) 卡芙卡
+    Name: 卡芙卡
+    LongName: 卡芙卡
   1006b1:
-    Name: (新) 銀狼
-    LongName: (新) 銀狼
+    Name: 銀狼
+    LongName: 銀狼
 RelicSets:
   "101":
     Name: 雲無留跡的過客
@@ -412,10 +412,10 @@ RelicSets:
     Description2pc: 使裝備者的速度提高6%。當裝備者的速度大於等於135/180時，使裝備者及其憶靈的治療量提高12%/20%。
   "321":
     Name: 妖精织梦的乐园
-    Description2pc: 队伍中在场的我方目标数量不等于4时，每多/少1名我方目标，使装备者及其忆灵造成的伤害提高 9% / 12% ，最多叠加 4 / 3 层。
+    Description2pc: 队伍中当前在场的我方目标数量不等于4时，每多/少1名我方目标，使装备者及其忆灵造成的伤害提高 9% / 12% ，最多叠加 4 / 3 层。
   "322":
     Name: 沉欢醉饮的海隅
-    Description2pc: "使装备者造成的持续伤害提高 12% 。当装备者的攻击力大于等于 2400 / 3600 时，使造成的持续伤害额外提高 12% / 24% "
+    Description2pc: 使装备者的攻击力提高 12% 。当装备者的攻击力大于等于 2400 / 3600 时，使造成的持续伤害额外提高 12% / 24% 。
 Lightcones:
   "20000":
     Name: 鋒鏑

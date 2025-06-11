@@ -32,3 +32,8 @@ ResultsPanel:
   Rolls: Substat Rolls
   Combo: Combo Rotation
   Damage: Ability Damage
+Messages:
+  Error:
+    MissingField: Missing character/lightcone/teammates
+    UnsupportedCharacter: DPS benchmarks are not supported for this character
+    SPDUnselected: Select the target benchmark basic SPD

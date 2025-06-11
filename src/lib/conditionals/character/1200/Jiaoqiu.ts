@@ -1,17 +1,40 @@
-import { AbilityType, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import {
+  AbilityType,
+  ULT_DMG_TYPE,
+} from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
+import {
+  dynamicStatConversion,
+  gpuDynamicStatConversion,
+} from 'lib/conditionals/evaluation/statConversion'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Stats,
+} from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import {
+  buffAbilityVulnerability,
+  Target,
+} from 'lib/optimization/calculateBuffs'
+import {
+  ComputedStatsArray,
+  Key,
+} from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jiaoqiu')
@@ -162,19 +185,31 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.EHR],
         chainsTo: [Stats.ATK],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           return r.ehrToAtkBoost && x.a[Key.EHR] > 0.80
         },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.EHR, Stats.ATK, this, x, action, context, SOURCE_TRACE,
+        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversion(
+            Stats.EHR,
+            Stats.ATK,
+            this,
+            x,
+            action,
+            context,
+            SOURCE_TRACE,
             (convertibleValue) => Math.min(2.40, 0.60 * Math.floor((convertibleValue - 0.80) / 0.15)) * context.baseATK,
           )
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return gpuDynamicStatConversion(Stats.EHR, Stats.ATK, this, action, context,
+          return gpuDynamicStatConversion(
+            Stats.EHR,
+            Stats.ATK,
+            this,
+            action,
+            context,
             `min(2.40, 0.60 * floor((convertibleValue - 0.80) / 0.15)) * baseATK`,
             `${wgslTrue(r.ehrToAtkBoost)} && x.EHR > 0.80`,
           )

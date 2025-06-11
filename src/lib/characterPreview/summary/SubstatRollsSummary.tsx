@@ -1,7 +1,13 @@
 import { Flex } from 'antd'
-import { Stats, SubStats } from 'lib/constants/constants'
+import {
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
-import { diminishingReturnsFormula, spdDiminishingReturnsFormula } from 'lib/scoring/simScoringUtils'
+import {
+  diminishingReturnsFormula,
+  spdDiminishingReturnsFormula,
+} from 'lib/scoring/simScoringUtils'
 import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
@@ -10,10 +16,10 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 type SubstatRollsSummaryProps = {
-  simRequest: SimulationRequest
-  precision: number
-  diminish: boolean
-  columns?: 1 | 2
+  simRequest: SimulationRequest,
+  precision: number,
+  diminish: boolean,
+  columns?: 1 | 2,
 }
 
 export function SubstatRollsSummary({ simRequest, precision, diminish, columns = 2 }: SubstatRollsSummaryProps) {
@@ -62,7 +68,7 @@ export function SubstatRollsSummary({ simRequest, precision, diminish, columns =
               {renderStatRow(Stats.DEF_P)}
               {renderStatRow(Stats.DEF)}
             </Flex>
-            <VerticalDivider/>
+            <VerticalDivider />
             <Flex vertical gap={defaultGap} style={{ width: 125, paddingRight: 5 }}>
               {renderStatRow(Stats.SPD, 2)}
               {renderStatRow(Stats.CR)}
@@ -94,10 +100,10 @@ export function SubstatRollsSummary({ simRequest, precision, diminish, columns =
 }
 
 function ScoringNumberParens(props: {
-  label: string
-  number?: number
-  parens?: number
-  precision?: number
+  label: string,
+  number?: number,
+  parens?: number,
+  precision?: number,
 }) {
   const precision = props.precision ?? 1
   const value = TsUtils.precisionRound(props.number ?? 0)

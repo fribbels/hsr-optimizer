@@ -1,18 +1,24 @@
-import { Constants, Stats } from 'lib/constants/constants'
+import {
+  Constants,
+  Stats,
+} from 'lib/constants/constants'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'
 import { Utils } from 'lib/utils/utils'
-import { Relic, UnaugmentedRelic } from 'types/relic'
+import {
+  Relic,
+  UnaugmentedRelic,
+} from 'types/relic'
 
 export type AugmentedStats = {
-  [key: string]: number
+  [key: string]: number,
 } & {
-  mainStat: string
-  mainValue: number
+  mainStat: string,
+  mainValue: number,
 }
 
 export const RelicAugmenter = {
-  augment: function (relic: UnaugmentedRelic): Relic | null {
+  augment: function(relic: UnaugmentedRelic): Relic | null {
     // console.log('Augmenting relic', relic)
     const augmentedStats: AugmentedStats = {} as AugmentedStats
 

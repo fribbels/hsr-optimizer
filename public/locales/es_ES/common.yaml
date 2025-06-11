@@ -17,6 +17,7 @@ Ok: Ok
 Yes: "Sí"
 No: "No"
 Save: Guardar
+Saved: Guardado
 Score: Puntaje
 Reset: Reiniciar
 EidolonNShort: "E{{eidolon}}"
@@ -60,13 +61,13 @@ Stats:
   Break Effect: Efecto de Ruptura
   Energy Regeneration Rate: Recuperación de energía
   Outgoing Healing Boost: Bonif. curación realizada
-  Physical DMG Boost: "Aumento de daño $t(gameData:Elements.Physical)"
-  Fire DMG Boost: "Aumento de daño de $t(gameData:Elements.Fire)"
-  Ice DMG Boost: "Aumento de daño de $t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "Aumento de daño de $t(gameData:Elements.Thunder) "
-  Wind DMG Boost: "Aumento de daño de $t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "Aumento de daño $t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "Aumento de daño $t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: "Aum. de daño $t(gameData:Elements.Physical)"
+  Fire DMG Boost: "Aum. de daño de $t(gameData:Elements.Fire)"
+  Ice DMG Boost: "Aum. de daño de $t(gameData:Elements.Ice)"
+  Lightning DMG Boost: "Aum. de daño de $t(gameData:Elements.Thunder) "
+  Wind DMG Boost: "Aum. de daño de $t(gameData:Elements.Wind)"
+  Quantum DMG Boost: "Aum. de daño $t(gameData:Elements.Quantum)"
+  Imaginary DMG Boost: "Aum. de daño $t(gameData:Elements.Imaginary)"
 ShortStats:
   "HP%": PV%
   HP: PV

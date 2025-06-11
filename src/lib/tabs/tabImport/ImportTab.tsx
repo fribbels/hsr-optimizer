@@ -1,5 +1,10 @@
 import { DownloadOutlined } from '@ant-design/icons'
-import { Button, Flex, Tabs, Typography } from 'antd'
+import {
+  Button,
+  Flex,
+  Tabs,
+  Typography,
+} from 'antd'
 import { Message } from 'lib/interactions/message'
 import { SaveState } from 'lib/state/saveState'
 import { ClearDataSubmenu } from 'lib/tabs/tabImport/ClearDataSubmenu'
@@ -16,8 +21,7 @@ const buttonWidth = 250
 // https://web.dev/patterns/files/save-a-file
 const saveFile = async (blob: Blob, suggestedName: string) => {
   // Feature detection. The API needs to be supported and the app not run in an iframe.
-  const supportsFileSystemAccess
-    = 'showSaveFilePicker' in window
+  const supportsFileSystemAccess = 'showSaveFilePicker' in window
     && (() => {
       try {
         return window.self === window.top
@@ -76,7 +80,7 @@ function SaveDataSubmenu() {
       )
 
       await saveFile(blob, 'fribbels-optimizer-save.json')
-      Message.success(t('SuccessMessage')/* Done */)
+      Message.success(t('SuccessMessage') /* Done */)
     } catch (e) {
       console.warn(e)
     }
@@ -85,10 +89,10 @@ function SaveDataSubmenu() {
   return (
     <Flex vertical gap={5}>
       <Text>
-        {t('Label')/* Save your optimizer data to a file. */}
+        {t('Label') /* Save your optimizer data to a file. */}
       </Text>
-      <Button type='primary' onClick={saveClicked} icon={<DownloadOutlined/>} style={{ width: buttonWidth }}>
-        {t('ButtonText')/* Save data */}
+      <Button type='primary' onClick={saveClicked} icon={<DownloadOutlined />} style={{ width: buttonWidth }}>
+        {t('ButtonText') /* Save data */}
       </Button>
     </Flex>
   )
@@ -111,22 +115,22 @@ export default function ImportTab() {
             {
               label: t('Import'),
               key: 'Import',
-              children: <ScannerImportSubmenu/>,
+              children: <ScannerImportSubmenu />,
             },
             {
               label: t('Load'),
               key: 'Load',
-              children: <LoadDataSubmenu/>,
+              children: <LoadDataSubmenu />,
             },
             {
               label: t('Save'),
               key: 'Save',
-              children: <SaveDataSubmenu/>,
+              children: <SaveDataSubmenu />,
             },
             {
               label: t('Clear'),
               key: 'Clear',
-              children: <ClearDataSubmenu/>,
+              children: <ClearDataSubmenu />,
             },
           ]}
         />

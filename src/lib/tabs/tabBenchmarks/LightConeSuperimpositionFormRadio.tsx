@@ -1,4 +1,7 @@
-import { Form as AntDForm, Radio } from 'antd'
+import {
+  Form as AntDForm,
+  Radio,
+} from 'antd'
 import { RadioButton } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
 import { useTranslation } from 'react-i18next'
 
@@ -12,11 +15,11 @@ export function LightConeSuperimpositionFormRadio() {
         buttonStyle='solid'
         style={{ width: '100%', display: 'flex' }}
       >
-        <RadioButton text={t('SuperimpositionButton', { superimposition: 1 })} value={1}/>
-        <RadioButton text={t('SuperimpositionButton', { superimposition: 2 })} value={2}/>
-        <RadioButton text={t('SuperimpositionButton', { superimposition: 3 })} value={3}/>
-        <RadioButton text={t('SuperimpositionButton', { superimposition: 4 })} value={4}/>
-        <RadioButton text={t('SuperimpositionButton', { superimposition: 5 })} value={5}/>
+        <RadioButton text={t('SuperimpositionButton', { superimposition: 1 })} value={1} />
+        <RadioButton text={t('SuperimpositionButton', { superimposition: 2 })} value={2} />
+        <RadioButton text={t('SuperimpositionButton', { superimposition: 3 })} value={3} />
+        <RadioButton text={t('SuperimpositionButton', { superimposition: 4 })} value={4} />
+        <RadioButton text={t('SuperimpositionButton', { superimposition: 5 })} value={5} />
       </Radio.Group>
     </AntDForm.Item>
   )

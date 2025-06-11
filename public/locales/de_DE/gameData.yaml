@@ -12,11 +12,11 @@ Characters:
     Name: Welt
     LongName: Welt
   "1005":
-    Name: (Old) Kafka
-    LongName: (Old) Kafka
+    Name: ⚰️ Kafka
+    LongName: ⚰️ Kafka
   "1006":
-    Name: (Old) Silberwolf
-    LongName: (Old) Silberwolf
+    Name: ⚰️ Silberwolf
+    LongName: ⚰️ Silberwolf
   "1008":
     Name: Arlan
     LongName: Arlan
@@ -81,8 +81,8 @@ Characters:
     Name: Jing Yuan
     LongName: Jing Yuan
   "1205":
-    Name: (Old) Blade
-    LongName: (Old) Blade
+    Name: ⚰️ Blade
+    LongName: ⚰️ Blade
   "1206":
     Name: Sushang
     LongName: Sushang
@@ -102,8 +102,8 @@ Characters:
     Name: Bailu
     LongName: Bailu
   "1212":
-    Name: (Old) Jingliu
-    LongName: (Old) Jingliu
+    Name: ⚰️ Jingliu
+    LongName: ⚰️ Jingliu
   "1213":
     Name: Dan Heng – Imbibitor Lunae
     LongName: Dan Heng – Imbibitor Lunae
@@ -234,17 +234,17 @@ Characters:
     Name: Stella
     LongName: Stella (Das Gedenken)
   1212b1:
-    Name: (New) Jingliu
-    LongName: (New) Jingliu
+    Name: Jingliu
+    LongName: Jingliu
   1205b1:
-    Name: (New) Blade
-    LongName: (New) Blade
+    Name: Blade
+    LongName: Blade
   1005b1:
-    Name: (New) Kafka
-    LongName: (New) Kafka
+    Name: Kafka
+    LongName: Kafka
   1006b1:
-    Name: (New) Silberwolf
-    LongName: (New) Silberwolf
+    Name: Silberwolf
+    LongName: Silberwolf
 RelicSets:
   "101":
     Name: Wanderer der vorbeiziehenden Wolke
@@ -412,10 +412,10 @@ RelicSets:
     Description2pc: Erhöht die GES des Trägers um 6%. Wenn die GES des Trägers 135/180 oder höher erreicht, wird die bewirkte Heilung des Trägers und seines Memogeists um 12%/20% erhöht.
   "321":
     Name: Arcadia of Woven Dreams
-    Description2pc: When the number of ally targets on the field is not 4, for every 1 extra/missing ally target, increases the wearer's and their memosprite's DMG by 9%/12%, stacking up to 4/3 times.
+    Description2pc: When there are currently more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks.
   "322":
     Name: Revelry by the Sea
-    Description2pc: Increases the wearer's DoT DMG by 12%. When the wearer's ATK is higher than or equal to 2400/3600, additionally increases the DoT DMG dealt by 12%/24%.
+    Description2pc: Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%.
 Lightcones:
   "20000":
     Name: Pfeile
@@ -574,7 +574,7 @@ Lightcones:
   "21055":
     Name: Unto Tomorrow's Morrow
   "21056":
-    Name: Pursuit of the Wind
+    Name: In Pursuit of the Wind
   "21057":
     Name: The Flower Remembers
   "21058":

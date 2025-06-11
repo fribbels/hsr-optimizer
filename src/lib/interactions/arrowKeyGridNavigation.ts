@@ -1,9 +1,12 @@
 // define some handy keycode constants
 
-import { CellPosition, IRowNode, NavigateToNextCellParams } from 'ag-grid-community'
+import {
+  CellPosition,
+  IRowNode,
+  NavigateToNextCellParams,
+} from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
 import { MutableRefObject } from 'react'
-import { Character } from 'types/character'
 
 // FIXME LOW
 
@@ -13,13 +16,13 @@ const KEY_RIGHT = 'ArrowRight'
 const KEY_DOWN = 'ArrowDown'
 
 // https://www.ag-grid.com/javascript-data-grid/keyboard-navigation/
-export const arrowKeyGridNavigation = (
+export const arrowKeyGridNavigation = <T>(
   params: NavigateToNextCellParams,
-  grid: MutableRefObject<AgGridReact<Character>>,
-  callback: (x: IRowNode | undefined) => void,
+  grid: MutableRefObject<AgGridReact<T>>,
+  callback: (x: IRowNode<T>) => void,
 ): CellPosition | null => {
   const previousCell = params.previousCellPosition
-  let nextRowIndex: number, renderedRowCount: number, newSelectedNode
+  let nextRowIndex: number, renderedRowCount: number, newSelectedNode: IRowNode<T>
 
   function selectCell(nextRowIndex: number) {
     if (nextRowIndex >= renderedRowCount || nextRowIndex <= -1) {

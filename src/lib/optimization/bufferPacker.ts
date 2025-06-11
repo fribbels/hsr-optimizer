@@ -1,97 +1,101 @@
-import { Buff, ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import {
+  Buff,
+  ComputedStatsArray,
+  Key,
+} from 'lib/optimization/computedStatsArray'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 
 const SIZE = 65
 
 export type OptimizerDisplayData = {
-  'id': number
+  'id': number,
 
-  'HP': number
-  'ATK': number
-  'DEF': number
-  'SPD': number
-  'CRIT Rate': number
-  'CRIT DMG': number
-  'Effect Hit Rate': number
-  'Effect RES': number
-  'Break Effect': number
-  'Energy Regeneration Rate': number
-  'Outgoing Healing Boost': number
+  'HP': number,
+  'ATK': number,
+  'DEF': number,
+  'SPD': number,
+  'CRIT Rate': number,
+  'CRIT DMG': number,
+  'Effect Hit Rate': number,
+  'Effect RES': number,
+  'Break Effect': number,
+  'Energy Regeneration Rate': number,
+  'Outgoing Healing Boost': number,
 
-  'ED': number
-  'WEIGHT': number
-  'EHP': number
-  'HEAL': number
-  'SHIELD': number
-  'BASIC': number
-  'SKILL': number
-  'ULT': number
-  'FUA': number
-  'MEMO_SKILL': number
-  'MEMO_TALENT': number
-  'DOT': number
-  'BREAK': number
-  'COMBO': number
-  'xHP': number
-  'xATK': number
-  'xDEF': number
-  'xSPD': number
-  'xCR': number
-  'xCD': number
-  'xEHR': number
-  'xRES': number
-  'xBE': number
-  'xERR': number
-  'xOHB': number
-  'xELEMENTAL_DMG': number
-  'relicSetIndex': number
-  'ornamentSetIndex': number
+  'ED': number,
+  'WEIGHT': number,
+  'EHP': number,
+  'HEAL': number,
+  'SHIELD': number,
+  'BASIC': number,
+  'SKILL': number,
+  'ULT': number,
+  'FUA': number,
+  'MEMO_SKILL': number,
+  'MEMO_TALENT': number,
+  'DOT': number,
+  'BREAK': number,
+  'COMBO': number,
+  'xHP': number,
+  'xATK': number,
+  'xDEF': number,
+  'xSPD': number,
+  'xCR': number,
+  'xCD': number,
+  'xEHR': number,
+  'xRES': number,
+  'xBE': number,
+  'xERR': number,
+  'xOHB': number,
+  'xELEMENTAL_DMG': number,
+  'relicSetIndex': number,
+  'ornamentSetIndex': number,
 
-  'mHP': number
-  'mATK': number
-  'mDEF': number
-  'mSPD': number
-  'mCR': number
-  'mCD': number
-  'mEHR': number
-  'mRES': number
-  'mBE': number
-  'mERR': number
-  'mOHB': number
-  'mELEMENTAL_DMG': number
-  'mxHP': number
-  'mxATK': number
-  'mxDEF': number
-  'mxSPD': number
-  'mxCR': number
-  'mxCD': number
-  'mxEHR': number
-  'mxRES': number
-  'mxBE': number
-  'mxERR': number
-  'mxOHB': number
-  'mxELEMENTAL_DMG': number
+  'mHP': number,
+  'mATK': number,
+  'mDEF': number,
+  'mSPD': number,
+  'mCR': number,
+  'mCD': number,
+  'mEHR': number,
+  'mRES': number,
+  'mBE': number,
+  'mERR': number,
+  'mOHB': number,
+  'mELEMENTAL_DMG': number,
+  'mxHP': number,
+  'mxATK': number,
+  'mxDEF': number,
+  'mxSPD': number,
+  'mxCR': number,
+  'mxCD': number,
+  'mxEHR': number,
+  'mxRES': number,
+  'mxBE': number,
+  'mxERR': number,
+  'mxOHB': number,
+  'mxELEMENTAL_DMG': number,
 
-  'mxEHP': number
+  'mxEHP': number,
 
-  'xa': Float32Array
-  'ca': Float32Array
+  'xa': Float32Array,
+  'ca': Float32Array,
 
   // Not safe to use unless trace is activated with a new instance
-  'tracedX'?: ComputedStatsArray
+  'tracedX'?: ComputedStatsArray,
 
-  'statSim': { key: string }
+  'statSim': { key: string },
 }
 
 export type CombatBuffsTracker = {
-  buffs: Buff[]
-  buffsMemo: Buff[]
+  buffs: Buff[],
+  buffsMemo: Buff[],
 }
 
 export type OptimizerDisplayDataStatSim = OptimizerDisplayData & {
   statSim: {
-    key: string
-  }
+    key: string,
+  },
 }
 
 export const BufferPacker = {

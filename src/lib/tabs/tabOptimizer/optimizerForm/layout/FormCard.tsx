@@ -1,6 +1,15 @@
-import { Flex, theme } from 'antd'
-import { defaultPadding, panelWidth } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
-import { CSSProperties, ReactElement } from 'react'
+import {
+  Flex,
+  theme,
+} from 'antd'
+import {
+  defaultPadding,
+  panelWidth,
+} from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import {
+  CSSProperties,
+  ReactElement,
+} from 'react'
 
 const { useToken } = theme
 export const cardShadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
@@ -21,11 +30,11 @@ const dimsBySize: Record<string, number> = {
 }
 
 export default function FormCard(props: {
-  size?: string
-  children?: ReactElement | ReactElement[]
-  height?: number
-  style?: CSSProperties
-  justify?: string
+  size?: string,
+  children?: ReactElement | ReactElement[],
+  height?: number,
+  style?: CSSProperties,
+  justify?: string,
 }) {
   const { token } = useToken()
 

@@ -5,21 +5,24 @@ import { defaultGap } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
-import { RelicPreview, ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
+import {
+  RelicPreview,
+  ShowcaseTheme,
+} from 'lib/tabs/tabRelics/RelicPreview'
 import React from 'react'
 import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
 
 export function ShowcaseRelicsPanel(props: {
-  setSelectedRelic: (r: Relic) => void
-  setEditModalOpen: (b: boolean) => void
-  setAddModalOpen: (b: boolean) => void
-  displayRelics: SingleRelicByPart
-  source: ShowcaseSource
-  scoringType: ScoringType
-  characterId: CharacterId
-  scoredRelics: RelicScoringResult[]
-  showcaseColors?: ShowcaseTheme
+  setSelectedRelic: (r: Relic) => void,
+  setEditModalOpen: (b: boolean) => void,
+  setAddModalOpen: (b: boolean) => void,
+  displayRelics: SingleRelicByPart,
+  source: ShowcaseSource,
+  scoringType: ScoringType,
+  characterId: CharacterId,
+  scoredRelics: RelicScoringResult[],
+  showcaseColors?: ShowcaseTheme,
 }) {
   const {
     setSelectedRelic,

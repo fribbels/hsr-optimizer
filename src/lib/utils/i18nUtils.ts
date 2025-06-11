@@ -86,12 +86,12 @@ export const languages = {
 } as const
 export type Languages = keyof typeof languages
 
-const languageToLocale = (() => Object.values(languages)
-  .reduce((acc, cur) => {
-    acc[cur.locale] = cur.locale.replace('_', '-')
-    return acc
-  }, {} as Record<Languages, Intl.LocalesArgument>)
-)()
+const languageToLocale = (() =>
+  Object.values(languages)
+    .reduce((acc, cur) => {
+      acc[cur.locale] = cur.locale.replace('_', '-')
+      return acc
+    }, {} as Record<Languages, Intl.LocalesArgument>))()
 
 // to use in place of toFixed() - Use the localeNumber helpers below, when possible
 export function numberToLocaleString(number: number, decimals: number = 0, useGrouping = false) {

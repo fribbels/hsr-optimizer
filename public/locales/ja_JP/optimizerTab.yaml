@@ -1,3 +1,13 @@
+ValidationMessages:
+  Warning:
+    MissingTeammates: 最適化結果の精度を上げるため、チームメンバーを選択してください。
+    PathMismatch: 選択キャラと光円錐の運命が一致しません
+  Error:
+    TopPercent: サブステータスの重みが全て0に設定されています。選択キャラクターのサブステータスの重みを設定するか、おすすめプリセットボタンを使用してください。
+    MissingTarget: 最適化の目標部分を入力してください
+    MissingCharacter: キャラクター部分を入力してください
+    MissingLightCone: 光円錐部分を入力してください
+    GPUNotAvailable: 'このブラウザでは GPU アクセラレーションを使用することはできません。デスクトップ版 Chrome と Opera のみで使用可能です。もしそれらのブラウザを使用しているなら、Discord サーバーにてバグ報告をしてください。'
 CharacterSelector:
   Character: キャラクター
   Lightcone: 光円錐
@@ -11,7 +21,7 @@ LightconePassives: 光円錐スキル
 CharacterPassives: キャラクターのパッシブ
 NoConditionals: 条件付き追加能力なし
 NoTeamConditionals: チームへの条件付き追加能力なし
-ResultLimitN: "上位{{limit}}件を表示"
+ResultLimitN: '上位{{limit}}件を表示'
 MainStats: メインステータス
 Sets: セット
 RelicSetSelector:
@@ -35,17 +45,17 @@ SortOptions:
   BREAK: 弱点撃破ダメージ順
   HEAL: 治癒量順
   SHIELD: シールド量順
-  HP: "$t(common:ReadableStats.HP)順"
-  ATK: "$t(common:ReadableStats.ATK)順"
-  DEF: "$t(common:ReadableStats.DEF)順"
-  SPD: "$t(common:ReadableStats.SPD)順"
-  CR: "$t(common:ReadableStats.CRIT Rate)順"
-  CD: "$t(common:ReadableStats.CRIT DMG)順"
-  EHR: "$t(common:ReadableStats.Effect Hit Rate)順"
-  RES: "$t(common:ReadableStats.Effect RES)順"
-  BE: "$t(common:ReadableStats.Break Effect)順"
-  OHB: "$t(common:ReadableStats.Outgoing Healing Boost)順"
-  ERR: "$t(common:ReadableStats.Energy Regeneration Rate)順"
+  HP: '$t(common:ReadableStats.HP)順'
+  ATK: '$t(common:ReadableStats.ATK)順'
+  DEF: '$t(common:ReadableStats.DEF)順'
+  SPD: '$t(common:ReadableStats.SPD)順'
+  CR: '$t(common:ReadableStats.CRIT Rate)順'
+  CD: '$t(common:ReadableStats.CRIT DMG)順'
+  EHR: '$t(common:ReadableStats.Effect Hit Rate)順'
+  RES: '$t(common:ReadableStats.Effect RES)順'
+  BE: '$t(common:ReadableStats.Break Effect)順'
+  OHB: '$t(common:ReadableStats.Outgoing Healing Boost)順'
+  ERR: '$t(common:ReadableStats.Energy Regeneration Rate)順'
   DMG: 属性ダメージ順
   EHP: EHP順
 OptimizerOptions:
@@ -53,19 +63,19 @@ OptimizerOptions:
   PriorityFilter: 優先順位でフィルター
   Priority:
     Header: 優先順位
-    Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
-    Name: "# {{rank}}"
+    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
+    Name: '# {{rank}}'
   AllowEquipped: 装備された遺物を含める
   KeepCurrent: 装備済みの遺物を保持
   Exclude: 除外
   MinEnhance:
     Header: 強化
-    Label0: "+0"
-    Label3: "+3"
-    Label6: "+6"
-    Label9: "+9"
-    Label12: "+12"
-    Label15: "+15"
+    Label0: '+0'
+    Label3: '+3'
+    Label6: '+6'
+    Label9: '+9'
+    Label12: '+12'
+    Label15: '+15'
   MinRarity:
     Header: レア度
     Label2: 2 ★ +
@@ -74,23 +84,24 @@ OptimizerOptions:
     Label5: 5 ★
   BoostMain:
     Header: メインステータスのブースト
-    Label0: "+0"
-    Label3: "+3"
-    Label6: "+6"
-    Label9: "+9"
-    Label12: "+12"
-    Label15: "+15"
+    Label0: '+0'
+    Label3: '+3'
+    Label6: '+6'
+    Label9: '+9'
+    Label12: '+12'
+    Label15: '+15'
 AdvancedOptions:
   Header: 高度な設定
   EnemyConfigButtonText: 敵の設定
   CombatBuffsButtonTextNone: 戦闘バフを追加
-  CombatBuffsButtonText: "戦闘バフを追加（{{activeCount}}）"
+  CombatBuffsButtonText: '戦闘バフを追加（{{activeCount}}）'
   CustomTracesButtonText: 軌跡を編集
 Grid:
   To: "~"
   Of: /
   Page: ページ
-  PageSelectorLabel: "表示件数："
+  PageSelectorLabel: '表示件数：'
+  Loading: 読み込み中...
   Headers:
     Basic:
       Set: セット
@@ -107,9 +118,6 @@ Grid:
       ERR: EP回復効率
       DMG: ダメージ
       EHP: EHP
-      WEIGHT: |-
-        STAT
-        WEIGHT
       HEAL: 治癒量
       SHIELD: シールド量
       BASIC: |-
@@ -146,9 +154,6 @@ Grid:
       ERR: Σ EP回復
       DMG: Σ ダメージ
       EHP: EHP
-      WEIGHT: |-
-        STAT
-        WEIGHT
       HEAL: 回復
       SHIELD: シールド
       BASIC: |-
@@ -180,9 +185,9 @@ Sidebar:
       Stable: エンジンを GPU（安定版）に切り替えました
       Experimental: エンジンを GPU（実験的）に切り替えました
     Display:
-      GPU Experimental: "アクセラレーション：有効"
-      GPU Stable: "アクセラレーション：有効"
-      CPU: "アクセラレーション：無効"
+      GPU Experimental: 'アクセラレーション：有効'
+      GPU Stable: 'アクセラレーション：有効'
+      CPU: 'アクセラレーション：無効'
   Pinning:
     Messages:
       NoneSelected: 行を選択してください
@@ -196,8 +201,8 @@ Sidebar:
   ProgressText:
     Progress: 進行状況
     CalculatingETA: 進行状況（ETA計算中）
-    TimeRemaining: "{{rate}} 件/秒 — あと {{timeRemaining}}"
-    Finished: "{{rate}} 件/秒 — 完了"
+    TimeRemaining: '{{rate}} 件/秒 — あと {{timeRemaining}}'
+    Finished: '{{rate}} 件/秒 — 完了'
   ControlsGroup:
     Header: 制御
     Start: オプティマイザーを開始
@@ -213,11 +218,12 @@ Sidebar:
   ResultsGroup:
     Header: 結果
     Equip: 装備
+    EquipSuccessMessage: 装備済み
     Filter: フィルター
     Pin: ピン留め
     Clear: ピン解除
 TeammateRow:
-  Header: "チームメイト {{teammateCount}}"
+  Header: 'チームメイト {{teammateCount}}'
 FormRowLabels:
   Character options: キャラクター設定
   Relic & stat filters: 遺物とステータスのフィルター
@@ -232,17 +238,17 @@ SetConditionals:
   Title: セット効果を編集
   DescriptionHeader: セットの詳細
   EffectHeader: 有効な効果
-  SetName: "$t(gameData:RelicSets.{{id}}.Name)"
-  RelicDescription: "$t(gameData:RelicSets.{{id}}.Description4pc)"
-  PlanarDescription: "$t(gameData:RelicSets.{{id}}.Description2pc)"
+  SetName: '$t(gameData:RelicSets.{{id}}.Name)'
+  RelicDescription: '$t(gameData:RelicSets.{{id}}.Description4pc)'
+  PlanarDescription: '$t(gameData:RelicSets.{{id}}.Description2pc)'
   SelectOptions:
     Streetwise:
-      Display: "{{stackCount}}層"
-      Label: "{{stackCount}}層（攻撃力+{{buffValue}}%）"
+      Display: '{{stackCount}}層'
+      Label: '{{stackCount}}層（攻撃力+{{buffValue}}%）'
     Wastelander:
       Off:
-        Display: "Off"
-        Label: "Off"
+        Display: 'Off'
+        Label: 'Off'
       Debuffed:
         Display: 会心率
         Label: デバフ状態（会心率+10%）
@@ -250,14 +256,14 @@ SetConditionals:
         Display: 会心率 + 会心ダメージ
         Label: 禁錮状態（+10%会心率｜+20%会心ダメージ）
     Longevous:
-      Display: "{{stackCount}}層"
-      Label: "{{stackCount}}層（会心率+{{buffValue}}%）"
+      Display: '{{stackCount}}層'
+      Label: '{{stackCount}}層（会心率+{{buffValue}}%）'
     Ashblazing:
-      Display: "{{stackCount}}層"
-      Label: "{{stackCount}}層（攻撃力+{{buffValue}}%）"
+      Display: '{{stackCount}}層'
+      Label: '{{stackCount}}層（攻撃力+{{buffValue}}%）'
     Prisoner:
-      Display: "{{stackCount}}層"
-      Label: "{{stackCount}}層（+{{buffValue}}% 防御力無視）"
+      Display: '{{stackCount}}層'
+      Label: '{{stackCount}}層（+{{buffValue}}% 防御力無視）'
     Diver:
       Off:
         Display: 0層
@@ -278,15 +284,15 @@ SetConditionals:
         Display: 3層+
         Label: デバフ3つ、強化済み（与ダメージ+12%｜会心率+8%｜会心ダメージ+24%）
     Sigonia:
-      Display: "{{stackCount}}層"
-      Label: "{{stackCount}}層（会心ダメージ+{{buffValue}}%）"
+      Display: '{{stackCount}}層'
+      Label: '{{stackCount}}層（会心ダメージ+{{buffValue}}%）'
     Duran:
-      Display: "{{stackCount}}層"
-      Label: "{{stackCount}}層（追加攻撃ダメージ+{{buffValue}}%）"
+      Display: '{{stackCount}}層'
+      Label: '{{stackCount}}層（追加攻撃ダメージ+{{buffValue}}%）'
       Label5: 5層（追加攻撃ダメージ+25%｜会心ダメージ+25%）
     Sacerdos:
-      Display: "{{stackCount}}層"
-      Label: "{{stackCount}}層（会心ダメージ+{{buffValue}}%）"
+      Display: '{{stackCount}}層'
+      Label: '{{stackCount}}層（会心ダメージ+{{buffValue}}%）'
   Conditionals:
     DefaultMessage: デフォルトで有効 - セット効果を戦闘計算に反映します。
     Hunter: 有効にすると、会心ダメージバフを戦闘ステータス計算に反映します。
@@ -327,7 +333,7 @@ Presets:
     SPD171: 171.429 速度 - 最初の3ラウンドで6回の行動
     SPD177: 177.778 速度 - 最初の4ラウンドで8回の行動
     SPD200: 200.000 速度 - 最初のラウンドで3回の行動
-  StandardLabel: "標準$t(gameData:Characters.{{id}}.Name)"
+  StandardLabel: '標準$t(gameData:Characters.{{id}}.Name)'
   RecommendedPresets: おすすめプリセット
   PresetNotAvailable: プリセットを利用できません。別のオプションを選択してください。
 CombatBuffs:
@@ -352,12 +358,12 @@ CombatBuffs:
 Target_one: ターゲット
 Target_other: ターゲット
 EnemyConfiguration:
-  LevelOptionLabel: "レベル{{level}} - 防御力{{defense}}"
+  LevelOptionLabel: 'レベル{{level}} - 防御力{{defense}}'
   CountOptionLabel: >-
     {{targetCount}}$t(optimizerTab:Target, {"count": {{targetCount}}})
-  EffResOptionLabel: "効果抵抗 {{resistance}}%"
-  DmgResOptionLabel: "ダメージ耐性 {{resistance}}%"
-  ToughnessOptionLabel: "最大靭性値 {{toughness}}"
+  EffResOptionLabel: '効果抵抗 {{resistance}}%'
+  DmgResOptionLabel: 'ダメージ耐性 {{resistance}}%'
+  ToughnessOptionLabel: '最大靭性値 {{toughness}}'
   Title: 敵の設定
   StatHeader: 敵の設定
   WeaknessLabel: 弱点属性
@@ -406,10 +412,12 @@ ComboFilter:
     Simple: シンプル
     Advanced: 高度
   RowControls:
+    Header: 制御
     Add: +
-    Remove: "-"
+    Remove: '-'
     ResetConfirm:
       Description: すべてのシンプル・高度なスキル回しの設定をデフォルトに戻しますか？
+    PresetsHeader: プリセット
   CounterLabels:
     Dot: 持続
   ComboOptions:
@@ -446,40 +454,40 @@ TeammateCard:
   TeammateSyncSuccessMessage: チームメイトを同期しました
   TeammateSets:
     Messenger:
-      Desc: "4セット：$t(gameData:RelicSets.114.Name)（速度+12%）"
-      Set: "$t(gameData:RelicSets.114.Name)"
+      Desc: '4セット：$t(gameData:RelicSets.114.Name)（速度+12%）'
+      Set: '$t(gameData:RelicSets.114.Name)'
       Text: 速度12%
     Watchmaker:
-      Desc: "4セット：$t(gameData:RelicSets.118.Name)（撃破特効+30%）"
-      Set: "$t(gameData:RelicSets.118.Name)"
+      Desc: '4セット：$t(gameData:RelicSets.118.Name)（撃破特効+30%）'
+      Set: '$t(gameData:RelicSets.118.Name)'
       Text: 撃破30%
     Sacerdos1Stack:
-      Desc: "4セット：$t(gameData:RelicSets.121.Name)（会心ダメージ+18%）"
-      Set: "$t(gameData:RelicSets.121.Name)"
+      Desc: '4セット：$t(gameData:RelicSets.121.Name)（会心ダメージ+18%）'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 会心ダメ18%
     Sacerdos2Stack:
-      Desc: "4セット：$t(gameData:RelicSets.121.Name)（会心ダメージ+36%）"
-      Set: "$t(gameData:RelicSets.121.Name)"
+      Desc: '4セット：$t(gameData:RelicSets.121.Name)（会心ダメージ+36%）'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 会心ダメ36%
     Warrior:
-      Desc: "$t(gameData:RelicSets.125.Name) （会心ダメージ+15%）"
-      Set: "$t(gameData:RelicSets.125.Name)"
+      Desc: '$t(gameData:RelicSets.125.Name) （会心ダメージ+15%）'
+      Set: '$t(gameData:RelicSets.125.Name)'
       Text: 会心ダメ15%
     Keel:
-      Desc: "$t(gameData:RelicSets.310.Name) （会心ダメージ+10%）"
-      Set: "$t(gameData:RelicSets.310.Name)"
+      Desc: '$t(gameData:RelicSets.310.Name) （会心ダメージ+10%）'
+      Set: '$t(gameData:RelicSets.310.Name)'
       Text: 会心ダメ10%
     Ageless:
-      Desc: "$t(gameData:RelicSets.302.Name) （攻撃力+8%）"
-      Set: "$t(gameData:RelicSets.302.Name)"
+      Desc: '$t(gameData:RelicSets.302.Name) （攻撃力+8%）'
+      Set: '$t(gameData:RelicSets.302.Name)'
       Text: 攻撃力8%
     Penacony:
-      Desc: "$t(gameData:RelicSets.312.Name)（同属性に+10%与ダメージ）"
-      Set: "$t(gameData:RelicSets.312.Name)"
+      Desc: '$t(gameData:RelicSets.312.Name)（同属性に+10%与ダメージ）'
+      Set: '$t(gameData:RelicSets.312.Name)'
       Text: 与ダメ10%
     Lushaka:
-      Desc: "$t(gameData:RelicSets.317.Name) （攻撃力+12%）"
-      Set: "$t(gameData:RelicSets.317.Name)"
+      Desc: '$t(gameData:RelicSets.317.Name) （攻撃力+12%）'
+      Set: '$t(gameData:RelicSets.317.Name)'
       Text: 攻撃力12%
 StatSimulation:
   DuplicateSimMessage: 同一のシミュレーションが既に存在します
@@ -492,9 +500,9 @@ StatSimulation:
     RelicPlaceholder: 遺物セット
     OrnamentPlaceholder: オーナメントセット
   TotalRolls: 合計
-  SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
+  SubstatSelectorLabel: '$t(common:Stats.{{stat}})'
   ModeSelector:
-    Off: "無効"
+    Off: '無効'
     RollCount: サブステータス強化数でシミュレート
     Totals: サブステータスの値でシミュレート
   FooterLabels:
@@ -514,8 +522,8 @@ StatSimulation:
     FeetPlaceholder: 脚部
     SpherePlaceholder: オーブ
     RopePlaceholder: 縄
-    ShortStat: "$t(common:ShortReadableStats.{{stat}})"
-    LabelStat: "$t(common:ReadableStats.{{stat}})"
+    ShortStat: '$t(common:ShortReadableStats.{{stat}})'
+    LabelStat: '$t(common:ReadableStats.{{stat}})'
 ExpandedDataPanel:
   SubstatUpgrades:
     ColumnHeaders:
@@ -559,8 +567,8 @@ ExpandedDataPanel:
       memoDmg: 精霊ダメージ
   BuffsAnalysisDisplay:
     Values:
-      BoolFalse: "いいえ"
-      BoolTrue: "はい"
+      BoolFalse: 'いいえ'
+      BoolTrue: 'はい'
     Sources:
       Basic: 通常
       Skill: スキル
@@ -575,7 +583,7 @@ ExpandedDataPanel:
       E6: 6凸
     Stats:
       CompositeLabels:
-        Label: "{{prefix}}　{{suffix}}"
+        Label: '{{prefix}}　{{suffix}}'
         Prefix:
           Basic: 通常攻撃　
           Skill: 戦闘スキル
@@ -660,5 +668,5 @@ ExpandedDataPanel:
         MemoTalent: 精霊天賦ダメージの種類
         Additional: 付加ダメージの種類
         SuperBreak: 超撃破ダメージの種類
-      ResPen: "$t(common:Elements.{{element}})耐性貫通"
-      Unconvertible: "変換不能な$t(common:Stats.{{stat}})"
+      ResPen: '$t(common:Elements.{{element}})耐性貫通'
+      Unconvertible: '変換不能な$t(common:Stats.{{stat}})'

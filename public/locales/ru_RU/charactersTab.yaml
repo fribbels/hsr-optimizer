@@ -40,6 +40,9 @@ Messages:
   SaveSuccess: "Сборка {{name}} успешно сохранена"
   UnequipWarning: "Вы уверены, что хотите снять реликвии с $t(gameData:Characters.{{charId}}.Name)?"
   DeleteWarning: "Вы уверены, что хотите удалить $t(gameData:Characters.{{charId}}.Name)?"
+  BuildAlreadyExists: "Сборка с названием {{name}} уже существует"
+  ImageUploadFailed: Не удалось загрузить изображение
+  InvalidFile: Недопустимый файл изображения
 CharacterPreview:
   ScoringSidebar:
     Stats:

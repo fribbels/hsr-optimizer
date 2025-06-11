@@ -7,7 +7,7 @@ LightconePassives: Пассивки конуса
 CharacterPassives: Пассивки персонажа
 NoConditionals: Нет пассивок с условием.
 NoTeamConditionals: Нет пассивок с условием.
-ResultLimitN: "Найти {{limit}} лучших"
+ResultLimitN: 'Найти {{limit}} лучших'
 Sets: Наборы
 SortOptions:
   COMBO: По Урону Комбо
@@ -23,18 +23,21 @@ SortOptions:
   SHIELD: По Щиту
 OptimizerOptions:
   Header: Параметры оптимизатора
+  PriorityFilter: Фильтр по приоритету 
   Priority:
     Header: Приоритет
-    Name: "# {{rank}}"
+    Name: '# {{rank}}'
+  AllowEquipped: Разрешить поиск по надетым реликвиям
+  KeepCurrent: Оставить текущие реликвии
   Exclude: Исключить
   MinEnhance:
     Header: Мин. усиление
-    Label0: "+0"
-    Label3: "+3"
-    Label6: "+6"
-    Label9: "+9"
-    Label12: "+12"
-    Label15: "+15"
+    Label0: '+0'
+    Label3: '+3'
+    Label6: '+6'
+    Label9: '+9'
+    Label12: '+12'
+    Label15: '+15'
   MinRarity:
     Header: Мин. редкость
     Label2: 2 ★ +
@@ -42,12 +45,12 @@ OptimizerOptions:
     Label4: 4 ★ +
     Label5: 5 ★
   BoostMain:
-    Label0: "+0"
-    Label3: "+3"
-    Label6: "+6"
-    Label9: "+9"
-    Label12: "+12"
-    Label15: "+15"
+    Label0: '+0'
+    Label3: '+3'
+    Label6: '+6'
+    Label9: '+9'
+    Label12: '+12'
+    Label15: '+15'
 AdvancedOptions:
   Header: Расширенные параметры
   CustomTracesButtonText: Настройка следов
@@ -96,6 +99,7 @@ Sidebar:
     Header: Управление
   ResultsGroup:
     Header: Результаты
+    EquipSuccessMessage: Экипировано
 TracesDrawer:
   Title: Настройка следов персонажа
   Header: Активные следы (по умолчанию включены все)
@@ -106,7 +110,7 @@ SetConditionals:
       Debuffed:
         Display: КШ
     Longevous:
-      Label: "{{stackCount}} стаки (+{{buffValue}}% КШ)"
+      Label: '{{stackCount}} стаки (+{{buffValue}}% КШ)'
 Presets:
   RecommendedPresets: Рекомендуемые шаблоны
 CombatBuffs:
@@ -152,6 +156,9 @@ MinMaxFilters:
   HEALLabel: Исцеление
   SHIELDLabel: Щит
 ComboFilter:
+  RowControls:
+    Header: Управление
+    PresetsHeader: Шаблоны
   ComboOptions:
     None: 'Нет'
     Basic: БазАтака
@@ -184,8 +191,8 @@ ExpandedDataPanel:
       dotDmg: Периодический урон
   BuffsAnalysisDisplay:
     Values:
-      BoolFalse: "Нет"
-      BoolTrue: "Да"
+      BoolFalse: 'Нет'
+      BoolTrue: 'Да'
     Sources:
       Basic: БазАтака
       Skill: Навык

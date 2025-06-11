@@ -475,7 +475,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: 'crwdns40474:0crwdne40474:0'
+        text: "crwdns40474:0crwdne40474:0"
         content: crwdns40476:0{{CritBuff}}crwdne40476:0
   PastAndFuture:
     Content:
@@ -541,7 +541,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: 'crwdns40522:0crwdne40522:0'
+        text: "crwdns40522:0crwdne40522:0"
         content: crwdns44054:0{{CritBuff}}crwdne44054:0
   TheGreatCosmicEnterprise:
     Content:

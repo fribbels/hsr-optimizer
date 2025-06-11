@@ -21,3 +21,4 @@ ImportLabels:
   AllCharacters: 全てのキャラクターと全ての遺物をインポート
 SimulateRelics: 他のキャラクターで遺物をシミュレート
 OptimizeOnCharacter: キャラクターのステータスを最適化
+Disclaimer: "注意：コンボダメージは、選択中のチーム編成における遺物の性能を比較するための指標です。異なるチーム、光円錐、星魂の比較には<1>使用しないで</1>ください。"

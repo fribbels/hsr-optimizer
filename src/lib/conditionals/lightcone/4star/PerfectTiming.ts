@@ -1,13 +1,26 @@
-import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import {
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
+import {
+  dynamicStatConversion,
+  gpuDynamicStatConversion,
+} from 'lib/conditionals/evaluation/statConversion'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Stats,
+} from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.PerfectTiming')
@@ -47,20 +60,32 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.RES],
         chainsTo: [Stats.OHB],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.lightConeConditionals as Conditionals<typeof content>
 
           return r.resToHealingBoost
         },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.RES, Stats.OHB, this, x, action, context, SOURCE_LC,
+        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversion(
+            Stats.RES,
+            Stats.OHB,
+            this,
+            x,
+            action,
+            context,
+            SOURCE_LC,
             (convertibleValue) => Math.min(sMaxValues[s], sValues[s] * convertibleValue),
           )
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.lightConeConditionals as Conditionals<typeof content>
 
-          return gpuDynamicStatConversion(Stats.RES, Stats.OHB, this, action, context,
+          return gpuDynamicStatConversion(
+            Stats.RES,
+            Stats.OHB,
+            this,
+            action,
+            context,
             `min(${sMaxValues[s]}, ${sValues[s]} * convertibleValue)`,
             `${wgslTrue(r.resToHealingBoost)}`,
           )

@@ -1,12 +1,21 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition, countTeamPath, mainIsPath } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  countTeamPath,
+  mainIsPath,
+} from 'lib/conditionals/conditionalUtils'
 import { PathNames } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TheHerta')
@@ -134,7 +143,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       const e6DamageMultiplier = context.enemyCount == 1 ? 4.00 : 1.40
       x.ULT_ATK_SCALING.buff(ultScaling + r.totalInterpretationStacks * 0.01, SOURCE_TRACE)
-      x.ULT_ATK_SCALING.buff((e >= 6 && r.e6Buffs ? e6DamageMultiplier : 0), SOURCE_E6)
+      x.ULT_ATK_SCALING.buff(e >= 6 && r.e6Buffs ? e6DamageMultiplier : 0, SOURCE_E6)
 
       const eruditionStackMultiplier = r.eruditionTeammate
         ? Math.min(2, countTeamPath(context, PathNames.Erudition))
@@ -143,7 +152,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         * (r.interpretationStacks + ((e >= 1 && r.e1BonusStacks) ? r.interpretationStacks * 0.5 : 0))
         * eruditionStackMultiplier
 
-      x.SKILL_ATK_SCALING.buff((r.enhancedSkill ? enhancedSkillScaling * 3 + enhancedSkillStackScaling + enhancedSkillAoeScaling : skillScaling * 3), SOURCE_SKILL)
+      x.SKILL_ATK_SCALING.buff(
+        r.enhancedSkill ? enhancedSkillScaling * 3 + enhancedSkillStackScaling + enhancedSkillAoeScaling : skillScaling * 3,
+        SOURCE_SKILL,
+      )
       x.SKILL_DMG_BOOST.buff((r.enhancedSkill && r.interpretationStacks >= ((e >= 1 && r.e1BonusStacks) ? 28 : 42)) ? 0.50 : 0, SOURCE_TRACE)
       x.ICE_RES_PEN.buff((e >= 6 && r.e6Buffs) ? 0.20 : 0, SOURCE_E6)
 

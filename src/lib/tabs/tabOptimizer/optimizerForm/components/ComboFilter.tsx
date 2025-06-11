@@ -1,15 +1,40 @@
-import { CheckOutlined, CloseOutlined, SettingOutlined } from '@ant-design/icons'
-import { Button, Flex, Form, Input, Popconfirm, Radio } from 'antd'
+import {
+  CheckOutlined,
+  CloseOutlined,
+  SettingOutlined,
+} from '@ant-design/icons'
+import {
+  Button,
+  Flex,
+  Form,
+  Input,
+  Popconfirm,
+  Radio,
+} from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
-import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
+import {
+  OpenCloseIDs,
+  setOpen,
+} from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
-import { ComboType, getDefaultComboTurnAbilities } from 'lib/optimization/rotation/comboStateTransform'
-import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME, TurnAbilityName, WHOLE_BASIC } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  ComboType,
+  getDefaultComboTurnAbilities,
+} from 'lib/optimization/rotation/comboStateTransform'
+import {
+  DEFAULT_BASIC,
+  NULL_TURN_ABILITY_NAME,
+  TurnAbilityName,
+  WHOLE_BASIC,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import DB from 'lib/state/db'
 import { ComboDrawer } from 'lib/tabs/tabOptimizer/combo/ComboDrawer'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
-import { TurnAbilitySelector, TurnAbilitySelectorSimple } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
+import {
+  TurnAbilitySelector,
+  TurnAbilitySelectorSimple,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -31,19 +56,19 @@ export const ComboFilters = () => {
   const form = Form.useFormInstance<OptimizerForm>()
   const comboType = Form.useWatch('comboType', form)
   const comboOptions = useMemo(() => [
-    { label: t('ComboOptions.Basic')/* Basic */, value: 'BASIC' },
-    { label: t('ComboOptions.Skill')/* Skill */, value: 'SKILL' },
-    { label: t('ComboOptions.Ult')/* Ult */, value: 'ULT' },
-    { label: t('ComboOptions.Fua')/* Fua */, value: 'FUA' },
-    { label: t('ComboOptions.MemoSkill')/* Skillᴹ */, value: 'MEMO_SKILL' },
-    { label: t('ComboOptions.MemoTalent')/* Talentᴹ */, value: 'MEMO_TALENT' },
+    { label: t('ComboOptions.Basic'), /* Basic */ value: 'BASIC' },
+    { label: t('ComboOptions.Skill'), /* Skill */ value: 'SKILL' },
+    { label: t('ComboOptions.Ult'), /* Ult */ value: 'ULT' },
+    { label: t('ComboOptions.Fua'), /* Fua */ value: 'FUA' },
+    { label: t('ComboOptions.MemoSkill'), /* Skillᴹ */ value: 'MEMO_SKILL' },
+    { label: t('ComboOptions.MemoTalent'), /* Talentᴹ */ value: 'MEMO_TALENT' },
   ], [t])
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
       <Flex justify='space-between' align='center'>
-        <HeaderText>{t('Header')/* Rotation COMBO formula */}</HeaderText>
-        <TooltipImage type={Hint.comboFilters()}/>
+        <HeaderText>{t('Header') /* Rotation COMBO formula */}</HeaderText>
+        <TooltipImage type={Hint.comboFilters()} />
       </Flex>
       <Form.Item name='comboType'>
         <Radio.Group
@@ -62,13 +87,13 @@ export const ComboFilters = () => {
         </Radio.Group>
       </Form.Item>
 
-      <ComboBasicDefinition comboOptions={comboOptions}/>
+      <ComboBasicDefinition comboOptions={comboOptions} />
 
       <>
         <Flex vertical gap={8} style={{ marginTop: 8 }}>
           <Button
             onClick={() => setOpen(OpenCloseIDs.COMBO_DRAWER)}
-            icon={<SettingOutlined/>}
+            icon={<SettingOutlined />}
             disabled={comboType == ComboType.SIMPLE}
           >
             {t('RotationButton')}
@@ -80,7 +105,7 @@ export const ComboFilters = () => {
             style={{ display: 'none' }}
           />
         </Form.Item>
-        <ComboDrawer/>
+        <ComboDrawer />
       </>
     </Flex>
   )
@@ -124,7 +149,7 @@ function resetClicked(formInstance: FormInstance<OptimizerForm>) {
   formInstance.setFieldValue(['comboStateJson'], '{}')
 }
 
-function ComboBasicDefinition(props: { comboOptions: { value: string; label: string }[] }) {
+function ComboBasicDefinition(props: { comboOptions: { value: string, label: string }[] }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const { t: tSidebar } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
   const { t: tCommon } = useTranslation('common')
@@ -143,7 +168,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
   return (
     <Flex style={{ height: 275 }}>
       <Flex vertical flex={1} style={{ marginLeft: 2 }} gap={3}>
-        <HeaderText>{t('AbilityLabel')/* Abilities */} </HeaderText>
+        <HeaderText>{t('AbilityLabel') /* Abilities */}</HeaderText>
 
         <Flex vertical flex={1} style={{ marginLeft: 2, display: comboType == ComboType.ADVANCED ? 'flex' : 'none' }} gap={3}>
           {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
@@ -157,17 +182,15 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
         </Flex>
 
         <Flex vertical flex={1} style={{ marginLeft: 2, display: comboType == ComboType.SIMPLE ? 'flex' : 'none' }} gap={3}>
-          {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
-            <TurnAbilitySelectorSimple key={i + 1} value={comboTurnAbilities[i + 1]} index={i + 1}/>
-          ))}
+          {Array.from({ length: ABILITY_LIMIT }, (_, i) => <TurnAbilitySelectorSimple key={i + 1} value={comboTurnAbilities[i + 1]} index={i + 1} />)}
         </Flex>
       </Flex>
 
-      <VerticalDivider width={10}/>
+      <VerticalDivider width={10} />
 
       <Flex vertical gap={20} flex={1} align='flex-start'>
         <Flex vertical style={{ width: '100%' }} gap={5}>
-          <HeaderText>{tSidebar('ControlsGroup.Header')/* Controls */}</HeaderText>
+          <HeaderText>{t('RowControls.Header') /* Controls */}</HeaderText>
           <Popconfirm
             title={tCommon('Confirm')}
             description={t('RowControls.ResetConfirm.Description')}
@@ -191,29 +214,32 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
         </Flex>
 
         <Flex vertical style={{ width: '100%' }} gap={5}>
-          <HeaderText>Presets</HeaderText>
+          <HeaderText>{t('RowControls.PresetsHeader')/*Presets*/}</HeaderText>
           <Form.Item name='comboPreprocessor'>
             <Radio.Group buttonStyle='solid' block size='small' disabled={disabled}>
-              <Radio.Button value={true}><CheckOutlined/></Radio.Button>
-              <Radio.Button value={false}><CloseOutlined/></Radio.Button>
+              <Radio.Button value={true}>
+                <CheckOutlined />
+              </Radio.Button>
+              <Radio.Button value={false}>
+                <CloseOutlined />
+              </Radio.Button>
             </Radio.Group>
           </Form.Item>
         </Flex>
 
         <Flex vertical gap={5}>
           <HeaderText>{t('CounterLabels.Dot')}</HeaderText>
-          <NumberXInput name='comboDot' disabled={disabled} value={comboDot}/>
+          <NumberXInput name='comboDot' disabled={disabled} value={comboDot} />
         </Flex>
       </Flex>
     </Flex>
   )
 }
 
-function ComboOptionRowSelect(props: { index: number; disabled: boolean; comboOptions: { value: string; label: string }[] }) {
+function ComboOptionRowSelect(props: { index: number, disabled: boolean, comboOptions: { value: string, label: string }[] }) {
   return (
     <Form.Item
-      shouldUpdate={(prevValues: OptimizerForm, currentValues: OptimizerForm) =>
-        prevValues.comboTurnAbilities !== currentValues.comboTurnAbilities}
+      shouldUpdate={(prevValues: OptimizerForm, currentValues: OptimizerForm) => prevValues.comboTurnAbilities !== currentValues.comboTurnAbilities}
       noStyle
     >
       {({ getFieldValue }) => {
@@ -221,9 +247,7 @@ function ComboOptionRowSelect(props: { index: number; disabled: boolean; comboOp
         const shouldRenderSegmented = comboTurnAbilities[props.index] != null || props.index < 2
 
         return shouldRenderSegmented
-          ? (
-            <TurnAbilitySelector formName={['comboTurnAbilities', props.index]} disabled={props.disabled}/>
-          )
+          ? <TurnAbilitySelector formName={['comboTurnAbilities', props.index]} disabled={props.disabled} />
           : null
       }}
     </Form.Item>
@@ -231,9 +255,9 @@ function ComboOptionRowSelect(props: { index: number; disabled: boolean; comboOp
 }
 
 function NumberXInput(props: {
-  name: string
-  disabled: boolean
-  value?: number
+  name: string,
+  disabled: boolean,
+  value?: number,
 }) {
   const input = (
     <InputNumberStyled

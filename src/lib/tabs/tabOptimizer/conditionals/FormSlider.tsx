@@ -1,8 +1,20 @@
-import { Flex, Form as AntdForm, InputNumber, Slider, Typography } from 'antd'
+import {
+  Flex,
+  Form as AntdForm,
+  InputNumber,
+  Slider,
+  Typography,
+} from 'antd'
 import { getItemName } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import WithPopover from 'lib/ui/WithPopover'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { ComponentProps, ComponentType, useEffect, useRef, useState } from 'react'
+import {
+  ComponentProps,
+  ComponentType,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import styled from 'styled-components'
 
 const justify = 'flex-start'
@@ -33,7 +45,7 @@ export interface FormSliderProps {
 export const FormSlider: ComponentType<FormSliderProps> = (props) => {
   const [state, setState] = useState(props?.value ?? undefined)
 
-  const multiplier = (props.percent ? 100 : 1)
+  const multiplier = props.percent ? 100 : 1
   const step = props.percent ? 0.01 : 1
   const symbol = props.percent ? '%' : ''
 
@@ -119,15 +131,13 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
     <Flex vertical gap={0} style={{ marginBottom: 0 }}>
       <Flex justify={justify} align={align}>
         <div style={{ minWidth: inputWidth, display: 'block' }}>
-          {
-            props.removeForm
-              ? internalInputNumber
-              : (
-                <AntdForm.Item name={itemName}>
-                  {internalInputNumber}
-                </AntdForm.Item>
-              )
-          }
+          {props.removeForm
+            ? internalInputNumber
+            : (
+              <AntdForm.Item name={itemName}>
+                {internalInputNumber}
+              </AntdForm.Item>
+            )}
         </div>
         <Text style={{ lineHeight: '16px' }}>
           {props.text}
@@ -135,15 +145,13 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
       </Flex>
 
       <Flex align='center' justify='flex-start' gap={5} style={{ height: 14 }}>
-        {
-          props.removeForm
-            ? internalSlider
-            : (
-              <AntdForm.Item name={itemName}>
-                {internalSlider}
-              </AntdForm.Item>
-            )
-        }
+        {props.removeForm
+          ? internalSlider
+          : (
+            <AntdForm.Item name={itemName}>
+              {internalSlider}
+            </AntdForm.Item>
+          )}
         <Text
           style={{
             minWidth: 20,

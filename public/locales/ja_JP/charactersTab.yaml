@@ -40,6 +40,9 @@ Messages:
   SaveSuccess: "ビルドを保存しました: {{name}}"
   UnequipWarning: "本当に$t(gameData:Characters.{{charId}}.Name)の遺物を全て外しますか？"
   DeleteWarning: "本当に$t(gameData:Characters.{{charId}}.Name)を削除しますか？"
+  BuildAlreadyExists: "ビルド名 {{name}} はすでに存在しています"
+  ImageUploadFailed: 画像のアップロードに失敗しました
+  InvalidFile: 有効な画像ファイルではありません
 CharacterPreview:
   ScoringSidebar:
     Stats:

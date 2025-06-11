@@ -40,6 +40,9 @@ Messages:
   SaveSuccess: "Equipamiento guardado con éxito: {{name}}"
   UnequipWarning: "¿De verdad quieres desequipar a $t(gameData:Characters.{{charId}}.Name)?"
   DeleteWarning: "¿De verdad quieres eliminar a $t(gameData:Characters.{{charId}}.Name)?"
+  BuildAlreadyExists: "Ya existe un equipamiento llamado {{name}}"
+  ImageUploadFailed: Falló la carga de la imagen
+  InvalidFile: El archivo no es un archivo de imagen válido
 CharacterPreview:
   ScoringSidebar:
     Stats:
@@ -126,7 +129,7 @@ CharacterPreview:
       FUA: ATQ. ADICIONAL
       MEMO_SKILL: HABILIDADᴹ
       MEMO_TALENT: TALENTOᴹ
-      DOTS: "ATQ. ADIC."
+      DOTS: "DOTS:"
       BREAKS: "RUPTURAS:"
     CombatResults:
       Header: Resultados de daño de combate

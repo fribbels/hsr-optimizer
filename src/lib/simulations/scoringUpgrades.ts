@@ -1,7 +1,19 @@
-import { MainStatParts, Parts, Stats } from 'lib/constants/constants'
-import { applyScoringFunction, ScoringParams, SimulationFlags } from 'lib/scoring/simScoringUtils'
+import {
+  MainStatParts,
+  Parts,
+  Stats,
+} from 'lib/constants/constants'
+import {
+  applyScoringFunction,
+  ScoringParams,
+  SimulationFlags,
+} from 'lib/scoring/simScoringUtils'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
-import { RunStatSimulationsResult, Simulation, SimulationRequest } from 'lib/simulations/statSimulationTypes'
+import {
+  RunStatSimulationsResult,
+  Simulation,
+  SimulationRequest,
+} from 'lib/simulations/statSimulationTypes'
 import { partsToFilterMapping } from 'lib/simulations/utils/benchmarkUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Form } from 'types/form'
@@ -9,11 +21,11 @@ import { SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
 
 export type SimulationStatUpgrade = {
-  simulation: Simulation
-  simulationResult: RunStatSimulationsResult
-  part?: string
-  stat?: string
-  percent?: number
+  simulation: Simulation,
+  simulationResult: RunStatSimulationsResult,
+  part?: string,
+  stat?: string,
+  percent?: number,
 }
 
 export function generateStatImprovements(

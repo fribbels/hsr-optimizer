@@ -1,10 +1,25 @@
-import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { applyTeamAwareSetConditionalPresets } from 'lib/conditionals/evaluation/applyPresets'
+import {
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { AbilityKind, toTurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
-import { calculateSetNames, calculateSimSets, SimulationSets } from 'lib/scoring/dpsScore'
-import { calculateMaxSubstatRollCounts, calculateMinSubstatRollCounts } from 'lib/scoring/rollCounter'
+import {
+  AbilityKind,
+  toTurnAbility,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  calculateSetNames,
+  calculateSimSets,
+  SimulationSets,
+} from 'lib/scoring/dpsScore'
+import {
+  calculateMaxSubstatRollCounts,
+  calculateMinSubstatRollCounts,
+} from 'lib/scoring/rollCounter'
 import {
   applyScoringFunction,
   baselineScoringParams,
@@ -20,7 +35,10 @@ import {
   spdRollsCap,
 } from 'lib/scoring/simScoringUtils'
 import { generatePartialSimulations } from 'lib/simulations/benchmarks/simulateBenchmarkBuild'
-import { generateStatImprovements, SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
+import {
+  generateStatImprovements,
+  SimulationStatUpgrade,
+} from 'lib/simulations/scoringUpgrades'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { convertRelicsToSimulation } from 'lib/simulations/statSimulationController'
 import {
@@ -28,7 +46,7 @@ import {
   RunStatSimulationsResult,
   Simulation,
   SimulationRequest,
-  StatSimTypes
+  StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
@@ -38,10 +56,13 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { computeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorker'
 import {
   ComputeOptimalSimulationWorkerInput,
-  ComputeOptimalSimulationWorkerOutput
+  ComputeOptimalSimulationWorkerOutput,
 } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { WorkerType } from 'lib/worker/workerUtils'
-import { Form, OptimizerForm } from 'types/form'
+import {
+  Form,
+  OptimizerForm,
+} from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
 
@@ -175,26 +196,34 @@ export class BenchmarkSimulationOrchestrator {
     const { characterId, characterEidolon, lightCone, lightConeSuperimposition } = form
 
     const simulationForm: Form = generateFullDefaultForm(characterId, lightCone, characterEidolon, lightConeSuperimposition, false)
-    const simulationFormT0 = generateFullDefaultForm(metadata.teammates[0].characterId,
+    const simulationFormT0 = generateFullDefaultForm(
+      metadata.teammates[0].characterId,
       metadata.teammates[0].lightCone,
       metadata.teammates[0].characterEidolon,
       metadata.teammates[0].lightConeSuperimposition,
-      true)
-    const simulationFormT1 = generateFullDefaultForm(metadata.teammates[1].characterId,
+      true,
+    )
+    const simulationFormT1 = generateFullDefaultForm(
+      metadata.teammates[1].characterId,
       metadata.teammates[1].lightCone,
       metadata.teammates[1].characterEidolon,
       metadata.teammates[1].lightConeSuperimposition,
-      true)
-    const simulationFormT2 = generateFullDefaultForm(metadata.teammates[2].characterId,
+      true,
+    )
+    const simulationFormT2 = generateFullDefaultForm(
+      metadata.teammates[2].characterId,
       metadata.teammates[2].lightCone,
       metadata.teammates[2].characterEidolon,
       metadata.teammates[2].lightConeSuperimposition,
-      true)
+      true,
+    )
     simulationForm.teammate0 = simulationFormT0
     simulationForm.teammate1 = simulationFormT1
     simulationForm.teammate2 = simulationFormT2
 
     simulationForm.deprioritizeBuffs = this.metadata.deprioritizeBuffs
+
+    applyTeamAwareSetConditionalPresets(simulationForm)
 
     this.form = simulationForm
   }
@@ -309,9 +338,15 @@ export class BenchmarkSimulationOrchestrator {
       // Find the speed deduction
       const finalSpeed = simulationResult.xa[Key.SPD]
       const mainsCount = partialSimulationWrapper.simulation.request.simFeet == Stats.SPD ? 1 : 0
-      const rolls = TsUtils.precisionRound(invertDiminishingReturnsSpdFormula(mainsCount, targetSpd - finalSpeed, clonedBenchmarkScoringParams.speedRollValue), 3)
+      const rolls = TsUtils.precisionRound(
+        invertDiminishingReturnsSpdFormula(mainsCount, targetSpd - finalSpeed, clonedBenchmarkScoringParams.speedRollValue),
+        3,
+      )
 
-      partialSimulationWrapper.speedRollsDeduction = Math.min(Math.max(0, rolls), spdRollsCap(partialSimulationWrapper.simulation, clonedBenchmarkScoringParams))
+      partialSimulationWrapper.speedRollsDeduction = Math.min(
+        Math.max(0, rolls),
+        spdRollsCap(partialSimulationWrapper.simulation, clonedBenchmarkScoringParams),
+      )
       if (partialSimulationWrapper.speedRollsDeduction >= 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
         console.log('Rejected candidate sim with non SPD boots')
         return null
@@ -374,7 +409,10 @@ export class BenchmarkSimulationOrchestrator {
       const finalSpeed = simulationResult.xa[Key.SPD]
       const rolls = TsUtils.precisionRound((targetSpd - finalSpeed) / clonedPerfectionScoringParams.speedRollValue, 3)
 
-      partialSimulationWrapper.speedRollsDeduction = Math.min(Math.max(0, rolls), spdRollsCap(partialSimulationWrapper.simulation, clonedPerfectionScoringParams))
+      partialSimulationWrapper.speedRollsDeduction = Math.min(
+        Math.max(0, rolls),
+        spdRollsCap(partialSimulationWrapper.simulation, clonedPerfectionScoringParams),
+      )
       if (partialSimulationWrapper.speedRollsDeduction >= 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
         console.log('Rejected candidate sim with non SPD boots')
         return null

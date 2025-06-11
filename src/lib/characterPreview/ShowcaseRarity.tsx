@@ -9,7 +9,7 @@ const ShowcaseRarity = ({
   const children: ReactElement[] = []
   for (let i = 0; i < rarity; i++) {
     children.push(
-      <img src={Assets.getStar()} key={i} style={{ width: 20, height: 20 }}/>,
+      <img src={Assets.getStar()} key={i} style={{ width: 20, height: 20 }} />,
     )
   }
   return (

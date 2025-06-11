@@ -53,40 +53,40 @@ export const BUFF_PRIORITY_SELF = 0
 export const BUFF_PRIORITY_MEMO = 1
 
 export type SetsType = {
-  [K in keyof typeof Sets]: number;
+  [K in keyof typeof Sets]: number
 }
 
 export type BasicStatsObject = {
-  ['HP%']: number
-  ['ATK%']: number
-  ['DEF%']: number
-  ['SPD%']: number
-  ['HP']: number
-  ['ATK']: number
-  ['DEF']: number
-  ['SPD']: number
-  ['CRIT Rate']: number
-  ['CRIT DMG']: number
-  ['Effect Hit Rate']: number
-  ['Effect RES']: number
-  ['Break Effect']: number
-  ['Energy Regeneration Rate']: number
-  ['Outgoing Healing Boost']: number
+  ['HP%']: number,
+  ['ATK%']: number,
+  ['DEF%']: number,
+  ['SPD%']: number,
+  ['HP']: number,
+  ['ATK']: number,
+  ['DEF']: number,
+  ['SPD']: number,
+  ['CRIT Rate']: number,
+  ['CRIT DMG']: number,
+  ['Effect Hit Rate']: number,
+  ['Effect RES']: number,
+  ['Break Effect']: number,
+  ['Energy Regeneration Rate']: number,
+  ['Outgoing Healing Boost']: number,
 
-  ['Physical DMG Boost']: number
-  ['Fire DMG Boost']: number
-  ['Ice DMG Boost']: number
-  ['Lightning DMG Boost']: number
-  ['Wind DMG Boost']: number
-  ['Quantum DMG Boost']: number
-  ['Imaginary DMG Boost']: number
+  ['Physical DMG Boost']: number,
+  ['Fire DMG Boost']: number,
+  ['Ice DMG Boost']: number,
+  ['Lightning DMG Boost']: number,
+  ['Wind DMG Boost']: number,
+  ['Quantum DMG Boost']: number,
+  ['Imaginary DMG Boost']: number,
 
-  ELEMENTAL_DMG: number // ?
+  'ELEMENTAL_DMG': number, // ?
 
-  relicSetIndex: number
-  ornamentSetIndex: number
-  id: number
+  'relicSetIndex': number,
+  'ornamentSetIndex': number,
+  'id': number,
 
-  sets: SetsType
-  x: ComputedStatsObject | ComputedStatsObjectExternal
+  'sets': SetsType,
+  'x': ComputedStatsObject | ComputedStatsObjectExternal,
 }

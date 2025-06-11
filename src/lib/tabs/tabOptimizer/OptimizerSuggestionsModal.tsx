@@ -1,7 +1,17 @@
-import { Button, Flex, Modal, Typography } from 'antd'
+import {
+  Button,
+  Flex,
+  Modal,
+  Typography,
+} from 'antd'
 import { TFunction } from 'i18next'
 import { Parts } from 'lib/constants/constants'
-import { OpenCloseIDs, openCloseStore, setClose, setOpen, useOpenClose } from 'lib/hooks/useOpenClose'
+import {
+  OpenCloseIDs,
+  setClose,
+  setOpen,
+  useOpenClose,
+} from 'lib/hooks/useOpenClose'
 import { Message } from 'lib/interactions/message'
 import { Optimizer } from 'lib/optimization/optimizer'
 import DB, { AppPages } from 'lib/state/db'
@@ -30,14 +40,7 @@ enum ZeroPermRootCause {
   MINIMUM_ROLLS = 'MINIMUM_ROLLS',
 }
 
-const ZeroPermRootCauseFixes: {
-  [key in ZeroPermRootCause]: {
-    descriptionKey: string
-    buttonTextKey: string
-    applyFix: () => void
-    successMessageKey: string
-  }
-} = {
+const ZeroPermRootCauseFixes = {
   [ZeroPermRootCause.IMPORT]: {
     descriptionKey: '0Perms.RootCauses.IMPORT.Description', // Import relics from your account on the Importer tab
     buttonTextKey: '0Perms.RootCauses.IMPORT.ButtonText', // Navigate to Importer tab
@@ -118,16 +121,16 @@ const ZeroPermRootCauseFixes: {
     },
     successMessageKey: '0Perms.RootCauses.MINIMUM_ROLLS.SuccessMessage',
   },
-}
+} as const
 
-function mainStatFixes(part: Parts) {
+function mainStatFixes(part: Exclude<Parts, typeof Parts.Head | typeof Parts.Hands>) {
   return {
-    descriptionKey: `0Perms.RootCauses.${part}_MAIN.Description`, // `The main stat for the ${PartsToReadable[part]} filter might be too restrictive`,
-    buttonTextKey: `0Perms.RootCauses.${part}_MAIN.ButtonText`, // `Clear ${PartsToReadable[part]} main stat filters`,
+    descriptionKey: `0Perms.RootCauses.${part}_MAIN.Description` as const, // `The main stat for the ${PartsToReadable[part]} filter might be too restrictive`,
+    buttonTextKey: `0Perms.RootCauses.${part}_MAIN.ButtonText` as const, // `Clear ${PartsToReadable[part]} main stat filters`,
     applyFix: () => {
       window.optimizerForm.setFieldValue(`main${part}`, [])
     },
-    successMessageKey: `0Perms.RootCauses.${part}_MAIN.SuccessMessage`,
+    successMessageKey: `0Perms.RootCauses.${part}_MAIN.SuccessMessage` as const,
     // Message.success(`Cleared ${PartsToReadable[part]} main stat filters`, 2)
   }
 }
@@ -140,20 +143,20 @@ export function activateZeroPermutationsSuggestionsModal(request: Form) {
 
   const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request) as [
     {
-      Body: Relic[]
-      Feet: Relic[]
-      PlanarSphere: Relic[]
-      LinkRope: Relic[]
-      Head: Relic[]
-      Hands: Relic[]
+      Body: Relic[],
+      Feet: Relic[],
+      PlanarSphere: Relic[],
+      LinkRope: Relic[],
+      Head: Relic[],
+      Hands: Relic[],
     },
     {
-      Body: Relic[]
-      Feet: Relic[]
-      PlanarSphere: Relic[]
-      LinkRope: Relic[]
-      Head: Relic[]
-      Hands: Relic[]
+      Body: Relic[],
+      Feet: Relic[],
+      PlanarSphere: Relic[],
+      LinkRope: Relic[],
+      Head: Relic[],
+      Hands: Relic[],
     },
   ]
   const allRelics = DB.getRelics()
@@ -231,28 +234,25 @@ export function activateZeroPermutationsSuggestionsModal(request: Form) {
   setOpen(OpenCloseIDs.ZERO_PERMS_MODAL)
 }
 
+type Fixes = typeof ZeroPermRootCauseFixes[ZeroPermRootCause] | typeof ZeroResultRootCauseFixes[ZeroResultRootCause]
+
 function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRootCause, t: TFunction<'modals', undefined>): ReactElement {
-  const fixes = (ZeroPermRootCauseFixes[rootCause as ZeroPermRootCause] || ZeroResultRootCauseFixes[rootCause as ZeroResultRootCause]) as {
-    descriptionKey: string
-    buttonTextKey: string
-    applyFix: () => void
-    successMessageKey: string
-  }
+  const fixes: Fixes = ZeroPermRootCauseFixes[rootCause as ZeroPermRootCause] || ZeroResultRootCauseFixes[rootCause as ZeroResultRootCause]
   return (
-    <Flex justify='space-between' align='center' style={{ height: 45 }} key={Utils.randomId()}>
+    <Flex justify='space-between' align='center' style={{ height: 45 }} key={Utils.randomId()} gap={10}>
       <Text style={{ width: 550 }}>
-        {t(fixes.descriptionKey as never)}
+        {t(fixes.descriptionKey)}
       </Text>
       <Button
         onClick={() => {
           fixes.applyFix()
           window.onOptimizerFormValuesChange({} as Form, OptimizerTabController.getForm())
-          Message.success(t(fixes.successMessageKey as never), 2)
+          Message.success(t(fixes.successMessageKey), 2)
         }}
-        style={{ width: 250 }}
+        style={{ width: 350 }}
         type='primary'
       >
-        {t(fixes.buttonTextKey as never)}
+        {t(fixes.buttonTextKey)}
       </Button>
     </Flex>
   )
@@ -271,9 +271,9 @@ export function ZeroPermutationsSuggestionsModal() {
 
   return (
     <Modal
-      title={t('0Perms.Title')/* Search generated 0 permutations */}
+      title={t('0Perms.Title') /* Search generated 0 permutations */}
       open={isOpenZeroPermsModal}
-      width={900}
+      width={950}
       destroyOnClose
       centered
       onOk={closeZeroPermsModal}
@@ -282,9 +282,13 @@ export function ZeroPermutationsSuggestionsModal() {
     >
       <Flex vertical gap={15} style={{ marginBottom: 15 }}>
         <Text>
-          {t('0Perms.Description')/* This means your filters are misconfigured or too restrictive, and no possibilities match the filters. Permutations are shown on the sidebar. */}
+          {
+            t(
+              '0Perms.Description',
+            ) /* This means your filters are misconfigured or too restrictive, and no possibilities match the filters. Permutations are shown on the sidebar. */
+          }
         </Text>
-        <HorizontalDivider/>
+        <HorizontalDivider />
         {rootCauseDisplay}
       </Flex>
     </Modal>
@@ -339,14 +343,7 @@ enum ZeroResultRootCause {
   STAT_VIEW = 'STAT_VIEW',
 }
 
-const ZeroResultRootCauseFixes: {
-  [key in ZeroResultRootCause]: {
-    descriptionKey: string
-    buttonTextKey: string
-    applyFix: () => void
-    successMessageKey: string
-  }
-} = {
+const ZeroResultRootCauseFixes = {
   [ZeroResultRootCause.MAX_HP]: filterFixes(ZeroResultRootCause.MAX_HP),
   [ZeroResultRootCause.MIN_HP]: filterFixes(ZeroResultRootCause.MIN_HP),
   [ZeroResultRootCause.MAX_ATK]: filterFixes(ZeroResultRootCause.MAX_ATK),
@@ -402,18 +399,18 @@ const ZeroResultRootCauseFixes: {
     },
     successMessageKey: '0Results.RootCauses.StatView.SuccessMessage',
   },
-}
+} as const
 
-function filterFixes(filter: string) {
+function filterFixes(filter: ZeroResultRootCause) {
   const split = filter.split('_')
   const formAddress = split[0].toLowerCase() + split[1][0] + split[1].slice(1).toLowerCase()
   return {
-    descriptionKey: `0Results.RootCauses.${filter}.Description`, // `The minimum/maximum {{field name}} may be too high/low`,
-    buttonTextKey: `0Results.RootCauses.${filter}.ButtonText`, // `Reset min/max {{field name}} filter`,
+    descriptionKey: `0Results.RootCauses.${filter}.Description` as const, // `The minimum/maximum {{field name}} may be too high/low`,
+    buttonTextKey: `0Results.RootCauses.${filter}.ButtonText` as const, // `Reset min/max {{field name}} filter`,
     applyFix: () => {
       window.optimizerForm.setFieldValue(formAddress as keyof Form, undefined)
     },
-    successMessageKey: `0Results.RootCauses.${filter}.SuccessMessage`,
+    successMessageKey: `0Results.RootCauses.${filter}.SuccessMessage` as const,
     // Message.success(`Reset min/max {{field name}} filter`, 2)
   }
 }
@@ -474,12 +471,6 @@ export function ZeroResultSuggestionModal() {
   const { t } = useTranslation('modals')
 
   // console.log('Suggestions root causes', rootCauses)
-  /*
-   const rootCauseDisplay: ReactElement[] = []
-   for (const rootCause of rootCauses) {
-   rootCauseDisplay.push(convertRootCauseToDisplay(rootCause))
-   }
-   */
   const rootCauseDisplay: ReactElement[] = []
   for (const rootCause of rootCauses) {
     rootCauseDisplay.push(convertRootCauseToDisplay(rootCause, t))
@@ -487,9 +478,9 @@ export function ZeroResultSuggestionModal() {
 
   return (
     <Modal
-      title={t('0Results.Title')/* Search generated 0 results */}
+      title={t('0Results.Title') /* Search generated 0 results */}
       open={isOpenZeroResultsModal}
-      width={900}
+      width={950}
       destroyOnClose
       centered
       onOk={closeZeroResultsModal}
@@ -499,7 +490,7 @@ export function ZeroResultSuggestionModal() {
       <Flex vertical gap={15} style={{ marginBottom: 15 }}>
         <Flex justify='space-between' align='center' style={{ height: 45 }}>
           <Text>
-            {t('0Results.ResetAll.Description')/* This means your stat and/or rating filters are too restrictive. */}
+            {t('0Results.ResetAll.Description') /* This means your stat and/or rating filters are too restrictive. */}
           </Text>
           <Button
             onClick={() => {
@@ -509,16 +500,16 @@ export function ZeroResultSuggestionModal() {
               }
               const setStatDisplay = window.store.getState().setStatDisplay
               setStatDisplay('combat')
-              Message.success(t('0Results.ResetAll.SuccessMessage'))/* Cleared all filters */
+              Message.success(t('0Results.ResetAll.SuccessMessage')) /* Cleared all filters */
               closeZeroResultsModal()
             }}
-            style={{ width: 250 }}
+            style={{ width: 350 }}
             type='primary'
           >
-            {t('0Results.ResetAll.ButtonText')/* Reset all filters */}
+            {t('0Results.ResetAll.ButtonText') /* Reset all filters */}
           </Button>
         </Flex>
-        <HorizontalDivider/>
+        <HorizontalDivider />
         {rootCauseDisplay}
       </Flex>
     </Modal>

@@ -71,14 +71,14 @@ import trailblazerpreservation from 'lib/conditionals/character/8000/Trailblazer
 import trailblazerRemembrance from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import { Eidolon } from 'types/character'
 
+import kafkaB1 from 'lib/conditionals/character/1000/KafkaB1'
+import silverWolfB1 from 'lib/conditionals/character/1000/SilverWolfB1'
+import bladeB1 from 'lib/conditionals/character/1200/BladeB1'
+import jingliuB1 from 'lib/conditionals/character/1200/JingliuB1'
 import { CharacterConditionalsController } from 'types/conditionals'
-import saber from '../character/1000/Saber'
 import archer from '../character/1000/Archer'
+import saber from '../character/1000/Saber'
 import phainon from '../character/1400/Phainon'
-import kafkaB1 from "lib/conditionals/character/1000/KafkaB1";
-import silverWolfB1 from "lib/conditionals/character/1000/SilverWolfB1";
-import bladeB1 from "lib/conditionals/character/1200/BladeB1";
-import jingliuB1 from "lib/conditionals/character/1200/JingliuB1";
 
 export type CharacterConditionalFunction = (e: Eidolon, withContent: boolean) => CharacterConditionalsController
 
@@ -186,8 +186,8 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
  */
 export const CharacterConditionalsResolver = {
   get: (request: {
-    characterId: string
-    characterEidolon: number
+    characterId: string,
+    characterEidolon: number,
   }, withContent = false): CharacterConditionalsController => {
     const characterFn = characterOptionMapping[request.characterId]
     return characterFn(request.characterEidolon, withContent)

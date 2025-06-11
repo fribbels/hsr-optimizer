@@ -1,11 +1,26 @@
-import { DownOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons'
+import {
+  DownOutlined,
+  ExclamationCircleOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
 
-import { Button, Dropdown, Flex, Input, Modal, theme, Typography } from 'antd'
+import {
+  Button,
+  Dropdown,
+  Flex,
+  Input,
+  Modal,
+  theme,
+  Typography,
+} from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
+import {
+  OpenCloseIDs,
+  setOpen,
+} from 'lib/hooks/useOpenClose'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Message } from 'lib/interactions/message'
 import BuildsModal from 'lib/overlays/modals/BuildsModal'
@@ -16,12 +31,26 @@ import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { getGridTheme } from 'lib/rendering/theme'
 import DB, { AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { cellImageRenderer, CharacterGrid } from 'lib/tabs/tabCharacters/CharacterGrid'
-import { generateElementTags, generatePathTags, SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents.tsx'
+import {
+  cellImageRenderer,
+  CharacterGrid,
+} from 'lib/tabs/tabCharacters/CharacterGrid'
+import {
+  generateElementTags,
+  generatePathTags,
+  SegmentedFilterRow,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents.tsx'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { Utils } from 'lib/utils/utils'
-import React, { Suspense, useCallback, useRef, useState } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import React, {
+  Suspense,
+  useCallback,
+  useRef,
+  useState,
+} from 'react'
+import {
+  Trans,
+  useTranslation,
+} from 'react-i18next'
 
 const { useToken } = theme
 const { Text } = Typography
@@ -77,26 +106,26 @@ export default function CharacterTab() {
     {
       key: 'character group',
       type: 'group',
-      label: t('CharacterMenu.Character.Label')/* Character */,
+      label: t('CharacterMenu.Character.Label'), /* Character */
       children: [
         {
-          label: t('CharacterMenu.Character.Options.Add')/* Add new character */,
+          label: t('CharacterMenu.Character.Options.Add'), /* Add new character */
           key: 'add',
         },
         {
-          label: t('CharacterMenu.Character.Options.Edit')/* Edit character / light cone */,
+          label: t('CharacterMenu.Character.Options.Edit'), /* Edit character / light cone */
           key: 'edit',
         },
         {
-          label: t('CharacterMenu.Character.Options.Switch')/* Switch relics with */,
+          label: t('CharacterMenu.Character.Options.Switch'), /* Switch relics with */
           key: 'switchRelics',
         },
         {
-          label: t('CharacterMenu.Character.Options.Unequip')/* Unequip character */,
+          label: t('CharacterMenu.Character.Options.Unequip'), /* Unequip character */
           key: 'unequip',
         },
         {
-          label: t('CharacterMenu.Character.Options.Delete')/* Delete character */,
+          label: t('CharacterMenu.Character.Options.Delete'), /* Delete character */
           key: 'delete',
         },
       ],
@@ -104,14 +133,14 @@ export default function CharacterTab() {
     {
       key: 'builds group',
       type: 'group',
-      label: t('CharacterMenu.Build.Label')/* Builds */,
+      label: t('CharacterMenu.Build.Label'), /* Builds */
       children: [
         {
-          label: t('CharacterMenu.Build.Options.Save')/* Save current build */,
+          label: t('CharacterMenu.Build.Options.Save'), /* Save current build */
           key: 'saveBuild',
         },
         {
-          label: t('CharacterMenu.Build.Options.View')/* View saved builds */,
+          label: t('CharacterMenu.Build.Options.View'), /* View saved builds */
           key: 'viewBuilds',
         },
       ],
@@ -119,10 +148,10 @@ export default function CharacterTab() {
     {
       key: 'scoring group',
       type: 'group',
-      label: t('CharacterMenu.Scoring.Label')/* Scoring */,
+      label: t('CharacterMenu.Scoring.Label'), /* Scoring */
       children: [
         {
-          label: t('CharacterMenu.Scoring.Options.ScoringModal')/* Scoring algorithm */,
+          label: t('CharacterMenu.Scoring.Options.ScoringModal'), /* Scoring algorithm */
           key: 'scoring',
         },
       ],
@@ -130,14 +159,14 @@ export default function CharacterTab() {
     {
       key: 'priority group',
       type: 'group',
-      label: t('CharacterMenu.Priority.Label')/* Priority */,
+      label: t('CharacterMenu.Priority.Label'), /* Priority */
       children: [
         {
-          label: t('CharacterMenu.Priority.Options.SortByScore')/* Sort all characters by score */,
+          label: t('CharacterMenu.Priority.Options.SortByScore'), /* Sort all characters by score */
           key: 'sortByScore',
         },
         {
-          label: t('CharacterMenu.Priority.Options.MoveToTop')/* Move character to top */,
+          label: t('CharacterMenu.Priority.Options.MoveToTop'), /* Move character to top */
           key: 'moveToTop',
         },
       ],
@@ -158,7 +187,8 @@ export default function CharacterTab() {
         return false
       }
       return t(`gameData:Characters.${node.data.id}.LongName`).toLowerCase().includes(nameFilter.current)
-    }, [characterFilters],
+    },
+    [characterFilters],
   )
 
   const isExternalFilterPresent = useCallback(() => {
@@ -228,7 +258,7 @@ export default function CharacterTab() {
 
     SaveState.delayedSave()
 
-    Message.success(t('Messages.RemoveSuccess')/* Successfully removed character */)
+    Message.success(t('Messages.RemoveSuccess') /* Successfully removed character */)
   }
 
   function unequipClicked() {
@@ -245,7 +275,7 @@ export default function CharacterTab() {
 
     characterGrid.current.api.redrawRows()
     window.forceCharacterTabUpdate()
-    Message.success(t('Messages.UnequipSuccess')/* Successfully unequipped character */)
+    Message.success(t('Messages.UnequipSuccess') /* Successfully unequipped character */)
     window.relicsGrid.current.api.redrawRows()
 
     SaveState.delayedSave()
@@ -254,7 +284,7 @@ export default function CharacterTab() {
   // Reuse the same modal for both edit/add and scroll to the selected character
   function onCharacterModalOk(form) {
     if (!form.characterId) {
-      return Message.error(t('Messages.NoSelectedCharacter')/* No selected character */)
+      return Message.error(t('Messages.NoSelectedCharacter') /* No selected character */)
     }
 
     const character = DB.addFromForm(form)
@@ -263,7 +293,7 @@ export default function CharacterTab() {
 
   function onSwitchRelicsModalOk(switchToCharacter) {
     if (!switchToCharacter) {
-      return Message.error(t('Messages.NoSelectedCharacter')/* No selected character */)
+      return Message.error(t('Messages.NoSelectedCharacter') /* No selected character */)
     }
 
     DB.switchRelics(selectedCharacter.id, switchToCharacter.value)
@@ -289,14 +319,16 @@ export default function CharacterTab() {
   }
 
   async function sortByScoreClicked() {
-    if (!await confirm(
-      <>
-        {/* Are you sure you want to sort all characters? <0/>You will lose any custom rankings you have set. */}
-        <Trans t={t} i18nKey='Messages.SortByScoreWarning'>
-          <br />
-        </Trans>
-      </>,
-    )) {
+    if (
+      !await confirm(
+        <>
+          {/* Are you sure you want to sort all characters? <0/>You will lose any custom rankings you have set. */}
+          <Trans t={t} i18nKey='Messages.SortByScoreWarning'>
+            <br />
+          </Trans>
+        </>,
+      )
+    ) {
       return
     }
 
@@ -313,27 +345,6 @@ export default function CharacterTab() {
     characterGrid.current.api.redrawRows()
   }
 
-  function clipboardClicked() {
-    setScreenshotLoading(true)
-    // Use a small timeout here so the spinner doesn't lag while the image is being generated
-    setTimeout(() => {
-      Utils.screenshotElementById('characterTabPreview', 'clipboard').finally(() => {
-        setScreenshotLoading(false)
-      })
-    }, 100)
-  }
-
-  function downloadClicked() {
-    setDownloadLoading(true)
-    // Use a small timeout here so the spinner doesn't lag while the image is being generated
-    setTimeout(() => {
-      const name = selectedCharacter ? t(`gameData:Characters.${selectedCharacter.id}.Name`) : null
-      Utils.screenshotElementById('characterTabPreview', 'download', name).finally(() => {
-        setDownloadLoading(false)
-      })
-    }, 100)
-  }
-
   function confirmSaveBuild(name) {
     const score = RelicScorer.scoreCharacter(selectedCharacter)
     const res = DB.saveCharacterBuild(name, selectedCharacter.id, {
@@ -344,14 +355,14 @@ export default function CharacterTab() {
       Message.error(res.error)
       return
     }
-    Message.success(t('charactersTab:Messages.SaveSuccess'/* Successfully saved build: {{name}} */, { name: name }))
+    Message.success(t('charactersTab:Messages.SaveSuccess', /* Successfully saved build: {{name}} */ { name: name }))
     SaveState.delayedSave()
     setIsSaveBuildModalOpen(false)
   }
 
   const handleActionsMenuClick = async (e) => {
     if (!selectedCharacter && e.key != 'add' && e.key != 'scoring' && e.key != 'sortByScore') {
-      Message.error(t('Messages.NoSelectedCharacter')/* No selected character */)
+      Message.error(t('Messages.NoSelectedCharacter') /* No selected character */)
       return
     }
 
@@ -438,13 +449,15 @@ export default function CharacterTab() {
             icon={<UserOutlined />}
             type='default'
           >
-            {t('CharacterMenu.ButtonText')/* Character menu */}
+            {t('CharacterMenu.ButtonText') /* Character menu */}
             <DownOutlined />
           </Button>
         </Dropdown>
         <Flex vertical gap={8} style={{ minWidth: 240 }}>
           <div
-            id='characterGrid' className='ag-theme-balham-dark' style={{
+            id='characterGrid'
+            className='ag-theme-balham-dark'
+            style={{
               ...{ display: 'block', width: '100%', height: parentH },
               ...getGridTheme(token),
             }}
@@ -473,7 +486,7 @@ export default function CharacterTab() {
             size='large'
             // Revisit width of search + filters with Remembrance path
             style={{ height: 40, fontSize: 14, width: 200, borderRadius: 8 }}
-            placeholder={t('SearchPlaceholder')/* Search */}
+            placeholder={t('SearchPlaceholder') /* Search */}
             onChange={(e) => {
               nameFilter.current = e.target.value.toLowerCase()
               externalFilterChanged()
@@ -526,7 +539,9 @@ export default function CharacterTab() {
       />
       <NameBuild open={isSaveBuildModalOpen} setOpen={setIsSaveBuildModalOpen} onOk={confirmSaveBuild} />
       <BuildsModal
-        open={isBuildsModalOpen} setOpen={setIsBuildsModalOpen} selectedCharacter={selectedCharacter}
+        open={isBuildsModalOpen}
+        setOpen={setIsBuildsModalOpen}
+        selectedCharacter={selectedCharacter}
         imgRenderer={cellImageRenderer}
       />
       {contextHolder}

@@ -11,7 +11,7 @@ LightconePassives: Kỹ Năng Nón Ánh Sáng
 CharacterPassives: Nội tại nhân vật
 NoConditionals: Không có nội tại được kích hoạt theo điều kiện.
 NoTeamConditionals: Không có hiệu ứng để kích hoạt
-ResultLimitN: "Tìm {{limit}} kết quả hàng đầu."
+ResultLimitN: 'Tìm {{limit}} kết quả hàng đầu.'
 MainStats: Dòng Chính
 Sets: Bộ
 RelicSetSelector:
@@ -35,17 +35,17 @@ SortOptions:
   BREAK: Sắp xếp theo ST Kích Phá
   HEAL: Sắp xếp theo trị liệu
   SHIELD: Sắp xếp theo lượng lá chắn
-  HP: "Sắp xếp theo $t(common:ReadableStats.HP)"
-  ATK: "Sắp xếp theo $t(common:ReadableStats.ATK)"
-  DEF: "Sắp xếp theo $t(common:ReadableStats.DEF)"
-  SPD: "Sắp xếp theo $t(common:ReadableStats.SPD)"
-  CR: "Sắp xếp theo $t(common:ReadableStats.CRIT Rate)"
-  CD: "Sắp xếp theo $t(common:ReadableStats.CRIT DMG)"
-  EHR: "Sắp xếp theo $t(common:ReadableStats.Effect Hit Rate)"
-  RES: "Sắp xếp theo $t(common:ReadableStats.Effect RES)"
-  BE: "Sắp xếp theo $t(common:ReadableStats.Break Effect)"
-  OHB: "Sắp xếp theo $t(common:ReadableStats.Outgoing Healing Boost)"
-  ERR: "Sắp xếp theo $t(common:ReadableStats.Energy Regeneration Rate)"
+  HP: 'Sắp xếp theo $t(common:ReadableStats.HP)'
+  ATK: 'Sắp xếp theo $t(common:ReadableStats.ATK)'
+  DEF: 'Sắp xếp theo $t(common:ReadableStats.DEF)'
+  SPD: 'Sắp xếp theo $t(common:ReadableStats.SPD)'
+  CR: 'Sắp xếp theo $t(common:ReadableStats.CRIT Rate)'
+  CD: 'Sắp xếp theo $t(common:ReadableStats.CRIT DMG)'
+  EHR: 'Sắp xếp theo $t(common:ReadableStats.Effect Hit Rate)'
+  RES: 'Sắp xếp theo $t(common:ReadableStats.Effect RES)'
+  BE: 'Sắp xếp theo $t(common:ReadableStats.Break Effect)'
+  OHB: 'Sắp xếp theo $t(common:ReadableStats.Outgoing Healing Boost)'
+  ERR: 'Sắp xếp theo $t(common:ReadableStats.Energy Regeneration Rate)'
   DMG: Sắp xếp theo ST thuộc tính
   EHP: Sắp xếp theo máu hiệu quả
 OptimizerOptions:
@@ -53,19 +53,19 @@ OptimizerOptions:
   PriorityFilter: Bộ lọc ưu tiên nhân vật.
   Priority:
     Header: Ưu tiên
-    Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
-    Name: "# {{rank}}"
+    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
+    Name: '# {{rank}}'
   AllowEquipped: Cho phép sử dụng di vật đang được mặc
   KeepCurrent: Giữ di vật hiện tại
   Exclude: Không lấy
   MinEnhance:
     Header: Level nhỏ nhất
-    Label0: "+0"
-    Label3: "+3"
-    Label6: "+6"
-    Label9: "+9"
-    Label12: "+12"
-    Label15: "+15"
+    Label0: '+0'
+    Label3: '+3'
+    Label6: '+6'
+    Label9: '+9'
+    Label12: '+12'
+    Label15: '+15'
   MinRarity:
     Header: Độ hiếm nhỏ nhất
     Label2: 2 ★ +
@@ -74,23 +74,23 @@ OptimizerOptions:
     Label5: 5 ★
   BoostMain:
     Header: Level tối thiểu
-    Label0: "+0"
-    Label3: "+3"
-    Label6: "+6"
-    Label9: "+9"
-    Label12: "+12"
-    Label15: "+15"
+    Label0: '+0'
+    Label3: '+3'
+    Label6: '+6'
+    Label9: '+9'
+    Label12: '+12'
+    Label15: '+15'
 AdvancedOptions:
   Header: Tùy chọn nâng cao
   EnemyConfigButtonText: Tùy chọn quái địch
   CombatBuffsButtonTextNone: Buff trong combat thêm
-  CombatBuffsButtonText: "Buff trong combat thêm ({{activeCount}})"
+  CombatBuffsButtonText: 'Buff trong combat thêm ({{activeCount}})'
   CustomTracesButtonText: Tùy chỉnh chỉ số vết tích
 Grid:
   To: tới
   Of: của
   Page: Trang
-  PageSelectorLabel: "Kích thước trang:"
+  PageSelectorLabel: 'Kích thước trang:'
   Headers:
     Basic:
       Set: Bộ
@@ -107,9 +107,6 @@ Grid:
       ERR: ERR
       DMG: ST
       EHP: EHP
-      WEIGHT: |-
-        ĐIỂM CHỈ
-        SỐ
       HEAL: TRỊ LIỆU
       SHIELD: LÁ CHẮN
       BASIC: |-
@@ -151,9 +148,6 @@ Grid:
       ERR: Σ ERR
       DMG: Σ DMG
       EHP: EHP
-      WEIGHT: |-
-        ĐIỂM CHỈ
-        SỐ
       HEAL: TRỊ LIỆU
       SHIELD: LÁ CHẮN
       BASIC: |-
@@ -192,9 +186,9 @@ Sidebar:
       Stable: Cơ chế tính toán thay đổi cho CPU (ổn định)
       Experimental: Cơ chế tính toán thay đổi cho CPU (thử nghiệm)
     Display:
-      GPU Experimental: "Tăng tốc GPU: Bật"
-      GPU Stable: "Tăng tốc GPU: Bật"
-      CPU: "Tăng tốc GPU: Tắt"
+      GPU Experimental: 'Tăng tốc GPU: Bật'
+      GPU Stable: 'Tăng tốc GPU: Bật'
+      CPU: 'Tăng tốc GPU: Tắt'
   Pinning:
     Messages:
       NoneSelected: Chưa chọn hàng nào
@@ -208,8 +202,8 @@ Sidebar:
   ProgressText:
     Progress: Tiến trình
     CalculatingETA: Tiến trình (đang tính)
-    TimeRemaining: "{{rate}} / giây — còn {{timeRemaining}} nữa"
-    Finished: "{{rate}} / giây - Đã Xong"
+    TimeRemaining: '{{rate}} / giây — còn {{timeRemaining}} nữa'
+    Finished: '{{rate}} / giây - Đã Xong'
   ControlsGroup:
     Header: Điều khiển
     Start: Bắt đầu tối ưu hóa
@@ -225,11 +219,12 @@ Sidebar:
   ResultsGroup:
     Header: Kết quả
     Equip: Trang bị
+    EquipSuccessMessage: Đã trang bị
     Filter: Lọc
     Pin: Ghim lối lên đồ
     Clear: Dọn sạch ghim
 TeammateRow:
-  Header: "{{teammateCount}} đồng đội"
+  Header: '{{teammateCount}} đồng đội'
 FormRowLabels:
   Character options: Lựa chọn nhân vật
   Relic & stat filters: Bộ lọc di vật và chỉ số
@@ -244,17 +239,17 @@ SetConditionals:
   Title: Hiệu ứng và điều kiện
   DescriptionHeader: Mô tả bộ
   EffectHeader: Hiệu ứng đã kích hoạt
-  SetName: "$t(gameData:RelicSets.{{id}}.Name)"
-  RelicDescription: "$t(gameData:RelicSets.{{id}}.Description4pc)"
-  PlanarDescription: "$t(gameData:RelicSets.{{id}}.Description2pc)"
+  SetName: '$t(gameData:RelicSets.{{id}}.Name)'
+  RelicDescription: '$t(gameData:RelicSets.{{id}}.Description4pc)'
+  PlanarDescription: '$t(gameData:RelicSets.{{id}}.Description2pc)'
   SelectOptions:
     Streetwise:
-      Display: "{{stackCount}}x"
-      Label: "{{stackCount}} stacks (+{{buffValue}}% ATK)"
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} stacks (+{{buffValue}}% ATK)'
     Wastelander:
       Off:
-        Display: "Tắt"
-        Label: "Tắt"
+        Display: 'Tắt'
+        Label: 'Tắt'
       Debuffed:
         Display: CR
         Label: Dính hiệu ứng xấu (+10% Tỉ Lệ)
@@ -262,14 +257,14 @@ SetConditionals:
         Display: TLBK + STBK
         Label: Giam Cầm (+10% TLBK | +20% STBK)
     Longevous:
-      Display: "{{stackCount}}x"
-      Label: "{{stackCount}} stacks (+{{buffValue}}% TLBK)"
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} stacks (+{{buffValue}}% TLBK)'
     Ashblazing:
-      Display: "{{stackCount}}x"
-      Label: "{{stackCount}} stacks (+{{buffValue}}% ATK)"
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} stacks (+{{buffValue}}% ATK)'
     Prisoner:
-      Display: "{{stackCount}}x"
-      Label: "{{stackCount}} stacks (+{{buffValue}}% Bỏ qua phòng thủ)"
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} stacks (+{{buffValue}}% Bỏ qua phòng thủ)'
     Diver:
       Off:
         Display: 0x
@@ -290,15 +285,15 @@ SetConditionals:
         Display: 3x+
         Label: 3 hiệu ứng bất lợi (+12% SÁT THƯƠNG | +4% tỉ lệ chí mạng | +4% tỉ lệ trong combat | +24% sát thương chí mạng)
     Sigonia:
-      Display: "{{stackCount}}x"
-      Label: "{{stackCount}} stacks (+{{buffValue}}% STBK)"
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} stacks (+{{buffValue}}% STBK)'
     Duran:
-      Display: "{{stackCount}}x"
-      Label: "{{stackCount}} stacks (+{{buffValue}}% FUA)"
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} stacks (+{{buffValue}}% FUA)'
       Label5: 5 stacks (+25% FUA DMG +25% STBK)
     Sacerdos:
-      Display: "{{stackCount}}x"
-      Label: "{{stackCount}} stacks (+{{buffValue}}% STBK)"
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} stacks (+{{buffValue}}% STBK)'
   Conditionals:
     DefaultMessage: Mặc định được bật – các hiệu ứng sẽ áp dụng vào tính toán chiến đấu
     Hunter: Khi được bật, buff SÁT THƯƠNG CHÍ MẠNG (CRIT DMG) sẽ được áp dụng vào các phép tính chỉ số Chiến đấu
@@ -335,7 +330,7 @@ Presets:
     SPD171: 171.429 SPD - 6 lượt trong ba vòng đầu tiên
     SPD177: 177.778 SPD - 8 lượt trong bốn vòng đầu tiên
     SPD200: 200.000 SPD - 3 lượt trong vòng đầu tiên
-  StandardLabel: "$t(gameData:Characters.{{id}}.Name) tiêu chuẩn"
+  StandardLabel: '$t(gameData:Characters.{{id}}.Name) tiêu chuẩn'
   RecommendedPresets: Đồ khuyên dùng
   PresetNotAvailable: Đồ khuyên dùng không khả dụng, hãy chọn lựa chọn khác
 CombatBuffs:
@@ -360,12 +355,12 @@ CombatBuffs:
 Target_one: mục tiêu
 Target_other: mục tiêu
 EnemyConfiguration:
-  LevelOptionLabel: "Lv. {{level}} - {{defense}} DEF"
+  LevelOptionLabel: 'Lv. {{level}} - {{defense}} DEF'
   CountOptionLabel: >-
     {{targetCount}} $t(optimizerTab:Target, {"count": {{targetCount}}})
-  EffResOptionLabel: "{{resistance}}% Kháng Hiệu Ứng"
-  DmgResOptionLabel: "{{resistance}}% Kháng Sát Thương"
-  ToughnessOptionLabel: "Điểm yếu tối đa {{toughness}}"
+  EffResOptionLabel: '{{resistance}}% Kháng Hiệu Ứng'
+  DmgResOptionLabel: '{{resistance}}% Kháng Sát Thương'
+  ToughnessOptionLabel: 'Điểm yếu tối đa {{toughness}}'
   Title: Tùy chọn quái địch
   StatHeader: Tùy chọn chỉ số kẻ địch
   WeaknessLabel: Điểm yếu thuộc tính
@@ -414,10 +409,12 @@ ComboFilter:
     Simple: Đơn giản
     Advanced: Nâng cao
   RowControls:
+    Header: Điều khiển
     Add: +
-    Remove: "-"
+    Remove: '-'
     ResetConfirm:
       Description: Đặt lại tất cả thứ tự đơn giản / nâng cao thành mặc định?
+    PresetsHeader: Mẫu Cho Sẵn
   CounterLabels:
     Dot: Dots
   ComboOptions:
@@ -454,36 +451,36 @@ TeammateCard:
   TeammateSyncSuccessMessage: Đồng bộ với thông tin đồng đội
   TeammateSets:
     Messenger:
-      Desc: "Bộ 4 món: $t(gameData:RelicSets.114.Name) (+12% SPD)"
-      Set: "$t(gameData:RelicSets.114.Name)"
+      Desc: 'Bộ 4 món: $t(gameData:RelicSets.114.Name) (+12% SPD)'
+      Set: '$t(gameData:RelicSets.114.Name)'
       Text: 12% SPD
     Watchmaker:
-      Desc: "Bộ 4 món: $t(gameData:RelicSets.118.Name) (+30% BE)"
-      Set: "$t(gameData:RelicSets.118.Name)"
+      Desc: 'Bộ 4 món: $t(gameData:RelicSets.118.Name) (+30% BE)'
+      Set: '$t(gameData:RelicSets.118.Name)'
       Text: 30% BE
     Sacerdos1Stack:
-      Desc: "Bộ 4 món: $t(gameData:RelicSets.121.Name) (+18% CD)"
-      Set: "$t(gameData:RelicSets.121.Name)"
+      Desc: 'Bộ 4 món: $t(gameData:RelicSets.121.Name) (+18% CD)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 18% CD
     Sacerdos2Stack:
-      Desc: "Bộ 4 món: $t(gameData:RelicSets.121.Name) (+36% CD)"
-      Set: "$t(gameData:RelicSets.121.Name)"
+      Desc: 'Bộ 4 món: $t(gameData:RelicSets.121.Name) (+36% CD)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 36% CD
     Keel:
-      Desc: "$t(gameData:RelicSets.310.Name) (+10% CD)"
-      Set: "$t(gameData:RelicSets.310.Name)"
+      Desc: '$t(gameData:RelicSets.310.Name) (+10% CD)'
+      Set: '$t(gameData:RelicSets.310.Name)'
       Text: 10% CD
     Ageless:
-      Desc: "$t(gameData:RelicSets.302.Name) (+8% ATK)"
-      Set: "$t(gameData:RelicSets.302.Name)"
+      Desc: '$t(gameData:RelicSets.302.Name) (+8% ATK)'
+      Set: '$t(gameData:RelicSets.302.Name)'
       Text: 8% ATK
     Penacony:
-      Desc: "$t(gameData:RelicSets.312.Name) (+10% DMG for same element)"
-      Set: "$t(gameData:RelicSets.312.Name)"
+      Desc: '$t(gameData:RelicSets.312.Name) (+10% DMG for same element)'
+      Set: '$t(gameData:RelicSets.312.Name)'
       Text: 10% DMG
     Lushaka:
-      Desc: "$t(gameData:RelicSets.317.Name) (+12% ATK)"
-      Set: "$t(gameData:RelicSets.317.Name)"
+      Desc: '$t(gameData:RelicSets.317.Name) (+12% ATK)'
+      Set: '$t(gameData:RelicSets.317.Name)'
       Text: 12% ATK
 StatSimulation:
   DuplicateSimMessage: Mô phỏng chỉ số giống hệt đã tồn tại
@@ -496,9 +493,9 @@ StatSimulation:
     RelicPlaceholder: Bộ di vật
     OrnamentPlaceholder: Bộ Phụ Kiện Vị Diện
   TotalRolls: Tổng số lần roll
-  SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
+  SubstatSelectorLabel: '$t(common:Stats.{{stat}})'
   ModeSelector:
-    Off: "Tắt"
+    Off: 'Tắt'
     RollCount: Mô phỏng các lần lăn chỉ số phụ tùy chỉnh
     Totals: Mô phỏng tổng chỉ số phụ tùy chỉnh
   FooterLabels:
@@ -518,8 +515,8 @@ StatSimulation:
     FeetPlaceholder: Chân
     SpherePlaceholder: Quả Cầu Vi Diện
     RopePlaceholder: Dây Liên Kết
-    ShortStat: "$t(common:ShortReadableStats.{{stat}})"
-    LabelStat: "$t(common:ReadableStats.{{stat}})"
+    ShortStat: '$t(common:ShortReadableStats.{{stat}})'
+    LabelStat: '$t(common:ReadableStats.{{stat}})'
 ExpandedDataPanel:
   SubstatUpgrades:
     ColumnHeaders:
@@ -563,8 +560,8 @@ ExpandedDataPanel:
       memoDmg: ST Linh Hồn KÝ Ức
   BuffsAnalysisDisplay:
     Values:
-      BoolFalse: "Không"
-      BoolTrue: "Có"
+      BoolFalse: 'Không'
+      BoolTrue: 'Có'
     Sources:
       Basic: Tấn công thường
       Skill: Chiến kỹ

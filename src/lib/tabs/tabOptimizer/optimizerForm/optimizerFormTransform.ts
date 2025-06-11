@@ -1,19 +1,37 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { CombatBuffs, ConditionalDataType, Constants, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
-import { defaultEnemyOptions, defaultSetConditionals, defaultTeammate, getDefaultWeights } from 'lib/optimization/defaultForm'
+import {
+  CombatBuffs,
+  ConditionalDataType,
+  Constants,
+  DEFAULT_MEMO_DISPLAY,
+  DEFAULT_STAT_DISPLAY,
+  Sets,
+} from 'lib/constants/constants'
+import {
+  defaultEnemyOptions,
+  defaultSetConditionals,
+  defaultTeammate,
+  getDefaultWeights,
+} from 'lib/optimization/defaultForm'
 import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
-import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  DEFAULT_BASIC,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { applyMetadataPresetToForm, applyPreset } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { ConditionalValueMap } from 'types/conditionals'
-import { Form, Teammate } from 'types/form'
+import {
+  Form,
+  Teammate,
+} from 'types/form'
 import { OptimizerCombatBuffs } from 'types/optimizer'
+import { applyMetadataPresetToForm, applyPreset } from "lib/conditionals/evaluation/applyPresets";
 
 // Convert the rendered form values into an internal form
 export function displayToForm(form: Form) {

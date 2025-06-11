@@ -1,18 +1,59 @@
-import { CameraOutlined, DownloadOutlined, EditOutlined, ExperimentOutlined, ImportOutlined, SettingOutlined } from '@ant-design/icons'
-import { Alert, Button, Dropdown, Flex, Form, Input, Segmented, Typography } from 'antd'
+import {
+  CameraOutlined,
+  DownloadOutlined,
+  EditOutlined,
+  ExperimentOutlined,
+  ImportOutlined,
+  SettingOutlined,
+} from '@ant-design/icons'
+import {
+  Alert,
+  Button,
+  Dropdown,
+  Flex,
+  Form,
+  Input,
+  Segmented,
+  Typography,
+} from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { CURRENT_DATA_VERSION, officialOnly } from 'lib/constants/constants'
-import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
+import {
+  CURRENT_DATA_VERSION,
+  officialOnly,
+} from 'lib/constants/constants'
+import {
+  OpenCloseIDs,
+  setOpen,
+} from 'lib/hooks/useOpenClose'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { CharacterPreset, importClicked, initialiseShowcaseTab, onCharacterModalOk, Preset, presetCharacters, ShowcaseTabForm, submitForm } from 'lib/tabs/tabShowcase/showcaseTabController'
+import {
+  CharacterPreset,
+  importClicked,
+  initialiseShowcaseTab,
+  onCharacterModalOk,
+  Preset,
+  presetCharacters,
+  ShowcaseTabForm,
+  submitForm,
+} from 'lib/tabs/tabShowcase/showcaseTabController'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { Utils } from 'lib/utils/utils'
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import {
+  CSSProperties,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
+import {
+  Trans,
+  useTranslation,
+} from 'react-i18next'
 import { Character } from 'types/character'
 
 const RERUN_PRESET_SIZE = 45
@@ -63,7 +104,7 @@ export default function ShowcaseTab() {
         >
           <Flex style={{ margin: 10, width: 1100 }} justify='center' align='center' gap={10}>
             <Form.Item name='scorerId'>
-              <Input style={{ width: 150 }} placeholder={t('SubmissionBar.Placeholder')/* Account UID */}/>
+              <Input style={{ width: 150 }} placeholder={t('SubmissionBar.Placeholder') /* Account UID */} />
             </Form.Item>
             <Button
               type='primary'
@@ -71,18 +112,18 @@ export default function ShowcaseTab() {
               loading={loading}
               style={{ width: 150 }}
             >
-              {t('common:Submit')/* Submit */}
+              {t('common:Submit') /* Submit */}
             </Button>
             <Button
               style={{ width: 'fit-content', minWidth: 175 }}
               onClick={() => setOpen(OpenCloseIDs.SCORING_MODAL)}
-              icon={<SettingOutlined/>}
+              icon={<SettingOutlined />}
             >
-              {t('SubmissionBar.AlgorithmButton')/* Scoring algorithm */}
+              {t('SubmissionBar.AlgorithmButton') /* Scoring algorithm */}
             </Button>
           </Flex>
         </Form>
-        <CharacterPreviewSelection/>
+        <CharacterPreviewSelection />
       </Flex>
     </div>
   )
@@ -149,14 +190,18 @@ function CharacterPreviewSelection() {
   const items = [
     {
       label: (
-        <Flex gap={10}><ImportOutlined/>{t('ImportLabels.AllCharacters')/* Import all characters & all relics into optimizer */}
+        <Flex gap={10}>
+          <ImportOutlined />
+          {t('ImportLabels.AllCharacters') /* Import all characters & all relics into optimizer */}
         </Flex>
       ),
       key: 'multiCharacter',
     },
     {
       label: (
-        <Flex gap={10}><ImportOutlined/>{t('ImportLabels.SingleCharacter')/* Import selected character & all relics into optimizer */}
+        <Flex gap={10}>
+          <ImportOutlined />
+          {t('ImportLabels.SingleCharacter') /* Import selected character & all relics into optimizer */}
         </Flex>
       ),
       key: 'singleCharacter',
@@ -200,7 +245,7 @@ function CharacterPreviewSelection() {
     <Flex style={{ width: 1375 }} justify='space-around'>
       <Flex vertical align='center' gap={5} style={{ marginBottom: 100, width: 1068 }}>
         <Flex vertical style={{ display: (availableCharacters?.length && availableCharacters.length > 0) ? 'flex' : 'none', width: '100%' }}>
-          <Sidebar presetClicked={presetClicked}/>
+          <Sidebar presetClicked={presetClicked} />
 
           <Flex
             style={{ display: (availableCharacters?.length && availableCharacters.length > 0) ? 'flex' : 'none', marginBottom: 5 }}
@@ -210,15 +255,15 @@ function CharacterPreviewSelection() {
             <Button
               style={{ flex: 1 }}
               onClick={clipboardClicked}
-              icon={<CameraOutlined/>}
+              icon={<CameraOutlined />}
               loading={screenshotLoading}
               type='primary'
             >
-              {t('CopyScreenshot')/* Copy screenshot */}
+              {t('CopyScreenshot') /* Copy screenshot */}
             </Button>
             <Button
               style={{ width: 50 }}
-              icon={<DownloadOutlined/>}
+              icon={<DownloadOutlined />}
               onClick={downloadClicked}
               loading={downloadLoading}
             />
@@ -228,26 +273,21 @@ function CharacterPreviewSelection() {
               onClick={() => importClicked('singleCharacter')}
               menu={menuProps}
             >
-              <ImportOutlined/>
-              {t('ImportLabels.Relics')/* Import relics into optimizer */}
+              <ImportOutlined />
+              {t('ImportLabels.Relics') /* Import relics into optimizer */}
             </Dropdown.Button>
             <Button
               style={{ flex: 1 }}
-              icon={<ExperimentOutlined/>}
+              icon={<ExperimentOutlined />}
               onClick={simulateClicked}
             >
-              {t('SimulateRelics')/* Simulate relics on another character */}
+              {t('SimulateRelics') /* Simulate relics on another character */}
             </Button>
           </Flex>
         </Flex>
 
-        { (availableCharacters?.length != undefined && availableCharacters.length > 0) && (
-          <Alert
-            message={<>Note: Combo DMG is meant to compare different relics relative to the selected team, and should <u>NOT</u> be used to compare different teams / eidolons!</>}
-            type='info'
-            showIcon
-            style={{ marginBottom: 5, width: '100%', backgroundColor: '#7f4327', borderColor: '#c3561e' }}
-          />
+        {(availableCharacters?.length != undefined && availableCharacters.length > 0) && (
+          <DPSScoreDisclaimer style={{ marginBottom: 5, width: '100%', backgroundColor: '#7f4327', borderColor: '#c3561e' }} />
         )}
 
         <Segmented
@@ -304,7 +344,7 @@ function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
         }}
       >
         {presetCharacters().map((preset) => {
-          const icon = preset.custom ? <EditOutlined style={{ fontSize: 85 }}/> : <PresetButton preset={preset}/>
+          const icon = preset.custom ? <EditOutlined style={{ fontSize: 85 }} /> : <PresetButton preset={preset} />
           return (
             <Button
               key={key++}
@@ -338,7 +378,7 @@ function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
       }}
     >
       <Dropdown
-        dropdownRender={() => (dropdownDisplay)}
+        dropdownRender={() => dropdownDisplay}
         open={open}
       >
         <a
@@ -352,7 +392,7 @@ function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
             shape='round'
             style={{ height: PRESET_SIZE, width: PRESET_SIZE, borderRadius: PRESET_SIZE, marginBottom: 2 }}
           >
-            <ExperimentOutlined style={{ fontSize: 55 }}/>
+            <ExperimentOutlined style={{ fontSize: 55 }} />
           </Button>
         </a>
       </Dropdown>
@@ -387,6 +427,23 @@ function PresetButton(props: { preset: CharacterPreset }) {
         outline: '1px solid rgba(255, 255, 255, 0.2)',
         background: 'rgba(255, 255, 255, 0.05)',
       }}
+    />
+  )
+}
+
+export function DPSScoreDisclaimer(props: { style: CSSProperties }) {
+  const { t } = useTranslation('relicScorerTab')
+  return (
+    <Alert
+      message={
+        <Trans t={t} i18nKey='Disclaimer'>
+          Note: Combo DMG is meant to compare different relics relative to the selected team, and should <u>NOT</u>{' '}
+          be used to compare different teams / LCs / eidolons!
+        </Trans>
+      }
+      type='info'
+      showIcon
+      style={props.style}
     />
   )
 }

@@ -12,11 +12,11 @@ Characters:
     Name: Welt
     LongName: Welt
   "1005":
-    Name: (Vieux) Kafka
-    LongName: (Vieux) Kafka
+    Name: ⚰️ Kafka
+    LongName: ⚰️ Kafka
   "1006":
-    Name: "(Vieux) Louve\_d'argent"
-    LongName: "(Vieux) Louve\_d'argent"
+    Name: "⚰️ Louve\_d'argent"
+    LongName: "⚰️ Louve\_d'argent"
   "1008":
     Name: Arlan
     LongName: Arlan
@@ -81,8 +81,8 @@ Characters:
     Name: "Jing\_Yuan"
     LongName: "Jing\_Yuan"
   "1205":
-    Name: (Vieux) Blade
-    LongName: (Vieux) Blade
+    Name: ⚰️ Blade
+    LongName: ⚰️ Blade
   "1206":
     Name: Sushang
     LongName: Sushang
@@ -102,8 +102,8 @@ Characters:
     Name: Bailu
     LongName: Bailu
   "1212":
-    Name: (Vieux) Jingliu
-    LongName: (Vieux) Jingliu
+    Name: ⚰️ Jingliu
+    LongName: ⚰️ Jingliu
   "1213":
     Name: Imbibitor Lunae
     LongName: Dan Heng • Imbibitor Lunae
@@ -234,17 +234,17 @@ Characters:
     Name: Stelle
     LongName: Stelle (Le Souvenir)
   1212b1:
-    Name: (Neuf) Jingliu
-    LongName: (Neuf) Jingliu
+    Name: Jingliu
+    LongName: Jingliu
   1205b1:
-    Name: (Neuf) Blade
-    LongName: (Neuf) Blade
+    Name: Blade
+    LongName: Blade
   1005b1:
-    Name: (Neuf) Kafka
-    LongName: (Neuf) Kafka
+    Name: Kafka
+    LongName: Kafka
   1006b1:
-    Name: "(Neuf) Louve\_d'argent"
-    LongName: "(Neuf) Louve\_d'argent"
+    Name: "Louve\_d'argent"
+    LongName: "Louve\_d'argent"
 RelicSets:
   "101":
     Name: Vagabond foulenuage
@@ -412,10 +412,10 @@ RelicSets:
     Description2pc: La VIT du porteur augmente de 6%. Lorsque la VIT du porteur est de 135/180 ou plus, les soins prodigués par le porteur et son mnémesprit augmentent de 12%/20%.
   "321":
     Name: Arcadia of Woven Dreams
-    Description2pc: When the number of ally targets on the field is not 4, for every 1 extra/missing ally target, increases the wearer's and their memosprite's DMG by 9%/12%, stacking up to 4/3 times.
+    Description2pc: When there are currently more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks.
   "322":
     Name: Revelry by the Sea
-    Description2pc: Increases the wearer's DoT DMG by 12%. When the wearer's ATK is higher than or equal to 2400/3600, additionally increases the DoT DMG dealt by 12%/24%.
+    Description2pc: Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%.
 Lightcones:
   "20000":
     Name: Flèches
@@ -574,7 +574,7 @@ Lightcones:
   "21055":
     Name: Unto Tomorrow's Morrow
   "21056":
-    Name: Pursuit of the Wind
+    Name: In Pursuit of the Wind
   "21057":
     Name: The Flower Remembers
   "21058":

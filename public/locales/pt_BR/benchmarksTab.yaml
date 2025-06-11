@@ -32,3 +32,8 @@ ResultsPanel:
   Rolls: Rolls Subatributos
   Combo: Combo Rotação
   Damage: Dano de Habilidade
+Messages:
+  Error:
+    MissingField: Faltando personagem/cone de luz/equipe
+    UnsupportedCharacter: Benchmark de DPS não disponível para este personagem
+    SPDUnselected: Selecione a VEL básica do Benchmark alvo

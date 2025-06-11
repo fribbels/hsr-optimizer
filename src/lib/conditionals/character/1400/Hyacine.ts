@@ -3,20 +3,40 @@ import {
   BUFF_PRIORITY_MEMO,
   BUFF_PRIORITY_SELF,
   SKILL_DMG_TYPE,
-  ULT_DMG_TYPE
+  ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardHpHealFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import {
+  gpuStandardHpHealFinalizer,
+  standardHpHealFinalizer,
+} from 'lib/conditionals/conditionalFinalizers'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Stats,
+} from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import {
+  wgslFalse,
+  wgslTrue,
+} from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import {
+  ComputedStatsArray,
+  Key,
+} from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hyacine.Content')
@@ -241,7 +261,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.SPD],
         chainsTo: [Stats.HP],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return r.spd200HpBuff && x.a[Key.SPD] >= 200
@@ -252,9 +272,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           x.HP.buffDynamic((r.spd200HpBuff && x.a[Key.SPD] >= 200) ? 0.20 * x.a[Key.BASE_HP] : 0, SOURCE_TRACE, action, context)
           x.m.HP.buffDynamic((r.spd200HpBuff && x.a[Key.SPD] >= 200) ? 0.20 * x.m.a[Key.BASE_HP] : 0, SOURCE_TRACE, action, context)
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          return conditionalWgslWrapper(this, `
+          return conditionalWgslWrapper(
+            this,
+            `
 if (
   (*p_state).HyacineSpdActivation == 0.0 &&
   x.SPD >= 200 &&
@@ -264,7 +286,8 @@ if (
   (*p_x).HP += 0.20 * baseHP;
   (*p_m).HP += 0.20 * (*p_m).BASE_HP;
 }
-    `)
+    `,
+          )
         },
       },
       {
@@ -273,12 +296,12 @@ if (
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.SPD],
         chainsTo: [Stats.OHB],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return r.spd200HpBuff && x.a[Key.SPD] > 200
         },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           if (!r.spd200HpBuff) {
             return
@@ -305,10 +328,12 @@ if (
             x.CD.buffBaseDualDynamic(buffDelta * 2, SOURCE_E4, action, context)
           }
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return conditionalWgslWrapper(this, `
+          return conditionalWgslWrapper(
+            this,
+            `
 if (${wgslFalse(r.spd200HpBuff)}) {
   return;
 }
@@ -332,7 +357,8 @@ if (${wgslTrue(e >= 4 && r.e4CdBuff)}) {
   (*p_x).UNCONVERTIBLE_CD_BUFF += buffDelta * 2;
   (*p_x).CD += buffDelta * 2;
 }
-    `)
+    `,
+          )
         },
       },
     ],

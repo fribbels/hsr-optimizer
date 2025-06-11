@@ -541,7 +541,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: 'Mejora de DC por golpe a ≥ 2 enemigos con misma debilidad'
+        text: "Mejora de DC por golpe a ≥ 2 enemigos con misma debilidad"
         content: Cuando el portador lanza un ataque y golpea como mínimo a 2 enemigos que tengan su tipo de Debilidad, el Daño CRIT del portador aumenta en un {{CritBuff}}% durante 2 turnos.
   TheGreatCosmicEnterprise:
     Content:
@@ -1703,7 +1703,7 @@ Characters:
         content: >-
           Hace que un personaje aliado y su invocación actúen inmediatamente y aumenta en un {{DmgBoost}}% el daño que infligen. Si el objetivo tiene una invocación, el efecto de aumento de daño se incrementa en un {{SummonDmgBoost}}% adicional.
       talentCrBuffStacks:
-        text: Acum. de la mejora de PC del Talento
+        text: Acum. de la mejora de PC
         content: Al lanzar la habilidad básica, la Prob. CRIT del objetivo aumenta en un {{CritRateBoost}}%. Dura 3 turnos.
       techniqueDmgBuff:
         text: Mejora daño de Técnica

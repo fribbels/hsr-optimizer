@@ -1,6 +1,21 @@
-import { Cascader, ConfigProvider, Form } from 'antd'
+import {
+  Cascader,
+  ConfigProvider,
+  Form,
+} from 'antd'
 import { TFunction } from 'i18next'
-import { AbilityKind, ALL_ABILITIES, ComboOptionsLabelMapping, createAbility, NULL_TURN_ABILITY, NULL_TURN_ABILITY_NAME, toTurnAbility, TurnAbility, TurnAbilityName, TurnMarker } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  ALL_ABILITIES,
+  ComboOptionsLabelMapping,
+  createAbility,
+  NULL_TURN_ABILITY,
+  NULL_TURN_ABILITY_NAME,
+  toTurnAbility,
+  TurnAbility,
+  TurnAbilityName,
+  TurnMarker,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { updateAbilityRotation } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -68,7 +83,7 @@ function generateOptions(t: TFunction<'optimizerTab', 'ComboFilter'>): Option[] 
   }))
 }
 
-export function TurnAbilitySelector({ formName, disabled }: { formName: (string | number)[]; disabled: boolean }) {
+export function TurnAbilitySelector({ formName, disabled }: { formName: (string | number)[], disabled: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const form = Form.useFormInstance<OptimizerForm>()
   const options = useMemo(() => generateOptions(t), [t])
@@ -113,7 +128,7 @@ export function TurnAbilitySelector({ formName, disabled }: { formName: (string 
   )
 }
 
-export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbilityName; index: number }) {
+export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbilityName, index: number }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const options = useMemo(() => generateOptions(t), [t])
 
@@ -150,9 +165,9 @@ export function ControlledTurnAbilitySelector({
   value,
   style,
 }: {
-  index: number
-  value: TurnAbilityName
-  style?: React.CSSProperties
+  index: number,
+  value: TurnAbilityName,
+  style?: React.CSSProperties,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const options = useMemo(() => generateOptions(t), [t])

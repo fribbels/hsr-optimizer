@@ -19,32 +19,37 @@ Scoring:
       ButtonText: Ir a la pestaña Importar
       SuccessMessage: Elige un método de importación para tus artefactos y personajes
     Body_MAIN:
-      Description: "Puede que el filtro de atributo principal para $t(common:Parts.Body) sea muy restrictivo"
-      SuccessMessage: "Filtros de atributo principal de $t(common:Parts.Body) borrados"
+      Description: "Puede que el filtro de atributo principal para el $t(common:Parts.Body) sea muy restrictivo"
+      ButtonText: "Borrar filtro de atributo principal para el $t(common:Parts.Body)"
+      SuccessMessage: "Filtro de atributo principal para el $t(common:Parts.Body) borrado"
     Feet_MAIN:
-      Description: "Puede que el filtro de atributo principal para $t(common:Parts.Feet) sea muy restrictivo"
-      SuccessMessage: "Filtros de atributo principal de $t(common:Parts.Feet) borrados"
+      Description: "Puede que el filtro de atributo principal para las $t(common:Parts.Feet) sea muy restrictivo"
+      ButtonText: "Borrar filtro de atributo principal para las $t(common:Parts.Feet)"
+      SuccessMessage: "Filtro de atributo principal para las $t(common:Parts.Feet) borrado"
     PlanarSphere_MAIN:
-      Description: "Puede que el filtro de atributo principal para $t(common:Parts.PlanarSphere) sea muy restrictivo"
-      ButtonText: "Borrar filtros de atr. principal para $t(common:ReadableParts.PlanarSphere)"
-      SuccessMessage: "Filtros de atributo principal de $t(common:Parts.PlanarSphere) borrados"
+      Description: "Puede que el filtro de atributo principal para la $t(common:Parts.PlanarSphere) sea muy restrictivo"
+      ButtonText: "Borrar filtro de atr. principal para la $t(common:Parts.PlanarSphere)"
+      SuccessMessage: "Filtro de atributo principal de la $t(common:Parts.PlanarSphere) borrado"
     LinkRope_MAIN:
-      Description: "Puede que el filtro de atributo principal para $t(common:Parts.LinkRope) sea muy restrictivo"
-      SuccessMessage: "Filtros de atributo principal de $t(common:Parts.LinkRope) borrados"
+      Description: "Puede que el filtro de atributo principal para la $t(common:Parts.LinkRope) sea muy restrictivo"
+      ButtonText: "Borrar filtro de atr. principal para la $t(common:Parts.LinkRope)"
+      SuccessMessage: "Filtro de atributo principal de $t(common:Parts.LinkRope) borrado"
     RELIC_SETS:
-      Description: Puede que los filtros de conjunto de artefactos sean muy restrictivos
-      SuccessMessage: Filtros de conjunto de artefactos borrados
+      Description: Puede que el filtro de conjunto de artefactos sea muy restrictivo
+      ButtonText: Borrar filtro de conjunto de artefactos
+      SuccessMessage: Filtro de conjunto de artefactos borrado
     ORNAMENT_SETS:
-      Description: Puede que los filtros de conjunto de ornamentos sean muy restrictivos
-      SuccessMessage: Filtros de conjunto de ornamentos borrados
+      Description: Puede que el filtro de conjunto de ornamentos sea muy restrictivo
+      ButtonText: Borrar filtro de conjunto de ornamentos
+      SuccessMessage: Filtro de conjunto de ornamentos borrado
     KEEP_CURRENT:
       Description: La opción "Mantener artefactos actuales" está habilitada, lo que fuerza a la búsqueda a no cambiar ningún artefacto equipado en el personaje
       ButtonText: Deshabilitar "Mantener artefactos actuales"
       SuccessMessage: '"Mantener artefactos actuales" deshabilitado'
     PRIORITY:
-      Description: El personaje está por debajo de otros personajes en la lista de prioridad. Cuando el "Filtro de prioridad de personaje" está habilitado, los personajes sólo pueden tomar artefactos de personajes con menos prioridad
-      ButtonText: "Poner al personaje en la prioridad #1"
-      SuccessMessage: "Personaje puesto en la prioridad #1"
+      Description: El personaje está por debajo de otros personajes en la lista de prioridad. Cuando el "Filtro de prioridad de personaje" está habilitado, los personajes sólo pueden tomar artefactos de personajes con menor prioridad
+      ButtonText: "Asignar prioridad #1 al personaje"
+      SuccessMessage: "Se asignó la prioridad #1 al personaje"
     EXCLUDE_ENABLED:
       Description: El filtro "Excluir" tiene personajes seleccionados, por lo que este personaje no puede tomar artefactos de esos personajes
       ButtonText: Borrar personajes excluidos
@@ -54,7 +59,7 @@ Scoring:
       ButtonText: Habilitar "Permitir artefactos equipados"
       SuccessMessage: '"Permitir artefactos equipados" habilitado'
     MINIMUM_ROLLS:
-      Description: Puede que el umbral de mejora mínimo del filtro de importancia de atributo secundario sea muy alto
+      Description: Puede que el mínimo de mejoras del Filtro de importancia de atributo secundario sea muy alto
       ButtonText: Establecer mínimo de mejoras en 0
       SuccessMessage: Mínimo de mejoras establecido en 0
 0Results:
@@ -103,51 +108,51 @@ Scoring:
     MAX_CR:
       SuccessMessage: "Filtro de $t(common:Stats.CRIT Rate) máxima restablecido"
       Description: "Puede que la $t(common:Stats.CRIT Rate) máxima sea muy baja"
-      ButtonText: "Filtro de $t(common:Stats.CRIT Rate) máxima restablecido"
+      ButtonText: "Restablecer filtro de $t(common:Stats.CRIT Rate) máxima"
     MIN_CR:
       SuccessMessage: "Filtro de $t(common:Stats.CRIT Rate) mínima restablecido"
       Description: "Puede que la $t(common:Stats.CRIT Rate) mínima sea muy alta"
-      ButtonText: "Filtro de $t(common:Stats.CRIT Rate) mínima restablecido"
+      ButtonText: "Restablecer filtro de $t(common:Stats.CRIT Rate) mínima"
     MAX_CD:
       SuccessMessage: "Filtro de $t(common:Stats.CRIT DMG) máximo restablecido"
       Description: "Puede que el $t(common:Stats.CRIT DMG) máximo sea muy bajo"
-      ButtonText: "Filtro de $t(common:Stats.CRIT DMG) máximo restablecido"
+      ButtonText: "Restablecer filtro de $t(common:Stats.CRIT DMG) máximo"
     MIN_CD:
       SuccessMessage: "Filtro de $t(common:Stats.CRIT DMG) mínimo restablecido"
       Description: "Puede que el $t(common:Stats.CRIT DMG) mínimo sea muy alto"
-      ButtonText: "Filtro de $t(common:Stats.CRIT DMG) mínimo restablecido"
+      ButtonText: "Restablecer filtro de $t(common:Stats.CRIT DMG) mínimo"
     MAX_EHR:
       SuccessMessage: "Filtro de $t(common:Stats.Effect Hit Rate) máximo restablecido"
       Description: "Puede que el $t(common:Stats.Effect Hit Rate) máximo sea muy bajo"
-      ButtonText: "Filtro de $t(common:Stats.Effect Hit Rate) máximo restablecido"
+      ButtonText: "Restablecer filtro de $t(common:Stats.Effect Hit Rate) máximo"
     MIN_EHR:
       SuccessMessage: "Filtro de $t(common:Stats.Effect Hit Rate) mínimo restablecido"
       Description: "Puede que el $t(common:Stats.Effect Hit Rate) mínimo sea muy alto"
-      ButtonText: "Filtro de $t(common:Stats.Effect Hit Rate) mínimo restablecido"
+      ButtonText: "Restablecer filtro de $t(common:Stats.Effect Hit Rate) mínimo"
     MAX_RES:
       SuccessMessage: "Filtro de $t(common:Stats.Effect RES) máxima restablecido"
       Description: "Puede que la $t(common:Stats.Effect RES) máxima sea muy baja"
-      ButtonText: "Filtro de $t(common:Stats.Effect RES) máxima restablecido"
+      ButtonText: "Restablecer filtro de $t(common:Stats.Effect RES) máxima"
     MIN_RES:
       SuccessMessage: "Filtro de $t(common:Stats.Effect RES) mínima restablecido"
       Description: "Puede que la $t(common:Stats.Effect RES) mínima sea muy alta"
-      ButtonText: "Filtro de $t(common:Stats.Effect RES) mínima restablecido"
+      ButtonText: "Restablecer filtro de $t(common:Stats.Effect RES) mínima"
     MAX_BE:
       SuccessMessage: "Filtro de $t(common:Stats.Break Effect) máximo restablecido"
       Description: "Puede que el $t(common:Stats.Break Effect) máximo sea muy bajo"
-      ButtonText: "Filtro de $t(common:Stats.Break Effect) máximo restablecido"
+      ButtonText: "Restablecer filtro de $t(common:Stats.Break Effect) máximo"
     MIN_BE:
       SuccessMessage: "Filtro de $t(common:Stats.Break Effect) mínimo restablecido"
       Description: "Puede que el $t(common:Stats.Break Effect) mínimo sea muy alto"
-      ButtonText: "Filtro de $t(common:Stats.Break Effect) mínimo restablecido"
+      ButtonText: "Restablecer filtro de $t(common:Stats.Break Effect) mínimo"
     MAX_ERR:
       SuccessMessage: "Filtro de $t(common:Stats.Energy Regeneration Rate) máxima restablecido"
       Description: "Puede que la $t(common:Stats.Energy Regeneration Rate) máxima sea muy baja"
-      ButtonText: "Filtro de $t(common:Stats.Energy Regeneration Rate) máxima restablecido"
+      ButtonText: "Restablecer filtro de $t(common:Stats.Energy Regeneration Rate) máxima"
     MIN_ERR:
       SuccessMessage: "Filtro de $t(common:Stats.Energy Regeneration Rate) mínima restablecido"
       Description: "Puede que la $t(common:Stats.Energy Regeneration Rate) mínima sea muy alta"
-      ButtonText: "Filtro de $t(common:Stats.Energy Regeneration Rate) mínima restablecido"
+      ButtonText: "Restablecer filtro de $t(common:Stats.Energy Regeneration Rate) mínima"
     MAX_EHP:
       SuccessMessage: "Filtro de PVE máximos restablecido"
       Description: "Puede que los PVE máximos sean muy bajos"

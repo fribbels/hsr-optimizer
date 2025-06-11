@@ -1,17 +1,17 @@
 Title: 设置
-RelicEquippingBehaviour:
+RelicEquippingBehavior:
   Label: 装备其他角色所装备的遗器
   Replace: "默认：替换遗器而不交换"
   Swap: 与该遗器装备者交换遗器
-PermutationSidebarBehaviour:
+PermutationsSidebarBehavior:
   Label: 在较小屏幕上缩小优化器侧边工具栏
-  XL: "默认：最小化工具栏如果侧边工具栏大部分被隐藏"
-  XXL: 最小化工具栏如果侧边工具栏的任何部分被隐藏
+  ShowXL: "默认：最小化工具栏如果侧边工具栏大部分被隐藏"
+  ShowXXL: 最小化工具栏如果侧边工具栏的任何部分被隐藏
   NoShow: 始终将工具栏保持在右侧
-RelicPotentialLoadBehaviour:
+RelicPotentialLoadBehavior:
   Label: 加载时给遗器进行潜力评分
-  OnStartup: "默认：在页面加载时自动进行遗器评分"
-  Manual: 仅在点击“重新应用评分”时进行遗器评分（更快的页面加载速度）
+  ScoreAtStartup: "默认：在页面加载时自动进行遗器评分"
+  ManuallyClickReapplyScores: 仅在点击“重新应用评分”时进行遗器评分（更快的页面加载速度）
 ExpandedInfoPanelPosition:
   Label: 优化器扩展信息面板位置
   Above: 在遗器预览上方显示扩展信息

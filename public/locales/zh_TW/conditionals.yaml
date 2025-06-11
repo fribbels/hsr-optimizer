@@ -338,7 +338,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: '≤2個敵人時暴擊率增益'
+        text: "≤2個敵人時暴擊率增益"
         content: 當場上的敵方目標數小於等於2時，裝備者的爆擊率提高{{CritBuff}}%.
   PastAndFuture:
     Content:
@@ -394,7 +394,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: '≥2個對應屬性弱點目標暴擊傷害增益'
+        text: "≥2個對應屬性弱點目標暴擊傷害增益"
   TheMolesWelcomeYou:
     Content:
       atkBuffStacks:

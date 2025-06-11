@@ -1,3 +1,13 @@
+ValidationMessages:
+  Warning:
+    MissingTeammates: Selecione membros da equipe para resultados de otimização mais precisos.
+    PathMismatch: O caminho do personagem não combina com o caminho cone de luz.
+  Error:
+    TopPercent: Todos os pesos de substatus são definidos como 0. Certifique-se de definir os pesos de substatus para o seu personagem ou usar o botão de predefinições recomendadas.
+    MissingTarget: Campos alvos de otimização faltando
+    MissingCharacter: Faltando campo de personagem
+    MissingLightCone: Faltando campo de cone de luz
+    GPUNotAvailable: 'A aceleração da GPU não está disponível neste navegador - apenas o Chrome e o Opera são suportados. Se você está em um navegador suportado, relate um erro ao servidor do Discord'
 CharacterSelector:
   Character: Personagem 
   Lightcone: Cone de luz
@@ -11,7 +21,7 @@ LightconePassives: Passivas do cone de luz
 CharacterPassives: Passivas do personagem
 NoConditionals: Sem passivas condicionais
 NoTeamConditionals: Sem passivas condicionais da equipe
-ResultLimitN: "Achar os {{limit}} melhores"
+ResultLimitN: 'Achar os {{limit}} melhores'
 MainStats: Atributos principais
 Sets: Sets
 RelicSetSelector:
@@ -35,17 +45,17 @@ SortOptions:
   BREAK: Organizado  por Break DMG
   HEAL: Organizado por Cura
   SHIELD: Organizado por Escudo
-  HP: "Organizado por $t(common:ReadableStats.HP)"
-  ATK: "Organizado por $t(common:ReadableStats.ATK)"
-  DEF: "Organizado por $t(common:ReadableStats.DEF)"
-  SPD: "Organizado por $t(common:ReadableStats.SPD)"
-  CR: "Organizado por $t(common:ReadableStats.CRIT Rate)"
-  CD: "Organizado por $t(common:ReadableStats.CRIT DMG)"
-  EHR: "Organizado por $t(common:ReadableStats.Effect Hit Rate)"
-  RES: "Organizado por $t(common:ReadableStats.Effect RES)"
-  BE: "Organizado por $t(common:ReadableStats.Break Effect)"
-  OHB: "Organizado por $t(common:ReadableStats.Outgoing Healing Boost)"
-  ERR: "Organizado por $t(common:ReadableStats.Energy Regeneration Rate)"
+  HP: 'Organizado por $t(common:ReadableStats.HP)'
+  ATK: 'Organizado por $t(common:ReadableStats.ATK)'
+  DEF: 'Organizado por $t(common:ReadableStats.DEF)'
+  SPD: 'Organizado por $t(common:ReadableStats.SPD)'
+  CR: 'Organizado por $t(common:ReadableStats.CRIT Rate)'
+  CD: 'Organizado por $t(common:ReadableStats.CRIT DMG)'
+  EHR: 'Organizado por $t(common:ReadableStats.Effect Hit Rate)'
+  RES: 'Organizado por $t(common:ReadableStats.Effect RES)'
+  BE: 'Organizado por $t(common:ReadableStats.Break Effect)'
+  OHB: 'Organizado por $t(common:ReadableStats.Outgoing Healing Boost)'
+  ERR: 'Organizado por $t(common:ReadableStats.Energy Regeneration Rate)'
   DMG: Organizado por Dano Elemental
   EHP: Organizado por HP Efetivo
 OptimizerOptions:
@@ -53,19 +63,19 @@ OptimizerOptions:
   PriorityFilter: Filtro de prioridade
   Priority:
     Header: Prioridade
-    Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
-    Name: "# {{rank}}"
+    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
+    Name: '# {{rank}}'
   AllowEquipped: Permitir relics equipadas
   KeepCurrent: Manter as relíquias atuais
   Exclude: Excluir
   MinEnhance:
     Header: Melhoria mín.
-    Label0: "+0"
-    Label3: "+3"
-    Label6: "+6"
-    Label9: "+9"
-    Label12: "+12"
-    Label15: "+15"
+    Label0: '+0'
+    Label3: '+3'
+    Label6: '+6'
+    Label9: '+9'
+    Label12: '+12'
+    Label15: '+15'
   MinRarity:
     Header: Raridade min.
     Label2: 2 ★ +
@@ -74,23 +84,24 @@ OptimizerOptions:
     Label5: 5 ★ +
   BoostMain:
     Header: Melhorar atributo principal
-    Label0: "+0"
-    Label3: "+3"
-    Label6: "+6"
-    Label9: "+9"
-    Label12: "+12"
-    Label15: "+15"
+    Label0: '+0'
+    Label3: '+3'
+    Label6: '+6'
+    Label9: '+9'
+    Label12: '+12'
+    Label15: '+15'
 AdvancedOptions:
   Header: Opções avançadas
   EnemyConfigButtonText: Configurações de inimigo
   CombatBuffsButtonTextNone: Buffs extras de combate
-  CombatBuffsButtonText: "Buffs extras de combate ({{activeCount}})"
+  CombatBuffsButtonText: 'Buffs extras de combate ({{activeCount}})'
   CustomTracesButtonText: Traços de stats custom
 Grid:
   To: para
   Of: de
   Page: Página
-  PageSelectorLabel: "Tamanho da Página:"
+  PageSelectorLabel: 'Tamanho da Página:'
+  Loading: Carregando...
   Headers:
     Basic:
       Set: Set
@@ -107,9 +118,6 @@ Grid:
       ERR: ERR
       DMG: DANO
       EHP: EHP
-      WEIGHT: |-
-        PESO
-        ATR.
       HEAL: CURA
       SHIELD: ESCUDO
       BASIC: |-
@@ -154,9 +162,6 @@ Grid:
       ERR: Σ ERR
       DMG: Σ DANO
       EHP: EHP
-      WEIGHT: |-
-        PESO
-        ATR.
       HEAL: CURA
       SHIELD: ESCUDO
       BASIC: |-
@@ -196,9 +201,9 @@ Sidebar:
       Stable: Mecanismo de computação alterador para GPU (Estável)
       Experimental: Mecanismo de computação alterador para GPU (Experimental)
     Display:
-      GPU Experimental: "Aceleração de GPU: Ativado"
-      GPU Stable: "Aceleração de GPU: Ativado"
-      CPU: "Aceleração de GPU: Desativado"
+      GPU Experimental: 'Aceleração de GPU: Ativado'
+      GPU Stable: 'Aceleração de GPU: Ativado'
+      CPU: 'Aceleração de GPU: Desativado'
   Pinning:
     Messages:
       NoneSelected: Nenhuma linha selecionada
@@ -212,8 +217,8 @@ Sidebar:
   ProgressText:
     Progress: Progresso
     CalculatingETA: Progresso (calculando ETA..)
-    TimeRemaining: "{{rate}} / seg — {{timeRemaining}} restante"
-    Finished: "{{rate}} / seg — Finalizado"
+    TimeRemaining: '{{rate}} / seg — {{timeRemaining}} restante'
+    Finished: '{{rate}} / seg — Finalizado'
   ControlsGroup:
     Header: Controles
     Start: Iniciar otimizador
@@ -229,11 +234,12 @@ Sidebar:
   ResultsGroup:
     Header: Resultados
     Equip: Equipar
+    EquipSuccessMessage: Equipado
     Filter: Filtro
     Pin: Builds fixadas
     Clear: Limpar fixados
 TeammateRow:
-  Header: "Membros de equipe {{teammateCount}}"
+  Header: 'Membros de equipe {{teammateCount}}'
 FormRowLabels:
   Character options: Opções do personagem
   Relic & stat filters: Filtros de relíquias e atributos
@@ -248,17 +254,17 @@ SetConditionals:
   Title: Efeitos condicionais de set
   DescriptionHeader: Definir descrição
   EffectHeader: Efeito habilitado
-  SetName: "$t(gameData:RelicSets.{{id}}.Name)"
-  RelicDescription: "$t(gameData:RelicSets.{{id}}.Description4pc)"
-  PlanarDescription: "$t(gameData:RelicSets.{{id}}.Description2pc)"
+  SetName: '$t(gameData:RelicSets.{{id}}.Name)'
+  RelicDescription: '$t(gameData:RelicSets.{{id}}.Description4pc)'
+  PlanarDescription: '$t(gameData:RelicSets.{{id}}.Description2pc)'
   SelectOptions:
     Streetwise:
-      Display: "{{stackCount}}x"
-      Label: "{{stackCount}} acúmulos (+{{buffValue}}% ATQ)"
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} acúmulos (+{{buffValue}}% ATQ)'
     Wastelander:
       Off:
-        Display: "Desligado"
-        Label: "Desligado"
+        Display: 'Desligado'
+        Label: 'Desligado'
       Debuffed:
         Display: CR
         Label: Debufado (+10% CR)
@@ -266,14 +272,14 @@ SetConditionals:
         Display: CR + CD
         Label: Emprisionado (+10% CR | +20% CD)
     Longevous:
-      Display: "{{stackCount}}x"
-      Label: "{{stackCount}} acúmulos (+{{buffValue}}% CR)"
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} acúmulos (+{{buffValue}}% CR)'
     Ashblazing:
-      Display: "{{stackCount}}x"
-      Label: "{{stackCount}} acúmulos (+{{buffValue}}% ATQ)"
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} acúmulos (+{{buffValue}}% ATQ)'
     Prisoner:
-      Display: "{{stackCount}}x"
-      Label: "{{stackCount}} acúmulos (+{{buffValue}}% ignorar DEF)"
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} acúmulos (+{{buffValue}}% ignorar DEF)'
     Diver:
       Off:
         Display: 0x
@@ -294,15 +300,15 @@ SetConditionals:
         Display: 3x+
         Label: 3 debuffs, aprimorado (+12% DMG | +4% CR | +4% CR em combate | +24% CD)
     Sigonia:
-      Display: "{{stackCount}}x"
-      Label: "{{stackCount}} acúmulos (+{{buffValue}}% CD)"
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} acúmulos (+{{buffValue}}% CD)'
     Duran:
-      Display: "{{stackCount}}x"
-      Label: "{{stackCount}} acúmulos (+{{buffValue}}% DMG ATQ EXTRA)"
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} acúmulos (+{{buffValue}}% DMG ATQ EXTRA)'
       Label5: 5 acúmulos (+25% DMG ATQ EXTRA +25% CD)
     Sacerdos:
-      Display: "{{stackCount}}x"
-      Label: "{{stackCount}} acúmulos (+{{buffValue}}% CD)"
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} acúmulos (+{{buffValue}}% CD)'
   Conditionals:
     DefaultMessage: Habilitado por padrão — efeitos serão aplicados nos cálculos de combate
     Hunter: "Quando habilitado, buff de dano crítico é aplicado aos cálculos de atributos de combate.\n"
@@ -343,7 +349,7 @@ Presets:
     SPD171: 171,429 DPS - 6 ações nos três primeiros ciclos
     SPD177: 177,778 SPD - 8 ações nos primeiros quatro ciclos
     SPD200: 200,000 DPS - 3 ações no primeiro ciclo
-  StandardLabel: "Padrão $t(gameData:Characters.{{id}}.Name)"
+  StandardLabel: 'Padrão $t(gameData:Characters.{{id}}.Name)'
   RecommendedPresets: Predef. recomendadas
   PresetNotAvailable: Predefinição não disponível, selecione outra opção
 CombatBuffs:
@@ -368,12 +374,12 @@ CombatBuffs:
 Target_one: alvo
 Target_other: alvos
 EnemyConfiguration:
-  LevelOptionLabel: "Nv. {{level}} - {{defense}} DEF"
+  LevelOptionLabel: 'Nv. {{level}} - {{defense}} DEF'
   CountOptionLabel: >-
     {{targetCount}} $t(optimizerTab:Target, {"count": {{targetCount}}})
-  EffResOptionLabel: "{{resistance}}% RES Efeito"
-  DmgResOptionLabel: "{{resistance}}% RES Dano"
-  ToughnessOptionLabel: "{{toughness}} resistência máxima"
+  EffResOptionLabel: '{{resistance}}% RES Efeito'
+  DmgResOptionLabel: '{{resistance}}% RES Dano'
+  ToughnessOptionLabel: '{{toughness}} resistência máxima'
   Title: Configurações de inimigo
   StatHeader: Opções de atributos do inimigo
   WeaknessLabel: Fraqueza elemental
@@ -422,10 +428,12 @@ ComboFilter:
     Simple: Simples
     Advanced: Avançado
   RowControls:
+    Header: Controles
     Add: +
-    Remove: "-"
+    Remove: '-'
     ResetConfirm:
       Description: Redefinir todas as configurações de rotação simples/avançadas para o padrão?
+    PresetsHeader: Predefinições
   CounterLabels:
     Dot: DOTs
   ComboOptions:
@@ -462,40 +470,40 @@ TeammateCard:
   TeammateSyncSuccessMessage: Informações sincronizadas de membro
   TeammateSets:
     Messenger:
-      Desc: "4 Peças: $t(gameData:RelicSets.114.Name) (+12% SPD)"
-      Set: "$t(gameData:RelicSets.114.Name)"
+      Desc: '4 Peças: $t(gameData:RelicSets.114.Name) (+12% SPD)'
+      Set: '$t(gameData:RelicSets.114.Name)'
       Text: 12% SPD
     Watchmaker:
-      Desc: "4 Peças: $t(gameData:RelicSets.118.Name) (+30% BE)"
-      Set: "$t(gameData:RelicSets.118.Name)"
+      Desc: '4 Peças: $t(gameData:RelicSets.118.Name) (+30% BE)'
+      Set: '$t(gameData:RelicSets.118.Name)'
       Text: 30% BE
     Sacerdos1Stack:
-      Desc: "4 Peças: $t(gameData:RelicSets.121.Name) (+18% CD)"
-      Set: "$t(gameData:RelicSets.121.Name)"
+      Desc: '4 Peças: $t(gameData:RelicSets.121.Name) (+18% CD)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 18% CD
     Sacerdos2Stack:
-      Desc: "4 Peças: $t(gameData:RelicSets.121.Name) (+36% CD)"
-      Set: "$t(gameData:RelicSets.121.Name)"
+      Desc: '4 Peças: $t(gameData:RelicSets.121.Name) (+36% CD)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 36% CD
     Warrior:
-      Desc: "$t(gameData:RelicSets.125.Name) (+15% CD)"
-      Set: "$t(gameData:RelicSets.125.Name)"
+      Desc: '$t(gameData:RelicSets.125.Name) (+15% CD)'
+      Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% CD
     Keel:
-      Desc: "$t(gameData:RelicSets.310.Name) (+10% CD)"
-      Set: "$t(gameData:RelicSets.310.Name)"
+      Desc: '$t(gameData:RelicSets.310.Name) (+10% CD)'
+      Set: '$t(gameData:RelicSets.310.Name)'
       Text: 10% CD
     Ageless:
-      Desc: "$t(gameData:RelicSets.302.Name) (+8% ATQ)"
-      Set: "$t(gameData:RelicSets.302.Name)"
+      Desc: '$t(gameData:RelicSets.302.Name) (+8% ATQ)'
+      Set: '$t(gameData:RelicSets.302.Name)'
       Text: 8% ATQ
     Penacony:
-      Desc: "$t(gameData:RelicSets.312.Name) (+10% DMG para mesmo elemento)"
-      Set: "$t(gameData:RelicSets.312.Name)"
+      Desc: '$t(gameData:RelicSets.312.Name) (+10% DMG para mesmo elemento)'
+      Set: '$t(gameData:RelicSets.312.Name)'
       Text: 10% DMG
     Lushaka:
-      Desc: "$t(gameData:RelicSets.317.Name) (+12% ATQ)"
-      Set: "$t(gameData:RelicSets.317.Name)"
+      Desc: '$t(gameData:RelicSets.317.Name) (+12% ATQ)'
+      Set: '$t(gameData:RelicSets.317.Name)'
       Text: 12% ATQ
 StatSimulation:
   DuplicateSimMessage: Já existe uma simulação de atributos idêntica
@@ -508,9 +516,9 @@ StatSimulation:
     RelicPlaceholder: Set de Relíquia
     OrnamentPlaceholder: Set de Ornamento
   TotalRolls: Total de rolls
-  SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
+  SubstatSelectorLabel: '$t(common:Stats.{{stat}})'
   ModeSelector:
-    Off: "Desligado"
+    Off: 'Desligado'
     RollCount: Simular rolls de subs personalizados
     Totals: Simular totais de subs personalizados
   FooterLabels:
@@ -530,8 +538,8 @@ StatSimulation:
     FeetPlaceholder: Pés
     SpherePlaceholder: Esfera
     RopePlaceholder: Corda
-    ShortStat: "$t(common:ShortReadableStats.{{stat}})"
-    LabelStat: "$t(common:ReadableStats.{{stat}})"
+    ShortStat: '$t(common:ShortReadableStats.{{stat}})'
+    LabelStat: '$t(common:ReadableStats.{{stat}})'
 ExpandedDataPanel:
   SubstatUpgrades:
     ColumnHeaders:
@@ -575,8 +583,8 @@ ExpandedDataPanel:
       memoDmg: Dano Memo
   BuffsAnalysisDisplay:
     Values:
-      BoolFalse: "Não"
-      BoolTrue: "Sim"
+      BoolFalse: 'Não'
+      BoolTrue: 'Sim'
     Sources:
       Basic: Basic
       Skill: Skill
@@ -591,7 +599,7 @@ ExpandedDataPanel:
       E6: E6
     Stats:
       CompositeLabels:
-        Label: "{{prefix}} {{suffix}}"
+        Label: '{{prefix}} {{suffix}}'
         Prefix:
           Basic: Basic
           Skill: Skill
@@ -676,5 +684,5 @@ ExpandedDataPanel:
         MemoTalent: Dano tipo Talento Memo
         Additional: Dano tipo Adicional
         SuperBreak: Dano tipo Super Quebra
-      ResPen: "$t(common:Elements.{{element}}) RES PEN"
-      Unconvertible: "Inconversível $t(common:Stats.{{stat}})"
+      ResPen: '$t(common:Elements.{{element}}) RES PEN'
+      Unconvertible: 'Inconversível $t(common:Stats.{{stat}})'

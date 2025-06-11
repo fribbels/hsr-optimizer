@@ -1,18 +1,51 @@
 import { countTeamPath } from 'lib/conditionals/conditionalUtils'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { ConditionalDataType, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants/constants'
+import {
+  ConditionalDataType,
+  SACERDOS_RELIVED_ORDEAL_1_STACK,
+  SACERDOS_RELIVED_ORDEAL_2_STACK,
+  Sets,
+} from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
-import { baseComputedStatsArray, ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
-import { AbilityKind, DEFAULT_BASIC, getAbilityKind, NULL_TURN_ABILITY_NAME, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  baseComputedStatsArray,
+  ComputedStatsArray,
+  ComputedStatsArrayCore,
+  Key,
+} from 'lib/optimization/computedStatsArray'
+import {
+  AbilityKind,
+  DEFAULT_BASIC,
+  getAbilityKind,
+  NULL_TURN_ABILITY_NAME,
+  TurnAbilityName,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import DB from 'lib/state/db'
-import { ComboConditionalCategory, ComboConditionals, ComboSelectConditional, ComboState, initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import {
+  ComboConditionalCategory,
+  ComboConditionals,
+  ComboSelectConditional,
+  ComboState,
+  initializeComboState,
+} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterId } from 'types/character'
-import { CharacterConditionalsController, ConditionalValueMap, LightConeConditionalsController } from 'types/conditionals'
-import { Form, OptimizerForm } from 'types/form'
-import { OptimizerAction, OptimizerContext, SetConditional } from 'types/optimizer'
+import {
+  CharacterConditionalsController,
+  ConditionalValueMap,
+  LightConeConditionalsController,
+} from 'types/conditionals'
+import {
+  Form,
+  OptimizerForm,
+} from 'types/form'
+import {
+  OptimizerAction,
+  OptimizerContext,
+  SetConditional,
+} from 'types/optimizer'
 
 const SUNDAY_ID = '1313'
 
@@ -150,7 +183,7 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
 
   precomputeTeammates(action, comboState, context)
   // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
-  x.ENEMY_WEAKNESS_BROKEN.config((x.a[Key.ENEMY_WEAKNESS_BROKEN] || context.enemyWeaknessBroken ? 1 : 0), Source.NONE)
+  x.ENEMY_WEAKNESS_BROKEN.config(x.a[Key.ENEMY_WEAKNESS_BROKEN] || context.enemyWeaknessBroken ? 1 : 0, Source.NONE)
 }
 
 function precomputeTeammates(action: OptimizerAction, comboState: ComboState, context: OptimizerContext) {
@@ -293,6 +326,7 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
     valueSigoniaTheUnclaimedDesolation: transformConditional(conditionals[Sets.SigoniaTheUnclaimedDesolation], actionIndex),
     valueDuranDynastyOfRunningWolves: transformConditional(conditionals[Sets.DuranDynastyOfRunningWolves], actionIndex),
     valueSacerdosRelivedOrdeal: transformConditional(conditionals[Sets.SacerdosRelivedOrdeal], actionIndex),
+    valueArcadiaOfWovenDreams: transformConditional(conditionals[Sets.ArcadiaOfWovenDreams], actionIndex),
   }
 }
 

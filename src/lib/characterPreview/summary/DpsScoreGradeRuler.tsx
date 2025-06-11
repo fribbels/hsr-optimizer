@@ -3,7 +3,14 @@ import { renderThousandsK } from 'lib/tabs/tabOptimizer/analysis/DamageSplitsCha
 import { Languages } from 'lib/utils/i18nUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Bar, BarChart, Label, ReferenceLine, XAxis, YAxis } from 'recharts'
+import {
+  Bar,
+  BarChart,
+  Label,
+  ReferenceLine,
+  XAxis,
+  YAxis,
+} from 'recharts'
 
 const liftedGrades: Record<string, boolean> = {
   'WTF+': true,
@@ -20,10 +27,10 @@ const liftedGrades: Record<string, boolean> = {
 const reversedLanguages: Partial<Record<Languages, boolean>> = {}
 
 export function DpsScoreGradeRuler(props: {
-  score: number
-  maximum: number
-  benchmark: number
-  minimum: number
+  score: number,
+  maximum: number,
+  benchmark: number,
+  minimum: number,
 }) {
   const { t, i18n } = useTranslation('common')
   const { maximum, benchmark, minimum } = props
@@ -41,7 +48,7 @@ export function DpsScoreGradeRuler(props: {
 
     if (gradeValue <= 100) {
       // Scale between minimum (0%) and benchmark (100%)
-      return minimum + (benchmark - minimum) * (percentOfBenchmark)
+      return minimum + (benchmark - minimum) * percentOfBenchmark
     } else {
       // Scale between benchmark (100%) and maximum (200%)
       const percentAboveBenchmark = (gradeValue - 100) / 100
@@ -120,14 +127,14 @@ export function DpsScoreGradeRuler(props: {
         />
         <defs>
           <linearGradient id={`gradient${id}`} x1='0%' y1='0%' x2='100%' y2='0%' gradientUnits='userSpaceOnUse'>
-            <stop offset={offset0} stopColor={gradient0}/>
-            <stop offset={offset50} stopColor={gradient50}/>
-            <stop offset={offset75} stopColor={gradient75}/>
-            <stop offset={offset100} stopColor={gradient100}/>
-            <stop offset={offset125} stopColor={gradient125}/>
-            <stop offset={offset150} stopColor={gradient150}/>
-            <stop offset={offset175} stopColor={gradient175}/>
-            <stop offset={offset200} stopColor={gradient200}/>
+            <stop offset={offset0} stopColor={gradient0} />
+            <stop offset={offset50} stopColor={gradient50} />
+            <stop offset={offset75} stopColor={gradient75} />
+            <stop offset={offset100} stopColor={gradient100} />
+            <stop offset={offset125} stopColor={gradient125} />
+            <stop offset={offset150} stopColor={gradient150} />
+            <stop offset={offset175} stopColor={gradient175} />
+            <stop offset={offset200} stopColor={gradient200} />
           </linearGradient>
         </defs>
 
@@ -146,40 +153,38 @@ export function DpsScoreGradeRuler(props: {
           isAnimationActive={false}
           fill={`url(#gradient${id})`}
         />
-        <ReferenceLine x={score} stroke='#fff' strokeWidth={4}/>
+        <ReferenceLine x={score} stroke='#fff' strokeWidth={4} />
         <ReferenceLine x={maximum} stroke={strokeColor} strokeWidth={1}>
-          <Label value='200%' position='bottom' fontSize={12} offset={low} fill={labelColor}/>
-          <Label value={`${renderThousandsK(maximum)}`} position='top' fontSize={12} offset={numberOffset} fill={labelColor}/>
-          <Label value={dmgLabel} position='top' fontSize={12} offset={dmgOffset} fill={labelColor}/>
+          <Label value='200%' position='bottom' fontSize={12} offset={low} fill={labelColor} />
+          <Label value={`${renderThousandsK(maximum)}`} position='top' fontSize={12} offset={numberOffset} fill={labelColor} />
+          <Label value={dmgLabel} position='top' fontSize={12} offset={dmgOffset} fill={labelColor} />
         </ReferenceLine>
         <ReferenceLine x={benchmark} stroke={strokeColor} strokeWidth={1}>
-          <Label value={`${renderThousandsK(benchmark)}`} position='top' fontSize={12} offset={numberOffset} fill={labelColor}/>
-          <Label value={dmgLabel} position='top' fontSize={12} offset={dmgOffset} fill={labelColor}/>
+          <Label value={`${renderThousandsK(benchmark)}`} position='top' fontSize={12} offset={numberOffset} fill={labelColor} />
+          <Label value={dmgLabel} position='top' fontSize={12} offset={dmgOffset} fill={labelColor} />
         </ReferenceLine>
         <ReferenceLine x={minimum} stroke={strokeColor} strokeWidth={1}>
-          <Label value='0%' position='bottom' fontSize={12} offset={low} fill={labelColor}/>
-          <Label value={`${renderThousandsK(minimum)}`} position='top' fontSize={12} offset={numberOffset} fill={labelColor}/>
-          <Label value={dmgLabel} position='top' fontSize={12} offset={dmgOffset} fill={labelColor}/>
+          <Label value='0%' position='bottom' fontSize={12} offset={low} fill={labelColor} />
+          <Label value={`${renderThousandsK(minimum)}`} position='top' fontSize={12} offset={numberOffset} fill={labelColor} />
+          <Label value={dmgLabel} position='top' fontSize={12} offset={dmgOffset} fill={labelColor} />
         </ReferenceLine>
         {sortedGrades.map(([grade, gradeScore]) => {
           const scaledPosition = calculateScaledPosition(gradeScore)
           return (
             <ReferenceLine key={grade} x={scaledPosition} stroke={strokeColor} strokeWidth={1}>
-              {
-                liftedGrades[grade]
-                  ? (
-                    <>
-                      <Label value={grade} position='bottom' fontSize={12} offset={lift + low} fill={labelColor}/>
-                      <Label value={`${gradeScore}%`} position='bottom' fontSize={11} offset={lift + high} fill={labelColor}/>
-                    </>
-                  )
-                  : (
-                    <>
-                      <Label value={grade} position='bottom' fontSize={12} offset={low} fill={labelColor}/>
-                      <Label value={`${gradeScore}%`} position='bottom' fontSize={11} offset={high} fill={labelColor}/>
-                    </>
-                  )
-              }
+              {liftedGrades[grade]
+                ? (
+                  <>
+                    <Label value={grade} position='bottom' fontSize={12} offset={lift + low} fill={labelColor} />
+                    <Label value={`${gradeScore}%`} position='bottom' fontSize={11} offset={lift + high} fill={labelColor} />
+                  </>
+                )
+                : (
+                  <>
+                    <Label value={grade} position='bottom' fontSize={12} offset={low} fill={labelColor} />
+                    <Label value={`${gradeScore}%`} position='bottom' fontSize={11} offset={high} fill={labelColor} />
+                  </>
+                )}
             </ReferenceLine>
           )
         })}

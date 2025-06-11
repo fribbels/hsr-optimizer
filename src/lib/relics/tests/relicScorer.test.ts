@@ -1,11 +1,18 @@
-import { Constants, Parts, Stats } from 'lib/constants/constants'
+import {
+  Constants,
+  Parts,
+  Stats,
+} from 'lib/constants/constants'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import DB from 'lib/state/db'
 
 import { Metadata } from 'lib/state/metadata'
 import { Relic } from 'types/relic'
-import { expect, test } from 'vitest'
+import {
+  expect,
+  test,
+} from 'vitest'
 
 Metadata.initialize()
 

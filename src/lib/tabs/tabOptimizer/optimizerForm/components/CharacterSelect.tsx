@@ -1,12 +1,34 @@
-import { Button, Card, Flex, Input, InputRef, Modal, Select } from 'antd'
-import { ElementName, PathName } from 'lib/constants/constants'
+import {
+  Button,
+  Card,
+  Flex,
+  Input,
+  InputRef,
+  Modal,
+  Select,
+} from 'antd'
+import {
+  ElementName,
+  PathName,
+} from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterOptions } from 'lib/rendering/optionGenerator'
-import { CardGridItemContent, generateElementTags, generatePathTags, SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
+import {
+  CardGridItemContent,
+  generateElementTags,
+  generatePathTags,
+  SegmentedFilterRow,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
-import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  ReactNode,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { DBMetadataCharacter } from 'types/metadata'
@@ -59,7 +81,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   const [selected, setSelected] = useState<Map<CharacterId, boolean>>(new Map())
   const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
 
-  const labelledOptions: { value: string; label: ReactNode }[] = []
+  const labelledOptions: { value: string, label: ReactNode }[] = []
   for (const option of characterOptions) {
     labelledOptions.push({
       value: option.value,
@@ -86,7 +108,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
     }
   }, [open, externalOpen])
 
-  function applyFilters(x: DBMetadataCharacter & { value: string; label: string; id: string }) {
+  function applyFilters(x: DBMetadataCharacter & { value: string, label: string, id: string }) {
     if (currentFilters.element.length && !currentFilters.element.includes(x.element)) {
       return false
     }
@@ -133,7 +155,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         style={selectStyle}
         value={value}
         options={withIcon ? labelledOptions : characterOptions}
-        placeholder={multipleSelect ? t('MultiSelect.Placeholder')/* Customize characters */ : t('SingleSelect.Placeholder')/* Character */}
+        placeholder={multipleSelect ? t('MultiSelect.Placeholder') /* Customize characters */ : t('SingleSelect.Placeholder') /* Character */}
         allowClear
         maxTagCount={0}
         maxTagPlaceholder={() => (
@@ -166,7 +188,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         destroyOnClose
         width='90%'
         style={{ height: '80%', maxWidth: 1450 }}
-        title={multipleSelect ? t('MultiSelect.ModalTitle')/* select characters to exclude */ : t('SingleSelect.ModalTitle')/* select a character */}
+        title={multipleSelect ? t('MultiSelect.ModalTitle') /* select characters to exclude */ : t('SingleSelect.ModalTitle') /* select a character */}
         onCancel={() => {
           if (multipleSelect) {
             if (onChange) onChange(selected)
@@ -186,7 +208,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                   height: 40,
                   flex: 1,
                 }}
-                placeholder={t('SearchPlaceholder')/* Search character name */}
+                placeholder={t('SearchPlaceholder') /* Search character name */}
                 ref={inputRef}
                 onChange={(e) => {
                   const newFilters = TsUtils.clone(currentFilters)
@@ -206,13 +228,13 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                     onClick={excludeAll}
                     style={{ height: '100%', width: 120 }}
                   >
-                    {t('ExcludeButton')/* Exclude all */}
+                    {t('ExcludeButton') /* Exclude all */}
                   </Button>
                   <Button
                     onClick={includeAll}
                     style={{ height: '100%', width: 120 }}
                   >
-                    {t('ClearButton')/* Clear */}
+                    {t('ClearButton') /* Clear */}
                   </Button>
                 </Flex>
               )}
@@ -240,35 +262,32 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
           </Flex>
 
           <div style={{ display: 'grid', gridTemplateColumns: `repeat(auto-fill, minmax(${parentW}px, 1fr))`, gridGap: 8 }}>
-            {
-              characterOptions
-                .sort(Utils.sortRarityDesc)
-                .filter(applyFilters)
-                .map((option) => (
-                  <Card
-                    key={option.id}
-                    hoverable
-                    style={{
-                      ...{
-                        background: option.rarity === 5 ? goldBg : purpleBg,
-                        overflow: 'hidden',
-                        height: `${parentH}px`,
-                      },
-                      ...(selected.get(option.id)
-                        ? {
-                          opacity: 0.25,
-                          background: 'grey',
-                        }
-                        : {}
-                      ),
-                    }}
-                    styles={{ body: { padding: 1 } }}
-                    onMouseDown={() => handleClick(option.id)}
-                  >
-                    <CardGridItemContent imgSrc={Assets.getCharacterPreviewById(option.id)} text={option.label} innerW={innerW} innerH={innerH} rows={1}/>
-                  </Card>
-                ))
-            }
+            {characterOptions
+              .sort(Utils.sortRarityDesc)
+              .filter(applyFilters)
+              .map((option) => (
+                <Card
+                  key={option.id}
+                  hoverable
+                  style={{
+                    ...{
+                      background: option.rarity === 5 ? goldBg : purpleBg,
+                      overflow: 'hidden',
+                      height: `${parentH}px`,
+                    },
+                    ...(selected.get(option.id)
+                      ? {
+                        opacity: 0.25,
+                        background: 'grey',
+                      }
+                      : {}),
+                  }}
+                  styles={{ body: { padding: 1 } }}
+                  onMouseDown={() => handleClick(option.id)}
+                >
+                  <CardGridItemContent imgSrc={Assets.getCharacterPreviewById(option.id)} text={option.label} innerW={innerW} innerH={innerH} rows={1} />
+                </Card>
+              ))}
           </div>
         </Flex>
       </Modal>

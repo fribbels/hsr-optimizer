@@ -19,6 +19,7 @@ Messages:
   AddRelicSuccess: Artefacto añadido con éxito
   NoRelicSelected: Ningún artefacto seleccionado
   DeleteRelicSuccess: Artefacto borrado con éxito
+  UnableToDeleteRelic: No se pudo borrar el artefacto
 RelicGrid:
   To: a
   Of: de

@@ -19,6 +19,7 @@ Messages:
   AddRelicSuccess: crwdns43486:0crwdne43486:0
   NoRelicSelected: crwdns43488:0crwdne43488:0
   DeleteRelicSuccess: crwdns43490:0crwdne43490:0
+  UnableToDeleteRelic: crwdns45434:0crwdne45434:0
 RelicGrid:
   To: crwdns43492:0crwdne43492:0
   Of: crwdns43494:0crwdne43494:0

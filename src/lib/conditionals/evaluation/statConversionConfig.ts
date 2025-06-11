@@ -3,14 +3,14 @@ import { Key } from 'lib/optimization/computedStatsArray'
 import { ComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
 
 type StatConversionConfigEntry = {
-  stat: string
-  key: number
-  property: StatProperty
-  unconvertibleProperty: UnconvertibleProperty
-  unconvertibleKey: number
-  percentStat?: string
-  percentKey?: number
-  baseProperty?: 'baseHP' | 'baseATK' | 'baseDEF' | 'baseSPD'
+  stat: string,
+  key: number,
+  property: StatProperty,
+  unconvertibleProperty: UnconvertibleProperty,
+  unconvertibleKey: number,
+  percentStat?: string,
+  percentKey?: number,
+  baseProperty?: 'baseHP' | 'baseATK' | 'baseDEF' | 'baseSPD',
 }
 
 const statToStatProperty = {

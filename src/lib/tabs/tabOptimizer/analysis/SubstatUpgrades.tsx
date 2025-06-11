@@ -1,30 +1,40 @@
-import { Flex, Table, TableProps } from 'antd'
+import {
+  Flex,
+  Table,
+  TableProps,
+} from 'antd'
 import { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { ComputedStatKeys } from 'lib/optimization/config/computedStatsConfig'
 import { Assets } from 'lib/rendering/assets'
-import { calculateStatUpgrades, OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import {
+  calculateStatUpgrades,
+  OptimizerResultAnalysis,
+} from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
-import { localeNumber_0, localeNumber_00 } from 'lib/utils/i18nUtils'
+import {
+  localeNumber_0,
+  localeNumber_00,
+} from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type StatUpgradeGroup = {
-  key: ComputedStatKeys
-  upgrades: StatUpgradeItem[]
+  key: ComputedStatKeys,
+  upgrades: StatUpgradeItem[],
 }
 
 type StatUpgradeItem = {
-  key: SubStats
-  value: number
-  percent: number
+  key: SubStats,
+  value: number,
+  percent: number,
 }
 
 type Metrics = 'COMBO_DMG' | 'EHP' | 'HEAL_VALUE' | 'SHIELD_VALUE'
 
 export function DamageUpgrades(props: {
-  analysis: OptimizerResultAnalysis
+  analysis: OptimizerResultAnalysis,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.SubstatUpgrades' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ShortSpacedStats' })
@@ -82,7 +92,7 @@ export function DamageUpgrades(props: {
         width: 100,
         render: (text: SubStats) => (
           <Flex>
-            <img src={Assets.getStatIcon(text)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }}/>
+            <img src={Assets.getStatIcon(text)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }} />
             {tCommon(text)}
           </Flex>
         ),

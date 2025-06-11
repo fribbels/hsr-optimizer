@@ -1,18 +1,22 @@
 Title: 設定
-RelicEquippingBehaviour:
+RelicEquippingBehavior:
   Label: 別のキャラクターの遺物を装備時
   Replace: "遺物を交換せずに置換する（デフォルト）"
   Swap: 遺物を交換する
-PermutationSidebarBehaviour:
+PermutationsSidebarBehavior:
   Label: 画面が小さいときにサイドバーを縮小
-  XL: "サイドバーのほとんどが非表示の場合は縮小する（デフォルト）"
-  XXL: いずれかのサイドバーが非表示の場合は縮小する
+  ShowXL: "サイドバーのほとんどが非表示の場合は縮小する（デフォルト）"
+  ShowXXL: いずれかのサイドバーが非表示の場合は縮小する
   NoShow: 常に右側にサイドバーを表示する
-RelicPotentialLoadBehaviour:
-  Label: 読み込み時に遺物のスコアを自動更新する
-  OnStartup: "読み込み時に遺物を自動的にスコア計算する（デフォルト）"
-  Manual: '「スコアを更新」をクリックした場合のみスコア計算する（ページの読み込みが速くなります）'
+RelicPotentialLoadBehavior:
+  Label: 読み込み時の遺物スコアの自動更新
+  ScoreAtStartup: "読み込み時に遺物を自動的にスコア計算する（デフォルト）"
+  ManuallyClickReapplyScores: '「スコアを更新」をクリックした場合のみスコア計算する（ページの読み込みが速くなります）'
 ExpandedInfoPanelPosition:
   Label: 最適化結果分析パネルの位置
   Above: 遺物プレビューの上に表示する
   Below: "遺物プレビューの下に表示する（デフォルト）"
+ShowLocatorInRelicsModal:
+  Label: 遺物を編集メニュー内での遺物の場所の表示
+  Yes: 遺物を編集メニューに遺物の位置を表示する
+  No: "遺物を編集メニューに遺物の位置を表示しない（デフォルト）"

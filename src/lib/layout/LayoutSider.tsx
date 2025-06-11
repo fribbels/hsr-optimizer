@@ -1,5 +1,11 @@
-import { Layout, theme } from 'antd'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import {
+  Layout,
+  theme,
+} from 'antd'
+import {
+  OpenCloseIDs,
+  useOpenClose,
+} from 'lib/hooks/useOpenClose'
 import MenuDrawer from 'lib/overlays/drawers/MenuDrawer'
 
 const { useToken } = theme
@@ -27,7 +33,7 @@ export function LayoutSider() {
           top: 0,
         }}
       >
-        <MenuDrawer/>
+        <MenuDrawer />
       </div>
     </Sider>
   )

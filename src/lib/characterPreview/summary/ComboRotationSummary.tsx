@@ -1,12 +1,16 @@
 import { Flex } from 'antd'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
-import { NULL_TURN_ABILITY_NAME, toTurnAbility, TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  NULL_TURN_ABILITY_NAME,
+  toTurnAbility,
+  TurnAbilityName,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { toI18NVisual } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
 import { useTranslation } from 'react-i18next'
 import { SimulationMetadata } from 'types/metadata'
 
 type ComboRotationSummaryProps = {
-  simMetadata: SimulationMetadata
+  simMetadata: SimulationMetadata,
 }
 
 export function ComboRotationSummary({ simMetadata }: ComboRotationSummaryProps) {
@@ -24,15 +28,15 @@ export function ComboRotationSummary({ simMetadata }: ComboRotationSummaryProps)
         ))}
       </Flex>
       <Flex vertical gap={2}>
-        <ScoringInteger label={t('CharacterPreview.BuildAnalysis.Rotation.DOTS')} number={simMetadata.comboDot}/>
+        <ScoringInteger label={t('CharacterPreview.BuildAnalysis.Rotation.DOTS')} number={simMetadata.comboDot} />
       </Flex>
     </Flex>
   )
 }
 
 function ScoringAbility(props: {
-  comboTurnAbilities: TurnAbilityName[]
-  index: number
+  comboTurnAbilities: TurnAbilityName[],
+  index: number,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
 
@@ -49,9 +53,9 @@ function ScoringAbility(props: {
 }
 
 function ScoringInteger(props: {
-  label: string
-  number?: number
-  valueWidth?: number
+  label: string,
+  number?: number,
+  valueWidth?: number,
 }) {
   const value = props.number ?? 0
   return (

@@ -1,14 +1,25 @@
-import { Flex, List, theme, Typography } from 'antd'
-import { CURRENT_DATA_VERSION, officialOnly } from 'lib/constants/constants'
+import {
+  Flex,
+  List,
+  theme,
+  Typography,
+} from 'antd'
+import {
+  CURRENT_DATA_VERSION,
+  officialOnly,
+} from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
-import React, { ReactElement, useMemo } from 'react'
+import React, {
+  ReactElement,
+  useMemo,
+} from 'react'
 
 const { useToken } = theme
 const { Text } = Typography
 
-type ChangelogContent = { title: string; date: string; content: string[] }
+type ChangelogContent = { title: string, date: string, content: string[] }
 
 export default function ChangelogTab(): React.JSX.Element {
   const { token } = useToken()
@@ -18,7 +29,7 @@ export default function ChangelogTab(): React.JSX.Element {
 
   if (activeKey != AppPages.CHANGELOG) {
     // Don't load images unless we're on the changelog tab
-    return (<></>)
+    return <></>
   }
 
   function listToDisplay(content: string[], contentUpdate: ChangelogContent) {

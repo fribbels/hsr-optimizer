@@ -451,7 +451,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: 'Nếu ≤ 2 địch tăng Tỉ lệ Bạo Kích'
+        text: "Nếu ≤ 2 địch tăng Tỉ lệ Bạo Kích"
         content: Khi trong trận có 2 kẻ địch trở xuống, Tỷ Lệ Bạo Kích của người trang bị tăng {{CritBuff}}%.
   PastAndFuture:
     Content:
@@ -517,7 +517,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: '≥ 2 kẻ địch có điểm yếu thuộc tính tương ứng tăng STBK'
+        text: "≥ 2 kẻ địch có điểm yếu thuộc tính tương ứng tăng STBK"
         content: Sau khi người trang bị tấn công, nếu có từ 2 kẻ địch bị tấn công trở lên mang Điểm Yếu thuộc tính tương ứng, thì Sát Thương Bạo Kích của người trang bị tăng {{CritBuff}}%, duy trì 2 hiệp.
   TheMolesWelcomeYou:
     Content:

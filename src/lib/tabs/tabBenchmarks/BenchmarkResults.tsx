@@ -1,5 +1,16 @@
-import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons'
-import { Flex, Table, TableProps, Tabs, TabsProps, Tag, Typography } from 'antd'
+import {
+  CaretDownOutlined,
+  CaretRightOutlined,
+} from '@ant-design/icons'
+import {
+  Flex,
+  Table,
+  TableProps,
+  Tabs,
+  TabsProps,
+  Tag,
+  Typography,
+} from 'antd'
 import chroma from 'chroma-js'
 import i18next, { TFunction } from 'i18next'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
@@ -7,7 +18,10 @@ import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamage
 import { ComboRotationSummary } from 'lib/characterPreview/summary/ComboRotationSummary'
 import { tableStyle } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
-import { ElementToDamage, SubStats } from 'lib/constants/constants'
+import {
+  ElementToDamage,
+  SubStats,
+} from 'lib/constants/constants'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { toComputedStatsObject } from 'lib/optimization/computedStatsArray'
 import { Assets } from 'lib/rendering/assets'
@@ -18,7 +32,10 @@ import { useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/useBenchmarksTabSt
 import { arrowColor } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { currentLocale, localeNumber_0 } from 'lib/utils/i18nUtils'
+import {
+  currentLocale,
+  localeNumber_0,
+} from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -26,21 +43,21 @@ import { useTranslation } from 'react-i18next'
 const { Text } = Typography
 
 type BenchmarkRow = {
-  key: string
-  comboDmg: number
-  deltaPercent: number
-  deltaBaselinePercent: number
-  simRelicSet1: string
-  simRelicSet2: string
-  simOrnamentSet: string
-  simBody: string
-  simFeet: string
-  simPlanarSphere: string
-  simLinkRope: string
+  key: string,
+  comboDmg: number,
+  deltaPercent: number,
+  deltaBaselinePercent: number,
+  simRelicSet1: string,
+  simRelicSet2: string,
+  simOrnamentSet: string,
+  simBody: string,
+  simFeet: string,
+  simPlanarSphere: string,
+  simLinkRope: string,
 
-  percentage: number
-  simulation: Simulation
-  orchestrator: BenchmarkSimulationOrchestrator
+  percentage: number,
+  simulation: Simulation,
+  orchestrator: BenchmarkSimulationOrchestrator,
 }
 
 function generateColumns(t: TFunction<'benchmarksTab', 'ResultsGrid'>): TableProps<BenchmarkRow>['columns'] {
@@ -100,8 +117,8 @@ export function BenchmarkResults() {
   const { rows100, rows200 } = generateBenchmarkRows(orchestrators)
 
   return (
-    <Flex vertical style={{width: '100%'}}>
-      <PercentageTabs dataSource100={rows100} dataSource200={rows200}/>
+    <Flex vertical style={{ width: '100%' }}>
+      <PercentageTabs dataSource100={rows100} dataSource200={rows200} />
     </Flex>
   )
 }
@@ -135,11 +152,11 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
         loading={loading}
         locale={{ emptyText: '' }}
         expandable={{
-          expandedRowRender: (row) => <ExpandedRow row={row}/>,
+          expandedRowRender: (row) => <ExpandedRow row={row} />,
           expandIcon: ({ expanded, onExpand, record }) => {
             return expanded
-              ? <CaretDownOutlined onClick={(e) => onExpand(record, e)}/>
-              : <CaretRightOutlined onClick={(e) => onExpand(record, e)}/>
+              ? <CaretDownOutlined onClick={(e) => onExpand(record, e)} />
+              : <CaretRightOutlined onClick={(e) => onExpand(record, e)} />
           },
           expandRowByClick: true,
         }}
@@ -151,19 +168,19 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
   )
 }
 
-function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: BenchmarkRow[]; dataSource200: BenchmarkRow[] }) {
+function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: BenchmarkRow[], dataSource200: BenchmarkRow[] }) {
   const spd = dataSource100[0]?.orchestrator.flags.benchmarkBasicSpdTarget
   const { t } = useTranslation('benchmarksTab', { keyPrefix: `ResultsTabs.${spd == null ? 'WithoutSpeed' : 'WithSpeed'}` })
   const items: TabsProps['items'] = useMemo(() => [
     {
       key: '100',
       label: t('100', { Speed: TsUtils.precisionRound(spd).toLocaleString(currentLocale()) }),
-      children: <BenchmarkTable dataSource={dataSource100}/>,
+      children: <BenchmarkTable dataSource={dataSource100} />,
     },
     {
       key: '200',
       label: t('200', { Speed: TsUtils.precisionRound(spd).toLocaleString(currentLocale()) }),
-      children: <BenchmarkTable dataSource={dataSource200}/>,
+      children: <BenchmarkTable dataSource={dataSource200} />,
     },
   ], [t, spd, dataSource100, dataSource200])
 
@@ -190,11 +207,15 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
   const basicStats = toBasicStatsObject(result.ca)
   const combatStats = toComputedStatsObject(result.xa)
   const element = DB.getMetadata().characters[characterId].element
+  const elementalDmgValue = ElementToDamage[element]
+
+  basicStats[elementalDmgValue] = basicStats.ELEMENTAL_DMG
+  combatStats[elementalDmgValue] = combatStats.ELEMENTAL_DMG
 
   return (
     <Flex style={{ margin: 8 }} gap={10} justify='space-around'>
       <Flex vertical style={{ minWidth: 300 }} align='center' gap={5}>
-        <HeaderText style={{ fontSize: 16 }}>{t('BasicStats')/* Basic Stats */}</HeaderText>
+        <HeaderText style={{ fontSize: 16 }}>{t('BasicStats') /* Basic Stats */}</HeaderText>
 
         <CharacterStatSummary
           characterId={characterId}
@@ -206,10 +227,10 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
         />
       </Flex>
 
-      <VerticalDivider/>
+      <VerticalDivider />
 
       <Flex vertical style={{ minWidth: 300 }} align='center' gap={5}>
-        <HeaderText style={{ fontSize: 16 }}>{t('CombatStats')/* Combat Stats */}</HeaderText>
+        <HeaderText style={{ fontSize: 16 }}>{t('CombatStats') /* Combat Stats */}</HeaderText>
 
         <CharacterStatSummary
           characterId={characterId}
@@ -221,10 +242,10 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
         />
       </Flex>
 
-      <VerticalDivider/>
+      <VerticalDivider />
 
       <Flex vertical align='center' gap={5}>
-        <HeaderText style={{ fontSize: 16 }}>{t('Rolls')/* Substat Rolls */}</HeaderText>
+        <HeaderText style={{ fontSize: 16 }}>{t('Rolls') /* Substat Rolls */}</HeaderText>
 
         <SubstatRollsSummary
           simRequest={simulation.request}
@@ -234,17 +255,17 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
         />
       </Flex>
 
-      <VerticalDivider/>
+      <VerticalDivider />
 
       <Flex vertical align='center' justify='space-between'>
         <Flex vertical align='center' gap={5}>
-          <HeaderText style={{ fontSize: 16 }}>{t('Combo')/* Combo Rotation */}</HeaderText>
-          <ComboRotationSummary simMetadata={orchestrator.metadata}/>
+          <HeaderText style={{ fontSize: 16 }}>{t('Combo') /* Combo Rotation */}</HeaderText>
+          <ComboRotationSummary simMetadata={orchestrator.metadata} />
         </Flex>
 
         <Flex vertical align='center' gap={5}>
-          <HeaderText style={{ fontSize: 16 }}>{t('Damage')/* Ability Damage */}</HeaderText>
-          <AbilityDamageSummary simResult={simulation.result!}/>
+          <HeaderText style={{ fontSize: 16 }}>{t('Damage') /* Ability Damage */}</HeaderText>
+          <AbilityDamageSummary simResult={simulation.result!} />
         </Flex>
       </Flex>
     </Flex>
@@ -256,7 +277,7 @@ function renderStat() {
 
   return (stat: SubStats) => (
     <Flex align='center' justify='center' gap={2}>
-      <img src={Assets.getStatIcon(stat)} style={{ width: ICON_SIZE }}/>
+      <img src={Assets.getStatIcon(stat)} style={{ width: ICON_SIZE }} />
       <span>
         {t(stat)}
       </span>
@@ -267,10 +288,10 @@ function renderStat() {
 function renderSets() {
   return (_: string, row: BenchmarkRow) => (
     <Flex align='center' justify='center' gap={3}>
-      <img src={Assets.getSetImage(row.simRelicSet1)} style={{ width: ICON_SIZE }}/>
-      <img src={Assets.getSetImage(row.simRelicSet2)} style={{ width: ICON_SIZE }}/>
+      <img src={Assets.getSetImage(row.simRelicSet1)} style={{ width: ICON_SIZE }} />
+      <img src={Assets.getSetImage(row.simRelicSet2)} style={{ width: ICON_SIZE }} />
       <span style={{ width: 10 }}></span>
-      <img src={Assets.getSetImage(row.simOrnamentSet)} style={{ width: ICON_SIZE }}/>
+      <img src={Assets.getSetImage(row.simOrnamentSet)} style={{ width: ICON_SIZE }} />
     </Flex>
   )
 }

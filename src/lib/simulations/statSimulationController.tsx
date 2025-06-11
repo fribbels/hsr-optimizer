@@ -1,6 +1,14 @@
-import { Flex, Tag } from 'antd'
+import {
+  Flex,
+  Tag,
+} from 'antd'
 import i18next from 'i18next'
-import { Constants, Parts, Stats, SubStats } from 'lib/constants/constants'
+import {
+  Constants,
+  Parts,
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
@@ -11,7 +19,11 @@ import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { transformOptimizerDisplayData } from 'lib/simulations/optimizerDisplayDataTransform'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
-import { Simulation, SimulationRequest, StatSimTypes } from 'lib/simulations/statSimulationTypes'
+import {
+  Simulation,
+  SimulationRequest,
+  StatSimTypes,
+} from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -22,7 +34,10 @@ import { Utils } from 'lib/utils/utils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Form } from 'types/form'
-import { Relic, Stat } from 'types/relic'
+import {
+  Relic,
+  Stat,
+} from 'types/relic'
 
 // FIXME HIGH
 
@@ -49,7 +64,7 @@ export function saveStatSimulationBuildFromForm(startSim = true) {
 }
 
 export function saveStatSimulationRequest(simRequest: SimulationRequest, simType: StatSimTypes, startSim = false) {
-  const existingSimulations = (window.store.getState().statSimulations || [])
+  const existingSimulations = window.store.getState().statSimulations || []
   const key = TsUtils.uuid()
   const name = simRequest.name ?? undefined
   const simulation = {
@@ -65,7 +80,7 @@ export function saveStatSimulationRequest(simRequest: SimulationRequest, simType
     const existingHash = hashSim(sim)
 
     if (hash == existingHash) {
-      Message.error(i18next.t('optimizerTab:StatSimulation.DuplicateSimMessage'))// 'Identical stat simulation already exists')
+      Message.error(i18next.t('optimizerTab:StatSimulation.DuplicateSimMessage')) // 'Identical stat simulation already exists')
       return null
     }
   }
@@ -100,7 +115,7 @@ function hashSim(sim: Simulation) {
 
 function validateRequest(request: SimulationRequest) {
   if (!request.simBody || !request.simFeet || !request.simLinkRope || !request.simPlanarSphere) {
-    Message.error(i18next.t('optimizerTab:StatSimulation.MissingMainstatsMessage'))// 'Missing simulation main stats'
+    Message.error(i18next.t('optimizerTab:StatSimulation.MissingMainstatsMessage')) // 'Missing simulation main stats'
     return false
   }
 
@@ -110,11 +125,11 @@ function validateRequest(request: SimulationRequest) {
 export function renderDefaultSimulationName(sim: Simulation) {
   return (
     <Flex gap={5}>
-      <SimSetsDisplay sim={sim}/>
+      <SimSetsDisplay sim={sim} />
 
       |
 
-      <SimMainsDisplay sim={sim}/>
+      <SimMainsDisplay sim={sim} />
 
       |
 
@@ -126,7 +141,7 @@ export function renderDefaultSimulationName(sim: Simulation) {
         {sim.name ? `|` : null}
       </Flex>
 
-      <SimSubstatsDisplay sim={sim}/>
+      <SimSubstatsDisplay sim={sim} />
     </Flex>
   )
 }
@@ -140,11 +155,11 @@ function SimSetsDisplay(props: { sim: Simulation }) {
   return (
     <Flex gap={5}>
       <Flex style={{ width: imgSize * 2 + 5 }} justify='center'>
-        <img style={{ width: request.simRelicSet1 ? imgSize : 0 }} src={relicImage1}/>
-        <img style={{ width: request.simRelicSet2 ? imgSize : 0 }} src={relicImage2}/>
+        <img style={{ width: request.simRelicSet1 ? imgSize : 0 }} src={relicImage1} />
+        <img style={{ width: request.simRelicSet2 ? imgSize : 0 }} src={relicImage2} />
       </Flex>
 
-      <img style={{ width: imgSize }} src={ornamentImage}/>
+      <img style={{ width: imgSize }} src={ornamentImage} />
     </Flex>
   )
 }
@@ -154,10 +169,10 @@ function SimMainsDisplay(props: { sim: Simulation }) {
   const imgSize = 22
   return (
     <Flex>
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simBody, true)}/>
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simFeet, true)}/>
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simPlanarSphere, true)}/>
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simLinkRope, true)}/>
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simBody, true)} />
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simFeet, true)} />
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simPlanarSphere, true)} />
+      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simLinkRope, true)} />
     </Flex>
   )
 }
@@ -179,7 +194,7 @@ const substatToPriority = {
 
 function SimSubstatsDisplay(props: { sim: Simulation }) {
   const { t } = useTranslation('common', { keyPrefix: 'ShortStats' })
-  const renderArray: { stat: SubStats; value: number }[] = []
+  const renderArray: { stat: SubStats, value: number }[] = []
   const substats = props.sim.request.stats
   for (const stat of Constants.SubStats) {
     const value = substats[stat]
@@ -201,19 +216,17 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
 
   return (
     <Flex gap={0}>
-      {
-        renderArray.map((x) => {
-          return (
-            <Flex key={x.stat}>
-              <Tag
-                style={{ paddingInline: '5px', marginInlineEnd: '5px' }}
-              >
-                {renderStat(x)}
-              </Tag>
-            </Flex>
-          )
-        })
-      }
+      {renderArray.map((x) => {
+        return (
+          <Flex key={x.stat}>
+            <Tag
+              style={{ paddingInline: '5px', marginInlineEnd: '5px' }}
+            >
+              {renderStat(x)}
+            </Tag>
+          </Flex>
+        )
+      })}
     </Flex>
   )
 }
@@ -265,7 +278,7 @@ export function setFormStatSimulations(simulations: Simulation[]) {
 
 export function startOptimizerStatSimulation() {
   const form = OptimizerTabController.getForm()
-  const existingSimulations = (window.store.getState().statSimulations || [])
+  const existingSimulations = window.store.getState().statSimulations || []
 
   if (existingSimulations.length == 0) return
   if (!OptimizerTabController.validateForm(form)) return
@@ -302,14 +315,15 @@ function autosave() {
 
 export function importOptimizerBuild() {
   const selectedRow = window.optimizerGrid.current!.api.getSelectedRows()[0] as OptimizerDisplayData
+  const t = i18next.getFixedT(null, 'optimizerTab', 'StatSimulation')
 
   if (!selectedRow) {
-    Message.warning(i18next.t('optimizerTab:StatSimulation.NothingToImport'))// 'Run the optimizer first, then select a row from the optimizer results to import'
+    Message.warning(t('NothingToImport')) // 'Run the optimizer first, then select a row from the optimizer results to import'
     return
   }
 
   if (selectedRow.statSim) {
-    Message.warning(i18next.t('optimizerTab:StatSimulation.BuildAlreadyImported'))// 'The selected optimizer build is already a simulation'
+    Message.warning(t('BuildAlreadyImported')) // 'The selected optimizer build is already a simulation'
     return
   }
 
@@ -361,7 +375,8 @@ export function convertRelicsToSimulation(
   for (const relic of relics) {
     if (relic && relic.substats) {
       for (const substat of relic.substats) {
-        accumulatedSubstatRolls[substat.stat] += substat.value / (substat.stat == Stats.SPD ? speedRollValue : StatCalculator.getMaxedSubstatValue(substat.stat, quality))
+        accumulatedSubstatRolls[substat.stat] += substat.value
+          / (substat.stat == Stats.SPD ? speedRollValue : StatCalculator.getMaxedSubstatValue(substat.stat, quality))
       }
     }
   }

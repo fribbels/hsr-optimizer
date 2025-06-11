@@ -12,11 +12,11 @@ Characters:
     Name: ヴェルト
     LongName: ヴェルト
   "1005":
-    Name: (Old) カフカ
-    LongName: (Old) カフカ
+    Name: ⚰️ カフカ
+    LongName: ⚰️ カフカ
   "1006":
-    Name: (Old) 銀狼
-    LongName: (Old) 銀狼
+    Name: ⚰️ 銀狼
+    LongName: ⚰️ 銀狼
   "1008":
     Name: アーラン
     LongName: アーラン
@@ -81,8 +81,8 @@ Characters:
     Name: 景元
     LongName: 景元
   "1205":
-    Name: (Old) 刃
-    LongName: (Old) 刃
+    Name: ⚰️ 刃
+    LongName: ⚰️ 刃
   "1206":
     Name: 素裳
     LongName: 素裳
@@ -102,8 +102,8 @@ Characters:
     Name: 白露
     LongName: 白露
   "1212":
-    Name: (Old) 鏡流
-    LongName: (Old) 鏡流
+    Name: ⚰️ 鏡流
+    LongName: ⚰️ 鏡流
   "1213":
     Name: 丹恒・飲月
     LongName: 丹恒・飲月
@@ -234,17 +234,17 @@ Characters:
     Name: 星
     LongName: 星 (記憶)
   1212b1:
-    Name: (New) 鏡流
-    LongName: (New) 鏡流
+    Name: 鏡流
+    LongName: 鏡流
   1205b1:
-    Name: (New) 刃
-    LongName: (New) 刃
+    Name: 刃
+    LongName: 刃
   1005b1:
-    Name: (New) カフカ
-    LongName: (New) カフカ
+    Name: カフカ
+    LongName: カフカ
   1006b1:
-    Name: (New) 銀狼
-    LongName: (New) 銀狼
+    Name: 銀狼
+    LongName: 銀狼
 RelicSets:
   "101":
     Name: 流雲無痕の過客
@@ -412,10 +412,10 @@ RelicSets:
     Description2pc: 装備キャラの速度+6%。装備キャラの速度が135/180以上の時、装備キャラ及びその記憶の精霊の治癒量+12%/20%。
   "321":
     Name: 夢を紡ぐ妖精の楽園
-    Description2pc: フィールド上にいる味方の数が4ではない時、1名増える/減るごとに、装備キャラおよびその記憶の精霊の与ダメージ+ 9% / 12% 、最大で 4 / 3 層累積できる。
+    Description2pc: 現在フィールド上にいる味方の数が4ではない時、1名増える/減るごとに、装備キャラおよびその記憶の精霊の与ダメージ+ 9% / 12% 、最大で 4 / 3 層累積できる。
   "322":
     Name: 酩酊の海域
-    Description2pc: 装備キャラの持続ダメージ+ 12% 。装備キャラの攻撃力が 2400 / 3600 以上の場合、持続ダメージがさらに+ 12% / 24% 。
+    Description2pc: 装備キャラの攻撃力+ 12% 。装備キャラの攻撃力が 2400 / 3600 以上の場合、持続ダメージがさらに+ 12% / 24% 。
 Lightcones:
   "20000":
     Name: 矢じり
@@ -568,9 +568,9 @@ Lightcones:
   "21052":
     Name: 流すなら涙より汗
   "21053":
-    Name: 穏やかな旅路を願って
+    Name: 旅が平穏であるように
   "21054":
-    Name: 物語の次のページ
+    Name: 物語をめくって
   "21055":
     Name: 明日の明日まで
   "21056":
@@ -578,11 +578,11 @@ Lightcones:
   "21057":
     Name: 花は忘れない
   "21058":
-    Name: 古くから続く血
+    Name: 古より受け継がれる血
   "21060":
-    Name: 香り立つ麦の夢
+    Name: 麦の香り漂う夢
   "21061":
-    Name: バルネアバカンス大冒険
+    Name: 休日のバルネア大冒険
   "21062":
     Name: 終点でまた会おう
   "22000":
@@ -684,9 +684,9 @@ Lightcones:
   "23043":
     Name: 風に揺蕩う虚言
   "23044":
-    Name: 正に燃え盛る黎明のように
+    Name: 燃え盛る黎明のように
   "23045":
-    Name: 報われぬ冠戴
+    Name: 報われぬ戴冠
   "23046":
     Name: 理想を焼く奈落で
   "24000":

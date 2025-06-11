@@ -1,17 +1,37 @@
-import { AbilityType, BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { dynamicStatConversion, gpuDynamicStatConversion } from 'lib/conditionals/evaluation/statConversion'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import {
+  AbilityType,
+  BREAK_DMG_TYPE,
+} from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
+import {
+  dynamicStatConversion,
+  gpuDynamicStatConversion,
+} from 'lib/conditionals/evaluation/statConversion'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Stats,
+} from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityVulnerability } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import {
+  ComputedStatsArray,
+  Key,
+} from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Firefly')
@@ -128,7 +148,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BREAK_EFFICIENCY_BOOST.buff((r.enhancedStateActive) ? 0.50 : 0, SOURCE_ULT)
       x.DMG_RED_MULTI.multiply((r.enhancedStateActive && r.talentDmgReductionBuff) ? (1 - talentDmgReductionBuff) : 1, SOURCE_TALENT)
 
-      buffAbilityVulnerability(x, BREAK_DMG_TYPE, (r.enhancedStateActive && x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? ultWeaknessBrokenBreakVulnerability : 0, SOURCE_ULT)
+      buffAbilityVulnerability(
+        x,
+        BREAK_DMG_TYPE,
+        (r.enhancedStateActive && x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? ultWeaknessBrokenBreakVulnerability : 0,
+        SOURCE_ULT,
+      )
 
       // Should be skill def pen but skill doesnt apply to super break
       x.DEF_PEN.buff((e >= 1 && r.e1DefShred && r.enhancedStateActive) ? 0.15 : 0, SOURCE_E1)
@@ -152,8 +177,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_ATK_SCALING.buff(
         (r.enhancedStateActive)
           ? (0.2 * Math.min(3.60, x.a[Key.BE]) + skillEnhancedAtkScaling)
-          : skillScaling
-        , SOURCE_SKILL)
+          : skillScaling,
+        SOURCE_SKILL,
+      )
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -175,20 +201,32 @@ if (${wgslTrue(r.enhancedStateActive)}) {
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.ATK],
         chainsTo: [Stats.BE],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return r.atkToBeConversion && x.a[Key.ATK] > 1800
         },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.ATK, Stats.BE, this, x, action, context, SOURCE_TRACE,
+        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversion(
+            Stats.ATK,
+            Stats.BE,
+            this,
+            x,
+            action,
+            context,
+            SOURCE_TRACE,
             (convertibleValue) => 0.008 * Math.floor((convertibleValue - 1800) / 10),
           )
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return gpuDynamicStatConversion(Stats.ATK, Stats.BE, this, action, context,
+          return gpuDynamicStatConversion(
+            Stats.ATK,
+            Stats.BE,
+            this,
+            action,
+            context,
             `0.008 * floor((convertibleValue - 1800) / 10)`,
             `${wgslTrue(r.atkToBeConversion)} && x.ATK > 1800`,
           )

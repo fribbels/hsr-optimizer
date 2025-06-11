@@ -1,7 +1,26 @@
-import { Sets, Stats } from 'lib/constants/constants'
+import {
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
-import { generateE6S5Test, generateTestSingleRelicsByPart, testCharacter, testMains, testSets, testStatSpread } from 'lib/simulations/tests/simTestUtils'
-import { FIREFLY, LINGSHA, MEMORIES_OF_THE_PAST, PAST_SELF_IN_MIRROR, RUAN_MEI, SCENT_ALONE_STAYS_TRUE, STELLE_HARMONY, WHEREABOUTS_SHOULD_DREAMS_REST } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  generateE6S5Test,
+  generateTestSingleRelicsByPart,
+  testCharacter,
+  testMains,
+  testSets,
+  testStatSpread,
+} from 'lib/simulations/tests/simTestUtils'
+import {
+  FIREFLY,
+  LINGSHA,
+  MEMORIES_OF_THE_PAST,
+  PAST_SELF_IN_MIRROR,
+  RUAN_MEI,
+  SCENT_ALONE_STAYS_TRUE,
+  STELLE_HARMONY,
+  WHEREABOUTS_SHOULD_DREAMS_REST,
+} from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -11,16 +30,15 @@ export function injectBenchmarkDebuggers() {
 }
 
 function equipTestCharacter() {
-  const testInput
-    = generateE6S5Test({
-      character: testCharacter(FIREFLY, WHEREABOUTS_SHOULD_DREAMS_REST),
-      teammate0: testCharacter(STELLE_HARMONY, MEMORIES_OF_THE_PAST),
-      teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
-      teammate2: testCharacter(LINGSHA, SCENT_ALONE_STAYS_TRUE),
-      sets: testSets(Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge, Sets.ForgeOfTheKalpagniLantern),
-      mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
-      stats: testStatSpread(),
-    })
+  const testInput = generateE6S5Test({
+    character: testCharacter(FIREFLY, WHEREABOUTS_SHOULD_DREAMS_REST),
+    teammate0: testCharacter(STELLE_HARMONY, MEMORIES_OF_THE_PAST),
+    teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
+    teammate2: testCharacter(LINGSHA, SCENT_ALONE_STAYS_TRUE),
+    sets: testSets(Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge, Sets.ForgeOfTheKalpagniLantern),
+    mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
+    stats: testStatSpread(),
+  })
 
   const simulationMetadata = DB.getMetadata().characters[testInput.character.characterId].scoringMetadata.simulation!
 

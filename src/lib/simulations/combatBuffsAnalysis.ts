@@ -1,6 +1,9 @@
 import { PathNames } from 'lib/constants/constants'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
-import { Buff, ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import {
+  Buff,
+  ComputedStatsArray,
+} from 'lib/optimization/computedStatsArray'
 import DB from 'lib/state/db'
 import { OptimizerForm } from 'types/form'
 
@@ -51,7 +54,7 @@ function extractCombatBuffs(x: ComputedStatsArray) {
 }
 
 type CombatBuffs = {
-  buffs: Buff[]
-  buffsMemo: Buff[]
-  buffsBasic: Buff[]
+  buffs: Buff[],
+  buffsMemo: Buff[],
+  buffsBasic: Buff[],
 }

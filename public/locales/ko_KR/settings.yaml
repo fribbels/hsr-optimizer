@@ -1,17 +1,17 @@
 Title: 설정
-RelicEquippingBehaviour:
+RelicEquippingBehavior:
   Label: 다른 캐릭터의 유물을 장비 시
   Replace: "기본값 : 유물을 교체하지 않고 대체"
   Swap: 유물 교체
-PermutationSidebarBehaviour:
+PermutationsSidebarBehavior:
   Label: 화면이 작을 때 사이드바 축소
-  XL: "기본값: 사이드바가 대부분 숨겨져 있을 경우 최소화"
-  XXL: 사이드바가 숨겨져 있는 경우 최소화
+  ShowXL: "기본값: 사이드바가 대부분 숨겨져 있을 경우 최소화"
+  ShowXXL: 사이드바가 숨겨져 있는 경우 최소화
   NoShow: 항상 사이드바를 왼쪽에 위치
-RelicPotentialLoadBehaviour:
+RelicPotentialLoadBehavior:
   Label: 로드 때 마다 유물 점수 갱신
-  OnStartup: "기본값 : 페이지 로드 시 유물 점수 자동으로 매기기"
-  Manual: '"점수 갱신"을 눌렀을 때만 유물 점수를 갱신하기 (페이지 로드 속도 증가)'
+  ScoreAtStartup: "기본값 : 페이지 로드 시 유물 점수 자동으로 매기기"
+  ManuallyClickReapplyScores: '"점수 갱신"을 눌렀을 때만 유물 점수를 갱신하기 (페이지 로드 속도 증가)'
 ExpandedInfoPanelPosition:
   Label: 옵티마이저 확장 정보 패널 위치
   Above: 유물 미리보기 위에 표시하기

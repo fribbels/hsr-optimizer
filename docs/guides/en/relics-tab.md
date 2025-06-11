@@ -24,13 +24,13 @@ against the stats on a fully upgraded 'perfect' relic in that slot.
 Potential can look at all characters or just owned. It then takes the maximum percentage for any character. This can be
 useful for finding relics that aren't good on any character, or hidden gems that could be great when upgraded.
 
-* Selected character: Score - The relic's current score as defined by the scoring algorithm for the currently selected
+- Selected character: Score - The relic's current score as defined by the scoring algorithm for the currently selected
   character
-* Selected character: Average potential - The relic's potential at its maximum level, averaged across all the possible
+- Selected character: Average potential - The relic's potential at its maximum level, averaged across all the possible
   rolls it could have on the way to +15
-* Selected character: Max potential - The relic's maximum potential if all future rolls went into the character's
+- Selected character: Max potential - The relic's maximum potential if all future rolls went into the character's
   desired stats
-* All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game.
+- All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game.
 
 ## Relic locator
 

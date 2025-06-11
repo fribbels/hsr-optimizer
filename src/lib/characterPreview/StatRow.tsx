@@ -1,12 +1,22 @@
-import { Divider, Flex } from 'antd'
+import {
+  Divider,
+  Flex,
+} from 'antd'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Constants, StatsValues } from 'lib/constants/constants'
+import {
+  Constants,
+  StatsValues,
+} from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
 
 import { Assets } from 'lib/rendering/assets'
 import { SimulationResult } from 'lib/scoring/simScoringUtils'
-import { localeNumber, localeNumber_0, localeNumber_000 } from 'lib/utils/i18nUtils'
+import {
+  localeNumber,
+  localeNumber_0,
+  localeNumber_000,
+} from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { ReactElement } from 'react'
@@ -59,12 +69,12 @@ export const displayTextMap = {
 }
 
 export function StatRow(props: {
-  stat: string
-  finalStats: BasicStatsObject | SimulationResult | ComputedStatsObjectExternal
-  value?: number
-  edits?: Record<string, boolean>
-  preciseSpd?: boolean
-  loading?: boolean
+  stat: string,
+  finalStats: BasicStatsObject | SimulationResult | ComputedStatsObjectExternal,
+  value?: number,
+  edits?: Record<string, boolean>,
+  preciseSpd?: boolean,
+  loading?: boolean,
 }): ReactElement {
   const { stat, finalStats, edits } = props
   const value = TsUtils.precisionRound(finalStats[stat as keyof typeof finalStats])
@@ -83,14 +93,16 @@ export function StatRow(props: {
 
   if (!finalStats) {
     console.log('No final stats')
-    return (<div></div>)
+    return <div></div>
   }
   return (
     <Flex justify='space-between' align='center' title={value1000thsPrecision} style={{ filter: props.loading ? 'blur(2px)' : 'none' }}>
-      <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }}/>
+      <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
       {`${readableStat}${edits?.[stat] ? ' *' : ''}`}
-      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed/>
-      {props.loading ? '...' : `${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' || stat == 'simScore' ? '' : '%'}${stat == 'simScore' ? t('ThousandsSuffix') : ''}`}
+      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+      {props.loading
+        ? '...'
+        : `${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' || stat == 'simScore' ? '' : '%'}${stat == 'simScore' ? t('ThousandsSuffix') : ''}`}
     </Flex>
   )
 }

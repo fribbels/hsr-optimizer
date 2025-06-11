@@ -1,8 +1,18 @@
-import { Stats, SubStats } from 'lib/constants/constants'
+import {
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import { PartialSimulationWrapper, ScoringParams, SimulationFlags } from 'lib/scoring/simScoringUtils'
-import { RunStatSimulationsResult, StatSimulationTypes } from 'lib/simulations/statSimulationTypes'
+import {
+  PartialSimulationWrapper,
+  ScoringParams,
+  SimulationFlags,
+} from 'lib/scoring/simScoringUtils'
+import {
+  RunStatSimulationsResult,
+  StatSimulationTypes,
+} from 'lib/simulations/statSimulationTypes'
 import { SimulationMetadata } from 'types/metadata'
 
 export function calculateMinSubstatRollCounts(
@@ -64,7 +74,10 @@ export function calculateMaxSubstatRollCounts(
 
   for (const stat of SubStats) {
     // What does this do?
-    maxCounts[stat] = Math.min(maxCounts[stat], scoringParams.substatGoal - 10 * scoringParams.freeRolls - Math.ceil(partialSimulationWrapper.speedRollsDeduction))
+    maxCounts[stat] = Math.min(
+      maxCounts[stat],
+      scoringParams.substatGoal - 10 * scoringParams.freeRolls - Math.ceil(partialSimulationWrapper.speedRollsDeduction),
+    )
     maxCounts[stat] = Math.max(maxCounts[stat], scoringParams.freeRolls)
     if (metadata.maxBonusRolls?.[stat] != undefined) {
       maxCounts[stat] = Math.min(maxCounts[stat], metadata.maxBonusRolls[stat] + scoringParams.freeRolls)
@@ -95,14 +108,20 @@ export function calculateMaxSubstatRollCounts(
   if (!simulationFlags.overcapCritRate) {
     const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
     const missingCrit = Math.max(0, 100 - baselineSimResult.xa[Key.CR] * 100)
-    maxCounts[Stats.CR] = Math.max(scoringParams.baselineFreeRolls, Math.max(scoringParams.enforcePossibleDistribution
-      ? 6
-      : 0, Math.min(
-      request.simBody == Stats.CR
-        ? Math.ceil((missingCrit - 32.4) / critValue)
-        : Math.ceil(missingCrit / critValue),
-      maxCounts[Stats.CR],
-    )))
+    maxCounts[Stats.CR] = Math.max(
+      scoringParams.baselineFreeRolls,
+      Math.max(
+        scoringParams.enforcePossibleDistribution
+          ? 6
+          : 0,
+        Math.min(
+          request.simBody == Stats.CR
+            ? Math.ceil((missingCrit - 32.4) / critValue)
+            : Math.ceil(missingCrit / critValue),
+          maxCounts[Stats.CR],
+        ),
+      ),
+    )
   }
 
   // Simplify EHR so the sim is not wasting permutations
@@ -112,14 +131,20 @@ export function calculateMaxSubstatRollCounts(
   const missingEhr = Math.max(0, 120 - baselineSimResult.xa[Key.EHR] * 100)
   maxCounts[Stats.EHR] = maxCounts[Stats.EHR] == 0
     ? 0
-    : Math.max(scoringParams.baselineFreeRolls, Math.max(scoringParams.enforcePossibleDistribution
-      ? 6
-      : 0, Math.min(
-      request.simBody == Stats.EHR
-        ? Math.ceil((missingEhr - 43.2) / ehrValue)
-        : Math.ceil(missingEhr / ehrValue),
-      maxCounts[Stats.EHR],
-    )))
+    : Math.max(
+      scoringParams.baselineFreeRolls,
+      Math.max(
+        scoringParams.enforcePossibleDistribution
+          ? 6
+          : 0,
+        Math.min(
+          request.simBody == Stats.EHR
+            ? Math.ceil((missingEhr - 43.2) / ehrValue)
+            : Math.ceil(missingEhr / ehrValue),
+          maxCounts[Stats.EHR],
+        ),
+      ),
+    )
 
   // Forced speed rolls will take up slots from the 36 potential max rolls of other stats
   const nonSpeedSubsCapDeduction = Math.ceil(partialSimulationWrapper.speedRollsDeduction) - 6

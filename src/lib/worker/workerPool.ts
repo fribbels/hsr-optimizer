@@ -12,32 +12,32 @@ let initializedWorkers = 0
 // console.log('Using pool size ' + poolSize)
 
 type WorkerTaskWrapper = {
-  task: WorkerTask
-  callback: (result: WorkerResult) => void
+  task: WorkerTask,
+  callback: (result: WorkerResult) => void,
 }
 
 export type WorkerTask = {
-  getMinFilter: () => number
-  input: WorkerTaskInput
-  attempts: number
+  getMinFilter: () => number,
+  input: WorkerTaskInput,
+  attempts: number,
 }
 
 type WorkerTaskInput = {
-  WIDTH: number
-  context: OptimizerContext
-  ornamentSetSolutions: number[]
-  permutations: number
-  relicSetSolutions: number[]
-  relics: RelicsByPart
-  request: Form
-  skip: number
-  workerType: WorkerType
+  WIDTH: number,
+  context: OptimizerContext,
+  ornamentSetSolutions: number[],
+  permutations: number,
+  relicSetSolutions: number[],
+  relics: RelicsByPart,
+  request: Form,
+  skip: number,
+  workerType: WorkerType,
 
-  buffer?: ArrayBuffer
+  buffer?: ArrayBuffer,
 }
 
 export type WorkerResult = {
-  buffer: ArrayBuffer
+  buffer: ArrayBuffer,
 }
 
 // Reuse workers and buffers

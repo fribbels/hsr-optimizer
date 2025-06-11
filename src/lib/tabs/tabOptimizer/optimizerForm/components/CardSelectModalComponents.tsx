@@ -1,6 +1,15 @@
-import { Flex, theme, Typography } from 'antd'
+import {
+  Flex,
+  theme,
+  Typography,
+} from 'antd'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
-import { ElementName, ElementToDamage, PathName, PathNames } from 'lib/constants/constants'
+import {
+  ElementName,
+  ElementToDamage,
+  PathName,
+  PathNames,
+} from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -14,11 +23,11 @@ const parentW = 100
 const parentH = 150
 
 export const CardGridItemContent = (props: {
-  imgSrc: string
-  text: string
-  innerW: number
-  innerH: number
-  rows: number
+  imgSrc: string,
+  text: string,
+  innerW: number,
+  innerH: number,
+  rows: number,
 }) => {
   return (
     <div>
@@ -70,7 +79,7 @@ export function generatePathTags() {
   return Object.keys(PathNames).map((x) => {
     return {
       key: x,
-      display: <img style={{ width: 32 }} src={Assets.getPath(x)}/>,
+      display: <img style={{ width: 32 }} src={Assets.getPath(x)} />,
     }
   })
 }
@@ -79,7 +88,7 @@ export function generateRarityTags() {
   return [5, 4, 3].map((x) => {
     const stars: ReactElement[] = []
     for (let i = 0; i < x; i++) {
-      stars.push(<img key={i} style={{ width: 16 }} src={Assets.getStar()}/>)
+      stars.push(<img key={i} style={{ width: 16 }} src={Assets.getStar()} />)
     }
     return {
       key: x,
@@ -96,24 +105,24 @@ export function generateElementTags() {
   return Object.keys(ElementToDamage).map((x) => {
     return {
       key: x,
-      display: <img style={{ width: 30 }} src={Assets.getElement(x)}/>,
+      display: <img style={{ width: 30 }} src={Assets.getElement(x)} />,
     }
   })
 }
 
 type Filters = {
-  element: ElementName[]
-  path: PathName[]
-  rarity: number[]
-  name: string
+  element: ElementName[],
+  path: PathName[],
+  rarity: number[],
+  name: string,
 }
 
 export function SegmentedFilterRow(props: {
-  currentFilters: Filters
-  name: 'element' | 'path' | 'rarity'
-  flexBasis: string
-  tags: { key: string | number; display: ReactElement }[]
-  setCurrentFilters: (filters: Filters) => void
+  currentFilters: Filters,
+  name: 'element' | 'path' | 'rarity',
+  flexBasis: string,
+  tags: { key: string | number, display: ReactElement }[],
+  setCurrentFilters: (filters: Filters) => void,
 }) {
   const { token } = useToken()
   const { currentFilters, name, flexBasis, tags, setCurrentFilters } = props

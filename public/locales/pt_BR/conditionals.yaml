@@ -487,7 +487,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: 'Buff de CR para ≤ 2 inimigos'
+        text: "Buff de CR para ≤ 2 inimigos"
         content: Se houver 2 ou menos inimigos no campo, aumenta a taxa de CRIT do portador em {{CritBuff}}%.
   PastAndFuture:
     Content:
@@ -553,7 +553,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: 'Buff de cooldown para alvos com ≥ 2 fraquezas'
+        text: "Buff de cooldown para alvos com ≥ 2 fraquezas"
         content: Quando o portador usa um ataque e pelo menos 2 inimigos atacados têm a fraqueza correspondente, o CRIT DMG do portador aumenta em {{CritBuff}}% por 2 turnos.
   TheGreatCosmicEnterprise:
     Content:

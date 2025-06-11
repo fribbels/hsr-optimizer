@@ -1,27 +1,55 @@
-import { COMPUTE_ENGINE_CPU, Constants, Parts, Stats } from 'lib/constants/constants'
+import i18next from 'i18next'
+import {
+  COMPUTE_ENGINE_CPU,
+  Constants,
+  Parts,
+  Stats,
+} from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
-import { BufferPacker, OptimizerDisplayData } from 'lib/optimization/bufferPacker'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import {
+  BufferPacker,
+  OptimizerDisplayData,
+} from 'lib/optimization/bufferPacker'
+import {
+  ComputedStatsArray,
+  Key,
+} from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
-import { generateOrnamentSetSolutions, generateRelicSetSolutions } from 'lib/optimization/relicSetSolver'
+import {
+  generateOrnamentSetSolutions,
+  generateRelicSetSolutions,
+} from 'lib/optimization/relicSetSolver'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
-import { SimulationRelic, SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
+import {
+  SimulationRelic,
+  SimulationRelicByPart,
+} from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import { activateZeroPermutationsSuggestionsModal, activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
+import {
+  activateZeroPermutationsSuggestionsModal,
+  activateZeroResultSuggestionsModal,
+} from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { WorkerPool, WorkerResult, WorkerTask } from 'lib/worker/workerPool'
+import {
+  WorkerPool,
+  WorkerResult,
+  WorkerTask,
+} from 'lib/worker/workerPool'
 import { WorkerType } from 'lib/worker/workerUtils'
-import { Form, OptimizerForm } from 'types/form'
+import {
+  Form,
+  OptimizerForm,
+} from 'types/form'
 
 // FIXME HIGH
 
@@ -35,7 +63,9 @@ export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
   relics = RelicFilters.applyMainStatsFilter(request, relics)
   const relicsByPart = RelicFilters.splitRelicsByPart(relics) as RelicsByPart | SimulationRelicByPart
   RelicFilters.condenseRelicSubstatsForOptimizer(relicsByPart as RelicsByPart)
-  Object.keys(relicsByPart).map((key) => (relicsByPart as SimulationRelicByPart)[key as Parts] = (relicsByPart as RelicsByPart)[key as Parts][0] as SimulationRelic)
+  Object.keys(relicsByPart).map((key) =>
+    (relicsByPart as SimulationRelicByPart)[key as Parts] = (relicsByPart as RelicsByPart)[key as Parts][0] as SimulationRelic
+  )
 
   const context = generateContext(request)
   const x = simulateBuild(relicsByPart as SimulationRelicByPart, context, null, null)
@@ -82,7 +112,8 @@ export const Optimizer = {
     return [relicsByPart, preFilteredRelicsByPart]
   },
 
-  optimize: async function (request: Form) {
+  optimize: async function(request: Form) {
+    const t = i18next.getFixedT(null, 'optimizerTab', 'ValidationMessages')
     CANCEL = false
 
     const [relics] = this.getFilteredRelics(request)
@@ -98,11 +129,6 @@ export const Optimizer = {
       fSize: relics.Feet.length,
       pSize: relics.PlanarSphere.length,
       lSize: relics.LinkRope.length,
-    }
-
-    if (sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize > 2147483647) {
-      Message.warning(`Too many permutations, please apply stricter filters or set minimum enhance to at least +3.`, 15)
-      return
     }
 
     const permutations = sizes.hSize * sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize
@@ -156,8 +182,7 @@ export const Optimizer = {
     if (computeEngine != COMPUTE_ENGINE_CPU) {
       void getWebgpuDevice(true).then((device) => {
         if (device == null) {
-          Message.warning(`GPU acceleration is not available on this browser - only desktop Chrome and Opera are supported. If you are on a supported browser, report a bug to the Discord server`,
-            15)
+          Message.error(t('Error.GPUNotAvailable'), 15)
           window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
           computeEngine = COMPUTE_ENGINE_CPU
         } else {
@@ -179,7 +204,7 @@ export const Optimizer = {
 
     if (computeEngine == COMPUTE_ENGINE_CPU) {
       // Generate runs
-      const runs: { skip: number; runSize: number }[] = []
+      const runs: { skip: number, runSize: number }[] = []
       for (let currentSkip = 0; currentSkip < permutations; currentSkip += runSize) {
         runSize = Math.min(maxSize, runSize + increment)
         runs.push({

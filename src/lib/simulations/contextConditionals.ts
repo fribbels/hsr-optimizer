@@ -1,8 +1,15 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { calculateContextConditionalRegistry, wrapTeammateDynamicConditional } from 'lib/optimization/calculateConditionals'
-import { CharacterMetadata, OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  calculateContextConditionalRegistry,
+  wrapTeammateDynamicConditional,
+} from 'lib/optimization/calculateConditionals'
+import {
+  CharacterMetadata,
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export function initializeContextConditionals(context: OptimizerContext) {
   context.characterConditionalController = CharacterConditionalsResolver.get(context)

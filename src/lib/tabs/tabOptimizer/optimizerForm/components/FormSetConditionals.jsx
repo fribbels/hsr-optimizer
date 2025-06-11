@@ -1,5 +1,16 @@
-import { Drawer, Flex, Form, Popover, Select, Switch, Typography } from 'antd'
-import { Constants, setToId } from 'lib/constants/constants'
+import {
+  Drawer,
+  Flex,
+  Form,
+  Popover,
+  Select,
+  Switch,
+  Typography,
+} from 'antd'
+import {
+  Constants,
+  setToId,
+} from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
 import { VerticalDivider } from 'lib/ui/Dividers'
@@ -15,7 +26,7 @@ const setConditionalsNameWidth = 200
 const setConditionalsWidth = 80
 const defaultGap = 5
 
-export function FormSetConditionals(props/* : { open: boolean; setOpen: (boolean) => void } */) {
+export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolean) => void } */) {
   // eslint-disable-next-line react/prop-types
   const id = props.id
 
@@ -161,12 +172,56 @@ export function FormSetConditionals(props/* : { open: boolean; setOpen: (boolean
 
     return options
   }, [t])
+  const setArcadiaOfWovenDreams = useMemo(() => {
+    return [
+      {
+        display: '1x',
+        value: 1,
+        label: '1 ally (+36% DMG)',
+      },
+      {
+        display: '2x',
+        value: 2,
+        label: '2 allies (+24% DMG)',
+      },
+      {
+        display: '3x',
+        value: 3,
+        label: '3 allies (+12% DMG)',
+      },
+      {
+        display: '4x',
+        value: 4,
+        label: '4 allies (+0% DMG)',
+      },
+      {
+        display: '5x',
+        value: 5,
+        label: '5 allies (+9% DMG)',
+      },
+      {
+        display: '6x',
+        value: 6,
+        label: '6 allies (+18% DMG)',
+      },
+      {
+        display: '7x',
+        value: 7,
+        label: '7 allies (+27% DMG)',
+      },
+      {
+        display: '8x',
+        value: 8,
+        label: '8 allies (+36% DMG)',
+      },
+    ]
+  }, [t])
 
   // defaultMessage = 'Enabled by default - effects will apply to combat calculations.'
 
   return (
     <Drawer
-      title={t('Title')}// 'Conditional set effects'
+      title={t('Title')} // 'Conditional set effects'
       placement='right'
       onClose={() => close()}
       open={isOpen}
@@ -449,6 +504,18 @@ export function FormSetConditionals(props/* : { open: boolean; setOpen: (boolean
             conditional={t('Conditionals.DefaultMessage')} // 'The selected buff is applied to damage calculations.'
             p2Checked
           />
+          <ConditionalSetOption
+            set={Constants.Sets.ArcadiaOfWovenDreams}
+            description={t('PlanarDescription', { id: 321 })}
+            conditional={t('Conditionals.DefaultMessage')} // 'The selected buff is applied to damage calculations.'
+            selectOptions={setArcadiaOfWovenDreams}
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.RevelryByTheSea}
+            description={t('PlanarDescription', { id: 322 })}
+            conditional={t('Conditionals.DefaultMessage')} // 'The selected buff is applied to damage calculations.'
+            p2Checked
+          />
         </Flex>
       </Flex>
     </Drawer>
@@ -461,14 +528,14 @@ function ConditionalSetOption(props) {
     <Flex vertical gap={10}>
       <Flex vertical>
         <HeaderText>
-          <p>{t('DescriptionHeader')/* Set description */}</p>
+          <p>{t('DescriptionHeader') /* Set description */}</p>
         </HeaderText>
         <p>{ColorizeNumbers(props.description)}</p>
       </Flex>
 
       <Flex vertical>
         <HeaderText>
-          <p>{t('EffectHeader')/* Enabled effect */}</p>
+          <p>{t('EffectHeader') /* Enabled effect */}</p>
         </HeaderText>
         <p>{props.conditional}</p>
       </Flex>
@@ -477,7 +544,7 @@ function ConditionalSetOption(props) {
 
   if (Constants.SetsRelicsNames.includes(props.set)) {
     // Relics
-    let inputType = (<Switch disabled={props.p4Checked} />)
+    let inputType = <Switch disabled={props.p4Checked} />
     if (props.selectOptions) {
       inputType = (
         <Select
@@ -515,7 +582,8 @@ function ConditionalSetOption(props) {
               overflow: 'hidden',
               whiteSpace: 'nowrap',
             }}
-          >{t('SetName', { id: setToId[props.set] })}
+          >
+            {t('SetName', { id: setToId[props.set] })}
           </Text>
           <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
             <Form.Item
@@ -530,7 +598,7 @@ function ConditionalSetOption(props) {
     )
   } else {
     // Ornaments
-    let inputType = (<Switch disabled={props.p2Checked} />)
+    let inputType = <Switch disabled={props.p2Checked} />
     if (props.selectOptions) {
       inputType = (
         <Select
@@ -567,7 +635,8 @@ function ConditionalSetOption(props) {
               overflow: 'hidden',
               whiteSpace: 'nowrap',
             }}
-          >{t('SetName', { id: setToId[props.set] })}
+          >
+            {t('SetName', { id: setToId[props.set] })}
           </Text>
           <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
             <Form.Item

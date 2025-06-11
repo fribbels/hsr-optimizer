@@ -1,6 +1,11 @@
 import { SaveState } from 'lib/state/saveState'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
-import { characterCumulative, characterDistribution, lightConeCumulative, lightConeDistribution } from 'lib/tabs/tabWarp/warpRates'
+import {
+  characterCumulative,
+  characterDistribution,
+  lightConeCumulative,
+  lightConeDistribution,
+} from 'lib/tabs/tabWarp/warpRates'
 
 // Notes: 626 to e6 and 960 to e6s5, 952 with 0.78125 on lc
 
@@ -26,7 +31,6 @@ export const NONE_WARP_INCOME_OPTION = generateOption('NONE', 0, WarpIncomeType.
 
 // Modified each patch
 export const WarpIncomeOptions: WarpIncomeDefinition[] = [
-
   // generateOption('3.0', 1, WarpIncomeType.F2P, 75),
   // generateOption('3.0', 2, WarpIncomeType.F2P, 34),
   // generateOption('3.0', 1, WarpIncomeType.EXPRESS, 86),
@@ -54,6 +58,13 @@ export const WarpIncomeOptions: WarpIncomeDefinition[] = [
   generateOption('3.3', 2, WarpIncomeType.EXPRESS, 119 - 80),
   generateOption('3.3', 1, WarpIncomeType.BP_EXPRESS, 88),
   generateOption('3.3', 2, WarpIncomeType.BP_EXPRESS, 128 - 88),
+
+  generateOption('3.4', 1, WarpIncomeType.F2P, 66),
+  generateOption('3.4', 2, WarpIncomeType.F2P, 90 - 66),
+  generateOption('3.4', 1, WarpIncomeType.EXPRESS, 78),
+  generateOption('3.4', 2, WarpIncomeType.EXPRESS, 114 - 78),
+  generateOption('3.4', 1, WarpIncomeType.BP_EXPRESS, 86),
+  generateOption('3.4', 2, WarpIncomeType.BP_EXPRESS, 122 - 86),
 ]
 
 export enum WarpStrategy {
@@ -102,24 +113,24 @@ export const StarlightMultiplier: Record<StarlightRefund, number> = {
 }
 
 export type WarpRequest = {
-  passes: number
-  jades: number
-  income: string[]
-  bannerRotation: BannerRotation
-  strategy: WarpStrategy
-  starlight: StarlightRefund
-  pityCharacter: number
-  guaranteedCharacter: boolean
-  pityLightCone: number
-  guaranteedLightCone: boolean
-  currentEidolonLevel: EidolonLevel
-  currentSuperimpositionLevel: SuperimpositionLevel
+  passes: number,
+  jades: number,
+  income: string[],
+  bannerRotation: BannerRotation,
+  strategy: WarpStrategy,
+  starlight: StarlightRefund,
+  pityCharacter: number,
+  guaranteedCharacter: boolean,
+  pityLightCone: number,
+  guaranteedLightCone: boolean,
+  currentEidolonLevel: EidolonLevel,
+  currentSuperimpositionLevel: SuperimpositionLevel,
 }
 
-export type WarpMilestoneResult = { warps: number; wins: number }
+export type WarpMilestoneResult = { warps: number, wins: number }
 export type WarpResult = null | {
-  milestoneResults: Record<string, WarpMilestoneResult>
-  request: EnrichedWarpRequest
+  milestoneResults: Record<string, WarpMilestoneResult>,
+  request: EnrichedWarpRequest,
 }
 
 export enum WarpType {
@@ -143,21 +154,21 @@ export const DEFAULT_WARP_REQUEST: WarpRequest = {
 }
 
 export type WarpIncomeDefinition = {
-  passes: number
-  id: string
-  version: string
-  type: WarpIncomeType
-  phase: number
+  passes: number,
+  id: string,
+  version: string,
+  type: WarpIncomeType,
+  phase: number,
 }
 
 type WarpMilestone = {
-  warpType: WarpType
-  label: string
-  pity: number
-  guaranteed: boolean
-  redistributedCumulative: number[]
-  redistributedCumulativeNonPity?: number[]
-  warpCap: number
+  warpType: WarpType,
+  label: string,
+  pity: number,
+  guaranteed: boolean,
+  redistributedCumulative: number[],
+  redistributedCumulativeNonPity?: number[],
+  warpCap: number,
 }
 
 function generateOption(version: string, phase: number, type: WarpIncomeType, passes: number) {
@@ -375,10 +386,10 @@ function filterRemapMilestones(milestones: WarpMilestone[], enrichRequest: Enric
 }
 
 export type EnrichedWarpRequest = {
-  warps: number
-  totalStarlight: number
-  totalPasses: number
-  totalJade: number
+  warps: number,
+  totalStarlight: number,
+  totalPasses: number,
+  totalJade: number,
 } & WarpRequest
 
 function enrichWarpRequest(request: WarpRequest) {

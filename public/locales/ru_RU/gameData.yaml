@@ -12,11 +12,11 @@ Characters:
     Name: Вельт
     LongName: Вельт
   "1005":
-    Name: (Old) Кафка
-    LongName: (Old) Кафка
+    Name: ⚰️ Кафка
+    LongName: ⚰️ Кафка
   "1006":
-    Name: (Old) Серебряный Волк
-    LongName: (Old) Серебряный Волк
+    Name: ⚰️ Серебряный Волк
+    LongName: ⚰️ Серебряный Волк
   "1008":
     Name: Арлан
     LongName: Арлан
@@ -81,8 +81,8 @@ Characters:
     Name: Цзин Юань
     LongName: Цзин Юань
   "1205":
-    Name: (Old) Блэйд
-    LongName: (Old) Блэйд
+    Name: ⚰️ Блэйд
+    LongName: ⚰️ Блэйд
   "1206":
     Name: Сушан
     LongName: Сушан
@@ -102,8 +102,8 @@ Characters:
     Name: Байлу
     LongName: Байлу
   "1212":
-    Name: (Old) Цзинлю
-    LongName: (Old) Цзинлю
+    Name: ⚰️ Цзинлю
+    LongName: ⚰️ Цзинлю
   "1213":
     Name: "Дань Хэн: Пожиратель Луны"
     LongName: "Дань Хэн: Пожиратель Луны"
@@ -234,17 +234,17 @@ Characters:
     Name: Стелла
     LongName: Стелла (Память)
   1212b1:
-    Name: (New) Цзинлю
-    LongName: (New) Цзинлю
+    Name: Цзинлю
+    LongName: Цзинлю
   1205b1:
-    Name: (New) Блэйд
-    LongName: (New) Блэйд
+    Name: Блэйд
+    LongName: Блэйд
   1005b1:
-    Name: (New) Кафка
-    LongName: (New) Кафка
+    Name: Кафка
+    LongName: Кафка
   1006b1:
-    Name: (New) Серебряный Волк
-    LongName: (New) Серебряный Волк
+    Name: Серебряный Волк
+    LongName: Серебряный Волк
 RelicSets:
   "101":
     Name: Скиталец блуждающего облака
@@ -412,10 +412,10 @@ RelicSets:
     Description2pc: Повышает скорость владельца на 6%. Если скорость владельца выше или равна 135/180 ед., то исходящее исцеление владельца и его духа памяти повышается на 12%/20%.
   "321":
     Name: Arcadia of Woven Dreams
-    Description2pc: When the number of ally targets on the field is not 4, for every 1 extra/missing ally target, increases the wearer's and their memosprite's DMG by 9%/12%, stacking up to 4/3 times.
+    Description2pc: When there are currently more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks.
   "322":
     Name: Revelry by the Sea
-    Description2pc: Increases the wearer's DoT DMG by 12%. When the wearer's ATK is higher than or equal to 2400/3600, additionally increases the DoT DMG dealt by 12%/24%.
+    Description2pc: Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%.
 Lightcones:
   "20000":
     Name: Стрелы
@@ -574,7 +574,7 @@ Lightcones:
   "21055":
     Name: Unto Tomorrow's Morrow
   "21056":
-    Name: Pursuit of the Wind
+    Name: In Pursuit of the Wind
   "21057":
     Name: The Flower Remembers
   "21058":

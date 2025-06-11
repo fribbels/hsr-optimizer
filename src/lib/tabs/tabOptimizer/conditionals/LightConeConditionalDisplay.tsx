@@ -8,7 +8,10 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
-import { LightCone, SuperImpositionLevel } from 'types/lightCone'
+import {
+  LightCone,
+  SuperImpositionLevel,
+} from 'types/lightCone'
 import { DBMetadata } from 'types/metadata'
 
 export interface LightConeConditionalDisplayProps {
@@ -43,15 +46,13 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
 
   return (
     <Flex vertical gap={5}>
-      {
-        (teammateIndex == null) && (
-          <Flex justify='space-between' align='center'>
-            <HeaderText>{t('LightconePassives')/* Light cone passives */}</HeaderText>
-            <TooltipImage type={Hint.lightConePassives()}/>
-          </Flex>
-        )
-      }
-      <DisplayFormControl content={content} teammateIndex={teammateIndex}/>
+      {(teammateIndex == null) && (
+        <Flex justify='space-between' align='center'>
+          <HeaderText>{t('LightconePassives') /* Light cone passives */}</HeaderText>
+          <TooltipImage type={Hint.lightConePassives()} />
+        </Flex>
+      )}
+      <DisplayFormControl content={content} teammateIndex={teammateIndex} />
     </Flex>
   )
 })

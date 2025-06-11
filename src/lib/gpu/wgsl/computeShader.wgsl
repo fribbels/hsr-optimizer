@@ -57,7 +57,7 @@ fn main(
     workgroup_id.z * num_workgroups.x * num_workgroups.y;
   let indexGlobal = i32(workgroup_index * WORKGROUP_SIZE + local_invocation_index);
 
-  // Load params
+  // Load offset params
   let xl = i32(params.xl);
   let xp = i32(params.xp);
   let xf = i32(params.xf);
@@ -77,14 +77,15 @@ fn main(
 
     let index = cycleIndex + i;
 
-    // Calculate relic index per slot
+    // Calculate relic index per slot based on the index (global index + invocation index)
 
-    let l = (index % lSize);
-    let p = (((index - l) / lSize) % pSize);
-    let f = (((index - p * lSize - l) / (lSize * pSize)) % fSize);
-    let b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize);
-    let g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize);
-    let h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize);
+    // START RELIC SLOT INDEX STRATEGY
+    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+    /* INJECT RELIC SLOT INDEX STRATEGY */
+    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+    // START RELIC SLOT INDEX STRATEGY
+
+    // Sum this invocation slots with the block offset
 
     let finalL = (l + xl) % lSize;
     let carryL = (l + xl) / lSize;
@@ -182,6 +183,8 @@ fn main(
       sets.TheWondrousBananAmusementPark   = i32((1 >> (setP ^ 17)) + (1 >> (setL ^ 17)));
       sets.BoneCollectionsSereneDemesne    = i32((1 >> (setP ^ 18)) + (1 >> (setL ^ 18)));
       sets.GiantTreeOfRaptBrooding         = i32((1 >> (setP ^ 19)) + (1 >> (setL ^ 19)));
+      sets.ArcadiaOfWovenDreams            = i32((1 >> (setP ^ 20)) + (1 >> (setL ^ 20)));
+      sets.RevelryByTheSea                 = i32((1 >> (setP ^ 21)) + (1 >> (setL ^ 21)));
     }
 
     var c: BasicStats = BasicStats();
@@ -258,7 +261,8 @@ fn main(
       0.12 * p2(sets.PrisonerInDeepConfinement) +
       0.12 * p2(sets.IzumoGenseiAndTakamaDivineRealm) +
       0.12 * p2(sets.TheWindSoaringValorous) +
-      0.12 * p2(sets.HeroOfTriumphantSong)
+      0.12 * p2(sets.HeroOfTriumphantSong) +
+      0.12 * p2(sets.RevelryByTheSea)
     );
 
     c.DEF += (baseDEF) * (
@@ -389,7 +393,7 @@ fn main(
         x.CD_BOOST += 0.10;
       }
       if (p4(sets.PioneerDiverOfDeadWaters) >= 1) {
-        x.CD_BOOST += getPioneerSetCd(setConditionals.valuePioneerDiverOfDeadWaters);
+        x.CD_BOOST += getPioneerSetValue(setConditionals.valuePioneerDiverOfDeadWaters);
       }
       if (p2(sets.SigoniaTheUnclaimedDesolation) >= 1) {
         x.CD += 0.04 * f32(setConditionals.valueSigoniaTheUnclaimedDesolation);
@@ -505,6 +509,12 @@ fn main(
         m.ELEMENTAL_DMG += 0.10;
       }
 
+      if (p2(sets.ArcadiaOfWovenDreams) >= 1) {
+        let buffValue = getArcadiaOfWovenDreamsValue(setConditionals.valueArcadiaOfWovenDreams);
+        x.ELEMENTAL_DMG += buffValue;
+        m.ELEMENTAL_DMG += buffValue;
+      }
+
       x.ATK += diffATK;
       x.DEF += diffDEF;
       x.HP  += diffHP;
@@ -578,6 +588,14 @@ fn main(
       if (p4(sets.IronCavalryAgainstTheScourge) >= 1 && x.BE >= 1.50) {
         buffAbilityDefShred(p_x, BREAK_DMG_TYPE, 0.10, 1);
         buffAbilityDefShred(p_x, SUPER_BREAK_DMG_TYPE, select(0.0, 0.15, x.BE >= 2.50), 1);
+      }
+
+      if (p2(sets.RevelryByTheSea) >= 1) {
+        if (x.ATK >= 3600) {
+          buffAbilityDmg(p_x, DOT_DMG_TYPE, 0.24, 1);
+        } else if (x.ATK >= 2400) {
+          buffAbilityDmg(p_x, DOT_DMG_TYPE, 0.12, 1);
+        }
       }
 
       // START ACTION CONDITIONALS
@@ -1233,7 +1251,7 @@ fn getElementalResPen(
   }
 }
 
-fn getPioneerSetCd(
+fn getPioneerSetValue(
   index: i32,
 ) -> f32 {
   switch (index) {
@@ -1248,6 +1266,40 @@ fn getPioneerSetCd(
     }
     case 1: {
       return 0.08;
+    }
+    default: {
+      return 0.0;
+    }
+  }
+}
+
+fn getArcadiaOfWovenDreamsValue(
+  index: i32,
+) -> f32 {
+  switch (index) {
+    case 1: {
+      return 0.36;
+    }
+    case 2: {
+      return 0.24;
+    }
+    case 3: {
+      return 0.12;
+    }
+    case 4: {
+      return 0.00;
+    }
+    case 5: {
+      return 0.09;
+    }
+    case 6: {
+      return 0.18;
+    }
+    case 7: {
+      return 0.27;
+    }
+    case 8: {
+      return 0.36;
     }
     default: {
       return 0.0;

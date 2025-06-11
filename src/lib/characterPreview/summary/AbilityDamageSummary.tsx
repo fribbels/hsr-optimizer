@@ -6,7 +6,7 @@ import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { useTranslation } from 'react-i18next'
 
 type AbilityDamageSummaryProps = {
-  simResult: RunStatSimulationsResult
+  simResult: RunStatSimulationsResult,
 }
 
 export function AbilityDamageSummary({ simResult }: AbilityDamageSummaryProps) {
@@ -14,24 +14,24 @@ export function AbilityDamageSummary({ simResult }: AbilityDamageSummaryProps) {
   return (
     <Flex gap={defaultGap} justify='space-around'>
       <Flex vertical gap={4} style={{ width: 230 }}>
-        <ScoringNumber label={String(t('Basic')) + ':'} number={simResult.xa[Key.BASIC_DMG]} precision={1}/>
-        <ScoringNumber label={String(t('Skill')) + ':'} number={simResult.xa[Key.SKILL_DMG]} precision={1}/>
-        <ScoringNumber label={String(t('Ult')) + ':'} number={simResult.xa[Key.ULT_DMG]} precision={1}/>
-        <ScoringNumber label={String(t('Fua')) + ':'} number={simResult.xa[Key.FUA_DMG]} precision={1}/>
-        <ScoringNumber label={String(t('Memo_Skill')) + ':'} number={simResult.xa[Key.MEMO_SKILL_DMG]} precision={1}/>
-        <ScoringNumber label={String(t('Memo_Talent')) + ':'} number={simResult.xa[Key.MEMO_TALENT_DMG]} precision={1}/>
-        <ScoringNumber label={String(t('Dot')) + ':'} number={simResult.xa[Key.DOT_DMG]} precision={1}/>
-        <ScoringNumber label={String(t('Break')) + ':'} number={simResult.xa[Key.BREAK_DMG]} precision={1}/>
+        <ScoringNumber label={String(t('Basic')) + ':'} number={simResult.xa[Key.BASIC_DMG]} precision={1} />
+        <ScoringNumber label={String(t('Skill')) + ':'} number={simResult.xa[Key.SKILL_DMG]} precision={1} />
+        <ScoringNumber label={String(t('Ult')) + ':'} number={simResult.xa[Key.ULT_DMG]} precision={1} />
+        <ScoringNumber label={String(t('Fua')) + ':'} number={simResult.xa[Key.FUA_DMG]} precision={1} />
+        <ScoringNumber label={String(t('Memo_Skill')) + ':'} number={simResult.xa[Key.MEMO_SKILL_DMG]} precision={1} />
+        <ScoringNumber label={String(t('Memo_Talent')) + ':'} number={simResult.xa[Key.MEMO_TALENT_DMG]} precision={1} />
+        <ScoringNumber label={String(t('Dot')) + ':'} number={simResult.xa[Key.DOT_DMG]} precision={1} />
+        <ScoringNumber label={String(t('Break')) + ':'} number={simResult.xa[Key.BREAK_DMG]} precision={1} />
       </Flex>
     </Flex>
   )
 }
 
 function ScoringNumber(props: {
-  label: string
-  number?: number
-  precision?: number
-  useGrouping?: boolean
+  label: string,
+  number?: number,
+  precision?: number,
+  useGrouping?: boolean,
 }) {
   const precision = props.precision ?? 1
   const value = props.number ?? 0

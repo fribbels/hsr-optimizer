@@ -1,13 +1,22 @@
-import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import i18next from 'i18next'
+import { BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
+import {
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
+import {
+  buffAbilityDmg,
+  Target,
+} from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
-import i18next from "i18next";
-import { CURRENT_DATA_VERSION } from "lib/constants/constants";
-import { buffAbilityDmg, Target } from "lib/optimization/calculateBuffs";
-import { BREAK_DMG_TYPE } from "lib/conditionals/conditionalConstants";
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.JourneyForeverPeaceful')
@@ -48,7 +57,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityDmg(x, BREAK_DMG_TYPE, m.breakDmgBoost? sValuesBreakDmg[s] : 0, SOURCE_LC, Target.TEAM)
+      buffAbilityDmg(x, BREAK_DMG_TYPE, m.breakDmgBoost ? sValuesBreakDmg[s] : 0, SOURCE_LC, Target.TEAM)
     },
     finalizeCalculations: () => {
     },

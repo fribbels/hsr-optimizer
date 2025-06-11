@@ -11,7 +11,7 @@ LightconePassives: 光锥被动
 CharacterPassives: 角色被动
 NoConditionals: 无可应用的条件触发被动技能
 NoTeamConditionals: 无可应用的条件触发团队被动技能
-ResultLimitN: "查找排名前{{limit}}的结果"
+ResultLimitN: '查找排名前{{limit}}的结果'
 MainStats: 主属性
 Sets: 套装
 RelicSetSelector:
@@ -35,17 +35,17 @@ SortOptions:
   BREAK: 按击破伤害排序
   HEAL: 按治疗值排序
   SHIELD: 按护盾值排序
-  HP: "按$t(common:ReadableStats.HP)排序"
-  ATK: "按$t(common:ReadableStats.ATK)排序"
-  DEF: "按$t(common:ReadableStats.DEF)排序"
-  SPD: "按$t(common:ReadableStats.SPD)排序"
-  CR: "按$t(common:ReadableStats.CRIT Rate)排序"
-  CD: "按$t(common:ReadableStats.CRIT DMG)排序"
-  EHR: "按$t(common:ReadableStats.Effect Hit Rate)排序"
-  RES: "按$t(common:ReadableStats.Effect RES)排序"
-  BE: "按$t(common:ReadableStats.Break Effect)排序"
-  OHB: "按$t(common:ReadableStats.Outgoing Healing Boost)排序"
-  ERR: "按$t(common:ReadableStats.Energy Regeneration Rate)排序"
+  HP: '按$t(common:ReadableStats.HP)排序'
+  ATK: '按$t(common:ReadableStats.ATK)排序'
+  DEF: '按$t(common:ReadableStats.DEF)排序'
+  SPD: '按$t(common:ReadableStats.SPD)排序'
+  CR: '按$t(common:ReadableStats.CRIT Rate)排序'
+  CD: '按$t(common:ReadableStats.CRIT DMG)排序'
+  EHR: '按$t(common:ReadableStats.Effect Hit Rate)排序'
+  RES: '按$t(common:ReadableStats.Effect RES)排序'
+  BE: '按$t(common:ReadableStats.Break Effect)排序'
+  OHB: '按$t(common:ReadableStats.Outgoing Healing Boost)排序'
+  ERR: '按$t(common:ReadableStats.Energy Regeneration Rate)排序'
   DMG: 按元素伤害排序
   EHP: 按有效生命值排序
 OptimizerOptions:
@@ -53,19 +53,19 @@ OptimizerOptions:
   PriorityFilter: 角色优先级过滤器
   Priority:
     Header: 优先级
-    Label: "# {{rank}} - $t(common:Characters.{{id}}.Name)"
-    Name: "# {{rank}}"
+    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
+    Name: '# {{rank}}'
   AllowEquipped: 允许已装备的遗器
   KeepCurrent: 保持当前遗器
   Exclude: 排除
   MinEnhance:
     Header: 最小强化等级
-    Label0: "+0"
-    Label3: "+3"
-    Label6: "+6"
-    Label9: "+9"
-    Label12: "+12"
-    Label15: "+15"
+    Label0: '+0'
+    Label3: '+3'
+    Label6: '+6'
+    Label9: '+9'
+    Label12: '+12'
+    Label15: '+15'
   MinRarity:
     Header: 最小稀有度
     Label2: 2 ★ +
@@ -74,23 +74,23 @@ OptimizerOptions:
     Label5: 5 ★
   BoostMain:
     Header: 提升主属性
-    Label0: "+0"
-    Label3: "+3"
-    Label6: "+6"
-    Label9: "+9"
-    Label12: "+12"
-    Label15: "+15"
+    Label0: '+0'
+    Label3: '+3'
+    Label6: '+6'
+    Label9: '+9'
+    Label12: '+12'
+    Label15: '+15'
 AdvancedOptions:
   Header: 高级选项
   EnemyConfigButtonText: 敌人配置
   CombatBuffsButtonTextNone: 额外战斗增益
-  CombatBuffsButtonText: "额外战斗增益 ({{activeCount}})"
+  CombatBuffsButtonText: '额外战斗增益 ({{activeCount}})'
   CustomTracesButtonText: 自定义属性行迹
 Grid:
   To: '-'
   Of: /
   Page: 页
-  PageSelectorLabel: "页面大小："
+  PageSelectorLabel: '页面大小：'
   Headers:
     Basic:
       Set: 套装
@@ -107,9 +107,6 @@ Grid:
       ERR: 能量恢复
       DMG: 伤害
       EHP: 有效生命
-      WEIGHT: |-
-        属性
-        权重
       HEAL: 治疗值
       SHIELD: 护盾值
       BASIC: |-
@@ -154,9 +151,6 @@ Grid:
       ERR: Σ 能量
       DMG: Σ 伤害
       EHP: 有效生命
-      WEIGHT: |-
-        属性
-        权重
       HEAL: 治疗值
       SHIELD: 护盾值
       BASIC: |-
@@ -196,9 +190,9 @@ Sidebar:
       Stable: 计算引擎已切换到GPU（稳定）
       Experimental: 计算引擎已切换到GPU（实验性）
     Display:
-      GPU Experimental: "GPU加速：已启用"
-      GPU Stable: "GPU加速：已启用"
-      CPU: "GPU加速：已禁用"
+      GPU Experimental: 'GPU加速：已启用'
+      GPU Stable: 'GPU加速：已启用'
+      CPU: 'GPU加速：已禁用'
   Pinning:
     Messages:
       NoneSelected: 未选择行列
@@ -212,8 +206,8 @@ Sidebar:
   ProgressText:
     Progress: 进度
     CalculatingETA: 进度（正在计算预计完成时间...）
-    TimeRemaining: "{{rate}} / 秒 — 还剩{{timeRemaining}}"
-    Finished: "{{rate}} / 秒 — 已完成"
+    TimeRemaining: '{{rate}} / 秒 — 还剩{{timeRemaining}}'
+    Finished: '{{rate}} / 秒 — 已完成'
   ControlsGroup:
     Header: 控制
     Start: 启动优化器
@@ -229,11 +223,12 @@ Sidebar:
   ResultsGroup:
     Header: 结果
     Equip: 装备
+    EquipSuccessMessage: 已装备
     Filter: 过滤
     Pin: 置顶配装
     Clear: 清除所有置顶
 TeammateRow:
-  Header: "队友 {{teammateCount}}"
+  Header: '队友 {{teammateCount}}'
 FormRowLabels:
   Character options: 角色选项
   Relic & stat filters: 遗器和属性筛选
@@ -248,17 +243,17 @@ SetConditionals:
   Title: 套装条件触发效果
   DescriptionHeader: 套装描述
   EffectHeader: 已启用效果
-  SetName: "$t(gameData:RelicSets.{{id}}.Name)"
-  RelicDescription: "$t(gameData:RelicSets.{{id}}.Description4pc)"
-  PlanarDescription: "$t(gameData:RelicSets.{{id}}.Description2pc)"
+  SetName: '$t(gameData:RelicSets.{{id}}.Name)'
+  RelicDescription: '$t(gameData:RelicSets.{{id}}.Description4pc)'
+  PlanarDescription: '$t(gameData:RelicSets.{{id}}.Description2pc)'
   SelectOptions:
     Streetwise:
-      Display: "{{stackCount}}层"
-      Label: "{{stackCount}}层 (+{{buffValue}}% ATK)"
+      Display: '{{stackCount}}层'
+      Label: '{{stackCount}}层 (+{{buffValue}}% ATK)'
     Wastelander:
       Off:
-        Display: "关闭"
-        Label: "关闭"
+        Display: '关闭'
+        Label: '关闭'
       Debuffed:
         Display: 暴击率
         Label: 被减益 (+10% CR)
@@ -266,14 +261,14 @@ SetConditionals:
         Display: 暴击 + 爆伤
         Label: 禁锢 (+10% 暴击 | +20% 爆伤)
     Longevous:
-      Display: "{{stackCount}}层"
-      Label: "{{stackCount}}层 (+{{buffValue}}% 暴击)"
+      Display: '{{stackCount}}层'
+      Label: '{{stackCount}}层 (+{{buffValue}}% 暴击)'
     Ashblazing:
-      Display: "{{stackCount}}层"
-      Label: "{{stackCount}}层 (+{{buffValue}}% ATK)"
+      Display: '{{stackCount}}层'
+      Label: '{{stackCount}}层 (+{{buffValue}}% ATK)'
     Prisoner:
-      Display: "{{stackCount}}层"
-      Label: "{{stackCount}}层 (+{{buffValue}}% 防御穿透)"
+      Display: '{{stackCount}}层'
+      Label: '{{stackCount}}层 (+{{buffValue}}% 防御穿透)'
     Diver:
       Off:
         Display: 0层
@@ -294,15 +289,15 @@ SetConditionals:
         Display: 3层+
         Label: 3减益, 已增强 (+12% 伤害 | +4% 基础暴击 | +4% 战斗暴击 | +24% 爆伤)
     Sigonia:
-      Display: "{{stackCount}}层"
-      Label: "{{stackCount}}层 (+{{buffValue}}% CD)"
+      Display: '{{stackCount}}层'
+      Label: '{{stackCount}}层 (+{{buffValue}}% CD)'
     Duran:
-      Display: "{{stackCount}}层"
-      Label: "{{stackCount}}层 (+{{buffValue}}% 追加攻击伤害)"
+      Display: '{{stackCount}}层'
+      Label: '{{stackCount}}层 (+{{buffValue}}% 追加攻击伤害)'
       Label5: 5层 (+25% 追加攻击伤害 | +25% 爆伤)
     Sacerdos:
-      Display: "{{stackCount}}层"
-      Label: "{{stackCount}}层 (+{{buffValue}}% CD)"
+      Display: '{{stackCount}}层'
+      Label: '{{stackCount}}层 (+{{buffValue}}% CD)'
   Conditionals:
     DefaultMessage: 默认启用 - 效果将应用于战斗计算。
     Hunter: 启用后，暴击伤害增益将应用于战斗属性计算。
@@ -343,7 +338,7 @@ Presets:
     SPD171: 171.429速 - 在前三轮中行动6次
     SPD177: 177.778速 - 在前四轮中行动8次
     SPD200: 200.000速 - 在第一轮中行动3次
-  StandardLabel: "标准$t(gameData:Characters.{{id}}.Name)"
+  StandardLabel: '标准$t(gameData:Characters.{{id}}.Name)'
   RecommendedPresets: 推荐预设
   PresetNotAvailable: 预设不可用，请选择其他选项
 CombatBuffs:
@@ -368,12 +363,12 @@ CombatBuffs:
 Target_one: 目标
 Target_other: 目标
 EnemyConfiguration:
-  LevelOptionLabel: "{{level}}级 - {{defense}}防御力"
+  LevelOptionLabel: '{{level}}级 - {{defense}}防御力'
   CountOptionLabel: >-
     {{targetCount}}$t(optimizerTab:Target, {"count": {{targetCount}}})$t(optimizerTab:Target, {"count": {{targetCount}}})
-  EffResOptionLabel: "{{resistance}}%效果抵抗"
-  DmgResOptionLabel: "{{resistance}}%伤害抗性"
-  ToughnessOptionLabel: "{{toughness}}最大韧性"
+  EffResOptionLabel: '{{resistance}}%效果抵抗'
+  DmgResOptionLabel: '{{resistance}}%伤害抗性'
+  ToughnessOptionLabel: '{{toughness}}最大韧性'
   Title: 敌人配置
   StatHeader: 敌人属性选项
   WeaknessLabel: 元素弱点
@@ -422,10 +417,12 @@ ComboFilter:
     Simple: 简易
     Advanced: 高级
   RowControls:
+    Header: 控制
     Add: +
-    Remove: "-"
+    Remove: '-'
     ResetConfirm:
       Description: 重置所有简易 / 高级循环设置为默认值？
+    PresetsHeader: 预设
   CounterLabels:
     Dot: 持续伤害数量
   ComboOptions:
@@ -462,40 +459,40 @@ TeammateCard:
   TeammateSyncSuccessMessage: 已同步的队友信息
   TeammateSets:
     Messenger:
-      Desc: "四件套: $t(gameData:RelicSets.114.Name) (+12%速度)"
-      Set: "$t(gameData:RelicSets.114.Name)"
+      Desc: '四件套: $t(gameData:RelicSets.114.Name) (+12%速度)'
+      Set: '$t(gameData:RelicSets.114.Name)'
       Text: 12% 速度
     Watchmaker:
-      Desc: "四件套: $t(gameData:RelicSets.118.Name) (+30%击破特攻)"
-      Set: "$t(gameData:RelicSets.118.Name)"
+      Desc: '四件套: $t(gameData:RelicSets.118.Name) (+30%击破特攻)'
+      Set: '$t(gameData:RelicSets.118.Name)'
       Text: 30% 击破特攻
     Sacerdos1Stack:
-      Desc: "四件套: $t(gameData:RelicSets.121.Name) (+18%暴击伤害)"
-      Set: "$t(gameData:RelicSets.121.Name)"
+      Desc: '四件套: $t(gameData:RelicSets.121.Name) (+18%暴击伤害)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 18% 爆伤
     Sacerdos2Stack:
-      Desc: "四件套: $t(gameData:RelicSets.121.Name) (+36%暴击伤害)"
-      Set: "$t(gameData:RelicSets.121.Name)"
+      Desc: '四件套: $t(gameData:RelicSets.121.Name) (+36%暴击伤害)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 36%暴伤
     Warrior:
-      Desc: "$t(gameData:RelicSets.125.Name) (+15%暴击伤害)"
-      Set: "$t(gameData:RelicSets.125.Name)"
+      Desc: '$t(gameData:RelicSets.125.Name) (+15%暴击伤害)'
+      Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% 爆伤
     Keel:
-      Desc: "$t(gameData:RelicSets.310.Name) (+10%暴击伤害)"
-      Set: "$t(gameData:RelicSets.310.Name)"
+      Desc: '$t(gameData:RelicSets.310.Name) (+10%暴击伤害)'
+      Set: '$t(gameData:RelicSets.310.Name)'
       Text: 10%暴伤
     Ageless:
-      Desc: "$t(gameData:RelicSets.302.Name) (+8%攻击力)"
-      Set: "$t(gameData:RelicSets.302.Name)"
+      Desc: '$t(gameData:RelicSets.302.Name) (+8%攻击力)'
+      Set: '$t(gameData:RelicSets.302.Name)'
       Text: 8%攻击力
     Penacony:
-      Desc: "$t(gameData:RelicSets.312.Name) (+10%同属性增伤)"
-      Set: "$t(gameData:RelicSets.312.Name)"
+      Desc: '$t(gameData:RelicSets.312.Name) (+10%同属性增伤)'
+      Set: '$t(gameData:RelicSets.312.Name)'
       Text: 10%增伤
     Lushaka:
-      Desc: "$t(gameData:RelicSets.317.Name) (+12%攻击力)"
-      Set: "$t(gameData:RelicSets.317.Name)"
+      Desc: '$t(gameData:RelicSets.317.Name) (+12%攻击力)'
+      Set: '$t(gameData:RelicSets.317.Name)'
       Text: 12%攻击力
 StatSimulation:
   DuplicateSimMessage: 相同属性的模拟已存在
@@ -508,9 +505,9 @@ StatSimulation:
     RelicPlaceholder: 隧洞遗器套装
     OrnamentPlaceholder: 位面饰品套装
   TotalRolls: 总升级次数
-  SubstatSelectorLabel: "$t(common:Stats.{{stat}})"
+  SubstatSelectorLabel: '$t(common:Stats.{{stat}})'
   ModeSelector:
-    Off: "关闭"
+    Off: '关闭'
     RollCount: 模拟自定义副词条升级次数
     Totals: 模拟自定义副词条属性值总和
   FooterLabels:
@@ -530,8 +527,8 @@ StatSimulation:
     FeetPlaceholder: 脚部
     SpherePlaceholder: 位面球
     RopePlaceholder: 连结绳
-    ShortStat: "$t(common:ShortReadableStats.{{stat}})"
-    LabelStat: "$t(common:ReadableStats.{{stat}})"
+    ShortStat: '$t(common:ShortReadableStats.{{stat}})'
+    LabelStat: '$t(common:ReadableStats.{{stat}})'
 ExpandedDataPanel:
   SubstatUpgrades:
     ColumnHeaders:
@@ -575,8 +572,8 @@ ExpandedDataPanel:
       memoDmg: 忆灵伤害
   BuffsAnalysisDisplay:
     Values:
-      BoolFalse: "否"
-      BoolTrue: "是"
+      BoolFalse: '否'
+      BoolTrue: '是'
     Sources:
       Basic: 普攻
       Skill: 战技
@@ -591,7 +588,7 @@ ExpandedDataPanel:
       E6: 6魂
     Stats:
       CompositeLabels:
-        Label: "{{prefix}}{{suffix}}"
+        Label: '{{prefix}}{{suffix}}'
         Prefix:
           Basic: 普攻
           Skill: 战技
@@ -676,5 +673,5 @@ ExpandedDataPanel:
         MemoTalent: 忆灵天赋伤害类型
         Additional: 额外伤害类型
         SuperBreak: 超击破伤害类型
-      ResPen: "$t(common:Elements.{{element}})抗性穿透"
-      Unconvertible: "不可转化的$t(common:Stats.{{stat}})"
+      ResPen: '$t(common:Elements.{{element}})抗性穿透'
+      Unconvertible: '不可转化的$t(common:Stats.{{stat}})'

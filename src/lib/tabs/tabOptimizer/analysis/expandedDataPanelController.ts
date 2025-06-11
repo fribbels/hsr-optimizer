@@ -1,16 +1,33 @@
-import { ElementToDamage, StatsValues, SubStats } from 'lib/constants/constants'
+import {
+  ElementToDamage,
+  StatsValues,
+  SubStats,
+} from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
-import { Buff, ComputedStatsArray, ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
+import {
+  Buff,
+  ComputedStatsArray,
+  ComputedStatsArrayCore,
+} from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
-import { convertRelicsToSimulation, ornamentSetIndexToName, relicSetIndexToNames } from 'lib/simulations/statSimulationController'
-import { Simulation, SimulationRelicByPart, SimulationRequest, StatSimTypes } from 'lib/simulations/statSimulationTypes'
+import {
+  convertRelicsToSimulation,
+  ornamentSetIndexToName,
+  relicSetIndexToNames,
+} from 'lib/simulations/statSimulationController'
+import {
+  Simulation,
+  SimulationRelicByPart,
+  SimulationRequest,
+  StatSimTypes,
+} from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -19,21 +36,21 @@ import { CharacterId } from 'types/character'
 import { OptimizerForm } from 'types/form'
 
 export type OptimizerResultAnalysis = {
-  oldRowData: OptimizerDisplayData
-  newRowData: OptimizerDisplayData
-  oldRelics: SingleRelicByPart
-  newRelics: SingleRelicByPart
-  request: OptimizerForm
-  oldX: ComputedStatsArray
-  newX: ComputedStatsArray
-  buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>>
-  elementalDmgValue: StatsValues
+  oldRowData: OptimizerDisplayData,
+  newRowData: OptimizerDisplayData,
+  oldRelics: SingleRelicByPart,
+  newRelics: SingleRelicByPart,
+  request: OptimizerForm,
+  oldX: ComputedStatsArray,
+  newX: ComputedStatsArray,
+  buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>>,
+  elementalDmgValue: StatsValues,
 }
 
 type StatUpgrade = {
-  stat: SubStats
-  simRequest: SimulationRequest
-  x: ComputedStatsArray
+  stat: SubStats,
+  simRequest: SimulationRequest,
+  x: ComputedStatsArray,
 }
 
 export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
@@ -62,7 +79,11 @@ export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
   return statUpgrades
 }
 
-export function generateAnalysisData(currentRowData: OptimizerDisplayData, selectedRowData: OptimizerDisplayData, form: OptimizerForm): OptimizerResultAnalysis {
+export function generateAnalysisData(
+  currentRowData: OptimizerDisplayData,
+  selectedRowData: OptimizerDisplayData,
+  form: OptimizerForm,
+): OptimizerResultAnalysis {
   const oldRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(currentRowData.id, form))
   const newRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(selectedRowData.id, form))
   const request = TsUtils.clone(form)

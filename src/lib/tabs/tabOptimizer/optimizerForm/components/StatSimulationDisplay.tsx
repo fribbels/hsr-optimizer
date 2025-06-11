@@ -4,11 +4,28 @@ import {
   DownOutlined,
   SettingOutlined,
   SwapOutlined,
-  UpOutlined
+  UpOutlined,
 } from '@ant-design/icons'
-import { Button, Flex, Form as AntDForm, Input, InputNumber, Popconfirm, Radio, Select, Typography } from 'antd'
-import { Parts, Stats, SubStats } from 'lib/constants/constants'
-import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
+import {
+  Button,
+  Flex,
+  Form as AntDForm,
+  Input,
+  InputNumber,
+  Popconfirm,
+  Radio,
+  Select,
+  Typography,
+} from 'antd'
+import {
+  Parts,
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
+import {
+  OpenCloseIDs,
+  setOpen,
+} from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import {
   deleteAllStatSimulationBuilds,
@@ -29,7 +46,10 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Form, OptimizerForm } from 'types/form'
+import {
+  Form,
+  OptimizerForm,
+} from 'types/form'
 
 const { Text } = Typography
 
@@ -66,36 +86,39 @@ export function StatSimulationDisplay() {
               style={{ display: 'flex', flex: 0.3, justifyContent: 'center', paddingInline: 0 }}
               value={StatSimTypes.Disabled}
             >
-              {t('ModeSelector.Off')/* Off */}
+              {t('ModeSelector.Off') /* Off */}
             </Radio>
             <Radio
               style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
               value={StatSimTypes.SubstatRolls}
             >
-              {t('ModeSelector.RollCount')/* Simulate custom substat rolls */}
+              {t('ModeSelector.RollCount') /* Simulate custom substat rolls */}
             </Radio>
           </Radio.Group>
 
           <Flex style={{ minHeight: 302 }}>
-            <SimulatedBuildsGrid/>
+            <SimulatedBuildsGrid />
           </Flex>
 
           <Flex gap={10}>
             <Button
-              style={{ width: 200 }} disabled={isHidden()} onClick={startOptimizerStatSimulation}
-              icon={<DownOutlined/>}
+              style={{ width: 200 }}
+              disabled={isHidden()}
+              onClick={startOptimizerStatSimulation}
+              icon={<DownOutlined />}
             >
-              {t('FooterLabels.Simulate')/* Simulate builds */}
+              {t('FooterLabels.Simulate') /* Simulate builds */}
             </Button>
-            <Button style={{ width: 200 }} disabled={isHidden()} onClick={importOptimizerBuild} icon={<UpOutlined/>}>
-              {t('FooterLabels.Import')/* Import optimizer build */}
+            <Button style={{ width: 200 }} disabled={isHidden()} onClick={importOptimizerBuild} icon={<UpOutlined />}>
+              {t('FooterLabels.Import') /* Import optimizer build */}
             </Button>
             <Button
-              style={{ width: 200 }} disabled={isHidden()}
+              style={{ width: 200 }}
+              disabled={isHidden()}
               onClick={() => setOpen(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)}
-              icon={<SettingOutlined/>}
+              icon={<SettingOutlined />}
             >
-              {t('FooterLabels.Conditionals')/* Conditional set effects */}
+              {t('FooterLabels.Conditionals') /* Conditional set effects */}
             </Button>
           </Flex>
         </Flex>
@@ -108,7 +131,7 @@ export function StatSimulationDisplay() {
               onClick={() => saveStatSimulationBuildFromForm()}
               disabled={isHidden()}
             >
-              <DoubleLeftOutlined/>
+              <DoubleLeftOutlined />
             </Button>
             <Button
               type='dashed'
@@ -116,28 +139,28 @@ export function StatSimulationDisplay() {
               disabled={isHidden()}
               onClick={overwriteStatSimulationBuild}
             >
-              <SwapOutlined/>
+              <SwapOutlined />
             </Button>
             <Popconfirm
-              title={t('DeletePopup.Title')}// 'Erase stat simulations'
-              description={t('DeletePopup.Description')}// "Are you sure you want to clear all of this character's saved simulations?"
+              title={t('DeletePopup.Title')} // 'Erase stat simulations'
+              description={t('DeletePopup.Description')} // "Are you sure you want to clear all of this character's saved simulations?"
               onConfirm={deleteAllStatSimulationBuilds}
               placement='bottom'
-              okText={tCommon('Yes')}// 'Yes'
-              cancelText={tCommon('Cancel')}// 'Cancel'
+              okText={tCommon('Yes')} // 'Yes'
+              cancelText={tCommon('Cancel')} // 'Cancel'
             >
               <Button
                 type='dashed'
                 style={{ width: 35, height: 35, padding: 0 }}
                 disabled={isHidden()}
               >
-                <DeleteOutlined/>
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Flex>
         </Flex>
 
-        <SimulationInputs/>
+        <SimulationInputs />
       </Flex>
     </FormCard>
   )
@@ -175,24 +198,24 @@ function SimulationInputs() {
         <Flex gap={5} style={{ display: statSimulationDisplay == StatSimTypes.SubstatRolls ? 'flex' : 'none' }}>
           <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
             <HeaderText>{t('SetSelection.Header')}</HeaderText>
-            <SetsSection simType={StatSimTypes.SubstatRolls}/>
-            <MainStatsSection simType={StatSimTypes.SubstatRolls}/>
+            <SetsSection simType={StatSimTypes.SubstatRolls} />
+            <MainStatsSection simType={StatSimTypes.SubstatRolls} />
 
-            <HeaderText>{t('OptionsHeader')/* Options */}</HeaderText>
+            <HeaderText>{t('OptionsHeader') /* Options */}</HeaderText>
 
             <AntDForm.Item name={formName(StatSimTypes.SubstatRolls, 'name')}>
-              <Input placeholder={t('SimulationNamePlaceholder')/* 'Simulation name (Optional)' */} autoComplete='off'/>
+              <Input placeholder={t('SimulationNamePlaceholder') /* 'Simulation name (Optional)' */} autoComplete='off' />
             </AntDForm.Item>
           </Flex>
 
-          <VerticalDivider/>
+          <VerticalDivider />
 
-          <SubstatsSection simType={StatSimTypes.SubstatRolls} title={t('RollsHeader')/* 'Substat max rolls' */} total={substatRollsTotal}/>
+          <SubstatsSection simType={StatSimTypes.SubstatRolls} title={t('RollsHeader') /* 'Substat max rolls' */} total={substatRollsTotal} />
         </Flex>
 
         <Flex gap={5} style={{ display: statSimulationDisplay == StatSimTypes.Disabled ? 'flex' : 'none' }}>
-          <div style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}/>
-          <VerticalDivider/>
+          <div style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }} />
+          <VerticalDivider />
         </Flex>
       </>
     )
@@ -228,7 +251,7 @@ export function SetsSection(props: { simType: string }) {
           options={useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])}
           tagRender={OrnamentSetTagRenderer}
           onChange={handleRelicSet1Change}
-          placeholder={t('SetSelection.RelicPlaceholder')}// 'Relic set'
+          placeholder={t('SetSelection.RelicPlaceholder')} // 'Relic set'
           maxTagCount='responsive'
           showSearch
         >
@@ -243,7 +266,7 @@ export function SetsSection(props: { simType: string }) {
           allowClear
           options={useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])}
           tagRender={OrnamentSetTagRenderer}
-          placeholder={t('SetSelection.RelicPlaceholder')}// 'Relic set'
+          placeholder={t('SetSelection.RelicPlaceholder')} // 'Relic set'
           maxTagCount='responsive'
           showSearch
         >
@@ -259,7 +282,7 @@ export function SetsSection(props: { simType: string }) {
           allowClear
           options={useMemo(() => GenerateOrnamentsOptions(), [i18n.resolvedLanguage])}
           tagRender={OrnamentSetTagRenderer}
-          placeholder={t('SetSelection.OrnamentPlaceholder')}// 'Ornament set'
+          placeholder={t('SetSelection.OrnamentPlaceholder')} // 'Ornament set'
           maxTagCount='responsive'
           showSearch
         >
@@ -293,7 +316,18 @@ export function MainStatsSection(props: { simType: string }) {
   }, [t])
 
   const PlanarSphereStatOptions = useMemo(() => {
-    return [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.Physical_DMG, Stats.Fire_DMG, Stats.Ice_DMG, Stats.Lightning_DMG, Stats.Wind_DMG, Stats.Quantum_DMG, Stats.Imaginary_DMG]
+    return [
+      Stats.HP_P,
+      Stats.ATK_P,
+      Stats.DEF_P,
+      Stats.Physical_DMG,
+      Stats.Fire_DMG,
+      Stats.Ice_DMG,
+      Stats.Lightning_DMG,
+      Stats.Wind_DMG,
+      Stats.Quantum_DMG,
+      Stats.Imaginary_DMG,
+    ]
       .map((x) => {
         return { value: x, short: t('ShortStat', { stat: x }), label: t('LabelStat', { stat: x }) }
       })
@@ -301,19 +335,23 @@ export function MainStatsSection(props: { simType: string }) {
 
   return (
     <>
-      <HeaderText>{t('Header')/* Main stats */}</HeaderText>
+      <HeaderText>{t('Header') /* Main stats */}</HeaderText>
       <Flex vertical gap={5}>
         <Flex gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
-          <MainStatSelector placeholder={t('BodyPlaceholder')/* 'Body' */} part={Parts.Body} options={BodyStatOptions} simType={props.simType}/>
-          <MainStatSelector placeholder={t('FeetPlaceholder')/* 'Feet' */} part={Parts.Feet} options={FeetStatOptions} simType={props.simType}/>
+          <MainStatSelector placeholder={t('BodyPlaceholder') /* 'Body' */} part={Parts.Body} options={BodyStatOptions} simType={props.simType} />
+          <MainStatSelector placeholder={t('FeetPlaceholder') /* 'Feet' */} part={Parts.Feet} options={FeetStatOptions} simType={props.simType} />
         </Flex>
         <Flex gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
           <MainStatSelector
-            placeholder={t('SpherePlaceholder')/* 'Sphere' */} part={Parts.PlanarSphere} options={PlanarSphereStatOptions}
+            placeholder={t('SpherePlaceholder') /* 'Sphere' */}
+            part={Parts.PlanarSphere}
+            options={PlanarSphereStatOptions}
             simType={props.simType}
           />
           <MainStatSelector
-            placeholder={t('SpherePlaceholder')/* 'Rope' */} part={Parts.LinkRope} options={LinkRopeStatOptions}
+            placeholder={t('SpherePlaceholder') /* 'Rope' */}
+            part={Parts.LinkRope}
+            options={LinkRopeStatOptions}
             simType={props.simType}
           />
         </Flex>
@@ -323,12 +361,12 @@ export function MainStatsSection(props: { simType: string }) {
 }
 
 type SelectorOptions = {
-  value: string
-  short: string
-  label: string
+  value: string,
+  short: string,
+  label: string,
 }
 
-function MainStatSelector(props: { simType: string; placeholder: string; part: string; options: SelectorOptions[] }) {
+function MainStatSelector(props: { simType: string, placeholder: string, part: string, options: SelectorOptions[] }) {
   return (
     <AntDForm.Item name={formName(props.simType, 'sim' + props.part)} style={{ flex: 1 }}>
       <Select
@@ -337,7 +375,7 @@ function MainStatSelector(props: { simType: string; placeholder: string; part: s
         allowClear
         optionLabelProp='short'
         maxTagCount='responsive'
-        suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(props.part)}/>}
+        suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(props.part)} />}
         options={props.options}
         listHeight={750}
         popupMatchSelectWidth={200}
@@ -347,29 +385,29 @@ function MainStatSelector(props: { simType: string; placeholder: string; part: s
   )
 }
 
-function SubstatsSection(props: { simType: StatSimTypes; title: string; total?: number }) {
+function SubstatsSection(props: { simType: StatSimTypes, title: string, total?: number }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
   return (
     <>
       <Flex vertical>
         <HeaderText>{props.title}</HeaderText>
         <Flex vertical gap={5}>
-          <StatInput simType={props.simType} name={Stats.ATK_P} label={t('SubstatSelectorLabel', { stat: Stats.ATK_P })/* 'ATK %' */}/>
-          <StatInput simType={props.simType} name={Stats.ATK} label={t('SubstatSelectorLabel', { stat: Stats.ATK })/* 'ATK' */}/>
-          <StatInput simType={props.simType} name={Stats.CR} label={t('SubstatSelectorLabel', { stat: Stats.CR })/* 'Crit Rate %' */}/>
-          <StatInput simType={props.simType} name={Stats.CD} label={t('SubstatSelectorLabel', { stat: Stats.CD })/* 'Crit DMG %' */}/>
-          <StatInput simType={props.simType} name={Stats.SPD} label={t('SubstatSelectorLabel', { stat: Stats.SPD })/* 'SPD' */}/>
-          <StatInput simType={props.simType} name={Stats.BE} label={t('SubstatSelectorLabel', { stat: Stats.BE })/* 'Break Effect' */}/>
-          <StatInput simType={props.simType} name={Stats.HP_P} label={t('SubstatSelectorLabel', { stat: Stats.HP_P })/* 'HP %' */}/>
-          <StatInput simType={props.simType} name={Stats.HP} label={t('SubstatSelectorLabel', { stat: Stats.HP })/* 'HP' */}/>
-          <StatInput simType={props.simType} name={Stats.DEF_P} label={t('SubstatSelectorLabel', { stat: Stats.DEF_P })/* 'DEF %' */}/>
-          <StatInput simType={props.simType} name={Stats.DEF} label={t('SubstatSelectorLabel', { stat: Stats.DEF })/* 'DEF' */}/>
-          <StatInput simType={props.simType} name={Stats.EHR} label={t('SubstatSelectorLabel', { stat: Stats.EHR })/* 'Effect Hit Rate' */}/>
-          <StatInput simType={props.simType} name={Stats.RES} label={t('SubstatSelectorLabel', { stat: Stats.RES })/* 'Effect RES' */}/>
+          <StatInput simType={props.simType} name={Stats.ATK_P} label={t('SubstatSelectorLabel', { stat: Stats.ATK_P }) /* 'ATK %' */} />
+          <StatInput simType={props.simType} name={Stats.ATK} label={t('SubstatSelectorLabel', { stat: Stats.ATK }) /* 'ATK' */} />
+          <StatInput simType={props.simType} name={Stats.CR} label={t('SubstatSelectorLabel', { stat: Stats.CR }) /* 'Crit Rate %' */} />
+          <StatInput simType={props.simType} name={Stats.CD} label={t('SubstatSelectorLabel', { stat: Stats.CD }) /* 'Crit DMG %' */} />
+          <StatInput simType={props.simType} name={Stats.SPD} label={t('SubstatSelectorLabel', { stat: Stats.SPD }) /* 'SPD' */} />
+          <StatInput simType={props.simType} name={Stats.BE} label={t('SubstatSelectorLabel', { stat: Stats.BE }) /* 'Break Effect' */} />
+          <StatInput simType={props.simType} name={Stats.HP_P} label={t('SubstatSelectorLabel', { stat: Stats.HP_P }) /* 'HP %' */} />
+          <StatInput simType={props.simType} name={Stats.HP} label={t('SubstatSelectorLabel', { stat: Stats.HP }) /* 'HP' */} />
+          <StatInput simType={props.simType} name={Stats.DEF_P} label={t('SubstatSelectorLabel', { stat: Stats.DEF_P }) /* 'DEF %' */} />
+          <StatInput simType={props.simType} name={Stats.DEF} label={t('SubstatSelectorLabel', { stat: Stats.DEF }) /* 'DEF' */} />
+          <StatInput simType={props.simType} name={Stats.EHR} label={t('SubstatSelectorLabel', { stat: Stats.EHR }) /* 'Effect Hit Rate' */} />
+          <StatInput simType={props.simType} name={Stats.RES} label={t('SubstatSelectorLabel', { stat: Stats.RES }) /* 'Effect RES' */} />
           {(props.simType == StatSimTypes.SubstatRolls) && (
             <Flex justify='space-between' style={{ width: STAT_SIMULATION_STATS_WIDTH }}>
               <Text>
-                {t('TotalRolls')/* Total rolls */}
+                {t('TotalRolls') /* Total rolls */}
               </Text>
               <InputNumber
                 size='small'
@@ -390,14 +428,14 @@ function SubstatsSection(props: { simType: StatSimTypes; title: string; total?: 
   )
 }
 
-function StatInput(props: { label: string; name: string; simType: string; disabled?: boolean; value?: number }) {
+function StatInput(props: { label: string, name: string, simType: string, disabled?: boolean, value?: number }) {
   return (
     <Flex justify='space-between' style={{ width: STAT_SIMULATION_STATS_WIDTH }}>
       <Text>
         {props.label}
       </Text>
       <AntDForm.Item name={formName(props.simType, 'stats', props.name)}>
-        <InputNumber size='small' controls={false} disabled={props.disabled} value={props.value} style={{ width: 70 }}/>
+        <InputNumber size='small' controls={false} disabled={props.disabled} value={props.value} style={{ width: 70 }} />
       </AntDForm.Item>
     </Flex>
   )

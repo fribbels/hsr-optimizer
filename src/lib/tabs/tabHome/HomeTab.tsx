@@ -93,8 +93,9 @@ function CommunityCollapse() {
           </span>
 
           <span>
-            Come be a part of our Star Rail community! Join the <ColorizedLinkWithIcon url='https://discord.gg/rDmB4Un7qg' />{' '}
-            server to hang out, or check out the <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer' /> repo if you'd like to contribute.
+            Come be a part of our Star Rail community! Join the <ColorizedLinkWithIcon url='https://discord.gg/rDmB4Un7qg' />
+            {' server to hang out, or check out the '}
+            <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer' /> repo if you'd like to contribute.
           </span>
         </Trans>
       </Flex>

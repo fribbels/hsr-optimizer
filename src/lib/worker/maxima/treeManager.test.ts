@@ -380,6 +380,130 @@ describe('StatTreeManager', () => {
     })
   })
 
+  describe('Split Logic', () => {
+    test('splits along region longest axis, not largest point difference', () => {
+      // Create tree with very wide rectangular region: [0-100, 0-10]
+      const bounds = {
+        lower: new Float32Array([0, 0]),
+        upper: new Float32Array([100, 10])
+      }
+      const treeManager2D = new StatTreeManager(2, bounds)
+
+      // Insert two points that are very close in Y (narrow dimension)
+      // but far apart in X (wide dimension)
+      const point1 = new Float32Array([20, 5.0])  // Y = 5.0
+      const point2 = new Float32Array([30, 5.1])  // Y = 5.1 (tiny difference!)
+
+      // Point differences: X-diff = 10, Y-diff = 0.1
+      // Region ranges: X-range = 100, Y-range = 10
+      // Should split along X (dimension 0) because it's the longest region axis
+
+      const node1 = treeManager2D.insertNode(point1)
+      const node2 = treeManager2D.insertNode(point2)
+
+      // Verify split occurred
+      const root = treeManager2D.getRoot()!
+      expect(root.isLeaf).toBe(false)
+      expect(root.splitDimension).toBe(0) // Should split along X-axis (longest region axis)
+      expect(root.leftChild).not.toBeNull()
+      expect(root.rightChild).not.toBeNull()
+
+      // Verify split value is reasonable
+      expect(root.splitValue).toBeGreaterThan(0)
+      expect(root.splitValue).toBeLessThan(100)
+      expect(root.splitValue).toBeCloseTo(25, 0) // Should be around midpoint of the two X values
+
+      // Verify children have correct regions
+      const leftChild = root.leftChild!
+      const rightChild = root.rightChild!
+
+      // Left region should have X upper bound = split value
+      expect(leftChild.region.upper[0]).toBeCloseTo(root.splitValue!, 3)
+      expect(leftChild.region.lower[0]).toBe(0)
+      expect(leftChild.region.lower[1]).toBe(0)
+      expect(leftChild.region.upper[1]).toBe(10)
+
+      // Right region should have X lower bound = split value
+      expect(rightChild.region.lower[0]).toBeCloseTo(root.splitValue!, 3)
+      expect(rightChild.region.upper[0]).toBe(100)
+      expect(rightChild.region.lower[1]).toBe(0)
+      expect(rightChild.region.upper[1]).toBe(10)
+    })
+
+    test('splits along longest axis in 3D case', () => {
+      // Create tree with asymmetric 3D region: [0-200, 0-50, 0-30]
+      const bounds = {
+        lower: new Float32Array([0, 0, 0]),
+        upper: new Float32Array([200, 50, 30])
+      }
+      const treeManager3D = new StatTreeManager(3, bounds)
+
+      // Insert points with small differences in dimensions 1 and 2,
+      // but larger difference in dimension 0
+      const point1 = new Float32Array([60, 25.0, 15.0])
+      const point2 = new Float32Array([80, 25.1, 15.1])
+
+      // Point differences: X=20, Y=0.1, Z=0.1
+      // Region ranges: X=200 (largest), Y=50, Z=30
+      // Should split along X (dimension 0)
+
+      treeManager3D.insertNode(point1)
+      treeManager3D.insertNode(point2)
+
+      const root = treeManager3D.getRoot()!
+      expect(root.splitDimension).toBe(0) // X-axis has largest range (200)
+    })
+
+    test('splits correctly when multiple dimensions have same range', () => {
+      // Create tree with equal ranges in first two dimensions
+      const bounds = {
+        lower: new Float32Array([0, 0, 0]),
+        upper: new Float32Array([100, 100, 10])
+      }
+      const treeManager3D = new StatTreeManager(3, bounds)
+
+      const point1 = new Float32Array([30, 40, 5])
+      const point2 = new Float32Array([70, 60, 5])
+
+      treeManager3D.insertNode(point1)
+      treeManager3D.insertNode(point2)
+
+      const root = treeManager3D.getRoot()!
+      // Should split along dimension 0 or 1 (both have range 100)
+      // Implementation picks the first one found, so should be 0
+      expect(root.splitDimension).toBe(0)
+    })
+
+    test('creates balanced subdivisions', () => {
+      // Test that splitting along longest axis creates more balanced regions
+      const bounds = {
+        lower: new Float32Array([0, 0]),
+        upper: new Float32Array([100, 20])
+      }
+      const treeManager2D = new StatTreeManager(2, bounds)
+
+      const point1 = new Float32Array([25, 10])
+      const point2 = new Float32Array([75, 10])
+
+      treeManager2D.insertNode(point1)
+      treeManager2D.insertNode(point2)
+
+      const root = treeManager2D.getRoot()!
+      const leftChild = root.leftChild!
+      const rightChild = root.rightChild!
+
+      // Calculate region volumes (areas in 2D)
+      const leftArea = (leftChild.region.upper[0] - leftChild.region.lower[0]) *
+                       (leftChild.region.upper[1] - leftChild.region.lower[1])
+      const rightArea = (rightChild.region.upper[0] - rightChild.region.lower[0]) *
+                        (rightChild.region.upper[1] - rightChild.region.lower[1])
+
+      // Areas should be approximately equal (balanced split)
+      const ratio = Math.max(leftArea, rightArea) / Math.min(leftArea, rightArea)
+      expect(ratio).toBeLessThan(2) // Ratio should be reasonable
+    })
+  })
+
   describe('Edge Cases', () => {
     test('handles duplicate points', () => {
       const point = new Float32Array([50, 50, 50])

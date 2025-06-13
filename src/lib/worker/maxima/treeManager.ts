@@ -296,20 +296,26 @@ export class StatTreeManager implements IStatTreeManager {
   private splitLeafForInsertion(leaf: StatNode, newPoint: Float32Array): StatNode {
     const existingPoint = leaf.representative!
 
-    // Choose split dimension - use the dimension with largest difference
+    // Choose split dimension - use the dimension with largest range in the region
+    // This creates more balanced subdivisions (e.g., rectangles become squares)
     let splitDim = 0
-    let maxDiff = Math.abs(newPoint[0] - existingPoint[0])
+    let maxRange = leaf.region.upper[0] - leaf.region.lower[0]
 
     for (let i = 1; i < this.dimensions; i++) {
-      const diff = Math.abs(newPoint[i] - existingPoint[i])
-      if (diff > maxDiff) {
-        maxDiff = diff
+      const range = leaf.region.upper[i] - leaf.region.lower[i]
+      if (range > maxRange) {
+        maxRange = range
         splitDim = i
       }
     }
 
-    // Choose split value - midpoint between the two points
-    const splitVal = (existingPoint[splitDim] + newPoint[splitDim]) / 2
+    // Choose split value - midpoint between the two points, clamped to region bounds
+    let splitVal = (existingPoint[splitDim] + newPoint[splitDim]) / 2
+
+    // Ensure split value is within the region bounds and creates meaningful subdivisions
+    const regionMin = leaf.region.lower[splitDim]
+    const regionMax = leaf.region.upper[splitDim]
+    splitVal = Math.max(regionMin + 0.001, Math.min(regionMax - 0.001, splitVal))
 
     // Create child regions
     const leftRegion: StatRegion = {

@@ -158,7 +158,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
       x.ATK_P.buff(r.atkBuffStacks * 0.50, SOURCE_TRACE)
       x.ELEMENTAL_DMG.buff(r.sustainDmgBuff ? 0.45 : 0, SOURCE_TRACE)
 
-      x.CD.buff(e >= 1 && r.e1Buffs ? 0.40 : 0, SOURCE_E1)
+      x.CD.buff(e >= 1 && r.e1Buffs ? 0.50 : 0, SOURCE_E1)
 
       if (r.transformedState) {
         x.ATK_P.buff(talentAtkBuffScaling, SOURCE_TALENT)

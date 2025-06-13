@@ -210,7 +210,7 @@ export class ArcherPreprocessor extends AbilityPreprocessorBase {
   }
 }
 
-export class JingliuB1Preprocessor extends AbilityTriggeredStackPreprocessor {
+export class JingliuB1E2Preprocessor extends AbilityTriggeredStackPreprocessor {
   constructor() {
     super(
       JINGLIU_B1,
@@ -219,6 +219,20 @@ export class JingliuB1Preprocessor extends AbilityTriggeredStackPreprocessor {
         consumeKinds: [AbilityKind.SKILL],
         activationFn: setComboBooleanCategoryCharacterActivation,
         key: 'e2SkillDmgBuff',
+      },
+    )
+  }
+}
+
+export class JingliuB1DefPenPreprocessor extends AbilityTriggeredStackPreprocessor {
+  constructor() {
+    super(
+      JINGLIU_B1,
+      {
+        triggerKinds: [AbilityKind.ULT],
+        consumeKinds: [AbilityKind.SKILL],
+        activationFn: setComboBooleanCategoryCharacterActivation,
+        key: 'maxSyzygyDefPen',
       },
     )
   }

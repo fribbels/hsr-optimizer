@@ -46,7 +46,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const basicEnhancedHpScaling = skill(e, 1.30, 1.43)
 
   const ultHpScaling = ult(e, 1.50, 1.62)
-  const ultLostHpScaling = ult(e, 1.00, 1.08)
+  const ultLostHpScaling = ult(e, 1.20, 1.296)
 
   const fuaHpScaling = talent(e, 1.30, 1.43)
 

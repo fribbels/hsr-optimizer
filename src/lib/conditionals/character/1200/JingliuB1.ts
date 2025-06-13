@@ -9,7 +9,10 @@ import {
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
+import {
+  buffAbilityDefPen,
+  buffAbilityDmg,
+} from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { Eidolon } from 'types/character'
 
@@ -48,6 +51,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const defaults = {
     talentEnhancedState: true,
+    maxSyzygyDefPen: true,
     moonlightStacks: 5,
     e1Buffs: true,
     e2SkillDmgBuff: true,
@@ -60,6 +64,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'talentEnhancedState',
       formItem: 'switch',
       text: 'Enhanced state',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    maxSyzygyDefPen: {
+      id: 'maxSyzygyDefPen',
+      formItem: 'switch',
+      text: 'Max Syzygy DEF PEN',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     moonlightStacks: {
@@ -115,11 +125,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Traces
       x.RES.buff((r.talentEnhancedState) ? 0.35 : 0, SOURCE_TRACE)
 
-      r.talentEnhancedState && buffAbilityDmg(x, ULT_DMG_TYPE, 0.20, SOURCE_TRACE)
+      x.DEF_PEN.buff((r.maxSyzygyDefPen) ? 0.25 : 0, SOURCE_TRACE)
+      buffAbilityDmg(x, ULT_DMG_TYPE, (r.talentEnhancedState) ? 0.20 : 0, SOURCE_TRACE)
 
       // Eidolons
       x.CD.buff((e >= 1 && r.e1Buffs) ? 0.36 : 0, SOURCE_E1)
-      x.ICE_RES_PEN.buff((e >= 6 && r.e6ResPen) ? 0.20 : 0, SOURCE_E6)
+      x.ICE_RES_PEN.buff((e >= 6 && r.e6ResPen) ? 0.30 : 0, SOURCE_E6)
 
       // Scaling
       x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)

@@ -32,7 +32,7 @@ export default (e: Eidolon): CharacterConditionalsController => {
 
   const basicScaling = basic(e, 1.00, 1.10)
 
-  const skillScaling = skill(e, 4.00, 4.40)
+  const skillScaling = skill(e, 3.60, 3.96)
   const skillEnhancedExtraScaling = skill(e, 1.00, 1.08)
 
   const ultScaling = skill(e, 10.00, 10.80)

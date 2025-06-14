@@ -316,7 +316,6 @@ SetConditionals:
     Izumo: Khi bật, giả định có một đồng minh khác cùng vận mệnh và áp dụng buff 12% TỶ LỆ CHÍ MẠNG (CRIT Rate) vào các phép tính chỉ số Chiến đấu.
     Duran: Buff được chọn sẽ áp dụng vào các phép tính sát thương dựa trên số lượng tầng buff
     Kalpagni: Khi bật, buff HIỆU ỨNG PHÁ (Break Effect) được áp dụng vào các phép tính chỉ số Chiến đấu
-    Banana: Buff được chọn sẽ áp dụng vào các phép tính sát thương
 Presets:
   SpdValues:
     SPD0: Không tốc độ tối thiểu

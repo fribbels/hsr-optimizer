@@ -40,6 +40,9 @@ Messages:
   SaveSuccess: "{{name}}의 빌드를 저장했습니다."
   UnequipWarning: "정말로 $t(gameData:Characters.{{charId}}.Name)의 유물을 제거하시겠습니까?"
   DeleteWarning: "정말로 $t(gameData:Characters.{{charId}}.Name)를 삭제하시겠습니까?"
+  BuildAlreadyExists: "빌드 : {{name}} 이름이 이미 존재합니다."
+  ImageUploadFailed: 이미지 업로드에 실패했습니다.
+  InvalidFile: 유효한 이미지가 아닙니다.
 CharacterPreview:
   ScoringSidebar:
     Stats:

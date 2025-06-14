@@ -16,3 +16,7 @@ ExpandedInfoPanelPosition:
   Label: 옵티마이저 확장 정보 패널 위치
   Above: 유물 미리보기 위에 표시하기
   Below: "유물 미리보기 아래 표시하기(기본값)"
+ShowLocatorInRelicsModal:
+  Label: 유물 편집기에서 유물 위치 찾기
+  Yes: 유물 편집기에 유물 위치 찾기 표시
+  No: "기본값 : 유물 편집기에 유물 위치 추적을 표시하지 않음"

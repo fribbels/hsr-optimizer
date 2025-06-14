@@ -19,6 +19,7 @@ Messages:
   AddRelicSuccess: 成功添加遗器
   NoRelicSelected: 无选中遗器
   DeleteRelicSuccess: 成功删除遗器
+  UnableToDeleteRelic: 无法删除遗器
 RelicGrid:
   To: '-'
   Of: /

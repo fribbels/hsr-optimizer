@@ -334,7 +334,6 @@ SetConditionals:
     Duran: La mejora seleccionada se aplica a los cálculos de daño de acuerdo al número de acumulaciones.
     Kalpagni: Activado, aplica la mejora de Efecto de Ruptura a los cálculos de Atributos de combate.
     Lushaka: Desactivado por defecto - Este conjunto es incapaz de afectar a su usuario.
-    Banana: La mejora seleccionada se aplica a los cálculos de daño.
 Presets:
   SpdValues:
     SPD0: Sin velocidad mínima

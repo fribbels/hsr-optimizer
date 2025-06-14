@@ -335,7 +335,6 @@ SetConditionals:
     Duran: 所选的增益将根据叠加层数应用于伤害计算。
     Kalpagni: 启用后，将击破特攻增益应用于战斗属性计算。
     Lushaka: 默认禁用 - 该套装无法影响佩戴者。
-    Banana: 所选的增益将应用于伤害计算。
 Presets:
   SpdValues:
     SPD0: 无最低速度

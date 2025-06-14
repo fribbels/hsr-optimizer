@@ -42,5 +42,5 @@ export function generateLightConeOptions(characterId?: CharacterId) {
     .sort(sortAlphabeticEmojiLast('label'))
 }
 
-type LcOptions = Record<LightCone['id'], DBMetadataLightCone & { value: DBMetadataLightCone['id'], label: string }>
-type CharacterOptions = Record<CharacterId, DBMetadataCharacter & { value: DBMetadataCharacter['id'], label: string }>
+export type LcOptions = Record<LightCone['id'], DBMetadataLightCone & { value: DBMetadataLightCone['id'], label: string }>
+export type CharacterOptions = Record<CharacterId, DBMetadataCharacter & { value: DBMetadataCharacter['id'], label: string }>

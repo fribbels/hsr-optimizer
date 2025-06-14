@@ -27,7 +27,6 @@ export function ShowcaseLightConeSmall(props: {
   displayDimensions: ShowcaseDisplayDimensions,
   setOriginalCharacterModalInitialCharacter: (c: Character) => void,
   setOriginalCharacterModalOpen: (b: boolean) => void,
-  setCharacterModalAdd: (b: boolean) => void,
   showcaseMetadata: ShowcaseMetadata,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
@@ -38,7 +37,6 @@ export function ShowcaseLightConeSmall(props: {
     displayDimensions,
     setOriginalCharacterModalInitialCharacter,
     setOriginalCharacterModalOpen,
-    setCharacterModalAdd,
     showcaseMetadata,
   } = props
 
@@ -112,7 +110,6 @@ export function ShowcaseLightConeSmall(props: {
             setOriginalCharacterModalInitialCharacter(character)
             setOriginalCharacterModalOpen(true)
           } else {
-            setCharacterModalAdd(false)
             setOriginalCharacterModalInitialCharacter(character)
             setOriginalCharacterModalOpen(true)
           }
@@ -138,7 +135,6 @@ export function ShowcaseLightConeLarge(props: {
   displayDimensions: ShowcaseDisplayDimensions,
   setOriginalCharacterModalInitialCharacter: (c: Character) => void,
   setOriginalCharacterModalOpen: (b: boolean) => void,
-  setCharacterModalAdd: (b: boolean) => void,
   showcaseMetadata: ShowcaseMetadata,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
@@ -149,7 +145,6 @@ export function ShowcaseLightConeLarge(props: {
     displayDimensions,
     setOriginalCharacterModalInitialCharacter,
     setOriginalCharacterModalOpen,
-    setCharacterModalAdd,
     showcaseMetadata,
   } = props
 
@@ -184,7 +179,6 @@ export function ShowcaseLightConeLarge(props: {
           setOriginalCharacterModalInitialCharacter(character)
           setOriginalCharacterModalOpen(true)
         } else {
-          setCharacterModalAdd(false)
           setOriginalCharacterModalInitialCharacter(character)
           setOriginalCharacterModalOpen(true)
         }

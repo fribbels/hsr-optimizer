@@ -29,6 +29,7 @@ import {
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
 import { SaveState } from 'lib/state/saveState'
+import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -164,14 +165,11 @@ window.store = create((set) => {
 
     comboState: {} as ComboState,
     optimizerTabFocusCharacter: undefined,
-    characterTabFocusCharacter: undefined,
     scoringAlgorithmFocusCharacter: undefined,
     statTracesDrawerFocusCharacter: undefined,
     relicsTabFocusCharacter: undefined,
 
     activeKey: getDefaultActiveKey(),
-    characters: [],
-    charactersById: {},
     permutations: 0,
     permutationsResults: 0,
     permutationsSearched: 0,
@@ -223,12 +221,6 @@ window.store = create((set) => {
       equippedBy: [],
       initialRolls: [],
     },
-    characterTabFilters: {
-      name: '',
-      element: [],
-      path: [],
-      rarity: [],
-    },
     excludedRelicPotentialCharacters: [],
 
     optimizerMenuState: {
@@ -244,16 +236,12 @@ window.store = create((set) => {
     settings: DefaultSettingOptions,
     optimizerBuild: null,
     optimizerSelectedRowData: null,
-    optimizerBuffGroups: undefined,
 
     setComboState: (x) => set(() => ({ comboState: x })),
     setVersion: (x) => set(() => ({ version: x })),
     setActiveKey: (x) => set(() => ({ activeKey: x })),
     setFormValues: (x) => set(() => ({ formValues: x })),
-    setCharacters: (x) => set(() => ({ characters: x })),
-    setCharactersById: (x) => set(() => ({ charactersById: x })),
     setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
-    setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
     setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
     setStatTracesDrawerFocusCharacter: (characterId) => set(() => ({ statTracesDrawerFocusCharacter: characterId })),
     setRelicsTabFocusCharacter: (characterId) => set(() => ({ relicsTabFocusCharacter: characterId })),
@@ -263,7 +251,6 @@ window.store = create((set) => {
     setPermutationsSearched: (x) => set(() => ({ permutationsSearched: x })),
     setRelicsById: (x) => set(() => ({ relicsById: x })),
     setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
-    setCharacterTabFilters: (x) => set(() => ({ characterTabFilters: x })),
     setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
     setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
     setShowcaseTemporaryOptionsByCharacter: (x) => set(() => ({ showcaseTemporaryOptionsByCharacter: x })),
@@ -302,25 +289,15 @@ export const DB = {
   getMetadata: (): DBMetadata => state.metadata,
   setMetadata: (metadata: DBMetadata) => state.metadata = metadata,
 
-  getCharacters: () => window.store.getState().characters,
-  getCharacterById: (id: CharacterId) => window.store.getState().charactersById[id],
+  getCharacters: () => useCharacterTabStore.getState().characters,
+  getCharacterById: (id: CharacterId) => useCharacterTabStore.getState().charactersById[id],
 
   setCharacters: (characters: Character[]) => {
-    const charactersById: Partial<Record<CharacterId, Character>> = {}
-    for (const character of characters) {
-      charactersById[character.id] = character
-    }
-
     assignRanks(characters)
-    const newCharacterArray = [...characters]
-    window.store.getState().setCharacters(newCharacterArray)
-    window.store.getState().setCharactersById(charactersById)
+    useCharacterTabStore.getState().setCharacters([...characters])
   },
   setCharacter: (character: Character) => {
-    const charactersById = window.store.getState().charactersById
-    charactersById[character.id] = character
-
-    window.store.getState().setCharactersById(charactersById)
+    useCharacterTabStore.getState().setCharacter(character)
   },
   addCharacter: (character: Character) => {
     const characters = DB.getCharacters()
@@ -355,6 +332,8 @@ export const DB = {
       relicsById[relic.id] = relic
     }
     window.store.getState().setRelicsById(relicsById)
+    // bandaid fix while waiting in proper immutable state
+    if (window.forceCharacterTabUpdate) window.forceCharacterTabUpdate()
   },
   getRelicById: (id: string) => window.store.getState().relicsById[id],
 
@@ -393,6 +372,8 @@ export const DB = {
       }
       setRelic(relic)
     }
+    // bandaid fix while waiting in proper immutable state
+    if (window.forceCharacterTabUpdate) window.forceCharacterTabUpdate()
   },
 
   refreshRelics: () => {
@@ -466,7 +447,7 @@ export const DB = {
 
     SaveState.delayedSave()
   },
-  updateSimulationScoreOverrides: (id: string, updatedSimulation: SimulationMetadata) => {
+  updateSimulationScoreOverrides: (id: CharacterId, updatedSimulation: SimulationMetadata) => {
     if (!updatedSimulation) return
 
     const overrides = window.store.getState().scoringMetadataOverrides
@@ -626,8 +607,6 @@ export const DB = {
         useShowcaseTabStore.getState().setSavedSession(saveData.savedSession.showcaseTab)
       }
     }
-    // @ts-expect-error TODO remove once migration period is over
-    if (saveData.scorerId) useShowcaseTabStore.getState().setScorerId(saveData.scorerId as string)
 
     if (saveData.settings) {
       window.store.getState().setSettings(saveData.settings)
@@ -704,7 +683,7 @@ export const DB = {
       }) => {
         if (node.data.id == found.id) node.setSelected(true)
       })
-      window.store.getState().setCharacterTabFocusCharacter(found.id)
+      useCharacterTabStore.getState().setFocusCharacter(found.id)
     }
 
     if (autosave) {
@@ -747,20 +726,21 @@ export const DB = {
       return
     }
 
-    const build = character.builds?.find((x) => x.name == name)
+    let build = character.builds?.find((x) => x.name == name)?.build
     if (build) {
       const errorMessage = i18next.t('charactersTab:Messages.BuildAlreadyExists', { name })
       console.warn(errorMessage)
       return { error: errorMessage }
     } else {
+      build = Object.values(character.equipped)
       if (!character.builds) character.builds = []
       character.builds.push({
-        name: name,
-        build: [...Object.values(character.equipped)] as string[],
-        score: score,
+        name,
+        build,
+        score,
       })
       DB.setCharacter(character)
-      console.log('Saved build', DB.getState())
+      console.log('Saved build', build, useCharacterTabStore.getState())
     }
   },
 
@@ -847,7 +827,7 @@ export const DB = {
     }
 
     const swap = forceSwap
-      || DB.getState().settings[SettingOptions.RelicEquippingBehavior.name as keyof UserSettings] == SettingOptions.RelicEquippingBehavior.Swap
+      || DB.getState().settings[SettingOptions.RelicEquippingBehavior.name] == SettingOptions.RelicEquippingBehavior.Swap
 
     // only re-equip prevRelic if it would go to a different character
     if (prevOwnerId !== characterId && prevCharacter) {

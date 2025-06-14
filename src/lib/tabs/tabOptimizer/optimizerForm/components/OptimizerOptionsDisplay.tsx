@@ -14,6 +14,7 @@ import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import DB from 'lib/state/db'
+import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import {
   optimizerTabDefaultGap,
   panelWidth,
@@ -28,7 +29,7 @@ const { Text } = Typography
 
 const OptimizerOptionsDisplay = (): JSX.Element => {
   const { t, i18n } = useTranslation(['optimizerTab', 'common'])
-  const characters = window.store((s) => s.characters)
+  const characters = useCharacterTabStore((s) => s.characters)
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
   const characterExcludeOptions = useMemo(() =>

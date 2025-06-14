@@ -1,38 +1,12 @@
 import i18next from 'i18next'
-import {
-  AllStats,
-  Constants,
-  MainStats,
-  MainStatsValues,
-  Parts,
-  PartsMainStats,
-  Stats,
-  StatsValues,
-  SubStats,
-  SubStatValues,
-} from 'lib/constants/constants'
-import {
-  getScoreCategory,
-  ScoreCategory,
-} from 'lib/scoring/scoreComparison'
+import { AllStats, Constants, MainStats, MainStatsValues, Parts, PartsMainStats, Stats, StatsValues, SubStats, SubStatValues } from 'lib/constants/constants'
+import { getScoreCategory, ScoreCategory } from 'lib/scoring/scoreComparison'
 import DB from 'lib/state/db'
-import {
-  arrayToMap,
-  stringArrayToMap,
-} from 'lib/utils/arrayUtils'
+import { arrayToMap, stringArrayToMap } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import {
-  Character,
-  CharacterId,
-} from 'types/character'
-import {
-  Relic,
-  RelicEnhance,
-  RelicGrade,
-  RelicId,
-  Stat,
-} from 'types/relic'
+import { Character, CharacterId } from 'types/character'
+import { Relic, RelicEnhance, RelicGrade, RelicId, Stat } from 'types/relic'
 
 // FIXME HIGH
 
@@ -822,8 +796,14 @@ export class RelicScorer {
    * returns a score (number) and rating (string) for the character, and the scored equipped relics
    * @param character character object to score
    */
-  scoreCharacter(character: Character) {
-    if (!character) return {}
+  scoreCharacter(character: Character): ReturnType<typeof this.scoreCharacterWithRelics> {
+    if (!character) {
+      return {
+        relics: [],
+        totalScore: 0,
+        totalRating: '',
+      }
+    }
     const relicsById = window.store.getState().relicsById
     const relics: Relic[] = Object.values(character.equipped).map((x) => relicsById[x ?? ''])
     return this.scoreCharacterWithRelics(character, relics)

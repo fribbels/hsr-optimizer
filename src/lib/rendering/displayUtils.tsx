@@ -28,11 +28,9 @@ export function generateCharacterList(
     excludeCharacters,
     withNobodyOption,
   } = {
-    ...{
-      currentCharacters: [],
-      excludeCharacters: [],
-      withNobodyOption: true,
-    },
+    currentCharacters: [],
+    excludeCharacters: [],
+    withNobodyOption: true,
     ...listOptions,
   }
 

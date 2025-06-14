@@ -29,7 +29,6 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
 import { localeNumber } from 'lib/utils/i18nUtils'
 import React, {
-  MutableRefObject,
   useCallback,
   useEffect,
   useMemo,
@@ -102,7 +101,7 @@ export function OptimizerGrid() {
   const navigateToNextCell = useCallback((params: NavigateToNextCellParams) => {
     return arrowKeyGridNavigation(
       params,
-      optimizerGrid as MutableRefObject<AgGridReact<OptimizerDisplayDataStatSim>>,
+      optimizerGrid,
       (selectedNode: IRowNode<OptimizerDisplayDataStatSim>) => OptimizerTabController.cellClicked(selectedNode),
     )
   }, [])
@@ -143,14 +142,12 @@ export function OptimizerGrid() {
           id='optimizerGridContainer'
           className='ag-theme-balham-dark'
           style={{
-            ...{
-              width: GRID_DIMENSIONS.WIDTH,
-              minHeight: GRID_DIMENSIONS.MIN_HEIGHT,
-              height: GRID_DIMENSIONS.HEIGHT,
-              resize: 'vertical',
-              overflow: 'hidden',
-              boxShadow: cardShadowNonInset,
-            },
+            width: GRID_DIMENSIONS.WIDTH,
+            minHeight: GRID_DIMENSIONS.MIN_HEIGHT,
+            height: GRID_DIMENSIONS.HEIGHT,
+            resize: 'vertical',
+            overflow: 'hidden',
+            boxShadow: cardShadowNonInset,
             ...getGridTheme(token),
           }}
         >

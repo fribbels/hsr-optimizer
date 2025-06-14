@@ -335,7 +335,6 @@ SetConditionals:
     Duran: 선택된 버프는 스택 수에 따른 피해 계산에 적용됩니다.
     Kalpagni: 활성화되면 격파 특수효과 버프를 적용하여 전투 스텟에 적용됩니다.
     Lushaka: 기본적으로 비활성화 - 이 세트는 장비 캐릭터에 영향을 주지 않습니다.
-    Banana: 선택한 버프가 피해 계산에 적용됩니다.
 Presets:
   SpdValues:
     SPD0: 최소 속도 없음

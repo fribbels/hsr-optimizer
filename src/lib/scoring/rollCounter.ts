@@ -11,7 +11,7 @@ import {
 } from 'lib/scoring/simScoringUtils'
 import {
   RunStatSimulationsResult,
-  StatSimulationTypes,
+  SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
 import { SimulationMetadata } from 'types/metadata'
 
@@ -20,7 +20,7 @@ export function calculateMinSubstatRollCounts(
   scoringParams: ScoringParams,
   simulationFlags: SimulationFlags,
 ) {
-  const minCounts: StatSimulationTypes = {
+  const minCounts: SubstatCounts = {
     [Stats.HP_P]: scoringParams.freeRolls,
     [Stats.ATK_P]: scoringParams.freeRolls,
     [Stats.DEF_P]: scoringParams.freeRolls,
@@ -44,7 +44,7 @@ export function calculateMaxSubstatRollCounts(
   scoringParams: ScoringParams,
   baselineSimResult: RunStatSimulationsResult,
   simulationFlags: SimulationFlags,
-): StatSimulationTypes {
+): SubstatCounts {
   const request = partialSimulationWrapper.simulation.request
   const maxCounts: Record<string, number> = {
     [Stats.HP_P]: 0,

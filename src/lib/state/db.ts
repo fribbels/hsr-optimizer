@@ -756,7 +756,7 @@ export const DB = {
       if (!character.builds) character.builds = []
       character.builds.push({
         name: name,
-        build: [...Object.values(character.equipped)] as string[],
+        build: Object.values(character.equipped) as string[],
         score: score,
       })
       DB.setCharacter(character)

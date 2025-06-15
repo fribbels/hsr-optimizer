@@ -25,10 +25,10 @@ export type SimulationRequest = {
   simFeet: string,
   simPlanarSphere: string,
   simLinkRope: string,
-  stats: StatSimulationTypes,
+  stats: SubstatCounts,
 }
 
-export type StatSimulationTypes = Record<string, number>
+export type SubstatCounts = Record<string, number>
 
 export type RunSimulationsParams = {
   quality: number,

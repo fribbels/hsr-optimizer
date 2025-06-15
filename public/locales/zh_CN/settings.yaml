@@ -16,3 +16,7 @@ ExpandedInfoPanelPosition:
   Label: 优化器扩展信息面板位置
   Above: 在遗器预览上方显示扩展信息
   Below: "默认：在遗器预览下方显示扩展信息"
+ShowLocatorInRelicsModal:
+  Label: 遗物编辑器中的遗物定位器
+  Yes: 在遗物编辑器中显示遗物定位器
+  No: "默认：在遗物编辑器中不显示遗物定位器"

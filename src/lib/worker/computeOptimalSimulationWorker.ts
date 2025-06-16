@@ -1,5 +1,8 @@
 import { SubStats } from 'lib/constants/constants'
-import { substatRollsModifier } from 'lib/scoring/simScoringUtils'
+import {
+  applyScoringFunction,
+  substatRollsModifier,
+} from 'lib/scoring/simScoringUtils'
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import {
@@ -78,9 +81,30 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
 
   console.debug(dimensions, effectiveStats)
 
+  function damageFunction(stats: SubstatCounts): number {
+    currentSimulation.request.stats = stats
+    currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, {
+      ...scoringParams,
+      substatRollsModifier: scoringParams.substatRollsModifier,
+      simulationFlags: simulationFlags,
+    })[0]
+
+    applyScoringFunction(currentSimulation.result, metadata)
+    return currentSimulation.result.simScore
+  }
+
   const substatValidator = new SubstatDistributionValidator(input)
-  const tree = new OptimalSubstatDistributionSearchTree(dimensions, minSubstatRollCounts, maxSubstatRollCounts, effectiveStats)
-  tree.debugRootRegion()
+  const tree = new OptimalSubstatDistributionSearchTree(
+    dimensions,
+    goal,
+    minSubstatRollCounts,
+    maxSubstatRollCounts,
+    effectiveStats,
+    damageFunction,
+  )
+  // tree.debugRootRegion()
+  // tree.debugStartingPoint()
+  tree.debugRootNode()
 
   // TODO
 

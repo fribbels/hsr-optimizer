@@ -284,14 +284,7 @@ interface Resources {
     "Relic_other": "relics",
     "RelicWithCount_one": "{{count}} relic",
     "RelicWithCount_other": "{{count}} relics",
-    "Lightcone_one": "light cone",
-    "Lightcone_other": "light cones",
-    "LightconeWithCount_one": "{{count}} light cone",
-    "LightconeWithCount_other": "{{count}} light cones",
     "ThousandsSuffix": "K",
-    "DecimalSeparator": ".",
-    "ThousandsSeparator": ",",
-    "I18nNumber": "{{value, number}}",
     "Cancel": "Cancel",
     "Confirm": "Confirm",
     "Submit": "Submit",
@@ -3773,7 +3766,7 @@ interface Resources {
       "321": {
         "Name": "Arcadia of Woven Dreams",
         "Description2pc": "When there are currently more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks."
-      },
+     },
       "322": {
         "Name": "Revelry by the Sea",
         "Description2pc": "Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%."
@@ -4016,7 +4009,7 @@ interface Resources {
       },
       "21056": {
         "Name": "In Pursuit of the Wind"
-      },
+     },
       "21057": {
         "Name": "The Flower Remembers"
       },

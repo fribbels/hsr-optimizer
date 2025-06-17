@@ -26,7 +26,7 @@ export default function CharacterModal(props: {
   setOpen: (open: boolean) => void,
   initialCharacter?: Character | null,
 }) {
-  const [characterForm] = AntDForm.useForm()
+  const [characterForm] = AntDForm.useForm<Form>()
 
   const { t } = useTranslation('modals', { keyPrefix: 'EditCharacter' })
   const { t: tCommon } = useTranslation('common')
@@ -53,7 +53,7 @@ export default function CharacterModal(props: {
   }, [props.open])
 
   function onModalOk() {
-    const formValues = characterForm.getFieldsValue() as Form
+    const formValues = characterForm.getFieldsValue()
     console.log('Character modal submitted with form:', formValues)
     props.onOk(formValues)
     props.setOpen(false)

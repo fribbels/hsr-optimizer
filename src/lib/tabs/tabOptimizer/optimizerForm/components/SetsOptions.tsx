@@ -50,7 +50,7 @@ const GenerateSetsOptions = () => {
     .filter((x) => !UnreleasedSets[x[1]])
     .map((set) => ({ value: set[1], label: set[1] }))
 
-  const GenerateLabel = (value: string, parens: string, label: string): JSX.Element => {
+  const GenerateLabel = (value: string, parens: string, label: string): ReactElement => {
     const imageSrc = value == 'Any' ? Assets.getBlank() : Assets.getSetImage(value, Constants.Parts.Head)
     return (
       <Flex gap={5} align='center'>

@@ -14,6 +14,9 @@ export enum OpenCloseIDs {
   ZERO_PERMS_MODAL = 'ZERO_PERMS_MODAL',
   MENU_SIDEBAR = 'MENU_SIDEBAR',
   SCORING_MODAL = 'SCORING_MODAL',
+  SWITCH_RELICS_MODAL = 'SWITCH_RELICS_MODAL',
+  BUILDS_MODAL = 'BUILDS_MODAL',
+  SAVE_BUILDS_MODAL = 'SAVE_BUILDS_MODAL',
 }
 
 interface OpenCloseStates {
@@ -38,7 +41,7 @@ export function useOpenCloseActions(id: OpenCloseIDs) {
 }
 
 // Subscribes and rerenders
-// const { isOpen: isOpenScoringModal } = useIsOpen(OpenCloseIDs.SCORING_MODAL)
+// const isScoringModalOpen = useIsOpen(OpenCloseIDs.SCORING_MODAL)
 export function useIsOpen(id: OpenCloseIDs) {
   return openCloseStore((state) => state.state[id] ?? false)
 }

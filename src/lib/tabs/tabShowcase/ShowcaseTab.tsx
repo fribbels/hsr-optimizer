@@ -305,7 +305,6 @@ function CharacterPreviewSelection() {
             id='relicScorerPreview'
             setOriginalCharacterModalOpen={setCharacterModalOpen}
             setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter as Dispatch<SetStateAction<Character | null>>}
-            setCharacterModalAdd={() => {}} // not needed on showcase tab
           />
         </div>
 

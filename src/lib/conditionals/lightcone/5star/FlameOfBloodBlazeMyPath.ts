@@ -6,7 +6,7 @@ import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import {
@@ -59,11 +59,10 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     gpuFinalizeCalculations: (action, context) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
       return `
-if (${wgslFalse(r.skillUltDmgBoost)}) {
-  return;
+if (${wgslTrue(r.skillUltDmgBoost)}) {
+  (*p_x).SKILL_DMG_BOOST += select(0.0, ${sValuesSkillUltDmg[s]}, x.HP * ${sValuesHpDrain[s]} > 500);
+  (*p_x).ULT_DMG_BOOST += select(0.0, ${sValuesSkillUltDmg[s]}, x.HP * ${sValuesHpDrain[s]} > 500);
 }
-(*p_x).SKILL_DMG += select(0.0, ${sValuesSkillUltDmg[s]}, x.HP * ${sValuesHpDrain[s]} > 500);
-(*p_x).ULT_DMG += select(0.0, ${sValuesSkillUltDmg[s]}, x.HP * ${sValuesHpDrain[s]} > 500);
 `
     },
   }

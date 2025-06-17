@@ -1,35 +1,28 @@
 Relic_one: реликвия
 Relic_other: реликвии
-RelicWithCount_one: "{{count}} реликвия"
-RelicWithCount_other: "{{count}} реликвии"
-Lightcone_one: световой конус
-Lightcone_other: световые конусы
-LightconeWithCount_one: "{{count}} световой конус"
-LightconeWithCount_other: "{{count}} свет. конусов"
+RelicWithCount_one: '{{count}} реликвия'
+RelicWithCount_other: '{{count}} реликвии'
 ThousandsSuffix: К
-DecimalSeparator: "."
-ThousandsSeparator: ","
-I18nNumber: "{{value, number}}"
 Cancel: Отмена
 Confirm: Подтвердите
 Submit: Отправить
 Ok: Ок
-Yes: "Да"
-No: "Нет"
+Yes: 'Да'
+No: 'Нет'
 Save: Сохранить
 Score: Оценка
 Reset: Сброс
-EidolonNShort: "Е{{eidolon}}"
-SuperimpositionNShort: "S{{superimposition}}"
-LevelShort: "{{level}} ур."
-CharacterWithCount_one: "{{count}} персонаж"
-CharacterWithCount_other: "Персонажей: {{count}}"
+EidolonNShort: 'Е{{eidolon}}'
+SuperimpositionNShort: 'S{{superimposition}}'
+LevelShort: '{{level}} ур.'
+CharacterWithCount_one: '{{count}} персонаж'
+CharacterWithCount_other: 'Персонажей: {{count}}'
 Character_one: персонаж
 Character_other: персонажи
 VerifiedRelicHoverText: Доп. статы реликвий одобренные оценщиком реликвий (десятичные доли скорости)
 Verified4LinerHoverText: Статы реликвии и их количество, подтвержденные оценщиком реликвий (дробная часть значения скорости + 4 начальных стата)
 CombatStats: Статы персонажа при учёте команды
-MemospriteLabel: "{{label}}ᴹ"
+MemospriteLabel: '{{label}}ᴹ'
 Parts:
   Head: Голова
   Hands: Руки
@@ -60,13 +53,13 @@ Stats:
   Break Effect: Пробитие
   Energy Regeneration Rate: Скорость восстановления энергии
   Outgoing Healing Boost: Бонус исцеления
-  Physical DMG Boost: "Бонус $t(gameData:Elements.Physical) урона"
-  Fire DMG Boost: "Бонус $t(gameData:Elements.Fire) урона"
-  Ice DMG Boost: "Бонус $t(gameData:Elements.Ice) урона"
-  Lightning DMG Boost: "Бонус $t(gameData:Elements.Thunder) урона"
-  Wind DMG Boost: "Бонус $t(gameData:Elements.Wind) урона"
-  Quantum DMG Boost: "Бонус $t(gameData:Elements.Quantum) урона"
-  Imaginary DMG Boost: "Бонус $t(gameData:Elements.Imaginary) урона"
+  Physical DMG Boost: 'Бонус $t(gameData:Elements.Physical) урона'
+  Fire DMG Boost: 'Бонус $t(gameData:Elements.Fire) урона'
+  Ice DMG Boost: 'Бонус $t(gameData:Elements.Ice) урона'
+  Lightning DMG Boost: 'Бонус $t(gameData:Elements.Thunder) урона'
+  Wind DMG Boost: 'Бонус $t(gameData:Elements.Wind) урона'
+  Quantum DMG Boost: 'Бонус $t(gameData:Elements.Quantum) урона'
+  Imaginary DMG Boost: 'Бонус $t(gameData:Elements.Imaginary) урона'
 ShortStats:
   "HP%": HP%
   HP: HP
@@ -83,13 +76,13 @@ ShortStats:
   Break Effect: ЭП
   Energy Regeneration Rate: ВосстЭн
   Outgoing Healing Boost: ИСЦ
-  Physical DMG Boost: "$t(gameData:Elements.Physical)"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: '$t(gameData:Elements.Physical)'
+  Fire DMG Boost: '$t(gameData:Elements.Fire)'
+  Ice DMG Boost: '$t(gameData:Elements.Ice)'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder)'
+  Wind DMG Boost: '$t(gameData:Elements.Wind)'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
 ShortSpacedStats:
   "HP%": HP %
   HP: HP
@@ -106,13 +99,13 @@ ShortSpacedStats:
   Break Effect: ЭП
   Energy Regeneration Rate: ВЭ
   Outgoing Healing Boost: ИСЦ
-  Physical DMG Boost: "$t(gameData:Elements.Physical)"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: '$t(gameData:Elements.Physical)'
+  Fire DMG Boost: '$t(gameData:Elements.Fire)'
+  Ice DMG Boost: '$t(gameData:Elements.Ice)'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder)'
+  Wind DMG Boost: '$t(gameData:Elements.Wind)'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
 Damage: Урон
 DamagePercent: Урон %
 ReadableStats:
@@ -131,13 +124,13 @@ ReadableStats:
   Break Effect: Пробитие
   Energy Regeneration Rate: Восст. энергии
   Outgoing Healing Boost: Бонус исцеления
-  Physical DMG Boost: "$t(gameData:Elements.Physical) урон"
-  Fire DMG Boost: "$t(gameData:Elements.Fire) урон"
-  Ice DMG Boost: "$t(gameData:Elements.Ice) урон"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder) урон"
-  Wind DMG Boost: "$t(gameData:Elements.Wind) урон"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum) урон"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary) урон"
+  Physical DMG Boost: '$t(gameData:Elements.Physical) урон'
+  Fire DMG Boost: '$t(gameData:Elements.Fire) урон'
+  Ice DMG Boost: '$t(gameData:Elements.Ice) урон'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder) урон'
+  Wind DMG Boost: '$t(gameData:Elements.Wind) урон'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum) урон'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary) урон'
 ShortReadableStats:
   "HP%": HP %
   HP: HP
@@ -154,21 +147,21 @@ ShortReadableStats:
   Break Effect: ЭП
   Energy Regeneration Rate: Восст. энергии
   Outgoing Healing Boost: Бонус исцеления
-  Physical DMG Boost: "$t(gameData:Elements.Physical)"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: '$t(gameData:Elements.Physical)'
+  Fire DMG Boost: '$t(gameData:Elements.Fire)'
+  Ice DMG Boost: '$t(gameData:Elements.Ice)'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder)'
+  Wind DMG Boost: '$t(gameData:Elements.Wind)'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
 Elements:
-  Physical: "$t(gameData:Elements.Physical)"
-  Fire: "$t(gameData:Elements.Fire)"
-  Ice: "$t(gameData:Elements.Ice)"
-  Lightning: "$t(gameData:Elements.Thunder)"
-  Wind: "$t(gameData:Elements.Wind)"
-  Quantum: "$t(gameData:Elements.Quantum)"
-  Imaginary: "$t(gameData:Elements.Imaginary)"
+  Physical: '$t(gameData:Elements.Physical)'
+  Fire: '$t(gameData:Elements.Fire)'
+  Ice: '$t(gameData:Elements.Ice)'
+  Lightning: '$t(gameData:Elements.Thunder)'
+  Wind: '$t(gameData:Elements.Wind)'
+  Quantum: '$t(gameData:Elements.Quantum)'
+  Imaginary: '$t(gameData:Elements.Imaginary)'
 DMGTypes:
   simScore: Урон Комбо
   BASIC: Урон базовой атаки
@@ -190,4 +183,4 @@ ShortDMGTypes:
   Dot: Периодический урон
   Break: Урон пробития
   CV: КМ
-CurrentVersion: "Текущая версия: ({{Version}})"
+CurrentVersion: 'Текущая версия: ({{Version}})'

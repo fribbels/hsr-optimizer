@@ -1,26 +1,26 @@
-BetaMessage: "Versión actual: {{Version}} - Los cálculos están sujetos a cambios."
+BetaMessage: 'Versión actual: {{Version}} - Los cálculos están sujetos a cambios.'
 Common:
   BuffPriority:
-    Text: "Prioridad de las mejoras"
-    Content: "Selecciona al receptor de preferencia para las mejoras de objetivo único"
-    Self: "Prioridad mejoras: A sí mismo"
-    Memo: "Prioridad mejoras: Mnemo"
+    Text: 'Prioridad de las mejoras'
+    Content: 'Selecciona al receptor de preferencia para las mejoras de objetivo único'
+    Self: 'Prioridad mejoras: A sí mismo'
+    Memo: 'Prioridad mejoras: Mnemo'
   HealAbility:
-    Text: "Recurso de curación"
-    Content: "Selecciona el recurso para los cálculos de curación"
-    Basic: "Recurso curación: Básico"
-    Skill: "Recurso curación: Habilidad"
-    Ult: "Recurso curación: Definitiva"
-    Talent: "Recurso curación: Talento"
-    Trace: "Recurso curación: Rastro"
+    Text: 'Recurso de curación'
+    Content: 'Selecciona el recurso para los cálculos de curación'
+    Basic: 'Recurso curación: Básico'
+    Skill: 'Recurso curación: Habilidad'
+    Ult: 'Recurso curación: Definitiva'
+    Talent: 'Recurso curación: Talento'
+    Trace: 'Recurso curación: Rastro'
   ShieldAbility:
-    Text: "Recurso de escudo"
-    Content: "Selecciona el recurso para los cálculos de escudo"
-    Basic: "Recurso escudo: Básico"
-    Skill: "Recurso escudo: Habilidad"
-    Ult: "Recurso escudo: Definitiva"
-    Talent: "Recurso escudo: Talento"
-    Trace: "Recurso escudo: Rastro"
+    Text: 'Recurso de escudo'
+    Content: 'Selecciona el recurso para los cálculos de escudo'
+    Basic: 'Recurso escudo: Básico'
+    Skill: 'Recurso escudo: Habilidad'
+    Ult: 'Recurso escudo: Definitiva'
+    Talent: 'Recurso escudo: Talento'
+    Trace: 'Recurso escudo: Rastro'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -104,9 +104,6 @@ Lightcones:
       skillUltDmgBoost:
         text: Aumento de daño de Habilidad / Definitiva
         content: Al lanzar la habilidad básica o la habilidad definitiva, aumenta el daño que inflige ese ataque en un {{DmgBoost}}%.
-      bonusBoost:
-        text: Aumento de daño adicional
-        content: Al lanzar la habilidad básica o la habilidad definitiva, consume un {{HpConsumption}}% de sus PV máx. Si el efecto consume más de 500 PV, el daño aumenta en un {{BonusDmgBoost}}% adicional.
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -181,7 +178,7 @@ Lightcones:
           Después de que el portador ataque, cada enemigo tiene un 120% de probabilidad base de ser afectado con Desconcierto. La DEF de los enemigos en el estado de Desconcierto se reduce en un {{DefShred}}% durante 2 turnos. ::BR:: Si la VEL del portador es igual o superior a 170, cada enemigo tiene un 120% de probabilidad base de ser afectado con Robado. La DEF de los enemigos en el estado de Robado se reduce en un {{AdditionalDefShred}}% durante 2 turnos.
     TeammateContent:
       additionalDefPen:
-        text: "VEL > 170"
+        text: 'VEL > 170'
         content: >-
           Después de que el portador ataque, cada enemigo tiene un 120% de probabilidad base de ser afectado con Desconcierto. La DEF de los enemigos en el estado de Desconcierto se reduce en un {{DefShred}}% durante 2 turnos. ::BR:: Si la VEL del portador es igual o superior a 170, cada enemigo tiene un 120% de probabilidad base de ser afectado con Robado. La DEF de los enemigos en el estado de Robado se reduce en un {{AdditionalDefShred}}% durante 2 turnos.
   LifeShouldBeCastToFlames:
@@ -541,7 +538,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: "Mejora de DC por golpe a ≥ 2 enemigos con misma debilidad"
+        text: 'Mejora de DC por golpe a ≥ 2 enemigos con misma debilidad'
         content: Cuando el portador lanza un ataque y golpea como mínimo a 2 enemigos que tengan su tipo de Debilidad, el Daño CRIT del portador aumenta en un {{CritBuff}}% durante 2 turnos.
   TheGreatCosmicEnterprise:
     Content:
@@ -860,7 +857,7 @@ Characters:
     Content:
       enhancedStateActive:
         text: Panorama infernal
-        content: "Aumenta el daño en un {{enhancedStateDmgBoost}}%. El ATQ básico Espada fragmentada se potencia y se transforma en Bosque de espadas durante 3 turnos.::BR::E2: Su Prob. CRIT aumenta en un 15%."
+        content: 'Aumenta el daño en un {{enhancedStateDmgBoost}}%. El ATQ básico Espada fragmentada se potencia y se transforma en Bosque de espadas durante 3 turnos.::BR::E2: Su Prob. CRIT aumenta en un 15%.'
       hpPercentLostTotal:
         text: Total de %PV perdidos
         content: El daño de Definitiva aumenta con el recuento de PV que ha perdido en esta batalla. El recuento de PV perdidos en esta batalla no puede superar el {{hpPercentLostTotalMax}}% de los PV máx. de Blade.
@@ -1971,7 +1968,7 @@ Characters:
         content: Cuando Yukong está en la batalla, el Daño Imaginario que infligen todos los aliados aumenta en un 12%.
       roaringBowstringsActive:
         text: Sonido de cuerda
-        content: "Cuando Yukong tiene Sonido de cuerda, el ATQ de todos los aliados aumenta en un {{skillAtkBuffValue}}%.::BR::E4: Cuando tiene Sonido de cuerda, el daño que inflige Yukong aumenta en un 30%."
+        content: 'Cuando Yukong tiene Sonido de cuerda, el ATQ de todos los aliados aumenta en un {{skillAtkBuffValue}}%.::BR::E4: Cuando tiene Sonido de cuerda, el daño que inflige Yukong aumenta en un 30%.'
       ultBuff:
         text: Mejoras de PC / DC de Definitiva
         content: >-
@@ -1985,7 +1982,7 @@ Characters:
         text: Bloqueo activado
         content: En el estado de Bloqueo, resiste los estados negativos de Control que reciba y reduce el daño recibido en un 20%.
       ultCull:
-        text: "Capción: Exterminio activada"
+        text: 'Capción: Exterminio activada'
         content: >-
           Capción: Exterminio: Yunli inflige un {{CullScaling}}% de su ATQ como Daño Físico a un enemigo y un {{CullAdjacentScaling}}% de su ATQ como Daño Físico a los enemigos adyacentes, y a continuación inflige daño 6 veces más. Cada vez, inflige un {{CullAdditionalScaling}}% del ATQ de Yunli como Daño Físico a un enemigo al azar.
       ultCullHits:
@@ -1997,7 +1994,7 @@ Characters:
         content: Al lanzar un contraataque, el ATQ de Yunli aumenta en un 30% durante 1 turno.
       e1UltBuff:
         text: E1 Mejora de Definitiva
-        content: "El daño que infligen Capción: Sajadura y Capción: Exterminio aumenta en un 20%, y las veces adicionales que Capción: Exterminio inflige daño aumentan en 3."
+        content: 'El daño que infligen Capción: Sajadura y Capción: Exterminio aumenta en un 20%, y las veces adicionales que Capción: Exterminio inflige daño aumentan en 3.'
       e2DefShred:
         text: E2 PEN DEF de ataque adicional
         content: Cuando inflige daño con un contraataque, ignora un 20% de la DEF del enemigo.

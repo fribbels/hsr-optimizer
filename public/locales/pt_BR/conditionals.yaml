@@ -1,26 +1,26 @@
-BetaMessage: "Versão atual: {{Version}} - Os cálculos estão sujeitos a alterações."
+BetaMessage: 'Versão atual: {{Version}} - Os cálculos estão sujeitos a alterações.'
 Common:
   BuffPriority:
-    Text: "Alvo prioritário de Buff"
-    Content: "Selecionar o destinatário preferido para buffs de alvo único"
-    Self: "Prioridade Buff: Próprio"
-    Memo: "Prioridade Buff: Memo"
+    Text: 'Alvo prioritário de Buff'
+    Content: 'Selecionar o destinatário preferido para buffs de alvo único'
+    Self: 'Prioridade Buff: Próprio'
+    Memo: 'Prioridade Buff: Memo'
   HealAbility:
-    Text: "Habilidade de cura"
-    Content: "Selecione a habilidade para cálculos de cura"
-    Basic: "Habilidade de cura: Básico"
-    Skill: "Habilidade de cura: Perícia"
-    Ult: "Habilidade de cura: Ult"
-    Talent: "Habilidade de cura: Talento"
-    Trace: "Habilidade de cura: Rastro"
+    Text: 'Habilidade de cura'
+    Content: 'Selecione a habilidade para cálculos de cura'
+    Basic: 'Habilidade de cura: Básico'
+    Skill: 'Habilidade de cura: Perícia'
+    Ult: 'Habilidade de cura: Ult'
+    Talent: 'Habilidade de cura: Talento'
+    Trace: 'Habilidade de cura: Rastro'
   ShieldAbility:
-    Text: "Habilidade de escudo"
-    Content: "Selecione a habilidade para cálculos de escudo"
-    Basic: "Habilidade de escudo: Básica"
-    Skill: "Habilidade de escudo: Perícia"
-    Ult: "Habilidade de escudo: Ult"
-    Talent: "Habilidade de proteção: Talento"
-    Trace: "Habilidade de escudo: Rastro"
+    Text: 'Habilidade de escudo'
+    Content: 'Selecione a habilidade para cálculos de escudo'
+    Basic: 'Habilidade de escudo: Básica'
+    Skill: 'Habilidade de escudo: Perícia'
+    Ult: 'Habilidade de escudo: Ult'
+    Talent: 'Habilidade de proteção: Talento'
+    Trace: 'Habilidade de escudo: Rastro'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -104,9 +104,6 @@ Lightcones:
       skillUltDmgBoost:
         text: Aumento de DMG Perícia / Ult
         content: Ao usar Perícia ou Ultimate, aumenta o DMG causado por este ataque em {{DmgBoost}}%.
-      bonusBoost:
-        text: Bônus de aumento de DMG
-        content: Ao usar Perícia ou Ultimate, consuma HP igual a {{HpConsumption}}% da vida máxima do usuário. Se o HP consumido for maior que 500, este ataque aumenta em {{BonusDmgBoost}}%.
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -181,7 +178,7 @@ Lightcones:
           Após o usuário realizar um ataque, há uma chance-base de 120% de infligir o estado de "Engano" em cada inimigo-alvo. Enquanto estiver no estado de "Engano", a DEF do inimigo-alvo diminui em {{DefShred}}% por 2 rodada(s). Se a VEL do usuário for maior ou igual a 170, há uma chance-base de 120% de infligir o estado de "Roubo" em todos os inimigos-alvo. Enquanto estiver sob o estado de "Roubo", a DEF do inimigo-alvo diminui em {{AdditionalDefShred}}% por 2 rodada(s).
     TeammateContent:
       additionalDefPen:
-        text: "VEL > 170"
+        text: 'VEL > 170'
         content: >-
           Após o usuário realizar um ataque, há uma chance-base de 120% de infligir o estado de "Engano" em cada inimigo-alvo. Enquanto estiver no estado de "Engano", a DEF do inimigo-alvo diminui em {{DefShred}}% por 2 rodada(s). Se a VEL do usuário for maior ou igual a 170, há uma chance-base de 120% de infligir o estado de "Roubo" em todos os inimigos-alvo. Enquanto estiver sob o estado de "Roubo", a DEF do inimigo-alvo diminui em {{AdditionalDefShred}}% por 2 rodada(s).
   LifeShouldBeCastToFlames:
@@ -487,7 +484,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: "Buff de CR para ≤ 2 inimigos"
+        text: 'Buff de CR para ≤ 2 inimigos'
         content: Se houver 2 ou menos inimigos no campo, aumenta a taxa de CRIT do portador em {{CritBuff}}%.
   PastAndFuture:
     Content:
@@ -553,7 +550,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: "Buff de cooldown para alvos com ≥ 2 fraquezas"
+        text: 'Buff de cooldown para alvos com ≥ 2 fraquezas'
         content: Quando o portador usa um ataque e pelo menos 2 inimigos atacados têm a fraqueza correspondente, o CRIT DMG do portador aumenta em {{CritBuff}}% por 2 turnos.
   TheGreatCosmicEnterprise:
     Content:
@@ -872,7 +869,7 @@ Characters:
     Content:
       enhancedStateActive:
         text: Estado de Inferno
-        content: "Aumenta o DMG em {{enhancedStateDmgBoost}}% e seu ATK Básico Espada Fragmentada é aprimorado para Floresta de Espadas por 3 turnos.::BR::E2: Aumenta a taxa de CRIT em 15%."
+        content: 'Aumenta o DMG em {{enhancedStateDmgBoost}}% e seu ATK Básico Espada Fragmentada é aprimorado para Floresta de Espadas por 3 turnos.::BR::E2: Aumenta a taxa de CRIT em 15%.'
       hpPercentLostTotal:
         text: HP% perdido total
         content: O DMG da Ultimate escala com base na contagem da perda de HP de Blade na batalha atual. A contagem da perda de HP de Blade na batalha atual é limitada a {{hpPercentLostTotalMax}}% de seu HP máximo.
@@ -1983,7 +1980,7 @@ Characters:
         content: Quando Yukong está em campo, o DMG Imaginário causado por todos os aliados aumenta em 12%.
       roaringBowstringsActive:
         text: Cordas de Arco Rugidoras
-        content: "Quando as Cordas de Arco Rugidoras estão ativas, o ATK de todos os aliados aumenta em {{skillAtkBuffValue}}%.::BR::E4: Quando as Cordas de Arco Rugidoras estão ativas, Yukong causa 30% a mais de DMG aos inimigos."
+        content: 'Quando as Cordas de Arco Rugidoras estão ativas, o ATK de todos os aliados aumenta em {{skillAtkBuffValue}}%.::BR::E4: Quando as Cordas de Arco Rugidoras estão ativas, Yukong causa 30% a mais de DMG aos inimigos.'
       ultBuff:
         text: Aumentos de CR / CD do Ultimate
         content: >-
@@ -1997,11 +1994,11 @@ Characters:
         text: Bloqueio ativo
         content: Enquanto estiver no estado de Bloqueio resiste a debuffs de Controle de Multidão recebidos e reduz o DMG recebido em 20%.
       ultCull:
-        text: "Intuit: Colheita habilitada"
+        text: 'Intuit: Colheita habilitada'
         content: >-
           Intuit: Colheita: Causa DMG Físico igual a {{CullScaling}}% do ATK de Yunli ao alvo e causa DMG Físico igual a {{CullAdjacentScaling}}% do ATK de Yunli a alvos adjacentes. Em seguida, causa adicionalmente 6 instâncias de DMG, cada uma causando DMG Físico igual a {{CullAdditionalScaling}}% do ATK de Yunli a um inimigo único aleatório.
       ultCullHits:
-        text: "Intuit: Colheitas atingidas"
+        text: 'Intuit: Colheitas atingidas'
         content: >-
           Intuit: Colheita: Causa DMG Físico igual a {{CullScaling}}% do ATK de Yunli ao alvo e causa DMG Físico igual a {{CullAdjacentScaling}}% do ATK de Yunli a alvos adjacentes. Em seguida, causa adicionalmente 6 instâncias de DMG, cada uma causando DMG Físico igual a {{CullAdditionalScaling}}% do ATK de Yunli a um inimigo único aleatório.
       counterAtkBuff:
@@ -2009,7 +2006,7 @@ Characters:
         content: Ao usar um Contra-ataque, aumenta o ATK de Yunli em 30%, com duração de 1 turno.
       e1UltBuff:
         text: Buff da ultimate E1
-        content: "Aumenta o DMG causado por Intuit: Corte e Intuit: Colheita em 20%. Aumenta o número de instâncias adicionais de DMG para Intuit: Colheita em 3."
+        content: 'Aumenta o DMG causado por Intuit: Corte e Intuit: Colheita em 20%. Aumenta o número de instâncias adicionais de DMG para Intuit: Colheita em 3.'
       e2DefShred:
         text: PEN de DEF FUA E2
         content: Ao causar DMG por meio de Contra-ataque, ignora 20% da DEF do alvo.

@@ -37,8 +37,6 @@ export default function CharacterTab() {
   window.forceCharacterTabUpdate = () => {
     console.log('__________ CharacterTab forceCharacterTabUpdate')
     forceUpdate()
-
-    window.setCharacterRows(DB.getCharacters())
     window.characterGrid.current?.api?.redrawRows()
   }
 

@@ -127,7 +127,6 @@ export const CharacterTabController = {
     const focusCharacter = useCharacterTabStore.getState().focusCharacter
     if (!focusCharacter) return
     DB.insertCharacter(focusCharacter, 0)
-    DB.refreshCharacters()
     window.forceCharacterTabUpdate()
     SaveState.delayedSave()
   },
@@ -139,7 +138,6 @@ export const CharacterTabController = {
       .sort((a, b) => b.score.totalScore - a.score.totalScore)
       .map((x) => x.character)
     DB.setCharacters(sortedCharacters)
-    DB.refreshCharacters()
     SaveState.delayedSave()
     window.forceCharacterTabUpdate()
   },

@@ -108,7 +108,6 @@ export default function OptimizerForm() {
     // If the rank changes, re-order the characters priority list
     if (changedValues.rank != null && DB.getCharacterById(allValues.characterId)!.rank != allValues.rank) {
       DB.insertCharacter(allValues.characterId, allValues.rank)
-      DB.refreshCharacters()
     }
 
     // Update permutation counts

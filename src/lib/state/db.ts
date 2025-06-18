@@ -1,3 +1,4 @@
+import { IRowNode } from 'ag-grid-community'
 import i18next from 'i18next'
 import {
   COMPUTE_ENGINE_GPU_STABLE,
@@ -318,11 +319,6 @@ export const DB = {
 
     window.onOptimizerFormValuesChange({} as Form, OptimizerTabController.getForm())
   },
-  refreshCharacters: () => {
-    if (window.setCharacterRows) {
-      window.setCharacterRows(DB.getCharacters())
-    }
-  },
 
   getRelics: () => Object.values(window.store.getState().relicsById),
   getRelicsById: () => window.store.getState().relicsById,
@@ -428,20 +424,16 @@ export const DB = {
     return returnScoringMetadata
   },
   updateCharacterScoreOverrides: (id: CharacterId, updated: ScoringMetadata) => {
-    const overrides = window.store.getState().scoringMetadataOverrides
+    let overrides = window.store.getState().scoringMetadataOverrides
     if (!overrides[id]) {
-      overrides[id] = updated
+      overrides = { ...overrides, [id]: updated }
     } else {
-      Utils.mergeDefinedValues(overrides[id], updated)
-    }
-    if (updated.modified) {
-      // TODO: bug
-      // overrides.modified = true
+      overrides = { ...overrides, [id]: { ...overrides[id], ...updated } }
     }
 
     const defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
 
-    setModifiedScoringMetadata(defaultScoringMetadata, overrides[id])
+    setModifiedScoringMetadata(defaultScoringMetadata, overrides[id]!)
 
     window.store.getState().setScoringMetadataOverrides(overrides)
 
@@ -450,14 +442,8 @@ export const DB = {
   updateSimulationScoreOverrides: (id: CharacterId, updatedSimulation: SimulationMetadata) => {
     if (!updatedSimulation) return
 
-    const overrides = window.store.getState().scoringMetadataOverrides
-    if (!overrides[id]) {
-      overrides[id] = {
-        simulation: updatedSimulation,
-      } as ScoringMetadata
-    } else {
-      overrides[id].simulation = updatedSimulation
-    }
+    let overrides = window.store.getState().scoringMetadataOverrides
+    overrides = { ...overrides, [id]: { ...overrides[id], simulation: updatedSimulation } }
     window.store.getState().setScoringMetadataOverrides(overrides)
 
     SaveState.delayedSave()
@@ -622,7 +608,6 @@ export const DB = {
     DB.setRelics(saveData.relics)
     DB.setCharacters(saveData.characters)
 
-    DB.refreshCharacters()
     DB.refreshRelics()
 
     if (autosave) {
@@ -675,13 +660,8 @@ export const DB = {
      */
     if (window.characterGrid?.current?.api) {
       window.characterGrid.current.api.updateGridOptions({ rowData: characters })
-      window.characterGrid.current.api.forEachNode((node: {
-        data: {
-          id: CharacterId,
-        },
-        setSelected: (b: boolean) => void,
-      }) => {
-        if (node.data.id == found.id) node.setSelected(true)
+      window.characterGrid.current.api.forEachNode((node: IRowNode<Character>) => {
+        if (node.data?.id == found.id) node.setSelected(true)
       })
       useCharacterTabStore.getState().setFocusCharacter(found.id)
     }
@@ -700,8 +680,8 @@ export const DB = {
       character = DB.getCharacterById(characterId)!
       console.log('Character did not previously exist, adding', character)
     }
-    character.portrait = portrait
-    DB.setCharacter(character)
+    const updatedCharacter = { ...character, portrait }
+    DB.setCharacter(updatedCharacter)
     console.log('Saved portrait', DB.getState())
   },
 
@@ -711,8 +691,8 @@ export const DB = {
       console.warn('No character selected')
       return
     }
-    delete character.portrait
-    DB.setCharacter(character)
+    const updatedCharacter = { ...character, portrait: undefined }
+    DB.setCharacter(updatedCharacter)
     console.log('Deleted portrait', DB.getState())
   },
 
@@ -733,13 +713,11 @@ export const DB = {
       return { error: errorMessage }
     } else {
       build = Object.values(character.equipped)
-      if (!character.builds) character.builds = []
-      character.builds.push({
-        name,
-        build,
-        score,
-      })
-      DB.setCharacter(character)
+      const builds = character.builds ?? []
+      builds.push({ name, build, score })
+
+      const updatedCharacter = { ...character, builds: [...builds] }
+      DB.setCharacter(updatedCharacter)
       console.log('Saved build', build, useCharacterTabStore.getState())
     }
   },
@@ -748,20 +726,20 @@ export const DB = {
     const character = DB.getCharacterById(characterId)
     if (!character) return console.warn('No character to delete build for')
 
-    character.builds = character.builds.filter((x) => x.name != name)
-    DB.setCharacter(character)
+    const updatedCharacter = { ...character, builds: character.builds.filter((x) => x.name != name) }
+    DB.setCharacter(updatedCharacter)
   },
 
   clearCharacterBuilds: (characterId: CharacterId) => {
     const character = DB.getCharacterById(characterId)
     if (!character) return console.warn('No character to clear builds for')
 
-    character.builds = []
-    DB.setCharacter(character)
+    const updatedCharacter = { ...character, builds: [] }
+    DB.setCharacter(updatedCharacter)
   },
 
   unequipCharacter: (id: CharacterId) => {
-    const character = DB.getCharacterById(id)
+    let character = DB.getCharacterById(id)
     if (!character) return console.warn('No character to unequip')
 
     console.log('Unequipping character', id, character)
@@ -772,11 +750,11 @@ export const DB = {
 
       const relicMatch = DB.getRelicById(equippedId)
 
-      character.equipped[part] = undefined
+      character = { ...character, equipped: { ...character.equipped, [part]: undefined } }
 
       if (relicMatch) {
-        relicMatch.equippedBy = undefined
-        setRelic(relicMatch)
+        const relic = { ...relicMatch, equippedBy: undefined }
+        setRelic(relic)
       }
     }
     DB.setCharacter(character)
@@ -792,19 +770,21 @@ export const DB = {
   unequipRelicById: (id: string) => {
     if (!id) return console.warn('No relic')
     const relic = DB.getRelicById(id)
+    if (!relic) return console.warn('No relic')
 
     console.log('UNEQUIP RELIC')
 
     const characters = DB.getCharacters()
-    for (const character of characters) {
-      if (character.equipped?.[relic.part] && character.equipped[relic.part] == relic.id) {
-        character.equipped[relic.part] = undefined
-      }
-    }
+      .map((c) => {
+        if (c.equipped?.[relic.part] && c.equipped[relic.part] == relic.id) {
+          return { ...c, equipped: { ...c.equipped, [relic.part]: undefined } }
+        }
+        return c
+      })
     DB.setCharacters(characters)
 
-    relic.equippedBy = undefined
-    setRelic(relic)
+    const newRelic = { ...relic, equippedBy: undefined }
+    setRelic(newRelic)
   },
 
   /**
@@ -821,6 +801,7 @@ export const DB = {
     const prevCharacter = DB.getCharacterById(prevOwnerId!)
     const character = DB.getCharacterById(characterId)!
     const prevRelic = DB.getRelicById(character.equipped[relic.part]!)
+    let updatedPrevCharacter: Character
 
     if (prevRelic) {
       DB.unequipRelicById(prevRelic.id)
@@ -832,19 +813,21 @@ export const DB = {
     // only re-equip prevRelic if it would go to a different character
     if (prevOwnerId !== characterId && prevCharacter) {
       if (prevRelic && swap) {
-        prevCharacter.equipped[relic.part] = prevRelic.id
-        prevRelic.equippedBy = prevCharacter.id
-        setRelic(prevRelic)
+        updatedPrevCharacter = { ...prevCharacter, equipped: { ...prevCharacter.equipped, [relic.part]: prevRelic.id } }
+
+        const updatedPrevRelic = { ...prevRelic, equippedBy: prevCharacter.id }
+        setRelic(updatedPrevRelic)
       } else {
+        updatedPrevCharacter = { ...prevCharacter, equipped: { ...prevCharacter.equipped, [relic.part]: undefined } }
         prevCharacter.equipped[relic.part] = undefined
       }
-      DB.setCharacter(prevCharacter)
+      DB.setCharacter(updatedPrevCharacter)
     }
 
-    character.equipped[relic.part] = relic.id
-    relic.equippedBy = character.id
-    DB.setCharacter(character)
-    setRelic(relic)
+    const updatedCharacter = { ...character, equipped: { ...character.equipped, [relic.part]: relic.id } }
+    DB.setCharacter(updatedCharacter)
+    const newRelic = { ...relic, equippedBy: character.id }
+    setRelic(newRelic)
 
     debounceEffect('refreshRelics', 500, () => window.relicsGrid?.current?.api.refreshCells())
   },
@@ -872,7 +855,7 @@ export const DB = {
     DB.unequipRelicById(id)
     const relicsById = window.store.getState().relicsById
     delete relicsById[id]
-    window.store.getState().setRelicsById(relicsById)
+    window.store.getState().setRelicsById({ ...relicsById })
 
     // This refreshes the grid for the character equipped relics color coding
     if (window.characterGrid?.current?.api) {
@@ -914,19 +897,22 @@ export const DB = {
       const hash = hashRelic(newRelic)
 
       // Compare new relic hashes to old relic hashes
-      const found = oldRelicHashes[hash]
+      let found = oldRelicHashes[hash]
       let stableRelicId: string
       if (found) {
         if (newRelic.verified) {
           // Inherit the new verified speed stats
-          found.verified = true
-          found.substats = newRelic.substats
-          found.augmentedStats = newRelic.augmentedStats
+          found = {
+            ...found,
+            verified: true,
+            substats: newRelic.substats,
+            augmentedStats: newRelic.augmentedStats,
+          }
         }
 
         if (newRelic.equippedBy && newCharacters.length) {
           // Update the owner of the existing relic with the newly imported owner
-          found.equippedBy = newRelic.equippedBy
+          found = { ...found, equippedBy: newRelic.equippedBy }
           newRelic = found
         }
 
@@ -942,9 +928,9 @@ export const DB = {
 
       // Update the character's equipped inventory
       if (newRelic.equippedBy && newCharacters.length) {
-        const character = characters.find((x) => x.id == newRelic.equippedBy)
-        if (character) {
-          character.equipped[newRelic.part] = stableRelicId
+        const idx = characters.findIndex((x) => x.id == newRelic.equippedBy)
+        if (idx >= 0) {
+          characters[idx] = { ...characters[idx], equipped: { ...characters[idx].equipped, [newRelic.part]: stableRelicId } }
         } else {
           console.log('No character to equip relic to', newRelic)
         }
@@ -958,39 +944,41 @@ export const DB = {
     DB.setRelics(replacementRelics)
 
     // Clean up any deleted relic ids that are still equipped
-    for (const character of characters) {
+    characters.forEach((char, idx, arr) => {
       for (const part of Object.values(Constants.Parts)) {
-        if (character.equipped?.[part] && !DB.getRelicById(character.equipped[part])) {
-          character.equipped[part] = undefined
+        if (char.equipped?.[part] && !DB.getRelicById(char.equipped[part])) {
+          arr[idx] = { ...char, equipped: { ...char.equipped, [part]: undefined } }
         }
       }
-    }
+    })
+    DB.setCharacters(characters)
 
     // Clean up relics that are double equipped
-    for (const relic of DB.getRelics()) {
-      if (!relic.equippedBy) continue
-
-      const character = DB.getCharacterById(relic.equippedBy)
-      if (!character || character.equipped[relic.part] != relic.id) {
-        relic.equippedBy = undefined
+    const relics = DB.getRelics().map((r) => {
+      if (!r.equippedBy) return r
+      const wearer = DB.getCharacterById(r.equippedBy)
+      if (!wearer || wearer.equipped[r.part] != r.id) {
+        return { ...r, equippedBy: undefined }
       }
-    }
+      return r
+    })
+    DB.setRelics(relics)
 
     // Clean up characters who have relics equipped by someone else, or characters that don't exist ingame yet
-    for (const character of DB.getCharacters()) {
-      for (const part of Object.keys(character.equipped)) {
-        const relicId = character.equipped[part as Parts]
+    const cleanedCharacters = DB.getCharacters().map((c) => {
+      let newC = c
+      for (const part of Object.keys(c.equipped) as Parts[]) {
+        const relicId = c.equipped[part]
         if (relicId) {
           const relic = DB.getRelicById(relicId)
-          if (relic.equippedBy != character.id) {
-            character.equipped[part as Parts] = undefined
+          if (relic.equippedBy != c.id) {
+            newC = { ...newC, equipped: { ...newC.equipped, [part]: undefined } }
           }
         }
       }
-    }
-
-    DB.setRelics(replacementRelics)
-    DB.setCharacters(characters)
+      return newC
+    })
+    DB.setCharacters(cleanedCharacters)
 
     // only valid when on relics tab
     if (window.relicsGrid?.current?.api) {
@@ -1129,7 +1117,7 @@ function findRelicMatch(relic: Relic, oldRelics: Relic[]) {
 
 function assignRanks(characters: Character[]) {
   for (let i = 0; i < characters.length; i++) {
-    characters[i].rank = i
+    characters[i] = { ...characters[i], rank: i }
   }
 
   // This sets the rank for the current optimizer character because shuffling ranks will desync the Priority filter selector
@@ -1203,8 +1191,7 @@ function partialHashRelic(relic: Relic) {
  * Sets the provided relic in the application's state.
  */
 function setRelic(relic: Relic) {
-  const relicsById = window.store.getState().relicsById
-  relicsById[relic.id] = relic
+  const relicsById = { ...window.store.getState().relicsById, [relic.id]: relic }
   window.store.getState().setRelicsById(relicsById)
 }
 
@@ -1217,6 +1204,6 @@ function deduplicateStringArray<T extends string[] | null | undefined>(arr: T) {
 function indexRelics(arr: Relic[]) {
   const length = arr.length
   for (let i = 0; i < length; i++) {
-    arr[i].ageIndex = length - i - 1
+    arr[i] = { ...arr[i], ageIndex: length - i - 1 }
   }
 }

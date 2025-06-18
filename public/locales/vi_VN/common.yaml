@@ -1,34 +1,27 @@
 Relic_one: dị vật
 Relic_other: dị vật
-RelicWithCount_one: "{{count}} di vật"
-RelicWithCount_other: "{{count}} di vật"
-Lightcone_one: nón ánh sáng
-Lightcone_other: nón ánh sáng
-LightconeWithCount_one: "{{count}} nón ánh sáng"
-LightconeWithCount_other: "{{count}} nón ánh sáng"
+RelicWithCount_one: '{{count}} di vật'
+RelicWithCount_other: '{{count}} di vật'
 ThousandsSuffix: K
-DecimalSeparator: "."
-ThousandsSeparator: ","
-I18nNumber: "{{value, number}}"
 Cancel: Hủy
 Confirm: Xác nhận
 Submit: Tìm Kiếm
 Ok: OK
-Yes: "Có"
-No: "Không"
+Yes: 'Có'
+No: 'Không'
 Save: Lưu
 Score: Điểm số
 Reset: Khôi phục
-EidolonNShort: "E{{eidolon}}"
-SuperimpositionNShort: "S{{superimposition}}"
-LevelShort: "Lv{{level}}"
-CharacterWithCount_one: "{{count}} Nhân vật"
-CharacterWithCount_other: "{{count}} Nhân vật"
+EidolonNShort: 'E{{eidolon}}'
+SuperimpositionNShort: 'S{{superimposition}}'
+LevelShort: 'Lv{{level}}'
+CharacterWithCount_one: '{{count}} Nhân vật'
+CharacterWithCount_other: '{{count}} Nhân vật'
 Character_one: Nhân vật
 Character_other: Nhân vật
 VerifiedRelicHoverText: Chỉ số dị vật được xác nhận bởi relic scorer (có số thập phân cho tốc độ)
 CombatStats: Chỉ số trong combat
-MemospriteLabel: "{{label}}ᴹ"
+MemospriteLabel: '{{label}}ᴹ'
 Parts:
   Head: Đầu
   Hands: Tay
@@ -59,13 +52,13 @@ Stats:
   Break Effect: Kích Phá
   Energy Regeneration Rate: Hồi Năng Lượng
   Outgoing Healing Boost: Tăng Lượng Trị Liệu
-  Physical DMG Boost: " Tăng Sát Thương $t(gameData:Elements.Physical)"
-  Fire DMG Boost: " Tăng Sát Thương $t(gameData:Elements.Fire)"
-  Ice DMG Boost: " Tăng Sát Thương $t(gameData:Elements.Ice)"
-  Lightning DMG Boost: " Tăng Sát Thương $t(gameData:Elements.Thunder)"
-  Wind DMG Boost: " Tăng Sát Thương $t(gameData:Elements.Wind)"
-  Quantum DMG Boost: " Tăng Sát Thương $t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: " Tăng Sát Thương $t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: ' Tăng Sát Thương $t(gameData:Elements.Physical)'
+  Fire DMG Boost: ' Tăng Sát Thương $t(gameData:Elements.Fire)'
+  Ice DMG Boost: ' Tăng Sát Thương $t(gameData:Elements.Ice)'
+  Lightning DMG Boost: ' Tăng Sát Thương $t(gameData:Elements.Thunder)'
+  Wind DMG Boost: ' Tăng Sát Thương $t(gameData:Elements.Wind)'
+  Quantum DMG Boost: ' Tăng Sát Thương $t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: ' Tăng Sát Thương $t(gameData:Elements.Imaginary)'
 ShortStats:
   "HP%": HP%
   HP: HP
@@ -82,13 +75,13 @@ ShortStats:
   Break Effect: Kích Phá
   Energy Regeneration Rate: Năng Lượng
   Outgoing Healing Boost: OHB
-  Physical DMG Boost: "$t(gameData:Elements.Physical)"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: '$t(gameData:Elements.Physical)'
+  Fire DMG Boost: '$t(gameData:Elements.Fire)'
+  Ice DMG Boost: '$t(gameData:Elements.Ice)'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder)'
+  Wind DMG Boost: '$t(gameData:Elements.Wind)'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
 ShortSpacedStats:
   "HP%": HP %
   HP: HP
@@ -105,13 +98,13 @@ ShortSpacedStats:
   Break Effect: BE
   Energy Regeneration Rate: ERR
   Outgoing Healing Boost: OHB
-  Physical DMG Boost: "$t(gameData:Elements.Physical)"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: '$t(gameData:Elements.Physical)'
+  Fire DMG Boost: '$t(gameData:Elements.Fire)'
+  Ice DMG Boost: '$t(gameData:Elements.Ice)'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder)'
+  Wind DMG Boost: '$t(gameData:Elements.Wind)'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
 Damage: ST
 DamagePercent: ST %
 ReadableStats:
@@ -130,13 +123,13 @@ ReadableStats:
   Break Effect: Kích Phá
   Energy Regeneration Rate: Năng Lượng
   Outgoing Healing Boost: Tăng Trị Liệu
-  Physical DMG Boost: "ST $t(gameData:Elements.Physical)"
-  Fire DMG Boost: "ST $t(gameData:Elements.Fire)"
-  Ice DMG Boost: "ST $t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "ST $t(gameData:Elements.Thunder)"
-  Wind DMG Boost: "ST $t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "ST $t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "ST $t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: 'ST $t(gameData:Elements.Physical)'
+  Fire DMG Boost: 'ST $t(gameData:Elements.Fire)'
+  Ice DMG Boost: 'ST $t(gameData:Elements.Ice)'
+  Lightning DMG Boost: 'ST $t(gameData:Elements.Thunder)'
+  Wind DMG Boost: 'ST $t(gameData:Elements.Wind)'
+  Quantum DMG Boost: 'ST $t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: 'ST $t(gameData:Elements.Imaginary)'
 ShortReadableStats:
   "HP%": HP %
   HP: HP
@@ -153,21 +146,21 @@ ShortReadableStats:
   Break Effect: Kích Phá
   Energy Regeneration Rate: Năng Lượng
   Outgoing Healing Boost: Trị Liệu
-  Physical DMG Boost: "$t(gameData:Elements.Physical)"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: '$t(gameData:Elements.Physical)'
+  Fire DMG Boost: '$t(gameData:Elements.Fire)'
+  Ice DMG Boost: '$t(gameData:Elements.Ice)'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder)'
+  Wind DMG Boost: '$t(gameData:Elements.Wind)'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
 Elements:
-  Physical: "$t(gameData:Elements.Physical)"
-  Fire: "$t(gameData:Elements.Fire)"
-  Ice: "$t(gameData:Elements.Ice)"
-  Lightning: "$t(gameData:Elements.Thunder)"
-  Wind: "$t(gameData:Elements.Wind)"
-  Quantum: "$t(gameData:Elements.Quantum)"
-  Imaginary: "$t(gameData:Elements.Imaginary)"
+  Physical: '$t(gameData:Elements.Physical)'
+  Fire: '$t(gameData:Elements.Fire)'
+  Ice: '$t(gameData:Elements.Ice)'
+  Lightning: '$t(gameData:Elements.Thunder)'
+  Wind: '$t(gameData:Elements.Wind)'
+  Quantum: '$t(gameData:Elements.Quantum)'
+  Imaginary: '$t(gameData:Elements.Imaginary)'
 DMGTypes:
   simScore: ST Combo
   BASIC: ST Tấn Công Thường
@@ -189,4 +182,4 @@ ShortDMGTypes:
   Dot: ST Duy Trì
   Break: ST Kích Phá
   CV: CV
-CurrentVersion: "Phiên bản hiện tại: ({{Version}})"
+CurrentVersion: 'Phiên bản hiện tại: ({{Version}})'

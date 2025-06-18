@@ -335,6 +335,7 @@ SetConditionals:
     Duran: O buff selecionado é aplicado aos cálculos de dano com base no número de acúmulos.
     Kalpagni: Quando ativado, aplica o bônus de Efeito de Quebra aos cálculos de estatísticas de combate.
     Lushaka: Desativado por padrão - Este conjunto não pode afetar seu portador.
+    Banana: Quando ativado, o 32% DANO CRIT adicional é aplicado nos calculos de atributos de combate
 Presets:
   SpdValues:
     SPD0: Sem velocidade mínima

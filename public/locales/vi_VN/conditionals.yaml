@@ -1,26 +1,26 @@
-BetaMessage: "Phiên bản hiện tại: {{Version}} - Tính toán có thể sẽ thay đổi."
+BetaMessage: 'Phiên bản hiện tại: {{Version}} - Tính toán có thể sẽ thay đổi.'
 Common:
   BuffPriority:
-    Text: "Ưu tiên buff mục tiêu"
-    Content: "Chọn mục tiêu ưu tiên để nhận buff đơn mục tiêu"
-    Self: "Ưu tiên buff: bản thân"
-    Memo: "Ưu tiên buff: Linh hồn ký ức"
+    Text: 'Ưu tiên buff mục tiêu'
+    Content: 'Chọn mục tiêu ưu tiên để nhận buff đơn mục tiêu'
+    Self: 'Ưu tiên buff: bản thân'
+    Memo: 'Ưu tiên buff: Linh hồn ký ức'
   HealAbility:
-    Text: "Kĩ năng hồi phục"
-    Content: "Chọn kĩ năng hồi phục để tính"
-    Basic: "Kĩ năng hồi phục: Tấn Công Thường"
-    Skill: "Kĩ năng hồi phục: Chiến Kỹ"
-    Ult: "Kĩ năng hồi phục: Tuyệt Kỹ"
-    Talent: "Kĩ năng hồi phục: Thiên Phú"
-    Trace: "Kĩ năng hồi phục: Năng lực thêm"
+    Text: 'Kĩ năng hồi phục'
+    Content: 'Chọn kĩ năng hồi phục để tính'
+    Basic: 'Kĩ năng hồi phục: Tấn Công Thường'
+    Skill: 'Kĩ năng hồi phục: Chiến Kỹ'
+    Ult: 'Kĩ năng hồi phục: Tuyệt Kỹ'
+    Talent: 'Kĩ năng hồi phục: Thiên Phú'
+    Trace: 'Kĩ năng hồi phục: Năng lực thêm'
   ShieldAbility:
-    Text: "Kĩ năng lá chắn"
-    Content: "Chọn kĩ năng lá chắn để tính"
-    Basic: "Kĩ năng lá chắn: Tấn Công Thường"
-    Skill: "Kĩ năng lá chắn: Chiến Kỹ"
-    Ult: "Kĩ năng lá chắn: Tuyệt Kỹ"
-    Talent: "Kĩ năng lá chắn: Thiên Phú"
-    Trace: "Kĩ năng lá chắn: Năng Lực Thêm"
+    Text: 'Kĩ năng lá chắn'
+    Content: 'Chọn kĩ năng lá chắn để tính'
+    Basic: 'Kĩ năng lá chắn: Tấn Công Thường'
+    Skill: 'Kĩ năng lá chắn: Chiến Kỹ'
+    Ult: 'Kĩ năng lá chắn: Tuyệt Kỹ'
+    Talent: 'Kĩ năng lá chắn: Thiên Phú'
+    Trace: 'Kĩ năng lá chắn: Năng Lực Thêm'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -102,8 +102,6 @@ Lightcones:
     Content:
       skillUltDmgBoost:
         text: Tăng sát thương chiến kỹ / tuyệt kỹ
-      bonusBoost:
-        text: Tăng Sát Thương
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -451,7 +449,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: "Nếu ≤ 2 địch tăng Tỉ lệ Bạo Kích"
+        text: 'Nếu ≤ 2 địch tăng Tỉ lệ Bạo Kích'
         content: Khi trong trận có 2 kẻ địch trở xuống, Tỷ Lệ Bạo Kích của người trang bị tăng {{CritBuff}}%.
   PastAndFuture:
     Content:
@@ -517,7 +515,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: "≥ 2 kẻ địch có điểm yếu thuộc tính tương ứng tăng STBK"
+        text: '≥ 2 kẻ địch có điểm yếu thuộc tính tương ứng tăng STBK'
         content: Sau khi người trang bị tấn công, nếu có từ 2 kẻ địch bị tấn công trở lên mang Điểm Yếu thuộc tính tương ứng, thì Sát Thương Bạo Kích của người trang bị tăng {{CritBuff}}%, duy trì 2 hiệp.
   TheMolesWelcomeYou:
     Content:
@@ -812,7 +810,7 @@ Characters:
     Content:
       enhancedStateActive:
         text: Trạng Thái Địa Ngục Biến
-        content: "Khi ở trạng thái Địa Ngục Biến không thể thi triển Chiến Kỹ, đồng thời khiến sát thương do bản thân gây ra tăng {{enhancedStateDmgBoost}}%.::BR::E2: Khi Blade ở trạng thái Địa Ngục Biến, Tỷ Lệ Bạo Kích tăng 15%."
+        content: 'Khi ở trạng thái Địa Ngục Biến không thể thi triển Chiến Kỹ, đồng thời khiến sát thương do bản thân gây ra tăng {{enhancedStateDmgBoost}}%.::BR::E2: Khi Blade ở trạng thái Địa Ngục Biến, Tỷ Lệ Bạo Kích tăng 15%.'
       hpPercentLostTotal:
         text: Tổng HP% đã mất
         content: Sát Thương Tuyệt Kỹ dựa vào giới hạn {{hpPercentLostTotalMax}}% HP đã mất tích lũy trong trận này của Blade.
@@ -1813,7 +1811,7 @@ Characters:
         content: Khi Yukong trong trận, Sát Thương Số Ảo của toàn phe ta gây ra tăng 12%.
       roaringBowstringsActive:
         text: Hiệu Lệch Cung Đàn
-        content: "Khi Yukong có Hiệu Lệnh Cung Đàn, Tấn Công của toàn bộ phe ta tăng {{skillAtkBuffValue}}%.::BR::E4: Khi có Hiệu Lệnh Cung Đàn, sát thương Yukong gây ra tăng 30%."
+        content: 'Khi Yukong có Hiệu Lệnh Cung Đàn, Tấn Công của toàn bộ phe ta tăng {{skillAtkBuffValue}}%.::BR::E4: Khi có Hiệu Lệnh Cung Đàn, sát thương Yukong gây ra tăng 30%.'
       ultBuff:
         text: Tuyệt Kỹ Tăng Tỉ Lệ và Sát Thương Bạo Kích
         content: >-
@@ -1827,11 +1825,11 @@ Characters:
         text: Chống Đỡ
         content: Trong trạng thái Chống Đỡ, kháng Hiệu Ứng Xấu dạng khống chế và giảm 20% sát thương phải chịu.
       ultCull:
-        text: "Nhìn Thấu - Diệt"
+        text: 'Nhìn Thấu - Diệt'
         content: >-
           Nhìn Thấu - Diệt: Gây cho mục tiêu Sát Thương Vật Lý bằng {{CullScaling}}% Tấn Công của Yunli, gây cho mục tiêu lân cận kẻ đó Sát Thương Vật Lý bằng {{CullAdjacentScaling}}% Tấn Công của Yunli, sau đó gây thêm 6 lần sát thương, mỗi lần sát thương sẽ gây cho 1 kẻ địch ngẫu nhiên Sát Thương Vật Lý bằng {{CullAdditionalScaling}}% Tấn Công của Yunli.
       ultCullHits:
-        text: "Nhìn Thấu - Diệt"
+        text: 'Nhìn Thấu - Diệt'
         content: >-
           Nhìn Thấu - Diệt: Gây cho mục tiêu Sát Thương Vật Lý bằng {{CullScaling}}% Tấn Công của Yunli, gây cho mục tiêu lân cận kẻ đó Sát Thương Vật Lý bằng {{CullAdjacentScaling}}% Tấn Công của Yunli, sau đó gây thêm 6 lần sát thương, mỗi lần sát thương sẽ gây cho 1 kẻ địch ngẫu nhiên Sát Thương Vật Lý bằng {{CullAdditionalScaling}}% Tấn Công của Yunli.
       counterAtkBuff:
@@ -1839,7 +1837,7 @@ Characters:
         content: Khi thi triển Phản Kích, tấn công của Yunli tăng 30%, duy trì 1 hiệp.
       e1UltBuff:
         text: E1 Tuyệt Kỹ buff
-        content: "Sát thương Nhìn Thấu - Chém và Nhìn Thấu - Diệt gây ra tăng 20%, số lần sát thương thêm của Nhìn Thấu - Diệt tăng 3."
+        content: 'Sát thương Nhìn Thấu - Chém và Nhìn Thấu - Diệt gây ra tăng 20%, số lần sát thương thêm của Nhìn Thấu - Diệt tăng 3.'
       e2DefShred:
         text: E2 Đòn Đánh Theo Sau Bỏ Qua Phòng Thủ
         content: Khi phát động Phản Kích gây sát thương, sẽ bỏ qua 20% Phòng Thủ của kẻ địch.

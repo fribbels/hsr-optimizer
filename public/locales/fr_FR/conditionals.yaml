@@ -1,26 +1,26 @@
-BetaMessage: "Version actuelle : {{Version}} - Les calculs sont susceptibles de changer."
+BetaMessage: 'Version actuelle : {{Version}} - Les calculs sont susceptibles de changer.'
 Common:
   BuffPriority:
-    Text: "Cible de buff"
-    Content: "Sélectionnez la cible préférée pour les buffs à cible unique"
-    Self: "Cible de buff: Soi-même"
-    Memo: "Cible de buff: mnémesprit"
+    Text: 'Cible de buff'
+    Content: 'Sélectionnez la cible préférée pour les buffs à cible unique'
+    Self: 'Cible de buff: Soi-même'
+    Memo: 'Cible de buff: mnémesprit'
   HealAbility:
-    Text: "Capacité de soins"
-    Content: "Sélectionnez la capacité pour les calculs de soins"
-    Basic: "Capacité de soins: Normale"
-    Skill: "Capacité de soins: Compétence"
-    Ult: "Capacité de soins: Ult"
-    Talent: "Capacité de soins: Talent"
-    Trace: "Capacité de soins: Trace"
+    Text: 'Capacité de soins'
+    Content: 'Sélectionnez la capacité pour les calculs de soins'
+    Basic: 'Capacité de soins: Normale'
+    Skill: 'Capacité de soins: Compétence'
+    Ult: 'Capacité de soins: Ult'
+    Talent: 'Capacité de soins: Talent'
+    Trace: 'Capacité de soins: Trace'
   ShieldAbility:
-    Text: "Capacité de bouclier"
-    Content: "Sélectionnez la capacité pour les calculs de bouclier"
-    Basic: "Capacité de bouclier: Normale"
-    Skill: "Capacité de bouclier: Compétence"
-    Ult: "Capacité de bouclier: Ult"
-    Talent: "Capacité de bouclier: Talent"
-    Trace: "Capacité de bouclier: Trace"
+    Text: 'Capacité de bouclier'
+    Content: 'Sélectionnez la capacité pour les calculs de bouclier'
+    Basic: 'Capacité de bouclier: Normale'
+    Skill: 'Capacité de bouclier: Compétence'
+    Ult: 'Capacité de bouclier: Ult'
+    Talent: 'Capacité de bouclier: Talent'
+    Trace: 'Capacité de bouclier: Trace'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -104,9 +104,6 @@ Lightcones:
       skillUltDmgBoost:
         text: Bonus de DGT Compétence / Ult
         content: Lorsque le porteur utilise sa Compétence ou son Ultime les DGT infligés par cette attaque augmentent de {{DmgBoost}}%.
-      bonusBoost:
-        text: Bonus supplémentaire de dégâts
-        content: Lorsque le porteur utilise sa Compétence ou son Ultime, il consomme {{HpConsumption}}% de ses PV max. Si les PV consommés par cet effet sont supérieurs à 500, les DGT infligés par cette attaque augmentent de {{BonusDmgBoost}}% supplémentaires.
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -181,7 +178,7 @@ Lightcones:
           Lorsque le porteur utilise une attaque, il a 120% de chances de base d'appliquer l'effet Bouche-bée à chaque cible ennemie. Lorsqu'un ennemi est Bouche-bée, sa DÉF diminue de {{DefShred}}% pendant 2 tours. ::BR:: Si la VIT du porteur est supérieure ou égale à 170, il a 120% de chances de base d'appliquer Vol à chaque cible ennemie. Lorsqu'un ennemi est affecté par Vol, sa DÉF diminue de {{AdditionalDefShred}}% pendant 2 tours.
     TeammateContent:
       additionalDefPen:
-        text: "VIT > 170"
+        text: 'VIT > 170'
         content: >-
           Lorsque le porteur utilise une attaque, il a 120% de chances de base d'appliquer l'effet Bouche-bée à chaque cible ennemie. Lorsqu'un ennemi est Bouche-bée, sa DÉF diminue de {{DefShred}}% pendant 2 tours. ::BR:: Si la VIT du porteur est supérieure ou égale à 170, il a 120% de chances de base d'appliquer Vol à chaque cible ennemie. Lorsqu'un ennemi est affecté par Vol, sa DÉF diminue de {{AdditionalDefShred}}% pendant 2 tours.
   LifeShouldBeCastToFlames:
@@ -475,7 +472,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: "Bonus de TC ≤ 2 ennemis"
+        text: 'Bonus de TC ≤ 2 ennemis'
         content: Augmente les chances de coup critique de {{CritBuff}}% s'il y a 2 ennemis ou moins sur le champ de bataille.
   PastAndFuture:
     Content:
@@ -541,7 +538,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: "Bonus de DC ≥ 2 cibles de bonne faiblesse"
+        text: 'Bonus de DC ≥ 2 cibles de bonne faiblesse'
         content: Lorsque le porteur utilise une attaque et touche au moins 2 ennemis qui ont la Faiblesse correspondante, ses DGT critiques augmentent de {{CritBuff}}% pendant 2 tours.
   TheGreatCosmicEnterprise:
     Content:
@@ -860,7 +857,7 @@ Characters:
     Content:
       enhancedStateActive:
         text: État Vue de l'enfer
-        content: "Augmente les DGT infligés par Blade de {{enhancedStateDmgBoost}}% et son ATQ normale Lame d'éclat se renforce en Forêt de lames pendant 3 tours.::BR::E2: Les chances de coup critique de Blade augmentent de 15%."
+        content: 'Augmente les DGT infligés par Blade de {{enhancedStateDmgBoost}}% et son ATQ normale Lame d''éclat se renforce en Forêt de lames pendant 3 tours.::BR::E2: Les chances de coup critique de Blade augmentent de 15%.'
       hpPercentLostTotal:
         text: Total de % de PV perdu
         content: Les DGT d'Ultime croissent en fonction du total de PV perdu par Blade depuis sa dernière Ultime. Le total pris en compte ne peut pas dépasser {{hpPercentLostTotalMax}}% des PV max de Blade.
@@ -1970,7 +1967,7 @@ Characters:
         content: Lorsque Yukong est sur le champ de bataille, les DGT imaginaires infligés par les alliés augmentent de 12%.
       roaringBowstringsActive:
         text: Rugissement des cordes
-        content: "Lorsque « Rugissement des cordes » est actif, l'ATQ de tous les alliés augmente de {{skillAtkBuffValue}}%.::BR::E4: Lorsque « Rugissement des cordes » est actif, Yukong inflige 30% de DGT supplémentaires aux ennemis."
+        content: 'Lorsque « Rugissement des cordes » est actif, l''ATQ de tous les alliés augmente de {{skillAtkBuffValue}}%.::BR::E4: Lorsque « Rugissement des cordes » est actif, Yukong inflige 30% de DGT supplémentaires aux ennemis.'
       ultBuff:
         text: Bonus de TC/DC de l'ULT
         content: >-
@@ -1984,11 +1981,11 @@ Characters:
         text: Parade actif
         content: Lorsque Yunli est dans l'état Parade, elle résiste aux malus de contrôle et subit 20% de DGT en moins.
       ultCull:
-        text: "Sens de l'éradication activée"
+        text: 'Sens de l''éradication activée'
         content: >-
           Inflige des DGT physiques équivalents à {{CullScaling}}% de l'ATQ de Yunli à la cible et des DGT physiques équivalents à {{CullAdjacentScaling}}% de l'ATQ de Yunli aux cibles adjacentes. Puis, inflige 6 instances de DGT supplémentaires, chacune infligeant des DGT physiques équivalents à {{CullAdditionalScaling}}% de l'ATQ de Yunli à une cible ennemie unique aléatoire.
       ultCullHits:
-        text: "Sens de l'éradication: coups"
+        text: 'Sens de l''éradication: coups'
         content: >-
           Inflige des DGT physiques équivalents à {{CullScaling}}% de l'ATQ de Yunli à la cible et des DGT physiques équivalents à {{CullAdjacentScaling}}% de l'ATQ de Yunli aux cibles adjacentes. Puis, inflige 6 instances de DGT supplémentaires, chacune infligeant des DGT physiques équivalents à {{CullAdditionalScaling}}% de l'ATQ de Yunli à une cible ennemie unique aléatoire.
       counterAtkBuff:
@@ -1996,7 +1993,7 @@ Characters:
         content: L'ATQ de Yunli augmente de 30% pendant 1 tour après avoir lancé un contre.
       e1UltBuff:
         text: 'E1: Bonus d''ULT'
-        content: "Augmente les DGT de Sens de l'entaille et de Sens de l'éradication de 20%, et augmente le nombre d'instances de DGT supplémentaires de Sens de l'éradication de 3."
+        content: 'Augmente les DGT de Sens de l''entaille et de Sens de l''éradication de 20%, et augmente le nombre d''instances de DGT supplémentaires de Sens de l''éradication de 3.'
       e2DefShred:
         text: 'E2: PÉN de DÉF d''ADS'
         content: Lorsque Yunli inflige des DGT via un contre, elle ignore 20% de la DÉF de la cible.

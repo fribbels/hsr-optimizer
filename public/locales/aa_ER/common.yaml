@@ -1,36 +1,29 @@
 Relic_one: crwdns39796:0crwdne39796:0
 Relic_other: crwdns39798:0crwdne39798:0
-RelicWithCount_one: "crwdns39800:0{{count}}crwdne39800:0"
-RelicWithCount_other: "crwdns39802:0{{count}}crwdne39802:0"
-Lightcone_one: crwdns39804:0crwdne39804:0
-Lightcone_other: crwdns39806:0crwdne39806:0
-LightconeWithCount_one: "crwdns39808:0{{count}}crwdne39808:0"
-LightconeWithCount_other: "crwdns39810:0{{count}}crwdne39810:0"
+RelicWithCount_one: 'crwdns39800:0{{count}}crwdne39800:0'
+RelicWithCount_other: 'crwdns39802:0{{count}}crwdne39802:0'
 ThousandsSuffix: crwdns39812:0crwdne39812:0
-DecimalSeparator: "crwdns39814:0crwdne39814:0"
-ThousandsSeparator: "crwdns39816:0crwdne39816:0"
-I18nNumber: "crwdns39818:0value={value}crwdne39818:0"
 Cancel: crwdns39820:0crwdne39820:0
 Confirm: crwdns39822:0crwdne39822:0
 Submit: crwdns39824:0crwdne39824:0
 Ok: crwdns39826:0crwdne39826:0
-Yes: "crwdns39828:0crwdne39828:0"
-No: "crwdns39830:0crwdne39830:0"
+Yes: 'crwdns39828:0crwdne39828:0'
+No: 'crwdns39830:0crwdne39830:0'
 Save: crwdns39832:0crwdne39832:0
 Saved: crwdns45410:0crwdne45410:0
 Score: crwdns39834:0crwdne39834:0
 Reset: crwdns39836:0crwdne39836:0
-EidolonNShort: "crwdns39838:0{{eidolon}}crwdne39838:0"
-SuperimpositionNShort: "crwdns39840:0{{superimposition}}crwdne39840:0"
-LevelShort: "crwdns39842:0{{level}}crwdne39842:0"
-CharacterWithCount_one: "crwdns39844:0{{count}}crwdne39844:0"
-CharacterWithCount_other: "crwdns39846:0{{count}}crwdne39846:0"
+EidolonNShort: 'crwdns39838:0{{eidolon}}crwdne39838:0'
+SuperimpositionNShort: 'crwdns39840:0{{superimposition}}crwdne39840:0'
+LevelShort: 'crwdns39842:0{{level}}crwdne39842:0'
+CharacterWithCount_one: 'crwdns39844:0{{count}}crwdne39844:0'
+CharacterWithCount_other: 'crwdns39846:0{{count}}crwdne39846:0'
 Character_one: crwdns39848:0crwdne39848:0
 Character_other: crwdns39850:0crwdne39850:0
 VerifiedRelicHoverText: crwdns39852:0crwdne39852:0
 Verified4LinerHoverText: crwdns45017:0crwdne45017:0
 CombatStats: crwdns39854:0crwdne39854:0
-MemospriteLabel: "crwdns45019:0{{label}}crwdne45019:0"
+MemospriteLabel: 'crwdns45019:0{{label}}crwdne45019:0'
 Parts:
   Head: crwdns39856:0crwdne39856:0
   Hands: crwdns39858:0crwdne39858:0
@@ -61,13 +54,13 @@ Stats:
   Break Effect: crwdns39904:0crwdne39904:0
   Energy Regeneration Rate: crwdns39906:0crwdne39906:0
   Outgoing Healing Boost: crwdns39908:0crwdne39908:0
-  Physical DMG Boost: "crwdns39910:0$t(gameData:Elements.Physical)crwdne39910:0"
-  Fire DMG Boost: "crwdns39912:0$t(gameData:Elements.Fire)crwdne39912:0"
-  Ice DMG Boost: "crwdns39914:0$t(gameData:Elements.Ice)crwdne39914:0"
-  Lightning DMG Boost: "crwdns39916:0$t(gameData:Elements.Thunder)crwdne39916:0"
-  Wind DMG Boost: "crwdns39918:0$t(gameData:Elements.Wind)crwdne39918:0"
-  Quantum DMG Boost: "crwdns39920:0$t(gameData:Elements.Quantum)crwdne39920:0"
-  Imaginary DMG Boost: "crwdns39922:0$t(gameData:Elements.Imaginary)crwdne39922:0"
+  Physical DMG Boost: 'crwdns39910:0$t(gameData:Elements.Physical)crwdne39910:0'
+  Fire DMG Boost: 'crwdns39912:0$t(gameData:Elements.Fire)crwdne39912:0'
+  Ice DMG Boost: 'crwdns39914:0$t(gameData:Elements.Ice)crwdne39914:0'
+  Lightning DMG Boost: 'crwdns39916:0$t(gameData:Elements.Thunder)crwdne39916:0'
+  Wind DMG Boost: 'crwdns39918:0$t(gameData:Elements.Wind)crwdne39918:0'
+  Quantum DMG Boost: 'crwdns39920:0$t(gameData:Elements.Quantum)crwdne39920:0'
+  Imaginary DMG Boost: 'crwdns39922:0$t(gameData:Elements.Imaginary)crwdne39922:0'
 ShortStats:
   "HP%": crwdns39924:0crwdne39924:0
   HP: crwdns39926:0crwdne39926:0
@@ -84,13 +77,13 @@ ShortStats:
   Break Effect: crwdns39948:0crwdne39948:0
   Energy Regeneration Rate: crwdns39950:0crwdne39950:0
   Outgoing Healing Boost: crwdns39952:0crwdne39952:0
-  Physical DMG Boost: "crwdns39954:0$t(gameData:Elements.Physical)crwdne39954:0"
-  Fire DMG Boost: "crwdns39956:0$t(gameData:Elements.Fire)crwdne39956:0"
-  Ice DMG Boost: "crwdns39958:0$t(gameData:Elements.Ice)crwdne39958:0"
-  Lightning DMG Boost: "crwdns39960:0$t(gameData:Elements.Thunder)crwdne39960:0"
-  Wind DMG Boost: "crwdns39962:0$t(gameData:Elements.Wind)crwdne39962:0"
-  Quantum DMG Boost: "crwdns39964:0$t(gameData:Elements.Quantum)crwdne39964:0"
-  Imaginary DMG Boost: "crwdns39966:0$t(gameData:Elements.Imaginary)crwdne39966:0"
+  Physical DMG Boost: 'crwdns39954:0$t(gameData:Elements.Physical)crwdne39954:0'
+  Fire DMG Boost: 'crwdns39956:0$t(gameData:Elements.Fire)crwdne39956:0'
+  Ice DMG Boost: 'crwdns39958:0$t(gameData:Elements.Ice)crwdne39958:0'
+  Lightning DMG Boost: 'crwdns39960:0$t(gameData:Elements.Thunder)crwdne39960:0'
+  Wind DMG Boost: 'crwdns39962:0$t(gameData:Elements.Wind)crwdne39962:0'
+  Quantum DMG Boost: 'crwdns39964:0$t(gameData:Elements.Quantum)crwdne39964:0'
+  Imaginary DMG Boost: 'crwdns39966:0$t(gameData:Elements.Imaginary)crwdne39966:0'
 ShortSpacedStats:
   "HP%": crwdns39968:0crwdne39968:0
   HP: crwdns39970:0crwdne39970:0
@@ -107,13 +100,13 @@ ShortSpacedStats:
   Break Effect: crwdns39992:0crwdne39992:0
   Energy Regeneration Rate: crwdns39994:0crwdne39994:0
   Outgoing Healing Boost: crwdns39996:0crwdne39996:0
-  Physical DMG Boost: "crwdns39998:0$t(gameData:Elements.Physical)crwdne39998:0"
-  Fire DMG Boost: "crwdns40000:0$t(gameData:Elements.Fire)crwdne40000:0"
-  Ice DMG Boost: "crwdns40002:0$t(gameData:Elements.Ice)crwdne40002:0"
-  Lightning DMG Boost: "crwdns40004:0$t(gameData:Elements.Thunder)crwdne40004:0"
-  Wind DMG Boost: "crwdns40006:0$t(gameData:Elements.Wind)crwdne40006:0"
-  Quantum DMG Boost: "crwdns40008:0$t(gameData:Elements.Quantum)crwdne40008:0"
-  Imaginary DMG Boost: "crwdns40010:0$t(gameData:Elements.Imaginary)crwdne40010:0"
+  Physical DMG Boost: 'crwdns39998:0$t(gameData:Elements.Physical)crwdne39998:0'
+  Fire DMG Boost: 'crwdns40000:0$t(gameData:Elements.Fire)crwdne40000:0'
+  Ice DMG Boost: 'crwdns40002:0$t(gameData:Elements.Ice)crwdne40002:0'
+  Lightning DMG Boost: 'crwdns40004:0$t(gameData:Elements.Thunder)crwdne40004:0'
+  Wind DMG Boost: 'crwdns40006:0$t(gameData:Elements.Wind)crwdne40006:0'
+  Quantum DMG Boost: 'crwdns40008:0$t(gameData:Elements.Quantum)crwdne40008:0'
+  Imaginary DMG Boost: 'crwdns40010:0$t(gameData:Elements.Imaginary)crwdne40010:0'
 Damage: crwdns44903:0crwdne44903:0
 DamagePercent: crwdns40012:0crwdne40012:0
 ReadableStats:
@@ -132,13 +125,13 @@ ReadableStats:
   Break Effect: crwdns40038:0crwdne40038:0
   Energy Regeneration Rate: crwdns40040:0crwdne40040:0
   Outgoing Healing Boost: crwdns40042:0crwdne40042:0
-  Physical DMG Boost: "crwdns40044:0$t(gameData:Elements.Physical)crwdne40044:0"
-  Fire DMG Boost: "crwdns40046:0$t(gameData:Elements.Fire)crwdne40046:0"
-  Ice DMG Boost: "crwdns40048:0$t(gameData:Elements.Ice)crwdne40048:0"
-  Lightning DMG Boost: "crwdns40050:0$t(gameData:Elements.Thunder)crwdne40050:0"
-  Wind DMG Boost: "crwdns40052:0$t(gameData:Elements.Wind)crwdne40052:0"
-  Quantum DMG Boost: "crwdns40054:0$t(gameData:Elements.Quantum)crwdne40054:0"
-  Imaginary DMG Boost: "crwdns40056:0$t(gameData:Elements.Imaginary)crwdne40056:0"
+  Physical DMG Boost: 'crwdns40044:0$t(gameData:Elements.Physical)crwdne40044:0'
+  Fire DMG Boost: 'crwdns40046:0$t(gameData:Elements.Fire)crwdne40046:0'
+  Ice DMG Boost: 'crwdns40048:0$t(gameData:Elements.Ice)crwdne40048:0'
+  Lightning DMG Boost: 'crwdns40050:0$t(gameData:Elements.Thunder)crwdne40050:0'
+  Wind DMG Boost: 'crwdns40052:0$t(gameData:Elements.Wind)crwdne40052:0'
+  Quantum DMG Boost: 'crwdns40054:0$t(gameData:Elements.Quantum)crwdne40054:0'
+  Imaginary DMG Boost: 'crwdns40056:0$t(gameData:Elements.Imaginary)crwdne40056:0'
 ShortReadableStats:
   "HP%": crwdns40058:0crwdne40058:0
   HP: crwdns40060:0crwdne40060:0
@@ -155,21 +148,21 @@ ShortReadableStats:
   Break Effect: crwdns40082:0crwdne40082:0
   Energy Regeneration Rate: crwdns40084:0crwdne40084:0
   Outgoing Healing Boost: crwdns40086:0crwdne40086:0
-  Physical DMG Boost: "crwdns40088:0$t(gameData:Elements.Physical)crwdne40088:0"
-  Fire DMG Boost: "crwdns40090:0$t(gameData:Elements.Fire)crwdne40090:0"
-  Ice DMG Boost: "crwdns40092:0$t(gameData:Elements.Ice)crwdne40092:0"
-  Lightning DMG Boost: "crwdns40094:0$t(gameData:Elements.Thunder)crwdne40094:0"
-  Wind DMG Boost: "crwdns40096:0$t(gameData:Elements.Wind)crwdne40096:0"
-  Quantum DMG Boost: "crwdns40098:0$t(gameData:Elements.Quantum)crwdne40098:0"
-  Imaginary DMG Boost: "crwdns40100:0$t(gameData:Elements.Imaginary)crwdne40100:0"
+  Physical DMG Boost: 'crwdns40088:0$t(gameData:Elements.Physical)crwdne40088:0'
+  Fire DMG Boost: 'crwdns40090:0$t(gameData:Elements.Fire)crwdne40090:0'
+  Ice DMG Boost: 'crwdns40092:0$t(gameData:Elements.Ice)crwdne40092:0'
+  Lightning DMG Boost: 'crwdns40094:0$t(gameData:Elements.Thunder)crwdne40094:0'
+  Wind DMG Boost: 'crwdns40096:0$t(gameData:Elements.Wind)crwdne40096:0'
+  Quantum DMG Boost: 'crwdns40098:0$t(gameData:Elements.Quantum)crwdne40098:0'
+  Imaginary DMG Boost: 'crwdns40100:0$t(gameData:Elements.Imaginary)crwdne40100:0'
 Elements:
-  Physical: "crwdns45021:0$t(gameData:Elements.Physical)crwdne45021:0"
-  Fire: "crwdns45023:0$t(gameData:Elements.Fire)crwdne45023:0"
-  Ice: "crwdns45025:0$t(gameData:Elements.Ice)crwdne45025:0"
-  Lightning: "crwdns45027:0$t(gameData:Elements.Thunder)crwdne45027:0"
-  Wind: "crwdns45029:0$t(gameData:Elements.Wind)crwdne45029:0"
-  Quantum: "crwdns45031:0$t(gameData:Elements.Quantum)crwdne45031:0"
-  Imaginary: "crwdns45033:0$t(gameData:Elements.Imaginary)crwdne45033:0"
+  Physical: 'crwdns45021:0$t(gameData:Elements.Physical)crwdne45021:0'
+  Fire: 'crwdns45023:0$t(gameData:Elements.Fire)crwdne45023:0'
+  Ice: 'crwdns45025:0$t(gameData:Elements.Ice)crwdne45025:0'
+  Lightning: 'crwdns45027:0$t(gameData:Elements.Thunder)crwdne45027:0'
+  Wind: 'crwdns45029:0$t(gameData:Elements.Wind)crwdne45029:0'
+  Quantum: 'crwdns45031:0$t(gameData:Elements.Quantum)crwdne45031:0'
+  Imaginary: 'crwdns45033:0$t(gameData:Elements.Imaginary)crwdne45033:0'
 DMGTypes:
   simScore: crwdns40102:0crwdne40102:0
   BASIC: crwdns40104:0crwdne40104:0
@@ -191,4 +184,4 @@ ShortDMGTypes:
   Dot: crwdns40130:0crwdne40130:0
   Break: crwdns40132:0crwdne40132:0
   CV: crwdns40134:0crwdne40134:0
-CurrentVersion: "crwdns44905:0{{Version}}crwdne44905:0"
+CurrentVersion: 'crwdns44905:0{{Version}}crwdne44905:0'

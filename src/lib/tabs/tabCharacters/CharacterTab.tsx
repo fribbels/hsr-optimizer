@@ -33,13 +33,6 @@ export default function CharacterTab() {
 
   const selectedCharacter = useCharacterTabStore((s) => s.selectedCharacter)
 
-  const [, forceUpdate] = React.useReducer((o) => !o, false)
-  window.forceCharacterTabUpdate = () => {
-    console.log('__________ CharacterTab forceCharacterTabUpdate')
-    forceUpdate()
-    window.characterGrid.current?.api?.redrawRows()
-  }
-
   const defaultGap = 8
   const parentH = 280 * 3 + defaultGap * 2
 

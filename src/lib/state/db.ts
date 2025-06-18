@@ -328,8 +328,6 @@ export const DB = {
       relicsById[relic.id] = relic
     }
     window.store.getState().setRelicsById(relicsById)
-    // bandaid fix while waiting in proper immutable state
-    if (window.forceCharacterTabUpdate) window.forceCharacterTabUpdate()
   },
   getRelicById: (id: string) => window.store.getState().relicsById[id],
 
@@ -368,8 +366,6 @@ export const DB = {
       }
       setRelic(relic)
     }
-    // bandaid fix while waiting in proper immutable state
-    if (window.forceCharacterTabUpdate) window.forceCharacterTabUpdate()
   },
 
   refreshRelics: () => {
@@ -1121,9 +1117,9 @@ function assignRanks(characters: Character[]) {
   }
 
   // This sets the rank for the current optimizer character because shuffling ranks will desync the Priority filter selector
-  const optimizerMatchingCharacter = DB.getCharacterById(window.store.getState().optimizerTabFocusCharacter!)
-  if (optimizerMatchingCharacter) {
-    window.optimizerForm.setFieldValue('rank', optimizerMatchingCharacter.rank)
+  const optimizerCharacterRank = characters.findIndex((c) => c.id == window.store.getState().optimizerTabFocusCharacter!)
+  if (optimizerCharacterRank >= 0) {
+    window.optimizerForm.setFieldValue('rank', optimizerCharacterRank)
   }
 
   return characters

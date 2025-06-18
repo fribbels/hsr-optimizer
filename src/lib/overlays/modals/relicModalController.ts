@@ -72,7 +72,6 @@ export const RelicModalController = {
 
     setTimeout(() => {
       SaveState.delayedSave()
-      window.forceCharacterTabUpdate()
       OptimizerTabController.updateFilters()
     }, 200)
 

@@ -128,7 +128,6 @@ export function BuildsModal() {
     if (result) {
       setSelectedBuild(null)
       DB.clearCharacterBuilds(selectedCharacter?.id)
-      window.forceCharacterTabUpdate()
       SaveState.delayedSave()
       Message.success(t('Builds.ConfirmDelete.SuccessMessageAll', { characterName: characterName }) /* Successfully deleted all builds for {{characterName}} */)
       close()
@@ -140,7 +139,6 @@ export function BuildsModal() {
     if (result) {
       setSelectedBuild(null)
       DB.deleteCharacterBuild(selectedCharacter?.id, name)
-      window.forceCharacterTabUpdate()
       SaveState.delayedSave()
       Message.success(t('Builds.ConfirmDelete.SuccessMessageSingle', { name: name }) /* Successfully deleted build: {{name}} */)
 
@@ -157,7 +155,6 @@ export function BuildsModal() {
         Object.values(build.build),
         selectedCharacter?.id,
       )
-      window.forceCharacterTabUpdate()
       SaveState.delayedSave()
       Message.success(t('Builds.ConfirmEquip.SuccessMessage', { buildName: build.name }) /* Successfully equipped build: {{buildName}} */)
       handleCancel()

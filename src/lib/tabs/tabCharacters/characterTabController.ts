@@ -98,7 +98,6 @@ export const CharacterTabController = {
     DB.switchRelics(focusCharacter, switchTo.value)
     Message.success(t('SwitchSuccess', { charId: switchTo.value }))
     SaveState.delayedSave()
-    window.forceCharacterTabUpdate()
     window.relicsGrid.current?.api?.redrawRows()
   },
 
@@ -107,7 +106,6 @@ export const CharacterTabController = {
     if (!focusCharacter) return
     const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
     DB.unequipCharacter(focusCharacter)
-    window.forceCharacterTabUpdate()
     SaveState.delayedSave()
     Message.success(t('UnequipSuccess'))
   },
@@ -118,7 +116,6 @@ export const CharacterTabController = {
     const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
     DB.removeCharacter(focusCharacter)
     useCharacterTabStore.getState().setFocusCharacter(null)
-    window.forceCharacterTabUpdate()
     SaveState.delayedSave()
     Message.success(t('RemoveSuccess'))
   },
@@ -127,7 +124,6 @@ export const CharacterTabController = {
     const focusCharacter = useCharacterTabStore.getState().focusCharacter
     if (!focusCharacter) return
     DB.insertCharacter(focusCharacter, 0)
-    window.forceCharacterTabUpdate()
     SaveState.delayedSave()
   },
 
@@ -139,6 +135,5 @@ export const CharacterTabController = {
       .map((x) => x.character)
     DB.setCharacters(sortedCharacters)
     SaveState.delayedSave()
-    window.forceCharacterTabUpdate()
   },
 }

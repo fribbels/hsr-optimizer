@@ -106,8 +106,7 @@ export function BuildsModal() {
   // Updates all saved builds with the latest scoring algorithm
   function updateBuildsScoringAlgo(builds: SavedBuild[]) {
     for (const b of builds) {
-      const relicsById = window.store.getState().relicsById
-      const relics = Object.values(b.build).map((x) => relicsById[x])
+      const relics = window.store.getState().relics
       const score = RelicScorer.scoreCharacterWithRelics(selectedCharacter!, relics)
       b.score = { score: Math.round(score.totalScore ?? 0).toString(), rating: score.totalRating ?? 'N/A' }
     }

@@ -345,8 +345,8 @@ export const OptimizerTabController = {
 
       const build = DB.getCharacterById(request.characterId)!.equipped
       const out = {} as SingleRelicByPart
-      for (const key of Object.keys(build)) {
-        out[key as Parts] = DB.getRelicById(build[key as Parts]!)
+      for (const key of Object.keys(build) as Parts[]) {
+        out[key] = DB.getRelicById(build[key]!)!
       }
       return out
     }

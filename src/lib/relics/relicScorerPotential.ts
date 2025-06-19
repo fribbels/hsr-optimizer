@@ -1,12 +1,39 @@
 import i18next from 'i18next'
-import { AllStats, Constants, MainStats, MainStatsValues, Parts, PartsMainStats, Stats, StatsValues, SubStats, SubStatValues } from 'lib/constants/constants'
-import { getScoreCategory, ScoreCategory } from 'lib/scoring/scoreComparison'
+import {
+  AllStats,
+  Constants,
+  MainStats,
+  MainStatsValues,
+  Parts,
+  PartsMainStats,
+  Stats,
+  StatsValues,
+  SubStats,
+  SubStatValues,
+} from 'lib/constants/constants'
+import {
+  getScoreCategory,
+  ScoreCategory,
+} from 'lib/scoring/scoreComparison'
 import DB from 'lib/state/db'
-import { arrayToMap, stringArrayToMap } from 'lib/utils/arrayUtils'
+import {
+  ArrayFilters,
+  arrayToMap,
+  stringArrayToMap,
+} from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { Character, CharacterId } from 'types/character'
-import { Relic, RelicEnhance, RelicGrade, RelicId, Stat } from 'types/relic'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
+import {
+  Relic,
+  RelicEnhance,
+  RelicGrade,
+  RelicId,
+  Stat,
+} from 'types/relic'
 
 // FIXME HIGH
 
@@ -805,7 +832,7 @@ export class RelicScorer {
       }
     }
     const relicsById = window.store.getState().relicsById
-    const relics: Relic[] = Object.values(character.equipped).map((x) => relicsById[x ?? ''])
+    const relics: Relic[] = Object.values(character.equipped).map((x) => relicsById[x]!)
     return this.scoreCharacterWithRelics(character, relics)
   }
 

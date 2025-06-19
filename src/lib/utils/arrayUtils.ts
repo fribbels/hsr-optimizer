@@ -50,5 +50,5 @@ export function getIndexOf<T>(array: readonly T[], item: unknown): number {
 }
 
 export const ArrayFilters = {
-  nonNullable: <T>(x: T) => x != null
+  nonNullable: <T>(x: T) => x != null,
 }

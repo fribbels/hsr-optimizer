@@ -38,8 +38,8 @@ import { OptimizerForm } from 'types/form'
 export type OptimizerResultAnalysis = {
   oldRowData: OptimizerDisplayData,
   newRowData: OptimizerDisplayData,
-  oldRelics: SingleRelicByPart,
-  newRelics: SingleRelicByPart,
+  oldRelics: Partial<SingleRelicByPart>,
+  newRelics: Partial<SingleRelicByPart>,
   request: OptimizerForm,
   oldX: ComputedStatsArray,
   newX: ComputedStatsArray,

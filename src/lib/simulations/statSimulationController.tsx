@@ -360,14 +360,14 @@ export function ornamentSetIndexToName(ornamentSetIndex: number) {
 }
 
 export function convertRelicsToSimulation(
-  relicsByPart: SingleRelicByPart,
+  relicsByPart: Partial<SingleRelicByPart>,
   relicSet1: string,
   relicSet2: string,
   ornamentSet?: string,
   quality = 1,
   speedRollValue = 2.6,
 ) {
-  const relics: Relic[] = Object.values(relicsByPart)
+  const relics = Object.values(relicsByPart)
   const accumulatedSubstatRolls = {} as Record<SubStats, number>
   SubStats.map((x) => accumulatedSubstatRolls[x] = 0)
 

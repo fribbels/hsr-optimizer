@@ -422,7 +422,7 @@ export const DB = {
 
     return returnScoringMetadata
   },
-  updateCharacterScoreOverrides: (id: CharacterId, updated: ScoringMetadata) => {
+  updateCharacterScoreOverrides: (id: CharacterId, updated: Partial<ScoringMetadata>) => {
     let overrides = window.store.getState().scoringMetadataOverrides
     overrides = { ...overrides, [id]: { ...overrides[id], ...updated } }
 

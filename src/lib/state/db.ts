@@ -323,10 +323,10 @@ export const DB = {
   getRelics: () => Object.values(window.store.getState().relicsById),
   getRelicsById: () => window.store.getState().relicsById,
   setRelics: (relics: Relic[]) => {
-    const relicsById: Record<string, Relic> = {}
-    for (const relic of relics) {
-      relicsById[relic.id] = relic
-    }
+    const relicsById = relics.reduce((acc, r) => {
+      acc[r.id] = r
+      return acc
+    }, {} as Record<string, Relic>)
     window.store.getState().setRelicsById(relicsById)
   },
   getRelicById: (id: string) => window.store.getState().relicsById[id],
@@ -421,11 +421,7 @@ export const DB = {
   },
   updateCharacterScoreOverrides: (id: CharacterId, updated: ScoringMetadata) => {
     let overrides = window.store.getState().scoringMetadataOverrides
-    if (!overrides[id]) {
-      overrides = { ...overrides, [id]: updated }
-    } else {
-      overrides = { ...overrides, [id]: { ...overrides[id], ...updated } }
-    }
+    overrides = { ...overrides, [id]: { ...overrides[id], ...updated } }
 
     const defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
 
@@ -1197,9 +1193,8 @@ function deduplicateStringArray<T extends string[] | null | undefined>(arr: T) {
   return [...new Set(arr)] as T
 }
 
-function indexRelics(arr: Relic[]) {
-  const length = arr.length
-  for (let i = 0; i < length; i++) {
-    arr[i] = { ...arr[i], ageIndex: length - i - 1 }
-  }
+function indexRelics(relics: Relic[]) {
+  relics.forEach((r, idx, relics) => {
+    relics[idx] = { ...r, ageIndex: relics.length - idx - 1 }
+  })
 }

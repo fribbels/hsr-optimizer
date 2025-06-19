@@ -21,6 +21,7 @@ import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { ArrayFilters } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
   ReactNode,
@@ -106,7 +107,7 @@ export function BuildsModal() {
   // Updates all saved builds with the latest scoring algorithm
   function updateBuildsScoringAlgo(builds: SavedBuild[]) {
     for (const b of builds) {
-      const relics = window.store.getState().relics
+      const relics = Object.values(b.build).map(DB.getRelicById)
       const score = RelicScorer.scoreCharacterWithRelics(selectedCharacter!, relics)
       b.score = { score: Math.round(score.totalScore ?? 0).toString(), rating: score.totalRating ?? 'N/A' }
     }

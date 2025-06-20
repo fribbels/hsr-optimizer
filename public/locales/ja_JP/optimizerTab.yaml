@@ -7,7 +7,7 @@ ValidationMessages:
     MissingTarget: 最適化の目標部分を入力してください
     MissingCharacter: キャラクター部分を入力してください
     MissingLightCone: 光円錐部分を入力してください
-    GPUNotAvailable: 'このブラウザでは GPU アクセラレーションを使用することはできません。デスクトップ版 Chrome と Opera のみで使用可能です。もしそれらのブラウザを使用しているなら、Discord サーバーにてバグ報告をしてください。'
+    GPUNotAvailable: 'このブラウザでは GPU アクセラレーションは使用できません。デスクトップ版 Chrome と Opera のみで使用できます。もしそれらのブラウザを使用しているなら、Discord サーバーにてバグ報告をしてください。'
 CharacterSelector:
   Character: キャラクター
   Lightcone: 光円錐
@@ -494,7 +494,7 @@ StatSimulation:
   MissingMainstatsMessage: メインステータスを入力してください
   BuildAlreadyImported: 選択したビルドは既にシミュレーションされています
   NothingToImport: まずオプティマイザーを実行し、その後、オプティマイザーの結果から行を選択してインポートしてください。
-  NoStatSimulations: カスタムステータスシミュレーションを選択してください
+  NoStatSimulations: カスタムステータスシミュレーションが未選択です
   SetSelection:
     Header: セット
     RelicPlaceholder: 遺物セット

@@ -73,13 +73,20 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
   let sum = sumSubstatRolls(maxSubstatRollCounts)
   let currentSimulation: Simulation = partialSimulationWrapper.simulation
 
-  const effectiveStats = Object.entries(currentSimulation.request.stats)
+  const effectiveStats = Object.entries({
+    'ATK%': 10,
+    'ATK': 10,
+    'SPD': 13.449,
+    'CRIT Rate': 10,
+    'CRIT DMG': 10,
+    'Effect Hit Rate': 10,
+  })
     .filter(([key, value]) => value > scoringParams.freeRolls)
     .map(([key]) => key)
 
   const dimensions = effectiveStats.length
 
-  console.debug(dimensions, effectiveStats)
+  console.debug(dimensions, effectiveStats, currentSimulation.request)
 
   function damageFunction(stats: SubstatCounts): number {
     currentSimulation.request.stats = stats
@@ -94,9 +101,11 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
   }
 
   const substatValidator = new SubstatDistributionValidator(input)
+  const max = 100000
   const tree = new OptimalSubstatDistributionSearchTree(
     dimensions,
     goal,
+    max,
     minSubstatRollCounts,
     maxSubstatRollCounts,
     effectiveStats,
@@ -108,7 +117,7 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
   // tree.debugStartingPoint()
   tree.debugRootNode()
 
-  for (let i = 0; i < 5000; i++) {
+  for (let i = 0; i < max; i++) {
     tree.split()
   }
 

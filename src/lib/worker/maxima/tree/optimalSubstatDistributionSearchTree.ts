@@ -50,6 +50,7 @@ export class OptimalSubstatDistributionSearchTree {
   private nextNodeId: number = 0
   private queue: PriorityQueue<StatNode>
   private topDamage = -1
+  private iterationCount = 0
   private topNode: StatNode
 
   // Diagnostic tracking
@@ -60,15 +61,15 @@ export class OptimalSubstatDistributionSearchTree {
 
   // Target answer for tracking
   private TARGET_ANSWER: SubstatCounts = {
-    'ATK%': 6,
-    'ATK': 4,
+    'ATK%': 5,
+    'ATK': 3,
     'HP%': 0,
     'HP': 0,
     'DEF%': 0,
     'DEF': 0,
-    'SPD': 6.00,
-    'CRIT Rate': 9,
-    'CRIT DMG': 29,
+    'SPD': 13.449,
+    'CRIT Rate': 13,
+    'CRIT DMG': 19,
     'Effect Hit Rate': 0,
     'Effect RES': 0,
     'Break Effect': 0,
@@ -77,6 +78,7 @@ export class OptimalSubstatDistributionSearchTree {
   constructor(
     public dimensions: number,
     public targetSum: number,
+    public maxIterations: number,
     public lower: SubstatCounts,
     public upper: SubstatCounts,
     public effectiveStats: string[],
@@ -553,6 +555,7 @@ export class OptimalSubstatDistributionSearchTree {
   }
 
   public split() {
+    this.iterationCount++
     const topNode = this.queue.pop()
     if (!topNode) {
       logger('No node to split')
@@ -1378,7 +1381,16 @@ export class OptimalSubstatDistributionSearchTree {
 
     // Priority = damage * (volume^explorationWeight)
     // Using 0.8 as default exploration weight (80% exploration bias)
-    const explorationWeight = 0.8
+    const explorationWeight = 0.01
+
+    if (this.iterationCount % 1000 === 0) {
+      console.log(
+        `📊 Adaptive Priority Update: iteration=${this.iterationCount}, progress=${
+          (this.iterationCount / this.maxIterations * 100).toFixed(1)
+        }%, max=${this.topDamage}`,
+      )
+    }
+
     return node.damage * Math.pow(Math.max(volume, 1), explorationWeight)
   }
 

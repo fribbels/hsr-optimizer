@@ -46,10 +46,7 @@ export const useRelicLocatorStore = create<RelicLocatorState>()((set) => ({
 
 export function RelicLocator(props: { relic: Relic | undefined }) {
   const { relic } = props
-  const setInventoryWidth = useRelicLocatorStore((s) => s.setInventoryWidth)
-  const setRowLimit = useRelicLocatorStore((s) => s.setRowLimit)
-  const inventoryWidth = useRelicLocatorStore((s) => s.inventoryWidth)
-  const rowLimit = useRelicLocatorStore((s) => s.rowLimit)
+  const { setInventoryWidth, setRowLimit, inventoryWidth, rowLimit } = useRelicLocatorStore()
 
   const { t } = useTranslation('relicsTab', { keyPrefix: 'Toolbar.RelicLocator' })
 

@@ -1,6 +1,6 @@
 import { Stats } from 'lib/constants/constants'
 import { ComputeOptimalSimulationWorkerInput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
-import { SubstatDistributionValidator } from 'lib/worker/maxima/substatDistributionValidator'
+import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 import {
   describe,
   expect,

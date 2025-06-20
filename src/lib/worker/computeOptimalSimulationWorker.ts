@@ -100,13 +100,25 @@ export function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerIn
     minSubstatRollCounts,
     maxSubstatRollCounts,
     effectiveStats,
+    input.metadata.substats,
     damageFunction,
+    substatValidator,
   )
   // tree.debugRootRegion()
   // tree.debugStartingPoint()
   tree.debugRootNode()
 
-  // TODO
+  for (let i = 0; i < 5000; i++) {
+    tree.split()
+  }
+
+  console.log('=============== best ')
+
+  tree.getBest()
+
+  tree.analyzeTargetCoverage()
+
+  // Or get a formatted report
 
   // This is just to make the output happy in the meantime
   currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, {

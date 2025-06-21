@@ -51,7 +51,6 @@ export const CharacterTabController = {
     if (!characterId) return
     DB.insertCharacter(characterId, index)
     SaveState.delayedSave()
-    window.characterGrid.current?.api?.redrawRows()
   },
 
   onRowDragEnd: (e: RowDragEvent<Character>) => {
@@ -98,7 +97,6 @@ export const CharacterTabController = {
     DB.switchRelics(focusCharacter, switchTo.value)
     Message.success(t('SwitchSuccess', { charId: switchTo.value }))
     SaveState.delayedSave()
-    window.relicsGrid.current?.api?.redrawRows()
   },
 
   unequipFocusCharacter: () => {

@@ -851,11 +851,6 @@ export const DB = {
     const relicsById = window.store.getState().relicsById
     delete relicsById[id]
     window.store.getState().setRelicsById({ ...relicsById })
-
-    // This refreshes the grid for the character equipped relics color coding
-    if (window.characterGrid?.current?.api) {
-      window.characterGrid.current.api.redrawRows()
-    }
   },
 
   // These relics may be missing speed decimals depending on the importer.\
@@ -980,11 +975,6 @@ export const DB = {
       window.relicsGrid.current.api.updateGridOptions({ rowData: replacementRelics })
     }
 
-    // only valid when on character tab
-    if (window.characterGrid?.current?.api) {
-      window.characterGrid.current.api.redrawRows()
-    }
-
     // TODO this probably shouldn't be in this file
     const fieldValues = OptimizerTabController.getForm()
     window.onOptimizerFormValuesChange({} as Form, fieldValues)
@@ -1042,10 +1032,6 @@ export const DB = {
 
     DB.refreshRelics()
     window.refreshRelicsScore()
-
-    if (window.characterGrid?.current?.api) {
-      window.characterGrid.current.api.redrawRows()
-    }
 
     // Updated stats for ${updatedOldRelics.length} existing relics
     // Added ${addedNewRelics.length} new relics

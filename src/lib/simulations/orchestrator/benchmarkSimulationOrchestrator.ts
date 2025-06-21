@@ -66,6 +66,8 @@ import {
 import { SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
 
+globalThis.SEQUENTIAL_BENCHMARKS = true
+
 export class BenchmarkSimulationOrchestrator {
   public metadata: SimulationMetadata
   public flags: SimulationFlags

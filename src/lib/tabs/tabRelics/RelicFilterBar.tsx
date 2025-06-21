@@ -3,18 +3,19 @@ import {
   Button,
   Flex,
   Select,
-  theme,
   Tooltip,
   Typography,
 } from 'antd'
-import CheckableTag from 'antd/lib/tag/CheckableTag'
 import { useSubscribe } from 'hooks/useSubscribe'
+import i18next from 'i18next'
 import {
   Constants,
+  Parts,
   Sets,
   SetsRelics,
   setToId,
   Stats,
+  StatsValues,
   UnreleasedSets,
 } from 'lib/constants/constants'
 import {
@@ -29,28 +30,27 @@ import { generateCharacterOptions } from 'lib/rendering/optionGenerator'
 import { Renderer } from 'lib/rendering/renderer'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
+import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
+import {
+  isStatsValues,
+} from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
   useEffect,
   useMemo,
-  useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
-import { ReactElement } from 'types/components'
 import { Relic } from 'types/relic'
-import { RelicTabFilters } from 'types/store'
 
-const { useToken } = theme
 const { Text } = Typography
 
 const tagHeight = 34
 const imgWidth = 34
-
-const BLANK = Assets.getBlank()
 
 export default function RelicFilterBar(props: {
   setValueColumns: () => void,
@@ -60,111 +60,21 @@ export default function RelicFilterBar(props: {
   }[],
   valueColumns: string[],
 }) {
-  const setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
-  const setRelicsTabFocusCharacter = window.store((s) => s.setRelicsTabFocusCharacter)
+  const { filters, setFilter, resetFilters, focusCharacter, setFocusCharacter, setExcludedRelicPotentialCharacters, excludedRelicPotentialCharacters } =
+    useRelicsTabStore()
 
-  const [currentlySelectedCharacterId, setCurrentlySelectedCharacterId] = useState<CharacterId | undefined>()
+  const { t } = useTranslation(['relicsTab', 'common', 'gameData'])
 
-  const { t, i18n } = useTranslation(['relicsTab', 'common', 'gameData'])
-
-  const characterOptions = useMemo(() => {
-    return generateCharacterOptions()
-  }, [])
-
-  function generateImageTags(arr: string[], srcFn: (s: string) => string, tooltip: boolean) {
-    function generateDisplay(key: string) {
-      // QOL to colorize elemental stat images instead of using the substat images
-      const overrides: Record<string, string> = {
-        [Stats.Physical_DMG]: 'Physical',
-        [Stats.Fire_DMG]: 'Fire',
-        [Stats.Ice_DMG]: 'Ice',
-        [Stats.Lightning_DMG]: 'Lightning',
-        [Stats.Wind_DMG]: 'Wind',
-        [Stats.Quantum_DMG]: 'Quantum',
-        [Stats.Imaginary_DMG]: 'Imaginary',
-      }
-
-      const width = overrides[key] ? 30 : imgWidth
-      const elementOrBlank = Assets.getElement(overrides[key])
-      const src = elementOrBlank != BLANK ? elementOrBlank : srcFn(key)
-
-      return tooltip
-        ? (
-          // @ts-ignore
-          <Tooltip title={i18n.exists(`common:Stats.${key}`) ? t(`common:Stats.${key}`) : t(`gameData:RelicSets.${setToId[key]}.Name`)} mouseEnterDelay={0.2}>
-            <img style={{ width: width }} src={src} />
-          </Tooltip>
-        )
-        : <img style={{ width: width }} src={src} />
-    }
-
-    return arr.map((x) => {
-      return {
-        key: x,
-        display: generateDisplay(x),
-      }
-    })
-  }
-
-  function generateTextTags(arr: [n: number, s: string][]) { // arr contains [key, value]
-    return arr.map((x: [n: number, s: string]) => {
-      return {
-        key: x[0],
-        display: (
-          <Flex style={{ height: tagHeight }} justify='space-around' align='center'>
-            <Text style={{ fontSize: 18 }}>
-              {x[1]}
-            </Text>
-          </Flex>
-        ),
-      }
-    })
-  }
-
-  function generateGradeTags(arr: number[]) {
-    return arr.map((x: number) => {
-      return {
-        key: x,
-        display: Renderer.renderGrade({ grade: x } as Relic),
-      }
-    })
-  }
-
-  function generateVerifiedTags(arr: string[]) {
-    return arr.map((x: string) => {
-      return {
-        key: x,
-        display: Renderer.renderGrade({ grade: -1, verified: x == 'true' } as Relic),
-      }
-    })
-  }
-
-  function generateEquippedByTags(arr: string[]) {
-    return arr.map((equippedBy: string) => {
-      return {
-        key: equippedBy,
-        display: Renderer.renderEquippedBy(equippedBy),
-      }
-    })
-  }
-
-  function generateInitialRollsTags(arr: number[]) {
-    return arr.map((x) => {
-      return {
-        key: x,
-        display: Renderer.renderInitialRolls({ initialRolls: x, grade: 5 } as Relic),
-      }
-    })
-  }
+  const characterOptions = useMemo(() => generateCharacterOptions(), [])
 
   const gradeData = generateGradeTags([2, 3, 4, 5])
-  const verifiedData = generateVerifiedTags(['true', 'false'])
-  const setsData = generateImageTags(Object.values(Sets).filter((x) => !UnreleasedSets[x]), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), true)
-  const partsData = generateImageTags(Object.values(Constants.Parts), (x) => Assets.getPart(x), false)
-  const mainStatsData = generateImageTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true), true)
-  const subStatsData = generateImageTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), true)
+  const verifiedData = generateVerifiedTags([true, false])
+  const setsData = generateTooltipTags(Object.values(Sets).filter((x) => !UnreleasedSets[x]), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere))
+  const partsData = generatePartsTags(Object.values(Constants.Parts), (x) => Assets.getPart(x))
+  const mainStatsData = generateTooltipTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true))
+  const subStatsData = generateTooltipTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true))
   const enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
-  const equippedByData = generateEquippedByTags(['true', 'false'])
+  const equippedByData = generateEquippedByTags([true, false])
   const initialRollsData = generateInitialRollsTags([4, 3])
 
   window.refreshRelicsScore = () => {
@@ -176,7 +86,7 @@ export default function RelicFilterBar(props: {
     // views as a pure function of props, but because relics (and other state) are updated mutably in
     // a number of places, we need these manual refresh invocations
     setTimeout(() => {
-      characterSelectorChange(currentlySelectedCharacterId)
+      characterSelectorChange(focusCharacter)
     }, 100)
   }
 
@@ -187,16 +97,25 @@ export default function RelicFilterBar(props: {
   // will correctly re-trigger it)
   useEffect(() => {
     if (DB.getState().settings[SettingOptions.RelicPotentialLoadBehavior.name] == SettingOptions.RelicPotentialLoadBehavior.ScoreAtStartup) {
-      characterSelectorChange(currentlySelectedCharacterId)
+      characterSelectorChange(focusCharacter)
     }
   }, [])
 
-  function characterSelectorChange(characterId: CharacterId | undefined, singleRelic?: Relic) {
+  function onExcludedCharacterChange(map: Map<CharacterId, boolean> | null) {
+    const excludedCharacterIds: Array<CharacterId> = []
+    map?.forEach((selected, id) => {
+      if (selected) excludedCharacterIds.push(id)
+    })
+    setExcludedRelicPotentialCharacters(excludedCharacterIds)
+    SaveState.delayedSave()
+    setTimeout(() => rescoreClicked(), 100)
+  }
+
+  function characterSelectorChange(characterId: CharacterId | null, singleRelic?: Relic) {
     const relics = singleRelic ? [singleRelic] : DB.getRelics()
     console.log('idChange', characterId)
 
-    setRelicsTabFocusCharacter(characterId)
-    setCurrentlySelectedCharacterId(characterId)
+    setFocusCharacter(characterId)
 
     const allCharacters = characterOptions.map((val) => val.id)
     const excludedCharacters = window.store.getState().excludedRelicPotentialCharacters
@@ -280,20 +199,6 @@ export default function RelicFilterBar(props: {
     DB.refreshRelics()
   }
 
-  function clearClicked() {
-    setRelicTabFilters({
-      set: [],
-      part: [],
-      enhance: [],
-      mainStats: [],
-      subStats: [],
-      grade: [],
-      verified: [],
-      equippedBy: [],
-      initialRolls: [],
-    })
-  }
-
   function scoringClicked() {
     const relicsTabFocusCharacter = window.store.getState().relicsTabFocusCharacter
     if (relicsTabFocusCharacter) window.store.getState().setScoringAlgorithmFocusCharacter(relicsTabFocusCharacter)
@@ -301,11 +206,11 @@ export default function RelicFilterBar(props: {
   }
 
   function rescoreClicked() {
-    characterSelectorChange(currentlySelectedCharacterId)
+    characterSelectorChange(focusCharacter)
   }
 
   function rescoreSingleRelic(singleRelic: Relic) {
-    characterSelectorChange(currentlySelectedCharacterId, singleRelic)
+    characterSelectorChange(focusCharacter, singleRelic)
   }
 
   window.rescoreSingleRelic = rescoreSingleRelic
@@ -315,31 +220,31 @@ export default function RelicFilterBar(props: {
       <Flex gap={10}>
         <Flex vertical flex={1}>
           <HeaderText>{t('RelicFilterBar.Part') /* Part */}</HeaderText>
-          <FilterRow name='part' tags={partsData} flexBasis='15%' />
+          <SegmentedFilterRow currentFilter={filters.part} setCurrentFilters={setFilter('part')} tags={partsData} flexBasis='15%' />
         </Flex>
         <Flex vertical style={{ height: '100%' }} flex={1}>
           <HeaderText>{t('RelicFilterBar.Enhance') /* Enhance */}</HeaderText>
-          <FilterRow name='enhance' tags={enhanceData} flexBasis='15%' />
+          <SegmentedFilterRow currentFilter={filters.enhance} setCurrentFilters={setFilter('enhance')} tags={enhanceData} flexBasis='15%' />
         </Flex>
         <Flex vertical flex={0.5}>
           <HeaderText>{t('RelicFilterBar.Grade') /* Grade */}</HeaderText>
-          <FilterRow name='grade' tags={gradeData} flexBasis='15%' />
+          <SegmentedFilterRow currentFilter={filters.grade} setCurrentFilters={setFilter('grade')} tags={gradeData} flexBasis='15%' />
         </Flex>
         <Flex vertical flex={0.25}>
           <HeaderText>{t('RelicFilterBar.InitialRolls') /* Initial rolls */}</HeaderText>
-          <FilterRow name='initialRolls' tags={initialRollsData} flexBasis='15%' />
+          <SegmentedFilterRow currentFilter={filters.initialRolls} setCurrentFilters={setFilter('initialRolls')} tags={initialRollsData} flexBasis='15%' />
         </Flex>
         <Flex vertical flex={0.25}>
           <HeaderText>{t('RelicFilterBar.Verified') /* Verified */}</HeaderText>
-          <FilterRow name='verified' tags={verifiedData} flexBasis='15%' />
+          <SegmentedFilterRow currentFilter={filters.verified} setCurrentFilters={setFilter('verified')} tags={verifiedData} flexBasis='15%' />
         </Flex>
         <Flex vertical flex={0.25}>
           <HeaderText>{t('RelicFilterBar.Equipped') /* Equipped */}</HeaderText>
-          <FilterRow name='equippedBy' tags={equippedByData} flexBasis='15%' />
+          <SegmentedFilterRow currentFilter={filters.equipped} setCurrentFilters={setFilter('equipped')} tags={equippedByData} flexBasis='15%' />
         </Flex>
         <Flex vertical flex={0.4}>
           <HeaderText>{t('RelicFilterBar.Clear') /* Clear */}</HeaderText>
-          <Button icon={<ClearOutlined />} onClick={clearClicked} style={{ flexGrow: 1, height: '100%' }}>
+          <Button icon={<ClearOutlined />} onClick={resetFilters} style={{ flexGrow: 1, height: '100%' }}>
             {t('RelicFilterBar.ClearButton') /* Clear all filters */}
           </Button>
         </Flex>
@@ -347,17 +252,22 @@ export default function RelicFilterBar(props: {
 
       <Flex vertical>
         <HeaderText>{t('RelicFilterBar.Set') /* Set */}</HeaderText>
-        <FilterRow name='set' tags={setsData} flexBasis={`${100 / Object.values(SetsRelics).length}%`} />
+        <SegmentedFilterRow
+          currentFilter={filters.set}
+          setCurrentFilters={setFilter('set')}
+          tags={setsData}
+          flexBasis={`${100 / Object.values(SetsRelics).length}%`}
+        />
       </Flex>
 
       <Flex vertical>
         <HeaderText>{t('RelicFilterBar.Mainstat') /* Main stats */}</HeaderText>
-        <FilterRow name='mainStats' tags={mainStatsData} />
+        <SegmentedFilterRow currentFilter={filters.mainStat} setCurrentFilters={setFilter('mainStat')} tags={mainStatsData} />
       </Flex>
 
       <Flex vertical>
         <HeaderText>{t('RelicFilterBar.Substat') /* Substats */}</HeaderText>
-        <FilterRow name='subStats' tags={subStatsData} />
+        <SegmentedFilterRow currentFilter={filters.subStat} setCurrentFilters={setFilter('subStat')} tags={subStatsData} />
       </Flex>
 
       <Flex gap={10}>
@@ -365,7 +275,7 @@ export default function RelicFilterBar(props: {
           <HeaderText>{t('RelicFilterBar.RecommendationHeader') /* Relic recommendation character */}</HeaderText>
           <Flex gap={10}>
             <CharacterSelect
-              value={currentlySelectedCharacterId}
+              value={focusCharacter}
               selectStyle={{ flex: 1 }}
               onChange={(characterId: CharacterId | null | undefined) => {
                 // Wait until after modal closes to update
@@ -413,16 +323,9 @@ export default function RelicFilterBar(props: {
         <Flex vertical flex={0.25}>
           <HeaderText>{t('RelicFilterBar.CustomCharsHeader') /* Custom potential characters */}</HeaderText>
           <CharacterSelect
-            value={window.store.getState().excludedRelicPotentialCharacters}
+            value={excludedRelicPotentialCharacters}
             selectStyle={{ flex: 1 }}
-            onChange={(excludedMap: Map<CharacterId, boolean> | null) => {
-              const excludedCharacterIds = Array.from(excludedMap ?? new Map<CharacterId, boolean>())
-                .filter((entry) => entry[1])
-                .map((entry) => entry[0])
-              window.store.getState().setExcludedRelicPotentialCharacters(excludedCharacterIds)
-              SaveState.delayedSave()
-              setTimeout(() => rescoreClicked(), 100)
-            }}
+            onChange={onExcludedCharacterChange}
             multipleSelect={true}
           />
         </Flex>
@@ -431,64 +334,85 @@ export default function RelicFilterBar(props: {
   )
 }
 
-type FilterTag = {
-  key: string | number,
-  display: ReactElement,
+function generateTextTags(arr: [key: number, value: string][]) {
+  return arr.map((x) => ({
+    key: x[0],
+    display: (
+      <Flex style={{ height: tagHeight }} justify='space-around' align='center'>
+        <Text style={{ fontSize: 18 }}>
+          {x[1]}
+        </Text>
+      </Flex>
+    ),
+  }))
 }
 
-function FilterRow(props: {
-  name: keyof RelicTabFilters,
-  tags: FilterTag[],
-  flexBasis?: string,
-}) {
-  const { token } = useToken()
+function generateGradeTags(arr: number[]) {
+  return arr.map((x) => ({
+    key: x,
+    display: Renderer.renderGrade({ grade: x } as Relic),
+  }))
+}
 
-  const relicTabFilters = window.store((s) => s.relicTabFilters)
-  const setRelicTabFilters = window.store((s) => s.setRelicTabFilters)
+function generateVerifiedTags(arr: boolean[]) {
+  return arr.map((verified) => ({
+    key: verified,
+    display: Renderer.renderGrade({ grade: -1, verified } as Relic),
+  }))
+}
 
-  const selectedTags = relicTabFilters[props.name]
+function generateEquippedByTags(arr: boolean[]) {
+  return arr.map((equipped) => ({
+    key: equipped,
+    display: Renderer.renderEquipped(equipped),
+  }))
+}
 
-  const handleChange = (tag: string | number, checked: boolean) => {
-    const nextSelectedTags = checked
-      ? [...selectedTags, tag]
-      : selectedTags.filter((t) => t != tag)
+function generateInitialRollsTags(arr: number[]) {
+  return arr.map((x) => ({
+    key: x,
+    display: Renderer.renderInitialRolls({ initialRolls: x, grade: 5 } as Relic),
+  }))
+}
 
-    const clonedFilters = TsUtils.clone(relicTabFilters)
-    clonedFilters[props.name] = nextSelectedTags
-    console.log('Relic tab filters', props.name, clonedFilters)
+function generatePartsTags(keys: Parts[], srcFn: (s: string) => string) {
+  return keys.map((key) => ({
+    key,
+    display: <img style={{ width: imgWidth }} src={srcFn(key)} />,
+  }))
+}
 
-    setRelicTabFilters(clonedFilters)
+function generateTooltipTags(arr: (Sets | StatsValues)[], srcFn: (s: string) => string) {
+  return arr.map((x) => ({
+    key: x,
+    display: generateTooltipDisplay(x, srcFn),
+  }))
+}
+
+function generateTooltipDisplay(key: Sets | StatsValues, srcFn: (s: string) => string) {
+  // QOL to colorize elemental stat images instead of using the substat images
+  const overrides: Record<string, string> = {
+    [Stats.Physical_DMG]: 'Physical',
+    [Stats.Fire_DMG]: 'Fire',
+    [Stats.Ice_DMG]: 'Ice',
+    [Stats.Lightning_DMG]: 'Lightning',
+    [Stats.Wind_DMG]: 'Wind',
+    [Stats.Quantum_DMG]: 'Quantum',
+    [Stats.Imaginary_DMG]: 'Imaginary',
   }
 
+  const width = overrides[key] ? 30 : imgWidth
+  const src = overrides[key] ? Assets.getElement(overrides[key]) : srcFn(key)
+
   return (
-    <Flex
-      style={{
-        flexWrap: 'wrap',
-        flexGrow: 1,
-        backgroundColor: token.colorBgContainer,
-        boxShadow: `0px 0px 0px 1px ${token.colorBorder} inset`,
-        borderRadius: 6,
-        overflow: 'hidden',
-      }}
+    <Tooltip
+      title={isStatsValues(key)
+        ? i18next.t(`common:Stats.${key}`)
+        : i18next.t(`gameData:RelicSets.${setToId[key]}.Name`)}
+      mouseEnterDelay={0.2}
     >
-      {props.tags.map((tag) => (
-        <CheckableTag
-          key={tag.key}
-          checked={selectedTags.includes(tag.key)}
-          onChange={(checked) => handleChange(tag.key, checked)}
-          style={{
-            flex: 1,
-            flexBasis: props.flexBasis,
-            boxShadow: `1px 1px 1px 0px ${token.colorBorder}`,
-            backgroundColor: selectedTags.includes(tag.key) ? token.colorPrimary : 'transparent',
-          }}
-        >
-          <Flex align='center' justify='space-around' style={{ height: '100%' }}>
-            {tag.display}
-          </Flex>
-        </CheckableTag>
-      ))}
-    </Flex>
+      <img style={{ width: width }} src={src} />
+    </Tooltip>
   )
 }
 

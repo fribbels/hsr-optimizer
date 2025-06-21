@@ -9,6 +9,7 @@ import {
 } from 'lib/simulations/statSimulationTypes'
 import { AppPage } from 'lib/state/db'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { RelicTabFilters } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
 import {
@@ -44,17 +45,6 @@ type PermutationDetails = {
   LinkRopeTotal: number,
 }
 
-export type RelicTabFilters = {
-  set: (string | number)[],
-  part: (string | number)[],
-  enhance: (string | number)[],
-  mainStats: (string | number)[],
-  subStats: (string | number)[],
-  grade: (string | number)[],
-  verified: (string | number)[],
-  equippedBy: (string | number)[],
-  initialRolls: (string | number)[],
-}
 export type HsrOptimizerStore = { // global store separation plan
   /* global                   */ version: string,
   /* global                   */ colorTheme: ColorThemeOverrides,

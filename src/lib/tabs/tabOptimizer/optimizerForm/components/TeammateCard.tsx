@@ -26,6 +26,7 @@ import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Char
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { ArrayFilters } from 'lib/utils/arrayUtils'
 import {
   useEffect,
   useMemo,
@@ -119,7 +120,7 @@ const teammateOrnamentSets = [
 
 // Find 4 piece relic sets and 2 piece ornament sets
 function calculateTeammateSets(teammateCharacter: Character) {
-  const relics = Object.values(teammateCharacter.equipped).map((id) => DB.getRelicById(id)).filter((x) => x)
+  const relics = Object.values(teammateCharacter.equipped).map((id) => DB.getRelicById(id)).filter(ArrayFilters.nonNullable)
   const activeTeammateSets: {
     teamRelicSet?: string,
     teamOrnamentSet?: string,

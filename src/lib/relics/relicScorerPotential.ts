@@ -1,12 +1,39 @@
 import i18next from 'i18next'
-import { AllStats, Constants, MainStats, MainStatsValues, Parts, PartsMainStats, Stats, StatsValues, SubStats, SubStatValues } from 'lib/constants/constants'
-import { getScoreCategory, ScoreCategory } from 'lib/scoring/scoreComparison'
+import {
+  AllStats,
+  Constants,
+  MainStats,
+  MainStatsValues,
+  Parts,
+  PartsMainStats,
+  Stats,
+  StatsValues,
+  SubStats,
+  SubStatValues,
+} from 'lib/constants/constants'
+import {
+  getScoreCategory,
+  ScoreCategory,
+} from 'lib/scoring/scoreComparison'
 import DB from 'lib/state/db'
-import { arrayToMap, stringArrayToMap } from 'lib/utils/arrayUtils'
+import {
+  ArrayFilters,
+  arrayToMap,
+  stringArrayToMap,
+} from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { Character, CharacterId } from 'types/character'
-import { Relic, RelicEnhance, RelicGrade, RelicId, Stat } from 'types/relic'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
+import {
+  Relic,
+  RelicEnhance,
+  RelicGrade,
+  RelicId,
+  Stat,
+} from 'types/relic'
 
 // FIXME HIGH
 
@@ -153,7 +180,7 @@ export class RelicScorer {
    * @param character character object to score
    * @param relics relics to score against the character
    */
-  static scoreCharacterWithRelics(character: Character, relics: Relic[]) {
+  static scoreCharacterWithRelics(character: Character, relics: (Relic | undefined)[]) {
     return new RelicScorer().scoreCharacterWithRelics(character, relics)
   }
 
@@ -192,8 +219,6 @@ export class RelicScorer {
     scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * flatStatScaling.ATK
     scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * flatStatScaling.DEF
 
-    // Object.entries strips type information down to primitive types :/  (e.g. here StatsValues becomes string)
-    // @ts-ignore
     scoringMetadata.sortedSubstats = (Object.entries(scoringMetadata.stats) as [SubStats, number][])
       .filter((x) => possibleSubstats.has(x[0]))
       .sort((a, b) => {
@@ -271,7 +296,7 @@ export class RelicScorer {
     return futureScore
   }
 
-  getCurrentRelicScore(relic: Relic, id: CharacterId) {
+  getCurrentRelicScore(relic: Relic | undefined, id: CharacterId) {
     if (!relic) {
       return {
         score: '0',
@@ -295,15 +320,15 @@ export class RelicScorer {
   /**
    * returns the substat score of the given relic, does not include mainstat bonus
    */
-  substatScore(relic: Relic, id: CharacterId) {
+  substatScore(relic: Relic | undefined, id: CharacterId) {
     const scoringMetadata = this.getRelicScoreMeta(id)
-    if (!scoringMetadata || !id || !relic) {
+    if (!scoringMetadata || !relic) {
       console.warn('substatScore() called but missing 1 or more arguments. relic:', relic, 'meta:', scoringMetadata, 'id:', id)
       return {
         score: 0,
         mainStatScore: 0,
         scoringMetadata,
-        part: relic?.part,
+        part: relic?.part ?? Parts.Head,
       }
     }
     const weights = scoringMetadata.stats
@@ -457,7 +482,7 @@ export class RelicScorer {
    * returns the current score of the relic, as well as the best, worst, and average scores when at max enhance\
    * meta field includes the ideal added and/or upgraded substats for the relic
    */
-  scoreFutureRelic(relic: Relic, id: CharacterId, withMeta: boolean = false) {
+  scoreFutureRelic(relic: Relic | undefined, id: CharacterId | undefined, withMeta: boolean = false) {
     if (!id || !relic) {
       console.warn('scoreFutureRelic() called but lacking arguments')
       return {
@@ -721,7 +746,7 @@ export class RelicScorer {
    * returns the current score, mainstat score, and rating for the relic\
    * additionally returns the part, and scoring metadata
    */
-  scoreCurrentRelic(relic: Relic, id: CharacterId): RelicScoringResult {
+  scoreCurrentRelic(relic: Relic | undefined, id: CharacterId | undefined): RelicScoringResult {
     if (!relic) {
       // console.warn('scoreCurrentRelic called but no relic given for character', id ?? '????')
       return {
@@ -763,7 +788,7 @@ export class RelicScorer {
    * @param character character object to score
    * @param relics relics to score against the character
    */
-  scoreCharacterWithRelics(character: Character, relics: Relic[]): {
+  scoreCharacterWithRelics(character: Character | undefined, relics: (Relic | undefined)[]): {
     relics: RelicScoringResult[],
     totalScore: number,
     totalRating: string,
@@ -782,7 +807,7 @@ export class RelicScorer {
     for (const relic of scoredRelics) {
       totalScore += Number(relic.score) + Number(relic.mainStatScore)
     }
-    const missingSets = 3 - countPairs(relics.filter((x) => x != undefined).map((x) => x.set))
+    const missingSets = 3 - countPairs(relics.filter(ArrayFilters.nonNullable).map((x) => x.set))
     totalScore = Math.max(0, totalScore - missingSets * 3 * minRollValue)
     const totalRating = scoredRelics.length < 6 ? '?' : scoreToRating((totalScore - 4 * 64.8) / 6)
     return {
@@ -796,7 +821,7 @@ export class RelicScorer {
    * returns a score (number) and rating (string) for the character, and the scored equipped relics
    * @param character character object to score
    */
-  scoreCharacter(character: Character): ReturnType<typeof this.scoreCharacterWithRelics> {
+  scoreCharacter(character: Character | undefined): ReturnType<typeof this.scoreCharacterWithRelics> {
     if (!character) {
       return {
         relics: [],
@@ -805,7 +830,7 @@ export class RelicScorer {
       }
     }
     const relicsById = window.store.getState().relicsById
-    const relics: Relic[] = Object.values(character.equipped).map((x) => relicsById[x ?? ''])
+    const relics: Relic[] = Object.values(character.equipped).map((x) => relicsById[x]!)
     return this.scoreCharacterWithRelics(character, relics)
   }
 

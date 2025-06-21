@@ -21,6 +21,7 @@ import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { ArrayFilters } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
   ReactNode,
@@ -106,8 +107,7 @@ export function BuildsModal() {
   // Updates all saved builds with the latest scoring algorithm
   function updateBuildsScoringAlgo(builds: SavedBuild[]) {
     for (const b of builds) {
-      const relicsById = window.store.getState().relicsById
-      const relics = Object.values(b.build).map((x) => relicsById[x])
+      const relics = Object.values(b.build).map(DB.getRelicById)
       const score = RelicScorer.scoreCharacterWithRelics(selectedCharacter!, relics)
       b.score = { score: Math.round(score.totalScore ?? 0).toString(), rating: score.totalRating ?? 'N/A' }
     }
@@ -128,7 +128,6 @@ export function BuildsModal() {
     if (result) {
       setSelectedBuild(null)
       DB.clearCharacterBuilds(selectedCharacter?.id)
-      window.forceCharacterTabUpdate()
       SaveState.delayedSave()
       Message.success(t('Builds.ConfirmDelete.SuccessMessageAll', { characterName: characterName }) /* Successfully deleted all builds for {{characterName}} */)
       close()
@@ -140,7 +139,6 @@ export function BuildsModal() {
     if (result) {
       setSelectedBuild(null)
       DB.deleteCharacterBuild(selectedCharacter?.id, name)
-      window.forceCharacterTabUpdate()
       SaveState.delayedSave()
       Message.success(t('Builds.ConfirmDelete.SuccessMessageSingle', { name: name }) /* Successfully deleted build: {{name}} */)
 
@@ -157,7 +155,6 @@ export function BuildsModal() {
         Object.values(build.build),
         selectedCharacter?.id,
       )
-      window.forceCharacterTabUpdate()
       SaveState.delayedSave()
       Message.success(t('Builds.ConfirmEquip.SuccessMessage', { buildName: build.name }) /* Successfully equipped build: {{buildName}} */)
       handleCancel()

@@ -557,7 +557,6 @@ export default function RelicsTab() {
 
   function onAddOk(relic) {
     DB.setRelic(relic)
-    window.forceCharacterTabUpdate()
     setRelicRows(DB.getRelics())
     SaveState.delayedSave()
 
@@ -677,7 +676,10 @@ export default function RelicsTab() {
             id='relicGrid'
             className='ag-theme-balham-dark'
             style={{
-              ...{ width: TAB_WIDTH, height: 500, resize: 'vertical', overflow: 'hidden' },
+              width: TAB_WIDTH,
+              height: 500,
+              resize: 'vertical',
+              overflow: 'hidden',
               ...getGridTheme(token),
             }}
           >

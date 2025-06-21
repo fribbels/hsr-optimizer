@@ -3,6 +3,7 @@ import {
   PathName,
 } from 'lib/constants/constants'
 import DB from 'lib/state/db'
+import { TsUtils } from 'lib/utils/TsUtils'
 import {
   Character,
   CharacterId,
@@ -55,7 +56,7 @@ export const useCharacterTabStore = create<CharacterTabState>()((set) => ({
   charactersById: {},
   characterModalInitialCharacter: null,
   characterModalOpen: false,
-  filters: defaultFilters,
+  filters: TsUtils.clone(defaultFilters),
 
   setFocusCharacter: (focusCharacter) =>
     set(() => {

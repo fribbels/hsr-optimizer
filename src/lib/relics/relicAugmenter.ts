@@ -1,6 +1,7 @@
 import {
   Constants,
   Stats,
+  StatsValues,
 } from 'lib/constants/constants'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'
@@ -10,9 +11,7 @@ import {
   UnaugmentedRelic,
 } from 'types/relic'
 
-export type AugmentedStats = {
-  [key: string]: number,
-} & {
+export type AugmentedStats = Record<StatsValues, number> & {
   mainStat: string,
   mainValue: number,
 }

@@ -176,11 +176,11 @@ export const Renderer = {
     return x.value == 0 ? '' : Renderer.x100Tenths(x)
   },
 
-  hideNaNAndFloor: (x: ValueFormatterParams<any, number>) => {
-    return !x.value || isNaN(x.value) ? 0 : Math.floor(x.value)
+  hideNaNAndFloor: (x: ValueFormatterParams) => {
+    return !x.value || isNaN(x.value) ? '0' : Math.floor(x.value).toLocaleString(currentLocale())
   },
-  hideNaNAndFloorPercent: (x: ValueFormatterParams<any, number>) => {
-    return (!x.value || isNaN(x.value) ? 0 : Math.floor(x.value)) + '%'
+  hideNaNAndFloorPercent: (x: ValueFormatterParams) => {
+    return (!x.value || isNaN(x.value) ? '0' : Math.floor(x.value)).toLocaleString(currentLocale()) + '%'
   },
 
   renderSubstatNumber: (substat: Stat, relic: Relic) => {

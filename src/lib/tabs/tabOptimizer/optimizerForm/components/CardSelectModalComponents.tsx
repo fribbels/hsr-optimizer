@@ -113,6 +113,7 @@ export function SegmentedFilterRow<T extends string | number | boolean>(props: {
   currentFilter: NoInfer<T>[],
   setCurrentFilters(filters: NoInfer<T>[]): void,
   flexBasis?: string,
+  noHeight?: boolean,
 }) {
   const { token } = useToken()
   const { currentFilter, flexBasis, tags, setCurrentFilters } = props
@@ -134,7 +135,7 @@ export function SegmentedFilterRow<T extends string | number | boolean>(props: {
         boxShadow: `0px 0px 0px 1px ${token.colorBorder} inset`,
         borderRadius: 6,
         overflow: 'hidden',
-        height: 40,
+        height: props.noHeight ? undefined : 40,
       }}
     >
       {tags.map((tag) => (

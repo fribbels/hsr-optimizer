@@ -1,5 +1,4 @@
 import {
-  ColDef,
   GetLocaleTextParams,
   GetRowIdParams,
   IRowNode,
@@ -10,18 +9,23 @@ import {
   AgGridReact,
   AgGridReactProps,
 } from 'ag-grid-react'
+import { theme } from 'antd'
+import { getGridTheme } from 'lib/rendering/theme'
 import {
   defaultRelicsGridColDefs,
   generateBaselineColDefs,
   generateOptionalColDefs,
 } from 'lib/tabs/tabRelics/columnDefs'
+import { TAB_WIDTH } from 'lib/tabs/tabRelics/NewRelicsTab'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
-import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
+import useRelicsTabStore, { ValueColumnField } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { currentLocale } from 'lib/utils/i18nUtils'
 import {
   useCallback,
+  useEffect,
   useMemo,
   useRef,
+  useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Relic } from 'types/relic'
@@ -38,17 +42,27 @@ const paginationSettings: AgGridReactProps<Relic> = {
   pagination: true,
   paginationPageSizeSelector: false,
   paginationPageSize: 2100,
-  // TODO: does this actually work or do I need it in the component to keep currentLocale() up to date
   paginationNumberFormatter: (params: PaginationNumberFormatterParams<Relic>) => params.value.toLocaleString(currentLocale()),
 }
+
+const { useToken } = theme
 
 export function RelicsGrid() {
   const { t } = useTranslation('relicsTab', { keyPrefix: 'RelicGrid' })
 
+  const { token } = useToken()
+
+  const [gridActive, setGridActive] = useState(true)
+
   const relics = window.store((s) => s.relics)
-  const filters = useRelicsTabStore((s) => s.filters)
+  const { filters, valueColumns } = useRelicsTabStore()
 
   const gridRef = useRef<AgGridReact<Relic>>(null)
+
+  useEffect(() => {
+    setGridActive(false)
+    setTimeout(() => setGridActive(true), 100)
+  }, [t])
 
   const getLocaleText = useCallback((params: GetLocaleTextParams<Relic>) => {
     if (params.key == 'to') return (t('To') /* to */)
@@ -56,6 +70,15 @@ export function RelicsGrid() {
     if (params.key == 'noRowsToShow') return ''
     return params.key
   }, [t])
+
+  const { baselineCols, optionalCols } = useMemo(() => ({
+    baselineCols: generateBaselineColDefs(t),
+    optionalCols: generateOptionalColDefs(t),
+  }), [t])
+
+  const columnDefs = useMemo(() => {
+    return baselineCols.concat(optionalCols.filter((x) => valueColumns.includes(x.field as ValueColumnField)))
+  }, [valueColumns])
 
   const isExternalFilterPresent = useCallback((_params: IsExternalFilterPresentParams<Relic>) => {
     return Object.values(filters).reduce((acc, cur) => acc + cur.length, 0) === 0
@@ -72,33 +95,42 @@ export function RelicsGrid() {
     if (filters.equipped.length && !filters.equipped.includes(relic.equippedBy != null)) return false
     if (filters.set.length && !filters.set.includes(relic.set)) return false
     if (filters.mainStat.length && !filters.mainStat.includes(relic.main.stat)) return false
-    return (!filters.subStat.length || relic.substats.some((s) => filters.subStat.includes(s.stat)))
+    if (filters.subStat.length && !relic.substats.some((s) => filters.subStat.includes(s.stat))) return false
+    return true
   }, [filters])
 
-  const columnDefs: ColDef<Relic>[] = useMemo(() => {
-    const baselineCols = generateBaselineColDefs(t)
-    const optionalCols = generateOptionalColDefs(t)
-    return baselineCols.concat(optionalCols)
-  }, [t])
-
   return (
-    <AgGridReact
-      ref={gridRef}
-      rowData={relics}
-      columnDefs={columnDefs}
-      defaultColDef={defaultRelicsGridColDefs}
-      gridOptions={gridOptions}
-      onSelectionChanged={RelicsTabController.onSelectionChanged}
-      onRowClicked={RelicsTabController.onRowClicked}
-      onRowDoubleClicked={RelicsTabController.onRowDoubleClicked}
-      navigateToNextCell={RelicsTabController.navigateToNextCell}
-      isExternalFilterPresent={isExternalFilterPresent}
-      doesExternalFilterPass={doesExternalFilterPass}
-      {...paginationSettings}
-      getLocaleText={getLocaleText}
-      headerHeight={24}
-      animateRows={true}
-      rowSelection='multiple'
-    />
+    <div
+      id='relicGrid'
+      className='ag-theme-balham-dark'
+      style={{
+        width: TAB_WIDTH,
+        height: 500,
+        resize: 'vertical',
+        overflow: 'hidden',
+        ...getGridTheme(token),
+      }}
+    >
+      {gridActive && (
+        <AgGridReact
+          ref={gridRef}
+          rowData={relics}
+          columnDefs={columnDefs}
+          defaultColDef={defaultRelicsGridColDefs}
+          gridOptions={gridOptions}
+          onSelectionChanged={RelicsTabController.onSelectionChanged}
+          onRowClicked={RelicsTabController.onRowClicked}
+          onRowDoubleClicked={RelicsTabController.onRowDoubleClicked}
+          navigateToNextCell={RelicsTabController.navigateToNextCell}
+          isExternalFilterPresent={isExternalFilterPresent}
+          doesExternalFilterPass={doesExternalFilterPass}
+          {...paginationSettings}
+          getLocaleText={getLocaleText}
+          headerHeight={24}
+          animateRows={true}
+          rowSelection='multiple'
+        />
+      )}
+    </div>
   )
 }

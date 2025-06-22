@@ -32,6 +32,7 @@ import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
+import { generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
@@ -52,30 +53,51 @@ const { Text } = Typography
 const tagHeight = 34
 const imgWidth = 34
 
-export default function RelicFilterBar(props: {
-  setValueColumns: () => void,
-  valueColumnOptions: {
-    label: string,
-    options: unknown[],
-  }[],
-  valueColumns: string[],
-}) {
-  const { filters, setFilter, resetFilters, focusCharacter, setFocusCharacter, setExcludedRelicPotentialCharacters, excludedRelicPotentialCharacters } =
-    useRelicsTabStore()
+export default function RelicFilterBar() {
+  const {
+    filters,
+    setFilter,
+    resetFilters,
+    focusCharacter,
+    setFocusCharacter,
+    excludedRelicPotentialCharacters,
+    setExcludedRelicPotentialCharacters,
+    valueColumns,
+    setValueColumns,
+  } = useRelicsTabStore()
 
-  const { t } = useTranslation(['relicsTab', 'common', 'gameData'])
+  const { t } = useTranslation('relicsTab')
+  const { t: tValueColumn } = useTranslation('relicsTab', { keyPrefix: 'RelicGrid' })
 
-  const characterOptions = useMemo(() => generateCharacterOptions(), [])
+  const valueColumnOptions = useMemo(() => generateValueColumnOptions(tValueColumn), [tValueColumn])
 
-  const gradeData = generateGradeTags([2, 3, 4, 5])
-  const verifiedData = generateVerifiedTags([true, false])
-  const setsData = generateTooltipTags(Object.values(Sets).filter((x) => !UnreleasedSets[x]), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere))
-  const partsData = generatePartsTags(Object.values(Constants.Parts), (x) => Assets.getPart(x))
-  const mainStatsData = generateTooltipTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true))
-  const subStatsData = generateTooltipTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true))
-  const enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
-  const equippedByData = generateEquippedByTags([true, false])
-  const initialRollsData = generateInitialRollsTags([4, 3])
+  const {
+    gradeData,
+    verifiedData,
+    partsData,
+    enhanceData,
+    equippedByData,
+    initialRollsData,
+    allCharacterIds,
+  } = useMemo(() => ({
+    gradeData: generateGradeTags([2, 3, 4, 5]),
+    verifiedData: generateVerifiedTags([true, false]),
+    partsData: generatePartsTags(Object.values(Constants.Parts), (x) => Assets.getPart(x)),
+    enhanceData: generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']]),
+    equippedByData: generateEquippedByTags([true, false]),
+    initialRollsData: generateInitialRollsTags([4, 3]),
+    allCharacterIds: generateCharacterOptions().map((x) => x.id),
+  }), [])
+
+  const {
+    setsData,
+    mainStatsData,
+    subStatsData,
+  } = useMemo(() => ({
+    setsData: generateTooltipTags(Object.values(Sets).filter((x) => !UnreleasedSets[x]), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere)),
+    mainStatsData: generateTooltipTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true)),
+    subStatsData: generateTooltipTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true)),
+  }), [t])
 
   window.refreshRelicsScore = () => {
     // NOTE: the scoring modal (where this event is published) calls .submit() in the same block of code
@@ -101,7 +123,7 @@ export default function RelicFilterBar(props: {
     }
   }, [])
 
-  function onExcludedCharacterChange(map: Map<CharacterId, boolean> | null) {
+  function onExcludedCharactersChange(map: Map<CharacterId, boolean> | null) {
     const excludedCharacterIds: Array<CharacterId> = []
     map?.forEach((selected, id) => {
       if (selected) excludedCharacterIds.push(id)
@@ -116,9 +138,6 @@ export default function RelicFilterBar(props: {
     console.log('idChange', characterId)
 
     setFocusCharacter(characterId)
-
-    const allCharacters = characterOptions.map((val) => val.id)
-    const excludedCharacters = window.store.getState().excludedRelicPotentialCharacters
 
     const relicScorer = new RelicScorer()
 
@@ -139,7 +158,7 @@ export default function RelicFilterBar(props: {
       weights.rerollAllCustom = { bestPct: 0, averagePct: 0, rerollAvgPct: 0 }
       weights.rerollAvgSelected = Math.max(0, weights.potentialSelected.rerollAvgPct)
 
-      for (const cid of allCharacters) {
+      for (const cid of allCharacterIds) {
         const pct = relicScorer.scoreRelicPotential(relic, cid)
         weights.potentialAllAll = {
           bestPct: Math.max(pct.bestPct, weights.potentialAllAll.bestPct),
@@ -153,7 +172,7 @@ export default function RelicFilterBar(props: {
         }
 
         // For custom characters only consider the ones that aren't excluded
-        if (!excludedCharacters.includes(cid)) {
+        if (!excludedRelicPotentialCharacters.includes(cid)) {
           weights.potentialAllCustom = {
             bestPct: Math.max(pct.bestPct, weights.potentialAllCustom.bestPct),
             averagePct: Math.max(pct.averagePct, weights.potentialAllCustom.averagePct),
@@ -220,27 +239,33 @@ export default function RelicFilterBar(props: {
       <Flex gap={10}>
         <Flex vertical flex={1}>
           <HeaderText>{t('RelicFilterBar.Part') /* Part */}</HeaderText>
-          <SegmentedFilterRow currentFilter={filters.part} setCurrentFilters={setFilter('part')} tags={partsData} flexBasis='15%' />
+          <SegmentedFilterRow currentFilter={filters.part} setCurrentFilters={setFilter('part')} tags={partsData} flexBasis='15%' noHeight />
         </Flex>
         <Flex vertical style={{ height: '100%' }} flex={1}>
           <HeaderText>{t('RelicFilterBar.Enhance') /* Enhance */}</HeaderText>
-          <SegmentedFilterRow currentFilter={filters.enhance} setCurrentFilters={setFilter('enhance')} tags={enhanceData} flexBasis='15%' />
+          <SegmentedFilterRow currentFilter={filters.enhance} setCurrentFilters={setFilter('enhance')} tags={enhanceData} flexBasis='15%' noHeight />
         </Flex>
         <Flex vertical flex={0.5}>
           <HeaderText>{t('RelicFilterBar.Grade') /* Grade */}</HeaderText>
-          <SegmentedFilterRow currentFilter={filters.grade} setCurrentFilters={setFilter('grade')} tags={gradeData} flexBasis='15%' />
+          <SegmentedFilterRow currentFilter={filters.grade} setCurrentFilters={setFilter('grade')} tags={gradeData} flexBasis='15%' noHeight />
         </Flex>
         <Flex vertical flex={0.25}>
           <HeaderText>{t('RelicFilterBar.InitialRolls') /* Initial rolls */}</HeaderText>
-          <SegmentedFilterRow currentFilter={filters.initialRolls} setCurrentFilters={setFilter('initialRolls')} tags={initialRollsData} flexBasis='15%' />
+          <SegmentedFilterRow
+            currentFilter={filters.initialRolls}
+            setCurrentFilters={setFilter('initialRolls')}
+            tags={initialRollsData}
+            flexBasis='15%'
+            noHeight
+          />
         </Flex>
         <Flex vertical flex={0.25}>
           <HeaderText>{t('RelicFilterBar.Verified') /* Verified */}</HeaderText>
-          <SegmentedFilterRow currentFilter={filters.verified} setCurrentFilters={setFilter('verified')} tags={verifiedData} flexBasis='15%' />
+          <SegmentedFilterRow currentFilter={filters.verified} setCurrentFilters={setFilter('verified')} tags={verifiedData} flexBasis='15%' noHeight />
         </Flex>
         <Flex vertical flex={0.25}>
           <HeaderText>{t('RelicFilterBar.Equipped') /* Equipped */}</HeaderText>
-          <SegmentedFilterRow currentFilter={filters.equipped} setCurrentFilters={setFilter('equipped')} tags={equippedByData} flexBasis='15%' />
+          <SegmentedFilterRow currentFilter={filters.equipped} setCurrentFilters={setFilter('equipped')} tags={equippedByData} flexBasis='15%' noHeight />
         </Flex>
         <Flex vertical flex={0.4}>
           <HeaderText>{t('RelicFilterBar.Clear') /* Clear */}</HeaderText>
@@ -257,17 +282,18 @@ export default function RelicFilterBar(props: {
           setCurrentFilters={setFilter('set')}
           tags={setsData}
           flexBasis={`${100 / Object.values(SetsRelics).length}%`}
+          noHeight
         />
       </Flex>
 
       <Flex vertical>
         <HeaderText>{t('RelicFilterBar.Mainstat') /* Main stats */}</HeaderText>
-        <SegmentedFilterRow currentFilter={filters.mainStat} setCurrentFilters={setFilter('mainStat')} tags={mainStatsData} />
+        <SegmentedFilterRow currentFilter={filters.mainStat} setCurrentFilters={setFilter('mainStat')} tags={mainStatsData} noHeight />
       </Flex>
 
       <Flex vertical>
         <HeaderText>{t('RelicFilterBar.Substat') /* Substats */}</HeaderText>
-        <SegmentedFilterRow currentFilter={filters.subStat} setCurrentFilters={setFilter('subStat')} tags={subStatsData} />
+        <SegmentedFilterRow currentFilter={filters.subStat} setCurrentFilters={setFilter('subStat')} tags={subStatsData} noHeight />
       </Flex>
 
       <Flex gap={10}>
@@ -308,9 +334,9 @@ export default function RelicFilterBar(props: {
               <Select
                 mode='multiple'
                 allowClear
-                value={props.valueColumns}
-                onChange={props.setValueColumns}
-                options={props.valueColumnOptions}
+                value={valueColumns}
+                onChange={setValueColumns}
+                options={valueColumnOptions}
                 maxTagCount='responsive'
                 style={{ flex: 1 }}
                 listHeight={750}
@@ -325,7 +351,7 @@ export default function RelicFilterBar(props: {
           <CharacterSelect
             value={excludedRelicPotentialCharacters}
             selectStyle={{ flex: 1 }}
-            onChange={onExcludedCharacterChange}
+            onChange={onExcludedCharactersChange}
             multipleSelect={true}
           />
         </Flex>

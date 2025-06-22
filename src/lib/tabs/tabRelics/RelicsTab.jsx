@@ -700,12 +700,8 @@ export default function RelicsTab() {
         setOpen={setEditModalOpen}
         open={editModalOpen}
       />
-      <Flex vertical gap={10} style={{ width: '100%' }}>
-        <RelicFilterBar
-          setValueColumns={setValueColumns}
-          valueColumns={valueColumns}
-          valueColumnOptions={valueColumnOptions}
-        />
+      <Flex vertical gap={10}>
+        <RelicFilterBar />
 
         {hasRecentRelics && (
           <Collapse

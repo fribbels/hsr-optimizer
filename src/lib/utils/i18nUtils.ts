@@ -1,6 +1,5 @@
 import i18next from 'i18next'
 import { StatsValues } from 'lib/constants/constants'
-import i18n from 'lib/i18n/i18n'
 
 export const languages = {
   de_DE: {
@@ -128,5 +127,5 @@ export function currentLocale() {
 }
 
 export function isStatsValues(key: string): key is StatsValues {
-  return i18n.exists(`common:Stats.${key}`)
+  return i18next.exists(`common:Stats.${key}`)
 }

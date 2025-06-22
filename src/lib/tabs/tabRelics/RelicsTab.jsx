@@ -665,11 +665,7 @@ export default function RelicsTab() {
         open={editModalOpen}
       />
       <Flex vertical gap={10}>
-        <RelicFilterBar
-          setValueColumns={setValueColumns}
-          valueColumns={valueColumns}
-          valueColumnOptions={valueColumnOptions}
-        />
+        <RelicFilterBar />
 
         {!gridDestroyed && (
           <div

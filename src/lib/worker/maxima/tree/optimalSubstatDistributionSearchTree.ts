@@ -10,14 +10,6 @@ import { createRegionFromBounds } from 'lib/worker/maxima/utils/regionUtils'
 import { generateSplitRepresentative } from 'lib/worker/maxima/utils/substatSpreadUtils'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 
-let debug = false
-// @ts-ignore
-const logger = (...args) => {
-  if (debug) {
-    console.log(...args)
-  }
-}
-
 // Critical logging that always shows important issues
 // @ts-ignore
 const criticalLog = (...args) => {
@@ -82,20 +74,19 @@ export class OptimalSubstatDistributionSearchTree {
   // Track critical events
   private targetLossEvents: number = 0
   private targetRegionsActive: number = 0
-  private lastTargetRegionCheck: number = 0
 
   // Target answer for tracking
   private TARGET_ANSWER: SubstatCounts = {
     'HP%': 0,
-    'ATK%': 3,
+    'ATK%': 18,
     'DEF%': 0,
     'HP': 0,
-    'ATK': 5,
+    'ATK': 0,
     'DEF': 0,
-    'SPD': 5,
-    'CRIT Rate': 5,
-    'CRIT DMG': 36,
-    'Effect Hit Rate': 0,
+    'SPD': 6,
+    'CRIT Rate': 10,
+    'CRIT DMG': 3,
+    'Effect Hit Rate': 17,
     'Effect RES': 0,
     'Break Effect': 0,
   }
@@ -125,45 +116,82 @@ export class OptimalSubstatDistributionSearchTree {
   }
 
   // ============================================================================
-  // CRITICAL ISSUE DETECTION
+  // LASER-FOCUSED TARGET LOSS DEBUGGING
   // ============================================================================
 
-  private detectTargetLoss(parentNode: StatNode, splitDimension: string, children: SplitChild[]): boolean {
-    const targetInParent = this.isPointWithinRegion(this.TARGET_ANSWER, parentNode.region)
+  private logTargetLossEvent(eventType: string, details: {
+    splitDimension: string,
+    splitValue: number,
+    targetValue: number,
+    childBounds: [number, number],
+    representative: SubstatCounts | null,
+    parentNodeId: number,
+  }): void {
+    criticalLog(`🎯 TARGET LOSS: ${eventType}`)
+    criticalLog(`  Node: ${details.parentNodeId}, Dimension: ${details.splitDimension}`)
+    criticalLog(`  Split at ${details.splitValue}, target=${details.targetValue}`)
+    criticalLog(`  Child bounds: [${details.childBounds[0]}, ${details.childBounds[1]}]`)
 
-    if (!targetInParent) return false
+    if (details.representative) {
+      criticalLog(`  Generated rep: ${JSON.stringify(details.representative)}`)
+      criticalLog(`  Rep sum: ${Object.values(details.representative).reduce((a, b) => a + b, 0)}`)
 
-    let targetFoundInChild = false
-    for (const child of children) {
-      const childContainsTarget = this.wouldChildContainTarget(parentNode, splitDimension, child)
-      if (childContainsTarget) {
-        targetFoundInChild = true
-        break
-      }
+      // CHECK WHY VALIDATION FAILED
+      const failureReason = this.getValidationFailureReason(details.representative)
+      criticalLog(`  VALIDATION FAILURE: ${failureReason}`)
+    } else {
+      criticalLog(`  Representative generation FAILED`)
     }
 
-    if (!targetFoundInChild) {
-      this.targetLossEvents++
-      criticalLog(`TARGET LOSS EVENT #${this.targetLossEvents}: Node ${parentNode.nodeId}, dimension ${splitDimension}`)
+    criticalLog(`  TARGET ANSWER: ${JSON.stringify(this.TARGET_ANSWER)}`)
+    criticalLog('  ---')
+  }
 
-      if (children.length === 2) {
-        const leftChild = children.find((c) => c.side === 'left')!
-        const rightChild = children.find((c) => c.side === 'right')!
-        const targetValue = this.TARGET_ANSWER[splitDimension] || 0
+  private getValidationFailureReason(representative: SubstatCounts): string {
+    try {
+      // First check basic constraints
+      const sum = Object.values(representative).reduce((a, b) => a + b, 0)
+      if (sum !== this.targetSum) {
+        return `SUM_MISMATCH: got ${sum}, expected ${this.targetSum}`
+      }
 
-        criticalLog(`  Parent range: [${parentNode.region.lower[splitDimension]}, ${parentNode.region.upper[splitDimension]}]`)
-        criticalLog(`  Left child: [${parentNode.region.lower[splitDimension]}, ${leftChild.splitValue}]`)
-        criticalLog(`  Right child: [${rightChild.splitValue}, ${parentNode.region.upper[splitDimension]}]`)
-        criticalLog(`  Target value: ${targetValue}`)
+      const nonZeroStats = Object.entries(representative).filter(([k, v]) => v > 0)
+      if (nonZeroStats.length < 5) {
+        return `INSUFFICIENT_DIVERSITY: only ${nonZeroStats.length} non-zero stats (need ≥5)`
+      }
 
-        if (targetValue > leftChild.splitValue && targetValue < rightChild.splitValue) {
-          criticalLog(`  🐛 TARGET FALLS IN GAP BETWEEN CHILDREN!`)
+      // Check individual bounds
+      for (const [stat, value] of Object.entries(representative)) {
+        if (value < this.lower[stat] || value > this.upper[stat]) {
+          return `BOUND_VIOLATION: ${stat} = ${value}, bounds [${this.lower[stat]}, ${this.upper[stat]}]`
         }
       }
 
+      // Check if any stat has impossible values
+      const impossibleStats = nonZeroStats.filter(([stat, value]) => value > 36) // Max possible substat rolls
+      if (impossibleStats.length > 0) {
+        return `IMPOSSIBLE_VALUES: ${impossibleStats.map(([s, v]) => `${s}:${v}`).join(', ')}`
+      }
+
+      // If we get here, it's a complex game validator issue
+      return 'COMPLEX_GAME_CONSTRAINT_VIOLATION'
+    } catch (error) {
+      // @ts-ignore
+      return `VALIDATION_ERROR: ${error.message}`
+    }
+  }
+
+  private detectTargetLoss(parentNode: StatNode, splitDimension: string, children: SplitChild[]): boolean {
+    const targetInParent = this.isPointWithinRegion(this.TARGET_ANSWER, parentNode.region)
+    if (!targetInParent) return false
+
+    const targetFoundInChild = children.some((child) => this.wouldChildContainTarget(parentNode, splitDimension, child))
+
+    if (!targetFoundInChild) {
+      this.targetLossEvents++
+      criticalLog(`🚨 CONFIRMED TARGET LOSS #${this.targetLossEvents} - Node ${parentNode.nodeId}`)
       return true
     }
-
     return false
   }
 
@@ -172,42 +200,43 @@ export class OptimalSubstatDistributionSearchTree {
     const targetRegions = leaves.filter((node) => this.isPointWithinRegion(this.TARGET_ANSWER, node.region))
 
     if (targetRegions.length !== this.targetRegionsActive) {
-      const change = targetRegions.length - this.targetRegionsActive
       this.targetRegionsActive = targetRegions.length
-
       if (targetRegions.length === 0) {
-        criticalLog(`ALL TARGET REGIONS LOST! Last count: ${this.targetRegionsActive}`)
-      } else if (change < 0) {
-        targetLog(`Target regions decreased: ${this.targetRegionsActive + Math.abs(change)} → ${this.targetRegionsActive}`)
+        criticalLog(`ALL TARGET REGIONS LOST! Previous count: ${this.targetRegionsActive}`)
       }
     }
   }
 
-  private checkBoundaryError(splitValue: number, lowerBound: number, upperBound: number): boolean {
-    if (splitValue <= lowerBound || splitValue >= upperBound) {
-      // criticalLog(`BOUNDARY ERROR: splitValue=${splitValue} outside range [${lowerBound}, ${upperBound}]`)
-      return true
+  private analyzeTargetAnswerFeasibility(): void {
+    const isValid = this.substatValidator.isValidDistribution(this.TARGET_ANSWER)
+    if (!isValid) {
+      const reason = this.getValidationFailureReason(this.TARGET_ANSWER)
+      criticalLog(`🚨 TARGET INVALID: ${reason}`)
     }
-    return false
+
+    const isWithinBounds = this.isPointWithinRegion(this.TARGET_ANSWER, this.rootRegion)
+    if (!isWithinBounds) {
+      criticalLog('🚨 TARGET OUTSIDE BOUNDS!')
+    }
+
+    const targetSum = this.calculateSum(this.TARGET_ANSWER, this.rootRegion)
+    if (targetSum !== this.targetSum) {
+      criticalLog(`🚨 TARGET SUM MISMATCH: ${targetSum} !== ${this.targetSum}`)
+    }
   }
 
   // ============================================================================
-  // PERIODIC PROGRESS REPORTING
+  // STREAMLINED PROGRESS REPORTING
   // ============================================================================
 
   private reportProgress(): void {
     if (this.iterationCount % 1000 === 0) {
-      const progress = (this.iterationCount / this.maxIterations * 100).toFixed(1)
-      progressLog(`Iteration ${this.iterationCount} (${progress}%) - Best: ${this.topDamage.toFixed(0)}, Target regions: ${this.targetRegionsActive}`)
-
-      if (this.targetLossEvents > 0) {
-        progressLog(`  ⚠️ Target loss events: ${this.targetLossEvents}`)
-      }
+      progressLog(`Iter ${this.iterationCount} - Damage: ${this.topDamage.toFixed(0)}, Targets: ${this.targetRegionsActive}, Losses: ${this.targetLossEvents}`)
     }
   }
 
   // ============================================================================
-  // STREAMLINED CORE METHODS
+  // CORE ALGORITHM METHODS
   // ============================================================================
 
   public split() {
@@ -237,10 +266,6 @@ export class OptimalSubstatDistributionSearchTree {
         // Check for target loss BEFORE executing split
         const willLoseTarget = this.detectTargetLoss(topNode, splitDimension, splitResult.children)
 
-        if (willLoseTarget) {
-          // Still execute the split but we've logged the issue
-        }
-
         // Track split history for diagnostics
         let childrenContainTarget = 0
         for (const child of splitResult.children) {
@@ -259,7 +284,7 @@ export class OptimalSubstatDistributionSearchTree {
         this.executeSplit(topNode, splitDimension, splitResult.children)
 
         // Update target region count after split
-        if (this.iterationCount % 100 === 0) { // Check every 100 iterations
+        if (this.iterationCount % 100 === 0) {
           this.updateTargetRegionCount()
         }
 
@@ -283,7 +308,7 @@ export class OptimalSubstatDistributionSearchTree {
       const result = this.tryBinarySpacePartition(node, splitDimension, splitValue)
 
       if (result.success && result.children.length >= 1) {
-        return result
+        return result // First successful split wins
       }
     }
 
@@ -300,111 +325,104 @@ export class OptimalSubstatDistributionSearchTree {
     const upperBound = region.upper[splitDimension]
     const range = upperBound - lowerBound
 
+    // Target tracking setup
+    const targetInParent = this.isPointWithinRegion(this.TARGET_ANSWER, parentNode.region)
+    const targetValue = this.TARGET_ANSWER[splitDimension] || 0
+
+    if (targetInParent) {
+      criticalLog(`🎯 PRE-SPLIT STATE - Node ${parentNode.nodeId}:`)
+      criticalLog(`  Current representative: ${JSON.stringify(parentNode.representative)}`)
+      criticalLog(`  Region bounds for ${splitDimension}: [${parentNode.region.lower[splitDimension]}, ${parentNode.region.upper[splitDimension]}]`)
+      criticalLog(`  About to split ${splitDimension} at ${splitValue}`)
+      criticalLog(`  Target: ${JSON.stringify(this.TARGET_ANSWER)}`)
+    }
+
     // Handle range=1 special case
     if (range === 1) {
       const children: SplitChild[] = []
 
-      // For range=1, we try to create two point regions
-      // Left child: point at lower bound [lowerBound, lowerBound]
-      // Right child: point at upper bound [upperBound, upperBound]
-
-      // Try left child (point at lower bound)
-      // To get bounds [lowerBound, lowerBound], we need splitValue = lowerBound + 1
-      const leftRep = generateSplitRepresentative(
-        region,
-        splitDimension,
-        lowerBound + 1, // This creates left child bounds [lowerBound, lowerBound]
-        this.targetSum,
-        this.statPriority,
-        'left',
-      )
-
+      const leftRep = generateSplitRepresentative(region, splitDimension, lowerBound + 1, this.targetSum, this.statPriority, 'left', this.substatValidator)
       if (leftRep && this.substatValidator.isValidDistribution(leftRep)) {
-        children.push({
-          side: 'left',
-          splitValue: lowerBound,
-          representative: leftRep,
-        })
+        children.push({ side: 'left', splitValue: lowerBound, representative: leftRep })
       }
 
-      // Try right child (point at upper bound)
-      // To get bounds [upperBound, upperBound], we need splitValue = upperBound
-      const rightRep = generateSplitRepresentative(
-        region,
-        splitDimension,
-        upperBound, // This creates right child bounds [upperBound, upperBound]
-        this.targetSum,
-        this.statPriority,
-        'right',
-      )
-
+      const rightRep = generateSplitRepresentative(region, splitDimension, upperBound, this.targetSum, this.statPriority, 'right', this.substatValidator)
       if (rightRep && this.substatValidator.isValidDistribution(rightRep)) {
-        children.push({
-          side: 'right',
-          splitValue: upperBound,
-          representative: rightRep,
-        })
+        children.push({ side: 'right', splitValue: upperBound, representative: rightRep })
       }
 
-      return {
-        success: children.length >= 1,
-        reason: `Range=1 split: ${children.length} valid children`,
-        children,
-      }
+      return { success: children.length >= 1, reason: `Range=1 split: ${children.length} valid children`, children }
     }
 
-    // Validate normal split for range > 1
-    if (range <= 0) {
-      return { success: false, reason: 'Cannot split zero or negative range', children: [] }
-    }
-
+    // Validate normal split
+    if (range <= 0) return { success: false, reason: 'Cannot split zero or negative range', children: [] }
     if (this.checkBoundaryError(splitValue, lowerBound, upperBound)) {
       return { success: false, reason: `Split value ${splitValue} outside valid range`, children: [] }
     }
 
     const children: SplitChild[] = []
 
-    // Generate left child: [lowerBound, splitValue - 1]
-    // generateSplitRepresentative with side='left' creates bounds [lower, splitValue-1]
-    const leftRep = generateSplitRepresentative(
-      region,
-      splitDimension,
-      splitValue, // Creates left bounds [lowerBound, splitValue-1]
-      this.targetSum,
-      this.statPriority,
-      'left',
-    )
+    // LEFT CHILD PROCESSING
+    const leftRep = generateSplitRepresentative(region, splitDimension, splitValue, this.targetSum, this.statPriority, 'left', this.substatValidator)
+    const leftShouldContainTarget = targetInParent && (targetValue >= lowerBound && targetValue <= splitValue - 1)
 
-    if (leftRep && this.substatValidator.isValidDistribution(leftRep)) {
-      children.push({
-        side: 'left',
-        splitValue: splitValue - 1, // For tree structure: actual upper bound of left child
-        representative: leftRep,
+    if (leftRep) {
+      const leftValid = this.substatValidator.isValidDistribution(leftRep)
+      if (leftValid) {
+        children.push({ side: 'left', splitValue: splitValue - 1, representative: leftRep })
+      } else if (leftShouldContainTarget) {
+        this.logTargetLossEvent('LEFT_VALIDATION_FAILED', {
+          splitDimension,
+          splitValue,
+          targetValue,
+          childBounds: [lowerBound, splitValue - 1],
+          representative: leftRep,
+          parentNodeId: parentNode.nodeId,
+        })
+      }
+    } else if (leftShouldContainTarget) {
+      this.logTargetLossEvent('LEFT_GENERATION_FAILED', {
+        splitDimension,
+        splitValue,
+        targetValue,
+        childBounds: [lowerBound, splitValue - 1],
+        representative: null,
+        parentNodeId: parentNode.nodeId,
       })
     }
 
-    // Generate right child: [splitValue, upperBound]
-    // generateSplitRepresentative with side='right' creates bounds [splitValue, upper]
-    const rightRep = generateSplitRepresentative(
-      region,
-      splitDimension,
-      splitValue, // Creates right bounds [splitValue, upperBound]
-      this.targetSum,
-      this.statPriority,
-      'right',
-    )
+    // RIGHT CHILD PROCESSING
+    const rightRep = generateSplitRepresentative(region, splitDimension, splitValue, this.targetSum, this.statPriority, 'right', this.substatValidator)
+    const rightShouldContainTarget = targetInParent && (targetValue >= splitValue && targetValue <= upperBound)
 
-    if (rightRep && this.substatValidator.isValidDistribution(rightRep)) {
-      children.push({
-        side: 'right',
-        splitValue: splitValue, // For tree structure: actual lower bound of right child
-        representative: rightRep,
+    if (rightRep) {
+      const rightValid = this.substatValidator.isValidDistribution(rightRep)
+      if (rightValid) {
+        children.push({ side: 'right', splitValue: splitValue, representative: rightRep })
+      } else if (rightShouldContainTarget) {
+        this.logTargetLossEvent('RIGHT_VALIDATION_FAILED', {
+          splitDimension,
+          splitValue,
+          targetValue,
+          childBounds: [splitValue, upperBound],
+          representative: rightRep,
+          parentNodeId: parentNode.nodeId,
+        })
+      }
+    } else if (rightShouldContainTarget) {
+      this.logTargetLossEvent('RIGHT_GENERATION_FAILED', {
+        splitDimension,
+        splitValue,
+        targetValue,
+        childBounds: [splitValue, upperBound],
+        representative: null,
+        parentNodeId: parentNode.nodeId,
       })
     }
 
     return {
       success: children.length >= 1,
-      reason: `${children.length} valid children generated using generateSplitRepresentative`,
+      reason: `${children.length} valid children generated`,
       children,
     }
   }
@@ -460,7 +478,7 @@ export class OptimalSubstatDistributionSearchTree {
   }
 
   // ============================================================================
-  // DIAGNOSTIC METHODS (ONLY CALLED WHEN NEEDED)
+  // DIAGNOSTIC METHODS
   // ============================================================================
 
   public analyzeTargetCoverage(): DiagnosticSummary {
@@ -520,32 +538,6 @@ export class OptimalSubstatDistributionSearchTree {
     return report
   }
 
-  // ============================================================================
-  // STREAMLINED SUPPORT METHODS
-  // ============================================================================
-
-  private analyzeTargetAnswerFeasibility(): void {
-    const isWithinBounds = this.isPointWithinRegion(this.TARGET_ANSWER, this.rootRegion)
-
-    if (!isWithinBounds) {
-      criticalLog('TARGET ANSWER IS OUTSIDE ROOT REGION BOUNDS!')
-      criticalLog('Algorithm will never find correct answer with these bounds')
-      console.log(this.TARGET_ANSWER)
-      console.log(this.rootRegion)
-    }
-
-    const targetSum = this.calculateSum(this.TARGET_ANSWER, this.rootRegion)
-    const isValid = this.substatValidator.isValidDistribution(this.TARGET_ANSWER)
-
-    if (targetSum !== this.targetSum) {
-      criticalLog(`Target sum mismatch: ${targetSum} !== ${this.targetSum}`)
-    }
-
-    if (!isValid) {
-      criticalLog('Target answer fails validator!')
-    }
-  }
-
   private calculateDamage(node: StatNode) {
     node.damage = this.damageFunction(node.representative)
 
@@ -574,8 +566,12 @@ export class OptimalSubstatDistributionSearchTree {
   }
 
   // ============================================================================
-  // UTILITY METHODS (NO LOGGING)
+  // UTILITY METHODS
   // ============================================================================
+
+  private checkBoundaryError(splitValue: number, lowerBound: number, upperBound: number): boolean {
+    return splitValue <= lowerBound || splitValue >= upperBound
+  }
 
   private getSplitDimensionsInOrder(node: StatNode): string[] {
     const region = node.region
@@ -619,7 +615,6 @@ export class OptimalSubstatDistributionSearchTree {
         candidates.push(currentValue)
       }
 
-      // This doesnt make sense
       if (range >= 4) {
         const quarter1 = Math.floor(lowerBound + range * 0.25)
         const quarter3 = Math.floor(lowerBound + range * 0.75)
@@ -629,76 +624,6 @@ export class OptimalSubstatDistributionSearchTree {
     }
 
     return [...new Set(candidates)].sort((a, b) => a - b)
-  }
-
-  private generateRepresentativeForRegion(region: StatRegion, splitDimension: string, splitValue: number): SubstatCounts | null {
-    const isPointRegion = region.variableStats.every((stat) => region.lower[stat] === region.upper[stat])
-
-    if (isPointRegion) {
-      const result: SubstatCounts = {}
-      for (const stat of region.statNames) {
-        result[stat] = region.lower[stat]
-      }
-
-      const sum = this.calculateSum(result, region)
-      return sum === this.targetSum ? result : null
-    }
-
-    const result: SubstatCounts = {}
-
-    // Initialize all stats to their lower bounds
-    for (const stat of region.statNames) {
-      result[stat] = region.lower[stat]
-    }
-
-    // Set the split dimension to the split value
-    result[splitDimension] = splitValue
-
-    // Calculate and distribute budget difference
-    const currentSum = this.calculateSum(result, region)
-    const budgetDiff = this.targetSum - currentSum
-
-    if (budgetDiff === 0) {
-      return result
-    }
-
-    const isAddition = budgetDiff > 0
-    const adjustmentsNeeded = Math.abs(budgetDiff)
-
-    for (let i = 0; i < adjustmentsNeeded; i++) {
-      let adjusted = false
-
-      for (const stat of region.variableStats) {
-        if (stat === splitDimension) continue
-
-        const newValue = result[stat] + (isAddition ? 1 : -1)
-
-        if (newValue >= region.lower[stat] && newValue <= region.upper[stat]) {
-          result[stat] = newValue
-          adjusted = true
-          break
-        }
-      }
-
-      if (!adjusted) {
-        return null
-      }
-    }
-
-    // Final validation
-    const finalSum = this.calculateSum(result, region)
-    if (finalSum !== this.targetSum) {
-      return null
-    }
-
-    // Verify bounds
-    for (const stat of region.statNames) {
-      if (result[stat] < region.lower[stat] || result[stat] > region.upper[stat]) {
-        return null
-      }
-    }
-
-    return result
   }
 
   private wouldChildContainTarget(parentNode: StatNode, splitDimension: string, child: SplitChild): boolean {
@@ -751,7 +676,6 @@ export class OptimalSubstatDistributionSearchTree {
       childBounds.lower[splitDimension] = splitValue
     }
 
-    // ✅ FIXED: Use createRegionFromBounds
     const childRegion = createRegionFromBounds(childBounds, parent.region.statNames)
 
     return {
@@ -767,10 +691,6 @@ export class OptimalSubstatDistributionSearchTree {
       nodeId: this.nextNodeId++,
     }
   }
-
-  // ============================================================================
-  // BASIC UTILITY METHODS
-  // ============================================================================
 
   private collectAllLeaves(): StatNode[] {
     const leaves: StatNode[] = []

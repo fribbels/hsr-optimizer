@@ -84,8 +84,16 @@ export default (e: Eidolon): CharacterConditionalsController => {
       text: 'Enhanced Skill type',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       options: [
-        { display: 'Skill: Calamity', value: PhainonEnhancedSkillType.CALAMITY, label: 'Enhanced Skill: Calamity' },
-        { display: 'Skill: Foundation', value: PhainonEnhancedSkillType.FOUNDATION, label: 'Enhanced Skill: Foundation' },
+        {
+          display: 'Skill: Calamity',
+          value: PhainonEnhancedSkillType.CALAMITY,
+          label: 'Enhanced Skill: Calamity',
+        },
+        {
+          display: 'Skill: Foundation',
+          value: PhainonEnhancedSkillType.FOUNDATION,
+          label: 'Enhanced Skill: Foundation',
+        },
       ],
       fullWidth: true,
     },

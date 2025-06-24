@@ -620,10 +620,6 @@ interface Resources {
           "skillUltDmgBoost": {
             "text": "Skill / Ult DMG boost",
             "content": "When using Skill or Ultimate, increases the DMG dealt by this attack by {{DmgBoost}}%."
-          },
-          "bonusBoost": {
-            "text": "Bonus DMG boost",
-            "content": "When using Skill or Ultimate, consume HP equal to {{HpConsumption}}% of the wearer's Max HP. If the consumed HP is greater than 500, this attack's DMG additionally increases by {{BonusDmgBoost}}% ."
           }
         }
       },
@@ -3766,7 +3762,7 @@ interface Resources {
       "321": {
         "Name": "Arcadia of Woven Dreams",
         "Description2pc": "When there are currently more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks."
-     },
+      },
       "322": {
         "Name": "Revelry by the Sea",
         "Description2pc": "Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%."
@@ -4009,7 +4005,7 @@ interface Resources {
       },
       "21056": {
         "Name": "In Pursuit of the Wind"
-     },
+      },
       "21057": {
         "Name": "The Flower Remembers"
       },
@@ -5306,6 +5302,10 @@ interface Resources {
         "Sacerdos": {
           "Display": "{{stackCount}}x",
           "Label": "{{stackCount}} stacks (+{{buffValue}}% CD)"
+        },
+        "Arcadia": {
+          "Display": "{{allyCount}}x",
+          "Label": "{{allyCount}} allies (+{{buffValue}}% DMG)"
         }
       },
       "Conditionals": {
@@ -5333,7 +5333,8 @@ interface Resources {
         "Duran": "The selected buff is applied to damage calculations based on the number of stacks.",
         "Kalpagni": "When enabled, applies the Break Effect buff to combat stat calculations.",
         "Lushaka": "Disabled by default - This set is unable to affect its wearer.",
-        "Banana": "The selected buff is applied to damage calculations."
+        "Banana": "When enabled, the additional 32% CRIT DMG is applied to Combat stat calculations.",
+        "Arcadia": "The selected buff is applied to Combat stat calculations. Updates automatically when team selection changes."
       }
     },
     "Presets": {

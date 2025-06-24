@@ -121,7 +121,7 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
     }))
   }, [t])
   const setDuranDynastyOfRunningWolves = useMemo(() => {
-    const options = Array.from({ length: 5 }).map((_val, i) => ({
+    const options = Array.from({ length: 6 }).map((_val, i) => ({
       display: t('SelectOptions.Duran.Display', { stackCount: i }), // i + 'x',
       value: i,
       label: t('SelectOptions.Duran.Label', { stackCount: i, buffValue: 5 * i }), // `${i} stacks (+${5 * i}% FUA DMG)`,
@@ -140,9 +140,12 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
   }, [t])
   const setArcadiaOfWovenDreams = useMemo(() => {
     return Array.from({ length: 8 }).map((_val, i) => ({
-      display: t('SelectOptions.Arcadia.Display', { stackCount: i + 1 }), // `${i + 1}x`,
+      display: t('SelectOptions.Arcadia.Display', { allyCount: i + 1 }), // `${i + 1}x`,
       value: i + 1,
-      label: t('SelectOptions.Arcadia.Label', { buffValue: Math.max(12 * (4 - (i + 1)), 9 * ((i + 1) - 4)) }), // `${i + 1} allies (+{{ buffValue }}% DMG)`,
+      label: t('SelectOptions.Arcadia.Label', {
+        buffValue: Math.max(12 * (4 - (i + 1)), 9 * ((i + 1) - 4)), // `${i + 1} allies (+{{ buffValue }}% DMG)`,
+        allyCount: i,
+      }),
     }))
   }, [t])
 

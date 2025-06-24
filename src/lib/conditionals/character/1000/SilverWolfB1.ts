@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { standardAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import {
@@ -13,7 +12,6 @@ import {
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -30,7 +28,7 @@ import {
 } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SilverWolf')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SilverWolfB1.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
     SOURCE_BASIC,
@@ -44,7 +42,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1006')
+  } = Source.character('1006b1')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.96, 2.156)
@@ -53,6 +51,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const skillResShredValue = skill(e, 0.13, 0.135)
   const talentDefShredDebuffValue = talent(e, 0.12, 0.132)
   const ultDefShredValue = ult(e, 0.45, 0.468)
+
+  const bugBaseChance = talent(e, 1.00, 1.08)
+  const ultBaseChance = ult(e, 1.20, 1.28)
 
   const defaults = {
     ehrToAtkConversion: true,
@@ -77,46 +78,54 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     ehrToAtkConversion: {
       id: 'ehrToAtkConversion',
       formItem: 'switch',
-      text: 'EHR to ATK conversion',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('ehrToAtkConversion.text'),
+      content: t('ehrToAtkConversion.content'),
     },
     skillResShredDebuff: {
       id: 'skillResShredDebuff',
       formItem: 'switch',
-      text: t('Content.skillResShredDebuff.text'),
-      content: t('Content.skillResShredDebuff.content', { skillResShredValue: TsUtils.precisionRound(100 * skillResShredValue) }),
+      text: t('skillResShredDebuff.text'),
+      content: t('skillResShredDebuff.content', { SkillResShred: TsUtils.precisionRound(100 * skillResShredValue) }),
     },
     skillWeaknessResShredDebuff: {
       id: 'skillWeaknessResShredDebuff',
       formItem: 'switch',
-      text: t('Content.skillWeaknessResShredDebuff.text'),
-      content: t('Content.skillWeaknessResShredDebuff.content', { implantChance: TsUtils.precisionRound(skill(e, 85, 87)) }),
+      text: t('skillWeaknessResShredDebuff.text'),
+      content: t('skillWeaknessResShredDebuff.content', { ImplantBaseChance: TsUtils.precisionRound(skill(e, 120, 128)) }),
     },
     talentDefShredDebuff: {
       id: 'talentDefShredDebuff',
       formItem: 'switch',
-      text: t('Content.talentDefShredDebuff.text'),
-      content: t('Content.talentDefShredDebuff.content', { talentDefShredDebuffValue: TsUtils.precisionRound(100 * talentDefShredDebuffValue) }),
+      text: t('talentDefShredDebuff.text'),
+      content: t('talentDefShredDebuff.content', {
+        BugBaseChance: TsUtils.precisionRound(100 * bugBaseChance),
+        BugAtkDown: talent(e, 10, 11),
+        BugDefDown: talent(e, 12, 13.2),
+        BugSpdDown: talent(e, 6, 6.6),
+      }),
     },
     ultDefShredDebuff: {
       id: 'ultDefShredDebuff',
       formItem: 'switch',
-      text: t('Content.ultDefShredDebuff.text'),
-      content: t('Content.ultDefShredDebuff.content', { ultDefShredValue: TsUtils.precisionRound(100 * ultDefShredValue) }),
+      text: t('ultDefShredDebuff.text'),
+      content: t('ultDefShredDebuff.content', {
+        UltDefShred: TsUtils.precisionRound(100 * ultDefShredValue),
+        UltBaseChance: TsUtils.precisionRound(100 * ultBaseChance),
+      }),
     },
     targetDebuffs: {
       id: 'targetDebuffs',
       formItem: 'slider',
-      text: t('Content.targetDebuffs.text'),
-      content: t('Content.targetDebuffs.content'),
+      text: t('targetDebuffs.text'),
+      content: t('targetDebuffs.content', { BugBaseChance: TsUtils.precisionRound(100 * bugBaseChance) }),
       min: 0,
       max: 5,
     },
     e2Vulnerability: {
       id: 'e2Vulnerability',
       formItem: 'switch',
-      text: 'E2 Vulnerability',
-      content: t('Content.ultDefShredDebuff.content', { ultDefShredValue: TsUtils.precisionRound(100 * ultDefShredValue) }),
+      text: t('e2Vulnerability.text'),
+      content: t('e2Vulnerability.content'),
       disabled: e < 2,
     },
   }

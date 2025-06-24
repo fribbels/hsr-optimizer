@@ -1,11 +1,10 @@
-import i18next from 'i18next'
 import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 import {
@@ -14,7 +13,7 @@ import {
 } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.JourneyForeverPeaceful')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TheFlowerRemembers.Content')
   const { SOURCE_LC } = Source.lightCone('21057')
 
   const sValuesMemoCd = [0.24, 0.30, 0.36, 0.42, 0.48]
@@ -28,8 +27,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       lc: true,
       id: 'memoCdBoost',
       formItem: 'switch',
-      text: 'Memo CD boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('memoCdBoost.text'),
+      content: t('memoCdBoost.content', { CritDmgBuff: TsUtils.precisionRound(100 * sValuesMemoCd[s]) }),
     },
   }
 

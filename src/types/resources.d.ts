@@ -1013,8 +1013,10 @@ interface Resources {
       },
       "ADreamScentedInWheat": {
         "Content": {
-          "text": "ultFuaDmgBoost",
-          "content": "The Ultimate DMG and Follow-up ATK DMG dealt by the wearer increase by {{DmgBuff}}%."
+          "ultFuaDmgBoost": {
+            "text": "ultFuaDmgBoost",
+            "content": "The Ultimate DMG and Follow-up ATK DMG dealt by the wearer increase by {{DmgBuff}}%."
+          }
         }
       },
       "AfterTheCharmonyFall": {
@@ -1165,11 +1167,11 @@ interface Resources {
         "Content": {
           "dmgBoost": {
             "text": "DMG boost",
-            "content": "After the wearer attacks, there is a 100% base chance that the attacked target is inflicted with Vulnerability, increasing the DMG they receive by {{Vulnerability}}% for 2 turns."
+            "content": "Increases the wearer's DMG dealt by {{DmgBuff}}%."
           },
           "vulnerability": {
             "text": "Vulnerability",
-            "content": "Increases the wearer's DMG dealt by {{DmgBuff}}%."
+            "content": "After the wearer attacks, there is a 100% base chance that the attacked target is inflicted with Vulnerability, increasing the DMG they receive by {{Vulnerability}}% for 2 turns."
           }
         }
       },

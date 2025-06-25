@@ -302,6 +302,10 @@ Lightcones:
         text: Reducción de daño por escudo activado
         content: >-
           Cuando el portador recibe un ataque, si no tiene ningún escudo, obtiene uno equivalente al {{ShieldHp}}% de sus PV máx. durante 2 turnos. Este efecto solo se puede activar 1 vez cada 3 turnos. Cuando el portador tiene un escudo, el daño que recibe se reduce en un {{DmgReduction}}%.
+  TheHellWhereIdealsBurn:
+    Content:
+      atkBuffStacks:
+        text: Acumulaciones mejora de ATQ
   TheUnreachableSide:
     Content:
       dmgBuff:
@@ -317,6 +321,12 @@ Lightcones:
         text: Vulnerabilidad Arrinconado
         content: >-
           Después de que el portador ataque al enemigo con su ATQ básico, habilidad básica o habilidad definitiva, tiene una probabilidad base del 60% de afectar al enemigo con Sin armadura. En el estado de Sin armadura, el daño que recibe el enemigo aumenta en un {{UnarmoredVulnerability}}% durante 2 turnos. Si el objetivo está afectado por un estado de Daño con el tiempo aplicado por el portador, hay una probabilidad base del 60% de mejorar el estado de Sin armadura aplicado por el portador al estado de Arrinconado, lo que aumenta el daño que recibe el enemigo en un {{CorneredVulnerability}}% adicional durante 2 turnos.
+  ThusBurnsTheDawn:
+    Content:
+      defPen:
+        text: PEN DEF
+      dmgBuff:
+        text: Mejora de daño
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -363,6 +373,10 @@ Lightcones:
       enemyHpHigherDmgBoost:
         text: "Mejora de daño por enemigo con\n%PV más alto"
         content: El daño que inflige a los enemigos con un porcentaje de PV igual o superior al suyo aumenta en un {{DmgBuff}}% adicional.
+  ATrailOfBygoneBlood:
+    Content:
+      skillUltDmgBoost:
+        text: Aumento de daño de Habilidad / Definitiva
   BoundlessChoreo:
     Content:
       enemyDefReducedSlowed:
@@ -448,6 +462,12 @@ Lightcones:
       postSkillHealBuff:
         text: Mejora de curación post-Habilidad
         content: Cuando el portador utiliza la habilidad básica, la curación realizada aumenta en un {{HealingBoost}}% durante 2 turnos.
+  HolidayThermaeEscapade:
+    Content:
+      dmgBoost:
+        text: Aumento de daño
+      vulnerability:
+        text: Vulnerabilidad
   IndeliblePromise:
     Content:
       crBuff:
@@ -459,6 +479,10 @@ Lightcones:
         text: Acumulaciones de Truco de magia
         content: >-
           Cuando el portador inflige un estado negativo a un enemigo, obtiene una acumulación de Truco de magia. Cada acumulación de Truco de magia aumenta el daño que inflige el portador en un {{DmgBuff}}%. Se puede acumular hasta 3 veces y dura 1 turno. Cuando el acierto de efecto del portador es igual o superior al 80%, el ATQ aumenta en un {{AtkBuff}}%.
+  JourneyForeverPeaceful:
+    Content:
+      shieldBoost:
+        text: Mejora de escudo
   MakeTheWorldClamor:
     Content:
       ultDmgBuff:
@@ -756,6 +780,12 @@ Characters:
       e6Buffs:
         text: E6 Mejoras
         content: El daño que inflige Anaxa es el 130% del daño original. Los dos efectos del Rastro "Vacío necesario" se activan directamente y ya no dependen de la cantidad de personajes de la Vía de la Erudición que haya en el equipo aliado.
+  Archer:
+    Content:
+      cdBuff:
+        text: Mejora de DC
+      e6Buffs:
+        text: E6 Mejoras
   Argenti:
     Content:
       ultEnhanced:
@@ -864,6 +894,16 @@ Characters:
       e4MaxHpIncreaseStacks:
         text: E4 Acumulaciones de PV máx.
         content: Los PV máx. aumentan en un 20%. Este efecto se puede acumular hasta 2 veces.
+  BladeB1:
+    Content:
+      enhancedStateActive:
+        text: Panorama infernal
+      hpPercentLostTotal:
+        text: Total de %PV perdidos
+      e2CrBuff:
+        text: E2 Mejora de PC
+      e4MaxHpIncreaseStacks:
+        text: E4 Acumulaciones de PV máx.
   Boothill:
     Content:
       standoffActive:
@@ -1340,6 +1380,15 @@ Characters:
       e2SkillDmgBuff:
         text: E2 Mejora de Habilidad
         content: Tras usar la habilidad definitiva, el daño de la siguiente habilidad básica potenciada aumenta en un 80%.
+  JingliuB1:
+    Content:
+      talentEnhancedState:
+        text: Estado potenciado
+      e2SkillDmgBuff:
+        text: E2 Mejora de Habilidad
+        content: Tras usar la habilidad definitiva, el daño de la siguiente habilidad básica potenciada aumenta en un 80%.
+      e6ResPen:
+        text: E6 PEN RES
   JingYuan:
     Content:
       skillCritBuff:
@@ -1365,6 +1414,10 @@ Characters:
       e2TeamDotBoost:
         text: E2 Aumento de Daño con el tiempo al equipo
         content: Cuando Kafka está en la batalla, el Daño con el tiempo que infligen todos los aliados aumenta en un 25%.
+  KafkaB1:
+    Content:
+      ehrBasedBuff:
+        text: Mejora de AdE a ATQ
   Lingsha:
     Content:
       beConversion:
@@ -1519,6 +1572,16 @@ Characters:
       e4SkillResShred:
         text: E4 Reducción de la RES a Hielo de la Habilidad
         content: Al usar la habilidad básica, hay una probabilidad base del 100% de reducir la RES a Hielo del enemigo en un 12% durante 2 turnos.
+  Phainon:
+    Content:
+      atkBuffStacks:
+        text: Acumulaciones mejora de ATQ
+      cdBuff:
+        text: Mejora de DC
+      spdBuff:
+        text: Mejora de VEL al equipo
+      e2ResPen:
+        text: E2 PEN RES
   Qingque:
     Content:
       basicEnhanced:
@@ -1617,6 +1680,18 @@ Characters:
       teamDmgBuff:
         text: Aumento de EdR a daño
         content: Durante la batalla, cuando el efecto de Ruptura de Ruan Mei es superior al 120%, por cada 10% de exceso, su habilidad básica aumenta el daño de todos los aliados en un 6% adicional, hasta un máximo del 36%.
+  Saber:
+    Content:
+      enhancedBasic:
+        text: Básico potenciado
+      enhancedSkill:
+        text: Habilidad potenciada
+      talentDmgBuff:
+        text: Mejora daño de Talento
+      cdBuff:
+        text: Mejora de DC
+      e6ResPen:
+        text: E6 PEN RES
   Sampo:
     Content:
       targetDotTakenDebuff:
@@ -1671,6 +1746,18 @@ Characters:
         text: Afecciones del objetivo
         content: >-
           Al usar la habilidad básica, si el enemigo tiene 3 o más estados negativos, su RES a todos los tipos se reduce en un 3% adicional.::BR::E4: Tras usar su habilidad definitiva para atacar a un enemigo, Silver Wolf inflige un 20% de su ATQ como Daño Cuántico adicional por cada estado negativo que tenga el objetivo. Este efecto se puede activar un máximo de 5 veces cada vez que ataque con su habilidad definitiva.::BR::E6: Por cada estado negativo que tenga el objetivo enemigo, el daño que inflige Silver Wolf aumenta en un 20%, hasta un máximo del 100%.
+  SilverWolfB1:
+    Content:
+      skillResShredDebuff:
+        text: Reducción de RES de la Habilidad
+      skillWeaknessResShredDebuff:
+        text: Reducción de RES por debilidad implantada por Habilidad
+      talentDefShredDebuff:
+        text: Reducción de DEF del error
+      ultDefShredDebuff:
+        text: Reducción DEF Definitiva
+      targetDebuffs:
+        text: Afecciones del objetivo
   Sparkle:
     Content:
       skillCdBuff:

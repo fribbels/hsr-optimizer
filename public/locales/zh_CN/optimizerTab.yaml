@@ -613,7 +613,7 @@ ExpandedDataPanel:
           DEF scaling: 防御值加成
           HP scaling: 生命值加成
           Special scaling: 特殊加成
-          "ATK % boost": 攻击力%提升
+          'ATK % boost': 攻击力%提升
           Crit Rate boost: 暴击率提升
           Crit DMG boost: 暴击伤害提升
           DMG boost: 伤害提高

@@ -302,6 +302,10 @@ Lightcones:
         text: 持有护盾时受伤降低
         content: >-
           当装备者受到攻击后，如果自身未持有护盾，则获得1个等同于装备者{{ShieldHp}}%生命上限的护盾，持续2回合。该效果每3回合只能触发1次。如果装备者持有护盾，则使自身受到的伤害降低{{DmgReduction}}%。
+  TheHellWhereIdealsBurn:
+    Content:
+      atkBuffStacks:
+        text: 攻击力提升层数
   TheUnreachableSide:
     Content:
       dmgBuff:
@@ -317,6 +321,12 @@ Lightcones:
         text: 穷寇易伤
         content: >-
           当装备者施放普攻、战技、终结技攻击敌方目标后，有60%的基础概率使其陷入【卸甲】状态。【卸甲】状态下，敌方目标受到的伤害提高{{UnarmoredVulnerability}}%持续2回合。若目标处于装备者施加的持续伤害状态，则有60%的基础概率将装备者施加的【卸甲】状态升级成【穷寇】状态，使敌方目标受到的伤害额外提高{{CorneredVulnerability}}%，持续2回合。
+  ThusBurnsTheDawn:
+    Content:
+      defPen:
+        text: 防御穿透
+      dmgBuff:
+        text: 伤害增益
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -363,6 +373,10 @@ Lightcones:
       enemyHpHigherDmgBoost:
         text: 敌人生命值百分比高于装备者时伤害提高
         content: 装备者对当前生命值百分比大于等于装备者自身当前生命值百分比的敌方目标造成的伤害额外提高{{DmgBuff}}%。
+  ATrailOfBygoneBlood:
+    Content:
+      skillUltDmgBoost:
+        text: 战技 / 终结技伤害提升
   BoundlessChoreo:
     Content:
       enemyDefReducedSlowed:
@@ -448,6 +462,12 @@ Lightcones:
       postSkillHealBuff:
         text: 施放战技后治疗量增益
         content: 当装备者施放战技时，治疗量提高{{HealingBoost}}%，持续 2 回合。
+  HolidayThermaeEscapade:
+    Content:
+      dmgBoost:
+        text: 伤害提高
+      vulnerability:
+        text: 易伤
   IndeliblePromise:
     Content:
       crBuff:
@@ -459,6 +479,10 @@ Lightcones:
         text: 戏法层数
         content: >-
           装备者对敌方目标施加负面状态后，获得一层【戏法】，每层【戏法】使装备者造成的伤害提高{{DmgBuff}}%最多叠加 3 层，持续 1 回合。当装备者的效果命中大于等于 80% 时，攻击力提高{{AtkBuff}}%。
+  JourneyForeverPeaceful:
+    Content:
+      shieldBoost:
+        text: 护盾提升
   MakeTheWorldClamor:
     Content:
       ultDmgBuff:
@@ -756,6 +780,12 @@ Characters:
       e6Buffs:
         text: 6魂增益
         content: 那刻夏造成的伤害为原伤害的130%。行迹【必要的留白】的2种效果都会直接触发，不再依赖我方队伍中智识命途角色的数量。
+  Archer:
+    Content:
+      cdBuff:
+        text: 生命变化时暴击伤害增益
+      e6Buffs:
+        text: 6魂增益
   Argenti:
     Content:
       ultEnhanced:
@@ -864,6 +894,16 @@ Characters:
       e4MaxHpIncreaseStacks:
         text: 4魂生命上限层数
         content: 当前生命值百分比从大于50%降低至小于等于50%时，生命上限提高20%，该效果最多叠加2层。
+  BladeB1:
+    Content:
+      enhancedStateActive:
+        text: 地狱变状态
+      hpPercentLostTotal:
+        text: 累计已损失生命值%
+      e2CrBuff:
+        text: 2魂暴击率增益
+      e4MaxHpIncreaseStacks:
+        text: 4魂生命上限层数
   Boothill:
     Content:
       standoffActive:
@@ -1340,6 +1380,15 @@ Characters:
       e2SkillDmgBuff:
         text: 2魂强化战技增益
         content: 施放终结技后，下一次强化战技的伤害提高80%。
+  JingliuB1:
+    Content:
+      talentEnhancedState:
+        text: 强化状态
+      e2SkillDmgBuff:
+        text: 2魂强化战技增益
+        content: 施放终结技后，下一次强化战技的伤害提高80%。
+      e6ResPen:
+        text: 6魂属性抗性穿透
   JingYuan:
     Content:
       skillCritBuff:
@@ -1365,6 +1414,10 @@ Characters:
       e2TeamDotBoost:
         text: 2魂团队持续伤害提高
         content: 卡芙卡在场时，我方全体造成的持续伤害提高25%。
+  KafkaB1:
+    Content:
+      ehrBasedBuff:
+        text: 效果命中转至攻击力增益
   Lingsha:
     Content:
       beConversion:
@@ -1519,6 +1572,16 @@ Characters:
       e4SkillResShred:
         text: 4魂冰抗性削弱
         content: 施放战技时，有100%的基础概率使敌方目标冰属性抗性降低12%，持续2回合。
+  Phainon:
+    Content:
+      atkBuffStacks:
+        text: 攻击力提升层数
+      cdBuff:
+        text: 生命变化时暴击伤害增益
+      spdBuff:
+        text: 团队速度增益
+      e2ResPen:
+        text: 2魂属性抗性穿透
   Qingque:
     Content:
       basicEnhanced:
@@ -1617,6 +1680,18 @@ Characters:
       teamDmgBuff:
         text: 击破特攻转至伤害提高
         content: 战斗中阮•梅的击破特攻大于120%时，每超过10%，则战技使我方全体伤害提高的效果额外提高6%，最高不超过36%。
+  Saber:
+    Content:
+      enhancedBasic:
+        text: 强化普攻
+      enhancedSkill:
+        text: 强化战技
+      talentDmgBuff:
+        text: 天赋伤害增益
+      cdBuff:
+        text: 生命变化时暴击伤害增益
+      e6ResPen:
+        text: 6魂属性抗性穿透
   Sampo:
     Content:
       targetDotTakenDebuff:
@@ -1671,6 +1746,18 @@ Characters:
         text: 目标负面效果数量
         content: >-
           施放战技时，若敌方目标的负面效果数量大于等于3个，则战技使目标全属性抗性降低的效果额外降低3%。::BR::4魂：施放终结技攻击敌方目标后，目标每有1个负面效果，则额外造成等同于银狼20%攻击力的量子属性附加伤害。该效果在每次终结技攻击中最多触发5次。::BR::6魂：敌方目标每有1个负面效果，银狼对其造成的伤害提高20%，最多提高100%。
+  SilverWolfB1:
+    Content:
+      skillResShredDebuff:
+        text: 战技抗性削弱
+      skillWeaknessResShredDebuff:
+        text: 战技添加弱点后属性削弱
+      talentDefShredDebuff:
+        text: 缺陷防御力削弱
+      ultDefShredDebuff:
+        text: 终结技防御力削弱
+      targetDebuffs:
+        text: 目标负面效果数量
   Sparkle:
     Content:
       skillCdBuff:

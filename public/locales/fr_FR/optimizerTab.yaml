@@ -614,7 +614,7 @@ ExpandedDataPanel:
           DEF scaling: Multiplicateur de DÉF
           HP scaling: Multiplicateur de PV
           Special scaling: Multiplicateur spécial
-          "ATK % boost": Bonus de % d'ATQ
+          'ATK % boost': Bonus de % d'ATQ
           Crit Rate boost: Bonus de Taux Critique
           Crit DMG boost: Bonus de DGT Critique
           DMG boost: Bonus de DGT

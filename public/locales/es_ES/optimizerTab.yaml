@@ -612,7 +612,7 @@ ExpandedDataPanel:
           DEF scaling: Escalado de DEF
           HP scaling: Escalado de PV
           Special scaling: Escalado especial
-          "ATK % boost": Mejora de ATQ %
+          'ATK % boost': Mejora de ATQ %
           Crit Rate boost: Mejora de Prob. CRIT
           Crit DMG boost: Mejora de Daño CRIT
           DMG boost: Mejora de daño

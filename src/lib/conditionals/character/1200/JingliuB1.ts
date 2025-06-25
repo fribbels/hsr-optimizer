@@ -9,15 +9,10 @@ import {
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  buffAbilityDefPen,
-  buffAbilityDmg,
-} from 'lib/optimization/calculateBuffs'
+import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
-
-import i18next from 'i18next'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
@@ -25,7 +20,7 @@ import {
 } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jingliu')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.JingliuB1.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
   const {
     SOURCE_BASIC,
@@ -63,49 +58,49 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     talentEnhancedState: {
       id: 'talentEnhancedState',
       formItem: 'switch',
-      text: 'Enhanced state',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('talentEnhancedState.text'),
+      content: t('talentEnhancedState.content', { UltCRBuff: TsUtils.precisionRound(100 * talentCrBuff) }),
     },
     maxSyzygyDefPen: {
       id: 'maxSyzygyDefPen',
       formItem: 'switch',
-      text: 'Max Syzygy DEF PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('maxSyzygyDefPen.text'),
+      content: t('maxSyzygyDefPen.content', {}),
     },
     moonlightStacks: {
       id: 'moonlightStacks',
       formItem: 'slider',
-      text: 'Moonlight stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('moonlightStacks.text'),
+      content: t('moonlightStacks.content', { MoonlightCDBuff: TsUtils.precisionRound(100 * talentCdScaling) }),
       min: 0,
       max: 5,
     },
     e1Buffs: {
       id: 'e1Buffs',
       formItem: 'switch',
-      text: 'E1 buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e1Buffs.text'),
+      content: t('e1Buffs.content', {}),
       disabled: e < 1,
     },
     e2SkillDmgBuff: {
       id: 'e2SkillDmgBuff',
       formItem: 'switch',
-      text: 'E2 Skill buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e2SkillDmgBuff.text'),
+      content: t('e2SkillDmgBuff.content', {}),
       disabled: e < 2,
     },
     e4MoonlightCdBuff: {
       id: 'e4MoonlightCdBuff',
       formItem: 'switch',
-      text: 'E4 Moonlight CD',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e4MoonlightCdBuff.text'),
+      content: t('e4MoonlightCdBuff.content', {}),
       disabled: e < 4,
     },
     e6ResPen: {
       id: 'e6ResPen',
       formItem: 'switch',
-      text: 'E6 RES PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e6ResPen.text'),
+      content: t('e6ResPen.content', {}),
       disabled: e < 6,
     },
   }

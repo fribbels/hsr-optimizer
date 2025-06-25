@@ -58,7 +58,7 @@ import PerfectTiming from 'lib/conditionals/lightcone/4star/PerfectTiming'
 import PlanetaryRendezvous from 'lib/conditionals/lightcone/4star/PlanetaryRendezvous'
 import PoisedToBloom from 'lib/conditionals/lightcone/4star/PoisedToBloom'
 import PostOpConversation from 'lib/conditionals/lightcone/4star/PostOpConversation'
-import PursuitOfTheWind from 'lib/conditionals/lightcone/4star/PursuitOfTheWind'
+import InPursuitOfTheWind from 'lib/conditionals/lightcone/4star/InPursuitOfTheWind'
 import QuidProQuo from 'lib/conditionals/lightcone/4star/QuidProQuo'
 import ResolutionShinesAsPearlsOfSweat from 'lib/conditionals/lightcone/4star/ResolutionShinesAsPearlsOfSweat'
 import ReturnToDarkness from 'lib/conditionals/lightcone/4star/ReturnToDarkness'
@@ -213,7 +213,7 @@ const fiveStar: Record<string, LightConeConditionalFunction> = {
   21053: JourneyForeverPeaceful,
   21054: TheStorysNextPage,
   21055: UntoTomorrowsMorrow,
-  21056: PursuitOfTheWind,
+  21056: InPursuitOfTheWind,
   21057: TheFlowerRemembers,
   21058: ATrailOfBygoneBlood,
   21060: ADreamScentedInWheat,

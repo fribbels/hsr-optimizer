@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import {
   AbilityType,
   FUA_DMG_TYPE,
@@ -9,10 +8,10 @@ import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { PHAINON } from 'lib/simulations/tests/testMetadataConstants'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -25,8 +24,8 @@ export enum PhainonEnhancedSkillType {
   CALAMITY = 1,
 }
 
-export default (e: Eidolon): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Phainon.Content')
+export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Phainon.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
     SOURCE_BASIC,
@@ -75,65 +74,77 @@ export default (e: Eidolon): CharacterConditionalsController => {
     transformedState: {
       id: 'transformedState',
       formItem: 'switch',
-      text: 'Transformation active',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('transformedState.text'),
+      content: t('transformedState.content', {
+        UltAtkBuff: TsUtils.precisionRound(100 * talentAtkBuffScaling),
+        UltCdBuff: TsUtils.precisionRound(100 * talentCdBuffScaling),
+        UltHPBuff: TsUtils.precisionRound(100 * talentHpBuffScaling),
+      }),
     },
     enhancedSkillType: {
       id: 'enhancedSkillType',
       formItem: 'select',
-      text: 'Enhanced Skill type',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('enhancedSkillType.text'),
+      content: t('enhancedSkillType.content'),
       options: [
-        { display: 'Skill: Calamity', value: PhainonEnhancedSkillType.CALAMITY, label: 'Enhanced Skill: Calamity' },
-        { display: 'Skill: Foundation', value: PhainonEnhancedSkillType.FOUNDATION, label: 'Enhanced Skill: Foundation' },
+        {
+          display: t('enhancedSkillType.options.Calamity.display'),
+          value: PhainonEnhancedSkillType.CALAMITY,
+          label: t('enhancedSkillType.options.Calamity.label'),
+        },
+        {
+          display: t('enhancedSkillType.options.Foundation.display'),
+          value: PhainonEnhancedSkillType.FOUNDATION,
+          label: t('enhancedSkillType.options.Foundation.label'),
+        },
       ],
       fullWidth: true,
     },
     atkBuffStacks: {
       id: 'atkBuffStacks',
       formItem: 'slider',
-      text: 'ATK buff stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('atkBuffStacks.text'),
+      content: t('atkBuffStacks.content'),
       min: 1,
       max: 2,
     },
     cdBuff: {
       id: 'cdBuff',
       formItem: 'switch',
-      text: 'CD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('cdBuff.text'),
+      content: t('cdBuff.content', { TalentCdBuff: TsUtils.precisionRound(100 * talentCdBuffScaling) }),
     },
     sustainDmgBuff: {
       id: 'sustainDmgBuff',
       formItem: 'switch',
-      text: 'Sustain DMG buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('sustainDmgBuff.text'),
+      content: t('sustainDmgBuff.content'),
     },
     spdBuff: {
       id: 'spdBuff',
       formItem: 'switch',
-      text: 'Team SPD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('spdBuff.text'),
+      content: t('spdBuff.content'),
     },
     e1Buffs: {
       id: 'e1Buffs',
       formItem: 'switch',
-      text: 'E1 buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e1Buffs.text'),
+      content: t('e1Buffs.content'),
       disabled: e < 1,
     },
     e2ResPen: {
       id: 'e2ResPen',
       formItem: 'switch',
-      text: 'E2 RES PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e2ResPen.text'),
+      content: t('e2ResPen.content'),
       disabled: e < 2,
     },
     e6TrueDmg: {
       id: 'e6TrueDmg',
       formItem: 'switch',
-      text: 'E6 True DMG',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e6TrueDmg.text'),
+      content: t('e6TrueDmg.content'),
       disabled: e < 6,
     },
   }

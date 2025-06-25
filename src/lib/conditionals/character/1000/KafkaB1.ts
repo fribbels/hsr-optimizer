@@ -12,6 +12,16 @@ import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Stats,
+} from 'lib/constants/constants'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import {
+  wgslFalse,
+  wgslTrue,
+} from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
   buffAbilityDmg,
@@ -23,21 +33,7 @@ import {
   Key,
 } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
-
 import { Eidolon } from 'types/character'
-
-import i18next from 'i18next'
-import {
-  ConditionalActivation,
-  ConditionalType,
-  CURRENT_DATA_VERSION,
-  Stats,
-} from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import {
-  wgslFalse,
-  wgslTrue,
-} from 'lib/gpu/injection/wgslUtils'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
@@ -45,7 +41,7 @@ import {
 } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Kafka')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.KafkaB1.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_BASIC,
@@ -59,7 +55,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1005')
+  } = Source.character('1005b1')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.60, 1.76)
@@ -86,21 +82,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     ehrBasedBuff: {
       id: 'ehrBasedBuff',
       formItem: 'switch',
-      text: 'EHR to DMG buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('ehrBasedBuff.text'),
+      content: t('ehrBasedBuff.content'),
     },
     e1DotDmgReceivedDebuff: {
       id: 'e1DotDmgReceivedDebuff',
       formItem: 'switch',
-      text: t('Content.e1DotDmgReceivedDebuff.text'),
-      content: t('Content.e1DotDmgReceivedDebuff.content'),
+      text: t('e1DotDmgReceivedDebuff.text'),
+      content: t('e1DotDmgReceivedDebuff.content'),
       disabled: e < 1,
     },
     e2TeamDotDmg: {
       id: 'e2TeamDotDmg',
       formItem: 'switch',
-      text: 'E2 DOT Dmg',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e2TeamDotDmg.text'),
+      content: t('e2TeamDotDmg.content'),
       disabled: e < 2,
     },
   }

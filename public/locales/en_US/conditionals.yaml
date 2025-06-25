@@ -380,7 +380,7 @@ Lightcones:
   ADreamScentedInWheat:
     Content:
       ultFuaDmgBoost:
-        text: ultFuaDmgBoost
+        text: Ult / Fua DMG boost
         content: The Ultimate DMG and Follow-up ATK DMG dealt by the wearer increase by {{DmgBuff}}%.
   AfterTheCharmonyFall:
     Content:
@@ -494,7 +494,7 @@ Lightcones:
     Content:
       breakDmgBoost:
         text: Break DMG boost
-        content: increases all allies' Break DMG dealt by {{BreakDmgBuff}}%.
+        content: Increases all allies' Break DMG dealt by {{BreakDmgBuff}}%.
   IndeliblePromise:
     Content:
       crBuff:
@@ -1509,10 +1509,10 @@ Characters:
         text: EHR to ATK buff
         content: When an ally target's Effect Hit Rate is 75% or more, Kafka increases their ATK by 100%.
       e1DotDmgReceivedDebuff:
-        text: E1 DoT vulnerability
+        text: E1 DoT Vulnerability
         content: When using an attack, there is a 100% base chance to cause the target to take 30% more DoT for 2 turns.
       e2TeamDotDmg:
-        text: E2 DOT Dmg
+        text: E2 DoT DMG
         content: While Kafka is on the field, DoT dealt by all allies increases by 33%.
   Lingsha:
     Content:
@@ -1852,10 +1852,10 @@ Characters:
         content: For each point of "Core Resonance" gained in this battle, Saber's DMG dealt ignores 1% of the target's DEF. This effect can stack up to 15 times. When triggering the "Core Resonance's" Skill multiplier effect, each point of "Core Resonance" additionally increases the DMG multiplier for this instance of Skill by 7%.
       e4ResPen:
         text: E4 RES PEN
-        content:
+        content: Increases Saber's Wind RES PEN by 8%. After using Ultimate, increases Saber's Wind RES PEN by 4%. This effect can stack up to 3 time(s).
       e6ResPen:
         text: E6 RES PEN
-        content: Increases Saber's Wind RES PEN by 8%. After using Ultimate, increases Saber's Wind RES PEN by 4%. This effect can stack up to 3 time(s).
+        content: Wind RES PEN of Ultimate DMG dealt by Saber increases by 20%, and the Overflow Energy that can be accumulated by the Trace "Blessing of the Lake" increases to 200. When using Ultimate for the first time after entering battle, regenerates a fixed 300 Energy for Saber. This effect can be triggered 1 time after every 3 Ultimate use(s).
   Sampo:
     Content:
       targetDotTakenDebuff:

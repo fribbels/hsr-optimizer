@@ -1502,6 +1502,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -1602,6 +1603,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CD,
           Stats.CR,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -1812,6 +1814,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       parts: {
         [Parts.Body]: [
           Stats.ATK_P,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.SPD,
@@ -1965,6 +1968,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -2092,6 +2096,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -2230,6 +2235,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -2329,6 +2335,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CD,
           Stats.CR,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.SPD,
@@ -2551,6 +2558,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -2759,6 +2767,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -3009,6 +3018,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -3123,6 +3133,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -3230,6 +3241,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.HP_P,
           Stats.DEF_P,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.SPD,
@@ -3268,6 +3280,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
           Stats.DEF_P,
           Stats.ATK_P,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.SPD,
@@ -3308,6 +3321,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -3525,6 +3539,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -3630,6 +3645,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.SPD,
@@ -3711,6 +3727,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -3891,6 +3908,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -3992,6 +4010,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -4092,6 +4111,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -4306,6 +4326,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Parts.Body]: [
           Constants.Stats.CR,
           Constants.Stats.CD,
+          Stats.EHR,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.ATK_P,
@@ -4413,6 +4434,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Parts.Body]: [
           Constants.Stats.CR,
           Constants.Stats.CD,
+          Stats.EHR,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.ATK_P,
@@ -4519,6 +4541,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Constants.Stats.OHB,
           Constants.Stats.DEF_P,
           Constants.Stats.HP_P,
+          Stats.EHR,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.SPD,
@@ -4564,6 +4587,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Parts.Body]: [
           Constants.Stats.CR,
           Constants.Stats.CD,
+          Stats.EHR,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.ATK_P,
@@ -4673,6 +4697,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Parts.Body]: [
           Constants.Stats.CR,
           Constants.Stats.CD,
+          Stats.EHR,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.ATK_P,
@@ -4922,6 +4947,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -5171,6 +5197,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -5421,6 +5448,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CR,
           Stats.CD,
           Stats.ATK_P,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -5519,6 +5547,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       parts: {
         [Parts.Body]: [
           Stats.ATK_P,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -5554,6 +5583,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       parts: {
         [Constants.Parts.Body]: [
           Constants.Stats.ATK_P,
+          Stats.EHR,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.ATK_P,
@@ -5650,6 +5680,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -5781,6 +5812,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Parts.Body]: [
           Constants.Stats.CR,
           Constants.Stats.CD,
+          Stats.EHR,
         ],
         [Constants.Parts.Feet]: [
           Constants.Stats.ATK_P,
@@ -6080,6 +6112,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -6180,6 +6213,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -6488,6 +6522,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -6588,6 +6623,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.Body]: [
           Stats.CR,
           Stats.CD,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -6916,6 +6952,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CR,
           Stats.CD,
           Stats.ATK_P,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -7291,6 +7328,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CR,
           Stats.CD,
           Stats.ATK_P,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -7395,6 +7433,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CR,
           Stats.CD,
           Stats.ATK_P,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,
@@ -7497,6 +7536,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CR,
           Stats.CD,
           Stats.ATK_P,
+          Stats.EHR,
         ],
         [Parts.Feet]: [
           Stats.ATK_P,

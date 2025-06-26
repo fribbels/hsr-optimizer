@@ -308,6 +308,8 @@ SetConditionals:
     Sacerdos:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} acumulaciones (+{{buffValue}}% DC)'
+    Arcadia:
+      Display: '{{allyCount}}x'
   Conditionals:
     DefaultMessage: Activado por defecto - los efectos se aplicarán a los cálculos de combate.
     Hunter: Activado, la mejora de Daño CRIT se aplica a los cálculos de Atributos de combate.
@@ -334,6 +336,7 @@ SetConditionals:
     Duran: La mejora seleccionada se aplica a los cálculos de daño de acuerdo al número de acumulaciones.
     Kalpagni: Activado, aplica la mejora de Efecto de Ruptura a los cálculos de Atributos de combate.
     Lushaka: Desactivado por defecto - Este conjunto es incapaz de afectar a su usuario.
+    Arcadia: La mejora seleccionada se aplica a los cálculos de Atributos de combate. Se actualiza automáticamente cuando se cambia la selección de equipo.
 Presets:
   SpdValues:
     SPD0: Sin velocidad mínima

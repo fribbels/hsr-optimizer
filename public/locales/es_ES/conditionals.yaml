@@ -34,6 +34,14 @@ Lightcones:
         text: Afección Ilusión vacía
         content: >-
           Cuando el portador golpea a un enemigo, lo afecta con Ilusión vacía durante 1 turno. Solo se puede activar 1 vez por objetivo en cada ataque del portador. El daño que el portador inflige a los objetivos afectados por Ilusión vacía aumenta en un {{DmgBoost}}% y el daño que inflige la habilidad definitiva aumenta en un {{UltDmgBoost}}% adicional.
+  AThanklessCoronation:
+    Content:
+      ultAtkBoost:
+        text: Aumento ATQ Definitiva
+        content: Luego de usar la habilidad definitiva, aumenta el ATQ del portador en un {{UltAtkBuff}}%
+      energyAtkBuff:
+        text: Mejora de ATQ/Energía
+        content: Luego de usar la habilidad definitiva, si la energía máxima del portador es mayor o igual a 300 pts., recupera una cantidad fija de energía equivalente al 10% de la energía máxima del portador y aumenta su ATQ en {{EnergyAtkBuff}}% por dos turnos.
   AnInstantBeforeAGaze:
     Content:
       maxEnergyDmgBoost:
@@ -304,8 +312,12 @@ Lightcones:
           Cuando el portador recibe un ataque, si no tiene ningún escudo, obtiene uno equivalente al {{ShieldHp}}% de sus PV máx. durante 2 turnos. Este efecto solo se puede activar 1 vez cada 3 turnos. Cuando el portador tiene un escudo, el daño que recibe se reduce en un {{DmgReduction}}%.
   TheHellWhereIdealsBurn:
     Content:
+      spAtkBuff:
+        text: Mejora de ATQ por SP
+        content: Tras entrar en combate, y si los puntos de habilidad básica máximos son 6 o más, aumenta el ATQ del portador en un {{SPAtkBuff}}%.
       atkBuffStacks:
         text: Acumulaciones mejora de ATQ
+        content: Luego de que el portador use su habilidad básica, aumenta su ATQ en un {{ScalingAtkBuff}}%, acumulable hasta 4 veces.
   TheUnreachableSide:
     Content:
       dmgBuff:
@@ -325,8 +337,10 @@ Lightcones:
     Content:
       defPen:
         text: PEN DEF
+        content: Cuando el portador inflige daño, ignora el {{DefIgnore}}% de la DEF del objetivo.
       dmgBuff:
         text: Mejora de daño
+        content: Mientras se posea "Sol ardiente", aumenta el daño del portador en un {{DmgBuff}}%.
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -363,6 +377,11 @@ Lightcones:
       ultFuaDefShred:
         text: PEN DEF para Definitiva / ataques adicionales
         content: Al comenzar el combate y después de que el portador use el ATQ básico, el daño que infligen su habilidad definitiva o ataques adicionales ignora un {{DefShred}}% de la DEF del objetivo durante 2 turnos.
+  ADreamScentedInWheat:
+    Content:
+      ultFuaDmgBoost:
+        text: Aumento de daño de Definitiva / Ataque adicional
+        content: Aumenta el daño de habilidad definitiva y ataque adicional del portador en un {{DmgBuff}}%.
   AfterTheCharmonyFall:
     Content:
       spdBuff:
@@ -377,6 +396,7 @@ Lightcones:
     Content:
       skillUltDmgBoost:
         text: Aumento de daño de Habilidad / Definitiva
+        content: Aumenta el daño de la habilidad básica y la habilidad definitiva del portador en un {{DmgBuff}}%.
   BoundlessChoreo:
     Content:
       enemyDefReducedSlowed:
@@ -466,8 +486,14 @@ Lightcones:
     Content:
       dmgBoost:
         text: Aumento de daño
+        content: Aumenta el daño del portador en un {{DmgBuff}}%.
       vulnerability:
         text: Vulnerabilidad
+  InPursuitOfTheWind:
+    Content:
+      breakDmgBoost:
+        text: Aumento de Daño de Ruptura
+        content: Aumenta el Daño de Ruptura de todos los aliados en un {{BreakDmgBuff}}%.
   IndeliblePromise:
     Content:
       crBuff:
@@ -483,6 +509,10 @@ Lightcones:
     Content:
       shieldBoost:
         text: Mejora de escudo
+        content: Aumenta el efecto de los escudos del portador en un {{ShieldBuff}}%.
+      dmgBoost:
+        text: Aumento de daño por escudo
+        content: Cuando un aliado está protegido por un escudo, aumenta el daño que inflige en un {{DmgBuff}}%.
   MakeTheWorldClamor:
     Content:
       ultDmgBuff:
@@ -501,7 +531,7 @@ Lightcones:
   PastAndFuture:
     Content:
       postSkillDmgBuff:
-        text: Aumento de daño después de la habilidad elemental
+        text: Mejora de daño post-Habilidad
         content: Cuando el portador utiliza su habilidad básica, el daño que inflige el siguiente aliado que actúe (que no sea el portador) aumenta en un {{DmgBuff}}% durante 1 turno.
   PerfectTiming:
     Content:
@@ -534,6 +564,11 @@ Lightcones:
         text: Mejora de VEL / daño activada
         content: >-
           Tras entrar en combate, la VEL del portador aumenta en un {{SpdBuff}}% y el daño que inflige aumenta en un {{DmgBuff}}%. Cuando recibe daño, el efecto desaparece y se recupera cuando termine el siguiente turno.
+  SeeYouAtTheEnd:
+    Content:
+      skillFuaDmgBoost:
+        text: Aumento de daño de Habilidad / Ataque adicional
+        content: El daño de habilidad básica y ataque adicional del portador aumentan en un {{DmgBuff}}%.
   ShadowedByNight:
     Content:
       spdBuff:

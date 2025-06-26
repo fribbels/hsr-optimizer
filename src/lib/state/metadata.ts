@@ -1,13 +1,7 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
-import {
-  Constants,
-  Parts,
-  PartsMainStats,
-  Sets,
-  Stats,
-} from 'lib/constants/constants'
+import { Constants, Parts, PartsMainStats, Sets, Stats, } from 'lib/constants/constants'
 import {
   DEFAULT_BASIC,
   DEFAULT_BREAK,
@@ -33,11 +27,15 @@ import {
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
   A_GROUNDED_ASCENT,
+  ACHERON,
+  ALONG_THE_PASSING_SHORE,
+  AVENTURINE,
   CIPHER,
   DANCE_DANCE_DANCE,
   EARTHLY_ESCAPADE,
   FLOWING_NIGHTGLOW,
   HUOHUO,
+  INHERENTLY_UNJUST_DESTINY,
   LIES_DANCE_ON_THE_BREEZE,
   LUOCHA,
   MULTIPLICATION,
@@ -49,13 +47,7 @@ import {
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import {
-  DBMetadata,
-  DBMetadataCharacter,
-  DBMetadataLightCone,
-  DBMetadataSets,
-  ScoringMetadata,
-} from 'types/metadata'
+import { DBMetadata, DBMetadataCharacter, DBMetadataLightCone, DBMetadataSets, ScoringMetadata, } from 'types/metadata'
 
 const characters: Record<string, DBMetadataCharacter> = gameData.characters as unknown as Record<string, DBMetadataCharacter>
 const lightCones: Record<string, DBMetadataLightCone> = gameData.lightCones as unknown as Record<string, DBMetadataLightCone>
@@ -7744,15 +7736,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
     },
     '1006b1': { // Silver Wolf
       stats: {
-        [Stats.ATK]: 0,
-        [Stats.ATK_P]: 0,
-        [Stats.DEF]: 0.25,
-        [Stats.DEF_P]: 0.25,
-        [Stats.HP]: 0.25,
-        [Stats.HP_P]: 0.25,
+        [Stats.ATK]: 0.75,
+        [Stats.ATK_P]: 0.75,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
         [Stats.SPD]: 1,
-        [Stats.CR]: 0,
-        [Stats.CD]: 0,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
         [Stats.EHR]: 1,
         [Stats.RES]: 0.25,
         [Stats.BE]: 0,
@@ -7783,6 +7775,80 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       ],
       sortOption: SortOption.ULT,
       hiddenColumns: [SortOption.FUA, SortOption.DOT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+            Stats.ATK_P,
+            Stats.EHR,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Quantum_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.ATK_P,
+          Stats.CR,
+          Stats.CD,
+          Stats.ATK,
+          Stats.EHR,
+        ],
+        breakpoints: {
+          [Stats.EHR]: 0.50,
+        },
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          START_ULT,
+          END_SKILL,
+          WHOLE_BASIC
+        ],
+        deprioritizeBuffs: true,
+        comboDot: 0,
+        errRopeEidolon: 0,
+        relicSets: [
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.InertSalsotto,
+          Sets.FirmamentFrontlineGlamoth,
+          Sets.IzumoGenseiAndTakamaDivineRealm,
+          Sets.RutilantArena,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
+          ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+        ],
+        teammates: [
+          {
+            characterId: ACHERON,
+            lightCone: ALONG_THE_PASSING_SHORE,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: CIPHER,
+            lightCone: LIES_DANCE_ON_THE_BREEZE,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     '1205b1': { // BladeB1
       stats: {

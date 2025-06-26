@@ -1,19 +1,15 @@
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import i18next from 'i18next'
+import { applyScoringMetadataPresets, applySetConditionalPresets } from "lib/conditionals/evaluation/applyPresets";
 import { Message } from 'lib/interactions/message'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runCustomBenchmarkOrchestrator'
 import DB from 'lib/state/db'
-import {
-  BenchmarkForm,
-  SimpleCharacter,
-  useBenchmarksTabStore,
-} from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
+import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore, } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { filterUniqueStringify } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
-import { applyScoringMetadataPresets, applySetConditionalPresets } from "lib/conditionals/evaluation/applyPresets";
 
 export type BenchmarkResultWrapper = {
   fullHash: string,
@@ -148,10 +144,11 @@ export function handleCharacterSelectChange(id: CharacterId | null | undefined, 
 
   const character = DB.getCharacterById(id)
   if (character) {
-    form.lightCone = character.form.lightCone ?? undefined
+    form.lightCone = character.form.lightCone ?? null
     form.characterEidolon = character.form.characterEidolon ?? 0
     form.lightConeSuperimposition = character.form.lightConeSuperimposition ?? 1
   } else {
+    form.lightCone = null
     form.characterEidolon = 0
     form.lightConeSuperimposition = 1
   }

@@ -302,6 +302,10 @@ Lightcones:
         text: Réduction de DGT bouclier actif
         content: >-
           Lorsque le porteur est attaqué et n'a pas de bouclier, il obtient un bouclier équivalent à {{ShieldHp}}% de ses PV max pendant 2 tours. Cet effet ne peut être déclenché qu'une fois tous les 3 tours. Si le porteur a déjà un bouclier lorsqu'il est attaqué, les DGT subis sont réduits de {{DmgReduction}}%.
+  TheHellWhereIdealsBurn:
+    Content:
+      atkBuffStacks:
+        text: Cumuls de bonus d'ATQ
   TheUnreachableSide:
     Content:
       dmgBuff:
@@ -317,6 +321,12 @@ Lightcones:
         text: Vulnérabilité Cerné
         content: >-
           Lorsque le porteur utilise son ATQ normale, sa compétence, ou son ultime pour attaquer une cible ennemie, il a 60% de chances de base de lui infliger l'état Sans défense. Dans l'état Sans défense, augmente les DGT subis par la cible ennemie de {{UnarmoredVulnerability}}% pendant 2 tours. Lorsque la cible subit des dégâts sur la durée infligés par le porteur, il y a 60% de chances de base de transformer son état Sans défense en Cerné, ce qui augmente les DGT subis par la cible de {{CorneredVulnerability}}%, pendant 2 tours.
+  ThusBurnsTheDawn:
+    Content:
+      defPen:
+        text: PÉN de DÉF
+      dmgBuff:
+        text: Bonus de DGT
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -363,6 +373,10 @@ Lightcones:
       enemyHpHigherDmgBoost:
         text: Bonus de DGT ennemi %PV supérieur
         content: Les DGT infligés par le porteur augmentent de {{DmgBuff}}% supplémentaires contre les ennemis dont le pourcentage de PV est supérieur ou égal à celui du porteur.
+  ATrailOfBygoneBlood:
+    Content:
+      skillUltDmgBoost:
+        text: Bonus de DGT Compétence / Ult
   BoundlessChoreo:
     Content:
       enemyDefReducedSlowed:
@@ -448,6 +462,12 @@ Lightcones:
       postSkillHealBuff:
         text: Bonus de soins post-Compétence
         content: Augmente les soins prodigués de {{HealingBoost}}% quand le porteur utilise sa compétence, et ce pendant 2 tours.
+  HolidayThermaeEscapade:
+    Content:
+      dmgBoost:
+        text: Bonus de DGT
+      vulnerability:
+        text: Vulnérabilité
   IndeliblePromise:
     Content:
       crBuff:
@@ -459,6 +479,10 @@ Lightcones:
         text: Cumuls de Mascarade
         content: >-
           Le porteur gagne un cumul de Mascarade lorsqu'il inflige un malus à un ennemi. Chaque cumul de Mascarade augmente de {{DmgBuff}}% les DGT infligés par le porteur pour un maximum de 3 cumuls. Cet effet dure 1 tour. Augmente de {{AtkBuff}}% l'ATQ du porteur lorsque ses chances d'appliquer des effets sont supérieures ou égales à 80%.
+  JourneyForeverPeaceful:
+    Content:
+      shieldBoost:
+        text: Bonus de Bouclier
   MakeTheWorldClamor:
     Content:
       ultDmgBuff:
@@ -756,6 +780,12 @@ Characters:
       e6Buffs:
         text: 'E6: Divers bonus'
         content: Les DGT infligés par Anaxa sont équivalents à 130% des DGT initiaux. Les 2 effets de la Trace Vide nécessaire se déclenchent immédiatement et ne dépendent plus du nombre de personnages de l'Érudition présents dans l'équipe.
+  Archer:
+    Content:
+      cdBuff:
+        text: Bonus de DC
+      e6Buffs:
+        text: 'E6: Divers bonus'
   Argenti:
     Content:
       ultEnhanced:
@@ -864,6 +894,16 @@ Characters:
       e4MaxHpIncreaseStacks:
         text: 'E4: Cumuls de Bonus de PV max'
         content: Lorsque les PV de Blade sont inférieurs ou égaux à 50%, ses PV max augmentent de 20%. Cumulable jusqu'à 2 fois.
+  BladeB1:
+    Content:
+      enhancedStateActive:
+        text: État Vue de l'enfer
+      hpPercentLostTotal:
+        text: Total de % de PV perdu
+      e2CrBuff:
+        text: 'E2: Bonus de TC'
+      e4MaxHpIncreaseStacks:
+        text: 'E4: Cumuls de Bonus de PV max'
   Boothill:
     Content:
       standoffActive:
@@ -1340,6 +1380,15 @@ Characters:
       e2SkillDmgBuff:
         text: 'E2: Amélioration de Compétence'
         content: Augmente les DGT de la prochaine compétence renforcée de 80% après avoir utilisé l'ultime.
+  JingliuB1:
+    Content:
+      talentEnhancedState:
+        text: État amélioré
+      e2SkillDmgBuff:
+        text: 'E2: Amélioration de Compétence'
+        content: Augmente les DGT de la prochaine compétence renforcée de 80% après avoir utilisé l'ultime.
+      e6ResPen:
+        text: 'E6: PÉN de RÉS'
   JingYuan:
     Content:
       skillCritBuff:
@@ -1365,6 +1414,10 @@ Characters:
       e2TeamDotBoost:
         text: 'E2: Bonus d''équipe de DGT de DSD'
         content: Lorsque Kafka est sur le champ de bataille, les dégâts sur la durée infligés par tous les alliés augmentent de 25%.
+  KafkaB1:
+    Content:
+      ehrBasedBuff:
+        text: Conversion de TAE à ATQ
   Lingsha:
     Content:
       beConversion:
@@ -1519,6 +1572,16 @@ Characters:
       e4SkillResShred:
         text: 'E4: Réduction de RÉS de glace de la compétence'
         content: Lors de l'utilisation de la compétence, il y a 100% de chances de base de réduire la RÉS à la glace de la cible ennemie de 12% pendant 2 tours.
+  Phainon:
+    Content:
+      atkBuffStacks:
+        text: Cumuls de bonus d'ATQ
+      cdBuff:
+        text: Bonus de DC
+      spdBuff:
+        text: Bonus d'équipe de VIT
+      e2ResPen:
+        text: 'E2: PÉN de RÉS'
   Qingque:
     Content:
       basicEnhanced:
@@ -1617,6 +1680,18 @@ Characters:
       teamDmgBuff:
         text: Conversion d'ER à DGT
         content: En combat, lorsque l'effet de Rupture de Ruan Mei est supétieure à 120%, pour chaque 10% en excédent, la compétence de Ruan Mei augmente les DGT de tous les alliés de 6% additionnels, jusqu'à un maximum de 36%.
+  Saber:
+    Content:
+      enhancedBasic:
+        text: Normale améliorée
+      enhancedSkill:
+        text: Compétence améliorée
+      talentDmgBuff:
+        text: Bonus de DGT du Talent
+      cdBuff:
+        text: Bonus de DC
+      e6ResPen:
+        text: 'E6: PÉN de RÉS'
   Sampo:
     Content:
       targetDotTakenDebuff:
@@ -1671,6 +1746,18 @@ Characters:
         text: Malus sur la cible
         content: >-
           Lorsque l'ennemi subit au moins 3 malus, la compétence diminue ses RÉS à tous les types de 3% supplémentaires.::BR::E4: Lorsque Louve d'argent attaque un ennemi avec son ultime, elle inflige des DGT quantiques additionnels équivalents à 20% de son ATQ pour chaque malus actuellement présent sur la cible ennemie. Cet effet peut être déclenché un maximum de 5 fois par utilisation de l'ultime.::BR::E6: Pour chaque malus subi par la cible ennemie, les DGT infligés par Louve d'argent augmentent de 20%, jusqu'à une limite de 100%.
+  SilverWolfB1:
+    Content:
+      skillResShredDebuff:
+        text: Réduction de RÉS de la compétence
+      skillWeaknessResShredDebuff:
+        text: Réduction de RÉS faiblesse implantée
+      talentDefShredDebuff:
+        text: Reduction de DÉF Bugs
+      ultDefShredDebuff:
+        text: Réduction de DEF de l'ULT
+      targetDebuffs:
+        text: Malus sur la cible
   Sparkle:
     Content:
       skillCdBuff:

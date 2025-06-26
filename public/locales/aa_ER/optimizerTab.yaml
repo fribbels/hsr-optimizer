@@ -291,6 +291,9 @@ SetConditionals:
     Sacerdos:
       Display: 'crwdns43050:0{{stackCount}}crwdne43050:0'
       Label: 'crwdns43052:0{{stackCount}}crwdnd43052:0{{buffValue}}crwdne43052:0'
+    Arcadia:
+      Display: 'crwdns45706:0{{allyCount}}crwdne45706:0'
+      Label: 'crwdns45708:0{{allyCount}}crwdnd45708:0{{buffValue}}crwdne45708:0'
   Conditionals:
     DefaultMessage: crwdns43054:0crwdne43054:0
     Hunter: crwdns43056:0crwdne43056:0
@@ -318,6 +321,7 @@ SetConditionals:
     Kalpagni: crwdns43090:0crwdne43090:0
     Lushaka: crwdns45222:0crwdne45222:0
     Banana: crwdns43094:0crwdne43094:0
+    Arcadia: crwdns45710:0crwdne45710:0
 Presets:
   SpdValues:
     SPD0: crwdns43098:0crwdne43098:0
@@ -596,7 +600,7 @@ ExpandedDataPanel:
           DEF scaling: crwdns45055:0crwdne45055:0
           HP scaling: crwdns45057:0crwdne45057:0
           Special scaling: crwdns45059:0crwdne45059:0
-          "ATK % boost": crwdns45061:0crwdne45061:0
+          'ATK % boost': crwdns45061:0crwdne45061:0
           Crit Rate boost: crwdns45063:0crwdne45063:0
           Crit DMG boost: crwdns45065:0crwdne45065:0
           DMG boost: crwdns45067:0crwdne45067:0

@@ -40,7 +40,6 @@ export function calculateMinSubstatRollCounts(
 
 export function calculateMaxSubstatRollCounts(
   partialSimulationWrapper: PartialSimulationWrapper,
-  metadata: SimulationMetadata,
   scoringParams: ScoringParams,
   baselineSimResult: RunStatSimulationsResult,
   simulationFlags: SimulationFlags,
@@ -62,7 +61,7 @@ export function calculateMaxSubstatRollCounts(
   }
 
   // Only account for desired subs
-  for (const substat of metadata.substats) {
+  for (const substat of partialSimulationWrapper.effectiveSubstats) {
     maxCounts[substat] = scoringParams.maxPerSub
   }
 
@@ -79,9 +78,6 @@ export function calculateMaxSubstatRollCounts(
       scoringParams.substatGoal - 10 * scoringParams.freeRolls - Math.ceil(partialSimulationWrapper.speedRollsDeduction),
     )
     maxCounts[stat] = Math.max(maxCounts[stat], scoringParams.freeRolls)
-    if (metadata.maxBonusRolls?.[stat] != undefined) {
-      maxCounts[stat] = Math.min(maxCounts[stat], metadata.maxBonusRolls[stat] + scoringParams.freeRolls)
-    }
   }
 
   // If enabled, don't let flat stats be chosen aside from the free rolls

@@ -55,9 +55,6 @@ export type SimulationMetadata = {
     characterEidolon: number,
     lightConeSuperimposition: number,
   }[],
-  maxBonusRolls?: {
-    [stat: string]: number,
-  },
   breakpoints?: {
     [stat: string]: number,
   },

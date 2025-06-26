@@ -93,6 +93,7 @@ export type RelicBuild = {
 export type PartialSimulationWrapper = {
   simulation: Simulation,
   speedRollsDeduction: number,
+  effectiveSubstats: string[],
 }
 
 export type SimulationFlags = {

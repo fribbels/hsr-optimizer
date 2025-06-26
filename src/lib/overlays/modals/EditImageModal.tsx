@@ -46,7 +46,7 @@ interface EditImageModalProps {
 
 const IMGUR_API_ENDPOINT = 'https://api.imgur.com/3/image'
 // https://api.imgur.com/oauth2/addclient
-const CLIENT_ID = 'ab10eb1e9600924'
+const CLIENT_ID = '13bf25a25cf82e9'
 
 const DEFAULT_IMAGE_DIMENSIONS = { width: 0, height: 0 }
 const DEFAULT_CROP = { x: 0, y: 0 }
@@ -270,6 +270,8 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
    SUMMARY:
    These Imgur restrictions are incredibly annoying to test with in development,
    however it should have no impact in production.
+
+   When the key goes down: https://api.imgur.com/oauth2/addclient
    *************************************************/
   const uploadToImgurByUrl = async (imageUrl: string) => {
     const formData = new FormData()

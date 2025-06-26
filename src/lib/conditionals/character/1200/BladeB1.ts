@@ -66,12 +66,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     e1BasicUltMultiBoost: {
       id: 'e1BasicUltMultiBoost',
-      formItem: 'slider',
+      formItem: 'switch',
       text: t('e1BasicUltMultiBoost.text'),
       content: t('e1BasicUltMultiBoost.content'),
-      min: 0,
-      max: hpPercentLostTotalMax,
-      percent: true,
       disabled: e < 1,
     },
     e2CrBuff: {

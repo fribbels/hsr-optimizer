@@ -309,6 +309,9 @@ SetConditionals:
     Sacerdos:
       Display: '{{stackCount}}层'
       Label: '{{stackCount}}层 (+{{buffValue}}% CD)'
+    Arcadia:
+      Display: '{{allyCount}}层'
+      Label: '{{allyCount}}个队友（+{{buffValue}}%爆伤）'
   Conditionals:
     DefaultMessage: 默认启用 - 效果将应用于战斗计算。
     Hunter: 启用后，暴击伤害增益将应用于战斗属性计算。
@@ -335,6 +338,8 @@ SetConditionals:
     Duran: 所选的增益将根据叠加层数应用于伤害计算。
     Kalpagni: 启用后，将击破特攻增益应用于战斗属性计算。
     Lushaka: 默认禁用 - 该套装无法影响佩戴者。
+    Banana: 启用后，额外的32%暴击伤害将应用于战斗属性计算。
+    Arcadia: 所选增益将应用于战斗属性计算。队伍选择变化时会自动更新。
 Presets:
   SpdValues:
     SPD0: 无最低速度

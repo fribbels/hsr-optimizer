@@ -7,7 +7,6 @@ import {
   Select,
 } from 'antd'
 import { PathName } from 'lib/constants/constants'
-import { setOpen } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import {
   generateLightConeOptions,
@@ -26,7 +25,6 @@ import * as React from 'react'
 import {
   ChangeEvent,
   ReactNode,
-  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -116,6 +114,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
 
   useEffect(() => {
     if (open || externalOpen) {
+      setCurrentFilters(TsUtils.clone(defaultFilters))
       setTimeout(() => inputRef?.current?.focus(), 100)
     }
   }, [open, externalOpen])

@@ -113,7 +113,9 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
 
   useEffect(() => {
     if (open || externalOpen) {
-      setTimeout(() => inputRef?.current?.focus(), 100)
+      // closing and re-opening the select by clicking on the character image doesn't reset the filters
+      setCurrentFilters(TsUtils.clone(defaultFilters))
+      setTimeout(() => inputRef.current?.focus(), 100)
 
       if (multipleSelect) {
         const newSelected = new Map<CharacterId, boolean>(excludedRelicPotentialCharacters.map((characterId: CharacterId) => [characterId, true]))

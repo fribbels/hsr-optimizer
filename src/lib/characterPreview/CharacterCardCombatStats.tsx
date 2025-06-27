@@ -154,8 +154,8 @@ function addOnHitStats(xa: Float32Array, sortOption: SortOptionProperties) {
 
   xa[Key.ELEMENTAL_DMG] += abilityDmgBoost
 
-  if (abilityCrBoost > 0) xa[Key.CR] += abilityCrBoost + xa[Key.CR_BOOST]
-  if (abilityCdBoost > 0) xa[Key.CD] += abilityCdBoost + xa[Key.CD_BOOST]
+  if (abilityCrBoost > 0) xa[Key.CR] += abilityCrBoost
+  if (abilityCdBoost > 0) xa[Key.CD] += abilityCdBoost
 }
 
 const percentFlatStats: Record<string, boolean> = {

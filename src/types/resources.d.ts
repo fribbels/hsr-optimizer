@@ -1014,7 +1014,7 @@ interface Resources {
       "ADreamScentedInWheat": {
         "Content": {
           "ultFuaDmgBoost": {
-            "text": "ultFuaDmgBoost",
+            "text": "Ult / Fua DMG boost",
             "content": "The Ultimate DMG and Follow-up ATK DMG dealt by the wearer increase by {{DmgBuff}}%."
           }
         }
@@ -1179,7 +1179,7 @@ interface Resources {
         "Content": {
           "breakDmgBoost": {
             "text": "Break DMG boost",
-            "content": "increases all allies' Break DMG dealt by {{BreakDmgBuff}}%."
+            "content": "Increases all allies' Break DMG dealt by {{BreakDmgBuff}}%."
           }
         }
       },
@@ -1864,7 +1864,7 @@ interface Resources {
             "content": "When using ultimate, deals Wind DMG to one designated enemy equal to the sum of {{UltHpScaling}}% of his Max HP and {{HpTallyUltScaling}}% of the tally of Blade's HP loss in the current battle. ::BR:: E1: Blade's Enhanced Basic ATK and Ultimate deals additionally increased DMG to one designated enemy, with the increased amount equal to 150% of the tally of Blade's HP loss from his Ultimate."
           },
           "e1BasicUltMultiBoost": {
-            "text": "E1 Ult Basic boost",
+            "text": "E1 Ult / Basic boost",
             "content": "Blade's Enhanced Basic ATK and Ultimate deals additionally increased DMG to one designated enemy, with the increased amount equal to 150% of the tally of Blade's HP loss from his Ultimate."
           },
           "e2CrBuff": {
@@ -2586,11 +2586,11 @@ interface Resources {
             "content": "When an ally target's Effect Hit Rate is 75% or more, Kafka increases their ATK by 100%."
           },
           "e1DotDmgReceivedDebuff": {
-            "text": "E1 DoT vulnerability",
+            "text": "E1 DoT Vulnerability",
             "content": "When using an attack, there is a 100% base chance to cause the target to take 30% more DoT for 2 turns."
           },
           "e2TeamDotDmg": {
-            "text": "E2 DOT Dmg",
+            "text": "E2 DoT DMG",
             "content": "While Kafka is on the field, DoT dealt by all allies increases by 33%."
           }
         }
@@ -2841,7 +2841,7 @@ interface Resources {
           },
           "e1Buffs": {
             "text": "E1 buffs",
-            "content": "For every enemy target defeated within 1 Transformation, the inheritance ratio of Khaslana's extra turn's SPD further increases by 1.5%, up to 84%. ::BR:: When using Ultimate, CRIT DMG increases by 50%, lasting for 3 turns."
+            "content": "The inheritance ratio of Khaslana's extra turn's SPD is increased to 66%. For every enemy target defeated within 1 battle, the inheritance ratio of Khaslana's extra turn's SPD further increases by 1.5%, up to 84%. ::BR:: When using Ultimate, CRIT DMG increases by 50%, lasting for 3 turns."
           },
           "e2ResPen": {
             "text": "E2 RES PEN",
@@ -3023,11 +3023,11 @@ interface Resources {
           },
           "e4ResPen": {
             "text": "E4 RES PEN",
-            "content": null
+            "content": "Increases Saber's Wind RES PEN by 8%. After using Ultimate, increases Saber's Wind RES PEN by 4%. This effect can stack up to 3 times."
           },
           "e6ResPen": {
             "text": "E6 RES PEN",
-            "content": "Increases Saber's Wind RES PEN by 8%. After using Ultimate, increases Saber's Wind RES PEN by 4%. This effect can stack up to 3 time(s)."
+            "content": "Wind RES PEN of Ultimate DMG dealt by Saber increases by 20%, and the Overflow Energy that can be accumulated by the Trace \"Blessing of the Lake\" increases to 200. When using Ultimate for the first time after entering battle, regenerates a fixed 300 Energy for Saber. This effect can be triggered 1 time after every 3 Ultimate uses."
           }
         }
       },

@@ -8,7 +8,7 @@ import { RelicsGrid } from 'lib/tabs/tabRelics/RelicsGrid'
 
 export const TAB_WIDTH = 1460
 
-export function NewRelicsTab() {
+export default function NewRelicsTab() {
   return (
     <Flex style={{ marginBottom: 100, width: TAB_WIDTH }}>
       {

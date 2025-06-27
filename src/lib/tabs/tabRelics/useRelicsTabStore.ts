@@ -24,6 +24,16 @@ export interface RelicTabFilters {
   subStat: Array<SubStats>
 }
 
+export enum RelicInsights {
+  Buckets,
+  Top10,
+}
+
+export enum InsightCharacters {
+  All,
+  Custom,
+}
+
 const defaultState: RelicsTabStateValues = {
   focusCharacter: null,
   selectedRelic: null,
@@ -42,6 +52,8 @@ const defaultState: RelicsTabStateValues = {
     mainStat: [],
     subStat: [],
   },
+  insightsMode: RelicInsights.Buckets,
+  insightsCharacters: InsightCharacters.Custom,
 }
 
 interface RelicsTabStateValues {
@@ -52,6 +64,8 @@ interface RelicsTabStateValues {
   deleteConfirmOpen: boolean
   excludedRelicPotentialCharacters: Array<CharacterId>
   filters: RelicTabFilters
+  insightsMode: RelicInsights
+  insightsCharacters: InsightCharacters
 }
 
 interface RelicsTabStateActions {
@@ -64,6 +78,9 @@ interface RelicsTabStateActions {
   setFilters: (filters: RelicsTabStateValues['filters']) => void
   setFilter: <T extends keyof RelicsTabStateValues['filters']>(key: T) => (value: RelicsTabStateValues['filters'][T]) => void
   resetFilters: () => void
+
+  setInsightsMode: (mode: RelicInsights) => void
+  setInsightsCharacters: (mode: InsightCharacters) => void
 }
 
 type RelicsTabState = RelicsTabStateActions & RelicsTabStateValues
@@ -79,6 +96,9 @@ const useRelicsTabStore = create<RelicsTabState>()((set) => ({
   setFilters: (filters) => set({ filters }),
   setFilter: (key) => (value) => set((s) => ({ filters: { ...s.filters, [key]: value } })),
   resetFilters: () => set({ filters: TsUtils.clone(defaultState.filters) }),
+
+  setInsightsMode: (mode) => set({ insightsMode: mode }),
+  setInsightsCharacters: (mode) => set({ insightsCharacters: mode }),
 }))
 
 export default useRelicsTabStore

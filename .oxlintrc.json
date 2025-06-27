@@ -81,6 +81,7 @@
     "oxc/number-arg-out-of-range": "warn",
     "oxc/only-used-in-recursion": "warn",
     "oxc/uninvoked-array-callback": "warn",
+    "react/exhaustive-deps": "warn",
     "react/forward-ref-uses-ref": "warn",
     "react/jsx-key": "warn",
     "react/jsx-no-duplicate-props": "warn",

@@ -1,15 +1,25 @@
-import { Flex, Form, Select, } from 'antd'
+import {
+  Flex,
+  Form,
+  Select,
+} from 'antd'
 import { Hint } from 'lib/interactions/hint'
 import { SortOption } from 'lib/optimization/sortOptions'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { RecommendedPresetsButton } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import { optimizerTabDefaultGap, panelWidth, } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import {
+  optimizerTabDefaultGap,
+  panelWidth,
+} from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { Utils } from 'lib/utils/utils'
-import { useEffect, useMemo, } from 'react'
+import {
+  useEffect,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function CharacterSelectorDisplay() {
@@ -96,7 +106,7 @@ export default function CharacterSelectorDisplay() {
     <Flex vertical gap={optimizerTabDefaultGap}>
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('CharacterSelector.Character') /* Character */}</HeaderText>
-        <TooltipImage type={Hint.character()}/>
+        <TooltipImage type={Hint.character()} />
       </Flex>
       <Flex gap={optimizerTabDefaultGap}>
         <Form.Item name='characterId'>
@@ -122,7 +132,7 @@ export default function CharacterSelectorDisplay() {
       </Flex>
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('CharacterSelector.Lightcone') /* Light cone */}</HeaderText>
-        <TooltipImage type={Hint.lightCone()}/>
+        <TooltipImage type={Hint.lightCone()} />
       </Flex>
       <Flex vertical gap={optimizerTabDefaultGap}>
         <Flex gap={optimizerTabDefaultGap}>
@@ -152,7 +162,7 @@ export default function CharacterSelectorDisplay() {
         <HeaderText>{t('CharacterSelector.Presets') /* Presets */}</HeaderText>
       </Flex>
 
-      <RecommendedPresetsButton/>
+      <RecommendedPresetsButton />
 
       <Flex justify='space-between' align='center' style={{ marginTop: 30 }}>
         <HeaderText>{t('CharacterSelector.Target') /* Optimization target */}</HeaderText>

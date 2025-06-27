@@ -968,7 +968,7 @@ Characters:
           ::BR::
           E1: Blade's Enhanced Basic ATK and Ultimate deals additionally increased DMG to one designated enemy, with the increased amount equal to 150% of the tally of Blade's HP loss from his Ultimate.
       e1BasicUltMultiBoost:
-        text: E1 Ult Basic boost
+        text: E1 Ult / Basic boost
         content: Blade's Enhanced Basic ATK and Ultimate deals additionally increased DMG to one designated enemy, with the increased amount equal to 150% of the tally of Blade's HP loss from his Ultimate.
       e2CrBuff:
         text: E2 CR buff
@@ -1712,7 +1712,7 @@ Characters:
       e1Buffs:
         text: E1 buffs
         content: >-
-          For every enemy target defeated within 1 Transformation, the inheritance ratio of Khaslana's extra turn's SPD further increases by 1.5%, up to 84%.
+          The inheritance ratio of Khaslana's extra turn's SPD is increased to 66%. For every enemy target defeated within 1 battle, the inheritance ratio of Khaslana's extra turn's SPD further increases by 1.5%, up to 84%.
           ::BR::
           When using Ultimate, CRIT DMG increases by 50%, lasting for 3 turns.
       e2ResPen:
@@ -1852,10 +1852,10 @@ Characters:
         content: For each point of "Core Resonance" gained in this battle, Saber's DMG dealt ignores 1% of the target's DEF. This effect can stack up to 15 times. When triggering the "Core Resonance's" Skill multiplier effect, each point of "Core Resonance" additionally increases the DMG multiplier for this instance of Skill by 7%.
       e4ResPen:
         text: E4 RES PEN
-        content: Increases Saber's Wind RES PEN by 8%. After using Ultimate, increases Saber's Wind RES PEN by 4%. This effect can stack up to 3 time(s).
+        content: Increases Saber's Wind RES PEN by 8%. After using Ultimate, increases Saber's Wind RES PEN by 4%. This effect can stack up to 3 times.
       e6ResPen:
         text: E6 RES PEN
-        content: Wind RES PEN of Ultimate DMG dealt by Saber increases by 20%, and the Overflow Energy that can be accumulated by the Trace "Blessing of the Lake" increases to 200. When using Ultimate for the first time after entering battle, regenerates a fixed 300 Energy for Saber. This effect can be triggered 1 time after every 3 Ultimate use(s).
+        content: Wind RES PEN of Ultimate DMG dealt by Saber increases by 20%, and the Overflow Energy that can be accumulated by the Trace "Blessing of the Lake" increases to 200. When using Ultimate for the first time after entering battle, regenerates a fixed 300 Energy for Saber. This effect can be triggered 1 time after every 3 Ultimate uses.
   Sampo:
     Content:
       targetDotTakenDebuff:

@@ -71,14 +71,10 @@ export function RelicsGrid() {
     return params.key
   }, [t])
 
-  const { baselineCols, optionalCols } = useMemo(() => ({
-    baselineCols: generateBaselineColDefs(t),
-    optionalCols: generateOptionalColDefs(t),
-  }), [t])
-
   const columnDefs = useMemo(() => {
-    return baselineCols.concat(optionalCols.filter((x) => valueColumns.includes(x.field as ValueColumnField)))
-  }, [valueColumns])
+    return generateBaselineColDefs(t)
+      .concat(generateOptionalColDefs(t).filter((x) => valueColumns.includes(x.field as ValueColumnField)))
+  }, [valueColumns, t])
 
   const isExternalFilterPresent = useCallback((_params: IsExternalFilterPresentParams<Relic>) => {
     return Object.values(filters).reduce((acc, cur) => acc + cur.length, 0) === 0

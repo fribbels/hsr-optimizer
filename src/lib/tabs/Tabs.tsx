@@ -15,7 +15,7 @@ import HomeTab from 'lib/tabs/tabHome/HomeTab'
 import ImportTab from 'lib/tabs/tabImport/ImportTab'
 import MetadataTab from 'lib/tabs/tabMetadata/MetadataTab'
 import OptimizerTab from 'lib/tabs/tabOptimizer/OptimizerTab'
-import RelicsTab from 'lib/tabs/tabRelics/RelicsTab'
+import NewRelicsTab from 'lib/tabs/tabRelics/NewRelicsTab'
 import ShowcaseTab from 'lib/tabs/tabShowcase/ShowcaseTab'
 import WarpCalculatorTab from 'lib/tabs/tabWarp/WarpCalculatorTab'
 import WebgpuTab from 'lib/tabs/tabWebgpu/WebgpuTab'
@@ -40,7 +40,7 @@ const Tabs = () => {
   const homeTab = React.useMemo(() => <HomeTab />, [])
   const optimizerTab = React.useMemo(() => <OptimizerTab />, [])
   const characterTab = React.useMemo(() => <CharacterTab />, [])
-  const relicsTab = React.useMemo(() => <RelicsTab />, [])
+  const relicsTab = React.useMemo(() => <NewRelicsTab />, [])
   const importTab = React.useMemo(() => <ImportTab />, [])
   const showcaseTab = React.useMemo(() => <ShowcaseTab />, [])
   const warpCalculatorTab = React.useMemo(() => <WarpCalculatorTab />, [])

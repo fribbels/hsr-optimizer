@@ -1,8 +1,16 @@
-import { Flex, theme, Typography } from 'antd'
+import {
+  Flex,
+  theme,
+  Typography,
+} from 'antd'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
-import { ElementName, ElementToDamage, PathName, PathNames } from 'lib/constants/constants'
+import {
+  ElementName,
+  ElementToDamage,
+  PathName,
+  PathNames,
+} from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { arrayIncludes } from 'lib/utils/arrayUtils'
 import { ReactElement } from 'react'
 
 const { useToken } = theme
@@ -100,20 +108,20 @@ export function generateElementTags() {
   })
 }
 
-export function SegmentedFilterRow<T extends string | number>(props: {
+export function SegmentedFilterRow<T extends string | number | boolean>(props: {
   tags: { key: T, display: ReactElement }[],
-  flexBasis: string,
   currentFilter: NoInfer<T>[],
   setCurrentFilters(filters: NoInfer<T>[]): void,
+  flexBasis?: string,
+  noHeight?: boolean,
 }) {
   const { token } = useToken()
   const { currentFilter, flexBasis, tags, setCurrentFilters } = props
-  const selectedTags = currentFilter
 
   const handleChange = (tag: T, checked: boolean) => {
     const nextSelectedTags = checked
-      ? [...selectedTags, tag]
-      : selectedTags.filter((t) => t != tag)
+      ? [...currentFilter, tag]
+      : currentFilter.filter((t) => t != tag)
 
     setCurrentFilters(nextSelectedTags)
   }
@@ -127,19 +135,19 @@ export function SegmentedFilterRow<T extends string | number>(props: {
         boxShadow: `0px 0px 0px 1px ${token.colorBorder} inset`,
         borderRadius: 6,
         overflow: 'hidden',
-        height: 40,
+        height: props.noHeight ? undefined : 40,
       }}
     >
       {tags.map((tag) => (
         <CheckableTag
-          key={tag.key}
-          checked={arrayIncludes(selectedTags, tag.key)}
+          key={tag.key.toString()}
+          checked={currentFilter.includes(tag.key)}
           onChange={(checked) => handleChange(tag.key, checked)}
           style={{
             flex: 1,
             flexBasis: flexBasis,
             boxShadow: `1px 1px 1px 0px ${token.colorBorder}`,
-            backgroundColor: arrayIncludes(selectedTags, tag.key) ? token.colorPrimary : 'transparent',
+            backgroundColor: currentFilter.includes(tag.key) ? token.colorPrimary : 'transparent',
           }}
         >
           <Flex align='center' justify='space-around' style={{ height: '100%' }}>

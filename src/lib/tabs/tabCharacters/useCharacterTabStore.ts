@@ -3,6 +3,7 @@ import {
   PathName,
 } from 'lib/constants/constants'
 import DB from 'lib/state/db'
+import { TsUtils } from 'lib/utils/TsUtils'
 import {
   Character,
   CharacterId,
@@ -55,7 +56,7 @@ export const useCharacterTabStore = create<CharacterTabState>()((set) => ({
   charactersById: {},
   characterModalInitialCharacter: null,
   characterModalOpen: false,
-  filters: defaultFilters,
+  filters: TsUtils.clone(defaultFilters),
 
   setFocusCharacter: (focusCharacter) =>
     set(() => {
@@ -73,12 +74,20 @@ export const useCharacterTabStore = create<CharacterTabState>()((set) => ({
   setPathFilter: (path) => set((s) => ({ filters: { ...s.filters, path } })),
 
   setCharacters: (characters) =>
-    set(() => {
+    set((s) => {
       const charactersById = characters.reduce((acc, cur) => {
         acc[cur.id] = cur
         return acc
       }, {} as Partial<Record<CharacterId, Character>>)
-      return { characters, charactersById }
+
+      const selectedCharacter = s.focusCharacter ? charactersById[s.focusCharacter] : null
+
+      return {
+        characters,
+        charactersById,
+        selectedCharacter,
+        characterModalInitialCharacter: selectedCharacter ?? s.characterModalInitialCharacter,
+      }
     }),
 
   setCharacter: (character) =>
@@ -87,10 +96,19 @@ export const useCharacterTabStore = create<CharacterTabState>()((set) => ({
         if (x.id === character.id) return character
         return x
       })
+
       const charactersById = characters.reduce((acc, cur) => {
         acc[cur.id] = cur
         return acc
       }, {} as Partial<Record<CharacterId, Character>>)
-      return { characters, charactersById }
+
+      const selectedCharacter = s.focusCharacter ? charactersById[s.focusCharacter] : null
+
+      return {
+        characters,
+        charactersById,
+        selectedCharacter,
+        characterModalInitialCharacter: selectedCharacter ?? s.characterModalInitialCharacter,
+      }
     }),
 }))

@@ -340,13 +340,13 @@ export const OptimizerTabController = {
     if (id === -1) { // special case for equipped build optimizer row
       const request = form ?? optimizerFormCache[window.store.getState().optimizationId!]
       if (!request) {
-        return {} as SingleRelicByPart
+        return {}
       }
 
       const build = DB.getCharacterById(request.characterId)!.equipped
-      const out = {} as SingleRelicByPart
-      for (const key of Object.keys(build)) {
-        out[key as Parts] = DB.getRelicById(build[key as Parts]!)
+      const out: Partial<SingleRelicByPart> = {}
+      for (const key of Object.keys(build) as Parts[]) {
+        out[key] = DB.getRelicById(build[key]!)
       }
       return out
     }
@@ -374,7 +374,7 @@ export const OptimizerTabController = {
       Feet: relics.Feet[f],
       PlanarSphere: relics.PlanarSphere[p],
       LinkRope: relics.LinkRope[l],
-    } as SingleRelicByPart
+    }
   },
 
   calculateRelicIdsFromId: (id: number, form?: Form) => {

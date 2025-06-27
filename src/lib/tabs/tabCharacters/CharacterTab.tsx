@@ -11,7 +11,6 @@ import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { SaveBuildModal } from 'lib/overlays/modals/SaveBuildModal'
 import { SwitchRelicsModal } from 'lib/overlays/modals/SwitchRelicsModal'
 import { getGridTheme } from 'lib/rendering/theme'
-import DB from 'lib/state/db'
 import { CharacterGrid } from 'lib/tabs/tabCharacters/CharacterGrid'
 import { CharacterMenu } from 'lib/tabs/tabCharacters/CharacterMenu'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
@@ -32,15 +31,6 @@ export default function CharacterTab() {
   console.log('======================================================================= RENDER CharacterTab')
 
   const selectedCharacter = useCharacterTabStore((s) => s.selectedCharacter)
-
-  const [, forceUpdate] = React.useReducer((o) => !o, false)
-  window.forceCharacterTabUpdate = () => {
-    console.log('__________ CharacterTab forceCharacterTabUpdate')
-    forceUpdate()
-
-    window.setCharacterRows(DB.getCharacters())
-    window.characterGrid.current?.api?.redrawRows()
-  }
 
   const defaultGap = 8
   const parentH = 280 * 3 + defaultGap * 2

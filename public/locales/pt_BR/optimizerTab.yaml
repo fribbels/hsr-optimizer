@@ -309,6 +309,8 @@ SetConditionals:
     Sacerdos:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} acúmulos (+{{buffValue}}% CD)'
+    Arcadia:
+      Display: '{{allyCount}}x'
   Conditionals:
     DefaultMessage: Habilitado por padrão — efeitos serão aplicados nos cálculos de combate
     Hunter: "Quando habilitado, buff de dano crítico é aplicado aos cálculos de atributos de combate.\n"

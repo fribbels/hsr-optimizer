@@ -51,7 +51,6 @@ export const CharacterTabController = {
     if (!characterId) return
     DB.insertCharacter(characterId, index)
     SaveState.delayedSave()
-    window.characterGrid.current?.api?.redrawRows()
   },
 
   onRowDragEnd: (e: RowDragEvent<Character>) => {
@@ -98,8 +97,6 @@ export const CharacterTabController = {
     DB.switchRelics(focusCharacter, switchTo.value)
     Message.success(t('SwitchSuccess', { charId: switchTo.value }))
     SaveState.delayedSave()
-    window.forceCharacterTabUpdate()
-    window.relicsGrid.current?.api?.redrawRows()
   },
 
   unequipFocusCharacter: () => {
@@ -107,7 +104,6 @@ export const CharacterTabController = {
     if (!focusCharacter) return
     const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
     DB.unequipCharacter(focusCharacter)
-    window.forceCharacterTabUpdate()
     SaveState.delayedSave()
     Message.success(t('UnequipSuccess'))
   },
@@ -118,7 +114,6 @@ export const CharacterTabController = {
     const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
     DB.removeCharacter(focusCharacter)
     useCharacterTabStore.getState().setFocusCharacter(null)
-    window.forceCharacterTabUpdate()
     SaveState.delayedSave()
     Message.success(t('RemoveSuccess'))
   },
@@ -127,8 +122,6 @@ export const CharacterTabController = {
     const focusCharacter = useCharacterTabStore.getState().focusCharacter
     if (!focusCharacter) return
     DB.insertCharacter(focusCharacter, 0)
-    DB.refreshCharacters()
-    window.forceCharacterTabUpdate()
     SaveState.delayedSave()
   },
 
@@ -139,8 +132,6 @@ export const CharacterTabController = {
       .sort((a, b) => b.score.totalScore - a.score.totalScore)
       .map((x) => x.character)
     DB.setCharacters(sortedCharacters)
-    DB.refreshCharacters()
     SaveState.delayedSave()
-    window.forceCharacterTabUpdate()
   },
 }

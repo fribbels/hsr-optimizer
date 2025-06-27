@@ -192,7 +192,7 @@ export default function RelicFilterBar(props: {
   }, [])
 
   function characterSelectorChange(characterId: CharacterId | undefined, singleRelic?: Relic) {
-    const relics = singleRelic ? [singleRelic] : Object.values(DB.getRelicsById())
+    const relics = singleRelic ? [singleRelic] : DB.getRelics()
     console.log('idChange', characterId)
 
     setRelicsTabFocusCharacter(characterId)
@@ -253,7 +253,9 @@ export default function RelicFilterBar(props: {
       weights.rerollAvgSelectedEquippedDelta = characterId ? weights.rerollAvgSelected : 0
       if (characterId) {
         const equippedRelicId = DB.getCharacterById(characterId)?.equipped?.[relic.part]
-        if (equippedRelicId) weights.rerollAvgSelectedEquippedDelta -= relicScorer.scoreRelicPotential(DB.getRelicById(equippedRelicId), characterId).averagePct
+        if (equippedRelicId) {
+          weights.rerollAvgSelectedEquippedDelta -= relicScorer.scoreRelicPotential(DB.getRelicById(equippedRelicId)!, characterId).averagePct
+        }
       }
 
       relic.weights = weights as RelicScoringWeights

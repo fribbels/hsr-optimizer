@@ -89,7 +89,7 @@ export type ScoringResults = {
   totalRating: string,
 }
 
-export function getPreviewRelics(source: ShowcaseSource, character: Character, relicsById: Record<string, Relic>) {
+export function getPreviewRelics(source: ShowcaseSource, character: Character, relicsById: Partial<Record<string, Relic>>) {
   let scoringResults: ScoringResults
   let displayRelics: SingleRelicByPart
   // Showcase tab relics are stored in equipped as relics instead of ids
@@ -120,9 +120,9 @@ export function getPreviewRelics(source: ShowcaseSource, character: Character, r
   return { scoringResults, displayRelics }
 }
 
-function getRelic(relicsById: Record<string, Relic>, character: Character, part: Parts) {
+function getRelic(relicsById: Partial<Record<string, Relic>>, character: Character, part: Parts) {
   if (character.equipped?.[part]) {
-    return relicsById[character.equipped[part]]
+    return relicsById[character.equipped[part]] ?? null
   }
   return null
 }

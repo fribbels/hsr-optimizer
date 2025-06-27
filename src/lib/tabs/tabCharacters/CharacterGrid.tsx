@@ -42,8 +42,7 @@ export function CharacterGrid() {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'GridHeaders' })
   const { t: tGameData } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const filters = useCharacterTabStore((s) => s.filters)
-  const [characterRows, setCharacterRows] = useState(DB.getCharacters())
-  window.setCharacterRows = setCharacterRows
+  const characters = useCharacterTabStore((s) => s.characters)
 
   const gridRef = useRef<AgGridReact<Character> | null>(null)
   window.characterGrid = gridRef
@@ -88,7 +87,7 @@ export function CharacterGrid() {
   return (
     <AgGridReact
       ref={gridRef}
-      rowData={characterRows}
+      rowData={characters}
       gridOptions={gridOptions}
       getRowId={(params: GetRowIdParams<Character>) => params.data.id}
       columnDefs={columnDefs}

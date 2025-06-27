@@ -42,12 +42,14 @@ const InputNumberStyled = styled(InputNumber)`
     width: 62px
 `
 
+type ScoringAlgorithmForm = Pick<ScoringMetadata, 'stats' | 'parts' | 'characterId'>
+
 export default function ScoringModal() {
   const { t } = useTranslation(['modals', 'common'])
 
   const pubRefreshRelicsScore = usePublish()
 
-  const [scoringAlgorithmForm] = Form.useForm()
+  const [scoringAlgorithmForm] = Form.useForm<ScoringAlgorithmForm>()
 
   const scoringAlgorithmFocusCharacter = window.store((s) => s.scoringAlgorithmFocusCharacter)
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
@@ -59,7 +61,7 @@ export default function ScoringModal() {
   }
 
   // Cleans up 0's to not show up on the form
-  function getScoringValuesForDisplay(scoringMetadata: ScoringMetadata) {
+  function getScoringValuesForDisplay(scoringMetadata: ScoringAlgorithmForm) {
     for (const x of Object.entries(scoringMetadata.stats)) {
       if (x[1] == 0) {
         // @ts-ignore
@@ -73,8 +75,9 @@ export default function ScoringModal() {
   useEffect(() => {
     const id = scoringAlgorithmFocusCharacter
     if (id) {
-      let scoringMetadata = TsUtils.clone(DB.getScoringMetadata(id))
+      let scoringMetadata: ScoringAlgorithmForm = TsUtils.clone(DB.getScoringMetadata(id))
       scoringMetadata = getScoringValuesForDisplay(scoringMetadata)
+      scoringMetadata.characterId = id
       scoringAlgorithmForm.setFieldsValue(scoringMetadata)
 
       // console.log('Scoring modal opening set as:', scoringMetadata)
@@ -106,24 +109,19 @@ export default function ScoringModal() {
 
   function onModalOk() {
     console.log('onModalOk OK')
-    const values = scoringAlgorithmForm.getFieldsValue() as ScoringMetadata
+    const values = scoringAlgorithmForm.getFieldsValue()
     onFinish(values)
     closeScoringModal()
     pubRefreshRelicsScore('refreshRelicsScore', 'null')
   }
 
-  const onFinish = (scoringMetadata: ScoringMetadata) => {
+  const onFinish = (scoringMetadata: ScoringAlgorithmForm) => {
     if (!scoringAlgorithmFocusCharacter) return
 
     console.log('Form finished', scoringMetadata)
     scoringMetadata.stats[Stats.ATK_P] = scoringMetadata.stats[Stats.ATK]
     scoringMetadata.stats[Stats.DEF_P] = scoringMetadata.stats[Stats.DEF]
     scoringMetadata.stats[Stats.HP_P] = scoringMetadata.stats[Stats.HP]
-
-    const defaultScoringMetadata = TsUtils.clone(DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata)
-    const existingScoringMetadata = DB.getScoringMetadata(scoringAlgorithmFocusCharacter)
-
-    defaultScoringMetadata.simulation = existingScoringMetadata.simulation
 
     DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, scoringMetadata)
   }
@@ -133,12 +131,12 @@ export default function ScoringModal() {
 
     const defaultScoringMetadata = DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
     const displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
-    const scoringMetadataToMerge: Partial<ScoringMetadata> = {
+    const scoringMetadataToMerge: ScoringAlgorithmForm = {
       stats: defaultScoringMetadata.stats,
       parts: defaultScoringMetadata.parts,
     }
 
-    DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, scoringMetadataToMerge as ScoringMetadata)
+    DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, scoringMetadataToMerge)
     scoringAlgorithmForm.setFieldsValue(displayScoringMetadata)
   }
 
@@ -148,11 +146,11 @@ export default function ScoringModal() {
       const charactersById = useCharacterTabStore.getState().charactersById
       for (const character of Object.keys(charactersById) as CharacterId[]) {
         const defaultScoringMetadata = DB.getMetadata().characters[character].scoringMetadata
-        const scoringMetadataToMerge: Partial<ScoringMetadata> = {
+        const scoringMetadataToMerge: ScoringAlgorithmForm = {
           stats: defaultScoringMetadata.stats,
           parts: defaultScoringMetadata.parts,
         }
-        DB.updateCharacterScoreOverrides(character, scoringMetadataToMerge as ScoringMetadata)
+        DB.updateCharacterScoreOverrides(character, scoringMetadataToMerge)
       }
 
       // Update values for current screen

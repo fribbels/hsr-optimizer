@@ -966,7 +966,7 @@ Characters:
         content: >-
           crwdns45536:0{{UltHpScaling}}crwdnd45536:0{{HpTallyUltScaling}}crwdnd45536:0:BR:crwdne45536:0
       e1BasicUltMultiBoost:
-        text: crwdns45538:0crwdne45538:0
+        text: crwdns45712:0crwdne45712:0
         content: crwdns45540:0crwdne45540:0
       e2CrBuff:
         text: crwdns45542:0crwdne45542:0
@@ -1696,7 +1696,7 @@ Characters:
       e1Buffs:
         text: crwdns45622:0crwdne45622:0
         content: >-
-          crwdns45624:0:BR:crwdne45624:0
+          crwdns45714:0:BR:crwdne45714:0
       e2ResPen:
         text: crwdns45626:0crwdne45626:0
         content: >-
@@ -1834,10 +1834,10 @@ Characters:
         content: crwdns45668:0crwdne45668:0
       e4ResPen:
         text: crwdns45670:0crwdne45670:0
-        content: crwdns45672:0crwdne45672:0
+        content: crwdns45716:0crwdne45716:0
       e6ResPen:
         text: crwdns45674:0crwdne45674:0
-        content: crwdns45676:0crwdne45676:0
+        content: crwdns45718:0crwdne45718:0
   Sampo:
     Content:
       targetDotTakenDebuff:

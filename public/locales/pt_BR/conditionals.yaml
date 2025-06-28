@@ -1431,6 +1431,8 @@ Characters:
     Content:
       ehrBasedBuff:
         text: Buff de EHR para ATK
+      e2TeamDotDmg:
+        content: Enquanto Kafka estiver em campo, o DoT causado por todos os aliados aumenta em 33%.
   Lingsha:
     Content:
       beConversion:

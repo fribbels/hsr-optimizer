@@ -1,4 +1,8 @@
-import { Constants, PathNames, Stats } from 'lib/constants/constants'
+import {
+  Constants,
+  PathNames,
+  Stats,
+} from 'lib/constants/constants'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -42,20 +46,26 @@ function generateActions(context: OptimizerContext) {
   let actionSwitcher = ``
   for (let i = 0; i < actionLength; i++) {
     if (context.path == PathNames.Remembrance) {
-      actionSwitcher += indent(`
+      actionSwitcher += indent(
+        `
 case ${i}: { 
   (*outAction) = action${i}; 
   (*outX) = computedStatsX${i}; 
   (*outM) = computedStatsM${i}; 
 }
-    `, 0)
+    `,
+        0,
+      )
     } else {
-      actionSwitcher += indent(`
+      actionSwitcher += indent(
+        `
 case ${i}: { 
   (*outAction) = action${i}; 
   (*outX) = computedStatsX${i}; 
 }
-    `, 0)
+    `,
+        0,
+      )
     }
   }
 

@@ -1,10 +1,25 @@
-import { CellClickedEvent, IGetRowsParams, IRowNode } from 'ag-grid-community'
+import {
+  IGetRowsParams,
+  IRowNode,
+} from 'ag-grid-community'
 import { inPlaceSort } from 'fast-sort'
-import { Constants, DEFAULT_STAT_DISPLAY, Parts, Stats } from 'lib/constants/constants'
+import i18next from 'i18next'
+import {
+  Constants,
+  DEFAULT_STAT_DISPLAY,
+  Parts,
+  Stats,
+} from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { RelicsByPart, SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import {
+  RelicsByPart,
+  SingleRelicByPart,
+} from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
-import { OptimizerDisplayData, OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import {
+  OptimizerDisplayData,
+  OptimizerDisplayDataStatSim,
+} from 'lib/optimization/bufferPacker'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { calculateCurrentlyEquippedRow } from 'lib/optimization/optimizer'
@@ -14,24 +29,33 @@ import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
-import { displayToForm, formToDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormTransform'
+import {
+  displayToForm,
+  formToDisplay,
+} from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormTransform'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Build, CharacterId } from 'types/character'
-import { Form, OptimizerForm } from 'types/form'
+import {
+  Build,
+  CharacterId,
+} from 'types/character'
+import {
+  Form,
+  OptimizerForm,
+} from 'types/form'
 
 type PermutationSizes = {
-  hSize: number
-  gSize: number
-  bSize: number
-  fSize: number
-  pSize: number
-  lSize: number
+  hSize: number,
+  gSize: number,
+  bSize: number,
+  fSize: number,
+  pSize: number,
+  lSize: number,
 }
 
 type SortModel = {
-  colId: string
-  sort: string
+  colId: string,
+  sort: string,
 }
 
 let relics: RelicsByPart
@@ -187,20 +211,20 @@ export const OptimizerTabController = {
     const build = OptimizerTabController.calculateRelicIdsFromId(row.id) as Build
 
     DB.equipRelicIdsToCharacter(Object.values(build), characterId)
-    Message.success('Equipped relics')
+    Message.success(i18next.t('optimizerTab:Sidebar.ResultsGroup.EquipSuccessMessage') /*'Equipped relics'*/)
     OptimizerTabController.setTopRow(row)
     window.store.getState().setOptimizerBuild(build)
     SaveState.delayedSave()
     OptimizerTabController.updateFilters()
   },
 
-  cellClicked: (event: CellClickedEvent) => {
-    const data = event.data as OptimizerDisplayDataStatSim
+  cellClicked: (node: IRowNode<OptimizerDisplayDataStatSim>) => {
+    const data = node.data!
     const gridApi = optimizerGridApi()
 
     window.store.getState().setOptimizerSelectedRowData(data)
 
-    if (event.rowPinned == 'top') {
+    if (node.rowPinned == 'top') {
       // Clicking the top row should display current relics
       console.log('Top row clicked', data)
       const form = OptimizerTabController.getForm()
@@ -219,7 +243,7 @@ export const OptimizerTabController = {
           window.store.getState().setOptimizerBuild(build)
 
           // Find the row by its string ID and select it
-          const rowNode: IRowNode<OptimizerDisplayData> = gridApi.getRowNode(String(data.id)) as IRowNode<OptimizerDisplayData>
+          const rowNode: IRowNode<OptimizerDisplayData> = gridApi.getRowNode(String(data.id))!
           if (rowNode) {
             const currentPinned: OptimizerDisplayData[] = gridApi.getGridOption('pinnedTopRowData') ?? []
 
@@ -237,7 +261,7 @@ export const OptimizerTabController = {
       return
     }
 
-    console.log('cellClicked', event)
+    console.log('cellClicked', node)
 
     if (data.statSim) {
       const key = data.statSim.key
@@ -334,12 +358,14 @@ export const OptimizerTabController = {
     const hSize = permutationSizes.hSize
 
     const x = id
-    const l = (x % lSize)
-    const p = (((x - l) / lSize) % pSize)
-    const f = (((x - p * lSize - l) / (lSize * pSize)) % fSize)
-    const b = (((x - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize)
-    const g = (((x - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize)
-    const h = (((x - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize)
+    const l = x % lSize
+    const p = ((x - l) / lSize) % pSize
+    const f = ((x - p * lSize - l) / (lSize * pSize)) % fSize
+    const b = ((x - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize
+    const g = ((x - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize
+    const h =
+      ((x - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize))
+      % hSize
 
     return {
       Head: relics.Head[h],
@@ -366,26 +392,27 @@ export const OptimizerTabController = {
 
   validateForm: (form: Form) => {
     console.log('validate', form)
+    const t = i18next.getFixedT(null, 'optimizerTab', 'ValidationMessages')
     if (!form.lightCone || !form.lightConeSuperimposition) {
-      Message.error('Missing light cone fields')
+      Message.error(t('Error.MissingLightCone'))
       console.log('Missing light cone')
       return false
     }
 
     if (!form.characterId || form.characterEidolon == undefined) {
-      Message.error('Missing character fields')
+      Message.error(t('Error.MissingCharacter'))
       console.log('Missing character')
       return false
     }
 
     if (!form.resultsLimit || !form.resultSort) {
-      Message.error('Missing optimization target fields')
+      Message.error(t('Error.MissingTarget'))
       console.log('Missing optimization target fields')
       return false
     }
 
     if (Object.values(Constants.SubStats).map((stat) => form.weights[stat]).filter((x) => !!x).length == 0) {
-      Message.error('All substat weights are set to 0. Make sure to set the substat weights for your character or use the Recommended presets button.', 10)
+      Message.error(t('Error.TopPercent'), 10)
       console.log('Top percent')
       return false
     }
@@ -395,12 +422,12 @@ export const OptimizerTabController = {
     const charMeta = metadata.characters[form.characterId]
 
     if (lcMeta.path != charMeta.path) {
-      Message.warning('Character path doesn\'t match light cone path.', 10)
+      Message.warning(t('Warning.PathMismatch'), 10)
       console.log('Path mismatch')
     }
 
     if (charMeta.scoringMetadata.simulation && (!form.teammate0?.characterId || !form.teammate1?.characterId || !form.teammate2?.characterId)) {
-      Message.warning('Select teammates for more accurate optimization results.', 10)
+      Message.warning(t('Warning.MissingTeammates'), 10)
       console.log('Missing teammates')
     }
 
@@ -599,8 +626,7 @@ function filter(filterModel: Form) {
     if (isMemo) {
       for (let i = 0; i < rows.length; i++) {
         const row = rows[i]
-        const valid
-          = row.mxHP >= filterModel.minHp && row.mxHP <= filterModel.maxHp
+        const valid = row.mxHP >= filterModel.minHp && row.mxHP <= filterModel.maxHp
           && row.mxATK >= filterModel.minAtk && row.mxATK <= filterModel.maxAtk
           && row.mxDEF >= filterModel.minDef && row.mxDEF <= filterModel.maxDef
           && row.mxSPD >= filterModel.minSpd && row.mxSPD <= filterModel.maxSpd
@@ -628,8 +654,7 @@ function filter(filterModel: Form) {
     } else {
       for (let i = 0; i < rows.length; i++) {
         const row = rows[i]
-        const valid
-          = row.xHP >= filterModel.minHp && row.xHP <= filterModel.maxHp
+        const valid = row.xHP >= filterModel.minHp && row.xHP <= filterModel.maxHp
           && row.xATK >= filterModel.minAtk && row.xATK <= filterModel.maxAtk
           && row.xDEF >= filterModel.minDef && row.xDEF <= filterModel.maxDef
           && row.xSPD >= filterModel.minSpd && row.xSPD <= filterModel.maxSpd
@@ -659,8 +684,7 @@ function filter(filterModel: Form) {
     if (isMemo) {
       for (let i = 0; i < rows.length; i++) {
         const row = rows[i]
-        const valid
-          = row.mHP >= filterModel.minHp && row.mHP <= filterModel.maxHp
+        const valid = row.mHP >= filterModel.minHp && row.mHP <= filterModel.maxHp
           && row.mATK >= filterModel.minAtk && row.mATK <= filterModel.maxAtk
           && row.mDEF >= filterModel.minDef && row.mDEF <= filterModel.maxDef
           && row.mSPD >= filterModel.minSpd && row.mSPD <= filterModel.maxSpd
@@ -688,8 +712,7 @@ function filter(filterModel: Form) {
     } else {
       for (let i = 0; i < rows.length; i++) {
         const row = rows[i]
-        const valid
-          = row[Stats.HP] >= filterModel.minHp && row[Stats.HP] <= filterModel.maxHp
+        const valid = row[Stats.HP] >= filterModel.minHp && row[Stats.HP] <= filterModel.maxHp
           && row[Stats.ATK] >= filterModel.minAtk && row[Stats.ATK] <= filterModel.maxAtk
           && row[Stats.DEF] >= filterModel.minDef && row[Stats.DEF] <= filterModel.maxDef
           && row[Stats.SPD] >= filterModel.minSpd && row[Stats.SPD] <= filterModel.maxSpd

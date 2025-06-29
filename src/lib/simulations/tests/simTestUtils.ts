@@ -1,10 +1,24 @@
-import { MainStats, Parts, Sets, SetsOrnaments, SetsRelics, Stats, SubStats } from 'lib/constants/constants'
+import {
+  MainStats,
+  Parts,
+  Sets,
+  SetsOrnaments,
+  SetsRelics,
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { StatConfig, StatsConfig } from 'lib/optimization/config/computedStatsConfig'
+import {
+  StatConfig,
+  StatsConfig,
+} from 'lib/optimization/config/computedStatsConfig'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
-import { Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
+import {
+  Simulation,
+  StatSimTypes,
+} from 'lib/simulations/statSimulationTypes'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
@@ -13,44 +27,44 @@ import { LightCone } from 'types/lightCone'
 import { Relic } from 'types/relic'
 
 export type SimTestUtils = {
-  characterId: CharacterId
-  lightCone: LightCone['id']
-  characterEidolon: number
-  lightConeSuperimposition: number
+  characterId: CharacterId,
+  lightCone: LightCone['id'],
+  characterEidolon: number,
+  lightConeSuperimposition: number,
 }
 export type TestCharacterBasic = {
-  characterId: string
-  lightCone: string
+  characterId: string,
+  lightCone: string,
 }
 export type TestSets = {
-  simRelicSet1: Sets
-  simRelicSet2: Sets
-  simOrnamentSet: Sets
+  simRelicSet1: Sets,
+  simRelicSet2: Sets,
+  simOrnamentSet: Sets,
 }
 export type TestStats = Record<string, number>
 export type TestMains = {
-  simBody: MainStats
-  simFeet: MainStats
-  simPlanarSphere: MainStats
-  simLinkRope: MainStats
+  simBody: MainStats,
+  simFeet: MainStats,
+  simPlanarSphere: MainStats,
+  simLinkRope: MainStats,
 }
 export type TestInput = {
-  character: SimTestUtils
-  teammate0: SimTestUtils
-  teammate1: SimTestUtils
-  teammate2: SimTestUtils
-  sets: TestSets
-  stats: TestStats
-  mains: TestMains
+  character: SimTestUtils,
+  teammate0: SimTestUtils,
+  teammate1: SimTestUtils,
+  teammate2: SimTestUtils,
+  sets: TestSets,
+  stats: TestStats,
+  mains: TestMains,
 }
 export type TestInputBasic = {
-  character: TestCharacterBasic
-  teammate0: TestCharacterBasic
-  teammate1: TestCharacterBasic
-  teammate2: TestCharacterBasic
-  sets: TestSets
-  mains: TestMains
-  stats: TestStats
+  character: TestCharacterBasic,
+  teammate0: TestCharacterBasic,
+  teammate1: TestCharacterBasic,
+  teammate2: TestCharacterBasic,
+  sets: TestSets,
+  mains: TestMains,
+  stats: TestStats,
 }
 export type TestResultByKey = Record<number, number>
 export type TestResultByName = Record<string, number>

@@ -9,7 +9,10 @@ import { Constants } from 'lib/constants/constants'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'
-import { BufferPacker, OptimizerDisplayData } from 'lib/optimization/bufferPacker'
+import {
+  BufferPacker,
+  OptimizerDisplayData,
+} from 'lib/optimization/bufferPacker'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
@@ -26,29 +29,38 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { ShowcaseTabForm } from 'lib/tabs/tabShowcase/showcaseTabController'
 import { Utils } from 'lib/utils/utils'
 import { WorkerPool } from 'lib/worker/workerPool'
-import { DispatchWithoutAction, RefObject } from 'react'
-import { Build, Character } from 'types/character'
+import {
+  DispatchWithoutAction,
+  RefObject,
+} from 'react'
+import {
+  Build,
+  Character,
+} from 'types/character'
 import { Form } from 'types/form'
 import { Relic } from 'types/relic'
 import { HsrOptimizerStore } from 'types/store'
-import { StoreApi, UseBoundStore } from 'zustand'
+import {
+  StoreApi,
+  UseBoundStore,
+} from 'zustand'
 
 type Jipt = {
-  start(): void
-  stop(): void
+  start(): void,
+  stop(): void,
 }
 
 type SaveFilePickerOptions = {
-  excludeAcceptAllOption?: boolean
-  id?: string
+  excludeAcceptAllOption?: boolean,
+  id?: string,
   // A FileSystemHandle or a well known directory ("desktop", "documents", "downloads", "music", "pictures", or "videos") to open the dialog in.
-  startIn?: FileSystemHandle | string
-  suggestedName?: string
+  startIn?: FileSystemHandle | string,
+  suggestedName?: string,
   types?: {
-    description?: string
+    description?: string,
     // An Object with the keys set to the MIME type and the values an Array of file extensions
-    accept?: Record<string, string[]>
-  }[]
+    accept?: Record<string, string[]>,
+  }[],
 }
 
 declare global {

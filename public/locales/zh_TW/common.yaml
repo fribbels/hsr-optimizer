@@ -1,29 +1,22 @@
 Relic_one: 遺器
 Relic_other: 遺器
-RelicWithCount_one: "{{count}}個遺器"
-RelicWithCount_other: "{{count}}個遺器"
-Lightcone_one: 光錐
-Lightcone_other: 光錐
-LightconeWithCount_one: "{{count}}個光錐"
-LightconeWithCount_other: "{{count}}個光錐"
+RelicWithCount_one: '{{count}}個遺器'
+RelicWithCount_other: '{{count}}個遺器'
 ThousandsSuffix: K
-DecimalSeparator: "."
-ThousandsSeparator: ","
-I18nNumber: "{{value, number}}"
 Cancel: 取消
 Confirm: 確認
 Submit: 提交
 Ok: 好
-Yes: "是"
-No: "否"
+Yes: '是'
+No: '否'
 Save: 保存
 Score: 評分
 Reset: 重設
-EidolonNShort: "{{eidolon}}魂"
-SuperimpositionNShort: "疊{{superimposition}}"
-LevelShort: "{{level}}等"
-CharacterWithCount_one: "{{count}}個角色"
-CharacterWithCount_other: "{{count}}個角色"
+EidolonNShort: '{{eidolon}}魂'
+SuperimpositionNShort: '疊{{superimposition}}'
+LevelShort: '{{level}}等'
+CharacterWithCount_one: '{{count}}個角色'
+CharacterWithCount_other: '{{count}}個角色'
 Character_one: 角色
 Character_other: 角色
 VerifiedRelicHoverText: 遺器副詞條已通過遺器評分器驗證（速度小數位）
@@ -58,13 +51,13 @@ Stats:
   Break Effect: 擊破特攻
   Energy Regeneration Rate: 能量恢復效率
   Outgoing Healing Boost: 治療量加成
-  Physical DMG Boost: "$t(gameData:Elements.Physical)屬性傷害提高"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)屬性傷害提高"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)屬性傷害提高"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)屬性傷害提高"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)屬性傷害提高"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)屬性傷害提高"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)屬性傷害提高"
+  Physical DMG Boost: '$t(gameData:Elements.Physical)屬性傷害提高'
+  Fire DMG Boost: '$t(gameData:Elements.Fire)屬性傷害提高'
+  Ice DMG Boost: '$t(gameData:Elements.Ice)屬性傷害提高'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder)屬性傷害提高'
+  Wind DMG Boost: '$t(gameData:Elements.Wind)屬性傷害提高'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum)屬性傷害提高'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)屬性傷害提高'
 ShortStats:
   "HP%": 生命值%
   HP: 生命值
@@ -81,13 +74,13 @@ ShortStats:
   Break Effect: 擊破特攻
   Energy Regeneration Rate: 能量恢復效率
   Outgoing Healing Boost: 治療量加成
-  Physical DMG Boost: "$t(gameData:Elements.Physical)傷"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)傷"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)傷"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)傷"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)傷"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)傷"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)傷"
+  Physical DMG Boost: '$t(gameData:Elements.Physical)傷'
+  Fire DMG Boost: '$t(gameData:Elements.Fire)傷'
+  Ice DMG Boost: '$t(gameData:Elements.Ice)傷'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder)傷'
+  Wind DMG Boost: '$t(gameData:Elements.Wind)傷'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum)傷'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)傷'
 ShortSpacedStats:
   "HP%": 生命值 %
   HP: 生命值
@@ -104,13 +97,13 @@ ShortSpacedStats:
   Break Effect: 擊破特攻
   Energy Regeneration Rate: 能量恢復效率
   Outgoing Healing Boost: 治療量加成
-  Physical DMG Boost: "$t(gameData:Elements.Physical)傷"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)傷"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)傷"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)傷"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)傷"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)傷"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)傷"
+  Physical DMG Boost: '$t(gameData:Elements.Physical)傷'
+  Fire DMG Boost: '$t(gameData:Elements.Fire)傷'
+  Ice DMG Boost: '$t(gameData:Elements.Ice)傷'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder)傷'
+  Wind DMG Boost: '$t(gameData:Elements.Wind)傷'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum)傷'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)傷'
 DamagePercent: 傷害 %
 ReadableStats:
   "HP%": 生命值 %
@@ -128,13 +121,13 @@ ReadableStats:
   Break Effect: 擊破特攻
   Energy Regeneration Rate: 能量恢復效率
   Outgoing Healing Boost: 治療量加成
-  Physical DMG Boost: "$t(gameData:Elements.Physical)屬性傷害"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)屬性傷害"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)屬性傷害"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)屬性傷害"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)屬性傷害"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)屬性傷害"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)屬性傷害"
+  Physical DMG Boost: '$t(gameData:Elements.Physical)屬性傷害'
+  Fire DMG Boost: '$t(gameData:Elements.Fire)屬性傷害'
+  Ice DMG Boost: '$t(gameData:Elements.Ice)屬性傷害'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder)屬性傷害'
+  Wind DMG Boost: '$t(gameData:Elements.Wind)屬性傷害'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum)屬性傷害'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)屬性傷害'
 ShortReadableStats:
   "HP%": 生命值 %
   HP: 生命值
@@ -151,21 +144,21 @@ ShortReadableStats:
   Break Effect: 擊破
   Energy Regeneration Rate: 能量
   Outgoing Healing Boost: 治療
-  Physical DMG Boost: "$t(gameData:Elements.Physical)傷"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)傷"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)傷"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)傷"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)傷"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)傷"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)傷"
+  Physical DMG Boost: '$t(gameData:Elements.Physical)傷'
+  Fire DMG Boost: '$t(gameData:Elements.Fire)傷'
+  Ice DMG Boost: '$t(gameData:Elements.Ice)傷'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder)傷'
+  Wind DMG Boost: '$t(gameData:Elements.Wind)傷'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum)傷'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)傷'
 Elements:
-  Physical: "$t(gameData:Elements.Physical)傷"
-  Fire: "$t(gameData:Elements.Fire)傷"
-  Ice: "$t(gameData:Elements.Ice)傷"
-  Lightning: "$t(gameData:Elements.Thunder)傷"
-  Wind: "$t(gameData:Elements.Wind)傷"
-  Quantum: "$t(gameData:Elements.Quantum)傷"
-  Imaginary: "$t(gameData:Elements.Imaginary)傷"
+  Physical: '$t(gameData:Elements.Physical)傷'
+  Fire: '$t(gameData:Elements.Fire)傷'
+  Ice: '$t(gameData:Elements.Ice)傷'
+  Lightning: '$t(gameData:Elements.Thunder)傷'
+  Wind: '$t(gameData:Elements.Wind)傷'
+  Quantum: '$t(gameData:Elements.Quantum)傷'
+  Imaginary: '$t(gameData:Elements.Imaginary)傷'
 DMGTypes:
   simScore: 連招傷害
   BASIC: 普攻傷害

@@ -1,19 +1,23 @@
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { BuffSource } from 'lib/optimization/buffSource'
 import { SetCounts } from 'lib/optimization/calculateStats'
-import { Buff, Key, StatController } from 'lib/optimization/computedStatsArray'
+import {
+  Buff,
+  Key,
+  StatController,
+} from 'lib/optimization/computedStatsArray'
 
 type BasicStatsArrayStatExtensions = {
-  [K in keyof typeof baseCharacterStats]: StatController;
+  [K in keyof typeof baseCharacterStats]: StatController
 }
 
 export type BasicStatsArray =
-  BasicStatsArrayCore
+  & BasicStatsArrayCore
   & BasicStatsArrayStatExtensions
   & BasicStatsArrayStatDirectAccess
 
 type BasicStatsArrayStatDirectAccess = {
-  [K in keyof typeof baseCharacterStats as `$${K}`]: number;
+  [K in keyof typeof baseCharacterStats as `$${K}`]: number
 }
 
 const baseCharacterStats = {
@@ -77,12 +81,10 @@ export class BasicStatsArrayCore {
     this.weight = 0
 
     Object.keys(baseCharacterStats).forEach((stat, key) => {
-      const trace
-        = (value: number, source: BuffSource) => this.trace && this.buffs.push({ stat, key, value, source })
-      const traceMemo
-        = (value: number, source: BuffSource) => this.trace && this.buffsMemo.push({ stat, key, value, source })
-      const traceOverwrite
-        = (value: number, source: BuffSource) => this.trace && (this.buffs = this.buffs.filter((b) => b.key !== key).concat({ stat, key, value, source }))
+      const trace = (value: number, source: BuffSource) => this.trace && this.buffs.push({ stat, key, value, source })
+      const traceMemo = (value: number, source: BuffSource) => this.trace && this.buffsMemo.push({ stat, key, value, source })
+      const traceOverwrite = (value: number, source: BuffSource) =>
+        this.trace && (this.buffs = this.buffs.filter((b) => b.key !== key).concat({ stat, key, value, source }))
 
       Object.defineProperty(this, stat, {
         value: {

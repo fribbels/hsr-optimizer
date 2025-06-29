@@ -1,89 +1,118 @@
-import { CellClickedEvent, CellDoubleClickedEvent, CellPosition, ColDef, GetRowIdParams, IRowNode, IsExternalFilterPresentParams, NavigateToNextCellParams, RowDragEvent } from 'ag-grid-community'
+import {
+  ColDef,
+  GetRowIdParams,
+  GridOptions,
+  IRowNode,
+} from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
-import { Flex, Typography } from 'antd'
+import {
+  Flex,
+  Typography,
+} from 'antd'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
-import { MutableRefObject, useMemo, useState } from 'react'
+import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
+import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
+import {
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 
 const { Text } = Typography
 
-// FIXME HIGH
+const defaultColDef: ColDef<Character> = {
+  sortable: false,
+  cellStyle: { display: 'flex' },
+}
 
-export function CharacterGrid(props: {
-  characterGrid: MutableRefObject<AgGridReact<Character>>
-  cellClickedListener: (x: CellClickedEvent<Character>) => void
-  cellDoubleClickedListener: (x: CellDoubleClickedEvent<Character>) => void
-  onRowDragEnd: (e: RowDragEvent<Character>) => void
-  onRowDragLeave: (e: RowDragEvent<Character>) => void
-  navigateToNextCell: (x: NavigateToNextCellParams<Character>) => CellPosition | null
-  isExternalFilterPresent: (x: IsExternalFilterPresentParams<Character>) => boolean
-  doesExternalFilterPass: (x: IRowNode<Character>) => boolean
-}) {
-  const { t } = useTranslation(['charactersTab', 'common', 'gameData'])
+const gridOptions: GridOptions<Character> = {
+  rowHeight: 46,
+  rowDragManaged: true,
+  animateRows: true,
+  suppressDragLeaveHidesColumns: true,
+  suppressScrollOnNewData: true,
+}
+
+export function CharacterGrid() {
+  const { t } = useTranslation('charactersTab', { keyPrefix: 'GridHeaders' })
+  const { t: tGameData } = useTranslation('gameData', { keyPrefix: 'Characters' })
+  const filters = useCharacterTabStore((s) => s.filters)
   const [characterRows, setCharacterRows] = useState(DB.getCharacters())
   window.setCharacterRows = setCharacterRows
 
-  const gridOptions = useMemo(() => ({
-    rowHeight: 46,
-    rowDragManaged: true,
-    animateRows: true,
-    suppressDragLeaveHidesColumns: true,
-    suppressScrollOnNewData: true,
-  }), [])
+  const gridRef = useRef<AgGridReact<Character> | null>(null)
+  window.characterGrid = gridRef
 
   const columnDefs: ColDef<Character>[] = useMemo(() => [
-    // set field to 'id' to satisfy type constraint
-    { field: 'id', headerName: t('GridHeaders.Icon')/* Icon */, cellRenderer: cellImageRenderer, width: 52 },
     {
       field: 'id',
-      headerName: t('GridHeaders.Priority')/* Priority */,
+      headerName: t('Icon'), // Icon
+      cellRenderer: cellImageRenderer,
+      width: 52,
+    },
+    {
+      field: 'rank',
+      headerName: t('Priority'), // Priority
       cellRenderer: cellRankRenderer,
       width: 60,
       rowDrag: true,
     },
-    { field: 'id', headerName: t('GridHeaders.Character')/* Character */, flex: 1, cellRenderer: cellNameRenderer },
+    {
+      field: 'equipped',
+      headerName: t('Character'), // Character
+      flex: 1,
+      cellRenderer: cellNameRenderer,
+      // because character.equipped is an object the grid needs a valueFormatter even if in this case its useless
+      valueFormatter: () => '',
+    },
   ], [t])
 
-  const defaultColDef = useMemo(() => ({
-    sortable: false,
-    cellStyle: { display: 'flex' },
-  }), [])
+  const isExternalFilterPresent = useCallback(() => {
+    return filters.element.length + filters.path.length + filters.name.length > 0
+  }, [filters])
+
+  const doesExternalFilterPass = useCallback((node: IRowNode<Character>) => {
+    const data = node.data
+    if (!data) return false
+    const character = DB.getMetadata().characters[data.id]!
+    if (filters.element.length && !filters.element.includes(character.element)) return false
+    if (filters.path.length && !filters.path.includes(character.path)) return false
+    return tGameData(`${character.id}.LongName`).toLowerCase().includes(filters.name)
+  }, [filters])
 
   return (
     <AgGridReact
-      ref={props.characterGrid}
-
+      ref={gridRef}
       rowData={characterRows}
       gridOptions={gridOptions}
       getRowId={(params: GetRowIdParams<Character>) => params.data.id}
-
       columnDefs={columnDefs}
       defaultColDef={defaultColDef}
-
       headerHeight={24}
-
-      onCellClicked={props.cellClickedListener}
-      onCellDoubleClicked={props.cellDoubleClickedListener}
-      onRowDragEnd={props.onRowDragEnd}
-      onRowDragLeave={props.onRowDragLeave}
-      navigateToNextCell={props.navigateToNextCell}
-      isExternalFilterPresent={props.isExternalFilterPresent}
-      doesExternalFilterPass={props.doesExternalFilterPass}
+      onCellClicked={CharacterTabController.cellClickedListener}
+      onCellDoubleClicked={CharacterTabController.cellDoubleClickedListener}
+      onRowDragEnd={CharacterTabController.onRowDragEnd}
+      onRowDragLeave={CharacterTabController.onRowDragLeave}
+      navigateToNextCell={CharacterTabController.navigateToNextCell}
+      isExternalFilterPresent={isExternalFilterPresent}
+      doesExternalFilterPass={doesExternalFilterPass}
       rowSelection='single'
     />
   )
 }
 
 function cellRankRenderer(params: IRowNode<Character>) {
-  const data = params.data!
-  const character = DB.getCharacters().find((x) => x.id == data.id)!
+  const rank = params.data?.rank
+  if (rank == undefined) return <></>
 
   return (
     <Text style={{ height: '100%' }}>
-      {character.rank + 1}
+      {rank + 1}
     </Text>
   )
 }
@@ -102,9 +131,7 @@ function cellNameRenderer(params: IRowNode<Character>) {
       .map((section) => section.trim())
 
   const nameSectionRender = nameSections
-    .map((section, index) => (
-      <span key={index} style={{ display: 'inline-block' }}>{section}</span>
-    ))
+    .map((section, index) => <span key={index} style={{ display: 'inline-block' }}>{section}</span>)
 
   const equippedNumber = data.equipped ? Object.values(data.equipped).filter((x) => x != undefined).length : 0
   let color = '#81d47e'
@@ -128,12 +155,12 @@ function cellNameRenderer(params: IRowNode<Character>) {
       >
         {nameSectionRender}
       </Text>
-      <div style={{ display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2 }}/>
+      <div style={{ display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2 }} />
     </Flex>
   )
 }
 
-export function cellImageRenderer(params: IRowNode<Character>) {
+function cellImageRenderer(params: IRowNode<Character>) {
   const data = params.data!
   const characterIconSrc = Assets.getCharacterAvatarById(data.id)
 

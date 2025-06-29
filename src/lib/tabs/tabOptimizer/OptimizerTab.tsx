@@ -6,7 +6,10 @@ import OptimizerBuildPreview from 'lib/tabs/tabOptimizer/OptimizerBuildPreview'
 import { OptimizerGrid } from 'lib/tabs/tabOptimizer/optimizerForm/grid/OptimizerGrid'
 
 import OptimizerForm from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
-import { ZeroPermutationsSuggestionsModal, ZeroResultSuggestionModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
+import {
+  ZeroPermutationsSuggestionsModal,
+  ZeroResultSuggestionModal,
+} from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import Sidebar from 'lib/tabs/tabOptimizer/Sidebar'
 import React from 'react'
 
@@ -17,20 +20,20 @@ export default function OptimizerTab() {
   return (
     <Flex>
       <Flex vertical gap={10} style={{ marginBottom: 100 }}>
-        <OptimizerForm/>
-        <OptimizerGrid/>
+        <OptimizerForm />
+        <OptimizerGrid />
         <Flex
           vertical
           gap={10}
           style={{ flexDirection: expandedPanelPosition == SettingOptions.ExpandedInfoPanelPosition.Below ? 'column' : 'column-reverse' }}
         >
-          <OptimizerBuildPreview/>
-          <ExpandedDataPanel/>
+          <OptimizerBuildPreview />
+          <ExpandedDataPanel />
         </Flex>
       </Flex>
-      <ZeroPermutationsSuggestionsModal/>
-      <ZeroResultSuggestionModal/>
-      <Sidebar/>
+      <ZeroPermutationsSuggestionsModal />
+      <ZeroResultSuggestionModal />
+      <Sidebar />
     </Flex>
   )
 }

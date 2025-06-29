@@ -1,6 +1,17 @@
-import { AbilityType, ASHBLAZING_ATK_STACK, FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { boostAshblazingAtkP, gpuBoostAshblazingAtkP } from 'lib/conditionals/conditionalFinalizers'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityType,
+  ASHBLAZING_ATK_STACK,
+  FUA_DMG_TYPE,
+} from 'lib/conditionals/conditionalConstants'
+import {
+  boostAshblazingAtkP,
+  gpuBoostAshblazingAtkP,
+} from 'lib/conditionals/conditionalFinalizers'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -9,7 +20,10 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Clara')
@@ -57,7 +71,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: t('Content.ultBuff.text'),
       content: t('Content.ultBuff.content', {
         ultFuaExtraScaling: TsUtils.precisionRound(100 * ultFuaExtraScaling),
-        ultDmgReductionValue: TsUtils.precisionRound((100 * ultDmgReductionValue)),
+        ultDmgReductionValue: TsUtils.precisionRound(100 * ultDmgReductionValue),
       }),
     },
     talentEnemyMarked: {
@@ -101,7 +115,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.FUA_ATK_SCALING.buff(r.ultBuff ? ultFuaExtraScaling : 0, SOURCE_ULT)
 
       // Boost
-      x.DMG_RED_MULTI.multiply((1 - 0.10), SOURCE_TALENT)
+      x.DMG_RED_MULTI.multiply(1 - 0.10, SOURCE_TALENT)
       x.DMG_RED_MULTI.multiply((r.ultBuff) ? (1 - ultDmgReductionValue) : 1, SOURCE_ULT)
       x.DMG_RED_MULTI.multiply((e >= 4 && r.e4DmgReductionBuff) ? (1 - 0.30) : 1, SOURCE_E4)
       buffAbilityDmg(x, FUA_DMG_TYPE, 0.30, SOURCE_TRACE)

@@ -1,6 +1,15 @@
-import { Sets, Stats } from 'lib/constants/constants'
+import {
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { expectBenchmarkResultsToMatch } from 'lib/simulations/tests/customBenchmark/benchmarkOrchestratorTestUtils'
-import { generateE6S5Test, testCharacter, testMains, testSets, testStatSpread } from 'lib/simulations/tests/simTestUtils'
+import {
+  generateE6S5Test,
+  testCharacter,
+  testMains,
+  testSets,
+  testStatSpread,
+} from 'lib/simulations/tests/simTestUtils'
 import {
   A_GROUNDED_ASCENT,
   ANAXA,

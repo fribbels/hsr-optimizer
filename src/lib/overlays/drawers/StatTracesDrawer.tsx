@@ -1,20 +1,33 @@
 import { CaretDownOutlined } from '@ant-design/icons'
-import { Button, Drawer, Flex, Tree, TreeProps, Typography } from 'antd'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import {
+  Button,
+  Drawer,
+  Flex,
+  Tree,
+  TreeProps,
+  Typography,
+} from 'antd'
+import {
+  OpenCloseIDs,
+  useOpenClose,
+} from 'lib/hooks/useOpenClose'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
-import React, { useMemo, useState } from 'react'
+import React, {
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { TraceNode } from 'types/metadata'
 
 const { Text } = Typography
 
 export const StatTracesDrawer = () => {
-  const { t: tCommon } = useTranslation('common', { keyPrefix: 'Stats' })
+  const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TracesDrawer' })
   const { close: closeTracesDrawer, isOpen: isOpenTracesDrawer } = useOpenClose(OpenCloseIDs.TRACES_DRAWER)
 
@@ -110,7 +123,7 @@ export const StatTracesDrawer = () => {
     >
       <Flex vertical gap={15} style={{ display: statTraceDrawerFocusCharacter ? 'flex' : 'none' }}>
         <HeaderText>
-          {t('Header')/* Activated stat traces (all enabled by default) */}
+          {t('Header') /* Activated stat traces (all enabled by default) */}
         </HeaderText>
 
         <Tree
@@ -124,20 +137,20 @@ export const StatTracesDrawer = () => {
           fieldNames={{ title: 'stat', key: 'id', children: 'children' }}
           defaultExpandParent
           defaultExpandAll
-          switcherIcon={<CaretDownOutlined/>}
+          switcherIcon={<CaretDownOutlined />}
           // @ts-ignore
           treeData={treeData}
           // @ts-ignore
           titleRender={(traceNode: TraceNode) => (
             <Flex gap={0} align='center'>
-              <img src={Assets.getStatIcon(traceNode.stat)} style={{ height: 20, marginLeft: -6, marginRight: 4 }}/>
+              <img src={Assets.getStatIcon(traceNode.stat)} style={{ height: 20, marginLeft: -6, marginRight: 4 }} />
 
               <div style={{ whiteSpace: 'pre-wrap' }}>
-                {
-                  `${Utils.isFlat(traceNode.stat)
+                {`${
+                  Utils.isFlat(traceNode.stat)
                     ? traceNode.value
-                    : Utils.precisionRound(traceNode.value * 100) + '%'} - ${tCommon(traceNode.stat)}`
-                }
+                    : Utils.precisionRound(traceNode.value * 100) + '%'
+                } - ${tCommon(`Stats.${traceNode.stat}`)}`}
               </div>
             </Flex>
           )}
@@ -163,14 +176,14 @@ export const StatTracesDrawer = () => {
             DB.updateCharacterScoreOverrides(statTraceDrawerFocusCharacter, scoringMetadata)
 
             setTimeout(() => {
-              Message.success('Saved')
+              Message.success(tCommon('Saved'))
               setLoading(false)
               SaveState.delayedSave()
               closeTracesDrawer()
             }, 500)
           }}
         >
-          {t('ButtonText')/* Save changes */}
+          {t('ButtonText') /* Save changes */}
         </Button>
       </Flex>
     </Drawer>

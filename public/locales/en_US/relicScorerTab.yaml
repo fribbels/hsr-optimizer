@@ -21,3 +21,4 @@ ImportLabels:
   AllCharacters: Import all characters & all relics into optimizer
 SimulateRelics: Simulate relics on another character
 OptimizeOnCharacter: Optimize character stats
+Disclaimer: "Note: Combo DMG is meant to compare different relics relative to the selected team, and should <1>NOT</1> be used to compare different teams / LCs / eidolons!"

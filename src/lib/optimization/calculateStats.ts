@@ -1,5 +1,17 @@
-import { BASIC_DMG_TYPE, BREAK_DMG_TYPE, FUA_DMG_TYPE, SKILL_DMG_TYPE, SUPER_BREAK_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { Sets, Stats, StatsValues } from 'lib/constants/constants'
+import {
+  BASIC_DMG_TYPE,
+  BREAK_DMG_TYPE,
+  DOT_DMG_TYPE,
+  FUA_DMG_TYPE,
+  SKILL_DMG_TYPE,
+  SUPER_BREAK_DMG_TYPE,
+  ULT_DMG_TYPE,
+} from 'lib/conditionals/conditionalConstants'
+import {
+  Sets,
+  Stats,
+  StatsValues,
+} from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   BelobogOfTheArchitectsConditional,
@@ -14,11 +26,28 @@ import {
 } from 'lib/gpu/conditionals/setConditionals'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDefPen, buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { buffElementalDamageType, ComputedStatsArray, Key, StatToKey } from 'lib/optimization/computedStatsArray'
-import { OrnamentSetsConfig, RelicSetsConfig, SetKeys, SetKeyType } from 'lib/optimization/config/setsConfig'
+import {
+  buffAbilityDefPen,
+  buffAbilityDmg,
+} from 'lib/optimization/calculateBuffs'
+import {
+  buffElementalDamageType,
+  ComputedStatsArray,
+  Key,
+  StatToKey,
+} from 'lib/optimization/computedStatsArray'
+import {
+  OrnamentSetsConfig,
+  RelicSetsConfig,
+  SetKeys,
+  SetKeyType,
+} from 'lib/optimization/config/setsConfig'
 import { SimulationRelic } from 'lib/simulations/statSimulationTypes'
-import { OptimizerAction, OptimizerContext, SetConditional } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+  SetConditional,
+} from 'types/optimizer'
 
 const SET_EFFECTS = new Map()
 
@@ -263,6 +292,14 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
     if (p2(SetKeys.InertSalsotto, sets) && x.a[Key.CR] >= 0.50) {
       buffAbilityDmg(x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, Source.InertSalsotto)
     }
+
+    if (p2(SetKeys.RevelryByTheSea, sets)) {
+      if (x.a[Key.ATK] >= 3600) {
+        buffAbilityDmg(x, DOT_DMG_TYPE, 0.24, Source.RevelryByTheSea)
+      } else if (x.a[Key.ATK] >= 2400) {
+        buffAbilityDmg(x, DOT_DMG_TYPE, 0.12, Source.RevelryByTheSea)
+      }
+    }
   }
 
   // Terminal relic set conditionals
@@ -356,7 +393,8 @@ function sumPercentStat(
   lc: Record<string, number>,
   trace: Record<string, number>,
   relicSum: BasicStatsArray,
-  setEffects: number): number {
+  setEffects: number,
+): number {
   return base[stat] + lc[stat] + relicSum.a[StatToKey[stat]] + trace[stat] + setEffects
 }
 
@@ -369,7 +407,7 @@ function sumFlatStat(
   relicSum: BasicStatsArray,
   setEffects: number,
 ): number {
-  return (baseValue) * (1 + setEffects + relicSum.a[StatToKey[statP]] + trace[statP] + lc[statP]) + relicSum.a[StatToKey[stat]] + trace[stat]
+  return baseValue * (1 + setEffects + relicSum.a[StatToKey[statP]] + trace[statP] + lc[statP]) + relicSum.a[StatToKey[stat]] + trace[stat]
 }
 
 const pioneerSetIndexToCd: Record<number, number> = {

@@ -1,11 +1,23 @@
-import { CombatBuffs, Constants, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
+import {
+  applyScoringMetadataPresets,
+  applySetConditionalPresets,
+} from 'lib/conditionals/evaluation/applyPresets'
+import {
+  CombatBuffs,
+  Constants,
+  DEFAULT_MEMO_DISPLAY,
+  DEFAULT_STAT_DISPLAY,
+  Sets,
+} from 'lib/constants/constants'
 import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
-import { applyScoringMetadataPresets, applySetConditionalPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
-import { Form, Teammate } from 'types/form'
+import {
+  Form,
+  Teammate,
+} from 'types/form'
 
 // FIXME HIGH
 
@@ -171,4 +183,6 @@ export const defaultSetConditionals = {
   [Sets.TheWondrousBananAmusementPark]: [undefined, false],
   [Sets.BoneCollectionsSereneDemesne]: [undefined, true],
   [Sets.GiantTreeOfRaptBrooding]: [undefined, true],
+  [Sets.ArcadiaOfWovenDreams]: [undefined, 4],
+  [Sets.RevelryByTheSea]: [undefined, true],
 }

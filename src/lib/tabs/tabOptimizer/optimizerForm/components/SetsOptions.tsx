@@ -1,19 +1,24 @@
 import { Flex } from 'antd'
 import i18next from 'i18next'
-import { Constants, RelicSetFilterOptions, setToId, UnreleasedSets } from 'lib/constants/constants'
+import {
+  Constants,
+  RelicSetFilterOptions,
+  setToId,
+  UnreleasedSets,
+} from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { ReactElement } from 'types/components'
 
 type OptionsWithChildren = {
-  value: string
-  label: ReactElement | string
-  children: Options[]
+  value: string,
+  label: ReactElement | string,
+  children: Options[],
 }
 
 type Options = {
-  value: string
-  label: ReactElement | string
-  children?: Options[]
+  value: string,
+  label: ReactElement | string,
+  children?: Options[],
 }
 
 // This should be memoised with either the t function or resolved language as a dependency
@@ -45,7 +50,7 @@ const GenerateSetsOptions = () => {
     .filter((x) => !UnreleasedSets[x[1]])
     .map((set) => ({ value: set[1], label: set[1] }))
 
-  const GenerateLabel = (value: string, parens: string, label: string): JSX.Element => {
+  const GenerateLabel = (value: string, parens: string, label: string): ReactElement => {
     const imageSrc = value == 'Any' ? Assets.getBlank() : Assets.getSetImage(value, Constants.Parts.Head)
     return (
       <Flex gap={5} align='center'>
@@ -84,20 +89,21 @@ const GenerateSetsOptions = () => {
 }
 
 // This should be memoised with either the t function or resolved language as a dependency
-export const GenerateBasicSetsOptions = (): { value: string; label: JSX.Element }[] => {
+export const GenerateBasicSetsOptions = (): { value: string, label: JSX.Element }[] => {
   const tGameData = i18next.getFixedT(null, 'gameData', 'RelicSets')
   return Object.values(Constants.SetsRelics)
     .filter((x) => !UnreleasedSets[x])
     .map((x) => {
       return {
         value: x,
-        label:
-  <Flex gap={5} align='center'>
-    <img src={Assets.getSetImage(x, Constants.Parts.Head)} style={{ width: 21, height: 21 }}></img>
-    <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
-      {tGameData(`${setToId[x]}.Name`)}
-    </div>
-  </Flex>,
+        label: (
+          <Flex gap={5} align='center'>
+            <img src={Assets.getSetImage(x, Constants.Parts.Head)} style={{ width: 21, height: 21 }}></img>
+            <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
+              {tGameData(`${setToId[x]}.Name`)}
+            </div>
+          </Flex>
+        ),
       }
     })
 }

@@ -1,23 +1,40 @@
-import { BASIC_DMG_TYPE, FUA_DMG_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { Sets, SetsOrnaments, SetsRelics, Stats } from 'lib/constants/constants'
+import {
+  BASIC_DMG_TYPE,
+  DOT_DMG_TYPE,
+  FUA_DMG_TYPE,
+  SKILL_DMG_TYPE,
+  ULT_DMG_TYPE,
+} from 'lib/conditionals/conditionalConstants'
+import {
+  Sets,
+  SetsOrnaments,
+  SetsRelics,
+  Stats,
+} from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
-import { OptimizerContext, SetConditional } from 'types/optimizer'
+import {
+  ComputedStatsArray,
+  Key,
+} from 'lib/optimization/computedStatsArray'
+import {
+  OptimizerContext,
+  SetConditional,
+} from 'types/optimizer'
 
 export type SetsDefinition = {
-  key: keyof typeof Sets
-  index: number
+  key: keyof typeof Sets,
+  index: number,
   // Basic
-  p2c?: (c: BasicStatsArray, context: OptimizerContext) => void
-  p4c?: (c: BasicStatsArray, context: OptimizerContext) => void
+  p2c?: (c: BasicStatsArray, context: OptimizerContext) => void,
+  p4c?: (c: BasicStatsArray, context: OptimizerContext) => void,
   // Combat
-  p2x?: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => void
-  p4x?: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => void
+  p2x?: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => void,
+  p4x?: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => void,
   // Terminal
-  p2t?: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => void
-  p4t?: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => void
+  p2t?: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => void,
+  p4t?: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => void,
 }
 
 export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefinition> = {
@@ -194,6 +211,20 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
       c.SPD_P.buff(0.06, Source.GiantTreeOfRaptBrooding)
     },
   },
+  ArcadiaOfWovenDreams: {
+    key: 'ArcadiaOfWovenDreams',
+    index: 20,
+    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+      x.ELEMENTAL_DMG.buffBaseDual(arcadiaSetIndexToCd[setConditionals.valueArcadiaOfWovenDreams], Source.ArcadiaOfWovenDreams)
+    },
+  },
+  RevelryByTheSea: {
+    key: 'RevelryByTheSea',
+    index: 21,
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+      c.ATK_P.buff(0.12, Source.RevelryByTheSea)
+    },
+  },
 }
 
 export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = {
@@ -259,7 +290,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     },
     p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.DMG_RED_MULTI.multiply((1 - 0.08), Source.GuardOfWutheringSnow)
+      x.DMG_RED_MULTI.multiply(1 - 0.08, Source.GuardOfWutheringSnow)
     },
   },
   FiresmithOfLavaForging: {
@@ -526,4 +557,15 @@ const pioneerSetIndexToCd: Record<number, number> = {
   2: 0.12,
   3: 0.16,
   4: 0.24,
+}
+
+const arcadiaSetIndexToCd: Record<number, number> = {
+  1: 0.36,
+  2: 0.24,
+  3: 0.12,
+  4: 0.00,
+  5: 0.09,
+  6: 0.18,
+  7: 0.27,
+  8: 0.36,
 }

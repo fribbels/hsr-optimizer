@@ -63,7 +63,6 @@ Features planned & rough date estimates:
 
 ## TODOs?
 
-
 - [ ] Local maxima solution
 - [ ] Buff output optimization targets
 - [ ] Non maxed relics optimization

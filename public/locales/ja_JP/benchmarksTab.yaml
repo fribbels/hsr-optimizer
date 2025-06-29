@@ -32,3 +32,8 @@ ResultsPanel:
   Rolls: サブステータス出現数
   Combo: スキル回し
   Damage: 与ダメージ
+Messages:
+  Error:
+    MissingField: キャラクター・光円錐・チームメイトを入力する必要があります
+    UnsupportedCharacter: このキャラクターは DPS ベンチマークに対応していません
+    SPDUnselected: 目標にするベンチマークの速度を選択してください

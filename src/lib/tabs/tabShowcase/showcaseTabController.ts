@@ -1,11 +1,38 @@
 import i18next from 'i18next'
-import { CharacterConverter, UnconvertedCharacter } from 'lib/importer/characterConverter'
+import {
+  CharacterConverter,
+  UnconvertedCharacter,
+} from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
-import { AGLAEA, INTO_THE_UNREACHABLE_VEIL, THE_HERTA, TIME_WOVEN_INTO_GOLD } from 'lib/simulations/tests/testMetadataConstants'
-import DB, { AppPage, AppPages, PageToRoute } from 'lib/state/db'
+import {
+  AGLAEA,
+  BLADE_B1,
+  I_SHALL_BE_MY_OWN_SWORD,
+  INCESSANT_RAIN,
+  INTO_THE_UNREACHABLE_VEIL,
+  JINGLIU_B1,
+  KAFKA_B1,
+  PATIENCE_IS_ALL_YOU_NEED,
+  SILVER_WOLF_B1,
+  THE_HERTA,
+  THE_UNREACHABLE_SIDE,
+  TIME_WOVEN_INTO_GOLD,
+} from 'lib/simulations/tests/testMetadataConstants'
+import DB, {
+  AppPage,
+  AppPages,
+  PageToRoute,
+} from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { APIResponse, processEnkaData, processMihomoData } from 'lib/tabs/tabShowcase/dataProcessors'
-import { ShowcaseTabCharacter, useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
+import {
+  APIResponse,
+  processEnkaData,
+  processMihomoData,
+} from 'lib/tabs/tabShowcase/dataProcessors'
+import {
+  ShowcaseTabCharacter,
+  useShowcaseTabStore,
+} from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
@@ -14,23 +41,23 @@ import { LightCone } from 'types/lightCone'
 export const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'
 
 export type ShowcaseTabForm = {
-  scorerId: string | null
+  scorerId: string | null,
 }
 
 export type Preset = CharacterPreset | FillerPreset
 
 export type CharacterPreset = {
-  characterId: CharacterId | null
-  lightConeId: LightCone['id'] | null
-  rerun?: boolean
-  custom?: never
+  characterId: CharacterId | null,
+  lightConeId: LightCone['id'] | null,
+  rerun?: boolean,
+  custom?: never,
 }
 
 type FillerPreset = {
-  characterId?: never
-  lightConeId?: never
-  rerun?: never
-  custom: true
+  characterId?: never,
+  lightConeId?: never,
+  rerun?: never,
+  custom: true,
 }
 
 export function presetCharacters(): Preset[] {
@@ -39,24 +66,32 @@ export function presetCharacters(): Preset[] {
   const lc = (id: LightCone['id']) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
+    { characterId: char('1408'), lightConeId: lc('23044') },
+    { characterId: char('1014'), lightConeId: lc('23045') },
+    { characterId: char('1015'), lightConeId: lc('23046') },
+
     { characterId: char('1406'), lightConeId: lc('23043') },
-    { characterId: char('1409'), lightConeId: lc('23042') },
+
+    { characterId: char(KAFKA_B1), lightConeId: lc(PATIENCE_IS_ALL_YOU_NEED) },
+    { characterId: char(SILVER_WOLF_B1), lightConeId: lc(INCESSANT_RAIN) },
+    { characterId: char(BLADE_B1), lightConeId: lc(THE_UNREACHABLE_SIDE) },
+    { characterId: char(JINGLIU_B1), lightConeId: lc(I_SHALL_BE_MY_OWN_SWORD) },
 
     { characterId: char(THE_HERTA), lightConeId: lc(INTO_THE_UNREACHABLE_VEIL), rerun: true },
     { characterId: char(AGLAEA), lightConeId: lc(TIME_WOVEN_INTO_GOLD), rerun: true },
 
     { custom: true },
-  ]
+  ].filter((x) => x.custom || !!x.characterId) as Preset[]
 }
 
 export function onCharacterModalOk(form: ShowcaseTabCharacter['form']) {
   const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
   const state = useShowcaseTabStore.getState()
   if (!form.characterId) {
-    return Message.error(t('NoCharacterSelected')/* No selected character */)
+    return Message.error(t('NoCharacterSelected') /* No selected character */)
   }
   if (state.availableCharacters?.find((x) => x.id === form.characterId) && state.selectedCharacter?.id !== form.characterId) {
-    return Message.error(t('CharacterAlreadyExists')/* Selected character already exists */)
+    return Message.error(t('CharacterAlreadyExists') /* Selected character already exists */)
   }
 
   const selectedCharacter = TsUtils.clone(state.selectedCharacter)!
@@ -136,13 +171,13 @@ export function submitForm(form: ShowcaseTabForm) {
 
   if (id.length != 9) {
     setLoading(false)
-    Message.error(t('InvalidIdWarning')/* Invalid ID */)
+    Message.error(t('InvalidIdWarning') /* Invalid ID */)
     return
   }
 
   if (latestRefreshDate) {
     const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
-    Message.warning(t('ThrottleWarning'/* Please wait {{seconds}} seconds before retrying */, {
+    Message.warning(t('ThrottleWarning', /* Please wait {{seconds}} seconds before retrying */ {
       seconds: Math.max(1, Math.ceil(throttleSeconds - (new Date().getTime() - latestRefreshDate.getTime()) / 1000)),
     }))
     if (loading) {
@@ -174,12 +209,12 @@ export function submitForm(form: ShowcaseTabForm) {
       // backup
       if (data.source === 'mihomo') {
         characters = processMihomoData(data)
-      // enka
+        // enka
       } else if (data.source === 'enka') {
         characters = processEnkaData(data)
       } else {
         setLoading(false)
-        Message.error(t('IdLoadError')/* Error loading ID */)
+        Message.error(t('IdLoadError') /* Error loading ID */)
         return
       }
 
@@ -200,12 +235,12 @@ export function submitForm(form: ShowcaseTabForm) {
         setSelectedCharacter(converted[0])
       }
       setLoading(false)
-      Message.success(t('SuccessMsg')/* Successfully loaded profile */)
+      Message.success(t('SuccessMsg') /* Successfully loaded profile */)
       window.showcaseTabForm.setFieldValue('scorerId', id)
     })
     .catch((error) => {
       setTimeout(() => {
-        Message.warning(t('LookupError')/* Error during lookup, please try again in a bit */)
+        Message.warning(t('LookupError') /* Error during lookup, please try again in a bit */)
         console.error('Fetch error:', error)
         setLoading(false)
       }, 1000 * 5)

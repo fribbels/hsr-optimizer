@@ -1,10 +1,33 @@
-import { Constants, MainStats, Parts, Stats, SubStats } from 'lib/constants/constants'
-import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
-import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
+import {
+  Constants,
+  MainStats,
+  Parts,
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
+import {
+  BasicStatsArray,
+  BasicStatsArrayCore,
+} from 'lib/optimization/basicStatsArray'
+import {
+  ComputedStatsArray,
+  ComputedStatsArrayCore,
+  Key,
+} from 'lib/optimization/computedStatsArray'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import { cloneSimResult, SimulationFlags } from 'lib/scoring/simScoringUtils'
+import {
+  cloneSimResult,
+  SimulationFlags,
+} from 'lib/scoring/simScoringUtils'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
-import { RunSimulationsParams, RunStatSimulationsResult, Simulation, SimulationRelic, SimulationRelicByPart, StatSimTypes } from 'lib/simulations/statSimulationTypes'
+import {
+  RunSimulationsParams,
+  RunStatSimulationsResult,
+  Simulation,
+  SimulationRelic,
+  SimulationRelicByPart,
+  StatSimTypes,
+} from 'lib/simulations/statSimulationTypes'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import { Form } from 'types/form'
@@ -77,10 +100,26 @@ export function generateSimRelics(simulation: Simulation, params: RunSimulations
   const simRelics = {
     [Parts.Head]: simulationRelic(request.simRelicSet1, Constants.Stats.HP, 705.600),
     [Parts.Hands]: simulationRelic(request.simRelicSet1, Constants.Stats.ATK, 352.800),
-    [Parts.Body]: simulationRelic(request.simRelicSet2, request.simBody, StatCalculator.getMaxedStatValue(request.simBody as MainStats) * params.mainStatMultiplier),
-    [Parts.Feet]: simulationRelic(request.simRelicSet2, request.simFeet, StatCalculator.getMaxedStatValue(request.simFeet as MainStats) * params.mainStatMultiplier),
-    [Parts.LinkRope]: simulationRelic(request.simOrnamentSet, request.simLinkRope, StatCalculator.getMaxedStatValue(request.simLinkRope as MainStats) * params.mainStatMultiplier),
-    [Parts.PlanarSphere]: simulationRelic(request.simOrnamentSet, request.simPlanarSphere, StatCalculator.getMaxedStatValue(request.simPlanarSphere as MainStats) * params.mainStatMultiplier),
+    [Parts.Body]: simulationRelic(
+      request.simRelicSet2,
+      request.simBody,
+      StatCalculator.getMaxedStatValue(request.simBody as MainStats) * params.mainStatMultiplier,
+    ),
+    [Parts.Feet]: simulationRelic(
+      request.simRelicSet2,
+      request.simFeet,
+      StatCalculator.getMaxedStatValue(request.simFeet as MainStats) * params.mainStatMultiplier,
+    ),
+    [Parts.LinkRope]: simulationRelic(
+      request.simOrnamentSet,
+      request.simLinkRope,
+      StatCalculator.getMaxedStatValue(request.simLinkRope as MainStats) * params.mainStatMultiplier,
+    ),
+    [Parts.PlanarSphere]: simulationRelic(
+      request.simOrnamentSet,
+      request.simPlanarSphere,
+      StatCalculator.getMaxedStatValue(request.simPlanarSphere as MainStats) * params.mainStatMultiplier,
+    ),
   }
 
   addSubstats(simRelics, simulation, params)

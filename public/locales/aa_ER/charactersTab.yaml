@@ -40,6 +40,9 @@ Messages:
   SaveSuccess: "crwdns39650:0{{name}}crwdne39650:0"
   UnequipWarning: "crwdns39652:0$t(gameData:Characters.{{charId}}.Name)crwdne39652:0"
   DeleteWarning: "crwdns39654:0$t(gameData:Characters.{{charId}}.Name)crwdne39654:0"
+  BuildAlreadyExists: "crwdns45404:0{{name}}crwdne45404:0"
+  ImageUploadFailed: crwdns45406:0crwdne45406:0
+  InvalidFile: crwdns45408:0crwdne45408:0
 CharacterPreview:
   ScoringSidebar:
     Stats:

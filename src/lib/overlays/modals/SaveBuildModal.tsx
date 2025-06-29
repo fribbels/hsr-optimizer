@@ -1,37 +1,42 @@
-import { Button, Form, Input, Modal } from 'antd'
-import * as React from 'react'
+import {
+  Button,
+  Form,
+  Input,
+  Modal,
+} from 'antd'
+import {
+  OpenCloseIDs,
+  useOpenClose,
+} from 'lib/hooks/useOpenClose'
+import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { useTranslation } from 'react-i18next'
 
 type CharacterForm = {
-  name: string
+  name: string,
 }
 
-interface NameBuildProps {
-  open: boolean
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  onOk: (characterName: string) => void
-}
-
-const NameBuild: React.FC<NameBuildProps> = ({ open, setOpen, onOk }) => {
+export function SaveBuildModal() {
   const [characterForm] = Form.useForm()
+
+  const { isOpen, close } = useOpenClose(OpenCloseIDs.SAVE_BUILDS_MODAL)
 
   const { t } = useTranslation('modals', { keyPrefix: 'SaveBuild' })
   const { t: tCommon } = useTranslation('common')
 
   function onModalOk() {
     const formValues = characterForm.getFieldsValue() as CharacterForm
-    onOk(formValues.name)
+    CharacterTabController.confirmSaveBuild(formValues.name)
   }
 
   const handleCancel = () => {
-    setOpen(false)
+    close()
   }
 
   const panelWidth = 300
 
   return (
     <Modal
-      open={open}
+      open={isOpen}
       width={350}
       destroyOnClose
       centered
@@ -39,25 +44,23 @@ const NameBuild: React.FC<NameBuildProps> = ({ open, setOpen, onOk }) => {
       onCancel={handleCancel}
       footer={[
         <Button key='back' onClick={handleCancel}>
-          {tCommon('Cancel')/* Cancel */}
+          {tCommon('Cancel') /* Cancel */}
         </Button>,
         <Button key='submit' type='primary' onClick={onModalOk}>
-          {tCommon('Save')/* Save */}
+          {tCommon('Save') /* Save */}
         </Button>,
       ]}
     >
       <Form form={characterForm} preserve={false} layout='vertical'>
         <Form.Item
           name='name'
-          label={t('Label')/* Build name */}
-          rules={[{ required: true, message: t('Rule')/* Please input a name */ }]}
+          label={t('Label') /* Build name */}
+          rules={[{ required: true, message: t('Rule') /* Please input a name */ }]}
           style={{ width: panelWidth }}
         >
-          <Input/>
+          <Input />
         </Form.Item>
       </Form>
     </Modal>
   )
 }
-
-export default NameBuild

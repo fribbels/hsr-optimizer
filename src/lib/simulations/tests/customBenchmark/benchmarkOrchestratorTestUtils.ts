@@ -3,10 +3,10 @@ import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runCustomBenchmarkOrchestrator'
 import { TestInput } from 'lib/simulations/tests/simTestUtils'
 import DB from 'lib/state/db'
-import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/UseBenchmarksTabStore'
-import { applyScoringMetadataPresets, applySetConditionalPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { expect } from 'vitest'
+import { applyScoringMetadataPresets, applySetConditionalPresets } from "lib/conditionals/evaluation/applyPresets";
 
 export async function expectBenchmarkResultsToMatch(
   basicSpd: number,
@@ -46,8 +46,8 @@ export async function expectBenchmarkResultsToMatch(
   applyScoringMetadataPresets(benchmarkForm)
 
   const orchestrator = await runCustomBenchmarkOrchestrator(benchmarkForm)
-  const benchmarkSimScore = orchestrator.benchmarkSimResult?.simScore!
-  const perfectionSimScore = orchestrator.perfectionSimResult?.simScore!
+  const benchmarkSimScore = orchestrator.benchmarkSimResult?.simScore
+  const perfectionSimScore = orchestrator.perfectionSimResult?.simScore
 
   console.log(benchmarkSimScore)
   console.log(perfectionSimScore)

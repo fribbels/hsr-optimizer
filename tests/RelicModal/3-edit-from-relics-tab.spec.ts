@@ -1,4 +1,7 @@
-import { expect, test } from '@playwright/test'
+import {
+  expect,
+  test,
+} from '@playwright/test'
 
 test('Open RelicModal in edit mode from the CharacterPreview tab', async ({ page }) => {
   // navigate to Relics tab

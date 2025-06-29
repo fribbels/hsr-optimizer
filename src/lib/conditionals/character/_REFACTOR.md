@@ -5,13 +5,12 @@
 
 1. refactor/move 1 character-conditional controller code from `lib/characterConditionals.ts` to
    `lib/conditionals/character/[CharName].tsx` (pls. notice file extension).
-    - "character-conditional controller" is a function named for the char, e.g., `function jingliu() {...}`
+   - "character-conditional controller" is a function named for the char, e.g., `function jingliu() {...}`
 
-1. copy import list from sample [
-   `Jingliu.tsx`](https://github.com/cnojima/hsr-optimizer/blob/feature/22-passives-drawer/src/lib/conditionals/character/Jingliu.tsx)
+1. copy import list from sample [`Jingliu.tsx`](https://github.com/cnojima/hsr-optimizer/blob/feature/22-passives-drawer/src/lib/conditionals/character/Jingliu.tsx)
    to the top of your new TSX file.
 
-``` 
+```
 import { Stats } from 'lib/constants';
 import {
   basic, skill, talent, ult,
@@ -22,7 +21,6 @@ import { baseComputedStatsObject } from 'lib/conditionals/constants';
 import { Eidolon } from 'types/Character';
 import { Unknown } from 'types/Common';
 import { CharacterConditional, ConditionalMap, ContentItem, Form } from 'types/CharacterConditional';
-
 ```
 
 Some common/reused utils & constants live in `lib/conditionals/conditionalUtils.ts` &
@@ -57,9 +55,8 @@ const content: ContentDefinition<typeof defaults> = [{
 
 6. add the line `export default [SnakeCaseName];` to the bottom of the new controller.
 
-7. link the new controller to [
-   `lib/characterConditionals.ts`](https://github.com/cnojima/hsr-optimizer/blob/feature/22-improve-passives/src/lib/characterConditionals.js).
-   ***Please alpha-order in import order***:
+7. link the new controller to [`lib/characterConditionals.ts`](https://github.com/cnojima/hsr-optimizer/blob/feature/22-improve-passives/src/lib/characterConditionals.js).
+   _**Please alpha-order in import order**_:
 
 ```
 ...
@@ -78,23 +75,23 @@ import [lowercase] from 'lib/conditionals/character/[SnakeCase]';
 Some characters Eidolon 3 & 5 have differing +2 levels for their respective Skills.
 
 **The "standard" calcs (Jingliu, Dr. Ratio):**
-*Eidolon 3:*
+_Eidolon 3:_
 
 - Ult +2
 - Basic +2
 
-*Eidolon 5:*
+_Eidolon 5:_
 
 - Talent +2
 - Skill +2
 
 **The Reversed calcs (Topaz, etc.):**
-*Eidolon 3:*
+_Eidolon 3:_
 
 - Talent +2
 - Skill +2
 
-*Eidolon 5:*
+_Eidolon 5:_
 
 - Ult +2
 - Basic +2
@@ -102,32 +99,32 @@ Some characters Eidolon 3 & 5 have differing +2 levels for their respective Skil
 ## e3/e5 +2 is not consistent char to char
 
 | e3 skill/talent +2 | e3 ult/basic +2 |
-|--------------------|-----------------|
-| Argenti            | Misha           
-| Arlan              |
-| Asta               |
-| Bailu              | Blade           
-| Black Swan         |
-| Clara              | Bronya          
-| Dan Heng           | Dr. Ratio       
-| DHIL               | Gepard          
+| ------------------ | --------------- |
+| Argenti            | Misha           |
+| Arlan              |                 |
+| Asta               |                 |
+| Bailu              | Blade           |
+| Black Swan         |                 |
+| Clara              | Bronya          |
+| Dan Heng           | Dr. Ratio       |
+| DHIL               | Gepard          |
 | Fu Xuan            | Jingliu         |
-| Guinaifen          | Jing Yuan       
-| Hanya              | Huohuo          
-| Herta              | March 7th       
-| Himeko             | QQ              
-| Hook               | Ruan Mei        
-| Kafka              | Sushang         
-| Luka               | Tingyun         
-| Luocha             
-| Lynx               
-| Natasha            
-| Pela               
-| Sampo              
-| Seele              
-| Serval             
-| Silver Wolf        
-| Sparkle            
-| Topaz              
-| TB: Destruction    
-| TB: Preservation   
+| Guinaifen          | Jing Yuan       |
+| Hanya              | Huohuo          |
+| Herta              | March 7th       |
+| Himeko             | QQ              |
+| Hook               | Ruan Mei        |
+| Kafka              | Sushang         |
+| Luka               | Tingyun         |
+| Luocha             |                 |
+| Lynx               |                 |
+| Natasha            |                 |
+| Pela               |                 |
+| Sampo              |                 |
+| Seele              |                 |
+| Serval             |                 |
+| Silver Wolf        |                 |
+| Sparkle            |                 |
+| Topaz              |                 |
+| TB: Destruction    |                 |
+| TB: Preservation   |                 |

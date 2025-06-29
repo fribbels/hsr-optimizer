@@ -1,6 +1,19 @@
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
-import { Drawer, Flex, Form, Select, Switch, Typography } from 'antd'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import {
+  CheckOutlined,
+  CloseOutlined,
+} from '@ant-design/icons'
+import {
+  Drawer,
+  Flex,
+  Form,
+  Select,
+  Switch,
+  Typography,
+} from 'antd'
+import {
+  OpenCloseIDs,
+  useOpenClose,
+} from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
@@ -16,7 +29,7 @@ export const EnemyConfigurationsDrawer = () => {
   const { close: closeEnemyDrawer, isOpen: isOpenEnemyDrawer } = useOpenClose(OpenCloseIDs.ENEMY_DRAWER)
 
   const enemyLevelOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
+    const options: { value: number, label: string }[] = []
     for (let i = 95; i >= 1; i--) {
       options.push({
         value: i,
@@ -28,7 +41,7 @@ export const EnemyConfigurationsDrawer = () => {
   }, [t])
 
   const enemyCountOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
+    const options: { value: number, label: string }[] = []
     for (let i = 1; i <= 5; i += 2) {
       options.push({
         value: i,
@@ -40,7 +53,7 @@ export const EnemyConfigurationsDrawer = () => {
   }, [t])
 
   const enemyResistanceOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
+    const options: { value: number, label: string }[] = []
     for (let i = 20; i <= 60; i += 20) {
       options.push({
         value: i / 100,
@@ -52,7 +65,7 @@ export const EnemyConfigurationsDrawer = () => {
   }, [t])
 
   const enemyEffectResistanceOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
+    const options: { value: number, label: string }[] = []
     for (let i = 0; i <= 40; i += 10) {
       options.push({
         value: i / 100,
@@ -64,7 +77,7 @@ export const EnemyConfigurationsDrawer = () => {
   }, [t])
 
   const enemyMaxToughnessOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
+    const options: { value: number, label: string }[] = []
     for (let i = 720; i >= 1; i -= 30) {
       options.push({
         value: i,
@@ -77,7 +90,7 @@ export const EnemyConfigurationsDrawer = () => {
 
   return (
     <Drawer
-      title={t('Title')}// 'Enemy configurations'
+      title={t('Title')} // 'Enemy configurations'
       placement='right'
       onClose={closeEnemyDrawer}
       open={isOpenEnemyDrawer}
@@ -86,8 +99,8 @@ export const EnemyConfigurationsDrawer = () => {
     >
       <Flex vertical gap={5}>
         <Flex justify='space-between' align='center' style={{ marginBottom: 5 }}>
-          <HeaderText>{t('StatHeader')/* Enemy stat options */}</HeaderText>
-          <TooltipImage type={Hint.enemyOptions()}/>
+          <HeaderText>{t('StatHeader') /* Enemy stat options */}</HeaderText>
+          <TooltipImage type={Hint.enemyOptions()} />
         </Flex>
 
         <Form.Item name={enemyFormItemName('enemyLevel')}>
@@ -133,24 +146,24 @@ export const EnemyConfigurationsDrawer = () => {
         <Flex align='center'>
           <Form.Item name={enemyFormItemName('enemyElementalWeak')} valuePropName='checked'>
             <Switch
-              checkedChildren={<CheckOutlined/>}
-              unCheckedChildren={<CloseOutlined/>}
+              checkedChildren={<CheckOutlined />}
+              unCheckedChildren={<CloseOutlined />}
               defaultChecked
               style={{ width: 45, marginRight: 5 }}
             />
           </Form.Item>
-          <Text>{t('WeaknessLabel')/* Elemental weakness */}</Text>
+          <Text>{t('WeaknessLabel') /* Elemental weakness */}</Text>
         </Flex>
 
         <Flex align='center'>
           <Form.Item name={enemyFormItemName('enemyWeaknessBroken')} valuePropName='checked'>
             <Switch
-              checkedChildren={<CheckOutlined/>}
-              unCheckedChildren={<CloseOutlined/>}
+              checkedChildren={<CheckOutlined />}
+              unCheckedChildren={<CloseOutlined />}
               style={{ width: 45, marginRight: 5 }}
             />
           </Form.Item>
-          <Text>{t('BrokenLabel')/* Weakness broken */}</Text>
+          <Text>{t('BrokenLabel') /* Weakness broken */}</Text>
         </Flex>
       </Flex>
     </Drawer>

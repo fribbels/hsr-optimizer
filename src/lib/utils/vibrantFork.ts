@@ -1,6 +1,9 @@
 import chroma from 'chroma-js'
 import Vibrant from 'node-vibrant'
-import { Palette, Swatch } from 'node-vibrant/lib/color'
+import {
+  Palette,
+  Swatch,
+} from 'node-vibrant/lib/color'
 import { Generator } from 'node-vibrant/lib/typing'
 import { hslToRgb } from 'node-vibrant/lib/util'
 
@@ -57,21 +60,26 @@ function _isAlreadySelected(palette: Palette, s: Swatch): boolean {
     || palette.LightMuted === s
 }
 
-function _findColorVariation(palette: Palette, swatches: Array<Swatch>, maxPopulation: number,
+function _findColorVariation(
+  palette: Palette,
+  swatches: Array<Swatch>,
+  maxPopulation: number,
   targetLuma: number,
   minLuma: number,
   maxLuma: number,
   targetSaturation: number,
   minSaturation: number,
   maxSaturation: number,
-  opts: DefaultGeneratorOptions): Swatch {
+  opts: DefaultGeneratorOptions,
+): Swatch {
   let max: Swatch | null = null
   let maxValue = 0
 
   swatches.forEach((swatch) => {
     const [, s, l] = swatch.getHsl()
 
-    if (s >= minSaturation && s <= maxSaturation
+    if (
+      s >= minSaturation && s <= maxSaturation
       && l >= minLuma && l <= maxLuma
       && !_isAlreadySelected(palette, swatch)
     ) {
@@ -88,9 +96,14 @@ function _findColorVariation(palette: Palette, swatches: Array<Swatch>, maxPopul
 }
 
 function _createComparisonValue(
-  saturation: number, targetSaturation: number,
-  luma: number, targetLuma: number,
-  population: number, maxPopulation: number, opts: DefaultGeneratorOptions): number {
+  saturation: number,
+  targetSaturation: number,
+  luma: number,
+  targetLuma: number,
+  population: number,
+  maxPopulation: number,
+  opts: DefaultGeneratorOptions,
+): number {
   function weightedMean(...values: number[]) {
     let sum = 0
     let weightSum = 0
@@ -109,9 +122,12 @@ function _createComparisonValue(
   }
 
   return weightedMean(
-    invertDiff(saturation, targetSaturation), opts.weightSaturation,
-    invertDiff(luma, targetLuma), opts.weightLuma,
-    population / maxPopulation, opts.weightPopulation,
+    invertDiff(saturation, targetSaturation),
+    opts.weightSaturation,
+    invertDiff(luma, targetLuma),
+    opts.weightLuma,
+    population / maxPopulation,
+    opts.weightPopulation,
   )
 }
 
@@ -119,7 +135,10 @@ function _generateVariationColors(swatches: Array<Swatch>, maxPopulation: number
   const palette: Palette = {}
   // mVibrantSwatch = findColor(TARGET_NORMAL_LUMA, MIN_NORMAL_LUMA, MAX_NORMAL_LUMA,
   //     TARGET_VIBRANT_SATURATION, MIN_VIBRANT_SATURATION, 1f);
-  palette.Vibrant = _findColorVariation(palette, swatches, maxPopulation,
+  palette.Vibrant = _findColorVariation(
+    palette,
+    swatches,
+    maxPopulation,
     opts.targetNormalLuma,
     opts.minNormalLuma,
     opts.maxNormalLuma,
@@ -130,7 +149,10 @@ function _generateVariationColors(swatches: Array<Swatch>, maxPopulation: number
   )
   // mLightVibrantSwatch = findColor(TARGET_LIGHT_LUMA, MIN_LIGHT_LUMA, 1f,
   //     TARGET_VIBRANT_SATURATION, MIN_VIBRANT_SATURATION, 1f);
-  palette.LightVibrant = _findColorVariation(palette, swatches, maxPopulation,
+  palette.LightVibrant = _findColorVariation(
+    palette,
+    swatches,
+    maxPopulation,
     opts.targetLightLuma,
     opts.minLightLuma,
     1,
@@ -141,7 +163,10 @@ function _generateVariationColors(swatches: Array<Swatch>, maxPopulation: number
   )
   // mDarkVibrantSwatch = findColor(TARGET_DARK_LUMA, 0f, MAX_DARK_LUMA,
   //     TARGET_VIBRANT_SATURATION, MIN_VIBRANT_SATURATION, 1f);
-  palette.DarkVibrant = _findColorVariation(palette, swatches, maxPopulation,
+  palette.DarkVibrant = _findColorVariation(
+    palette,
+    swatches,
+    maxPopulation,
     opts.targetDarkLuma,
     0,
     opts.maxDarkLuma,
@@ -152,7 +177,10 @@ function _generateVariationColors(swatches: Array<Swatch>, maxPopulation: number
   )
   // mMutedSwatch = findColor(TARGET_NORMAL_LUMA, MIN_NORMAL_LUMA, MAX_NORMAL_LUMA,
   //     TARGET_MUTED_SATURATION, 0f, MAX_MUTED_SATURATION);
-  palette.Muted = _findColorVariation(palette, swatches, maxPopulation,
+  palette.Muted = _findColorVariation(
+    palette,
+    swatches,
+    maxPopulation,
     opts.targetNormalLuma,
     opts.minNormalLuma,
     opts.maxNormalLuma,
@@ -163,7 +191,10 @@ function _generateVariationColors(swatches: Array<Swatch>, maxPopulation: number
   )
   // mLightMutedColor = findColor(TARGET_LIGHT_LUMA, MIN_LIGHT_LUMA, 1f,
   //     TARGET_MUTED_SATURATION, 0f, MAX_MUTED_SATURATION);
-  palette.LightMuted = _findColorVariation(palette, swatches, maxPopulation,
+  palette.LightMuted = _findColorVariation(
+    palette,
+    swatches,
+    maxPopulation,
     opts.targetLightLuma,
     opts.minLightLuma,
     1,
@@ -174,7 +205,10 @@ function _generateVariationColors(swatches: Array<Swatch>, maxPopulation: number
   )
   // mDarkMutedSwatch = findColor(TARGET_DARK_LUMA, 0f, MAX_DARK_LUMA,
   //     TARGET_MUTED_SATURATION, 0f, MAX_MUTED_SATURATION);
-  palette.DarkMuted = _findColorVariation(palette, swatches, maxPopulation,
+  palette.DarkMuted = _findColorVariation(
+    palette,
+    swatches,
+    maxPopulation,
     opts.targetDarkLuma,
     0,
     opts.maxDarkLuma,
@@ -264,14 +298,14 @@ export const CustomGenerator: Generator = (swatches: Array<Swatch>, opts?: objec
 }
 
 export type PaletteResponse = {
-  Vibrant: string
-  Muted: string
-  DarkVibrant: string
-  DarkMuted: string
-  LightVibrant: string
-  LightMuted: string
+  Vibrant: string,
+  Muted: string,
+  DarkVibrant: string,
+  DarkMuted: string,
+  LightVibrant: string,
+  LightMuted: string,
 
-  colors: string[]
+  colors: string[],
 }
 
 export function getPalette(src: string, callback: (r: PaletteResponse) => void) {
@@ -298,7 +332,7 @@ export function getPalette(src: string, callback: (r: PaletteResponse) => void) 
       // console.log('PALETTE', palette)
 
       // colors member from custom generator isn't added to type information
-      const colors = (palette.colors as unknown as { _hsl: number[]; _population: number; _rgb: number[] }[])
+      const colors = (palette.colors as unknown as { _hsl: number[], _population: number, _rgb: number[] }[])
         .map((x) => chroma(x._rgb).hex()).filter((color: string) => {
           return (
             color != defaults.Vibrant

@@ -26,5 +26,4 @@ Guidelines:
 * non damaging SKILL / ULT / etc abilities should be included for activating other effects
 * BREAK now counts as an ability
 * DOT DMG instances are spread evenly across the DOT abilities
-
 ```

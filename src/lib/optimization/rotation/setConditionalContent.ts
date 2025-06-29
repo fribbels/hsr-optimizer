@@ -1,19 +1,23 @@
 import { TFunction } from 'i18next'
-import { ConditionalDataType, Constants, Sets } from 'lib/constants/constants'
+import {
+  ConditionalDataType,
+  Constants,
+  Sets,
+} from 'lib/constants/constants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 export type SelectOptionContent = {
-  display: string
-  value: number
-  label: string
+  display: string,
+  value: number,
+  label: string,
 }
 
 type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
 
 export type SetMetadata = {
-  type: ConditionalDataType
-  modifiable?: boolean
-  selectionOptions?: (t: SetConditionalTFunction) => SelectOptionContent[]
+  type: ConditionalDataType,
+  modifiable?: boolean,
+  selectionOptions?: (t: SetConditionalTFunction) => SelectOptionContent[],
 }
 
 export function generateSetConditionalContent(t: SetConditionalTFunction) {
@@ -206,6 +210,14 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
   [Sets.GiantTreeOfRaptBrooding]: {
     type: ConditionalDataType.BOOLEAN,
   },
+  [Sets.ArcadiaOfWovenDreams]: {
+    type: ConditionalDataType.SELECT,
+    selectionOptions: SetContentArcadiaOfWovenDreams,
+    modifiable: true,
+  },
+  [Sets.RevelryByTheSea]: {
+    type: ConditionalDataType.BOOLEAN,
+  },
 }
 
 function SetContentSacerdosRelivedOrdealOptions(t: SetConditionalTFunction) {
@@ -214,7 +226,7 @@ function SetContentSacerdosRelivedOrdealOptions(t: SetConditionalTFunction) {
     options.push({
       display: t('Sacerdos.Display', { stackCount: i }), // i + 'x',
       value: i,
-      label: t('Sacerdos.Label', { stackCount: i, buffValue: TsUtils.precisionRound((18 * i)) }), // `${i} stacks (+${i * 18}% CD)`,
+      label: t('Sacerdos.Label', { stackCount: i, buffValue: TsUtils.precisionRound(18 * i) }), // `${i} stacks (+${i * 18}% CD)`,
     })
   }
 
@@ -347,11 +359,56 @@ function SetContentDuranDynastyOfRunningWolves(t: SetConditionalTFunction) {
     options.push({
       display: t('Duran.Display', { stackCount: i }), // i + 'x',
       value: i,
-      label: t('Duran.Label', { stackCount: i, buffValue: TsUtils.precisionRound((5 * i)) }), // `${i} stacks (+${5 * i}% FUA DMG)`,
+      label: t('Duran.Label', { stackCount: i, buffValue: TsUtils.precisionRound(5 * i) }), // `${i} stacks (+${5 * i}% FUA DMG)`,
     })
   }
 
-  options[5].label = t('Duran.Label5')// `${5} stacks (+${5 * 5}% FUA DMG + 25% CD)`
+  options[5].label = t('Duran.Label5') // `${5} stacks (+${5 * 5}% FUA DMG + 25% CD)`
 
   return options
+}
+
+function SetContentArcadiaOfWovenDreams(t: SetConditionalTFunction) {
+  return [
+    {
+      display: '1x',
+      value: 1,
+      label: '1 ally (+36% DMG)',
+    },
+    {
+      display: '2x',
+      value: 2,
+      label: '2 allies (+24% DMG)',
+    },
+    {
+      display: '3x',
+      value: 3,
+      label: '3 allies (+12% DMG)',
+    },
+    {
+      display: '4x',
+      value: 4,
+      label: '4 allies (+0% DMG)',
+    },
+    {
+      display: '5x',
+      value: 5,
+      label: '5 allies (+9% DMG)',
+    },
+    {
+      display: '6x',
+      value: 6,
+      label: '6 allies (+18% DMG)',
+    },
+    {
+      display: '7x',
+      value: 7,
+      label: '7 allies (+27% DMG)',
+    },
+    {
+      display: '8x',
+      value: 8,
+      label: '8 allies (+36% DMG)',
+    },
+  ]
 }

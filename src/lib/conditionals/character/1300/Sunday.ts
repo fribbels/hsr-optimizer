@@ -1,15 +1,29 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Stats,
+} from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import {
+  ComputedStatsArray,
+  Key,
+} from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sunday')
@@ -65,7 +79,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         {
           DmgBoost: TsUtils.precisionRound(100 * skillDmgBoostValue),
           SummonDmgBoost: TsUtils.precisionRound(100 * skillDmgBoostSummonValue),
-        }),
+        },
+      ),
     },
     talentCrBuffStacks: {
       id: 'talentCrBuffStacks',
@@ -109,7 +124,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         {
           CritBuffScaling: TsUtils.precisionRound(100 * ultCdBoostValue),
           CritBuffFlat: TsUtils.precisionRound(100 * ultCdBoostBaseValue),
-        }),
+        },
+      ),
     },
     teammateCDValue: {
       id: 'teammateCDValue',
@@ -120,7 +136,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         {
           CritBuffScaling: TsUtils.precisionRound(100 * ultCdBoostValue),
           CritBuffFlat: TsUtils.precisionRound(100 * ultCdBoostBaseValue),
-        }),
+        },
+      ),
       min: 0,
       max: 4.00,
       percent: true,
@@ -178,10 +195,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CR],
         chainsTo: [Stats.CD],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return x.m.a[Key.CR] > 1.00
         },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
           if (!(e >= 6 && r.e6CrToCdConversion && !x.a[Key.DEPRIORITIZE_BUFFS])) {
             return
@@ -194,10 +211,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           x.m.CD.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
           x.m.UNCONVERTIBLE_CD_BUFF.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
 
-          return conditionalWgslWrapper(this, `
+          return conditionalWgslWrapper(
+            this,
+            `
 if (${wgslFalse(e >= 6 && r.e6CrToCdConversion)}) {
   return;
 }
@@ -217,7 +236,8 @@ if (cr > 1.00) {
   (*p_m).CD += buffValue - stateValue;
   (*p_m).UNCONVERTIBLE_CD_BUFF += buffValue - stateValue;
 }
-          `)
+          `,
+          )
         },
       },
       {
@@ -226,10 +246,10 @@ if (cr > 1.00) {
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CR],
         chainsTo: [Stats.CD],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return x.a[Key.CR] > 1.00
         },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
           if (!(e >= 6 && r.e6CrToCdConversion && !x.a[Key.DEPRIORITIZE_BUFFS])) {
             return
@@ -242,10 +262,12 @@ if (cr > 1.00) {
           x.CD.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
           x.UNCONVERTIBLE_CD_BUFF.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
 
-          return conditionalWgslWrapper(this, `
+          return conditionalWgslWrapper(
+            this,
+            `
 if (${wgslFalse(e >= 6 && r.e6CrToCdConversion)}) {
   return;
 }
@@ -262,7 +284,8 @@ if (x.CR > 1.00) {
   (*p_x).CD += buffValue - stateValue;
   (*p_x).UNCONVERTIBLE_CD_BUFF += buffValue - stateValue;
 }
-    `)
+    `,
+          )
         },
       },
     ],

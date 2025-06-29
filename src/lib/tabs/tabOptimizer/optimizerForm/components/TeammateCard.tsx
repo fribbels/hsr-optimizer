@@ -1,9 +1,21 @@
 import { SyncOutlined } from '@ant-design/icons'
-import { Form as AntDForm, Button, Flex, Select, Typography } from 'antd'
+import {
+  Button,
+  Flex,
+  Form as AntDForm,
+  Select,
+  Typography,
+} from 'antd'
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
+import { applyTeamAwareSetConditionalPresetsToOptimizerFormInstance } from 'lib/conditionals/evaluation/applyPresets'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { Constants, SACERDOS_RELIVED_ORDEAL_1_STACK, SACERDOS_RELIVED_ORDEAL_2_STACK, Sets } from 'lib/constants/constants'
+import {
+  Constants,
+  SACERDOS_RELIVED_ORDEAL_1_STACK,
+  SACERDOS_RELIVED_ORDEAL_2_STACK,
+  Sets,
+} from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
@@ -14,12 +26,22 @@ import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Char
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { useEffect, useMemo, useState } from 'react'
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character, CharacterId } from 'types/character'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
 import { ReactElement } from 'types/components'
 import { TeammateProperty } from 'types/form'
-import { LightCone, SuperImpositionLevel } from 'types/lightCone'
+import {
+  LightCone,
+  SuperImpositionLevel,
+} from 'types/lightCone'
 import { DBMetadata } from 'types/metadata'
 
 const { Text } = Typography
@@ -40,9 +62,9 @@ const cardHeight = 480
 
 const optionRender = (option: {
   data: {
-    value: string
-    desc: string
-  }
+    value: string,
+    desc: string,
+  },
 }) => (
   option.data.value
     ? (
@@ -99,8 +121,8 @@ const teammateOrnamentSets = [
 function calculateTeammateSets(teammateCharacter: Character) {
   const relics = Object.values(teammateCharacter.equipped).map((id) => DB.getRelicById(id)).filter((x) => x)
   const activeTeammateSets: {
-    teamRelicSet?: string
-    teamOrnamentSet?: string
+    teamRelicSet?: string,
+    teamOrnamentSet?: string,
   } = {}
   for (const set of teammateRelicSets) {
     if (relics.filter((relic) => relic.set == set).length == 4) {
@@ -135,14 +157,14 @@ function countTeammates() {
 }
 
 type OptionRender = {
-  value: string
-  desc: string
-  label: ReactElement
+  value: string,
+  desc: string,
+  label: ReactElement,
 }
 
 const TeammateCard = (props: {
-  index: number
-  dbMetadata: DBMetadata
+  index: number,
+  dbMetadata: DBMetadata,
 }) => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
   const teammateProperty = useMemo(() => getTeammateProperty(props.index), [props.index])
@@ -214,8 +236,8 @@ const TeammateCard = (props: {
 
   const superimpositionOptions = useMemo(() => {
     const options: {
-      value: number
-      label: string
+      value: number,
+      label: string,
     }[] = []
     for (let i = 1; i <= 5; i++) {
       options.push({ value: i, label: t('SuperimpositionN', { superimposition: i }) })
@@ -225,8 +247,8 @@ const TeammateCard = (props: {
 
   const eidolonOptions = useMemo(() => {
     const options: {
-      value: number
-      label: string
+      value: number,
+      label: string,
     }[] = []
     for (let i = 0; i <= 6; i++) {
       options.push({ value: i, label: t('EidolonN', { eidolon: i }) })
@@ -268,6 +290,7 @@ const TeammateCard = (props: {
       teammateValues.characterConditionals = Object.assign({}, characterConditionals.teammateDefaults(), teammateValues.characterConditionals)
     }
 
+    applyTeamAwareSetConditionalPresetsToOptimizerFormInstance(window.optimizerForm)
     window.optimizerForm.setFieldValue([teammateProperty], teammateValues)
   }
 
@@ -302,12 +325,12 @@ const TeammateCard = (props: {
           </AntDForm.Item>
 
           <Button
-            icon={<SyncOutlined/>}
+            icon={<SyncOutlined />}
             style={{ width: 35 }}
             disabled={disabled}
             onClick={() => {
               updateTeammate()
-              Message.success(t('TeammateSyncSuccessMessage'))// 'Synced teammate info'
+              Message.success(t('TeammateSyncSuccessMessage')) // 'Synced teammate info'
             }}
           />
 
@@ -316,7 +339,7 @@ const TeammateCard = (props: {
               showSearch
               style={{ width: 110 }}
               options={eidolonOptions}
-              placeholder={t('EidolonPlaceholder')}// 'Eidolon'
+              placeholder={t('EidolonPlaceholder')} // 'Eidolon'
               disabled={disabled}
             />
           </AntDForm.Item>
@@ -331,13 +354,14 @@ const TeammateCard = (props: {
             />
           </Flex>
           <Flex vertical gap={5}>
-            <div style={{
-              width: `${rightPanelWidth}px`,
-              height: `${rightPanelWidth}px`,
-              backgroundColor: 'rgb(255 255 255 / 2%)',
-              borderRadius: rightPanelWidth,
-              border: teammateCharacterId ? showcaseOutlineLight : undefined,
-            }}
+            <div
+              style={{
+                width: `${rightPanelWidth}px`,
+                height: `${rightPanelWidth}px`,
+                backgroundColor: 'rgb(255 255 255 / 2%)',
+                borderRadius: rightPanelWidth,
+                border: teammateCharacterId ? showcaseOutlineLight : undefined,
+              }}
             >
               <img
                 width={rightPanelWidth}
@@ -353,7 +377,7 @@ const TeammateCard = (props: {
                 className='teammate-set-select'
                 style={{ width: 110 }}
                 options={teammateRelicSetOptions}
-                placeholder={t('RelicsPlaceholder')}// 'Relics'
+                placeholder={t('RelicsPlaceholder')} // 'Relics'
                 allowClear
                 popupMatchSelectWidth={false}
                 optionLabelProp='label'
@@ -367,7 +391,7 @@ const TeammateCard = (props: {
                 className='teammate-set-select'
                 style={{ width: 110 }}
                 options={teammateOrnamentSetOptions}
-                placeholder={t('OrnamentsPlaceholder')}// 'Ornaments'
+                placeholder={t('OrnamentsPlaceholder')} // 'Ornaments'
                 allowClear
                 popupMatchSelectWidth={false}
                 optionLabelProp='label'
@@ -394,7 +418,7 @@ const TeammateCard = (props: {
               showSearch
               style={{ width: 110 }}
               options={superimpositionOptions}
-              placeholder={t('SuperimpositionPlaceholder')}// 'Superimposition'
+              placeholder={t('SuperimpositionPlaceholder')} // 'Superimposition'
               disabled={disabled}
             />
           </AntDForm.Item>

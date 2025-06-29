@@ -1,12 +1,25 @@
-import { Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import {
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Stats,
+} from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import {
+  ComputedStatsArray,
+  Key,
+} from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ItsShowtime')
@@ -51,14 +64,16 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.EHR],
         chainsTo: [Stats.ATK],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return x.a[Key.EHR] >= 0.80
         },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           x.ATK.buffDynamic(sValuesAtkBuff[s] * context.baseATK, SOURCE_LC, action, context)
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
-          return conditionalWgslWrapper(this, `
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
+          return conditionalWgslWrapper(
+            this,
+            `
 if (
   (*p_state).ItsShowtimeConversionConditional == 0.0 &&
   x.EHR >= 0.80
@@ -66,7 +81,8 @@ if (
   (*p_state).ItsShowtimeConversionConditional = 1.0;
   (*p_x).ATK += ${sValuesAtkBuff[s]} * baseATK;
 }
-    `)
+    `,
+          )
         },
       },
     ],

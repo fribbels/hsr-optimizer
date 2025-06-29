@@ -1,18 +1,22 @@
 Title: Configurações
-RelicEquippingBehaviour:
+RelicEquippingBehavior:
   Label: Equipando relíquias de outro personagem
   Replace: "Padrão: Repor relíquias sem trocar"
   Swap: Trocar relíquias com o usuário anterior
-PermutationSidebarBehaviour:
+PermutationsSidebarBehavior:
   Label: Diminuir barra lateral do otimizador em telas menores
-  XL: "Padrão: Minimizar se a maioria da barra lateral estiver escondida"
-  XXL: Minimizar se qualquer parte da barra lateral estiver escondida
+  ShowXL: "Padrão: Minimizar se a maioria da barra lateral estiver escondida"
+  ShowXXL: Minimizar se qualquer parte da barra lateral estiver escondida
   NoShow: Sempre manter a barra lateral na direita
-RelicPotentialLoadBehaviour:
+RelicPotentialLoadBehavior:
   Label: Pontuação potencial das relíquias ao carregar
-  OnStartup: "Padrão: Automaticamente pontuar relíquias ao carregar página"
-  Manual: Somente pontuar relíquias quando "Reaplicar pontuação" é clicado (página carrega mais rápido)
+  ScoreAtStartup: "Padrão: Automaticamente pontuar relíquias ao carregar página"
+  ManuallyClickReapplyScores: Somente pontuar relíquias quando "Reaplicar pontuação" é clicado (página carrega mais rápido)
 ExpandedInfoPanelPosition:
   Label: Posição do painel de informações extendidas do Otimizador
   Above: Mostrar informações expandidas acima da pré-visualização de relíquias
   Below: "Padrão: Mostrar informações expandidas abaixo da pré-visualização de relíquias"
+ShowLocatorInRelicsModal:
+  Label: Localizador de relíquia no editor de relíquias
+  Yes: Mostrar o localizador de relíquia no editor de relíquias
+  No: "Padrão: Não mostrar o localizador de relíquia no editor de relíquia"

@@ -1,12 +1,21 @@
-import { Constants, PathNames } from 'lib/constants/constants'
+import {
+  Constants,
+  PathNames,
+} from 'lib/constants/constants'
 import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
 import { injectConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
 import { indent } from 'lib/gpu/injection/wgslUtils'
-import { GpuConstants, RelicsByPart } from 'lib/gpu/webgpuTypes'
+import {
+  GpuConstants,
+  RelicsByPart,
+} from 'lib/gpu/webgpuTypes'
 import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
 import structs from 'lib/gpu/wgsl/structs.wgsl?raw'
-import { AbilityKind, getAbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  getAbilityKind,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
@@ -18,6 +27,7 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
   wgsl = injectComputeShader(wgsl)
   wgsl = injectConditionals(wgsl, request, context, gpuParams)
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)
+  wgsl = injectRelicIndexStrategy(wgsl, relics)
   wgsl = injectBasicFilters(wgsl, request, gpuParams)
   wgsl = injectCombatFilters(wgsl, request, gpuParams)
   wgsl = injectRatingFilters(wgsl, request, gpuParams)
@@ -45,8 +55,12 @@ function injectSuppressions(wgsl: string, request: Form, context: OptimizerConte
     if (context.resultSort != SortOption.SKILL.key && request.minSkill == 0 && request.maxSkill == Constants.MAX_INT) wgsl = suppress(wgsl, 'SKILL CALC')
     if (context.resultSort != SortOption.ULT.key && request.minUlt == 0 && request.maxUlt == Constants.MAX_INT) wgsl = suppress(wgsl, 'ULT CALC')
     if (context.resultSort != SortOption.FUA.key && request.minFua == 0 && request.maxFua == Constants.MAX_INT) wgsl = suppress(wgsl, 'FUA CALC')
-    if (context.resultSort != SortOption.MEMO_SKILL.key && request.minMemoSkill == 0 && request.maxMemoSkill == Constants.MAX_INT) wgsl = suppress(wgsl, 'MEMO_SKILL CALC')
-    if (context.resultSort != SortOption.MEMO_TALENT.key && request.minMemoTalent == 0 && request.maxMemoTalent == Constants.MAX_INT) wgsl = suppress(wgsl, 'MEMO_TALENT CALC')
+    if (context.resultSort != SortOption.MEMO_SKILL.key && request.minMemoSkill == 0 && request.maxMemoSkill == Constants.MAX_INT) {
+      wgsl = suppress(wgsl, 'MEMO_SKILL CALC')
+    }
+    if (context.resultSort != SortOption.MEMO_TALENT.key && request.minMemoTalent == 0 && request.maxMemoTalent == Constants.MAX_INT) {
+      wgsl = suppress(wgsl, 'MEMO_TALENT CALC')
+    }
   }
 
   return wgsl
@@ -82,17 +96,23 @@ function filterFn(request: Form) {
 }
 
 function format(text: string, levels: number = 2) {
-  return indent((text.length > 0 ? text : 'false'), levels)
+  return indent(text.length > 0 ? text : 'false', levels)
 }
 
 function injectSetFilters(wgsl: string, gpuParams: GpuConstants) {
   // CTRL+ F: RESULTS ASSIGNMENT
-  return wgsl.replace('/* INJECT SET FILTERS */', indent(`
+  return wgsl.replace(
+    '/* INJECT SET FILTERS */',
+    indent(
+      `
 if (relicSetSolutionsMatrix[relicSetIndex] < 1 || ornamentSetSolutionsMatrix[ornamentSetIndex] < 1) {
   results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
   continue;
 }
-  `, 2))
+  `,
+      2,
+    ),
+  )
 }
 
 function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
@@ -131,7 +151,10 @@ function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants
   ].filter((str) => str.length > 0).join(' ||\n')
 
   // CTRL+ F: RESULTS ASSIGNMENT
-  wgsl = wgsl.replace('/* INJECT BASIC STAT FILTERS */', indent(`
+  wgsl = wgsl.replace(
+    '/* INJECT BASIC STAT FILTERS */',
+    indent(
+      `
 if (statDisplay == 1) {
   if (
 ${format(basicFilters)}
@@ -140,7 +163,10 @@ ${format(basicFilters)}
     break;
   }
 }
-  `, 4))
+  `,
+      4,
+    ),
+  )
 
   return wgsl
 }
@@ -197,7 +223,10 @@ function injectCombatFilters(wgsl: string, request: Form, gpuParams: GpuConstant
   ].filter((str) => str.length > 0).join(' ||\n')
 
   // CTRL+ F: RESULTS ASSIGNMENT
-  wgsl = wgsl.replace('/* INJECT COMBAT STAT FILTERS */', indent(`
+  wgsl = wgsl.replace(
+    '/* INJECT COMBAT STAT FILTERS */',
+    indent(
+      `
 if (statDisplay == 0) {
   if (
 ${format(combatFilters)}
@@ -206,7 +235,10 @@ ${format(combatFilters)}
     break;
   }
 }
-  `, 4))
+  `,
+      4,
+    ),
+  )
 
   return wgsl
 }
@@ -240,14 +272,20 @@ function injectRatingFilters(wgsl: string, request: Form, gpuParams: GpuConstant
   ].filter((str) => str.length > 0).join(' ||\n')
 
   // CTRL+ F: RESULTS ASSIGNMENT
-  wgsl = wgsl.replace('/* INJECT RATING STAT FILTERS */', indent(`
+  wgsl = wgsl.replace(
+    '/* INJECT RATING STAT FILTERS */',
+    indent(
+      `
 if (
 ${format(ratingFilters, 1)}
 ) {
   results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
   break;
 }
-  `, 4))
+  `,
+      4,
+    ),
+  )
 
   return wgsl
 }
@@ -269,22 +307,31 @@ const DEBUG_BREAK_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbi
 `
   }
 
-  wgsl = wgsl.replace('/* INJECT GPU PARAMS */', `
+  wgsl = wgsl.replace(
+    '/* INJECT GPU PARAMS */',
+    `
 const WORKGROUP_SIZE = ${gpuParams.WORKGROUP_SIZE};
 const BLOCK_SIZE = ${gpuParams.BLOCK_SIZE};
 const CYCLES_PER_INVOCATION = ${cyclesPerInvocation};
 const DEBUG = ${gpuParams.DEBUG ? 1 : 0};
 ${debugValues}
-  `)
+  `,
+  )
 
   if (gpuParams.DEBUG) {
-    wgsl = wgsl.replace('/* INJECT RESULTS BUFFER */', `
+    wgsl = wgsl.replace(
+      '/* INJECT RESULTS BUFFER */',
+      `
 @group(2) @binding(0) var<storage, read_write> results : array<ComputedStats>; // DEBUG
-    `)
+    `,
+    )
   } else {
-    wgsl = wgsl.replace('/* INJECT RESULTS BUFFER */', `
+    wgsl = wgsl.replace(
+      '/* INJECT RESULTS BUFFER */',
+      `
 @group(2) @binding(0) var<storage, read_write> results : array<f32>;
-    `)
+    `,
+    )
   }
 
   // eslint-disable-next-line
@@ -295,12 +342,21 @@ ${debugValues}
 
   // CTRL+ F: RESULTS ASSIGNMENT
   if (gpuParams.DEBUG) {
-    wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
+    wgsl = wgsl.replace(
+      '/* INJECT RETURN VALUE */',
+      indent(
+        `
 results[index] = x; // DEBUG
 results[index + 1] = m; // DEBUG
-    `, 4))
+    `,
+        4,
+      ),
+    )
   } else {
-    wgsl = wgsl.replace('/* INJECT RETURN VALUE */', indent(`
+    wgsl = wgsl.replace(
+      '/* INJECT RETURN VALUE */',
+      indent(
+        `
 if (statDisplay == 0) {
   results[index] = x.${sortOptionGpu};
   failures = 1;
@@ -308,18 +364,71 @@ if (statDisplay == 0) {
   results[index] = ${valueString};
   failures = 1;
 }
-    `, 4))
+    `,
+        4,
+      ),
+    )
   }
 
   if (context.resultSort == SortOption.COMBO.key) {
-    wgsl = wgsl.replace('/* INJECT ACTION ITERATOR */', indent(`
+    wgsl = wgsl.replace(
+      '/* INJECT ACTION ITERATOR */',
+      indent(
+        `
 for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
-    `, 4))
+    `,
+        4,
+      ),
+    )
   } else {
-    wgsl = wgsl.replace('/* INJECT ACTION ITERATOR */', indent(`
+    wgsl = wgsl.replace(
+      '/* INJECT ACTION ITERATOR */',
+      indent(
+        `
 for (var actionIndex = 0; actionIndex < actionCount; actionIndex++) {
-    `, 4))
+    `,
+        4,
+      ),
+    )
   }
 
   return wgsl
+}
+
+/**
+ * Decides which {@link https://web.archive.org/web/20250531050143/https://en.wikipedia.org/wiki/Mixed_radix mixed-radix}
+ * strategy should be used for accessing the relics array slots. This is needed because, as of now,  wgsl only supports
+ * 32 bit types, which can overflow if not used cautiously.
+ */
+function injectRelicIndexStrategy(wgsl: string, relics: RelicsByPart): string {
+  const injectionLabel = '/* INJECT RELIC SLOT INDEX STRATEGY */'
+  const overflows = (relics.LinkRope.length
+    * relics.PlanarSphere.length
+    * relics.Feet.length
+    * relics.Body.length
+    * relics.Hands.length
+  ) > 2147483647
+  if (overflows) {
+    return wgsl.replace(injectionLabel, `
+    let l = (index % lSize);
+    let indexCarryL = index / lSize;
+    let p = (indexCarryL % pSize);
+    let indexCarryP = indexCarryL / pSize;
+    let f = (indexCarryP % fSize);
+    let indexCarryF = indexCarryP / fSize;
+    let b = (indexCarryF % bSize);
+    let indexCarryB = indexCarryF / bSize;
+    let g = (indexCarryB % gSize);
+    let indexCarryG = indexCarryB / gSize;
+    let h = (indexCarryG % hSize);
+  `)
+  }
+  return wgsl.replace(injectionLabel, `
+    let l = (index % lSize);
+    let p = (((index - l) / lSize) % pSize);
+    let f = (((index - p * lSize - l) / (lSize * pSize)) % fSize);
+    let b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize);
+    let g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize);
+    let h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize);
+  `)
 }

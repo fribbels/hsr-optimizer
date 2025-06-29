@@ -32,3 +32,8 @@ ResultsPanel:
   Rolls: 부옵 수
   Combo: 콤보 순서
   Damage: 종류별 피해량
+Messages:
+  Error:
+    MissingField: 캐릭터/광추/팀원을 찾을 수 없습니다
+    UnsupportedCharacter: 캐릭터가 DPS 벤치마크를 지원하지 않습니다
+    SPDUnselected: 목표 벤치마크 속도를 선택해주세요

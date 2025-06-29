@@ -1,7 +1,18 @@
-import { Constants, Parts, RelicSetFilterOptions, SetsOrnaments, SetsRelics, SubStatValues } from 'lib/constants/constants'
-import { RelicsByPart, SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import {
+  Constants,
+  Parts,
+  RelicSetFilterOptions,
+  SetsOrnaments,
+  SetsRelics,
+  SubStatValues,
+} from 'lib/constants/constants'
+import {
+  RelicsByPart,
+  SingleRelicByPart,
+} from 'lib/gpu/webgpuTypes'
 import { StatToKey } from 'lib/optimization/computedStatsArray'
 import DB from 'lib/state/db'
+import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
@@ -97,10 +108,11 @@ export const RelicFilters = {
     const characters = DB.getCharacters()
     const excludedRelics: Record<string, boolean> = {}
     for (const character of characters) {
-      if (request.exclude.includes(character.id) && character.id != request.characterId)
+      if (request.exclude.includes(character.id) && character.id != request.characterId) {
         Object.values(character.equipped)
           .filter((relicId) => relicId != null)
           .map((relicId) => excludedRelics[relicId] = true)
+      }
     }
 
     return relics.filter((x) => !excludedRelics[x.id])
@@ -112,8 +124,14 @@ export const RelicFilters = {
     out.push(...relics.filter((x) => x.part == Constants.Parts.Hands))
     out.push(...relics.filter((x) => x.part == Constants.Parts.Body).filter((x) => request.mainBody.length == 0 || request.mainBody.includes(x.main.stat)))
     out.push(...relics.filter((x) => x.part == Constants.Parts.Feet).filter((x) => request.mainFeet.length == 0 || request.mainFeet.includes(x.main.stat)))
-    out.push(...relics.filter((x) => x.part == Constants.Parts.PlanarSphere).filter((x) => request.mainPlanarSphere.length == 0 || request.mainPlanarSphere.includes(x.main.stat)))
-    out.push(...relics.filter((x) => x.part == Constants.Parts.LinkRope).filter((x) => request.mainLinkRope.length == 0 || request.mainLinkRope.includes(x.main.stat)))
+    out.push(
+      ...relics.filter((x) => x.part == Constants.Parts.PlanarSphere).filter((x) =>
+        request.mainPlanarSphere.length == 0 || request.mainPlanarSphere.includes(x.main.stat)
+      ),
+    )
+    out.push(
+      ...relics.filter((x) => x.part == Constants.Parts.LinkRope).filter((x) => request.mainLinkRope.length == 0 || request.mainLinkRope.includes(x.main.stat)),
+    )
 
     return out
   },
@@ -128,7 +146,7 @@ export const RelicFilters = {
     const characterId = request.characterId || '99999999'
     // TODO: refactor after https://github.com/fribbels/hsr-optimizer/issues/56 is completed
     let blacklist: string[] = []
-    window.store.getState().characters.forEach((char) => {
+    useCharacterTabStore.getState().characters.forEach((char) => {
       if (char.id == characterId) return
       const equipped: string[] = Object.values(char.equipped).filter((x) => x != undefined)
       blacklist = blacklist.concat(equipped)
@@ -175,7 +193,8 @@ export const RelicFilters = {
           relic.part == Constants.Parts.Head
           || relic.part == Constants.Parts.Hands
           || relic.part == Constants.Parts.Body
-          || relic.part == Constants.Parts.Feet) {
+          || relic.part == Constants.Parts.Feet
+        ) {
           return allowedSets[Constants.RelicSetToIndex[relic.set as SetsRelics]] == 1
         } else {
           return true
@@ -197,7 +216,8 @@ export const RelicFilters = {
       return relics.filter((relic: Relic) => {
         if (
           relic.part == Constants.Parts.PlanarSphere
-          || relic.part == Constants.Parts.LinkRope) {
+          || relic.part == Constants.Parts.LinkRope
+        ) {
           return allowedSets[Constants.OrnamentSetToIndex[relic.set as SetsOrnaments]] == 1
         } else {
           return true

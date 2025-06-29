@@ -46,10 +46,10 @@ be added to the Combat Stats title.
 
 At the time of writing, Sub DPS mode is enabled by default for:
 
-* Tribbie
-* Aventurine
-* Fugue
-* Serval
-* Topaz
-* Moze
-* March 7th (Hunt)
+- Tribbie
+- Aventurine
+- Fugue
+- Serval
+- Topaz
+- Moze
+- March 7th (Hunt)

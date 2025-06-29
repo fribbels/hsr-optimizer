@@ -1,5 +1,8 @@
 import { AbilityPreprocessorBase } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
-import { AbilityKind, TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  TurnAbility,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
 export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
@@ -9,10 +12,11 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
   private consumeKinds: AbilityKind[]
   private stacksToAdd: number
   private maxStacks: number
-  private activationFn: ((comboState: ComboState, key: string, index: number, value: boolean | number) => void)
+  private activationFn: (comboState: ComboState, key: string, index: number, value: boolean | number) => void
   private key: string
   private isNumber: boolean
   private defaultActivationValue: boolean | number
+  private disableFn: (comboState: ComboState) => boolean
 
   defaultState = { stacks: 0 }
   state = { ...this.defaultState }
@@ -20,14 +24,17 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
   constructor(
     id: string,
     options: {
-      key: string
-      triggerKinds: AbilityKind[]
-      consumeKinds: AbilityKind[]
-      isNumber?: boolean
-      stacksToAdd?: number
-      maxStacks?: number
-      defaultActivationValue?: boolean | number
-      activationFn: ((comboState: ComboState, key: string, index: number, value: boolean) => void) | ((comboState: ComboState, key: string, index: number, value: number) => void)
+      key: string,
+      triggerKinds: AbilityKind[],
+      consumeKinds: AbilityKind[],
+      isNumber?: boolean,
+      stacksToAdd?: number,
+      maxStacks?: number,
+      defaultActivationValue?: boolean | number,
+      activationFn:
+        | ((comboState: ComboState, key: string, index: number, value: boolean) => void)
+        | ((comboState: ComboState, key: string, index: number, value: number) => void),
+      disableFn?: (comboState: ComboState) => boolean,
     },
   ) {
     super()
@@ -41,6 +48,7 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
     this.maxStacks = options.maxStacks ?? 1
     this.defaultActivationValue = options.defaultActivationValue ?? (this.isNumber ? 0 : false)
     this.activationFn = options.activationFn as (comboState: ComboState, key: string, index: number, value: boolean | number) => void
+    this.disableFn = options.disableFn ?? ((comboState: ComboState) => false)
   }
 
   reset() {
@@ -49,6 +57,8 @@ export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
 
   processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
     const { kind } = turnAbility
+
+    if (this.disableFn(comboState)) return
 
     // Handle consume ability
     if (this.consumeKinds.includes(kind)) {

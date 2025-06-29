@@ -2,12 +2,18 @@ import i18next from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import Backend from 'i18next-http-backend'
 import yaml from 'js-yaml'
-import { BASE_PATH, BasePath } from 'lib/state/db'
-import { languages, Languages } from 'lib/utils/i18nUtils'
+import {
+  BASE_PATH,
+  BasePath,
+} from 'lib/state/db'
+import {
+  Languages,
+  languages,
+} from 'lib/utils/i18nUtils'
 import { initReactI18next } from 'react-i18next'
 
 window.yaml = yaml
-export const completedLocales: Languages[] = ['en_US', 'fr_FR', 'ja_JP', 'ko_KR', 'pt_BR', 'vi_VN', 'zh_CN'] as const
+export const completedLocales: Languages[] = ['en_US', 'es_ES', 'fr_FR', 'ja_JP', 'ko_KR', 'pt_BR', 'vi_VN', 'zh_CN'] as const
 
 const namespaces = [
   'charactersTab',
@@ -50,7 +56,7 @@ void i18next
     },
     backend: {
       loadPath: BASE_PATH + '/locales/{{lng}}/{{ns}}.yaml',
-      parse: function (data: string) {
+      parse: function(data: string) {
         return yaml.load(data)
       },
     },

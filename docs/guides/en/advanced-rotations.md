@@ -13,13 +13,13 @@ This guide will describe how a custom Jingliu ability rotation with a -1 speed B
 The two modes which can be selected from the Combo DMG calculation menu are Simple vs Advanced. The rotation
 customization menu can only be accessed when selecting the Advanced mode.
 
-* Simple mode
-  * Most buffs are considered as full uptime, however the optimizer will automatically try to precompute when some buffs
+- Simple mode
+  - Most buffs are considered as full uptime, however the optimizer will automatically try to precompute when some buffs
     should be disabled
-* Advanced mode
-  * Open the Advanced rotation menu for full control over character / light cone / teammate / set effects buff uptime
-  * Buff values can be changed between abilities
-  * The optimizer will automatically try to precompute when some buffs should be disabled
+- Advanced mode
+  - Open the Advanced rotation menu for full control over character / light cone / teammate / set effects buff uptime
+  - Buff values can be changed between abilities
+  - The optimizer will automatically try to precompute when some buffs should be disabled
 
 Advanced mode is powerful but should be used with care, as it requires an in depth understanding of buff timings in
 combat to use correctly.

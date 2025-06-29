@@ -1,11 +1,14 @@
-import { Divider, Flex } from 'antd'
+import {
+  Divider,
+  Flex,
+} from 'antd'
 import styled from 'styled-components'
 
 export function VerticalDivider(props: { width?: number }) {
   const width = props.width ?? 10
   return (
     <Flex vertical>
-      <Divider type='vertical' style={{ flexGrow: 1, margin: `10px ${width}px` }}/>
+      <Divider type='vertical' style={{ flexGrow: 1, margin: `10px ${width}px` }} />
     </Flex>
   )
 }
@@ -18,7 +21,7 @@ export function CustomHorizontalDivider(props: { height?: number }) {
   const height = props.height ?? 5
   return (
     <Flex vertical>
-      <Divider type='horizontal' style={{ flexGrow: 1, margin: `${height}px 10px` }}/>
+      <Divider type='horizontal' style={{ flexGrow: 1, margin: `${height}px 10px` }} />
     </Flex>
   )
 }

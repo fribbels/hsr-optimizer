@@ -1,16 +1,42 @@
-import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { gpuStandardHpHealFinalizer, standardHpHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import {
+  AbilityType,
+  BUFF_PRIORITY_MEMO,
+  BUFF_PRIORITY_SELF,
+  SKILL_DMG_TYPE,
+  ULT_DMG_TYPE,
+} from 'lib/conditionals/conditionalConstants'
+import {
+  gpuStandardHpHealFinalizer,
+  standardHpHealFinalizer,
+} from 'lib/conditionals/conditionalFinalizers'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Stats,
+} from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import {
+  wgslFalse,
+  wgslTrue,
+} from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import {
+  ComputedStatsArray,
+  Key,
+} from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hyacine.Content')
@@ -146,7 +172,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       formItem: 'switch',
       text: t('e4CdBuff.text'),
       content: t('e4CdBuff.content'),
-      disabled: e < 6,
+      disabled: e < 4,
     },
     e6ResPen: {
       id: 'e6ResPen',
@@ -213,8 +239,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.HP.buffTeam((m.clearSkies) ? ultHpBuffFlat : 0, SOURCE_ULT)
       x.HP_P.buffTeam((m.clearSkies) ? ultHpBuffPercent : 0, SOURCE_ULT)
-      // x.HP.buffTeam((e >= 1 && m.clearSkies) ? ultHpBuffFlat * 0.50 : 0, SOURCE_E1)
-      x.HP_P.buffTeam((e >= 1 && m.clearSkies) ? 0.50 : 0, SOURCE_E1)
+      x.HP_P.buffTeam((e >= 1 && m.e1HpBuff && m.clearSkies) ? 0.50 : 0, SOURCE_E1)
 
       x.SPD_P.buffTeam((e >= 2 && m.e2SpdBuff) ? 0.30 : 0, SOURCE_E2)
       x.RES_PEN.buffTeam((e >= 6 && m.e6ResPen) ? 0.20 : 0, SOURCE_E6)
@@ -236,7 +261,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.SPD],
         chainsTo: [Stats.HP],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return r.spd200HpBuff && x.a[Key.SPD] >= 200
@@ -247,19 +272,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           x.HP.buffDynamic((r.spd200HpBuff && x.a[Key.SPD] >= 200) ? 0.20 * x.a[Key.BASE_HP] : 0, SOURCE_TRACE, action, context)
           x.m.HP.buffDynamic((r.spd200HpBuff && x.a[Key.SPD] >= 200) ? 0.20 * x.m.a[Key.BASE_HP] : 0, SOURCE_TRACE, action, context)
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          return conditionalWgslWrapper(this, `
+          return conditionalWgslWrapper(
+            this,
+            `
 if (
   (*p_state).HyacineSpdActivation == 0.0 &&
   x.SPD >= 200 &&
   ${wgslTrue(r.spd200HpBuff)}
 ) {
   (*p_state).HyacineSpdActivation = 1.0;
-  (*p_x).HP += 0.20 * (*p_x).BASE_HP;
+  (*p_x).HP += 0.20 * baseHP;
   (*p_m).HP += 0.20 * (*p_m).BASE_HP;
 }
-    `)
+    `,
+          )
         },
       },
       {
@@ -268,12 +296,12 @@ if (
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.SPD],
         chainsTo: [Stats.OHB],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return r.spd200HpBuff && x.a[Key.SPD] > 200
         },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           if (!r.spd200HpBuff) {
             return
@@ -300,34 +328,37 @@ if (
             x.CD.buffBaseDualDynamic(buffDelta * 2, SOURCE_E4, action, context)
           }
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return conditionalWgslWrapper(this, `
+          return conditionalWgslWrapper(
+            this,
+            `
 if (${wgslFalse(r.spd200HpBuff)}) {
   return;
 }
 
 let stateValue: f32 = (*p_state).${this.id};
-let convertibleValue: f32 = min(400, x.SPD - x.UNCONVERTIBLE_SPD_BUFF);
+let convertibleValue: f32 = min(400, floor(x.SPD - x.UNCONVERTIBLE_SPD_BUFF));
 
-if (!(${true}) || convertibleValue <= 0) {
+if (convertibleValue <= 0) {
   return;
 }
 
 let buffFull = max(0, 0.01 * (convertibleValue - 200));
 let buffDelta = buffFull - stateValue;
 
-(*p_state).${this.id} += buffDelta;
+(*p_state).${this.id} = buffFull;
 
 (*p_x).UNCONVERTIBLE_OHB_BUFF += buffDelta;
 (*p_x).OHB += buffDelta;
 
 if (${wgslTrue(e >= 4 && r.e4CdBuff)}) {
-  (*p_x).UNCONVERTIBLE_CD_BUFF += buffDelta;
-  (*p_x).CD += buffDelta;
+  (*p_x).UNCONVERTIBLE_CD_BUFF += buffDelta * 2;
+  (*p_x).CD += buffDelta * 2;
 }
-    `)
+    `,
+          )
         },
       },
     ],

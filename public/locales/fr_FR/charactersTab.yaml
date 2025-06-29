@@ -40,6 +40,9 @@ Messages:
   SaveSuccess: "Arsenal {{name}} enregistré avec succès"
   UnequipWarning: "Êtes-vous sûr de vouloir déséquiper $t(gameData:Characters.{{charId}}.Name)?"
   DeleteWarning: "Êtes-vous sûr de vouloir supprimer $t(gameData:Characters.{{charId}}.Name)?"
+  BuildAlreadyExists: "Une build appelée {{name}} existe déjà"
+  ImageUploadFailed: Le téléchargement de l'image a échoué
+  InvalidFile: Le fichier n'est pas un fichier image valide
 CharacterPreview:
   ScoringSidebar:
     Stats:

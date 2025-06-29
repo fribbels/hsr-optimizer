@@ -1,9 +1,21 @@
-import { Flex, Form, InputNumber, Slider, Typography } from 'antd'
-import { Constants, Parts } from 'lib/constants/constants'
+import {
+  Flex,
+  Form,
+  InputNumber,
+  Slider,
+  Typography,
+} from 'antd'
+import {
+  Constants,
+  Parts,
+} from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
-import React, { ReactElement, useState } from 'react'
+import React, {
+  ReactElement,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { OptimizerForm } from 'types/form'
@@ -100,8 +112,8 @@ export function FormStatRollSliderTopPercent(props: { index: number }) {
   return (
     <Flex gap={5} style={{ marginBottom: 0 }} align='center'>
       <Flex gap={5} justify='flex-start' style={{ minWidth: 50 }}>
-        <img src={Assets.getPart(parts[0])} style={{ width: 18 }}/>
-        <img src={Assets.getPart(parts[1])} style={{ width: 18 }}/>
+        <img src={Assets.getPart(parts[0])} style={{ width: 18 }} />
+        <img src={Assets.getPart(parts[1])} style={{ width: 18 }} />
       </Flex>
 
       <Flex align='center' justify='flex-start' gap={10}>

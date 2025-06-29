@@ -28,12 +28,12 @@ indices as i32s, conditionals and results as f32s. Prefer structs for related va
 
 The values that can exceed 32 bit limits will need special handling, they are:
 
-* Global permutation id
-    * This is calculated by: `global_invocation_index + permutation_offset`
-    * i.e. `workgroup_index * workgroup_size + local_invocation_index + permutation_offset`
-    * This is the permutation number which tells us which relics to use
-    * We have to implement 64 bit math with 32 bit ints to use this value
-* ?
+- Global permutation id
+  - This is calculated by: `global_invocation_index + permutation_offset`
+  - i.e. `workgroup_index * workgroup_size + local_invocation_index + permutation_offset`
+  - This is the permutation number which tells us which relics to use
+  - We have to implement 64 bit math with 32 bit ints to use this value
+- ?
 
 ## Input
 
@@ -47,11 +47,11 @@ The kernel will take the following inputs (group/bindings/scope TBD):
 @group(1) @binding(0) var<storage, read_write> relicSetSolutionsMatrix : array<i32>;
 ```
 
-* params - Contains the optimizer form: user options, teammate configs, filters, global index offset, etc
-* relics - Input relic stats & set, condensed into a struct of f32s
-* results - Output array. Every permutation generates a single f32 result, negative for failed filters
-* ornamentSetSolutionsMatrix - Relic set combination lookup table - More details down the page
-* relicSetSolutionsMatrix - Ornament set combination lookup table - More details down the page
+- params - Contains the optimizer form: user options, teammate configs, filters, global index offset, etc
+- relics - Input relic stats & set, condensed into a struct of f32s
+- results - Output array. Every permutation generates a single f32 result, negative for failed filters
+- ornamentSetSolutionsMatrix - Relic set combination lookup table - More details down the page
+- relicSetSolutionsMatrix - Ornament set combination lookup table - More details down the page
 
 ## Output
 
@@ -80,9 +80,9 @@ In wgsl the sets are calculated as i32 counts,
 where each value is 0 (no set), 1 (2p), or 2(4p)
 
 ```wgsl
-  c.sets.PasserbyOfWanderingCloud            = i32((1 >> (setH ^ 0)) + (1 >> (setG ^ 0)) + (1 >> (setB ^ 0)) + (1 >> (setF ^ 0)));
-  c.sets.MusketeerOfWildWheat                = i32((1 >> (setH ^ 1)) + (1 >> (setG ^ 1)) + (1 >> (setB ^ 1)) + (1 >> (setF ^ 1)));
-  c.sets.KnightOfPurityPalace                = i32((1 >> (setH ^ 2)) + (1 >> (setG ^ 2)) + (1 >> (setB ^ 2)) + (1 >> (setF ^ 2)));
+c.sets.PasserbyOfWanderingCloud            = i32((1 >> (setH ^ 0)) + (1 >> (setG ^ 0)) + (1 >> (setB ^ 0)) + (1 >> (setF ^ 0)));
+c.sets.MusketeerOfWildWheat                = i32((1 >> (setH ^ 1)) + (1 >> (setG ^ 1)) + (1 >> (setB ^ 1)) + (1 >> (setF ^ 1)));
+c.sets.KnightOfPurityPalace                = i32((1 >> (setH ^ 2)) + (1 >> (setG ^ 2)) + (1 >> (setB ^ 2)) + (1 >> (setF ^ 2)));
 ```
 
 ## Conditionals
@@ -90,13 +90,13 @@ where each value is 0 (no set), 1 (2p), or 2(4p)
 Stat summation can proceed as normal:
 
 ```wgsl
-  c.HP  = (baseHP) * (1 + setEffects + c.HP_P + params.traceHP_P + params.lcHP_P) + c.HP + params.traceHP;
+c.HP  = (baseHP) * (1 + setEffects + c.HP_P + params.traceHP_P + params.lcHP_P) + c.HP + params.traceHP;
 ```
 
 Conditional stats will use a select function for binary options:
 
 ```wgsl
-  x.SKILL_BOOST += p2(c.sets.RutilantArena) * select(0.0f, 0.20f, x.CR >= 0.70);
+x.SKILL_BOOST += p2(c.sets.RutilantArena) * select(0.0f, 0.20f, x.CR >= 0.70);
 ```
 
 Multiple option conditionals will use array lookups:

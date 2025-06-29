@@ -1,8 +1,27 @@
-import { SetsOrnamentsNames, SetsRelicsNames } from 'lib/constants/constants'
-import { generateTestRelics, StatDeltaAnalysis, testWrapper } from 'lib/gpu/tests/webgpuTestUtils'
+import {
+  SetsOrnamentsNames,
+  SetsRelicsNames,
+} from 'lib/constants/constants'
+import {
+  generateTestRelics,
+  StatDeltaAnalysis,
+  testWrapper,
+} from 'lib/gpu/tests/webgpuTestUtils'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  A_THANKLESS_CORONATION,
+  ANAXA,
+  ARCHER,
+  HYACINE,
+  LIFE_SHOULD_BE_CAST_TO_FLAMES,
+  LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+  PHAINON,
+  SABER,
+  THE_HELL_WHERE_IDEALS_BURN,
+  THUS_BURNS_THE_DAWN,
+} from 'lib/simulations/tests/testMetadataConstants'
 
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import DB from 'lib/state/db'
@@ -10,26 +29,29 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
 import { LightCone } from 'types/lightCone'
-import { DBMetadata, DBMetadataLightCone } from 'types/metadata'
+import {
+  DBMetadata,
+  DBMetadataLightCone,
+} from 'types/metadata'
 
 export type WebgpuTest = {
-  name: string
-  relics: RelicsByPart
-  request: Form
-  execute: () => Promise<StatDeltaAnalysis>
-  result: StatDeltaAnalysis
-  passed: boolean
-  done: boolean
+  name: string,
+  relics: RelicsByPart,
+  request: Form,
+  execute: () => Promise<StatDeltaAnalysis>,
+  result: StatDeltaAnalysis,
+  passed: boolean,
+  done: boolean,
 }
 
 const cache: {
-  metadata: DBMetadata
+  metadata: DBMetadata,
 } = {
   metadata: {} as DBMetadata,
 }
 
 const basicLc = '23001' // In the Night
-const baseCharacterLightConeMappings: Array<{ characterId: CharacterId; lightConeId: LightCone['id'] }> = [
+const baseCharacterLightConeMappings: Array<{ characterId: CharacterId, lightConeId: LightCone['id'] }> = [
   { characterId: '1001', lightConeId: basicLc }, // March 7th
   { characterId: '1002', lightConeId: basicLc }, // Dan Heng
   { characterId: '1003', lightConeId: '23000' }, // Himeko
@@ -95,6 +117,11 @@ const baseCharacterLightConeMappings: Array<{ characterId: CharacterId; lightCon
   { characterId: '1404', lightConeId: '23039' }, // Mydei
   { characterId: '1405', lightConeId: '23041' }, // Anaxa
   { characterId: '1407', lightConeId: '23040' }, // Castorice
+  { characterId: ANAXA, lightConeId: LIFE_SHOULD_BE_CAST_TO_FLAMES },
+  { characterId: HYACINE, lightConeId: LONG_MAY_RAINBOWS_ADORN_THE_SKY },
+  { characterId: PHAINON, lightConeId: THUS_BURNS_THE_DAWN },
+  { characterId: SABER, lightConeId: A_THANKLESS_CORONATION },
+  { characterId: ARCHER, lightConeId: THE_HELL_WHERE_IDEALS_BURN },
   { characterId: '8001', lightConeId: basicLc }, // Trailblazer
   { characterId: '8002', lightConeId: basicLc }, // Trailblazer
   { characterId: '8003', lightConeId: basicLc }, // Trailblazer
@@ -124,7 +151,7 @@ export async function generateAllTests() {
 
 export function generateSingleCharacterTest(
   device: GPUDevice,
-  pair: { characterId: CharacterId; lightConeId: LightCone['id'] },
+  pair: { characterId: CharacterId, lightConeId: LightCone['id'] },
 ) {
   return [
     generateE0S1CharacterTest(pair.characterId, pair.lightConeId, device),
@@ -201,7 +228,12 @@ export function generateE0S1CharacterTest(characterId: CharacterId, lightConeId:
   request.sortOption = SortOption.COMBO.key
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  return testWrapper(`E0S1 ${cache.metadata.characters[characterId].displayName} — ${cache.metadata.lightCones[lightConeId].displayName}`, request, relics, device)
+  return testWrapper(
+    `E0S1 ${cache.metadata.characters[characterId].displayName} — ${cache.metadata.lightCones[lightConeId].displayName}`,
+    request,
+    relics,
+    device,
+  )
 }
 
 export function generateE6S5CharacterTest(characterId: CharacterId, lightConeId: LightCone['id'], device: GPUDevice) {
@@ -214,7 +246,12 @@ export function generateE6S5CharacterTest(characterId: CharacterId, lightConeId:
   addE6S5Teammate(request, 2, '1309', '23026')
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  return testWrapper(`E6S5 ${cache.metadata.characters[characterId].displayName} — ${cache.metadata.lightCones[lightConeId].displayName}`, request, relics, device)
+  return testWrapper(
+    `E6S5 ${cache.metadata.characters[characterId].displayName} — ${cache.metadata.lightCones[lightConeId].displayName}`,
+    request,
+    relics,
+    device,
+  )
 }
 
 export function addE6S5Teammate(request: Form, index: number, characterId: CharacterId, lightConeId: LightCone['id']) {

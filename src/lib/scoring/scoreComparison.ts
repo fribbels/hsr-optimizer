@@ -1,4 +1,7 @@
-import { Stats, SubStats } from 'lib/constants/constants'
+import {
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { ScoringMetadata } from 'types/metadata'
 

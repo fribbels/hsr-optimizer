@@ -1,18 +1,47 @@
-import { AbilityType, ASHBLAZING_ATK_STACK, BREAK_DMG_TYPE, NONE_TYPE, SKILL_DMG_TYPE, ULT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import { boostAshblazingAtkP, gpuBoostAshblazingAtkP, gpuStandardAtkHealFinalizer, standardAtkHealFinalizer } from 'lib/conditionals/conditionalFinalizers'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import {
+  AbilityType,
+  ASHBLAZING_ATK_STACK,
+  BREAK_DMG_TYPE,
+  NONE_TYPE,
+  SKILL_DMG_TYPE,
+  ULT_DMG_TYPE,
+} from 'lib/conditionals/conditionalConstants'
+import {
+  boostAshblazingAtkP,
+  gpuBoostAshblazingAtkP,
+  gpuStandardAtkHealFinalizer,
+  standardAtkHealFinalizer,
+} from 'lib/conditionals/conditionalFinalizers'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Stats,
+} from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityVulnerability, Target } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import {
+  buffAbilityVulnerability,
+  Target,
+} from 'lib/optimization/calculateBuffs'
+import {
+  ComputedStatsArray,
+  Key,
+} from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lingsha')
@@ -195,10 +224,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       activation: ConditionalActivation.CONTINUOUS,
       dependsOn: [Stats.BE],
       chainsTo: [Stats.ATK, Stats.OHB],
-      condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+      condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
         return true
       },
-      effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+      effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
         if (!r.beConversion) {
           return
@@ -219,10 +248,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.ATK.buffDynamic(finalBuffAtk, SOURCE_TRACE, action, context)
         x.OHB.buffDynamic(finalBuffOhb, SOURCE_TRACE, action, context)
       },
-      gpu: function (action: OptimizerAction, context: OptimizerContext) {
+      gpu: function(action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
 
-        return conditionalWgslWrapper(this, `
+        return conditionalWgslWrapper(
+          this,
+          `
 if (${wgslFalse(r.beConversion)}) {
   return;
 }
@@ -242,7 +273,8 @@ let finalBuffOhb = buffValueOhb - select(0.0, stateBuffValueOhb, stateValue > 0.
 
 (*p_x).ATK += finalBuffAtk;
 (*p_x).OHB += finalBuffOhb;
-`)
+`,
+        )
       },
     }],
   }

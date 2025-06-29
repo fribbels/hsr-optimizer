@@ -1,20 +1,62 @@
-import { ConfigProvider, Flex, theme } from 'antd'
+import {
+  ConfigProvider,
+  Flex,
+  theme,
+} from 'antd'
 import getDesignToken from 'antd/lib/theme/getDesignToken'
-import { showcaseShadow, showcaseShadowInsetAddition, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { getArtistName, getPreviewRelics, getShowcaseDisplayDimensions, getShowcaseMetadata, getShowcaseStats, handleTeamSelection, resolveScoringType, ShowcaseDisplayDimensions, showcaseOnAddOk, showcaseOnEditOk, showcaseOnEditPortraitOk } from 'lib/characterPreview/characterPreviewController'
+import {
+  showcaseShadow,
+  showcaseShadowInsetAddition,
+  ShowcaseSource,
+} from 'lib/characterPreview/CharacterPreviewComponents'
+import {
+  getArtistName,
+  getPreviewRelics,
+  getShowcaseDisplayDimensions,
+  getShowcaseMetadata,
+  getShowcaseStats,
+  handleTeamSelection,
+  resolveScoringType,
+  ShowcaseDisplayDimensions,
+  showcaseOnAddOk,
+  showcaseOnEditOk,
+  showcaseOnEditPortraitOk,
+} from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/showcaseCustomizationController'
-import ShowcaseCustomizationSidebar, { defaultShowcasePreferences, getDefaultColor, getOverrideColorMode, ShowcaseCustomizationSidebarRef, standardShowcasePreferences, urlToColorCache } from 'lib/characterPreview/ShowcaseCustomizationSidebar'
-import { ShowcaseCombatScoreDetailsFooter, ShowcaseDpsScoreHeader, ShowcaseDpsScorePanel } from 'lib/characterPreview/ShowcaseDpsScore'
-import { ShowcaseLightConeLarge, ShowcaseLightConeLargeName, ShowcaseLightConeSmall } from 'lib/characterPreview/ShowcaseLightCone'
+import ShowcaseCustomizationSidebar, {
+  defaultShowcasePreferences,
+  getDefaultColor,
+  getOverrideColorMode,
+  ShowcaseCustomizationSidebarRef,
+  standardShowcasePreferences,
+  urlToColorCache,
+} from 'lib/characterPreview/ShowcaseCustomizationSidebar'
+import {
+  ShowcaseCombatScoreDetailsFooter,
+  ShowcaseDpsScoreHeader,
+  ShowcaseDpsScorePanel,
+} from 'lib/characterPreview/ShowcaseDpsScore'
+import {
+  ShowcaseLightConeLarge,
+  ShowcaseLightConeLargeName,
+  ShowcaseLightConeSmall,
+} from 'lib/characterPreview/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
-import { ShowcaseColorMode, Stats } from 'lib/constants/constants'
+import {
+  ShowcaseColorMode,
+  Stats,
+} from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { defaultGap, middleColumnWidth, parentH } from 'lib/constants/constantsUi'
+import {
+  defaultGap,
+  middleColumnWidth,
+  parentH,
+} from 'lib/constants/constantsUi'
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
@@ -24,11 +66,24 @@ import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
 import DB, { AppPages } from 'lib/state/db'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
-import { colorTransparent, showcaseBackgroundColor, showcaseCardBackgroundColor, showcaseCardBorderColor, showcaseSegmentedColor, showcaseTransition } from 'lib/utils/colorUtils'
+import {
+  colorTransparent,
+  showcaseBackgroundColor,
+  showcaseCardBackgroundColor,
+  showcaseCardBorderColor,
+  showcaseSegmentedColor,
+  showcaseTransition,
+} from 'lib/utils/colorUtils'
 import Vibrant from 'node-vibrant'
-import { useRef, useState } from 'react'
+import {
+  useRef,
+  useState,
+} from 'react'
 import { Character } from 'types/character'
-import { CustomImageConfig, CustomImagePayload } from 'types/customImage'
+import {
+  CustomImageConfig,
+  CustomImagePayload,
+} from 'types/customImage'
 import { Relic } from 'types/relic'
 
 const { useToken } = theme
@@ -37,19 +92,17 @@ const { useToken } = theme
 window.Vibrant = Vibrant
 
 export function CharacterPreview(props: {
-  id: string
-  source: ShowcaseSource
-  character: Character | null
-  setOriginalCharacterModalOpen: (open: boolean) => void
-  setOriginalCharacterModalInitialCharacter: (character: Character) => void
-  setCharacterModalAdd: (add: boolean) => void
+  id: string,
+  source: ShowcaseSource,
+  character: Character | null,
+  setOriginalCharacterModalOpen: (open: boolean) => void,
+  setOriginalCharacterModalInitialCharacter: (character: Character) => void,
 }) {
   const {
     source,
     character,
     setOriginalCharacterModalOpen,
     setOriginalCharacterModalInitialCharacter,
-    setCharacterModalAdd,
   } = props
 
   const { token } = useToken()
@@ -76,9 +129,9 @@ export function CharacterPreview(props: {
   const darkMode = window.store((s) => s.savedSession.showcaseDarkMode)
 
   // Using these to trigger updates on changes
-  const refreshOnSpdValueChange = window.store((s) => s.scoringMetadataOverrides[character?.id!]?.stats?.[Stats.SPD])
-  const refreshOnTraceChange = window.store((s) => s.scoringMetadataOverrides[character?.id!]?.traces)
-  const refreshOnDeprioritizeBuffsChange = window.store((s) => s.scoringMetadataOverrides[character?.id!]?.simulation?.deprioritizeBuffs)
+  const refreshOnSpdValueChange = window.store((s) => !character ? undefined : s.scoringMetadataOverrides[character.id]?.stats?.[Stats.SPD])
+  const refreshOnTraceChange = window.store((s) => !character ? undefined : s.scoringMetadataOverrides[character.id]?.traces)
+  const refreshOnDeprioritizeBuffsChange = window.store((s) => !character ? undefined : s.scoringMetadataOverrides[character.id]?.simulation?.deprioritizeBuffs)
   const showcaseTemporaryOptionsByCharacter = window.store((s) => s.showcaseTemporaryOptionsByCharacter)
 
   if (!character || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE)) {
@@ -142,13 +195,13 @@ export function CharacterPreview(props: {
     ? (
       urlToColorCache[portraitUrl]
         ? (overrideColorMode == ShowcaseColorMode.AUTO)
-          ? (defaultColor)
+          ? defaultColor
           : (characterShowcasePreferences.color ?? defaultColor)
         : prevSeedColor.current
     )
     : (
       (overrideColorMode == ShowcaseColorMode.AUTO)
-        ? (defaultColor)
+        ? defaultColor
         : (characterShowcasePreferences.color ?? defaultColor)
     )
 
@@ -214,7 +267,6 @@ export function CharacterPreview(props: {
       />
 
       <ConfigProvider theme={seedTheme}>
-
         {/* Showcase full card */}
         <Flex
           id={props.id}
@@ -231,7 +283,6 @@ export function CharacterPreview(props: {
           }}
           gap={defaultGap}
         >
-
           {/* Background */}
           <div
             style={{
@@ -264,7 +315,6 @@ export function CharacterPreview(props: {
                 artistName={artistName}
                 setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
                 setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                setCharacterModalAdd={setCharacterModalAdd}
                 onPortraitLoad={(img: string) => sidebarRef.current?.onPortraitLoad!(img, character.id)}
               />
 
@@ -276,7 +326,6 @@ export function CharacterPreview(props: {
                   displayDimensions={displayDimensions}
                   setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
                   setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                  setCharacterModalAdd={setCharacterModalAdd}
                 />
               )}
             </Flex>
@@ -317,7 +366,7 @@ export function CharacterPreview(props: {
 
               {scoringType == ScoringType.COMBAT_SCORE && (
                 <>
-                  <ShowcaseDpsScoreHeader asyncSimScoringExecution={asyncSimScoringExecution} relics={displayRelics}/>
+                  <ShowcaseDpsScoreHeader asyncSimScoringExecution={asyncSimScoringExecution} relics={displayRelics} />
 
                   <ShowcaseDpsScorePanel
                     characterId={showcaseMetadata.characterId}
@@ -329,7 +378,7 @@ export function CharacterPreview(props: {
                     setRedrawTeammates={setRedrawTeammates}
                   />
 
-                  <ShowcaseCombatScoreDetailsFooter asyncSimScoringExecution={asyncSimScoringExecution}/>
+                  <ShowcaseCombatScoreDetailsFooter asyncSimScoringExecution={asyncSimScoringExecution} />
                 </>
               )}
 
@@ -357,7 +406,6 @@ export function CharacterPreview(props: {
                   displayDimensions={displayDimensions}
                   setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
                   setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                  setCharacterModalAdd={setCharacterModalAdd}
                 />
               </>
             )}
@@ -378,7 +426,7 @@ export function CharacterPreview(props: {
         </Flex>
       </ConfigProvider>
 
-      <CharacterAnnouncement characterId={showcaseMetadata.characterId}/>
+      <CharacterAnnouncement characterId={showcaseMetadata.characterId} />
 
       {/* Showcase analysis footer */}
       {source != ShowcaseSource.BUILDS_MODAL && (

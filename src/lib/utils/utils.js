@@ -145,7 +145,7 @@ export const Utils = {
           try {
             const data = [new window.ClipboardItem({ [blob.type]: blob })]
             navigator.clipboard.write(data).then(() => {
-              Message.success(i18next.t('charactersTab:ScreenshotMessages.ScreenshotSuccess'))// 'Copied screenshot to clipboard'
+              Message.success(i18next.t('charactersTab:ScreenshotMessages.ScreenshotSuccess')) // 'Copied screenshot to clipboard'
             })
           } catch (e) {
             console.error(e)
@@ -266,7 +266,7 @@ export const Utils = {
   msToReadable: (duration) => {
     const seconds = Math.floor((duration / 1000) % 60)
     const minutes = Math.floor((duration / (1000 * 60)) % 60)
-    const hours = Math.floor((duration / (1000 * 60 * 60)))
+    const hours = Math.floor(duration / (1000 * 60 * 60))
 
     const hoursS = hours > 0 ? `${hours}:` : ''
     const minutesS = (minutes < 10) ? `0${minutes}` : `${minutes}`

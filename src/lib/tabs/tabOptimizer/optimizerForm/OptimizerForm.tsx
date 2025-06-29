@@ -1,11 +1,17 @@
-import { Flex, Form as AntDForm } from 'antd'
+import {
+  Flex,
+  Form as AntDForm,
+} from 'antd'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { OpenCloseIDs } from 'lib/hooks/useOpenClose'
 import { Optimizer } from 'lib/optimization/optimizer'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { generateConditionalResolverMetadata, updateConditionalChange } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import {
+  generateConditionalResolverMetadata,
+  updateConditionalChange,
+} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
 import { AdvancedOptionsPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/AdvancedOptionsPanel'
@@ -17,16 +23,26 @@ import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/compone
 import OptimizerOptionsDisplay from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerOptionsDisplay'
 import { OptimizerTabCharacterPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
 import RelicMainSetFilters from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicMainSetFilters'
-import { MinMaxRatingFilters, MinMaxStatFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/ResultFilters'
+import {
+  MinMaxRatingFilters,
+  MinMaxStatFilters,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/ResultFilters'
 import { StatSimulationDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { SubstatWeightFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/SubstatWeightFilters'
 import TeammateCard from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard'
 import FilterContainer from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
-import { FormRow, OptimizerMenuIds, TeammateFormRow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
+import {
+  FormRow,
+  OptimizerMenuIds,
+  TeammateFormRow,
+} from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
-import { useEffect, useMemo } from 'react'
+import {
+  useEffect,
+  useMemo,
+} from 'react'
 import { Form } from 'types/form'
 import { DBMetadata } from 'types/metadata'
 
@@ -50,23 +66,28 @@ export default function OptimizerForm() {
     if (!changedValues || !allValues?.characterId) return
     const keys = Object.keys(changedValues)
 
-    if (keys.length == 1 && (keys[0] == 'characterConditionals' || keys[0] == 'lightConeConditionals' || keys[0] == 'setConditionals' || keys[0].startsWith('teammate'))) {
+    if (
+      keys.length == 1
+      && (keys[0] == 'characterConditionals' || keys[0] == 'lightConeConditionals' || keys[0] == 'setConditionals' || keys[0].startsWith('teammate'))
+    ) {
       updateConditionalChange(changedValues)
     }
 
     if (bypass) {
       // Only allow certain values to refresh permutations.
       // Sliders should only update at the end of the drag
-    } else if (keys.length == 1 && (
-      keys[0].startsWith('min')
-      || keys[0].startsWith('max')
-      || keys[0].startsWith('buff')
-      || keys[0].startsWith('statDisplay')
-      || keys[0].startsWith('statSim')
-      || keys[0].startsWith('teammate')
-      || keys[0].startsWith('combatBuffs')
-      || keys[0] == 'characterConditionals'
-      || keys[0] == 'lightConeConditionals')
+    } else if (
+      keys.length == 1 && (
+        keys[0].startsWith('min')
+        || keys[0].startsWith('max')
+        || keys[0].startsWith('buff')
+        || keys[0].startsWith('statDisplay')
+        || keys[0].startsWith('statSim')
+        || keys[0].startsWith('teammate')
+        || keys[0].startsWith('combatBuffs')
+        || keys[0] == 'characterConditionals'
+        || keys[0] == 'lightConeConditionals'
+      )
     ) {
       return
     }
@@ -155,63 +176,63 @@ export default function OptimizerForm() {
         layout='vertical'
         onValuesChange={onValuesChange}
       >
-        <FormSetConditionals id={OpenCloseIDs.OPTIMIZER_SETS_DRAWER}/>
+        <FormSetConditionals id={OpenCloseIDs.OPTIMIZER_SETS_DRAWER} />
 
         <FilterContainer>
           <FormRow id={OptimizerMenuIds.characterOptions}>
             <FormCard style={{ overflow: 'hidden', padding: 'none' }} size='narrow'>
-              <OptimizerTabCharacterPanel/>
+              <OptimizerTabCharacterPanel />
             </FormCard>
 
             <FormCard>
-              <CharacterSelectorDisplay/>
+              <CharacterSelectorDisplay />
             </FormCard>
 
             <FormCard>
-              <CharacterConditionalDisplayWrapper/>
+              <CharacterConditionalDisplayWrapper />
             </FormCard>
 
             <FormCard justify='space-between'>
-              <LightConeConditionalDisplayWrapper metadata={dbMetadata}/>
+              <LightConeConditionalDisplayWrapper metadata={dbMetadata} />
             </FormCard>
 
             <FormCard>
-              <OptimizerOptionsDisplay/>
+              <OptimizerOptionsDisplay />
             </FormCard>
           </FormRow>
 
           <FormRow id={OptimizerMenuIds.relicAndStatFilters}>
             <FormCard>
-              <RelicMainSetFilters/>
+              <RelicMainSetFilters />
             </FormCard>
 
             <FormCard>
-              <SubstatWeightFilters/>
+              <SubstatWeightFilters />
             </FormCard>
 
             <FormCard>
-              <MinMaxStatFilters/>
+              <MinMaxStatFilters />
             </FormCard>
 
             <FormCard>
-              <MinMaxRatingFilters/>
+              <MinMaxRatingFilters />
             </FormCard>
 
             <FormCard>
-              <ComboFilters/>
-              <CombatBuffsDrawer/>
-              <EnemyConfigurationsDrawer/>
+              <ComboFilters />
+              <CombatBuffsDrawer />
+              <EnemyConfigurationsDrawer />
             </FormCard>
           </FormRow>
 
           <TeammateFormRow id={OptimizerMenuIds.teammates}>
-            <TeammateCard index={0} dbMetadata={dbMetadata}/>
-            <TeammateCard index={1} dbMetadata={dbMetadata}/>
-            <TeammateCard index={2} dbMetadata={dbMetadata}/>
+            <TeammateCard index={0} dbMetadata={dbMetadata} />
+            <TeammateCard index={1} dbMetadata={dbMetadata} />
+            <TeammateCard index={2} dbMetadata={dbMetadata} />
           </TeammateFormRow>
 
           <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
-            <StatSimulationDisplay/>
+            <StatSimulationDisplay />
           </FormRow>
         </FilterContainer>
       </AntDForm>
@@ -263,7 +284,7 @@ function LightConeConditionalDisplayWrapper(props: { metadata: DBMetadata }) {
         superImposition={superimposition}
         dbMetadata={metadata}
       />
-      <AdvancedOptionsPanel/>
+      <AdvancedOptionsPanel />
     </Flex>
   )
 }

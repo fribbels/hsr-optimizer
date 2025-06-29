@@ -11,14 +11,21 @@ code {
 }
 
 html,
-body,
 #root,
 #app,
 #app > div {
     margin: 0;
+}
+
+body {
     height: 100vh !important;
     min-width: fit-content !important;
     overflow: visible !important;
+}
+
+
+#root {
+    height: 100vh !important;
 }
 
 .test {

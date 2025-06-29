@@ -8,8 +8,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export function ShowcaseCharacterHeader(props: {
-  showcaseMetadata: ShowcaseMetadata
-  scoringType?: ScoringType
+  showcaseMetadata: ShowcaseMetadata,
+  scoringType?: ScoringType,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
@@ -31,7 +31,7 @@ export function ShowcaseCharacterHeader(props: {
           style={{ width: 32 }}
           src={Assets.getElement(characterElement)}
         />
-        <ShowcaseRarity rarity={characterMetadata.rarity}/>
+        <ShowcaseRarity rarity={characterMetadata.rarity} />
         <img
           style={{ width: 32 }}
           src={Assets.getPathFromClass(characterPath)}

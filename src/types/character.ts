@@ -8,24 +8,24 @@ export type CharacterId = keyof typeof data.characters
 export type Eidolon = number
 
 export type Build = {
-  [key in Parts]?: string;
+  [key in Parts]?: string
 }
 
 // store.getState().characters[0]
 export type Character = {
-  id: CharacterId
-  equipped: Build
-  form: Form
-  rank: number // order in character tab
-  builds: SavedBuild[]
-  portrait?: CustomImageConfig
+  id: CharacterId,
+  equipped: Build,
+  form: Form,
+  rank: number, // order in character tab
+  builds: SavedBuild[],
+  portrait?: CustomImageConfig,
 }
 
 export type SavedBuild = {
-  build: string[]
-  name: string
+  build: string[],
+  name: string,
   score: {
-    score: string
-    rating: string
-  }
+    score: string,
+    rating: string,
+  },
 }

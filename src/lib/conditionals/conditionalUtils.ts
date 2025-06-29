@@ -1,21 +1,28 @@
-import { ElementName, PathName } from 'lib/constants/constants'
+import {
+  ElementName,
+  PathName,
+} from 'lib/constants/constants'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { ContentItem } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 /**
  * Helper methods used in conditional files
  */
 
 export type ContentDefinition<T extends Record<string, unknown>> = {
-  [K in keyof T]: ContentItem &
-  {
-    id: K
-  }
+  [K in keyof T]:
+    & ContentItem
+    & {
+      id: K,
+    }
 }
 
 export type Conditionals<T extends ContentDefinition<T>> = {
-  [K in keyof T]: number;
+  [K in keyof T]: number
 }
 
 export const calculateAshblazingSetP = (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, hitMulti: number): number => {
@@ -29,7 +36,7 @@ export const calculateAshblazingSetP = (x: ComputedStatsArray, action: Optimizer
 }
 
 export const ability = (upgradeEidolon: number) => {
-  return function <T extends number, K extends number>(eidolon: number, value1: T, value2: K): T | K {
+  return function<T extends number, K extends number>(eidolon: number, value1: T, value2: K): T | K {
     return eidolon >= upgradeEidolon ? value2 : value1
   }
 }

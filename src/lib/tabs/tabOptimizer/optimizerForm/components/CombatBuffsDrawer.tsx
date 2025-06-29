@@ -1,7 +1,15 @@
-import { Drawer, Flex, Form, Typography } from 'antd'
+import {
+  Drawer,
+  Flex,
+  Form,
+  Typography,
+} from 'antd'
 import { CombatBuffs } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import {
+  OpenCloseIDs,
+  useOpenClose,
+} from 'lib/hooks/useOpenClose'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useMemo } from 'react'
@@ -17,13 +25,13 @@ export const CombatBuffsDrawer = () => {
   const combatBuffsList = useMemo(() => {
     return Object.values(CombatBuffs).map((x) => (
       // @ts-ignore
-      <CombatBuff title={t(`${x.key}`)} name={x.key} key={x.key}/>
+      <CombatBuff title={t(`${x.key}`)} name={x.key} key={x.key} />
     ))
   }, [t])
 
   return (
     <Drawer
-      title={t('Title')}// 'Extra combat buffs'
+      title={t('Title')} // 'Extra combat buffs'
       placement='right'
       onClose={closeBuffsDrawer}
       open={isOpenBuffsDrawer}
@@ -39,14 +47,14 @@ export const CombatBuffsDrawer = () => {
   )
 }
 
-function CombatBuff(props: { title: string; name: string }) {
+function CombatBuff(props: { title: string, name: string }) {
   return (
     <Flex justify='space-between'>
       <Text>
         {props.title}
       </Text>
       <Form.Item name={['combatBuffs', props.name]}>
-        <InputNumberStyled size='small' controls={false}/>
+        <InputNumberStyled size='small' controls={false} />
       </Form.Item>
     </Flex>
   )

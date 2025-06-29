@@ -1,16 +1,40 @@
-import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF } from 'lib/conditionals/conditionalConstants'
-import { basicAdditionalDmgAtkFinalizer, gpuBasicAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
-import { AbilityEidolon, Conditionals, ContentDefinition } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats } from 'lib/constants/constants'
+import {
+  AbilityType,
+  BUFF_PRIORITY_MEMO,
+  BUFF_PRIORITY_SELF,
+} from 'lib/conditionals/conditionalConstants'
+import {
+  basicAdditionalDmgAtkFinalizer,
+  gpuBasicAdditionalDmgAtkFinalizer,
+} from 'lib/conditionals/conditionalFinalizers'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Stats,
+} from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import {
+  wgslFalse,
+  wgslTrue,
+} from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import {
+  ComputedStatsArray,
+  Key,
+} from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aglaea')
@@ -214,10 +238,10 @@ ${gpuBasicAdditionalDmgAtkFinalizer()}
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.SPD],
         chainsTo: [Stats.ATK],
-        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return true
         },
-        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           if (!r.supremeStanceState) {
             return
@@ -229,10 +253,12 @@ ${gpuBasicAdditionalDmgAtkFinalizer()}
           x.ATK.buffDynamic(buffValue - stateValue, SOURCE_TRACE, action, context)
           x.m.ATK.buffDynamic(buffValue - stateValue, SOURCE_TRACE, action, context)
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return conditionalWgslWrapper(this, `
+          return conditionalWgslWrapper(
+            this,
+            `
 if (${wgslFalse(r.supremeStanceState)}) {
   return;
 }
@@ -244,7 +270,8 @@ let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;
 (*p_state).AglaeaConversionConditional = buffValue;
 (*p_x).ATK += buffValue - stateValue;
 (*p_m).ATK += buffValue - stateValue;
-    `)
+    `,
+          )
         },
       },
     ],

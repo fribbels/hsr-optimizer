@@ -32,3 +32,8 @@ ResultsPanel:
   Rolls: 副词条升级次数
   Combo: 连招循环
   Damage: 技能伤害
+Messages:
+  Error:
+    MissingField: 缺失角色/光锥/队友
+    UnsupportedCharacter: 此角色不支持DPS基准
+    SPDUnselected: 选择目标基准基础速度

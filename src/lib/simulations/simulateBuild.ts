@@ -1,7 +1,22 @@
-import { OrnamentSetCount, OrnamentSetToIndex, Parts, PartsArray, RelicSetCount, RelicSetToIndex, SetsOrnaments, SetsRelics } from 'lib/constants/constants'
-import { BasicStatsArray, BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
+import {
+  OrnamentSetCount,
+  OrnamentSetToIndex,
+  Parts,
+  PartsArray,
+  RelicSetCount,
+  RelicSetToIndex,
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/constants/constants'
+import {
+  BasicStatsArray,
+  BasicStatsArrayCore,
+} from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
+import {
+  calculateBaseMultis,
+  calculateDamage,
+} from 'lib/optimization/calculateDamage'
 import {
   calculateBaseStats,
   calculateBasicEffects,
@@ -11,9 +26,16 @@ import {
   calculateRelicStats,
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
-import { ComputedStatsArray, ComputedStatsArrayCore, Key } from 'lib/optimization/computedStatsArray'
+import {
+  ComputedStatsArray,
+  ComputedStatsArrayCore,
+  Key,
+} from 'lib/optimization/computedStatsArray'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
-import { SimulationRelic, SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
+import {
+  SimulationRelic,
+  SimulationRelicByPart,
+} from 'lib/simulations/statSimulationTypes'
 import { OptimizerContext } from 'types/optimizer'
 
 // To use after combo state and context has been initialized

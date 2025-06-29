@@ -1,6 +1,17 @@
-import { Flex, Typography } from 'antd'
-import { showcaseBackdropFilter, showcaseOutline, showcaseShadow, ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { ShowcaseDisplayDimensions, ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
+import {
+  Flex,
+  Typography,
+} from 'antd'
+import {
+  showcaseBackdropFilter,
+  showcaseOutline,
+  showcaseShadow,
+  ShowcaseSource,
+} from 'lib/characterPreview/CharacterPreviewComponents'
+import {
+  ShowcaseDisplayDimensions,
+  ShowcaseMetadata,
+} from 'lib/characterPreview/characterPreviewController'
 import StatText, { StatTextEllipses } from 'lib/characterPreview/StatText'
 import { parentW } from 'lib/constants/constantsUi'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
@@ -11,13 +22,12 @@ import { Character } from 'types/character'
 const { Text } = Typography
 
 export function ShowcaseLightConeSmall(props: {
-  source: ShowcaseSource
-  character: Character
-  displayDimensions: ShowcaseDisplayDimensions
-  setOriginalCharacterModalInitialCharacter: (c: Character) => void
-  setOriginalCharacterModalOpen: (b: boolean) => void
-  setCharacterModalAdd: (b: boolean) => void
-  showcaseMetadata: ShowcaseMetadata
+  source: ShowcaseSource,
+  character: Character,
+  displayDimensions: ShowcaseDisplayDimensions,
+  setOriginalCharacterModalInitialCharacter: (c: Character) => void,
+  setOriginalCharacterModalOpen: (b: boolean) => void,
+  showcaseMetadata: ShowcaseMetadata,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
@@ -27,7 +37,6 @@ export function ShowcaseLightConeSmall(props: {
     displayDimensions,
     setOriginalCharacterModalInitialCharacter,
     setOriginalCharacterModalOpen,
-    setCharacterModalAdd,
     showcaseMetadata,
   } = props
 
@@ -101,7 +110,6 @@ export function ShowcaseLightConeSmall(props: {
             setOriginalCharacterModalInitialCharacter(character)
             setOriginalCharacterModalOpen(true)
           } else {
-            setCharacterModalAdd(false)
             setOriginalCharacterModalInitialCharacter(character)
             setOriginalCharacterModalOpen(true)
           }
@@ -122,13 +130,12 @@ export function ShowcaseLightConeSmall(props: {
 }
 
 export function ShowcaseLightConeLarge(props: {
-  source: ShowcaseSource
-  character: Character
-  displayDimensions: ShowcaseDisplayDimensions
-  setOriginalCharacterModalInitialCharacter: (c: Character) => void
-  setOriginalCharacterModalOpen: (b: boolean) => void
-  setCharacterModalAdd: (b: boolean) => void
-  showcaseMetadata: ShowcaseMetadata
+  source: ShowcaseSource,
+  character: Character,
+  displayDimensions: ShowcaseDisplayDimensions,
+  setOriginalCharacterModalInitialCharacter: (c: Character) => void,
+  setOriginalCharacterModalOpen: (b: boolean) => void,
+  showcaseMetadata: ShowcaseMetadata,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
@@ -138,7 +145,6 @@ export function ShowcaseLightConeLarge(props: {
     displayDimensions,
     setOriginalCharacterModalInitialCharacter,
     setOriginalCharacterModalOpen,
-    setCharacterModalAdd,
     showcaseMetadata,
   } = props
 
@@ -173,7 +179,6 @@ export function ShowcaseLightConeLarge(props: {
           setOriginalCharacterModalInitialCharacter(character)
           setOriginalCharacterModalOpen(true)
         } else {
-          setCharacterModalAdd(false)
           setOriginalCharacterModalInitialCharacter(character)
           setOriginalCharacterModalOpen(true)
         }
@@ -184,7 +189,9 @@ export function ShowcaseLightConeLarge(props: {
         style={{
           width: tempLcInnerW,
           // Magic # 8 to fit certain LCs
-          transform: `translate(${(tempLcInnerW - tempLcParentW) / 2 / tempLcInnerW * -100}%, ${(tempLcInnerH - tempLcParentH) / 2 / tempLcInnerH * -100 + 8}%)`,
+          transform: `translate(${(tempLcInnerW - tempLcParentW) / 2 / tempLcInnerW * -100}%, ${
+            (tempLcInnerH - tempLcParentH) / 2 / tempLcInnerH * -100 + 8
+          }%)`,
         }}
       />
     </div>
@@ -192,7 +199,7 @@ export function ShowcaseLightConeLarge(props: {
 }
 
 export function ShowcaseLightConeLargeName(props: {
-  showcaseMetadata: ShowcaseMetadata
+  showcaseMetadata: ShowcaseMetadata,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 

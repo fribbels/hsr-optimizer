@@ -1,29 +1,42 @@
-import { Flex, Table, TableProps } from 'antd'
+import {
+  Flex,
+  Table,
+  TableProps,
+} from 'antd'
 import { TFunction } from 'i18next'
-import { MainStats, Parts } from 'lib/constants/constants'
+import {
+  MainStats,
+  Parts,
+} from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
 import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
-import { arrowColor, arrowDirection } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
+import {
+  arrowColor,
+  arrowDirection,
+} from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
-import { localeNumber_0, localeNumber_00 } from 'lib/utils/i18nUtils'
+import {
+  localeNumber_0,
+  localeNumber_00,
+} from 'lib/utils/i18nUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 type MainStatUpgradeItem = {
-  stat: MainStats
-  part: Parts
-  setUpgradeRequest?: SimulationRequest
-  scorePercentUpgrade: number
-  scoreValueUpgrade: number
-  damagePercentUpgrade: number
-  damageValueUpgrade: number
+  stat: MainStats,
+  part: Parts,
+  setUpgradeRequest?: SimulationRequest,
+  scorePercentUpgrade: number,
+  scoreValueUpgrade: number,
+  damagePercentUpgrade: number,
+  damageValueUpgrade: number,
 }
 
 export function DpsScoreMainStatUpgradesTable(props: {
-  simScore: SimulationScore
+  simScore: SimulationScore,
 }) {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
   const { t: tCommon } = useTranslation(['common', 'charactersTab'])
@@ -62,17 +75,17 @@ export function DpsScoreMainStatUpgradesTable(props: {
         upgrade.setUpgradeRequest
           ? (
             <Flex align='center' gap={3}>
-              <img src={Assets.getSetImage(upgrade.setUpgradeRequest.simRelicSet1)} style={{ width: iconSize, height: iconSize }}/>
-              <img src={Assets.getSetImage(upgrade.setUpgradeRequest.simRelicSet2)} style={{ width: iconSize, height: iconSize }}/>
-              <span> </span>
-              <img src={Assets.getSetImage(upgrade.setUpgradeRequest.simOrnamentSet)} style={{ width: iconSize, height: iconSize, marginLeft: 3 }}/>
+              <img src={Assets.getSetImage(upgrade.setUpgradeRequest.simRelicSet1)} style={{ width: iconSize, height: iconSize }} />
+              <img src={Assets.getSetImage(upgrade.setUpgradeRequest.simRelicSet2)} style={{ width: iconSize, height: iconSize }} />
+              <span></span>
+              <img src={Assets.getSetImage(upgrade.setUpgradeRequest.simOrnamentSet)} style={{ width: iconSize, height: iconSize, marginLeft: 3 }} />
             </Flex>
           )
           : (
             <Flex align='center' gap={5}>
-              <img src={Assets.getPart(upgrade.part)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }}/>
+              <img src={Assets.getPart(upgrade.part)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }} />
               <span>➔</span>
-              <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize }}/>
+              <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize }} />
               <span>{`${tCommon(`ShortReadableStats.${stat}`)}`}</span>
             </Flex>
           )
@@ -104,10 +117,10 @@ export function sharedSimResultComparator(simScore: SimulationScore, upgrade: Si
   const adjustedPercentDiff = Math.abs(percentDiff) < 0.0001 ? 0 : percentDiff
 
   return {
-    scorePercentUpgrade: (adjustedPercentDiff) * 100,
+    scorePercentUpgrade: adjustedPercentDiff * 100,
     scoreValueUpgrade: upgrade.percent! * 100,
-    damagePercentUpgrade: (adjustedScoreDiff) / simScore.originalSimScore * 100,
-    damageValueUpgrade: (adjustedScoreDiff),
+    damagePercentUpgrade: adjustedScoreDiff / simScore.originalSimScore * 100,
+    damageValueUpgrade: adjustedScoreDiff,
   }
 }
 
@@ -119,7 +132,7 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
       align: 'center',
       render: (n: number) => (
         <Flex align='center' justify='center' gap={5}>
-          <Arrow up={n >= 0}/>
+          <Arrow up={n >= 0} />
           {` ${localeNumber_00(n)}%`}
         </Flex>
       ),
@@ -130,7 +143,7 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
       align: 'center',
       render: (n: number) => (
         <Flex align='center' justify='center' gap={5}>
-          <Arrow up={n >= 0}/>
+          <Arrow up={n >= 0} />
           {` ${localeNumber_00(n)}%`}
         </Flex>
       ),

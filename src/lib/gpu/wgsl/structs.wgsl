@@ -96,6 +96,8 @@ struct Sets {
   TheWondrousBananAmusementPark: i32,
   BoneCollectionsSereneDemesne: i32,
   GiantTreeOfRaptBrooding: i32,
+  ArcadiaOfWovenDreams: i32,
+  RevelryByTheSea: i32,
 }
 
 struct SetConditionals {
@@ -123,7 +125,8 @@ struct SetConditionals {
   valuePioneerDiverOfDeadWaters: i32,
   valueSigoniaTheUnclaimedDesolation: i32,
   valueDuranDynastyOfRunningWolves: i32,
-  valueSacerdosRelivedOrdeal: i32
+  valueSacerdosRelivedOrdeal: i32,
+  valueArcadiaOfWovenDreams: i32
 }
 
 struct Action {

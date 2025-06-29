@@ -1,6 +1,10 @@
 import { ABILITY_LIMIT } from 'lib/constants/constants'
 import { TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
-import { ComboBooleanConditional, ComboNumberConditional, ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import {
+  ComboBooleanConditional,
+  ComboNumberConditional,
+  ComboState,
+} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
 export abstract class AbilityPreprocessorBase {
   abstract id: string
@@ -15,6 +19,12 @@ export function setComboBooleanCategorySetActivation(comboState: ComboState, set
 
 export function setComboBooleanCategoryCharacterActivation(comboState: ComboState, conditional: string, index: number, value: boolean) {
   const category = comboState.comboCharacter.characterConditionals[conditional] as ComboBooleanConditional
+  if (category) {
+    category.activations[index] = value
+  }
+}
+export function setComboBooleanCategoryLightConeActivation(comboState: ComboState, conditional: string, index: number, value: boolean) {
+  const category = comboState.comboCharacter.lightConeConditionals[conditional] as ComboBooleanConditional
   if (category) {
     category.activations[index] = value
   }

@@ -24,7 +24,7 @@ FeatureCards:
 Welcome: Добро пожаловать в<1/> Fribbels Star Rail Optimizer
 SearchBar:
   Placeholder: UID
-  Label: "Введите ваш UID для просмотра персонажей профиля"
-  Api: "Используется Enka.Network"
+  Label: 'Введите ваш UID для просмотра персонажей профиля'
+  Api: 'Используется Enka.Network'
   Message: Неверный ввод - тут должны быть ваши 9 цифр внутриигрового UID
   Search: Поиск

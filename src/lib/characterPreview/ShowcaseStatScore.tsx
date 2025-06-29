@@ -5,7 +5,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export function ShowcaseStatScore(props: {
-  scoringResults: ScoringResults
+  scoringResults: ScoringResults,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 

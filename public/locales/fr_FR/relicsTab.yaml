@@ -19,6 +19,7 @@ Messages:
   AddRelicSuccess: Relique ajoutée avec succès
   NoRelicSelected: Aucune relique sélectionnée
   DeleteRelicSuccess: Relique supprimée avec succès
+  UnableToDeleteRelic: Impossible de supprimer la relique
 RelicGrid:
   To: à
   Of: de

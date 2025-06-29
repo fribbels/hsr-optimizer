@@ -1,4 +1,7 @@
-import { expect, test } from '@playwright/test'
+import {
+  expect,
+  test,
+} from '@playwright/test'
 
 test('Tab render happy-path', async ({ page }) => {
   await page.goto('/#showcase')
@@ -38,5 +41,7 @@ test('Tab render happy-path', async ({ page }) => {
 
   // Coming soon
   await page.getByRole('menuitem', { name: 'Coming soon' }).click()
-  await expect(page.getByRole('main')).toContainText('More Star Rail tools coming soon! Drop by the Discord server for updates, to share ideas, or just hang out.')
+  await expect(page.getByRole('main')).toContainText(
+    'More Star Rail tools coming soon! Drop by the Discord server for updates, to share ideas, or just hang out.',
+  )
 })

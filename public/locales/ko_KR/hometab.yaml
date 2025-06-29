@@ -2,7 +2,7 @@ CollapseLabels:
   Explore: 기능 자세히 보기
   Join: 커뮤니티에 참여
 CommunityCollapse: >-
-  <0> 이 프로젝트를 지원하고 함께 만들어주신 기여자, 번역자, 사용자, 그리고 피드백을 주신 모든 분들께 진심으로 감사드립니다!</0> <1> 스타레일 커뮤니티의 일원이 되어주세요!  <1 text='Discord'/> 서버에 참여하여 교류하고 기여하고 싶다면 <3 text='GitHub'/> 리포지토리를 확인해 보세요.<1 text='GitHub'/> 리포지토리를 확인해보세요.<0>
+  <0> 이 프로젝트를 지원하고 함께 만들어주신 기여자, 번역자, 사용자, 그리고 피드백을 주신 모든 분들께 진심으로 감사드립니다!</0> <1> 스타레일 커뮤니티의 일원이 되어주세요!  <1 text='Discord'/> 서버에 참여하여 교류하고 기여하고 싶다면 <3 text='GitHub'/> 리포지토리를 확인해 보세요.
 FeatureCards:
   LearnMore: 더 알아보기
   Showcase:
@@ -24,7 +24,7 @@ FeatureCards:
 Welcome: Fribbels Str Rail Optimizer<1/>오신 것을 환영합니다!
 SearchBar:
   Placeholder: UID
-  Label: "UID를 입력하고 캐릭터 쇼케이스 확인하세요"
-  Api: "Enka.Network 사용하기"
+  Label: 'UID를 입력하고 캐릭터 쇼케이스 확인하세요'
+  Api: 'Enka.Network 사용하기'
   Message: 잘못된 입력 - 9자리의 인게임 UUID여야 합니다.
   Search: 검색

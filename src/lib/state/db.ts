@@ -1,34 +1,69 @@
 import i18next from 'i18next'
-import { COMPUTE_ENGINE_GPU_STABLE, ComputeEngine, Constants, CURRENT_OPTIMIZER_VERSION, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Parts, SubStats } from 'lib/constants/constants'
+import {
+  COMPUTE_ENGINE_GPU_STABLE,
+  ComputeEngine,
+  Constants,
+  CURRENT_OPTIMIZER_VERSION,
+  DEFAULT_MEMO_DISPLAY,
+  DEFAULT_STAT_DISPLAY,
+  Parts,
+  SubStats,
+} from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
-import { DefaultSettingOptions, SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
+import {
+  DefaultSettingOptions,
+  SettingOptions,
+} from 'lib/overlays/drawers/SettingsDrawer'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
-import { getGlobalThemeConfigFromColorTheme, Themes } from 'lib/rendering/theme'
+import {
+  getGlobalThemeConfigFromColorTheme,
+  Themes,
+} from 'lib/rendering/theme'
 import { oldCharacterScoringMetadata } from 'lib/scoring/oldCharacterScoringMetadata'
 import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
-import { Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
+import {
+  Simulation,
+  StatSimTypes,
+} from 'lib/simulations/statSimulationTypes'
 import { SaveState } from 'lib/state/saveState'
+import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/UseShowcaseTabStore'
-import { WarpRequest, WarpResult } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { Character, CharacterId } from 'types/character'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
 import { CustomImageConfig } from 'types/customImage'
 import { Form } from 'types/form'
-import { DBMetadata, ScoringMetadata, SimulationMetadata } from 'types/metadata'
-import { Relic, Stat } from 'types/relic'
-import { GlobalSavedSession, HsrOptimizerSaveFormat, HsrOptimizerStore, UserSettings } from 'types/store'
+import {
+  DBMetadata,
+  ScoringMetadata,
+  SimulationMetadata,
+} from 'types/metadata'
+import {
+  Relic,
+  Stat,
+} from 'types/relic'
+import {
+  GlobalSavedSession,
+  HsrOptimizerSaveFormat,
+  HsrOptimizerStore,
+  UserSettings,
+} from 'types/store'
 import { create } from 'zustand'
 
 export type HsrOptimizerMetadataState = {
-  metadata: DBMetadata
+  metadata: DBMetadata,
 }
 
 const state: HsrOptimizerMetadataState = {
@@ -130,16 +165,11 @@ window.store = create((set) => {
 
     comboState: {} as ComboState,
     optimizerTabFocusCharacter: undefined,
-    characterTabFocusCharacter: undefined,
     scoringAlgorithmFocusCharacter: undefined,
     statTracesDrawerFocusCharacter: undefined,
     relicsTabFocusCharacter: undefined,
-    inventoryWidth: 9,
-    rowLimit: 10,
 
     activeKey: getDefaultActiveKey(),
-    characters: [],
-    charactersById: {},
     permutations: 0,
     permutationsResults: 0,
     permutationsSearched: 0,
@@ -147,8 +177,6 @@ window.store = create((set) => {
     scoringMetadataOverrides: {},
     showcasePreferences: {},
     showcaseTemporaryOptionsByCharacter: {},
-    warpRequest: {} as WarpRequest,
-    warpResult: {} as WarpResult,
     statDisplay: DEFAULT_STAT_DISPLAY,
     memoDisplay: DEFAULT_MEMO_DISPLAY,
     statSimulationDisplay: StatSimTypes.Disabled,
@@ -193,12 +221,6 @@ window.store = create((set) => {
       equippedBy: [],
       initialRolls: [],
     },
-    characterTabFilters: {
-      name: '',
-      element: [],
-      path: [],
-      rarity: [],
-    },
     excludedRelicPotentialCharacters: [],
 
     optimizerMenuState: {
@@ -214,18 +236,12 @@ window.store = create((set) => {
     settings: DefaultSettingOptions,
     optimizerBuild: null,
     optimizerSelectedRowData: null,
-    optimizerBuffGroups: undefined,
 
     setComboState: (x) => set(() => ({ comboState: x })),
     setVersion: (x) => set(() => ({ version: x })),
     setActiveKey: (x) => set(() => ({ activeKey: x })),
     setFormValues: (x) => set(() => ({ formValues: x })),
-    setCharacters: (x) => set(() => ({ characters: x })),
-    setCharactersById: (x) => set(() => ({ charactersById: x })),
-    setInventoryWidth: (x) => set(() => ({ inventoryWidth: x })),
-    setRowLimit: (x) => set(() => ({ rowLimit: x })),
     setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
-    setCharacterTabFocusCharacter: (characterId) => set(() => ({ characterTabFocusCharacter: characterId })),
     setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
     setStatTracesDrawerFocusCharacter: (characterId) => set(() => ({ statTracesDrawerFocusCharacter: characterId })),
     setRelicsTabFocusCharacter: (characterId) => set(() => ({ relicsTabFocusCharacter: characterId })),
@@ -235,12 +251,9 @@ window.store = create((set) => {
     setPermutationsSearched: (x) => set(() => ({ permutationsSearched: x })),
     setRelicsById: (x) => set(() => ({ relicsById: x })),
     setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
-    setCharacterTabFilters: (x) => set(() => ({ characterTabFilters: x })),
     setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
     setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
     setShowcaseTemporaryOptionsByCharacter: (x) => set(() => ({ showcaseTemporaryOptionsByCharacter: x })),
-    setWarpRequest: (x) => set(() => ({ warpRequest: x })),
-    setWarpResult: (x) => set(() => ({ warpResult: x })),
     setStatDisplay: (x) => set(() => ({ statDisplay: x })),
     setMemoDisplay: (x) => set(() => ({ memoDisplay: x })),
     setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
@@ -260,13 +273,13 @@ window.store = create((set) => {
     setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
     setSettings: (x: UserSettings) => set(() => ({ settings: x })),
     setSavedSession: (x) => set(() => ({ savedSession: x })),
-    setSavedSessionKey: (key, x) => set((state) => ({
-      savedSession: { ...state.savedSession, [key]: x },
-    })),
+    setSavedSessionKey: (key, x) =>
+      set((state) => ({
+        savedSession: { ...state.savedSession, [key]: x },
+      })),
     setColorTheme: (x) => set(() => ({ colorTheme: x })),
     setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
     setOptimizerSelectedRowData: (x) => set(() => ({ optimizerSelectedRowData: x })),
-    setOptimizerBuffGroups: (x) => set(() => ({ optimizerBuffGroups: x })),
     setGlobalThemeConfig: (x) => set(() => ({ globalThemeConfig: x })),
   }
   return store
@@ -276,25 +289,15 @@ export const DB = {
   getMetadata: (): DBMetadata => state.metadata,
   setMetadata: (metadata: DBMetadata) => state.metadata = metadata,
 
-  getCharacters: () => window.store.getState().characters,
-  getCharacterById: (id: CharacterId) => window.store.getState().charactersById[id],
+  getCharacters: () => useCharacterTabStore.getState().characters,
+  getCharacterById: (id: CharacterId) => useCharacterTabStore.getState().charactersById[id],
 
   setCharacters: (characters: Character[]) => {
-    const charactersById: Partial<Record<CharacterId, Character>> = {}
-    for (const character of characters) {
-      charactersById[character.id] = character
-    }
-
     assignRanks(characters)
-    const newCharacterArray = [...characters]
-    window.store.getState().setCharacters(newCharacterArray)
-    window.store.getState().setCharactersById(charactersById)
+    useCharacterTabStore.getState().setCharacters([...characters])
   },
   setCharacter: (character: Character) => {
-    const charactersById = window.store.getState().charactersById
-    charactersById[character.id] = character
-
-    window.store.getState().setCharactersById(charactersById)
+    useCharacterTabStore.getState().setCharacter(character)
   },
   addCharacter: (character: Character) => {
     const characters = DB.getCharacters()
@@ -329,6 +332,8 @@ export const DB = {
       relicsById[relic.id] = relic
     }
     window.store.getState().setRelicsById(relicsById)
+    // bandaid fix while waiting in proper immutable state
+    if (window.forceCharacterTabUpdate) window.forceCharacterTabUpdate()
   },
   getRelicById: (id: string) => window.store.getState().relicsById[id],
 
@@ -372,6 +377,8 @@ export const DB = {
       }
       setRelic(relic)
     }
+    // bandaid fix while waiting in proper immutable state
+    if (window.forceCharacterTabUpdate) window.forceCharacterTabUpdate()
   },
 
   refreshRelics: () => {
@@ -445,7 +452,7 @@ export const DB = {
 
     SaveState.delayedSave()
   },
-  updateSimulationScoreOverrides: (id: string, updatedSimulation: SimulationMetadata) => {
+  updateSimulationScoreOverrides: (id: CharacterId, updatedSimulation: SimulationMetadata) => {
     if (!updatedSimulation) return
 
     const overrides = window.store.getState().scoringMetadataOverrides
@@ -576,9 +583,7 @@ export const DB = {
       window.store.getState().setShowcasePreferences(saveData.showcasePreferences || {})
     }
 
-    if (saveData.warpRequest) {
-      window.store.getState().setWarpRequest(saveData.warpRequest || {})
-    }
+    useWarpCalculatorStore.getState().setRequest(saveData.warpRequest)
 
     if (saveData.optimizerMenuState) {
       const menuState = window.store.getState().optimizerMenuState
@@ -607,8 +612,6 @@ export const DB = {
         useShowcaseTabStore.getState().setSavedSession(saveData.savedSession.showcaseTab)
       }
     }
-    // @ts-expect-error TODO remove once migration period is over
-    if (saveData.scorerId) useShowcaseTabStore.getState().setScorerId(saveData.scorerId as string)
 
     if (saveData.settings) {
       window.store.getState().setSettings(saveData.settings)
@@ -617,8 +620,8 @@ export const DB = {
     // Set relics tab state
     window.store.getState().setExcludedRelicPotentialCharacters(saveData.excludedRelicPotentialCharacters || [])
     window.store.getState().setVersion(saveData.version)
-    window.store.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth ?? 9)
-    window.store.getState().setRowLimit(saveData.relicLocator?.rowLimit ?? 10)
+    useRelicLocatorStore.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth)
+    useRelicLocatorStore.getState().setRowLimit(saveData.relicLocator?.rowLimit)
 
     assignRanks(saveData.characters)
     DB.setRelics(saveData.relics)
@@ -677,7 +680,7 @@ export const DB = {
      */
     if (window.characterGrid?.current?.api) {
       window.characterGrid.current.api.updateGridOptions({ rowData: characters })
-      const oldFocusCharacter = window.store.getState().characterTabFocusCharacter
+      const oldFocusCharacter = useCharacterTabStore.getState().focusCharacter
       if (select || !oldFocusCharacter) {
         window.characterGrid.current.api.forEachNode((node: {
           data: {
@@ -687,7 +690,7 @@ export const DB = {
         }) => {
           if (node.data.id == found.id) node.setSelected(true)
         })
-        window.store.getState().setCharacterTabFocusCharacter(found.id)
+        useCharacterTabStore.getState().setFocusCharacter(found.id)
       }
     }
 
@@ -721,32 +724,31 @@ export const DB = {
     console.log('Deleted portrait', DB.getState())
   },
 
-  saveCharacterBuild: (name: string,
-    characterId: CharacterId,
-    score: {
-      rating: string
-      score: string
-    }) => {
+  saveCharacterBuild: (name: string, characterId: CharacterId, score: {
+    rating: string,
+    score: string,
+  }) => {
     const character = DB.getCharacterById(characterId)
     if (!character) {
       console.warn('No character selected')
       return
     }
 
-    const build = character.builds?.find((x) => x.name == name)
+    let build = character.builds?.find((x) => x.name == name)?.build
     if (build) {
-      const errorMessage = `Build name [${name}] already exists`
+      const errorMessage = i18next.t('charactersTab:Messages.BuildAlreadyExists', { name })
       console.warn(errorMessage)
       return { error: errorMessage }
     } else {
+      build = Object.values(character.equipped)
       if (!character.builds) character.builds = []
       character.builds.push({
-        name: name,
-        build: [...Object.values(character.equipped)] as string[],
-        score: score,
+        name,
+        build,
+        score,
       })
       DB.setCharacter(character)
-      console.log('Saved build', DB.getState())
+      console.log('Saved build', build, useCharacterTabStore.getState())
     }
   },
 
@@ -832,7 +834,8 @@ export const DB = {
       DB.unequipRelicById(prevRelic.id)
     }
 
-    const swap = forceSwap || DB.getState().settings[SettingOptions.RelicEquippingBehavior.name as keyof UserSettings] == SettingOptions.RelicEquippingBehavior.Swap
+    const swap = forceSwap
+      || DB.getState().settings[SettingOptions.RelicEquippingBehavior.name] == SettingOptions.RelicEquippingBehavior.Swap
 
     // only re-equip prevRelic if it would go to a different character
     if (prevOwnerId !== characterId && prevCharacter) {
@@ -873,7 +876,7 @@ export const DB = {
   },
 
   deleteRelic: (id: string) => {
-    if (!id) return Message.error('Unable to delete relic')
+    if (!id) return Message.error(i18next.t('relicsTab:Messages.UnableToDeleteRelic'))
     DB.unequipRelicById(id)
     const relicsById = window.store.getState().relicsById
     delete relicsById[id]
@@ -1025,8 +1028,8 @@ export const DB = {
     const updatedOldRelics: Relic[] = []
     const addedNewRelics: Relic[] = []
     const equipUpdates: {
-      relic: Relic
-      equippedBy: CharacterId | undefined
+      relic: Relic,
+      equippedBy: CharacterId | undefined,
     }[] = []
 
     for (const newRelic of newRelics) {

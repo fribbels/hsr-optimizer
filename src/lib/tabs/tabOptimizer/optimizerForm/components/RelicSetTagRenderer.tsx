@@ -1,15 +1,21 @@
-import { Flex, Tag } from 'antd'
-import { Constants, RelicSetFilterOptions } from 'lib/constants/constants'
+import {
+  Flex,
+  Tag,
+} from 'antd'
+import {
+  Constants,
+  RelicSetFilterOptions,
+} from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import React, { ReactNode } from 'react'
 import { ReactElement } from 'types/components'
 
 // NOTE: Be careful hot-reloading with this file, can cause Db to wipe. Unsure why yet
 export function RelicSetTagRenderer(props: {
-  value: string
-  label: ReactNode
-  closable: boolean
-  onClose: () => void
+  value: string,
+  label: ReactNode,
+  closable: boolean,
+  onClose: () => void,
 }): ReactElement {
   const { value, label, closable, onClose } = props
 
@@ -18,9 +24,9 @@ export function RelicSetTagRenderer(props: {
    * "2 PieceBand of Sizzling Thunder__RC_CASCADER_SPLIT__Guard of Wuthering Snow"
    */
   /*
-   *['4 Piece', 'Passerby of Wandering Cloud']
-   *['2 + 2 Piece', 'Knight of Purity Palace', 'Hunter of Glacial Forest']
-   *['2 + Any', 'Knight of Purity Palace']
+   * ['4 Piece', 'Passerby of Wandering Cloud']
+   * ['2 + 2 Piece', 'Knight of Purity Palace', 'Hunter of Glacial Forest']
+   * ['2 + Any', 'Knight of Purity Palace']
    */
 
   if (!value) {

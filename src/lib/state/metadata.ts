@@ -1916,6 +1916,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Sets.PrisonerInDeepConfinement]: 1,
         [Sets.BandOfSizzlingThunder]: T2_WEIGHT,
 
+        [Sets.RevelryByTheSea]: 1,
         [Sets.FirmamentFrontlineGlamoth]: 1,
         [Sets.SpaceSealingStation]: 1,
       },
@@ -5875,6 +5876,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Sets.MusketeerOfWildWheat]: MATCH_2P_WEIGHT,
         [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
 
+        [Sets.RevelryByTheSea]: 1,
         [Sets.PanCosmicCommercialEnterprise]: 1,
         [Sets.FirmamentFrontlineGlamoth]: 1,
         [Sets.SpaceSealingStation]: 1,
@@ -8095,6 +8097,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.WavestriderCaptain]: 1,
+        [Sets.ScholarLostInErudition]: T2_WEIGHT,
+
+        [Sets.ArcadiaOfWovenDreams]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.BoneCollectionsSereneDemesne]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: T2_WEIGHT,
+        [Sets.SpaceSealingStation]: T2_WEIGHT,
+      },
       presets: [],
       sortOption: SortOption.SKILL,
       hiddenColumns: [SortOption.DOT],
@@ -8200,6 +8213,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.WavestriderCaptain]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+
+        [Sets.InertSalsotto]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.SpaceSealingStation]: T2_WEIGHT,
+      },
       presets: [],
       sortOption: SortOption.ULT,
       hiddenColumns: [SortOption.DOT],
@@ -8303,6 +8325,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.InertSalsotto]: 1,
+        [Sets.SpaceSealingStation]: T2_WEIGHT,
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
@@ -8411,6 +8442,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.PrisonerInDeepConfinement]: 1,
+        [Sets.BandOfSizzlingThunder]: T2_WEIGHT,
+
+        [Sets.RevelryByTheSea]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
       },
       presets: [
         PresetEffects.PRISONER_SET,
@@ -8531,6 +8571,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.BE,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN_WEIGHTS,
+        [Sets.InertSalsotto]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.PanCosmicCommercialEnterprise]: T2_WEIGHT,
+      },
       presets: [
         PresetEffects.fnPioneerSet(4),
       ],
@@ -8644,6 +8698,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
         ],
       },
+      sets: {
+        [Sets.ScholarLostInErudition]: MATCH_2P_WEIGHT,
+        [Sets.LongevousDisciple]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+        [Sets.MusketeerOfWildWheat]: T2_WEIGHT,
+
+        [Sets.BoneCollectionsSereneDemesne]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.InertSalsotto]: 1,
+      },
       presets: [
         PresetEffects.VALOROUS_SET,
         PresetEffects.fnSacerdosSet(1),
@@ -8752,6 +8816,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.HunterOfGlacialForest]: T2_WEIGHT,
+
+        [Sets.BoneCollectionsSereneDemesne]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.InertSalsotto]: T2_WEIGHT,
       },
       presets: [],
       sortOption: SortOption.SKILL,

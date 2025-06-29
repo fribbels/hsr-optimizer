@@ -83,6 +83,7 @@ const RELICS_2P_BREAK_EFFECT_SPEED = [
 ]
 
 const SPREAD_RELICS_2P_SPEED_WEIGHTS = {
+  [Sets.WarriorGoddessOfSunAndThunder]: MATCH_2P_WEIGHT,
   [Sets.MessengerTraversingHackerspace]: MATCH_2P_WEIGHT,
   [Sets.SacerdosRelivedOrdeal]: MATCH_2P_WEIGHT,
 }
@@ -7921,7 +7922,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       sets: {
         ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-        // [Sets.WarriorGoddessOfSunAndThunder]: 1,
+        [Sets.WarriorGoddessOfSunAndThunder]: 1,
         [Sets.MessengerTraversingHackerspace]: 1,
         [Sets.PasserbyOfWanderingCloud]: T2_WEIGHT,
         

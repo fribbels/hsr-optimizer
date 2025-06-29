@@ -1,44 +1,16 @@
-import {
-  AbilityType,
-  ASHBLAZING_ATK_STACK,
-  DOT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
-} from 'lib/conditionals/conditionalFinalizers'
-import {
-  AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
-} from 'lib/conditionals/conditionalUtils'
-import {
-  ConditionalActivation,
-  ConditionalType,
-  Stats,
-} from 'lib/constants/constants'
+import { AbilityType, ASHBLAZING_ATK_STACK, DOT_DMG_TYPE, } from 'lib/conditionals/conditionalConstants'
+import { boostAshblazingAtkP, gpuBoostAshblazingAtkP, } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityEidolon, Conditionals, ContentDefinition, } from 'lib/conditionals/conditionalUtils'
+import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import {
-  wgslFalse,
-  wgslTrue,
-} from 'lib/gpu/injection/wgslUtils'
+import { wgslFalse, wgslTrue, } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  buffAbilityDmg,
-  buffAbilityVulnerability,
-  Target,
-} from 'lib/optimization/calculateBuffs'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { buffAbilityDmg, buffAbilityVulnerability, Target, } from 'lib/optimization/calculateBuffs'
+import { ComputedStatsArray, Key, } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.KafkaB1.Content')
@@ -70,6 +42,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     ehrBasedBuff: true,
     e1DotDmgReceivedDebuff: true,
     e2TeamDotDmg: true,
+    dotCrit: true,
   }
 
   const teammateDefaults = {
@@ -99,6 +72,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: t('e2TeamDotDmg.content'),
       disabled: e < 2,
     },
+    dotCrit: {
+      id: 'dotCrit',
+      formItem: 'switch',
+      text: 'DOT Crit',
+      content: 'DOT Crit',
+    },
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
@@ -123,6 +102,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DOT_ATK_SCALING.buff(dotScaling, SOURCE_ULT)
 
       x.DOT_ATK_SCALING.buff((e >= 6) ? 1.56 : 0, SOURCE_E6)
+
+      // Temp testing
+      x.DOT_DMG_CR_OVERRIDE.buff(r.dotCrit ? 1.00 : 0, Source.NONE)
+      x.DOT_DMG_CD_OVERRIDE.buff(r.dotCrit ? 1.00 : 0, Source.NONE)
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
@@ -162,10 +145,10 @@ if (${wgslTrue(r.ehrBasedBuff)} && x.EHR >= 0.75) {
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.EHR],
         chainsTo: [],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           return x.a[Key.EHR] >= 0.75
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        effect: function (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
           if (!r.ehrBasedBuff) {
             return
@@ -175,7 +158,7 @@ if (${wgslTrue(r.ehrBasedBuff)} && x.EHR >= 0.75) {
             x.ATK.buff(1.00 * context.baseATK, SOURCE_TRACE)
           }
         },
-        gpu: function(action: OptimizerAction, context: OptimizerContext) {
+        gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
 
           return conditionalWgslWrapper(

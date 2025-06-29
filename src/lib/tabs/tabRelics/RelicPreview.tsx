@@ -44,7 +44,7 @@ export function RelicPreview(props: {
   scoringType?: ScoringType,
   setEditModalOpen?: (open: boolean) => void,
   setAddModalOpen?: (open: boolean) => void,
-  setSelectedRelic: (relic: Relic) => void,
+  setSelectedRelic?: (relic: Relic) => void,
   showcaseTheme?: ShowcaseTheme,
   unhoverable?: boolean,
 }) {

@@ -2880,6 +2880,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
         [Sets.PrisonerInDeepConfinement]: 1,
 
+        [Sets.RevelryByTheSea]: 1,
         [Sets.FirmamentFrontlineGlamoth]: 1,
         [Sets.PanCosmicCommercialEnterprise]: 1,
         [Sets.SpaceSealingStation]: 1,
@@ -3153,6 +3154,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Sets.ChampionOfStreetwiseBoxing]: 1,
         [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
 
+        [Sets.RevelryByTheSea]: 1,
         [Sets.TaliaKingdomOfBanditry]: 1,
         [Sets.FirmamentFrontlineGlamoth]: 1,
         [Sets.PanCosmicCommercialEnterprise]: 1,

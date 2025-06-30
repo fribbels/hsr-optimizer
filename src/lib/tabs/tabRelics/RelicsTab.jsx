@@ -819,7 +819,7 @@ export default function RelicsTab() {
         <Flex gap={10}>
           <RelicPreview
             relic={selectedRelic}
-            setSelectedRelic={(r) => setSelectedRelicID(r.id)} // TODO: Don't know if this is the best way to do this
+            setSelectedRelic={(r) => setSelectedRelicID(r.id)}
             setEditModalOpen={setEditModalOpen}
             score={score}
           />

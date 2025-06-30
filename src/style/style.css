@@ -805,3 +805,7 @@ a {
 .comboDrawer .ant-drawer-body {
     padding-top: 0px !important;
 }
+
+.recent-relic-card .ant-progress-success-bg {
+    box-shadow: rgb(0 0 0 / 80%) 1px 0px 5px;
+}

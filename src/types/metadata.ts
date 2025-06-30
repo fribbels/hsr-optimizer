@@ -27,6 +27,7 @@ export type ShowcaseTemporaryOptions = {
 export type ScoringMetadata = {
   stats: Record<SubStats, number> & Partial<Record<'headHands' | 'bodyFeet' | 'sphereRope', number>>,
   parts: Record<Exclude<Parts, typeof Parts.Head | typeof Parts.Hands>, MainStats[]>,
+  sets: Partial<Record<Sets, number>>,
   presets: PresetDefinition[],
   sortOption: SortOptionProperties,
   hiddenColumns: SortOptionProperties[],

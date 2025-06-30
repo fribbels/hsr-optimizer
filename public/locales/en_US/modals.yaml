@@ -1,6 +1,10 @@
 Scoring:
   StatWeightsHeader: Stat weights
+  SetWeightsHeader: Set weights
   MainstatsHeader: Optimal mainstats
+  SetWeights:
+    AddRelicSetPlaceholder: Add relic set
+    AddOrnamentSetPlaceholder: Add ornament set
   WeightMethodology:
     Header: How is Stat Score calculated?
   Footer:
@@ -271,6 +275,7 @@ Relic:
   Substat: Substats
   SubstatPlaceholder: Substat
   SpdInputWarning: Note - SPD substats ingame contain hidden decimal values which are inaccurate if input manually. For precise SPD values, use the Showcase tab or Reliquary Archiver import.
+  LiveImportWarning: Live import mode is enabled, your changes might be overwritten.
   Upgrades: Substat upgrades
   Messages:
     SubmitFail: Submit failed!
@@ -363,3 +368,7 @@ CharacterSelect:
 LightconeSelect:
   Placeholder: Light cone
   Title: Select a light cone
+RelicReroll:
+  Title: Relic Reroll Detected
+  OriginalSubstats: Original Substats
+  RerolledSubstats: Rerolled Substats

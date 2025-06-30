@@ -15,6 +15,12 @@ RelicFilterBar:
   RecommendationHeader: Relic recommendation character
   Rating: Relic ratings
   CustomCharsHeader: Custom potential characters
+RecentlyUpdatedRelics:
+  Header: Recently updated relics
+  Potential: POTENTIAL
+  Avg: AVG
+  Max: MAX
+  BestFor: BEST FOR
 Messages:
   AddRelicSuccess: Successfully added relic
   NoRelicSelected: No relic selected

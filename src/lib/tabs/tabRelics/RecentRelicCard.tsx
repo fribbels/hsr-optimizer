@@ -20,7 +20,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
   const { relic, scoringCharacter, setSelectedRelicID, isSelected } = props
   const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
   const { token } = theme.useToken()
-  const { t } = useTranslation(['gameData'])
+  const { t } = useTranslation(['gameData', 'relicsTab'])
 
   // Calculate score for the selected character
   const score = useMemo(() =>
@@ -113,7 +113,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                 color: token.colorTextSecondary,
               }}
               >
-                POTENTIAL
+                {t('relicsTab:RecentlyUpdatedRelics.Potential') /* POTENTIAL */}
               </Typography.Text>
             </Flex>
 
@@ -135,14 +135,14 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                 color: token.colorTextSecondary,
               }}
               >
-                AVG: <span style={{color: getColorAtPercent(avgPotential), fontWeight: 700}}>{avgPotential}%</span>
+                {t('relicsTab:RecentlyUpdatedRelics.Avg') /* AVG */}: <span style={{color: getColorAtPercent(avgPotential), fontWeight: 700}}>{avgPotential}%</span>
               </Typography.Text>
               <Typography.Text style={{
                 fontSize: '12px',
                 color: token.colorTextSecondary,
               }}
               >
-                MAX: <span style={{color: getColorAtPercent(maxPotential), fontWeight: 700}}>{maxPotential}%</span>
+                {t('relicsTab:RecentlyUpdatedRelics.Max') /* MAX */}: <span style={{color: getColorAtPercent(maxPotential), fontWeight: 700}}>{maxPotential}%</span>
               </Typography.Text>
             </Flex>
           </Flex>
@@ -160,7 +160,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                 color: token.colorTextSecondary,
               }}
               >
-                BEST FOR
+                {t('relicsTab:RecentlyUpdatedRelics.BestFor') /* BEST FOR */}
               </Typography.Text>
 
               <Flex vertical gap={5} style={{margin: '0 -4px'}}>
@@ -250,12 +250,6 @@ RecentRelicCard.displayName = 'RelicCard'
 const highRollColor = '#218cff'
 const midRollColor = '#63a9ff'
 const lowRollColor = '#9aa3ae'
-
-const gradient: ProgressProps['strokeColor'] = {
-  '20%': '#9aa3ae',
-  '50%': '#63a9ff',
-  '80%': '#218cff',
-};
 
 const colorScale = chroma.scale([lowRollColor, midRollColor, highRollColor])
   .domain([20, 50, 80])

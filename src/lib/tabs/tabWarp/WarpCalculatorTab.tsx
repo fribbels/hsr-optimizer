@@ -52,7 +52,6 @@ function Inputs() {
   const warpRequest = sanitizeWarpRequest(storedWarpRequest)
 
   scannerChannel.use((event) => {
-    console.log(event)
     switch (event.event) {
       case "UpdateGachaFunds":
         form.setFieldValue("jades", event.data.stellar_jade + event.data.oneric_shards)
@@ -74,7 +73,7 @@ function Inputs() {
           if (pityUpdate.kind == "ResetPity") {
             form.setFieldValue("pityCharacter", pityUpdate.amount)
             form.setFieldValue("guaranteedCharacter", pityUpdate.set_guarantee)
-          } else { // AddPity
+          } else if (pityUpdate.kind == "AddPity") {
             const currentPity = form.getFieldValue("pityCharacter")
             form.setFieldValue("pityCharacter", currentPity + gachaResult.pity_5.amount)
           }
@@ -83,11 +82,11 @@ function Inputs() {
           if (pityUpdate.kind == "ResetPity") {
             form.setFieldValue("pityLightCone", pityUpdate.amount)
             form.setFieldValue("guaranteedLightCone", pityUpdate.set_guarantee)
-          } else { // AddPity
+          } else if (pityUpdate.kind == "AddPity") {
             const currentPity = form.getFieldValue("pityLightCone")
             form.setFieldValue("pityLightCone", currentPity + gachaResult.pity_5.amount)
           }
-        } // TODO: Handle Standard Banner?
+        }
     }
   }, [form])
 

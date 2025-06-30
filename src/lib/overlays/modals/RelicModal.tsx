@@ -415,7 +415,7 @@ export default function RelicModal(props: {
       >
         <Flex vertical gap={5}>
 
-          {isLiveImport && <Alert message='Live import mode is enabled, your changes might be overwritten.' type='warning' showIcon/>}
+          {isLiveImport && <Alert message={t('Relic.LiveImportWarning') /* Live import mode is enabled, your changes might be overwritten. */} type='warning' showIcon/>}
           <Flex gap={10}>
             <Flex vertical gap={5}>
               <HeaderText>{t('Relic.Part') /* Part */}</HeaderText>

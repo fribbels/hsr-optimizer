@@ -19,6 +19,9 @@ import RelicRerollModal from 'lib/overlays/modals/RelicRerollModal'
 import { EventEmitter } from 'lib/utils/events'
 
 type ScannerState = {
+  // The websocket url to connect to
+  websocketUrl: string
+
   // Whether we are connected to the scanner websocket
   connected: boolean
 
@@ -52,6 +55,9 @@ type ScannerState = {
 }
 
 type ScannerActions = {
+  // Set the websocket url to connect to
+  setWebsocketUrl: (websocketUrl: string) => void
+
   // Turn on/off ingestion of scanner data
   setIngest: (ingest: boolean) => void
 
@@ -101,7 +107,11 @@ type ScannerStore = ScannerState &
   PrivateScannerState &
   PrivateScannerActions
 
+export const DEFAULT_WEBSOCKET_URL = 'ws://127.0.0.1:53313/ws'
+
 const usePrivateScannerState = create<ScannerStore>((set, get) => ({
+  websocketUrl: DEFAULT_WEBSOCKET_URL,
+
   connected: false,
   ingest: false,
   ingestCharacters: false,
@@ -116,6 +126,10 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
   lightCones: {},
   materials: {},
   characters: {},
+
+  setWebsocketUrl: (websocketUrl: string) => {
+    set({ websocketUrl })
+  },
 
   setIngest: (ingest: boolean) => {
     set({ ingest })
@@ -503,7 +517,9 @@ export function ScannerWebsocket() {
     })
   }
 
-  useWebSocket('ws://127.0.0.1:53313/ws', undefined, {
+  const websocketUrl = usePrivateScannerState((s) => s.websocketUrl)
+
+  useWebSocket(websocketUrl, undefined, {
     onOpen: () => {
       usePrivateScannerState.getState().setConnected(true)
     },

@@ -1,13 +1,15 @@
-import { UploadOutlined } from '@ant-design/icons'
+import { ReloadOutlined, UploadOutlined } from '@ant-design/icons'
 import {
   Button,
   Checkbox,
+  Collapse,
   Divider,
   Flex,
   Input,
   Popconfirm,
   Steps,
   Switch,
+  Tooltip,
   Typography,
   Upload,
 } from 'antd'
@@ -35,7 +37,7 @@ import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
 import { Relic } from 'types/relic'
-import { useScannerState } from './ScannerWebsocketClient'
+import { DEFAULT_WEBSOCKET_URL, useScannerState } from './ScannerWebsocketClient'
 
 // FIXME MED
 
@@ -54,14 +56,15 @@ enum Stages {
 }
 
 export function ScannerImportSubmenu() {
+  const { t } = useTranslation(['importSaveTab', 'common'])
   const [currentStage, setCurrentStage] = useState<Stages>(Stages.LOAD_FILE)
   const [currentRelics, setCurrentRelics] = useState<Relic[] | undefined>([])
   const [currentCharacters, setCurrentCharacters] = useState<ParsedCharacter[] | undefined>([])
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
   const [onlyImportExisting, setOnlyImportExisting] = useState(false)
-  const { connected, ingest, setIngest, ingestCharacters, setIngestCharacters } = useScannerState()
-  const { t } = useTranslation(['importSaveTab', 'common'])
+  const { connected, ingest, setIngest, ingestCharacters, setIngestCharacters, websocketUrl, setWebsocketUrl } = useScannerState()
+  const isLiveImporting = connected && ingest
 
   function beforeUpload(file: Blob): Promise<any> {
     return new Promise(() => {
@@ -233,8 +236,10 @@ export function ScannerImportSubmenu() {
                 accept='.json'
                 name='file'
                 beforeUpload={beforeUpload}
+                disabled={isLiveImporting}
               >
                 <Button
+                  disabled={isLiveImporting}
                   style={{ width: importerTabButtonWidth }}
                   icon={<UploadOutlined />}
                   loading={loading1}
@@ -251,7 +256,7 @@ export function ScannerImportSubmenu() {
                 className='centered-placeholder'
                 placeholder={t('Import.Stage1.Placeholder')}
                 value=''
-                disabled={loading1}
+                disabled={loading1 || isLiveImporting}
                 onChange={(e) => {
                   const text = e.target.value
                   try {
@@ -262,29 +267,64 @@ export function ScannerImportSubmenu() {
                   }
                 }}
               />
+            </Flex>
+            <Divider>
+              {t('Import.LiveImport.Title') /* Live Import Controls */}
+            </Divider>
+            <Flex vertical gap={10}>
+              <Text>
+                {t('Import.LiveImport.Description.l1') /* When using the Reliquary Archiver, you can enable the "Live Import" mode to import your inventory in real time. */}
+                <br />
+                {t('Import.LiveImport.Description.l2') /* This includes new relics, enhanced relics, warp/gacha results, and more. */}
+              </Text>
 
-              {t('Import.Stage1.Or')}
-
-              <Flex gap={20} align='center'>
-                <Flex gap={10} align='center'>
+              <Tooltip 
+                placement='topLeft' 
+                open={connected ? false : undefined} // Disable tooltip if connected
+                title={t('Import.LiveImport.Disconnected') /* Unable to connect to the scanner. Please check that it is running. */}
+              >
+                <Flex gap={10} align='center' flex="1 0">
                   <Switch
                     disabled={!connected}
                     checked={connected && ingest}
                     onChange={(checked) => setIngest(checked)}
                   />
 
-                  <Text>Live Import</Text>
+                  <Text>{t('Import.LiveImport.Enable') /* Enable Live Import (Recommended) */}</Text>
                 </Flex>
-                <Flex gap={10} align='center'>
-                  <Switch
-                    disabled={!connected || !ingest}
-                    checked={connected && ingest && ingestCharacters}
-                    onChange={(checked) => setIngestCharacters(checked)}
-                  />
+              </Tooltip>
+              <Flex gap={10} align='center'>
+                <Switch
+                  disabled={!connected || !ingest}
+                  checked={connected && ingest && ingestCharacters}
+                  onChange={(checked) => setIngestCharacters(checked)}
+                />
 
-                  <Text>Live Characters</Text>
-                </Flex>
+                <Text>{t('Import.LiveImport.UpdateCharacters') /* Enable updating characters' equipped relics and lightcones */}</Text>
               </Flex>
+
+              <Collapse
+                size='small'
+                items={[{
+                  key: '1',
+                  label: t('Import.LiveImport.AdvancedSettings.Title') /* Advanced Settings */,
+                  children: <div>
+                    <Flex vertical>
+                      <Text>{t('Import.LiveImport.AdvancedSettings.WebsocketUrl') /* Websocket URL */}</Text>
+                      <Flex gap={10}>
+                        <Input
+                          id='websocket-url'
+                          value={websocketUrl}
+                          onChange={(e) => setWebsocketUrl(e.target.value)}
+                        />
+                        <Tooltip title={t('Import.LiveImport.AdvancedSettings.WebsocketUrlReset') /* Reset to default */}>
+                          <Button icon={<ReloadOutlined />} onClick={() => setWebsocketUrl(DEFAULT_WEBSOCKET_URL)} />
+                        </Tooltip>
+                      </Flex>
+                    </Flex>
+                  </div>
+                }]}
+              />
             </Flex>
           </Flex>
         </Flex>

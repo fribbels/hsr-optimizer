@@ -102,6 +102,7 @@ export default function RelicsTab() {
   const [gridDestroyed, setGridDestroyed] = useState(false)
 
   const isLiveImport = useScannerState((s) => s.ingest)
+  const hasRecentRelics = useScannerState((s) => s.recentRelics.length > 0)
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)
 
@@ -707,28 +708,30 @@ export default function RelicsTab() {
           valueColumnOptions={valueColumnOptions}
         />
 
-        <Collapse
-          size='small'
-          defaultActiveKey={['1']}
-          items={[
-            {
-              key: '1',
-              label: t('RelicGrid.RecentRelics', 'Recent Relics'),
-              children: (
-                <RecentRelics
-                  scoringCharacter={focusCharacter}
-                  selectedRelicID={selectedRelicID}
-                  setSelectedRelicID={(id) => {
-                    const node = gridRef.current.api.getRowNode(id)
-                    node.setSelected(true, true)
-                    gridRef.current.api.ensureNodeVisible(node, 'middle')
-                    setSelectedRelicID(id)
-                  }}
-                />
-              ),
-            },
-          ]}
-        />
+        {hasRecentRelics && (
+          <Collapse
+            size='small'
+            defaultActiveKey={['1']}
+            items={[
+              {
+                key: '1',
+                label: t('RecentlyUpdatedRelics.Header') /* Recently Updated Relics */,
+                children: (
+                  <RecentRelics
+                    scoringCharacter={focusCharacter}
+                    selectedRelicID={selectedRelicID}
+                    setSelectedRelicID={(id) => {
+                      const node = gridRef.current.api.getRowNode(id)
+                      node.setSelected(true, true)
+                      gridRef.current.api.ensureNodeVisible(node, 'middle')
+                      setSelectedRelicID(id)
+                    }}
+                  />
+                ),
+              },
+            ]}
+          />
+        )}
 
         {!gridDestroyed && (
           <div

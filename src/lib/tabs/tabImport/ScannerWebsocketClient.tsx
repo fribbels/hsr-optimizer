@@ -31,6 +31,9 @@ type ScannerState = {
   // Whether to ingest character data from the scanner websocket
   ingestCharacters: boolean
 
+  // Whether to auto-import warp resources (jades, passes, pity)
+  ingestWarpResources: boolean
+
   // Gacha funds parsed from the scanner websocket
   gachaFunds: V4ParserGachaFunds | null
 
@@ -63,6 +66,9 @@ type ScannerActions = {
 
   // Turn on/off ingestion of character data from the scanner websocket
   setIngestCharacters: (ingest: boolean) => void
+
+  // Turn on/off auto-import of warp resources
+  setIngestWarpResources: (ingest: boolean) => void
 
   // Fetch the full scan data, refreshed with the latest data
   buildFullScanData: () => ScannerParserJson | null
@@ -115,6 +121,7 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
   connected: false,
   ingest: false,
   ingestCharacters: false,
+  ingestWarpResources: false,
 
   lastScanData: null,
 
@@ -150,6 +157,19 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
       const fullScanData = get().buildFullScanData()
       if (fullScanData) {
         ingestFullScan(fullScanData, ingestCharacters)
+      }
+    }
+  },
+
+  setIngestWarpResources: (ingestWarpResources: boolean) => {
+    set({ ingestWarpResources })
+
+    // Re-emit events from the current state when enabled
+    if (ingestWarpResources) {
+      const state = get()
+      const fullScanData = state.buildFullScanData()
+      if (fullScanData) {
+        emitScannerEvents(fullScanData)
       }
     }
   },
@@ -365,32 +385,36 @@ function ingestFullScan(data: ScannerParserJson, updateCharacters: boolean) {
     )
     console.info('Ingested initial scan')
 
-    // Emit consumer events
-    scannerChannel.send({
-      event: 'UpdateGachaFunds',
-      data: data.gacha,
-    })
-
-    scannerChannel.send({
-      event: 'UpdateMaterials',
-      data: data.materials,
-    })
-
-    scannerChannel.send({
-      event: 'UpdateRelics',
-      data: data.relics,
-    })
-
-    scannerChannel.send({
-      event: 'UpdateLightCones',
-      data: data.light_cones,
-    })
-
-    scannerChannel.send({
-      event: 'UpdateCharacters',
-      data: data.characters,
-    })
+    emitScannerEvents(data)
   }
+}
+
+function emitScannerEvents(data: ScannerParserJson) {
+  // Emit consumer events
+  scannerChannel.send({
+    event: 'UpdateGachaFunds',
+    data: data.gacha,
+  })
+
+  scannerChannel.send({
+    event: 'UpdateMaterials',
+    data: data.materials,
+  })
+
+  scannerChannel.send({
+    event: 'UpdateRelics',
+    data: data.relics,
+  })
+
+  scannerChannel.send({
+    event: 'UpdateLightCones',
+    data: data.light_cones,
+  })
+
+  scannerChannel.send({
+    event: 'UpdateCharacters',
+    data: data.characters,
+  })
 }
 
 function initialScan(state: Readonly<ScannerStore>, data: ScannerParserJson) {

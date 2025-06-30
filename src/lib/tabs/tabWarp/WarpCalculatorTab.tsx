@@ -52,6 +52,9 @@ function Inputs() {
   const warpRequest = sanitizeWarpRequest(storedWarpRequest)
 
   scannerChannel.use((event) => {
+    const ingestWarpResources = useScannerState.getState().ingestWarpResources
+    if (!ingestWarpResources) return
+
     switch (event.event) {
       case "UpdateGachaFunds":
         form.setFieldValue("jades", event.data.stellar_jade + event.data.oneric_shards)

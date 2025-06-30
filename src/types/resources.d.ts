@@ -4768,6 +4768,7 @@ interface Resources {
         "Disconnected": "Unable to connect to the scanner. Please check that it is running.",
         "Enable": "Enable Live Import (Recommended)",
         "UpdateCharacters": "Enable updating characters' equipped relics and lightcones",
+        "UpdateWarpResources": "Enable importing Warp resources (jades, passes, pity)",
         "AdvancedSettings": {
           "Title": "Advanced Settings",
           "WebsocketUrl": "Websocket URL",

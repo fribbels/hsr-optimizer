@@ -63,7 +63,17 @@ export function ScannerImportSubmenu() {
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
   const [onlyImportExisting, setOnlyImportExisting] = useState(false)
-  const { connected, ingest, setIngest, ingestCharacters, setIngestCharacters, websocketUrl, setWebsocketUrl } = useScannerState()
+  const { 
+    connected, 
+    ingest, 
+    setIngest, 
+    ingestCharacters, 
+    setIngestCharacters,
+    ingestWarpResources,
+    setIngestWarpResources,
+    websocketUrl, 
+    setWebsocketUrl 
+    } = useScannerState()
   const isLiveImporting = connected && ingest
 
   function beforeUpload(file: Blob): Promise<any> {
@@ -301,6 +311,16 @@ export function ScannerImportSubmenu() {
                 />
 
                 <Text>{t('Import.LiveImport.UpdateCharacters') /* Enable updating characters' equipped relics and lightcones */}</Text>
+              </Flex>
+
+              <Flex gap={10} align='center'>
+                <Switch
+                  disabled={!connected || !ingest}
+                  checked={connected && ingest && ingestWarpResources}
+                  onChange={(checked) => setIngestWarpResources(checked)}
+                />
+
+                <Text>{t('Import.LiveImport.UpdateWarpResources') /* Enable importing Warp resources (jades, passes, pity) */}</Text>
               </Flex>
 
               <Collapse

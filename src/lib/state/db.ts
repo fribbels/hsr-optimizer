@@ -938,6 +938,10 @@ export const DB = {
           newRelic = found
         }
 
+        if (newRelic.ageIndex !== undefined) {
+          found.ageIndex = newRelic.ageIndex
+        }
+
         // Save the old relic because it may have edited speed values, delete the hash to prevent duplicates
         replacementRelics.push(found)
         stableRelicId = found.id
@@ -1222,9 +1226,10 @@ function deduplicateStringArray<T extends string[] | null | undefined>(arr: T) {
   return [...new Set(arr)] as T
 }
 
-function indexRelics(arr: Relic[]) {
-  const length = arr.length
-  for (let i = 0; i < length; i++) {
-    arr[i].ageIndex ??= length - i - 1
-  }
+function indexRelics(relics: Relic[]) {
+  relics.forEach((relic, idx, arr) => {
+    idx == 0
+     ? relic.ageIndex ??= idx
+     : relic.ageIndex ??= arr[idx - 1].ageIndex! + 1
+    })
 }

@@ -169,9 +169,8 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                   const avgPct = Math.floor(char.score.averagePct)
 
                   return (
-                    <Flex vertical style={{padding: '2px 4px'}} gap={2}>
+                    <Flex key={char.id} vertical style={{padding: '2px 4px'}} gap={2}>
                       <Flex
-                        key={char.id}
                         align='center'
                         justify='space-between'
                         style={{
@@ -244,7 +243,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
   )
 })
 
-RecentRelicCard.displayName = 'RelicCard'
+RecentRelicCard.displayName = 'RecentRelicCard'
 
 // Modified slightly from the est tbp cards
 const highRollColor = '#218cff'

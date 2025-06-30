@@ -257,8 +257,8 @@ function readRelic(relic: V4ParserRelic, substatList: V4ParserSubstat[], scanner
     equippedBy,
     verified: scanner.config.speedVerified,
     id: relic._uid,
-    ageIndex: -relic._uid,
-  } as Relic
+    ageIndex: parseInt(relic._uid),
+  } as unknown as Relic
 }
 
 type MainData = {

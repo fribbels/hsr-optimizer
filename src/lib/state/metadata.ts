@@ -8202,14 +8202,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
           START_ULT,
+          DEFAULT_DOT,
           END_SKILL,
           DEFAULT_DOT,
           WHOLE_BASIC,
           DEFAULT_DOT,
           WHOLE_BASIC,
           DEFAULT_DOT,
+          WHOLE_BASIC,
+          DEFAULT_DOT,
         ],
-        comboDot: 3,
+        comboDot: 5,
         errRopeEidolon: 0,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],

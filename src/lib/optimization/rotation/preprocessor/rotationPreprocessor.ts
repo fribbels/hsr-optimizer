@@ -2,6 +2,7 @@ import {
   ArcherPreprocessor,
   CastoricePreprocessor,
   HookPreprocessor,
+  HysilensE1Preprocessor,
   JingliuB1DefPenPreprocessor,
   JingliuB1E2Preprocessor,
   PhainonPreprocessor,
@@ -33,6 +34,7 @@ export const characterPreprocessors: AbilityPreprocessorBase[] = [
   new ArcherPreprocessor(),
   new JingliuB1E2Preprocessor(),
   new JingliuB1DefPenPreprocessor(),
+  new HysilensE1Preprocessor(),
 ]
 
 export const setPreprocessors: AbilityPreprocessorBase[] = [

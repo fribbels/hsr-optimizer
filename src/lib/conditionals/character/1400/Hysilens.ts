@@ -68,6 +68,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const defaults = {
     skillVulnerability: true,
     ultZone: true,
+    ultDotStacks: maxUltDotInstances,
     ehrToDmg: true,
     e1DotDetonation: true,
     e2ResPen: true,
@@ -94,6 +95,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'Ult zone active',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
+    ultDotStacks: {
+      id: 'ultDotStacks',
+      formItem: 'slider',
+      text: 'Ult DOT trigger stacks',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      min: 0,
+      max: maxUltDotInstances,
+    },
     ehrToDmg: {
       id: 'ehrToDmg',
       formItem: 'switch',
@@ -103,7 +112,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e1DotDetonation: {
       id: 'e1DotDetonation',
       formItem: 'switch',
-      text: 'E1 DOT detonation',
+      text: 'E1 DOT detonation (Automatic)',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
     },
@@ -130,7 +139,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e4MaxDmgBoost: {
       id: 'e4MaxDmgBoost',
       formItem: 'switch',
-      text: 'E4 Max DMG boost',
+      text: 'E4 maxed DMG boost',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 4,
     },
@@ -153,9 +162,30 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Currently adds together, but they should be separate damage elements
       // E6 doubles the talent proc
-      const dotScaling = (e >= 6 && r.e6Buffs ? 2 : 1) * (talentDotScaling* 3 + talentDotAtkLimitScaling) + (maxUltDotInstances * ultDotScaling)
-      x.DOT_ATK_SCALING.buff(dotScaling, SOURCE_TALENT)
-      // x.DOT_ATK_SCALING.buff(e >= 1 && r.e1DotDetonation ? dotScaling : 0, SOURCE_E1) // ??
+      const talentDot = talentDotScaling * 3 + talentDotAtkLimitScaling
+      const ultDot = r.ultDotStacks * ultDotScaling
+      if (e < 1) {
+        if (r.e1DotDetonation) {
+          // Preprocessor to disable detonation's dot instance
+          x.DOT_ATK_SCALING.buff(0, Source.NONE)
+        } else {
+          x.DOT_ATK_SCALING.buff(talentDot, SOURCE_TALENT)
+          x.DOT_ATK_SCALING.buff(ultDot, SOURCE_ULT)
+        }
+      } else {
+        if (r.e1DotDetonation) {
+          // Triggers ult proc
+          x.DOT_ATK_SCALING.buff(ultDot, SOURCE_ULT)
+          // Detonates at 1.5x
+          x.DOT_ATK_SCALING.buff(talentDot * 1.5, SOURCE_TALENT)
+          // E6 doubles the talent and also detonates at 1.5x
+          x.DOT_ATK_SCALING.buff((e >= 6 && r.e6Buffs) ? talentDot * 1.5 : 0, SOURCE_E6)
+        } else {
+          x.DOT_ATK_SCALING.buff(ultDot, SOURCE_ULT)
+          x.DOT_ATK_SCALING.buff(talentDot, SOURCE_TALENT)
+          x.DOT_ATK_SCALING.buff((e >= 6 && r.e6Buffs) ? talentDot : 0, SOURCE_E6)
+        }
+      }
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)

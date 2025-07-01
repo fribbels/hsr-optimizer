@@ -13,6 +13,7 @@ import {
   ARCHER,
   CASTORICE,
   HOOK,
+  HYSILENS,
   JINGLIU_B1,
   PHAINON,
   SABER,
@@ -235,5 +236,35 @@ export class JingliuB1DefPenPreprocessor extends AbilityTriggeredStackPreprocess
         key: 'maxSyzygyDefPen',
       },
     )
+  }
+}
+
+export class HysilensE1Preprocessor extends AbilityPreprocessorBase {
+  id = HYSILENS
+  defaultState = { ultActivated: false }
+  state = { ...this.defaultState }
+
+  reset() {
+    this.state = { ...this.defaultState }
+  }
+
+  processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
+    const { kind, marker } = turnAbility
+    const e = comboState.comboCharacter.metadata.characterEidolon
+
+    if (kind == AbilityKind.ULT) {
+      this.state.ultActivated = true
+    }
+
+    if (kind == AbilityKind.DOT && this.state.ultActivated) {
+      setComboBooleanCategoryCharacterActivation(comboState, 'e1DotDetonation', index, true)
+      this.state.ultActivated = false
+    } else {
+      setComboBooleanCategoryCharacterActivation(comboState, 'e1DotDetonation', index, false)
+    }
+
+    if (marker == TurnMarker.END || marker == TurnMarker.WHOLE) {
+      this.state.ultActivated = false
+    }
   }
 }

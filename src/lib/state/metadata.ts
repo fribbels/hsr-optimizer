@@ -8165,6 +8165,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       presets: [
@@ -8222,7 +8223,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.RevelryByTheSea,
-          Sets.FirmamentFrontlineGlamoth,
           Sets.PanCosmicCommercialEnterprise,
         ],
         teammates: [
@@ -8283,78 +8283,78 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       presets: [],
       sortOption: SortOption.ULT,
       hiddenColumns: [SortOption.DOT],
-      simulation: {
-        parts: {
-          [Parts.Body]: [
-            Stats.CD,
-            Stats.ATK_P,
-          ],
-          [Parts.Feet]: [
-            Stats.ATK_P,
-            Stats.SPD,
-          ],
-          [Parts.PlanarSphere]: [
-            Stats.ATK_P,
-            Stats.Wind_DMG,
-          ],
-          [Parts.LinkRope]: [
-            Stats.ATK_P,
-          ],
-        },
-        substats: [
-          Stats.ATK_P,
-          Stats.ATK,
-          Stats.CD,
-        ],
-        breakpoints: {
-          [Stats.ATK]: 4000,
-        },
-        comboTurnAbilities: [
-          NULL_TURN_ABILITY_NAME,
-          START_ULT,
-          END_SKILL,
-          WHOLE_BASIC,
-          WHOLE_BASIC,
-        ],
-        comboDot: 0,
-        errRopeEidolon: 0,
-        deprioritizeBuffs: true,
-        relicSets: [
-          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
-          [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
-          [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
-          [...RELICS_2P_ATK, ...RELICS_2P_SPEED, Sets.PioneerDiverOfDeadWaters, Sets.EagleOfTwilightLine, Sets.WavestriderCaptain],
-          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-        ],
-        ornamentSets: [
-          Sets.SpaceSealingStation,
-          Sets.FirmamentFrontlineGlamoth,
-          Sets.InertSalsotto,
-          ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
-          ...SPREAD_ORNAMENTS_2P_SUPPORT,
-          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-        ],
-        teammates: [
-          {
-            characterId: PHAINON,
-            lightCone: THUS_BURNS_THE_DAWN,
-            characterEidolon: 0,
-            lightConeSuperimposition: 1,
-          },
-          {
-            characterId: SUNDAY,
-            lightCone: A_GROUNDED_ASCENT,
-            characterEidolon: 0,
-            lightConeSuperimposition: 1,
-          },
-          {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
-            characterEidolon: 0,
-            lightConeSuperimposition: 1,
-          },
-        ],
-      },
+      // simulation: {
+      //   parts: {
+      //     [Parts.Body]: [
+      //       Stats.CD,
+      //       Stats.ATK_P,
+      //     ],
+      //     [Parts.Feet]: [
+      //       Stats.ATK_P,
+      //       Stats.SPD,
+      //     ],
+      //     [Parts.PlanarSphere]: [
+      //       Stats.ATK_P,
+      //       Stats.Wind_DMG,
+      //     ],
+      //     [Parts.LinkRope]: [
+      //       Stats.ATK_P,
+      //     ],
+      //   },
+      //   substats: [
+      //     Stats.ATK_P,
+      //     Stats.ATK,
+      //     Stats.CD,
+      //   ],
+      //   breakpoints: {
+      //     [Stats.ATK]: 4000,
+      //   },
+      //   comboTurnAbilities: [
+      //     NULL_TURN_ABILITY_NAME,
+      //     START_ULT,
+      //     END_SKILL,
+      //     WHOLE_BASIC,
+      //     WHOLE_BASIC,
+      //   ],
+      //   comboDot: 0,
+      //   errRopeEidolon: 0,
+      //   deprioritizeBuffs: true,
+      //   relicSets: [
+      //     [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+      //     [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
+      //     [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
+      //     [...RELICS_2P_ATK, ...RELICS_2P_SPEED, Sets.PioneerDiverOfDeadWaters, Sets.EagleOfTwilightLine, Sets.WavestriderCaptain],
+      //     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+      //   ],
+      //   ornamentSets: [
+      //     Sets.SpaceSealingStation,
+      //     Sets.FirmamentFrontlineGlamoth,
+      //     Sets.InertSalsotto,
+      //     ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+      //     ...SPREAD_ORNAMENTS_2P_SUPPORT,
+      //     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+      //   ],
+      //   teammates: [
+      //     {
+      //       characterId: PHAINON,
+      //       lightCone: THUS_BURNS_THE_DAWN,
+      //       characterEidolon: 0,
+      //       lightConeSuperimposition: 1,
+      //     },
+      //     {
+      //       characterId: SUNDAY,
+      //       lightCone: A_GROUNDED_ASCENT,
+      //       characterEidolon: 0,
+      //       lightConeSuperimposition: 1,
+      //     },
+      //     {
+      //       characterId: '1217', // Huohuo
+      //       lightCone: '23017', // Night of Fright
+      //       characterEidolon: 0,
+      //       lightConeSuperimposition: 1,
+      //     },
+      //   ],
+      // },
     },
   }
 }

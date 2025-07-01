@@ -139,7 +139,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e4MaxDmgBoost: {
       id: 'e4MaxDmgBoost',
       formItem: 'switch',
-      text: 'E4 maxed DMG boost',
+      text: 'E4 DMG boost maxed',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 4,
     },
@@ -208,7 +208,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.ELEMENTAL_DMG.buff((r.ehrToDmg) ? Math.min(0.90, 0.15 * Math.floor((x.a[Key.EHR] - 0.60) / 0.10)) : 0, SOURCE_TRACE)
+      x.ELEMENTAL_DMG.buff((r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * Math.floor((x.a[Key.EHR] - 0.60) / 0.10))) : 0, SOURCE_TRACE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

@@ -70,7 +70,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     ultZone: true,
     ultDotStacks: maxUltDotInstances,
     ehrToDmg: true,
-    e1DotDetonation: true,
+    e1DotDetonation: false,
     e2ResPen: true,
     e6Buffs: true,
   }
@@ -112,9 +112,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e1DotDetonation: {
       id: 'e1DotDetonation',
       formItem: 'switch',
-      text: 'E1 DOT detonation (Automatic)',
+      text: 'E1 DOT detonation (Automatic activation)',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 1,
+      disabled: true,
     },
     e2ResPen: {
       id: 'e2ResPen',

@@ -163,6 +163,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.CR.buff((r.crBuff) ? 1.00 : 0, SOURCE_TRACE)
+      x.SPD.buff(r.spdBuff ? 20 : 0, SOURCE_TRACE)
 
       x.ELEMENTAL_DMG.buff((e >= 2 && r.e2DmgBoost) ? 1.60 : 0, SOURCE_E2)
       x.RES_PEN.buff((e >= 6 && r.e6Buffs) ? 0.20 : 0, SOURCE_E6)
@@ -176,20 +177,24 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
-
-      x.SPD.buffSingle(m.spdBuff ? 20 : 0, SOURCE_TALENT)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
+      x.SPD.buffSingle(t.spdBuff && t.militaryMerit ? 20 : 0, SOURCE_TRACE)
+
       x.SKILL_CD_BOOST.buffSingle((t.militaryMerit && t.nobility) ? skillCdScaling : 0, SOURCE_SKILL)
-      x.ATK_P.buffSingle((t.militaryMerit) ? talentAtkScaling * t.teammateATKValue : 0, SOURCE_TALENT)
+
+      const atkBuff = talentAtkScaling * t.teammateATKValue
+
+      x.ATK.buffSingle((t.militaryMerit) ? atkBuff : 0, SOURCE_TALENT)
+      x.UNCONVERTIBLE_ATK_BUFF.buffSingle((t.militaryMerit) ? atkBuff : 0, SOURCE_TALENT)
 
       x.DEF_PEN.buffSingle((e >= 1 && t.e1DefPen && t.militaryMerit) ? 0.15 : 0, SOURCE_E1)
       x.SKILL_DEF_PEN.buffSingle((e >= 1 && t.e1DefPen && t.nobility) ? 0.18 : 0, SOURCE_E1)
 
       x.ELEMENTAL_DMG.buffSingle((e >= 2 && t.e2DmgBoost && t.militaryMerit) ? 0.40 : 0, SOURCE_E2)
-      x.RES_PEN.buffSingle((e >= 6 && t.e6Buffs && t.militaryMerit) ? 0.40 : 0, SOURCE_E6)
+      x.RES_PEN.buffSingle((e >= 6 && t.e6Buffs && t.militaryMerit) ? 0.20 : 0, SOURCE_E6)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },

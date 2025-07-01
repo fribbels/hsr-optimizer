@@ -128,7 +128,7 @@ function getChangelogContent() {
         `hysilens.webp`,
         `Added Cerydra showcase`,
         `cerydra.webp`,
-        `Updated Silver Wolf (new) with DPS Scoring`,
+        `Updated Silver Wolf (new) with Sub-DPS Scoring`,
         `Silver Wolf (new) now has damage focused stat weights`,
         `silverwolf.webp`,
         `Outdated character versions (ones with newer Novaflare buffs) now have their icons / portraits greyed out`,

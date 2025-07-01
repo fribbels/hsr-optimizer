@@ -3841,6 +3841,14 @@ interface Resources {
         "Name": "Hyacine",
         "LongName": "Hyacine"
       },
+      "1410": {
+        "Name": "Hysilens",
+        "LongName": "Hysilens"
+      },
+      "1412": {
+        "Name": "Cerydra",
+        "LongName": "Cerydra"
+      },
       "8001": {
         "Name": "Caelus",
         "LongName": "Caelus (Destruction)"
@@ -4378,6 +4386,9 @@ interface Resources {
       "22004": {
         "Name": "The Great Cosmic Enterprise"
       },
+      "22005": {
+        "Name": "Maze Restaurant Forever"
+      },
       "23000": {
         "Name": "Night on the Milky Way"
       },
@@ -4518,6 +4529,12 @@ interface Resources {
       },
       "23046": {
         "Name": "The Hell Where Ideals Burn"
+      },
+      "23047": {
+        "Name": "Why Does the Ocean Sing"
+      },
+      "23048": {
+        "Name": "Era Engraved by Golden Blood"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"

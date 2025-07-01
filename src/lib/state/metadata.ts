@@ -4406,8 +4406,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1112', // Topaz
-            lightCone: '23016', // Worrisome Blissful
+            characterId: CIPHER,
+            lightCone: LIES_DANCE_ON_THE_BREEZE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5526,8 +5526,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1106', // Pela
-            lightCone: '21015', // Pearls
+            characterId: CIPHER,
+            lightCone: LIES_DANCE_ON_THE_BREEZE,
             characterEidolon: 6,
             lightConeSuperimposition: 5,
           },

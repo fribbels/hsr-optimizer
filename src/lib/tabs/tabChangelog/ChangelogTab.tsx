@@ -146,6 +146,7 @@ function getChangelogContent() {
         `Fix: Horizontal scrollbar has been restored, for narrow screens`,
         `Balance: Revelry by the Sea set is now updated to BIS ornament for most DOT characters`,
         `Balance: Applied a fix for Kafka (new) teams to allow EHR stats in DPS Scoring benchmarks`,
+        `Balance: Updated Feixiao and Acheron default teams to use Cipher in place of Topaz and Pela respectively`,
       ],
     },
     {

@@ -70,6 +70,13 @@ const RELICS_2P_BREAK_EFFECT_SPEED = [
   Sets.ThiefOfShootingMeteor,
   Sets.WatchmakerMasterOfDreamMachinations,
   Sets.IronCavalryAgainstTheScourge,
+  Sets.WarriorGoddessOfSunAndThunder,
+]
+
+const RELICS_2P_SPEED = [
+  Sets.MessengerTraversingHackerspace,
+  Sets.SacerdosRelivedOrdeal,
+  Sets.WarriorGoddessOfSunAndThunder,
 ]
 
 const SPREAD_RELICS_4P_GENERAL_CONDITIONALS = [
@@ -7716,6 +7723,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         errRopeEidolon: 0,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+          RELICS_2P_SPEED,
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -7829,6 +7837,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         relicSets: [
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+          RELICS_2P_SPEED,
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -7944,7 +7954,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.BoneCollectionsSereneDemesne,
-          Sets.RutilantArena,
           Sets.InertSalsotto,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
@@ -7956,8 +7965,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1407', // Castorice
-            lightCone: '23040', // Farewells
+            characterId: SUNDAY,
+            lightCone: A_GROUNDED_ASCENT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8045,7 +8054,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         relicSets: [
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-          [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [

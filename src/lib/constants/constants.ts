@@ -20,7 +20,6 @@ export const CURRENT_DATA_VERSION = '3.5v1'
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
   [HYSILENS]: 'V1 - Talent is temporarily considered Physical for now - WIP',
-  [CERYDRA]: 'V1 - Experimental DPS score - likely will be removed',
 }
 
 export const Stats = {

@@ -36,16 +36,21 @@ import {
   ACHERON,
   ALONG_THE_PASSING_SHORE,
   AVENTURINE,
+  BLACK_SWAN,
   CIPHER,
   DANCE_DANCE_DANCE,
   EARTHLY_ESCAPADE,
   FLOWING_NIGHTGLOW,
   HUOHUO,
   INHERENTLY_UNJUST_DESTINY,
+  KAFKA,
+  KAFKA_B1,
   LIES_DANCE_ON_THE_BREEZE,
   LUOCHA,
   MULTIPLICATION,
   NIGHT_OF_FRIGHT,
+  PATIENCE_IS_ALL_YOU_NEED,
+  REFORGED_REMEMBRANCE,
   ROBIN,
   SPARKLE,
   SUNDAY,
@@ -881,6 +886,27 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.CR]: 0.28 },
       5: { [Constants.Stats.CR]: 0.32 },
     },
+    23047: {
+      1: { [Constants.Stats.EHR]: 0.40 },
+      2: { [Constants.Stats.EHR]: 0.45 },
+      3: { [Constants.Stats.EHR]: 0.50 },
+      4: { [Constants.Stats.EHR]: 0.55 },
+      5: { [Constants.Stats.EHR]: 0.60 },
+    },
+    23048: {
+      1: { [Constants.Stats.ATK_P]: 0.64 },
+      2: { [Constants.Stats.ATK_P]: 0.80 },
+      3: { [Constants.Stats.ATK_P]: 0.96 },
+      4: { [Constants.Stats.ATK_P]: 1.12 },
+      5: { [Constants.Stats.ATK_P]: 1.28 },
+    },
+    22005: {
+      1: { [Constants.Stats.ATK_P]: 0.16 },
+      2: { [Constants.Stats.ATK_P]: 0.20 },
+      3: { [Constants.Stats.ATK_P]: 0.24 },
+      4: { [Constants.Stats.ATK_P]: 0.28 },
+      5: { [Constants.Stats.ATK_P]: 0.32 },
+    },
   }
 }
 
@@ -994,8 +1020,8 @@ function getLightConeOverrideCenter(): Record<string, number> {
     23031: 145,
     23032: 180,
     23033: 175,
-    23034: 175, // TODO
-    23035: 175, // TODO
+    23034: 175,
+    23035: 175,
     24000: 170,
     24001: 270,
     24002: 170,
@@ -1016,10 +1042,14 @@ function getLightConeOverrideCenter(): Record<string, number> {
 
     23043: 370,
 
-    // TODO
     23044: 210,
     23045: 180,
     23046: 200,
+
+    // TODO
+    23047: 180,
+    23048: 180,
+    22005: 180,
 
     21053: 220,
     21054: 170,
@@ -1447,6 +1477,16 @@ function getOverrideImageCenter(): Record<string, {
     1015: { // Archer
       x: 1100,
       y: 1050,
+      z: 1,
+    },
+    1410: { // Hysilens
+      x: 1024,
+      y: 1024,
+      z: 1,
+    },
+    1412: { // Cerydra
+      x: 1024,
+      y: 1024,
       z: 1,
     },
   }
@@ -2739,7 +2779,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1005', // Kafka
+            characterId: KAFKA_B1, // Kafka
             lightCone: '23006', // Patience
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -5419,7 +5459,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1005', // Kafka
+            characterId: KAFKA_B1, // Kafka
             lightCone: '23006', // Patience
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -8083,6 +8123,150 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
         ],
       },
+    },
+    1410: { // Hysilens
+      stats: {
+        [Stats.ATK]: 1,
+        [Stats.ATK_P]: 1,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 0,
+        [Stats.EHR]: 1,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.ATK_P,
+          Stats.EHR,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+          Stats.ATK_P,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.Physical_DMG,
+          Stats.ATK_P,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ATK_P,
+        ],
+      },
+      presets: [
+        PresetEffects.PRISONER_SET,
+      ],
+      sortOption: SortOption.DOT,
+      hiddenColumns: [SortOption.FUA],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.EHR,
+            Stats.ATK_P,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Wind_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.ATK_P,
+          Stats.EHR,
+          Stats.ATK,
+          Stats.CR,
+          Stats.CD,
+        ],
+        breakpoints: {
+          [Stats.EHR]: 1.20,
+        },
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          START_ULT,
+          END_SKILL,
+          DEFAULT_DOT,
+          WHOLE_BASIC,
+          DEFAULT_DOT,
+          WHOLE_BASIC,
+          DEFAULT_DOT,
+        ],
+        comboDot: 3,
+        errRopeEidolon: 0,
+        relicSets: [
+          [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RevelryByTheSea,
+          Sets.FirmamentFrontlineGlamoth,
+          Sets.PanCosmicCommercialEnterprise,
+        ],
+        teammates: [
+          {
+            characterId: KAFKA_B1,
+            lightCone: PATIENCE_IS_ALL_YOU_NEED,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: BLACK_SWAN,
+            lightCone: REFORGED_REMEMBRANCE,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    1412: { // Cerydra
+      stats: {
+        [Stats.ATK]: 1,
+        [Stats.ATK_P]: 1,
+        [Stats.DEF]: 0.25,
+        [Stats.DEF_P]: 0.25,
+        [Stats.HP]: 0.25,
+        [Stats.HP_P]: 0.25,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0.25,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CD,
+          Stats.ATK_P,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+          Stats.ATK_P,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.ATK_P,
+          Stats.Wind_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ERR,
+        ],
+      },
+      presets: [],
+      sortOption: SortOption.ATK,
+      hiddenColumns: [SortOption.DOT],
     },
   }
 }

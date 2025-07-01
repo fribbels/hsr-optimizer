@@ -7,7 +7,7 @@ ValidationMessages:
     MissingTarget: 最適化の目標部分を入力してください
     MissingCharacter: キャラクター部分を入力してください
     MissingLightCone: 光円錐部分を入力してください
-    GPUNotAvailable: 'このブラウザでは GPU アクセラレーションを使用することはできません。デスクトップ版 Chrome と Opera のみで使用可能です。もしそれらのブラウザを使用しているなら、Discord サーバーにてバグ報告をしてください。'
+    GPUNotAvailable: 'このブラウザでは GPU アクセラレーションは使用できません。デスクトップ版 Chrome と Opera のみで使用できます。もしそれらのブラウザを使用しているなら、Discord サーバーにてバグ報告をしてください。'
 CharacterSelector:
   Character: キャラクター
   Lightcone: 光円錐
@@ -319,7 +319,7 @@ SetConditionals:
     Duran: 選択したバフをダメージ計算に反映します。
     Kalpagni: 有効にすると、撃破特効バフを戦闘ステータス計算に反映します。
     Lushaka: デフォルトで無効 - このセットは装備キャラに影響を与えません。
-    Banana: 選択したバフを計算に反映します。
+    Banana: 有効にすると、さらに32%の会心ダメージを戦闘ステータス計算に反映します。
 Presets:
   SpdValues:
     SPD0: 速度の指定なし
@@ -494,7 +494,7 @@ StatSimulation:
   MissingMainstatsMessage: メインステータスを入力してください
   BuildAlreadyImported: 選択したビルドは既にシミュレーションされています
   NothingToImport: まずオプティマイザーを実行し、その後、オプティマイザーの結果から行を選択してインポートしてください。
-  NoStatSimulations: カスタムステータスシミュレーションを選択してください
+  NoStatSimulations: カスタムステータスシミュレーションが未選択です
   SetSelection:
     Header: セット
     RelicPlaceholder: 遺物セット
@@ -598,7 +598,7 @@ ExpandedDataPanel:
           DEF scaling: 防御力倍率
           HP scaling: HP倍率
           Special scaling: 特殊倍率
-          "ATK % boost": 攻撃力割合増加
+          'ATK % boost': 攻撃力割合増加
           Crit Rate boost: 会心率増加
           Crit DMG boost: 会心ダメージ増加
           DMG boost: ダメージバフ

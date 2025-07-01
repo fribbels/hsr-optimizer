@@ -85,7 +85,7 @@ export function ShowcaseDpsScorePanel(props: {
     )
   }
 
-  const result = simScoringExecution?.result!
+  const result = simScoringExecution.result!
 
   return (
     <Flex

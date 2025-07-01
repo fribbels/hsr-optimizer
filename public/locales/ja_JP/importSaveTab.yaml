@@ -6,8 +6,8 @@ TabLabels:
 Import:
   ErrorMsg:
     Unknown: 不明なエラー
-    InvalidFile: 無効なファイルです
-    InvalidJson: 無効な JSON です
+    InvalidFile: このスキャナーファイルは使用できません
+    InvalidJson: この JSON は使用できません
     Fragment: "ファイルのインポート中にエラーが発生しました： "
   ParserError:
     BadSource: 不正なソース文字列です。'{{configSource}}' である必要がありましたが、'{{jsonSource}}'を受け取りました。
@@ -15,7 +15,7 @@ Import:
     OutdatedVersion: "使用中のスキャナーのバージョン{{buildVersion}}は最新のものではないため、正常にインポートができない可能性があります！Github から最新のバージョンにアップデートしてください："
     BadMainstat: メインステータス {{mainstat}} 、部位 {{part}} の遺物のメインステータスを解析できませんでした。
   ParserWarning:
-    BadRollInfo: スキャナーファイルが古いか、無効な情報が含まれている可能性があります。スキャナーを最新のバージョンにアップデートしてください。
+    BadRollInfo: スキャナーファイルが古いか、無効な情報が含まれている場合があります。スキャナーを更新してください。
   Stage1:
     Header: "以下の遺物スキャナーのいずれかをインストールして実行してください"
     ReliquaryDesc:
@@ -47,7 +47,7 @@ Import:
     Or: または
     FileInfo: >-
       ファイルには$t(common:RelicWithCount, {"count": {{relicCount}}})と$t(common:CharacterWithCount, {"count": {{characterCount}}})のキャラクターが含まれています。
-    NoRelics: 無効なファイルです。別のファイルで試してください。
+    NoRelics: このファイルは使用できません。別のファイルで試してください。
     RelicsImport:
       Label: >-
         $t(common:Relic, {"count": {{relicCount}}})のみをインポートします。$t(common:Relic, {"count": {{relicCount}}})は更新されますが、ビルドは上書きされません。
@@ -68,7 +68,7 @@ LoadData:
     Label: ファイルからオプティマイザーのデータを読み込みます。
     ButtonText: データを読み込む
   Stage2:
-    ErrorMsg: 無効な保存ファイルです。別のファイルで試してください。遺物スキャナーからインポートするつもりでしたか？
+    ErrorMsg: このファイルは使用できません。別のファイルで試してください。遺物スキャナーのタブからインポートするつもりでしたか？
     Label: >-
       ファイルには$t(common:RelicWithCount, {"count": {{relicCount}}})と$t(common:CharacterWithCount, {"count": {{characterCount}}})のキャラクターが含まれています。現在のデータをアップロードしたデータで置き換えますか？
     ButtonText: アップロードしたデータを使用

@@ -308,6 +308,9 @@ SetConditionals:
     Sacerdos:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} acumulaciones (+{{buffValue}}% DC)'
+    Arcadia:
+      Display: '{{allyCount}}x'
+      Label: '{{allyCount}} aliados (+{{buffValue}}% DAÑO)'
   Conditionals:
     DefaultMessage: Activado por defecto - los efectos se aplicarán a los cálculos de combate.
     Hunter: Activado, la mejora de Daño CRIT se aplica a los cálculos de Atributos de combate.
@@ -334,7 +337,8 @@ SetConditionals:
     Duran: La mejora seleccionada se aplica a los cálculos de daño de acuerdo al número de acumulaciones.
     Kalpagni: Activado, aplica la mejora de Efecto de Ruptura a los cálculos de Atributos de combate.
     Lushaka: Desactivado por defecto - Este conjunto es incapaz de afectar a su usuario.
-    Banana: La mejora seleccionada se aplica a los cálculos de daño.
+    Banana: Activado, el 32% de Daño CRIT adicional se aplica a los cálculos de Atributos de combate.
+    Arcadia: La mejora seleccionada se aplica a los cálculos de Atributos de combate. Se actualiza automáticamente cuando se cambia la selección de equipo.
 Presets:
   SpdValues:
     SPD0: Sin velocidad mínima
@@ -613,7 +617,7 @@ ExpandedDataPanel:
           DEF scaling: Escalado de DEF
           HP scaling: Escalado de PV
           Special scaling: Escalado especial
-          "ATK % boost": Mejora de ATQ %
+          'ATK % boost': Mejora de ATQ %
           Crit Rate boost: Mejora de Prob. CRIT
           Crit DMG boost: Mejora de Daño CRIT
           DMG boost: Mejora de daño

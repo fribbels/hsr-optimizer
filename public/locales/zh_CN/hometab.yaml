@@ -24,7 +24,7 @@ FeatureCards:
 Welcome: 欢迎来到<1/>Fribbels星穹铁道优化器
 SearchBar:
   Placeholder: UID
-  Label: "输入你的UID以查看展示角色"
-  Api: "使用Enka.Network"
+  Label: '输入你的UID以查看展示角色'
+  Api: '使用Enka.Network'
   Message: 输入无效 - 这应该是你游戏中的9位数UUID
   Search: 搜索

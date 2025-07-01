@@ -148,7 +148,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         ultAtkBuffScalingValue: TsUtils.precisionRound(100 * ultAtkBuffScalingValue),
       }),
       min: 0,
-      max: 7000,
+      max: 10000,
     },
     talentCdBuff: content.talentCdBuff,
     traceFuaCdBoost: {

@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import {
   AbilityType,
   FUA_DMG_TYPE,
@@ -8,13 +7,11 @@ import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { BLADE_B1 } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
-
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -23,7 +20,7 @@ import {
 } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Blade')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.BladeB1.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
   const {
     SOURCE_BASIC,
@@ -62,43 +59,40 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     enhancedStateActive: {
       id: 'enhancedStateActive',
       formItem: 'switch',
-      text: t('Content.enhancedStateActive.text'),
-      content: t('Content.enhancedStateActive.content', { enhancedStateDmgBoost: TsUtils.precisionRound(100 * enhancedStateDmgBoost) }),
+      text: t('enhancedStateActive.text'),
+      content: t('enhancedStateActive.content', { DmgBuff: TsUtils.precisionRound(100 * enhancedStateDmgBoost) }),
     },
     hpPercentLostTotal: {
       id: 'hpPercentLostTotal',
       formItem: 'slider',
-      text: t('Content.hpPercentLostTotal.text'),
-      content: t('Content.hpPercentLostTotal.content', { hpPercentLostTotalMax: TsUtils.precisionRound(100 * hpPercentLostTotalMax) }),
+      text: t('hpPercentLostTotal.text'),
+      content: t('hpPercentLostTotal.content', {
+        UltHpScaling: TsUtils.precisionRound(100 * ultHpScaling),
+        HpTallyUltScaling: TsUtils.precisionRound(100 * ultLostHpScaling),
+      }),
       min: 0,
       max: hpPercentLostTotalMax,
       percent: true,
     },
     e1BasicUltMultiBoost: {
       id: 'e1BasicUltMultiBoost',
-      formItem: 'slider',
-      text: 'E1 Ult Basic boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 0,
-      max: hpPercentLostTotalMax,
-      percent: true,
+      formItem: 'switch',
+      text: t('e1BasicUltMultiBoost.text'),
+      content: t('e1BasicUltMultiBoost.content'),
       disabled: e < 1,
     },
     e2CrBuff: {
       id: 'e2CrBuff',
-      formItem: 'slider',
-      text: 'E2 CR buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 0,
-      max: hpPercentLostTotalMax,
-      percent: true,
+      formItem: 'switch',
+      text: t('e2CrBuff.text'),
+      content: t('e2CrBuff.content'),
       disabled: e < 2,
     },
     e4MaxHpIncreaseStacks: {
       id: 'e4MaxHpIncreaseStacks',
       formItem: 'slider',
-      text: t('Content.e4MaxHpIncreaseStacks.text'),
-      content: t('Content.e4MaxHpIncreaseStacks.content'),
+      text: t('e4MaxHpIncreaseStacks.text'),
+      content: t('e4MaxHpIncreaseStacks.content'),
       min: 0,
       max: 2,
       disabled: e < 4,

@@ -1,3 +1,13 @@
+ValidationMessages:
+  Warning:
+    MissingTeammates: 최적화 결과의 정확도를 높이기 위해 팀원을 선택해주세요.
+    PathMismatch: 캐릭터 운명의 길과 광추 운명의 길이 일치하지 않습니다.
+  Error:
+    TopPercent: 부 옵션 가중치가 모두 0입니다. 캐릭터의 부 옵션 가중치를 설정하거나 추천 프리셋을 사용해주세요.
+    MissingTarget: 최적화 목표를 입력하세요.
+    MissingCharacter: 캐릭터 부분을 입력해주세요.
+    MissingLightCone: 광추 부분을 입력해주세요.
+    GPUNotAvailable: '이 브라우저에서는 GPU 가속을 사용할 수 없습니다. 데스크탑 버전 Chrome과 Opera에서만 지원가능 합니다. 만약 해당 브라우저에서도 사용이 불가능하다면 Discord에 제보 부탁드립니다.'
 CharacterSelector:
   Character: 캐릭터
   Lightcone: 광추
@@ -91,6 +101,7 @@ Grid:
   Of: /
   Page: 페이지
   PageSelectorLabel: '페이지 크기 :'
+  Loading: 로딩중...
   Headers:
     Basic:
       Set: 세트
@@ -324,7 +335,6 @@ SetConditionals:
     Duran: 선택된 버프는 스택 수에 따른 피해 계산에 적용됩니다.
     Kalpagni: 활성화되면 격파 특수효과 버프를 적용하여 전투 스텟에 적용됩니다.
     Lushaka: 기본적으로 비활성화 - 이 세트는 장비 캐릭터에 영향을 주지 않습니다.
-    Banana: 선택한 버프가 피해 계산에 적용됩니다.
 Presets:
   SpdValues:
     SPD0: 최소 속도 없음
@@ -603,7 +613,7 @@ ExpandedDataPanel:
           DEF scaling: 방어력 배율
           HP scaling: HP 배율
           Special scaling: 특수 배율
-          "ATK % boost": 공격력 % 증가
+          'ATK % boost': 공격력 % 증가
           Crit Rate boost: 치명타 확률 증가
           Crit DMG boost: 치명타 데미지 증가
           DMG boost: 데미지 버프

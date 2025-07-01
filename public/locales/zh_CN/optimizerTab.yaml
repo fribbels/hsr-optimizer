@@ -1,3 +1,13 @@
+ValidationMessages:
+  Warning:
+    MissingTeammates: 选择队友以获得更精确的优化结果。
+    PathMismatch: 角色命途与光锥命途不匹配。
+  Error:
+    TopPercent: 所有副词条权重已设置为0。请确保为角色设置副词条权重，或使用推荐预设按钮。
+    MissingTarget: 缺少优化目标字段
+    MissingCharacter: 缺少角色字段
+    MissingLightCone: 缺少光锥字段
+    GPUNotAvailable: '此浏览器不支持GPU加速 — 仅支持桌面版Chrome和Opera浏览器。如果你使用的是支持的浏览器，请在Discord服务器报告问题。'
 CharacterSelector:
   Character: 角色
   Lightcone: 光锥
@@ -91,6 +101,7 @@ Grid:
   Of: /
   Page: 页
   PageSelectorLabel: '页面大小：'
+  Loading: 加载中...
   Headers:
     Basic:
       Set: 套装
@@ -298,6 +309,9 @@ SetConditionals:
     Sacerdos:
       Display: '{{stackCount}}层'
       Label: '{{stackCount}}层 (+{{buffValue}}% CD)'
+    Arcadia:
+      Display: '{{allyCount}}层'
+      Label: '{{allyCount}}个队友（+{{buffValue}}%爆伤）'
   Conditionals:
     DefaultMessage: 默认启用 - 效果将应用于战斗计算。
     Hunter: 启用后，暴击伤害增益将应用于战斗属性计算。
@@ -324,7 +338,8 @@ SetConditionals:
     Duran: 所选的增益将根据叠加层数应用于伤害计算。
     Kalpagni: 启用后，将击破特攻增益应用于战斗属性计算。
     Lushaka: 默认禁用 - 该套装无法影响佩戴者。
-    Banana: 所选的增益将应用于伤害计算。
+    Banana: 启用后，额外的32%暴击伤害将应用于战斗属性计算。
+    Arcadia: 所选增益将应用于战斗属性计算。队伍选择变化时会自动更新。
 Presets:
   SpdValues:
     SPD0: 无最低速度
@@ -603,7 +618,7 @@ ExpandedDataPanel:
           DEF scaling: 防御值加成
           HP scaling: 生命值加成
           Special scaling: 特殊加成
-          "ATK % boost": 攻击力%提升
+          'ATK % boost': 攻击力%提升
           Crit Rate boost: 暴击率提升
           Crit DMG boost: 暴击伤害提升
           DMG boost: 伤害提高

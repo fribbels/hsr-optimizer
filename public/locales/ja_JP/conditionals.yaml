@@ -1,26 +1,26 @@
-BetaMessage: "現在のバージョン： {{Version}} - 計算結果は変更される場合があります。"
+BetaMessage: '現在のバージョン： {{Version}} - 計算結果は変更される場合があります。'
 Common:
   BuffPriority:
-    Text: "バフを優先する対象"
-    Content: "優先してバフを付与する対象を選択"
-    Self: "バフ優先：自身"
-    Memo: "バフ優先：精霊"
+    Text: 'バフを優先する対象'
+    Content: '優先してバフを付与する対象を選びます。'
+    Self: 'バフ優先：自身'
+    Memo: 'バフ優先：精霊'
   HealAbility:
-    Text: "治癒能力"
-    Content: "治癒量の計算に使用するアビリティを選択します。"
-    Basic: "治癒：通常"
-    Skill: "治癒：スキル"
-    Ult: "治癒：必殺"
-    Talent: "治癒：天賦"
-    Trace: "治癒：軌跡"
+    Text: '治癒能力'
+    Content: '治癒量の計算に使用するアビリティを選びます。'
+    Basic: '治癒：通常'
+    Skill: '治癒：スキル'
+    Ult: '治癒：必殺'
+    Talent: '治癒：天賦'
+    Trace: '治癒：軌跡'
   ShieldAbility:
-    Text: "シールド能力"
-    Content: "シールド量の計算に使用するアビリティを選択します。"
-    Basic: "シールド：通常"
-    Skill: "シールド：スキル"
-    Ult: "シールド：必殺"
-    Talent: "シールド：天賦"
-    Trace: "シールド：軌跡"
+    Text: 'シールド能力'
+    Content: 'シールド量の計算に使用するアビリティを選びます。'
+    Basic: 'シールド：通常'
+    Skill: 'シールド：スキル'
+    Ult: 'シールド：必殺'
+    Talent: 'シールド：天賦'
+    Trace: 'シールド：軌跡'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -104,9 +104,6 @@ Lightcones:
       skillUltDmgBoost:
         text: スキル/必殺技ダメ増加
         content: 戦闘スキル、または必殺技を発動した時、その回の攻撃の与ダメージ+30%。
-      bonusBoost:
-        text: さらなるダメージバフ
-        content: 戦闘スキル、または必殺技を発動した時、その回の攻撃の与ダメージ+{{HpConsumption}}%。この効果で消費したHPが500を超えると、さらに与ダメージ+{{BonusDmgBoost}}%。
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -181,7 +178,7 @@ Lightcones:
           装備キャラが攻撃を行った後、120%の基礎確率で敵単体それぞれを「茫然」状態にする。「茫然」状態の敵の防御力-{{DefShred}}%、2ターン継続。::BR::装備キャラの速度が170以上の場合、120%の基礎確率で敵単体それぞれを「盗難」状態にする。「盗難」状態の敵の防御力-{{AdditionalDefShred}}%、2ターン継続。
     TeammateContent:
       additionalDefPen:
-        text: "速度 > 170"
+        text: '速度 > 170'
         content: >-
           装備キャラが攻撃を行った後、120%の基礎確率で敵単体それぞれを「茫然」状態にする。「茫然」状態の敵の防御力-{{DefShred}}%、2ターン継続。::BR::装備キャラの速度が170以上の場合、120%の基礎確率で敵単体それぞれを「盗難」状態にする。「盗難」状態の敵の防御力-{{AdditionalDefShred}}%、2ターン継続。
   LifeShouldBeCastToFlames:
@@ -305,6 +302,10 @@ Lightcones:
         text: バリア時の被ダメ低下
         content: >-
           装備キャラが攻撃を受けた後、バリアを所持していない場合、装備キャラの最大HP{{ShieldHp}}%分の耐久値を持つバリアを1つ獲得する、2ターン継続。この効果は3ターン回ってくるたびに1回まで発動できる。装備キャラがバリアを所持する場合、自身の受けるダメージ-{{DmgReduction}}%。
+  TheHellWhereIdealsBurn:
+    Content:
+      atkBuffStacks:
+        text: 攻撃力バフ数
   TheUnreachableSide:
     Content:
       dmgBuff:
@@ -320,6 +321,12 @@ Lightcones:
         text: '「窮寇」付与済み'
         content: >-
           装備キャラが通常攻撃、戦闘スキル、または必殺技を発動して敵に攻撃した後、60%の基礎確率で敵を「甲卸」状態にする。 「甲卸」状態の敵の受けるダメージ+{{UnarmoredVulnerability}}%、2ターン継続。ターゲットが装備キャラによって持続ダメージ系デバフを付与されている場合、60%の基礎確率で装備キャラが付与した「甲卸」状態を「窮寇」状態に強化し、さらに敵の受けるダメージ+{{CorneredVulnerability}}%、2ターン継続。
+  ThusBurnsTheDawn:
+    Content:
+      defPen:
+        text: 防御力ダウン
+      dmgBuff:
+        text: ダメバフ
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -366,6 +373,10 @@ Lightcones:
       enemyHpHigherDmgBoost:
         text: 敵HP%≧自身時のダメバフ
         content: 残りHP割合が装備キャラ以上の敵に対して、さらに与ダメージ+{{DmgBuff}}%。
+  ATrailOfBygoneBlood:
+    Content:
+      skillUltDmgBoost:
+        text: スキル/必殺技ダメ増加
   BoundlessChoreo:
     Content:
       enemyDefReducedSlowed:
@@ -451,6 +462,12 @@ Lightcones:
       postSkillHealBuff:
         text: スキル後の治癒量バフ
         content: 装備キャラの最大HP+8%。装備キャラが戦闘スキルを発動した時、治癒量+{{HealingBoost}}%、2ターン継続。
+  HolidayThermaeEscapade:
+    Content:
+      dmgBoost:
+        text: ダメバフ
+      vulnerability:
+        text: 敵被ダメージ増加
   IndeliblePromise:
     Content:
       crBuff:
@@ -462,6 +479,10 @@ Lightcones:
         text: '「トリック」層数'
         content: >-
           装備キャラが敵にデバフを付与した後、「トリック」を1層獲得する。「トリック」1層につき、装備キャラの与ダメージ+{{DmgBuff}}%、1ターン継続、最大で3層累積できる。装備キャラの効果命中が80%以上の時、攻撃力+{{AtkBuff}}%。
+  JourneyForeverPeaceful:
+    Content:
+      shieldBoost:
+        text: シールド量増加
   MakeTheWorldClamor:
     Content:
       ultDmgBuff:
@@ -475,7 +496,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: "敵2体以下時の会心率バフ"
+        text: '敵2体以下時の会心率バフ'
         content: フィールド上の敵の数が2体以下の場合、装備キャラの会心率+{{CritBuff}}%。
   PastAndFuture:
     Content:
@@ -541,7 +562,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: "会心ダメバフ"
+        text: '会心ダメバフ'
         content: 装備キャラが攻撃を行った後、攻撃を受けた敵のうち、装備キャラの属性に対応する弱点属性を持つ敵が2体以上の場合、装備キャラの会心ダメージ+{{CritBuff}}%、2ターン継続。
   TheGreatCosmicEnterprise:
     Content:
@@ -759,6 +780,12 @@ Characters:
       e6Buffs:
         text: 6凸 バフ
         content: アナイクスの与ダメージは本来の130%になる。軌跡「必要な空白」の2つの効果は同時に直接発動するようになり、パーティ内の「知恵」の運命を歩むキャラクターの数に依存しなくなる。
+  Archer:
+    Content:
+      cdBuff:
+        text: 会心ダメバフ
+      e6Buffs:
+        text: 6凸 必殺/追加攻撃強化
   Argenti:
     Content:
       ultEnhanced:
@@ -860,13 +887,23 @@ Characters:
     Content:
       enhancedStateActive:
         text: '「地獄変」状態'
-        content: "「地獄変」状態では戦闘スキルを発動できず、自身の与ダメージ+{{enhancedStateDmgBoost}}%、通常攻撃「支離剣」が「無間剣樹」に強化される、3ターン継続。::BR::E2::刃が「地獄変」状態の時、会心率+15%。"
+        content: '「地獄変」状態では戦闘スキルを発動できず、自身の与ダメージ+{{enhancedStateDmgBoost}}%、通常攻撃「支離剣」が「無間剣樹」に強化される、3ターン継続。::BR::E2::刃が「地獄変」状態の時、会心率+15%。'
       hpPercentLostTotal:
         text: 戦闘中失ったHPの累計
         content: 戦闘中失ったHPの累計のカウントは、刃の最大HPの90%を超えず、必殺技を発動した後にリセットされる。
       e4MaxHpIncreaseStacks:
         text: 4凸 最大HP増加数
         content: 残りHPが50%を超える状態から、50%以下になった時、最大HP+20%、この効果は最大で2層累積できる。
+  BladeB1:
+    Content:
+      enhancedStateActive:
+        text: '「地獄変」状態'
+      hpPercentLostTotal:
+        text: 戦闘中失ったHPの累計
+      e2CrBuff:
+        text: 2凸 会心率アップ
+      e4MaxHpIncreaseStacks:
+        text: 4凸 最大HP増加数
   Boothill:
     Content:
       standoffActive:
@@ -1051,7 +1088,7 @@ Characters:
         content: >-
           「完全燃焼」状態の時、装甲「サム」の撃破特効が200%/360%以上の場合、弱点撃破状態の敵に攻撃を行った後、その回の攻撃の削靭値を35%/50%分の超撃破ダメージに転換する。
       atkToBeConversion:
-        text: 攻撃力での撃破特効バフ
+        text: 攻撃力→撃破特効変換
         content: 装甲「サム」の攻撃力が1800を超えた場合、超過した攻撃力10につき、自身の撃破特効+0.8%。
       talentDmgReductionBuff:
         text: ダメージ軽減効果有効
@@ -1346,6 +1383,15 @@ Characters:
       e2SkillDmgBuff:
         text: 2凸 スキルダメバフ
         content: 必殺技を発動した後、次の強化戦闘スキルによるダメージ+80%。
+  JingliuB1:
+    Content:
+      talentEnhancedState:
+        text: '「完全燃焼」状態'
+      e2SkillDmgBuff:
+        text: 2凸 スキルダメバフ
+        content: 必殺技を発動した後、次の強化戦闘スキルによるダメージ+80%。
+      e6ResPen:
+        text: 6凸 全属性耐性貫通
   JingYuan:
     Content:
       skillCritBuff:
@@ -1371,10 +1417,14 @@ Characters:
       e2TeamDotBoost:
         text: 2凸 味方の持続ダメバフ
         content: カフカがフィールド上にいる時、味方全体の持続ダメージ+25%。
+  KafkaB1:
+    Content:
+      ehrBasedBuff:
+        text: 効果命中からの攻撃力バフ
   Lingsha:
     Content:
       beConversion:
-        text: 撃破特効での攻撃力/治癒量バフ
+        text: 撃破特効→攻撃力/治癒量変換
         content: 自身の攻撃力を撃破特効25%分アップする、最大で攻撃力+50%。また、自身の治癒量を撃破特効10%分アップする、最大で治癒量+20%。
       befogState:
         text: '「芳酔」付与済み'
@@ -1525,6 +1575,16 @@ Characters:
       e4SkillResShred:
         text: 4凸 スキル時の氷耐性デバフ
         content: 戦闘スキルを発動した時、100%の基礎確率で敵の氷属性耐性-12%、2ターン継続。
+  Phainon:
+    Content:
+      atkBuffStacks:
+        text: 攻撃力バフ数
+      cdBuff:
+        text: 会心ダメバフ
+      spdBuff:
+        text: 味方全体の速度バフ
+      e2ResPen:
+        text: 2凸 全属性耐性貫通
   Qingque:
     Content:
       basicEnhanced:
@@ -1623,6 +1683,18 @@ Characters:
       teamDmgBuff:
         text: 撃破特効での与ダメバフ
         content: 戦闘中、ルアン・メェイの撃破特効が120%を超えた時、超過した撃破特効10%につき、戦闘スキルによる味方全体の与ダメージアップ効果+6%、最大で+36%。
+  Saber:
+    Content:
+      enhancedBasic:
+        text: 強化通常攻撃
+      enhancedSkill:
+        text: 強化状態のスキル
+      talentDmgBuff:
+        text: 天賦によるダメバフ
+      cdBuff:
+        text: 会心ダメバフ
+      e6ResPen:
+        text: 6凸 全属性耐性貫通
   Sampo:
     Content:
       targetDotTakenDebuff:
@@ -1677,6 +1749,18 @@ Characters:
         text: 敵のデバフ数
         content: >-
           戦闘スキルを発動した時、敵にあるデバフが3つ以上の場合、戦闘スキルによる敵の全属性耐性ダウン効果がさらに3%ダウンする。::BR::4凸::必殺技で敵を攻撃した後、その敵にあるデバフ1つにつき、さらに銀狼の攻撃力20%分の量子属性付加ダメージを与える。この効果は1回の必殺技で、最大で5回発動できる。::BR::6凸::敵にあるデバフ1つにつき、その敵に対する銀狼の与ダメージ+20%、最大で+100%。
+  SilverWolfB1:
+    Content:
+      skillResShredDebuff:
+        text: スキル時の全属性耐性ダウン
+      skillWeaknessResShredDebuff:
+        text: 弱点埋込時の属性耐性ダウン
+      talentDefShredDebuff:
+        text: '「欠陥」付与済み'
+      ultDefShredDebuff:
+        text: '「一般解」付与済み'
+      targetDebuffs:
+        text: 敵のデバフ数
   Sparkle:
     Content:
       skillCdBuff:
@@ -1973,7 +2057,7 @@ Characters:
         content: 御空がフィールド上にいる時、味方全体の虚数属性ダメージ+12%。御空がフィールド上にいる時、味方全体の虚数属性ダメージ+12%。
       roaringBowstringsActive:
         text: '「鳴弦号令」層数'
-        content: "「鳴弦号令」を2層獲得する。「鳴弦号令」は最大で2層累積できる。御空に「鳴弦号令」がある時、味方全体の攻撃力+{{skillAtkBuffValue}}%。::BR::4凸::「鳴弦号令」がある時、御空の与ダメージ+30%。"
+        content: '「鳴弦号令」を2層獲得する。「鳴弦号令」は最大で2層累積できる。御空に「鳴弦号令」がある時、味方全体の攻撃力+{{skillAtkBuffValue}}%。::BR::4凸::「鳴弦号令」がある時、御空の与ダメージ+30%。'
       ultBuff:
         text: 必殺技の会心率/ダメバフ
         content: >-
@@ -1987,11 +2071,11 @@ Characters:
         text: '「構え」状態'
         content: '「構え」状態の時、行動制限系デバフに抵抗し、受けるダメージ-20%。'
       ultCull:
-        text: "「看破・滅」有効"
+        text: '「看破・滅」有効'
         content: >-
           「看破・滅」：敵に雲璃の攻撃力{{CullScaling}}%分の物理属性ダメージを与え、隣接する敵に雲璃の攻撃力{{CullAdjacentScaling}}%分の物理属性ダメージを与える。その後、追加で6ヒットする。1ヒットにつき、ランダムな敵単体に雲璃の攻撃力{{CullAdditionalScaling}}%分の物理属性ダメージを与える。
       ultCullHits:
-        text: "「看破・滅」ヒット数"
+        text: '「看破・滅」ヒット数'
         content: >-
           「看破・滅」：敵に雲璃の攻撃力{{CullScaling}}%分の物理属性ダメージを与え、隣接する敵に雲璃の攻撃力{{CullAdjacentScaling}}%分の物理属性ダメージを与える。その後、追加で6ヒットする。1ヒットにつき、ランダムな敵単体に雲璃の攻撃力{{CullAdditionalScaling}}%分の物理属性ダメージを与える。
       counterAtkBuff:
@@ -1999,7 +2083,7 @@ Characters:
         content: カウンターを発動する時、雲璃の攻撃力+30%、1ターン継続。
       e1UltBuff:
         text: 1凸 必殺技強化
-        content: "「看破・斬」の与ダメージと「看破・滅」の与ダメージ+20%。「看破・滅」の追加のヒット数+3。"
+        content: '「看破・斬」の与ダメージと「看破・滅」の与ダメージ+20%。「看破・滅」の追加のヒット数+3。'
       e2DefShred:
         text: 2凸 カウンターの防御力無視
         content: カウンターを発動してダメージを与える時、敵の防御力を20%無視する。

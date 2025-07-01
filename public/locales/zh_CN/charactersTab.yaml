@@ -40,6 +40,9 @@ Messages:
   SaveSuccess: "成功保存配装: {{name}}"
   UnequipWarning: "你确定要卸下$t(gameData:Characters.{{charId}}.Name)的遗器吗?"
   DeleteWarning: "你确定要删除$t(gameData:Characters.{{charId}}.Name)吗?"
+  BuildAlreadyExists: "配装名称{{name}}已经存在"
+  ImageUploadFailed: 图片上传失败
+  InvalidFile: 文件不是有效的图片文件
 CharacterPreview:
   ScoringSidebar:
     Stats:

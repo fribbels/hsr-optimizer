@@ -1,26 +1,26 @@
-BetaMessage: "Version actuelle : {{Version}} - Les calculs sont susceptibles de changer."
+BetaMessage: 'Version actuelle : {{Version}} - Les calculs sont susceptibles de changer.'
 Common:
   BuffPriority:
-    Text: "Cible de buff"
-    Content: "Sélectionnez la cible préférée pour les buffs à cible unique"
-    Self: "Cible de buff: Soi-même"
-    Memo: "Cible de buff: mnémesprit"
+    Text: 'Cible de buff'
+    Content: 'Sélectionnez la cible préférée pour les buffs à cible unique'
+    Self: 'Cible de buff: Soi-même'
+    Memo: 'Cible de buff: mnémesprit'
   HealAbility:
-    Text: "Capacité de soins"
-    Content: "Sélectionnez la capacité pour les calculs de soins"
-    Basic: "Capacité de soins: Normale"
-    Skill: "Capacité de soins: Compétence"
-    Ult: "Capacité de soins: Ult"
-    Talent: "Capacité de soins: Talent"
-    Trace: "Capacité de soins: Trace"
+    Text: 'Capacité de soins'
+    Content: 'Sélectionnez la capacité pour les calculs de soins'
+    Basic: 'Capacité de soins: Normale'
+    Skill: 'Capacité de soins: Compétence'
+    Ult: 'Capacité de soins: Ult'
+    Talent: 'Capacité de soins: Talent'
+    Trace: 'Capacité de soins: Trace'
   ShieldAbility:
-    Text: "Capacité de bouclier"
-    Content: "Sélectionnez la capacité pour les calculs de bouclier"
-    Basic: "Capacité de bouclier: Normale"
-    Skill: "Capacité de bouclier: Compétence"
-    Ult: "Capacité de bouclier: Ult"
-    Talent: "Capacité de bouclier: Talent"
-    Trace: "Capacité de bouclier: Trace"
+    Text: 'Capacité de bouclier'
+    Content: 'Sélectionnez la capacité pour les calculs de bouclier'
+    Basic: 'Capacité de bouclier: Normale'
+    Skill: 'Capacité de bouclier: Compétence'
+    Ult: 'Capacité de bouclier: Ult'
+    Talent: 'Capacité de bouclier: Talent'
+    Trace: 'Capacité de bouclier: Trace'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -104,9 +104,6 @@ Lightcones:
       skillUltDmgBoost:
         text: Bonus de DGT Compétence / Ult
         content: Lorsque le porteur utilise sa Compétence ou son Ultime les DGT infligés par cette attaque augmentent de {{DmgBoost}}%.
-      bonusBoost:
-        text: Bonus supplémentaire de dégâts
-        content: Lorsque le porteur utilise sa Compétence ou son Ultime, il consomme {{HpConsumption}}% de ses PV max. Si les PV consommés par cet effet sont supérieurs à 500, les DGT infligés par cette attaque augmentent de {{BonusDmgBoost}}% supplémentaires.
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -181,7 +178,7 @@ Lightcones:
           Lorsque le porteur utilise une attaque, il a 120% de chances de base d'appliquer l'effet Bouche-bée à chaque cible ennemie. Lorsqu'un ennemi est Bouche-bée, sa DÉF diminue de {{DefShred}}% pendant 2 tours. ::BR:: Si la VIT du porteur est supérieure ou égale à 170, il a 120% de chances de base d'appliquer Vol à chaque cible ennemie. Lorsqu'un ennemi est affecté par Vol, sa DÉF diminue de {{AdditionalDefShred}}% pendant 2 tours.
     TeammateContent:
       additionalDefPen:
-        text: "VIT > 170"
+        text: 'VIT > 170'
         content: >-
           Lorsque le porteur utilise une attaque, il a 120% de chances de base d'appliquer l'effet Bouche-bée à chaque cible ennemie. Lorsqu'un ennemi est Bouche-bée, sa DÉF diminue de {{DefShred}}% pendant 2 tours. ::BR:: Si la VIT du porteur est supérieure ou égale à 170, il a 120% de chances de base d'appliquer Vol à chaque cible ennemie. Lorsqu'un ennemi est affecté par Vol, sa DÉF diminue de {{AdditionalDefShred}}% pendant 2 tours.
   LifeShouldBeCastToFlames:
@@ -305,6 +302,10 @@ Lightcones:
         text: Réduction de DGT bouclier actif
         content: >-
           Lorsque le porteur est attaqué et n'a pas de bouclier, il obtient un bouclier équivalent à {{ShieldHp}}% de ses PV max pendant 2 tours. Cet effet ne peut être déclenché qu'une fois tous les 3 tours. Si le porteur a déjà un bouclier lorsqu'il est attaqué, les DGT subis sont réduits de {{DmgReduction}}%.
+  TheHellWhereIdealsBurn:
+    Content:
+      atkBuffStacks:
+        text: Cumuls de bonus d'ATQ
   TheUnreachableSide:
     Content:
       dmgBuff:
@@ -320,6 +321,12 @@ Lightcones:
         text: Vulnérabilité Cerné
         content: >-
           Lorsque le porteur utilise son ATQ normale, sa compétence, ou son ultime pour attaquer une cible ennemie, il a 60% de chances de base de lui infliger l'état Sans défense. Dans l'état Sans défense, augmente les DGT subis par la cible ennemie de {{UnarmoredVulnerability}}% pendant 2 tours. Lorsque la cible subit des dégâts sur la durée infligés par le porteur, il y a 60% de chances de base de transformer son état Sans défense en Cerné, ce qui augmente les DGT subis par la cible de {{CorneredVulnerability}}%, pendant 2 tours.
+  ThusBurnsTheDawn:
+    Content:
+      defPen:
+        text: PÉN de DÉF
+      dmgBuff:
+        text: Bonus de DGT
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -366,6 +373,10 @@ Lightcones:
       enemyHpHigherDmgBoost:
         text: Bonus de DGT ennemi %PV supérieur
         content: Les DGT infligés par le porteur augmentent de {{DmgBuff}}% supplémentaires contre les ennemis dont le pourcentage de PV est supérieur ou égal à celui du porteur.
+  ATrailOfBygoneBlood:
+    Content:
+      skillUltDmgBoost:
+        text: Bonus de DGT Compétence / Ult
   BoundlessChoreo:
     Content:
       enemyDefReducedSlowed:
@@ -451,6 +462,12 @@ Lightcones:
       postSkillHealBuff:
         text: Bonus de soins post-Compétence
         content: Augmente les soins prodigués de {{HealingBoost}}% quand le porteur utilise sa compétence, et ce pendant 2 tours.
+  HolidayThermaeEscapade:
+    Content:
+      dmgBoost:
+        text: Bonus de DGT
+      vulnerability:
+        text: Vulnérabilité
   IndeliblePromise:
     Content:
       crBuff:
@@ -462,6 +479,10 @@ Lightcones:
         text: Cumuls de Mascarade
         content: >-
           Le porteur gagne un cumul de Mascarade lorsqu'il inflige un malus à un ennemi. Chaque cumul de Mascarade augmente de {{DmgBuff}}% les DGT infligés par le porteur pour un maximum de 3 cumuls. Cet effet dure 1 tour. Augmente de {{AtkBuff}}% l'ATQ du porteur lorsque ses chances d'appliquer des effets sont supérieures ou égales à 80%.
+  JourneyForeverPeaceful:
+    Content:
+      shieldBoost:
+        text: Bonus de Bouclier
   MakeTheWorldClamor:
     Content:
       ultDmgBuff:
@@ -475,7 +496,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: "Bonus de TC ≤ 2 ennemis"
+        text: 'Bonus de TC ≤ 2 ennemis'
         content: Augmente les chances de coup critique de {{CritBuff}}% s'il y a 2 ennemis ou moins sur le champ de bataille.
   PastAndFuture:
     Content:
@@ -541,7 +562,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: "Bonus de DC ≥ 2 cibles de bonne faiblesse"
+        text: 'Bonus de DC ≥ 2 cibles de bonne faiblesse'
         content: Lorsque le porteur utilise une attaque et touche au moins 2 ennemis qui ont la Faiblesse correspondante, ses DGT critiques augmentent de {{CritBuff}}% pendant 2 tours.
   TheGreatCosmicEnterprise:
     Content:
@@ -759,6 +780,12 @@ Characters:
       e6Buffs:
         text: 'E6: Divers bonus'
         content: Les DGT infligés par Anaxa sont équivalents à 130% des DGT initiaux. Les 2 effets de la Trace Vide nécessaire se déclenchent immédiatement et ne dépendent plus du nombre de personnages de l'Érudition présents dans l'équipe.
+  Archer:
+    Content:
+      cdBuff:
+        text: Bonus de DC
+      e6Buffs:
+        text: 'E6: Divers bonus'
   Argenti:
     Content:
       ultEnhanced:
@@ -860,13 +887,23 @@ Characters:
     Content:
       enhancedStateActive:
         text: État Vue de l'enfer
-        content: "Augmente les DGT infligés par Blade de {{enhancedStateDmgBoost}}% et son ATQ normale Lame d'éclat se renforce en Forêt de lames pendant 3 tours.::BR::E2: Les chances de coup critique de Blade augmentent de 15%."
+        content: 'Augmente les DGT infligés par Blade de {{enhancedStateDmgBoost}}% et son ATQ normale Lame d''éclat se renforce en Forêt de lames pendant 3 tours.::BR::E2: Les chances de coup critique de Blade augmentent de 15%.'
       hpPercentLostTotal:
         text: Total de % de PV perdu
         content: Les DGT d'Ultime croissent en fonction du total de PV perdu par Blade depuis sa dernière Ultime. Le total pris en compte ne peut pas dépasser {{hpPercentLostTotalMax}}% des PV max de Blade.
       e4MaxHpIncreaseStacks:
         text: 'E4: Cumuls de Bonus de PV max'
         content: Lorsque les PV de Blade sont inférieurs ou égaux à 50%, ses PV max augmentent de 20%. Cumulable jusqu'à 2 fois.
+  BladeB1:
+    Content:
+      enhancedStateActive:
+        text: État Vue de l'enfer
+      hpPercentLostTotal:
+        text: Total de % de PV perdu
+      e2CrBuff:
+        text: 'E2: Bonus de TC'
+      e4MaxHpIncreaseStacks:
+        text: 'E4: Cumuls de Bonus de PV max'
   Boothill:
     Content:
       standoffActive:
@@ -1343,6 +1380,15 @@ Characters:
       e2SkillDmgBuff:
         text: 'E2: Amélioration de Compétence'
         content: Augmente les DGT de la prochaine compétence renforcée de 80% après avoir utilisé l'ultime.
+  JingliuB1:
+    Content:
+      talentEnhancedState:
+        text: État amélioré
+      e2SkillDmgBuff:
+        text: 'E2: Amélioration de Compétence'
+        content: Augmente les DGT de la prochaine compétence renforcée de 80% après avoir utilisé l'ultime.
+      e6ResPen:
+        text: 'E6: PÉN de RÉS'
   JingYuan:
     Content:
       skillCritBuff:
@@ -1368,6 +1414,10 @@ Characters:
       e2TeamDotBoost:
         text: 'E2: Bonus d''équipe de DGT de DSD'
         content: Lorsque Kafka est sur le champ de bataille, les dégâts sur la durée infligés par tous les alliés augmentent de 25%.
+  KafkaB1:
+    Content:
+      ehrBasedBuff:
+        text: Conversion de TAE à ATQ
   Lingsha:
     Content:
       beConversion:
@@ -1522,6 +1572,16 @@ Characters:
       e4SkillResShred:
         text: 'E4: Réduction de RÉS de glace de la compétence'
         content: Lors de l'utilisation de la compétence, il y a 100% de chances de base de réduire la RÉS à la glace de la cible ennemie de 12% pendant 2 tours.
+  Phainon:
+    Content:
+      atkBuffStacks:
+        text: Cumuls de bonus d'ATQ
+      cdBuff:
+        text: Bonus de DC
+      spdBuff:
+        text: Bonus d'équipe de VIT
+      e2ResPen:
+        text: 'E2: PÉN de RÉS'
   Qingque:
     Content:
       basicEnhanced:
@@ -1620,6 +1680,18 @@ Characters:
       teamDmgBuff:
         text: Conversion d'ER à DGT
         content: En combat, lorsque l'effet de Rupture de Ruan Mei est supétieure à 120%, pour chaque 10% en excédent, la compétence de Ruan Mei augmente les DGT de tous les alliés de 6% additionnels, jusqu'à un maximum de 36%.
+  Saber:
+    Content:
+      enhancedBasic:
+        text: Normale améliorée
+      enhancedSkill:
+        text: Compétence améliorée
+      talentDmgBuff:
+        text: Bonus de DGT du Talent
+      cdBuff:
+        text: Bonus de DC
+      e6ResPen:
+        text: 'E6: PÉN de RÉS'
   Sampo:
     Content:
       targetDotTakenDebuff:
@@ -1674,6 +1746,18 @@ Characters:
         text: Malus sur la cible
         content: >-
           Lorsque l'ennemi subit au moins 3 malus, la compétence diminue ses RÉS à tous les types de 3% supplémentaires.::BR::E4: Lorsque Louve d'argent attaque un ennemi avec son ultime, elle inflige des DGT quantiques additionnels équivalents à 20% de son ATQ pour chaque malus actuellement présent sur la cible ennemie. Cet effet peut être déclenché un maximum de 5 fois par utilisation de l'ultime.::BR::E6: Pour chaque malus subi par la cible ennemie, les DGT infligés par Louve d'argent augmentent de 20%, jusqu'à une limite de 100%.
+  SilverWolfB1:
+    Content:
+      skillResShredDebuff:
+        text: Réduction de RÉS de la compétence
+      skillWeaknessResShredDebuff:
+        text: Réduction de RÉS faiblesse implantée
+      talentDefShredDebuff:
+        text: Reduction de DÉF Bugs
+      ultDefShredDebuff:
+        text: Réduction de DEF de l'ULT
+      targetDebuffs:
+        text: Malus sur la cible
   Sparkle:
     Content:
       skillCdBuff:
@@ -1970,7 +2054,7 @@ Characters:
         content: Lorsque Yukong est sur le champ de bataille, les DGT imaginaires infligés par les alliés augmentent de 12%.
       roaringBowstringsActive:
         text: Rugissement des cordes
-        content: "Lorsque « Rugissement des cordes » est actif, l'ATQ de tous les alliés augmente de {{skillAtkBuffValue}}%.::BR::E4: Lorsque « Rugissement des cordes » est actif, Yukong inflige 30% de DGT supplémentaires aux ennemis."
+        content: 'Lorsque « Rugissement des cordes » est actif, l''ATQ de tous les alliés augmente de {{skillAtkBuffValue}}%.::BR::E4: Lorsque « Rugissement des cordes » est actif, Yukong inflige 30% de DGT supplémentaires aux ennemis.'
       ultBuff:
         text: Bonus de TC/DC de l'ULT
         content: >-
@@ -1984,11 +2068,11 @@ Characters:
         text: Parade actif
         content: Lorsque Yunli est dans l'état Parade, elle résiste aux malus de contrôle et subit 20% de DGT en moins.
       ultCull:
-        text: "Sens de l'éradication activée"
+        text: 'Sens de l''éradication activée'
         content: >-
           Inflige des DGT physiques équivalents à {{CullScaling}}% de l'ATQ de Yunli à la cible et des DGT physiques équivalents à {{CullAdjacentScaling}}% de l'ATQ de Yunli aux cibles adjacentes. Puis, inflige 6 instances de DGT supplémentaires, chacune infligeant des DGT physiques équivalents à {{CullAdditionalScaling}}% de l'ATQ de Yunli à une cible ennemie unique aléatoire.
       ultCullHits:
-        text: "Sens de l'éradication: coups"
+        text: 'Sens de l''éradication: coups'
         content: >-
           Inflige des DGT physiques équivalents à {{CullScaling}}% de l'ATQ de Yunli à la cible et des DGT physiques équivalents à {{CullAdjacentScaling}}% de l'ATQ de Yunli aux cibles adjacentes. Puis, inflige 6 instances de DGT supplémentaires, chacune infligeant des DGT physiques équivalents à {{CullAdditionalScaling}}% de l'ATQ de Yunli à une cible ennemie unique aléatoire.
       counterAtkBuff:
@@ -1996,7 +2080,7 @@ Characters:
         content: L'ATQ de Yunli augmente de 30% pendant 1 tour après avoir lancé un contre.
       e1UltBuff:
         text: 'E1: Bonus d''ULT'
-        content: "Augmente les DGT de Sens de l'entaille et de Sens de l'éradication de 20%, et augmente le nombre d'instances de DGT supplémentaires de Sens de l'éradication de 3."
+        content: 'Augmente les DGT de Sens de l''entaille et de Sens de l''éradication de 20%, et augmente le nombre d''instances de DGT supplémentaires de Sens de l''éradication de 3.'
       e2DefShred:
         text: 'E2: PÉN de DÉF d''ADS'
         content: Lorsque Yunli inflige des DGT via un contre, elle ignore 20% de la DÉF de la cible.

@@ -45,10 +45,12 @@ import GoodNightAndSleepWell from 'lib/conditionals/lightcone/4star/GoodNightAnd
 import HeyOverHere from 'lib/conditionals/lightcone/4star/HeyOverHere'
 import HolidayThermaeEscapade from 'lib/conditionals/lightcone/4star/HolidayThermaeEscapade'
 import IndeliblePromise from 'lib/conditionals/lightcone/4star/IndeliblePromise'
+import InPursuitOfTheWind from 'lib/conditionals/lightcone/4star/InPursuitOfTheWind'
 import ItsShowtime from 'lib/conditionals/lightcone/4star/ItsShowtime'
 import JourneyForeverPeaceful from 'lib/conditionals/lightcone/4star/JourneyForeverPeaceful'
 import LandausChoice from 'lib/conditionals/lightcone/4star/LandausChoice'
 import MakeTheWorldClamor from 'lib/conditionals/lightcone/4star/MakeTheWorldClamor'
+import MazeRestaurantForever from 'lib/conditionals/lightcone/4star/MazeRestaurantForever'
 import MemoriesOfThePast from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
 import NinjaRecordSoundHunt from 'lib/conditionals/lightcone/4star/NinjaRecordSoundHunt'
 import NowhereToRun from 'lib/conditionals/lightcone/4star/NowhereToRun'
@@ -58,7 +60,6 @@ import PerfectTiming from 'lib/conditionals/lightcone/4star/PerfectTiming'
 import PlanetaryRendezvous from 'lib/conditionals/lightcone/4star/PlanetaryRendezvous'
 import PoisedToBloom from 'lib/conditionals/lightcone/4star/PoisedToBloom'
 import PostOpConversation from 'lib/conditionals/lightcone/4star/PostOpConversation'
-import PursuitOfTheWind from 'lib/conditionals/lightcone/4star/PursuitOfTheWind'
 import QuidProQuo from 'lib/conditionals/lightcone/4star/QuidProQuo'
 import ResolutionShinesAsPearlsOfSweat from 'lib/conditionals/lightcone/4star/ResolutionShinesAsPearlsOfSweat'
 import ReturnToDarkness from 'lib/conditionals/lightcone/4star/ReturnToDarkness'
@@ -99,6 +100,7 @@ import CruisingInTheStellarSea from 'lib/conditionals/lightcone/5star/CruisingIn
 import DanceAtSunset from 'lib/conditionals/lightcone/5star/DanceAtSunset'
 import EarthlyEscapade from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import EchoesOfTheCoffin from 'lib/conditionals/lightcone/5star/EchoesOfTheCoffin'
+import EraEngravedByGoldenBlood from 'lib/conditionals/lightcone/5star/EraEngravedByGoldenBlood'
 import EternalCalculus from 'lib/conditionals/lightcone/5star/EternalCalculus'
 import FlameOfBloodBlazeMyPath from 'lib/conditionals/lightcone/5star/FlameOfBloodBlazeMyPath'
 import FlowingNightglow from 'lib/conditionals/lightcone/5star/FlowingNightglow'
@@ -138,6 +140,7 @@ import ThusBurnsTheDawn from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import TimeWaitsForNoOne from 'lib/conditionals/lightcone/5star/TimeWaitsForNoOne'
 import TimeWovenIntoGold from 'lib/conditionals/lightcone/5star/TimeWovenIntoGold'
 import WhereaboutsShouldDreamsRest from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
+import WhyDoesTheOceanSing from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import WorrisomeBlissful from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import YetHopeIsPriceless from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
 import {
@@ -210,10 +213,13 @@ const fiveStar: Record<string, LightConeConditionalFunction> = {
   23045: AThanklessCoronation,
   23046: TheHellWhereIdealsBurn,
 
+  23047: WhyDoesTheOceanSing,
+  23048: EraEngravedByGoldenBlood,
+
   21053: JourneyForeverPeaceful,
   21054: TheStorysNextPage,
   21055: UntoTomorrowsMorrow,
-  21056: PursuitOfTheWind,
+  21056: InPursuitOfTheWind,
   21057: TheFlowerRemembers,
   21058: ATrailOfBygoneBlood,
   21060: ADreamScentedInWheat,
@@ -280,6 +286,7 @@ const fourStar: Record<string, LightConeConditionalFunction> = {
   22002: ForTomorrowsJourney,
   22003: NinjaRecordSoundHunt,
   22004: TheGreatCosmicEnterprise,
+  22005: MazeRestaurantForever,
 }
 
 const threeStar: Record<string, LightConeConditionalFunction> = {

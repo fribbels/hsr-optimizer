@@ -1,26 +1,26 @@
-BetaMessage: "Current version: {{Version}} - Calculations are subject to change."
+BetaMessage: 'Current version: {{Version}} - Calculations are subject to change.'
 Common:
   BuffPriority:
-    Text: "Buff priority target"
-    Content: "Select the preferred recipient for single target buffs"
-    Self: "Buff priority: Self"
-    Memo: "Buff priority: Memo"
+    Text: 'Buff priority target'
+    Content: 'Select the preferred recipient for single target buffs'
+    Self: 'Buff priority: Self'
+    Memo: 'Buff priority: Memo'
   HealAbility:
-    Text: "Healing ability"
-    Content: "Select the ability for heal calculations"
-    Basic: "Healing ability: Basic"
-    Skill: "Healing ability: Skill"
-    Ult: "Healing ability: Ult"
-    Talent: "Healing ability: Talent"
-    Trace: "Healing ability: Trace"
+    Text: 'Healing ability'
+    Content: 'Select the ability for heal calculations'
+    Basic: 'Healing ability: Basic'
+    Skill: 'Healing ability: Skill'
+    Ult: 'Healing ability: Ult'
+    Talent: 'Healing ability: Talent'
+    Trace: 'Healing ability: Trace'
   ShieldAbility:
-    Text: "Shielding ability"
-    Content: "Select the ability for shield calculations"
-    Basic: "Shielding ability: Basic"
-    Skill: "Shielding ability: Skill"
-    Ult: "Shielding ability: Ult"
-    Talent: "Shielding ability: Talent"
-    Trace: "Shielding ability: Trace"
+    Text: 'Shielding ability'
+    Content: 'Select the ability for shield calculations'
+    Basic: 'Shielding ability: Basic'
+    Skill: 'Shielding ability: Skill'
+    Ult: 'Shielding ability: Ult'
+    Talent: 'Shielding ability: Talent'
+    Trace: 'Shielding ability: Trace'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -34,6 +34,14 @@ Lightcones:
         text: Mirage Fizzle debuff
         content: >-
           When the wearer hits an enemy target, inflicts Mirage Fizzle on the enemy, lasting for 1 turn. Each time the wearer attacks, this effect can only trigger 1 time on each target. The wearer deals {{DmgBoost}}% increased DMG to targets afflicted with Mirage Fizzle, and the DMG dealt by the wearer's Ultimate additionally increases by {{UltDmgBoost}}%.
+  AThanklessCoronation:
+    Content:
+      ultAtkBoost:
+        text: Ult ATK boost
+        content: When using their Ultimate, increases the wearer's ATK by {{UltAtkBuff}}%
+      energyAtkBuff:
+        text: Energy ATK buff
+        content: When using their ultimate, if the wearer's Max Energy is greater than or equal to 300, regenerates a fixed amount of Energy equal to 10% of the wearer's Max Energy and increases their ATK by {{EnergyAtkBuff}}% for 2 turns.
   AnInstantBeforeAGaze:
     Content:
       maxEnergyDmgBoost:
@@ -104,9 +112,6 @@ Lightcones:
       skillUltDmgBoost:
         text: Skill / Ult DMG boost
         content: When using Skill or Ultimate, increases the DMG dealt by this attack by {{DmgBoost}}%.
-      bonusBoost:
-        text: Bonus DMG boost
-        content: When using Skill or Ultimate, consume HP equal to {{HpConsumption}}% of the wearer's Max HP. If the consumed HP is greater than 500, this attack's DMG additionally increases by {{BonusDmgBoost}}% .
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -181,7 +186,7 @@ Lightcones:
           After the wearer uses an attack, there is a 120% base chance to inflict the "Bamboozle" state on every enemy target, reducing their DEF by {{DefShred}}% for 2 turns. ::BR:: If the wearer's SPD is higher than or equal to 170, there is a 120% base chance to inflict the "Theft" state on every enemy target, further reducing their def by {{AdditionalDefShred}}% for 2 turns.
     TeammateContent:
       additionalDefPen:
-        text: "SPD > 170"
+        text: 'SPD > 170'
         content: >-
           After the wearer uses an attack, there is a 120% base chance to inflict the "Bamboozle" state on every enemy target, reducing their DEF by {{DefShred}}% for 2 turns. ::BR:: If the wearer's SPD is higher than or equal to 170, there is a 120% base chance to inflict the "Theft" state on every enemy target, further reducing their def by {{AdditionalDefShred}}% for 2 turns.
   LifeShouldBeCastToFlames:
@@ -305,6 +310,14 @@ Lightcones:
         text: Active shield DMG taken decrease
         content: >-
           If the wearer is attacked and has no Shield, they gain a Shield equal to {{ShieldHp}}% of their Max HP for 2 turns. This effect can only be triggered once every 3 turns. If the wearer has a Shield when attacked, the DMG they receive decreases by {{DmgReduction}}%.
+  TheHellWhereIdealsBurn:
+    Content:
+      spAtkBuff:
+        text: SP ATK buff
+        content: When entering battle and if the allies' Skill Points max limit is 6 or higher, increases the wearer's ATK by {{SPAtkBuff}}%.
+      atkBuffStacks:
+        text: ATK buff stacks
+        content: After the wearer uses a Skill, increases their ATK by {{ScalingAtkBuff}}%, stacking up to 4 times.
   TheUnreachableSide:
     Content:
       dmgBuff:
@@ -320,6 +333,14 @@ Lightcones:
         text: Cornered vulnerability
         content: >-
           After the wearer uses Basic ATK, Skill, or Ultimate to attack an enemy target, there is a 60% base chance to inflict Unarmored on the target. While in the Unarmored state, the enemy target receives {{UnarmoredVulnerability}}% increased DMG, lasting for 2 turns. If the target is under a DoT state inflicted by the wearer, there is a 60% base chance to upgrade the Unarmored state inflicted by the wearer to the Cornered state, which additionally increases the DMG the enemy target receives by {{CorneredVulnerability}}%, lasting for 2 turns.
+  ThusBurnsTheDawn:
+    Content:
+      defPen:
+        text: DEF PEN
+        content: When the wearer deals DMG, ignores {{DefIgnore}}% of the target's DEF.
+      dmgBuff:
+        text: DMG buff
+        content: While "Blazing Sun" is in possession, increases the wearer's DMG dealt by {{DmgBuff}}% .
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -356,6 +377,11 @@ Lightcones:
       ultFuaDefShred:
         text: Ult / FUA DEF PEN
         content: When the battle starts or after the wearer uses their Basic ATK, enables Ultimate or the DMG dealt by follow-up attack to ignore {{DefShred}}% of the target's DEF, lasting for 2 turns.
+  ADreamScentedInWheat:
+    Content:
+      ultFuaDmgBoost:
+        text: Ult / Fua DMG boost
+        content: The Ultimate DMG and Follow-up ATK DMG dealt by the wearer increase by {{DmgBuff}}%.
   AfterTheCharmonyFall:
     Content:
       spdBuff:
@@ -366,6 +392,11 @@ Lightcones:
       enemyHpHigherDmgBoost:
         text: Enemy HP% higher DMG boost
         content: The wearer also deals an extra {{DmgBuff}}% of DMG to enemies whose current HP percentage is equal to or higher than the wearer's current HP percentage.
+  ATrailOfBygoneBlood:
+    Content:
+      skillUltDmgBoost:
+        text: Skill / Ult DMG boost
+        content: The Skill DMG and Ultimate DMG dealt by the wearer increase by {{DmgBuff}}%.
   BoundlessChoreo:
     Content:
       enemyDefReducedSlowed:
@@ -451,6 +482,19 @@ Lightcones:
       postSkillHealBuff:
         text: Post Skill heal buff
         content: When the wearer uses their Skill, increases Outgoing Healing by {{HealingBoost}}%, lasting for 2 turns.
+  HolidayThermaeEscapade:
+    Content:
+      dmgBoost:
+        text: DMG boost
+        content: Increases the wearer's DMG dealt by {{DmgBuff}}%.
+      vulnerability:
+        text: Vulnerability
+        content: After the wearer attacks, there is a 100% base chance that the attacked target is inflicted with Vulnerability, increasing the DMG they receive by {{Vulnerability}}% for 2 turns.
+  InPursuitOfTheWind:
+    Content:
+      breakDmgBoost:
+        text: Break DMG boost
+        content: Increases all allies' Break DMG dealt by {{BreakDmgBuff}}%.
   IndeliblePromise:
     Content:
       crBuff:
@@ -462,6 +506,14 @@ Lightcones:
         text: Trick stacks
         content: >-
           When the wearer inflicts a debuff on an enemy, gains a stack of Trick. Every stack of Trick increases the wearer's DMG dealt by {{DmgBuff}}%, stacking up to 3 times. This effect lasts for 1 turn. When the wearer's Effect Hit Rate is 80% or higher, increases ATK by {{AtkBuff}}%.
+  JourneyForeverPeaceful:
+    Content:
+      shieldBoost:
+        text: Shield boost
+        content: Increases the wearer's provided Shield Effect by {{ShieldBuff}}%.
+      dmgBoost:
+        text: Shielded DMG boost
+        content: When an ally target has a Shield, their DMG dealt increases by {{DmgBuff}}%.
   MakeTheWorldClamor:
     Content:
       ultDmgBuff:
@@ -475,7 +527,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: "≤ 2 enemies CR buff"
+        text: '≤ 2 enemies CR buff'
         content: If there are 2 or fewer enemies on the field, increases wearer's CRIT Rate by {{CritBuff}}%.
   PastAndFuture:
     Content:
@@ -513,6 +565,11 @@ Lightcones:
         text: SPD / DMG buff active
         content: >-
           After entering battle, increases the wearer's SPD by {{SpdBuff}}% and DMG by {{DmgBuff}}%. When the wearer takes DMG, this effect will disappear. This effect will resume after the end of the wearer's next turn.
+  SeeYouAtTheEnd:
+    Content:
+      skillFuaDmgBoost:
+        text: Skill / Fua DMG boost
+        content: The Skill DMG and Follow-up ATK DMG dealt by the wearer increase by {{DmgBuff}}%.
   ShadowedByNight:
     Content:
       spdBuff:
@@ -541,8 +598,13 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: "≥ 2 weakness targets CD buff"
+        text: '≥ 2 weakness targets CD buff'
         content: When the wearer uses an attack and at least 2 attacked enemies have the corresponding Weakness, the wearer's CRIT DMG increases by {{CritBuff}}% for 2 turns.
+  TheFlowerRemembers:
+    Content:
+      memoCdBoost:
+        text: Memo CD boost
+        content: The CRIT DMG dealt by the wearer's memosprite increases by {{CritDmgBuff}}%
   TheGreatCosmicEnterprise:
     Content:
       weaknessTypes:
@@ -561,6 +623,11 @@ Lightcones:
       defeatedEnemyAtkStacks:
         text: Defeated enemy ATK stacks
         content: For every enemy defeated by the wearer, the wearer's ATK increases by {{AtkBuff}}%, stacking up to 3 times.
+  TheStorysNextPage:
+    Content:
+      ohbBuff:
+        text: OHB buff
+        content: After the wearer's memosprite attacks, the Outgoing Healing of the wearer and their memosprite increases by {{OHBBuff}}% , lasting for 1 turn.
   ThisIsMe:
     Content:
       defScalingUltDmg:
@@ -577,6 +644,11 @@ Lightcones:
       defeatedEnemyCrBuff:
         text: Defeated enemy CR buff
         content: When the wearer defeats an enemy, the wearer's CRIT Rate increases by {{CritBuff}}% for 3 turns.
+  UntoTomorrowsMorrow:
+    Content:
+      hp50DmgBoost:
+        text: HP ≥ 50% DMG boost
+        content: When an ally target's current HP percentage is greater than or equal to 50%, increases their DMG dealt by {{DmgBuff}}%.
   VictoryInABlink:
     Content:
       teamDmgBuff:
@@ -759,6 +831,23 @@ Characters:
       e6Buffs:
         text: E6 buffs
         content: The DMG dealt by Anaxa is 130% of the original DMG. The 2 effects of the Trace "Imperative Hiatus" will be triggered directly and will no longer depend on the number of Erudition characters on the team.
+  Archer:
+    Content:
+      cdBuff:
+        text: CD buff
+        content: After allies gain a Skill Point, if there are 4 Skill Points or more, increases Archer's CRIT DMG by 120% for 1 turns.
+      skillEnhances:
+        text: Skill enhances
+        content: When Archer uses his Skill, the current turn does not end, and the DMG dealt by Archer's Skill increases by {{SkillDmgBuff}}%.
+      e2QuantumResPen:
+        text: E2 Quantum RES PEN
+        content: When using Ultimate, reduces the enemy target's Quantum RES by 20%, and induces Quantum Weakness for it, lasting for 2 turns.
+      e4UltDmg:
+        text: E4 Ult DMG
+        content: Increases Ultimate DMG dealt by 150%.
+      e6Buffs:
+        text: E6 buffs
+        content: The number of maximum stacks for the DMG boost effect provided by his Skill increases by 1. His Skill DMG dealt ignores 20% of DEF.
   Argenti:
     Content:
       ultEnhanced:
@@ -860,13 +949,33 @@ Characters:
     Content:
       enhancedStateActive:
         text: Hellscape state
-        content: "Increases DMG by {{enhancedStateDmgBoost}}% and his Basic ATK Shard Sword is enhanced to Forest of Swords for 3 turns.::BR::E2: Increases CRIT Rate by 15%."
+        content: 'Increases DMG by {{enhancedStateDmgBoost}}% and his Basic ATK Shard Sword is enhanced to Forest of Swords for 3 turns.::BR::E2: Increases CRIT Rate by 15%.'
       hpPercentLostTotal:
         text: HP% lost total
         content: Ultimate DMG scales off of the tally of Blade's HP loss in the current battle. The tally of Blade's HP loss in the current battle is capped at {{hpPercentLostTotalMax}}% of his Max HP.
       e4MaxHpIncreaseStacks:
         text: E4 max HP stacks
         content: Increases HP by 20%, stacks up to 2 times.
+  BladeB1:
+    Content:
+      enhancedStateActive:
+        text: Hellscape state
+        content: When using his skill, Blade consumes HP equal to 30% of his Max HP to enter the "Hellscape" state. While under the "Hellscape" state, his Skill cannot be used, his DMG dealt increases by {{DmgBuff}}%, the chance of receiving attacks from enemy targets greatly increases, and his Basic ATK "Shard Sword" is enhanced to "Forest of Swords" for 3 turns.
+      hpPercentLostTotal:
+        text: HP% lost total
+        content: >-
+          When using ultimate, deals Wind DMG to one designated enemy equal to the sum of {{UltHpScaling}}% of his Max HP and {{HpTallyUltScaling}}% of the tally of Blade's HP loss in the current battle.
+          ::BR::
+          E1: Blade's Enhanced Basic ATK and Ultimate deals additionally increased DMG to one designated enemy, with the increased amount equal to 150% of the tally of Blade's HP loss from his Ultimate.
+      e1BasicUltMultiBoost:
+        text: E1 Ult / Basic boost
+        content: Blade's Enhanced Basic ATK and Ultimate deals additionally increased DMG to one designated enemy, with the increased amount equal to 150% of the tally of Blade's HP loss from his Ultimate.
+      e2CrBuff:
+        text: E2 CR buff
+        content: When Blade is in the "Hellscape" state, his CRIT Rate increases by 15%.
+      e4MaxHpIncreaseStacks:
+        text: E4 max HP stacks
+        content: When Blade's current HP percentage drops from above 50% to 50% of his Max HP or lower, increases his Max HP by 20%. Stacks up to 2 times.
   Boothill:
     Content:
       standoffActive:
@@ -1343,6 +1452,32 @@ Characters:
       e2SkillDmgBuff:
         text: E2 Skill buff
         content: After using Ultimate, increases the DMG of the next Enhanced Skill by 80%.
+  JingliuB1:
+    Content:
+      talentEnhancedState:
+        text: Enhanced state
+        content: >-
+          When Jingliu has 2 stacks of "Syzygy," she enters the "Spectral Transmigration" state and her CRIT Rate increases by {{UltCRBuff}}%.
+          ::BR::
+          While in the "Spectral Transmigration" state, Effect RES increases by 35%, and Ultimate DMG dealt increases by 20%.
+      maxSyzygyDefPen:
+        text: Max Syzygy DEF PEN
+        content: When obtaining "Syzygy" at max stacks, Jingliu's next attack ignores 25% of the target's DEF.
+      moonlightStacks:
+        text: Moonlight stacks
+        content: When in the "Spectral Transmigration" state, Jingliu gains 1 stack of "Moonlight" whenever ally targets receive DMG or consume HP. Each stack of "Moonlight" increases Jingliu's CRIT DMG by {{MoonlightCDBuff}}%, up to 5 stacks.
+      e1Buffs:
+        text: E1 buffs
+        content: When using her Ultimate or Enhanced Skill, Jingliu's CRIT DMG increases by 36% for 1 turns. Moreover, additionally deals 1 instance of Ice DMG equal to 80% of Jingliu's Max HP to the primary target.
+      e2SkillDmgBuff:
+        text: E2 Skill buff
+        content: After using Ultimate, increases the DMG of the next Enhanced Skill by 80%.
+      e4MoonlightCdBuff:
+        text: E4 Moonlight CD
+        content: While in the "Spectral Transmigration" state, each stack of "Moonlight" additionally increases CRIT DMG by 20%.
+      e6ResPen:
+        text: E6 RES PEN
+        content: While Jingliu is in the "Spectral Transmigration" state, her Ice RES PEN increases by 30%.
   JingYuan:
     Content:
       skillCritBuff:
@@ -1368,6 +1503,17 @@ Characters:
       e2TeamDotBoost:
         text: E2 Team DoT DMG boost
         content: While Kafka is on the field, DoT dealt by all allies increases by 25%.
+  KafkaB1:
+    Content:
+      ehrBasedBuff:
+        text: EHR to ATK buff
+        content: When an ally target's Effect Hit Rate is 75% or more, Kafka increases their ATK by 100%.
+      e1DotDmgReceivedDebuff:
+        text: E1 DoT Vulnerability
+        content: When using an attack, there is a 100% base chance to cause the target to take 30% more DoT for 2 turns.
+      e2TeamDotDmg:
+        text: E2 DoT DMG
+        content: While Kafka is on the field, DoT dealt by all allies increases by 33%.
   Lingsha:
     Content:
       beConversion:
@@ -1522,6 +1668,61 @@ Characters:
       e4SkillResShred:
         text: E4 Skill Ice RES shred
         content: When using Skill, there is a 100% base chance to reduce the target enemy's Ice RES by 12% for 2 turns.
+  Phainon:
+    Content:
+      transformedState:
+        text: Transformation active
+        content: >-
+          When using his ultimate, Phainon transforms into Khaslana and deploys his territory.
+          ::BR::
+          During his Transformation, increases ATK by {{UltAtkBuff}}% and Max HP by {{UltHPBuff}}%.
+          ::BR::
+          E2: Khaslana's Physical RES PEN increases by 20%.
+          ::BR::
+          E6: After using "Foundation: Stardeath Verdict's" attack, additionally deals True DMG equal to 36% of the total DMG dealt in this attack to the enemy with the highest HP.
+      enhancedSkillType:
+        text: Enhanced Skill type
+        content: >-
+          Khaslana can chose between 2 skills.
+          ::BR::
+          Calamity: Recovers Scourge stacks equal to the number of enemy targets and causes all enemy targets to take action, then unleashes a powerful counter attack.
+          ::BR::
+          Foundation: Consumes up to 4 stacks of Scourge. For each stack consumed deals dmg to 1 random enemy. If 4 stacks were consumed, additionally deal damage to all enemies.
+          ::BR::
+          When transforming, Khaslana recovers 4 stacks of Scourge.
+        options:
+          Calamity:
+            display: 'Skill: Calamity'
+            label: 'Enhanced Skill: Calamity'
+          Foundation:
+            display: 'Skill: Foundation'
+            label: 'Enhanced Skill: Foundation'
+      atkBuffStacks:
+        text: ATK buff stacks
+        content: When entering battle or when transformation ends, increases ATK by 50%. This effect can stack up to 2 times.
+      cdBuff:
+        text: CD buff
+        content: When Phainon is the target of any target's ability, he gains 1 point of "Coreflame." If the ability's user is Phainon's teammate, additionally increases Phainon's CRIT DMG by {{TalentCdBuff}}% for 3 turns.
+      sustainDmgBuff:
+        text: Sustain DMG buff
+        content: When receiving healing effects or Shields from a teammate, increases DMG dealt by 45% for 4 turns.
+      spdBuff:
+        text: Team SPD buff
+        content: When the Transformation ends, increases all allies' SPD by 15%, lasting for 1 turn.
+      e1Buffs:
+        text: E1 buffs
+        content: >-
+          The inheritance ratio of Khaslana's extra turn's SPD is increased to 66%. For every enemy target defeated within 1 battle, the inheritance ratio of Khaslana's extra turn's SPD further increases by 1.5%, up to 84%.
+          ::BR::
+          When using Ultimate, CRIT DMG increases by 50%, lasting for 3 turns.
+      e2ResPen:
+        text: E2 RES PEN
+        content: >-
+          Khaslana's Physical RES PEN increases by 20%. When consuming 4 "Scourge" to use "Foundation: Stardeath Verdict," gains 1 extra turn.
+      e6TrueDmg:
+        text: E6 True DMG
+        content: >-
+          After using "Foundation: Stardeath Verdict's" attack, additionally deals True DMG equal to 36% of the total DMG dealt in this attack to the enemy with the highest HP.
   Qingque:
     Content:
       basicEnhanced:
@@ -1620,6 +1821,41 @@ Characters:
       teamDmgBuff:
         text: BE to DMG boost
         content: In battle, for every 10% of Ruan Mei's Break Effect that exceeds 120%, her Skill additionally increases allies' DMG by 6%, up to a maximum of 36%.
+  Saber:
+    Content:
+      enhancedBasic:
+        text: Enhanced Basic
+        content: After using Ultimate, the next Basic ATK switches to "Release, the Golden Scepter," and only "Release, the Golden Scepter" can be used.
+      enhancedSkill:
+        text: Enhanced Skill
+        content: If Saber currently possesses "Core Resonance" and her Energy can be regenerated to full by consuming "Core Resonance" after this instance of Skill attack, then increase the DMG multiplier for this instance of Skill use by {{CoreResonanceExtraScaling}}% for each stack of "Core Resonance," and consume all "Core Resonance" to regenerate Energy for Saber after attacking.
+      talentDmgBuff:
+        text: Talent DMG buff
+        content: When any ally target uses an Ultimate, increases DMG dealt by Saber by {{TalentDmgBuff}}% for 2 turns
+      coreResonanceCdBuff:
+        text: Core Resonance CD buff
+        content: During this battle, for each point of "Core Resonance" gained, increases Saber's CRIT DMG by 4%, stacking up to 8 times.
+      coreResonanceStacks:
+        text: Core Resonance stacks
+        content: If Saber currently possesses "Core Resonance" and her Energy can be regenerated to full by consuming "Core Resonance" after this instance of Skill attack, then increase the DMG multiplier for this instance of Skill use by {{CoreResonanceExtraScaling}}% for each stack of "Core Resonance," and consume all "Core Resonance" to regenerate Energy for Saber after attacking.
+      crBuff:
+        text: CR buff
+        content: Increases Saber's CRIT Rate by 20%.
+      cdBuff:
+        text: CD buff
+        content: When using Skill, increases Saber's CRIT DMG by 50% for 2 turns.
+      e1DmgBuff:
+        text: E1 DMG buff
+        content: Increases Ultimate DMG dealt by Saber by 60%.
+      e2Buffs:
+        text: E2 buffs
+        content: For each point of "Core Resonance" gained in this battle, Saber's DMG dealt ignores 1% of the target's DEF. This effect can stack up to 15 times. When triggering the "Core Resonance's" Skill multiplier effect, each point of "Core Resonance" additionally increases the DMG multiplier for this instance of Skill by 7%.
+      e4ResPen:
+        text: E4 RES PEN
+        content: Increases Saber's Wind RES PEN by 8%. After using Ultimate, increases Saber's Wind RES PEN by 4%. This effect can stack up to 3 times.
+      e6ResPen:
+        text: E6 RES PEN
+        content: Wind RES PEN of Ultimate DMG dealt by Saber increases by 20%, and the Overflow Energy that can be accumulated by the Trace "Blessing of the Lake" increases to 200. When using Ultimate for the first time after entering battle, regenerates a fixed 300 Energy for Saber. This effect can be triggered 1 time after every 3 Ultimate uses.
   Sampo:
     Content:
       targetDotTakenDebuff:
@@ -1674,6 +1910,45 @@ Characters:
         text: Target debuffs
         content: >-
           If there are 3 or more debuffs affecting the enemy when the Skill is used, then the Skill decreases the enemy's All-Type RES by an additional 3%.::BR::E4: After using her Ultimate to attack enemies, deals Additional Quantum DMG equal to 20% of Silver Wolf's ATK for every debuff currently on the enemy target. This effect can be triggered for a maximum of 5 times during each use of her Ultimate.::BR::E6: For every debuff the target enemy has, the DMG dealt by Silver Wolf increases by 20%, up to a limit of 100%.
+  SilverWolfB1:
+    Content:
+      ehrToAtkConversion:
+        text: EHR to ATK conversion
+        content: For every 10% Effect Hit Rate that Silver Wolf has, additionally increases her ATK by 10% to a max of 50%.
+      skillResShredDebuff:
+        text: Skill RES shred
+        content: When Silver Wolf uses her skill, there is a 100% base chance to further reduce the target's All-Type RES by {{SkillResShred}}% for 2 turns.
+      skillWeaknessResShredDebuff:
+        text: Skill weakness implanted RES shred
+        content: There is a {{ImplantBaseChance}}% base chance to add 1 Weakness of an on-field ally target's Type to one designated enemy target (prioritizes implanting the Weakness corresponding to the first ally target in the lineup), also reducing the enemy target's RES to that Weakness Type by 20% for 3 turns. If the enemy target already has that Type Weakness, the RES reduction effect to that Type will not be triggered.
+      talentDefShredDebuff:
+        text: Bug DEF shred
+        content: >-
+          Silver Wolf can create three types of "Bugs": Reduce ATK by {{BugAtkDown}}%, reduce DEF by {{BugDefDown}}%, and reduce SPD by {{BugSpdDown}}%.
+          ::BR::
+          After every attack launched by Silver Wolf, she has a {{BugBaseChance}}% base chance to implant 1 random "Bug" that lasts for 4 turns in the attacked enemy target.
+          ::BR::
+           Every time an enemy target's Weakness is Broken, Silver Wolf has a 100% base chance of implanting 1 random "Bug" in that target.
+          ::BR::
+          E2: When the enemy target receives an attack from ally targets, Silver Wolf has a 100% base chance of implanting the attacked enemy target with 1 random "Bug."
+      ultDefShredDebuff:
+        text: Ult DEF shred
+        content: There's a {{UltBaseChance}}% base chance to decrease all enemies' DEF by {{UltDefShred}}% for 3 turns.
+      targetDebuffs:
+        text: Target debuffs
+        content: >-
+          After every attack launched by Silver Wolf, she has a {{BugBaseChance}}% base chance to implant 1 random "Bug" that lasts for 4 turns in the attacked enemy target.
+          ::BR::
+          E1: After using her Ultimate to attack any enemy target, Silver Wolf regenerates 7 Energy for every debuff that the target currently has. This effect can be triggered up to 5 times in each use of her Ultimate.
+          ::BR::
+          E2: When the enemy target receives an attack from ally targets, Silver Wolf has a 100% base chance of implanting the attacked enemy target with 1 random "Bug."
+          ::BR::
+          E4: After using Silver Wolf's Ultimate to attack any enemy target, deals Quantum Additional DMG equal to 20% of Silver Wolf's ATK for every debuff currently on the enemy target. This effect can be triggered for a maximum of 5 times against each target during each use of her Ultimate.
+          ::BR::
+          E6: For every debuff the enemy target has, the DMG dealt by Silver Wolf to it increases by 20%, up to an increase of 100%.
+      e2Vulnerability:
+        text: E2 Vulnerability
+        content: When enemy target enters battle, increases DMG received by 20%.
   Sparkle:
     Content:
       skillCdBuff:
@@ -1970,7 +2245,7 @@ Characters:
         content: When Yukong is on the field, Imaginary DMG dealt by all allies increases by 12%.
       roaringBowstringsActive:
         text: Roaring Bowstrings
-        content: "When Roaring Bowstrings is active, the ATK of all allies increases by {{skillAtkBuffValue}}%.::BR::E4: When Roaring Bowstrings is active, Yukong deals 30% more DMG to enemies."
+        content: 'When Roaring Bowstrings is active, the ATK of all allies increases by {{skillAtkBuffValue}}%.::BR::E4: When Roaring Bowstrings is active, Yukong deals 30% more DMG to enemies.'
       ultBuff:
         text: Ult CR / CD buffs
         content: >-
@@ -1984,11 +2259,11 @@ Characters:
         text: Parry active
         content: While in the Parry state, resists Crowd Control debuffs received and reduces DMG received by 20%.
       ultCull:
-        text: "Intuit: Cull enabled"
+        text: 'Intuit: Cull enabled'
         content: >-
           Intuit: Cull: Deals Physical DMG equal to {{CullScaling}}% of Yunli's ATK to the target, and deals Physical DMG equal to {{CullAdjacentScaling}}% of Yunli's ATK to adjacent targets. Then, additionally deals 6 instances of DMG, each dealing Physical DMG equal to {{CullAdditionalScaling}}% of Yunli's ATK to a random single enemy.
       ultCullHits:
-        text: "Intuit: Cull hits"
+        text: 'Intuit: Cull hits'
         content: >-
           Intuit: Cull: Deals Physical DMG equal to {{CullScaling}}% of Yunli's ATK to the target, and deals Physical DMG equal to {{CullAdjacentScaling}}% of Yunli's ATK to adjacent targets. Then, additionally deals 6 instances of DMG, each dealing Physical DMG equal to {{CullAdditionalScaling}}% of Yunli's ATK to a random single enemy.
       counterAtkBuff:
@@ -1996,7 +2271,7 @@ Characters:
         content: When using a Counter, increases Yunli's ATK by 30%, lasting for 1 turn.
       e1UltBuff:
         text: E1 Ult buff
-        content: "Increases DMG dealt by Intuit: Slash and Intuit: Cull by 20%. Increases the number of additional DMG instances for Intuit: Cull by 3."
+        content: 'Increases DMG dealt by Intuit: Slash and Intuit: Cull by 20%. Increases the number of additional DMG instances for Intuit: Cull by 3.'
       e2DefShred:
         text: E2 FUA DEF PEN
         content: When dealing DMG via Counter, ignores 20% of the target's DEF.

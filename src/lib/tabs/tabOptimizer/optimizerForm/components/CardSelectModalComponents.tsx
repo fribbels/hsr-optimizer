@@ -1,18 +1,8 @@
-import {
-  Flex,
-  theme,
-  Typography,
-} from 'antd'
+import { Flex, theme, Typography } from 'antd'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
-import {
-  ElementName,
-  ElementToDamage,
-  PathName,
-  PathNames,
-} from 'lib/constants/constants'
+import { ElementName, ElementToDamage, PathName, PathNames } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { ReactElement } from 'react'
 
 const { useToken } = theme
@@ -78,7 +68,7 @@ export const CardGridItemContent = (props: {
 export function generatePathTags() {
   return Object.keys(PathNames).map((x) => {
     return {
-      key: x,
+      key: x as PathName,
       display: <img style={{ width: 32 }} src={Assets.getPath(x)} />,
     }
   })
@@ -104,41 +94,28 @@ export function generateRarityTags() {
 export function generateElementTags() {
   return Object.keys(ElementToDamage).map((x) => {
     return {
-      key: x,
+      key: x as ElementName,
       display: <img style={{ width: 30 }} src={Assets.getElement(x)} />,
     }
   })
 }
 
-type Filters = {
-  element: ElementName[],
-  path: PathName[],
-  rarity: number[],
-  name: string,
-}
-
-export function SegmentedFilterRow(props: {
-  currentFilters: Filters,
-  name: 'element' | 'path' | 'rarity',
+export function SegmentedFilterRow<T extends string | number>(props: {
+  tags: { key: T, display: ReactElement }[],
   flexBasis: string,
-  tags: { key: string | number, display: ReactElement }[],
-  setCurrentFilters: (filters: Filters) => void,
+  currentFilter: NoInfer<T>[],
+  setCurrentFilters(filters: NoInfer<T>[]): void,
 }) {
   const { token } = useToken()
-  const { currentFilters, name, flexBasis, tags, setCurrentFilters } = props
-  const selectedTags = currentFilters[name]
+  const { currentFilter, flexBasis, tags, setCurrentFilters } = props
+  const selectedTags = currentFilter
 
-  const handleChange = (tag: string | number, checked: boolean) => {
+  const handleChange = (tag: T, checked: boolean) => {
     const nextSelectedTags = checked
       ? [...selectedTags, tag]
       : selectedTags.filter((t) => t != tag)
 
-    const clonedFilters = TsUtils.clone(currentFilters)
-    // @ts-ignore
-    clonedFilters[name] = nextSelectedTags
-    console.log('filters', name, clonedFilters)
-
-    setCurrentFilters(clonedFilters)
+    setCurrentFilters(nextSelectedTags)
   }
 
   return (

@@ -309,6 +309,8 @@ SetConditionals:
     Sacerdos:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} acúmulos (+{{buffValue}}% CD)'
+    Arcadia:
+      Display: '{{allyCount}}x'
   Conditionals:
     DefaultMessage: Habilitado por padrão — efeitos serão aplicados nos cálculos de combate
     Hunter: "Quando habilitado, buff de dano crítico é aplicado aos cálculos de atributos de combate.\n"
@@ -335,7 +337,7 @@ SetConditionals:
     Duran: O buff selecionado é aplicado aos cálculos de dano com base no número de acúmulos.
     Kalpagni: Quando ativado, aplica o bônus de Efeito de Quebra aos cálculos de estatísticas de combate.
     Lushaka: Desativado por padrão - Este conjunto não pode afetar seu portador.
-    Banana: O buff selecionado é aplicado aos cálculos de dano.
+    Banana: Quando ativado, o 32% DANO CRIT adicional é aplicado nos calculos de atributos de combate
 Presets:
   SpdValues:
     SPD0: Sem velocidade mínima
@@ -614,7 +616,7 @@ ExpandedDataPanel:
           DEF scaling: Scaling de DEF
           HP scaling: Scaling de HP
           Special scaling: Scaling Especial
-          "ATK % boost": Aumento de ATQ %
+          'ATK % boost': Aumento de ATQ %
           Crit Rate boost: Aumento de Taxa Crítica
           Crit DMG boost: Aumento de Dano Crítico
           DMG boost: Boost de DMG

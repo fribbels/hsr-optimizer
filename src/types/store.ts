@@ -1,12 +1,6 @@
 import { ThemeConfig } from 'antd'
-import {
-  ComputeEngine,
-  ElementName,
-  PathName,
-} from 'lib/constants/constants'
+import { ComputeEngine } from 'lib/constants/constants'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
-import { BUFF_TYPE } from 'lib/optimization/buffSource'
-import { Buff } from 'lib/optimization/computedStatsArray'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import {
@@ -61,116 +55,98 @@ export type RelicTabFilters = {
   equippedBy: (string | number)[],
   initialRolls: (string | number)[],
 }
-/* eslint-disable @stylistic/no-multi-spaces */
 export type HsrOptimizerStore = { // global store separation plan
-  version: string, // global
-  colorTheme: ColorThemeOverrides, // global
-  optimizerGrid: unknown, // optimizerTab
-  optimizerTabFocusCharacter?: CharacterId | null, // optimizerTab
-  characterTabFocusCharacter?: CharacterId | null, // characterTab
-  scoringAlgorithmFocusCharacter?: CharacterId | null, // give own store?
-  statTracesDrawerFocusCharacter?: CharacterId | null, // give own store?
-  relicsTabFocusCharacter?: CharacterId | null, // relicsTab
-  activeKey: AppPage, // global
-  characters: Character[], // characterTab
-  charactersById: Partial<Record<CharacterId, Character>>, // characterTab
-  permutations: number, // optimizerTab
-  permutationsResults: number, // optimizerTab
-  permutationsSearched: number, // optimizerTab
-  scoringMetadataOverrides: Record<string, ScoringMetadata>, // relicsTab?
-  showcasePreferences: Record<string, ShowcasePreferences>, // characterTab/showcaseTab
-  showcaseTemporaryOptionsByCharacter: Record<string, ShowcaseTemporaryOptions>, // characterTab/showcaseTab
-  statSimulationDisplay: StatSimTypes, // optimizerTab
-  statSimulations: Simulation[], // optimizerTab
-  selectedStatSimulations: Simulation['key'][], // optimizerTab
-  optimizationInProgress: boolean, // optimizerTab
-  optimizationId: string | null, // optimizerTab
-  teammateCount: number, // optimizerTab
-  relicScorerSidebarOpen: boolean, // showcaseTab
-  optimizerRunningEngine: ComputeEngine, // optimizerTab
-  optimizerStartTime: number | null, // optimizerTab
-  optimizerEndTime: number | null, // optimizerTab
-  optimizerTabFocusCharacterSelectModalOpen: boolean, // optimizerTab
+  /* global                   */ version: string,
+  /* global                   */ colorTheme: ColorThemeOverrides,
+  /* optimizerTab             */ optimizerGrid: unknown,
+  /* optimizerTab             */ optimizerTabFocusCharacter?: CharacterId | null,
+  /* give own store?          */ scoringAlgorithmFocusCharacter?: CharacterId | null,
+  /* give own store?          */ statTracesDrawerFocusCharacter?: CharacterId | null,
+  /* relicsTab                */ relicsTabFocusCharacter?: CharacterId | null,
+  /* global                   */ activeKey: AppPage,
+  /* optimizerTab             */ permutations: number,
+  /* optimizerTab             */ permutationsResults: number,
+  /* optimizerTab             */ permutationsSearched: number,
+  /* relicsTab?               */ scoringMetadataOverrides: Partial<Record<CharacterId, ScoringMetadata>>,
+  /* characterTab/showcaseTab */ showcasePreferences: Partial<Record<CharacterId, ShowcasePreferences>>,
+  /* characterTab/showcaseTab */ showcaseTemporaryOptionsByCharacter: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>,
+  /* optimizerTab             */ statSimulationDisplay: StatSimTypes,
+  /* optimizerTab             */ statSimulations: Simulation[],
+  /* optimizerTab             */ selectedStatSimulations: Simulation['key'][],
+  /* optimizerTab             */ optimizationInProgress: boolean,
+  /* optimizerTab             */ optimizationId: string | null,
+  /* optimizerTab             */ teammateCount: number,
+  /* showcaseTab              */ relicScorerSidebarOpen: boolean,
+  /* optimizerTab             */ optimizerRunningEngine: ComputeEngine,
+  /* optimizerTab             */ optimizerStartTime: number | null,
+  /* optimizerTab             */ optimizerEndTime: number | null,
+  /* optimizerTab             */ optimizerTabFocusCharacterSelectModalOpen: boolean,
 
-  comboState: ComboState, // optimizerTab
-  formValues: Form | undefined, // optimizerTab
-  relicsById: Record<string, Relic>, // global
-  statDisplay: StatDisplay, // optimizerTab
-  memoDisplay: MemoDisplay, // optimizerTab
-  settings: UserSettings, // global
-  optimizerBuild: Build | null, // optimizerTab
-  optimizerSelectedRowData: OptimizerDisplayDataStatSim | null, // optimizerTab
-  optimizerBuffGroups: Record<BUFF_TYPE, Record<string, Buff[]>> | undefined, // unused??
-  setSettings: (settings: UserSettings) => void, // global
-  setOptimizationId: (id: string) => void, // optimizerTab
-  setComboState: (state: ComboState) => void, // optimizerTab
-  setFormValues: (form: Form) => void, // optimizerTab
-  setOptimizerTabFocusCharacter: (CharacterId: CharacterId | null | undefined) => void, // optimizerTab
-  setOptimizationInProgress: (open: boolean) => void, // optimizerTab
-  setOptimizerStartTime: (open: number) => void, // optimizerTab
-  setOptimizerEndTime: (open: number) => void, // optimizerTab
-  setRelicTabFilters: (filters: RelicTabFilters) => void, // relicsTab
-  setOptimizerRunningEngine: (s: ComputeEngine) => void, // optimizerTab
-  setExcludedRelicPotentialCharacters: (ids: CharacterId[]) => void, // relicsTab
-  optimizerFormCharacterEidolon: number, // optimizerTab
-  optimizerFormSelectedLightCone: LightCone['id'] | null | undefined, // optimizerTab
-  optimizerFormSelectedLightConeSuperimposition: number, // optimizerTab
-  setPermutationsResults: (n: number) => void, // optimizerTab
-  setPermutationsSearched: (n: number) => void, // optimizerTab
-  setRelicsById: (relicsById: Record<number, Relic>) => void, // global
-  setSavedSessionKey: <T extends keyof GlobalSavedSession>(key: T, value: GlobalSavedSession[T]) => void, // global
-  setActiveKey: (key: AppPage) => void, // global
-  setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void, // give own store?
-  setStatTracesDrawerFocusCharacter: (id: CharacterId | null | undefined) => void, // give own store?
-  setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void, // optimizerTab
-  setStatDisplay: (display: StatDisplay) => void, // optimizerTab
-  setMemoDisplay: (display: MemoDisplay) => void, // optimizerTab
-  setCharacters: (characters: Character[]) => void, // characterTab
-  setCharactersById: (charactersById: Partial<Record<CharacterId, Character>>) => void, // characterTab
-  setOptimizerFormSelectedLightConeSuperimposition: (x: SuperImpositionLevel) => void, // optimizerTab
-  setColorTheme: (x: ColorThemeOverrides) => void, // global
-  setOptimizerBuild: (x: Build) => void, // optimizerTab
-  setOptimizerSelectedRowData: (x: OptimizerDisplayDataStatSim | null) => void, // optimizerTab
-  setSavedSession: (x: GlobalSavedSession) => void, // global
-  setOptimizerFormSelectedLightCone: (x: LightCone['id'] | null) => void, // optimizerTab
-  setOptimizerFormCharacterEidolon: (x: Eidolon) => void, // optimizerTab
-  setTeammateCount: (x: number) => void, // optimizerTab
-  setSelectedStatSimulations: (x: Simulation['key'][]) => void, // optimizerTab
-  setStatSimulations: (x: Simulation[]) => void, // optimizerTab
-  setStatSimulationDisplay: (x: StatSimTypes) => void, // optimizerTab
-  setScoringMetadataOverrides: (x: Record<string, ScoringMetadata>) => void, // relicsTab
-  setShowcasePreferences: (x: Record<string, ShowcasePreferences>) => void, // characterTab/showcaseTab
-  setShowcaseTemporaryOptionsByCharacter: (x: Record<string, ShowcaseTemporaryOptions>) => void, // characterTab/showcaseTab
-  setCharacterTabFilters: (x: CharacterTabFilters) => void, // characterTab
-  setPermutations: (x: number) => void, // optimizerTab
-  setPermutationDetails: (x: PermutationDetails) => void, // optimizerTab
-  setRelicsTabFocusCharacter: (x: CharacterId | null | undefined) => void, // relicsTab
-  setCharacterTabFocusCharacter: (x: CharacterId | null | undefined) => void, // characterTab
-  setVersion: (x: string) => void, // global
-  setOptimizerMenuState: (x: OptimizerMenuState) => void, // optimizerTab
-  setGlobalThemeConfig: (x: ThemeConfig) => void, // global
+  /* optimizerTab             */ comboState: ComboState,
+  /* optimizerTab             */ formValues: Form | undefined,
+  /* global                   */ relicsById: Record<string, Relic>,
+  /* optimizerTab             */ statDisplay: StatDisplay,
+  /* optimizerTab             */ memoDisplay: MemoDisplay,
+  /* global                   */ settings: UserSettings,
+  /* optimizerTab             */ optimizerBuild: Build | null,
+  /* optimizerTab             */ optimizerSelectedRowData: OptimizerDisplayDataStatSim | null,
+  /* global                   */ setSettings: (settings: UserSettings) => void,
+  /* optimizerTab             */ setOptimizationId: (id: string) => void,
+  /* optimizerTab             */ setComboState: (state: ComboState) => void,
+  /* optimizerTab             */ setFormValues: (form: Form) => void,
+  /* optimizerTab             */ setOptimizerTabFocusCharacter: (CharacterId: CharacterId | null | undefined) => void,
+  /* optimizerTab             */ setOptimizationInProgress: (open: boolean) => void,
+  /* optimizerTab             */ setOptimizerStartTime: (open: number) => void,
+  /* optimizerTab             */ setOptimizerEndTime: (open: number) => void,
+  /* relicsTab                */ setRelicTabFilters: (filters: RelicTabFilters) => void,
+  /* optimizerTab             */ setOptimizerRunningEngine: (s: ComputeEngine) => void,
+  /* relicsTab                */ setExcludedRelicPotentialCharacters: (ids: CharacterId[]) => void,
+  /* optimizerTab             */ optimizerFormCharacterEidolon: number,
+  /* optimizerTab             */ optimizerFormSelectedLightCone: LightCone['id'] | null | undefined,
+  /* optimizerTab             */ optimizerFormSelectedLightConeSuperimposition: number,
+  /* optimizerTab             */ setPermutationsResults: (n: number) => void,
+  /* optimizerTab             */ setPermutationsSearched: (n: number) => void,
+  /* global                   */ setRelicsById: (relicsById: Record<number, Relic>) => void,
+  /* global                   */ setSavedSessionKey: <T extends keyof GlobalSavedSession>(key: T, value: GlobalSavedSession[T]) => void,
+  /* global                   */ setActiveKey: (key: AppPage) => void,
+  /* give own store?          */ setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void,
+  /* give own store?          */ setStatTracesDrawerFocusCharacter: (id: CharacterId | null | undefined) => void,
+  /* optimizerTab             */ setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void,
+  /* optimizerTab             */ setStatDisplay: (display: StatDisplay) => void,
+  /* optimizerTab             */ setMemoDisplay: (display: MemoDisplay) => void,
+  /* optimizerTab             */ setOptimizerFormSelectedLightConeSuperimposition: (x: SuperImpositionLevel) => void,
+  /* global                   */ setColorTheme: (x: ColorThemeOverrides) => void,
+  /* optimizerTab             */ setOptimizerBuild: (x: Build) => void,
+  /* optimizerTab             */ setOptimizerSelectedRowData: (x: OptimizerDisplayDataStatSim | null) => void,
+  /* global                   */ setSavedSession: (x: GlobalSavedSession) => void,
+  /* optimizerTab             */ setOptimizerFormSelectedLightCone: (x: LightCone['id'] | null) => void,
+  /* optimizerTab             */ setOptimizerFormCharacterEidolon: (x: Eidolon) => void,
+  /* optimizerTab             */ setTeammateCount: (x: number) => void,
+  /* optimizerTab             */ setSelectedStatSimulations: (x: Simulation['key'][]) => void,
+  /* optimizerTab             */ setStatSimulations: (x: Simulation[]) => void,
+  /* optimizerTab             */ setStatSimulationDisplay: (x: StatSimTypes) => void,
+  /* relicsTab                */ setScoringMetadataOverrides: (x: Partial<Record<CharacterId, ScoringMetadata>>) => void,
+  /* characterTab/showcaseTab */ setShowcasePreferences: (x: Partial<Record<CharacterId, ShowcasePreferences>>) => void,
+  /* characterTab/showcaseTab */ setShowcaseTemporaryOptionsByCharacter: (x: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>) => void,
+  /* optimizerTab             */ setPermutations: (x: number) => void,
+  /* optimizerTab             */ setPermutationDetails: (x: PermutationDetails) => void,
+  /* relicsTab                */ setRelicsTabFocusCharacter: (x: CharacterId | null | undefined) => void,
+  /* global                   */ setVersion: (x: string) => void,
+  /* optimizerTab             */ setOptimizerMenuState: (x: OptimizerMenuState) => void,
+  /* global                   */ setGlobalThemeConfig: (x: ThemeConfig) => void,
 
-  permutationDetails: PermutationDetails, // optimizerTab
+  /* optimizerTab             */ permutationDetails: PermutationDetails,
 
-  relicTabFilters: RelicTabFilters, // relicsTab
-  characterTabFilters: CharacterTabFilters, // characterTab
-  excludedRelicPotentialCharacters: CharacterId[], // relicsTab
+  /* relicsTab                */ relicTabFilters: RelicTabFilters,
+  /* relicsTab                */ excludedRelicPotentialCharacters: CharacterId[],
 
-  optimizerMenuState: OptimizerMenuState, // optimizerTab
+  /* optimizerTab             */ optimizerMenuState: OptimizerMenuState,
 
-  savedSession: GlobalSavedSession, // global
-  globalThemeConfig: ThemeConfig, // global
+  /* global                   */ savedSession: GlobalSavedSession,
+  /* global                   */ globalThemeConfig: ThemeConfig,
 }
 
 type OptimizerMenuState = Record<string, boolean>
-
-// TODO relocate to CharacterTab.tsx once it gets rewritten in typescript
-export type CharacterTabFilters = {
-  name: string,
-  element: ElementName[],
-  path: PathName[],
-  rarity: number[],
-}
 
 export type GlobalSavedSession = {
   optimizerCharacterId: CharacterId | null,

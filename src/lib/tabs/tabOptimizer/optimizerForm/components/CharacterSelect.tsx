@@ -12,7 +12,10 @@ import {
   PathName,
 } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { generateCharacterOptions } from 'lib/rendering/optionGenerator'
+import {
+  CharacterOptions,
+  generateCharacterOptions,
+} from 'lib/rendering/optionGenerator'
 import {
   CardGridItemContent,
   generateElementTags,
@@ -23,6 +26,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
 import {
+  ChangeEvent,
   ReactNode,
   useEffect,
   useMemo,
@@ -31,7 +35,6 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
-import { DBMetadataCharacter } from 'types/metadata'
 
 // FIXME HIGH
 
@@ -64,11 +67,16 @@ const innerH = 170
 const goldBg = 'linear-gradient(#8A6700 0px, #D6A100 63px, #D6A100 130px, #282B31 130px, #282B31 150px)'
 const purpleBg = 'linear-gradient(#5F388C 0px, #9F6CD9 63px, #9F6CD9 130px, #282B31 130px, #282B31 150px)'
 
-const defaultFilters = {
-  rarity: [] as number[],
-  path: [] as PathName[],
-  element: [] as ElementName[],
+const defaultFilters: CharacterFilters = {
+  path: [],
+  element: [],
   name: '',
+}
+
+type CharacterFilters = {
+  path: PathName[],
+  element: ElementName[],
+  name: string,
 }
 
 const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, selectStyle, multipleSelect, withIcon, externalOpen, setExternalOpen }) => {
@@ -80,6 +88,12 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   const characterOptions = useMemo(() => generateCharacterOptions(), [t])
   const [selected, setSelected] = useState<Map<CharacterId, boolean>>(new Map())
   const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
+
+  const setElementFilter = (element: CharacterFilters['element']) => setCurrentFilters({ ...currentFilters, element })
+
+  const setPathFilter = (path: CharacterFilters['path']) => setCurrentFilters({ ...currentFilters, path })
+
+  const setNameFilter = (e: ChangeEvent<HTMLInputElement>) => setCurrentFilters({ ...currentFilters, name: e.target.value.toLowerCase() })
 
   const labelledOptions: { value: string, label: ReactNode }[] = []
   for (const option of characterOptions) {
@@ -99,7 +113,9 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
 
   useEffect(() => {
     if (open || externalOpen) {
-      setTimeout(() => inputRef?.current?.focus(), 100)
+      // closing and re-opening the select by clicking on the character image doesn't reset the filters
+      setCurrentFilters(TsUtils.clone(defaultFilters))
+      setTimeout(() => inputRef.current?.focus(), 100)
 
       if (multipleSelect) {
         const newSelected = new Map<CharacterId, boolean>(excludedRelicPotentialCharacters.map((characterId: CharacterId) => [characterId, true]))
@@ -108,7 +124,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
     }
   }, [open, externalOpen])
 
-  function applyFilters(x: DBMetadataCharacter & { value: string, label: string, id: string }) {
+  function applyFilters(x: CharacterOptions[CharacterId]) {
     if (currentFilters.element.length && !currentFilters.element.includes(x.element)) {
       return false
     }
@@ -210,11 +226,7 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                 }}
                 placeholder={t('SearchPlaceholder') /* Search character name */}
                 ref={inputRef}
-                onChange={(e) => {
-                  const newFilters = TsUtils.clone(currentFilters)
-                  newFilters.name = e.target.value.toLowerCase()
-                  setCurrentFilters(newFilters)
-                }}
+                onChange={setNameFilter}
                 onPressEnter={() => {
                   const first = characterOptions.find(applyFilters)
                   if (first) {
@@ -242,20 +254,18 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
             <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }} gap={12}>
               <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
                 <SegmentedFilterRow
-                  name='element'
                   tags={generateElementTags()}
                   flexBasis='14.2%'
-                  currentFilters={currentFilters}
-                  setCurrentFilters={setCurrentFilters}
+                  currentFilter={currentFilters.element}
+                  setCurrentFilters={setElementFilter}
                 />
               </Flex>
               <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
                 <SegmentedFilterRow
-                  name='path'
                   tags={generatePathTags()}
                   flexBasis='12.5%'
-                  currentFilters={currentFilters}
-                  setCurrentFilters={setCurrentFilters}
+                  currentFilter={currentFilters.path}
+                  setCurrentFilters={setPathFilter}
                 />
               </Flex>
             </Flex>
@@ -270,11 +280,9 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
                   key={option.id}
                   hoverable
                   style={{
-                    ...{
-                      background: option.rarity === 5 ? goldBg : purpleBg,
-                      overflow: 'hidden',
-                      height: `${parentH}px`,
-                    },
+                    background: option.rarity === 5 ? goldBg : purpleBg,
+                    overflow: 'hidden',
+                    height: `${parentH}px`,
                     ...(selected.get(option.id)
                       ? {
                         opacity: 0.25,

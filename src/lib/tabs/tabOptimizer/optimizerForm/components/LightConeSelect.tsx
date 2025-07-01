@@ -8,7 +8,10 @@ import {
 } from 'antd'
 import { PathName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { generateLightConeOptions } from 'lib/rendering/optionGenerator'
+import {
+  generateLightConeOptions,
+  LcOptions,
+} from 'lib/rendering/optionGenerator'
 import DB from 'lib/state/db'
 import {
   CardGridItemContent,
@@ -20,6 +23,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
 import {
+  ChangeEvent,
   ReactNode,
   useEffect,
   useMemo,
@@ -29,7 +33,6 @@ import {
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { LightCone } from 'types/lightCone'
-import { DBMetadataLightCone } from 'types/metadata'
 
 // FIXME HIGH
 
@@ -42,6 +45,12 @@ interface LightConeSelectProps {
   withIcon?: boolean
   externalOpen?: boolean
   setExternalOpen?: (state: boolean) => void
+}
+
+type LightConeFilters = {
+  rarity: number[],
+  path: PathName[],
+  name: string,
 }
 
 const goldBg = 'linear-gradient(#8A6700 0px, #D6A100 63px, #D6A100 112px, #282B31 112px, #282B31 150px)'
@@ -66,9 +75,9 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
   const metadata = DB.getMetadata()
   const [open, setOpen] = useState(false)
   const { t } = useTranslation('modals', { keyPrefix: 'LightconeSelect' })
-  const defaultFilters = useMemo(() => {
+  const defaultFilters = useMemo((): LightConeFilters => {
     return {
-      rarity: [] as number[],
+      rarity: [],
       path: initialPath ? [initialPath] : (characterId ? [metadata.characters[characterId].path] : []),
       name: '',
     }
@@ -77,6 +86,12 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
   const inputRef = useRef<InputRef>(null)
   const [currentFilters, setCurrentFilters] = useState(TsUtils.clone(defaultFilters))
   const lightConeOptions = useMemo(() => generateLightConeOptions(), [t])
+
+  const setPathFilter = (path: LightConeFilters['path']) => setCurrentFilters({ ...currentFilters, path })
+
+  const setRarityFilter = (rarity: LightConeFilters['rarity']) => setCurrentFilters({ ...currentFilters, rarity })
+
+  const setNameFilter = (e: ChangeEvent<HTMLInputElement>) => setCurrentFilters({ ...currentFilters, name: e.target.value.toLowerCase() })
 
   const labelledOptions = useMemo(() => {
     const labelledOptions: { value: string, label: ReactNode }[] = []
@@ -99,11 +114,12 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
 
   useEffect(() => {
     if (open || externalOpen) {
+      setCurrentFilters(TsUtils.clone(defaultFilters))
       setTimeout(() => inputRef?.current?.focus(), 100)
     }
   }, [open, externalOpen])
 
-  function applyFilters(x: DBMetadataLightCone & { value: string, label: string, id: string }) {
+  function applyFilters(x: LcOptions[LightCone['id']]) {
     if (currentFilters.rarity.length && !currentFilters.rarity.includes(x.rarity)) {
       return false
     }
@@ -161,11 +177,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
                 style={{ height: 40 }}
                 placeholder={t('Placeholder') /* Select a lightcone */}
                 ref={inputRef}
-                onChange={(e) => {
-                  const newFilters = TsUtils.clone(currentFilters)
-                  newFilters.name = e.target.value.toLowerCase()
-                  setCurrentFilters(newFilters)
-                }}
+                onChange={setNameFilter}
                 onPressEnter={() => {
                   const first = lightConeOptions.find(applyFilters)
                   if (first) {
@@ -177,22 +189,18 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
             <Flex wrap='wrap' style={{ flexGrow: 1 }} gap={12}>
               <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
                 <SegmentedFilterRow
-                  name='path'
                   tags={generatePathTags()}
                   flexBasis='12.5%'
-                  // @ts-ignore element filters not needed for lcs
-                  currentFilters={currentFilters}
-                  setCurrentFilters={setCurrentFilters}
+                  currentFilter={currentFilters.path}
+                  setCurrentFilters={setPathFilter}
                 />
               </Flex>
               <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
                 <SegmentedFilterRow
-                  name='rarity'
                   tags={generateRarityTags()}
                   flexBasis='14.2%'
-                  // @ts-ignore element filters not needed for lcs
-                  currentFilters={currentFilters}
-                  setCurrentFilters={setCurrentFilters}
+                  currentFilter={currentFilters.rarity}
+                  setCurrentFilters={setRarityFilter}
                 />
               </Flex>
             </Flex>

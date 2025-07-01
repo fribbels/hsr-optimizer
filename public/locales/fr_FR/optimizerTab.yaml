@@ -335,7 +335,7 @@ SetConditionals:
     Duran: Le buff sélectionné est appliqué au calcul des stats de combat en fonction du nombre de cumuls.
     Kalpagni: Lorsque cette option est activée, applique le buff d'Effet de Rupture au calcul des stats de combat.
     Lushaka: Désactivé par défaut - Ce set ne peut pas affecter son porteur.
-    Banana: Le buff sélectionné est appliqué au calcul des stats de combat.
+    Banana: Lorsque cette option est sélectionnée, le buff additionnel de 32% DGT CRIT sera appliqué au calcul des stats de combat.
 Presets:
   SpdValues:
     SPD0: Pas de vitesse minimale
@@ -614,7 +614,7 @@ ExpandedDataPanel:
           DEF scaling: Multiplicateur de DÉF
           HP scaling: Multiplicateur de PV
           Special scaling: Multiplicateur spécial
-          "ATK % boost": Bonus de % d'ATQ
+          'ATK % boost': Bonus de % d'ATQ
           Crit Rate boost: Bonus de Taux Critique
           Crit DMG boost: Bonus de DGT Critique
           DMG boost: Bonus de DGT

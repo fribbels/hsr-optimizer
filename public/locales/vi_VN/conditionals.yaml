@@ -1,26 +1,26 @@
-BetaMessage: "Phiên bản hiện tại: {{Version}} - Tính toán có thể sẽ thay đổi."
+BetaMessage: 'Phiên bản hiện tại: {{Version}} - Tính toán có thể sẽ thay đổi.'
 Common:
   BuffPriority:
-    Text: "Ưu tiên buff mục tiêu"
-    Content: "Chọn mục tiêu ưu tiên để nhận buff đơn mục tiêu"
-    Self: "Ưu tiên buff: bản thân"
-    Memo: "Ưu tiên buff: Linh hồn ký ức"
+    Text: 'Ưu tiên buff mục tiêu'
+    Content: 'Chọn mục tiêu ưu tiên để nhận buff đơn mục tiêu'
+    Self: 'Ưu tiên buff: bản thân'
+    Memo: 'Ưu tiên buff: Linh hồn ký ức'
   HealAbility:
-    Text: "Kĩ năng hồi phục"
-    Content: "Chọn kĩ năng hồi phục để tính"
-    Basic: "Kĩ năng hồi phục: Tấn Công Thường"
-    Skill: "Kĩ năng hồi phục: Chiến Kỹ"
-    Ult: "Kĩ năng hồi phục: Tuyệt Kỹ"
-    Talent: "Kĩ năng hồi phục: Thiên Phú"
-    Trace: "Kĩ năng hồi phục: Năng lực thêm"
+    Text: 'Kĩ năng hồi phục'
+    Content: 'Chọn kĩ năng hồi phục để tính'
+    Basic: 'Kĩ năng hồi phục: Tấn Công Thường'
+    Skill: 'Kĩ năng hồi phục: Chiến Kỹ'
+    Ult: 'Kĩ năng hồi phục: Tuyệt Kỹ'
+    Talent: 'Kĩ năng hồi phục: Thiên Phú'
+    Trace: 'Kĩ năng hồi phục: Năng lực thêm'
   ShieldAbility:
-    Text: "Kĩ năng lá chắn"
-    Content: "Chọn kĩ năng lá chắn để tính"
-    Basic: "Kĩ năng lá chắn: Tấn Công Thường"
-    Skill: "Kĩ năng lá chắn: Chiến Kỹ"
-    Ult: "Kĩ năng lá chắn: Tuyệt Kỹ"
-    Talent: "Kĩ năng lá chắn: Thiên Phú"
-    Trace: "Kĩ năng lá chắn: Năng Lực Thêm"
+    Text: 'Kĩ năng lá chắn'
+    Content: 'Chọn kĩ năng lá chắn để tính'
+    Basic: 'Kĩ năng lá chắn: Tấn Công Thường'
+    Skill: 'Kĩ năng lá chắn: Chiến Kỹ'
+    Ult: 'Kĩ năng lá chắn: Tuyệt Kỹ'
+    Talent: 'Kĩ năng lá chắn: Thiên Phú'
+    Trace: 'Kĩ năng lá chắn: Năng Lực Thêm'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -102,8 +102,6 @@ Lightcones:
     Content:
       skillUltDmgBoost:
         text: Tăng sát thương chiến kỹ / tuyệt kỹ
-      bonusBoost:
-        text: Tăng Sát Thương
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -281,6 +279,10 @@ Lightcones:
         text: Khiên đang có nhận sát thương
         content: >-
           Sau khi người trang bị bị tấn công, nếu bản thân chưa có khiên, sẽ nhận 1 khiên bằng {{ShieldHp}}% Giới Hạn HP của người trang bị, duy trì 2 hiệp. Hiệu ứng này mỗi 3 hiệp chỉ có thể kích hoạt 1 lần. Nếu người trang bị đã có khiên, sẽ khiến sát thương phải chịu của bản thân giảm {{DmgReduction}}%.
+  TheHellWhereIdealsBurn:
+    Content:
+      atkBuffStacks:
+        text: Các cộng dồn buff ATK
   TheUnreachableSide:
     Content:
       dmgBuff:
@@ -296,6 +298,12 @@ Lightcones:
         text: Điểm yếu ép góc
         content: >-
           Sau khi người trang bị thi triển Tấn Công Thường, Chiến Kỹ, Tuyệt Kỹ tấn công kẻ địch, sẽ có 60% xác suất cơ bản khiến kẻ đó rơi vào trạng thái Tháo Giáp. Trong trạng thái Tháo Giáp, sát thương kẻ địch phải chịu tăng {{UnarmoredVulnerability}}%, duy trì 2 hiệp. Nếu mục tiêu ở trạng thái Sát Thương Duy Trì do người trang bị thi triển, thì có 60% xác suất cơ bản khiến trạng thái Tháo Giáp mà người trang bị thi triển tăng cấp thành trạng thái Đường Cùng, khiến sát thương kẻ địch phải chịu tăng thêm {{CorneredVulnerability}}%, duy trì 2 hiệp
+  ThusBurnsTheDawn:
+    Content:
+      defPen:
+        text: Xuyên Phòng Thủ
+      dmgBuff:
+        text: Tăng Sát Thương
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -342,6 +350,10 @@ Lightcones:
       enemyHpHigherDmgBoost:
         text: HP% địch cao hơn tăng sát thương
         content: Tăng {{DmgBuff}}% sát thương gây ra cho kẻ địch có phần trăm HP hiện tại cao hơn hoặc bằng phần trăm HP hiện tại của người trang bị.
+  ATrailOfBygoneBlood:
+    Content:
+      skillUltDmgBoost:
+        text: Tăng sát thương chiến kỹ / tuyệt kỹ
   BoundlessChoreo:
     Content:
       enemyDefReducedSlowed:
@@ -427,6 +439,12 @@ Lightcones:
       postSkillHealBuff:
         text: Tăng Hồi Phục Sau Khi Dùng Chiến Kỹ
         content: Khi người trang bị thi triển Chiến Kỹ, lượng trị liệu tăng {{HealingBoost}}%, duy trì 2 hiệp.
+  HolidayThermaeEscapade:
+    Content:
+      dmgBoost:
+        text: Tăng Sát Thương
+      vulnerability:
+        text: Yếu điểm
   IndeliblePromise:
     Content:
       crBuff:
@@ -451,7 +469,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: "Nếu ≤ 2 địch tăng Tỉ lệ Bạo Kích"
+        text: 'Nếu ≤ 2 địch tăng Tỉ lệ Bạo Kích'
         content: Khi trong trận có 2 kẻ địch trở xuống, Tỷ Lệ Bạo Kích của người trang bị tăng {{CritBuff}}%.
   PastAndFuture:
     Content:
@@ -517,7 +535,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: "≥ 2 kẻ địch có điểm yếu thuộc tính tương ứng tăng STBK"
+        text: '≥ 2 kẻ địch có điểm yếu thuộc tính tương ứng tăng STBK'
         content: Sau khi người trang bị tấn công, nếu có từ 2 kẻ địch bị tấn công trở lên mang Điểm Yếu thuộc tính tương ứng, thì Sát Thương Bạo Kích của người trang bị tăng {{CritBuff}}%, duy trì 2 hiệp.
   TheMolesWelcomeYou:
     Content:
@@ -711,6 +729,12 @@ Characters:
         text: E2 Xuyên Kháng ST Nguyên Tố
       e6Buffs:
         text: E6 Tăng Gì Đó
+  Archer:
+    Content:
+      cdBuff:
+        text: Tăng Sát Thương Bạo Kích
+      e6Buffs:
+        text: E6 Tăng Gì Đó
   Argenti:
     Content:
       ultEnhanced:
@@ -812,13 +836,23 @@ Characters:
     Content:
       enhancedStateActive:
         text: Trạng Thái Địa Ngục Biến
-        content: "Khi ở trạng thái Địa Ngục Biến không thể thi triển Chiến Kỹ, đồng thời khiến sát thương do bản thân gây ra tăng {{enhancedStateDmgBoost}}%.::BR::E2: Khi Blade ở trạng thái Địa Ngục Biến, Tỷ Lệ Bạo Kích tăng 15%."
+        content: 'Khi ở trạng thái Địa Ngục Biến không thể thi triển Chiến Kỹ, đồng thời khiến sát thương do bản thân gây ra tăng {{enhancedStateDmgBoost}}%.::BR::E2: Khi Blade ở trạng thái Địa Ngục Biến, Tỷ Lệ Bạo Kích tăng 15%.'
       hpPercentLostTotal:
         text: Tổng HP% đã mất
         content: Sát Thương Tuyệt Kỹ dựa vào giới hạn {{hpPercentLostTotalMax}}% HP đã mất tích lũy trong trận này của Blade.
       e4MaxHpIncreaseStacks:
         text: E4 HP Tối Đa Tích
         content: Giới Hạn HP tăng 20%, hiệu ứng này tối đa cộng dồn 2 tầng.
+  BladeB1:
+    Content:
+      enhancedStateActive:
+        text: Trạng Thái Địa Ngục Biến
+      hpPercentLostTotal:
+        text: Tổng HP% đã mất
+      e2CrBuff:
+        text: E2 tăng Tỉ lệ bạo kích
+      e4MaxHpIncreaseStacks:
+        text: E4 HP Tối Đa Tích
   Boothill:
     Content:
       standoffActive:
@@ -1229,6 +1263,13 @@ Characters:
       e2SkillDmgBuff:
         text: E2 Tăng Chiến Kỹ
         content: Sau khi thi triển Tuyệt Kỹ, tăng 80% sát thương của Chiến Kỹ được cường hóa lần sau.
+  JingliuB1:
+    Content:
+      talentEnhancedState:
+        text: Trạng Thái Cường Hóa
+      e2SkillDmgBuff:
+        text: E2 Tăng Chiến Kỹ
+        content: Sau khi thi triển Tuyệt Kỹ, tăng 80% sát thương của Chiến Kỹ được cường hóa lần sau.
   JingYuan:
     Content:
       skillCritBuff:
@@ -1254,6 +1295,10 @@ Characters:
       e2TeamDotBoost:
         text: E2 Đội Tăng Sát Thương Theo Thời Gian
         content: Khi Kafka trong trận, Sát Thương Duy Trì toàn phe ta gây ra tăng 25%.
+  KafkaB1:
+    Content:
+      ehrBasedBuff:
+        text: Chính Xác Hiệu Ứng sang Tấn Công Tăng
   Lingsha:
     Content:
       beConversion:
@@ -1390,6 +1435,16 @@ Characters:
       e4SkillResShred:
         text: E4 Chiến Kỹ giảm kháng Băng
         content: Khi thi triển Chiến Kỹ, có 100% xác suất cơ bản khiến Kháng Băng của mục tiêu địch giảm 12%, duy trì 2 hiệp.
+  Phainon:
+    Content:
+      atkBuffStacks:
+        text: Các cộng dồn buff ATK
+      cdBuff:
+        text: Tăng Sát Thương Bạo Kích
+      spdBuff:
+        text: Tốc độ đội tăng
+      e2ResPen:
+        text: E2 Xuyên Kháng ST Nguyên Tố
   Qingque:
     Content:
       basicEnhanced:
@@ -1489,6 +1544,16 @@ Characters:
       teamDmgBuff:
         text: TK Kích Phá sang ST tăng
         content: Khi Tấn Công Kích Phá của Ruan Mei trong chiến đấu lớn hơn 120%, cứ mỗi khi vượt 10%, Chiến Kỹ sẽ khiến hiệu ứng tăng sát thương của toàn bộ phe ta tăng thêm 6%, tối đa không vượt quá 36%.
+  Saber:
+    Content:
+      enhancedBasic:
+        text: Tấn Công Thường Cường Hóa
+      enhancedSkill:
+        text: Chiến Kỹ Cường Hóa
+      talentDmgBuff:
+        text: Thiên Phú Tăng Sát Thương
+      cdBuff:
+        text: Tăng Sát Thương Bạo Kích
   Sampo:
     Content:
       targetDotTakenDebuff:
@@ -1544,6 +1609,18 @@ Characters:
         content: >-
           Khi thi triển Chiến Kỹ, nếu số lượng Hiệu Ứng Xấu của kẻ địch nhiều hơn hoặc bằng 3, thì Chiến Kỹ khiến hiệu ứng giảm Kháng Toàn Thuộc Tính của kẻ địch giảm thêm 3%.::BR::E4: Sau khi thi triển Tuyệt Kỹ tấn công kẻ địch, mỗi một Hiệu Ứng Xấu mà kẻ địch có sẽ gây thêm Sát Thương Lượng Tử kèm theo bằng 20% Tấn Công của Sói Bạc. Hiệu ứng này tối đa kích hoạt 5 lần trong mỗi lần dùng Tuyệt Kỹ.::BR::E6: Với mỗi một Hiệu Ứng Xấu mà kẻ địch có, sát thương Sói Bạc gây ra cho mục tiêu đó sẽ tăng 20%, tối đa tăng 100%.
 
+  SilverWolfB1:
+    Content:
+      skillResShredDebuff:
+        text: Chiến Kỹ Giảm Kháng Hiệu Ứng địch
+      skillWeaknessResShredDebuff:
+        text: Chiến Kỹ giảm kháng điểm yếu địch
+      talentDefShredDebuff:
+        text: Bug Giảm Phòng Thủ Địch
+      ultDefShredDebuff:
+        text: Tuyệt Kỹ Giảm Phòng Thủ địch
+      targetDebuffs:
+        text: Số Mục Tiêu có hiệu ứng xấu
   Sparkle:
     Content:
       skillCdBuff:
@@ -1813,7 +1890,7 @@ Characters:
         content: Khi Yukong trong trận, Sát Thương Số Ảo của toàn phe ta gây ra tăng 12%.
       roaringBowstringsActive:
         text: Hiệu Lệch Cung Đàn
-        content: "Khi Yukong có Hiệu Lệnh Cung Đàn, Tấn Công của toàn bộ phe ta tăng {{skillAtkBuffValue}}%.::BR::E4: Khi có Hiệu Lệnh Cung Đàn, sát thương Yukong gây ra tăng 30%."
+        content: 'Khi Yukong có Hiệu Lệnh Cung Đàn, Tấn Công của toàn bộ phe ta tăng {{skillAtkBuffValue}}%.::BR::E4: Khi có Hiệu Lệnh Cung Đàn, sát thương Yukong gây ra tăng 30%.'
       ultBuff:
         text: Tuyệt Kỹ Tăng Tỉ Lệ và Sát Thương Bạo Kích
         content: >-
@@ -1827,11 +1904,11 @@ Characters:
         text: Chống Đỡ
         content: Trong trạng thái Chống Đỡ, kháng Hiệu Ứng Xấu dạng khống chế và giảm 20% sát thương phải chịu.
       ultCull:
-        text: "Nhìn Thấu - Diệt"
+        text: 'Nhìn Thấu - Diệt'
         content: >-
           Nhìn Thấu - Diệt: Gây cho mục tiêu Sát Thương Vật Lý bằng {{CullScaling}}% Tấn Công của Yunli, gây cho mục tiêu lân cận kẻ đó Sát Thương Vật Lý bằng {{CullAdjacentScaling}}% Tấn Công của Yunli, sau đó gây thêm 6 lần sát thương, mỗi lần sát thương sẽ gây cho 1 kẻ địch ngẫu nhiên Sát Thương Vật Lý bằng {{CullAdditionalScaling}}% Tấn Công của Yunli.
       ultCullHits:
-        text: "Nhìn Thấu - Diệt"
+        text: 'Nhìn Thấu - Diệt'
         content: >-
           Nhìn Thấu - Diệt: Gây cho mục tiêu Sát Thương Vật Lý bằng {{CullScaling}}% Tấn Công của Yunli, gây cho mục tiêu lân cận kẻ đó Sát Thương Vật Lý bằng {{CullAdjacentScaling}}% Tấn Công của Yunli, sau đó gây thêm 6 lần sát thương, mỗi lần sát thương sẽ gây cho 1 kẻ địch ngẫu nhiên Sát Thương Vật Lý bằng {{CullAdditionalScaling}}% Tấn Công của Yunli.
       counterAtkBuff:
@@ -1839,7 +1916,7 @@ Characters:
         content: Khi thi triển Phản Kích, tấn công của Yunli tăng 30%, duy trì 1 hiệp.
       e1UltBuff:
         text: E1 Tuyệt Kỹ buff
-        content: "Sát thương Nhìn Thấu - Chém và Nhìn Thấu - Diệt gây ra tăng 20%, số lần sát thương thêm của Nhìn Thấu - Diệt tăng 3."
+        content: 'Sát thương Nhìn Thấu - Chém và Nhìn Thấu - Diệt gây ra tăng 20%, số lần sát thương thêm của Nhìn Thấu - Diệt tăng 3.'
       e2DefShred:
         text: E2 Đòn Đánh Theo Sau Bỏ Qua Phòng Thủ
         content: Khi phát động Phản Kích gây sát thương, sẽ bỏ qua 20% Phòng Thủ của kẻ địch.

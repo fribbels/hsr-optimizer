@@ -1,26 +1,26 @@
-BetaMessage: "Versión actual: {{Version}} - Los cálculos están sujetos a cambios."
+BetaMessage: 'Versión actual: {{Version}} - Los cálculos están sujetos a cambios.'
 Common:
   BuffPriority:
-    Text: "Prioridad de las mejoras"
-    Content: "Selecciona al receptor de preferencia para las mejoras de objetivo único"
-    Self: "Prioridad mejoras: A sí mismo"
-    Memo: "Prioridad mejoras: Mnemo"
+    Text: 'Prioridad de las mejoras'
+    Content: 'Selecciona al receptor de preferencia para las mejoras de objetivo único'
+    Self: 'Prioridad mejoras: A sí mismo'
+    Memo: 'Prioridad mejoras: Mnemo'
   HealAbility:
-    Text: "Recurso de curación"
-    Content: "Selecciona el recurso para los cálculos de curación"
-    Basic: "Recurso curación: Básico"
-    Skill: "Recurso curación: Habilidad"
-    Ult: "Recurso curación: Definitiva"
-    Talent: "Recurso curación: Talento"
-    Trace: "Recurso curación: Rastro"
+    Text: 'Recurso de curación'
+    Content: 'Selecciona el recurso para los cálculos de curación'
+    Basic: 'Recurso curación: Básico'
+    Skill: 'Recurso curación: Habilidad'
+    Ult: 'Recurso curación: Definitiva'
+    Talent: 'Recurso curación: Talento'
+    Trace: 'Recurso curación: Rastro'
   ShieldAbility:
-    Text: "Recurso de escudo"
-    Content: "Selecciona el recurso para los cálculos de escudo"
-    Basic: "Recurso escudo: Básico"
-    Skill: "Recurso escudo: Habilidad"
-    Ult: "Recurso escudo: Definitiva"
-    Talent: "Recurso escudo: Talento"
-    Trace: "Recurso escudo: Rastro"
+    Text: 'Recurso de escudo'
+    Content: 'Selecciona el recurso para los cálculos de escudo'
+    Basic: 'Recurso escudo: Básico'
+    Skill: 'Recurso escudo: Habilidad'
+    Ult: 'Recurso escudo: Definitiva'
+    Talent: 'Recurso escudo: Talento'
+    Trace: 'Recurso escudo: Rastro'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -34,6 +34,14 @@ Lightcones:
         text: Afección Ilusión vacía
         content: >-
           Cuando el portador golpea a un enemigo, lo afecta con Ilusión vacía durante 1 turno. Solo se puede activar 1 vez por objetivo en cada ataque del portador. El daño que el portador inflige a los objetivos afectados por Ilusión vacía aumenta en un {{DmgBoost}}% y el daño que inflige la habilidad definitiva aumenta en un {{UltDmgBoost}}% adicional.
+  AThanklessCoronation:
+    Content:
+      ultAtkBoost:
+        text: Aumento ATQ Definitiva
+        content: Luego de usar la habilidad definitiva, aumenta el ATQ del portador en un {{UltAtkBuff}}%
+      energyAtkBuff:
+        text: Mejora de ATQ/Energía
+        content: Luego de usar la habilidad definitiva, si la energía máxima del portador es mayor o igual a 300 pts., recupera una cantidad fija de energía equivalente al 10% de la energía máxima del portador y aumenta su ATQ en {{EnergyAtkBuff}}% por dos turnos.
   AnInstantBeforeAGaze:
     Content:
       maxEnergyDmgBoost:
@@ -104,9 +112,6 @@ Lightcones:
       skillUltDmgBoost:
         text: Aumento de daño de Habilidad / Definitiva
         content: Al lanzar la habilidad básica o la habilidad definitiva, aumenta el daño que inflige ese ataque en un {{DmgBoost}}%.
-      bonusBoost:
-        text: Aumento de daño adicional
-        content: Al lanzar la habilidad básica o la habilidad definitiva, consume un {{HpConsumption}}% de sus PV máx. Si el efecto consume más de 500 PV, el daño aumenta en un {{BonusDmgBoost}}% adicional.
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -181,7 +186,7 @@ Lightcones:
           Después de que el portador ataque, cada enemigo tiene un 120% de probabilidad base de ser afectado con Desconcierto. La DEF de los enemigos en el estado de Desconcierto se reduce en un {{DefShred}}% durante 2 turnos. ::BR:: Si la VEL del portador es igual o superior a 170, cada enemigo tiene un 120% de probabilidad base de ser afectado con Robado. La DEF de los enemigos en el estado de Robado se reduce en un {{AdditionalDefShred}}% durante 2 turnos.
     TeammateContent:
       additionalDefPen:
-        text: "VEL > 170"
+        text: 'VEL > 170'
         content: >-
           Después de que el portador ataque, cada enemigo tiene un 120% de probabilidad base de ser afectado con Desconcierto. La DEF de los enemigos en el estado de Desconcierto se reduce en un {{DefShred}}% durante 2 turnos. ::BR:: Si la VEL del portador es igual o superior a 170, cada enemigo tiene un 120% de probabilidad base de ser afectado con Robado. La DEF de los enemigos en el estado de Robado se reduce en un {{AdditionalDefShred}}% durante 2 turnos.
   LifeShouldBeCastToFlames:
@@ -305,6 +310,14 @@ Lightcones:
         text: Reducción de daño por escudo activado
         content: >-
           Cuando el portador recibe un ataque, si no tiene ningún escudo, obtiene uno equivalente al {{ShieldHp}}% de sus PV máx. durante 2 turnos. Este efecto solo se puede activar 1 vez cada 3 turnos. Cuando el portador tiene un escudo, el daño que recibe se reduce en un {{DmgReduction}}%.
+  TheHellWhereIdealsBurn:
+    Content:
+      spAtkBuff:
+        text: Mejora de ATQ por SP
+        content: Tras entrar en combate, y si los puntos de habilidad básica máximos son 6 o más, aumenta el ATQ del portador en un {{SPAtkBuff}}%.
+      atkBuffStacks:
+        text: Acumulaciones mejora de ATQ
+        content: Luego de que el portador use su habilidad básica, aumenta su ATQ en un {{ScalingAtkBuff}}%, acumulable hasta 4 veces.
   TheUnreachableSide:
     Content:
       dmgBuff:
@@ -320,6 +333,14 @@ Lightcones:
         text: Vulnerabilidad Arrinconado
         content: >-
           Después de que el portador ataque al enemigo con su ATQ básico, habilidad básica o habilidad definitiva, tiene una probabilidad base del 60% de afectar al enemigo con Sin armadura. En el estado de Sin armadura, el daño que recibe el enemigo aumenta en un {{UnarmoredVulnerability}}% durante 2 turnos. Si el objetivo está afectado por un estado de Daño con el tiempo aplicado por el portador, hay una probabilidad base del 60% de mejorar el estado de Sin armadura aplicado por el portador al estado de Arrinconado, lo que aumenta el daño que recibe el enemigo en un {{CorneredVulnerability}}% adicional durante 2 turnos.
+  ThusBurnsTheDawn:
+    Content:
+      defPen:
+        text: PEN DEF
+        content: Cuando el portador inflige daño, ignora el {{DefIgnore}}% de la DEF del objetivo.
+      dmgBuff:
+        text: Mejora de daño
+        content: Mientras se posea "Sol ardiente", aumenta el daño del portador en un {{DmgBuff}}%.
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -356,6 +377,11 @@ Lightcones:
       ultFuaDefShred:
         text: PEN DEF para Definitiva / ataques adicionales
         content: Al comenzar el combate y después de que el portador use el ATQ básico, el daño que infligen su habilidad definitiva o ataques adicionales ignora un {{DefShred}}% de la DEF del objetivo durante 2 turnos.
+  ADreamScentedInWheat:
+    Content:
+      ultFuaDmgBoost:
+        text: Aumento de daño de Definitiva / Ataque adicional
+        content: Aumenta el daño de habilidad definitiva y ataque adicional del portador en un {{DmgBuff}}%.
   AfterTheCharmonyFall:
     Content:
       spdBuff:
@@ -366,6 +392,11 @@ Lightcones:
       enemyHpHigherDmgBoost:
         text: "Mejora de daño por enemigo con\n%PV más alto"
         content: El daño que inflige a los enemigos con un porcentaje de PV igual o superior al suyo aumenta en un {{DmgBuff}}% adicional.
+  ATrailOfBygoneBlood:
+    Content:
+      skillUltDmgBoost:
+        text: Aumento de daño de Habilidad / Definitiva
+        content: Aumenta el daño de la habilidad básica y la habilidad definitiva del portador en un {{DmgBuff}}%.
   BoundlessChoreo:
     Content:
       enemyDefReducedSlowed:
@@ -451,6 +482,18 @@ Lightcones:
       postSkillHealBuff:
         text: Mejora de curación post-Habilidad
         content: Cuando el portador utiliza la habilidad básica, la curación realizada aumenta en un {{HealingBoost}}% durante 2 turnos.
+  HolidayThermaeEscapade:
+    Content:
+      dmgBoost:
+        text: Aumento de daño
+        content: Aumenta el daño del portador en un {{DmgBuff}}%.
+      vulnerability:
+        text: Vulnerabilidad
+  InPursuitOfTheWind:
+    Content:
+      breakDmgBoost:
+        text: Aumento de Daño de Ruptura
+        content: Aumenta el Daño de Ruptura de todos los aliados en un {{BreakDmgBuff}}%.
   IndeliblePromise:
     Content:
       crBuff:
@@ -462,6 +505,14 @@ Lightcones:
         text: Acumulaciones de Truco de magia
         content: >-
           Cuando el portador inflige un estado negativo a un enemigo, obtiene una acumulación de Truco de magia. Cada acumulación de Truco de magia aumenta el daño que inflige el portador en un {{DmgBuff}}%. Se puede acumular hasta 3 veces y dura 1 turno. Cuando el acierto de efecto del portador es igual o superior al 80%, el ATQ aumenta en un {{AtkBuff}}%.
+  JourneyForeverPeaceful:
+    Content:
+      shieldBoost:
+        text: Mejora de escudo
+        content: Aumenta el efecto de los escudos del portador en un {{ShieldBuff}}%.
+      dmgBoost:
+        text: Aumento de daño por escudo
+        content: Cuando un aliado está protegido por un escudo, aumenta el daño que inflige en un {{DmgBuff}}%.
   MakeTheWorldClamor:
     Content:
       ultDmgBuff:
@@ -480,7 +531,7 @@ Lightcones:
   PastAndFuture:
     Content:
       postSkillDmgBuff:
-        text: Aumento de daño después de la habilidad elemental
+        text: Mejora de daño post-Habilidad
         content: Cuando el portador utiliza su habilidad básica, el daño que inflige el siguiente aliado que actúe (que no sea el portador) aumenta en un {{DmgBuff}}% durante 1 turno.
   PerfectTiming:
     Content:
@@ -513,6 +564,11 @@ Lightcones:
         text: Mejora de VEL / daño activada
         content: >-
           Tras entrar en combate, la VEL del portador aumenta en un {{SpdBuff}}% y el daño que inflige aumenta en un {{DmgBuff}}%. Cuando recibe daño, el efecto desaparece y se recupera cuando termine el siguiente turno.
+  SeeYouAtTheEnd:
+    Content:
+      skillFuaDmgBoost:
+        text: Aumento de daño de Habilidad / Ataque adicional
+        content: El daño de habilidad básica y ataque adicional del portador aumentan en un {{DmgBuff}}%.
   ShadowedByNight:
     Content:
       spdBuff:
@@ -541,7 +597,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: "Mejora de DC por golpe a ≥ 2 enemigos con misma debilidad"
+        text: 'Mejora de DC por golpe a ≥ 2 enemigos con misma debilidad'
         content: Cuando el portador lanza un ataque y golpea como mínimo a 2 enemigos que tengan su tipo de Debilidad, el Daño CRIT del portador aumenta en un {{CritBuff}}% durante 2 turnos.
   TheGreatCosmicEnterprise:
     Content:
@@ -759,6 +815,12 @@ Characters:
       e6Buffs:
         text: E6 Mejoras
         content: El daño que inflige Anaxa es el 130% del daño original. Los dos efectos del Rastro "Vacío necesario" se activan directamente y ya no dependen de la cantidad de personajes de la Vía de la Erudición que haya en el equipo aliado.
+  Archer:
+    Content:
+      cdBuff:
+        text: Mejora de DC
+      e6Buffs:
+        text: E6 Mejoras
   Argenti:
     Content:
       ultEnhanced:
@@ -860,13 +922,23 @@ Characters:
     Content:
       enhancedStateActive:
         text: Panorama infernal
-        content: "Aumenta el daño en un {{enhancedStateDmgBoost}}%. El ATQ básico Espada fragmentada se potencia y se transforma en Bosque de espadas durante 3 turnos.::BR::E2: Su Prob. CRIT aumenta en un 15%."
+        content: 'Aumenta el daño en un {{enhancedStateDmgBoost}}%. El ATQ básico Espada fragmentada se potencia y se transforma en Bosque de espadas durante 3 turnos.::BR::E2: Su Prob. CRIT aumenta en un 15%.'
       hpPercentLostTotal:
         text: Total de %PV perdidos
         content: El daño de Definitiva aumenta con el recuento de PV que ha perdido en esta batalla. El recuento de PV perdidos en esta batalla no puede superar el {{hpPercentLostTotalMax}}% de los PV máx. de Blade.
       e4MaxHpIncreaseStacks:
         text: E4 Acumulaciones de PV máx.
         content: Los PV máx. aumentan en un 20%. Este efecto se puede acumular hasta 2 veces.
+  BladeB1:
+    Content:
+      enhancedStateActive:
+        text: Panorama infernal
+      hpPercentLostTotal:
+        text: Total de %PV perdidos
+      e2CrBuff:
+        text: E2 Mejora de PC
+      e4MaxHpIncreaseStacks:
+        text: E4 Acumulaciones de PV máx.
   Boothill:
     Content:
       standoffActive:
@@ -1343,6 +1415,15 @@ Characters:
       e2SkillDmgBuff:
         text: E2 Mejora de Habilidad
         content: Tras usar la habilidad definitiva, el daño de la siguiente habilidad básica potenciada aumenta en un 80%.
+  JingliuB1:
+    Content:
+      talentEnhancedState:
+        text: Estado potenciado
+      e2SkillDmgBuff:
+        text: E2 Mejora de Habilidad
+        content: Tras usar la habilidad definitiva, el daño de la siguiente habilidad básica potenciada aumenta en un 80%.
+      e6ResPen:
+        text: E6 PEN RES
   JingYuan:
     Content:
       skillCritBuff:
@@ -1368,6 +1449,10 @@ Characters:
       e2TeamDotBoost:
         text: E2 Aumento de Daño con el tiempo al equipo
         content: Cuando Kafka está en la batalla, el Daño con el tiempo que infligen todos los aliados aumenta en un 25%.
+  KafkaB1:
+    Content:
+      ehrBasedBuff:
+        text: Mejora de AdE a ATQ
   Lingsha:
     Content:
       beConversion:
@@ -1522,6 +1607,16 @@ Characters:
       e4SkillResShred:
         text: E4 Reducción de la RES a Hielo de la Habilidad
         content: Al usar la habilidad básica, hay una probabilidad base del 100% de reducir la RES a Hielo del enemigo en un 12% durante 2 turnos.
+  Phainon:
+    Content:
+      atkBuffStacks:
+        text: Acumulaciones mejora de ATQ
+      cdBuff:
+        text: Mejora de DC
+      spdBuff:
+        text: Mejora de VEL al equipo
+      e2ResPen:
+        text: E2 PEN RES
   Qingque:
     Content:
       basicEnhanced:
@@ -1620,6 +1715,18 @@ Characters:
       teamDmgBuff:
         text: Aumento de EdR a daño
         content: Durante la batalla, cuando el efecto de Ruptura de Ruan Mei es superior al 120%, por cada 10% de exceso, su habilidad básica aumenta el daño de todos los aliados en un 6% adicional, hasta un máximo del 36%.
+  Saber:
+    Content:
+      enhancedBasic:
+        text: Básico potenciado
+      enhancedSkill:
+        text: Habilidad potenciada
+      talentDmgBuff:
+        text: Mejora daño de Talento
+      cdBuff:
+        text: Mejora de DC
+      e6ResPen:
+        text: E6 PEN RES
   Sampo:
     Content:
       targetDotTakenDebuff:
@@ -1674,6 +1781,18 @@ Characters:
         text: Afecciones del objetivo
         content: >-
           Al usar la habilidad básica, si el enemigo tiene 3 o más estados negativos, su RES a todos los tipos se reduce en un 3% adicional.::BR::E4: Tras usar su habilidad definitiva para atacar a un enemigo, Silver Wolf inflige un 20% de su ATQ como Daño Cuántico adicional por cada estado negativo que tenga el objetivo. Este efecto se puede activar un máximo de 5 veces cada vez que ataque con su habilidad definitiva.::BR::E6: Por cada estado negativo que tenga el objetivo enemigo, el daño que inflige Silver Wolf aumenta en un 20%, hasta un máximo del 100%.
+  SilverWolfB1:
+    Content:
+      skillResShredDebuff:
+        text: Reducción de RES de la Habilidad
+      skillWeaknessResShredDebuff:
+        text: Reducción de RES por debilidad implantada por Habilidad
+      talentDefShredDebuff:
+        text: Reducción de DEF del error
+      ultDefShredDebuff:
+        text: Reducción DEF Definitiva
+      targetDebuffs:
+        text: Afecciones del objetivo
   Sparkle:
     Content:
       skillCdBuff:
@@ -1971,7 +2090,7 @@ Characters:
         content: Cuando Yukong está en la batalla, el Daño Imaginario que infligen todos los aliados aumenta en un 12%.
       roaringBowstringsActive:
         text: Sonido de cuerda
-        content: "Cuando Yukong tiene Sonido de cuerda, el ATQ de todos los aliados aumenta en un {{skillAtkBuffValue}}%.::BR::E4: Cuando tiene Sonido de cuerda, el daño que inflige Yukong aumenta en un 30%."
+        content: 'Cuando Yukong tiene Sonido de cuerda, el ATQ de todos los aliados aumenta en un {{skillAtkBuffValue}}%.::BR::E4: Cuando tiene Sonido de cuerda, el daño que inflige Yukong aumenta en un 30%.'
       ultBuff:
         text: Mejoras de PC / DC de Definitiva
         content: >-
@@ -1985,7 +2104,7 @@ Characters:
         text: Bloqueo activado
         content: En el estado de Bloqueo, resiste los estados negativos de Control que reciba y reduce el daño recibido en un 20%.
       ultCull:
-        text: "Capción: Exterminio activada"
+        text: 'Capción: Exterminio activada'
         content: >-
           Capción: Exterminio: Yunli inflige un {{CullScaling}}% de su ATQ como Daño Físico a un enemigo y un {{CullAdjacentScaling}}% de su ATQ como Daño Físico a los enemigos adyacentes, y a continuación inflige daño 6 veces más. Cada vez, inflige un {{CullAdditionalScaling}}% del ATQ de Yunli como Daño Físico a un enemigo al azar.
       ultCullHits:
@@ -1997,7 +2116,7 @@ Characters:
         content: Al lanzar un contraataque, el ATQ de Yunli aumenta en un 30% durante 1 turno.
       e1UltBuff:
         text: E1 Mejora de Definitiva
-        content: "El daño que infligen Capción: Sajadura y Capción: Exterminio aumenta en un 20%, y las veces adicionales que Capción: Exterminio inflige daño aumentan en 3."
+        content: 'El daño que infligen Capción: Sajadura y Capción: Exterminio aumenta en un 20%, y las veces adicionales que Capción: Exterminio inflige daño aumentan en 3.'
       e2DefShred:
         text: E2 PEN DEF de ataque adicional
         content: Cuando inflige daño con un contraataque, ignora un 20% de la DEF del enemigo.

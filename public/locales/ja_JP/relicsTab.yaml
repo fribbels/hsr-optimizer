@@ -17,7 +17,7 @@ RelicFilterBar:
   CustomCharsHeader: 評価対象の複数指定
 Messages:
   AddRelicSuccess: 遺物を追加しました
-  NoRelicSelected: 遺物が選択されていません
+  NoRelicSelected: 遺物が未選択です
   DeleteRelicSuccess: 遺物を削除しました
   UnableToDeleteRelic: 遺物を削除できませんでした
 RelicGrid:

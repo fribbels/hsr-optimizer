@@ -309,6 +309,9 @@ SetConditionals:
     Sacerdos:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} stacks (+{{buffValue}}% CD)'
+    Arcadia:
+      Display: '{{allyCount}}x'
+      Label: '{{allyCount}} allies (+{{buffValue}}% DMG)'
   Conditionals:
     DefaultMessage: Enabled by default - effects will apply to combat calculations.
     Hunter: When enabled, CRIT DMG buff is applied to Combat stat calculations.
@@ -320,8 +323,7 @@ SetConditionals:
     Longevous: The selected CR buff is applied to Combat stat calculations based on the number of stacks.
     Messenger: When enabled, SPD% buff is applied to Combat stat calculations.
     Ashblazing: >-
-      The selected ATK% buff is applied to all calculations except for Follow-up attacks. Follow-up attack calculations instead will start at 0% ATK buff and stack up based on the number of hits
-      performed by the attack. Hits will increase based on the enemy count and assumes the target is positioned in the center for blast / aoe attacks.
+      The selected ATK% buff is applied to all calculations except for Follow-up attacks. Follow-up attack calculations instead will start at 0% ATK buff and stack up based on the number of hits performed by the attack. Hits will increase based on the enemy count and assumes the target is positioned in the center for blast / aoe attacks.
     Prisoner: The selected DEF% pen buff is applied to damage calculations based on the number of stacks.
     Diver: The 2 piece effect can be disabled by selecting the 0x option. For 4 piece, different CRIT buffs are applied to Combat stat calculations depending on the selected option.
     Watchmaker: When enabled, the Break Effect buff is applied to Combat stat calculations.
@@ -336,7 +338,8 @@ SetConditionals:
     Duran: The selected buff is applied to damage calculations based on the number of stacks.
     Kalpagni: When enabled, applies the Break Effect buff to combat stat calculations.
     Lushaka: Disabled by default - This set is unable to affect its wearer.
-    Banana: The selected buff is applied to damage calculations.
+    Banana: When enabled, the additional 32% CRIT DMG is applied to Combat stat calculations.
+    Arcadia: The selected buff is applied to Combat stat calculations. Updates automatically when team selection changes.
 Presets:
   SpdValues:
     SPD0: No minimum speed
@@ -615,7 +618,7 @@ ExpandedDataPanel:
           DEF scaling: DEF scaling
           HP scaling: HP scaling
           Special scaling: Special scaling
-          ATK % boost: ATK % boost
+          'ATK % boost': ATK % boost
           Crit Rate boost: Crit Rate boost
           Crit DMG boost: Crit DMG boost
           DMG boost: DMG boost

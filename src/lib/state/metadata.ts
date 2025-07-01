@@ -55,6 +55,7 @@ import {
   ROBIN,
   SPARKLE,
   SUNDAY,
+  THUS_BURNS_THE_DAWN,
   TINGYUN,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
@@ -8168,6 +8169,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [
         PresetEffects.PRISONER_SET,
+        PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.DOT,
       hiddenColumns: [SortOption.FUA],
@@ -8310,7 +8312,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
           START_ULT,
-          END_BASIC,
+          END_SKILL,
           WHOLE_BASIC,
           WHOLE_BASIC,
         ],
@@ -8335,7 +8337,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         teammates: [
           {
             characterId: PHAINON,
-            lightCone: PATIENCE_IS_ALL_YOU_NEED,
+            lightCone: THUS_BURNS_THE_DAWN,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

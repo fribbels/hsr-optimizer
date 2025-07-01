@@ -3,6 +3,8 @@ import gameData from 'data/game_data.json' with { type: 'json' }
 import {
   ARCHER,
   BLADE_B1,
+  CERYDRA,
+  HYSILENS,
   JINGLIU_B1,
   KAFKA_B1,
   PHAINON,
@@ -17,7 +19,8 @@ export const CURRENT_DATA_VERSION = '3.5v1'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  // [PHAINON]: 'V5 - Numbers may change. Assumes Foundation skills.',
+  [HYSILENS]: 'V1 - Talent is temporarily considered Physical for now - WIP',
+  [CERYDRA]: 'V1 - Experimental DPS score - likely will be removed',
 }
 
 export const Stats = {

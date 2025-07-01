@@ -121,7 +121,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '2025-06-30',
+      date: '2025-07-01',
       content: [
         `Updated content to v3.5v1`,
         `Added Hysilens showcase`,

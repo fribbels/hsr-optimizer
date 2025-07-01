@@ -91,7 +91,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     ultZone: {
       id: 'ultZone',
       formItem: 'switch',
-      text: 'Ult Zone active',
+      text: 'Ult zone active',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     ehrToDmg: {
@@ -153,21 +153,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Currently adds together, but they should be separate damage elements
       // E6 doubles the talent proc
-      const dotScaling = (r.e6Buffs ? 2 : 1) * (talentDotScaling + talentDotAtkLimitScaling) + (maxUltDotInstances * ultDotScaling)
+      const dotScaling = (e >= 6 && r.e6Buffs ? 2 : 1) * (talentDotScaling* 3 + talentDotAtkLimitScaling) + (maxUltDotInstances * ultDotScaling)
       x.DOT_ATK_SCALING.buff(dotScaling, SOURCE_TALENT)
-      x.DOT_ATK_SCALING.buff(e >= 1 && r.e1DotDetonation ? dotScaling : 0, SOURCE_E1)
+      // x.DOT_ATK_SCALING.buff(e >= 1 && r.e1DotDetonation ? dotScaling : 0, SOURCE_E1) // ??
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
       x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
 
-      x.DOT_CHANCE.set(1.00, SOURCE_TRACE)
+      x.DOT_CHANCE.set(1.00, SOURCE_TALENT)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.VULNERABILITY.buffTeam(m.skillVulnerability ? skillVulnScaling : 0, SOURCE_SKILL)
-      x.ULT_DEF_PEN.buffTeam(m.ultZone ? ultDefPenScaling : 0, SOURCE_ULT)
+      x.DEF_PEN.buffTeam(m.ultZone ? ultDefPenScaling : 0, SOURCE_ULT)
       x.RES_PEN.buffTeam((e >= 2 && m.e2ResPen) ? 0.20 : 0, SOURCE_E2)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

@@ -50,6 +50,7 @@ import {
   MULTIPLICATION,
   NIGHT_OF_FRIGHT,
   PATIENCE_IS_ALL_YOU_NEED,
+  PHAINON,
   REFORGED_REMEMBRANCE,
   ROBIN,
   SPARKLE,
@@ -84,6 +85,13 @@ const RELICS_2P_SPEED = [
   Sets.WarriorGoddessOfSunAndThunder,
 ]
 
+const RELICS_2P_ATK = [
+  Sets.MusketeerOfWildWheat,
+  Sets.PrisonerInDeepConfinement,
+  Sets.TheWindSoaringValorous,
+  Sets.HeroOfTriumphantSong,
+]
+
 const SPREAD_RELICS_4P_GENERAL_CONDITIONALS = [
   [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
   [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
@@ -114,6 +122,8 @@ const SPREAD_ORNAMENTS_2P_SUPPORT = [
   Sets.PenaconyLandOfTheDreams,
   Sets.FleetOfTheAgeless,
   Sets.LushakaTheSunkenSeas,
+  Sets.ForgeOfTheKalpagniLantern,
+  Sets.GiantTreeOfRaptBrooding,
 ]
 
 export const Metadata = {
@@ -1047,8 +1057,8 @@ function getLightConeOverrideCenter(): Record<string, number> {
     23046: 200,
 
     // TODO
-    23047: 180,
-    23048: 180,
+    23047: 155,
+    23048: 215,
     22005: 180,
 
     21053: 220,
@@ -1480,14 +1490,14 @@ function getOverrideImageCenter(): Record<string, {
       z: 1,
     },
     1410: { // Hysilens
-      x: 1024,
-      y: 1024,
-      z: 1,
+      x: 765,
+      y: 865,
+      z: 1.20,
     },
     1412: { // Cerydra
-      x: 1024,
-      y: 1024,
-      z: 1,
+      x: 1050,
+      y: 950,
+      z: 1.05,
     },
   }
 }
@@ -8173,7 +8183,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ],
           [Parts.PlanarSphere]: [
             Stats.ATK_P,
-            Stats.Wind_DMG,
+            Stats.Physical_DMG,
           ],
           [Parts.LinkRope]: [
             Stats.ATK_P,
@@ -8236,15 +8246,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       stats: {
         [Stats.ATK]: 1,
         [Stats.ATK_P]: 1,
-        [Stats.DEF]: 0.25,
-        [Stats.DEF_P]: 0.25,
-        [Stats.HP]: 0.25,
-        [Stats.HP_P]: 0.25,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
         [Stats.SPD]: 1,
         [Stats.CR]: 0,
         [Stats.CD]: 1,
         [Stats.EHR]: 0,
-        [Stats.RES]: 0.25,
+        [Stats.RES]: 0,
         [Stats.BE]: 0,
       },
       parts: {
@@ -8261,12 +8271,85 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.Wind_DMG,
         ],
         [Parts.LinkRope]: [
+          Stats.ATK_P,
           Stats.ERR,
         ],
       },
       presets: [],
-      sortOption: SortOption.ATK,
+      sortOption: SortOption.ULT,
       hiddenColumns: [SortOption.DOT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CD,
+            Stats.ATK_P,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Wind_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.ATK_P,
+          Stats.ATK,
+          Stats.CD,
+        ],
+        breakpoints: {
+          [Stats.ATK]: 4000,
+        },
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          START_ULT,
+          END_BASIC,
+          WHOLE_BASIC,
+          WHOLE_BASIC,
+        ],
+        comboDot: 0,
+        errRopeEidolon: 0,
+        deprioritizeBuffs: true,
+        relicSets: [
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+          [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
+          [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
+          [...RELICS_2P_ATK, ...RELICS_2P_SPEED, Sets.PioneerDiverOfDeadWaters, Sets.EagleOfTwilightLine, Sets.WavestriderCaptain],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.SpaceSealingStation,
+          Sets.FirmamentFrontlineGlamoth,
+          Sets.InertSalsotto,
+          ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: PHAINON,
+            lightCone: PATIENCE_IS_ALL_YOU_NEED,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: SUNDAY,
+            lightCone: A_GROUNDED_ASCENT,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: '1217', // Huohuo
+            lightCone: '23017', // Night of Fright
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
   }
 }

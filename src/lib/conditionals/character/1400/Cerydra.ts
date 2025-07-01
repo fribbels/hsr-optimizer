@@ -227,7 +227,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             this,
             action,
             context,
-            `floor(3.60, 0.18 * floor((convertibleValue - 2000) / 100))`,
+            `min(3.60, 0.18 * floor((convertibleValue - 2000) / 100))`,
             `${wgslTrue(r.atkToCd)} && x.ATK > 2000`,
           )
         },

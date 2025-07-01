@@ -75,6 +75,8 @@ import kafkaB1 from 'lib/conditionals/character/1000/KafkaB1'
 import silverWolfB1 from 'lib/conditionals/character/1000/SilverWolfB1'
 import bladeB1 from 'lib/conditionals/character/1200/BladeB1'
 import jingliuB1 from 'lib/conditionals/character/1200/JingliuB1'
+import cerydra from 'lib/conditionals/character/1400/Cerydra'
+import hysilens from 'lib/conditionals/character/1400/Hysilens'
 import { CharacterConditionalsController } from 'types/conditionals'
 import archer from '../character/1000/Archer'
 import saber from '../character/1000/Saber'
@@ -168,6 +170,9 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
   '1006b1': silverWolfB1,
   '1205b1': bladeB1,
   '1212b1': jingliuB1,
+
+  1410: hysilens,
+  1412: cerydra,
 }
 
 /**

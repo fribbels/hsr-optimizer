@@ -6847,6 +6847,203 @@
       },
       "unreleased": false
     },
+    "1410": {
+      "id": "1410",
+      "name": "Hysilens",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Physical",
+      "traces": {
+        "SPD": 9,
+        "Effect Hit Rate": 0.1,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "1410201_3.5v1",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1410210_3.5v1",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1410201_3.5v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1410202_3.5v1",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": [
+            {
+              "id": "1410203_3.5v1",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1410202_3.5v1",
+              "children": [
+                {
+                  "id": "1410204_3.5v1",
+                  "stat": "Effect Hit Rate",
+                  "value": 0.04,
+                  "pre": "1410203_3.5v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1410205_3.5v1",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1410206_3.5v1",
+              "stat": "SPD",
+              "value": 3,
+              "pre": "1410205_3.5v1",
+              "children": [
+                {
+                  "id": "1410207_3.5v1",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "1410206_3.5v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1410208_3.5v1",
+          "stat": "Effect Hit Rate",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1410209_3.5v1",
+          "stat": "SPD",
+          "value": 4,
+          "pre": null,
+          "children": []
+        }
+      ],
+      "max_sp": 130,
+      "stats": {
+        "HP": 1203.048,
+        "ATK": 601.524,
+        "DEF": 485.1,
+        "SPD": 102,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1412": {
+      "id": "1412",
+      "name": "Cerydra",
+      "rarity": 5,
+      "path": "Harmony",
+      "element": "Wind",
+      "traces": {
+        "HP%": 0.1,
+        "Wind DMG Boost": 0.224,
+        "ATK%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1412201_3.5v1",
+          "stat": "Wind DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1412204_3.5v1",
+              "stat": "HP%",
+              "value": 0.04,
+              "pre": "1412201_3.5v1",
+              "children": []
+            },
+            {
+              "id": "1412207_3.5v1",
+              "stat": "Wind DMG Boost",
+              "value": 0.048,
+              "pre": "1412201_3.5v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1412202_3.5v1",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1412203_3.5v1",
+              "stat": "Wind DMG Boost",
+              "value": 0.032,
+              "pre": "1412202_3.5v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1412205_3.5v1",
+          "stat": "Wind DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1412206_3.5v1",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1412205_3.5v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1412208_3.5v1",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1412209_3.5v1",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1412208_3.5v1",
+              "children": []
+            },
+            {
+              "id": "1412210_3.5v1",
+              "stat": "Wind DMG Boost",
+              "value": 0.064,
+              "pre": "1412208_3.5v1",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "max_sp": 130,
+      "stats": {
+        "HP": 1358.28,
+        "ATK": 620.928,
+        "DEF": 485.1,
+        "SPD": 99,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
     "8001": {
       "id": "8001",
       "name": "Trailblazer",
@@ -9095,6 +9292,18 @@
       },
       "unreleased": false
     },
+    "22005": {
+      "id": "22005",
+      "name": "Maze Restaurant Forever",
+      "rarity": 4,
+      "path": "Harmony",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "unreleased": true
+    },
     "23000": {
       "id": "23000",
       "name": "Night on the Milky Way",
@@ -9659,6 +9868,30 @@
       },
       "unreleased": false
     },
+    "23047": {
+      "id": "23047",
+      "name": "Why Does the Ocean Sing",
+      "rarity": 5,
+      "path": "Nihility",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 635.04,
+        "DEF": 463.05
+      },
+      "unreleased": true
+    },
+    "23048": {
+      "id": "23048",
+      "name": "Era Engraved by Golden Blood",
+      "rarity": 5,
+      "path": "Harmony",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 635.04,
+        "DEF": 463.05
+      },
+      "unreleased": true
+    },
     "24000": {
       "id": "24000",
       "name": "On the Fall of an Aeon",
@@ -9851,7 +10084,7 @@
     {
       "id": "125",
       "name": "Warrior Goddess of Sun and Thunder",
-      "skills": "Increases SPD by <b>6%</b>. When the wearer and their memosprite provide healing to ally targets aside from themselves, the wearer gains \"Gentle Rain,\" which can be triggered up to 1 time per turn, lasting for <b>2</b> turn(s). While the wearer has \"Gentle Rain,\" increases their SPD by <b>6%</b> and all allies' CRIT DMG by <b>15%</b>. This effect cannot be stacked."
+      "skills": "Increases SPD by <b>6%</b>. When the wearer or their memosprite provides healing to ally targets other than themselves, the wearer gains \"Gentle Rain,\" which lasts for <b>2</b> turn(s) and can only trigger once per turn. While the wearer has \"Gentle Rain,\" SPD increases by <b>6%</b> and all allies' CRIT DMG increases by <b>15%</b>. This effect cannot stack."
     },
     {
       "id": "124",

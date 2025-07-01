@@ -557,7 +557,6 @@ export default function RelicsTab() {
 
   function onAddOk(relic) {
     DB.setRelic(relic)
-    window.forceCharacterTabUpdate()
     setRelicRows(DB.getRelics())
     SaveState.delayedSave()
 
@@ -666,18 +665,17 @@ export default function RelicsTab() {
         open={editModalOpen}
       />
       <Flex vertical gap={10}>
-        <RelicFilterBar
-          setValueColumns={setValueColumns}
-          valueColumns={valueColumns}
-          valueColumnOptions={valueColumnOptions}
-        />
+        <RelicFilterBar />
 
         {!gridDestroyed && (
           <div
             id='relicGrid'
             className='ag-theme-balham-dark'
             style={{
-              ...{ width: TAB_WIDTH, height: 500, resize: 'vertical', overflow: 'hidden' },
+              width: TAB_WIDTH,
+              height: 500,
+              resize: 'vertical',
+              overflow: 'hidden',
               ...getGridTheme(token),
             }}
           >

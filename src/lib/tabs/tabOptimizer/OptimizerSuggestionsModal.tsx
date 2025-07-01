@@ -87,7 +87,6 @@ const ZeroPermRootCauseFixes = {
     buttonTextKey: '0Perms.RootCauses.PRIORITY.ButtonText', // 'Move character to priority #1',
     applyFix: () => {
       DB.insertCharacter(window.store.getState().optimizerTabFocusCharacter!, 0)
-      DB.refreshCharacters()
       // Message.success('Moved character to priority #1', 2)
     },
     successMessageKey: '0Perms.RootCauses.PRIORITY.SuccessMessage',

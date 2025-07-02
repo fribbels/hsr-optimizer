@@ -5579,8 +5579,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           {
             characterId: CIPHER,
             lightCone: LIES_DANCE_ON_THE_BREEZE,
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
           {
             characterId: '1304', // Aventurine

@@ -13,6 +13,16 @@ import { rollCounter } from 'lib/importer/characterConverter'
 import { ScannerConfig } from 'lib/importer/importConfig'
 import { Message } from 'lib/interactions/message'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
+import {
+  BLADE,
+  BLADE_B1,
+  JINGLIU,
+  JINGLIU_B1,
+  KAFKA,
+  KAFKA_B1,
+  SILVER_WOLF,
+  SILVER_WOLF_B1,
+} from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
 import semver from 'semver'
@@ -47,6 +57,7 @@ type V4ParserCharacter = {
   level: number,
   ascension: number,
   eidolon: number,
+  ability_version?: number,
 }
 
 type V4ParserRelic = {
@@ -172,7 +183,41 @@ export class KelzFormatParser { // TODO abstract class
         })
     }
 
+    migrateBuffedCharacters(json.characters, parsed.characters, parsed.relics)
+
     return parsed
+  }
+}
+
+const buffedCharacters: Record<string, string> = {
+  [JINGLIU]: JINGLIU_B1,
+  [KAFKA]: KAFKA_B1,
+  [BLADE]: BLADE_B1,
+  [SILVER_WOLF]: SILVER_WOLF_B1,
+}
+
+function migrateBuffedCharacters(rawCharacters: V4ParserCharacter[], characters: Form[], relics: Relic[]) {
+  const activatedBuffs: Record<string, string> = {}
+  for (const character of rawCharacters) {
+    const id = character.id
+    const abilityVersion = character.ability_version ?? 0
+    if (abilityVersion > 0 && buffedCharacters[id]) {
+      activatedBuffs[id] = buffedCharacters[id]
+    }
+  }
+
+  for (const character of characters) {
+    const id = character.characterId
+    if (activatedBuffs[id]) {
+      character.characterId = activatedBuffs[id] as CharacterId
+    }
+  }
+
+  for (const relic of relics) {
+    const owner = relic.equippedBy ?? 'NONE'
+    if (activatedBuffs[owner]) {
+      relic.equippedBy = activatedBuffs[owner] as CharacterId
+    }
   }
 }
 

@@ -57,7 +57,7 @@ type V4ParserCharacter = {
   level: number,
   ascension: number,
   eidolon: number,
-  ability_version: number,
+  ability_version?: number,
 }
 
 type V4ParserRelic = {
@@ -200,7 +200,8 @@ function migrateBuffedCharacters(rawCharacters: V4ParserCharacter[], characters:
   const activatedBuffs: Record<string, string> = {}
   for (const character of rawCharacters) {
     const id = character.id
-    if (character.ability_version > 0 && buffedCharacters[id]) {
+    const abilityVersion = character.ability_version ?? 0
+    if (abilityVersion > 0 && buffedCharacters[id]) {
       activatedBuffs[id] = buffedCharacters[id]
     }
   }

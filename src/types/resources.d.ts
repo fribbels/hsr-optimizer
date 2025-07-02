@@ -3881,21 +3881,21 @@ interface Resources {
         "Name": "Stelle",
         "LongName": "Stelle (Remembrance)"
       },
-      "1212b1": {
-        "Name": "Jingliu",
-        "LongName": "Jingliu"
-      },
-      "1205b1": {
-        "Name": "Blade",
-        "LongName": "Blade"
+      "1006b1": {
+        "Name": "Silver Wolf",
+        "LongName": "Silver Wolf"
       },
       "1005b1": {
         "Name": "Kafka",
         "LongName": "Kafka"
       },
-      "1006b1": {
-        "Name": "Silver Wolf",
-        "LongName": "Silver Wolf"
+      "1205b1": {
+        "Name": "Blade",
+        "LongName": "Blade"
+      },
+      "1212b1": {
+        "Name": "Jingliu",
+        "LongName": "Jingliu"
       }
     },
     "RelicSets": {
@@ -4111,11 +4111,11 @@ interface Resources {
       },
       "321": {
         "Name": "Arcadia of Woven Dreams",
-        "Description2pc": "When there are currently more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks."
+        "Description2pc": "When the number of ally targets on the field is not equal to 4, for every 1 additional/missing ally target, increases the DMG dealt by the wearer and their memosprite by 9%/12%, stacking up to 4/3 times."
       },
       "322": {
         "Name": "Revelry by the Sea",
-        "Description2pc": "Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%."
+        "Description2pc": "Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24% respectively."
       }
     },
     "Lightcones": {

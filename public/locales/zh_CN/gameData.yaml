@@ -209,6 +209,12 @@ Characters:
   "1409":
     Name: 风堇
     LongName: 风堇
+  "1410":
+    Name: 海瑟音
+    LongName: 海瑟音
+  "1412":
+    Name: 刻律德菈
+    LongName: 刻律德菈
   "8001":
     Name: 穹
     LongName: 穹 (毁灭)
@@ -233,18 +239,18 @@ Characters:
   "8008":
     Name: 星
     LongName: 星 (记忆)
-  1212b1:
-    Name: 镜流
-    LongName: 镜流
-  1205b1:
-    Name: 刃
-    LongName: 刃
-  1005b1:
-    Name: 卡芙卡
-    LongName: 卡芙卡
   1006b1:
     Name: 银狼
     LongName: 银狼
+  1005b1:
+    Name: 卡芙卡
+    LongName: 卡芙卡
+  1205b1:
+    Name: 刃
+    LongName: 刃
+  1212b1:
+    Name: 镜流
+    LongName: 镜流
 RelicSets:
   "101":
     Name: 云无留迹的过客
@@ -412,10 +418,10 @@ RelicSets:
     Description2pc: 使装备者的速度提高6%。当装备者的速度大于等于135/180时，使装备者及其忆灵的治疗量提高12%/20%。
   "321":
     Name: 妖精织梦的乐园
-    Description2pc: 队伍中当前在场的我方目标数量不等于4时，每多/少1名我方目标，使装备者及其忆灵造成的伤害提高 9% / 12% ，最多叠加 4 / 3 层。
+    Description2pc: 队伍中当前在场的我方目标数量不等于4时，每多/少1名我方目标，使装备者及其忆灵造成的伤害提高9%/12%，最多叠加4/3层。
   "322":
     Name: 沉欢醉饮的海隅
-    Description2pc: 使装备者的攻击力提高 12% 。当装备者的攻击力大于等于 2400 / 3600 时，使造成的持续伤害额外提高 12% / 24% 。
+    Description2pc: 使装备者的攻击力提高12%。当装备者的攻击力大于等于2400/3600时，使造成的持续伤害额外提高12%/24%。
 Lightcones:
   "20000":
     Name: 锋镝
@@ -595,6 +601,8 @@ Lightcones:
     Name: 忍事录•音律狩猎
   "22004":
     Name: 宇宙大生意
+  "22005":
+    Name: 永远的迷境饭
   "23000":
     Name: 银河铁道之夜
   "23001":
@@ -689,6 +697,10 @@ Lightcones:
     Name: 没有回报的加冕
   "23046":
     Name: 理想燃烧的地狱
+  "23047":
+    Name: 海洋为何而歌
+  "23048":
+    Name: 金血铭刻的时代
   "24000":
     Name: 记一位星神的陨落
   "24001":

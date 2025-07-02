@@ -204,11 +204,17 @@ Characters:
     Name: Castorice
     LongName: Castorice
   "1408":
-    Name: Phainon
-    LongName: Phainon
+    Name: Phaénon
+    LongName: Phaénon
   "1409":
     Name: Hyacine
     LongName: Hyacine
+  "1410":
+    Name: Hysilens
+    LongName: Hysilens
+  "1412":
+    Name: Cerydra
+    LongName: Cerydra
   "8001":
     Name: Caelus
     LongName: Caelus (La Destruction)
@@ -233,18 +239,18 @@ Characters:
   "8008":
     Name: Stelle
     LongName: Stelle (Le Souvenir)
-  1212b1:
-    Name: Jingliu
-    LongName: Jingliu
-  1205b1:
-    Name: Blade
-    LongName: Blade
-  1005b1:
-    Name: Kafka
-    LongName: Kafka
   1006b1:
     Name: "Louve\_d'argent"
     LongName: "Louve\_d'argent"
+  1005b1:
+    Name: Kafka
+    LongName: Kafka
+  1205b1:
+    Name: Blade
+    LongName: Blade
+  1212b1:
+    Name: Jingliu
+    LongName: Jingliu
 RelicSets:
   "101":
     Name: Vagabond foulenuage
@@ -411,11 +417,11 @@ RelicSets:
     Name: Arbre géant des réflexions profondes
     Description2pc: La VIT du porteur augmente de 6%. Lorsque la VIT du porteur est de 135/180 ou plus, les soins prodigués par le porteur et son mnémesprit augmentent de 12%/20%.
   "321":
-    Name: Arcadia of Woven Dreams
-    Description2pc: When there are currently more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks.
+    Name: Arcadie des rêves tissés
+    Description2pc: Lorsque le nombre d'alliés sur le champ de bataille n'est pas égal 4, pour chaque allié en plus/en moins, les DGT infligés par le porteur et son mnémesprit augmentent de 9%/12%, cumulable jusqu'à 4/3 fois.
   "322":
-    Name: Revelry by the Sea
-    Description2pc: Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%.
+    Name: Rives enivrantes
+    Description2pc: Augmente l'ATQ du porteur de 12%. Lorsque l'ATQ du porteur est supérieure ou égale à 2400/3600, augmente les dégâts sur la durée infligés de 12%/24%.
 Lightcones:
   "20000":
     Name: Flèches
@@ -568,23 +574,23 @@ Lightcones:
   "21052":
     Name: Transpire, tu pleureras moins
   "21053":
-    Name: Journey, Forever Peaceful
+    Name: Une route à jamais paisible
   "21054":
-    Name: The Story's Next Page
+    Name: Le prochain chapitre
   "21055":
-    Name: Unto Tomorrow's Morrow
+    Name: Jusqu'au lendemain
   "21056":
-    Name: In Pursuit of the Wind
+    Name: Poursuite du vent
   "21057":
-    Name: The Flower Remembers
+    Name: Les fleurs n'oublient pas
   "21058":
-    Name: A Trail of Bygone Blood
+    Name: Trace de sang du passé
   "21060":
-    Name: A Dream Scented in Wheat
+    Name: Rêve au parfum de blé
   "21061":
-    Name: Holiday Thermae Escapade
+    Name: Virée festive aux thermes
   "21062":
-    Name: See You at the End
+    Name: Retrouvons-nous à la fin
   "22000":
     Name: Avant que le tutoriel ne commence
   "22001":
@@ -595,6 +601,8 @@ Lightcones:
     Name: "Registre ninja\_: Chasse au son"
   "22004":
     Name: La grande entreprise cosmique
+  "22005":
+    Name: Maze Restaurant Forever
   "23000":
     Name: Nuit sur la voie lactée
   "23001":
@@ -684,11 +692,15 @@ Lightcones:
   "23043":
     Name: Mensonges au gré du vent
   "23044":
-    Name: Thus Burns the Dawn
+    Name: Ainsi s'embrase l'aurore
   "23045":
-    Name: A Thankless Coronation
+    Name: Un couronnement sans joie
   "23046":
-    Name: The Hell Where Ideals Burn
+    Name: L'Enfer où brûlent les idéaux
+  "23047":
+    Name: Why Does the Ocean Sing
+  "23048":
+    Name: Era Engraved by Golden Blood
   "24000":
     Name: La chute d'un Aiôn
   "24001":

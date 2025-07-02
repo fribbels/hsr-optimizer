@@ -34,6 +34,12 @@ Lightcones:
         text: Malus Bulle du vide
         content: >-
           Lorsque le porteur touche une cible ennemie, applique l'effet Bulle du vide pendant 1 tour à l'ennemi. Cet effet peut être déclenché 1 fois sur chaque cible pour chaque attaque lancée par le porteur. Le porteur inflige {{DmgBoost}}% de DGT supplémentaires aux cibles affectées par Bulle du vide et ses DGT d'ultime augmentent de {{UltDmgBoost}}%.
+  AThanklessCoronation:
+    Content:
+      ultAtkBoost:
+        text: Bonus d'ATQ d'ULT
+      energyAtkBuff:
+        text: Bonus d'ATQ énergie ≥ 300
   AnInstantBeforeAGaze:
     Content:
       maxEnergyDmgBoost:
@@ -304,6 +310,8 @@ Lightcones:
           Lorsque le porteur est attaqué et n'a pas de bouclier, il obtient un bouclier équivalent à {{ShieldHp}}% de ses PV max pendant 2 tours. Cet effet ne peut être déclenché qu'une fois tous les 3 tours. Si le porteur a déjà un bouclier lorsqu'il est attaqué, les DGT subis sont réduits de {{DmgReduction}}%.
   TheHellWhereIdealsBurn:
     Content:
+      spAtkBuff:
+        text: Bonus d'ATQ pts. de comp. ≥ 6
       atkBuffStacks:
         text: Cumuls de bonus d'ATQ
   TheUnreachableSide:
@@ -363,6 +371,10 @@ Lightcones:
       ultFuaDefShred:
         text: PÉN de DÉF ULT/ADS
         content: En début de combat ou après que le porteur a utilisé son ATQ normale, son ultime et ses DGT d'attaque de suivi ignorent {{DefShred}}% de la DÉF de la cible, pour une durée de 2 tours.
+  ADreamScentedInWheat:
+    Content:
+      ultFuaDmgBoost:
+        text: Bonus de DGT Ult / ADS
   AfterTheCharmonyFall:
     Content:
       spdBuff:
@@ -468,6 +480,10 @@ Lightcones:
         text: Bonus de DGT
       vulnerability:
         text: Vulnérabilité
+  InPursuitOfTheWind:
+    Content:
+      breakDmgBoost:
+        text: Bonus de DGT de Rupture
   IndeliblePromise:
     Content:
       crBuff:
@@ -483,6 +499,8 @@ Lightcones:
     Content:
       shieldBoost:
         text: Bonus de Bouclier
+      dmgBoost:
+        text: Bonus de DGT protégé(e)
   MakeTheWorldClamor:
     Content:
       ultDmgBuff:
@@ -534,6 +552,10 @@ Lightcones:
         text: Bonus de VIT / DGT actifs
         content: >-
           Augmente la VIT du porteur de{{SpdBuff}}% et ses DGT de {{DmgBuff}}% après être entré en combat. Cet effet disparaît lorsque le porteur subit des DGT. Il est rétabli à la fin du prochain tour du porteur.
+  SeeYouAtTheEnd:
+    Content:
+      skillFuaDmgBoost:
+        text: Bonus de DGT Compétence / ADS
   ShadowedByNight:
     Content:
       spdBuff:
@@ -564,6 +586,10 @@ Lightcones:
       cdBuffActive:
         text: 'Bonus de DC ≥ 2 cibles de bonne faiblesse'
         content: Lorsque le porteur utilise une attaque et touche au moins 2 ennemis qui ont la Faiblesse correspondante, ses DGT critiques augmentent de {{CritBuff}}% pendant 2 tours.
+  TheFlowerRemembers:
+    Content:
+      memoCdBoost:
+        text: Bonus de DC de mnémesprit
   TheGreatCosmicEnterprise:
     Content:
       weaknessTypes:
@@ -582,6 +608,10 @@ Lightcones:
       defeatedEnemyAtkStacks:
         text: Cumuls d'ATQ ennemis vaincus
         content: À chaque ennemi vaincu, l'ATQ du porteur augmente de {{AtkBuff}}%. Cumulable jusqu'à 3 fois.
+  TheStorysNextPage:
+    Content:
+      ohbBuff:
+        text: Bonus de soins prodigués
   ThisIsMe:
     Content:
       defScalingUltDmg:
@@ -598,6 +628,10 @@ Lightcones:
       defeatedEnemyCrBuff:
         text: Bonus de TC ennemi vaincu
         content: Lorsqu'il élimine un ennemi, les chances de coup critique du porteur augmentent de {{CritBuff}}% pendant 3 tours.
+  UntoTomorrowsMorrow:
+    Content:
+      hp50DmgBoost:
+        text: Bonus de DGT PV ≥ 50%
   VictoryInABlink:
     Content:
       teamDmgBuff:
@@ -784,6 +818,12 @@ Characters:
     Content:
       cdBuff:
         text: Bonus de DC
+      skillEnhances:
+        text: Améliorations de Compétence
+      e2QuantumResPen:
+        text: 'E2: PÉN de RES Quantique'
+      e4UltDmg:
+        text: 'E4: DGT d''ULT'
       e6Buffs:
         text: 'E6: Divers bonus'
   Argenti:
@@ -900,6 +940,8 @@ Characters:
         text: État Vue de l'enfer
       hpPercentLostTotal:
         text: Total de % de PV perdu
+      e1BasicUltMultiBoost:
+        text: 'E1: Bonus d''Ult / Normale'
       e2CrBuff:
         text: 'E2: Bonus de TC'
       e4MaxHpIncreaseStacks:
@@ -1384,9 +1426,17 @@ Characters:
     Content:
       talentEnhancedState:
         text: État amélioré
+      maxSyzygyDefPen:
+        text: PÉN de DÉF max de Syzygie
+      moonlightStacks:
+        text: Cumuls de Clair de lune
+      e1Buffs:
+        text: 'E1: Divers bonus'
       e2SkillDmgBuff:
         text: 'E2: Amélioration de Compétence'
         content: Augmente les DGT de la prochaine compétence renforcée de 80% après avoir utilisé l'ultime.
+      e4MoonlightCdBuff:
+        text: 'E4: DC de Clair de lune'
       e6ResPen:
         text: 'E6: PÉN de RÉS'
   JingYuan:
@@ -1418,6 +1468,10 @@ Characters:
     Content:
       ehrBasedBuff:
         text: Conversion de TAE à ATQ
+      e1DotDmgReceivedDebuff:
+        text: 'E1: Vulnérabilité aux DSD'
+      e2TeamDotDmg:
+        text: 'E2: DGT de DSD'
   Lingsha:
     Content:
       beConversion:
@@ -1574,14 +1628,24 @@ Characters:
         content: Lors de l'utilisation de la compétence, il y a 100% de chances de base de réduire la RÉS à la glace de la cible ennemie de 12% pendant 2 tours.
   Phainon:
     Content:
+      transformedState:
+        text: Transformation active
+      enhancedSkillType:
+        text: Compétence améliorée
       atkBuffStacks:
         text: Cumuls de bonus d'ATQ
       cdBuff:
         text: Bonus de DC
+      sustainDmgBuff:
+        text: Bonus de DGT sustain
       spdBuff:
         text: Bonus d'équipe de VIT
+      e1Buffs:
+        text: 'E1: Divers bonus'
       e2ResPen:
         text: 'E2: PÉN de RÉS'
+      e6TrueDmg:
+        text: 'E6: Dégâts réels'
   Qingque:
     Content:
       basicEnhanced:
@@ -1688,8 +1752,20 @@ Characters:
         text: Compétence améliorée
       talentDmgBuff:
         text: Bonus de DGT du Talent
+      coreResonanceCdBuff:
+        text: Bonus de DC Résonance cardinale
+      coreResonanceStacks:
+        text: Cumuls de Résonance cardinale
+      crBuff:
+        text: Bonus de TC
       cdBuff:
         text: Bonus de DC
+      e1DmgBuff:
+        text: 'E1: Bonus de DGT'
+      e2Buffs:
+        text: 'E2: Divers bonus'
+      e4ResPen:
+        text: 'E4: PÉN de RÉS'
       e6ResPen:
         text: 'E6: PÉN de RÉS'
   Sampo:
@@ -1748,6 +1824,8 @@ Characters:
           Lorsque l'ennemi subit au moins 3 malus, la compétence diminue ses RÉS à tous les types de 3% supplémentaires.::BR::E4: Lorsque Louve d'argent attaque un ennemi avec son ultime, elle inflige des DGT quantiques additionnels équivalents à 20% de son ATQ pour chaque malus actuellement présent sur la cible ennemie. Cet effet peut être déclenché un maximum de 5 fois par utilisation de l'ultime.::BR::E6: Pour chaque malus subi par la cible ennemie, les DGT infligés par Louve d'argent augmentent de 20%, jusqu'à une limite de 100%.
   SilverWolfB1:
     Content:
+      ehrToAtkConversion:
+        text: Conversion TAE à ATQ
       skillResShredDebuff:
         text: Réduction de RÉS de la compétence
       skillWeaknessResShredDebuff:
@@ -1758,6 +1836,8 @@ Characters:
         text: Réduction de DEF de l'ULT
       targetDebuffs:
         text: Malus sur la cible
+      e2Vulnerability:
+        text: 'E2: Vulnérabilité'
   Sparkle:
     Content:
       skillCdBuff:

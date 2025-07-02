@@ -189,7 +189,7 @@ export class KelzFormatParser { // TODO abstract class
   }
 }
 
-const buffedCharacters: Record<string, string> = {
+export const buffedCharacters: Record<string, string> = {
   [JINGLIU]: JINGLIU_B1,
   [KAFKA]: KAFKA_B1,
   [BLADE]: BLADE_B1,
@@ -200,8 +200,12 @@ function migrateBuffedCharacters(rawCharacters: V4ParserCharacter[], characters:
   const activatedBuffs: Record<string, string> = {}
   for (const character of rawCharacters) {
     const id = character.id
-    const abilityVersion = character.ability_version ?? 0
-    if (abilityVersion > 0 && buffedCharacters[id]) {
+    const abilityVersion = character.ability_version
+    if (abilityVersion == null && buffedCharacters[id]) {
+      // We don't have a defined abilityVersion in this case, assume buffed version
+      activatedBuffs[id] = buffedCharacters[id]
+    } else if (abilityVersion != null && abilityVersion > 0 && buffedCharacters[id]) {
+      // When it is defined, only apply the buff when abilityVersion is explicitly not set to 0
       activatedBuffs[id] = buffedCharacters[id]
     }
   }

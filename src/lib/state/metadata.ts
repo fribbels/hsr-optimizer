@@ -1060,7 +1060,7 @@ function getLightConeOverrideCenter(): Record<string, number> {
     // TODO
     23047: 155,
     23048: 215,
-    22005: 180,
+    22005: 190,
 
     21053: 220,
     21054: 170,
@@ -1492,7 +1492,7 @@ function getOverrideImageCenter(): Record<string, {
     },
     1410: { // Hysilens
       x: 765,
-      y: 865,
+      y: 900,
       z: 1.20,
     },
     1412: { // Cerydra

@@ -204,11 +204,17 @@ Characters:
     Name: Castorice
     LongName: Castorice
   "1408":
-    Name: Phainon
-    LongName: Phainon
+    Name: Fainón
+    LongName: Fainón
   "1409":
     Name: Hyacine
     LongName: Hyacine
+  "1410":
+    Name: Hysilens
+    LongName: Hysilens
+  "1412":
+    Name: Cerydra
+    LongName: Cerydra
   "8001":
     Name: Caelus
     LongName: Caelus (Destrucción)
@@ -233,18 +239,18 @@ Characters:
   "8008":
     Name: Estela
     LongName: Estela (Reminiscencia)
-  1212b1:
-    Name: Jingliu
-    LongName: Jingliu
-  1205b1:
-    Name: Blade
-    LongName: Blade
-  1005b1:
-    Name: Kafka
-    LongName: Kafka
   1006b1:
     Name: Silver Wolf
     LongName: Silver Wolf
+  1005b1:
+    Name: Kafka
+    LongName: Kafka
+  1205b1:
+    Name: Blade
+    LongName: Blade
+  1212b1:
+    Name: Jingliu
+    LongName: Jingliu
 RelicSets:
   "101":
     Name: Transeúnte de la nube pasajera
@@ -411,11 +417,11 @@ RelicSets:
     Name: Árbol gigante en meditación profunda
     Description2pc: La VEL del portador aumenta en un 6%. Cuando su VEL es igual o superior a 135/180, la curación realizada del portador y su mnemoduende aumenta en un 12%/20%.
   "321":
-    Name: Arcadia of Woven Dreams
-    Description2pc: When there are currently more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks.
+    Name: Paraíso de las hadas tejesueños
+    Description2pc: Cuando en el equipo desplegado en el campo de batalla hay más o menos de 4 aliados, por cada aliado de más/menos que haya, el daño que infligen el portador y su mnemoduende aumenta en un 9%/12%. Se puede acumular hasta 4/3 veces.
   "322":
-    Name: Revelry by the Sea
-    Description2pc: Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%.
+    Name: Litoral embriagado
+    Description2pc: El ATQ del portador aumenta en un 12%. Cuando el ATQ del portador es igual o superior a 2400/3600, el Daño con el tiempo que inflige aumenta en un 12%/24% adicional.
 Lightcones:
   "20000":
     Name: Flechas
@@ -568,23 +574,23 @@ Lightcones:
   "21052":
     Name: Más sudor y menos lágrimas
   "21053":
-    Name: Journey, Forever Peaceful
+    Name: Que tu viaje sea siempre pacífico
   "21054":
-    Name: The Story's Next Page
+    Name: La siguiente página de la historia
   "21055":
-    Name: Unto Tomorrow's Morrow
+    Name: Hasta pasado mañana
   "21056":
-    Name: In Pursuit of the Wind
+    Name: Al perseguir el viento
   "21057":
-    Name: The Flower Remembers
+    Name: Las flores nunca olvidan
   "21058":
-    Name: A Trail of Bygone Blood
+    Name: Sangre del pasado
   "21060":
-    Name: A Dream Scented in Wheat
+    Name: Sueños de trigo fragante
   "21061":
-    Name: Holiday Thermae Escapade
+    Name: Vacaciones en las termas
   "21062":
-    Name: See You at the End
+    Name: Nos vemos al final
   "22000":
     Name: Antes de que comience la misión del tutorial
   "22001":
@@ -595,6 +601,8 @@ Lightcones:
     Name: "Grabación ninja: Cacería del Sonido"
   "22004":
     Name: El gran negocio cósmico
+  "22005":
+    Name: Maze Restaurant Forever
   "23000":
     Name: Noche en la Vía Láctea
   "23001":
@@ -684,11 +692,15 @@ Lightcones:
   "23043":
     Name: Mentiras que vuelan en el viento
   "23044":
-    Name: Thus Burns the Dawn
+    Name: Que arda el alba
   "23045":
-    Name: A Thankless Coronation
+    Name: Coronación sin agradecimiento
   "23046":
-    Name: The Hell Where Ideals Burn
+    Name: Infierno donde arden los ideales
+  "23047":
+    Name: Why Does the Ocean Sing
+  "23048":
+    Name: Era Engraved by Golden Blood
   "24000":
     Name: Sobre la caída de un Eón
   "24001":

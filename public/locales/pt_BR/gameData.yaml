@@ -209,6 +209,12 @@ Characters:
   "1409":
     Name: Hyacine
     LongName: Hyacine
+  "1410":
+    Name: Hysilens
+    LongName: Hysilens
+  "1412":
+    Name: Cerydra
+    LongName: Cerydra
   "8001":
     Name: Caelus
     LongName: Caelus (A Destruição)
@@ -233,18 +239,18 @@ Characters:
   "8008":
     Name: Stelle
     LongName: Stelle (A Recordação)
-  1212b1:
-    Name: Jingliu
-    LongName: Jingliu
-  1205b1:
-    Name: Blade
-    LongName: Blade
-  1005b1:
-    Name: Kafka
-    LongName: Kafka
   1006b1:
     Name: Loba Prateada
     LongName: Loba Prateada
+  1005b1:
+    Name: Kafka
+    LongName: Kafka
+  1205b1:
+    Name: Blade
+    LongName: Blade
+  1212b1:
+    Name: Jingliu
+    LongName: Jingliu
 RelicSets:
   "101":
     Name: Transeunte da Nuvem Errante
@@ -411,11 +417,11 @@ RelicSets:
     Name: Árvore Gigante da Reflexão Arrebatadora
     Description2pc: Aumenta a VEL do usuário em 6%. Quando a VEL do usuário é 135/180 ou maior, a <u>Cura Realizada</u> do usuário e de seu Memoespírito aumenta em 12%/20%.
   "321":
-    Name: Arcadia of Woven Dreams
-    Description2pc: When there are currently more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks.
+    Name: Arcádia dos Sonhos Tecidos
+    Description2pc: Quando o número de aliados-alvo no campo não for igual a 4, para cada aliado-alvo adicional/ausente, aumenta o Dano causado pelo usuário e seu Memoespírito em 9%/12%, acumulando até 4/3 vezes.
   "322":
-    Name: Revelry by the Sea
-    Description2pc: Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%.
+    Name: Folia à Beira-Mar
+    Description2pc: Aumenta o ATQ do usuário em 12%. Quando o ATQ do usuário for maior ou igual a 2400/3600, aumenta o <u>Dano Contínuo</u> causado em 12%/24%.
 Lightcones:
   "20000":
     Name: Flechas
@@ -568,23 +574,23 @@ Lightcones:
   "21052":
     Name: Suar Para Não Chorar
   "21053":
-    Name: Journey, Forever Peaceful
+    Name: Jornada, Eternamente Pacífica
   "21054":
-    Name: The Story's Next Page
+    Name: A Próxima Página da História
   "21055":
-    Name: Unto Tomorrow's Morrow
+    Name: Até o Amanhã do Amanhã
   "21056":
-    Name: In Pursuit of the Wind
+    Name: Em Busca do Vento
   "21057":
-    Name: The Flower Remembers
+    Name: A Flor se Recorda
   "21058":
-    Name: A Trail of Bygone Blood
+    Name: Um Rastro de Sangue do Passado
   "21060":
-    Name: A Dream Scented in Wheat
+    Name: Um Sonho Perfumado de Trigo
   "21061":
-    Name: Holiday Thermae Escapade
+    Name: Fuga Termal de Férias
   "21062":
-    Name: See You at the End
+    Name: Te Vejo no Fim
   "22000":
     Name: Antes do Início da Missão do Tutorial
   "22001":
@@ -595,6 +601,8 @@ Lightcones:
     Name: "Registro Ninja: Caça ao Som"
   "22004":
     Name: O Grande Empreendimento Cósmico
+  "22005":
+    Name: Maze Restaurant Forever
   "23000":
     Name: Noite na Via Láctea
   "23001":
@@ -684,11 +692,15 @@ Lightcones:
   "23043":
     Name: Mentiras Dançando ao Vento
   "23044":
-    Name: Thus Burns the Dawn
+    Name: Assim Arde a Alvorada
   "23045":
-    Name: A Thankless Coronation
+    Name: Uma Coroação Sem Gratidão
   "23046":
-    Name: The Hell Where Ideals Burn
+    Name: O Inferno Onde os Ideais Ardem
+  "23047":
+    Name: Why Does the Ocean Sing
+  "23048":
+    Name: Era Engraved by Golden Blood
   "24000":
     Name: Na Queda de Um Aeon
   "24001":

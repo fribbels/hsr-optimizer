@@ -209,6 +209,12 @@ Characters:
   "1409":
     Name: Hyacine
     LongName: Hyacine
+  "1410":
+    Name: Hysilens
+    LongName: Hysilens
+  "1412":
+    Name: Cerydra
+    LongName: Cerydra
   "8001":
     Name: Caelus
     LongName: Caelus (Die Zerstörung)
@@ -233,18 +239,18 @@ Characters:
   "8008":
     Name: Stella
     LongName: Stella (Das Gedenken)
-  1212b1:
-    Name: Jingliu
-    LongName: Jingliu
-  1205b1:
-    Name: Blade
-    LongName: Blade
-  1005b1:
-    Name: Kafka
-    LongName: Kafka
   1006b1:
     Name: Silberwolf
     LongName: Silberwolf
+  1005b1:
+    Name: Kafka
+    LongName: Kafka
+  1205b1:
+    Name: Blade
+    LongName: Blade
+  1212b1:
+    Name: Jingliu
+    LongName: Jingliu
 RelicSets:
   "101":
     Name: Wanderer der vorbeiziehenden Wolke
@@ -345,7 +351,7 @@ RelicSets:
   "125":
     Name: Kriegsgöttin der lodernden Sonne und des Donners
     Description2pc: Erhöht GES um 6%.
-    Description4pc: Erhält „Sanfter Regen“, nachdem der Träger und sein Memogeist Verbündete außer sich selbst Heilung geleistet haben. Dieser Effekt kann bis zu 1-mal pro Runde ausgelöst werden und hält 2 Rd. an. Wenn der Träger Sanfter Regen besitzt, wird seine GES um 6% und der KRIT-SCH aller Verbündeten um 15% erhöht. Dieser Effekt ist nicht stapelbar.
+    Description4pc: Erhält „Sanfter Regen“, nachdem der Träger oder sein Memogeist Verbündete außer sich selbst Heilung geleistet hat. Dieser Effekt kann bis zu 1-mal pro Runde ausgelöst werden und hält 2 Rd. an. Wenn der Träger Sanfter Regen besitzt, wird seine GES um 6% und der KRIT-SCH aller Verbündeten um 15% erhöht. Dieser Effekt ist nicht stapelbar.
   "126":
     Name: Kapitän über den verfluchten Wellen
     Description2pc: Erhöht KRIT-SCH um 16%.
@@ -411,11 +417,11 @@ RelicSets:
     Name: Riesenbaum des versunkenen Grübelns
     Description2pc: Erhöht die GES des Trägers um 6%. Wenn die GES des Trägers 135/180 oder höher erreicht, wird die bewirkte Heilung des Trägers und seines Memogeists um 12%/20% erhöht.
   "321":
-    Name: Arcadia of Woven Dreams
-    Description2pc: When there are currently more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks.
+    Name: Traumwebendes Feenreich
+    Description2pc: Wenn die aktuelle Anzahl der Verbündeten auf dem Kampffeld nicht 4 beträgt, wird für jeden Verbündeten über/unter 4 der verursachte SCH des Trägers sowie seines Memogeists um 9%/12% erhöht. Dieser Effekt ist bis zu 4/3-fach stapelbar.
   "322":
-    Name: Revelry by the Sea
-    Description2pc: Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%.
+    Name: Küste der Weintrunkenheit
+    Description2pc: Erhöht den ANG des Trägers um 12%. Wenn der ANG des Trägers 2400/3600 oder höher beträgt, wird sein verursachter DoT zusätzlich um 12%/24% erhöht.
 Lightcones:
   "20000":
     Name: Pfeile
@@ -568,23 +574,23 @@ Lightcones:
   "21052":
     Name: Mehr Schwitzen, weniger Weinen
   "21053":
-    Name: Journey, Forever Peaceful
+    Name: Mögen Reisen für immer friedlich sein
   "21054":
-    Name: The Story's Next Page
+    Name: Die nächste Seite der Geschichte
   "21055":
-    Name: Unto Tomorrow's Morrow
+    Name: Bis zum Übermorgen
   "21056":
-    Name: In Pursuit of the Wind
+    Name: Bei der Jagd nach dem Wind
   "21057":
-    Name: The Flower Remembers
+    Name: Die Blumen werden nicht vergessen
   "21058":
-    Name: A Trail of Bygone Blood
+    Name: Blutzeichen aus der Vergangenheit
   "21060":
-    Name: A Dream Scented in Wheat
+    Name: Träume von duftendem Weizen
   "21061":
-    Name: Holiday Thermae Escapade
+    Name: Abenteuer der Urlaubsbäder
   "21062":
-    Name: See You at the End
+    Name: Wiedersehen an der Ziellinie
   "22000":
     Name: Bevor das Tutorial beginnt
   "22001":
@@ -595,6 +601,8 @@ Lightcones:
     Name: "Ninja-Aufzeichnung: Klangjagd"
   "22004":
     Name: Das große kosmische Geschäft
+  "22005":
+    Name: Maze Restaurant Forever
   "23000":
     Name: Nacht auf der Milchstraße
   "23001":
@@ -684,11 +692,15 @@ Lightcones:
   "23043":
     Name: Vom Winde verwehte Lügen
   "23044":
-    Name: Thus Burns the Dawn
+    Name: Wie die Morgendämmerung brennt
   "23045":
-    Name: A Thankless Coronation
+    Name: Eine Krönung ohne Dank
   "23046":
-    Name: The Hell Where Ideals Burn
+    Name: Hölle der brennenden Ideale
+  "23047":
+    Name: Why Does the Ocean Sing
+  "23048":
+    Name: Era Engraved by Golden Blood
   "24000":
     Name: Der Niedergang eines Äons
   "24001":

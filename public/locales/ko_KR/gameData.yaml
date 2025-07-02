@@ -209,6 +209,12 @@ Characters:
   "1409":
     Name: 히아킨
     LongName: 히아킨
+  "1410":
+    Name: 히실렌스
+    LongName: 히실렌스
+  "1412":
+    Name: 케리드라
+    LongName: 케리드라
   "8001":
     Name: 카일루스
     LongName: 카일루스 (파멸)
@@ -233,18 +239,18 @@ Characters:
   "8008":
     Name: 스텔레
     LongName: 스텔레 (기억)
-  1212b1:
-    Name: 경류
-    LongName: 경류
-  1205b1:
-    Name: 블레이드
-    LongName: 블레이드
-  1005b1:
-    Name: 카프카
-    LongName: 카프카
   1006b1:
     Name: 은랑
     LongName: 은랑
+  1005b1:
+    Name: 카프카
+    LongName: 카프카
+  1205b1:
+    Name: 블레이드
+    LongName: 블레이드
+  1212b1:
+    Name: 경류
+    LongName: 경류
 RelicSets:
   "101":
     Name: "흔적을\_남기지\_않은\_과객"
@@ -595,6 +601,8 @@ Lightcones:
     Name: "인사록•음률\_사냥"
   "22004":
     Name: "우주\_대사업"
+  "22005":
+    Name: "영원한\_미궁의\_식사"
   "23000":
     Name: "은하철도의\_밤"
   "23001":
@@ -689,6 +697,10 @@ Lightcones:
     Name: "보답\_없는\_왕관"
   "23046":
     Name: "이상이\_불타는\_지옥"
+  "23047":
+    Name: "바다는\_왜\_노래하는가"
+  "23048":
+    Name: "황금\_피가\_새겨진\_시대"
   "24000":
     Name: "어떤\_에이언즈의\_몰락"
   "24001":

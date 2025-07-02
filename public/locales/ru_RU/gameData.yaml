@@ -27,11 +27,11 @@ Characters:
     Name: Герта
     LongName: Герта
   "1014":
-    Name: Saber
-    LongName: Saber
+    Name: Сэйбер
+    LongName: Сэйбер
   "1015":
-    Name: Archer
-    LongName: Archer
+    Name: Арчер
+    LongName: Арчер
   "1101":
     Name: Броня
     LongName: Броня
@@ -204,11 +204,17 @@ Characters:
     Name: Кастория
     LongName: Кастория
   "1408":
-    Name: Phainon
-    LongName: Phainon
+    Name: Фаенон
+    LongName: Фаенон
   "1409":
     Name: Гиацина
     LongName: Гиацина
+  "1410":
+    Name: Hysilens
+    LongName: Hysilens
+  "1412":
+    Name: Cerydra
+    LongName: Cerydra
   "8001":
     Name: Келус
     LongName: Келус (Разрушение)
@@ -233,18 +239,18 @@ Characters:
   "8008":
     Name: Стелла
     LongName: Стелла (Память)
-  1212b1:
-    Name: Цзинлю
-    LongName: Цзинлю
-  1205b1:
-    Name: Блэйд
-    LongName: Блэйд
-  1005b1:
-    Name: Кафка
-    LongName: Кафка
   1006b1:
     Name: Серебряный Волк
     LongName: Серебряный Волк
+  1005b1:
+    Name: Кафка
+    LongName: Кафка
+  1205b1:
+    Name: Блэйд
+    LongName: Блэйд
+  1212b1:
+    Name: Цзинлю
+    LongName: Цзинлю
 RelicSets:
   "101":
     Name: Скиталец блуждающего облака
@@ -411,11 +417,11 @@ RelicSets:
     Name: Древо глубоких раздумий
     Description2pc: Повышает скорость владельца на 6%. Если скорость владельца выше или равна 135/180 ед., то исходящее исцеление владельца и его духа памяти повышается на 12%/20%.
   "321":
-    Name: Arcadia of Woven Dreams
-    Description2pc: When there are currently more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks.
+    Name: Волшебная страна фей
+    Description2pc: Когда количество членов отряда на поле боя не равно 4, каждый лишний или отсутствующий союзник повышает наносимый владельцем и его духом памяти урон на 9% и 12% соответственно. Этот эффект может складываться до 4/3 раз.
   "322":
-    Name: Revelry by the Sea
-    Description2pc: Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%.
+    Name: Хмельная бухта
+    Description2pc: Сила атаки владельца повышается на 12%. Если сила атаки владельца выше или равна 2400/3600 ед., то наносимый периодический урон дополнительно повышается на 12%/24%.
 Lightcones:
   "20000":
     Name: Стрелы
@@ -568,23 +574,23 @@ Lightcones:
   "21052":
     Name: Больше пота, меньше слёз
   "21053":
-    Name: Journey, Forever Peaceful
+    Name: Пусть твой путь всегда будет мирным
   "21054":
-    Name: The Story's Next Page
+    Name: Следующая страница истории
   "21055":
-    Name: Unto Tomorrow's Morrow
+    Name: Пока не наступит послезавтра
   "21056":
-    Name: In Pursuit of the Wind
+    Name: Гоняясь за ветром
   "21057":
-    Name: The Flower Remembers
+    Name: Цветы не забывают
   "21058":
-    Name: A Trail of Bygone Blood
+    Name: Кровь прошлого
   "21060":
-    Name: A Dream Scented in Wheat
+    Name: Пшеничные мечты
   "21061":
-    Name: Holiday Thermae Escapade
+    Name: Приключения в купальне
   "21062":
-    Name: See You at the End
+    Name: Встреча в конце пути
   "22000":
     Name: Перед началом тренировочной миссии
   "22001":
@@ -595,6 +601,8 @@ Lightcones:
     Name: "Запись ниндзя: Музыкальная охота"
   "22004":
     Name: Бизнес космических масштабов
+  "22005":
+    Name: Maze Restaurant Forever
   "23000":
     Name: Ночь на Млечном Пути
   "23001":
@@ -684,11 +692,15 @@ Lightcones:
   "23043":
     Name: Летящая по ветру ложь
   "23044":
-    Name: Thus Burns the Dawn
+    Name: Так сгорает рассвет
   "23045":
-    Name: A Thankless Coronation
+    Name: Коронация без воздаяния
   "23046":
-    Name: The Hell Where Ideals Burn
+    Name: Ад горящих идеалов
+  "23047":
+    Name: Why Does the Ocean Sing
+  "23048":
+    Name: Era Engraved by Golden Blood
   "24000":
     Name: О падении Эона
   "24001":

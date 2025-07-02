@@ -173,7 +173,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_TOUGHNESS_DMG.buff(r.enhancedBasic ? 20 : 10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(40, SOURCE_ULT)
+      x.ULT_TOUGHNESS_DMG.buff(40 + 20 / context.enemyCount, SOURCE_ULT)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
     },

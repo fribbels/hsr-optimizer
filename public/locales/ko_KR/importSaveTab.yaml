@@ -16,6 +16,9 @@ Import:
     BadMainstat: 주옵 {{mainstat}}, 부위 {{part}}의 유물 메인 상태를 가져오지 못했습니다.
   ParserWarning:
     BadRollInfo: 스캐너 파일이 오래되었거나 잘못된 정보가 포함되어 있을 수 있습니다. 스캐너를 업데이트해 주세요.
+  LiveImport:
+    AdvancedSettings:
+      WebsocketUrlReset: 기본값으로 초기화
   Stage1:
     Header: "이하의 유물 스캐너 중 하나를 설치해 실행하십시오:"
     ReliquaryDesc:

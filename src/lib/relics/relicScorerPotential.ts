@@ -1,5 +1,5 @@
 import i18next from 'i18next'
-import { AllStats, Constants, MainStats, MainStatsValues, Parts, PartsMainStats, Stats, StatsValues, SubStats, SubStatValues } from 'lib/constants/constants'
+import { AllStats, Constants, MainStats, MainStatsValues, Parts, PartsMainStats, Sets, Stats, StatsValues, SubStats, SubStatValues } from 'lib/constants/constants'
 import { getScoreCategory, ScoreCategory } from 'lib/scoring/scoreComparison'
 import DB from 'lib/state/db'
 import { arrayToMap, stringArrayToMap } from 'lib/utils/arrayUtils'
@@ -23,6 +23,7 @@ enum relicPotentialCases {
 export type ScoringMetadata = {
   parts: Record<Parts, StatsValues[]>,
   stats: Record<StatsValues, number>,
+  sets: Partial<Record<Sets, number>>,
   sortedSubstats: [SubStats, number][],
   // Bucketed substats
   groupedSubstats: Map<number, SubStats[]>,
@@ -821,12 +822,14 @@ export class RelicScorer {
     const mainstatBonus = mainStatBonus(relic.part, relic.main.stat, meta)
     const futureScore = this.getFutureRelicScore(relic, id, withMeta)
 
+    const multiplier = (meta.sets[relic.set] ?? 0.5);
+
     return {
-      currentPct: Math.max(0, futureScore.current - mainstatBonus) / percentToScore,
-      bestPct: Math.max(0, futureScore.best - mainstatBonus) / percentToScore,
-      averagePct: Math.max(0, futureScore.average - mainstatBonus) / percentToScore,
-      worstPct: Math.max(0, futureScore.worst - mainstatBonus) / percentToScore,
-      rerollAvgPct: Math.max(0, futureScore.rerollAvg - mainstatBonus) / percentToScore,
+      currentPct: Math.max(0, futureScore.current - mainstatBonus) / percentToScore * multiplier,
+      bestPct: Math.max(0, futureScore.best - mainstatBonus) / percentToScore * multiplier,
+      averagePct: Math.max(0, futureScore.average - mainstatBonus) / percentToScore * multiplier,
+      worstPct: Math.max(0, futureScore.worst - mainstatBonus) / percentToScore * multiplier,
+      rerollAvgPct: Math.max(0, futureScore.rerollAvg - mainstatBonus) / percentToScore * multiplier,
       meta: futureScore.meta,
     }
   }

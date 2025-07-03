@@ -71,7 +71,7 @@ test('relic-perfect', () => {
     enhance: 12,
     grade: 5,
     part: Parts.PlanarSphere,
-    set: 'Talia: Kingdom of Banditry',
+    set: 'Longevous Disciple',
     main: {
       stat: Stats.Wind_DMG,
       value: 100,

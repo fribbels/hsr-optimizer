@@ -16,6 +16,9 @@ Import:
     BadMainstat: Impossible de lire la relique avec mainstat {{mainstat}} et partie {{part}}
   ParserWarning:
     BadRollInfo: Le fichier du scanner est obsolète / peut contenir des informations non valides. Veuillez mettre à jour votre scanner.
+  LiveImport:
+    AdvancedSettings:
+      WebsocketUrlReset: Réinitialiser
   Stage1:
     Header: "Installez et lancez l'une des options de scanner de reliques :"
     ReliquaryDesc:

@@ -16,6 +16,9 @@ Import:
     BadMainstat: Não foi possível analisar o atributo principal para relíquia com o atributo principal {{mainstat}} e parte {{part}}
   ParserWarning:
     BadRollInfo: O arquivo do scanner está desatualizado / pode conter informações inválidas. Por favor atualize seu scanner.
+  LiveImport:
+    AdvancedSettings:
+      WebsocketUrlReset: Resetar para padrão
   Stage1:
     Header: "Instale e execute uma das opções do escaneador de relíquias:"
     ReliquaryDesc:

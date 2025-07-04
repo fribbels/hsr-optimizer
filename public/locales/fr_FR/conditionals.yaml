@@ -34,14 +34,6 @@ Lightcones:
         text: Malus Bulle du vide
         content: >-
           Lorsque le porteur touche une cible ennemie, applique l'effet Bulle du vide pendant 1 tour à l'ennemi. Cet effet peut être déclenché 1 fois sur chaque cible pour chaque attaque lancée par le porteur. Le porteur inflige {{DmgBoost}}% de DGT supplémentaires aux cibles affectées par Bulle du vide et ses DGT d'ultime augmentent de {{UltDmgBoost}}%.
-  AThanklessCoronation:
-    Content:
-      ultAtkBoost:
-        text: Bonus d'ATQ d'ULT
-        content: Lors de l'utilisation de l'ultime, l'ATQ du porteur augmente de {{UltAtkBuff}}%.
-      energyAtkBuff:
-        text: Bonus d'ATQ énergie ≥ 300
-        content: Lors de l'utilisation de l'ultime, si l'énergie max du porteur est supérieure ou égale à 300, régénère un montant fixe d'énergie équivalent à 10% de l'énergie max du porteur et augmente l'ATQ du porteur de {{EnergyAtkBuff}}% supplémentaires pendant 2 tours.
   AnInstantBeforeAGaze:
     Content:
       maxEnergyDmgBoost:
@@ -312,12 +304,8 @@ Lightcones:
           Lorsque le porteur est attaqué et n'a pas de bouclier, il obtient un bouclier équivalent à {{ShieldHp}}% de ses PV max pendant 2 tours. Cet effet ne peut être déclenché qu'une fois tous les 3 tours. Si le porteur a déjà un bouclier lorsqu'il est attaqué, les DGT subis sont réduits de {{DmgReduction}}%.
   TheHellWhereIdealsBurn:
     Content:
-      spAtkBuff:
-        text: Bonus d'ATQ pts. de comp. ≥ 6
-        content: En début de combat, si le nombre max de points de compétence de l'équipe est supérieur ou égal à 6, augmente l'ATQ du porteur de {{SPAtkBuff}}%.
       atkBuffStacks:
         text: Cumuls de bonus d'ATQ
-        content: Chaque fois que le porteur utilise une compétence, augmente son ATQ de {{ScalingAtkBuff}}%. Cet effet peut se cumuler jusqu'à 4 fois.
   TheUnreachableSide:
     Content:
       dmgBuff:
@@ -337,10 +325,8 @@ Lightcones:
     Content:
       defPen:
         text: PÉN de DÉF
-        content: ' Les DGT infligés par le porteur ignorent {{DefIgnore}}% de la DÉF de la cible.'
       dmgBuff:
         text: Bonus de DGT
-        content: Après avoir lancé une ultime, le porteur obtient l'effet Soleil ardent, lequel se dissipe au début du tour. Lorsqu'il bénéficie de Soleil ardent, augmente les DGT infligés par le porteur de {{DmgBuff}}%.
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -377,11 +363,6 @@ Lightcones:
       ultFuaDefShred:
         text: PÉN de DÉF ULT/ADS
         content: En début de combat ou après que le porteur a utilisé son ATQ normale, son ultime et ses DGT d'attaque de suivi ignorent {{DefShred}}% de la DÉF de la cible, pour une durée de 2 tours.
-  ADreamScentedInWheat:
-    Content:
-      ultFuaDmgBoost:
-        text: Bonus de DGT Ult / ADS
-        content: Augmente les DGT d'ultime et d'ATQ de suivi infligés par le porteur de {{DmgBuff}}%.
   AfterTheCharmonyFall:
     Content:
       spdBuff:
@@ -396,7 +377,6 @@ Lightcones:
     Content:
       skillUltDmgBoost:
         text: Bonus de DGT Compétence / Ult
-        content: Augmente les DGT de compétence et d'ultime infligés par le porteur de {{DmgBuff}}%.
   BoundlessChoreo:
     Content:
       enemyDefReducedSlowed:
@@ -486,15 +466,8 @@ Lightcones:
     Content:
       dmgBoost:
         text: Bonus de DGT
-        content: Augmente les DGT infligés par le porteur de {{DmgBuff}}%.
       vulnerability:
         text: Vulnérabilité
-        content: Après que le porteur a attaqué, il y a 100% de chances de base d'appliquer Vulnérabilité à la cible attaquée, ce qui augmente les DGT qu'elle subit de <{{Vulnerability}}%, pendant 2 tours. Les mêmes types d'effets ne se cumulent pas.
-  InPursuitOfTheWind:
-    Content:
-      breakDmgBoost:
-        text: Bonus de DGT de Rupture
-        content: Augmente les DGT de rupture infligés par tous les alliés de {{BreakDmgBuff}}%.
   IndeliblePromise:
     Content:
       crBuff:
@@ -510,10 +483,6 @@ Lightcones:
     Content:
       shieldBoost:
         text: Bonus de Bouclier
-        content: Augmente la valeur de bouclier accordée par le porteur de {{ShieldBuff}}%.
-      dmgBoost:
-        text: Bonus de DGT protégé(e)
-        content: Lorsqu'une cible alliée bénéficie d'un bouclier, augmente les DGT qu'elle inflige de {{DmgBuff}}%.
   MakeTheWorldClamor:
     Content:
       ultDmgBuff:
@@ -565,11 +534,6 @@ Lightcones:
         text: Bonus de VIT / DGT actifs
         content: >-
           Augmente la VIT du porteur de{{SpdBuff}}% et ses DGT de {{DmgBuff}}% après être entré en combat. Cet effet disparaît lorsque le porteur subit des DGT. Il est rétabli à la fin du prochain tour du porteur.
-  SeeYouAtTheEnd:
-    Content:
-      skillFuaDmgBoost:
-        text: Bonus de DGT Compétence / ADS
-        content: Augmente les DGT de compétence et d'ATQ de suivi infligés par le porteur de {{DmgBuff}}%.
   ShadowedByNight:
     Content:
       spdBuff:
@@ -600,11 +564,6 @@ Lightcones:
       cdBuffActive:
         text: 'Bonus de DC ≥ 2 cibles de bonne faiblesse'
         content: Lorsque le porteur utilise une attaque et touche au moins 2 ennemis qui ont la Faiblesse correspondante, ses DGT critiques augmentent de {{CritBuff}}% pendant 2 tours.
-  TheFlowerRemembers:
-    Content:
-      memoCdBoost:
-        text: Bonus de DC de mnémesprit
-        content: Les DGT critiques infligés par le mnémesprit du porteur augmentent de {{CritDmgBuff}}% supplémentaires.
   TheGreatCosmicEnterprise:
     Content:
       weaknessTypes:
@@ -623,11 +582,6 @@ Lightcones:
       defeatedEnemyAtkStacks:
         text: Cumuls d'ATQ ennemis vaincus
         content: À chaque ennemi vaincu, l'ATQ du porteur augmente de {{AtkBuff}}%. Cumulable jusqu'à 3 fois.
-  TheStorysNextPage:
-    Content:
-      ohbBuff:
-        text: Bonus de soins prodigués
-        content: Après que le mnémesprit du porteur attaque, les soins prodigués par le porteur et son mnémesprit augmentent de {{OHBBuff}}% pendant 1 tour.
   ThisIsMe:
     Content:
       defScalingUltDmg:
@@ -644,11 +598,6 @@ Lightcones:
       defeatedEnemyCrBuff:
         text: Bonus de TC ennemi vaincu
         content: Lorsqu'il élimine un ennemi, les chances de coup critique du porteur augmentent de {{CritBuff}}% pendant 3 tours.
-  UntoTomorrowsMorrow:
-    Content:
-      hp50DmgBoost:
-        text: Bonus de DGT PV ≥ 50%
-        content: Lorsque le pourcentage de PV actuel d'une cible alliée est supérieur ou égal à 50%, augmente les DGT infligés de {{DmgBuff}}%.
   VictoryInABlink:
     Content:
       teamDmgBuff:
@@ -835,19 +784,8 @@ Characters:
     Content:
       cdBuff:
         text: Bonus de DC
-        content: Lorsqu'un allié gagne un point de compétence, s'il y a au moins 4 points de compétence, les DGT critiques d'Archer augmentent de 120% pendant 1 tour.
-      skillEnhances:
-        text: Améliorations de Compétence
-        content: Après avoir utilisé la compétence dans l'état Connexion de circuits, le tour ne se termine pas, et les DGT de compétence d'Archer augmentent de {{SkillDmgBuff}}%.
-      e2QuantumResPen:
-        text: 'E2: PÉN de RES Quantique'
-        content: Lancer l'ultime réduit la RÉS quantique de la cible ennemie de 20%, et lui applique une Faiblesse quantique pendant 2 tours.
-      e4UltDmg:
-        text: 'E4: DGT d''ULT'
-        content: Augmente les DGT d'ultime de 150%.
       e6Buffs:
         text: 'E6: Divers bonus'
-        content: La limite de cumuls du bonus de DGT accordé par la compétence augmente de 1. Les DGT infligés par la compétence ignorent 20% de la DÉF.
   Argenti:
     Content:
       ultEnhanced:
@@ -960,20 +898,12 @@ Characters:
     Content:
       enhancedStateActive:
         text: État Vue de l'enfer
-        content: Consomme 30% des PV max de Blade pour entrer dans l'état Vue de l'enfer. Lorsque l'état Vue de l'enfer est actif, Blade ne peut plus utiliser sa compétence, mais les DGT qu'il inflige augmentent de {{DmgBuff}}%, et son ATQ normale Lame d'éclat se renforce en Forêt de lames pendant 3 tours.
       hpPercentLostTotal:
         text: Total de % de PV perdu
-        content: >-
-          Lorsque Blade utilise son ultime, il inflige à une cible unique des DGT de vent équivalents à {{UltHpScaling}}% de ses PV max +{{HpTallyUltScaling}}% du total des PV qu'il a perdus au cours du combat. ::BR:: E1: L'ATQ normale renforcée et l'ultime infligent des DGT supplémentaires à un ennemi désigné. L'augmentation des DGT est équivalente à 150% du total des PV perdus par Blade lors de l'ultime.
-      e1BasicUltMultiBoost:
-        text: 'E1: Bonus d''Ult / Normale'
-        content: L'ATQ normale renforcée et l'ultime infligent des DGT supplémentaires à un ennemi désigné. L'augmentation des DGT est équivalente à 150% du total des PV perdus par Blade lors de l'ultime.
       e2CrBuff:
         text: 'E2: Bonus de TC'
-        content: Les chances de coup critique de Blade augmentent de 15% lorsqu'il est dans l'état Vue de l'enfer.
       e4MaxHpIncreaseStacks:
         text: 'E4: Cumuls de Bonus de PV max'
-        content: Lorsque les PV de Blade passent sous la barre des 50% de PV max, ses PV max augmentent de 20%. Cumulable jusqu'à 2 fois.
   Boothill:
     Content:
       standoffActive:
@@ -1454,26 +1384,11 @@ Characters:
     Content:
       talentEnhancedState:
         text: État amélioré
-        content: >-
-          Lorsque Jingliu bénéficie de 2 cumuls de Syzygie, elle entre dans l'état de Migration spectrale, obtient 1 cumul supplémentaire de Syzygie, et augmente ses chances de coup critique de {{UltCRBuff}}%. ::BR:: Dans l'état Migration spectrale, augmente la RÉS aux effets de 35% et augmente les DGT infligés par l'ultime de 20%.
-      maxSyzygyDefPen:
-        text: PÉN de DÉF max de Syzygie
-        content: Lorsque la limite de Syzygie est atteinte après obtention d'un cumul, la prochaine attaque de Jingliu ignore 25% de la DÉF de la cible.
-      moonlightStacks:
-        text: Cumuls de Clair de lune
-        content: Dans l'état Migration spectrale, Jingliu obtient 1 cumul de Clair de lune lorsqu'un allié subit des DGT ou consomme des PV. Chaque cumul de Clair de lune augmente les DGT critiques de Jingliu de {{MoonlightCDBuff}}%, cumulable jusqu'à 5 fois.
-      e1Buffs:
-        text: 'E1: Divers bonus'
-        content: Les DGT critiques de Jingliu augmentent de 36% pendant 1 tour lorsqu'elle utilise son ultime ou sa compétence renforcée. De plus, elle inflige 1 instance de DGT de glace équivalente à 80% de ses PV max à la cible ennemie principale.
       e2SkillDmgBuff:
         text: 'E2: Amélioration de Compétence'
         content: Augmente les DGT de la prochaine compétence renforcée de 80% après avoir utilisé l'ultime.
-      e4MoonlightCdBuff:
-        text: 'E4: DC de Clair de lune'
-        content: Dans l'état Migration spectrale, chaque cumul de Clair de lune augmente les DGT critiques de 20% supplémentaires.
       e6ResPen:
         text: 'E6: PÉN de RÉS'
-        content: Dans l'état Migration spectrale, la PÉN de RÉS à la glace de Jingliu augmente de 30%.
   JingYuan:
     Content:
       skillCritBuff:
@@ -1503,13 +1418,6 @@ Characters:
     Content:
       ehrBasedBuff:
         text: Conversion de TAE à ATQ
-        content: Lorsque les chances d'appliquer des effets d'un allié sont supérieures ou égales à 75%, Kafka augmente l'ATQ de l'allié de 100%.
-      e1DotDmgReceivedDebuff:
-        text: 'E1: Vulnérabilité aux DSD'
-        content: Lorsque Kafka attaque, il y a 100% de chances de base d'augmenter les dégâts sur la durée subis par la cible de 30% pendant 2 tours.
-      e2TeamDotDmg:
-        text: 'E2: DGT de DSD'
-        content: Lorsque Kafka est sur le champ de bataille, les dégâts sur la durée infligés par tous les alliés augmentent de 33%.
   Lingsha:
     Content:
       beConversion:
@@ -1666,45 +1574,14 @@ Characters:
         content: Lors de l'utilisation de la compétence, il y a 100% de chances de base de réduire la RÉS à la glace de la cible ennemie de 12% pendant 2 tours.
   Phainon:
     Content:
-      transformedState:
-        text: Transformation active
-        content: >-
-          Se transforme en Khaslana et déploie son territoire, le Tombeau de fer. ::BR:: Sous cette forme, son ATQ augmente de {{UltAtkBuff}}% et ses PV max augmentent de {{UltHPBuff}}%. ::BR:: E3: La PÉN de RÉS physique de Khaslana augmente de 20%. ::BR:: E6: Après avoir utilisé Fondation: Jugement de la mort stellaire, inflige des DGT réels supplémentaires équivalents à 36% des DGT totaux infligés par cette attaque à la cible ayant les PV les plus élevés.
-      enhancedSkillType:
-        text: Compétence améliorée
-        content: >-
-          Khaslana peut choisir entre 2 compétences. ::BR:: Calamité: Obtient un nombre de Fléaux en fonction des cibles ennemies présentes, et les oblige à agir immédiatement, puis déclenche un puissant contre qui inflige des DGT physiques à tous les ennemis. ::BR:: Fondation: Consomme jusqu'a 4 cumuls de Fléau. Pour chaque Fléau consommé, cette attaque rebondit 4 fois, infligeant des DGT physiques mineurs à un ennemi aléatoire à chaque rebond. Lorsque 4 Fléaux sont consommés, inflige des DGT physiques massifs supplémentaires, répartis de manière équitable entre tous les ennemis.. ::BR:: Lors de la transformation, Khaslana récupère 4 accumulations de Fléau.
-        options:
-          Calamity:
-            display: 'Compétence: Calamité'
-            label: 'Compétence améliorée: Calamité'
-          Foundation:
-            display: 'Compétence : Fondation'
-            label: 'Compétence améliorée: Fondation'
       atkBuffStacks:
         text: Cumuls de bonus d'ATQ
-        content: Augmente l'ATQ de 50% lors de l'entrée en combat ou à la fin de la transformation. Cet effet peut être cumulé jusqu'à 2 fois.
       cdBuff:
         text: Bonus de DC
-        content: Lorsque Phaénon est la cible d'une capacité d'une autre unité, il obtient 1 Flamme divine. Lorsqu'il est la cible d'une capacité d'un coéquipier, augmente les DGT critiques de Phaénon de {{TalentCdBuff}}% pendant 3 tours.
-      sustainDmgBuff:
-        text: Bonus de DGT sustain
-        content: Après avoir reçu des soins ou un bouclier de la part d'un coéquipier, augmente les DGT infligés de 45% pendant 4 tours. 
       spdBuff:
         text: Bonus d'équipe de VIT
-        content: À la fin de la transformation, augmente la VIT de tous les alliés de 15% pendant 1 tour.
-      e1Buffs:
-        text: 'E1: Divers bonus'
-        content: >-
-          Le pourcentage hérité de la VIT de base du tour supplémentaire de Khaslana passe à 66%. Pour chaque ennemi éliminé au cours d'un combat, augmente de 1.5% supplémentaires, jusqu'à un maximum de 84%. ::BR:: Utiliser l'ultime augmente les DGT critiques de 50% pendant 3 tours.
       e2ResPen:
         text: 'E2: PÉN de RÉS'
-        content: >-
-          La PÉN de RÉS physique de Khaslana augmente de 20%. Si Khaslana consomme 4 Fléaux lorsqu'il utilise Fondation: Jugement de la mort stellaire, il obtient 1 tour supplémentaire.
-      e6TrueDmg:
-        text: 'E6: Dégâts réels'
-        content: >-
-          Après avoir utilisé Fondation: Jugement de la mort stellaire, inflige des DGT réels supplémentaires équivalents à 36% des DGT totaux infligés par cette attaque à la cible ayant les PV les plus élevés.
   Qingque:
     Content:
       basicEnhanced:
@@ -1807,37 +1684,14 @@ Characters:
     Content:
       enhancedBasic:
         text: Normale améliorée
-        content: ' Après avoir utilisé l''ultime, la prochaine ATQ normale sera remplacée par Libération du sceptre doré et seule Libération du sceptre doré pourra être utilisée.'
       enhancedSkill:
         text: Compétence améliorée
-        content: Si Saber bénéficie de Résonance cardinale et qu'elle peut régénérer toute son énergie en consommant Résonance cardinale après cette utilisation de compétence, augmente le multiplicateur de DGT de cette utilisation de compétence de {{CoreResonanceExtraScaling}}% pour chaque point de Résonance cardinale, et consomme toute la Résonance cardinale pour régénérer son énergie.
       talentDmgBuff:
         text: Bonus de DGT du Talent
-        content: Lorsqu'une cible alliée lance un ultime, augmente les DGT infligés par Saber de {{TalentDmgBuff}}% pendant 2 tours.
-      coreResonanceCdBuff:
-        text: Bonus de DC Résonance cardinale
-        content: Pour chaque point de Résonance cardinale obtenu au cours du combat, les DGT critiques de Saber augmentent de 4%, cumulable jusqu'à 8 fois.
-      coreResonanceStacks:
-        text: Cumuls de Résonance cardinale
-        content: Si Saber bénéficie de Résonance cardinale et qu'elle peut régénérer toute son énergie en consommant Résonance cardinale après cette utilisation de compétence, augmente le multiplicateur de DGT de cette utilisation de compétence de {{CoreResonanceExtraScaling}}% pour chaque point de Résonance cardinale, et consomme toute la Résonance cardinale pour régénérer son énergie.
-      crBuff:
-        text: Bonus de TC
-        content: Augmente les chances de coup critique de Saber de 20%.
       cdBuff:
         text: Bonus de DC
-        content: Les DGT critiques de Saber augmentent de 50% pendant 2 tours lors de l'utilisation de la compétence.
-      e1DmgBuff:
-        text: 'E1: Bonus de DGT'
-        content: Augmente les DGT d'ultime infligés par Saber de 60%.
-      e2Buffs:
-        text: 'E2: Divers bonus'
-        content: Pour chaque point de Résonance cardinale obtenu au cours du combat, les DGT infligés par Saber ignorent 1% de la DÉF des cibles. Cet effet peut être cumulé jusqu'à 15 fois. Lorsque l'effet d'augmentation du multiplicateur de la compétence est activé, chaque point de Résonance cardinale augmente le multiplicateur de DGT de cette utilisation de la compétence de 7% supplémentaires.
-      e4ResPen:
-        text: 'E4: PÉN de RÉS'
-        content: Augmente la PÉN de RÉS de vent de Saber de 8%. Après avoir utilisé l'ultime, augmente la PÉN de RÉS de vent de Saber de 4%. Cet effet peut être cumulé jusqu'à 3 fois.
       e6ResPen:
         text: 'E6: PÉN de RÉS'
-        content: La PÉN de RÉS au vent des DGT d'ultime infligés par Saber augmente de 20%, et l'excédent d'énergie pouvant être accumulé par la Trace Bénédiction du lac passe à 200 points. Après avoir utilisé un ultime pour la première fois en combat, Saber récupère un montant fixe de 300 points d'énergie. Après cela, cet effet peut être déclenché 1 fois toutes les 3 ultimes.
   Sampo:
     Content:
       targetDotTakenDebuff:
@@ -1894,29 +1748,16 @@ Characters:
           Lorsque l'ennemi subit au moins 3 malus, la compétence diminue ses RÉS à tous les types de 3% supplémentaires.::BR::E4: Lorsque Louve d'argent attaque un ennemi avec son ultime, elle inflige des DGT quantiques additionnels équivalents à 20% de son ATQ pour chaque malus actuellement présent sur la cible ennemie. Cet effet peut être déclenché un maximum de 5 fois par utilisation de l'ultime.::BR::E6: Pour chaque malus subi par la cible ennemie, les DGT infligés par Louve d'argent augmentent de 20%, jusqu'à une limite de 100%.
   SilverWolfB1:
     Content:
-      ehrToAtkConversion:
-        text: Conversion TAE à ATQ
-        content: Pour chaque tranche de 10% de chances d'appliquer des effets de Louve d'argent, augmente son ATQ de 10% jusqu'à un maximum de 50%.
       skillResShredDebuff:
         text: Réduction de RÉS de la compétence
-        content: Lorsque Louve d'argent utilise sa compétence, il y a 100% de chances de base de réduire toutes les RÉS de type de la cible de {{SkillResShred}}% pendant 2 tours.
       skillWeaknessResShredDebuff:
         text: Réduction de RÉS faiblesse implantée
-        content: Il y a {{ImplantBaseChance}}% de chances de base d'appliquer 1 Faiblesse du type d'un allié présent sur le champ de bataille à une cible ennemie désignée (en priorisant le type du premier personnage de la composition d'équipe), et réduit également la RÉS de la cible ennemie à cette Faiblesse de 20% pendant 3 tours. Si l'ennemi a déjà ce type de faiblesse, l'effet de réduction de RÉS qui est associé à ce type ne sera pas déclenché.
       talentDefShredDebuff:
         text: Reduction de DÉF Bugs
-        content: >-
-          Louve d'argent peut créer trois types de Bugs: une réduction d'ATQ de {{BugAtkDown}}%, une réduction de DÉF de {{BugDefDown}}% ou une réduction de VIT de {{BugSpdDown}}%. ::BR:: Chaque fois que Louve d'argent attaque, elle a {{BugBaseChance}}% de chances de base d'implanter 1 Bug aléatoire qui dure 4 tours aux cibles ennemies attaquées. ::BR:: Chaque fois qu'une cible ennemie subit une Rupture de faiblesse, Louve d'argent a 100% de chances de base de lui implanter 1 Bug aléatoire. ::BR:: E2: Lorsqu'une cible ennemie est attaquée par un allié, Louve d'argent a 100% de chances de base d'implanter 1 Bug aléatoire à la cible ennemie attaquée.
       ultDefShredDebuff:
         text: Réduction de DEF de l'ULT
-        content: Il y a {{UltBaseChance}}% de chances de base de réduire la DÉF de tous les ennemis de {{UltDefShred}}% pendant 3 tours.
       targetDebuffs:
         text: Malus sur la cible
-        content: >-
-          Chaque fois que Louve d'argent attaque, elle a {{BugBaseChance}}% de chances de base d'implanter 1 Bug aléatoire qui dure 4 tours aux cibles ennemies attaquées. ::BR:: E1: Lorsqu'elle utilise son ultime pour attaquer un ennemi, Louve d'argent régénère 7 points d'énergie pour chaque malus actuellement subi par la cible ennemie. Cet effet peut être déclenché jusqu'à 5 fois pour chaque utilisation de son ultime. ::BR:: E2:  Lorsqu'une cible ennemie est attaquée par un allié, Louve d'argent a 100% de chances de base d'implanter 1 Bug aléatoire à la cible ennemie attaquée. ::BR:: E4: Lorsque Louve d'argent attaque un ennemi avec son ultime, elle inflige des DGT additionnels quantiques équivalents à 20% de son ATQ pour chaque malus actuellement présent sur la cible ennemie. Cet effet peut être déclenché un maximum de 5 fois par utilisation de l'ultime. ::BR:: E6: Pour chaque malus subi par la cible ennemie, les DGT infligés par Louve d'argent augmentent de 20%, jusqu'à une limite de 100%.
-      e2Vulnerability:
-        text: 'E2: Vulnérabilité'
-        content: Lorsqu'une cible ennemie entre en combat, les DGT qu'elle subit augmentent de 20%.
   Sparkle:
     Content:
       skillCdBuff:

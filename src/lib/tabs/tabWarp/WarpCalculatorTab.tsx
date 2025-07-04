@@ -12,7 +12,6 @@ import { localeNumber, localeNumber_0, localeNumberComma } from 'lib/utils/i18nU
 import { Utils } from 'lib/utils/utils'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { scannerChannel, useScannerState } from '../tabImport/ScannerWebsocketClient'
 
 const { Text } = Typography
 
@@ -50,48 +49,6 @@ function Inputs() {
   const [form] = Form.useForm<WarpRequest>()
 
   const warpRequest = sanitizeWarpRequest(storedWarpRequest)
-
-  scannerChannel.use((event) => {
-    const ingestWarpResources = useScannerState.getState().ingestWarpResources
-    if (!ingestWarpResources) return
-
-    switch (event.event) {
-      case "UpdateGachaFunds":
-        form.setFieldValue("jades", event.data.stellar_jade + event.data.oneric_shards)
-        break
-
-      case "UpdateMaterials":
-        const state = useScannerState.getState()
-        const specialPasses = state.materials["102"] ?? { count: 0 }
-        const undyingStarlight = state.materials["252"] ?? { count: 0 }
-
-        form.setFieldValue("passes", specialPasses.count + Math.floor(undyingStarlight.count / 20))
-        break
-      
-      case "GachaResult":
-        const gachaResult = event.data
-        const pityUpdate = gachaResult.pity_5
-
-        if (gachaResult.banner_type == "Character") {
-          if (pityUpdate.kind == "ResetPity") {
-            form.setFieldValue("pityCharacter", pityUpdate.amount)
-            form.setFieldValue("guaranteedCharacter", pityUpdate.set_guarantee)
-          } else if (pityUpdate.kind == "AddPity") {
-            const currentPity = form.getFieldValue("pityCharacter")
-            form.setFieldValue("pityCharacter", currentPity + gachaResult.pity_5.amount)
-          }
-
-        } else if (gachaResult.banner_type == "LightCone") {
-          if (pityUpdate.kind == "ResetPity") {
-            form.setFieldValue("pityLightCone", pityUpdate.amount)
-            form.setFieldValue("guaranteedLightCone", pityUpdate.set_guarantee)
-          } else if (pityUpdate.kind == "AddPity") {
-            const currentPity = form.getFieldValue("pityLightCone")
-            form.setFieldValue("pityLightCone", currentPity + gachaResult.pity_5.amount)
-          }
-        }
-    }
-  }, [form])
 
   return (
     <Form

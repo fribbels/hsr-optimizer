@@ -8,8 +8,7 @@ export function processMihomoData(data: MihomoApiResponse): UnconvertedCharacter
   for (const character of characters) {
     character.relicList = character.relics || []
     character.equipment = character.light_cone
-    // TODO update once mihomo update their api, or switch to raw endpoint and update the above
-    character.avatarId = character.id // character.enhancedId ? character.id + `b${character.enhancedId}` : character.id
+    character.avatarId = character.id
 
     if (character.equipment) {
       character.equipment.tid = character.equipment.id
@@ -24,7 +23,7 @@ export function processMihomoData(data: MihomoApiResponse): UnconvertedCharacter
 }
 
 export function processEnkaData(data: EnkaApiResponse): UnconvertedCharacter[] {
-  return (data.detailInfo.avatarDetailList ?? [])
+  return [...(data.detailInfo.assistAvatarList || []), ...(data.detailInfo.avatarDetailList || [])]
     .filter((x) => !!x)
     .sort((a, b) => {
       if (b._assist && a._assist) return (a.pos || 0) - (b.pos || 0)
@@ -34,11 +33,6 @@ export function processEnkaData(data: EnkaApiResponse): UnconvertedCharacter[] {
     })
     .filter((item, index, array) => {
       return array.findIndex((i) => i.avatarId === item.avatarId) === index
-    }).map((c) => {
-      if (c.enhancedId) {
-        c.avatarId += `b${c.enhancedId}`
-      }
-      return c
     })
 }
 

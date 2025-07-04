@@ -1,12 +1,10 @@
 import { AgGridReact } from 'ag-grid-react'
 import {
   Button,
-  Collapse,
   Flex,
   Popconfirm,
   Select,
   theme,
-  Tooltip,
 } from 'antd'
 import {
   Constants,
@@ -26,7 +24,6 @@ import { Renderer } from 'lib/rendering/renderer'
 import { getGridTheme } from 'lib/rendering/theme'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { RecentRelics } from 'lib/tabs/tabRelics/RecentRelics'
 import RelicFilterBar from 'lib/tabs/tabRelics/RelicFilterBar'
 import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator.js'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
@@ -42,7 +39,6 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import createPlotlyComponent from 'react-plotly.js/factory'
-import { useScannerState } from '../tabImport/ScannerWebsocketClient'
 
 const Plot = createPlotlyComponent(Plotly)
 
@@ -64,45 +60,14 @@ export default function RelicsTab() {
   const [relicRows, setRelicRows] = useState(DB.getRelics())
   window.setRelicRows = setRelicRows
 
-  const [selectedRelicID, setSelectedRelicID] = useState()
-  const [selectedRelicIDs, setSelectedRelicIDs] = useState([])
-  window.setSelectedRelicIDs = (ids) => {
-    setSelectedRelicID(ids[0])
-    setSelectedRelicIDs(ids)
-
-    // Ensure the grid is updated with the latest data
-    window.relicsGrid.current.api.updateGridOptions({ rowData: DB.getRelics() })
-
-    // Get the row nodes for the selected relics
-    const rowNodes = ids.map((id) => window.relicsGrid.current?.api.getRowNode(id)).filter((x) => x)
-
-    // Deselect all rows
-    window.relicsGrid.current.api.deselectAll()
-
-    // Select the new rows
-    window.relicsGrid.current.api.setNodesSelected({ nodes: rowNodes, newValue: true, source: "api" })
-
-    // Ensure the new rows are visible
-    window.relicsGrid.current.api.ensureNodeVisible(rowNodes[0])
-
-    if (rowNodes.length > 1) {
-      window.relicsGrid.current.api.ensureNodeVisible(rowNodes[rowNodes.length - 1])
-    }
-  }
-
-  // TODO: Can/should we memoize these?
-  const selectedRelic = DB.getRelicById(selectedRelicID)
-  const selectedRelics = DB.getRelics().filter((x) => selectedRelicIDs.includes(x.id))
-
+  const [selectedRelic, setSelectedRelic] = useState()
+  const [selectedRelics, setselectedRelics] = useState([])
   const [editModalOpen, setEditModalOpen] = useState(false)
   const [addModalOpen, setAddModalOpen] = useState(false)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [plottedCharacterType, setPlottedCharacterType] = useState(PLOT_CUSTOM)
   const [relicInsight, setRelicInsight] = useState('buckets')
   const [gridDestroyed, setGridDestroyed] = useState(false)
-
-  const isLiveImport = useScannerState((s) => s.ingest)
-  const hasRecentRelics = useScannerState((s) => s.recentRelics.length > 0)
 
   const relicTabFilters = window.store((s) => s.relicTabFilters)
 
@@ -561,7 +526,7 @@ export default function RelicsTab() {
 
   const onSelectionChanged = useCallback((event) => {
     console.log('selectionChanged', event)
-    setSelectedRelicIDs(event.api.getSelectedRows().map((r) => r.id))
+    setselectedRelics(event.api.getSelectedRows())
   }, [])
 
   const rowClickedListener = useCallback((event) => {
@@ -570,12 +535,12 @@ export default function RelicsTab() {
       const node = gridRef.current.api.getRowNode(event.id)
       node.setSelected(true, true)
     }
-    setSelectedRelicID(event.data.id)
+    setSelectedRelic(event.data)
   }, [])
 
   const onRowDoubleClickedListener = useCallback((e) => {
     console.log('rowDblClicked', e)
-    setSelectedRelicID(e.data.id)
+    setSelectedRelic(e.data)
     setEditModalOpen(true)
   }, [])
 
@@ -596,7 +561,7 @@ export default function RelicsTab() {
     setRelicRows(DB.getRelics())
     SaveState.delayedSave()
 
-    setSelectedRelicID(relic.id)
+    setSelectedRelic(relic)
 
     Message.success(t('Messages.AddRelicSuccess') /* Successfully added relic */)
     console.log('onAddOk', relic)
@@ -605,12 +570,12 @@ export default function RelicsTab() {
   // DRY this up (CharacterPreview.js, OptimizerBuildPreview.js, RelicsTab.js)
   function onEditOk(relic) {
     const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
-    setSelectedRelicID(updatedRelic.id)
+    setSelectedRelic(updatedRelic)
   }
 
   function editClicked() {
     console.log('edit clicked')
-    if (!selectedRelicID) return Message.error(t('Messages.NoRelicSelected')/* No relic selected */)
+    if (!selectedRelic) return Message.error(t('Messages.NoRelicSelected') /* No relic selected */)
     setEditModalOpen(true)
   }
 
@@ -633,13 +598,12 @@ export default function RelicsTab() {
   function deletePerform() {
     if (selectedRelics.length === 0) return Message.error(t('Messages.NoRelicSelected') /* No relic selected */)
 
-    selectedRelicIDs.forEach((id) => {
-      DB.deleteRelic(id)
+    selectedRelics.forEach((relic) => {
+      DB.deleteRelic(relic.id)
     })
 
     setRelicRows(DB.getRelics())
-    setSelectedRelicID(undefined)
-    setSelectedRelicIDs([])
+    setSelectedRelic(undefined)
     SaveState.delayedSave()
 
     Message.success(t('Messages.DeleteRelicSuccess') /* Successfully deleted relic */)
@@ -701,37 +665,12 @@ export default function RelicsTab() {
         setOpen={setEditModalOpen}
         open={editModalOpen}
       />
-      <Flex vertical gap={10} style={{ width: '100%' }}>
+      <Flex vertical gap={10}>
         <RelicFilterBar
           setValueColumns={setValueColumns}
           valueColumns={valueColumns}
           valueColumnOptions={valueColumnOptions}
         />
-
-        {hasRecentRelics && (
-          <Collapse
-            size='small'
-            defaultActiveKey={['1']}
-            items={[
-              {
-                key: '1',
-                label: t('RecentlyUpdatedRelics.Header') /* Recently Updated Relics */,
-                children: (
-                  <RecentRelics
-                    scoringCharacter={focusCharacter}
-                    selectedRelicID={selectedRelicID}
-                    setSelectedRelicID={(id) => {
-                      const node = gridRef.current.api.getRowNode(id)
-                      node.setSelected(true, true)
-                      gridRef.current.api.ensureNodeVisible(node, 'middle')
-                      setSelectedRelicID(id)
-                    }}
-                  />
-                ),
-              },
-            ]}
-          />
-        )}
 
         {!gridDestroyed && (
           <div
@@ -783,17 +722,13 @@ export default function RelicsTab() {
             okText={t('common:Yes') /* yes */}
             cancelText={t('common:Cancel') /* cancel */}
           >
-            <Tooltip title={isLiveImport ? 'Disabled in live import mode.' : ''}>
-              <Button type='primary' style={{ width: 170 }} disabled={selectedRelics.length === 0 || isLiveImport}>
-                {t('Toolbar.DeleteRelic.ButtonText')/* Delete relic */}
-              </Button>
-            </Tooltip>
-          </Popconfirm>
-          <Tooltip title={isLiveImport ? 'Disabled in live import mode.' : ''}>
-            <Button type='primary' onClick={addClicked} style={{ width: 170 }} disabled={isLiveImport}>
-              {t('Toolbar.AddRelic')/* Add New Relic */}
+            <Button type='primary' style={{ width: 170 }} disabled={selectedRelics.length === 0}>
+              {t('Toolbar.DeleteRelic.ButtonText') /* Delete relic */}
             </Button>
-          </Tooltip>
+          </Popconfirm>
+          <Button type='primary' onClick={addClicked} style={{ width: 170 }}>
+            {t('Toolbar.AddRelic') /* Add New Relic */}
+          </Button>
 
           <RelicLocator relic={selectedRelic} />
           <Flex style={{ display: 'block' }}>
@@ -819,7 +754,7 @@ export default function RelicsTab() {
         <Flex gap={10}>
           <RelicPreview
             relic={selectedRelic}
-            setSelectedRelic={(r) => setSelectedRelicID(r.id)}
+            setSelectedRelic={setSelectedRelic}
             setEditModalOpen={setEditModalOpen}
             score={score}
           />

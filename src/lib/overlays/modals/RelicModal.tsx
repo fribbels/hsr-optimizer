@@ -1,6 +1,5 @@
 import { CaretRightOutlined } from '@ant-design/icons'
 import {
-  Alert,
   Button,
   Flex,
   Form,
@@ -39,7 +38,6 @@ import {
   lockScroll,
   unlockScroll,
 } from 'lib/rendering/scrollController'
-import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -140,8 +138,6 @@ export default function RelicModal(props: {
   const [mainStatOptions, setMainStatOptions] = useState<MainStatOption[]>([])
   const characters = useCharacterTabStore((s) => s.characters)
   const showLocator = window.store((s) => s.settings.ShowLocatorInRelicsModal)
-
-  const isLiveImport = useScannerState((s) => s.ingest)
 
   useEffect(() => {
     if (props.open) {
@@ -393,7 +389,6 @@ export default function RelicModal(props: {
         width={560}
         centered
         destroyOnClose
-        closable={!isLiveImport} // Hide X button in live import mode as it overlaps with the alert
         open={props.open} //
         onCancel={() => props.setOpen(false)}
         footer={
@@ -414,8 +409,6 @@ export default function RelicModal(props: {
         }
       >
         <Flex vertical gap={5}>
-
-          {isLiveImport && <Alert message={t('Relic.LiveImportWarning') /* Live import mode is enabled, your changes might be overwritten. */} type='warning' showIcon/>}
           <Flex gap={10}>
             <Flex vertical gap={5}>
               <HeaderText>{t('Relic.Part') /* Part */}</HeaderText>

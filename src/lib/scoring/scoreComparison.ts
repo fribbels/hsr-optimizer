@@ -2,7 +2,7 @@ import {
   Stats,
   SubStats,
 } from 'lib/constants/constants'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { nullUndefinedToZero } from 'lib/overlays/modals/ScoringModal'
 import { ScoringMetadata } from 'types/metadata'
 
 export enum ScoreCategory {
@@ -39,7 +39,7 @@ export function getScoreCategory(defaultMeta: Metadata, customMeta: Metadata) {
 export function setModifiedScoringMetadata(defaultMeta: Metadata, customMeta: Metadata) {
   customMeta.modified = false
   for (const stat of SubStats) {
-    if (TsUtils.nullUndefinedToZero(customMeta.stats[stat]) != TsUtils.nullUndefinedToZero(defaultMeta.stats[stat])) {
+    if (nullUndefinedToZero(customMeta.stats[stat]) != nullUndefinedToZero(defaultMeta.stats[stat])) {
       customMeta.modified = true
     }
   }

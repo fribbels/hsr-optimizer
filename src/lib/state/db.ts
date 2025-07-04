@@ -354,12 +354,7 @@ export const DB = {
     const addRelic = !oldRelic
 
     if (addRelic) {
-      relic.ageIndex ??= 1 + Math.max(
-        ...DB.getRelics()
-          .map((r) => r.ageIndex)
-          .filter((x) => x != null)
-      )
-
+      relic.ageIndex = DB.getRelics().length
       setRelic(relic)
       if (relic.equippedBy) {
         DB.equipRelic(relic, relic.equippedBy)
@@ -653,7 +648,7 @@ export const DB = {
     }
   },
 
-  addFromForm: (form: Form, autosave = true, select = true) => {
+  addFromForm: (form: Form, autosave = true) => {
     const characters = DB.getCharacters()
     let found = DB.getCharacterById(form.characterId)
     if (found) {
@@ -680,18 +675,15 @@ export const DB = {
      */
     if (window.characterGrid?.current?.api) {
       window.characterGrid.current.api.updateGridOptions({ rowData: characters })
-      const oldFocusCharacter = useCharacterTabStore.getState().focusCharacter
-      if (select || !oldFocusCharacter) {
-        window.characterGrid.current.api.forEachNode((node: {
-          data: {
-            id: CharacterId
-          }
-          setSelected: (b: boolean) => void
-        }) => {
-          if (node.data.id == found.id) node.setSelected(true)
-        })
-        useCharacterTabStore.getState().setFocusCharacter(found.id)
-      }
+      window.characterGrid.current.api.forEachNode((node: {
+        data: {
+          id: CharacterId,
+        },
+        setSelected: (b: boolean) => void,
+      }) => {
+        if (node.data.id == found.id) node.setSelected(true)
+      })
+      useCharacterTabStore.getState().setFocusCharacter(found.id)
     }
 
     if (autosave) {
@@ -900,7 +892,7 @@ export const DB = {
     // Add new characters
     if (newCharacters) {
       for (const character of newCharacters) {
-        DB.addFromForm(character, false, false)
+        DB.addFromForm(character, false)
       }
     }
 
@@ -936,10 +928,6 @@ export const DB = {
           // Update the owner of the existing relic with the newly imported owner
           found.equippedBy = newRelic.equippedBy
           newRelic = found
-        }
-
-        if (newRelic.ageIndex !== undefined) {
-          found.ageIndex = newRelic.ageIndex
         }
 
         // Save the old relic because it may have edited speed values, delete the hash to prevent duplicates
@@ -1226,10 +1214,9 @@ function deduplicateStringArray<T extends string[] | null | undefined>(arr: T) {
   return [...new Set(arr)] as T
 }
 
-function indexRelics(relics: Relic[]) {
-  relics.forEach((relic, idx, arr) => {
-    idx == 0
-     ? relic.ageIndex ??= idx
-     : relic.ageIndex ??= arr[idx - 1].ageIndex! + 1
-    })
+function indexRelics(arr: Relic[]) {
+  const length = arr.length
+  for (let i = 0; i < length; i++) {
+    arr[i].ageIndex = length - i - 1
+  }
 }

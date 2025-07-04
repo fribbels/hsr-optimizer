@@ -1,5 +1,4 @@
 import {
-  AutoComplete,
   Button,
   Divider,
   Flex,
@@ -11,14 +10,8 @@ import {
   Typography,
 } from 'antd'
 import { usePublish } from 'hooks/usePublish'
-import { 
-  Constants, 
-  Parts, 
-  Sets, 
-  SetsOrnaments, 
-  SetsOrnamentsNames, 
-  SetsRelics, 
-  SetsRelicsNames, 
+import {
+  Parts,
   Stats,
 } from 'lib/constants/constants'
 import {
@@ -32,7 +25,7 @@ import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Char
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CharacterId } from 'types/character'
@@ -48,57 +41,6 @@ const TitleDivider = styled(Divider)`
 const InputNumberStyled = styled(InputNumber)`
     width: 62px
 `
-
-type ScoringMetadataWithSetsList = ScoringMetadata & {
-  relicsList: [Sets, number][]
-  ornamentsList: [Sets, number][]
-}
-
-function SetPicker(props: {
-  placeholder: string
-  names: string[]
-  selectedValues: string[]
-  add: (value: string) => void
-  remove: (value: string) => void
-}) {
-  return (
-    <Select
-      mode="multiple"
-      style={{width: "100%"}}
-      placeholder={props.placeholder}
-      onChange={(values) => {
-        // Find values that were added
-        const newValues = values.filter(v => !props.selectedValues.includes(v));
-        // Find values that were removed
-        const removedValues = props.selectedValues.filter(v => !values.includes(v));
-        
-        // Add new values
-        if (newValues.length > 0) {
-          props.add(newValues[0]);
-        }
-        
-        // Remove deleted values
-        if (removedValues.length > 0) {
-          props.remove(removedValues[0]);
-        }
-      }}
-      maxTagCount="responsive"
-      options={
-        props.names.map((set) => ({
-          value: set,
-          label: <Flex gap={5}>
-            <img src={Assets.getSetImage(set, Constants.Parts.Head)} style={{ width: 24, height: 24 }}></img>
-            {set}
-          </Flex>,
-        })).reverse()
-      }
-      filterOption={(input, option) =>
-        (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
-      }
-      value={props.selectedValues}
-    />
-  )
-}
 
 export default function ScoringModal() {
   const { t } = useTranslation(['modals', 'common'])
@@ -118,27 +60,12 @@ export default function ScoringModal() {
 
   // Cleans up 0's to not show up on the form
   function getScoringValuesForDisplay(scoringMetadata: ScoringMetadata) {
-    const sets = Object.entries(scoringMetadata.sets ?? {}) as [Sets, number][]
-
-    const scoringMetadataWithSetsList: ScoringMetadataWithSetsList = {
-      ...scoringMetadata,
-      relicsList: sets.filter(set => SetsRelicsNames.includes(set[0] as SetsRelics)),
-      ornamentsList: sets.filter(set => SetsOrnamentsNames.includes(set[0] as SetsOrnaments)),
-    }
-
-    for (const x of Object.entries(scoringMetadataWithSetsList.stats)) {
+    for (const x of Object.entries(scoringMetadata.stats)) {
       if (x[1] == 0) {
         // @ts-ignore
-        scoringMetadataWithSetsList.stats[x[0]] = null
+        scoringMetadata.stats[x[0]] = null
       }
     }
-
-    return scoringMetadataWithSetsList
-  }
-
-  function getScoringValuesForOverrides(scoringMetadata: ScoringMetadataWithSetsList) {
-    // Merge the setsList into the sets object
-    scoringMetadata.sets = Object.fromEntries(scoringMetadata.relicsList.concat(scoringMetadata.ornamentsList))
 
     return scoringMetadata
   }
@@ -179,8 +106,8 @@ export default function ScoringModal() {
 
   function onModalOk() {
     console.log('onModalOk OK')
-    const values = scoringAlgorithmForm.getFieldsValue() as ScoringMetadataWithSetsList
-    onFinish(getScoringValuesForOverrides(values))
+    const values = scoringAlgorithmForm.getFieldsValue() as ScoringMetadata
+    onFinish(values)
     closeScoringModal()
     pubRefreshRelicsScore('refreshRelicsScore', 'null')
   }
@@ -209,7 +136,6 @@ export default function ScoringModal() {
     const scoringMetadataToMerge: Partial<ScoringMetadata> = {
       stats: defaultScoringMetadata.stats,
       parts: defaultScoringMetadata.parts,
-      sets: defaultScoringMetadata.sets,
     }
 
     DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, scoringMetadataToMerge as ScoringMetadata)
@@ -225,7 +151,6 @@ export default function ScoringModal() {
         const scoringMetadataToMerge: Partial<ScoringMetadata> = {
           stats: defaultScoringMetadata.stats,
           parts: defaultScoringMetadata.parts,
-          sets: defaultScoringMetadata.sets,
         }
         DB.updateCharacterScoreOverrides(character, scoringMetadataToMerge as ScoringMetadata)
       }
@@ -419,114 +344,6 @@ export default function ScoringModal() {
           </Flex>
         </Flex>
 
-        <TitleDivider>{t('Scoring.SetWeightsHeader')/* Set weights */}</TitleDivider>
-        
-        <Flex gap={20}>
-          <Flex vertical gap={20} flex={1}>
-            <Form.List
-              name="relicsList"
-            >
-              {(fields, { add, remove }) => <>
-                <Form.Item
-                  noStyle
-                  shouldUpdate
-                >
-                  {x => {
-                    const selectedValues = x.getFieldsValue()['relicsList']?.map((field: [string, number]) => field[0])
-                    return <SetPicker 
-                      names={SetsRelicsNames} 
-                      add={(v) => add([v, 1])} 
-                      remove={(v) => {
-                        const index = selectedValues.indexOf(v)
-                        if (index !== -1) {
-                          remove(index)
-                        }
-                      }}
-                      placeholder={t('Scoring.SetWeights.AddRelicSetPlaceholder'/* Add relic set */)} 
-                      selectedValues={selectedValues}
-                    />
-                  }}
-                </Form.Item>
-
-                <Flex wrap gap={20}>
-                  {fields.map((field) => (
-                    <Form.Item
-                      key={field.key}
-                      noStyle
-                      shouldUpdate
-                    >
-                      {x => {
-                        const set = x.getFieldsValue()['relicsList'][field.name][0]
-                        return <Flex vertical gap={5} align='center'>
-                          <img src={Assets.getSetImage(set, Constants.Parts.Head)} style={{ width: 48, height: 48 }}></img>
-                          <Form.Item
-                            name={[field.name, 1]}
-                          >
-                            <InputNumberStyled controls={false} size='small' min={0} max={1}/>
-                          </Form.Item>
-                        </Flex>
-                      }}
-                    </Form.Item>
-                  ))}
-                </Flex>
-              </>}
-            </Form.List>
-          </Flex>
-
-          <VerticalDivider/>
-
-          <Flex vertical gap={20} flex={1}>
-            <Form.List
-              name="ornamentsList"
-            >
-              {(fields, { add, remove }) => <>
-                <Form.Item
-                  noStyle
-                  shouldUpdate
-                >
-                  {x => {
-                    const selectedValues = x.getFieldsValue()['ornamentsList']?.map((field: [string, number]) => field[0])
-                    return <SetPicker 
-                      names={SetsOrnamentsNames} 
-                      add={(v) => add([v, 1])} 
-                      remove={(v) => {
-                        const index = selectedValues.indexOf(v)
-                        if (index !== -1) {
-                          remove(index)
-                        }
-                      }}
-                      placeholder={t('Scoring.SetWeights.AddOrnamentSetPlaceholder'/* Add ornament set */)} 
-                      selectedValues={selectedValues}
-                    />
-                  }}
-                </Form.Item>
-
-                <Flex wrap gap={20}>
-                  {fields.map((field) => (
-                    <Form.Item
-                      key={field.key}
-                      noStyle
-                      shouldUpdate
-                    >
-                      {x => {
-                        const set = x.getFieldsValue()['ornamentsList'][field.name][0]
-                        return <Flex vertical gap={5} align='center'>
-                          <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} style={{ width: 48, height: 48 }}></img>
-                          <Form.Item
-                            name={[field.name, 1]}
-                          >
-                            <InputNumberStyled controls={false} size='small' min={0} max={1}/>
-                          </Form.Item>
-                        </Flex>
-                      }}
-                    </Form.Item>
-                  ))}
-                </Flex>
-              </>}
-            </Form.List>
-          </Flex>
-        </Flex>
-
         <Divider style={{ marginTop: 10, marginBottom: 40 }}>
           <ColorizedLinkWithIcon
             text={t('Scoring.WeightMethodology.Header')}
@@ -537,4 +354,9 @@ export default function ScoringModal() {
       </Form>
     </Modal>
   )
+}
+
+export function nullUndefinedToZero(x: number | null) {
+  if (x == null) return 0
+  return x
 }

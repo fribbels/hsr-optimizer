@@ -34,14 +34,6 @@ Lightcones:
         text: '「泡影」付与済み'
         content: >-
           装備キャラの攻撃が敵に命中する時、敵を「泡影」状態にする、1ターン継続。この効果は装備キャラが攻撃を行うたびに、敵それぞれに1回まで発動できる。「泡影」状態の敵に対する装備キャラの与ダメージ+{{DmgBoost}}%、さらに必殺技によるダメージ+{{UltDmgBoost}}%。
-  AThanklessCoronation:
-    Content:
-      ultAtkBoost:
-        text: 必殺技攻撃力増加
-        content: 必殺技を発動した時、装備キャラの攻撃力+{{UltAtkBuff}}%。
-      energyAtkBuff:
-        text: EP参照の攻撃力バフ
-        content: 必殺技を発動した時、装備キャラの最大EPが300以上の場合、固定で最大EPの10%分回復し、さらに装備キャラの攻撃力+{{EnergyAtkBuff}}%、2ターン継続。
   AnInstantBeforeAGaze:
     Content:
       maxEnergyDmgBoost:
@@ -312,12 +304,8 @@ Lightcones:
           装備キャラが攻撃を受けた後、バリアを所持していない場合、装備キャラの最大HP{{ShieldHp}}%分の耐久値を持つバリアを1つ獲得する、2ターン継続。この効果は3ターン回ってくるたびに1回まで発動できる。装備キャラがバリアを所持する場合、自身の受けるダメージ-{{DmgReduction}}%。
   TheHellWhereIdealsBurn:
     Content:
-      spAtkBuff:
-        text: SP参照の攻撃力バフ
-        content: 戦闘に入る時、味方の最大SPが6以上の場合、装備キャラの攻撃力+{{SPAtkBuff}}%。
       atkBuffStacks:
         text: 攻撃力バフ数
-        content: 装備キャラが戦闘スキルを発動するたびに、装備キャラの攻撃力+{{ScalingAtkBuff}}%、最大4層まで累積できる。
   TheUnreachableSide:
     Content:
       dmgBuff:
@@ -337,10 +325,8 @@ Lightcones:
     Content:
       defPen:
         text: 防御力ダウン
-        content: ダメージを与えた時、敵の防御力を{{DefIgnore}}%無視する。
       dmgBuff:
         text: ダメバフ
-        content: '「烈日」を所持している場合、装備キャラの与ダメージ+{{DmgBuff}}%。'
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -377,11 +363,6 @@ Lightcones:
       ultFuaDefShred:
         text: 必殺/追加攻撃の防御力無視
         content: 戦闘開始時および装備キャラが通常攻撃を行った後、追加攻撃ダメージと必殺技によるダメージがターゲットの防御力を{{DefShred}}%無視する、2ターン継続。
-  ADreamScentedInWheat:
-    Content:
-      ultFuaDmgBoost:
-        text: 必殺・追加攻撃バフ
-        content: 装備キャラによる必殺技ダメージと追加攻撃ダメージ+{{DmgBuff}}%。
   AfterTheCharmonyFall:
     Content:
       spdBuff:
@@ -396,7 +377,6 @@ Lightcones:
     Content:
       skillUltDmgBoost:
         text: スキル/必殺技ダメ増加
-        content: 装備キャラによる戦闘スキルダメージと必殺技ダメージ+{{DmgBuff}}%。
   BoundlessChoreo:
     Content:
       enemyDefReducedSlowed:
@@ -486,15 +466,8 @@ Lightcones:
     Content:
       dmgBoost:
         text: ダメバフ
-        content: 装備キャラの与ダメージ+{{DmgBuff}}%。
       vulnerability:
         text: 敵被ダメージ増加
-        content: 装備キャラが攻撃を行った後、100%の基礎確率で攻撃を受けた敵を被ダメージアップ状態にする。状態中、敵の受けるダメージ+{{Vulnerability}}%、2ターン継続。
-  InPursuitOfTheWind:
-    Content:
-      breakDmgBoost:
-        text: 弱点撃破ダメージバフ
-        content: 味方全体の弱点撃破ダメージ+16%。
   IndeliblePromise:
     Content:
       crBuff:
@@ -510,10 +483,6 @@ Lightcones:
     Content:
       shieldBoost:
         text: シールド量増加
-        content: 装備キャラが付与するバリアの耐久値+{{ShieldBuff}}%。
-      dmgBoost:
-        text: バリア時与ダメ増加
-        content: 味方がバリアを持つ時、与ダメージ+{{DmgBuff}}%。
   MakeTheWorldClamor:
     Content:
       ultDmgBuff:
@@ -565,11 +534,6 @@ Lightcones:
         text: 速度/ダメバフ有効
         content: >-
           戦闘に入った後、装備キャラの速度+{{SpdBuff}}%、与ダメージ+{{DmgBuff}}%。この効果は装備キャラがダメージを受けた後に失効し、装備キャラの次のターンが終了した時に再度効力を発生する。
-  SeeYouAtTheEnd:
-    Content:
-      skillFuaDmgBoost:
-        text: 必殺・追加攻撃バフ
-        content: 装備キャラによる戦闘スキルダメージと追加攻撃ダメージ+{{DmgBuff}}%。
   ShadowedByNight:
     Content:
       spdBuff:
@@ -600,11 +564,6 @@ Lightcones:
       cdBuffActive:
         text: '会心ダメバフ'
         content: 装備キャラが攻撃を行った後、攻撃を受けた敵のうち、装備キャラの属性に対応する弱点属性を持つ敵が2体以上の場合、装備キャラの会心ダメージ+{{CritBuff}}%、2ターン継続。
-  TheFlowerRemembers:
-    Content:
-      memoCdBoost:
-        text: 精霊会心ダメバフ
-        content: 装備キャラの記憶の精霊の会心ダメージ+{{CritDmgBuff}}%。
   TheGreatCosmicEnterprise:
     Content:
       weaknessTypes:
@@ -623,11 +582,6 @@ Lightcones:
       defeatedEnemyAtkStacks:
         text: 敵キル数
         content: 敵を1体倒すごとに、装備キャラの攻撃力+{{AtkBuff}}%、この効果は最大で3層累積できる。
-  TheStorysNextPage:
-    Content:
-      ohbBuff:
-        text: 治癒量バフ
-        content: 装備キャラの記憶の精霊が攻撃した後、装備キャラおよびその記憶の精霊の治癒量+{{OHBBuff}}%、1ターン継続。
   ThisIsMe:
     Content:
       defScalingUltDmg:
@@ -644,11 +598,6 @@ Lightcones:
       defeatedEnemyCrBuff:
         text: 敵キル後の会心率バフ
         content: 装備キャラの攻撃力+16%。装備キャラが敵を倒した後、会心率+{{CritBuff}}%、3ターン継続。
-  UntoTomorrowsMorrow:
-    Content:
-      hp50DmgBoost:
-        text: HP≥50%時のダメバフ
-        content: 味方の残りHPが50%以上の場合、与ダメージ+{{DmgBuff}}%。
   VictoryInABlink:
     Content:
       teamDmgBuff:
@@ -835,19 +784,8 @@ Characters:
     Content:
       cdBuff:
         text: 会心ダメバフ
-        content: 味方がSPを獲得した後、SPが4以上の場合、アーチャーの会心ダメージ+120%、1ターン継続。
-      skillEnhances:
-        text: スキル強化
-        content: 戦闘スキルを発動してもターンは終了しない。また、アーチャーの戦闘スキルによるダメージ+{{SkillDmgBuff}}%。
-      e2QuantumResPen:
-        text: 2凸 量子属性耐性貫通
-        content: 必殺技を発動する時、ターゲットの量子属性耐性-20%、さらに量子属性弱点を付与する、2ターン継続。
-      e4UltDmg:
-        text: 4凸 必殺技ダメージ増加
-        content: 必殺技ダメージ+150%。
       e6Buffs:
         text: 6凸 必殺/追加攻撃強化
-        content: 自身の戦闘スキルで累積できるダメージアップ効果+1層。戦闘スキルダメージは防御力を20%無視する。
   Argenti:
     Content:
       ultEnhanced:
@@ -960,20 +898,12 @@ Characters:
     Content:
       enhancedStateActive:
         text: '「地獄変」状態'
-        content: 刃の最大HPの30%分消費し、「地獄変」状態に入る。「地獄変」状態では戦闘スキルを発動できず、自身の与ダメージ+{{DmgBuff}}%。敵に攻撃される確率が大幅に上がり、通常攻撃「支離剣」が「無間剣樹」に強化される、3ターン継続。
       hpPercentLostTotal:
         text: 戦闘中失ったHPの累計
-        content: >-
-          敵単体に刃の最大HPの{{UltHpScaling}}%+戦闘中失ったHPの累計{{UltHpScaling}}%分の風属性ダメージを与える。::BR:: 1凸：指定した敵単体に対する強化通常攻撃と必殺技によるダメージが、刃の戦闘中失ったHPの累計150%分アップする。
-      e1BasicUltMultiBoost:
-        text: 1凸 通常・必殺攻撃バフ
-        content: 指定した敵単体に対する強化通常攻撃と必殺技によるダメージが、刃の戦闘中失ったHPの累計150%分アップする。
       e2CrBuff:
         text: 2凸 会心率アップ
-        content: 刃が「地獄変」状態の時、会心率+15%。
       e4MaxHpIncreaseStacks:
         text: 4凸 最大HP増加数
-        content: 残りHPが50%を超える状態から、50%以下になった時、最大HP+20%、この効果は最大で2層累積できる。
   Boothill:
     Content:
       standoffActive:
@@ -1457,26 +1387,11 @@ Characters:
     Content:
       talentEnhancedState:
         text: '「完全燃焼」状態'
-        content: >-
-          「朔望」を2層所持する時、鏡流は「転魄」状態に入り、追加で「朔望」を1層獲得し、会心率+{{UltCRBuff}}%。::BR:: 「転魄」状態の時、効果抵抗+35%、必殺技ダメージ+20%。
-      maxSyzygyDefPen:
-        text: '「朔望」上限の防御無視'
-        content: '「朔望」を獲得した時にすでに上限に達した場合、鏡流の次の攻撃でターゲットの防御力を25%無視する。'
-      moonlightStacks:
-        text: '「月光」層数'
-        content: '「転魄」状態で味方がダメージを受ける、またはHPを消費するたびに、鏡流は「月光」を1層獲得する。獲得した「月光」1層につき、鏡流の会心ダメージ+{{MoonlightCDBuff}}%、最大5層まで所持することが可能。'
-      e1Buffs:
-        text: 1凸 バフ
-        content: 必殺技または強化戦闘スキルを発動した時、鏡流の会心ダメージ+36%、1ターン継続。さらにその敵に鏡流の最大HP80%分の氷属性ダメージを1回与える。
       e2SkillDmgBuff:
         text: 2凸 スキルダメバフ
         content: 必殺技を発動した後、次の強化戦闘スキルによるダメージ+80%。
-      e4MoonlightCdBuff:
-        text: 4凸 月光の会心ダメ強化
-        content: '「転魄」状態の時、「月光」1層につき、会心ダメージ+20%。'
       e6ResPen:
         text: 6凸 全属性耐性貫通
-        content: 鏡流が「転魄」状態に入った時、「朔望」の上限+1層、さらに「朔望」を2層獲得する。「転魄」状態の時、氷属性の耐性貫通+30%。
   JingYuan:
     Content:
       skillCritBuff:
@@ -1506,13 +1421,6 @@ Characters:
     Content:
       ehrBasedBuff:
         text: 効果命中からの攻撃力バフ
-        content: 味方の効果命中が75%以上の場合、カフカはその味方の攻撃力を100%アップさせる。
-      e1DotDmgReceivedDebuff:
-        text: 1凸 持続ダメ増加
-        content: 攻撃する時、100%の基礎確率でターゲットの受ける持続ダメージ+30%、2ターン継続。
-      e2TeamDotDmg:
-        text: 2凸 持続ダメ増加
-        content: カフカがフィールド上にいる時、味方全体の持続ダメージ+33%。
   Lingsha:
     Content:
       beConversion:
@@ -1669,45 +1577,14 @@ Characters:
         content: 戦闘スキルを発動した時、100%の基礎確率で敵の氷属性耐性-12%、2ターン継続。
   Phainon:
     Content:
-      transformedState:
-        text: 変身中
-        content: >-
-          変身し、変身している間境界を展開する。::BR::境界内では、自身以外の味方キャラが一時離脱となり、行動できなくなる。::BR:: 2凸：物理属性耐性貫通+20%。::BR:: 6凸：「支柱・死星の天裁」を発動後、残りHPが最も高い敵に、その回の攻撃の合計ダメージ36%分の確定ダメージを与える。
-      enhancedSkillType:
-        text: 強化スキルの種類
-        content: >-
-          2種類のスキルを選択できる。::BR:: 災厄・魂命の滅却：敵全体の数と同等の「壊傷」を獲得し、その後敵全体を即座に行動させる。敵が行動した後、即座にカウンターを発動する。 ::BR:: 支柱・死星の天裁：「壊傷」を4つまで消費できる。「壊傷」を1消費するたびに1つのランダムな敵単体にダメージを与える。「壊傷」を4消費した時、追加でダメージを与える。::BR:: 変身したとき、「壊傷」を4層獲得する。
-        options:
-          Calamity:
-            display: '戦闘スキル: 災厄'
-            label: '強化戦闘スキル: 災厄'
-          Foundation:
-            display: '戦闘スキル: 支柱'
-            label: '強化戦闘スキル：支柱'
       atkBuffStacks:
         text: 攻撃力バフ数
-        content: 戦闘に入る、または変身終了時に、攻撃力+50%。この効果は最大で2層まで累積できる。
       cdBuff:
         text: 会心ダメバフ
-        content: ファイノンが他の任意の単体のスキルターゲットになった時、「火種」を1獲得する。なお、味方のスキルターゲットになった時、会心ダメージ+{{TalentCdBuff}}%、3ターン持続。
-      sustainDmgBuff:
-        text: 治癒/シールドのバフ
-        content: 自身以外の味方による治癒効果またはバリアを得た時、与ダメージ+45%、4ターン継続。
       spdBuff:
         text: 味方全体の速度バフ
-        content: 変身を解除する時、味方全体の速度+15%、1ターン継続。
-      e1Buffs:
-        text: 1凸 バフ
-        content: >-
-          追加ターンの基礎速度継承率+66%。一度の変身中に敵を1体倒すたびに、追加ターンの基礎速度継承率+2%、最大で+84%。::BR::必殺技を発動した時、会心ダメージ+50%、3ターン継続。
       e2ResPen:
         text: 2凸 全属性耐性貫通
-        content: >-
-          物理属性耐性貫通+20%。「壊傷」を4消費して「支柱・死星の天裁」を発動した時、追加ターンを1獲得する。
-      e6TrueDmg:
-        text: 6凸 確定ダメージ
-        content: >-
-          「支柱・死星の天裁」を発動後、残りHPが最も高い敵に、その回の攻撃の合計ダメージ36%分の確定ダメージを与える。
   Qingque:
     Content:
       basicEnhanced:
@@ -1810,37 +1687,14 @@ Characters:
     Content:
       enhancedBasic:
         text: 強化通常攻撃
-        content: 必殺技を発動した後、次の通常攻撃が「解放されし黄金の王権」に強化され、「解放されし黄金の王権」のみ発動できるようになる。
       enhancedSkill:
         text: 強化状態のスキル
-        content: '「炉心共鳴」を所持し、かつその回の戦闘スキルで「炉心共鳴」を消費してセイバーのEPを満タンまで回復できる場合、所持している「炉心共鳴」1層につき、その回の戦闘スキルのダメージ倍率+{{CoreResonanceExtraScaling}}%。また、攻撃した後に「炉心共鳴」をすべて消費する。'
       talentDmgBuff:
         text: 天賦によるダメバフ
-        content: 任意の味方が必殺技を発動する時、セイバーの与ダメージ+{{TalentDmgBuff}}%、2ターン継続。
-      coreResonanceCdBuff:
-        text: 炉心共鳴の会心ダメバフ
-        content: 今回の戦闘で「炉心共鳴」を1層獲得するごとに、セイバーの会心ダメージ+4%、この効果は最大で8層累積できる。
-      coreResonanceStacks:
-        text: '「炉心共鳴」層数'
-        content: '「炉心共鳴」を所持し、かつその回の戦闘スキルで「炉心共鳴」を消費してセイバーのEPを満タンまで回復できる場合、所持している「炉心共鳴」1層につき、その回の戦闘スキルのダメージ倍率+{{CoreResonanceExtraScaling}}%。また、攻撃した後に「炉心共鳴」をすべて消費する。'
-      crBuff:
-        text: 会心率バフ
-        content: セイバーの会心率+20%。
       cdBuff:
         text: 会心ダメバフ
-        content: 戦闘スキルを発動する時、セイバーの会心ダメージ+50%、2ターン継続。
-      e1DmgBuff:
-        text: 1凸 与ダメージバフ
-        content: セイバーの必殺技ダメージ+60%。
-      e2Buffs:
-        text: 2凸 バフ
-        content: 今回の戦闘で「炉心共鳴」を1層獲得するたびに、セイバーの与ダメージが敵の防御力を1%無視する。この効果は最大で15層累積できる。「炉心共鳴」による戦闘スキルのダメージ倍率アップ効果が発動する時、「炉心共鳴」1層につき、その回の戦闘スキルのダメージ倍率がさらに7%アップする。
-      e4ResPen:
-        text: 4凸 全属性耐性貫通
-        content: セイバーの風属性耐性貫通+8%。必殺技を発動した後、セイバーの風属性耐性貫通+4%、この効果は最大で3層累積できる。
       e6ResPen:
         text: 6凸 全属性耐性貫通
-        content: セイバーの必殺技ダメージの風属性耐性貫通+20%。軌跡「湖の祝福」で蓄積できる超過分のEPが200になる。戦闘中に初めて必殺技を発動した後、セイバーのEPを300固定で回復する。その後、この効果は、必殺技を3回発動するごとに1回発動する。
   Sampo:
     Content:
       targetDotTakenDebuff:
@@ -1897,29 +1751,16 @@ Characters:
           戦闘スキルを発動した時、敵にあるデバフが3つ以上の場合、戦闘スキルによる敵の全属性耐性ダウン効果がさらに3%ダウンする。::BR::4凸::必殺技で敵を攻撃した後、その敵にあるデバフ1つにつき、さらに銀狼の攻撃力20%分の量子属性付加ダメージを与える。この効果は1回の必殺技で、最大で5回発動できる。::BR::6凸::敵にあるデバフ1つにつき、その敵に対する銀狼の与ダメージ+20%、最大で+100%。
   SilverWolfB1:
     Content:
-      ehrToAtkConversion:
-        text: 効果命中→攻撃力変換
-        content: 銀狼の効果命中10%につき、攻撃力+10%、最大で+50%。
       skillResShredDebuff:
         text: スキル時の全属性耐性ダウン
-        content: 100%の基礎確率で敵の全属性耐性-{{SkillResShred}}%、2ターン継続。
       skillWeaknessResShredDebuff:
         text: 弱点埋込時の属性耐性ダウン
-        content: '{{ImplantBaseChance}}%の基礎確率で指定した敵単体に、フィールド上の味方が有する属性の内1つを弱点として埋め込む（パーティ1枠目のキャラの属性を優先的に埋め込む）。さらにその弱点属性の属性耐性-20%、3ターン継続。元からあった弱点を埋め込んだ場合、対応属性の属性耐性がダウンする効果は発動されない。'
       talentDefShredDebuff:
         text: '「欠陥」付与済み'
-        content: >-
-          銀狼は以下の3つの「欠陥」を作成できる：攻撃力-{{BugAtkDown}}%、防御力-{{BugDefDown}}%、速度-{{BugSpdDown}}%。::BR::銀狼が攻撃を行った後、100%の基礎確率で攻撃を受けた敵にランダムな「欠陥」を1つ埋め込む、3ターン継続。::BR::敵が倒された時、銀狼がその敵に付与した弱点は、フィールド上にいる銀狼に弱点を付与されていない敵に移る。::BR::なお、優先的に精鋭エネミー以上の敵に移る。。
       ultDefShredDebuff:
         text: '「一般解」付与済み'
-        content: '{{UltBaseChance}}%の基礎確率で敵全体の防御力-{{UltDefShred}}%、3ターン継続。'
       targetDebuffs:
         text: 敵のデバフ数
-        content: >-
-          銀狼が攻撃を行った後、100%の基礎確率で攻撃を受けた敵にランダムな「欠陥」を1つ埋め込む、4ターン継続。::BR:: 1凸：必殺技で敵を攻撃した後、敵にデバフが1つあるごとに、銀狼はEPを7回復する。この効果は一回の必殺技発動につき、最大で5回発動できる。::BR:: 2凸：敵が戦闘に入る時、受けるダメージ+20%。敵が味方の攻撃を受けた時、銀狼は100%の基礎確率で攻撃を受けた敵にランダムな「欠陥」を1つ埋め込む。::BR:: 4凸：必殺技で敵を攻撃した後、その敵にあるデバフ1つにつき、さらに銀狼の攻撃力20%分の量子属性付加ダメージを与える。この効果は1回の必殺技で、敵それぞれに最大で5回発動できる。::BR:: 6凸：敵にあるデバフ1つにつき、その敵に対する銀狼の与ダメージ+20%、最大で+100%。
-      e2Vulnerability:
-        text: 2凸 敵被ダメージ増加
-        content: 敵が戦闘に入る時、受けるダメージ+20%。
   Sparkle:
     Content:
       skillCdBuff:

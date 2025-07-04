@@ -54,11 +54,6 @@ export const TsUtils = {
     )
   },
 
-  nullUndefinedToZero: (x: number | null) => {
-    if (x == null) return 0
-    return x
-  },
-
   uuid: (): string => {
     return crypto.randomUUID()
   },

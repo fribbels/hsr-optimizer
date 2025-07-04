@@ -309,9 +309,6 @@ SetConditionals:
     Sacerdos:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} cumuls (+{{buffValue}}% DC)'
-    Arcadia:
-      Display: '{{allyCount}}x'
-      Label: '{{allyCount}} allié(s) (+{{buffValue}}% DGT)'
   Conditionals:
     DefaultMessage: Activé par défaut - les effets s'appliqueront aux calculs de combat.
     Hunter: Lorsque cette option est sélectionnée, le buff de DGT CRIT sera appliqué au calcul des stats de combat.
@@ -339,7 +336,6 @@ SetConditionals:
     Kalpagni: Lorsque cette option est activée, applique le buff d'Effet de Rupture au calcul des stats de combat.
     Lushaka: Désactivé par défaut - Ce set ne peut pas affecter son porteur.
     Banana: Lorsque cette option est sélectionnée, le buff additionnel de 32% DGT CRIT sera appliqué au calcul des stats de combat.
-    Arcadia: Le buff sélectionné est appliqué au calcul des stats de combat. Se met à jour automatiquement lorsque l'équipe set modifiée.
 Presets:
   SpdValues:
     SPD0: Pas de vitesse minimale

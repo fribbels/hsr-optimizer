@@ -59,7 +59,7 @@ export function RelicLocator(props: { relic: Relic | undefined }) {
   useEffect(() => {
     if (!relic) return
     const indexLimit = Math.max(1, rowLimit) * Math.max(1, inventoryWidth)
-    const newerRelics = DB.getRelics().filter((x) => x.ageIndex! >= relic.ageIndex!)
+    const newerRelics = DB.getRelics().filter((x) => x.ageIndex! <= relic.ageIndex!)
 
     // Part-only filter
     const partFilteredIndex = newerRelics.filter((x) => relic.part == x.part).length - 1

@@ -18,7 +18,6 @@ export function ReliquaryDescription(): ReactElement {
           </li>
           <li>{t('l1') /* Inaccurate speed decimals, 5-10 minutes OCR scan */}</li>
           <li>{t('l2') /* Imports full inventory and character roster */}</li>
-          <li>{t('l3') /* Supports live importing (new/enhanced relics are imported in real time) */}</li>
         </ul>
       </li>
     </>

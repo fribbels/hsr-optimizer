@@ -81,7 +81,7 @@ declare global {
     setCharacterRows: (characters: Character[]) => void
     setRelicRows: (characters: Relic[]) => void
     setOptimizerBuild: (build?: Build) => void
-    setSelectedRelicIDs: (ids: string[]) => void
+    setSelectedRelic: (relic: Partial<Relic>) => void
     setEditModalOpen: (open: boolean) => void
 
     showcaseTabForm: FormInstance<ShowcaseTabForm>

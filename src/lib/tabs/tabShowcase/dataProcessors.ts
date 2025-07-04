@@ -23,7 +23,7 @@ export function processMihomoData(data: MihomoApiResponse): UnconvertedCharacter
 }
 
 export function processEnkaData(data: EnkaApiResponse): UnconvertedCharacter[] {
-  return [...(data.detailInfo.assistAvatarList || []), ...(data.detailInfo.avatarDetailList || [])]
+  return (data.detailInfo.avatarDetailList ?? [])
     .filter((x) => !!x)
     .sort((a, b) => {
       if (b._assist && a._assist) return (a.pos || 0) - (b.pos || 0)
@@ -33,6 +33,11 @@ export function processEnkaData(data: EnkaApiResponse): UnconvertedCharacter[] {
     })
     .filter((item, index, array) => {
       return array.findIndex((i) => i.avatarId === item.avatarId) === index
+    }).map((c) => {
+      if (c.enhancedId) {
+        c.avatarId += `b${c.enhancedId}`
+      }
+      return c
     })
 }
 

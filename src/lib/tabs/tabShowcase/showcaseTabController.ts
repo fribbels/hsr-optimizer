@@ -3,10 +3,14 @@ import {
   CharacterConverter,
   UnconvertedCharacter,
 } from 'lib/importer/characterConverter'
+import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { Message } from 'lib/interactions/message'
 import {
   AGLAEA,
   BLADE_B1,
+  CERYDRA,
+  ERA_ENGRAVED_BY_GOLDEN_BLOOD,
+  HYSILENS,
   I_SHALL_BE_MY_OWN_SWORD,
   INCESSANT_RAIN,
   INTO_THE_UNREACHABLE_VEIL,
@@ -17,6 +21,7 @@ import {
   THE_HERTA,
   THE_UNREACHABLE_SIDE,
   TIME_WOVEN_INTO_GOLD,
+  WHY_DOES_THE_OCEAN_SING,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB, {
   AppPage,
@@ -66,11 +71,12 @@ export function presetCharacters(): Preset[] {
   const lc = (id: LightCone['id']) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
+    { characterId: char(HYSILENS), lightConeId: lc(WHY_DOES_THE_OCEAN_SING) },
+    { characterId: char(CERYDRA), lightConeId: lc(ERA_ENGRAVED_BY_GOLDEN_BLOOD) },
+
     { characterId: char('1408'), lightConeId: lc('23044') },
     { characterId: char('1014'), lightConeId: lc('23045') },
     { characterId: char('1015'), lightConeId: lc('23046') },
-
-    { characterId: char('1406'), lightConeId: lc('23043') },
 
     { characterId: char(KAFKA_B1), lightConeId: lc(PATIENCE_IS_ALL_YOU_NEED) },
     { characterId: char(SILVER_WOLF_B1), lightConeId: lc(INCESSANT_RAIN) },
@@ -223,6 +229,7 @@ export function submitForm(form: ShowcaseTabForm) {
       // Remove duplicate characters (the same character can be placed in both one of the first 3 slots and one of the latter 5)
       const converted = characters
         .map((x) => CharacterConverter.convert(x))
+        .map((x) => migrateBuffedCharactersShowcase(x))
         .filter((
           value,
           index,
@@ -245,4 +252,22 @@ export function submitForm(form: ShowcaseTabForm) {
         setLoading(false)
       }, 1000 * 5)
     })
+}
+
+function migrateBuffedCharactersShowcase(character: ShowcaseTabCharacter) {
+  const id = character.id
+  if (buffedCharacters[id]) {
+    const buffedId = buffedCharacters[id] as CharacterId
+
+    character.id = buffedId
+    character.form.characterId = buffedId
+
+    Object.values(character.equipped).forEach((x) => {
+      if (x) {
+        x.equippedBy = buffedId
+      }
+    })
+  }
+
+  return character
 }

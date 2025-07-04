@@ -1,11 +1,10 @@
-import i18next from 'i18next'
 import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 import {
@@ -14,7 +13,7 @@ import {
 } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.JourneyForeverPeaceful')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.HolidayThermaeEscapade.Content')
   const { SOURCE_LC } = Source.lightCone('21061')
 
   const sValuesElementalDmg = [0.16, 0.20, 0.24, 0.28, 0.32]
@@ -34,15 +33,15 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       lc: true,
       id: 'dmgBoost',
       formItem: 'switch',
-      text: 'DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('dmgBoost.text'),
+      content: t('dmgBoost.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesElementalDmg[s]) }),
     },
     vulnerability: {
       lc: true,
       id: 'vulnerability',
       formItem: 'switch',
-      text: 'Vulnerability',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('vulnerability.text'),
+      content: t('vulnerability.content', { Vulnerability: TsUtils.precisionRound(100 * sValuesVulnerability[s]) }),
     },
   }
 

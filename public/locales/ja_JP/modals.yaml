@@ -287,7 +287,7 @@ Relic:
       SetInvalid: セットが無効です
       SetNotOrnament: 選択されたセットはオーナメントセットではありません
       SetNotRelic: 選択されたセットは遺物セットではありません
-      SubNInvalid: "サブステータス {{number}} は無効な値です"
+      SubNInvalid: "サブステータス {{number}} は使用できる値ではありません"
       SubsOutOfOrder: サブステータスの順番が間違っています
       DuplicateSubs: サブステータスが重複しています。各タイプは一つのみ許可されています。
       MainAsSub: サブステータスとメインステータスが一致しています

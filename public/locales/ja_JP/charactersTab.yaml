@@ -34,7 +34,7 @@ GridHeaders:
 Messages:
   RemoveSuccess: キャラクターを削除しました
   UnequipSuccess: キャラクターの遺物を外しました
-  NoSelectedCharacter: キャラクターを選択してください
+  NoSelectedCharacter: キャラクターが未選択です
   SwitchSuccess: "$t(gameData:Characters.{{charId}}.Name) と遺物を交換しました"
   SortByScoreWarning: 本当にすべてのキャラクターを並び替えますか？以前の設定内容はすべて失われます。
   SaveSuccess: "ビルドを保存しました: {{name}}"
@@ -42,7 +42,7 @@ Messages:
   DeleteWarning: "本当に$t(gameData:Characters.{{charId}}.Name)を削除しますか？"
   BuildAlreadyExists: "ビルド名 {{name}} はすでに存在しています"
   ImageUploadFailed: 画像のアップロードに失敗しました
-  InvalidFile: 有効な画像ファイルではありません
+  InvalidFile: この画像ファイルは使用できません
 CharacterPreview:
   ScoringSidebar:
     Stats:
@@ -82,8 +82,8 @@ CharacterPreview:
     AddedRelic: 遺物を追加しました
     SavedPortrait: 画像を変更しました
     RevertedPortrait: 画像を復元しました
-    NoSelectedCharacter: キャラクターが選択されていません
-    NoSelectedLightCone: 光円錐が選択されていません
+    NoSelectedCharacter: キャラクターが未選択です
+    NoSelectedLightCone: 光円錐が未選択です
   ScoreHeader:
     Title: 戦闘シミュレーション
     TitleBenchmark: "{{spd}} 基準速度"
@@ -112,7 +112,7 @@ CharacterPreview:
     ComboDmgUpgrade: コンボダメージ変化量
   BuildAnalysis:
     ScoringNote: >-
-      DPS スコアは、スキル回しのダメージを同じチーム編成・光円錐・星塊を用いた基準ビルドと比較することで、ビルドの品質を評価します。DPS スコア及びコンボダメージは、選択したチーム編成のみに対して相対的に計測されるため、異なるチーム編成間の比較に用いるものではありません。
+      DPS スコアは、スキル回しのダメージを同じチーム編成・光円錐・星塊を用いた基準ビルドと比較することで、ビルドの品質を評価します。DPS スコア及びコンボダメージは、選択したチーム編成のみに対して相対的に計測されます。そのため、異なるチーム編成間の比較には使わないでください。
     RelicRarityHeader: 遺物希少性向上比較
     RelicRarityNote: |-
       推定開拓力は、キャラクターに設定したステータスの重み付けに基づくより強い遺物にそれぞれ乗り換えるのに必要な日数と開拓力を推定するものです。これは遺物収集の優先度を決めるための、統計的珍しさを示す指標であり、DPS スコアやコンボダメージに反映されるものでも、影響を与えるものでもありません。

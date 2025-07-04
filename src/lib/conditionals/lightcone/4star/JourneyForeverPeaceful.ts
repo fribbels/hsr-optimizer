@@ -1,11 +1,10 @@
-import i18next from 'i18next'
 import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 import {
@@ -14,7 +13,7 @@ import {
 } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.JourneyForeverPeaceful')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.JourneyForeverPeaceful.Content')
   const { SOURCE_LC } = Source.lightCone('21053')
 
   const sValuesShieldBoost = [0.12, 0.15, 0.18, 0.21, 0.24]
@@ -34,15 +33,15 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       lc: true,
       id: 'shieldBoost',
       formItem: 'switch',
-      text: 'Shield boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('shieldBoost.text'),
+      content: t('shieldBoost.content', { ShieldBuff: TsUtils.precisionRound(100 * sValuesShieldBoost[s]) }),
     },
     dmgBoost: {
       lc: true,
       id: 'dmgBoost',
       formItem: 'switch',
-      text: 'Shielded DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('dmgBoost.text'),
+      content: t('dmgBoost.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmgBoost[s]) }),
     },
   }
 

@@ -351,7 +351,12 @@ export const DB = {
     const addRelic = !oldRelic
 
     if (addRelic) {
-      relic.ageIndex = DB.getRelics().length
+      relic.ageIndex ??= 1 + Math.max(
+        ...DB.getRelics()
+          .map((r) => r.ageIndex)
+          .filter((x) => x != null),
+      )
+
       setRelic(relic)
       if (relic.equippedBy) {
         DB.equipRelic(relic, relic.equippedBy)
@@ -628,7 +633,7 @@ export const DB = {
     }
   },
 
-  addFromForm: (form: Form, autosave = true) => {
+  addFromForm: (form: Form, autosave = true, select = true) => {
     const characters = DB.getCharacters()
     let found = DB.getCharacterById(form.characterId)
     if (found) {
@@ -653,8 +658,8 @@ export const DB = {
      * TODO: after render optimization, window.characterGrid is possibly undefined
      * Since the grid resets the rows, we have to re-select the grid node and inform the character tab
      */
-    if (window.characterGrid?.current?.api) {
-      window.characterGrid.current.api.updateGridOptions({ rowData: characters })
+    const oldFocusCharacter = useCharacterTabStore.getState().focusCharacter
+    if (window.characterGrid?.current?.api && (select || !oldFocusCharacter)) {
       window.characterGrid.current.api.forEachNode((node: IRowNode<Character>) => {
         if (node.data?.id == found.id) node.setSelected(true)
       })
@@ -865,7 +870,7 @@ export const DB = {
     // Add new characters
     if (newCharacters) {
       for (const character of newCharacters) {
-        DB.addFromForm(character, false)
+        DB.addFromForm(character, false, false)
       }
     }
 
@@ -904,6 +909,10 @@ export const DB = {
           // Update the owner of the existing relic with the newly imported owner
           found = { ...found, equippedBy: newRelic.equippedBy }
           newRelic = found
+        }
+
+        if (newRelic.ageIndex !== undefined) {
+          found.ageIndex = newRelic.ageIndex
         }
 
         // Save the old relic because it may have edited speed values, delete the hash to prevent duplicates
@@ -1184,6 +1193,6 @@ function deduplicateStringArray<T extends string[] | null | undefined>(arr: T) {
 
 function indexRelics(relics: Relic[]) {
   relics.forEach((r, idx, relics) => {
-    relics[idx] = { ...r, ageIndex: relics.length - idx - 1 }
+    relics[idx] = { ...r, ageIndex: r.ageIndex ?? (idx === 0 ? 0 : relics[idx - 1].ageIndex! + 1) }
   })
 }

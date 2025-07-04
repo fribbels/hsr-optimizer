@@ -1,21 +1,21 @@
-BetaMessage: "當前版本：{{Version}} - 計算結果可能會發生變化。"
+BetaMessage: '當前版本：{{Version}} - 計算結果可能會發生變化。'
 Common:
   HealAbility:
-    Text: "治療技能"
-    Content: "選擇用於計算治療量的技能"
-    Basic: "治療技能: 普攻"
-    Skill: "治療技能: 戰技"
-    Ult: "治療技能: 終結技"
-    Talent: "治療技能: 天賦"
-    Trace: "治療技能: 行跡"
+    Text: '治療技能'
+    Content: '選擇用於計算治療量的技能'
+    Basic: '治療技能: 普攻'
+    Skill: '治療技能: 戰技'
+    Ult: '治療技能: 終結技'
+    Talent: '治療技能: 天賦'
+    Trace: '治療技能: 行跡'
   ShieldAbility:
-    Text: "護盾技能"
-    Content: "選擇用於計算護盾量的技能"
-    Basic: "護盾技能: 普攻"
-    Skill: "護盾技能: 戰技"
-    Ult: "護盾技能: 終結技"
-    Talent: "護盾技能: 天賦"
-    Trace: "護盾技能: 行跡"
+    Text: '護盾技能'
+    Content: '選擇用於計算護盾量的技能'
+    Basic: '護盾技能: 普攻'
+    Skill: '護盾技能: 戰技'
+    Ult: '護盾技能: 終結技'
+    Talent: '護盾技能: 天賦'
+    Trace: '護盾技能: 行跡'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -206,6 +206,10 @@ Lightcones:
     Content:
       activeShieldDmgDecrease:
         text: 持有護盾時受傷降低
+  TheHellWhereIdealsBurn:
+    Content:
+      atkBuffStacks:
+        text: 攻擊力提升層數
   TheUnreachableSide:
     Content:
       dmgBuff:
@@ -217,6 +221,10 @@ Lightcones:
         text: 卸甲易傷
       corneredVulnerability:
         text: 窮寇易傷
+  ThusBurnsTheDawn:
+    Content:
+      dmgBuff:
+        text: 傷害增益
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -318,6 +326,10 @@ Lightcones:
     Content:
       postSkillHealBuff:
         text: 施放戰技後治療量增益
+  HolidayThermaeEscapade:
+    Content:
+      dmgBoost:
+        text: 傷害提高
   IndeliblePromise:
     Content:
       crBuff:
@@ -338,7 +350,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: "≤2個敵人時暴擊率增益"
+        text: '≤2個敵人時暴擊率增益'
         content: 當場上的敵方目標數小於等於2時，裝備者的爆擊率提高{{CritBuff}}%.
   PastAndFuture:
     Content:
@@ -394,7 +406,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: "≥2個對應屬性弱點目標暴擊傷害增益"
+        text: '≥2個對應屬性弱點目標暴擊傷害增益'
   TheMolesWelcomeYou:
     Content:
       atkBuffStacks:
@@ -539,6 +551,12 @@ Characters:
         text: 1魂防禦穿透
       e6Buffs:
         text: 6魂增益
+  Archer:
+    Content:
+      cdBuff:
+        text: 生命變化時暴擊傷害增益
+      e6Buffs:
+        text: 6魂增益
   Argenti:
     Content:
       ultEnhanced:
@@ -624,6 +642,14 @@ Characters:
       hpPercentLostTotal:
         text: 累計已損失生命值%
         content: 終結技傷害會根據刃在當前戰鬥中的生命值損失計數進行加成。 本場戰鬥中累計已損失生命值最高不超過刃生命上限的{{hpPercentLostTotalMax}}%，施放終結技後會清空並進行重新累積。
+      e4MaxHpIncreaseStacks:
+        text: 4魂生命上限層數
+  BladeB1:
+    Content:
+      enhancedStateActive:
+        text: 地獄變狀態
+      hpPercentLostTotal:
+        text: 累計已損失生命值%
       e4MaxHpIncreaseStacks:
         text: 4魂生命上限層數
   Boothill:
@@ -806,10 +832,20 @@ Characters:
     Content:
       talentEnhancedState:
         text: 強化狀態
+  JingliuB1:
+    Content:
+      talentEnhancedState:
+        text: 強化狀態
   Lingsha:
     Content:
       e2BeBuff:
         text: 2魂擊破特攻增益
+  Phainon:
+    Content:
+      atkBuffStacks:
+        text: 攻擊力提升層數
+      cdBuff:
+        text: 生命變化時暴擊傷害增益
   Rappa:
     Content:
       e1DefPen:
@@ -818,6 +854,12 @@ Characters:
     Content:
       skillDmgBuff:
         text: 戰技傷害增益
+  Saber:
+    Content:
+      talentDmgBuff:
+        text: 天賦傷害增益
+      cdBuff:
+        text: 生命變化時暴擊傷害增益
   Sampo:
     Content:
       skillExtraHits:

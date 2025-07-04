@@ -1,26 +1,26 @@
-BetaMessage: "현재 버전: {{Version}} - 계산된 값은 변경될 수 있습니다."
+BetaMessage: '현재 버전: {{Version}} - 계산된 값은 변경될 수 있습니다.'
 Common:
   BuffPriority:
-    Text: "버프 우선 순위 대상"
-    Content: "버프를 우선적으로 부여할 대상을 선택하세요."
-    Self: "버프 우선: 자신"
-    Memo: "버프 우선: 기억 정령"
+    Text: '버프 우선 순위 대상'
+    Content: '버프를 우선적으로 부여할 대상을 선택하세요.'
+    Self: '버프 우선: 자신'
+    Memo: '버프 우선: 기억 정령'
   HealAbility:
-    Text: "치유 기술"
-    Content: "치유 기술을 선택하세요."
-    Basic: "치유 기술: 일반"
-    Skill: "치유 기술: 전투 스킬"
-    Ult: "치유 기술: 필살기"
-    Talent: "치유 기술: 비술"
-    Trace: "치유 기술: 행적"
+    Text: '치유 기술'
+    Content: '치유 기술을 선택하세요.'
+    Basic: '치유 기술: 일반'
+    Skill: '치유 기술: 전투 스킬'
+    Ult: '치유 기술: 필살기'
+    Talent: '치유 기술: 비술'
+    Trace: '치유 기술: 행적'
   ShieldAbility:
-    Text: "보호막 기술"
-    Content: "보호막 기술을 선택하세요."
-    Basic: "보호막 기술: 일반"
-    Skill: "보호막 기술: 전투 스킬"
-    Ult: "보호막 기술: 필살기"
-    Talent: "보호막 기술: 비술"
-    Trace: "보호막 기술: 행적"
+    Text: '보호막 기술'
+    Content: '보호막 기술을 선택하세요.'
+    Basic: '보호막 기술: 일반'
+    Skill: '보호막 기술: 전투 스킬'
+    Ult: '보호막 기술: 필살기'
+    Talent: '보호막 기술: 비술'
+    Trace: '보호막 기술: 행적'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -104,9 +104,6 @@ Lightcones:
       skillUltDmgBoost:
         text: 전투 스킬 / 필살기 버프
         content: 전투 스킬 또는 필살기 발동 시 이번 공격으로 가하는 피해를 {{DmgBoost}}%증가시킨다.
-      bonusBoost:
-        text: 가하는 피해 보너스
-        content: 전투 스킬 또는 필살기 발동 시 자신의  HP를 소모해 이번 공격으로 가하는 피해를 {{HpConsumption}}% 증가시킨다. 해당 효과로 소모된 HP가 500pt보다 높을 경우 피해가 추가로 {{BonusDmgBoost}}% 증가한다.
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -181,7 +178,7 @@ Lightcones:
           장착한 캐릭터가 공격을 발동하면 120%의 기본 확률로 각 단일 적을 [망연] 상태에 빠트리며, [망연] 상태의 적은 방어력이 {{DefShred}}% 감소한다, 지속 시간: 2턴. ::BR:: 장착한 캐릭터의 속도가 170 이상일 경우 120%의 기본 확률로 각 단일 적을 [도난] 상태에 빠트리며, [도난] 상태의 적은 방어력이 {{AdditionalDefShred}}% 감소한다, 지속 시간: 2턴
     TeammateContent:
       additionalDefPen:
-        text: "속도 > 170"
+        text: '속도 > 170'
         content: >-
           장착한 캐릭터가 공격을 발동하면 120%의 기본 확률로 각 단일 적을 [망연] 상태에 빠트리며, [망연] 상태의 적은 방어력이 {{DefShred}}% 감소한다, 지속 시간: 2턴. ::BR:: 장착한 캐릭터의 속도가 170 이상일 경우 120%의 기본 확률로 각 단일 적을 [도난] 상태에 빠트리며, [도난] 상태의 적은 방어력이 {{AdditionalDefShred}}% 감소한다, 지속 시간: 2턴
   LifeShouldBeCastToFlames:
@@ -305,6 +302,10 @@ Lightcones:
         text: 실드 활성화
         content: >-
           장착한 캐릭터는 피격 후 자신이 실드를 보유하지 않았다면 장착한 캐릭터 HP 최대치 {{ShieldHp}}%만큼의 실드를 획득한다. 지속 시간: 2턴. 해당 효과는 3턴마다 1회만 발동할 수 있다. 장착한 캐릭터가 실드를 보유하면 자신이 받는 피해가 {{DmgReduction}}% 감소한다
+  TheHellWhereIdealsBurn:
+    Content:
+      atkBuffStacks:
+        text: 공격력 버프 스택
   TheUnreachableSide:
     Content:
       dmgBuff:
@@ -320,6 +321,12 @@ Lightcones:
         text: '[궁지 몰이] 상태'
         content: >-
           장착한 캐릭터가 일반 공격, 전투 스킬, 필살기를 발동해 적을 공격하면 60%의 기본 확률로 해당 목표를 [무장해제] 상태에 빠트린다. [무장해제] 상태의 적은 받는 피해가 {{UnarmoredVulnerability}}% 증가한다, 지속 시간: 2턴. 목표가 장착한 캐릭터가 부여한 지속 피해 상태일 시 60%의 기본 확률로 장착한 캐릭터가 부여한 [무장해제] 상태가 [궁지 몰이] 상태로 업그레이드되며, 적이 받는 피해가 추가로 {{CorneredVulnerability}}% 증가한다, 지속 시간: 2턴, 지속 시간 동안 장착한 캐릭터는 해당 목표에게 [무장해제]를 부여할 수 없다
+  ThusBurnsTheDawn:
+    Content:
+      defPen:
+        text: 방어력 무시
+      dmgBuff:
+        text: 데미지 버프
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -366,6 +373,10 @@ Lightcones:
       enemyHpHigherDmgBoost:
         text: 적 HP% ≧ 자신 일 때 버프
         content: 현재 HP 백분율이 장착한 캐릭터 자신의 HP 백분율 이상인 적에게 가하는 피해가 추가로 {{DmgBuff}}% 증가한다
+  ATrailOfBygoneBlood:
+    Content:
+      skillUltDmgBoost:
+        text: 전투 스킬 / 필살기 버프
   BoundlessChoreo:
     Content:
       enemyDefReducedSlowed:
@@ -451,6 +462,12 @@ Lightcones:
       postSkillHealBuff:
         text: 전투 스킬 후 버프
         content: '장착한 캐릭터가 전투 스킬 발동 시 치유량이 {{HealingBoost}}% 증가한다. 지속 시간: 2턴'
+  HolidayThermaeEscapade:
+    Content:
+      dmgBoost:
+        text: 데미지 버프
+      vulnerability:
+        text: 취약
   IndeliblePromise:
     Content:
       crBuff:
@@ -462,6 +479,10 @@ Lightcones:
         text: '[트릭] 스택'
         content: >-
           장착한 캐릭터가 적에게 디버프 상태를 부여한 후 [트릭]을 1스택 획득한다. [트릭] 스택당 장착한 캐릭터가 가하는 피해가 {{DmgBuff}}% 증가한다. 최대 중첩수: 3스택, 지속 시간: 1턴. 장착한 캐릭터의 효과 명중이 80% 이상일 시, 공격력이 {{AtkBuff}}% 증가한다.
+  JourneyForeverPeaceful:
+    Content:
+      shieldBoost:
+        text: 실드량 증갸
   MakeTheWorldClamor:
     Content:
       ultDmgBuff:
@@ -475,7 +496,7 @@ Lightcones:
   OnlySilenceRemains:
     Content:
       enemies2CrBuff:
-        text: "≤ 2 적 일 때 치확 버프"
+        text: '≤ 2 적 일 때 치확 버프'
         content: 필드 위의 적이 2명 이하일 경우, 장착한 캐릭터의 치명타 확률이 {{CritBuff}}% 증가한다.
   PastAndFuture:
     Content:
@@ -541,7 +562,7 @@ Lightcones:
   TheDayTheCosmosFell:
     Content:
       cdBuffActive:
-        text: "≥ 2 약점 속성을 지닐 때 버프"
+        text: '≥ 2 약점 속성을 지닐 때 버프'
         content: '장착한 캐릭터가 공격 발동 후 피격된 적 2기 이상이 대응하는 약점 속성을 보유하고 있으면 장착한 캐릭터의 치명타 피해가 {{CritBuff}}% 증가한다. 지속 시간: 2턴'
   TheGreatCosmicEnterprise:
     Content:
@@ -760,6 +781,12 @@ Characters:
       e6Buffs:
         text: 6돌 버프
         content: 아낙사가 가하는 피해가 기존 피해의 130%가 된다. 행적 [필요한 공백]의 두 가지 효과가 바로 발동되며, 더 이상 아군 파티 내 「지식」 운명의 길 캐릭터 수에 의존하지 않는다
+  Archer:
+    Content:
+      cdBuff:
+        text: 치명타 피해 버프
+      e6Buffs:
+        text: 6돌 버프
   Argenti:
     Content:
       ultEnhanced:
@@ -861,13 +888,23 @@ Characters:
     Content:
       enhancedStateActive:
         text: '[지옥변] 상태'
-        content: "[지옥변] 상태에서는 전투 스킬을 발동할 수 없으며, 자신이 가하는 피해가 {{enhancedStateDmgBoost}}% 증가하고, 일반 공격 [지리검(支離劍)]이 강화되어 [무간검수(無間劍樹)]로 바뀐다. 지속 시간: 3턴::E2: 블레이드가 [지옥변] 상태일 때 치명타 확률이 15% 증가한다."
+        content: '[지옥변] 상태에서는 전투 스킬을 발동할 수 없으며, 자신이 가하는 피해가 {{enhancedStateDmgBoost}}% 증가하고, 일반 공격 [지리검(支離劍)]이 강화되어 [무간검수(無間劍樹)]로 바뀐다. 지속 시간: 3턴::E2: 블레이드가 [지옥변] 상태일 때 치명타 확률이 15% 증가한다.'
       hpPercentLostTotal:
         text: 잃은 HP 총량
         content: 이번 전투에서 누적 손실한 HP는 블레이드 HP 최대치의 {{hpPercentLostTotalMax}}%를 넘을 수 없다. 필살기 발동 후 리셋하고 다시 누적된다
       e4MaxHpIncreaseStacks:
         text: 4돌 최대 HP 증가 버프
         content: '현재 HP 백분율이 50%를 초과한 상태에서 50% 이하로 떨어지면 HP 최대치가 20% 증가한다. 해당 효과 최대 중첩수: 2스택'
+  BladeB1:
+    Content:
+      enhancedStateActive:
+        text: '[지옥변] 상태'
+      hpPercentLostTotal:
+        text: 잃은 HP 총량
+      e2CrBuff:
+        text: 2돌 치확 버프
+      e4MaxHpIncreaseStacks:
+        text: 4돌 최대 HP 증가 버프
   Boothill:
     Content:
       standoffActive:
@@ -1346,6 +1383,15 @@ Characters:
       e2SkillDmgBuff:
         text: 2돌 전투 스킬 버프
         content: 필살기 발동 후 다음 강화 전투 스킬의 피해가 80% 증가한다.
+  JingliuB1:
+    Content:
+      talentEnhancedState:
+        text: '[완전 연소] 상태'
+      e2SkillDmgBuff:
+        text: 2돌 전투 스킬 버프
+        content: 필살기 발동 후 다음 강화 전투 스킬의 피해가 80% 증가한다.
+      e6ResPen:
+        text: 6돌 속성 저항 관통
   JingYuan:
     Content:
       skillCritBuff:
@@ -1371,6 +1417,10 @@ Characters:
       e2TeamDotBoost:
         text: 2돌 아군 지속 피해 증가
         content: 카프카가 필드에 있으면 모든 아군이 가하는 지속 피해가 25% 증가한다.
+  KafkaB1:
+    Content:
+      ehrBasedBuff:
+        text: 효과명중 비례 공격력 버프
   Lingsha:
     Content:
       beConversion:
@@ -1527,6 +1577,16 @@ Characters:
       e4SkillResShred:
         text: 4돌 얼음 속성 저항 감소
         content: '전투 스킬 발동 시 100%의 기본 확률로 적의 얼음 속성 저항이 12% 감소한다. 지속 시간: 2턴'
+  Phainon:
+    Content:
+      atkBuffStacks:
+        text: 공격력 버프 스택
+      cdBuff:
+        text: 치명타 피해 버프
+      spdBuff:
+        text: 팀 속도 버프
+      e2ResPen:
+        text: 2돌 속성 저항 감소
   Qingque:
     Content:
       basicEnhanced:
@@ -1625,6 +1685,18 @@ Characters:
       teamDmgBuff:
         text: 격특 비례 데미지 버프
         content: 전투 중 완•매의 격파 특수효과가 120%를 초과할 시 10% 초과할 때마다 전투 스킬로 인한 모든 아군의 피해 증가 효과가 추가로 6% 증가한다. (최대 36%까지 증가)
+  Saber:
+    Content:
+      enhancedBasic:
+        text: 강화 공격
+      enhancedSkill:
+        text: 강화 전투 스킬
+      talentDmgBuff:
+        text: 특성 데미지 버프
+      cdBuff:
+        text: 치명타 피해 버프
+      e6ResPen:
+        text: 6돌 속성 저항 관통
   Sampo:
     Content:
       targetDotTakenDebuff:
@@ -1679,6 +1751,18 @@ Characters:
         text: 디버프 보유 수
         content: >-
           전투 스킬 발동 시 적의 디버프 효과 수량이 3개 이상일 경우, 전투 스킬로 인한 목표의 모든 속성 저항 감소 효과가 추가로 3% 감소한다.::BR::E4: 필살기를 발동해 적 공격 후 목표가 보유한 디버프 효과 1개당 추가로 은랑 공격력의 20%만큼 양자 속성 추가 피해를 가한다. 해당 효과는 필살기 공격마다 최대 5회 발동된다.::BR::E6: 적이 보유한 디버프 효과 1개당 은랑이 대상에게 가하는 피해가 20% 증가하며, 최대 100% 증가한다.
+  SilverWolfB1:
+    Content:
+      skillResShredDebuff:
+        text: 전투 스킬 속성 저항 감소
+      skillWeaknessResShredDebuff:
+        text: 전투 스킬 속성 저항 감소
+      talentDefShredDebuff:
+        text: '[결함] 상태'
+      ultDefShredDebuff:
+        text: '[분석] 상태'
+      targetDebuffs:
+        text: 디버프 보유 수
   Sparkle:
     Content:
       skillCdBuff:
@@ -1975,7 +2059,7 @@ Characters:
         content: 어공이 필드에 있으면 모든 아군이 가하는 허수 속성 피해가 12% 증가한다.
       roaringBowstringsActive:
         text: '[활시위 호령] 상태'
-        content: "[활시위 호령] 2스택을 획득한다. (최대 2스택 보유) 어공이 [활시위 호령] 효과를 보유할 경우 모든 아군의 공격력이 {{skillAtkBuffValue}}% 증가한다.::BR::E4: [활시위 호령] 효과 보유 시 어공이 가하는 피해가 30% 증가한다."
+        content: '[활시위 호령] 2스택을 획득한다. (최대 2스택 보유) 어공이 [활시위 호령] 효과를 보유할 경우 모든 아군의 공격력이 {{skillAtkBuffValue}}% 증가한다.::BR::E4: [활시위 호령] 효과 보유 시 어공이 가하는 피해가 30% 증가한다.'
       ultBuff:
         text: 필살기 치확 / 치피 버프
         content: >-
@@ -1989,11 +2073,11 @@ Characters:
         text: '[막기] 상태'
         content: '[막기] 상태에서 받는 제어류 디버프 효과에 저항하며, 받는 피해가 20% 감소한다.'
       ultCull:
-        text: "[간파•멸]"
+        text: '[간파•멸]'
         content: >-
           [간파•멸]: 목표에게 운리 공격력의 {{CullScaling}}%만큼 물리 속성 피해를 가하고, 인접한 목표에게 운리 공격력의 {{CullAdjacentScaling}}%만큼 물리 속성 피해를 가한다. 이후 추가로 피해를 6회 가하며, 피해 1회당 랜덤 단일 적에게 운리 공격력의 {{CullAdditionalScaling}}%만큼 물리 피해를 가한다.
       ultCullHits:
-        text: "[간파•멸] 적중 수"
+        text: '[간파•멸] 적중 수'
         content: >-
           [간파•멸]: 목표에게 운리 공격력의 {{CullScaling}}%만큼 물리 속성 피해를 가하고, 인접한 목표에게 운리 공격력의 {{CullAdjacentScaling}}%만큼 물리 속성 피해를 가한다. 이후 추가로 피해를 6회 가하며, 피해 1회당 랜덤 단일 적에게 운리 공격력의 {{CullAdditionalScaling}}%만큼 물리 피해를 가한다.
       counterAtkBuff:
@@ -2001,7 +2085,7 @@ Characters:
         content: '반격 발동 시, 운리의 공격력이 30% 증가한다. 지속 시간: 1턴'
       e1UltBuff:
         text: 1돌 필살기 버프
-        content: "[간파•참]과 [간파•멸]이 가하는 피해가 20% 증가하고, [간파•멸]의 추가 피해 횟수가 3회 증가한다."
+        content: '[간파•참]과 [간파•멸]이 가하는 피해가 20% 증가하고, [간파•멸]의 추가 피해 횟수가 3회 증가한다.'
       e2DefShred:
         text: 2돌 반격 버프
         content: 반격을 발동해 피해를 가할 시 적의 방어력을 20% 무시한다.

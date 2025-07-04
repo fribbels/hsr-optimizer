@@ -24,7 +24,7 @@ FeatureCards:
 Welcome: Chào mừng đến <1/>Trình tối ưu hóa Star Rail của Fribbels!
 SearchBar:
   Placeholder: UID
-  Label: "Hãy nhập UID để xem showcase nhân vật "
-  Api: "Dùng Enka.Network"
+  Label: 'Hãy nhập UID để xem showcase nhân vật '
+  Api: 'Dùng Enka.Network'
   Message: Nhập không hợp lệ - Đây nên là UUID 9 chữ số trong game của bạn.
   Search: Tìm Kiếm

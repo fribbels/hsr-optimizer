@@ -209,6 +209,12 @@ Characters:
   "1409":
     Name: Hyacine
     LongName: Hyacine
+  "1410":
+    Name: Hysilens
+    LongName: Hysilens
+  "1412":
+    Name: Cerydra
+    LongName: Cerydra
   "8001":
     Name: Caelus
     LongName: Caelus (ทำลายล้าง)
@@ -233,18 +239,18 @@ Characters:
   "8008":
     Name: Stelle
     LongName: Stelle (ความทรงจำ)
-  1212b1:
-    Name: Jingliu
-    LongName: Jingliu
-  1205b1:
-    Name: Blade
-    LongName: Blade
-  1005b1:
-    Name: Kafka
-    LongName: Kafka
   1006b1:
     Name: Silver Wolf
     LongName: Silver Wolf
+  1005b1:
+    Name: Kafka
+    LongName: Kafka
+  1205b1:
+    Name: Blade
+    LongName: Blade
+  1212b1:
+    Name: Jingliu
+    LongName: Jingliu
 RelicSets:
   "101":
     Name: Passerby of Wandering Cloud
@@ -345,7 +351,7 @@ RelicSets:
   "125":
     Name: Warrior Goddess of Sun and Thunder
     Description2pc: ความเร็วเพิ่มขึ้น 6%
-    Description4pc: หลังจากผู้สวมใส่ และภูตความทรงจำของผู้สวมใส่ ทำการรักษาแก่เป้าหมายฝ่ายเรา (ยกเว้นตัวผู้สวมใส่ และภูตความทรงจำของตัวดังกล่าว) จะทำให้ผู้สวมใส่ได้รับ "หยาดฝน" โดยในแต่ละเทิร์น จะเกิดขึ้นได้มากสุด 1 ครั้ง เป็นเวลา 2 เทิร์น เมื่อผู้สวมใส่มี "หยาดฝน" ความเร็วจะเพิ่มขึ้น 6% และ DMG คริติคอลของฝ่ายเราทั้งหมด จะเพิ่มขึ้น 15% โดยเอฟเฟกต์นี้จะไม่สามารถซ้อนทับได้
+    Description4pc: หลังจากผู้สวมใส่ หรือภูตความทรงจำของผู้สวมใส่ ทำการรักษาแก่เป้าหมายฝ่ายเรา (ยกเว้นตัวผู้สวมใส่ หรือภูตความทรงจำของตัวดังกล่าว) จะทำให้ผู้สวมใส่ได้รับ "หยาดฝน" โดยในแต่ละเทิร์น จะเกิดขึ้นได้มากสุด 1 ครั้ง เป็นเวลา 2 เทิร์น เมื่อผู้สวมใส่มี "หยาดฝน" ความเร็วจะเพิ่มขึ้น 6% และ DMG คริติคอลของฝ่ายเราทั้งหมด จะเพิ่มขึ้น 15% โดยเอฟเฟกต์นี้ จะไม่สามารถซ้อนทับได้
   "126":
     Name: Wavestrider Captain
     Description2pc: DMG คริติคอลเพิ่มขึ้น 16%
@@ -412,10 +418,10 @@ RelicSets:
     Description2pc: ทำให้ความเร็วของผู้สวมใส่เพิ่มขึ้น 6% เมื่อความเร็วของผู้สวมใส่มากกว่า หรือเท่ากับ 135/180 จะทำให้ปริมาณการรักษาของผู้สวมใส่ และภูตความทรงจำของผู้สวมใส่ เพิ่มขึ้น 12%/20%
   "321":
     Name: Arcadia of Woven Dreams
-    Description2pc: When there are currently more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks.
+    Description2pc: เมื่อจำนวนเป้าหมายฝ่ายเรา ในการต่อสู้ปัจจุบัน ไม่เท่ากับ 4 ตัว เป้าหมายฝ่ายเราทุกๆ 1 ตัวที่เกินมา/ขาดไป จะทำให้ผู้สวมใส่ และภูตความทรงจำของผู้สวมใส่ สร้าง DMG เพิ่มขึ้น 9%/12% โดยสามารถซ้อนทับได้สูงสุด 4/3 ชั้น
   "322":
     Name: Revelry by the Sea
-    Description2pc: Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%.
+    Description2pc: ทำให้ ATK ของผู้สวมใส่เพิ่มขึ้น 12% เมื่อ ATK ของผู้สวมใส่ มากกว่าหรือเท่ากับ 2400/3600 จะทำให้ DMG ต่อเนื่องที่สร้างเพิ่มขึ้นอีก 12%/24%
 Lightcones:
   "20000":
     Name: Arrows
@@ -595,6 +601,8 @@ Lightcones:
     Name: "Ninja Record: Sound Hunt"
   "22004":
     Name: The Great Cosmic Enterprise
+  "22005":
+    Name: Maze Restaurant Forever
   "23000":
     Name: Night on the Milky Way
   "23001":
@@ -689,6 +697,10 @@ Lightcones:
     Name: A Thankless Coronation
   "23046":
     Name: The Hell Where Ideals Burn
+  "23047":
+    Name: Why Does the Ocean Sing
+  "23048":
+    Name: Era Engraved by Golden Blood
   "24000":
     Name: On the Fall of an Aeon
   "24001":

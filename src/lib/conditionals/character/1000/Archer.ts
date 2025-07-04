@@ -1,13 +1,12 @@
-import i18next from 'i18next'
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -15,8 +14,8 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (e: Eidolon): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Phainon.Content')
+export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Archer.Content')
   const { basic, skill, talent, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_BASIC,
@@ -55,36 +54,36 @@ export default (e: Eidolon): CharacterConditionalsController => {
     cdBuff: {
       id: 'cdBuff',
       formItem: 'switch',
-      text: 'CD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('cdBuff.text'),
+      content: t('cdBuff.content'),
     },
     skillEnhances: {
       id: 'skillEnhances',
       formItem: 'slider',
-      text: 'Skill enhances',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('skillEnhances.text'),
+      content: t('skillEnhances.content', { SkillDmgBuff: TsUtils.precisionRound(100 * skillEnhancedExtraScaling) }),
       min: 0,
       max: e >= 6 ? 3 : 2,
     },
     e2QuantumResPen: {
       id: 'e2QuantumResPen',
       formItem: 'switch',
-      text: 'E2 Quantum RES PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e2QuantumResPen.text'),
+      content: t('e2QuantumResPen.content'),
       disabled: e < 2,
     },
     e4UltDmg: {
       id: 'e4UltDmg',
       formItem: 'switch',
-      text: 'E4 Ult DMG',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e4UltDmg.text'),
+      content: t('e4UltDmg.content'),
       disabled: e < 4,
     },
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: 'E6 buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e6Buffs.text'),
+      content: t('e6Buffs.content'),
       disabled: e < 6,
     },
   }

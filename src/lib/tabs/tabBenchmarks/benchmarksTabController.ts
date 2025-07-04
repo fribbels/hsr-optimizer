@@ -1,5 +1,9 @@
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import i18next from 'i18next'
+import {
+  applyScoringMetadataPresets,
+  applySetConditionalPresets,
+} from 'lib/conditionals/evaluation/applyPresets'
 import { Message } from 'lib/interactions/message'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
@@ -13,7 +17,7 @@ import {
 import { filterUniqueStringify } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
-import { applyScoringMetadataPresets, applySetConditionalPresets } from "lib/conditionals/evaluation/applyPresets";
+import { LightCone } from 'types/lightCone'
 
 export type BenchmarkResultWrapper = {
   fullHash: string,
@@ -148,10 +152,12 @@ export function handleCharacterSelectChange(id: CharacterId | null | undefined, 
 
   const character = DB.getCharacterById(id)
   if (character) {
-    form.lightCone = character.form.lightCone ?? undefined
+    form.lightCone = character.form.lightCone ?? null
     form.characterEidolon = character.form.characterEidolon ?? 0
     form.lightConeSuperimposition = character.form.lightConeSuperimposition ?? 1
   } else {
+    // Null to force a blank light cone instead of using the previously existing one
+    form.lightCone = null as unknown as LightCone['id']
     form.characterEidolon = 0
     form.lightConeSuperimposition = 1
   }

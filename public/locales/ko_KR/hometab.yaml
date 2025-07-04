@@ -24,7 +24,7 @@ FeatureCards:
 Welcome: Fribbels Str Rail Optimizer<1/>오신 것을 환영합니다!
 SearchBar:
   Placeholder: UID
-  Label: "UID를 입력하고 캐릭터 쇼케이스 확인하세요"
-  Api: "Enka.Network 사용하기"
+  Label: 'UID를 입력하고 캐릭터 쇼케이스 확인하세요'
+  Api: 'Enka.Network 사용하기'
   Message: 잘못된 입력 - 9자리의 인게임 UUID여야 합니다.
   Search: 검색

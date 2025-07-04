@@ -613,7 +613,7 @@ ExpandedDataPanel:
           DEF scaling: 방어력 배율
           HP scaling: HP 배율
           Special scaling: 특수 배율
-          "ATK % boost": 공격력 % 증가
+          'ATK % boost': 공격력 % 증가
           Crit Rate boost: 치명타 확률 증가
           Crit DMG boost: 치명타 데미지 증가
           DMG boost: 데미지 버프

@@ -209,6 +209,12 @@ Characters:
   "1409":
     Name: Hyacine
     LongName: Hyacine
+  "1410":
+    Name: Hysilens
+    LongName: Hysilens
+  "1412":
+    Name: Cerydra
+    LongName: Cerydra
   "8001":
     Name: Caelus
     LongName: Caelus (Hủy Diệt)
@@ -233,18 +239,18 @@ Characters:
   "8008":
     Name: Stelle
     LongName: Stelle (Ký Ức)
-  1212b1:
-    Name: Jingliu
-    LongName: Jingliu
-  1205b1:
-    Name: Blade
-    LongName: Blade
-  1005b1:
-    Name: Kafka
-    LongName: Kafka
   1006b1:
     Name: Sói Bạc
     LongName: Sói Bạc
+  1005b1:
+    Name: Kafka
+    LongName: Kafka
+  1205b1:
+    Name: Blade
+    LongName: Blade
+  1212b1:
+    Name: Jingliu
+    LongName: Jingliu
 RelicSets:
   "101":
     Name: Lãng Khách Âm Thầm
@@ -411,11 +417,11 @@ RelicSets:
     Name: Đại Thụ Trầm Tư
     Description2pc: Khiến Tốc Độ của người trang bị tăng 6%. Khi Tốc Độ của người trang bị từ 135/180 trở lên, thì Lượng Trị Liệu của người trang bị và Linh Hồn Ký Ức của người đó sẽ tăng 12%/20%.
   "321":
-    Name: Arcadia of Woven Dreams
-    Description2pc: When there are currently more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by 9%/12%, up to a maximum of 4/3 stacks.
+    Name: Thiên Đường Yêu Tinh Dệt Mộng
+    Description2pc: Khi số lượng mục tiêu của đội ngũ phe ta ở trong trận hiện tại không bằng 4, mỗi khi thêm/mất 1 mục tiêu phe ta, sẽ khiến sát thương gây ra bởi người trang bị và Linh Hồn Ký Ức của người đó tăng 9%/12%, tối đa cộng dồn 4/3 tầng.
   "322":
-    Name: Revelry by the Sea
-    Description2pc: Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24%.
+    Name: Bờ Biển Men Say
+    Description2pc: Khiến Tấn Công của người trang bị tăng 12%. Khi Tấn Công của người trang bị lớn hơn hoặc bằng 2400/3600, sẽ khiến Sát Thương Duy Trì gây ra tăng thêm 12%/24%.
 Lightcones:
   "20000":
     Name: Mũi Tên
@@ -568,23 +574,23 @@ Lightcones:
   "21052":
     Name: Đổ Mồ Hôi Nhiều, Rơi Nước Mắt Ít
   "21053":
-    Name: Journey, Forever Peaceful
+    Name: Mong Hành Trình Mãi Mãi Bình An
   "21054":
-    Name: The Story's Next Page
+    Name: Trang Tiếp Theo Của Câu Chuyện
   "21055":
-    Name: Unto Tomorrow's Morrow
+    Name: Cho Đến Ngày Mai Của Ngày Mai
   "21056":
-    Name: In Pursuit of the Wind
+    Name: Khi Đuổi Theo Gió
   "21057":
-    Name: The Flower Remembers
+    Name: Hoa Sẽ Không Quên
   "21058":
-    Name: A Trail of Bygone Blood
+    Name: Vệt Máu Ngày Cũ
   "21060":
-    Name: A Dream Scented in Wheat
+    Name: Giấc Mơ Vấn Vương Hương Lúa
   "21061":
-    Name: Holiday Thermae Escapade
+    Name: Kỳ Nghỉ Phiêu Lưu Nhà Tắm Hơi
   "21062":
-    Name: See You at the End
+    Name: Gặp Lại Ở Điểm Cuối Cùng
   "22000":
     Name: Trước Khi Bắt Đầu Nhiệm Vụ Tân Thủ
   "22001":
@@ -595,6 +601,8 @@ Lightcones:
     Name: Nhẫn Sự Lục-Săn Bắn Âm Luật
   "22004":
     Name: Kinh Doanh Tầm Cỡ Vũ Trụ
+  "22005":
+    Name: Maze Restaurant Forever
   "23000":
     Name: Chuyến Tàu Đêm Trên Dải Ngân Hà
   "23001":
@@ -684,11 +692,15 @@ Lightcones:
   "23043":
     Name: Lời Nói Dối Bay Trong Gió
   "23044":
-    Name: Thus Burns the Dawn
+    Name: Bình Minh Rực Cháy
   "23045":
-    Name: A Thankless Coronation
+    Name: Lễ Đăng Quang Không Hồi Đáp
   "23046":
-    Name: The Hell Where Ideals Burn
+    Name: Địa Ngục Thiêu Đốt Lý Tưởng
+  "23047":
+    Name: Why Does the Ocean Sing
+  "23048":
+    Name: Era Engraved by Golden Blood
   "24000":
     Name: Sự Sụp Đổ Của Aeon
   "24001":

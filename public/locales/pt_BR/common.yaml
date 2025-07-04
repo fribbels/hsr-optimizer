@@ -1,36 +1,29 @@
 Relic_one: relíquia
 Relic_other: relíquias
-RelicWithCount_one: "{{count}} relíquia"
-RelicWithCount_other: "{{count}} relíquias"
-Lightcone_one: cone de luz
-Lightcone_other: cones de luz
-LightconeWithCount_one: "{{count}} cone de luz"
-LightconeWithCount_other: "{{count}} cones de luz"
+RelicWithCount_one: '{{count}} relíquia'
+RelicWithCount_other: '{{count}} relíquias'
 ThousandsSuffix: K
-DecimalSeparator: "."
-ThousandsSeparator: "."
-I18nNumber: "{{value, number}}"
 Cancel: Cancelar
 Confirm: Confirmar
 Submit: Enviar
 Ok: Ok
-Yes: "Sim"
-No: "Não"
+Yes: 'Sim'
+No: 'Não'
 Save: Salvar
 Saved: Salvo
 Score: Pontuação
 Reset: Resetar
-EidolonNShort: "E{{eidolon}}"
-SuperimpositionNShort: "S{{superimposition}}"
-LevelShort: "Nv{{level}}"
-CharacterWithCount_one: "{{count}} personagem"
-CharacterWithCount_other: "{{count}} personagens"
+EidolonNShort: 'E{{eidolon}}'
+SuperimpositionNShort: 'S{{superimposition}}'
+LevelShort: 'Nv{{level}}'
+CharacterWithCount_one: '{{count}} personagem'
+CharacterWithCount_other: '{{count}} personagens'
 Character_one: personagem
 Character_other: personagens
 VerifiedRelicHoverText: Subatributos das relíquias verificados pelo pontuador de relíquias (decimais de velocidade)
 Verified4LinerHoverText: Subatributos da relíquia e contagem inicial de rolls verificada pelo avaliador de relíquias (decimais de velocidade precisas + 4 subatributos iniciais)
 CombatStats: Atributos de combate
-MemospriteLabel: "{{label}}ᴹ"
+MemospriteLabel: '{{label}}ᴹ'
 Parts:
   Head: Cabeça
   Hands: Mãos
@@ -61,13 +54,13 @@ Stats:
   Break Effect: Efeito Quebra
   Energy Regeneration Rate: Taxa de Regen de Energia
   Outgoing Healing Boost: Bônus de Cura Realizada
-  Physical DMG Boost: "Aumento de Dano $t(gameData:Elements.Physical)"
-  Fire DMG Boost: "Aumento de Dano $t(gameData:Elements.Fire)"
-  Ice DMG Boost: "Aumento de Dano $t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "Aumento de Dano $t(gameData:Elements.Thunder)"
-  Wind DMG Boost: "Aumento de Dano $t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "Aumento de Dano $t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "Aumento de Dano $t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: 'Aumento de Dano $t(gameData:Elements.Physical)'
+  Fire DMG Boost: 'Aumento de Dano $t(gameData:Elements.Fire)'
+  Ice DMG Boost: 'Aumento de Dano $t(gameData:Elements.Ice)'
+  Lightning DMG Boost: 'Aumento de Dano $t(gameData:Elements.Thunder)'
+  Wind DMG Boost: 'Aumento de Dano $t(gameData:Elements.Wind)'
+  Quantum DMG Boost: 'Aumento de Dano $t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: 'Aumento de Dano $t(gameData:Elements.Imaginary)'
 ShortStats:
   "HP%": PV%
   HP: PV
@@ -84,13 +77,13 @@ ShortStats:
   Break Effect: BE
   Energy Regeneration Rate: ERR
   Outgoing Healing Boost: OHB
-  Physical DMG Boost: "$t(gameData:Elements.Physical)"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: '$t(gameData:Elements.Physical)'
+  Fire DMG Boost: '$t(gameData:Elements.Fire)'
+  Ice DMG Boost: '$t(gameData:Elements.Ice)'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder)'
+  Wind DMG Boost: '$t(gameData:Elements.Wind)'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
 ShortSpacedStats:
   "HP%": PV %
   HP: PV
@@ -107,13 +100,13 @@ ShortSpacedStats:
   Break Effect: BE
   Energy Regeneration Rate: ERR
   Outgoing Healing Boost: OHB
-  Physical DMG Boost: "$t(gameData:Elements.Physical)"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: '$t(gameData:Elements.Physical)'
+  Fire DMG Boost: '$t(gameData:Elements.Fire)'
+  Ice DMG Boost: '$t(gameData:Elements.Ice)'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder)'
+  Wind DMG Boost: '$t(gameData:Elements.Wind)'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
 Damage: DANO
 DamagePercent: DMG %
 ReadableStats:
@@ -132,13 +125,13 @@ ReadableStats:
   Break Effect: Efeito Quebra
   Energy Regeneration Rate: Regen de Energia
   Outgoing Healing Boost: Aumento de Cura
-  Physical DMG Boost: "Dano $t(gameData:Elements.Physical)"
-  Fire DMG Boost: "Dano $t(gameData:Elements.Fire)"
-  Ice DMG Boost: "Dano $t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "Dano $t(gameData:Elements.Thunder)"
-  Wind DMG Boost: "Dano $t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "Dano $t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "Dano $t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: 'Dano $t(gameData:Elements.Physical)'
+  Fire DMG Boost: 'Dano $t(gameData:Elements.Fire)'
+  Ice DMG Boost: 'Dano $t(gameData:Elements.Ice)'
+  Lightning DMG Boost: 'Dano $t(gameData:Elements.Thunder)'
+  Wind DMG Boost: 'Dano $t(gameData:Elements.Wind)'
+  Quantum DMG Boost: 'Dano $t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: 'Dano $t(gameData:Elements.Imaginary)'
 ShortReadableStats:
   "HP%": PV %
   HP: PV
@@ -155,21 +148,21 @@ ShortReadableStats:
   Break Effect: Quebra
   Energy Regeneration Rate: Energia
   Outgoing Healing Boost: Cura
-  Physical DMG Boost: "$t(gameData:Elements.Physical)"
-  Fire DMG Boost: "$t(gameData:Elements.Fire)"
-  Ice DMG Boost: "$t(gameData:Elements.Ice)"
-  Lightning DMG Boost: "$t(gameData:Elements.Thunder)"
-  Wind DMG Boost: "$t(gameData:Elements.Wind)"
-  Quantum DMG Boost: "$t(gameData:Elements.Quantum)"
-  Imaginary DMG Boost: "$t(gameData:Elements.Imaginary)"
+  Physical DMG Boost: '$t(gameData:Elements.Physical)'
+  Fire DMG Boost: '$t(gameData:Elements.Fire)'
+  Ice DMG Boost: '$t(gameData:Elements.Ice)'
+  Lightning DMG Boost: '$t(gameData:Elements.Thunder)'
+  Wind DMG Boost: '$t(gameData:Elements.Wind)'
+  Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
 Elements:
-  Physical: "$t(gameData:Elements.Physical)"
-  Fire: "$t(gameData:Elements.Fire)"
-  Ice: "$t(gameData:Elements.Ice)"
-  Lightning: "$t(gameData:Elements.Thunder)"
-  Wind: "$t(gameData:Elements.Wind)"
-  Quantum: "$t(gameData:Elements.Quantum)"
-  Imaginary: "$t(gameData:Elements.Imaginary)"
+  Physical: '$t(gameData:Elements.Physical)'
+  Fire: '$t(gameData:Elements.Fire)'
+  Ice: '$t(gameData:Elements.Ice)'
+  Lightning: '$t(gameData:Elements.Thunder)'
+  Wind: '$t(gameData:Elements.Wind)'
+  Quantum: '$t(gameData:Elements.Quantum)'
+  Imaginary: '$t(gameData:Elements.Imaginary)'
 DMGTypes:
   simScore: Dano de Combo
   BASIC: Dano Básico
@@ -191,4 +184,4 @@ ShortDMGTypes:
   Dot: Dano DoT
   Break: Dano Break
   CV: CV
-CurrentVersion: "Versão atual: ({{Version}})"
+CurrentVersion: 'Versão atual: ({{Version}})'

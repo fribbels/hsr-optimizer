@@ -1,3 +1,4 @@
+import { applyPreset } from 'lib/conditionals/evaluation/applyPresets'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
@@ -37,7 +38,6 @@ import {
 } from 'types/form'
 import { DBMetadata } from 'types/metadata'
 import { BasicForm } from 'types/optimizer'
-import { applyPreset } from "lib/conditionals/evaluation/applyPresets";
 
 export type ComboConditionals = {
   [key: string]: ComboConditionalCategory,
@@ -399,7 +399,8 @@ function generateComboConditionals(
   const output: ComboConditionals = {}
 
   for (const content of contents) {
-    if (content.disabled) continue
+    // Some preprocessors still need the variable to be passed through even if its disabled
+    // if (content.disabled) continue
 
     if (content.formItem == 'switch') {
       const value = conditionals[content.id] ?? defaults[content.id]

@@ -28,6 +28,7 @@ export type ScoringMetadata = {
   characterId?: CharacterId,
   stats: Record<SubStats, number> & Partial<Record<'headHands' | 'bodyFeet' | 'sphereRope', number>>,
   parts: Record<Exclude<Parts, typeof Parts.Head | typeof Parts.Hands>, MainStats[]>,
+  sets: Partial<Record<Sets, number>>,
   presets: PresetDefinition[],
   sortOption: SortOptionProperties,
   hiddenColumns: SortOptionProperties[],
@@ -56,9 +57,6 @@ export type SimulationMetadata = {
     characterEidolon: number,
     lightConeSuperimposition: number,
   }[],
-  maxBonusRolls?: {
-    [stat: string]: number,
-  },
   breakpoints?: {
     [stat: string]: number,
   },

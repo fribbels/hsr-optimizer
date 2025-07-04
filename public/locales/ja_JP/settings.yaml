@@ -17,6 +17,6 @@ ExpandedInfoPanelPosition:
   Above: 遺物プレビューの上に表示する
   Below: "遺物プレビューの下に表示する（デフォルト）"
 ShowLocatorInRelicsModal:
-  Label: 遺物を編集メニュー内での遺物の場所の表示
+  Label: '「遺物を編集」メニュー内での遺物探知器の表示'
   Yes: 遺物を編集メニューに遺物の位置を表示する
   No: "遺物を編集メニューに遺物の位置を表示しない（デフォルト）"

@@ -309,6 +309,9 @@ SetConditionals:
     Sacerdos:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} stacks (+{{buffValue}}% CD)'
+    Arcadia:
+      Display: '{{allyCount}}x'
+      Label: '{{allyCount}} allies (+{{buffValue}}% DMG)'
   Conditionals:
     DefaultMessage: Enabled by default - effects will apply to combat calculations.
     Hunter: When enabled, CRIT DMG buff is applied to Combat stat calculations.
@@ -336,6 +339,7 @@ SetConditionals:
     Kalpagni: When enabled, applies the Break Effect buff to combat stat calculations.
     Lushaka: Disabled by default - This set is unable to affect its wearer.
     Banana: When enabled, the additional 32% CRIT DMG is applied to Combat stat calculations.
+    Arcadia: The selected buff is applied to Combat stat calculations. Updates automatically when team selection changes.
 Presets:
   SpdValues:
     SPD0: No minimum speed
@@ -614,7 +618,7 @@ ExpandedDataPanel:
           DEF scaling: DEF scaling
           HP scaling: HP scaling
           Special scaling: Special scaling
-          "ATK % boost": ATK % boost
+          'ATK % boost': ATK % boost
           Crit Rate boost: Crit Rate boost
           Crit DMG boost: Crit DMG boost
           DMG boost: DMG boost

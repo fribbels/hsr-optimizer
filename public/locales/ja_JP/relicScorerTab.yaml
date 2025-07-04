@@ -1,14 +1,14 @@
 Messages:
   ThrottleWarning: "再試行する前に、{{seconds}}秒お待ちください。"
-  InvalidIdWarning: 無効なIDです
+  InvalidIdWarning: この ID は使用できません
   IdLoadError: IDの読み込みに失敗しました
   SuccessMsg: プロファイルを読み込みました
   LookupError: ルックアップ中にエラーが発生しました。後でもう一度お試しください。
-  NoCharacterSelected: キャラクターが選択されていません
+  NoCharacterSelected: キャラクターが未選択です
   CharacterAlreadyExists: 選択したキャラクターは既に存在します
   UnknownButtonClicked: 不明なボタンをクリックしました
 Header:
-  DowntimeWarning: "バージョン{{game_version}}後のメンテナンスのため、遺物スコア計算は一時的に利用できない可能性があります。後でもう一度お試しください。"
+  DowntimeWarning: "バージョン{{game_version}}後のメンテナンスのため、遺物スコア計算は一時的に利用できない場合があります。後でもう一度お試しください。"
   WithVersion: "アカウント UID を入力して、レベル80および軌跡が全開放されているプロフィール内のキャラクターを評価します。即時更新するにはログアウトしてください。（現在のバージョン：{{beta_version}}）"
   WithoutVersion: アカウント UID を入力して、レベル80および軌跡が全開放されているプロフィール内のキャラクターを評価します。即時更新するにはログアウトしてください。
 SubmissionBar:

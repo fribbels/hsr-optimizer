@@ -354,7 +354,7 @@ export class BenchmarkSimulationOrchestrator {
 
       // Define min/max limits
       const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, flags)
-      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, clonedBenchmarkScoringParams, baselineSimResult, flags)
+      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, baselineSimResult, flags)
 
       // Start the sim search at the max then iterate downwards
       partialSimulationWrapper.simulation.request.stats = maxSubstatRollCounts
@@ -419,7 +419,7 @@ export class BenchmarkSimulationOrchestrator {
       }
 
       const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, flags)
-      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, metadata, clonedPerfectionScoringParams, baselineSimResult, flags)
+      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, baselineSimResult, flags)
 
       partialSimulationWrapper.simulation.request.stats = maxSubstatRollCounts
 

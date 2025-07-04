@@ -724,6 +724,9 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
     1408: ['#97c2fa'], // phainon
     1014: ['#3e65f2'], // saber
     1015: ['#ff999a'], // archer
+
+    1410: ['#817aef'], // hysilens
+    1412: ['#7d83d7'], // cerydra
   }
 
   return (defaults[characterId] ?? ['#000000'])[0]

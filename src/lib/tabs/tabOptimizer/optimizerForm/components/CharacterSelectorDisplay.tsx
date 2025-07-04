@@ -79,6 +79,7 @@ export default function CharacterSelectorDisplay() {
           { value: SortOption.BREAK.key, label: t('SortOptions.BREAK') },
           { value: SortOption.HEAL.key, label: t('SortOptions.HEAL') },
           { value: SortOption.SHIELD.key, label: t('SortOptions.SHIELD') },
+          { value: SortOption.EHP.key, label: t('SortOptions.EHP') },
         ],
       },
       {
@@ -96,7 +97,6 @@ export default function CharacterSelectorDisplay() {
           { value: SortOption.OHB.key, label: t('SortOptions.OHB') },
           { value: SortOption.ERR.key, label: t('SortOptions.ERR') },
           { value: SortOption.ELEMENTAL_DMG.key, label: t('SortOptions.DMG') },
-          { value: SortOption.EHP.key, label: t('SortOptions.EHP') },
         ],
       },
     ]

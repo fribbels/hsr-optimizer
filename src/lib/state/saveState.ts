@@ -3,6 +3,7 @@ import DB from 'lib/state/db'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
+import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { HsrOptimizerSaveFormat } from 'types/store'
 
 let saveTimeout: NodeJS.Timeout | null
@@ -17,6 +18,7 @@ export const SaveState = {
     // @ts-ignore TODO remove once migration complete | added on 02/05/2025 (dd/mm/yyyy)
     delete globalSession.relicScorerSidebarOpen
     const warpCalculatorTabState = useWarpCalculatorStore.getState()
+    const scannerState = useScannerState.getState()
     const state: HsrOptimizerSaveFormat = {
       relics: DB.getRelics(),
       characters: DB.getCharacters(),
@@ -34,6 +36,12 @@ export const SaveState = {
       relicLocator: {
         inventoryWidth: relicLocatorSession.inventoryWidth,
         rowLimit: relicLocatorSession.rowLimit,
+      },
+      scannerSettings: {
+        ingest: scannerState.ingest,
+        ingestCharacters: scannerState.ingestCharacters,
+        ingestWarpResources: scannerState.ingestWarpResources,
+        websocketUrl: scannerState.websocketUrl,
       },
     }
 
@@ -54,14 +62,15 @@ export const SaveState = {
     }, ms)
   },
 
-  load: (autosave = true) => {
+  load: (autosave = true, sanitize = true) => {
     try {
       const state = localStorage.state as string
       if (state) {
         const parsed = JSON.parse(state) as HsrOptimizerSaveFormat
         console.log('Loaded SaveState')
 
-        DB.setStore(parsed, autosave)
+        DB.setStore(parsed, autosave, sanitize)
+        
         return true
       }
 

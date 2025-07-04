@@ -303,10 +303,10 @@ export function ScannerImportSubmenu() {
                   <Text>{t('Import.LiveImport.Enable') /* Enable Live Import (Recommended) */}</Text>
                 </Flex>
               </Tooltip>
+
               <Flex gap={10} align='center'>
                 <Switch
-                  disabled={!connected || !ingest}
-                  checked={connected && ingest && ingestCharacters}
+                  checked={ingestCharacters}
                   onChange={(checked) => setIngestCharacters(checked)}
                 />
 
@@ -315,8 +315,7 @@ export function ScannerImportSubmenu() {
 
               <Flex gap={10} align='center'>
                 <Switch
-                  disabled={!connected || !ingest}
-                  checked={connected && ingest && ingestWarpResources}
+                  checked={ingestWarpResources}
                   onChange={(checked) => setIngestWarpResources(checked)}
                 />
 
@@ -328,7 +327,7 @@ export function ScannerImportSubmenu() {
                 items={[{
                   key: '1',
                   label: t('Import.LiveImport.AdvancedSettings.Title') /* Advanced Settings */,
-                  children: <div>
+                  children: <Flex vertical gap={10}>
                     <Flex vertical>
                       <Text>{t('Import.LiveImport.AdvancedSettings.WebsocketUrl') /* Websocket URL */}</Text>
                       <Flex gap={10}>
@@ -342,7 +341,7 @@ export function ScannerImportSubmenu() {
                         </Tooltip>
                       </Flex>
                     </Flex>
-                  </div>
+                  </Flex>
                 }]}
               />
             </Flex>

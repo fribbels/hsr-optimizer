@@ -136,42 +136,51 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
 
   setWebsocketUrl: (websocketUrl: string) => {
     set({ websocketUrl })
+
+    SaveState.delayedSave()
   },
 
   setIngest: (ingest: boolean) => {
     set({ ingest })
 
-    if (ingest) {
-      const state = get()
+    const state = get()
+    if (state.connected && ingest) {
       const fullScanData = state.buildFullScanData()
       if (fullScanData) {
         ingestFullScan(fullScanData, state.ingestCharacters)
       }
     }
+    
+    SaveState.delayedSave()
   },
 
   setIngestCharacters: (ingestCharacters: boolean) => {
     set({ ingestCharacters })
 
-    if (ingestCharacters) {
-      const fullScanData = get().buildFullScanData()
+    const state = get()
+    if (state.connected && state.ingest && ingestCharacters) {
+      const fullScanData = state.buildFullScanData()
       if (fullScanData) {
         ingestFullScan(fullScanData, ingestCharacters)
       }
     }
+    
+    SaveState.delayedSave()
   },
 
   setIngestWarpResources: (ingestWarpResources: boolean) => {
     set({ ingestWarpResources })
 
     // Re-emit events from the current state when enabled
-    if (ingestWarpResources) {
-      const state = get()
+    const state = get()
+    if (state.connected && state.ingest && ingestWarpResources) {
       const fullScanData = state.buildFullScanData()
       if (fullScanData) {
         emitScannerEvents(fullScanData)
       }
     }
+    
+    SaveState.delayedSave()
   },
 
   setConnected: (connected: boolean) =>
@@ -179,14 +188,13 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
       connected,
 
       /* always reset state when connection status changes */
-      ingest: false,
-      ingestCharacters: false,
-
       recentRelics: [],
 
       relics: {},
       lightCones: {},
       characters: {},
+      materials: {},
+      gachaFunds: null,
     }),
 
   updateInitialScan: (data: ScannerParserJson) =>

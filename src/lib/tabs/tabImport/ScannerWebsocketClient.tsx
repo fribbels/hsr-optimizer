@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
-import useWebSocket from 'partysocket/use-ws'
-import { create, StoreApi, UseBoundStore } from 'zustand'
+import stableStringify from 'json-stable-stringify'
+import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
 import {
   ScannerParserJson,
   V4ParserCharacter,
@@ -9,109 +8,119 @@ import {
   V4ParserMaterial,
   V4ParserRelic,
 } from 'lib/importer/kelzFormatParser'
-import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
+import RelicRerollModal from 'lib/overlays/modals/RelicRerollModal'
 import DB, { AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { debounceEffect } from 'lib/utils/debounceUtils'
-import stableStringify from 'json-stable-stringify'
-import RelicRerollModal from 'lib/overlays/modals/RelicRerollModal'
 import { EventEmitter } from 'lib/utils/events'
+import { TsUtils } from 'lib/utils/TsUtils'
+import useWebSocket from 'partysocket/use-ws'
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import {
+  create,
+  StoreApi,
+  UseBoundStore,
+} from 'zustand'
 
 type ScannerState = {
   // The websocket url to connect to
-  websocketUrl: string
+  websocketUrl: string,
 
   // Whether we are connected to the scanner websocket
-  connected: boolean
+  connected: boolean,
 
   // Whether to ingest data from the scanner websocket
-  ingest: boolean
+  ingest: boolean,
 
   // Whether to ingest character data from the scanner websocket
-  ingestCharacters: boolean
+  ingestCharacters: boolean,
 
   // Whether to auto-import warp resources (jades, passes, pity)
-  ingestWarpResources: boolean
+  ingestWarpResources: boolean,
 
   // Gacha funds parsed from the scanner websocket
-  gachaFunds: V4ParserGachaFunds | null
+  gachaFunds: V4ParserGachaFunds | null,
 
   // Relics parsed from the scanner websocket
   // key: relic unique id
-  relics: Record<string, V4ParserRelic>
+  relics: Record<string, V4ParserRelic>,
 
   // List of recently updated relics by uid, most recent first
-  recentRelics: string[]
+  recentRelics: string[],
 
   // Light cones parsed from the scanner websocket
   // key: light cone unique id
-  lightCones: Record<string, V4ParserLightCone>
+  lightCones: Record<string, V4ParserLightCone>,
 
   // Materials parsed from the scanner websocket
   // key: material unique id
-  materials: Record<string, V4ParserMaterial>
+  materials: Record<string, V4ParserMaterial>,
 
   // Characters parsed from the scanner websocket
   // key: character avatar id
-  characters: Record<string, V4ParserCharacter>
+  characters: Record<string, V4ParserCharacter>,
 }
 
 type ScannerActions = {
   // Set the websocket url to connect to
-  setWebsocketUrl: (websocketUrl: string) => void
+  setWebsocketUrl: (websocketUrl: string) => void,
 
   // Turn on/off ingestion of scanner data
-  setIngest: (ingest: boolean) => void
+  setIngest: (ingest: boolean) => void,
 
   // Turn on/off ingestion of character data from the scanner websocket
-  setIngestCharacters: (ingest: boolean) => void
+  setIngestCharacters: (ingest: boolean) => void,
 
   // Turn on/off auto-import of warp resources
-  setIngestWarpResources: (ingest: boolean) => void
+  setIngestWarpResources: (ingest: boolean) => void,
 
   // Fetch the full scan data, refreshed with the latest data
-  buildFullScanData: () => ScannerParserJson | null
+  buildFullScanData: () => ScannerParserJson | null,
 }
 
 type PrivateScannerState = {
   // Initial scan data, or last updated scan data
-  lastScanData: ScannerParserJson | null
+  lastScanData: ScannerParserJson | null,
 }
 
 type PrivateScannerActions = {
   // Turn on/off connection to the scanner websocket
-  setConnected: (connected: boolean) => void
+  setConnected: (connected: boolean) => void,
 
   // Update the state with a new initial scan
-  updateInitialScan: (data: ScannerParserJson) => void
+  updateInitialScan: (data: ScannerParserJson) => void,
 
   // Update the state with a new gacha funds
-  updateGachaFunds: (data: V4ParserGachaFunds) => void
+  updateGachaFunds: (data: V4ParserGachaFunds) => void,
 
   // Update the state with a new relic
-  updateRelic: (relic: V4ParserRelic) => void
+  updateRelic: (relic: V4ParserRelic) => void,
 
   // Update the state with a new light cone
-  updateLightCone: (lightCone: V4ParserLightCone) => void
+  updateLightCone: (lightCone: V4ParserLightCone) => void,
 
   // Update the state with a new material
-  updateMaterial: (material: V4ParserMaterial) => void
+  updateMaterial: (material: V4ParserMaterial) => void,
 
   // Update the state with a new character
-  updateCharacter: (character: V4ParserCharacter) => void
+  updateCharacter: (character: V4ParserCharacter) => void,
 
   // Delete a relic from the state
-  deleteRelic: (relicId: string) => void
+  deleteRelic: (relicId: string) => void,
 
   // Delete a light cone from the state
-  deleteLightCone: (lightConeId: string) => void
+  deleteLightCone: (lightConeId: string) => void,
 }
 
-type ScannerStore = ScannerState &
-  ScannerActions &
-  PrivateScannerState &
-  PrivateScannerActions
+type ScannerStore =
+  & ScannerState
+  & ScannerActions
+  & PrivateScannerState
+  & PrivateScannerActions
 
 export const DEFAULT_WEBSOCKET_URL = 'ws://127.0.0.1:53313/ws'
 
@@ -261,7 +270,7 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
       // Check if any other properties changed
       if (
         stableStringify(existingForComparison)
-        !== stableStringify(newForComparison)
+          !== stableStringify(newForComparison)
       ) {
         shouldUpdateRecentRelics = true
       }
@@ -334,35 +343,37 @@ export const useScannerState: UseBoundStore<
 export const scannerChannel = new EventEmitter<ScannerEvent>()
 
 type GachaResult = {
-  banner_id: number
-  banner_type: 'Character' | 'LightCone' | 'Standard'
-  pity_4: PityUpdate
-  pity_5: PityUpdate
-  pull_results: string[] // character / light cone ids
+  banner_id: number,
+  banner_type: 'Character' | 'LightCone' | 'Standard',
+  pity_4: PityUpdate,
+  pity_5: PityUpdate,
+  pull_results: string[], // character / light cone ids
 }
 
-type PityUpdate = {
-  amount: number
-} & (
-  | {
-    kind: 'AddPity'
+type PityUpdate =
+  & {
+    amount: number,
   }
-  | {
-    kind: 'ResetPity'
-    set_guarantee: boolean
-  }
-)
+  & (
+    | {
+      kind: 'AddPity',
+    }
+    | {
+      kind: 'ResetPity',
+      set_guarantee: boolean,
+    }
+  )
 
 type ScannerEvent =
-  | { event: 'InitialScan'; data: ScannerParserJson }
-  | { event: 'GachaResult'; data: GachaResult }
-  | { event: 'UpdateGachaFunds'; data: V4ParserGachaFunds }
-  | { event: 'UpdateMaterials'; data: V4ParserMaterial[] }
-  | { event: 'UpdateRelics'; data: V4ParserRelic[] }
-  | { event: 'UpdateLightCones'; data: V4ParserLightCone[] }
-  | { event: 'UpdateCharacters'; data: V4ParserCharacter[] }
-  | { event: 'DeleteRelics'; data: string[] } // data: unique ids
-  | { event: 'DeleteLightCones'; data: string[] } // data: unique ids
+  | { event: 'InitialScan', data: ScannerParserJson }
+  | { event: 'GachaResult', data: GachaResult }
+  | { event: 'UpdateGachaFunds', data: V4ParserGachaFunds }
+  | { event: 'UpdateMaterials', data: V4ParserMaterial[] }
+  | { event: 'UpdateRelics', data: V4ParserRelic[] }
+  | { event: 'UpdateLightCones', data: V4ParserLightCone[] }
+  | { event: 'UpdateCharacters', data: V4ParserCharacter[] }
+  | { event: 'DeleteRelics', data: string[] } // data: unique ids
+  | { event: 'DeleteLightCones', data: string[] } // data: unique ids
 
 function ingestFullScan(data: ScannerParserJson, updateCharacters: boolean) {
   const newScan = ReliquaryArchiverParser.parse(data)
@@ -438,10 +449,9 @@ function updateRelic(state: Readonly<ScannerStore>, relic: V4ParserRelic) {
       const oldRelic = DB.getRelicById(newRelic.id)
 
       // Only rescore if the relic stats have changed
-      const needsRescore
-        = !oldRelic
+      const needsRescore = !oldRelic
         || TsUtils.objectHash(oldRelic.augmentedStats)
-        !== TsUtils.objectHash(newRelic.augmentedStats)
+          !== TsUtils.objectHash(newRelic.augmentedStats)
       if (oldRelic != null && !state.ingestCharacters) {
         // Keep the owner of relic as the existing owner when character ingestion is disabled
         newRelic.equippedBy = oldRelic.equippedBy
@@ -513,8 +523,8 @@ function deleteLightCone(state: Readonly<ScannerStore>, lightConeId: string) {
 
 // Add a state for the reroll modal
 type RerollModalState = {
-  isOpen: boolean
-  relic: V4ParserRelic | null
+  isOpen: boolean,
+  relic: V4ParserRelic | null,
 }
 
 export function ScannerWebsocket() {
@@ -619,9 +629,6 @@ export function ScannerWebsocket() {
 
         const activeKey = window.store.getState().activeKey
         switch (activeKey) {
-          case AppPages.CHARACTERS:
-            window.forceCharacterTabUpdate()
-            break
           case AppPages.RELICS:
             if (relicSelectionBuffer.current.length > 0) {
               const ids = Array.from(

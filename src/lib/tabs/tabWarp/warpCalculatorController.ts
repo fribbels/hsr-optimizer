@@ -45,12 +45,12 @@ export const WarpIncomeOptions: WarpIncomeDefinition[] = [
   // generateOption('3.1', 1, WarpIncomeType.BP_EXPRESS, 94),
   // generateOption('3.1', 2, WarpIncomeType.BP_EXPRESS, 45),
 
-  generateOption('3.2', 1, WarpIncomeType.F2P, 89),
-  generateOption('3.2', 2, WarpIncomeType.F2P, 114 - 89),
-  generateOption('3.2', 1, WarpIncomeType.EXPRESS, 102),
-  generateOption('3.2', 2, WarpIncomeType.EXPRESS, 137 - 102),
-  generateOption('3.2', 1, WarpIncomeType.BP_EXPRESS, 103),
-  generateOption('3.2', 2, WarpIncomeType.BP_EXPRESS, 146 - 103),
+  // generateOption('3.2', 1, WarpIncomeType.F2P, 89),
+  // generateOption('3.2', 2, WarpIncomeType.F2P, 114 - 89),
+  // generateOption('3.2', 1, WarpIncomeType.EXPRESS, 102),
+  // generateOption('3.2', 2, WarpIncomeType.EXPRESS, 137 - 102),
+  // generateOption('3.2', 1, WarpIncomeType.BP_EXPRESS, 103),
+  // generateOption('3.2', 2, WarpIncomeType.BP_EXPRESS, 146 - 103),
 
   generateOption('3.3', 1, WarpIncomeType.F2P, 68),
   generateOption('3.3', 2, WarpIncomeType.F2P, 96 - 68),
@@ -65,6 +65,13 @@ export const WarpIncomeOptions: WarpIncomeDefinition[] = [
   generateOption('3.4', 2, WarpIncomeType.EXPRESS, 116 - 69),
   generateOption('3.4', 1, WarpIncomeType.BP_EXPRESS, 77),
   generateOption('3.4', 2, WarpIncomeType.BP_EXPRESS, 124 - 77),
+
+  generateOption('3.5', 1, WarpIncomeType.F2P, 66),
+  generateOption('3.5', 2, WarpIncomeType.F2P, 88 - 66),
+  generateOption('3.5', 1, WarpIncomeType.EXPRESS, 77),
+  generateOption('3.5', 2, WarpIncomeType.EXPRESS, 112 - 77),
+  generateOption('3.5', 1, WarpIncomeType.BP_EXPRESS, 86),
+  generateOption('3.5', 2, WarpIncomeType.BP_EXPRESS, 120 - 86),
 ]
 
 export enum WarpStrategy {

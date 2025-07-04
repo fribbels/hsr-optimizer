@@ -4776,6 +4776,22 @@ interface Resources {
       "ParserWarning": {
         "BadRollInfo": "Scanner file is outdated / may contain invalid information. Please update your scanner."
       },
+      "LiveImport": {
+        "Title": "Live Import Controls",
+        "Description": {
+          "l1": "When using the Reliquary Archiver, you can enable the \"Live Import\" mode to import your inventory in real time.",
+          "l2": "This includes new relics, enhanced relics, warp/gacha results, and more."
+        },
+        "Disconnected": "Unable to connect to the scanner. Please check that it is running.",
+        "Enable": "Enable Live Import (Recommended)",
+        "UpdateCharacters": "Enable updating characters' equipped relics and lightcones",
+        "UpdateWarpResources": "Enable importing Warp resources (jades, passes, pity)",
+        "AdvancedSettings": {
+          "Title": "Advanced Settings",
+          "WebsocketUrl": "Websocket URL",
+          "WebsocketUrlReset": "Reset to default"
+        }
+      },
       "Stage1": {
         "Header": "Install and run one of the relic scanner options:",
         "ReliquaryDesc": {
@@ -4784,7 +4800,8 @@ interface Resources {
           "OnlineMsg": "Status: Updated for patch {{version}}",
           "OfflineMsg": "***** Status: Down for maintenance after {{version}} patch *****",
           "l1": "Accurate speed decimals, instant scan",
-          "l2": "Imports full inventory and character roster"
+          "l2": "Imports full inventory and character roster",
+          "l3": "Supports live importing (new/enhanced relics are imported in real time)"
         },
         "KelzDesc": {
           "Title": "Kel-Z HSR Scanner",
@@ -4862,7 +4879,12 @@ interface Resources {
   "modals": {
     "Scoring": {
       "StatWeightsHeader": "Stat weights",
+      "SetWeightsHeader": "Set weights",
       "MainstatsHeader": "Optimal mainstats",
+      "SetWeights": {
+        "AddRelicSetPlaceholder": "Add relic set",
+        "AddOrnamentSetPlaceholder": "Add ornament set"
+      },
       "WeightMethodology": {
         "Header": "How is Stat Score calculated?"
       },
@@ -5198,6 +5220,7 @@ interface Resources {
       "Substat": "Substats",
       "SubstatPlaceholder": "Substat",
       "SpdInputWarning": "Note - SPD substats ingame contain hidden decimal values which are inaccurate if input manually. For precise SPD values, use the Showcase tab or Reliquary Archiver import.",
+      "LiveImportWarning": "Live import mode is enabled, your changes might be overwritten.",
       "Upgrades": "Substat upgrades",
       "Messages": {
         "SubmitFail": "Submit failed!",
@@ -5311,6 +5334,11 @@ interface Resources {
     "LightconeSelect": {
       "Placeholder": "Light cone",
       "Title": "Select a light cone"
+    },
+    "RelicReroll": {
+      "Title": "Relic Reroll Detected",
+      "OriginalSubstats": "Original Substats",
+      "RerolledSubstats": "Rerolled Substats"
     }
   },
   "notifications": {
@@ -6140,6 +6168,13 @@ interface Resources {
       "RecommendationHeader": "Relic recommendation character",
       "Rating": "Relic ratings",
       "CustomCharsHeader": "Custom potential characters"
+    },
+    "RecentlyUpdatedRelics": {
+      "Header": "Recently updated relics",
+      "Potential": "POTENTIAL",
+      "Avg": "AVG",
+      "Max": "MAX",
+      "BestFor": "BEST FOR"
     },
     "Messages": {
       "AddRelicSuccess": "Successfully added relic",

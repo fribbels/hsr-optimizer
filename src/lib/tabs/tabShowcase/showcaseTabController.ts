@@ -3,7 +3,6 @@ import {
   CharacterConverter,
   UnconvertedCharacter,
 } from 'lib/importer/characterConverter'
-import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { Message } from 'lib/interactions/message'
 import {
   AGLAEA,
@@ -229,7 +228,6 @@ export function submitForm(form: ShowcaseTabForm) {
       // Remove duplicate characters (the same character can be placed in both one of the first 3 slots and one of the latter 5)
       const converted = characters
         .map((x) => CharacterConverter.convert(x))
-        .map((x) => migrateBuffedCharactersShowcase(x))
         .filter((
           value,
           index,
@@ -252,22 +250,4 @@ export function submitForm(form: ShowcaseTabForm) {
         setLoading(false)
       }, 1000 * 5)
     })
-}
-
-function migrateBuffedCharactersShowcase(character: ShowcaseTabCharacter) {
-  const id = character.id
-  if (buffedCharacters[id]) {
-    const buffedId = buffedCharacters[id] as CharacterId
-
-    character.id = buffedId
-    character.form.characterId = buffedId
-
-    Object.values(character.equipped).forEach((x) => {
-      if (x) {
-        x.equippedBy = buffedId
-      }
-    })
-  }
-
-  return character
 }

@@ -293,6 +293,9 @@ SetConditionals:
     Sacerdos:
       Display: '{{stackCount}}層'
       Label: '{{stackCount}}層（会心ダメージ+{{buffValue}}%）'
+    Arcadia:
+      Display: '{{allyCount}}層'
+      Label: '{{allyCount}}人の味方（与ダメージ+{{buffValue}}%）'
   Conditionals:
     DefaultMessage: デフォルトで有効 - セット効果を戦闘計算に反映します。
     Hunter: 有効にすると、会心ダメージバフを戦闘ステータス計算に反映します。
@@ -320,6 +323,7 @@ SetConditionals:
     Kalpagni: 有効にすると、撃破特効バフを戦闘ステータス計算に反映します。
     Lushaka: デフォルトで無効 - このセットは装備キャラに影響を与えません。
     Banana: 有効にすると、さらに32%の会心ダメージを戦闘ステータス計算に反映します。
+    Arcadia: 選択したバフを戦闘ステータス計算に反映します。チーム編成を変更すると、自動的に更新されます。
 Presets:
   SpdValues:
     SPD0: 速度の指定なし

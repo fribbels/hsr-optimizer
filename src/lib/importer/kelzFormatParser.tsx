@@ -39,7 +39,7 @@ const { Text } = Typography
 
 const characterList = Object.values(gameData.characters)
 
-type V4ParserLightCone = {
+export type V4ParserLightCone = {
   id: string,
   name: string,
   level: number,
@@ -50,7 +50,7 @@ type V4ParserLightCone = {
   _uid: string,
 }
 
-type V4ParserCharacter = {
+export type V4ParserCharacter = {
   id: string,
   name: string,
   path: string,
@@ -60,23 +60,38 @@ type V4ParserCharacter = {
   ability_version?: number,
 }
 
-type V4ParserRelic = {
+export type V4ParserSubstat = {
+  key: string,
+  value: number,
+  count?: number, // only present on reliquary scans
+  step?: number, // only present on reliquary scans
+}
+
+export type V4ParserRelic = {
   set_id: string,
   name: string,
   slot: string,
   rarity: number,
   level: number,
   mainstat: string,
-  substats: {
-    key: string,
-    value: number,
-    count?: number, // only present on reliquary scans
-    step?: number, // only present on reliquary scans
-  }[],
+  substats: V4ParserSubstat[],
+  reroll_substats?: V4ParserSubstat[],
   location: string,
   lock: boolean,
   discard: boolean,
   _uid: string,
+}
+
+export type V4ParserGachaFunds = {
+  stellar_jade: number,
+  oneric_shards: number,
+}
+
+export type V4ParserMaterial = {
+  id: string,
+  name: string,
+  count: number,
+  expire_time?: number,
 }
 
 const relicSetMapping = gameData.relics.reduce((map, relic) => {
@@ -92,7 +107,9 @@ export type ScannerParserJson = {
     uid: number,
     trailblazer: 'Stelle' | 'Caelus',
     current_trailblazer_path?: PathName,
-  },
+  }
+  gacha: V4ParserGachaFunds,
+  materials: V4ParserMaterial[],
   characters: V4ParserCharacter[],
   light_cones: V4ParserLightCone[],
   relics: V4ParserRelic[],
@@ -153,10 +170,12 @@ export class KelzFormatParser { // TODO abstract class
     parsed.metadata.trailblazer = json.metadata.trailblazer || 'Stelle'
     parsed.metadata.current_trailblazer_path = json.metadata.current_trailblazer_path ?? PathNames.Destruction
 
+    // Reset bad roll info
+    this.badRollInfo = false
+
     if (json.relics) {
       parsed.relics = json.relics
-        .map((r) => readRelic(r, this))
-        .map((r) => RelicAugmenter.augment(r))
+        .map((r) => this.parseRelic(r))
         .filter((r): r is NonNullable<typeof r> => {
           if (!r) {
             console.warn('Could not parse relic')
@@ -168,7 +187,6 @@ export class KelzFormatParser { // TODO abstract class
     // "Scanner file is outdated / may contain invalid information. Please update your scanner."
     if (this.badRollInfo) {
       Message.warning(tWarning('BadRollInfo'), 10)
-      this.badRollInfo = false // parser isn't necessarily re-instantiated in between parsings
     }
 
     if (json.characters) {
@@ -186,6 +204,15 @@ export class KelzFormatParser { // TODO abstract class
     migrateBuffedCharacters(json.characters, parsed.characters, parsed.relics)
 
     return parsed
+  }
+
+  parseRelic(relic: V4ParserRelic, substatListOverride?: V4ParserSubstat[]) {
+    const parsed = readRelic(relic, substatListOverride ?? relic.substats, this)
+    return RelicAugmenter.augment(parsed) as Relic | null
+  }
+
+  parseCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCone[]) {
+    return readCharacter(character, lightCones) as Form | null
   }
 }
 
@@ -250,7 +277,7 @@ function readCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCo
   }
 }
 
-function readRelic(relic: V4ParserRelic, scanner: KelzFormatParser): Relic {
+function readRelic(relic: V4ParserRelic, substatList: V4ParserSubstat[], scanner: KelzFormatParser): Relic {
   const part = relic.slot.replace(/\s+/g, '') as Parts
 
   const setId = relic.set_id
@@ -259,7 +286,7 @@ function readRelic(relic: V4ParserRelic, scanner: KelzFormatParser): Relic {
   const enhance = Math.min(Math.max(relic.level, 0), 15)
   const grade = Math.min(Math.max(relic.rarity, 2), 5)
 
-  const { main, substats } = readRelicStats(relic, part, grade, enhance, scanner)
+  const { main, substats } = readRelicStats(relic, substatList, part, grade, enhance, scanner)
 
   let equippedBy: CharacterId | undefined
   if (relic.location !== '') {
@@ -278,7 +305,9 @@ function readRelic(relic: V4ParserRelic, scanner: KelzFormatParser): Relic {
     substats,
     equippedBy,
     verified: scanner.config.speedVerified,
-  } as Relic
+    id: relic._uid,
+    ageIndex: parseInt(relic._uid),
+  } as unknown as Relic
 }
 
 type MainData = {
@@ -304,7 +333,7 @@ function parseMainStat(relic: V4ParserRelic, part: string) {
   }
 }
 
-function readRelicStats(relic: V4ParserRelic, part: string, grade: number, enhance: number, scanner: KelzFormatParser) {
+function readRelicStats(relic: V4ParserRelic, substatList: V4ParserSubstat[], part: string, grade: number, enhance: number, scanner: KelzFormatParser) {
   const mainStat = parseMainStat(relic, part)
   if (!mainStat) {
     throw new Error(i18next.t('importSaveTab:Import.ParserError.BadMainstat', {
@@ -320,7 +349,7 @@ function readRelicStats(relic: V4ParserRelic, part: string, grade: number, enhan
   const mainData: MainData = affixes.find((x) => x.property === mainId)!
   const mainValue = mainData.base + mainData.step * enhance
 
-  const substats = relic.substats
+  const substats = substatList
     .map((s) => {
       if (!scanner.config.speedVerified) {
         return {

@@ -275,7 +275,6 @@ export default function ScoringModal() {
         form={scoringAlgorithmForm}
         preserve={false}
         layout='vertical'
-        // onFinish={onFinish}
       >
         <TitleDivider>{t('Scoring.StatWeightsHeader') /* Stat weights */}</TitleDivider>
 

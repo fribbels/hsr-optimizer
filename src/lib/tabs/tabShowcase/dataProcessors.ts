@@ -8,7 +8,8 @@ export function processMihomoData(data: MihomoApiResponse): UnconvertedCharacter
   for (const character of characters) {
     character.relicList = character.relics || []
     character.equipment = character.light_cone
-    character.avatarId = character.enhancedId ? character.id + `b${character.enhancedId}` : character.id
+    // TODO update once mihomo update their api, or switch to raw endpoint and update the above
+    character.avatarId = character.id // character.enhancedId ? character.id + `b${character.enhancedId}` : character.id
 
     if (character.equipment) {
       character.equipment.tid = character.equipment.id

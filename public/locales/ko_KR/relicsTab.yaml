@@ -15,10 +15,17 @@ RelicFilterBar:
   RecommendationHeader: 유물 추천 캐릭터
   Rating: 유물 레이팅
   CustomCharsHeader: 평가 캐릭터 지정
+RecentlyUpdatedRelics:
+  Header: 최근 업데이트된 유물들
+  Potential: 잠재력
+  Avg: 평균
+  Max: 최대
+  BestFor: 가장 좋은 유물
 Messages:
   AddRelicSuccess: 유물을 추가했습니다.
   NoRelicSelected: 유물이 선택되지 않았습니다.
   DeleteRelicSuccess: 유물을 삭제했습니다.
+  UnableToDeleteRelic: 유물을 삭제할 수 없습니다
 RelicGrid:
   To: "~"
   Of: /

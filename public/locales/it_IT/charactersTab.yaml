@@ -57,6 +57,7 @@ CharacterPreview:
     Labels:
       CombatScore: Punteggio in battaglia
       StatScore: Punteggio statistiche
+      NoneScore: Nessuno
   DetailsSlider:
     Labels:
       CombatStats: Statistiche in battaglia

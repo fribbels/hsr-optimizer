@@ -16,6 +16,9 @@ Import:
     BadMainstat: 无法解析主属性为{{mainstat}}、部件为{{part}}的遗器。
   ParserWarning:
     BadRollInfo: 扫描器文件已过时 / 可能包含无效信息。请更新你的扫描器。
+  LiveImport:
+    AdvancedSettings:
+      WebsocketUrlReset: 重置为默认
   Stage1:
     Header: "安装并运行其中一个遗器扫描器选项："
     ReliquaryDesc:

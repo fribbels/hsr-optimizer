@@ -16,6 +16,9 @@ Import:
     BadMainstat: メインステータス {{mainstat}} 、部位 {{part}} の遺物のメインステータスを解析できませんでした。
   ParserWarning:
     BadRollInfo: スキャナーファイルが古いか、無効な情報が含まれている場合があります。スキャナーを更新してください。
+  LiveImport:
+    AdvancedSettings:
+      WebsocketUrlReset: デフォルトにリセット
   Stage1:
     Header: "以下の遺物スキャナーのいずれかをインストールして実行してください"
     ReliquaryDesc:

@@ -16,6 +16,9 @@ Import:
     BadMainstat: No se pudo interpretar el atributo principal para el artefacto con atributo principal {{mainstat}} y ranura {{part}}
   ParserWarning:
     BadRollInfo: El archivo del escáner está desactualizado / puede contener información inválida. Por favor actualiza tu escáner.
+  LiveImport:
+    AdvancedSettings:
+      WebsocketUrlReset: Restablecer a por defecto
   Stage1:
     Header: "Instala y ejecuta una de las opciones de escáner de artefactos:"
     ReliquaryDesc:

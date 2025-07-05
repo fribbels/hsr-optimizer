@@ -1,6 +1,10 @@
 Scoring:
   StatWeightsHeader: Poids des stats
+  SetWeightsHeader: Poids de Set
   MainstatsHeader: Mainstats optimales
+  SetWeights:
+    AddRelicSetPlaceholder: Ajouter un set de reliques
+    AddOrnamentSetPlaceholder: Ajouter un set d'ornements
   WeightMethodology:
     Header: Comment est calculée la note de stat?
   Footer:
@@ -271,6 +275,7 @@ Relic:
   Substat: Substats
   SubstatPlaceholder: Substat
   SpdInputWarning: 'Remarque : Les substats de VIT en jeu contiennent des valeurs décimales cachées et peuvent donc être inexactes si elles sont entrées manuellement. Pour assurer des valeurs de VIT précises, utilisez l''onglet Vitrine ou importez vos reliques via Reliquary Archiver.'
+  LiveImportWarning: Le mode d'import en direct est activé, vos modifications pourraient être écrasées.
   Upgrades: Améliorations de substats
   Messages:
     SubmitFail: Échec de soumission!
@@ -363,3 +368,7 @@ CharacterSelect:
 LightconeSelect:
   Placeholder: Cône de lumière
   Title: Sélectionnez un cône de lumière
+RelicReroll:
+  Title: Re-lancé de relique détecté
+  OriginalSubstats: Substats originelles
+  RerolledSubstats: Substats re-roulées

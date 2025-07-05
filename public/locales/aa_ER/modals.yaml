@@ -1,6 +1,10 @@
 Scoring:
   StatWeightsHeader: crwdns42108:0crwdne42108:0
+  SetWeightsHeader: crwdns45742:0crwdne45742:0
   MainstatsHeader: crwdns42110:0crwdne42110:0
+  SetWeights:
+    AddRelicSetPlaceholder: crwdns45744:0crwdne45744:0
+    AddOrnamentSetPlaceholder: crwdns45746:0crwdne45746:0
   WeightMethodology:
     Header: crwdns42112:0crwdne42112:0
   Footer:
@@ -271,6 +275,7 @@ Relic:
   Substat: crwdns42480:0crwdne42480:0
   SubstatPlaceholder: crwdns42482:0crwdne42482:0
   SpdInputWarning: crwdns44931:0crwdne44931:0
+  LiveImportWarning: crwdns45748:0crwdne45748:0
   Upgrades: crwdns42484:0crwdne42484:0
   Messages:
     SubmitFail: crwdns42486:0crwdne42486:0
@@ -363,3 +368,7 @@ CharacterSelect:
 LightconeSelect:
   Placeholder: crwdns42622:0crwdne42622:0
   Title: crwdns42624:0crwdne42624:0
+RelicReroll:
+  Title: crwdns45750:0crwdne45750:0
+  OriginalSubstats: crwdns45752:0crwdne45752:0
+  RerolledSubstats: crwdns45754:0crwdne45754:0

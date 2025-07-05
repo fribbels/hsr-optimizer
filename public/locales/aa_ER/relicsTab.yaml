@@ -15,6 +15,12 @@ RelicFilterBar:
   RecommendationHeader: crwdns43480:0crwdne43480:0
   Rating: crwdns43482:0crwdne43482:0
   CustomCharsHeader: crwdns43484:0crwdne43484:0
+RecentlyUpdatedRelics:
+  Header: crwdns45756:0crwdne45756:0
+  Potential: crwdns45758:0crwdne45758:0
+  Avg: crwdns45760:0crwdne45760:0
+  Max: crwdns45762:0crwdne45762:0
+  BestFor: crwdns45764:0crwdne45764:0
 Messages:
   AddRelicSuccess: crwdns43486:0crwdne43486:0
   NoRelicSelected: crwdns43488:0crwdne43488:0

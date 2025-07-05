@@ -1,6 +1,6 @@
 MiddlePanel:
   CharacterHeader: Personaggi
-  LCHeader: Coni di Luce
+  LCHeader: Light Cone
 RightPanel:
   Settings:
     Header: Impostazioni

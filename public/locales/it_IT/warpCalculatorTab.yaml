@@ -1,6 +1,56 @@
+StrategyLabels:
+  S1: S1 prima
+  E0: E0 prima
+  E1: E1 prima
+  E2: E2 prima
+  E3: E3 prima
+  E4: E4 prima
+  E5: E5 prima
+  E6: E6 prima
+RefundLabels:
+  REFUND_NONE: Nessuno
+  REFUND_NONE_FULL: Nessuno
+  REFUND_LOW: "Rimborso del {{Percentage}}%"
+  REFUND_LOW_FULL: "Rimborso del {{Percentage}}% (Basso)"
+  REFUND_AVG: "Rimborso del {{Percentage}}%"
+  REFUND_AVG_FULL: "Rimborso del {{Percentage}}% (Medio)"
+  REFUND_HIGH: "Rimborso del {{Percentage}}%"
+  REFUND_HIGH_FULL: "Rimborso del {{Percentage}}% (Alto)"
+EidolonLevels:
+  NONE: Nessuno
+  E0: E0
+  E1: E1
+  E2: E2
+  E3: E3
+  E4: E4
+  E5: E5
+  E6: E6
+SuperimpositionLevels:
+  NONE: Nessuno
+  S1: S1
+  S2: S2
+  S3: S3
+  S4: S4
+  S5: S5
+IncomeOptions:
+  Label: "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
+  Type:
+    0: Nessuna
+    1: F2P
+    2: Express
+    3: BP + Express
+PityCounter:
+  PityCounter: Contatore Pity
+  CurrentEidolonSuperImp: Attuale
+  Guaranteed: Garantito
+TotalAvailable: "Totale warp disponibili:"
 SectionTitles:
+  Results: Risultati
   Settings: Impostazioni
   Character: Personaggi
+  LightCone: Coni di Luce
+  Passes: Biglietti
+  New: Nuovo
   AdditionalResources: Risorse aggiuntive
   Calculate: Calcola
 ColumnTitles:

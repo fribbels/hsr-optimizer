@@ -1,3 +1,10 @@
 SectionTitles:
   Settings: Impostazioni
   Character: Personaggi
+  AdditionalResources: Risorse aggiuntive
+  Calculate: Calcola
+ColumnTitles:
+  Goal: Obiettivo
+  Chance: "Probabilità di successo con {{ticketCount}} <1/>"
+  Average: "# medio di <1/> richiesti"
+TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'

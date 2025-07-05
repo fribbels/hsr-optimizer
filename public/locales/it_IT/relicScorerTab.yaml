@@ -9,7 +9,7 @@ Messages:
   UnknownButtonClicked: Pulsante cliccato sconosciuto
 Header:
   DowntimeWarning: "Il punteggio delle reliquie potrebbe essere non disponibile per manutenzione dopo la patch {{game_version}}, riprova più tardi."
-  WithVersion: "Inserisci l'UID per calcolare il punteggio dei personaggi del tuo profilo a livello 80 e con le traces massimizzate. Effettua il logout per aggiornare istantaneamente. (Current version {{beta_version}})"
+  WithVersion: "Inserisci l'UID per calcolare il punteggio dei personaggi del tuo profilo a livello 80 e con le traces massimizzate. Effettua il logout per aggiornare istantaneamente. (Versione attuale {{beta_version}})"
   WithoutVersion: Inserisci l'UID per calcolare il punteggio dei personaggi del tuo profilo a livello 80 e con le traces massimizzate. Effettua il logout per aggiornare istantaneamente.
 SubmissionBar:
   Placeholder: UID Account
@@ -21,3 +21,4 @@ ImportLabels:
   AllCharacters: Importa tutti i personaggi e tutte le reliquie nell'ottimizzatore.
 SimulateRelics: Simula le reliquie su un altro personaggio.
 OptimizeOnCharacter: Ottimizza le statistiche del personaggio.
+Disclaimer: "Nota: la funzione Combo DMG è pensata per confrontare diverse reliquie in base al team selezionato e <1>NON</1> dovrebbe essere utilizzata per confrontare team/LC/eidolon diversi!"

@@ -11,6 +11,9 @@ Sidebar:
       Experimental: Motore di calcolo impostato su GPU (Sperimentale)
   ResultsGroup:
     EquipSuccessMessage: Equipaggiato
+ComboFilter:
+  ComboOptions:
+    None: 'Nessuno'
 TeammateCard:
   TeammateSyncSuccessMessage: Informazioni compagno di squadra sincronizzate
 ExpandedDataPanel:

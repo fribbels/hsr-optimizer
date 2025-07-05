@@ -1,21 +1,8 @@
-import {
-  AbilityType,
-  SKILL_DMG_TYPE,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  ComputedStatsArray,
-  DefaultActionDamageValues,
-  getElementalDamageType,
-  getResPenType,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { AbilityType, SKILL_DMG_TYPE, ULT_DMG_TYPE, } from 'lib/conditionals/conditionalConstants'
+import { ComputedStatsArray, DefaultActionDamageValues, getElementalDamageType, getResPenType, Key, } from 'lib/optimization/computedStatsArray'
 import { StatsConfigByIndex } from 'lib/optimization/config/computedStatsConfig'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export function calculateBaseMultis(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
   const lightConeConditionalController = context.lightConeConditionalController
@@ -248,6 +235,9 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     const dotResMulti = 1 - (baseResistance - a[Key.DOT_RES_PEN])
     const dotEhrMulti = calculateEhrMulti(x, context)
     const dotTrueDmgMulti = a[Key.TRUE_DMG_MODIFIER] + a[Key.DOT_TRUE_DMG_MODIFIER] // (1 +) dropped intentionally for dmg tracing
+    const dotDmgCr = a[Key.DOT_DMG_CR_OVERRIDE]
+    const dotDmgCd = a[Key.DOT_DMG_CD_OVERRIDE]
+    const dotCritMulti = dotDmgCr * (1 + dotDmgCd) + (1 - dotDmgCr)
 
     const initialDmg = calculateInitial(
       a,
@@ -267,6 +257,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       dotDmgBoostMulti,
       dotDefMulti,
       dotVulnerabilityMulti,
+      dotCritMulti,
       dotResMulti,
       dotEhrMulti,
       dotTrueDmgMulti,
@@ -588,6 +579,7 @@ function calculateDotDmg(
   dmgBoostMulti: number,
   defMulti: number,
   vulnerabilityMulti: number,
+  critMulti: number,
   resMulti: number,
   ehrMulti: number,
   trueDmgMulti: number,
@@ -597,6 +589,7 @@ function calculateDotDmg(
     * dmgBoostMulti
     * defMulti
     * vulnerabilityMulti
+    * critMulti
     * resMulti
     * ehrMulti
 

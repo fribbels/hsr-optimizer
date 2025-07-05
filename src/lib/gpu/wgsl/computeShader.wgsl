@@ -719,6 +719,10 @@ fn calculateDamage(
       let dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN);
       let dotEhrMulti = calculateEhrMulti(p_x);
       let dotTrueDmgMulti = 1 + x.TRUE_DMG_MODIFIER + x.DOT_TRUE_DMG_MODIFIER;
+      let dotDmgCr = x.DOT_DMG_CR_OVERRIDE;
+      let dotDmgCd = x.DOT_DMG_CD_OVERRIDE;
+      let dotCritMulti = dotDmgCr * (1 + dotDmgCd) + (1 - dotDmgCr);
+
       let initialDmg = calculateInitial(
         p_x,
         x.DOT_DMG,
@@ -734,6 +738,7 @@ fn calculateDamage(
           * (dotDmgBoostMulti)
           * (dotDefMulti)
           * (dotVulnerabilityMulti)
+          * (dotCritMulti)
           * (dotResMulti)
           * (dotEhrMulti)
           * (dotTrueDmgMulti);

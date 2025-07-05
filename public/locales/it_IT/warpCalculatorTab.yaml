@@ -45,12 +45,18 @@ PityCounter:
   Guaranteed: Garantito
 TotalAvailable: "Totale warp disponibili:"
 SectionTitles:
+  Planner: Pianificatore Warp
   Results: Risultati
   Settings: Impostazioni
   Character: Personaggi
-  LightCone: Coni di Luce
+  LightCone: Light Cone
   Passes: Biglietti
+  Jades: Jade
+  Strategy: Strategia
+  Starlight: Starlight
+  Banner: Banner
   New: Nuovo
+  Rerun: Rerun
   AdditionalResources: Risorse aggiuntive
   Calculate: Calcola
 ColumnTitles:

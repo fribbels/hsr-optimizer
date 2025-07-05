@@ -3,6 +3,13 @@ CharacterSelector:
 OptimizerOptions:
   Priority:
     Header: Priorità
+Grid:
+  Headers:
+    Basic:
+      ATK: ATK
+      DEF: DEF
+      HP: HP
+      SPD: SPD
 Sidebar:
   GPUOptions:
     EngineSwitchSuccessMsg:
@@ -11,6 +18,23 @@ Sidebar:
       Experimental: Motore di calcolo impostato su GPU (Sperimentale)
   ResultsGroup:
     EquipSuccessMessage: Equipaggiato
+CombatBuffs:
+  ATK: ATK
+  ATK_P: ATK %
+  HP: HP
+  HP_P: HP %
+  DEF: DEF
+  SPD: SPD
+WeightFilter:
+  HPFilterText: HP
+  ATKFilterText: ATK
+  DEFFilterText: DEF
+  SPDFilterText: SPD
+MinMaxFilters:
+  HPLabel: HP
+  ATKLabel: ATK
+  DEFLabel: DEF
+  SPDLabel: SPD
 ComboFilter:
   ComboOptions:
     None: 'Nessuno'

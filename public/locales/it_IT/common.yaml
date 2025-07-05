@@ -4,5 +4,36 @@ Score: Punteggio
 Character_one: personaggio
 VerifiedRelicHoverText: Statistiche secondarie della reliquia verificate dal relic scorer (speed decimals)
 CombatStats: Statistiche in battaglia
+Stats:
+  HP: HP
+  ATK: ATK
+  DEF: DEF
+  SPD: SPD
+ShortStats:
+  HP: HP
+  ATK: ATK
+  DEF: DEF
+  SPD: SPD
+ShortSpacedStats:
+  "HP%": HP %
+  HP: HP
+  "ATK%": ATK %
+  ATK: ATK
+  DEF: DEF
+  SPD: SPD
+ReadableStats:
+  "HP%": HP %
+  HP: HP
+  "ATK%": ATK %
+  ATK: ATK
+  DEF: DEF
+  SPD: SPD
+ShortReadableStats:
+  "HP%": HP %
+  HP: HP
+  "ATK%": ATK %
+  ATK: ATK
+  DEF: DEF
+  SPD: SPD
 DMGTypes:
   simScore: DANNO della combo

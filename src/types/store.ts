@@ -84,7 +84,8 @@ export type HsrOptimizerStore = { // global store separation plan
 
   /* optimizerTab             */ comboState: ComboState,
   /* optimizerTab             */ formValues: Form | undefined,
-  /* global                   */ relicsById: Record<string, Relic>,
+  /* global                   */ relicsById: Partial<Record<string, Relic>>,
+  /* global                   */ relics: Array<Relic>,
   /* optimizerTab             */ statDisplay: StatDisplay,
   /* optimizerTab             */ memoDisplay: MemoDisplay,
   /* global                   */ settings: UserSettings,
@@ -106,7 +107,7 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ optimizerFormSelectedLightConeSuperimposition: number,
   /* optimizerTab             */ setPermutationsResults: (n: number) => void,
   /* optimizerTab             */ setPermutationsSearched: (n: number) => void,
-  /* global                   */ setRelicsById: (relicsById: Record<number, Relic>) => void,
+  /* global                   */ setRelicsById: (relicsById: Partial<Record<string, Relic>>) => void,
   /* global                   */ setSavedSessionKey: <T extends keyof GlobalSavedSession>(key: T, value: GlobalSavedSession[T]) => void,
   /* global                   */ setActiveKey: (key: AppPage) => void,
   /* give own store?          */ setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void,

@@ -80,7 +80,7 @@ export default function RelicsTab() {
     window.relicsGrid.current.api.deselectAll()
 
     // Select the new rows
-    window.relicsGrid.current.api.setNodesSelected({ nodes: rowNodes, newValue: true, source: "api" })
+    window.relicsGrid.current.api.setNodesSelected({ nodes: rowNodes, newValue: true, source: 'api' })
 
     // Ensure the new rows are visible
     window.relicsGrid.current.api.ensureNodeVisible(rowNodes[0])
@@ -592,7 +592,6 @@ export default function RelicsTab() {
 
   function onAddOk(relic) {
     DB.setRelic(relic)
-    window.forceCharacterTabUpdate()
     setRelicRows(DB.getRelics())
     SaveState.delayedSave()
 
@@ -610,7 +609,7 @@ export default function RelicsTab() {
 
   function editClicked() {
     console.log('edit clicked')
-    if (!selectedRelicID) return Message.error(t('Messages.NoRelicSelected')/* No relic selected */)
+    if (!selectedRelicID) return Message.error(t('Messages.NoRelicSelected') /* No relic selected */)
     setEditModalOpen(true)
   }
 
@@ -715,7 +714,7 @@ export default function RelicsTab() {
             items={[
               {
                 key: '1',
-                label: t('RecentlyUpdatedRelics.Header') /* Recently Updated Relics */,
+                label: t('RecentlyUpdatedRelics.Header'), /* Recently Updated Relics */
                 children: (
                   <RecentRelics
                     scoringCharacter={focusCharacter}
@@ -738,7 +737,10 @@ export default function RelicsTab() {
             id='relicGrid'
             className='ag-theme-balham-dark'
             style={{
-              ...{ width: TAB_WIDTH, height: 500, resize: 'vertical', overflow: 'hidden' },
+              width: TAB_WIDTH,
+              height: 500,
+              resize: 'vertical',
+              overflow: 'hidden',
               ...getGridTheme(token),
             }}
           >
@@ -785,13 +787,13 @@ export default function RelicsTab() {
           >
             <Tooltip title={isLiveImport ? 'Disabled in live import mode.' : ''}>
               <Button type='primary' style={{ width: 170 }} disabled={selectedRelics.length === 0 || isLiveImport}>
-                {t('Toolbar.DeleteRelic.ButtonText')/* Delete relic */}
+                {t('Toolbar.DeleteRelic.ButtonText') /* Delete relic */}
               </Button>
             </Tooltip>
           </Popconfirm>
           <Tooltip title={isLiveImport ? 'Disabled in live import mode.' : ''}>
             <Button type='primary' onClick={addClicked} style={{ width: 170 }} disabled={isLiveImport}>
-              {t('Toolbar.AddRelic')/* Add New Relic */}
+              {t('Toolbar.AddRelic') /* Add New Relic */}
             </Button>
           </Tooltip>
 

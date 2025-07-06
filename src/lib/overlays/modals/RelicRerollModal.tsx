@@ -1,37 +1,41 @@
-import { Modal, Typography, Flex } from 'antd';
-import { useTranslation } from 'react-i18next';
-import { V4ParserRelic } from 'lib/importer/kelzFormatParser';
-import { ReliquaryArchiverParser } from 'lib/importer/importConfig';
-import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview';
-import { RelicScorer } from 'lib/relics/relicScorerPotential';
-import { DoubleRightOutlined } from '@ant-design/icons';
-import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient';
+import { DoubleRightOutlined } from '@ant-design/icons'
+import {
+  Flex,
+  Modal,
+  Typography,
+} from 'antd'
+import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
+import { V4ParserRelic } from 'lib/importer/kelzFormatParser'
+import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
+import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
+import { useTranslation } from 'react-i18next'
 
-const { Text } = Typography;
+const { Text } = Typography
 
 interface RelicRerollModalProps {
-  open: boolean;
-  onClose: () => void;
-  relic: V4ParserRelic;
+  open: boolean
+  onClose: () => void
+  relic: V4ParserRelic
 }
 
 export default function RelicRerollModal({ open, onClose, relic }: RelicRerollModalProps) {
-  const { t } = useTranslation(['modals', 'common', 'gameData']);
+  const { t } = useTranslation('modals', { keyPrefix: 'RelicReroll' })
 
   if (!relic || !relic.reroll_substats) {
-    return null;
+    return null
   }
 
-  const activatedBuffs = useScannerState(s => s.activatedBuffs)
+  const activatedBuffs = useScannerState((s) => s.activatedBuffs)
   const originalRelic = ReliquaryArchiverParser.parseRelic(relic, activatedBuffs, relic.substats)
   const rerolledRelic = ReliquaryArchiverParser.parseRelic(relic, activatedBuffs, relic.reroll_substats)
   if (!originalRelic || !rerolledRelic) {
-    return null;
+    return null
   }
 
   return (
     <Modal
-      title={t('modals:RelicReroll.Title')/* Relic Reroll Detected */}
+      title={t('Title') /* Relic Reroll Detected */}
       open={open}
       onOk={onClose}
       cancelButtonProps={{ style: { display: 'none' } }}
@@ -39,28 +43,28 @@ export default function RelicRerollModal({ open, onClose, relic }: RelicRerollMo
       width={540}
     >
       <Flex vertical gap={16}>
-        <Flex gap={16} justify="space-between">
-          <Flex vertical align="center" gap={4}>
-            <RelicPreview 
-              relic={originalRelic} 
+        <Flex gap={16} justify='space-between'>
+          <Flex vertical align='center' gap={4}>
+            <RelicPreview
+              relic={originalRelic}
               score={originalRelic.equippedBy ? RelicScorer.scoreCurrentRelic(originalRelic, originalRelic.equippedBy) : undefined}
-              unhoverable 
+              unhoverable
             />
-            <Text strong>{t('modals:RelicReroll.OriginalSubstats')/* Original Substats */}</Text>
+            <Text strong>{t('OriginalSubstats') /* Original Substats */}</Text>
           </Flex>
 
-          <DoubleRightOutlined style={{ fontSize: "24px" }}/>
-          
-          <Flex vertical align="center" gap={4}>
-            <RelicPreview 
-              relic={rerolledRelic} 
+          <DoubleRightOutlined style={{ fontSize: '24px' }} />
+
+          <Flex vertical align='center' gap={4}>
+            <RelicPreview
+              relic={rerolledRelic}
               score={rerolledRelic.equippedBy ? RelicScorer.scoreCurrentRelic(rerolledRelic, rerolledRelic.equippedBy) : undefined}
-              unhoverable 
+              unhoverable
             />
-            <Text strong>{t('modals:RelicReroll.RerolledSubstats')/* Rerolled Substats */}</Text>
+            <Text strong>{t('RerolledSubstats') /* Rerolled Substats */}</Text>
           </Flex>
         </Flex>
       </Flex>
     </Modal>
-  );
-} 
+  )
+}

@@ -45,8 +45,14 @@ ComboFilter:
     None: 'Nessuno'
 TeammateCard:
   TeammateSyncSuccessMessage: Informazioni compagno di squadra sincronizzate
+StatSimulation:
+  MainStatsSelection:
+    BodyPlaceholder: Corpo
+    FeetPlaceholder: Piedi
+    SpherePlaceholder: Sfera
+    RopePlaceholder: Corda
 ExpandedDataPanel:
   BuffsAnalysisDisplay:
     Stats:
       Misc:
-        Combo DMG: DANNO della combo
+        Combo DMG: DANNI Combo

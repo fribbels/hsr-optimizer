@@ -12,18 +12,18 @@
   RootCauses:
     MAX_EHP:
       SuccessMessage: "Filtro PVE Massimi Reimpostato"
-      ButtonText: "Filtro PVE Massimi Reimpostato"
+      ButtonText: "Reimposta Filtro PVE Massimi"
     MIN_EHP:
       SuccessMessage: "Filtro PVE Minimi Reimpostato"
-      ButtonText: "Filtro PVE Minimi Reimpostato"
+      ButtonText: "Reimposta Filtro PVE Minimi"
     MAX_COMBO:
       SuccessMessage: "Filtro Combo Massima reimpostato"
-      ButtonText: "Filtro Combo Massima reimpostato"
+      ButtonText: "Reimposta Filtro Combo Massima"
     MIN_COMBO:
       SuccessMessage: "Filtro Combo Minima reimpostato"
-      ButtonText: "Filtro Combo Minima reimpostato"
+      ButtonText: "Reimposta Filtro Combo Minima"
 EditCharacter:
-  Character: Personaggi
+  Character: Personaggio
 Relic:
   SubstatPlaceholder: Statistica secondaria
   Messages:
@@ -41,6 +41,6 @@ ScoreFooter:
     Custom: Personalizzato
 CharacterSelect:
   SingleSelect:
-    Placeholder: Personaggi
+    Placeholder: Personaggio
   SearchPlaceholder: Cerca personaggio
   ClearButton: Cancella

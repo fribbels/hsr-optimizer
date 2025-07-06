@@ -7,6 +7,7 @@ import {
 import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
 import { V4ParserRelic } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { useTranslation } from 'react-i18next'
 
@@ -25,8 +26,9 @@ export default function RelicRerollModal({ open, onClose, relic }: RelicRerollMo
     return null
   }
 
-  const originalRelic = ReliquaryArchiverParser.parseRelic(relic, relic.substats)
-  const rerolledRelic = ReliquaryArchiverParser.parseRelic(relic, relic.reroll_substats)
+  const activatedBuffs = useScannerState((s) => s.activatedBuffs)
+  const originalRelic = ReliquaryArchiverParser.parseRelic(relic, activatedBuffs, relic.substats)
+  const rerolledRelic = ReliquaryArchiverParser.parseRelic(relic, activatedBuffs, relic.reroll_substats)
   if (!originalRelic || !rerolledRelic) {
     return null
   }

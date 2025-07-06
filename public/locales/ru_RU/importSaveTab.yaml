@@ -15,6 +15,9 @@ Import:
     OutdatedVersion: "Ваша версия сканера {{buildVersion}} устарела и может привести к некорректному импорту! Пожалуйста, обновите до последней версии из Github:"
   ParserWarning:
     BadRollInfo: Файл сканера устарел / может содержать некорректную информацию. Пожалуйста, обновите сканер.
+  LiveImport:
+    AdvancedSettings:
+      WebsocketUrlReset: Восстановить значения по умолчанию
   Stage1:
     Header: "Загрузите и запустите один из сканеров реликвий:"
     ReliquaryDesc:

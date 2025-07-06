@@ -31,6 +31,7 @@ import {
 } from 'lib/simulations/statSimulationTypes'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
+import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -449,7 +450,7 @@ export const DB = {
     SaveState.delayedSave()
   },
 
-  setStore: (saveData: HsrOptimizerSaveFormat, autosave = true) => {
+  setStore: (saveData: HsrOptimizerSaveFormat, autosave = true, sanitize = true) => {
     const charactersById: Record<string, Character> = {}
     const dbCharacters = DB.getMetadata().characters
 
@@ -603,6 +604,19 @@ export const DB = {
     window.store.getState().setVersion(saveData.version)
     useRelicLocatorStore.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth)
     useRelicLocatorStore.getState().setRowLimit(saveData.relicLocator?.rowLimit)
+
+    // Restore scanner settings if they exist
+    if (saveData.scannerSettings) {
+      const scannerState = useScannerState.getState()
+      scannerState.setIngest(saveData.scannerSettings.ingest)
+      scannerState.setIngestCharacters(saveData.scannerSettings.ingestCharacters)
+      scannerState.setIngestWarpResources(saveData.scannerSettings.ingestWarpResources)
+
+      // For security, don't restore the websocket url if we're sanitizing (manual load)
+      if (!sanitize) {
+        scannerState.setWebsocketUrl(saveData.scannerSettings.websocketUrl)
+      }
+    }
 
     assignRanks(saveData.characters)
     DB.setRelics(saveData.relics)

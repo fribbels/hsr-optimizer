@@ -3,6 +3,21 @@ CharacterSelector:
 OptimizerOptions:
   Priority:
     Header: Priorità
+Grid:
+  Headers:
+    Basic:
+      ATK: ATK
+      DEF: DEF
+      HP: HP
+      SPD: SPD
+      CR: CR
+      CD: CD
+      EHR: EHR
+      RES: RES
+      BE: BE
+      OHB: OHB
+      ERR: ERR
+      DMG: DANNO
 Sidebar:
   GPUOptions:
     EngineSwitchSuccessMsg:
@@ -11,10 +26,77 @@ Sidebar:
       Experimental: Motore di calcolo impostato su GPU (Sperimentale)
   ResultsGroup:
     EquipSuccessMessage: Equipaggiato
+SetConditionals:
+  SelectOptions:
+    Wastelander:
+      Debuffed:
+        Display: CR
+CombatBuffs:
+  ATK: ATK
+  ATK_P: ATK %
+  HP: HP
+  HP_P: HP %
+  DEF: DEF
+  DEF_P: DEF %
+  SPD: SPD
+  SPD_P: SPD %
+WeightFilter:
+  HPFilterText: HP
+  ATKFilterText: ATK
+  DEFFilterText: DEF
+  SPDFilterText: SPD
+  CRFilterText: CR
+  CDFilterText: CD
+  EHRFilterText: EHR
+  RESFilterText: RES
+  BEFilterText: BE
+MinMaxFilters:
+  HPLabel: HP
+  ATKLabel: ATK
+  DEFLabel: DEF
+  SPDLabel: SPD
+  CRLabel: CR
+  CDLabel: CD
+  EHRLabel: EHR
+  RESLabel: RES
+  BELabel: BE
+  ERRLabel: ERR
+  BASICLabel: ATT. BASE
+  SKILLLabel: ABILITÀ
+  ULTLabel: ULT
+  FUALabel: FUA
+  MEMOSKILLLabel: ABILITÀᴹ
+ComboFilter:
+  ComboOptions:
+    None: 'Nessuno'
+    Break: Break
 TeammateCard:
   TeammateSyncSuccessMessage: Informazioni compagno di squadra sincronizzate
+StatSimulation:
+  MainStatsSelection:
+    BodyPlaceholder: Corpo
+    FeetPlaceholder: Piedi
+    SpherePlaceholder: Sfera
+    RopePlaceholder: Corda
 ExpandedDataPanel:
+  DamageSplits:
+    Legend:
+      breakDmg: Break
+    YAxisLabel:
+      BREAK_DMG: Break
+    TooltipText:
+      breakDmg: DANNO Break
+      dotDmg: DANNO DoT
   BuffsAnalysisDisplay:
+    Values:
+      BoolFalse: 'No'
+      BoolTrue: 'Sì'
     Stats:
+      CompositeLabels:
+        Prefix:
+          Break: Break
+        Suffix:
+          Vulnerability: Vulnerabilità
+          DMG: DANNO
       Misc:
-        Combo DMG: DANNO della combo
+        Combo DMG: DANNI Combo

@@ -1,5 +1,5 @@
 TabLabels:
-  Import: Importatore dello scanner reliquie
+  Import: Importatore scanner delle reliquie
   Load: Carica dati dell'ottimizzatore
   Save: Salva dati dell'ottimizzatore
   Clear: Cancella dati dell'ottimizzatore
@@ -9,41 +9,97 @@ Import:
     InvalidFile: File dello scanner non valido
     InvalidJson: JSON non valido
     Fragment: "Si è verificato un errore durante l'importazione del file: "
+  ParserError:
+    BadSource: 'Stringa sorgente non corretta: trovata ''{{jsonSource}}'', prevista ''{{configSource}}'''
+    BadVersion: 'Versione del JSON non corretta: trovata ''{{jsonVersion}}'', prevista ''{{configVersion}}'''
+    OutdatedVersion: "La tua versione dello scanner {{buildVersion}} è obsoleta e potrebbe causare importazioni errate! Aggiorna all'ultima versione da Github:"
+    BadMainstat: Impossibile analizzare la statistica principale della reliquia con {{mainstat}} del pezzo {{part}}
+  ParserWarning:
+    BadRollInfo: Il file scanner è obsoleto o potrebbe contenere informazioni non valide. Si prega di aggiornare lo scanner.
+  LiveImport:
+    Title: Controlli importazione dal vivo
+    Description:
+      l1: Quando si utilizza il Reliquary Archiver, è possibile abilitare la modalità "Importazione dal vivo" per importare il proprio inventario in tempo reale.
+      l2: Questo include nuove reliquie, reliquie migliorate, risultati warp/gacha, e altro ancora.
+    Disconnected: Impossibile connettersi allo scanner. Verificare che sia in esecuzione.
+    Enable: Abilita importazione dal vivo (Consigliato)
+    UpdateCharacters: Abilita l'aggiornamento delle reliquie e light cone equipaggiate dei personaggi
+    UpdateWarpResources: Abilita l'importazione delle risorse dei Warp (jade, biglietti, pity)
+    AdvancedSettings:
+      Title: Impostazioni Avanzate
+      WebsocketUrl: Websocket URL
+      WebsocketUrlReset: Ripristina impostazioni predefinite
   Stage1:
-    Header: "Installa e avvia una delle opzioni dello scanner di reliquie"
+    Header: "Installa ed avvia una delle opzioni di scanner delle reliquie:"
     ReliquaryDesc:
       Title: (Consigliato) IceDynamix Reliquary Archiver
+      Link: Github
+      OnlineMsg: "Stato: Aggiornato per la patch {{version}}"
       OfflineMsg: "***** Stato: In manutenzione dopo la patch {{version}} *****"
-      l1: Decimali di velocità accurati, scansione istantanea
+      l1: Decimali di velocità precisi, scansione istantanea
       l2: Importa l'inventario completo e l'elenco dei personaggi
+      l3: Supporta l'importazione in diretta (le reliquie nuove o migliorate vengono importate in tempo reale)
     KelzDesc:
+      Title: Kel-Z HSR Scanner
+      Link: Github
       l1: Decimali di velocità imprecisi, scansione OCR da 5-10 minuti
       l2: Importa l'inventario completo e l'elenco dei personaggi
     ScorerDesc:
-      l1: Decimali di velocità accurati, scansione istantanea
-      l2: Nessun download necessario, ma limitato alle reliquie degli 8 personaggi nel profilo
+      Title: Importa tramite valutatore reliquie
+      Link: Valutatore reliquie
+      l1: Decimali di velocità precisi, scansione istantanea
+      l2: Nessun download necessario, ma limitato alle reliquie degli 8 personaggi presenti nella vetrina del profilo
     HoyolabDesc:
+      Title: Importa tramite HoYoLab
       Link: Istruzioni
       l1: Decimali di velocità imprecisi, scansione istantanea
-      l2: Nessun download necessario, ma limitato alle reliquie equipaggiate dai personaggi di gioco
+      l2: Nessun download necessario, ma limitato alle reliquie equipaggiate dai personaggi in gioco
     ButtonText: Carica il file JSON dello scanner
-    Or: Oppure
+    Or: oppure
     Placeholder: Incolla il contenuto del file JSON
   Stage2:
-    Or: Oppure
-    NoRelics: File dello scanner non valido, per favore prova un file diverso
+    Or: OPPURE
+    FileInfo: >-
+      Il file contiene  $t(common:RelicWithCount, {"count": {{relicCount}}}) e $t(common:CharacterWithCount, {"count": {{characterCount}}}).
+    NoRelics: File dello scanner non valido, prova un file diverso
+    RelicsImport:
+      Label: >-
+        Importa solo $t(common:Relic, {"count": {{relicCount}}}). Aggiorna l'ottimizzatore con un nuovo set di dati di $t(common:Relic, {"count": {{relicCount}}}) e non sovrascrive le build.
+      ButtonText: >-
+        Importa $t(common:Relic, {"count": {{relicCount}}})
     CharactersImport:
+      Label: >-
+        Importa $t(common:Relic, {"count": {{relicCount}}}) e $t(common:Character, {"count": {{characterCount}}}). Sostituisce le build dell'ottimizzatore con le build in gioco.
+      ButtonText: >-
+        Importa $t(common:Relic, {"count": {{relicCount}}}) e $t(common:Character, {"count": {{characterCount}}})
       WarningTitle: Sovrascrivi le build dell'ottimizzatore
       WarningDescription: Sei sicuro di voler sovrascrivere le tue build dell'ottimizzatore con le build in gioco?
+      OnlyImportExisting: "Importa solo i personaggi esistenti"
   Stage3:
     SuccessMessage: Finito!
 LoadData:
   Stage1:
-    Label: Carica i dati dell'ottimizzatore da un file.
+    Label: Carica i tuoi dati dell'ottimizzatore da un file.
     ButtonText: Carica i dati di salvataggio
   Stage2:
-    ErrorMsg: File di salvataggio non valido, prova un file diverso. Volevi usare la scheda di importazione dello scanner delle reliquie?
+    ErrorMsg: File di salvataggio non valido, prova un file diverso. Volevi usare la scheda Importatore scanner delle reliquie?
+    Label: >-
+      Il file contiene $t(common:RelicWithCount, {"count": {{relicCount}}}) e $t(common:CharacterWithCount, {"count": {{characterCount}}}). Sostituire i tuoi dati attuali con quelli caricati?
+    ButtonText: Utilizza i dati caricati
   Stage3:
     SuccessMessage: Finito!
+SaveData:
+  Label: Salva i tuoi dati dell'ottimizzatore in un file.
+  ButtonText: Salva dati
+  SuccessMessage: Finito
 ClearData:
+  Label: Cancella tutti i dati dell'ottimizzatore.
+  ButtonText: Cancella dati
   SuccessMessage: Dati cancellati
+  WarningTitle: Cancellazione di tutti i dati
+  WarningDescription: Sei sicuro di voler cancellare tutte le reliquie e i personaggi?
+PartialImport:
+  OldRelics: >-
+    Statistiche aggiornate per {{count}} esistenti $t(common:Relic, {"count": {{count}}})
+  NewRelics: >-
+    Aggiunte {{count}} nuove $t(common:Relic, {"count": {{count}}})

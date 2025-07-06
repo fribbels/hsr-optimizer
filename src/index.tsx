@@ -49,7 +49,7 @@ window.RelicRollFixer = RelicRollFixer
 window.colorTheme = Themes.BLUE
 
 Metadata.initialize()
-SaveState.load(false)
+SaveState.load(false, false)
 void verifyWebgpuSupport(false)
 
 const defaultErrorRender = ({ error }: { error: { message: string } }) => <Typography>Something went wrong: {error.message}</Typography>

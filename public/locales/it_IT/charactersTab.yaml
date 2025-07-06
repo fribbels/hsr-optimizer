@@ -5,15 +5,15 @@ ScreenshotMessages:
 CharacterMenu:
   ButtonText: Menu personaggi
   Character:
-    Label: Personaggi
+    Label: Personaggio
     Options:
       Add: Aggiungi nuovo personaggio
       Edit: Modifica personaggio / light cone
-      Switch: Cambia reliquie con
-      Unequip: Disequipaggia personaggi
+      Switch: Scambia reliquie con
+      Unequip: Disequipaggia personaggio
       Delete: Elimina personaggio
   Build:
-    Label: Builds
+    Label: Build
     Options:
       Save: Salva la build attuale
       View: Guarda le build salvate
@@ -26,6 +26,7 @@ CharacterMenu:
     Options:
       SortByScore: Ordina tutti i personaggi per punteggio
       MoveToTop: Muovi il personaggio in cima
+SearchPlaceholder: Cerca
 GridHeaders:
   Icon: Icona
   Priority: Priorità
@@ -39,64 +40,148 @@ Messages:
   SaveSuccess: "Build salvata con successo: {{name}}"
   UnequipWarning: "Sei sicuro di voler disequipaggiare $t(gameData:Characters.{{charId}}.Name)?"
   DeleteWarning: "Sei sicuro di voler eliminare $t(gameData:Characters.{{charId}}.Name)?"
+  BuildAlreadyExists: "La build con nome {{name}} esiste già"
+  ImageUploadFailed: Impossibile caricare l’immagine
+  InvalidFile: Il file non è un file immagine valido
 CharacterPreview:
+  ScoringSidebar:
+    Stats:
+      Header: Statistiche
+      ButtonText: Trace
+    SpdPrecision:
+      Header: Precisione SPD
+      Low: ".0"
+      High: ".000"
+    SpdWeight:
+      Header: Peso SPD
+      Max: 100%
+      Min: 0%
+    BenchmarkSpd:
+      Header: SPD benchmark
+      BenchmarkOptionsLabel: Opzioni benchmark
+      CurrentSpdLabel: SPD attuale - Il benchmark userà la tua SPD attuale
+      BaseSpdLabel: SPD base - Il benchmark punterà a una build con SPD minima
+      CommonBreakpointsLabel: Preset punti d'arresto di SPD comuni (Buff di SPD condiderati separatamente)
+    BuffPriority:
+      Header: Modalità DPS
+      High: Principale
+      Low: Secondario
+  CustomizationSidebar:
+    Label: Personalizzazione
+    Modes:
+      Auto: Auto
+      Custom: Personalizzato
+      Standard: Standard
+    PaletteLabel: Tavolozza colori dell'immagine
+    ShowUID: Mostra UID
   ArtBy: "Immagine di {{artistName}}"
   EditCharacter: Modifica personaggio
   EditPortrait: Modifica ritratto
-  CharacterScore: "Punteggio personaggio: {{score}} {{grade}}"
+  CharacterScore: "Punteggio Personaggio: {{score}} {{grade}}"
   Messages:
     AddedRelic: Reliquia aggiunta con successo
     SavedPortrait: Immagine di copertina salvata con successo
     RevertedPortrait: Immagine di copertina ripristinata con successo
     NoSelectedCharacter: Nessun personaggio selezionato
+    NoSelectedLightCone: Nessun light cone selezionato
   ScoreHeader:
-    Title: Sim battaglia
+    Title: Sim Combattimento
+    TitleBenchmark: "{{spd}} SPD Benchmark"
     Score: "Punteggio DPS {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "Algoritmo del punteggio:"
     Labels:
-      CombatScore: Punteggio in battaglia
-      StatScore: Punteggio statistiche
+      CombatScore: Punteggio Combattimento
+      CombatScoreTBD: Combattimento (TBD)
+      StatScore: Punteggio Statistiche
+      NoneScore: Nessuno
   DetailsSlider:
     Labels:
-      CombatStats: Statistiche in battaglia
+      CombatStats: Statistiche Combattimento
+      SubDpsCombatStats: Statistiche Combattimento (DPS secondario)
   DMGUpgrades: Miglioramento danno
   SubstatUpgradeComparisons:
     Header: Confronto miglioramento statistiche secondarie
+    MainStatHeader: Confronto miglioramento statistiche principali
+    AddedRoll: "+1x roll {{stat}}"
+    MainStatUpgrade: Miglioramento Stat. Principale
+    SubStatUpgrade: Miglioramento Stat. Secondaria
+    DpsScorePercentUpgrade: Punteggio DPS Δ %
+    UpgradedDpsScore: Punteggio DPS migliorato
+    ComboDmgPercentUpgrade: DANNI Combo Δ %
+    ComboDmgUpgrade: DANNI Combo Δ
   BuildAnalysis:
+    ScoringNote: >-
+      Il punteggio DPS valuta la qualità della build confrontando i danni di una rotazione abilità con le build di riferimento con la stessa squadra / light cone / eidolon. Punteggi e DANNI Combo sono misurati tenendo in considerazione solo la configurazione della squadra configurata, e non dovrebbero essere confrontati tra configurazioni diverse.
+    RelicRarityHeader: Confronti miglioramento rarità reliquie
+    RelicRarityNote: |-
+      La TBP stimata misura il tempo di farming previsto in Giorni e Trailblaze Power necessari per migliorare ogni reliquia in base al peso delle statistiche del personaggio.
+      Si tratta di una metrica di rarità statistica per definire le priorità di farming, e non riflette nè ha un impatto sul Punteggo DPS e sui DANNI Combo.
+    Header: Calcoli Punteggio DPS
     SimulationTeammates: Compagni di squadra nella simulazione
-    SimulationSets: Set usato nella simulazione
+    SimulatedBenchmarks: Build di riferimento simulate
+    SimulationSets: Set usati nella simulazione
     Rotation:
-      Header: DANNO della combo
+      Header: Rotazione dei DANNI Combo
+      BASIC: ATT. BASE
+      SKILL: ABILITÀ
+      ULT: ULT
+      FUA: FUA
+      MEMO_SKILL: ABILITÀᴹ
+      MEMO_TALENT: TALENTOᴹ
+      DOTS: "DOT:"
+      BREAKS: "BREAK:"
     CombatResults:
-      Header: Risultato del danno in battaglia
+      Header: Risultato dei danni in combattimento
       Primary: "Abilità primaria:"
       Character: "DANNO del Personaggio:"
       Benchmark: "DANNO del Benchmark:"
       Baseline: "DANNO in linea di base:"
       Maximum: "DANNO massimo:"
-      Score: "punteggio DPS %:"
+      Score: "Punteggio DPS %:"
+      Abilities:
+        BASIC: DANNO ATT. BASE
+        SKILL: DANNO ABILITÀ
+        ULT: DANNO ULT
+        FUA: DANNO FUA
+        DOT: DANNO DOT
+        BREAK: DANNO BREAK
+        MEMO_SKILL: DANNO ABILITÀᴹ
+        MEMO_TALENT: DANNO TALENTOᴹ
+        COMBO: DANNO COMBO
+    CombatBuffs:
+      Header: Buff in combattimento
+      SubDpsHeader: Buff in combattimento (DPS Secondario)
   ScoringColumn:
     Character:
       Header: "Build personaggio ({{score}}%)"
       BasicStats: Statistiche base del personaggio
-      CombatStats: <1>Statistiche in battaglia</1> del personaggio
-      Substats: Statistiche secondarie del personaggio (min rolls)
-      Mainstats: Statistica principale del personaggio
-      Abilities: Danno abilità del personaggio
+      CombatStats: <1>Statistiche in combattimento</1> del personaggio
+      Substats: Statistiche secondarie del personaggio (roll minimi)
+      Mainstats: Statistiche principali del personaggio
+      Abilities: Danni abilità del personaggio
     Benchmark:
       Header: "Build benchmark ({{score}}%)"
       BasicStats: Statistiche base 100% benchmark
-      CombatStats: <1>Statistiche in battaglia</1> 100% benchmark
-      Substats: Statistiche secondarie 100% (min rolls)
-      Mainstats: Statistiche principale 100%
-      Abilities: Danno abilità 100% benchmark
+      CombatStats: <1>Statistiche in combattimento</1> 100% benchmark
+      Substats: Statistiche secondarie 100% (roll minimi)
+      Mainstats: Statistiche principali 100% benchmark
+      Abilities: Danni abilità 100% benchmark
     Perfect:
       Header: "Build perfetta ({{score}}%)"
       BasicStats: Statistiche base perfette 200%
-      CombatStats: <1>Statistiche in battaglia</1> 200% perfette
-      Substats: Statistiche secondarie 200% (max rolls)
-      Mainstats: Statistiche principali perfette 200%
-      Abilities: Danno abilità perfetto 200%
+      CombatStats: <1>Statistiche in combattimento</1> 200% perfette
+      Substats: Statistiche secondarie 200% (roll massimi)
+      Mainstats: Statistiche principali 200% perfette
+      Abilities: Danni abilità 200% perfetti
   ScoringDetails:
-    Header: Com'è calcolato il punteggio DPS?
+    Header: Com'è calcolato il Punteggio DPS?
+  EST-TBP:
+    Header: Analisi Punteggio Statistiche
+    RollsCard:
+      Perfection: Perfezione
+    MetricsCard:
+      Days: Giorni
+      Rolls: Roll pesati
+      TBP: TBP Stimata
+      Potential: Potenziale di Reroll

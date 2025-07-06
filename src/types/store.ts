@@ -186,6 +186,12 @@ export type HsrOptimizerSaveFormat = {
     inventoryWidth: number,
     rowLimit: number,
   },
+  scannerSettings?: {
+    ingest: boolean,
+    ingestCharacters: boolean,
+    ingestWarpResources: boolean,
+    websocketUrl: string,
+  },
 }
 
 export type StatDisplay = 'combat' | 'base'

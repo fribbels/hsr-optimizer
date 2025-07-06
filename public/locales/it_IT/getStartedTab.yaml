@@ -1,5 +1,8 @@
 TryOut:
   DocumentationTitle: Guarda la guida completa
   ButtonText: Provalo adesso!
+  description: |-
+    Caricare un file di salvataggio di esempio?
+    ⚠️Questo sostituirà tutti i tuoi dati attuali!⚠️
   SuccessMessage: Salvataggio caricato con successo
   Header: Provalo adesso!

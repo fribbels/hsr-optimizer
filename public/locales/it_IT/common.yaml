@@ -1,16 +1,46 @@
+Relic_other: reliquie
+RelicWithCount_other: '{{count}} reliquie'
+ThousandsSuffix: K
 Cancel: Annulla
 Confirm: Conferma
+Submit: Invia
+Save: Salva
 Score: Punteggio
+Reset: Ripristina
+EidolonNShort: 'E{{eidolon}}'
+SuperimpositionNShort: 'S{{superimposition}}'
+LevelShort: 'Lv{{level}}'
+CharacterWithCount_other: '{{count}} personaggi'
 Character_one: personaggio
+Character_other: personaggi
 VerifiedRelicHoverText: Statistiche secondarie della reliquia verificate dal relic scorer (speed decimals)
-CombatStats: Statistiche in battaglia
+CombatStats: Statistiche Combattimento
+Parts:
+  Body: Corpo
+  Feet: Piedi
+  PlanarSphere: Sfera Planare
+  LinkRope: Corda di Collegamento
+ReadableParts:
+  Head: Testa
+  Hands: Mani
+  Body: Corpo
+  Feet: Piedi
+  PlanarSphere: Sfera
+  LinkRope: Corda
 Stats:
   HP: HP
+  "ATK%": ATK%
   ATK: ATK
   DEF: DEF
   SPD: SPD
+  CRIT Rate: Prob. CRIT
+  CRIT DMG: DANNO CRIT
+  Effect Hit Rate: Effect Hit Rate
+  Effect RES: Effect RES
+  Break Effect: Break Effect
 ShortStats:
   HP: HP
+  "ATK%": ATK%
   ATK: ATK
   DEF: DEF
   SPD: SPD
@@ -28,6 +58,11 @@ ReadableStats:
   ATK: ATK
   DEF: DEF
   SPD: SPD
+  CRIT Rate: Prob. CRIT
+  CRIT DMG: DANNO CRIT
+  Effect RES: Effect RES
+  Break Effect: Break Effect
+  Fire DMG Boost: 'DANNO $t(gameData:Elements.Fire)'
 ShortReadableStats:
   "HP%": HP %
   HP: HP
@@ -35,5 +70,7 @@ ShortReadableStats:
   ATK: ATK
   DEF: DEF
   SPD: SPD
+  CRIT Rate: Prob. CRIT
+  CRIT DMG: DANNO CRIT
 DMGTypes:
-  simScore: DANNO della combo
+  simScore: DANNI Combo

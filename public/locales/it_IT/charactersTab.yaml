@@ -5,7 +5,7 @@ ScreenshotMessages:
 CharacterMenu:
   ButtonText: Menu personaggi
   Character:
-    Label: Personaggi
+    Label: Personaggio
     Options:
       Add: Aggiungi nuovo personaggio
       Edit: Modifica personaggio / light cone
@@ -158,21 +158,30 @@ CharacterPreview:
       BasicStats: Statistiche base del personaggio
       CombatStats: <1>Statistiche in combattimento</1> del personaggio
       Substats: Statistiche secondarie del personaggio (roll minimi)
-      Mainstats: Statistica principale del personaggio
-      Abilities: Danno abilità del personaggio
+      Mainstats: Statistiche principali del personaggio
+      Abilities: Danni abilità del personaggio
     Benchmark:
       Header: "Build benchmark ({{score}}%)"
       BasicStats: Statistiche base 100% benchmark
       CombatStats: <1>Statistiche in combattimento</1> 100% benchmark
       Substats: Statistiche secondarie 100% (roll minimi)
       Mainstats: Statistiche principali 100% benchmark
-      Abilities: Danno abilità 100% benchmark
+      Abilities: Danni abilità 100% benchmark
     Perfect:
       Header: "Build perfetta ({{score}}%)"
       BasicStats: Statistiche base perfette 200%
-      CombatStats: <1>Statistiche in battaglia</1> 200% perfette
-      Substats: Statistiche secondarie 200% (max rolls)
-      Mainstats: Statistiche principali perfette 200%
-      Abilities: Danno abilità perfetto 200%
+      CombatStats: <1>Statistiche in combattimento</1> 200% perfette
+      Substats: Statistiche secondarie 200% (roll massimi)
+      Mainstats: Statistiche principali 200% perfette
+      Abilities: Danni abilità 200% perfetti
   ScoringDetails:
-    Header: Com'è calcolato il punteggio DPS?
+    Header: Com'è calcolato il Punteggio DPS?
+  EST-TBP:
+    Header: Analisi Punteggio Statistiche
+    RollsCard:
+      Perfection: Perfezione
+    MetricsCard:
+      Days: Giorni
+      Rolls: Roll pesati
+      TBP: TBP Stimata
+      Potential: Potenziale di Reroll

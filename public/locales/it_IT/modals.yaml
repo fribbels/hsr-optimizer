@@ -37,6 +37,8 @@ Builds:
 ScoreFooter:
   ResetSuccessMsg: Squadra predefinita ripristinata
   SyncSuccessMsg: Compagni di squadra sincronizzati
+  TeamOptions:
+    Custom: Personalizzato
 CharacterSelect:
   SingleSelect:
     Placeholder: Personaggi

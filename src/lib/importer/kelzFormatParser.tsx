@@ -173,9 +173,11 @@ export class KelzFormatParser { // TODO abstract class
     // Reset bad roll info
     this.badRollInfo = false
 
+    const activatedBuffs = getActivatedBuffs(json.characters)
+
     if (json.relics) {
       parsed.relics = json.relics
-        .map((r) => this.parseRelic(r))
+        .map((r) => this.parseRelic(r, activatedBuffs))
         .filter((r): r is NonNullable<typeof r> => {
           if (!r) {
             console.warn('Could not parse relic')
@@ -191,7 +193,7 @@ export class KelzFormatParser { // TODO abstract class
 
     if (json.characters) {
       parsed.characters = json.characters
-        .map((c) => readCharacter(c, json.light_cones) as Form | null)
+        .map((c) => this.parseCharacter(c, activatedBuffs, json.light_cones))
         .filter((c): c is NonNullable<typeof c> => {
           if (!c) {
             console.warn('Could not parse character')
@@ -201,18 +203,29 @@ export class KelzFormatParser { // TODO abstract class
         })
     }
 
-    migrateBuffedCharacters(json.characters, parsed.characters, parsed.relics)
-
     return parsed
   }
 
-  parseRelic(relic: V4ParserRelic, substatListOverride?: V4ParserSubstat[]) {
+  parseRelic(relic: V4ParserRelic, activatedBuffs: Record<string, string>, substatListOverride?: V4ParserSubstat[]) {
     const parsed = readRelic(relic, substatListOverride ?? relic.substats, this)
+
+    const owner = parsed.equippedBy ?? 'NONE'
+    if (activatedBuffs[owner]) {
+      parsed.equippedBy = activatedBuffs[owner] as CharacterId
+    }
+
     return RelicAugmenter.augment(parsed) as Relic | null
   }
 
-  parseCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCone[]) {
-    return readCharacter(character, lightCones) as Form | null
+  parseCharacter(character: V4ParserCharacter, activatedBuffs: Record<string, string>, lightCones: V4ParserLightCone[]) {
+    const parsed = readCharacter(character, lightCones) as Form | null
+
+    const id = parsed?.characterId
+    if (id && activatedBuffs[id]) {
+      parsed.characterId = activatedBuffs[id] as CharacterId
+    }
+
+    return parsed
   }
 }
 
@@ -223,33 +236,31 @@ export const buffedCharacters: Record<string, string> = {
   [SILVER_WOLF]: SILVER_WOLF_B1,
 }
 
-function migrateBuffedCharacters(rawCharacters: V4ParserCharacter[], characters: Form[], relics: Relic[]) {
+export function getMappedCharacterId(character: V4ParserCharacter): string {
+  const id = character.id
+  const abilityVersion = character.ability_version
+  if (abilityVersion == null && buffedCharacters[id]) {
+    // We don't have a defined abilityVersion in this case, assume buffed version
+    return buffedCharacters[id]
+  } else if (abilityVersion != null && abilityVersion > 0 && buffedCharacters[id]) {
+    // When it is defined, only apply the buff when abilityVersion is explicitly not set to 0
+    return buffedCharacters[id]
+  }
+
+  return id
+}
+
+export function getActivatedBuffs(rawCharacters: V4ParserCharacter[]): Record<string, string> {
   const activatedBuffs: Record<string, string> = {}
   for (const character of rawCharacters) {
     const id = character.id
-    const abilityVersion = character.ability_version
-    if (abilityVersion == null && buffedCharacters[id]) {
-      // We don't have a defined abilityVersion in this case, assume buffed version
-      activatedBuffs[id] = buffedCharacters[id]
-    } else if (abilityVersion != null && abilityVersion > 0 && buffedCharacters[id]) {
-      // When it is defined, only apply the buff when abilityVersion is explicitly not set to 0
-      activatedBuffs[id] = buffedCharacters[id]
+    const mappedId = getMappedCharacterId(character)
+    if (mappedId !== id) {
+      activatedBuffs[id] = mappedId
     }
   }
 
-  for (const character of characters) {
-    const id = character.characterId
-    if (activatedBuffs[id]) {
-      character.characterId = activatedBuffs[id] as CharacterId
-    }
-  }
-
-  for (const relic of relics) {
-    const owner = relic.equippedBy ?? 'NONE'
-    if (activatedBuffs[owner]) {
-      relic.equippedBy = activatedBuffs[owner] as CharacterId
-    }
-  }
+  return activatedBuffs
 }
 
 // ================================================== V4 ==================================================

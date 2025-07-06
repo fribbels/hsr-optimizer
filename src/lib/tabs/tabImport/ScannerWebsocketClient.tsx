@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import useWebSocket from 'partysocket/use-ws'
 import { create, StoreApi, UseBoundStore } from 'zustand'
 import {
+  getActivatedBuffs,
+  getMappedCharacterId,
   ScannerParserJson,
   V4ParserCharacter,
   V4ParserGachaFunds,
@@ -17,6 +19,7 @@ import { debounceEffect } from 'lib/utils/debounceUtils'
 import stableStringify from 'json-stable-stringify'
 import RelicRerollModal from 'lib/overlays/modals/RelicRerollModal'
 import { EventEmitter } from 'lib/utils/events'
+import { CharacterId } from 'types/character'
 
 type ScannerState = {
   // The websocket url to connect to
@@ -55,6 +58,9 @@ type ScannerState = {
   // Characters parsed from the scanner websocket
   // key: character avatar id
   characters: Record<string, V4ParserCharacter>
+
+  // Map of character ids to their buffed version if activated
+  activatedBuffs: Record<string, string>
 }
 
 type ScannerActions = {
@@ -101,6 +107,9 @@ type PrivateScannerActions = {
   // Update the state with a new character
   updateCharacter: (character: V4ParserCharacter) => void
 
+  // Update the state with a new activated buffs record
+  updateActivatedBuffs: (activatedBuffs: Record<string, string>) => void
+
   // Delete a relic from the state
   deleteRelic: (relicId: string) => void
 
@@ -133,6 +142,8 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
   lightCones: {},
   materials: {},
   characters: {},
+
+  activatedBuffs: {},
 
   setWebsocketUrl: (websocketUrl: string) => {
     set({ websocketUrl })
@@ -316,6 +327,11 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
       },
     }),
 
+  updateActivatedBuffs: (activatedBuffs: Record<string, string>) =>
+    set({
+      activatedBuffs,
+    }),
+
   deleteRelic: (relicId: string) =>
     set({
       relics: Object.fromEntries(
@@ -373,6 +389,9 @@ type ScannerEvent =
   | { event: 'DeleteLightCones'; data: string[] } // data: unique ids
 
 function ingestFullScan(data: ScannerParserJson, updateCharacters: boolean) {
+  const activatedBuffs = getActivatedBuffs(data.characters)
+  usePrivateScannerState.getState().updateActivatedBuffs(activatedBuffs)
+
   const newScan = ReliquaryArchiverParser.parse(data)
   if (newScan) {
     if (updateCharacters) {
@@ -437,7 +456,7 @@ function updateRelic(state: Readonly<ScannerStore>, relic: V4ParserRelic) {
   state.updateRelic(relic)
 
   if (state.ingest) {
-    const newRelic = ReliquaryArchiverParser.parseRelic(relic)
+    const newRelic = ReliquaryArchiverParser.parseRelic(relic, state.activatedBuffs)
     if (newRelic) {
       if (newRelic.grade !== 5) {
         return // Ignore non-5* relics
@@ -493,8 +512,26 @@ function updateCharacter(
   state.updateCharacter(character)
 
   if (state.ingest && state.ingestCharacters) {
+    const mappedCharacter = getMappedCharacterId(character)
+    const previousMappedCharacter = state.activatedBuffs[character.id] ?? character.id
+    const activatedBuffs = {
+      ...state.activatedBuffs,
+      [character.id]: mappedCharacter,
+    }
+
+    if (mappedCharacter !== previousMappedCharacter) {
+      state.updateActivatedBuffs(activatedBuffs)
+
+      // Need to relocate the previously equipped relics
+      const oldRelics = DB.getRelics().filter((relic) => relic.equippedBy === previousMappedCharacter)
+      for (const relic of oldRelics) {
+        DB.equipRelic(relic, mappedCharacter as CharacterId)
+      }
+    }
+
     const parsed = ReliquaryArchiverParser.parseCharacter(
       character,
+      activatedBuffs,
       Object.values(state.lightCones),
     )
     if (parsed) {

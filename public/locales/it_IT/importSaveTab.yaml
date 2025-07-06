@@ -9,8 +9,25 @@ Import:
     InvalidFile: File dello scanner non valido
     InvalidJson: JSON non valido
     Fragment: "Si è verificato un errore durante l'importazione del file: "
+  ParserError:
+    BadSource: 'Stringa sorgente non corretta: trovata ''{{jsonSource}}'', prevista ''{{configSource}}'''
+    BadVersion: 'Versione del JSON non corretta: trovata ''{{jsonVersion}}'', prevista ''{{configVersion}}'''
+    OutdatedVersion: "La tua versione dello scanner {{buildVersion}} è obsoleta e potrebbe causare importazioni errate! Aggiorna all'ultima versione da Github:"
+    BadMainstat: Impossibile analizzare la statistica principale della reliquia con {{mainstat}} del pezzo {{part}}
+  ParserWarning:
+    BadRollInfo: Il file scanner è obsoleto o potrebbe contenere informazioni non valide. Si prega di aggiornare lo scanner.
   LiveImport:
+    Title: Controlli importazione dal vivo
+    Description:
+      l1: Quando si utilizza il Reliquary Archiver, è possibile abilitare la modalità "Importazione dal vivo" per importare il proprio inventario in tempo reale.
+      l2: Questo include nuove reliquie, reliquie migliorate, risultati warp/gacha, e altro ancora.
+    Disconnected: Impossibile connettersi allo scanner. Verificare che sia in esecuzione.
+    Enable: Abilita importazione dal vivo (Consigliato)
+    UpdateCharacters: Abilita l'aggiornamento delle reliquie e light cone equipaggiate dei personaggi
+    UpdateWarpResources: Abilita l'importazione delle risorse dei Warp (jade, biglietti, pity)
     AdvancedSettings:
+      Title: Impostazioni Avanzate
+      WebsocketUrl: Websocket URL
       WebsocketUrlReset: Ripristina impostazioni predefinite
   Stage1:
     Header: "Installa ed avvia una delle opzioni di scanner delle reliquie:"

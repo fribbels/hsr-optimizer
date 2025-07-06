@@ -43,3 +43,4 @@ CharacterSelect:
   SingleSelect:
     Placeholder: Personaggi
   SearchPlaceholder: Cerca personaggio
+  ClearButton: Cancella

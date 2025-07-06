@@ -35,6 +35,11 @@ MinMaxFilters:
   ATKLabel: ATK
   DEFLabel: DEF
   SPDLabel: SPD
+  BASICLabel: ATT. BASE
+  SKILLLabel: ABILITÀ
+  ULTLabel: ULT
+  FUALabel: FUA
+  MEMOSKILLLabel: ABILITÀᴹ
 ComboFilter:
   ComboOptions:
     None: 'Nessuno'

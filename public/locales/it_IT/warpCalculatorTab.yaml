@@ -10,12 +10,12 @@ StrategyLabels:
 RefundLabels:
   REFUND_NONE: Nessuno
   REFUND_NONE_FULL: Nessuno
-  REFUND_LOW: "Rimborso del {{Percentage}}%"
-  REFUND_LOW_FULL: "Rimborso del {{Percentage}}% (Basso)"
-  REFUND_AVG: "Rimborso del {{Percentage}}%"
-  REFUND_AVG_FULL: "Rimborso del {{Percentage}}% (Medio)"
-  REFUND_HIGH: "Rimborso del {{Percentage}}%"
-  REFUND_HIGH_FULL: "Rimborso del {{Percentage}}% (Alto)"
+  REFUND_LOW: "{{Percentage}}% rimborso"
+  REFUND_LOW_FULL: "{{Percentage}}% rimborso (Basso)"
+  REFUND_AVG: "{{Percentage}}% rimborso"
+  REFUND_AVG_FULL: "{{Percentage}}% rimborso (Medio)"
+  REFUND_HIGH: "{{Percentage}}% rimborso"
+  REFUND_HIGH_FULL: "{{Percentage}}% rimborso (Alto)"
 EidolonLevels:
   NONE: Nessuno
   E0: E0
@@ -49,11 +49,11 @@ SectionTitles:
   Results: Risultati
   Settings: Impostazioni
   Character: Personaggio
-  LightCone: Light Cone
+  LightCone: Cono di Luce
   Passes: Biglietti
-  Jades: Jade
+  Jades: Giade
   Strategy: Strategia
-  Starlight: Starlight
+  Starlight: Luce Stellare
   Banner: Banner
   New: Nuovo
   Rerun: Rerun
@@ -61,6 +61,6 @@ SectionTitles:
   Calculate: Calcola
 ColumnTitles:
   Goal: Obiettivo
-  Chance: "Probabilità di successo con {{ticketCount}} <1/>"
+  Chance: "% di successo con {{ticketCount}} <1/>"
   Average: "# medio di <1/> richiesti"
 TargetLabel: '$t(common:EidolonNShort, {"eidolon": {{eidolon}}}) $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})'

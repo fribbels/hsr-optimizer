@@ -18,6 +18,7 @@ import { EventEmitter } from 'lib/utils/events'
 import { TsUtils } from 'lib/utils/TsUtils'
 import useWebSocket from 'partysocket/use-ws'
 import {
+  useEffect,
   useRef,
   useState,
 } from 'react'
@@ -596,6 +597,13 @@ export function ScannerWebsocket() {
   }
 
   const websocketUrl = usePrivateScannerState((s) => s.websocketUrl)
+
+  // Ensure we mark ourselves as disconnected when the component unmounts
+  useEffect(() => {
+    return () => {
+      usePrivateScannerState.getState().setConnected(false)
+    }
+  }, [])
 
   useWebSocket(websocketUrl, undefined, {
     onOpen: () => {

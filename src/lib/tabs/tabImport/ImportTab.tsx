@@ -13,7 +13,7 @@ import { ScannerImportSubmenu } from 'lib/tabs/tabImport/ScannerImportSubmenu'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScannerWebsocket } from './ScannerWebsocketClient'
+import { ScannerWebsocket, useScannerState } from './ScannerWebsocketClient'
 
 const { Text } = Typography
 
@@ -102,10 +102,11 @@ function SaveDataSubmenu() {
 export default function ImportTab() {
   const tabSize = 'large'
   const { t } = useTranslation('importSaveTab', { keyPrefix: 'TabLabels' })
+  const ingest = useScannerState((s) => s.ingest)
 
   return (
     <div>
-      <ScannerWebsocket/>
+      {ingest && <ScannerWebsocket/>}
 
       <Flex vertical gap={5} style={{ marginLeft: 20, width: 1200 }}>
         <Tabs

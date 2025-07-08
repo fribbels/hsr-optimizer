@@ -21,7 +21,6 @@ Import:
     Description:
       l1: Quando si utilizza il Reliquary Archiver, è possibile abilitare la modalità "Importazione dal vivo" per importare il proprio inventario in tempo reale.
       l2: Questo include nuove reliquie, reliquie migliorate, risultati warp/gacha, e altro ancora.
-    Disconnected: Impossibile connettersi allo scanner. Verificare che sia in esecuzione.
     Enable: Abilita importazione dal vivo (Consigliato)
     UpdateCharacters: Abilita l'aggiornamento delle reliquie e light cone equipaggiate dei personaggi
     UpdateWarpResources: Abilita l'importazione delle risorse dei Warp (jade, biglietti, pity)

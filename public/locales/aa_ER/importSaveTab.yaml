@@ -21,7 +21,9 @@ Import:
     Description:
       l1: crwdns45722:0crwdne45722:0
       l2: crwdns45724:0crwdne45724:0
-    Disconnected: crwdns45726:0crwdne45726:0
+    Connected: crwdns45766:0crwdne45766:0
+    Disconnected: crwdns45768:0crwdne45768:0
+    DisconnectedHint: crwdns45770:0crwdne45770:0
     Enable: crwdns45728:0crwdne45728:0
     UpdateCharacters: crwdns45730:0crwdne45730:0
     UpdateWarpResources: crwdns45732:0crwdne45732:0

@@ -3,7 +3,7 @@ LeftPanel:
   Header: Benchmark
 MiddlePanel:
   CharacterHeader: Personaggio
-  LCHeader: Light Cone
+  LCHeader: Cono di Luce
   TeammatesHeader: Compagni di squadra
 RightPanel:
   Settings:

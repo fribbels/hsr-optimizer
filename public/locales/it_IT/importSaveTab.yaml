@@ -84,7 +84,7 @@ LoadData:
     Label: Carica i tuoi dati dell'ottimizzatore da un file.
     ButtonText: Carica i dati di salvataggio
   Stage2:
-    ErrorMsg: File di salvataggio non valido, prova un file diverso. Volevi usare la scheda Importatore scanner delle reliquie?
+    ErrorMsg: File di salvataggio non valido, prova un file diverso. Volevi usare la scheda "Importa da scanner delle reliquie"?
     Label: >-
       Il file contiene $t(common:RelicWithCount, {"count": {{relicCount}}}) e $t(common:CharacterWithCount, {"count": {{characterCount}}}). Sostituire i tuoi dati attuali con quelli caricati?
     ButtonText: Utilizza i dati caricati

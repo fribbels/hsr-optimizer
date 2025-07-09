@@ -1,5 +1,5 @@
 TabLabels:
-  Import: Importatore scanner delle reliquie
+  Import: Importa da scanner delle reliquie
   Load: Carica dati dell'ottimizzatore
   Save: Salva dati dell'ottimizzatore
   Clear: Cancella dati dell'ottimizzatore
@@ -13,33 +13,36 @@ Import:
     BadSource: 'Stringa sorgente non corretta: trovata ''{{jsonSource}}'', prevista ''{{configSource}}'''
     BadVersion: 'Versione del JSON non corretta: trovata ''{{jsonVersion}}'', prevista ''{{configVersion}}'''
     OutdatedVersion: "La tua versione dello scanner {{buildVersion}} è obsoleta e potrebbe causare importazioni errate! Aggiorna all'ultima versione da Github:"
-    BadMainstat: Impossibile analizzare la statistica principale della reliquia con {{mainstat}} del pezzo {{part}}
+    BadMainstat: Impossibile analizzare la statistica principale della reliquia con {{mainstat}} e pezzo {{part}}
   ParserWarning:
-    BadRollInfo: Il file scanner è obsoleto o potrebbe contenere informazioni non valide. Si prega di aggiornare lo scanner.
+    BadRollInfo: Il file dello scanner è obsoleto / potrebbe contenere informazioni non valide. Si prega di aggiornare lo scanner.
   LiveImport:
-    Title: Controlli importazione dal vivo
+    Title: Controlli del Live Import
     Description:
-      l1: Quando si utilizza il Reliquary Archiver, è possibile abilitare la modalità "Importazione dal vivo" per importare il proprio inventario in tempo reale.
+      l1: Quando si utilizza Reliquary Archiver, è possibile abilitare la modalità "Live Import" per importare il proprio inventario in tempo reale.
       l2: Questo include nuove reliquie, reliquie migliorate, risultati warp/gacha, e altro ancora.
-    Enable: Abilita importazione dal vivo (Consigliato)
-    UpdateCharacters: Abilita l'aggiornamento delle reliquie e light cone equipaggiate dei personaggi
-    UpdateWarpResources: Abilita l'importazione delle risorse dei Warp (jade, biglietti, pity)
+    Connected: Connesso
+    Disconnected: Disconnesso
+    DisconnectedHint: Impossibile connettersi allo scanner. Verificare che sia in esecuzione.
+    Enable: Abilita Live Import (Consigliato)
+    UpdateCharacters: Abilita l'aggiornamento delle reliquie e dei coni di luce dei personaggi
+    UpdateWarpResources: Abilita l'importazione delle risorse dei Warp (giade, biglietti, pity)
     AdvancedSettings:
       Title: Impostazioni Avanzate
       WebsocketUrl: Websocket URL
-      WebsocketUrlReset: Ripristina impostazioni predefinite
+      WebsocketUrlReset: Ripristina valore predefinito
   Stage1:
-    Header: "Installa ed avvia una delle opzioni di scanner delle reliquie:"
+    Header: "Installa e avvia una delle opzioni di scanner delle reliquie:"
     ReliquaryDesc:
-      Title: (Consigliato) IceDynamix Reliquary Archiver
+      Title: (Consigliato) Reliquary Archiver di IceDynamix
       Link: Github
       OnlineMsg: "Stato: Aggiornato per la patch {{version}}"
       OfflineMsg: "***** Stato: In manutenzione dopo la patch {{version}} *****"
       l1: Decimali di velocità precisi, scansione istantanea
       l2: Importa l'inventario completo e l'elenco dei personaggi
-      l3: Supporta l'importazione in diretta (le reliquie nuove o migliorate vengono importate in tempo reale)
+      l3: Supporta l'importazione in tempo reale delle reliquie nuove o migliorate
     KelzDesc:
-      Title: Kel-Z HSR Scanner
+      Title: HSR Scanner di Kel-Z
       Link: Github
       l1: Decimali di velocità imprecisi, scansione OCR da 5-10 minuti
       l2: Importa l'inventario completo e l'elenco dei personaggi

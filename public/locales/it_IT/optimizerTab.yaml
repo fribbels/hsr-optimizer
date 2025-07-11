@@ -1,5 +1,7 @@
 CharacterSelector:
   Character: Personaggi
+CharacterPassives: Passive personaggio
+MainStats: Statistiche principali
 OptimizerOptions:
   Priority:
     Header: Priorità
@@ -41,6 +43,7 @@ CombatBuffs:
   SPD: SPD
   SPD_P: SPD %
 WeightFilter:
+  WeightFilterHeader: Filtro peso statistiche secondarie
   HPFilterText: HP
   ATKFilterText: ATK
   DEFFilterText: DEF
@@ -71,9 +74,11 @@ ComboFilter:
     None: 'Nessuno'
     Break: Break
 TeammateCard:
+  RelicsPlaceholder: Reliquie
   TeammateSyncSuccessMessage: Informazioni compagno di squadra sincronizzate
 StatSimulation:
   MainStatsSelection:
+    Header: Statistiche principali
     BodyPlaceholder: Corpo
     FeetPlaceholder: Piedi
     SpherePlaceholder: Sfera

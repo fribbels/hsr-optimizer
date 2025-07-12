@@ -1,2 +1,39 @@
+StatFilters:
+  Title: Filtri statistiche
+Mainstats:
+  Title: Statistiche principali
+  p1: Seleziona le statistiche principali da utilizzare per la ricerca di ottimizzazione. È possibile selezionare valori multipli per avere più opzioni
 Character:
-  Title: Personaggi
+  Title: Personaggio
+  p1: Seleziona il personaggio e il numero di copie. Nei calcoli di ottimizzazione si assume che il personaggio sia di livello 80 con le tracce di livello massimo.
+CharacterPassives:
+  Title: Passive personaggio
+  p1: Seleziona gli effetti condizionali da applicare al personaggio.
+  p2: Gli effetti che si basano su statistiche in combattimento o su uno stato ambientale verranno applicati di default, quindi verranno mostrate qui solo le opzioni che richiedono l'input dell'utente.
+LightconePassives:
+  p2: Gli effetti che si basano su statistiche in combattimento o su uno stato ambientale verranno applicati di default, quindi verranno mostrate qui solo le opzioni che richiedono l'input dell'utente.
+Relics:
+  Title: Reliquie
+OptimizationDetails:
+  Title: Dettagli ottimizzazione
+  p1: Mostra quante reliquie verranno utilizzate nella ricerca di ottimizzazione, dopo l'applicazione dei filtri
+  p2: Permutazioni - Numero di permutazioni che devono essere ricercate. Restringi i filtri per ridurre le permutazioni e il tempo di ricerca
+  p3: Ricercate - Numero di permutazioni già ricercate
+  p4: Risultati - Numero di risultati visualizzati che soddisfano i filtri statistiche
+SubstatWeightFilter:
+  Title: Filtro peso statistiche secondarie
+  p1: Questo filtro è utilizzato per ridurre il numero di permutazioni che l'ottimizzatore deve elaborare.
+  p2: Funziona valutando prima ogni reliquia per ogni slot con i pesi definiti, poi filtrando in base al numero minimo di roll pesati che la reliquia ha.
+  p3: Solo le reliquie che hanno più del numero specificato di roll pesati verranno utilizzate per la ricerca dell'ottimizzatore.
+  p4: >-
+    Impostare il numero minimo di roll troppo alto potrebbe non mostrare alcune build, se il filtro finisce per escludere una reliquia chiave. Usa questo filtro con attenzione, ma su grandi ricerche ha un grande impatto sulla riduzione del tempo di ricerca.
+RelicLocation:
+  Title: Posizione Reliquia
+  p1: Quando una reliquia è selezionata nella griglia, la sua posizione nell'inventario in gioco è mostrata qui.
+  p2: Se sono attivi filtri set / pezzo, applica gli stessi filtri in gioco, poi ordina per "Data di ottenimento (dal più recente)" per trovare la reliquia.
+  p3: '⚠️Avvertenze d''uso⚠️'
+  p4: Questo è supportato solo con l'importazione tramite Reliquary Archiver
+  p5: Se sono state ottenute o eliminate delle reliquie dopo l'ultima importazione, devono essere nuovamente scansionate e importate
+  p6: Seleziona la larghezza appropriata dell'inventario per avere delle posizioni accurate. La larghezza dipende dallo schermo del gioco e la larghezza dei menu
+LocatorParams:
+  Title: Opzioni del Localizzatore Reliquie

@@ -288,21 +288,33 @@ export function ScannerImportSubmenu() {
                 {t('Import.LiveImport.Description.l2') /* This includes new relics, enhanced relics, warp/gacha results, and more. */}
               </Text>
 
-              <Tooltip 
-                placement='topLeft' 
-                open={connected ? false : undefined} // Disable tooltip if connected
-                title={t('Import.LiveImport.Disconnected') /* Unable to connect to the scanner. Please check that it is running. */}
-              >
-                <Flex gap={10} align='center' flex="1 0">
-                  <Switch
-                    disabled={!connected}
-                    checked={connected && ingest}
-                    onChange={(checked) => setIngest(checked)}
-                  />
+              <Flex gap={10} align='center' flex="1 0">
+                <Switch
+                  checked={ingest}
+                  onChange={(checked) => setIngest(checked)}
+                />
 
-                  <Text>{t('Import.LiveImport.Enable') /* Enable Live Import (Recommended) */}</Text>
-                </Flex>
-              </Tooltip>
+                <Text>{t('Import.LiveImport.Enable') /* Enable Live Import (Recommended) */}</Text>
+                
+                <Divider dashed style={{ margin: 0, flex: 1, minWidth: 0 }} />
+
+                <Tooltip 
+                  placement='topRight'
+                  open={ingest && !connected ? undefined : false} // Only show tooltip if ingest is enabled but we are haven't been able to connect
+                  title={t('Import.LiveImport.DisconnectedHint') /* Unable to connect to the scanner. Please check that it is running. */}
+                >
+                  <Flex gap={10} align='center'>
+                    <Text>{connected ? t('Import.LiveImport.Connected') /* Connected */ : t('Import.LiveImport.Disconnected') /* Disconnected */}</Text>
+
+                    <div style={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: '50%',
+                      backgroundColor: connected ? '#52c41a' : '#ff4d4f'
+                    }} />
+                  </Flex>
+                </Tooltip>
+              </Flex>
 
               <Flex gap={10} align='center'>
                 <Switch

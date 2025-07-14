@@ -21,6 +21,9 @@ Import:
     Description:
       l1: Reliquary Archiver の Live Import 機能を有効にすると、インベントリ情報をリアルタイムでインポートできます。
       l2: 新たに入手または強化した遺物、跳躍の結果などが自動で反映されます。
+    Connected: 接続済み
+    Disconnected: 未接続
+    DisconnectedHint: スキャナーに接続できません。プログラムが実行中であることを確認してください。
     Enable: Live Import（推奨）
     UpdateCharacters: 装備中の遺物・光円錐の更新
     UpdateWarpResources: 跳躍データ（星玉、チケット、確定天井）の取り込み

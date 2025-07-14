@@ -21,6 +21,9 @@ Import:
     Description:
       l1: Lorsque vous utilisez Reliquary Archiver, vous pouvez activer le mode "Importation en direct" pour importer votre inventaire en temps réel.
       l2: Cela inclut les reliques nouvelles/améliorées, les résultats de saut et plus encore.
+    Connected: Connecté
+    Disconnected: Déconnecté
+    DisconnectedHint: Impossible de se connecter au scanner. Veuillez vérifier qu'il est en cours d'exécution.
     Enable: Activer l'importation en direct (Recommandé)
     UpdateCharacters: Activer la mise à jour des reliques et des cônes de lumière équipés des caractères
     UpdateWarpResources: Activer l'importation des ressources de Saut (jades, tickets, pitié)

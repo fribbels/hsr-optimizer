@@ -66,7 +66,7 @@ export default function RelicFilterBar() {
     setValueColumns,
   } = useRelicsTabStore()
 
-  const { t } = useTranslation('relicsTab')
+  const { t, i18n } = useTranslation('relicsTab')
   const { t: tValueColumn } = useTranslation('relicsTab', { keyPrefix: 'RelicGrid' })
 
   const valueColumnOptions = useMemo(() => generateValueColumnOptions(tValueColumn), [tValueColumn])
@@ -93,11 +93,14 @@ export default function RelicFilterBar() {
     setsData,
     mainStatsData,
     subStatsData,
-  } = useMemo(() => ({
-    setsData: generateTooltipTags(Object.values(Sets).filter((x) => !UnreleasedSets[x]), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere)),
-    mainStatsData: generateTooltipTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true)),
-    subStatsData: generateTooltipTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true)),
-  }), [t])
+  } = useMemo(() => {
+    const locale = i18n.resolvedLanguage ?? 'en_US'
+    return {
+      setsData: generateTooltipTags(Object.values(Sets).filter((x) => !UnreleasedSets[x]), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), locale),
+      mainStatsData: generateTooltipTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true), locale),
+      subStatsData: generateTooltipTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), locale),
+    }
+  }, [i18n.resolvedLanguage])
 
   window.refreshRelicsScore = () => {
     // NOTE: the scoring modal (where this event is published) calls .submit() in the same block of code
@@ -133,11 +136,11 @@ export default function RelicFilterBar() {
     setTimeout(() => rescoreClicked(), 100)
   }
 
-  function characterSelectorChange(characterId: CharacterId | null, singleRelic?: Relic) {
+  function characterSelectorChange(characterId: CharacterId | null | undefined, singleRelic?: Relic) {
     const relics = singleRelic ? [singleRelic] : DB.getRelics()
     console.log('idChange', characterId)
 
-    setFocusCharacter(characterId)
+    setFocusCharacter(characterId ?? null)
 
     const relicScorer = new RelicScorer()
 
@@ -303,9 +306,9 @@ export default function RelicFilterBar() {
             <CharacterSelect
               value={focusCharacter}
               selectStyle={{ flex: 1 }}
-              onChange={(characterId: CharacterId | null | undefined) => {
+              onChange={(characterId) => {
                 // Wait until after modal closes to update
-                setTimeout(() => characterSelectorChange(characterId!), 20)
+                setTimeout(() => characterSelectorChange(characterId), 20)
               }}
               withIcon={true}
             />
@@ -408,14 +411,16 @@ function generatePartsTags(keys: Parts[], srcFn: (s: string) => string) {
   }))
 }
 
-function generateTooltipTags(arr: (Sets | StatsValues)[], srcFn: (s: string) => string) {
+function generateTooltipTags(arr: (Sets | StatsValues)[], srcFn: (s: string) => string, locale: string) {
   return arr.map((x) => ({
     key: x,
-    display: generateTooltipDisplay(x, srcFn),
+    display: generateTooltipDisplay(x, srcFn, locale),
   }))
 }
 
-function generateTooltipDisplay(key: Sets | StatsValues, srcFn: (s: string) => string) {
+function generateTooltipDisplay(key: Sets | StatsValues, srcFn: (s: string) => string, locale: string) {
+  const tStats = i18next.getFixedT(locale, 'common', 'Stats')
+  const tSets = i18next.getFixedT(locale, 'gameData', 'RelicSets')
   // QOL to colorize elemental stat images instead of using the substat images
   const overrides: Record<string, string> = {
     [Stats.Physical_DMG]: 'Physical',
@@ -433,8 +438,8 @@ function generateTooltipDisplay(key: Sets | StatsValues, srcFn: (s: string) => s
   return (
     <Tooltip
       title={isStatsValues(key)
-        ? i18next.t(`common:Stats.${key}`)
-        : i18next.t(`gameData:RelicSets.${setToId[key]}.Name`)}
+        ? tStats(key)
+        : tSets(`${setToId[key]}.Name`)}
       mouseEnterDelay={0.2}
     >
       <img style={{ width: width }} src={src} />

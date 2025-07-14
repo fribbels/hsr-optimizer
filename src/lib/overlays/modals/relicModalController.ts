@@ -35,11 +35,11 @@ export type RelicUpgradeValues = {
 }
 
 type RelicFormStat = {
-  stat: string,
-  value: string,
+  stat: string | undefined,
+  value: string | undefined,
 }
 
-export type RelicForm = {
+export type RelicForm = Partial<{
   part: Parts,
   mainStatType: MainStats,
   mainStatValue: number,
@@ -55,7 +55,7 @@ export type RelicForm = {
   substatValue2: string,
   substatValue3: string,
   equippedBy: string,
-}
+}>
 
 export const RelicModalController = {
   onEditOk: (selectedRelic: Relic, relic: Relic) => {
@@ -79,7 +79,8 @@ export const RelicModalController = {
   },
 }
 
-function invalidValue(value: string) {
+function invalidValue(value?: string) {
+  if (!value) return true
   return isNaN(parseFloat(value))
 }
 
@@ -165,10 +166,11 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
     return Message.error(t('MainAsSub') /* Substat type is the same as the main stat */)
   }
 
-  const substatNumber0 = parseFloat(relicForm.substatValue0)
-  const substatNumber1 = parseFloat(relicForm.substatValue1)
-  const substatNumber2 = parseFloat(relicForm.substatValue2)
-  const substatNumber3 = parseFloat(relicForm.substatValue3)
+  //
+  const substatNumber0 = parseFloat(relicForm.substatValue0!)
+  const substatNumber1 = parseFloat(relicForm.substatValue1!)
+  const substatNumber2 = parseFloat(relicForm.substatValue2!)
+  const substatNumber3 = parseFloat(relicForm.substatValue3!)
 
   if (substatNumber0 >= 1000 || substatNumber1 >= 1000 || substatNumber2 >= 1000 || substatNumber3 >= 1000) {
     return Message.error(t('SubTooBig') /* Substat value is too big */)
@@ -236,10 +238,8 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
 
   const upgradeValues: RelicUpgradeValues[] = []
 
-  // eslint-disable-next-line prefer-const
   for (let { stat, value } of statPairs) {
     if (stat != undefined && value != undefined) {
-      // @ts-ignore
       if (value == '') {
         value = '0'
       } else if (isNaN(parseFloat(value))) {

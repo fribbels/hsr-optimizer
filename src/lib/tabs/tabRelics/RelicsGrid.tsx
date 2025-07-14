@@ -1,6 +1,7 @@
 import {
   GetLocaleTextParams,
   GetRowIdParams,
+  GridOptions,
   IRowNode,
   IsExternalFilterPresentParams,
   PaginationNumberFormatterParams,
@@ -30,7 +31,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import { Relic } from 'types/relic'
 
-const gridOptions = {
+const gridOptions: GridOptions<Relic> = {
   rowHeight: 33,
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
@@ -54,10 +55,12 @@ export function RelicsGrid() {
 
   const [gridActive, setGridActive] = useState(true)
 
-  const relics = window.store((s) => s.relics)
+  // TODO: uncomment before submitting PR?
+  const relics = window.store((s) => s.relics) // .toReversed()
   const { filters, valueColumns } = useRelicsTabStore()
 
   const gridRef = useRef<AgGridReact<Relic>>(null)
+  window.relicsGrid = gridRef
 
   useEffect(() => {
     setGridActive(false)
@@ -77,9 +80,8 @@ export function RelicsGrid() {
   }, [valueColumns, t])
 
   const isExternalFilterPresent = useCallback((_params: IsExternalFilterPresentParams<Relic>) => {
-    return Object.values(filters).reduce((acc, cur) => acc + cur.length, 0) === 0
+    return !Object.values(filters).every((filter) => filter.length === 0)
   }, [filters])
-
   const doesExternalFilterPass = useCallback((node: IRowNode<Relic>) => {
     const relic = node.data
     if (!relic) return false

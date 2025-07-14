@@ -83,7 +83,7 @@ export const Gradient = {
   },
 
   getRelicGradient(params: CellClassParams<Relic>) {
-    const col = params.colDef.field!
+    const col = params.column.getColId()
     const value = params.value
 
     if (isNaN(value) || value == 0) {

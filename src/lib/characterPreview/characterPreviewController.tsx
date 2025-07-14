@@ -205,8 +205,8 @@ export function getShowcaseStats(
   return finalStats
 }
 
-export function showcaseOnEditOk(relic: Relic, selectedRelic: Relic | undefined, setSelectedRelic: (r: Relic) => void) {
-  const updatedRelic = RelicModalController.onEditOk(selectedRelic!, relic)
+export function showcaseOnEditOk(relic: Relic, selectedRelic: Relic, setSelectedRelic: (r: Relic) => void) {
+  const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
   setSelectedRelic(updatedRelic)
   SaveState.delayedSave()
 }

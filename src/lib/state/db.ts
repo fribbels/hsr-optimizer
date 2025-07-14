@@ -36,6 +36,7 @@ import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
+import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
@@ -600,8 +601,10 @@ export const DB = {
     }
 
     // Set relics tab state
-    window.store.getState().setExcludedRelicPotentialCharacters(saveData.excludedRelicPotentialCharacters || [])
+    useRelicsTabStore.getState().setExcludedRelicPotentialCharacters(saveData.excludedRelicPotentialCharacters || [])
+
     window.store.getState().setVersion(saveData.version)
+
     useRelicLocatorStore.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth)
     useRelicLocatorStore.getState().setRowLimit(saveData.relicLocator?.rowLimit)
 

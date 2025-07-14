@@ -10,9 +10,8 @@ import { CharacterId } from 'types/character'
 export function RelicInsightsPanel() {
   const { insightsCharacters, insightsMode, selectedRelic, excludedRelicPotentialCharacters } = useRelicsTabStore()
 
-  if (!selectedRelic) return <></>
-
   const scores: Score[] = useMemo(() => {
+    if (!selectedRelic) return []
     return Object.values(DB.getMetadata().characters)
       .filter((x) => insightsCharacters === InsightCharacters.All || !excludedRelicPotentialCharacters.includes(x.id))
       .map((x) => ({
@@ -21,11 +20,13 @@ export function RelicInsightsPanel() {
       }))
   }, [insightsCharacters, selectedRelic, excludedRelicPotentialCharacters])
 
+  if (!selectedRelic) return <></>
+
   switch (insightsMode) {
     case RelicInsights.Buckets:
-      return <BucketsPanel scores={scores} />
+      return <BucketsPanel scores={scores} insightsCharacters={insightsCharacters} />
     case RelicInsights.Top10:
-      return <Top10Panel scores={scores} />
+      return <Top10Panel scores={scores} insightsCharacters={insightsCharacters} />
   }
 }
 
@@ -36,12 +37,13 @@ type Score = {
 
 interface PanelProps {
   scores: Score[]
+  insightsCharacters: InsightCharacters
 }
 
-function BucketsPanel({ scores }: PanelProps) {
-  return <>buckets</>
+function BucketsPanel({ scores, insightsCharacters }: PanelProps) {
+  return <>buckets: {insightsCharacters}</>
 }
 
-function Top10Panel({ scores }: PanelProps) {
-  return <>top 10</>
+function Top10Panel({ scores, insightsCharacters }: PanelProps) {
+  return <>top 10: {insightsCharacters}</>
 }

@@ -198,66 +198,81 @@ export function generateBaselineColDefs(t: TFunction<'relicsTab', 'RelicGrid'>):
       field: `augmentedStats.${Stats.HP_P}`,
       headerName: t('Headers.HPP'),
       valueFormatter: Renderer.hideZeroesX100Tenths,
+      cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.ATK_P}`,
       headerName: t('Headers.ATKP'),
       valueFormatter: Renderer.hideZeroesX100Tenths,
+      cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.DEF_P}`,
       headerName: t('Headers.DEFP'),
       valueFormatter: Renderer.hideZeroesX100Tenths,
+      cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.HP}`,
       headerName: t('Headers.HP'),
       valueFormatter: Renderer.hideZeroesFloor,
+      cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.ATK}`,
       headerName: t('Headers.ATK'),
       valueFormatter: Renderer.hideZeroesFloor,
+      cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.DEF}`,
       headerName: t('Headers.DEF'),
       valueFormatter: Renderer.hideZeroesFloor,
+      cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.SPD}`,
       headerName: t('Headers.SPD'),
       valueFormatter: Renderer.hideZeroes10thsRelicTabSpd,
+      cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.CR}`,
       headerName: t('Headers.CR'),
       valueFormatter: Renderer.hideZeroesX100Tenths,
+      cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.CD}`,
       headerName: t('Headers.CD'),
       valueFormatter: Renderer.hideZeroesX100Tenths,
+      cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.EHR}`,
       headerName: t('Headers.EHR'),
       valueFormatter: Renderer.hideZeroesX100Tenths,
+      cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.RES}`,
       headerName: t('Headers.RES'),
       valueFormatter: Renderer.hideZeroesX100Tenths,
+      cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.BE}`,
       headerName: t('Headers.BE'),
       valueFormatter: Renderer.hideZeroesX100Tenths,
+      cellStyle: Gradient.getRelicGradient,
     },
     {
+      // we use colId when applying the gradient, default value is the field, cv has no associated field so we need to explicitly set the id
+      colId: 'cv',
       valueGetter: calculateCv,
       headerName: t('Headers.CV'),
       valueFormatter: Renderer.hideZeroesX100Tenths,
+      cellStyle: Gradient.getRelicGradient,
     },
   ]
 }

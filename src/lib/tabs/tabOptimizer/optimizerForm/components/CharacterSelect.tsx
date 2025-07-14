@@ -79,7 +79,7 @@ type CharacterFilters = {
   name: string,
 }
 
-const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, selectStyle, multipleSelect, withIcon, externalOpen, setExternalOpen }) => {
+function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIcon, externalOpen, setExternalOpen }: CharacterSelectProps) {
   // console.log('==================================== CHARACTER SELECT')
   const inputRef = useRef<InputRef>(null)
   const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
@@ -87,7 +87,6 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
   const [currentFilters, setCurrentFilters] = useState(TsUtils.clone(defaultFilters))
   const characterOptions = useMemo(() => generateCharacterOptions(), [t])
   const [selected, setSelected] = useState<Map<CharacterId, boolean>>(new Map())
-  const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
 
   const setElementFilter = (element: CharacterFilters['element']) => setCurrentFilters({ ...currentFilters, element })
 
@@ -118,11 +117,11 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
       setTimeout(() => inputRef.current?.focus(), 100)
 
       if (multipleSelect) {
-        const newSelected = new Map<CharacterId, boolean>(excludedRelicPotentialCharacters.map((characterId: CharacterId) => [characterId, true]))
+        const newSelected = new Map<CharacterId, boolean>(value.map((characterId: CharacterId) => [characterId, true]))
         setSelected(newSelected)
       }
     }
-  }, [open, externalOpen])
+  }, [open, externalOpen, value, multipleSelect])
 
   function applyFilters(x: CharacterOptions[CharacterId]) {
     if (currentFilters.element.length && !currentFilters.element.includes(x.element)) {
@@ -174,11 +173,11 @@ const CharacterSelect: React.FC<CharacterSelectProps> = ({ value, onChange, sele
         placeholder={multipleSelect ? t('MultiSelect.Placeholder') /* Customize characters */ : t('SingleSelect.Placeholder') /* Character */}
         allowClear
         maxTagCount={0}
-        maxTagPlaceholder={() => (
+        maxTagPlaceholder={(omittedValues) => (
           <span>
             {
-              excludedRelicPotentialCharacters.length
-                ? t('MultiSelect.MaxTagPlaceholderSome', { count: excludedRelicPotentialCharacters.length })
+              omittedValues.length
+                ? t('MultiSelect.MaxTagPlaceholderSome', { count: omittedValues.length })
                 : t('MultiSelect.MaxTagPlaceholderNone')
               /* {count} characters excluded | all characters enabled */
             }

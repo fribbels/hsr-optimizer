@@ -279,13 +279,9 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
       const newRelicCopy = { ...relic }
 
       // Create new objects without lock/discard properties for comparison
-      const existingForComparison = Object.entries(existingRelicCopy)
-        .filter(([key]) => key !== 'lock' && key !== 'discard')
-        .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {})
+      const { discard: _existingDiscard, lock: _existingLock, ...existingForComparison } = existingRelicCopy
 
-      const newForComparison = Object.entries(newRelicCopy)
-        .filter(([key]) => key !== 'lock' && key !== 'discard')
-        .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {})
+      const { discard: _newDiscard, lock: _newLock, ...newForComparison } = newRelicCopy
 
       // Check if any other properties changed
       if (
@@ -412,7 +408,7 @@ function ingestFullScan(data: ScannerParserJson, updateCharacters: boolean) {
       newScan.characters = newScan.characters.sort(
         (a, b) => b.characterLevel - a.characterLevel,
       )
-      newScan.characters.map((c) => {
+      newScan.characters.forEach((c) => {
         c.characterLevel = 80
         c.lightConeLevel = 80
       })
@@ -693,8 +689,6 @@ export function ScannerWebsocket() {
               useRelicsTabStore.getState().setSelectedRelicsIds(ids)
               relicSelectionBuffer.current = []
             }
-
-            window.relicsGrid?.current?.api.redrawRows()
             break
           case AppPages.OPTIMIZER:
             window.optimizerGrid?.current?.api.redrawRows()
@@ -712,7 +706,7 @@ export function ScannerWebsocket() {
       <RelicRerollModal
         open={rerollModal.isOpen}
         onClose={closeRerollModal}
-        relic={rerollModal.relic!}
+        relic={rerollModal.relic}
       />
     </>
   )

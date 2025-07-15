@@ -7,6 +7,7 @@ import {
 import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
 import { V4ParserRelic } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { useTranslation } from 'react-i18next'
@@ -16,19 +17,21 @@ const { Text } = Typography
 interface RelicRerollModalProps {
   open: boolean
   onClose: () => void
-  relic: V4ParserRelic
+  relic: V4ParserRelic | null
 }
 
 export default function RelicRerollModal({ open, onClose, relic }: RelicRerollModalProps) {
   const { t } = useTranslation('modals', { keyPrefix: 'RelicReroll' })
 
+  const activatedBuffs = useScannerState((s) => s.activatedBuffs)
+
   if (!relic || !relic.reroll_substats) {
     return null
   }
 
-  const activatedBuffs = useScannerState((s) => s.activatedBuffs)
   const originalRelic = ReliquaryArchiverParser.parseRelic(relic, activatedBuffs, relic.substats)
   const rerolledRelic = ReliquaryArchiverParser.parseRelic(relic, activatedBuffs, relic.reroll_substats)
+
   if (!originalRelic || !rerolledRelic) {
     return null
   }
@@ -48,6 +51,7 @@ export default function RelicRerollModal({ open, onClose, relic }: RelicRerollMo
             <RelicPreview
               relic={originalRelic}
               score={originalRelic.equippedBy ? RelicScorer.scoreCurrentRelic(originalRelic, originalRelic.equippedBy) : undefined}
+              scoringType={originalRelic.equippedBy ? ScoringType.SUBSTAT_SCORE : ScoringType.NONE}
               unhoverable
             />
             <Text strong>{t('OriginalSubstats') /* Original Substats */}</Text>
@@ -59,6 +63,7 @@ export default function RelicRerollModal({ open, onClose, relic }: RelicRerollMo
             <RelicPreview
               relic={rerolledRelic}
               score={rerolledRelic.equippedBy ? RelicScorer.scoreCurrentRelic(rerolledRelic, rerolledRelic.equippedBy) : undefined}
+              scoringType={rerolledRelic.equippedBy ? ScoringType.SUBSTAT_SCORE : ScoringType.NONE}
               unhoverable
             />
             <Text strong>{t('RerolledSubstats') /* Rerolled Substats */}</Text>

@@ -56,7 +56,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const skillScaling = skill(e, 1.40, 1.54)
   const skillVulnScaling = skill(e, 0.20, 0.22)
 
-  const ultScaling = ult(e, 3.00, 3.24)
+  const ultScaling = ult(e, 2.00, 2.16)
   const ultDefPenScaling = ult(e, 0.25, 0.27)
   const ultDotScaling = ult(e, 0.80, 0.88)
 
@@ -70,16 +70,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     ultZone: true,
     ultDotStacks: maxUltDotInstances,
     ehrToDmg: true,
-    e1DotDetonation: false,
-    e2ResPen: true,
+    dotDetonation: false,
+    e1DotFinalDmg: true,
+    e4ResPen: true,
     e6Buffs: true,
   }
 
   const teammateDefaults = {
     skillVulnerability: true,
     ultZone: true,
-    e2ResPen: true,
-    e4MaxDmgBoost: true,
+    e1DotFinalDmg: true,
+    e2MaxDmgBoost: true,
+    e4ResPen: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -109,19 +111,26 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'EHR to DMG boost',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
-    e1DotDetonation: {
-      id: 'e1DotDetonation',
+    dotDetonation: {
+      id: 'dotDetonation',
       formItem: 'switch',
-      text: 'E1 DOT detonation (Automatic activation)',
+      text: 'DOT detonation (Automatic activation)',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: true,
     },
-    e2ResPen: {
-      id: 'e2ResPen',
+    e1DotFinalDmg: {
+      id: 'e1DotFinalDmg',
       formItem: 'switch',
-      text: 'E2 RES PEN',
+      text: 'E1 DOT Final DMG',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 2,
+      disabled: e < 1,
+    },
+    e4ResPen: {
+      id: 'e4ResPen',
+      formItem: 'switch',
+      text: 'E4 RES PEN',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 4,
     },
     e6Buffs: {
       id: 'e6Buffs',
@@ -135,14 +144,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     skillVulnerability: content.skillVulnerability,
     ultZone: content.ultZone,
-    e2ResPen: content.e2ResPen,
-    e4MaxDmgBoost: {
-      id: 'e4MaxDmgBoost',
+    e1DotFinalDmg: content.e1DotFinalDmg,
+    e2MaxDmgBoost: {
+      id: 'e2MaxDmgBoost',
       formItem: 'switch',
-      text: 'E4 DMG boost maxed',
+      text: 'E2 DMG boost maxed',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 4,
+      disabled: e < 2,
     },
+    e4ResPen: content.e4ResPen,
   }
 
   return {
@@ -164,27 +174,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // E6 doubles the talent proc
       const talentDot = talentDotScaling * 3 + talentDotAtkLimitScaling
       const ultDot = r.ultDotStacks * ultDotScaling
-      if (e < 1) {
-        if (r.e1DotDetonation) {
-          // Preprocessor to disable detonation's dot instance
-          x.DOT_ATK_SCALING.buff(0, Source.NONE)
-        } else {
-          x.DOT_ATK_SCALING.buff(talentDot, SOURCE_TALENT)
-          x.DOT_ATK_SCALING.buff(ultDot, SOURCE_ULT)
-        }
+
+      if (r.dotDetonation) {
+        // Triggers ult proc
+        x.DOT_ATK_SCALING.buff(ultDot, SOURCE_ULT)
+        // Detonates at 1.5x
+        x.DOT_ATK_SCALING.buff(talentDot * 1.5, SOURCE_TALENT)
+        // E6 doubles the talent and also detonates at 1.5x
+        x.DOT_ATK_SCALING.buff((e >= 6 && r.e6Buffs) ? talentDot * 1.5 : 0, SOURCE_E6)
       } else {
-        if (r.e1DotDetonation) {
-          // Triggers ult proc
-          x.DOT_ATK_SCALING.buff(ultDot, SOURCE_ULT)
-          // Detonates at 1.5x
-          x.DOT_ATK_SCALING.buff(talentDot * 1.5, SOURCE_TALENT)
-          // E6 doubles the talent and also detonates at 1.5x
-          x.DOT_ATK_SCALING.buff((e >= 6 && r.e6Buffs) ? talentDot * 1.5 : 0, SOURCE_E6)
-        } else {
-          x.DOT_ATK_SCALING.buff(ultDot, SOURCE_ULT)
-          x.DOT_ATK_SCALING.buff(talentDot, SOURCE_TALENT)
-          x.DOT_ATK_SCALING.buff((e >= 6 && r.e6Buffs) ? talentDot : 0, SOURCE_E6)
-        }
+        x.DOT_ATK_SCALING.buff(ultDot, SOURCE_ULT)
+        x.DOT_ATK_SCALING.buff(talentDot, SOURCE_TALENT)
+        x.DOT_ATK_SCALING.buff((e >= 6 && r.e6Buffs) ? talentDot : 0, SOURCE_E6)
       }
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
@@ -196,14 +197,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
+      x.DOT_FINAL_DMG_BOOST.buffTeam((e >= 1 && m.e1DotFinalDmg) ? 0.24 : 0, SOURCE_E1)
       x.VULNERABILITY.buffTeam(m.skillVulnerability ? skillVulnScaling : 0, SOURCE_SKILL)
       x.DEF_PEN.buffTeam(m.ultZone ? ultDefPenScaling : 0, SOURCE_ULT)
-      x.RES_PEN.buffTeam((e >= 2 && m.e2ResPen) ? 0.20 : 0, SOURCE_E2)
+      x.RES_PEN.buffTeam((e >= 4 && m.e4ResPen) ? 0.20 : 0, SOURCE_E4)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ELEMENTAL_DMG.buffTeam(e >= 4 && t.e4MaxDmgBoost ? 0.90 : 0, SOURCE_E4)
+      x.ELEMENTAL_DMG.buffTeam((e >= 2 && t.e2MaxDmgBoost) ? 0.90 : 0, SOURCE_E2)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

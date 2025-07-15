@@ -6854,66 +6854,43 @@
       "path": "Nihility",
       "element": "Physical",
       "traces": {
-        "SPD": 9,
+        "ATK%": 0.18,
         "Effect Hit Rate": 0.1,
-        "ATK%": 0.28
+        "SPD": 14
       },
       "traceTree": [
         {
-          "id": "1410201_3.5v1",
-          "stat": "ATK%",
-          "value": 0.04,
-          "pre": null,
-          "children": [
-            {
-              "id": "1410210_3.5v1",
-              "stat": "ATK%",
-              "value": 0.08,
-              "pre": "1410201_3.5v1",
-              "children": []
-            }
-          ]
-        },
-        {
-          "id": "1410202_3.5v1",
+          "id": "1410201_3.5v3",
           "stat": "SPD",
           "value": 2,
           "pre": null,
           "children": [
             {
-              "id": "1410203_3.5v1",
-              "stat": "ATK%",
-              "value": 0.04,
-              "pre": "1410202_3.5v1",
-              "children": [
-                {
-                  "id": "1410204_3.5v1",
-                  "stat": "Effect Hit Rate",
-                  "value": 0.04,
-                  "pre": "1410203_3.5v1",
-                  "children": []
-                }
-              ]
+              "id": "1410210_3.5v3",
+              "stat": "SPD",
+              "value": 4,
+              "pre": "1410201_3.5v3",
+              "children": []
             }
           ]
         },
         {
-          "id": "1410205_3.5v1",
+          "id": "1410202_3.5v3",
           "stat": "ATK%",
-          "value": 0.06,
+          "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1410206_3.5v1",
+              "id": "1410203_3.5v3",
               "stat": "SPD",
-              "value": 3,
-              "pre": "1410205_3.5v1",
+              "value": 2,
+              "pre": "1410202_3.5v3",
               "children": [
                 {
-                  "id": "1410207_3.5v1",
-                  "stat": "ATK%",
-                  "value": 0.06,
-                  "pre": "1410206_3.5v1",
+                  "id": "1410204_3.5v3",
+                  "stat": "Effect Hit Rate",
+                  "value": 0.04,
+                  "pre": "1410203_3.5v3",
                   "children": []
                 }
               ]
@@ -6921,21 +6898,44 @@
           ]
         },
         {
-          "id": "1410208_3.5v1",
+          "id": "1410205_3.5v3",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": [
+            {
+              "id": "1410206_3.5v3",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1410205_3.5v3",
+              "children": [
+                {
+                  "id": "1410207_3.5v3",
+                  "stat": "SPD",
+                  "value": 3,
+                  "pre": "1410206_3.5v3",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1410208_3.5v3",
           "stat": "Effect Hit Rate",
           "value": 0.06,
           "pre": null,
           "children": []
         },
         {
-          "id": "1410209_3.5v1",
-          "stat": "SPD",
-          "value": 4,
+          "id": "1410209_3.5v3",
+          "stat": "ATK%",
+          "value": 0.08,
           "pre": null,
           "children": []
         }
       ],
-      "max_sp": 130,
+      "max_sp": 110,
       "stats": {
         "HP": 1203.048,
         "ATK": 601.524,
@@ -6959,75 +6959,75 @@
       },
       "traceTree": [
         {
-          "id": "1412201_3.5v1",
+          "id": "1412201_3.5v3",
           "stat": "Wind DMG Boost",
           "value": 0.032,
           "pre": null,
           "children": [
             {
-              "id": "1412204_3.5v1",
+              "id": "1412204_3.5v3",
               "stat": "HP%",
               "value": 0.04,
-              "pre": "1412201_3.5v1",
+              "pre": "1412201_3.5v3",
               "children": []
             },
             {
-              "id": "1412207_3.5v1",
+              "id": "1412207_3.5v3",
               "stat": "Wind DMG Boost",
               "value": 0.048,
-              "pre": "1412201_3.5v1",
+              "pre": "1412201_3.5v3",
               "children": []
             }
           ]
         },
         {
-          "id": "1412202_3.5v1",
+          "id": "1412202_3.5v3",
           "stat": "ATK%",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1412203_3.5v1",
+              "id": "1412203_3.5v3",
               "stat": "Wind DMG Boost",
               "value": 0.032,
-              "pre": "1412202_3.5v1",
+              "pre": "1412202_3.5v3",
               "children": []
             }
           ]
         },
         {
-          "id": "1412205_3.5v1",
+          "id": "1412205_3.5v3",
           "stat": "Wind DMG Boost",
           "value": 0.048,
           "pre": null,
           "children": [
             {
-              "id": "1412206_3.5v1",
+              "id": "1412206_3.5v3",
               "stat": "ATK%",
               "value": 0.06,
-              "pre": "1412205_3.5v1",
+              "pre": "1412205_3.5v3",
               "children": []
             }
           ]
         },
         {
-          "id": "1412208_3.5v1",
+          "id": "1412208_3.5v3",
           "stat": "HP%",
           "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "1412209_3.5v1",
+              "id": "1412209_3.5v3",
               "stat": "ATK%",
               "value": 0.08,
-              "pre": "1412208_3.5v1",
+              "pre": "1412208_3.5v3",
               "children": []
             },
             {
-              "id": "1412210_3.5v1",
+              "id": "1412210_3.5v3",
               "stat": "Wind DMG Boost",
               "value": 0.064,
-              "pre": "1412208_3.5v1",
+              "pre": "1412208_3.5v3",
               "children": []
             }
           ]

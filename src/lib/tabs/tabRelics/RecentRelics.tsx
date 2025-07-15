@@ -1,5 +1,4 @@
 import { Flex } from 'antd'
-import DB from 'lib/state/db'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RecentRelicCard } from 'lib/tabs/tabRelics/RecentRelicCard'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
@@ -10,7 +9,7 @@ function padArray<T>(array: T[], length: number, filler: T): T[] {
 }
 
 export const RecentRelics = React.memo(() => {
-  const { focusCharacter: scoringCharacter, selectedRelic, setSelectedRelics } = useRelicsTabStore()
+  const { focusCharacter: scoringCharacter, selectedRelicId, setSelectedRelicsIds } = useRelicsTabStore()
   const { recentRelics: recentRelicIDs } = useScannerState()
   const allRelics = window.store((s) => s.relicsById)
 
@@ -19,8 +18,7 @@ export const RecentRelics = React.memo(() => {
     .filter((relic) => relic != null)
 
   const setSelectedRelicID = (id: string) => {
-    const relic = DB.getRelicById(id)
-    if (relic) setSelectedRelics([relic])
+    setSelectedRelicsIds([id])
   }
 
   return (
@@ -35,7 +33,7 @@ export const RecentRelics = React.memo(() => {
         <RecentRelicCard
           key={relic?.id ?? i}
           relic={relic}
-          isSelected={relic?.id === selectedRelic?.id}
+          isSelected={relic?.id === selectedRelicId}
           scoringCharacter={scoringCharacter}
           setSelectedRelicID={setSelectedRelicID}
         />

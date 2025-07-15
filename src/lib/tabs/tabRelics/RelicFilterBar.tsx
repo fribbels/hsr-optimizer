@@ -217,8 +217,6 @@ export default function RelicFilterBar() {
         })
       }
     }
-
-    DB.refreshRelics()
   }
 
   function scoringClicked() {

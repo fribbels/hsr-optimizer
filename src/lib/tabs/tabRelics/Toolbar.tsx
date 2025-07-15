@@ -6,6 +6,7 @@ import {
   Tooltip,
 } from 'antd'
 import { Hint } from 'lib/interactions/hint'
+import DB from 'lib/state/db'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
@@ -18,8 +19,8 @@ import { useTranslation } from 'react-i18next'
 
 export function Toolbar() {
   const {
-    selectedRelic,
-    selectedRelics,
+    selectedRelicId,
+    selectedRelicsIds,
     insightsMode,
     setInsightsMode,
     insightsCharacters,
@@ -39,12 +40,14 @@ export function Toolbar() {
     { value: InsightCharacters.Custom, label: t('PlotOptions.PlotCustom') /* Show custom characters */ },
   ]
 
+  const selectedRelic = DB.getRelicById(selectedRelicId ?? '') ?? null
+
   return (
     <Flex gap={10} justify='space-between'>
       <Button
         type='primary'
         style={{ width: 170 }}
-        disabled={selectedRelics.length !== 1}
+        disabled={selectedRelicsIds.length !== 1}
         onClick={RelicsTabController.editClicked}
       >
         {t('EditRelic')}
@@ -52,7 +55,7 @@ export function Toolbar() {
 
       <Popconfirm
         title={tCommon('Confirm')}
-        description={t('DeleteRelic.Warning', { count: selectedRelics.length })}
+        description={t('DeleteRelic.Warning', { count: selectedRelicsIds.length })}
         placement='bottom'
         okText={tCommon('Yes')}
         cancelText={tCommon('Cancel')}
@@ -61,7 +64,7 @@ export function Toolbar() {
         open={deleteConfirmOpen}
       >
         <Tooltip title={isLiveImport ? 'Disabled in live import mode.' : ''}>
-          <Button type='primary' style={{ width: 170 }} disabled={selectedRelics.length === 0 || isLiveImport}>
+          <Button type='primary' style={{ width: 170 }} disabled={selectedRelicsIds.length === 0 || isLiveImport}>
             {t('DeleteRelic.ButtonText') /* Delete relic */}
           </Button>
         </Tooltip>

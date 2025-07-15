@@ -378,10 +378,6 @@ export const DB = {
     }
   },
 
-  refreshRelics: () => {
-    if (window.setRelicRows) window.setRelicRows(DB.getRelics())
-  },
-
   // Mostly for debugging
   getState: () => window.store.getState(),
 
@@ -624,8 +620,6 @@ export const DB = {
     assignRanks(saveData.characters)
     DB.setRelics(saveData.relics)
     DB.setCharacters(saveData.characters)
-
-    DB.refreshRelics()
 
     if (autosave) {
       SaveState.delayedSave()
@@ -1056,7 +1050,6 @@ export const DB = {
       }
     }
 
-    DB.refreshRelics()
     window.refreshRelicsScore()
 
     // Updated stats for ${updatedOldRelics.length} existing relics

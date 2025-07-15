@@ -65,7 +65,6 @@ export const RelicModalController = {
 
     window.rescoreSingleRelic(updatedRelic)
     DB.setRelic(updatedRelic)
-    window.setRelicRows(DB.getRelics())
 
     console.log('onEditOk', updatedRelic)
     Message.success(i18next.t('modals:Relic.Messages.EditSuccess') /* Successfully edited relic */)

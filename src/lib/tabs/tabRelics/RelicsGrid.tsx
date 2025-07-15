@@ -56,7 +56,7 @@ export function RelicsGrid() {
   const [gridActive, setGridActive] = useState(true)
 
   // TODO: uncomment before submitting PR?
-  const relics = window.store((s) => s.relics) // .toReversed()
+  const relics = window.store((s) => s.relics /*.toReversed()*/)
   const { filters, valueColumns } = useRelicsTabStore()
 
   const gridRef = useRef<AgGridReact<Relic>>(null)

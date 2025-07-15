@@ -215,7 +215,6 @@ export function showcaseOnAddOk(relic: Relic, setSelectedRelic: (r: Relic) => vo
   const t = i18next.getFixedT(null, ['charactersTab', 'modals', 'common'])
 
   DB.setRelic(relic)
-  window.setRelicRows(DB.getRelics())
   setSelectedRelic(relic)
   SaveState.delayedSave()
 

@@ -6,6 +6,7 @@ import { Hint } from 'lib/interactions/hint'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
+import DB from 'lib/state/db'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RecentRelics } from 'lib/tabs/tabRelics/RecentRelics'
 import RelicFilterBar from 'lib/tabs/tabRelics/RelicFilterBar'
@@ -22,10 +23,12 @@ import { Relic } from 'types/relic'
 export const TAB_WIDTH = 1460
 
 export default function RelicsTab() {
-  const { focusCharacter, selectedRelic, relicModalOpen, setRelicModalOpen, setSelectedRelics } = useRelicsTabStore()
+  const { focusCharacter, selectedRelicId, relicModalOpen, setRelicModalOpen, setSelectedRelicsIds } = useRelicsTabStore()
   const { recentRelics } = useScannerState()
+  const relicsById = window.store((s) => s.relicsById)
+  const selectedRelic = DB.getRelicById(selectedRelicId ?? '') ?? null
   const { t } = useTranslation('relicsTab')
-  const setSelectedRelic = (r: Relic) => setSelectedRelics([r])
+  const setSelectedRelic = (r: Relic) => setSelectedRelicsIds([r.id])
   const score = (selectedRelic && focusCharacter) ? RelicScorer.scoreCurrentRelic(selectedRelic, focusCharacter) : undefined
   return (
     <Flex style={{ marginBottom: 100, width: TAB_WIDTH }}>
@@ -40,7 +43,7 @@ export default function RelicsTab() {
       <Flex vertical gap={10}>
         <RelicFilterBar />
 
-        {recentRelics && (
+        {recentRelics.length > 0 && (
           <Collapse
             items={[
               {

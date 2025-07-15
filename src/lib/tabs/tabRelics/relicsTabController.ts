@@ -22,17 +22,17 @@ export const RelicsTabController = {
   onRowClicked(e: RowClickedEvent<Relic>) {
     const relic = e.data
     if (!relic) return
-    useRelicsTabStore.getState().setSelectedRelics([relic])
+    useRelicsTabStore.getState().setSelectedRelicsIds([relic.id])
   },
 
   onRowDoubleClicked(e: RowDoubleClickedEvent<Relic>) {
     const relic = e.data
     if (!relic) return
-    useRelicsTabStore.getState().setSelectedRelics([relic])
+    useRelicsTabStore.getState().setSelectedRelicsIds([relic.id])
   },
 
   onSelectionChanged(e: SelectionChangedEvent<Relic>) {
-    useRelicsTabStore.getState().setSelectedRelics(e.api.getSelectedRows())
+    useRelicsTabStore.getState().setSelectedRelicsIds((e.api.getSelectedRows() as Relic[]).map((row) => row.id))
   },
 
   navigateToNextCell(params: NavigateToNextCellParams<Relic>) {
@@ -40,22 +40,22 @@ export const RelicsTabController = {
   },
 
   editClicked() {
-    const { selectedRelic, setRelicModalOpen } = useRelicsTabStore.getState()
+    const { selectedRelicId, setRelicModalOpen } = useRelicsTabStore.getState()
     const t = i18next.getFixedT(null, 'relicsTab', 'Messages')
-    if (!selectedRelic) return Message.error(t('NoRelicSelected') /* No relic selected */)
+    if (!selectedRelicId) return Message.error(t('NoRelicSelected') /* No relic selected */)
     setRelicModalOpen(true)
   },
 
   addClicked() {
-    const { setSelectedRelics, setRelicModalOpen } = useRelicsTabStore.getState()
-    setSelectedRelics([])
+    const { setSelectedRelicsIds, setRelicModalOpen } = useRelicsTabStore.getState()
+    setSelectedRelicsIds([])
     setRelicModalOpen(true)
   },
 
   deleteClicked(isOpen: boolean) {
-    const { selectedRelics, setDeleteConfirmOpen } = useRelicsTabStore.getState()
+    const { selectedRelicsIds, setDeleteConfirmOpen } = useRelicsTabStore.getState()
     const t = i18next.getFixedT(null, 'relicsTab', 'Messages')
-    if (!selectedRelics.length) {
+    if (!selectedRelicsIds.length) {
       setDeleteConfirmOpen(false)
       return Message.error(t('NoRelicSelected'))
     }
@@ -63,24 +63,27 @@ export const RelicsTabController = {
   },
 
   deleteConfirmed() {
-    const { selectedRelics, setSelectedRelics } = useRelicsTabStore.getState()
+    const { selectedRelicsIds, setSelectedRelicsIds } = useRelicsTabStore.getState()
     const t = i18next.getFixedT(null, 'relicsTab', 'Messages')
-    if (!selectedRelics.length) return Message.error(t('NoRelicSelected'))
-    setSelectedRelics([])
-    selectedRelics.forEach((r) => DB.deleteRelic(r.id))
+    if (!selectedRelicsIds.length) return Message.error(t('NoRelicSelected'))
+    setSelectedRelicsIds([])
+    selectedRelicsIds.forEach((id) => DB.deleteRelic(id))
     SaveState.delayedSave()
     Message.success(t('DeleteRelicSuccess'))
   },
 
   onRelicModalOk(relic: Relic) { // TODO: implementation
-    const { selectedRelic, selectedRelics, setSelectedRelics } = useRelicsTabStore.getState()
+    const { selectedRelicId, setSelectedRelicsIds } = useRelicsTabStore.getState()
     const t = i18next.getFixedT(null, 'relicsTab', 'Messages')
-    if (selectedRelic) {
-      const newRelic = RelicModalController.onEditOk(selectedRelic, relic)
-      setSelectedRelics(selectedRelics.map((relic) => relic.id === newRelic.id ? newRelic : relic))
+    if (selectedRelicId) {
+      // edit relic
+      const oldRelic = DB.getRelicById(selectedRelicId)
+      if (!oldRelic) return
+      RelicModalController.onEditOk(oldRelic, relic)
     } else {
+      // add new relic
       DB.setRelic(relic)
-      setSelectedRelics([relic])
+      setSelectedRelicsIds([relic.id])
       SaveState.delayedSave()
       Message.success(t('AddRelicSuccess') /* Successfully added relic */)
     }

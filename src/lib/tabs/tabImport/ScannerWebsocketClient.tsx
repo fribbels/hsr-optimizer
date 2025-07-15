@@ -13,6 +13,7 @@ import {
 import RelicRerollModal from 'lib/overlays/modals/RelicRerollModal'
 import DB, { AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { debounceEffect } from 'lib/utils/debounceUtils'
 import { EventEmitter } from 'lib/utils/events'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -677,8 +678,6 @@ export function ScannerWebsocket() {
       }
 
       debounceEffect('scannerWebsocketForceUpdates', 100, () => {
-        DB.refreshRelics()
-
         const activeKey = window.store.getState().activeKey
         switch (activeKey) {
           case AppPages.RELICS:
@@ -691,7 +690,7 @@ export function ScannerWebsocket() {
                 ),
               )
 
-              window.setSelectedRelicIDs?.(ids)
+              useRelicsTabStore.getState().setSelectedRelicsIds(ids)
               relicSelectionBuffer.current = []
             }
 

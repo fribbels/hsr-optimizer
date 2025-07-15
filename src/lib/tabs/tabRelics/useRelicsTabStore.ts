@@ -37,8 +37,8 @@ export enum InsightCharacters {
 
 const defaultState: RelicsTabStateValues = {
   focusCharacter: null,
-  selectedRelic: null,
-  selectedRelics: [],
+  selectedRelicId: null,
+  selectedRelicsIds: [],
   relicModalOpen: false,
   valueColumns: [
     'weights.current',
@@ -68,8 +68,8 @@ const defaultState: RelicsTabStateValues = {
 
 interface RelicsTabStateValues {
   focusCharacter: CharacterId | null
-  selectedRelic: Relic | null
-  selectedRelics: Array<Relic>
+  selectedRelicId: Relic['id'] | null
+  selectedRelicsIds: Array<Relic['id']>
   relicModalOpen: boolean
   valueColumns: ValueColumnField[]
   deleteConfirmOpen: boolean
@@ -81,7 +81,7 @@ interface RelicsTabStateValues {
 
 interface RelicsTabStateActions {
   setFocusCharacter: (character: RelicsTabStateValues['focusCharacter']) => void
-  setSelectedRelics: (relic: RelicsTabStateValues['selectedRelics']) => void
+  setSelectedRelicsIds: (relic: RelicsTabStateValues['selectedRelicsIds']) => void
   setRelicModalOpen: (relicModalOpen: RelicsTabStateValues['relicModalOpen']) => void
   setValueColumns: (cols: RelicsTabStateValues['valueColumns']) => void
   setDeleteConfirmOpen: (open: RelicsTabStateValues['deleteConfirmOpen']) => void
@@ -100,7 +100,7 @@ type RelicsTabState = RelicsTabStateActions & RelicsTabStateValues
 const useRelicsTabStore = create<RelicsTabState>()((set) => ({
   ...defaultState,
   setFocusCharacter: (focusCharacter) => set({ focusCharacter }),
-  setSelectedRelics: (relics) => set({ selectedRelic: relics.at(-1) ?? null, selectedRelics: [...relics] }),
+  setSelectedRelicsIds: (ids) => set({ selectedRelicId: ids.at(-1) ?? null, selectedRelicsIds: [...ids] }),
   setRelicModalOpen: (relicModalOpen) => set({ relicModalOpen }),
   setValueColumns: (cols) => set({ valueColumns: [...cols] }),
   setDeleteConfirmOpen: (deleteConfirmOpen) => set({ deleteConfirmOpen }),

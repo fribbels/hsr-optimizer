@@ -38,9 +38,6 @@ export default function RelicsTab() {
   console.log('======================================================================= RENDER RelicsTab')
   const gridRef = useRef()
 
-  const [relicRows, setRelicRows] = useState(DB.getRelics())
-  window.setRelicRows = setRelicRows
-
   const [selectedRelicID, setSelectedRelicID] = useState()
   window.setSelectedRelicIDs = (ids) => {
     setSelectedRelicID(ids[0])
@@ -113,30 +110,6 @@ export default function RelicsTab() {
 
   return (
     <Flex style={{ width: TAB_WIDTH, marginBottom: 100 }}>
-      {hasRecentRelics && (
-        <Collapse
-          size='small'
-          defaultActiveKey={['1']}
-          items={[
-            {
-              key: '1',
-              label: t('RecentlyUpdatedRelics.Header'), /* Recently Updated Relics */
-              children: (
-                <RecentRelics
-                  scoringCharacter={focusCharacter}
-                  selectedRelicID={selectedRelicID}
-                  setSelectedRelicID={(id) => {
-                    const node = gridRef.current.api.getRowNode(id)
-                    node.setSelected(true, true)
-                    gridRef.current.api.ensureNodeVisible(node, 'middle')
-                    setSelectedRelicID(id)
-                  }}
-                />
-              ),
-            },
-          ]}
-        />
-      )}
       <Flex gap={10}>
         {relicInsight === 'top10' && scores && (
           <Flex gap={10}>

@@ -6854,21 +6854,21 @@
       "path": "Nihility",
       "element": "Physical",
       "traces": {
-        "SPD": 9,
+        "ATK%": 0.18,
         "Effect Hit Rate": 0.1,
-        "ATK%": 0.28
+        "SPD": 14
       },
       "traceTree": [
         {
           "id": "1410201_3.5v1",
-          "stat": "ATK%",
-          "value": 0.04,
+          "stat": "SPD",
+          "value": 2,
           "pre": null,
           "children": [
             {
               "id": "1410210_3.5v1",
-              "stat": "ATK%",
-              "value": 0.08,
+              "stat": "SPD",
+              "value": 4,
               "pre": "1410201_3.5v1",
               "children": []
             }
@@ -6876,14 +6876,14 @@
         },
         {
           "id": "1410202_3.5v1",
-          "stat": "SPD",
-          "value": 2,
+          "stat": "ATK%",
+          "value": 0.04,
           "pre": null,
           "children": [
             {
               "id": "1410203_3.5v1",
-              "stat": "ATK%",
-              "value": 0.04,
+              "stat": "SPD",
+              "value": 2,
               "pre": "1410202_3.5v1",
               "children": [
                 {
@@ -6899,20 +6899,20 @@
         },
         {
           "id": "1410205_3.5v1",
-          "stat": "ATK%",
-          "value": 0.06,
+          "stat": "SPD",
+          "value": 3,
           "pre": null,
           "children": [
             {
               "id": "1410206_3.5v1",
-              "stat": "SPD",
-              "value": 3,
+              "stat": "ATK%",
+              "value": 0.06,
               "pre": "1410205_3.5v1",
               "children": [
                 {
                   "id": "1410207_3.5v1",
-                  "stat": "ATK%",
-                  "value": 0.06,
+                  "stat": "SPD",
+                  "value": 3,
                   "pre": "1410206_3.5v1",
                   "children": []
                 }
@@ -6929,13 +6929,13 @@
         },
         {
           "id": "1410209_3.5v1",
-          "stat": "SPD",
-          "value": 4,
+          "stat": "ATK%",
+          "value": 0.08,
           "pre": null,
           "children": []
         }
       ],
-      "max_sp": 130,
+      "max_sp": 110,
       "stats": {
         "HP": 1203.048,
         "ATK": 601.524,

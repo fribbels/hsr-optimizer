@@ -15,6 +15,12 @@ RelicFilterBar:
   RecommendationHeader: 遺物をおすすめするキャラ
   Rating: 遺物の分類
   CustomCharsHeader: 評価対象の複数指定
+RecentlyUpdatedRelics:
+  Header: 最近更新された遺物
+  Potential: ポテンシャル
+  Avg: 平均
+  Max: 最大
+  BestFor: 最適
 Messages:
   AddRelicSuccess: 遺物を追加しました
   NoRelicSelected: 遺物が未選択です

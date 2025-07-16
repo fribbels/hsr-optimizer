@@ -55,12 +55,12 @@ OptimizerOptions:
   p4: <0>Includi reliquie equipaggiate</0> - Quando abilitata, l'ottimizzatore permetterà di utilizzare le reliquie che sono attualmente equipaggiate da un personaggio durante la ricerca. In caso contrario sono escluse le reliquie equipaggiate
   p5: "<0>Priorità</0> - Vedi: Filtro priorità personaggio. Questa impostazione cambia la priorità di un personaggio"
   p6: <0>Escludi</0> - Seleziona personaggi specifici per escludere le loro reliquie equipaggiate dalla ricerca. Questa impostazione sovrascrive il filtro di priorità
-  p7: <0>Miglioramento / rarità</0> - Seleziona miglioramento minimo e stelle minime per le reliquie da includere
+  p7: <0>Miglioramento / grado</0> - Seleziona miglioramento minimo e stelle minime per le reliquie da includere
 Relics:
   Title: Reliquie
   p1: >-
-    Nota - Il potenziale è una percentuale di valutazione che confronta una reliquia con la migliore reliquia +15 possibile nello slot per il personaggio attuale. È basata sui pesi dell'algoritmo di punteggio. Questo significa che le reliquie a +0 senza roll hanno a volte un potenziale più elevato di relique +15 esistenti, perchè i loro possibili roll sono andati nelle statistiche desiderate del personaggio.
-  p2: "Personaggio selezionato: Punteggio - Il punteggio attuale della reliquia come definito dall'algoritmo di punteggio per il personaggio selezionato"
+    Nota - Il potenziale è una percentuale di valutazione che confronta una reliquia con la migliore reliquia +15 possibile nello slot per il personaggio attuale. È basata sui pesi dell'algoritmo del punteggio. Questo significa che le reliquie a +0 senza roll hanno a volte un potenziale più elevato di relique +15 esistenti, perchè i loro possibili roll sono andati nelle statistiche desiderate del personaggio.
+  p2: "Personaggio selezionato: Punteggio - Il punteggio attuale della reliquia come definito dall'algoritmo del punteggio per il personaggio selezionato"
   p3: "Personaggio selezionato: Potenziale medio - Il potenziale della reliquia al suo livello massimo, calcolato come media di tutti i possibili roll che potrebbe avere fino a +15"
   p4: "Personaggio selezionato: Potenziale massimo - Il potenziale massimo della reliquia se tutti i roll futuri sono andati nelle statistiche desiderate del personaggio"
   p5: "Tutti i personaggi: Potenziale massimo - Il potenziale più alto possibile della reliquia, tra tutti i personaggi del gioco."

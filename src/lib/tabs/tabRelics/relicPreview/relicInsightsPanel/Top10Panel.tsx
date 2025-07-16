@@ -125,7 +125,7 @@ function LegendContent({ scores }: PanelProps) {
     >
       {scores.map((s, idx) => (
         <Flex
-          gap={10}
+          gap={5}
           key={s.id}
           style={{ height: 25.3 }}
         >

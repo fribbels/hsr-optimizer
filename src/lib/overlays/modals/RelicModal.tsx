@@ -133,7 +133,6 @@ type RelicModalProps = {
   defaultWearer?: CharacterId,
 }
 
-// selectedRelic, onOk, setOpen, open, type
 export default function RelicModal({ selectedRelic, onOk, setOpen, open, defaultWearer }: RelicModalProps) {
   const { t } = useTranslation(['modals', 'common', 'gameData'])
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
@@ -396,7 +395,7 @@ export default function RelicModal({ selectedRelic, onOk, setOpen, open, default
         centered
         destroyOnClose
         closable={!isLiveImport} // Hide X button in live import mode as it overlaps with the alert
-        open={open} //
+        open={open}
         onCancel={() => setOpen(false)}
         footer={
           <Flex key='footer' justify={showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes ? 'space-between' : 'flex-end'}>

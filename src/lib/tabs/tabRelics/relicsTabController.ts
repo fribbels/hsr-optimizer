@@ -72,7 +72,7 @@ export const RelicsTabController = {
     Message.success(t('DeleteRelicSuccess'))
   },
 
-  onRelicModalOk(relic: Relic) { // TODO: implementation
+  onRelicModalOk(relic: Relic) {
     const { selectedRelicId, setSelectedRelicsIds } = useRelicsTabStore.getState()
     const t = i18next.getFixedT(null, 'relicsTab', 'Messages')
     if (selectedRelicId) {

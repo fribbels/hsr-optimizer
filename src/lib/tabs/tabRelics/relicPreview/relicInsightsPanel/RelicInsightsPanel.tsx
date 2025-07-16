@@ -20,7 +20,16 @@ export function RelicInsightsPanel() {
   const scores: Score[] = useMemo(() => {
     if (!selectedRelic) return []
     return Object.values(DB.getMetadata().characters)
-      .filter((x) => insightsCharacters === InsightCharacters.All || !excludedRelicPotentialCharacters.includes(x.id))
+      .filter((x) => {
+        switch (insightsCharacters) {
+          case InsightCharacters.All:
+            return true
+          case InsightCharacters.Custom:
+            return !excludedRelicPotentialCharacters.includes(x.id)
+          case InsightCharacters.Owned:
+            return DB.getCharacterById(x.id) != undefined
+        }
+      })
       .map((char) => ({
         id: char.id,
         name: t(`${char.id}.Name`),

@@ -38,6 +38,7 @@ export function Toolbar() {
   const characterPlotOptions: Array<{ value: InsightCharacters, label: string }> = [
     { value: InsightCharacters.All, label: t('PlotOptions.PlotAll') /* Show all characters */ },
     { value: InsightCharacters.Custom, label: t('PlotOptions.PlotCustom') /* Show custom characters */ },
+    { value: InsightCharacters.Owned, label: t('PlotOptions.PlotOwned') /*  Show owned characters */ },
   ]
 
   const selectedRelic = DB.getRelicById(selectedRelicId ?? '') ?? null

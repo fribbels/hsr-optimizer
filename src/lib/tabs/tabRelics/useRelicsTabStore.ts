@@ -33,6 +33,7 @@ export enum RelicInsights {
 export enum InsightCharacters {
   All,
   Custom,
+  Owned,
 }
 
 const defaultState: RelicsTabStateValues = {

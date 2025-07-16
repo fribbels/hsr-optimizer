@@ -9,7 +9,10 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import { PanelProps } from 'lib/tabs/tabRelics/relicPreview/relicInsightsPanel/RelicInsightsPanel'
-import { useState } from 'react'
+import {
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   CartesianGrid,
@@ -44,20 +47,17 @@ const { useToken } = theme
 export function BucketsPanel({ scores }: PanelProps) {
   const { token } = useToken()
   const [tooltipActive, setTooltipActive] = useState(false)
-  let timeout: NodeJS.Timeout
+  const timeout = useRef<NodeJS.Timeout>()
   const buckets = Array<Bucket>(10)
-  scores.filter((x) => {
-    return true
+  scores.forEach((score) => {
+    const bucketIndex = Math.min(9, Math.max(0, Math.floor(score.score.bestPct / 10)))
+    let bucket = buckets[bucketIndex]
+    if (!bucket) {
+      buckets[bucketIndex] = []
+      bucket = buckets[bucketIndex]
+    }
+    bucket.push(score)
   })
-    .forEach((score) => {
-      const bucketIndex = Math.min(9, Math.max(0, Math.floor(score.score.bestPct / 10)))
-      let bucket = buckets[bucketIndex]
-      if (!bucket) {
-        buckets[bucketIndex] = []
-        bucket = buckets[bucketIndex]
-      }
-      bucket.push(score)
-    })
 
   const longestBucket = Math.max(...buckets.flatMap((b) => b.length))
 
@@ -73,13 +73,13 @@ export function BucketsPanel({ scores }: PanelProps) {
   )
 
   const onMouseEnterScatter = () => {
-    clearTimeout(timeout)
+    clearTimeout(timeout.current)
     setTooltipActive(true)
   }
 
   const onMouseLeaveScatter = () => {
-    clearTimeout(timeout)
-    timeout = setTimeout(() => setTooltipActive(false), 100)
+    clearTimeout(timeout.current)
+    timeout.current = setTimeout(() => setTooltipActive(false), 100)
   }
 
   const onScatterClick = (data: DataPoint) => {
@@ -88,51 +88,49 @@ export function BucketsPanel({ scores }: PanelProps) {
   }
 
   return (
-    <>
-      <Flex
-        style={{
-          borderRadius: 8,
-          border: `1px solid ${token.colorBorderSecondary}`,
-          backgroundColor: token.colorBgContainer,
+    <div
+      style={{
+        borderRadius: 8,
+        border: `1px solid ${token.colorBorderSecondary}`,
+        backgroundColor: token.colorBgContainer,
+      }}
+    >
+      <ScatterChart
+        width={1222}
+        height={278}
+        margin={{
+          top: 20,
+          right: 5,
+          bottom: 20,
+          left: -10,
         }}
       >
-        <ScatterChart
-          width={1222}
-          height={278}
-          margin={{
-            top: 20,
-            right: 5,
-            bottom: 20,
-            left: -10,
-          }}
-        >
-          <XAxis dataKey='x' type='number' hide />
-          <YAxis
-            dataKey='y'
-            tickFormatter={(val) => `${val * 10}%+`}
-            domain={[0, 9]}
-            tickCount={10}
-            tick={{ fill: '#cfcfcf' }} // pure white felt blinding lol
-            axisLine={false}
-            tickLine={false}
-          />
-          <CartesianGrid opacity={0.2} vertical={false} />
-          <Tooltip
-            cursor={false}
-            active={tooltipActive}
-            content={<TooltipContent />}
-          />
-          <Scatter
-            onMouseEnter={onMouseEnterScatter}
-            onMouseLeave={onMouseLeaveScatter}
-            name='scores'
-            data={data}
-            onClick={onScatterClick}
-            shape={<ShapeFunction />}
-          />
-        </ScatterChart>
-      </Flex>
-    </>
+        <XAxis dataKey='x' type='number' hide />
+        <YAxis
+          dataKey='y'
+          tickFormatter={(val) => `${val * 10}%+`}
+          domain={[0, 9]}
+          tickCount={10}
+          tick={{ fill: '#cfcfcf' }} // pure white felt blinding lol
+          axisLine={false}
+          tickLine={false}
+        />
+        <CartesianGrid opacity={0.2} vertical={false} />
+        <Tooltip
+          cursor={false}
+          active={tooltipActive}
+          content={<TooltipContent />}
+        />
+        <Scatter
+          onMouseEnter={onMouseEnterScatter}
+          onMouseLeave={onMouseLeaveScatter}
+          name='scores'
+          data={data}
+          onClick={onScatterClick}
+          shape={<ShapeFunction />}
+        />
+      </ScatterChart>
+    </div>
   )
 }
 
@@ -145,6 +143,7 @@ function ShapeFunction(untypedProps: unknown) {
       y={props.y - 16.5}
       width={26}
       height={39}
+      style={{ cursor: 'pointer' }}
     />
   )
 }

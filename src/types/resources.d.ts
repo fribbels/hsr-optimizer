@@ -6287,7 +6287,8 @@ interface Resources {
       },
       "PlotOptions": {
         "PlotAll": "Show all characters",
-        "PlotCustom": "Show custom characters"
+        "PlotCustom": "Show custom characters",
+        "PlotOwned": "Show owned characters"
       },
       "EditRelic": "Edit relic",
       "DeleteRelic": {
@@ -6299,7 +6300,8 @@ interface Resources {
     },
     "RelicInsights": {
       "NewStats": "New stats: ",
-      "UpgradedStats": "Upgraded stats: "
+      "UpgradedStats": "Upgraded stats: ",
+      "AvgPotential": "Average potential: "
     }
   },
   "settings": {

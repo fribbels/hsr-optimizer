@@ -22,7 +22,6 @@ interface RelicRerollModalProps {
 
 export default function RelicRerollModal({ open, onClose, relic }: RelicRerollModalProps) {
   const { t } = useTranslation('modals', { keyPrefix: 'RelicReroll' })
-
   const activatedBuffs = useScannerState((s) => s.activatedBuffs)
 
   if (!relic || !relic.reroll_substats) {

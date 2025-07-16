@@ -250,17 +250,16 @@ export class HysilensE1Preprocessor extends AbilityPreprocessorBase {
 
   processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
     const { kind, marker } = turnAbility
-    const e = comboState.comboCharacter.metadata.characterEidolon
 
     if (kind == AbilityKind.ULT) {
       this.state.ultActivated = true
     }
 
     if (kind == AbilityKind.DOT && this.state.ultActivated) {
-      setComboBooleanCategoryCharacterActivation(comboState, 'e1DotDetonation', index, true)
+      setComboBooleanCategoryCharacterActivation(comboState, 'dotDetonation', index, true)
       this.state.ultActivated = false
     } else {
-      setComboBooleanCategoryCharacterActivation(comboState, 'e1DotDetonation', index, false)
+      setComboBooleanCategoryCharacterActivation(comboState, 'dotDetonation', index, false)
     }
 
     if (marker == TurnMarker.END || marker == TurnMarker.WHOLE) {

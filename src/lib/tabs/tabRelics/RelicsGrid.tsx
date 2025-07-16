@@ -17,7 +17,7 @@ import {
   generateBaselineColDefs,
   generateOptionalColDefs,
 } from 'lib/tabs/tabRelics/columnDefs'
-import { TAB_WIDTH } from 'lib/tabs/tabRelics/NewRelicsTab'
+import { TAB_WIDTH } from 'lib/tabs/tabRelics/RelicsTab'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
 import useRelicsTabStore, { ValueColumnField } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { currentLocale } from 'lib/utils/i18nUtils'

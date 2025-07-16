@@ -21,12 +21,12 @@ interface RelicRerollModalProps {
 
 export default function RelicRerollModal({ open, onClose, relic }: RelicRerollModalProps) {
   const { t } = useTranslation('modals', { keyPrefix: 'RelicReroll' })
+  const activatedBuffs = useScannerState((s) => s.activatedBuffs)
 
   if (!relic || !relic.reroll_substats) {
     return null
   }
 
-  const activatedBuffs = useScannerState((s) => s.activatedBuffs)
   const originalRelic = ReliquaryArchiverParser.parseRelic(relic, activatedBuffs, relic.substats)
   const rerolledRelic = ReliquaryArchiverParser.parseRelic(relic, activatedBuffs, relic.reroll_substats)
   if (!originalRelic || !rerolledRelic) {

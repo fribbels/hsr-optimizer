@@ -10,8 +10,8 @@ import DB from 'lib/state/db'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RecentRelics } from 'lib/tabs/tabRelics/RecentRelics'
 import RelicFilterBar from 'lib/tabs/tabRelics/RelicFilterBar'
-import { RelicInsightsPanel } from 'lib/tabs/tabRelics/RelicInsightsPanel'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
+import { RelicInsightsPanel } from 'lib/tabs/tabRelics/relicPreview/relicInsightsPanel/RelicInsightsPanel'
 import { RelicsGrid } from 'lib/tabs/tabRelics/RelicsGrid'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
 import { Toolbar } from 'lib/tabs/tabRelics/Toolbar'
@@ -25,7 +25,6 @@ export const TAB_WIDTH = 1460
 export default function RelicsTab() {
   const { focusCharacter, selectedRelicId, relicModalOpen, setRelicModalOpen, setSelectedRelicsIds } = useRelicsTabStore()
   const { recentRelics } = useScannerState()
-  const relicsById = window.store((s) => s.relicsById)
   const selectedRelic = DB.getRelicById(selectedRelicId ?? '') ?? null
   const { t } = useTranslation('relicsTab')
   const setSelectedRelic = (r: Relic) => setSelectedRelicsIds([r.id])

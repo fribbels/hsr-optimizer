@@ -410,7 +410,6 @@ export const DB = {
     // }
 
     for (const stat of SubStats) {
-      // eslint-disable-next-line
       if (returnScoringMetadata.stats[stat] == null) {
         returnScoringMetadata.stats[stat] = 0
       }

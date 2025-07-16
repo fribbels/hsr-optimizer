@@ -564,14 +564,14 @@ ExpandedDataPanel:
       additionalDmg: Adicional
       trueDmg: 'Verdadero'
       jointDmg: Combinado
-      dotDmg: DOT
+      dotDmg: DoT
       memoDmg: Mnemo
     YAxisLabel:
       BASIC_DMG: Básico
       SKILL_DMG: Habilid.
       ULT_DMG: Definit.
       FUA_DMG: Atq.Adic.
-      DOT_DMG: DOT
+      DOT_DMG: DoT
       BREAK_DMG: Ruptura
       MEMO_SKILL_DMG: Habil.ᴹ
       MEMO_TALENT_DMG: Talentoᴹ
@@ -608,7 +608,7 @@ ExpandedDataPanel:
           Skill: Habilidad
           Ult: Definitiva
           Fua: Atq. Adic.
-          Dot: DOT
+          Dot: DoT
           Break: Ruptura
           Memo Skill: Habilidad mnemo
           Memo Talent: Talento mnemo

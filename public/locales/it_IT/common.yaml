@@ -51,25 +51,25 @@ Stats:
   CRIT DMG: DAN da Crit.
   Effect Hit Rate: Tasso di Successo Effetto
   Effect RES: RES Effetti
-  Break Effect: Break Effect
+  Break Effect: Effetto Break
   Energy Regeneration Rate: Tasso di Rigenerazione Energia
-  Outgoing Healing Boost: Outgoing Healing Boost
-  Physical DMG Boost: 'Aumento DANNO $t(gameData:Elements.Physical)'
-  Fire DMG Boost: 'Aumento DANNO $t(gameData:Elements.Fire)'
-  Ice DMG Boost: 'Aumento DANNO $t(gameData:Elements.Ice)'
-  Lightning DMG Boost: 'Aumento DANNO $t(gameData:Elements.Thunder)'
-  Wind DMG Boost: 'Aumento DANNO $t(gameData:Elements.Wind)'
-  Quantum DMG Boost: 'Aumento DANNO $t(gameData:Elements.Quantum)'
-  Imaginary DMG Boost: 'Aumento DANNO $t(gameData:Elements.Imaginary)'
+  Outgoing Healing Boost: Aumento Cure in Uscita
+  Physical DMG Boost: 'Aumento DAN da $t(gameData:Elements.Physical)'
+  Fire DMG Boost: 'Aumento DAN da $t(gameData:Elements.Fire)'
+  Ice DMG Boost: 'Aumento DAN da $t(gameData:Elements.Ice)'
+  Lightning DMG Boost: 'Aumento DAN da $t(gameData:Elements.Thunder)'
+  Wind DMG Boost: 'Aumento DAN da $t(gameData:Elements.Wind)'
+  Quantum DMG Boost: 'Aumento DAN da $t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: 'Aumento DAN da$t(gameData:Elements.Imaginary)'
 ShortStats:
-  "HP%": HP%
+  "HP%": PV%
   HP: PV
   "ATK%": ATT%
   ATK: ATT
-  "DEF%": DEF%
+  "DEF%": DIF%
   DEF: DIF
-  "SPD%": SPD%
-  SPD: SPD
+  "SPD%": VEL%
+  SPD: VEL
   CRIT Rate: CR
   CRIT DMG: CD
   Effect Hit Rate: EHR
@@ -85,13 +85,13 @@ ShortStats:
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
 ShortSpacedStats:
-  "HP%": HP %
+  "HP%": PV %
   HP: PV
-  "ATK%": ATK %
-  ATK: ATK
-  "DEF%": DEF %
+  "ATK%": ATT %
+  ATK: ATT
+  "DEF%": DIF %
   DEF: DIF
-  "SPD%": SPD %
+  "SPD%": VEL %
   SPD: VEL
   CRIT Rate: CR
   CRIT DMG: CD
@@ -107,47 +107,47 @@ ShortSpacedStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
-Damage: DANNO
-DamagePercent: DANNO %
+Damage: DAN
+DamagePercent: DAN %
 ReadableStats:
-  "HP%": HP %
-  HP: HP
-  "ATK%": ATK %
-  ATK: ATK
-  "DEF%": DEF %
-  DEF: DEF
-  "SPD%": SPD %
-  SPD: SPD
-  CRIT Rate: Prob. CRIT
-  CRIT DMG: DAN da Crit.
-  Effect Hit Rate: Effect HIT
-  Effect RES: Effect RES
-  Break Effect: Break Effect
-  Energy Regeneration Rate: Energy Regen
-  Outgoing Healing Boost: Healing Boost
-  Physical DMG Boost: 'DANNO $t(gameData:Elements.Physical)'
-  Fire DMG Boost: 'DANNO $t(gameData:Elements.Fire)'
-  Ice DMG Boost: 'DANNO $t(gameData:Elements.Ice)'
-  Lightning DMG Boost: 'DANNO $t(gameData:Elements.Thunder)'
-  Wind DMG Boost: 'DANNO $t(gameData:Elements.Wind)'
-  Quantum DMG Boost: 'DANNO $t(gameData:Elements.Quantum)'
-  Imaginary DMG Boost: 'DANNO $t(gameData:Elements.Imaginary)'
-ShortReadableStats:
-  "HP%": HP %
+  "HP%": PV %
   HP: PV
-  "ATK%": ATK %
+  "ATK%": ATT %
   ATK: ATT
-  "DEF%": DEF %
+  "DEF%": DIF %
   DEF: DIF
-  "SPD%": SPD %
+  "SPD%": VEL %
+  SPD: VEL
+  CRIT Rate: Tasso di Crit.
+  CRIT DMG: DAN da Crit.
+  Effect Hit Rate: HIT Effetto
+  Effect RES: RES Effetti
+  Break Effect: Effetto Break
+  Energy Regeneration Rate: Rigen. Energia
+  Outgoing Healing Boost: Aumento Cure
+  Physical DMG Boost: 'DAN da $t(gameData:Elements.Physical)'
+  Fire DMG Boost: 'DAN da $t(gameData:Elements.Fire)'
+  Ice DMG Boost: 'DAN da $t(gameData:Elements.Ice)'
+  Lightning DMG Boost: 'DAN da $t(gameData:Elements.Thunder)'
+  Wind DMG Boost: 'DAN da $t(gameData:Elements.Wind)'
+  Quantum DMG Boost: 'DAN da $t(gameData:Elements.Quantum)'
+  Imaginary DMG Boost: 'DAN da $t(gameData:Elements.Imaginary)'
+ShortReadableStats:
+  "HP%": PV %
+  HP: PV
+  "ATK%": ATT %
+  ATK: ATT
+  "DEF%": DIF %
+  DEF: DIF
+  "SPD%": VEL %
   SPD: VEL
   CRIT Rate: Tasso di Crit.
   CRIT DMG: DAN da Crit.
   Effect Hit Rate: HIT
   Effect RES: RES
   Break Effect: Break
-  Energy Regeneration Rate: Energy
-  Outgoing Healing Boost: Healing
+  Energy Regeneration Rate: Energia
+  Outgoing Healing Boost: Cure
   Physical DMG Boost: '$t(gameData:Elements.Physical)'
   Fire DMG Boost: '$t(gameData:Elements.Fire)'
   Ice DMG Boost: '$t(gameData:Elements.Ice)'
@@ -164,24 +164,24 @@ Elements:
   Quantum: '$t(gameData:Elements.Quantum)'
   Imaginary: '$t(gameData:Elements.Imaginary)'
 DMGTypes:
-  simScore: DANNI Combo
+  simScore: DAN da Combo
   BASIC: Danno Att. Base
   SKILL: Danno Abilità
   ULT: Danno Ult
-  FUA: Danno Fua
+  FUA: Danno FuA
   MEMO_SKILL: Danno Abilità Memo
   MEMO_TALENT: Danno Talento Memo
-  DOT: Danno Dot
+  DOT: Danno DoT
   BREAK: Danno Break
   CV: CV
 ShortDMGTypes:
-  Basic: DANNO Att. Base
-  Skill: DANNO Abilità
-  Ult: DANNO Ult
-  Fua: DANNO Fua
-  Memo_Skill: DANNO Abilitàᴹ
-  Memo_Talent: DANNO Talentoᴹ
-  Dot: DANNO DoT
-  Break: DANNO Break
+  Basic: DAN da Att. Base
+  Skill: DAN da Abilità
+  Ult: DAN da Ult
+  Fua: DAN da Fua
+  Memo_Skill: DAN da Abilitàᴹ
+  Memo_Talent: DAN da Talentoᴹ
+  Dot: DAN da DoT
+  Break: DAN da Break
   CV: CV
 CurrentVersion: 'Versione attuale: ({{Version}})'

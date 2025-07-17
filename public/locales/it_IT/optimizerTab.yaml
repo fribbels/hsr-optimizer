@@ -1,8 +1,12 @@
 CharacterSelector:
   Character: Personaggi
+  Lightcone: Cono di Luce
+LightconePassives: Passive cono di luce
 CharacterPassives: Passive personaggio
 MainStats: Statistiche principali
+Sets: Set
 OptimizerOptions:
+  Header: Opzioni ottimizzatore
   Priority:
     Header: Priorità
 Grid:
@@ -26,6 +30,8 @@ Sidebar:
       CPU: Motore di calcolo impostato su CPU
       Stable: Motore di calcolo impostato su GPU (Stabile)
       Experimental: Motore di calcolo impostato su GPU (Sperimentale)
+  StatViewGroup:
+    Header: Vista statistiche e filtri
   ResultsGroup:
     EquipSuccessMessage: Equipaggiato
 SetConditionals:
@@ -77,6 +83,8 @@ TeammateCard:
   RelicsPlaceholder: Reliquie
   TeammateSyncSuccessMessage: Informazioni compagno di squadra sincronizzate
 StatSimulation:
+  SetSelection:
+    Header: Set
   MainStatsSelection:
     Header: Statistiche principali
     BodyPlaceholder: Corpo

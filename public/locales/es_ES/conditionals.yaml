@@ -38,10 +38,10 @@ Lightcones:
     Content:
       ultAtkBoost:
         text: Aumento ATQ Definitiva
-        content: Luego de usar la habilidad definitiva, aumenta el ATQ del portador en un {{UltAtkBuff}}%
+        content: Cuando el portador lanza su habilidad definitiva, su ATQ aumenta en un {{UltAtkBuff}}%
       energyAtkBuff:
-        text: Mejora de ATQ/Energía
-        content: Luego de usar la habilidad definitiva, si la energía máxima del portador es mayor o igual a 300 pts., recupera una cantidad fija de energía equivalente al 10% de la energía máxima del portador y aumenta su ATQ en {{EnergyAtkBuff}}% por dos turnos.
+        text: Mejora de ATQ / Energía
+        content: Cuando el portador lanza su habilidad definitiva, si la energía máxima del portador es igual o mayor que 300, recupera una cantidad fija de energía equivalente al 10% de su energía máxima y su ATQ aumenta en un {{EnergyAtkBuff}}% durante 2 turnos.
   AnInstantBeforeAGaze:
     Content:
       maxEnergyDmgBoost:
@@ -314,10 +314,10 @@ Lightcones:
     Content:
       spAtkBuff:
         text: Mejora de ATQ por SP
-        content: Tras entrar en combate, y si los puntos de habilidad básica máximos son 6 o más, aumenta el ATQ del portador en un {{SPAtkBuff}}%.
+        content: Al entrar en combate, si el límite máximo de pts. de habilidad básica de los aliados es 6 o más, el ATQ del portador aumenta en un {{SPAtkBuff}}%.
       atkBuffStacks:
         text: Acumulaciones mejora de ATQ
-        content: Luego de que el portador use su habilidad básica, aumenta su ATQ en un {{ScalingAtkBuff}}%, acumulable hasta 4 veces.
+        content: Cada vez que el portador lanza su habilidad básica, su ATQ aumenta en un {{ScalingAtkBuff}}%. Este efecto se puede acumular hasta 4 veces.
   TheUnreachableSide:
     Content:
       dmgBuff:
@@ -337,10 +337,10 @@ Lightcones:
     Content:
       defPen:
         text: PEN DEF
-        content: Cuando el portador inflige daño, ignora el {{DefIgnore}}% de la DEF del objetivo.
+        content: El portador ignora un {{DefIgnore}}% de la DEF del objetivo cuando inflige daño.
       dmgBuff:
         text: Mejora de daño
-        content: Mientras se posea "Sol ardiente", aumenta el daño del portador en un {{DmgBuff}}%.
+        content: Cuando tiene Sol abrasador, el daño que inflige el portador aumenta en un {{DmgBuff}}%.
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -380,8 +380,8 @@ Lightcones:
   ADreamScentedInWheat:
     Content:
       ultFuaDmgBoost:
-        text: Aumento de daño de Definitiva / Ataque adicional
-        content: Aumenta el daño de habilidad definitiva y ataque adicional del portador en un {{DmgBuff}}%.
+        text: Aumento de daño de Definitiva / atq. adicional
+        content: El daño de habilidad definitiva y de ataque adicional infligidos por el portador aumentan en un {{DmgBuff}}%.
   AfterTheCharmonyFall:
     Content:
       spdBuff:
@@ -396,7 +396,7 @@ Lightcones:
     Content:
       skillUltDmgBoost:
         text: Aumento de daño de Habilidad / Definitiva
-        content: Aumenta el daño de la habilidad básica y la habilidad definitiva del portador en un {{DmgBuff}}%.
+        content: El daño de habilidad definitiva y de ataque adicional infligidos por el portador aumentan en un {{DmgBuff}}%.
   BoundlessChoreo:
     Content:
       enemyDefReducedSlowed:
@@ -486,14 +486,15 @@ Lightcones:
     Content:
       dmgBoost:
         text: Aumento de daño
-        content: Aumenta el daño del portador en un {{DmgBuff}}%.
+        content: El daño que inflige el portador aumenta en un {{DmgBuff}}%.
       vulnerability:
         text: Vulnerabilidad
+        content: Después de que el portador ataque, hay un 100% de probabilidad base de afectar con Vulnerabilidad a los objetivos atacados y hacer que reciban un {{Vulnerability}}% más de daño durante 2 turnos.
   InPursuitOfTheWind:
     Content:
       breakDmgBoost:
         text: Aumento de Daño de Ruptura
-        content: Aumenta el Daño de Ruptura de todos los aliados en un {{BreakDmgBuff}}%.
+        content: El Daño de Ruptura que infligen todos los aliados aumenta en un {{BreakDmgBuff}}%.
   IndeliblePromise:
     Content:
       crBuff:
@@ -509,10 +510,10 @@ Lightcones:
     Content:
       shieldBoost:
         text: Mejora de escudo
-        content: Aumenta el efecto de los escudos del portador en un {{ShieldBuff}}%.
+        content: El efecto de escudo otorgado por el portador aumenta en un {{ShieldBuff}}%.
       dmgBoost:
         text: Aumento de daño por escudo
-        content: Cuando un aliado está protegido por un escudo, aumenta el daño que inflige en un {{DmgBuff}}%.
+        content: Cuando un aliado tiene un escudo, el daño que inflige aumenta en un {{DmgBuff}}%.
   MakeTheWorldClamor:
     Content:
       ultDmgBuff:
@@ -567,8 +568,8 @@ Lightcones:
   SeeYouAtTheEnd:
     Content:
       skillFuaDmgBoost:
-        text: Aumento de daño de Habilidad / Ataque adicional
-        content: El daño de habilidad básica y ataque adicional del portador aumentan en un {{DmgBuff}}%.
+        text: Aumento de daño de Habilidad / atq. adicional
+        content: El daño de habilidad básica y de ataque adicional infligidos por el portador aumentan en un {{DmgBuff}}%.
   ShadowedByNight:
     Content:
       spdBuff:
@@ -599,6 +600,11 @@ Lightcones:
       cdBuffActive:
         text: 'Mejora de DC por golpe a ≥ 2 enemigos con misma debilidad'
         content: Cuando el portador lanza un ataque y golpea como mínimo a 2 enemigos que tengan su tipo de Debilidad, el Daño CRIT del portador aumenta en un {{CritBuff}}% durante 2 turnos.
+  TheFlowerRemembers:
+    Content:
+      memoCdBoost:
+        text: Aumento de DC Mnemo
+        content: El Daño CRIT que inflige el mnemoduende del portador aumenta en un {{CritDmgBuff}}%.
   TheGreatCosmicEnterprise:
     Content:
       weaknessTypes:
@@ -617,6 +623,11 @@ Lightcones:
       defeatedEnemyAtkStacks:
         text: Acumulaciones de ATQ por enemigos derrotados
         content: Por cada enemigo que elimina, su ATQ aumenta en un {{AtkBuff}}%. Este efecto se puede acumular hasta 3 veces.
+  TheStorysNextPage:
+    Content:
+      ohbBuff:
+        text: Mejora de BCR
+        content: Después de que el mnemoduende del portador ataque, la curación realizada del portador y su mnemoduende aumenta en un {{OHBBuff}}% durante 1 turno.
   ThisIsMe:
     Content:
       defScalingUltDmg:
@@ -633,6 +644,11 @@ Lightcones:
       defeatedEnemyCrBuff:
         text: Mejora de PC por enemigo derrotado
         content: Cuando el portador derrota a un enemigo, su Prob. CRIT aumenta en un {{CritBuff}}% durante 3 turnos.
+  UntoTomorrowsMorrow:
+    Content:
+      hp50DmgBoost:
+        text: Aumento daño PV  ≥ 50%
+        content: Si el porcentaje de PV actual de un aliado es igual o superior al 50%, el daño que inflige aumenta en un {{DmgBuff}}%.
   VictoryInABlink:
     Content:
       teamDmgBuff:
@@ -819,6 +835,10 @@ Characters:
     Content:
       cdBuff:
         text: Mejora de DC
+        content: Después de que los aliados obtengan pts. de habilidad básica, si hay 4 o más pts. de habilidad básica, el Daño CRIT de Archer aumenta en un 120% durante 1 turno.
+      skillEnhances:
+        text: Mejoras de Habilidad
+        content: Luego de que Archer lanza su habilidad básica, el turno no termina y el daño que inflige la habilidad básica de Archer aumenta en un {{SkillDmgBuff}}%.
       e6Buffs:
         text: E6 Mejoras
   Argenti:

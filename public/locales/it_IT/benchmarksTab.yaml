@@ -8,8 +8,8 @@ MiddlePanel:
 RightPanel:
   Settings:
     Header: Impostazioni
-    SPD: SPD base del benchmark
-    ERR: Corda energy regen
+    SPD: VEL base del benchmark
+    ERR: Corda di rigen. energia
     SubDPS: DPS secondario
   SetsHeader: Set del benchmark
   ButtonText:
@@ -21,8 +21,8 @@ ResultsGrid:
   Sets: Set
 ResultsTabs:
   WithSpeed:
-    100: Build benchmark 100% ({{Speed}} SPD)
-    200: Build benchmark 200% ({{Speed}} SPD)
+    100: Build benchmark 100% ({{Speed}} VEL)
+    200: Build benchmark 200% ({{Speed}} VEL)
   WithoutSpeed:
     100: Build benchmark 100%
     200: Build benchmark 200%
@@ -34,6 +34,6 @@ ResultsPanel:
   Damage: Danni Abilità
 Messages:
   Error:
-    MissingField: Personaggio/light cone/compagni di squadra mancanti
+    MissingField: Personaggio/cono di luce/compagni di squadra mancanti
     UnsupportedCharacter: I benchmark DPS non sono supportati per questo personaggio
-    SPDUnselected: Seleziona la SPD base del benchmark
+    SPDUnselected: Seleziona la VEL base del benchmark

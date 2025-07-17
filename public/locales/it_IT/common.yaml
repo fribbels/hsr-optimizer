@@ -39,20 +39,20 @@ ReadableParts:
   PlanarSphere: Sfera
   LinkRope: Corda
 Stats:
-  "HP%": HP%
-  HP: HP
-  "ATK%": ATK%
-  ATK: ATK
-  "DEF%": DEF%
-  DEF: DEF
-  "SPD%": SPD%
-  SPD: SPD
-  CRIT Rate: Prob. CRIT
-  CRIT DMG: DANNO CRIT
-  Effect Hit Rate: Effect Hit Rate
-  Effect RES: Effect RES
+  "HP%": PV%
+  HP: PV
+  "ATK%": ATT%
+  ATK: ATT
+  "DEF%": DIF%
+  DEF: DIF
+  "SPD%": VEL%
+  SPD: VEL
+  CRIT Rate: Tasso di Crit.
+  CRIT DMG: DAN da Crit.
+  Effect Hit Rate: Tasso di Successo Effetto
+  Effect RES: RES Effetti
   Break Effect: Break Effect
-  Energy Regeneration Rate: Energy Regeneration Rate
+  Energy Regeneration Rate: Tasso di Rigenerazione Energia
   Outgoing Healing Boost: Outgoing Healing Boost
   Physical DMG Boost: 'Aumento DANNO $t(gameData:Elements.Physical)'
   Fire DMG Boost: 'Aumento DANNO $t(gameData:Elements.Fire)'
@@ -63,11 +63,11 @@ Stats:
   Imaginary DMG Boost: 'Aumento DANNO $t(gameData:Elements.Imaginary)'
 ShortStats:
   "HP%": HP%
-  HP: HP
-  "ATK%": ATK%
-  ATK: ATK
+  HP: PV
+  "ATK%": ATT%
+  ATK: ATT
   "DEF%": DEF%
-  DEF: DEF
+  DEF: DIF
   "SPD%": SPD%
   SPD: SPD
   CRIT Rate: CR
@@ -86,13 +86,13 @@ ShortStats:
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
 ShortSpacedStats:
   "HP%": HP %
-  HP: HP
+  HP: PV
   "ATK%": ATK %
   ATK: ATK
   "DEF%": DEF %
-  DEF: DEF
+  DEF: DIF
   "SPD%": SPD %
-  SPD: SPD
+  SPD: VEL
   CRIT Rate: CR
   CRIT DMG: CD
   Effect Hit Rate: EHR
@@ -119,7 +119,7 @@ ReadableStats:
   "SPD%": SPD %
   SPD: SPD
   CRIT Rate: Prob. CRIT
-  CRIT DMG: DANNO CRIT
+  CRIT DMG: DAN da Crit.
   Effect Hit Rate: Effect HIT
   Effect RES: Effect RES
   Break Effect: Break Effect
@@ -134,15 +134,15 @@ ReadableStats:
   Imaginary DMG Boost: 'DANNO $t(gameData:Elements.Imaginary)'
 ShortReadableStats:
   "HP%": HP %
-  HP: HP
+  HP: PV
   "ATK%": ATK %
-  ATK: ATK
+  ATK: ATT
   "DEF%": DEF %
-  DEF: DEF
+  DEF: DIF
   "SPD%": SPD %
-  SPD: SPD
-  CRIT Rate: Prob. CRIT
-  CRIT DMG: DANNO CRIT
+  SPD: VEL
+  CRIT Rate: Tasso di Crit.
+  CRIT DMG: DAN da Crit.
   Effect Hit Rate: HIT
   Effect RES: RES
   Break Effect: Break

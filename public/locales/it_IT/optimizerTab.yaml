@@ -1,5 +1,5 @@
 CharacterSelector:
-  Character: Personaggi
+  Character: Personaggio
   Lightcone: Cono di Luce
 LightconePassives: Passive cono di luce
 CharacterPassives: Passive personaggio
@@ -12,10 +12,10 @@ OptimizerOptions:
 Grid:
   Headers:
     Basic:
-      ATK: ATK
-      DEF: DEF
-      HP: HP
-      SPD: SPD
+      ATK: ATT
+      DEF: DIF
+      HP: PV
+      SPD: VEL
       CR: CR
       CD: CD
       EHR: EHR
@@ -40,30 +40,30 @@ SetConditionals:
       Debuffed:
         Display: CR
 CombatBuffs:
-  ATK: ATK
-  ATK_P: ATK %
-  HP: HP
-  HP_P: HP %
-  DEF: DEF
-  DEF_P: DEF %
-  SPD: SPD
-  SPD_P: SPD %
+  ATK: ATT
+  ATK_P: ATT %
+  HP: PV
+  HP_P: PV %
+  DEF: DIF
+  DEF_P: DIF %
+  SPD: VEL
+  SPD_P: VEL %
 WeightFilter:
   WeightFilterHeader: Filtro peso statistiche secondarie
-  HPFilterText: HP
-  ATKFilterText: ATK
-  DEFFilterText: DEF
-  SPDFilterText: SPD
+  HPFilterText: PV
+  ATKFilterText: ATT
+  DEFFilterText: DIF
+  SPDFilterText: VEL
   CRFilterText: CR
   CDFilterText: CD
   EHRFilterText: EHR
   RESFilterText: RES
   BEFilterText: BE
 MinMaxFilters:
-  HPLabel: HP
-  ATKLabel: ATK
-  DEFLabel: DEF
-  SPDLabel: SPD
+  HPLabel: PV
+  ATKLabel: ATT
+  DEFLabel: DIF
+  SPDLabel: VEL
   CRLabel: CR
   CDLabel: CD
   EHRLabel: EHR
@@ -98,8 +98,8 @@ ExpandedDataPanel:
     YAxisLabel:
       BREAK_DMG: Break
     TooltipText:
-      breakDmg: DANNO Break
-      dotDmg: DANNO DoT
+      breakDmg: DAN da Break
+      dotDmg: DAN da DoT
   BuffsAnalysisDisplay:
     Values:
       BoolFalse: 'No'
@@ -112,4 +112,4 @@ ExpandedDataPanel:
           Vulnerability: Vulnerabilità
           DMG: DANNO
       Misc:
-        Combo DMG: DANNI Combo
+        Combo DMG: DAN da Combo

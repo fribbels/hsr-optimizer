@@ -167,6 +167,8 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   ADDITIONAL_DMG_BOOST: { label: optimizerTabMisc('Additional DMG boost') },
   ULT_ADDITIONAL_DMG_CR_OVERRIDE: { label: optimizerTabMisc('Ult Additional DMG CR override') },
   ULT_ADDITIONAL_DMG_CD_OVERRIDE: { label: optimizerTabMisc('Ult Additional DMG CD override') },
+  DOT_DMG_CR_OVERRIDE: { label: optimizerTabMisc('Dot DMG CR override') },
+  DOT_DMG_CD_OVERRIDE: { label: optimizerTabMisc('Dot DMG CD override') },
 
   // Abilities to damage type mapping
   BASIC_DMG_TYPE: { flat: true, default: BASIC_DMG_TYPE, label: optimizerTabDmgTypes('Basic') },

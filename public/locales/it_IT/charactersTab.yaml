@@ -47,21 +47,21 @@ CharacterPreview:
   ScoringSidebar:
     Stats:
       Header: Statistiche
-      ButtonText: Trace
+      ButtonText: Tracce
     SpdPrecision:
-      Header: Precisione SPD
+      Header: Precisione VEL
       Low: ".0"
       High: ".000"
     SpdWeight:
-      Header: Peso SPD
+      Header: Peso VEL
       Max: 100%
       Min: 0%
     BenchmarkSpd:
-      Header: SPD benchmark
+      Header: VEL benchmark
       BenchmarkOptionsLabel: Opzioni benchmark
-      CurrentSpdLabel: SPD attuale - Il benchmark userà la tua SPD attuale
-      BaseSpdLabel: SPD base - Il benchmark punterà a una build con SPD minima
-      CommonBreakpointsLabel: Preset punti d'arresto di SPD comuni (Buff di SPD condiderati separatamente)
+      CurrentSpdLabel: VEL attuale - Il benchmark userà la tua VEL attuale
+      BaseSpdLabel: VEL base - Il benchmark punterà a una build con VEL minima
+      CommonBreakpointsLabel: Punti d'arresto di VEL comuni (Buff di VEL considerati separatamente)
     BuffPriority:
       Header: Modalità DPS
       High: Principale

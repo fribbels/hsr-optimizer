@@ -8,7 +8,7 @@ CharacterMenu:
     Label: Personaggio
     Options:
       Add: Aggiungi nuovo personaggio
-      Edit: Modifica personaggio / light cone
+      Edit: Modifica personaggio / cono di luce
       Switch: Scambia reliquie con
       Unequip: Disequipaggia personaggio
       Delete: Elimina personaggio
@@ -76,29 +76,29 @@ CharacterPreview:
     ShowUID: Mostra UID
   ArtBy: "Immagine di {{artistName}}"
   EditCharacter: Modifica personaggio
-  EditPortrait: Modifica ritratto
-  CharacterScore: "Punteggio Personaggio: {{score}} {{grade}}"
+  EditPortrait: Modifica immagine
+  CharacterScore: "Punteggio PG: {{score}} {{grade}}"
   Messages:
     AddedRelic: Reliquia aggiunta con successo
     SavedPortrait: Immagine di copertina salvata con successo
     RevertedPortrait: Immagine di copertina ripristinata con successo
     NoSelectedCharacter: Nessun personaggio selezionato
-    NoSelectedLightCone: Nessun light cone selezionato
+    NoSelectedLightCone: Nessun cono di luce selezionato
   ScoreHeader:
-    Title: Sim Combattimento
-    TitleBenchmark: "{{spd}} SPD Benchmark"
+    Title: Sim Combat
+    TitleBenchmark: "{{spd}} VEL Benchmark"
     Score: "Punteggio DPS {{score}}% {{grade}}"
   AlgorithmSlider:
     Title: "Algoritmo del punteggio:"
     Labels:
-      CombatScore: Punteggio Combattimento
-      CombatScoreTBD: Combattimento (TBD)
-      StatScore: Punteggio Statistiche
+      CombatScore: Punteggio Combat
+      CombatScoreTBD: Combat (TBD)
+      StatScore: Punteggio Stat
       NoneScore: Nessuno
   DetailsSlider:
     Labels:
-      CombatStats: Statistiche Combattimento
-      SubDpsCombatStats: Statistiche Combattimento (DPS secondario)
+      CombatStats: Stat Combat
+      SubDpsCombatStats: Stat Combat (DPS secondario)
   DMGUpgrades: Miglioramento danno
   SubstatUpgradeComparisons:
     Header: Confronto miglioramento statistiche secondarie
@@ -108,21 +108,21 @@ CharacterPreview:
     SubStatUpgrade: Miglioramento Stat. Secondaria
     DpsScorePercentUpgrade: Punteggio DPS Δ %
     UpgradedDpsScore: Punteggio DPS migliorato
-    ComboDmgPercentUpgrade: DANNI Combo Δ %
-    ComboDmgUpgrade: DANNI Combo Δ
+    ComboDmgPercentUpgrade: DAN da Combo Δ %
+    ComboDmgUpgrade: DAN da Combo Δ
   BuildAnalysis:
     ScoringNote: >-
-      Il punteggio DPS valuta la qualità della build confrontando i danni di una rotazione abilità con le build di riferimento con la stessa squadra / light cone / eidolon. Punteggi e DANNI Combo sono misurati tenendo in considerazione solo la configurazione della squadra configurata, e non dovrebbero essere confrontati tra configurazioni diverse.
-    RelicRarityHeader: Confronti miglioramento rarità reliquie
+      Il punteggio DPS valuta la qualità della build confrontando i danni di una rotazione abilità con le build di riferimento con la stessa squadra / coni di luce / eidolon. Punteggi e DAN da Combo sono misurati tenendo in considerazione solo la configurazione della squadra scelta, e non dovrebbero essere confrontati tra configurazioni diverse.
+    RelicRarityHeader: Confronti miglioramento grado reliquie
     RelicRarityNote: |-
       La TBP stimata misura il tempo di farming previsto in Giorni e Trailblaze Power necessari per migliorare ogni reliquia in base al peso delle statistiche del personaggio.
-      Si tratta di una metrica di rarità statistica per definire le priorità di farming, e non riflette nè ha un impatto sul Punteggo DPS e sui DANNI Combo.
-    Header: Calcoli Punteggio DPS
+      Si tratta di una metrica di rarità statistica per definire le priorità di farming, e non riflette nè ha un impatto sul Punteggo DPS e sui DAN da Combo.
+    Header: Calcolo del Punteggio DPS
     SimulationTeammates: Compagni di squadra nella simulazione
     SimulatedBenchmarks: Build di riferimento simulate
     SimulationSets: Set usati nella simulazione
     Rotation:
-      Header: Rotazione dei DANNI Combo
+      Header: Rotazione dei DAN da Combo
       BASIC: ATT. BASE
       SKILL: ABILITÀ
       ULT: ULT
@@ -134,10 +134,10 @@ CharacterPreview:
     CombatResults:
       Header: Risultato dei danni in combattimento
       Primary: "Abilità primaria:"
-      Character: "DANNO del Personaggio:"
-      Benchmark: "DANNO del Benchmark:"
-      Baseline: "DANNO in linea di base:"
-      Maximum: "DANNO massimo:"
+      Character: "Danni del Personaggio:"
+      Benchmark: "Danni del Benchmark:"
+      Baseline: "Danni in linea di base:"
+      Maximum: "Danni massimi:"
       Score: "Punteggio DPS %:"
       Abilities:
         BASIC: DANNO ATT. BASE
@@ -162,26 +162,26 @@ CharacterPreview:
       Abilities: Danni abilità del personaggio
     Benchmark:
       Header: "Build benchmark ({{score}}%)"
-      BasicStats: Statistiche base 100% benchmark
-      CombatStats: <1>Statistiche in combattimento</1> 100% benchmark
-      Substats: Statistiche secondarie 100% (roll minimi)
-      Mainstats: Statistiche principali 100% benchmark
-      Abilities: Danni abilità 100% benchmark
+      BasicStats: Statistiche base del benchmark 100%
+      CombatStats: <1>Statistiche in combattimento</1> del benchmark 100%
+      Substats: Statistiche secondarie del benchmark 100% (roll minimi)
+      Mainstats: Statistiche principali del benchmark 100%
+      Abilities: Danni abilità del benchmark 100%
     Perfect:
       Header: "Build perfetta ({{score}}%)"
       BasicStats: Statistiche base perfette 200%
-      CombatStats: <1>Statistiche in combattimento</1> 200% perfette
+      CombatStats: <1>Statistiche in combattimento</1> perfette 200%
       Substats: Statistiche secondarie 200% (roll massimi)
-      Mainstats: Statistiche principali 200% perfette
-      Abilities: Danni abilità 200% perfetti
+      Mainstats: Statistiche principali perfette 200%
+      Abilities: Danni abilità perfetti 200%
   ScoringDetails:
     Header: Com'è calcolato il Punteggio DPS?
   EST-TBP:
-    Header: Analisi Punteggio Statistiche
+    Header: Analisi del Punteggio Statistiche
     RollsCard:
       Perfection: Perfezione
     MetricsCard:
       Days: Giorni
-      Rolls: Roll pesati
+      Rolls: Roll Pesati
       TBP: TBP Stimata
-      Potential: Potenziale di Reroll
+      Potential: Potenziale Reroll

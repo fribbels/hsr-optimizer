@@ -80,7 +80,7 @@ EnemyOptions:
   p6: Debolezza elementale - Se il nemico è debole al tipo del personaggio. Se abilitata imposta la % di RES elementale del nemico a 0.
   p7: Debolezza rotta - Se la barra di resistenza del nemico è rotta. Influenza i calcoli dei danni e alcune passive dei personaggi.
 SubstatWeightFilter:
-  Title: Filtro peso statistiche secondarie
+  Title: Filtro peso stat secondarie
   p1: Questo filtro è utilizzato per ridurre il numero di permutazioni che l'ottimizzatore deve elaborare.
   p2: Funziona valutando prima ogni reliquia per ogni slot con i pesi definiti, poi filtrando in base al numero minimo di roll pesati che la reliquia ha.
   p3: Solo le reliquie che hanno più del numero specificato di roll pesati verranno utilizzate per la ricerca dell'ottimizzatore.

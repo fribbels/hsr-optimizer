@@ -839,8 +839,15 @@ Characters:
       skillEnhances:
         text: Mejoras de Habilidad
         content: Luego de que Archer lanza su habilidad básica, el turno no termina y el daño que inflige la habilidad básica de Archer aumenta en un {{SkillDmgBuff}}%.
+      e2QuantumResPen:
+        text: E2 PEN RES Cuántica
+        content: Al lanzar la habilidad definitiva, la RES a Cuántico del enemigo se reduce en un 20% y se le implanta Debilidad Cuántica durante 2 turnos.
+      e4UltDmg:
+        text: E4 Daño Definitiva
+        content: El daño de habilidad definitiva infligido aumenta en un 150%.
       e6Buffs:
         text: E6 Mejoras
+        content: El límite de acumulaciones del efecto de incremento de daño de su habilidad básica aumenta en 1. El daño de habilidad básica infligido ignora un 20% de la DEF.
   Argenti:
     Content:
       ultEnhanced:
@@ -953,12 +960,20 @@ Characters:
     Content:
       enhancedStateActive:
         text: Panorama infernal
+        content: Al lanzar su habilidad básica, consume un 30% de los PV máx. de Blade y entra en el estado Panorama infernal. En el estado Panorama infernal no puede lanzar la habilidad básica y el daño que inflige Blade aumenta en un {{DmgBuff}}%. Además, aumenta en gran medida la probabilidad de recibir ataques de los enemigos. El ATQ básico Espada fragmentada se potencia y se transforma en Bosque de espadas durante 3 turnos.
       hpPercentLostTotal:
         text: Total de %PV perdidos
+        content: >-
+          Al lanzar su habilidad definitiva, inflige a un enemigo un Daño de Viento equivalente al {{UltHpScaling}}% de los PV máx. de Blade + {{HpTallyUltScaling}}% del recuento de PV que ha perdido en esta batalla. ::BR:: E1: El daño que infligen el ATQ básico potenciado y la habilidad definitiva de Blade a un enemigo determinado aumenta en una cantidad adicional equivalente al 150% del recuento de PV perdidos de la habilidad definitiva.
+      e1BasicUltMultiBoost:
+        text: "E1 Mejora de\nDefinitiva / Básico"
+        content: El daño que infligen el ATQ básico potenciado y la habilidad definitiva de Blade a un enemigo determinado aumenta en una cantidad adicional equivalente al 150% del recuento de PV perdidos de la habilidad definitiva.
       e2CrBuff:
         text: E2 Mejora de PC
+        content: Cuando Blade está en el estado Panorama infernal, su Prob. CRIT aumenta en un 15%.
       e4MaxHpIncreaseStacks:
         text: E4 Acumulaciones de PV máx.
+        content: Cuando el porcentaje de PV pasa de ser superior al 50% a igual o inferior al 50%, los PV máx. aumentan en un 20%. Este efecto se puede acumular hasta 2 veces.
   Boothill:
     Content:
       standoffActive:
@@ -1439,11 +1454,26 @@ Characters:
     Content:
       talentEnhancedState:
         text: Estado potenciado
+        content: >-
+          Cuando Jingliu tiene 2 acumulaciones de Sizigia, entra en el estado de Transmigración espectral y su Prob. CRIT aumenta en un {{UltCRBuff}}%. ::BR:: En el estado Transmigración espectral, la RES a efecto aumenta en un 35% y el daño de habilidad definitiva infligido aumenta en un 20%.
+      maxSyzygyDefPen:
+        text: Máx. Sizigia PEN DEF
+        content: Si Sizigia ya está al máximo al obtenerla, el siguiente ataque de Jingliu ignora un 25% de la DEF de los objetivos.
+      moonlightStacks:
+        text: "Acumulaciones\nLuz de luna"
+        content: En el estado de Transmigración espectral, cuando cualquier aliado recibe daño o consume PV, Jingliu obtiene una acumulación de Luz de luna. El Daño CRIT de Jingliu aumenta en un {{MoonlightCDBuff}}% por cada acumulación de Luz de luna, hasta un máximo de 5 acumulaciones.
+      e1Buffs:
+        text: E1 Mejoras
+        content: Al lanzar la habilidad definitiva o la habilidad básica potenciada, el Daño CRIT de Jingliu aumenta en un 36% durante 1 turno(s). Además, inflige de forma adicional al objetivo principal un 80% de los PV máx. de Jingliu como Daño de Hielo 1 vez.
       e2SkillDmgBuff:
         text: E2 Mejora de Habilidad
         content: Tras usar la habilidad definitiva, el daño de la siguiente habilidad básica potenciada aumenta en un 80%.
+      e4MoonlightCdBuff:
+        text: E4 DC Luz de luna
+        content: Cada acumulación de Luz de luna en el estado Transmigración espectral aumenta de forma adicional el Daño CRIT en un 20%.
       e6ResPen:
         text: E6 PEN RES
+        content: Cuando Jingliu entra en el estado Transmigración espectral, la PEN de la RES a Hielo aumenta en un 30%.
   JingYuan:
     Content:
       skillCritBuff:
@@ -1473,6 +1503,13 @@ Characters:
     Content:
       ehrBasedBuff:
         text: Mejora de AdE a ATQ
+        content: Cuando el acierto de efecto de un aliado es igual o superior al 75%, Kafka aumenta el ATQ de ese aliado en un 100%.
+      e1DotDmgReceivedDebuff:
+        text: E1 Vulnerabilidad DoT
+        content: Al lanzar un ataque, hay un 100% de probabilidad base de que el Daño con el tiempo que recibe el objetivo aumente en un 30% durante 2 turnos.
+      e2TeamDotDmg:
+        text: E2 Daño DoT
+        content: Cuando Kafka está en la batalla, el Daño con el tiempo que infligen todos los aliados aumenta en un 33%.
   Lingsha:
     Content:
       beConversion:
@@ -1629,14 +1666,45 @@ Characters:
         content: Al usar la habilidad básica, hay una probabilidad base del 100% de reducir la RES a Hielo del enemigo en un 12% durante 2 turnos.
   Phainon:
     Content:
+      transformedState:
+        text: Transformación activa
+        content: >-
+          Luego de lanzar su habilidad definitiva, Fainón se transforma en Khaslana y despliega el Territorio Ferrotumba en ruinas. ::BR:: Durante la transformación, su ATQ aumenta en un {{UltAtkBuff}}% y sus PV máx. en un {{UltHPBuff}}%. ::BR:: E2: La PEN de la RES a Físico de Khaslana aumenta en un 20%. ::BR:: E6: Tras atacar con Pilar: Juicio de la muerte estelar, inflige adicionalmente un 36% del daño total del ataque como Daño verdadero al enemigo que tenga más PV.
+      enhancedSkillType:
+        text: Tipo de habilidad mejorada
+        content: >-
+          Khaslana puede elegir entre 2 habilidades. ::BR:: Calamidad: Obtiene una cantidad de pts. de Flagelo equivalente al número de enemigos y hace que todos los enemigos actúen inmediatamente, para luego lanzar un poderoso contraataque. ::BR:: Pilar: Consume hasta 4 puntos de Flagelo. Por cada pt. consumido, inflige daño a enemigos al azar 4 veces. Cuando se consumen 4 pts. de Flagelo, inflige adicionalmente daño a todos los enemigos. ::BR:: Al transformarse, Khaslana recupera 4 puntos de Flagelo.
+        options:
+          Calamity:
+            display: 'Habilidad: Calamidad'
+            label: 'Habilidad mejorada: Calamidad'
+          Foundation:
+            display: 'Habilidad: Pilar'
+            label: 'Habilidad mejorada: Pilar'
       atkBuffStacks:
         text: Acumulaciones mejora de ATQ
+        content: Al entrar en combate o al terminar la transformación, el ATQ aumenta en un 50%. Se puede acumular hasta 2 veces.
       cdBuff:
         text: Mejora de DC
+        content: Cuando Fainón se convierte en el objetivo de la habilidad de cualquier otro objetivo, obtiene 1 pt. de Yesca. Si quien lanza la habilidad es un aliado de Fainón, el Daño CRIT de Fainón aumenta además en un {{TalentCdBuff}}% durante 3 turnos.
+      sustainDmgBuff:
+        text: Sustento mejora de daño
+        content: Al recibir un efecto de curación o un escudo de un compañero de equipo, el daño que inflige aumenta en un 45% durante 4 turnos.
       spdBuff:
         text: Mejora de VEL al equipo
+        content: Al terminar la transformación, la VEL de todos los aliados aumenta en un 15% durante 1 turno.
+      e1Buffs:
+        text: E1 Mejoras
+        content: >-
+          El porcentaje heredado de la VEL base del turno adicional de Khaslana aumenta al 66% y, por cada enemigo eliminado en una sola batalla, aumenta en un 1.5% de forma adicional, hasta un aumento máximo del 84%. ::BR:: Al lanzar la habilidad definitiva, el Daño CRIT aumenta en un 50% durante 3 turnos.
       e2ResPen:
         text: E2 PEN RES
+        content: >-
+          La PEN de la RES a Físico de Khaslana aumenta en un 20%. Si al lanzar Pilar: Juicio de la muerte estelar, los pts. de Flagelo consumidos esa vez llegan a 4, obtiene 1 turno adicional.
+      e6TrueDmg:
+        text: E6 Daño verdadero
+        content: >-
+          Tras atacar con Pilar: Juicio de la muerte estelar, inflige adicionalmente un 36% del daño total del ataque como Daño verdadero al enemigo que tenga más PV.
   Qingque:
     Content:
       basicEnhanced:
@@ -1739,14 +1807,37 @@ Characters:
     Content:
       enhancedBasic:
         text: Básico potenciado
+        content: Tras lanzar la habilidad definitiva, el siguiente ATQ básico pasa a ser Cetro dorado liberado y solo se puede usar Cetro dorado liberado.
       enhancedSkill:
         text: Habilidad potenciada
+        content: Si Saber tiene Resonancia del núcleo y, tras atacar con la habilidad básica esta vez, se puede consumir Resonancia del núcleo para que Saber recupere toda su energía, el multiplicador de daño de la habilidad básica lanzada esta vez aumenta en un {{CoreResonanceExtraScaling}}% por cada punto de Resonancia del núcleo. Tras el ataque, consume toda la Resonancia del núcleo para recuperar la energía de Saber.
       talentDmgBuff:
         text: Mejora daño de Talento
+        content: Cuando cualquier aliado lanza su habilidad definitiva, el daño que inflige Saber aumenta en un {{TalentDmgBuff}}% durante 2 turnos.
+      coreResonanceCdBuff:
+        text: DC Resonancia del núcleo
+        content: Por cada punto de Resonancia del núcleo obtenido en esta batalla, el Daño CRIT de Saber aumenta en un 4%. Este efecto se puede acumular hasta 8 veces.
+      coreResonanceStacks:
+        text: Acumulaciones Resonancia del núcleo
+        content: Si Saber tiene Resonancia del núcleo y, tras atacar con la habilidad básica esta vez, se puede consumir Resonancia del núcleo para que Saber recupere toda su energía, el multiplicador de daño de la habilidad básica lanzada esta vez aumenta en un {{CoreResonanceExtraScaling}}% por cada punto de Resonancia del núcleo. Tras el ataque, consume toda la Resonancia del núcleo para recuperar la energía de Saber.
+      crBuff:
+        text: Mejora PC
+        content: La Prob. CRIT de Saber aumenta en un 20%.
       cdBuff:
         text: Mejora de DC
+        content: Al lanzar la habilidad básica, el Daño CRIT de Saber aumenta en un 50% durante 2 turnos.
+      e1DmgBuff:
+        text: E1 Mejora de daño
+        content: El daño de habilidad definitiva que inflige Saber aumenta en un 60%.
+      e2Buffs:
+        text: E2 Mejoras
+        content: Por cada pt. de Resonancia del núcleo obtenido en esta batalla, el daño que inflige Saber ignora un 1% de la DEF del objetivo. Este efecto se puede acumular hasta 15 veces. Al activar el efecto de aumento del multiplicador de la habilidad básica de Resonancia del núcleo, cada punto de Resonancia del núcleo aumenta el multiplicador de daño de ese uso de la habilidad básica en un 7% adicional.
+      e4ResPen:
+        text: E4 PEN RES
+        content: La PEN de la RES a Viento de Saber aumenta en un 8%. Tras lanzar la habilidad definitiva, la PEN de la RES a Viento de Saber aumenta en un 4%. Este efecto se puede acumular hasta 3 veces.
       e6ResPen:
         text: E6 PEN RES
+        content: La PEN de la RES a Viento del daño de habilidad definitiva que inflige Saber aumenta en un 20%, y la energía excedente que puede acumular el Rastro "Bendición del lago" aumenta a 200 pts. Al entrar en combate, después de lanzar la habilidad definitiva por primera vez, Saber recupera 300 pts. de energía de forma fija. Este efecto se puede activar 1 vez después de que lance la habilidad definitiva 3 veces más.
   Sampo:
     Content:
       targetDotTakenDebuff:
@@ -1803,16 +1894,29 @@ Characters:
           Al usar la habilidad básica, si el enemigo tiene 3 o más estados negativos, su RES a todos los tipos se reduce en un 3% adicional.::BR::E4: Tras usar su habilidad definitiva para atacar a un enemigo, Silver Wolf inflige un 20% de su ATQ como Daño Cuántico adicional por cada estado negativo que tenga el objetivo. Este efecto se puede activar un máximo de 5 veces cada vez que ataque con su habilidad definitiva.::BR::E6: Por cada estado negativo que tenga el objetivo enemigo, el daño que inflige Silver Wolf aumenta en un 20%, hasta un máximo del 100%.
   SilverWolfB1:
     Content:
+      ehrToAtkConversion:
+        text: Conversión AdE a ATQ
+        content: Por cada 10% de acierto de efecto que tenga Silver Wolf, su ATQ aumenta en un 10% adicional, hasta un máximo del 50%.
       skillResShredDebuff:
         text: Reducción de RES de la Habilidad
+        content: Cuando Silver Wolf lanza su habilidad básica, tiene una probabilidad base del 100% de reducir la RES a todos los tipos de ese mismo objetivo en un {{SkillResShred}}% durante 2 turnos.
       skillWeaknessResShredDebuff:
         text: Reducción de RES por debilidad implantada por Habilidad
+        content: Tiene una probabilidad base del {{ImplantBaseChance}}% de implantar a un enemigo 1 Debilidad del mismo tipo que el de algún aliado en el campo de batalla (prioriza implantar el tipo de Debilidad del primer personaje de la formación aliada) y reduce su RES al tipo de esa Debilidad en un 20% durante 3 turnos. Si el objetivo enemigo ya tenía ese tipo de Debilidad, entonces no se activará la reducción de RES al tipo correspondiente a esa Debilidad.
       talentDefShredDebuff:
         text: Reducción de DEF del error
+        content: >-
+          Silver Wolf puede crear 3 tipos de errores: hacer que el ATQ se reduzca en un {{BugAtkDown}}%; hacer que la DEF se reduzca en un {{BugDefDown}}%; hacer que la VEL se reduzca en un {{BugSpdDown}}%. ::BR:: Cada vez que Silver Wolf lanza un ataque, tiene una probabilidad base del {{BugBaseChance}}% de implantar 1 error al azar al objetivo durante 4 turnos. ::BR:: Cada vez que se rompa la Debilidad de un enemigo, Silver Wolf tiene una probabilidad base del 100% de implantar un error al azar a ese objetivo. ::BR:: E2: Cuando un enemigo recibe un ataque de un aliado, Silver Wolf tiene una probabilidad base del 100% de implantar un error al azar a ese enemigo.
       ultDefShredDebuff:
         text: Reducción DEF Definitiva
+        content: Tiene una probabilidad base del {{UltBaseChance}}% de reducir la DEF de todos los enemigos en un {{UltDefShred}}% durante 3 turnos.
       targetDebuffs:
         text: Afecciones del objetivo
+        content: >-
+          Cada vez que Silver Wolf lanza un ataque, tiene una probabilidad base del {{BugBaseChance}}% de implantar 1 error al azar al objetivo durante 4 turnos. ::BR:: E1: Tras usar su habilidad definitiva para atacar a un enemigo, Silver Wolf recupera 7 pts. de energía por cada estado negativo que tenga el objetivo. Este efecto se puede activar un máximo de 5 veces cada vez que ataque con su habilidad definitiva. ::BR:: E2: Cuando un enemigo recibe un ataque de un aliado, Silver Wolf tiene una probabilidad base del 100% de implantar un error al azar a ese enemigo. ::BR:: E4: Tras usar su habilidad definitiva para atacar a un enemigo, Silver Wolf inflige un 20% de su ATQ como Daño Cuántico adicional por cada estado negativo que tenga el objetivo. Este efecto se puede activar un máximo de 5 veces contra cada objetivo cada vez que ataque con su habilidad definitiva. ::BR:: E6: Por cada estado negativo que tenga el objetivo enemigo, el daño que inflige Silver Wolf aumenta en un 20%, hasta un máximo del 100%.
+      e2Vulnerability:
+        text: E2 Vulnerabilidad
+        content: Cuando el objetivo enemigo entra en combate, el daño que recibe aumenta en un 20%.
   Sparkle:
     Content:
       skillCdBuff:

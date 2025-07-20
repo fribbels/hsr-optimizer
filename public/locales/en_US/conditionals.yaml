@@ -964,9 +964,7 @@ Characters:
       hpPercentLostTotal:
         text: HP% lost total
         content: >-
-          When using ultimate, deals Wind DMG to one designated enemy equal to the sum of {{UltHpScaling}}% of his Max HP and {{HpTallyUltScaling}}% of the tally of Blade's HP loss in the current battle.
-          ::BR::
-          E1: Blade's Enhanced Basic ATK and Ultimate deals additionally increased DMG to one designated enemy, with the increased amount equal to 150% of the tally of Blade's HP loss from his Ultimate.
+          When using ultimate, deals Wind DMG to one designated enemy equal to the sum of {{UltHpScaling}}% of his Max HP and {{HpTallyUltScaling}}% of the tally of Blade's HP loss in the current battle. ::BR:: E1: Blade's Enhanced Basic ATK and Ultimate deals additionally increased DMG to one designated enemy, with the increased amount equal to 150% of the tally of Blade's HP loss from his Ultimate.
       e1BasicUltMultiBoost:
         text: E1 Ult / Basic boost
         content: Blade's Enhanced Basic ATK and Ultimate deals additionally increased DMG to one designated enemy, with the increased amount equal to 150% of the tally of Blade's HP loss from his Ultimate.
@@ -1457,9 +1455,7 @@ Characters:
       talentEnhancedState:
         text: Enhanced state
         content: >-
-          When Jingliu has 2 stacks of "Syzygy," she enters the "Spectral Transmigration" state and her CRIT Rate increases by {{UltCRBuff}}%.
-          ::BR::
-          While in the "Spectral Transmigration" state, Effect RES increases by 35%, and Ultimate DMG dealt increases by 20%.
+          When Jingliu has 2 stacks of "Syzygy," she enters the "Spectral Transmigration" state and her CRIT Rate increases by {{UltCRBuff}}%. ::BR:: While in the "Spectral Transmigration" state, Effect RES increases by 35%, and Ultimate DMG dealt increases by 20%.
       maxSyzygyDefPen:
         text: Max Syzygy DEF PEN
         content: When obtaining "Syzygy" at max stacks, Jingliu's next attack ignores 25% of the target's DEF.
@@ -1673,23 +1669,11 @@ Characters:
       transformedState:
         text: Transformation active
         content: >-
-          When using his ultimate, Phainon transforms into Khaslana and deploys his territory.
-          ::BR::
-          During his Transformation, increases ATK by {{UltAtkBuff}}% and Max HP by {{UltHPBuff}}%.
-          ::BR::
-          E2: Khaslana's Physical RES PEN increases by 20%.
-          ::BR::
-          E6: After using "Foundation: Stardeath Verdict's" attack, additionally deals True DMG equal to 36% of the total DMG dealt in this attack to the enemy with the highest HP.
+          When using his ultimate, Phainon transforms into Khaslana and deploys his territory. ::BR:: During his Transformation, increases ATK by {{UltAtkBuff}}% and Max HP by {{UltHPBuff}}%. ::BR:: E2: Khaslana's Physical RES PEN increases by 20%. ::BR:: E6: After using "Foundation: Stardeath Verdict's" attack, additionally deals True DMG equal to 36% of the total DMG dealt in this attack to the enemy with the highest HP.
       enhancedSkillType:
         text: Enhanced Skill type
         content: >-
-          Khaslana can chose between 2 skills.
-          ::BR::
-          Calamity: Recovers Scourge stacks equal to the number of enemy targets and causes all enemy targets to take action, then unleashes a powerful counter attack.
-          ::BR::
-          Foundation: Consumes up to 4 stacks of Scourge. For each stack consumed deals dmg to 1 random enemy. If 4 stacks were consumed, additionally deal damage to all enemies.
-          ::BR::
-          When transforming, Khaslana recovers 4 stacks of Scourge.
+          Khaslana can chose between 2 skills. ::BR:: Calamity: Recovers Scourge stacks equal to the number of enemy targets and causes all enemy targets to take action, then unleashes a powerful counter attack. ::BR:: Foundation: Consumes up to 4 stacks of Scourge. For each stack consumed deals dmg 4 times to random enemy targets. If 4 stacks were consumed, additionally deal damage to all enemies. ::BR:: When transforming, Khaslana recovers 4 stacks of Scourge.
         options:
           Calamity:
             display: 'Skill: Calamity'
@@ -1712,9 +1696,7 @@ Characters:
       e1Buffs:
         text: E1 buffs
         content: >-
-          The inheritance ratio of Khaslana's extra turn's SPD is increased to 66%. For every enemy target defeated within 1 battle, the inheritance ratio of Khaslana's extra turn's SPD further increases by 1.5%, up to 84%.
-          ::BR::
-          When using Ultimate, CRIT DMG increases by 50%, lasting for 3 turns.
+          The inheritance ratio of Khaslana's extra turn's SPD is increased to 66%. For every enemy target defeated within 1 battle, the inheritance ratio of Khaslana's extra turn's SPD further increases by 1.5%, up to 84%. ::BR:: When using Ultimate, CRIT DMG increases by 50%, lasting for 3 turns.
       e2ResPen:
         text: E2 RES PEN
         content: >-
@@ -1924,28 +1906,14 @@ Characters:
       talentDefShredDebuff:
         text: Bug DEF shred
         content: >-
-          Silver Wolf can create three types of "Bugs": Reduce ATK by {{BugAtkDown}}%, reduce DEF by {{BugDefDown}}%, and reduce SPD by {{BugSpdDown}}%.
-          ::BR::
-          After every attack launched by Silver Wolf, she has a {{BugBaseChance}}% base chance to implant 1 random "Bug" that lasts for 4 turns in the attacked enemy target.
-          ::BR::
-           Every time an enemy target's Weakness is Broken, Silver Wolf has a 100% base chance of implanting 1 random "Bug" in that target.
-          ::BR::
-          E2: When the enemy target receives an attack from ally targets, Silver Wolf has a 100% base chance of implanting the attacked enemy target with 1 random "Bug."
+          Silver Wolf can create three types of "Bugs": Reduce ATK by {{BugAtkDown}}%, reduce DEF by {{BugDefDown}}%, and reduce SPD by {{BugSpdDown}}%. ::BR:: After every attack launched by Silver Wolf, she has a {{BugBaseChance}}% base chance to implant 1 random "Bug" that lasts for 4 turns in the attacked enemy target. ::BR:: Every time an enemy target's Weakness is Broken, Silver Wolf has a 100% base chance of implanting 1 random "Bug" in that target. ::BR:: E2: When the enemy target receives an attack from ally targets, Silver Wolf has a 100% base chance of implanting the attacked enemy target with 1 random "Bug."
       ultDefShredDebuff:
         text: Ult DEF shred
         content: There's a {{UltBaseChance}}% base chance to decrease all enemies' DEF by {{UltDefShred}}% for 3 turns.
       targetDebuffs:
         text: Target debuffs
         content: >-
-          After every attack launched by Silver Wolf, she has a {{BugBaseChance}}% base chance to implant 1 random "Bug" that lasts for 4 turns in the attacked enemy target.
-          ::BR::
-          E1: After using her Ultimate to attack any enemy target, Silver Wolf regenerates 7 Energy for every debuff that the target currently has. This effect can be triggered up to 5 times in each use of her Ultimate.
-          ::BR::
-          E2: When the enemy target receives an attack from ally targets, Silver Wolf has a 100% base chance of implanting the attacked enemy target with 1 random "Bug."
-          ::BR::
-          E4: After using Silver Wolf's Ultimate to attack any enemy target, deals Quantum Additional DMG equal to 20% of Silver Wolf's ATK for every debuff currently on the enemy target. This effect can be triggered for a maximum of 5 times against each target during each use of her Ultimate.
-          ::BR::
-          E6: For every debuff the enemy target has, the DMG dealt by Silver Wolf to it increases by 20%, up to an increase of 100%.
+          After every attack launched by Silver Wolf, she has a {{BugBaseChance}}% base chance to implant 1 random "Bug" that lasts for 4 turns in the attacked enemy target. ::BR:: E1: After using her Ultimate to attack any enemy target, Silver Wolf regenerates 7 Energy for every debuff that the target currently has. This effect can be triggered up to 5 times in each use of her Ultimate. ::BR:: E2: When the enemy target receives an attack from ally targets, Silver Wolf has a 100% base chance of implanting the attacked enemy target with 1 random "Bug." ::BR:: E4: After using Silver Wolf's Ultimate to attack any enemy target, deals Quantum Additional DMG equal to 20% of Silver Wolf's ATK for every debuff currently on the enemy target. This effect can be triggered for a maximum of 5 times against each target during each use of her Ultimate. ::BR:: E6: For every debuff the enemy target has, the DMG dealt by Silver Wolf to it increases by 20%, up to an increase of 100%.
       e2Vulnerability:
         text: E2 Vulnerability
         content: When enemy target enters battle, increases DMG received by 20%.

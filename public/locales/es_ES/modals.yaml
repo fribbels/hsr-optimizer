@@ -368,3 +368,7 @@ CharacterSelect:
 LightconeSelect:
   Placeholder: Cono de luz
   Title: Selecciona un cono de luz
+RelicReroll:
+  Title: Reasignación de artefacto detectada
+  OriginalSubstats: Atributos secundarios originales
+  RerolledSubstats: Atributos secundarios reasignados

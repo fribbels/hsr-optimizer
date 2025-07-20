@@ -34,15 +34,15 @@ OrnamentSetSelector:
 SortOptions:
   DMGLabel: Calcoli dei danni
   StatLabel: Statistiche
-  COMBO: Ordinato per DAN da Combo
-  BASIC: Ordinato per DAN da Att. Base
-  SKILL: Ordinato per DAN da Abilità
-  ULT: Ordinato per DAN da Ult
-  FUA: Ordinato per DAN da FuA
-  MEMO_SKILL: Ordinato per DAN da Abilità Memo
-  MEMO_TALENT: Ordinato per DAN da Talento Memo
-  DOT: Ordinato per DAN da DoT
-  BREAK: Ordinato per DAN da Break
+  COMBO: Ordinato per DAN Combo
+  BASIC: Ordinato per DAN Att. Base
+  SKILL: Ordinato per DAN Abilità
+  ULT: Ordinato per DAN Ult
+  FUA: Ordinato per DAN Follow-up
+  MEMO_SKILL: Ordinato per DAN Abilità Memo
+  MEMO_TALENT: Ordinato per DAN Talento Memo
+  DOT: Ordinato per DAN DoT
+  BREAK: Ordinato per DAN Break
   HEAL: Ordinato per Cure
   SHIELD: Ordinato per Scudo
   HP: 'Ordinato per $t(common:ReadableStats.HP)'
@@ -56,7 +56,7 @@ SortOptions:
   BE: 'Ordinato per $t(common:ReadableStats.Break Effect)'
   OHB: 'Ordinato per $t(common:ReadableStats.Outgoing Healing Boost)'
   ERR: 'Ordinato per $t(common:ReadableStats.Energy Regeneration Rate)'
-  DMG: Ordinato per DAN da Elemento
+  DMG: Ordinato per DAN Elementale
   EHP: Ordinato per PV Effettivi
 OptimizerOptions:
   Header: Opzioni ottimizzatore
@@ -304,8 +304,8 @@ SetConditionals:
       Label: '{{stackCount}} stack (+{{buffValue}}% CD)'
     Duran:
       Display: '{{stackCount}}x'
-      Label: '{{stackCount}} stack (+{{buffValue}}% DAN da FuA)'
-      Label5: 5 stack (+25% DAN da FuA +25% CD)
+      Label: '{{stackCount}} stack (+{{buffValue}}% DAN FUA)'
+      Label5: 5 stack (+25% DAN FUA +25% CD)
     Sacerdos:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} stack (+{{buffValue}}% CD)'
@@ -313,7 +313,7 @@ SetConditionals:
       Display: '{{allyCount}}x'
       Label: '{{allyCount}} alleati (+{{buffValue}}% DAN)'
   Conditionals:
-    Banana: Se abilitato, l'ulteriore 32% DAN da CRIT viene applicato ai calcoli delle Stat Combat.
+    Banana: Se abilitato, l'ulteriore 32% DAN CRIT viene applicato ai calcoli delle Stat Combat.
     Arcadia: Il buff selezionato viene applicato ai calcoli delle Stat Combat. Si aggiorna automaticamente quando la selezione della squadra cambia.
 Presets:
   SpdValues:
@@ -339,12 +339,12 @@ CombatBuffs:
   DEF: DIF
   DEF_P: DIF %
   CR: Tasso di Crit %
-  CD: DAN da Crit %
+  CD: DAN Crit %
   SPD: VEL
   SPD_P: VEL %
   BE: BE %
-  DMG_BOOST: Aum. DAN %
-  DEF_PEN: Pen. DIF %
+  DMG_BOOST: Aumento DAN %
+  DEF_PEN: PEN DIF %
   RES_PEN: PEN RES Danni %
   EFFECT_RES_PEN: PEN RES Effetti %
   VULNERABILITY: Vulnerabilità %
@@ -401,7 +401,8 @@ MinMaxFilters:
   SHIELDLabel: SCUDO
   COMBOLabel: COMBO
 ComboFilter:
-  Header: Rotazione abilità DAN da Combo
+  Header: Rotazione abilità DAN Combo
+  AbilityLabel: Abilità
   ModeSelector:
     Simple: Semplice
     Advanced: Avanzata
@@ -438,28 +439,80 @@ TeammateCard:
   OrnamentsPlaceholder: Ornamenti
   TeammateSyncSuccessMessage: Informazioni compagno di squadra sincronizzate
   TeammateSets:
+    Messenger:
+      Text: 12% VEL
+    Watchmaker:
+      Text: 30% BE
+    Sacerdos1Stack:
+      Text: 18% CD
+    Sacerdos2Stack:
+      Text: 36% CD
     Warrior:
       Set: '$t(gameData:RelicSets.125.Name)'
+      Text: 15% CD
+    Keel:
+      Text: 10% CD
+    Ageless:
+      Text: 8% ATT
+    Penacony:
+      Text: 10% DAN
+    Lushaka:
+      Text: 12% ATT
 StatSimulation:
+  NothingToImport: Avvia prima l'ottimizzatore, poi seleziona una riga dai risultati da importare
+  NoStatSimulations: Nessuna simulazione di stat secondaria selezionata
   SetSelection:
     Header: Set
     RelicPlaceholder: Set reliquia
     OrnamentPlaceholder: Set ornamento
+  TotalRolls: Roll totali
+  SubstatSelectorLabel: '$t(common:Stats.{{stat}})'
   ModeSelector:
-    Off: 'Off'
+    Off: 'Disattivato'
+    RollCount: Simula roll stat secondarie personalizzate
+    Totals: Simula totale stat secondarie personalizzate
   FooterLabels:
+    Simulate: Simula build
+    Import: Importa build ottimizzatore
     Conditionals: Effetti condizionali dei set
+  DeletePopup:
+    Title: Cancella simulazioni stat
+    Description: Sei sicuro di voler cancellare tutte le simulazioni salvate di questo personaggio?
+  SimulationNamePlaceholder: Nome simulazione (Opzionale)
+  OptionsHeader: Opzioni
+  RollsHeader: Roll massimi stat secondarie
+  TotalsHeader: Totale valori stat secondarie
   MainStatsSelection:
     Header: Statistiche principali
     BodyPlaceholder: Corpo
     FeetPlaceholder: Piedi
     SpherePlaceholder: Sfera
     RopePlaceholder: Corda
+    ShortStat: '$t(common:ShortReadableStats.{{stat}})'
+    LabelStat: '$t(common:ReadableStats.{{stat}})'
 ExpandedDataPanel:
+  SubstatUpgrades:
+    ColumnHeaders:
+      Substat: '+1x Stat secondaria'
+      COMBO_DMG: Δ DAN Combo
+      COMBO_DMG_P: Δ% DAN Combo
+      EHP: Δ PVE
+      EHP_P: Δ% PVE
+      HEAL_VALUE: Δ Cura
+      HEAL_VALUE_P: Δ% Cura
+      SHIELD_VALUE: Δ Scudo
+      SHIELD_VALUE_P: Δ% Scudo
   DamageSplits:
+    Title: Distribuzione Tipo di Danno
     Legend:
+      abilityDmg: Abilità
       breakDmg: Break
+      superBreakDmg: Super Break
+      additionalDmg: Aggiuntivo
+      trueDmg: 'Puro'
+      jointDmg: Congiunto
       dotDmg: DoT
+      memoDmg: Memo
     YAxisLabel:
       BASIC_DMG: Att. Base
       SKILL_DMG: Abilità
@@ -470,8 +523,14 @@ ExpandedDataPanel:
       MEMO_SKILL_DMG: Abilitàᴹ
       MEMO_TALENT_DMG: Talentoᴹ
     TooltipText:
-      breakDmg: DAN da Break
-      dotDmg: DAN da DoT
+      abilityDmg: DAN Abilità
+      breakDmg: DAN Break
+      superBreakDmg: DAN Super Break
+      additionalDmg: DAN Aggiuntivo
+      trueDmg: DAN Puro
+      jointDmg: DAN Congiunto
+      dotDmg: DAN DoT
+      memoDmg: DAN Memo
   BuffsAnalysisDisplay:
     Values:
       BoolFalse: 'No'
@@ -480,8 +539,17 @@ ExpandedDataPanel:
       Basic: Att. Base
       Skill: Abilità
       Ult: Ult
+      Talent: Talento
+      Technique: Tecnica
+      Trace: Traccia
+      Memo: Memo
+      E1: E1
+      E2: E2
+      E4: E4
+      E6: E6
     Stats:
       CompositeLabels:
+        Label: '{{prefix}} {{suffix}}'
         Prefix:
           Basic: Att. Base
           Skill: Abilità
@@ -489,9 +557,70 @@ ExpandedDataPanel:
           Fua: FuA
           Dot: DoT
           Break: Break
+          Memo Skill: Abilità Memo
+          Memo Talent: Talento Memo
         Suffix:
+          ATK scaling: Scalabilità ATT
+          DEF scaling: Scalabilità DIF
+          HP scaling: Scalabilità PV
+          Special scaling: Scalabilità speciale
+          'ATK % boost': Aumento ATT %
+          Crit Rate boost: Aumento Tasso Crit
+          Crit DMG boost: Aumento DAN Crit
+          DMG boost: Aumento DAN
           Vulnerability: Vulnerabilità
+          RES PEN: PEN RES
+          DEF PEN: PEN DIF
+          Break DEF PEN: PEN DIF Break
+          Toughness DMG: DAN Resistenza
+          Super Break multiplier: Moltiplicatore Super Break
+          Break Efficiency boost: Aumento Efficienza Break
+          True DMG multiplier: Moltiplicatore DAN Puro
+          Final DMG multiplier: Moltiplicatore DAN Finale
+          Break DMG multiplier: Moltiplicatore DAN Break
+          Additional DMG scaling: Scalabilità DAN Aggiuntivo
+          Additional DMG: DAN Aggiuntivo
           DMG: DANNO
       Misc:
+        Base HP: PV Base
+        Base ATK: ATT Base
+        Base DEF: DIF Base
+        Base SPD: VEL Base
+        Memosprite base HP scaling: Scalabilità PV base Memosprite
+        Memosprite base DEF scaling: Scalabilità DIF base Memosprite
+        Memosprite base ATK scaling: Scalabilità ATT base Memosprite
+        Memosprite base SPD scaling: Scalabilità VEL base Memosprite
+        Elemental DMG: DAN Elementale
+        DMG reduction: Riduzione DAN
+        Effective HP: PV Effettivi
+        Summons: Evocazioni
         Memosprite: Memosprite
-        Combo DMG: DAN da Combo
+        Enemy weakness broken: Debolezza nemica rotta
+        Prioritize memosprite buffs: Prioritizza buff memosprite
+        Deprioritize buffs: Deprioritizza buff
+        Combo DMG: DAN Combo
+        Dot base chance: Probabilità DoT base
+        Effect RES PEN: PEN RES Effetti
+        Dot DMG split: DAN DoT diviso
+        Dot stacks: Stack DoT
+        Heal ability type: Tipo abilità cura
+        Heal flat: Cura netta
+        Heal scaling: Scalabilità cura
+        Heal value: Valore cura
+        Shield flat: Scudo netto
+        Shield scaling: Scalabilità scudo
+        Shield value: Valore scudo
+        Shield boost: Aumento scudo
+      DmgTypes:
+        Basic: Tipo DAN Att. Base
+        Skill: Tipo DAN Abilità
+        Ult: Tipo DAN Ult
+        Fua: Tipo DAN FuA
+        Dot: Tipo DAN DoT
+        Break: Tipo DAN Break
+        MemoSkill: Tipo DAN Abilità Memo
+        MemoTalent: Tipo DAN Talento Memo
+        Additional: Tipo DAN Aggiuntivo
+        SuperBreak: Tipo DAN Super Break
+      ResPen: 'PEN RES $t(common:Elements.{{element}})'
+      Unconvertible: '$t(common:Stats.{{stat}}) non convertibile'

@@ -43,7 +43,7 @@ Actions:
   Title: Azioni
   p1: Equipaggia - Equipaggia le reliquie selezionate dalla griglia al personaggio
   p2: Filtro - Riapplica i filtri di ricerca ai risultati esistenti. Usalo per restringere i filtri senza effettuare una nuova ricerca
-  p3: Fissa build - Fissa la riga attualmente selezionata in cima alla griglia. Usalo per confrontare più facilmente le build
+  p3: Pinna build - Fissa la riga attualmente selezionata in cima alla griglia. Usalo per confrontare più facilmente le build
   p4: Cancella pin - Cancella tutte le build che hai fissato in cima alla griglia
 OptimizerOptions:
   Title: Opzioni ottimizzatore

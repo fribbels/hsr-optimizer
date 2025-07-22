@@ -313,6 +313,31 @@ SetConditionals:
       Display: '{{allyCount}}x'
       Label: '{{allyCount}} alleati (+{{buffValue}}% DAN)'
   Conditionals:
+    DefaultMessage: Abilitato per impostazione predefinita - gli effetti saranno applicati ai calcoli di combattimento.
+    Hunter: Se abilitato, il buff DAN CRIT viene applicato ai calcoli delle Stat Combat.
+    Streetwise: Il buff ATT% selezionato viene applicato ai calcoli delle Stat Combat in base al numero di stack.
+    Firesmith: L'aumento di DAN Abilità è sempre attivo per impostazione predefinita. Se abilitato, il buff DAN Fuoco viene applicato ai calcoli delle Stat Combat.
+    Genius: Il 10% di aumento della PEN DIF è sempre attivo per impostazione predefinita. Se abilitato, tratta il nemico come se avesse Debolezza Quantica e penetra 10% DIF in più.
+    Thunder: Se abilitato, il buff ATT% viene applicato ai calcoli delle Stat Combat.
+    Wastelander: Applica i buff selezionati ai calcoli delle Stat Combat.
+    Longevous: Il buff CR selezionato viene applicato ai calcoli delle Stat Combat in base al numero di stack.
+    Messenger: Se abilitato, il buff VEL% viene applicato ai calcoli delle Stat Combat.
+    Ashblazing: >-
+      Il buff ATT% selezionato viene applicato a tutti i calcoli, a eccezione degli attacchi Follow-up. I calcoli degli attacchi Follow-up partiranno invece con 0% ATT di buff e stackeranno in base al numero di colpi eseguiti dall'attacco. I colpi aumentano in base al numero di nemici e suppone che il bersaglio sia posizionato al centro per gli attacchi esplosivi / ad area.
+    Prisoner: Il buff PEN DIF% selezionato viene applicato ai calcoli dei danni in base al numero di stack.
+    Diver: L'effetto 2 pezzi può essere disabilitato selezionando l'opzione 0x. Per 4 pezzi, buff CRIT diversi vengono applicati ai calcoli delle Stat Combat a seconda dell'opzione selezionata.
+    Watchmaker: Se abilitato, il buff Effetto Break viene applicato ai calcoli delle Stat Combat.
+    Valorous: Se abilitato, il buff DAN% per la Ult viene applicato ai calcoli delle Stat Combat.
+    Sacerdos: Il buff selezionato viene applicato ai calcoli dei danni. I personaggi che si auto buffano possono attivare questo effetto.
+    Scholar: Se abilitato, il buff DAN% per la Abilità sarà migliorato in base alla sequenza COMBO del personaggio.
+    Hero: Se abilitato, i buff VEL% e DAN CRIT vengono applicati ai calcoli delle Stat Combat.
+    Differentiator: Se abilitato, il buff Tasso di CRIT viene applicato ai calcoli delle Stat Combat.
+    Penacony: Se abilitato, il buff DAN% viene applicato al memosprite di chi lo indossa.
+    Sigonia: Il buff DAN CRIT selezionato viene applicato ai calcoli delle Stat Combat, supponendo che il personaggio abbia sconfitto quel numero di nemici.
+    Izumo: Se abilitato, se c'è un alleato con la stessa path, applica il buff 12% Tasso di CRIT ai calcoli delle Stat Combat.
+    Duran: Il buff selezionato viene applicato ai calcoli dei danni in base al numero di stack.
+    Kalpagni: Se abilitato, il buff Effetto Break viene applicato ai calcoli delle Stat Combat.
+    Lushaka: Disabilitato per impostazione predefinita - Questo set non ha effetto su chi lo indossa.
     Banana: Se abilitato, l'ulteriore 32% DAN CRIT viene applicato ai calcoli delle Stat Combat.
     Arcadia: Il buff selezionato viene applicato ai calcoli delle Stat Combat. Si aggiorna automaticamente quando la selezione della squadra cambia.
 Presets:
@@ -428,6 +453,15 @@ ComboFilter:
   RotationButton: Rotazione avanzata
 ComboDrawer:
   NoConditionals: Nessuna passiva condizionale
+  Title: Guida Utente per Rotazione Avanzata
+  Placeholders:
+    Sets: Condizionali set reliquia
+    Ornaments: Condizionali set ornamento
+  GroupHeaders:
+    Sets: Condizionali set reliquia / ornamento 
+    Teammate1: Condizionali compagno di squadra 1
+    Teammate2: Condizionali compagno di squadra 2
+    Teammate3: Condizionali compagno di squadra 3
 TeammateCard:
   EidolonN: >-
     $t(common:EidolonNShort, {"eidolon": {{eidolon}}})
@@ -440,25 +474,45 @@ TeammateCard:
   TeammateSyncSuccessMessage: Informazioni compagno di squadra sincronizzate
   TeammateSets:
     Messenger:
+      Desc: '4 Pezzi: $t(gameData:RelicSets.114.Name) (+12% VEL)'
+      Set: '$t(gameData:RelicSets.114.Name)'
       Text: 12% VEL
     Watchmaker:
+      Desc: '4 Pezzi: $t(gameData:RelicSets.118.Name) (+30% BE)'
+      Set: '$t(gameData:RelicSets.118.Name)'
       Text: 30% BE
     Sacerdos1Stack:
+      Desc: '4 Pezzi: $t(gameData:RelicSets.121.Name) (+18% CD)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 18% CD
     Sacerdos2Stack:
+      Desc: '4 Pezzi: $t(gameData:RelicSets.121.Name) (+36% CD)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 36% CD
     Warrior:
+      Desc: '$t(gameData:RelicSets.125.Name) (+15% CD)'
       Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% CD
     Keel:
+      Desc: '$t(gameData:RelicSets.310.Name) (+10% CD)'
+      Set: '$t(gameData:RelicSets.310.Name)'
       Text: 10% CD
     Ageless:
+      Desc: '$t(gameData:RelicSets.302.Name) (+8% ATT)'
+      Set: '$t(gameData:RelicSets.302.Name)'
       Text: 8% ATT
     Penacony:
+      Desc: '$t(gameData:RelicSets.312.Name) (+10% DAN per lo stesso elemento)'
+      Set: '$t(gameData:RelicSets.312.Name)'
       Text: 10% DAN
     Lushaka:
+      Desc: '$t(gameData:RelicSets.317.Name) (+12% ATT)'
+      Set: '$t(gameData:RelicSets.317.Name)'
       Text: 12% ATT
 StatSimulation:
+  DuplicateSimMessage: Esiste già una simulazione stat identica
+  MissingMainstatsMessage: Statistiche principali della simulazione mancanti
+  BuildAlreadyImported: La build dell'ottimizzatore selezionata è già una simulazione
   NothingToImport: Avvia prima l'ottimizzatore, poi seleziona una riga dai risultati da importare
   NoStatSimulations: Nessuna simulazione di stat secondaria selezionata
   SetSelection:
@@ -590,6 +644,10 @@ ExpandedDataPanel:
         Memosprite base DEF scaling: Scalabilità DIF base Memosprite
         Memosprite base ATK scaling: Scalabilità ATT base Memosprite
         Memosprite base SPD scaling: Scalabilità VEL base Memosprite
+        Memosprite base HP flat: PV base del Memosprite netti
+        Memosprite base DEF flat: DIF base del Memosprite netta
+        Memosprite base ATK flat: ATT base del Memosprite netto
+        Memosprite base SPD flat: VEL base del Memosprite netta
         Elemental DMG: DAN Elementale
         DMG reduction: Riduzione DAN
         Effective HP: PV Effettivi
@@ -611,6 +669,14 @@ ExpandedDataPanel:
         Shield scaling: Scalabilità scudo
         Shield value: Valore scudo
         Shield boost: Aumento scudo
+        Skill Outgoing Healing Boost: Aumento Guarigione in Uscita dell'abilità
+        Ult Outgoing Healing Boost: Aumento Guarigione in Uscita della Ult
+        Super Break DEF PEN: PEN DIF Super Break
+        Super Break DMG Boost: Aumento DAN Super Break
+        Super Break Vulnerability: Vulnerabilità Super Break
+        Additional DMG boost: Aumento DAN Aggiuntivo
+        Ult Additional DMG CR override: CR DAN Aggiuntivo della Ult sovrascritto
+        Ult Additional DMG CD override: CD DAN Aggiuntivo della Ult sovrascritto
       DmgTypes:
         Basic: Tipo DAN Att. Base
         Skill: Tipo DAN Abilità

@@ -2,6 +2,8 @@ import { PriorityQueue } from '@js-sdsl/priority-queue'
 import { node } from 'globals'
 import { Stats } from 'lib/constants/constants'
 import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
+import { sumArray } from 'lib/utils/mathUtils'
+import { calculateMinMaxMetadata } from 'lib/worker/maxima/tree/searchTreeUtils'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 
 export interface TreeStatRegion {
@@ -34,14 +36,19 @@ export class SearchTree {
   private volumeQueue: PriorityQueue<ProtoTreeStatNode>
   private bestDamage = 0
   private bestNode: ProtoTreeStatNode | null = null
+  private maxStatRollsPerPiece = 6
+
+  private dimensions: number
+  private fixedSum: number
+  private fixedStats: SubstatCounts = {}
+  private activeStats: string[] = []
 
   constructor(
-    public dimensions: number,
     public targetSum: number,
     public maxIterations: number,
     public lower: SubstatCounts,
     public upper: SubstatCounts,
-    public effectiveStats: string[],
+    // public effectiveStats: string[],
     public statPriority: string[],
     public mainStats: string[],
     public damageFunction: (stats: SubstatCounts) => number,
@@ -51,6 +58,19 @@ export class SearchTree {
     this.volumeQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.volume - a.volume)
     const root = this.generateRoot(lower, upper)
     this.root = root!
+    this.maxStatRollsPerPiece = this.targetSum == 54 ? 6 : 5
+
+    const {
+      dimensions,
+      fixedSum,
+      fixedStats,
+      activeStats,
+    } = calculateMinMaxMetadata(lower, upper)
+
+    this.dimensions = dimensions
+    this.fixedSum = fixedSum
+    this.fixedStats = fixedStats
+    this.activeStats = activeStats
   }
 
   public singleIteration() {
@@ -75,7 +95,7 @@ export class SearchTree {
     const splitDimension = this.pickSplitDimension(node)
     if (!splitDimension) {
       let same = true
-      for (const stat of this.effectiveStats) {
+      for (const stat of this.activeStats) {
         if (stat == Stats.SPD) continue
         if (node.region.lower[stat] != node.region.upper[stat]) same = false
       }
@@ -162,26 +182,26 @@ export class SearchTree {
   }
 
   public isCellFeasible(region: TreeStatRegion): boolean {
-    const mins = this.effectiveStats.map((x) => region.lower[x])
-    const maxs = this.effectiveStats.map((x) => region.upper[x])
+    const mins = this.activeStats.map((x) => region.lower[x])
+    const maxs = this.activeStats.map((x) => region.upper[x])
 
     // The possible ranges must include the target 54
-    const sumMin = Math.ceil(mins.reduce((a, b) => a + b, 0))
-    const sumMax = Math.ceil(maxs.reduce((a, b) => a + b, 0))
+    const sumMin = Math.ceil(mins.reduce((a, b) => a + b, 0)) + this.fixedSum
+    const sumMax = Math.ceil(maxs.reduce((a, b) => a + b, 0)) + this.fixedSum
     if ((sumMin > this.targetSum || sumMax < this.targetSum)) return false
 
     // Must have enough pieces to fit each stat with minimum rolls
     for (let i = 0; i < this.dimensions; i++) {
-      const stat = this.effectiveStats[i]
+      const stat = this.activeStats[i]
       const minRolls = mins[i]
       const availablePieces = this.getAvailablePieces(stat)
-      if (minRolls > availablePieces * 6) return false
+      if (minRolls > availablePieces * this.maxStatRollsPerPiece) return false
     }
 
     // Each piece must have at least 4 eligible substats available
     for (let pieceIndex = 0; pieceIndex < 6; pieceIndex++) {
       const pieceMainStat = this.mainStats[pieceIndex]
-      const eligibleStats = this.effectiveStats.filter((stat, i) => {
+      const eligibleStats = this.activeStats.filter((stat, i) => {
         // Stat is eligible if:
         // 1. Not the same as piece main stat
         // 2. Could potentially have rolls in this cell (maxs[i] > 0)
@@ -191,16 +211,16 @@ export class SearchTree {
     }
 
     for (let i = 0; i < this.dimensions; i++) {
-      const stat = this.effectiveStats[i]
+      const stat = this.activeStats[i]
       const minRolls = mins[i]
       const availablePieces = this.getAvailablePieces(stat)
-      if (minRolls > availablePieces * 6) return false
+      if (minRolls > availablePieces * this.maxStatRollsPerPiece) return false
     }
 
     // Find the unfixable possible slot deficits
     let sumPossibleSlots = 0
     for (let i = 0; i < this.dimensions; i++) {
-      const stat = this.effectiveStats[i]
+      const stat = this.activeStats[i]
       const availablePieces = this.getAvailablePieces(stat)
       const possibleSlots = Math.min(mins[i], availablePieces)
       sumPossibleSlots += possibleSlots
@@ -213,13 +233,14 @@ export class SearchTree {
     return true
   }
 
+  // TODO: calculate in constructor
   public getAvailablePieces(stat: string) {
     return this.mainStats.filter((mainStat) => mainStat !== stat).length
   }
 
   public generateRepresentative(region: TreeStatRegion, splitDimension: string, upper: boolean) {
-    let sum = 0
-    for (const stat of this.effectiveStats) {
+    let sum = this.fixedSum
+    for (const stat of this.activeStats) {
       sum += region.lower[stat]
     }
 
@@ -229,81 +250,87 @@ export class SearchTree {
     }
 
     // Start the search at the lower bounds
-    for (let i = 0; i < this.effectiveStats.length; i++) {
-      const stat = this.effectiveStats[i]
+    // TODO: This is only for SPD
+    for (let i = 0; i < this.activeStats.length; i++) {
+      const stat = this.activeStats[i]
       representative[stat] = Math.ceil(representative[stat])
     }
 
     // How many slots you could use for filling up
     // We should pick stats that have the most available slots, to fill up empty slots first
-    const potentialMinPiecesAssignments: number[] = []
-    let totalCurrentMins = 0
-    for (let i = 0; i < this.effectiveStats.length; i++) {
-      const stat = this.effectiveStats[i]
+    let assignmentsNeeded
+    if (this.targetSum == 54) {
+      const potentialMinPiecesAssignments: number[] = []
+      let totalCurrentMins = 0
+      for (let i = 0; i < this.activeStats.length; i++) {
+        const stat = this.activeStats[i]
 
-      const availablePieces = this.getAvailablePieces(stat)
-      const upperLimit = region.upper[stat]
-      const rolls = representative[stat]
-      const currentMinPieces = Math.max(0, Math.min(availablePieces, upperLimit) - rolls)
+        const availablePieces = this.getAvailablePieces(stat)
+        const upperLimit = region.upper[stat]
+        const rolls = representative[stat]
+        const currentMinPieces = Math.max(0, Math.min(availablePieces, upperLimit) - rolls)
 
-      totalCurrentMins += currentMinPieces
-      potentialMinPiecesAssignments[i] = currentMinPieces
-    }
-    let assignmentsNeeded = Math.min(leftToDistribute, totalCurrentMins)
-    for (let i = 0; i < assignmentsNeeded; i++) {
-      let highestIndex = 0
-      let highestValue = potentialMinPiecesAssignments[0]
-      for (let j = 1; j < this.effectiveStats.length; j++) {
-        if (potentialMinPiecesAssignments[j] > highestValue) {
-          highestValue = potentialMinPiecesAssignments[j]
-          highestIndex = j
-        }
+        totalCurrentMins += currentMinPieces
+        potentialMinPiecesAssignments[i] = currentMinPieces
       }
-
-      potentialMinPiecesAssignments[highestIndex]--
-      representative[this.effectiveStats[highestIndex]] = (representative[this.effectiveStats[highestIndex]] ?? 0) + 1
-    }
-
-    // Fixes the totalMaxAssignments validation
-    let totalMaxAssignments = 0
-    const maxPiecesDiff = []
-    for (let i = 0; i < this.effectiveStats.length; i++) {
-      const stat = this.effectiveStats[i]
-      const rolls = representative[stat]
-      const availablePieces = this.getAvailablePieces(stat)
-      const maxPieces = Math.min(rolls, availablePieces)
-      totalMaxAssignments += Math.ceil(maxPieces)
-      maxPiecesDiff[i] = Math.max(0, maxPieces - availablePieces)
-    }
-    if (totalMaxAssignments < 24) {
-      let maxPieceAssignmentsNeeded = 24 - totalMaxAssignments
-      for (let i = 0; i < maxPieceAssignmentsNeeded; i++) {
-        let lowestIndex = 0
-        let lowestValue = maxPiecesDiff[0]
-
-        for (let j = 1; j < maxPiecesDiff.length; j++) {
-          if (maxPiecesDiff[j] < lowestValue) {
-            lowestValue = maxPiecesDiff[j]
-            lowestIndex = j
+      assignmentsNeeded = Math.min(leftToDistribute, totalCurrentMins)
+      for (let i = 0; i < assignmentsNeeded; i++) {
+        let highestIndex = 0
+        let highestValue = potentialMinPiecesAssignments[0]
+        for (let j = 1; j < this.activeStats.length; j++) {
+          if (potentialMinPiecesAssignments[j] > highestValue) {
+            highestValue = potentialMinPiecesAssignments[j]
+            highestIndex = j
           }
         }
 
-        maxPiecesDiff[lowestIndex]++
-
-        if ((representative[this.effectiveStats[lowestIndex]] ?? 0) + 1 > region.upper[this.effectiveStats[lowestIndex]]) {
-          continue
-        }
-
-        representative[this.effectiveStats[lowestIndex]] = (representative[this.effectiveStats[lowestIndex]] ?? 0) + 1
-        leftToDistribute--
+        potentialMinPiecesAssignments[highestIndex]--
+        representative[this.activeStats[highestIndex]] = (representative[this.activeStats[highestIndex]] ?? 0) + 1
       }
+
+      // Fixes the totalMaxAssignments validation
+      let totalMaxAssignments = 0
+      const maxPiecesDiff = []
+      for (let i = 0; i < this.activeStats.length; i++) {
+        const stat = this.activeStats[i]
+        const rolls = representative[stat]
+        const availablePieces = this.getAvailablePieces(stat)
+        const maxPieces = Math.min(rolls, availablePieces)
+        totalMaxAssignments += Math.ceil(maxPieces)
+        maxPiecesDiff[i] = Math.max(0, maxPieces - availablePieces)
+      }
+      if (totalMaxAssignments < 24) {
+        let maxPieceAssignmentsNeeded = 24 - totalMaxAssignments
+        for (let i = 0; i < maxPieceAssignmentsNeeded; i++) {
+          let lowestIndex = 0
+          let lowestValue = maxPiecesDiff[0]
+
+          for (let j = 1; j < maxPiecesDiff.length; j++) {
+            if (maxPiecesDiff[j] < lowestValue) {
+              lowestValue = maxPiecesDiff[j]
+              lowestIndex = j
+            }
+          }
+
+          maxPiecesDiff[lowestIndex]++
+
+          if ((representative[this.activeStats[lowestIndex]] ?? 0) + 1 > region.upper[this.activeStats[lowestIndex]]) {
+            continue
+          }
+
+          representative[this.activeStats[lowestIndex]] = (representative[this.activeStats[lowestIndex]] ?? 0) + 1
+          leftToDistribute--
+        }
+      }
+    } else {
+      assignmentsNeeded = leftToDistribute
     }
 
     // Distribute round-robin
     leftToDistribute -= assignmentsNeeded
-    for (let i = 0; i < this.effectiveStats.length; i++) {
+    for (let i = 0; i < this.activeStats.length; i++) {
       if (leftToDistribute > 0) {
-        const stat = this.effectiveStats[i]
+        const stat = this.activeStats[i]
         const upgraded = (representative[stat] ?? 0) + 1
         if (upgraded <= region.upper[stat]) {
           representative[stat] = upgraded
@@ -321,7 +348,7 @@ export class SearchTree {
         break
       }
 
-      if (i == this.effectiveStats.length - 1) {
+      if (i == this.activeStats.length - 1) {
         i = -1
       }
     }
@@ -333,16 +360,16 @@ export class SearchTree {
     const parent = node.parent
     if (parent) {
       const previousStat = parent.splitDimension
-      const startingIndex = this.effectiveStats.indexOf(previousStat)
-      for (let i = startingIndex + 1; i < this.effectiveStats.length; i++) {
-        if (this.isStatSplitPossible(i, node)) return this.effectiveStats[i]
+      const startingIndex = this.activeStats.indexOf(previousStat)
+      for (let i = startingIndex + 1; i < this.activeStats.length; i++) {
+        if (this.isStatSplitPossible(i, node)) return this.activeStats[i]
       }
       for (let i = 0; i <= startingIndex; i++) {
-        if (this.isStatSplitPossible(i, node)) return this.effectiveStats[i]
+        if (this.isStatSplitPossible(i, node)) return this.activeStats[i]
       }
     } else {
-      for (let i = 0; i < this.effectiveStats.length; i++) {
-        if (this.isStatSplitPossible(i, node)) return this.effectiveStats[i]
+      for (let i = 0; i < this.activeStats.length; i++) {
+        if (this.isStatSplitPossible(i, node)) return this.activeStats[i]
       }
     }
 
@@ -350,7 +377,7 @@ export class SearchTree {
   }
 
   public isStatSplitPossible(i: number, node: ProtoTreeStatNode) {
-    const candidateStat = this.effectiveStats[i]
+    const candidateStat = this.activeStats[i]
     if (candidateStat == Stats.SPD) return false
     if (node.region.upper[candidateStat] - node.region.lower[candidateStat] > 0) {
       return true
@@ -374,9 +401,9 @@ export class SearchTree {
       leftToDistribute -= value ?? 0
     }
     let looped = false
-    for (let i = 0; i < this.effectiveStats.length; i++) {
+    for (let i = 0; i < this.activeStats.length; i++) {
       if (leftToDistribute > 0) {
-        const stat = this.effectiveStats[i]
+        const stat = this.activeStats[i]
         const upgraded = (representative[stat] ?? 0) + 1
         if (upgraded <= region.upper[stat]) {
           representative[stat] = upgraded
@@ -387,7 +414,7 @@ export class SearchTree {
         break
       }
 
-      if (i == this.effectiveStats.length - 1) {
+      if (i == this.activeStats.length - 1) {
         i = -1
         if (looped) {
           return null
@@ -427,7 +454,7 @@ export class SearchTree {
     let volume = 1
     const upper = region.upper
     const lower = region.lower
-    for (const stat of this.effectiveStats) {
+    for (const stat of this.activeStats) {
       volume *= Math.max(1, upper[stat] - lower[stat])
     }
 

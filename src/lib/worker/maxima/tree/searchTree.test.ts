@@ -75,12 +75,11 @@ describe('test', () => {
 
   it('test', () => {
     const tree = new SearchTree(
-      dimensions,
       goal,
       max,
       minSubstatRollCounts,
       maxSubstatRollCounts,
-      effectiveStats,
+      // effectiveStats,
       substats,
       mainStats,
       damageFunction,
@@ -155,12 +154,11 @@ describe('test', () => {
 
   it('test single', () => {
     const tree = new SearchTree(
-      dimensions,
       goal,
       max,
       minSubstatRollCounts,
       maxSubstatRollCounts,
-      effectiveStats,
+      // effectiveStats,
       substats,
       mainStats,
       damageFunction,

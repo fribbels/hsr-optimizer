@@ -116,12 +116,11 @@ export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWo
   }
 
   const tree = new SearchTree(
-    dimensions,
     goal,
     max,
     minSubstatRollCounts,
     maxSubstatRollCounts,
-    effectiveStats,
+    // effectiveStats,
     input.metadata.substats,
     mainStats,
     damageFunction,

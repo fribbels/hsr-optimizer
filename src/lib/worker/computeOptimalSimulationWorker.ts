@@ -12,21 +12,25 @@ import { initializeContextConditionals } from 'lib/simulations/contextConditiona
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import {
   Simulation,
-  StatSimulationTypes,
+  SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
 import { sumArray } from 'lib/utils/mathUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import {
   ComputeOptimalSimulationWorkerInput,
   ComputeOptimalSimulationWorkerOutput,
 } from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import { SearchTree } from 'lib/worker/maxima/tree/searchTree'
+import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 
 export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSimulationWorkerInput>) {
   const input = e.data
 
   const context = input.context
   initializeContextConditionals(context)
-  const optimalSimulation = computeOptimalSimulation(input)
+  const optimalSimulation = computeOptimalSimulationSearch(input)
+  // const optimalSimulation = computeOptimalSimulationReduction(input)
 
   // @ts-ignore
   delete optimalSimulation.result.x
@@ -42,7 +46,118 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
   self.postMessage(workerOutput)
 }
 
-function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerInput) {
+export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInput) {
+  const {
+    partialSimulationWrapper,
+    inputMinSubstatRollCounts,
+    inputMaxSubstatRollCounts,
+    simulationForm,
+    context,
+    metadata,
+    scoringParams,
+    simulationFlags,
+  } = input
+
+  scoringParams.substatRollsModifier = scoringParams.quality == 0.8
+    ? substatRollsModifier
+    : (rolls: number) => rolls
+
+  const minSubstatRollCounts = inputMinSubstatRollCounts
+  const maxSubstatRollCounts = inputMaxSubstatRollCounts
+
+  const goal = scoringParams.substatGoal
+  const currentSimulation: Simulation = TsUtils.clone(partialSimulationWrapper.simulation)
+
+  const effectiveStats = [...metadata.substats, Stats.SPD]
+  const dimensions = effectiveStats.length
+
+  if (scoringParams.enforcePossibleDistribution) {
+    maxSubstatRollCounts[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD]) // ✅ Fixes SPD
+    currentSimulation.request.stats[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
+  }
+
+  console.debug(dimensions, effectiveStats, currentSimulation.request)
+
+  function damageFunction(stats: SubstatCounts): number {
+    currentSimulation.request.stats = stats
+    currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, {
+      ...scoringParams,
+      substatRollsModifier: scoringParams.substatRollsModifier,
+      simulationFlags: simulationFlags,
+    })[0]
+
+    applyScoringFunction(currentSimulation.result, metadata)
+    return currentSimulation.result.simScore
+  }
+
+  const mainStats = [
+    Stats.HP,
+    Stats.ATK,
+    partialSimulationWrapper.simulation.request.simBody,
+    partialSimulationWrapper.simulation.request.simFeet,
+    partialSimulationWrapper.simulation.request.simPlanarSphere,
+    partialSimulationWrapper.simulation.request.simLinkRope,
+  ]
+
+  console.log('===============')
+
+  const substatValidator = new SubstatDistributionValidator(input)
+  const max = 20000
+
+  if (goal == 48) {
+    currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, {
+      ...scoringParams,
+      substatRollsModifier: scoringParams.substatRollsModifier,
+      simulationFlags: simulationFlags,
+      stabilize: true,
+    })[0]
+    applyScoringFunction(currentSimulation.result, metadata)
+    return currentSimulation
+  }
+
+  const tree = new SearchTree(
+    dimensions,
+    goal,
+    max,
+    minSubstatRollCounts,
+    maxSubstatRollCounts,
+    effectiveStats,
+    input.metadata.substats,
+    mainStats,
+    damageFunction,
+    substatValidator,
+  )
+
+  if (tree.root == null) {
+    currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, {
+      ...scoringParams,
+      substatRollsModifier: scoringParams.substatRollsModifier,
+      simulationFlags: simulationFlags,
+      stabilize: true,
+    })[0]
+    applyScoringFunction(currentSimulation.result, metadata)
+    return currentSimulation
+  }
+
+  for (let i = 0; i < 10000; i++) {
+    tree.singleIteration()
+  }
+
+  const best = tree.getBest()
+  currentSimulation.request.stats = best!.representative
+  currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, {
+    ...scoringParams,
+    substatRollsModifier: scoringParams.substatRollsModifier,
+    simulationFlags: simulationFlags,
+    stabilize: true,
+  })[0]
+
+  applyScoringFunction(currentSimulation.result, metadata)
+
+  return currentSimulation
+}
+
+function computeOptimalSimulationReduction(input: ComputeOptimalSimulationWorkerInput) {
   const {
     partialSimulationWrapper,
     inputMinSubstatRollCounts,
@@ -129,7 +244,7 @@ function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerInput) {
 
   while (sum > goal) {
     let bestSim: Simulation = undefined as unknown as Simulation
-    let bestSimStats: StatSimulationTypes = undefined as unknown as StatSimulationTypes
+    let bestSimStats: SubstatCounts = undefined as unknown as SubstatCounts
     let bestSimResult: SimulationResult = undefined as unknown as SimulationResult
     let reducedStat: string = undefined as unknown as string
 
@@ -268,7 +383,7 @@ function computeOptimalSimulation(input: ComputeOptimalSimulationWorkerInput) {
   return currentSimulation
 }
 
-function sumSubstatRolls(maxSubstatRollCounts: StatSimulationTypes) {
+function sumSubstatRolls(maxSubstatRollCounts: SubstatCounts) {
   let sum = 0
   for (const stat of SubStats) {
     sum += maxSubstatRollCounts[stat]

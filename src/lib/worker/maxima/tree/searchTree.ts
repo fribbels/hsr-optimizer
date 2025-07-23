@@ -54,6 +54,7 @@ export class SearchTree {
   }
 
   public singleIteration() {
+    // Alternate queues to balance exploration and optimization
     this.evaluate(this.damageQueue)
     this.evaluate(this.volumeQueue)
   }
@@ -67,9 +68,9 @@ export class SearchTree {
     if (!node) return
     if (node.evaluated) return
 
-    if (node.nodeId == 1283) {
-      console.log('!!')
-    }
+    // if (node.nodeId == 1283) {
+    //   console.log('debug')
+    // }
 
     const splitDimension = this.pickSplitDimension(node)
     if (!splitDimension) {
@@ -107,9 +108,9 @@ export class SearchTree {
     }
 
     const parent = node as TreeStatNode
-    if (parent.nodeId == 31) {
-      console.log('!!')
-    }
+    // if (parent.nodeId == 31) {
+    //   console.log('debug')
+    // }
 
     const lowerChild = this.generateChild(parent, lowerRegion, splitDimension, false)
     const upperChild = this.generateChild(parent, upperRegion, splitDimension, true)
@@ -388,7 +389,7 @@ export class SearchTree {
 
       if (i == this.effectiveStats.length - 1) {
         i = -1
-        if (looped == true) {
+        if (looped) {
           return null
         }
         looped = true
@@ -404,13 +405,6 @@ export class SearchTree {
       nodeId: this.nodeId++,
       evaluated: false,
       parent: null,
-      // damage
-      // priority
-      // splitDimension
-      // splitValue
-      // lowerChild
-      // upperChild
-      // isLeaf
     }
 
     this.calculateDamage(rootNode)

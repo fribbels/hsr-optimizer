@@ -13,6 +13,7 @@ import {
   RunStatSimulationsResult,
   SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
+import { isSubstat } from 'lib/utils/statUtils'
 import { SimulationMetadata } from 'types/metadata'
 
 export function calculateMinSubstatRollCounts(
@@ -66,10 +67,10 @@ export function calculateMaxSubstatRollCounts(
   }
 
   // Every main stat deducts some potential rolls
-  maxCounts[request.simBody] -= scoringParams.deductionPerMain
-  maxCounts[request.simFeet] -= scoringParams.deductionPerMain
-  maxCounts[request.simPlanarSphere] -= scoringParams.deductionPerMain
-  maxCounts[request.simLinkRope] -= scoringParams.deductionPerMain
+  if (isSubstat(request.simBody)) maxCounts[request.simBody] -= scoringParams.deductionPerMain
+  if (isSubstat(request.simFeet)) maxCounts[request.simFeet] -= scoringParams.deductionPerMain
+  if (isSubstat(request.simPlanarSphere)) maxCounts[request.simPlanarSphere] -= scoringParams.deductionPerMain
+  if (isSubstat(request.simLinkRope)) maxCounts[request.simLinkRope] -= scoringParams.deductionPerMain
 
   for (const stat of SubStats) {
     // What does this do?

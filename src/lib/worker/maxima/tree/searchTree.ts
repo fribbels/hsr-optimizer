@@ -128,9 +128,9 @@ export class SearchTree {
     dimension: string,
     upper: boolean,
   ) {
-    if (this.nodeId == 1282) {
-      console.log('!!')
-    }
+    // if (this.nodeId == 1282) {
+    //   console.log('debug')
+    // }
     if (!this.isCellFeasible(region)) {
       return null
     }
@@ -239,10 +239,6 @@ export class SearchTree {
     let totalCurrentMins = 0
     for (let i = 0; i < this.effectiveStats.length; i++) {
       const stat = this.effectiveStats[i]
-      // if (stat == Stats.SPD) {
-      //   potentialMinPiecesAssignments[i] = 0
-      //   continue
-      // }
 
       const availablePieces = this.getAvailablePieces(stat)
       const upperLimit = region.upper[stat]

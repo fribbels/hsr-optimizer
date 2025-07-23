@@ -72,7 +72,7 @@ export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWo
   const dimensions = effectiveStats.length
 
   if (scoringParams.enforcePossibleDistribution) {
-    maxSubstatRollCounts[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD]) // ✅ Fixes SPD
+    maxSubstatRollCounts[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD]) // Fixes SPD
     currentSimulation.request.stats[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
   }
 

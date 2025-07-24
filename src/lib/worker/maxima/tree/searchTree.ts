@@ -80,11 +80,20 @@ export class SearchTree {
 
   public singleIteration() {
     // Alternate queues to balance exploration and optimization
-    this.evaluate(this.damageQueue)
-    this.evaluate(this.volumeQueue)
+    if (this.nodeId < 2000) {
+      this.evaluate(this.volumeQueue)
+      this.evaluate(this.volumeQueue)
+    } else if (this.nodeId < 4000) {
+      this.evaluate(this.volumeQueue)
+      this.evaluate(this.damageQueue)
+    } else {
+      this.evaluate(this.damageQueue)
+      this.evaluate(this.damageQueue)
+    }
   }
 
   public getBest() {
+    console.log('=============', this.bestNode?.nodeId, this.nodeId)
     return this.bestNode
   }
 

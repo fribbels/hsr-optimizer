@@ -133,7 +133,7 @@ export class SearchTree {
     }
 
     const parent = node as TreeStatNode
-    if (parent.nodeId == 0) {
+    if (parent.nodeId == 246) {
       console.log('debug')
     }
 
@@ -256,10 +256,7 @@ export class SearchTree {
 
     // Start the search at the lower bounds
     // TODO: This is only for SPD
-    for (let i = 0; i < this.activeStats.length; i++) {
-      const stat = this.activeStats[i]
-      representative[stat] = Math.ceil(representative[stat])
-    }
+    representative[Stats.SPD] = Math.ceil(representative[Stats.SPD])
 
     // How many slots you could use for filling up
     // We should pick stats that have the most available slots, to fill up empty slots first
@@ -293,11 +290,13 @@ export class SearchTree {
         representative[this.activeStats[highestIndex]] = (representative[this.activeStats[highestIndex]] ?? 0) + 1
       }
 
+      leftToDistribute -= assignmentsNeeded
+
       // Fixes the totalMaxAssignments validation
       let totalMaxAssignments = 0
       const maxPiecesDiff = []
-      for (let i = 0; i < this.activeStats.length; i++) {
-        const stat = this.activeStats[i]
+      for (let i = 0; i < this.allStats.length; i++) {
+        const stat = this.allStats[i]
         const rolls = representative[stat]
         const availablePieces = this.getAvailablePieces(stat)
         const maxPieces = Math.min(rolls, availablePieces)
@@ -319,15 +318,14 @@ export class SearchTree {
 
           maxPiecesDiff[lowestIndex]++
 
-          if ((representative[this.activeStats[lowestIndex]] ?? 0) + 1 > region.upper[this.activeStats[lowestIndex]]) {
+          if ((representative[this.allStats[lowestIndex]] ?? 0) + 1 > region.upper[this.allStats[lowestIndex]]) {
             continue
           }
 
-          representative[this.activeStats[lowestIndex]] = (representative[this.activeStats[lowestIndex]] ?? 0) + 1
+          representative[this.allStats[lowestIndex]] = (representative[this.allStats[lowestIndex]] ?? 0) + 1
           leftToDistribute--
         }
       }
-      leftToDistribute -= assignmentsNeeded
     } else {
       assignmentsNeeded = leftToDistribute
     }

@@ -6,7 +6,11 @@ import {
 } from 'lib/constants/constants'
 import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
 import { sumArray } from 'lib/utils/mathUtils'
-import { calculateMinMaxMetadata } from 'lib/worker/maxima/tree/searchTreeUtils'
+import {
+  calculateMinMaxMetadata,
+  calculateRegionMidpoint,
+  splitNode,
+} from 'lib/worker/maxima/tree/searchTreeUtils'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 
 export interface TreeStatRegion {
@@ -29,7 +33,6 @@ export interface TreeStatNode extends ProtoTreeStatNode {
   splitValue: number
   lowerChild: ProtoTreeStatNode
   upperChild: ProtoTreeStatNode
-  isLeaf: boolean
 }
 
 export class SearchTree {
@@ -44,7 +47,6 @@ export class SearchTree {
   private maxStatRollsPerPiece = 6
   private dimensions: number
   private fixedSum: number
-  private fixedStats: SubstatCounts = {}
   private activeStats: string[] = []
   private allStats: string[] = []
   private availablePiecesByStat: Record<string, number> = {}
@@ -54,7 +56,6 @@ export class SearchTree {
     public maxIterations: number,
     public lower: SubstatCounts,
     public upper: SubstatCounts,
-    public statPriority: string[],
     public mainStats: string[],
     public damageFunction: (stats: SubstatCounts) => number,
     public substatValidator: SubstatDistributionValidator,
@@ -62,25 +63,22 @@ export class SearchTree {
     const {
       dimensions,
       fixedSum,
-      fixedStats,
       activeStats,
     } = calculateMinMaxMetadata(lower, upper)
-
     this.dimensions = dimensions
     this.fixedSum = fixedSum
-    this.fixedStats = fixedStats
     this.activeStats = activeStats
     this.allStats = SubStats
-
-    this.damageQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.damage - a.damage)
-    this.volumeQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.volume * b.damage - a.volume * a.damage)
-    const root = this.generateRoot(lower, upper)
-    this.root = root!
-    this.maxStatRollsPerPiece = this.targetSum == 54 ? 6 : 5
-
     this.allStats.forEach((stat) => {
       this.availablePiecesByStat[stat] = this.mainStats.filter((mainStat) => mainStat !== stat).length
     })
+
+    this.damageQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.damage - a.damage)
+    this.volumeQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.volume * b.damage - a.volume * a.damage)
+
+    this.maxStatRollsPerPiece = this.targetSum == 54 ? 6 : 5
+
+    this.root = this.generateRoot(lower, upper)!
   }
 
   //  ============= 21145 21646
@@ -105,62 +103,31 @@ export class SearchTree {
 
   public evaluate(queue: PriorityQueue<ProtoTreeStatNode>) {
     const node = queue.pop()
-    if (!node) return
+    if (node == null) return
     if (node.evaluated) return
 
-    // if (node.nodeId == 1283) {
-    //   console.log('debug')
-    // }
-
     const splitDimension = this.pickSplitDimension(node)
-    if (!splitDimension) {
-      let same = true
-      for (const stat of this.activeStats) {
-        if (stat == Stats.SPD) continue
-        if (node.region.lower[stat] != node.region.upper[stat]) same = false
-      }
-      if (!same) {
-        console.warn('Impossible split')
-      }
-      return
-    }
+    if (!splitDimension) return
 
-    const midpoint = Math.ceil((node.region.upper[splitDimension] - node.region.lower[splitDimension]) / 2) + node.region.lower[splitDimension]
+    const parentNode = node as TreeStatNode
+    const {
+      midpoint,
+      lowerRegion,
+      upperRegion,
+    } = splitNode(parentNode, splitDimension)
 
-    const lowerRegion: TreeStatRegion = {
-      lower: {
-        ...node.region.lower,
-      },
-      upper: {
-        ...node.region.upper,
-        [splitDimension]: midpoint - 1,
-      },
-    }
-
-    const upperRegion: TreeStatRegion = {
-      lower: {
-        ...node.region.lower,
-        [splitDimension]: midpoint,
-      },
-      upper: {
-        ...node.region.upper,
-      },
-    }
-
-    const parent = node as TreeStatNode
-    // if (parent.nodeId == 246) {
+    // if (parentNode.nodeId == 246) {
     //   console.log('debug')
     // }
 
-    const lowerChild = this.generateChild(parent, lowerRegion, splitDimension, false)
-    const upperChild = this.generateChild(parent, upperRegion, splitDimension, true)
+    const lowerChild = this.generateChild(parentNode, lowerRegion, splitDimension, false)
+    const upperChild = this.generateChild(parentNode, upperRegion, splitDimension, true)
 
-    parent.evaluated = true
-    parent.splitDimension = splitDimension
-    parent.splitValue = midpoint
-    if (lowerChild) parent.lowerChild = lowerChild
-    if (upperChild) parent.upperChild = upperChild
-    parent.isLeaf = false
+    parentNode.evaluated = true
+    parentNode.splitValue = midpoint
+    parentNode.splitDimension = splitDimension
+    if (lowerChild) parentNode.lowerChild = lowerChild
+    if (upperChild) parentNode.upperChild = upperChild
   }
 
   public generateChild(
@@ -176,7 +143,6 @@ export class SearchTree {
       return null
     }
 
-    const volume = this.calculateVolume(region)
     const representative = this.generateRepresentative(region, dimension, upper)
 
     if (!this.substatValidator.isValidDistribution(representative)) {
@@ -187,12 +153,13 @@ export class SearchTree {
       region: region,
       representative: representative,
       damage: 0,
-      volume: volume,
+      volume: 0,
       nodeId: this.nodeId++,
       evaluated: false,
       parent: parentNode,
     }
 
+    this.calculateVolume(childNode)
     this.calculateDamage(childNode)
 
     this.damageQueue.push(childNode)
@@ -389,33 +356,7 @@ export class SearchTree {
     }
 
     return null
-
-    // if (parent) {
-    //   const previousStat = parent.splitDimension
-    //   const startingIndex = this.activeStats.indexOf(previousStat)
-    //   for (let i = startingIndex + 1; i < this.activeStats.length; i++) {
-    //     if (this.isStatSplitPossible(i, node)) return this.activeStats[i]
-    //   }
-    //   for (let i = 0; i <= startingIndex; i++) {
-    //     if (this.isStatSplitPossible(i, node)) return this.activeStats[i]
-    //   }
-    // } else {
-    //   for (let i = 0; i < this.activeStats.length; i++) {
-    //     if (this.isStatSplitPossible(i, node)) return this.activeStats[i]
-    //   }
-    // }
-    //
-    // return null
   }
-
-  // public isStatSplitPossible(i: number, node: ProtoTreeStatNode) {
-  //   const candidateStat = this.activeStats[i]
-  //   if (candidateStat == Stats.SPD) return false
-  //   if (node.region.upper[candidateStat] - node.region.lower[candidateStat] > 0) {
-  //     return true
-  //   }
-  //   return false
-  // }
 
   public isStatSplitPossibleStat(stat: string, node: ProtoTreeStatNode) {
     if (stat == Stats.SPD) return false
@@ -436,10 +377,12 @@ export class SearchTree {
     const representative: SubstatCounts = {
       ...lower,
     }
+
     let leftToDistribute = this.targetSum
     for (const value of Object.values(lower)) {
       leftToDistribute -= value ?? 0
     }
+
     let looped = false
     for (let i = 0; i < this.activeStats.length; i++) {
       if (leftToDistribute > 0) {
@@ -462,18 +405,18 @@ export class SearchTree {
         looped = true
       }
     }
-    const volume = this.calculateVolume(region)
 
     const rootNode: ProtoTreeStatNode = {
       region: region,
       representative: representative,
       damage: 0,
-      volume: volume,
+      volume: 0,
       nodeId: this.nodeId++,
       evaluated: false,
       parent: null,
     }
 
+    this.calculateVolume(rootNode)
     this.calculateDamage(rootNode)
 
     this.damageQueue.push(rootNode)
@@ -491,14 +434,15 @@ export class SearchTree {
     }
   }
 
-  public calculateVolume(region: TreeStatRegion) {
+  public calculateVolume(node: ProtoTreeStatNode) {
     let volume = 1
+    const region = node.region
     const upper = region.upper
     const lower = region.lower
     for (const stat of this.activeStats) {
       volume *= Math.max(1, upper[stat] - lower[stat])
     }
 
-    return volume
+    node.volume = volume
   }
 }

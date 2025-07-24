@@ -30,7 +30,6 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
   const context = input.context
   initializeContextConditionals(context)
   const optimalSimulation = computeOptimalSimulationSearch(input)
-  // const optimalSimulation = computeOptimalSimulationReduction(input)
 
   // @ts-ignore
   delete optimalSimulation.result.x
@@ -102,7 +101,6 @@ export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWo
     max,
     minSubstatRollCounts,
     maxSubstatRollCounts,
-    input.metadata.substats,
     mainStats,
     damageFunction,
     substatValidator,

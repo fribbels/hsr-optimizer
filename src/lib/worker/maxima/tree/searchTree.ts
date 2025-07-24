@@ -1,6 +1,9 @@
 import { PriorityQueue } from '@js-sdsl/priority-queue'
 import { node } from 'globals'
-import { Stats } from 'lib/constants/constants'
+import {
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
 import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
 import { sumArray } from 'lib/utils/mathUtils'
 import { calculateMinMaxMetadata } from 'lib/worker/maxima/tree/searchTreeUtils'
@@ -42,6 +45,7 @@ export class SearchTree {
   private fixedSum: number
   private fixedStats: SubstatCounts = {}
   private activeStats: string[] = []
+  private allStats: string[] = []
 
   constructor(
     public targetSum: number,
@@ -54,12 +58,6 @@ export class SearchTree {
     public damageFunction: (stats: SubstatCounts) => number,
     public substatValidator: SubstatDistributionValidator,
   ) {
-    this.damageQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.damage - a.damage)
-    this.volumeQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.volume - a.volume)
-    const root = this.generateRoot(lower, upper)
-    this.root = root!
-    this.maxStatRollsPerPiece = this.targetSum == 54 ? 6 : 5
-
     const {
       dimensions,
       fixedSum,
@@ -71,6 +69,13 @@ export class SearchTree {
     this.fixedSum = fixedSum
     this.fixedStats = fixedStats
     this.activeStats = activeStats
+    this.allStats = SubStats
+
+    this.damageQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.damage - a.damage)
+    this.volumeQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.volume - a.volume)
+    const root = this.generateRoot(lower, upper)
+    this.root = root!
+    this.maxStatRollsPerPiece = this.targetSum == 54 ? 6 : 5
   }
 
   public singleIteration() {
@@ -128,9 +133,9 @@ export class SearchTree {
     }
 
     const parent = node as TreeStatNode
-    // if (parent.nodeId == 31) {
-    //   console.log('debug')
-    // }
+    if (parent.nodeId == 0) {
+      console.log('debug')
+    }
 
     const lowerChild = this.generateChild(parent, lowerRegion, splitDimension, false)
     const upperChild = this.generateChild(parent, upperRegion, splitDimension, true)
@@ -182,12 +187,12 @@ export class SearchTree {
   }
 
   public isCellFeasible(region: TreeStatRegion): boolean {
-    const mins = this.activeStats.map((x) => region.lower[x])
-    const maxs = this.activeStats.map((x) => region.upper[x])
+    const mins = this.allStats.map((x) => region.lower[x])
+    const maxs = this.allStats.map((x) => region.upper[x])
 
     // The possible ranges must include the target 54
-    const sumMin = Math.ceil(mins.reduce((a, b) => a + b, 0)) + this.fixedSum
-    const sumMax = Math.ceil(maxs.reduce((a, b) => a + b, 0)) + this.fixedSum
+    const sumMin = Math.ceil(mins.reduce((a, b) => a + b, 0))
+    const sumMax = Math.ceil(maxs.reduce((a, b) => a + b, 0))
     if ((sumMin > this.targetSum || sumMax < this.targetSum)) return false
 
     // Must have enough pieces to fit each stat with minimum rolls
@@ -201,7 +206,7 @@ export class SearchTree {
     // Each piece must have at least 4 eligible substats available
     for (let pieceIndex = 0; pieceIndex < 6; pieceIndex++) {
       const pieceMainStat = this.mainStats[pieceIndex]
-      const eligibleStats = this.activeStats.filter((stat, i) => {
+      const eligibleStats = this.allStats.filter((stat, i) => {
         // Stat is eligible if:
         // 1. Not the same as piece main stat
         // 2. Could potentially have rolls in this cell (maxs[i] > 0)
@@ -219,8 +224,8 @@ export class SearchTree {
 
     // Find the unfixable possible slot deficits
     let sumPossibleSlots = 0
-    for (let i = 0; i < this.dimensions; i++) {
-      const stat = this.activeStats[i]
+    for (let i = 0; i < this.allStats.length; i++) {
+      const stat = this.allStats[i]
       const availablePieces = this.getAvailablePieces(stat)
       const possibleSlots = Math.min(mins[i], availablePieces)
       sumPossibleSlots += possibleSlots
@@ -322,12 +327,12 @@ export class SearchTree {
           leftToDistribute--
         }
       }
+      leftToDistribute -= assignmentsNeeded
     } else {
       assignmentsNeeded = leftToDistribute
     }
 
     // Distribute round-robin
-    leftToDistribute -= assignmentsNeeded
     for (let i = 0; i < this.activeStats.length; i++) {
       if (leftToDistribute > 0) {
         const stat = this.activeStats[i]

@@ -103,17 +103,17 @@ export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWo
 
   const substatValidator = new SubstatDistributionValidator(input)
   const max = 20000
-
-  if (goal == 48) {
-    currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, {
-      ...scoringParams,
-      substatRollsModifier: scoringParams.substatRollsModifier,
-      simulationFlags: simulationFlags,
-      stabilize: true,
-    })[0]
-    applyScoringFunction(currentSimulation.result, metadata)
-    return currentSimulation
-  }
+  //
+  // if (goal == 48) {
+  //   currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, {
+  //     ...scoringParams,
+  //     substatRollsModifier: scoringParams.substatRollsModifier,
+  //     simulationFlags: simulationFlags,
+  //     stabilize: true,
+  //   })[0]
+  //   applyScoringFunction(currentSimulation.result, metadata)
+  //   return currentSimulation
+  // }
 
   const tree = new SearchTree(
     goal,

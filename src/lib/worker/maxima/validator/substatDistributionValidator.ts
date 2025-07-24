@@ -51,7 +51,7 @@ export class SubstatDistributionValidator {
       sum += rolls
     }
 
-    if (sum != this.target) {
+    if (Math.ceil(sum) != this.target) {
       return false
     }
 

@@ -38,9 +38,10 @@ export class SearchTree {
   private damageQueue: PriorityQueue<ProtoTreeStatNode>
   private volumeQueue: PriorityQueue<ProtoTreeStatNode>
   private bestDamage = 0
+  private bestHistory: number[] = []
   private bestNode: ProtoTreeStatNode | null = null
-  private maxStatRollsPerPiece = 6
 
+  private maxStatRollsPerPiece = 6
   private dimensions: number
   private fixedSum: number
   private fixedStats: SubstatCounts = {}
@@ -265,7 +266,6 @@ export class SearchTree {
     }
 
     // Start the search at the lower bounds
-    // TODO: This is only for SPD
     representative[Stats.SPD] = Math.ceil(representative[Stats.SPD])
 
     // How many slots you could use for filling up
@@ -371,28 +371,54 @@ export class SearchTree {
 
   public pickSplitDimension(node: ProtoTreeStatNode) {
     const parent = node.parent
-    if (parent) {
-      const previousStat = parent.splitDimension
-      const startingIndex = this.activeStats.indexOf(previousStat)
-      for (let i = startingIndex + 1; i < this.activeStats.length; i++) {
-        if (this.isStatSplitPossible(i, node)) return this.activeStats[i]
-      }
-      for (let i = 0; i <= startingIndex; i++) {
-        if (this.isStatSplitPossible(i, node)) return this.activeStats[i]
-      }
-    } else {
-      for (let i = 0; i < this.activeStats.length; i++) {
-        if (this.isStatSplitPossible(i, node)) return this.activeStats[i]
+
+    // Try the largest dimension
+    let maxRange = 0
+    let maxStat = null
+    for (const stat of this.activeStats) {
+      if (stat == Stats.SPD) continue
+      const range = node.region.upper[stat] - node.region.lower[stat]
+      if (range > maxRange) {
+        maxRange = range
+        maxStat = stat
       }
     }
 
+    if (maxStat && this.isStatSplitPossibleStat(maxStat, node)) {
+      return maxStat
+    }
+
     return null
+
+    // if (parent) {
+    //   const previousStat = parent.splitDimension
+    //   const startingIndex = this.activeStats.indexOf(previousStat)
+    //   for (let i = startingIndex + 1; i < this.activeStats.length; i++) {
+    //     if (this.isStatSplitPossible(i, node)) return this.activeStats[i]
+    //   }
+    //   for (let i = 0; i <= startingIndex; i++) {
+    //     if (this.isStatSplitPossible(i, node)) return this.activeStats[i]
+    //   }
+    // } else {
+    //   for (let i = 0; i < this.activeStats.length; i++) {
+    //     if (this.isStatSplitPossible(i, node)) return this.activeStats[i]
+    //   }
+    // }
+    //
+    // return null
   }
 
   public isStatSplitPossible(i: number, node: ProtoTreeStatNode) {
     const candidateStat = this.activeStats[i]
     if (candidateStat == Stats.SPD) return false
     if (node.region.upper[candidateStat] - node.region.lower[candidateStat] > 0) {
+      return true
+    }
+    return false
+  }
+  public isStatSplitPossibleStat(stat: string, node: ProtoTreeStatNode) {
+    if (stat == Stats.SPD) return false
+    if (node.region.upper[stat] - node.region.lower[stat] > 0) {
       return true
     }
     return false
@@ -460,6 +486,7 @@ export class SearchTree {
     if (node.damage > this.bestDamage) {
       this.bestDamage = node.damage
       this.bestNode = node
+      this.bestHistory.push(node.nodeId!)
     }
   }
 

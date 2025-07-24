@@ -6075,7 +6075,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             Stats.ATK_P,
             Stats.CR,
             Stats.CD,
-            Stats.EHR,
           ],
           [Parts.Feet]: [
             Stats.ATK_P,
@@ -6094,7 +6093,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CR,
           Stats.ATK_P,
           Stats.ATK,
-          Stats.EHR,
         ],
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
@@ -8069,11 +8067,11 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ],
         },
         substats: [
-          Stats.EHR,
           Stats.ATK_P,
           Stats.CR,
           Stats.CD,
           Stats.ATK,
+          Stats.EHR,
         ],
         breakpoints: {
           [Stats.EHR]: 0.19,

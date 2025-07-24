@@ -54,7 +54,6 @@ export class SearchTree {
     public maxIterations: number,
     public lower: SubstatCounts,
     public upper: SubstatCounts,
-    // public effectiveStats: string[],
     public statPriority: string[],
     public mainStats: string[],
     public damageFunction: (stats: SubstatCounts) => number,
@@ -90,7 +89,7 @@ export class SearchTree {
     if (this.nodeId < 1000) {
       this.evaluate(this.volumeQueue)
       this.evaluate(this.volumeQueue)
-    } else if (this.nodeId < 2000) {
+    } else if (this.nodeId < 3000) {
       this.evaluate(this.volumeQueue)
       this.evaluate(this.damageQueue)
     } else {
@@ -254,7 +253,6 @@ export class SearchTree {
     return true
   }
 
-  // TODO: calculate in constructor
   public getAvailablePieces(stat: string) {
     return this.availablePiecesByStat[stat]
   }
@@ -354,6 +352,7 @@ export class SearchTree {
         }
 
         if (upper && leftToDistribute > 0) {
+          // Alternating attempt to bump up the split stat when possible
           const upgraded = (representative[splitDimension] ?? 0) + 1
           if (upgraded <= region.upper[splitDimension]) {
             representative[splitDimension] = upgraded
@@ -373,8 +372,6 @@ export class SearchTree {
   }
 
   public pickSplitDimension(node: ProtoTreeStatNode) {
-    const parent = node.parent
-
     // Try the largest dimension
     let maxRange = 0
     let maxStat = null

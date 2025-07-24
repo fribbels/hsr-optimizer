@@ -47,6 +47,7 @@ export class SearchTree {
   private fixedStats: SubstatCounts = {}
   private activeStats: string[] = []
   private allStats: string[] = []
+  private availablePiecesByStat: Record<string, number> = {}
 
   constructor(
     public targetSum: number,
@@ -77,6 +78,10 @@ export class SearchTree {
     const root = this.generateRoot(lower, upper)
     this.root = root!
     this.maxStatRollsPerPiece = this.targetSum == 54 ? 6 : 5
+
+    this.allStats.forEach((stat) => {
+      this.availablePiecesByStat[stat] = this.mainStats.filter((mainStat) => mainStat !== stat).length
+    })
   }
 
   //  ============= 21145 21646
@@ -168,7 +173,7 @@ export class SearchTree {
     // if (this.nodeId == 1282) {
     //   console.log('debug')
     // }
-    if (!this.isCellFeasible(region)) {
+    if (!this.isRegionFeasible(region)) {
       return null
     }
 
@@ -197,7 +202,7 @@ export class SearchTree {
     return childNode
   }
 
-  public isCellFeasible(region: TreeStatRegion): boolean {
+  public isRegionFeasible(region: TreeStatRegion): boolean {
     const mins = this.allStats.map((x) => region.lower[x])
     const maxs = this.allStats.map((x) => region.upper[x])
 
@@ -251,7 +256,7 @@ export class SearchTree {
 
   // TODO: calculate in constructor
   public getAvailablePieces(stat: string) {
-    return this.mainStats.filter((mainStat) => mainStat !== stat).length
+    return this.availablePiecesByStat[stat]
   }
 
   public generateRepresentative(region: TreeStatRegion, splitDimension: string, upper: boolean) {
@@ -336,8 +341,6 @@ export class SearchTree {
           leftToDistribute--
         }
       }
-    } else {
-      assignmentsNeeded = leftToDistribute
     }
 
     // Distribute round-robin
@@ -408,14 +411,15 @@ export class SearchTree {
     // return null
   }
 
-  public isStatSplitPossible(i: number, node: ProtoTreeStatNode) {
-    const candidateStat = this.activeStats[i]
-    if (candidateStat == Stats.SPD) return false
-    if (node.region.upper[candidateStat] - node.region.lower[candidateStat] > 0) {
-      return true
-    }
-    return false
-  }
+  // public isStatSplitPossible(i: number, node: ProtoTreeStatNode) {
+  //   const candidateStat = this.activeStats[i]
+  //   if (candidateStat == Stats.SPD) return false
+  //   if (node.region.upper[candidateStat] - node.region.lower[candidateStat] > 0) {
+  //     return true
+  //   }
+  //   return false
+  // }
+
   public isStatSplitPossibleStat(stat: string, node: ProtoTreeStatNode) {
     if (stat == Stats.SPD) return false
     if (node.region.upper[stat] - node.region.lower[stat] > 0) {

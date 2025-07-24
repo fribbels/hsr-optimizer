@@ -1,4 +1,4 @@
-import { Stats } from 'lib/constants/constants'
+import { Stats, SubStats } from 'lib/constants/constants'
 import { ComputeOptimalSimulationWorkerInput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 
 /**
@@ -11,6 +11,7 @@ export class SubstatDistributionValidator {
   private input: ComputeOptimalSimulationWorkerInput
   private target: number
   private mainStats: string[]
+  private availablePiecesByStat: Record<string, number> = {}
 
   constructor(input: ComputeOptimalSimulationWorkerInput) {
     this.input = input
@@ -24,6 +25,10 @@ export class SubstatDistributionValidator {
       Stats.ATK,
       Stats.HP,
     ]
+
+    SubStats.forEach((stat) => {
+      this.availablePiecesByStat[stat] = this.mainStats.filter((mainStat) => mainStat !== stat).length
+    })
   }
 
   public isValidDistribution(stats: Record<string, number>): boolean {
@@ -59,7 +64,7 @@ export class SubstatDistributionValidator {
   }
 
   private getAvailablePieces(stat: string): number {
-    return this.mainStats.filter((mainStat) => mainStat !== stat).length
+    return this.availablePiecesByStat[stat]
   }
 
   private canSatisfyAssignmentRules(activeStats: [string, number][]): boolean {

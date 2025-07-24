@@ -130,7 +130,7 @@ describe('test', () => {
           valid = false
           break
         }
-        if (!tree.isCellFeasible(region)) {
+        if (!tree.isRegionFeasible(region)) {
           valid = false
           break
         }
@@ -199,7 +199,7 @@ describe('test', () => {
     }
 
     const region = specificRegion()
-    const feasible = tree.isCellFeasible(region)
+    const feasible = tree.isRegionFeasible(region)
     const representative = tree.generateRepresentative(region, Stats.ATK_P, true)
     const validated = substatValidator.isValidDistribution(representative)
 

@@ -402,7 +402,7 @@ export default function RelicFilterBar(props: {
                 onChange={props.setValueColumns}
                 options={props.valueColumnOptions}
                 maxTagCount='responsive'
-                style={{ flex: 1 }}
+                style={{ width: 360 }}
                 listHeight={750}
                 dropdownStyle={{ width: 'fit-content' }}
               />
@@ -415,10 +415,12 @@ export default function RelicFilterBar(props: {
           <CharacterSelect
             value={window.store.getState().excludedRelicPotentialCharacters}
             selectStyle={{ flex: 1 }}
-            onChange={(excludedMap: Map<CharacterId, boolean> | null) => {
-              const excludedCharacterIds = Array.from(excludedMap ?? new Map<CharacterId, boolean>())
-                .filter((entry) => entry[1])
-                .map((entry) => entry[0])
+            onChange={(excludedMap) => {
+              const excludedCharacterIds = !excludedMap
+                ? []
+                : Array.from(excludedMap)
+                  .filter((entry) => entry[1])
+                  .map((entry) => entry[0])
               window.store.getState().setExcludedRelicPotentialCharacters(excludedCharacterIds)
               SaveState.delayedSave()
               setTimeout(() => rescoreClicked(), 100)

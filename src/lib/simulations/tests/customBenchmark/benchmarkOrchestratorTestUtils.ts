@@ -17,7 +17,7 @@ export async function expectBenchmarkResultsToMatch(
   benchmarkDmg: number,
   perfectionDmg: number,
 ) {
-  globalThis.SEQUENTIAL_BENCHMARKS = true
+  globalThis.SEQUENTIAL_BENCHMARKS = false
   const {
     character,
     teammate0,

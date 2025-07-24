@@ -13,7 +13,7 @@ export async function expectDpsScoreResultsToMatch(
   percent: number,
   spdBenchmark?: number,
 ) {
-  globalThis.SEQUENTIAL_BENCHMARKS = true
+  globalThis.SEQUENTIAL_BENCHMARKS = false
 
   const character = {
     form: {

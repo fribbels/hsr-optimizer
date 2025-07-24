@@ -69,14 +69,11 @@ export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWo
   const currentSimulation: Simulation = TsUtils.clone(partialSimulationWrapper.simulation)
 
   const effectiveStats = [...metadata.substats, Stats.SPD]
-  const dimensions = effectiveStats.length
 
   if (scoringParams.enforcePossibleDistribution) {
     maxSubstatRollCounts[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD]) // Fixes SPD
     currentSimulation.request.stats[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
   }
-
-  // console.debug(dimensions, effectiveStats, currentSimulation.request)
 
   function damageFunction(stats: SubstatCounts): number {
     currentSimulation.request.stats = stats
@@ -101,24 +98,12 @@ export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWo
 
   const substatValidator = new SubstatDistributionValidator(input)
   const max = 10000
-  //
-  // if (goal == 48) {
-  //   currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, {
-  //     ...scoringParams,
-  //     substatRollsModifier: scoringParams.substatRollsModifier,
-  //     simulationFlags: simulationFlags,
-  //     stabilize: true,
-  //   })[0]
-  //   applyScoringFunction(currentSimulation.result, metadata)
-  //   return currentSimulation
-  // }
 
   const tree = new SearchTree(
     goal,
     max,
     minSubstatRollCounts,
     maxSubstatRollCounts,
-    // effectiveStats,
     input.metadata.substats,
     mainStats,
     damageFunction,

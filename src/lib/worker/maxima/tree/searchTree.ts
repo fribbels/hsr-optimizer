@@ -72,18 +72,19 @@ export class SearchTree {
     this.allStats = SubStats
 
     this.damageQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.damage - a.damage)
-    this.volumeQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.volume - a.volume)
+    this.volumeQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.volume * b.damage - a.volume * a.damage)
     const root = this.generateRoot(lower, upper)
     this.root = root!
     this.maxStatRollsPerPiece = this.targetSum == 54 ? 6 : 5
   }
 
+  //  ============= 21145 21646
   public singleIteration() {
     // Alternate queues to balance exploration and optimization
-    if (this.nodeId < 2000) {
+    if (this.nodeId < 1000) {
       this.evaluate(this.volumeQueue)
       this.evaluate(this.volumeQueue)
-    } else if (this.nodeId < 4000) {
+    } else if (this.nodeId < 2000) {
       this.evaluate(this.volumeQueue)
       this.evaluate(this.damageQueue)
     } else {
@@ -93,7 +94,7 @@ export class SearchTree {
   }
 
   public getBest() {
-    console.log('=============', this.bestNode?.nodeId, this.nodeId)
+    console.log('=============', this.bestNode?.nodeId, this.nodeId, this.mainStats.slice(2))
     return this.bestNode
   }
 
@@ -142,9 +143,9 @@ export class SearchTree {
     }
 
     const parent = node as TreeStatNode
-    if (parent.nodeId == 246) {
-      console.log('debug')
-    }
+    // if (parent.nodeId == 246) {
+    //   console.log('debug')
+    // }
 
     const lowerChild = this.generateChild(parent, lowerRegion, splitDimension, false)
     const upperChild = this.generateChild(parent, upperRegion, splitDimension, true)

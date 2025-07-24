@@ -10,9 +10,6 @@ import {
   SimulationRequest,
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
-import { KAFKA_B1 } from 'lib/simulations/tests/testMetadataConstants'
-import { CharacterId } from 'types/character'
-import { SimulationMetadata } from 'types/metadata'
 
 // Generate all main stat possibilities
 export function generatePartialSimulations(

@@ -11,8 +11,6 @@ import {
   it,
 } from 'vitest'
 
-// AI assisted tests, manually verified
-
 describe('generateRepresentative tests', () => {
   function initializeTree(
     overrides?: {
@@ -112,7 +110,6 @@ describe('generateRepresentative tests', () => {
   }
 
   describe('Basic Representative Generation', () => {
-    // Verified
     it('should generate valid representatives for both split sides of simple region', () => {
       const tree = initializeTree()
       const region = createRegion(
@@ -191,7 +188,6 @@ describe('generateRepresentative tests', () => {
   })
 
   describe('SPD Decimal Handling', () => {
-    // Verified
     it('should apply Math.ceil to SPD when it has decimal values for both sides', () => {
       const tree = initializeTree({
         minSubstatRollCounts: {
@@ -233,7 +229,6 @@ describe('generateRepresentative tests', () => {
   })
 
   describe('Target Sum Variants', () => {
-    // Verified
     it('should work correctly with targetSum=48 for both sides', () => {
       const tree = initializeTree({ targetSum: 48 })
       const region = tree.root.region
@@ -244,7 +239,6 @@ describe('generateRepresentative tests', () => {
       expect(calculateSum(upperRep)).toBe(48)
     })
 
-    // Verified
     it('should handle minimal budget scenarios for both sides', () => {
       const tree = initializeTree({
         targetSum: 48,

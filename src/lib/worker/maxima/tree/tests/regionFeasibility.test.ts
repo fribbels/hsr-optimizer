@@ -11,8 +11,6 @@ import {
   it,
 } from 'vitest'
 
-// AI assisted tests, manually verified
-
 describe('isRegionFeasible tests', () => {
   function initializeTree(
     overrides?: {
@@ -95,7 +93,6 @@ describe('isRegionFeasible tests', () => {
       expect(tree.isRegionFeasible(tree.root.region)).toBe(true)
     })
 
-    // Verified
     it('should accept a valid feasible subregion', () => {
       const tree = initializeTree()
       const region = createRegion(
@@ -131,7 +128,6 @@ describe('isRegionFeasible tests', () => {
       expect(tree.isRegionFeasible(region)).toBe(true)
     })
 
-    // Verified
     it('should accept point regions (min = max) when valid', () => {
       const tree = initializeTree()
       const validPoint = {
@@ -154,7 +150,6 @@ describe('isRegionFeasible tests', () => {
   })
 
   describe('Sum Constraint Violations', () => {
-    // Verified
     it('should reject region where minimum sum exceeds target', () => {
       const tree = initializeTree()
       const region = createRegion(
@@ -190,7 +185,6 @@ describe('isRegionFeasible tests', () => {
       expect(tree.isRegionFeasible(region)).toBe(false)
     })
 
-    // Verified
     it('should reject region where maximum sum is below target', () => {
       const tree = initializeTree()
       const region = createRegion(
@@ -226,7 +220,6 @@ describe('isRegionFeasible tests', () => {
       expect(tree.isRegionFeasible(region)).toBe(false)
     })
 
-    // Verified
     it('should handle edge case where the only possible point exactly equals target', () => {
       const tree = initializeTree()
       const exactSum = {
@@ -249,7 +242,6 @@ describe('isRegionFeasible tests', () => {
   })
 
   describe('Piece Capacity Violations', () => {
-    // Verified
     it('should reject when ATK_P exceeds its reduced capacity due to main stat conflicts', () => {
       const tree = initializeTree()
       const region = createRegion(
@@ -285,7 +277,6 @@ describe('isRegionFeasible tests', () => {
       expect(tree.isRegionFeasible(region)).toBe(false)
     })
 
-    // Verified
     it('should accept when stat exactly equals available capacity', () => {
       const tree = initializeTree()
       const region = createRegion(
@@ -323,7 +314,6 @@ describe('isRegionFeasible tests', () => {
   })
 
   describe('Slot Deficit Analysis', () => {
-    // Verified
     it('should reject when slot deficit exceeds remaining rolls', () => {
       const tree = initializeTree()
       // Create scenario where we need more slots than we have rolls to fill them
@@ -360,7 +350,6 @@ describe('isRegionFeasible tests', () => {
       expect(tree.isRegionFeasible(region)).toBe(false)
     })
 
-    // Verified
     it('should accept when slot requirements can be satisfied', () => {
       const tree = initializeTree()
       const region = createRegion(
@@ -398,7 +387,6 @@ describe('isRegionFeasible tests', () => {
   })
 
   describe('Eligible Substats Per Piece Violations', () => {
-    // Verified
     it('should reject when piece cannot have 4 eligible substats due to main stat conflicts', () => {
       const tree = initializeTree({
         mainStats: [
@@ -429,7 +417,6 @@ describe('isRegionFeasible tests', () => {
       expect(tree.isRegionFeasible(region)).toBe(false)
     })
 
-    // Verified
     it('should accept when all pieces have sufficient eligible substats', () => {
       const tree = initializeTree({
         mainStats: [
@@ -491,7 +478,6 @@ describe('isRegionFeasible tests', () => {
   })
 
   describe('Edge Cases and Boundary Conditions', () => {
-    // Verified
     it('should handle regions with zero-width dimensions', () => {
       const tree = initializeTree()
       const region = createRegion(
@@ -527,7 +513,6 @@ describe('isRegionFeasible tests', () => {
       expect(tree.isRegionFeasible(region)).toBe(true)
     })
 
-    // Verified
     it('should handle different target sums correctly', () => {
       const tree48 = initializeTree({ targetSum: 48 })
 

@@ -250,6 +250,3 @@ function sumSubstatRolls(maxSubstatRollCounts: SubstatCounts) {
   }
   return sum
 }
-
-export function DEBUG() {
-}

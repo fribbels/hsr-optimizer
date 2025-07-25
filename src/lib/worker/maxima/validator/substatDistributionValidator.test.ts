@@ -9,8 +9,6 @@ import {
   it,
 } from 'vitest'
 
-// AI assisted tests, manually verified
-
 function createValidator(mainStats?: {
   simBody?: string,
   simFeet?: string,
@@ -242,3 +240,5 @@ describe('SubstatDistributionValidator', () => {
     })
   })
 })
+
+type Scenario = { name: string, distribution: Record<string, number>, expected: boolean }

@@ -19,7 +19,7 @@ export const CURRENT_DATA_VERSION = '3.5v5'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  [HYSILENS]: 'V6 - Enabled the E1 +16% DOT Final DMG buff',
+  [HYSILENS]: 'V5 - Enabled the E1 +16% DOT Final DMG buff',
 }
 
 export const Stats = {

@@ -128,6 +128,7 @@ export class SearchTree {
     }
   }
 
+  // TODO: Dynamically update iteration limits based on targetSum and best result history
   public search() {
   }
 

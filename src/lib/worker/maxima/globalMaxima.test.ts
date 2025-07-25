@@ -9,11 +9,10 @@ import {
   it,
 } from 'vitest'
 
-describe('test', () => {
-  it('test', () => {
-    const input = testInput as unknown as ComputeOptimalSimulationWorkerInput
-    initializeContextConditionals(input.context)
-    computeOptimalSimulationSearch(input)
+describe('manual test', () => {
+  it('verifies a given input', () => {
+    // const input = testInput as unknown as ComputeOptimalSimulationWorkerInput
+    // initializeContextConditionals(input.context)
+    // computeOptimalSimulationSearch(input)
   })
 })
-

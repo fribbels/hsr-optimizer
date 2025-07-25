@@ -5,10 +5,8 @@ import {
 import { ComputeOptimalSimulationWorkerInput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 
 /**
- * This checks if the substat distribution is a valid "future" distribution. We don't check for exactly 54 substats
- * but rather we check that all the substat slots are filled in, and there are no substats that can't physically fit.
- * This lets us validate > 54 substat distributions that can be trimmed down later, with the assumption that as long
- * as the stats fit, then they can be traded around to make a valid 54 stat distribution.
+ * This checks if the substat distribution is a valid distribution in-game,
+ * following the substat and main stat assignment rules.
  */
 export class SubstatDistributionValidator {
   private target: number

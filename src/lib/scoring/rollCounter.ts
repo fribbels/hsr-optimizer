@@ -102,24 +102,24 @@ export function calculateMaxSubstatRollCounts(
   // Overcapped 30 * 3.24 + 5 = 102.2% crit
   // Main stat  20 * 3.24 + 32.4 + 5 = 102.2% crit
   // Assumes maximum 100 CR is needed ever
-  // if (!simulationFlags.overcapCritRate) {
-  //   const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
-  //   const missingCrit = Math.max(0, 100 - baselineSimResult.xa[Key.CR] * 100)
-  //   maxCounts[Stats.CR] = Math.max(
-  //     scoringParams.baselineFreeRolls,
-  //     Math.max(
-  //       scoringParams.enforcePossibleDistribution
-  //         ? 6
-  //         : 0,
-  //       Math.min(
-  //         request.simBody == Stats.CR
-  //           ? Math.ceil((missingCrit - 32.4) / critValue)
-  //           : Math.ceil(missingCrit / critValue),
-  //         maxCounts[Stats.CR],
-  //       ),
-  //     ),
-  //   )
-  // }
+  if (!simulationFlags.overcapCritRate && scoringParams.quality == 1.0) {
+    const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
+    const missingCrit = Math.max(0, 100 - baselineSimResult.xa[Key.CR] * 100)
+    maxCounts[Stats.CR] = Math.max(
+      scoringParams.baselineFreeRolls,
+      Math.max(
+        scoringParams.enforcePossibleDistribution
+          ? 6
+          : 0,
+        Math.min(
+          request.simBody == Stats.CR
+            ? Math.ceil((missingCrit - 32.4) / critValue)
+            : Math.ceil(missingCrit / critValue),
+          maxCounts[Stats.CR],
+        ),
+      ),
+    )
+  }
 
   // Simplify EHR so the sim is not wasting permutations
   // Assumes 20 enemy effect RES

@@ -11,6 +11,8 @@ import {
   it,
 } from 'vitest'
 
+// AI assisted tests, manually verified
+
 describe('isRegionFeasible tests', () => {
   function initializeTree(
     overrides?: {

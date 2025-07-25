@@ -72,12 +72,13 @@ export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWo
     currentSimulation.request.stats[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
   }
 
-  function damageFunction(stats: SubstatCounts): number {
+  function damageFunction(stats: SubstatCounts, stabilize = false): number {
     currentSimulation.request.stats = stats
     currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, {
       ...scoringParams,
       substatRollsModifier: scoringParams.substatRollsModifier,
       simulationFlags: simulationFlags,
+      stabilize: stabilize,
     })[0]
 
     applyScoringFunction(currentSimulation.result, metadata)
@@ -107,13 +108,7 @@ export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWo
   )
 
   if (tree.root == null) {
-    currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, {
-      ...scoringParams,
-      substatRollsModifier: scoringParams.substatRollsModifier,
-      simulationFlags: simulationFlags,
-      stabilize: true,
-    })[0]
-    applyScoringFunction(currentSimulation.result, metadata)
+    damageFunction(currentSimulation.request.stats, true)
     return currentSimulation
   }
 
@@ -121,16 +116,8 @@ export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWo
     tree.singleIteration()
   }
 
-  const best = tree.getBest()
-  currentSimulation.request.stats = best!.representative
-  currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, {
-    ...scoringParams,
-    substatRollsModifier: scoringParams.substatRollsModifier,
-    simulationFlags: simulationFlags,
-    stabilize: true,
-  })[0]
-
-  applyScoringFunction(currentSimulation.result, metadata)
+  const best = tree.getBest()!
+  damageFunction(best.representative, true)
 
   return currentSimulation
 }

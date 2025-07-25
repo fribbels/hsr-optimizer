@@ -35,8 +35,9 @@ export interface TreeStatNode extends ProtoTreeStatNode {
 }
 
 export class SearchTree {
-  private nodeId = 0
   public root: ProtoTreeStatNode
+
+  private nodeId = 0
   private damageQueue: PriorityQueue<ProtoTreeStatNode>
   private volumeQueue: PriorityQueue<ProtoTreeStatNode>
   private bestDamage = 0
@@ -80,9 +81,8 @@ export class SearchTree {
     this.root = this.generateRoot(lower, upper)!
   }
 
-  //  ============= 21145 21646
+  // Alternate queues to balance exploration and optimization
   public singleIteration() {
-    // Alternate queues to balance exploration and optimization
     if (this.nodeId < 1000) {
       this.evaluate(this.volumeQueue)
       this.evaluate(this.volumeQueue)
@@ -96,10 +96,14 @@ export class SearchTree {
   }
 
   public getBest() {
-    console.log('=============', this.bestNode?.nodeId, this.nodeId, this.mainStats.slice(2))
+    const benchmark = this.targetSum == 54 ? 200 : 100
+    console.log(`============= ${benchmark}%`, this.bestNode?.nodeId, this.nodeId, this.mainStats.slice(2).join(' / '))
     return this.bestNode
   }
 
+  /**
+   * Splits a node into two child regions
+   */
   public evaluate(queue: PriorityQueue<ProtoTreeStatNode>) {
     const node = queue.pop()
     if (node == null) return
@@ -129,6 +133,9 @@ export class SearchTree {
     if (upperChild) parentNode.upperChild = upperChild
   }
 
+  /**
+   * Creates a child if there is one within the region, and adds it to the queues
+   */
   public generateChild(
     parentNode: TreeStatNode,
     region: TreeStatRegion,
@@ -138,6 +145,7 @@ export class SearchTree {
     // if (this.nodeId == 1282) {
     //   console.log('debug')
     // }
+
     if (!this.isRegionFeasible(region)) {
       return null
     }
@@ -167,6 +175,12 @@ export class SearchTree {
     return childNode
   }
 
+  /**
+   * This is used as a region-level validator, used to prune impossible region from the search tree.
+   * This return false only when no possible points in the region could be a valid point.
+   * We check constraints using the upper and lower bounds to rule out possible points.
+   * However, this does not say that there is a valid point in the region, just that there could be one.
+   */
   public isRegionFeasible(region: TreeStatRegion): boolean {
     const mins = this.allStats.map((x) => region.lower[x])
     const maxs = this.allStats.map((x) => region.upper[x])
@@ -184,6 +198,21 @@ export class SearchTree {
       if (minRolls > availablePieces * this.maxStatRollsPerPiece) return false
     }
 
+    // Find the unfixable possible slot deficits
+    // If n slots need to be filled, then we need at least n remaining rolls to distribute in order to fix it
+    let sumPossibleSlots = 0
+    for (let i = 0; i < this.allStats.length; i++) {
+      const stat = this.allStats[i]
+      const availablePieces = this.getAvailablePieces(stat)
+      const possibleSlots = Math.min(mins[i], availablePieces)
+      sumPossibleSlots += possibleSlots
+    }
+    const slotsThatNeedToBeFilled = 24 - Math.ceil(sumPossibleSlots)
+    const remainingSubstatRolls = this.targetSum - sumMin
+    if (slotsThatNeedToBeFilled > remainingSubstatRolls) {
+      return false
+    }
+
     // Each piece must have at least 4 eligible substats available
     for (let pieceIndex = 0; pieceIndex < 6; pieceIndex++) {
       const pieceMainStat = this.mainStats[pieceIndex]
@@ -196,26 +225,6 @@ export class SearchTree {
       if (eligibleStats.length < 4) return false
     }
 
-    for (let i = 0; i < this.dimensions; i++) {
-      const stat = this.activeStats[i]
-      const minRolls = mins[i]
-      const availablePieces = this.getAvailablePieces(stat)
-      if (minRolls > availablePieces * this.maxStatRollsPerPiece) return false
-    }
-
-    // Find the unfixable possible slot deficits
-    let sumPossibleSlots = 0
-    for (let i = 0; i < this.allStats.length; i++) {
-      const stat = this.allStats[i]
-      const availablePieces = this.getAvailablePieces(stat)
-      const possibleSlots = Math.min(mins[i], availablePieces)
-      sumPossibleSlots += possibleSlots
-    }
-
-    if ((24 - Math.ceil(sumPossibleSlots)) > (this.targetSum - sumMin)) {
-      return false
-    }
-
     return true
   }
 
@@ -223,6 +232,10 @@ export class SearchTree {
     return this.availablePiecesByStat[stat]
   }
 
+  /**
+   * Generates a valid point within the region.
+   * Combines various heuristics to build up a point based on validator rules.
+   */
   public generateRepresentative(region: TreeStatRegion, splitDimension: string, upper: boolean) {
     let sum = this.fixedSum
     for (const stat of this.activeStats) {
@@ -239,6 +252,8 @@ export class SearchTree {
 
     // How many slots you could use for filling up
     // We should pick stats that have the most available slots, to fill up empty slots first
+    // This only needs to be checked for the 200% benchmark
+    // The 100% benchmark can assume that simple round-robin will never generate an invalid distribution
     let assignmentsNeeded
     if (this.targetSum == 54) {
       const potentialMinPiecesAssignments: number[] = []

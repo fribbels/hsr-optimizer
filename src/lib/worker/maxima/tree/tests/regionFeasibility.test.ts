@@ -46,7 +46,7 @@ describe('isRegionFeasible tests', () => {
     }
     const maxSubstatRollCounts = overrides?.maxSubstatRollCounts ?? {
       [Stats.ATK]: 36,
-      [Stats.ATK_P]: 24,
+      [Stats.ATK_P]: 18,
       [Stats.HP]: 0,
       [Stats.HP_P]: 36,
       [Stats.DEF]: 0,

@@ -8,7 +8,10 @@ import {
   it,
 } from 'vitest'
 
-describe('search tree tests', () => {
+// More tests in
+// - regionFeasibility.test.ts
+// - representativeGeneration.test.ts
+describe('basic search tree tests', () => {
   function initializeTree(
     overrides?: {
       minSubstatRollCounts?: SubstatCounts,

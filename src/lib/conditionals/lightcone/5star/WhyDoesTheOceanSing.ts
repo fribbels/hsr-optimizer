@@ -45,6 +45,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       max: 6,
     },
     spdBuff: {
+      lc: true,
       id: 'spdBuff',
       formItem: 'switch',
       text: 'SPD buff',

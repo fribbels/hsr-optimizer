@@ -71,7 +71,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     ultDotStacks: maxUltDotInstances,
     ehrToDmg: true,
     dotDetonation: false,
-    e1DotFinalDmg: true,
+    e1Buffs: true,
     e4ResPen: true,
     e6Buffs: true,
   }
@@ -79,7 +79,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const teammateDefaults = {
     skillVulnerability: true,
     ultZone: true,
-    e1DotFinalDmg: true,
+    e1Buffs: true,
     e2MaxDmgBoost: true,
     e4ResPen: true,
   }
@@ -118,10 +118,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: true,
     },
-    e1DotFinalDmg: {
-      id: 'e1DotFinalDmg',
+    e1Buffs: {
+      id: 'e1Buffs',
       formItem: 'switch',
-      text: 'E1 DOT Final DMG',
+      text: 'E1 buffs',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
     },
@@ -144,7 +144,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     skillVulnerability: content.skillVulnerability,
     ultZone: content.ultZone,
-    e1DotFinalDmg: content.e1DotFinalDmg,
+    e1Buffs: content.e1Buffs,
     e2MaxDmgBoost: {
       id: 'e2MaxDmgBoost',
       formItem: 'switch',
@@ -171,21 +171,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
 
       // Currently adds together, but they should be separate damage elements
-      // E6 doubles the talent proc
+      // E1 doubles the talent proc
       const talentDot = talentDotScaling * 3 + talentDotAtkLimitScaling
-      const ultDot = r.ultDotStacks * ultDotScaling
+      const updatedUltDotScaling = (e >= 6 && r.e6Buffs) ? ultDotScaling + 0.20 : ultDotScaling
+      const ultDot = r.ultDotStacks * updatedUltDotScaling
 
       if (r.dotDetonation) {
         // Triggers ult proc
         x.DOT_ATK_SCALING.buff(ultDot, SOURCE_ULT)
         // Detonates at 1.5x
         x.DOT_ATK_SCALING.buff(talentDot * 1.5, SOURCE_TALENT)
-        // E6 doubles the talent and also detonates at 1.5x
-        x.DOT_ATK_SCALING.buff((e >= 6 && r.e6Buffs) ? talentDot * 1.5 : 0, SOURCE_E6)
+        // E1 doubles the talent and also detonates at 1.5x
+        x.DOT_ATK_SCALING.buff((e >= 1 && r.e1Buffs) ? talentDot * 1.5 : 0, SOURCE_E1)
       } else {
         x.DOT_ATK_SCALING.buff(ultDot, SOURCE_ULT)
         x.DOT_ATK_SCALING.buff(talentDot, SOURCE_TALENT)
-        x.DOT_ATK_SCALING.buff((e >= 6 && r.e6Buffs) ? talentDot : 0, SOURCE_E6)
+        x.DOT_ATK_SCALING.buff((e >= 1 && r.e1Buffs) ? talentDot : 0, SOURCE_E1)
       }
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
@@ -197,7 +198,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.DOT_FINAL_DMG_BOOST.buffTeam((e >= 1 && m.e1DotFinalDmg) ? 0.24 : 0, SOURCE_E1)
+      x.DOT_FINAL_DMG_BOOST.buffTeam((e >= 1 && m.e1Buffs) ? 0.16 : 0, SOURCE_E1)
       x.VULNERABILITY.buffTeam(m.skillVulnerability ? skillVulnScaling : 0, SOURCE_SKILL)
       x.DEF_PEN.buffTeam(m.ultZone ? ultDefPenScaling : 0, SOURCE_ULT)
       x.RES_PEN.buffTeam((e >= 4 && m.e4ResPen) ? 0.20 : 0, SOURCE_E4)

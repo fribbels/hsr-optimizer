@@ -28,9 +28,8 @@ export interface ProtoTreeStatNode {
   parent: TreeStatNode | null
 }
 export interface TreeStatNode extends ProtoTreeStatNode {
-  priority: number
-  splitDimension: string
   splitValue: number
+  splitDimension: string
   lowerChild: ProtoTreeStatNode
   upperChild: ProtoTreeStatNode
 }
@@ -267,7 +266,7 @@ export class SearchTree {
         }
 
         potentialMinPiecesAssignments[highestIndex]--
-        representative[this.activeStats[highestIndex]] = (representative[this.activeStats[highestIndex]] ?? 0) + 1
+        representative[this.activeStats[highestIndex]]++
       }
 
       leftToDistribute -= assignmentsNeeded
@@ -298,11 +297,15 @@ export class SearchTree {
 
           maxPiecesDiff[lowestIndex]++
 
-          if ((representative[this.allStats[lowestIndex]] ?? 0) + 1 > region.upper[this.allStats[lowestIndex]]) {
+          const targetStat = this.allStats[lowestIndex]
+          const currentValue = representative[targetStat]
+          const nextValue = currentValue + 1
+
+          if (nextValue > region.upper[targetStat]) {
             continue
           }
 
-          representative[this.allStats[lowestIndex]] = (representative[this.allStats[lowestIndex]] ?? 0) + 1
+          representative[targetStat] = nextValue
           leftToDistribute--
         }
       }
@@ -312,15 +315,15 @@ export class SearchTree {
     for (let i = 0; i < this.activeStats.length; i++) {
       if (leftToDistribute > 0) {
         const stat = this.activeStats[i]
-        const upgraded = (representative[stat] ?? 0) + 1
+        const upgraded = representative[stat] + 1
         if (upgraded <= region.upper[stat]) {
           representative[stat] = upgraded
           leftToDistribute--
         }
 
         if (upper && leftToDistribute > 0) {
-          // Alternating attempt to bump up the split stat when possible
-          const upgraded = (representative[splitDimension] ?? 0) + 1
+          // Alternating attempt to bump up the upper split stat when possible
+          const upgraded = representative[splitDimension] + 1
           if (upgraded <= region.upper[splitDimension]) {
             representative[splitDimension] = upgraded
             leftToDistribute--
@@ -338,8 +341,9 @@ export class SearchTree {
     return representative
   }
 
+  // Try to split on the largest dimension to generate cube-like regions
+  // This reduces the variance in each region for better representative points
   public pickSplitDimension(node: ProtoTreeStatNode) {
-    // Try the largest dimension
     let maxRange = 0
     let maxStat = null
     for (const stat of this.activeStats) {
@@ -351,21 +355,21 @@ export class SearchTree {
       }
     }
 
-    if (maxStat && this.isStatSplitPossibleStat(maxStat, node)) {
+    if (maxStat && this.isStatSplitPossible(maxStat, node)) {
       return maxStat
     }
 
     return null
   }
 
-  public isStatSplitPossibleStat(stat: string, node: ProtoTreeStatNode) {
+  // Any dimension with 2 points can be split, except SPD
+  public isStatSplitPossible(stat: string, node: ProtoTreeStatNode) {
     if (stat == Stats.SPD) return false
-    if (node.region.upper[stat] - node.region.lower[stat] > 0) {
-      return true
-    }
-    return false
+    return node.region.upper[stat] - node.region.lower[stat] > 0
   }
 
+  // The root is generated with separate rules
+  // We basically assume that round-robin will always generate a valid root distribution
   public generateRoot(lower: SubstatCounts, upper: SubstatCounts) {
     // Region
     const region: TreeStatRegion = {
@@ -373,21 +377,22 @@ export class SearchTree {
       upper: upper,
     }
 
-    // Representative
+    // Representative starts at lower bounds
     const representative: SubstatCounts = {
       ...lower,
     }
 
     let leftToDistribute = this.targetSum
-    for (const value of Object.values(lower)) {
-      leftToDistribute -= value ?? 0
+    for (const stat of this.allStats) {
+      leftToDistribute -= lower[stat]
     }
 
+    // Distribute round-robin
     let looped = false
     for (let i = 0; i < this.activeStats.length; i++) {
       if (leftToDistribute > 0) {
         const stat = this.activeStats[i]
-        const upgraded = (representative[stat] ?? 0) + 1
+        const upgraded = representative[stat] + 1
         if (upgraded <= region.upper[stat]) {
           representative[stat] = upgraded
           leftToDistribute--
@@ -399,6 +404,7 @@ export class SearchTree {
 
       if (i == this.activeStats.length - 1) {
         i = -1
+        // Infinite loop guard
         if (looped) {
           return null
         }
@@ -434,6 +440,7 @@ export class SearchTree {
     }
   }
 
+  // Number of points each region contains, note that when upper == lower, volume is considered 1
   public calculateVolume(node: ProtoTreeStatNode) {
     let volume = 1
     const region = node.region

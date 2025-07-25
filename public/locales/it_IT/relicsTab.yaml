@@ -21,6 +21,7 @@ RecentlyUpdatedRelics:
   Avg: MEDIA
   Max: MASSIMO
   BestFor: MIGLIORE PER
+  Tooltip: Punteggi potenziali medi e massimi per questo personaggio
 Messages:
   AddRelicSuccess: Reliquia aggiunta con successo
   NoRelicSelected: Nessuna reliquia selezionata

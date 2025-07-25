@@ -185,7 +185,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.SKILL_CD_BOOST.buffSingle((t.militaryMerit && t.nobility) ? skillCdScaling : 0, SOURCE_SKILL)
 
-      x.SKILL_RES_PEN.buffSingle((t.militaryMerit && t.nobility && context.characterId == PHAINON) ? 0.10 : 0, SOURCE_SKILL)
+      x.SKILL_RES_PEN.buffSingle((t.militaryMerit && t.nobility) ? 0.10 : 0, SOURCE_SKILL)
 
       const atkBuff = talentAtkScaling * t.teammateATKValue
 

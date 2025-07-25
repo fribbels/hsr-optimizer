@@ -128,6 +128,9 @@ export class SearchTree {
     }
   }
 
+  public search() {
+  }
+
   public getBest() {
     const benchmark = this.targetSum == 54 ? 200 : 100
     console.log(`============= ${benchmark}%`, this.bestNode?.nodeId, this.nodeId, this.mainStats.slice(2).join(' / '))

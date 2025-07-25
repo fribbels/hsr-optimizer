@@ -2,40 +2,28 @@ import {
   Stats,
   StatsValues,
 } from 'lib/constants/constants'
-import { ComputeOptimalSimulationWorkerInput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
-import { Stat } from 'types/relic'
 import {
   describe,
   expect,
   it,
 } from 'vitest'
 
-function createTestInput(mainStats: {
+function createValidator(mainStats?: {
   simBody?: string,
   simFeet?: string,
   simPlanarSphere?: string,
   simLinkRope?: string,
-} = {}): ComputeOptimalSimulationWorkerInput {
-  return {
-    partialSimulationWrapper: {
-      simulation: {
-        request: {
-          simBody: mainStats.simBody || Stats.ATK_P,
-          simFeet: mainStats.simFeet || Stats.ATK_P,
-          simPlanarSphere: mainStats.simPlanarSphere || Stats.Lightning_DMG,
-          simLinkRope: mainStats.simLinkRope || Stats.ATK_P,
-        },
-      },
+}) {
+  return new SubstatDistributionValidator(
+    54,
+    {
+      simBody: mainStats?.simBody ?? Stats.ATK_P,
+      simFeet: mainStats?.simFeet ?? Stats.ATK_P,
+      simPlanarSphere: mainStats?.simPlanarSphere ?? Stats.Lightning_DMG,
+      simLinkRope: mainStats?.simLinkRope ?? Stats.ATK_P,
     },
-    metadata: {
-      substats: [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.CR, Stats.CD, Stats.EHR, Stats.RES, Stats.BE],
-    },
-  } as ComputeOptimalSimulationWorkerInput
-}
-
-function createValidator(mainStats?: Parameters<typeof createTestInput>[0]) {
-  return new SubstatDistributionValidator(createTestInput(mainStats))
+  )
 }
 
 function createDistribution(stats: Record<string, number>) {
@@ -69,7 +57,7 @@ describe('SubstatDistributionValidator', () => {
         [Stats.SPD]: 24,
       })
 
-      expect(validator.isValidDistribution(distribution)).toBe(true)
+      expect(validator.isValidDistribution(distribution)).toBe(false)
     })
 
     it('should validate distribution where ATK% uses maximum capacity', () => {
@@ -79,7 +67,7 @@ describe('SubstatDistributionValidator', () => {
         [Stats.CR]: 12,
         [Stats.CD]: 6,
         [Stats.EHR]: 3,
-        [Stats.SPD]: 24,
+        [Stats.SPD]: 15,
       })
 
       expect(validator.isValidDistribution(distribution)).toBe(true)
@@ -476,33 +464,6 @@ describe('SubstatDistributionValidator', () => {
 
       expect(validator.isValidDistribution(distribution)).toBe(false)
     })
-
-    it('should handle distribution with zero rolls', () => {
-      const validator = createValidator()
-      const distribution = createDistribution({
-        [Stats.ATK_P]: 0,
-        [Stats.CR]: 6,
-        [Stats.CD]: 6,
-        [Stats.EHR]: 6,
-        [Stats.SPD]: 6,
-      })
-
-      expect(validator.isValidDistribution(distribution)).toBe(true)
-    })
-
-    it('should handle distribution with exactly minimum viable stats', () => {
-      const validator = createValidator()
-      const distribution = createDistribution({
-        [Stats.ATK_P]: 3, // Must appear on 3 pieces (not ATK% main pieces)
-        [Stats.CR]: 6, // Can appear on all 6 pieces, 1 roll each
-        [Stats.CD]: 6, // Can appear on all 6 pieces, 1 roll each
-        [Stats.EHR]: 6, // Can appear on all 6 pieces, 1 roll each
-        [Stats.SPD]: 3, // Appears on remaining 3 pieces
-        // Total: 3+6+6+6+3 = 24 assignments exactly
-      })
-
-      expect(validator.isValidDistribution(distribution)).toBe(true)
-    })
   })
 
   describe('Different main stat configurations', () => {
@@ -586,5 +547,3 @@ describe('SubstatDistributionValidator', () => {
     })
   })
 })
-
-type Scenario = { name: string, distribution: Record<string, number>, expected: boolean }

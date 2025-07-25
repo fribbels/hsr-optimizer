@@ -12,12 +12,12 @@ import {
   it,
 } from 'vitest'
 
-describe('test', () => {
+describe('search tree tests', () => {
   const input = testInput as unknown as ComputeOptimalSimulationWorkerInput
   const substatValidator = new SubstatDistributionValidator(input)
 
   const goal = 54
-  const max = 20000
+  const maxIterations = 20000
   const minSubstatRollCounts = {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -28,8 +28,8 @@ describe('test', () => {
     [Stats.BE]: 0,
   }
   const maxSubstatRollCounts = {
-    [Stats.ATK]: 10,
-    [Stats.ATK_P]: 18,
+    [Stats.ATK]: 36,
+    [Stats.ATK_P]: 27,
     [Stats.HP_P]: 36,
     [Stats.CR]: 36,
     [Stats.CD]: 36,
@@ -37,37 +37,14 @@ describe('test', () => {
     [Stats.BE]: 36,
   }
 
-  // const dimensions = 7
-  // const effectiveStats = [
-  //   Stats.ATK,
-  //   Stats.ATK_P,
-  //   Stats.HP_P,
-  //   Stats.CR,
-  //   Stats.CD,
-  //   Stats.EHR,
-  //   Stats.BE,
-  //   Stats.SPD,
-  // ]
-  const dimensions = 6
-  const effectiveStats = [
-    Stats.ATK_P,
-    Stats.ATK,
-    Stats.EHR,
-    Stats.CR,
-    Stats.CD,
-    Stats.SPD,
-  ]
-
   const mainStats = [
     Stats.HP,
     Stats.ATK,
-    input.partialSimulationWrapper.simulation.request.simBody,
-    input.partialSimulationWrapper.simulation.request.simFeet,
-    input.partialSimulationWrapper.simulation.request.simPlanarSphere,
-    input.partialSimulationWrapper.simulation.request.simLinkRope,
+    Stats.CD,
+    Stats.ATK_P,
+    Stats.Ice_DMG,
+    Stats.ATK_P,
   ]
-
-  const substats = effectiveStats
 
   function damageFunction(stats: SubstatCounts): number {
     return 1
@@ -76,7 +53,7 @@ describe('test', () => {
   it('test', () => {
     const tree = new SearchTree(
       goal,
-      max,
+      maxIterations,
       minSubstatRollCounts,
       maxSubstatRollCounts,
       mainStats,
@@ -153,7 +130,7 @@ describe('test', () => {
   it('test single', () => {
     const tree = new SearchTree(
       goal,
-      max,
+      maxIterations,
       minSubstatRollCounts,
       maxSubstatRollCounts,
       mainStats,

@@ -11,20 +11,25 @@ import { ComputeOptimalSimulationWorkerInput } from 'lib/worker/computeOptimalSi
  * as the stats fit, then they can be traded around to make a valid 54 stat distribution.
  */
 export class SubstatDistributionValidator {
-  private input: ComputeOptimalSimulationWorkerInput
   private target: number
   private mainStats: string[]
   private availablePiecesByStat: Record<string, number> = {}
 
-  constructor(input: ComputeOptimalSimulationWorkerInput) {
-    this.input = input
-    this.target = input.scoringParams.substatGoal
-    const request = this.input.partialSimulationWrapper.simulation.request
+  constructor(
+    target: number,
+    mainStats: {
+      simBody: string,
+      simFeet: string,
+      simPlanarSphere: string,
+      simLinkRope: string,
+    },
+  ) {
+    this.target = target
     this.mainStats = [
-      request.simLinkRope,
-      request.simPlanarSphere,
-      request.simFeet,
-      request.simBody,
+      mainStats.simLinkRope,
+      mainStats.simPlanarSphere,
+      mainStats.simFeet,
+      mainStats.simBody,
       Stats.ATK,
       Stats.HP,
     ]

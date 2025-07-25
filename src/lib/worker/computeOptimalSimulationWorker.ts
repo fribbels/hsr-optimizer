@@ -85,21 +85,22 @@ export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWo
     return currentSimulation.result.simScore
   }
 
+  const request = input.partialSimulationWrapper.simulation.request
   const mainStats = [
     Stats.HP,
     Stats.ATK,
-    partialSimulationWrapper.simulation.request.simBody,
-    partialSimulationWrapper.simulation.request.simFeet,
-    partialSimulationWrapper.simulation.request.simPlanarSphere,
-    partialSimulationWrapper.simulation.request.simLinkRope,
+    request.simBody,
+    request.simFeet,
+    request.simPlanarSphere,
+    request.simLinkRope,
   ]
 
-  const substatValidator = new SubstatDistributionValidator(input)
-  const max = 10000
+  const substatValidator = new SubstatDistributionValidator(goal, request)
+  const maxIterations = 10000
 
   const tree = new SearchTree(
     goal,
-    max,
+    maxIterations,
     minSubstatRollCounts,
     maxSubstatRollCounts,
     mainStats,

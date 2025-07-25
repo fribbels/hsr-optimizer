@@ -69,10 +69,10 @@ export interface TreeStatNode extends ProtoTreeStatNode {
  */
 export class SearchTree {
   public root: ProtoTreeStatNode
+  public damageQueue: PriorityQueue<ProtoTreeStatNode>
+  public volumeQueue: PriorityQueue<ProtoTreeStatNode>
 
   private nodeId = 0
-  private damageQueue: PriorityQueue<ProtoTreeStatNode>
-  private volumeQueue: PriorityQueue<ProtoTreeStatNode>
   private bestDamage = 0
   private bestHistory: number[] = []
   private bestNode: ProtoTreeStatNode | null = null
@@ -212,7 +212,7 @@ export class SearchTree {
   }
 
   /**
-   * This is used as a region-level validator, used to prune impossible region from the search tree.
+   * This is used as a region-level validator, used to prune impossible regionfrom the search tree.
    * This return false only when no possible points in the region could be a valid point.
    * We check constraints using the upper and lower bounds to rule out possible points.
    * However, this does not say that there is a valid point in the region, just that there could be one.
@@ -483,12 +483,14 @@ export class SearchTree {
   }
 
   public calculateDamage(node: ProtoTreeStatNode) {
-    node.damage = this.damageFunction(node.representative)
+    const damage = this.damageFunction(node.representative)
+    node.damage = damage
     if (node.damage > this.bestDamage) {
-      this.bestDamage = node.damage
+      this.bestDamage = damage
       this.bestNode = node
       this.bestHistory.push(node.nodeId!)
     }
+    return damage
   }
 
   // Number of points each region contains, note that when upper == lower, volume is considered 1
@@ -502,5 +504,6 @@ export class SearchTree {
     }
 
     node.volume = volume
+    return volume
   }
 }

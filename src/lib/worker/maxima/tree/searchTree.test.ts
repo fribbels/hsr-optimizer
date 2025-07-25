@@ -1,57 +1,73 @@
 import { Stats } from 'lib/constants/constants'
 import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
-import { ComputeOptimalSimulationWorkerInput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
-import { testInput } from 'lib/worker/maxima/testData'
-import {
-  SearchTree,
-  TreeStatRegion,
-} from 'lib/worker/maxima/tree/searchTree'
+import { SearchTree } from 'lib/worker/maxima/tree/searchTree'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 import {
   describe,
+  expect,
   it,
 } from 'vitest'
 
 describe('search tree tests', () => {
-  const input = testInput as unknown as ComputeOptimalSimulationWorkerInput
-  const substatValidator = new SubstatDistributionValidator(input)
+  function initializeTree(
+    overrides?: {
+      minSubstatRollCounts?: SubstatCounts,
+      maxSubstatRollCounts?: SubstatCounts,
+    },
+  ) {
+    const mains = {
+      simBody: Stats.ATK_P,
+      simFeet: Stats.ATK_P,
+      simPlanarSphere: Stats.Lightning_DMG,
+      simLinkRope: Stats.ATK_P,
+    }
+    const substatValidator = new SubstatDistributionValidator(54, mains)
 
-  const goal = 54
-  const maxIterations = 20000
-  const minSubstatRollCounts = {
-    [Stats.ATK]: 0,
-    [Stats.ATK_P]: 0,
-    [Stats.HP_P]: 0,
-    [Stats.CR]: 0,
-    [Stats.CD]: 0,
-    [Stats.EHR]: 0,
-    [Stats.BE]: 0,
-  }
-  const maxSubstatRollCounts = {
-    [Stats.ATK]: 36,
-    [Stats.ATK_P]: 27,
-    [Stats.HP_P]: 36,
-    [Stats.CR]: 36,
-    [Stats.CD]: 36,
-    [Stats.EHR]: 36,
-    [Stats.BE]: 36,
-  }
+    const goal = 54
+    const maxIterations = 20000
+    const minSubstatRollCounts = overrides?.minSubstatRollCounts ?? {
+      [Stats.ATK]: 0,
+      [Stats.ATK_P]: 0,
+      [Stats.HP]: 0,
+      [Stats.HP_P]: 0,
+      [Stats.DEF]: 0,
+      [Stats.DEF_P]: 0,
+      [Stats.SPD]: 0,
+      [Stats.CR]: 0,
+      [Stats.CD]: 0,
+      [Stats.EHR]: 0,
+      [Stats.RES]: 0,
+      [Stats.BE]: 0,
+    }
+    const maxSubstatRollCounts = overrides?.maxSubstatRollCounts ?? {
+      [Stats.ATK]: 36,
+      [Stats.ATK_P]: 24,
+      [Stats.HP]: 0,
+      [Stats.HP_P]: 36,
+      [Stats.DEF]: 0,
+      [Stats.DEF_P]: 0,
+      [Stats.SPD]: 0,
+      [Stats.CR]: 36,
+      [Stats.CD]: 30,
+      [Stats.EHR]: 36,
+      [Stats.RES]: 0,
+      [Stats.BE]: 36,
+    }
 
-  const mainStats = [
-    Stats.HP,
-    Stats.ATK,
-    Stats.CD,
-    Stats.ATK_P,
-    Stats.Ice_DMG,
-    Stats.ATK_P,
-  ]
+    const mainStats = [
+      Stats.HP,
+      Stats.ATK,
+      Stats.CD,
+      Stats.ATK_P,
+      Stats.Ice_DMG,
+      Stats.ATK_P,
+    ]
 
-  function damageFunction(stats: SubstatCounts): number {
-    return 1
-  }
+    function damageFunction(stats: SubstatCounts): number {
+      return 1
+    }
 
-  it('test', () => {
-    const tree = new SearchTree(
+    return new SearchTree(
       goal,
       maxIterations,
       minSubstatRollCounts,
@@ -60,130 +76,76 @@ describe('search tree tests', () => {
       damageFunction,
       substatValidator,
     )
+  }
 
-    function randomLow() {
-      return Math.floor(Math.random() * 24)
-    }
+  it('is region feasible', () => {
+    const tree = initializeTree()
 
-    function randomHigh() {
-      return Math.floor(Math.random() * 30 + 6)
-    }
+    expect(tree.isRegionFeasible(tree.root.region)).toBe(true)
+  })
 
-    function randomRegion(): TreeStatRegion {
-      return {
-        lower: {
-          [Stats.ATK]: randomLow(),
-          [Stats.ATK_P]: randomLow(),
-          [Stats.HP_P]: randomLow(),
-          [Stats.CR]: randomLow(),
-          [Stats.CD]: randomLow(),
-          [Stats.EHR]: randomLow(),
-          [Stats.BE]: randomLow(),
-          [Stats.SPD]: 5,
-        },
-        upper: {
-          [Stats.ATK]: Math.min(maxSubstatRollCounts[Stats.ATK], randomHigh()),
-          [Stats.ATK_P]: Math.min(maxSubstatRollCounts[Stats.ATK_P], randomHigh()),
-          [Stats.HP_P]: Math.min(maxSubstatRollCounts[Stats.HP_P], randomHigh()),
-          [Stats.CR]: Math.min(maxSubstatRollCounts[Stats.CR], randomHigh()),
-          [Stats.CD]: Math.min(maxSubstatRollCounts[Stats.CD], randomHigh()),
-          [Stats.EHR]: Math.min(maxSubstatRollCounts[Stats.EHR], randomHigh()),
-          [Stats.BE]: Math.min(maxSubstatRollCounts[Stats.BE], randomHigh()),
-          [Stats.SPD]: 5,
-        },
-      }
-    }
+  it('available pieces', () => {
+    const tree = initializeTree()
 
-    let checks = 0
-    for (let i = 0; i < 10000000; i++) {
-      const region = randomRegion()
-      let valid = true
-      let sum = 0
-      for (const stat of Object.keys(region.upper)) {
-        sum += region.lower[stat]
-        if (region.upper[stat] <= region.lower[stat] && stat != Stats.SPD || sum > 54) {
-          valid = false
-          break
-        }
-        if (!tree.isRegionFeasible(region)) {
-          valid = false
-          break
-        }
-      }
+    expect(tree.getAvailablePieces(Stats.ATK)).toBe(5)
+    expect(tree.getAvailablePieces(Stats.ATK_P)).toBe(4)
+  })
 
-      if (valid) {
-        const representative = tree.generateRepresentative(region, Stats.ATK_P, true)
-        const validated = substatValidator.isValidDistribution(representative)
-        if (!validated) {
-          console.log(region)
-          console.log('---')
-          console.log(representative)
-          console.log('===============')
-        }
-        checks++
-      }
-    }
+  it('split dimension', () => {
+    const tree = initializeTree({
+      maxSubstatRollCounts: {
+        [Stats.ATK]: 20,
+        [Stats.ATK_P]: 20,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 20,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.SPD]: 0,
+        [Stats.CR]: 20,
+        [Stats.CD]: 20,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 36,
+      },
+    })
 
-    console.log('Done', checks)
-  }, 1000000)
+    const dimension = tree.pickSplitDimension(tree.root)
+    expect(dimension).toBe(Stats.BE)
+  })
 
-  it('test single', () => {
-    const tree = new SearchTree(
-      goal,
-      maxIterations,
-      minSubstatRollCounts,
-      maxSubstatRollCounts,
-      mainStats,
-      damageFunction,
-      substatValidator,
-    )
+  it('root', () => {
+    const tree = initializeTree()
 
-    function specificRegion(): TreeStatRegion {
-      return {
-        lower: {
-          'HP%': 0,
-          'ATK%': 14,
-          'DEF%': 0,
-          'HP': 0,
-          'ATK': 0,
-          'DEF': 0,
-          'SPD': 23.782,
-          'CRIT Rate': 0,
-          'CRIT DMG': 0,
-          'Effect Hit Rate': 0,
-          'Effect RES': 0,
-          'Break Effect': 0,
-        },
-        upper: {
-          'HP%': 0,
-          'ATK%': 18,
-          'DEF%': 0,
-          'HP': 0,
-          'ATK': 4,
-          'DEF': 0,
-          'SPD': 23.782,
-          'CRIT Rate': 8,
-          'CRIT DMG': 8,
-          'Effect Hit Rate': 8,
-          'Effect RES': 0,
-          'Break Effect': 0,
-        },
-      }
-    }
+    expect(tree.substatValidator.isValidDistribution(tree.root.representative)).toBe(true)
+    expect(tree.damageQueue.length).toBe(1)
+    expect(tree.volumeQueue.length).toBe(1)
+  })
 
-    const region = specificRegion()
-    const feasible = tree.isRegionFeasible(region)
-    const representative = tree.generateRepresentative(region, Stats.ATK_P, true)
-    const validated = substatValidator.isValidDistribution(representative)
+  it('volume', () => {
+    const tree = initializeTree()
+    expect(tree.calculateVolume(tree.root)).toBe(36 * 24 * 36 * 36 * 30 * 36 * 36)
 
-    console.log(feasible)
-    console.log(tree.mainStats)
-    console.log('---')
-    console.log(region)
-    console.log('---')
-    console.log(representative)
-    console.log('---')
-    console.log(validated)
-    console.log('===============')
+    const treeFixedEhr = initializeTree({
+      maxSubstatRollCounts: {
+        [Stats.ATK]: 36,
+        [Stats.ATK_P]: 24,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 36,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.SPD]: 0,
+        [Stats.CR]: 36,
+        [Stats.CD]: 30,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 36,
+      },
+    })
+    expect(treeFixedEhr.calculateVolume(treeFixedEhr.root)).toBe(36 * 24 * 36 * 36 * 30 * 1 * 36)
+  })
+
+  it('damage', () => {
+    const tree = initializeTree()
+    expect(tree.calculateDamage(tree.root)).toBe(1)
   })
 })

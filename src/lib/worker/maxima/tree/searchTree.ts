@@ -27,6 +27,7 @@ export interface ProtoTreeStatNode {
   evaluated: boolean
   parent: TreeStatNode | null
 }
+
 export interface TreeStatNode extends ProtoTreeStatNode {
   splitValue: number
   splitDimension: string
@@ -34,6 +35,38 @@ export interface TreeStatNode extends ProtoTreeStatNode {
   upperChild: ProtoTreeStatNode
 }
 
+/**
+ * Global maxima search algorithm for optimal substat distributions
+ *
+ * The problem:
+ * - Calculating the globally optimal solution is very computationally costly
+ * - Each stat dimension has [0, 36] range, with up to 8 dimensions to search
+ * - Naively the search space upper bound is 37^8 = 3,512,479,453,921 points
+ * - Realistically lower, after applying substat constraints
+ * - The damage function has to be considered as a black box, since it frequently changes
+ * - The damage function is not smooth, has cliffs from stat conversions, conditional activations
+ * - The solution must be a valid in-game substat distribution, which follows complex assignment rules
+ - The algorithm has to be deterministic and reproducible
+ *
+ * Tech constraints:
+ * - Must run within ~1 second, since these are used in the browser for character cards DPS Score
+ * - Must run within workers, meaning multiple parallel executions at a time
+ * - Browser RAM limits, restricts the amount of precomputation we can do (multiplied by # workers)
+ *
+ * Simple summary:
+ * - Initialize root region covering entire feasible space, push it onto a queue
+ * - Create a Priority Queue ordered by damage based metric
+ * - Loop:
+ *   - Pop a node from the queue
+ *   - Split the node's region into two child nodes with half the size
+ *   - Generate a point in each region and measure their damage
+ *   - Push the points onto the queue
+ * - Stop the loop when n iterations are complete, take the highest damage node as the optimal
+ *
+ * This progressively builds a space partitioning tree to search the space,
+ * by assigning representative points to regions and subdividing them. The binary splits reduce variance
+ * within each region and the priority queue focuses search on the optimal regions.
+ */
 export class SearchTree {
   public root: ProtoTreeStatNode
 

@@ -190,6 +190,7 @@ export function injectActionDamage(context: OptimizerContext) {
     let dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN);
     let dotEhrMulti = calculateEhrMulti(p_x);
     let dotTrueDmgMulti = 1 + x.TRUE_DMG_MODIFIER + x.DOT_TRUE_DMG_MODIFIER;
+    let dotFinalDmgMulti = 1 + x.FINAL_DMG_BOOST + x.DOT_FINAL_DMG_BOOST;
     let initialDmg = calculateInitial(
       p_x,
       x.DOT_DMG,
@@ -207,7 +208,8 @@ export function injectActionDamage(context: OptimizerContext) {
         * (dotVulnerabilityMulti)
         * (dotResMulti)
         * (dotEhrMulti)
-        * (dotTrueDmgMulti);
+        * (dotTrueDmgMulti)
+        * (dotFinalDmgMulti);
     }
   }
   /* END DOT CALC */

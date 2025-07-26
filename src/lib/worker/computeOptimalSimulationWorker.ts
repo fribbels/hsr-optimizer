@@ -113,9 +113,12 @@ export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWo
     return currentSimulation
   }
 
-  for (let i = 0; i < 10000; i++) {
+  const start = performance.now()
+  for (let i = 0; i < 50000; i++) {
     tree.singleIteration()
   }
+  const end = performance.now()
+  console.log(end - start)
 
   const best = tree.getBest()!
   damageFunction(best.representative, true)

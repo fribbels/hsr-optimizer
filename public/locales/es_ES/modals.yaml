@@ -1,6 +1,10 @@
 Scoring:
   StatWeightsHeader: Importancias de atributo
+  SetWeightsHeader: Importancias de conjunto
   MainstatsHeader: Atributos principales óptimos
+  SetWeights:
+    AddRelicSetPlaceholder: Agregar conjunto de artefactos
+    AddOrnamentSetPlaceholder: Agregar conjunto de ornamentos
   WeightMethodology:
     Header: '¿Cómo se calcula el Puntaje de atributo?'
   Footer:
@@ -271,6 +275,7 @@ Relic:
   Substat: Atributos secundarios
   SubstatPlaceholder: Atributo secundario
   SpdInputWarning: Nota - La VEL dentro del juego contiene decimales ocultos por lo que será imprecisa si se ingresa manualmente. Para valores de VEL precisos, usa la pestaña Exhibidor o el importador Reliquary Archiver.
+  LiveImportWarning: Está habilitado el modo Importación en vivo, puede que tus cambios sean sobrescritos.
   Upgrades: Mejoras de atr. secundario
   Messages:
     SubmitFail: '¡Falló la carga!'
@@ -363,3 +368,7 @@ CharacterSelect:
 LightconeSelect:
   Placeholder: Cono de luz
   Title: Selecciona un cono de luz
+RelicReroll:
+  Title: Reasignación de artefacto detectada
+  OriginalSubstats: Atributos secundarios originales
+  RerolledSubstats: Atributos secundarios reasignados

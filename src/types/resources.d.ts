@@ -6176,7 +6176,8 @@ interface Resources {
       "Potential": "POTENTIAL",
       "Avg": "AVG",
       "Max": "MAX",
-      "BestFor": "BEST FOR"
+      "BestFor": "BEST FOR",
+      "Tooltip": "Average and maximum potential scores for this character"
     },
     "Messages": {
       "AddRelicSuccess": "Successfully added relic",

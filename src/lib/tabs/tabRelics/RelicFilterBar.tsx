@@ -36,9 +36,7 @@ import { generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import {
-  isStatsValues,
-} from 'lib/utils/i18nUtils'
+import {  isStatsValues,} from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
   useEffect,
@@ -339,7 +337,7 @@ export default function RelicFilterBar() {
                 onChange={setValueColumns}
                 options={valueColumnOptions}
                 maxTagCount='responsive'
-                style={{ flex: 1 }}
+                style={{ width: 360 }}
                 listHeight={750}
                 dropdownStyle={{ width: 'fit-content' }}
               />

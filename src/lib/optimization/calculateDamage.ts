@@ -248,6 +248,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
     const dotResMulti = 1 - (baseResistance - a[Key.DOT_RES_PEN])
     const dotEhrMulti = calculateEhrMulti(x, context)
     const dotTrueDmgMulti = a[Key.TRUE_DMG_MODIFIER] + a[Key.DOT_TRUE_DMG_MODIFIER] // (1 +) dropped intentionally for dmg tracing
+    const dotFinalDmgMulti = 1 + a[Key.FINAL_DMG_BOOST] + a[Key.DOT_FINAL_DMG_BOOST]
 
     const initialDmg = calculateInitial(
       a,
@@ -270,6 +271,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       dotResMulti,
       dotEhrMulti,
       dotTrueDmgMulti,
+      dotFinalDmgMulti,
     )
     a[Key.DOT_DMG] = instanceDmg
   }
@@ -591,6 +593,7 @@ function calculateDotDmg(
   resMulti: number,
   ehrMulti: number,
   trueDmgMulti: number,
+  finalDmgMulti: number,
 ) {
   const dotDmg = baseDmg
     * universalMulti
@@ -599,6 +602,7 @@ function calculateDotDmg(
     * vulnerabilityMulti
     * resMulti
     * ehrMulti
+    * finalDmgMulti
 
   const trueDmg = dotDmg * trueDmgMulti
 

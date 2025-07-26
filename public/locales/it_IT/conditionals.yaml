@@ -2,7 +2,7 @@ BetaMessage: 'Versione attuale: {{Version}} - I calcoli sono soggetti a modifich
 Common:
   BuffPriority:
     Text: 'Bersaglio prioritario del buff'
-    Content: 'Seleziona il bersaglio preferito per i buff a bersaglio singolo'
+    Content: 'Seleziona il bersaglio preferito per buff a bersaglio singolo'
     Self: 'Priorità buff: Sé stesso'
     Memo: 'Priorità buff: Memo'
 Lightcones:
@@ -14,6 +14,10 @@ Lightcones:
     Content:
       vulnerability:
         text: Vulnerabilità
+  JourneyForeverPeaceful:
+    Content:
+      shieldBoost:
+        text: Aumento scudo
 Characters:
   Archer:
     Content:
@@ -24,8 +28,8 @@ Characters:
       memospriteActive:
         text: Memosprite attivo
       spdBuff:
-        text: Buff SPD
+        text: Buff VEL
       e1EnemyHp50:
-        text: E1 HP nemico ≤ 50%
+        text: E1 PV nemico ≤ 50%
       e6Buffs:
         text: E6 buff

@@ -28,18 +28,15 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
   const { relic, scoringCharacter, setSelectedRelicID, isSelected } = props
   const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
   const { token } = theme.useToken()
-  const { t } = useTranslation(['gameData', 'relicsTab'])
+  const { t } = useTranslation('relicsTab', { keyPrefix: 'RecentlyUpdatedRelics' })
+  const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
 
   // Calculate score for the selected character
-  const score = useMemo(() => {
-    if (!relic || !scoringCharacter) return
-    return RelicScorer.scoreCurrentRelic(relic, scoringCharacter)
-  }, [relic, scoringCharacter])
-
-  // Calculate potential scores
-  const potentialScore = useMemo(() => {
-    if (!relic || !scoringCharacter) return
-    return RelicScorer.scoreRelicPotential(relic, scoringCharacter, true)
+  const { score, potentialScore } = useMemo(() => {
+    if (!relic || !scoringCharacter) return {}
+    const score = RelicScorer.scoreCurrentRelic(relic, scoringCharacter)
+    const potentialScore = RelicScorer.scoreRelicPotential(relic, scoringCharacter, true)
+    return { score, potentialScore }
   }, [relic, scoringCharacter])
 
   // Calculate top 3 characters for the relic
@@ -51,11 +48,12 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
       .map((id) => ({
         id,
         rarity: chars[id].rarity,
-        name: t(`gameData:Characters.${id}.Name`),
+        name: tCharacters(`${id}.Name`),
         score: RelicScorer.scoreRelicPotential(relic, id, false),
         isSelected: id === scoringCharacter,
         icon: Assets.getCharacterAvatarById(id),
-      })).sort((a, b) => {
+      }))
+      .sort((a, b) => {
         // Break ties by score -> rarity -> character priority
         const pctDiff = b.score.bestPct - a.score.bestPct
         if (pctDiff !== 0) {
@@ -67,11 +65,10 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
           return rarityDiff
         }
 
-        const priorityDiff = (DB.getCharacterById(a.id)?.rank ?? 999) - (DB.getCharacterById(b.id)?.rank ?? 999)
-        return priorityDiff
+        return (DB.getCharacterById(a.id)?.rank ?? 999) - (DB.getCharacterById(b.id)?.rank ?? 999)
       })
       .slice(0, 5)
-  }, [relic, scoringCharacter, excludedRelicPotentialCharacters, t])
+  }, [relic, scoringCharacter, excludedRelicPotentialCharacters, tCharacters])
 
   // Skip render if no relic
   if (!relic) {
@@ -126,7 +123,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                   color: token.colorTextSecondary,
                 }}
               >
-                {t('relicsTab:RecentlyUpdatedRelics.Potential') /* POTENTIAL */}
+                {t('Potential') /* POTENTIAL */}
               </Typography.Text>
             </Flex>
 
@@ -149,8 +146,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                   color: token.colorTextSecondary,
                 }}
               >
-                {t('relicsTab:RecentlyUpdatedRelics.Avg') /* AVG */}:{' '}
-                <span style={{ color: getColorAtPercent(avgPotential), fontWeight: 700 }}>{avgPotential}%</span>
+                {t('Avg') /* AVG */}: <span style={{ color: getColorAtPercent(avgPotential), fontWeight: 700 }}>{avgPotential}%</span>
               </Typography.Text>
               <Typography.Text
                 style={{
@@ -158,8 +154,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                   color: token.colorTextSecondary,
                 }}
               >
-                {t('relicsTab:RecentlyUpdatedRelics.Max') /* MAX */}:{' '}
-                <span style={{ color: getColorAtPercent(maxPotential), fontWeight: 700 }}>{maxPotential}%</span>
+                {t('Max') /* MAX */}: <span style={{ color: getColorAtPercent(maxPotential), fontWeight: 700 }}>{maxPotential}%</span>
               </Typography.Text>
             </Flex>
           </Flex>
@@ -178,7 +173,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                   color: token.colorTextSecondary,
                 }}
               >
-                {t('relicsTab:RecentlyUpdatedRelics.BestFor') /* BEST FOR */}
+                {t('BestFor') /* BEST FOR */}
               </Typography.Text>
 
               <Flex vertical gap={5} style={{ margin: '0 -4px' }}>
@@ -225,7 +220,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                           </Typography.Text>
                         </Flex>
                         <Flex align='center' gap={4}>
-                          <Tooltip title='Average and maximum potential scores for this character'>
+                          <Tooltip title={t('Tooltip') /* Average and maximum potential scores for this character */}>
                             <Typography.Text
                               style={{
                                 fontSize: '12px',

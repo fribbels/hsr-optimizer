@@ -1,6 +1,6 @@
 RelicFilterBar:
   Part: Pezzo
-  Enhance: Migliora
+  Enhance: Miglioramento
   Grade: Grado
   InitialRolls: Roll Iniziali
   Verified: Verificato
@@ -8,13 +8,13 @@ RelicFilterBar:
   Clear: Cancella
   ClearButton: Cancella tutti i filtri
   Set: Set
-  Mainstat: Statistica principale
-  Substat: Statistica secondaria
+  Mainstat: Statistiche principali
+  Substat: Statistiche secondarie
   ReapplyButton: Riapplica punteggi
   ScoringButton: Algoritmo del punteggio
   RecommendationHeader: Personaggio consigliato per le reliquie
   Rating: Valutazioni delle reliquie
-  CustomCharsHeader: Personaggio valore personalizzato
+  CustomCharsHeader: Personaggi potenziali personalizzati
 RecentlyUpdatedRelics:
   Header: Reliquie aggiornate di recente
   Potential: POTENZIALE
@@ -39,31 +39,31 @@ RelicGrid:
     MainValue: |-
       Valore
       Principale
-    HPP: HP %
-    ATKP: ATK %
-    DEFP: DEF %
-    HP: HP
-    ATK: ATK
-    DEF: DEF
-    SPD: SPD
+    HPP: PV %
+    ATKP: ATT %
+    DEFP: DIF %
+    HP: PV
+    ATK: ATT
+    DEF: DIF
+    SPD: VEL
     CR: |-
-      Crit
-      Rate
+      Tasso
+      di Crit
     CD: |-
-      Crit
-      DMG
+      DAN
+      da Crit
     EHR: |-
-      Effect
-      Hit Rate
+      Tasso di
+      Successo Effetto
     RES: |-
-      Effect
       RES
+      Effetti
     BE: |-
+      Effetto
       Break
-      Effect
     CV: |-
       Valore
-      Critico
+      di Crit
   ValueColumns:
     SelectedCharacter:
       Label: Personaggio selezionato
@@ -103,17 +103,17 @@ RelicGrid:
       AvgPotCol:
         Label: "Personaggi personalizzati: Potenziale medio"
         Header: |-
-          PG Personalizzato
+          PG Personalizzati
           Potenziale medio
       MaxPotCol:
         Label: "Personaggi personalizzati: Potenziale massimo"
         Header: |-
-          PG Personalizzato
+          PG Personalizzati
           Potenziale Massimo
       RerollAvg:
         Label: "Personaggi personalizzati: Potenziale medio reroll"
         Header: |-
-          PG Personalizzato
+          PG Personalizzati
           Media Reroll
     AllCharacters:
       Label: Tutti i personaggi
@@ -135,7 +135,7 @@ RelicGrid:
     ComingSoon:
       Label: In arrivo prossimamente
       SetsPotential:
-        Label: Potenziale set Reliquia / Ornamento
+        Label: Potenziale set reliquia / ornamento
         Header: |-
           Tutti i Personaggi
           Potenziale Massimo + Set

@@ -12,14 +12,14 @@ import {
 } from 'lib/simulations/tests/testMetadataConstants'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v3.5.3'
+export const CURRENT_OPTIMIZER_VERSION = 'v3.5.6'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '3.5v3'
+export const CURRENT_DATA_VERSION = '3.5v6'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  [HYSILENS]: 'V3 - Talent is temporarily considered Physical for now - WIP',
+  [HYSILENS]: 'V6 - Enabled the E1 +16% DOT Final DMG buff',
 }
 
 export const Stats = {

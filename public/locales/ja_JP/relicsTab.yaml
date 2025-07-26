@@ -21,6 +21,7 @@ RecentlyUpdatedRelics:
   Avg: 平均
   Max: 最大
   BestFor: 最適
+  Tooltip: キャラクターに対しての平均・最大遺物ポテンシャル
 Messages:
   AddRelicSuccess: 遺物を追加しました
   NoRelicSelected: 遺物が未選択です

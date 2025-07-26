@@ -11,8 +11,8 @@ test('Add new relic from RelicsTab', async ({ page }) => {
   await expect(page.getByRole('main')).toContainText('Add New Relic')
   await page.getByRole('button', { name: 'Add New Relic' }).click()
 
-  // assert empty form state
-  await page.locator('#equippedBy').click()
+  // assert form defaults to None wearer
+  await page.getByRole('dialog').getByText('None').click()
   await page.getByTitle('None').locator('div').click()
   await expect(page.getByRole('dialog')).toContainText('None')
 

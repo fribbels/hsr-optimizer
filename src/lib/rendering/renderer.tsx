@@ -2,6 +2,8 @@ import {
   CheckCircleFilled,
   CloseCircleFilled,
 } from '@ant-design/icons'
+import { ValueFormatterParams } from 'ag-grid-community'
+import { CustomCellRendererProps } from 'ag-grid-react'
 import {
   Flex,
   Image,
@@ -12,7 +14,12 @@ import { CircleIcon } from 'icons/CircleIcon'
 import { RingedCircle4Icon } from 'icons/RingedCircle4Icon'
 import { RingedCircleCheckIcon } from 'icons/RingedCircleCheckIcon'
 import { RingedCircleIcon } from 'icons/RingedCircleIcon'
-import { Constants } from 'lib/constants/constants'
+import {
+  Constants,
+  Parts,
+  StatsValues,
+} from 'lib/constants/constants'
+import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { Assets } from 'lib/rendering/assets'
 import {
   currentLocale,
@@ -20,28 +27,29 @@ import {
   localeNumber_0,
 } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
+import { CharacterId } from 'types/character'
 import {
   Relic,
   Stat,
 } from 'types/relic'
 
 export const Renderer = {
-  floor: (x: { value: number }) => {
+  floor: (x: ValueFormatterParams<any, number>) => {
     if (x?.value == undefined) return ''
     return localeNumber(Math.floor(x.value))
   },
 
-  x100Tenths: (x: { value: number }) => {
+  x100Tenths: (x: ValueFormatterParams<any, number>) => {
     if (x?.value == undefined) return ''
     return localeNumber_0(Math.floor(Utils.precisionRound(x.value * 100) * 10) / 10)
   },
 
-  tenths: (x: { value: number }) => {
+  tenths: (x: ValueFormatterParams<any, number>) => {
     if (x?.value == undefined) return ''
     return localeNumber_0(Math.floor(Utils.precisionRound(x.value) * 10) / 10)
   },
 
-  relicSet: (x: { value: number }) => {
+  relicSet: (x: CustomCellRendererProps<OptimizerDisplayDataStatSim, number>) => {
     if (x?.value == undefined || isNaN(x.value)) return ''
     const i = x.value
 
@@ -78,7 +86,7 @@ export const Renderer = {
     )
   },
 
-  ornamentSet: (x: { value: number }) => {
+  ornamentSet: (x: CustomCellRendererProps<OptimizerDisplayDataStatSim, number>) => {
     if (x?.value == undefined) return ''
     const i = x.value
 
@@ -101,21 +109,20 @@ export const Renderer = {
     }
   },
 
-  anySet: (x: { value: number, data: Relic }) => {
-    if (x?.value == undefined) return ''
-    const part = x.data.part
+  anySet: (x: CustomCellRendererProps<Relic>) => {
+    const data = x.data
+    if (!data) return ''
 
-    const src = Assets.getSetImage(x.data.set, part)
+    const src = Assets.getSetImage(data.set, data.part)
     return (
-      <Flex justify='center' title={x.data.set} style={{ marginTop: -1 }}>
+      <Flex justify='center' title={data.set} style={{ marginTop: -1 }}>
         <SetDisplay asset={src} />
       </Flex>
     )
   },
 
-  characterIcon: (x: { value: string, data: Relic }) => {
-    if (x?.value == undefined) return ''
-    const equippedBy = x.data.equippedBy
+  characterIcon: (x: CustomCellRendererProps<Relic>) => {
+    const equippedBy = x.data?.equippedBy
     if (!equippedBy) return ''
 
     const src = Assets.getCharacterAvatarById(equippedBy)
@@ -126,19 +133,17 @@ export const Renderer = {
     )
   },
 
-  readableStat: (x: { value: string }): string => {
+  readableStat: (x: ValueFormatterParams<Relic, StatsValues>) => {
     if (x?.value == undefined) return ''
-    // @ts-ignore
     return i18next.t(`common:ShortReadableStats.${x.value}`)
   },
 
-  readablePart: (x: { value: string }) => {
+  readablePart: (x: ValueFormatterParams<Relic, Parts>) => {
     if (x?.value == undefined) return ''
-    // @ts-ignore
     return i18next.t(`common:ReadableParts.${x.value}`)
   },
 
-  partIcon: (x: { value: string }) => {
+  partIcon: (x: ValueFormatterParams<any, string>) => {
     if (x?.value == undefined) return ''
     return (
       <Flex justify='center' style={{ marginTop: -1, width: 20, marginBottom: 3 }}>
@@ -147,35 +152,35 @@ export const Renderer = {
     )
   },
 
-  hideZeroesFloor: (x: { value: number }) => {
-    return x.value == 0 ? '' : '' + Math.floor(x.value)
+  hideZeroesFloor: (x: ValueFormatterParams<any, number>) => {
+    return !x.value ? '' : '' + Math.floor(x.value)
   },
 
   // Unverified: 6, Verified: 6.0
-  hideZeroes10thsRelicTabSpd: (x: { value: number, data: Relic }) => {
-    if (x.value == 0) return ''
+  hideZeroes10thsRelicTabSpd: (x: ValueFormatterParams<Relic, number>) => {
+    if (!x.value) return ''
 
     const value = Utils.precisionRound(Math.floor(x.value * 10) / 10)
-    return x.data.verified ? localeNumber_0(value) : localeNumber(value)
+    return x.data?.verified ? localeNumber_0(value) : localeNumber(value)
   },
 
-  mainValueRenderer: (x: { value: number, data: Relic }) => {
-    const part = x.data.part
+  mainValueRenderer: (x: ValueFormatterParams<Relic, number>) => {
+    const part = x.data?.part
     if (part == Constants.Parts.Hands || part == Constants.Parts.Head) {
-      return x.value == 0 ? '' : localeNumber(Math.floor(x.value))
+      return !x.value ? '' : localeNumber(Math.floor(x.value))
     }
-    return x.value == 0 ? '' : Utils.truncate10ths(x.value).toLocaleString(currentLocale())
+    return !x.value ? '' : Utils.truncate10ths(x.value).toLocaleString(currentLocale())
   },
 
-  hideZeroesX100Tenths: (x: { value: number }) => {
+  hideZeroesX100Tenths: (x: ValueFormatterParams<any, number>) => {
     return x.value == 0 ? '' : Renderer.x100Tenths(x)
   },
 
-  hideNaNAndFloor: (x: { value: number }) => {
-    return isNaN(x.value) ? 0 : Math.floor(x.value)
+  hideNaNAndFloor: (x: ValueFormatterParams) => {
+    return !x.value || isNaN(x.value) ? '0' : Math.floor(x.value).toLocaleString(currentLocale())
   },
-  hideNaNAndFloorPercent: (x: { value: number }) => {
-    return (isNaN(x.value) ? 0 : Math.floor(x.value)) + '%'
+  hideNaNAndFloorPercent: (x: ValueFormatterParams) => {
+    return (!x.value || isNaN(x.value) ? '0' : Math.floor(x.value)).toLocaleString(currentLocale()) + '%'
   },
 
   renderSubstatNumber: (substat: Stat, relic: Relic) => {
@@ -193,8 +198,8 @@ export const Renderer = {
     return Utils.isFlat(mainstat.stat) ? localeNumber(Math.floor(mainstat.value)) : localeNumber_0(Utils.truncate10ths(mainstat.value))
   },
 
-  renderGradeCell: (x: { data: Relic }) => {
-    const relic = x.data
+  renderGradeCell: (x: CustomCellRendererProps<Relic>) => {
+    const relic = x.data!
     return Renderer.renderGrade(relic, true)
   },
   renderGrade: (relic: Relic, highlight4Liners = false) => {
@@ -225,9 +230,9 @@ export const Renderer = {
         : <CircleIcon color={circleColor} />
     }
   },
-  renderEquippedBy: (equippedBy: string) => {
+  renderEquipped: (equipped: boolean) => {
     return (
-      equippedBy == 'true'
+      equipped
         ? <CheckCircleFilled style={{ fontSize: '14px', color: '#6de362' }} />
         : <CloseCircleFilled style={{ fontSize: '14px', color: '#de5555' }} />
     )

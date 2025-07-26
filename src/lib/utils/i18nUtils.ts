@@ -1,4 +1,5 @@
 import i18next from 'i18next'
+import { StatsValues } from 'lib/constants/constants'
 
 export const languages = {
   de_DE: {
@@ -123,4 +124,8 @@ export const localeNumber_000 = (n: number) => n.toLocaleString(currentLocale(),
 // can be used for toLocaleString() when a variable number of decimals is desired
 export function currentLocale() {
   return languageToLocale[i18next.resolvedLanguage as Languages]
+}
+
+export function isStatsValues(key: string): key is StatsValues {
+  return i18next.exists(`common:Stats.${key}`)
 }

@@ -1,9 +1,9 @@
 import { Flex } from 'antd'
-import i18next from 'i18next'
+import { TFunction } from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import { currentLocale } from 'lib/utils/i18nUtils'
+import { ReactNode } from 'react'
 import { Character } from 'types/character'
-import { ReactElement } from 'types/components'
 
 type GenerateCharacterListOptions = {
   currentCharacters: Character[],
@@ -15,13 +15,14 @@ type GenerateCharacterListOptions = {
 
 type OptionType = {
   value: string,
-  label: ReactElement | string,
+  label: ReactNode,
   title: string,
 }
 
 // Character selector options from current characters with some customization parameters
 export function generateCharacterList(
   listOptions: Partial<GenerateCharacterListOptions>,
+  t: TFunction<'gameData', 'Characters'>,
 ) {
   const {
     currentCharacters,
@@ -45,13 +46,13 @@ export function generateCharacterList(
             style={{ height: 22, marginRight: 4 }}
           />
           {listOptions.longNameLabel
-            ? i18next.t(`gameData:Characters.${character.id}.LongName`)
-            : i18next.t(`gameData:Characters.${character.id}.Name`)}
+            ? t(`${character.id}.LongName`)
+            : t(`${character.id}.Name`)}
         </Flex>
       ),
       title: listOptions.longNameTitle
-        ? i18next.t(`gameData:Characters.${character.id}.LongName`)
-        : i18next.t(`gameData:Characters.${character.id}.Name`),
+        ? t(`${character.id}.LongName`)
+        : t(`${character.id}.Name`),
     }))
     .sort(sortAlphabeticEmojiLast('title'))
 

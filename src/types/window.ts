@@ -29,6 +29,7 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { ShowcaseTabForm } from 'lib/tabs/tabShowcase/showcaseTabController'
 import { Utils } from 'lib/utils/utils'
 import { WorkerPool } from 'lib/worker/workerPool'
+import Vibrant from 'node-vibrant'
 import {
   DispatchWithoutAction,
   RefObject,
@@ -78,11 +79,9 @@ declare global {
     relicsGrid: RefObject<AgGridReact<Relic>>
     optimizerGrid: RefObject<AgGridReact<OptimizerDisplayData>>
 
-    setCharacterRows: (characters: Character[]) => void
-    setRelicRows: (characters: Relic[]) => void
     setOptimizerBuild: (build?: Build) => void
-    setSelectedRelicIDs: (ids: string[]) => void
-    setEditModalOpen: (open: boolean) => void
+
+    Vibrant: typeof Vibrant
 
     showcaseTabForm: FormInstance<ShowcaseTabForm>
 

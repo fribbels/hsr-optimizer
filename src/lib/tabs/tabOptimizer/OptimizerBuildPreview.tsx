@@ -12,7 +12,7 @@ import { Relic } from 'types/relic'
 export default function OptimizerBuildPreview() {
   const optimizerBuild = window.store((s) => s.optimizerBuild)
 
-  const [selectedRelic, setSelectedRelic] = useState<Relic>()
+  const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false)
 
   if (window.store.getState().activeKey != AppPages.OPTIMIZER) {
@@ -51,7 +51,7 @@ export default function OptimizerBuildPreview() {
         <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={planarSphereRelic} score={planarSphereScore} />
         <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={linkRopeRelic} score={linkRopeScore} />
       </Flex>
-      <RelicModal selectedRelic={selectedRelic} type='edit' onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
+      <RelicModal selectedRelic={selectedRelic} onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
     </div>
   )
 }

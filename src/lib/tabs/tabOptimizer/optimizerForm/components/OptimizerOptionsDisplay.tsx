@@ -28,17 +28,21 @@ import { useTranslation } from 'react-i18next'
 const { Text } = Typography
 
 const OptimizerOptionsDisplay = (): JSX.Element => {
-  const { t, i18n } = useTranslation(['optimizerTab', 'common'])
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'OptimizerOptions' })
+  const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const characters = useCharacterTabStore((s) => s.characters)
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
   const characterExcludeOptions = useMemo(() =>
-    generateCharacterList({
-      currentCharacters: characters,
-      excludeCharacters: [DB.getCharacterById(optimizerTabFocusCharacter!)!],
-      withNobodyOption: false,
-      longNameLabel: true,
-    }), [characters, optimizerTabFocusCharacter, i18n.resolvedLanguage])
+    generateCharacterList(
+      {
+        currentCharacters: characters,
+        excludeCharacters: [DB.getCharacterById(optimizerTabFocusCharacter!)!],
+        withNobodyOption: false,
+        longNameLabel: true,
+      },
+      tCharacters,
+    ), [characters, optimizerTabFocusCharacter, tCharacters])
 
   const characterPriorityOptions = useMemo(() => {
     return characters.map((x) => {
@@ -52,12 +56,12 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
             />
 
             {
-              t('OptimizerOptions.Priority.Label', { rank: x.rank + 1, id: x.id })
+              t('Priority.Label', { rank: x.rank + 1, id: x.id })
               // `#${x.rank + 1} - ${characterMetadata[x.id].displayName}`
             }
           </Flex>
         ),
-        name: t('OptimizerOptions.Priority.Name', { rank: x.rank + 1 }), // `# ${x.rank + 1}`,
+        name: t('Priority.Name', { rank: x.rank + 1 }), // `# ${x.rank + 1}`,
       }
     })
   }, [characters, t])
@@ -66,7 +70,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
     <Flex vertical>
       <Flex vertical gap={optimizerTabDefaultGap}>
         <Flex justify='space-between' align='center'>
-          <HeaderText>{t('OptimizerOptions.Header') /* Optimizer options */}</HeaderText>
+          <HeaderText>{t('Header') /* Optimizer options */}</HeaderText>
           <TooltipImage type={Hint.optimizerOptions()} />
         </Flex>
 
@@ -79,7 +83,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
               style={{ width: 45, marginRight: 5 }}
             />
           </Form.Item>
-          <Text>{t('OptimizerOptions.AllowEquipped') /* Allow equipped relics */}</Text>
+          <Text>{t('AllowEquipped') /* Allow equipped relics */}</Text>
         </Flex>
 
         <Flex align='center'>
@@ -91,7 +95,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
               style={{ width: 45, marginRight: 5 }}
             />
           </Form.Item>
-          <Text>{t('OptimizerOptions.PriorityFilter') /* Character priority filter */}</Text>
+          <Text>{t('PriorityFilter') /* Character priority filter */}</Text>
         </Flex>
 
         <Flex align='center'>
@@ -103,13 +107,13 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
               style={{ width: 45, marginRight: 5 }}
             />
           </Form.Item>
-          <Text>{t('OptimizerOptions.KeepCurrent') /* Keep current relics */}</Text>
+          <Text>{t('KeepCurrent') /* Keep current relics */}</Text>
         </Flex>
 
         <Flex gap={optimizerTabDefaultGap} style={{ marginTop: 10 }}>
           <Flex vertical gap={2}>
             <HeaderText>
-              {t('OptimizerOptions.Priority.Header') /* Priority */}
+              {t('Priority.Header') /* Priority */}
             </HeaderText>
             <Form.Item name='rank'>
               <Select
@@ -118,7 +122,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
                 popupMatchSelectWidth={225}
                 listHeight={500}
                 optionLabelProp='name'
-                placeholder={t('OptimizerOptions.Priority.Header') /* Priority */}
+                placeholder={t('Priority.Header') /* Priority */}
                 showSearch
                 filterOption={Utils.nameFilterOption}
               />
@@ -126,7 +130,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
           </Flex>
           <Flex vertical gap={2}>
             <HeaderText>
-              {t('OptimizerOptions.Exclude') /* Exclude */}
+              {t('Exclude') /* Exclude */}
             </HeaderText>
             <Form.Item name='exclude'>
               <Select
@@ -138,7 +142,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
                 allowClear
                 showSearch
                 optionLabelProp='title'
-                placeholder={t('OptimizerOptions.Exclude') /* Exclude */}
+                placeholder={t('Exclude') /* Exclude */}
                 options={characterExcludeOptions}
                 filterOption={Utils.titleFilterOption}
               />
@@ -149,18 +153,18 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
         <Flex justify='space-between'>
           <Flex vertical gap={2}>
             <HeaderText>
-              {t('OptimizerOptions.MinEnhance.Header') /* Min enhance */}
+              {t('MinEnhance.Header') /* Min enhance */}
             </HeaderText>
             <Form.Item name='enhance'>
               <Select
                 style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
                 options={[
-                  { value: 0, label: t('OptimizerOptions.MinEnhance.Label0') }, // '+0'
-                  { value: 3, label: t('OptimizerOptions.MinEnhance.Label3') }, // '+3'
-                  { value: 6, label: t('OptimizerOptions.MinEnhance.Label6') }, // '+6'
-                  { value: 9, label: t('OptimizerOptions.MinEnhance.Label9') }, // '+9'
-                  { value: 12, label: t('OptimizerOptions.MinEnhance.Label12') }, // '+12'
-                  { value: 15, label: t('OptimizerOptions.MinEnhance.Label15') }, // '+15'
+                  { value: 0, label: t('MinEnhance.Label0') }, // '+0'
+                  { value: 3, label: t('MinEnhance.Label3') }, // '+3'
+                  { value: 6, label: t('MinEnhance.Label6') }, // '+6'
+                  { value: 9, label: t('MinEnhance.Label9') }, // '+9'
+                  { value: 12, label: t('MinEnhance.Label12') }, // '+12'
+                  { value: 15, label: t('MinEnhance.Label15') }, // '+15'
                 ]}
               />
             </Form.Item>
@@ -168,16 +172,16 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
 
           <Flex vertical gap={2}>
             <HeaderText>
-              {t('OptimizerOptions.MinRarity.Header') /* Min rarity */}
+              {t('MinRarity.Header') /* Min rarity */}
             </HeaderText>
             <Form.Item name='grade'>
               <Select
                 style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
                 options={[
-                  { value: 2, label: t('OptimizerOptions.MinRarity.Label2') }, // '2 ★ +'
-                  { value: 3, label: t('OptimizerOptions.MinRarity.Label3') }, // '3 ★ +'
-                  { value: 4, label: t('OptimizerOptions.MinRarity.Label4') }, // '4 ★ +'
-                  { value: 5, label: t('OptimizerOptions.MinRarity.Label5') }, // '5 ★'
+                  { value: 2, label: t('MinRarity.Label2') }, // '2 ★ +'
+                  { value: 3, label: t('MinRarity.Label3') }, // '3 ★ +'
+                  { value: 4, label: t('MinRarity.Label4') }, // '4 ★ +'
+                  { value: 5, label: t('MinRarity.Label5') }, // '5 ★'
                 ]}
               />
             </Form.Item>
@@ -187,18 +191,18 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
         <Flex justify='space-between' align='center'>
           <Flex vertical gap={2}>
             <HeaderText>
-              {t('OptimizerOptions.BoostMain.Header') /* Boost main stat */}
+              {t('BoostMain.Header') /* Boost main stat */}
             </HeaderText>
             <Form.Item name='mainStatUpscaleLevel'>
               <Select
                 style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
                 options={[
-                  { value: 0, label: t('OptimizerOptions.BoostMain.Label0') }, // '+0'
-                  { value: 3, label: t('OptimizerOptions.BoostMain.Label3') }, // '+3'
-                  { value: 6, label: t('OptimizerOptions.BoostMain.Label6') }, // '+6'
-                  { value: 9, label: t('OptimizerOptions.BoostMain.Label9') }, // '+9'
-                  { value: 12, label: t('OptimizerOptions.BoostMain.Label12') }, // '+12'
-                  { value: 15, label: t('OptimizerOptions.BoostMain.Label15') }, // '+15'
+                  { value: 0, label: t('BoostMain.Label0') }, // '+0'
+                  { value: 3, label: t('BoostMain.Label3') }, // '+3'
+                  { value: 6, label: t('BoostMain.Label6') }, // '+6'
+                  { value: 9, label: t('BoostMain.Label9') }, // '+9'
+                  { value: 12, label: t('BoostMain.Label12') }, // '+12'
+                  { value: 15, label: t('BoostMain.Label15') }, // '+15'
                 ]}
               />
             </Form.Item>

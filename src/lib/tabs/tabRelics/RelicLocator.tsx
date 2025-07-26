@@ -44,7 +44,7 @@ export const useRelicLocatorStore = create<RelicLocatorState>()((set) => ({
   setRowLimit: (limit: number | null) => set({ rowLimit: limit ?? defaultStateValues.rowLimit }),
 }))
 
-export function RelicLocator(props: { relic: Relic | undefined }) {
+export function RelicLocator(props: { relic: Relic | null }) {
   const { relic } = props
 
   const { setInventoryWidth, setRowLimit, inventoryWidth, rowLimit } = useRelicLocatorStore()

@@ -18,7 +18,6 @@ import {
   useCallback,
   useMemo,
   useRef,
-  useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'

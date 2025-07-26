@@ -42,15 +42,19 @@ export function SwitchRelicsModal() {
 
   const { t } = useTranslation('modals', { keyPrefix: 'SwitchRelics' })
   const { t: tCommon } = useTranslation('common')
+  const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
 
   const characterOptions = useMemo(() =>
-    generateCharacterList({
-      currentCharacters: characters,
-      excludeCharacters: currentCharacter ? [currentCharacter] : [],
-      withNobodyOption: false,
-      longNameLabel: true,
-      longNameTitle: true,
-    }), [characters, currentCharacter, t])
+    generateCharacterList(
+      {
+        currentCharacters: characters,
+        excludeCharacters: currentCharacter ? [currentCharacter] : [],
+        withNobodyOption: false,
+        longNameLabel: true,
+        longNameTitle: true,
+      },
+      tCharacters,
+    ), [characters, currentCharacter, tCharacters])
 
   useEffect(() => {
     if (!isOpen) return

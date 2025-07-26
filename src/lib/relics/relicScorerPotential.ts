@@ -212,6 +212,7 @@ export class RelicScorer {
     let scoringMetadata = this.characterRelicScoreMetas.get(id)
     if (scoringMetadata) return scoringMetadata
 
+    // scoringMetadataOverrides are implicitly imported here
     scoringMetadata = Utils.clone(DB.getScoringMetadata(id)) as ScoringMetadata
 
     const defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
@@ -338,7 +339,7 @@ export class RelicScorer {
     for (const substat of relic.substats) {
       score += substat.value * (weights[substat.stat] || 0) * normalization[substat.stat]
     }
-    const mainStatScore = ((stat, grade, part, metaParts) => {
+    const mainStatScore = ((mainstat, grade, part, metaParts) => {
       if (part == Parts.Head || part == Parts.Hands) return 0
       let max
       switch (grade) {
@@ -354,7 +355,7 @@ export class RelicScorer {
         default:
           max = 64.8
       }
-      return max * (metaParts[part].includes(stat) ? 1 : (weights[stat] ?? 0))
+      return max * (metaParts[part].includes(mainstat) ? 1 : (weights[mainstat] ?? 0))
     })(relic.main.stat, relic.grade, relic.part, scoringMetadata.parts)
     return {
       score,

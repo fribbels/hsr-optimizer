@@ -85,6 +85,12 @@ export class SearchTree {
   private cache: Record<string, number> = {}
   private collisions = 0
 
+  private dimensionVarianceTracker: Record<string, {
+    totalVariance: number,
+    splitCount: number,
+    avgVariance: number,
+  }> = {}
+
   constructor(
     public targetSum: number,
     public maxIterations: number,
@@ -113,6 +119,14 @@ export class SearchTree {
     this.maxStatRollsPerPiece = this.targetSum == 54 ? 6 : 5
 
     this.root = this.generateRoot(lower, upper)!
+
+    for (const stat of activeStats) {
+      this.dimensionVarianceTracker[stat] = {
+        totalVariance: 0,
+        splitCount: 0,
+        avgVariance: 0,
+      }
+    }
   }
 
   // Alternate queues to balance exploration and optimization
@@ -136,15 +150,15 @@ export class SearchTree {
   public getBest() {
     const benchmark = this.targetSum == 54 ? 200 : 100
     console.log(
-      `============= ${this.dimensions}-D ${benchmark}%`,
+      '=============',
+      `${this.dimensions}-D ${benchmark}%`,
       this.bestNode?.nodeId,
       this.nodeId,
       this.mainStats.slice(2).join(' / '),
       this.activeStats,
-      'Collisions: ',
-      this.collisions,
+      `Collisions: ${this.collisions}`,
       this.bestDamage,
-      this.bestNode?.representative,
+      // this.dimensionVarianceTracker,
     )
     return this.bestNode
   }
@@ -179,6 +193,14 @@ export class SearchTree {
     parentNode.splitDimension = splitDimension
     if (lowerChild) parentNode.lowerChild = lowerChild
     if (upperChild) parentNode.upperChild = upperChild
+
+    if (lowerChild && upperChild) {
+      const tracker = this.dimensionVarianceTracker[splitDimension]
+      const variance = Math.abs(lowerChild.damage - upperChild.damage)
+      tracker.totalVariance += variance
+      tracker.splitCount++
+      tracker.avgVariance = tracker.totalVariance / tracker.splitCount
+    }
   }
 
   /**
@@ -415,6 +437,25 @@ export class SearchTree {
   // Try to split on the largest dimension to generate cube-like regions
   // This reduces the variance in each region for better representative points
   public pickSplitDimension(node: ProtoTreeStatNode) {
+    let bestVariance = 0
+    let bestStat: string | null = null
+    for (const stat of this.activeStats) {
+      const tracker = this.dimensionVarianceTracker[stat]
+
+      if (
+        tracker && tracker.splitCount >= 100
+        && tracker.avgVariance > bestVariance
+        && this.isStatSplitPossible(stat, node)
+      ) {
+        bestVariance = tracker.avgVariance
+        bestStat = stat
+      }
+    }
+
+    if (bestStat) {
+      return bestStat
+    }
+
     let maxRange = 0
     let maxStat = null
     for (const stat of this.activeStats) {

@@ -1,13 +1,14 @@
 import { PriorityQueue } from '@js-sdsl/priority-queue'
+import { node } from 'globals'
 import {
   Stats,
   SubStats,
 } from 'lib/constants/constants'
 import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
 import { sumArray } from 'lib/utils/mathUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
 import {
   calculateMinMaxMetadata,
+  calculateRegionMidpoint,
   splitNode,
 } from 'lib/worker/maxima/tree/searchTreeUtils'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
@@ -74,7 +75,6 @@ export class SearchTree {
   private nodeId = 0
   private bestDamage = 0
   private bestHistory: number[] = []
-  private bestHistoryDamage: number[] = []
   private bestNode: ProtoTreeStatNode | null = null
 
   private maxStatRollsPerPiece = 6
@@ -83,9 +83,6 @@ export class SearchTree {
   private activeStats: string[] = []
   private allStats: string[] = []
   private availablePiecesByStat: Record<string, number> = {}
-
-  private cache: Record<string, number> = {}
-  private collisions = 0
 
   constructor(
     public targetSum: number,
@@ -137,16 +134,7 @@ export class SearchTree {
 
   public getBest() {
     const benchmark = this.targetSum == 54 ? 200 : 100
-    console.log(
-      `============= ${this.dimensions}-D ${benchmark}%`,
-      this.bestNode?.nodeId,
-      this.nodeId,
-      this.mainStats.slice(2).join(' / '),
-      this.activeStats,
-      this.collisions,
-      this.bestDamage,
-      this.bestNode?.representative,
-    )
+    console.log(`============= ${benchmark}%`, this.bestNode?.nodeId, this.nodeId, this.mainStats.slice(2).join(' / '))
     return this.bestNode
   }
 
@@ -379,7 +367,6 @@ export class SearchTree {
     for (let i = 0; i < this.activeStats.length; i++) {
       if (leftToDistribute > 0) {
         const stat = this.activeStats[i]
-
         const upgraded = representative[stat] + 1
         if (upgraded <= region.upper[stat]) {
           representative[stat] = upgraded
@@ -409,10 +396,6 @@ export class SearchTree {
   // Try to split on the largest dimension to generate cube-like regions
   // This reduces the variance in each region for better representative points
   public pickSplitDimension(node: ProtoTreeStatNode) {
-    // if (this.isStatSplitPossible(Stats.EHR, node)) {
-    //   return Stats.EHR
-    // }
-
     let maxRange = 0
     let maxStat = null
     for (const stat of this.activeStats) {
@@ -455,7 +438,6 @@ export class SearchTree {
     for (const stat of this.allStats) {
       leftToDistribute -= lower[stat]
     }
-    leftToDistribute = Math.floor(leftToDistribute)
 
     // Distribute round-robin
     let looped = false
@@ -502,24 +484,13 @@ export class SearchTree {
   }
 
   public calculateDamage(node: ProtoTreeStatNode) {
-    const hash = TsUtils.objectHash(node.representative)
-    const value = this.cache[hash]
-    // if (value) {
-    //   this.collisions++
-    //   node.damage = value
-    //   return value
-    // }
-
     const damage = this.damageFunction(node.representative)
     node.damage = damage
     if (node.damage > this.bestDamage) {
       this.bestDamage = damage
       this.bestNode = node
       this.bestHistory.push(node.nodeId!)
-      this.bestHistoryDamage.push(node.damage!)
     }
-
-    this.cache[hash] = node.damage
     return damage
   }
 

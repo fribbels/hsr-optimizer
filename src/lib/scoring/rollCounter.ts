@@ -81,6 +81,14 @@ export function calculateMaxSubstatRollCounts(
     maxCounts[stat] = Math.max(maxCounts[stat], scoringParams.freeRolls)
   }
 
+  // If enabled, don't let flat stats be chosen aside from the free rolls
+  // This is an incorrect assumption, some cases flat stats may be optimal in the 100%
+  // if (scoringParams.limitFlatStats) {
+  //   maxCounts[Stats.ATK] = scoringParams.freeRolls
+  //   maxCounts[Stats.HP] = scoringParams.freeRolls
+  //   maxCounts[Stats.DEF] = scoringParams.freeRolls
+  // }
+
   // Naively assume flat stats won't be chosen more than 10 times. Are there real scenarios for flat atk?
   maxCounts[Stats.ATK] = Math.min(10, maxCounts[Stats.ATK])
   maxCounts[Stats.HP] = Math.min(10, maxCounts[Stats.HP])

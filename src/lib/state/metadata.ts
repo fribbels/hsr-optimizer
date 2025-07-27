@@ -7544,7 +7544,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CR,
           Stats.HP_P,
           Stats.HP,
-          Stats.ATK_P,
         ],
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,

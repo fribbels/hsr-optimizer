@@ -1,14 +1,11 @@
 import { PriorityQueue } from '@js-sdsl/priority-queue'
-import { node } from 'globals'
 import {
   Stats,
   SubStats,
 } from 'lib/constants/constants'
 import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
-import { sumArray } from 'lib/utils/mathUtils'
 import {
   calculateMinMaxMetadata,
-  calculateRegionMidpoint,
   splitNode,
 } from 'lib/worker/maxima/tree/searchTreeUtils'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
@@ -75,6 +72,7 @@ export class SearchTree {
   private nodeId = 0
   private bestDamage = 0
   private bestHistory: number[] = []
+  private bestHistoryDamage: number[] = []
   private bestNode: ProtoTreeStatNode | null = null
 
   private maxStatRollsPerPiece = 6
@@ -83,6 +81,9 @@ export class SearchTree {
   private activeStats: string[] = []
   private allStats: string[] = []
   private availablePiecesByStat: Record<string, number> = {}
+
+  private cache: Record<string, number> = {}
+  private collisions = 0
 
   constructor(
     public targetSum: number,
@@ -134,7 +135,17 @@ export class SearchTree {
 
   public getBest() {
     const benchmark = this.targetSum == 54 ? 200 : 100
-    console.log(`============= ${benchmark}%`, this.bestNode?.nodeId, this.nodeId, this.mainStats.slice(2).join(' / '))
+    console.log(
+      `============= ${this.dimensions}-D ${benchmark}%`,
+      this.bestNode?.nodeId,
+      this.nodeId,
+      this.mainStats.slice(2).join(' / '),
+      this.activeStats,
+      'Collisions: ',
+      this.collisions,
+      this.bestDamage,
+      this.bestNode?.representative,
+    )
     return this.bestNode
   }
 
@@ -203,8 +214,15 @@ export class SearchTree {
       parent: parentNode,
     }
 
-    this.calculateVolume(childNode)
-    this.calculateDamage(childNode)
+    if (this.isSamePoint(representative, parentNode.representative)) {
+      childNode.damage = parentNode.damage
+      childNode.volume = parentNode.volume
+
+      this.collisions++
+    } else {
+      this.calculateDamage(childNode)
+      this.calculateVolume(childNode)
+    }
 
     this.damageQueue.push(childNode)
     this.volumeQueue.push(childNode)
@@ -367,6 +385,7 @@ export class SearchTree {
     for (let i = 0; i < this.activeStats.length; i++) {
       if (leftToDistribute > 0) {
         const stat = this.activeStats[i]
+
         const upgraded = representative[stat] + 1
         if (upgraded <= region.upper[stat]) {
           representative[stat] = upgraded
@@ -438,6 +457,7 @@ export class SearchTree {
     for (const stat of this.allStats) {
       leftToDistribute -= lower[stat]
     }
+    leftToDistribute = Math.floor(leftToDistribute)
 
     // Distribute round-robin
     let looped = false
@@ -490,7 +510,9 @@ export class SearchTree {
       this.bestDamage = damage
       this.bestNode = node
       this.bestHistory.push(node.nodeId!)
+      this.bestHistoryDamage.push(node.damage!)
     }
+
     return damage
   }
 
@@ -506,5 +528,12 @@ export class SearchTree {
 
     node.volume = volume
     return volume
+  }
+
+  public isSamePoint(point1: SubstatCounts, point2: SubstatCounts) {
+    for (const stat of this.activeStats) {
+      if (point1[stat] != point2[stat]) return false
+    }
+    return true
   }
 }

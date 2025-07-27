@@ -134,7 +134,7 @@ export class SearchTree {
     if (this.nodeId < 1000) {
       this.evaluate(this.volumeQueue)
       this.evaluate(this.volumeQueue)
-    } else if (this.nodeId < 3000) {
+    } else if (this.nodeId < 10000) {
       this.evaluate(this.volumeQueue)
       this.evaluate(this.damageQueue)
     } else {
@@ -434,7 +434,9 @@ export class SearchTree {
     return representative
   }
 
-  // Try to split on the largest dimension to generate cube-like regions
+  // Try to pick the best dimension to split on.
+  // First try to pick the dimension with the highest variance, to split the most important stats.
+  // Otherwise pick the dimension with the highest range.
   // This reduces the variance in each region for better representative points
   public pickSplitDimension(node: ProtoTreeStatNode) {
     let bestVariance = 0

@@ -74,6 +74,8 @@ export class SearchTree {
   private bestHistory: number[] = []
   private bestHistoryDamage: number[] = []
   private bestNode: ProtoTreeStatNode | null = null
+  private bestPoint: SubstatCounts | null = null
+  private bestPointDamage: number = 0
 
   private maxStatRollsPerPiece = 6
   private dimensions: number
@@ -149,6 +151,20 @@ export class SearchTree {
 
   public getBest() {
     const benchmark = this.targetSum == 54 ? 200 : 100
+
+    if (this.bestPointDamage > this.bestNode?.damage!) {
+      console.log(
+        '============= SCAN SUCCESS',
+        `${this.dimensions}-D ${benchmark}%`,
+        this.mainStats.slice(2).join(' / '),
+        this.activeStats,
+        `Collisions: ${this.collisions}`,
+        this.bestPointDamage,
+        this.bestPoint,
+      )
+      return this.bestPoint!
+    }
+
     console.log(
       '=============',
       `${this.dimensions}-D ${benchmark}%`,
@@ -158,9 +174,9 @@ export class SearchTree {
       this.activeStats,
       `Collisions: ${this.collisions}`,
       this.bestDamage,
-      // this.dimensionVarianceTracker,
+      this.bestNode?.representative,
     )
-    return this.bestNode
+    return this.bestNode!.representative!
   }
 
   /**
@@ -181,7 +197,7 @@ export class SearchTree {
       upperRegion,
     } = splitNode(parentNode, splitDimension)
 
-    // if (parentNode.nodeId == 246) {
+    // if (parentNode.nodeId == 1872) {
     //   console.log('debug')
     // }
 
@@ -236,15 +252,8 @@ export class SearchTree {
       parent: parentNode,
     }
 
-    if (this.isSamePoint(representative, parentNode.representative)) {
-      childNode.damage = parentNode.damage
-      childNode.volume = parentNode.volume
-
-      this.collisions++
-    } else {
-      this.calculateDamage(childNode)
-      this.calculateVolume(childNode)
-    }
+    this.calculateDamage(childNode)
+    this.calculateVolume(childNode)
 
     this.damageQueue.push(childNode)
     this.volumeQueue.push(childNode)
@@ -253,7 +262,7 @@ export class SearchTree {
   }
 
   /**
-   * This is used as a region-level validator, used to prune impossible regionfrom the search tree.
+   * This is used as a region-level validator, used to prune impossible region from the search tree.
    * This return false only when no possible points in the region could be a valid point.
    * We check constraints using the upper and lower bounds to rule out possible points.
    * However, this does not say that there is a valid point in the region, just that there could be one.
@@ -547,6 +556,14 @@ export class SearchTree {
   }
 
   public calculateDamage(node: ProtoTreeStatNode) {
+    const id = JSON.stringify(node.representative)
+    const value = this.cache[id]
+    if (value) {
+      this.collisions++
+      node.damage = value
+      return value
+    }
+
     const damage = this.damageFunction(node.representative)
     node.damage = damage
     if (node.damage > this.bestDamage) {
@@ -554,8 +571,13 @@ export class SearchTree {
       this.bestNode = node
       this.bestHistory.push(node.nodeId!)
       this.bestHistoryDamage.push(node.damage!)
+
+      if (this.nodeId > 1000) {
+        this.scanPointNeighbors(node.representative)
+      }
     }
 
+    this.cache[id] = damage
     return damage
   }
 
@@ -578,5 +600,94 @@ export class SearchTree {
       if (point1[stat] != point2[stat]) return false
     }
     return true
+  }
+
+  public scanPointNeighbors(centerPoint: SubstatCounts) {
+    let bestDamage = this.bestDamage
+    let bestPoint: SubstatCounts | null = null
+
+    // Generate all offset combinations that sum to 0
+    const validOffsets = this.generateZeroSumOffsets(this.activeStats.length, centerPoint)
+    const testPoint = { ...centerPoint }
+    const betterPoints: SubstatCounts[] = []
+
+    for (const offsets of validOffsets) {
+      // Apply offsets in-place
+      for (let i = 0; i < this.activeStats.length; i++) {
+        testPoint[this.activeStats[i]] = centerPoint[this.activeStats[i]] + offsets[i]
+      }
+
+      if (!this.substatValidator.isValidDistribution(testPoint)) {
+        continue
+      }
+
+      const id = JSON.stringify(testPoint)
+      const value = this.cache[id]
+      if (!value) {
+        const damage = this.damageFunction(testPoint)
+        if (damage > this.bestDamage) {
+          const newPoint = { ...testPoint }
+          betterPoints.push(newPoint)
+
+          if (damage > bestDamage) {
+            bestDamage = damage
+            bestPoint = newPoint
+          }
+        }
+      }
+    }
+
+    console.log('Better: ', betterPoints.length)
+
+    if (bestPoint) {
+      this.bestPoint = bestPoint
+      this.bestDamage = bestDamage
+      this.bestPointDamage = bestDamage
+
+      this.scanPointNeighbors(bestPoint)
+    }
+
+    return bestPoint
+  }
+
+  private generateZeroSumOffsets(dimensions: number, centerPoint: SubstatCounts): number[][] {
+    const result: number[][] = []
+
+    const backtrack = (currentOffsets: number[], remainingDimensions: number, currentSum: number) => {
+      if (remainingDimensions === 0) {
+        if (currentSum === 0) {
+          result.push([...currentOffsets])
+        }
+        return
+      }
+
+      const currentDimIndex = dimensions - remainingDimensions
+      const stat = this.activeStats[currentDimIndex]
+      const centerValue = centerPoint[stat]
+
+      // Try each possible offset for this dimension
+      for (const offset of [-1, 0, 1]) {
+        const newValue = centerValue + offset
+
+        // Check bounds first
+        if (newValue < this.lower[stat] || newValue > this.upper[stat]) {
+          continue
+        }
+
+        // Check if we can still reach sum=0, otherwise prune
+        const newSum = currentSum + offset
+        const maxPossibleFromRemaining = (remainingDimensions - 1) * 1
+        const minPossibleFromRemaining = (remainingDimensions - 1) * -1
+
+        if (newSum + minPossibleFromRemaining <= 0 && newSum + maxPossibleFromRemaining >= 0) {
+          currentOffsets.push(offset)
+          backtrack(currentOffsets, remainingDimensions - 1, newSum)
+          currentOffsets.pop()
+        }
+      }
+    }
+
+    backtrack([], dimensions, 0)
+    return result
   }
 }

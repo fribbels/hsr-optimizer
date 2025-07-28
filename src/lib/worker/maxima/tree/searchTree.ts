@@ -6,6 +6,7 @@ import {
 import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
 import {
   calculateMinMaxMetadata,
+  pointToBitwiseId,
   splitNode,
 } from 'lib/worker/maxima/tree/searchTreeUtils'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
@@ -556,7 +557,7 @@ export class SearchTree {
   }
 
   public calculateDamage(node: ProtoTreeStatNode) {
-    const id = JSON.stringify(node.representative)
+    const id = pointToBitwiseId(node.representative, this.activeStats)
     const value = this.cache[id]
     if (value) {
       this.collisions++
@@ -621,10 +622,12 @@ export class SearchTree {
         continue
       }
 
-      const id = JSON.stringify(testPoint)
+      const id = pointToBitwiseId(testPoint, this.activeStats)
       const value = this.cache[id]
       if (!value) {
         const damage = this.damageFunction(testPoint)
+        this.cache[id] = damage
+
         if (damage > this.bestDamage) {
           const newPoint = { ...testPoint }
           betterPoints.push(newPoint)
@@ -639,6 +642,10 @@ export class SearchTree {
 
     console.log('Better: ', betterPoints.length)
 
+    for (const betterPoint of betterPoints) {
+      this.insertSearch(betterPoint, this.root as TreeStatNode)
+    }
+
     if (bestPoint) {
       this.bestPoint = bestPoint
       this.bestDamage = bestDamage
@@ -648,6 +655,39 @@ export class SearchTree {
     }
 
     return bestPoint
+  }
+
+  private insertSearch(point: SubstatCounts, root: TreeStatNode): ProtoTreeStatNode {
+    const dimension = root.splitDimension
+    const value = root.splitValue
+    const upper = point[dimension] >= value
+
+    let childNode: ProtoTreeStatNode
+    if (upper && root.upperChild) {
+      return this.insertSearch(point, root.upperChild as TreeStatNode)
+    }
+    if (!upper && root.lowerChild) {
+      return this.insertSearch(point, root.lowerChild as TreeStatNode)
+    }
+
+    const split = splitNode(root, dimension)
+    childNode = {
+      region: upper ? split.upperRegion : split.lowerRegion,
+      representative: point,
+      damage: 0,
+      volume: 0,
+      nodeId: this.nodeId++,
+      evaluated: false,
+      parent: root,
+    }
+
+    this.calculateDamage(childNode)
+    this.calculateVolume(childNode)
+
+    this.damageQueue.push(childNode)
+    this.volumeQueue.push(childNode)
+
+    return childNode
   }
 
   private generateZeroSumOffsets(dimensions: number, centerPoint: SubstatCounts): number[][] {

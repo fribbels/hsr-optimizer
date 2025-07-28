@@ -10,6 +10,7 @@ import { ComputeOptimalSimulationWorkerInput } from 'lib/worker/computeOptimalSi
  */
 export class SubstatDistributionValidator {
   private target: number
+  private maxSingleStatRollsPerPiece: number
   private mainStats: string[]
   private availablePiecesByStat: Record<string, number> = {}
 
@@ -23,6 +24,7 @@ export class SubstatDistributionValidator {
     },
   ) {
     this.target = target
+    this.maxSingleStatRollsPerPiece = target == 54 ? 6 : 5
     this.mainStats = [
       mainStats.simLinkRope,
       mainStats.simPlanarSphere,
@@ -44,8 +46,8 @@ export class SubstatDistributionValidator {
     for (const [stat, rolls] of activeStats) {
       const availablePieces = this.getAvailablePieces(stat)
 
-      // Can't exceed maximum possible rolls (6 per piece)
-      if (rolls > availablePieces * 6) {
+      // Can't exceed maximum possible rolls (6 or 5 per piece)
+      if (rolls > availablePieces * this.maxSingleStatRollsPerPiece) {
         return false
       }
 
@@ -55,7 +57,7 @@ export class SubstatDistributionValidator {
       }
 
       // Must be possible to assign with minimum 1 roll per piece
-      if (rolls > 0 && availablePieces < Math.ceil(rolls / 6)) {
+      if (rolls > 0 && availablePieces < Math.ceil(rolls / this.maxSingleStatRollsPerPiece)) {
         return false
       }
 
@@ -78,8 +80,8 @@ export class SubstatDistributionValidator {
       stat,
       rolls,
       availablePieces: this.getAvailablePieces(stat),
-      // Minimum pieces needed (max 6 rolls per piece)
-      minPieces: Math.ceil(rolls / 6),
+      // Minimum pieces needed (max 6 or 5 rolls per piece)
+      minPieces: Math.ceil(rolls / this.maxSingleStatRollsPerPiece),
       // Maximum pieces that can be used
       maxPieces: Math.min(rolls, this.getAvailablePieces(stat)),
     }))

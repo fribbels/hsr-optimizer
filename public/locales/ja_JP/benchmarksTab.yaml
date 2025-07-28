@@ -4,7 +4,7 @@ LeftPanel:
 MiddlePanel:
   CharacterHeader: キャラクター
   LCHeader: 光円錐
-  TeammatesHeader: チームメイト
+  TeammatesHeader: チーム編成
 RightPanel:
   Settings:
     Header: 設定
@@ -34,6 +34,6 @@ ResultsPanel:
   Damage: 与ダメージ
 Messages:
   Error:
-    MissingField: キャラクター・光円錐・チームメイトを入力する必要があります
+    MissingField: キャラクター・光円錐・チーム編成を入力する必要があります
     UnsupportedCharacter: このキャラクターは DPS ベンチマークに対応していません
     SPDUnselected: 目標にするベンチマークの速度を選択してください

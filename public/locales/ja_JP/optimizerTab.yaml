@@ -223,11 +223,11 @@ Sidebar:
     Pin: ピン留め
     Clear: ピン解除
 TeammateRow:
-  Header: 'チームメイト {{teammateCount}}'
+  Header: 'チーム編成 {{teammateCount}}'
 FormRowLabels:
   Character options: キャラクター設定
   Relic & stat filters: 遺物とステータスのフィルター
-  Teammates: チームメイト
+  Teammates: チーム編成
   Character custom stats simulation: カスタムステータスシミュレーション
   Analysis: 最適化結果分析
 TracesDrawer:
@@ -455,7 +455,7 @@ TeammateCard:
   SuperimpositionPlaceholder: 重畳
   RelicsPlaceholder: 遺物
   OrnamentsPlaceholder: オーナメント
-  TeammateSyncSuccessMessage: チームメイトを同期しました
+  TeammateSyncSuccessMessage: チーム編成を同期しました
   TeammateSets:
     Messenger:
       Desc: '4セット：$t(gameData:RelicSets.114.Name)（速度+12%）'

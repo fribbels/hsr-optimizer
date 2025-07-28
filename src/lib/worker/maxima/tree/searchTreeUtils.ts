@@ -60,3 +60,12 @@ export function splitNode(node: TreeStatNode, dimension: string) {
 export function calculateRegionMidpoint(region: TreeStatRegion, dimension: string) {
   return Math.ceil((region.upper[dimension] - region.lower[dimension]) / 2) + region.lower[dimension]
 }
+
+// Efficient unique id generator for a point, only works up to 8 dimensions
+export function pointToBitwiseId(point: SubstatCounts, activeStats: string[]) {
+  let result = 0
+  for (let i = 0; i < activeStats.length; i++) {
+    result |= point[activeStats[i]] << (i * 6) // 6 bits per number, [0, 63]
+  }
+  return result
+}

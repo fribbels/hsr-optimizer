@@ -14,9 +14,7 @@ import {
   Simulation,
   SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
-import { sumArray } from 'lib/utils/mathUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Utils } from 'lib/utils/utils'
 import {
   ComputeOptimalSimulationWorkerInput,
   ComputeOptimalSimulationWorkerOutput,

@@ -255,6 +255,7 @@ export class SearchTree {
 
     this.calculateDamage(childNode)
     this.calculateVolume(childNode)
+    this.trackBestDamage(childNode)
 
     this.damageQueue.push(childNode)
     this.volumeQueue.push(childNode)
@@ -549,6 +550,7 @@ export class SearchTree {
 
     this.calculateVolume(rootNode)
     this.calculateDamage(rootNode)
+    this.trackBestDamage(rootNode)
 
     this.damageQueue.push(rootNode)
     this.volumeQueue.push(rootNode)
@@ -566,9 +568,15 @@ export class SearchTree {
     }
 
     const damage = this.damageFunction(node.representative)
+    this.cache[id] = damage
     node.damage = damage
+
+    return damage
+  }
+
+  public trackBestDamage(node: ProtoTreeStatNode) {
     if (node.damage > this.bestDamage) {
-      this.bestDamage = damage
+      this.bestDamage = node.damage
       this.bestNode = node
       this.bestHistory.push(node.nodeId!)
       this.bestHistoryDamage.push(node.damage!)
@@ -577,9 +585,6 @@ export class SearchTree {
         this.scanPointNeighbors(node.representative)
       }
     }
-
-    this.cache[id] = damage
-    return damage
   }
 
   // Number of points each region contains, note that when upper == lower, volume is considered 1
@@ -596,21 +601,14 @@ export class SearchTree {
     return volume
   }
 
-  public isSamePoint(point1: SubstatCounts, point2: SubstatCounts) {
-    for (const stat of this.activeStats) {
-      if (point1[stat] != point2[stat]) return false
-    }
-    return true
-  }
-
   public scanPointNeighbors(centerPoint: SubstatCounts) {
-    let bestDamage = this.bestDamage
+    let comparisonDmg = this.bestDamage
     let bestPoint: SubstatCounts | null = null
+    let betterPoints = 0
 
     // Generate all offset combinations that sum to 0
     const validOffsets = this.generateZeroSumOffsets(this.activeStats.length, centerPoint)
     const testPoint = { ...centerPoint }
-    const betterPoints: SubstatCounts[] = []
 
     for (const offsets of validOffsets) {
       // Apply offsets in-place
@@ -628,46 +626,31 @@ export class SearchTree {
         const damage = this.damageFunction(testPoint)
         this.cache[id] = damage
 
-        if (damage > this.bestDamage) {
-          const newPoint = { ...testPoint }
-          betterPoints.push(newPoint)
+        if (damage > comparisonDmg) {
+          const newPoint: SubstatCounts = { ...testPoint }
+          betterPoints++
 
-          if (damage > bestDamage) {
-            bestDamage = damage
-            bestPoint = newPoint
-          }
+          this.insertIntoTree(newPoint, this.root as TreeStatNode)
         }
       }
     }
 
-    console.log('Better: ', betterPoints.length)
-
-    for (const betterPoint of betterPoints) {
-      this.insertSearch(betterPoint, this.root as TreeStatNode)
-    }
-
-    if (bestPoint) {
-      this.bestPoint = bestPoint
-      this.bestDamage = bestDamage
-      this.bestPointDamage = bestDamage
-
-      this.scanPointNeighbors(bestPoint)
-    }
+    console.log('Better: ', betterPoints)
 
     return bestPoint
   }
 
-  private insertSearch(point: SubstatCounts, root: TreeStatNode): ProtoTreeStatNode {
+  private insertIntoTree(point: SubstatCounts, root: TreeStatNode): ProtoTreeStatNode {
     const dimension = root.splitDimension
     const value = root.splitValue
     const upper = point[dimension] >= value
 
     let childNode: ProtoTreeStatNode
     if (upper && root.upperChild) {
-      return this.insertSearch(point, root.upperChild as TreeStatNode)
+      return this.insertIntoTree(point, root.upperChild as TreeStatNode)
     }
     if (!upper && root.lowerChild) {
-      return this.insertSearch(point, root.lowerChild as TreeStatNode)
+      return this.insertIntoTree(point, root.lowerChild as TreeStatNode)
     }
 
     const split = splitNode(root, dimension)
@@ -681,8 +664,9 @@ export class SearchTree {
       parent: root,
     }
 
-    this.calculateDamage(childNode)
     this.calculateVolume(childNode)
+    this.calculateDamage(childNode)
+    this.trackBestDamage(childNode)
 
     this.damageQueue.push(childNode)
     this.volumeQueue.push(childNode)

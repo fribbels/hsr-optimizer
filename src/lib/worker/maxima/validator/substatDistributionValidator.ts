@@ -3,8 +3,6 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
-import { ComputeOptimalSimulationWorkerInput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
-import { StatConstraints } from 'lib/worker/maxima/tree/searchTree'
 
 export interface StatConstraints {
   stat: string

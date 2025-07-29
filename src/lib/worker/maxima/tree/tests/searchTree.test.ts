@@ -1,6 +1,7 @@
 import { Stats } from 'lib/constants/constants'
 import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
 import { SearchTree } from 'lib/worker/maxima/tree/searchTree'
+import { isRegionFeasible } from 'lib/worker/maxima/validator/regionFeasibilityValidator'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 import {
   describe,
@@ -84,7 +85,7 @@ describe('basic search tree tests', () => {
   it('is region feasible', () => {
     const tree = initializeTree()
 
-    expect(tree.isRegionFeasible(tree.root.region)).toBe(true)
+    expect(isRegionFeasible(tree.root.region, tree)).toBe(true)
   })
 
   it('available pieces', () => {

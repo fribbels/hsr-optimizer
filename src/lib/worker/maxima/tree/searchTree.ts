@@ -9,6 +9,9 @@ import {
   pointToBitwiseId,
   splitNode,
 } from 'lib/worker/maxima/tree/searchTreeUtils'
+import {
+  isRegionFeasible,
+} from 'lib/worker/maxima/validator/regionFeasibilityValidator'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 
 export interface TreeStatRegion {
@@ -70,23 +73,23 @@ export class SearchTree {
   public damageQueue: PriorityQueue<ProtoTreeStatNode>
   public volumeQueue: PriorityQueue<ProtoTreeStatNode>
 
-  private nodeId = 0
-  private bestDamage = 0
-  private bestHistory: number[] = []
-  private bestHistoryDamage: number[] = []
-  private bestNode: ProtoTreeStatNode | null = null
+  public nodeId = 0
+  public bestDamage = 0
+  public bestHistory: number[] = []
+  public bestHistoryDamage: number[] = []
+  public bestNode: ProtoTreeStatNode | null = null
 
-  private maxStatRollsPerPiece = 6
-  private dimensions: number
-  private fixedSum: number
-  private activeStats: string[] = []
-  private allStats: string[] = []
-  private availablePiecesByStat: Record<string, number> = {}
+  public maxStatRollsPerPiece = 6
+  public dimensions: number
+  public fixedSum: number
+  public activeStats: string[] = []
+  public allStats: string[] = []
+  public availablePiecesByStat: Record<string, number> = {}
 
-  private cache: Record<string, number> = {}
-  private collisions = 0
+  public cache: Record<string, number> = {}
+  public collisions = 0
 
-  private dimensionVarianceTracker: Record<string, {
+  public dimensionVarianceTracker: Record<string, {
     totalVariance: number,
     splitCount: number,
     avgVariance: number,
@@ -218,7 +221,7 @@ export class SearchTree {
     //   console.log('debug')
     // }
 
-    if (!this.isRegionFeasible(region)) {
+    if (!isRegionFeasible(region, this)) {
       return null
     }
 
@@ -246,59 +249,6 @@ export class SearchTree {
     this.volumeQueue.push(childNode)
 
     return childNode
-  }
-
-  /**
-   * This is used as a region-level validator, used to prune impossible region from the search tree.
-   * This return false only when no possible points in the region could be a valid point.
-   * We check constraints using the upper and lower bounds to rule out possible points.
-   * However, this does not say that there is a valid point in the region, just that there could be one.
-   */
-  public isRegionFeasible(region: TreeStatRegion): boolean {
-    const mins = this.allStats.map((x) => region.lower[x])
-    const maxs = this.allStats.map((x) => region.upper[x])
-
-    // The possible ranges must include the target 54
-    const sumMin = Math.ceil(mins.reduce((a, b) => a + b, 0))
-    const sumMax = Math.ceil(maxs.reduce((a, b) => a + b, 0))
-    if ((sumMin > this.targetSum || sumMax < this.targetSum)) return false
-
-    // Must have enough pieces to fit each stat with minimum rolls
-    for (let i = 0; i < this.dimensions; i++) {
-      const stat = this.activeStats[i]
-      const minRolls = mins[i]
-      const availablePieces = this.getAvailablePieces(stat)
-      if (minRolls > availablePieces * this.maxStatRollsPerPiece) return false
-    }
-
-    // Find the unfixable possible slot deficits
-    // If n slots need to be filled, then we need at least n remaining rolls to distribute in order to fix it
-    let sumPossibleSlots = 0
-    for (let i = 0; i < this.allStats.length; i++) {
-      const stat = this.allStats[i]
-      const availablePieces = this.getAvailablePieces(stat)
-      const possibleSlots = Math.min(mins[i], availablePieces)
-      sumPossibleSlots += possibleSlots
-    }
-    const slotsThatNeedToBeFilled = 24 - Math.ceil(sumPossibleSlots)
-    const remainingSubstatRolls = this.targetSum - sumMin
-    if (slotsThatNeedToBeFilled > remainingSubstatRolls) {
-      return false
-    }
-
-    // Each piece must have at least 4 eligible substats available
-    for (let pieceIndex = 0; pieceIndex < 6; pieceIndex++) {
-      const pieceMainStat = this.mainStats[pieceIndex]
-      const eligibleStats = this.allStats.filter((stat, i) => {
-        // Stat is eligible if:
-        // 1. Not the same as piece main stat
-        // 2. Could potentially have rolls in this cell (maxs[i] > 0)
-        return stat !== pieceMainStat && maxs[i] > 0
-      })
-      if (eligibleStats.length < 4) return false
-    }
-
-    return true
   }
 
   public getAvailablePieces(stat: string) {

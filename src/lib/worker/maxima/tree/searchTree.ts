@@ -75,8 +75,6 @@ export class SearchTree {
   private bestHistory: number[] = []
   private bestHistoryDamage: number[] = []
   private bestNode: ProtoTreeStatNode | null = null
-  private bestPoint: SubstatCounts | null = null
-  private bestPointDamage: number = 0
 
   private maxStatRollsPerPiece = 6
   private dimensions: number
@@ -152,19 +150,6 @@ export class SearchTree {
 
   public getBest() {
     const benchmark = this.targetSum == 54 ? 200 : 100
-
-    if (this.bestPointDamage > this.bestNode?.damage!) {
-      console.log(
-        '============= SCAN SUCCESS',
-        `${this.dimensions}-D ${benchmark}%`,
-        this.mainStats.slice(2).join(' / '),
-        this.activeStats,
-        `Collisions: ${this.collisions}`,
-        this.bestPointDamage,
-        this.bestPoint,
-      )
-      return this.bestPoint!
-    }
 
     console.log(
       '=============',
@@ -602,8 +587,7 @@ export class SearchTree {
   }
 
   public scanPointNeighbors(centerPoint: SubstatCounts) {
-    let comparisonDmg = this.bestDamage
-    let bestPoint: SubstatCounts | null = null
+    const comparisonDmg = this.bestDamage
     let betterPoints = 0
 
     // Generate all offset combinations that sum to 0
@@ -636,8 +620,6 @@ export class SearchTree {
     }
 
     console.log('Better: ', betterPoints)
-
-    return bestPoint
   }
 
   private insertIntoTree(point: SubstatCounts, root: TreeStatNode): ProtoTreeStatNode {

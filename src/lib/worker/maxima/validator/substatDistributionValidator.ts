@@ -47,6 +47,23 @@ export class SubstatDistributionValidator {
     })
   }
 
+  // Warning!!! This is a heavily simplified validator, optimized for performance.
+  // During testing the only constraint that gets violated in practice is the totalMaxAssignments < 24 check.
+  // We only check this one here, but this is only logically sound for the current code when this was written.
+  // This check's correctness may change in the future if the point generation code is changed.
+  public isValidDistributionSimple(stats: SubstatCounts): boolean {
+    let totalMaxAssignments = 0
+
+    for (const stat of SubStats) {
+      const rolls = stats[stat]
+      if (rolls == 0) continue
+
+      totalMaxAssignments += Math.min(rolls, this.getAvailablePieces(stat))
+    }
+
+    return totalMaxAssignments >= 24
+  }
+
   public isValidDistribution(stats: SubstatCounts): boolean {
     let sum = 0
     for (const stat of SubStats) {
@@ -86,8 +103,8 @@ export class SubstatDistributionValidator {
 
   private canSatisfyAssignmentRules(stats: SubstatCounts): boolean {
     const statConstraints: StatConstraints[] = []
-    let totalMinAssignments = 0 // statConstraints.reduce((sum, c) => sum + c.minPieces, 0)
-    let totalMaxAssignments = 0 // statConstraints.reduce((sum, c) => sum + c.maxPieces, 0)
+    let totalMinAssignments = 0
+    let totalMaxAssignments = 0
 
     for (const stat of SubStats) {
       const rolls = stats[stat]
@@ -127,8 +144,17 @@ export class SubstatDistributionValidator {
       return false
     }
 
-    // Check if each piece has enough candidate substats to choose from
-    // Each piece needs exactly 4 substats so there must be at least 4 eligible options per piece
+    if (!this.isValidEligibleStatsPerPiece(statConstraints)) {
+      return false
+    }
+
+    // If all the checks have passed then distribution must be valid
+    return true
+  }
+
+  // Check if each piece has enough candidate substats to choose from
+  // Each piece needs exactly 4 substats so there must be at least 4 eligible options per piece
+  private isValidEligibleStatsPerPiece(statConstraints: StatConstraints[]) {
     for (let pieceIndex = 0; pieceIndex < 6; pieceIndex++) {
       const mainStat = this.mainStats[pieceIndex]
       let eligibleStatsForPiece = 0
@@ -138,12 +164,9 @@ export class SubstatDistributionValidator {
         }
       }
 
-      if (eligibleStatsForPiece < 4) {
-        return false
-      }
+      if (eligibleStatsForPiece < 4) return false
     }
 
-    // If all the checks have passed then distribution must be valid
     return true
   }
 }

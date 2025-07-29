@@ -227,7 +227,7 @@ export class SearchTree {
 
     const representative = this.generateRepresentative(region, dimension, upper)
 
-    if (!this.substatValidator.isValidDistribution(representative)) {
+    if (!this.substatValidator.isValidDistributionSimple(representative)) {
       return null
     }
 
@@ -550,7 +550,7 @@ export class SearchTree {
         testPoint[this.activeStats[i]] = centerPoint[this.activeStats[i]] + offsets[i]
       }
 
-      if (!this.substatValidator.isValidDistribution(testPoint)) {
+      if (!this.substatValidator.isValidDistributionSimple(testPoint)) {
         continue
       }
 
@@ -569,7 +569,7 @@ export class SearchTree {
       }
     }
 
-    console.log('Better: ', betterPoints)
+    // console.log('Better points: ', betterPoints)
   }
 
   private insertIntoTree(point: SubstatCounts, root: TreeStatNode): ProtoTreeStatNode {

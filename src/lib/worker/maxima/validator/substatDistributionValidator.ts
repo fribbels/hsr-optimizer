@@ -2,7 +2,17 @@ import {
   Stats,
   SubStats,
 } from 'lib/constants/constants'
+import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
 import { ComputeOptimalSimulationWorkerInput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import { StatConstraints } from 'lib/worker/maxima/tree/searchTree'
+
+export interface StatConstraints {
+  stat: string
+  rolls: number
+  availablePieces: number
+  minPieces: number
+  maxPieces: number
+}
 
 /**
  * This checks if the substat distribution is a valid distribution in-game,
@@ -39,11 +49,12 @@ export class SubstatDistributionValidator {
     })
   }
 
-  public isValidDistribution(stats: Record<string, number>): boolean {
-    const activeStats = Object.entries(stats).filter(([_, rolls]) => rolls > 0)
-
+  public isValidDistribution(stats: SubstatCounts): boolean {
     let sum = 0
-    for (const [stat, rolls] of activeStats) {
+    for (const stat of SubStats) {
+      const rolls = stats[stat] ?? 0
+      if (rolls <= 0) continue
+
       const availablePieces = this.getAvailablePieces(stat)
 
       // Can't exceed maximum possible rolls (6 or 5 per piece)
@@ -68,48 +79,52 @@ export class SubstatDistributionValidator {
       return false
     }
 
-    return this.canSatisfyAssignmentRules(activeStats)
+    return this.canSatisfyAssignmentRules(stats)
   }
 
   private getAvailablePieces(stat: string): number {
     return this.availablePiecesByStat[stat]
   }
 
-  private canSatisfyAssignmentRules(activeStats: [string, number][]): boolean {
-    const statConstraints = activeStats.map(([stat, rolls]) => ({
-      stat,
-      rolls,
-      availablePieces: this.getAvailablePieces(stat),
-      // Minimum pieces needed (max 6 or 5 rolls per piece)
-      minPieces: Math.ceil(rolls / this.maxSingleStatRollsPerPiece),
-      // Maximum pieces that can be used
-      maxPieces: Math.min(rolls, this.getAvailablePieces(stat)),
-    }))
+  private canSatisfyAssignmentRules(stats: SubstatCounts): boolean {
+    const statConstraints: StatConstraints[] = []
+    let totalMinAssignments = 0 // statConstraints.reduce((sum, c) => sum + c.minPieces, 0)
+    let totalMaxAssignments = 0 // statConstraints.reduce((sum, c) => sum + c.maxPieces, 0)
 
-    // Check if the stat requirements exceeds available pieces
-    for (const constraint of statConstraints) {
-      if (constraint.minPieces > constraint.availablePieces) {
-        return false
-      }
-    }
+    for (const stat of SubStats) {
+      const rolls = stats[stat]
+      if (rolls == 0) continue
 
-    // Check if any stat needs more pieces than physically available
-    // e.g. if ATK% needs 3 pieces but only 2 pieces can have ATK% as substat due to main stat conflicts
-    for (const constraint of statConstraints) {
-      if (constraint.minPieces > constraint.availablePieces) {
-        return false
+      const constraints = {
+        stat,
+        rolls,
+        availablePieces: this.getAvailablePieces(stat),
+        // Minimum pieces needed (max 6 or 5 rolls per piece)
+        minPieces: Math.ceil(rolls / this.maxSingleStatRollsPerPiece),
+        // Maximum pieces that can be used
+        maxPieces: Math.min(rolls, this.getAvailablePieces(stat)),
       }
+
+      // Check if any stat needs more pieces than physically available
+      // e.g. if ATK% needs 3 pieces but only 2 pieces can have ATK% as substat due to main stat conflicts
+      for (const constraint of statConstraints) {
+        if (constraint.minPieces > constraint.availablePieces) {
+          return false
+        }
+      }
+
+      statConstraints.push(constraints)
+      totalMinAssignments += constraints.minPieces
+      totalMaxAssignments += constraints.maxPieces
     }
 
     // Check if the sum of minimum required assignments is more than all 24 available slots
-    const totalMinAssignments = statConstraints.reduce((sum, c) => sum + c.minPieces, 0)
     if (totalMinAssignments > 24) {
       return false
     }
 
     // Check if there is sufficient assignment capacity to fill all required slots
     // The build needs exactly 24 assignments, if maximum possible < 24, then there will be an invalid empty substat slot
-    const totalMaxAssignments = statConstraints.reduce((sum, c) => sum + c.maxPieces, 0)
     if (totalMaxAssignments < 24) {
       return false
     }
@@ -118,9 +133,14 @@ export class SubstatDistributionValidator {
     // Each piece needs exactly 4 substats so there must be at least 4 eligible options per piece
     for (let pieceIndex = 0; pieceIndex < 6; pieceIndex++) {
       const mainStat = this.mainStats[pieceIndex]
-      const eligibleStatsForPiece = activeStats.filter(([stat, _]) => stat !== mainStat)
+      let eligibleStatsForPiece = 0
+      for (const constraint of statConstraints) {
+        if (constraint.rolls > 0 && constraint.stat != mainStat) {
+          eligibleStatsForPiece++
+        }
+      }
 
-      if (eligibleStatsForPiece.length < 4) {
+      if (eligibleStatsForPiece < 4) {
         return false
       }
     }

@@ -21,6 +21,7 @@ RecentlyUpdatedRelics:
   Avg: 평균
   Max: 최대
   BestFor: 가장 좋은 유물
+  Tooltip: 캐릭터에 대한 평균 및 최대 유물 잠재력
 Messages:
   AddRelicSuccess: 유물을 추가했습니다.
   NoRelicSelected: 유물이 선택되지 않았습니다.

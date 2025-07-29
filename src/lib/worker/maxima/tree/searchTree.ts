@@ -6,6 +6,7 @@ import {
 import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
 import {
   calculateMinMaxMetadata,
+  getSearchTreeConfig,
   pointToBitwiseId,
   splitNode,
 } from 'lib/worker/maxima/tree/searchTreeUtils'
@@ -19,12 +20,19 @@ export interface TreeStatRegion {
   upper: SubstatCounts
 }
 
+export interface TreeConfig {
+  explorationLimit: number
+  transitionLimit: number
+  refinementLimit: number
+}
+
 export interface ProtoTreeStatNode {
   region: TreeStatRegion
   representative: SubstatCounts
   damage: number
   volume: number
   nodeId: number
+  measurement: number
   evaluated: boolean
   parent: TreeStatNode | null
 }
@@ -69,11 +77,13 @@ export interface TreeStatNode extends ProtoTreeStatNode {
  * within each region and the priority queue focuses search on the optimal regions.
  */
 export class SearchTree {
+  public config: TreeConfig
   public root: ProtoTreeStatNode
   public damageQueue: PriorityQueue<ProtoTreeStatNode>
   public volumeQueue: PriorityQueue<ProtoTreeStatNode>
 
   public nodeId = 0
+  public measurements = 0
   public bestDamage = 0
   public bestHistory: number[] = []
   public bestHistoryDamage: number[] = []
@@ -88,6 +98,9 @@ export class SearchTree {
 
   public cache: Record<string, number> = {}
   public collisions = 0
+  public startTime = 0
+  public endTime = 0
+  public completed = false
 
   public dimensionVarianceTracker: Record<string, {
     totalVariance: number,
@@ -118,10 +131,11 @@ export class SearchTree {
     })
 
     this.damageQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.damage - a.damage)
-    this.volumeQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.volume * b.damage - a.volume * a.damage)
+    this.volumeQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => Math.log(b.volume) * b.damage - Math.log(a.volume) * a.damage)
 
     this.maxStatRollsPerPiece = this.targetSum == 54 ? 6 : 5
 
+    this.config = getSearchTreeConfig(this)
     this.root = this.generateRoot(lower, upper)!
 
     for (const stat of activeStats) {
@@ -135,10 +149,10 @@ export class SearchTree {
 
   // Alternate queues to balance exploration and optimization
   public singleIteration() {
-    if (this.nodeId < 1000) {
+    if (this.measurements < this.config.explorationLimit) {
       this.evaluate(this.volumeQueue)
       this.evaluate(this.volumeQueue)
-    } else if (this.nodeId < 10000) {
+    } else if (this.measurements < this.config.transitionLimit) {
       this.evaluate(this.volumeQueue)
       this.evaluate(this.damageQueue)
     } else {
@@ -149,6 +163,13 @@ export class SearchTree {
 
   // TODO: Dynamically update iteration limits based on targetSum and best result history
   public search() {
+    this.startTime = performance.now()
+    while (this.measurements < this.config.refinementLimit && !this.completed) {
+      this.singleIteration()
+    }
+    this.endTime = performance.now()
+
+    return this.getBest()
   }
 
   public getBest() {
@@ -158,12 +179,14 @@ export class SearchTree {
       '=============',
       `${this.dimensions}-D ${benchmark}%`,
       this.bestNode?.nodeId,
-      this.nodeId,
+      this.bestNode?.measurement,
+      this.measurements,
       this.mainStats.slice(2).join(' / '),
-      this.activeStats,
-      `Collisions: ${this.collisions}`,
-      this.bestDamage,
-      this.bestNode?.representative,
+      `${Math.floor(this.endTime - this.startTime)}ms`,
+      // this.activeStats,
+      // `Collisions: ${this.collisions}`,
+      // this.bestDamage,
+      // this.bestNode?.representative,
     )
     return this.bestNode!.representative!
   }
@@ -173,7 +196,10 @@ export class SearchTree {
    */
   public evaluate(queue: PriorityQueue<ProtoTreeStatNode>) {
     const node = queue.pop()
-    if (node == null) return
+    if (node == null) {
+      this.completed = true
+      return
+    }
     if (node.evaluated) return
 
     const splitDimension = this.pickSplitDimension(node)
@@ -237,6 +263,7 @@ export class SearchTree {
       damage: 0,
       volume: 0,
       nodeId: this.nodeId++,
+      measurement: this.measurements,
       evaluated: false,
       parent: parentNode,
     }
@@ -479,6 +506,7 @@ export class SearchTree {
       damage: 0,
       volume: 0,
       nodeId: this.nodeId++,
+      measurement: this.measurements,
       evaluated: false,
       parent: null,
     }
@@ -503,6 +531,7 @@ export class SearchTree {
     }
 
     const damage = this.damageFunction(node.representative)
+    this.measurements++
     this.cache[id] = damage
     node.damage = damage
 
@@ -516,7 +545,7 @@ export class SearchTree {
       this.bestHistory.push(node.nodeId!)
       this.bestHistoryDamage.push(node.damage!)
 
-      if (this.nodeId > 1000) {
+      if (this.measurements > this.config.explorationLimit) {
         this.scanPointNeighbors(node.representative)
       }
     }
@@ -558,6 +587,7 @@ export class SearchTree {
       const value = this.cache[id]
       if (!value) {
         const damage = this.damageFunction(testPoint)
+        this.measurements++
         this.cache[id] = damage
 
         if (damage > comparisonDmg) {
@@ -592,6 +622,7 @@ export class SearchTree {
       damage: 0,
       volume: 0,
       nodeId: this.nodeId++,
+      measurement: this.measurements,
       evaluated: false,
       parent: root,
     }

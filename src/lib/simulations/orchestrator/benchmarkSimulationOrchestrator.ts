@@ -384,6 +384,7 @@ export class BenchmarkSimulationOrchestrator {
         scoringParams: clonedBenchmarkScoringParams,
         simulationFlags: flags,
       }
+
       return globalThis.SEQUENTIAL_BENCHMARKS
         ? computeOptimalSimulationWorker({ data: input } as MessageEvent<ComputeOptimalSimulationWorkerInput>)
         : runComputeOptimalSimulationWorker(input)

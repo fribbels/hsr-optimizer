@@ -433,8 +433,8 @@ describe('isRegionFeasible tests', () => {
         maxSubstatRollCounts: {
           [Stats.ATK]: 10,
           [Stats.ATK_P]: 10,
-          [Stats.HP]: 10,
-          [Stats.HP_P]: 10,
+          [Stats.HP]: 0,
+          [Stats.HP_P]: 0,
           [Stats.DEF]: 10,
           [Stats.DEF_P]: 10,
           [Stats.SPD]: 0,
@@ -450,8 +450,8 @@ describe('isRegionFeasible tests', () => {
         {
           [Stats.ATK]: 5,
           [Stats.ATK_P]: 5,
-          [Stats.HP]: 5,
-          [Stats.HP_P]: 5,
+          [Stats.HP]: 0,
+          [Stats.HP_P]: 0,
           [Stats.DEF]: 5,
           [Stats.DEF_P]: 5,
           [Stats.SPD]: 0,
@@ -464,8 +464,8 @@ describe('isRegionFeasible tests', () => {
         {
           [Stats.ATK]: 10,
           [Stats.ATK_P]: 10,
-          [Stats.HP]: 10,
-          [Stats.HP_P]: 10,
+          [Stats.HP]: 0,
+          [Stats.HP_P]: 0,
           [Stats.DEF]: 10,
           [Stats.DEF_P]: 10,
           [Stats.SPD]: 0,

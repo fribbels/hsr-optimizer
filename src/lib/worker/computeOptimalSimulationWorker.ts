@@ -111,14 +111,7 @@ export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWo
     return currentSimulation
   }
 
-  const start = performance.now()
-  for (let i = 0; i < 20000; i++) {
-    tree.singleIteration()
-  }
-  const end = performance.now()
-  console.log(`Time: ${end - start} ms`)
-
-  const bestPoint = tree.getBest()
+  const bestPoint = tree.search()
   damageFunction(bestPoint, true)
 
   return currentSimulation

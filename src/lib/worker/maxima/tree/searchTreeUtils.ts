@@ -2,6 +2,8 @@ import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
 import { sumArray } from 'lib/utils/mathUtils'
 import {
   ProtoTreeStatNode,
+  SearchTree,
+  TreeConfig,
   TreeStatNode,
   TreeStatRegion,
 } from 'lib/worker/maxima/tree/searchTree'
@@ -68,4 +70,32 @@ export function pointToBitwiseId(point: SubstatCounts, activeStats: string[]) {
     result |= point[activeStats[i]] << (i * 6) // 6 bits per number, [0, 63]
   }
   return result
+}
+
+export function getSearchTreeConfig(tree: SearchTree): TreeConfig {
+  switch (tree.dimensions) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+      return generateConfig(20000)
+    case 6:
+      return generateConfig(40000)
+    case 7:
+      return generateConfig(60000)
+    case 8:
+      return generateConfig(80000)
+    default:
+      throw new Error()
+  }
+}
+
+function generateConfig(maximumBudget: number): TreeConfig {
+  return {
+    explorationLimit: maximumBudget * 0.2,
+    transitionLimit: maximumBudget * 0.5,
+    refinementLimit: maximumBudget,
+  }
 }

@@ -161,10 +161,13 @@ export class SearchTree {
     }
   }
 
-  // TODO: Dynamically update iteration limits based on targetSum and best result history
+  // Search until 2x the best node's measurement index, or at least until the max configured limit
   public search() {
     this.startTime = performance.now()
-    while (this.measurements < this.config.refinementLimit && !this.completed) {
+    while (
+      ((this.measurements < this.config.refinementLimit) || (this.measurements < this.bestNode!.measurement * 2))
+      && !this.completed
+    ) {
       this.singleIteration()
     }
     this.endTime = performance.now()
@@ -178,15 +181,10 @@ export class SearchTree {
     console.log(
       '=============',
       `${this.dimensions}-D ${benchmark}%`,
-      this.bestNode?.nodeId,
       this.bestNode?.measurement,
       this.measurements,
       this.mainStats.slice(2).join(' / '),
       `${Math.floor(this.endTime - this.startTime)}ms`,
-      // this.activeStats,
-      // `Collisions: ${this.collisions}`,
-      // this.bestDamage,
-      // this.bestNode?.representative,
     )
     return this.bestNode!.representative!
   }
@@ -590,7 +588,7 @@ export class SearchTree {
         this.measurements++
         this.cache[id] = damage
 
-        if (damage > comparisonDmg) {
+        if (damage > this.bestDamage) {
           const newPoint: SubstatCounts = { ...testPoint }
           betterPoints++
 

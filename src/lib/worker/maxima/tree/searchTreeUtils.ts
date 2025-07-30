@@ -80,13 +80,13 @@ export function getSearchTreeConfig(tree: SearchTree): TreeConfig {
     case 3:
     case 4:
     case 5:
-      return generateConfig(20000)
+      return generateConfig(5000)
     case 6:
-      return generateConfig(40000)
+      return generateConfig(10000)
     case 7:
-      return generateConfig(60000)
+      return generateConfig(15000)
     case 8:
-      return generateConfig(80000)
+      return generateConfig(20000)
     default:
       throw new Error()
   }
@@ -94,7 +94,7 @@ export function getSearchTreeConfig(tree: SearchTree): TreeConfig {
 
 function generateConfig(maximumBudget: number): TreeConfig {
   return {
-    explorationLimit: maximumBudget * 0.2,
+    explorationLimit: maximumBudget * 0.05,
     transitionLimit: maximumBudget * 0.5,
     refinementLimit: maximumBudget,
   }

@@ -74,7 +74,7 @@ export class WorkerPool<TInput extends BaseWorkerInput, TOutput extends BaseWork
     return new Promise<TOutput>((resolve, reject) => {
       const timedResolve = (value: TOutput) => {
         const endTime = performance.now()
-        console.log(`[WorkerPool] Task completed in ${endTime - startTime}ms`)
+        // console.log(`[WorkerPool] Task completed in ${endTime - startTime}ms`)
         resolve(value)
       }
 

@@ -21,6 +21,7 @@ RecentlyUpdatedRelics:
   Avg: MOY
   Max: MAX
   BestFor: MEILLEUR POUR
+  Tooltip: Potentiel moyen et maximum pour ce personnage
 Messages:
   AddRelicSuccess: Relique ajoutée avec succès
   NoRelicSelected: Aucune relique sélectionnée

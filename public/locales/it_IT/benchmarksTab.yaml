@@ -28,7 +28,7 @@ ResultsTabs:
     200: Build benchmark 200%
 ResultsPanel:
   BasicStats: Statistiche Base
-  CombatStats: Statistiche Combattimento
+  CombatStats: Stat Combat
   Rolls: Roll Stat. Secondarie
   Combo: Rotazione Combo
   Damage: Danni Abilità

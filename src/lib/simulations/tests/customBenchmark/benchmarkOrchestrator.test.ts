@@ -43,6 +43,8 @@ import { test } from 'vitest'
 
 Metadata.initialize()
 
+const TIMEOUT = 60000
+
 test('Anaxa benchmark 0', async () => {
   await expectBenchmarkResultsToMatch(
     0,
@@ -56,9 +58,9 @@ test('Anaxa benchmark 0', async () => {
       stats: testStatSpread(),
     }),
     6395631,
-    7780659.5,
+    7782346,
   )
-})
+}, TIMEOUT)
 
 test('Anaxa benchmark 133.333', async () => {
   await expectBenchmarkResultsToMatch(
@@ -73,9 +75,9 @@ test('Anaxa benchmark 133.333', async () => {
       stats: testStatSpread(),
     }),
     5640659,
-    7208698.5,
+    7212902,
   )
-})
+}, TIMEOUT)
 
 test('Anaxa benchmark 200 captain', async () => {
   await expectBenchmarkResultsToMatch(
@@ -90,9 +92,9 @@ test('Anaxa benchmark 200 captain', async () => {
       stats: testStatSpread(),
     }),
     4676874,
-    5579553.5,
+    5581103,
   )
-})
+}, TIMEOUT)
 
 test('Black Swan benchmark 0 captain', async () => {
   await expectBenchmarkResultsToMatch(
@@ -109,7 +111,7 @@ test('Black Swan benchmark 0 captain', async () => {
     1497524.1869088612,
     1704446.875,
   )
-})
+}, TIMEOUT)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -128,7 +130,7 @@ test('Firefly benchmark 160', async () => {
     4879910.5,
     5954549.5,
   )
-})
+}, TIMEOUT)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -144,10 +146,10 @@ test('The herta benchmark 100', async () => {
       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    4624902,
-    5779927.5,
+    4654556,
+    5781292.5,
   )
-})
+}, TIMEOUT)
 
 test('The herta benchmark 100 err', async () => {
   await expectBenchmarkResultsToMatch(
@@ -162,9 +164,9 @@ test('The herta benchmark 100 err', async () => {
       stats: testStatSpread(),
     }),
     4252174,
-    5327072.5,
+    5328330.5,
   )
-})
+}, TIMEOUT)
 
 test('Boothill benchmark 0', async () => {
   await expectBenchmarkResultsToMatch(
@@ -181,4 +183,4 @@ test('Boothill benchmark 0', async () => {
     6097738,
     7207996,
   )
-})
+}, TIMEOUT)

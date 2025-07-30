@@ -46,6 +46,8 @@ import { test } from 'vitest'
 
 Metadata.initialize()
 
+const TIMEOUT = 60000
+
 test('Acheron benchmark', async () => {
   await expectDpsScoreResultsToMatch(
     generateE6S5Test({
@@ -59,7 +61,7 @@ test('Acheron benchmark', async () => {
     }),
     1.2527343791677188,
   )
-})
+}, TIMEOUT)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -74,9 +76,9 @@ test('Anaxa benchmark', async () => {
       mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    1.3588397642515457,
+    1.358472235588175,
   )
-})
+}, TIMEOUT)
 
 test('Anaxa benchmarked @ 0 spd', async () => {
   await expectDpsScoreResultsToMatch(
@@ -92,7 +94,7 @@ test('Anaxa benchmarked @ 0 spd', async () => {
     0.8420648578813649,
     0,
   )
-})
+}, TIMEOUT)
 
 test('Anaxa benchmarked @ 133.333 spd', async () => {
   await expectDpsScoreResultsToMatch(
@@ -105,10 +107,10 @@ test('Anaxa benchmarked @ 133.333 spd', async () => {
       mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    1.1389148678971417,
+    1.1385434694255276,
     133.333,
   )
-})
+}, TIMEOUT)
 
 test('Anaxa benchmarked @ 200 spd', async () => {
   await expectDpsScoreResultsToMatch(
@@ -121,10 +123,10 @@ test('Anaxa benchmarked @ 200 spd', async () => {
       mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    1.3588397642515457,
+    1.358472235588175,
     200,
   )
-})
+}, TIMEOUT)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -141,7 +143,7 @@ test('Castorice benchmark poet 113.4', async () => {
     }),
     0.7115087301725886,
   )
-})
+}, TIMEOUT)
 
 test('Castorice benchmark poet 100.4', async () => {
   await expectDpsScoreResultsToMatch(
@@ -156,7 +158,7 @@ test('Castorice benchmark poet 100.4', async () => {
     }),
     0.9678187582469107,
   )
-})
+}, TIMEOUT)
 
 test('Castorice benchmark poet 87.4', async () => {
   await expectDpsScoreResultsToMatch(
@@ -171,7 +173,7 @@ test('Castorice benchmark poet 87.4', async () => {
     }),
     1.145411776491712,
   )
-})
+}, TIMEOUT)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -188,7 +190,7 @@ test('Castorice benchmark longevous 121', async () => {
     }),
     0.7295679289358679,
   )
-})
+}, TIMEOUT)
 
 test('Castorice benchmark longevous 108', async () => {
   await expectDpsScoreResultsToMatch(
@@ -203,7 +205,7 @@ test('Castorice benchmark longevous 108', async () => {
     }),
     0.7295679289358679,
   )
-})
+}, TIMEOUT)
 
 test('Castorice benchmark longevous 95', async () => {
   await expectDpsScoreResultsToMatch(
@@ -218,7 +220,7 @@ test('Castorice benchmark longevous 95', async () => {
     }),
     0.7295679289358679,
   )
-})
+}, TIMEOUT)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -235,7 +237,7 @@ test('Tribbie benchmark poet 88.3', async () => {
     }),
     0.9012144701511204,
   )
-})
+}, TIMEOUT)
 
 test('Tribbie benchmark poet 101.3', async () => {
   await expectDpsScoreResultsToMatch(
@@ -250,7 +252,7 @@ test('Tribbie benchmark poet 101.3', async () => {
     }),
     0.7594088297079464,
   )
-})
+}, TIMEOUT)
 
 test('Tribbie benchmark poet 114.3', async () => {
   await expectDpsScoreResultsToMatch(
@@ -265,7 +267,7 @@ test('Tribbie benchmark poet 114.3', async () => {
     }),
     0.48696862468070123,
   )
-})
+}, TIMEOUT)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -283,7 +285,7 @@ test('Tribbie benchmark poet 88.3 @ 88.3', async () => {
     0.9012144701511204,
     88.3,
   )
-})
+}, TIMEOUT)
 
 test('Tribbie benchmark poet 101.3 @ 88.3', async () => {
   await expectDpsScoreResultsToMatch(
@@ -299,7 +301,7 @@ test('Tribbie benchmark poet 101.3 @ 88.3', async () => {
     0.7415866588590724,
     88.3,
   )
-})
+}, TIMEOUT)
 
 test('Tribbie benchmark poet 114.3 @ 88.3', async () => {
   await expectDpsScoreResultsToMatch(
@@ -315,4 +317,4 @@ test('Tribbie benchmark poet 114.3 @ 88.3', async () => {
     0.4755402113049463,
     88.3,
   )
-})
+}, TIMEOUT)

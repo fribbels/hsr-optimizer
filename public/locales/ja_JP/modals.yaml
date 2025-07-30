@@ -346,10 +346,10 @@ Builds:
 ScoreFooter:
   ModalTitle: 戦闘シミュレーションのスコア計算方法の設定
   OkText: OK
-  ResetButtonText: カスタムチームをデフォルトにリセット
-  ResetSuccessMsg: デフォルトのチームにリセット
-  SyncButtonText: インポートした星塊・光円錐と同期
-  SyncSuccessMsg: チームメイトを同期しました
+  ResetButtonText: チーム編成をデフォルトにリセット
+  ResetSuccessMsg: チーム編成をリセットしました
+  SyncButtonText: インポートした星魂・光円錐と同期
+  SyncSuccessMsg: チーム編成を同期しました
   TeamOptions:
     Default: デフォルト
     Custom: カスタム

@@ -1,3 +1,7 @@
+import {
+  applyScoringMetadataPresets,
+  applySetConditionalPresets,
+} from 'lib/conditionals/evaluation/applyPresets'
 import { Stats } from 'lib/constants/constants'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runCustomBenchmarkOrchestrator'
@@ -6,7 +10,6 @@ import DB from 'lib/state/db'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { expect } from 'vitest'
-import { applyScoringMetadataPresets, applySetConditionalPresets } from "lib/conditionals/evaluation/applyPresets";
 
 export async function expectBenchmarkResultsToMatch(
   basicSpd: number,
@@ -14,6 +17,7 @@ export async function expectBenchmarkResultsToMatch(
   benchmarkDmg: number,
   perfectionDmg: number,
 ) {
+  // Only for test cases
   globalThis.SEQUENTIAL_BENCHMARKS = true
   const {
     character,

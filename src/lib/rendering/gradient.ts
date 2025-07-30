@@ -4,8 +4,8 @@ import { SubStats } from 'lib/constants/constants'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { ScoredRelic } from 'lib/tabs/tabRelics/RelicsGrid'
 import tinygradient from 'tinygradient'
-import { Relic } from 'types/relic'
 
 export type GridAggregations = {
   min: Record<string, number>,
@@ -82,7 +82,7 @@ export const Gradient = {
     relicGridGradient = tinygradient(token.colorBgElevated, token.colorPrimaryHover)
   },
 
-  getRelicGradient(params: CellClassParams<Relic>) {
+  getRelicGradient(params: CellClassParams<ScoredRelic>) {
     const col = params.column.getColId()
     const value = params.value
 

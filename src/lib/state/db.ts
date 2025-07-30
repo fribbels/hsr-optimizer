@@ -328,6 +328,7 @@ export const DB = {
   getRelics: () => window.store.getState().relics,
   getRelicsById: () => window.store.getState().relicsById,
   setRelics: (relics: Relic[]) => {
+    indexRelics(relics)
     const relicsById = relics.reduce((relicsById, relic) => {
       relicsById[relic.id] = relic
       return relicsById
@@ -1190,6 +1191,7 @@ function partialHashRelic(relic: Relic) {
  * Sets the provided relic in the application's state.
  */
 function setRelic(relic: Relic) {
+  relic.ageIndex ??= (window.store.getState().relics.at(-1)?.ageIndex ?? -1) + 1
   const relicsById = { ...window.store.getState().relicsById, [relic.id]: relic }
   window.store.getState().setRelicsById(relicsById)
 }
@@ -1202,6 +1204,7 @@ function deduplicateStringArray<T extends string[] | null | undefined>(arr: T) {
 
 function indexRelics(relics: Relic[]) {
   relics.forEach((r, idx, relics) => {
-    relics[idx] = { ...r, ageIndex: r.ageIndex ?? (idx === 0 ? 0 : relics[idx - 1].ageIndex! + 1) }
+    if (r.ageIndex) return
+    relics[idx] = { ...r, ageIndex: idx === 0 ? 0 : relics[idx - 1].ageIndex! + 1 }
   })
 }

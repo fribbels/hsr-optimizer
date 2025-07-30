@@ -11,7 +11,9 @@ import {
   AgGridReactProps,
 } from 'ag-grid-react'
 import { theme } from 'antd'
+import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { getGridTheme } from 'lib/rendering/theme'
+import DB from 'lib/state/db'
 import {
   defaultRelicsGridColDefs,
   generateBaselineColDefs,
@@ -31,19 +33,19 @@ import {
 import { useTranslation } from 'react-i18next'
 import { Relic } from 'types/relic'
 
-const gridOptions: GridOptions<Relic> = {
+const gridOptions: GridOptions<ScoredRelic> = {
   rowHeight: 33,
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
   suppressMultiSort: true,
-  getRowId: (params: GetRowIdParams<Relic>) => params.data.id,
+  getRowId: (params: GetRowIdParams<ScoredRelic>) => params.data.id,
 }
 
-const paginationSettings: AgGridReactProps<Relic> = {
+const paginationSettings: AgGridReactProps<ScoredRelic> = {
   pagination: true,
   paginationPageSizeSelector: false,
   paginationPageSize: 3100,
-  paginationNumberFormatter: (params: PaginationNumberFormatterParams<Relic>) => params.value.toLocaleString(currentLocale()),
+  paginationNumberFormatter: (params: PaginationNumberFormatterParams<ScoredRelic>) => params.value.toLocaleString(currentLocale()),
 }
 
 const { useToken } = theme
@@ -58,7 +60,7 @@ export function RelicsGrid() {
   const relics = window.store((s) => s.relics.toReversed())
   const { filters, valueColumns } = useRelicsTabStore()
 
-  const gridRef = useRef<AgGridReact<Relic>>(null)
+  const gridRef = useRef<AgGridReact<ScoredRelic>>(null)
   window.relicsGrid = gridRef
 
   useEffect(() => {
@@ -66,7 +68,7 @@ export function RelicsGrid() {
     setTimeout(() => setGridActive(true), 100)
   }, [t])
 
-  const getLocaleText = useCallback((params: GetLocaleTextParams<Relic>) => {
+  const getLocaleText = useCallback((params: GetLocaleTextParams<ScoredRelic>) => {
     if (params.key == 'to') return (t('To') /* to */)
     if (params.key == 'of') return (t('Of') /* of */)
     if (params.key == 'noRowsToShow') return ''
@@ -78,11 +80,11 @@ export function RelicsGrid() {
       .concat(generateOptionalColDefs(t).filter((x) => valueColumns.includes(x.field as ValueColumnField)))
   }, [valueColumns, t])
 
-  const isExternalFilterPresent = useCallback((_params: IsExternalFilterPresentParams<Relic>) => {
+  const isExternalFilterPresent = useCallback((_params: IsExternalFilterPresentParams<ScoredRelic>) => {
     return !Object.values(filters).every((filter) => filter.length === 0)
   }, [filters])
 
-  const doesExternalFilterPass = useCallback((node: IRowNode<Relic>) => {
+  const doesExternalFilterPass = useCallback((node: IRowNode<ScoredRelic>) => {
     const relic = node.data
     if (!relic) return false
     if (filters.part.length && !filters.part.includes(relic.part)) return false
@@ -112,7 +114,7 @@ export function RelicsGrid() {
       {gridActive && (
         <AgGridReact
           ref={gridRef}
-          rowData={relics}
+          rowData={relics as ScoredRelic[]}
           columnDefs={columnDefs}
           defaultColDef={defaultRelicsGridColDefs}
           gridOptions={gridOptions}
@@ -131,4 +133,94 @@ export function RelicsGrid() {
       )}
     </div>
   )
+}
+function scoreRelics(relics: Array<Relic>): Array<ScoredRelic> {
+  const characterIds = Object.values(DB.getMetadata().characters).map((x) => x.id)
+  const relicScorer = new RelicScorer()
+  const { focusCharacter: characterId, excludedRelicPotentialCharacters } = useRelicsTabStore()
+  return relics
+    .map((relic) => {
+      let weights: RelicScoringWeights = {
+        current: 0,
+        average: 0,
+        best: 0,
+        potentialSelected: {
+          bestPct: 0,
+          averagePct: 0,
+          rerollAvgPct: 0,
+        },
+        potentialAllAll: {
+          bestPct: 0,
+          averagePct: 0,
+        },
+        potentialAllCustom: {
+          bestPct: 0,
+          averagePct: 0,
+        },
+        rerollAllAll: 0,
+        rerollAllCustom: 0,
+        rerollAvgSelected: 0,
+        rerollAvgSelectedDelta: 0,
+        rerollAvgSelectedEquippedDelta: 0,
+      }
+      if (characterId) {
+        const potentialSelected = relicScorer.scoreRelicPotential(relic, characterId)
+        const rerollAvgSelected = Math.max(0, potentialSelected.rerollAvgPct)
+        const rerollAvgSelectedDelta = rerollAvgSelected == 0 ? 0 : (rerollAvgSelected - potentialSelected.averagePct)
+        weights = {
+          ...weights,
+          ...relicScorer.getFutureRelicScore(relic, characterId),
+          potentialSelected,
+          rerollAvgSelected,
+          rerollAvgSelectedDelta,
+        }
+        const equippedRelicId = DB.getCharacterById(characterId)?.equipped?.[relic.part]
+        if (equippedRelicId) {
+          weights.rerollAvgSelectedEquippedDelta = weights.rerollAvgSelected
+            - relicScorer.scoreRelicPotential(DB.getRelicById(equippedRelicId)!, characterId).averagePct
+        }
+      }
+
+      for (const id of characterIds) {
+        const pct = relicScorer.scoreRelicPotential(relic, id)
+        weights.potentialAllAll = {
+          bestPct: Math.max(pct.bestPct, weights.potentialAllAll.bestPct),
+          averagePct: Math.max(pct.averagePct, weights.potentialAllAll.averagePct),
+        }
+        weights.rerollAllAll = Math.max(pct.rerollAvgPct, weights.rerollAllAll)
+
+        if (excludedRelicPotentialCharacters.includes(id)) continue
+
+        weights.potentialAllCustom = {
+          bestPct: Math.max(pct.bestPct, weights.potentialAllCustom.bestPct),
+          averagePct: Math.max(pct.averagePct, weights.potentialAllCustom.averagePct),
+        }
+        weights.rerollAllCustom = Math.max(pct.rerollAvgPct, weights.rerollAllCustom)
+      }
+
+      weights.rerollAvgSelected = Math.max(0, weights.potentialSelected.rerollAvgPct)
+      return { ...relic, weights }
+    })
+    .reverse()
+}
+
+export type ScoredRelic = Relic & { weights: RelicScoringWeights }
+
+export type RelicScoringWeights = {
+  average: number,
+  current: number,
+  best: number,
+  potentialSelected: PotentialWeights & { rerollAvgPct: number },
+  potentialAllAll: PotentialWeights,
+  potentialAllCustom: PotentialWeights,
+  rerollAllAll: number,
+  rerollAllCustom: number,
+  rerollAvgSelected: number,
+  rerollAvgSelectedDelta: number,
+  rerollAvgSelectedEquippedDelta: number,
+}
+
+type PotentialWeights = {
+  bestPct: number,
+  averagePct: number,
 }

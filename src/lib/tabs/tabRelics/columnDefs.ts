@@ -6,7 +6,7 @@ import { TFunction } from 'i18next'
 import { Stats } from 'lib/constants/constants'
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
-import { Relic } from 'types/relic'
+import { ScoredRelic } from 'lib/tabs/tabRelics/RelicsGrid'
 
 export function generateValueColumnOptions(t: TFunction<'relicsTab', 'RelicGrid'>) {
   return [
@@ -128,7 +128,7 @@ type ValueColumnGroup = {
   label: string,
   options: {
     column: string,
-    value: ColDef<Relic>['field'],
+    value: ColDef<ScoredRelic>['field'],
     label: string,
     percent?: boolean,
     disabled?: boolean,
@@ -139,7 +139,7 @@ export function generateOptionalColDefs(t: TFunction<'relicsTab', 'RelicGrid'>) 
   return generateValueColumnOptions(t)
     .flatMap((x) =>
       (x.options as ValueColumnGroup['options']).map((x) => {
-        const colDef: ColDef<Relic> = {
+        const colDef: ColDef<ScoredRelic> = {
           field: x.value,
           headerName: x.column,
           cellStyle: Gradient.getRelicGradient,
@@ -151,7 +151,7 @@ export function generateOptionalColDefs(t: TFunction<'relicsTab', 'RelicGrid'>) 
     )
 }
 
-export function generateBaselineColDefs(t: TFunction<'relicsTab', 'RelicGrid'>): ColDef<Relic>[] {
+export function generateBaselineColDefs(t: TFunction<'relicsTab', 'RelicGrid'>): ColDef<ScoredRelic>[] {
   return [
     {
       field: 'equippedBy',
@@ -277,13 +277,13 @@ export function generateBaselineColDefs(t: TFunction<'relicsTab', 'RelicGrid'>):
   ]
 }
 
-function calculateCv(params: ValueGetterParams<Relic>) {
+function calculateCv(params: ValueGetterParams<ScoredRelic>) {
   const stats = params.data?.augmentedStats
   if (!stats) return 0
   return 2 * stats[Stats.CR] + stats[Stats.CD]
 }
 
-export const defaultRelicsGridColDefs: ColDef<Relic> = {
+export const defaultRelicsGridColDefs: ColDef<ScoredRelic> = {
   sortable: true,
   width: 46,
   headerClass: 'relicsTableHeader',

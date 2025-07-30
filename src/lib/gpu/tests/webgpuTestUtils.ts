@@ -3,6 +3,7 @@ import {
   SetsOrnaments,
   SetsRelics,
   Stats,
+  StatsValues,
 } from 'lib/constants/constants'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import {
@@ -18,6 +19,7 @@ import {
 import { baseComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { Form } from 'types/form'
@@ -243,6 +245,9 @@ export function generateTestRelics() {
         ],
         weightScore: 0,
         substats: [],
+        ageIndex: 0,
+        initialRolls: 0,
+        augmentedStats: {} as AugmentedStats,
       },
     ],
     Hands: [
@@ -266,6 +271,9 @@ export function generateTestRelics() {
         ],
         weightScore: 0,
         substats: [],
+        ageIndex: 0,
+        initialRolls: 0,
+        augmentedStats: {} as AugmentedStats,
       },
     ],
     Body: [
@@ -289,6 +297,9 @@ export function generateTestRelics() {
         ],
         weightScore: 0,
         substats: [],
+        ageIndex: 0,
+        initialRolls: 0,
+        augmentedStats: {} as AugmentedStats,
       },
     ],
     Feet: [
@@ -312,6 +323,9 @@ export function generateTestRelics() {
         ],
         weightScore: 0,
         substats: [],
+        ageIndex: 0,
+        initialRolls: 0,
+        augmentedStats: {} as AugmentedStats,
       },
     ],
     PlanarSphere: [
@@ -335,6 +349,9 @@ export function generateTestRelics() {
         ],
         weightScore: 0,
         substats: [],
+        ageIndex: 0,
+        initialRolls: 0,
+        augmentedStats: {} as AugmentedStats,
       },
     ],
     LinkRope: [
@@ -358,6 +375,9 @@ export function generateTestRelics() {
         ],
         weightScore: 0,
         substats: [],
+        ageIndex: 0,
+        initialRolls: 0,
+        augmentedStats: {} as AugmentedStats,
       },
     ],
   } as RelicsByPart

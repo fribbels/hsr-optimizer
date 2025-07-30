@@ -26,6 +26,7 @@ import { DB } from 'lib/state/db'
 import { Metadata } from 'lib/state/metadata'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { ScoredRelic } from 'lib/tabs/tabRelics/RelicsGrid'
 import { ShowcaseTabForm } from 'lib/tabs/tabShowcase/showcaseTabController'
 import { Utils } from 'lib/utils/utils'
 import { WorkerPool } from 'lib/worker/workerPool'
@@ -75,7 +76,7 @@ declare global {
     colorTheme: ColorThemeOverrides
 
     characterGrid: RefObject<AgGridReact<Character>>
-    relicsGrid: RefObject<AgGridReact<Relic>>
+    relicsGrid: RefObject<AgGridReact<ScoredRelic>>
     optimizerGrid: RefObject<AgGridReact<OptimizerDisplayData>>
 
     setOptimizerBuild: (build?: Build) => void

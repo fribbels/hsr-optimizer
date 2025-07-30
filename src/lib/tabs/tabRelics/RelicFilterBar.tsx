@@ -33,6 +33,7 @@ import { SaveState } from 'lib/state/saveState'
 import { SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
+import { RelicScoringWeights } from 'lib/tabs/tabRelics/RelicsGrid'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
@@ -84,7 +85,7 @@ export default function RelicFilterBar() {
     enhanceData: generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']]),
     equippedByData: generateEquippedByTags([true, false]),
     initialRollsData: generateInitialRollsTags([4, 3]),
-    allCharacterIds: generateCharacterOptions().map((x) => x.id),
+    allCharacterIds: Object.values(DB.getMetadata().characters).map((x) => x.id),
   }), [])
 
   const {
@@ -153,10 +154,10 @@ export default function RelicFilterBar() {
           average: 0,
         }
       weights.potentialSelected = characterId ? relicScorer.scoreRelicPotential(relic, characterId) : { bestPct: 0, averagePct: 0, rerollAvgPct: 0 }
-      weights.potentialAllAll = { bestPct: 0, averagePct: 0, rerollAvgPct: 0 }
-      weights.potentialAllCustom = { bestPct: 0, averagePct: 0, rerollAvgPct: 0 }
-      weights.rerollAllAll = { bestPct: 0, averagePct: 0, rerollAvgPct: 0 }
-      weights.rerollAllCustom = { bestPct: 0, averagePct: 0, rerollAvgPct: 0 }
+      weights.potentialAllAll = { bestPct: 0, averagePct: 0 }
+      weights.potentialAllCustom = { bestPct: 0, averagePct: 0 }
+      weights.rerollAllAll = 0
+      weights.rerollAllCustom = 0
       weights.rerollAvgSelected = Math.max(0, weights.potentialSelected.rerollAvgPct)
 
       for (const cid of allCharacterIds) {
@@ -164,26 +165,16 @@ export default function RelicFilterBar() {
         weights.potentialAllAll = {
           bestPct: Math.max(pct.bestPct, weights.potentialAllAll.bestPct),
           averagePct: Math.max(pct.averagePct, weights.potentialAllAll.averagePct),
-          rerollAvgPct: 0,
         }
-        weights.rerollAllAll = {
-          bestPct: 0,
-          averagePct: 0,
-          rerollAvgPct: Math.max(pct.rerollAvgPct, weights.rerollAllAll.rerollAvgPct),
-        }
+        weights.rerollAllAll = Math.max(pct.rerollAvgPct, weights.rerollAllAll)
 
         // For custom characters only consider the ones that aren't excluded
         if (!excludedRelicPotentialCharacters.includes(cid)) {
           weights.potentialAllCustom = {
             bestPct: Math.max(pct.bestPct, weights.potentialAllCustom.bestPct),
             averagePct: Math.max(pct.averagePct, weights.potentialAllCustom.averagePct),
-            rerollAvgPct: 0,
           }
-          weights.rerollAllCustom = {
-            bestPct: 0,
-            averagePct: 0,
-            rerollAvgPct: Math.max(pct.rerollAvgPct, weights.rerollAllCustom.rerollAvgPct),
-          }
+          weights.rerollAllCustom = Math.max(pct.rerollAvgPct, weights.rerollAllCustom)
         }
       }
 
@@ -464,24 +455,4 @@ function generateTooltipDisplay(key: Sets | StatsValues, srcFn: (s: string) => s
       <img style={{ width: width }} src={src} />
     </Tooltip>
   )
-}
-
-export type RelicScoringWeights = {
-  average: number,
-  current: number,
-  best: number,
-  potentialSelected: PotentialWeights,
-  potentialAllAll: PotentialWeights,
-  potentialAllCustom: PotentialWeights,
-  rerollAllAll: PotentialWeights,
-  rerollAllCustom: PotentialWeights,
-  rerollAvgSelected: number,
-  rerollAvgSelectedDelta: number,
-  rerollAvgSelectedEquippedDelta: number,
-}
-
-type PotentialWeights = {
-  bestPct: number,
-  averagePct: number,
-  rerollAvgPct: number,
 }

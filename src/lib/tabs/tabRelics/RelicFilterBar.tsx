@@ -36,7 +36,7 @@ import { generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import {  isStatsValues,} from 'lib/utils/i18nUtils'
+import { isStatsValues } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
   useEffect,
@@ -260,11 +260,23 @@ export default function RelicFilterBar() {
         </Flex>
         <Flex vertical flex={0.25}>
           <HeaderText>{t('RelicFilterBar.Verified') /* Verified */}</HeaderText>
-          <SegmentedFilterRow currentFilter={filters.verified} setCurrentFilters={setFilter('verified')} tags={verifiedData} flexBasis='15%' noHeight />
+          <SegmentedFilterRow
+            currentFilter={filters.verified}
+            setCurrentFilters={setFilter('verified')}
+            tags={verifiedData}
+            flexBasis='15%'
+            noHeight
+          />
         </Flex>
         <Flex vertical flex={0.25}>
           <HeaderText>{t('RelicFilterBar.Equipped') /* Equipped */}</HeaderText>
-          <SegmentedFilterRow currentFilter={filters.equipped} setCurrentFilters={setFilter('equipped')} tags={equippedByData} flexBasis='15%' noHeight />
+          <SegmentedFilterRow
+            currentFilter={filters.equipped}
+            setCurrentFilters={setFilter('equipped')}
+            tags={equippedByData}
+            flexBasis='15%'
+            noHeight
+          />
         </Flex>
         <Flex vertical flex={0.4}>
           <HeaderText>{t('RelicFilterBar.Clear') /* Clear */}</HeaderText>
@@ -287,12 +299,22 @@ export default function RelicFilterBar() {
 
       <Flex vertical>
         <HeaderText>{t('RelicFilterBar.Mainstat') /* Main stats */}</HeaderText>
-        <SegmentedFilterRow currentFilter={filters.mainStat} setCurrentFilters={setFilter('mainStat')} tags={mainStatsData} noHeight />
+        <SegmentedFilterRow
+          currentFilter={filters.mainStat}
+          setCurrentFilters={setFilter('mainStat')}
+          tags={mainStatsData}
+          noHeight
+        />
       </Flex>
 
       <Flex vertical>
         <HeaderText>{t('RelicFilterBar.Substat') /* Substats */}</HeaderText>
-        <SegmentedFilterRow currentFilter={filters.subStat} setCurrentFilters={setFilter('subStat')} tags={subStatsData} noHeight />
+        <SegmentedFilterRow
+          currentFilter={filters.subStat}
+          setCurrentFilters={setFilter('subStat')}
+          tags={subStatsData}
+          noHeight
+        />
       </Flex>
 
       <Flex gap={10}>
@@ -414,19 +436,21 @@ function generateTooltipTags(arr: (Sets | StatsValues)[], srcFn: (s: string) => 
   }))
 }
 
+// QOL to colorize elemental stat images instead of using the substat images
+const overrides: Record<string, string> = {
+  [Stats.Physical_DMG]: 'Physical',
+  [Stats.Fire_DMG]: 'Fire',
+  [Stats.Ice_DMG]: 'Ice',
+  [Stats.Lightning_DMG]: 'Lightning',
+  [Stats.Wind_DMG]: 'Wind',
+  [Stats.Quantum_DMG]: 'Quantum',
+  [Stats.Imaginary_DMG]: 'Imaginary',
+}
+
 function generateTooltipDisplay(key: Sets | StatsValues, srcFn: (s: string) => string, locale: string) {
   const tStats = i18next.getFixedT(locale, 'common', 'Stats')
   const tSets = i18next.getFixedT(locale, 'gameData', 'RelicSets')
-  // QOL to colorize elemental stat images instead of using the substat images
-  const overrides: Record<string, string> = {
-    [Stats.Physical_DMG]: 'Physical',
-    [Stats.Fire_DMG]: 'Fire',
-    [Stats.Ice_DMG]: 'Ice',
-    [Stats.Lightning_DMG]: 'Lightning',
-    [Stats.Wind_DMG]: 'Wind',
-    [Stats.Quantum_DMG]: 'Quantum',
-    [Stats.Imaginary_DMG]: 'Imaginary',
-  }
+
 
   const width = overrides[key] ? 30 : imgWidth
   const src = overrides[key] ? Assets.getElement(overrides[key]) : srcFn(key)

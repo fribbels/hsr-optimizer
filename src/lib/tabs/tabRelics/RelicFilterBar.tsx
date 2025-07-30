@@ -451,7 +451,6 @@ function generateTooltipDisplay(key: Sets | StatsValues, srcFn: (s: string) => s
   const tStats = i18next.getFixedT(locale, 'common', 'Stats')
   const tSets = i18next.getFixedT(locale, 'gameData', 'RelicSets')
 
-
   const width = overrides[key] ? 30 : imgWidth
   const src = overrides[key] ? Assets.getElement(overrides[key]) : srcFn(key)
 

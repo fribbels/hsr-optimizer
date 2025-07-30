@@ -42,7 +42,7 @@ const gridOptions: GridOptions<Relic> = {
 const paginationSettings: AgGridReactProps<Relic> = {
   pagination: true,
   paginationPageSizeSelector: false,
-  paginationPageSize: 2100,
+  paginationPageSize: 3100,
   paginationNumberFormatter: (params: PaginationNumberFormatterParams<Relic>) => params.value.toLocaleString(currentLocale()),
 }
 

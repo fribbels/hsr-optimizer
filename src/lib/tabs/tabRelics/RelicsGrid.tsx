@@ -81,6 +81,7 @@ export function RelicsGrid() {
   const isExternalFilterPresent = useCallback((_params: IsExternalFilterPresentParams<Relic>) => {
     return !Object.values(filters).every((filter) => filter.length === 0)
   }, [filters])
+
   const doesExternalFilterPass = useCallback((node: IRowNode<Relic>) => {
     const relic = node.data
     if (!relic) return false
@@ -121,11 +122,11 @@ export function RelicsGrid() {
           navigateToNextCell={RelicsTabController.navigateToNextCell}
           isExternalFilterPresent={isExternalFilterPresent}
           doesExternalFilterPass={doesExternalFilterPass}
-          {...paginationSettings}
           getLocaleText={getLocaleText}
           headerHeight={24}
           animateRows={true}
           rowSelection='multiple'
+          {...paginationSettings}
         />
       )}
     </div>

@@ -28,7 +28,10 @@ export default function RelicsTab() {
   const selectedRelic = DB.getRelicById(selectedRelicId ?? '') ?? null
   const { t } = useTranslation('relicsTab')
   const setSelectedRelic = (r: Relic) => setSelectedRelicsIds([r.id])
-  const score = (selectedRelic && focusCharacter) ? RelicScorer.scoreCurrentRelic(selectedRelic, focusCharacter) : undefined
+  const score = (selectedRelic && focusCharacter)
+    ? RelicScorer.scoreCurrentRelic(selectedRelic, focusCharacter)
+    : undefined
+
   return (
     <Flex style={{ marginBottom: 100, width: TAB_WIDTH }}>
       {

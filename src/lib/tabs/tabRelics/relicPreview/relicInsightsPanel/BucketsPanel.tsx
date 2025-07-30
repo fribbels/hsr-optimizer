@@ -49,6 +49,7 @@ export function BucketsPanel({ scores }: PanelProps) {
   const [tooltipActive, setTooltipActive] = useState(false)
   const timeout = useRef<NodeJS.Timeout>()
   const buckets = Array<Bucket>(10)
+
   scores.forEach((score) => {
     const bucketIndex = Math.min(9, Math.max(0, Math.floor(score.score.bestPct / 10)))
     let bucket = buckets[bucketIndex]
@@ -100,9 +101,9 @@ export function BucketsPanel({ scores }: PanelProps) {
         height={278}
         margin={{
           top: 20,
-          right: 5,
-          bottom: 20,
-          left: -10,
+          right: 15,
+          bottom: 25,
+          left: -5,
         }}
       >
         <XAxis dataKey='x' type='number' hide />
@@ -111,7 +112,7 @@ export function BucketsPanel({ scores }: PanelProps) {
           tickFormatter={(val) => `${val * 10}%+`}
           domain={[0, 9]}
           tickCount={10}
-          tick={{ fill: '#cfcfcf' }} // pure white felt blinding lol
+          tick={{ fill: '#cfcfcf', fontSize: 13 }}
           axisLine={false}
           tickLine={false}
         />

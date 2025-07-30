@@ -94,11 +94,9 @@ export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWo
   ]
 
   const substatValidator = new SubstatDistributionValidator(goal, request)
-  const maxIterations = 10000
 
   const tree = new SearchTree(
     goal,
-    maxIterations,
     minSubstatRollCounts,
     maxSubstatRollCounts,
     mainStats,

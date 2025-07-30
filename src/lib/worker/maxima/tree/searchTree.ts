@@ -110,7 +110,6 @@ export class SearchTree {
 
   constructor(
     public targetSum: number,
-    public maxIterations: number,
     public lower: SubstatCounts,
     public upper: SubstatCounts,
     public mainStats: string[],

@@ -75,7 +75,6 @@ describe('isRegionFeasible tests', () => {
 
     return new SearchTree(
       targetSum,
-      maxIterations,
       minSubstatRollCounts,
       maxSubstatRollCounts,
       mainStats,

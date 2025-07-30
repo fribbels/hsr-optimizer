@@ -73,7 +73,6 @@ describe('basic search tree tests', () => {
 
     return new SearchTree(
       goal,
-      maxIterations,
       minSubstatRollCounts,
       maxSubstatRollCounts,
       mainStats,

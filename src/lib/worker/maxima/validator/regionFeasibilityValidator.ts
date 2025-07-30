@@ -14,6 +14,8 @@ export function isRegionFeasible(region: TreeStatRegion, tree: SearchTree): bool
 
   if (!isValidBoundarySums(region, tree, sumMin, sumMax)) return false
   if (!isValidDistributableSlots(region, tree, sumMin)) return false
+  
+  // Disabled validations:
   // if (!isValidEligibleStats(region, tree)) return false
   // if (!isValidMinimumRolls(region, tree)) return false
 

@@ -208,14 +208,7 @@ export default function RelicModal({ selectedRelic, onOk, setOpen, open, default
   const [upgradeValues, setUpgradeValues] = useState<RelicUpgradeValues[]>([])
 
   useEffect(() => {
-    let defaultValues = {
-      equippedBy: defaultWearer ?? 'None',
-      grade: 5,
-      enhance: 15,
-      part: Constants.Parts.Head,
-      mainStatType: Constants.Stats.HP,
-      mainStatValue: Math.floor(Constants.MainStatsValues[Constants.Stats.HP][5].base + Constants.MainStatsValues[Constants.Stats.HP][5].increment * 15),
-    } as RelicForm
+    let defaultValues: RelicForm
 
     if (selectedRelic) {
       defaultValues = {
@@ -235,7 +228,17 @@ export default function RelicModal({ selectedRelic, onOk, setOpen, open, default
         substatType3: renderSubstat(selectedRelic, 3)?.stat,
         substatValue3: renderSubstat(selectedRelic, 3)?.value.toString(),
       }
+    } else {
+      defaultValues = {
+        equippedBy: defaultWearer ?? 'None',
+        grade: 5,
+        enhance: 15,
+        part: Constants.Parts.Head,
+        mainStatType: Constants.Stats.HP,
+        mainStatValue: Math.floor(Constants.MainStatsValues[Constants.Stats.HP][5].base + Constants.MainStatsValues[Constants.Stats.HP][5].increment * 15),
+      } as RelicForm
     }
+
     onValuesChange(defaultValues)
     relicForm.setFieldsValue(defaultValues)
   }, [selectedRelic, open])

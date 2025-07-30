@@ -444,7 +444,7 @@ export const SetsOrnaments = {
 export const officialOnly = false
 const characters = gameData.characters
 const lightCones = gameData.lightCones
-export const UnreleasedSets: Record<string, boolean> = {}
+export const UnreleasedSets: Partial<Record<Sets, boolean>> = {}
 
 if (officialOnly) {
   // UnreleasedSets[SetsRelics.SacerdosRelivedOrdeal] = true

@@ -1,41 +1,43 @@
 import { Flex } from 'antd'
+import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
+import { RecentRelicCard } from 'lib/tabs/tabRelics/RecentRelicCard'
+import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import React from 'react'
-import { CharacterId } from 'types/character'
-import { useScannerState } from '../tabImport/ScannerWebsocketClient'
-import { RecentRelicCard } from './RecentRelicCard'
 
 function padArray<T>(array: T[], length: number, filler: T): T[] {
   return [...array, ...Array(length - array.length).fill(filler)]
 }
 
-export const RecentRelics = React.memo((props: {
-  scoringCharacter?: CharacterId
-  setSelectedRelicID?: (relicID: string) => void
-  selectedRelicID?: string
-}): React.JSX.Element => {
-  const recentRelicIDs = useScannerState((s) => s.recentRelics)
+export const RecentRelics = React.memo(() => {
+  const { focusCharacter: scoringCharacter, selectedRelicId, setSelectedRelicsIds } = useRelicsTabStore()
+  const { recentRelics: recentRelicIDs } = useScannerState()
   const allRelics = window.store((s) => s.relicsById)
-  const recentRelics = recentRelicIDs.map((id) => allRelics[id]).filter((relic) => relic != null)
+
+  const recentRelics = recentRelicIDs
+    .map((id) => allRelics[id])
+    .filter((relic) => relic != null)
+
+  const setSelectedRelicID = (id: string) => {
+    setSelectedRelicsIds([id])
+  }
 
   return (
     <Flex
       gap={10}
       justify='space-between'
       style={{
-        padding: 10
+        padding: 10,
       }}
     >
-      {
-        padArray(recentRelics.slice(0, 6), 6, undefined).map((relic, i) => (
-          <RecentRelicCard
-            key={relic?.id ?? i}
-            relic={relic}
-            isSelected={relic?.id === props.selectedRelicID}
-            scoringCharacter={props.scoringCharacter}
-            setSelectedRelicID={props.setSelectedRelicID}
-          />
-        ))
-      }
+      {padArray(recentRelics.slice(0, 6), 6, undefined).map((relic, i) => (
+        <RecentRelicCard
+          key={relic?.id ?? i}
+          relic={relic}
+          isSelected={relic?.id === selectedRelicId}
+          scoringCharacter={scoringCharacter}
+          setSelectedRelicID={setSelectedRelicID}
+        />
+      ))}
     </Flex>
   )
 })

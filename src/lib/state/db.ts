@@ -36,6 +36,7 @@ import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
+import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
@@ -217,11 +218,11 @@ window.store = create<HsrOptimizerStore>()((set) => ({
     set: [],
     part: [],
     enhance: [],
-    mainStats: [],
-    subStats: [],
+    mainStat: [],
+    subStat: [],
     grade: [],
     verified: [],
-    equippedBy: [],
+    equipped: [],
     initialRolls: [],
   },
   excludedRelicPotentialCharacters: [],
@@ -377,10 +378,6 @@ export const DB = {
     }
   },
 
-  refreshRelics: () => {
-    if (window.setRelicRows) window.setRelicRows(DB.getRelics())
-  },
-
   // Mostly for debugging
   getState: () => window.store.getState(),
 
@@ -413,7 +410,6 @@ export const DB = {
     // }
 
     for (const stat of SubStats) {
-      // eslint-disable-next-line
       if (returnScoringMetadata.stats[stat] == null) {
         returnScoringMetadata.stats[stat] = 0
       }
@@ -600,8 +596,10 @@ export const DB = {
     }
 
     // Set relics tab state
-    window.store.getState().setExcludedRelicPotentialCharacters(saveData.excludedRelicPotentialCharacters || [])
+    useRelicsTabStore.getState().setExcludedRelicPotentialCharacters(saveData.excludedRelicPotentialCharacters || [])
+
     window.store.getState().setVersion(saveData.version)
+
     useRelicLocatorStore.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth)
     useRelicLocatorStore.getState().setRowLimit(saveData.relicLocator?.rowLimit)
 
@@ -621,8 +619,6 @@ export const DB = {
     assignRanks(saveData.characters)
     DB.setRelics(saveData.relics)
     DB.setCharacters(saveData.characters)
-
-    DB.refreshRelics()
 
     if (autosave) {
       SaveState.delayedSave()
@@ -1053,7 +1049,6 @@ export const DB = {
       }
     }
 
-    DB.refreshRelics()
     window.refreshRelicsScore()
 
     // Updated stats for ${updatedOldRelics.length} existing relics

@@ -78,11 +78,7 @@ declare global {
     relicsGrid: RefObject<AgGridReact<Relic>>
     optimizerGrid: RefObject<AgGridReact<OptimizerDisplayData>>
 
-    setCharacterRows: (characters: Character[]) => void
-    setRelicRows: (characters: Relic[]) => void
     setOptimizerBuild: (build?: Build) => void
-    setSelectedRelicIDs: (ids: string[]) => void
-    setEditModalOpen: (open: boolean) => void
 
     showcaseTabForm: FormInstance<ShowcaseTabForm>
 

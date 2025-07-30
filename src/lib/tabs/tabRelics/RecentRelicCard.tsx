@@ -2,7 +2,6 @@ import {
   Divider,
   Flex,
   Progress,
-  ProgressProps,
   theme,
   Tooltip,
   Typography,
@@ -10,6 +9,7 @@ import {
 import chroma from 'chroma-js'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -19,7 +19,7 @@ import { RelicPreview } from './RelicPreview'
 
 interface RelicCardProps {
   relic?: Relic
-  scoringCharacter?: CharacterId
+  scoringCharacter?: CharacterId | null
   setSelectedRelicID?: (relicID: string) => void
   isSelected?: boolean
 }
@@ -32,13 +32,12 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
 
   // Calculate score for the selected character
-  const score = useMemo(() => relic && scoringCharacter ? RelicScorer.scoreCurrentRelic(relic, scoringCharacter) : undefined, [relic, scoringCharacter])
-
-  // Calculate potential scores
-  const potentialScore = useMemo(() => relic && scoringCharacter ? RelicScorer.scoreRelicPotential(relic, scoringCharacter, true) : undefined, [
-    relic,
-    scoringCharacter,
-  ])
+  const { score, potentialScore } = useMemo(() => {
+    if (!relic || !scoringCharacter) return {}
+    const score = RelicScorer.scoreCurrentRelic(relic, scoringCharacter)
+    const potentialScore = RelicScorer.scoreRelicPotential(relic, scoringCharacter, true)
+    return { score, potentialScore }
+  }, [relic, scoringCharacter])
 
   // Calculate top 3 characters for the relic
   const topCharacters = useMemo(() => {
@@ -53,7 +52,8 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
         score: RelicScorer.scoreRelicPotential(relic, id, false),
         isSelected: id === scoringCharacter,
         icon: Assets.getCharacterAvatarById(id),
-      })).sort((a, b) => {
+      }))
+      .sort((a, b) => {
         // Break ties by score -> rarity -> character priority
         const pctDiff = b.score.bestPct - a.score.bestPct
         if (pctDiff !== 0) {
@@ -65,11 +65,10 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
           return rarityDiff
         }
 
-        const priorityDiff = (DB.getCharacterById(a.id)?.rank ?? 999) - (DB.getCharacterById(b.id)?.rank ?? 999)
-        return priorityDiff
+        return (DB.getCharacterById(a.id)?.rank ?? 999) - (DB.getCharacterById(b.id)?.rank ?? 999)
       })
       .slice(0, 5)
-  }, [relic, scoringCharacter, excludedRelicPotentialCharacters, t])
+  }, [relic, scoringCharacter, excludedRelicPotentialCharacters, tCharacters])
 
   // Skip render if no relic
   if (!relic) {
@@ -98,6 +97,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
         relic={relic}
         characterId={scoringCharacter}
         score={score}
+        scoringType={score ? ScoringType.SUBSTAT_SCORE : ScoringType.NONE}
         setSelectedRelic={(relic) => setSelectedRelicID?.(relic.id)}
       />
       <Flex

@@ -9,6 +9,7 @@ import {
 } from 'lib/simulations/statSimulationTypes'
 import { AppPage } from 'lib/state/db'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { RelicTabFilters } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
 import {
@@ -44,17 +45,6 @@ type PermutationDetails = {
   LinkRopeTotal: number,
 }
 
-export type RelicTabFilters = {
-  set: (string | number)[],
-  part: (string | number)[],
-  enhance: (string | number)[],
-  mainStats: (string | number)[],
-  subStats: (string | number)[],
-  grade: (string | number)[],
-  verified: (string | number)[],
-  equippedBy: (string | number)[],
-  initialRolls: (string | number)[],
-}
 export type HsrOptimizerStore = { // global store separation plan
   /* global                   */ version: string,
   /* global                   */ colorTheme: ColorThemeOverrides,
@@ -67,7 +57,7 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ permutations: number,
   /* optimizerTab             */ permutationsResults: number,
   /* optimizerTab             */ permutationsSearched: number,
-  /* relicsTab?               */ scoringMetadataOverrides: Partial<Record<CharacterId, ScoringMetadata>>,
+  /* global                   */ scoringMetadataOverrides: Partial<Record<CharacterId, ScoringMetadata>>,
   /* characterTab/showcaseTab */ showcasePreferences: Partial<Record<CharacterId, ShowcasePreferences>>,
   /* characterTab/showcaseTab */ showcaseTemporaryOptionsByCharacter: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>,
   /* optimizerTab             */ statSimulationDisplay: StatSimTypes,
@@ -126,7 +116,7 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ setSelectedStatSimulations: (x: Simulation['key'][]) => void,
   /* optimizerTab             */ setStatSimulations: (x: Simulation[]) => void,
   /* optimizerTab             */ setStatSimulationDisplay: (x: StatSimTypes) => void,
-  /* relicsTab                */ setScoringMetadataOverrides: (x: Partial<Record<CharacterId, ScoringMetadata>>) => void,
+  /* global                   */ setScoringMetadataOverrides: (x: Partial<Record<CharacterId, ScoringMetadata>>) => void,
   /* characterTab/showcaseTab */ setShowcasePreferences: (x: Partial<Record<CharacterId, ShowcasePreferences>>) => void,
   /* characterTab/showcaseTab */ setShowcaseTemporaryOptionsByCharacter: (x: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>) => void,
   /* optimizerTab             */ setPermutations: (x: number) => void,

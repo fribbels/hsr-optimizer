@@ -1,9 +1,10 @@
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import DB from 'lib/state/db'
+import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
+import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
-import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { HsrOptimizerSaveFormat } from 'types/store'
 
 let saveTimeout: NodeJS.Timeout | null
@@ -11,6 +12,7 @@ let saveTimeout: NodeJS.Timeout | null
 export const SaveState = {
   save: () => {
     const globalState = window.store.getState()
+    const relicsTabState = useRelicsTabStore.getState()
     const showcaseTabSession = useShowcaseTabStore.getState().savedSession
     const globalSession = globalState.savedSession
     const relicLocatorSession = useRelicLocatorStore.getState()
@@ -25,7 +27,7 @@ export const SaveState = {
       scoringMetadataOverrides: globalState.scoringMetadataOverrides,
       showcasePreferences: globalState.showcasePreferences,
       optimizerMenuState: globalState.optimizerMenuState,
-      excludedRelicPotentialCharacters: globalState.excludedRelicPotentialCharacters,
+      excludedRelicPotentialCharacters: relicsTabState.excludedRelicPotentialCharacters,
       savedSession: {
         showcaseTab: showcaseTabSession,
         global: globalSession,
@@ -70,7 +72,7 @@ export const SaveState = {
         console.log('Loaded SaveState')
 
         DB.setStore(parsed, autosave, sanitize)
-        
+
         return true
       }
 

@@ -1,3 +1,4 @@
+import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { sortAlphabeticEmojiLast } from 'lib/rendering/displayUtils'
 import DB from 'lib/state/db'
@@ -21,6 +22,8 @@ export function RelicInsightsPanel() {
     if (!selectedRelic) return []
     return Object.values(DB.getMetadata().characters)
       .filter((x) => {
+        if (buffedCharacters[x.id]) return false
+
         switch (insightsCharacters) {
           case InsightCharacters.All:
             return true

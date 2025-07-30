@@ -69,32 +69,32 @@ RelicGrid:
     SelectedCharacter:
       Label: Personaggio selezionato
       ScoreCol:
-        Label: "Personaggio selezionato: Punteggio"
+        Label: 'Personaggio selezionato: Punteggio'
         Header: |-
           PG Selezionato
           Punteggio
       AvgPotCol:
-        Label: "Personaggio selezionato: Potenziale medio"
+        Label: 'Personaggio selezionato: Potenziale medio'
         Header: |-
           PG Selezionato
           Potenziale Medio
       MaxPotCol:
-        Label: "Personaggio selezionato: Potenziale massimo"
+        Label: 'Personaggio selezionato: Potenziale massimo'
         Header: |-
           PG Selezionato
           Potenziale massimo
       RerollAvg:
-        Label: "Personaggio selezionato: Potenziale medio reroll"
+        Label: 'Personaggio selezionato: Potenziale medio reroll'
         Header: |-
           PG Selezionato
           Media Reroll
       RerollAvgDelta:
-        Label: "Personaggio selezionato: Delta potenziale medio reroll"
+        Label: 'Personaggio selezionato: Delta potenziale medio reroll'
         Header: |-
           PG Selezionato
           Δ Media Reroll
       RerollAvgEquippedDelta:
-        Label: "Personaggio selezionato: Delta potenziale medio reroll vs equipaggiato"
+        Label: 'Personaggio selezionato: Delta potenziale medio reroll vs equipaggiato'
         Header: |-
           PG Selezionato
           Δ Media Reroll
@@ -102,34 +102,34 @@ RelicGrid:
     CustomCharacters:
       Label: Personaggi personalizzati
       AvgPotCol:
-        Label: "Personaggi personalizzati: Potenziale medio"
+        Label: 'Personaggi personalizzati: Potenziale medio'
         Header: |-
           PG Personalizzati
           Potenziale medio
       MaxPotCol:
-        Label: "Personaggi personalizzati: Potenziale massimo"
+        Label: 'Personaggi personalizzati: Potenziale massimo'
         Header: |-
           PG Personalizzati
           Potenziale Massimo
       RerollAvg:
-        Label: "Personaggi personalizzati: Potenziale medio reroll"
+        Label: 'Personaggi personalizzati: Potenziale medio reroll'
         Header: |-
           PG Personalizzati
           Media Reroll
     AllCharacters:
       Label: Tutti i personaggi
       AvgPotCol:
-        Label: "Tutti i personaggi: Potenziale medio"
+        Label: 'Tutti i personaggi: Potenziale medio'
         Header: |-
           Tutti i Personaggi
           Valore Medio
       MaxPotCol:
-        Label: "Tutti i personaggi: Potenziale massimo"
+        Label: 'Tutti i personaggi: Potenziale massimo'
         Header: |-
           Tutti i Personaggi
           Potenziale Massimo
       RerollAvg:
-        Label: "Tutti i personaggi: Potenziale medio reroll"
+        Label: 'Tutti i personaggi: Potenziale medio reroll'
         Header: |-
           Tutti i Personaggi
           Media Reroll
@@ -145,10 +145,10 @@ Toolbar:
     Width: Larghezza dell'inventario
     Filter: Filtra automaticamente le righe
     NoneSelected: Seleziona una reliquia da localizzare
-    Location: "Posizione - Riga {{rowIndex}} / Colonna {{columnIndex}}"
+    Location: 'Posizione - Riga {{rowIndex}} / Colonna {{columnIndex}}'
   InsightOptions:
-    Buckets: "Reliquie Consigliate: Suddivisione"
-    Top10: "Reliquie Consigliate: Top 10"
+    Buckets: 'Reliquie Consigliate: Suddivisione'
+    Top10: 'Reliquie Consigliate: Top 10'
   PlotOptions:
     PlotAll: Mostra tutti i personaggi
     PlotCustom: Mostra personaggi personalizzati
@@ -156,8 +156,8 @@ Toolbar:
   DeleteRelic:
     ButtonText: Elimina reliquia
     Warning_one: Eliminare la reliquia selezionata?
-    Warning_other: "Eliminare le {{count}} reliquie selezionate?"
+    Warning_other: 'Eliminare le {{count}} reliquie selezionate?'
   AddRelic: Aggiungi reliquia nuova
 RelicInsights:
-  NewStats: "Nuove statistiche: "
-  UpgradedStats: "Statistiche potenziate: "
+  NewStats: 'Nuove statistiche: '
+  UpgradedStats: 'Statistiche potenziate: '

@@ -111,7 +111,7 @@ export function BucketsPanel({ scores }: PanelProps) {
           dataKey='y'
           tickFormatter={(val) => `${val * 10}%+`}
           domain={[0, 9]}
-          tickCount={10}
+          ticks={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}
           tick={{ fill: '#cfcfcf', fontSize: 13 }}
           axisLine={false}
           tickLine={false}

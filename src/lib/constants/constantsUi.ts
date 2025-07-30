@@ -11,3 +11,6 @@ export const lcParentH = 280
 export const lcInnerW = 250
 export const lcInnerH = 1260 / 902 * lcInnerW
 export const middleColumnWidth = 240
+
+export const newLcMargin = 8
+export const newLcHeight = 128

@@ -13,6 +13,8 @@ import {
   lcInnerW,
   lcParentH,
   lcParentW,
+  newLcHeight,
+  newLcMargin,
   parentH,
   parentW,
 } from 'lib/constants/constantsUi'
@@ -146,9 +148,6 @@ export function getArtistName(character: Character) {
 }
 
 export function getShowcaseDisplayDimensions(character: Character, simScore: boolean): ShowcaseDisplayDimensions {
-  const newLcMargin = 8
-  const newLcHeight = 128
-
   const charCenter = DB.getMetadata().characters[character.id].imageCenter
   // @ts-ignore Some APIs return empty light cone as '0'
   const lcCenter = (character.form.lightCone && character.form.lightCone != '0' && DB.getMetadata().lightCones[character.form.lightCone])

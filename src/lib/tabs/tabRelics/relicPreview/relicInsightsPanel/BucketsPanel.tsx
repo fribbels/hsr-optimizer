@@ -167,12 +167,14 @@ function TooltipContent(props: TooltipProps<ValueType, NameType>) {
       }}
       justify='space-between'
     >
-      <u>{data?.name}</u>
+      <div style={{ marginBottom: 5 }}>
+        <u>{data?.name}</u>
+      </div>
       <div>
         {data?.bestUpgraded?.length != 0 && (
           <>
             <>{t('UpgradedStats')}</>
-            <>{data?.bestUpgraded.join('/')}</>
+            <>{data?.bestUpgraded.join(' / ')}</>
           </>
         )}
       </div>
@@ -180,7 +182,7 @@ function TooltipContent(props: TooltipProps<ValueType, NameType>) {
         {data?.bestAdded?.length != 0 && (
           <>
             <>{t('NewStats')}</>
-            <>{data?.bestAdded.join('/')}</>
+            <>{data?.bestAdded.join(' / ')}</>
           </>
         )}
       </div>

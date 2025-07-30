@@ -29,7 +29,6 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { ShowcaseTabForm } from 'lib/tabs/tabShowcase/showcaseTabController'
 import { Utils } from 'lib/utils/utils'
 import { WorkerPool } from 'lib/worker/workerPool'
-import Vibrant from 'node-vibrant'
 import {
   DispatchWithoutAction,
   RefObject,
@@ -80,8 +79,6 @@ declare global {
     optimizerGrid: RefObject<AgGridReact<OptimizerDisplayData>>
 
     setOptimizerBuild: (build?: Build) => void
-
-    Vibrant: typeof Vibrant
 
     showcaseTabForm: FormInstance<ShowcaseTabForm>
 

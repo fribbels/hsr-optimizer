@@ -88,8 +88,6 @@ import { Relic } from 'types/relic'
 
 const { useToken } = theme
 
-window.Vibrant = Vibrant
-
 export function CharacterPreview(props: {
   id: string,
   source: ShowcaseSource,

@@ -82,12 +82,20 @@ export const Top10Panel = React.memo(({ scores }: PanelProps) => {
         height={278}
         margin={{
           top: 0,
-          left: 20,
+          left: 0,
           bottom: 0,
         }}
       >
         <CartesianGrid opacity={0.2} />
-        <XAxis dataKey='x' type='number' domain={[0, 100]} tickCount={11} mirror />
+        <XAxis
+          dataKey='x'
+          type='number'
+          domain={[0, 100]}
+          tickCount={11}
+          mirror
+          axisLine={false} // Hides the axis line
+          tickLine={false} // Hides the small tick marks
+        />
         <YAxis
           dataKey='y'
           type='number'
@@ -111,7 +119,7 @@ export const Top10Panel = React.memo(({ scores }: PanelProps) => {
               />
             )
           })}
-          <ErrorBar dataKey='errX' direction='x' />
+          <ErrorBar dataKey='errX' direction='x' stroke='#7d94b0' />
         </Scatter>
       </ScatterChart>
     </div>

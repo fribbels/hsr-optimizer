@@ -102,7 +102,7 @@ export function BucketsPanel({ scores }: PanelProps) {
         margin={{
           top: 20,
           right: 15,
-          bottom: 25,
+          bottom: 20,
           left: -5,
         }}
       >

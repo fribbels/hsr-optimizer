@@ -2811,7 +2811,7 @@ interface Resources {
           },
           "enhancedSkillType": {
             "text": "Enhanced Skill type",
-            "content": "Khaslana can chose between 2 skills. ::BR:: Calamity: Recovers Scourge stacks equal to the number of enemy targets and causes all enemy targets to take action, then unleashes a powerful counter attack. ::BR:: Foundation: Consumes up to 4 stacks of Scourge. For each stack consumed deals dmg to 1 random enemy. If 4 stacks were consumed, additionally deal damage to all enemies. ::BR:: When transforming, Khaslana recovers 4 stacks of Scourge.",
+            "content": "Khaslana can chose between 2 skills. ::BR:: Calamity: Recovers Scourge stacks equal to the number of enemy targets and causes all enemy targets to take action, then unleashes a powerful counter attack. ::BR:: Foundation: Consumes up to 4 stacks of Scourge. For each stack consumed deals dmg 4 times to random enemy targets. If 4 stacks were consumed, additionally deal damage to all enemies. ::BR:: When transforming, Khaslana recovers 4 stacks of Scourge.",
             "options": {
               "Calamity": {
                 "display": "Skill: Calamity",
@@ -3119,7 +3119,7 @@ interface Resources {
           },
           "talentDefShredDebuff": {
             "text": "Bug DEF shred",
-            "content": "Silver Wolf can create three types of \"Bugs\": Reduce ATK by {{BugAtkDown}}%, reduce DEF by {{BugDefDown}}%, and reduce SPD by {{BugSpdDown}}%. ::BR:: After every attack launched by Silver Wolf, she has a {{BugBaseChance}}% base chance to implant 1 random \"Bug\" that lasts for 4 turns in the attacked enemy target. ::BR::\n Every time an enemy target's Weakness is Broken, Silver Wolf has a 100% base chance of implanting 1 random \"Bug\" in that target.\n::BR:: E2: When the enemy target receives an attack from ally targets, Silver Wolf has a 100% base chance of implanting the attacked enemy target with 1 random \"Bug.\""
+            "content": "Silver Wolf can create three types of \"Bugs\": Reduce ATK by {{BugAtkDown}}%, reduce DEF by {{BugDefDown}}%, and reduce SPD by {{BugSpdDown}}%. ::BR:: After every attack launched by Silver Wolf, she has a {{BugBaseChance}}% base chance to implant 1 random \"Bug\" that lasts for 4 turns in the attacked enemy target. ::BR:: Every time an enemy target's Weakness is Broken, Silver Wolf has a 100% base chance of implanting 1 random \"Bug\" in that target. ::BR:: E2: When the enemy target receives an attack from ally targets, Silver Wolf has a 100% base chance of implanting the attacked enemy target with 1 random \"Bug.\""
           },
           "ultDefShredDebuff": {
             "text": "Ult DEF shred",
@@ -4649,7 +4649,8 @@ interface Resources {
       "p4": "<0>Include equipped relics</0> - When enabled, the optimizer will allow using relics that are currently equipped by a character for the search. Otherwise equipped relics are excluded",
       "p5": "<0>Priority</0> - See: Character priority filter. Changing this setting will change the character's priority",
       "p6": "<0>Exclude</0> - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter",
-      "p7": "<0>Enhance / grade</0> - Select the minimum enhance to search for and minimum stars for relics to include"
+      "p7": "<0>Enhance / grade</0> - Select the minimum enhance to search for and minimum stars for relics to include",
+      "p8": "<0>DPS mode</0> - Select whether the character should be the primary target for supportive buffs (Main DPS) or not (Sub DPS) for optimizer stat calculations"
     },
     "Relics": {
       "Title": "Relics",

@@ -63,7 +63,7 @@ Relics:
   p2: "Personaje seleccionado: Puntaje - El puntaje del artefacto actual, definido por el algoritmo de puntuación para el personaje seleccionado."
   p3: "Personaje seleccionado: Potencial promedio - El potencial del artefacto a su nivel máximo, promediado entre todas las posibles mejoras que pueda tener hasta llegar a +15."
   p4: "Personaje seleccionado: Potencial máximo - El potencial máximo del artefacto si todas las mejoras van a los atributos deseados del personaje."
-  p5: "Todos los personajes: Potencial máximo - El potencial máximo del artefacto, entre todos los personajes del juego."
+  p5: 'Todos los personajes: Potencial máximo - El potencial máximo del artefacto, entre todos los personajes del juego.'
 OptimizationDetails:
   Title: Detalles de optimización
   p1: Muestra cuántos artefactos están siendo usados en la búsqueda de optimización, luego de aplicar todos los filtros.
@@ -98,7 +98,7 @@ ValueColumns:
   p3: Potencial es un porcentaje, específico del personaje, de qué tan bueno puede ser el artefacto (o "es", si está mejorado al máximo) comparado con los atributos de un artefacto "perfecto" mejorado al máximo en esa ranura.
   p4: Potencial puede buscar entre todos los personajes o sólo los adquiridos. Luego toma el porcentaje máximo para cualquier personaje.
   p5: Potencial es útil para encontrar artefactos que no son buenos para ningún personaje, o gemas ocultas que pueden ser buenas una vez mejoradas.
-  p6: "Nota: ordenar por potencial puede no coincidir con las importancias, en caso de que los cálculos de importancia prefieran atributos principales ideales de menor importancia."
+  p6: 'Nota: ordenar por potencial puede no coincidir con las importancias, en caso de que los cálculos de importancia prefieran atributos principales ideales de menor importancia.'
 RelicInsights:
   Title: Detalle de artefacto
   p1: Cuando se selecciona un artefacto en la tabla superior, puedes elegir un análisis para ver su gráfico.

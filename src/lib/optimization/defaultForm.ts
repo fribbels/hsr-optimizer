@@ -99,7 +99,7 @@ export function getDefaultForm(initialCharacter: { id: CharacterId }) {
     },
     comboStateJson: '{}',
     comboPreprocessor: true,
-    dpsMode: 'Main',
+    deprioritizeBuffs: false,
     ...defaultEnemyOptions(),
   })
 

@@ -338,8 +338,8 @@ export function formToDisplay(form: Form) {
     newForm.comboType = ComboType.SIMPLE
   }
 
-  if (!newForm.dpsMode) {
-    newForm.dpsMode = 'Main'
+  if (!newForm.deprioritizeBuffs) {
+    newForm.deprioritizeBuffs = false
   }
 
   for (const [key, value] of Object.entries(newForm.setConditionals)) {

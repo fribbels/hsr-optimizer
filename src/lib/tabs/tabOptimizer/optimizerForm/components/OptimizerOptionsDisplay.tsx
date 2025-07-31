@@ -216,7 +216,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
             <HeaderText>
               {'DPS mode'}
             </HeaderText>
-            <Form.Item name='dpsMode'>
+            <Form.Item name='deprioritizeBuffs'>
               <Radio.Group
                 optionType='button'
                 buttonStyle='solid'
@@ -224,13 +224,13 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
               >
                 <Radio
                   style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
-                  value={'Main'}
+                  value={false}
                 >
                   Main
                 </Radio>
                 <Radio
                   style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
-                  value={'Sub'}
+                  value={true}
                   defaultChecked
                 >
                   Sub

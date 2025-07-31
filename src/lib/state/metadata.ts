@@ -37,11 +37,14 @@ import {
   ALONG_THE_PASSING_SHORE,
   AVENTURINE,
   BLACK_SWAN,
+  BRONYA,
+  BUT_THE_BATTLE_ISNT_OVER,
   CIPHER,
   DANCE_DANCE_DANCE,
   EARTHLY_ESCAPADE,
   FLOWING_NIGHTGLOW,
   HUOHUO,
+  IF_TIME_WERE_A_FLOWER,
   INHERENTLY_UNJUST_DESTINY,
   KAFKA,
   KAFKA_B1,
@@ -49,6 +52,7 @@ import {
   LUOCHA,
   MULTIPLICATION,
   NIGHT_OF_FRIGHT,
+  PAST_SELF_IN_MIRROR,
   PATIENCE_IS_ALL_YOU_NEED,
   PHAINON,
   REFORGED_REMEMBRANCE,
@@ -58,6 +62,7 @@ import {
   SUNDAY,
   THUS_BURNS_THE_DAWN,
   TINGYUN,
+  TRIBBIE,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -2201,7 +2206,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
+            characterId: TRIBBIE,
             lightCone: '23038', // If time were a flower
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -2213,7 +2218,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1409', // Hyacine
+            characterId: HYACINE,
             lightCone: '23042', // Long may Rainbows adorn the sky
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -2366,7 +2371,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
+            characterId: TRIBBIE,
             lightCone: '23038', // If Time Were a Flower
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -2635,8 +2640,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2879,8 +2884,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3113,7 +3118,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
+            characterId: TRIBBIE,
             lightCone: '23038', // If Time Were a Flower
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -3519,8 +3524,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3855,8 +3860,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3867,8 +3872,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1409', // Hyacine
-            lightCone: '23042', // Rainbows
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4626,8 +4631,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5563,8 +5568,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6533,8 +6538,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7334,8 +7339,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7589,8 +7594,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 5,
           },
           {
-            characterId: '1409', // Hyacine
-            lightCone: '23042', // Rainbows
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7692,14 +7697,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1409', // Hyacine
-            lightCone: '23042', // Rainbows
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7929,8 +7934,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7941,8 +7946,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 5,
           },
           {
-            characterId: '1409', // Hyacine
-            lightCone: '23042', // Rainbows
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8827,8 +8832,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8839,8 +8844,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1409', // Hyacine
-            lightCone: '23042', // Rainbows
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

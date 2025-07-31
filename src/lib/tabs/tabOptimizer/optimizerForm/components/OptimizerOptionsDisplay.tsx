@@ -32,6 +32,7 @@ const { Text } = Typography
 const OptimizerOptionsDisplay = (): JSX.Element => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'OptimizerOptions' })
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
+  const { t: tCharactersTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BuffPriority' })
   const characters = useCharacterTabStore((s) => s.characters)
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
@@ -211,13 +212,14 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
           </Flex>
         </Flex>
 
-        <Flex align='center' style={{ marginTop: 10 }}>
+        <Flex align='center' style={{ marginTop: 15 }}>
           <Flex vertical gap={2} style={{ width: '100%' }}>
             <HeaderText>
-              {'DPS mode'}
+              {tCharactersTab('Header') /* DPS Mode */}
             </HeaderText>
             <Form.Item name='deprioritizeBuffs'>
               <Radio.Group
+                size='small'
                 optionType='button'
                 buttonStyle='solid'
                 style={{ width: '100%', display: 'flex' }}
@@ -226,14 +228,14 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
                   style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
                   value={false}
                 >
-                  Main
+                  {tCharactersTab('High') /* Main */}
                 </Radio>
                 <Radio
                   style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
                   value={true}
                   defaultChecked
                 >
-                  Sub
+                  {tCharactersTab('Low') /* Sub */}
                 </Radio>
               </Radio.Group>
             </Form.Item>

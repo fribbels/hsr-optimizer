@@ -53,6 +53,7 @@ import {
   PHAINON,
   REFORGED_REMEMBRANCE,
   ROBIN,
+  RUAN_MEI,
   SPARKLE,
   SUNDAY,
   THUS_BURNS_THE_DAWN,
@@ -1685,7 +1686,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
+            characterId: BRONYA,
             lightCone: '23003', // BTBIO
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -1807,7 +1808,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: RUAN_MEI,
-            lightCone: '23019', // Past self
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2045,7 +2046,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: RUAN_MEI,
-            lightCone: '23019', // Past self
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2515,7 +2516,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: '1306', // Sparkle
-            lightCone: '23003', // But the battle
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3000,7 +3001,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: RUAN_MEI, // Ruan Mei
-            lightCone: '23019', // Past self
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3107,7 +3108,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         teammates: [
           {
             characterId: '1306', // Sparkle
-            lightCone: '23003', // But the battle
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3281,7 +3282,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: RUAN_MEI,
-            lightCone: '23019', // Past self
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3525,7 +3526,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: '1306', // Sparkle
-            lightCone: '23003', // But the battle
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3977,7 +3978,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: RUAN_MEI,
-            lightCone: '23019', // Past self
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4180,8 +4181,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4390,14 +4391,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
             characterId: RUAN_MEI,
-            lightCone: '23019', // Past self
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5403,7 +5404,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: RUAN_MEI,
-            lightCone: '23019', // Past self
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6006,7 +6007,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: RUAN_MEI,
-            lightCone: '23019', // Past self
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6264,7 +6265,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: RUAN_MEI,
-            lightCone: '23019', // Past self
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6370,7 +6371,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         teammates: [
           {
             characterId: RUAN_MEI,
-            lightCone: '23019', // Past self
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6637,7 +6638,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: RUAN_MEI,
-            lightCone: '23019', // Past self
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6741,7 +6742,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: RUAN_MEI,
-            lightCone: '23019', // Past self
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6846,14 +6847,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
             characterId: RUAN_MEI,
-            lightCone: '23019', // Past self
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6958,14 +6959,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
             characterId: RUAN_MEI,
-            lightCone: '23019', // Past self
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7810,7 +7811,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
+            characterId: BRONYA,
             lightCone: '23003', // BTBIO
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -8584,7 +8585,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: RUAN_MEI,
-            lightCone: '23019', // Past self
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8942,14 +8943,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
             characterId: RUAN_MEI,
-            lightCone: '23019', // Past self
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -9198,3 +9199,4 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
     },
   }
 }
+

@@ -63,7 +63,7 @@ Relics:
   p2: "Personnage sélectionné: Note - La note actuelle de la relique, définie par l'algorithme d'appréciation du personnage actuellement sélectionné."
   p3: "Personnage sélectionné: Potentiel maximum - Le potentiel maximum de la relique une fois amenée à son niveau maximum."
   p4: "Personnage sélectionné: Potentiel maximum - Le potentiel maximum de la relique une fois amenée à son niveau maximum."
-  p5: "Tous les caractères: potentiel max - La valeur potentielle la plus élevée possible de la relique, à travers tous les personnages du jeu."
+  p5: 'Tous les caractères: potentiel max - La valeur potentielle la plus élevée possible de la relique, à travers tous les personnages du jeu.'
 OptimizationDetails:
   Title: Détails d'optimisation
   p1: Montre combien de reliques sont utilisées dans la recherche d'optimisation après l'application de tous les filtres
@@ -98,7 +98,7 @@ ValueColumns:
   p3: Le potentiel est un pourcentage spécifique à un personnage de la qualité de la relique (ou "est", Si complètement mis à niveau), comparé aux statistiques sur une relique "parfaite" entièrement améliorée pour cet emplacement.
   p4: Le potentiel peut être en fonction soit de tous les personnages ou uniquement ceux possédés et présentera le potentiel maximum parmi les personnages.
   p5: Le potentiel est utile pour trouver les reliques qui sont utiles sur personne, ou inversement des joyaux cachés qui pourraient être excellent une fois améliorées
-  p6: "Remarque: le classement par potentiel ne correspond pas forcément au classement par poids, en raison des calculs préférant des mainstats de poids plus faibles."
+  p6: 'Remarque: le classement par potentiel ne correspond pas forcément au classement par poids, en raison des calculs préférant des mainstats de poids plus faibles.'
 RelicInsights:
   Title: Appercu de reliques
   p1: Lorsqu'une relique set sélectionnée dans la grille ci-dessus, vous pouvez choisir une analyse à visionner

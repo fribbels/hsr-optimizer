@@ -37,26 +37,56 @@ import {
   ALONG_THE_PASSING_SHORE,
   AVENTURINE,
   BLACK_SWAN,
+  BRONYA,
+  BUT_THE_BATTLE_ISNT_OVER,
+  CASTORICE,
   CIPHER,
   DANCE_DANCE_DANCE,
   EARTHLY_ESCAPADE,
+  FEIXIAO,
+  FIREFLY,
   FLOWING_NIGHTGLOW,
+  FUGUE,
   HUOHUO,
+  HYACINE,
+  I_VENTURE_FORTH_TO_HUNT,
+  IF_TIME_WERE_A_FLOWER,
   INHERENTLY_UNJUST_DESTINY,
+  INTO_THE_UNREACHABLE_VEIL,
+  JADE,
+  JIAOQIU,
   KAFKA,
   KAFKA_B1,
   LIES_DANCE_ON_THE_BREEZE,
+  LINGSHA,
+  LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+  LONG_ROAD_LEADS_HOME,
   LUOCHA,
+  MAKE_FAREWELLS_MORE_BEAUTIFUL,
+  MEMORIES_OF_THE_PAST,
+  MEMORYS_CURTAIN_NEVER_FALLS,
   MULTIPLICATION,
   NIGHT_OF_FRIGHT,
+  PAST_SELF_IN_MIRROR,
   PATIENCE_IS_ALL_YOU_NEED,
   PHAINON,
+  QUID_PRO_QUO,
   REFORGED_REMEMBRANCE,
   ROBIN,
+  RUAN_MEI,
+  SCENT_ALONE_STAYS_TRUE,
   SPARKLE,
+  STELLE_REMEMBRANCE,
   SUNDAY,
+  THE_HERTA,
+  THOSE_MANY_SPRINGS,
   THUS_BURNS_THE_DAWN,
   TINGYUN,
+  TOPAZ_NUMBY,
+  TRIBBIE,
+  WHEREABOUTS_SHOULD_DREAMS_REST,
+  WORRISOME_BLISSFUL,
+  YET_HOPE_IS_PRICELESS,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -1685,20 +1715,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // BTBIO
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -1800,20 +1830,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -1917,20 +1947,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1308', // Acheron
-            lightCone: '23024', // Shore
+            characterId: ACHERON,
+            lightCone: ALONG_THE_PASSING_SHORE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1218', // Jiaoqiu
-            lightCone: '23029', // Springs
+            characterId: JIAOQIU,
+            lightCone: THOSE_MANY_SPRINGS,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2038,20 +2068,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1307', // Swan
-            lightCone: '23022', // Reforged
+            characterId: BLACK_SWAN,
+            lightCone: REFORGED_REMEMBRANCE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2200,20 +2230,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // If time were a flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1409', // Hyacine
-            lightCone: '23042', // Long may Rainbows adorn the sky
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2359,20 +2389,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // The Herta
-            lightCone: '23037', // Unreachable Veil
+            characterId: THE_HERTA,
+            lightCone: INTO_THE_UNREACHABLE_VEIL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // If Time Were a Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2508,20 +2538,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1306', // Sparkle
-            lightCone: '23003', // But the battle
+            characterId: SPARKLE,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1203', // Luocha
-            lightCone: '21021', // QPQ
+            characterId: LUOCHA,
+            lightCone: QUID_PRO_QUO,
             characterEidolon: 0,
             lightConeSuperimposition: 5,
           },
@@ -2628,20 +2658,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // The Herta
-            lightCone: '23037', // Veil
+            characterId: THE_HERTA,
+            lightCone: INTO_THE_UNREACHABLE_VEIL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2878,20 +2908,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Inherently Unjust Destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2993,20 +3023,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: KAFKA_B1, // Kafka
-            lightCone: '23006', // Patience
+            characterId: KAFKA_B1,
+            lightCone: PATIENCE_IS_ALL_YOU_NEED,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3106,20 +3136,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1306', // Sparkle
-            lightCone: '23003', // But the battle
+            characterId: SPARKLE,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // If Time Were a Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent alone stays true
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3274,20 +3304,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent alone stays true
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3401,20 +3431,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1220', // Feixiao
-            lightCone: '23031', // Venture Forth
+            characterId: FEIXIAO,
+            lightCone: I_VENTURE_FORTH_TO_HUNT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3518,20 +3548,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1306', // Sparkle
-            lightCone: '23003', // But the battle
+            characterId: SPARKLE,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3736,20 +3766,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1313', // Sunday
-            lightCone: '23034', // Grounded Ascent
+            characterId: SUNDAY,
+            lightCone: A_GROUNDED_ASCENT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3854,20 +3884,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1407', // Castorice
-            lightCone: '23040', // Farewells
+            characterId: CASTORICE,
+            lightCone: MAKE_FAREWELLS_MORE_BEAUTIFUL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1409', // Hyacine
-            lightCone: '23042', // Rainbows
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3970,20 +4000,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4180,20 +4210,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust Destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4390,20 +4420,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4501,20 +4531,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1313', // Sunday
-            lightCone: '23034', // Ascent
+            characterId: SUNDAY,
+            lightCone: A_GROUNDED_ASCENT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1203', // Luocha
-            lightCone: '21021', // QPQ
+            characterId: LUOCHA,
+            lightCone: QUID_PRO_QUO,
             characterEidolon: 0,
             lightConeSuperimposition: 5,
           },
@@ -4625,20 +4655,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4873,14 +4903,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4981,20 +5011,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1202', // Tingyun
-            lightCone: '21004', // MOTP
+            characterId: TINGYUN,
+            lightCone: MEMORIES_OF_THE_PAST,
             characterEidolon: 6,
             lightConeSuperimposition: 5,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5160,20 +5190,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1220', // Feixiao
-            lightCone: '23031', // Venture Forth
+            characterId: FEIXIAO,
+            lightCone: I_VENTURE_FORTH_TO_HUNT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5280,20 +5310,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1220', // Feixiao
-            lightCone: '23031', // Venture Forth
+            characterId: FEIXIAO,
+            lightCone: I_VENTURE_FORTH_TO_HUNT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5396,20 +5426,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1310', // Firefly
-            lightCone: '23025', // Whereabouts
+            characterId: FIREFLY,
+            lightCone: WHEREABOUTS_SHOULD_DREAMS_REST,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5556,20 +5586,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // The Herta
-            lightCone: '23037', // Veil
+            characterId: THE_HERTA,
+            lightCone: INTO_THE_UNREACHABLE_VEIL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5722,20 +5752,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1112', // Topaz
-            lightCone: '23016', // Worrisome Blissful
+            characterId: TOPAZ_NUMBY,
+            lightCone: WORRISOME_BLISSFUL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1220', // Feixiao
-            lightCone: '23031', // Venture Forth
+            characterId: FEIXIAO,
+            lightCone: I_VENTURE_FORTH_TO_HUNT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5841,20 +5871,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1112', // Topaz
-            lightCone: '23016', // Worrisome Blissful
+            characterId: TOPAZ_NUMBY,
+            lightCone: WORRISOME_BLISSFUL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5999,20 +6029,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: KAFKA_B1, // Kafka
-            lightCone: '23006', // Patience
+            characterId: KAFKA_B1,
+            lightCone: PATIENCE_IS_ALL_YOU_NEED,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6111,8 +6141,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1218', // Jiaoqiu
-            lightCone: '23029', // Springs
+            characterId: JIAOQIU,
+            lightCone: THOSE_MANY_SPRINGS,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6123,8 +6153,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust Destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6257,20 +6287,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6369,20 +6399,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1306', // Sparkle
-            lightCone: '23003', // BTBIO
+            characterId: SPARKLE,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6526,20 +6556,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // The Herta
-            lightCone: '23037', // Veil
+            characterId: THE_HERTA,
+            lightCone: INTO_THE_UNREACHABLE_VEIL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent alone stays true
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6630,20 +6660,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent alone stays true
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6734,20 +6764,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent alone stays true
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6846,20 +6876,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6958,20 +6988,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7327,20 +7357,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1314', // Jade
-            lightCone: '23028', // Yet hope
+            characterId: JADE,
+            lightCone: YET_HOPE_IS_PRICELESS,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7449,20 +7479,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1313', // Sunday
-            lightCone: '23034', // Grounded
+            characterId: SUNDAY,
+            lightCone: A_GROUNDED_ASCENT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7576,20 +7606,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1407', // Castorice
-            lightCone: '23040', // Farewells
+            characterId: CASTORICE,
+            lightCone: MAKE_FAREWELLS_MORE_BEAUTIFUL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '8008', // Stelle (Remembrance)
-            lightCone: '24005', // Memory's Curtain
+            characterId: STELLE_REMEMBRANCE,
+            lightCone: MEMORYS_CURTAIN_NEVER_FALLS,
             characterEidolon: 6,
             lightConeSuperimposition: 5,
           },
           {
-            characterId: '1409', // Hyacine
-            lightCone: '23042', // Rainbows
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7685,20 +7715,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1313', // Sunday
-            lightCone: '23034', // Grounded
+            characterId: SUNDAY,
+            lightCone: A_GROUNDED_ASCENT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1409', // Hyacine
-            lightCone: '23042', // Rainbows
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7810,20 +7840,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // BTBIO
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7928,20 +7958,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '8008', // RMC
-            lightCone: '24005', // Memory's Curtain
+            characterId: STELLE_REMEMBRANCE,
+            lightCone: MEMORYS_CURTAIN_NEVER_FALLS,
             characterEidolon: 6,
             lightConeSuperimposition: 5,
           },
           {
-            characterId: '1409', // Hyacine
-            lightCone: '23042', // Rainbows
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8103,20 +8133,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1220', // Feixiao
-            lightCone: '23031', // Venture
+            characterId: FEIXIAO,
+            lightCone: I_VENTURE_FORTH_TO_HUNT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8563,6 +8593,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboDot: 16,
         errRopeEidolon: 0,
+        deprioritizeBuffs: true,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
           RELICS_2P_SPEED,
@@ -8576,20 +8607,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1307', // Swan
-            lightCone: '23022', // Reforged
+            characterId: BLACK_SWAN,
+            lightCone: REFORGED_REMEMBRANCE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8825,8 +8856,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8837,8 +8868,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1409', // Hyacine
-            lightCone: '23042', // Rainbows
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8941,20 +8972,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -9072,8 +9103,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -9187,8 +9218,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       //       lightConeSuperimposition: 1,
       //     },
       //     {
-      //       characterId: '1217', // Huohuo
-      //       lightCone: '23017', // Night of Fright
+      //       characterId: HUOHUO,
+      //       lightCone: NIGHT_OF_FRIGHT,
       //       characterEidolon: 0,
       //       lightConeSuperimposition: 1,
       //     },

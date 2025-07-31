@@ -320,6 +320,8 @@ export function getPalette(src: string, callback: (r: PaletteResponse) => void) 
     })
     .getPalette()
     .then((palette) => {
+      if (!palette.Vibrant) return
+
       const defaults = {
         Vibrant: palette.Vibrant!.hex,
         DarkVibrant: palette.DarkVibrant!.hex,

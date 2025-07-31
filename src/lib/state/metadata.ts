@@ -9228,4 +9228,3 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
     },
   }
 }
-

@@ -1697,8 +1697,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -1806,7 +1806,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
+            characterId: RUAN_MEI,
             lightCone: '23019', // Past self
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -2044,14 +2044,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
+            characterId: RUAN_MEI,
             lightCone: '23019', // Past self
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2999,14 +2999,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
+            characterId: RUAN_MEI, // Ruan Mei
             lightCone: '23019', // Past self
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3280,7 +3280,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
+            characterId: RUAN_MEI,
             lightCone: '23019', // Past self
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -3530,8 +3530,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3748,8 +3748,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3976,7 +3976,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
+            characterId: RUAN_MEI,
             lightCone: '23019', // Past self
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -4396,14 +4396,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
+            characterId: RUAN_MEI,
             lightCone: '23019', // Past self
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4993,8 +4993,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 5,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5402,7 +5402,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
+            characterId: RUAN_MEI,
             lightCone: '23019', // Past self
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -6005,14 +6005,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
+            characterId: RUAN_MEI,
             lightCone: '23019', // Past self
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6263,7 +6263,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
+            characterId: RUAN_MEI,
             lightCone: '23019', // Past self
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -6369,7 +6369,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1303', // Ruan Mei
+            characterId: RUAN_MEI,
             lightCone: '23019', // Past self
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -6381,8 +6381,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6636,7 +6636,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
+            characterId: RUAN_MEI,
             lightCone: '23019', // Past self
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -6740,7 +6740,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
+            characterId: RUAN_MEI,
             lightCone: '23019', // Past self
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -6852,14 +6852,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
+            characterId: RUAN_MEI,
             lightCone: '23019', // Past self
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6964,14 +6964,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
+            characterId: RUAN_MEI,
             lightCone: '23019', // Past self
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7461,8 +7461,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7822,8 +7822,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8577,20 +8577,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1307', // Swan
-            lightCone: '23022', // Reforged
+            characterId: BLACK_SWAN, // Swan
+            lightCone: REFORGED_REMEMBRANCE, // Reforged
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
+            characterId: RUAN_MEI,
             lightCone: '23019', // Past self
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8948,14 +8948,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
+            characterId: RUAN_MEI,
             lightCone: '23019', // Past self
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -9073,8 +9073,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -9188,8 +9188,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       //       lightConeSuperimposition: 1,
       //     },
       //     {
-      //       characterId: '1217', // Huohuo
-      //       lightCone: '23017', // Night of Fright
+      //       characterId: HUOHUO,
+      //       lightCone: NIGHT_OF_FRIGHT,
       //       characterEidolon: 0,
       //       lightConeSuperimposition: 1,
       //     },

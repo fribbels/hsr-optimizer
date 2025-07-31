@@ -41,11 +41,11 @@ import {
   BUT_THE_BATTLE_ISNT_OVER,
   CIPHER,
   DANCE_DANCE_DANCE,
-  EARTHLY_ESCAPADE,
+  EARTHLY_ESCAPADE, FEIXIAO,
   FLOWING_NIGHTGLOW,
   FUGUE,
   HUOHUO,
-  HYACINE,
+  HYACINE, I_VENTURE_FORTH_TO_HUNT,
   IF_TIME_WERE_A_FLOWER,
   INHERENTLY_UNJUST_DESTINY,
   KAFKA,
@@ -2213,7 +2213,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         teammates: [
           {
             characterId: TRIBBIE,
-            lightCone: '23038', // If time were a flower
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2225,7 +2225,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: HYACINE,
-            lightCone: '23042', // Long may Rainbows adorn the sky
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2378,7 +2378,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: TRIBBIE,
-            lightCone: '23038', // If Time Were a Flower
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2526,7 +2526,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1306', // Sparkle
+            characterId: SPARKLE,
             lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -3118,14 +3118,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1306', // Sparkle
+            characterId: SPARKLE,
             lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
             characterId: TRIBBIE,
-            lightCone: '23038', // If Time Were a Flower
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3413,8 +3413,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1220', // Feixiao
-            lightCone: '23031', // Venture Forth
+            characterId: FEIXIAO,
+            lightCone: I_VENTURE_FORTH_TO_HUNT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3536,7 +3536,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1306', // Sparkle
+            characterId: SPARKLE,
             lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -5172,8 +5172,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1220', // Feixiao
-            lightCone: '23031', // Venture Forth
+            characterId: FEIXIAO,
+            lightCone: I_VENTURE_FORTH_TO_HUNT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5292,8 +5292,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1220', // Feixiao
-            lightCone: '23031', // Venture Forth
+            characterId: FEIXIAO,
+            lightCone: I_VENTURE_FORTH_TO_HUNT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5746,8 +5746,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1220', // Feixiao
-            lightCone: '23031', // Venture Forth
+            characterId: FEIXIAO,
+            lightCone: I_VENTURE_FORTH_TO_HUNT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6387,7 +6387,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1306', // Sparkle
+            characterId: SPARKLE,
             lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -8115,7 +8115,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1220', // Feixiao
+            characterId: FEIXIAO,
             lightCone: '23031', // Venture
             characterEidolon: 0,
             lightConeSuperimposition: 1,

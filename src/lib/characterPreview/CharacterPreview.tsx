@@ -309,6 +309,7 @@ export function CharacterPreview(props: {
               <ShowcasePortrait
                 source={source}
                 character={character}
+                scoringType={scoringType}
                 displayDimensions={displayDimensions}
                 customPortrait={portraitToUse}
                 editPortraitModalOpen={editPortraitModalOpen}

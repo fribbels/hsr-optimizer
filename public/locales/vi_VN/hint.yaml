@@ -60,7 +60,7 @@ Relics:
   p2: "Nhân vật đã chọn: Điểm - Điểm số hiện tại của di vật, được xác định bởi thuật toán tính điểm của nhân vật đã chọn"
   p3: "Nhân vật đã chọn: Tiềm năng trung bình - Tiềm năng của di vật ở cấp độ tối đa, tính trung bình dựa vào tất cả các chỉ số phụ có thể rơi vào khi nâng cấp lên +15."
   p4: "Nhân vật đã chọn: Tiềm năng tối đa - Tiềm năng tối đa của di vật nếu tất cả các chỉ số phụ được nâng cấp vào các đúng nơi nhân vật mong muốn"
-  p5: "Tất cả nhân vật: Tiềm năng tối đa - Giá trị tiềm năng cao nhất có thể của di vật, cho tất cả các nhân vật trong game."
+  p5: 'Tất cả nhân vật: Tiềm năng tối đa - Giá trị tiềm năng cao nhất có thể của di vật, cho tất cả các nhân vật trong game.'
 OptimizationDetails:
   Title: Chi tiết tối ưu hóa
   p1: Hiển thị số lượng di vật đang được sử dụng trong tìm kiếm tối ưu hóa, sau khi tất cả bộ lọc được áp dụng.
@@ -95,7 +95,7 @@ ValueColumns:
   p3: Tiềm năng là tỷ lệ phần trăm đặc trưng của nhân vật về mức độ tốt của di vật có thể đạt được (hoặc là "di vật cấp tối đa"), so với các chỉ số của di vật "hoàn hảo" đã được nâng cấp hoàn toàn ở vị trí đó.
   p4: Tiềm năng có thể nhìn vào tất cả nhân vật hoặc chỉ nhân vật đã sở hữu. Sau đó tính tỉ lệ phần trăm tối đa cho các nhân vật đó.
   p5: Tiềm năng rất hữu ích trong việc tìm các di vật không hợp với bất kỳ nhân vật nào hoặc một dị vật tiềm ẩn rất khỏe sau khi được lên cấp
-  p6: "Lưu ý: Việc sắp xếp theo tiềm năng có thể không khớp với trọng số, do phép tính trọng số ưu tiên các thuộc tính chính có trọng số thấp hơn."
+  p6: 'Lưu ý: Việc sắp xếp theo tiềm năng có thể không khớp với trọng số, do phép tính trọng số ưu tiên các thuộc tính chính có trọng số thấp hơn.'
 RelicInsights:
   Title: Chi tiết dị vật
   p1: Khi một di vật được chọn trong bảng trên, bạn có thể chọn xem phân tích di vật đó.

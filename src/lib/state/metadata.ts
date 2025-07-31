@@ -1692,13 +1692,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         teammates: [
           {
             characterId: BRONYA,
-            lightCone: '23003', // BTBIO
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -1935,8 +1935,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2212,8 +2212,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2514,8 +2514,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2890,13 +2890,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
+            characterId: AVENTURINE,
             lightCone: '23023', // Inherently Unjust Destiny
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -3413,14 +3413,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3748,8 +3748,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4192,14 +4192,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust Destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4513,8 +4513,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4879,14 +4879,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4987,8 +4987,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5172,14 +5172,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5292,14 +5292,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5734,8 +5734,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5853,14 +5853,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6129,8 +6129,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust Destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6382,7 +6382,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: '1306', // Sparkle
-            lightCone: '23003', // BTBIO
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7461,8 +7461,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7817,13 +7817,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         teammates: [
           {
             characterId: BRONYA,
-            lightCone: '23003', // BTBIO
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8115,14 +8115,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -9204,4 +9204,3 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
     },
   }
 }
-

@@ -152,6 +152,7 @@ Toolbar:
   PlotOptions:
     PlotAll: Mostra tutti i personaggi
     PlotCustom: Mostra personaggi personalizzati
+    PlotOwned: Mostra personaggi posseduti
   EditRelic: Modifica reliquia
   DeleteRelic:
     ButtonText: Elimina reliquia
@@ -161,3 +162,4 @@ Toolbar:
 RelicInsights:
   NewStats: 'Nuove statistiche: '
   UpgradedStats: 'Statistiche potenziate: '
+  AvgPotential: 'Potenziale medio: '

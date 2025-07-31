@@ -8563,6 +8563,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboDot: 16,
         errRopeEidolon: 0,
+        deprioritizeBuffs: true,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
           RELICS_2P_SPEED,

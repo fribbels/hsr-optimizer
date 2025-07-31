@@ -43,12 +43,17 @@ import {
   DANCE_DANCE_DANCE,
   EARTHLY_ESCAPADE,
   FLOWING_NIGHTGLOW,
+  FUGUE,
   HUOHUO,
+  HYACINE,
   IF_TIME_WERE_A_FLOWER,
   INHERENTLY_UNJUST_DESTINY,
   KAFKA,
   KAFKA_B1,
   LIES_DANCE_ON_THE_BREEZE,
+  LINGSHA,
+  LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+  LONG_ROAD_LEADS_HOME,
   LUOCHA,
   MULTIPLICATION,
   NIGHT_OF_FRIGHT,
@@ -58,6 +63,7 @@ import {
   REFORGED_REMEMBRANCE,
   ROBIN,
   RUAN_MEI,
+  SCENT_ALONE_STAYS_TRUE,
   SPARKLE,
   SUNDAY,
   THUS_BURNS_THE_DAWN,
@@ -1806,8 +1812,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -1818,8 +1824,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2377,8 +2383,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2646,8 +2652,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3124,8 +3130,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent alone stays true
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3280,8 +3286,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3292,8 +3298,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent alone stays true
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3976,8 +3982,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3988,8 +3994,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4637,14 +4643,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5414,8 +5420,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5574,8 +5580,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6263,8 +6269,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6275,8 +6281,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6544,8 +6550,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent alone stays true
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6636,8 +6642,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6648,8 +6654,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent alone stays true
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6740,8 +6746,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6752,8 +6758,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent alone stays true
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7345,8 +7351,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

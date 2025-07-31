@@ -63,7 +63,7 @@ Relics:
   p2: "Personagem selecionado: Pontuação - A pontuação atual da relíquia, conforme definido pelo algoritmo de pontuação do personagem selecionado no momento"
   p3: "Personagem selecionado: Potencial médio - O potencial da relíquia em seu nível máximo, calculado pela média de todas as rolagens possíveis que ela poderia ter no caminho para +15"
   p4: "Personagem selecionado: Potencial máximo - O potencial máximo da relíquia se todas as rolagens futuras forem para as estatísticas desejadas do personagem"
-  p5: "Todos os personagens: Potencial máximo - O valor de potencial mais alto possível da relíquia, entre todos os personagens do jogo."
+  p5: 'Todos os personagens: Potencial máximo - O valor de potencial mais alto possível da relíquia, entre todos os personagens do jogo.'
 OptimizationDetails:
   Title: Detalhes de otimização
   p1: Mostra quantas relíquias estão sendo utilizadas na busca de otimização, após a aplicação de todos os filtros
@@ -98,7 +98,7 @@ ValueColumns:
   p3: O potencial é uma porcentagem específica do personagem que indica quão boa a relíquia poderia ser (ou 'é', se totalmente aprimorada), em comparação com as estatísticas de uma relíquia 'perfeita' totalmente aprimorada nesse slot.
   p4: O potencial pode considerar todos os personagens ou apenas os que você possui. Em seguida, ele pega a porcentagem máxima para qualquer personagem.
   p5: O potencial é útil para encontrar relíquias que não são boas em nenhum personagem, ou joias escondidas que podem ser excelentes quando aprimoradas.
-  p6: "Nota: a ordenação por potencial pode estar desajustada em relação aos pesos, devido ao cálculo de pesos preferir estatísticas principais ideais de menor peso."
+  p6: 'Nota: a ordenação por potencial pode estar desajustada em relação aos pesos, devido ao cálculo de pesos preferir estatísticas principais ideais de menor peso.'
 RelicInsights:
   Title: Análise de Relíquia
   p1: Quando uma relíquia é selecionada na tabela acima, você pode escolher uma análise para visualizar um gráfico.

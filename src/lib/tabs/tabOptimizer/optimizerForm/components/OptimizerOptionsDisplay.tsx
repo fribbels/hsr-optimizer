@@ -5,6 +5,7 @@ import {
 import {
   Flex,
   Form,
+  Radio,
   Select,
   Switch,
   Typography,
@@ -24,6 +25,7 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { StatDisplay } from 'types/store'
 
 const { Text } = Typography
 
@@ -205,6 +207,35 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
                   { value: 15, label: t('BoostMain.Label15') }, // '+15'
                 ]}
               />
+            </Form.Item>
+          </Flex>
+        </Flex>
+
+        <Flex align='center' style={{ marginTop: 10 }}>
+          <Flex vertical gap={2} style={{ width: '100%' }}>
+            <HeaderText>
+              {'DPS mode'}
+            </HeaderText>
+            <Form.Item name='dpsMode'>
+              <Radio.Group
+                optionType='button'
+                buttonStyle='solid'
+                style={{ width: '100%', display: 'flex' }}
+              >
+                <Radio
+                  style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
+                  value={'Main'}
+                >
+                  Main
+                </Radio>
+                <Radio
+                  style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
+                  value={'Sub'}
+                  defaultChecked
+                >
+                  Sub
+                </Radio>
+              </Radio.Group>
             </Form.Item>
           </Flex>
         </Flex>

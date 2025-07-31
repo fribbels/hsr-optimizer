@@ -87,6 +87,7 @@ export type Form = {
   relicSets: ([pieces: string, set: SetsRelics] | [pieces: string, set1: SetsRelics, set2: SetsRelics])[],
   statDisplay: StatDisplay,
   memoDisplay: MemoDisplay,
+  dpsMode: string,
 
   weights: ScoringMetadata['stats'],
 

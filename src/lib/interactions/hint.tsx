@@ -250,6 +250,12 @@ export const Hint = {
                 - Select the minimum enhance to search for and minimum stars for relics to include
               </Trans>
             </p>
+            <p>
+              <Trans t={t} i18nKey='p8'>
+                <strong>DPS mode</strong>
+                - Select whether the character should be the primary target for supportive buffs (Main DPS) or not (Sub DPS) for optimizer stat calculations
+              </Trans>
+            </p>
           </Flex>
         )
       })(),

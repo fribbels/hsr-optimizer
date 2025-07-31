@@ -1,3 +1,7 @@
+import {
+  applyMetadataPresetToForm,
+  applyPreset,
+} from 'lib/conditionals/evaluation/applyPresets'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
@@ -31,7 +35,6 @@ import {
   Teammate,
 } from 'types/form'
 import { OptimizerCombatBuffs } from 'types/optimizer'
-import { applyMetadataPresetToForm, applyPreset } from "lib/conditionals/evaluation/applyPresets";
 
 // Convert the rendered form values into an internal form
 export function displayToForm(form: Form) {
@@ -333,6 +336,10 @@ export function formToDisplay(form: Form) {
 
   if (!newForm.comboType) {
     newForm.comboType = ComboType.SIMPLE
+  }
+
+  if (!newForm.deprioritizeBuffs) {
+    newForm.deprioritizeBuffs = false
   }
 
   for (const [key, value] of Object.entries(newForm.setConditionals)) {

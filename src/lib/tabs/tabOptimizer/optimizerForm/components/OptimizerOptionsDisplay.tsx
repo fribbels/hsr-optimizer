@@ -5,6 +5,7 @@ import {
 import {
   Flex,
   Form,
+  Radio,
   Select,
   Switch,
   Typography,
@@ -24,12 +25,14 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { StatDisplay } from 'types/store'
 
 const { Text } = Typography
 
 const OptimizerOptionsDisplay = (): JSX.Element => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'OptimizerOptions' })
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
+  const { t: tCharactersTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BuffPriority' })
   const characters = useCharacterTabStore((s) => s.characters)
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
@@ -205,6 +208,36 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
                   { value: 15, label: t('BoostMain.Label15') }, // '+15'
                 ]}
               />
+            </Form.Item>
+          </Flex>
+        </Flex>
+
+        <Flex align='center' style={{ marginTop: 15 }}>
+          <Flex vertical gap={2} style={{ width: '100%' }}>
+            <HeaderText>
+              {tCharactersTab('Header') /* DPS Mode */}
+            </HeaderText>
+            <Form.Item name='deprioritizeBuffs'>
+              <Radio.Group
+                size='small'
+                optionType='button'
+                buttonStyle='solid'
+                style={{ width: '100%', display: 'flex' }}
+              >
+                <Radio
+                  style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
+                  value={false}
+                >
+                  {tCharactersTab('High') /* Main */}
+                </Radio>
+                <Radio
+                  style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
+                  value={true}
+                  defaultChecked
+                >
+                  {tCharactersTab('Low') /* Sub */}
+                </Radio>
+              </Radio.Group>
             </Form.Item>
           </Flex>
         </Flex>

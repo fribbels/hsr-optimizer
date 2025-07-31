@@ -41,13 +41,15 @@ import {
   BUT_THE_BATTLE_ISNT_OVER,
   CIPHER,
   DANCE_DANCE_DANCE,
-  EARTHLY_ESCAPADE, FEIXIAO,
+  EARTHLY_ESCAPADE,
+  FEIXIAO,
   FLOWING_NIGHTGLOW,
   FUGUE,
   HUOHUO,
-  HYACINE, I_VENTURE_FORTH_TO_HUNT,
+  HYACINE,
+  I_VENTURE_FORTH_TO_HUNT,
   IF_TIME_WERE_A_FLOWER,
-  INHERENTLY_UNJUST_DESTINY,
+  INHERENTLY_UNJUST_DESTINY, INTO_THE_UNREACHABLE_VEIL,
   KAFKA,
   KAFKA_B1,
   LIES_DANCE_ON_THE_BREEZE,
@@ -65,7 +67,7 @@ import {
   RUAN_MEI,
   SCENT_ALONE_STAYS_TRUE,
   SPARKLE,
-  SUNDAY,
+  SUNDAY, THE_HERTA,
   THUS_BURNS_THE_DAWN,
   TINGYUN,
   TRIBBIE,
@@ -2371,7 +2373,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // The Herta
+            characterId: THE_HERTA,
             lightCone: '23037', // Unreachable Veil
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -2640,8 +2642,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // The Herta
-            lightCone: '23037', // Veil
+            characterId: THE_HERTA,
+            lightCone: INTO_THE_UNREACHABLE_VEIL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2903,7 +2905,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
           {
             characterId: AVENTURINE,
-            lightCone: '23023', // Inherently Unjust Destiny
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3006,7 +3008,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         teammates: [
           {
             characterId: KAFKA_B1, // Kafka
-            lightCone: '23006', // Patience
+            lightCone: PATIENCE_IS_ALL_YOU_NEED,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3748,8 +3750,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1313', // Sunday
-            lightCone: '23034', // Grounded Ascent
+            characterId: SUNDAY,
+            lightCone: A_GROUNDED_ASCENT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4513,7 +4515,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1313', // Sunday
+            characterId: SUNDAY,
             lightCone: '23034', // Ascent
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -5568,8 +5570,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // The Herta
-            lightCone: '23037', // Veil
+            characterId: THE_HERTA,
+            lightCone: INTO_THE_UNREACHABLE_VEIL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6012,7 +6014,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         teammates: [
           {
             characterId: KAFKA_B1, // Kafka
-            lightCone: '23006', // Patience
+            lightCone: PATIENCE_IS_ALL_YOU_NEED,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6538,8 +6540,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // The Herta
-            lightCone: '23037', // Veil
+            characterId: THE_HERTA,
+            lightCone: INTO_THE_UNREACHABLE_VEIL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7461,8 +7463,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1313', // Sunday
-            lightCone: '23034', // Grounded
+            characterId: SUNDAY,
+            lightCone: A_GROUNDED_ASCENT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7697,8 +7699,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1313', // Sunday
-            lightCone: '23034', // Grounded
+            characterId: SUNDAY,
+            lightCone: A_GROUNDED_ASCENT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

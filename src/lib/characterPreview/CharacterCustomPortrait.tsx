@@ -22,9 +22,12 @@ const CharacterCustomPortrait: React.FC<CharacterCustomPortraitProps> = ({
   onPortraitLoad,
 }) => {
   // Scale by height so that the light cone in combat scoring doesn't cut off part of the image
-  const totalLcHeight = newLcHeight + newLcMargin
-  const scaleHeight = scoringType == ScoringType.COMBAT_SCORE ? (parentH - totalLcHeight) / parentH : 1
   const scaleWidth = parentW / customPortrait.customImageParams.croppedAreaPixels.width
+  const totalLcHeight = newLcHeight + newLcMargin
+  const heightScaleLimit = customPortrait.customImageParams.croppedAreaPixels.width / customPortrait.originalDimensions.width
+  const scaleHeight = scoringType == ScoringType.COMBAT_SCORE
+    ? Math.max((parentH - totalLcHeight) / parentH, heightScaleLimit)
+    : 1
 
   // When we shrink the scale by height, this is aligned left so the right side shrinks left.
   // To balance that, we horizontally offset back towards the center, proportionally to the light cone height

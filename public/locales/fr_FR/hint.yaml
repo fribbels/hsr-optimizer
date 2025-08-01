@@ -52,10 +52,11 @@ OptimizerOptions:
   p2: >-
     <0>Niv. de mainstat</0> - Calcule les mainstats des reliques comme si elles étaient à leur niveau maximal. Les substats ne sont pas modifiées, donc des builds ayant des reliques de bas niveau peuvent s'améliorer une fois ces reliques améliorées.
   p3: <0>Garder reliques courantes</0> - Le personnage gardera toutes ses reliques couramment équipées et l'optimiseur tentera de remplir les emplacements vides
-  p4: <0>Permettre reliques équipées</0> - Lorsque cette option est sélectionnée, l'optimiseur permettra au personnage d'utiliser des reliques équipées à d'autres personnages. Sinon, toutes reliques équipées seront exclues de la recherche.
+  p4: <0>Filtre reliques équipées</0> - Lorsque cette option est sélectionnée, l'optimiseur permettra au personnage d'utiliser des reliques équipées à d'autres personnages. Sinon, toutes reliques équipées seront exclues de la recherche.
   p5: "<0>Priorité</0> - Voir: Filtre de priorité de personnage. Modifier ce paramètre modifiera la priorité du personnage."
   p6: <0>Exclure</0> - Toutes les reliques équipées aux personnages sélectionnés seront exclues de la recherche. Ce filtre prend priorité sur le filtre de priorité.
   p7: <0>Niveau / Rareté min</0> - Sélectionnez le niveau et la rareté minimale des reliques à inclure dans la recherche.
+  p8: <0>Mode de DPS</0> - Sélectionne si le personnage doit être la cible principale des buffs de support (DPS 1ᵃᶦʳᵉ) ou non (DPS 2ᵃᶦʳᵉ) pour les calculs des stats.
 Relics:
   Title: Reliques
   p1: >-

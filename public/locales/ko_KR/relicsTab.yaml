@@ -64,32 +64,32 @@ RelicGrid:
     SelectedCharacter:
       Label: 선택된 캐릭터
       ScoreCol:
-        Label: "선택된 캐릭터 : 점수"
+        Label: '선택된 캐릭터 : 점수'
         Header: |-
           선택된 캐릭터
           점수
       AvgPotCol:
-        Label: "선택된 캐릭터 : 평균 잠재력"
+        Label: '선택된 캐릭터 : 평균 잠재력'
         Header: |-
           선택된 캐릭터 
           평균 잠재력
       MaxPotCol:
-        Label: "선택된 캐릭터 : 최대 잠재력"
+        Label: '선택된 캐릭터 : 최대 잠재력'
         Header: |-
           선택된 캐릭터 
           최대 잠재력
       RerollAvg:
-        Label: "선택된 캐릭터 : 리롤 후 평균 잠재력"
+        Label: '선택된 캐릭터 : 리롤 후 평균 잠재력'
         Header: |-
           리롤 후 
           평균 잠재력
       RerollAvgDelta:
-        Label: "선택된 캐릭터 : 리롤 전/후 잠재력"
+        Label: '선택된 캐릭터 : 리롤 전/후 잠재력'
         Header: |-
           리롤 전/후
           잠재력
       RerollAvgEquippedDelta:
-        Label: "선택 캐릭터 : 리롤 후와 장비 완료 유물의 평균 잠재력 차이"
+        Label: '선택 캐릭터 : 리롤 후와 장비 완료 유물의 평균 잠재력 차이'
         Header: |-
           선택 캐릭터
           리롤 평균
@@ -98,34 +98,34 @@ RelicGrid:
     CustomCharacters:
       Label: 커스텀 캐릭터
       AvgPotCol:
-        Label: "커스텀 캐릭터 : 평균 잠재력"
+        Label: '커스텀 캐릭터 : 평균 잠재력'
         Header: |-
           커스텀 캐릭터
           평균 잠재력
       MaxPotCol:
-        Label: "커스텀 캐릭터 : 최대 잠재력"
+        Label: '커스텀 캐릭터 : 최대 잠재력'
         Header: |-
           커스텀 캐릭터
           최대 잠재력
       RerollAvg:
-        Label: "커스텀 캐릭터 : 리롤 후 평균 잠재력"
+        Label: '커스텀 캐릭터 : 리롤 후 평균 잠재력'
         Header: |-
           커스텀 캐릭터
           리롤 후 평균 잠재력
     AllCharacters:
       Label: 모든 캐릭터
       AvgPotCol:
-        Label: "모든 캐릭터 : 평균 잠재력"
+        Label: '모든 캐릭터 : 평균 잠재력'
         Header: |-
           모든 캐릭터
           평균 잠재력
       MaxPotCol:
-        Label: "모든 캐릭터 : 최대 잠재력"
+        Label: '모든 캐릭터 : 최대 잠재력'
         Header: |-
           모든 캐릭터
           최대 잠재력
       RerollAvg:
-        Label: "모든 캐릭터 : 리롤 후 평균 잠재력"
+        Label: '모든 캐릭터 : 리롤 후 평균 잠재력'
         Header: |-
           모든 캐릭터
           리롤 후 평균 잠재력
@@ -141,19 +141,21 @@ Toolbar:
     Width: 인벤토리 너비
     Filter: 자동 행 맞춤
     NoneSelected: 찾는 유물 선택
-    Location: "위치 - 행 {{rowIndex}} / 열 {{columnIndex}}"
+    Location: '위치 - 행 {{rowIndex}} / 열 {{columnIndex}}'
   InsightOptions:
-    Buckets: "유물 정렬 : 버켓"
-    Top10: "유물 정렬 : Top 10"
+    Buckets: '유물 정렬 : 버켓'
+    Top10: '유물 정렬 : Top 10'
   PlotOptions:
     PlotAll: 모든 캐릭터 보기
     PlotCustom: 커스텀 캐릭터 보기
+    PlotOwned: 보유 캐릭터 보기
   EditRelic: 유물 수정
   DeleteRelic:
     ButtonText: 유물 삭제
     Warning_one: 유물을 삭제합니까?
-    Warning_other: "선택한 {{count}}개의 유물을 삭제하겠습니까?"
+    Warning_other: '선택한 {{count}}개의 유물을 삭제하겠습니까?'
   AddRelic: 새 유물 추가
 RelicInsights:
-  NewStats: "신규 스탯 :"
-  UpgradedStats: "업그레이드 스탯 :"
+  NewStats: '신규 스탯 :'
+  UpgradedStats: '업그레이드 스탯 :'
+  AvgPotential: '잠재력 평균 :'

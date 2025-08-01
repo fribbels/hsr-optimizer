@@ -63,7 +63,7 @@ Relics:
   p2: "Personaggio selezionato: Punteggio - Il punteggio attuale della reliquia come definito dall'algoritmo del punteggio per il personaggio selezionato"
   p3: "Personaggio selezionato: Potenziale medio - Il potenziale della reliquia al suo livello massimo, calcolato come media di tutti i possibili roll che potrebbe avere fino a +15"
   p4: "Personaggio selezionato: Potenziale massimo - Il potenziale massimo della reliquia se tutti i roll futuri sono andati nelle statistiche desiderate del personaggio"
-  p5: "Tutti i personaggi: Potenziale massimo - Il potenziale più alto possibile della reliquia, tra tutti i personaggi del gioco."
+  p5: 'Tutti i personaggi: Potenziale massimo - Il potenziale più alto possibile della reliquia, tra tutti i personaggi del gioco.'
 OptimizationDetails:
   Title: Dettagli ottimizzazione
   p1: Mostra quante reliquie verranno utilizzate nella ricerca di ottimizzazione, dopo l'applicazione dei filtri
@@ -98,7 +98,7 @@ ValueColumns:
   p3: Il potenziale è una percentuale specifica del personaggio di quanto buona potrebbe essere la reliquia (oppure 'è', se completamente migliorata) rispetto alle statistiche su una reliquia 'perfetta' completamente migliorata in quello slot.
   p4: Il potenziale è calcolato su tutti i personaggi o solo quelli posseduti. Poi prende la percentuale massima per ogni personaggio.
   p5: Il potenziale è utile per trovare reliquie che non sono buone su nessun personaggio o gemme nascoste che potrebbero diventare ottime quando migliorate.
-  p6: "Nota: l'ordinamento in base al potenziale può non corrispondere ai pesi, poiché i calcoli del peso preferiscono statistiche principali ideali con peso inferiore."
+  p6: 'Nota: l''ordinamento in base al potenziale può non corrispondere ai pesi, poiché i calcoli del peso preferiscono statistiche principali ideali con peso inferiore.'
 RelicInsights:
   Title: Reliquie Consigliate
   p1: Selezionando una reliquia nella tabella sopra, è possibile scegliere un'analisi per visualizzare un grafico.

@@ -15,7 +15,7 @@ export default function FilterContainer(props: { children: ReactElement | ReactE
         backdropFilter: 'blur(5px)',
         border: '1px solid rgba(255, 255, 255, 0.10)',
         WebkitBackdropFilter: 'blur(5px)',
-        width: 1227,
+        width: 1272,
       }}
     >
       {props.children}

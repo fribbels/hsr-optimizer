@@ -65,7 +65,7 @@ OptimizerOptions:
     Header: Priorité
     Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
-  AllowEquipped: Permettre reliques équipées
+  AllowEquipped: Filtre reliques équipées
   KeepCurrent: Garder reliques courantes
   Exclude: Exclure
   MinEnhance:

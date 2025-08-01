@@ -60,13 +60,10 @@ SortOptions:
   EHP: Ord. por PV efectivos
 OptimizerOptions:
   Header: Opciones del optimizador
-  PriorityFilter: Filtro de prioridad de personaje
   Priority:
     Header: Prioridad
     Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
-  AllowEquipped: Permitir artefactos equipados
-  KeepCurrent: Mantener artefactos actuales
   Exclude: Excluir
   MinEnhance:
     Header: Nivel mínimo

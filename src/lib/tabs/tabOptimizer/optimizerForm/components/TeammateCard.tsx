@@ -347,7 +347,7 @@ const TeammateCard = (props: {
         </Flex>
 
         <Flex>
-          <Flex vertical style={{ minWidth: 258, marginLeft: 5 }}>
+          <Flex vertical style={{ minWidth: 273, marginLeft: 5 }}>
             <CharacterConditionalsDisplay
               id={teammateCharacterId}
               eidolon={teammateEidolon}
@@ -407,7 +407,7 @@ const TeammateCard = (props: {
           <AntDForm.Item name={[teammateProperty, `lightCone`]}>
             <LightConeSelect
               value={null}
-              selectStyle={{ width: 258 }}
+              selectStyle={{ width: 273 }}
               characterId={teammateCharacterId}
               externalOpen={teammateLightConeSelectOpen}
               setExternalOpen={setTeammateLightConeSelectOpen}
@@ -426,7 +426,7 @@ const TeammateCard = (props: {
         </Flex>
 
         <Flex>
-          <Flex vertical style={{ minWidth: 258, marginLeft: 5 }}>
+          <Flex vertical style={{ minWidth: 273, marginLeft: 5 }}>
             <LightConeConditionalDisplay
               id={teammateLightConeId}
               superImposition={teammateSuperimposition}

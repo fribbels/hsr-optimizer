@@ -56,6 +56,7 @@ OptimizerOptions:
   p5: "<0>Priorità</0> - Vedi: Filtro priorità personaggio. Questa impostazione cambia la priorità di un personaggio"
   p6: <0>Escludi</0> - Seleziona personaggi specifici per escludere le loro reliquie equipaggiate dalla ricerca. Questa impostazione sovrascrive il filtro di priorità
   p7: <0>Miglioramento / grado</0> - Seleziona miglioramento minimo e stelle minime per le reliquie da includere
+  p8: <0>Modalità DPS</0> - Seleziona se il personaggio deve essere il bersaglio primario per i buff di supporto (DPS principale) o no (DPS secondario) per i calcoli delle statistiche dell'ottimizzatore
 Relics:
   Title: Reliquie
   p1: >-

@@ -4643,14 +4643,14 @@ interface Resources {
     },
     "OptimizerOptions": {
       "Title": "Optimizer options",
-      "p1": "<0>Character priority filter</0> - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.",
-      "p2": "<0>Boost main stat</0> - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats are not changed accordingly, so builds with lower level relics may be stronger once you level them.",
-      "p3": "<0>Keep current relics</0> - The character must use its currently equipped items and the optimizer will try to fill in empty slots",
-      "p4": "<0>Include equipped relics</0> - When enabled, the optimizer will allow using relics that are currently equipped by a character for the search. Otherwise equipped relics are excluded",
-      "p5": "<0>Priority</0> - See: Character priority filter. Changing this setting will change the character's priority",
-      "p6": "<0>Exclude</0> - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter",
-      "p7": "<0>Enhance / grade</0> - Select the minimum enhance to search for and minimum stars for relics to include",
-      "p8": "<0>DPS mode</0> - Select whether the character should be the primary target for supportive buffs (Main DPS) or not (Sub DPS) for optimizer stat calculations"
+      "PriorityFilter": "<0>Character priority filter</0> - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.",
+      "BoostMain": "<0>Boost main stat</0> - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats are not changed accordingly, so builds with lower level relics may be stronger once you level them.",
+      "KeepCurrent": "<0>Keep current relics</0> - The character must use its currently equipped items and the optimizer will try to fill in empty slots",
+      "AllowEquipped": "<0>Allow equipped relics</0> - When enabled, the optimizer will allow using relics that are currently equipped by a character for the search. Otherwise equipped relics are excluded",
+      "Priority": "<0>Priority</0> - See: Character priority filter. Changing this setting will change the character's priority",
+      "Exclude": "<0>Exclude</0> - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter",
+      "Enhance": "<0>Enhance / grade</0> - Select the minimum enhance to search for and minimum stars for relics to include",
+      "DPSMode": "<0>DPS mode</0> - Select whether the character should be the primary target for supportive buffs (Main DPS) or not (Sub DPS) for optimizer stat calculations"
     },
     "Relics": {
       "Title": "Relics",
@@ -5471,6 +5471,11 @@ interface Resources {
         "Label9": "+9",
         "Label12": "+12",
         "Label15": "+15"
+      },
+      "DPSMode": {
+        "Header": "DPS mode",
+        "Main": "Main",
+        "Sub": "Sub"
       }
     },
     "AdvancedOptions": {

@@ -615,6 +615,14 @@ interface Resources {
           }
         }
       },
+      "EpochEtchedInGoldenBlood": {
+        "Content": {
+          "skillDmgBoost": {
+            "text": "Skill DMG boost",
+            "content": "When the wearer uses their Skill on one ally character, increases the Skill DMG dealt by the target by {{DmgBuff}}% for 3 turns."
+          }
+        }
+      },
       "EternalCalculus": {
         "Content": {
           "atkBuffStacks": {
@@ -991,6 +999,18 @@ interface Resources {
           }
         }
       },
+      "WhyDoesTheOceanSing": {
+        "Content": {
+          "dotVulnStacks": {
+            "text": "DOT vulnerability stacks",
+            "content": "When an enemy target gets inflicted with a debuff by the wearer, there is a 80% base chance for them to enter \"Enthrallment,\" lasting for 3 turns. While the target is in \"Enthrallment,\" for every 1 debuff applied by the wearer on the target, increases the target's received DoT by {{DotVuln}}%, stacking up to 6 times."
+          },
+          "spdBuff": {
+            "text": "SPD buff",
+            "content": "When an enemy target gets inflicted with a debuff by the wearer, there is a 80% base chance for them to enter \"Enthrallment,\" lasting for 3 turns. When the target gets attacked by an ally, increases the attacker's SPD by {{SpdBuff}}% for 3 turns."
+          }
+        }
+      },
       "WorrisomeBlissful": {
         "Content": {
           "targetTameStacks": {
@@ -1352,6 +1372,14 @@ interface Resources {
           "memoCdBoost": {
             "text": "Memo CD boost",
             "content": "The CRIT DMG dealt by the wearer's memosprite increases by {{CritDmgBuff}}%"
+          }
+        }
+      },
+      "TheForeverVictual": {
+        "Content": {
+          "atkStacks": {
+            "text": "ATK buff stacks",
+            "content": "After using their Skill, the wearer's ATK increases by {{AtkBuff}}%, stacking up to 3 times."
           }
         }
       },
@@ -1987,6 +2015,52 @@ interface Resources {
           }
         }
       },
+      "Cerydra": {
+        "Content": {
+          "spdBuff": {
+            "text": "SPD buff",
+            "content": "When using Skill, increases SPD by 20 for this unit and the teammate with \"Military Merit,\" lasting for 3 turns."
+          },
+          "crBuff": {
+            "text": "CR buff",
+            "content": "Increases Cerydra's CRIT Rate by 100%."
+          },
+          "atkToCd": {
+            "text": "ATK to CD",
+            "content": "For every 100 of Cerydra's ATK that exceeds 2000, increases her CRIT DMG by 18%, up to a max increase of 360%."
+          },
+          "e2DmgBoost": {
+            "text": "E2 DMG boost",
+            "content": "The character with \"Military Merit\" deals 40% increased DMG. While a teammate on the field has \"Military Merit,\" Cerydra's DMG dealt increases by 160%."
+          },
+          "e4UltDmg": {
+            "text": "E4 Ult DMG",
+            "content": "Increases Ultimate's DMG multiplier by 240%."
+          },
+          "e6Buffs": {
+            "text": "E6 buffs",
+            "content": "The character with \"Military Merit\" increases their All-Type RES PEN by 20%, and the multiplier for the Additional DMG triggered via \"Military Merit\" increases by 300%. While a teammate on the field has \"Military Merit,\" Cerydra's All-Type RES PEN increases by 20%."
+          }
+        },
+        "TeammateContent": {
+          "militaryMerit": {
+            "text": "Military Merit",
+            "content": "When using Skill, increases SPD by 20 for this unit and the teammate with \"Military Merit,\" lasting for 3 turns. ::BR:: The character with \"Military Merit\" increases ATK by an amount equal to {{TalentAtkConversion}}% of Cerydra's ATK. ::BR:: E1: The character with \"Military Merit\" ignores 16% of the targets' DEF when dealing DMG."
+          },
+          "peerage": {
+            "text": "Peerage",
+            "content": "The character with \"Peerage\" increases the CRIT DMG for their dealt Skill DMG by {{SkillCdBuff}}%, increases their All-Type RES PEN by {{SkillResPenBuff}}% ::BR:: E1: If \"Military Merit\" has been upgraded to \"Peerage,\" then the character additionally ignores 20% of the targets' DEF when dealing Skill DMG."
+          },
+          "teammateATKValue": {
+            "text": "Cerydra's combat ATK",
+            "content": "The character with \"Military Merit\" increases ATK by an amount equal to {{TalentAtkConversion}}% of Cerydra's ATK. ::BR:: Set this to the Cerydra's self ATK stat that she uses to buff teammates."
+          },
+          "e1DefPen": {
+            "text": "E1 DEF PEN",
+            "content": "The character with \"Military Merit\" ignores 16% of the targets' DEF when dealing DMG. If \"Military Merit\" has been upgraded to \"Peerage,\" then the character additionally ignores 20% of the targets' DEF when dealing Skill DMG."
+          }
+        }
+      },
       "Cipher": {
         "Content": {
           "vulnerability": {
@@ -2406,6 +2480,48 @@ interface Resources {
           "e6ResPen": {
             "text": "E6 RES PEN",
             "content": "When Little Ica is on the field, increases all ally targets' All-Type RES PEN by 20%."
+          }
+        }
+      },
+      "Hysilens": {
+        "Content": {
+          "skillVulnerability": {
+            "text": "Skill Vulnerability",
+            "content": "Hysilens' skill has a 100% base chance to increase the DMG taken by all enemies by {{SkillVuln}}%, lasting for 3 turns."
+          },
+          "ultZone": {
+            "text": "Ult zone active",
+            "content": "When casting her ultimate, Hysilens deploys a Zone that reduces enemy targets' ATK by 15% and DEF by {{ZoneDefShred}}%."
+          },
+          "ultDotStacks": {
+            "text": "Ult DOT trigger stacks",
+            "content": "When Hysilens uses Ultimate, if the enemy target is currently afflicted with DoTs, all DoTs currently applied on the target will immediately produce DMG equal to 150% of their original DMG."
+          },
+          "ehrToDmg": {
+            "text": "EHR to DMG boost",
+            "content": "For every 10% of Hysilens's Effect Hit Rate that exceeds 60%, increases her DMG dealt by 15%, up to a max increase of 90%."
+          },
+          "dotDetonation": {
+            "text": "DOT detonation (Automatic activation)",
+            "content": "When Hysilens uses Ultimate, if the enemy target is currently afflicted with DoTs, all DoTs currently applied on the target will immediately produce DMG equal to 150% of their original DMG."
+          },
+          "e1Buffs": {
+            "text": "E1 buffs",
+            "content": "While Hysilens is on the field, ally targets deal DoT equal to 116% of the original DMG. ::BR:: When Hysilens inflicts Wind Shear/Bleed/Burn/Shock on enemies through her Talent, there is a 100% base chance to additionally inflict the target with 1 instance of Wind Shear/Bleed/Burn/Shock state that is identical to and can coexist with that of the original Talent effect."
+          },
+          "e4ResPen": {
+            "text": "E4 RES PEN",
+            "content": "While the Zone is active, reduces All-Type RES of all enemies by 20%."
+          },
+          "e6Buffs": {
+            "text": "E6 buffs",
+            "content": "While the Zone is active, at the start of each turn or after one attack by an ally target, increases the maximum trigger count for Hysilens's Physical DoT effect to 12, and increases the multiplier of the DMG dealt by 20%."
+          }
+        },
+        "TeammateContent": {
+          "e2TeammateEhr": {
+            "text": "Hysilens' combat EHR",
+            "content": "While the Zone is active, the DMG Boost effect from Trace \"The Fiddle of Pearls\" applies to all allies. ::BR:: The Fiddle of Pearls: For every 10% of Hysilens's Effect Hit Rate that exceeds 60%, increases her DMG dealt by 15%, up to a max increase of 90%."
           }
         }
       },
@@ -4649,7 +4765,7 @@ interface Resources {
       "AllowEquipped": "<0>Allow equipped relics</0> - When enabled, the optimizer will allow using relics that are currently equipped by a character for the search. Otherwise equipped relics are excluded",
       "Priority": "<0>Priority</0> - See: Character priority filter. Changing this setting will change the character's priority",
       "Exclude": "<0>Exclude</0> - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter",
-      "Enhance": "<0>Enhance / grade</0> - Select the minimum enhance to search for and minimum stars for relics to include",
+      "Enhance": "<0>Enhance / rarity</0> - Select the minimum enhance to search for and minimum stars for relics to include",
       "DPSMode": "<0>DPS mode</0> - Select whether the character should be the primary target for supportive buffs (Main DPS) or not (Sub DPS) for optimizer stat calculations"
     },
     "Relics": {

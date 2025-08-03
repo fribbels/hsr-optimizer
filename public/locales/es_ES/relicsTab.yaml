@@ -21,6 +21,7 @@ RecentlyUpdatedRelics:
   Avg: PROMEDIO
   Max: MÁXIMO
   BestFor: MEJOR PARA
+  Tooltip: Puntaje potencial promedio y máximo para este personaje
 Messages:
   AddRelicSuccess: Artefacto añadido con éxito
   NoRelicSelected: Ningún artefacto seleccionado
@@ -161,6 +162,7 @@ Toolbar:
   PlotOptions:
     PlotAll: Mostrar todos los personajes
     PlotCustom: Mostrar personajes personalizados
+    PlotOwned: Mostrar personajes obtenidos
   EditRelic: Editar artefacto
   DeleteRelic:
     ButtonText: Borrar artefacto
@@ -170,3 +172,4 @@ Toolbar:
 RelicInsights:
   NewStats: 'Atributos nuevos: '
   UpgradedStats: 'Atributos mejorados: '
+  AvgPotential: 'Potencial promedio: '

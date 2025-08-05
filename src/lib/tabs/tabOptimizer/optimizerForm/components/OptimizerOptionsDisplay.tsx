@@ -25,14 +25,12 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StatDisplay } from 'types/store'
 
 const { Text } = Typography
 
 const OptimizerOptionsDisplay = (): JSX.Element => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'OptimizerOptions' })
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
-  const { t: tCharactersTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BuffPriority' })
   const characters = useCharacterTabStore((s) => s.characters)
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
@@ -215,7 +213,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
         <Flex align='center' style={{ marginTop: 15 }}>
           <Flex vertical gap={2} style={{ width: '100%' }}>
             <HeaderText>
-              {tCharactersTab('Header') /* DPS Mode */}
+              {t('DPSMode.Header') /* DPS Mode */}
             </HeaderText>
             <Form.Item name='deprioritizeBuffs'>
               <Radio.Group
@@ -228,14 +226,14 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
                   style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
                   value={false}
                 >
-                  {tCharactersTab('High') /* Main */}
+                  {t('DPSMode.Main') /* Main */}
                 </Radio>
                 <Radio
                   style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
                   value={true}
                   defaultChecked
                 >
-                  {tCharactersTab('Low') /* Sub */}
+                  {t('DPSMode.Sub') /* Sub */}
                 </Radio>
               </Radio.Group>
             </Form.Item>

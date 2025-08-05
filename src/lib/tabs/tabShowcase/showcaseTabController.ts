@@ -8,7 +8,7 @@ import {
   AGLAEA,
   BLADE_B1,
   CERYDRA,
-  ERA_ENGRAVED_BY_GOLDEN_BLOOD,
+  EPOCH_ETCHED_IN_GOLDEN_BLOOD,
   HYSILENS,
   I_SHALL_BE_MY_OWN_SWORD,
   INCESSANT_RAIN,
@@ -71,7 +71,7 @@ export function presetCharacters(): Preset[] {
 
   return [
     { characterId: char(HYSILENS), lightConeId: lc(WHY_DOES_THE_OCEAN_SING) },
-    { characterId: char(CERYDRA), lightConeId: lc(ERA_ENGRAVED_BY_GOLDEN_BLOOD) },
+    { characterId: char(CERYDRA), lightConeId: lc(EPOCH_ETCHED_IN_GOLDEN_BLOOD) },
 
     { characterId: char('1408'), lightConeId: lc('23044') },
     { characterId: char('1014'), lightConeId: lc('23045') },

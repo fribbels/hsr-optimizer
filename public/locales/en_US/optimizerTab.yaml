@@ -90,6 +90,10 @@ OptimizerOptions:
     Label9: '+9'
     Label12: '+12'
     Label15: '+15'
+  DPSMode:
+    Header: DPS mode
+    Main: Main
+    Sub: Sub
 AdvancedOptions:
   Header: Advanced options
   EnemyConfigButtonText: Enemy configurations

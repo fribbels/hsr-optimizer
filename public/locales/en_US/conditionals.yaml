@@ -1439,7 +1439,7 @@ Characters:
         text: Skill Vulnerability
         content: Hysilens' skill has a 100% base chance to increase the DMG taken by all enemies by {{SkillVuln}}%, lasting for 3 turns.
       ultZone:
-        text: Ult zone active
+        text: Ult Zone active
         content: When casting her ultimate, Hysilens deploys a Zone that reduces enemy targets' ATK by 15% and DEF by {{ZoneDefShred}}%.
       ultDotStacks:
         text: Ult DOT trigger stacks
@@ -1464,7 +1464,7 @@ Characters:
         content: While the Zone is active, at the start of each turn or after one attack by an ally target, increases the maximum trigger count for Hysilens's Physical DoT effect to 12, and increases the multiplier of the DMG dealt by 20%.
     TeammateContent:
       e2TeammateEhr:
-        text: "Hysilens' combat EHR"
+        text: "E2 Hysilens' combat EHR"
         content: >-
           While the Zone is active, the DMG Boost effect from Trace "The Fiddle of Pearls" applies to all allies.
           ::BR::

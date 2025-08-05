@@ -63,7 +63,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     skillVulnerability: true,
     ultZone: true,
     e1Buffs: true,
-    e2TeammateEhr: 120,
+    e2TeammateEhr: 1.20,
     e4ResPen: true,
   }
 
@@ -135,7 +135,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: t('TeammateContent.e2TeammateEhr.content'),
       disabled: e < 2,
       min: 0,
-      max: 120,
+      max: 1.20,
+      percent: true,
     },
     e4ResPen: content.e4ResPen,
   }
@@ -191,7 +192,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ELEMENTAL_DMG.buffTeam((e >= 2) ? 0.15 * Math.floor((t.e2TeammateEhr - 60) / 10) : 0, SOURCE_E2)
+      x.ELEMENTAL_DMG.buffTeam(
+        (e >= 2)
+          ? Math.max(0, Math.min(0.90, 0.15 * Math.floor(TsUtils.precisionRound((t.e2TeammateEhr - 0.60) / 0.10))))
+          : 0,
+        SOURCE_E2,
+      )
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

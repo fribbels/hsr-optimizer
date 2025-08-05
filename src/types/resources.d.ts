@@ -2490,7 +2490,7 @@ interface Resources {
             "content": "Hysilens' skill has a 100% base chance to increase the DMG taken by all enemies by {{SkillVuln}}%, lasting for 3 turns."
           },
           "ultZone": {
-            "text": "Ult zone active",
+            "text": "Ult Zone active",
             "content": "When casting her ultimate, Hysilens deploys a Zone that reduces enemy targets' ATK by 15% and DEF by {{ZoneDefShred}}%."
           },
           "ultDotStacks": {
@@ -2520,7 +2520,7 @@ interface Resources {
         },
         "TeammateContent": {
           "e2TeammateEhr": {
-            "text": "Hysilens' combat EHR",
+            "text": "E2 Hysilens' combat EHR",
             "content": "While the Zone is active, the DMG Boost effect from Trace \"The Fiddle of Pearls\" applies to all allies. ::BR:: The Fiddle of Pearls: For every 10% of Hysilens's Effect Hit Rate that exceeds 60%, increases her DMG dealt by 15%, up to a max increase of 90%."
           }
         }

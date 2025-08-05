@@ -105,6 +105,12 @@ export function simulateBuild(
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
 
+    for (let j = 0; j < action.hits!.length; j++) {
+      const hit = action.hits![j]
+
+      hit.damageFunction.apply(x, action, context)
+    }
+
     calculateDamage(x, action, context)
 
     const a = x.a

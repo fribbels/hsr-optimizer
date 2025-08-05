@@ -1,8 +1,7 @@
 import i18next from 'i18next'
 import {
   AbilityType,
-  FUA_DMG_TYPE,
-  SKILL_DMG_TYPE,
+  DamageType,
 } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
@@ -10,14 +9,7 @@ import {
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import {
-  dynamicStatConversion,
-  gpuDynamicStatConversion,
-} from 'lib/conditionals/evaluation/statConversion'
-import {
-  ConditionalActivation,
-  ConditionalType,
   CURRENT_DATA_VERSION,
-  Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
@@ -27,10 +19,10 @@ import {
 } from 'lib/optimization/computedStatsArray'
 import {
   HYSILENS,
-  PHAINON,
 } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { DefaultDamageFunction } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -161,6 +153,35 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
+    actionDefinition: () => [
+      {
+        name: 'BASIC',
+        hits: [
+          {
+            damageFunction: DefaultDamageFunction,
+            damageType: DamageType.BASIC,
+          },
+        ],
+      },
+      {
+        name: 'SKILL',
+        hits: [
+          {
+            damageFunction: DefaultDamageFunction,
+            damageType: DamageType.SKILL,
+          },
+        ],
+      },
+      {
+        name: 'ULT',
+        hits: [
+          {
+            damageFunction: DefaultDamageFunction,
+            damageType: DamageType.ULT,
+          },
+        ],
+      },
+    ],
     initializeConfigurations: (x: ComputedStatsArray) => {
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

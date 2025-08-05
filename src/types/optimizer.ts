@@ -18,6 +18,7 @@ import {
   ElementalDamageType,
   ElementalResPenType,
 } from 'types/metadata'
+import { Hit } from './hitConditionalTypes'
 
 export type OptimizerAction = {
   precomputedX: ComputedStatsArray,
@@ -37,6 +38,8 @@ export type OptimizerAction = {
   actorId: string,
   actionType: AbilityKind,
   actionIndex: number,
+
+  hits?: Hit[],
 
   teammate0: TeammateAction,
   teammate1: TeammateAction,

@@ -90,6 +90,10 @@ OptimizerOptions:
     Label9: '+9'
     Label12: '+12'
     Label15: '+15'
+  DPSMode:
+    Header: DPS 유형
+    Main: 메인
+    Sub: 서브
 AdvancedOptions:
   Header: 고급 설정
   EnemyConfigButtonText: 적 설정

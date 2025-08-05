@@ -176,7 +176,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       }
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
+      x.SKILL_TOUGHNESS_DMG.buff(10, SOURCE_SKILL)
       x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
 
       x.DOT_CHANCE.set(1.00, SOURCE_TALENT)

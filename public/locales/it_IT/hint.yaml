@@ -47,16 +47,16 @@ Actions:
   p4: Cancella pin - Cancella tutte le build che hai fissato in cima alla griglia
 OptimizerOptions:
   Title: Opzioni ottimizzatore
-  p1: >-
+  PriorityFilter: >-
     <0>Filtro priorità personaggio</0> - Quando questa opzione è abilitata, il personaggio può rubare reliquie solo da personaggi di priorità inferiore. L'ottimizzatore ignorerà le reliquie equipaggiate da personaggi con priorità più alta. Cambia i loro gradi nel selettore di priorità o trascinandoli nella pagina Personaggi.
-  p2: >-
+  BoostMain: >-
     <0>Potenzia statistica principale</0> - Calcola le statistiche principali come se fossero a questo livello (o il loro massimo se non riescono a raggiungerlo) se sono attualmente al di sotto di esso. Le statistiche secondarie non vengono modificate di conseguenza, quindi le build con le reliquie di livello inferiore possono essere più forti una volta che le livelli.
-  p3: <0>Mantieni reliquie attuali</0> - Il personaggio deve utilizzare gli elementi attualmente equipaggiati e l'ottimizzatore cercherà di riempire gli slot vuoti
-  p4: <0>Includi reliquie equipaggiate</0> - Quando abilitata, l'ottimizzatore permetterà di utilizzare le reliquie che sono attualmente equipaggiate da un personaggio durante la ricerca. In caso contrario sono escluse le reliquie equipaggiate
-  p5: "<0>Priorità</0> - Vedi: Filtro priorità personaggio. Questa impostazione cambia la priorità di un personaggio"
-  p6: <0>Escludi</0> - Seleziona personaggi specifici per escludere le loro reliquie equipaggiate dalla ricerca. Questa impostazione sovrascrive il filtro di priorità
-  p7: <0>Miglioramento / grado</0> - Seleziona miglioramento minimo e stelle minime per le reliquie da includere
-  p8: <0>Modalità DPS</0> - Seleziona se il personaggio deve essere il bersaglio primario per i buff di supporto (DPS principale) o no (DPS secondario) per i calcoli delle statistiche dell'ottimizzatore
+  KeepCurrent: <0>Mantieni reliquie attuali</0> - Il personaggio deve utilizzare gli elementi attualmente equipaggiati e l'ottimizzatore cercherà di riempire gli slot vuoti
+  AllowEquipped: <0>Includi reliquie equipaggiate</0> - Quando abilitata, l'ottimizzatore permetterà di utilizzare le reliquie che sono attualmente equipaggiate da un personaggio durante la ricerca. In caso contrario sono escluse le reliquie equipaggiate
+  Priority: "<0>Priorità</0> - Vedi: Filtro priorità personaggio. Questa impostazione cambia la priorità di un personaggio"
+  Exclude: <0>Escludi</0> - Seleziona personaggi specifici per escludere le loro reliquie equipaggiate dalla ricerca. Questa impostazione sovrascrive il filtro di priorità
+  Enhance: <0>Miglioramento / grado</0> - Seleziona miglioramento minimo e stelle minime per le reliquie da includere
+  DPSMode: <0>Modalità DPS</0> - Seleziona se il personaggio deve essere il bersaglio primario per i buff di supporto (DPS principale) o no (DPS secondario) per i calcoli delle statistiche dell'ottimizzatore
 Relics:
   Title: Reliquie
   p1: >-

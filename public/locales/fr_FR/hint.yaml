@@ -47,16 +47,16 @@ Actions:
   p4: Désépingler - Effacer toutes les versions que vous avez épinglées au haut de la grille
 OptimizerOptions:
   Title: Options d'optimiseur
-  p1: >-
+  PriorityFilter: >-
     <0>Filtre de priorité de personnage</0> - Lorsque cette option est sélectionnée, le personnage ne peut prendre que les reliques de personnages classés plus bas dans la liste de priorité. L'optimiseur ignorera les reliques de personnages classés plus haut dans la liste. Changez les rangs depuis le sélecteur ou en faissant glisser sur la page Personnages.
-  p2: >-
+  BoostMain: >-
     <0>Niv. de mainstat</0> - Calcule les mainstats des reliques comme si elles étaient à leur niveau maximal. Les substats ne sont pas modifiées, donc des builds ayant des reliques de bas niveau peuvent s'améliorer une fois ces reliques améliorées.
-  p3: <0>Garder reliques courantes</0> - Le personnage gardera toutes ses reliques couramment équipées et l'optimiseur tentera de remplir les emplacements vides
-  p4: <0>Filtre reliques équipées</0> - Lorsque cette option est sélectionnée, l'optimiseur permettra au personnage d'utiliser des reliques équipées à d'autres personnages. Sinon, toutes reliques équipées seront exclues de la recherche.
-  p5: "<0>Priorité</0> - Voir: Filtre de priorité de personnage. Modifier ce paramètre modifiera la priorité du personnage."
-  p6: <0>Exclure</0> - Toutes les reliques équipées aux personnages sélectionnés seront exclues de la recherche. Ce filtre prend priorité sur le filtre de priorité.
-  p7: <0>Niveau / Rareté min</0> - Sélectionnez le niveau et la rareté minimale des reliques à inclure dans la recherche.
-  p8: <0>Mode de DPS</0> - Sélectionne si le personnage doit être la cible principale des buffs de support (DPS 1ᵃᶦʳᵉ) ou non (DPS 2ᵃᶦʳᵉ) pour les calculs des stats.
+  KeepCurrent: <0>Garder reliques courantes</0> - Le personnage gardera toutes ses reliques couramment équipées et l'optimiseur tentera de remplir les emplacements vides
+  AllowEquipped: <0>Filtre reliques équipées</0> - Lorsque cette option est sélectionnée, l'optimiseur permettra au personnage d'utiliser des reliques équipées à d'autres personnages. Sinon, toutes reliques équipées seront exclues de la recherche.
+  Priority: "<0>Priorité</0> - Voir: Filtre de priorité de personnage. Modifier ce paramètre modifiera la priorité du personnage."
+  Exclude: <0>Exclure</0> - Toutes les reliques équipées aux personnages sélectionnés seront exclues de la recherche. Ce filtre prend priorité sur le filtre de priorité.
+  Enhance: <0>Niveau / Rareté min</0> - Sélectionnez le niveau et la rareté minimale des reliques à inclure dans la recherche.
+  DPSMode: <0>Mode de DPS</0> - Sélectionne si le personnage doit être la cible principale des buffs de support (DPS 1ᵃᶦʳᵉ) ou non (DPS 2ᵃᶦʳᵉ) pour les calculs des stats.
 Relics:
   Title: Reliques
   p1: >-

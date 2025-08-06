@@ -99,6 +99,10 @@ Lightcones:
         text: Bonus de VIT post-ULT
         content: >-
           Lorsque le porteur utilise une attaque, régénère {{EnergyRecovered}} points d'énergie pour chaque cible touchée. Chaque attaque peut régénérer de l'énergie jusqu'à 3 fois de cette façon. Lorsque le porteur utilise son ultime, la VIT de tous les alliés augmente de {{SpdBuff}} pendant 1 tour.
+  EpochEtchedInGoldenBlood:
+    Content:
+      skillDmgBoost:
+        text: Bonus de DGT de Compétence
   EternalCalculus:
     Content:
       atkBuffStacks:
@@ -363,6 +367,10 @@ Lightcones:
         text: Vulnérabilité Perdu
         content: >-
           Lorsque le porteur inflige des DGT de rupture à une cible ennemie, il applique l'effet Perdu à la cible ennemie pendant 2 tours. Les cibles affectées par l'effet Perdu subissent {{Vulnerability}}% de DGT de rupture supplémentaires de la part du porteur et voient leur VIT réduite de 20%.
+  WhyDoesTheOceanSing:
+    Content:
+      spdBuff:
+        text: Bonus de VIT
   WorrisomeBlissful:
     Content:
       targetTameStacks:
@@ -605,6 +613,10 @@ Lightcones:
       memoCdBoost:
         text: Bonus de DC de mnémesprit
         content: Les DGT critiques infligés par le mnémesprit du porteur augmentent de {{CritDmgBuff}}% supplémentaires.
+  TheForeverVictual:
+    Content:
+      atkStacks:
+        text: Cumuls de bonus d'ATQ
   TheGreatCosmicEnterprise:
     Content:
       weaknessTypes:
@@ -1059,6 +1071,21 @@ Characters:
         text: 'E6: Divers bonus'
         content: >-
           Lorsque Castorice ou Aile du néant infligent des DGT, la PÉN de RÉS quantique augmente de 20%.::BR::Le nombre de rebonds de son talent Ailes ravageuses de ruines augmente de 3.
+  Cerydra:
+    Content:
+      spdBuff:
+        text: Bonus de VIT
+      crBuff:
+        text: Bonus de TC
+      e2DmgBoost:
+        text: 'E2: Bonus de DGT'
+      e4UltDmg:
+        text: 'E4: DGT d''ULT'
+      e6Buffs:
+        text: 'E6: Divers bonus'
+    TeammateContent:
+      e1DefPen:
+        text: 'E1: PÉN de DÉF'
   Cipher:
     Content:
       vulnerability:
@@ -1371,6 +1398,18 @@ Characters:
       e6ResPen:
         text: 'E6: PÉN de RÉS'
         content: Lorsqu'Ica est sur le champ de bataille, la PÉN de RÉS à tous les types de toutes les cibles alliées augmente de 20%.
+  Hysilens:
+    Content:
+      ultZone:
+        text: Zone d'ULT active
+      ehrToDmg:
+        text: Conversion de TAE à DGT
+      e1Buffs:
+        text: 'E1: Divers bonus'
+      e4ResPen:
+        text: 'E4: PÉN de RÉS'
+      e6Buffs:
+        text: 'E6: Divers bonus'
   ImbibitorLunae:
     Content:
       basicEnhanced:

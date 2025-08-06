@@ -90,6 +90,10 @@ OptimizerOptions:
     Label9: '+9'
     Label12: '+12'
     Label15: '+15'
+  DPSMode:
+    Header: アタッカーの型
+    Main: メイン
+    Sub: サブ
 AdvancedOptions:
   Header: 高度な設定
   EnemyConfigButtonText: 敵の設定

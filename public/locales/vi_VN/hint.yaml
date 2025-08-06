@@ -44,15 +44,6 @@ Actions:
   p4: Xóa ghim - Gỡ tất cả các lối lên đồ đã ghim ở đầu lưới.
 OptimizerOptions:
   Title: Tùy chọn tối ưu hóa
-  p1: >-
-    <0>Lọc nhân vật ưu tiên</0> - Khi tùy chọn này được bật, nhân vật chỉ có thể cướp di vật từ những nhân vật có ưu tiên thấp hơn. Trình tối ưu hóa sẽ bỏ qua các di vật đã được trang bị bởi những nhân vật có ưu tiên cao hơn trong danh sách. Thay đổi thứ hạng nhân vật từ bộ chọn ưu tiên hoặc bằng cách kéo chúng trên trang Nhân vật.
-  p2: >-
-    <0>Tăng thuộc tính chính</0> - Tính toán thuộc tính chính của di vật như thể chúng ở cấp độ này (hoặc cấp tối đa nếu không thể đạt được cấp độ này) nếu hiện tại di vật thấp hơn cấp độ đó. Các thuộc tính phụ sẽ không được thay đổi tương ứng, vì vậy các lối lên đồ với di vật cấp thấp hơn có thể sẽ mạnh hơn sau khi bạn nâng cấp chúng.
-  p3: <0>Giữ di vật hiện tại</0> - Nhân vật phải sử dụng các vật phẩm hiện tại đang trang bị, và trình tối ưu hóa sẽ cố gắng tìm vào các chỗ trống
-  p4: <0>Bao gồm di vật đã trang bị</0> - Khi bật, trình tối ưu hóa sẽ cho phép tìm kiếm các di vật hiện tại đang được trang bị bởi một nhân vật khác. Ngược lại, khi tắt các di vật đã được trang bị sẽ không được tìm
-  p5: "<0>Ưu tiên</0> - Xem: Lọc nhân vật ưu tiên. Thay đổi cài đặt này sẽ thay đổi mức độ ưu tiên của nhân vật"
-  p6: <0>Loại trừ</0> - Chọn các di vật đã trang bị của nhân vật cụ thể để loại trừ khỏi tìm kiếm. Cài đặt này sẽ ghi đè lên lọc ưu tiên nhân vật
-  p7: <0>Cấp / độ hiếm</0> - Chọn cấp độ tối thiểu để tìm kiếm và độ hiếm tối thiểu của các di vật để bao gồm.
 Relics:
   Title: Di vật
   p1: >-

@@ -99,6 +99,10 @@ Lightcones:
         text: Mejora de VEL post-Definitiva
         content: >-
           Después de que el portador lance un ataque, por cada enemigo distinto golpeado, recupera {{EnergyRecovered}} pts. de energía. Cada ataque puede recuperar energía de esta manera hasta 3 veces. Después de que el portador use la habilidad definitiva, la VEL de todos los aliados aumenta en {{SpdBuff}} pts. durante 1 turno.
+  EpochEtchedInGoldenBlood:
+    Content:
+      skillDmgBoost:
+        text: Aumento de daño de Habilidad
   EternalCalculus:
     Content:
       atkBuffStacks:
@@ -363,6 +367,10 @@ Lightcones:
         text: Vulnerabilidad Vencido
         content: >-
           Cuando el portador inflige Daño de Ruptura a un enemigo, este entra en el estado de Vencido durante 2 turnos. Los objetivos afectados con Vencido reciben un {{Vulnerability}}% más de Daño de Ruptura del portador y su VEL se reduce en un 20%. Los efectos del mismo tipo no se pueden acumular.
+  WhyDoesTheOceanSing:
+    Content:
+      spdBuff:
+        text: Mejora de VEL
   WorrisomeBlissful:
     Content:
       targetTameStacks:
@@ -605,6 +613,10 @@ Lightcones:
       memoCdBoost:
         text: Aumento de DC Mnemo
         content: El Daño CRIT que inflige el mnemoduende del portador aumenta en un {{CritDmgBuff}}%.
+  TheForeverVictual:
+    Content:
+      atkStacks:
+        text: Acumulaciones mejora de ATQ
   TheGreatCosmicEnterprise:
     Content:
       weaknessTypes:
@@ -1059,6 +1071,21 @@ Characters:
         text: E6 Mejoras
         content: >-
           Cuando Castorice o el Dragón Caído infligen daño, la PEN de la RES a Cuántico aumenta en un 20%. ::BR:: Aumenta la cantidad de rebotes del talento Alas que abaten las ruinas en 3.
+  Cerydra:
+    Content:
+      spdBuff:
+        text: Mejora de VEL
+      crBuff:
+        text: Mejora PC
+      e2DmgBoost:
+        text: E2 Aumento de daño
+      e4UltDmg:
+        text: E4 Daño Definitiva
+      e6Buffs:
+        text: E6 Mejoras
+    TeammateContent:
+      e1DefPen:
+        text: E1 PEN DEF
   Cipher:
     Content:
       vulnerability:
@@ -1371,6 +1398,18 @@ Characters:
       e6ResPen:
         text: E6 PEN RES
         content: Cuando Ica está en el campo de batalla, la PEN de la RES a todos los tipos de todos los aliados aumenta en un 20%.
+  Hysilens:
+    Content:
+      ultZone:
+        text: Campo de Definitiva activado
+      ehrToDmg:
+        text: AdE a aumento de daño
+      e1Buffs:
+        text: E1 Mejoras
+      e4ResPen:
+        text: E4 PEN RES
+      e6Buffs:
+        text: E6 Mejoras
   ImbibitorLunae:
     Content:
       basicEnhanced:

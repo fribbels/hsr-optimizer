@@ -47,15 +47,6 @@ Actions:
   p4: Limpar fixados - Limpe todas as builds que você fixou no topo da grade
 OptimizerOptions:
   Title: Opções do otimizador
-  p1: >-
-    <0>Filtro de prioridade de personagem</0> - Quando essa opção está habilitada, o personagem só pode roubar relíquias de personagens de prioridade mais baixa. O otimizador ignorará as relíquias equipadas por personagens de prioridade mais alta na lista. Altere as classificações dos personagens a partir do seletor de prioridade ou arrastando-os na página de Personagens.
-  p2: >-
-    <0>Aumentar estatística principal</0> - Calcula as estatísticas principais das relíquias como se estivessem neste nível (ou seu máximo se não puderem alcançar este nível) caso estejam atualmente abaixo dele. As subestatísticas não são alteradas de acordo, portanto, builds com relíquias de nível mais baixo podem ser mais fortes uma vez que você as aumente de nível.
-  p3: <0>Manter relíquias atuais</0> - O personagem deve usar seus itens equipados atualmente e o otimizador tentará preencher os espaços vazios
-  p4: <0>Incluir relíquias equipadas</0> - Quando habilitado, o otimizador permitirá o uso de relíquias que estão atualmente equipadas por um personagem na pesquisa. Caso contrário, as relíquias equipadas são excluídas
-  p5: "<0>Prioridade</0> - Veja: Filtro de prioridade de personagem. Alterar esta configuração mudará a prioridade do personagem"
-  p6: <0>Excluir</0> - Selecione as relíquias equipadas de personagens específicos para excluir da pesquisa. Esta configuração substitui o filtro de prioridade
-  p7: <0>Melhorar / grau</0> - Selecione o aprimoramento mínimo a ser buscado e o mínimo de estrelas para incluir as relíquias
 Relics:
   Title: Relíquias
   p1: >-

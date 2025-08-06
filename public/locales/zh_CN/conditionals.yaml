@@ -99,6 +99,10 @@ Lightcones:
         text: 终结技后速度提高
         content: >-
           当装备者施放攻击后，每击中1名不同的敌方目标，恢复{{EnergyRecovered}}点能量，每次攻击最多通过该方式恢复3次能量。当装备者施放终结技后，使我方全体速度提高{{SpdBuff}}点，持续1回合。
+  EpochEtchedInGoldenBlood:
+    Content:
+      skillDmgBoost:
+        text: 战技伤害提高
   EternalCalculus:
     Content:
       atkBuffStacks:
@@ -363,6 +367,10 @@ Lightcones:
         text: 溃败易伤
         content: >-
           当装备者对敌方目标造成击破伤害时，使敌方陷入【溃败】状态，持续2回合。【溃败】状态下目标受到装备者造成的击破伤害提高{{Vulnerability}}%，速度降低20%，同类效果无法叠加。
+  WhyDoesTheOceanSing:
+    Content:
+      spdBuff:
+        text: 速度增益
   WorrisomeBlissful:
     Content:
       targetTameStacks:
@@ -605,6 +613,10 @@ Lightcones:
       memoCdBoost:
         text: 忆灵爆伤提升
         content: 装备者忆灵造成的暴击伤害额外提高{{CritDmgBuff}}%。
+  TheForeverVictual:
+    Content:
+      atkStacks:
+        text: 攻击力提升层数
   TheGreatCosmicEnterprise:
     Content:
       weaknessTypes:
@@ -1059,6 +1071,21 @@ Characters:
         text: 6魂增益
         content: >-
           遐蝶与死龙造成伤害时，量子属性抗性穿透提高20%。:BR:触发天赋【灼掠幽墟的晦翼】的弹射次数额外增加3次。
+  Cerydra:
+    Content:
+      spdBuff:
+        text: 速度增益
+      crBuff:
+        text: 暴击率增益
+      e2DmgBoost:
+        text: 2魂伤害提高
+      e4UltDmg:
+        text: 4魂终结技伤害
+      e6Buffs:
+        text: 6魂增益
+    TeammateContent:
+      e1DefPen:
+        text: 1魂防御穿透
   Cipher:
     Content:
       vulnerability:
@@ -1371,6 +1398,18 @@ Characters:
       e6ResPen:
         text: 6魂属性抗性穿透
         content: 小伊卡在场时，我方全体目标的全属性抗性穿透提高20%。
+  Hysilens:
+    Content:
+      ultZone:
+        text: 终结技结界启动
+      ehrToDmg:
+        text: 效果命中转至伤害提高
+      e1Buffs:
+        text: 1魂增益
+      e4ResPen:
+        text: 4魂抗性穿透
+      e6Buffs:
+        text: 6魂增益
   ImbibitorLunae:
     Content:
       basicEnhanced:

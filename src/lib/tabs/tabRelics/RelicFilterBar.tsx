@@ -6,7 +6,6 @@ import {
   Tooltip,
   Typography,
 } from 'antd'
-import { useSubscribe } from 'hooks/useSubscribe'
 import i18next from 'i18next'
 import {
   Constants,
@@ -23,17 +22,12 @@ import {
   setOpen,
 } from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
-import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
-import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
-import { generateCharacterOptions } from 'lib/rendering/optionGenerator'
 import { Renderer } from 'lib/rendering/renderer'
-import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
-import { RelicScoringWeights } from 'lib/tabs/tabRelics/RelicsGrid'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
@@ -41,14 +35,9 @@ import {
   isStatsValues,
   languages,
 } from 'lib/utils/i18nUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
-import {
-  useEffect,
-  useMemo,
-} from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
-import { Nullable } from 'types/common'
 import { Relic } from 'types/relic'
 
 const { Text } = Typography
@@ -100,7 +89,6 @@ export default function RelicFilterBar() {
     })
     setExcludedRelicPotentialCharacters(excludedCharacterIds)
     SaveState.delayedSave()
-    setTimeout(() => setFocusCharacter(focusCharacter), 100)
   }
 
   function scoringClicked() {
@@ -205,13 +193,15 @@ export default function RelicFilterBar() {
               }}
               withIcon={true}
             />
-            <Button
+            {
+              /*<Button
               // only useful when score on load is disabled, trigger update to score relics
               onClick={() => setFocusCharacter(focusCharacter)}
               style={{ flex: 1, padding: '0px' }}
             >
-              {t('RelicFilterBar.ReapplyButton') /* Reapply scores */}
-            </Button>
+              {t('RelicFilterBar.ReapplyButton') /* Reapply scores *!/
+            </Button>*/
+            }
             <Button
               onClick={scoringClicked}
               style={{ flex: 1, padding: '0px' }}
@@ -221,7 +211,7 @@ export default function RelicFilterBar() {
           </Flex>
         </Flex>
 
-        <Flex vertical flex={0.25} gap={10}>
+        <Flex vertical flex={0.5} gap={10}>
           <Flex vertical>
             <Flex justify='space-between' align='center'>
               <HeaderText>{t('RelicFilterBar.Rating') /* Relic ratings */}</HeaderText>
@@ -235,7 +225,7 @@ export default function RelicFilterBar() {
                 onChange={setValueColumns}
                 options={valueColumnOptions}
                 maxTagCount='responsive'
-                style={{ width: 360 }}
+                style={{ flex: 1 }}
                 listHeight={750}
                 dropdownStyle={{ width: 'fit-content' }}
               />

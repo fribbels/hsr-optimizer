@@ -11,7 +11,7 @@ import { Message } from 'lib/interactions/message'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { ScoredRelic } from 'lib/tabs/tabRelics/RelicsGrid'
+import { ScoredRelic } from 'lib/relics/scoreRelics'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { Relic } from 'types/relic'
 

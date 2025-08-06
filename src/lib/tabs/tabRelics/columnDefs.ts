@@ -4,9 +4,9 @@ import {
 } from 'ag-grid-community'
 import { TFunction } from 'i18next'
 import { Stats } from 'lib/constants/constants'
+import { ScoredRelic } from 'lib/relics/scoreRelics'
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
-import { ScoredRelic } from 'lib/tabs/tabRelics/RelicsGrid'
 
 export function generateValueColumnOptions(t: TFunction<'relicsTab', 'RelicGrid'>) {
   return [
@@ -76,7 +76,7 @@ export function generateValueColumnOptions(t: TFunction<'relicsTab', 'RelicGrid'
         // Custom Chars\nAvg Reroll | Custom characters: Average reroll potential
         {
           column: t('ValueColumns.CustomCharacters.RerollAvg.Header'),
-          value: 'weights.rerollAllCustom.rerollAvgPct',
+          value: 'weights.rerollAllCustom',
           label: t('ValueColumns.CustomCharacters.RerollAvg.Label'),
           percent: true,
         },
@@ -102,7 +102,7 @@ export function generateValueColumnOptions(t: TFunction<'relicsTab', 'RelicGrid'
         // All Chars\nAvg Reroll | All characters: Average reroll potential
         {
           column: t('ValueColumns.AllCharacters.RerollAvg.Header'),
-          value: 'weights.rerollAllAll.rerollAvgPct',
+          value: 'weights.rerollAllAll',
           label: t('ValueColumns.AllCharacters.RerollAvg.Label'),
           percent: true,
         },

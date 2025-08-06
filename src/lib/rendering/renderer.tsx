@@ -21,7 +21,7 @@ import {
 } from 'lib/constants/constants'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { Assets } from 'lib/rendering/assets'
-import { ScoredRelic } from 'lib/tabs/tabRelics/RelicsGrid'
+import { ScoredRelic } from 'lib/relics/scoreRelics'
 import {
   currentLocale,
   localeNumber,

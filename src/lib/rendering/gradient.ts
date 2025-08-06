@@ -2,9 +2,9 @@ import { CellClassParams } from 'ag-grid-community'
 import type { GlobalToken } from 'antd/es/theme/interface'
 import { SubStats } from 'lib/constants/constants'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import { ScoredRelic } from 'lib/relics/scoreRelics'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { ScoredRelic } from 'lib/tabs/tabRelics/RelicsGrid'
 import tinygradient from 'tinygradient'
 
 export type GridAggregations = {

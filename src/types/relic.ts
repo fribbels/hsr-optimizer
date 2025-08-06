@@ -35,7 +35,7 @@ export type Relic = {
     value: number,
   },
   condensedStats?: [number, number][], // optimiser
-  augmentedStats: AugmentedStats, // optimiser + websocket + relicsGrid cv getter
+  augmentedStats: AugmentedStats, // optimiser + relicsGrid cv getter
   part: Parts,
   set: Sets,
   substats: RelicSubstatMetadata[],

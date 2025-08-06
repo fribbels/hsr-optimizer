@@ -6,7 +6,6 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { AugmentedStats } from 'lib/relics/relicAugmenter'
-import { RelicScoringWeights } from 'lib/tabs/tabRelics/RelicsGrid'
 import { CharacterId } from 'types/character'
 
 export type RelicId = string
@@ -22,7 +21,6 @@ export type Relic = {
    * refactor?
    * augmentedCaseWeight?: any;
    */
-  weights?: RelicScoringWeights, // Relics grid
   weightScore: number, // optimiser
 
   enhance: RelicEnhance,

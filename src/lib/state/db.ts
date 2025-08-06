@@ -2,7 +2,6 @@ import { IRowNode } from 'ag-grid-community'
 import i18next from 'i18next'
 import {
   COMPUTE_ENGINE_GPU_STABLE,
-  ComputeEngine,
   Constants,
   CURRENT_OPTIMIZER_VERSION,
   DEFAULT_MEMO_DISPLAY,
@@ -170,7 +169,6 @@ window.store = create<HsrOptimizerStore>()((set) => ({
   optimizerTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
   statTracesDrawerFocusCharacter: undefined,
-  relicsTabFocusCharacter: undefined,
 
   activeKey: getDefaultActiveKey(),
   permutations: 0,
@@ -214,19 +212,6 @@ window.store = create<HsrOptimizerStore>()((set) => ({
     LinkRopeTotal: 0,
   },
 
-  relicTabFilters: {
-    set: [],
-    part: [],
-    enhance: [],
-    mainStat: [],
-    subStat: [],
-    grade: [],
-    verified: [],
-    equipped: [],
-    initialRolls: [],
-  },
-  excludedRelicPotentialCharacters: [],
-
   optimizerMenuState: {
     [OptimizerMenuIds.characterOptions]: true,
     [OptimizerMenuIds.relicAndStatFilters]: true,
@@ -248,7 +233,6 @@ window.store = create<HsrOptimizerStore>()((set) => ({
   setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
   setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
   setStatTracesDrawerFocusCharacter: (characterId) => set(() => ({ statTracesDrawerFocusCharacter: characterId })),
-  setRelicsTabFocusCharacter: (characterId) => set(() => ({ relicsTabFocusCharacter: characterId })),
   setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
   setPermutations: (x) => set(() => ({ permutations: x })),
   setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),
@@ -258,7 +242,6 @@ window.store = create<HsrOptimizerStore>()((set) => ({
       const relics = Object.values(relicsById).filter(ArrayFilters.nonNullable)
       return { relicsById, relics }
     }),
-  setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
   setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
   setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
   setShowcaseTemporaryOptionsByCharacter: (x) => set(() => ({ showcaseTemporaryOptionsByCharacter: x })),
@@ -278,7 +261,6 @@ window.store = create<HsrOptimizerStore>()((set) => ({
   setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
   setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
   setOptimizerTabFocusCharacterSelectModalOpen: (x) => set(() => ({ optimizerTabFocusCharacterSelectModalOpen: x })),
-  setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
   setSettings: (x) => set(() => ({ settings: x })),
   setSavedSession: (x) => set(() => ({ savedSession: x })),
   setSavedSessionKey: (key, x) =>
@@ -335,7 +317,10 @@ export const DB = {
     }, {} as Record<string, Relic>)
     window.store.getState().setRelicsById(relicsById)
   },
-  getRelicById: (id: string) => window.store.getState().relicsById[id],
+  getRelicById: (id: string | undefined) => {
+    if (!id) return undefined
+    return window.store.getState().relicsById[id]
+  },
 
   /**
    * Sets the given relic in the application's database and handles relic equipping logic.
@@ -990,15 +975,9 @@ export const DB = {
     })
     DB.setCharacters(cleanedCharacters)
 
-    // only valid when on relics tab
-    if (window.relicsGrid?.current?.api) {
-      window.relicsGrid.current.api.updateGridOptions({ rowData: replacementRelics })
-    }
-
     // TODO this probably shouldn't be in this file
     const fieldValues = OptimizerTabController.getForm()
     window.onOptimizerFormValuesChange({} as Form, fieldValues)
-    window.refreshRelicsScore()
   },
 
   /*
@@ -1049,8 +1028,6 @@ export const DB = {
         DB.equipRelic(equipUpdate.relic, equipUpdate.equippedBy)
       }
     }
-
-    window.refreshRelicsScore()
 
     // Updated stats for ${updatedOldRelics.length} existing relics
     // Added ${addedNewRelics.length} new relics

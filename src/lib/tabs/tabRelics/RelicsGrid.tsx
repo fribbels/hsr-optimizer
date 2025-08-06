@@ -11,6 +11,7 @@ import {
   AgGridReactProps,
 } from 'ag-grid-react'
 import { theme } from 'antd'
+import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { getGridTheme } from 'lib/rendering/theme'
 import DB from 'lib/state/db'
@@ -31,6 +32,8 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CharacterId } from 'types/character'
+import { Nullable } from 'types/common'
 import { Relic } from 'types/relic'
 
 const gridOptions: GridOptions<ScoredRelic> = {
@@ -57,11 +60,21 @@ export function RelicsGrid() {
 
   const [gridActive, setGridActive] = useState(true)
 
-  const relics = window.store((s) => s.relics.toReversed())
-  const { filters, valueColumns } = useRelicsTabStore()
+  const { relics, scoringMetadataOverrides } = window.store()
+
+  const { focusCharacter, excludedRelicPotentialCharacters } = useRelicsTabStore()
 
   const gridRef = useRef<AgGridReact<ScoredRelic>>(null)
   window.relicsGrid = gridRef
+
+  const scoredRelics = useMemo(() => {
+    return scoreRelics(relics, excludedRelicPotentialCharacters, focusCharacter)
+    // relic scores have sn implicit dependency on scoringMetadataOverrides
+    // settings only relevant on first load so doesn't need to be in array
+    // eslint-disable-next-line exhaustive-deps
+  }, [relics, scoringMetadataOverrides, focusCharacter, excludedRelicPotentialCharacters])
+
+  const { filters, valueColumns } = useRelicsTabStore()
 
   useEffect(() => {
     setGridActive(false)
@@ -114,7 +127,7 @@ export function RelicsGrid() {
       {gridActive && (
         <AgGridReact
           ref={gridRef}
-          rowData={relics as ScoredRelic[]}
+          rowData={scoredRelics}
           columnDefs={columnDefs}
           defaultColDef={defaultRelicsGridColDefs}
           gridOptions={gridOptions}
@@ -134,10 +147,9 @@ export function RelicsGrid() {
     </div>
   )
 }
-function scoreRelics(relics: Array<Relic>): Array<ScoredRelic> {
+function scoreRelics(relics: Array<Relic>, excludedRelicPotentialCharacters: Array<CharacterId>, focusCharacter: Nullable<CharacterId>): Array<ScoredRelic> {
   const characterIds = Object.values(DB.getMetadata().characters).map((x) => x.id)
   const relicScorer = new RelicScorer()
-  const { focusCharacter: characterId, excludedRelicPotentialCharacters } = useRelicsTabStore()
   return relics
     .map((relic) => {
       let weights: RelicScoringWeights = {
@@ -163,21 +175,20 @@ function scoreRelics(relics: Array<Relic>): Array<ScoredRelic> {
         rerollAvgSelectedDelta: 0,
         rerollAvgSelectedEquippedDelta: 0,
       }
-      if (characterId) {
-        const potentialSelected = relicScorer.scoreRelicPotential(relic, characterId)
+      if (focusCharacter) {
+        const potentialSelected = relicScorer.scoreRelicPotential(relic, focusCharacter)
         const rerollAvgSelected = Math.max(0, potentialSelected.rerollAvgPct)
         const rerollAvgSelectedDelta = rerollAvgSelected == 0 ? 0 : (rerollAvgSelected - potentialSelected.averagePct)
         weights = {
           ...weights,
-          ...relicScorer.getFutureRelicScore(relic, characterId),
+          ...relicScorer.getFutureRelicScore(relic, focusCharacter),
           potentialSelected,
           rerollAvgSelected,
           rerollAvgSelectedDelta,
         }
-        const equippedRelicId = DB.getCharacterById(characterId)?.equipped?.[relic.part]
-        if (equippedRelicId) {
-          weights.rerollAvgSelectedEquippedDelta = weights.rerollAvgSelected
-            - relicScorer.scoreRelicPotential(DB.getRelicById(equippedRelicId)!, characterId).averagePct
+        const equippedRelic = DB.getRelicById(DB.getCharacterById(focusCharacter)?.equipped?.[relic.part])
+        if (equippedRelic) {
+          weights.rerollAvgSelectedEquippedDelta = weights.rerollAvgSelected - relicScorer.scoreRelicPotential(equippedRelic, focusCharacter).averagePct
         }
       }
 

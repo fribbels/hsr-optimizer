@@ -37,7 +37,10 @@ import { RelicScoringWeights } from 'lib/tabs/tabRelics/RelicsGrid'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { isStatsValues } from 'lib/utils/i18nUtils'
+import {
+  isStatsValues,
+  languages,
+} from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
   useEffect,
@@ -45,6 +48,7 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
+import { Nullable } from 'types/common'
 import { Relic } from 'types/relic'
 
 const { Text } = Typography
@@ -68,62 +72,26 @@ export default function RelicFilterBar() {
   const { t, i18n } = useTranslation('relicsTab')
   const { t: tValueColumn } = useTranslation('relicsTab', { keyPrefix: 'RelicGrid' })
 
-  const valueColumnOptions = useMemo(() => generateValueColumnOptions(tValueColumn), [tValueColumn])
-
-  const {
-    gradeData,
-    verifiedData,
-    partsData,
-    enhanceData,
-    equippedByData,
-    initialRollsData,
-    allCharacterIds,
-  } = useMemo(() => ({
-    gradeData: generateGradeTags([2, 3, 4, 5]),
-    verifiedData: generateVerifiedTags([true, false]),
-    partsData: generatePartsTags(Object.values(Constants.Parts), (x) => Assets.getPart(x)),
-    enhanceData: generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']]),
-    equippedByData: generateEquippedByTags([true, false]),
-    initialRollsData: generateInitialRollsTags([4, 3]),
-    allCharacterIds: Object.values(DB.getMetadata().characters).map((x) => x.id),
-  }), [])
+  const valueColumnOptions = useMemo(() => {
+    return generateValueColumnOptions(tValueColumn)
+  }, [tValueColumn])
 
   const {
     setsData,
     mainStatsData,
     subStatsData,
   } = useMemo(() => {
-    const locale = i18n.resolvedLanguage ?? 'en_US'
+    const locale = i18n.resolvedLanguage ?? languages.en_US.locale
     return {
-      setsData: generateTooltipTags(Object.values(Sets).filter((x) => !UnreleasedSets[x]), (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere), locale),
+      setsData: generateTooltipTags(
+        Object.values(Sets).filter((x) => !UnreleasedSets[x]),
+        (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere),
+        locale,
+      ),
       mainStatsData: generateTooltipTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true), locale),
       subStatsData: generateTooltipTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), locale),
     }
   }, [i18n.resolvedLanguage])
-
-  window.refreshRelicsScore = () => {
-    // NOTE: the scoring modal (where this event is published) calls .submit() in the same block of code
-    // that it performs the publish. However, react defers and batches events, so the submit (and update
-    // of the scoring overrides) doesn't actually happen until *after* this subscribe event is triggered,
-    // hence the need for setTimeout
-    // TODO: refactor so it's not necessary, which may be tricky - the recommended flow is to have react
-    // views as a pure function of props, but because relics (and other state) are updated mutably in
-    // a number of places, we need these manual refresh invocations
-    setTimeout(() => {
-      characterSelectorChange(focusCharacter)
-    }, 100)
-  }
-
-  useSubscribe('refreshRelicsScore', window.refreshRelicsScore)
-
-  // Kick off an initial calculation to populate value columns. Though empty dependencies
-  // are warned about, we genuinely only want to do this on first component render (updates
-  // will correctly re-trigger it)
-  useEffect(() => {
-    if (DB.getState().settings[SettingOptions.RelicPotentialLoadBehavior.name] == SettingOptions.RelicPotentialLoadBehavior.ScoreAtStartup) {
-      characterSelectorChange(focusCharacter)
-    }
-  }, [])
 
   function onExcludedCharactersChange(map: Map<CharacterId, boolean> | null) {
     const excludedCharacterIds: Array<CharacterId> = []
@@ -132,97 +100,13 @@ export default function RelicFilterBar() {
     })
     setExcludedRelicPotentialCharacters(excludedCharacterIds)
     SaveState.delayedSave()
-    setTimeout(() => rescoreClicked(), 100)
-  }
-
-  function characterSelectorChange(characterId: CharacterId | null | undefined, singleRelic?: Relic) {
-    const relics = singleRelic ? [singleRelic] : DB.getRelics()
-    console.log('idChange', characterId)
-
-    setFocusCharacter(characterId ?? null)
-
-    const relicScorer = new RelicScorer()
-
-    // NOTE: we cannot cache these results between renders by keying on the relic/characterId because
-    // both relic stats and char weights can be edited
-    for (const relic of relics) {
-      const weights: Partial<RelicScoringWeights> = characterId
-        ? relicScorer.getFutureRelicScore(relic, characterId)
-        : {
-          current: 0,
-          best: 0,
-          average: 0,
-        }
-      weights.potentialSelected = characterId ? relicScorer.scoreRelicPotential(relic, characterId) : { bestPct: 0, averagePct: 0, rerollAvgPct: 0 }
-      weights.potentialAllAll = { bestPct: 0, averagePct: 0 }
-      weights.potentialAllCustom = { bestPct: 0, averagePct: 0 }
-      weights.rerollAllAll = 0
-      weights.rerollAllCustom = 0
-      weights.rerollAvgSelected = Math.max(0, weights.potentialSelected.rerollAvgPct)
-
-      for (const cid of allCharacterIds) {
-        const pct = relicScorer.scoreRelicPotential(relic, cid)
-        weights.potentialAllAll = {
-          bestPct: Math.max(pct.bestPct, weights.potentialAllAll.bestPct),
-          averagePct: Math.max(pct.averagePct, weights.potentialAllAll.averagePct),
-        }
-        weights.rerollAllAll = Math.max(pct.rerollAvgPct, weights.rerollAllAll)
-
-        // For custom characters only consider the ones that aren't excluded
-        if (!excludedRelicPotentialCharacters.includes(cid)) {
-          weights.potentialAllCustom = {
-            bestPct: Math.max(pct.bestPct, weights.potentialAllCustom.bestPct),
-            averagePct: Math.max(pct.averagePct, weights.potentialAllCustom.averagePct),
-          }
-          weights.rerollAllCustom = Math.max(pct.rerollAvgPct, weights.rerollAllCustom)
-        }
-      }
-
-      weights.rerollAvgSelectedDelta = weights.rerollAvgSelected == 0 ? 0 : (weights.rerollAvgSelected - weights.potentialSelected.averagePct)
-
-      weights.rerollAvgSelectedEquippedDelta = characterId ? weights.rerollAvgSelected : 0
-      if (characterId) {
-        const equippedRelicId = DB.getCharacterById(characterId)?.equipped?.[relic.part]
-        if (equippedRelicId) {
-          weights.rerollAvgSelectedEquippedDelta -= relicScorer.scoreRelicPotential(DB.getRelicById(equippedRelicId)!, characterId).averagePct
-        }
-      }
-
-      relic.weights = weights as RelicScoringWeights
-    }
-
-    if (singleRelic) return
-
-    // Clone the relics to refresh the sort
-    DB.setRelics(TsUtils.clone(relics))
-
-    if (characterId && window.relicsGrid?.current?.api) {
-      const isSorted = window.relicsGrid.current.api.getColumnState().filter((s) => s.sort !== null)
-
-      if (!isSorted) {
-        window.relicsGrid.current.api.applyColumnState({
-          state: [{ colId: 'weights.current', sort: 'desc' }],
-          defaultState: { sort: null },
-        })
-      }
-    }
+    setTimeout(() => setFocusCharacter(focusCharacter), 100)
   }
 
   function scoringClicked() {
-    const relicsTabFocusCharacter = window.store.getState().relicsTabFocusCharacter
-    if (relicsTabFocusCharacter) window.store.getState().setScoringAlgorithmFocusCharacter(relicsTabFocusCharacter)
+    if (focusCharacter) window.store.getState().setScoringAlgorithmFocusCharacter(focusCharacter)
     setOpen(OpenCloseIDs.SCORING_MODAL)
   }
-
-  function rescoreClicked() {
-    characterSelectorChange(focusCharacter)
-  }
-
-  function rescoreSingleRelic(singleRelic: Relic) {
-    characterSelectorChange(focusCharacter, singleRelic)
-  }
-
-  window.rescoreSingleRelic = rescoreSingleRelic
 
   return (
     <Flex vertical gap={2}>
@@ -317,12 +201,13 @@ export default function RelicFilterBar() {
               selectStyle={{ flex: 1 }}
               onChange={(characterId) => {
                 // Wait until after modal closes to update
-                setTimeout(() => characterSelectorChange(characterId), 20)
+                setTimeout(() => setFocusCharacter(characterId ?? null), 20)
               }}
               withIcon={true}
             />
             <Button
-              onClick={rescoreClicked}
+              // only useful when score on load is disabled, trigger update to score relics
+              onClick={() => setFocusCharacter(focusCharacter)}
               style={{ flex: 1, padding: '0px' }}
             >
               {t('RelicFilterBar.ReapplyButton') /* Reapply scores */}
@@ -456,3 +341,10 @@ function generateTooltipDisplay(key: Sets | StatsValues, srcFn: (s: string) => s
     </Tooltip>
   )
 }
+
+const gradeData = generateGradeTags([2, 3, 4, 5])
+const verifiedData = generateVerifiedTags([true, false])
+const partsData = generatePartsTags(Object.values(Constants.Parts), (x) => Assets.getPart(x))
+const enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
+const equippedByData = generateEquippedByTags([true, false])
+const initialRollsData = generateInitialRollsTags([4, 3])

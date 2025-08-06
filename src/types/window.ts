@@ -30,16 +30,12 @@ import { ScoredRelic } from 'lib/tabs/tabRelics/RelicsGrid'
 import { ShowcaseTabForm } from 'lib/tabs/tabShowcase/showcaseTabController'
 import { Utils } from 'lib/utils/utils'
 import { WorkerPool } from 'lib/worker/workerPool'
-import {
-  DispatchWithoutAction,
-  RefObject,
-} from 'react'
+import { RefObject } from 'react'
 import {
   Build,
   Character,
 } from 'types/character'
 import { Form } from 'types/form'
-import { Relic } from 'types/relic'
 import { HsrOptimizerStore } from 'types/store'
 import {
   StoreApi,
@@ -84,14 +80,10 @@ declare global {
     showcaseTabForm: FormInstance<ShowcaseTabForm>
 
     // TODO see OptimizerForm
-    onOptimizerFormValuesChange: (changedValues: Form, allValues: Form, bypass?: boolean) => unknown
+    onOptimizerFormValuesChange: (changedValues: Form, allValues: Form, bypass?: boolean) => void
     optimizerStartClicked: () => void
     optimizerForm: FormInstance<Form>
 
-    forceOptimizerBuildPreviewUpdate: DispatchWithoutAction
-    refreshRelicsScore: DispatchWithoutAction
-
-    rescoreSingleRelic: (relic: Relic) => void
     showSaveFilePicker: (options?: SaveFilePickerOptions) => Promise<FileSystemFileHandle>
 
     yaml: unknown

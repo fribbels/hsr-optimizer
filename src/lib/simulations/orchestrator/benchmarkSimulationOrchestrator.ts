@@ -464,7 +464,7 @@ export class BenchmarkSimulationOrchestrator {
     const perfectionSim = candidates[0]
 
     this.perfectionSimCandidates = candidates
-    this.perfectionSimResult = perfectionSim.result!
+    this.perfectionSimResult = cloneWorkerResult(perfectionSim.result!)
     this.perfectionSimRequest = perfectionSim.request
   }
 

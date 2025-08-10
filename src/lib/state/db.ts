@@ -227,7 +227,10 @@ window.store = create<HsrOptimizerStore>()((set) => ({
   optimizerSelectedRowData: null,
 
   setComboState: (x) => set(() => ({ comboState: x })),
-  setVersion: (x) => set(() => ({ version: x })),
+  setVersion: (x) => {
+    if (!x) return
+    return set(() => ({ version: x }))
+  },
   setActiveKey: (x) => set(() => ({ activeKey: x })),
   setFormValues: (x) => set(() => ({ formValues: x })),
   setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
@@ -611,12 +614,11 @@ export const DB = {
     }
   },
   resetStore: () => {
-    const saveFormat: Partial<HsrOptimizerSaveFormat> = {
+    const saveFormat: HsrOptimizerSaveFormat = {
       relics: [],
       characters: [],
-      showcasePreferences: {},
     }
-    DB.setStore(saveFormat as HsrOptimizerSaveFormat)
+    DB.setStore(saveFormat)
   },
 
   replaceCharacterForm: (form: Form) => {

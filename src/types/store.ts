@@ -118,7 +118,7 @@ export type HsrOptimizerStore = { // global store separation plan
   /* characterTab/showcaseTab */ setShowcaseTemporaryOptionsByCharacter: (x: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>) => void,
   /* optimizerTab             */ setPermutations: (x: number) => void,
   /* optimizerTab             */ setPermutationDetails: (x: PermutationDetails) => void,
-  /* global                   */ setVersion: (x: string) => void,
+  /* global                   */ setVersion: (x: string | undefined) => void,
   /* optimizerTab             */ setOptimizerMenuState: (x: OptimizerMenuState) => void,
   /* global                   */ setGlobalThemeConfig: (x: ThemeConfig) => void,
 
@@ -153,18 +153,18 @@ export type UserSettings = {
 export type HsrOptimizerSaveFormat = {
   relics: Relic[],
   characters: Character[],
-  scoringMetadataOverrides: Record<string, ScoringMetadata>,
-  showcasePreferences: Record<string, ShowcasePreferences>,
-  optimizerMenuState: OptimizerMenuState,
-  excludedRelicPotentialCharacters: CharacterId[],
-  savedSession: {
+  scoringMetadataOverrides?: Record<string, ScoringMetadata>,
+  showcasePreferences?: Record<string, ShowcasePreferences>,
+  optimizerMenuState?: OptimizerMenuState,
+  excludedRelicPotentialCharacters?: CharacterId[],
+  savedSession?: {
     showcaseTab: ShowcaseTabSavedSession,
     global: GlobalSavedSession,
   },
-  settings: UserSettings,
-  version: string,
-  warpRequest: WarpRequest,
-  relicLocator: {
+  settings?: UserSettings,
+  version?: string,
+  warpRequest?: WarpRequest,
+  relicLocator?: {
     inventoryWidth: number,
     rowLimit: number,
   },

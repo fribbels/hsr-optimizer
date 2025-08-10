@@ -6287,7 +6287,6 @@ interface Resources {
       "Set": "Set",
       "Mainstat": "Main stats",
       "Substat": "Substats",
-      "ReapplyButton": "Reapply scores",
       "ScoringButton": "Scoring algorithm",
       "RecommendationHeader": "Relic recommendation character",
       "Rating": "Relic ratings",

@@ -193,15 +193,6 @@ export default function RelicFilterBar() {
               }}
               withIcon={true}
             />
-            {
-              /*<Button
-              // only useful when score on load is disabled, trigger update to score relics
-              onClick={() => setFocusCharacter(focusCharacter)}
-              style={{ flex: 1, padding: '0px' }}
-            >
-              {t('RelicFilterBar.ReapplyButton') /* Reapply scores *!/
-            </Button>*/
-            }
             <Button
               onClick={scoringClicked}
               style={{ flex: 1, padding: '0px' }}

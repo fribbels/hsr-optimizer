@@ -9,6 +9,8 @@ import { HsrOptimizerSaveFormat } from 'types/store'
 
 let saveTimeout: NodeJS.Timeout | null
 
+const STATE_KEY = 'state'
+
 export const SaveState = {
   save: () => {
     const globalState = window.store.getState()
@@ -17,8 +19,6 @@ export const SaveState = {
     const globalSession = globalState.savedSession
     const relicLocatorSession = useRelicLocatorStore.getState()
 
-    // @ts-ignore TODO remove once migration complete | added on 02/05/2025 (dd/mm/yyyy)
-    delete globalSession.relicScorerSidebarOpen
     const warpCalculatorTabState = useWarpCalculatorStore.getState()
     const scannerState = useScannerState.getState()
     const state: HsrOptimizerSaveFormat = {
@@ -48,7 +48,7 @@ export const SaveState = {
     }
 
     const stateString = JSON.stringify(state)
-    localStorage.state = stateString
+    localStorage.setItem(STATE_KEY, stateString)
     saveTimeout = null
 
     return stateString
@@ -66,7 +66,7 @@ export const SaveState = {
 
   load: (autosave = true, sanitize = true) => {
     try {
-      const state = localStorage.state as string
+      const state = localStorage.getItem(STATE_KEY)
       if (state) {
         const parsed = JSON.parse(state) as HsrOptimizerSaveFormat
         console.log('Loaded SaveState')

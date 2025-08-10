@@ -16,7 +16,7 @@ export const DIGITS_5 = 56
 export const DIGITS_6 = 62
 
 export const optimizerTabDefaultGap = 5
-export const panelWidth = 211
+export const panelWidth = 220
 export const defaultPadding = 11
 
 export const optimizerGridOptions: GridOptions<OptimizerDisplayDataStatSim> = {

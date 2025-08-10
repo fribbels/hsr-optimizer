@@ -149,6 +149,7 @@ Toolbar:
   PlotOptions:
     PlotAll: 全てのキャラクターを表示
     PlotCustom: 指定対象のみ表示
+    PlotOwned: 獲得したキャラのみ表示
   EditRelic: 遺物を編集
   DeleteRelic:
     ButtonText: 遺物を削除
@@ -158,3 +159,4 @@ Toolbar:
 RelicInsights:
   NewStats: '新しいステータス：'
   UpgradedStats: 'アップグレードしたステータス：'
+  AvgPotential: '平均ポテンシャル：'

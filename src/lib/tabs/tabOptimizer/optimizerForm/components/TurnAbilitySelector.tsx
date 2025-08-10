@@ -4,6 +4,7 @@ import {
   Form,
 } from 'antd'
 import { TFunction } from 'i18next'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import {
   AbilityKind,
   ALL_ABILITIES,
@@ -19,6 +20,7 @@ import {
 import { updateAbilityRotation } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerForm } from 'types/form'
 
 const { SHOW_CHILD } = Cascader
@@ -66,8 +68,30 @@ export function toI18NVisual(ability: TurnAbility, t: TFunction<'optimizerTab', 
   }
 }
 
-function generateOptions(t: TFunction<'optimizerTab', 'ComboFilter'>): Option[] {
+function generateOptions(t: TFunction<'optimizerTab', 'ComboFilter'>, characterId: string, characterEidolon: number): Option[] {
   // const t = i18next.getFixedT(null, 'optimizerTab', 'ComboFilter')
+  if (characterId && characterEidolon != null) {
+    const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get({
+      characterId: characterId,
+      characterEidolon: characterEidolon,
+    })
+    const actions = characterConditionals.actionDefinition ? characterConditionals.actionDefinition() : []
+
+    return actions.map((x) => ({
+      label: x.name,
+      value: x.name,
+      children: Object.values(TurnMarker)
+        .map((marker) => {
+          const turnAbility = createAbility(x.name, marker)
+          return {
+            value: turnAbility.name,
+            label: toI18NVisual(turnAbility, t),
+            children: [],
+          }
+        }),
+    }))
+  }
+
   return ALL_ABILITIES.map((kind) => ({
     value: `${kind}`,
     label: t(`ComboOptions.${ComboOptionsLabelMapping[kind]}`),
@@ -86,7 +110,9 @@ function generateOptions(t: TFunction<'optimizerTab', 'ComboFilter'>): Option[] 
 export function TurnAbilitySelector({ formName, disabled }: { formName: (string | number)[], disabled: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const form = Form.useFormInstance<OptimizerForm>()
-  const options = useMemo(() => generateOptions(t), [t])
+  const characterId = Form.useWatch('characterId', form)
+  const characterEidolon = Form.useWatch('characterEidolon', form)
+  const options = useMemo(() => generateOptions(t, characterId, characterEidolon), [t, characterId, characterEidolon])
 
   return (
     <ConfigProvider theme={cascaderTheme}>

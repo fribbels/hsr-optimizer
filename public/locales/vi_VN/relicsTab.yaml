@@ -120,13 +120,6 @@ RelicGrid:
         Header: |-
           Tất cả nhân vật  
           Xoay lại trung bình
-    ComingSoon:
-      Label: Sắp ra mắt
-      SetsPotential:
-        Label: Bộ di vật / Vị diện tiềm năng
-        Header: |-
-          Tất cả nhân vật
-          Tiềm năng tối đa + bộ
 Toolbar:
   RelicLocator:
     Width: Chiều rộng Túi

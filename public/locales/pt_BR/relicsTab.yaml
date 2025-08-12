@@ -127,13 +127,6 @@ RelicGrid:
         Header: |-
           Todos Chars
           Reroll Médio
-    ComingSoon:
-      Label: Em breve
-      SetsPotential:
-        Label: Conjunto Relíquia / Ornamento potencial
-        Header: |-
-          Todos Chars
-          Potencial Max. + Sets
 Toolbar:
   RelicLocator:
     Width: Largura do inventário

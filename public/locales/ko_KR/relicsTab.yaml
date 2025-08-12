@@ -129,13 +129,6 @@ RelicGrid:
         Header: |-
           모든 캐릭터
           리롤 후 평균 잠재력
-    ComingSoon:
-      Label: 출시 예정
-      SetsPotential:
-        Label: 유물 / 장신구 세트 잠재력
-        Header: |-
-          모든 캐릭터
-          최대 잠재력 + 세트
 Toolbar:
   RelicLocator:
     Width: 인벤토리 너비

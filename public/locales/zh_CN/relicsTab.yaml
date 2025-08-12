@@ -128,13 +128,6 @@ RelicGrid:
         Header: |-
           所有角色
           重掷均值
-    ComingSoon:
-      Label: 尽情期待
-      SetsPotential:
-        Label: 遗器 / 饰品套装潜力
-        Header: |-
-          所有角色
-          最高潜力 + 套装
 Toolbar:
   RelicLocator:
     Width: 物品栏宽度

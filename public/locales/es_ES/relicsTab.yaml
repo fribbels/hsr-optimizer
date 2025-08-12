@@ -142,14 +142,6 @@ RelicGrid:
         Header: |-
           Todos los pj
           Promedio de reasig.
-    ComingSoon:
-      Label: Próximamente
-      SetsPotential:
-        Label: Potencial de conjunto de artefactos / ornamentos
-        Header: |-
-          Todos los pj
-          Potencial máx
-          + conjuntos
 Toolbar:
   RelicLocator:
     Width: Ancho de inventario

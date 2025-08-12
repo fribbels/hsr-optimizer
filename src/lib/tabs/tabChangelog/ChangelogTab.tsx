@@ -121,7 +121,7 @@ function getChangelogContent() {
     },
     {
       title: '',
-      date: '2025-08-11',
+      date: '2025-08-12',
       content: [
         `Updated content to v3.5v6`,
         `Added a Live Import option for Reliquary Archiver, for streaming relic updates directly from the game`,
@@ -129,6 +129,9 @@ function getChangelogContent() {
         `stream.webp`,
         `With Live Import enabled, the Relics tab has a new Recently updated relics section for quickly analyzing the latest relic additions`,
         `relics.webp`,
+        `Added customizable Relic / Ornament set based calculations for relic potential`,
+        `This is still experimental and does not affect scoring yet, but does affect potential based sorting on the Relics tab`,
+        `sets.webp`,
         `Added a Main / Sub DPS Mode selector to the optimizer, controlling whether primary target buffs are disabled on the character, mirroring the showcase option`,
         `dpsMode.webp`,
         `The 100% and 200% benchmarks are designed to represent the ideal distribution of substats, but previously they were slightly suboptimal in some cases`,

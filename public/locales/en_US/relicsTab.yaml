@@ -133,13 +133,6 @@ RelicGrid:
         Header: |-
           All Chars
           Avg Reroll
-    ComingSoon:
-      Label: Coming soon
-      SetsPotential:
-        Label: Relic / Ornament sets potential
-        Header: |-
-          All Chars
-          Max Potential + Sets
 Toolbar:
   RelicLocator:
     Width: Inventory width

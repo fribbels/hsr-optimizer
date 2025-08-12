@@ -112,12 +112,6 @@ RelicGrid:
         Label: 'crwdns43686:0crwdne43686:0'
         Header: |-
           crwdns43688:0crwdne43688:0
-    ComingSoon:
-      Label: crwdns43570:0crwdne43570:0
-      SetsPotential:
-        Label: crwdns43572:0crwdne43572:0
-        Header: |-
-          crwdns43574:0crwdne43574:0
 Toolbar:
   RelicLocator:
     Width: crwdns43576:0crwdne43576:0

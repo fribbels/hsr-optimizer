@@ -127,13 +127,6 @@ RelicGrid:
         Header: |-
           ВСЕ: Ср. Пот.
           Переброса
-    ComingSoon:
-      Label: В разработке
-      SetsPotential:
-        Label: Потенциал наборов реликвий / планарок
-        Header: |-
-          ВСЕ: Макс. 
-          Потенциал + Наборы
 Toolbar:
   RelicLocator:
     Width: Ширина инвентаря (столбцы)

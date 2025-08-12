@@ -133,13 +133,6 @@ RelicGrid:
         Header: |-
           Tutti i Personaggi
           Media Reroll
-    ComingSoon:
-      Label: In arrivo prossimamente
-      SetsPotential:
-        Label: Potenziale set reliquia / ornamento
-        Header: |-
-          Tutti i Personaggi
-          Potenziale Massimo + Set
 Toolbar:
   RelicLocator:
     Width: Larghezza dell'inventario

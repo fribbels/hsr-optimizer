@@ -108,19 +108,6 @@ export function generateValueColumnOptions(t: TFunction<'relicsTab', 'RelicGrid'
         },
       ],
     },
-    {
-      label: t('ValueColumns.ComingSoon.Label'), /* Coming soon */
-      options: [
-        /* 'Relic / Ornament sets potential' | 'All Chars\nMax Potential + Sets' */
-        {
-          column: t('ValueColumns.ComingSoon.SetsPotential.Header'),
-          disabled: true,
-          value: 'set',
-          label: t('ValueColumns.ComingSoon.SetsPotential.Label'),
-          percent: true,
-        },
-      ],
-    },
   ] satisfies ValueColumnGroup[]
 }
 

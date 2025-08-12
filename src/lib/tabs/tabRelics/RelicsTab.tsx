@@ -47,6 +47,7 @@ export default function RelicsTab() {
 
         {recentRelics.length > 0 && (
           <Collapse
+            defaultActiveKey={['1']}
             items={[
               {
                 key: '1',

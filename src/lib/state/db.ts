@@ -225,7 +225,6 @@ window.store = create<HsrOptimizerStore>()((set) => ({
     equipped: [],
     initialRolls: [],
   },
-  excludedRelicPotentialCharacters: [],
 
   optimizerMenuState: {
     [OptimizerMenuIds.characterOptions]: true,
@@ -278,7 +277,6 @@ window.store = create<HsrOptimizerStore>()((set) => ({
   setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
   setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
   setOptimizerTabFocusCharacterSelectModalOpen: (x) => set(() => ({ optimizerTabFocusCharacterSelectModalOpen: x })),
-  setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
   setSettings: (x) => set(() => ({ settings: x })),
   setSavedSession: (x) => set(() => ({ savedSession: x })),
   setSavedSessionKey: (key, x) =>

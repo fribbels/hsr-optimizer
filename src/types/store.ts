@@ -91,7 +91,6 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ setOptimizerEndTime: (open: number) => void,
   /* relicsTab                */ setRelicTabFilters: (filters: RelicTabFilters) => void,
   /* optimizerTab             */ setOptimizerRunningEngine: (s: ComputeEngine) => void,
-  /* relicsTab                */ setExcludedRelicPotentialCharacters: (ids: CharacterId[]) => void,
   /* optimizerTab             */ optimizerFormCharacterEidolon: number,
   /* optimizerTab             */ optimizerFormSelectedLightCone: LightCone['id'] | null | undefined,
   /* optimizerTab             */ optimizerFormSelectedLightConeSuperimposition: number,
@@ -129,7 +128,6 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ permutationDetails: PermutationDetails,
 
   /* relicsTab                */ relicTabFilters: RelicTabFilters,
-  /* relicsTab                */ excludedRelicPotentialCharacters: CharacterId[],
 
   /* optimizerTab             */ optimizerMenuState: OptimizerMenuState,
 

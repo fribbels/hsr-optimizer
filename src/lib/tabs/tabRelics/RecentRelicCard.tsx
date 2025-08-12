@@ -11,6 +11,7 @@ import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
+import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
@@ -26,7 +27,7 @@ interface RelicCardProps {
 
 export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Element => {
   const { relic, scoringCharacter, setSelectedRelicID, isSelected } = props
-  const excludedRelicPotentialCharacters = window.store((s) => s.excludedRelicPotentialCharacters)
+  const { excludedRelicPotentialCharacters } = useRelicsTabStore.getState()
   const { token } = theme.useToken()
   const { t } = useTranslation('relicsTab', { keyPrefix: 'RecentlyUpdatedRelics' })
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
@@ -39,7 +40,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
     return { score, potentialScore }
   }, [relic, scoringCharacter])
 
-  // Calculate top 3 characters for the relic
+  // Calculate top characters for the relic
   const topCharacters = useMemo(() => {
     const chars = window.DB.getMetadata().characters
 

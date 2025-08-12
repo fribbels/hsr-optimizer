@@ -7,6 +7,7 @@ import {
   Typography,
 } from 'antd'
 import chroma from 'chroma-js'
+import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
@@ -45,7 +46,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
     const chars = window.DB.getMetadata().characters
 
     return relic && (Object.keys(chars) as (keyof typeof chars)[])
-      .filter((id) => !excludedRelicPotentialCharacters.includes(id))
+      .filter((id) => !excludedRelicPotentialCharacters.includes(id) && !buffedCharacters[id])
       .map((id) => ({
         id,
         rarity: chars[id].rarity,

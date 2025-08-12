@@ -131,12 +131,6 @@ RelicGrid:
         Header: |-
           全 振り直し
           ポテンシャル
-    ComingSoon:
-      Label: 近日公開
-      SetsPotential:
-        Label: 遺物・オーナメントセットのポテンシャル
-        Header: |-
-          全キャラ 最大ポテンシャル+セット
 Toolbar:
   RelicLocator:
     Width: インベントリの幅

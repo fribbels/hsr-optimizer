@@ -99,6 +99,11 @@ Lightcones:
         text: 终结技后速度提高
         content: >-
           当装备者施放攻击后，每击中1名不同的敌方目标，恢复{{EnergyRecovered}}点能量，每次攻击最多通过该方式恢复3次能量。当装备者施放终结技后，使我方全体速度提高{{SpdBuff}}点，持续1回合。
+  EpochEtchedInGoldenBlood:
+    Content:
+      skillDmgBoost:
+        text: 战技伤害提高
+        content: 装备者对我方单体角色施放战技后，使目标造成的战技伤害提高{{DmgBuff}}%,持续3回合。
   EternalCalculus:
     Content:
       atkBuffStacks:
@@ -363,6 +368,14 @@ Lightcones:
         text: 溃败易伤
         content: >-
           当装备者对敌方目标造成击破伤害时，使敌方陷入【溃败】状态，持续2回合。【溃败】状态下目标受到装备者造成的击破伤害提高{{Vulnerability}}%，速度降低20%，同类效果无法叠加。
+  WhyDoesTheOceanSing:
+    Content:
+      dotVulnStacks:
+        text: 持续伤害易伤层数
+        content: 当有敌方目标陷入装备者施加的负面效果时，有80%的基础概率使其陷入【魂迷】状态，持续3回合。【魂迷】状态下，每有1个装备者施加的负面效果，受到的持续伤害提高{{DotVuln}}%，该效果最多叠加6层。
+      spdBuff:
+        text: 速度增益
+        content: 当有敌方目标陷入装备者施加的负面效果时，有80%的基础概率使其陷入【魂迷】状态，持续3回合。受到我方目标攻击时，使攻击者速度提高{{SpdBuff}}%，持续3回合。
   WorrisomeBlissful:
     Content:
       targetTameStacks:
@@ -605,6 +618,11 @@ Lightcones:
       memoCdBoost:
         text: 忆灵爆伤提升
         content: 装备者忆灵造成的暴击伤害额外提高{{CritDmgBuff}}%。
+  TheForeverVictual:
+    Content:
+      atkStacks:
+        text: 攻击力提升层数
+        content: 装备者施放战技后，攻击力提高{{AtkBuff}}%。持续3回合。
   TheGreatCosmicEnterprise:
     Content:
       weaknessTypes:
@@ -1059,6 +1077,42 @@ Characters:
         text: 6魂增益
         content: >-
           遐蝶与死龙造成伤害时，量子属性抗性穿透提高20%。:BR:触发天赋【灼掠幽墟的晦翼】的弹射次数额外增加3次。
+  Cerydra:
+    Content:
+      spdBuff:
+        text: 速度增益
+        content: 施放战技时，使自身和持有【军功】的队友速度提高20点，持续3回合。
+      crBuff:
+        text: 暴击率增益
+        content: 刻律德菈的暴击率提高100%。
+      atkToCd:
+        text: 攻击力转化至爆伤
+        content: 刻律德菈的攻击力大于2000时，每超过100点攻击力可使自身暴击伤害提高18%，最多提高360%。
+      e2DmgBoost:
+        text: 2魂伤害提高
+        content: 持有【军功】的角色造成的伤害提高40%。场上存在持有【军功】的队友时，刻律德菈造成的伤害提高160%。
+      e4UltDmg:
+        text: 4魂终结技伤害
+        content: 终结技的伤害倍率提高240%。
+      e6Buffs:
+        text: 6魂增益
+        content: 持有【军功】的角色全属性抗性穿透提高20%，且【军功】触发的附加伤害倍率提高300%。场上存在持有【军功】的队友时，刻律德菈全属性抗性穿透提高20%。
+    TeammateContent:
+      militaryMerit:
+        text: 军功
+        content: >-
+          施放战技时，使自身和持有【军功】的队友速度提高20点，持续3回合。::BR:: 持有【军功】的角色攻击力提高，提高数值等同于刻律德菈攻击力的{{TalentAtkConversion}}%。::BR::持有【军功】的角色造成伤害时无视目标16%的防御力。
+      peerage:
+        text: 爵位
+        content: >-
+          持有【爵位】的角色造成的战技伤害的暴击伤害提高{{SkillCdBuff}}%，全属性抗性穿透提高{{SkillResPenBuff}}%。::BR::1魂：若当前【军功】已升级为【爵位】，则该角色造成战技伤害时额外无视目标20%的防御力。
+      teammateATKValue:
+        text: 刻律德菈战斗时攻击力
+        content: >-
+          持有【军功】的角色攻击力提高，提高数值等同于刻律德菈攻击力的{{TalentAtkConversion}}%。::BR::设为刻律德菈用于为队友提供增益时的自身攻击力。
+      e1DefPen:
+        text: 1魂防御穿透
+        content: 持有【军功】的角色造成伤害时无视目标16%的防御力。若当前【军功】已升级为【爵位】，则该角色造成战技伤害时额外无视目标20%的防御力。
   Cipher:
     Content:
       vulnerability:
@@ -1371,6 +1425,38 @@ Characters:
       e6ResPen:
         text: 6魂属性抗性穿透
         content: 小伊卡在场时，我方全体目标的全属性抗性穿透提高20%。
+  Hysilens:
+    Content:
+      skillVulnerability:
+        text: 战技易伤
+        content: 海瑟音的战技有100%的基础概率使敌方全体受到的伤害提高{{SkillVuln}}%，持续3回合。
+      ultZone:
+        text: 终结技结界启动
+        content: 释放终结技时，海瑟音展开结界，使敌方目标攻击力降低15%，防御力降低{{ZoneDefShred}}%。
+      ultDotStacks:
+        text: 终结技持续伤害触发层数
+        content: 海瑟音施放终结技时，若敌方目标处于持续伤害状态，使其当前承受的所有持续伤害立即产生相当于原伤害150%的伤害。
+      ehrToDmg:
+        text: 效果命中转至伤害提高
+        content: 若海瑟音的效果命中高于60%，每超过10%可使自身造成的伤害提高15%，最多提高90%。
+      dotDetonation:
+        text: 引爆持续伤害（自动触发）
+        content: 海瑟音施放终结技时，若敌方目标处于持续伤害状态，使其当前承受的所有持续伤害立即产生相当于原伤害150%的伤害。
+      e1Buffs:
+        text: 1魂增益
+        content: >-
+          海瑟音在场时，我方目标造成的持续伤害为原伤害的116%。::BR::当海瑟音通过天赋使敌人陷入风化/裂伤/灼烧/触电状态时，有100%的基础概率额外使其陷入一次与原天赋效果相同，且可同时存在的风化/裂伤/灼烧/触电状态。
+      e4ResPen:
+        text: 4魂抗性穿透
+        content: 结界持续期间，使敌方全体全属性抗性降低20%。
+      e6Buffs:
+        text: 6魂增益
+        content: 结界持续期间，每回合开始时或我方目标单次攻击内，触发海瑟音物理持续伤害效果的次数上限提高至12次，且造成的伤害倍率提高20%。
+    TeammateContent:
+      e2TeammateEhr:
+        text: "2魂海瑟音战斗时效果命中"
+        content: >-
+          结界持续期间，行迹【珍珠的琴弦】的造成伤害提高效果对我方全体生效。::BR::【珍珠的琴弦】：若海瑟音的效果命中高于60%，每超过10%可使自身造成的伤害提高15%，最多提高90%。
   ImbibitorLunae:
     Content:
       basicEnhanced:
@@ -1673,7 +1759,7 @@ Characters:
       enhancedSkillType:
         text: 强化战技类型
         content: >-
-          卡厄斯兰可在2个强化战技中进行选择。::BR::【灾厄】：获得等同于敌方全体数量的【毁伤】，随后使敌方全体立即行动。上述敌方目标行动完毕后，立即发动反击。::BR::【支柱】：消耗最多 4 层【毁伤】。每消耗一层时，对1名随机敌人造成伤害。消耗4点【毁伤】时，再对所有敌人造成伤害。::BR::变身时，卡厄斯兰那获得4点【毁伤】。
+          卡厄斯兰可在2个强化战技中进行选择。::BR::【灾厄】：获得等同于敌方全体数量的【毁伤】，随后使敌方全体立即行动。上述敌方目标行动完毕后，立即发动反击。::BR::【支柱】：消耗最多 4 层【毁伤】。每消耗一层时造成4次伤害，每次对敌方随机单体造成伤害。消耗4点【毁伤】时，再对所有敌人造成伤害。::BR::变身时，卡厄斯兰那获得4点【毁伤】。
         options:
           Calamity:
             display: '战技：灾厄'

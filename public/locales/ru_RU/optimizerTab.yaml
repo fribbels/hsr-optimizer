@@ -51,6 +51,10 @@ OptimizerOptions:
     Label9: '+9'
     Label12: '+12'
     Label15: '+15'
+  DPSMode:
+    Header: Режим ДД
+    Main: Мейн
+    Sub: Саб
 AdvancedOptions:
   Header: Расширенные параметры
   CustomTracesButtonText: Настройка следов

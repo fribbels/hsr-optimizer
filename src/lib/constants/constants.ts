@@ -12,15 +12,13 @@ import {
 } from 'lib/simulations/tests/testMetadataConstants'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v3.5.6'
+export const CURRENT_OPTIMIZER_VERSION = 'v3.5.7'
 
 // Represents the beta data content version, used for display but not for update notifications
 export const CURRENT_DATA_VERSION = '3.5v5'
 
 const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
-export const CharacterAnnouncementMessages: Record<string, string> = {
-  [HYSILENS]: 'V5 - Enabled the E1 +16% DOT Final DMG buff',
-}
+export const CharacterAnnouncementMessages: Record<string, string> = {}
 
 export const Stats = {
   ATK_P: 'ATK%',
@@ -444,7 +442,7 @@ export const SetsOrnaments = {
 export const officialOnly = false
 const characters = gameData.characters
 const lightCones = gameData.lightCones
-export const UnreleasedSets: Record<string, boolean> = {}
+export const UnreleasedSets: Partial<Record<Sets, boolean>> = {}
 
 if (officialOnly) {
   // UnreleasedSets[SetsRelics.SacerdosRelivedOrdeal] = true

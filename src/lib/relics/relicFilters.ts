@@ -305,7 +305,7 @@ export const RelicFilters = {
     return relicsByPart
   },
 
-  condenseSingleRelicByPartSubstatsForOptimizer: (singleRelicByPart: SingleRelicByPart) => {
+  condenseSingleRelicByPartSubstatsForOptimizer: (singleRelicByPart: Partial<SingleRelicByPart>) => {
     for (const relic of Object.values(singleRelicByPart)) {
       RelicFilters.condenseRelicSubstatsForOptimizerSingle([relic])
     }

@@ -16,6 +16,9 @@ Import:
     BadMainstat: Không thể phân tích dòng chính cho di vật với dòng chính {{mainstat}} và phần {{part}}
   ParserWarning:
     BadRollInfo: Tệp scanner đã lỗi thời / có thể chứa thông tin không hợp lệ. Vui lòng cập nhật scanner của bạn
+  LiveImport:
+    AdvancedSettings:
+      WebsocketUrlReset: Đặt lại mặc định
   Stage1:
     Header: "Cài đặt và chạy một trong các tùy chọn scanner di vật:"
     ReliquaryDesc:

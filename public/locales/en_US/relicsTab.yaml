@@ -15,6 +15,13 @@ RelicFilterBar:
   RecommendationHeader: Relic recommendation character
   Rating: Relic ratings
   CustomCharsHeader: Custom potential characters
+RecentlyUpdatedRelics:
+  Header: Recently updated relics
+  Potential: POTENTIAL
+  Avg: AVG
+  Max: MAX
+  BestFor: BEST FOR
+  Tooltip: Average and maximum potential scores for this character
 Messages:
   AddRelicSuccess: Successfully added relic
   NoRelicSelected: No relic selected
@@ -62,32 +69,32 @@ RelicGrid:
     SelectedCharacter:
       Label: Selected character
       ScoreCol:
-        Label: "Selected character: Score"
+        Label: 'Selected character: Score'
         Header: |-
           Selected Char
           Score
       AvgPotCol:
-        Label: "Selected character: Average potential"
+        Label: 'Selected character: Average potential'
         Header: |-
           Selected Char
           Avg Potential
       MaxPotCol:
-        Label: "Selected character: Max potential"
+        Label: 'Selected character: Max potential'
         Header: |-
           Selected Char
           Max Potential
       RerollAvg:
-        Label: "Selected character: Reroll average potential"
+        Label: 'Selected character: Reroll average potential'
         Header: |-
           Selected Char
           Reroll Avg
       RerollAvgDelta:
-        Label: "Selected character: Reroll average delta potential"
+        Label: 'Selected character: Reroll average delta potential'
         Header: |-
           Selected Char
           Δ Reroll Avg
       RerollAvgEquippedDelta:
-        Label: "Selected character: Reroll average delta potential vs equipped"
+        Label: 'Selected character: Reroll average delta potential vs equipped'
         Header: |-
           Selected Char
           ∆ Reroll AVG
@@ -95,62 +102,57 @@ RelicGrid:
     CustomCharacters:
       Label: Custom characters
       AvgPotCol:
-        Label: "Custom characters: Average potential"
+        Label: 'Custom characters: Average potential'
         Header: |-
           Custom Chars
           Avg Potential
       MaxPotCol:
-        Label: "Custom characters: Max potential"
+        Label: 'Custom characters: Max potential'
         Header: |-
           Custom Chars
           Max Potential
       RerollAvg:
-        Label: "Custom characters: Average reroll potential"
+        Label: 'Custom characters: Average reroll potential'
         Header: |-
           Custom Chars
           Avg Reroll
     AllCharacters:
       Label: All characters
       AvgPotCol:
-        Label: "All characters: Average potential"
+        Label: 'All characters: Average potential'
         Header: |-
           All Chars
           Avg Potential
       MaxPotCol:
-        Label: "All characters: Max potential"
+        Label: 'All characters: Max potential'
         Header: |-
           All Chars
           Max Potential
       RerollAvg:
-        Label: "All characters: Average reroll potential"
+        Label: 'All characters: Average reroll potential'
         Header: |-
           All Chars
           Avg Reroll
-    ComingSoon:
-      Label: Coming soon
-      SetsPotential:
-        Label: Relic / Ornament sets potential
-        Header: |-
-          All Chars
-          Max Potential + Sets
 Toolbar:
   RelicLocator:
     Width: Inventory width
     Filter: Auto filter rows
     NoneSelected: Select a relic to locate
-    Location: "Location - Row {{rowIndex}} / Col {{columnIndex}}"
+    Location: 'Location - Row {{rowIndex}} / Col {{columnIndex}}'
   InsightOptions:
-    Buckets: "Relic Insight: Buckets"
-    Top10: "Relic Insight: Top 10"
+    Buckets: 'Relic Insight: Buckets'
+    Top10: 'Relic Insight: Top 10'
   PlotOptions:
     PlotAll: Show all characters
     PlotCustom: Show custom characters
+    PlotOwned: Show owned characters
   EditRelic: Edit relic
   DeleteRelic:
     ButtonText: Delete relic
     Warning_one: Delete the selected relic?
-    Warning_other: "Delete the {{count}} selected relics?"
+    Warning_other: 'Delete the {{count}} selected relics?'
   AddRelic: Add New Relic
 RelicInsights:
-  NewStats: "New stats: "
-  UpgradedStats: "Upgraded stats: "
+  NewStats: 'New stats: '
+  UpgradedStats: 'Upgraded stats: '
+  AvgPotential: 'Average potential: '

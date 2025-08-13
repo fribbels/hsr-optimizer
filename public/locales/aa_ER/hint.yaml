@@ -47,15 +47,16 @@ Actions:
   p4: crwdns41846:0crwdne41846:0
 OptimizerOptions:
   Title: crwdns41848:0crwdne41848:0
-  p1: >-
-    crwdns41850:0crwdne41850:0
-  p2: >-
-    crwdns41852:0crwdne41852:0
-  p3: crwdns41854:0crwdne41854:0
-  p4: crwdns41856:0crwdne41856:0
-  p5: "crwdns41858:0crwdne41858:0"
-  p6: crwdns41860:0crwdne41860:0
-  p7: crwdns41862:0crwdne41862:0
+  PriorityFilter: >-
+    crwdns45872:0crwdne45872:0
+  BoostMain: >-
+    crwdns45874:0crwdne45874:0
+  KeepCurrent: crwdns45876:0crwdne45876:0
+  AllowEquipped: crwdns45878:0crwdne45878:0
+  Priority: "crwdns45880:0crwdne45880:0"
+  Exclude: crwdns45882:0crwdne45882:0
+  Enhance: crwdns45884:0crwdne45884:0
+  DPSMode: crwdns45886:0crwdne45886:0
 Relics:
   Title: crwdns41864:0crwdne41864:0
   p1: >-
@@ -63,7 +64,7 @@ Relics:
   p2: "crwdns41868:0crwdne41868:0"
   p3: "crwdns41870:0crwdne41870:0"
   p4: "crwdns41872:0crwdne41872:0"
-  p5: "crwdns41874:0crwdne41874:0"
+  p5: 'crwdns41874:0crwdne41874:0'
 OptimizationDetails:
   Title: crwdns41876:0crwdne41876:0
   p1: crwdns41878:0crwdne41878:0
@@ -98,7 +99,7 @@ ValueColumns:
   p3: crwdns41926:0crwdne41926:0
   p4: crwdns41928:0crwdne41928:0
   p5: crwdns41930:0crwdne41930:0
-  p6: "crwdns41932:0crwdne41932:0"
+  p6: 'crwdns41932:0crwdne41932:0'
 RelicInsights:
   Title: crwdns41934:0crwdne41934:0
   p1: crwdns41936:0crwdne41936:0

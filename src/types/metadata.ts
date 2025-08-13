@@ -25,17 +25,17 @@ export type ShowcaseTemporaryOptions = {
 }
 
 export type ScoringMetadata = {
-  stats: Record<SubStats, number> & Partial<Record<'headHands' | 'bodyFeet' | 'sphereRope', number>>,
-  parts: Record<Exclude<Parts, typeof Parts.Head | typeof Parts.Hands>, MainStats[]>,
-  presets: PresetDefinition[],
-  sortOption: SortOptionProperties,
-  hiddenColumns: SortOptionProperties[],
-  addedColumns?: SortOptionProperties[],
-  simulation?: SimulationMetadata,
-  traces?: {
-    deactivated: string[],
-  },
-  modified?: boolean,
+  /*      stat score      */ characterId?: CharacterId,
+  /*      stat score      */ modified?: boolean,
+  /*      stat score      */ parts: Record<Exclude<Parts, typeof Parts.Head | typeof Parts.Hands>, MainStats[]>,
+  /*      stat score      */ sets: Partial<Record<Sets, number>>,
+  /* stat score/optimizer */ stats: Record<SubStats, number> & Partial<Record<'headHands' | 'bodyFeet' | 'sphereRope', number>>,
+  /*      optimizer       */ presets: PresetDefinition[],
+  /*      optimizer       */ sortOption: SortOptionProperties,
+  /*      optimizer       */ hiddenColumns: SortOptionProperties[],
+  /*      optimizer       */ addedColumns?: SortOptionProperties[],
+  /* optimizer/dps score  */ traces?: { deactivated: string[] },
+  /*      dps score       */ simulation?: SimulationMetadata,
 }
 
 export type SimulationMetadata = {

@@ -62,33 +62,33 @@ RelicGrid:
     SelectedCharacter:
       Label: Char selecionado
       ScoreCol:
-        Label: "Char selecionado: Pontuação"
+        Label: 'Char selecionado: Pontuação'
         Header: |-
           Char Selecionado
           Pontuação
       AvgPotCol:
-        Label: "Char selecionado: Potencial médio"
+        Label: 'Char selecionado: Potencial médio'
         Header: |-
           Char Selecionado
           Potencial médio
       MaxPotCol:
-        Label: "Char selecionado: Potencial max."
+        Label: 'Char selecionado: Potencial max.'
         Header: |-
           Char selecionado
           Potencial Max.
       RerollAvg:
-        Label: "Personagem selecionado: Potencial médio de Reroll"
+        Label: 'Personagem selecionado: Potencial médio de Reroll'
         Header: |-
           Char Selecionado
           Méd. Reroll
 
       RerollAvgDelta:
-        Label: "Personagem selecionado: Potencial médio de reroll Δ"
+        Label: 'Personagem selecionado: Potencial médio de reroll Δ'
         Header: |-
           Chars Selecionados
           Média Reroll Δ
       RerollAvgEquippedDelta:
-        Label: "Personagem selecionado: Potencial delta médio de reroll vs equipado"
+        Label: 'Personagem selecionado: Potencial delta médio de reroll vs equipado'
         Header: |-
           Personagem Selecionado
           Média ∆ Reroll
@@ -96,53 +96,46 @@ RelicGrid:
     CustomCharacters:
       Label: Personagens selecionados
       AvgPotCol:
-        Label: "Chars selecionados: Potencial Médio"
+        Label: 'Chars selecionados: Potencial Médio'
         Header: |-
           Chars Selecionados
           Potencial Médio
       MaxPotCol:
-        Label: "Chars selecionados: Potencial max."
+        Label: 'Chars selecionados: Potencial max.'
         Header: |-
           Chars Selecionados
           Potencial Max.
       RerollAvg:
-        Label: "Personagens custom: Potencial médio de reroll"
+        Label: 'Personagens custom: Potencial médio de reroll'
         Header: |-
           Chars Custom
           Reroll Médio
     AllCharacters:
       Label: Todos os personagens
       AvgPotCol:
-        Label: "Todos Chars: Potencial Médio"
+        Label: 'Todos Chars: Potencial Médio'
         Header: |-
           Todos Chars
           Potencial Médio
       MaxPotCol:
-        Label: "Todos Chars: Potencial Máximo"
+        Label: 'Todos Chars: Potencial Máximo'
         Header: |-
           Todos Chars
           Potencial Máximo
       RerollAvg:
-        Label: "Todos personagens: Potencial médio de reroll"
+        Label: 'Todos personagens: Potencial médio de reroll'
         Header: |-
           Todos Chars
           Reroll Médio
-    ComingSoon:
-      Label: Em breve
-      SetsPotential:
-        Label: Conjunto Relíquia / Ornamento potencial
-        Header: |-
-          Todos Chars
-          Potencial Max. + Sets
 Toolbar:
   RelicLocator:
     Width: Largura do inventário
     Filter: Filtrar automaticamente linhas
     NoneSelected: Selecione uma relíquia para localizar
-    Location: "Localização - Lin. {{rowIndex}} / Col. {{columnIndex}}"
+    Location: 'Localização - Lin. {{rowIndex}} / Col. {{columnIndex}}'
   InsightOptions:
-    Buckets: "Análise de Relíquia: Buckets"
-    Top10: "Análise de Relíquia: Top 10"
+    Buckets: 'Análise de Relíquia: Buckets'
+    Top10: 'Análise de Relíquia: Top 10'
   PlotOptions:
     PlotAll: Mostrar todos os personagens
     PlotCustom: Mostrar personagens selecionados
@@ -150,8 +143,8 @@ Toolbar:
   DeleteRelic:
     ButtonText: Deletar relíquia
     Warning_one: Deletar a relíquia selecionada?
-    Warning_other: "Deletar as {{count}} relíquias selecionadas?"
+    Warning_other: 'Deletar as {{count}} relíquias selecionadas?'
   AddRelic: Adicionar Nova Relíquia
 RelicInsights:
-  NewStats: "Novos  atributos: "
-  UpgradedStats: "Atributos  melhorados: "
+  NewStats: 'Novos  atributos: '
+  UpgradedStats: 'Atributos  melhorados: '

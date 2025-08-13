@@ -90,6 +90,10 @@ OptimizerOptions:
     Label9: 'crwdns42780:0crwdne42780:0'
     Label12: 'crwdns42782:0crwdne42782:0'
     Label15: 'crwdns42784:0crwdne42784:0'
+  DPSMode:
+    Header: crwdns45888:0crwdne45888:0
+    Main: crwdns45890:0crwdne45890:0
+    Sub: crwdns45892:0crwdne45892:0
 AdvancedOptions:
   Header: crwdns42786:0crwdne42786:0
   EnemyConfigButtonText: crwdns42788:0crwdne42788:0

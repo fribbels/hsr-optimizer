@@ -207,47 +207,53 @@ export const Hint = {
         return (
           <Flex vertical gap={10}>
             <p>
-              <Trans t={t} i18nKey='p1'>
+              <Trans t={t} i18nKey='AllowEquipped'>
+                <strong>Allow equipped relics</strong>
+                - When enabled, the optimizer will allow using currently equipped by a character for the search. Otherwise equipped relics are excluded
+              </Trans>
+            </p>
+            <p>
+              <Trans t={t} i18nKey='PriorityFilter'>
                 <strong>Character priority filter</strong>
                 - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by
                 higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.
               </Trans>
             </p>
             <p>
-              <Trans t={t} i18nKey='p2'>
+              <Trans t={t} i18nKey='KeepCurrent'>
+                <strong>Keep current relics</strong>
+                - The character must use its currently equipped items, and the optimizer will try to fill in empty slots
+              </Trans>
+            </p>
+            <p>
+              <Trans t={t} i18nKey='Priority'>
+                <strong>Priority</strong>
+                - See: Character priority filter. Changing this setting will change the character's priority
+              </Trans>
+            </p>
+            <p>
+              <Trans t={t} i18nKey='Exclude'>
+                <strong>Exclude</strong>
+                - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter
+              </Trans>
+            </p>
+            <p>
+              <Trans t={t} i18nKey='Enhance'>
+                <strong>Enhance / rarity</strong>
+                - Select the minimum enhance to search for and minimum stars for relics to include
+              </Trans>
+            </p>
+            <p>
+              <Trans t={t} i18nKey='BoostMain'>
                 <strong>Boost main stat</strong>
                 - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats
                 are not changed accordingly, so builds with lower level relics may be stronger once you level them.
               </Trans>
             </p>
             <p>
-              <Trans t={t} i18nKey='p3'>
-                <strong>Keep current relics</strong>
-                - The character must use its currently equipped items, and the optimizer will try to fill in empty slots
-              </Trans>
-            </p>
-            <p>
-              <Trans t={t} i18nKey='p4'>
-                <strong>Include equipped relics</strong>
-                - When enabled, the optimizer will allow using currently equipped by a character for the search. Otherwise equipped relics are excluded
-              </Trans>
-            </p>
-            <p>
-              <Trans t={t} i18nKey='p5'>
-                <strong>Priority</strong>
-                - See: Character priority filter. Changing this setting will change the character's priority
-              </Trans>
-            </p>
-            <p>
-              <Trans t={t} i18nKey='p6'>
-                <strong>Exclude</strong>
-                - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter
-              </Trans>
-            </p>
-            <p>
-              <Trans t={t} i18nKey='p7'>
-                <strong>Enhance / grade</strong>
-                - Select the minimum enhance to search for and minimum stars for relics to include
+              <Trans t={t} i18nKey='DPSMode'>
+                <strong>DPS mode</strong>
+                - Select whether the character should be the primary target for supportive buffs (Main DPS) or not (Sub DPS) for optimizer stat calculations
               </Trans>
             </p>
           </Flex>

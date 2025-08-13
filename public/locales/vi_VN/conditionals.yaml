@@ -90,6 +90,10 @@ Lightcones:
         text: Buff SPD sau khi sử dụng tuyệt kỹ
         content: >-
           Sau khi người trang bị tấn công, mỗi khi đánh trúng một kẻ địch khác nhau, sẽ hồi {{EnergyRecovered}} Năng Lượng, tối đa hồi năng lượng 3 lần bằng cách này. Sau khi người trang bị thi triển Tuyệt Kỹ, sẽ khiến toàn bộ phe ta tăng {{SpdBuff}} tốc độ, duy trì 1 hiệp.
+  EpochEtchedInGoldenBlood:
+    Content:
+      skillDmgBoost:
+        text: Tăng Sát Thương Chiến Kỹ
   EternalCalculus:
     Content:
       atkBuffStacks:
@@ -326,6 +330,10 @@ Lightcones:
         text: Điểm yếu được định tuyến
         content: >-
           Khi người trang bị gây Sát Thương Phá Vỡ cho kẻ địch, sẽ khiến kẻ địch rơi vào trạng thái Thảm Bại, duy trì 2 hiệp. Ở trạng thái Thảm Bại, Sát Thương Phá Vỡ mục tiêu phải chịu do người trang bị gây ra tăng {{Vulnerability}}%, Tốc Độ giảm 20%. Hiệu ứng cùng loại không thể cộng dồn.
+  WhyDoesTheOceanSing:
+    Content:
+      spdBuff:
+        text: Tăng Tốc Độ
   WorrisomeBlissful:
     Content:
       targetTameStacks:
@@ -537,6 +545,10 @@ Lightcones:
       cdBuffActive:
         text: '≥ 2 kẻ địch có điểm yếu thuộc tính tương ứng tăng STBK'
         content: Sau khi người trang bị tấn công, nếu có từ 2 kẻ địch bị tấn công trở lên mang Điểm Yếu thuộc tính tương ứng, thì Sát Thương Bạo Kích của người trang bị tăng {{CritBuff}}%, duy trì 2 hiệp.
+  TheForeverVictual:
+    Content:
+      atkStacks:
+        text: Các cộng dồn buff ATK
   TheMolesWelcomeYou:
     Content:
       atkBuffStacks:
@@ -919,6 +931,17 @@ Characters:
         text: Tăng Sát Thương Đội
       e6Buffs:
         text: E6 Tăng Gì Đó
+  Cerydra:
+    Content:
+      spdBuff:
+        text: Tăng Tốc Độ
+      e2DmgBoost:
+        text: E2 Tăng Sát Thương
+      e6Buffs:
+        text: E6 Tăng Gì Đó
+    TeammateContent:
+      e1DefPen:
+        text: E1 Xuyên Phòng Thủ
   Cipher:
     Content:
       skillAtkBuff:
@@ -1184,6 +1207,12 @@ Characters:
       e6DmgBuff:
         text: E6 Tăng Sát Thương
         content: Khi cung cấp trị liệu cho mục tiêu phe ta, khiến Sát Thương do mục tiêu gây ra tăng 50%, duy trì 2 hiệp.
+  Hysilens:
+    Content:
+      ehrToDmg:
+        text: Chính Xác Hiệu Ứng sang Sát Thương Tăng
+      e6Buffs:
+        text: E6 Tăng Gì Đó
   ImbibitorLunae:
     Content:
       basicEnhanced:

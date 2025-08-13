@@ -1,3 +1,7 @@
+Scoring:
+  StatWeightsHeader: Pesi statistiche
+  Footer:
+    Reset: Ripristina predefinito
 0Perms:
   Title: La ricerca ha generato 0 permutazioni
   Description: Questo significa che i tuoi filtri sono mal configurati o troppo restrittivi, e nessuna possibilità corrisponde ai filtri. Le permutazioni sono mostrate sulla barra laterale.
@@ -12,22 +16,51 @@
   RootCauses:
     MAX_EHP:
       SuccessMessage: "Filtro PVE Massimi Reimpostato"
-      ButtonText: "Filtro PVE Massimi Reimpostato"
+      ButtonText: "Reimposta Filtro PVE Massimi"
     MIN_EHP:
       SuccessMessage: "Filtro PVE Minimi Reimpostato"
-      ButtonText: "Filtro PVE Minimi Reimpostato"
+      ButtonText: "Reimposta Filtro PVE Minimi"
     MAX_COMBO:
       SuccessMessage: "Filtro Combo Massima reimpostato"
-      ButtonText: "Filtro Combo Massima reimpostato"
+      ButtonText: "Reimposta Filtro Combo Massima"
     MIN_COMBO:
       SuccessMessage: "Filtro Combo Minima reimpostato"
-      ButtonText: "Filtro Combo Minima reimpostato"
+      ButtonText: "Reimposta Filtro Combo Minima"
 EditCharacter:
-  Character: Personaggi
+  EidolonButton: >-
+    $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
+  SuperimpositionButton: >-
+    $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
+  Character: Personaggio
+  Lightcone: Cono di luce
 Relic:
+  Part: Pezzo
+  Substat: Statistiche secondarie
   SubstatPlaceholder: Statistica secondaria
   Messages:
     EditSuccess: Reliquia modificata con successo
+EditImage:
+  Upload:
+    Title: Fornisci un'immagine
+    Radio:
+      Upload: Carica immagine
+      Url: Inserisci URL immagine
+      Default: Usa l'immagine predefinita
+    Upload:
+      Method: Clicca o trascina un file immagine in quest'area per caricarlo
+      Limit: "Accetta .jpg .jpeg .png .gif (Massimo: 20MB)"
+    Url:
+      Label: Immagine
+  Edit:
+    Title: Ritaglia l'immagine
+    Zoom: Ingrandisci
+    Drag: Trascina per muovere
+    Pinch: Pizzica o scorri per ingrandire
+    ArtBy: "(Opzionale) Immagine di:"
+    CreditPlaceholder: Dai credito all'artista se possibile
+  Footer:
+    Previous: Indietro
+    Next: Avanti
 Builds:
   ConfirmEquip:
     SuccessMessage: "Build equipaggiata con successo: {{buildName}}"
@@ -37,7 +70,19 @@ Builds:
 ScoreFooter:
   ResetSuccessMsg: Squadra predefinita ripristinata
   SyncSuccessMsg: Compagni di squadra sincronizzati
+  TeamOptions:
+    Default: Predefinito
+    Custom: Personalizzato
 CharacterSelect:
+  MultiSelect:
+    Placeholder: Personalizza personaggi
+    ModalTitle: Seleziona personaggi da escludere
   SingleSelect:
-    Placeholder: Personaggi
+    Placeholder: Personaggio
+    ModalTitle: Seleziona un personaggio
   SearchPlaceholder: Cerca personaggio
+  ExcludeButton: Escludi tutti
+  ClearButton: Cancella
+LightconeSelect:
+  Placeholder: Cono di luce
+  Title: Seleziona un cono di luce

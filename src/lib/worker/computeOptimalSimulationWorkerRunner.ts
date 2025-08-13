@@ -5,7 +5,7 @@ import {
 } from 'lib/scoring/simScoringUtils'
 import {
   Simulation,
-  StatSimulationTypes,
+  SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
 import {
   BaseWorkerInput,
@@ -19,8 +19,8 @@ import { OptimizerContext } from 'types/optimizer'
 
 export interface ComputeOptimalSimulationWorkerInput extends BaseWorkerInput {
   partialSimulationWrapper: PartialSimulationWrapper
-  inputMinSubstatRollCounts: StatSimulationTypes
-  inputMaxSubstatRollCounts: StatSimulationTypes
+  inputMinSubstatRollCounts: SubstatCounts
+  inputMaxSubstatRollCounts: SubstatCounts
   simulationForm: Form
   context: OptimizerContext
   metadata: SimulationMetadata

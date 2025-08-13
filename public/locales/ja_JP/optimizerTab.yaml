@@ -65,7 +65,7 @@ OptimizerOptions:
     Header: 優先順位
     Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
-  AllowEquipped: 装備された遺物を含める
+  AllowEquipped: 別キャラの遺物を含める
   KeepCurrent: 装備済みの遺物を保持
   Exclude: 除外
   MinEnhance:
@@ -90,6 +90,10 @@ OptimizerOptions:
     Label9: '+9'
     Label12: '+12'
     Label15: '+15'
+  DPSMode:
+    Header: アタッカーの型
+    Main: メイン
+    Sub: サブ
 AdvancedOptions:
   Header: 高度な設定
   EnemyConfigButtonText: 敵の設定
@@ -223,11 +227,11 @@ Sidebar:
     Pin: ピン留め
     Clear: ピン解除
 TeammateRow:
-  Header: 'チームメイト {{teammateCount}}'
+  Header: 'チーム編成 {{teammateCount}}'
 FormRowLabels:
   Character options: キャラクター設定
   Relic & stat filters: 遺物とステータスのフィルター
-  Teammates: チームメイト
+  Teammates: チーム編成
   Character custom stats simulation: カスタムステータスシミュレーション
   Analysis: 最適化結果分析
 TracesDrawer:
@@ -293,6 +297,9 @@ SetConditionals:
     Sacerdos:
       Display: '{{stackCount}}層'
       Label: '{{stackCount}}層（会心ダメージ+{{buffValue}}%）'
+    Arcadia:
+      Display: '{{allyCount}}層'
+      Label: '{{allyCount}}人の味方（与ダメージ+{{buffValue}}%）'
   Conditionals:
     DefaultMessage: デフォルトで有効 - セット効果を戦闘計算に反映します。
     Hunter: 有効にすると、会心ダメージバフを戦闘ステータス計算に反映します。
@@ -320,6 +327,7 @@ SetConditionals:
     Kalpagni: 有効にすると、撃破特効バフを戦闘ステータス計算に反映します。
     Lushaka: デフォルトで無効 - このセットは装備キャラに影響を与えません。
     Banana: 有効にすると、さらに32%の会心ダメージを戦闘ステータス計算に反映します。
+    Arcadia: 選択したバフを戦闘ステータス計算に反映します。チーム編成を変更すると、自動的に更新されます。
 Presets:
   SpdValues:
     SPD0: 速度の指定なし
@@ -451,7 +459,7 @@ TeammateCard:
   SuperimpositionPlaceholder: 重畳
   RelicsPlaceholder: 遺物
   OrnamentsPlaceholder: オーナメント
-  TeammateSyncSuccessMessage: チームメイトを同期しました
+  TeammateSyncSuccessMessage: チーム編成を同期しました
   TeammateSets:
     Messenger:
       Desc: '4セット：$t(gameData:RelicSets.114.Name)（速度+12%）'

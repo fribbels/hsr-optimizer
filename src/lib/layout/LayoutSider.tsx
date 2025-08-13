@@ -21,6 +21,10 @@ export function LayoutSider() {
       width={170}
       style={{
         background: token.colorBgContainer,
+        height: '100vh',
+        position: 'sticky',
+        top: 0,
+        overflow: 'hidden',
       }}
       collapsible
       collapsedWidth={48}
@@ -29,9 +33,12 @@ export function LayoutSider() {
     >
       <div
         style={{
-          position: 'sticky',
-          top: 0,
+          height: '100%',
+          overflowY: 'auto',
+          scrollbarWidth: 'none', // Firefox
+          msOverflowStyle: 'none', // IE/Edge
         }}
+        className="layout-sider-scroll"
       >
         <MenuDrawer />
       </div>

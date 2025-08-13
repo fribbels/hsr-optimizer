@@ -1,9 +1,39 @@
+Title: Generatore Benchmark
+LeftPanel:
+  Header: Benchmark
 MiddlePanel:
-  CharacterHeader: Personaggi
+  CharacterHeader: Personaggio
+  LCHeader: Cono di Luce
+  TeammatesHeader: Compagni di squadra
 RightPanel:
   Settings:
     Header: Impostazioni
+    SPD: VEL base del benchmark
+    ERR: Corda di rigen. energia
+    SubDPS: DPS secondario
+  SetsHeader: Set del benchmark
+  ButtonText:
+    Generate: Genera benchmark
+    Clear: Cancella
 ResultsGrid:
-  Combo: DANNO della combo
+  Combo: DANNI Combo
+  Delta: Delta
+  Sets: Set
+ResultsTabs:
+  WithSpeed:
+    100: Build benchmark 100% ({{Speed}} VEL)
+    200: Build benchmark 200% ({{Speed}} VEL)
+  WithoutSpeed:
+    100: Build benchmark 100%
+    200: Build benchmark 200%
 ResultsPanel:
-  CombatStats: Statistiche in battaglia
+  BasicStats: Statistiche Base
+  CombatStats: Stat Combat
+  Rolls: Roll Stat. Secondarie
+  Combo: Rotazione Combo
+  Damage: Danni Abilità
+Messages:
+  Error:
+    MissingField: Personaggio/cono di luce/compagni di squadra mancanti
+    UnsupportedCharacter: I benchmark DPS non sono supportati per questo personaggio
+    SPDUnselected: Seleziona la VEL base del benchmark

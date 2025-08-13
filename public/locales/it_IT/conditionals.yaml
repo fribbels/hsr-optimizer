@@ -1,1 +1,35 @@
 BetaMessage: 'Versione attuale: {{Version}} - I calcoli sono soggetti a modifiche.'
+Common:
+  BuffPriority:
+    Text: 'Bersaglio prioritario del buff'
+    Content: 'Seleziona il bersaglio preferito per buff a bersaglio singolo'
+    Self: 'Priorità buff: Sé stesso'
+    Memo: 'Priorità buff: Memo'
+Lightcones:
+  MayRainbowsRemainInTheSky:
+    Content:
+      vulnerability:
+        text: Vulnerabilità
+  HolidayThermaeEscapade:
+    Content:
+      vulnerability:
+        text: Vulnerabilità
+  JourneyForeverPeaceful:
+    Content:
+      shieldBoost:
+        text: Aumento scudo
+Characters:
+  Archer:
+    Content:
+      e6Buffs:
+        text: E6 buff
+  Castorice:
+    Content:
+      memospriteActive:
+        text: Memosprite attivo
+      spdBuff:
+        text: Buff VEL
+      e1EnemyHp50:
+        text: E1 PV nemico ≤ 50%
+      e6Buffs:
+        text: E6 buff

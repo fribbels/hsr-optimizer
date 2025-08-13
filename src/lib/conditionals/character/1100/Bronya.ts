@@ -73,9 +73,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const teammateDefaults = {
     ...defaults,
-    ...{
-      teammateCDValue: 2.50,
-    },
+    e2SkillSpdBuff: true,
+    teammateCDValue: 2.50,
   }
 
   const content: ContentDefinition<typeof defaults> = {

@@ -37,26 +37,56 @@ import {
   ALONG_THE_PASSING_SHORE,
   AVENTURINE,
   BLACK_SWAN,
+  BRONYA,
+  BUT_THE_BATTLE_ISNT_OVER,
+  CASTORICE,
   CIPHER,
   DANCE_DANCE_DANCE,
   EARTHLY_ESCAPADE,
+  FEIXIAO,
+  FIREFLY,
   FLOWING_NIGHTGLOW,
+  FUGUE,
   HUOHUO,
+  HYACINE,
+  I_VENTURE_FORTH_TO_HUNT,
+  IF_TIME_WERE_A_FLOWER,
   INHERENTLY_UNJUST_DESTINY,
+  INTO_THE_UNREACHABLE_VEIL,
+  JADE,
+  JIAOQIU,
   KAFKA,
   KAFKA_B1,
   LIES_DANCE_ON_THE_BREEZE,
+  LINGSHA,
+  LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+  LONG_ROAD_LEADS_HOME,
   LUOCHA,
+  MAKE_FAREWELLS_MORE_BEAUTIFUL,
+  MEMORIES_OF_THE_PAST,
+  MEMORYS_CURTAIN_NEVER_FALLS,
   MULTIPLICATION,
   NIGHT_OF_FRIGHT,
+  PAST_SELF_IN_MIRROR,
   PATIENCE_IS_ALL_YOU_NEED,
   PHAINON,
+  QUID_PRO_QUO,
   REFORGED_REMEMBRANCE,
   ROBIN,
+  RUAN_MEI,
+  SCENT_ALONE_STAYS_TRUE,
   SPARKLE,
+  STELLE_REMEMBRANCE,
   SUNDAY,
+  THE_HERTA,
+  THOSE_MANY_SPRINGS,
   THUS_BURNS_THE_DAWN,
   TINGYUN,
+  TOPAZ_NUMBY,
+  TRIBBIE,
+  WHEREABOUTS_SHOULD_DREAMS_REST,
+  WORRISOME_BLISSFUL,
+  YET_HOPE_IS_PRICELESS,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -70,6 +100,16 @@ import {
 
 const characters: Record<string, DBMetadataCharacter> = gameData.characters as unknown as Record<string, DBMetadataCharacter>
 const lightCones: Record<string, DBMetadataLightCone> = gameData.lightCones as unknown as Record<string, DBMetadataLightCone>
+
+const MATCH_2P_WEIGHT = 0.75
+const T2_WEIGHT = 0.9
+
+function weights<K extends string>(sets: K[], weight: number = 1) {
+  return sets.reduce((acc, set) => {
+    acc[set] = weight
+    return acc
+  }, {} as Record<K, number>)
+}
 
 const RELICS_2P_BREAK_EFFECT_SPEED = [
   Sets.MessengerTraversingHackerspace,
@@ -93,6 +133,30 @@ const RELICS_2P_ATK = [
   Sets.HeroOfTriumphantSong,
 ]
 
+const SPREAD_RELICS_2P_SPEED_WEIGHTS = {
+  [Sets.WarriorGoddessOfSunAndThunder]: MATCH_2P_WEIGHT,
+  [Sets.MessengerTraversingHackerspace]: MATCH_2P_WEIGHT,
+  [Sets.SacerdosRelivedOrdeal]: MATCH_2P_WEIGHT,
+}
+
+const SPREAD_RELICS_2P_BREAK_WEIGHTS = {
+  [Sets.ThiefOfShootingMeteor]: MATCH_2P_WEIGHT,
+  [Sets.WatchmakerMasterOfDreamMachinations]: MATCH_2P_WEIGHT,
+  [Sets.IronCavalryAgainstTheScourge]: MATCH_2P_WEIGHT,
+}
+
+const SPREAD_RELICS_2P_ATK_WEIGHTS = {
+  [Sets.MusketeerOfWildWheat]: MATCH_2P_WEIGHT,
+  [Sets.PrisonerInDeepConfinement]: MATCH_2P_WEIGHT,
+  [Sets.TheWindSoaringValorous]: MATCH_2P_WEIGHT,
+  [Sets.HeroOfTriumphantSong]: MATCH_2P_WEIGHT,
+}
+
+const SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS = {
+  ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+  [Sets.ScholarLostInErudition]: MATCH_2P_WEIGHT,
+}
+
 const SPREAD_RELICS_4P_GENERAL_CONDITIONALS = [
   [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
   [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
@@ -106,6 +170,8 @@ const SPREAD_ORNAMENTS_2P_FUA = [
   Sets.InertSalsotto,
 ]
 
+const SPREAD_ORNAMENTS_2P_FUA_WEIGHTS = weights(SPREAD_ORNAMENTS_2P_FUA)
+
 const SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS = [
   Sets.SigoniaTheUnclaimedDesolation,
   Sets.ArcadiaOfWovenDreams,
@@ -117,6 +183,8 @@ const SPREAD_ORNAMENTS_2P_ENERGY_REGEN = [
   Sets.LushakaTheSunkenSeas,
 ]
 
+const SPREAD_ORNAMENTS_2P_ENERGY_REGEN_WEIGHTS = weights(SPREAD_ORNAMENTS_2P_ENERGY_REGEN)
+
 const SPREAD_ORNAMENTS_2P_SUPPORT = [
   Sets.SprightlyVonwacq,
   Sets.BrokenKeel,
@@ -126,6 +194,8 @@ const SPREAD_ORNAMENTS_2P_SUPPORT = [
   Sets.ForgeOfTheKalpagniLantern,
   Sets.GiantTreeOfRaptBrooding,
 ]
+
+const SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS = weights(SPREAD_ORNAMENTS_2P_SUPPORT)
 
 export const Metadata = {
   initialize: () => {
@@ -1537,6 +1607,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.KnightOfPurityPalace]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.BelobogOfTheArchitects]: 1,
+      },
       presets: [
         PresetEffects.VALOROUS_SET,
         PresetEffects.WARRIOR_SET,
@@ -1577,6 +1654,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
+
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
@@ -1626,20 +1715,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // BTBIO
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -1678,6 +1767,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.TheAshblazingGrandDuke]: 1,
+        [Sets.FiresmithOfLavaForging]: T2_WEIGHT,
+
+        [Sets.SigoniaTheUnclaimedDesolation]: 1,
+        [Sets.DuranDynastyOfRunningWolves]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [
         PresetEffects.fnAshblazingSet(8),
@@ -1732,20 +1830,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -1785,6 +1883,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.WastelanderOfBanditryDesert]: 1,
+
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.PanCosmicCommercialEnterprise]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [
         PresetEffects.WASTELANDER_SET,
@@ -1838,20 +1947,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1308', // Acheron
-            lightCone: '23024', // Shore
+            characterId: ACHERON,
+            lightCone: ALONG_THE_PASSING_SHORE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1218', // Jiaoqiu
-            lightCone: '23029', // Springs
+            characterId: JIAOQIU,
+            lightCone: THOSE_MANY_SPRINGS,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -1889,6 +1998,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.PrisonerInDeepConfinement]: 1,
+        [Sets.BandOfSizzlingThunder]: T2_WEIGHT,
+
+        [Sets.RevelryByTheSea]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
       },
       presets: [
         PresetEffects.PRISONER_SET,
@@ -1949,20 +2068,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1307', // Swan
-            lightCone: '23022', // Reforged
+            characterId: BLACK_SWAN,
+            lightCone: REFORGED_REMEMBRANCE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2005,6 +2124,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.BE,
         ],
       },
+      sets: {
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.PanCosmicCommercialEnterprise]: 1,
+      },
       presets: [
         PresetEffects.fnPioneerSet(4),
       ],
@@ -2043,6 +2172,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.BandOfSizzlingThunder]: T2_WEIGHT,
+        [Sets.LongevousDisciple]: T2_WEIGHT,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [],
       sortOption: SortOption.SKILL,
@@ -2089,20 +2230,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // If time were a flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1409', // Hyacine
-            lightCone: '23042', // Long may Rainbows adorn the sky
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2134,6 +2275,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+
+        [Sets.EagleOfTwilightLine]: 1,
+        [Sets.WatchmakerMasterOfDreamMachinations]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [],
       sortOption: SortOption.SPD,
@@ -2172,6 +2322,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.TheAshblazingGrandDuke]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.HunterOfGlacialForest]: T2_WEIGHT,
+
+        [Sets.SigoniaTheUnclaimedDesolation]: 1,
+        [Sets.DuranDynastyOfRunningWolves]: 1,
+        [Sets.InertSalsotto]: 1,
+        [Sets.RutilantArena]: 1,
       },
       presets: [
         PresetEffects.fnAshblazingSet(8),
@@ -2227,20 +2389,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // The Herta
-            lightCone: '23037', // Unreachable Veil
+            characterId: THE_HERTA,
+            lightCone: INTO_THE_UNREACHABLE_VEIL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // If Time Were a Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2273,6 +2435,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ERR,
         ],
+      },
+      sets: {
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [],
       sortOption: SortOption.CD,
@@ -2310,6 +2480,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [],
       sortOption: SortOption.SKILL,
@@ -2358,20 +2538,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1306', // Sparkle
-            lightCone: '23003', // But the battle
+            characterId: SPARKLE,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1203', // Luocha
-            lightCone: '21021', // QPQ
+            characterId: LUOCHA,
+            lightCone: QUID_PRO_QUO,
             characterEidolon: 0,
             lightConeSuperimposition: 5,
           },
@@ -2411,6 +2591,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.BandOfSizzlingThunder]: T2_WEIGHT,
+
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
@@ -2467,20 +2658,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // The Herta
-            lightCone: '23037', // Veil
+            characterId: THE_HERTA,
+            lightCone: INTO_THE_UNREACHABLE_VEIL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2518,6 +2709,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.KnightOfPurityPalace]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.BelobogOfTheArchitects]: 1,
+      },
       presets: [],
       sortOption: SortOption.SHIELD,
       addedColumns: [SortOption.SHIELD],
@@ -2554,6 +2752,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.LongevousDisciple]: MATCH_2P_WEIGHT,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.PasserbyOfWanderingCloud]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.GiantTreeOfRaptBrooding]: 1,
       },
       presets: [
         PresetEffects.WARRIOR_SET,
@@ -2595,6 +2802,12 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [
         PresetEffects.fnPioneerSet(4),
       ],
@@ -2633,6 +2846,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.TheAshblazingGrandDuke]: MATCH_2P_WEIGHT,
+        [Sets.PoetOfMourningCollapse]: 1,
+        [Sets.ChampionOfStreetwiseBoxing]: 1,
+        [Sets.LongevousDisciple]: T2_WEIGHT,
+
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
       },
       presets: [
         PresetEffects.fnAshblazingSet(2),
@@ -2686,20 +2908,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Inherently Unjust Destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2739,6 +2961,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.BE,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
+        [Sets.PrisonerInDeepConfinement]: 1,
+
+        [Sets.RevelryByTheSea]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.PanCosmicCommercialEnterprise]: 1,
+        [Sets.SpaceSealingStation]: 1,
       },
       presets: [
         PresetEffects.PRISONER_SET,
@@ -2790,20 +3023,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: KAFKA_B1, // Kafka
-            lightCone: '23006', // Patience
+            characterId: KAFKA_B1,
+            lightCone: PATIENCE_IS_ALL_YOU_NEED,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2842,6 +3075,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.FiresmithOfLavaForging]: T2_WEIGHT,
+
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.SpaceSealingStation]: 1,
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
@@ -2893,20 +3136,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1306', // Sparkle
-            lightCone: '23003', // But the battle
+            characterId: SPARKLE,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // If Time Were a Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent alone stays true
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2944,6 +3187,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.PasserbyOfWanderingCloud]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [
         PresetEffects.WARRIOR_SET,
@@ -2984,6 +3235,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.BE,
         ],
+      },
+      sets: {
+        [Sets.PrisonerInDeepConfinement]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+        [Sets.ChampionOfStreetwiseBoxing]: 1,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+
+        [Sets.RevelryByTheSea]: 1,
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.PanCosmicCommercialEnterprise]: 1,
+        [Sets.SpaceSealingStation]: 1,
       },
       presets: [
         PresetEffects.PRISONER_SET,
@@ -3041,20 +3304,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent alone stays true
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3094,6 +3357,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.FiresmithOfLavaForging]: MATCH_2P_WEIGHT,
+
+        [Sets.TheAshblazingGrandDuke]: 1,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+        [Sets.DuranDynastyOfRunningWolves]: 1,
+        [Sets.TheWondrousBananAmusementPark]: 1,
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
       },
       presets: [
         PresetEffects.fnAshblazingSet(0),
@@ -3156,20 +3431,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1220', // Feixiao
-            lightCone: '23031', // Venture Forth
+            characterId: FEIXIAO,
+            lightCone: I_VENTURE_FORTH_TO_HUNT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3208,6 +3483,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PoetOfMourningCollapse]: 1,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
       },
       presets: [
         PresetEffects.VALOROUS_SET,
@@ -3263,20 +3548,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1306', // Sparkle
-            lightCone: '23003', // But the battle
+            characterId: SPARKLE,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3317,6 +3602,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.MusketeerOfWildWheat]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [],
       sortOption: SortOption.SPD,
       hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
@@ -3355,6 +3649,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.PasserbyOfWanderingCloud]: 1,
+        [Sets.MusketeerOfWildWheat]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [
         PresetEffects.WASTELANDER_SET,
@@ -3396,6 +3698,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.TheAshblazingGrandDuke]: 1,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.BandOfSizzlingThunder]: T2_WEIGHT,
+
+        [Sets.TheWondrousBananAmusementPark]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [
         PresetEffects.fnAshblazingSet(8),
@@ -3455,20 +3766,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1313', // Sunday
-            lightCone: '23034', // Grounded Ascent
+            characterId: SUNDAY,
+            lightCone: A_GROUNDED_ASCENT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3506,6 +3817,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.HP_P,
         ],
+      },
+      sets: {
+        [Sets.ScholarLostInErudition]: MATCH_2P_WEIGHT,
+        [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
+        [Sets.LongevousDisciple]: 1,
+        [Sets.MusketeerOfWildWheat]: T2_WEIGHT,
+
+        [Sets.BoneCollectionsSereneDemesne]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.InertSalsotto]: 1,
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
       },
       presets: [
         PresetEffects.VALOROUS_SET,
@@ -3562,20 +3884,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1407', // Castorice
-            lightCone: '23040', // Farewells
+            characterId: CASTORICE,
+            lightCone: MAKE_FAREWELLS_MORE_BEAUTIFUL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1409', // Hyacine
-            lightCone: '23042', // Rainbows
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3615,6 +3937,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.BE,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.WatchmakerMasterOfDreamMachinations]: MATCH_2P_WEIGHT,
+        [Sets.ChampionOfStreetwiseBoxing]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
       },
       presets: [],
       sortOption: SortOption.SKILL,
@@ -3668,20 +4000,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3720,6 +4052,12 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [
         PresetEffects.WASTELANDER_SET,
@@ -3763,6 +4101,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.LongevousDisciple]: 1,
+        [Sets.GuardOfWutheringSnow]: MATCH_2P_WEIGHT,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [
         PresetEffects.WARRIOR_SET,
       ],
@@ -3802,6 +4147,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.HunterOfGlacialForest]: 1,
+
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.SpaceSealingStation]: 1,
       },
       presets: [
         PresetEffects.VALOROUS_SET,
@@ -3855,20 +4210,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust Destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3907,6 +4262,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.FiresmithOfLavaForging]: MATCH_2P_WEIGHT,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.PrisonerInDeepConfinement]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.FleetOfTheAgeless]: 1,
+      },
       presets: [
         PresetEffects.PRISONER_SET,
       ],
@@ -3943,6 +4309,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        [Sets.LongevousDisciple]: MATCH_2P_WEIGHT,
+        [Sets.SacerdosRelivedOrdeal]: MATCH_2P_WEIGHT,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.PasserbyOfWanderingCloud]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.GiantTreeOfRaptBrooding]: 1,
       },
       presets: [
         PresetEffects.WARRIOR_SET,
@@ -3984,6 +4359,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.HunterOfGlacialForest]: T2_WEIGHT,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [],
       sortOption: SortOption.SKILL,
@@ -4033,20 +4420,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4085,6 +4472,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PoetOfMourningCollapse]: 1,
+        [Sets.WastelanderOfBanditryDesert]: 1,
+        [Sets.MusketeerOfWildWheat]: 1,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
       },
       presets: [
         PresetEffects.WASTELANDER_SET,
@@ -4134,20 +4531,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1313', // Sunday
-            lightCone: '23034', // Ascent
+            characterId: SUNDAY,
+            lightCone: A_GROUNDED_ASCENT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1203', // Luocha
-            lightCone: '21021', // QPQ
+            characterId: LUOCHA,
+            lightCone: QUID_PRO_QUO,
             characterEidolon: 0,
             lightConeSuperimposition: 5,
           },
@@ -4187,6 +4584,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.BE,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.WatchmakerMasterOfDreamMachinations]: MATCH_2P_WEIGHT,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.ThiefOfShootingMeteor]: T2_WEIGHT,
+
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.SpaceSealingStation]: 1,
+        [Sets.InertSalsotto]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
       },
       presets: [
         PresetEffects.fnAshblazingSet(3),
@@ -4247,20 +4655,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4291,6 +4699,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [],
       sortOption: SortOption.SPD,
@@ -4328,6 +4743,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.PasserbyOfWanderingCloud]: 1,
+        [Sets.MessengerTraversingHackerspace]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [
         PresetEffects.WARRIOR_SET,
       ],
@@ -4362,6 +4784,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Constants.Stats.ATK_P,
           Constants.Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.FiresmithOfLavaForging]: MATCH_2P_WEIGHT,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [
         PresetEffects.PRISONER_SET,
@@ -4401,6 +4831,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.TheWindSoaringValorous]: 1,
+        [Sets.TheAshblazingGrandDuke]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
       },
       presets: [
         PresetEffects.fnAshblazingSet(1),
@@ -4463,14 +4903,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4510,6 +4950,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Constants.Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.ChampionOfStreetwiseBoxing]: MATCH_2P_WEIGHT,
+        [Sets.TheWindSoaringValorous]: 1,
+        [Sets.PoetOfMourningCollapse]: 1,
+        [Sets.TheAshblazingGrandDuke]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
       },
       presets: [
         PresetEffects.VALOROUS_SET,
@@ -4562,20 +5011,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1202', // Tingyun
-            lightCone: '21004', // MOTP
+            characterId: TINGYUN,
+            lightCone: MEMORIES_OF_THE_PAST,
             characterEidolon: 6,
             lightConeSuperimposition: 5,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4620,6 +5069,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Constants.Stats.ATK_P,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+        [Sets.PasserbyOfWanderingCloud]: MATCH_2P_WEIGHT,
+        [Sets.IronCavalryAgainstTheScourge]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.GiantTreeOfRaptBrooding]: 1,
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
+        [Sets.TaliaKingdomOfBanditry]: 1,
+      },
       presets: [
         PresetEffects.BANANA_SET,
         PresetEffects.fnAshblazingSet(6),
@@ -4663,6 +5124,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Constants.Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.TheAshblazingGrandDuke]: 1,
+
+        [Sets.DuranDynastyOfRunningWolves]: 1,
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+        [Sets.InertSalsotto]: T2_WEIGHT,
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
@@ -4720,20 +5190,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1220', // Feixiao
-            lightCone: '23031', // Venture Forth
+            characterId: FEIXIAO,
+            lightCone: I_VENTURE_FORTH_TO_HUNT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4772,6 +5242,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.MusketeerOfWildWheat]: 1,
+        [Sets.WastelanderOfBanditryDesert]: 1,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
       },
       presets: [
         PresetEffects.fnAshblazingSet(2),
@@ -4830,20 +5310,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1220', // Feixiao
-            lightCone: '23031', // Venture Forth
+            characterId: FEIXIAO,
+            lightCone: I_VENTURE_FORTH_TO_HUNT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4875,6 +5355,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
           Stats.BE,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+        [Sets.IronCavalryAgainstTheScourge]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.SprightlyVonwacq]: 1,
+        [Sets.LushakaTheSunkenSeas]: 1,
       },
       presets: [],
       sortOption: SortOption.BASIC,
@@ -4935,20 +5426,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1310', // Firefly
-            lightCone: '23025', // Whereabouts
+            characterId: FIREFLY,
+            lightCone: WHEREABOUTS_SHOULD_DREAMS_REST,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -4982,6 +5473,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
           Stats.BE,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.IronCavalryAgainstTheScourge]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.GiantTreeOfRaptBrooding]: 1,
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
+        [Sets.TaliaKingdomOfBanditry]: 1,
       },
       presets: [
         PresetEffects.WARRIOR_SET,
@@ -5023,6 +5526,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.ChampionOfStreetwiseBoxing]: T2_WEIGHT,
+
+        [Sets.InertSalsotto]: 1,
+        [Sets.SigoniaTheUnclaimedDesolation]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
       },
       presets: [],
       sortOption: SortOption.ULT,
@@ -5075,20 +5586,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // The Herta
-            lightCone: '23037', // Veil
+            characterId: THE_HERTA,
+            lightCone: INTO_THE_UNREACHABLE_VEIL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5118,6 +5629,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
           Stats.BE,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+        [Sets.WatchmakerMasterOfDreamMachinations]: 1,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [],
       sortOption: SortOption.BE,
@@ -5156,6 +5676,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.DEF_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.ScholarLostInErudition]: MATCH_2P_WEIGHT,
+        [Sets.WastelanderOfBanditryDesert]: MATCH_2P_WEIGHT,
+        [Sets.KnightOfPurityPalace]: 1,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+        [Sets.DuranDynastyOfRunningWolves]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [
         PresetEffects.VALOROUS_SET,
@@ -5220,20 +5752,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1112', // Topaz
-            lightCone: '23016', // Worrisome Blissful
+            characterId: TOPAZ_NUMBY,
+            lightCone: WORRISOME_BLISSFUL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1220', // Feixiao
-            lightCone: '23031', // Venture Forth
+            characterId: FEIXIAO,
+            lightCone: I_VENTURE_FORTH_TO_HUNT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5272,6 +5804,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.WastelanderOfBanditryDesert]: 1,
+        [Sets.TheAshblazingGrandDuke]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
       },
       presets: [
         PresetEffects.fnAshblazingSet(1),
@@ -5330,20 +5871,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1112', // Topaz
-            lightCone: '23016', // Worrisome Blissful
+            characterId: TOPAZ_NUMBY,
+            lightCone: WORRISOME_BLISSFUL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5376,6 +5917,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ERR,
         ],
+      },
+      sets: {
+        [Sets.SacerdosRelivedOrdeal]: 1,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [],
       sortOption: SortOption.CD,
@@ -5412,6 +5960,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        [Sets.PrisonerInDeepConfinement]: 1,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.MusketeerOfWildWheat]: MATCH_2P_WEIGHT,
+        [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
+
+        [Sets.RevelryByTheSea]: 1,
+        [Sets.PanCosmicCommercialEnterprise]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
       },
       presets: [
         PresetEffects.PRISONER_SET,
@@ -5470,20 +6029,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: KAFKA_B1, // Kafka
-            lightCone: '23006', // Patience
+            characterId: KAFKA_B1,
+            lightCone: PATIENCE_IS_ALL_YOU_NEED,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5523,6 +6082,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.BandOfSizzlingThunder]: T2_WEIGHT,
+
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+        [Sets.InertSalsotto]: 1,
+        [Sets.SpaceSealingStation]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
@@ -5571,8 +6141,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1218', // Jiaoqiu
-            lightCone: '23029', // Springs
+            characterId: JIAOQIU,
+            lightCone: THOSE_MANY_SPRINGS,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5583,8 +6153,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust Destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5623,6 +6193,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.MusketeerOfWildWheat]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [],
       sortOption: SortOption.ATK,
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
@@ -5657,6 +6234,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Parts.LinkRope]: [
           Constants.Stats.BE,
         ],
+      },
+      sets: {
+        [Sets.IronCavalryAgainstTheScourge]: 1,
+        [Sets.ThiefOfShootingMeteor]: T2_WEIGHT,
+
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
+        [Sets.TaliaKingdomOfBanditry]: 1,
       },
       presets: [],
       sortOption: SortOption.SKILL,
@@ -5703,20 +6287,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5755,6 +6339,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.HunterOfGlacialForest]: T2_WEIGHT,
+
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.InertSalsotto]: 1,
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
@@ -5806,20 +6399,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1306', // Sparkle
-            lightCone: '23003', // BTBIO
+            characterId: SPARKLE,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5850,6 +6443,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ERR,
         ],
+      },
+      sets: {
+        [Sets.SacerdosRelivedOrdeal]: 1,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [],
       sortOption: SortOption.CD,
@@ -5887,6 +6487,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Constants.Parts.LinkRope]: [
           Constants.Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PoetOfMourningCollapse]: 1,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.TheAshblazingGrandDuke]: 1,
+        [Sets.TheWindSoaringValorous]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
       },
       presets: [
         PresetEffects.VALOROUS_SET,
@@ -5945,20 +6556,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1401', // The Herta
-            lightCone: '23037', // Veil
+            characterId: THE_HERTA,
+            lightCone: INTO_THE_UNREACHABLE_VEIL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent alone stays true
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -5989,6 +6600,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.BE,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+        [Sets.IronCavalryAgainstTheScourge]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
       },
       presets: [],
       sortOption: SortOption.BASIC,
@@ -6039,20 +6660,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent alone stays true
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6083,6 +6704,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.BE,
         ],
+      },
+      sets: {
+        [Sets.IronCavalryAgainstTheScourge]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
       },
       presets: [
         PresetEffects.WASTELANDER_SET,
@@ -6135,20 +6764,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1225', // Fugue
-            lightCone: '23035', // Long Road
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent alone stays true
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6189,6 +6818,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.BE,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.ChampionOfStreetwiseBoxing]: T2_WEIGHT,
+        [Sets.PioneerDiverOfDeadWaters]: T2_WEIGHT,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.InertSalsotto]: 1,
+        [Sets.SpaceSealingStation]: 1,
+      },
       presets: [],
       sortOption: SortOption.SKILL,
       hiddenColumns: [SortOption.FUA, SortOption.DOT],
@@ -6236,20 +6876,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6290,6 +6930,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.BE,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.ChampionOfStreetwiseBoxing]: T2_WEIGHT,
+        [Sets.PioneerDiverOfDeadWaters]: T2_WEIGHT,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.InertSalsotto]: 1,
+        [Sets.SpaceSealingStation]: 1,
+      },
       presets: [],
       sortOption: SortOption.SKILL,
       hiddenColumns: [SortOption.FUA, SortOption.DOT],
@@ -6337,20 +6988,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6388,6 +7039,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.GuardOfWutheringSnow]: MATCH_2P_WEIGHT,
+        [Sets.KnightOfPurityPalace]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [],
       sortOption: SortOption.SHIELD,
       addedColumns: [SortOption.SHIELD],
@@ -6424,6 +7082,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.GuardOfWutheringSnow]: MATCH_2P_WEIGHT,
+        [Sets.KnightOfPurityPalace]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
       presets: [],
       sortOption: SortOption.SHIELD,
       addedColumns: [SortOption.SHIELD],
@@ -6455,6 +7120,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+        [Sets.WatchmakerMasterOfDreamMachinations]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
+      },
       presets: [],
       sortOption: SortOption.BE,
       hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
@@ -6484,6 +7159,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.BE,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+        [Sets.WatchmakerMasterOfDreamMachinations]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
       },
       presets: [],
       sortOption: SortOption.BE,
@@ -6518,6 +7203,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+        [Sets.HeroOfTriumphantSong]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [
         PresetEffects.BANANA_SET,
@@ -6556,6 +7249,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+        [Sets.HeroOfTriumphantSong]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [
         PresetEffects.BANANA_SET,
@@ -6598,6 +7299,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.HunterOfGlacialForest]: T2_WEIGHT,
+
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SigoniaTheUnclaimedDesolation]: 1,
       },
       presets: [],
       sortOption: SortOption.SKILL,
@@ -6646,20 +7357,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1314', // Jade
-            lightCone: '23028', // Yet hope
+            characterId: JADE,
+            lightCone: YET_HOPE_IS_PRICELESS,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1222', // Lingsha
-            lightCone: '23032', // Scent
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6699,6 +7410,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.BandOfSizzlingThunder]: MATCH_2P_WEIGHT,
+        [Sets.HeroOfTriumphantSong]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+
+        [Sets.TheWondrousBananAmusementPark]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
       },
       presets: [
         PresetEffects.BANANA_SET,
@@ -6758,20 +7479,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1313', // Sunday
-            lightCone: '23034', // Grounded
+            characterId: SUNDAY,
+            lightCone: A_GROUNDED_ASCENT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6812,6 +7533,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.GeniusOfBrilliantStars]: MATCH_2P_WEIGHT,
+        [Sets.PoetOfMourningCollapse]: 1,
+        [Sets.LongevousDisciple]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.BoneCollectionsSereneDemesne]: 1,
+      },
       presets: [
         PresetEffects.VALOROUS_SET,
       ],
@@ -6841,7 +7574,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CR,
           Stats.HP_P,
           Stats.HP,
-          Stats.ATK_P,
         ],
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
@@ -6874,20 +7606,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1407', // Castorice
-            lightCone: '23040', // Farewells
+            characterId: CASTORICE,
+            lightCone: MAKE_FAREWELLS_MORE_BEAUTIFUL,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '8008', // Stelle (Remembrance)
-            lightCone: '24005', // Memory's Curtain
+            characterId: STELLE_REMEMBRANCE,
+            lightCone: MEMORYS_CURTAIN_NEVER_FALLS,
             characterEidolon: 6,
             lightConeSuperimposition: 5,
           },
           {
-            characterId: '1409', // Hyacine
-            lightCone: '23042', // Rainbows
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6926,6 +7658,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.HP_P,
         ],
+      },
+      sets: {
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.LongevousDisciple]: T2_WEIGHT,
+        [Sets.WastelanderOfBanditryDesert]: MATCH_2P_WEIGHT,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+
+        [Sets.BoneCollectionsSereneDemesne]: 1,
+        [Sets.RutilantArena]: 1,
       },
       presets: [
         PresetEffects.WASTELANDER_SET,
@@ -6974,20 +7715,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1313', // Sunday
-            lightCone: '23034', // Grounded
+            characterId: SUNDAY,
+            lightCone: A_GROUNDED_ASCENT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1409', // Hyacine
-            lightCone: '23042', // Rainbows
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7028,6 +7769,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.EagleOfTwilightLine]: 1,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+        [Sets.RutilantArena]: 1,
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
@@ -7088,20 +7840,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // BTBIO
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7139,6 +7891,18 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.HP_P,
         ],
+      },
+      sets: {
+        [Sets.PoetOfMourningCollapse]: 1,
+        [Sets.ScholarLostInErudition]: T2_WEIGHT,
+        [Sets.LongevousDisciple]: MATCH_2P_WEIGHT,
+        [Sets.GeniusOfBrilliantStars]: MATCH_2P_WEIGHT,
+
+        [Sets.BoneCollectionsSereneDemesne]: 1,
+        [Sets.TheWondrousBananAmusementPark]: T2_WEIGHT,
+        [Sets.FleetOfTheAgeless]: T2_WEIGHT,
+        [Sets.RutilantArena]: T2_WEIGHT,
+        [Sets.InertSalsotto]: T2_WEIGHT,
       },
       presets: [
         PresetEffects.BANANA_SET,
@@ -7194,20 +7958,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '8008', // RMC
-            lightCone: '24005', // Memory's Curtain
+            characterId: STELLE_REMEMBRANCE,
+            lightCone: MEMORYS_CURTAIN_NEVER_FALLS,
             characterEidolon: 6,
             lightConeSuperimposition: 5,
           },
           {
-            characterId: '1409', // Hyacine
-            lightCone: '23042', // Rainbows
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7244,6 +8008,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Constants.Stats.ERR,
           Constants.Stats.HP_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.WarriorGoddessOfSunAndThunder]: 1,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.PasserbyOfWanderingCloud]: T2_WEIGHT,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.TheWondrousBananAmusementPark]: 1,
+        [Sets.GiantTreeOfRaptBrooding]: 1,
       },
       presets: [
         PresetEffects.BANANA_SET,
@@ -7286,6 +8060,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Constants.Stats.ATK_P,
           Constants.Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.MessengerTraversingHackerspace]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [
         PresetEffects.fnAshblazingSet(4),
@@ -7350,20 +8133,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1220', // Feixiao
-            lightCone: '23031', // Venture
+            characterId: FEIXIAO,
+            lightCone: I_VENTURE_FORTH_TO_HUNT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1309', // Robin
-            lightCone: '23026', // Nightglow
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1304', // Aventurine
-            lightCone: '23023', // Unjust destiny
+            characterId: AVENTURINE,
+            lightCone: INHERENTLY_UNJUST_DESTINY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7403,6 +8186,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Parts.LinkRope]: [
           Stats.ATK_P,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.WavestriderCaptain]: 1,
+        [Sets.ScholarLostInErudition]: T2_WEIGHT,
+
+        [Sets.ArcadiaOfWovenDreams]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.BoneCollectionsSereneDemesne]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: T2_WEIGHT,
+        [Sets.SpaceSealingStation]: T2_WEIGHT,
       },
       presets: [],
       sortOption: SortOption.SKILL,
@@ -7509,6 +8303,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.WavestriderCaptain]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+
+        [Sets.InertSalsotto]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.SpaceSealingStation]: T2_WEIGHT,
+      },
       presets: [],
       sortOption: SortOption.ULT,
       hiddenColumns: [SortOption.DOT],
@@ -7612,6 +8415,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.ScholarLostInErudition]: 1,
+
+        [Sets.RutilantArena]: 1,
+        [Sets.InertSalsotto]: 1,
+        [Sets.SpaceSealingStation]: T2_WEIGHT,
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
@@ -7721,6 +8533,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ERR,
         ],
       },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.PrisonerInDeepConfinement]: 1,
+        [Sets.BandOfSizzlingThunder]: T2_WEIGHT,
+
+        [Sets.RevelryByTheSea]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
+      },
       presets: [
         PresetEffects.PRISONER_SET,
         PresetEffects.fnAshblazingSet(6),
@@ -7772,6 +8593,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboDot: 16,
         errRopeEidolon: 0,
+        deprioritizeBuffs: true,
         relicSets: [
           [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
           RELICS_2P_SPEED,
@@ -7785,20 +8607,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1307', // Swan
-            lightCone: '23022', // Reforged
+            characterId: BLACK_SWAN,
+            lightCone: REFORGED_REMEMBRANCE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7840,6 +8662,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.BE,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.PioneerDiverOfDeadWaters]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN_WEIGHTS,
+        [Sets.InertSalsotto]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.PanCosmicCommercialEnterprise]: T2_WEIGHT,
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
@@ -7956,6 +8792,16 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
         ],
       },
+      sets: {
+        [Sets.ScholarLostInErudition]: MATCH_2P_WEIGHT,
+        [Sets.LongevousDisciple]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+        [Sets.MusketeerOfWildWheat]: T2_WEIGHT,
+
+        [Sets.BoneCollectionsSereneDemesne]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.InertSalsotto]: 1,
+      },
       presets: [
         PresetEffects.VALOROUS_SET,
         PresetEffects.fnSacerdosSet(1),
@@ -8010,8 +8856,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1403', // Tribbie
-            lightCone: '23038', // Flower
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8022,8 +8868,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1409', // Hyacine
-            lightCone: '23042', // Rainbows
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8063,6 +8909,17 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.ScholarLostInErudition]: 1,
+        [Sets.GeniusOfBrilliantStars]: 1,
+        [Sets.HunterOfGlacialForest]: T2_WEIGHT,
+
+        [Sets.BoneCollectionsSereneDemesne]: 1,
+        [Sets.RutilantArena]: 1,
+        [Sets.InertSalsotto]: T2_WEIGHT,
       },
       presets: [],
       sortOption: SortOption.SKILL,
@@ -8115,20 +8972,20 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: '1101', // Bronya
-            lightCone: '23003', // But the battle
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1303', // Ruan Mei
-            lightCone: '23019', // Past self
+            characterId: RUAN_MEI,
+            lightCone: PAST_SELF_IN_MIRROR,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8167,6 +9024,15 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.PrisonerInDeepConfinement]: 1,
+        [Sets.ChampionOfStreetwiseBoxing]: T2_WEIGHT, // TODO is this real?
+
+        [Sets.RevelryByTheSea]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
       },
       presets: [
         PresetEffects.PRISONER_SET,
@@ -8237,8 +9103,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: '1217', // Huohuo
-            lightCone: '23017', // Night of Fright
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8277,6 +9143,12 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.ATK_P,
           Stats.ERR,
         ],
+      },
+      sets: {
+        ...weights([...RELICS_2P_SPEED, ...RELICS_2P_ATK], 1),
+        [Sets.SacerdosRelivedOrdeal]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [],
       sortOption: SortOption.ULT,
@@ -8346,8 +9218,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       //       lightConeSuperimposition: 1,
       //     },
       //     {
-      //       characterId: '1217', // Huohuo
-      //       lightCone: '23017', // Night of Fright
+      //       characterId: HUOHUO,
+      //       lightCone: NIGHT_OF_FRIGHT,
       //       characterEidolon: 0,
       //       lightConeSuperimposition: 1,
       //     },

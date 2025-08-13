@@ -47,15 +47,6 @@ Actions:
   p4: Limpar fixados - Limpe todas as builds que você fixou no topo da grade
 OptimizerOptions:
   Title: Opções do otimizador
-  p1: >-
-    <0>Filtro de prioridade de personagem</0> - Quando essa opção está habilitada, o personagem só pode roubar relíquias de personagens de prioridade mais baixa. O otimizador ignorará as relíquias equipadas por personagens de prioridade mais alta na lista. Altere as classificações dos personagens a partir do seletor de prioridade ou arrastando-os na página de Personagens.
-  p2: >-
-    <0>Aumentar estatística principal</0> - Calcula as estatísticas principais das relíquias como se estivessem neste nível (ou seu máximo se não puderem alcançar este nível) caso estejam atualmente abaixo dele. As subestatísticas não são alteradas de acordo, portanto, builds com relíquias de nível mais baixo podem ser mais fortes uma vez que você as aumente de nível.
-  p3: <0>Manter relíquias atuais</0> - O personagem deve usar seus itens equipados atualmente e o otimizador tentará preencher os espaços vazios
-  p4: <0>Incluir relíquias equipadas</0> - Quando habilitado, o otimizador permitirá o uso de relíquias que estão atualmente equipadas por um personagem na pesquisa. Caso contrário, as relíquias equipadas são excluídas
-  p5: "<0>Prioridade</0> - Veja: Filtro de prioridade de personagem. Alterar esta configuração mudará a prioridade do personagem"
-  p6: <0>Excluir</0> - Selecione as relíquias equipadas de personagens específicos para excluir da pesquisa. Esta configuração substitui o filtro de prioridade
-  p7: <0>Melhorar / grau</0> - Selecione o aprimoramento mínimo a ser buscado e o mínimo de estrelas para incluir as relíquias
 Relics:
   Title: Relíquias
   p1: >-
@@ -63,7 +54,7 @@ Relics:
   p2: "Personagem selecionado: Pontuação - A pontuação atual da relíquia, conforme definido pelo algoritmo de pontuação do personagem selecionado no momento"
   p3: "Personagem selecionado: Potencial médio - O potencial da relíquia em seu nível máximo, calculado pela média de todas as rolagens possíveis que ela poderia ter no caminho para +15"
   p4: "Personagem selecionado: Potencial máximo - O potencial máximo da relíquia se todas as rolagens futuras forem para as estatísticas desejadas do personagem"
-  p5: "Todos os personagens: Potencial máximo - O valor de potencial mais alto possível da relíquia, entre todos os personagens do jogo."
+  p5: 'Todos os personagens: Potencial máximo - O valor de potencial mais alto possível da relíquia, entre todos os personagens do jogo.'
 OptimizationDetails:
   Title: Detalhes de otimização
   p1: Mostra quantas relíquias estão sendo utilizadas na busca de otimização, após a aplicação de todos os filtros
@@ -98,7 +89,7 @@ ValueColumns:
   p3: O potencial é uma porcentagem específica do personagem que indica quão boa a relíquia poderia ser (ou 'é', se totalmente aprimorada), em comparação com as estatísticas de uma relíquia 'perfeita' totalmente aprimorada nesse slot.
   p4: O potencial pode considerar todos os personagens ou apenas os que você possui. Em seguida, ele pega a porcentagem máxima para qualquer personagem.
   p5: O potencial é útil para encontrar relíquias que não são boas em nenhum personagem, ou joias escondidas que podem ser excelentes quando aprimoradas.
-  p6: "Nota: a ordenação por potencial pode estar desajustada em relação aos pesos, devido ao cálculo de pesos preferir estatísticas principais ideais de menor peso."
+  p6: 'Nota: a ordenação por potencial pode estar desajustada em relação aos pesos, devido ao cálculo de pesos preferir estatísticas principais ideais de menor peso.'
 RelicInsights:
   Title: Análise de Relíquia
   p1: Quando uma relíquia é selecionada na tabela acima, você pode escolher uma análise para visualizar um gráfico.

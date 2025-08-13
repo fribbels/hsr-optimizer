@@ -2,7 +2,7 @@ CollapseLabels:
   Explore: Scopri le funzionalità
   Join: Unisciti alla community
 CommunityCollapse: >-
-  <0> Un grande ringraziamento a tutti i nostri collaboratori, traduttori, utenti, e tutti coloro che hanno fornito feedback, per star supportando questo progetto e star aiutando a costruirlo insieme! </0> <1> Vieni a far parte della nostra community di Star Rail! Unisciti al server <1 text='Discord'/> per passare il tempo, o dai un'occhiata alla repo <3 text='GitHub'/> se vuoi dare un contributo. </1>
+  <0> Un grande ringraziamento a tutti i nostri collaboratori, traduttori, utenti, e tutti coloro che hanno fornito feedback, per supportare questo progetto ed aiutare a costruirlo insieme! </0> <1> Vieni a far parte della nostra community di Star Rail! Unisciti al server <1 text='Discord'/> per passare il tempo, o dai un'occhiata al repo <3 text='GitHub'/> se vuoi dare un contributo. </1>
 FeatureCards:
   LearnMore: Scopri di più
   Showcase:
@@ -16,12 +16,15 @@ FeatureCards:
   Calculator:
     Title: Calcolatore dei Danni
     Content: >-
-      Calcola i danni in modo preciso con configurazioni di squadra, condizioni di buff, e rotazioni di abilità completamente personalizzabili per massimizzare l'output di danni.
+      Calcola i danni in modo preciso con configurazioni di squadra, condizioni di buff, e rotazioni di abilità completamente personalizzabili per massimizzarne l'output.
   Organizer:
-    Title: Smistatore delle Reliquie
+    Title: Organizzatore delle Reliquie
     Content: >-
-      Organizza le tue reliquie valutandole e ordinandole in base al loro potenziale, e trova le reliquie migliori da potenziare per ogni personaggio.
-Welcome: Benvenuti su<1/>l'Ottimizzatore Star Rail di Fribbels
+      Organizza le tue reliquie valutandole e ordinandole in base al loro potenziale, e trova quelle migliori da potenziare per ogni personaggio.
+Welcome: Benvenuti su<1/>Ottimizzatore Star Rail di Fribbels
 SearchBar:
-  Message: Input invalido - Questo dovrebbe essere il tuo UUID interno al gioco da 9 cifre
+  Placeholder: UID
+  Label: 'Inserisci il tuo UID per visualizzare i tuoi personaggi in vetrina'
+  Api: 'Utilizza Enka.Network'
+  Message: Input invalido - Questo dovrebbe essere il tuo UID in gioco da 9 cifre
   Search: Cerca

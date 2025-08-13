@@ -15,10 +15,18 @@ RelicFilterBar:
   RecommendationHeader: 유물 추천 캐릭터
   Rating: 유물 레이팅
   CustomCharsHeader: 평가 캐릭터 지정
+RecentlyUpdatedRelics:
+  Header: 최근 업데이트된 유물들
+  Potential: 잠재력
+  Avg: 평균
+  Max: 최대
+  BestFor: 가장 좋은 유물
+  Tooltip: 캐릭터에 대한 평균 및 최대 유물 잠재력
 Messages:
   AddRelicSuccess: 유물을 추가했습니다.
   NoRelicSelected: 유물이 선택되지 않았습니다.
   DeleteRelicSuccess: 유물을 삭제했습니다.
+  UnableToDeleteRelic: 유물을 삭제할 수 없습니다
 RelicGrid:
   To: "~"
   Of: /
@@ -56,32 +64,32 @@ RelicGrid:
     SelectedCharacter:
       Label: 선택된 캐릭터
       ScoreCol:
-        Label: "선택된 캐릭터 : 점수"
+        Label: '선택된 캐릭터 : 점수'
         Header: |-
           선택된 캐릭터
           점수
       AvgPotCol:
-        Label: "선택된 캐릭터 : 평균 잠재력"
+        Label: '선택된 캐릭터 : 평균 잠재력'
         Header: |-
           선택된 캐릭터 
           평균 잠재력
       MaxPotCol:
-        Label: "선택된 캐릭터 : 최대 잠재력"
+        Label: '선택된 캐릭터 : 최대 잠재력'
         Header: |-
           선택된 캐릭터 
           최대 잠재력
       RerollAvg:
-        Label: "선택된 캐릭터 : 리롤 후 평균 잠재력"
+        Label: '선택된 캐릭터 : 리롤 후 평균 잠재력'
         Header: |-
           리롤 후 
           평균 잠재력
       RerollAvgDelta:
-        Label: "선택된 캐릭터 : 리롤 전/후 잠재력"
+        Label: '선택된 캐릭터 : 리롤 전/후 잠재력'
         Header: |-
           리롤 전/후
           잠재력
       RerollAvgEquippedDelta:
-        Label: "선택 캐릭터 : 리롤 후와 장비 완료 유물의 평균 잠재력 차이"
+        Label: '선택 캐릭터 : 리롤 후와 장비 완료 유물의 평균 잠재력 차이'
         Header: |-
           선택 캐릭터
           리롤 평균
@@ -90,62 +98,57 @@ RelicGrid:
     CustomCharacters:
       Label: 커스텀 캐릭터
       AvgPotCol:
-        Label: "커스텀 캐릭터 : 평균 잠재력"
+        Label: '커스텀 캐릭터 : 평균 잠재력'
         Header: |-
           커스텀 캐릭터
           평균 잠재력
       MaxPotCol:
-        Label: "커스텀 캐릭터 : 최대 잠재력"
+        Label: '커스텀 캐릭터 : 최대 잠재력'
         Header: |-
           커스텀 캐릭터
           최대 잠재력
       RerollAvg:
-        Label: "커스텀 캐릭터 : 리롤 후 평균 잠재력"
+        Label: '커스텀 캐릭터 : 리롤 후 평균 잠재력'
         Header: |-
           커스텀 캐릭터
           리롤 후 평균 잠재력
     AllCharacters:
       Label: 모든 캐릭터
       AvgPotCol:
-        Label: "모든 캐릭터 : 평균 잠재력"
+        Label: '모든 캐릭터 : 평균 잠재력'
         Header: |-
           모든 캐릭터
           평균 잠재력
       MaxPotCol:
-        Label: "모든 캐릭터 : 최대 잠재력"
+        Label: '모든 캐릭터 : 최대 잠재력'
         Header: |-
           모든 캐릭터
           최대 잠재력
       RerollAvg:
-        Label: "모든 캐릭터 : 리롤 후 평균 잠재력"
+        Label: '모든 캐릭터 : 리롤 후 평균 잠재력'
         Header: |-
           모든 캐릭터
           리롤 후 평균 잠재력
-    ComingSoon:
-      Label: 출시 예정
-      SetsPotential:
-        Label: 유물 / 장신구 세트 잠재력
-        Header: |-
-          모든 캐릭터
-          최대 잠재력 + 세트
 Toolbar:
   RelicLocator:
     Width: 인벤토리 너비
     Filter: 자동 행 맞춤
     NoneSelected: 찾는 유물 선택
-    Location: "위치 - 행 {{rowIndex}} / 열 {{columnIndex}}"
+    Location: '위치 - 행 {{rowIndex}} / 열 {{columnIndex}}'
   InsightOptions:
-    Buckets: "유물 정렬 : 버켓"
-    Top10: "유물 정렬 : Top 10"
+    Buckets: '유물 정렬 : 버켓'
+    Top10: '유물 정렬 : Top 10'
   PlotOptions:
     PlotAll: 모든 캐릭터 보기
     PlotCustom: 커스텀 캐릭터 보기
+    PlotOwned: 보유 캐릭터 보기
   EditRelic: 유물 수정
   DeleteRelic:
     ButtonText: 유물 삭제
     Warning_one: 유물을 삭제합니까?
-    Warning_other: "선택한 {{count}}개의 유물을 삭제하겠습니까?"
+    Warning_other: '선택한 {{count}}개의 유물을 삭제하겠습니까?'
   AddRelic: 새 유물 추가
 RelicInsights:
-  NewStats: "신규 스탯 :"
-  UpgradedStats: "업그레이드 스탯 :"
+  NewStats: '신규 스탯 :'
+  UpgradedStats: '업그레이드 스탯 :'
+  AvgPotential: '잠재력 평균 :'

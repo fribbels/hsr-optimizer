@@ -5,8 +5,14 @@ GPU:
     l2: "Windows e Mac — Chrome, Opera, Edge"
     l3: >-
       Linux — <CustomLink text="Dietro una flag"/>
+    l4: "Se stai usando uno dei browser supportati e non funziona, prova prima ad aggiornare la versione del browser. In caso contrario, prova con un altro browser o forza il browser a utilizzare la scheda video dedicata al posto di quella integrata."
+GPUCrash:
+  Message: Errore WebGPU
+  Description:
+    l1: 'Il processo di accelerazione GPU è andato in crash: i risultati potrebbero non essere validi. Riprova o segnala un bug nel server di Discord.'
+    l2: Per i passaggi di risoluzione dei problemi, controlla la <CustomLink text="pagina di documentazione."/>
 Changelog:
-  View: Visualizza l'elenco delle modifiche
+  View: Visualizza le modifiche recenti
   Dismiss: Chiudi
   Message: Nuovi aggiornamenti!
-  Description: Dai un'occhiata all'elenco delle modifiche per gli ultimi aggiornamenti dell'ottimizzatore.
+  Description: Dai un'occhiata alle modifiche recenti per gli ultimi aggiornamenti dell'ottimizzatore.

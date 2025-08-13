@@ -16,6 +16,21 @@ Import:
     BadMainstat: No se pudo interpretar el atributo principal para el artefacto con atributo principal {{mainstat}} y ranura {{part}}
   ParserWarning:
     BadRollInfo: El archivo del escáner está desactualizado / puede contener información inválida. Por favor actualiza tu escáner.
+  LiveImport:
+    Title: Controles de la Importación en vivo
+    Description:
+      l1: Si estás usando el Reliquary Archiver, puedes habilitar el modo "Importación en vivo" para importar tu inventario en tiempo real.
+      l2: Esto incluye artefactos nuevos, mejoras de artefactos, resultados de saltos, y más.
+    Connected: Conectado
+    Disconnected: Desconectado
+    DisconnectedHint: No se pudo conectar al escáner. Revise que se esté ejecutando.
+    Enable: Habilitar Importación en vivo (Recomendado)
+    UpdateCharacters: Habilitar la actualización de artefactos y conos de luz equipados
+    UpdateWarpResources: Habilitar la importación de recursos de salto (jades, pases, contador)
+    AdvancedSettings:
+      Title: Ajustes avanzados
+      WebsocketUrl: URL del WebSocket
+      WebsocketUrlReset: Restablecer a por defecto
   Stage1:
     Header: "Instala y ejecuta una de las opciones de escáner de artefactos:"
     ReliquaryDesc:
@@ -25,6 +40,7 @@ Import:
       OfflineMsg: "***** Estado: De baja por mantenimiento luego del parche {{version}} *****"
       l1: Decimales de velocidad precisos, escaneo instantáneo
       l2: Importa el inventario entero y todos los personajes
+      l3: Permite importación en vivo (artefactos nuevos/mejorados se importan en tiempo real)
     KelzDesc:
       Title: HSR Scanner de Kel-Z
       Link: Github

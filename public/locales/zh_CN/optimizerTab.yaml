@@ -90,6 +90,10 @@ OptimizerOptions:
     Label9: '+9'
     Label12: '+12'
     Label15: '+15'
+  DPSMode:
+    Header: DPS模式
+    Main: 主C
+    Sub: 副C
 AdvancedOptions:
   Header: 高级选项
   EnemyConfigButtonText: 敌人配置

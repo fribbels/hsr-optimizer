@@ -1,6 +1,10 @@
 Scoring:
   StatWeightsHeader: ステータスの重み付け
+  SetWeightsHeader: 重みの設定
   MainstatsHeader: 最適なメインステータス
+  SetWeights:
+    AddRelicSetPlaceholder: 遺物を追加
+    AddOrnamentSetPlaceholder: 次元界オーナメントを追加
   WeightMethodology:
     Header: ステータススコアはどのように計算されますか？
   Footer:
@@ -271,6 +275,7 @@ Relic:
   Substat: サブステータス
   SubstatPlaceholder: サブステータス
   SpdInputWarning: 注意：ゲーム内の速度の小数点以下の表示は切り捨てられるため、手動で入力した速度値は不正確になってしまいます。正確な速度値を入力したい場合は、ショーケース タブ、または、IceDynamix Reliquary Archiver を使ってインポートしてください。
+  LiveImportWarning: Live Import が有効です。そのため、行った変更が上書きされる場合があります。
   Upgrades: アップグレード
   Messages:
     SubmitFail: 送信できませんでした！
@@ -341,10 +346,10 @@ Builds:
 ScoreFooter:
   ModalTitle: 戦闘シミュレーションのスコア計算方法の設定
   OkText: OK
-  ResetButtonText: カスタムチームをデフォルトにリセット
-  ResetSuccessMsg: デフォルトのチームにリセット
-  SyncButtonText: インポートした星塊・光円錐と同期
-  SyncSuccessMsg: チームメイトを同期しました
+  ResetButtonText: チーム編成をデフォルトにリセット
+  ResetSuccessMsg: チーム編成をリセットしました
+  SyncButtonText: インポートした星魂・光円錐と同期
+  SyncSuccessMsg: チーム編成を同期しました
   TeamOptions:
     Default: デフォルト
     Custom: カスタム
@@ -363,3 +368,7 @@ CharacterSelect:
 LightconeSelect:
   Placeholder: 光円錐
   Title: 光円錐の選択
+RelicReroll:
+  Title: 遺物の振り直しを検出しました
+  OriginalSubstats: 元のサブステ
+  RerolledSubstats: 振り直し後のサブステ

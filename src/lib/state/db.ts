@@ -1,3 +1,4 @@
+import { IRowNode } from 'ag-grid-community'
 import i18next from 'i18next'
 import {
   COMPUTE_ENGINE_GPU_STABLE,
@@ -30,12 +31,15 @@ import {
 } from 'lib/simulations/statSimulationTypes'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
+import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
+import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
+import { ArrayFilters } from 'lib/utils/arrayUtils'
 import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
@@ -153,137 +157,137 @@ function getDefaultActiveKey() {
   return page ?? AppPages.HOME
 }
 
-window.store = create((set) => {
-  const store: HsrOptimizerStore = {
-    version: CURRENT_OPTIMIZER_VERSION,
-    colorTheme: Themes.BLUE,
-    globalThemeConfig: getGlobalThemeConfigFromColorTheme(Themes.BLUE),
+window.store = create<HsrOptimizerStore>()((set) => ({
+  version: CURRENT_OPTIMIZER_VERSION,
+  colorTheme: Themes.BLUE,
+  globalThemeConfig: getGlobalThemeConfigFromColorTheme(Themes.BLUE),
 
-    formValues: undefined,
+  formValues: undefined,
 
-    optimizerGrid: undefined,
+  optimizerGrid: undefined,
 
-    comboState: {} as ComboState,
-    optimizerTabFocusCharacter: undefined,
-    scoringAlgorithmFocusCharacter: undefined,
-    statTracesDrawerFocusCharacter: undefined,
-    relicsTabFocusCharacter: undefined,
+  comboState: {} as ComboState,
+  optimizerTabFocusCharacter: undefined,
+  scoringAlgorithmFocusCharacter: undefined,
+  statTracesDrawerFocusCharacter: undefined,
+  relicsTabFocusCharacter: undefined,
 
-    activeKey: getDefaultActiveKey(),
-    permutations: 0,
-    permutationsResults: 0,
-    permutationsSearched: 0,
-    relicsById: {},
-    scoringMetadataOverrides: {},
-    showcasePreferences: {},
-    showcaseTemporaryOptionsByCharacter: {},
-    statDisplay: DEFAULT_STAT_DISPLAY,
-    memoDisplay: DEFAULT_MEMO_DISPLAY,
-    statSimulationDisplay: StatSimTypes.Disabled,
-    statSimulations: [],
-    selectedStatSimulations: [],
-    optimizationInProgress: false,
-    optimizationId: null,
-    teammateCount: 0,
-    relicScorerSidebarOpen: true,
-    optimizerRunningEngine: COMPUTE_ENGINE_GPU_STABLE,
-    optimizerStartTime: null,
-    optimizerEndTime: null,
-    optimizerTabFocusCharacterSelectModalOpen: false,
+  activeKey: getDefaultActiveKey(),
+  permutations: 0,
+  permutationsResults: 0,
+  permutationsSearched: 0,
+  relicsById: {},
+  relics: [],
+  scoringMetadataOverrides: {},
+  showcasePreferences: {},
+  showcaseTemporaryOptionsByCharacter: {},
+  statDisplay: DEFAULT_STAT_DISPLAY,
+  memoDisplay: DEFAULT_MEMO_DISPLAY,
+  statSimulationDisplay: StatSimTypes.Disabled,
+  statSimulations: [],
+  selectedStatSimulations: [],
+  optimizationInProgress: false,
+  optimizationId: null,
+  teammateCount: 0,
+  relicScorerSidebarOpen: true,
+  optimizerRunningEngine: COMPUTE_ENGINE_GPU_STABLE,
+  optimizerStartTime: null,
+  optimizerEndTime: null,
+  optimizerTabFocusCharacterSelectModalOpen: false,
 
-    optimizerFormCharacterEidolon: 0,
-    optimizerFormSelectedLightCone: undefined,
-    optimizerFormSelectedLightConeSuperimposition: 1,
+  optimizerFormCharacterEidolon: 0,
+  optimizerFormSelectedLightCone: undefined,
+  optimizerFormSelectedLightConeSuperimposition: 1,
 
-    permutationDetails: {
-      Head: 0,
-      Hands: 0,
-      Body: 0,
-      Feet: 0,
-      PlanarSphere: 0,
-      LinkRope: 0,
-      HeadTotal: 0,
-      HandsTotal: 0,
-      BodyTotal: 0,
-      FeetTotal: 0,
-      PlanarSphereTotal: 0,
-      LinkRopeTotal: 0,
-    },
+  permutationDetails: {
+    Head: 0,
+    Hands: 0,
+    Body: 0,
+    Feet: 0,
+    PlanarSphere: 0,
+    LinkRope: 0,
+    HeadTotal: 0,
+    HandsTotal: 0,
+    BodyTotal: 0,
+    FeetTotal: 0,
+    PlanarSphereTotal: 0,
+    LinkRopeTotal: 0,
+  },
 
-    relicTabFilters: {
-      set: [],
-      part: [],
-      enhance: [],
-      mainStats: [],
-      subStats: [],
-      grade: [],
-      verified: [],
-      equippedBy: [],
-      initialRolls: [],
-    },
-    excludedRelicPotentialCharacters: [],
+  relicTabFilters: {
+    set: [],
+    part: [],
+    enhance: [],
+    mainStat: [],
+    subStat: [],
+    grade: [],
+    verified: [],
+    equipped: [],
+    initialRolls: [],
+  },
 
-    optimizerMenuState: {
-      [OptimizerMenuIds.characterOptions]: true,
-      [OptimizerMenuIds.relicAndStatFilters]: true,
-      [OptimizerMenuIds.teammates]: true,
-      [OptimizerMenuIds.characterStatsSimulation]: false,
-      [OptimizerMenuIds.analysis]: true,
-    },
+  optimizerMenuState: {
+    [OptimizerMenuIds.characterOptions]: true,
+    [OptimizerMenuIds.relicAndStatFilters]: true,
+    [OptimizerMenuIds.teammates]: true,
+    [OptimizerMenuIds.characterStatsSimulation]: false,
+    [OptimizerMenuIds.analysis]: true,
+  },
 
-    savedSession: savedSessionDefaults,
+  savedSession: savedSessionDefaults,
 
-    settings: DefaultSettingOptions,
-    optimizerBuild: null,
-    optimizerSelectedRowData: null,
+  settings: DefaultSettingOptions,
+  optimizerBuild: null,
+  optimizerSelectedRowData: null,
 
-    setComboState: (x) => set(() => ({ comboState: x })),
-    setVersion: (x) => set(() => ({ version: x })),
-    setActiveKey: (x) => set(() => ({ activeKey: x })),
-    setFormValues: (x) => set(() => ({ formValues: x })),
-    setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
-    setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
-    setStatTracesDrawerFocusCharacter: (characterId) => set(() => ({ statTracesDrawerFocusCharacter: characterId })),
-    setRelicsTabFocusCharacter: (characterId) => set(() => ({ relicsTabFocusCharacter: characterId })),
-    setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
-    setPermutations: (x) => set(() => ({ permutations: x })),
-    setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),
-    setPermutationsSearched: (x) => set(() => ({ permutationsSearched: x })),
-    setRelicsById: (x) => set(() => ({ relicsById: x })),
-    setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
-    setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
-    setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
-    setShowcaseTemporaryOptionsByCharacter: (x) => set(() => ({ showcaseTemporaryOptionsByCharacter: x })),
-    setStatDisplay: (x) => set(() => ({ statDisplay: x })),
-    setMemoDisplay: (x) => set(() => ({ memoDisplay: x })),
-    setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
-    setStatSimulations: (x) => set(() => ({ statSimulations: Utils.clone(x) })),
-    setSelectedStatSimulations: (x) => set(() => ({ selectedStatSimulations: x })),
-    setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
-    setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
-    setOptimizationId: (x) => set(() => ({ optimizationId: x })),
-    setOptimizerStartTime: (x) => set(() => ({ optimizerStartTime: x })),
-    setOptimizerRunningEngine: (x: ComputeEngine) => set(() => ({ optimizerRunningEngine: x })),
-    setOptimizerEndTime: (x) => set(() => ({ optimizerEndTime: x })),
-    setTeammateCount: (x) => set(() => ({ teammateCount: x })),
-    setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),
-    setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
-    setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
-    setOptimizerTabFocusCharacterSelectModalOpen: (x) => set(() => ({ optimizerTabFocusCharacterSelectModalOpen: x })),
-    setExcludedRelicPotentialCharacters: (x) => set(() => ({ excludedRelicPotentialCharacters: x })),
-    setSettings: (x: UserSettings) => set(() => ({ settings: x })),
-    setSavedSession: (x) => set(() => ({ savedSession: x })),
-    setSavedSessionKey: (key, x) =>
-      set((state) => ({
-        savedSession: { ...state.savedSession, [key]: x },
-      })),
-    setColorTheme: (x) => set(() => ({ colorTheme: x })),
-    setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
-    setOptimizerSelectedRowData: (x) => set(() => ({ optimizerSelectedRowData: x })),
-    setGlobalThemeConfig: (x) => set(() => ({ globalThemeConfig: x })),
-  }
-  return store
-})
+  setComboState: (x) => set(() => ({ comboState: x })),
+  setVersion: (x) => set(() => ({ version: x })),
+  setActiveKey: (x) => set(() => ({ activeKey: x })),
+  setFormValues: (x) => set(() => ({ formValues: x })),
+  setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
+  setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
+  setStatTracesDrawerFocusCharacter: (characterId) => set(() => ({ statTracesDrawerFocusCharacter: characterId })),
+  setRelicsTabFocusCharacter: (characterId) => set(() => ({ relicsTabFocusCharacter: characterId })),
+  setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
+  setPermutations: (x) => set(() => ({ permutations: x })),
+  setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),
+  setPermutationsSearched: (x) => set(() => ({ permutationsSearched: x })),
+  setRelicsById: (relicsById) =>
+    set(() => {
+      const relics = Object.values(relicsById).filter(ArrayFilters.nonNullable)
+      return { relicsById, relics }
+    }),
+  setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
+  setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
+  setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
+  setShowcaseTemporaryOptionsByCharacter: (x) => set(() => ({ showcaseTemporaryOptionsByCharacter: x })),
+  setStatDisplay: (x) => set(() => ({ statDisplay: x })),
+  setMemoDisplay: (x) => set(() => ({ memoDisplay: x })),
+  setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
+  setStatSimulations: (x) => set(() => ({ statSimulations: Utils.clone(x) })),
+  setSelectedStatSimulations: (x) => set(() => ({ selectedStatSimulations: x })),
+  setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
+  setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
+  setOptimizationId: (x) => set(() => ({ optimizationId: x })),
+  setOptimizerStartTime: (x) => set(() => ({ optimizerStartTime: x })),
+  setOptimizerRunningEngine: (x) => set(() => ({ optimizerRunningEngine: x })),
+  setOptimizerEndTime: (x) => set(() => ({ optimizerEndTime: x })),
+  setTeammateCount: (x) => set(() => ({ teammateCount: x })),
+  setOptimizerFormCharacterEidolon: (x) => set(() => ({ optimizerFormCharacterEidolon: x })),
+  setOptimizerFormSelectedLightCone: (x) => set(() => ({ optimizerFormSelectedLightCone: x })),
+  setOptimizerFormSelectedLightConeSuperimposition: (x) => set(() => ({ optimizerFormSelectedLightConeSuperimposition: x })),
+  setOptimizerTabFocusCharacterSelectModalOpen: (x) => set(() => ({ optimizerTabFocusCharacterSelectModalOpen: x })),
+  setSettings: (x) => set(() => ({ settings: x })),
+  setSavedSession: (x) => set(() => ({ savedSession: x })),
+  setSavedSessionKey: (key, x) =>
+    set((state) => ({
+      savedSession: { ...state.savedSession, [key]: x },
+    })),
+  setColorTheme: (x) => set(() => ({ colorTheme: x })),
+  setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
+  setOptimizerSelectedRowData: (x) => set(() => ({ optimizerSelectedRowData: x })),
+  setGlobalThemeConfig: (x) => set(() => ({ globalThemeConfig: x })),
+}))
 
 export const DB = {
   getMetadata: (): DBMetadata => state.metadata,
@@ -318,22 +322,15 @@ export const DB = {
 
     window.onOptimizerFormValuesChange({} as Form, OptimizerTabController.getForm())
   },
-  refreshCharacters: () => {
-    if (window.setCharacterRows) {
-      window.setCharacterRows(DB.getCharacters())
-    }
-  },
 
-  getRelics: () => Object.values(window.store.getState().relicsById),
+  getRelics: () => window.store.getState().relics,
   getRelicsById: () => window.store.getState().relicsById,
   setRelics: (relics: Relic[]) => {
-    const relicsById: Record<string, Relic> = {}
-    for (const relic of relics) {
+    const relicsById = relics.reduce((relicsById, relic) => {
       relicsById[relic.id] = relic
-    }
+      return relicsById
+    }, {} as Record<string, Relic>)
     window.store.getState().setRelicsById(relicsById)
-    // bandaid fix while waiting in proper immutable state
-    if (window.forceCharacterTabUpdate) window.forceCharacterTabUpdate()
   },
   getRelicById: (id: string) => window.store.getState().relicsById[id],
 
@@ -354,7 +351,12 @@ export const DB = {
     const addRelic = !oldRelic
 
     if (addRelic) {
-      relic.ageIndex = DB.getRelics().length
+      relic.ageIndex ??= 1 + Math.max(
+        ...DB.getRelics()
+          .map((r) => r.ageIndex)
+          .filter((x) => x != null),
+      )
+
       setRelic(relic)
       if (relic.equippedBy) {
         DB.equipRelic(relic, relic.equippedBy)
@@ -372,12 +374,6 @@ export const DB = {
       }
       setRelic(relic)
     }
-    // bandaid fix while waiting in proper immutable state
-    if (window.forceCharacterTabUpdate) window.forceCharacterTabUpdate()
-  },
-
-  refreshRelics: () => {
-    if (window.setRelicRows) window.setRelicRows(DB.getRelics())
   },
 
   // Mostly for debugging
@@ -412,7 +408,6 @@ export const DB = {
     // }
 
     for (const stat of SubStats) {
-      // eslint-disable-next-line
       if (returnScoringMetadata.stats[stat] == null) {
         returnScoringMetadata.stats[stat] = 0
       }
@@ -427,21 +422,13 @@ export const DB = {
 
     return returnScoringMetadata
   },
-  updateCharacterScoreOverrides: (id: CharacterId, updated: ScoringMetadata) => {
-    const overrides = window.store.getState().scoringMetadataOverrides
-    if (!overrides[id]) {
-      overrides[id] = updated
-    } else {
-      Utils.mergeDefinedValues(overrides[id], updated)
-    }
-    if (updated.modified) {
-      // TODO: bug
-      // overrides.modified = true
-    }
+  updateCharacterScoreOverrides: (id: CharacterId, updated: Partial<ScoringMetadata>) => {
+    let overrides = window.store.getState().scoringMetadataOverrides
+    overrides = { ...overrides, [id]: { ...overrides[id], ...updated } }
 
     const defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
 
-    setModifiedScoringMetadata(defaultScoringMetadata, overrides[id])
+    setModifiedScoringMetadata(defaultScoringMetadata, overrides[id]!)
 
     window.store.getState().setScoringMetadataOverrides(overrides)
 
@@ -450,20 +437,14 @@ export const DB = {
   updateSimulationScoreOverrides: (id: CharacterId, updatedSimulation: SimulationMetadata) => {
     if (!updatedSimulation) return
 
-    const overrides = window.store.getState().scoringMetadataOverrides
-    if (!overrides[id]) {
-      overrides[id] = {
-        simulation: updatedSimulation,
-      } as ScoringMetadata
-    } else {
-      overrides[id].simulation = updatedSimulation
-    }
+    let overrides = window.store.getState().scoringMetadataOverrides
+    overrides = { ...overrides, [id]: { ...overrides[id], simulation: updatedSimulation } }
     window.store.getState().setScoringMetadataOverrides(overrides)
 
     SaveState.delayedSave()
   },
 
-  setStore: (saveData: HsrOptimizerSaveFormat, autosave = true) => {
+  setStore: (saveData: HsrOptimizerSaveFormat, autosave = true, sanitize = true) => {
     const charactersById: Record<string, Character> = {}
     const dbCharacters = DB.getMetadata().characters
 
@@ -613,17 +594,29 @@ export const DB = {
     }
 
     // Set relics tab state
-    window.store.getState().setExcludedRelicPotentialCharacters(saveData.excludedRelicPotentialCharacters || [])
+    useRelicsTabStore.getState().setExcludedRelicPotentialCharacters(saveData.excludedRelicPotentialCharacters || [])
+
     window.store.getState().setVersion(saveData.version)
+
     useRelicLocatorStore.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth)
     useRelicLocatorStore.getState().setRowLimit(saveData.relicLocator?.rowLimit)
+
+    // Restore scanner settings if they exist
+    if (saveData.scannerSettings) {
+      const scannerState = useScannerState.getState()
+      scannerState.setIngest(saveData.scannerSettings.ingest)
+      scannerState.setIngestCharacters(saveData.scannerSettings.ingestCharacters)
+      scannerState.setIngestWarpResources(saveData.scannerSettings.ingestWarpResources)
+
+      // For security, don't restore the websocket url if we're sanitizing (manual load)
+      if (!sanitize) {
+        scannerState.setWebsocketUrl(saveData.scannerSettings.websocketUrl)
+      }
+    }
 
     assignRanks(saveData.characters)
     DB.setRelics(saveData.relics)
     DB.setCharacters(saveData.characters)
-
-    DB.refreshCharacters()
-    DB.refreshRelics()
 
     if (autosave) {
       SaveState.delayedSave()
@@ -648,7 +641,7 @@ export const DB = {
     }
   },
 
-  addFromForm: (form: Form, autosave = true) => {
+  addFromForm: (form: Form, autosave = true, select = true) => {
     const characters = DB.getCharacters()
     let found = DB.getCharacterById(form.characterId)
     if (found) {
@@ -673,15 +666,10 @@ export const DB = {
      * TODO: after render optimization, window.characterGrid is possibly undefined
      * Since the grid resets the rows, we have to re-select the grid node and inform the character tab
      */
-    if (window.characterGrid?.current?.api) {
-      window.characterGrid.current.api.updateGridOptions({ rowData: characters })
-      window.characterGrid.current.api.forEachNode((node: {
-        data: {
-          id: CharacterId,
-        },
-        setSelected: (b: boolean) => void,
-      }) => {
-        if (node.data.id == found.id) node.setSelected(true)
+    const oldFocusCharacter = useCharacterTabStore.getState().focusCharacter
+    if (window.characterGrid?.current?.api && (select || !oldFocusCharacter)) {
+      window.characterGrid.current.api.forEachNode((node: IRowNode<Character>) => {
+        if (node.data?.id == found.id) node.setSelected(true)
       })
       useCharacterTabStore.getState().setFocusCharacter(found.id)
     }
@@ -700,8 +688,8 @@ export const DB = {
       character = DB.getCharacterById(characterId)!
       console.log('Character did not previously exist, adding', character)
     }
-    character.portrait = portrait
-    DB.setCharacter(character)
+    const updatedCharacter = { ...character, portrait }
+    DB.setCharacter(updatedCharacter)
     console.log('Saved portrait', DB.getState())
   },
 
@@ -711,8 +699,8 @@ export const DB = {
       console.warn('No character selected')
       return
     }
-    delete character.portrait
-    DB.setCharacter(character)
+    const updatedCharacter = { ...character, portrait: undefined }
+    DB.setCharacter(updatedCharacter)
     console.log('Deleted portrait', DB.getState())
   },
 
@@ -733,13 +721,11 @@ export const DB = {
       return { error: errorMessage }
     } else {
       build = Object.values(character.equipped)
-      if (!character.builds) character.builds = []
-      character.builds.push({
-        name,
-        build,
-        score,
-      })
-      DB.setCharacter(character)
+      const builds = character.builds ?? []
+      builds.push({ name, build, score })
+
+      const updatedCharacter = { ...character, builds: [...builds] }
+      DB.setCharacter(updatedCharacter)
       console.log('Saved build', build, useCharacterTabStore.getState())
     }
   },
@@ -748,20 +734,20 @@ export const DB = {
     const character = DB.getCharacterById(characterId)
     if (!character) return console.warn('No character to delete build for')
 
-    character.builds = character.builds.filter((x) => x.name != name)
-    DB.setCharacter(character)
+    const updatedCharacter = { ...character, builds: character.builds.filter((x) => x.name != name) }
+    DB.setCharacter(updatedCharacter)
   },
 
   clearCharacterBuilds: (characterId: CharacterId) => {
     const character = DB.getCharacterById(characterId)
     if (!character) return console.warn('No character to clear builds for')
 
-    character.builds = []
-    DB.setCharacter(character)
+    const updatedCharacter = { ...character, builds: [] }
+    DB.setCharacter(updatedCharacter)
   },
 
   unequipCharacter: (id: CharacterId) => {
-    const character = DB.getCharacterById(id)
+    let character = DB.getCharacterById(id)
     if (!character) return console.warn('No character to unequip')
 
     console.log('Unequipping character', id, character)
@@ -772,11 +758,11 @@ export const DB = {
 
       const relicMatch = DB.getRelicById(equippedId)
 
-      character.equipped[part] = undefined
+      character = { ...character, equipped: { ...character.equipped, [part]: undefined } }
 
       if (relicMatch) {
-        relicMatch.equippedBy = undefined
-        setRelic(relicMatch)
+        const relic = { ...relicMatch, equippedBy: undefined }
+        setRelic(relic)
       }
     }
     DB.setCharacter(character)
@@ -792,19 +778,21 @@ export const DB = {
   unequipRelicById: (id: string) => {
     if (!id) return console.warn('No relic')
     const relic = DB.getRelicById(id)
+    if (!relic) return console.warn('No relic')
 
     console.log('UNEQUIP RELIC')
 
     const characters = DB.getCharacters()
-    for (const character of characters) {
-      if (character.equipped?.[relic.part] && character.equipped[relic.part] == relic.id) {
-        character.equipped[relic.part] = undefined
-      }
-    }
+      .map((c) => {
+        if (c.equipped?.[relic.part] && c.equipped[relic.part] == relic.id) {
+          return { ...c, equipped: { ...c.equipped, [relic.part]: undefined } }
+        }
+        return c
+      })
     DB.setCharacters(characters)
 
-    relic.equippedBy = undefined
-    setRelic(relic)
+    const newRelic = { ...relic, equippedBy: undefined }
+    setRelic(newRelic)
   },
 
   /**
@@ -815,12 +803,13 @@ export const DB = {
   equipRelic: (relic: Relic, characterId: CharacterId | undefined, forceSwap = false) => {
     if (!relic?.id) return console.warn('No relic')
     if (!characterId) return console.warn('No character')
-    relic = DB.getRelicById(relic.id)
+    relic = DB.getRelicById(relic.id)!
 
     const prevOwnerId = relic.equippedBy
     const prevCharacter = DB.getCharacterById(prevOwnerId!)
     const character = DB.getCharacterById(characterId)!
     const prevRelic = DB.getRelicById(character.equipped[relic.part]!)
+    let updatedPrevCharacter: Character
 
     if (prevRelic) {
       DB.unequipRelicById(prevRelic.id)
@@ -832,19 +821,21 @@ export const DB = {
     // only re-equip prevRelic if it would go to a different character
     if (prevOwnerId !== characterId && prevCharacter) {
       if (prevRelic && swap) {
-        prevCharacter.equipped[relic.part] = prevRelic.id
-        prevRelic.equippedBy = prevCharacter.id
-        setRelic(prevRelic)
+        updatedPrevCharacter = { ...prevCharacter, equipped: { ...prevCharacter.equipped, [relic.part]: prevRelic.id } }
+
+        const updatedPrevRelic = { ...prevRelic, equippedBy: prevCharacter.id }
+        setRelic(updatedPrevRelic)
       } else {
+        updatedPrevCharacter = { ...prevCharacter, equipped: { ...prevCharacter.equipped, [relic.part]: undefined } }
         prevCharacter.equipped[relic.part] = undefined
       }
-      DB.setCharacter(prevCharacter)
+      DB.setCharacter(updatedPrevCharacter)
     }
 
-    character.equipped[relic.part] = relic.id
-    relic.equippedBy = character.id
-    DB.setCharacter(character)
-    setRelic(relic)
+    const updatedCharacter = { ...character, equipped: { ...character.equipped, [relic.part]: relic.id } }
+    DB.setCharacter(updatedCharacter)
+    const newRelic = { ...relic, equippedBy: character.id }
+    setRelic(newRelic)
 
     debounceEffect('refreshRelics', 500, () => window.relicsGrid?.current?.api.refreshCells())
   },
@@ -872,12 +863,7 @@ export const DB = {
     DB.unequipRelicById(id)
     const relicsById = window.store.getState().relicsById
     delete relicsById[id]
-    window.store.getState().setRelicsById(relicsById)
-
-    // This refreshes the grid for the character equipped relics color coding
-    if (window.characterGrid?.current?.api) {
-      window.characterGrid.current.api.redrawRows()
-    }
+    window.store.getState().setRelicsById({ ...relicsById })
   },
 
   // These relics may be missing speed decimals depending on the importer.\
@@ -892,7 +878,7 @@ export const DB = {
     // Add new characters
     if (newCharacters) {
       for (const character of newCharacters) {
-        DB.addFromForm(character, false)
+        DB.addFromForm(character, false, false)
       }
     }
 
@@ -914,20 +900,27 @@ export const DB = {
       const hash = hashRelic(newRelic)
 
       // Compare new relic hashes to old relic hashes
-      const found = oldRelicHashes[hash]
+      let found = oldRelicHashes[hash]
       let stableRelicId: string
       if (found) {
         if (newRelic.verified) {
           // Inherit the new verified speed stats
-          found.verified = true
-          found.substats = newRelic.substats
-          found.augmentedStats = newRelic.augmentedStats
+          found = {
+            ...found,
+            verified: true,
+            substats: newRelic.substats,
+            augmentedStats: newRelic.augmentedStats,
+          }
         }
 
         if (newRelic.equippedBy && newCharacters.length) {
           // Update the owner of the existing relic with the newly imported owner
-          found.equippedBy = newRelic.equippedBy
+          found = { ...found, equippedBy: newRelic.equippedBy }
           newRelic = found
+        }
+
+        if (newRelic.ageIndex !== undefined) {
+          found.ageIndex = newRelic.ageIndex
         }
 
         // Save the old relic because it may have edited speed values, delete the hash to prevent duplicates
@@ -942,9 +935,9 @@ export const DB = {
 
       // Update the character's equipped inventory
       if (newRelic.equippedBy && newCharacters.length) {
-        const character = characters.find((x) => x.id == newRelic.equippedBy)
-        if (character) {
-          character.equipped[newRelic.part] = stableRelicId
+        const idx = characters.findIndex((x) => x.id == newRelic.equippedBy)
+        if (idx >= 0) {
+          characters[idx] = { ...characters[idx], equipped: { ...characters[idx].equipped, [newRelic.part]: stableRelicId } }
         } else {
           console.log('No character to equip relic to', newRelic)
         }
@@ -958,48 +951,45 @@ export const DB = {
     DB.setRelics(replacementRelics)
 
     // Clean up any deleted relic ids that are still equipped
-    for (const character of characters) {
+    characters.forEach((char, idx, arr) => {
       for (const part of Object.values(Constants.Parts)) {
-        if (character.equipped?.[part] && !DB.getRelicById(character.equipped[part])) {
-          character.equipped[part] = undefined
+        if (char.equipped?.[part] && !DB.getRelicById(char.equipped[part])) {
+          arr[idx] = { ...char, equipped: { ...char.equipped, [part]: undefined } }
         }
       }
-    }
+    })
+    DB.setCharacters(characters)
 
     // Clean up relics that are double equipped
-    for (const relic of DB.getRelics()) {
-      if (!relic.equippedBy) continue
-
-      const character = DB.getCharacterById(relic.equippedBy)
-      if (!character || character.equipped[relic.part] != relic.id) {
-        relic.equippedBy = undefined
+    const relics = DB.getRelics().map((r) => {
+      if (!r.equippedBy) return r
+      const wearer = DB.getCharacterById(r.equippedBy)
+      if (!wearer || wearer.equipped[r.part] != r.id) {
+        return { ...r, equippedBy: undefined }
       }
-    }
+      return r
+    })
+    DB.setRelics(relics)
 
     // Clean up characters who have relics equipped by someone else, or characters that don't exist ingame yet
-    for (const character of DB.getCharacters()) {
-      for (const part of Object.keys(character.equipped)) {
-        const relicId = character.equipped[part as Parts]
+    const cleanedCharacters = DB.getCharacters().map((c) => {
+      let newC = c
+      for (const part of Object.keys(c.equipped) as Parts[]) {
+        const relicId = c.equipped[part]
         if (relicId) {
           const relic = DB.getRelicById(relicId)
-          if (relic.equippedBy != character.id) {
-            character.equipped[part as Parts] = undefined
+          if (!relic || relic.equippedBy != c.id) {
+            newC = { ...newC, equipped: { ...newC.equipped, [part]: undefined } }
           }
         }
       }
-    }
-
-    DB.setRelics(replacementRelics)
-    DB.setCharacters(characters)
+      return newC
+    })
+    DB.setCharacters(cleanedCharacters)
 
     // only valid when on relics tab
     if (window.relicsGrid?.current?.api) {
       window.relicsGrid.current.api.updateGridOptions({ rowData: replacementRelics })
-    }
-
-    // only valid when on character tab
-    if (window.characterGrid?.current?.api) {
-      window.characterGrid.current.api.redrawRows()
     }
 
     // TODO this probably shouldn't be in this file
@@ -1057,12 +1047,7 @@ export const DB = {
       }
     }
 
-    DB.refreshRelics()
     window.refreshRelicsScore()
-
-    if (window.characterGrid?.current?.api) {
-      window.characterGrid.current.api.redrawRows()
-    }
 
     // Updated stats for ${updatedOldRelics.length} existing relics
     // Added ${addedNewRelics.length} new relics
@@ -1129,13 +1114,13 @@ function findRelicMatch(relic: Relic, oldRelics: Relic[]) {
 
 function assignRanks(characters: Character[]) {
   for (let i = 0; i < characters.length; i++) {
-    characters[i].rank = i
+    characters[i] = { ...characters[i], rank: i }
   }
 
   // This sets the rank for the current optimizer character because shuffling ranks will desync the Priority filter selector
-  const optimizerMatchingCharacter = DB.getCharacterById(window.store.getState().optimizerTabFocusCharacter!)
-  if (optimizerMatchingCharacter) {
-    window.optimizerForm.setFieldValue('rank', optimizerMatchingCharacter.rank)
+  const optimizerCharacterRank = characters.findIndex((c) => c.id == window.store.getState().optimizerTabFocusCharacter!)
+  if (optimizerCharacterRank >= 0) {
+    window.optimizerForm.setFieldValue('rank', optimizerCharacterRank)
   }
 
   return characters
@@ -1203,8 +1188,7 @@ function partialHashRelic(relic: Relic) {
  * Sets the provided relic in the application's state.
  */
 function setRelic(relic: Relic) {
-  const relicsById = window.store.getState().relicsById
-  relicsById[relic.id] = relic
+  const relicsById = { ...window.store.getState().relicsById, [relic.id]: relic }
   window.store.getState().setRelicsById(relicsById)
 }
 
@@ -1214,9 +1198,8 @@ function deduplicateStringArray<T extends string[] | null | undefined>(arr: T) {
   return [...new Set(arr)] as T
 }
 
-function indexRelics(arr: Relic[]) {
-  const length = arr.length
-  for (let i = 0; i < length; i++) {
-    arr[i].ageIndex = length - i - 1
-  }
+function indexRelics(relics: Relic[]) {
+  relics.forEach((r, idx, relics) => {
+    relics[idx] = { ...r, ageIndex: r.ageIndex ?? (idx === 0 ? 0 : relics[idx - 1].ageIndex! + 1) }
+  })
 }

@@ -13,6 +13,7 @@ export async function expectDpsScoreResultsToMatch(
   percent: number,
   spdBenchmark?: number,
 ) {
+  // Only for test cases
   globalThis.SEQUENTIAL_BENCHMARKS = true
 
   const character = {
@@ -37,6 +38,7 @@ export async function expectDpsScoreResultsToMatch(
   const simScore = orchestrator.simulationScore!
   console.log(simScore.percent)
   console.log(simScore.originalSimScore)
+  console.log(simScore.benchmarkSim.request)
   try {
     expect(simScore.percent).toBeCloseTo(percent, 5)
   } catch (error: unknown) {

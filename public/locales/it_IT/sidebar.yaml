@@ -1,5 +1,8 @@
 Tools:
+  Title: Strumenti
   Showcase: Vetrina
+  WarpPlanner: Pianifica Warp
+  Benchmarks: Benchmark
 Optimization:
   Title: Ottimizzazione
   Optimizer: Ottimizzatore
@@ -11,8 +14,9 @@ Optimization:
 Links:
   Home: Home
   Title: Collegamenti
-  Changelog: Elenco delle modifiche
+  Changelog: Modifiche recenti
   Discord: Discord
   Github: GitHub
   Kofi: Ko-fi
   Unleak: Senza leak
+  Leaks: Contenuto beta

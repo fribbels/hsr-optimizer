@@ -21,6 +21,7 @@ import {
 } from 'lib/constants/constantsUi'
 import EditImageModal from 'lib/overlays/modals/EditImageModal'
 import { Assets } from 'lib/rendering/assets'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import { useTranslation } from 'react-i18next'
@@ -30,11 +31,10 @@ import {
   CustomImagePayload,
 } from 'types/customImage'
 
-const { Text } = Typography
-
 export function ShowcasePortrait(props: {
   source: ShowcaseSource,
   character: Character,
+  scoringType: ScoringType,
   displayDimensions: ShowcaseDisplayDimensions,
   customPortrait: CustomImageConfig | undefined,
   editPortraitModalOpen: boolean,
@@ -55,6 +55,7 @@ export function ShowcasePortrait(props: {
   const {
     source,
     character,
+    scoringType,
     displayDimensions,
     customPortrait,
     editPortraitModalOpen,
@@ -96,6 +97,7 @@ export function ShowcasePortrait(props: {
           <CharacterCustomPortrait
             customPortrait={customPortrait ?? character.portrait!}
             parentW={parentW}
+            scoringType={scoringType}
             onPortraitLoad={onPortraitLoad}
           />
         )

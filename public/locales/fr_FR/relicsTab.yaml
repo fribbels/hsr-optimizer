@@ -15,6 +15,13 @@ RelicFilterBar:
   RecommendationHeader: Personnage de recommandation de reliques
   Rating: Notes de reliques
   CustomCharsHeader: Personnages de potentiel custom
+RecentlyUpdatedRelics:
+  Header: Reliques récemment mises à jour
+  Potential: POTENTIEL
+  Avg: MOY
+  Max: MAX
+  BestFor: MEILLEUR POUR
+  Tooltip: Potentiel moyen et maximum pour ce personnage
 Messages:
   AddRelicSuccess: Relique ajoutée avec succès
   NoRelicSelected: Aucune relique sélectionnée
@@ -62,32 +69,32 @@ RelicGrid:
     SelectedCharacter:
       Label: Personnage sélectionné
       ScoreCol:
-        Label: "Personnage sélectionné: Note"
+        Label: 'Personnage sélectionné: Note'
         Header: |-
           Pers. sélectionné
           Note
       AvgPotCol:
-        Label: "Personnage sélectionné: Potentiel moyen"
+        Label: 'Personnage sélectionné: Potentiel moyen'
         Header: |-
           Pers. sélectionné
           Potentiel moy.
       MaxPotCol:
-        Label: "Personnage sélectionné: Potentiel maximum"
+        Label: 'Personnage sélectionné: Potentiel maximum'
         Header: |-
           Pers. sélectionné
           Potentiel max.
       RerollAvg:
-        Label: "Personnage sélectionné: Potentiel moyen de relancé"
+        Label: 'Personnage sélectionné: Potentiel moyen de relancé'
         Header: |-
           Pers. sélectionné
           Pot. relancé moy
       RerollAvgDelta:
-        Label: "Personnage sélectionné: Delta moyen de potentiel de relancé"
+        Label: 'Personnage sélectionné: Delta moyen de potentiel de relancé'
         Header: |-
           Pers. sélectionné
           Δ relancé moy.
       RerollAvgEquippedDelta:
-        Label: "Personnage sélectionné: Delta moyen de potentiel de relancé vs équipé"
+        Label: 'Personnage sélectionné: Delta moyen de potentiel de relancé vs équipé'
         Header: |-
           Pers. sélectionné
           ∆ relancé moy.
@@ -95,62 +102,57 @@ RelicGrid:
     CustomCharacters:
       Label: Personnages custom
       AvgPotCol:
-        Label: "Personnages custom: Potentiel moyen"
+        Label: 'Personnages custom: Potentiel moyen'
         Header: |-
           Pers. custom
           Potentiel moy.
       MaxPotCol:
-        Label: "Personnages custom: Potential maximum"
+        Label: 'Personnages custom: Potential maximum'
         Header: |-
           Pers. custom
           Potentiel max.
       RerollAvg:
-        Label: "Personnages custom: Potentiel moyen de relancé"
+        Label: 'Personnages custom: Potentiel moyen de relancé'
         Header: |-
           Pers. custom
           Pot. relancé moy.
     AllCharacters:
       Label: Tous personnages
       AvgPotCol:
-        Label: "Tous personnages: Potentiel moyen"
+        Label: 'Tous personnages: Potentiel moyen'
         Header: |-
           Tous pers.
           Potentiel moy.
       MaxPotCol:
-        Label: "Tous personnages: Potentiel maximum"
+        Label: 'Tous personnages: Potentiel maximum'
         Header: |-
           Tous pers.
           Potentiel max.
       RerollAvg:
-        Label: "Tous personnages: Potentiel moyen de relancé"
+        Label: 'Tous personnages: Potentiel moyen de relancé'
         Header: |-
           Tous pers.
           Pot. relancé moy.
-    ComingSoon:
-      Label: Prochainement
-      SetsPotential:
-        Label: Potentiel de sets de relique / ornement
-        Header: |-
-          Tous pers.
-          Potentiel max. + Sets
 Toolbar:
   RelicLocator:
     Width: Largeur de l'inventaire
     Filter: Ligne de filtre automatique
     NoneSelected: Sélectionnez une relique à repérer
-    Location: "Position - Lgn {{rowIndex}} / Col {{columnIndex}}"
+    Location: 'Position - Lgn {{rowIndex}} / Col {{columnIndex}}'
   InsightOptions:
-    Buckets: "Aperçu de relique: Seaux"
-    Top10: "Aperçu de relique: Top 10"
+    Buckets: 'Aperçu de relique: Seaux'
+    Top10: 'Aperçu de relique: Top 10'
   PlotOptions:
     PlotAll: Tous les personnages
     PlotCustom: Personnages custom
+    PlotOwned: Personnages possédés
   EditRelic: Modifier la relique
   DeleteRelic:
     ButtonText: Supprimer la relique
     Warning_one: Supprimer la relique sélectionnée?
-    Warning_other: "Supprimer les {{count}} reliques sélectionnées?"
+    Warning_other: 'Supprimer les {{count}} reliques sélectionnées?'
   AddRelic: Ajouter nouvelle relique
 RelicInsights:
-  NewStats: "Nouvelles stats: "
-  UpgradedStats: "Stats améliorées: "
+  NewStats: 'Nouvelles stats: '
+  UpgradedStats: 'Stats améliorées: '
+  AvgPotential: 'Potentiel moyen: '

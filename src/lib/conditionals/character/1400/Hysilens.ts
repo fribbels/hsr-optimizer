@@ -1,34 +1,17 @@
-import i18next from 'i18next'
-import {
-  AbilityType,
-  FUA_DMG_TYPE,
-  SKILL_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import {
-  dynamicStatConversion,
-  gpuDynamicStatConversion,
-} from 'lib/conditionals/evaluation/statConversion'
-import {
-  ConditionalActivation,
-  ConditionalType,
-  CURRENT_DATA_VERSION,
-  Stats,
-} from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
-import {
-  HYSILENS,
-  PHAINON,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { HYSILENS } from 'lib/simulations/tests/testMetadataConstants'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -37,7 +20,7 @@ import {
 } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hysilens.Content')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hysilens')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
     SOURCE_BASIC,
@@ -80,7 +63,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     skillVulnerability: true,
     ultZone: true,
     e1Buffs: true,
-    e2MaxDmgBoost: true,
+    e2TeammateEhr: 1.20,
     e4ResPen: true,
   }
 
@@ -88,55 +71,55 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     skillVulnerability: {
       id: 'skillVulnerability',
       formItem: 'switch',
-      text: 'Skill Vulnerability',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.skillVulnerability.text'),
+      content: t('Content.skillVulnerability.content', { SkillVuln: TsUtils.precisionRound(100 * skillVulnScaling) }),
     },
     ultZone: {
       id: 'ultZone',
       formItem: 'switch',
-      text: 'Ult zone active',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.ultZone.text'),
+      content: t('Content.ultZone.content', { ZoneDefShred: TsUtils.precisionRound(100 * ultDefPenScaling) }),
     },
     ultDotStacks: {
       id: 'ultDotStacks',
       formItem: 'slider',
-      text: 'Ult DOT trigger stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.ultDotStacks.text'),
+      content: t('Content.ultDotStacks.content', {}),
       min: 0,
       max: maxUltDotInstances,
     },
     ehrToDmg: {
       id: 'ehrToDmg',
       formItem: 'switch',
-      text: 'EHR to DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.ehrToDmg.text'),
+      content: t('Content.ehrToDmg.content', {}),
     },
     dotDetonation: {
       id: 'dotDetonation',
       formItem: 'switch',
-      text: 'DOT detonation (Automatic activation)',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.dotDetonation.text'),
+      content: t('Content.dotDetonation.content', {}),
       disabled: true,
     },
     e1Buffs: {
       id: 'e1Buffs',
       formItem: 'switch',
-      text: 'E1 buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e1Buffs.text'),
+      content: t('Content.e1Buffs.content', {}),
       disabled: e < 1,
     },
     e4ResPen: {
       id: 'e4ResPen',
       formItem: 'switch',
-      text: 'E4 RES PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e4ResPen.text'),
+      content: t('Content.e4ResPen.content', {}),
       disabled: e < 4,
     },
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: 'E6 buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e6Buffs.text'),
+      content: t('Content.e6Buffs.content', {}),
       disabled: e < 6,
     },
   }
@@ -145,12 +128,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     skillVulnerability: content.skillVulnerability,
     ultZone: content.ultZone,
     e1Buffs: content.e1Buffs,
-    e2MaxDmgBoost: {
-      id: 'e2MaxDmgBoost',
-      formItem: 'switch',
-      text: 'E2 DMG boost maxed',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    e2TeammateEhr: {
+      id: 'e2TeammateEhr',
+      formItem: 'slider',
+      text: t('TeammateContent.e2TeammateEhr.text'),
+      content: t('TeammateContent.e2TeammateEhr.content'),
       disabled: e < 2,
+      min: 0,
+      max: 1.20,
+      percent: true,
     },
     e4ResPen: content.e4ResPen,
   }
@@ -190,7 +176,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       }
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
+      x.SKILL_TOUGHNESS_DMG.buff(10, SOURCE_SKILL)
       x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
 
       x.DOT_CHANCE.set(1.00, SOURCE_TALENT)
@@ -206,7 +192,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ELEMENTAL_DMG.buffTeam((e >= 2 && t.e2MaxDmgBoost) ? 0.90 : 0, SOURCE_E2)
+      x.ELEMENTAL_DMG.buffTeam(
+        (e >= 2)
+          ? Math.max(0, Math.min(0.90, 0.15 * Math.floor(TsUtils.precisionRound((t.e2TeammateEhr - 0.60) / 0.10))))
+          : 0,
+        SOURCE_E2,
+      )
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

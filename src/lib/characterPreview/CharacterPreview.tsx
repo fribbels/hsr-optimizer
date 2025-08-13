@@ -88,9 +88,6 @@ import { Relic } from 'types/relic'
 
 const { useToken } = theme
 
-// @ts-ignore
-window.Vibrant = Vibrant
-
 export function CharacterPreview(props: {
   id: string,
   source: ShowcaseSource,
@@ -106,15 +103,19 @@ export function CharacterPreview(props: {
   } = props
 
   const { token } = useToken()
-  const [selectedRelic, setSelectedRelic] = useState<Relic | undefined>()
-  const [editModalOpen, setEditModalOpen] = useState(false)
-  const [addModalOpen, setAddModalOpen] = useState(false)
+  const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
+  const [relicModalOpen, setRelicModalOpen] = useState(false)
+  const setEditModalOpen = (open: boolean) => setRelicModalOpen(open)
+  const setAddModalOpen = (open: boolean) => {
+    setSelectedRelic(null)
+    setRelicModalOpen(open)
+  }
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
-  const [customPortrait, setCustomPortrait] = useState<CustomImageConfig | undefined>()
+  const [customPortrait, setCustomPortrait] = useState<CustomImageConfig>()
   const [teamSelectionByCharacter, setTeamSelectionByCharacter] = useState<Record<string, string>>({})
 
   const [storedScoringType, setScoringType] = useState(ScoringType.COMBAT_SCORE)
-  const prevCharId = useRef<string | undefined>()
+  const prevCharId = useRef<string>()
   const prevSeedColor = useRef<string>(DEFAULT_SHOWCASE_COLOR)
   const relicsById = window.store((s) => s.relicsById)
   const [_redrawTeammates, setRedrawTeammates] = useState<number>(0)
@@ -133,6 +134,14 @@ export function CharacterPreview(props: {
   const refreshOnTraceChange = window.store((s) => !character ? undefined : s.scoringMetadataOverrides[character.id]?.traces)
   const refreshOnDeprioritizeBuffsChange = window.store((s) => !character ? undefined : s.scoringMetadataOverrides[character.id]?.simulation?.deprioritizeBuffs)
   const showcaseTemporaryOptionsByCharacter = window.store((s) => s.showcaseTemporaryOptionsByCharacter)
+
+  const onRelicModalOk = (relic: Relic) => {
+    if (selectedRelic) {
+      showcaseOnEditOk(relic, selectedRelic, setSelectedRelic)
+    } else {
+      showcaseOnAddOk(relic, setSelectedRelic)
+    }
+  }
 
   if (!character || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE)) {
     return (
@@ -239,17 +248,10 @@ export function CharacterPreview(props: {
     <Flex vertical style={{ width: 1068, minHeight: source == ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>
       <RelicModal
         selectedRelic={selectedRelic}
-        type='edit'
-        onOk={(relic: Relic) => showcaseOnEditOk(relic, selectedRelic, setSelectedRelic)}
-        setOpen={setEditModalOpen}
-        open={editModalOpen}
-      />
-      <RelicModal
-        selectedRelic={selectedRelic}
-        type='edit'
-        onOk={(relic: Relic) => showcaseOnAddOk(relic, setSelectedRelic)}
-        setOpen={setAddModalOpen}
-        open={addModalOpen}
+        onOk={onRelicModalOk}
+        setOpen={setRelicModalOpen}
+        open={relicModalOpen}
+        defaultWearer={character.id}
       />
       <ShowcaseCustomizationSidebar
         ref={sidebarRef}
@@ -307,6 +309,7 @@ export function CharacterPreview(props: {
               <ShowcasePortrait
                 source={source}
                 character={character}
+                scoringType={scoringType}
                 displayDimensions={displayDimensions}
                 customPortrait={portraitToUse}
                 editPortraitModalOpen={editPortraitModalOpen}

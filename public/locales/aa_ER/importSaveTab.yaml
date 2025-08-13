@@ -16,6 +16,21 @@ Import:
     BadMainstat: crwdns44780:0{{mainstat}}crwdnd44780:0{{part}}crwdne44780:0
   ParserWarning:
     BadRollInfo: crwdns44782:0crwdne44782:0
+  LiveImport:
+    Title: crwdns45720:0crwdne45720:0
+    Description:
+      l1: crwdns45722:0crwdne45722:0
+      l2: crwdns45724:0crwdne45724:0
+    Connected: crwdns45766:0crwdne45766:0
+    Disconnected: crwdns45768:0crwdne45768:0
+    DisconnectedHint: crwdns45770:0crwdne45770:0
+    Enable: crwdns45728:0crwdne45728:0
+    UpdateCharacters: crwdns45730:0crwdne45730:0
+    UpdateWarpResources: crwdns45732:0crwdne45732:0
+    AdvancedSettings:
+      Title: crwdns45734:0crwdne45734:0
+      WebsocketUrl: crwdns45736:0crwdne45736:0
+      WebsocketUrlReset: crwdns45738:0crwdne45738:0
   Stage1:
     Header: "crwdns42012:0crwdne42012:0"
     ReliquaryDesc:
@@ -25,6 +40,7 @@ Import:
       OfflineMsg: "crwdns42020:0{{version}}crwdne42020:0"
       l1: crwdns42022:0crwdne42022:0
       l2: crwdns42024:0crwdne42024:0
+      l3: crwdns45740:0crwdne45740:0
     KelzDesc:
       Title: crwdns42026:0crwdne42026:0
       Link: crwdns42028:0crwdne42028:0

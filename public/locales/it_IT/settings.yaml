@@ -1,1 +1,22 @@
 Title: Impostazioni
+RelicEquippingBehavior:
+  Label: Equipaggiando reliquie da un altro personaggio
+  Replace: "Predefinito: Sostituisci le reliquie senza scambiarle"
+  Swap: Scambia reliquie con il proprietario precedente
+PermutationsSidebarBehavior:
+  Label: Riduci la barra laterale dell'ottimizzatore su schermi più piccoli
+  ShowXL: "Predefinito: Minimizza se parte della barra laterale è nascosta"
+  ShowXXL: Minimizza se parte della barra laterale è nascosta
+  NoShow: Mantieni sempre la barra laterale a destra
+RelicPotentialLoadBehavior:
+  Label: Punteggio potenziale delle reliquie al caricamento
+  ScoreAtStartup: "Predefinito: Calcola automaticamente i punteggi delle reliquie al caricamento della pagina"
+  ManuallyClickReapplyScores: Calcola i punteggi delle reliquie quando viene cliccato "Riapplica punteggi" (caricamento più veloce)
+ExpandedInfoPanelPosition:
+  Label: Posizione pannello delle informazioni estese dell'ottimizzatore
+  Above: Mostra informazioni estese sopra l'anteprima delle reliquie
+  Below: "Predefinito: Mostra informazioni estese sotto l'anteprima delle reliquie"
+ShowLocatorInRelicsModal:
+  Label: Localizzatore reliquie nell'editor delle reliquie
+  Yes: Mostra il localizzatore reliquie nell'editor delle reliquie
+  No: "Predefinito: Non mostrare il localizzatore reliquie nell'editor delle reliquie"

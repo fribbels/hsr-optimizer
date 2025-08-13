@@ -37,14 +37,14 @@ export type ShowcaseTheme = {
 }
 
 export function RelicPreview(props: {
-  relic?: Relic,
+  relic?: Relic | null,
   source?: ShowcaseSource,
-  characterId?: CharacterId,
+  characterId?: CharacterId | null,
   score?: RelicScoringResult,
   scoringType?: ScoringType,
   setEditModalOpen?: (open: boolean) => void,
   setAddModalOpen?: (open: boolean) => void,
-  setSelectedRelic: (relic: Relic) => void,
+  setSelectedRelic?: (relic: Relic) => void,
   showcaseTheme?: ShowcaseTheme,
   unhoverable?: boolean,
 }) {
@@ -79,15 +79,15 @@ export function RelicPreview(props: {
   const cardClicked = () => {
     if ((!relic.id && !characterId) || source == ShowcaseSource.SHOWCASE_TAB || source == ShowcaseSource.BUILDS_MODAL) return
 
-    if (!relic.id) {
+    if (!relic.id && characterId) {
       console.log(`Add new relic for characterId=${characterId}.`)
       relic.equippedBy = characterId
       relic.enhance = 15
       relic.grade = 5
-      setSelectedRelic(relic)
+      setSelectedRelic?.(relic)
       setAddModalOpen?.(true)
     } else {
-      setSelectedRelic(relic)
+      setSelectedRelic?.(relic)
       setEditModalOpen?.(true)
     }
   }

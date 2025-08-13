@@ -90,6 +90,10 @@ OptimizerOptions:
     Label9: '+9'
     Label12: '+12'
     Label15: '+15'
+  DPSMode:
+    Header: DPS 유형
+    Main: 메인
+    Sub: 서브
 AdvancedOptions:
   Header: 고급 설정
   EnemyConfigButtonText: 적 설정
@@ -309,6 +313,9 @@ SetConditionals:
     Sacerdos:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} 스택 (+{{buffValue}}% 치피)'
+    Arcadia:
+      Display: '{{allyCount}}x'
+      Label: '{{allyCount}}팀원(+{{buffValue}}%데미지)'
   Conditionals:
     DefaultMessage: 기본 활성화 - 전투 스텟에 효과가 적용됩니다.
     Hunter: 활성화되면 전투 스텟에 치명타 데미지 버프가 적용됩니다.
@@ -335,6 +342,8 @@ SetConditionals:
     Duran: 선택된 버프는 스택 수에 따른 피해 계산에 적용됩니다.
     Kalpagni: 활성화되면 격파 특수효과 버프를 적용하여 전투 스텟에 적용됩니다.
     Lushaka: 기본적으로 비활성화 - 이 세트는 장비 캐릭터에 영향을 주지 않습니다.
+    Banana: 활성화되면 전투 스텟에 32% 치명타 데미지 증가가 적용됩니다.
+    Arcadia: 선택한 버프를 전투 상태 계산에 반영합니다. 팀 편성을 변경하면 자동으로 업데이트 됩니다.
 Presets:
   SpdValues:
     SPD0: 최소 속도 없음

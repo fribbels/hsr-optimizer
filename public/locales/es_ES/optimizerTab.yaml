@@ -60,13 +60,13 @@ SortOptions:
   EHP: Ord. por PV efectivos
 OptimizerOptions:
   Header: Opciones del optimizador
-  PriorityFilter: Filtro de prioridad de personaje
+  PriorityFilter: Filtrar prioridad de los pj.
   Priority:
     Header: Prioridad
     Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
-  AllowEquipped: Permitir artefactos equipados
-  KeepCurrent: Mantener artefactos actuales
+  AllowEquipped: Permitir artef. equipados
+  KeepCurrent: Mantener artefactos
   Exclude: Excluir
   MinEnhance:
     Header: Nivel mínimo
@@ -90,6 +90,10 @@ OptimizerOptions:
     Label9: '+9'
     Label12: '+12'
     Label15: '+15'
+  DPSMode:
+    Header: Modo DPS
+    Main: Princ.
+    Sub: Sec.
 AdvancedOptions:
   Header: Opciones avanzadas
   EnemyConfigButtonText: Ajustes del enemigo
@@ -338,7 +342,7 @@ SetConditionals:
     Kalpagni: Activado, aplica la mejora de Efecto de Ruptura a los cálculos de Atributos de combate.
     Lushaka: Desactivado por defecto - Este conjunto es incapaz de afectar a su usuario.
     Banana: Activado, el 32% de Daño CRIT adicional se aplica a los cálculos de Atributos de combate.
-    Arcadia: La mejora seleccionada se aplica a los cálculos de Atributos de combate. Se actualiza automáticamente cuando se cambia la selección de equipo.
+    Arcadia: La mejora seleccionada se aplica a los cálculos de Atributos de combate. Se actualiza automáticamente cuando se cambia el equipo seleccionado.
 Presets:
   SpdValues:
     SPD0: Sin velocidad mínima
@@ -564,14 +568,14 @@ ExpandedDataPanel:
       additionalDmg: Adicional
       trueDmg: 'Verdadero'
       jointDmg: Combinado
-      dotDmg: DOT
+      dotDmg: DoT
       memoDmg: Mnemo
     YAxisLabel:
       BASIC_DMG: Básico
       SKILL_DMG: Habilid.
       ULT_DMG: Definit.
       FUA_DMG: Atq.Adic.
-      DOT_DMG: DOT
+      DOT_DMG: DoT
       BREAK_DMG: Ruptura
       MEMO_SKILL_DMG: Habil.ᴹ
       MEMO_TALENT_DMG: Talentoᴹ
@@ -608,7 +612,7 @@ ExpandedDataPanel:
           Skill: Habilidad
           Ult: Definitiva
           Fua: Atq. Adic.
-          Dot: DOT
+          Dot: DoT
           Break: Ruptura
           Memo Skill: Habilidad mnemo
           Memo Talent: Talento mnemo

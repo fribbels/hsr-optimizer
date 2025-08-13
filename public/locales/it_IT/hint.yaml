@@ -1,2 +1,120 @@
+RatingFilter:
+  Title: Filtri valutazione
+  p1: >-
+    PVE - PV Effettivi, misurano la resistenza di un personaggio. Calcolato utilizzando PV, DIF e abilità passive di riduzione del danno
+  p2: >-
+    Att. Base / Abilità / Ult / FuA (attacco di follow-up) / DoT (danni nel tempo) / Break (rottura della barra di resistenza) - Calcolo del danno delle abilità, in base ai fattori ambientali nelle passive del personaggio, passive del cono di luce e opzioni nemiche.
+  p3: >-
+    Cura / Scudo - Altri calcoli delle abilità, basati su fattori ambientali nelle passive del personaggio, passive del cono di luce e opzioni nemiche.
+CombatBuffs:
+  Title: Buff in combattimento
+  p1: Buff di squadra aggiuntivi da applicare ai calcoli. I buff da personaggio, cono di luce, e tracce sono già inclusi nei calcoli.
+ComboFilters:
+  Title: Rotazione combo
+  p1: Definisce la rotazione delle abilità per misurare i DAN da Combo. Le rotazioni sono definite con le parentesi quadre per indicare l'inizio e la fine di un turno. Vedi il menu Rotazione avanzata e la guida utente per maggiori dettagli.
+StatFilters:
+  Title: Filtri statistiche
+  p1: Filtri di Minimo (sinistra) e Massimo (destra) per le statistiche del personaggio, estremi inclusi. L'ottimizzatore mostrerà solo i risultati all'interno di questi intervalli.
+  p2: Le abbreviazioni delle statiche sono ATT / PV / DIF / VEL / Tasso di Crit / Danno da Crit / Tasso di Successo Effetto / RES Effetti / Effetto Break / Tasso di Rigenerazione Energia
+  p3: "NOTA: I decimali di velocità in gioco sono troncati, quindi potresti vedere valori più alti di quelli mostrati qui. Questo perché l'importatore OCR non riesce a rilevare i decimali nascosti."
+Mainstats:
+  Title: Statistiche principali
+  p1: Seleziona le statistiche principali da utilizzare per la ricerca di ottimizzazione. È possibile selezionare valori multipli per avere più opzioni
+Sets:
+  Title: Set
+  p1: Seleziona i set di reliquie e ornamenti per filtrare i risultati. È possibile selezionare set multipli per avere più opzioni
+  p2: Gli effetti dei set saranno presi in considerazione dai calcoli, utilizza il menu "Effetti dei set condizionali" per personalizzare gli effetti attivi.
 Character:
-  Title: Personaggi
+  Title: Personaggio
+  p1: Seleziona il personaggio e il numero di copie. Nei calcoli di ottimizzazione si assume che il personaggio sia di livello 80 con le tracce di livello massimo.
+CharacterPassives:
+  Title: Passive personaggio
+  p1: Seleziona gli effetti condizionali da applicare al personaggio.
+  p2: Gli effetti che si basano su statistiche in combattimento o su uno stato ambientale verranno applicati di default, quindi verranno mostrate qui solo le opzioni che richiedono l'input dell'utente.
+LightconePassives:
+  Title: Passive cono di luce
+  p1: Seleziona gli effetti condizionali da applicare al cono di luce.
+  p2: Gli effetti che si basano su statistiche in combattimento o su uno stato ambientale verranno applicati di default, quindi verranno mostrate qui solo le opzioni che richiedono l'input dell'utente.
+Lightcone:
+  Title: Cono di Luce
+  p1: Seleziona il cono di luce e il numero di copie. Nei calcoli di ottimizzazione si assume che il cono di luce sia di livello 80.
+  p2: Gli effetti passivi sono applicati sotto il pannello "Passive cono di luce".
+Actions:
+  Title: Azioni
+  p1: Equipaggia - Equipaggia le reliquie selezionate dalla griglia al personaggio
+  p2: Filtro - Riapplica i filtri di ricerca ai risultati esistenti. Usalo per restringere i filtri senza effettuare una nuova ricerca
+  p3: Pinna build - Fissa la riga attualmente selezionata in cima alla griglia. Usalo per confrontare più facilmente le build
+  p4: Cancella pin - Cancella tutte le build che hai fissato in cima alla griglia
+OptimizerOptions:
+  Title: Opzioni ottimizzatore
+  PriorityFilter: >-
+    <0>Filtro priorità personaggio</0> - Quando questa opzione è abilitata, il personaggio può rubare reliquie solo da personaggi di priorità inferiore. L'ottimizzatore ignorerà le reliquie equipaggiate da personaggi con priorità più alta. Cambia i loro gradi nel selettore di priorità o trascinandoli nella pagina Personaggi.
+  BoostMain: >-
+    <0>Potenzia statistica principale</0> - Calcola le statistiche principali come se fossero a questo livello (o il loro massimo se non riescono a raggiungerlo) se sono attualmente al di sotto di esso. Le statistiche secondarie non vengono modificate di conseguenza, quindi le build con le reliquie di livello inferiore possono essere più forti una volta che le livelli.
+  KeepCurrent: <0>Mantieni reliquie attuali</0> - Il personaggio deve utilizzare gli elementi attualmente equipaggiati e l'ottimizzatore cercherà di riempire gli slot vuoti
+  AllowEquipped: <0>Includi reliquie equipaggiate</0> - Quando abilitata, l'ottimizzatore permetterà di utilizzare le reliquie che sono attualmente equipaggiate da un personaggio durante la ricerca. In caso contrario sono escluse le reliquie equipaggiate
+  Priority: "<0>Priorità</0> - Vedi: Filtro priorità personaggio. Questa impostazione cambia la priorità di un personaggio"
+  Exclude: <0>Escludi</0> - Seleziona personaggi specifici per escludere le loro reliquie equipaggiate dalla ricerca. Questa impostazione sovrascrive il filtro di priorità
+  Enhance: <0>Miglioramento / grado</0> - Seleziona miglioramento minimo e stelle minime per le reliquie da includere
+  DPSMode: <0>Modalità DPS</0> - Seleziona se il personaggio deve essere il bersaglio primario per i buff di supporto (DPS principale) o no (DPS secondario) per i calcoli delle statistiche dell'ottimizzatore
+Relics:
+  Title: Reliquie
+  p1: >-
+    Nota - Il potenziale è una percentuale di valutazione che confronta una reliquia con la migliore reliquia +15 possibile nello slot per il personaggio attuale. È basata sui pesi dell'algoritmo del punteggio. Questo significa che le reliquie a +0 senza roll hanno a volte un potenziale più elevato di relique +15 esistenti, perchè i loro possibili roll sono andati nelle statistiche desiderate del personaggio.
+  p2: "Personaggio selezionato: Punteggio - Il punteggio attuale della reliquia come definito dall'algoritmo del punteggio per il personaggio selezionato"
+  p3: "Personaggio selezionato: Potenziale medio - Il potenziale della reliquia al suo livello massimo, calcolato come media di tutti i possibili roll che potrebbe avere fino a +15"
+  p4: "Personaggio selezionato: Potenziale massimo - Il potenziale massimo della reliquia se tutti i roll futuri sono andati nelle statistiche desiderate del personaggio"
+  p5: 'Tutti i personaggi: Potenziale massimo - Il potenziale più alto possibile della reliquia, tra tutti i personaggi del gioco.'
+OptimizationDetails:
+  Title: Dettagli ottimizzazione
+  p1: Mostra quante reliquie verranno utilizzate nella ricerca di ottimizzazione, dopo l'applicazione dei filtri
+  p2: Permutazioni - Numero di permutazioni che devono essere ricercate. Restringi i filtri per ridurre le permutazioni e il tempo di ricerca
+  p3: Ricercate - Numero di permutazioni già ricercate
+  p4: Risultati - Numero di risultati visualizzati che soddisfano i filtri statistiche
+EnemyOptions:
+  Title: Opzioni nemici
+  p1: Livello - Livello del nemico, influenza i calcoli di DIF del nemico
+  p2: RES Effetti - RES Effetti del nemico. È utilizzata per i calcoli relativi ai danni DoT
+  p3: RES Danno - RES elementale del nemico. È impostata a 0 quando la debolezza elementale del nemico è attivata.
+  p4: Resistenza massima - Valore massimo della barra di resistenza del nemico. Influenza i calcoli relativi al danno break.
+  p5: Bersagli - Numero di bersagli nella battaglia. Si presume che il nemico sia sempre al centro e i calcoli dei danni si riferiscono al singolo bersaglio primario.
+  p6: Debolezza elementale - Se il nemico è debole al tipo del personaggio. Se abilitata imposta la % di RES elementale del nemico a 0.
+  p7: Debolezza rotta - Se la barra di resistenza del nemico è rotta. Influenza i calcoli dei danni e alcune passive dei personaggi.
+SubstatWeightFilter:
+  Title: Filtro peso stat secondarie
+  p1: Questo filtro è utilizzato per ridurre il numero di permutazioni che l'ottimizzatore deve elaborare.
+  p2: Funziona valutando prima ogni reliquia per ogni slot con i pesi definiti, poi filtrando in base al numero minimo di roll pesati che la reliquia ha.
+  p3: Solo le reliquie che hanno più del numero specificato di roll pesati verranno utilizzate per la ricerca dell'ottimizzatore.
+  p4: >-
+    Impostare il numero minimo di roll troppo alto potrebbe non mostrare alcune build, se il filtro finisce per escludere una reliquia chiave. Usa questo filtro con attenzione, ma su grandi ricerche ha un grande impatto sulla riduzione del tempo di ricerca.
+StatDisplay:
+  Title: Vista statistiche e filtri
+  p1: Questo permette di cambiare la vista dei risultati come Statistiche Base o Statistiche Combattimento. I filtri statistiche saranno applicati anche alla vista selezionata.
+  p2: Statistiche Base - Le statistiche mostrate sullo schermo del personaggio in gioco, senza alcun buff in combattimento applicato.
+  p3: "Statistiche Combattimento - Le statistiche del personaggio con tutti i modificatori in combattimento inclusi: buff di abilità, passive del personaggio e del cono di luce, compagni di squadra, effetti condizionali dei set, ecc."
+ValueColumns:
+  Title: Colonne valori
+  p1: È possibile visualizzare opzionalmente un numero di colonne che valutano il relativo 'valore' di una reliquia.
+  p2: Potenziale
+  p3: Il potenziale è una percentuale specifica del personaggio di quanto buona potrebbe essere la reliquia (oppure 'è', se completamente migliorata) rispetto alle statistiche su una reliquia 'perfetta' completamente migliorata in quello slot.
+  p4: Il potenziale è calcolato su tutti i personaggi o solo quelli posseduti. Poi prende la percentuale massima per ogni personaggio.
+  p5: Il potenziale è utile per trovare reliquie che non sono buone su nessun personaggio o gemme nascoste che potrebbero diventare ottime quando migliorate.
+  p6: 'Nota: l''ordinamento in base al potenziale può non corrispondere ai pesi, poiché i calcoli del peso preferiscono statistiche principali ideali con peso inferiore.'
+RelicInsights:
+  Title: Reliquie Consigliate
+  p1: Selezionando una reliquia nella tabella sopra, è possibile scegliere un'analisi per visualizzare un grafico.
+  p2: >-
+    "Suddivisione" esamina quanto perfetta potrebbe essere questa reliquia (con i migliori roll di potenziamento possibili) per ogni personaggio e li raggruppa in percentuali.<1/>Se passi il mouse sopra l'icona di un personaggio vedrai le nuove statistiche e/o i roll necessari per raggiungere il potenziale massimo di questa reliquia.<3/>⚠️ Le reliquie con statistiche secondarie mancanti potrebbero avere raggruppamenti ingannevolmente alti, poiché l'analisi del potenziamento nel caso migliore presuppone la migliore nuova statistica secondaria per personaggio.
+  p3: "\"Top 10\" prende in considerazione i 10 personaggi per i quali questa reliquia potrebbe rivelarsi la più adatta e mostra l'intervallo di \"% perfezione\" che potrebbe derivare dal miglioramento di questa reliquia."
+RelicLocation:
+  Title: Posizione Reliquia
+  p1: Quando una reliquia è selezionata nella griglia, la sua posizione nell'inventario in gioco è mostrata qui.
+  p2: Se sono attivi filtri set / pezzo, applica gli stessi filtri in gioco, poi ordina per "Data di ottenimento (dal più recente)" per trovare la reliquia.
+  p3: '⚠️Avvertenze d''uso⚠️'
+  p4: Questo è supportato solo con l'importazione tramite Reliquary Archiver
+  p5: Se sono state ottenute o eliminate delle reliquie dopo l'ultima importazione, devono essere nuovamente scansionate e importate
+  p6: Seleziona la larghezza appropriata dell'inventario per avere delle posizioni accurate. La larghezza dipende dallo schermo del gioco e la larghezza dei menu
+LocatorParams:
+  Title: Opzioni del Localizzatore Reliquie
+  p1: <0>Larghezza Inventario</0> - Seleziona il numero di colonne che possiede l'inventario in gioco in modo che il localizzatore delle reliquie possa trovare la tua reliquia con precisione
+  p2: <0>Filtro Automatico Righe</0> - Numero massimo di righe prima che il localizzatore delle reliquie applichi un filtro al pezzo/set per provare a portare la reliquia ricercata più in cima al tuo inventario

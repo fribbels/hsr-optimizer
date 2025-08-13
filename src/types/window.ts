@@ -78,11 +78,7 @@ declare global {
     relicsGrid: RefObject<AgGridReact<Relic>>
     optimizerGrid: RefObject<AgGridReact<OptimizerDisplayData>>
 
-    setCharacterRows: (characters: Character[]) => void
-    setRelicRows: (characters: Relic[]) => void
     setOptimizerBuild: (build?: Build) => void
-    setSelectedRelic: (relic: Partial<Relic>) => void
-    setEditModalOpen: (open: boolean) => void
 
     showcaseTabForm: FormInstance<ShowcaseTabForm>
 
@@ -92,7 +88,6 @@ declare global {
     optimizerForm: FormInstance<Form>
 
     forceOptimizerBuildPreviewUpdate: DispatchWithoutAction
-    forceCharacterTabUpdate: DispatchWithoutAction
     refreshRelicsScore: DispatchWithoutAction
 
     rescoreSingleRelic: (relic: Relic) => void
@@ -125,8 +120,6 @@ declare global {
     WEBGPU_DEBUG: boolean
   }
 
-  // eslint-disable-next-line no-var
   var WEBGPU_DEBUG: boolean
-  // eslint-disable-next-line no-var
   var SEQUENTIAL_BENCHMARKS: boolean
 }

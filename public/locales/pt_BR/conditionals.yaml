@@ -91,6 +91,10 @@ Lightcones:
         text: Buff de SPD pós-Ultimate
         content: >-
           Após o portador realizar um ataque, para cada alvo inimigo diferente que o portador atinge, ele recupera {{EnergyRecovered}} de Energia. Cada ataque pode regenerar Energia até 3 vezes dessa forma. Após o portador usar sua Ultimate, todos os aliados ganham {{SpdBuff}} de SPD por 1 turno.
+  EpochEtchedInGoldenBlood:
+    Content:
+      skillDmgBoost:
+        text: Boost de DMG
   EternalCalculus:
     Content:
       atkBuffStacks:
@@ -349,6 +353,10 @@ Lightcones:
         text: Vulnerabilidade roteada
         content: >-
           Quando o usuário causa BREAK DMG a um alvo inimigo, inflige a condição Roteada no inimigo, durando por 2 turno(s). Os alvos afetados por Roteada recebem um aumento de {{Vulnerability}}% no BREAK DMG, e sua Velocidade (SPD) é reduzida em 20%. Efeitos do mesmo tipo não podem ser acumulados.
+  WhyDoesTheOceanSing:
+    Content:
+      spdBuff:
+        text: Buff de SPD
   WorrisomeBlissful:
     Content:
       targetTameStacks:
@@ -576,6 +584,10 @@ Lightcones:
       cdBuffActive:
         text: 'Buff de cooldown para alvos com ≥ 2 fraquezas'
         content: Quando o portador usa um ataque e pelo menos 2 inimigos atacados têm a fraqueza correspondente, o CRIT DMG do portador aumenta em {{CritBuff}}% por 2 turnos.
+  TheForeverVictual:
+    Content:
+      atkStacks:
+        text: Acúmulos de buff de ATK
   TheGreatCosmicEnterprise:
     Content:
       weaknessTypes:
@@ -1002,6 +1014,17 @@ Characters:
         content: >-
           Quando Castorice ou "Dragão Abissal" causam Dano, aumenta a PEN de RES a Quântico em 20% e, adicionalmente, aumenta o número de Rebotes para o Talento do "Dragão Abissal", "Asas Sobre as Ruínas", em 3 vez(es).
 
+  Cerydra:
+    Content:
+      spdBuff:
+        text: Buff de SPD
+      e2DmgBoost:
+        text: Boost de DMG E2
+      e6Buffs:
+        text: Buffs E6
+    TeammateContent:
+      e1DefPen:
+        text: PEN de DEF E1
   Cipher:
     Content:
       vulnerability:
@@ -1314,6 +1337,14 @@ Characters:
       e6ResPen:
         text: E6 RES PEN
         content: Quando Ikinha está em campo, aumenta a PES de RES a Todos os Tipos de todos os aliados-alvo em 20%.
+  Hysilens:
+    Content:
+      ultZone:
+        text: Zona de Ult ativa
+      ehrToDmg:
+        text: Aumento de DMG de EHR
+      e6Buffs:
+        text: Buffs E6
   ImbibitorLunae:
     Content:
       basicEnhanced:

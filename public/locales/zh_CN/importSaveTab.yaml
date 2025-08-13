@@ -16,6 +16,21 @@ Import:
     BadMainstat: 无法解析主属性为{{mainstat}}、部件为{{part}}的遗器。
   ParserWarning:
     BadRollInfo: 扫描器文件已过时 / 可能包含无效信息。请更新你的扫描器。
+  LiveImport:
+    Title: 实时导入控制
+    Description:
+      l1: 使用 Reliquary Archiver 时，你可以启用“实时导入”模式，以实时导入你的背包。
+      l2: 这包括新获得的遗器、已强化的遗器、跃迁/抽卡结果等内容。
+    Connected: 已连接
+    Disconnected: 已断开
+    DisconnectedHint: "无法连接到扫描器，请确认其正在运行。\n\n"
+    Enable: 启用实时导入（推荐）
+    UpdateCharacters: 启用角色已装备遗器和光锥的更新
+    UpdateWarpResources: ' 启用跃迁资源导入（星玉、专票/通票、保底计数）'
+    AdvancedSettings:
+      Title: 高级设置
+      WebsocketUrl: Websocket 地址
+      WebsocketUrlReset: 重置为默认
   Stage1:
     Header: "安装并运行其中一个遗器扫描器选项："
     ReliquaryDesc:
@@ -25,6 +40,7 @@ Import:
       OfflineMsg: "***** 状态: 正在版本{{version}}后停机维护*****"
       l1: 精准的速度小数点，快速扫描
       l2: 导入完整的遗器库存和角色列表
+      l3: 支持实时导入（新遗器/强化遗器实时导入）
     KelzDesc:
       Title: Kel-Z HSR Scanner
       Link: Github

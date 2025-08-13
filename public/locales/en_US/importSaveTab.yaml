@@ -16,6 +16,21 @@ Import:
     BadMainstat: Could not parse mainstat for relic with mainstat {{mainstat}} and part {{part}}
   ParserWarning:
     BadRollInfo: Scanner file is outdated / may contain invalid information. Please update your scanner.
+  LiveImport:
+    Title: Live Import Controls
+    Description:
+      l1: When using the Reliquary Archiver, you can enable the "Live Import" mode to import your inventory in real time.
+      l2: This includes new relics, enhanced relics, warp/gacha results, and more.
+    Connected: Connected
+    Disconnected: Disconnected
+    DisconnectedHint: Unable to connect to the scanner. Please check that it is running.
+    Enable: Enable Live Import (Recommended)
+    UpdateCharacters: Enable updating characters' equipped relics and lightcones
+    UpdateWarpResources: Enable importing Warp resources (jades, passes, pity)
+    AdvancedSettings:
+      Title: Advanced Settings
+      WebsocketUrl: Websocket URL
+      WebsocketUrlReset: Reset to default
   Stage1:
     Header: "Install and run one of the relic scanner options:"
     ReliquaryDesc:
@@ -25,6 +40,7 @@ Import:
       OfflineMsg: "***** Status: Down for maintenance after {{version}} patch *****"
       l1: Accurate speed decimals, instant scan
       l2: Imports full inventory and character roster
+      l3: Supports live importing (new/enhanced relics are imported in real time)
     KelzDesc:
       Title: Kel-Z HSR Scanner
       Link: Github

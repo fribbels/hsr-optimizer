@@ -15,6 +15,13 @@ RelicFilterBar:
   RecommendationHeader: 角色遗器推荐
   Rating: 遗器评分
   CustomCharsHeader: 自定义有潜力角色
+RecentlyUpdatedRelics:
+  Header: 最近更新的遗器
+  Potential: 潜力值
+  Avg: 平均值
+  Max: 最大值
+  BestFor: 最适合
+  Tooltip: 该角色的平均和最高潜力评分
 Messages:
   AddRelicSuccess: 成功添加遗器
   NoRelicSelected: 无选中遗器
@@ -57,32 +64,32 @@ RelicGrid:
     SelectedCharacter:
       Label: 选定角色
       ScoreCol:
-        Label: "选定角色：评分"
+        Label: '选定角色：评分'
         Header: |-
           选定角色
           评分
       AvgPotCol:
-        Label: "选定角色：平均潜力"
+        Label: '选定角色：平均潜力'
         Header: |-
           选定角色
           平均潜力
       MaxPotCol:
-        Label: "选定角色：最大潜力"
+        Label: '选定角色：最大潜力'
         Header: |-
           选定角色
           最大潜力
       RerollAvg:
-        Label: "选定角色：重掷平均潜力"
+        Label: '选定角色：重掷平均潜力'
         Header: |-
           选定角色
           重掷均值
       RerollAvgDelta:
-        Label: "选定角色：重掷平均差值潜力"
+        Label: '选定角色：重掷平均差值潜力'
         Header: |-
           选定角色
           重掷Δ均值
       RerollAvgEquippedDelta:
-        Label: "选定角色：重掷平均差值潜力与已装备对比"
+        Label: '选定角色：重掷平均差值潜力与已装备对比'
         Header: |-
           选定角色
           重掷Δ均值
@@ -90,62 +97,57 @@ RelicGrid:
     CustomCharacters:
       Label: 自定义角色
       AvgPotCol:
-        Label: "自定义角色：平均潜力"
+        Label: '自定义角色：平均潜力'
         Header: |-
           自定义角色
           平均潜力
       MaxPotCol:
-        Label: "自定义角色：最大潜力"
+        Label: '自定义角色：最大潜力'
         Header: |-
           自定义角色
           最大潜力
       RerollAvg:
-        Label: "自定义角色：重掷平均潜力"
+        Label: '自定义角色：重掷平均潜力'
         Header: |-
           自定义角色
           重掷均值
     AllCharacters:
       Label: 所有角色
       AvgPotCol:
-        Label: "所有角色：平均潜力"
+        Label: '所有角色：平均潜力'
         Header: |-
           所有角色
           平均潜力
       MaxPotCol:
-        Label: "所有角色：最大潜力"
+        Label: '所有角色：最大潜力'
         Header: |-
           所有角色
           最大潜力
       RerollAvg:
-        Label: "所有角色：重掷平均潜力"
+        Label: '所有角色：重掷平均潜力'
         Header: |-
           所有角色
           重掷均值
-    ComingSoon:
-      Label: 尽情期待
-      SetsPotential:
-        Label: 遗器 / 饰品套装潜力
-        Header: |-
-          所有角色
-          最高潜力 + 套装
 Toolbar:
   RelicLocator:
     Width: 物品栏宽度
     Filter: 自动筛选行
     NoneSelected: 选择一个遗器进行定位
-    Location: "位置 - 第{{rowIndex}}行 / 第{{columnIndex}}列"
+    Location: '位置 - 第{{rowIndex}}行 / 第{{columnIndex}}列'
   InsightOptions:
-    Buckets: "遗器洞察：分类"
-    Top10: "遗器洞察：前十"
+    Buckets: '遗器洞察：分类'
+    Top10: '遗器洞察：前十'
   PlotOptions:
     PlotAll: 显示所有角色
     PlotCustom: 显示自定义角色
+    PlotOwned: 显示持有角色
   EditRelic: 编辑遗器
   DeleteRelic:
     ButtonText: 删除遗器
     Warning_one: 删除所选遗器吗？
-    Warning_other: "删除{{count}}个选定的遗器吗？"
+    Warning_other: '删除{{count}}个选定的遗器吗？'
   AddRelic: 添加新遗器
 RelicInsights:
-  NewStats: "新添加属性："
-  UpgradedStats: "升级的属性："
+  NewStats: '新添加属性：'
+  UpgradedStats: '升级的属性：'
+  AvgPotential: '平均潜力： '

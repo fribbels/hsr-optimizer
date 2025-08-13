@@ -15,6 +15,13 @@ RelicFilterBar:
   RecommendationHeader: 遺物をおすすめするキャラ
   Rating: 遺物の分類
   CustomCharsHeader: 評価対象の複数指定
+RecentlyUpdatedRelics:
+  Header: 最近更新された遺物
+  Potential: ポテンシャル
+  Avg: 平均
+  Max: 最大
+  BestFor: 最適
+  Tooltip: キャラクターに対しての平均・最大遺物ポテンシャル
 Messages:
   AddRelicSuccess: 遺物を追加しました
   NoRelicSelected: 遺物が未選択です
@@ -60,32 +67,32 @@ RelicGrid:
     SelectedCharacter:
       Label: 選択したキャラクター
       ScoreCol:
-        Label: "選択キャラ：遺物スコア"
+        Label: '選択キャラ：遺物スコア'
         Header: |-
           選択キャラ
           遺物スコア
       AvgPotCol:
-        Label: "選択キャラ：平均遺物ポテンシャル"
+        Label: '選択キャラ：平均遺物ポテンシャル'
         Header: |-
           選択キャラ 平均
           ポテンシャル
       MaxPotCol:
-        Label: "選択キャラ：最大遺物ポテンシャル"
+        Label: '選択キャラ：最大遺物ポテンシャル'
         Header: |-
           選択キャラ 最大
           ポテンシャル
       RerollAvg:
-        Label: "選択キャラ：振り直し後の平均遺物ポテンシャル"
+        Label: '選択キャラ：振り直し後の平均遺物ポテンシャル'
         Header: |-
           選択 振り直し
           ポテンシャル
       RerollAvgDelta:
-        Label: "選択キャラ：振り直し前後の平均ポテンシャル差異"
+        Label: '選択キャラ：振り直し前後の平均ポテンシャル差異'
         Header: |-
           選択 振り直し
           ポテンシャル差
       RerollAvgEquippedDelta:
-        Label: "選択キャラ：振り直し後と装備済み遺物の平均ポテンシャル差異"
+        Label: '選択キャラ：振り直し後と装備済み遺物の平均ポテンシャル差異'
         Header: |-
           選択 振り直し
           vs 装備済み
@@ -93,61 +100,57 @@ RelicGrid:
     CustomCharacters:
       Label: 指定した複数キャラクター
       AvgPotCol:
-        Label: "指定対象：平均遺物ポテンシャル"
+        Label: '指定対象：平均遺物ポテンシャル'
         Header: |-
           指定対象 平均
           ポテンシャル
       MaxPotCol:
-        Label: "指定対象：最大遺物ポテンシャル"
+        Label: '指定対象：最大遺物ポテンシャル'
         Header: |-
           指定対象 最大
           ポテンシャル
       RerollAvg:
-        Label: "指定対象：振り直し後の平均遺物ポテンシャル"
+        Label: '指定対象：振り直し後の平均遺物ポテンシャル'
         Header: |-
           指定 振り直し
           ポテンシャル
     AllCharacters:
       Label: 全キャラクター
       AvgPotCol:
-        Label: "全キャラ：平均遺物ポテンシャル"
+        Label: '全キャラ：平均遺物ポテンシャル'
         Header: |-
           全キャラ 平均
           ポテンシャル
       MaxPotCol:
-        Label: "全キャラ：最大遺物ポテンシャル"
+        Label: '全キャラ：最大遺物ポテンシャル'
         Header: |-
           全キャラ 最大
           ポテンシャル
       RerollAvg:
-        Label: "全キャラ：振り直し後の平均遺物ポテンシャル"
+        Label: '全キャラ：振り直し後の平均遺物ポテンシャル'
         Header: |-
           全 振り直し
           ポテンシャル
-    ComingSoon:
-      Label: 近日公開
-      SetsPotential:
-        Label: 遺物・オーナメントセットのポテンシャル
-        Header: |-
-          全キャラ 最大ポテンシャル+セット
 Toolbar:
   RelicLocator:
     Width: インベントリの幅
     Filter: 行のしきい値
     NoneSelected: 遺物を選択して場所を確認
-    Location: "場所 - 行 {{rowIndex}} / 列 {{columnIndex}}"
+    Location: '場所 - 行 {{rowIndex}} / 列 {{columnIndex}}'
   InsightOptions:
-    Buckets: "遺物インサイト：バケツ"
-    Top10: "遺物インサイト：トップ10"
+    Buckets: '遺物インサイト：バケツ'
+    Top10: '遺物インサイト：トップ10'
   PlotOptions:
     PlotAll: 全てのキャラクターを表示
     PlotCustom: 指定対象のみ表示
+    PlotOwned: 獲得したキャラのみ表示
   EditRelic: 遺物を編集
   DeleteRelic:
     ButtonText: 遺物を削除
     Warning_one: 選択した遺物を削除しますか？
-    Warning_other: "選択した{{count}}個の遺物を削除しますか？"
+    Warning_other: '選択した{{count}}個の遺物を削除しますか？'
   AddRelic: 新しい遺物を追加
 RelicInsights:
-  NewStats: "新しいステータス："
-  UpgradedStats: "アップグレードしたステータス："
+  NewStats: '新しいステータス：'
+  UpgradedStats: 'アップグレードしたステータス：'
+  AvgPotential: '平均ポテンシャル：'

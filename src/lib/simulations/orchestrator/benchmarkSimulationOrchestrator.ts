@@ -48,6 +48,7 @@ import {
   SimulationRequest,
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
+import { KAFKA_B1 } from 'lib/simulations/tests/testMetadataConstants'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
 import { runComputeOptimalSimulationWorker } from 'lib/simulations/workerPool'
@@ -114,13 +115,15 @@ export class BenchmarkSimulationOrchestrator {
     const metadata = this.metadata
     const substats: string[] = metadata.substats
     let addBreakEffect = false
+    let addEffectHitRate = false
 
     if (metadata.comboTurnAbilities.filter((x) => toTurnAbility(x).kind == AbilityKind.BREAK).length > 0) {
       // Add break if the combo uses it
       addBreakEffect = true
     }
+
+    // Add break if the harmony trailblazer | fugue is on the team
     if (metadata.teammates.find((x) => x.characterId == '8005' || x.characterId == '8006' || x.characterId == '1225')) {
-      // Add break if the harmony trailblazer | fugue is on the team
       addBreakEffect = true
     }
     if (addBreakEffect && !substats.includes(Stats.BE)) {
@@ -140,6 +143,17 @@ export class BenchmarkSimulationOrchestrator {
     }
     if (addBreakEffect && !metadata.ornamentSets.find((set) => set == Sets.ForgeOfTheKalpagniLantern)) {
       metadata.ornamentSets.push(Sets.ForgeOfTheKalpagniLantern)
+    }
+
+    // Add ehr if kafka is on the team
+    if (metadata.teammates.find((x) => x.characterId == KAFKA_B1)) {
+      addEffectHitRate = true
+    }
+    if (addEffectHitRate && !substats.includes(Stats.EHR)) {
+      substats.push(Stats.EHR)
+    }
+    if (addEffectHitRate && !metadata.parts[Parts.Body].includes(Stats.EHR)) {
+      metadata.parts[Parts.Body].push(Stats.EHR)
     }
   }
 
@@ -370,6 +384,7 @@ export class BenchmarkSimulationOrchestrator {
         scoringParams: clonedBenchmarkScoringParams,
         simulationFlags: flags,
       }
+
       return globalThis.SEQUENTIAL_BENCHMARKS
         ? computeOptimalSimulationWorker({ data: input } as MessageEvent<ComputeOptimalSimulationWorkerInput>)
         : runComputeOptimalSimulationWorker(input)
@@ -449,7 +464,7 @@ export class BenchmarkSimulationOrchestrator {
     const perfectionSim = candidates[0]
 
     this.perfectionSimCandidates = candidates
-    this.perfectionSimResult = perfectionSim.result!
+    this.perfectionSimResult = cloneWorkerResult(perfectionSim.result!)
     this.perfectionSimRequest = perfectionSim.request
   }
 

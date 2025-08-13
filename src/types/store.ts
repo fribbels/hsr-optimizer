@@ -9,6 +9,7 @@ import {
 } from 'lib/simulations/statSimulationTypes'
 import { AppPage } from 'lib/state/db'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { RelicTabFilters } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
 import {
@@ -44,17 +45,6 @@ type PermutationDetails = {
   LinkRopeTotal: number,
 }
 
-export type RelicTabFilters = {
-  set: (string | number)[],
-  part: (string | number)[],
-  enhance: (string | number)[],
-  mainStats: (string | number)[],
-  subStats: (string | number)[],
-  grade: (string | number)[],
-  verified: (string | number)[],
-  equippedBy: (string | number)[],
-  initialRolls: (string | number)[],
-}
 export type HsrOptimizerStore = { // global store separation plan
   /* global                   */ version: string,
   /* global                   */ colorTheme: ColorThemeOverrides,
@@ -67,7 +57,7 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ permutations: number,
   /* optimizerTab             */ permutationsResults: number,
   /* optimizerTab             */ permutationsSearched: number,
-  /* relicsTab?               */ scoringMetadataOverrides: Partial<Record<CharacterId, ScoringMetadata>>,
+  /* global                   */ scoringMetadataOverrides: Partial<Record<CharacterId, ScoringMetadata>>,
   /* characterTab/showcaseTab */ showcasePreferences: Partial<Record<CharacterId, ShowcasePreferences>>,
   /* characterTab/showcaseTab */ showcaseTemporaryOptionsByCharacter: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>,
   /* optimizerTab             */ statSimulationDisplay: StatSimTypes,
@@ -84,7 +74,8 @@ export type HsrOptimizerStore = { // global store separation plan
 
   /* optimizerTab             */ comboState: ComboState,
   /* optimizerTab             */ formValues: Form | undefined,
-  /* global                   */ relicsById: Record<string, Relic>,
+  /* global                   */ relicsById: Partial<Record<string, Relic>>,
+  /* global                   */ relics: Array<Relic>,
   /* optimizerTab             */ statDisplay: StatDisplay,
   /* optimizerTab             */ memoDisplay: MemoDisplay,
   /* global                   */ settings: UserSettings,
@@ -100,13 +91,12 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ setOptimizerEndTime: (open: number) => void,
   /* relicsTab                */ setRelicTabFilters: (filters: RelicTabFilters) => void,
   /* optimizerTab             */ setOptimizerRunningEngine: (s: ComputeEngine) => void,
-  /* relicsTab                */ setExcludedRelicPotentialCharacters: (ids: CharacterId[]) => void,
   /* optimizerTab             */ optimizerFormCharacterEidolon: number,
   /* optimizerTab             */ optimizerFormSelectedLightCone: LightCone['id'] | null | undefined,
   /* optimizerTab             */ optimizerFormSelectedLightConeSuperimposition: number,
   /* optimizerTab             */ setPermutationsResults: (n: number) => void,
   /* optimizerTab             */ setPermutationsSearched: (n: number) => void,
-  /* global                   */ setRelicsById: (relicsById: Record<number, Relic>) => void,
+  /* global                   */ setRelicsById: (relicsById: Partial<Record<string, Relic>>) => void,
   /* global                   */ setSavedSessionKey: <T extends keyof GlobalSavedSession>(key: T, value: GlobalSavedSession[T]) => void,
   /* global                   */ setActiveKey: (key: AppPage) => void,
   /* give own store?          */ setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void,
@@ -125,7 +115,7 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ setSelectedStatSimulations: (x: Simulation['key'][]) => void,
   /* optimizerTab             */ setStatSimulations: (x: Simulation[]) => void,
   /* optimizerTab             */ setStatSimulationDisplay: (x: StatSimTypes) => void,
-  /* relicsTab                */ setScoringMetadataOverrides: (x: Partial<Record<CharacterId, ScoringMetadata>>) => void,
+  /* global                   */ setScoringMetadataOverrides: (x: Partial<Record<CharacterId, ScoringMetadata>>) => void,
   /* characterTab/showcaseTab */ setShowcasePreferences: (x: Partial<Record<CharacterId, ShowcasePreferences>>) => void,
   /* characterTab/showcaseTab */ setShowcaseTemporaryOptionsByCharacter: (x: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>) => void,
   /* optimizerTab             */ setPermutations: (x: number) => void,
@@ -138,7 +128,6 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ permutationDetails: PermutationDetails,
 
   /* relicsTab                */ relicTabFilters: RelicTabFilters,
-  /* relicsTab                */ excludedRelicPotentialCharacters: CharacterId[],
 
   /* optimizerTab             */ optimizerMenuState: OptimizerMenuState,
 
@@ -184,6 +173,12 @@ export type HsrOptimizerSaveFormat = {
   relicLocator: {
     inventoryWidth: number,
     rowLimit: number,
+  },
+  scannerSettings?: {
+    ingest: boolean,
+    ingestCharacters: boolean,
+    ingestWarpResources: boolean,
+    websocketUrl: string,
   },
 }
 

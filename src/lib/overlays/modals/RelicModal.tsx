@@ -1,5 +1,6 @@
 import { CaretRightOutlined } from '@ant-design/icons'
 import {
+  Alert,
   Button,
   Flex,
   Form,
@@ -14,7 +15,6 @@ import {
   Tooltip,
 } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
-import i18next from 'i18next'
 import {
   Constants,
   MainStats,
@@ -39,6 +39,7 @@ import {
   unlockScroll,
 } from 'lib/rendering/scrollController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
+import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { HeaderText } from 'lib/ui/HeaderText'
 import {
@@ -55,7 +56,7 @@ import React, {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { EmptyObject } from 'types/common'
+import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
 
 // FIXME MED
@@ -74,18 +75,18 @@ function RadioIcon(props: { value: string, src: string }) {
   )
 }
 
-function renderMainStat(relic: Relic): { stat: MainStats, value: number } | EmptyObject {
+function renderMainStat(relic: Relic): { stat: MainStats, value: number } | undefined {
   const mainStat = relic.main?.stat
   const mainValue = relic.main?.value
 
-  if (!mainStat) return {}
+  if (!mainStat) return
 
   return renderStat(mainStat, mainValue)
 }
 
 function renderSubstat(relic: Relic, index: number) {
   const substat = relic.substats[index]
-  if (!substat?.stat) return {} as EmptyObject
+  if (!substat?.stat) return
 
   const stat = substat.stat
   const value = substat.value
@@ -124,30 +125,36 @@ type MainStatOption = {
   value: string,
 }
 
-// selectedRelic, onOk, setOpen, open, type
-export default function RelicModal(props: {
-  selectedRelic?: Relic,
-  type: string,
-  onOk: (relic: Relic) => void,
-  setOpen: (open: boolean) => void,
+type RelicModalProps = {
   open: boolean,
-}) {
+  setOpen: (open: boolean) => void,
+  onOk: (relic: Relic) => void,
+  selectedRelic: Relic | null,
+  defaultWearer?: CharacterId,
+}
+
+export default function RelicModal({ selectedRelic, onOk, setOpen, open, defaultWearer }: RelicModalProps) {
   const { t } = useTranslation(['modals', 'common', 'gameData'])
+  const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const { token } = useToken()
   const [relicForm] = Form.useForm<RelicForm>()
   const [mainStatOptions, setMainStatOptions] = useState<MainStatOption[]>([])
   const characters = useCharacterTabStore((s) => s.characters)
   const showLocator = window.store((s) => s.settings.ShowLocatorInRelicsModal)
 
+  const isLiveImport = useScannerState((s) => s.ingest)
+
   useEffect(() => {
-    if (props.open) {
+    if (open) {
       lockScroll()
     } else {
       unlockScroll()
     }
-  }, [props.open])
+  }, [open])
 
-  const characterOptions = useMemo(() => generateCharacterList({ currentCharacters: characters, longNameLabel: true }), [characters, i18next.resolvedLanguage])
+  const characterOptions = useMemo(() => {
+    return generateCharacterList({ currentCharacters: characters, longNameLabel: true }, tCharacters)
+  }, [characters, tCharacters])
 
   const relicOptions = useMemo(() => {
     const setOptions: {
@@ -189,7 +196,7 @@ export default function RelicModal(props: {
 
   const part = Form.useWatch('part', relicForm)
 
-  function getSetOptions(part: Parts) {
+  function getSetOptions(part?: Parts) {
     if (!part) return relicOptions.concat(planarOptions)
     if (part === Parts.LinkRope || part === Parts.PlanarSphere) return planarOptions
     return relicOptions
@@ -197,48 +204,49 @@ export default function RelicModal(props: {
 
   const setOptions = getSetOptions(part)
 
-  const equippedBy: string = Form.useWatch('equippedBy', relicForm)
+  const equippedBy = Form.useWatch('equippedBy', relicForm)
   const [upgradeValues, setUpgradeValues] = useState<RelicUpgradeValues[]>([])
 
   useEffect(() => {
-    let defaultValues = {
-      grade: 5,
-      enhance: 15,
-      part: Constants.Parts.Head,
-      mainStatType: Constants.Stats.HP,
-      mainStatValue: Math.floor(Constants.MainStatsValues[Constants.Stats.HP][5].base + Constants.MainStatsValues[Constants.Stats.HP][5].increment * 15),
-    } as RelicForm
+    let defaultValues: RelicForm
 
-    const relic = props.selectedRelic
-    if (!relic || props.type != 'edit') {
-      // Ignore
+    if (selectedRelic) {
+      defaultValues = {
+        equippedBy: selectedRelic.equippedBy ?? defaultWearer ?? 'None',
+        grade: selectedRelic.grade,
+        enhance: selectedRelic.enhance,
+        set: selectedRelic.set,
+        part: selectedRelic.part,
+        mainStatType: renderMainStat(selectedRelic)?.stat,
+        mainStatValue: renderMainStat(selectedRelic)?.value,
+        substatType0: renderSubstat(selectedRelic, 0)?.stat,
+        substatValue0: renderSubstat(selectedRelic, 0)?.value.toString(),
+        substatType1: renderSubstat(selectedRelic, 1)?.stat,
+        substatValue1: renderSubstat(selectedRelic, 1)?.value.toString(),
+        substatType2: renderSubstat(selectedRelic, 2)?.stat,
+        substatValue2: renderSubstat(selectedRelic, 2)?.value.toString(),
+        substatType3: renderSubstat(selectedRelic, 3)?.stat,
+        substatValue3: renderSubstat(selectedRelic, 3)?.value.toString(),
+      }
     } else {
       defaultValues = {
-        equippedBy: relic.equippedBy ?? 'None',
-        grade: relic.grade,
-        enhance: relic.enhance,
-        set: relic.set,
-        part: relic.part,
-        mainStatType: renderMainStat(relic).stat,
-        mainStatValue: renderMainStat(relic).value,
-        substatType0: renderSubstat(relic, 0).stat,
-        substatValue0: renderSubstat(relic, 0).value?.toString(),
-        substatType1: renderSubstat(relic, 1).stat,
-        substatValue1: renderSubstat(relic, 1).value?.toString(),
-        substatType2: renderSubstat(relic, 2).stat,
-        substatValue2: renderSubstat(relic, 2).value?.toString(),
-        substatType3: renderSubstat(relic, 3).stat,
-        substatValue3: renderSubstat(relic, 3).value?.toString(),
-      }
+        equippedBy: defaultWearer ?? 'None',
+        grade: 5,
+        enhance: 15,
+        part: Constants.Parts.Head,
+        mainStatType: Constants.Stats.HP,
+        mainStatValue: Math.floor(Constants.MainStatsValues[Constants.Stats.HP][5].base + Constants.MainStatsValues[Constants.Stats.HP][5].increment * 15),
+      } as RelicForm
     }
+
     onValuesChange(defaultValues)
     relicForm.setFieldsValue(defaultValues)
-  }, [props.selectedRelic, props.open, relicForm, props])
+  }, [selectedRelic, open])
 
   useEffect(() => {
     let mainStatOptions: MainStatOption[] = []
-    if (props.selectedRelic?.part) {
-      mainStatOptions = Object.entries(Constants.PartsMainStats[props.selectedRelic?.part]).map((entry) => ({
+    if (selectedRelic?.part) {
+      mainStatOptions = Object.entries(Constants.PartsMainStats[selectedRelic?.part]).map((entry) => ({
         label: (
           <Flex align='center' gap={10}>
             <img src={Assets.getStatIcon(entry[1], true)} style={{ width: 22, height: 22 }} />
@@ -250,39 +258,39 @@ export default function RelicModal(props: {
     }
 
     setMainStatOptions(mainStatOptions)
-    relicForm.setFieldValue('mainStatType', props.selectedRelic?.main?.stat)
-  }, [props.selectedRelic?.part, props.selectedRelic?.main?.stat, relicForm, t])
+    relicForm.setFieldValue('mainStatType', selectedRelic?.main?.stat)
+  }, [selectedRelic?.part, selectedRelic?.main?.stat, relicForm, t])
 
   useEffect(() => {
     if (mainStatOptions.length > 0) {
       const mainStatValues = mainStatOptions.map((item) => item.value)
       // @ts-ignore
-      if (mainStatValues.includes(props.selectedRelic?.main?.stat)) {
-        relicForm.setFieldValue('mainStatType', props.selectedRelic?.main?.stat)
+      if (mainStatValues.includes(selectedRelic?.main?.stat)) {
+        relicForm.setFieldValue('mainStatType', selectedRelic?.main?.stat)
       } else {
         relicForm.setFieldValue('mainStatType', mainStatOptions[0].value)
       }
     }
 
-    // We hook into the main stat change to update substats, not ideal but it works
+    // We hook into the main stat change to update substats, not ideal, but it works
     resetUpgradeValues()
-  }, [relicForm, mainStatOptions, props.selectedRelic?.main?.stat])
+  }, [relicForm, mainStatOptions, selectedRelic?.main?.stat])
 
   const onFinish = (relicForm: RelicForm) => {
     const relic = validateRelic(relicForm)
     if (!relic) return
-    if (relicsAreDifferent(props.selectedRelic, relic)) {
+    if (relicsAreDifferent(selectedRelic, relic)) {
       relic.verified = false
     }
 
     console.log(t('Relic.Messages.EditSuccess'), /* Successfully edited relic */ relic)
 
-    props.onOk(relic)
-    props.setOpen(false)
+    onOk(relic)
+    setOpen(false)
   }
   const onFinishFailed = () => {
     Message.error(t('Relic.Messages.SubmitFail') /* Submit failed! */)
-    props.setOpen(false)
+    setOpen(false)
   }
   const onValuesChange = (formValues: RelicForm) => {
     let mainStatOptions: MainStatOption[] = []
@@ -351,7 +359,7 @@ export default function RelicModal(props: {
   }
 
   const handleCancel = () => {
-    props.setOpen(false)
+    setOpen(false)
   }
   const handleOk = () => {
     relicForm.submit()
@@ -389,12 +397,13 @@ export default function RelicModal(props: {
         width={560}
         centered
         destroyOnClose
-        open={props.open} //
-        onCancel={() => props.setOpen(false)}
+        closable={!isLiveImport} // Hide X button in live import mode as it overlaps with the alert
+        open={open}
+        onCancel={() => setOpen(false)}
         footer={
           <Flex key='footer' justify={showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes ? 'space-between' : 'flex-end'}>
             <Flex style={{ width: 298, paddingLeft: 1 }}>
-              {props.selectedRelic && showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes && <RelicLocator relic={props.selectedRelic} />}
+              {selectedRelic && showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes && <RelicLocator relic={selectedRelic} />}
             </Flex>
 
             <Flex gap={10} style={{ width: 180 }}>
@@ -409,6 +418,9 @@ export default function RelicModal(props: {
         }
       >
         <Flex vertical gap={5}>
+          {isLiveImport && (
+            <Alert message={t('Relic.LiveImportWarning') /* Live import mode is enabled, your changes might be overwritten. */} type='warning' showIcon />
+          )}
           <Flex gap={10}>
             <Flex vertical gap={5}>
               <HeaderText>{t('Relic.Part') /* Part */}</HeaderText>
@@ -579,11 +591,10 @@ function SubstatInput(props: {
 }) {
   const inputRef = useRef<InputRef>(null)
   const [hovered, setHovered] = React.useState(false)
-  /* eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion */
   const statTypeField = `substatType${props.index}` as `substatType${typeof props.index}`
-  /* eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion */
   const statValueField = `substatValue${props.index}` as `substatValue${typeof props.index}`
   const { t } = useTranslation('modals', { keyPrefix: 'Relic' })
+  const { t: tStats } = useTranslation('common', { keyPrefix: 'Stats' })
 
   const handleFocus = () => {
     if (inputRef.current) {
@@ -617,7 +628,7 @@ function SubstatInput(props: {
           return (
             <Flex align='center' gap={10}>
               <img style={{ width: 22, height: 22 }} src={Assets.getStatIcon(entry[1], true)} />
-              {i18next.t(`common:Stats.${entry[1]}`)}
+              {tStats(entry[1])}
             </Flex>
           )
         })(),
@@ -625,7 +636,7 @@ function SubstatInput(props: {
       })
     }
     return output
-  }, [i18next.resolvedLanguage])
+  }, [tStats])
 
   function UpgradeButton(subProps: {
     quality: 'low' | 'mid' | 'high',
@@ -717,7 +728,7 @@ function relicHash(relic: Relic) {
   })
 }
 
-function relicsAreDifferent(relic1?: Relic, relic2?: Relic) {
+function relicsAreDifferent(relic1: Relic | null, relic2: Relic | null) {
   if (!relic1 || !relic2) return true
 
   const relic1Hash = relicHash(relic1)

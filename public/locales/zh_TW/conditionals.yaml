@@ -75,6 +75,10 @@ Lightcones:
     Content:
       postUltSpdBuff:
         text: 終結技後速度提高
+  EpochEtchedInGoldenBlood:
+    Content:
+      skillDmgBoost:
+        text: 戰技傷害提高
   EternalCalculus:
     Content:
       atkBuffStacks:
@@ -235,6 +239,10 @@ Lightcones:
     Content:
       routedVulnerability:
         text: 潰敗易傷
+  WhyDoesTheOceanSing:
+    Content:
+      spdBuff:
+        text: 速度增益
   WorrisomeBlissful:
     Content:
       targetTameStacks:
@@ -407,6 +415,10 @@ Lightcones:
     Content:
       cdBuffActive:
         text: '≥2個對應屬性弱點目標暴擊傷害增益'
+  TheForeverVictual:
+    Content:
+      atkStacks:
+        text: 攻擊力提升層數
   TheMolesWelcomeYou:
     Content:
       atkBuffStacks:
@@ -705,6 +717,15 @@ Characters:
         text: 速度增益
       e6Buffs:
         text: 6魂增益
+  Cerydra:
+    Content:
+      spdBuff:
+        text: 速度增益
+      e6Buffs:
+        text: 6魂增益
+    TeammateContent:
+      e1DefPen:
+        text: 1魂防禦穿透
   Cipher:
     Content:
       skillAtkBuff:
@@ -828,6 +849,12 @@ Characters:
     Content:
       e2EnemyHp50DmgBoost:
         content: 對目前生命值百分比小於等於50%的敵方目標造成的傷害提高15% 。
+  Hysilens:
+    Content:
+      ehrToDmg:
+        text: 效果命中轉至傷害提高
+      e6Buffs:
+        text: 6魂增益
   Jingliu:
     Content:
       talentEnhancedState:

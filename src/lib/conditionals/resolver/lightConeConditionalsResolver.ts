@@ -50,7 +50,6 @@ import ItsShowtime from 'lib/conditionals/lightcone/4star/ItsShowtime'
 import JourneyForeverPeaceful from 'lib/conditionals/lightcone/4star/JourneyForeverPeaceful'
 import LandausChoice from 'lib/conditionals/lightcone/4star/LandausChoice'
 import MakeTheWorldClamor from 'lib/conditionals/lightcone/4star/MakeTheWorldClamor'
-import MazeRestaurantForever from 'lib/conditionals/lightcone/4star/MazeRestaurantForever'
 import MemoriesOfThePast from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
 import NinjaRecordSoundHunt from 'lib/conditionals/lightcone/4star/NinjaRecordSoundHunt'
 import NowhereToRun from 'lib/conditionals/lightcone/4star/NowhereToRun'
@@ -73,6 +72,7 @@ import Swordplay from 'lib/conditionals/lightcone/4star/Swordplay'
 import TheBirthOfTheSelf from 'lib/conditionals/lightcone/4star/TheBirthOfTheSelf'
 import TheDayTheCosmosFell from 'lib/conditionals/lightcone/4star/TheDayTheCosmosFell'
 import TheFlowerRemembers from 'lib/conditionals/lightcone/4star/TheFlowerRemembers'
+import TheForeverVictual from 'lib/conditionals/lightcone/4star/TheForeverVictual'
 import TheGreatCosmicEnterprise from 'lib/conditionals/lightcone/4star/TheGreatCosmicEnterprise'
 import TheMolesWelcomeYou from 'lib/conditionals/lightcone/4star/TheMolesWelcomeYou'
 import TheSeriousnessOfBreakfast from 'lib/conditionals/lightcone/4star/TheSeriousnessOfBreakfast'
@@ -100,7 +100,7 @@ import CruisingInTheStellarSea from 'lib/conditionals/lightcone/5star/CruisingIn
 import DanceAtSunset from 'lib/conditionals/lightcone/5star/DanceAtSunset'
 import EarthlyEscapade from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import EchoesOfTheCoffin from 'lib/conditionals/lightcone/5star/EchoesOfTheCoffin'
-import EraEngravedByGoldenBlood from 'lib/conditionals/lightcone/5star/EraEngravedByGoldenBlood'
+import EpochEtchedInGoldenBlood from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
 import EternalCalculus from 'lib/conditionals/lightcone/5star/EternalCalculus'
 import FlameOfBloodBlazeMyPath from 'lib/conditionals/lightcone/5star/FlameOfBloodBlazeMyPath'
 import FlowingNightglow from 'lib/conditionals/lightcone/5star/FlowingNightglow'
@@ -214,7 +214,7 @@ const fiveStar: Record<string, LightConeConditionalFunction> = {
   23046: TheHellWhereIdealsBurn,
 
   23047: WhyDoesTheOceanSing,
-  23048: EraEngravedByGoldenBlood,
+  23048: EpochEtchedInGoldenBlood,
 
   21053: JourneyForeverPeaceful,
   21054: TheStorysNextPage,
@@ -286,7 +286,7 @@ const fourStar: Record<string, LightConeConditionalFunction> = {
   22002: ForTomorrowsJourney,
   22003: NinjaRecordSoundHunt,
   22004: TheGreatCosmicEnterprise,
-  22005: MazeRestaurantForever,
+  22005: TheForeverVictual,
 }
 
 const threeStar: Record<string, LightConeConditionalFunction> = {

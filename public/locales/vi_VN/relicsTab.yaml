@@ -60,30 +60,30 @@ RelicGrid:
     SelectedCharacter:
       Label: Nhân vật được chọn
       ScoreCol:
-        Label: "Nhân vật được chọn: Điểm"
+        Label: 'Nhân vật được chọn: Điểm'
         Header: |-
           Nhân vật chọn
           Điểm
       AvgPotCol:
-        Label: "Nhân vật được chọn: Tiềm năng trung bình"
+        Label: 'Nhân vật được chọn: Tiềm năng trung bình'
         Header: |-
           Nhân vật tiềm năng trung bình
       MaxPotCol:
-        Label: "Nhân vật được chọn: Tiềm năng tối đa"
+        Label: 'Nhân vật được chọn: Tiềm năng tối đa'
         Header: |-
           Tiềm Năng Nhân
           Vật Tối Đa
       RerollAvg:
-        Label: "Nhân vật đã chọn: Tiềm năng chia lại chỉ số trung bình."
+        Label: 'Nhân vật đã chọn: Tiềm năng chia lại chỉ số trung bình.'
         Header: |-
           Nhân vật chọn  
           Chia lại
       RerollAvgDelta:
-        Label: "Nhân vật đã chọn: Xoay lại tiềm năng delta trung bình"
+        Label: 'Nhân vật đã chọn: Xoay lại tiềm năng delta trung bình'
         Header: |-
           Giá Trị Δ Reroll cho nhân vật
       RerollAvgEquippedDelta:
-        Label: "Nhân vật đã chọn: Tiềm năng reroll delta trung bình so với đồ đang mặc"
+        Label: 'Nhân vật đã chọn: Tiềm năng reroll delta trung bình so với đồ đang mặc'
         Header: |-
           Nhân vật được chọn  
           ∆ Trung bình reroll  
@@ -91,51 +91,44 @@ RelicGrid:
     CustomCharacters:
       Label: Tùy chọn nhân vật
       AvgPotCol:
-        Label: "Tùy chọn nhân vật: Tiềm năng trung bình"
+        Label: 'Tùy chọn nhân vật: Tiềm năng trung bình'
         Header: |-
           Nhân vật chọn tiềm năng
       MaxPotCol:
-        Label: "Tùy chọn nhân vật: Tiềm năng tối đa"
+        Label: 'Tùy chọn nhân vật: Tiềm năng tối đa'
         Header: |-
           Nhân vật chọn tiềm năng tối đa
       RerollAvg:
-        Label: "Nhân vật tùy chỉnh: Tiềm năng xoay lại trung bình"
+        Label: 'Nhân vật tùy chỉnh: Tiềm năng xoay lại trung bình'
         Header: |-
           Nhân vật tùy chỉnh  
           Xoay lại trung bình
     AllCharacters:
       Label: Tất cả nhân vật
       AvgPotCol:
-        Label: "Tất cả nhân vật: Tiềm năng trung bình"
+        Label: 'Tất cả nhân vật: Tiềm năng trung bình'
         Header: |-
           Tất cả nhân vật
           Tiềm năng trung bình
       MaxPotCol:
-        Label: "Tất cả nhân vật: Tiềm năng tối đa"
+        Label: 'Tất cả nhân vật: Tiềm năng tối đa'
         Header: |-
           Tất cả nhân vật
           Tiềm năng tối đa
       RerollAvg:
-        Label: "Tất cả nhân vật: Tiềm năng xoay lại trung bình"
+        Label: 'Tất cả nhân vật: Tiềm năng xoay lại trung bình'
         Header: |-
           Tất cả nhân vật  
           Xoay lại trung bình
-    ComingSoon:
-      Label: Sắp ra mắt
-      SetsPotential:
-        Label: Bộ di vật / Vị diện tiềm năng
-        Header: |-
-          Tất cả nhân vật
-          Tiềm năng tối đa + bộ
 Toolbar:
   RelicLocator:
     Width: Chiều rộng Túi
     Filter: Tự động lọc hàng
     NoneSelected: Chọn di vật để tìm vị trí
-    Location: "Vị trí - Hàng {{rowIndex}} / Cột {{columnIndex}}"
+    Location: 'Vị trí - Hàng {{rowIndex}} / Cột {{columnIndex}}'
   InsightOptions:
-    Buckets: "Thông tin di vật: Nhóm phân loại"
-    Top10: "Thông tin di vật: Top 10"
+    Buckets: 'Thông tin di vật: Nhóm phân loại'
+    Top10: 'Thông tin di vật: Top 10'
   PlotOptions:
     PlotAll: Cho tất cả nhân vật
     PlotCustom: Cho nhân vật nhất định
@@ -143,8 +136,8 @@ Toolbar:
   DeleteRelic:
     ButtonText: Xóa di vật
     Warning_one: Xóa di vật được chọn?
-    Warning_other: "Xóa {{count}} di vật được chọn?"
+    Warning_other: 'Xóa {{count}} di vật được chọn?'
   AddRelic: Thêm di vật mới
 RelicInsights:
-  NewStats: "Thuộc tính chính mới:"
-  UpgradedStats: "Thuộc tính phụ:"
+  NewStats: 'Thuộc tính chính mới:'
+  UpgradedStats: 'Thuộc tính phụ:'

@@ -99,6 +99,11 @@ Lightcones:
         text: crwdns40214:0crwdne40214:0
         content: >-
           crwdns43962:0{{EnergyRecovered}}crwdnd43962:0{{SpdBuff}}crwdne43962:0
+  EpochEtchedInGoldenBlood:
+    Content:
+      skillDmgBoost:
+        text: crwdns45780:0crwdne45780:0
+        content: crwdns45782:0{{DmgBuff}}crwdne45782:0
   EternalCalculus:
     Content:
       atkBuffStacks:
@@ -363,6 +368,14 @@ Lightcones:
         text: crwdns40370:0crwdne40370:0
         content: >-
           crwdns44012:0{{Vulnerability}}crwdne44012:0
+  WhyDoesTheOceanSing:
+    Content:
+      dotVulnStacks:
+        text: crwdns45784:0crwdne45784:0
+        content: crwdns45786:0{{DotVuln}}crwdne45786:0
+      spdBuff:
+        text: crwdns45788:0crwdne45788:0
+        content: crwdns45790:0{{SpdBuff}}crwdne45790:0
   WorrisomeBlissful:
     Content:
       targetTameStacks:
@@ -605,6 +618,11 @@ Lightcones:
       memoCdBoost:
         text: crwdns45498:0crwdne45498:0
         content: crwdns45500:0{{CritDmgBuff}}crwdne45500:0
+  TheForeverVictual:
+    Content:
+      atkStacks:
+        text: crwdns45792:0crwdne45792:0
+        content: crwdns45794:0{{AtkBuff}}crwdne45794:0
   TheGreatCosmicEnterprise:
     Content:
       weaknessTypes:
@@ -1059,6 +1077,42 @@ Characters:
         text: crwdns45013:0crwdne45013:0
         content: >-
           crwdns45015:0:BR:crwdne45015:0
+  Cerydra:
+    Content:
+      spdBuff:
+        text: crwdns45796:0crwdne45796:0
+        content: crwdns45798:0crwdne45798:0
+      crBuff:
+        text: crwdns45800:0crwdne45800:0
+        content: crwdns45802:0crwdne45802:0
+      atkToCd:
+        text: crwdns45804:0crwdne45804:0
+        content: crwdns45806:0crwdne45806:0
+      e2DmgBoost:
+        text: crwdns45808:0crwdne45808:0
+        content: crwdns45810:0crwdne45810:0
+      e4UltDmg:
+        text: crwdns45812:0crwdne45812:0
+        content: crwdns45814:0crwdne45814:0
+      e6Buffs:
+        text: crwdns45816:0crwdne45816:0
+        content: crwdns45818:0crwdne45818:0
+    TeammateContent:
+      militaryMerit:
+        text: crwdns45820:0crwdne45820:0
+        content: >-
+          crwdns45822:0:BR:crwdnd45822:0{{TalentAtkConversion}}crwdnd45822:0:BR:crwdne45822:0
+      peerage:
+        text: crwdns45824:0crwdne45824:0
+        content: >-
+          crwdns45826:0{{SkillCdBuff}}crwdnd45826:0{{SkillResPenBuff}}crwdnd45826:0:BR:crwdne45826:0
+      teammateATKValue:
+        text: crwdns45828:0crwdne45828:0
+        content: >-
+          crwdns45830:0{{TalentAtkConversion}}crwdnd45830:0:BR:crwdne45830:0
+      e1DefPen:
+        text: crwdns45832:0crwdne45832:0
+        content: crwdns45834:0crwdne45834:0
   Cipher:
     Content:
       vulnerability:
@@ -1371,6 +1425,38 @@ Characters:
       e6ResPen:
         text: crwdns45316:0crwdne45316:0
         content: crwdns45318:0crwdne45318:0
+  Hysilens:
+    Content:
+      skillVulnerability:
+        text: crwdns45836:0crwdne45836:0
+        content: crwdns45838:0{{SkillVuln}}crwdne45838:0
+      ultZone:
+        text: crwdns45840:0crwdne45840:0
+        content: crwdns45842:0{{ZoneDefShred}}crwdne45842:0
+      ultDotStacks:
+        text: crwdns45844:0crwdne45844:0
+        content: crwdns45846:0crwdne45846:0
+      ehrToDmg:
+        text: crwdns45848:0crwdne45848:0
+        content: crwdns45850:0crwdne45850:0
+      dotDetonation:
+        text: crwdns45852:0crwdne45852:0
+        content: crwdns45854:0crwdne45854:0
+      e1Buffs:
+        text: crwdns45856:0crwdne45856:0
+        content: >-
+          crwdns45858:0:BR:crwdne45858:0
+      e4ResPen:
+        text: crwdns45860:0crwdne45860:0
+        content: crwdns45862:0crwdne45862:0
+      e6Buffs:
+        text: crwdns45864:0crwdne45864:0
+        content: crwdns45866:0crwdne45866:0
+    TeammateContent:
+      e2TeammateEhr:
+        text: "crwdns45868:0crwdne45868:0"
+        content: >-
+          crwdns45870:0:BR:crwdne45870:0
   ImbibitorLunae:
     Content:
       basicEnhanced:

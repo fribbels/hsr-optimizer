@@ -44,15 +44,6 @@ Actions:
   p4: Xóa ghim - Gỡ tất cả các lối lên đồ đã ghim ở đầu lưới.
 OptimizerOptions:
   Title: Tùy chọn tối ưu hóa
-  p1: >-
-    <0>Lọc nhân vật ưu tiên</0> - Khi tùy chọn này được bật, nhân vật chỉ có thể cướp di vật từ những nhân vật có ưu tiên thấp hơn. Trình tối ưu hóa sẽ bỏ qua các di vật đã được trang bị bởi những nhân vật có ưu tiên cao hơn trong danh sách. Thay đổi thứ hạng nhân vật từ bộ chọn ưu tiên hoặc bằng cách kéo chúng trên trang Nhân vật.
-  p2: >-
-    <0>Tăng thuộc tính chính</0> - Tính toán thuộc tính chính của di vật như thể chúng ở cấp độ này (hoặc cấp tối đa nếu không thể đạt được cấp độ này) nếu hiện tại di vật thấp hơn cấp độ đó. Các thuộc tính phụ sẽ không được thay đổi tương ứng, vì vậy các lối lên đồ với di vật cấp thấp hơn có thể sẽ mạnh hơn sau khi bạn nâng cấp chúng.
-  p3: <0>Giữ di vật hiện tại</0> - Nhân vật phải sử dụng các vật phẩm hiện tại đang trang bị, và trình tối ưu hóa sẽ cố gắng tìm vào các chỗ trống
-  p4: <0>Bao gồm di vật đã trang bị</0> - Khi bật, trình tối ưu hóa sẽ cho phép tìm kiếm các di vật hiện tại đang được trang bị bởi một nhân vật khác. Ngược lại, khi tắt các di vật đã được trang bị sẽ không được tìm
-  p5: "<0>Ưu tiên</0> - Xem: Lọc nhân vật ưu tiên. Thay đổi cài đặt này sẽ thay đổi mức độ ưu tiên của nhân vật"
-  p6: <0>Loại trừ</0> - Chọn các di vật đã trang bị của nhân vật cụ thể để loại trừ khỏi tìm kiếm. Cài đặt này sẽ ghi đè lên lọc ưu tiên nhân vật
-  p7: <0>Cấp / độ hiếm</0> - Chọn cấp độ tối thiểu để tìm kiếm và độ hiếm tối thiểu của các di vật để bao gồm.
 Relics:
   Title: Di vật
   p1: >-
@@ -60,7 +51,7 @@ Relics:
   p2: "Nhân vật đã chọn: Điểm - Điểm số hiện tại của di vật, được xác định bởi thuật toán tính điểm của nhân vật đã chọn"
   p3: "Nhân vật đã chọn: Tiềm năng trung bình - Tiềm năng của di vật ở cấp độ tối đa, tính trung bình dựa vào tất cả các chỉ số phụ có thể rơi vào khi nâng cấp lên +15."
   p4: "Nhân vật đã chọn: Tiềm năng tối đa - Tiềm năng tối đa của di vật nếu tất cả các chỉ số phụ được nâng cấp vào các đúng nơi nhân vật mong muốn"
-  p5: "Tất cả nhân vật: Tiềm năng tối đa - Giá trị tiềm năng cao nhất có thể của di vật, cho tất cả các nhân vật trong game."
+  p5: 'Tất cả nhân vật: Tiềm năng tối đa - Giá trị tiềm năng cao nhất có thể của di vật, cho tất cả các nhân vật trong game.'
 OptimizationDetails:
   Title: Chi tiết tối ưu hóa
   p1: Hiển thị số lượng di vật đang được sử dụng trong tìm kiếm tối ưu hóa, sau khi tất cả bộ lọc được áp dụng.
@@ -95,7 +86,7 @@ ValueColumns:
   p3: Tiềm năng là tỷ lệ phần trăm đặc trưng của nhân vật về mức độ tốt của di vật có thể đạt được (hoặc là "di vật cấp tối đa"), so với các chỉ số của di vật "hoàn hảo" đã được nâng cấp hoàn toàn ở vị trí đó.
   p4: Tiềm năng có thể nhìn vào tất cả nhân vật hoặc chỉ nhân vật đã sở hữu. Sau đó tính tỉ lệ phần trăm tối đa cho các nhân vật đó.
   p5: Tiềm năng rất hữu ích trong việc tìm các di vật không hợp với bất kỳ nhân vật nào hoặc một dị vật tiềm ẩn rất khỏe sau khi được lên cấp
-  p6: "Lưu ý: Việc sắp xếp theo tiềm năng có thể không khớp với trọng số, do phép tính trọng số ưu tiên các thuộc tính chính có trọng số thấp hơn."
+  p6: 'Lưu ý: Việc sắp xếp theo tiềm năng có thể không khớp với trọng số, do phép tính trọng số ưu tiên các thuộc tính chính có trọng số thấp hơn.'
 RelicInsights:
   Title: Chi tiết dị vật
   p1: Khi một di vật được chọn trong bảng trên, bạn có thể chọn xem phân tích di vật đó.

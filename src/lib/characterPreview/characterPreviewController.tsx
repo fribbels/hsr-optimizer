@@ -13,6 +13,8 @@ import {
   lcInnerW,
   lcParentH,
   lcParentW,
+  newLcHeight,
+  newLcMargin,
   parentH,
   parentW,
 } from 'lib/constants/constantsUi'
@@ -89,7 +91,7 @@ export type ScoringResults = {
   totalRating: string,
 }
 
-export function getPreviewRelics(source: ShowcaseSource, character: Character, relicsById: Record<string, Relic>) {
+export function getPreviewRelics(source: ShowcaseSource, character: Character, relicsById: Partial<Record<string, Relic>>) {
   let scoringResults: ScoringResults
   let displayRelics: SingleRelicByPart
   // Showcase tab relics are stored in equipped as relics instead of ids
@@ -120,9 +122,9 @@ export function getPreviewRelics(source: ShowcaseSource, character: Character, r
   return { scoringResults, displayRelics }
 }
 
-function getRelic(relicsById: Record<string, Relic>, character: Character, part: Parts) {
+function getRelic(relicsById: Partial<Record<string, Relic>>, character: Character, part: Parts) {
   if (character.equipped?.[part]) {
-    return relicsById[character.equipped[part]]
+    return relicsById[character.equipped[part]] ?? null
   }
   return null
 }
@@ -146,9 +148,6 @@ export function getArtistName(character: Character) {
 }
 
 export function getShowcaseDisplayDimensions(character: Character, simScore: boolean): ShowcaseDisplayDimensions {
-  const newLcMargin = 8
-  const newLcHeight = 128
-
   const charCenter = DB.getMetadata().characters[character.id].imageCenter
   // @ts-ignore Some APIs return empty light cone as '0'
   const lcCenter = (character.form.lightCone && character.form.lightCone != '0' && DB.getMetadata().lightCones[character.form.lightCone])
@@ -205,8 +204,8 @@ export function getShowcaseStats(
   return finalStats
 }
 
-export function showcaseOnEditOk(relic: Relic, selectedRelic: Relic | undefined, setSelectedRelic: (r: Relic) => void) {
-  const updatedRelic = RelicModalController.onEditOk(selectedRelic!, relic)
+export function showcaseOnEditOk(relic: Relic, selectedRelic: Relic, setSelectedRelic: (r: Relic) => void) {
+  const updatedRelic = RelicModalController.onEditOk(selectedRelic, relic)
   setSelectedRelic(updatedRelic)
   SaveState.delayedSave()
 }
@@ -215,7 +214,6 @@ export function showcaseOnAddOk(relic: Relic, setSelectedRelic: (r: Relic) => vo
   const t = i18next.getFixedT(null, ['charactersTab', 'modals', 'common'])
 
   DB.setRelic(relic)
-  window.setRelicRows(DB.getRelics())
   setSelectedRelic(relic)
   SaveState.delayedSave()
 

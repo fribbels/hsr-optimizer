@@ -1,17 +1,11 @@
 import { CellClassParams } from 'ag-grid-community'
 import type { GlobalToken } from 'antd/es/theme/interface'
+import { SubStats } from 'lib/constants/constants'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import tinygradient from 'tinygradient'
-
-type GridParams = {
-  value: number,
-  data: object,
-  column: {
-    colId: string,
-  },
-}
+import { Relic } from 'types/relic'
 
 export type GridAggregations = {
   min: Record<string, number>,
@@ -24,6 +18,7 @@ const optimizerGridGradient = tinygradient([
   { color: '#38821F', pos: 1 }, // green
 ])
 
+// this default is overwritten on page load, Gradient.setToken() in App.tsx
 let relicGridGradient = tinygradient('#343127', '#38821F')
 
 const relicColumnRanges = {
@@ -87,12 +82,12 @@ export const Gradient = {
     relicGridGradient = tinygradient(token.colorBgElevated, token.colorPrimaryHover)
   },
 
-  getRelicGradient(params: GridParams) {
-    const col = params.column.colId as keyof typeof relicColumnRanges
+  getRelicGradient(params: CellClassParams<Relic>) {
+    const col = params.column.getColId()
     const value = params.value
 
     if (isNaN(value) || value == 0) {
-      return {}
+      return
     }
 
     let range: number
@@ -103,7 +98,7 @@ export const Gradient = {
     } else if (col.startsWith('weights.')) {
       range = value / (6.48 * 9)
     } else {
-      range = value / relicColumnRanges[col]
+      range = value / relicColumnRanges[col as `augmentedStats.${SubStats}` | 'cv']
     }
 
     const color = Gradient.getColor(Math.min(Math.max(range, 0), 1), relicGridGradient)

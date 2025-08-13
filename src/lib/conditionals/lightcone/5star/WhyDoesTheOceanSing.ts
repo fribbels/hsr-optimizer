@@ -1,12 +1,8 @@
-import i18next from 'i18next'
-import { DOT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDefPen } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { WHY_DOES_THE_OCEAN_SING } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -18,7 +14,7 @@ import {
 } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ReforgedRemembrance')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.WhyDoesTheOceanSing.Content')
   const { SOURCE_LC } = Source.lightCone(WHY_DOES_THE_OCEAN_SING)
 
   const sValuesDotVuln = [0.05, 0.0625, 0.075, 0.0875, 0.10]
@@ -39,8 +35,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       lc: true,
       id: 'dotVulnStacks',
       formItem: 'slider',
-      text: 'DOT vulnerability stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('dotVulnStacks.text'),
+      content: t('dotVulnStacks.content', { DotVuln: TsUtils.precisionRound(100 * sValuesDotVuln[s]) }),
       min: 0,
       max: 6,
     },
@@ -48,8 +44,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       lc: true,
       id: 'spdBuff',
       formItem: 'switch',
-      text: 'SPD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('spdBuff.text'),
+      content: t('spdBuff.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpd[s]) }),
     },
   }
 

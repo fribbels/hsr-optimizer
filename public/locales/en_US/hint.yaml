@@ -50,17 +50,18 @@ Actions:
   p4: Clear pins - Clear all the builds that you pinned to the top of the grid
 OptimizerOptions:
   Title: Optimizer options
-  p1: >-
+  PriorityFilter: >-
     <0>Character priority filter</0> - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by higher priority
     characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.
-  p2: >-
+  BoostMain: >-
     <0>Boost main stat</0> - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats are not changed accordingly,
     so builds with lower level relics may be stronger once you level them.
-  p3: <0>Keep current relics</0> - The character must use its currently equipped items and the optimizer will try to fill in empty slots
-  p4: <0>Include equipped relics</0> - When enabled, the optimizer will allow using relics that are currently equipped by a character for the search. Otherwise equipped relics are excluded
-  p5: "<0>Priority</0> - See: Character priority filter. Changing this setting will change the character's priority"
-  p6: <0>Exclude</0> - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter
-  p7: <0>Enhance / grade</0> - Select the minimum enhance to search for and minimum stars for relics to include
+  KeepCurrent: <0>Keep current relics</0> - The character must use its currently equipped items and the optimizer will try to fill in empty slots
+  AllowEquipped: <0>Allow equipped relics</0> - When enabled, the optimizer will allow using relics that are currently equipped by a character for the search. Otherwise equipped relics are excluded
+  Priority: "<0>Priority</0> - See: Character priority filter. Changing this setting will change the character's priority"
+  Exclude: <0>Exclude</0> - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter
+  Enhance: <0>Enhance / rarity</0> - Select the minimum enhance to search for and minimum stars for relics to include
+  DPSMode: <0>DPS mode</0> - Select whether the character should be the primary target for supportive buffs (Main DPS) or not (Sub DPS) for optimizer stat calculations
 Relics:
   Title: Relics
   p1: >-
@@ -69,7 +70,7 @@ Relics:
   p2: "Selected character: Score - The relic's current score as defined by the scoring algorithm for the currently selected character"
   p3: "Selected character: Average potential - The relic's potential at its maximum level, averaged across all the possible rolls it could have on the way to +15"
   p4: "Selected character: Max potential - The relic's maximum potential if all future rolls went into the character's desired stats"
-  p5: "All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game."
+  p5: 'All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game.'
 OptimizationDetails:
   Title: Optimization details
   p1: Shows how many relics are being used in the optimization search, after all filters are applied
@@ -106,7 +107,7 @@ ValueColumns:
   p3: Potential is a character-specific percentage of how good the relic could be (or 'is', if fully upgraded), compared against the stats on a fully upgraded 'perfect' relic in that slot.
   p4: Potential can look at all characters or just owned. It then takes the maximum percentage for any character.
   p5: Potential is useful for finding relics that aren't good on any character, or hidden gems that could be great when upgraded.
-  p6: "Note: ordering by potential can be mismatched against weights, due to weight calculations preferring lower weight ideal mainstats."
+  p6: 'Note: ordering by potential can be mismatched against weights, due to weight calculations preferring lower weight ideal mainstats.'
 RelicInsights:
   Title: Relic Insight
   p1: When a relic is selected in the table above, you can choose an analysis to view a plot of.

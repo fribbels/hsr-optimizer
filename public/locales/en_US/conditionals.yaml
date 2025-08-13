@@ -99,6 +99,11 @@ Lightcones:
         text: Post Ult SPD buff
         content: >-
           After the wearer uses an attack, for each different enemy target the wearer hits, regenerates {{EnergyRecovered}} Energy. Each attack can regenerate Energy up to 3 times this way. After the wearer uses their Ultimate, all allies gain {{SpdBuff}} SPD for 1 turn.
+  EpochEtchedInGoldenBlood:
+    Content:
+      skillDmgBoost:
+        text: Skill DMG boost
+        content: When the wearer uses their Skill on one ally character, increases the Skill DMG dealt by the target by {{DmgBuff}}% for 3 turns.
   EternalCalculus:
     Content:
       atkBuffStacks:
@@ -363,6 +368,14 @@ Lightcones:
         text: Routed vulnerability
         content: >-
           When the wearer deals Break DMG to an enemy target, inflicts Routed on the enemy, lasting for 2 turns. Targets afflicted with Routed receive {{Vulnerability}}% increased Break DMG from the wearer, and their SPD is lowered by 20%. Effects of the similar type cannot be stacked.
+  WhyDoesTheOceanSing:
+    Content:
+      dotVulnStacks:
+        text: DOT vulnerability stacks
+        content: When an enemy target gets inflicted with a debuff by the wearer, there is a 80% base chance for them to enter "Enthrallment," lasting for 3 turns. While the target is in "Enthrallment," for every 1 debuff applied by the wearer on the target, increases the target's received DoT by {{DotVuln}}%, stacking up to 6 times.
+      spdBuff:
+        text: SPD buff
+        content: When an enemy target gets inflicted with a debuff by the wearer, there is a 80% base chance for them to enter "Enthrallment," lasting for 3 turns. When the target gets attacked by an ally, increases the attacker's SPD by {{SpdBuff}}% for 3 turns.
   WorrisomeBlissful:
     Content:
       targetTameStacks:
@@ -605,6 +618,11 @@ Lightcones:
       memoCdBoost:
         text: Memo CD boost
         content: The CRIT DMG dealt by the wearer's memosprite increases by {{CritDmgBuff}}%
+  TheForeverVictual:
+    Content:
+      atkStacks:
+        text: ATK buff stacks
+        content: After using their Skill, the wearer's ATK increases by {{AtkBuff}}%, stacking up to 3 times.
   TheGreatCosmicEnterprise:
     Content:
       weaknessTypes:
@@ -964,9 +982,7 @@ Characters:
       hpPercentLostTotal:
         text: HP% lost total
         content: >-
-          When using ultimate, deals Wind DMG to one designated enemy equal to the sum of {{UltHpScaling}}% of his Max HP and {{HpTallyUltScaling}}% of the tally of Blade's HP loss in the current battle.
-          ::BR::
-          E1: Blade's Enhanced Basic ATK and Ultimate deals additionally increased DMG to one designated enemy, with the increased amount equal to 150% of the tally of Blade's HP loss from his Ultimate.
+          When using ultimate, deals Wind DMG to one designated enemy equal to the sum of {{UltHpScaling}}% of his Max HP and {{HpTallyUltScaling}}% of the tally of Blade's HP loss in the current battle. ::BR:: E1: Blade's Enhanced Basic ATK and Ultimate deals additionally increased DMG to one designated enemy, with the increased amount equal to 150% of the tally of Blade's HP loss from his Ultimate.
       e1BasicUltMultiBoost:
         text: E1 Ult / Basic boost
         content: Blade's Enhanced Basic ATK and Ultimate deals additionally increased DMG to one designated enemy, with the increased amount equal to 150% of the tally of Blade's HP loss from his Ultimate.
@@ -1061,6 +1077,50 @@ Characters:
         text: E6 buffs
         content: >-
           When Castorice or Netherwing deals DMG, increases Quantum RES PEN by 20%. ::BR:: Increases the Bounce count for Netherwing's Talent "Wings Sweep the Ruins" by 3 times.
+  Cerydra:
+    Content:
+      spdBuff:
+        text: SPD buff
+        content: When using Skill, increases SPD by 20 for this unit and the teammate with "Military Merit," lasting for 3 turns.
+      crBuff:
+        text: CR buff
+        content: Increases Cerydra's CRIT Rate by 100%.
+      atkToCd:
+        text: ATK to CD
+        content: For every 100 of Cerydra's ATK that exceeds 2000, increases her CRIT DMG by 18%, up to a max increase of 360%.
+      e2DmgBoost:
+        text: E2 DMG boost
+        content: The character with "Military Merit" deals 40% increased DMG. While a teammate on the field has "Military Merit," Cerydra's DMG dealt increases by 160%.
+      e4UltDmg:
+        text: E4 Ult DMG
+        content: Increases Ultimate's DMG multiplier by 240%.
+      e6Buffs:
+        text: E6 buffs
+        content: The character with "Military Merit" increases their All-Type RES PEN by 20%, and the multiplier for the Additional DMG triggered via "Military Merit" increases by 300%. While a teammate on the field has "Military Merit," Cerydra's All-Type RES PEN increases by 20%.
+    TeammateContent:
+      militaryMerit:
+        text: Military Merit
+        content: >-
+          When using Skill, increases SPD by 20 for this unit and the teammate with "Military Merit," lasting for 3 turns.
+          ::BR::
+          The character with "Military Merit" increases ATK by an amount equal to {{TalentAtkConversion}}% of Cerydra's ATK.
+          ::BR::
+          E1: The character with "Military Merit" ignores 16% of the targets' DEF when dealing DMG.
+      peerage:
+        text: Peerage
+        content: >-
+          The character with "Peerage" increases the CRIT DMG for their dealt Skill DMG by {{SkillCdBuff}}%, increases their All-Type RES PEN by {{SkillResPenBuff}}%
+          ::BR::
+          E1: If "Military Merit" has been upgraded to "Peerage," then the character additionally ignores 20% of the targets' DEF when dealing Skill DMG.
+      teammateATKValue:
+        text: Cerydra's combat ATK
+        content: >-
+          The character with "Military Merit" increases ATK by an amount equal to {{TalentAtkConversion}}% of Cerydra's ATK.
+          ::BR::
+          Set this to the Cerydra's self ATK stat that she uses to buff teammates.
+      e1DefPen:
+        text: E1 DEF PEN
+        content: The character with "Military Merit" ignores 16% of the targets' DEF when dealing DMG. If "Military Merit" has been upgraded to "Peerage," then the character additionally ignores 20% of the targets' DEF when dealing Skill DMG.
   Cipher:
     Content:
       vulnerability:
@@ -1373,6 +1433,42 @@ Characters:
       e6ResPen:
         text: E6 RES PEN
         content: When Little Ica is on the field, increases all ally targets' All-Type RES PEN by 20%.
+  Hysilens:
+    Content:
+      skillVulnerability:
+        text: Skill Vulnerability
+        content: Hysilens' skill has a 100% base chance to increase the DMG taken by all enemies by {{SkillVuln}}%, lasting for 3 turns.
+      ultZone:
+        text: Ult Zone active
+        content: When casting her ultimate, Hysilens deploys a Zone that reduces enemy targets' ATK by 15% and DEF by {{ZoneDefShred}}%.
+      ultDotStacks:
+        text: Ult DOT trigger stacks
+        content: When Hysilens uses Ultimate, if the enemy target is currently afflicted with DoTs, all DoTs currently applied on the target will immediately produce DMG equal to 150% of their original DMG.
+      ehrToDmg:
+        text: EHR to DMG boost
+        content: For every 10% of Hysilens's Effect Hit Rate that exceeds 60%, increases her DMG dealt by 15%, up to a max increase of 90%.
+      dotDetonation:
+        text: DOT detonation (Automatic activation)
+        content: When Hysilens uses Ultimate, if the enemy target is currently afflicted with DoTs, all DoTs currently applied on the target will immediately produce DMG equal to 150% of their original DMG.
+      e1Buffs:
+        text: E1 buffs
+        content: >-
+          While Hysilens is on the field, ally targets deal DoT equal to 116% of the original DMG.
+          ::BR::
+          When Hysilens inflicts Wind Shear/Bleed/Burn/Shock on enemies through her Talent, there is a 100% base chance to additionally inflict the target with 1 instance of Wind Shear/Bleed/Burn/Shock state that is identical to and can coexist with that of the original Talent effect.
+      e4ResPen:
+        text: E4 RES PEN
+        content: While the Zone is active, reduces All-Type RES of all enemies by 20%.
+      e6Buffs:
+        text: E6 buffs
+        content: While the Zone is active, at the start of each turn or after one attack by an ally target, increases the maximum trigger count for Hysilens's Physical DoT effect to 12, and increases the multiplier of the DMG dealt by 20%.
+    TeammateContent:
+      e2TeammateEhr:
+        text: "E2 Hysilens' combat EHR"
+        content: >-
+          While the Zone is active, the DMG Boost effect from Trace "The Fiddle of Pearls" applies to all allies.
+          ::BR::
+          The Fiddle of Pearls: For every 10% of Hysilens's Effect Hit Rate that exceeds 60%, increases her DMG dealt by 15%, up to a max increase of 90%.
   ImbibitorLunae:
     Content:
       basicEnhanced:
@@ -1457,9 +1553,7 @@ Characters:
       talentEnhancedState:
         text: Enhanced state
         content: >-
-          When Jingliu has 2 stacks of "Syzygy," she enters the "Spectral Transmigration" state and her CRIT Rate increases by {{UltCRBuff}}%.
-          ::BR::
-          While in the "Spectral Transmigration" state, Effect RES increases by 35%, and Ultimate DMG dealt increases by 20%.
+          When Jingliu has 2 stacks of "Syzygy," she enters the "Spectral Transmigration" state and her CRIT Rate increases by {{UltCRBuff}}%. ::BR:: While in the "Spectral Transmigration" state, Effect RES increases by 35%, and Ultimate DMG dealt increases by 20%.
       maxSyzygyDefPen:
         text: Max Syzygy DEF PEN
         content: When obtaining "Syzygy" at max stacks, Jingliu's next attack ignores 25% of the target's DEF.
@@ -1673,23 +1767,11 @@ Characters:
       transformedState:
         text: Transformation active
         content: >-
-          When using his ultimate, Phainon transforms into Khaslana and deploys his territory.
-          ::BR::
-          During his Transformation, increases ATK by {{UltAtkBuff}}% and Max HP by {{UltHPBuff}}%.
-          ::BR::
-          E2: Khaslana's Physical RES PEN increases by 20%.
-          ::BR::
-          E6: After using "Foundation: Stardeath Verdict's" attack, additionally deals True DMG equal to 36% of the total DMG dealt in this attack to the enemy with the highest HP.
+          When using his ultimate, Phainon transforms into Khaslana and deploys his territory. ::BR:: During his Transformation, increases ATK by {{UltAtkBuff}}% and Max HP by {{UltHPBuff}}%. ::BR:: E2: Khaslana's Physical RES PEN increases by 20%. ::BR:: E6: After using "Foundation: Stardeath Verdict's" attack, additionally deals True DMG equal to 36% of the total DMG dealt in this attack to the enemy with the highest HP.
       enhancedSkillType:
         text: Enhanced Skill type
         content: >-
-          Khaslana can chose between 2 skills.
-          ::BR::
-          Calamity: Recovers Scourge stacks equal to the number of enemy targets and causes all enemy targets to take action, then unleashes a powerful counter attack.
-          ::BR::
-          Foundation: Consumes up to 4 stacks of Scourge. For each stack consumed deals dmg to 1 random enemy. If 4 stacks were consumed, additionally deal damage to all enemies.
-          ::BR::
-          When transforming, Khaslana recovers 4 stacks of Scourge.
+          Khaslana can chose between 2 skills. ::BR:: Calamity: Recovers Scourge stacks equal to the number of enemy targets and causes all enemy targets to take action, then unleashes a powerful counter attack. ::BR:: Foundation: Consumes up to 4 stacks of Scourge. For each stack consumed deals dmg 4 times to random enemy targets. If 4 stacks were consumed, additionally deal damage to all enemies. ::BR:: When transforming, Khaslana recovers 4 stacks of Scourge.
         options:
           Calamity:
             display: 'Skill: Calamity'
@@ -1712,9 +1794,7 @@ Characters:
       e1Buffs:
         text: E1 buffs
         content: >-
-          The inheritance ratio of Khaslana's extra turn's SPD is increased to 66%. For every enemy target defeated within 1 battle, the inheritance ratio of Khaslana's extra turn's SPD further increases by 1.5%, up to 84%.
-          ::BR::
-          When using Ultimate, CRIT DMG increases by 50%, lasting for 3 turns.
+          The inheritance ratio of Khaslana's extra turn's SPD is increased to 66%. For every enemy target defeated within 1 battle, the inheritance ratio of Khaslana's extra turn's SPD further increases by 1.5%, up to 84%. ::BR:: When using Ultimate, CRIT DMG increases by 50%, lasting for 3 turns.
       e2ResPen:
         text: E2 RES PEN
         content: >-
@@ -1924,28 +2004,14 @@ Characters:
       talentDefShredDebuff:
         text: Bug DEF shred
         content: >-
-          Silver Wolf can create three types of "Bugs": Reduce ATK by {{BugAtkDown}}%, reduce DEF by {{BugDefDown}}%, and reduce SPD by {{BugSpdDown}}%.
-          ::BR::
-          After every attack launched by Silver Wolf, she has a {{BugBaseChance}}% base chance to implant 1 random "Bug" that lasts for 4 turns in the attacked enemy target.
-          ::BR::
-           Every time an enemy target's Weakness is Broken, Silver Wolf has a 100% base chance of implanting 1 random "Bug" in that target.
-          ::BR::
-          E2: When the enemy target receives an attack from ally targets, Silver Wolf has a 100% base chance of implanting the attacked enemy target with 1 random "Bug."
+          Silver Wolf can create three types of "Bugs": Reduce ATK by {{BugAtkDown}}%, reduce DEF by {{BugDefDown}}%, and reduce SPD by {{BugSpdDown}}%. ::BR:: After every attack launched by Silver Wolf, she has a {{BugBaseChance}}% base chance to implant 1 random "Bug" that lasts for 4 turns in the attacked enemy target. ::BR:: Every time an enemy target's Weakness is Broken, Silver Wolf has a 100% base chance of implanting 1 random "Bug" in that target. ::BR:: E2: When the enemy target receives an attack from ally targets, Silver Wolf has a 100% base chance of implanting the attacked enemy target with 1 random "Bug."
       ultDefShredDebuff:
         text: Ult DEF shred
         content: There's a {{UltBaseChance}}% base chance to decrease all enemies' DEF by {{UltDefShred}}% for 3 turns.
       targetDebuffs:
         text: Target debuffs
         content: >-
-          After every attack launched by Silver Wolf, she has a {{BugBaseChance}}% base chance to implant 1 random "Bug" that lasts for 4 turns in the attacked enemy target.
-          ::BR::
-          E1: After using her Ultimate to attack any enemy target, Silver Wolf regenerates 7 Energy for every debuff that the target currently has. This effect can be triggered up to 5 times in each use of her Ultimate.
-          ::BR::
-          E2: When the enemy target receives an attack from ally targets, Silver Wolf has a 100% base chance of implanting the attacked enemy target with 1 random "Bug."
-          ::BR::
-          E4: After using Silver Wolf's Ultimate to attack any enemy target, deals Quantum Additional DMG equal to 20% of Silver Wolf's ATK for every debuff currently on the enemy target. This effect can be triggered for a maximum of 5 times against each target during each use of her Ultimate.
-          ::BR::
-          E6: For every debuff the enemy target has, the DMG dealt by Silver Wolf to it increases by 20%, up to an increase of 100%.
+          After every attack launched by Silver Wolf, she has a {{BugBaseChance}}% base chance to implant 1 random "Bug" that lasts for 4 turns in the attacked enemy target. ::BR:: E1: After using her Ultimate to attack any enemy target, Silver Wolf regenerates 7 Energy for every debuff that the target currently has. This effect can be triggered up to 5 times in each use of her Ultimate. ::BR:: E2: When the enemy target receives an attack from ally targets, Silver Wolf has a 100% base chance of implanting the attacked enemy target with 1 random "Bug." ::BR:: E4: After using Silver Wolf's Ultimate to attack any enemy target, deals Quantum Additional DMG equal to 20% of Silver Wolf's ATK for every debuff currently on the enemy target. This effect can be triggered for a maximum of 5 times against each target during each use of her Ultimate. ::BR:: E6: For every debuff the enemy target has, the DMG dealt by Silver Wolf to it increases by 20%, up to an increase of 100%.
       e2Vulnerability:
         text: E2 Vulnerability
         content: When enemy target enters battle, increases DMG received by 20%.

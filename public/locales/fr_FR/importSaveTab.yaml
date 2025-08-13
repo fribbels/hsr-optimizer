@@ -16,6 +16,21 @@ Import:
     BadMainstat: Impossible de lire la relique avec mainstat {{mainstat}} et partie {{part}}
   ParserWarning:
     BadRollInfo: Le fichier du scanner est obsolète / peut contenir des informations non valides. Veuillez mettre à jour votre scanner.
+  LiveImport:
+    Title: Contrôles d'importation en direct
+    Description:
+      l1: Lorsque vous utilisez Reliquary Archiver, vous pouvez activer le mode "Importation en direct" pour importer votre inventaire en temps réel.
+      l2: Cela inclut les reliques nouvelles/améliorées, les résultats de saut et plus encore.
+    Connected: Connecté
+    Disconnected: Déconnecté
+    DisconnectedHint: Impossible de se connecter au scanner. Veuillez vérifier qu'il est en cours d'exécution.
+    Enable: Activer l'importation en direct (Recommandé)
+    UpdateCharacters: Activer la mise à jour des reliques et des cônes de lumière équipés des caractères
+    UpdateWarpResources: Activer l'importation des ressources de Saut (jades, tickets, pitié)
+    AdvancedSettings:
+      Title: Options avancées
+      WebsocketUrl: URL du Websocket
+      WebsocketUrlReset: Réinitialiser
   Stage1:
     Header: "Installez et lancez l'une des options de scanner de reliques :"
     ReliquaryDesc:
@@ -25,6 +40,7 @@ Import:
       OfflineMsg: "***** Statut: En panne pour entretien après le patch {{version}} *****"
       l1: Decimaux de vitesse exacts, scan instantané
       l2: Importe l'inventaire complet ainsi que tous les personnages
+      l3: Supporte l'importation en direct (les reliques nouvelles/améliorées sont importées en temps réel)
     KelzDesc:
       Title: Scanner Kel-Z HSR
       Link: Github

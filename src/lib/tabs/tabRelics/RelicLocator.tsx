@@ -44,12 +44,10 @@ export const useRelicLocatorStore = create<RelicLocatorState>()((set) => ({
   setRowLimit: (limit: number | null) => set({ rowLimit: limit ?? defaultStateValues.rowLimit }),
 }))
 
-export function RelicLocator(props: { relic: Relic | undefined }) {
+export function RelicLocator(props: { relic: Relic | null }) {
   const { relic } = props
-  const setInventoryWidth = useRelicLocatorStore((s) => s.setInventoryWidth)
-  const setRowLimit = useRelicLocatorStore((s) => s.setRowLimit)
-  const inventoryWidth = useRelicLocatorStore((s) => s.inventoryWidth)
-  const rowLimit = useRelicLocatorStore((s) => s.rowLimit)
+
+  const { setInventoryWidth, setRowLimit, inventoryWidth, rowLimit } = useRelicLocatorStore()
 
   const { t } = useTranslation('relicsTab', { keyPrefix: 'Toolbar.RelicLocator' })
 
@@ -59,17 +57,17 @@ export function RelicLocator(props: { relic: Relic | undefined }) {
   useEffect(() => {
     if (!relic) return
     const indexLimit = Math.max(1, rowLimit) * Math.max(1, inventoryWidth)
-    const newerRelics = DB.getRelics().filter((x) => x.ageIndex! <= relic.ageIndex!)
+    const newerRelics = DB.getRelics().filter((x) => x.ageIndex! > relic.ageIndex!)
 
     // Part-only filter
-    const partFilteredIndex = newerRelics.filter((x) => relic.part == x.part).length - 1
+    const partFilteredIndex = newerRelics.filter((x) => relic.part == x.part).length
     if (partFilteredIndex < indexLimit) {
       setRelicPositionIndex(partFilteredIndex)
       setLocatorFilters({ set: null, part: relic.part })
       return
     }
 
-    const filteredIndex = newerRelics.filter((x) => relic.part == x.part && relic.set == x.set).length - 1
+    const filteredIndex = newerRelics.filter((x) => relic.part == x.part && relic.set == x.set).length
     setRelicPositionIndex(filteredIndex)
     setLocatorFilters({ set: relic.set, part: relic.part })
   }, [relic, inventoryWidth, rowLimit])

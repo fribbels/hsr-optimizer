@@ -103,6 +103,7 @@ Lightcones:
     Content:
       skillDmgBoost:
         text: Bonus de DGT de Compétence
+        content: ' Après que le porteur a utilisé une compétence sur un personnage allié, augmente les DGT de compétence infligés par la cible de {{DmgBuff}}% pendant 3 tours.'
   EternalCalculus:
     Content:
       atkBuffStacks:
@@ -369,8 +370,12 @@ Lightcones:
           Lorsque le porteur inflige des DGT de rupture à une cible ennemie, il applique l'effet Perdu à la cible ennemie pendant 2 tours. Les cibles affectées par l'effet Perdu subissent {{Vulnerability}}% de DGT de rupture supplémentaires de la part du porteur et voient leur VIT réduite de 20%.
   WhyDoesTheOceanSing:
     Content:
+      dotVulnStacks:
+        text: Cumuls de vulnérabilité de DsD
+        content: Lorsque le porteur applique un malus à une cible ennemie, il y a 80% de chances de base d'appliquer également Enchantement pour une durée de 3 tours. Dans l'état Enchantement, chaque malus appliqué par le porteur augmente les dégâts sur la durée subis de {{DotVuln}}%, cumulable jusqu'à 6 fois.
       spdBuff:
         text: Bonus de VIT
+        content: Lorsque le porteur applique un malus à une cible ennemie, il y a 80% de chances de base d'appliquer également Enchantement pour une durée de 3 tours. Lorsqu'un allié attaque un ennemi affecté par Enchantement, la VIT de l'assaillant augmente de {{SpdBuff}}% pendant 3 tours.
   WorrisomeBlissful:
     Content:
       targetTameStacks:
@@ -617,6 +622,7 @@ Lightcones:
     Content:
       atkStacks:
         text: Cumuls de bonus d'ATQ
+        content: Chaque fois que le porteur utilise une compétence, augmente son ATQ de {{AtkBuff}}%. Cet effet peut se cumuler jusqu'à 3 fois.
   TheGreatCosmicEnterprise:
     Content:
       weaknessTypes:
@@ -1075,17 +1081,38 @@ Characters:
     Content:
       spdBuff:
         text: Bonus de VIT
+        content: Lorsque Cérydra utilise une compétence, sa VIT et celle du coéquipier avec Décoration militaire augmentent de 20 points pendant 3 tours.
       crBuff:
         text: Bonus de TC
+        content: Augmente les chances de coup critique de Cérydra de 100%.
+      atkToCd:
+        text: ATQ à DC
+        content: Lorsque l'ATQ de Cérydra est supérieure à 2000, pour chaque tranche de 100 points d'ATQ en excédent, ses DGT critiques augmentent de 18%, jusqu'à un maximum de 360%.
       e2DmgBoost:
         text: 'E2: Bonus de DGT'
+        content: Le personnage avec Décoration militaire inflige 40% de DGT supplémentaires. Lorsqu'un coéquipier avec Décoration militaire est sur le champ de bataille, les DGT de Cérydra augmentent de 160%.
       e4UltDmg:
         text: 'E4: DGT d''ULT'
+        content: Augmente le multiplicateur de DGT d'ultime de 240%.
       e6Buffs:
         text: 'E6: Divers bonus'
+        content: La PÉN de RÉS à tous les types du personnage avec Décoration militaire augmente de 20%, et le multiplicateur des DGT additionnels déclenchés par Décoration militaire augmente de 300%. Lorsqu'un coéquipier sur le champ de bataille bénéficie de Décoration militaire, la >PÉN de RÉS à tous les types de Cérydra augmente de 20%.
     TeammateContent:
+      militaryMerit:
+        text: Décoration militaire
+        content: >-
+          Lorsque Cérydra utilise une compétence, sa VIT et celle du coéquipier avec Décoration militaire augmentent de 20 points pendant 3 tours. ::BR:: Augmente l'ATQ du personnage avec Décoration militaire d'un montant équivalent à {{TalentAtkConversion}}% de l'ATQ de Cérydra. ::BR:: E1: Les DGT infligés par le personnage avec Décoration militaire ignorent 16% de la DÉF des cibles.
+      peerage:
+        text: Noblesse
+        content: >-
+          Le personnage avec Noblesse voit ses DGT critiques de compétence augmenter de {{SkillCdBuff}}% et sa PÉN de RÉS à tous les types augmenter de {{SkillResPenBuff}}%.::BR:: E1: Si l'état Décoration militaire évolue en Noblesse, les DGT de compétence infligés par le personnage ignorent 20% supplémentaires de la DÉF de la cible.
+      teammateATKValue:
+        text: ATQ en combat de Cérydra
+        content: >-
+          Augmente l'ATQ du personnage avec Décoration militaire d'un montant équivalent à {{TalentAtkConversion}}% de l'ATQ de Cérydra. ::BR:: Saisissez la valeur de l'ATQ de Cérydra qui sera utilisé pour son buff.
       e1DefPen:
         text: 'E1: PÉN de DÉF'
+        content: ' Les DGT infligés par le personnage avec Décoration militaire ignorent 16% de la DÉF des cibles. Si l''état Décoration militaire évolue en Noblesse, les DGT de compétence infligés par le personnage ignorent 20% supplémentaires de la DÉF de la cible.'
   Cipher:
     Content:
       vulnerability:
@@ -1400,16 +1427,36 @@ Characters:
         content: Lorsqu'Ica est sur le champ de bataille, la PÉN de RÉS à tous les types de toutes les cibles alliées augmente de 20%.
   Hysilens:
     Content:
+      skillVulnerability:
+        text: Vulnérabilité de la Compétence
+        content: La compétence de Hysilens a 100% de chances de base d'augmenter les DGT subis par tous les ennemis de {{SkillVuln}}%, pendant 3 tours.
       ultZone:
         text: Zone d'ULT active
+        content: Lorsque Hysilens utilise son ultime, déploie une zone qui réduit l'ATQ des cibles ennemies de 15% et leur DÉF de {{ZoneDefShred}}%.
+      ultDotStacks:
+        text: Cumuls de DsD déclenchés
+        content: Lorsque Hysilens utilise son ultime, si la cible ennemie est affectée par des dégâts sur la durée, tous les dégâts sur la durée actuellement appliqués sur la cible infligent immédiatement des DGT équivalents à 150% de leurs DGT initiaux.
       ehrToDmg:
         text: Conversion de TAE à DGT
+        content: Si les chances d'appliquer des effets de Hysilens sont supérieures à 60%, pour chaque tranche de 10% en excédent, augmente ses DGT infligés de 15%, jusqu'à un maximum de 90%.
+      dotDetonation:
+        text: Détonation de DsD (activation automatique)
+        content: Lorsque Hysilens utilise son ultime, si la cible ennemie est affectée par des dégâts sur la durée, tous les dégâts sur la durée actuellement appliqués sur la cible infligent immédiatement des DGT équivalents à 150% de leurs DGT initiaux.
       e1Buffs:
         text: 'E1: Divers bonus'
+        content: >-
+          Lorsque Hysilens est sur le champ de bataille, les dégâts sur la durée infligés par les cibles alliées passent à 116% de la valeur initiale. ::BR:: Lorsque Hysilens applique Faille du vent, Saignement, Brûlure ou Stupéfaction à un ennemi via son talent, il y a 100% de chances de base de lui appliquer un état supplémentaire parmi Faille du vent, Saignement, Brûlure et Stupéfaction dont l'effet est équivalent, et coexistant avec l'état d'origine du talent.
       e4ResPen:
         text: 'E4: PÉN de RÉS'
+        content: Lorsque la zone est active, réduit toutes les RÉS de type de tous les ennemis de 20%.
       e6Buffs:
         text: 'E6: Divers bonus'
+        content: Lorsque la zone est active, le nombre maximum de déclenchements de l'effet de dégâts physiques sur la durée de Hysilens augmente et passe à 12 au début de chaque tour ou après une attaque d'une cible alliée, et le multiplicateur de DGT infligés augmente de 20%.
+    TeammateContent:
+      e2TeammateEhr:
+        text: "E2: TAE en combat de Hysilens"
+        content: >-
+          Lorsque la zone est active, applique le bonus de DGT de la Trace Violon des perles à tous les alliés. ::BR:: Violon des perles: Si les chances d'appliquer des effets de Hysilens sont supérieures à 60%, pour chaque tranche de 10% en excédent, augmente ses DGT infligés de 15%, jusqu'à un maximum de 90%.
   ImbibitorLunae:
     Content:
       basicEnhanced:

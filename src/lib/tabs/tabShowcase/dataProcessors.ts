@@ -2,6 +2,7 @@
 /* eslint-disable */
 // this is very much not ideal but unless the API response types can be properly downstreamed it will have to do
 import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
+import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 
 export function processMihomoData(data: MihomoApiResponse): UnconvertedCharacter[] {
   const characters = data.characters.filter((x) => !!x)
@@ -9,7 +10,7 @@ export function processMihomoData(data: MihomoApiResponse): UnconvertedCharacter
     character.relicList = character.relics || []
     character.equipment = character.light_cone
     // TODO update once mihomo update their api, or switch to raw endpoint and update the above
-    character.avatarId = character.id // character.enhancedId ? character.id + `b${character.enhancedId}` : character.id
+    character.avatarId = buffedCharacters[character.id] ?? character.id // character.enhancedId ? character.id + `b${character.enhancedId}` : character.id
 
     if (character.equipment) {
       character.equipment.tid = character.equipment.id

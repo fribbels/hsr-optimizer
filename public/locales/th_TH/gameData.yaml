@@ -215,6 +215,12 @@ Characters:
   "1412":
     Name: Cerydra
     LongName: Cerydra
+  "1413":
+    Name: Evernight
+    LongName: Evernight
+  "1414":
+    Name: Permansor Terrae
+    LongName: Dan Heng • Permansor Terrae
   "8001":
     Name: Caelus
     LongName: Caelus (ทำลายล้าง)
@@ -239,18 +245,18 @@ Characters:
   "8008":
     Name: Stelle
     LongName: Stelle (ความทรงจำ)
-  1006b1:
-    Name: Silver Wolf
-    LongName: Silver Wolf
-  1005b1:
-    Name: Kafka
-    LongName: Kafka
-  1205b1:
-    Name: Blade
-    LongName: Blade
   1212b1:
     Name: Jingliu
     LongName: Jingliu
+  1205b1:
+    Name: Blade
+    LongName: Blade
+  1005b1:
+    Name: Kafka
+    LongName: Kafka
+  1006b1:
+    Name: Silver Wolf
+    LongName: Silver Wolf
 RelicSets:
   "101":
     Name: Passerby of Wandering Cloud
@@ -356,6 +362,14 @@ RelicSets:
     Name: Wavestrider Captain
     Description2pc: DMG คริติคอลเพิ่มขึ้น 16%
     Description4pc: เมื่อผู้สวมใส่กลายเป็นเป้าหมายสกิล ของเป้าหมายอื่นในฝ่ายเรา จะได้รับ "แรงช่วย" 1 ชั้น ซึ่งสามารถซ้อนทับได้สูงสุด 2 ชั้น เมื่อปล่อยท่าไม้ตาย หากมี "แรงช่วย" 2 ชั้น จะใช้ "แรงช่วย" ทั้งหมด เพื่อทำให้ ATK ของผู้สวมใส่เพิ่มขึ้น 48% เป็นเวลา 1 เทิร์น
+  "127":
+    Name: World-Remaking Deliverer
+    Description2pc: Increases CRIT Rate by 8%.
+    Description4pc: After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 8% until the wearer's next Basic ATK or Skill.
+  "128":
+    Name: Self-Enshrouded Recluse
+    Description2pc: Increases CRIT DMG by 16%.
+    Description4pc: Increases the wearer's CRIT DMG by 16%. When any ally target consumes Skill Points for the first time in a turn, recovers 1 Skill Point. This effect triggers up to 1 time per battle, and 1 trigger count(s) will be restored at the start of each subsequent wave. Only 1 Skill Point Recovery effect can be active in the same team.
   "301":
     Name: Space Sealing Station
     Description2pc: ATK ของผู้สวมใส่เพิ่มขึ้น 12% เมื่อความเร็วของผู้สวมใส่เท่ากับหรือมากกว่า 120 ATK จะเพิ่มขึ้นอีก 12%
@@ -602,7 +616,7 @@ Lightcones:
   "22004":
     Name: The Great Cosmic Enterprise
   "22005":
-    Name: Maze Restaurant Forever
+    Name: The Forever Victual
   "23000":
     Name: Night on the Milky Way
   "23001":
@@ -700,7 +714,11 @@ Lightcones:
   "23047":
     Name: Why Does the Ocean Sing
   "23048":
-    Name: Era Engraved by Golden Blood
+    Name: Epoch Etched in Golden Blood
+  "23049":
+    Name: To Evernight's Stars
+  "23051":
+    Name: Though Worlds Apart
   "24000":
     Name: On the Fall of an Aeon
   "24001":

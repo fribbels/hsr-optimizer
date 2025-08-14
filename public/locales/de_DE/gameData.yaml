@@ -215,6 +215,12 @@ Characters:
   "1412":
     Name: Cerydra
     LongName: Cerydra
+  "1413":
+    Name: Evernight
+    LongName: Evernight
+  "1414":
+    Name: Dan Heng • Permansor Terrae
+    LongName: Dan Heng • Permansor Terrae
   "8001":
     Name: Caelus
     LongName: Caelus (Die Zerstörung)
@@ -239,18 +245,18 @@ Characters:
   "8008":
     Name: Stella
     LongName: Stella (Das Gedenken)
-  1006b1:
-    Name: Silberwolf
-    LongName: Silberwolf
-  1005b1:
-    Name: Kafka
-    LongName: Kafka
-  1205b1:
-    Name: Blade
-    LongName: Blade
   1212b1:
     Name: Jingliu
     LongName: Jingliu
+  1205b1:
+    Name: Blade
+    LongName: Blade
+  1005b1:
+    Name: Kafka
+    LongName: Kafka
+  1006b1:
+    Name: Silberwolf
+    LongName: Silberwolf
 RelicSets:
   "101":
     Name: Wanderer der vorbeiziehenden Wolke
@@ -356,6 +362,14 @@ RelicSets:
     Name: Kapitän über den verfluchten Wellen
     Description2pc: Erhöht KRIT-SCH um 16%.
     Description4pc: Wenn der Träger zum Ziel der Fähigkeit eines anderen Verbündeten wird, erhält er 1 Stapelung „Unterstützen“, bis zu 2 Stapelungen. Verbraucht beim Einsatz des Ultimates alle Stapelungen von Unterstützen und erhöht den ANG des Trägers für 1 Rd. um 48%, wenn 2 Stapelungen vorhanden sind.
+  "127":
+    Name: World-Remaking Deliverer
+    Description2pc: Increases CRIT Rate by 8%.
+    Description4pc: After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 8% until the wearer's next Basic ATK or Skill.
+  "128":
+    Name: Self-Enshrouded Recluse
+    Description2pc: Increases CRIT DMG by 16%.
+    Description4pc: Increases the wearer's CRIT DMG by 16%. When any ally target consumes Skill Points for the first time in a turn, recovers 1 Skill Point. This effect triggers up to 1 time per battle, and 1 trigger count(s) will be restored at the start of each subsequent wave. Only 1 Skill Point Recovery effect can be active in the same team.
   "301":
     Name: Raumstation für Versiegelung
     Description2pc: Erhöht ANG des Trägers um 12%. Wenn die GES des Trägers 120 oder höher erreicht, wird sein ANG zusätzlich um 12% erhöht.
@@ -602,7 +616,7 @@ Lightcones:
   "22004":
     Name: Das große kosmische Geschäft
   "22005":
-    Name: Maze Restaurant Forever
+    Name: Wirrgarten-Restaurant für immer
   "23000":
     Name: Nacht auf der Milchstraße
   "23001":
@@ -698,9 +712,13 @@ Lightcones:
   "23046":
     Name: Hölle der brennenden Ideale
   "23047":
-    Name: Why Does the Ocean Sing
+    Name: Warum singt der Ozean
   "23048":
-    Name: Era Engraved by Golden Blood
+    Name: Zeitalter des goldenen Blutes
+  "23049":
+    Name: To Evernight's Stars
+  "23051":
+    Name: Though Worlds Apart
   "24000":
     Name: Der Niedergang eines Äons
   "24001":

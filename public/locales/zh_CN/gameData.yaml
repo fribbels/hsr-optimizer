@@ -215,6 +215,12 @@ Characters:
   "1412":
     Name: 刻律德菈
     LongName: 刻律德菈
+  "1413":
+    Name: 长夜月
+    LongName: 长夜月
+  "1414":
+    Name: 丹恒 · 腾荒
+    LongName: 丹恒 · 腾荒
   "8001":
     Name: 穹
     LongName: 穹 (毁灭)
@@ -239,18 +245,18 @@ Characters:
   "8008":
     Name: 星
     LongName: 星 (记忆)
-  1006b1:
-    Name: 银狼
-    LongName: 银狼
-  1005b1:
-    Name: 卡芙卡
-    LongName: 卡芙卡
-  1205b1:
-    Name: 刃
-    LongName: 刃
   1212b1:
     Name: 镜流
     LongName: 镜流
+  1205b1:
+    Name: 刃
+    LongName: 刃
+  1005b1:
+    Name: 卡芙卡
+    LongName: 卡芙卡
+  1006b1:
+    Name: 银狼
+    LongName: 银狼
 RelicSets:
   "101":
     Name: 云无留迹的过客
@@ -356,6 +362,14 @@ RelicSets:
     Name: 恶海逐波的船长
     Description2pc: 暴击伤害提高16%。
     Description4pc: 装备者成为其他我方目标的技能目标时，获得1层【助力】，最多叠加2层。施放终结技时，若持有2层【助力】，消耗所有【助力】，使装备者攻击力提高48%，持续1回合。
+  "127":
+    Name: 再创天地的救世主
+    Description2pc: 暴击率提高 8% 。
+    Description4pc: 装备者施放普攻或战技后，若装备者的忆灵在场，使装备者及其忆灵生命上限提高 24% ，我方全体造成的伤害提高 8% ，持续至装备者下次施放普攻或战技后。
+  "128":
+    Name: 自匿星芒的隐士
+    Description2pc: 暴击伤害提高 16% 。
+    Description4pc: 使装备者的暴击伤害提高 16% ，任意我方目标在每回合内首次消耗战技点后，恢复1点战技点，该效果每场战斗最多触发 1 次，后续每个波次开始后恢复 1 次可触发次数。恢复战技点的效果在同一队伍中最多生效1个。
   "301":
     Name: 太空封印站
     Description2pc: 使装备者的攻击力提高12%。当装备者的速度大于等于120时，攻击力额外提高12%。
@@ -701,6 +715,10 @@ Lightcones:
     Name: 海洋为何而歌
   "23048":
     Name: 金血铭刻的时代
+  "23049":
+    Name: 致长夜的星光
+  "23051":
+    Name: 纵然山河万程
   "24000":
     Name: 记一位星神的陨落
   "24001":

@@ -213,8 +213,14 @@ Characters:
     Name: Hysilens
     LongName: Hysilens
   "1412":
-    Name: Cerydra
-    LongName: Cerydra
+    Name: Céridra
+    LongName: Céridra
+  "1413":
+    Name: Evernight
+    LongName: Evernight
+  "1414":
+    Name: Permansor Terrae
+    LongName: Dan Heng • Permansor Terrae
   "8001":
     Name: Caelus
     LongName: Caelus (Destrucción)
@@ -239,18 +245,18 @@ Characters:
   "8008":
     Name: Estela
     LongName: Estela (Reminiscencia)
-  1006b1:
-    Name: Silver Wolf
-    LongName: Silver Wolf
-  1005b1:
-    Name: Kafka
-    LongName: Kafka
-  1205b1:
-    Name: Blade
-    LongName: Blade
   1212b1:
     Name: Jingliu
     LongName: Jingliu
+  1205b1:
+    Name: Blade
+    LongName: Blade
+  1005b1:
+    Name: Kafka
+    LongName: Kafka
+  1006b1:
+    Name: Silver Wolf
+    LongName: Silver Wolf
 RelicSets:
   "101":
     Name: Transeúnte de la nube pasajera
@@ -356,6 +362,14 @@ RelicSets:
     Name: Capitán del mar maldito
     Description2pc: Daño CRIT +16%.
     Description4pc: Cuando el portador se convierte en el objetivo de la habilidad de otro aliado, obtiene 1 acumulación de Ayuda (hasta 2 como máximo). Si el portador tiene 2 acumulaciones de Ayuda al lanzar la habilidad definitiva, las consume todas y su ATQ aumenta en un 48% durante 1 turno.
+  "127":
+    Name: World-Remaking Deliverer
+    Description2pc: Increases CRIT Rate by 8%.
+    Description4pc: After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 8% until the wearer's next Basic ATK or Skill.
+  "128":
+    Name: Self-Enshrouded Recluse
+    Description2pc: Increases CRIT DMG by 16%.
+    Description4pc: Increases the wearer's CRIT DMG by 16%. When any ally target consumes Skill Points for the first time in a turn, recovers 1 Skill Point. This effect triggers up to 1 time per battle, and 1 trigger count(s) will be restored at the start of each subsequent wave. Only 1 Skill Point Recovery effect can be active in the same team.
   "301":
     Name: Estación sellaespacios
     Description2pc: El ATQ del portador aumenta en un 12%. Cuando su VEL es igual o superior a 120, el ATQ aumenta en un 12% adicional.
@@ -602,7 +616,7 @@ Lightcones:
   "22004":
     Name: El gran negocio cósmico
   "22005":
-    Name: Maze Restaurant Forever
+    Name: Viandas sin fin
   "23000":
     Name: Noche en la Vía Láctea
   "23001":
@@ -698,9 +712,13 @@ Lightcones:
   "23046":
     Name: Infierno donde arden los ideales
   "23047":
-    Name: Why Does the Ocean Sing
+    Name: Por qué canta el océano
   "23048":
-    Name: Era Engraved by Golden Blood
+    Name: Era grabada en sangre dorada
+  "23049":
+    Name: To Evernight's Stars
+  "23051":
+    Name: Though Worlds Apart
   "24000":
     Name: Sobre la caída de un Eón
   "24001":

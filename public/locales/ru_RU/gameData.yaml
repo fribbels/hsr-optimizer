@@ -210,11 +210,17 @@ Characters:
     Name: Гиацина
     LongName: Гиацина
   "1410":
-    Name: Hysilens
-    LongName: Hysilens
+    Name: Гисиленса
+    LongName: Гисиленса
   "1412":
-    Name: Cerydra
-    LongName: Cerydra
+    Name: Керидра
+    LongName: Керидра
+  "1413":
+    Name: Evernight
+    LongName: Evernight
+  "1414":
+    Name: Permansor Terrae
+    LongName: Dan Heng • Permansor Terrae
   "8001":
     Name: Келус
     LongName: Келус (Разрушение)
@@ -239,18 +245,18 @@ Characters:
   "8008":
     Name: Стелла
     LongName: Стелла (Память)
-  1006b1:
-    Name: Серебряный Волк
-    LongName: Серебряный Волк
-  1005b1:
-    Name: Кафка
-    LongName: Кафка
-  1205b1:
-    Name: Блэйд
-    LongName: Блэйд
   1212b1:
     Name: Цзинлю
     LongName: Цзинлю
+  1205b1:
+    Name: Блэйд
+    LongName: Блэйд
+  1005b1:
+    Name: Кафка
+    LongName: Кафка
+  1006b1:
+    Name: Серебряный Волк
+    LongName: Серебряный Волк
 RelicSets:
   "101":
     Name: Скиталец блуждающего облака
@@ -356,6 +362,14 @@ RelicSets:
     Name: Преследующий волны капитан
     Description2pc: Крит. урон повышается на 16%.
     Description4pc: Когда владелец становится целью умения другого союзника, он получает 1 ур. статуса Помощь, который может складываться до 2 раз. Если во время использования сверхспособности владелец имеет 2 ур. статуса Помощь, то он расходует все уровни этого статуса и повышает свою силу атаки на 48% на 1 ход.
+  "127":
+    Name: World-Remaking Deliverer
+    Description2pc: Increases CRIT Rate by 8%.
+    Description4pc: After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 8% until the wearer's next Basic ATK or Skill.
+  "128":
+    Name: Self-Enshrouded Recluse
+    Description2pc: Increases CRIT DMG by 16%.
+    Description4pc: Increases the wearer's CRIT DMG by 16%. When any ally target consumes Skill Points for the first time in a turn, recovers 1 Skill Point. This effect triggers up to 1 time per battle, and 1 trigger count(s) will be restored at the start of each subsequent wave. Only 1 Skill Point Recovery effect can be active in the same team.
   "301":
     Name: Запечатывающая космос станция
     Description2pc: Повышает силу атаки владельца на 12%. Если скорость владельца выше или равна 120 ед., то его сила атаки повышается на доп. 12%.
@@ -602,7 +616,7 @@ Lightcones:
   "22004":
     Name: Бизнес космических масштабов
   "22005":
-    Name: Maze Restaurant Forever
+    Name: Вечный ресторан лабиринта
   "23000":
     Name: Ночь на Млечном Пути
   "23001":
@@ -698,9 +712,13 @@ Lightcones:
   "23046":
     Name: Ад горящих идеалов
   "23047":
-    Name: Why Does the Ocean Sing
+    Name: Почему поёт океан
   "23048":
-    Name: Era Engraved by Golden Blood
+    Name: Эпоха золотой крови
+  "23049":
+    Name: To Evernight's Stars
+  "23051":
+    Name: Though Worlds Apart
   "24000":
     Name: О падении Эона
   "24001":

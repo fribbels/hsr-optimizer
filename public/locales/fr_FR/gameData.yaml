@@ -213,8 +213,14 @@ Characters:
     Name: Hysilens
     LongName: Hysilens
   "1412":
-    Name: Cerydra
-    LongName: Cerydra
+    Name: Cérydra
+    LongName: Cérydra
+  "1413":
+    Name: Evernight
+    LongName: Evernight
+  "1414":
+    Name: Permansor Terrae
+    LongName: Dan Heng • Permansor Terrae
   "8001":
     Name: Caelus
     LongName: Caelus (La Destruction)
@@ -239,18 +245,18 @@ Characters:
   "8008":
     Name: Stelle
     LongName: Stelle (Le Souvenir)
-  1006b1:
-    Name: "Louve\_d'argent"
-    LongName: "Louve\_d'argent"
-  1005b1:
-    Name: Kafka
-    LongName: Kafka
-  1205b1:
-    Name: Blade
-    LongName: Blade
   1212b1:
     Name: Jingliu
     LongName: Jingliu
+  1205b1:
+    Name: Blade
+    LongName: Blade
+  1005b1:
+    Name: Kafka
+    LongName: Kafka
+  1006b1:
+    Name: "Louve\_d'argent"
+    LongName: "Louve\_d'argent"
 RelicSets:
   "101":
     Name: Vagabond foulenuage
@@ -356,6 +362,14 @@ RelicSets:
     Name: Capitaine des mers déchaînées
     Description2pc: Augmente les DGT critiques de 16%.
     Description4pc: Lorsque le porteur est la cible d'une capacité alliée, il gagne 1 cumul d'Aide, jusqu'à un maximum de 2 cumuls. Lorsque le porteur utilise un ultime et qu'il bénéficie de 2 cumuls d'Aide, consomme tous les cumuls pour augmenter son ATQ de 48% pendant 1 tour.
+  "127":
+    Name: World-Remaking Deliverer
+    Description2pc: Increases CRIT Rate by 8%.
+    Description4pc: After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 8% until the wearer's next Basic ATK or Skill.
+  "128":
+    Name: Self-Enshrouded Recluse
+    Description2pc: Increases CRIT DMG by 16%.
+    Description4pc: Increases the wearer's CRIT DMG by 16%. When any ally target consumes Skill Points for the first time in a turn, recovers 1 Skill Point. This effect triggers up to 1 time per battle, and 1 trigger count(s) will be restored at the start of each subsequent wave. Only 1 Skill Point Recovery effect can be active in the same team.
   "301":
     Name: Station de scellement spatial
     Description2pc: Augmente l'ATQ du porteur de 12%. Lorsque sa VIT est supérieure ou égale à 120, son ATQ augmente encore de 12%.
@@ -602,7 +616,7 @@ Lightcones:
   "22004":
     Name: La grande entreprise cosmique
   "22005":
-    Name: Maze Restaurant Forever
+    Name: Un goût d'éternité
   "23000":
     Name: Nuit sur la voie lactée
   "23001":
@@ -698,9 +712,13 @@ Lightcones:
   "23046":
     Name: L'Enfer où brûlent les idéaux
   "23047":
-    Name: Why Does the Ocean Sing
+    Name: Ce pourquoi chantent les océans
   "23048":
-    Name: Era Engraved by Golden Blood
+    Name: Une ère gravée dans le sang doré
+  "23049":
+    Name: To Evernight's Stars
+  "23051":
+    Name: Though Worlds Apart
   "24000":
     Name: La chute d'un Aiôn
   "24001":

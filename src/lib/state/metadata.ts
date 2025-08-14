@@ -1138,6 +1138,9 @@ function getLightConeOverrideCenter(): Record<string, number> {
     21060: 200,
     21061: 180,
     21062: 165,
+
+    23049: 320,
+    23051: 150,
   }
 }
 
@@ -1568,14 +1571,14 @@ function getOverrideImageCenter(): Record<string, {
       z: 1.05,
     },
     1413: { // Evernight
-      x: 1024,
-      y: 1024,
-      z: 1,
+      x: 985,
+      y: 985,
+      z: 1.075,
     },
     1414: { // Dan Heng • Permansor Terrae
-      x: 1024,
+      x: 975,
       y: 1024,
-      z: 1.00,
+      z: 1.05,
     },
   }
 }
@@ -9239,9 +9242,11 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
-          DEFAULT_ULT,
+          START_ULT,
+          END_SKILL,
           DEFAULT_MEMO_SKILL,
           DEFAULT_MEMO_SKILL,
+          WHOLE_SKILL,
           DEFAULT_MEMO_SKILL,
           DEFAULT_MEMO_SKILL,
         ],

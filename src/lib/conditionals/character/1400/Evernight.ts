@@ -67,7 +67,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     memospriteActive: true,
     crBuff: true,
     memoCdBuff: true,
-    memoriaStacks: 3, // TODO
+    memoriaStacks: 16,
     enhancedState: true,
     e1FinalDmg: true,
     e4Buffs: true,
@@ -76,7 +76,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const teammateDefaults = {
     memospriteActive: true,
-    teamDmgBoost: true,
     enhancedState: true,
   }
 
@@ -116,7 +115,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'Memoria stacks',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
-      max: 50,
+      max: 16,
     },
     enhancedState: {
       id: 'enhancedState',

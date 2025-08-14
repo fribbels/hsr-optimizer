@@ -540,6 +540,29 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       }
     },
   },
+  WorldRemakingDeliverer: {
+    key: 'WorldRemakingDeliverer',
+    index: 26,
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+      c.CR.buff(0.08, Source.WorldRemakingDeliverer)
+    },
+    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+      if (setConditionals.enabledWorldRemakingDeliverer) {
+        x.HP.buffDual(0.24, Source.WorldRemakingDeliverer)
+        x.ELEMENTAL_DMG.buffTeam(0.08, Source.WorldRemakingDeliverer)
+      }
+    },
+  },
+  SelfEnshroudedRecluse: {
+    key: 'SelfEnshroudedRecluse',
+    index: 27,
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+      c.CD.buff(0.16, Source.SelfEnshroudedRecluse)
+    },
+    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+      x.CD.buff(0.16, Source.SelfEnshroudedRecluse)
+    },
+  },
 }
 
 export const SetsConfig = { ...RelicSetsConfig, ...OrnamentSetsConfig }

@@ -121,6 +121,19 @@ function getChangelogContent() {
     },
     {
       title: '',
+      date: '2025-08-14',
+      content: [
+        `Updated content to v3.6v1`,
+        `Added Evernight showcase`,
+        `evernight.webp`,
+        `Added Permansor Terrae showcase`,
+        `dhpt.webp`,
+        `Added World-Remaking Deliverer and Self-Enshrouded Recluse sets`,
+        `sets.webp`,
+      ],
+    },
+    {
+      title: '',
       date: '2025-08-12',
       content: [
         `Updated content to v3.5v6`,

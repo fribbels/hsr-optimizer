@@ -110,6 +110,7 @@ const teammateRelicSets = [
   Sets.WatchmakerMasterOfDreamMachinations,
   Sets.SacerdosRelivedOrdeal,
   Sets.WarriorGoddessOfSunAndThunder,
+  Sets.WorldRemakingDeliverer,
 ]
 const teammateOrnamentSets = [
   Sets.BrokenKeel,
@@ -207,6 +208,11 @@ const TeammateCard = (props: {
         value: Sets.WarriorGoddessOfSunAndThunder,
         desc: t('TeammateSets.Warrior.Desc'), // `4 Piece: ${Sets.WarriorGoddessOfSunAndThunder} (+15% CD)`,
         label: labelRender(Sets.WarriorGoddessOfSunAndThunder, t('TeammateSets.Warrior.Text')), // labelRender(Sets.WarriorGoddessOfSunAndThunder, '15% CD'),
+      },
+      {
+        value: Sets.WorldRemakingDeliverer,
+        desc: '4 Piece: World-Remaking Deliverer (+8% DMG)',
+        label: labelRender(Sets.WorldRemakingDeliverer, '8% DMG'), // labelRender(Sets.WorldRemakingDeliverer, '8% DMG'),
       },
     ]
   }, [t])

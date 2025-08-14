@@ -61,8 +61,10 @@ import aglaea from 'lib/conditionals/character/1400/Aglaea'
 import anaxa from 'lib/conditionals/character/1400/Anaxa'
 import castorice from 'lib/conditionals/character/1400/Castorice'
 import cipher from 'lib/conditionals/character/1400/Cipher'
+import evernight from 'lib/conditionals/character/1400/Evernight'
 import hyacine from 'lib/conditionals/character/1400/Hyacine'
 import mydei from 'lib/conditionals/character/1400/Mydei'
+import permansorTerrae from 'lib/conditionals/character/1400/PermansorTerrae'
 import theHerta from 'lib/conditionals/character/1400/TheHerta'
 import tribbie from 'lib/conditionals/character/1400/Tribbie'
 import trailblazerdestruction from 'lib/conditionals/character/8000/TrailblazerDestruction'
@@ -173,6 +175,9 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
 
   1410: hysilens,
   1412: cerydra,
+
+  1413: evernight,
+  1414: permansorTerrae,
 }
 
 /**

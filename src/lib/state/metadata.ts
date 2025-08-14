@@ -152,6 +152,7 @@ const SPREAD_RELICS_2P_ATK_WEIGHTS = {
 const SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS = {
   ...SPREAD_RELICS_2P_ATK_WEIGHTS,
   [Sets.ScholarLostInErudition]: MATCH_2P_WEIGHT,
+  [Sets.WorldRemakingDeliverer]: MATCH_2P_WEIGHT,
 }
 
 const SPREAD_RELICS_4P_GENERAL_CONDITIONALS = [
@@ -9198,6 +9199,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
       },
       sets: {
+        [Sets.WorldRemakingDeliverer]: 1,
         [Sets.PoetOfMourningCollapse]: 1,
         [Sets.ScholarLostInErudition]: T2_WEIGHT,
         [Sets.LongevousDisciple]: MATCH_2P_WEIGHT,
@@ -9214,7 +9216,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       ],
       sortOption: SortOption.MEMO_SKILL,
       addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
-      hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.MEMO_TALENT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -9251,7 +9253,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           DEFAULT_MEMO_SKILL,
         ],
         comboDot: 0,
+        deprioritizeBuffs: true,
         relicSets: [
+          [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
@@ -9324,7 +9328,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.ATK,
-      hiddenColumns: [SortOption.DOT],
+      hiddenColumns: [SortOption.DOT, SortOption.SKILL, SortOption.FUA],
     },
   }
 }

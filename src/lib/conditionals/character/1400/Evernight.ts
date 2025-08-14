@@ -142,7 +142,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e6ResPen: {
       id: 'e6ResPen',
       formItem: 'switch',
-      text: 'E4 RES PEN',
+      text: 'E6 RES PEN',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 6,
     },
@@ -165,7 +165,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.MEMO_SKILL, AbilityType.MEMO_TALENT],
+    activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.MEMO_SKILL],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -194,9 +194,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.m.BREAK_EFFICIENCY_BOOST.buff((e >= 4 && r.e4Buffs) ? 0.25 : 0, SOURCE_E4)
 
       if (r.memoriaStacks >= 16) {
-        x.m.MEMO_SKILL_HP_SCALING.buff(memoSkillScaling + Math.floor(TsUtils.precisionRound(r.memoriaStacks / 4)) * memoSkillAdditionalScaling, SOURCE_MEMO)
-      } else {
         x.m.MEMO_SKILL_HP_SCALING.buff(memoSkillEnhancedScaling * r.memoriaStacks, SOURCE_MEMO)
+      } else {
+        x.m.MEMO_SKILL_HP_SCALING.buff(memoSkillScaling + Math.floor(TsUtils.precisionRound(r.memoriaStacks / 4)) * memoSkillAdditionalScaling, SOURCE_MEMO)
       }
 
       // x.SKILL_HP_SCALING.buff((r.memospriteActive) ? skillEnhancedScaling1 : skillScaling, SOURCE_SKILL)
@@ -227,7 +227,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.m.VULNERABILITY.buffTeam((m.memospriteActive && m.enhancedState) ? ultVulnScaling : 0, SOURCE_ULT)
+      x.VULNERABILITY.buffTeam((m.memospriteActive && m.enhancedState) ? ultVulnScaling : 0, SOURCE_ULT)
       x.m.CD.buffTeam(skillCdScaling, SOURCE_SKILL)
       x.m.FINAL_DMG_BOOST.buffTeam((e >= 1 && m.e1FinalDmg) ? e1FinalDmgMap[context.enemyCount] : 0, SOURCE_E1)
       x.m.BREAK_EFFICIENCY_BOOST.buffTeam((e >= 4 && m.e4Buffs) ? 0.25 : 0, SOURCE_E4)

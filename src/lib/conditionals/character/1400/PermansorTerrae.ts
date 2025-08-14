@@ -13,6 +13,13 @@ import {
   ComputedStatsArray,
 } from 'lib/optimization/computedStatsArray'
 
+import {
+  gpuBoostAshblazingAtkP,
+  gpuStandardAtkShieldFinalizer,
+  gpuStandardDefShieldFinalizer,
+  standardAtkShieldFinalizer,
+  standardDefShieldFinalizer,
+} from 'lib/conditionals/conditionalFinalizers'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -100,7 +107,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.MEMO_SKILL, AbilityType.MEMO_TALENT],
+    activeAbilities: [AbilityType.BASIC, AbilityType.ULT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -113,8 +120,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.ULT_HP_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
 
       x.SHIELD_SCALING.buff(talentShieldScaling, SOURCE_TALENT)
       x.SHIELD_FLAT.buff(talentShieldFlat, SOURCE_TALENT)
@@ -127,7 +134,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       const atkBuff = t.sourceAtk * 0.15
       x.ATK.buff((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
-      x.UNCONVERTIBLE_ATK_BUFF.buffTeam((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
+      x.UNCONVERTIBLE_ATK_BUFF.buff((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
 
       x.RES_PEN.buff((e >= 1 && t.bondmate && t.e1ResPen) ? 0.15 : 0, SOURCE_E1)
       x.DEF_PEN.buff((e >= 4 && t.bondmate && t.e4DefPen) ? 0.12 : 0, SOURCE_E4)
@@ -137,9 +144,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      standardAtkShieldFinalizer(x)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return ``
-    },
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuStandardAtkShieldFinalizer(),
   }
 }

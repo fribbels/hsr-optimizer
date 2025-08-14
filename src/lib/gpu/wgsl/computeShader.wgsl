@@ -158,6 +158,8 @@ fn main(
     sets.PoetOfMourningCollapse              = i32((1 >> (setH ^ 23)) + (1 >> (setG ^ 23)) + (1 >> (setB ^ 23)) + (1 >> (setF ^ 23)));
     sets.WarriorGoddessOfSunAndThunder       = i32((1 >> (setH ^ 24)) + (1 >> (setG ^ 24)) + (1 >> (setB ^ 24)) + (1 >> (setF ^ 24)));
     sets.WavestriderCaptain                  = i32((1 >> (setH ^ 25)) + (1 >> (setG ^ 25)) + (1 >> (setB ^ 25)) + (1 >> (setF ^ 25)));
+    sets.WorldRemakingDeliverer              = i32((1 >> (setH ^ 26)) + (1 >> (setG ^ 26)) + (1 >> (setB ^ 26)) + (1 >> (setF ^ 26)));
+    sets.SelfEnshroudedRecluse               = i32((1 >> (setH ^ 27)) + (1 >> (setG ^ 27)) + (1 >> (setB ^ 27)) + (1 >> (setF ^ 27)));
 
 
     // Calculate ornament set counts
@@ -276,7 +278,8 @@ fn main(
       0.04 * p4(sets.PioneerDiverOfDeadWaters) +
       0.04 * p2(sets.SigoniaTheUnclaimedDesolation) +
       0.06 * p4(sets.TheWindSoaringValorous) +
-      0.08 * p2(sets.ScholarLostInErudition)
+      0.08 * p2(sets.ScholarLostInErudition) +
+      0.08 * p4(sets.WorldRemakingDeliverer)
     );
 
     c.CD += (
@@ -383,6 +386,11 @@ fn main(
       // DEF
 
       // HP
+
+      if (p4(sets.WorldRemakingDeliverer) >= 1 && setConditionals.enabledWorldRemakingDeliverer == true) {
+        x.HP_P += 0.24;
+        m.HP_P += 0.24;
+      }
 
       // CD
 
@@ -491,6 +499,10 @@ fn main(
 
       if (p2(sets.PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
         x.ELEMENTAL_DMG += 0.12;
+      }
+
+      if (p4(sets.WorldRemakingDeliverer) >= 1 && setConditionals.enabledWorldRemakingDeliverer == true) {
+        x.ELEMENTAL_DMG += 0.08;
       }
 
       if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == true) {

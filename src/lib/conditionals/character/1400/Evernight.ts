@@ -157,11 +157,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const e1FinalDmgMap: Record<number, number> = {
-    5: 1.20,
-    4: 1.20,
-    3: 1.25,
-    2: 1.30,
-    1: 1.50,
+    5: 0.20,
+    4: 0.20,
+    3: 0.25,
+    2: 0.30,
+    1: 0.50,
   }
 
   return {

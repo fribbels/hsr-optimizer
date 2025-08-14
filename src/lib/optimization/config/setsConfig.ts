@@ -192,7 +192,7 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
       c.CD.buff(0.16, Source.TheWondrousBananAmusementPark)
     },
     p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledTheWondrousBananAmusementPark) {
+      if (x.a[Key.SUMMONS] > 0) {
         x.CD.buff(0.32, Source.TheWondrousBananAmusementPark)
       }
     },

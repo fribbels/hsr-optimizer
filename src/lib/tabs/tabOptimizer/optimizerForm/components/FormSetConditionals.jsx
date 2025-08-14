@@ -331,6 +331,7 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
             conditional={t('Conditionals.DefaultMessage')}
           />
           <ConditionalSetOption
+            p4Checked
             set={Constants.Sets.SelfEnshroudedRecluse}
             description={t('RelicDescription', { id: 128 })}
             conditional={t('Conditionals.DefaultMessage')}

@@ -58,7 +58,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const memoSkillScaling = memoSkill(e, 0.20, 0.22)
   const memoSkillAdditionalScaling = memoSkill(e, 0.04, 0.044)
   const memoSkillEnhancedScaling = memoSkill(e, 0.05, 0.055)
-  const memoSkillEnhancedAdditionalScaling = memoSkill(e, 0.025, 0.0275)
 
   const memoTalentDmgBoost = memoTalent(e, 0.50, 0.55)
 
@@ -77,6 +76,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const teammateDefaults = {
     memospriteActive: true,
     enhancedState: true,
+    e1FinalDmg: true,
+    e4Buffs: true,
+    e6ResPen: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -149,6 +151,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     memospriteActive: content.memospriteActive,
     enhancedState: content.enhancedState,
+    e1FinalDmg: content.e1FinalDmg,
+    e4Buffs: content.e4Buffs,
+    e6ResPen: content.e6ResPen,
+  }
+
+  const e1FinalDmgMap: Record<number, number> = {
+    5: 1.20,
+    4: 1.20,
+    3: 1.25,
+    2: 1.30,
+    1: 1.50,
   }
 
   return {
@@ -177,6 +190,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.MEMO_BASE_SPD_FLAT.buff(160, SOURCE_MEMO)
       x.MEMO_BASE_HP_SCALING.buff(1.00, SOURCE_MEMO)
+
+      x.m.BREAK_EFFICIENCY_BOOST.buff((e >= 4 && r.e4Buffs) ? 0.25 : 0, SOURCE_E4)
 
       if (r.memoriaStacks >= 16) {
         x.m.MEMO_SKILL_HP_SCALING.buff(memoSkillScaling + Math.floor(TsUtils.precisionRound(r.memoriaStacks / 4)) * memoSkillAdditionalScaling, SOURCE_MEMO)
@@ -214,12 +229,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.m.VULNERABILITY.buffTeam((m.memospriteActive && m.enhancedState) ? ultVulnScaling : 0, SOURCE_ULT)
       x.m.CD.buffTeam(skillCdScaling, SOURCE_SKILL)
+      x.m.FINAL_DMG_BOOST.buffTeam((e >= 1 && m.e1FinalDmg) ? e1FinalDmgMap[context.enemyCount] : 0, SOURCE_E1)
+      x.m.BREAK_EFFICIENCY_BOOST.buffTeam((e >= 4 && m.e4Buffs) ? 0.25 : 0, SOURCE_E4)
 
       const memosprites = countTeamPath(context, PathNames.Remembrance)
       if (memosprites == 1) x.m.CD.buffTeam(0.05, SOURCE_TRACE)
       if (memosprites == 2) x.m.CD.buffTeam(0.15, SOURCE_TRACE)
       if (memosprites == 3) x.m.CD.buffTeam(0.40, SOURCE_TRACE)
       if (memosprites == 4) x.m.CD.buffTeam(0.50, SOURCE_TRACE)
+
+      x.RES_PEN.buffTeam((e >= 6 && m.e6ResPen) ? 0.20 : 0, SOURCE_E6)
 
       // x.RES_PEN.buffTeam((m.memospriteActive) ? ultTerritoryResPen : 0, SOURCE_ULT)
       // x.ELEMENTAL_DMG.buffTeam((m.teamDmgBoost) ? 0.10 : 0, SOURCE_MEMO)

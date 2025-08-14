@@ -63,7 +63,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.ELEMENTAL_DMG.buffDual(r.dmgBoostStacks * sValuesDmgBoost[s], SOURCE_LC)
+      x.ELEMENTAL_DMG.buffBaseDual(r.dmgBoostStacks * sValuesDmgBoost[s], SOURCE_LC)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>

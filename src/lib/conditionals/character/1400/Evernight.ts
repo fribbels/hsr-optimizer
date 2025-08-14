@@ -183,10 +183,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.m.ULT_HP_SCALING.buff(ultMemoScaling, SOURCE_MEMO)
 
-      x.CR.buffDual((r.crBuff) ? 0.30 : 0, SOURCE_TRACE)
-      x.CD.buffDual((r.memoCdBuff) ? talentCdScaling : 0, SOURCE_TALENT)
-      x.ELEMENTAL_DMG.buffDual((r.memospriteActive && r.enhancedState) ? ultDmgBoostScaling : 0, SOURCE_ULT)
-      x.ELEMENTAL_DMG.buffDual((r.memospriteActive) ? memoTalentDmgBoost : 0, SOURCE_MEMO)
+      x.CR.buffBaseDual((r.crBuff) ? 0.30 : 0, SOURCE_TRACE)
+      x.CD.buffBaseDual((r.memoCdBuff) ? talentCdScaling : 0, SOURCE_TALENT)
+      x.ELEMENTAL_DMG.buffBaseDual((r.memospriteActive && r.enhancedState) ? ultDmgBoostScaling : 0, SOURCE_ULT)
+      x.ELEMENTAL_DMG.buffBaseDual((r.memospriteActive) ? memoTalentDmgBoost : 0, SOURCE_MEMO)
 
       x.MEMO_BASE_SPD_FLAT.buff(160, SOURCE_MEMO)
       x.MEMO_BASE_HP_SCALING.buff(1.00, SOURCE_MEMO)
@@ -195,34 +195,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       if (r.memoriaStacks >= 16) {
         x.m.MEMO_SKILL_HP_SCALING.buff(memoSkillEnhancedScaling * r.memoriaStacks, SOURCE_MEMO)
+        x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
       } else {
         x.m.MEMO_SKILL_HP_SCALING.buff(memoSkillScaling + Math.floor(TsUtils.precisionRound(r.memoriaStacks / 4)) * memoSkillAdditionalScaling, SOURCE_MEMO)
+        x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(30, SOURCE_MEMO)
       }
 
-      // x.SKILL_HP_SCALING.buff((r.memospriteActive) ? skillEnhancedScaling1 : skillScaling, SOURCE_SKILL)
-      // x.m.SKILL_SPECIAL_SCALING.buff((r.memospriteActive) ? skillEnhancedScaling2 : 0, SOURCE_SKILL)
-
-      // x.ELEMENTAL_DMG.buffBaseDual(talentDmgBoost * r.talentDmgStacks, SOURCE_TALENT)
-      // if (e >= 1) {
-      //   x.m.FINAL_DMG_BOOST.buff((r.e1EnemyHp50) ? 0.40 : 0.20, SOURCE_E1)
-      // }
-
-      // x.QUANTUM_RES_PEN.buffBaseDual((e >= 6 && r.e6Buffs) ? 0.20 : 0, SOURCE_E6)
-
-      // x.MEMO_BASE_SPD_FLAT.buff(165, SOURCE_MEMO)
-      // x.MEMO_BASE_HP_FLAT.buff(34000, SOURCE_MEMO)
-
-      // x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 1 ? memoSkillScaling1 : 0, SOURCE_MEMO)
-      // x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 2 ? memoSkillScaling2 : 0, SOURCE_MEMO)
-      // x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 3 ? memoSkillScaling3 : 0, SOURCE_MEMO)
-      // x.m.MEMO_TALENT_SPECIAL_SCALING.buff(r.memoTalentHits * memoTalentScaling, SOURCE_MEMO)
-
-      // x.m.ELEMENTAL_DMG.buff(0.30 * r.memoDmgStacks, SOURCE_TRACE)
-
-      // x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      // x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_BASIC)
-      // x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
-      // x.m.MEMO_TALENT_TOUGHNESS_DMG.buff(5 * (r.memoTalentHits), SOURCE_MEMO)
+      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -239,18 +219,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       if (memosprites == 4) x.m.CD.buffTeam(0.50, SOURCE_TRACE)
 
       x.RES_PEN.buffTeam((e >= 6 && m.e6ResPen) ? 0.20 : 0, SOURCE_E6)
-
-      // x.RES_PEN.buffTeam((m.memospriteActive) ? ultTerritoryResPen : 0, SOURCE_ULT)
-      // x.ELEMENTAL_DMG.buffTeam((m.teamDmgBoost) ? 0.10 : 0, SOURCE_MEMO)
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      // Scales off of Castorice's HP not the memo
-      // x.m.ULT_DMG.buff(x.m.a[Key.SKILL_SPECIAL_SCALING] * x.a[Key.HP], Source.NONE)
-      // x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_SPECIAL_SCALING] * x.a[Key.HP], Source.NONE)
-      // x.m.MEMO_TALENT_DMG.buff(x.m.a[Key.MEMO_TALENT_SPECIAL_SCALING] * x.a[Key.HP], Source.NONE)
-    },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return ``
-    },
+    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {},
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

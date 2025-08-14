@@ -9274,8 +9274,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
-          Sets.ArcadiaOfWovenDreams,
           Sets.BoneCollectionsSereneDemesne,
+          Sets.ArcadiaOfWovenDreams,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [

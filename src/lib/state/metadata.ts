@@ -9173,7 +9173,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Stats.DEF_P]: 0,
         [Stats.HP]: 1,
         [Stats.HP_P]: 1,
-        [Stats.SPD]: 0,
+        [Stats.SPD]: 1,
         [Stats.CR]: 1,
         [Stats.CD]: 1,
         [Stats.EHR]: 0,
@@ -9206,8 +9206,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Sets.GeniusOfBrilliantStars]: MATCH_2P_WEIGHT,
 
         [Sets.BoneCollectionsSereneDemesne]: 1,
+        [Sets.ArcadiaOfWovenDreams]: 1,
         [Sets.TheWondrousBananAmusementPark]: T2_WEIGHT,
-        [Sets.FleetOfTheAgeless]: T2_WEIGHT,
         [Sets.RutilantArena]: T2_WEIGHT,
         [Sets.InertSalsotto]: T2_WEIGHT,
       },
@@ -9318,6 +9318,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
       },
       sets: {
+        [Sets.SelfEnshroudedRecluse]: 1,
         ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
         ...SPREAD_RELICS_2P_ATK_WEIGHTS,
         [Sets.SacerdosRelivedOrdeal]: 1,
@@ -9326,7 +9327,11 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
 
         ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
-      presets: [],
+      presets: [
+        PresetEffects.BANANA_SET,
+        PresetEffects.fnAshblazingSet(8),
+        PresetEffects.VALOROUS_SET,
+      ],
       sortOption: SortOption.ATK,
       hiddenColumns: [SortOption.DOT, SortOption.SKILL, SortOption.FUA],
     },

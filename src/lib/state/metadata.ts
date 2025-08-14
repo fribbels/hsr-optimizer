@@ -55,7 +55,6 @@ import {
   INTO_THE_UNREACHABLE_VEIL,
   JADE,
   JIAOQIU,
-  KAFKA,
   KAFKA_B1,
   LIES_DANCE_ON_THE_BREEZE,
   LINGSHA,
@@ -69,7 +68,6 @@ import {
   NIGHT_OF_FRIGHT,
   PAST_SELF_IN_MIRROR,
   PATIENCE_IS_ALL_YOU_NEED,
-  PHAINON,
   QUID_PRO_QUO,
   REFORGED_REMEMBRANCE,
   ROBIN,
@@ -80,7 +78,6 @@ import {
   SUNDAY,
   THE_HERTA,
   THOSE_MANY_SPRINGS,
-  THUS_BURNS_THE_DAWN,
   TINGYUN,
   TOPAZ_NUMBY,
   TRIBBIE,
@@ -155,6 +152,7 @@ const SPREAD_RELICS_2P_ATK_WEIGHTS = {
 const SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS = {
   ...SPREAD_RELICS_2P_ATK_WEIGHTS,
   [Sets.ScholarLostInErudition]: MATCH_2P_WEIGHT,
+  [Sets.WorldRemakingDeliverer]: MATCH_2P_WEIGHT,
 }
 
 const SPREAD_RELICS_4P_GENERAL_CONDITIONALS = [
@@ -864,6 +862,20 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.SPD_P]: 0.27 },
       5: { [Constants.Stats.SPD_P]: 0.30 },
     },
+    23049: {
+      1: { [Constants.Stats.HP_P]: 0.30 },
+      2: { [Constants.Stats.HP_P]: 0.375 },
+      3: { [Constants.Stats.HP_P]: 0.45 },
+      4: { [Constants.Stats.HP_P]: 0.525 },
+      5: { [Constants.Stats.HP_P]: 0.60 },
+    },
+    23051: {
+      1: { [Constants.Stats.ATK_P]: 0.24 },
+      2: { [Constants.Stats.ATK_P]: 0.30 },
+      3: { [Constants.Stats.ATK_P]: 0.36 },
+      4: { [Constants.Stats.ATK_P]: 0.42 },
+      5: { [Constants.Stats.ATK_P]: 0.48 },
+    },
     23041: {},
     24000: {},
     24001: {
@@ -1141,6 +1153,9 @@ function getLightConeOverrideCenter(): Record<string, number> {
     21060: 200,
     21061: 180,
     21062: 165,
+
+    23049: 320,
+    23051: 150,
   }
 }
 
@@ -1568,6 +1583,16 @@ function getOverrideImageCenter(): Record<string, {
     1412: { // Cerydra
       x: 1050,
       y: 950,
+      z: 1.05,
+    },
+    1413: { // Evernight
+      x: 985,
+      y: 985,
+      z: 1.075,
+    },
+    1414: { // Dan Heng • Permansor Terrae
+      x: 975,
+      y: 1024,
       z: 1.05,
     },
   }
@@ -9153,78 +9178,176 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       presets: [],
       sortOption: SortOption.ULT,
       hiddenColumns: [SortOption.DOT],
-      // simulation: {
-      //   parts: {
-      //     [Parts.Body]: [
-      //       Stats.CD,
-      //       Stats.ATK_P,
-      //     ],
-      //     [Parts.Feet]: [
-      //       Stats.ATK_P,
-      //       Stats.SPD,
-      //     ],
-      //     [Parts.PlanarSphere]: [
-      //       Stats.ATK_P,
-      //       Stats.Wind_DMG,
-      //     ],
-      //     [Parts.LinkRope]: [
-      //       Stats.ATK_P,
-      //     ],
-      //   },
-      //   substats: [
-      //     Stats.ATK_P,
-      //     Stats.ATK,
-      //     Stats.CD,
-      //   ],
-      //   breakpoints: {
-      //     [Stats.ATK]: 4000,
-      //   },
-      //   comboTurnAbilities: [
-      //     NULL_TURN_ABILITY_NAME,
-      //     START_ULT,
-      //     END_SKILL,
-      //     WHOLE_BASIC,
-      //     WHOLE_BASIC,
-      //   ],
-      //   comboDot: 0,
-      //   errRopeEidolon: 0,
-      //   deprioritizeBuffs: true,
-      //   relicSets: [
-      //     [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
-      //     [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
-      //     [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
-      //     [...RELICS_2P_ATK, ...RELICS_2P_SPEED, Sets.PioneerDiverOfDeadWaters, Sets.EagleOfTwilightLine, Sets.WavestriderCaptain],
-      //     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-      //   ],
-      //   ornamentSets: [
-      //     Sets.SpaceSealingStation,
-      //     Sets.FirmamentFrontlineGlamoth,
-      //     Sets.InertSalsotto,
-      //     ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
-      //     ...SPREAD_ORNAMENTS_2P_SUPPORT,
-      //     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-      //   ],
-      //   teammates: [
-      //     {
-      //       characterId: PHAINON,
-      //       lightCone: THUS_BURNS_THE_DAWN,
-      //       characterEidolon: 0,
-      //       lightConeSuperimposition: 1,
-      //     },
-      //     {
-      //       characterId: SUNDAY,
-      //       lightCone: A_GROUNDED_ASCENT,
-      //       characterEidolon: 0,
-      //       lightConeSuperimposition: 1,
-      //     },
-      //     {
-      //       characterId: HUOHUO,
-      //       lightCone: NIGHT_OF_FRIGHT,
-      //       characterEidolon: 0,
-      //       lightConeSuperimposition: 1,
-      //     },
-      //   ],
-      // },
+    },
+    1413: { // Evernight
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 1,
+        [Stats.HP_P]: 1,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+          Stats.HP_P,
+        ],
+        [Parts.Feet]: [
+          Stats.HP_P,
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.HP_P,
+          Stats.Ice_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.HP_P,
+        ],
+      },
+      sets: {
+        [Sets.WorldRemakingDeliverer]: 1,
+        [Sets.PoetOfMourningCollapse]: 1,
+        [Sets.ScholarLostInErudition]: T2_WEIGHT,
+        [Sets.LongevousDisciple]: MATCH_2P_WEIGHT,
+        [Sets.GeniusOfBrilliantStars]: MATCH_2P_WEIGHT,
+
+        [Sets.BoneCollectionsSereneDemesne]: 1,
+        [Sets.ArcadiaOfWovenDreams]: 1,
+        [Sets.TheWondrousBananAmusementPark]: T2_WEIGHT,
+        [Sets.RutilantArena]: T2_WEIGHT,
+        [Sets.InertSalsotto]: T2_WEIGHT,
+      },
+      presets: [
+        PresetEffects.BANANA_SET,
+      ],
+      sortOption: SortOption.MEMO_SKILL,
+      addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.MEMO_TALENT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+            Stats.HP_P,
+          ],
+          [Parts.Feet]: [
+            Stats.HP_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.HP_P,
+            Stats.Ice_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.HP_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.HP_P,
+          Stats.HP,
+        ],
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          START_ULT,
+          END_SKILL,
+          DEFAULT_MEMO_SKILL,
+          DEFAULT_MEMO_SKILL,
+          WHOLE_SKILL,
+          DEFAULT_MEMO_SKILL,
+          DEFAULT_MEMO_SKILL,
+        ],
+        comboDot: 0,
+        deprioritizeBuffs: true,
+        relicSets: [
+          [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
+          [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.ArcadiaOfWovenDreams,
+          Sets.BoneCollectionsSereneDemesne,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: CASTORICE,
+            lightCone: MAKE_FAREWELLS_MORE_BEAUTIFUL,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    1414: { // Dan Heng • Permansor Terrae
+      stats: {
+        [Stats.ATK]: 1,
+        [Stats.ATK_P]: 1,
+        [Stats.DEF]: 0.25,
+        [Stats.DEF_P]: 0.25,
+        [Stats.HP]: 0.25,
+        [Stats.HP_P]: 0.25,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 0,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0.25,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.ATK_P,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+          Stats.ATK_P,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.ATK_P,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ERR,
+          Stats.ATK_P,
+        ],
+      },
+      sets: {
+        [Sets.SelfEnshroudedRecluse]: 1,
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.MusketeerOfWildWheat]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
+      presets: [
+        PresetEffects.BANANA_SET,
+        PresetEffects.fnAshblazingSet(8),
+        PresetEffects.VALOROUS_SET,
+      ],
+      sortOption: SortOption.ATK,
+      hiddenColumns: [SortOption.DOT, SortOption.SKILL, SortOption.FUA],
     },
   }
 }

@@ -139,6 +139,13 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
     type: ConditionalDataType.BOOLEAN,
     modifiable: true,
   },
+  [Sets.WorldRemakingDeliverer]: {
+    type: ConditionalDataType.BOOLEAN,
+    modifiable: true,
+  },
+  [Sets.SelfEnshroudedRecluse]: {
+    type: ConditionalDataType.BOOLEAN,
+  },
 
   // Ornaments
 

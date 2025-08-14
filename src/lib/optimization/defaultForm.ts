@@ -163,6 +163,8 @@ export const defaultSetConditionals = {
   [Sets.PoetOfMourningCollapse]: [undefined, true],
   [Sets.WarriorGoddessOfSunAndThunder]: [undefined, false],
   [Sets.WavestriderCaptain]: [undefined, true],
+  [Sets.WorldRemakingDeliverer]: [undefined, false],
+  [Sets.SelfEnshroudedRecluse]: [undefined, true],
 
   [Sets.SpaceSealingStation]: [undefined, true],
   [Sets.FleetOfTheAgeless]: [undefined, true],

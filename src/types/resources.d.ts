@@ -3965,6 +3965,14 @@ interface Resources {
         "Name": "Cerydra",
         "LongName": "Cerydra"
       },
+      "1413": {
+        "Name": "Evernight",
+        "LongName": "Evernight"
+      },
+      "1414": {
+        "Name": "Permansor Terrae",
+        "LongName": "Dan Heng • Permansor Terrae"
+      },
       "8001": {
         "Name": "Caelus",
         "LongName": "Caelus (Destruction)"
@@ -3997,21 +4005,21 @@ interface Resources {
         "Name": "Stelle",
         "LongName": "Stelle (Remembrance)"
       },
-      "1006b1": {
-        "Name": "Silver Wolf",
-        "LongName": "Silver Wolf"
-      },
-      "1005b1": {
-        "Name": "Kafka",
-        "LongName": "Kafka"
+      "1212b1": {
+        "Name": "Jingliu",
+        "LongName": "Jingliu"
       },
       "1205b1": {
         "Name": "Blade",
         "LongName": "Blade"
       },
-      "1212b1": {
-        "Name": "Jingliu",
-        "LongName": "Jingliu"
+      "1005b1": {
+        "Name": "Kafka",
+        "LongName": "Kafka"
+      },
+      "1006b1": {
+        "Name": "Silver Wolf",
+        "LongName": "Silver Wolf"
       }
     },
     "RelicSets": {
@@ -4144,6 +4152,16 @@ interface Resources {
         "Name": "Wavestrider Captain",
         "Description2pc": "Increases CRIT DMG by 16%.",
         "Description4pc": "When the wearer becomes the target of another ally target's ability, gains 1 stack of \"Help,\" stacking up to 2 times. If there are 2 stacks of \"Help\" when the wearer uses their Ultimate, consumes all \"Help\" to increase the wearer's ATK by 48% for 1 turn."
+      },
+      "127": {
+        "Name": "World-Remaking Deliverer",
+        "Description2pc": "Increases CRIT Rate by 8%.",
+        "Description4pc": "After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 8% until the wearer's next Basic ATK or Skill."
+      },
+      "128": {
+        "Name": "Self-Enshrouded Recluse",
+        "Description2pc": "Increases CRIT DMG by 16%.",
+        "Description4pc": "Increases the wearer's CRIT DMG by 16%. When any ally target consumes Skill Points for the first time in a turn, recovers 1 Skill Point. This effect triggers up to 1 time per battle, and 1 trigger count(s) will be restored at the start of each subsequent wave. Only 1 Skill Point Recovery effect can be active in the same team."
       },
       "301": {
         "Name": "Space Sealing Station",
@@ -4503,7 +4521,7 @@ interface Resources {
         "Name": "The Great Cosmic Enterprise"
       },
       "22005": {
-        "Name": "Maze Restaurant Forever"
+        "Name": "The Forever Victual"
       },
       "23000": {
         "Name": "Night on the Milky Way"
@@ -4650,7 +4668,13 @@ interface Resources {
         "Name": "Why Does the Ocean Sing"
       },
       "23048": {
-        "Name": "Era Engraved by Golden Blood"
+        "Name": "Epoch Etched in Golden Blood"
+      },
+      "23049": {
+        "Name": "To Evernight's Stars"
+      },
+      "23051": {
+        "Name": "Though Worlds Apart"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"
@@ -6386,13 +6410,6 @@ interface Resources {
           "RerollAvg": {
             "Label": "All characters: Average reroll potential",
             "Header": "All Chars\nAvg Reroll"
-          }
-        },
-        "ComingSoon": {
-          "Label": "Coming soon",
-          "SetsPotential": {
-            "Label": "Relic / Ornament sets potential",
-            "Header": "All Chars\nMax Potential + Sets"
           }
         }
       }

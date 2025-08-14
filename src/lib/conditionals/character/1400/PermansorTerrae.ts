@@ -118,7 +118,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SUMMONS.set(1, SOURCE_TALENT)
     },
     initializeTeammateConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals as Conditionals<typeof content>
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.SUMMONS.buff((t.bondmate) ? 1 : 0, SOURCE_SKILL)
     },

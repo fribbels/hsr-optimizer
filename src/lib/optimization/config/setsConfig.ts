@@ -548,7 +548,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       if (setConditionals.enabledWorldRemakingDeliverer) {
-        x.HP.buffDual(0.24, Source.WorldRemakingDeliverer)
+        x.HP_P.buffBaseDual(0.24, Source.WorldRemakingDeliverer)
         x.ELEMENTAL_DMG.buffTeam(0.08, Source.WorldRemakingDeliverer)
       }
     },

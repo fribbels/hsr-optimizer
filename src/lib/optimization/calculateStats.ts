@@ -207,10 +207,10 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
     xmca[Key.HP] = x.a[Key.MEMO_BASE_HP_SCALING] * c.a[Key.HP] + x.a[Key.MEMO_BASE_HP_FLAT]
     xmca[Key.SPD] = x.a[Key.MEMO_BASE_SPD_SCALING] * c.a[Key.SPD] + x.a[Key.MEMO_BASE_SPD_FLAT]
 
-    xma[Key.BASE_ATK] = xmc.a[Key.ATK]
-    xma[Key.BASE_DEF] = xmc.a[Key.DEF]
-    xma[Key.BASE_HP] = xmc.a[Key.HP]
-    xma[Key.BASE_SPD] = xmc.a[Key.SPD]
+    xma[Key.BASE_ATK] = x.a[Key.MEMO_BASE_ATK_SCALING] * context.baseATK
+    xma[Key.BASE_DEF] = x.a[Key.MEMO_BASE_DEF_SCALING] * context.baseDEF
+    xma[Key.BASE_HP] = x.a[Key.MEMO_BASE_HP_SCALING] * context.baseHP
+    xma[Key.BASE_SPD] = x.a[Key.MEMO_BASE_SPD_SCALING] * context.baseSPD
 
     xma[Key.ATK] += xmc.a[Key.ATK]
     xma[Key.DEF] += xmc.a[Key.DEF]

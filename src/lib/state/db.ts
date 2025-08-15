@@ -477,6 +477,8 @@ export const DB = {
     }
 
     for (const relic of saveData.relics) {
+      // @ts-ignore temporary while migrating relic object format
+      delete relic.weights
       RelicAugmenter.augment(relic)
       const character = charactersById[relic.equippedBy!]
       if (character && !character.equipped[relic.part]) {

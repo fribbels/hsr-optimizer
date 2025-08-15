@@ -65,7 +65,7 @@ OptimizerOptions:
     Header: 優先順位
     Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
-  AllowEquipped: 装備された遺物を含める
+  AllowEquipped: 別キャラの遺物を含める
   KeepCurrent: 装備済みの遺物を保持
   Exclude: 除外
   MinEnhance:

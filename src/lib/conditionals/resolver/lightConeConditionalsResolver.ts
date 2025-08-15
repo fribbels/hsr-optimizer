@@ -149,6 +149,8 @@ import {
 } from 'lib/constants/constants'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import ThoughWorldsApart from '../lightcone/5star/ThoughWorldsApart'
+import ToEvernightsStars from '../lightcone/5star/ToEvernightsStars'
 
 export type WearerMetadata = { element: ElementName }
 
@@ -191,6 +193,8 @@ const fiveStar: Record<string, LightConeConditionalFunction> = {
   23033: NinjutsuInscriptionDazzlingEvilbreaker,
   23034: AGroundedAscent,
   23035: LongRoadLeadsHome,
+  23049: ToEvernightsStars,
+  23051: ThoughWorldsApart,
 
   24000: OnTheFallOfAnAeon,
   24001: CruisingInTheStellarSea,

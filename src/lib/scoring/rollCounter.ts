@@ -90,6 +90,7 @@ export function calculateMaxSubstatRollCounts(
   maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction
 
   // The simplifications should not go below 6 rolls otherwise it interferes with possible build enforcement
+  // These should only apply to the 200% benchmark as it doesn't have diminishing returns to account for
 
   // Simplify crit rate so the sim is not wasting permutations
   // Overcapped 30 * 3.24 + 5 = 102.2% crit
@@ -117,24 +118,26 @@ export function calculateMaxSubstatRollCounts(
   // Simplify EHR so the sim is not wasting permutations
   // Assumes 20 enemy effect RES
   // Assumes maximum 120 EHR is needed ever
-  const ehrValue = StatCalculator.getMaxedSubstatValue(Stats.EHR, scoringParams.quality)
-  const missingEhr = Math.max(0, 120 - baselineSimResult.xa[Key.EHR] * 100)
-  maxCounts[Stats.EHR] = maxCounts[Stats.EHR] == 0
-    ? 0
-    : Math.max(
-      scoringParams.baselineFreeRolls,
-      Math.max(
-        scoringParams.enforcePossibleDistribution
-          ? 6
-          : 0,
-        Math.min(
-          request.simBody == Stats.EHR
-            ? Math.ceil((missingEhr - 43.2) / ehrValue)
-            : Math.ceil(missingEhr / ehrValue),
-          maxCounts[Stats.EHR],
+  if (scoringParams.quality == 1.0) {
+    const ehrValue = StatCalculator.getMaxedSubstatValue(Stats.EHR, scoringParams.quality)
+    const missingEhr = Math.max(0, 120 - baselineSimResult.xa[Key.EHR] * 100)
+    maxCounts[Stats.EHR] = maxCounts[Stats.EHR] == 0
+      ? 0
+      : Math.max(
+        scoringParams.baselineFreeRolls,
+        Math.max(
+          scoringParams.enforcePossibleDistribution
+            ? 6
+            : 0,
+          Math.min(
+            request.simBody == Stats.EHR
+              ? Math.ceil((missingEhr - 43.2) / ehrValue)
+              : Math.ceil(missingEhr / ehrValue),
+            maxCounts[Stats.EHR],
+          ),
         ),
-      ),
-    )
+      )
+  }
 
   // Forced speed rolls will take up slots from the 36 potential max rolls of other stats
   const nonSpeedSubsCapDeduction = Math.ceil(partialSimulationWrapper.speedRollsDeduction) - 6
@@ -142,5 +145,6 @@ export function calculateMaxSubstatRollCounts(
     if (stat == Stats.SPD) continue
     maxCounts[stat] = Math.max(scoringParams.baselineFreeRolls, Math.min(maxCounts[stat], 36 - nonSpeedSubsCapDeduction))
   }
+
   return maxCounts
 }

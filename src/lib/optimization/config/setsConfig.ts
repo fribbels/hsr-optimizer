@@ -192,7 +192,7 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
       c.CD.buff(0.16, Source.TheWondrousBananAmusementPark)
     },
     p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledTheWondrousBananAmusementPark) {
+      if (x.a[Key.SUMMONS] > 0) {
         x.CD.buff(0.32, Source.TheWondrousBananAmusementPark)
       }
     },
@@ -538,6 +538,29 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       if (setConditionals.enabledWavestriderCaptain) {
         x.ATK_P.buff(0.48, Source.WavestriderCaptain)
       }
+    },
+  },
+  WorldRemakingDeliverer: {
+    key: 'WorldRemakingDeliverer',
+    index: 26,
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+      c.CR.buff(0.08, Source.WorldRemakingDeliverer)
+    },
+    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+      if (setConditionals.enabledWorldRemakingDeliverer) {
+        x.HP_P.buffBaseDual(0.24, Source.WorldRemakingDeliverer)
+        x.ELEMENTAL_DMG.buffTeam(0.08, Source.WorldRemakingDeliverer)
+      }
+    },
+  },
+  SelfEnshroudedRecluse: {
+    key: 'SelfEnshroudedRecluse',
+    index: 27,
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+      c.CD.buff(0.16, Source.SelfEnshroudedRecluse)
+    },
+    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+      x.CD.buff(0.16, Source.SelfEnshroudedRecluse)
     },
   },
 }

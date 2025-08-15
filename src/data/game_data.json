@@ -6860,37 +6860,37 @@
       },
       "traceTree": [
         {
-          "id": "1410201_3.5v3",
+          "id": "1410201",
           "stat": "SPD",
           "value": 2,
           "pre": null,
           "children": [
             {
-              "id": "1410210_3.5v3",
+              "id": "1410210",
               "stat": "SPD",
               "value": 4,
-              "pre": "1410201_3.5v3",
+              "pre": "1410201",
               "children": []
             }
           ]
         },
         {
-          "id": "1410202_3.5v3",
+          "id": "1410202",
           "stat": "ATK%",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1410203_3.5v3",
+              "id": "1410203",
               "stat": "SPD",
               "value": 2,
-              "pre": "1410202_3.5v3",
+              "pre": "1410202",
               "children": [
                 {
-                  "id": "1410204_3.5v3",
+                  "id": "1410204",
                   "stat": "Effect Hit Rate",
                   "value": 0.04,
-                  "pre": "1410203_3.5v3",
+                  "pre": "1410203",
                   "children": []
                 }
               ]
@@ -6898,22 +6898,22 @@
           ]
         },
         {
-          "id": "1410205_3.5v3",
+          "id": "1410205",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": [
             {
-              "id": "1410206_3.5v3",
+              "id": "1410206",
               "stat": "ATK%",
               "value": 0.06,
-              "pre": "1410205_3.5v3",
+              "pre": "1410205",
               "children": [
                 {
-                  "id": "1410207_3.5v3",
+                  "id": "1410207",
                   "stat": "SPD",
                   "value": 3,
-                  "pre": "1410206_3.5v3",
+                  "pre": "1410206",
                   "children": []
                 }
               ]
@@ -6921,14 +6921,14 @@
           ]
         },
         {
-          "id": "1410208_3.5v3",
+          "id": "1410208",
           "stat": "Effect Hit Rate",
           "value": 0.06,
           "pre": null,
           "children": []
         },
         {
-          "id": "1410209_3.5v3",
+          "id": "1410209",
           "stat": "ATK%",
           "value": 0.08,
           "pre": null,
@@ -6944,7 +6944,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1412": {
       "id": "1412",
@@ -6959,75 +6959,75 @@
       },
       "traceTree": [
         {
-          "id": "1412201_3.5v3",
+          "id": "1412201",
           "stat": "Wind DMG Boost",
           "value": 0.032,
           "pre": null,
           "children": [
             {
-              "id": "1412204_3.5v3",
+              "id": "1412204",
               "stat": "HP%",
               "value": 0.04,
-              "pre": "1412201_3.5v3",
+              "pre": "1412201",
               "children": []
             },
             {
-              "id": "1412207_3.5v3",
+              "id": "1412207",
               "stat": "Wind DMG Boost",
               "value": 0.048,
-              "pre": "1412201_3.5v3",
+              "pre": "1412201",
               "children": []
             }
           ]
         },
         {
-          "id": "1412202_3.5v3",
+          "id": "1412202",
           "stat": "ATK%",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1412203_3.5v3",
+              "id": "1412203",
               "stat": "Wind DMG Boost",
               "value": 0.032,
-              "pre": "1412202_3.5v3",
+              "pre": "1412202",
               "children": []
             }
           ]
         },
         {
-          "id": "1412205_3.5v3",
+          "id": "1412205",
           "stat": "Wind DMG Boost",
           "value": 0.048,
           "pre": null,
           "children": [
             {
-              "id": "1412206_3.5v3",
+              "id": "1412206",
               "stat": "ATK%",
               "value": 0.06,
-              "pre": "1412205_3.5v3",
+              "pre": "1412205",
               "children": []
             }
           ]
         },
         {
-          "id": "1412208_3.5v3",
+          "id": "1412208",
           "stat": "HP%",
           "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "1412209_3.5v3",
+              "id": "1412209",
               "stat": "ATK%",
               "value": 0.08,
-              "pre": "1412208_3.5v3",
+              "pre": "1412208",
               "children": []
             },
             {
-              "id": "1412210_3.5v3",
+              "id": "1412210",
               "stat": "Wind DMG Boost",
               "value": 0.064,
-              "pre": "1412208_3.5v3",
+              "pre": "1412208",
               "children": []
             }
           ]
@@ -7039,6 +7039,200 @@
         "ATK": 620.928,
         "DEF": 485.1,
         "SPD": 99,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1413": {
+      "id": "1413",
+      "name": "Evernight",
+      "rarity": 5,
+      "path": "Remembrance",
+      "element": "Ice",
+      "traces": {
+        "CRIT DMG": 0.133,
+        "HP%": 0.18,
+        "CRIT Rate": 0.187
+      },
+      "traceTree": [
+        {
+          "id": "1413201_3.6v1",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": [
+            {
+              "id": "1413202_3.6v1",
+              "stat": "HP%",
+              "value": 0.04,
+              "pre": "1413201_3.6v1",
+              "children": []
+            },
+            {
+              "id": "1413203_3.6v1",
+              "stat": "CRIT Rate",
+              "value": 0.027,
+              "pre": "1413201_3.6v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1413204_3.6v1",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1413205_3.6v1",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1413206_3.6v1",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1413207_3.6v1",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1413208_3.6v1",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1413209_3.6v1",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "1413208_3.6v1",
+              "children": [
+                {
+                  "id": "1413210_3.6v1",
+                  "stat": "CRIT Rate",
+                  "value": 0.053,
+                  "pre": "1413209_3.6v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 240,
+      "stats": {
+        "HP": 1319.472,
+        "ATK": 543.312,
+        "DEF": 582.12,
+        "SPD": 99,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1414": {
+      "id": "1414",
+      "name": "Dan Heng • Permansor Terrae",
+      "rarity": 5,
+      "path": "Preservation",
+      "element": "Physical",
+      "traces": {
+        "HP%": 0.1,
+        "ATK%": 0.28,
+        "DEF%": 0.225
+      },
+      "traceTree": [
+        {
+          "id": "1414201_3.6v1",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1414202_3.6v1",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": [
+            {
+              "id": "1414203_3.6v1",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1414202_3.6v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1414204_3.6v1",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1414205_3.6v1",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1414206_3.6v1",
+              "stat": "DEF%",
+              "value": 0.075,
+              "pre": "1414205_3.6v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1414207_3.6v1",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1414208_3.6v1",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1414209_3.6v1",
+              "stat": "DEF%",
+              "value": 0.1,
+              "pre": "1414208_3.6v1",
+              "children": []
+            },
+            {
+              "id": "1414210_3.6v1",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1414208_3.6v1",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "max_sp": 140,
+      "stats": {
+        "HP": 1047.816,
+        "ATK": 485.1,
+        "DEF": 848.925,
+        "SPD": 97,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -9294,7 +9488,7 @@
     },
     "22005": {
       "id": "22005",
-      "name": "Maze Restaurant Forever",
+      "name": "The Forever Victual",
       "rarity": 4,
       "path": "Harmony",
       "stats": {
@@ -9302,7 +9496,7 @@
         "ATK": 476.28,
         "DEF": 330.75
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23000": {
       "id": "23000",
@@ -9878,16 +10072,40 @@
         "ATK": 635.04,
         "DEF": 463.05
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23048": {
       "id": "23048",
-      "name": "Era Engraved by Golden Blood",
+      "name": "Epoch Etched in Golden Blood",
       "rarity": 5,
       "path": "Harmony",
       "stats": {
         "HP": 952.56,
         "ATK": 635.04,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23049": {
+      "id": "23049",
+      "name": "To Evernight's Stars",
+      "rarity": 5,
+      "path": "Remembrance",
+      "stats": {
+        "HP": 1164.24,
+        "ATK": 529.2,
+        "DEF": 463.05
+      },
+      "unreleased": true
+    },
+    "23051": {
+      "id": "23051",
+      "name": "Though Worlds Apart",
+      "rarity": 5,
+      "path": "Preservation",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 582.12,
         "DEF": 463.05
       },
       "unreleased": true
@@ -9969,12 +10187,12 @@
     {
       "id": "322",
       "name": "Revelry by the Sea",
-      "skills": "Increases the wearer's ATK by <b>12%</b>. When the wearer's ATK is higher than or equal to <b>2400</b>/<b>3600</b>, increases the DoT DMG dealt by <b>12%</b>/<b>24%</b>."
+      "skills": "Increases the wearer's ATK by <b>12%</b>. When the wearer's ATK is higher than or equal to <b>2400</b>/<b>3600</b>, increases the DoT DMG dealt by <b>12%</b>/<b>24%</b> respectively."
     },
     {
       "id": "321",
       "name": "Arcadia of Woven Dreams",
-      "skills": "When there are currently more or less than 4 ally targets in battle, each additional/missing ally target increases the wearer and their memosprite's DMG by <b>9%</b>/<b>12%</b>, up to a maximum of <b>4</b>/<b>3</b> stacks."
+      "skills": "When the number of ally targets on the field is not equal to 4, for every 1 additional/missing ally target, increases the DMG dealt by the wearer and their memosprite by <b>9%</b>/<b>12%</b>, stacking up to <b>4</b>/<b>3</b> time(s)."
     },
     {
       "id": "320",
@@ -10064,7 +10282,7 @@
     {
       "id": "303",
       "name": "Pan-Cosmic Commercial Enterprise",
-      "skills": "Increases the wearer's Effect Hit Rate by <b>10%</b>. Meanwhile, the wearer's ATK increases by an amount that is equal to <b>25%</b> of the current Effect Hit Rate, up to a maximum of <b>25%</b>."
+      "skills": "Increases the wearer's Effect Hit Rate by <b>10%</b>. Meanwhile, the wearer's ATK increases by an amount that is equal to <b>25%</b> of the current Effect Hit Rate, up to a maximum increase of <b>25%</b>."
     },
     {
       "id": "302",
@@ -10075,6 +10293,16 @@
       "id": "301",
       "name": "Space Sealing Station",
       "skills": "Increases the wearer's ATK by <b>12%</b>. When the wearer's SPD reaches <b>120</b> or higher, the wearer's ATK increases by an extra <b>12%</b>."
+    },
+    {
+      "id": "128",
+      "name": "Self-Enshrouded Recluse",
+      "skills": "Increases CRIT DMG by <b>16%</b>. Increases the wearer's CRIT DMG by <b>16%</b>. When any ally target consumes Skill Points for the first time in a turn, recovers 1 Skill Point. This effect triggers up to <b>1</b> time(s) per battle, and <b>1</b> trigger count(s) will be restored at the start of each subsequent wave. Only 1 Skill Point Recovery effect can be active in the same team."
+    },
+    {
+      "id": "127",
+      "name": "World-Remaking Deliverer",
+      "skills": "Increases CRIT Rate by <b>8%</b>. After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by <b>24%</b>, and increases all allies' DMG by <b>8%</b> until the wearer's next Basic ATK or Skill."
     },
     {
       "id": "126",

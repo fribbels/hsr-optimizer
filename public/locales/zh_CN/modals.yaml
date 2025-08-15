@@ -1,6 +1,10 @@
 Scoring:
   StatWeightsHeader: 属性权重
+  SetWeightsHeader: 设置权重
   MainstatsHeader: 最佳主属性
+  SetWeights:
+    AddRelicSetPlaceholder: 添加遗器套装
+    AddOrnamentSetPlaceholder: 添加饰品套装
   WeightMethodology:
     Header: 属性评分是如何计算的？
   Footer:
@@ -271,6 +275,7 @@ Relic:
   Substat: 副词条
   SubstatPlaceholder: 副词条
   SpdInputWarning: 注意 - 游戏内的速度副词条包含隐藏的小数点，手动输入可能导致不准确。如需要获取精确的速度值，请使用展示选项卡或Reliquary Archiver导入。
+  LiveImportWarning: 实时导入模式已启用，您的更改可能会被覆盖。
   Upgrades: 副词条升级
   Messages:
     SubmitFail: 提交失败！
@@ -363,3 +368,7 @@ CharacterSelect:
 LightconeSelect:
   Placeholder: 光锥
   Title: 选择一个光锥
+RelicReroll:
+  Title: 检测到遗器重掷
+  OriginalSubstats: 原始副词条
+  RerolledSubstats: 重掷副词条

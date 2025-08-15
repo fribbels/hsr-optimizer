@@ -5,21 +5,17 @@ import {
 } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
 import {
-  AGLAEA,
-  BLADE_B1,
   CERYDRA,
   EPOCH_ETCHED_IN_GOLDEN_BLOOD,
+  EVERNIGHT,
   HYSILENS,
-  I_SHALL_BE_MY_OWN_SWORD,
   INCESSANT_RAIN,
-  INTO_THE_UNREACHABLE_VEIL,
-  JINGLIU_B1,
   KAFKA_B1,
   PATIENCE_IS_ALL_YOU_NEED,
+  PERMANSOR_TERRAE,
   SILVER_WOLF_B1,
-  THE_HERTA,
-  THE_UNREACHABLE_SIDE,
-  TIME_WOVEN_INTO_GOLD,
+  THOUGH_WORLDS_APART,
+  TO_EVERNIGHTS_STARS,
   WHY_DOES_THE_OCEAN_SING,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB, {
@@ -70,20 +66,14 @@ export function presetCharacters(): Preset[] {
   const lc = (id: LightCone['id']) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
+    { characterId: char(EVERNIGHT), lightConeId: lc(TO_EVERNIGHTS_STARS) },
+    { characterId: char(PERMANSOR_TERRAE), lightConeId: lc(THOUGH_WORLDS_APART) },
+
     { characterId: char(HYSILENS), lightConeId: lc(WHY_DOES_THE_OCEAN_SING) },
     { characterId: char(CERYDRA), lightConeId: lc(EPOCH_ETCHED_IN_GOLDEN_BLOOD) },
 
-    { characterId: char('1408'), lightConeId: lc('23044') },
-    { characterId: char('1014'), lightConeId: lc('23045') },
-    { characterId: char('1015'), lightConeId: lc('23046') },
-
     { characterId: char(KAFKA_B1), lightConeId: lc(PATIENCE_IS_ALL_YOU_NEED) },
     { characterId: char(SILVER_WOLF_B1), lightConeId: lc(INCESSANT_RAIN) },
-    { characterId: char(BLADE_B1), lightConeId: lc(THE_UNREACHABLE_SIDE) },
-    { characterId: char(JINGLIU_B1), lightConeId: lc(I_SHALL_BE_MY_OWN_SWORD) },
-
-    { characterId: char(THE_HERTA), lightConeId: lc(INTO_THE_UNREACHABLE_VEIL), rerun: true },
-    { characterId: char(AGLAEA), lightConeId: lc(TIME_WOVEN_INTO_GOLD), rerun: true },
 
     { custom: true },
   ].filter((x) => x.custom || !!x.characterId) as Preset[]

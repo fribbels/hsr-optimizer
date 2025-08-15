@@ -1,25 +1,16 @@
 // Represents the version of the latest info, which should be the beta leaks version at the time of the major update
 import gameData from 'data/game_data.json' with { type: 'json' }
-import {
-  ARCHER,
-  BLADE_B1,
-  CERYDRA,
-  HYSILENS,
-  JINGLIU_B1,
-  KAFKA_B1,
-  PHAINON,
-  SABER,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { EVERNIGHT } from 'lib/simulations/tests/testMetadataConstants'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v3.5.6'
+export const CURRENT_OPTIMIZER_VERSION = 'v3.6.1'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '3.5v6'
+export const CURRENT_DATA_VERSION = '3.6v1'
 
-const generateMessage = (message?: string) => `__VERSION__${message ? ' - ' + message : ''}`
+const generateMessage = (message?: string) => `${CURRENT_DATA_VERSION} - ${message}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  [HYSILENS]: 'V6 - Enabled the E1 +16% DOT Final DMG buff',
+  [EVERNIGHT]: generateMessage('Benchmarked against 4P World-Remaking Deliverer set by default'),
 }
 
 export const Stats = {
@@ -413,6 +404,8 @@ export const SetsRelics = {
   PoetOfMourningCollapse: 'Poet of Mourning Collapse',
   WarriorGoddessOfSunAndThunder: 'Warrior Goddess of Sun and Thunder',
   WavestriderCaptain: 'Wavestrider Captain',
+  WorldRemakingDeliverer: 'World-Remaking Deliverer',
+  SelfEnshroudedRecluse: 'Self-Enshrouded Recluse',
 } as const
 
 export const SetsOrnaments = {
@@ -684,6 +677,8 @@ export const setToId = {
   [Sets.PoetOfMourningCollapse]: '124',
   [Sets.WarriorGoddessOfSunAndThunder]: '125',
   [Sets.WavestriderCaptain]: '126',
+  [Sets.WorldRemakingDeliverer]: '127',
+  [Sets.SelfEnshroudedRecluse]: '128',
 
   [Sets.SpaceSealingStation]: '301',
   [Sets.FleetOfTheAgeless]: '302',

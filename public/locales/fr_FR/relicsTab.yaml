@@ -133,13 +133,6 @@ RelicGrid:
         Header: |-
           Tous pers.
           Pot. relancé moy.
-    ComingSoon:
-      Label: Prochainement
-      SetsPotential:
-        Label: Potentiel de sets de relique / ornement
-        Header: |-
-          Tous pers.
-          Potentiel max. + Sets
 Toolbar:
   RelicLocator:
     Width: Largeur de l'inventaire

@@ -4,22 +4,16 @@
 import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
 
 export function processMihomoData(data: MihomoApiResponse): UnconvertedCharacter[] {
-  const characters = data.characters.filter((x) => !!x)
+  const characters = [
+    ...(data.detailInfo.assistAvatarList ?? []),
+    ...(data.detailInfo.avatarDetailList ?? []),
+  ]
+
   for (const character of characters) {
-    character.relicList = character.relics || []
-    character.equipment = character.light_cone
     // TODO update once mihomo update their api, or switch to raw endpoint and update the above
-    character.avatarId = character.id // character.enhancedId ? character.id + `b${character.enhancedId}` : character.id
-
-    if (character.equipment) {
-      character.equipment.tid = character.equipment.id
-    }
-
-    for (const relic of character.relicList) {
-      relic.tid = relic.id
-      relic.subAffixList = relic.sub_affix
-    }
+    character.avatarId = character.enhancedId ? character.avatarId + `b${character.enhancedId}` : character.avatarId
   }
+
   return characters
 }
 

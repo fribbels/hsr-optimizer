@@ -279,7 +279,7 @@ fn main(
       0.04 * p2(sets.SigoniaTheUnclaimedDesolation) +
       0.06 * p4(sets.TheWindSoaringValorous) +
       0.08 * p2(sets.ScholarLostInErudition) +
-      0.08 * p4(sets.WorldRemakingDeliverer)
+      0.08 * p2(sets.WorldRemakingDeliverer)
     );
 
     c.CD += (
@@ -503,6 +503,7 @@ fn main(
 
       if (p4(sets.WorldRemakingDeliverer) >= 1 && setConditionals.enabledWorldRemakingDeliverer == true) {
         x.ELEMENTAL_DMG += 0.08;
+        m.ELEMENTAL_DMG += 0.08;
       }
 
       if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == true) {
@@ -562,15 +563,15 @@ fn main(
 
       addElementalDmg(&mc, &m);
 
-      m.BASE_ATK = mc.ATK * x.MEMO_BASE_ATK_SCALING + x.MEMO_BASE_ATK_FLAT;
-      m.BASE_DEF = mc.DEF * x.MEMO_BASE_DEF_SCALING + x.MEMO_BASE_DEF_FLAT;
-      m.BASE_HP = mc.HP * x.MEMO_BASE_HP_SCALING + x.MEMO_BASE_HP_FLAT;
-      m.BASE_SPD = mc.SPD * x.MEMO_BASE_SPD_SCALING + x.MEMO_BASE_SPD_FLAT;
+      m.BASE_ATK = baseATK * x.MEMO_BASE_ATK_SCALING;
+      m.BASE_DEF = baseDEF * x.MEMO_BASE_DEF_SCALING;
+      m.BASE_HP = baseHP * x.MEMO_BASE_HP_SCALING;
+      m.BASE_SPD = baseSPD * x.MEMO_BASE_SPD_SCALING;
 
-      m.ATK += m.BASE_ATK + m.BASE_ATK * m.ATK_P;
-      m.DEF += m.BASE_DEF + m.BASE_DEF * m.DEF_P;
-      m.HP += m.BASE_HP + m.BASE_HP * m.HP_P;
-      m.SPD += m.BASE_SPD + m.BASE_SPD * m.SPD_P;
+      m.ATK += diffATK * x.MEMO_BASE_ATK_SCALING + x.MEMO_BASE_ATK_FLAT + m.BASE_ATK * m.ATK_P;
+      m.DEF += diffDEF * x.MEMO_BASE_DEF_SCALING + x.MEMO_BASE_DEF_FLAT + m.BASE_DEF * m.DEF_P;
+      m.HP += diffHP * x.MEMO_BASE_HP_SCALING + x.MEMO_BASE_HP_FLAT + m.BASE_HP * m.HP_P;
+      m.SPD += diffSPD * x.MEMO_BASE_SPD_SCALING + x.MEMO_BASE_SPD_FLAT + m.BASE_SPD * m.SPD_P;
       /* END COPY MEMOSPRITE BASIC STATS */
 
       // START BASIC CONDITIONALS

@@ -131,7 +131,7 @@ type RelicModalProps = {
   setOpen: (open: boolean) => void,
   onOk: (relic: Relic) => void,
   selectedRelic: Relic | null,
-  selectedPart: Parts | null,
+  selectedPart?: Parts | null,
   defaultWearer?: CharacterId,
 }
 

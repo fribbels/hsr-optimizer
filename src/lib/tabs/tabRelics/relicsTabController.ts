@@ -11,31 +11,32 @@ import { Message } from 'lib/interactions/message'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { ScoredRelic } from 'lib/relics/scoreRelics'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { Relic } from 'types/relic'
 
 export const RelicsTabController = {
-  nodeClickedCallback(node: IRowNode<Relic>) {
+  nodeClickedCallback(node: IRowNode<ScoredRelic>) {
     node.setSelected(true, true)
   },
 
-  onRowClicked(e: RowClickedEvent<Relic>) {
+  onRowClicked(e: RowClickedEvent<ScoredRelic>) {
     const relic = e.data
     if (!relic) return
     useRelicsTabStore.getState().setSelectedRelicsIds([relic.id])
   },
 
-  onRowDoubleClicked(e: RowDoubleClickedEvent<Relic>) {
+  onRowDoubleClicked(e: RowDoubleClickedEvent<ScoredRelic>) {
     const relic = e.data
     if (!relic) return
     useRelicsTabStore.getState().setSelectedRelicsIds([relic.id])
   },
 
-  onSelectionChanged(e: SelectionChangedEvent<Relic>) {
-    useRelicsTabStore.getState().setSelectedRelicsIds((e.api.getSelectedRows() as Relic[]).map((row) => row.id))
+  onSelectionChanged(e: SelectionChangedEvent<ScoredRelic>) {
+    useRelicsTabStore.getState().setSelectedRelicsIds((e.api.getSelectedRows() as ScoredRelic[]).map((row) => row.id))
   },
 
-  navigateToNextCell(params: NavigateToNextCellParams<Relic>) {
+  navigateToNextCell(params: NavigateToNextCellParams<ScoredRelic>) {
     return arrowKeyGridNavigation(params, window.relicsGrid, RelicsTabController.nodeClickedCallback)
   },
 

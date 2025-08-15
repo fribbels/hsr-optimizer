@@ -40,11 +40,6 @@ export const SettingOptions = {
     ShowXL: 'Show XL',
     ShowXXL: 'Show XXL',
   },
-  RelicPotentialLoadBehavior: {
-    name: 'RelicPotentialLoadBehavior',
-    ScoreAtStartup: 'Score at startup',
-    ManuallyClickReapplyScores: 'Manually click reapply scores',
-  },
   ExpandedInfoPanelPosition: {
     name: 'ExpandedInfoPanelPosition',
     Above: 'Above',
@@ -60,7 +55,6 @@ export const SettingOptions = {
 export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
   [SettingOptions.RelicEquippingBehavior.name]: SettingOptions.RelicEquippingBehavior.Replace,
   [SettingOptions.PermutationsSidebarBehavior.name]: SettingOptions.PermutationsSidebarBehavior.ShowXL,
-  [SettingOptions.RelicPotentialLoadBehavior.name]: SettingOptions.RelicPotentialLoadBehavior.ScoreAtStartup,
   [SettingOptions.ExpandedInfoPanelPosition.name]: SettingOptions.ExpandedInfoPanelPosition.Below,
   [SettingOptions.ShowLocatorInRelicsModal.name]: SettingOptions.ShowLocatorInRelicsModal.No,
 }
@@ -100,19 +94,6 @@ export const SettingsDrawer = () => {
     },
   ]
 
-  const optionsRelicPotentialLoadBehavior = [
-    {
-      value: SettingOptions.RelicPotentialLoadBehavior.ScoreAtStartup,
-      label: <span>{t('RelicPotentialLoadBehavior.ScoreAtStartup') /* Default: Automatically score relics on page load */}</span>,
-    },
-    {
-      value: SettingOptions.RelicPotentialLoadBehavior.ManuallyClickReapplyScores,
-      label: (
-        <span>{t('RelicPotentialLoadBehavior.ManuallyClickReapplyScores') /* Only score relics when \"Reapply scores\" is clicked (faster page load) */}</span>
-      ),
-    },
-  ]
-
   const optionsExpandedInfoPanelPosition = [
     {
       value: SettingOptions.ExpandedInfoPanelPosition.Above,
@@ -138,7 +119,6 @@ export const SettingsDrawer = () => {
   const optionsMap: Record<keyof UserSettings, { value: string, label: ReactNode }[]> = {
     RelicEquippingBehavior: optionsRelicEquippingBehavior,
     PermutationsSidebarBehavior: optionsPermutationsSidebarBehavior,
-    RelicPotentialLoadBehavior: optionsRelicPotentialLoadBehavior,
     ExpandedInfoPanelPosition: optionsExpandedInfoPanelPosition,
     ShowLocatorInRelicsModal: optionsShowLocatorInRelicsModal,
   }

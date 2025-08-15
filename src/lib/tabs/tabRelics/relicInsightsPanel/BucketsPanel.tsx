@@ -8,7 +8,7 @@ import {
   setOpen,
 } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
-import { PanelProps } from 'lib/tabs/tabRelics/relicPreview/relicInsightsPanel/RelicInsightsPanel'
+import { PanelProps } from 'lib/tabs/tabRelics/relicInsightsPanel/RelicInsightsPanel'
 import {
   useRef,
   useState,

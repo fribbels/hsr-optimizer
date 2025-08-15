@@ -2,8 +2,8 @@ import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { sortAlphabeticEmojiLast } from 'lib/rendering/displayUtils'
 import DB from 'lib/state/db'
-import { BucketsPanel } from 'lib/tabs/tabRelics/relicPreview/relicInsightsPanel/BucketsPanel'
-import { Top10Panel } from 'lib/tabs/tabRelics/relicPreview/relicInsightsPanel/Top10Panel'
+import { BucketsPanel } from 'lib/tabs/tabRelics/relicInsightsPanel/BucketsPanel'
+import { Top10Panel } from 'lib/tabs/tabRelics/relicInsightsPanel/Top10Panel'
 import useRelicsTabStore, {
   InsightCharacters,
   RelicInsights,

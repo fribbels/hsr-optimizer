@@ -21,13 +21,13 @@ import {
 } from 'lib/constants/constants'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { Assets } from 'lib/rendering/assets'
+import { ScoredRelic } from 'lib/relics/scoreRelics'
 import {
   currentLocale,
   localeNumber,
   localeNumber_0,
 } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
-import { CharacterId } from 'types/character'
 import {
   Relic,
   Stat,
@@ -109,7 +109,7 @@ export const Renderer = {
     }
   },
 
-  anySet: (x: CustomCellRendererProps<Relic>) => {
+  anySet: (x: CustomCellRendererProps<ScoredRelic>) => {
     const data = x.data
     if (!data) return ''
 
@@ -121,7 +121,7 @@ export const Renderer = {
     )
   },
 
-  characterIcon: (x: CustomCellRendererProps<Relic>) => {
+  characterIcon: (x: CustomCellRendererProps<ScoredRelic>) => {
     const equippedBy = x.data?.equippedBy
     if (!equippedBy) return ''
 
@@ -133,12 +133,12 @@ export const Renderer = {
     )
   },
 
-  readableStat: (x: ValueFormatterParams<Relic, StatsValues>) => {
+  readableStat: (x: ValueFormatterParams<ScoredRelic, StatsValues>) => {
     if (x?.value == undefined) return ''
     return i18next.t(`common:ShortReadableStats.${x.value}`)
   },
 
-  readablePart: (x: ValueFormatterParams<Relic, Parts>) => {
+  readablePart: (x: ValueFormatterParams<ScoredRelic, Parts>) => {
     if (x?.value == undefined) return ''
     return i18next.t(`common:ReadableParts.${x.value}`)
   },
@@ -157,14 +157,14 @@ export const Renderer = {
   },
 
   // Unverified: 6, Verified: 6.0
-  hideZeroes10thsRelicTabSpd: (x: ValueFormatterParams<Relic, number>) => {
+  hideZeroes10thsRelicTabSpd: (x: ValueFormatterParams<ScoredRelic, number>) => {
     if (!x.value) return ''
 
     const value = Utils.precisionRound(Math.floor(x.value * 10) / 10)
     return x.data?.verified ? localeNumber_0(value) : localeNumber(value)
   },
 
-  mainValueRenderer: (x: ValueFormatterParams<Relic, number>) => {
+  mainValueRenderer: (x: ValueFormatterParams<ScoredRelic, number>) => {
     const part = x.data?.part
     if (part == Constants.Parts.Hands || part == Constants.Parts.Head) {
       return !x.value ? '' : localeNumber(Math.floor(x.value))

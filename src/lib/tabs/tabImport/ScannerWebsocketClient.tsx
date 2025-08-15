@@ -472,20 +472,9 @@ function updateRelic(state: Readonly<ScannerStore>, relic: V4ParserRelic) {
 
       const oldRelic = DB.getRelicById(newRelic.id)
 
-      // Only rescore if the relic stats have changed
-      const needsRescore = !oldRelic
-        || TsUtils.objectHash(oldRelic.augmentedStats)
-          !== TsUtils.objectHash(newRelic.augmentedStats)
       if (oldRelic != null && !state.ingestCharacters) {
         // Keep the owner of relic as the existing owner when character ingestion is disabled
         newRelic.equippedBy = oldRelic.equippedBy
-      }
-
-      if (needsRescore) {
-        window.rescoreSingleRelic(newRelic)
-      } else {
-        // Copy over weights from the existing relic
-        newRelic.weights = oldRelic?.weights
       }
 
       DB.setRelic(newRelic)

@@ -4,7 +4,10 @@ import {
 } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { rollCounter } from 'lib/importer/characterConverter'
-import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import {
+  RelicScorer,
+  RelicScoringResult,
+} from 'lib/relics/relicScorerPotential'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -26,6 +29,7 @@ export type RelicAnalysis = {
   relic: Relic,
   estTbp: number,
   estDays: number,
+  scoringResult?: RelicScoringResult,
   currentPotential: number,
   rerollPotential: number,
   rerollDelta: number,
@@ -51,6 +55,7 @@ export function enrichRelicAnalysis(
 
 export function enrichSingleRelicAnalysis(relic: Relic, days: number, scoringMetadata: ScoringMetadata, characterId: CharacterId) {
   if (!relic) return undefined
+  const score = RelicScorer.scoreCurrentRelic(relic, characterId)
   const potentials = RelicScorer.scoreRelicPotential(relic, characterId)
 
   const weightedRolls = countRelicRolls(relic, scoringMetadata)
@@ -73,6 +78,7 @@ export function enrichSingleRelicAnalysis(relic: Relic, days: number, scoringMet
     relic: relic,
     estDays: days,
     estTbp: days * 240,
+    scoringResult: score,
     currentPotential: potentials.currentPct,
     rerollPotential: potentials.rerollAvgPct,
     rerollDelta: potentials.rerollAvgPct - potentials.currentPct,

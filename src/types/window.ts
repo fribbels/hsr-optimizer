@@ -26,19 +26,16 @@ import { DB } from 'lib/state/db'
 import { Metadata } from 'lib/state/metadata'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { ScoredRelic } from 'lib/relics/scoreRelics'
 import { ShowcaseTabForm } from 'lib/tabs/tabShowcase/showcaseTabController'
 import { Utils } from 'lib/utils/utils'
 import { WorkerPool } from 'lib/worker/workerPool'
-import {
-  DispatchWithoutAction,
-  RefObject,
-} from 'react'
+import { RefObject } from 'react'
 import {
   Build,
   Character,
 } from 'types/character'
 import { Form } from 'types/form'
-import { Relic } from 'types/relic'
 import { HsrOptimizerStore } from 'types/store'
 import {
   StoreApi,
@@ -75,7 +72,7 @@ declare global {
     colorTheme: ColorThemeOverrides
 
     characterGrid: RefObject<AgGridReact<Character>>
-    relicsGrid: RefObject<AgGridReact<Relic>>
+    relicsGrid: RefObject<AgGridReact<ScoredRelic>>
     optimizerGrid: RefObject<AgGridReact<OptimizerDisplayData>>
 
     setOptimizerBuild: (build?: Build) => void
@@ -83,14 +80,10 @@ declare global {
     showcaseTabForm: FormInstance<ShowcaseTabForm>
 
     // TODO see OptimizerForm
-    onOptimizerFormValuesChange: (changedValues: Form, allValues: Form, bypass?: boolean) => unknown
+    onOptimizerFormValuesChange: (changedValues: Form, allValues: Form, bypass?: boolean) => void
     optimizerStartClicked: () => void
     optimizerForm: FormInstance<Form>
 
-    forceOptimizerBuildPreviewUpdate: DispatchWithoutAction
-    refreshRelicsScore: DispatchWithoutAction
-
-    rescoreSingleRelic: (relic: Relic) => void
     showSaveFilePicker: (options?: SaveFilePickerOptions) => Promise<FileSystemFileHandle>
 
     yaml: unknown

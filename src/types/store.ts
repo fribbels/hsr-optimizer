@@ -52,7 +52,6 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ optimizerTabFocusCharacter?: CharacterId | null,
   /* give own store?          */ scoringAlgorithmFocusCharacter?: CharacterId | null,
   /* give own store?          */ statTracesDrawerFocusCharacter?: CharacterId | null,
-  /* relicsTab                */ relicsTabFocusCharacter?: CharacterId | null,
   /* global                   */ activeKey: AppPage,
   /* optimizerTab             */ permutations: number,
   /* optimizerTab             */ permutationsResults: number,
@@ -89,7 +88,6 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ setOptimizationInProgress: (open: boolean) => void,
   /* optimizerTab             */ setOptimizerStartTime: (open: number) => void,
   /* optimizerTab             */ setOptimizerEndTime: (open: number) => void,
-  /* relicsTab                */ setRelicTabFilters: (filters: RelicTabFilters) => void,
   /* optimizerTab             */ setOptimizerRunningEngine: (s: ComputeEngine) => void,
   /* optimizerTab             */ optimizerFormCharacterEidolon: number,
   /* optimizerTab             */ optimizerFormSelectedLightCone: LightCone['id'] | null | undefined,
@@ -120,14 +118,11 @@ export type HsrOptimizerStore = { // global store separation plan
   /* characterTab/showcaseTab */ setShowcaseTemporaryOptionsByCharacter: (x: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>) => void,
   /* optimizerTab             */ setPermutations: (x: number) => void,
   /* optimizerTab             */ setPermutationDetails: (x: PermutationDetails) => void,
-  /* relicsTab                */ setRelicsTabFocusCharacter: (x: CharacterId | null | undefined) => void,
-  /* global                   */ setVersion: (x: string) => void,
+  /* global                   */ setVersion: (x: string | undefined) => void,
   /* optimizerTab             */ setOptimizerMenuState: (x: OptimizerMenuState) => void,
   /* global                   */ setGlobalThemeConfig: (x: ThemeConfig) => void,
 
   /* optimizerTab             */ permutationDetails: PermutationDetails,
-
-  /* relicsTab                */ relicTabFilters: RelicTabFilters,
 
   /* optimizerTab             */ optimizerMenuState: OptimizerMenuState,
 
@@ -150,7 +145,6 @@ export type GlobalSavedSession = {
 export type UserSettings = {
   RelicEquippingBehavior: string,
   PermutationsSidebarBehavior: string,
-  RelicPotentialLoadBehavior: string,
   ExpandedInfoPanelPosition: string,
   ShowLocatorInRelicsModal: string,
 }
@@ -159,18 +153,18 @@ export type UserSettings = {
 export type HsrOptimizerSaveFormat = {
   relics: Relic[],
   characters: Character[],
-  scoringMetadataOverrides: Record<string, ScoringMetadata>,
-  showcasePreferences: Record<string, ShowcasePreferences>,
-  optimizerMenuState: OptimizerMenuState,
-  excludedRelicPotentialCharacters: CharacterId[],
-  savedSession: {
+  scoringMetadataOverrides?: Record<string, ScoringMetadata>,
+  showcasePreferences?: Record<string, ShowcasePreferences>,
+  optimizerMenuState?: OptimizerMenuState,
+  excludedRelicPotentialCharacters?: CharacterId[],
+  savedSession?: {
     showcaseTab: ShowcaseTabSavedSession,
     global: GlobalSavedSession,
   },
-  settings: UserSettings,
-  version: string,
-  warpRequest: WarpRequest,
-  relicLocator: {
+  settings?: UserSettings,
+  version?: string,
+  warpRequest?: WarpRequest,
+  relicLocator?: {
     inventoryWidth: number,
     rowLimit: number,
   },

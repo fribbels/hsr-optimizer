@@ -35,8 +35,9 @@ export const TsUtils = {
     grade: number,
     enhance: number,
   ): number => {
-    return Constants.MainStatsValues[mainStatType][grade].base
-      + Constants.MainStatsValues[mainStatType][grade].increment * enhance
+    return TsUtils.precisionRound(
+      Constants.MainStatsValues[mainStatType][grade].base + Constants.MainStatsValues[mainStatType][grade].increment * enhance,
+    )
   },
 
   wrappedFixedT: (withContent: boolean) => {

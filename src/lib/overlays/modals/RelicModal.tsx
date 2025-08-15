@@ -46,6 +46,7 @@ import {
   localeNumber,
   localeNumber_0,
 } from 'lib/utils/i18nUtils'
+import { isFlat } from 'lib/utils/statUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import React, {
@@ -130,10 +131,20 @@ type RelicModalProps = {
   setOpen: (open: boolean) => void,
   onOk: (relic: Relic) => void,
   selectedRelic: Relic | null,
+  selectedPart: Parts | null,
   defaultWearer?: CharacterId,
 }
 
-export default function RelicModal({ selectedRelic, onOk, setOpen, open, defaultWearer }: RelicModalProps) {
+const defaultMainStatPerPart = {
+  [Parts.Head]: Stats.HP,
+  [Parts.Hands]: Stats.ATK,
+  [Parts.Body]: Stats.HP_P,
+  [Parts.Feet]: Stats.HP_P,
+  [Parts.PlanarSphere]: Stats.HP_P,
+  [Parts.LinkRope]: Stats.HP_P,
+}
+
+export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, defaultWearer }: RelicModalProps) {
   const { t } = useTranslation(['modals', 'common', 'gameData'])
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const { token } = useToken()
@@ -229,13 +240,17 @@ export default function RelicModal({ selectedRelic, onOk, setOpen, open, default
         substatValue3: renderSubstat(selectedRelic, 3)?.value.toString(),
       }
     } else {
+      const defaultPart = selectedPart ?? Constants.Parts.Head
+      const defaultMain = defaultMainStatPerPart[defaultPart]
+      let defaultValue = TsUtils.precisionRound(Constants.MainStatsValues[defaultMain][5].base + Constants.MainStatsValues[defaultMain][5].increment * 15)
+      defaultValue = isFlat(defaultMain) ? Math.floor(defaultValue) : defaultValue
       defaultValues = {
         equippedBy: defaultWearer ?? 'None',
         grade: 5,
         enhance: 15,
-        part: Constants.Parts.Head,
+        part: defaultPart,
         mainStatType: Constants.Stats.HP,
-        mainStatValue: Math.floor(Constants.MainStatsValues[Constants.Stats.HP][5].base + Constants.MainStatsValues[Constants.Stats.HP][5].increment * 15),
+        mainStatValue: defaultValue,
       } as RelicForm
     }
 
@@ -245,8 +260,9 @@ export default function RelicModal({ selectedRelic, onOk, setOpen, open, default
 
   useEffect(() => {
     let mainStatOptions: MainStatOption[] = []
-    if (selectedRelic?.part) {
-      mainStatOptions = Object.entries(Constants.PartsMainStats[selectedRelic?.part]).map((entry) => ({
+    const part = selectedRelic?.part ?? selectedPart
+    if (part) {
+      mainStatOptions = Object.entries(Constants.PartsMainStats[part]).map((entry) => ({
         label: (
           <Flex align='center' gap={10}>
             <img src={Assets.getStatIcon(entry[1], true)} style={{ width: 22, height: 22 }} />
@@ -259,7 +275,7 @@ export default function RelicModal({ selectedRelic, onOk, setOpen, open, default
 
     setMainStatOptions(mainStatOptions)
     relicForm.setFieldValue('mainStatType', selectedRelic?.main?.stat)
-  }, [selectedRelic?.part, selectedRelic?.main?.stat, relicForm, t])
+  }, [selectedRelic?.part, selectedRelic?.main?.stat, selectedPart, relicForm, t])
 
   useEffect(() => {
     if (mainStatOptions.length > 0) {

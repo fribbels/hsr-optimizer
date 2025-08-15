@@ -48,6 +48,7 @@ import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
 import {
+  Parts,
   ShowcaseColorMode,
   Stats,
 } from 'lib/constants/constants'
@@ -74,7 +75,6 @@ import {
   showcaseSegmentedColor,
   showcaseTransition,
 } from 'lib/utils/colorUtils'
-import Vibrant from 'node-vibrant'
 import {
   useRef,
   useState,
@@ -104,9 +104,11 @@ export function CharacterPreview(props: {
 
   const { token } = useToken()
   const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
+  const [selectedPart, setSelectedPart] = useState<Parts | null>(null)
   const [relicModalOpen, setRelicModalOpen] = useState(false)
   const setEditModalOpen = (open: boolean) => setRelicModalOpen(open)
-  const setAddModalOpen = (open: boolean) => {
+  const setAddModalOpen = (open: boolean, part: Parts) => {
+    setSelectedPart(part)
     setSelectedRelic(null)
     setRelicModalOpen(open)
   }
@@ -248,6 +250,7 @@ export function CharacterPreview(props: {
     <Flex vertical style={{ width: 1068, minHeight: source == ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>
       <RelicModal
         selectedRelic={selectedRelic}
+        selectedPart={selectedPart}
         onOk={onRelicModalOk}
         setOpen={setRelicModalOpen}
         open={relicModalOpen}

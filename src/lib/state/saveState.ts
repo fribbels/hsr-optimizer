@@ -5,7 +5,9 @@ import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { HsrOptimizerSaveFormat } from 'types/store'
+import { Relic } from "types/relic";
 
 let saveTimeout: NodeJS.Timeout | null
 
@@ -21,8 +23,9 @@ export const SaveState = {
 
     const warpCalculatorTabState = useWarpCalculatorStore.getState()
     const scannerState = useScannerState.getState()
+
     const state: HsrOptimizerSaveFormat = {
-      relics: DB.getRelics(),
+      relics: DB.getRelics().map(({ augmentedStats, ...rest }) => rest) as Relic[],
       characters: DB.getCharacters(),
       scoringMetadataOverrides: globalState.scoringMetadataOverrides,
       showcasePreferences: globalState.showcasePreferences,

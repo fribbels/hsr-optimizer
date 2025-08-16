@@ -11,6 +11,10 @@ import {
   AgGridReactProps,
 } from 'ag-grid-react'
 import { theme } from 'antd'
+import {
+  ScoredRelic,
+  scoreRelics,
+} from 'lib/relics/scoreRelics'
 import { getGridTheme } from 'lib/rendering/theme'
 import {
   defaultRelicsGridColDefs,
@@ -29,21 +33,20 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Relic } from 'types/relic'
 
-const gridOptions: GridOptions<Relic> = {
+const gridOptions: GridOptions<ScoredRelic> = {
   rowHeight: 33,
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
   suppressMultiSort: true,
-  getRowId: (params: GetRowIdParams<Relic>) => params.data.id,
+  getRowId: (params: GetRowIdParams<ScoredRelic>) => params.data.id,
 }
 
-const paginationSettings: AgGridReactProps<Relic> = {
+const paginationSettings: AgGridReactProps<ScoredRelic> = {
   pagination: true,
   paginationPageSizeSelector: false,
   paginationPageSize: 3100,
-  paginationNumberFormatter: (params: PaginationNumberFormatterParams<Relic>) => params.value.toLocaleString(currentLocale()),
+  paginationNumberFormatter: (params: PaginationNumberFormatterParams<ScoredRelic>) => params.value.toLocaleString(currentLocale()),
 }
 
 const { useToken } = theme
@@ -55,18 +58,28 @@ export function RelicsGrid() {
 
   const [gridActive, setGridActive] = useState(true)
 
-  const relics = window.store((s) => s.relics.toReversed())
-  const { filters, valueColumns } = useRelicsTabStore()
+  const { relics, scoringMetadataOverrides } = window.store()
 
-  const gridRef = useRef<AgGridReact<Relic>>(null)
+  const { focusCharacter, excludedRelicPotentialCharacters } = useRelicsTabStore()
+
+  const gridRef = useRef<AgGridReact<ScoredRelic>>(null)
   window.relicsGrid = gridRef
+
+  const scoredRelics = useMemo(() => {
+    return scoreRelics(relics, excludedRelicPotentialCharacters, focusCharacter)
+    // relic scores have sn implicit dependency on scoringMetadataOverrides
+    // settings only relevant on first load so doesn't need to be in array
+    // eslint-disable-next-line exhaustive-deps
+  }, [relics, scoringMetadataOverrides, focusCharacter, excludedRelicPotentialCharacters])
+
+  const { filters, valueColumns } = useRelicsTabStore()
 
   useEffect(() => {
     setGridActive(false)
     setTimeout(() => setGridActive(true), 100)
   }, [t])
 
-  const getLocaleText = useCallback((params: GetLocaleTextParams<Relic>) => {
+  const getLocaleText = useCallback((params: GetLocaleTextParams<ScoredRelic>) => {
     if (params.key == 'to') return (t('To') /* to */)
     if (params.key == 'of') return (t('Of') /* of */)
     if (params.key == 'noRowsToShow') return ''
@@ -78,11 +91,11 @@ export function RelicsGrid() {
       .concat(generateOptionalColDefs(t).filter((x) => valueColumns.includes(x.field as ValueColumnField)))
   }, [valueColumns, t])
 
-  const isExternalFilterPresent = useCallback((_params: IsExternalFilterPresentParams<Relic>) => {
+  const isExternalFilterPresent = useCallback((_params: IsExternalFilterPresentParams<ScoredRelic>) => {
     return !Object.values(filters).every((filter) => filter.length === 0)
   }, [filters])
 
-  const doesExternalFilterPass = useCallback((node: IRowNode<Relic>) => {
+  const doesExternalFilterPass = useCallback((node: IRowNode<ScoredRelic>) => {
     const relic = node.data
     if (!relic) return false
     if (filters.part.length && !filters.part.includes(relic.part)) return false
@@ -112,7 +125,7 @@ export function RelicsGrid() {
       {gridActive && (
         <AgGridReact
           ref={gridRef}
-          rowData={relics}
+          rowData={scoredRelics}
           columnDefs={columnDefs}
           defaultColDef={defaultRelicsGridColDefs}
           gridOptions={gridOptions}

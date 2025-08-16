@@ -12,12 +12,12 @@ import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
+import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
-import { RelicPreview } from './RelicPreview'
 
 interface RelicCardProps {
   relic?: Relic
@@ -28,7 +28,7 @@ interface RelicCardProps {
 
 export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Element => {
   const { relic, scoringCharacter, setSelectedRelicID, isSelected } = props
-  const { excludedRelicPotentialCharacters } = useRelicsTabStore.getState()
+  const { excludedRelicPotentialCharacters } = useRelicsTabStore()
   const { token } = theme.useToken()
   const { t } = useTranslation('relicsTab', { keyPrefix: 'RecentlyUpdatedRelics' })
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })

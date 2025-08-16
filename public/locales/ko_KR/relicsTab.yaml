@@ -10,7 +10,6 @@ RelicFilterBar:
   Set: 세트
   Mainstat: 주 스탯
   Substat: 부 옵션
-  ReapplyButton: 점수 갱신
   ScoringButton: 점수 계산 알고리즘
   RecommendationHeader: 유물 추천 캐릭터
   Rating: 유물 레이팅

@@ -899,6 +899,7 @@ export const DB = {
           // Inherit the new verified speed stats
           found = {
             ...found,
+            id: newRelic.id,
             verified: true,
             substats: newRelic.substats,
             augmentedStats: newRelic.augmentedStats,

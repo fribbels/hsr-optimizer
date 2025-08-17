@@ -5,19 +5,19 @@ import {
   OptimizerContext,
 } from './optimizer'
 
-export interface Action {
+export interface HitAction {
   name: string
   hits: Hit[]
 }
 
 export const DefaultDamageFunction: DamageFunction = {
-  apply: () => 0,
+  apply: () => 1,
 }
 
 export interface Hit {
   damageFunction: DamageFunction
   damageType: number
-  element: ElementName
+  damageElement: ElementName
 
   atkScaling: number
   hpScaling: number
@@ -26,5 +26,5 @@ export interface Hit {
 }
 
 export interface DamageFunction {
-  apply: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => 0
+  apply: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => number
 }

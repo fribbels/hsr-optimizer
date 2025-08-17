@@ -12,6 +12,7 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import { HitAction } from './hitConditionalTypes'
 
 // Interface to an instance of a Character or Light Cone conditional controller
 export interface ConditionalsController {
@@ -21,7 +22,7 @@ export interface ConditionalsController {
   teammateContent?: () => ContentItem[]
   defaults: () => ConditionalValueMap
   teammateDefaults?: () => ConditionalValueMap
-  actionDefinition?: () => Action[]
+  actionDefinition?: (action: OptimizerAction, context: OptimizerContext) => HitAction[]
 
   // Configuration changes to the character & combat environment executed before the precompute steps
   // This can include things like ability damage type switches, weakness break overrides, etc

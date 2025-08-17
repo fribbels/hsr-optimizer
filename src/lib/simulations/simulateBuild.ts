@@ -86,6 +86,8 @@ export function simulateBuild(
     c.initMemo()
   }
 
+  let dmgTracker = 0
+
   let combo = 0
   for (let i = context.actions.length - 1; i >= 0; i--) {
     const action = context.actions[i]
@@ -105,10 +107,13 @@ export function simulateBuild(
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
 
-    for (let j = 0; j < action.hits!.length; j++) {
-      const hit = action.hits![j]
+    if (i > 0) {
+      for (let j = 0; j < action.hits!.length; j++) {
+        const hit = action.hits![j]
 
-      hit.damageFunction.apply(x, action, context)
+        const dmg = hit.damageFunction.apply(x, action, context)
+        dmgTracker += dmg
+      }
     }
 
     calculateDamage(x, action, context)
@@ -135,6 +140,7 @@ export function simulateBuild(
     if (i === 0) {
       combo += a[Key.DOT_DMG] * (context.dotAbilities == 0 ? context.comboDot / Math.max(1, context.dotAbilities) : 0)
       x.COMBO_DMG.set(combo, Source.NONE)
+      x.COMBO_DMG.set(dmgTracker, Source.NONE)
     }
   }
 

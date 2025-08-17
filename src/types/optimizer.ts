@@ -18,7 +18,10 @@ import {
   ElementalDamageType,
   ElementalResPenType,
 } from 'types/metadata'
-import { Hit } from './hitConditionalTypes'
+import {
+  Hit,
+  HitAction,
+} from './hitConditionalTypes'
 
 export type OptimizerAction = {
   precomputedX: ComputedStatsArray,
@@ -149,6 +152,7 @@ export type OptimizerContext = CharacterMetadata & {
   activeAbilities: AbilityType[],
   activeAbilityFlags: number,
   actions: OptimizerAction[],
+  hitActions?: HitAction[],
   comboDot: number,
   dotAbilities: number,
 

@@ -10,6 +10,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import {
   CURRENT_DATA_VERSION,
+  ElementNames,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
@@ -153,35 +154,69 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    actionDefinition: () => [
-      {
-        name: 'BASIC',
-        hits: [
-          {
-            damageFunction: DefaultDamageFunction,
-            damageType: DamageType.BASIC,
-          },
-        ],
-      },
-      {
-        name: 'SKILL',
-        hits: [
-          {
-            damageFunction: DefaultDamageFunction,
-            damageType: DamageType.SKILL,
-          },
-        ],
-      },
-      {
-        name: 'ULT',
-        hits: [
-          {
-            damageFunction: DefaultDamageFunction,
-            damageType: DamageType.ULT,
-          },
-        ],
-      },
-    ],
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      return [
+        {
+          name: 'BASIC',
+          hits: [
+            {
+              damageFunction: DefaultDamageFunction,
+              damageType: DamageType.BASIC,
+              atkScaling: basicScaling,
+            },
+          ],
+        },
+        {
+          name: 'SKILL',
+          hits: [
+            {
+              damageFunction: DefaultDamageFunction,
+              damageType: DamageType.SKILL,
+              atkScaling: skillScaling,
+            },
+          ],
+        },
+        {
+          name: 'ULT',
+          hits: [
+            {
+              damageFunction: DefaultDamageFunction,
+              damageType: DamageType.ULT,
+              atkScaling: ultScaling,
+            },
+          ],
+        },
+        {
+          name: 'DOT',
+          hits: [
+            {
+              damageFunction: DefaultDamageFunction,
+              damageType: DamageType.DOT,
+              damageElement: ElementNames.Fire,
+              atkScaling: talentDotScaling,
+            },
+            {
+              damageFunction: DefaultDamageFunction,
+              damageType: DamageType.DOT,
+              damageElement: ElementNames.Wind,
+              atkScaling: talentDotScaling,
+            },
+            {
+              damageFunction: DefaultDamageFunction,
+              damageType: DamageType.DOT,
+              damageElement: ElementNames.Lightning,
+              atkScaling: talentDotScaling,
+            },
+            {
+              damageFunction: DefaultDamageFunction,
+              damageType: DamageType.DOT,
+              damageElement: ElementNames.Physical,
+              atkScaling: talentDotScaling,
+            },
+          ],
+        },
+      ]
+    },
     initializeConfigurations: (x: ComputedStatsArray) => {
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -209,6 +244,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.DOT_ATK_SCALING.buff(talentDot, SOURCE_TALENT)
         x.DOT_ATK_SCALING.buff((e >= 1 && r.e1Buffs) ? talentDot : 0, SOURCE_E1)
       }
+
+      const hitActions = context.hitActions!
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)

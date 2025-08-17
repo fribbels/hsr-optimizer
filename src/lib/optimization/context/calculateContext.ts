@@ -20,6 +20,7 @@ import {
   CharacterStatsBreakdown,
   OptimizerContext,
 } from 'types/optimizer'
+import { calculateActions } from './calculateActions'
 
 export function generateContext(request: Form): OptimizerContext {
   const context: OptimizerContext = {} as OptimizerContext
@@ -31,6 +32,8 @@ export function generateContext(request: Form): OptimizerContext {
   generateFiltersContext(request, context)
 
   calculateConditionals(request, context)
+
+  calculateActions(request, context)
 
   initializeContextConditionals(context)
 

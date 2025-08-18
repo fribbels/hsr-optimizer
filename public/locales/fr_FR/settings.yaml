@@ -1,22 +1,18 @@
 Title: Paramètres
 RelicEquippingBehavior:
   Label: Équiper les reliques d'un autre personnage
-  Replace: "Par défaut: Remplacer les reliques sans échanger"
+  Replace: 'Par défaut: Remplacer les reliques sans échanger'
   Swap: Échanger les reliques avec l'ancien propriétaire
 PermutationsSidebarBehavior:
   Label: Réduire le volet d'optimiseur sur les petits écrans
-  ShowXL: "Par défaut: réduire si la majorité du volet est caché"
+  ShowXL: 'Par défaut: réduire si la majorité du volet est caché'
   ShowXXL: Réduire dès que le volet est caché
   NoShow: Toujours garder le volet à la droite
-RelicPotentialLoadBehavior:
-  Label: Appréciation des reliques lorsque la page charge
-  ScoreAtStartup: "Par défaut: Apprécier les reliques dès que la page charge"
-  ManuallyClickReapplyScores: Apprécier les reliques uniquement lorsque "Réapprécier les notes" est cliqué (chargement de page plus rapide)
 ExpandedInfoPanelPosition:
   Label: Position du panneau d'analyse de résultats de l'optimiseur
   Above: Afficher le panneau au-dessus de l'aperçu de reliques
-  Below: "Par défaut: Afficher le panneau en dessous de l'aperçu de reliques"
+  Below: 'Par défaut: Afficher le panneau en dessous de l''aperçu de reliques'
 ShowLocatorInRelicsModal:
   Label: Localisateur de relique dans l'éditeur de reliques
   Yes: Afficher le localisateur de reliques dans l'éditeur de reliques
-  No: "Par défaut : Ne pas afficher le localisateur de relique dans l'éditeur de reliques"
+  No: 'Par défaut : Ne pas afficher le localisateur de relique dans l''éditeur de reliques'

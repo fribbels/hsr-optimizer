@@ -10,7 +10,6 @@ RelicFilterBar:
   Set: Set
   Mainstat: Atributos Principais
   Substat: Subatributos
-  ReapplyButton: Reaplicar pontuações
   ScoringButton: Algoritmo de Pontos
   RecommendationHeader: Personagem para recomendação de relíquias
   Rating: Classificação das relíquias

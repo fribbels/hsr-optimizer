@@ -442,7 +442,7 @@ ComboFilter:
       Description: '¿Restablecer todos los ajustes de Rotación simple / avanzada a los por defecto?'
     PresetsHeader: Preajustes
   CounterLabels:
-    Dot: DOTs
+    Dot: DoTs
   ComboOptions:
     None: 'Ninguno'
     Basic: Básico

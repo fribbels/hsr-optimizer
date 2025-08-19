@@ -103,6 +103,7 @@ Lightcones:
     Content:
       skillDmgBoost:
         text: Aumento de daño de Habilidad
+        content: Después de que el portador lance la habilidad básica sobre un personaje aliado, el daño de habilidad básica infligido por el objetivo aumenta en un {{DmgBuff}}% durante 3 turnos.
   EternalCalculus:
     Content:
       atkBuffStacks:
@@ -369,8 +370,12 @@ Lightcones:
           Cuando el portador inflige Daño de Ruptura a un enemigo, este entra en el estado de Vencido durante 2 turnos. Los objetivos afectados con Vencido reciben un {{Vulnerability}}% más de Daño de Ruptura del portador y su VEL se reduce en un 20%. Los efectos del mismo tipo no se pueden acumular.
   WhyDoesTheOceanSing:
     Content:
+      dotVulnStacks:
+        text: Acumulaciones de vulnerabilidad DoT
+        content: Cuando el portador aplica un estado negativo a un enemigo, tiene una probabilidad base del 80% de afectarlo con Hechizo durante 3 turnos. En el estado de Hechizo, el Daño con el tiempo recibido aumenta en un {{DotVuln}}% por cada estado negativo aplicado por el portador. Este efecto se puede acumular hasta 6 veces.
       spdBuff:
         text: Mejora de VEL
+        content: Cuando el portador aplica un estado negativo a un enemigo, tiene una probabilidad base del 80% de afectarlo con Hechizo durante 3 turnos. Cuando el objetivo recibe un ataque de un aliado, la VEL del atacante aumenta en un {{SpdBuff}}% durante 3 turnos.
   WorrisomeBlissful:
     Content:
       targetTameStacks:
@@ -617,6 +622,7 @@ Lightcones:
     Content:
       atkStacks:
         text: Acumulaciones mejora de ATQ
+        content: Tras lanzar su habilidad básica, el ATQ del portador aumenta en un {{AtkBuff}}%. Este efecto se puede acumular hasta 3 veces.
   TheGreatCosmicEnterprise:
     Content:
       weaknessTypes:
@@ -1010,7 +1016,7 @@ Characters:
         content: >-
           Cuando está en el estado de Duelo a muerte y obtiene Ventaja en el bolsillo, recupera 1 pt. de habilidad básica y aumenta su efecto de Ruptura en un 30% durante 2 turnos. Este efecto no se puede activar repetidamente en el mismo turno, y también se puede activar al obtener acumulaciones de Ventaja en el bolsillo por encima del límite.
       e4TargetStandoffVulnerability:
-        text: E4 Vulnerabilidad de Habilidad
+        text: E4 Vulnerabilidad por Habilidad
         content: >-
           Cuando el enemigo con Duelo a muerte es atacado por Boothill, el daño recibido aumenta un 12% adicional. Cuando Boothill es atacado por un enemigo con Duelo a muerte, el efecto de aumento de daño recibido disminuye en un 12%.
       e6AdditionalBreakDmg:
@@ -1075,17 +1081,38 @@ Characters:
     Content:
       spdBuff:
         text: Mejora de VEL
+        content: Al lanzar la habilidad básica, su VEL y la del compañero de equipo con Mérito militar aumenta en 20 pts. durante 3 turnos.
       crBuff:
         text: Mejora PC
+        content: La Prob. CRIT de Céridra aumenta en un 100%.
+      atkToCd:
+        text: ATQ a DC
+        content: Cuando el ATQ de Céridra es superior a 2000 puntos, por cada 100 puntos de exceso, su Daño CRIT aumenta en un 18%, hasta un máximo del 360%.
       e2DmgBoost:
         text: E2 Aumento de daño
+        content: El daño que inflige el personaje con Mérito militar aumenta en un 40%. Cuando hay un compañero de equipo con Mérito militar en el campo de batalla, el daño que inflige Céridra aumenta en un 160%.
       e4UltDmg:
         text: E4 Daño Definitiva
+        content: El multiplicador de daño de la habilidad definitiva aumenta en un 240%.
       e6Buffs:
         text: E6 Mejoras
+        content: La PEN de la RES a todos los tipos del personaje con Mérito militar aumenta en un 20%, y el multiplicador del daño adicional activado por Mérito militar aumenta en un 300%. Cuando hay un compañero de equipo con Mérito militar en el campo de batalla, la PEN de la RES a todos los tipos de Céridra aumenta en un 20%.
     TeammateContent:
+      militaryMerit:
+        text: Mérito militar
+        content: >-
+          Al lanzar la habilidad básica, su VEL y la del compañero de equipo con Mérito militar aumenta en 20 pts. durante 3 turnos. ::BR:: El ATQ del personaje con Mérito militar aumenta en una cantidad equivalente al {{TalentAtkConversion}}% del ATQ de Céridra. ::BR:: E1: Cuando el personaje con Mérito militar inflige daño, ignora el 16% de la DEF de cada objetivo.
+      peerage:
+        text: Título nobiliario
+        content: >-
+          El personaje con Título nobiliario aumenta el Daño CRIT y la PEN de la RES a todos los tipos de su daño de habilidad básica en un {{SkillCdBuff}}% y un {{SkillResPenBuff}}% respectivamente. ::BR:: E1: Si Mérito militar ya ha mejorado a Título nobiliario, el daño de habilidad básica que inflige ese personaje ignora un 20% adicional de la DEF de cada objetivo.
+      teammateATKValue:
+        text: ATQ en combate de Céridra
+        content: >-
+          El ATQ del personaje con Mérito militar aumenta en una cantidad equivalente al {{TalentAtkConversion}}% del ATQ de Céridra. ::BR:: Ajusta esto al valor de ATQ propio de Céridra que usa para mejorar aliados.
       e1DefPen:
         text: E1 PEN DEF
+        content: Cuando el personaje con Mérito militar inflige daño, ignora el 16% de la DEF de cada objetivo. Si Mérito militar ya ha mejorado a Título nobiliario, el daño de habilidad básica que inflige ese personaje ignora un 20% adicional de la DEF de cada objetivo.
   Cipher:
     Content:
       vulnerability:
@@ -1400,16 +1427,36 @@ Characters:
         content: Cuando Ica está en el campo de batalla, la PEN de la RES a todos los tipos de todos los aliados aumenta en un 20%.
   Hysilens:
     Content:
+      skillVulnerability:
+        text: Vulnerabilidad por Habilidad
+        content: La habilidad básica de Hysilens tiene una probabilidad base del 100% de aumentar el daño que reciben todos los enemigos en un {{SkillVuln}}% durante 3 turnos.
       ultZone:
         text: Campo de Definitiva activado
+        content: Al lanzar su habilidad definitiva, Hysilens despliega un campo que reduce el ATQ de los enemigos en un 15% y la DEF en un {{ZoneDefShred}}%.
+      ultDotStacks:
+        text: Acumulaciones de detonaciones DoT de Definitiva
+        content: Cuando Hysilens lanza su habilidad definitiva, si el enemigo está afectado con estados de Daño con el tiempo, todos los estados de Daño con el tiempo que tiene actualmente infligen inmediatamente un daño equivalente al 150% de su daño original.
       ehrToDmg:
         text: AdE a aumento de daño
+        content: Si el acierto de efecto de Hysilens es superior al 60%, por cada 10% de exceso, el daño que inflige aumenta en un 15%, hasta un aumento máximo del 90%.
+      dotDetonation:
+        text: Detonación DoT (Activación automática)
+        content: Cuando Hysilens lanza su habilidad definitiva, si el enemigo está afectado con estados de Daño con el tiempo, todos los estados de Daño con el tiempo que tiene actualmente infligen inmediatamente un daño equivalente al 150% de su daño original.
       e1Buffs:
         text: E1 Mejoras
+        content: >-
+          Cuando Hysilens está en el campo de batalla, el Daño con el tiempo que infligen los aliados es un 116% del original. ::BR:: Cuando Hysilens afecta a un enemigo con Intemperie, Sangrado, Quemadura o Electrocución mediante su talento, tiene una probabilidad base del 100% de afectarlo adicionalmente con un estado de Intemperie, Sangrado, Quemadura o Electrocución equivalente al del talento y que puede coexistir con él.
       e4ResPen:
         text: E4 PEN RES
+        content: Mientras dure el campo, la RES a todos los tipos de todos los enemigos se reduce en un 20%.
       e6Buffs:
         text: E6 Mejoras
+        content: Mientras el campo está activo, el número máximo de veces que se puede activar el efecto de Daño Físico con el tiempo de Hysilens al principio de cada turno o tras cada ataque de un aliado aumenta a 12, y el multiplicador del daño infligido aumenta en un 20%.
+    TeammateContent:
+      e2TeammateEhr:
+        text: "E2 AdE en combate de Hysilens"
+        content: >-
+          Mientras el campo está activo, el efecto de aumento de daño infligido del Rastro Cuerdas perladas se aplica a todos los aliados. ::BR:: Si el acierto de efecto de Hysilens es superior al 60%, por cada 10% de exceso, el daño que inflige aumenta en un 15%, hasta un aumento máximo del 90%.
   ImbibitorLunae:
     Content:
       basicEnhanced:

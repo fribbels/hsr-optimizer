@@ -47,6 +47,16 @@ Actions:
   p4: Quitar fijados - Quita todos los equipamientos fijados arriba de la grilla
 OptimizerOptions:
   Title: Opciones del optimizador
+  PriorityFilter: >-
+    <0>Filtrar prioridad de los personajes</0> - Cuando esta opción está habilitada, el personaje sólo podrá quitarle artefactos a personajes con menor prioridad. El optimizador ignorará artefactos equipados por personajes con mayor prioridad. Cambia el orden de los personajes en el selector de prioridad o arrastrándolos en la página de Personajes.
+  BoostMain: >-
+    <0>Aumentar atributo principal</0> - Calcula los atributos principales de los artefactos como si fueran de este nivel (o su máximo si no pueden llegar a ese nivel) si no lo están. Los atributos secundarios no se ven afectados, por lo que puede que artefactos con niveles bajos sean más fuertes una vez mejorados.
+  KeepCurrent: <0>Mantener artefactos</0> - El personaje debe usar los artefactos que tiene equipados y el optimizador intentará llenar las ranuras vacías.
+  AllowEquipped: <0>Permitir artefactos equipados</0> - Activado, el optimizador permitirá el uso de artefactos que ya estén equipados en algún personaje para la búsqueda. Desactivado, los artefactos equipados son excluidos.
+  Priority: "<0>Prioridad</0> - Véase: Filtrar prioridad de los personajes. Cambiar este ajuste cambiará la prioridad del personaje."
+  Exclude: <0>Excluir</0> - Elige personajes específicos para excluir sus artefactos de la búsqueda. Este ajuste sobreescribe el filtro de prioridad.
+  Enhance: <0>Nivel / rareza</0> - Selecciona el nivel y la rareza mínimos que debe tener un artefacto para ser incluido en la búsqueda.
+  DPSMode: <0>Modo DPS</0> - Selecciona si el personaje debe ser el objetivo principal de las mejoras de apoyo (DPS Principal) o no (DPS Secundario) para los cálculos del optimizador de atributos.
 Relics:
   Title: Artefactos
   p1: >-

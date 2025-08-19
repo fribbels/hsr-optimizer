@@ -29,8 +29,10 @@ features.
 Shout outs to:
 
 - All the code contributors that made this project possible! You guys are the best!
-- Jingna Zhang - for UI design and direction https://cara.app/zemotion
-- Kel-Z - for building & maintaining the relic scanner https://github.com/kel-z/HSR-Scanner
-- Enka.Network - for the relic scorer API https://github.com/EnkaNetwork
-- Mar-7th - for the data files https://github.com/Mar-7th/StarRailRes
-- Dim - for helping to build out the relic scorer
+- Floods - for adding i18n support, various features and maintenance
+- IceDynamix - for Reliquary Archiver and Estimated TBP
+- Emma - for Reliquary Archiver and live import
+- Dim - for providing the data files
+- Jingna Zhang - for UI design and direction
+- Kel-Z - for building & maintaining the relic scanner
+- Enka.Network - for the relic scorer API

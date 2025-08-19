@@ -25,6 +25,10 @@ export interface Hit {
   hpScaling: number
   defScaling: number
   specialScaling: number
+
+  toughnessDmg: number
+
+  activeHit: boolean
 }
 
 export interface DamageFunction {

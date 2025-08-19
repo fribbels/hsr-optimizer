@@ -23,7 +23,10 @@ import {
 } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { DefaultDamageFunction } from 'types/hitConditionalTypes'
+import {
+  DefaultDamageFunction,
+  Hit,
+} from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -171,6 +174,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               damageFunction: DefaultDamageFunction,
               damageType: DamageType.BASIC,
               atkScaling: basicScaling,
+              activeHit: true,
             },
           ],
         },
@@ -181,6 +185,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               damageFunction: DefaultDamageFunction,
               damageType: DamageType.SKILL,
               atkScaling: skillScaling,
+              activeHit: true,
             },
           ],
         },
@@ -191,6 +196,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               damageFunction: DefaultDamageFunction,
               damageType: DamageType.ULT,
               atkScaling: ultScaling,
+              activeHit: true,
             },
           ],
         },
@@ -202,26 +208,66 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               damageType: DamageType.DOT,
               damageElement: ElementNames.Fire,
               atkScaling: talentDotScaling,
+              activeHit: false,
             },
             {
               damageFunction: DefaultDamageFunction,
               damageType: DamageType.DOT,
               damageElement: ElementNames.Wind,
               atkScaling: talentDotScaling,
+              activeHit: false,
             },
             {
               damageFunction: DefaultDamageFunction,
               damageType: DamageType.DOT,
               damageElement: ElementNames.Lightning,
               atkScaling: talentDotScaling,
+              activeHit: false,
             },
             {
               damageFunction: DefaultDamageFunction,
               damageType: DamageType.DOT,
               damageElement: ElementNames.Physical,
               atkScaling: talentDotScaling,
+              activeHit: false,
             },
           ],
+        },
+      ]
+    },
+    actionModifiers() {
+      return [
+        {
+          modify: (action: OptimizerAction, context: OptimizerContext) => {
+            const hits = action.hits!
+            const len = hits.length
+            for (let i = 0; i < len; i++) {
+              const hit = hits[i]
+
+              if (hit.activeHit) {
+                const trueDmgHit = {
+                  damageFunction: DefaultDamageFunction,
+                  damageType: DamageType.DOT,
+                  damageElement: ElementNames.Physical,
+                  activeHit: false,
+                }
+
+                hits.push(trueDmgHit as Hit)
+              }
+
+              if (hit.toughnessDmg) {
+                const superBreakHit = {
+                  damageFunction: DefaultDamageFunction,
+                  damageType: DamageType.SUPER_BREAK,
+                  damageElement: ElementNames.Physical,
+                  activeHit: false,
+                  toughnessDmg: hit.toughnessDmg,
+                }
+
+                hits.push(superBreakHit as Hit)
+              }
+            }
+          },
         },
       ]
     },

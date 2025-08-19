@@ -7,6 +7,8 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
+export type ActionModifier = { modify: (action: OptimizerAction, context: OptimizerContext) => void }
+
 export function calculateActions(request: OptimizerForm, context: OptimizerContext) {
   const actions = context.actions
 
@@ -14,6 +16,9 @@ export function calculateActions(request: OptimizerForm, context: OptimizerConte
   const actionDeclarations = characterConditionalController.actionDeclaration()
   const actionDefinitionProvider = characterConditionalController.actionDefinition
   const actionMapping: Record<string, ((action: OptimizerAction, context: OptimizerContext) => HitAction[]) | undefined> = {}
+  const modifiers = [
+    ...characterConditionalController.actionModifiers(),
+  ]
 
   // Define action mapping
 
@@ -37,7 +42,12 @@ export function calculateActions(request: OptimizerForm, context: OptimizerConte
     for (const actionDeclaration of actionDeclarations) {
       actionMapping[actionDeclaration] = actionDefinitionProvider
     }
+
+    const actionModifiers = teammateCharacterConditionals.actionModifiers?.() ?? []
+    modifiers.concat(actionModifiers)
   }
+
+  // Condense
 
   const hitActions: HitAction[] = []
   for (let i = 1; i < actions.length; i++) {
@@ -50,6 +60,15 @@ export function calculateActions(request: OptimizerForm, context: OptimizerConte
   }
 
   context.hitActions = hitActions
+
+  // Apply modifiers
+
+  for (let i = 1; i < actions.length; i++) {
+    const action = actions[i]!
+    for (const modifier of modifiers) {
+      modifier.modify(action, context)
+    }
+  }
 
   console.log(hitActions)
 }

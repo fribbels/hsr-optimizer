@@ -414,7 +414,7 @@ export default function ScoringModal() {
           </Flex>
         </Flex>
 
-        <TitleDivider>{t('Scoring.SetWeightsHeader') /* Set weights */}</TitleDivider>
+        <TitleDivider>{t('Scoring.SetWeightsHeader') /* Set weights */} {'(EXPERIMENTAL)'}</TitleDivider>
 
         <Flex gap={20}>
           <Flex vertical gap={20} flex={1}>

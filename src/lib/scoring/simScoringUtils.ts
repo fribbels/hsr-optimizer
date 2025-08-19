@@ -141,6 +141,7 @@ export function substatRollsModifier(
   rolls: number,
   stat: string,
   sim: Simulation,
+  customDiminishingReturnsFormula?: (mainsCount: number, rolls: number) => number,
 ) {
   const mainsCount = [
     sim.request.simBody,
@@ -149,7 +150,13 @@ export function substatRollsModifier(
     sim.request.simLinkRope,
   ].filter((x) => x == stat).length
 
-  return stat == Stats.SPD ? spdDiminishingReturnsFormula(mainsCount, rolls) : diminishingReturnsFormula(mainsCount, rolls)
+  return stat == Stats.SPD
+    ? spdDiminishingReturnsFormula(mainsCount, rolls)
+    : (
+      customDiminishingReturnsFormula
+        ? customDiminishingReturnsFormula(mainsCount, rolls)
+        : diminishingReturnsFormula(mainsCount, rolls)
+    )
 }
 
 export function diminishingReturnsFormula(mainsCount: number, rolls: number) {

@@ -22,6 +22,7 @@ export interface ConditionalsController {
   teammateContent?: () => ContentItem[]
   defaults: () => ConditionalValueMap
   teammateDefaults?: () => ConditionalValueMap
+  actionDeclaration: () => string[]
   actionDefinition?: (action: OptimizerAction, context: OptimizerContext) => HitAction[]
 
   // Configuration changes to the character & combat environment executed before the precompute steps

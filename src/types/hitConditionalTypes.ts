@@ -10,6 +10,8 @@ export interface HitAction {
   hits: Hit[]
 }
 
+export type DamageFunctionName = string
+
 export const DefaultDamageFunction: DamageFunction = {
   apply: () => 1,
 }

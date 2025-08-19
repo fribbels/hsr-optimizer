@@ -154,6 +154,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
+    actionDeclaration: () => {
+      return [
+        'BASIC',
+        'SKILL',
+        'ULT',
+        'DOT',
+      ]
+    },
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       return [
         {

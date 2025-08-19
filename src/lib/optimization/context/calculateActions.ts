@@ -2,17 +2,23 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { OptimizerForm } from 'types/form'
 import { HitAction } from 'types/hitConditionalTypes'
-import { OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export function calculateActions(request: OptimizerForm, context: OptimizerContext) {
   const actions = context.actions
 
   const characterConditionalController = CharacterConditionalsResolver.get(context)
-  const actionDefinitions = characterConditionalController.actionDefinition?.() ?? []
-  const actionMapping: Record<string, HitAction> = {}
+  const actionDeclarations = characterConditionalController.actionDeclaration()
+  const actionDefinitionProvider = characterConditionalController.actionDefinition
+  const actionMapping: Record<string, ((action: OptimizerAction, context: OptimizerContext) => HitAction[]) | undefined> = {}
 
-  for (const actionDefinition of actionDefinitions) {
-    actionMapping[actionDefinition.name] = actionDefinition
+  // Define action mapping
+
+  for (const actionDeclaration of actionDeclarations) {
+    actionMapping[actionDeclaration] = actionDefinitionProvider
   }
 
   const teammates = [
@@ -26,15 +32,24 @@ export function calculateActions(request: OptimizerForm, context: OptimizerConte
     const teammateCharacterConditionals = CharacterConditionalsResolver.get(teammate)
     const teammateLightConeConditionals = LightConeConditionalsResolver.get(teammate)
 
-    // const teammateActionDefinitions = teammateCharacterConditionals.actionDefinition?.()
+    const actionDeclarations = teammateCharacterConditionals.actionDeclaration?.() ?? []
+    const actionDefinitionProvider = teammateCharacterConditionals.actionDefinition
+    for (const actionDeclaration of actionDeclarations) {
+      actionMapping[actionDeclaration] = actionDefinitionProvider
+    }
   }
 
-  const refinedActions = actions.map((action) => actionMapping[action.actionType])
+  const hitActions: HitAction[] = []
   for (let i = 1; i < actions.length; i++) {
-    const action = actions[i]
-    action.hits = refinedActions[i].hits
-  }
-  context.hitActions = refinedActions
+    const action = actions[i]!
+    const provider = actionMapping[action.actionType]!
+    const hitAction = provider(action, context).find((x) => x.name == action.actionType)!
 
-  console.log(refinedActions)
+    hitActions[i] = hitAction
+    action.hits = hitAction.hits
+  }
+
+  context.hitActions = hitActions
+
+  console.log(hitActions)
 }

@@ -1,5 +1,6 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import {CharacterConditionalsController, LightConeConditionalsController } from 'types/conditionals'
 import { OptimizerForm } from 'types/form'
 import { HitAction } from 'types/hitConditionalTypes'
 import {
@@ -71,4 +72,29 @@ export function calculateActions(request: OptimizerForm, context: OptimizerConte
   }
 
   console.log(hitActions)
+}
+
+export function getTeammateMetadata(context: OptimizerContext) {
+  const teammateCharacterConditionalControllers: CharacterConditionalsController[] = []
+  const teammateLightConeConditionalControllers: LightConeConditionalsController[] = []
+
+  const teammates = [
+    context.teammate0Metadata,
+    context.teammate1Metadata,
+    context.teammate2Metadata,
+  ].filter((x) => !!x.characterId)
+  for (let i = 0; i < teammates.length; i++) {
+    const teammate = teammates[i]!
+
+    const characterConditionals = CharacterConditionalsResolver.get(teammate)
+    const lightConeConditionals = LightConeConditionalsResolver.get(teammate)
+
+    teammateCharacterConditionalControllers.push(characterConditionals)
+    teammateLightConeConditionalControllers.push(lightConeConditionals)
+  }
+
+  return {
+    teammateCharacterConditionalControllers,
+    teammateLightConeConditionalControllers,
+  }
 }

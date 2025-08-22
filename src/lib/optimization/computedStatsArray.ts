@@ -29,6 +29,7 @@ export type Buff = {
   source: BuffSource,
   memo?: boolean,
 }
+
 export type DefaultActionDamageValues = {
   BASIC_DMG: DamageBreakdown,
   SKILL_DMG: DamageBreakdown,

@@ -179,11 +179,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ELEMENTAL_DMG.buffDual((m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? skillDmgBoostSummonValue : 0, SOURCE_SKILL)
       x.ELEMENTAL_DMG.buffDual((m.techniqueDmgBuff) ? 0.50 : 0, SOURCE_TECHNIQUE)
 
-      x.DEF_PEN.buff((e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.16 : 0, SOURCE_E1)
+      x.DEF_PEN.buffSingle((e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.16 : 0, SOURCE_E1)
 
       // Special cases for summons - currently the only way to buff non-memo summons directly is through FUA
       if (context.path == PathNames.Remembrance) {
-        x.m.DEF_PEN.buff((e >= 1 && m.e1DefPen && m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? 0.40 : 0, SOURCE_E1)
+        x.m.DEF_PEN.buffSingle((e >= 1 && m.e1DefPen && m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? 0.40 : 0, SOURCE_E1)
       } else if (
         [
           TOPAZ_NUMBY,
@@ -191,7 +191,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           LINGSHA,
         ].includes(context.characterId)
       ) {
-        x.FUA_DEF_PEN.buff((e >= 1 && m.e1DefPen && m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? 0.40 : 0, SOURCE_E1)
+        x.FUA_DEF_PEN.buffSingle((e >= 1 && m.e1DefPen && m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? 0.40 : 0, SOURCE_E1)
       }
 
       x.ELEMENTAL_DMG.buffDual((e >= 2 && m.e2DmgBuff) ? 0.30 : 0, SOURCE_E2)

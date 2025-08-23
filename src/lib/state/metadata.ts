@@ -8495,8 +8495,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         errRopeEidolon: 0,
         relicSets: [
+          [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
-          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [

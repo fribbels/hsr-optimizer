@@ -288,9 +288,7 @@ function CharacterPreviewSelection() {
           </Flex>
         </Flex>
 
-        {(availableCharacters?.length != undefined && availableCharacters.length > 0) && (
-          <DPSScoreDisclaimer style={{ marginBottom: 5, width: '100%', backgroundColor: '#7f4327', borderColor: '#c3561e' }} />
-        )}
+        {(availableCharacters?.length != undefined && availableCharacters.length > 0) && <DPSScoreDisclaimer style={{ marginBottom: 5, width: '100%' }} />}
 
         <Segmented
           style={{ width: '100%', overflow: 'hidden' }}

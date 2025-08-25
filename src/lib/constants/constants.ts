@@ -6,7 +6,7 @@ import { EVERNIGHT } from 'lib/simulations/tests/testMetadataConstants'
 export const CURRENT_OPTIMIZER_VERSION = 'v3.6.1'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '3.6v2'
+export const CURRENT_DATA_VERSION = '3.6v3'
 
 const generateMessage = (message?: string) => `${CURRENT_DATA_VERSION} - ${message}`
 export const CharacterAnnouncementMessages: Record<string, string> = {

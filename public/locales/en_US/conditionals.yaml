@@ -155,7 +155,7 @@ Lightcones:
         text: Enemy debuffed DMG boost
         content: Increases the wearer's DMG to debuffed enemies by {{DmgBuff}}%.
       skillAtkBoost:
-        text: Skill ATK boost (not implemented)
+        text: Skill ATK boost
         content: When the wearer uses their Skill, the Effect Hit Rate for this attack increases by {{EhrBuff}}%, and ATK increases by {{AtkBuff}}%.
   InTheNight:
     Content:

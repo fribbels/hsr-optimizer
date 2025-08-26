@@ -47,14 +47,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const basicScaling = basic(e, 1.00, 1.10)
 
-  const skillShieldScaling = skill(e, 0.30, 0.32)
-  const skillShieldFlat = skill(e, 400, 445)
-
   const ultScaling = ult(e, 3.00, 3.30)
-  const ultEnhancedScaling = ult(e, 0.80, 0.88)
 
-  const talentShieldScaling = talent(e, 0.15, 0.16)
-  const talentShieldFlat = talent(e, 200, 223)
+  const fuaScaling = ult(e, 0.80, 0.88)
+
+  const talentShieldScaling = talent(e, 0.10, 0.106)
+  const talentShieldFlat = talent(e, 160, 178)
 
   const defaults = {}
 
@@ -62,8 +60,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     bondmate: true,
     sourceAtk: 3000,
     e1ResPen: true,
-    e4DefPen: true,
-    e6Vulnerability: true,
+    e4DmgReduction: true,
+    e6Buffs: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {}
@@ -90,17 +88,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
     },
-    e4DefPen: {
-      id: 'e4DefPen',
+    e4DmgReduction: {
+      id: 'e4DmgReduction',
       formItem: 'switch',
-      text: 'E4 DEF PEN',
+      text: 'E4 DMG reduction',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 4,
     },
-    e6Vulnerability: {
-      id: 'e6Vulnerability',
+    e6Buffs: {
+      id: 'e6Buffs',
       formItem: 'switch',
-      text: 'E6 Vulnerability',
+      text: 'E6 buffs',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 6,
     },
@@ -141,9 +139,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ATK.buff((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
       x.UNCONVERTIBLE_ATK_BUFF.buff((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
 
-      x.RES_PEN.buff((e >= 1 && t.bondmate && t.e1ResPen) ? 0.15 : 0, SOURCE_E1)
-      x.DEF_PEN.buff((e >= 4 && t.bondmate && t.e4DefPen) ? 0.12 : 0, SOURCE_E4)
-      x.VULNERABILITY.buff((e >= 6 && t.e6Vulnerability) ? 0.20 : 0, SOURCE_E6)
+      x.RES_PEN.buff((e >= 1 && t.bondmate && t.e1ResPen) ? 0.18 : 0, SOURCE_E1)
+      x.DMG_RED_MULTI.multiply((e >= 4 && t.bondmate && t.e4DmgReduction) ? 1 - 0.20 : 0, SOURCE_E4)
+      x.VULNERABILITY.buff((e >= 6 && t.e6Buffs) ? 0.20 : 0, SOURCE_E6)
+      x.DEF_PEN.buff((e >= 6 && t.e6Buffs) ? 0.12 : 0, SOURCE_E6)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

@@ -69,6 +69,7 @@ export type SetConditional = {
   enabledWarriorGoddessOfSunAndThunder: boolean,
   enabledWavestriderCaptain: boolean,
   enabledWorldRemakingDeliverer: boolean,
+  enabledSelfEnshroudedRecluse: boolean,
   valueChampionOfStreetwiseBoxing: number,
   valueWastelanderOfBanditryDesert: number,
   valueLongevousDisciple: number,

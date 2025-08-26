@@ -211,8 +211,13 @@ const TeammateCard = (props: {
       },
       {
         value: Sets.WorldRemakingDeliverer,
-        desc: '4 Piece: World-Remaking Deliverer (+8% DMG)',
-        label: labelRender(Sets.WorldRemakingDeliverer, '8% DMG'), // labelRender(Sets.WorldRemakingDeliverer, '8% DMG'),
+        desc: '4 Piece: World-Remaking Deliverer (+15% DMG)',
+        label: labelRender(Sets.WorldRemakingDeliverer, '15% DMG'), // labelRender(Sets.WorldRemakingDeliverer, '15% DMG'),
+      },
+      {
+        value: Sets.SelfEnshroudedRecluse,
+        desc: '4 Piece: Self-Enshrouded Recluse (+15% CD)',
+        label: labelRender(Sets.SelfEnshroudedRecluse, '15% CD'), // labelRender(Sets.SelfEnshroudedRecluse, '15% CD'),
       },
     ]
   }, [t])

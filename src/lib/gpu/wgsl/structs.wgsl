@@ -120,6 +120,7 @@ struct SetConditionals {
   enabledWarriorGoddessOfSunAndThunder: bool,
   enabledWavestriderCaptain: bool,
   enabledWorldRemakingDeliverer: bool,
+  enabledSelfEnshroudedRecluse: bool,
   valueChampionOfStreetwiseBoxing: i32,
   valueWastelanderOfBanditryDesert: i32,
   valueLongevousDisciple: i32,

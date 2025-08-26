@@ -47,17 +47,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const basicScaling = basic(e, 0.50, 0.55)
 
-  const skillCdScaling = skill(e, 0.40, 0.44)
+  const skillCdScaling = skill(e, 0.60, 0.66)
 
-  const ultMemoScaling = ult(e, 1.20, 1.32)
-  const ultVulnScaling = ult(e, 0.20, 0.22)
+  const ultMemoScaling = ult(e, 2.00, 2.20)
+  const ultVulnScaling = ult(e, 0.24, 0.264)
   const ultDmgBoostScaling = ult(e, 1.00, 1.10)
 
   const talentCdScaling = talent(e, 0.60, 0.66)
 
-  const memoSkillScaling = memoSkill(e, 0.20, 0.22)
-  const memoSkillAdditionalScaling = memoSkill(e, 0.04, 0.044)
-  const memoSkillEnhancedScaling = memoSkill(e, 0.05, 0.055)
+  const memoSkillScaling = memoSkill(e, 0.50, 0.55)
+  const memoSkillAdditionalScaling = memoSkill(e, 0.10, 0.11)
+  const memoSkillEnhancedScaling = memoSkill(e, 0.12, 0.132)
 
   const memoTalentDmgBoost = memoTalent(e, 0.50, 0.55)
 
@@ -183,13 +183,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.m.ULT_HP_SCALING.buff(ultMemoScaling, SOURCE_MEMO)
 
-      x.CR.buffBaseDual((r.crBuff) ? 0.30 : 0, SOURCE_TRACE)
+      x.CR.buffBaseDual((r.crBuff) ? 0.35 : 0, SOURCE_TRACE)
       x.CD.buffBaseDual((r.memoCdBuff) ? talentCdScaling : 0, SOURCE_TALENT)
       x.ELEMENTAL_DMG.buffBaseDual((r.memospriteActive && r.enhancedState) ? ultDmgBoostScaling : 0, SOURCE_ULT)
       x.ELEMENTAL_DMG.buffBaseDual((r.memospriteActive) ? memoTalentDmgBoost : 0, SOURCE_MEMO)
 
       x.MEMO_BASE_SPD_FLAT.buff(160, SOURCE_MEMO)
-      x.MEMO_BASE_HP_SCALING.buff(1.00, SOURCE_MEMO)
+      x.MEMO_BASE_HP_SCALING.buff(0.50, SOURCE_MEMO)
 
       x.m.BREAK_EFFICIENCY_BOOST.buff((e >= 4 && r.e4Buffs) ? 0.25 : 0, SOURCE_E4)
 
@@ -215,8 +215,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const memosprites = countTeamPath(context, PathNames.Remembrance)
       if (memosprites == 1) x.m.CD.buffTeam(0.05, SOURCE_TRACE)
       if (memosprites == 2) x.m.CD.buffTeam(0.15, SOURCE_TRACE)
-      if (memosprites == 3) x.m.CD.buffTeam(0.40, SOURCE_TRACE)
-      if (memosprites == 4) x.m.CD.buffTeam(0.50, SOURCE_TRACE)
+      if (memosprites == 3) x.m.CD.buffTeam(0.50, SOURCE_TRACE)
+      if (memosprites == 4) x.m.CD.buffTeam(0.65, SOURCE_TRACE)
 
       x.RES_PEN.buffTeam((e >= 6 && m.e6ResPen) ? 0.20 : 0, SOURCE_E6)
     },

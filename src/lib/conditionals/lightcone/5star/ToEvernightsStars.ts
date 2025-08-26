@@ -21,11 +21,11 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const { SOURCE_LC } = Source.lightCone(TO_EVERNIGHTS_STARS)
 
   const sValuesDefPen = [0.20, 0.225, 0.25, 0.275, 0.30]
-  const sValuesDmgBoost = [0.12, 0.14, 0.16, 0.18, 0.20]
+  const sValuesDmgBoost = [0.30, 0.375, 0.45, 0.525, 0.60]
 
   const defaults = {
     defPen: true,
-    dmgBoostStacks: 4,
+    dmgBoost: true,
   }
 
   const teammateDefaults = {
@@ -40,14 +40,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       text: 'Memo DEF PEN',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
-    dmgBoostStacks: {
+    dmgBoost: {
       lc: true,
-      id: 'dmgBoostStacks',
-      formItem: 'slider',
-      text: 'DMG boost stacks',
+      id: 'dmgBoost',
+      formItem: 'switch',
+      text: 'DMG boost',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      min: 0,
-      max: 4,
     },
   }
 
@@ -63,7 +61,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.ELEMENTAL_DMG.buffBaseDual(r.dmgBoostStacks * sValuesDmgBoost[s], SOURCE_LC)
+      x.ELEMENTAL_DMG.buffBaseDual(r.dmgBoost ? sValuesDmgBoost[s] : 0, SOURCE_LC)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>

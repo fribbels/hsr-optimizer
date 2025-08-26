@@ -267,7 +267,11 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
           break
         case Sets.WorldRemakingDeliverer:
           if (teammateSetEffects[Sets.WorldRemakingDeliverer]) break
-          x.ELEMENTAL_DMG.buffTeam(0.08, Source.WorldRemakingDeliverer)
+          x.ELEMENTAL_DMG.buffTeam(0.15, Source.WorldRemakingDeliverer)
+          break
+        case Sets.SelfEnshroudedRecluse:
+          if (teammateSetEffects[Sets.SelfEnshroudedRecluse]) break
+          x.CD.buffTeam(0.15, Source.SelfEnshroudedRecluse)
           break
         default:
       }
@@ -323,6 +327,7 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
     enabledWarriorGoddessOfSunAndThunder: transformConditional(conditionals[Sets.WarriorGoddessOfSunAndThunder], actionIndex),
     enabledWavestriderCaptain: transformConditional(conditionals[Sets.WavestriderCaptain], actionIndex),
     enabledWorldRemakingDeliverer: transformConditional(conditionals[Sets.WorldRemakingDeliverer], actionIndex),
+    enabledSelfEnshroudedRecluse: transformConditional(conditionals[Sets.SelfEnshroudedRecluse], actionIndex),
     valueChampionOfStreetwiseBoxing: transformConditional(conditionals[Sets.ChampionOfStreetwiseBoxing], actionIndex),
     valueWastelanderOfBanditryDesert: transformConditional(conditionals[Sets.WastelanderOfBanditryDesert], actionIndex),
     valueLongevousDisciple: transformConditional(conditionals[Sets.LongevousDisciple], actionIndex),

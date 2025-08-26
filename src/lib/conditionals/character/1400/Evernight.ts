@@ -50,7 +50,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const skillCdScaling = skill(e, 0.60, 0.66)
 
   const ultMemoScaling = ult(e, 2.00, 2.20)
-  const ultVulnScaling = ult(e, 0.244, 0.264)
+  const ultVulnScaling = ult(e, 0.24, 0.264)
   const ultDmgBoostScaling = ult(e, 1.00, 1.10)
 
   const talentCdScaling = talent(e, 0.60, 0.66)

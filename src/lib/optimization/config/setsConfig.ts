@@ -548,18 +548,21 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
       if (setConditionals.enabledWorldRemakingDeliverer) {
         x.HP_P.buffBaseDual(0.24, Source.WorldRemakingDeliverer)
-        x.ELEMENTAL_DMG.buffTeam(0.08, Source.WorldRemakingDeliverer)
+        x.ELEMENTAL_DMG.buffTeam(0.15, Source.WorldRemakingDeliverer)
       }
     },
   },
   SelfEnshroudedRecluse: {
     key: 'SelfEnshroudedRecluse',
     index: 27,
-    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-      c.CD.buff(0.16, Source.SelfEnshroudedRecluse)
+    p2x: (x: ComputedStatsArray, context: OptimizerContext) => {
+      x.SHIELD_BOOST.buff(0.10, Source.SelfEnshroudedRecluse)
     },
     p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.CD.buff(0.16, Source.SelfEnshroudedRecluse)
+      x.SHIELD_BOOST.buff(0.12, Source.SelfEnshroudedRecluse)
+      if (setConditionals.enabledSelfEnshroudedRecluse) {
+        x.CD.buff(0.15, Source.SelfEnshroudedRecluse)
+      }
     },
   },
 }

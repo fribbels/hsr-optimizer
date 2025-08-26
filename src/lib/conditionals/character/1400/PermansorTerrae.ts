@@ -107,6 +107,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
   }
 
+  const hitMultiByTargets: NumberToNumberMap = {
+    1: ASHBLAZING_ATK_STACK * (1 * 0.25 + 2 * 0.25 + 3 * 0.25 + 4 * 0.25),
+    3: ASHBLAZING_ATK_STACK * (2 * 0.25 + 5 * 0.25 + 8 * 0.25 + 8 * 0.25),
+    5: ASHBLAZING_ATK_STACK * (3 * 0.25 + 8 * 0.25 + 8 * 0.25 + 8 * 0.25),
+  }
+
   return {
     activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
@@ -152,10 +158,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      // TODO: Ashblazing stack counts
-      // boostAshblazingAtkP(x, action, context, hitMultiByTargets[context.enemyCount])
+      boostAshblazingAtkP(x, action, context, hitMultiByTargets[context.enemyCount])
       standardAtkShieldFinalizer(x)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuStandardAtkShieldFinalizer(),
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) =>
+      gpuBoostAshblazingAtkP(hitMultiByTargets[context.enemyCount]) + gpuStandardAtkShieldFinalizer(),
   }
 }

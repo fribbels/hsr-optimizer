@@ -266,11 +266,9 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
           x.CD.buffTeam(0.15, Source.WarriorGoddessOfSunAndThunder)
           break
         case Sets.WorldRemakingDeliverer:
-          if (teammateSetEffects[Sets.WorldRemakingDeliverer]) break
           x.ELEMENTAL_DMG.buffTeam(0.15, Source.WorldRemakingDeliverer)
           break
         case Sets.SelfEnshroudedRecluse:
-          if (teammateSetEffects[Sets.SelfEnshroudedRecluse]) break
           x.CD.buffTeam(0.15, Source.SelfEnshroudedRecluse)
           break
         default:

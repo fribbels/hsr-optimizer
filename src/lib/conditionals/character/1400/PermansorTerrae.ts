@@ -1,6 +1,7 @@
 import i18next from 'i18next'
 import {
   AbilityType,
+  ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
@@ -14,6 +15,7 @@ import {
 } from 'lib/optimization/computedStatsArray'
 
 import {
+  boostAshblazingAtkP,
   gpuBoostAshblazingAtkP,
   gpuStandardAtkShieldFinalizer,
   gpuStandardDefShieldFinalizer,
@@ -21,6 +23,7 @@ import {
   standardDefShieldFinalizer,
 } from 'lib/conditionals/conditionalFinalizers'
 import { Eidolon } from 'types/character'
+import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
@@ -105,7 +108,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.ULT],
+    activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -125,6 +128,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_ULT)
 
       x.SHIELD_SCALING.buff(talentShieldScaling, SOURCE_TALENT)
       x.SHIELD_FLAT.buff(talentShieldFlat, SOURCE_TALENT)
@@ -148,6 +152,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      // TODO: Ashblazing stack counts
+      // boostAshblazingAtkP(x, action, context, hitMultiByTargets[context.enemyCount])
       standardAtkShieldFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuStandardAtkShieldFinalizer(),

@@ -155,7 +155,7 @@ Lightcones:
         text: crwdns40250:0crwdne40250:0
         content: crwdns40252:0{{DmgBuff}}crwdne40252:0
       skillAtkBoost:
-        text: crwdns40254:0crwdne40254:0
+        text: crwdns45894:0crwdne45894:0
         content: crwdns40256:0{{EhrBuff}}crwdnd40256:0{{AtkBuff}}crwdne40256:0
   InTheNight:
     Content:

@@ -63,7 +63,6 @@ export const RelicModalController = {
 
     const updatedRelic = { ...selectedRelic, ...relic }
 
-    window.rescoreSingleRelic(updatedRelic)
     DB.setRelic(updatedRelic)
 
     console.log('onEditOk', updatedRelic)

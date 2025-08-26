@@ -15,7 +15,6 @@ export const TsUtils = {
   },
 
   objectHash<T>(obj: T): string {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     return stringify(obj)!
   },
 
@@ -43,7 +42,6 @@ export const TsUtils = {
   wrappedFixedT: (withContent: boolean) => {
     return {
       get: withContent
-        // eslint-disable-next-line @typescript-eslint/unbound-method
         ? i18next.getFixedT
         : getEmptyT,
     }

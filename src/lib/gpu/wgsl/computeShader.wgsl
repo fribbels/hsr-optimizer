@@ -502,8 +502,8 @@ fn main(
       }
 
       if (p4(sets.WorldRemakingDeliverer) >= 1 && setConditionals.enabledWorldRemakingDeliverer == true) {
-        x.ELEMENTAL_DMG += 0.08;
-        m.ELEMENTAL_DMG += 0.08;
+        x.ELEMENTAL_DMG += 0.15;
+        m.ELEMENTAL_DMG += 0.15;
       }
 
       if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == true) {
@@ -526,6 +526,19 @@ fn main(
         let buffValue = getArcadiaOfWovenDreamsValue(setConditionals.valueArcadiaOfWovenDreams);
         x.ELEMENTAL_DMG += buffValue;
         m.ELEMENTAL_DMG += buffValue;
+      }
+
+      if (p2(sets.SelfEnshroudedRecluse) >= 1) {
+        x.SHIELD_BOOST += 0.10;
+
+        if (p4(sets.SelfEnshroudedRecluse) >= 1) {
+          x.SHIELD_BOOST += 0.12;
+
+          if (setConditionals.enabledSelfEnshroudedRecluse == true) {
+            x.CD += 0.15;
+            m.CD += 0.15;
+          }
+        }
       }
 
       x.ATK += diffATK;

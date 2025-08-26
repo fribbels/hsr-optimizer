@@ -1,4 +1,7 @@
-import { ReloadOutlined, UploadOutlined } from '@ant-design/icons'
+import {
+  ReloadOutlined,
+  UploadOutlined,
+} from '@ant-design/icons'
 import {
   Button,
   Checkbox,
@@ -37,7 +40,10 @@ import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
 import { Relic } from 'types/relic'
-import { DEFAULT_WEBSOCKET_URL, useScannerState } from './ScannerWebsocketClient'
+import {
+  DEFAULT_WEBSOCKET_URL,
+  useScannerState,
+} from './ScannerWebsocketClient'
 
 // FIXME MED
 
@@ -63,17 +69,17 @@ export function ScannerImportSubmenu() {
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
   const [onlyImportExisting, setOnlyImportExisting] = useState(false)
-  const { 
-    connected, 
-    ingest, 
-    setIngest, 
-    ingestCharacters, 
+  const {
+    connected,
+    ingest,
+    setIngest,
+    ingestCharacters,
     setIngestCharacters,
     ingestWarpResources,
     setIngestWarpResources,
-    websocketUrl, 
-    setWebsocketUrl 
-    } = useScannerState()
+    websocketUrl,
+    setWebsocketUrl,
+  } = useScannerState()
   const isLiveImporting = connected && ingest
 
   function beforeUpload(file: Blob): Promise<any> {
@@ -283,22 +289,32 @@ export function ScannerImportSubmenu() {
             </Divider>
             <Flex vertical gap={10}>
               <Text>
-                {t('Import.LiveImport.Description.l1') /* When using the Reliquary Archiver, you can enable the "Live Import" mode to import your inventory in real time. */}
+                {
+                  t(
+                    'Import.LiveImport.Description.l1',
+                  ) /* When using the Reliquary Archiver, you can enable the "Live Import" mode to import your inventory in real time. */
+                }
                 <br />
-                {t('Import.LiveImport.Description.l2') /* This includes new relics, enhanced relics, warp/gacha results, and more. */}
+                {t('Import.LiveImport.Description.l2') /* This includes new relics, enhanced relics, warp/gacha results, and more. */} (
+                <ColorizedLinkWithIcon
+                  text={t('Import.Stage1.ReliquaryDesc.Link')}
+                  url={'https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/live-import.md'}
+                  linkIcon={true}
+                />
+                )
               </Text>
 
-              <Flex gap={10} align='center' flex="1 0">
+              <Flex gap={10} align='center' flex='1 0'>
                 <Switch
                   checked={ingest}
                   onChange={(checked) => setIngest(checked)}
                 />
 
                 <Text>{t('Import.LiveImport.Enable') /* Enable Live Import (Recommended) */}</Text>
-                
+
                 <Divider dashed style={{ margin: 0, flex: 1, minWidth: 0 }} />
 
-                <Tooltip 
+                <Tooltip
                   placement='topRight'
                   open={ingest && !connected ? undefined : false} // Only show tooltip if ingest is enabled but we are haven't been able to connect
                   title={t('Import.LiveImport.DisconnectedHint') /* Unable to connect to the scanner. Please check that it is running. */}
@@ -306,12 +322,14 @@ export function ScannerImportSubmenu() {
                   <Flex gap={10} align='center'>
                     <Text>{connected ? t('Import.LiveImport.Connected') /* Connected */ : t('Import.LiveImport.Disconnected') /* Disconnected */}</Text>
 
-                    <div style={{
-                      width: 8,
-                      height: 8,
-                      borderRadius: '50%',
-                      backgroundColor: connected ? '#52c41a' : '#ff4d4f'
-                    }} />
+                    <div
+                      style={{
+                        width: 8,
+                        height: 8,
+                        borderRadius: '50%',
+                        backgroundColor: connected ? '#52c41a' : '#ff4d4f',
+                      }}
+                    />
                   </Flex>
                 </Tooltip>
               </Flex>
@@ -338,22 +356,24 @@ export function ScannerImportSubmenu() {
                 size='small'
                 items={[{
                   key: '1',
-                  label: t('Import.LiveImport.AdvancedSettings.Title') /* Advanced Settings */,
-                  children: <Flex vertical gap={10}>
-                    <Flex vertical>
-                      <Text>{t('Import.LiveImport.AdvancedSettings.WebsocketUrl') /* Websocket URL */}</Text>
-                      <Flex gap={10}>
-                        <Input
-                          id='websocket-url'
-                          value={websocketUrl}
-                          onChange={(e) => setWebsocketUrl(e.target.value)}
-                        />
-                        <Tooltip title={t('Import.LiveImport.AdvancedSettings.WebsocketUrlReset') /* Reset to default */}>
-                          <Button icon={<ReloadOutlined />} onClick={() => setWebsocketUrl(DEFAULT_WEBSOCKET_URL)} />
-                        </Tooltip>
+                  label: t('Import.LiveImport.AdvancedSettings.Title'), /* Advanced Settings */
+                  children: (
+                    <Flex vertical gap={10}>
+                      <Flex vertical>
+                        <Text>{t('Import.LiveImport.AdvancedSettings.WebsocketUrl') /* Websocket URL */}</Text>
+                        <Flex gap={10}>
+                          <Input
+                            id='websocket-url'
+                            value={websocketUrl}
+                            onChange={(e) => setWebsocketUrl(e.target.value)}
+                          />
+                          <Tooltip title={t('Import.LiveImport.AdvancedSettings.WebsocketUrlReset') /* Reset to default */}>
+                            <Button icon={<ReloadOutlined />} onClick={() => setWebsocketUrl(DEFAULT_WEBSOCKET_URL)} />
+                          </Tooltip>
+                        </Flex>
                       </Flex>
                     </Flex>
-                  </Flex>
+                  ),
                 }]}
               />
             </Flex>

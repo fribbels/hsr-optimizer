@@ -22,7 +22,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const defaults = {
     enemyDebuffedDmgBoost: true,
-    skillAtkBoost: false,
+    skillAtkBoost: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -52,6 +52,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
       x.ELEMENTAL_DMG.buff((r.enemyDebuffedDmgBoost) ? sValuesDmg[s] : 0, SOURCE_LC)
+      x.SKILL_ATK_P_BOOST.buff((r.skillAtkBoost) ? sValuesAtk[s] : 0, SOURCE_LC)
     },
     finalizeCalculations: () => {
     },

@@ -12,6 +12,7 @@ import {
   substatGenerator,
   substatGeneratorFromRelic,
 } from 'lib/relics/estTbp/estTbp'
+import { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { Relic } from 'types/relic'
 import {
   expect,
@@ -83,6 +84,9 @@ test('Generate from relic works correctly', () => {
     part: Parts.Head,
     set: Sets.MusketeerOfWildWheat, // does not matter
     substats: [],
+    ageIndex: 0,
+    initialRolls: 0,
+    augmentedStats: {} as AugmentedStats,
   }
 
   expect(collectGenerator(substatGeneratorFromRelic(relic)))

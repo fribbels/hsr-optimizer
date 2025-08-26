@@ -2,7 +2,6 @@ import { IRowNode } from 'ag-grid-community'
 import i18next from 'i18next'
 import {
   COMPUTE_ENGINE_GPU_STABLE,
-  ComputeEngine,
   Constants,
   CURRENT_OPTIMIZER_VERSION,
   DEFAULT_MEMO_DISPLAY,
@@ -170,7 +169,6 @@ window.store = create<HsrOptimizerStore>()((set) => ({
   optimizerTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
   statTracesDrawerFocusCharacter: undefined,
-  relicsTabFocusCharacter: undefined,
 
   activeKey: getDefaultActiveKey(),
   permutations: 0,
@@ -214,18 +212,6 @@ window.store = create<HsrOptimizerStore>()((set) => ({
     LinkRopeTotal: 0,
   },
 
-  relicTabFilters: {
-    set: [],
-    part: [],
-    enhance: [],
-    mainStat: [],
-    subStat: [],
-    grade: [],
-    verified: [],
-    equipped: [],
-    initialRolls: [],
-  },
-
   optimizerMenuState: {
     [OptimizerMenuIds.characterOptions]: true,
     [OptimizerMenuIds.relicAndStatFilters]: true,
@@ -241,13 +227,15 @@ window.store = create<HsrOptimizerStore>()((set) => ({
   optimizerSelectedRowData: null,
 
   setComboState: (x) => set(() => ({ comboState: x })),
-  setVersion: (x) => set(() => ({ version: x })),
+  setVersion: (x) => {
+    if (!x) return
+    return set(() => ({ version: x }))
+  },
   setActiveKey: (x) => set(() => ({ activeKey: x })),
   setFormValues: (x) => set(() => ({ formValues: x })),
   setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
   setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
   setStatTracesDrawerFocusCharacter: (characterId) => set(() => ({ statTracesDrawerFocusCharacter: characterId })),
-  setRelicsTabFocusCharacter: (characterId) => set(() => ({ relicsTabFocusCharacter: characterId })),
   setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
   setPermutations: (x) => set(() => ({ permutations: x })),
   setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),
@@ -257,7 +245,6 @@ window.store = create<HsrOptimizerStore>()((set) => ({
       const relics = Object.values(relicsById).filter(ArrayFilters.nonNullable)
       return { relicsById, relics }
     }),
-  setRelicTabFilters: (x) => set(() => ({ relicTabFilters: x })),
   setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
   setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
   setShowcaseTemporaryOptionsByCharacter: (x) => set(() => ({ showcaseTemporaryOptionsByCharacter: x })),
@@ -326,13 +313,17 @@ export const DB = {
   getRelics: () => window.store.getState().relics,
   getRelicsById: () => window.store.getState().relicsById,
   setRelics: (relics: Relic[]) => {
+    indexRelics(relics)
     const relicsById = relics.reduce((relicsById, relic) => {
       relicsById[relic.id] = relic
       return relicsById
     }, {} as Record<string, Relic>)
     window.store.getState().setRelicsById(relicsById)
   },
-  getRelicById: (id: string) => window.store.getState().relicsById[id],
+  getRelicById: (id: string | undefined) => {
+    if (!id) return undefined
+    return window.store.getState().relicsById[id]
+  },
 
   /**
    * Sets the given relic in the application's database and handles relic equipping logic.
@@ -486,6 +477,8 @@ export const DB = {
     }
 
     for (const relic of saveData.relics) {
+      // @ts-ignore temporary while migrating relic object format
+      delete relic.weights
       RelicAugmenter.augment(relic)
       const character = charactersById[relic.equippedBy!]
       if (character && !character.equipped[relic.part]) {
@@ -623,12 +616,11 @@ export const DB = {
     }
   },
   resetStore: () => {
-    const saveFormat: Partial<HsrOptimizerSaveFormat> = {
+    const saveFormat: HsrOptimizerSaveFormat = {
       relics: [],
       characters: [],
-      showcasePreferences: {},
     }
-    DB.setStore(saveFormat as HsrOptimizerSaveFormat)
+    DB.setStore(saveFormat)
   },
 
   replaceCharacterForm: (form: Form) => {
@@ -907,6 +899,7 @@ export const DB = {
           // Inherit the new verified speed stats
           found = {
             ...found,
+            id: newRelic.id,
             verified: true,
             substats: newRelic.substats,
             augmentedStats: newRelic.augmentedStats,
@@ -987,15 +980,9 @@ export const DB = {
     })
     DB.setCharacters(cleanedCharacters)
 
-    // only valid when on relics tab
-    if (window.relicsGrid?.current?.api) {
-      window.relicsGrid.current.api.updateGridOptions({ rowData: replacementRelics })
-    }
-
     // TODO this probably shouldn't be in this file
     const fieldValues = OptimizerTabController.getForm()
     window.onOptimizerFormValuesChange({} as Form, fieldValues)
-    window.refreshRelicsScore()
   },
 
   /*
@@ -1046,8 +1033,6 @@ export const DB = {
         DB.equipRelic(equipUpdate.relic, equipUpdate.equippedBy)
       }
     }
-
-    window.refreshRelicsScore()
 
     // Updated stats for ${updatedOldRelics.length} existing relics
     // Added ${addedNewRelics.length} new relics
@@ -1188,6 +1173,7 @@ function partialHashRelic(relic: Relic) {
  * Sets the provided relic in the application's state.
  */
 function setRelic(relic: Relic) {
+  relic.ageIndex ??= (window.store.getState().relics.at(-1)?.ageIndex ?? -1) + 1
   const relicsById = { ...window.store.getState().relicsById, [relic.id]: relic }
   window.store.getState().setRelicsById(relicsById)
 }
@@ -1200,6 +1186,7 @@ function deduplicateStringArray<T extends string[] | null | undefined>(arr: T) {
 
 function indexRelics(relics: Relic[]) {
   relics.forEach((r, idx, relics) => {
-    relics[idx] = { ...r, ageIndex: r.ageIndex ?? (idx === 0 ? 0 : relics[idx - 1].ageIndex! + 1) }
+    if (r.ageIndex) return
+    relics[idx] = { ...r, ageIndex: idx === 0 ? 0 : relics[idx - 1].ageIndex! + 1 }
   })
 }

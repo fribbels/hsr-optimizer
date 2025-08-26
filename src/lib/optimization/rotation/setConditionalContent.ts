@@ -145,6 +145,7 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
   },
   [Sets.SelfEnshroudedRecluse]: {
     type: ConditionalDataType.BOOLEAN,
+    modifiable: true,
   },
 
   // Ornaments

@@ -10,7 +10,6 @@ RelicFilterBar:
   Set: Conjunto
   Mainstat: Atributos principales
   Substat: Atributos secundarios
-  ReapplyButton: Reaplicar puntuaciones
   ScoringButton: Algoritmo de puntuación
   RecommendationHeader: Personaje a recomendar artefacto
   Rating: Puntuaciones de artefacto

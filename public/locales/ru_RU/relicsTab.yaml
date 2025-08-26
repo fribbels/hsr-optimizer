@@ -10,7 +10,6 @@ RelicFilterBar:
   Set: Набор
   Mainstat: Основные характеристики
   Substat: Дополнительные характеристики
-  ReapplyButton: Повторно рассчитать
   ScoringButton: Алгоритм подсчета очков
   RecommendationHeader: Персонаж для оценки реликвий
   Rating: Доп. фильтры оценки реликвий

@@ -1,22 +1,18 @@
 Title: crwdns43606:0crwdne43606:0
 RelicEquippingBehavior:
   Label: crwdns45372:0crwdne45372:0
-  Replace: "crwdns45374:0crwdne45374:0"
+  Replace: 'crwdns45374:0crwdne45374:0'
   Swap: crwdns45376:0crwdne45376:0
 PermutationsSidebarBehavior:
   Label: crwdns45378:0crwdne45378:0
-  ShowXL: "crwdns45380:0crwdne45380:0"
+  ShowXL: 'crwdns45380:0crwdne45380:0'
   ShowXXL: crwdns45382:0crwdne45382:0
   NoShow: crwdns45384:0crwdne45384:0
-RelicPotentialLoadBehavior:
-  Label: crwdns45386:0crwdne45386:0
-  ScoreAtStartup: "crwdns45388:0crwdne45388:0"
-  ManuallyClickReapplyScores: crwdns45390:0crwdne45390:0
 ExpandedInfoPanelPosition:
   Label: crwdns45211:0crwdne45211:0
   Above: crwdns45213:0crwdne45213:0
-  Below: "crwdns45215:0crwdne45215:0"
+  Below: 'crwdns45215:0crwdne45215:0'
 ShowLocatorInRelicsModal:
   Label: crwdns45392:0crwdne45392:0
   Yes: crwdns45394:0crwdne45394:0
-  No: "crwdns45396:0crwdne45396:0"
+  No: 'crwdns45396:0crwdne45396:0'

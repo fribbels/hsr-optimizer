@@ -20,14 +20,15 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Nullable } from 'types/common'
 import { Relic } from 'types/relic'
 import { create } from 'zustand'
 
 type LocatorFilters = { set: Sets | null, part: Parts | null }
 
 type RelicLocatorStateActions = {
-  setInventoryWidth: (width: number | null) => void,
-  setRowLimit: (limit: number | null) => void,
+  setInventoryWidth: (width: Nullable<number>) => void,
+  setRowLimit: (limit: Nullable<number>) => void,
 }
 
 const defaultStateValues = { inventoryWidth: 9, rowLimit: 10 }
@@ -40,8 +41,8 @@ type RelicLocatorState = RelicLocatorStateValues & RelicLocatorStateActions
 export const useRelicLocatorStore = create<RelicLocatorState>()((set) => ({
   ...defaultStateValues,
 
-  setInventoryWidth: (width: number | null) => set({ inventoryWidth: width ?? defaultStateValues.inventoryWidth }),
-  setRowLimit: (limit: number | null) => set({ rowLimit: limit ?? defaultStateValues.rowLimit }),
+  setInventoryWidth: (width) => set({ inventoryWidth: width ?? defaultStateValues.inventoryWidth }),
+  setRowLimit: (limit) => set({ rowLimit: limit ?? defaultStateValues.rowLimit }),
 }))
 
 export function RelicLocator(props: { relic: Relic | null }) {

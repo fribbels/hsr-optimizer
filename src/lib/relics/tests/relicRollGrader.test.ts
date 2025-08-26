@@ -1,4 +1,5 @@
 import { Constants } from 'lib/constants/constants'
+import { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'
 import DB from 'lib/state/db'
 import { Metadata } from 'lib/state/metadata'
@@ -37,6 +38,9 @@ test('Test the substat values', () => {
       stat: mainStat,
       value: 100,
     },
+    ageIndex: 0,
+    initialRolls: 0,
+    augmentedStats: {} as AugmentedStats,
     substats: [
       {
         stat: 'HP',
@@ -118,6 +122,9 @@ test('Test when the value is not an exact addition from constants', () => {
       stat: mainStat,
       value: 100,
     },
+    ageIndex: 0,
+    initialRolls: 0,
+    augmentedStats: {} as AugmentedStats,
     substats: [
       { stat: 'Effect Hit Rate', value: 10, rolls: { high: 0, mid: 0, low: 0 } },
     ],

@@ -1,22 +1,18 @@
 Title: Settings
 RelicEquippingBehavior:
   Label: Equipping relics from another character
-  Replace: "Default: Replace relics without swapping"
+  Replace: 'Default: Replace relics without swapping'
   Swap: Swap relics with previous owner
 PermutationsSidebarBehavior:
   Label: Shrink optimizer sidebar on smaller screens
-  ShowXL: "Default: Minimize if most of the sidebar is hidden"
+  ShowXL: 'Default: Minimize if most of the sidebar is hidden'
   ShowXXL: Minimize if any of the sidebar is hidden
   NoShow: Always keep the sidebar on the right
-RelicPotentialLoadBehavior:
-  Label: Relic potential scoring on load
-  ScoreAtStartup: "Default: Automatically score relics on page load"
-  ManuallyClickReapplyScores: Only score relics when "Reapply scores" is clicked (faster page load)
 ExpandedInfoPanelPosition:
   Label: Optimizer Expanded info panel position
   Above: Show expanded info above relics preview
-  Below: "Default: Show expanded info below relics preview"
+  Below: 'Default: Show expanded info below relics preview'
 ShowLocatorInRelicsModal:
   Label: Relic locator in relic editor
   Yes: Show the relic locator in the relic editor
-  No: "Default: Do not show the relic locator in the relic editor"
+  No: 'Default: Do not show the relic locator in the relic editor'

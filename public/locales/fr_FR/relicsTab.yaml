@@ -10,7 +10,6 @@ RelicFilterBar:
   Set: Set
   Mainstat: Mainstats
   Substat: Substats
-  ReapplyButton: Réapprécier les notes
   ScoringButton: Algorithme d'appréciation
   RecommendationHeader: Personnage de recommandation de reliques
   Rating: Notes de reliques

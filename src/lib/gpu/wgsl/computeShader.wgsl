@@ -528,11 +528,18 @@ fn main(
         m.ELEMENTAL_DMG += buffValue;
       }
 
-      if (p4(sets.SelfEnshroudedRecluse) >= 1 && setConditionals.enabledSelfEnshroudedRecluse == true) {
-        x.CD += 0.15;
-        m.CD += 0.15;
-      }
+      if (p2(sets.SelfEnshroudedRecluse) >= 1) {
+        x.SHIELD_BOOST += 0.10;
 
+        if (p4(sets.SelfEnshroudedRecluse) >= 1) {
+          x.SHIELD_BOOST += 0.12;
+
+          if (setConditionals.enabledSelfEnshroudedRecluse == true) {
+            x.CD += 0.15;
+            m.CD += 0.15;
+          }
+        }
+      }
 
       x.ATK += diffATK;
       x.DEF += diffDEF;

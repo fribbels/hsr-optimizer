@@ -1,15 +1,39 @@
+ValidationMessages:
+  Warning:
+    MissingTeammates: Выберите союзников для более точной оптимизации результатов.
+    PathMismatch: Путь персонажа не совпадает с путём конуса.
+  Error:
+    TopPercent: Вес всех сабстатов равен 0. Убедитесь что установили вес статов для вашего персонажа или используйте Рекомендуемый шаблон
+    MissingTarget: Отсутствуют поля целевых параметров оптимизации
+    MissingCharacter: Отсутствуют поля персонажа
+    MissingLightCone: Отсутствуют поля конусов
+    GPUNotAvailable: 'GPU-ускорение недоступно в этом браузере - поддерживаются только ПК-версии Chrome и Opera. Если у вас поддерживаемый браузер, но всё равно словили ошибку, сообщите о ней на сервер Discord.'
 CharacterSelector:
   Character: Персонаж
   Lightcone: Световой конус
   Presets: Шаблоны
   Target: Цель оптимизации
+  ResultsPlaceholder: Найти лучшие
+  TargetPlaceholder: Сортированы по
+  EidolonPlaceholder: E
+  SuperimpositionPlaceholder: S
 LightconePassives: Пассивки конуса
 CharacterPassives: Пассивки персонажа
 NoConditionals: Нет пассивок с условием.
 NoTeamConditionals: Нет пассивок с условием.
 ResultLimitN: 'Найти {{limit}} лучших'
+MainStats: Основные статы
 Sets: Наборы
+RelicSetSelector:
+  Placeholder: Набор реликвий
+  4pcLabel: 4 Части
+  2+2pcLabel: 2 + 2 Части
+  2pcLabel: 2 + Любые
+OrnamentSetSelector:
+  Placeholder: Планарные украшения
 SortOptions:
+  DMGLabel: Расчеты урона 
+  StatLabel: Статы
   COMBO: По Урону Комбо
   BASIC: По Урону Баз Атаки
   SKILL: По Урону Навыка
@@ -21,11 +45,25 @@ SortOptions:
   BREAK: По Урону Пробития
   HEAL: По Исцелению
   SHIELD: По Щиту
+  HP: 'По $t(common:ReadableStats.HP)'
+  ATK: 'По $t(common:ReadableStats.ATK)'
+  DEF: 'По $t(common:ReadableStats.DEF)'
+  SPD: 'По $t(common:ReadableStats.SPD)'
+  CR: 'По $t(common:ReadableStats.CRIT Rate)'
+  CD: 'По $t(common:ReadableStats.CRIT DMG)'
+  EHR: 'По $t(common:ReadableStats.Effect Hit Rate)'
+  RES: 'По $t(common:ReadableStats.Effect RES)'
+  BE: 'По $t(common:ReadableStats.Break Effect)'
+  OHB: 'По $t(common:ReadableStats.Outgoing Healing Boost)'
+  ERR: 'По $t(common:ReadableStats.Energy Regeneration Rate)'
+  DMG: По Урону Элемента
+  EHP: По эффективному HP
 OptimizerOptions:
   Header: Параметры оптимизатора
   PriorityFilter: Фильтр по приоритету 
   Priority:
     Header: Приоритет
+    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
   AllowEquipped: Разрешить поиск по надетым реликвиям
   KeepCurrent: Оставить текущие реликвии
@@ -45,6 +83,7 @@ OptimizerOptions:
     Label4: 4 ★ +
     Label5: 5 ★
   BoostMain:
+    Header: Основной стат
     Label0: '+0'
     Label3: '+3'
     Label6: '+6'
@@ -57,10 +96,19 @@ OptimizerOptions:
     Sub: Саб
 AdvancedOptions:
   Header: Расширенные параметры
+  EnemyConfigButtonText: Конфигурация врага
+  CombatBuffsButtonTextNone: Доп. баффы в бою
+  CombatBuffsButtonText: 'Доп. баффы в бою ({{activeCount}})'
   CustomTracesButtonText: Настройка следов
 Grid:
+  To: по
+  Of: из
+  Page: Страница
+  PageSelectorLabel: 'Элементов на страницу:'
+  Loading: Загрузка...
   Headers:
     Basic:
+      Set: Набор
       ATK: Сила атаки
       DEF: Защита
       HP: HP
@@ -72,7 +120,37 @@ Grid:
       BE: ЭП
       OHB: ИСЦ
       ERR: ВЭ
+      DMG: Урон 
       EHP: эHP
+      HEAL: ИСЦЕЛЕНИЕ
+      SHIELD: ЩИТ
+      BASIC: |-
+        БАЗ
+        АТАКА
+      SKILL: |-
+        УРОН
+        НАВЫКА
+      ULT: |-
+        УРОН
+        УЛЬТЫ
+      FUA: |-
+        БОНУС
+        АТАКА
+      MEMO_SKILL: |-
+        УРОН 
+        НАВЫКАᴹ
+      MEMO_TALENT: |-
+        Урон
+        Талантаᴹ
+      DOT: |-
+        УРОН
+        ДОТОВ
+      BREAK: |-
+        УРОН
+        ПРОБИТИЯ
+      COMBO: |-
+        УРОН 
+        КОМБО
     Combat:
       Set: Набор
       ATK: Σ Атака
@@ -84,39 +162,157 @@ Grid:
       EHR: Σ эHP
       RES: Σ Сопр
       BE: ΣПробитие
+      OHB: Σ БонусИсц
       ERR: Σ ВосстЭн
       DMG: Σ УРОН
       EHP: эHP
+      HEAL: Исцеление
+      SHIELD: ЩИТ
+      BASIC: |-
+        БАЗ
+        АТАКА
+      SKILL: |-
+        УРОН
+        НАВЫКА
+      ULT: |-
+        УРОН
+        УЛЬТЫ
+      FUA: |-
+        БОНУС
+        АТАКА
+      MEMO_SKILL: |-
+        УРОН 
+        НАВЫКАᴹ
+      MEMO_TALENT: |-
+        Урон
+        ТАЛАНТАᴹ
+      DOT: |-
+        УРОН
+        ДОТОВ
+      BREAK: |-
+        УРОН
+        ПРОБИТИЯ
+      COMBO: |-
+        УРОН 
+        КОМБО
 Sidebar:
   GPUOptions:
+    Experimental: GPU-ускорение включено (экспериментальное)
+    Stable: GPU-ускорение включено (стабильно)
+    CPU: Только CPU
     EngineSwitchSuccessMsg:
       CPU: Переключение вычислений на процессор
       Stable: Переключение вычислений на видеокарту (стабильная версия)
       Experimental: Переключение вычислений на видеокарту (экспериментальная версия)
+    Display:
+      GPU Experimental: 'GPU-ускорение: включено'
+      GPU Stable: 'GPU-ускорение: включено'
+      CPU: 'GPU-ускорение: отключено'
+  Pinning:
+    Messages:
+      NoneSelected: Строки не выбраны
+      SimSelected: Пользовательская симуляция строк не прикрепляется
+      AlreadyPinned: Эта сборка уже закреплена
   Permutations: Комбинации
   Perms: Комбинаций
   Searched: Проверено
   Results: Результаты
+  ComputeEngine: Движок вычислений
   ProgressText:
     Progress: Прогресс
+    CalculatingETA: Прогресс (считаем..)
+    TimeRemaining: 'Осталось: {{rate}} / сек — {{timeRemaining}}'
+    Finished: 'Закончено: {{rate}} / сек'
   ControlsGroup:
     Header: Управление
+    Start: Запустить оптимизатор
+    ResetConfirm:
+      Title: Сбросить все фильтры?
+      Description: Все фильтры будут сброшены к значениям по умолчанию
+  StatViewGroup:
+    Header: Вид статов и фильтр
+    CombatStats: Статы в бою
+    BasicStats: Статы перса
+    SummonerStats: Призыватель
+    MemospriteStats: Дух памяти
   ResultsGroup:
     Header: Результаты
+    Equip: Экипировать
     EquipSuccessMessage: Экипировано
+    Filter: Фильтр
+    Pin: Закрепить
+    Clear: Снять закреп
+TeammateRow:
+  Header: 'Союзников {{teammateCount}}'
 FormRowLabels:
+  Character options: Настройки персонажа
+  Relic & stat filters: Фильтры реликвий и статов
   Teammates: Союзники
+  Character custom stats simulation: Установка статов вручную
+  Analysis: Анализ результатов оптимизации
 TracesDrawer:
   Title: Настройка следов персонажа
   Header: Активные следы (по умолчанию включены все)
   ButtonText: Сохранить изменения
 SetConditionals:
+  Title: Эффекты набора
+  DescriptionHeader: Описание набора
+  EffectHeader: Включенный эффект
+  SetName: '$t(gameData:RelicSets.{{id}}.Name)'
+  RelicDescription: '$t(gameData:RelicSets.{{id}}.Description4pc)'
+  PlanarDescription: '$t(gameData:RelicSets.{{id}}.Description2pc)'
   SelectOptions:
+    Streetwise:
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} стаков (+{{buffValue}}% АТК)'
     Wastelander:
+      Off:
+        Display: 'Выкл.'
+        Label: 'Выкл.'
       Debuffed:
         Display: КШ
+        Label: При дебаффе (+10% КШ)
+      Imprisoned:
+        Display: КШ + КУ
+        Label: В заключении (+10% КШ | +20% КУ)
     Longevous:
-      Label: '{{stackCount}} стаки (+{{buffValue}}% КШ)'
+      Display: '{{stackCount}}х'
+      Label: '{{stackCount}} стаков (+{{buffValue}}% КШ)'
+    Ashblazing:
+      Display: '{{stackCount}}х'
+      Label: '{{stackCount}} стаков (+{{buffValue}}% АТК)'
+    Prisoner:
+      Display: '{{stackCount}}х'
+      Label: '{{stackCount}} стаков (+{{buffValue}}% игнор защиты)'
+    Diver:
+      Off:
+        Display: 0x
+        Label: 0 дебаффов (+4% КШ)
+      1Debuff:
+        Display: 1x
+        Label: 1 дебафф (+12% урона | +4% КШ)
+      2Debuff:
+        Display: 2x
+        Label: 2 дебаффа (+12% урона | +4% КШ | +8% КУ)
+      3Debuff:
+        Display: 3x
+        Label: 3 дебаффа (+12% урона | +4% КШ | +12% КУ)
+      2+Debuff:
+        Display: 2x+ 
+        Label: 2 дебаффа,  усилено (12% урона | +4% КШ | +4% КШ в бою |  +16% КУ)
+      3+Debuff:
+        Display: 3x+
+        Label: 3 дебаффа, усилено (12% урона | +4% КШ | +4% КШ в бою | +24% КУ)
+    Sigonia:
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} стаков (+{{buffValue}}% КУ)'
+    Duran:
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} стаки (+{{buffValue}}% урона бонус-атак)'
+      Label5: 5 стаков (+25% урона бонус-атак | + 25% КУ)
+    Sacerdos:
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} стаков (+{{buffValue}}% КУ)'
 Presets:
   RecommendedPresets: Рекомендуемые шаблоны
 CombatBuffs:
@@ -130,6 +326,9 @@ CombatBuffs:
   CD: Крит Урон %
   SPD: Скорость
   SPD_P: Скорость %
+  Title: Доп. баффы в бою
+EnemyConfiguration:
+  Title: Конфигурация врага
 WeightFilter:
   WeightFilterHeader: Вес статов
   HPFilterText: HP
@@ -179,7 +378,16 @@ TeammateCard:
   RelicsPlaceholder: Реликвии
   TeammateSyncSuccessMessage: Синхронизация информации союзника прошла успешно
 StatSimulation:
+  SetSelection:
+    Header: Наборы 
+    RelicPlaceholder: Набор реликвий
+    OrnamentPlaceholder: Планарные украшения
+  ModeSelector:
+    Off: 'Выкл.'
+  FooterLabels:
+    Conditionals: Эффекты набора
   MainStatsSelection:
+    Header: Основные статы
     BodyPlaceholder: Тело
     FeetPlaceholder: Ноги
     SpherePlaceholder: Сфера
@@ -219,5 +427,7 @@ ExpandedDataPanel:
           Vulnerability: Слабость
           RES PEN: Игнор Сопр
           DEF PEN: Игнор Защиты
+          DMG: Урон 
       Misc:
+        Memosprite: Дух памяти
         Combo DMG: Урон Комбо

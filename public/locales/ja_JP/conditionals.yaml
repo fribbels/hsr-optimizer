@@ -155,7 +155,7 @@ Lightcones:
         text: 敵デバフ状態
         content: デバフ状態の敵に対して、装備キャラの与ダメージ+{{DmgBuff}}%。
       skillAtkBoost:
-        text: スキル発動時の攻撃力増加（未実装）
+        text: スキル時の攻撃力増加
         content: 装備キャラが戦闘スキルを発動した時、その攻撃の効果命中+{{EhrBuff}}%、攻撃力+{{AtkBuff}}%。
   InTheNight:
     Content:

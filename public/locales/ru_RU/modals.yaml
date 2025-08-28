@@ -1,5 +1,10 @@
 Scoring:
   StatWeightsHeader: Вес статов
+  SetWeightsHeader: Усттановить вес
+  MainstatsHeader: Оптимальные осн. стат
+  SetWeights:
+    AddRelicSetPlaceholder: Добавить набор реликвий
+    AddOrnamentSetPlaceholder: Добавить набор планарок
   WeightMethodology:
     Header: Как рассчитывается оценка статов?
   Footer:
@@ -10,156 +15,250 @@ Scoring:
     Title: Сбросить настройки расчета оценки для всех персонажей?
     Description: Вы потеряете все пользовательские настройки, которые вы установили на персонажах.
 0Perms:
+  Title: '⚠️ Результаты поиска: 0 перестановок⚠️'
+  Description: Фильтры настроены некорректно и ни одна из возможных комбинаций не соответствует заданным фильтрам. Все найденные варианты отображаются в боковой панели.
   RootCauses:
     IMPORT:
+      Description: Импортировать реликвии из вашего аккаунта на вкладке импорта
+      ButtonText: Перейти на вкладку импорта
       SuccessMessage: Выберите метод импорта и импортируйте ваши реликвии и персонажей
     Body_MAIN:
+      Description: "Фильтр по основной характеристике $t(common:Parts.Body), возможно, слишком строгий"
+      ButtonText: "Очистить фильтры осн. характеристики $t(common:Parts.Body)"
       SuccessMessage: "Очищены фильтры основной характеристики $t(common:Parts.Body) "
     Feet_MAIN:
+      Description: "Фильтр по основной характеристике $t(common:Parts.Feet), возможно, слишком строгий"
+      ButtonText: "Очистить фильтры осн. характеристики $t(common:Parts.Feet)"
       SuccessMessage: "Очищены фильтры основной характеристики $t(common:Parts.Feet) "
     PlanarSphere_MAIN:
+      Description: "Фильтр по основной характеристике $t(common:Parts.PlanarSphere), возможно, слишком строгий"
+      ButtonText: "Очистить фильтры осн. характеристики $t(common:Parts.PlanarSphere)"
       SuccessMessage: "Очищены фильтры основной характеристики $t(common:Parts.PlanarSphere) "
     LinkRope_MAIN:
+      Description: "Фильтр по основной характеристике $t(common:Parts.LinkRope), возможно, слишком строгий"
+      ButtonText: "Очистить фильтры осн. характеристики $t(common:Parts.LinkRope)"
       SuccessMessage: "Очищены фильтры основной характеристики $t(common:Parts.LinkRope) "
     RELIC_SETS:
+      Description: Фильтры по выбранным наборам реликвий могут быть слишком строгими
+      ButtonText: Очистить фильтры наборов реликвий
       SuccessMessage: Очищены фильтры набора реликвий
     ORNAMENT_SETS:
+      Description: Фильтры по выбранным планарным украшениям могут быть слишком строгими
+      ButtonText: Очистить фильтры Планарных украшений
       SuccessMessage: Очищены фильтры набора Планарных украшений
     KEEP_CURRENT:
-      SuccessMessage: Опция "Сохранить текущие реликвии" отключена
+      Description: Включена опция "Оставить текущие реликвии" (Эта функция запрещает изменять уже экипированные на персонажа реликвии во время поиска)
+      ButtonText: Выключить "Оставить текущие реликвии" 
+      SuccessMessage: Опция "Оставить текущие реликвии" отключена
     PRIORITY:
+      Description: Персонаж ниже других в списке приоритетов. При включённом фильтре «Приоритет персонажей», персонажи могут получать реликвии только от героев с более низким приоритетом.
       ButtonText: "Переместить на приоритет #1"
       SuccessMessage: "Персонаж перемещен на приоритет #1"
     EXCLUDE_ENABLED:
+      Description: Фильтр «Исключить» имеет несколько персонажей, что означает, что выбранный персонаж не может брать реликвии у исключенных персонажей.
+      ButtonText: Очистить исключенных персонажей
       SuccessMessage: Очищены исключенные персонажи
     EQUIPPED_DISABLED:
+      Description: Фильтр «Включать экипированные реликвии» отключен, что означает, что этот персонаж не может брать реликвии, принадлежащие другим персонажам.
+      ButtonText: Включить "Включать экипированные реликвии"
       SuccessMessage: Включено "Включать экипированные реликвии"
+    MINIMUM_ROLLS:
+      Description: Установленное в фильтре веса сабстатов минимальное значение проков может быть слишком высоким
+      ButtonText: Установить мин. значение на 0
+      SuccessMessage: Установить мин. значение на 0
 0Results:
+  Title: Поиск дал 0 результатов
   ResetAll:
+    ButtonText: Сбросить все фильтры
     SuccessMessage: Все фильтры очищены
+    Description: Ваши фильтры статов и/или оценки слишком строгие.
   RootCauses:
     StatView:
       SuccessMessage: "Переключено на характеристики в бою"
+      Description: "Ваши фильтры настроены на базовые статы, которые не учитывают баффы. В окне просмотра статов в бою отображаются итоговые значения с учётом баффов от способностей / союзников / реликвий / и т.д."
+      ButtonText: "Перейти на просмотр статов в бою"
     MAX_HP:
       SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.HP)"
+      Description: "Максимальное $t(common:Stats.HP) кажется слишком низкое"
       ButtonText: "Сбросить фильтр максимального $t(common:Stats.HP)"
     MIN_HP:
       SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.HP)"
+      Description: "Минимальное $t(common:Stats.HP) кажется слишком высокое"
       ButtonText: "Сброшен фильтр минимального $t(common:Stats.HP)"
     MAX_ATK:
       SuccessMessage: "Сброшен фильтр максимальной $t(common:Stats.ATK)"
+      Description: "Максимальная $t(common:Stats.ATK) кажется слишком низкая"
       ButtonText: "Сбросить фильтр максимальной $t(common:Stats.ATK)"
     MIN_ATK:
       SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.ATK)"
+      Description: "Минимальная $t(common:Stats.ATK) кажется слишком высокая"
       ButtonText: "Сброшен фильтр минимального $t(common:Stats.ATK)"
     MAX_DEF:
       SuccessMessage: "Сброшен фильтр максимальной $t(common:Stats.DEF)"
-      ButtonText: "Сброшен фильтр максимальной $t(common:Stats.DEF)"
+      Description: "Максимальная $t(common:Stats.DEF) кажется слишком низкая"
+      ButtonText: "Сбросить фильтр максимальной $t(common:Stats.DEF)"
     MIN_DEF:
       SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.DEF)"
+      Description: "Минимальная $t(common:Stats.DEF) кажется слишком высокая"
       ButtonText: "Сброшен фильтр минимального $t(common:Stats.DEF)"
     MAX_SPD:
       SuccessMessage: "Сброшен фильтр максимальной $t(common:Stats.SPD)"
-      ButtonText: "Сброшен фильтр максимальной $t(common:Stats.SPD)"
+      Description: "Максимальная $t(common:Stats.SPD) кажется слишком низкая"
+      ButtonText: "Сбросить фильтр максимальной $t(common:Stats.SPD)"
     MIN_SPD:
       SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.SPD)"
+      Description: "Минимальная $t(common:Stats.SPD) кажется слишком высокая"
       ButtonText: "Сброшен фильтр минимального $t(common:Stats.SPD)"
     MAX_CR:
       SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.CRIT Rate)"
-      ButtonText: "Сброшен фильтр максимального $t(common:Stats.CRIT Rate)"
+      Description: "Максимальный $t(common:Stats.CRIT Rate) кажется слишком низкий"
+      ButtonText: "Сбросить фильтр максимального $t(common:Stats.CRIT Rate)"
     MIN_CR:
       SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.CRIT Rate)"
+      Description: "Минимальный $t(common:Stats.CRIT Rate) кажется слишком высокий"
       ButtonText: "Сброшен фильтр минимального $t(common:Stats.CRIT Rate)"
     MAX_CD:
       SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.CRIT DMG)"
-      ButtonText: "Сброшен фильтр максимального $t(common:Stats.CRIT DMG)"
+      Description: "Максимальный $t(common:Stats.CRIT DMG) кажется слишком низкий"
+      ButtonText: "Сбросить фильтр максимального $t(common:Stats.CRIT DMG)"
     MIN_CD:
       SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.CRIT DMG)"
+      Description: "Минимальный $t(common:Stats.CRIT DMG) кажется слишком высокий"
       ButtonText: "Сброшен фильтр минимального $t(common:Stats.CRIT DMG)"
     MAX_EHR:
       SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.Effect Hit Rate)"
-      ButtonText: "Сброшен фильтр максимального $t(common:Stats.Effect Hit Rate)"
+      Description: "Максимальный $t(common:Stats.Effect Hit Rate) кажется слишком низкий"
+      ButtonText: "Сбросить фильтр максимального $t(common:Stats.Effect Hit Rate)"
     MIN_EHR:
       SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.Effect Hit Rate)"
+      Description: "Минимальный $t(common:Stats.Effect Hit Rate) кажется слишком высокий"
       ButtonText: "Сброшен фильтр минимального $t(common:Stats.Effect Hit Rate)"
     MAX_RES:
       SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.Effect RES)"
-      ButtonText: "Сброшен фильтр максимального $t(common:Stats.Effect RES)"
+      Description: "Максимальное $t(common:Stats.Effect RES) кажется слишком низкое"
+      ButtonText: "Сбросить фильтр максимального $t(common:Stats.Effect RES)"
     MIN_RES:
       SuccessMessage: "Сброшен фильтр минимального $t(common:Stats.Effect RES)"
+      Description: "Минимальное $t(common:Stats.Effect RES) кажется слишком высокое"
       ButtonText: "Сброшен фильтр минимального $t(common:Stats.Effect RES)"
     MAX_BE:
       SuccessMessage: "Сброшен фильтр максимального $t(common:Stats.Break Effect)"
-      ButtonText: "Сброшен фильтр максимального $t(common:Stats.Break Effect)"
+      Description: "Максимальное $t(common:Stats.Break Effect) кажется слишком низкое"
+      ButtonText: "Сбросить фильтр максимального $t(common:Stats.Break Effect)"
     MIN_BE:
       SuccessMessage: "Сброшен фильтр минимального$t(common:Stats.Break Effect)"
+      Description: "Минимальное $t(common:Stats.Break Effect) кажется слишком высокое"
       ButtonText: "Сброшен фильтр минимального$t(common:Stats.Break Effect)"
     MAX_ERR:
       SuccessMessage: "Сброшен фильтр максимальной $t(common:Stats.Energy Regeneration Rate)"
-      ButtonText: "Сброшен фильтр максимальной $t(common:Stats.Energy Regeneration Rate)"
+      Description: "Максимальное $t(common:Stats.Energy Regeneration Rate) кажется слишком низкое"
+      ButtonText: "Сбросить фильтр максимальной $t(common:Stats.Energy Regeneration Rate)"
     MIN_ERR:
       SuccessMessage: "Сброшен фильтр минимальной $t(common:Stats.Energy Regeneration Rate)"
+      Description: "Минимальное $t(common:Stats.Energy Regeneration Rate) кажется слишком высокое"
       ButtonText: "Сброшен фильтр минимальной $t(common:Stats.Energy Regeneration Rate)"
     MAX_EHP:
       SuccessMessage: "Сброшен фильтр максимального Эффективного HP"
-      ButtonText: "Сброшен фильтр максимального Эффективного HP"
+      Description: "Максимальное эHP кажется слишком низкое"
+      ButtonText: "Сбросить фильтр максимального эHP"
     MIN_EHP:
       SuccessMessage: "Сброшен фильтр минимального Эффективного HP"
+      Description: "Минимальное эHP кажется слишком высокое"
       ButtonText: "Сброшен фильтр минимального Эффективного HP"
     MAX_BASIC:
       SuccessMessage: "Сброшен фильтр максимального урона Базовой атаки"
-      ButtonText: "Сброшен фильтр максимального урона Базовой атаки"
+      Description: "Максимальный урон Базовой Атаки кажется слишком низкий"
+      ButtonText: "Сбросить фильтр максимального урона Базовой атаки"
     MIN_BASIC:
       SuccessMessage: "Сброшен фильтр минимального урона Базовой атаки"
+      Description: "Минимальный Урон Базовой Атаки кажется слишком высок"
       ButtonText: "Сброшен фильтр минимального урона Базовой атаки"
     MAX_SKILL:
       SuccessMessage: "Сброшен фильтр максимального урона Навыка"
+      Description: "Максимальный урон Навыка кажется слишком низкий"
       ButtonText: "Сбросить фильтр максимального урона Навыка"
     MIN_SKILL:
       SuccessMessage: "Сброшен фильтр минимального урона Навыка"
+      Description: "Минимальный урон Навыка кажется слишком высок"
       ButtonText: "Сброшен фильтр минимального урона Навыка"
     MAX_ULT:
       SuccessMessage: "Сброшен фильтр максимального урона Ультимейта"
-      ButtonText: "Сброшен фильтр максимального урона Ультимейта"
+      Description: "Максимальный урон Ульты кажется слишком низкий"
+      ButtonText: "Сбросить фильтр максимального урона Ультимейта"
     MIN_ULT:
       SuccessMessage: "Сброшен фильтр минимального урона Ультимейта"
+      Description: "Минимальный урон Ульты кажется слишком высок"
       ButtonText: "Сброшен фильтр минимального урона Ультимейта"
     MAX_FUA:
       SuccessMessage: "Сброшен фильтр максимального урона Бонус-атаки"
-      ButtonText: "Сброшен фильтр максимального урона Бонус-атаки"
+      Description: "Максимальный урон Бонус-атаки кажется слишком низкий"
+      ButtonText: "Сбросить фильтр максимального урона Бонус-атаки"
     MIN_FUA:
       SuccessMessage: "Сброшен фильтр минимального урона Бонус-атаки"
+      Description: "Минимальный урон Бонус-атаки кажется слишком высок"
       ButtonText: "Сброшен фильтр минимального урона Бонус-атаки"
     MAX_DOT:
       SuccessMessage: "Сброшен фильтр максимального урона ДоТ'ов"
-      ButtonText: "Сброшен фильтр максимального урона ДоТ'ов"
+      Description: "Максимальный урон ДоТ'ов кажется слишком низкий"
+      ButtonText: "Сбросить фильтр максимального урона ДоТ'ов"
     MIN_DOT:
       SuccessMessage: "Сброшен фильтр минимального урона ДоТ'ов"
+      Description: "Минимальный урон ДоТ'ов кажется слишком высок"
       ButtonText: "Сброшен фильтр минимального урона ДоТ'ов"
     MAX_BREAK:
       SuccessMessage: "Сброшен фильтр максимального урона Пробития"
-      ButtonText: "Сброшен фильтр максимального урона Пробития"
+      Description: "Максимальный урон Пробития кажется слишком низкий"
+      ButtonText: "Сбросить фильтр максимального урона Пробития"
     MIN_BREAK:
       SuccessMessage: "Сброшен фильтр минимального урона Пробития"
+      Description: "Минимальный урон Пробития кажется слишком высок"
       ButtonText: "Сброшен фильтр минимального урона Пробития"
+    MAX_MEMO_SKILL:
+      SuccessMessage: "Сброшен фильтр максимального урона Навыкаᴹ"
+      Description: "Максимальный урон Навыкаᴹ кажется слишком низкий"
+      ButtonText: "Сбросить фильтр максимального урона Навыкаᴹ"
+    MIN_MEMO_SKILL:
+      SuccessMessage: "Сброшен фильтр минимального урона Навыкаᴹ"
+      Description: "Минимальный урон Навыкаᴹ кажется слишком высок"
+      ButtonText: "Сбросить фильтр минимального урона Навыкаᴹ"
+    MAX_MEMO_TALENT:
+      SuccessMessage: "Сброшен фильтр максимального урона Талантаᴹ"
+      Description: "Максимальный урон Талантаᴹ кажется слишком низкий"
+      ButtonText: "Сбросить фильтр максимального урона Талантаᴹ"
+    MIN_MEMO_TALENT:
+      SuccessMessage: "Сброшен фильтр минимального урона Талантаᴹ"
+      Description: "Минимальный урон Талантаᴹ кажется слишком высок"
+      ButtonText: "Сбросить фильтр минимального урона Талантаᴹ"
     MAX_HEAL:
       SuccessMessage: "Сброшен фильтр максимального Лечения"
-      ButtonText: "Сброшен фильтр максимального Лечения"
+      Description: "Максимальное Исцеление кажется слишком низкое"
+      ButtonText: "Сбросить фильтр максимального Лечения"
     MIN_HEAL:
       SuccessMessage: "Сброшен фильтр минимального Лечения"
-      ButtonText: "Сброшен фильтр минимального Лечения"
+      Description: "Минимальное Исцеление кажется слишком высокое"
+      ButtonText: "Сбросить фильтр минимального Лечения"
     MAX_SHIELD:
       SuccessMessage: "Сброшен фильтр максимального Щита"
-      ButtonText: "Сброшен фильтр максимального Щита"
+      Description: "Максимальный Щит кажется слишком низкий"
+      ButtonText: "Сбросить фильтр максимального Щита"
     MIN_SHIELD:
-      SuccessMessage: "Сброшен фильтр минимального Щита"
-      ButtonText: "Сброшен фильтр минимального Щита"
+      SuccessMessage: "Сбросить фильтр минимального Щита"
+      Description: "Минимальный Щит кажется слишком высокий"
+      ButtonText: "Сбросить фильтр минимального Щита"
     MAX_COMBO:
       SuccessMessage: "Сброшен фильтр максимального урона Комбо"
-      ButtonText: "Сброшен фильтр максимального урона Комбо"
+      Description: "Максимальный урон Комбо кажется слишком низкий"
+      ButtonText: "Сбросить фильтр максимального урона Комбо"
     MIN_COMBO:
       SuccessMessage: "Сброшен фильтр минимального урона Комбо"
-      ButtonText: "Сброшен фильтр минимального урона Комбо"
+      Description: "Минимальный урон Комбо кажется слишком высок"
+      ButtonText: "Сбросить фильтр минимального урона Комбо"
+ManyPerms:
+  Title: Запрошен слишком широкий поиск
+  Text: >-
+    Данный поиск оптимизации займёт значительное время. Рекомендуется включить настройку GPU-ускорения, ограничить поиск определёнными наборами и основными статами или использовать фильтр веса сабстатов для сокращения количества перестановок и соответственно времени поиска.
+  Cancel: Отменить поиск
+  Proceed: Продолжить поиск
 EditCharacter:
   EidolonButton: >-
     $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
@@ -168,6 +267,16 @@ EditCharacter:
   Character: Персонаж
   Lightcone: Световой конус
 Relic:
+  Part: Часть
+  Wearer: Экипировано
+  Set: Набор
+  Enhance: Усиление / Редкость
+  Mainstat: Основная характеристика
+  Substat: Доп. характеристики
+  SubstatPlaceholder: Доп. характеристика
+  SpdInputWarning: 'Примечание: значения сабстатов скорости в игре содержат скрытые десятичные значения, из-за чего их ручной ввод может быть неточным. Для получения точных значений скорости используйте вкладку "Топ профиля" или импорт через Reliquary Archiver.'
+  LiveImportWarning: Live-импорт включён, ваши изменения могут быть перезаписаны.
+  Upgrades: Улучшения сабстата
   Messages:
     SubmitFail: Отправка не удалась!
     EditSuccess: Реликвия успешно изменена
@@ -191,23 +300,75 @@ Relic:
       MainTooBig: Значение основной характеристики является слишком большим
       SubTooSmall: Значение доп. характеристики должно быть положительным
       MainTooSmall: Значение основной характеристики должно быть положительным
+EditImage:
+  DefaultTitle: Сменить изображение
+  Upload:
+    Title: Добавить изображение
+    Radio:
+      Upload: Загрузить с ПК
+      Url: Ввести URL
+      Default: По умолчанию
+    Upload:
+      Method: Нажмите или перетащите файл изображения в эту область для загрузки
+      Limit: "Допустимы .jpg .jpeg .png .gif (Макс.: 20MB)"
+    Url:
+      Label: Изображение
+      Rule: Пожалуйста, введите корректный URL изображения
+  Edit:
+    Title: Обрезка
+    Zoom: Масштаб
+    Drag: Перетащите, чтобы двигать
+    Pinch: Сведите пальцы или прокрутите, для увеличения
+    ArtBy: "(Опционально) Автор:"
+    CreditPlaceholder: Упомяните автора по возможности
+  Footer:
+    Change: Сменить изображение
+    Previous: Предыдущие
+    Next: Далее
+SaveBuild:
+  Label: Название сборки
+  Rule: Пожалуйста, введите имя
+SwitchRelics:
+  Title: Поменять реликвии с персонажем
 Builds:
+  DeleteAll: Удалить все
+  Equip: Надеть
   ConfirmEquip:
+    Content: Надев это, вы разденете персонажей, использующих эти реликвии в этой сборке.
     SuccessMessage: "Сборка: {{buildName}} успешно экипирована"
   ConfirmDelete:
+    DeleteAll: Вы уверены, что хотите удалить все сборки?
+    DeleteSingle: "Вы уверены, что хотите удалить {{name}}?"
     SuccessMessageAll: "Все сборки для {{characterName}} успешно удалены"
     SuccessMessageSingle: "Сборка: {{name}} успешно удалена"
+  NoBuilds:
+    NoneSaved: Нет сохраненных сборок
 ScoreFooter:
   ModalTitle: Настройки оценки "В бою"
+  OkText: ОК
   ResetButtonText: Восстановить команду по умолчанию
   ResetSuccessMsg: Восстановить команды по умолчанию
   SyncButtonText: Синхронизировать эйдолоны / конусы
   SyncSuccessMsg: Союзники синхронизированы
   TeamOptions:
-    Default: Стандартный
+    Default: По-умолчанию
     Custom: Вручную
 CharacterSelect:
+  MultiSelect:
+    Placeholder: Настроить персонажей
+    MaxTagPlaceholderSome: "{{count}} персонажей исключено"
+    MaxTagPlaceholderNone: Все персонажы включены
+    ModalTitle: Выберите персонажей для исключения
   SingleSelect:
     Placeholder: Персонаж
+    ModalTitle: Выберите персонажа
+  SearchPlaceholder: Поиск по имени персонажа
+  ExcludeButton: Исключить всех
+  ClearButton: Очистить
 LightconeSelect:
   Placeholder: Световой конус
+  Title: Выберите световой конус
+RelicReroll:
+  Title: Обнаружен Переброс Реликвии
+  OriginalSubstats: Изначальные Сабстаты
+  RerolledSubstats: Новые Сабстаты

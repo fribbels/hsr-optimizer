@@ -155,7 +155,6 @@ Lightcones:
         text: Aumento de daño por enemigo afectado
         content: El portador inflige un {{DmgBuff}}% más de daño a los enemigos afectados por estados negativos.
       skillAtkBoost:
-        text: Mejora de ATQ para Habilidad (sin implementar)
         content: Cuando el portador usa su habilidad básica, su acierto de efecto en ese ataque aumenta en un {{EhrBuff}}% y su ATQ en un {{AtkBuff}}%.
   InTheNight:
     Content:

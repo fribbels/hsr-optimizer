@@ -146,7 +146,6 @@ Lightcones:
         text: Buff de DMG para inimigos com debuff
         content: Aumenta o DMG do portador contra inimigos com debuff em {{DmgBuff}}%.
       skillAtkBoost:
-        text: Buff de ATK de Habilidade (não implementado)
         content: Quando o portador usa sua Habilidade, a Taxa de Acerto do Efeito para este ataque aumenta em {{EhrBuff}}%, e o ATK aumenta em {{AtkBuff}}%.
   InTheNight:
     Content:

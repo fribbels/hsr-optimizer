@@ -300,24 +300,75 @@ Relic:
       MainTooBig: Значение основной характеристики является слишком большим
       SubTooSmall: Значение доп. характеристики должно быть положительным
       MainTooSmall: Значение основной характеристики должно быть положительным
+EditImage:
+  DefaultTitle: Сменить изображение
+  Upload:
+    Title: Добавить изображение
+    Radio:
+      Upload: Загрузить с ПК
+      Url: Ввести URL
+      Default: По умолчанию
+    Upload:
+      Method: Нажмите или перетащите файл изображения в эту область для загрузки
+      Limit: "Допустимы .jpg .jpeg .png .gif (Макс.: 20MB)"
+    Url:
+      Label: Изображение
+      Rule: Пожалуйста, введите корректный URL изображения
+  Edit:
+    Title: Обрезка
+    Zoom: Масштаб
+    Drag: Перетащите, чтобы двигать
+    Pinch: Сведите пальцы или прокрутите, для увеличения
+    ArtBy: "(Опционально) Автор:"
+    CreditPlaceholder: Упомяните автора по возможности
+  Footer:
+    Change: Сменить изображение
+    Previous: Предыдущие
+    Next: Далее
+SaveBuild:
+  Label: Название сборки
+  Rule: Пожалуйста, введите имя
+SwitchRelics:
+  Title: Поменять реликвии с персонажем
 Builds:
+  DeleteAll: Удалить все
+  Equip: Надеть
   ConfirmEquip:
+    Content: Надев это, вы разденете персонажей, использующих эти реликвии в этой сборке.
     SuccessMessage: "Сборка: {{buildName}} успешно экипирована"
   ConfirmDelete:
+    DeleteAll: Вы уверены, что хотите удалить все сборки?
+    DeleteSingle: "Вы уверены, что хотите удалить {{name}}?"
     SuccessMessageAll: "Все сборки для {{characterName}} успешно удалены"
     SuccessMessageSingle: "Сборка: {{name}} успешно удалена"
+  NoBuilds:
+    NoneSaved: Нет сохраненных сборок
 ScoreFooter:
   ModalTitle: Настройки оценки "В бою"
+  OkText: ОК
   ResetButtonText: Восстановить команду по умолчанию
   ResetSuccessMsg: Восстановить команды по умолчанию
   SyncButtonText: Синхронизировать эйдолоны / конусы
   SyncSuccessMsg: Союзники синхронизированы
   TeamOptions:
-    Default: Стандартный
+    Default: По-умолчанию
     Custom: Вручную
 CharacterSelect:
+  MultiSelect:
+    Placeholder: Настроить персонажей
+    MaxTagPlaceholderSome: "{{count}} персонажей исключено"
+    MaxTagPlaceholderNone: Все персонажы включены
+    ModalTitle: Выберите персонажей для исключения
   SingleSelect:
     Placeholder: Персонаж
+    ModalTitle: Выберите персонажа
+  SearchPlaceholder: Поиск по имени персонажа
+  ExcludeButton: Исключить всех
   ClearButton: Очистить
 LightconeSelect:
   Placeholder: Световой конус
+  Title: Выберите световой конус
+RelicReroll:
+  Title: Обнаружен Переброс Реликвии
+  OriginalSubstats: Изначальные Сабстаты
+  RerolledSubstats: Новые Сабстаты

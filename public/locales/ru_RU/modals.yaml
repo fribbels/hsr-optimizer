@@ -280,5 +280,6 @@ ScoreFooter:
 CharacterSelect:
   SingleSelect:
     Placeholder: Персонаж
+  ClearButton: Очистить
 LightconeSelect:
   Placeholder: Световой конус

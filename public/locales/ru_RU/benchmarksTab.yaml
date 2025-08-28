@@ -1,6 +1,10 @@
+Title: Генератор Сборок
+LeftPanel:
+  Header: Сборка
 MiddlePanel:
   CharacterHeader: Персонаж
   LCHeader: Световой конус
+  TeammatesHeader: Союзники
 RightPanel:
   Settings:
     Header: Настройки

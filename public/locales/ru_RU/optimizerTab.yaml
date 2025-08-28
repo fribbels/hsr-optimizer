@@ -104,6 +104,8 @@ Sidebar:
   ResultsGroup:
     Header: Результаты
     EquipSuccessMessage: Экипировано
+FormRowLabels:
+  Teammates: Союзники
 TracesDrawer:
   Title: Настройка следов персонажа
   Header: Активные следы (по умолчанию включены все)
@@ -129,6 +131,7 @@ CombatBuffs:
   SPD: Скорость
   SPD_P: Скорость %
 WeightFilter:
+  WeightFilterHeader: Вес статов
   HPFilterText: HP
   ATKFilterText: Сила атаки
   DEFFilterText: Защита

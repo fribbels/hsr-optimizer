@@ -73,14 +73,26 @@ type Equip = {
   rarity: number,
 }
 
+// eidolon status
+type Rank = {
+  id: number,
+  pos: number,
+  name: string,
+  icon: string,
+  desc: string,
+  is_unlocked: boolean,
+}
+
 type Avatar = {
   id: number,
   level: number,
   name: string,
+  // eidolon
   rank: number,
   equip: Equip,
   relics: HoyolabRelic[],
   ornaments: HoyolabRelic[],
+  ranks: [Rank, Rank, Rank, Rank, Rank, Rank],
 }
 
 export type HoyolabData = {
@@ -121,9 +133,18 @@ export function hoyolabParser(json: HoyolabData) {
     relics: [],
   }
   for (const character of json.data.avatar_list) {
+    /*
+     * hoyolab doesn't expose a field to tell if a character is buffed or not
+     * buffed characters currently have a 1 prefixed to the ids of their various configs when buffed
+     * the standard id is characterId (4 digits) + configId (2 digits)
+     * use this to get a kinda janky buff detection by checking for when the id is 7 digits long
+     */
+    let characterId = character.id.toString()
+    const rank1Id = character.ranks[0].id.toString()
+    if (rank1Id.length === 7) characterId += `b${rank1Id.charAt(0)}`
     const characterData: HoyolabCharacter = {
       characterEidolon: character.rank,
-      characterId: character.id.toString() as CharacterId,
+      characterId: characterId as CharacterId,
       characterLevel: character.level,
       lightCone: null,
       lightConeLevel: 80,

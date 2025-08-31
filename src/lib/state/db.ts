@@ -865,7 +865,7 @@ export const DB = {
     newRelics = TsUtils.clone(newRelics) ?? []
     newCharacters = TsUtils.clone(newCharacters) ?? []
 
-    console.log('Merging relics', newRelics, newCharacters)
+    // console.log('Merging relics', newRelics, newCharacters)
 
     // Add new characters
     if (newCharacters) {
@@ -947,7 +947,7 @@ export const DB = {
 
     // Update all relic ID references in character equipment and saved builds
     if (Object.keys(relicIdMapping).length > 0) {
-      console.log('Updating relic ID references', relicIdMapping)
+      // console.log('Updating relic ID references', relicIdMapping)
 
       characters.forEach((character, idx) => {
         // Update equipped relic IDs
@@ -960,10 +960,8 @@ export const DB = {
 
         // Update saved builds relic IDs
         if (character.builds && character.builds.length > 0) {
-          character.builds = character.builds.map(savedBuild => {
-            const updatedBuild = savedBuild.build.map(relicId =>
-              relicIdMapping[relicId] || relicId
-            )
+          character.builds = character.builds.map((savedBuild) => {
+            const updatedBuild = savedBuild.build.map((relicId) => relicIdMapping[relicId] || relicId)
 
             return { ...savedBuild, build: updatedBuild }
           })
@@ -973,7 +971,7 @@ export const DB = {
 
     indexRelics(replacementRelics)
 
-    console.log('Replacement relics', replacementRelics)
+    // console.log('Replacement relics', replacementRelics)
 
     DB.setRelics(replacementRelics)
 

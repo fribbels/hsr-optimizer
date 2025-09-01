@@ -43,10 +43,8 @@ import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import {
-  Build,
   Character,
   CharacterId,
-  SavedBuild,
 } from 'types/character'
 import { CustomImageConfig } from 'types/customImage'
 import { Form } from 'types/form'
@@ -63,7 +61,6 @@ import {
   GlobalSavedSession,
   HsrOptimizerSaveFormat,
   HsrOptimizerStore,
-  UserSettings,
 } from 'types/store'
 import { create } from 'zustand'
 
@@ -951,7 +948,7 @@ export const DB = {
     if (Object.keys(relicIdMapping).length > 0) {
       // console.log('Updating relic ID references', relicIdMapping)
 
-      characters.forEach((character, idx, arr) => {
+      characters.forEach((character, idx, characters) => {
         let newEquipped
         // Update equipped relic IDs
         for (const part of Object.values(Constants.Parts)) {
@@ -970,7 +967,7 @@ export const DB = {
             return { ...savedBuild, build: updatedBuild }
           })
         }
-        arr[idx] = { ...character, equipped: newEquipped ?? character.equipped, builds: newSavedBuilds ?? character.builds }
+        characters[idx] = { ...character, equipped: newEquipped ?? character.equipped, builds: newSavedBuilds ?? character.builds }
       })
     }
 

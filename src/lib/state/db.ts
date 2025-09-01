@@ -43,8 +43,10 @@ import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import {
+  Build,
   Character,
   CharacterId,
+  SavedBuild,
 } from 'types/character'
 import { CustomImageConfig } from 'types/customImage'
 import { Form } from 'types/form'
@@ -949,23 +951,26 @@ export const DB = {
     if (Object.keys(relicIdMapping).length > 0) {
       // console.log('Updating relic ID references', relicIdMapping)
 
-      characters.forEach((character, idx) => {
+      characters.forEach((character, idx, arr) => {
+        let newEquipped
         // Update equipped relic IDs
         for (const part of Object.values(Constants.Parts)) {
           const equippedId = character.equipped?.[part]
           if (equippedId && relicIdMapping[equippedId]) {
-            character.equipped = { ...character.equipped, [part]: relicIdMapping[equippedId] }
+            newEquipped = { ...character.equipped, [part]: relicIdMapping[equippedId] }
           }
         }
 
+        let newSavedBuilds
         // Update saved builds relic IDs
         if (character.builds && character.builds.length > 0) {
-          character.builds = character.builds.map((savedBuild) => {
+          newSavedBuilds = character.builds.map((savedBuild) => {
             const updatedBuild = savedBuild.build.map((relicId) => relicIdMapping[relicId] || relicId)
 
             return { ...savedBuild, build: updatedBuild }
           })
         }
+        arr[idx] = { ...character, equipped: newEquipped ?? character.equipped, builds: newSavedBuilds ?? character.builds }
       })
     }
 

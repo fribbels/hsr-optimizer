@@ -2,6 +2,7 @@ import {
   ADDITIONAL_DMG_TYPE,
   BASIC_DMG_TYPE,
   BREAK_DMG_TYPE,
+  DamageType,
   DOT_DMG_TYPE,
   FUA_DMG_TYPE,
   MEMO_DMG_TYPE,
@@ -167,6 +168,21 @@ export const FullStatsConfig: ComputedStatsConfigType = Object.fromEntries(
   }),
 ) as ComputedStatsConfigType
 
+/**
+ * Each combo is an array of actions
+ * Each action is an array of hits
+ * Each hit can have multiple damage types
+ * Each hit has its own damage function
+ *
+ * Stats are calculated once per action
+ * Damage is calculated once per hit
+ *
+ * Each individual damage type has its own container of stats. e.g. SKILL VULNERABILITY, ULT DEF PEN, etc
+ *
+ *
+ * Rutilant Arena set buffs SKILL | BASIC
+ * What if we're calculating a SKILL | ULT hit?
+ */
 export class ComputedStatsContainer {
   constructor(public context: OptimizerContext) {
     // const characterConditionalController = CharacterConditionalsResolver.get(context)
@@ -178,10 +194,11 @@ export class ComputedStatsContainer {
     //
     // const actionDeclarations = characterConditionalController.actionDeclaration()
     const hitActions = context.hitActions ?? []
+    const enabledDamageTypes = new Set<DamageType>()
 
     for (const hitAction of hitActions) {
       for (const hit of hitAction.hits) {
-        hit.damageType
+        enabledDamageTypes.add(hit.damageType)
       }
     }
   }

@@ -7057,72 +7057,72 @@
       },
       "traceTree": [
         {
-          "id": "1413201_3.6v1",
+          "id": "1413201_3.6v4",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": [
             {
-              "id": "1413202_3.6v1",
+              "id": "1413202_3.6v4",
               "stat": "HP%",
               "value": 0.04,
-              "pre": "1413201_3.6v1",
+              "pre": "1413201_3.6v4",
               "children": []
             },
             {
-              "id": "1413203_3.6v1",
+              "id": "1413203_3.6v4",
               "stat": "CRIT Rate",
               "value": 0.027,
-              "pre": "1413201_3.6v1",
+              "pre": "1413201_3.6v4",
               "children": []
             }
           ]
         },
         {
-          "id": "1413204_3.6v1",
+          "id": "1413204_3.6v4",
           "stat": "CRIT DMG",
           "value": 0.053,
           "pre": null,
           "children": []
         },
         {
-          "id": "1413205_3.6v1",
+          "id": "1413205_3.6v4",
           "stat": "CRIT Rate",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1413206_3.6v1",
+          "id": "1413206_3.6v4",
           "stat": "HP%",
           "value": 0.06,
           "pre": null,
           "children": []
         },
         {
-          "id": "1413207_3.6v1",
+          "id": "1413207_3.6v4",
           "stat": "CRIT Rate",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1413208_3.6v1",
+          "id": "1413208_3.6v4",
           "stat": "CRIT DMG",
           "value": 0.08,
           "pre": null,
           "children": [
             {
-              "id": "1413209_3.6v1",
+              "id": "1413209_3.6v4",
               "stat": "HP%",
               "value": 0.08,
-              "pre": "1413208_3.6v1",
+              "pre": "1413208_3.6v4",
               "children": [
                 {
-                  "id": "1413210_3.6v1",
+                  "id": "1413210_3.6v4",
                   "stat": "CRIT Rate",
                   "value": 0.053,
-                  "pre": "1413209_3.6v1",
+                  "pre": "1413209_3.6v4",
                   "children": []
                 }
               ]
@@ -7148,80 +7148,80 @@
       "path": "Preservation",
       "element": "Physical",
       "traces": {
-        "HP%": 0.1,
+        "SPD": 5,
         "ATK%": 0.28,
         "DEF%": 0.225
       },
       "traceTree": [
         {
-          "id": "1414201_3.6v1",
+          "id": "1414201_3.6v4",
           "stat": "ATK%",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1414202_3.6v1",
+          "id": "1414202_3.6v4",
           "stat": "DEF%",
           "value": 0.05,
           "pre": null,
           "children": [
             {
-              "id": "1414203_3.6v1",
+              "id": "1414203_3.6v4",
               "stat": "ATK%",
               "value": 0.04,
-              "pre": "1414202_3.6v1",
+              "pre": "1414202_3.6v4",
               "children": []
             }
           ]
         },
         {
-          "id": "1414204_3.6v1",
-          "stat": "HP%",
-          "value": 0.04,
+          "id": "1414204_3.6v4",
+          "stat": "SPD",
+          "value": 2,
           "pre": null,
           "children": []
         },
         {
-          "id": "1414205_3.6v1",
+          "id": "1414205_3.6v4",
           "stat": "ATK%",
           "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "1414206_3.6v1",
+              "id": "1414206_3.6v4",
               "stat": "DEF%",
               "value": 0.075,
-              "pre": "1414205_3.6v1",
+              "pre": "1414205_3.6v4",
               "children": []
             }
           ]
         },
         {
-          "id": "1414207_3.6v1",
+          "id": "1414207_3.6v4",
           "stat": "ATK%",
           "value": 0.06,
           "pre": null,
           "children": []
         },
         {
-          "id": "1414208_3.6v1",
-          "stat": "HP%",
-          "value": 0.06,
+          "id": "1414208_3.6v4",
+          "stat": "SPD",
+          "value": 3,
           "pre": null,
           "children": [
             {
-              "id": "1414209_3.6v1",
+              "id": "1414209_3.6v4",
               "stat": "DEF%",
               "value": 0.1,
-              "pre": "1414208_3.6v1",
+              "pre": "1414208_3.6v4",
               "children": []
             },
             {
-              "id": "1414210_3.6v1",
+              "id": "1414210_3.6v4",
               "stat": "ATK%",
               "value": 0.08,
-              "pre": "1414208_3.6v1",
+              "pre": "1414208_3.6v4",
               "children": []
             }
           ]

@@ -9348,7 +9348,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.ATK,
-      hiddenColumns: [SortOption.DOT, SortOption.SKILL, SortOption.FUA],
+      addedColumns: [SortOption.SHIELD],
+      hiddenColumns: [SortOption.DOT, SortOption.SKILL],
     },
   }
 }

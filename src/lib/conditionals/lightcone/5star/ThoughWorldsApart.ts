@@ -21,7 +21,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThoughWorldsApart.Content')
   const { SOURCE_LC } = Source.lightCone(THOUGH_WORLDS_APART)
 
-  const sValuesShield = [0.30, 0.35, 0.40, 0.45, 0.50]
+  const sValuesShield = [0.24, 0.28, 0.32, 0.36, 0.40]
   const sValuesDmgBoost = [0.24, 0.30, 0.36, 0.42, 0.48]
   const sValuesDmgBoostSummons = [0.12, 0.15, 0.18, 0.21, 0.24]
 

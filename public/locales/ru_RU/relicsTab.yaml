@@ -14,10 +14,18 @@ RelicFilterBar:
   RecommendationHeader: Персонаж для оценки реликвий
   Rating: Доп. фильтры оценки реликвий
   CustomCharsHeader: Персонажи для расчёта потенциала
+RecentlyUpdatedRelics:
+  Header: Недавно обновлённые реликвии
+  Potential: ПОТЕНЦИАЛ
+  Avg: СРЕДН
+  Max: МАКС
+  BestFor: ЛУЧШИЙ ДЛЯ
+  Tooltip: Средний и максимальный потенциальный результат для персонажа
 Messages:
   AddRelicSuccess: Реликвия успешно добавлена
   NoRelicSelected: Реликвия не выбрана
   DeleteRelicSuccess: Реликвия успешно удалена
+  UnableToDeleteRelic: Невозможно удалить реликвию
 RelicGrid:
   To: по
   Of: из
@@ -138,6 +146,7 @@ Toolbar:
   PlotOptions:
     PlotAll: Показать всех персонажей
     PlotCustom: Персонажи для расчёта потенциала
+    PlotOwned: Показать имеющихся персонажей
   EditRelic: Изменить реликвию
   DeleteRelic:
     ButtonText: Удалить реликвию
@@ -147,3 +156,4 @@ Toolbar:
 RelicInsights:
   NewStats: 'Новые хар-ки: '
   UpgradedStats: 'Улучшаемые хар-тики: '
+  AvgPotential: 'Средний потенциал: '

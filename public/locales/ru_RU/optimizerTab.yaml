@@ -1,15 +1,39 @@
+ValidationMessages:
+  Warning:
+    MissingTeammates: Выберите союзников для более точной оптимизации результатов.
+    PathMismatch: Путь персонажа не совпадает с путём конуса.
+  Error:
+    TopPercent: Вес всех сабстатов равен 0. Убедитесь что установили вес статов для вашего персонажа или используйте Рекомендуемый шаблон
+    MissingTarget: Отсутствуют поля целевых параметров оптимизации
+    MissingCharacter: Отсутствуют поля персонажа
+    MissingLightCone: Отсутствуют поля конусов
+    GPUNotAvailable: 'GPU-ускорение недоступно в этом браузере - поддерживаются только ПК-версии Chrome и Opera. Если у вас поддерживаемый браузер, но всё равно словили ошибку, сообщите о ней на сервер Discord.'
 CharacterSelector:
   Character: Персонаж
   Lightcone: Световой конус
   Presets: Шаблоны
   Target: Цель оптимизации
+  ResultsPlaceholder: Найти лучшие
+  TargetPlaceholder: Сортированы по
+  EidolonPlaceholder: E
+  SuperimpositionPlaceholder: S
 LightconePassives: Пассивки конуса
 CharacterPassives: Пассивки персонажа
 NoConditionals: Нет пассивок с условием.
 NoTeamConditionals: Нет пассивок с условием.
 ResultLimitN: 'Найти {{limit}} лучших'
+MainStats: Основные статы
 Sets: Наборы
+RelicSetSelector:
+  Placeholder: Набор реликвий
+  4pcLabel: 4 Части
+  2+2pcLabel: 2 + 2 Части
+  2pcLabel: 2 + Любые
+OrnamentSetSelector:
+  Placeholder: Планарные украшения
 SortOptions:
+  DMGLabel: Расчеты урона 
+  StatLabel: Статы
   COMBO: По Урону Комбо
   BASIC: По Урону Баз Атаки
   SKILL: По Урону Навыка
@@ -21,11 +45,25 @@ SortOptions:
   BREAK: По Урону Пробития
   HEAL: По Исцелению
   SHIELD: По Щиту
+  HP: 'По $t(common:ReadableStats.HP)'
+  ATK: 'По $t(common:ReadableStats.ATK)'
+  DEF: 'По $t(common:ReadableStats.DEF)'
+  SPD: 'По $t(common:ReadableStats.SPD)'
+  CR: 'По $t(common:ReadableStats.CRIT Rate)'
+  CD: 'По $t(common:ReadableStats.CRIT DMG)'
+  EHR: 'По $t(common:ReadableStats.Effect Hit Rate)'
+  RES: 'По $t(common:ReadableStats.Effect RES)'
+  BE: 'По $t(common:ReadableStats.Break Effect)'
+  OHB: 'По $t(common:ReadableStats.Outgoing Healing Boost)'
+  ERR: 'По $t(common:ReadableStats.Energy Regeneration Rate)'
+  DMG: По Урону Элемента
+  EHP: По эффективному HP
 OptimizerOptions:
   Header: Параметры оптимизатора
   PriorityFilter: Фильтр по приоритету 
   Priority:
     Header: Приоритет
+    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
   AllowEquipped: Разрешить поиск по надетым реликвиям
   KeepCurrent: Оставить текущие реликвии
@@ -45,6 +83,7 @@ OptimizerOptions:
     Label4: 4 ★ +
     Label5: 5 ★
   BoostMain:
+    Header: Основной стат
     Label0: '+0'
     Label3: '+3'
     Label6: '+6'
@@ -57,10 +96,19 @@ OptimizerOptions:
     Sub: Саб
 AdvancedOptions:
   Header: Расширенные параметры
+  EnemyConfigButtonText: Конфигурация врага
+  CombatBuffsButtonTextNone: Доп. баффы в бою
+  CombatBuffsButtonText: 'Доп. баффы в бою ({{activeCount}})'
   CustomTracesButtonText: Настройка следов
 Grid:
+  To: по
+  Of: из
+  Page: Страница
+  PageSelectorLabel: 'Элементов на страницу:'
+  Loading: Загрузка...
   Headers:
     Basic:
+      Set: Набор
       ATK: Сила атаки
       DEF: Защита
       HP: HP
@@ -72,7 +120,37 @@ Grid:
       BE: ЭП
       OHB: ИСЦ
       ERR: ВЭ
+      DMG: Урон 
       EHP: эHP
+      HEAL: ИСЦЕЛЕНИЕ
+      SHIELD: ЩИТ
+      BASIC: |-
+        БАЗ
+        АТАКА
+      SKILL: |-
+        УРОН
+        НАВЫКА
+      ULT: |-
+        УРОН
+        УЛЬТЫ
+      FUA: |-
+        БОНУС
+        АТАКА
+      MEMO_SKILL: |-
+        УРОН 
+        НАВЫКАᴹ
+      MEMO_TALENT: |-
+        Урон
+        Талантаᴹ
+      DOT: |-
+        УРОН
+        ДОТОВ
+      BREAK: |-
+        УРОН
+        ПРОБИТИЯ
+      COMBO: |-
+        УРОН 
+        КОМБО
     Combat:
       Set: Набор
       ATK: Σ Атака
@@ -84,39 +162,204 @@ Grid:
       EHR: Σ эHP
       RES: Σ Сопр
       BE: ΣПробитие
+      OHB: Σ БонусИсц
       ERR: Σ ВосстЭн
       DMG: Σ УРОН
       EHP: эHP
+      HEAL: Исцеление
+      SHIELD: ЩИТ
+      BASIC: |-
+        БАЗ
+        АТАКА
+      SKILL: |-
+        УРОН
+        НАВЫКА
+      ULT: |-
+        УРОН
+        УЛЬТЫ
+      FUA: |-
+        БОНУС
+        АТАКА
+      MEMO_SKILL: |-
+        УРОН 
+        НАВЫКАᴹ
+      MEMO_TALENT: |-
+        Урон
+        ТАЛАНТАᴹ
+      DOT: |-
+        УРОН
+        ДОТОВ
+      BREAK: |-
+        УРОН
+        ПРОБИТИЯ
+      COMBO: |-
+        УРОН 
+        КОМБО
 Sidebar:
   GPUOptions:
+    Experimental: GPU-ускорение включено (экспериментальное)
+    Stable: GPU-ускорение включено (стабильно)
+    CPU: Только CPU
     EngineSwitchSuccessMsg:
       CPU: Переключение вычислений на процессор
       Stable: Переключение вычислений на видеокарту (стабильная версия)
       Experimental: Переключение вычислений на видеокарту (экспериментальная версия)
+    Display:
+      GPU Experimental: 'GPU-ускорение: включено'
+      GPU Stable: 'GPU-ускорение: включено'
+      CPU: 'GPU-ускорение: отключено'
+  Pinning:
+    Messages:
+      NoneSelected: Строки не выбраны
+      SimSelected: Пользовательская симуляция строк не прикрепляется
+      AlreadyPinned: Эта сборка уже закреплена
   Permutations: Комбинации
   Perms: Комбинаций
   Searched: Проверено
   Results: Результаты
+  ComputeEngine: Движок вычислений
   ProgressText:
     Progress: Прогресс
+    CalculatingETA: Прогресс (считаем..)
+    TimeRemaining: 'Осталось: {{rate}} / сек — {{timeRemaining}}'
+    Finished: 'Закончено: {{rate}} / сек'
   ControlsGroup:
     Header: Управление
+    Start: Запустить оптимизатор
+    ResetConfirm:
+      Title: Сбросить все фильтры?
+      Description: Все фильтры будут сброшены к значениям по умолчанию
+  StatViewGroup:
+    Header: Вид статов и фильтр
+    CombatStats: Статы в бою
+    BasicStats: Статы перса
+    SummonerStats: Призыватель
+    MemospriteStats: Дух памяти
   ResultsGroup:
     Header: Результаты
+    Equip: Экипировать
     EquipSuccessMessage: Экипировано
+    Filter: Фильтр
+    Pin: Закрепить
+    Clear: Снять закреп
+TeammateRow:
+  Header: 'Союзников {{teammateCount}}'
+FormRowLabels:
+  Character options: Настройки персонажа
+  Relic & stat filters: Фильтры реликвий и статов
+  Teammates: Союзники
+  Character custom stats simulation: Установка статов вручную
+  Analysis: Анализ результатов оптимизации
 TracesDrawer:
   Title: Настройка следов персонажа
   Header: Активные следы (по умолчанию включены все)
   ButtonText: Сохранить изменения
 SetConditionals:
+  Title: Эффекты набора
+  DescriptionHeader: Описание набора
+  EffectHeader: Включенный эффект
+  SetName: '$t(gameData:RelicSets.{{id}}.Name)'
+  RelicDescription: '$t(gameData:RelicSets.{{id}}.Description4pc)'
+  PlanarDescription: '$t(gameData:RelicSets.{{id}}.Description2pc)'
   SelectOptions:
+    Streetwise:
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} стаков (+{{buffValue}}% АТК)'
     Wastelander:
+      Off:
+        Display: 'Выкл.'
+        Label: 'Выкл.'
       Debuffed:
         Display: КШ
+        Label: При дебаффе (+10% КШ)
+      Imprisoned:
+        Display: КШ + КУ
+        Label: В заключении (+10% КШ | +20% КУ)
     Longevous:
-      Label: '{{stackCount}} стаки (+{{buffValue}}% КШ)'
+      Display: '{{stackCount}}х'
+      Label: '{{stackCount}} стаков (+{{buffValue}}% КШ)'
+    Ashblazing:
+      Display: '{{stackCount}}х'
+      Label: '{{stackCount}} стаков (+{{buffValue}}% АТК)'
+    Prisoner:
+      Display: '{{stackCount}}х'
+      Label: '{{stackCount}} стаков (+{{buffValue}}% игнор защиты)'
+    Diver:
+      Off:
+        Display: 0x
+        Label: 0 дебаффов (+4% КШ)
+      1Debuff:
+        Display: 1x
+        Label: 1 дебафф (+12% урона | +4% КШ)
+      2Debuff:
+        Display: 2x
+        Label: 2 дебаффа (+12% урона | +4% КШ | +8% КУ)
+      3Debuff:
+        Display: 3x
+        Label: 3 дебаффа (+12% урона | +4% КШ | +12% КУ)
+      2+Debuff:
+        Display: 2x+ 
+        Label: 2 дебаффа,  усилено (12% урона | +4% КШ | +4% КШ в бою |  +16% КУ)
+      3+Debuff:
+        Display: 3x+
+        Label: 3 дебаффа, усилено (12% урона | +4% КШ | +4% КШ в бою | +24% КУ)
+    Sigonia:
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} стаков (+{{buffValue}}% КУ)'
+    Duran:
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} стаки (+{{buffValue}}% урона бонус-атак)'
+      Label5: 5 стаков (+25% урона бонус-атак | + 25% КУ)
+    Sacerdos:
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} стаков (+{{buffValue}}% КУ)'
+    Arcadia:
+      Display: '{{allyCount}}x'
+      Label: '{{allyCount}} союзников (+{{buffValue}}% урона)'
+  Conditionals:
+    DefaultMessage: Включено по умолчанию - эффекты будут учитываться в расчетах статов в бою.
+    Hunter: Когда включено, к расчету статов в бою применяется бафф крит. урона.
+    Streetwise: Выбранный бафф атаки применяется к расчету статов в бою в зависимости от количества стаков.
+    Firesmith: Повышение урона навыка всегда активно по умолчанию. Если включено, бафф огненного урона применяется к расчету статов в бою.
+    Genius: Эффект игнора защиты на 10% всегда активен по умолчанию. Если включено, считается, что враг имеет квантовую  уязвимость и игнорируется на 10% больше защиты.
+    Thunder: Когда включено, бафф ATK% учитывается в расчетах статов в бою.
+    Wastelander: Учитывает выбранные баффы в расчетах статов в бою.
+    Longevous: Выбранный бафф крит. шанса применяется к расчетам статов в бою в зависимости от количества стаков.
+    Messenger: Когда включено, бафф скорости учитывается в расчетах статов в бою.
+    Ashblazing: >-
+      Выбранный бафф атаки применяется ко всем расчетам, кроме бонус-атак. Для бонус-атаки применяется сначала 0% баффа атаки и складывается дальше на основе количества попаданий, произведенных атакой. Количество попаданий будет увеличиваться в зависимости от количества врагов с учетом, что цель находится в центре в случае атаки по области.
+    Prisoner: Выбранный бафф игнора защиты применяется к расчету статов в бою в зависимости от количества стаков.
+    Diver: Эффект набора от 2шт. можно отключить, выбрав вариант 0х. Для набора 4шт., в зависимости от выбранного варианта, в расчетах применяются различные баффы крита.
+    Watchmaker: Когда включено, к расчету статов в бою применяется бафф пробития.
+    Valorous: Когда включено, к расчету статов в бою применяется бафф Урона% Ультимейта.
+    Sacerdos: Выбранный бафф применяется к расчету урона. Персонажи с возможностью баффа самих себя могут активировать этот эффект.
+    Scholar: Когда включено, эффект баффа Урона Навыка будет усилен в соответствии с ротацией Комбо.
+    Hero: Когда включено, к расчету статов в бою применяются баффы Крит. Урона и СКР%.
+    Differentiator: Когда включено, к расчету статов в бою применяется бафф крит. шанса.
+    Penacony: Если включено, бафф урона будет применяться к мемо носителя набора.
+    Sigonia: Выбранный бафф крит. урона применяется к расчетам статов в бою, предполагая, что персонаж победил необходимое число противников.
+    Izumo: Когда включено, если есть союзник того же пути, то применяется бафф крит. шанса 12% в расчетах статов в бою.
+    Duran: Выбранный бафф применяется в расчетах статов в бою в зависимости от количества стаков.
+    Kalpagni: Если включено, применяется бафф эффекта пробития к статам в бою
+    Lushaka: По умолчанию отключено - набор не может повлиять на носителя.
+    Banana: Когда включено, к расчету статов в бою применяется бафф 32% крит. урона.
+    Arcadia: Выбранный бафф применяется в расчетах статов в бою. Обновляется автоматически при изменении состава команды.
 Presets:
+  SpdValues:
+    SPD0: Нет минимальной скорости
+    SPD111: 111.112 СКР - 5 действий в первых четырех циклах
+    SPD114: 114.286 СКР - 4 действия в первых трех циклах
+    SPD120: 120.000 СКР - 3 действия в первых двух циклах
+    SPD133: 133.334 СКР - 2 действия в первом цикле, 6 действий в первых четырех циклах
+    SPD142: 142.858 СКР - 5 действий в первых трех циклах
+    SPD155: 155.556 СКР - 7 действий в первых четырех циклах
+    SPD160: 160.000 СКР - 4 действия в первых двух циклах
+    SPD171: 171.429 СКР - 6 действий в первых трех циклах
+    SPD177: 177.778 СКР - 8 действий в первых четырех циклах
+    SPD200: 200.000 СКР - 3 действия в первом цикле
+  StandardLabel: 'Базовый $t(gameData:Characters.{{id}}.Name)'
   RecommendedPresets: Рекомендуемые шаблоны
+  PresetNotAvailable: Шаблон недоступен, пожалуйста, выберите другую опцию
 CombatBuffs:
   ATK: Сила атаки
   ATK_P: АТК %
@@ -128,7 +371,30 @@ CombatBuffs:
   CD: Крит Урон %
   SPD: Скорость
   SPD_P: Скорость %
+  BE: Пробитие %
+  DMG_BOOST: Бонус урона %
+  DEF_PEN: Игнор защиты %
+  RES_PEN: Игнор сопр. урону %
+  EFFECT_RES_PEN: Игнор сопр. эффектам %
+  VULNERABILITY: Уязвимость %
+  BREAK_EFFICIENCY: Эффективность пробития %
+  Title: Доп. баффы в бою
+Target_one: цель
+Target_other: цели
+EnemyConfiguration:
+  LevelOptionLabel: 'Уровень {{level}} - {{defense}} ЗАЩ'
+  CountOptionLabel: >-
+    {{targetCount}} $t(optimizerTab:Target, {"count": {{targetCount}}})
+  EffResOptionLabel: '{{resistance}}% сопр. эффектам'
+  DmgResOptionLabel: '{{resistance}}% сопротивления урону'
+  ToughnessOptionLabel: '{{toughness}} макс. стойкость'
+  Title: Конфигурация врага
+  StatHeader: Параметры статов врага
+  WeaknessLabel: Уязвимость к элементу
+  BrokenLabel: Уязвимость пробита
 WeightFilter:
+  WeightFilterHeader: Фильтр веса статов
+  RollFilterHeader: Качество проков
   HPFilterText: HP
   ATKFilterText: Сила атаки
   DEFFilterText: Защита
@@ -139,6 +405,8 @@ WeightFilter:
   RESFilterText: Сопротивление
   BEFilterText: Пробитие
 MinMaxFilters:
+  StatHeader: Фильтр статов (мин. | макс.)
+  RatingHeader: Фильтр оценки (мин. | макс.)
   HPLabel: HP
   ATKLabel: Сила атаки
   DEFLabel: Защита
@@ -149,6 +417,7 @@ MinMaxFilters:
   RESLabel: Сопр
   BELabel: Пробитие
   ERRLabel: ВосстЭн
+  WEIGHTLabel: Вес
   EHPLabel: эHP
   BASICLabel: Баз Атака
   SKILLLabel: Навык
@@ -159,40 +428,167 @@ MinMaxFilters:
   BREAKLabel: Пробитие
   HEALLabel: Исцеление
   SHIELDLabel: Щит
+  COMBOLabel: Комбо
 ComboFilter:
+  Header: Ротация для Урона Комбо
+  AbilityLabel: Способности
+  ModeSelector:
+    Simple: Простой
+    Advanced: Продвинутый
   RowControls:
     Header: Управление
+    Add: +
+    Remove: '-'
+    ResetConfirm:
+      Description: Сбросить все (Простые / Продвинутые) настройки ротаций?
     PresetsHeader: Шаблоны
+  CounterLabels:
+    Dot: ДоТ'ы
   ComboOptions:
     None: 'Нет'
     Basic: БазАтака
     Skill: Навык
     Ult: Ульта
+    Fua: БонусАтк
+    Dot: ДоТ'ы
     Break: ЭП
+    MemoSkill: Навыкᴹ
+    MemoTalent: Талантᴹ
+  RotationButton: Расширенная ротация
 ComboDrawer:
   NoConditionals: Нет пассивок с условием.
   Title: Руководство по редактору ротаций
+  Placeholders:
+    Sets: Эффекты наборов реликвий
+    Ornaments: Эффекты планарных украшений
+  GroupHeaders:
+    Sets: Эффекты наборов Планарок / Реликвий
+    Teammate1: Эффекты союзника 1
+    Teammate2: Эффекты союзника 2
+    Teammate3: Эффекты союзника 3
 TeammateCard:
+  EidolonN: >-
+    $t(common:EidolonNShort, {"eidolon": {{eidolon}}})
+  SuperimpositionN: >-
+    $t(common:SuperimpositionNShort, {"superimposition": {{superimposition}}})
+  EidolonPlaceholder: Эйдолон
+  SuperimpositionPlaceholder: Наложение
   RelicsPlaceholder: Реликвии
+  OrnamentsPlaceholder: Планарки
   TeammateSyncSuccessMessage: Синхронизация информации союзника прошла успешно
+  TeammateSets:
+    Messenger:
+      Desc: '4 Части: $t(gameData:RelicSets.114.Name) (+12% СКР)'
+      Set: '$t(gameData:RelicSets.114.Name)'
+      Text: 12% СКР
+    Watchmaker:
+      Desc: '4 Части: $t(gameData:RelicSets.118.Name) (+30% ЭП)'
+      Set: '$t(gameData:RelicSets.118.Name)'
+      Text: 30% ЭП
+    Sacerdos1Stack:
+      Desc: '4 Части: $t(gameData:RelicSets.121.Name) (+18% КУ)'
+      Set: '$t(gameData:RelicSets.121.Name)'
+      Text: 18% КУ
+    Sacerdos2Stack:
+      Desc: '4 Части: $t(gameData:RelicSets.121.Name) (+36% КУ)'
+      Set: '$t(gameData:RelicSets.121.Name)'
+      Text: 36% КУ
+    Warrior:
+      Desc: '$t(gameData:RelicSets.125.Name) (+15% КУ)'
+      Set: '$t(gameData:RelicSets.125.Name)'
+      Text: 15% КУ
+    Keel:
+      Desc: '$t(gameData:RelicSets.310.Name) (+10% КУ)'
+      Set: '$t(gameData:RelicSets.310.Name)'
+      Text: 10% КУ
+    Ageless:
+      Desc: '$t(gameData:RelicSets.302.Name) (+8% АТК)'
+      Set: '$t(gameData:RelicSets.302.Name)'
+      Text: 8% АТК
+    Penacony:
+      Desc: '$t(gameData:RelicSets.312.Name) (+10% урона для того же элемента)'
+      Set: '$t(gameData:RelicSets.312.Name)'
+      Text: 10% Урона
+    Lushaka:
+      Desc: '$t(gameData:RelicSets.317.Name) (+12% АТК)'
+      Set: '$t(gameData:RelicSets.317.Name)'
+      Text: 12% АТК
 StatSimulation:
+  DuplicateSimMessage: Идентичный вариант статов уже существует
+  MissingMainstatsMessage: Отсутствуют основные характеристики для симуляции
+  BuildAlreadyImported: Выбранная оптимизированная сборка уже в симуляции
+  NothingToImport: Сначала запустите оптимизатор, затем выберите строку из оптимизированных результатов для импорта
+  NoStatSimulations: Не выбраны статы
+  SetSelection:
+    Header: Наборы
+    RelicPlaceholder: Набор реликвий
+    OrnamentPlaceholder: Наборы планарок
+  TotalRolls: Всего проков
+  SubstatSelectorLabel: '$t(common:Stats.{{stat}})'
+  ModeSelector:
+    Off: 'Выкл.'
+    RollCount: Установить количество проков
+    Totals: Установить значения статов
+  FooterLabels:
+    Simulate: Добавить сборки
+    Import: Импортировать сборку
+    Conditionals: Эффекты набора
+  DeletePopup:
+    Title: Стереть симуляцию характеристик
+    Description: Вы уверены, что хотите очистить все симуляции этого персонажа?
+  SimulationNamePlaceholder: Название сборки (необязательно)
+  OptionsHeader: Опции
+  RollsHeader: Кол-во проков 
+  TotalsHeader: Суммарное значение статов
   MainStatsSelection:
+    Header: Основные статы
     BodyPlaceholder: Тело
     FeetPlaceholder: Ноги
     SpherePlaceholder: Сфера
     RopePlaceholder: Верёвка
+    ShortStat: '$t(common:ShortReadableStats.{{stat}})'
+    LabelStat: '$t(common:ReadableStats.{{stat}})'
 ExpandedDataPanel:
+  SubstatUpgrades:
+    ColumnHeaders:
+      Substat: '+1x прок'
+      COMBO_DMG: Δ Урона Комбо
+      COMBO_DMG_P: Δ% Урона Комбо
+      EHP: Δ эHP
+      EHP_P: Δ% эHP
+      HEAL_VALUE: Δ Исцеления
+      HEAL_VALUE_P: Δ% Исцеления
+      SHIELD_VALUE: Δ Щит
+      SHIELD_VALUE_P: Δ% Щит
   DamageSplits:
+    Title: Распределение урона по типам
     Legend:
-      breakDmg: ЭП
+      abilityDmg: Умения
+      breakDmg: Пробитие
+      superBreakDmg: Суперпробитие
+      additionalDmg: Доп урон
+      trueDmg: 'Истинный урон'
+      jointDmg: Совместная атака
+      dotDmg: ДоТ'ы
+      memoDmg: Мемо
     YAxisLabel:
       BASIC_DMG: БазАтака
       SKILL_DMG: Навык
       ULT_DMG: Ульта
-      BREAK_DMG: ЭП
+      FUA_DMG: БонусАтака
+      DOT_DMG: ДоТ'ы
+      BREAK_DMG: Пробитие
+      MEMO_SKILL_DMG: Навыкᴹ
+      MEMO_TALENT_DMG: Талантᴹ
     TooltipText:
+      abilityDmg: Урон Умений
       breakDmg: Урон пробития
+      superBreakDmg: Урон Суперпробития
+      additionalDmg: Доп Урон
+      trueDmg: Истинный Урон
+      jointDmg: Совместный Урон
       dotDmg: Периодический урон
+      memoDmg: Урон Мемо
   BuffsAnalysisDisplay:
     Values:
       BoolFalse: 'Нет'
@@ -201,20 +597,100 @@ ExpandedDataPanel:
       Basic: БазАтака
       Skill: Навык
       Ult: Ульта
+      Talent: Талант
+      Technique: Техника
       Trace: Следы
+      Memo: Мемо
       E1: E1
+      E2: E2
+      E4: E4
+      E6: E6
     Stats:
       CompositeLabels:
+        Label: '{{prefix}} {{suffix}}'
         Prefix:
           Basic: БазАтака
           Skill: Навык
           Ult: Ульта
+          Fua: БонусАтк
+          Dot: ДоТ'ы
           Break: Пробитие
           Memo Skill: Навыкᴹ
+          Memo Talent: Талантᴹ
         Suffix:
+          ATK scaling: от Атаки
+          DEF scaling: от Защиты
+          HP scaling: от HP
+          Special scaling: Особое
+          'ATK % boost': Атака%↑
+          Crit Rate boost: КритШанс↑
+          Crit DMG boost: КритУрон↑
           DMG boost: Урон↑
           Vulnerability: Слабость
           RES PEN: Игнор Сопр
           DEF PEN: Игнор Защиты
+          Break DEF PEN: Игнор ЗАЩ Пробития
+          Toughness DMG: УронСтойкости
+          Super Break multiplier: Коэф-т Суперпробития
+          Break Efficiency boost: Эффективность Пробития↑
+          True DMG multiplier: Коэф-т Истинного Урона
+          Final DMG multiplier: Коэф-т Финального Урона
+          Break DMG multiplier: Коэф-т Урона Пробития
+          Additional DMG scaling: от ДопУрон
+          Additional DMG: Доп Урон
+          DMG: Урон 
       Misc:
+        Base HP: Базовое HP
+        Base ATK: Базовая АТК
+        Base DEF: Базовая ЗАЩ
+        Base SPD: Базовая СКР
+        Memosprite base HP scaling: HP Мемо от HP призывателя
+        Memosprite base DEF scaling: ЗАЩ Мемо от ЗАЩ призывателя
+        Memosprite base ATK scaling: АТК Мемо от АТК призывателя
+        Memosprite base SPD scaling: СКР Мемо от СКР призывателя
+        Memosprite base HP flat: Баз HP Мемо
+        Memosprite base DEF flat: Баз ЗАЩ Мемо
+        Memosprite base ATK flat: Баз АТК Мемо
+        Memosprite base SPD flat: Баз СКР Мемо
+        Elemental DMG: Урон Элемента
+        DMG reduction: Снижение Урона
+        Effective HP: Эффективное HP
+        Summons: Призыв
+        Memosprite: Мемо
+        Enemy weakness broken: Уязвимость врага пробита
+        Prioritize memosprite buffs: Приоритет баффов Мемо
+        Deprioritize buffs: Неприоритетные баффы
         Combo DMG: Урон Комбо
+        Dot base chance: Баз шанс ДоТ'ов
+        Effect RES PEN: Игнор Сопр. эффектам
+        Dot DMG split: Разделение Урона ДоТ'ов
+        Dot stacks: Стаки ДоТ'ов
+        Heal ability type: Тип умения исцеления
+        Heal flat: Доп к Исцелению
+        Heal scaling: К Исцелению
+        Heal value: Значение Исцеления
+        Shield flat: Доп к Щиту
+        Shield scaling: К Щиту
+        Shield value: Значение Щита
+        Shield boost: Щит↑
+        Skill Outgoing Healing Boost: Исходящее Исцеление↑ Навыка
+        Ult Outgoing Healing Boost: Исходящее Исцеление↑ Ульты
+        Super Break DEF PEN: Игнор ЗАЩ Суперпробитием
+        Super Break DMG Boost: Урон↑ Суперпробития
+        Super Break Vulnerability: Слабость к Суперпробитию
+        Additional DMG boost: Доп Урон↑
+        Ult Additional DMG CR override: Переопределение КШ Доп Атаки с Ульты
+        Ult Additional DMG CD override: Переопределение КУ Доп Атаки с Ульты
+      DmgTypes:
+        Basic: Тип Баз Атаки
+        Skill: Тип Урона Навыка
+        Ult: Тип Урона Ульты
+        Fua: Тип Урона Бонус-Атаки
+        Dot: Тип Урона ДоТ'ов
+        Break: Тип Урона Пробития
+        MemoSkill: Тип Урона Навыкаᴹ
+        MemoTalent: Тип Урона Талантаᴹ
+        Additional: Тип Доп Урона
+        SuperBreak: Тип Урона Пробития
+      ResPen: 'Игнор $t(common:Elements.{{element}}) Сопр'
+      Unconvertible: '$t(common:Stats.{{stat}}) неконвертируем'

@@ -865,7 +865,7 @@ export const DB = {
     newRelics = TsUtils.clone(newRelics) ?? []
     newCharacters = TsUtils.clone(newCharacters) ?? []
 
-    console.log('Merging relics', newRelics, newCharacters)
+    // console.log('Merging relics', newRelics, newCharacters)
 
     // Add new characters
     if (newCharacters) {
@@ -883,6 +883,9 @@ export const DB = {
       oldRelicHashes[hash] = oldRelic
     }
 
+    // Track relic ID changes for updating references
+    const relicIdMapping: Record<string, string> = {} // oldId -> newId
+
     let replacementRelics: Relic[] = []
     // In case the user tries to import a characters only file, we do this
     if (newRelics.length == 0) {
@@ -896,6 +899,11 @@ export const DB = {
       let stableRelicId: string
       if (found) {
         if (newRelic.verified) {
+          // Track the ID change if it will occur
+          if (found.id !== newRelic.id) {
+            relicIdMapping[found.id] = newRelic.id
+          }
+
           // Inherit the new verified speed stats
           found = {
             ...found,
@@ -937,9 +945,33 @@ export const DB = {
       }
     }
 
+    // Update all relic ID references in character equipment and saved builds
+    if (Object.keys(relicIdMapping).length > 0) {
+      // console.log('Updating relic ID references', relicIdMapping)
+
+      characters.forEach((character, idx) => {
+        // Update equipped relic IDs
+        for (const part of Object.values(Constants.Parts)) {
+          const equippedId = character.equipped?.[part]
+          if (equippedId && relicIdMapping[equippedId]) {
+            character.equipped = { ...character.equipped, [part]: relicIdMapping[equippedId] }
+          }
+        }
+
+        // Update saved builds relic IDs
+        if (character.builds && character.builds.length > 0) {
+          character.builds = character.builds.map((savedBuild) => {
+            const updatedBuild = savedBuild.build.map((relicId) => relicIdMapping[relicId] || relicId)
+
+            return { ...savedBuild, build: updatedBuild }
+          })
+        }
+      })
+    }
+
     indexRelics(replacementRelics)
 
-    console.log('Replacement relics', replacementRelics)
+    // console.log('Replacement relics', replacementRelics)
 
     DB.setRelics(replacementRelics)
 

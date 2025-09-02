@@ -155,7 +155,7 @@ Lightcones:
         text: Bonus DGT ennemi malussé
         content: Les DGT du porteur sur les ennemies souffrant de malus augmentent de {{DmgBuff}}%.
       skillAtkBoost:
-        text: Bonus d'ATQ de compétence (non mis en œuvre)
+        text: Bonus d'ATQ de Compétence
         content: Lorsqu'il utilise sa compétence, les chances d'appliquer des effets du porteur pour cette attaque augmentent de {{EhrBuff}}%, et son ATQ de {{AtkBuff}}%.
   InTheNight:
     Content:

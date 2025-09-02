@@ -154,7 +154,6 @@ Lightcones:
         text: 적 디버프 상태
         content: 장착한 캐릭터가 디버프 효과에 빠진 적에게 가하는 피해가 {{DmgBuff}}% 증가한다.
       skillAtkBoost:
-        text: 전투 스킬 발동 시 공격력 증가 (미구현)
         content: 장착한 캐릭터가 전투 스킬 발동 시 장착한 캐릭터의 이번 공격은 효과 명중이 {{EhrBuff}}% 증가하고, 공격력이 {{AtkBuff}}% 증가한다.
   InTheNight:
     Content:

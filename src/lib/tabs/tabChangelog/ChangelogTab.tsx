@@ -121,6 +121,8 @@ function getChangelogContent() {
         `Fix: Disabled set weights temporarily`,
         `Fix: Sunday E1's secondary def pen now correctly applies to summons only`,
         `Fix: In the Name of the World's Skill ATK boost conditional is now active by default and correctly calculated`,
+        `Fix: Saved builds work properly with Live Import now and no longer get wiped`,
+        `Fix: Hoyolab imports now automatically detect buffed characters`,
         `Balance: Hysilens' DPS score with a non-EHR light cone now has special diminishing returns scaling due to the 100% benchmark being unable to reach the EHR breakpoint`,
         `Balance: Changed Archer's default set from Genius of Brilliant Stars to Wavestrider Captain because of DEF PEN overcapping. Genius of Brilliant Stars is still matched`,
       ],

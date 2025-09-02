@@ -139,7 +139,6 @@ Lightcones:
         text: Kẻ địch đang trong Hiệu Ứng Xấu
         content: Khiến sát thương mà người trang bị gây cho kẻ địch đang trong Hiệu Ứng Xấu tăng {{DmgBuff}}%
       skillAtkBoost:
-        text: Tấn công tăng (chưa được tính)
         content: Khi người trang bị thi triển Chiến Kỹ, Chính Xác Hiệu Ứng của lần tấn công này của người trang bị sẽ tăng {{EhrBuff}}%, Tấn Công tăng {{AtkBuff}}%.
   InTheNight:
     Content:

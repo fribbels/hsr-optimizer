@@ -111,7 +111,6 @@ Lightcones:
         text: 敵人陷入負面效果時傷害提高
         content: 使裝備者對陷入負面效果的敵方目標造成的傷害提高{{DmgBuff}}%。
       skillAtkBoost:
-        text: 戰技攻擊力提升（未實施）
         content: 當裝備者施放戰技時，裝備者此攻擊的效果命中提高{{EhrBuff}}%，攻擊力提高{{AtkBuff}}%。
   InTheNight:
     Content:

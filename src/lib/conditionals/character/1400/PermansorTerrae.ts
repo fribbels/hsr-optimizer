@@ -2,6 +2,9 @@ import i18next from 'i18next'
 import {
   AbilityType,
   ASHBLAZING_ATK_STACK,
+  NONE_TYPE,
+  SKILL_DMG_TYPE,
+  ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
@@ -10,18 +13,15 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-} from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 
 import {
   boostAshblazingAtkP,
   gpuBoostAshblazingAtkP,
   gpuStandardAtkShieldFinalizer,
-  gpuStandardDefShieldFinalizer,
   standardAtkShieldFinalizer,
-  standardDefShieldFinalizer,
 } from 'lib/conditionals/conditionalFinalizers'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -33,6 +33,7 @@ import {
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.PermansorTerrae.Content')
   // const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
+  const tShield = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.ShieldAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
     SOURCE_BASIC,
@@ -57,7 +58,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const talentShieldScaling = talent(e, 0.10, 0.106)
   const talentShieldFlat = talent(e, 160, 178)
 
-  const defaults = {}
+  const defaults = {
+    shieldAbility: ULT_DMG_TYPE,
+  }
 
   const teammateDefaults = {
     bondmate: true,
@@ -67,7 +70,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e6Buffs: true,
   }
 
-  const content: ContentDefinition<typeof defaults> = {}
+  const content: ContentDefinition<typeof defaults> = {
+    shieldAbility: {
+      id: 'shieldAbility',
+      formItem: 'select',
+      text: tShield('Text'),
+      content: tShield('Content'),
+      options: [
+        { display: tShield('Skill'), value: SKILL_DMG_TYPE, label: tShield('Skill') },
+        { display: tShield('Ult'), value: ULT_DMG_TYPE, label: tShield('Ult') },
+        { display: tShield('Trace'), value: NONE_TYPE, label: tShield('Trace') },
+      ],
+      fullWidth: true,
+    },
+  }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     bondmate: {
@@ -136,8 +152,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
       x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_ULT)
 
-      x.SHIELD_SCALING.buff(talentShieldScaling, SOURCE_TALENT)
-      x.SHIELD_FLAT.buff(talentShieldFlat, SOURCE_TALENT)
+      if (r.shieldAbility == ULT_DMG_TYPE) {
+        x.SHIELD_SCALING.buff(talentShieldScaling * 2, SOURCE_ULT)
+        x.SHIELD_FLAT.buff(talentShieldFlat * 2, SOURCE_ULT)
+      }
+      if (r.shieldAbility == SKILL_DMG_TYPE) {
+        x.SHIELD_SCALING.buff(talentShieldScaling * 2, SOURCE_SKILL)
+        x.SHIELD_FLAT.buff(talentShieldFlat * 2, SOURCE_SKILL)
+      }
+      if (r.shieldAbility == NONE_TYPE) {
+        x.SHIELD_SCALING.buff(talentShieldScaling, SOURCE_TALENT)
+        x.SHIELD_FLAT.buff(talentShieldFlat, SOURCE_TALENT)
+      }
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)

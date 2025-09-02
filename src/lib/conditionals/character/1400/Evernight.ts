@@ -12,14 +12,27 @@ import {
 import { Source } from 'lib/optimization/buffSource'
 import {
   ComputedStatsArray,
+  Key,
 } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import i18next from 'i18next'
 import {
+  dynamicStatConversion,
+  gpuDynamicStatConversion,
+} from 'lib/conditionals/evaluation/statConversion'
+import {
+  ConditionalActivation,
+  ConditionalType,
   CURRENT_DATA_VERSION,
   PathNames,
+  Stats,
 } from 'lib/constants/constants'
+import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import {
+  wgslFalse,
+  wgslTrue,
+} from 'lib/gpu/injection/wgslUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -47,11 +60,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const basicScaling = basic(e, 0.50, 0.55)
 
-  const skillCdScaling = skill(e, 0.60, 0.66)
+  const skillCdScaling = skill(e, 0.30, 0.33)
 
   const ultMemoScaling = ult(e, 2.00, 2.20)
-  const ultVulnScaling = ult(e, 0.24, 0.264)
-  const ultDmgBoostScaling = ult(e, 1.00, 1.10)
+  const ultVulnScaling = ult(e, 0.30, 0.33)
+  const ultDmgBoostScaling = ult(e, 0.60, 0.66)
 
   const talentCdScaling = talent(e, 0.60, 0.66)
 
@@ -65,10 +78,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     buffPriority: BUFF_PRIORITY_MEMO,
     memospriteActive: true,
     crBuff: true,
-    memoCdBuff: true,
+    skillMemoCdBuff: true,
+    talentMemoCdBuff: true,
+    traceCdBuff: true,
     memoriaStacks: 16,
     enhancedState: true,
     e1FinalDmg: true,
+    e2CdBuff: true,
     e4Buffs: true,
     e6ResPen: true,
   }
@@ -76,6 +92,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const teammateDefaults = {
     memospriteActive: true,
     enhancedState: true,
+    skillMemoCdBuff: true,
+    evernightCombatCD: 2.50,
     e1FinalDmg: true,
     e4Buffs: true,
     e6ResPen: true,
@@ -105,10 +123,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'CR buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
-    memoCdBuff: {
-      id: 'memoCdBuff',
+    skillMemoCdBuff: {
+      id: 'skillMemoCdBuff',
       formItem: 'switch',
-      text: 'Memos CD buff',
+      text: 'Skill Memo CD buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    talentMemoCdBuff: {
+      id: 'talentMemoCdBuff',
+      formItem: 'switch',
+      text: 'Talent Memo CD buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    traceCdBuff: {
+      id: 'traceCdBuff',
+      formItem: 'switch',
+      text: 'Trace CD buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     memoriaStacks: {
@@ -117,7 +147,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'Memoria stacks',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
-      max: 16,
+      max: 40,
     },
     enhancedState: {
       id: 'enhancedState',
@@ -131,6 +161,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'E1 Final DMG',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 1,
+    },
+    e2CdBuff: {
+      id: 'e2CdBuff',
+      formItem: 'switch',
+      text: 'E2 CD buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 2,
     },
     e4Buffs: {
       id: 'e4Buffs',
@@ -151,6 +188,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     memospriteActive: content.memospriteActive,
     enhancedState: content.enhancedState,
+    skillMemoCdBuff: {
+      id: 'skillMemoCdBuff',
+      formItem: 'switch',
+      text: 'Skill Memo CD buff',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    evernightCombatCD: {
+      id: 'evernightCombatCD',
+      formItem: 'slider',
+      text: `Evernight's combat CD`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      min: 0,
+      max: 5.00,
+      percent: true,
+    },
     e1FinalDmg: content.e1FinalDmg,
     e4Buffs: content.e4Buffs,
     e6ResPen: content.e6ResPen,
@@ -184,13 +236,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.m.ULT_HP_SCALING.buff(ultMemoScaling, SOURCE_MEMO)
 
       x.CR.buffBaseDual((r.crBuff) ? 0.35 : 0, SOURCE_TRACE)
-      x.CD.buffBaseDual((r.memoCdBuff) ? talentCdScaling : 0, SOURCE_TALENT)
+      x.CD.buffBaseDual((r.talentMemoCdBuff) ? talentCdScaling : 0, SOURCE_TALENT)
+      x.CD.buffBaseDual((r.traceCdBuff) ? 0.15 : 0, SOURCE_TRACE)
       x.ELEMENTAL_DMG.buffBaseDual((r.memospriteActive && r.enhancedState) ? ultDmgBoostScaling : 0, SOURCE_ULT)
       x.ELEMENTAL_DMG.buffBaseDual((r.memospriteActive) ? memoTalentDmgBoost : 0, SOURCE_MEMO)
 
       x.MEMO_BASE_SPD_FLAT.buff(160, SOURCE_MEMO)
       x.MEMO_BASE_HP_SCALING.buff(0.50, SOURCE_MEMO)
 
+      x.CD.buffBaseDual((e >= 2 && r.e2CdBuff) ? 0.40 : 0, SOURCE_E2)
       x.m.BREAK_EFFICIENCY_BOOST.buff((e >= 4 && r.e4Buffs) ? 0.25 : 0, SOURCE_E4)
 
       if (r.memoriaStacks >= 16) {
@@ -208,7 +262,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.VULNERABILITY.buffTeam((m.memospriteActive && m.enhancedState) ? ultVulnScaling : 0, SOURCE_ULT)
-      x.m.CD.buffTeam(skillCdScaling, SOURCE_SKILL)
+      // x.m.CD.buffTeam(skillCdScaling, SOURCE_SKILL)
       x.m.FINAL_DMG_BOOST.buffTeam((e >= 1 && m.e1FinalDmg) ? e1FinalDmgMap[context.enemyCount] : 0, SOURCE_E1)
       x.m.BREAK_EFFICIENCY_BOOST.buffTeam((e >= 4 && m.e4Buffs) ? 0.25 : 0, SOURCE_E4)
 
@@ -220,7 +274,73 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.RES_PEN.buffTeam((e >= 6 && m.e6ResPen) ? 0.20 : 0, SOURCE_E6)
     },
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
+
+      const memoCDBuff = t.skillMemoCdBuff ? skillCdScaling * t.evernightCombatCD : 0
+      x.m.CD.buff(memoCDBuff, SOURCE_SKILL)
+      x.m.UNCONVERTIBLE_CD_BUFF.buff(memoCDBuff, SOURCE_SKILL)
+    },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {},
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    dynamicConditionals: [
+      {
+        id: 'EvernightCdConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.CD],
+        chainsTo: [Stats.CD],
+        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          return true
+        },
+        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          if (!r.skillMemoCdBuff) {
+            return
+          }
+          if (!x.a[Key.MEMOSPRITE]) {
+            return
+          }
+
+          const stateValue = action.conditionalState[this.id] || 0
+          const convertibleCdValue = x.a[Key.CD] - x.a[Key.UNCONVERTIBLE_CD_BUFF]
+
+          const buffCD = skillCdScaling * convertibleCdValue
+          const stateBuffCD = skillCdScaling * stateValue
+
+          action.conditionalState[this.id] = convertibleCdValue
+
+          const finalBuffCd = Math.max(0, buffCD - (stateValue ? stateBuffCD : 0))
+          x.m.UNCONVERTIBLE_CD_BUFF.buff(finalBuffCd, SOURCE_SKILL)
+
+          x.m.CD.buffDynamic(finalBuffCd, SOURCE_SKILL, action, context)
+        },
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return conditionalWgslWrapper(
+            this,
+            `
+if (${wgslFalse(r.skillMemoCdBuff)}) {
+  return;
+}
+
+let stateValue: f32 = (*p_state).EvernightCdConditional;
+let convertibleCdValue: f32 = (*p_x).CD - (*p_m).UNCONVERTIBLE_CD_BUFF;
+
+var buffCD: f32 = ${skillCdScaling} * convertibleCdValue;
+var stateBuffCD: f32 = ${skillCdScaling} * stateValue;
+
+(*p_state).EvernightCdConditional = (*p_x).CD;
+
+let finalBuffCd = max(0.0, buffCD - select(0.0, stateBuffCD, stateValue > 0.0));
+(*p_m).UNCONVERTIBLE_CD_BUFF += finalBuffCd;
+
+(*p_m).CD += finalBuffCd;
+`,
+          )
+        },
+      },
+    ],
   }
 }

@@ -6,6 +6,7 @@ import {
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { OptimizerEntity } from 'lib/optimization/engine/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CharacterId } from 'types/character'
 import {
@@ -153,6 +154,7 @@ export type OptimizerContext = CharacterMetadata & {
   activeAbilityFlags: number,
   actions: OptimizerAction[],
   hitActions?: HitAction[],
+  entities?: OptimizerEntity[],
   comboDot: number,
   dotAbilities: number,
 

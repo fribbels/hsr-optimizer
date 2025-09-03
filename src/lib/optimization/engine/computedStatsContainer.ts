@@ -13,10 +13,13 @@ import {
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Namespaces } from 'lib/i18n/i18n'
+import { KeysType } from 'lib/optimization/computedStatsArray'
 import {
   BaseComputedStatsConfig,
+  baseComputedStatsObject,
   ComputedStatsConfigBaseType,
   ComputedStatsConfigType,
+  ComputedStatsObject,
 } from 'lib/optimization/config/computedStatsConfig'
 import { getTeammateMetadata } from 'lib/optimization/context/calculateActions'
 import { OptimizerContext } from 'types/optimizer'
@@ -179,27 +182,63 @@ export const FullStatsConfig: ComputedStatsConfigType = Object.fromEntries(
  *
  * Each individual damage type has its own container of stats. e.g. SKILL VULNERABILITY, ULT DEF PEN, etc
  *
- *
  * Rutilant Arena set buffs SKILL | BASIC
  * What if we're calculating a SKILL | ULT hit?
+ * Store every possible damage type from a character
  */
 export class ComputedStatsContainer {
+  public damageTypes: number[] = []
+  public statsByDamageType: Record<number, Float32Array> = {}
+  public entitiesByName: Record<string, OptimizerEntity> = {}
+
   constructor(public context: OptimizerContext) {
-    // const characterConditionalController = CharacterConditionalsResolver.get(context)
-    // const lightConeConditionalController = LightConeConditionalsResolver.get(context)
-    // const {
-    //   teammateCharacterConditionalControllers,
-    //   teammateLightConeConditionalControllers,
-    // } = getTeammateMetadata(context)
-    //
-    // const actionDeclarations = characterConditionalController.actionDeclaration()
+    // ===== Hits =====
+
     const hitActions = context.hitActions ?? []
-    const enabledDamageTypes = new Set<DamageType>()
+    const activeDamageTypes = new Set<number>()
 
     for (const hitAction of hitActions) {
       for (const hit of hitAction.hits) {
-        enabledDamageTypes.add(hit.damageType)
+        activeDamageTypes.add(hit.damageType)
+      }
+    }
+
+    const len = Object.keys(FullStatsConfig).length
+
+    this.damageTypes = [...activeDamageTypes]
+    for (const damageType of activeDamageTypes) {
+      this.statsByDamageType[damageType] = new Float32Array(len)
+    }
+
+    // ===== Entities =====
+
+    for (const entity of context.entities!) {
+      this.entitiesByName[entity.name] = entity
+    }
+  }
+
+  public buff(key: number, damageType: number, value: number, source: BufferSource) {
+    for (const type of this.damageTypes) {
+      if (damageType & type) {
+        this.statsByDamageType[type][key] += value
       }
     }
   }
 }
+
+export interface OptimizerEntity {
+  name: string
+  primary: boolean
+  summon: boolean
+  memosprite: boolean
+}
+
+export type StatKeyType = keyof typeof FullStatsConfig
+
+export const StatKey: Record<StatKeyType, number> = Object.keys(FullStatsConfig).reduce(
+  (acc, key, index) => {
+    acc[key as StatKeyType] = index
+    return acc
+  },
+  {} as Record<StatKeyType, number>,
+)

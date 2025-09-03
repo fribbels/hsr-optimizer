@@ -165,6 +165,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         'DOT',
       ]
     },
+    entityDeclaration: () => {
+      return [
+        {
+          name: 'Hysilens',
+          primary: true,
+          summon: false,
+          memosprite: false,
+        },
+        {
+          name: 'Summon',
+          primary: false,
+          summon: true,
+          memosprite: false,
+        },
+      ]
+    },
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       return [
         {

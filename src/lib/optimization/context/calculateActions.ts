@@ -1,6 +1,13 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import {CharacterConditionalsController, LightConeConditionalsController } from 'types/conditionals'
+import {
+  ComputedStatsContainer,
+  OptimizerEntity,
+} from 'lib/optimization/engine/computedStatsContainer'
+import {
+  CharacterConditionalsController,
+  LightConeConditionalsController,
+} from 'types/conditionals'
 import { OptimizerForm } from 'types/form'
 import { HitAction } from 'types/hitConditionalTypes'
 import {
@@ -19,6 +26,12 @@ export function calculateActions(request: OptimizerForm, context: OptimizerConte
   const actionMapping: Record<string, ((action: OptimizerAction, context: OptimizerContext) => HitAction[]) | undefined> = {}
   const modifiers = [
     ...characterConditionalController.actionModifiers(),
+  ]
+
+  // Define entities
+
+  const entities: OptimizerEntity[] = [
+    ...characterConditionalController.entityDeclaration(),
   ]
 
   // Define action mapping
@@ -46,6 +59,8 @@ export function calculateActions(request: OptimizerForm, context: OptimizerConte
 
     const actionModifiers = teammateCharacterConditionals.actionModifiers?.() ?? []
     modifiers.concat(actionModifiers)
+
+    entities.push(...teammateCharacterConditionals.entityDeclaration())
   }
 
   // Condense
@@ -71,7 +86,10 @@ export function calculateActions(request: OptimizerForm, context: OptimizerConte
     }
   }
 
+  context.entities = entities
+  const container = new ComputedStatsContainer(context)
   console.log(hitActions)
+  console.log(container)
 }
 
 export function getTeammateMetadata(context: OptimizerContext) {

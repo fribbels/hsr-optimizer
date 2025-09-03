@@ -1,6 +1,7 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { OptimizerEntity } from 'lib/optimization/engine/computedStatsContainer'
 import { FormSelectWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
@@ -23,6 +24,7 @@ export interface ConditionalsController {
   teammateContent?: () => ContentItem[]
   defaults: () => ConditionalValueMap
   teammateDefaults?: () => ConditionalValueMap
+  entityDeclaration: () => OptimizerEntity[]
   actionDeclaration: () => string[]
   actionModifiers: () => ActionModifier[]
   actionDefinition?: (action: OptimizerAction, context: OptimizerContext) => HitAction[]

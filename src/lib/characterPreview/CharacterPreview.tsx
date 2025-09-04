@@ -150,7 +150,7 @@ export function CharacterPreview(props: {
       <div
         style={{
           height: parentH,
-          width: 1068,
+          width: 1082,
           borderRadius: 8,
           backgroundColor: token.colorBgLayout,
           border: `1px solid ${token.colorBgContainer}`,
@@ -247,7 +247,7 @@ export function CharacterPreview(props: {
   const finalStats = getShowcaseStats(character, displayRelics, showcaseMetadata)
 
   return (
-    <Flex vertical style={{ width: 1068, minHeight: source == ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>
+    <Flex vertical style={{ width: 1082, minHeight: source == ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>
       <RelicModal
         selectedRelic={selectedRelic}
         selectedPart={selectedPart}

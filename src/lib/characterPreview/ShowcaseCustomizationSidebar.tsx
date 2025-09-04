@@ -279,7 +279,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
         gap={16}
         style={{
           position: 'absolute',
-          marginLeft: 1076,
+          marginLeft: 1090,
           width: 130,
         }}
       >

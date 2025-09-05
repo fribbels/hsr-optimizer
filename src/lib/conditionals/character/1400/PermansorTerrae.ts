@@ -56,7 +56,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const fuaScaling = ult(e, 0.80, 0.88)
 
   const talentShieldScaling = talent(e, 0.10, 0.106)
-  const talentShieldFlat = talent(e, 160, 178)
+  const talentShieldFlat = talent(e, 200, 222.5)
 
   const defaults = {
     shieldAbility: ULT_DMG_TYPE,

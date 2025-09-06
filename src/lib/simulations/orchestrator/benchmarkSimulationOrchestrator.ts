@@ -48,7 +48,10 @@ import {
   SimulationRequest,
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
-import { KAFKA_B1 } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  KAFKA_B1,
+  PERMANSOR_TERRAE,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
 import { runComputeOptimalSimulationWorker } from 'lib/simulations/workerPool'
@@ -143,6 +146,11 @@ export class BenchmarkSimulationOrchestrator {
     }
     if (addBreakEffect && !metadata.ornamentSets.find((set) => set == Sets.ForgeOfTheKalpagniLantern)) {
       metadata.ornamentSets.push(Sets.ForgeOfTheKalpagniLantern)
+    }
+
+    // Add banana if DH PT is on the team
+    if (!metadata.ornamentSets.find((set) => set == Sets.TheWondrousBananAmusementPark) && metadata.teammates.find((x) => x.characterId == PERMANSOR_TERRAE)) {
+      metadata.ornamentSets.push(Sets.TheWondrousBananAmusementPark)
     }
 
     // Add ehr if kafka is on the team

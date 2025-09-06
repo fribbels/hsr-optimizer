@@ -61,7 +61,6 @@ import {
   GlobalSavedSession,
   HsrOptimizerSaveFormat,
   HsrOptimizerStore,
-  UserSettings,
 } from 'types/store'
 import { create } from 'zustand'
 
@@ -949,23 +948,26 @@ export const DB = {
     if (Object.keys(relicIdMapping).length > 0) {
       // console.log('Updating relic ID references', relicIdMapping)
 
-      characters.forEach((character, idx) => {
+      characters.forEach((character, idx, characters) => {
+        let newEquipped
         // Update equipped relic IDs
         for (const part of Object.values(Constants.Parts)) {
           const equippedId = character.equipped?.[part]
           if (equippedId && relicIdMapping[equippedId]) {
-            character.equipped = { ...character.equipped, [part]: relicIdMapping[equippedId] }
+            newEquipped = { ...character.equipped, [part]: relicIdMapping[equippedId] }
           }
         }
 
+        let newSavedBuilds
         // Update saved builds relic IDs
         if (character.builds && character.builds.length > 0) {
-          character.builds = character.builds.map((savedBuild) => {
+          newSavedBuilds = character.builds.map((savedBuild) => {
             const updatedBuild = savedBuild.build.map((relicId) => relicIdMapping[relicId] || relicId)
 
             return { ...savedBuild, build: updatedBuild }
           })
         }
+        characters[idx] = { ...character, equipped: newEquipped ?? character.equipped, builds: newSavedBuilds ?? character.builds }
       })
     }
 

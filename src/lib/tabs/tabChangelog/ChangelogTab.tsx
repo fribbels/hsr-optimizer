@@ -125,6 +125,7 @@ function getChangelogContent() {
         `Fix: Hoyolab imports now automatically detect buffed characters`,
         `Balance: Hysilens' DPS score with a non-EHR light cone now has special diminishing returns scaling due to the 100% benchmark being unable to reach the EHR breakpoint`,
         `Balance: Changed Archer's default set from Genius of Brilliant Stars to Wavestrider Captain because of DEF PEN overcapping. Genius of Brilliant Stars is still matched`,
+        `Balance: Benchmarks with Dan Heng • Permansor Terrae as a teammate will match The Wondrous BananAmusement Park set`,
       ],
     },
     {

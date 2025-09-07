@@ -338,6 +338,11 @@ Lightcones:
         text: Cornered vulnerability
         content: >-
           After the wearer uses Basic ATK, Skill, or Ultimate to attack an enemy target, there is a 60% base chance to inflict Unarmored on the target. While in the Unarmored state, the enemy target receives {{UnarmoredVulnerability}}% increased DMG, lasting for 2 turns. If the target is under a DoT state inflicted by the wearer, there is a 60% base chance to upgrade the Unarmored state inflicted by the wearer to the Cornered state, which additionally increases the DMG the enemy target receives by {{CorneredVulnerability}}%, lasting for 2 turns.
+  ThoughWorldsApart:
+    Content:
+      dmgBoost:
+        text: DMG Boost
+        content: When the wearer uses Ultimate grants "Redoubt" to all allies for 3 turns. Targets with "Redoubt" deal {{DmgBuff}}% more DMG, which further increases by {{SummonDmgBuff}}% if they have summons.
   ThusBurnsTheDawn:
     Content:
       defPen:
@@ -346,6 +351,14 @@ Lightcones:
       dmgBuff:
         text: DMG buff
         content: While "Blazing Sun" is in possession, increases the wearer's DMG dealt by {{DmgBuff}}% .
+  ToEvernightsStars:
+    Content:
+      defPen:
+        text: Memo DEF PEN
+        content: When the wearer's memosprite uses an ability, the wearer gains "Noctis." While the wearer has "Noctis," all allies' memosprites ignore {{MemoDefPen}}% of the target's DEF when dealing DMG.
+      dmgBoost:
+        text: DMG boost
+        content: Increases the DMG dealt by the wearer and their memosprite by {{DmgBuff}}%.
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -1184,6 +1197,48 @@ Characters:
         text: Enemy debuff stacks
         content: >-
           When using his Skill, Dr. Ratio has a 40% fixed chance of launching a follow-up attack against his target for 1 time, dealing Imaginary DMG equal to {{FuaScaling}}% of Dr. Ratio's ATK. For each debuff the target enemy has, the fixed chance of launching follow-up attack increases by 20%. If the target enemy is defeated before the follow-up attack triggers, the follow-up attack will be directed at a single random enemy instead.::BR::When dealing DMG to a target that has 3 or more debuffs, for each debuff the target has, the DMG dealt by Dr. Ratio to this target increases by 10%, up to a maximum increase of 50%.::BR::E2: When his Talent's follow-up attack hits a target, for every debuff the target has, additionally deals Imaginary Additional DMG equal to 20% of Dr. Ratio's ATK. This effect can be triggered for a maximum of 4 times during each follow-up attack.
+  Evernight:
+    Content:
+      memospriteActive:
+        text: Memosprite active
+        content: #TODO
+      crBuff:
+        text: CR buff
+        content: #TODO
+      skillMemoCdBuff:
+        text: Skill Memo CD buff
+        content: #TODO
+      talentMemoCdBuff:
+        text: Talent Memo CD buff
+        content: #TODO
+      traceCdBuff:
+        text: Trace CD buff
+        content: #TODO
+      memoriaStacks:
+        text: Memoria stacks
+        content: #TODO
+      enhancedState:
+        text: Enhanced state
+        content: #TODO
+      e1FinalDmg:
+        text: E1 Final DMG
+        content: #TODO
+      e2CdBuff:
+        text: E2 CD buff
+        content: #TODO
+      e4Buffs:
+        text: E4 buffs
+        content: #TODO
+      e6ResPen:
+        text: E6 RES PEN
+        content: #TODO
+    TeammateContent:
+      skillMemoCdBuff:
+        text: Skill Memo CD buff
+        content: #TODO
+      evernightCombatCD:
+        text: Evernight's combat CD
+        content: #TODO
   Feixiao:
     Content:
       weaknessBrokenUlt:
@@ -1762,6 +1817,23 @@ Characters:
       e4SkillResShred:
         text: E4 Skill Ice RES shred
         content: When using Skill, there is a 100% base chance to reduce the target enemy's Ice RES by 12% for 2 turns.
+  PermansorTerrae:
+    TeammateContent:
+      bondmate:
+        text: Bondmate
+        content: #TODO
+      sourceAtk:
+        text: Dan Heng's combat ATK
+        content: #TODO
+      e1ResPen:
+        text: E1 RES PEN
+        content: #TODO
+      e4DmgReduction:
+        text: E4 DMG reduction
+        content: #TODO
+      e6Buffs:
+        text: E6 buffs
+        content: #TODO
   Phainon:
     Content:
       transformedState:

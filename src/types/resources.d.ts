@@ -959,6 +959,14 @@ interface Resources {
           }
         }
       },
+      "ThoughWorldsApart": {
+        "Content": {
+          "dmgBoost": {
+            "text": "DMG Boost",
+            "content": "When the wearer uses Ultimate grants \"Redoubt\" to all allies for 3 turns. Targets with \"Redoubt\" deal {{DmgBuff}}% more DMG, which further increases by {{SummonDmgBuff}}% if they have summons."
+          }
+        }
+      },
       "ThusBurnsTheDawn": {
         "Content": {
           "defPen": {
@@ -968,6 +976,18 @@ interface Resources {
           "dmgBuff": {
             "text": "DMG buff",
             "content": "While \"Blazing Sun\" is in possession, increases the wearer's DMG dealt by {{DmgBuff}}% ."
+          }
+        }
+      },
+      "ToEvernightsStars": {
+        "Content": {
+          "defPen": {
+            "text": "Memo DEF PEN",
+            "content": "When the wearer's memosprite uses an ability, the wearer gains \"Noctis.\" While the wearer has \"Noctis,\" all allies' memosprites ignore {{MemoDefPen}}% of the target's DEF when dealing DMG."
+          },
+          "dmgBoost": {
+            "text": "DMG boost",
+            "content": "Increases the DMG dealt by the wearer and their memosprite by {{DmgBuff}}%."
           }
         }
       },
@@ -2149,6 +2169,64 @@ interface Resources {
           }
         }
       },
+      "Evernight": {
+        "Content": {
+          "memospriteActive": {
+            "text": "Memosprite active",
+            "content": null
+          },
+          "crBuff": {
+            "text": "CR buff",
+            "content": null
+          },
+          "skillMemoCdBuff": {
+            "text": "Skill Memo CD buff",
+            "content": null
+          },
+          "talentMemoCdBuff": {
+            "text": "Talent Memo CD buff",
+            "content": null
+          },
+          "traceCdBuff": {
+            "text": "Trace CD buff",
+            "content": null
+          },
+          "memoriaStacks": {
+            "text": "Memoria stacks",
+            "content": null
+          },
+          "enhancedState": {
+            "text": "Enhanced state",
+            "content": null
+          },
+          "e1FinalDmg": {
+            "text": "E1 Final DMG",
+            "content": null
+          },
+          "e2CdBuff": {
+            "text": "E2 CD buff",
+            "content": null
+          },
+          "e4Buffs": {
+            "text": "E4 buffs",
+            "content": null
+          },
+          "e6ResPen": {
+            "text": "E6 RES PEN",
+            "content": null
+          }
+        },
+        "TeammateContent": {
+          "skillMemoCdBuff": {
+            "text": "Skill Memo CD buff",
+            "content": null
+          },
+          "evernightCombatCD": {
+            "text": "Evernight's combat CD",
+            "content": null
+          }
+        }
+      },
       "Feixiao": {
         "Content": {
           "weaknessBrokenUlt": {
@@ -2916,6 +2994,30 @@ interface Resources {
           "e4SkillResShred": {
             "text": "E4 Skill Ice RES shred",
             "content": "When using Skill, there is a 100% base chance to reduce the target enemy's Ice RES by 12% for 2 turns."
+          }
+        }
+      },
+      "PermansorTerrae": {
+        "TeammateContent": {
+          "bondmate": {
+            "text": "Bondmate",
+            "content": null
+          },
+          "sourceAtk": {
+            "text": "Dan Heng's combat ATK",
+            "content": null
+          },
+          "e1ResPen": {
+            "text": "E1 RES PEN",
+            "content": null
+          },
+          "e4DmgReduction": {
+            "text": "E4 DMG reduction",
+            "content": null
+          },
+          "e6Buffs": {
+            "text": "E6 buffs",
+            "content": null
           }
         }
       },

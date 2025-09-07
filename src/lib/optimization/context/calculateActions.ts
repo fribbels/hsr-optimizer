@@ -60,7 +60,9 @@ export function calculateActions(request: OptimizerForm, context: OptimizerConte
     const actionModifiers = teammateCharacterConditionals.actionModifiers?.() ?? []
     modifiers.concat(actionModifiers)
 
-    entities.push(...teammateCharacterConditionals.entityDeclaration())
+    if (teammateCharacterConditionals.entityDeclaration) {
+      entities.push(...teammateCharacterConditionals.entityDeclaration())
+    }
   }
 
   // Condense

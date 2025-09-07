@@ -2,6 +2,7 @@ import i18next from 'i18next'
 import {
   AbilityType,
   DamageType,
+  NONE_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
@@ -18,6 +19,11 @@ import {
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import {
+  ComputedStatsContainer,
+  EntityType,
+  StatKey,
+} from 'lib/optimization/engine/computedStatsContainer'
 import {
   HYSILENS,
 } from 'lib/simulations/tests/testMetadataConstants'
@@ -288,6 +294,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       ]
     },
     initializeConfigurations: (x: ComputedStatsArray) => {
+    },
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.ATK_P, NONE_DMG_TYPE, 50, Source.NONE, EntityType.SELF, EntityType.SELF)
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

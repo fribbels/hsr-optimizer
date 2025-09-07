@@ -1,7 +1,7 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import { OptimizerEntity } from 'lib/optimization/engine/computedStatsContainer'
+import {ComputedStatsContainer, OptimizerEntity } from 'lib/optimization/engine/computedStatsContainer'
 import { FormSelectWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
@@ -37,6 +37,7 @@ export interface ConditionalsController {
 
   // Individual effects that apply only for the primary character
   // e.g. Self buffs
+  precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void
   precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
 
   // Shared effects that apply both as a teammate and as the primary character

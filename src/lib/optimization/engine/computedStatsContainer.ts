@@ -13,6 +13,7 @@ import {
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Namespaces } from 'lib/i18n/i18n'
+import { BuffSource } from 'lib/optimization/buffSource'
 import { KeysType } from 'lib/optimization/computedStatsArray'
 import {
   BaseComputedStatsConfig,
@@ -197,7 +198,8 @@ export class ComputedStatsContainer {
     const hitActions = context.hitActions ?? []
     const activeDamageTypes = new Set<number>()
 
-    for (const hitAction of hitActions) {
+    for (let i = 1; i < hitActions.length; i++) {
+      const hitAction = hitActions[i]
       for (const hit of hitAction.hits) {
         activeDamageTypes.add(hit.damageType)
       }
@@ -217,14 +219,21 @@ export class ComputedStatsContainer {
     }
   }
 
-  public buff(key: number, damageType: number, value: number, source: BufferSource) {
+  public buff(key: number, damageType: number, value: number, source: BuffSource, origin: string, destination: string) {
     for (const type of this.damageTypes) {
       if (damageType & type) {
-        this.statsByDamageType[type][key] += value
+        if (destination == EntityType.SELF) {
+          this.statsByDamageType[type][key] += value
+        }
       }
     }
   }
 }
+
+export const EntityType = {
+  SELF: 'SELF',
+  TEAM: 'TEAM',
+} as const
 
 export interface OptimizerEntity {
   name: string

@@ -346,6 +346,10 @@ Lightcones:
       dmgBuff:
         text: 伤害增益
         content: 持有【烈阳】时，装备者造成的伤害提高{{DmgBuff}}%。
+  ToEvernightsStars:
+    Content:
+      dmgBoost:
+        text: 伤害提高
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -1176,6 +1180,16 @@ Characters:
         text: 敌人负面效果层数
         content: >-
           施放战技时，有40%的固定概率对该目标发动1次追加攻击，造成等同于真理医生{{FuaScaling}}%攻击力的虚数属性伤害。目标每有1个负面效果，追加攻击发动的固定概率提高20%。若追加攻击施放前目标被消灭则对敌方随机单体发动追加攻击。::BR::造成伤害时，若目标负面状态大于等于3个，目标每有1个负面效果，真理医生对其造成的伤害提高10%，最多提高50%。::BR::2魂：天赋的追加攻击击中目标时，目标每有1个负面效果，则额外造成等同于真理医生20%攻击力的虚数属性附加伤害。该效果在每次追加攻击中最多触发4次。
+  Evernight:
+    Content:
+      crBuff:
+        text: 暴击率增益
+      enhancedState:
+        text: 强化状态
+      e4Buffs:
+        text: 4魂增益
+      e6ResPen:
+        text: 6魂属性抗性穿透
   Feixiao:
     Content:
       weaknessBrokenUlt:
@@ -1750,6 +1764,10 @@ Characters:
       e4SkillResShred:
         text: 4魂冰抗性削弱
         content: 施放战技时，有100%的基础概率使敌方目标冰属性抗性降低12%，持续2回合。
+  PermansorTerrae:
+    TeammateContent:
+      e6Buffs:
+        text: 6魂增益
   Phainon:
     Content:
       transformedState:
@@ -1855,8 +1873,6 @@ Characters:
     TeammateContent:
       teammateATKValue:
         text: 知更鸟战斗中攻击力
-        content: >-
-          处于【协奏】状态时，我方全体攻击力提高，提高数值等同于知更鸟攻击力的{{ultAtkBuffScalingValue}}%+{{ultAtkBuffFlatValue}}点。::BR::将此设置为知更鸟用来增益队友时的自身攻击力。
       traceFuaCdBoost:
         text: 追加攻击暴伤提升
         content: 处于【协奏】状态时，我方全体发动追加攻击造成的暴击伤害提高25%。

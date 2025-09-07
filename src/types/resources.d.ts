@@ -694,7 +694,7 @@ interface Resources {
             "content": "Increases the wearer's DMG to debuffed enemies by {{DmgBuff}}%."
           },
           "skillAtkBoost": {
-            "text": "Skill ATK boost (not implemented)",
+            "text": "Skill ATK boost",
             "content": "When the wearer uses their Skill, the Effect Hit Rate for this attack increases by {{EhrBuff}}%, and ATK increases by {{AtkBuff}}%."
           }
         }
@@ -4156,12 +4156,12 @@ interface Resources {
       "127": {
         "Name": "World-Remaking Deliverer",
         "Description2pc": "Increases CRIT Rate by 8%.",
-        "Description4pc": "After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 8% until the wearer's next Basic ATK or Skill."
+        "Description4pc": "After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 15% until the wearer's next Basic ATK or Skill."
       },
       "128": {
         "Name": "Self-Enshrouded Recluse",
-        "Description2pc": "Increases CRIT DMG by 16%.",
-        "Description4pc": "Increases the wearer's CRIT DMG by 16%. When any ally target consumes Skill Points for the first time in a turn, recovers 1 Skill Point. This effect triggers up to 1 time per battle, and 1 trigger count(s) will be restored at the start of each subsequent wave. Only 1 Skill Point Recovery effect can be active in the same team."
+        "Description2pc": "Increases Shield Effect by 10%.",
+        "Description4pc": "Increases Shield Effect provided by the wearer by 12%. When an ally target has a Shield provided by the wearer, the ally target's CRIT DMG increases by 15%."
       },
       "301": {
         "Name": "Space Sealing Station",
@@ -6455,11 +6455,6 @@ interface Resources {
       "ShowXL": "Default: Minimize if most of the sidebar is hidden",
       "ShowXXL": "Minimize if any of the sidebar is hidden",
       "NoShow": "Always keep the sidebar on the right"
-    },
-    "RelicPotentialLoadBehavior": {
-      "Label": "Relic potential scoring on load",
-      "ScoreAtStartup": "Default: Automatically score relics on page load",
-      "ManuallyClickReapplyScores": "Only score relics when \"Reapply scores\" is clicked (faster page load)"
     },
     "ExpandedInfoPanelPosition": {
       "Label": "Optimizer Expanded info panel position",

@@ -2171,59 +2171,59 @@ interface Resources {
       },
       "Evernight": {
         "Content": {
-          "memospriteActive": {
-            "text": "Memosprite active",
-            "content": null
+          "memoTalentDmgBuff": {
+            "text": "Memo Talent DMG Buff",
+            "content": "While Evernight is on the field, increases DMG dealt by Evernight and Evey by {{MemoTalentDmgBuff}}%."
           },
           "crBuff": {
             "text": "CR buff",
-            "content": null
+            "content": "Increases Evernight and the memosprite Evey's CRIT Rate by 35%."
           },
           "skillMemoCdBuff": {
             "text": "Skill Memo CD buff",
-            "content": null
+            "content": "Consumes 10% of Evernight's current HP to summon memosprite Evey and increases CRIT DMG of all ally memosprites by an amount equal to {{SkillMemoCdBuff}}% of Evernight's CRIT DMG for 2 turns."
           },
           "talentMemoCdBuff": {
             "text": "Talent Memo CD buff",
-            "content": null
+            "content": "Each time Evernight or memosprite Evey loses HP, increases CRIT DMG for both this unit and memosprite Evey by {{TalentCdScaling}}% for 2 turns."
           },
           "traceCdBuff": {
             "text": "Trace CD buff",
-            "content": null
+            "content": "When using abilities, consumes 5% of this unit's current HP to increase both their CRIT DMG by 15% for 2 turns."
           },
           "memoriaStacks": {
             "text": "Memoria stacks",
-            "content": null
+            "content": "This ability automatically selects a target, prioritizing the enemy target that Evernight last attacked. Deals Ice DMG equal to {{MemoSkillScaling}}% of Evey's Max HP to one enemy. For every 4 points of \"Memoria\" Evernight currently has, further deals Ice DMG equal to {{MemoSkillAdditionalScaling}}% of Evey's Max HP. ::BR:: When Evernight's \"Memoria\" is greater than or equal to 16 points, and Evernight is not under a Crowd Control state, \"Dream, Dissolving, as Dew\" will instead be used. For each point of \"Memoria\" currently in possession, deals Ice DMG equal to {{MemoSkillEnhancedScaling}}% of Evey's Max HP to the primary target"
           },
           "enhancedState": {
             "text": "Enhanced state",
-            "content": null
+            "content": "Casting her ultimate causes Evernight to enter the \"Darkest Riddle\" state. During this state, the DMG received by all enemies increases by {{UltVulnScaling}}%, the DMG dealt by Evernight and memosprite Evey increases by {{UltDmgBoostScaling}}%."
           },
           "e1FinalDmg": {
             "text": "E1 Final DMG",
-            "content": null
+            "content": "hen Evernight is on the field and when there are 4 or more/3/2/1 enemy targets on the field, ally memosprites deal 120%/125%/130%/150% of their original DMG respectively."
           },
           "e2CdBuff": {
             "text": "E2 CD buff",
-            "content": null
+            "content": "Increases Evernight's and memosprite Evey's CRIT DMG by 40%."
           },
           "e4Buffs": {
             "text": "E4 buffs",
-            "content": null
+            "content": "While Evernight is on the field, ally memosprites' Weakness Break Efficiency increases by 25%, and memosprite Evey gains an additional 25% Weakness Break Efficiency."
           },
           "e6ResPen": {
             "text": "E6 RES PEN",
-            "content": null
+            "content": "While Evernight is on the field, all allies' All-Type RES PEN increases by 20%. After memosprite Evey uses \"Dream, Dissolving, as Dew,\" Evernight gains 30% of the consumed \"Memoria\" in this attack."
           }
         },
         "TeammateContent": {
           "skillMemoCdBuff": {
             "text": "Skill Memo CD buff",
-            "content": null
+            "content": "When using Skill, increases CRIT DMG of all ally memosprites by an amount equal to {{SkillCdScaling}}% of Evernight's CRIT DMG for 2 turns."
           },
           "evernightCombatCD": {
             "text": "Evernight's combat CD",
-            "content": null
+            "content": "When using Skill, increases CRIT DMG of all ally memosprites by an amount equal to {{SkillCdScaling}}% of Evernight's CRIT DMG for 2 turns. ::BR:: Set this to the Evernight's self CD stat that she uses to buff teammates."
           }
         }
       },
@@ -3001,23 +3001,23 @@ interface Resources {
         "TeammateContent": {
           "bondmate": {
             "text": "Bondmate",
-            "content": null
+            "content": "When using Skill, increases the ATK of the \"Bondmate\" target by 15% of Dan Heng • Permansor Terrae's ATK. \"Bondmate\" gains posession of the summon \"Souldragon\"."
           },
           "sourceAtk": {
             "text": "Dan Heng's combat ATK",
-            "content": null
+            "content": "When using Skill, increases the ATK of the \"Bondmate\" target by 15% of Dan Heng • Permansor Terrae's ATK. ::BR:: Set this to the Dan Heng • Permansor Terrae's self ATK stat that he uses to buff teammates."
           },
           "e1ResPen": {
             "text": "E1 RES PEN",
-            "content": null
+            "content": "When Dan Heng • Permansor Terrae uses his Ultimate, increases the \"Bondmate's\" All-Type RES PEN by 18% for 3 turns."
           },
           "e4DmgReduction": {
             "text": "E4 DMG reduction",
-            "content": null
+            "content": "Reduces DMG taken by \"Bondmate\" by 20%."
           },
           "e6Buffs": {
             "text": "E6 buffs",
-            "content": null
+            "content": "When there is a \"Bondmate\" on the field, increases the DMG received by all enemies by 20%. When the \"Bondmate\" deals DMG, ignores 12% of the enemy targets' DEF."
           }
         }
       },
@@ -3155,7 +3155,7 @@ interface Resources {
         "TeammateContent": {
           "teammateATKValue": {
             "text": "Robin's Combat ATK",
-            "content": "While in the Concerto state, increases all allies' ATK by {{ultAtkBuffScalingValue}}% of Robin's ATK plus {{ultAtkBuffFlatValue}}.::BR::Set this to the Robin's self ATK stat that she uses to buff teammates."
+            "content": "While in the Concerto state, increases all allies' ATK by {{ultAtkBuffScalingValue}}% of Robin's ATK plus {{ultAtkBuffFlatValue}}. ::BR:: Set this to the Robin's self ATK stat that she uses to buff teammates."
           },
           "traceFuaCdBoost": {
             "text": "FUA CD boost",

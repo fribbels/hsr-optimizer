@@ -307,6 +307,10 @@ Lightcones:
         text: Xuyên Phòng Thủ
       dmgBuff:
         text: Tăng Sát Thương
+  ToEvernightsStars:
+    Content:
+      dmgBoost:
+        text: Tăng Sát Thương
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -984,6 +988,12 @@ Characters:
         text: Số Hiệu Ứng Xấu Địch Có
         content: >-
           Khi thi triển Chiến Kỹ, có 40% xác suất cố định phát động 1 lần Đòn Đánh Theo Sau lên mục tiêu này, gây Sát Thương Số Ảo bằng {{FuaScaling}}% Tấn Công của Dr. Ratio. Mỗi khi mục tiêu có 1 Hiệu Ứng Xấu sẽ tăng 20% xác suất cố định phát động Đòn Đánh Theo Sau. Nếu mục tiêu bị tiêu diệt trước khi phát động Đòn Đánh Theo Sau thì sẽ phát động Đòn Đánh Theo Sau lên 1 kẻ địch ngẫu nhiên.::BR::Khi gây sát thương, nếu mục tiêu có từ 3 Hiệu Ứng Xấu trở lên, thì mỗi một Hiệu Ứng Xấu của mục tiêu sẽ tăng 10% sát thương Dr. Ratio gây ra cho mục tiêu đó, tối đa tăng 50%.::BR::E2: Khi Đòn Đánh Theo Sau của Thiên Phú đánh trúng mục tiêu, mỗi lần mục tiêu có 1 Hiệu Ứng Xấu, sẽ gây thêm Sát Thương Số Ảo kèm theo bằng 20% Tấn Công của Dr. Ratio. Hiệu ứng này trong mỗi Đòn Đánh Theo Sau tối đa kích hoạt 4 lần.
+  Evernight:
+    Content:
+      enhancedState:
+        text: Trạng Thái Cường Hóa
+      e4Buffs:
+        text: E4 Tăng Gì Đó
   Feixiao:
     Content:
       weaknessBrokenUlt:
@@ -1463,6 +1473,10 @@ Characters:
       e4SkillResShred:
         text: E4 Chiến Kỹ giảm kháng Băng
         content: Khi thi triển Chiến Kỹ, có 100% xác suất cơ bản khiến Kháng Băng của mục tiêu địch giảm 12%, duy trì 2 hiệp.
+  PermansorTerrae:
+    TeammateContent:
+      e6Buffs:
+        text: E6 Tăng Gì Đó
   Phainon:
     Content:
       atkBuffStacks:
@@ -1537,8 +1551,6 @@ Characters:
     TeammateContent:
       teammateATKValue:
         text: Tấn Công của Robin Trong Combat
-        content: >-
-          Khi trong trạng thái Hợp Tấu, tấn công của toàn thể phe ta tăng, giá trị tăng bằng {{ultAtkBuffScalingValue}}% Tấn Công của Robin +{{ultAtkBuffFlatValue}}. ::BR:: Đặt số này theo chỉ số Tấn Công của Robin
       traceFuaCdBoost:
         text: Tăng Sát Thương BK Đòn Sau
         content: Trong trạng thái Hợp Tấu, Sát Thương Bạo Kích của toàn thể phe ta gây ra khi phát động Đòn Đánh Theo Sau tăng 25%.

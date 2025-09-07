@@ -1821,19 +1821,22 @@ Characters:
     TeammateContent:
       bondmate:
         text: Bondmate
-        content: #TODO
+        content: When using Skill, increases the ATK of the "Bondmate" target by 15% of Dan Heng • Permansor Terrae's ATK. "Bondmate" gains posession of the summon "Souldragon".
       sourceAtk:
         text: Dan Heng's combat ATK
-        content: #TODO
+        content: >-
+          When using Skill, increases the ATK of the "Bondmate" target by 15% of Dan Heng • Permansor Terrae's ATK.
+          ::BR::
+          Set this to the Dan Heng • Permansor Terrae's self ATK stat that he uses to buff teammates.
       e1ResPen:
         text: E1 RES PEN
-        content: #TODO
+        content: When Dan Heng • Permansor Terrae uses his Ultimate, increases the "Bondmate's" All-Type RES PEN by 18% for 3 turns.
       e4DmgReduction:
         text: E4 DMG reduction
-        content: #TODO
+        content: Reduces DMG taken by "Bondmate" by 20%.
       e6Buffs:
         text: E6 buffs
-        content: #TODO
+        content: When there is a "Bondmate" on the field, increases the DMG received by all enemies by 20%. When the "Bondmate" deals DMG, ignores 12% of the enemy targets' DEF.
   Phainon:
     Content:
       transformedState:
@@ -1940,7 +1943,9 @@ Characters:
       teammateATKValue:
         text: Robin's Combat ATK
         content: >-
-          While in the Concerto state, increases all allies' ATK by {{ultAtkBuffScalingValue}}% of Robin's ATK plus {{ultAtkBuffFlatValue}}.::BR::Set this to the Robin's self ATK stat that she uses to buff teammates.
+          While in the Concerto state, increases all allies' ATK by {{ultAtkBuffScalingValue}}% of Robin's ATK plus {{ultAtkBuffFlatValue}}.
+          ::BR::
+          Set this to the Robin's self ATK stat that she uses to buff teammates.
       traceFuaCdBoost:
         text: FUA CD boost
         content: While the Concerto state is active, the CRIT DMG dealt when all allies launch follow-up attacks increases by 25%.

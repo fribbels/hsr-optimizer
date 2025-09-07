@@ -114,7 +114,7 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
     ]
   }, [t])
   const setSigoniaTheUnclaimedDesolation = useMemo(() => {
-    return Array.from({ length: 10 }).map((_val, i) => ({
+    return Array.from({ length: 11 }).map((_val, i) => ({
       display: t('SelectOptions.Sigonia.Display', { stackCount: i }), // i + 'x',
       value: i,
       label: t('SelectOptions.Sigonia.Label', { stackCount: i, buffValue: 4 * i }), // `${i} stacks (+${4 * i}% CD)`,
@@ -139,14 +139,17 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
     }))
   }, [t])
   const setArcadiaOfWovenDreams = useMemo(() => {
-    return Array.from({ length: 8 }).map((_val, i) => ({
-      display: t('SelectOptions.Arcadia.Display', { allyCount: i + 1 }), // `${i + 1}x`,
-      value: i + 1,
-      label: t('SelectOptions.Arcadia.Label', {
-        buffValue: Math.max(12 * (4 - (i + 1)), 9 * ((i + 1) - 4)), // `${i + 1} allies (+{{ buffValue }}% DMG)`,
-        allyCount: i,
-      }),
-    }))
+    return Array.from({ length: 8 }).map((_val, i) => {
+      const allyCount = i + 1
+      return {
+        display: t('SelectOptions.Arcadia.Display', { allyCount }), // `${i + 1}x`,
+        value: allyCount,
+        label: t('SelectOptions.Arcadia.Label', {
+          buffValue: Math.max(12 * (4 - allyCount), 9 * (allyCount - 4)), // `${allyCount} allies (+{{ buffValue }}% DMG)`,
+          allyCount,
+        }),
+      }
+    })
   }, [t])
 
   // defaultMessage = 'Enabled by default - effects will apply to combat calculations.'
@@ -447,7 +450,7 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
             set={Constants.Sets.LushakaTheSunkenSeas}
             description={t('PlanarDescription', { id: 317 })}
             conditional={t('Conditionals.Lushaka')}
-            // 'The selected buff is applied to damage calculations.'
+            // 'Disabled by default - This set is unable to affect its wearer.'
           />
           <ConditionalSetOption
             set={Constants.Sets.TheWondrousBananAmusementPark}

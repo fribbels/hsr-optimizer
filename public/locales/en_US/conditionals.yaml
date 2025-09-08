@@ -1114,23 +1114,15 @@ Characters:
       militaryMerit:
         text: Military Merit
         content: >-
-          When using Skill, increases SPD by 20 for this unit and the teammate with "Military Merit," lasting for 3 turns.
-          ::BR::
-          The character with "Military Merit" increases ATK by an amount equal to {{TalentAtkConversion}}% of Cerydra's ATK.
-          ::BR::
-          E1: The character with "Military Merit" ignores 16% of the targets' DEF when dealing DMG.
+          When using Skill, increases SPD by 20 for this unit and the teammate with "Military Merit," lasting for 3 turns. ::BR:: The character with "Military Merit" increases ATK by an amount equal to {{TalentAtkConversion}}% of Cerydra's ATK. ::BR:: E1: The character with "Military Merit" ignores 16% of the targets' DEF when dealing DMG.
       peerage:
         text: Peerage
         content: >-
-          The character with "Peerage" increases the CRIT DMG for their dealt Skill DMG by {{SkillCdBuff}}%, increases their All-Type RES PEN by {{SkillResPenBuff}}%
-          ::BR::
-          E1: If "Military Merit" has been upgraded to "Peerage," then the character additionally ignores 20% of the targets' DEF when dealing Skill DMG.
+          The character with "Peerage" increases the CRIT DMG for their dealt Skill DMG by {{SkillCdBuff}}%, increases their All-Type RES PEN by {{SkillResPenBuff}}% ::BR:: E1: If "Military Merit" has been upgraded to "Peerage," then the character additionally ignores 20% of the targets' DEF when dealing Skill DMG.
       teammateATKValue:
         text: Cerydra's combat ATK
         content: >-
-          The character with "Military Merit" increases ATK by an amount equal to {{TalentAtkConversion}}% of Cerydra's ATK.
-          ::BR::
-          Set this to the Cerydra's self ATK stat that she uses to buff teammates.
+          The character with "Military Merit" increases ATK by an amount equal to {{TalentAtkConversion}}% of Cerydra's ATK. ::BR:: Set this to the Cerydra's self ATK stat that she uses to buff teammates.
       e1DefPen:
         text: E1 DEF PEN
         content: The character with "Military Merit" ignores 16% of the targets' DEF when dealing DMG. If "Military Merit" has been upgraded to "Peerage," then the character additionally ignores 20% of the targets' DEF when dealing Skill DMG.
@@ -1514,9 +1506,7 @@ Characters:
       e1Buffs:
         text: E1 buffs
         content: >-
-          While Hysilens is on the field, ally targets deal DoT equal to 116% of the original DMG.
-          ::BR::
-          When Hysilens inflicts Wind Shear/Bleed/Burn/Shock on enemies through her Talent, there is a 100% base chance to additionally inflict the target with 1 instance of Wind Shear/Bleed/Burn/Shock state that is identical to and can coexist with that of the original Talent effect.
+          While Hysilens is on the field, ally targets deal DoT equal to 116% of the original DMG. ::BR:: When Hysilens inflicts Wind Shear/Bleed/Burn/Shock on enemies through her Talent, there is a 100% base chance to additionally inflict the target with 1 instance of Wind Shear/Bleed/Burn/Shock state that is identical to and can coexist with that of the original Talent effect.
       e4ResPen:
         text: E4 RES PEN
         content: While the Zone is active, reduces All-Type RES of all enemies by 20%.
@@ -1527,9 +1517,7 @@ Characters:
       e2TeammateEhr:
         text: "E2 Hysilens' combat EHR"
         content: >-
-          While the Zone is active, the DMG Boost effect from Trace "The Fiddle of Pearls" applies to all allies.
-          ::BR::
-          The Fiddle of Pearls: For every 10% of Hysilens's Effect Hit Rate that exceeds 60%, increases her DMG dealt by 15%, up to a max increase of 90%.
+          While the Zone is active, the DMG Boost effect from Trace "The Fiddle of Pearls" applies to all allies. ::BR:: The Fiddle of Pearls: For every 10% of Hysilens's Effect Hit Rate that exceeds 60%, increases her DMG dealt by 15%, up to a max increase of 90%.
   ImbibitorLunae:
     Content:
       basicEnhanced:

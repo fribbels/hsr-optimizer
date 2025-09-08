@@ -346,6 +346,10 @@ Lightcones:
       dmgBuff:
         text: ダメバフ
         content: '「烈日」を所持している場合、装備キャラの与ダメージ+{{DmgBuff}}%。'
+  ToEvernightsStars:
+    Content:
+      dmgBoost:
+        text: ダメバフ
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -1177,6 +1181,16 @@ Characters:
         text: 敵デバフ数
         content: >-
           戦闘スキルを発動する時、40%の固定確率でターゲットに追加攻撃を1回行い、Dr.レイシオの攻撃力{{FuaScaling}}%分の虚数属性ダメージを与える。敵にあるデバフ1つにつき、追加攻撃を行う固定確率+20%。追加攻撃を行う前にターゲットが倒された場合、ランダムな敵単体に追加攻撃を行う。::BR::ダメージを与える時、敵にあるデバフが3つ以上の場合、デバフ1つにつき、その敵に対するDr.レイシオの与ダメージ+10%、最大で+50%。::BR::2凸：天賦の追加攻撃が命中した時、敵にあるデバフ1つにつき、さらにDr.レイシオの攻撃力20%の虚数属性付加ダメージを与える。この効果は1回の追加攻撃で4回まで発動できる。
+  Evernight:
+    Content:
+      crBuff:
+        text: 会心率バフ
+      enhancedState:
+        text: '「完全燃焼」状態'
+      e4Buffs:
+        text: 4凸 追加攻撃の強化
+      e6ResPen:
+        text: 6凸 全属性耐性貫通
   Feixiao:
     Content:
       weaknessBrokenUlt:
@@ -1753,6 +1767,10 @@ Characters:
       e4SkillResShred:
         text: 4凸 スキル時の氷耐性デバフ
         content: 戦闘スキルを発動した時、100%の基礎確率で敵の氷属性耐性-12%、2ターン継続。
+  PermansorTerrae:
+    TeammateContent:
+      e6Buffs:
+        text: 6凸 必殺/追加攻撃強化
   Phainon:
     Content:
       transformedState:
@@ -1858,8 +1876,6 @@ Characters:
     TeammateContent:
       teammateATKValue:
         text: 攻撃力（戦闘時）
-        content: >-
-          「協奏」状態の時、味方全体の攻撃力を、ロビンの攻撃力{{ultAtkBuffScalingValue}}%分+{{ultAtkBuffFlatValue}}アップする。::BR::ロビン自身の攻撃力ステータスをここに入力してください。
       traceFuaCdBoost:
         text: 追加攻撃の会心ダメバフ
         content: '「協奏」状態の時、味方全体の追加攻撃ダメージの会心ダメージ+25%。'

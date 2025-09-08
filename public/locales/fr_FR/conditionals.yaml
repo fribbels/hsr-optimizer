@@ -346,6 +346,10 @@ Lightcones:
       dmgBuff:
         text: Bonus de DGT
         content: Après avoir lancé une ultime, le porteur obtient l'effet Soleil ardent, lequel se dissipe au début du tour. Lorsqu'il bénéficie de Soleil ardent, augmente les DGT infligés par le porteur de {{DmgBuff}}%.
+  ToEvernightsStars:
+    Content:
+      dmgBoost:
+        text: Bonus de DGT
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -1176,6 +1180,16 @@ Characters:
         text: Nombre de malus sur la cible
         content: >-
           Dr Ratio a 40% de chances fixes de déclencher 1 attaque de suivi contre sa cible lorsqu'il utilise sa compétence, lui infligeant des DGT imaginaires équivalents à {{FuaScaling}}% de l'ATQ de Dr Ratio. Les chances fixes de déclencher l'attaque de suivi augmentent de 20% pour chaque malus appliqué à la cible ennemie. L'attaque de suivi est lancée sur un autre ennemi aléatoire si la cible ennemie est vaincue avant que l'attaque de suivi ne soit déclenchée.::BR::Lorsque Dr Ratio inflige des DGT à une cible ayant au moins 3 malus, les DGT infligés par Dr Ratio à cette cible augmentent de 10% pour chaque malus appliqué à la cible, jusqu'à une augmentation maximale de 50%.::BR::E2: Lorsque l'attaque de suivi de son talent touche une cible, cette dernière subit des DGT imaginaires supplémentaires équivalents à 20% de l'ATQ de Dr Ratio pour chaque malus qui lui est appliqué. Cet effet peut être déclenché un maximum de 4 fois durant chaque attaque de suivi.
+  Evernight:
+    Content:
+      crBuff:
+        text: Bonus de TC
+      enhancedState:
+        text: État amélioré
+      e4Buffs:
+        text: 'E4: Divers bonus'
+      e6ResPen:
+        text: 'E6: PÉN de RÉS'
   Feixiao:
     Content:
       weaknessBrokenUlt:
@@ -1750,6 +1764,10 @@ Characters:
       e4SkillResShred:
         text: 'E4: Réduction de RÉS de glace de la compétence'
         content: Lors de l'utilisation de la compétence, il y a 100% de chances de base de réduire la RÉS à la glace de la cible ennemie de 12% pendant 2 tours.
+  PermansorTerrae:
+    TeammateContent:
+      e6Buffs:
+        text: 'E6: Divers bonus'
   Phainon:
     Content:
       transformedState:
@@ -1855,8 +1873,6 @@ Characters:
     TeammateContent:
       teammateATKValue:
         text: ATQ en combat de Robin
-        content: >-
-          Lorsque Robin est dans l'état Concerto, l'attaque de tous les alliés augmente à hauteur de {{ultAtkBuffScalingValue}}% de l'ATQ de Robin + {{ultAtkBuffFlatValue}}.::BR::Définissez cette valeur en fonction de la quantité d'ATQ de Robin qui est prise en compte lors du calcul du buff.
       traceFuaCdBoost:
         text: Bonus de DC d'ADS
         content: Lorsque Robin est dans l'état Concerto, les DGT critiques infligés quand tous les alliés lancent une attaque de suivi augmentent de 25%.

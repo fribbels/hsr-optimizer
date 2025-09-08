@@ -1,15 +1,14 @@
-import i18next from 'i18next'
 import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import {
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
 import { THOUGH_WORLDS_APART } from 'lib/simulations/tests/testMetadataConstants'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 import {
@@ -18,15 +17,13 @@ import {
 } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThoughWorldsApart.Content')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThoughWorldsApart.Content')
   const { SOURCE_LC } = Source.lightCone(THOUGH_WORLDS_APART)
 
-  const sValuesShield = [0.24, 0.28, 0.32, 0.36, 0.40]
   const sValuesDmgBoost = [0.24, 0.30, 0.36, 0.42, 0.48]
   const sValuesDmgBoostSummons = [0.12, 0.15, 0.18, 0.21, 0.24]
 
   const defaults = {
-    shieldBoost: true,
     dmgBoost: true,
   }
 
@@ -35,19 +32,15 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    shieldBoost: {
-      lc: true,
-      id: 'shieldBoost',
-      formItem: 'switch',
-      text: 'Shield boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    },
     dmgBoost: {
       lc: true,
       id: 'dmgBoost',
       formItem: 'switch',
-      text: 'DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('dmgBoost.text'),
+      content: t('dmgBoost.content', {
+        DmgBuff: TsUtils.precisionRound(100 * sValuesDmgBoost[s]),
+        SummonDmgBuff: TsUtils.precisionRound(100 * sValuesDmgBoostSummons[s]),
+      }),
     },
   }
 
@@ -60,11 +53,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals as Conditionals<typeof content>
-
-      x.SHIELD_BOOST.buff((r.shieldBoost) ? sValuesShield[s] : 0, SOURCE_LC)
-    },
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {},
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 

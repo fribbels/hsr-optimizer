@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import {
   AbilityType,
   ASHBLAZING_ATK_STACK,
@@ -11,7 +10,6 @@ import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 
@@ -31,8 +29,7 @@ import {
 } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.PermansorTerrae.Content')
-  // const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.PermansorTerrae.TeammateContent')
   const tShield = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.ShieldAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -89,36 +86,36 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     bondmate: {
       id: 'bondmate',
       formItem: 'switch',
-      text: 'Bondmate',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('bondmate.text'),
+      content: t('bondmate.content'),
     },
     sourceAtk: {
       id: 'sourceAtk',
       formItem: 'slider',
-      text: `Dan Heng's combat ATK`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('sourceAtk.text'),
+      content: t('sourceAtk.content'),
       min: 0,
       max: 10000,
     },
     e1ResPen: {
       id: 'e1ResPen',
       formItem: 'switch',
-      text: 'E1 RES PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e1ResPen.text'),
+      content: t('e1ResPen.content'),
       disabled: e < 1,
     },
     e4DmgReduction: {
       id: 'e4DmgReduction',
       formItem: 'switch',
-      text: 'E4 DMG reduction',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e4DmgReduction.text'),
+      content: t('e4DmgReduction.content'),
       disabled: e < 4,
     },
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: 'E6 buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('e6Buffs.text'),
+      content: t('e6Buffs.content'),
       disabled: e < 6,
     },
   }

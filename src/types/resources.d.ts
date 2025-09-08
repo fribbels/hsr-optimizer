@@ -694,7 +694,7 @@ interface Resources {
             "content": "Increases the wearer's DMG to debuffed enemies by {{DmgBuff}}%."
           },
           "skillAtkBoost": {
-            "text": "Skill ATK boost (not implemented)",
+            "text": "Skill ATK boost",
             "content": "When the wearer uses their Skill, the Effect Hit Rate for this attack increases by {{EhrBuff}}%, and ATK increases by {{AtkBuff}}%."
           }
         }
@@ -959,6 +959,14 @@ interface Resources {
           }
         }
       },
+      "ThoughWorldsApart": {
+        "Content": {
+          "dmgBoost": {
+            "text": "DMG Boost",
+            "content": "When the wearer uses Ultimate grants \"Redoubt\" to all allies for 3 turns. Targets with \"Redoubt\" deal {{DmgBuff}}% more DMG, which further increases by {{SummonDmgBuff}}% if they have summons."
+          }
+        }
+      },
       "ThusBurnsTheDawn": {
         "Content": {
           "defPen": {
@@ -968,6 +976,18 @@ interface Resources {
           "dmgBuff": {
             "text": "DMG buff",
             "content": "While \"Blazing Sun\" is in possession, increases the wearer's DMG dealt by {{DmgBuff}}% ."
+          }
+        }
+      },
+      "ToEvernightsStars": {
+        "Content": {
+          "defPen": {
+            "text": "Memo DEF PEN",
+            "content": "When the wearer's memosprite uses an ability, the wearer gains \"Noctis.\" While the wearer has \"Noctis,\" all allies' memosprites ignore {{MemoDefPen}}% of the target's DEF when dealing DMG."
+          },
+          "dmgBoost": {
+            "text": "DMG boost",
+            "content": "Increases the DMG dealt by the wearer and their memosprite by {{DmgBuff}}%."
           }
         }
       },
@@ -2149,6 +2169,64 @@ interface Resources {
           }
         }
       },
+      "Evernight": {
+        "Content": {
+          "memoTalentDmgBuff": {
+            "text": "Memo Talent DMG Buff",
+            "content": "While Evernight is on the field, increases DMG dealt by Evernight and Evey by {{MemoTalentDmgBuff}}%."
+          },
+          "crBuff": {
+            "text": "CR buff",
+            "content": "Increases Evernight and the memosprite Evey's CRIT Rate by 35%."
+          },
+          "skillMemoCdBuff": {
+            "text": "Skill Memo CD buff",
+            "content": "Consumes 10% of Evernight's current HP to summon memosprite Evey and increases CRIT DMG of all ally memosprites by an amount equal to {{SkillMemoCdBuff}}% of Evernight's CRIT DMG for 2 turns."
+          },
+          "talentMemoCdBuff": {
+            "text": "Talent Memo CD buff",
+            "content": "Each time Evernight or memosprite Evey loses HP, increases CRIT DMG for both this unit and memosprite Evey by {{TalentCdScaling}}% for 2 turns."
+          },
+          "traceCdBuff": {
+            "text": "Trace CD buff",
+            "content": "When using abilities, consumes 5% of this unit's current HP to increase both their CRIT DMG by 15% for 2 turns."
+          },
+          "memoriaStacks": {
+            "text": "Memoria stacks",
+            "content": "This ability automatically selects a target, prioritizing the enemy target that Evernight last attacked. Deals Ice DMG equal to {{MemoSkillScaling}}% of Evey's Max HP to one enemy. For every 4 points of \"Memoria\" Evernight currently has, further deals Ice DMG equal to {{MemoSkillAdditionalScaling}}% of Evey's Max HP. ::BR:: When Evernight's \"Memoria\" is greater than or equal to 16 points, and Evernight is not under a Crowd Control state, \"Dream, Dissolving, as Dew\" will instead be used. For each point of \"Memoria\" currently in possession, deals Ice DMG equal to {{MemoSkillEnhancedScaling}}% of Evey's Max HP to the primary target"
+          },
+          "enhancedState": {
+            "text": "Enhanced state",
+            "content": "Casting her ultimate causes Evernight to enter the \"Darkest Riddle\" state. During this state, the DMG received by all enemies increases by {{UltVulnScaling}}%, the DMG dealt by Evernight and memosprite Evey increases by {{UltDmgBoostScaling}}%."
+          },
+          "e1FinalDmg": {
+            "text": "E1 Final DMG",
+            "content": "hen Evernight is on the field and when there are 4 or more/3/2/1 enemy targets on the field, ally memosprites deal 120%/125%/130%/150% of their original DMG respectively."
+          },
+          "e2CdBuff": {
+            "text": "E2 CD buff",
+            "content": "Increases Evernight's and memosprite Evey's CRIT DMG by 40%."
+          },
+          "e4Buffs": {
+            "text": "E4 buffs",
+            "content": "While Evernight is on the field, ally memosprites' Weakness Break Efficiency increases by 25%, and memosprite Evey gains an additional 25% Weakness Break Efficiency."
+          },
+          "e6ResPen": {
+            "text": "E6 RES PEN",
+            "content": "While Evernight is on the field, all allies' All-Type RES PEN increases by 20%. After memosprite Evey uses \"Dream, Dissolving, as Dew,\" Evernight gains 30% of the consumed \"Memoria\" in this attack."
+          }
+        },
+        "TeammateContent": {
+          "skillMemoCdBuff": {
+            "text": "Skill Memo CD buff",
+            "content": "When using Skill, increases CRIT DMG of all ally memosprites by an amount equal to {{SkillCdScaling}}% of Evernight's CRIT DMG for 2 turns."
+          },
+          "evernightCombatCD": {
+            "text": "Evernight's combat CD",
+            "content": "When using Skill, increases CRIT DMG of all ally memosprites by an amount equal to {{SkillCdScaling}}% of Evernight's CRIT DMG for 2 turns. ::BR:: Set this to the Evernight's self CD stat that she uses to buff teammates."
+          }
+        }
+      },
       "Feixiao": {
         "Content": {
           "weaknessBrokenUlt": {
@@ -2919,6 +2997,30 @@ interface Resources {
           }
         }
       },
+      "PermansorTerrae": {
+        "TeammateContent": {
+          "bondmate": {
+            "text": "Bondmate",
+            "content": "When using Skill, increases the ATK of the \"Bondmate\" target by 15% of Dan Heng • Permansor Terrae's ATK. \"Bondmate\" gains posession of the summon \"Souldragon\"."
+          },
+          "sourceAtk": {
+            "text": "Dan Heng's combat ATK",
+            "content": "When using Skill, increases the ATK of the \"Bondmate\" target by 15% of Dan Heng • Permansor Terrae's ATK. ::BR:: Set this to the Dan Heng • Permansor Terrae's self ATK stat that he uses to buff teammates."
+          },
+          "e1ResPen": {
+            "text": "E1 RES PEN",
+            "content": "When Dan Heng • Permansor Terrae uses his Ultimate, increases the \"Bondmate's\" All-Type RES PEN by 18% for 3 turns."
+          },
+          "e4DmgReduction": {
+            "text": "E4 DMG reduction",
+            "content": "Reduces DMG taken by \"Bondmate\" by 20%."
+          },
+          "e6Buffs": {
+            "text": "E6 buffs",
+            "content": "When there is a \"Bondmate\" on the field, increases the DMG received by all enemies by 20%. When the \"Bondmate\" deals DMG, ignores 12% of the enemy targets' DEF."
+          }
+        }
+      },
       "Phainon": {
         "Content": {
           "transformedState": {
@@ -3053,7 +3155,7 @@ interface Resources {
         "TeammateContent": {
           "teammateATKValue": {
             "text": "Robin's Combat ATK",
-            "content": "While in the Concerto state, increases all allies' ATK by {{ultAtkBuffScalingValue}}% of Robin's ATK plus {{ultAtkBuffFlatValue}}.::BR::Set this to the Robin's self ATK stat that she uses to buff teammates."
+            "content": "While in the Concerto state, increases all allies' ATK by {{ultAtkBuffScalingValue}}% of Robin's ATK plus {{ultAtkBuffFlatValue}}. ::BR:: Set this to the Robin's self ATK stat that she uses to buff teammates."
           },
           "traceFuaCdBoost": {
             "text": "FUA CD boost",
@@ -4156,12 +4258,12 @@ interface Resources {
       "127": {
         "Name": "World-Remaking Deliverer",
         "Description2pc": "Increases CRIT Rate by 8%.",
-        "Description4pc": "After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 8% until the wearer's next Basic ATK or Skill."
+        "Description4pc": "After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 15% until the wearer's next Basic ATK or Skill."
       },
       "128": {
         "Name": "Self-Enshrouded Recluse",
-        "Description2pc": "Increases CRIT DMG by 16%.",
-        "Description4pc": "Increases the wearer's CRIT DMG by 16%. When any ally target consumes Skill Points for the first time in a turn, recovers 1 Skill Point. This effect triggers up to 1 time per battle, and 1 trigger count(s) will be restored at the start of each subsequent wave. Only 1 Skill Point Recovery effect can be active in the same team."
+        "Description2pc": "Increases Shield Effect by 10%.",
+        "Description4pc": "Increases Shield Effect provided by the wearer by 12%. When an ally target has a Shield provided by the wearer, the ally target's CRIT DMG increases by 15%."
       },
       "301": {
         "Name": "Space Sealing Station",
@@ -6455,11 +6557,6 @@ interface Resources {
       "ShowXL": "Default: Minimize if most of the sidebar is hidden",
       "ShowXXL": "Minimize if any of the sidebar is hidden",
       "NoShow": "Always keep the sidebar on the right"
-    },
-    "RelicPotentialLoadBehavior": {
-      "Label": "Relic potential scoring on load",
-      "ScoreAtStartup": "Default: Automatically score relics on page load",
-      "ManuallyClickReapplyScores": "Only score relics when \"Reapply scores\" is clicked (faster page load)"
     },
     "ExpandedInfoPanelPosition": {
       "Label": "Optimizer Expanded info panel position",

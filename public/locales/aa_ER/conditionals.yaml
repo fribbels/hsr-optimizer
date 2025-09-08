@@ -342,7 +342,7 @@ Lightcones:
     Content:
       dmgBoost:
         text: crwdns45896:0crwdne45896:0
-        content: crwdns45898:0{{DmgBuff}}crwdnd45898:0{{SummonDmgBuff}}crwdne45898:0
+        content: crwdns45982:0{{DmgBuff}}crwdnd45982:0{{SummonDmgBuff}}crwdne45982:0
   ThusBurnsTheDawn:
     Content:
       defPen:
@@ -1215,7 +1215,7 @@ Characters:
         content: crwdns45934:0{{UltVulnScaling}}crwdnd45934:0{{UltDmgBoostScaling}}crwdne45934:0
       e1FinalDmg:
         text: crwdns45936:0crwdne45936:0
-        content: crwdns45938:0crwdne45938:0
+        content: crwdns45984:0crwdne45984:0
       e2CdBuff:
         text: crwdns45940:0crwdne45940:0
         content: crwdns45942:0crwdne45942:0

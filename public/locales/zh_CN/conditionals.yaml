@@ -342,6 +342,7 @@ Lightcones:
     Content:
       dmgBoost:
         text: 伤害提高
+        content: 装备者施放终结技时，使我方全体获得【卫戍】，【卫戍】持续3回合。获得【卫戍】的目标，造成的伤害提高{{DmgBuff}}%，若目标拥有召唤物则造成的伤害额外提高{{SummonDmgBuff}}%。
   ThusBurnsTheDawn:
     Content:
       defPen:
@@ -1214,6 +1215,7 @@ Characters:
         content: 释放终结技时使长夜月进入【至暗之谜】状态，期间敌方全体受到的伤害提高{{UltVulnScaling}}%，长夜月和忆灵「长夜」造成的伤害提高{{UltDmgBoostScaling}}%。
       e1FinalDmg:
         text: 1魂最终伤害
+        content: 长夜月在场时，场上敌方目标数量等于4或以上/3/2/1名时，我方忆灵造成的伤害为原伤害的120%/125%/130%/150%。
       e2CdBuff:
         text: 2魂爆伤增益
         content: 长夜月和忆灵「长夜」的暴击伤害提高40%。

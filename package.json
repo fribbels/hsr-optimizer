@@ -93,7 +93,7 @@
     "oxlint": "^0.16.11",
     "terser": "^5.27.0",
     "typescript": "^5.8.2",
-    "vite": "^6.3.5",
+    "vite": "^6.3.6",
     "vite-tsconfig-paths": "^4.3.1",
     "vitest": "^3.1.3"
   },

@@ -269,7 +269,19 @@ export const Optimizer = {
           }
         }
 
-        WorkerPool.execute(task, callback)
+        // WorkerPool.execute(task, callback)
+
+        window.store.getState().setOptimizationInProgress(false)
+        results = queueResults.toArray()
+
+        OptimizerTabController.setRows(results)
+        setSortColumn(gridSortColumn)
+
+        window.optimizerGrid.current!.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+        console.log('Done', results.length)
+        resultsShown = true
+        if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)
+        return
       }
     }
   },

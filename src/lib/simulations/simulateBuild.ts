@@ -31,6 +31,7 @@ import {
   ComputedStatsArrayCore,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   SimulationRelic,
@@ -60,8 +61,7 @@ export function simulateBuild(
   const setL = OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
 
   const c = (cachedBasicStatsArrayCore ?? new BasicStatsArrayCore(false)) as BasicStatsArray
-  const x = (cachedComputedStatsArrayCore ?? new ComputedStatsArrayCore(false)) as ComputedStatsArray
-  const m = x.m
+  const x = new ComputedStatsContainer(context)
 
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount
@@ -80,11 +80,11 @@ export function simulateBuild(
     c.SPD.set(forcedBasicSpd, Source.NONE)
   }
 
-  x.setBasic(c)
-  if (x.a[Key.MEMOSPRITE]) {
-    m.setBasic(c.m)
-    c.initMemo()
-  }
+  // x.setBasic(c)
+  // if (x.a[Key.MEMOSPRITE]) {
+  //   m.setBasic(c.m)
+  //   c.initMemo()
+  // }
 
   let dmgTracker = 0
 

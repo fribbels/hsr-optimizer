@@ -16,6 +16,8 @@ import {
   ComputedStatsArrayCore,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import { calculateActions } from 'lib/optimization/context/calculateActions'
+import { ComputedStatsContainer } from 'lib/optimization/engine/computedStatsContainer'
 import {
   AbilityKind,
   DEFAULT_BASIC,
@@ -80,6 +82,8 @@ function transformStateActions(comboState: ComboState, request: Form, context: O
   context.comboDot = comboDot || 0
   context.activeAbilities = characterConditionalController.activeAbilities ?? []
   context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
+
+  calculateActions(request, context)
 }
 
 function transformAction(actionIndex: number, comboState: ComboState, turnAbilityNames: TurnAbilityName[], request: OptimizerForm, context: OptimizerContext) {
@@ -114,6 +118,11 @@ function transformAction(actionIndex: number, comboState: ComboState, turnAbilit
   action.precomputedX.setPrecompute(baseComputedStatsArray())
   action.precomputedM = action.precomputedX.m
   action.precomputedM.setPrecompute(baseComputedStatsArray())
+
+  const container = new ComputedStatsContainer(context)
+  console.log(container)
+
+  action.precomputedStats = container
 
   if (comboState.comboTeammate0) {
     action.teammate0.actorId = comboState.comboTeammate0.metadata.characterId
@@ -180,6 +189,8 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
   // Precompute mutual stage
   lightConeConditionals.precomputeMutualEffects?.(x, action, context)
   characterConditionals.precomputeMutualEffects?.(x, action, context)
+
+  characterConditionals.precomputeEffectsContainer(action.precomputedStats, action, context)
 
   precomputeTeammates(action, comboState, context)
   // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status

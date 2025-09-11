@@ -189,8 +189,9 @@ export const FullStatsConfig: ComputedStatsConfigType = Object.fromEntries(
  */
 export class ComputedStatsContainer {
   public damageTypes: number[] = []
-  public statsByDamageType: Record<number, Float32Array> = {}
+  public statsByDamageTypeByEntity: Record<string, Record<number, Float32Array>> = {}
   public entitiesByName: Record<string, OptimizerEntity> = {}
+  public selfEntity: OptimizerEntity
 
   constructor(public context: OptimizerContext) {
     // ===== Hits =====
@@ -205,28 +206,35 @@ export class ComputedStatsContainer {
       }
     }
 
-    const len = Object.keys(FullStatsConfig).length
-
-    this.damageTypes = [...activeDamageTypes]
-    for (const damageType of activeDamageTypes) {
-      this.statsByDamageType[damageType] = new Float32Array(len)
-    }
-
     // ===== Entities =====
+
+    const statsLength = Object.keys(FullStatsConfig).length
 
     for (const entity of context.entities!) {
       this.entitiesByName[entity.name] = entity
+      this.damageTypes = [...activeDamageTypes]
+
+      for (const damageType of activeDamageTypes) {
+        this.statsByDamageTypeByEntity[entity.name] = {
+          [damageType]: new Float32Array(statsLength),
+        }
+      }
     }
+
+    this.selfEntity = context.entities!.find((x) => x.primary)!
   }
 
   public buff(key: number, damageType: number, value: number, source: BuffSource, origin: string, destination: string) {
     for (const type of this.damageTypes) {
       if (damageType & type) {
         if (destination == EntityType.SELF) {
-          this.statsByDamageType[type][key] += value
+          this.statsByDamageTypeByEntity[this.selfEntity.name][type][key] += value
         }
       }
     }
+  }
+
+  public setPrecompute() {
   }
 }
 

@@ -1,9 +1,6 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import {
-  ComputedStatsContainer,
-  OptimizerEntity,
-} from 'lib/optimization/engine/computedStatsContainer'
+import { OptimizerEntity } from 'lib/optimization/engine/computedStatsContainer'
 import {
   CharacterConditionalsController,
   LightConeConditionalsController,
@@ -17,6 +14,33 @@ import {
 
 export type ActionModifier = { modify: (action: OptimizerAction, context: OptimizerContext) => void }
 
+export function calculateEntities(request: OptimizerForm, context: OptimizerContext) {
+  const characterConditionalController = CharacterConditionalsResolver.get(context)
+
+  // Define entities
+  const entities: OptimizerEntity[] = [
+    ...characterConditionalController.entityDeclaration(),
+  ]
+
+  const teammates = [
+    context.teammate0Metadata,
+    context.teammate1Metadata,
+    context.teammate2Metadata,
+  ].filter((x) => !!x.characterId)
+  for (let i = 0; i < teammates.length; i++) {
+    const teammate = teammates[i]!
+
+    const teammateCharacterConditionals = CharacterConditionalsResolver.get(teammate)
+    const teammateLightConeConditionals = LightConeConditionalsResolver.get(teammate)
+
+    if (teammateCharacterConditionals.entityDeclaration) {
+      entities.push(...teammateCharacterConditionals.entityDeclaration())
+    }
+  }
+
+  context.entities = entities
+}
+
 export function calculateActions(request: OptimizerForm, context: OptimizerContext) {
   const actions = context.actions
 
@@ -26,12 +50,6 @@ export function calculateActions(request: OptimizerForm, context: OptimizerConte
   const actionMapping: Record<string, ((action: OptimizerAction, context: OptimizerContext) => HitAction[]) | undefined> = {}
   const modifiers = [
     ...characterConditionalController.actionModifiers(),
-  ]
-
-  // Define entities
-
-  const entities: OptimizerEntity[] = [
-    ...characterConditionalController.entityDeclaration(),
   ]
 
   // Define action mapping
@@ -59,10 +77,6 @@ export function calculateActions(request: OptimizerForm, context: OptimizerConte
 
     const actionModifiers = teammateCharacterConditionals.actionModifiers?.() ?? []
     modifiers.concat(actionModifiers)
-
-    if (teammateCharacterConditionals.entityDeclaration) {
-      entities.push(...teammateCharacterConditionals.entityDeclaration())
-    }
   }
 
   // Condense
@@ -87,11 +101,6 @@ export function calculateActions(request: OptimizerForm, context: OptimizerConte
       modifier.modify(action, context)
     }
   }
-
-  context.entities = entities
-  const container = new ComputedStatsContainer(context)
-  console.log(hitActions)
-  console.log(container)
 }
 
 export function getTeammateMetadata(context: OptimizerContext) {

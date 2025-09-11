@@ -6,7 +6,10 @@ import {
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import { OptimizerEntity } from 'lib/optimization/engine/computedStatsContainer'
+import {
+  ComputedStatsContainer,
+  OptimizerEntity,
+} from 'lib/optimization/engine/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CharacterId } from 'types/character'
 import {
@@ -27,6 +30,8 @@ import {
 export type OptimizerAction = {
   precomputedX: ComputedStatsArray,
   precomputedM: ComputedStatsArray,
+
+  precomputedStats: ComputedStatsContainer,
 
   characterConditionals: ConditionalValueMap,
   lightConeConditionals: ConditionalValueMap,

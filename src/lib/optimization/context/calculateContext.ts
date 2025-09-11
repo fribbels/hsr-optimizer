@@ -4,6 +4,7 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
+import { calculateEntities } from 'lib/optimization/context/calculateActions'
 import { emptyLightCone } from 'lib/optimization/optimizerUtils'
 import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
 import { StatCalculator } from 'lib/relics/statCalculator'
@@ -20,7 +21,6 @@ import {
   CharacterStatsBreakdown,
   OptimizerContext,
 } from 'types/optimizer'
-import { calculateActions } from './calculateActions'
 
 export function generateContext(request: Form): OptimizerContext {
   const context: OptimizerContext = {} as OptimizerContext
@@ -31,9 +31,8 @@ export function generateContext(request: Form): OptimizerContext {
   generateCombatBuffsContext(request, context)
   generateFiltersContext(request, context)
 
+  calculateEntities(request, context)
   calculateConditionals(request, context)
-
-  calculateActions(request, context)
 
   initializeContextConditionals(context)
 

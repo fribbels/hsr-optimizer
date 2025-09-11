@@ -42,6 +42,7 @@ import {
   SetKeys,
   SetKeyType,
 } from 'lib/optimization/config/setsConfig'
+import { ComputedStatsContainer } from 'lib/optimization/engine/computedStatsContainer'
 import { SimulationRelic } from 'lib/simulations/statSimulationTypes'
 import {
   OptimizerAction,
@@ -164,7 +165,7 @@ export function calculateBaseStats(c: BasicStatsArray, context: OptimizerContext
   a[Key.OHB] = sumPercentStat(Stats.OHB, base, lc, trace, c, 0)
 }
 
-export function calculateBasicEffects(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+export function calculateBasicEffects(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
   const lightConeConditionalController = context.lightConeConditionalController
   const characterConditionalController = context.characterConditionalController
 
@@ -172,7 +173,7 @@ export function calculateBasicEffects(x: ComputedStatsArray, action: OptimizerAc
   if (characterConditionalController.calculateBasicEffects) characterConditionalController.calculateBasicEffects(x, action, context)
 }
 
-export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+export function calculateComputedStats(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
   const setConditionals = action.setConditionals
   const a = x.a
   const c = x.c

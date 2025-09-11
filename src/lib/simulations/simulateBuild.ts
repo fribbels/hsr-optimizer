@@ -80,7 +80,7 @@ export function simulateBuild(
     c.SPD.set(forcedBasicSpd, Source.NONE)
   }
 
-  // x.setBasic(c)
+  x.setBasic(c)
   // if (x.a[Key.MEMOSPRITE]) {
   //   m.setBasic(c.m)
   //   c.initMemo()
@@ -93,17 +93,17 @@ export function simulateBuild(
     const action = context.actions[i]
     action.conditionalState = {}
 
-    x.setPrecompute(action.precomputedX.a)
-    if (x.a[Key.MEMOSPRITE]) {
-      m.setPrecompute(action.precomputedM.a)
-    }
+    x.setPrecompute(action.precomputedStats)
+    // if (x.a[Key.MEMOSPRITE]) {
+    //   m.setPrecompute(action.precomputedM.a)
+    // }
 
-    if (x.trace) {
-      x.tracePrecompute(action.precomputedX)
-      m.tracePrecompute(action.precomputedM)
-    }
+    // if (x.trace) {
+    //   x.tracePrecompute(action.precomputedX)
+    //   m.tracePrecompute(action.precomputedM)
+    // }
 
-    calculateBasicEffects(x, action, context)
+    // calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
 

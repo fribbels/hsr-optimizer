@@ -13,6 +13,7 @@ import {
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Namespaces } from 'lib/i18n/i18n'
+import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { BuffSource } from 'lib/optimization/buffSource'
 import { KeysType } from 'lib/optimization/computedStatsArray'
 import {
@@ -55,7 +56,7 @@ const optimizerTabResPen = createI18nKey<keyof Resources['common']['Elements']>(
 
 export const globalStatsConfig = {}
 
-export const hitStatsConfig = {
+export const actionStatsConfig = {
   // Core stats
   HP_P: { label: commonReadableStat('HP%') },
   ATK_P: { label: commonReadableStat('ATK%') },
@@ -147,13 +148,43 @@ export const hitStatsConfig = {
   ADDITIONAL_DMG_BOOST: { label: optimizerTabMisc('Additional DMG boost') },
 } as const
 
+export const hitStatsConfig = {
+  ATK_SCALING: { separated: true, label: optimizerTabCompositeSuffix('ATK scaling') },
+  DEF_SCALING: { separated: true, label: optimizerTabCompositeSuffix('DEF scaling') },
+  HP_SCALING: { separated: true, label: optimizerTabCompositeSuffix('HP scaling') },
+  SPECIAL_SCALING: { separated: true, label: optimizerTabCompositeSuffix('Special scaling') },
+
+  ATK_P_BOOST: { label: optimizerTabCompositeSuffix('ATK % boost') },
+  CR_BOOST: { label: optimizerTabCompositeSuffix('Crit Rate boost') },
+  CD_BOOST: { label: optimizerTabCompositeSuffix('Crit DMG boost') },
+  DMG_BOOST: { separated: true, label: optimizerTabCompositeSuffix('DMG boost') }, // When merged this is just ELEMENTAL_DMG
+
+  VULNERABILITY: { label: optimizerTabCompositeSuffix('Vulnerability') },
+  RES_PEN: { label: optimizerTabCompositeSuffix('RES PEN') },
+  DEF_PEN: { label: optimizerTabCompositeSuffix('DEF PEN') },
+  BREAK_DEF_PEN: { label: optimizerTabCompositeSuffix('Break DEF PEN') },
+
+  TOUGHNESS_DMG: { flat: true, separated: true, label: optimizerTabCompositeSuffix('Toughness DMG') },
+  SUPER_BREAK_MODIFIER: { label: optimizerTabCompositeSuffix('Super Break multiplier') },
+  BREAK_EFFICIENCY_BOOST: { label: optimizerTabCompositeSuffix('Break Efficiency boost') },
+
+  TRUE_DMG_MODIFIER: { label: optimizerTabCompositeSuffix('True DMG multiplier') },
+  FINAL_DMG_BOOST: { label: optimizerTabCompositeSuffix('Final DMG multiplier') },
+  BREAK_DMG_MODIFIER: { separated: true, label: optimizerTabCompositeSuffix('Break DMG multiplier') },
+
+  ADDITIONAL_DMG_SCALING: { separated: true, label: optimizerTabCompositeSuffix('Additional DMG scaling') },
+  ADDITIONAL_DMG: { flat: true, separated: true, label: optimizerTabCompositeSuffix('Additional DMG') },
+
+  DMG: { flat: true, label: optimizerTabCompositeSuffix('DMG') },
+} as const
+
 enum StatCategory {
   CD,
   NONE,
 }
 
 export const FullStatsConfig: ComputedStatsConfigType = Object.fromEntries(
-  Object.entries(hitStatsConfig).map(([key, value], index) => {
+  Object.entries(actionStatsConfig).map(([key, value], index) => {
     const baseValue = value as ComputedStatsConfigBaseType
 
     return [
@@ -189,9 +220,17 @@ export const FullStatsConfig: ComputedStatsConfigType = Object.fromEntries(
  */
 export class ComputedStatsContainer {
   public damageTypes: number[] = []
-  public statsByDamageTypeByEntity: Record<string, Record<number, Float32Array>> = {}
-  public entitiesByName: Record<string, OptimizerEntity> = {}
+
+  public entityRegistry: NamedArray<OptimizerEntity>
   public selfEntity: OptimizerEntity
+
+  public a: Float32Array
+  public c: BasicStatsArray
+
+  public entityLength: number
+  public damageTypesLength: number
+  public statsLength: number
+  public arrayLength: number
 
   constructor(public context: OptimizerContext) {
     // ===== Hits =====
@@ -208,33 +247,45 @@ export class ComputedStatsContainer {
 
     // ===== Entities =====
 
-    const statsLength = Object.keys(FullStatsConfig).length
+    this.entityLength = context.entities!.length
+    this.damageTypesLength = this.damageTypes.length
+    this.statsLength = Object.keys(FullStatsConfig).length
+    this.arrayLength = this.entityLength * this.damageTypesLength * this.statsLength
+    const array = new Float32Array(this.arrayLength)
 
-    for (const entity of context.entities!) {
-      this.entitiesByName[entity.name] = entity
-      this.damageTypes = [...activeDamageTypes]
+    this.a = array
 
-      for (const damageType of activeDamageTypes) {
-        this.statsByDamageTypeByEntity[entity.name] = {
-          [damageType]: new Float32Array(statsLength),
-        }
-      }
-    }
-
-    this.selfEntity = context.entities!.find((x) => x.primary)!
+    this.entityRegistry = new NamedArray(context.entities!, (entity) => entity.name)
+    this.selfEntity = this.entityRegistry.get(0)!
   }
 
   public buff(key: number, damageType: number, value: number, source: BuffSource, origin: string, destination: string) {
-    for (const type of this.damageTypes) {
+    for (let damageTypeIndex = 0; damageTypeIndex < this.damageTypes.length; damageTypeIndex++) {
+      const type = this.damageTypes[damageTypeIndex]
+
       if (damageType & type) {
         if (destination == EntityType.SELF) {
-          this.statsByDamageTypeByEntity[this.selfEntity.name][type][key] += value
+          const entityIndex = 0
+          const index = this.getIndex(entityIndex, damageTypeIndex, key)
+
+          this.a[index] += value
         }
       }
     }
   }
 
-  public setPrecompute() {
+  public getIndex(entityIndex: number, damageTypeIndex: number, statIndex: number): number {
+    return entityIndex * (this.damageTypesLength * this.statsLength)
+      + damageTypeIndex * this.statsLength
+      + statIndex
+  }
+
+  public setPrecompute(container: ComputedStatsContainer) {
+    this.a.set(container.a)
+  }
+
+  public setBasic(basic: BasicStatsArray) {
+    this.c = basic
   }
 }
 
@@ -259,3 +310,67 @@ export const StatKey: Record<StatKeyType, number> = Object.keys(FullStatsConfig)
   },
   {} as Record<StatKeyType, number>,
 )
+
+export class NamedArray<T> {
+  private readonly items: T[] = []
+  private readonly nameToIndex = new Map<string, number>()
+
+  constructor(
+    items: T[],
+    private getKey: (item: T) => string,
+  ) {
+    items.forEach((item, index) => {
+      this.items[index] = item
+      this.nameToIndex.set(this.getKey(item), index)
+    })
+  }
+
+  // Array-like access
+  get(index: number): T | undefined {
+    return this.items[index]
+  }
+
+  // Map-like access
+  getByKey(key: string): T | undefined {
+    const index = this.nameToIndex.get(key)
+    return index !== undefined ? this.items[index] : undefined
+  }
+
+  getIndex(key: string): number {
+    return this.nameToIndex.get(key) ?? -1
+  }
+
+  has(key: string): boolean {
+    return this.nameToIndex.has(key)
+  }
+
+  get length(): number {
+    return this.items.length
+  }
+
+  get keys(): string[] {
+    return Array.from(this.nameToIndex.keys())
+  }
+
+  get values(): T[] {
+    return [...this.items]
+  }
+
+  forEach(callback: (item: T, index: number, key: string) => void): void {
+    this.items.forEach((item, index) => {
+      callback(item, index, this.getKey(item))
+    })
+  }
+
+  find(predicate: (item: T, index: number) => boolean): T | undefined {
+    return this.items.find(predicate)
+  }
+
+  findIndex(predicate: (item: T, index: number) => boolean): number {
+    return this.items.findIndex(predicate)
+  }
+
+  *[Symbol.iterator](): Iterator<T> {
+    yield* this.items
+  }
+}

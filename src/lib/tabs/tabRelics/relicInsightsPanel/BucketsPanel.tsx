@@ -1,5 +1,4 @@
 import {
-  Button,
   Flex,
   theme,
 } from 'antd'
@@ -9,14 +8,13 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import { PanelProps } from 'lib/tabs/tabRelics/relicInsightsPanel/RelicInsightsPanel'
-import {
+import React, {
   useRef,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   CartesianGrid,
-  DefaultTooltipContentProps,
   Scatter,
   ScatterChart,
   Tooltip,
@@ -44,27 +42,36 @@ type DataPoint = {
 
 const { useToken } = theme
 
-export function BucketsPanel({ scores }: PanelProps) {
+const IMG_WIDTH = 26
+const IMG_HEIGHT = 39
+
+export const BucketsPanel = React.memo(({ scores }: PanelProps) => {
   const { token } = useToken()
   const [tooltipActive, setTooltipActive] = useState(false)
   const timeout = useRef<NodeJS.Timeout>()
-  const buckets = Array<Bucket>(10)
+  const buckets = Array.from<Bucket>({ length: 10 })
+  for (let i = 0; i < 10; i++) buckets[i] = []
 
   scores.forEach((score) => {
     const bucketIndex = Math.min(9, Math.max(0, Math.floor(score.score.bestPct / 10)))
-    let bucket = buckets[bucketIndex]
-    if (!bucket) {
-      buckets[bucketIndex] = []
-      bucket = buckets[bucketIndex]
-    }
-    bucket.push(score)
+    buckets[bucketIndex].push(score)
   })
 
   const longestBucket = Math.max(...buckets.flatMap((b) => b.length))
 
+  // 1162 is the approximate available width for the icons
+  // if we can fit all rows within the 1162 then align left without overlap
+  // if not then space evenly (will lead to overlap) and ensure vertical alignment
+  let xPos = (idx: number) => {
+    return IMG_WIDTH / 1162 * (idx + 0.5)
+  }
+  if (longestBucket * IMG_WIDTH > 1162) {
+    xPos = (idx) => (idx + 0.5) / longestBucket
+  }
+
   const data: Array<DataPoint> = buckets.flatMap((bucket, bucketIdx) =>
     bucket.map((score, scoreIdx) => ({
-      x: (scoreIdx + 0.5) / longestBucket,
+      x: xPos(scoreIdx),
       y: bucketIdx,
       name: score.name,
       id: score.id,
@@ -106,7 +113,7 @@ export function BucketsPanel({ scores }: PanelProps) {
           left: -5,
         }}
       >
-        <XAxis dataKey='x' type='number' hide />
+        <XAxis dataKey='x' type='number' domain={[0, 1]} hide />
         <YAxis
           dataKey='y'
           tickFormatter={(val) => `${val * 10}%+`}
@@ -133,7 +140,7 @@ export function BucketsPanel({ scores }: PanelProps) {
       </ScatterChart>
     </div>
   )
-}
+})
 
 function ShapeFunction(untypedProps: unknown) {
   const props = untypedProps as Bucket[number] & { x: number, y: number }
@@ -142,8 +149,8 @@ function ShapeFunction(untypedProps: unknown) {
       href={Assets.getCharacterAvatarById(props.id)}
       x={props.x - 8.5}
       y={props.y - 16.5}
-      width={26}
-      height={39}
+      width={IMG_WIDTH}
+      height={IMG_HEIGHT}
       style={{ cursor: 'pointer' }}
     />
   )

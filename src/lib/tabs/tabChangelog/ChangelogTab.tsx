@@ -123,6 +123,7 @@ function getChangelogContent() {
         `Fix: In the Name of the World's Skill ATK boost conditional is now active by default and correctly calculated`,
         `Fix: Saved builds work properly with Live Import now and no longer get wiped`,
         `Fix: Hoyolab imports now automatically detect buffed characters`,
+        `Fix: Archer's FUA is now calculated correctly`,
         `Balance: Hysilens' DPS score with a non-EHR light cone now has special diminishing returns scaling due to the 100% benchmark being unable to reach the EHR breakpoint`,
         `Balance: Changed Archer's default set from Genius of Brilliant Stars to Wavestrider Captain because of DEF PEN overcapping. Genius of Brilliant Stars is still matched`,
         `Balance: Benchmarks with Dan Heng • Permansor Terrae as a teammate will match The Wondrous BananAmusement Park set`,

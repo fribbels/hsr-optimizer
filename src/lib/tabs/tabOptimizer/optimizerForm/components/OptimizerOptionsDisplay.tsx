@@ -135,7 +135,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
             </HeaderText>
             <Form.Item name='exclude'>
               <Select
-                style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
+                style={{ width: (panelWidth - optimizerTabDefaultGap) / 2, height: 32 }}
                 mode='multiple'
                 maxTagCount='responsive'
                 popupMatchSelectWidth={250}

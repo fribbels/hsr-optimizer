@@ -176,7 +176,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.UNCONVERTIBLE_ATK_BUFF.buff((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
 
       x.RES_PEN.buff((e >= 1 && t.bondmate && t.e1ResPen) ? 0.18 : 0, SOURCE_E1)
-      x.DMG_RED_MULTI.multiply((e >= 4 && t.bondmate && t.e4DmgReduction) ? 1 - 0.20 : 0, SOURCE_E4)
+      x.DMG_RED_MULTI.multiply((e >= 4 && t.bondmate && t.e4DmgReduction) ? 1 - 0.20 : 1, SOURCE_E4)
       x.VULNERABILITY.buff((e >= 6 && t.e6Buffs) ? 0.20 : 0, SOURCE_E6)
       x.DEF_PEN.buff((e >= 6 && t.e6Buffs) ? 0.12 : 0, SOURCE_E6)
     },

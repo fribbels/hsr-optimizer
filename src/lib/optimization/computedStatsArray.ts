@@ -14,6 +14,10 @@ import {
   ComputedStatsObject,
 } from 'lib/optimization/config/computedStatsConfig'
 import {
+  ActionKey,
+  ComputedStatsContainer,
+} from 'lib/optimization/engine/computedStatsContainer'
+import {
   ElementalDamageType,
   ElementalResPenType,
 } from 'types/metadata'
@@ -383,20 +387,20 @@ export function getResPenType(x: ComputedStatsArray, type: ElementalResPenType) 
 }
 
 const ElementalDmgTypeToKey = {
-  [Stats.Physical_DMG]: Key.PHYSICAL_DMG_BOOST,
-  [Stats.Fire_DMG]: Key.FIRE_DMG_BOOST,
-  [Stats.Ice_DMG]: Key.ICE_DMG_BOOST,
-  [Stats.Lightning_DMG]: Key.LIGHTNING_DMG_BOOST,
-  [Stats.Wind_DMG]: Key.WIND_DMG_BOOST,
-  [Stats.Quantum_DMG]: Key.QUANTUM_DMG_BOOST,
-  [Stats.Imaginary_DMG]: Key.IMAGINARY_DMG_BOOST,
+  [Stats.Physical_DMG]: ActionKey.PHYSICAL_DMG_BOOST,
+  [Stats.Fire_DMG]: ActionKey.FIRE_DMG_BOOST,
+  [Stats.Ice_DMG]: ActionKey.ICE_DMG_BOOST,
+  [Stats.Lightning_DMG]: ActionKey.LIGHTNING_DMG_BOOST,
+  [Stats.Wind_DMG]: ActionKey.WIND_DMG_BOOST,
+  [Stats.Quantum_DMG]: ActionKey.QUANTUM_DMG_BOOST,
+  [Stats.Imaginary_DMG]: ActionKey.IMAGINARY_DMG_BOOST,
 } as const
 
-export function getElementalDamageType(x: ComputedStatsArray, type: ElementalDamageType) {
+export function getElementalDamageType(x: ComputedStatsContainer, type: ElementalDamageType) {
   return x.a[ElementalDmgTypeToKey[type]]
 }
 
-export function buffElementalDamageType(x: ComputedStatsArray, type: ElementalDamageType, value: number) {
+export function buffElementalDamageType(x: ComputedStatsContainer, type: ElementalDamageType, value: number) {
   const key = ElementalDmgTypeToKey[type]
   x.a[key] += value
 }

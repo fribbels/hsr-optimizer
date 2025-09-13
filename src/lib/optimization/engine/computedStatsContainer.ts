@@ -184,7 +184,7 @@ enum StatCategory {
 }
 
 export const FullStatsConfig: ComputedStatsConfigType = Object.fromEntries(
-  Object.entries(actionStatsConfig).map(([key, value], index) => {
+  [...Object.entries(actionStatsConfig), ...Object.entries(hitStatsConfig)].map(([key, value], index) => {
     const baseValue = value as ComputedStatsConfigBaseType
 
     return [
@@ -225,8 +225,10 @@ export class ComputedStatsContainer {
   public selfEntity: OptimizerEntity
 
   public a: Float32Array
+  // @ts-ignore
   public c: BasicStatsArray
 
+  public actionStatsLength: number
   public entityLength: number
   public damageTypesLength: number
   public statsLength: number
@@ -247,6 +249,7 @@ export class ComputedStatsContainer {
 
     // ===== Entities =====
 
+    this.actionStatsLength = Object.keys(actionStatsConfig).length
     this.entityLength = context.entities!.length
     this.damageTypesLength = this.damageTypes.length
     this.statsLength = Object.keys(FullStatsConfig).length
@@ -259,7 +262,13 @@ export class ComputedStatsContainer {
     this.selfEntity = this.entityRegistry.get(0)!
   }
 
-  public buff(key: number, damageType: number, value: number, source: BuffSource, origin: string, destination: string) {
+  public buff(key: ActionKeyValue, value: number, source: BuffSource, origin: string, destination: string) {
+    if (destination == EntityType.SELF) {
+      this.a[key] += value
+    }
+  }
+
+  public buffHit(key: HitKeyValue, damageType: number, value: number, source: BuffSource, origin?: string, destination?: string) {
     for (let damageTypeIndex = 0; damageTypeIndex < this.damageTypes.length; damageTypeIndex++) {
       const type = this.damageTypes[damageTypeIndex]
 
@@ -274,10 +283,17 @@ export class ComputedStatsContainer {
     }
   }
 
+  // Array structure
+  // [action stats]
+  // [entity0 damageType0 hitStats]
+  // [entity0 damageType1 hitStats]
+  // [entity1 damageType0 hitStats]
+  // [entity1 damageType1 hitStats]
   public getIndex(entityIndex: number, damageTypeIndex: number, statIndex: number): number {
     return entityIndex * (this.damageTypesLength * this.statsLength)
       + damageTypeIndex * this.statsLength
       + statIndex
+      + this.actionStatsLength
   }
 
   public setPrecompute(container: ComputedStatsContainer) {
@@ -302,6 +318,8 @@ export interface OptimizerEntity {
 }
 
 export type StatKeyType = keyof typeof FullStatsConfig
+export type ActionKeyType = keyof typeof actionStatsConfig
+export type HitKeyType = keyof typeof hitStatsConfig
 
 export const StatKey: Record<StatKeyType, number> = Object.keys(FullStatsConfig).reduce(
   (acc, key, index) => {
@@ -309,6 +327,28 @@ export const StatKey: Record<StatKeyType, number> = Object.keys(FullStatsConfig)
     return acc
   },
   {} as Record<StatKeyType, number>,
+)
+
+declare const ActionKeyBrand: unique symbol
+declare const HitKeyBrand: unique symbol
+
+export type ActionKeyValue = number & { readonly [ActionKeyBrand]: true }
+export type HitKeyValue = number & { readonly [HitKeyBrand]: true }
+
+export const ActionKey: Record<ActionKeyType, ActionKeyValue> = Object.keys(actionStatsConfig).reduce(
+  (acc, key, index) => {
+    acc[key as ActionKeyType] = index as ActionKeyValue // Add type assertion here
+    return acc
+  },
+  {} as Record<ActionKeyType, ActionKeyValue>,
+)
+
+export const HitKey: Record<HitKeyType, HitKeyValue> = Object.keys(hitStatsConfig).reduce(
+  (acc, key, index) => {
+    acc[key as HitKeyType] = index as HitKeyValue // Add type assertion here
+    return acc
+  },
+  {} as Record<HitKeyType, HitKeyValue>,
 )
 
 export class NamedArray<T> {

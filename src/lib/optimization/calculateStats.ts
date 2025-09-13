@@ -42,7 +42,12 @@ import {
   SetKeys,
   SetKeyType,
 } from 'lib/optimization/config/setsConfig'
-import { ComputedStatsContainer } from 'lib/optimization/engine/computedStatsContainer'
+import {
+  ActionKey,
+  ComputedStatsContainer,
+  EntityType,
+  HitKey,
+} from 'lib/optimization/engine/computedStatsContainer'
 import { SimulationRelic } from 'lib/simulations/statSimulationTypes'
 import {
   OptimizerAction,
@@ -169,8 +174,9 @@ export function calculateBasicEffects(x: ComputedStatsContainer, action: Optimiz
   const lightConeConditionalController = context.lightConeConditionalController
   const characterConditionalController = context.characterConditionalController
 
-  if (lightConeConditionalController.calculateBasicEffects) lightConeConditionalController.calculateBasicEffects(x, action, context)
-  if (characterConditionalController.calculateBasicEffects) characterConditionalController.calculateBasicEffects(x, action, context)
+  // TODO
+  // if (lightConeConditionalController.calculateBasicEffects) lightConeConditionalController.calculateBasicEffects(x, action, context)
+  // if (characterConditionalController.calculateBasicEffects) characterConditionalController.calculateBasicEffects(x, action, context)
 }
 
 export function calculateComputedStats(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
@@ -182,49 +188,50 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   const buffs = context.combatBuffs
 
   // Add base to computed
-  a[Key.ATK] += c.a[Key.ATK] + buffs.ATK + buffs.ATK_P * context.baseATK
-  a[Key.DEF] += c.a[Key.DEF] + buffs.DEF + buffs.DEF_P * context.baseDEF
-  a[Key.HP] += c.a[Key.HP] + buffs.HP + buffs.HP_P * context.baseHP
-  a[Key.SPD] += c.a[Key.SPD] + buffs.SPD + buffs.SPD_P * context.baseSPD
-  a[Key.CD] += c.a[Key.CD] + buffs.CD
-  a[Key.CR] += c.a[Key.CR] + buffs.CR
-  a[Key.BE] += c.a[Key.BE] + buffs.BE
-  a[Key.EHR] += c.a[Key.EHR]
-  a[Key.RES] += c.a[Key.RES]
-  a[Key.ERR] += c.a[Key.ERR]
-  a[Key.OHB] += c.a[Key.OHB]
+  a[ActionKey.ATK] += c.a[ActionKey.ATK] + buffs.ATK + buffs.ATK_P * context.baseATK
+  a[ActionKey.DEF] += c.a[ActionKey.DEF] + buffs.DEF + buffs.DEF_P * context.baseDEF
+  a[ActionKey.HP] += c.a[ActionKey.HP] + buffs.HP + buffs.HP_P * context.baseHP
+  a[ActionKey.SPD] += c.a[ActionKey.SPD] + buffs.SPD + buffs.SPD_P * context.baseSPD
+  a[ActionKey.CD] += c.a[ActionKey.CD] + buffs.CD
+  a[ActionKey.CR] += c.a[ActionKey.CR] + buffs.CR
+  a[ActionKey.BE] += c.a[ActionKey.BE] + buffs.BE
+  a[ActionKey.EHR] += c.a[ActionKey.EHR]
+  a[ActionKey.RES] += c.a[ActionKey.RES]
+  a[ActionKey.ERR] += c.a[ActionKey.ERR]
+  a[ActionKey.OHB] += c.a[ActionKey.OHB]
 
-  a[Key.BASE_ATK] = context.baseATK
-  a[Key.BASE_DEF] = context.baseDEF
-  a[Key.BASE_HP] = context.baseHP
-  a[Key.BASE_SPD] = context.baseSPD
+  a[ActionKey.BASE_ATK] = context.baseATK
+  a[ActionKey.BASE_DEF] = context.baseDEF
+  a[ActionKey.BASE_HP] = context.baseHP
+  a[ActionKey.BASE_SPD] = context.baseSPD
 
-  if (x.a[Key.MEMOSPRITE]) {
-    const xmc = x.m.c
-    const xmca = x.m.c.a
-    const xma = x.m.a
-    xmca[Key.ATK] = x.a[Key.MEMO_BASE_ATK_SCALING] * c.a[Key.ATK] + x.a[Key.MEMO_BASE_ATK_FLAT]
-    xmca[Key.DEF] = x.a[Key.MEMO_BASE_DEF_SCALING] * c.a[Key.DEF] + x.a[Key.MEMO_BASE_DEF_FLAT]
-    xmca[Key.HP] = x.a[Key.MEMO_BASE_HP_SCALING] * c.a[Key.HP] + x.a[Key.MEMO_BASE_HP_FLAT]
-    xmca[Key.SPD] = x.a[Key.MEMO_BASE_SPD_SCALING] * c.a[Key.SPD] + x.a[Key.MEMO_BASE_SPD_FLAT]
-
-    xma[Key.BASE_ATK] = xmc.a[Key.ATK]
-    xma[Key.BASE_DEF] = xmc.a[Key.DEF]
-    xma[Key.BASE_HP] = xmc.a[Key.HP]
-    xma[Key.BASE_SPD] = xmc.a[Key.SPD]
-
-    xma[Key.ATK] += xmc.a[Key.ATK]
-    xma[Key.DEF] += xmc.a[Key.DEF]
-    xma[Key.HP] += xmc.a[Key.HP]
-    xma[Key.SPD] += xmc.a[Key.SPD]
-    xma[Key.CD] += c.a[Key.CD]
-    xma[Key.CR] += c.a[Key.CR]
-    xma[Key.BE] += c.a[Key.BE]
-    xma[Key.EHR] += c.a[Key.EHR]
-    xma[Key.RES] += c.a[Key.RES]
-    xma[Key.ERR] += c.a[Key.ERR]
-    xma[Key.OHB] += c.a[Key.OHB]
-  }
+  // TODO
+  // if (x.a[Key.MEMOSPRITE]) {
+  //   const xmc = x.m.c
+  //   const xmca = x.m.c.a
+  //   const xma = x.m.a
+  //   xmca[Key.ATK] = x.a[Key.MEMO_BASE_ATK_SCALING] * c.a[Key.ATK] + x.a[Key.MEMO_BASE_ATK_FLAT]
+  //   xmca[Key.DEF] = x.a[Key.MEMO_BASE_DEF_SCALING] * c.a[Key.DEF] + x.a[Key.MEMO_BASE_DEF_FLAT]
+  //   xmca[Key.HP] = x.a[Key.MEMO_BASE_HP_SCALING] * c.a[Key.HP] + x.a[Key.MEMO_BASE_HP_FLAT]
+  //   xmca[Key.SPD] = x.a[Key.MEMO_BASE_SPD_SCALING] * c.a[Key.SPD] + x.a[Key.MEMO_BASE_SPD_FLAT]
+  //
+  //   xma[Key.BASE_ATK] = xmc.a[Key.ATK]
+  //   xma[Key.BASE_DEF] = xmc.a[Key.DEF]
+  //   xma[Key.BASE_HP] = xmc.a[Key.HP]
+  //   xma[Key.BASE_SPD] = xmc.a[Key.SPD]
+  //
+  //   xma[Key.ATK] += xmc.a[Key.ATK]
+  //   xma[Key.DEF] += xmc.a[Key.DEF]
+  //   xma[Key.HP] += xmc.a[Key.HP]
+  //   xma[Key.SPD] += xmc.a[Key.SPD]
+  //   xma[Key.CD] += c.a[Key.CD]
+  //   xma[Key.CR] += c.a[Key.CR]
+  //   xma[Key.BE] += c.a[Key.BE]
+  //   xma[Key.EHR] += c.a[Key.EHR]
+  //   xma[Key.RES] += c.a[Key.RES]
+  //   xma[Key.ERR] += c.a[Key.ERR]
+  //   xma[Key.OHB] += c.a[Key.OHB]
+  // }
 
   a[Key.ELEMENTAL_DMG] += buffs.DMG_BOOST
   a[Key.EFFECT_RES_PEN] += buffs.EFFECT_RES_PEN
@@ -232,9 +239,10 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   a[Key.BREAK_EFFICIENCY_BOOST] += buffs.BREAK_EFFICIENCY
 
   buffElementalDamageType(x, context.elementalDamageType, c.a[Key.ELEMENTAL_DMG])
-  if (x.a[Key.MEMOSPRITE]) {
-    buffElementalDamageType(x.m, context.elementalDamageType, c.a[Key.ELEMENTAL_DMG])
-  }
+  // TODO
+  // if (x.a[Key.MEMOSPRITE]) {
+  //   buffElementalDamageType(x.m, context.elementalDamageType, c.a[Key.ELEMENTAL_DMG])
+  // }
 
   // BASIC
 
@@ -245,13 +253,14 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   a[Key.DEF] += a[Key.DEF_P] * context.baseDEF
   a[Key.HP] += a[Key.HP_P] * context.baseHP
 
-  if (x.a[Key.MEMOSPRITE]) {
-    const xma = x.m.a
-    xma[Key.SPD] += xma[Key.SPD_P] * (xma[Key.BASE_SPD])
-    xma[Key.ATK] += xma[Key.ATK_P] * (xma[Key.BASE_ATK])
-    xma[Key.DEF] += xma[Key.DEF_P] * (xma[Key.BASE_DEF])
-    xma[Key.HP] += xma[Key.HP_P] * (xma[Key.BASE_HP])
-  }
+  // TODO
+  // if (x.a[Key.MEMOSPRITE]) {
+  //   const xma = x.m.a
+  //   xma[Key.SPD] += xma[Key.SPD_P] * (xma[Key.BASE_SPD])
+  //   xma[Key.ATK] += xma[Key.ATK_P] * (xma[Key.BASE_ATK])
+  //   xma[Key.DEF] += xma[Key.DEF_P] * (xma[Key.BASE_DEF])
+  //   xma[Key.HP] += xma[Key.HP_P] * (xma[Key.BASE_HP])
+  // }
 
   // Dynamic ornament set conditionals
 
@@ -282,39 +291,41 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   // Terminal ornament set conditionals
 
   if (setsArray[4] == setsArray[5]) {
-    if (p2(SetKeys.FirmamentFrontlineGlamoth, sets) && x.a[Key.SPD] >= 135) {
-      x.ELEMENTAL_DMG.buff(x.a[Key.SPD] >= 160 ? 0.18 : 0.12, Source.FirmamentFrontlineGlamoth)
-    }
-
-    if (p2(SetKeys.RutilantArena, sets) && x.a[Key.CR] >= 0.70) {
-      buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 0.20, Source.RutilantArena)
-    }
-
-    if (p2(SetKeys.InertSalsotto, sets) && x.a[Key.CR] >= 0.50) {
-      buffAbilityDmg(x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, Source.InertSalsotto)
-    }
-
-    if (p2(SetKeys.RevelryByTheSea, sets)) {
-      if (x.a[Key.ATK] >= 3600) {
-        buffAbilityDmg(x, DOT_DMG_TYPE, 0.24, Source.RevelryByTheSea)
-      } else if (x.a[Key.ATK] >= 2400) {
-        buffAbilityDmg(x, DOT_DMG_TYPE, 0.12, Source.RevelryByTheSea)
-      }
-    }
+    // TODO
+    // if (p2(SetKeys.FirmamentFrontlineGlamoth, sets) && x.a[Key.SPD] >= 135) {
+    //   x.ELEMENTAL_DMG.buff(x.a[Key.SPD] >= 160 ? 0.18 : 0.12, Source.FirmamentFrontlineGlamoth)
+    // }
+    //
+    // if (p2(SetKeys.RutilantArena, sets) && x.a[Key.CR] >= 0.70) {
+    //   buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 0.20, Source.RutilantArena)
+    // }
+    //
+    // if (p2(SetKeys.InertSalsotto, sets) && x.a[Key.CR] >= 0.50) {
+    //   buffAbilityDmg(x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, Source.InertSalsotto)
+    // }
+    //
+    // if (p2(SetKeys.RevelryByTheSea, sets)) {
+    //   if (x.a[Key.ATK] >= 3600) {
+    //     buffAbilityDmg(x, DOT_DMG_TYPE, 0.24, Source.RevelryByTheSea)
+    //   } else if (x.a[Key.ATK] >= 2400) {
+    //     buffAbilityDmg(x, DOT_DMG_TYPE, 0.12, Source.RevelryByTheSea)
+    //   }
+    // }
   }
 
   // Terminal relic set conditionals
 
   if (p4(SetKeys.IronCavalryAgainstTheScourge, sets) && x.a[Key.BE] >= 1.50) {
-    buffAbilityDefPen(x, BREAK_DMG_TYPE, 0.10, Source.IronCavalryAgainstTheScourge)
-    buffAbilityDefPen(x, SUPER_BREAK_DMG_TYPE, x.a[Key.BE] >= 2.50 ? 0.15 : 0, Source.IronCavalryAgainstTheScourge)
+    // TODO
+    x.buffHit(HitKey.DEF_PEN, BREAK_DMG_TYPE, 0.10, Source.IronCavalryAgainstTheScourge, EntityType.SELF)
+    x.buffHit(HitKey.DEF_PEN, SUPER_BREAK_DMG_TYPE, x.a[Key.BE] >= 2.50 ? 0.15 : 0, Source.IronCavalryAgainstTheScourge, EntityType.SELF)
   }
 
   return x
 }
 
 function executeNonDynamicCombatSets(
-  x: ComputedStatsArray,
+  x: ComputedStatsContainer,
   context: OptimizerContext,
   setConditionals: SetConditional,
   sets: SetCounts,

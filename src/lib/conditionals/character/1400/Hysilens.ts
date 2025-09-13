@@ -20,8 +20,10 @@ import {
   Key,
 } from 'lib/optimization/computedStatsArray'
 import {
+  ActionKey,
   ComputedStatsContainer,
   EntityType,
+  HitKey,
   StatKey,
 } from 'lib/optimization/engine/computedStatsContainer'
 import {
@@ -298,7 +300,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.ATK_P, NONE_DMG_TYPE, 50, Source.NONE, EntityType.SELF, EntityType.SELF)
+      x.buff(ActionKey.ATK_P, 50, Source.NONE, EntityType.SELF, EntityType.SELF)
+      x.buffHit(HitKey.ADDITIONAL_DMG, NONE_DMG_TYPE, 50, Source.NONE, EntityType.SELF, EntityType.SELF)
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

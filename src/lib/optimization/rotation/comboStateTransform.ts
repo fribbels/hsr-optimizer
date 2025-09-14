@@ -72,12 +72,44 @@ function transformStateActions(comboState: ComboState, request: Form, context: O
 
   const actions: OptimizerAction[] = []
   for (let i = 0; i < comboTurnAbilities.length; i++) {
-    actions.push(transformAction(i, comboState, comboTurnAbilities, request, context))
+    actions.push(defineAction(i, comboState, comboTurnAbilities, request, context))
+  }
+
+  context.actions = actions
+  calculateActions(request, context)
+
+  for (let i = 0; i < comboTurnAbilities.length; i++) {
+    const action = actions[i]
+
+    const container = new ComputedStatsContainer(context)
+    console.log(container)
+
+    action.precomputedStats = container
+
+    if (comboState.comboTeammate0) {
+      action.teammate0.actorId = comboState.comboTeammate0.metadata.characterId
+      action.teammate0.characterConditionals = transformConditionals(i, comboState.comboTeammate0.characterConditionals)
+      action.teammate0.lightConeConditionals = transformConditionals(i, comboState.comboTeammate0.lightConeConditionals)
+    }
+
+    if (comboState.comboTeammate1) {
+      action.teammate1.actorId = comboState.comboTeammate1.metadata.characterId
+      action.teammate1.characterConditionals = transformConditionals(i, comboState.comboTeammate1.characterConditionals)
+      action.teammate1.lightConeConditionals = transformConditionals(i, comboState.comboTeammate1.lightConeConditionals)
+    }
+
+    if (comboState.comboTeammate2) {
+      action.teammate2.actorId = comboState.comboTeammate2.metadata.characterId
+      action.teammate2.characterConditionals = transformConditionals(i, comboState.comboTeammate2.characterConditionals)
+      action.teammate2.lightConeConditionals = transformConditionals(i, comboState.comboTeammate2.lightConeConditionals)
+    }
+
+    precomputeConditionals(action, comboState, context)
+    calculateContextConditionalRegistry(action, context)
   }
 
   const characterConditionalController = CharacterConditionalsResolver.get(context)
 
-  context.actions = actions
   context.dotAbilities = countDotAbilities(actions)
   context.comboDot = comboDot || 0
   context.activeAbilities = characterConditionalController.activeAbilities ?? []
@@ -86,7 +118,7 @@ function transformStateActions(comboState: ComboState, request: Form, context: O
   calculateActions(request, context)
 }
 
-function transformAction(actionIndex: number, comboState: ComboState, turnAbilityNames: TurnAbilityName[], request: OptimizerForm, context: OptimizerContext) {
+function defineAction(actionIndex: number, comboState: ComboState, turnAbilityNames: TurnAbilityName[], request: OptimizerForm, context: OptimizerContext) {
   const action: OptimizerAction = {
     characterConditionals: {},
     lightConeConditionals: {},
@@ -118,32 +150,6 @@ function transformAction(actionIndex: number, comboState: ComboState, turnAbilit
   action.precomputedX.setPrecompute(baseComputedStatsArray())
   action.precomputedM = action.precomputedX.m
   action.precomputedM.setPrecompute(baseComputedStatsArray())
-
-  const container = new ComputedStatsContainer(context)
-  console.log(container)
-
-  action.precomputedStats = container
-
-  if (comboState.comboTeammate0) {
-    action.teammate0.actorId = comboState.comboTeammate0.metadata.characterId
-    action.teammate0.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate0.characterConditionals)
-    action.teammate0.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate0.lightConeConditionals)
-  }
-
-  if (comboState.comboTeammate1) {
-    action.teammate1.actorId = comboState.comboTeammate1.metadata.characterId
-    action.teammate1.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate1.characterConditionals)
-    action.teammate1.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate1.lightConeConditionals)
-  }
-
-  if (comboState.comboTeammate2) {
-    action.teammate2.actorId = comboState.comboTeammate2.metadata.characterId
-    action.teammate2.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate2.characterConditionals)
-    action.teammate2.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate2.lightConeConditionals)
-  }
-
-  precomputeConditionals(action, comboState, context)
-  calculateContextConditionalRegistry(action, context)
 
   return action
 }

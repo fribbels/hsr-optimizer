@@ -1,6 +1,9 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { OptimizerEntity } from 'lib/optimization/engine/computedStatsContainer'
+import {
+  ComputedStatsContainer,
+  OptimizerEntity,
+} from 'lib/optimization/engine/computedStatsContainer'
 import {
   CharacterConditionalsController,
   LightConeConditionalsController,
@@ -100,6 +103,13 @@ export function calculateActions(request: OptimizerForm, context: OptimizerConte
     for (const modifier of modifiers) {
       modifier.modify(action, context)
     }
+  }
+
+  //
+
+  for (const action of actions) {
+    const container = new ComputedStatsContainer(context)
+    console.log(container)
   }
 }
 

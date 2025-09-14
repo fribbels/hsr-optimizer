@@ -286,7 +286,7 @@ export class ComputedStatsContainer {
   }
 
   public set(key: ActionKeyValue, value: number, source: BuffSource, origin?: string, destination?: string) {
-    if (destination == EntityType.SELF) {
+    if (!destination || destination == EntityType.SELF) {
       this.a[key] = value
     }
   }

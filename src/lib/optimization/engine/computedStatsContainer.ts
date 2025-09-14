@@ -234,7 +234,7 @@ export class ComputedStatsContainer {
   public statsLength: number
   public arrayLength: number
 
-  constructor(public context: OptimizerContext) {
+  constructor(context: OptimizerContext) {
     // ===== Hits =====
 
     const hitActions = context.hitActions ?? []
@@ -246,6 +246,8 @@ export class ComputedStatsContainer {
         activeDamageTypes.add(hit.damageType)
       }
     }
+
+    this.damageTypes = [...activeDamageTypes]
 
     // ===== Entities =====
 
@@ -283,6 +285,27 @@ export class ComputedStatsContainer {
     }
   }
 
+  public set(key: ActionKeyValue, value: number, source: BuffSource, origin?: string, destination?: string) {
+    if (destination == EntityType.SELF) {
+      this.a[key] = value
+    }
+  }
+
+  public setHit(key: HitKeyValue, damageType: number, value: number, source: BuffSource, origin?: string, destination?: string) {
+    for (let damageTypeIndex = 0; damageTypeIndex < this.damageTypes.length; damageTypeIndex++) {
+      const type = this.damageTypes[damageTypeIndex]
+
+      if (damageType & type) {
+        if (destination == EntityType.SELF) {
+          const entityIndex = 0
+          const index = this.getIndex(entityIndex, damageTypeIndex, key)
+
+          this.a[index] = value
+        }
+      }
+    }
+  }
+
   // Array structure
   // [action stats]
   // [entity0 damageType0 hitStats]
@@ -296,8 +319,8 @@ export class ComputedStatsContainer {
       + this.actionStatsLength
   }
 
-  public setPrecompute(container: ComputedStatsContainer) {
-    this.a.set(container.a)
+  public setPrecompute(array: Float32Array) {
+    this.a.set(array)
   }
 
   public setBasic(basic: BasicStatsArray) {

@@ -19,6 +19,10 @@ import {
   Key,
 } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
+import {
+  ActionKey,
+  ComputedStatsContainer,
+} from 'lib/optimization/engine/computedStatsContainer'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import {
   generateOrnamentSetSolutions,
@@ -288,7 +292,7 @@ export const Optimizer = {
 }
 
 // TODO: This is a temporary tool to rename computed stats variables to fit the optimizer grid
-export function formatOptimizerDisplayData(x: ComputedStatsArray) {
+export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
   const c = x.c
   const d: Partial<OptimizerDisplayData> = {
     relicSetIndex: c.relicSetIndex,
@@ -299,6 +303,7 @@ export function formatOptimizerDisplayData(x: ComputedStatsArray) {
     ca: new Float32Array(c.a),
     tracedX: x,
   }
+  const a = x.a
 
   d[Stats.HP] = c.HP.get()
   d[Stats.ATK] = c.ATK.get()
@@ -313,61 +318,63 @@ export function formatOptimizerDisplayData(x: ComputedStatsArray) {
   d[Stats.OHB] = c.OHB.get()
 
   d.ED = c.ELEMENTAL_DMG.get()
-  d.BASIC = x.BASIC_DMG.get()
-  d.SKILL = x.SKILL_DMG.get()
-  d.ULT = x.ULT_DMG.get()
-  d.FUA = x.FUA_DMG.get()
-  d.MEMO_SKILL = x.MEMO_SKILL_DMG.get()
-  d.MEMO_TALENT = x.MEMO_TALENT_DMG.get()
-  d.DOT = x.DOT_DMG.get()
-  d.BREAK = x.BREAK_DMG.get()
-  d.COMBO = x.COMBO_DMG.get()
-  d.EHP = x.EHP.get()
-  d.HEAL = x.HEAL_VALUE.get()
-  d.SHIELD = x.SHIELD_VALUE.get()
-  d.xHP = x.HP.get()
-  d.xATK = x.ATK.get()
-  d.xDEF = x.DEF.get()
-  d.xSPD = x.SPD.get()
-  d.xCR = x.CR.get()
-  d.xCD = x.CD.get()
-  d.xEHR = x.EHR.get()
-  d.xRES = x.RES.get()
-  d.xBE = x.BE.get()
-  d.xERR = x.ERR.get()
-  d.xOHB = x.OHB.get()
-  d.xELEMENTAL_DMG = x.ELEMENTAL_DMG.get()
+  // TODO
+  // d.BASIC = a[ActionKey.BASIC_DMG]
+  // d.SKILL = a[ActionKey.SKILL_DMG]
+  // d.ULT = a[ActionKey.ULT_DMG]
+  // d.FUA = a[ActionKey.FUA_DMG]
+  // d.MEMO_SKILL = a[ActionKey.MEMO_SKILL_DMG]
+  // d.MEMO_TALENT = a[ActionKey.MEMO_TALENT_DMG]
+  // d.DOT = a[ActionKey.DOT_DMG]
+  // d.BREAK = a[ActionKey.BREAK_DMG]
+  d.COMBO = a[ActionKey.COMBO_DMG]
+  d.EHP = a[ActionKey.EHP]
+  d.HEAL = a[ActionKey.HEAL_VALUE]
+  d.SHIELD = a[ActionKey.SHIELD_VALUE]
+  d.xHP = a[ActionKey.HP]
+  d.xATK = a[ActionKey.ATK]
+  d.xDEF = a[ActionKey.DEF]
+  d.xSPD = a[ActionKey.SPD]
+  d.xCR = a[ActionKey.CR]
+  d.xCD = a[ActionKey.CD]
+  d.xEHR = a[ActionKey.EHR]
+  d.xRES = a[ActionKey.RES]
+  d.xBE = a[ActionKey.BE]
+  d.xERR = a[ActionKey.ERR]
+  d.xOHB = a[ActionKey.OHB]
+  d.xELEMENTAL_DMG = a[ActionKey.ELEMENTAL_DMG]
 
   d.mELEMENTAL_DMG = c.ELEMENTAL_DMG.get()
-  if (x.a[Key.MEMOSPRITE]) {
-    const c = x.m.c
-    d.mHP = c.HP.get()
-    d.mATK = c.ATK.get()
-    d.mDEF = c.DEF.get()
-    d.mSPD = c.SPD.get()
-    d.mCR = c.CR.get()
-    d.mCD = c.CD.get()
-    d.mEHR = c.EHR.get()
-    d.mRES = c.RES.get()
-    d.mBE = c.BE.get()
-    d.mERR = c.ERR.get()
-    d.mOHB = c.OHB.get()
-
-    const m = x.m
-    d.mxHP = m.HP.get()
-    d.mxATK = m.ATK.get()
-    d.mxDEF = m.DEF.get()
-    d.mxSPD = m.SPD.get()
-    d.mxCR = m.CR.get()
-    d.mxCD = m.CD.get()
-    d.mxEHR = m.EHR.get()
-    d.mxRES = m.RES.get()
-    d.mxBE = m.BE.get()
-    d.mxERR = m.ERR.get()
-    d.mxOHB = m.OHB.get()
-    d.mxELEMENTAL_DMG = m.ELEMENTAL_DMG.get()
-    d.mxEHP = m.EHP.get()
-  }
+  // TODO
+  // if (x.a[Key.MEMOSPRITE]) {
+  //   const c = x.m.c
+  //   d.mHP = c.HP.get()
+  //   d.mATK = c.ATK.get()
+  //   d.mDEF = c.DEF.get()
+  //   d.mSPD = c.SPD.get()
+  //   d.mCR = c.CR.get()
+  //   d.mCD = c.CD.get()
+  //   d.mEHR = c.EHR.get()
+  //   d.mRES = c.RES.get()
+  //   d.mBE = c.BE.get()
+  //   d.mERR = c.ERR.get()
+  //   d.mOHB = c.OHB.get()
+  //
+  //   const m = x.m
+  //   d.mxHP = m.HP.get()
+  //   d.mxATK = m.ATK.get()
+  //   d.mxDEF = m.DEF.get()
+  //   d.mxSPD = m.SPD.get()
+  //   d.mxCR = m.CR.get()
+  //   d.mxCD = m.CD.get()
+  //   d.mxEHR = m.EHR.get()
+  //   d.mxRES = m.RES.get()
+  //   d.mxBE = m.BE.get()
+  //   d.mxERR = m.ERR.get()
+  //   d.mxOHB = m.OHB.get()
+  //   d.mxELEMENTAL_DMG = m.ELEMENTAL_DMG.get()
+  //   d.mxEHP = m.EHP.get()
+  // }
 
   return d as OptimizerDisplayData
 }

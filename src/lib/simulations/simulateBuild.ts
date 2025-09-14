@@ -31,7 +31,10 @@ import {
   ComputedStatsArrayCore,
   Key,
 } from 'lib/optimization/computedStatsArray'
-import { ComputedStatsContainer } from 'lib/optimization/engine/computedStatsContainer'
+import {
+  ActionKey,
+  ComputedStatsContainer,
+} from 'lib/optimization/engine/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   SimulationRelic,
@@ -93,7 +96,7 @@ export function simulateBuild(
     const action = context.actions[i]
     action.conditionalState = {}
 
-    x.setPrecompute(action.precomputedStats)
+    x.setPrecompute(action.precomputedStats.a)
     // if (x.a[Key.MEMOSPRITE]) {
     //   m.setPrecompute(action.precomputedM.a)
     // }
@@ -116,7 +119,7 @@ export function simulateBuild(
       }
     }
 
-    calculateDamage(x, action, context)
+    // calculateDamage(x, action, context)
 
     const a = x.a
     if (action.actionType === AbilityKind.BASIC) {
@@ -139,8 +142,8 @@ export function simulateBuild(
 
     if (i === 0) {
       combo += a[Key.DOT_DMG] * (context.dotAbilities == 0 ? context.comboDot / Math.max(1, context.dotAbilities) : 0)
-      x.COMBO_DMG.set(combo, Source.NONE)
-      x.COMBO_DMG.set(dmgTracker, Source.NONE)
+      x.set(ActionKey.COMBO_DMG, combo, Source.NONE)
+      x.set(ActionKey.COMBO_DMG, dmgTracker, Source.NONE)
     }
   }
 

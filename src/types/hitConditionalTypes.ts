@@ -1,5 +1,6 @@
 import { ElementName } from 'lib/constants/constants'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/computedStatsContainer'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -32,5 +33,5 @@ export interface Hit {
 }
 
 export interface DamageFunction {
-  apply: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => number
+  apply: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => number
 }

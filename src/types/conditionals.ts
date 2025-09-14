@@ -1,7 +1,10 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import {ComputedStatsContainer, OptimizerEntity } from 'lib/optimization/engine/computedStatsContainer'
+import {
+  ComputedStatsContainer,
+  OptimizerEntity,
+} from 'lib/optimization/engine/computedStatsContainer'
 import { FormSelectWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
@@ -53,7 +56,7 @@ export interface ConditionalsController {
 
   // Multipliers that can be evaluated after all stat modifications are complete
   // No changes to stats should occur at this stage
-  finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
+  finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void
 
   // WGSL implementation of finalizeCalculations to run on GPU
   gpuFinalizeCalculations?: (action: OptimizerAction, context: OptimizerContext) => string

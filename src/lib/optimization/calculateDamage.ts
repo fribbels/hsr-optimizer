@@ -11,24 +11,30 @@ import {
   Key,
 } from 'lib/optimization/computedStatsArray'
 import { StatsConfigByIndex } from 'lib/optimization/config/computedStatsConfig'
+import {
+  ActionKey,
+  ComputedStatsContainer,
+} from 'lib/optimization/engine/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export function calculateBaseMultis(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+export function calculateBaseMultis(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
   const lightConeConditionalController = context.lightConeConditionalController
   const characterConditionalController = context.characterConditionalController
 
-  if (lightConeConditionalController.finalizeCalculations) lightConeConditionalController.finalizeCalculations(x, action, context)
-  if (characterConditionalController.finalizeCalculations) characterConditionalController.finalizeCalculations(x, action, context)
+  // TODO
+  // if (lightConeConditionalController.finalizeCalculations) lightConeConditionalController.finalizeCalculations(x, action, context)
+  // if (characterConditionalController.finalizeCalculations) characterConditionalController.finalizeCalculations(x, action, context)
 }
 
-export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-  if (x.a[Key.MEMOSPRITE]) {
-    calculateDamage(x.m, action, context)
-  }
+export function calculateDamage(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+  // TODO
+  // if (x.a[Key.MEMOSPRITE]) {
+  //   calculateDamage(x.m, action, context)
+  // }
 
   const eLevel = context.enemyLevel
   const a = x.a
@@ -369,12 +375,12 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   // Break True DMG is handled separately due to break being re-used in ability calcs
   const breakTrueDmg = a[Key.BREAK_DMG] * (a[Key.TRUE_DMG_MODIFIER] + a[Key.BREAK_TRUE_DMG_MODIFIER])
 
-  if (x.trace && action.actionType == AbilityKind.NULL) {
-    const name = StatsConfigByIndex[Key.BREAK_DMG].name
-    const splits = x.dmgSplits[name as keyof DefaultActionDamageValues]
-    splits.breakDmg = a[Key.BREAK_DMG]
-    splits.trueDmg = breakTrueDmg
-  }
+  // if (x.trace && action.actionType == AbilityKind.NULL) {
+  //   const name = StatsConfigByIndex[Key.BREAK_DMG].name
+  //   const splits = x.dmgSplits[name as keyof DefaultActionDamageValues]
+  //   splits.breakDmg = a[Key.BREAK_DMG]
+  //   splits.trueDmg = breakTrueDmg
+  // }
 
   a[Key.BREAK_DMG] += breakTrueDmg
 }
@@ -400,25 +406,26 @@ function calculateDefMulti(eLevel: number, defPen: number) {
   return cLevelConst / ((eLevel + 20) * Math.max(0, 1 - defPen) + cLevelConst)
 }
 
-function calculateEhp(x: ComputedStatsArray, context: OptimizerContext) {
+function calculateEhp(x: ComputedStatsContainer, context: OptimizerContext) {
   const a = x.a
 
-  let ehp = a[Key.HP] / (1 - a[Key.DEF] / (a[Key.DEF] + 200 + 10 * context.enemyLevel))
-  ehp *= 1 / a[Key.DMG_RED_MULTI]
-  a[Key.EHP] = ehp
+  let ehp = a[ActionKey.HP] / (1 - a[ActionKey.DEF] / (a[ActionKey.DEF] + 200 + 10 * context.enemyLevel))
+  ehp *= 1 / a[ActionKey.DMG_RED_MULTI]
+  a[ActionKey.EHP] = ehp
 }
 
-function calculateHeal(x: ComputedStatsArray, context: OptimizerContext) {
+function calculateHeal(x: ComputedStatsContainer, context: OptimizerContext) {
   const a = x.a
-  a[Key.HEAL_VALUE] = a[Key.HEAL_VALUE] * (
+  a[ActionKey.HEAL_VALUE] = a[ActionKey.HEAL_VALUE] * (
     1
-    + a[Key.OHB]
-    + a[Key.SKILL_OHB] * (a[Key.HEAL_TYPE] == SKILL_DMG_TYPE ? 1 : 0)
-    + a[Key.ULT_OHB] * (a[Key.HEAL_TYPE] == ULT_DMG_TYPE ? 1 : 0)
+    + a[ActionKey.OHB]
+    // TODO
+    // + a[ActionKey.SKILL_OHB] * (a[Key.HEAL_TYPE] == SKILL_DMG_TYPE ? 1 : 0)
+    // + a[ActionKey.ULT_OHB] * (a[Key.HEAL_TYPE] == ULT_DMG_TYPE ? 1 : 0)
   )
 }
 
-function calculateShield(x: ComputedStatsArray, context: OptimizerContext) {
+function calculateShield(x: ComputedStatsContainer, context: OptimizerContext) {
   const a = x.a
   a[Key.SHIELD_VALUE] = a[Key.SHIELD_VALUE] * (1 + a[Key.SHIELD_BOOST])
 }

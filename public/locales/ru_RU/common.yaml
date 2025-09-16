@@ -146,8 +146,8 @@ ShortReadableStats:
   Effect Hit Rate: ШПЭ
   Effect RES: СОПР
   Break Effect: ЭП
-  Energy Regeneration Rate: Восст. энергии
-  Outgoing Healing Boost: Бонус исцеления
+  Energy Regeneration Rate: Энергия
+  Outgoing Healing Boost: Исцеление
   Physical DMG Boost: '$t(gameData:Elements.Physical)'
   Fire DMG Boost: '$t(gameData:Elements.Fire)'
   Ice DMG Boost: '$t(gameData:Elements.Ice)'

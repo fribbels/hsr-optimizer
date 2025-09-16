@@ -342,6 +342,7 @@ Lightcones:
     Content:
       dmgBoost:
         text: '↑Урон'
+        content: При использовании ульты даёт "Редут" всем союзникам на 3 хода. Цели с "Редутом" наносят на {{DmgBuff}}% больше урона, а при наличии у них призванных существ — ещё на {{SummonDmgBuff}}%.
   ThusBurnsTheDawn:
     Content:
       defPen:
@@ -352,8 +353,12 @@ Lightcones:
         content: Пока владелец имеет статус "Палящее солнце", наносимый владельцем урон повышается на {{DmgBuff}}%.
   ToEvernightsStars:
     Content:
+      defPen:
+        text: Игнор Защитыᴹ
+        content: Когда мемоспрайт носителя использует способность, он получает «Ноктис». Пока у носителя есть «Ноктис», мемоспрайты всех союзников игнорируют {{MemoDefPen}}% защиты цели при нанесении урона.
       dmgBoost:
         text: Урон↑
+        content: Увеличивает урон, наносимый носителем и его мемоспрайтом, на {{DmgBuff}}%.
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:

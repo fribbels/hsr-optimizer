@@ -401,7 +401,7 @@ WeightFilter:
   SPDFilterText: Скорость
   CRFilterText: Крит Шанс
   CDFilterText: Крит Урон
-  EHRFilterText: Шанс эффектов
+  EHRFilterText: ШансЭфф
   RESFilterText: Сопротивление
   BEFilterText: Пробитие
 MinMaxFilters:

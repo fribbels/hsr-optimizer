@@ -306,6 +306,12 @@ export class ComputedStatsContainer {
     }
   }
 
+  public getActionStat(key: ActionKeyValue) {
+  }
+  // public getHitStat(key: HitKeyValue, damageType: number) {
+  //   const index = this.getIndex(entityIndex, damageTypeIndex, key)
+  // }
+
   // Array structure
   // [action stats]
   // [entity0 damageType0 hitStats]

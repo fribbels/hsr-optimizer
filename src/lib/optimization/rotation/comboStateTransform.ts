@@ -114,8 +114,6 @@ function transformStateActions(comboState: ComboState, request: Form, context: O
   context.comboDot = comboDot || 0
   context.activeAbilities = characterConditionalController.activeAbilities ?? []
   context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
-
-  calculateActions(request, context)
 }
 
 function defineAction(actionIndex: number, comboState: ComboState, turnAbilityNames: TurnAbilityName[], request: OptimizerForm, context: OptimizerContext) {

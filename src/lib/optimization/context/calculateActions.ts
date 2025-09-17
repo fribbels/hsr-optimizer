@@ -105,12 +105,12 @@ export function calculateActions(request: OptimizerForm, context: OptimizerConte
     }
   }
 
-  //
-
-  for (const action of actions) {
-    const container = new ComputedStatsContainer(context)
-    console.log(container)
+  context.allActions = []
+  for (const a of Object.values(actionMapping)) {
+    a.
   }
+
+  console.log('!')
 }
 
 export function getTeammateMetadata(context: OptimizerContext) {

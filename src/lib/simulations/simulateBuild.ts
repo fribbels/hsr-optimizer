@@ -119,6 +119,11 @@ export function simulateBuild(
       }
     }
 
+    if (i == 0) {
+      context.characterConditionalController.actionDefinition()
+      context.actions
+    }
+
     // calculateDamage(x, action, context)
 
     const a = x.a

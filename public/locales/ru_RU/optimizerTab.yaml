@@ -65,8 +65,8 @@ OptimizerOptions:
     Header: Приоритет
     Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
-  AllowEquipped: Разрешить поиск по надетым реликвиям
-  KeepCurrent: Оставить текущие реликвии
+  AllowEquipped: Учитывать надетые
+  KeepCurrent: Оставить текущие
   Exclude: Исключить
   MinEnhance:
     Header: Мин. усиление
@@ -401,7 +401,7 @@ WeightFilter:
   SPDFilterText: Скорость
   CRFilterText: Крит Шанс
   CDFilterText: Крит Урон
-  EHRFilterText: Шанс эффектов
+  EHRFilterText: ШансЭфф
   RESFilterText: Сопротивление
   BEFilterText: Пробитие
 MinMaxFilters:

@@ -49,10 +49,10 @@ Stats:
   SPD: Скорость
   CRIT Rate: Крит Шанс
   CRIT DMG: Крит Урон
-  Effect Hit Rate: Шанс  эффектов
+  Effect Hit Rate: Шанс эффектов
   Effect RES: Сопротивление
   Break Effect: Пробитие
-  Energy Regeneration Rate: Скорость восстановления энергии
+  Energy Regeneration Rate: Восст. энергии
   Outgoing Healing Boost: Бонус исцеления
   Physical DMG Boost: 'Бонус $t(gameData:Elements.Physical) урона'
   Fire DMG Boost: 'Бонус $t(gameData:Elements.Fire) урона'
@@ -73,7 +73,7 @@ ShortStats:
   CRIT Rate: КШ
   CRIT DMG: КУ
   Effect Hit Rate: ШПЭ
-  Effect RES: СОП
+  Effect RES: СОПР
   Break Effect: ЭП
   Energy Regeneration Rate: ВосстЭн
   Outgoing Healing Boost: ИСЦ
@@ -96,7 +96,7 @@ ShortSpacedStats:
   CRIT Rate: КШ
   CRIT DMG: КУ
   Effect Hit Rate: ШПЭ
-  Effect RES: СОП
+  Effect RES: СОПР
   Break Effect: ЭП
   Energy Regeneration Rate: ВЭ
   Outgoing Healing Boost: ИСЦ
@@ -120,8 +120,8 @@ ReadableStats:
   SPD: Скорость
   CRIT Rate: Крит Шанс
   CRIT DMG: Крит Урон
-  Effect Hit Rate: Шанс эффектов
-  Effect RES: Сопротивление
+  Effect Hit Rate: Шанс эфф.
+  Effect RES: Сопр. эфф.
   Break Effect: Пробитие
   Energy Regeneration Rate: Восст. энергии
   Outgoing Healing Boost: Бонус исцеления
@@ -144,10 +144,10 @@ ShortReadableStats:
   CRIT Rate: Крит Шанс
   CRIT DMG: Крит Урон
   Effect Hit Rate: ШПЭ
-  Effect RES: СОП
+  Effect RES: СОПР
   Break Effect: ЭП
-  Energy Regeneration Rate: Восст. энергии
-  Outgoing Healing Boost: Бонус исцеления
+  Energy Regeneration Rate: Энергия
+  Outgoing Healing Boost: Исцеление
   Physical DMG Boost: '$t(gameData:Elements.Physical)'
   Fire DMG Boost: '$t(gameData:Elements.Fire)'
   Ice DMG Boost: '$t(gameData:Elements.Ice)'

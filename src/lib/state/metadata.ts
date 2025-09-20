@@ -8326,6 +8326,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       sets: {
@@ -9248,6 +9249,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ],
           [Parts.LinkRope]: [
             Stats.HP_P,
+            Stats.ERR,
           ],
         },
         substats: [
@@ -9268,6 +9270,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboDot: 0,
         deprioritizeBuffs: true,
+        errRopeEidolon: 0,
         relicSets: [
           [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],

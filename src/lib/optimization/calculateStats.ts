@@ -268,13 +268,13 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
 
   // Dynamic character / lc conditionals
 
+  for (const conditional of action.teammateDynamicConditionals ?? []) {
+    evaluateConditional(conditional, x, action, context)
+  }
   for (const conditional of context.characterConditionalController.dynamicConditionals ?? []) {
     evaluateConditional(conditional, x, action, context)
   }
   for (const conditional of context.lightConeConditionalController.dynamicConditionals ?? []) {
-    evaluateConditional(conditional, x, action, context)
-  }
-  for (const conditional of action.teammateDynamicConditionals ?? []) {
     evaluateConditional(conditional, x, action, context)
   }
 

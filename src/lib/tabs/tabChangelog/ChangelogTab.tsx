@@ -124,6 +124,7 @@ function getChangelogContent() {
         `Fix: Saved builds work properly with Live Import now and no longer get wiped`,
         `Fix: Hoyolab imports now automatically detect buffed characters`,
         `Fix: Archer's FUA is now calculated correctly`,
+        `Fix: Phainon's 45% DMG buff on heal / shield now depends on having an Abundance / Preservation teammate`,
         `Balance: Kafka / Sampo / Black Swan / now have Hysilens for the default DPS Score team`,
         `Balance: Phainon now has Cerydra / Bronya / Sunday for the default DPS Score team`,
         `Balance: Anaxa now has Cerydra / Bronya / Huohuo for the default DPS Score team`,

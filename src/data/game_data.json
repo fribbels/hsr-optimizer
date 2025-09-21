@@ -7057,72 +7057,72 @@
       },
       "traceTree": [
         {
-          "id": "1413201_3.6v4",
+          "id": "1413201",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": [
             {
-              "id": "1413202_3.6v4",
+              "id": "1413202",
               "stat": "HP%",
               "value": 0.04,
-              "pre": "1413201_3.6v4",
+              "pre": "1413201",
               "children": []
             },
             {
-              "id": "1413203_3.6v4",
+              "id": "1413203",
               "stat": "CRIT Rate",
               "value": 0.027,
-              "pre": "1413201_3.6v4",
+              "pre": "1413201",
               "children": []
             }
           ]
         },
         {
-          "id": "1413204_3.6v4",
+          "id": "1413204",
           "stat": "CRIT DMG",
           "value": 0.053,
           "pre": null,
           "children": []
         },
         {
-          "id": "1413205_3.6v4",
+          "id": "1413205",
           "stat": "CRIT Rate",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1413206_3.6v4",
+          "id": "1413206",
           "stat": "HP%",
           "value": 0.06,
           "pre": null,
           "children": []
         },
         {
-          "id": "1413207_3.6v4",
+          "id": "1413207",
           "stat": "CRIT Rate",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1413208_3.6v4",
+          "id": "1413208",
           "stat": "CRIT DMG",
           "value": 0.08,
           "pre": null,
           "children": [
             {
-              "id": "1413209_3.6v4",
+              "id": "1413209",
               "stat": "HP%",
               "value": 0.08,
-              "pre": "1413208_3.6v4",
+              "pre": "1413208",
               "children": [
                 {
-                  "id": "1413210_3.6v4",
+                  "id": "1413210",
                   "stat": "CRIT Rate",
                   "value": 0.053,
-                  "pre": "1413209_3.6v4",
+                  "pre": "1413209",
                   "children": []
                 }
               ]
@@ -7139,7 +7139,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1414": {
       "id": "1414",
@@ -7154,89 +7154,89 @@
       },
       "traceTree": [
         {
-          "id": "1414201_3.6v4",
+          "id": "1414201",
           "stat": "ATK%",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1414202_3.6v4",
+          "id": "1414202",
           "stat": "DEF%",
           "value": 0.05,
           "pre": null,
           "children": [
             {
-              "id": "1414203_3.6v4",
+              "id": "1414203",
               "stat": "ATK%",
               "value": 0.04,
-              "pre": "1414202_3.6v4",
+              "pre": "1414202",
               "children": []
             }
           ]
         },
         {
-          "id": "1414204_3.6v4",
+          "id": "1414204",
           "stat": "SPD",
           "value": 2,
           "pre": null,
           "children": []
         },
         {
-          "id": "1414205_3.6v4",
+          "id": "1414205",
           "stat": "ATK%",
           "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "1414206_3.6v4",
+              "id": "1414206",
               "stat": "DEF%",
               "value": 0.075,
-              "pre": "1414205_3.6v4",
+              "pre": "1414205",
               "children": []
             }
           ]
         },
         {
-          "id": "1414207_3.6v4",
+          "id": "1414207",
           "stat": "ATK%",
           "value": 0.06,
           "pre": null,
           "children": []
         },
         {
-          "id": "1414208_3.6v4",
+          "id": "1414208",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": [
             {
-              "id": "1414209_3.6v4",
+              "id": "1414209",
               "stat": "DEF%",
               "value": 0.1,
-              "pre": "1414208_3.6v4",
+              "pre": "1414208",
               "children": []
             },
             {
-              "id": "1414210_3.6v4",
+              "id": "1414210",
               "stat": "ATK%",
               "value": 0.08,
-              "pre": "1414208_3.6v4",
+              "pre": "1414208",
               "children": []
             }
           ]
         }
       ],
-      "max_sp": 140,
+      "max_sp": 135,
       "stats": {
         "HP": 1047.816,
-        "ATK": 485.1,
-        "DEF": 848.925,
+        "ATK": 582.12,
+        "DEF": 776.16,
         "SPD": 97,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "8001": {
       "id": "8001",
@@ -10096,7 +10096,7 @@
         "ATK": 529.2,
         "DEF": 463.05
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23051": {
       "id": "23051",
@@ -10108,7 +10108,7 @@
         "ATK": 582.12,
         "DEF": 463.05
       },
-      "unreleased": true
+      "unreleased": false
     },
     "24000": {
       "id": "24000",
@@ -10297,12 +10297,12 @@
     {
       "id": "128",
       "name": "Self-Enshrouded Recluse",
-      "skills": "Increases CRIT DMG by <b>16%</b>. Increases the wearer's CRIT DMG by <b>16%</b>. When any ally target consumes Skill Points for the first time in a turn, recovers 1 Skill Point. This effect triggers up to <b>1</b> time(s) per battle, and <b>1</b> trigger count(s) will be restored at the start of each subsequent wave. Only 1 Skill Point Recovery effect can be active in the same team."
+      "skills": "Increases Shield Effect by <b>10%</b>. Increases Shield Effect provided by the wearer by <b>12%</b>. When an ally target has a Shield provided by the wearer, the ally target's CRIT DMG increases by <b>15%</b>."
     },
     {
       "id": "127",
       "name": "World-Remaking Deliverer",
-      "skills": "Increases CRIT Rate by <b>8%</b>. After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by <b>24%</b>, and increases all allies' DMG by <b>8%</b> until the wearer's next Basic ATK or Skill."
+      "skills": "Increases CRIT Rate by <b>8%</b>. After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by <b>24%</b>, and increases all allies' DMG by <b>15%</b> until the wearer's next Basic ATK or Skill."
     },
     {
       "id": "126",

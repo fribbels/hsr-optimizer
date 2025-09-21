@@ -15,6 +15,7 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
+  ANAXA,
   MOZE,
   PHAINON,
 } from 'lib/simulations/tests/testMetadataConstants'
@@ -106,7 +107,9 @@ export function applySetConditionalPresets(form: Form | BenchmarkForm) {
   // Disable elemental conditions by default if the character is not of the same element
   const element = characterMetadata?.element
   form.setConditionals[Sets.GeniusOfBrilliantStars][1] = element == ElementNames.Quantum
-  form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = element == ElementNames.Fire
+  form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = element == ElementNames.Fire || [
+    ANAXA,
+  ].includes(form.characterId)
 
   const path = characterMetadata?.path
   form.setConditionals[Sets.HeroOfTriumphantSong][1] = path == PathNames.Remembrance

@@ -121,6 +121,12 @@ export function countTeamElement(context: OptimizerContext, element: ElementName
     + (context.teammate2Metadata?.element == element ? 1 : 0)
 }
 
+export function teammateMatchesId(context: OptimizerContext, id: string) {
+  return (context.teammate0Metadata?.characterId == id ? 1 : 0)
+    + (context.teammate1Metadata?.characterId == id ? 1 : 0)
+    + (context.teammate2Metadata?.characterId == id ? 1 : 0)
+}
+
 export function mainIsPath(context: OptimizerContext, path: PathName) {
   return context.path == path
 }

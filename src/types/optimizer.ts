@@ -122,6 +122,9 @@ export type CharacterMetadata = {
 }
 
 export type OptimizerContext = CharacterMetadata & {
+  // NEW
+  actionDeclarations: string[],
+
   teammate0Metadata: CharacterMetadata,
   teammate1Metadata: CharacterMetadata,
   teammate2Metadata: CharacterMetadata,

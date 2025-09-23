@@ -1,9 +1,6 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import {
-  ComputedStatsContainer,
-  OptimizerEntity,
-} from 'lib/optimization/engine/computedStatsContainer'
+import { OptimizerEntity } from 'lib/optimization/engine/computedStatsContainer'
 import {
   CharacterConditionalsController,
   LightConeConditionalsController,
@@ -105,9 +102,13 @@ export function calculateActions(request: OptimizerForm, context: OptimizerConte
     }
   }
 
+  // All
+
   context.allActions = []
-  for (const a of Object.values(actionMapping)) {
-    a.
+  for (const provider of Object.values(actionMapping)) {
+    if (!provider) continue
+
+    provider(actions[0], context)
   }
 
   console.log('!')

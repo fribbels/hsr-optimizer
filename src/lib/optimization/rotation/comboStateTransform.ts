@@ -70,6 +70,8 @@ export function transformComboState(request: Form, context: OptimizerContext) {
 function transformStateActions(comboState: ComboState, request: Form, context: OptimizerContext) {
   const { comboTurnAbilities, comboDot } = getComboTypeAbilities(request)
 
+  // OLD
+
   const actions: OptimizerAction[] = []
   for (let i = 0; i < comboTurnAbilities.length; i++) {
     actions.push(defineAction(i, comboState, comboTurnAbilities, request, context))
@@ -116,7 +118,13 @@ function transformStateActions(comboState: ComboState, request: Form, context: O
   context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
 }
 
-function defineAction(actionIndex: number, comboState: ComboState, turnAbilityNames: TurnAbilityName[], request: OptimizerForm, context: OptimizerContext) {
+export function defineAction(
+  actionIndex: number,
+  comboState: ComboState,
+  turnAbilityNames: TurnAbilityName[],
+  request: OptimizerForm,
+  context: OptimizerContext,
+) {
   const action: OptimizerAction = {
     characterConditionals: {},
     lightConeConditionals: {},

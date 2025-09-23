@@ -122,7 +122,7 @@ CharacterPreview:
     SimulatedBenchmarks: Конфигурация тестовых сборок при оценке
     SimulationSets: Наборы реликвий
     Rotation:
-      Header: Ротация способностей для Урона Комбо
+      Header: Ротация для Урона Комбо
       BASIC: Базовая атака
       SKILL: Навык
       ULT: Ультимейт
@@ -171,7 +171,7 @@ CharacterPreview:
       Header: "Идеальная сборка ({{score}}%)"
       BasicStats: Тестовые статы персонажа (200%)
       CombatStats: Тестовые статы (200%) <1>с командой в бою</1> 
-      Substats: Распределение статов в идеальной сборке 200%
+      Substats: Распределение статов в сборке 200%
       Mainstats: Основные статы реликвий в сборке 200%
       Abilities: Урон способностей в сборке 200%
   ScoringDetails:

@@ -345,6 +345,10 @@ Lightcones:
       dmgBuff:
         text: Mejora de daño
         content: Cuando tiene Sol abrasador, el daño que inflige el portador aumenta en un {{DmgBuff}}%.
+  ToEvernightsStars:
+    Content:
+      dmgBoost:
+        text: Aumento de daño
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -1175,6 +1179,16 @@ Characters:
         text: Acumulaciones de afecciones en enemigo
         content: >-
           Al usar su habilidad básica, el Dr. Ratio tiene una probabilidad fija del 40% de lanzar un ataque adicional contra el objetivo e infligir un Daño Imaginario equivalente al {{FuaScaling}}% de su ATQ. Por cada estado negativo que tenga el objetivo, la probabilidad fija de lanzar el ataque adicional aumenta en un 20%. Si el objetivo es derrotado antes de que se lance el ataque adicional, el ataque adicional se dirige contra otro enemigo al azar.::BR::Al infligir daño, si el objetivo tiene 3 o más estados negativos, el Dr. Ratio le inflige un 10% más de daño por cada estado negativo, hasta un aumento máximo del 50%.::BR::E2: Cuando el ataque adicional de su talento golpea a un enemigo, el Dr. Ratio inflige un 20% de su ATQ como Daño Imaginario adicional por cada estado negativo que tenga el objetivo. Este efecto se puede activar un máximo de 4 veces cada vez que use su ataque adicional.
+  Evernight:
+    Content:
+      crBuff:
+        text: Mejora PC
+      enhancedState:
+        text: Estado potenciado
+      e4Buffs:
+        text: E4 Mejoras
+      e6ResPen:
+        text: E6 PEN RES
   Feixiao:
     Content:
       weaknessBrokenUlt:
@@ -1749,6 +1763,10 @@ Characters:
       e4SkillResShred:
         text: E4 Reducción de la RES a Hielo de la Habilidad
         content: Al usar la habilidad básica, hay una probabilidad base del 100% de reducir la RES a Hielo del enemigo en un 12% durante 2 turnos.
+  PermansorTerrae:
+    TeammateContent:
+      e6Buffs:
+        text: E6 Mejoras
   Phainon:
     Content:
       transformedState:
@@ -1854,8 +1872,6 @@ Characters:
     TeammateContent:
       teammateATKValue:
         text: ATQ en combate de Robin
-        content: >-
-          Mientras está en el estado de Concierto, el ATQ de todos los aliados aumenta en una cantidad equivalente al {{ultAtkBuffScalingValue}}% + {{ultAtkBuffFlatValue}} del ATQ de Robin.::BR::Configura esto al ATQ propio de Robin que usa para mejorar a aliados.
       traceFuaCdBoost:
         text: Aumento DC ataque adicional
         content: Cuando está en el estado de Concierto, el Daño CRIT que infligen todos los aliados con sus ataques adicionales aumenta en un 25%.

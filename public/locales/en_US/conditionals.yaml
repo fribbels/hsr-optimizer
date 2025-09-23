@@ -338,6 +338,11 @@ Lightcones:
         text: Cornered vulnerability
         content: >-
           After the wearer uses Basic ATK, Skill, or Ultimate to attack an enemy target, there is a 60% base chance to inflict Unarmored on the target. While in the Unarmored state, the enemy target receives {{UnarmoredVulnerability}}% increased DMG, lasting for 2 turns. If the target is under a DoT state inflicted by the wearer, there is a 60% base chance to upgrade the Unarmored state inflicted by the wearer to the Cornered state, which additionally increases the DMG the enemy target receives by {{CorneredVulnerability}}%, lasting for 2 turns.
+  ThoughWorldsApart:
+    Content:
+      dmgBoost:
+        text: DMG Boost
+        content: When the wearer uses Ultimate, grants "Redoubt" to all allies for 3 turns. Targets with "Redoubt" deal {{DmgBuff}}% more DMG, which further increases by {{SummonDmgBuff}}% if they have summons.
   ThusBurnsTheDawn:
     Content:
       defPen:
@@ -346,6 +351,14 @@ Lightcones:
       dmgBuff:
         text: DMG buff
         content: While "Blazing Sun" is in possession, increases the wearer's DMG dealt by {{DmgBuff}}% .
+  ToEvernightsStars:
+    Content:
+      defPen:
+        text: Memo DEF PEN
+        content: When the wearer's memosprite uses an ability, the wearer gains "Noctis." While the wearer has "Noctis," all allies' memosprites ignore {{MemoDefPen}}% of the target's DEF when dealing DMG.
+      dmgBoost:
+        text: DMG boost
+        content: Increases the DMG dealt by the wearer and their memosprite by {{DmgBuff}}%.
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -1101,23 +1114,15 @@ Characters:
       militaryMerit:
         text: Military Merit
         content: >-
-          When using Skill, increases SPD by 20 for this unit and the teammate with "Military Merit," lasting for 3 turns.
-          ::BR::
-          The character with "Military Merit" increases ATK by an amount equal to {{TalentAtkConversion}}% of Cerydra's ATK.
-          ::BR::
-          E1: The character with "Military Merit" ignores 16% of the targets' DEF when dealing DMG.
+          When using Skill, increases SPD by 20 for this unit and the teammate with "Military Merit," lasting for 3 turns. ::BR:: The character with "Military Merit" increases ATK by an amount equal to {{TalentAtkConversion}}% of Cerydra's ATK. ::BR:: E1: The character with "Military Merit" ignores 16% of the targets' DEF when dealing DMG.
       peerage:
         text: Peerage
         content: >-
-          The character with "Peerage" increases the CRIT DMG for their dealt Skill DMG by {{SkillCdBuff}}%, increases their All-Type RES PEN by {{SkillResPenBuff}}%
-          ::BR::
-          E1: If "Military Merit" has been upgraded to "Peerage," then the character additionally ignores 20% of the targets' DEF when dealing Skill DMG.
+          The character with "Peerage" increases the CRIT DMG for their dealt Skill DMG by {{SkillCdBuff}}%, increases their All-Type RES PEN by {{SkillResPenBuff}}% ::BR:: E1: If "Military Merit" has been upgraded to "Peerage," then the character additionally ignores 20% of the targets' DEF when dealing Skill DMG.
       teammateATKValue:
         text: Cerydra's combat ATK
         content: >-
-          The character with "Military Merit" increases ATK by an amount equal to {{TalentAtkConversion}}% of Cerydra's ATK.
-          ::BR::
-          Set this to the Cerydra's self ATK stat that she uses to buff teammates.
+          The character with "Military Merit" increases ATK by an amount equal to {{TalentAtkConversion}}% of Cerydra's ATK. ::BR:: Set this to the Cerydra's self ATK stat that she uses to buff teammates.
       e1DefPen:
         text: E1 DEF PEN
         content: The character with "Military Merit" ignores 16% of the targets' DEF when dealing DMG. If "Military Merit" has been upgraded to "Peerage," then the character additionally ignores 20% of the targets' DEF when dealing Skill DMG.
@@ -1184,6 +1189,50 @@ Characters:
         text: Enemy debuff stacks
         content: >-
           When using his Skill, Dr. Ratio has a 40% fixed chance of launching a follow-up attack against his target for 1 time, dealing Imaginary DMG equal to {{FuaScaling}}% of Dr. Ratio's ATK. For each debuff the target enemy has, the fixed chance of launching follow-up attack increases by 20%. If the target enemy is defeated before the follow-up attack triggers, the follow-up attack will be directed at a single random enemy instead.::BR::When dealing DMG to a target that has 3 or more debuffs, for each debuff the target has, the DMG dealt by Dr. Ratio to this target increases by 10%, up to a maximum increase of 50%.::BR::E2: When his Talent's follow-up attack hits a target, for every debuff the target has, additionally deals Imaginary Additional DMG equal to 20% of Dr. Ratio's ATK. This effect can be triggered for a maximum of 4 times during each follow-up attack.
+  Evernight:
+    Content:
+      memoTalentDmgBuff:
+        text: Memo Talent DMG Buff
+        content: While Evernight is on the field, increases DMG dealt by Evernight and Evey by {{MemoTalentDmgBuff}}%.
+      crBuff:
+        text: CR buff
+        content: Increases Evernight and the memosprite Evey's CRIT Rate by 35%.
+      skillMemoCdBuff:
+        text: Skill Memo CD buff
+        content: Consumes 10% of Evernight's current HP to summon memosprite Evey and increases CRIT DMG of all ally memosprites by an amount equal to {{SkillMemoCdBuff}}% of Evernight's CRIT DMG for 2 turns.
+      talentMemoCdBuff:
+        text: Talent Memo CD buff
+        content: Each time Evernight or memosprite Evey loses HP, increases CRIT DMG for both this unit and memosprite Evey by {{TalentCdScaling}}% for 2 turns.
+      traceCdBuff:
+        text: Trace CD buff
+        content: When using abilities, consumes 5% of this unit's current HP to increase both their CRIT DMG by 15% for 2 turns.
+      memoriaStacks:
+        text: Memoria stacks
+        content: >-
+          This ability automatically selects a target, prioritizing the enemy target that Evernight last attacked. Deals Ice DMG equal to {{MemoSkillScaling}}% of Evey's Max HP to one enemy. For every 4 points of "Memoria" Evernight currently has, further deals Ice DMG equal to {{MemoSkillAdditionalScaling}}% of Evey's Max HP. ::BR:: When Evernight's "Memoria" is greater than or equal to 16 points, and Evernight is not under a Crowd Control state, "Dream, Dissolving, as Dew" will instead be used. For each point of "Memoria" currently in possession, deals Ice DMG equal to {{MemoSkillEnhancedScaling}}% of Evey's Max HP to the primary target
+      enhancedState:
+        text: Enhanced state
+        content: Casting her ultimate causes Evernight to enter the "Darkest Riddle" state. During this state, the DMG received by all enemies increases by {{UltVulnScaling}}%, the DMG dealt by Evernight and memosprite Evey increases by {{UltDmgBoostScaling}}%.
+      e1FinalDmg:
+        text: E1 Final DMG
+        content: When Evernight is on the field and when there are 4 or more/3/2/1 enemy targets on the field, ally memosprites deal 120%/125%/130%/150% of their original DMG respectively.
+      e2CdBuff:
+        text: E2 CD buff
+        content: Increases Evernight's and memosprite Evey's CRIT DMG by 40%.
+      e4Buffs:
+        text: E4 buffs
+        content: While Evernight is on the field, ally memosprites' Weakness Break Efficiency increases by 25%, and memosprite Evey gains an additional 25% Weakness Break Efficiency.
+      e6ResPen:
+        text: E6 RES PEN
+        content: While Evernight is on the field, all allies' All-Type RES PEN increases by 20%. After memosprite Evey uses "Dream, Dissolving, as Dew," Evernight gains 30% of the consumed "Memoria" in this attack.
+    TeammateContent:
+      skillMemoCdBuff:
+        text: Skill Memo CD buff
+        content: When using Skill, increases CRIT DMG of all ally memosprites by an amount equal to {{SkillCdScaling}}% of Evernight's CRIT DMG for 2 turns.
+      evernightCombatCD:
+        text: Evernight's combat CD
+        content: >-
+          When using Skill, increases CRIT DMG of all ally memosprites by an amount equal to {{SkillCdScaling}}% of Evernight's CRIT DMG for 2 turns. ::BR:: Set this to the Evernight's self CD stat that she uses to buff teammates.
   Feixiao:
     Content:
       weaknessBrokenUlt:
@@ -1453,9 +1502,7 @@ Characters:
       e1Buffs:
         text: E1 buffs
         content: >-
-          While Hysilens is on the field, ally targets deal DoT equal to 116% of the original DMG.
-          ::BR::
-          When Hysilens inflicts Wind Shear/Bleed/Burn/Shock on enemies through her Talent, there is a 100% base chance to additionally inflict the target with 1 instance of Wind Shear/Bleed/Burn/Shock state that is identical to and can coexist with that of the original Talent effect.
+          While Hysilens is on the field, ally targets deal DoT equal to 116% of the original DMG. ::BR:: When Hysilens inflicts Wind Shear/Bleed/Burn/Shock on enemies through her Talent, there is a 100% base chance to additionally inflict the target with 1 instance of Wind Shear/Bleed/Burn/Shock state that is identical to and can coexist with that of the original Talent effect.
       e4ResPen:
         text: E4 RES PEN
         content: While the Zone is active, reduces All-Type RES of all enemies by 20%.
@@ -1466,9 +1513,7 @@ Characters:
       e2TeammateEhr:
         text: "E2 Hysilens' combat EHR"
         content: >-
-          While the Zone is active, the DMG Boost effect from Trace "The Fiddle of Pearls" applies to all allies.
-          ::BR::
-          The Fiddle of Pearls: For every 10% of Hysilens's Effect Hit Rate that exceeds 60%, increases her DMG dealt by 15%, up to a max increase of 90%.
+          While the Zone is active, the DMG Boost effect from Trace "The Fiddle of Pearls" applies to all allies. ::BR:: The Fiddle of Pearls: For every 10% of Hysilens's Effect Hit Rate that exceeds 60%, increases her DMG dealt by 15%, up to a max increase of 90%.
   ImbibitorLunae:
     Content:
       basicEnhanced:
@@ -1762,6 +1807,24 @@ Characters:
       e4SkillResShred:
         text: E4 Skill Ice RES shred
         content: When using Skill, there is a 100% base chance to reduce the target enemy's Ice RES by 12% for 2 turns.
+  PermansorTerrae:
+    TeammateContent:
+      bondmate:
+        text: Bondmate
+        content: When using Skill, increases the ATK of the "Bondmate" target by 15% of Dan Heng • Permansor Terrae's ATK. "Bondmate" gains posession of the summon "Souldragon".
+      sourceAtk:
+        text: Dan Heng's combat ATK
+        content: >-
+          When using Skill, increases the ATK of the "Bondmate" target by 15% of Dan Heng • Permansor Terrae's ATK. ::BR:: Set this to the Dan Heng • Permansor Terrae's self ATK stat that he uses to buff teammates.
+      e1ResPen:
+        text: E1 RES PEN
+        content: When Dan Heng • Permansor Terrae uses his Ultimate, increases the "Bondmate's" All-Type RES PEN by 18% for 3 turns.
+      e4DmgReduction:
+        text: E4 DMG reduction
+        content: Reduces DMG taken by "Bondmate" by 20%.
+      e6Buffs:
+        text: E6 buffs
+        content: When there is a "Bondmate" on the field, increases the DMG received by all enemies by 20%. When the "Bondmate" deals DMG, ignores 12% of the enemy targets' DEF.
   Phainon:
     Content:
       transformedState:
@@ -1868,7 +1931,7 @@ Characters:
       teammateATKValue:
         text: Robin's Combat ATK
         content: >-
-          While in the Concerto state, increases all allies' ATK by {{ultAtkBuffScalingValue}}% of Robin's ATK plus {{ultAtkBuffFlatValue}}.::BR::Set this to the Robin's self ATK stat that she uses to buff teammates.
+          While in the Concerto state, increases all allies' ATK by {{ultAtkBuffScalingValue}}% of Robin's ATK plus {{ultAtkBuffFlatValue}}. ::BR:: Set this to the Robin's self ATK stat that she uses to buff teammates.
       traceFuaCdBoost:
         text: FUA CD boost
         content: While the Concerto state is active, the CRIT DMG dealt when all allies launch follow-up attacks increases by 25%.

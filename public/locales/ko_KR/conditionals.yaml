@@ -344,6 +344,10 @@ Lightcones:
       dmgBuff:
         text: 데미지 버프
         content: '[뜨거운 태양] 보유 시 장착한 캐릭터가 가하는 피해가 {{DmgBuff}}% 증가한다'
+  ToEvernightsStars:
+    Content:
+      dmgBoost:
+        text: 데미지 버프
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -1150,6 +1154,16 @@ Characters:
         text: 적 디버프 수
         content: >-
           전투 스킬 발동 시 40%의 고정 확률로 해당 목표에게 추가 공격을 1회 발동하며, Dr. 레이시오 공격력의 {{FuaScaling}}%만큼 허수 속성 피해를 가한다. 목표가 디버프 효과를 1개 보유할 때마다 추가 공격을 발동할 고정 확률이 20% 증가한다. 만약 추가 공격 발동 전에 목표가 처치되면 랜덤의 단일 적에게 추가 공격을 발동한다.::BR::피해를 가할 시 목표의 디버프 상태가 3개 이상일 경우, 목표가 보유한 디버프 효과 1개당 Dr. 레이시오가 해당 목표에게 가하는 피해가 10% 증가하며, 최대 50% 증가한다.::BR::E2: 특성의 추가 공격이 목표를 명중할 시, 목표가 디버프 효과를 1개 보유할 때마다 추가로 Dr. 레이시오 공격력의 20%만큼 허수 속성 추가 피해를 가한다. 해당 효과는 추가 공격을 할 때마다 최대 4회 발동된다.
+  Evernight:
+    Content:
+      crBuff:
+        text: 치확 버프
+      enhancedState:
+        text: '[완전 연소] 상태'
+      e4Buffs:
+        text: 4돌 버프
+      e6ResPen:
+        text: 6돌 속성 저항 관통
   Feixiao:
     Content:
       weaknessBrokenUlt:
@@ -1707,6 +1721,10 @@ Characters:
       e4SkillResShred:
         text: 4돌 얼음 속성 저항 감소
         content: '전투 스킬 발동 시 100%의 기본 확률로 적의 얼음 속성 저항이 12% 감소한다. 지속 시간: 2턴'
+  PermansorTerrae:
+    TeammateContent:
+      e6Buffs:
+        text: 6돌 버프
   Phainon:
     Content:
       transformedState:
@@ -1810,8 +1828,6 @@ Characters:
     TeammateContent:
       teammateATKValue:
         text: 로빈 공격력 (전투시)
-        content: >-
-          [협주] 상태일 시 모든 아군의 공격력이 증가한다. 증가 수치는 로빈 공격력의 {{ultAtkBuffScalingValue}}%+{{ultAtkBuffFlatValue}}pt이다.
       traceFuaCdBoost:
         text: 추가 공격 치피 버프
         content: '[협주] 상태일 시 모든 아군이 추가 공격을 발동하여 가하는 치명타 피해가 25% 증가한다.'

@@ -338,6 +338,11 @@ Lightcones:
         text: 穷寇易伤
         content: >-
           当装备者施放普攻、战技、终结技攻击敌方目标后，有60%的基础概率使其陷入【卸甲】状态。【卸甲】状态下，敌方目标受到的伤害提高{{UnarmoredVulnerability}}%持续2回合。若目标处于装备者施加的持续伤害状态，则有60%的基础概率将装备者施加的【卸甲】状态升级成【穷寇】状态，使敌方目标受到的伤害额外提高{{CorneredVulnerability}}%，持续2回合。
+  ThoughWorldsApart:
+    Content:
+      dmgBoost:
+        text: 伤害提高
+        content: 装备者施放终结技时，使我方全体获得【卫戍】，【卫戍】持续3回合。获得【卫戍】的目标，造成的伤害提高{{DmgBuff}}%，若目标拥有召唤物则造成的伤害额外提高{{SummonDmgBuff}}%。
   ThusBurnsTheDawn:
     Content:
       defPen:
@@ -346,6 +351,14 @@ Lightcones:
       dmgBuff:
         text: 伤害增益
         content: 持有【烈阳】时，装备者造成的伤害提高{{DmgBuff}}%。
+  ToEvernightsStars:
+    Content:
+      defPen:
+        text: 忆灵防御穿透
+        content: 装备者的忆灵施放技能时，使装备者获得【夜色】。装备者持有【夜色】时，我方全体忆灵造成的伤害无视目标{{MemoDefPen}}%的防御力。
+      dmgBoost:
+        text: 伤害提高
+        content: 使装备者和装备者忆灵造成的伤害提高{{DmgBuff}}%。
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -1176,6 +1189,50 @@ Characters:
         text: 敌人负面效果层数
         content: >-
           施放战技时，有40%的固定概率对该目标发动1次追加攻击，造成等同于真理医生{{FuaScaling}}%攻击力的虚数属性伤害。目标每有1个负面效果，追加攻击发动的固定概率提高20%。若追加攻击施放前目标被消灭则对敌方随机单体发动追加攻击。::BR::造成伤害时，若目标负面状态大于等于3个，目标每有1个负面效果，真理医生对其造成的伤害提高10%，最多提高50%。::BR::2魂：天赋的追加攻击击中目标时，目标每有1个负面效果，则额外造成等同于真理医生20%攻击力的虚数属性附加伤害。该效果在每次追加攻击中最多触发4次。
+  Evernight:
+    Content:
+      memoTalentDmgBuff:
+        text: 忆灵天赋伤害增益
+        content: '「长夜」在场时，长夜月和「长夜」造成的伤害提高{{MemoTalentDmgBuff}}。'
+      crBuff:
+        text: 暴击率增益
+        content: 长夜月和忆灵「长夜」的暴击率提高35%。 
+      skillMemoCdBuff:
+        text: 战技亿灵爆伤增益
+        content: 消耗长夜月当前10%的生命值召唤忆灵「长夜」，并使我方全体忆灵的暴击伤害提高，提高数值等同于长夜月暴击伤害的{{SkillMemoCdBuff}}%，持续2回合。
+      talentMemoCdBuff:
+        text: 天赋忆灵爆伤增益
+        content: 长夜月或忆灵「长夜」每次生命降低时，使自身和忆灵「长夜」的暴击伤害提高{{TalentCdScaling}}%，持续2回合。
+      traceCdBuff:
+        text: 行迹爆伤增益
+        content: 施放技能时，消耗自身当前生命值的5%使双方的暴击伤害提高15%，持续2回合。
+      memoriaStacks:
+        text: 忆质层数
+        content: >-
+          该技能自动选择目标施放，优先攻击长夜月上次攻击的敌方目标。对敌方单体造成等同于「长夜」{{MemoSkillScaling}}%生命上限的冰属性伤害，长夜月当前每有4点【忆质】，则额外造成等同于「长夜」{{MemoSkillAdditionalScaling}}%生命上限的冰属性伤害。 ::BR:: 长夜月持有的【忆质】大于等于16点时，解除并免疫控制类负面状态，若忆灵「长夜」在场，使其立即行动。立即行动效果在忆灵「长夜」施放【迷梦，流失，如露】后方可再次触发。当前每持有1点【忆质】对主目标造成等同于「长夜」{{MemoSkillEnhancedScaling}}%生命上限的冰属性伤害。
+      enhancedState:
+        text: 强化状态
+        content: 释放终结技时使长夜月进入【至暗之谜】状态，期间敌方全体受到的伤害提高{{UltVulnScaling}}%，长夜月和忆灵「长夜」造成的伤害提高{{UltDmgBoostScaling}}%。
+      e1FinalDmg:
+        text: 1魂最终伤害
+        content: 长夜月在场时，场上敌方目标数量等于4或以上/3/2/1名时，我方忆灵造成的伤害为原伤害的120%/125%/130%/150%。
+      e2CdBuff:
+        text: 2魂爆伤增益
+        content: 长夜月和忆灵「长夜」的暴击伤害提高40%。
+      e4Buffs:
+        text: 4魂增益
+        content: 长夜月在场时，我方忆灵的弱点击破效率提高25%，忆灵「长夜」的弱点击破效率额外提高25%。
+      e6ResPen:
+        text: 6魂属性抗性穿透
+        content: 长夜月在场时，我方全体目标的全属性抗性穿透提高20%。忆灵「长夜」施放【迷梦，流失，如露】后，长夜月获得本次攻击消耗【忆质】数量的30%。
+    TeammateContent:
+      skillMemoCdBuff:
+        text: 战机忆灵爆伤增益
+        content: 释放战技时，使我方全体忆灵的暴击伤害提高，提高数值等同于长夜月暴击伤害的{{SkillCdScaling}}%，持续2回合。
+      evernightCombatCD:
+        text: 长夜月战斗时爆伤
+        content: >-
+          释放战技时，使我方全体忆灵的暴击伤害提高，提高数值等同于长夜月暴击伤害的{{SkillCdScaling}}%，持续2回合。::BR:: 将此设置为长夜月为队友提供增益时自身的暴击伤害值。
   Feixiao:
     Content:
       weaknessBrokenUlt:
@@ -1750,6 +1807,24 @@ Characters:
       e4SkillResShred:
         text: 4魂冰抗性削弱
         content: 施放战技时，有100%的基础概率使敌方目标冰属性抗性降低12%，持续2回合。
+  PermansorTerrae:
+    TeammateContent:
+      bondmate:
+        text: 同袍
+        content: 施放战技时，使成为【同袍】的目标攻击力提高，提高数值等同于丹恒•腾荒15%攻击力。
+      sourceAtk:
+        text: 丹恒战斗时攻击力
+        content: >-
+          施放战技时，使成为【同袍】的目标攻击力提高，提高数值等同于丹恒•腾荒15%攻击力。::BR::将此设置为丹恒•腾荒为队友提供增益时自身的攻击力值。
+      e1ResPen:
+        text: 1魂抗性穿透
+        content: 丹恒•腾荒施放终结技时，使【同袍】全属性抗性穿透提高18%，持续3回合。
+      e4DmgReduction:
+        text: 4魂伤害减免
+        content: '【同袍】受到的伤害降低20%。'
+      e6Buffs:
+        text: 6魂增益
+        content: 场上存在【同袍】时，使敌方全体受到的伤害提高20%，【同袍】造成伤害时，无视敌方目标12%的防御力。
   Phainon:
     Content:
       transformedState:
@@ -1856,7 +1931,7 @@ Characters:
       teammateATKValue:
         text: 知更鸟战斗中攻击力
         content: >-
-          处于【协奏】状态时，我方全体攻击力提高，提高数值等同于知更鸟攻击力的{{ultAtkBuffScalingValue}}%+{{ultAtkBuffFlatValue}}点。::BR::将此设置为知更鸟用来增益队友时的自身攻击力。
+          处于【协奏】状态时，我方全体攻击力提高，提高数值等同于知更鸟攻击力的{{ultAtkBuffScalingValue}}%+{{ultAtkBuffFlatValue}}点。::BR::将此设置为知更鸟用来增益队友时的自身攻击力值。
       traceFuaCdBoost:
         text: 追加攻击暴伤提升
         content: 处于【协奏】状态时，我方全体发动追加攻击造成的暴击伤害提高25%。

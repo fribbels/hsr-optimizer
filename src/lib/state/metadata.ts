@@ -40,15 +40,18 @@ import {
   BRONYA,
   BUT_THE_BATTLE_ISNT_OVER,
   CASTORICE,
+  CERYDRA,
   CIPHER,
   DANCE_DANCE_DANCE,
   EARTHLY_ESCAPADE,
+  EPOCH_ETCHED_IN_GOLDEN_BLOOD,
   FEIXIAO,
   FIREFLY,
   FLOWING_NIGHTGLOW,
   FUGUE,
   HUOHUO,
   HYACINE,
+  HYSILENS,
   I_VENTURE_FORTH_TO_HUNT,
   IF_TIME_WERE_A_FLOWER,
   INHERENTLY_UNJUST_DESTINY,
@@ -82,6 +85,7 @@ import {
   TOPAZ_NUMBY,
   TRIBBIE,
   WHEREABOUTS_SHOULD_DREAMS_REST,
+  WHY_DOES_THE_OCEAN_SING,
   WORRISOME_BLISSFUL,
   YET_HOPE_IS_PRICELESS,
 } from 'lib/simulations/tests/testMetadataConstants'
@@ -2099,8 +2103,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: RUAN_MEI,
-            lightCone: PAST_SELF_IN_MIRROR,
+            characterId: HYSILENS,
+            lightCone: WHY_DOES_THE_OCEAN_SING,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3054,8 +3058,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: RUAN_MEI,
-            lightCone: PAST_SELF_IN_MIRROR,
+            characterId: HYSILENS,
+            lightCone: WHY_DOES_THE_OCEAN_SING,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6060,8 +6064,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: RUAN_MEI,
-            lightCone: PAST_SELF_IN_MIRROR,
+            characterId: HYSILENS,
+            lightCone: WHY_DOES_THE_OCEAN_SING,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -7871,8 +7875,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: ROBIN,
-            lightCone: FLOWING_NIGHTGLOW,
+            characterId: CERYDRA,
+            lightCone: EPOCH_ETCHED_IN_GOLDEN_BLOOD,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8280,14 +8284,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: ROBIN,
-            lightCone: FLOWING_NIGHTGLOW,
+            characterId: CERYDRA,
+            lightCone: EPOCH_ETCHED_IN_GOLDEN_BLOOD,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: HUOHUO,
-            lightCone: NIGHT_OF_FRIGHT,
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8326,6 +8330,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       sets: {
@@ -9248,6 +9253,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ],
           [Parts.LinkRope]: [
             Stats.HP_P,
+            Stats.ERR,
           ],
         },
         substats: [
@@ -9268,6 +9274,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboDot: 0,
         deprioritizeBuffs: true,
+        errRopeEidolon: 0,
         relicSets: [
           [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],

@@ -338,6 +338,11 @@ Lightcones:
         text: crwdns40362:0crwdne40362:0
         content: >-
           crwdns44010:0{{UnarmoredVulnerability}}crwdnd44010:0{{CorneredVulnerability}}crwdne44010:0
+  ThoughWorldsApart:
+    Content:
+      dmgBoost:
+        text: crwdns45896:0crwdne45896:0
+        content: crwdns45982:0{{DmgBuff}}crwdnd45982:0{{SummonDmgBuff}}crwdne45982:0
   ThusBurnsTheDawn:
     Content:
       defPen:
@@ -346,6 +351,14 @@ Lightcones:
       dmgBuff:
         text: crwdns45462:0crwdne45462:0
         content: crwdns45464:0{{DmgBuff}}crwdne45464:0
+  ToEvernightsStars:
+    Content:
+      defPen:
+        text: crwdns45900:0crwdne45900:0
+        content: crwdns45902:0{{MemoDefPen}}crwdne45902:0
+      dmgBoost:
+        text: crwdns45904:0crwdne45904:0
+        content: crwdns45906:0{{DmgBuff}}crwdne45906:0
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -1176,6 +1189,50 @@ Characters:
         text: crwdns40858:0crwdne40858:0
         content: >-
           crwdns44112:0{{FuaScaling}}crwdnd44112:0:BR:crwdnd44112:0:BR:crwdnd44112:0:E2:crwdne44112:0
+  Evernight:
+    Content:
+      memoTalentDmgBuff:
+        text: crwdns45908:0crwdne45908:0
+        content: crwdns45910:0{{MemoTalentDmgBuff}}crwdne45910:0
+      crBuff:
+        text: crwdns45912:0crwdne45912:0
+        content: crwdns45914:0crwdne45914:0
+      skillMemoCdBuff:
+        text: crwdns45916:0crwdne45916:0
+        content: crwdns45918:0{{SkillMemoCdBuff}}crwdne45918:0
+      talentMemoCdBuff:
+        text: crwdns45920:0crwdne45920:0
+        content: crwdns45922:0{{TalentCdScaling}}crwdne45922:0
+      traceCdBuff:
+        text: crwdns45924:0crwdne45924:0
+        content: crwdns45926:0crwdne45926:0
+      memoriaStacks:
+        text: crwdns45928:0crwdne45928:0
+        content: >-
+          crwdns45930:0{{MemoSkillScaling}}crwdnd45930:0{{MemoSkillAdditionalScaling}}crwdnd45930:0:BR:crwdnd45930:0{{MemoSkillEnhancedScaling}}crwdne45930:0
+      enhancedState:
+        text: crwdns45932:0crwdne45932:0
+        content: crwdns45934:0{{UltVulnScaling}}crwdnd45934:0{{UltDmgBoostScaling}}crwdne45934:0
+      e1FinalDmg:
+        text: crwdns45936:0crwdne45936:0
+        content: crwdns45984:0crwdne45984:0
+      e2CdBuff:
+        text: crwdns45940:0crwdne45940:0
+        content: crwdns45942:0crwdne45942:0
+      e4Buffs:
+        text: crwdns45944:0crwdne45944:0
+        content: crwdns45946:0crwdne45946:0
+      e6ResPen:
+        text: crwdns45948:0crwdne45948:0
+        content: crwdns45950:0crwdne45950:0
+    TeammateContent:
+      skillMemoCdBuff:
+        text: crwdns45952:0crwdne45952:0
+        content: crwdns45954:0{{SkillCdScaling}}crwdne45954:0
+      evernightCombatCD:
+        text: crwdns45956:0crwdne45956:0
+        content: >-
+          crwdns45958:0{{SkillCdScaling}}crwdnd45958:0:BR:crwdne45958:0
   Feixiao:
     Content:
       weaknessBrokenUlt:
@@ -1750,6 +1807,24 @@ Characters:
       e4SkillResShred:
         text: crwdns41356:0crwdne41356:0
         content: crwdns44406:0crwdne44406:0
+  PermansorTerrae:
+    TeammateContent:
+      bondmate:
+        text: crwdns45960:0crwdne45960:0
+        content: crwdns45962:0crwdne45962:0
+      sourceAtk:
+        text: crwdns45964:0crwdne45964:0
+        content: >-
+          crwdns45966:0:BR:crwdne45966:0
+      e1ResPen:
+        text: crwdns45968:0crwdne45968:0
+        content: crwdns45970:0crwdne45970:0
+      e4DmgReduction:
+        text: crwdns45972:0crwdne45972:0
+        content: crwdns45974:0crwdne45974:0
+      e6Buffs:
+        text: crwdns45976:0crwdne45976:0
+        content: crwdns45978:0crwdne45978:0
   Phainon:
     Content:
       transformedState:
@@ -1856,7 +1931,7 @@ Characters:
       teammateATKValue:
         text: crwdns41428:0crwdne41428:0
         content: >-
-          crwdns44222:0{{ultAtkBuffScalingValue}}crwdnd44222:0{{ultAtkBuffFlatValue}}crwdnd44222:0:BR:crwdne44222:0
+          crwdns45980:0{{ultAtkBuffScalingValue}}crwdnd45980:0{{ultAtkBuffFlatValue}}crwdnd45980:0:BR:crwdne45980:0
       traceFuaCdBoost:
         text: crwdns41432:0crwdne41432:0
         content: crwdns41434:0crwdne41434:0

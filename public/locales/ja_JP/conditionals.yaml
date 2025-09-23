@@ -291,7 +291,7 @@ Lightcones:
   SheAlreadyShutHerEyes:
     Content:
       hpLostDmgBuff:
-        text: HP減少時のダメバフ
+        text: HP減少時の味方与ダメージバフ
         content: 装備キャラのHPが減った時、味方全体の与ダメージ+{{DmgBuff}}%、2ターン継続。
   SleepLikeTheDead:
     Content:
@@ -338,6 +338,11 @@ Lightcones:
         text: '「窮寇」付与済み'
         content: >-
           装備キャラが通常攻撃、戦闘スキル、または必殺技を発動して敵に攻撃した後、60%の基礎確率で敵を「甲卸」状態にする。 「甲卸」状態の敵の受けるダメージ+{{UnarmoredVulnerability}}%、2ターン継続。ターゲットが装備キャラによって持続ダメージ系デバフを付与されている場合、60%の基礎確率で装備キャラが付与した「甲卸」状態を「窮寇」状態に強化し、さらに敵の受けるダメージ+{{CorneredVulnerability}}%、2ターン継続。
+  ThoughWorldsApart:
+    Content:
+      dmgBoost:
+        text: 味方与ダメージバフ
+        content: 装備キャラが必殺技を発動する時、味方全体は「守備」を獲得する。「守備」は3ターン継続。「守備」を獲得した味方の与ダメージ+{{DmgBuff}}%、さらに召喚物を持つ場合は追加で与ダメージ+{{SummonDmgBuff}}%。
   ThusBurnsTheDawn:
     Content:
       defPen:
@@ -346,6 +351,14 @@ Lightcones:
       dmgBuff:
         text: ダメバフ
         content: '「烈日」を所持している場合、装備キャラの与ダメージ+{{DmgBuff}}%。'
+  ToEvernightsStars:
+    Content:
+      defPen:
+        text: 精霊防御力無視
+        content: 装備キャラの記憶の精霊がスキルを発動する時、装備キャラは「夜色」を獲得する。装備キャラが「夜色」を持つ時、味方の記憶の精霊全体の与えるダメージはターゲットの防御力を{{MemoDefPen}}%分無視する。
+      dmgBoost:
+        text: ダメバフ
+        content: 装備キャラとその記憶の精霊の与ダメージ+30%。
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -418,15 +431,15 @@ Lightcones:
   CarveTheMoonWeaveTheClouds:
     Content:
       atkBuffActive:
-        text: 攻撃力バフ有効
+        text: 攻撃力バフ
         content: >-
           戦闘開始時、および装備キャラのターンが回ってきた時、ランダムで効果を1つ発動する。この効果が発動されるたび、前回の効果を上書きする。同じ効果は連続で発動されない。効果は以下を含む：:BR:味方全体の攻撃力+{{AtkBuff}}%、:BR:味方全体の会心ダメージ+{{CritBuff}}%、:BR:味方全体のEP回復効率+{{RegenBuff}}%。:BR:同系統のスキルは累積できず、装備キャラが戦闘不能状態になると効果は解除される。
       cdBuffActive:
-        text: 会心ダメバフ有効
+        text: 会心ダメバフ
         content: >-
           戦闘開始時、および装備キャラのターンが回ってきた時、ランダムで効果を1つ発動する。この効果が発動されるたび、前回の効果を上書きする。同じ効果は連続で発動されない。効果は以下を含む：:BR:味方全体の攻撃力+{{AtkBuff}}%、:BR:味方全体の会心ダメージ+{{CritBuff}}%、:BR:味方全体のEP回復効率+{{RegenBuff}}%。:BR:同系統のスキルは累積できず、装備キャラが戦闘不能状態になると効果は解除される。
       errBuffActive:
-        text: EP回復バフ有効
+        text: EP回復バフ
         content: >-
           戦闘開始時、および装備キャラのターンが回ってきた時、ランダムで効果を1つ発動する。この効果が発動されるたび、前回の効果を上書きする。同じ効果は連続で発動されない。効果は以下を含む：:BR:味方全体の攻撃力+{{AtkBuff}}%、:BR:味方全体の会心ダメージ+{{CritBuff}}%、:BR:味方全体のEP回復効率+{{RegenBuff}}%。:BR:同系統のスキルは累積できず、装備キャラが戦闘不能状態になると効果は解除される。
   ConcertForTwo:
@@ -575,7 +588,7 @@ Lightcones:
   RiverFlowsInSpring:
     Content:
       spdDmgBuff:
-        text: 速度/ダメバフ有効
+        text: 速度/ダメバフ
         content: >-
           戦闘に入った後、装備キャラの速度+{{SpdBuff}}%、与ダメージ+{{DmgBuff}}%。この効果は装備キャラがダメージを受けた後に失効し、装備キャラの次のターンが終了した時に再度効力を発生する。
   SeeYouAtTheEnd:
@@ -898,7 +911,7 @@ Characters:
         text: '「蓄エネ」層数'
         content: "アスターが持つ蓄エネ1層につき、味方全体の攻撃力+14%、最大で5回累積できる。::BR::4凸::天賦の蓄エネが2層以上の時、アスターのEP回復効率+15%。"
       ultSpdBuff:
-        text: 必殺技の速度バフ有効
+        text: 必殺技の速度バフ
         content: 味方全体の速度+{{ultSpdBuffValue}}、2ターン継続。
       fireDmgBoost:
         text: 炎ダメバフ
@@ -1110,7 +1123,7 @@ Characters:
       teammateATKValue:
         text: 攻撃力（戦闘時）
         content: >-
-          「軍功」を所持しているキャラの攻撃力が、ケリュドラの攻撃力{{TalentAtkConversion}}%分アップする。::BR::ケリュドラがチームメイトを強化するために使用する、彼女自身の攻撃力の値に設定してください。
+          「軍功」を所持しているキャラの攻撃力が、ケリュドラの攻撃力{{TalentAtkConversion}}%分アップする。::BR:: ケリュドラの攻撃力をここに入力してください。味方をバフするときに使います。
       e1DefPen:
         text: 1凸 敵防御力無視
         content: '「軍功」を所持しているキャラが敵にダメージを与える時、ターゲットの防御力を16%無視する。「軍功」が「爵位」に昇格している間、そのキャラが敵に戦闘スキルダメージを与える時、さらにターゲットの防御力を20%無視する。'
@@ -1177,6 +1190,50 @@ Characters:
         text: 敵デバフ数
         content: >-
           戦闘スキルを発動する時、40%の固定確率でターゲットに追加攻撃を1回行い、Dr.レイシオの攻撃力{{FuaScaling}}%分の虚数属性ダメージを与える。敵にあるデバフ1つにつき、追加攻撃を行う固定確率+20%。追加攻撃を行う前にターゲットが倒された場合、ランダムな敵単体に追加攻撃を行う。::BR::ダメージを与える時、敵にあるデバフが3つ以上の場合、デバフ1つにつき、その敵に対するDr.レイシオの与ダメージ+10%、最大で+50%。::BR::2凸：天賦の追加攻撃が命中した時、敵にあるデバフ1つにつき、さらにDr.レイシオの攻撃力20%の虚数属性付加ダメージを与える。この効果は1回の追加攻撃で4回まで発動できる。
+  Evernight:
+    Content:
+      memoTalentDmgBuff:
+        text: 精霊天賦のバフ
+        content: 長夜がフィールド上にいる時、長夜月と長夜の与ダメージ+{{MemoTalentDmgBuff}}%。
+      crBuff:
+        text: 会心率バフ
+        content: 長夜月と記憶の精霊「長夜」の会心率+35%。
+      skillMemoCdBuff:
+        text: スキルの会心ダメバフ
+        content: 長夜月の残りHP10%分のHPを消費して、記憶の精霊「長夜」を召喚する。味方の記憶の精霊全体の会心ダメージが長夜月の会心ダメージの{{SkillMemoCdBuff}}%分アップする、2ターン継続。
+      talentMemoCdBuff:
+        text: 天賦の会心ダメバフ
+        content: 長夜月または長夜のHPが減少するたびに、それぞれの会心ダメージ+{{TalentCdScaling}}%、2ターン継続。
+      traceCdBuff:
+        text: 追加能力の会心ダメバフ
+        content: スキルを発動する時、自身の残りHPを5%分消費し、両者の会心ダメージを15%アップする、2ターン継続。
+      memoriaStacks:
+        text: '「憶質」層数'
+        content: >-
+          このスキルは自動でターゲットを選択して発動する。なお、長夜月が前回攻撃した敵を優先的にターゲットとして選択する。単体に「長夜」の最大HP{{MemoSkillScaling}}%分の氷属性ダメージを与える。長夜月が所持している「憶質」4につき、さらに長夜の最大HP{{MemoSkillAdditionalScaling}}%分の氷属性ダメージを与える。::BR::長夜月の「憶質」が16以上であり、かつ長夜月が行動制限状態でない時に「露のように儚い夢」が発動する。所持している「憶質」1につき、メインターゲットに「長夜」の最大HP{{MemoSkillEnhancedScaling}}%分の氷属性ダメージを与え、その他のターゲットに長夜の最大HP6%分の氷属性ダメージを与える。
+      enhancedState:
+        text: '「至暗の謎」状態'
+        content: 必殺技を発動したとき、長夜月は「至暗の謎」状態に入る。「至暗の謎」状態中、敵全体の受けるダメージ+{{UltVulnScaling}}%、長夜月と長夜の与ダメージ+{{UltDmgBoostScaling}}%。
+      e1FinalDmg:
+        text: 1凸 味方精霊ダメバフ
+        content: 長夜月がフィールド上にいる時、フィールド上にいる敵の数が4体以上/3/2/1の場合、味方の記憶の精霊によるダメージは本来のダメージの120%/125%/130%/150%分になる。
+      e2CdBuff:
+        text: 2凸 会心ダメバフ
+        content: 長夜月と記憶の精霊「長夜」の会心ダメージ+40%。
+      e4Buffs:
+        text: 4凸 弱点撃破効率バフ
+        content: 長夜月がフィールド上にいる時、味方の記憶の精霊の弱点撃破効率+25%、記憶の精霊「長夜」の弱点撃破効率はさらに+25%。
+      e6ResPen:
+        text: 6凸 全属性耐性貫通
+        content: 長夜月がフィールド上にいる時、味方全体の全属性耐性貫通+20%。記憶の精霊「長夜」が「露のように儚い夢」を発動した後、その回の攻撃で消費された「憶質」の30%分を獲得する。
+    TeammateContent:
+      skillMemoCdBuff:
+        text: スキル 精霊への会心ダメバフ
+        content: 味方の記憶の精霊全体の会心ダメージが長夜月の会心ダメージの{{SkillCdScaling}}%分アップする、2ターン継続。
+      evernightCombatCD:
+        text: 会心ダメージ（戦闘時）
+        content: >-
+          味方の記憶の精霊全体の会心ダメージが長夜月の会心ダメージの{{SkillCdScaling}}%分アップする、2ターン継続。::BR:: 長夜月の会心ダメージをここに入力してください。味方をバフするときに使います。
   Feixiao:
     Content:
       weaknessBrokenUlt:
@@ -1208,14 +1265,14 @@ Characters:
         text: '「完全燃焼」の速度バフ'
         content: '「完全燃焼」状態の時、速度+60。'
       superBreakDmg:
-        text: 超撃破ダメージ有効
+        text: 超撃破ダメージ
         content: >-
           「完全燃焼」状態の時、装甲「サム」の撃破特効が200%/360%以上の場合、弱点撃破状態の敵に攻撃を行った後、その回の攻撃の削靭値を35%/50%分の超撃破ダメージに転換する。
       atkToBeConversion:
         text: 攻撃力→撃破特効変換
         content: 装甲「サム」の攻撃力が1800を超えた場合、超過した攻撃力10につき、自身の撃破特効+0.8%。
       talentDmgReductionBuff:
-        text: ダメージ軽減効果有効
+        text: ダメージ軽減効果
         content: >-
 
           残りHPが少ないほど受けるダメージがダウンする。残りHPが20%以下の時、ダメージ軽減効果が最大値に達する、最大で受けるダメージ-{{talentDmgReductionBuff}}%。「完全燃焼」状態の時、ダメージ軽減効果は最大値を維持し、効果抵抗+{{talentResBuff}}%。
@@ -1242,7 +1299,7 @@ Characters:
         content: >-
           「狐の祈り」が付与されている味方が攻撃を行う時、100%の基礎確率で攻撃を受ける敵の防御力-{{DefShred}}%、2ターン継続。
       superBreakDmg:
-        text: 超撃破ダメージ有効
+        text: 超撃破ダメージ
         content: >-
           帰忘の流離人がフィールド上にいる時、味方が弱点撃破状態の敵に攻撃を行った後、その回の攻撃の削靭値を1回の{{SuperBreakMultiplier}}%分の超撃破ダメージに転換する。
       e4BreakDmg:
@@ -1433,7 +1490,7 @@ Characters:
         text: 敵が受けるダメージ増加
         content: 100%の基礎確率で敵全体の受けるダメージ+{{SkillVuln}}%、3ターン継続。
       ultZone:
-        text: 必殺技の結界有効
+        text: 必殺技の結界
         content: セイレンスが結界を展開し、敵の攻撃力-15%、防御力-{{ZoneDefShred}}%。
       ultDotStacks:
         text: 必殺技の持続ダメの層数
@@ -1636,7 +1693,7 @@ Characters:
   Luocha:
     Content:
       fieldActive:
-        text: 結界有効
+        text: 結界
         content: 結界が展開されている間、味方全体の攻撃力+20%。
       e6ResReduction:
         text: 6凸 敵全属性耐性ダウン
@@ -1753,6 +1810,24 @@ Characters:
       e4SkillResShred:
         text: 4凸 スキル時の氷耐性デバフ
         content: 戦闘スキルを発動した時、100%の基礎確率で敵の氷属性耐性-12%、2ターン継続。
+  PermansorTerrae:
+    TeammateContent:
+      bondmate:
+        text: '「同袍」付与済み'
+        content: 戦闘スキルを発動する時、「同袍」になったターゲットの攻撃力は丹恒・騰荒の攻撃力15%分アップする。
+      sourceAtk:
+        text: 攻撃力（戦闘時）
+        content: >-
+          戦闘スキルを発動する時、「同袍」になったターゲットの攻撃力は丹恒・騰荒の攻撃力15%分アップする。::BR:: 丹恒の攻撃力をここに入力してください。味方をバフするときに使います。
+      e1ResPen:
+        text: 1凸 全属性耐性貫通
+        content: 丹恒・騰荒が必殺技を発動する時、「同袍」の全属性耐性貫通+18%、3ターン継続。
+      e4DmgReduction:
+        text: 4凸 ダメージ軽減
+        content: '「同袍」の受けるダメージ-20%。'
+      e6Buffs:
+        text: 6凸 敵へのデバフ
+        content: フィールド上に「同袍」がいる場合、敵全体の受けるダメージ+20%。「同袍」がダメージを与えた時、敵の防御力を12%無視する。
   Phainon:
     Content:
       transformedState:
@@ -1859,7 +1934,7 @@ Characters:
       teammateATKValue:
         text: 攻撃力（戦闘時）
         content: >-
-          「協奏」状態の時、味方全体の攻撃力を、ロビンの攻撃力{{ultAtkBuffScalingValue}}%分+{{ultAtkBuffFlatValue}}アップする。::BR::ロビン自身の攻撃力ステータスをここに入力してください。
+          「協奏」状態の時、味方全体の攻撃力を、ロビンの攻撃力{{ultAtkBuffScalingValue}}%分+{{ultAtkBuffFlatValue}}アップする。::BR:: ロビンの攻撃力をここに入力してください。味方をバフするときに使います。
       traceFuaCdBoost:
         text: 追加攻撃の会心ダメバフ
         content: '「協奏」状態の時、味方全体の追加攻撃ダメージの会心ダメージ+25%。'
@@ -2154,7 +2229,7 @@ Characters:
         content: >-
           味方全体に「バックダンス」を付与する、3ターン継続。開拓者のターンが回ってくるたびに「バックダンス」の継続時間-1ターン。「バックダンス」を持つ味方の撃破特効+{{ultBeScaling}}%。
       superBreakDmg:
-        text: 超撃破ダメージ有効
+        text: 超撃破ダメージ
         content: >-
           「バックダンス」を持つ味方の撃破特効+30%、その回の攻撃の削靭値を1回の超撃破ダメージに転換する。::BR::有効にすると、通常攻撃、戦闘スキル、必殺技、追加攻撃のダメージに超撃破ダメージが加算されます。たとえば、戦闘スキルを使用した場合、通常のダメージに加え、スキル発動時に減少した靭性値に基づく超撃破ダメージが上乗せされます。また、このオプションを使用すると指定された設定が上書きされ、敵は常に弱点撃破された状態として扱われます。
       skillHitsOnTarget:
@@ -2176,7 +2251,7 @@ Characters:
         text: スキル時の被ダメ減少
         content: 戦闘スキルを発動した後、開拓者の受けるダメージ-{{skillDamageReductionValue}}%、さらに味方全体の受けるダメージ-15%、1ターン継続。
       shieldActive:
-        text: バリア有効
+        text: シールド有効
         content: ターンが回ってきた時、開拓者がバリアを持つ場合、攻撃力+15%。
       e6DefStacks:
         text: 6凸 防御力バフ数

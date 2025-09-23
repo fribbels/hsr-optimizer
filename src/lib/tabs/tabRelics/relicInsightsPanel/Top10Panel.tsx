@@ -9,12 +9,7 @@ import {
 import { Assets } from 'lib/rendering/assets'
 import { PanelProps } from 'lib/tabs/tabRelics/relicInsightsPanel/RelicInsightsPanel'
 import { TsUtils } from 'lib/utils/TsUtils'
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   CartesianGrid,
@@ -28,7 +23,6 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { CategoricalChartState } from 'recharts/types/chart/types'
 import {
   NameType,
   ValueType,

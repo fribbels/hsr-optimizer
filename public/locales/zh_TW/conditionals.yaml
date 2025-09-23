@@ -228,6 +228,10 @@ Lightcones:
     Content:
       dmgBuff:
         text: 傷害增益
+  ToEvernightsStars:
+    Content:
+      dmgBoost:
+        text: 傷害提高
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -758,6 +762,12 @@ Characters:
         text: 歸納層數
       enemyDebuffStacks:
         text: 敵人負面效果層數
+  Evernight:
+    Content:
+      enhancedState:
+        text: 強化狀態
+      e4Buffs:
+        text: 4魂增益
   Feixiao:
     Content:
       weaknessBrokenUlt:
@@ -866,6 +876,10 @@ Characters:
     Content:
       e2BeBuff:
         text: 2魂擊破特攻增益
+  PermansorTerrae:
+    TeammateContent:
+      e6Buffs:
+        text: 6魂增益
   Phainon:
     Content:
       atkBuffStacks:

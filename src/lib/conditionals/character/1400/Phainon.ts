@@ -8,11 +8,15 @@ import {
   Conditionals,
   ContentDefinition,
   countTeamPath,
+  teammateMatchesId,
 } from 'lib/conditionals/conditionalUtils'
 import { PathNames } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import { PHAINON } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  HYACINE,
+  PHAINON,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -170,7 +174,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.CD.buff(r.cdBuff ? talentCdBuffScaling : 0, SOURCE_TALENT)
       x.ATK_P.buff(r.atkBuffStacks * 0.50, SOURCE_TRACE)
 
-      const hasSustain = countTeamPath(context, PathNames.Abundance) + countTeamPath(context, PathNames.Preservation)
+      const hasSustain = teammateMatchesId(context, HYACINE)
+        + countTeamPath(context, PathNames.Abundance)
+        + countTeamPath(context, PathNames.Preservation)
       x.ELEMENTAL_DMG.buff((r.sustainDmgBuff && hasSustain) ? 0.45 : 0, SOURCE_TRACE)
 
       x.CD.buff(e >= 1 && r.e1Buffs ? 0.50 : 0, SOURCE_E1)

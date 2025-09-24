@@ -69,9 +69,6 @@ export function presetCharacters(): Preset[] {
     { characterId: char(EVERNIGHT), lightConeId: lc(TO_EVERNIGHTS_STARS) },
     { characterId: char(PERMANSOR_TERRAE), lightConeId: lc(THOUGH_WORLDS_APART) },
 
-    { characterId: char(HYSILENS), lightConeId: lc(WHY_DOES_THE_OCEAN_SING) },
-    { characterId: char(CERYDRA), lightConeId: lc(EPOCH_ETCHED_IN_GOLDEN_BLOOD) },
-
     { characterId: char(KAFKA_B1), lightConeId: lc(PATIENCE_IS_ALL_YOU_NEED) },
     { characterId: char(SILVER_WOLF_B1), lightConeId: lc(INCESSANT_RAIN) },
 

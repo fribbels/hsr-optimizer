@@ -8,14 +8,15 @@ export function ReliquaryDescription(): ReactElement {
   return (
     <>
       <li>
-        <b>{t('Title') /* (Recommended) IceDynamix Reliquary Archiver */}</b> (
-        <ColorizedLinkWithIcon text={t('Link') /* Github */} url={ReliquaryArchiverConfig.releases} linkIcon={true} />
-        )
+        <b>{t('Title') /* (Recommended) IceDynamix Reliquary Archiver */}</b>
+        (<ColorizedLinkWithIcon text={t('Link') /* Github */} url={ReliquaryArchiverConfig.releases} linkIcon={true} />)
         <ul>
-          {/*<li><b style={{ color: '#ffaa4f' }}>{t('OfflineMsg', { version: 3.4 })}</b></li>*/}
           <li>
-            <b style={{ color: '#82e192' }}>{t('OnlineMsg', { version: '3.5' })}</b>
+            <b style={{ color: '#ffaa4f' }}>{t('OfflineMsg', { version: 3.6 })}</b>
           </li>
+          {/*<li>*/}
+          {/*  <b style={{ color: '#82e192' }}>{t('OnlineMsg', { version: '3.6' })}</b>*/}
+          {/*</li>*/}
           <li>{t('l1') /* Inaccurate speed decimals, 5-10 minutes OCR scan */}</li>
           <li>{t('l2') /* Imports full inventory and character roster */}</li>
           <li>{t('l3') /* Supports live importing (new/enhanced relics are imported in real time) */}</li>

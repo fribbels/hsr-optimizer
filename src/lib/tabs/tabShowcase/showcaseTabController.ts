@@ -5,15 +5,19 @@ import {
 } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
 import {
+  ANAXA,
   CERYDRA,
   EPOCH_ETCHED_IN_GOLDEN_BLOOD,
   EVERNIGHT,
   HYSILENS,
   INCESSANT_RAIN,
+  INTO_THE_UNREACHABLE_VEIL,
   KAFKA_B1,
+  LIFE_SHOULD_BE_CAST_TO_FLAMES,
   PATIENCE_IS_ALL_YOU_NEED,
   PERMANSOR_TERRAE,
   SILVER_WOLF_B1,
+  THE_HERTA,
   THOUGH_WORLDS_APART,
   TO_EVERNIGHTS_STARS,
   WHY_DOES_THE_OCEAN_SING,
@@ -69,8 +73,8 @@ export function presetCharacters(): Preset[] {
     { characterId: char(EVERNIGHT), lightConeId: lc(TO_EVERNIGHTS_STARS) },
     { characterId: char(PERMANSOR_TERRAE), lightConeId: lc(THOUGH_WORLDS_APART) },
 
-    { characterId: char(KAFKA_B1), lightConeId: lc(PATIENCE_IS_ALL_YOU_NEED) },
-    { characterId: char(SILVER_WOLF_B1), lightConeId: lc(INCESSANT_RAIN) },
+    { characterId: char(THE_HERTA), lightConeId: lc(INTO_THE_UNREACHABLE_VEIL) },
+    { characterId: char(ANAXA), lightConeId: lc(LIFE_SHOULD_BE_CAST_TO_FLAMES) },
 
     { custom: true },
   ].filter((x) => x.custom || !!x.characterId) as Preset[]

@@ -963,7 +963,7 @@ interface Resources {
         "Content": {
           "dmgBoost": {
             "text": "DMG Boost",
-            "content": "When the wearer uses Ultimate grants \"Redoubt\" to all allies for 3 turns. Targets with \"Redoubt\" deal {{DmgBuff}}% more DMG, which further increases by {{SummonDmgBuff}}% if they have summons."
+            "content": "When the wearer uses Ultimate, grants \"Redoubt\" to all allies for 3 turns. Targets with \"Redoubt\" deal {{DmgBuff}}% more DMG, which further increases by {{SummonDmgBuff}}% if they have summons."
           }
         }
       },
@@ -2201,7 +2201,7 @@ interface Resources {
           },
           "e1FinalDmg": {
             "text": "E1 Final DMG",
-            "content": "hen Evernight is on the field and when there are 4 or more/3/2/1 enemy targets on the field, ally memosprites deal 120%/125%/130%/150% of their original DMG respectively."
+            "content": "When Evernight is on the field and when there are 4 or more/3/2/1 enemy targets on the field, ally memosprites deal 120%/125%/130%/150% of their original DMG respectively."
           },
           "e2CdBuff": {
             "text": "E2 CD buff",
@@ -4075,6 +4075,10 @@ interface Resources {
         "Name": "Permansor Terrae",
         "LongName": "Dan Heng • Permansor Terrae"
       },
+      "1415": {
+        "Name": "Cyrene",
+        "LongName": "Cyrene"
+      },
       "8001": {
         "Name": "Caelus",
         "LongName": "Caelus (Destruction)"
@@ -4258,12 +4262,12 @@ interface Resources {
       "127": {
         "Name": "World-Remaking Deliverer",
         "Description2pc": "Increases CRIT Rate by 8%.",
-        "Description4pc": "After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 15% until the wearer's next Basic ATK or Skill."
+        "Description4pc": "After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' dealt DMG by 15%, lasting until after the wearer's next use of Basic ATK or Skill."
       },
       "128": {
         "Name": "Self-Enshrouded Recluse",
-        "Description2pc": "Increases Shield Effect by 10%.",
-        "Description4pc": "Increases Shield Effect provided by the wearer by 12%. When an ally target has a Shield provided by the wearer, the ally target's CRIT DMG increases by 15%."
+        "Description2pc": "The provided Shield Effect increases by 10%.",
+        "Description4pc": "Increases the Shield Effect provided by the wearer by 12%. When an ally target holds a Shield provided by the wearer, the ally target's CRIT DMG increases by 15%."
       },
       "301": {
         "Name": "Space Sealing Station",
@@ -4275,7 +4279,7 @@ interface Resources {
       },
       "303": {
         "Name": "Pan-Cosmic Commercial Enterprise",
-        "Description2pc": "Increases the wearer's Effect Hit Rate by 10%. Meanwhile, the wearer's ATK increases by an amount that is equal to 25% of the current Effect Hit Rate, up to a maximum of 25%."
+        "Description2pc": "Increases the wearer's Effect Hit Rate by 10%. Meanwhile, the wearer's ATK increases by an amount that is equal to 25% of the current Effect Hit Rate, up to a maximum increase of 25%."
       },
       "304": {
         "Name": "Belobog of the Architects",
@@ -4352,6 +4356,14 @@ interface Resources {
       "322": {
         "Name": "Revelry by the Sea",
         "Description2pc": "Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24% respectively."
+      },
+      "323": {
+        "Name": "Amphoreus, The Eternal Land",
+        "Description2pc": "Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked."
+      },
+      "324": {
+        "Name": "Tengoku @Live Stream",
+        "Description2pc": "Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns."
       }
     },
     "Lightcones": {
@@ -4625,6 +4637,9 @@ interface Resources {
       "22005": {
         "Name": "The Forever Victual"
       },
+      "22006": {
+        "Name": "Take Flight Toward A Pink Tomorrow"
+      },
       "23000": {
         "Name": "Night on the Milky Way"
       },
@@ -4777,6 +4792,9 @@ interface Resources {
       },
       "23051": {
         "Name": "Though Worlds Apart"
+      },
+      "23052": {
+        "Name": "This Love, Forever"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"

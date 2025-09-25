@@ -432,7 +432,10 @@ export function CharacterPreview(props: {
         </Flex>
       </ConfigProvider>
 
-      <CharacterAnnouncement characterId={showcaseMetadata.characterId} />
+      <CharacterAnnouncement
+        characterId={showcaseMetadata.characterId}
+        asyncSimScoringExecution={asyncSimScoringExecution}
+      />
 
       {/* Showcase analysis footer */}
       {source != ShowcaseSource.BUILDS_MODAL && (

@@ -59,6 +59,7 @@ export function LanguageSelector() {
           })
       }}
       style={{ width: 135, marginRight: 6, height: 36 }}
+      listHeight={400}
       placement='bottomLeft'
       optionLabelProp='display'
       dropdownStyle={{ width: 210 }}

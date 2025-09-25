@@ -216,11 +216,14 @@ Characters:
     Name: Cérydra
     LongName: Cérydra
   "1413":
-    Name: Evernight
-    LongName: Evernight
+    Name: Nocterna
+    LongName: Nocterna
   "1414":
     Name: Permansor Terrae
     LongName: Dan Heng • Permansor Terrae
+  "1415":
+    Name: Cyrene
+    LongName: Cyrene
   "8001":
     Name: Caelus
     LongName: Caelus (La Destruction)
@@ -363,13 +366,13 @@ RelicSets:
     Description2pc: Augmente les DGT critiques de 16%.
     Description4pc: Lorsque le porteur est la cible d'une capacité alliée, il gagne 1 cumul d'Aide, jusqu'à un maximum de 2 cumuls. Lorsque le porteur utilise un ultime et qu'il bénéficie de 2 cumuls d'Aide, consomme tous les cumuls pour augmenter son ATQ de 48% pendant 1 tour.
   "127":
-    Name: World-Remaking Deliverer
-    Description2pc: Increases CRIT Rate by 8%.
-    Description4pc: After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 15% until the wearer's next Basic ATK or Skill.
+    Name: "{F#Libératrice}{M#Libérateur} d'un monde nouveau"
+    Description2pc: Augmente les chances de coup critique de 8%.
+    Description4pc: Après que le porteur a utilisé une ATQ normale ou une compétence, si son mnémesprit est sur le champ de bataille, augmente les PV max du porteur et de son mnémesprit de 24% et augmente les DGT infligés par tous les alliés de 15%. Cet effet dure jusqu'à la prochaine ATQ normale ou compétence du porteur.
   "128":
-    Name: Self-Enshrouded Recluse
-    Description2pc: Increases Shield Effect by 10%.
-    Description4pc: Increases Shield Effect provided by the wearer by 12%. When an ally target has a Shield provided by the wearer, the ally target's CRIT DMG increases by 15%.
+    Name: Ermite des étoiles
+    Description2pc: Augmente la valeur de bouclier accordée de 10%.
+    Description4pc: Augmente la valeur de bouclier accordée par le porteur de 12%. Lorsqu'une cible alliée bénéficie d'un bouclier accordé par le porteur, augmente les DGT critiques qu'elle inflige de 15%.
   "301":
     Name: Station de scellement spatial
     Description2pc: Augmente l'ATQ du porteur de 12%. Lorsque sa VIT est supérieure ou égale à 120, son ATQ augmente encore de 12%.
@@ -378,7 +381,7 @@ RelicSets:
     Description2pc: Augmente les PV max du porteur de 12%. Lorsque sa VIT est supérieure ou égale à 120, l'ATQ de tous les alliés augmente de 8%.
   "303":
     Name: Entreprise commerciale intersidérale
-    Description2pc: Augmente les chances d'appliquer des effets du porteur de 10%. D'autre part, son ATQ augmente d'un montant équivalent à 25% de ses chances d'appliquer des effets actuelles, jusqu'à un maximum de 25%.
+    Description2pc: Augmente les chances d'appliquer des effets du porteur de 10%. D'autre part, son ATQ augmente d'un montant équivalent à 25% de ses chances d'appliquer des effets actuelles, jusqu'à une augmentation maximum de 25%.
   "304":
     Name: Belobog des Architectes
     Description2pc: Augmente la DÉF du porteur de 15%. Lorsque ses chances d'appliquer des effets sont d'au moins 50%, il obtient 15% de DÉF supplémentaire.
@@ -436,6 +439,12 @@ RelicSets:
   "322":
     Name: Rives enivrantes
     Description2pc: Augmente l'ATQ du porteur de 12%. Lorsque l'ATQ du porteur est supérieure ou égale à 2400/3600, augmente les dégâts sur la durée infligés de 12%/24%.
+  "323":
+    Name: Amphoreus, The Eternal Land
+    Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
+  "324":
+    Name: Tengoku @Live Stream
+    Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
 Lightcones:
   "20000":
     Name: Flèches
@@ -617,6 +626,8 @@ Lightcones:
     Name: La grande entreprise cosmique
   "22005":
     Name: Un goût d'éternité
+  "22006":
+    Name: Take Flight Toward A Pink Tomorrow
   "23000":
     Name: Nuit sur la voie lactée
   "23001":
@@ -716,9 +727,11 @@ Lightcones:
   "23048":
     Name: Une ère gravée dans le sang doré
   "23049":
-    Name: To Evernight's Stars
+    Name: Jusqu'aux étoiles de l'Éternuitée
   "23051":
-    Name: Though Worlds Apart
+    Name: Par-delà les paysages infinis
+  "23052":
+    Name: This Love, Forever
   "24000":
     Name: La chute d'un Aiôn
   "24001":

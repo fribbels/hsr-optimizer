@@ -219,8 +219,11 @@ Characters:
     Name: Evernight
     LongName: Evernight
   "1414":
-    Name: Permansor Terrae
-    LongName: Dan Heng • Permansor Terrae
+    Name: Dan Heng - Permansor Terrae
+    LongName: Dan Heng - Permansor Terrae
+  "1415":
+    Name: Cyrene
+    LongName: Cyrene
   "8001":
     Name: Caelus
     LongName: Caelus (Hủy Diệt)
@@ -363,13 +366,13 @@ RelicSets:
     Description2pc: Sát Thương Bạo Kích tăng 16%.
     Description4pc: Khi người trang bị trở thành mục tiêu kỹ năng của mục tiêu khác thuộc phe ta, sẽ nhận 1 tầng Trợ Lực, tối đa cộng dồn 2 tầng. Khi thi triển Tuyệt Kỹ, nếu có 2 tầng Trợ Lực sẽ tiêu hao tất cả Trợ Lực, tăng 48% Tấn Công của người trang bị, duy trì 1 hiệp.
   "127":
-    Name: World-Remaking Deliverer
-    Description2pc: Increases CRIT Rate by 8%.
-    Description4pc: After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 15% until the wearer's next Basic ATK or Skill.
+    Name: Đấng Cứu Thế Tái Tạo Trời Đất
+    Description2pc: Tỷ Lệ Bạo Kích tăng 8%.
+    Description4pc: Sau khi người trang bị thi triển Tấn Công Thường hoặc Chiến Kỹ, nếu Linh Hồn Ký Ức của người trang bị trong trận, sẽ khiến Giới Hạn HP của người trang bị và Linh Hồn Ký Ức của người đó tăng 24%, sát thương toàn bộ phe ta gây ra tăng 15%, duy trì đến sau khi người trang bị thi triển Tấn Công Thường hoặc Chiến Kỹ tiếp theo.
   "128":
-    Name: Self-Enshrouded Recluse
-    Description2pc: Increases Shield Effect by 10%.
-    Description4pc: Increases Shield Effect provided by the wearer by 12%. When an ally target has a Shield provided by the wearer, the ally target's CRIT DMG increases by 15%.
+    Name: Ẩn Sĩ Ẩn Mình Dưới Ánh Sao
+    Description2pc: Lượng khiên cung cấp tăng 10%.
+    Description4pc: Khiến lượng Khiên mà người trang bị cung cấp tăng 12%, khi mục tiêu phe ta có Khiên do người trang bị cung cấp, Sát Thương Bạo Kích tăng 15%.
   "301":
     Name: Trạm Phong Ấn Không Gian
     Description2pc: Tăng 12% Tấn Công của người trang bị. Khi tốc độ của người trang bị từ 120 trở lên, Tấn Công tăng thêm 12%.
@@ -436,6 +439,12 @@ RelicSets:
   "322":
     Name: Bờ Biển Men Say
     Description2pc: Khiến Tấn Công của người trang bị tăng 12%. Khi Tấn Công của người trang bị lớn hơn hoặc bằng 2400/3600, sẽ khiến Sát Thương Duy Trì gây ra tăng thêm 12%/24%.
+  "323":
+    Name: Amphoreus, The Eternal Land
+    Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
+  "324":
+    Name: Tengoku @Live Stream
+    Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
 Lightcones:
   "20000":
     Name: Mũi Tên
@@ -617,6 +626,8 @@ Lightcones:
     Name: Kinh Doanh Tầm Cỡ Vũ Trụ
   "22005":
     Name: Món Ăn Vĩnh Hằng
+  "22006":
+    Name: Take Flight Toward A Pink Tomorrow
   "23000":
     Name: Chuyến Tàu Đêm Trên Dải Ngân Hà
   "23001":
@@ -716,9 +727,11 @@ Lightcones:
   "23048":
     Name: Thời Đại Máu Vàng Khắc Ghi
   "23049":
-    Name: To Evernight's Stars
+    Name: Gửi Ánh Sao Của Đêm Dài
   "23051":
-    Name: Though Worlds Apart
+    Name: Dù Núi Sông Vạn Dặm
+  "23052":
+    Name: This Love, Forever
   "24000":
     Name: Sự Sụp Đổ Của Aeon
   "24001":

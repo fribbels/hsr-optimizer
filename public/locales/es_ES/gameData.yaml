@@ -216,11 +216,14 @@ Characters:
     Name: Céridra
     LongName: Céridra
   "1413":
-    Name: Evernight
-    LongName: Evernight
+    Name: Larganoche
+    LongName: Larganoche
   "1414":
     Name: Permansor Terrae
-    LongName: Dan Heng • Permansor Terrae
+    LongName: Dan Heng - Permansor Terrae
+  "1415":
+    Name: Cyrene
+    LongName: Cyrene
   "8001":
     Name: Caelus
     LongName: Caelus (Destrucción)
@@ -363,13 +366,13 @@ RelicSets:
     Description2pc: Daño CRIT +16%.
     Description4pc: Cuando el portador se convierte en el objetivo de la habilidad de otro aliado, obtiene 1 acumulación de Ayuda (hasta 2 como máximo). Si el portador tiene 2 acumulaciones de Ayuda al lanzar la habilidad definitiva, las consume todas y su ATQ aumenta en un 48% durante 1 turno.
   "127":
-    Name: World-Remaking Deliverer
-    Description2pc: Increases CRIT Rate by 8%.
-    Description4pc: After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 15% until the wearer's next Basic ATK or Skill.
+    Name: Salvado{F#ra}{M#r} que reforja el mundo
+    Description2pc: Prob. CRIT +8%.
+    Description4pc: Después de que el portador lance el ATQ básico o la habilidad básica cuando su mnemoduende está en el campo de batalla, los PV máx. del portador y su mnemoduende aumentan en un 24% y el daño que infligen todos los aliados aumenta en un 15%. El efecto dura hasta que el portador lance su siguiente ATQ básico o habilidad básica.
   "128":
-    Name: Self-Enshrouded Recluse
-    Description2pc: Increases Shield Effect by 10%.
-    Description4pc: Increases Shield Effect provided by the wearer by 12%. When an ally target has a Shield provided by the wearer, the ally target's CRIT DMG increases by 15%.
+    Name: Eremita aislado en las estrellas
+    Description2pc: Efecto de escudo otorgado +10%.
+    Description4pc: El efecto de escudo otorgado por el portador aumenta en un 12%. Cuando un aliado tiene un escudo otorgado por el portador, su Daño CRIT aumenta en un 15%.
   "301":
     Name: Estación sellaespacios
     Description2pc: El ATQ del portador aumenta en un 12%. Cuando su VEL es igual o superior a 120, el ATQ aumenta en un 12% adicional.
@@ -436,6 +439,12 @@ RelicSets:
   "322":
     Name: Litoral embriagado
     Description2pc: El ATQ del portador aumenta en un 12%. Cuando el ATQ del portador es igual o superior a 2400/3600, el Daño con el tiempo que inflige aumenta en un 12%/24% adicional.
+  "323":
+    Name: Amphoreus, The Eternal Land
+    Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
+  "324":
+    Name: Tengoku @Live Stream
+    Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
 Lightcones:
   "20000":
     Name: Flechas
@@ -617,6 +626,8 @@ Lightcones:
     Name: El gran negocio cósmico
   "22005":
     Name: Viandas sin fin
+  "22006":
+    Name: Take Flight Toward A Pink Tomorrow
   "23000":
     Name: Noche en la Vía Láctea
   "23001":
@@ -716,9 +727,11 @@ Lightcones:
   "23048":
     Name: Era grabada en sangre dorada
   "23049":
-    Name: To Evernight's Stars
+    Name: A la estrella de la larga noche
   "23051":
-    Name: Though Worlds Apart
+    Name: A través de montañas y ríos
+  "23052":
+    Name: This Love, Forever
   "24000":
     Name: Sobre la caída de un Eón
   "24001":

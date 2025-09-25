@@ -216,11 +216,14 @@ Characters:
     Name: Cerydra
     LongName: Cerydra
   "1413":
-    Name: Evernight
-    LongName: Evernight
+    Name: Noite Eterna
+    LongName: Noite Eterna
   "1414":
     Name: Permansor Terrae
     LongName: Dan Heng • Permansor Terrae
+  "1415":
+    Name: Cyrene
+    LongName: Cyrene
   "8001":
     Name: Caelus
     LongName: Caelus (A Destruição)
@@ -363,13 +366,13 @@ RelicSets:
     Description2pc: Aumenta o Dano CRIT em 16%.
     Description4pc: Quando o usuário se torna o alvo da habilidade de outro aliado-alvo, ganha 1 acúmulo de "Ajuda", acumulando até 2 vezes. Se tiver 2 acúmulos de "Ajuda" quando o usuário usar sua Perícia Suprema, consome toda a "Ajuda" para aumentar o ATQ do usuário em 48% por 1 rodada.
   "127":
-    Name: World-Remaking Deliverer
-    Description2pc: Increases CRIT Rate by 8%.
-    Description4pc: After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 15% until the wearer's next Basic ATK or Skill.
+    Name: Portador da Reconstrução do Mundo
+    Description2pc: Aumenta a Chance de CRIT em 8%.
+    Description4pc: Depois que o usuário usar o ATQ Básico ou a Perícia, se o Memoespírito do usuário estiver em campo, aumenta os PV máximos do usuário e de seu Memoespírito em 24% e aumenta o Dano causado por todos os aliados em 15%, durando até o próximo uso de ATQ Básico ou Perícia do usuário.
   "128":
-    Name: Self-Enshrouded Recluse
-    Description2pc: Increases Shield Effect by 10%.
-    Description4pc: Increases Shield Effect provided by the wearer by 12%. When an ally target has a Shield provided by the wearer, the ally target's CRIT DMG increases by 15%.
+    Name: Ermitão Envolto em Si Mesmo
+    Description2pc: O Efeito de <u>Escudo</u> concedido é aumentado em 10%.
+    Description4pc: Aumenta o Efeito de <u>Escudo</u> fornecido pelo usuário em 12%. Quando um aliado-alvo tem um Efeito de <u>Escudo</u> fornecido pelo usuário, o Dano CRIT do aliado-alvo aumenta em 15%.
   "301":
     Name: Estação de Vedação Espacial
     Description2pc: Aumenta em 12% o ATQ do usuário. Quando a VEL do usuário chegar a 120 ou mais, aumenta em um extra de 12% o ATQ do usuário.
@@ -436,6 +439,12 @@ RelicSets:
   "322":
     Name: Folia à Beira-Mar
     Description2pc: Aumenta o ATQ do usuário em 12%. Quando o ATQ do usuário for maior ou igual a 2400/3600, aumenta o <u>Dano Contínuo</u> causado em 12%/24%.
+  "323":
+    Name: Amphoreus, The Eternal Land
+    Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
+  "324":
+    Name: Tengoku @Live Stream
+    Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
 Lightcones:
   "20000":
     Name: Flechas
@@ -617,6 +626,8 @@ Lightcones:
     Name: O Grande Empreendimento Cósmico
   "22005":
     Name: O Víveres Eterno
+  "22006":
+    Name: Take Flight Toward A Pink Tomorrow
   "23000":
     Name: Noite na Via Láctea
   "23001":
@@ -716,9 +727,11 @@ Lightcones:
   "23048":
     Name: Era Gravada pelo Sangue Dourado
   "23049":
-    Name: To Evernight's Stars
+    Name: Ao Brilho Estelar da Noite Eterna
   "23051":
-    Name: Though Worlds Apart
+    Name: Ainda que o Caminho Seja Longo
+  "23052":
+    Name: This Love, Forever
   "24000":
     Name: Na Queda de Um Aeon
   "24001":

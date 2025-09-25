@@ -219,8 +219,11 @@ Characters:
     Name: Evernight
     LongName: Evernight
   "1414":
-    Name: Permansor Terrae
-    LongName: Dan Heng • Permansor Terrae
+    Name: Dan Heng - จ้าวทระนงคงปฐพี
+    LongName: Dan Heng - จ้าวทระนงคงปฐพี
+  "1415":
+    Name: Cyrene
+    LongName: Cyrene
   "8001":
     Name: Caelus
     LongName: Caelus (ทำลายล้าง)
@@ -364,12 +367,12 @@ RelicSets:
     Description4pc: เมื่อผู้สวมใส่กลายเป็นเป้าหมายสกิล ของเป้าหมายอื่นในฝ่ายเรา จะได้รับ "แรงช่วย" 1 ชั้น ซึ่งสามารถซ้อนทับได้สูงสุด 2 ชั้น เมื่อปล่อยท่าไม้ตาย หากมี "แรงช่วย" 2 ชั้น จะใช้ "แรงช่วย" ทั้งหมด เพื่อทำให้ ATK ของผู้สวมใส่เพิ่มขึ้น 48% เป็นเวลา 1 เทิร์น
   "127":
     Name: World-Remaking Deliverer
-    Description2pc: Increases CRIT Rate by 8%.
-    Description4pc: After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 15% until the wearer's next Basic ATK or Skill.
+    Description2pc: อัตราคริติคอลเพิ่มขึ้น 8%
+    Description4pc: หลังจากที่ผู้สวมใส่ปล่อยการโจมตีปกติ หรือสกิลต่อสู้ หากภูตความทรงจำของผู้สวมใส่ อยู่ในสนาม HP สูงสุดของผู้สวมใส่และภูตความทรงจำ จะเพิ่มขึ้น 24% และทำให้ฝ่ายเราทั้งหมดสร้าง DMG เพิ่มขึ้น 15% ไปจนกว่าผู้สวมใส่จะปล่อยการโจมตีปกติ หรือสกิลต่อสู้ครั้งถัดไป
   "128":
     Name: Self-Enshrouded Recluse
-    Description2pc: Increases Shield Effect by 10%.
-    Description4pc: Increases Shield Effect provided by the wearer by 12%. When an ally target has a Shield provided by the wearer, the ally target's CRIT DMG increases by 15%.
+    Description2pc: มอบปริมาณโล่เพิ่มขึ้น 10%
+    Description4pc: ผู้สวมใส่จะมอบปริมาณโล่เพิ่มขึ้น 12% เมื่อเป้าหมายฝ่ายเรา มีโล่ที่ได้รับจากผู้สวมใส่ DMG คริติคอลจะเพิ่มขึ้น 15%
   "301":
     Name: Space Sealing Station
     Description2pc: ATK ของผู้สวมใส่เพิ่มขึ้น 12% เมื่อความเร็วของผู้สวมใส่เท่ากับหรือมากกว่า 120 ATK จะเพิ่มขึ้นอีก 12%
@@ -436,6 +439,12 @@ RelicSets:
   "322":
     Name: Revelry by the Sea
     Description2pc: ทำให้ ATK ของผู้สวมใส่เพิ่มขึ้น 12% เมื่อ ATK ของผู้สวมใส่ มากกว่าหรือเท่ากับ 2400/3600 จะทำให้ DMG ต่อเนื่องที่สร้างเพิ่มขึ้นอีก 12%/24%
+  "323":
+    Name: Amphoreus, The Eternal Land
+    Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
+  "324":
+    Name: Tengoku @Live Stream
+    Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
 Lightcones:
   "20000":
     Name: Arrows
@@ -617,6 +626,8 @@ Lightcones:
     Name: The Great Cosmic Enterprise
   "22005":
     Name: The Forever Victual
+  "22006":
+    Name: Take Flight Toward A Pink Tomorrow
   "23000":
     Name: Night on the Milky Way
   "23001":
@@ -719,6 +730,8 @@ Lightcones:
     Name: To Evernight's Stars
   "23051":
     Name: Though Worlds Apart
+  "23052":
+    Name: This Love, Forever
   "24000":
     Name: On the Fall of an Aeon
   "24001":

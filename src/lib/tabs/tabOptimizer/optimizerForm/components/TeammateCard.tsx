@@ -59,7 +59,7 @@ const lcParentH = lcWidth
 const lcInnerW = lcWidth
 const lcInnerH = lcWidth
 
-const cardHeight = 480
+const cardHeight = 490
 
 const optionRender = (option: {
   data: {

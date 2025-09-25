@@ -120,25 +120,25 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const memoSkillMemoDmgScaling = memoSkill(e, 0.50, 0.55)
 
   const chrysosHeirs: Record<string, boolean> = {
-    CYRENE: true,
-    MYDEI: true,
-    PHAINON: true,
-    CASTORICE: true,
-    ANAXA: true,
-    CIPHER: true,
-    AGLAEA: true,
-    HYACINE: true,
-    TRIBBIE: true,
-    HYSILENS: true,
-    CERYDRA: true,
-    PERMANSOR_TERRAE: true,
-    EVERNIGHT: true,
-    CAELUS_REMEMBRANCE: true,
-    STELLE_REMEMBRANCE: true,
+    [CYRENE]: true,
+    [MYDEI]: true,
+    [PHAINON]: true,
+    [CASTORICE]: true,
+    [ANAXA]: true,
+    [CIPHER]: true,
+    [AGLAEA]: true,
+    [HYACINE]: true,
+    [TRIBBIE]: true,
+    [HYSILENS]: true,
+    [CERYDRA]: true,
+    [PERMANSOR_TERRAE]: true,
+    [EVERNIGHT]: true,
+    [CAELUS_REMEMBRANCE]: true,
+    [STELLE_REMEMBRANCE]: true,
   }
 
   const defaults = {
-    buffPriority: BUFF_PRIORITY_MEMO,
+    buffPriority: BUFF_PRIORITY_SELF,
     enhancedBasic: true,
     zoneActive: true,
     crBuff: true,
@@ -372,8 +372,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (x.a[Key.SPD] >= 180 && r.traceSpdBasedBuff) {
-        x.ELEMENTAL_DMG.buff(0.20, SOURCE_TRACE)
-        x.ICE_RES_PEN.buff(Math.floor(Math.min(60, x.a[Key.SPD] - 180)) * 0.02, SOURCE_TRACE)
+        x.ELEMENTAL_DMG.buffBaseDual(0.20, SOURCE_TRACE)
+        x.ICE_RES_PEN.buffBaseDual(Math.floor(Math.min(60, x.a[Key.SPD] - 180)) * 0.02, SOURCE_TRACE)
       }
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {

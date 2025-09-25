@@ -20,7 +20,7 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useTranslation } from 'react-i18next'
 import { Relic } from 'types/relic'
 
-export const TAB_WIDTH = 1460
+export const TAB_WIDTH = 1468
 
 export default function RelicsTab() {
   const { focusCharacter, selectedRelicId, relicModalOpen, setRelicModalOpen, setSelectedRelicsIds } = useRelicsTabStore()

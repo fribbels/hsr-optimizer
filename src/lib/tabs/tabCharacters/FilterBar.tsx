@@ -45,7 +45,7 @@ export function FilterBar() {
       </Flex>
       <Flex
         // Selected to align with relics panel
-        style={{ width: 408 }}
+        style={{ width: 422 }}
       >
         <SegmentedFilterRow
           tags={generateElementTags()}

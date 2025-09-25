@@ -132,7 +132,7 @@ export const CharacterScoringSummary = (props: {
   benchmarkCombatStats[StatToKey[elementalDmgValue]] = benchmarkCombatStats[Key.ELEMENTAL_DMG]
   maximumCombatStats[StatToKey[elementalDmgValue]] = maximumCombatStats[Key.ELEMENTAL_DMG]
 
-  const statPreviewWidth = 300
+  const statPreviewWidth = 320
   const divider = (
     <Flex vertical>
       <Divider type='vertical' style={{ flexGrow: 1, margin: '10px 30px' }}/>
@@ -263,7 +263,7 @@ export const CharacterScoringSummary = (props: {
   }
 
   return (
-    <Flex vertical gap={15} align='center' style={{ width: 1068 }}>
+    <Flex vertical gap={15} align='center' style={{ width: 1082 }}>
       <Flex align='center' vertical gap={15}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           <ColorizedTitleWithInfo

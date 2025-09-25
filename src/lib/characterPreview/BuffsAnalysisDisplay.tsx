@@ -211,7 +211,7 @@ function BuffTable(props: { buffs: Buff[], size: BuffDisplaySize }) {
 }
 
 export enum BuffDisplaySize {
-  SMALL = 390,
+  SMALL = 425,
   LARGE = 450,
 }
 

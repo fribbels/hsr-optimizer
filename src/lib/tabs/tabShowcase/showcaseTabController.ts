@@ -7,6 +7,7 @@ import { Message } from 'lib/interactions/message'
 import {
   ANAXA,
   CERYDRA,
+  CYRENE,
   EPOCH_ETCHED_IN_GOLDEN_BLOOD,
   EVERNIGHT,
   HYSILENS,
@@ -18,6 +19,7 @@ import {
   PERMANSOR_TERRAE,
   SILVER_WOLF_B1,
   THE_HERTA,
+  THIS_LOVE_FOREVER,
   THOUGH_WORLDS_APART,
   TO_EVERNIGHTS_STARS,
   WHY_DOES_THE_OCEAN_SING,
@@ -70,6 +72,8 @@ export function presetCharacters(): Preset[] {
   const lc = (id: LightCone['id']) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
+    { characterId: char(CYRENE), lightConeId: lc(THIS_LOVE_FOREVER) },
+
     { characterId: char(EVERNIGHT), lightConeId: lc(TO_EVERNIGHTS_STARS) },
     { characterId: char(PERMANSOR_TERRAE), lightConeId: lc(THOUGH_WORLDS_APART) },
 

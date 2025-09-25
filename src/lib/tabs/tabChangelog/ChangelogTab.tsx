@@ -117,6 +117,11 @@ function getChangelogContent() {
     {
       title: `Current data version: ${CURRENT_DATA_VERSION}`,
       date: '',
+      content: [],
+    },
+    {
+      title: '',
+      date: '2025-09-25',
       content: [
         `Fix: Disabled set weights temporarily`,
         `Fix: Sunday E1's secondary def pen now correctly applies to summons only`,
@@ -124,7 +129,7 @@ function getChangelogContent() {
         `Fix: Saved builds work properly with Live Import now and no longer get wiped`,
         `Fix: Hoyolab imports now automatically detect buffed characters`,
         `Fix: Archer's FUA is now calculated correctly`,
-        `Fix: Phainon's 45% DMG buff on heal / shield now depends on having an Abundance / Preservation teammate`,
+        `Fix: Phainon's 45% DMG buff on heal / shield now depends on having a Hyacine / Abundance / Preservation teammate`,
         `Balance: Kafka / Sampo / Black Swan / now have Hysilens for the default DPS Score team`,
         `Balance: Phainon now has Cerydra / Bronya / Sunday for the default DPS Score team`,
         `Balance: Anaxa now has Cerydra / Bronya / Huohuo for the default DPS Score team`,

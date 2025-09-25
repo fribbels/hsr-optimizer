@@ -9358,5 +9358,46 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       addedColumns: [SortOption.SHIELD],
       hiddenColumns: [SortOption.DOT, SortOption.SKILL],
     },
+    1415: { // Cyrene
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 1,
+        [Stats.HP_P]: 1,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 0,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0.25,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.HP,
+          Stats.CR,
+          Stats.CD,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.HP,
+          Stats.Ice_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.HP_P,
+          Stats.ERR,
+        ],
+      },
+      sets: {},
+      presets: [
+        PresetEffects.BANANA_SET,
+      ],
+      sortOption: SortOption.SPD,
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      addedColumns: [SortOption.MEMO_SKILL],
+    },
   }
 }

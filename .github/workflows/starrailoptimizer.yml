@@ -51,7 +51,7 @@ jobs:
 
           # Configure git
           git config --global user.name "fribbels"
-          git config --global user.email "fribbelsgithub@github.com"
+          git config --global user.email "fribbelsgithub@gmail.com"
 
           # Clone target repository
           git clone git@github.com:starrailoptimizer/starrailoptimizer.github.io.git target-repo

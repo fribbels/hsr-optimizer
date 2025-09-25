@@ -69,6 +69,7 @@ import SharedFeeling from 'lib/conditionals/lightcone/4star/SharedFeeling'
 import SubscribeForMore from 'lib/conditionals/lightcone/4star/SubscribeForMore'
 import SweatNowCryLess from 'lib/conditionals/lightcone/4star/SweatNowCryLess'
 import Swordplay from 'lib/conditionals/lightcone/4star/Swordplay'
+import TakeFlightTowardAPinkTomorrow from 'lib/conditionals/lightcone/4star/TakeFlightTowardAPinkTomorrow'
 import TheBirthOfTheSelf from 'lib/conditionals/lightcone/4star/TheBirthOfTheSelf'
 import TheDayTheCosmosFell from 'lib/conditionals/lightcone/4star/TheDayTheCosmosFell'
 import TheFlowerRemembers from 'lib/conditionals/lightcone/4star/TheFlowerRemembers'
@@ -135,6 +136,7 @@ import SomethingIrreplaceable from 'lib/conditionals/lightcone/5star/SomethingIr
 import TextureOfMemories from 'lib/conditionals/lightcone/5star/TextureOfMemories'
 import TheHellWhereIdealsBurn from 'lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn'
 import TheUnreachableSide from 'lib/conditionals/lightcone/5star/TheUnreachableSide'
+import ThisLoveForever from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import ThoseManySprings from 'lib/conditionals/lightcone/5star/ThoseManySprings'
 import ThusBurnsTheDawn from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import TimeWaitsForNoOne from 'lib/conditionals/lightcone/5star/TimeWaitsForNoOne'
@@ -195,6 +197,7 @@ const fiveStar: Record<string, LightConeConditionalFunction> = {
   23035: LongRoadLeadsHome,
   23049: ToEvernightsStars,
   23051: ThoughWorldsApart,
+  23052: ThisLoveForever,
 
   24000: OnTheFallOfAnAeon,
   24001: CruisingInTheStellarSea,
@@ -291,6 +294,7 @@ const fourStar: Record<string, LightConeConditionalFunction> = {
   22003: NinjaRecordSoundHunt,
   22004: TheGreatCosmicEnterprise,
   22005: TheForeverVictual,
+  22006: TakeFlightTowardAPinkTomorrow,
 }
 
 const threeStar: Record<string, LightConeConditionalFunction> = {

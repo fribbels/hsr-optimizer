@@ -57,7 +57,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
 
   // TODO: Confirm memo scaling
-  const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.ULT_BASIC_MEMO_SKILL_3_SKILL_TALENT_MEMO_TALENT_5
+  const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.NO_MEMO_ULT_BASIC_3_SKILL_TALENT_5
   const {
     SOURCE_BASIC,
     SOURCE_SKILL,
@@ -263,7 +263,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.MEMO_SKILL],
+    activeAbilities: [AbilityType.BASIC, AbilityType.MEMO_SKILL],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,

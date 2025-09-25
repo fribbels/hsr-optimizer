@@ -13,7 +13,7 @@ export const CURRENT_DATA_VERSION = '3.7v1'
 
 const generateMessage = (message?: string) => `${CURRENT_DATA_VERSION} - ${message}`
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  [CYRENE]: generateMessage('Chrysos Heirs special effects are heavily WIP'),
+  [CYRENE]: generateMessage(`Cyrene's Chrysos Heirs special effects are WIP`),
 }
 
 export const Stats = {

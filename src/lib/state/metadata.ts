@@ -1004,6 +1004,20 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.ATK_P]: 0.28 },
       5: { [Constants.Stats.ATK_P]: 0.32 },
     },
+    22006: {
+      1: { [Constants.Stats.CD]: 0.12 },
+      2: { [Constants.Stats.CD]: 0.15 },
+      3: { [Constants.Stats.CD]: 0.18 },
+      4: { [Constants.Stats.CD]: 0.21 },
+      5: { [Constants.Stats.CD]: 0.24 },
+    },
+    23052: {
+      1: { [Constants.Stats.SPD_P]: 0.18 },
+      2: { [Constants.Stats.SPD_P]: 0.21 },
+      3: { [Constants.Stats.SPD_P]: 0.24 },
+      4: { [Constants.Stats.SPD_P]: 0.27 },
+      5: { [Constants.Stats.SPD_P]: 0.30 },
+    },
   }
 }
 
@@ -1160,8 +1174,12 @@ function getLightConeOverrideCenter(): Record<string, number> {
 
     23049: 320,
     23051: 150,
+
+    22006: 290,
+    23052: 190,
   }
 }
+// Default 200
 
 function getOverrideImageCenter(): Record<string, {
   x: number,
@@ -1598,6 +1616,11 @@ function getOverrideImageCenter(): Record<string, {
       x: 975,
       y: 1024,
       z: 1.05,
+    },
+    1415: { // Cyrene
+      x: 1030,
+      y: 1225,
+      z: 1.60,
     },
   }
 }
@@ -9367,10 +9390,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Stats.HP]: 1,
         [Stats.HP_P]: 1,
         [Stats.SPD]: 1,
-        [Stats.CR]: 0,
-        [Stats.CD]: 0,
+        [Stats.CR]: 0.5,
+        [Stats.CD]: 0.5,
         [Stats.EHR]: 0,
-        [Stats.RES]: 0.25,
+        [Stats.RES]: 0,
         [Stats.BE]: 0,
       },
       parts: {
@@ -9396,7 +9419,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.BANANA_SET,
       ],
       sortOption: SortOption.SPD,
-      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.ULT, SortOption.DOT],
       addedColumns: [SortOption.MEMO_SKILL],
     },
   }

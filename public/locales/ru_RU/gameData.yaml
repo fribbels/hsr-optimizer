@@ -216,11 +216,14 @@ Characters:
     Name: Керидра
     LongName: Керидра
   "1413":
-    Name: Evernight
-    LongName: Evernight
+    Name: Темень
+    LongName: Темень
   "1414":
-    Name: Permansor Terrae
-    LongName: Dan Heng • Permansor Terrae
+    Name: "Дань Хэн: Освободитель Пустошей"
+    LongName: "Дань Хэн: Освободитель Пустошей"
+  "1415":
+    Name: Cyrene
+    LongName: Cyrene
   "8001":
     Name: Келус
     LongName: Келус (Разрушение)
@@ -360,16 +363,16 @@ RelicSets:
     Description4pc: Когда владелец или его дух памяти исцеляют союзников, кроме себя и своего духа памяти, владелец получает статус Нежный дождь, который может сработать 1 раз за ход и длится 2 хода. Скорость владельца со статусом Нежный дождь повышается на 6%, и крит. урон всех союзников повышается на 15%. Этот эффект не может складываться.
   "126":
     Name: Преследующий волны капитан
-    Description2pc: Крит. урон повышается на 16%.
+    Description2pc: Повышает крит. урон на 16%.
     Description4pc: Когда владелец становится целью умения другого союзника, он получает 1 ур. статуса Помощь, который может складываться до 2 раз. Если во время использования сверхспособности владелец имеет 2 ур. статуса Помощь, то он расходует все уровни этого статуса и повышает свою силу атаки на 48% на 1 ход.
   "127":
-    Name: World-Remaking Deliverer
-    Description2pc: Increases CRIT Rate by 8%.
-    Description4pc: After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 15% until the wearer's next Basic ATK or Skill.
+    Name: Воссоздающий мир спаситель
+    Description2pc: Повышает крит. шанс на 8%.
+    Description4pc: Если после использования владельцем базовой атаки или навыка его дух памяти находится на поле боя, то макс. НР владельца и его духа памяти повышается на 24%, и наносимый всеми союзниками урон повышается на 15% до следующего использования владельцем базовой атаки или навыка.
   "128":
-    Name: Self-Enshrouded Recluse
-    Description2pc: Increases Shield Effect by 10%.
-    Description4pc: Increases Shield Effect provided by the wearer by 12%. When an ally target has a Shield provided by the wearer, the ally target's CRIT DMG increases by 15%.
+    Name: Таящий сияние отшельник
+    Description2pc: Повышает поглощаемый наложенным щитом урон на 10%.
+    Description4pc: Повышает поглощаемый наложенным щитом урон на 12%. Пока союзник имеет наложенный владельцем щит, его крит. урон повышается на 15%.
   "301":
     Name: Запечатывающая космос станция
     Description2pc: Повышает силу атаки владельца на 12%. Если скорость владельца выше или равна 120 ед., то его сила атаки повышается на доп. 12%.
@@ -408,7 +411,7 @@ RelicSets:
     Description2pc: Повышает скорость восстановления энергии на 5%. Увеличивает урон, наносимый союзниками одного типа с владельцем, на 10%.
   "313":
     Name: Бесплодная Сигония
-    Description2pc: Крит. шанс владельца повышается на 4%. Победа над противником повышает крит. урон владельца на 4%. Этот эффект может складываться до 10 раз.
+    Description2pc: Повышает крит. шанс владельца на 4%. Победа над противником повышает крит. урон владельца на 4%. Этот эффект может складываться до 10 раз.
   "314":
     Name: Мир Идзумо и Царство Такама
     Description2pc: Сила атаки владельца повышается на 12%. Если в начале боя есть хотя бы один союзник, идущий тем же Путём, что и владелец, крит. шанс владельца повышается на 12%.
@@ -436,6 +439,12 @@ RelicSets:
   "322":
     Name: Хмельная бухта
     Description2pc: Сила атаки владельца повышается на 12%. Если сила атаки владельца выше или равна 2400/3600 ед., то наносимый периодический урон дополнительно повышается на 12%/24%.
+  "323":
+    Name: Amphoreus, The Eternal Land
+    Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
+  "324":
+    Name: Tengoku @Live Stream
+    Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
 Lightcones:
   "20000":
     Name: Стрелы
@@ -617,6 +626,8 @@ Lightcones:
     Name: Бизнес космических масштабов
   "22005":
     Name: Вечный ресторан лабиринта
+  "22006":
+    Name: Take Flight Toward A Pink Tomorrow
   "23000":
     Name: Ночь на Млечном Пути
   "23001":
@@ -716,9 +727,11 @@ Lightcones:
   "23048":
     Name: Эпоха золотой крови
   "23049":
-    Name: To Evernight's Stars
+    Name: Звёздному свету во тьме
   "23051":
-    Name: Though Worlds Apart
+    Name: Пусть простор бескраен
+  "23052":
+    Name: This Love, Forever
   "24000":
     Name: О падении Эона
   "24001":
@@ -745,7 +758,7 @@ Elements:
   Physical: Физический
   Fire: Огненный
   Ice: Ледяной
-  Thunder: Электрический
+  Thunder: Электро
   Wind: Ветряной
   Quantum: Квантовый
   Imaginary: Мнимый

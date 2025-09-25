@@ -7,9 +7,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: pandoc/latex # "ubuntu" is a more generic container
-    # using "pandoc/latex" because of dependencies
-    # used in the specific "build.sh"
     steps:
       - uses: actions/checkout@v4
       - name: Find and Replace homepage
@@ -44,12 +41,32 @@ jobs:
           include: 'src/lib/constants/constants.ts'
       - run: rm -rf .github/workflows
       - run: mv .github/starrailoptimizer .github/workflows
-      - name: Pushes to another repository
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          SSH_DEPLOY_KEY: ${{ secrets.STAR_RAIL_OPTIMIZER_SSH_DEPLOY_KEY }}
-        with:
-          source-directory: '.'
-          destination-github-username: 'starrailoptimizer'
-          destination-repository-name: 'starrailoptimizer.github.io'
-          target-branch: main
+      - name: Push to target repository
+        run: |
+          # Setup SSH key
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_DEPLOY_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+          # Configure git
+          git config --global user.name "fribbels"
+          git config --global user.email "fribbelsgithub@github.com"
+
+          # Clone target repository
+          git clone git@github.com:starrailoptimizer/starrailoptimizer.github.io.git target-repo
+
+          # Remove all files except .git directory
+          find target-repo -mindepth 1 -not -path 'target-repo/.git*' -delete
+
+          # Copy all files from current directory except .git and target-repo
+          rsync -av --exclude='.git' --exclude='target-repo' ./ target-repo/
+
+          # Commit and push changes
+          cd target-repo
+          git add .
+          if git commit -m "Update from ${{ github.repository }}@${{ github.sha }}"; then
+            git push origin main
+          else
+            echo "No changes to commit"
+          fi

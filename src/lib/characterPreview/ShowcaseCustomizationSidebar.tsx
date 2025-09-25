@@ -730,6 +730,8 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
 
     1413: ['#f2a8e5'], // evernight
     1414: ['#aefcf3'], // dan heng
+
+    1415: ['#8a88e4'], // cyrene
   }
 
   return (defaults[characterId] ?? ['#000000'])[0]

@@ -338,6 +338,11 @@ Lightcones:
         text: Vulnérabilité Cerné
         content: >-
           Lorsque le porteur utilise son ATQ normale, sa compétence, ou son ultime pour attaquer une cible ennemie, il a 60% de chances de base de lui infliger l'état Sans défense. Dans l'état Sans défense, augmente les DGT subis par la cible ennemie de {{UnarmoredVulnerability}}% pendant 2 tours. Lorsque la cible subit des dégâts sur la durée infligés par le porteur, il y a 60% de chances de base de transformer son état Sans défense en Cerné, ce qui augmente les DGT subis par la cible de {{CorneredVulnerability}}%, pendant 2 tours.
+  ThoughWorldsApart:
+    Content:
+      dmgBoost:
+        text: Bonus de DGT
+        content: Lorsque le porteur utilise son ultime, accorde Bastion à tous les alliés pour une durée de 3 tours. Augmente les DGT infligés par les cibles avec Bastion de {{DmgBuff}}%. Si une cible avec Bastion possède une invocation, augmente les DGT infligés de {{SummonDmgBuff}}% supplémentaires.
   ThusBurnsTheDawn:
     Content:
       defPen:
@@ -348,8 +353,12 @@ Lightcones:
         content: Après avoir lancé une ultime, le porteur obtient l'effet Soleil ardent, lequel se dissipe au début du tour. Lorsqu'il bénéficie de Soleil ardent, augmente les DGT infligés par le porteur de {{DmgBuff}}%.
   ToEvernightsStars:
     Content:
+      defPen:
+        text: PÉN de DÉF de Mnémesprit
+        content: Lorsque le mnémesprit du porteur utilise une capacité, le porteur obtient Noctis. Si le porteur bénéficie de Noctis, les DGT infligés par les mnémesprits de tous les alliés ignorent {{MemoDefPen}}% de la DÉF des cibles.
       dmgBoost:
         text: Bonus de DGT
+        content: Augmente les DGT infligés par le porteur et son mnémesprit de {{DmgBuff}}%.
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -1182,14 +1191,48 @@ Characters:
           Dr Ratio a 40% de chances fixes de déclencher 1 attaque de suivi contre sa cible lorsqu'il utilise sa compétence, lui infligeant des DGT imaginaires équivalents à {{FuaScaling}}% de l'ATQ de Dr Ratio. Les chances fixes de déclencher l'attaque de suivi augmentent de 20% pour chaque malus appliqué à la cible ennemie. L'attaque de suivi est lancée sur un autre ennemi aléatoire si la cible ennemie est vaincue avant que l'attaque de suivi ne soit déclenchée.::BR::Lorsque Dr Ratio inflige des DGT à une cible ayant au moins 3 malus, les DGT infligés par Dr Ratio à cette cible augmentent de 10% pour chaque malus appliqué à la cible, jusqu'à une augmentation maximale de 50%.::BR::E2: Lorsque l'attaque de suivi de son talent touche une cible, cette dernière subit des DGT imaginaires supplémentaires équivalents à 20% de l'ATQ de Dr Ratio pour chaque malus qui lui est appliqué. Cet effet peut être déclenché un maximum de 4 fois durant chaque attaque de suivi.
   Evernight:
     Content:
+      memoTalentDmgBuff:
+        text: Bonus de DGT Talentᴹ
+        content: Lorsque Nox est sur le champ de bataille, Nocterna et Nox infligent {{MemoTalentDmgBuff}}% de DGT supplémentaires.
       crBuff:
         text: Bonus de TC
+        content: Augmente les chances de coup critique de Nocterna et de Nox de 35%.
+      skillMemoCdBuff:
+        text: Bonus de DCᴹ de Comp.
+        content: Consomme 10% des PV actuels de Nocterna pour invoquer le mnémesprit Nox, et augmente les DGT critiques de tous les mnémesprits alliés d'un montant équivalent à {{SkillMemoCdBuff}}% des DGT critiques de Nocterna pour une durée de 2 tours.
+      talentMemoCdBuff:
+        text: Bonus de DCᴹ du talent
+        content: Chaque fois que Nocterna ou Nox perd des PV, augmente les DGT critiques des deux unités de {{TalentCdScaling}}% pendant 2 tours.
+      traceCdBuff:
+        text: Bonus de DC de la trace
+        content: Utiliser une capacité consomme 5% des PV actuels de cette unité pour augmenter les DGT critiques de Nocterna et Nox de 15% pendant 2 tours.
+      memoriaStacks:
+        text: Cumuls de Vestige
+        content: >-
+          Cette capacité sélectionne automatiquement une cible, donnant la priorité à la cible ennemie que Nocterna a attaquée en dernier. Inflige des DGT de glace équivalents à {{MemoSkillScaling}}% des PV max de Nox à un ennemi unique. Pour chaque tranche de 4 Vestiges dont bénéficie Nocterna, inflige des DGT de glace supplémentaires équivalents à {{MemoSkillAdditionalScaling}}% des PV max de Nox. ::BR:: Lorsque Nocterna bénéficie de 16 Vestiges ou plus, si elle n'est pas affectée par un malus de contrôle, Évanouissement des rêves sera utilisée. Pour chaque Vestige dont bénéficie actuellement Nocterna, Nox inflige des DGT de glace équivalents à {{MemoSkillEnhancedScaling}} de ses PV max à la cible principale.
       enhancedState:
         text: État amélioré
+        content: Utiliser son ultime fait entrer Nocterna dans l'état Énigme sibylline. Dans cet état, les DGT subis par tous les ennemis augmentent de {{UltVulnScaling}}% et les DGT infligés par Nocterna et Nox augmentent de {{UltDmgBoostScaling}}%.
+      e1FinalDmg:
+        text: 'E1: DGT Finaux'
+        content: Lorsque Nocterna est sur le champ de bataille et que le champ de bataille compte 4+/3/2/1 cibles ennemies, les mnémesprits alliés infligent des DGT équivalents à 120%/125%/130%/150% de leurs DGT initiaux.
+      e2CdBuff:
+        text: 'E2: Bonus de DC'
+        content: Augmente les DGT critiques de Nocterna et du mnémesprit Nox de 40%.
       e4Buffs:
         text: 'E4: Divers bonus'
+        content: Lorsque Nocterna est sur le champ de bataille, augmente l'efficacité de Rupture de faiblesse des mnémesprits alliés de 25%. L'efficacité de Rupture de faiblesse de Nox augmente de 25% supplémentaires.
       e6ResPen:
         text: 'E6: PÉN de RÉS'
+        content: Lorsque Nocterna est sur le champ de bataille, augmente la PÉN de RÉS à tous les types de toutes les cibles alliées de 20%. Après que le mnémesprit Nox a utilisé Évanouissement des rêves, Nocterna obtient 30% des Vestiges consommés lors de cette attaque.
+    TeammateContent:
+      skillMemoCdBuff:
+        text: Bonus de DCᴹ de Comp.
+        content: Lorsque Nocterna utilise sa compétence, augmente les DGT critiques de tous les mnémesprits alliés d'un montant équivalent à {{SkillCdScaling}}% des DGT critiques de Nocterna pour une durée de 2 tours.
+      evernightCombatCD:
+        text: DC en combat de Nocterna
+        content: >-
+          Lorsque Nocterna utilise sa compétence, augmente les DGT critiques de tous les mnémesprits alliés d'un montant équivalent à {{SkillCdScaling}}% des DGT critiques de Nocterna pour une durée de 2 tours. ::BR:: Saisissez la valeur des DC de Nocterna qui sera utilisée pour son buff.
   Feixiao:
     Content:
       weaknessBrokenUlt:
@@ -1766,8 +1809,22 @@ Characters:
         content: Lors de l'utilisation de la compétence, il y a 100% de chances de base de réduire la RÉS à la glace de la cible ennemie de 12% pendant 2 tours.
   PermansorTerrae:
     TeammateContent:
+      bondmate:
+        text: Alter ego
+        content: Augmente l'ATQ de la cible désignée comme Alter ego d'un montant équivalent à 15% de l'ATQ de Dan Heng • Permansor Terrae lors de l'utilisation de la compétence.
+      sourceAtk:
+        text: ATQ en combat de Dan Heng
+        content: >-
+          Augmente l'ATQ de la cible désignée comme Alter ego d'un montant équivalent à 15% de l'ATQ de Dan Heng • Permansor Terrae lors de l'utilisation de la compétence. ::BR:: saisissez la valeur de l'ATQ de Dan Hen qui sera utilisée pour son buff.
+      e1ResPen:
+        text: 'E1: PÉN de RÉS'
+        content: Lorsque Dan Heng • Permansor Terrae lance un ultime, a PÉN de RÉS à tous les types de l'Alter ego augmente de 18% pendant 3 tours.
+      e4DmgReduction:
+        text: 'E4: Réduction de DGT'
+        content: Réduit les DGT subis par l'Alter ego de 20%.
       e6Buffs:
         text: 'E6: Divers bonus'
+        content: Lorsque l'Alter ego est présent sur le champ de bataille, augmente les DGT subis par tous les ennemis de 20%. Les DGT infligés par l'Alter ego ignorent 12% de la DÉF des cibles ennemies.
   Phainon:
     Content:
       transformedState:
@@ -1873,6 +1930,8 @@ Characters:
     TeammateContent:
       teammateATKValue:
         text: ATQ en combat de Robin
+        content: >-
+          Lorsque Robin est dans l'état Concerto, l'attaque de tous les alliés augmente à hauteur de {{ultAtkBuffScalingValue}}% de l'ATQ de Robin + {{ultAtkBuffFlatValue}}.::BR::Définissez cette valeur en fonction de la quantité d'ATQ de Robin qui est prise en compte lors du calcul du buff.
       traceFuaCdBoost:
         text: Bonus de DC d'ADS
         content: Lorsque Robin est dans l'état Concerto, les DGT critiques infligés quand tous les alliés lancent une attaque de suivi augmentent de 25%.

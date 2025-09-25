@@ -78,6 +78,7 @@ import silverWolfB1 from 'lib/conditionals/character/1000/SilverWolfB1'
 import bladeB1 from 'lib/conditionals/character/1200/BladeB1'
 import jingliuB1 from 'lib/conditionals/character/1200/JingliuB1'
 import cerydra from 'lib/conditionals/character/1400/Cerydra'
+import cyrene from 'lib/conditionals/character/1400/Cyrene'
 import hysilens from 'lib/conditionals/character/1400/Hysilens'
 import { CharacterConditionalsController } from 'types/conditionals'
 import archer from '../character/1000/Archer'
@@ -178,6 +179,8 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
 
   1413: evernight,
   1414: permansorTerrae,
+
+  1415: cyrene,
 }
 
 /**

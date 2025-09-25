@@ -7238,6 +7238,103 @@
       },
       "unreleased": false
     },
+    "1415": {
+      "id": "1415",
+      "name": "Cyrene",
+      "rarity": 5,
+      "path": "Remembrance",
+      "element": "Ice",
+      "traces": {
+        "HP%": 0.1,
+        "SPD": 9,
+        "CRIT DMG": 0.373
+      },
+      "traceTree": [
+        {
+          "id": "1415201_3.6v4",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "1415202_3.6v4",
+              "stat": "SPD",
+              "value": 2,
+              "pre": "1415201_3.6v4",
+              "children": []
+            },
+            {
+              "id": "1415203_3.6v4",
+              "stat": "CRIT DMG",
+              "value": 0.053,
+              "pre": "1415201_3.6v4",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1415204_3.6v4",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1415205_3.6v4",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1415206_3.6v4",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1415207_3.6v4",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1415208_3.6v4",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1415209_3.6v4",
+              "stat": "SPD",
+              "value": 4,
+              "pre": "1415208_3.6v4",
+              "children": [
+                {
+                  "id": "1415210_3.6v4",
+                  "stat": "CRIT DMG",
+                  "value": 0.107,
+                  "pre": "1415209_3.6v4",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 24,
+      "stats": {
+        "HP": 1397.088,
+        "ATK": 446.292,
+        "DEF": 582.12,
+        "SPD": 101,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
     "8001": {
       "id": "8001",
       "name": "Trailblazer",
@@ -9498,6 +9595,18 @@
       },
       "unreleased": false
     },
+    "22006": {
+      "id": "22006",
+      "name": "Take Flight Toward A Pink Tomorrow",
+      "rarity": 4,
+      "path": "Remembrance",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 476.28,
+        "DEF": 396.9
+      },
+      "unreleased": true
+    },
     "23000": {
       "id": "23000",
       "name": "Night on the Milky Way",
@@ -10110,6 +10219,18 @@
       },
       "unreleased": false
     },
+    "23052": {
+      "id": "23052",
+      "name": "This Love, Forever",
+      "rarity": 5,
+      "path": "Remembrance",
+      "stats": {
+        "HP": 1270.08,
+        "ATK": 476.28,
+        "DEF": 463.05
+      },
+      "unreleased": true
+    },
     "24000": {
       "id": "24000",
       "name": "On the Fall of an Aeon",
@@ -10184,6 +10305,16 @@
     }
   },
   "relics": [
+    {
+      "id": "324",
+      "name": "Tengoku @Live Stream",
+      "skills": "Increases the wearer's CRIT DMG by <b>16%</b>. If <b>3</b> or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by <b>32%</b> for <b>3</b> turns."
+    },
+    {
+      "id": "323",
+      "name": "Amphoreus, The Eternal Land",
+      "skills": "Increases the wearer's CRIT Rate by <b>8%</b>. While the wearer's memosprite is on the field, increases all allies' SPD by <b>8%</b>. This effect cannot be stacked."
+    },
     {
       "id": "322",
       "name": "Revelry by the Sea",
@@ -10297,12 +10428,12 @@
     {
       "id": "128",
       "name": "Self-Enshrouded Recluse",
-      "skills": "Increases Shield Effect by <b>10%</b>. Increases Shield Effect provided by the wearer by <b>12%</b>. When an ally target has a Shield provided by the wearer, the ally target's CRIT DMG increases by <b>15%</b>."
+      "skills": "The provided Shield Effect increases by <b>10%</b>. Increases the Shield Effect provided by the wearer by <b>12%</b>. When an ally target holds a Shield provided by the wearer, the ally target's CRIT DMG increases by <b>15%</b>."
     },
     {
       "id": "127",
       "name": "World-Remaking Deliverer",
-      "skills": "Increases CRIT Rate by <b>8%</b>. After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by <b>24%</b>, and increases all allies' DMG by <b>15%</b> until the wearer's next Basic ATK or Skill."
+      "skills": "Increases CRIT Rate by <b>8%</b>. After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by <b>24%</b>, and increases all allies' dealt DMG by <b>15%</b>, lasting until after the wearer's next use of Basic ATK or Skill."
     },
     {
       "id": "126",

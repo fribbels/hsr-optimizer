@@ -219,8 +219,11 @@ Characters:
     Name: Evernight
     LongName: Evernight
   "1414":
-    Name: Dan Heng • Permansor Terrae
-    LongName: Dan Heng • Permansor Terrae
+    Name: Dan Heng – Permansor Terrae
+    LongName: Dan Heng – Permansor Terrae
+  "1415":
+    Name: Cyrene
+    LongName: Cyrene
   "8001":
     Name: Caelus
     LongName: Caelus (Die Zerstörung)
@@ -363,13 +366,13 @@ RelicSets:
     Description2pc: Erhöht KRIT-SCH um 16%.
     Description4pc: Wenn der Träger zum Ziel der Fähigkeit eines anderen Verbündeten wird, erhält er 1 Stapelung „Unterstützen“, bis zu 2 Stapelungen. Verbraucht beim Einsatz des Ultimates alle Stapelungen von Unterstützen und erhöht den ANG des Trägers für 1 Rd. um 48%, wenn 2 Stapelungen vorhanden sind.
   "127":
-    Name: World-Remaking Deliverer
-    Description2pc: Increases CRIT Rate by 8%.
-    Description4pc: After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG by 15% until the wearer's next Basic ATK or Skill.
+    Name: "{F#Erlöserin}{M#Erlöser} der Weltneuschöpfung"
+    Description2pc: Erhöht die KRIT-Rate um 8%.
+    Description4pc: Wenn sich nach dem Einsatz eines Standardangriffs oder einer Fertigkeit des Trägers dessen Memogeist auf dem Kampffeld befindet, werden die max. LP des Trägers und seines Memogeists um 24% sowie der verursachte SCH aller Verbündeten um 15% erhöht, bis der Träger seinen nächsten Standardangriff oder seine nächste Fertigkeit einsetzt.
   "128":
-    Name: Self-Enshrouded Recluse
-    Description2pc: Increases Shield Effect by 10%.
-    Description4pc: Increases Shield Effect provided by the wearer by 12%. When an ally target has a Shield provided by the wearer, the ally target's CRIT DMG increases by 15%.
+    Name: Sternenverhüllter Einsiedler
+    Description2pc: Erhöht die gewährte Schildmenge um 10%.
+    Description4pc: Erhöht die vom Träger gewährte Schildmenge um 12%. Wenn ein Verbündeter einen vom Träger gewährten Schild hat, wird sein KRIT-SCH um 15% erhöht.
   "301":
     Name: Raumstation für Versiegelung
     Description2pc: Erhöht ANG des Trägers um 12%. Wenn die GES des Trägers 120 oder höher erreicht, wird sein ANG zusätzlich um 12% erhöht.
@@ -436,6 +439,12 @@ RelicSets:
   "322":
     Name: Küste der Weintrunkenheit
     Description2pc: Erhöht den ANG des Trägers um 12%. Wenn der ANG des Trägers 2400/3600 oder höher beträgt, wird sein verursachter DoT zusätzlich um 12%/24% erhöht.
+  "323":
+    Name: Amphoreus, The Eternal Land
+    Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
+  "324":
+    Name: Tengoku @Live Stream
+    Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
 Lightcones:
   "20000":
     Name: Pfeile
@@ -617,6 +626,8 @@ Lightcones:
     Name: Das große kosmische Geschäft
   "22005":
     Name: Wirrgarten-Restaurant für immer
+  "22006":
+    Name: Take Flight Toward A Pink Tomorrow
   "23000":
     Name: Nacht auf der Milchstraße
   "23001":
@@ -716,9 +727,11 @@ Lightcones:
   "23048":
     Name: Zeitalter des goldenen Blutes
   "23049":
-    Name: To Evernight's Stars
+    Name: Auf das Sternenlicht der langen Nacht
   "23051":
-    Name: Though Worlds Apart
+    Name: Selbst über endlose Lande
+  "23052":
+    Name: This Love, Forever
   "24000":
     Name: Der Niedergang eines Äons
   "24001":

@@ -155,6 +155,7 @@ Lightcones:
         text: Aumento de daño por enemigo afectado
         content: El portador inflige un {{DmgBuff}}% más de daño a los enemigos afectados por estados negativos.
       skillAtkBoost:
+        text: Aumento ATQ habilidad
         content: Cuando el portador usa su habilidad básica, su acierto de efecto en ese ataque aumenta en un {{EhrBuff}}% y su ATQ en un {{AtkBuff}}%.
   InTheNight:
     Content:
@@ -337,6 +338,11 @@ Lightcones:
         text: Vulnerabilidad Arrinconado
         content: >-
           Después de que el portador ataque al enemigo con su ATQ básico, habilidad básica o habilidad definitiva, tiene una probabilidad base del 60% de afectar al enemigo con Sin armadura. En el estado de Sin armadura, el daño que recibe el enemigo aumenta en un {{UnarmoredVulnerability}}% durante 2 turnos. Si el objetivo está afectado por un estado de Daño con el tiempo aplicado por el portador, hay una probabilidad base del 60% de mejorar el estado de Sin armadura aplicado por el portador al estado de Arrinconado, lo que aumenta el daño que recibe el enemigo en un {{CorneredVulnerability}}% adicional durante 2 turnos.
+  ThoughWorldsApart:
+    Content:
+      dmgBoost:
+        text: Aumento de daño
+        content: Cuando el portador lanza la habilidad definitiva, otorga Baluarte a todos los aliados durante 3 turnos. El daño que infligen los objetivos con Baluarte aumenta en un {{DmgBuff}}% y, si tienen alguna invocación, aumenta en un {{SummonDmgBuff}}% adicional.
   ThusBurnsTheDawn:
     Content:
       defPen:
@@ -347,8 +353,12 @@ Lightcones:
         content: Cuando tiene Sol abrasador, el daño que inflige el portador aumenta en un {{DmgBuff}}%.
   ToEvernightsStars:
     Content:
+      defPen:
+        text: PEN DEF mnemo
+        content: Cuando el mnemoduende del portador lanza una habilidad, el portador obtiene Escena nocturna. Cuando el portador tiene Escena nocturna, el daño que infligen todos los mnemoduendes aliados ignora el {{MemoDefPen}}% de la DEF de los objetivos.
       dmgBoost:
         text: Aumento de daño
+        content: El daño que infligen el portador y su mnemoduende aumenta en un {{DmgBuff}}%.
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -1059,7 +1069,7 @@ Characters:
         text: Mejora de VEL
         content: Cuando los PV actuales de Castorice son iguales o superiores al 50% de sus PV máx., su VEL aumenta en un 40%.
       talentDmgStacks:
-        text: Acum. daño del Talento
+        text: Acums. daño de Talento
         content: Cuando los aliados pierden PV, el daño que infligen Castorice y el Dragón Caído aumenta en un {{DmgBuff}}%. Este efecto se puede acumular hasta 3 veces y dura 3 turnos.
       memoSkillEnhances:
         text: Potenc. Habilidadᴹ
@@ -1071,7 +1081,7 @@ Characters:
         text: Aum. de daño al equipo
         content: Cuando el Dragón Caído es invocado, el daño que infligen todos los aliados aumenta en un 10% durante 3 turnos.
       memoDmgStacks:
-        text: Acum. de daño mnemo
+        text: Acums. de dañoᴹ
         content: Cada vez que el Dragón Caído lanza Aliento que prende las sombras, el daño que inflige aumenta en un 30%. Este efecto se puede acumular hasta 6 veces y dura hasta el final de ese turno.
       e1EnemyHp50:
         text: E1 PV del enemigo ≤ 50%
@@ -1181,14 +1191,48 @@ Characters:
           Al usar su habilidad básica, el Dr. Ratio tiene una probabilidad fija del 40% de lanzar un ataque adicional contra el objetivo e infligir un Daño Imaginario equivalente al {{FuaScaling}}% de su ATQ. Por cada estado negativo que tenga el objetivo, la probabilidad fija de lanzar el ataque adicional aumenta en un 20%. Si el objetivo es derrotado antes de que se lance el ataque adicional, el ataque adicional se dirige contra otro enemigo al azar.::BR::Al infligir daño, si el objetivo tiene 3 o más estados negativos, el Dr. Ratio le inflige un 10% más de daño por cada estado negativo, hasta un aumento máximo del 50%.::BR::E2: Cuando el ataque adicional de su talento golpea a un enemigo, el Dr. Ratio inflige un 20% de su ATQ como Daño Imaginario adicional por cada estado negativo que tenga el objetivo. Este efecto se puede activar un máximo de 4 veces cada vez que use su ataque adicional.
   Evernight:
     Content:
+      memoTalentDmgBuff:
+        text: Mejora de daño talentoᴹ
+        content: Mientras Nox está en la batalla, el daño que infligen Larganoche y Nox aumenta en un {{MemoTalentDmgBuff}}%.
       crBuff:
         text: Mejora PC
+        content: La Prob. CRIT de Larganoche y el mnemoduende Nox aumenta en un 35%.
+      skillMemoCdBuff:
+        text: Mejora DC habilidadᴹ
+        content: Consume un 10% de los PV actuales de Larganoche para invocar al mnemoduende Nox y aumenta el Daño CRIT de todos los mnemoduendes aliados en una cantidad equivalente al {{SkillMemoCdBuff}}% del Daño CRIT de Larganoche durante 2 turnos.
+      talentMemoCdBuff:
+        text: Mejora DC talentoᴹ
+        content: Cada vez que se reducen los PV de Larganoche o de Nox, el Daño CRIT de ambas aumenta en un {{TalentCdScaling}}% durante 2 turnos.
+      traceCdBuff:
+        text: Mejora DC rastro
+        content: Al lanzar una habilidad, consume un 5% de sus PV actuales y hace que el Daño CRIT de ambas aumente en un 15% durante 2 turnos.
+      memoriaStacks:
+        text: Acums. de Memoria
+        content: >-
+          Esta habilidad selecciona automáticamente a su objetivo y se lanza priorizando atacar al último enemigo atacado por Larganoche. Inflige a un enemigo un Daño de Hielo equivalente al {{MemoSkillScaling}}% de los PV máx. de Nox. Por cada 4 pts. de Memoria que tenga Larganoche, inflige un Daño de Hielo equivalente al {{MemoSkillAdditionalScaling}}% de los PV máx. de Nox de forma adicional. ::BR:: Si Larganoche tiene 16 pts. o más de Memoria y no está afectada con ningún estado de Control, en cambio se lanzará Sueños que desaparecen como el rocío. Por cada punto de Memoria que tenga, Nox inflige un {{MemoSkillEnhancedScaling}}% de sus PV máx. como Daño de Hielo al objetivo principal.
       enhancedState:
         text: Estado potenciado
+        content: Lanzar su habilidad definitiva hace que Larganoche entre en el estado de "Adivinanza oscura". Durante este estado, el daño que reciben los enemigos aumenta en un {{UltVulnScaling}}%, el daño que infligen Larganoche y Nox aumenta en un {{UltDmgBoostScaling}}%.
+      e1FinalDmg:
+        text: E1 Daño final
+        content: Cuando Larganoche está en la batalla y hay 4 o más/3/2/1 enemigos en el campo de batalla, el daño que infligen los mnemoduendes aliados es un 120%/125%/130%/150% del daño original.
+      e2CdBuff:
+        text: E2 Mejora DC
+        content: El Daño CRIT de Larganoche y el mnemoduende Nox aumenta en un 40%.
       e4Buffs:
         text: E4 Mejoras
+        content: Cuando Larganoche está en la batalla, la eficiencia de la Ruptura de Debilidad de los mnemoduendes aliados aumenta en un 25%. La eficiencia de la Ruptura de Debilidad del mnemoduende Nox aumenta en un 25% adicional.
       e6ResPen:
         text: E6 PEN RES
+        content: Cuando Larganoche está en la batalla, la PEN de la RES a todos los tipos de todos los aliados aumenta en un 20%. Después de que el mnemoduende Nox lance Sueños que desaparecen como el rocío, Larganoche obtiene el 30% de la Memoria consumida en este ataque.
+    TeammateContent:
+      skillMemoCdBuff:
+        text: Mejora DC habilidadᴹ
+        content: Al lanzar la habilidad básica, aumenta el Daño CRIT de todos los mnemoduendes aliados en una cantidad equivalente al {{SkillCdScaling}}% del Daño CRIT de Larganoche durante 2 turnos.
+      evernightCombatCD:
+        text: DC en combate de Larganoche
+        content: >-
+          Al lanzar la habilidad básica, aumenta el Daño CRIT de todos los mnemoduendes aliados en una cantidad equivalente al {{SkillCdScaling}}% del Daño CRIT de Larganoche durante 2 turnos. ::BR:: Ingresa el DC propio de Larganoche que usa para mejorar aliados.
   Feixiao:
     Content:
       weaknessBrokenUlt:
@@ -1765,8 +1809,22 @@ Characters:
         content: Al usar la habilidad básica, hay una probabilidad base del 100% de reducir la RES a Hielo del enemigo en un 12% durante 2 turnos.
   PermansorTerrae:
     TeammateContent:
+      bondmate:
+        text: Camarada
+        content: Al lanzar la habilidad básica, el ATQ del objetivo designado como Camarada aumenta en una cantidad equivalente al 15% del ATQ de Dan Heng - Permansor Terrae. El Camarada gana posesión de la invocación Espiridraco.
+      sourceAtk:
+        text: ATQ en combate de Dan Heng
+        content: >-
+          Al lanzar la habilidad básica, el ATQ del objetivo designado como Camarada aumenta en una cantidad equivalente al 15% del ATQ de Dan Heng - Permansor Terrae. ::BR:: Ingresa el ATQ propio de Dan Heng - Permansor Terrae que usa para mejorar aliados.
+      e1ResPen:
+        text: E1 PEN RES
+        content: Cuando Dan Heng - Permansor Terrae lanza la habilidad definitiva, la PEN de la RES a todos los tipos del Camarada aumenta en un 18% durante 3 turnos.
+      e4DmgReduction:
+        text: E4 Reducción de daño
+        content: El daño que recibe el Camarada se reduce en un 20%.
       e6Buffs:
         text: E6 Mejoras
+        content: Cuando hay un Camarada en la batalla, el daño que reciben todos los enemigos aumenta en un 20%, y cuando el Camarada inflige daño, ignora un 12% de la DEF del enemigo.
   Phainon:
     Content:
       transformedState:
@@ -1817,7 +1875,7 @@ Characters:
         text: Mejora de VEL del Básico potenciado
         content: Tras utilizar el ATQ básico potenciado, la VEL de Qingque aumenta en un 10% durante 1 turno.
       skillDmgIncreaseStacks:
-        text: Acum. de aumento de daño por Habilidad
+        text: Acums. de aumento de daño por Habilidad
         content: Roba 2 fichas de jade e inflige un {{skillStackDmg}}% más de daño hasta que termine el turno. Este efecto se puede acumular hasta 4 veces.
   Rappa:
     Content:
@@ -1872,6 +1930,8 @@ Characters:
     TeammateContent:
       teammateATKValue:
         text: ATQ en combate de Robin
+        content: >-
+          Mientras está en el estado de Concierto, el ATQ de todos los aliados aumenta en una cantidad equivalente al {{ultAtkBuffScalingValue}}% + {{ultAtkBuffFlatValue}} del ATQ de Robin. ::BR:: Ingresa el ATQ propio de Robin que usa mejorar aliados.
       traceFuaCdBoost:
         text: Aumento DC ataque adicional
         content: Cuando está en el estado de Concierto, el Daño CRIT que infligen todos los aliados con sus ataques adicionales aumenta en un 25%.
@@ -2047,7 +2107,7 @@ Characters:
         content: >-
           Hace que un personaje aliado y su invocación actúen inmediatamente y aumenta en un {{DmgBoost}}% el daño que infligen. Si el objetivo tiene una invocación, el efecto de aumento de daño se incrementa en un {{SummonDmgBoost}}% adicional.
       talentCrBuffStacks:
-        text: Acum. de la mejora de PC
+        text: Acums. de la mejora de PC
         content: Al lanzar la habilidad básica, la Prob. CRIT del objetivo aumenta en un {{CritRateBoost}}%. Dura 3 turnos.
       techniqueDmgBuff:
         text: Mejora daño de Técnica
@@ -2082,10 +2142,10 @@ Characters:
         text: Golpes extra de Habilidad
         content: Aumenta el número de golpes extra de Postura espadachina de la Habilidad.
       skillTriggerStacks:
-        text: Acum. de activaciones de la Habilidad
+        text: Acums. de activaciones de la Habilidad
         content: El daño que inflige Postura espadachina aumenta en un 2.5% cada vez que se activa. Este efecto se puede acumular hasta 10 veces.
       talentSpdBuffStacks:
-        text: Acum. de mejora de VEL del Talento
+        text: Acums. de mejora de VEL del Talento
         content: >-
           Cuando se rompe la Debilidad de un enemigo en la batalla, la VEL de Sushang aumenta en un {{talentSpdBuffValue}}% durante 2 turnos.::BR::E6: El efecto de aumento de VEL del talento se puede acumular hasta 2 veces.
       e2DmgReductionBuff:

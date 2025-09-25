@@ -123,6 +123,10 @@ function getChangelogContent() {
       title: '',
       date: '2025-09-25',
       content: [
+        `Updated content to v3.7v1`,
+        `Added Cyrene showcase`,
+        `cyrene.webp`,
+        `Enabled i18n support for Russian`,
         `Fix: Disabled set weights temporarily`,
         `Fix: Sunday E1's secondary def pen now correctly applies to summons only`,
         `Fix: In the Name of the World's Skill ATK boost conditional is now active by default and correctly calculated`,

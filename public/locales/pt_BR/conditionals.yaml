@@ -1456,6 +1456,7 @@ Characters:
         content: Após usar o Ultimate, aumenta o DMG da próxima Habilidade Aprimorada em 80%.
       e6ResPen:
         text: E6 RES PEN
+        content: Enquanto Jingliu entra no estado de "Transmigração Espectral", sua PEN de RES a Gelo aumenta em 30%.
   JingYuan:
     Content:
       skillCritBuff:
@@ -1647,10 +1648,20 @@ Characters:
         text: Buffs E6
   Phainon:
     Content:
+      enhancedSkillType:
+        options:
+          Calamity:
+            display: 'Perícia: Calamidade.'
+            label: 'Perícia Aprimorada: Calamidade.'
+          Foundation:
+            display: 'Perícia: Fundação'
+            label: 'Perícia Aprimorada: Fundação'
       atkBuffStacks:
         text: Acúmulos de buff de ATK
+        content: Ao entrar em batalha ou quando a transformação acaba, aumenta o ATQ em 50%. Este efeito pode acumular até 2 vezes.
       cdBuff:
         text: Buff de CD
+        content: Quando Phainon é o alvo da habilidade de qualquer personagem, ele ganha 1 ponto de "Chama Primordial". Se o usuário da habilidade for um companheiro de equipe de Phainon, aumenta adicionalmente o Dano CRIT em {{TalentCdBuff}}% por 3 rodadas.
       spdBuff:
         text: Buff SPD de equipe
       e2ResPen:

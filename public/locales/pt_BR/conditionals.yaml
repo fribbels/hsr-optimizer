@@ -1021,11 +1021,23 @@ Characters:
     Content:
       spdBuff:
         text: Buff de SPD
+        content: Ao usar uma Perícia, aumenta a VEL desta unidade e do aliado com "Mérito Militar" em 20 durando por 3 rodada(s).
+      crBuff:
+        text: Bônus de Chance Crítica
+        content: Aumenta a Chance Crítica de Cerydra em 100%.
       e2DmgBoost:
         text: Boost de DMG E2
+        content: O personagem com “Mérito Militar” causa 40% a mais de Dano. Enquanto um companheiro de equipe em campo tiver “Mérito Militar”, o Dano causado por Cerydra aumenta em 160%.
+      e4UltDmg:
+        content: Aumenta o multiplicador de Dano da Ultimate em 240%.
       e6Buffs:
         text: Buffs E6
+        content: O personagem com “Mérito Militar” aumenta sua RES PEN de todos os tipos em 20%, e o multiplicador para o DMG adicional acionado por meio do “Mérito Militar” aumenta em 300%. Enquanto um companheiro de equipe em campo tiver “Mérito Militar”, a RES PEN de todos os tipos de Cerydra aumenta em 20%.
     TeammateContent:
+      militaryMerit:
+        text: Mérito militar
+      teammateATKValue:
+        text: ATQ de Cerydra em Combate
       e1DefPen:
         text: PEN de DEF E1
   Cipher:

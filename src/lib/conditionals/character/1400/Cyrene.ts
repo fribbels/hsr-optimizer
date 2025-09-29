@@ -57,7 +57,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
 
   // TODO: Confirm memo scaling
-  const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.NO_MEMO_ULT_BASIC_3_SKILL_TALENT_5
+  const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.ULT_TALENT_MEMO_SKILL_3_SKILL_BASIC_MEMO_TALENT_5
   const {
     SOURCE_BASIC,
     SOURCE_SKILL,
@@ -298,7 +298,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.RES_PEN.buffTeam((e >= 6 && m.e6ResPen) ? 0.12 : 0, SOURCE_E6)
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.ELEMENTAL_DMG.buff((t.cyreneSpdDmg) ? 0.20 : 0, SOURCE_TRACE)
@@ -325,7 +325,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         } else if (context.characterId == TRIBBIE) {
           x.DEF_PEN.buff(memoSkillTribbieDefPen, SOURCE_MEMO)
 
-          // TODO: When Tribbie launches Follow-up ATK and triggers the Additional DMG from Tribbie's Zone, it further deals 1 instance(s) of Additional DMG.
           // ----------------------------------------------------------------------------------------------
         } else if (context.characterId == MYDEI) {
           // TODO: One-time effect. When used on Mydei while Mydei is in the "Vendetta" state, he automatically uses "Godslayer Be God." In this attack, increases Mydei's CRIT DMG by 60%, and this usage does not consume Charge. If he is not in the "Vendetta" state, advances Mydei's action by 100%.

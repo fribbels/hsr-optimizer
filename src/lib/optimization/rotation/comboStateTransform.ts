@@ -102,6 +102,7 @@ function transformAction(actionIndex: number, comboState: ComboState, turnAbilit
     teammateDynamicConditionals: [] as DynamicConditional[],
   } as OptimizerAction
   action.actorId = context.characterId
+  action.actorEidolon = context.characterEidolon
   action.actionIndex = actionIndex
   action.actionType = getAbilityKind(turnAbilityNames[actionIndex])
 
@@ -117,18 +118,21 @@ function transformAction(actionIndex: number, comboState: ComboState, turnAbilit
 
   if (comboState.comboTeammate0) {
     action.teammate0.actorId = comboState.comboTeammate0.metadata.characterId
+    action.teammate0.actorEidolon = comboState.comboTeammate0.metadata.characterEidolon
     action.teammate0.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate0.characterConditionals)
     action.teammate0.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate0.lightConeConditionals)
   }
 
   if (comboState.comboTeammate1) {
     action.teammate1.actorId = comboState.comboTeammate1.metadata.characterId
+    action.teammate1.actorEidolon = comboState.comboTeammate1.metadata.characterEidolon
     action.teammate1.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate1.characterConditionals)
     action.teammate1.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate1.lightConeConditionals)
   }
 
   if (comboState.comboTeammate2) {
     action.teammate2.actorId = comboState.comboTeammate2.metadata.characterId
+    action.teammate2.actorEidolon = comboState.comboTeammate2.metadata.characterEidolon
     action.teammate2.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate2.characterConditionals)
     action.teammate2.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate2.lightConeConditionals)
   }
@@ -165,6 +169,7 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
 
     const teammateAction = {
       actorId: teammate.metadata.characterId,
+      actorEidolon: teammate.metadata.characterEidolon,
       characterConditionals: transformConditionals(action.actionIndex, teammate.characterConditionals),
       lightConeConditionals: transformConditionals(action.actionIndex, teammate.lightConeConditionals),
     } as OptimizerAction
@@ -203,6 +208,7 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
 
     const teammateAction = {
       actorId: teammate.metadata.characterId,
+      actorEidolon: teammate.metadata.characterEidolon,
       characterConditionals: transformConditionals(action.actionIndex, teammate.characterConditionals),
       lightConeConditionals: transformConditionals(action.actionIndex, teammate.lightConeConditionals),
     } as OptimizerAction
@@ -211,7 +217,7 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
     const teammateLightConeConditionals = LightConeConditionalsResolver.get(teammate.metadata)
 
     if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateAction, context)
-    if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(x, teammateAction, context)
+    if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(x, teammateAction, context, action)
 
     if (teammateLightConeConditionals.precomputeMutualEffects) teammateLightConeConditionals.precomputeMutualEffects(x, teammateAction, context)
     if (teammateLightConeConditionals.precomputeTeammateEffects) teammateLightConeConditionals.precomputeTeammateEffects(x, teammateAction, context)

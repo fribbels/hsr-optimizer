@@ -16,6 +16,11 @@ RelicFilterBar:
   CustomCharsHeader: Potencial dos personagens selecionados
 RecentlyUpdatedRelics:
   Header: Relíquias aprimoradas recentemente
+  Potential: POTENCIAL
+  Avg: MEDIANA
+  Max: MÁXIMA
+  BestFor: MELHOR PARA
+  Tooltip: Pontuação de potencial mediana e máxima para esse personagem
 Messages:
   AddRelicSuccess: Relíquia adicionada com sucesso
   NoRelicSelected: Não há relíquia selecionada

@@ -18,6 +18,7 @@ import {
 } from 'lib/optimization/computedStatsArray'
 import { calculateActions } from 'lib/optimization/context/calculateActions'
 import { ComputedStatsContainer } from 'lib/optimization/engine/computedStatsContainer'
+import { newTransformStateActions } from 'lib/optimization/rotation/actionTransform'
 import {
   AbilityKind,
   DEFAULT_BASIC,
@@ -43,6 +44,7 @@ import {
   Form,
   OptimizerForm,
 } from 'types/form'
+import { HitAction } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -60,10 +62,10 @@ export function transformComboState(request: Form, context: OptimizerContext) {
 
   if (request.comboType == ComboType.ADVANCED) {
     const comboState = initializeComboState(request, true)
-    transformStateActions(comboState, request, context)
+    newTransformStateActions(comboState, request, context)
   } else {
     const comboState = initializeComboState(request, false)
-    transformStateActions(comboState, request, context)
+    newTransformStateActions(comboState, request, context)
   }
 }
 
@@ -74,7 +76,7 @@ function transformStateActions(comboState: ComboState, request: Form, context: O
 
   const actions: OptimizerAction[] = []
   for (let i = 0; i < comboTurnAbilities.length; i++) {
-    actions.push(defineAction(i, comboState, comboTurnAbilities, request, context))
+    actions.push(defineAction(i, comboState, comboTurnAbilities[i], request, context))
   }
 
   context.actions = actions
@@ -121,7 +123,7 @@ function transformStateActions(comboState: ComboState, request: Form, context: O
 export function defineAction(
   actionIndex: number,
   comboState: ComboState,
-  turnAbilityNames: TurnAbilityName[],
+  abilityName: TurnAbilityName,
   request: OptimizerForm,
   context: OptimizerContext,
 ) {
@@ -145,7 +147,7 @@ export function defineAction(
   } as OptimizerAction
   action.actorId = context.characterId
   action.actionIndex = actionIndex
-  action.actionType = getAbilityKind(turnAbilityNames[actionIndex])
+  action.actionType = getAbilityKind(abilityName)
 
   action.characterConditionals = transformConditionals(actionIndex, comboState.comboCharacter.characterConditionals)
   action.lightConeConditionals = transformConditionals(actionIndex, comboState.comboCharacter.lightConeConditionals)
@@ -157,10 +159,23 @@ export function defineAction(
   action.precomputedM = action.precomputedX.m
   action.precomputedM.setPrecompute(baseComputedStatsArray())
 
+  const actionKind = actionIndex == 0 ? abilityName : action.actionType
+
+  const provider = context.actionMapping[actionKind]!
+  const hitAction = provider(action, context).find((x) => actionKind)!
+  action.hits = hitAction.hits
+
+  for (const modifier of context.actionModifiers) {
+    modifier.modify(action, context)
+  }
+
   return action
 }
 
-function precomputeConditionals(action: OptimizerAction, comboState: ComboState, context: OptimizerContext) {
+function calculateActionHits() {
+}
+
+export function precomputeConditionals(action: OptimizerAction, comboState: ComboState, context: OptimizerContext) {
   const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(comboState.comboCharacter.metadata)
   const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(comboState.comboCharacter.metadata)
 
@@ -296,7 +311,7 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
   }
 }
 
-function transformConditionals(actionIndex: number, conditionals: ComboConditionals) {
+export function transformConditionals(actionIndex: number, conditionals: ComboConditionals) {
   const result: Record<string, number | boolean> = {}
   for (const [key, category] of Object.entries(conditionals)) {
     result[key] = transformConditional(category, actionIndex)

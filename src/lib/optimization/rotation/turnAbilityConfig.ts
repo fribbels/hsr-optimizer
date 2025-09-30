@@ -173,7 +173,7 @@ export function isNullAbility(ability: TurnAbility): boolean {
 
 export function getAbilityKind(turnAbilityName: TurnAbilityName): AbilityKind {
   if (!turnAbilityName || turnAbilityName == NULL_TURN_ABILITY_NAME) return AbilityKind.NULL
-  return abilities[turnAbilityName].kind
+  return abilities[turnAbilityName]?.kind ?? AbilityKind.NULL
 }
 
 export function getAbilityName(ability: TurnAbility): TurnAbilityName {

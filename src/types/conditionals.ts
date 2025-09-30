@@ -30,7 +30,7 @@ export interface ConditionalsController {
   entityDeclaration: () => OptimizerEntity[]
   actionDeclaration: () => string[]
   actionModifiers: () => ActionModifier[]
-  actionDefinition?: (action: OptimizerAction, context: OptimizerContext) => HitAction[]
+  actionDefinition: (action: OptimizerAction, context: OptimizerContext) => HitAction[]
 
   // Configuration changes to the character & combat environment executed before the precompute steps
   // This can include things like ability damage type switches, weakness break overrides, etc

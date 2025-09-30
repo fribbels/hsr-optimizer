@@ -40,7 +40,9 @@ import {
   SimulationRelic,
   SimulationRelicByPart,
 } from 'lib/simulations/statSimulationTypes'
+import { HitAction } from 'types/hitConditionalTypes'
 import { OptimizerContext } from 'types/optimizer'
+import { a } from 'vitest/dist/chunks/suite.d.FvehnV49'
 
 // To use after combo state and context has been initialized
 export function simulateBuild(
@@ -92,8 +94,18 @@ export function simulateBuild(
   let dmgTracker = 0
 
   let combo = 0
-  for (let i = context.actions.length - 1; i >= 0; i--) {
-    const action = context.actions[i]
+  const hitActions = context.hitActions!
+  const defaultActions = context.defaultActions
+
+  // for (let i = 0; i < hitActions.length; i++) {
+  //   calculateAction(hitActions[i])
+  // }
+  // for (let i = 0; i < defaultActions.length; i++) {
+  //   calculateAction(defaultActions[i])
+  // }
+
+  for (let i = 0; i < context.rotationActions.length; i++) {
+    const action = context.rotationActions[i]
     action.conditionalState = {}
 
     x.setPrecompute(action.precomputedStats.a)
@@ -110,49 +122,25 @@ export function simulateBuild(
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
 
-    if (i > 0) {
-      for (let j = 0; j < action.hits!.length; j++) {
-        const hit = action.hits![j]
+    for (let j = 0; j < action.hits!.length; j++) {
+      const hit = action.hits![j]
 
-        const dmg = hit.damageFunction.apply(x, action, context)
-        dmgTracker += dmg
-      }
-    }
-
-    if (i == 0) {
-      context.characterConditionalController.actionDefinition()
-      context.actions
+      const dmg = hit.damageFunction.apply(x, action, context)
+      dmgTracker += dmg
     }
 
     // calculateDamage(x, action, context)
 
     const a = x.a
-    if (action.actionType === AbilityKind.BASIC) {
-      combo += a[Key.BASIC_DMG]
-    } else if (action.actionType === AbilityKind.SKILL) {
-      combo += a[Key.SKILL_DMG]
-    } else if (action.actionType === AbilityKind.ULT) {
-      combo += a[Key.ULT_DMG]
-    } else if (action.actionType === AbilityKind.FUA) {
-      combo += a[Key.FUA_DMG]
-    } else if (action.actionType === AbilityKind.DOT) {
-      combo += a[Key.DOT_DMG] * context.comboDot / Math.max(1, context.dotAbilities)
-    } else if (action.actionType === AbilityKind.BREAK) {
-      combo += a[Key.BREAK_DMG]
-    } else if (action.actionType === AbilityKind.MEMO_SKILL) {
-      combo += a[Key.MEMO_SKILL_DMG]
-    } else if (action.actionType === AbilityKind.MEMO_TALENT) {
-      combo += a[Key.MEMO_TALENT_DMG]
-    }
-
-    if (i === 0) {
-      combo += a[Key.DOT_DMG] * (context.dotAbilities == 0 ? context.comboDot / Math.max(1, context.dotAbilities) : 0)
-      x.set(ActionKey.COMBO_DMG, combo, Source.NONE)
-      x.set(ActionKey.COMBO_DMG, dmgTracker, Source.NONE)
-    }
   }
 
+  x.set(ActionKey.COMBO_DMG, dmgTracker, Source.NONE)
+
   return x
+}
+
+function calculateAction(hitAction: HitAction) {
+  hitAction.hits
 }
 
 function generateUnusedSets(relics: SimulationRelicByPart) {

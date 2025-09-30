@@ -240,9 +240,8 @@ export class ComputedStatsContainer {
     const hitActions = context.hitActions ?? []
     const activeDamageTypes = new Set<number>()
 
-    for (let i = 1; i < hitActions.length; i++) {
-      const hitAction = hitActions[i]
-      for (const hit of hitAction.hits) {
+    for (const action of [...context.defaultActions, ...context.rotationActions]) {
+      for (const hit of action.hits!) {
         activeDamageTypes.add(hit.damageType)
       }
     }

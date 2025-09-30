@@ -6,6 +6,7 @@ import {
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ActionModifier } from 'lib/optimization/context/calculateActions'
 import {
   ComputedStatsContainer,
   OptimizerEntity,
@@ -124,6 +125,11 @@ export type CharacterMetadata = {
 export type OptimizerContext = CharacterMetadata & {
   // NEW
   actionDeclarations: string[],
+  actionModifiers: ActionModifier[],
+  actionMapping: Record<string, ((action: OptimizerAction, context: OptimizerContext) => HitAction[])>,
+
+  rotationActions: OptimizerAction[],
+  defaultActions: OptimizerAction[],
 
   teammate0Metadata: CharacterMetadata,
   teammate1Metadata: CharacterMetadata,

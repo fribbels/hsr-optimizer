@@ -102,16 +102,11 @@ export function calculateActions(request: OptimizerForm, context: OptimizerConte
     }
   }
 
-  // All
+  // // All
+  //
+  // context.defaultActions = actionDefinitionProvider!(actions[0], context)
 
-  context.allActions = []
-  for (const provider of Object.values(actionMapping)) {
-    if (!provider) continue
-
-    provider(actions[0], context)
-  }
-
-  console.log('!')
+  console.log('!', context.defaultActions)
 }
 
 export function getTeammateMetadata(context: OptimizerContext) {

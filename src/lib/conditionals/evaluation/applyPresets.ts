@@ -129,7 +129,7 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
           form.teammate2?.characterId,
         ]
     ),
-  ]
+  ].filter((x) => !!x)
 
   const allyPaths = allyIds.map((id) => id ? metadataCharacters[id].path : null)
   const memosprites = allyPaths.filter((path) => path == PathNames.Remembrance).length

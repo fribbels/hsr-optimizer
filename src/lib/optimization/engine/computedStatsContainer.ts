@@ -24,6 +24,7 @@ import {
   ComputedStatsObject,
 } from 'lib/optimization/config/computedStatsConfig'
 import { getTeammateMetadata } from 'lib/optimization/context/calculateActions'
+import { Hit } from 'types/hitConditionalTypes'
 import { OptimizerContext } from 'types/optimizer'
 import Resources from 'types/resources'
 
@@ -234,6 +235,8 @@ export class ComputedStatsContainer {
   public statsLength: number
   public arrayLength: number
 
+  public damageTypeIndexLookup: Record<number, number> = {}
+
   constructor(context: OptimizerContext) {
     // ===== Hits =====
 
@@ -247,6 +250,9 @@ export class ComputedStatsContainer {
     }
 
     this.damageTypes = [...activeDamageTypes]
+    for (let i = 0; i < this.damageTypes.length; i++) {
+      this.damageTypeIndexLookup[this.damageTypes[i]] = i
+    }
 
     // ===== Entities =====
 
@@ -267,6 +273,13 @@ export class ComputedStatsContainer {
     if (destination == EntityType.SELF) {
       this.a[key] += value
     }
+  }
+
+  public getHit(key: HitKeyValue, hit: Hit) {
+    const damageTypeIndex = this.damageTypeIndexLookup[hit.damageType]
+    const index = this.getIndex(0, damageTypeIndex, key)
+
+    return this.a[index]
   }
 
   public buffHit(key: HitKeyValue, damageType: number, value: number, source: BuffSource, origin?: string, destination?: string) {

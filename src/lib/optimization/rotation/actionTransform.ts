@@ -117,7 +117,7 @@ export function calculateActionDeclarations(request: OptimizerForm, context: Opt
     context.teammate0Metadata,
     context.teammate1Metadata,
     context.teammate2Metadata,
-  ].filter((x) => !!x.characterId)
+  ].filter((x) => !!x?.characterId)
   for (let i = 0; i < teammates.length; i++) {
     const teammate = teammates[i]!
 

@@ -75,14 +75,14 @@ function generateOptions(t: TFunction<'optimizerTab', 'ComboFilter'>, characterI
       characterId: characterId,
       characterEidolon: characterEidolon,
     })
-    const actions = characterConditionals.actionDefinition ? characterConditionals.actionDefinition() : []
+    const actions = characterConditionals.actionDeclaration ? characterConditionals.actionDeclaration() : []
 
     return actions.map((x) => ({
-      label: x.name,
-      value: x.name,
+      label: x,
+      value: x,
       children: Object.values(TurnMarker)
         .map((marker) => {
-          const turnAbility = createAbility(x.name, marker)
+          const turnAbility = createAbility(x, marker)
           return {
             value: turnAbility.name,
             label: toI18NVisual(turnAbility, t),

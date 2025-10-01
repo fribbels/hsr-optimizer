@@ -125,7 +125,7 @@ export function simulateBuild(
     for (let j = 0; j < action.hits!.length; j++) {
       const hit = action.hits![j]
 
-      const dmg = hit.damageFunction.apply(x, action, hit, context)
+      const dmg = hit.damageFunction.apply(x, hit, action, context)
       dmgTracker += dmg
     }
 

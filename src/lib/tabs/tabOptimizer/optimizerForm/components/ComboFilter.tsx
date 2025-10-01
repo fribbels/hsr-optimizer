@@ -67,11 +67,11 @@ export const ComboFilters = () => {
       characterEidolon,
     })
 
-    const actions = characterConditionals.actionDefinition ? characterConditionals.actionDefinition() : []
+    const actions = characterConditionals.actionDeclaration ? characterConditionals.actionDeclaration() : []
 
     return actions.map((x) => ({
-      label: x.name,
-      value: x.name,
+      label: x,
+      value: x,
     }))
   }, [t, characterId, characterEidolon])
 

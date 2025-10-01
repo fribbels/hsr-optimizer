@@ -1,5 +1,6 @@
 import {
   ElementName,
+  ElementNames,
   ElementToResPenType,
 } from 'lib/constants/constants'
 import {
@@ -10,6 +11,7 @@ import {
 import { StatsConfigByIndex } from 'lib/optimization/config/computedStatsConfig'
 import {
   ActionKey,
+  ActionKeyValue,
   ComputedStatsContainer,
   HitKey,
 } from 'lib/optimization/engine/computedStatsContainer'
@@ -43,40 +45,57 @@ export interface Hit {
 }
 
 export interface DamageFunction {
-  apply: (x: ComputedStatsContainer, hit: HitAction, action: OptimizerAction, context: OptimizerContext) => number
+  apply: (x: ComputedStatsContainer, hit: Hit, action: OptimizerAction, context: OptimizerContext) => number
 }
 
 export const DefaultDamageFunction: DamageFunction = {
-  apply: (x: ComputedStatsContainer, hit: HitAction, action: OptimizerAction, context: OptimizerContext) => 1,
+  apply: (x: ComputedStatsContainer, hit: Hit, action: OptimizerAction, context: OptimizerContext) => 1,
+}
+
+const actionElementDamageKeyByElement: Record<ElementName, ActionKeyValue> = {
+  [ElementNames.Physical]: ActionKey.PHYSICAL_DMG_BOOST,
+  [ElementNames.Quantum]: ActionKey.QUANTUM_DMG_BOOST,
+  [ElementNames.Imaginary]: ActionKey.IMAGINARY_DMG_BOOST,
+  [ElementNames.Ice]: ActionKey.ICE_DMG_BOOST,
+  [ElementNames.Wind]: ActionKey.WIND_DMG_BOOST,
+  [ElementNames.Fire]: ActionKey.FIRE_DMG_BOOST,
+  [ElementNames.Lightning]: ActionKey.LIGHTNING_DMG_BOOST,
+} as const
+
+function getElementSpecificDamageBoost(x: ComputedStatsContainer, hit: Hit) {
+  const actionKey = actionElementDamageKeyByElement[hit.damageElement]
+  const value = actionKey ? x.a[actionKey] : 0
+
+  return value
 }
 
 export const DotDamageFunction: DamageFunction = {
-  apply: (x: ComputedStatsContainer, hit: HitAction, action: OptimizerAction, context: OptimizerContext) => {
+  apply: (x: ComputedStatsContainer, hit: Hit, action: OptimizerAction, context: OptimizerContext) => {
     const eLevel = context.enemyLevel
     const a = x.a
 
     const baseDmgBoost = 1 + a[ActionKey.ELEMENTAL_DMG]
-    const baseDefPen = a[HitKey.DEF_PEN] + context.combatBuffs.DEF_PEN
+    const baseDefPen = x.getHit(HitKey.DEF_PEN, hit) + context.combatBuffs.DEF_PEN
     const baseUniversalMulti = a[ActionKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
-    const baseResistance = context.enemyDamageResistance - a[HitKey.RES_PEN] - context.combatBuffs.RES_PEN - getResPenType(x, context.elementalResPenType)
-    const baseBreakEfficiencyBoost = 1 + a[HitKey.BREAK_EFFICIENCY_BOOST]
+    const baseResistance = context.enemyDamageResistance - x.getHit(HitKey.RES_PEN, hit) - context.combatBuffs.RES_PEN
+      - getResPenType(x, context.elementalResPenType)
+    const baseBreakEfficiencyBoost = 1 + x.getHit(HitKey.BREAK_EFFICIENCY_BOOST, hit)
 
-    const dotDmgBoostMulti = baseDmgBoost + a[HitKey.DMG_BOOST]
-    const dotDefMulti = calculateDefMulti(eLevel, baseDefPen + a[HitKey.DEF_PEN])
-    const dotVulnerabilityMulti = 1 + a[HitKey.VULNERABILITY] + a[HitKey.VULNERABILITY]
-    const dotResMulti = 1 - (baseResistance - a[HitKey.RES_PEN])
+    const dotDmgBoostMulti = baseDmgBoost + x.getHit(HitKey.DMG_BOOST, hit) + getElementSpecificDamageBoost(x, hit)
+    const dotDefMulti = calculateDefMulti(eLevel, baseDefPen + x.getHit(HitKey.DEF_PEN, hit))
+    const dotVulnerabilityMulti = 1 + x.getHit(HitKey.VULNERABILITY, hit) + x.getHit(HitKey.VULNERABILITY, hit)
+    const dotResMulti = 1 - (baseResistance - x.getHit(HitKey.RES_PEN, hit))
     const dotEhrMulti = calculateEhrMulti(x, context)
-    // const dotTrueDmgMulti = a[HitKey.TRUE_DMG_MODIFIER] + a[ActionKey.DOT_TRUE_DMG_MODIFIER] // (1 +) dropped intentionally for dmg tracing
-    const dotFinalDmgMulti = 1 + a[HitKey.FINAL_DMG_BOOST] //  + a[HitKey.DOT_FINAL_DMG_BOOST]
+    const dotFinalDmgMulti = 1 + x.getHit(HitKey.FINAL_DMG_BOOST, hit)
 
     const initialDmg = calculateInitial(
       a,
       context,
-      a[HitKey.DMG],
-      a[HitKey.HP_SCALING],
-      a[HitKey.DEF_SCALING],
-      a[HitKey.ATK_SCALING],
-      a[HitKey.ATK_P_BOOST],
+      x.getHit(HitKey.DMG, hit),
+      hit.hpScaling,
+      hit.defScaling,
+      hit.atkScaling,
+      x.getHit(HitKey.ATK_P_BOOST, hit),
     )
     const instanceDmg = calculateDotDmg(
       x,
@@ -94,7 +113,10 @@ export const DotDamageFunction: DamageFunction = {
     )
     // a[ActionKey.DOT_DMG] = instanceDmg
 
-    return instanceDmg
+    // TODO
+    const comboDotMulti = context.comboDot / Math.max(1, context.dotAbilities)
+
+    return instanceDmg * comboDotMulti
   },
 }
 

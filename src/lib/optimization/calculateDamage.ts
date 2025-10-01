@@ -27,7 +27,7 @@ export function calculateBaseMultis(x: ComputedStatsContainer, action: Optimizer
 
   // TODO
   // if (lightConeConditionalController.finalizeCalculations) lightConeConditionalController.finalizeCalculations(x, action, context)
-  // if (characterConditionalController.finalizeCalculations) characterConditionalController.finalizeCalculations(x, action, context)
+  if (characterConditionalController.finalizeCalculations) characterConditionalController.finalizeCalculations(x, action, context)
 }
 
 export function calculateDamage(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {

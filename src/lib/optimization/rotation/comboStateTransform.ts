@@ -162,7 +162,7 @@ export function defineAction(
   const actionKind = actionIndex == 0 ? abilityName : action.actionType
 
   const provider = context.actionMapping[actionKind]!
-  const hitAction = provider(action, context).find((x) => actionKind)!
+  const hitAction = provider(action, context).find((x) => x.name == actionKind)!
   action.hits = hitAction.hits
 
   for (const modifier of context.actionModifiers) {

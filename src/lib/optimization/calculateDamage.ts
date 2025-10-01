@@ -251,7 +251,7 @@ export function calculateDamage(x: ComputedStatsContainer, action: OptimizerActi
     const dotDmgBoostMulti = baseDmgBoost + a[Key.DOT_DMG_BOOST]
     const dotDefMulti = calculateDefMulti(eLevel, baseDefPen + a[Key.DOT_DEF_PEN])
     const dotVulnerabilityMulti = 1 + a[Key.VULNERABILITY] + a[Key.DOT_VULNERABILITY]
-    const dotResMulti = 1 - (baseResistance - a[Key.DOT_RES_PEN])
+    const dotResMulti = 1 - (baseRcalculateEhrMultiesistance - a[Key.DOT_RES_PEN])
     const dotEhrMulti = calculateEhrMulti(x, context)
     const dotTrueDmgMulti = a[Key.TRUE_DMG_MODIFIER] + a[Key.DOT_TRUE_DMG_MODIFIER] // (1 +) dropped intentionally for dmg tracing
     const dotFinalDmgMulti = 1 + a[Key.FINAL_DMG_BOOST] + a[Key.DOT_FINAL_DMG_BOOST]

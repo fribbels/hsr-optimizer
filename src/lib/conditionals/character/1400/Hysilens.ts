@@ -33,6 +33,7 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   DefaultDamageFunction,
+  DotDamageFunction,
   Hit,
 } from 'types/hitConditionalTypes'
 import {
@@ -228,28 +229,28 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           name: 'DOT',
           hits: [
             {
-              damageFunction: DefaultDamageFunction,
+              damageFunction: DotDamageFunction,
               damageType: DamageType.DOT,
               damageElement: ElementNames.Fire,
               atkScaling: talentDotScaling,
               activeHit: false,
             },
             {
-              damageFunction: DefaultDamageFunction,
+              damageFunction: DotDamageFunction,
               damageType: DamageType.DOT,
               damageElement: ElementNames.Wind,
               atkScaling: talentDotScaling,
               activeHit: false,
             },
             {
-              damageFunction: DefaultDamageFunction,
+              damageFunction: DotDamageFunction,
               damageType: DamageType.DOT,
               damageElement: ElementNames.Lightning,
               atkScaling: talentDotScaling,
               activeHit: false,
             },
             {
-              damageFunction: DefaultDamageFunction,
+              damageFunction: DotDamageFunction,
               damageType: DamageType.DOT,
               damageElement: ElementNames.Physical,
               atkScaling: talentDotScaling,
@@ -302,8 +303,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.buff(ActionKey.ATK_P, 0.50, Source.NONE, EntityType.SELF, EntityType.SELF)
       x.buffHit(HitKey.ADDITIONAL_DMG, NONE_DMG_TYPE, 0.50, Source.NONE, EntityType.SELF, EntityType.SELF)
+
+      x.buff(ActionKey.DOT_CHANCE, 1.00, Source.NONE, EntityType.SELF, EntityType.SELF)
     },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffects: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)

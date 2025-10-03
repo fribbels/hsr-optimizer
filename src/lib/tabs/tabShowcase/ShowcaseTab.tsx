@@ -7,11 +7,27 @@ import {
   ImportOutlined,
   SettingOutlined,
 } from '@ant-design/icons'
-import { Button, Collapse, ConfigProvider, Dropdown, Flex, Form, Input, Segmented, Typography, } from 'antd'
+import {
+  Button,
+  Collapse,
+  ConfigProvider,
+  Dropdown,
+  Flex,
+  Form,
+  Input,
+  Segmented,
+  Typography,
+} from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { CURRENT_DATA_VERSION, officialOnly, } from 'lib/constants/constants'
-import { OpenCloseIDs, setOpen, } from 'lib/hooks/useOpenClose'
+import {
+  CURRENT_DATA_VERSION,
+  officialOnly,
+} from 'lib/constants/constants'
+import {
+  OpenCloseIDs,
+  setOpen,
+} from 'lib/hooks/useOpenClose'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/state/db'
@@ -28,10 +44,19 @@ import {
 } from 'lib/tabs/tabShowcase/showcaseTabController'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { Utils } from 'lib/utils/utils'
-import { Dispatch, SetStateAction, useEffect, useMemo, useState, } from 'react'
-import { Trans, useTranslation, } from 'react-i18next'
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
+import {
+  Trans,
+  useTranslation,
+} from 'react-i18next'
 import { Character } from 'types/character'
-import { SettingOptions } from "../../overlays/drawers/SettingsDrawer";
+import { SettingOptions } from '../../overlays/drawers/SettingsDrawer'
 
 const RERUN_PRESET_SIZE = 45
 const PRESET_SIZE = 95
@@ -83,7 +108,7 @@ export default function ShowcaseTab() {
         >
           <Flex style={{ margin: 10, width: 1100 }} justify='center' align='center' gap={10}>
             <Form.Item name='scorerId'>
-              <Input style={{ width: 150 }} placeholder={t('SubmissionBar.Placeholder') /* Account UID */}/>
+              <Input style={{ width: 150 }} placeholder={t('SubmissionBar.Placeholder') /* Account UID */} />
             </Form.Item>
             <Button
               type='primary'
@@ -96,13 +121,13 @@ export default function ShowcaseTab() {
             <Button
               style={{ width: 'fit-content', minWidth: 175 }}
               onClick={() => setOpen(OpenCloseIDs.SCORING_MODAL)}
-              icon={<SettingOutlined/>}
+              icon={<SettingOutlined />}
             >
               {t('SubmissionBar.AlgorithmButton') /* Scoring algorithm */}
             </Button>
           </Flex>
         </Form>
-        <CharacterPreviewSelection/>
+        <CharacterPreviewSelection />
       </Flex>
     </div>
   )
@@ -170,7 +195,7 @@ function CharacterPreviewSelection() {
     {
       label: (
         <Flex gap={10}>
-          <ImportOutlined/>
+          <ImportOutlined />
           {t('ImportLabels.AllCharacters') /* Import all characters & all relics into optimizer */}
         </Flex>
       ),
@@ -179,7 +204,7 @@ function CharacterPreviewSelection() {
     {
       label: (
         <Flex gap={10}>
-          <ImportOutlined/>
+          <ImportOutlined />
           {t('ImportLabels.SingleCharacter') /* Import selected character & all relics into optimizer */}
         </Flex>
       ),
@@ -222,17 +247,19 @@ function CharacterPreviewSelection() {
 
   return (
     <Flex style={{ width: 1375 }} justify='space-around'>
-      <Flex vertical align='center' gap={5} style={{ marginBottom: 100, width: 1068 }}>
-        <Flex vertical style={{
-          display: (availableCharacters?.length && availableCharacters.length > 0) ? 'flex' : 'none',
-          width: '100%'
-        }}>
-          <Sidebar presetClicked={presetClicked}/>
+      <Flex vertical align='center' gap={8} style={{ marginBottom: 100, width: 1068 }}>
+        <Flex
+          vertical
+          style={{
+            display: (availableCharacters?.length && availableCharacters.length > 0) ? 'flex' : 'none',
+            width: '100%',
+          }}
+        >
+          <Sidebar presetClicked={presetClicked} />
 
           <Flex
             style={{
               display: (availableCharacters?.length && availableCharacters.length > 0) ? 'flex' : 'none',
-              marginBottom: 5
             }}
             justify='space-between'
             gap={10}
@@ -240,7 +267,7 @@ function CharacterPreviewSelection() {
             <Button
               style={{ flex: 1 }}
               onClick={clipboardClicked}
-              icon={<CameraOutlined/>}
+              icon={<CameraOutlined />}
               loading={screenshotLoading}
               type='primary'
             >
@@ -248,7 +275,7 @@ function CharacterPreviewSelection() {
             </Button>
             <Button
               style={{ width: 50 }}
-              icon={<DownloadOutlined/>}
+              icon={<DownloadOutlined />}
               onClick={downloadClicked}
               loading={downloadLoading}
             />
@@ -258,12 +285,12 @@ function CharacterPreviewSelection() {
               onClick={() => importClicked('singleCharacter')}
               menu={menuProps}
             >
-              <ImportOutlined/>
+              <ImportOutlined />
               {t('ImportLabels.Relics') /* Import relics into optimizer */}
             </Dropdown.Button>
             <Button
               style={{ flex: 1 }}
-              icon={<ExperimentOutlined/>}
+              icon={<ExperimentOutlined />}
               onClick={simulateClicked}
             >
               {t('SimulateRelics') /* Simulate relics on another character */}
@@ -271,8 +298,8 @@ function CharacterPreviewSelection() {
           </Flex>
         </Flex>
 
-        {(availableCharacters?.length != undefined && availableCharacters.length > 0) &&
-            <DPSScoreDisclaimer style={{ marginBottom: 5, width: '100%' }}/>}
+        {(availableCharacters?.length != undefined && availableCharacters.length > 0)
+          && <DPSScoreDisclaimer />}
 
         <Segmented
           style={{ width: '100%', overflow: 'hidden' }}
@@ -282,7 +309,7 @@ function CharacterPreviewSelection() {
           value={selectedCharacter?.id}
         />
 
-        <div id='previewWrapper' style={{ padding: '5px' }}>
+        <div id='previewWrapper' style={{ padding: '0 5 5 5' }}>
           <CharacterPreview
             character={selectedCharacter as Character | null}
             source={ShowcaseSource.SHOWCASE_TAB}
@@ -327,7 +354,7 @@ function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
         }}
       >
         {presetCharacters().map((preset) => {
-          const icon = preset.custom ? <EditOutlined style={{ fontSize: 85 }}/> : <PresetButton preset={preset}/>
+          const icon = preset.custom ? <EditOutlined style={{ fontSize: 85 }} /> : <PresetButton preset={preset} />
           return (
             <Button
               key={key++}
@@ -375,7 +402,7 @@ function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
             shape='round'
             style={{ height: PRESET_SIZE, width: PRESET_SIZE, borderRadius: PRESET_SIZE, marginBottom: 2 }}
           >
-            <ExperimentOutlined style={{ fontSize: 55 }}/>
+            <ExperimentOutlined style={{ fontSize: 55 }} />
           </Button>
         </a>
       </Dropdown>
@@ -418,8 +445,9 @@ export function DPSScoreDisclaimer() {
   const showComboDmgWarning = window.store((s) => s.settings.ShowComboDmgWarning)
 
   const { t } = useTranslation('relicScorerTab')
+  const { t: tSettings } = useTranslation('settings')
 
-  if (!showComboDmgWarning) return null
+  if (showComboDmgWarning != SettingOptions.ShowComboDmgWarning.Show) return null
 
   return (
     <ConfigProvider
@@ -438,49 +466,40 @@ export function DPSScoreDisclaimer() {
             key: '1',
             label: (
               <Trans t={t} i18nKey='Disclaimer'>
-                Note: Combo DMG is meant to compare different relics relative to the selected team, and
-                should <u>NOT</u>{' '}
+                Note: Combo DMG is meant to compare different relics relative to the selected team, and should <u>NOT</u>{' '}
                 be used to compare different teams / LCs / eidolons!
               </Trans>
             ),
             children: (
-              <Flex vertical style={{ padding: 10 }} gap={10}>
+              <Flex vertical style={{ padding: 12 }} gap={10}>
                 <Trans t={t} i18nKey='DisclaimerDescription'>
-                  Combo DMG is a tool to measure the damage of a single ability rotation within the context of a team.
+                  Combo DMG is a tool to measure the damage of a single ability rotation within the context of a specific team.
 
-                  Using different teams / eidolons / light cones will change the duration of rotations,
-                  how much energy is generated, and uptime of buffs.
+                  Changing the team / eidolons / light cones will change the duration of rotations, how much energy is generated, uptime of buffs, etc.
 
-                  This means Combo DMG can NOT be used to determine which team is
-                  better, or which light cone is better, or the damage increase between eidolons.
+                  This means Combo DMG can NOT be used to determine which team is better, or which light cone is better, or measure the damage increase between
+                  eidolons. Combo DMG is only meant to compare different relics within a defined team and speed target.
                 </Trans>
 
                 <Button
-                  type="primary"
+                  type='primary'
+                  size='large'
                   block
-                  icon={<EyeInvisibleOutlined/>}
+                  icon={<EyeInvisibleOutlined />}
                   onClick={() => {
                     window.store.getState().setSettings({
                       ...window.store.getState().settings,
-                      ShowComboDmgWarning: SettingOptions.ShowComboDmgWarning.Hide
+                      ShowComboDmgWarning: SettingOptions.ShowComboDmgWarning.Hide,
                     })
-                    // }
                   }}
                 >
-                  Hide this warning
+                  {tSettings('ShowComboDmgWarning.Hide')}
                 </Button>
               </Flex>
-            )
-          }
+            ),
+          },
         ]}
       />
     </ConfigProvider>
-    // <Alert
-    //   message={
-    //   }
-    //   type='info'
-    //   showIcon
-    //   style={props.style}
-    // />
   )
 }

@@ -129,7 +129,7 @@ export const SettingsDrawer = () => {
     },
     {
       value: SettingOptions.ShowComboDmgWarning.Hide,
-      label: <span>{t('ShowComboDmgWarning.Hide') /* Hide */}</span>,
+      label: <span>{t('ShowComboDmgWarning.Hide') /* Hide warning */}</span>,
     },
   ]
 

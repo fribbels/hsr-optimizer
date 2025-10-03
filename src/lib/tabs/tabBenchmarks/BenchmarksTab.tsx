@@ -1,32 +1,9 @@
-import {
-  CheckOutlined,
-  CloseOutlined,
-  DeleteOutlined,
-  SettingOutlined,
-  ThunderboltFilled,
-} from '@ant-design/icons'
-import {
-  Button,
-  Card,
-  Flex,
-  Form as AntDForm,
-  InputNumber,
-  Radio,
-  Select,
-} from 'antd'
-import {
-  OverlayText,
-  showcaseOutline,
-} from 'lib/characterPreview/CharacterPreviewComponents'
-import {
-  applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance,
-  applyTeamAwareSetConditionalPresetsToOptimizerFormInstance,
-} from 'lib/conditionals/evaluation/applyPresets'
+import { CheckOutlined, CloseOutlined, DeleteOutlined, SettingOutlined, ThunderboltFilled, } from '@ant-design/icons'
+import { Button, Card, Flex, Form as AntDForm, InputNumber, Radio, Select, } from 'antd'
+import { OverlayText, showcaseOutline, } from 'lib/characterPreview/CharacterPreviewComponents'
+import { applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance, } from 'lib/conditionals/evaluation/applyPresets'
 import { Sets } from 'lib/constants/constants'
-import {
-  OpenCloseIDs,
-  setOpen,
-} from 'lib/hooks/useOpenClose'
+import { OpenCloseIDs, setOpen, } from 'lib/hooks/useOpenClose'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
@@ -43,17 +20,10 @@ import {
 import DB from 'lib/state/db'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
 import { BenchmarkSetting } from 'lib/tabs/tabBenchmarks/BenchmarkSettings'
-import {
-  handleBenchmarkFormSubmit,
-  handleCharacterSelectChange,
-} from 'lib/tabs/tabBenchmarks/benchmarksTabController'
+import { handleBenchmarkFormSubmit, handleCharacterSelectChange, } from 'lib/tabs/tabBenchmarks/benchmarksTabController'
 import { CharacterEidolonFormRadio } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
 import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
-import {
-  BenchmarkForm,
-  SimpleCharacter,
-  useBenchmarksTabStore,
-} from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
+import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore, } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormSetConditionals'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
@@ -64,17 +34,10 @@ import { CenteredImage } from 'lib/ui/CenteredImage'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { CustomHorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import {
-  useEffect,
-  useMemo,
-} from 'react'
+import { useEffect, useMemo, } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  Character,
-  CharacterId,
-} from 'types/character'
+import { Character, CharacterId, } from 'types/character'
 import { ReactElement } from 'types/components'
-import { BenchFactory } from 'vitest'
 
 const GAP = 8
 const HEADER_GAP = 5
@@ -143,25 +106,25 @@ export default function BenchmarksTab(): ReactElement {
   }, [teammate0, teammate1, teammate2])
 
   return (
-    <Flex vertical style={{ minHeight: 1500, width: 1200, marginBottom: 200 }} align='center'>
+    <Flex vertical style={{ minHeight: 1500, width: 1200, marginBottom: 200 }} align='center' gap={8}>
       <ColorizedTitleWithInfo
         text={t('Title') /* 'Benchmark Generator' */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmark-generator.md'
       />
 
-      <Card style={{ width: 900, marginBottom: 8 }}>
+      <Card style={{ width: 900 }}>
         <AntDForm
           form={benchmarkForm}
           initialValues={initialForm}
           preserve={false}
         >
-          <BenchmarkInputs />
+          <BenchmarkInputs/>
         </AntDForm>
       </Card>
 
-      <DPSScoreDisclaimer style={{ marginBottom: 8, width: '100%' }} />
+      <DPSScoreDisclaimer/>
 
-      <BenchmarkResults />
+      <BenchmarkResults/>
 
       <CharacterModal
         onOk={onCharacterModalOk}
@@ -177,9 +140,9 @@ function BenchmarkInputs() {
   return (
     <Flex vertical align='center'>
       <Flex gap={GAP * 3} style={{ width: '100%' }} justify='space-between'>
-        <LeftPanel />
-        <MiddlePanel />
-        <RightPanel />
+        <LeftPanel/>
+        <MiddlePanel/>
+        <RightPanel/>
       </Flex>
     </Flex>
   )
@@ -231,18 +194,18 @@ function MiddlePanel() {
             onChange={(id: CharacterId | null | undefined) => handleCharacterSelectChange(id, form)}
           />
         </AntDForm.Item>
-        <CharacterEidolonFormRadio />
+        <CharacterEidolonFormRadio/>
       </Flex>
 
       <Flex vertical gap={GAP}>
         <HeaderText>{t('LCHeader') /* Light Cone */}</HeaderText>
         <AntDForm.Item name='lightCone' noStyle>
-          <LightConeSelect value={null} characterId={characterId} />
+          <LightConeSelect value={null} characterId={characterId}/>
         </AntDForm.Item>
-        <LightConeSuperimpositionFormRadio />
+        <LightConeSuperimpositionFormRadio/>
       </Flex>
 
-      <TeammatesSection />
+      <TeammatesSection/>
     </Flex>
   )
 }
@@ -263,44 +226,44 @@ function RightPanel() {
       <Flex vertical gap={GAP}>
         <HeaderText>{t('Settings.Header') /* Settings */}</HeaderText>
 
-        <SpdBenchmarkSetting />
+        <SpdBenchmarkSetting/>
         <BenchmarkSetting label='ERR' itemName='errRope'>
           <Radio.Group buttonStyle='solid' size='small' block style={{ width: INPUT_WIDTH }}>
             <Radio.Button value={true}>
-              <CheckOutlined />
+              <CheckOutlined/>
             </Radio.Button>
             <Radio.Button value={false}>
-              <CloseOutlined />
+              <CloseOutlined/>
             </Radio.Button>
           </Radio.Group>
         </BenchmarkSetting>
         <BenchmarkSetting label='SubDPS' itemName='subDps'>
           <Radio.Group buttonStyle='solid' size='small' block style={{ width: INPUT_WIDTH }}>
             <Radio.Button value={true}>
-              <CheckOutlined />
+              <CheckOutlined/>
             </Radio.Button>
             <Radio.Button value={false}>
-              <CloseOutlined />
+              <CloseOutlined/>
             </Radio.Button>
           </Radio.Group>
         </BenchmarkSetting>
 
-        <CustomHorizontalDivider height={8} />
+        <CustomHorizontalDivider height={8}/>
 
         <HeaderText>{t('SetsHeader') /* Benchmark sets */}</HeaderText>
 
         <Flex vertical gap={HEADER_GAP}>
-          <SetsSection simType={StatSimTypes.Benchmarks} />
+          <SetsSection simType={StatSimTypes.Benchmarks}/>
           <Button
             onClick={() => setOpen(OpenCloseIDs.BENCHMARKS_SETS_DRAWER)}
-            icon={<SettingOutlined />}
+            icon={<SettingOutlined/>}
             type='dashed'
           >
             {tOptimizerTab('SetConditionals.Title') /* Conditional set effects */}
           </Button>
         </Flex>
 
-        <FormSetConditionals id={OpenCloseIDs.BENCHMARKS_SETS_DRAWER} />
+        <FormSetConditionals id={OpenCloseIDs.BENCHMARKS_SETS_DRAWER}/>
       </Flex>
 
       <Flex vertical gap={GAP}>
@@ -311,7 +274,7 @@ function RightPanel() {
             handleBenchmarkFormSubmit(formValues)
           }}
           loading={loading}
-          icon={<ThunderboltFilled />}
+          icon={<ThunderboltFilled/>}
           style={{ width: '100%', height: 40 }}
           type='primary'
         >
@@ -323,7 +286,7 @@ function RightPanel() {
           }}
           style={{ width: '100%' }}
           type='default'
-          icon={<DeleteOutlined />}
+          icon={<DeleteOutlined/>}
         >
           {t('ButtonText.Clear') /* Clear */}
         </Button>
@@ -346,7 +309,8 @@ function SpdBenchmarkSetting() {
 
   const options = [
     {
-      label: <span>{tCharacterTab('CommonBreakpointsLabel') /* Common SPD breakpoint presets (SPD buffs considered separately) */}</span>,
+      label:
+        <span>{tCharacterTab('CommonBreakpointsLabel') /* Common SPD breakpoint presets (SPD buffs considered separately) */}</span>,
       options: presetOptions,
     },
   ]
@@ -380,9 +344,9 @@ function TeammatesSection() {
     <Flex vertical>
       <HeaderText>{t('TeammatesHeader') /* Teammates */}</HeaderText>
       <Flex justify='space-around'>
-        <Teammate index={0} />
-        <Teammate index={1} />
-        <Teammate index={2} />
+        <Teammate index={0}/>
+        <Teammate index={1}/>
+        <Teammate index={2}/>
       </Flex>
     </Flex>
   )

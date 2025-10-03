@@ -1,21 +1,9 @@
-import {
-  Drawer,
-  Flex,
-  Form,
-  Select,
-  Typography,
-} from 'antd'
-import {
-  OpenCloseIDs,
-  useOpenClose,
-} from 'lib/hooks/useOpenClose'
+import { Drawer, Flex, Form, Select, Typography, } from 'antd'
+import { OpenCloseIDs, useOpenClose, } from 'lib/hooks/useOpenClose'
 import { SaveState } from 'lib/state/saveState'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import {
-  ReactNode,
-  useEffect,
-} from 'react'
+import { ReactNode, useEffect, } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { UserSettings } from 'types/store'
@@ -50,6 +38,11 @@ export const SettingOptions = {
     Yes: 'Yes',
     No: 'No',
   },
+  ShowComboDmgWarning: {
+    name: 'ShowComboDmgWarning',
+    Show: 'Show',
+    Hide: 'Hide',
+  },
 } as const satisfies Record<keyof UserSettings, Record<string, string>>
 
 export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
@@ -57,6 +50,7 @@ export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
   [SettingOptions.PermutationsSidebarBehavior.name]: SettingOptions.PermutationsSidebarBehavior.ShowXL,
   [SettingOptions.ExpandedInfoPanelPosition.name]: SettingOptions.ExpandedInfoPanelPosition.Below,
   [SettingOptions.ShowLocatorInRelicsModal.name]: SettingOptions.ShowLocatorInRelicsModal.No,
+  [SettingOptions.ShowComboDmgWarning.name]: SettingOptions.ShowComboDmgWarning.Show,
 }
 
 export const SettingsDrawer = () => {
@@ -82,7 +76,8 @@ export const SettingsDrawer = () => {
   const optionsPermutationsSidebarBehavior = [
     {
       value: SettingOptions.PermutationsSidebarBehavior.ShowXL,
-      label: <span>{t('PermutationsSidebarBehavior.ShowXL') /* Default: Minimize if most of the sidebar is hidden */}</span>,
+      label:
+        <span>{t('PermutationsSidebarBehavior.ShowXL') /* Default: Minimize if most of the sidebar is hidden */}</span>,
     },
     {
       value: SettingOptions.PermutationsSidebarBehavior.ShowXXL,
@@ -108,11 +103,24 @@ export const SettingsDrawer = () => {
   const optionsShowLocatorInRelicsModal = [
     {
       value: SettingOptions.ShowLocatorInRelicsModal.No,
-      label: <span>{t('ShowLocatorInRelicsModal.No') /* Default: Do not show the relic locator in the relic editor */}</span>,
+      label:
+        <span>{t('ShowLocatorInRelicsModal.No') /* Default: Do not show the relic locator in the relic editor */}</span>,
     },
     {
       value: SettingOptions.ShowLocatorInRelicsModal.Yes,
       label: <span>{t('ShowLocatorInRelicsModal.Yes') /* Show the relic locator in the relic editor */}</span>,
+    },
+  ]
+
+  const optionsShowComboDmgWarning = [
+    {
+      value: SettingOptions.ShowComboDmgWarning.Show,
+      label:
+        <span>{t('ShowComboDmgWarning.Show') /* Default: Show warning */}</span>,
+    },
+    {
+      value: SettingOptions.ShowComboDmgWarning.Hide,
+      label: <span>{t('ShowComboDmgWarning.Hide') /* Hide */}</span>,
     },
   ]
 
@@ -121,6 +129,7 @@ export const SettingsDrawer = () => {
     PermutationsSidebarBehavior: optionsPermutationsSidebarBehavior,
     ExpandedInfoPanelPosition: optionsExpandedInfoPanelPosition,
     ShowLocatorInRelicsModal: optionsShowLocatorInRelicsModal,
+    ShowComboDmgWarning: optionsShowComboDmgWarning,
   }
 
   useEffect(() => {

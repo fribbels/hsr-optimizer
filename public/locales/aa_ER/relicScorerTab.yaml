@@ -1,5 +1,5 @@
 Messages:
-  ThrottleWarning: "crwdns43418:0{{seconds}}crwdne43418:0"
+  ThrottleWarning: 'crwdns43418:0{{seconds}}crwdne43418:0'
   InvalidIdWarning: crwdns43420:0crwdne43420:0
   IdLoadError: crwdns43422:0crwdne43422:0
   SuccessMsg: crwdns43424:0crwdne43424:0
@@ -8,8 +8,8 @@ Messages:
   CharacterAlreadyExists: crwdns43430:0crwdne43430:0
   UnknownButtonClicked: crwdns43432:0crwdne43432:0
 Header:
-  DowntimeWarning: "crwdns43434:0{{game_version}}crwdne43434:0"
-  WithVersion: "crwdns43436:0{{beta_version}}crwdne43436:0"
+  DowntimeWarning: 'crwdns43434:0{{game_version}}crwdne43434:0'
+  WithVersion: 'crwdns43436:0{{beta_version}}crwdne43436:0'
   WithoutVersion: crwdns43438:0crwdne43438:0
 SubmissionBar:
   Placeholder: crwdns43440:0crwdne43440:0
@@ -21,4 +21,5 @@ ImportLabels:
   AllCharacters: crwdns43450:0crwdne43450:0
 SimulateRelics: crwdns43452:0crwdne43452:0
 OptimizeOnCharacter: crwdns43454:0crwdne43454:0
-Disclaimer: "crwdns45432:0crwdne45432:0"
+Disclaimer: 'crwdns45432:0crwdne45432:0'
+DisclaimerDescription: 'crwdns45986:0crwdne45986:0'

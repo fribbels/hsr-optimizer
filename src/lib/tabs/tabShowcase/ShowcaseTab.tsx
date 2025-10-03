@@ -477,7 +477,7 @@ export function DPSScoreDisclaimer() {
                 <Trans t={t} i18nKey='DisclaimerDescription'>
                   Combo DMG is a tool to measure the damage of a single ability rotation within the context of a specific team.
 
-                  Changing the team / eidolons / light cones will change the duration of rotations, how much energy is generated, uptime of buffs, etc.
+                  Changing the team / eidolons / light cones will change the duration of the rotation, how much energy is generated, uptime of buffs, etc.
 
                   This means Combo DMG can NOT be used to determine which team is better, or which light cone is better, or measure the damage increase between
                   eidolons. Combo DMG is only meant to compare different relics within a defined team and speed target.

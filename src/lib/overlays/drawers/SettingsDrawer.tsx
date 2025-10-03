@@ -1,9 +1,21 @@
-import { Drawer, Flex, Form, Select, Typography, } from 'antd'
-import { OpenCloseIDs, useOpenClose, } from 'lib/hooks/useOpenClose'
+import {
+  Drawer,
+  Flex,
+  Form,
+  Select,
+  Typography,
+} from 'antd'
+import {
+  OpenCloseIDs,
+  useOpenClose,
+} from 'lib/hooks/useOpenClose'
 import { SaveState } from 'lib/state/saveState'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { ReactNode, useEffect, } from 'react'
+import {
+  ReactNode,
+  useEffect,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { UserSettings } from 'types/store'
@@ -76,8 +88,7 @@ export const SettingsDrawer = () => {
   const optionsPermutationsSidebarBehavior = [
     {
       value: SettingOptions.PermutationsSidebarBehavior.ShowXL,
-      label:
-        <span>{t('PermutationsSidebarBehavior.ShowXL') /* Default: Minimize if most of the sidebar is hidden */}</span>,
+      label: <span>{t('PermutationsSidebarBehavior.ShowXL') /* Default: Minimize if most of the sidebar is hidden */}</span>,
     },
     {
       value: SettingOptions.PermutationsSidebarBehavior.ShowXXL,
@@ -103,8 +114,7 @@ export const SettingsDrawer = () => {
   const optionsShowLocatorInRelicsModal = [
     {
       value: SettingOptions.ShowLocatorInRelicsModal.No,
-      label:
-        <span>{t('ShowLocatorInRelicsModal.No') /* Default: Do not show the relic locator in the relic editor */}</span>,
+      label: <span>{t('ShowLocatorInRelicsModal.No') /* Default: Do not show the relic locator in the relic editor */}</span>,
     },
     {
       value: SettingOptions.ShowLocatorInRelicsModal.Yes,
@@ -115,8 +125,7 @@ export const SettingsDrawer = () => {
   const optionsShowComboDmgWarning = [
     {
       value: SettingOptions.ShowComboDmgWarning.Show,
-      label:
-        <span>{t('ShowComboDmgWarning.Show') /* Default: Show warning */}</span>,
+      label: <span>{t('ShowComboDmgWarning.Show') /* Default: Show warning */}</span>,
     },
     {
       value: SettingOptions.ShowComboDmgWarning.Hide,
@@ -138,7 +147,7 @@ export const SettingsDrawer = () => {
     setSettings(newSettings)
 
     settingsForm.setFieldsValue(newSettings)
-  }, [])
+  }, [isOpenSettingsDrawer])
 
   const onValuesChange = (_changedValues: Partial<UserSettings>, allValues: UserSettings) => {
     setSettings(allValues)

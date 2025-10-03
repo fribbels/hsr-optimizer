@@ -3,12 +3,14 @@ import {
   DownloadOutlined,
   EditOutlined,
   ExperimentOutlined,
+  EyeInvisibleOutlined,
   ImportOutlined,
   SettingOutlined,
 } from '@ant-design/icons'
 import {
-  Alert,
   Button,
+  Collapse,
+  ConfigProvider,
   Dropdown,
   Flex,
   Form,
@@ -43,7 +45,6 @@ import {
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { Utils } from 'lib/utils/utils'
 import {
-  CSSProperties,
   Dispatch,
   SetStateAction,
   useEffect,
@@ -55,6 +56,7 @@ import {
   useTranslation,
 } from 'react-i18next'
 import { Character } from 'types/character'
+import { SettingOptions } from '../../overlays/drawers/SettingsDrawer'
 
 const RERUN_PRESET_SIZE = 45
 const PRESET_SIZE = 95
@@ -245,12 +247,20 @@ function CharacterPreviewSelection() {
 
   return (
     <Flex style={{ width: 1375 }} justify='space-around'>
-      <Flex vertical align='center' gap={5} style={{ marginBottom: 100, width: 1068 }}>
-        <Flex vertical style={{ display: (availableCharacters?.length && availableCharacters.length > 0) ? 'flex' : 'none', width: '100%' }}>
+      <Flex vertical align='center' gap={8} style={{ marginBottom: 100, width: 1068 }}>
+        <Flex
+          vertical
+          style={{
+            display: (availableCharacters?.length && availableCharacters.length > 0) ? 'flex' : 'none',
+            width: '100%',
+          }}
+        >
           <Sidebar presetClicked={presetClicked} />
 
           <Flex
-            style={{ display: (availableCharacters?.length && availableCharacters.length > 0) ? 'flex' : 'none', marginBottom: 5 }}
+            style={{
+              display: (availableCharacters?.length && availableCharacters.length > 0) ? 'flex' : 'none',
+            }}
             justify='space-between'
             gap={10}
           >
@@ -288,7 +298,8 @@ function CharacterPreviewSelection() {
           </Flex>
         </Flex>
 
-        {(availableCharacters?.length != undefined && availableCharacters.length > 0) && <DPSScoreDisclaimer style={{ marginBottom: 5, width: '100%' }} />}
+        {(availableCharacters?.length != undefined && availableCharacters.length > 0)
+          && <DPSScoreDisclaimer />}
 
         <Segmented
           style={{ width: '100%', overflow: 'hidden' }}
@@ -298,7 +309,7 @@ function CharacterPreviewSelection() {
           value={selectedCharacter?.id}
         />
 
-        <div id='previewWrapper' style={{ padding: '5px' }}>
+        <div id='previewWrapper' style={{ padding: '0 5 5 5' }}>
           <CharacterPreview
             character={selectedCharacter as Character | null}
             source={ShowcaseSource.SHOWCASE_TAB}
@@ -430,19 +441,68 @@ function PresetButton(props: { preset: CharacterPreset }) {
   )
 }
 
-export function DPSScoreDisclaimer(props: { style: CSSProperties }) {
+export function DPSScoreDisclaimer() {
+  const showComboDmgWarning = window.store((s) => s.settings.ShowComboDmgWarning)
+
   const { t } = useTranslation('relicScorerTab')
+  const { t: tSettings } = useTranslation('settings')
+
+  if (showComboDmgWarning != SettingOptions.ShowComboDmgWarning.Show) return null
+
   return (
-    <Alert
-      message={
-        <Trans t={t} i18nKey='Disclaimer'>
-          Note: Combo DMG is meant to compare different relics relative to the selected team, and should <u>NOT</u>{' '}
-          be used to compare different teams / LCs / eidolons!
-        </Trans>
-      }
-      type='info'
-      showIcon
-      style={props.style}
-    />
+    <ConfigProvider
+      theme={{
+        components: {
+          Collapse: {
+            headerBg: '#8a1717',
+          },
+        },
+      }}
+    >
+      <Collapse
+        style={{ width: '100%' }}
+        items={[
+          {
+            key: '1',
+            label: (
+              <div style={{ fontSize: 14 }}>
+                <Trans t={t} i18nKey='Disclaimer'>
+                  Note: Combo DMG is meant to compare different relics relative to the selected team, and should <u>NOT</u>{' '}
+                  be used to compare different teams / LCs / eidolons!
+                </Trans>
+              </div>
+            ),
+            children: (
+              <Flex vertical style={{ padding: 12 }} gap={10}>
+                <Trans t={t} i18nKey='DisclaimerDescription'>
+                  Combo DMG is a tool to measure the damage of a single ability rotation within the context of a specific team.
+
+                  Changing the team / eidolons / light cones will change the duration of the rotation, how much energy is generated, uptime of buffs, etc.
+
+                  This means Combo DMG can NOT be used to determine which team is better, or which light cone is better, or measure the damage increase between
+                  eidolons. Combo DMG is only meant to compare different relics within a defined team and speed target.
+                </Trans>
+
+                <Button
+                  type='primary'
+                  size='large'
+                  block
+                  icon={<EyeInvisibleOutlined />}
+                  onClick={() => {
+                    window.store.getState().setSettings({
+                      ...window.store.getState().settings,
+                      ShowComboDmgWarning: SettingOptions.ShowComboDmgWarning.Hide,
+                    })
+                    SaveState.delayedSave()
+                  }}
+                >
+                  {tSettings('ShowComboDmgWarning.Hide')}
+                </Button>
+              </Flex>
+            ),
+          },
+        ]}
+      />
+    </ConfigProvider>
   )
 }

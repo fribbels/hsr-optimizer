@@ -1,5 +1,5 @@
 Messages:
-  ThrottleWarning: "Please wait {{seconds}} seconds before retrying"
+  ThrottleWarning: 'Please wait {{seconds}} seconds before retrying'
   InvalidIdWarning: Invalid ID
   IdLoadError: Error loading ID
   SuccessMsg: Successfully loaded profile
@@ -8,8 +8,8 @@ Messages:
   CharacterAlreadyExists: Selected character already exists
   UnknownButtonClicked: Unknown button clicked
 Header:
-  DowntimeWarning: "The relic scorer may be down for maintenance after the {{game_version}} patch, please try again later"
-  WithVersion: "Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}})"
+  DowntimeWarning: 'The relic scorer may be down for maintenance after the {{game_version}} patch, please try again later'
+  WithVersion: 'Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}})'
   WithoutVersion: Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly.
 SubmissionBar:
   Placeholder: Account UID
@@ -21,4 +21,5 @@ ImportLabels:
   AllCharacters: Import all characters & all relics into optimizer
 SimulateRelics: Simulate relics on another character
 OptimizeOnCharacter: Optimize character stats
-Disclaimer: "Note: Combo DMG is meant to compare different relics relative to the selected team, and should <1>NOT</1> be used to compare different teams / LCs / eidolons!"
+Disclaimer: 'Note: Combo DMG is meant to compare different relics relative to the selected team, and should <1>NOT</1> be used to compare different teams / LCs / eidolons!'
+DisclaimerDescription: 'Combo DMG is a tool to measure the damage of a single ability rotation within the context of a specific team. Changing the team / eidolons / light cones will change the duration of the rotation, how much energy is generated, uptime of buffs, etc. This means Combo DMG can NOT be used to determine which team is better, or which light cone is better, or measure the damage increase between eidolons. Combo DMG is only meant to compare different relics within a defined team and speed target.'

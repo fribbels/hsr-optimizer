@@ -465,10 +465,12 @@ export function DPSScoreDisclaimer() {
           {
             key: '1',
             label: (
-              <Trans t={t} i18nKey='Disclaimer'>
-                Note: Combo DMG is meant to compare different relics relative to the selected team, and should <u>NOT</u>{' '}
-                be used to compare different teams / LCs / eidolons!
-              </Trans>
+              <div style={{ fontSize: 14 }}>
+                <Trans t={t} i18nKey='Disclaimer'>
+                  Note: Combo DMG is meant to compare different relics relative to the selected team, and should <u>NOT</u>{' '}
+                  be used to compare different teams / LCs / eidolons!
+                </Trans>
+              </div>
             ),
             children: (
               <Flex vertical style={{ padding: 12 }} gap={10}>
@@ -491,6 +493,7 @@ export function DPSScoreDisclaimer() {
                       ...window.store.getState().settings,
                       ShowComboDmgWarning: SettingOptions.ShowComboDmgWarning.Hide,
                     })
+                    SaveState.delayedSave()
                   }}
                 >
                   {tSettings('ShowComboDmgWarning.Hide')}

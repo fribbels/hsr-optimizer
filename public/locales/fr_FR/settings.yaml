@@ -16,3 +16,7 @@ ShowLocatorInRelicsModal:
   Label: Localisateur de relique dans l'éditeur de reliques
   Yes: Afficher le localisateur de reliques dans l'éditeur de reliques
   No: 'Par défaut : Ne pas afficher le localisateur de relique dans l''éditeur de reliques'
+ShowComboDmgWarning:
+  Label: Afficher l'avertissement DGT Combo
+  Show: 'Par défaut : Afficher l''avertissement'
+  Hide: Cacher l'avertissement

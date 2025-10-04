@@ -1,5 +1,5 @@
 Messages:
-  ThrottleWarning: "请稍等{{seconds}}秒后重试"
+  ThrottleWarning: '请稍等{{seconds}}秒后重试'
   InvalidIdWarning: ID无效
   IdLoadError: 加载ID时出错
   SuccessMsg: 成功加载个人资料
@@ -8,8 +8,8 @@ Messages:
   CharacterAlreadyExists: 所选角色已经存在
   UnknownButtonClicked: 点击了未知按钮
 Header:
-  DowntimeWarning: "在版本{{game_version}}更新之后，遗器评分器可能会因维护而无法使用，请稍后再尝试。"
-  WithVersion: "请输入你的账户UID，以对你角色展示中的角色进行评分（默认角色为80级和满行迹）。返回游戏登陆页面以立刻刷新你的角色展示。 (当前版本为{{beta_version}})"
+  DowntimeWarning: '在版本{{game_version}}更新之后，遗器评分器可能会因维护而无法使用，请稍后再尝试。'
+  WithVersion: '请输入你的账户UID，以对你角色展示中的角色进行评分（默认角色为80级和满行迹）。返回游戏登陆页面以立刻刷新你的角色展示。 (当前版本为{{beta_version}})'
   WithoutVersion: 请输入你的账户UID，以对你角色展示中的角色进行评分（默认角色为80级和满行迹）。返回游戏登陆页面以立刻刷新你的角色展示。
 SubmissionBar:
   Placeholder: 账号UID
@@ -21,4 +21,5 @@ ImportLabels:
   AllCharacters: 将全部角色及全部遗器导入优化器
 SimulateRelics: 在其他角色上模拟该遗器
 OptimizeOnCharacter: 优化角色属性
-Disclaimer: "注意：连招伤害旨在比较不同遗物相对于所选队伍的表现，<1>不应</1>用于比较不同队伍/光锥/命座！"
+Disclaimer: '注意：连招伤害旨在比较不同遗物相对于所选队伍的表现，<1>不应</1>用于比较不同队伍/光锥/命座！'
+DisclaimerDescription: '连招伤害是一种用于衡量特定队伍配置下，单次技能循环造成伤害的工具。更换队伍/命座/光锥都会改变循环时长、能量获取量、增益持续时间等因素。这意味着连招伤害不能用于判断哪个队伍更强、哪个光锥更好，或衡量命座间的伤害提升。连招伤害的唯一用途是在固定的队伍与速度目标下，对比不同遗器的表现。'

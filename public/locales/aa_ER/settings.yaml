@@ -16,3 +16,7 @@ ShowLocatorInRelicsModal:
   Label: crwdns45392:0crwdne45392:0
   Yes: crwdns45394:0crwdne45394:0
   No: 'crwdns45396:0crwdne45396:0'
+ShowComboDmgWarning:
+  Label: crwdns45988:0crwdne45988:0
+  Show: 'crwdns45990:0crwdne45990:0'
+  Hide: crwdns45992:0crwdne45992:0

@@ -22,3 +22,4 @@ ImportLabels:
 SimulateRelics: Simular relíquias em outro char
 OptimizeOnCharacter: Otimizar atributos do char
 Disclaimer: 'Nota: Combo DMG destina-se a comparar diferentes relíquias em relação à equipe selecionada, e deve <1>NÃO</1> ser usado para comparar diferentes equipes / CL / eidolons!'
+DisclaimerDescription: 'Dano de Combo é uma ferramenta para calcular o dano de uma rotação de habilidades única no contexto de uma equipe específica. Mudar a equipe/eidolons/cones de luz mudará a duração da rotação, quanta energia é gerada, permanência de buffs, etc. Isso significa que Dano de Cambo NÃO pode ser usada para determinar qual equipe é melhor, ou qual cone de luz é melhor, ou para calcular o aumento de dano entre eidolons. Dano de Combo é destinada apenas a comparar relíquias diferentes em uma equipe definida e velocidade alvo.'

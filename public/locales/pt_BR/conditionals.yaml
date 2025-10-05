@@ -112,7 +112,7 @@ Lightcones:
     Content:
       skillUltDmgBoost:
         text: Aumento de DMG Perícia / Ult
-        content: Ao usar Perícia ou Ultimate, aumenta o DMG causado por este ataque em {{DmgBoost}}%.
+        content: Ao usar Perícia ou Perícia Suprema, aumenta o DANO causado por este ataque em {{DmgBoost}}%.
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -1379,8 +1379,13 @@ Characters:
         text: Aumento de DMG de EHR
       dotDetonation:
         text: Detonação do Dano Contínuo (Ativação automática)
+      e4ResPen:
+        content: Enquanto a Zona está ativa, reduz a RES de Todos os  Tipos de todos os inimigos em 20%;
       e6Buffs:
         text: Buffs E6
+    TeammateContent:
+      e2TeammateEhr:
+        text: "Taxa de AE em combate de Hysilens E2."
   ImbibitorLunae:
     Content:
       basicEnhanced:

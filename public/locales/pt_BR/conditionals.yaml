@@ -1379,6 +1379,8 @@ Characters:
         text: Aumento de DMG de EHR
       dotDetonation:
         text: Detonação do Dano Contínuo (Ativação automática)
+      e1Buffs:
+        text: Buffs da E1
       e4ResPen:
         content: Enquanto a Zona está ativa, reduz a RES de Todos os  Tipos de todos os inimigos em 20%;
       e6Buffs:
@@ -1469,9 +1471,22 @@ Characters:
     Content:
       talentEnhancedState:
         text: Estado aprimorado
+        content: >-
+          Quando Jingliu possui 2 acúmulos de "Sizígia", ela entra no estado de "Transmigração Espectral" e sua Chance de CRIT aumenta em {{UltCRBuff}}% ::BR:: Enquanto estiver no estado de "Transmigração Espectral", a RES a Efeito aumenta em 35% e o Dano causado pela Perícia Suprema em 20%.
+      maxSyzygyDefPen:
+        content: Quando obter os acúmulos máximos de "Sizígia", o próximo ataque de Jingliu ignora 25% da DEF do alvo.
+      moonlightStacks:
+        text: Acúmulos de Luar
+        content: Durante o estado de "Transmigração Espectral", quando aliados-alvo recebem Dano ou consomem PV, Jingliu ganha 1 acúmulo de "Luar". Cada acúmulo de "Luar" aumenta o Dano CRIT de Jingliu em {{MoonlightCDBuff}}%, até 5 vezes.
+      e1Buffs:
+        text: Buffs da E1
+        content: Ao usar Perícia Suprema ou Perícia Aprimorada, o Dano CRIT de Jingliu aumenta em 36% por 1 turno. Além disso, causa adicionalmente 1 instância de Dano de Gelo igual a 80% dos PV máximos de Jingliu ao alvo principal.
       e2SkillDmgBuff:
         text: Buff de Habilidade E2
         content: Após usar o Ultimate, aumenta o DMG da próxima Habilidade Aprimorada em 80%.
+      e4MoonlightCdBuff:
+        text: Dano CRIT de Luar da E4
+        content: Durante o estado de "Transmigração Espectral", cada acúmulo de "Luar" aumenta adicionalmente o Dano CRIT em 20%.
       e6ResPen:
         text: E6 RES PEN
         content: Enquanto Jingliu entra no estado de "Transmigração Espectral", sua PEN de RES a Gelo aumenta em 30%.
@@ -1682,6 +1697,8 @@ Characters:
         content: Quando Phainon é o alvo da habilidade de qualquer personagem, ele ganha 1 ponto de "Chama Primordial". Se o usuário da habilidade for um companheiro de equipe de Phainon, aumenta adicionalmente o Dano CRIT em {{TalentCdBuff}}% por 3 rodadas.
       spdBuff:
         text: Buff SPD de equipe
+      e1Buffs:
+        text: Buffs da E1
       e2ResPen:
         text: E2 RES PEN
   Qingque:

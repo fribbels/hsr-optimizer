@@ -16,3 +16,7 @@ ShowLocatorInRelicsModal:
   Label: Ubicador de artefactos en el editor de artefactos
   Yes: Mostrar el Ubicador de artefactos en el editor de artefactos
   No: 'Por defecto: No mostrar el Ubicador de artefactos en el editor de artefactos'
+ShowComboDmgWarning:
+  Label: Mostrar advertencia del Daño de combo
+  Show: 'Por defecto: Mostrar advertencia'
+  Hide: Ocultar advertencia

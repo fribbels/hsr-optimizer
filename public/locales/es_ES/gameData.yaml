@@ -366,7 +366,7 @@ RelicSets:
     Description2pc: Daño CRIT +16%.
     Description4pc: Cuando el portador se convierte en el objetivo de la habilidad de otro aliado, obtiene 1 acumulación de Ayuda (hasta 2 como máximo). Si el portador tiene 2 acumulaciones de Ayuda al lanzar la habilidad definitiva, las consume todas y su ATQ aumenta en un 48% durante 1 turno.
   "127":
-    Name: Salvado{F#ra}{M#r} que reforja el mundo
+    Name: Salvador que reforja el mundo
     Description2pc: Prob. CRIT +8%.
     Description4pc: Después de que el portador lance el ATQ básico o la habilidad básica cuando su mnemoduende está en el campo de batalla, los PV máx. del portador y su mnemoduende aumentan en un 24% y el daño que infligen todos los aliados aumenta en un 15%. El efecto dura hasta que el portador lance su siguiente ATQ básico o habilidad básica.
   "128":
@@ -443,7 +443,7 @@ RelicSets:
     Name: Amphoreus, The Eternal Land
     Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
   "324":
-    Name: Tengoku @Live Stream
+    Name: Tengoku@Livestream
     Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
 Lightcones:
   "20000":
@@ -627,7 +627,7 @@ Lightcones:
   "22005":
     Name: Viandas sin fin
   "22006":
-    Name: Take Flight Toward A Pink Tomorrow
+    Name: Fly Into a Pink Tomorrow
   "23000":
     Name: Noche en la Vía Láctea
   "23001":

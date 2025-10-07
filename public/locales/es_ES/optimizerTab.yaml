@@ -34,7 +34,7 @@ OrnamentSetSelector:
 SortOptions:
   DMGLabel: Cálculos de daño
   StatLabel: Atributos
-  COMBO: Ord. por daño de Combo
+  COMBO: Ord. por Daño de combo
   BASIC: Ord. por daño Básico
   SKILL: Ord. por daño de Habilidad
   ULT: Ord. por daño de Definitiva

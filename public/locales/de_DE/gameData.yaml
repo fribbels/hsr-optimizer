@@ -366,7 +366,7 @@ RelicSets:
     Description2pc: Erhöht KRIT-SCH um 16%.
     Description4pc: Wenn der Träger zum Ziel der Fähigkeit eines anderen Verbündeten wird, erhält er 1 Stapelung „Unterstützen“, bis zu 2 Stapelungen. Verbraucht beim Einsatz des Ultimates alle Stapelungen von Unterstützen und erhöht den ANG des Trägers für 1 Rd. um 48%, wenn 2 Stapelungen vorhanden sind.
   "127":
-    Name: "{F#Erlöserin}{M#Erlöser} der Weltneuschöpfung"
+    Name: Erlöser der Weltneuschöpfung
     Description2pc: Erhöht die KRIT-Rate um 8%.
     Description4pc: Wenn sich nach dem Einsatz eines Standardangriffs oder einer Fertigkeit des Trägers dessen Memogeist auf dem Kampffeld befindet, werden die max. LP des Trägers und seines Memogeists um 24% sowie der verursachte SCH aller Verbündeten um 15% erhöht, bis der Träger seinen nächsten Standardangriff oder seine nächste Fertigkeit einsetzt.
   "128":
@@ -443,7 +443,7 @@ RelicSets:
     Name: Amphoreus, The Eternal Land
     Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
   "324":
-    Name: Tengoku @Live Stream
+    Name: Tengoku@Livestream
     Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
 Lightcones:
   "20000":
@@ -627,7 +627,7 @@ Lightcones:
   "22005":
     Name: Wirrgarten-Restaurant für immer
   "22006":
-    Name: Take Flight Toward A Pink Tomorrow
+    Name: Fly Into a Pink Tomorrow
   "23000":
     Name: Nacht auf der Milchstraße
   "23001":

@@ -1,11 +1,5 @@
 import { SyncOutlined } from '@ant-design/icons'
-import {
-  Button,
-  Flex,
-  Form as AntDForm,
-  Select,
-  Typography,
-} from 'antd'
+import { Button, Flex, Form as AntDForm, Select, Typography, } from 'antd'
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import { applyTeamAwareSetConditionalPresetsToOptimizerFormInstance } from 'lib/conditionals/evaluation/applyPresets'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
@@ -27,23 +21,14 @@ import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Ligh
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
-import {
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { useEffect, useMemo, useState, } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  Character,
-  CharacterId,
-} from 'types/character'
+import { Character, CharacterId, } from 'types/character'
 import { ReactElement } from 'types/components'
 import { TeammateProperty } from 'types/form'
-import {
-  LightCone,
-  SuperImpositionLevel,
-} from 'types/lightCone'
+import { LightCone, SuperImpositionLevel, } from 'types/lightCone'
 import { DBMetadata } from 'types/metadata'
+import { TFunction } from "i18next";
 
 const { Text } = Typography
 
@@ -61,29 +46,34 @@ const lcInnerH = lcWidth
 
 const cardHeight = 490
 
-const optionRender = (option: {
-  data: {
-    value: string,
-    desc: string,
-  },
-}) => (
-  option.data.value
-    ? (
-      <Flex gap={10} align='center'>
-        <Flex>
-          <img src={Assets.getSetImage(option.data.value, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }}></img>
+export function optionRenderer() {
+  return (option: {
+    data: {
+      value: string,
+      desc: string,
+    },
+  }) => (
+    option.data.value
+      ? (
+        <Flex gap={10} align='center'>
+          <Flex>
+            <img
+              src={Assets.getSetImage(option.data.value, Constants.Parts.PlanarSphere)}
+              style={{ width: 26, height: 26 }}
+            />
+          </Flex>
+          {option.data.desc}
         </Flex>
-        {option.data.desc}
-      </Flex>
-    )
-    : (
-      <Text>
-        None
-      </Text>
-    )
-)
+      )
+      : (
+        <Text>
+          None
+        </Text>
+      )
+  )
+}
 
-const labelRender = (set: string, text: string) => (
+export const labelRender = (set: string, text: string) => (
   <Flex align='center' gap={3}>
     <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} style={{ width: 20, height: 20 }}></img>
     <Text style={{ fontSize: 12 }}>
@@ -158,31 +148,14 @@ function countTeammates() {
   return [fieldsValue.teammate0, fieldsValue.teammate1, fieldsValue.teammate2].filter((teammate) => teammate?.characterId).length
 }
 
-type OptionRender = {
+export type OptionRender = {
   value: string,
   desc: string,
   label: ReactElement,
 }
 
-const TeammateCard = (props: {
-  index: number,
-  dbMetadata: DBMetadata,
-}) => {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
-  const teammateProperty = useMemo(() => getTeammateProperty(props.index), [props.index])
-  const teammateCharacterId: CharacterId = AntDForm.useWatch([teammateProperty, 'characterId'], window.optimizerForm)
-  const teammateEidolon: number = AntDForm.useWatch([teammateProperty, 'characterEidolon'], window.optimizerForm)
-
-  const teammateLightConeId: LightCone['id'] = AntDForm.useWatch([teammateProperty, 'lightCone'], window.optimizerForm)
-  const teammateSuperimposition: SuperImpositionLevel = AntDForm.useWatch([teammateProperty, 'lightConeSuperimposition'], window.optimizerForm)
-
-  const [teammateSelectModalOpen, setTeammateSelectModalOpen] = useState(false)
-
-  const [teammateLightConeSelectOpen, setTeammateLightConeSelectOpen] = useState(false)
-
-  const disabled = teammateCharacterId == null
-
-  const teammateRelicSetOptions: OptionRender[] = useMemo(() => {
+export function renderTeammateRelicSetOptions(t: TFunction<'optimizerTab', 'TeammateCard'>) {
+  return () => {
     return [
       {
         value: Sets.MessengerTraversingHackerspace,
@@ -220,8 +193,11 @@ const TeammateCard = (props: {
         label: labelRender(Sets.SelfEnshroudedRecluse, '15% CD'), // labelRender(Sets.SelfEnshroudedRecluse, '15% CD'),
       },
     ]
-  }, [t])
-  const teammateOrnamentSetOptions: OptionRender[] = useMemo(() => {
+  }
+}
+
+export function renderTeammateOrnamentSetOptions(t: TFunction<'optimizerTab', 'TeammateCard'>) {
+  return () => {
     return [
       {
         value: Sets.BrokenKeel,
@@ -244,7 +220,29 @@ const TeammateCard = (props: {
         label: labelRender(Sets.LushakaTheSunkenSeas, t('TeammateSets.Lushaka.Text')), // labelRender(Sets.LushakaTheSunkenSeas, '12% ATK'),
       },
     ]
-  }, [t])
+  }
+}
+
+const TeammateCard = (props: {
+  index: number,
+  dbMetadata: DBMetadata,
+}) => {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
+  const teammateProperty = useMemo(() => getTeammateProperty(props.index), [props.index])
+  const teammateCharacterId: CharacterId = AntDForm.useWatch([teammateProperty, 'characterId'], window.optimizerForm)
+  const teammateEidolon: number = AntDForm.useWatch([teammateProperty, 'characterEidolon'], window.optimizerForm)
+
+  const teammateLightConeId: LightCone['id'] = AntDForm.useWatch([teammateProperty, 'lightCone'], window.optimizerForm)
+  const teammateSuperimposition: SuperImpositionLevel = AntDForm.useWatch([teammateProperty, 'lightConeSuperimposition'], window.optimizerForm)
+
+  const [teammateSelectModalOpen, setTeammateSelectModalOpen] = useState(false)
+
+  const [teammateLightConeSelectOpen, setTeammateLightConeSelectOpen] = useState(false)
+
+  const disabled = teammateCharacterId == null
+
+  const teammateRelicSetOptions: OptionRender[] = useMemo(renderTeammateRelicSetOptions(t), [t])
+  const teammateOrnamentSetOptions: OptionRender[] = useMemo(renderTeammateOrnamentSetOptions(t), [t])
 
   const superimpositionOptions = useMemo(() => {
     const options: {
@@ -337,7 +335,7 @@ const TeammateCard = (props: {
           </AntDForm.Item>
 
           <Button
-            icon={<SyncOutlined />}
+            icon={<SyncOutlined/>}
             style={{ width: 35 }}
             disabled={disabled}
             onClick={() => {
@@ -393,7 +391,7 @@ const TeammateCard = (props: {
                 allowClear
                 popupMatchSelectWidth={false}
                 optionLabelProp='label'
-                optionRender={optionRender}
+                optionRender={optionRenderer()}
                 disabled={disabled}
               />
             </AntDForm.Item>
@@ -407,7 +405,7 @@ const TeammateCard = (props: {
                 allowClear
                 popupMatchSelectWidth={false}
                 optionLabelProp='label'
-                optionRender={optionRender}
+                optionRender={optionRenderer()}
                 disabled={disabled}
               />
             </AntDForm.Item>

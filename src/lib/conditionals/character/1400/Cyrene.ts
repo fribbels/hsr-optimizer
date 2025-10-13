@@ -141,6 +141,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const defaults = {
     buffPriority: BUFF_PRIORITY_SELF,
     enhancedBasic: true,
+    enhancedMemoSkill: true,
     zoneActive: true,
     crBuff: true,
     talentDmgBuff: true,
@@ -177,6 +178,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'enhancedBasic',
       formItem: 'switch',
       text: `Enhanced Basic`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    enhancedMemoSkill: {
+      id: 'enhancedMemoSkill',
+      formItem: 'switch',
+      text: `Enhanced Memo Skill`,
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     zoneActive: {
@@ -285,7 +292,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.MEMO_BASE_HP_SCALING.buff(1.00, SOURCE_MEMO)
 
       x.BASIC_HP_SCALING.buff((r.enhancedBasic) ? basicEnhancedScaling * 2 : basicScaling, SOURCE_BASIC)
-      x.m.MEMO_SKILL_HP_SCALING.buff(memoSkillDmgScaling, SOURCE_MEMO)
+
+      const memosprites = countTeamPath(context, PathNames.Remembrance)
+      const memoSkillScalingTotal = memoSkillDmgScaling + memoSkillDmgScaling
+          * (r.enhancedMemoSkill
+            ? (memosprites + 3 + (e >= 1 ? 12 : 0)) / context.enemyCount
+            : 0)
+      x.m.MEMO_SKILL_HP_SCALING.buff(memoSkillScalingTotal, SOURCE_MEMO)
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)

@@ -1,25 +1,11 @@
 import { applyTeamAwareSetConditionalPresets } from 'lib/conditionals/evaluation/applyPresets'
-import {
-  Parts,
-  Sets,
-  Stats,
-} from 'lib/constants/constants'
+import { Parts, Sets, Stats, } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import {
-  AbilityKind,
-  toTurnAbility,
-} from 'lib/optimization/rotation/turnAbilityConfig'
-import {
-  calculateSetNames,
-  calculateSimSets,
-  SimulationSets,
-} from 'lib/scoring/dpsScore'
-import {
-  calculateMaxSubstatRollCounts,
-  calculateMinSubstatRollCounts,
-} from 'lib/scoring/rollCounter'
+import { AbilityKind, toTurnAbility, } from 'lib/optimization/rotation/turnAbilityConfig'
+import { calculateSetNames, calculateSimSets, SimulationSets, } from 'lib/scoring/dpsScore'
+import { calculateMaxSubstatRollCounts, calculateMinSubstatRollCounts, } from 'lib/scoring/rollCounter'
 import {
   applyScoringFunction,
   baselineScoringParams,
@@ -35,38 +21,20 @@ import {
   spdRollsCap,
 } from 'lib/scoring/simScoringUtils'
 import { generatePartialSimulations } from 'lib/simulations/benchmarks/simulateBenchmarkBuild'
-import {
-  generateStatImprovements,
-  SimulationStatUpgrade,
-} from 'lib/simulations/scoringUpgrades'
+import { generateStatImprovements, SimulationStatUpgrade, } from 'lib/simulations/scoringUpgrades'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { convertRelicsToSimulation } from 'lib/simulations/statSimulationController'
-import {
-  RunSimulationsParams,
-  RunStatSimulationsResult,
-  Simulation,
-  SimulationRequest,
-  StatSimTypes,
-} from 'lib/simulations/statSimulationTypes'
-import {
-  KAFKA_B1,
-  PERMANSOR_TERRAE,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { RunSimulationsParams, RunStatSimulationsResult, Simulation, SimulationRequest, StatSimTypes, } from 'lib/simulations/statSimulationTypes'
+import { KAFKA_B1, PERMANSOR_TERRAE, } from 'lib/simulations/tests/testMetadataConstants'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
 import { runComputeOptimalSimulationWorker } from 'lib/simulations/workerPool'
 import { SimpleCharacter } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { computeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorker'
-import {
-  ComputeOptimalSimulationWorkerInput,
-  ComputeOptimalSimulationWorkerOutput,
-} from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import { ComputeOptimalSimulationWorkerInput, ComputeOptimalSimulationWorkerOutput, } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { WorkerType } from 'lib/worker/workerUtils'
-import {
-  Form,
-  OptimizerForm,
-} from 'types/form'
+import { Form, OptimizerForm, } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
 
@@ -213,7 +181,7 @@ export class BenchmarkSimulationOrchestrator {
     this.simSets = simSets
   }
 
-  public setSimForm(form: SimpleCharacter) {
+  public setSimForm(form: SimpleCharacter, simulationMetadata: SimulationMetadata) {
     const metadata = this.metadata
     const { characterId, characterEidolon, lightCone, lightConeSuperimposition } = form
 
@@ -242,6 +210,15 @@ export class BenchmarkSimulationOrchestrator {
     simulationForm.teammate0 = simulationFormT0
     simulationForm.teammate1 = simulationFormT1
     simulationForm.teammate2 = simulationFormT2
+
+    simulationForm.teammate0.teamRelicSet = metadata.teammates[0].teamRelicSet
+    simulationForm.teammate0.teamOrnamentSet = metadata.teammates[0].teamOrnamentSet
+
+    simulationForm.teammate1.teamRelicSet = metadata.teammates[1].teamRelicSet
+    simulationForm.teammate1.teamOrnamentSet = metadata.teammates[1].teamOrnamentSet
+
+    simulationForm.teammate2.teamRelicSet = metadata.teammates[2].teamRelicSet
+    simulationForm.teammate2.teamOrnamentSet = metadata.teammates[2].teamOrnamentSet
 
     simulationForm.deprioritizeBuffs = this.metadata.deprioritizeBuffs
 

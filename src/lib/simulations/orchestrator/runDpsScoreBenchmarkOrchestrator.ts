@@ -4,10 +4,7 @@ import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/be
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Character } from 'types/character'
-import {
-  ShowcaseTemporaryOptions,
-  SimulationMetadata,
-} from 'types/metadata'
+import { ShowcaseTemporaryOptions, SimulationMetadata, } from 'types/metadata'
 
 export async function runDpsScoreBenchmarkOrchestrator(
   character: Character,
@@ -20,7 +17,7 @@ export async function runDpsScoreBenchmarkOrchestrator(
   orchestrator.setMetadata()
   orchestrator.setOriginalSimRequestWithRelics(singleRelicByPart)
   orchestrator.setSimSetsWithSimRequest()
-  orchestrator.setSimForm(character.form)
+  orchestrator.setSimForm(character.form, simulationMetadata)
   orchestrator.setSimContext()
   orchestrator.setFlags()
 

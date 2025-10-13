@@ -1,13 +1,4 @@
-import {
-  ElementName,
-  MainStats,
-  Parts,
-  PathName,
-  Sets,
-  ShowcaseColorMode,
-  StatsValues,
-  SubStats,
-} from 'lib/constants/constants'
+import { ElementName, MainStats, Parts, PathName, Sets, ShowcaseColorMode, StatsValues, SubStats, } from 'lib/constants/constants'
 import { statConversion } from 'lib/importer/characterConverter'
 import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'
@@ -54,6 +45,8 @@ export type SimulationMetadata = {
     lightCone: LightCone['id'],
     characterEidolon: number,
     lightConeSuperimposition: number,
+    teamRelicSet?: string,
+    teamOrnamentSet?: string,
   }[],
   breakpoints?: {
     [stat: string]: number,

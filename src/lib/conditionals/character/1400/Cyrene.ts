@@ -75,16 +75,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const basicScaling = basic(e, 0.50, 0.55)
   const basicEnhancedScaling = basic(e, 0.30, 0.33)
 
-  const skillTrueDmgBuff = skill(e, 0.20, 0.22)
+  const skillTrueDmgBuff = skill(e, 0.24, 0.264)
   const ultCrBuff = ult(e, 0.50, 0.55)
   const talentDmgBuff = talent(e, 0.20, 0.22)
 
-  const memoSkillDmgScaling = memoSkill(e, 0.50, 0.55)
+  const memoSkillDmgScaling = memoSkill(e, 0.60, 0.66)
   const memoSkillDmgBuff = memoSkill(e, 0.40, 0.44)
   const memoTalentHpBuff = memoTalent(e, 0.24, 0.264)
 
   const memoSkillTrailblazerAtkScaling = memoSkill(e, 0.16, 0.176)
-  const memoSkillTrailblazerCrScaling = memoSkill(e, 0.60, 0.66)
+  const memoSkillTrailblazerCrScaling = memoSkill(e, 0.72, 0.792)
 
   const memoSkillAglaeaDmgBuff = memoSkill(e, 0.72, 0.792)
   const memoSkillAglaeaDefPen = memoSkill(e, 0.36, 0.396)
@@ -112,7 +112,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const memoSkillCerydraCdBuff = memoSkill(e, 0.30, 0.33)
 
-  const memoSkillEvernightDmgBuff = memoSkill(e, 0.48, 0.528)
+  const memoSkillEvernightDmgBuff = memoSkill(e, 0.18, 0.198)
+  const memoSkillEvernightCdBuff = memoSkill(e, 0.12, 0.132)
 
   const memoSkillDenHengDmgBuff = memoSkill(e, 0.16, 0.176)
   const memoSkillDenHengShieldAdditionalDmg = memoSkill(e, 0.80, 0.88)
@@ -146,7 +147,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     hpBuff: true,
     traceSpdBasedBuff: true,
     e2TrueDmgStacks: 2,
-    e6ResPen: true,
+    e6DefPen: true,
   }
 
   const teammateDefaults = {
@@ -157,7 +158,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     cyreneHp: 10000,
     cyreneCr: 1.00,
     e2TrueDmgStacks: 2,
-    e6ResPen: true,
+    e6DefPen: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -217,10 +218,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       max: 4,
       disabled: e < 2,
     },
-    e6ResPen: {
-      id: 'e6ResPen',
+    e6DefPen: {
+      id: 'e6DefPen',
       formItem: 'switch',
-      text: `E6 RES PEN`,
+      text: `E6 DEF PEN`,
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       disabled: e < 6,
     },
@@ -259,7 +260,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       percent: true,
     },
     e2TrueDmgStacks: content.e2TrueDmgStacks,
-    e6ResPen: content.e6ResPen,
+    e6DefPen: content.e6DefPen,
   }
 
   return {
@@ -294,9 +295,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.ELEMENTAL_DMG.buffTeam((m.talentDmgBuff) ? talentDmgBuff : 0, SOURCE_TALENT)
       x.TRUE_DMG_MODIFIER.buffTeam((m.zoneActive) ? skillTrueDmgBuff : 0, SOURCE_SKILL)
-      x.TRUE_DMG_MODIFIER.buffTeam((e >= 2 && m.zoneActive) ? m.e2TrueDmgStacks * 0.05 : 0, SOURCE_E2)
+      x.TRUE_DMG_MODIFIER.buffTeam((e >= 2 && m.zoneActive) ? m.e2TrueDmgStacks * 0.06 : 0, SOURCE_E2)
 
-      x.RES_PEN.buffTeam((e >= 6 && m.e6ResPen) ? 0.12 : 0, SOURCE_E6)
+      x.DEF_PEN.buffTeam((e >= 6 && m.e6DefPen) ? 0.20 : 0, SOURCE_E6)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -315,7 +316,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           x.CR.buffBaseDual(crBuff, SOURCE_MEMO)
           x.UNCONVERTIBLE_CR_BUFF.buffBaseDual(crBuff, SOURCE_MEMO)
 
-          // TODO: This effect also applies to Mem. After Trailblazer (Remembrance) uses Enhanced Basic ATK in this battle, ███ immediately gains 1 extra turn and automatically uses "Waltz of Flowers and Arrows."
+          // TODO: Effective for the entire battle. When used on Trailblazer (Remembrance), increases Trailblazer (Remembrance)'s ATK by a value equal to 16% of ███'s Max HP, and increases Trailblazer (Remembrance)'s CRIT Rate by a value equal to 60%72% of ███'s CRIT Rate. This effect also applies to Mem. After Trailblazer (Remembrance) uses Enhanced Basic ATK in this battle, ███ immediately gains 1 extra turn and automatically uses "Minuet of Blooms and Plumes." If the target was defeated before this ability is used, it will be used on newly appeared enemy targets instead.
           // ----------------------------------------------------------------------------------------------
         } else if (context.characterId == AGLAEA) {
           x.ELEMENTAL_DMG.buffBaseDual(memoSkillAglaeaDmgBuff, SOURCE_MEMO)
@@ -333,9 +334,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           // TODO: Effective for the entire battle. When used on Castorice, "Newbud" can overflow up to 200%. When summoning Netherwing, consumes all overflowed "Newbud," increases the DMG multiplier of the DMG dealt by 0.24% for every 1% of overflow value consumed when the summoned Netherwing triggers the ability effect of its Talent, "Wings Sweep the Ruins." If there are 2 enemy target(s) on the field or fewer, the DMG multiplier additionally increases by 0.48%.
           // ----------------------------------------------------------------------------------------------
         } else if (context.characterId == ANAXA) {
-          x.SKILL_DMG_BOOST.buff(memoSkillAnaxaSkillDmg, SOURCE_MEMO)
-          x.ATK_P.buff(memoSkillAnaxaAtkBuff, SOURCE_MEMO)
+          // x.SKILL_DMG_BOOST.buff(memoSkillAnaxaSkillDmg, SOURCE_MEMO)
+          // x.ATK_P.buff(memoSkillAnaxaAtkBuff, SOURCE_MEMO)
 
+          // TODO: One-time effect. When used on Anaxa, recovers 1 Skill Point(s) for allies and allows Anaxa to take action immediately. Increases the number of Skill DMG instances by 3 for 1 turn. The next time Anaxa uses an ability, he gains "True Knowledge": Increases the ATK of all Erudition Path characters by 60% and Skill DMG dealt by 40% until the start of Anaxa's next turn
           // ----------------------------------------------------------------------------------------------
         } else if (context.characterId == HYACINE) {
           // TODO: When Hyacine has "A Poem about 'Sky'" and is providing healing, additionally increases the healing value for Little Ica's Memosprite Skill by an amount equal to 72% of the healing value this time. After Hyacine uses Skill/Ultimate, consumes 1 stack of "A Poem about 'Sky'."

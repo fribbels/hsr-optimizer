@@ -30,6 +30,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
   const sValuesVulnerability = [0.10, 0.12, 0.14, 0.16, 0.18]
   const sValuesCd = [0.16, 0.19, 0.22, 0.25, 0.28]
+  const sValuesMulti = [0.60, 0.65, 0.70, 0.75, 0.80]
 
   const defaults = {
     vulnerability: true,
@@ -75,13 +76,13 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
       x.VULNERABILITY.buffTeam(
         (m.vulnerability)
-          ? (m.cdBoost ? 2 : 1) * sValuesVulnerability[s]
+          ? (m.cdBoost ? 1 + sValuesMulti[s] : 1) * sValuesVulnerability[s]
           : 0,
         SOURCE_LC,
       )
       x.CD.buffTeam(
         (m.cdBoost)
-          ? (m.vulnerability ? 2 : 1) * sValuesCd[s]
+          ? (m.vulnerability ? 1 + sValuesMulti[s] : 1) * sValuesCd[s]
           : 0,
         SOURCE_LC,
       )

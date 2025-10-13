@@ -47,6 +47,16 @@ Actions:
   p4: Limpar fixados - Limpe todas as builds que você fixou no topo da grade
 OptimizerOptions:
   Title: Opções do otimizador
+  PriorityFilter: >-
+    <0>Filtro de prioridade de personagem</0> - Quando essa opção está habilitada, o personagem só pode roubar relíquias de personagens de prioridade mais baixa. O otimizador ignorará as relíquias equipadas por personagens de prioridade mais alta na lista. Altere as classificações dos personagens a partir do seletor de prioridade ou arrastando-os na página de Personagens.
+  BoostMain: >-
+    <0>Aumentar atributo principal</0> - Calcula os atributos principais das relíquias como se estivessem neste nível (ou seu máximo se não puderem alcançar este nível) caso estejam atualmente abaixo dele. Os subatributos não são alterados de acordo, portanto, builds com relíquias de nível mais baixo podem ser mais fortes uma vez que você as aumente de nível.
+  KeepCurrent: <0>Manter relíquias atuais</0> - O personagem deve usar seus itens equipados atualmente e o otimizador tentará preencher os espaços vazios
+  AllowEquipped: <0>Permitir relíquias equipadas</0> - Quando ativado, o otimizador permitirá o uso de relíquias que estão atualmente equipadas por um personagem para a busca. Caso contrário, as relíquias equipadas são excluídas.
+  Priority: "<0>Prioridade</0> - Veja: Filtro de prioridade de personagem. Alterar esta configuração mudará a prioridade do personagem"
+  Exclude: <0>Excluir</0> - Selecione as relíquias equipadas de personagens específicos para excluir da pesquisa. Esta configuração substitui o filtro de prioridade
+  Enhance: <0>Melhorar / raridade</0> - Selecione o aprimoramento mínimo para a busca e o mínimo de estrelas para as relíquias incluídas.
+  DPSMode: <0>Modo DPS</0> - Selecione se o personagem deve ser o alvo principal para os bônus de suporte (DPS Principal) ou não (Sub DPS), para os cálculos de otimização dos atributos.
 Relics:
   Title: Relíquias
   p1: >-

@@ -25,7 +25,7 @@ Lightcones:
   AGroundedAscent:
     Content:
       dmgBuffStacks:
-        text: Aumento de dano acumula
+        text: Acúmulo de bônus de Dano
         content: >-
           Depois que o usuário usar Perícia ou Ultimate em um personagem aliado, o alvo da habilidade recebe 1 acúmulo de “Hino” por 3 turnos, acumulando até 3 vezes. Cada acúmulo de “Hino” aumenta o Dano causado por seu portador em {{DmgBuff}}%.
   AlongThePassingShore:
@@ -34,6 +34,11 @@ Lightcones:
         text: Debuff Miragem Fracassada
         content: >-
           Quando o portador atinge um alvo inimigo, aplica Miragem Fracassada ao inimigo, durando 1 turno. Cada vez que o portador ataca, esse efeito só pode ser ativado 1 vez em cada alvo. O portador causa um aumento de {{DmgBoost}}% de DANO aos alvos afetados por Mirage Fizzle, e o DANO causado pela Ultimate do portador aumenta adicionalmente em {{UltDmgBoost}}%.
+  AThanklessCoronation:
+    Content:
+      ultAtkBoost:
+        text: Bônus de ATQ da Perícia Suprema
+        content: Ao usar sua Perícia Suprema, aumenta o ATQ do usuário em {{UltAtkBuff}}%
   AnInstantBeforeAGaze:
     Content:
       maxEnergyDmgBoost:
@@ -95,6 +100,7 @@ Lightcones:
     Content:
       skillDmgBoost:
         text: Boost de DMG
+        content: Quando o usuário usa sua Perícia em um aliado-alvo, aumenta o Dano causado pela Perícia do alvo em {{DmgBuff}}% por 3 turnos.
   EternalCalculus:
     Content:
       atkBuffStacks:
@@ -107,7 +113,7 @@ Lightcones:
     Content:
       skillUltDmgBoost:
         text: Aumento de DMG Perícia / Ult
-        content: Ao usar Perícia ou Ultimate, aumenta o DMG causado por este ataque em {{DmgBoost}}%.
+        content: Ao usar Perícia ou Perícia Suprema, aumenta o DANO causado por este ataque em {{DmgBoost}}%.
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -324,6 +330,11 @@ Lightcones:
         text: Vulnerabilidade encurralada
         content: >-
           Após o usuário usar o ATK Básico, Habilidade ou Ultimate para atacar um alvo inimigo, há uma chance base de 60% de infligir a condição Vulnerabilidade sem armadura no alvo. Enquanto estiver no estado de Vulnerabilidade sem armadura, o alvo inimigo recebe um aumento de {{UnarmoredVulnerability}}% no dano, durando por 2 turno(s). Se o alvo estiver sob um estado de Dano ao longo do tempo (DoT) causado pelo usuário, há uma chance base de 60% de atualizar o estado de Vulnerabilidade sem armadura infligido pelo usuário para o estado Encurralado, que aumenta adicionalmente o dano que o alvo inimigo recebe em {{CorneredVulnerability}}%, durando por 2 turno(s).
+  ThoughWorldsApart:
+    Content:
+      dmgBoost:
+        text: Bônus de Dano
+        content: Quando o usuário usa Perícia Suprema, concede “Reduto” a todos os aliados por 3 turnos. Alvos com “Reduto” causam {{DmgBuff}}% a mais de Dano, que aumenta mais em {{SummonDmgBuff}}% se eles tiverem invocações.
   ThusBurnsTheDawn:
     Content:
       defPen:
@@ -587,10 +598,16 @@ Lightcones:
       cdBuffActive:
         text: 'Buff de cooldown para alvos com ≥ 2 fraquezas'
         content: Quando o portador usa um ataque e pelo menos 2 inimigos atacados têm a fraqueza correspondente, o CRIT DMG do portador aumenta em {{CritBuff}}% por 2 turnos.
+  TheFlowerRemembers:
+    Content:
+      memoCdBoost:
+        text: Bônus de Dano CRIT do Memo
+        content: O Dano CRIT tratado pelo memoespírita do usuário aumenta em {{CritDmgBuff}}%
   TheForeverVictual:
     Content:
       atkStacks:
         text: Acúmulos de buff de ATK
+        content: Após utilizar a Perícia, o ataque do usuário aumenta em {{AtkBuff}}%, acumulando até 3 vezes.
   TheGreatCosmicEnterprise:
     Content:
       weaknessTypes:
@@ -609,6 +626,10 @@ Lightcones:
       defeatedEnemyAtkStacks:
         text: Acúmulos de ATK para inimigos derrotados
         content: Para cada inimigo derrotado pelo portador, o ATK do portador aumenta em {{AtkBuff}}%, acumulando até 3 vezes.
+  TheStorysNextPage:
+    Content:
+      ohbBuff:
+        content: Após o ataque do memoespírito do usuário, o Bônus de Cura do usuário e seu memoespírito aumentam em {{OHBBuff}}%, durando por 1 turno.
   ThisIsMe:
     Content:
       defScalingUltDmg:
@@ -625,6 +646,11 @@ Lightcones:
       defeatedEnemyCrBuff:
         text: Buff de CR para inimigos derrotados
         content: Quando o portador derrota um inimigo, a taxa de CRIT do portador aumenta em {{CritBuff}}% por 3 turnos.
+  UntoTomorrowsMorrow:
+    Content:
+      hp50DmgBoost:
+        text: PV ≥ 50% bônus de Dano
+        content: Quando a porcentagem atual de HP de um aliado de aliado é maior ou igual a 50%, aumenta o Dano causado em {{DmgBuff}}%.
   VictoryInABlink:
     Content:
       teamDmgBuff:
@@ -811,8 +837,11 @@ Characters:
     Content:
       cdBuff:
         text: Buff de CD
+      e4UltDmg:
+        content: Aumenta o Dano causado pela Perícia Suprema em 150%.
       e6Buffs:
         text: Buffs E6
+        content: O número de pilhas máximas para o efeito DMG Boost fornecido por sua habilidade aumenta em 1. Sua habilidade DMG foi ignorada ignora 20% da def.
   Argenti:
     Content:
       ultEnhanced:
@@ -1021,11 +1050,25 @@ Characters:
     Content:
       spdBuff:
         text: Buff de SPD
+        content: Ao usar uma Perícia, aumenta a VEL desta unidade e do aliado com "Mérito Militar" em 20 durando por 3 rodada(s).
+      crBuff:
+        text: Bônus de Chance Crítica
+        content: Aumenta a Chance Crítica de Cerydra em 100%.
+      atkToCd:
+        text: ATQ em Dano CRIT
       e2DmgBoost:
         text: Boost de DMG E2
+        content: O personagem com “Mérito Militar” causa 40% a mais de Dano. Enquanto um companheiro de equipe em campo tiver “Mérito Militar”, o Dano causado por Cerydra aumenta em 160%.
+      e4UltDmg:
+        content: Aumenta o multiplicador de Dano da Ultimate em 240%.
       e6Buffs:
         text: Buffs E6
+        content: O personagem com “Mérito Militar” aumenta sua RES PEN de todos os tipos em 20%, e o multiplicador para o DMG adicional acionado por meio do “Mérito Militar” aumenta em 300%. Enquanto um companheiro de equipe em campo tiver “Mérito Militar”, a RES PEN de todos os tipos de Cerydra aumenta em 20%.
     TeammateContent:
+      militaryMerit:
+        text: Mérito militar
+      teammateATKValue:
+        text: ATQ de Cerydra em Combate
       e1DefPen:
         text: PEN de DEF E1
   Cipher:
@@ -1093,8 +1136,14 @@ Characters:
           Ao usar sua Habilidade, Dr. Ratio tem 40% de chance fixa de lançar um ataque adicional contra seu alvo uma vez, causando DMG Imaginário igual a {{FuaScaling}}% do ATK de Dr. Ratio. Para cada debuff que o inimigo alvo possui, a chance fixa de lançar o ataque adicional aumenta em 20%. Se o inimigo alvo for derrotado antes que o ataque adicional ocorra, o ataque adicional será direcionado a um único inimigo aleatório.::BR::Ao causar DMG a um alvo que possui 3 ou mais debuffs, para cada debuff que o alvo tem, o DMG causado por Dr. Ratio a esse alvo aumenta em 10%, até um aumento máximo de 50%.::BR::E2: Quando o ataque adicional de seu Talento atinge um alvo, para cada debuff que o alvo possui, causa adicionalmente DMG Imaginário igual a 20% do ATK de Dr. Ratio. Esse efeito pode ser acionado no máximo 4 vezes durante cada ataque adicional.
   Evernight:
     Content:
+      crBuff:
+        text: Bônus de Chance Crítica
+      memoriaStacks:
+        content: >-
+          Esta habilidade seleciona automaticamente um alvo, priorizando o inimigo-alvo que Noite Eterna atacou por último. Causa Dano de Gelo igual a {{MemoSkillScaling}}% dos PV máximos de Nox a um inimigo. Para cada 4 pontos de "Memória" que Noite Eterna possui atualmente, causa adicionalmente Dano de Gelo igual a {{MemoSkillAdditionalScaling}}% dos PV máximos de "Nox". ::BR::Quando a "Memória" de Noite Eterna é maior ou igual a 16 pontos, e ela não estiver sob efeito de Controle Negativo, "Sonho, Dissolvendo-se, como Orvalho" pode ser usada. Para cada ponto de "Memória" atualmente em posse, Causa Dano de Gelo igual a {{MemoSkillEnhancedScaling}}% dos PV máximos de "Nox" no alvo principal.
       enhancedState:
         text: Estado aprimorado
+        content: Usar sua Perícia Suprema faz com que Noite Eterna entre no estado de "Enigma Mais Sombrio". Durante este estado, o Dano recebido por todos os inimigos aumenta em {{UltVulnScaling}}%, o Dano causado por Noite Eterna e seu Memoespírito "Nox" aumenta em  {{UltDmgBoostScaling}}%.
       e4Buffs:
         text: Buffs E4
       e6ResPen:
@@ -1354,8 +1403,17 @@ Characters:
         text: Zona de Ult ativa
       ehrToDmg:
         text: Aumento de DMG de EHR
+      dotDetonation:
+        text: Detonação do Dano Contínuo (Ativação automática)
+      e1Buffs:
+        text: Buffs da E1
+      e4ResPen:
+        content: Enquanto a Zona está ativa, reduz a RES de Todos os  Tipos de todos os inimigos em 20%;
       e6Buffs:
         text: Buffs E6
+    TeammateContent:
+      e2TeammateEhr:
+        text: "Taxa de AE em combate de Hysilens E2."
   ImbibitorLunae:
     Content:
       basicEnhanced:
@@ -1439,11 +1497,25 @@ Characters:
     Content:
       talentEnhancedState:
         text: Estado aprimorado
+        content: >-
+          Quando Jingliu possui 2 acúmulos de "Sizígia", ela entra no estado de "Transmigração Espectral" e sua Chance de CRIT aumenta em {{UltCRBuff}}% ::BR:: Enquanto estiver no estado de "Transmigração Espectral", a RES a Efeito aumenta em 35% e o Dano causado pela Perícia Suprema em 20%.
+      maxSyzygyDefPen:
+        content: Quando obter os acúmulos máximos de "Sizígia", o próximo ataque de Jingliu ignora 25% da DEF do alvo.
+      moonlightStacks:
+        text: Acúmulos de Luar
+        content: Durante o estado de "Transmigração Espectral", quando aliados-alvo recebem Dano ou consomem PV, Jingliu ganha 1 acúmulo de "Luar". Cada acúmulo de "Luar" aumenta o Dano CRIT de Jingliu em {{MoonlightCDBuff}}%, até 5 vezes.
+      e1Buffs:
+        text: Buffs da E1
+        content: Ao usar Perícia Suprema ou Perícia Aprimorada, o Dano CRIT de Jingliu aumenta em 36% por 1 turno. Além disso, causa adicionalmente 1 instância de Dano de Gelo igual a 80% dos PV máximos de Jingliu ao alvo principal.
       e2SkillDmgBuff:
         text: Buff de Habilidade E2
         content: Após usar o Ultimate, aumenta o DMG da próxima Habilidade Aprimorada em 80%.
+      e4MoonlightCdBuff:
+        text: Dano CRIT de Luar da E4
+        content: Durante o estado de "Transmigração Espectral", cada acúmulo de "Luar" aumenta adicionalmente o Dano CRIT em 20%.
       e6ResPen:
         text: E6 RES PEN
+        content: Enquanto Jingliu entra no estado de "Transmigração Espectral", sua PEN de RES a Gelo aumenta em 30%.
   JingYuan:
     Content:
       skillCritBuff:
@@ -1635,12 +1707,24 @@ Characters:
         text: Buffs E6
   Phainon:
     Content:
+      enhancedSkillType:
+        options:
+          Calamity:
+            display: 'Perícia: Calamidade.'
+            label: 'Perícia Aprimorada: Calamidade.'
+          Foundation:
+            display: 'Perícia: Fundação'
+            label: 'Perícia Aprimorada: Fundação'
       atkBuffStacks:
         text: Acúmulos de buff de ATK
+        content: Ao entrar em batalha ou quando a transformação acaba, aumenta o ATQ em 50%. Este efeito pode acumular até 2 vezes.
       cdBuff:
         text: Buff de CD
+        content: Quando Phainon é o alvo da habilidade de qualquer personagem, ele ganha 1 ponto de "Chama Primordial". Se o usuário da habilidade for um companheiro de equipe de Phainon, aumenta adicionalmente o Dano CRIT em {{TalentCdBuff}}% por 3 rodadas.
       spdBuff:
         text: Buff SPD de equipe
+      e1Buffs:
+        text: Buffs da E1
       e2ResPen:
         text: E2 RES PEN
   Qingque:
@@ -1747,6 +1831,9 @@ Characters:
         text: Habilidade Aprimorada
       talentDmgBuff:
         text: Aumento de DMG do Talento
+      crBuff:
+        text: Bônus de Chance Crítica
+        content: Aumenta a Chance Crítica de Saber em 20%.
       cdBuff:
         text: Buff de CD
       e6ResPen:
@@ -1807,6 +1894,8 @@ Characters:
           Se houver 3 ou mais debuffs afetando o inimigo quando a Habilidade for utilizada, a Habilidade diminui a RES de Todos os Tipos do inimigo em mais 3%.::BR::E4: Após usar sua Ultimativa para atacar inimigos, causa Dano Quantum Adicional igual a 20% do ATK do Lobo Prateado para cada debuff atualmente no alvo inimigo. Esse efeito pode ser acionado no máximo 5 vezes durante cada uso de sua Ultimate.::BR::E6: Para cada debuff que o inimigo alvo possui, o DMG causado pelo Lobo Prateado aumenta em 20%, até um limite de 100%.
   SilverWolfB1:
     Content:
+      ehrToAtkConversion:
+        text: Conversão de Taxa de Acerto de Efeito em ATQ
       skillResShredDebuff:
         text: Redução de RES de Habilidade
       skillWeaknessResShredDebuff:
@@ -1817,6 +1906,11 @@ Characters:
         text: Redução de DEF final
       targetDebuffs:
         text: Debuffs do alvo
+        content: >-
+          Depois de cada ataque realizado por Loba Prateada, ela tem uma chance-base de {{BugBaseChance}}% de implantar 1 "Erro" aleatório que dura por 4 rodadas no inimigo-alvo atacado. ::BR:: E1: Após usar sua Perícia Suprema para atacar qualquer alvo, Loba prateada regenera 7 de Energia para cada penalidade que o alvo possui no momento. Este efeito pode ser ativado até 5 vezes cada vez que a Perícia Suprema da Loba Prateada for utilizada. ::BR:: E2: Quando um inimigo-alvo é atacado por aliados-alvo, Loba Prateada tem uma chance-base de 100% de implantar 1 "Erro" aleatório no inimigo-alvo atacado. ::BR:: E4: Após usar a Perícia Suprema para atacar um inimigo-alvo, causa Dano Quântico adicional igual a 20% do ATQ da Loba Prateada para cada penalidade do alvo. Este efeito pode ser ativado até 5 vezes por alvo durante cada uso da Perícia Suprema. ::BR:: E6: Para cada penalidade no inimigo-alvo, o Dano causado pela Loba Prateada aumenta em 20%, até um máximo de 100%.
+      e2Vulnerability:
+        text: Vulnerabilidade da E2
+        content: Quando um inimigo-alvo entra em batalha, aumenta o Dano recebido em 20%.
   Sparkle:
     Content:
       skillCdBuff:

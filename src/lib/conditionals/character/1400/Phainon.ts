@@ -3,11 +3,14 @@ import {
   FUA_DMG_TYPE,
   SKILL_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
+import { standardAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
   countTeamPath,
+  cyreneSpecialEffectEidolonUpgraded,
+  cyreneTeammateSpecialEffectActive,
   teammateMatchesId,
 } from 'lib/conditionals/conditionalUtils'
 import { PathNames } from 'lib/constants/constants'
@@ -43,6 +46,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
+    SOURCE_MEMO,
   } = Source.character(PHAINON)
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -170,6 +174,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
+      const cyreneAdditionalScaling = cyreneTeammateSpecialEffectActive(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.11 : 0.10) * 5 / context.enemyCount
+        : 0
 
       x.CD.buff(r.cdBuff ? talentCdBuffScaling : 0, SOURCE_TALENT)
       x.ATK_P.buff(r.atkBuffStacks * 0.50, SOURCE_TRACE)
@@ -188,28 +195,34 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.PHYSICAL_RES_PEN.buff(e >= 2 && r.e2ResPen ? 0.20 : 0, SOURCE_E2)
 
         x.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_BASIC)
+        x.BASIC_ADDITIONAL_DMG_SCALING.buff(cyreneAdditionalScaling, SOURCE_MEMO)
 
         if (r.enhancedSkillType == PhainonEnhancedSkillType.CALAMITY) {
           x.DMG_RED_MULTI.multiply(1 - 0.75, SOURCE_SKILL)
         }
         if (r.enhancedSkillType == PhainonEnhancedSkillType.FOUNDATION) {
           x.SKILL_ATK_SCALING.buff(26 * enhancedSkillFoundationSingleHitScaling / context.enemyCount, SOURCE_SKILL)
+          x.SKILL_ADDITIONAL_DMG_SCALING.buff(cyreneAdditionalScaling, SOURCE_MEMO)
           x.SKILL_TOUGHNESS_DMG.buff(16 * 3.33333 / context.enemyCount + 20, SOURCE_SKILL)
 
           x.SKILL_TRUE_DMG_MODIFIER.buff(e >= 6 && r.e6TrueDmg ? 0.36 : 0, SOURCE_E6)
         }
 
         x.FUA_ATK_SCALING.buff(fuaDmgScaling + 4 * fuaDmgExtraScaling, SOURCE_SKILL)
+        x.FUA_ADDITIONAL_DMG_SCALING.buff(cyreneAdditionalScaling, SOURCE_MEMO)
         x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+        x.ULT_ADDITIONAL_DMG_SCALING.buff(cyreneAdditionalScaling, SOURCE_MEMO)
 
         x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-        x.SKILL_TOUGHNESS_DMG.buff(0, SOURCE_SKILL)
         x.FUA_TOUGHNESS_DMG.buff(15, SOURCE_SKILL)
         x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
       } else {
         x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+        x.BASIC_ADDITIONAL_DMG_SCALING.buff(cyreneAdditionalScaling, SOURCE_MEMO)
         x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+        x.SKILL_ADDITIONAL_DMG_SCALING.buff(cyreneAdditionalScaling, SOURCE_MEMO)
         x.ULT_ATK_SCALING.buff(0, SOURCE_ULT)
+        x.ULT_ADDITIONAL_DMG_SCALING.buff(cyreneAdditionalScaling, SOURCE_MEMO)
 
         x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
         x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
@@ -223,6 +236,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SPD_P.buffTeam(m.spdBuff ? 0.15 : 0, SOURCE_TALENT)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      standardAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: () => '',
   }

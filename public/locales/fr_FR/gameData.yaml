@@ -366,7 +366,7 @@ RelicSets:
     Description2pc: Augmente les DGT critiques de 16%.
     Description4pc: Lorsque le porteur est la cible d'une capacité alliée, il gagne 1 cumul d'Aide, jusqu'à un maximum de 2 cumuls. Lorsque le porteur utilise un ultime et qu'il bénéficie de 2 cumuls d'Aide, consomme tous les cumuls pour augmenter son ATQ de 48% pendant 1 tour.
   "127":
-    Name: "{F#Libératrice}{M#Libérateur} d'un monde nouveau"
+    Name: Libérateur d'un monde nouveau
     Description2pc: Augmente les chances de coup critique de 8%.
     Description4pc: Après que le porteur a utilisé une ATQ normale ou une compétence, si son mnémesprit est sur le champ de bataille, augmente les PV max du porteur et de son mnémesprit de 24% et augmente les DGT infligés par tous les alliés de 15%. Cet effet dure jusqu'à la prochaine ATQ normale ou compétence du porteur.
   "128":
@@ -443,7 +443,7 @@ RelicSets:
     Name: Amphoreus, The Eternal Land
     Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
   "324":
-    Name: Tengoku @Live Stream
+    Name: Tengoku@Livestream
     Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
 Lightcones:
   "20000":
@@ -627,7 +627,7 @@ Lightcones:
   "22005":
     Name: Un goût d'éternité
   "22006":
-    Name: Take Flight Toward A Pink Tomorrow
+    Name: Fly Into a Pink Tomorrow
   "23000":
     Name: Nuit sur la voie lactée
   "23001":

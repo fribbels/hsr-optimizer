@@ -14,6 +14,8 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  cyreneSpecialEffectEidolonUpgraded,
+  cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
@@ -24,6 +26,7 @@ import {
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
+import { CYRENE } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -175,6 +178,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
       x.FUA_TOUGHNESS_DMG.buff(5, SOURCE_TALENT)
+
+      if (cyreneTeammateSpecialEffectActive(action)) {
+        x.BASIC_ADDITIONAL_DMG_SCALING.buff(additionalScaling, SOURCE_MEMO)
+        x.ULT_ADDITIONAL_DMG_SCALING.buff(additionalScaling, SOURCE_MEMO)
+        x.FUA_ADDITIONAL_DMG_SCALING.buff(additionalScaling, SOURCE_MEMO)
+      }
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

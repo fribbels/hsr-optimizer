@@ -35,6 +35,7 @@ export type OptimizerAction = {
   },
 
   actorId: string,
+  actorEidolon: number,
   actionType: AbilityKind,
   actionIndex: number,
 
@@ -47,6 +48,7 @@ export type OptimizerAction = {
 
 export type TeammateAction = {
   actorId: string,
+  actorEidolon: number,
   characterConditionals: ConditionalValueMap,
   lightConeConditionals: ConditionalValueMap,
 }

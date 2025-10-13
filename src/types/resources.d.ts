@@ -6416,7 +6416,8 @@ interface Resources {
     },
     "SimulateRelics": "Simulate relics on another character",
     "OptimizeOnCharacter": "Optimize character stats",
-    "Disclaimer": "Note: Combo DMG is meant to compare different relics relative to the selected team, and should <1>NOT</1> be used to compare different teams / LCs / eidolons!"
+    "Disclaimer": "Note: Combo DMG is meant to compare different relics relative to the selected team, and should <1>NOT</1> be used to compare different teams / LCs / eidolons!",
+    "DisclaimerDescription": "Combo DMG is a tool to measure the damage of a single ability rotation within the context of a specific team. Changing the team / eidolons / light cones will change the duration of the rotation, how much energy is generated, uptime of buffs, etc. This means Combo DMG can NOT be used to determine which team is better, or which light cone is better, or measure the damage increase between eidolons. Combo DMG is only meant to compare different relics within a defined team and speed target."
   },
   "relicsTab": {
     "RelicFilterBar": {
@@ -6585,6 +6586,11 @@ interface Resources {
       "Label": "Relic locator in relic editor",
       "Yes": "Show the relic locator in the relic editor",
       "No": "Default: Do not show the relic locator in the relic editor"
+    },
+    "ShowComboDmgWarning": {
+      "Label": "Show Combo DMG warning",
+      "Show": "Default: Show warning",
+      "Hide": "Hide warning"
     }
   },
   "sidebar": {

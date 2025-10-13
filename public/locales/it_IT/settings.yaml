@@ -16,3 +16,7 @@ ShowLocatorInRelicsModal:
   Label: Localizzatore reliquie nell'editor delle reliquie
   Yes: Mostra il localizzatore reliquie nell'editor delle reliquie
   No: 'Predefinito: Non mostrare il localizzatore reliquie nell''editor delle reliquie'
+ShowComboDmgWarning:
+  Label: Mostra avviso DAN Combo
+  Show: 'Predefinito: Mostra avviso'
+  Hide: Nascondi avviso

@@ -16,3 +16,7 @@ ShowLocatorInRelicsModal:
   Label: Relic locator in relic editor
   Yes: Show the relic locator in the relic editor
   No: 'Default: Do not show the relic locator in the relic editor'
+ShowComboDmgWarning:
+  Label: Show Combo DMG warning
+  Show: 'Default: Show warning'
+  Hide: Hide warning

@@ -1,8 +1,5 @@
 import { Parts } from 'lib/constants/constants'
-import {
-  Character,
-  CharacterId,
-} from 'types/character'
+import { Character, CharacterId, } from 'types/character'
 import { LightCone } from 'types/lightCone'
 import { BasicForm } from 'types/optimizer'
 import { Relic } from 'types/relic'
@@ -13,7 +10,10 @@ export type ShowcaseTabCharacter = Omit<Character, 'equipped' | 'rank' | 'builds
   index: number,
   equipped: Record<Parts, Relic | null | undefined>,
   key: string,
-  form: Omit<BasicForm, 'lightCone' | 'characterId'> & { lightCone: LightCone['id'] | null, characterId: CharacterId | null },
+  form: Omit<BasicForm, 'lightCone' | 'characterId'> & {
+    lightCone: LightCone['id'] | null,
+    characterId: CharacterId | null
+  },
 }
 
 export type ShowcaseTabSavedSession = {

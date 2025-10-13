@@ -50,6 +50,11 @@ export const SettingOptions = {
     Yes: 'Yes',
     No: 'No',
   },
+  ShowComboDmgWarning: {
+    name: 'ShowComboDmgWarning',
+    Show: 'Show',
+    Hide: 'Hide',
+  },
 } as const satisfies Record<keyof UserSettings, Record<string, string>>
 
 export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
@@ -57,6 +62,7 @@ export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
   [SettingOptions.PermutationsSidebarBehavior.name]: SettingOptions.PermutationsSidebarBehavior.ShowXL,
   [SettingOptions.ExpandedInfoPanelPosition.name]: SettingOptions.ExpandedInfoPanelPosition.Below,
   [SettingOptions.ShowLocatorInRelicsModal.name]: SettingOptions.ShowLocatorInRelicsModal.No,
+  [SettingOptions.ShowComboDmgWarning.name]: SettingOptions.ShowComboDmgWarning.Show,
 }
 
 export const SettingsDrawer = () => {
@@ -116,11 +122,23 @@ export const SettingsDrawer = () => {
     },
   ]
 
+  const optionsShowComboDmgWarning = [
+    {
+      value: SettingOptions.ShowComboDmgWarning.Show,
+      label: <span>{t('ShowComboDmgWarning.Show') /* Default: Show warning */}</span>,
+    },
+    {
+      value: SettingOptions.ShowComboDmgWarning.Hide,
+      label: <span>{t('ShowComboDmgWarning.Hide') /* Hide warning */}</span>,
+    },
+  ]
+
   const optionsMap: Record<keyof UserSettings, { value: string, label: ReactNode }[]> = {
     RelicEquippingBehavior: optionsRelicEquippingBehavior,
     PermutationsSidebarBehavior: optionsPermutationsSidebarBehavior,
     ExpandedInfoPanelPosition: optionsExpandedInfoPanelPosition,
     ShowLocatorInRelicsModal: optionsShowLocatorInRelicsModal,
+    ShowComboDmgWarning: optionsShowComboDmgWarning,
   }
 
   useEffect(() => {
@@ -129,7 +147,7 @@ export const SettingsDrawer = () => {
     setSettings(newSettings)
 
     settingsForm.setFieldsValue(newSettings)
-  }, [])
+  }, [isOpenSettingsDrawer])
 
   const onValuesChange = (_changedValues: Partial<UserSettings>, allValues: UserSettings) => {
     setSettings(allValues)

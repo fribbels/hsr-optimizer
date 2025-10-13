@@ -16,3 +16,7 @@ ShowLocatorInRelicsModal:
   Label: Localizador de relíquia no editor de relíquias
   Yes: Mostrar o localizador de relíquia no editor de relíquias
   No: 'Padrão: Não mostrar o localizador de relíquia no editor de relíquia'
+ShowComboDmgWarning:
+  Label: Aviso de Mostrar Dano de Combo
+  Show: 'Padrão: Mostrar aviso'
+  Hide: Esconder aviso

@@ -1,5 +1,5 @@
 Messages:
-  ThrottleWarning: "Veuillez attendre {{seconds}} secondes avant de réessayer"
+  ThrottleWarning: 'Veuillez attendre {{seconds}} secondes avant de réessayer'
   InvalidIdWarning: UID invalide
   IdLoadError: Erreur lors du chargement de l'UID
   SuccessMsg: Chargement du profil réussi
@@ -8,8 +8,8 @@ Messages:
   CharacterAlreadyExists: Personnage sélectionné existe déjà
   UnknownButtonClicked: Bouton inconnu cliqué
 Header:
-  DowntimeWarning: "L'appréciateur de reliques "
-  WithVersion: "Entrez l'UID de votre compte pour apprécier vos personnages de vitrine au niveau 80 et au maximum des traces. Déconnectez-vous pour actualiser instantanément. (Version actuelle {{beta_version}})"
+  DowntimeWarning: 'L''appréciateur de reliques '
+  WithVersion: 'Entrez l''UID de votre compte pour apprécier vos personnages de vitrine au niveau 80 et au maximum des traces. Déconnectez-vous pour actualiser instantanément. (Version actuelle {{beta_version}})'
   WithoutVersion: Entrez l'UID de votre compte pour apprécier vos personnages de vitrine au niveau 80 et au maximum des traces. Déconnectez-vous pour actualiser instantanément.
 SubmissionBar:
   Placeholder: UID du compte
@@ -21,4 +21,5 @@ ImportLabels:
   AllCharacters: Importer tous les personnages & toutes les reliques dans l'optimiseur
 SimulateRelics: Simuler les reliques sur un autre personnage
 OptimizeOnCharacter: Optimiser les stats du personnage
-Disclaimer: "Note: Les DGT Combo sont destinés à comparer différentes reliques dans le contexte d'une même équipe, et <1>NE DOIVENT PAS</1> être utilisées pour comparer entre différentes équipes / eidolons / cônes de lumière!"
+Disclaimer: 'Note: Les DGT Combo sont destinés à comparer différentes reliques dans le contexte d''une même équipe, et <1>NE DOIVENT PAS</1> être utilisées pour comparer entre différentes équipes / eidolons / cônes de lumière!'
+DisclaimerDescription: 'Le calcul des DGT Combo est un outil permettant de mesurer les dégâts d''une rotation de capacités dans le contexte d''une équipe spécifique. Modifier l''équipe / les eidolons / les cônes de lumière risque de modifier la durée de la rotation, la quantité d''énergie générée, la durée relative des buffs, etc. C''est pour cela que les DGT Combo ne DOIVENT PAS être utilisés pour déterminer la meilleure équipe, le meilleur cône de lumière, l''amélioration offerte par un eidolon. Les DGT Combo servent UNIQUEMENT à comparer differentes reliques dans le context d''une équipe fixe à une vitesse fixe.'

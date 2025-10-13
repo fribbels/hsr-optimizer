@@ -10,7 +10,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import {
   ConditionalActivation,
-  ConditionalType,
+  ConditionalType, CURRENT_DATA_VERSION,
   Stats,
 } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -28,6 +28,7 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import i18next from "i18next";
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerRemembrance')
@@ -48,6 +49,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   } = Source.character('8008')
 
   const basicScaling = basic(e, 1.00, 1.10)
+  const enhancedBasicScaling = basic(e, 1.20, 1.32)
 
   const ultScaling = ult(e, 2.40, 2.64)
 
@@ -66,6 +68,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const defaults = {
     buffPriority: BUFF_PRIORITY_SELF,
+    enhancedBasic: false,
     memoSkillHits: 4,
     teamCdBuff: true,
     memsSupport: false,
@@ -95,6 +98,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         { display: tBuff('Memo'), value: BUFF_PRIORITY_MEMO, label: tBuff('Memo') },
       ],
       fullWidth: true,
+    },
+    enhancedBasic: {
+      id: 'enhancedBasic',
+      formItem: 'switch',
+      text: 'Enhanced Basic',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     memoSkillHits: {
       id: 'memoSkillHits',
@@ -187,7 +196,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      if (r.enhancedBasic) {
+        x.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_BASIC)
+        x.m.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_MEMO)
+      } else {
+        x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      }
 
       x.MEMO_BASE_HP_SCALING.buff(memoHpScaling, SOURCE_MEMO)
       x.MEMO_BASE_HP_FLAT.buff(memoHpFlat, SOURCE_MEMO)

@@ -11,6 +11,7 @@ import {
   ZeroResultSuggestionModal,
 } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import Sidebar from 'lib/tabs/tabOptimizer/Sidebar'
+import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import React from 'react'
 
 export default function OptimizerTab() {
@@ -19,8 +20,9 @@ export default function OptimizerTab() {
 
   return (
     <Flex>
-      <Flex vertical gap={10} style={{ marginBottom: 100 }}>
+      <Flex vertical gap={10} style={{ marginBottom: 100, width: 1227 }}>
         <OptimizerForm />
+        <DPSScoreDisclaimer />
         <OptimizerGrid />
         <Flex
           vertical

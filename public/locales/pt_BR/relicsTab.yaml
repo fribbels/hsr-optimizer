@@ -14,6 +14,13 @@ RelicFilterBar:
   RecommendationHeader: Personagem para recomendação de relíquias
   Rating: Classificação das relíquias
   CustomCharsHeader: Potencial dos personagens selecionados
+RecentlyUpdatedRelics:
+  Header: Relíquias aprimoradas recentemente
+  Potential: POTENCIAL
+  Avg: MEDIANA
+  Max: MÁXIMA
+  BestFor: MELHOR PARA
+  Tooltip: Pontuação de potencial mediana e máxima para esse personagem
 Messages:
   AddRelicSuccess: Relíquia adicionada com sucesso
   NoRelicSelected: Não há relíquia selecionada
@@ -138,6 +145,7 @@ Toolbar:
   PlotOptions:
     PlotAll: Mostrar todos os personagens
     PlotCustom: Mostrar personagens selecionados
+    PlotOwned: Exibir personagens indexados
   EditRelic: Editar relíquia
   DeleteRelic:
     ButtonText: Deletar relíquia
@@ -147,3 +155,4 @@ Toolbar:
 RelicInsights:
   NewStats: 'Novos  atributos: '
   UpgradedStats: 'Atributos  melhorados: '
+  AvgPotential: 'Potencial mediano: '

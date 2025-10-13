@@ -17,7 +17,19 @@ Import:
   ParserWarning:
     BadRollInfo: O arquivo do scanner está desatualizado / pode conter informações inválidas. Por favor atualize seu scanner.
   LiveImport:
+    Title: Controles de Importação Em Tempo Real
+    Description:
+      l1: Quando usar o Arquivo de Relíquias, você pode habilitar o modo de "Importação Em Tempo Real" para importar seu inventário em tempo real.
+      l2: Isso inclui novas relíquias, relíquias aprimoradas, resultados dos tiros/gacha, e mais.
+    Connected: Conectado
+    Disconnected: Desconectado
+    DisconnectedHint: Incapaz de se conectar ao escaneador. Por favor, verifique se está em execução.
+    Enable: Habilitar Importação Em Tempo Real (Recomendado)
+    UpdateCharacters: Habilitar aprimoramento dos cones de luz e relíquias equipados nos personagens
+    UpdateWarpResources: Habilitar importação dos recursos para tiros (jades, passes, pity)
     AdvancedSettings:
+      Title: Configurações Avançadas
+      WebsocketUrl: URL de Websocket
       WebsocketUrlReset: Resetar para padrão
   Stage1:
     Header: "Instale e execute uma das opções do escaneador de relíquias:"
@@ -28,6 +40,7 @@ Import:
       OfflineMsg: "***** Status: Off-line para manutenção após a versão {{version}} *****"
       l1: Décimos de velocidade precisos, escaneamento instantâneo
       l2: Importa o inventário completo e todos os personagens
+      l3: Suporta importação em tempo real (relíquias novas/aprimoradas são importadas em tempo real)
     KelzDesc:
       Title: Kel-Z HSR Scanner
       Link: Github

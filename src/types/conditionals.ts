@@ -37,7 +37,7 @@ export interface ConditionalsController {
 
   // Effects that only apply as a teammate, onto the primary character
   // e.g. Targeted teammate buff
-  precomputeTeammateEffects?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
+  precomputeTeammateEffects?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => void
 
   calculateBasicEffects?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
   gpuCalculateBasicEffects?: (action: OptimizerAction, context: OptimizerContext) => string

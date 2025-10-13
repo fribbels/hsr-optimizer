@@ -147,6 +147,7 @@ export type UserSettings = {
   PermutationsSidebarBehavior: string,
   ExpandedInfoPanelPosition: string,
   ShowLocatorInRelicsModal: string,
+  ShowComboDmgWarning: string,
 }
 
 // The JSON format we save to localstorage / save file

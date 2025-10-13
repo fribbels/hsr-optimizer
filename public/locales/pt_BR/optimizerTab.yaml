@@ -26,8 +26,8 @@ MainStats: Atributos principais
 Sets: Sets
 RelicSetSelector:
   Placeholder: Set de Relíquia
-  4pcLabel: 4 Pedaços
-  2+2pcLabel: 2 + 2 Pedaços
+  4pcLabel: 4 Peças
+  2+2pcLabel: 2 + 2 Peças
   2pcLabel: 2 + Qualquer
 OrnamentSetSelector:
   Placeholder: Set de Ornamento

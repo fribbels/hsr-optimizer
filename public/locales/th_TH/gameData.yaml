@@ -443,7 +443,7 @@ RelicSets:
     Name: Amphoreus, The Eternal Land
     Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
   "324":
-    Name: Tengoku @Live Stream
+    Name: Tengoku@Livestream
     Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
 Lightcones:
   "20000":
@@ -627,7 +627,7 @@ Lightcones:
   "22005":
     Name: The Forever Victual
   "22006":
-    Name: Take Flight Toward A Pink Tomorrow
+    Name: Fly Into a Pink Tomorrow
   "23000":
     Name: Night on the Milky Way
   "23001":

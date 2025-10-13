@@ -170,7 +170,7 @@ export function hoyolabParser(json: HoyolabData) {
       }
       output.relics.push({
         enhance: relic.level,
-        equippedBy: String(character.id) as CharacterId,
+        equippedBy: characterId as CharacterId,
         grade: relic.rarity,
         id: Utils.randomId(),
         part: getSlot(relic.pos),
@@ -187,7 +187,7 @@ export function hoyolabParser(json: HoyolabData) {
     const trailblazerMetadata: TrailblazerMetadata = getTrailblazerMetadata(character.id)
     if (trailblazerMetadata) output.metadata = trailblazerMetadata
   }
-  output.relics.map((relic) => RelicAugmenter.augment(relic))
+  output.relics.forEach(RelicAugmenter.augment)
   return output
 }
 

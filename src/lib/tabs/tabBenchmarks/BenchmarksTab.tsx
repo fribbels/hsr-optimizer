@@ -7,23 +7,14 @@ import { OpenCloseIDs, setOpen, } from 'lib/hooks/useOpenClose'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import {
-  INTO_THE_UNREACHABLE_VEIL,
-  JADE,
-  LINGSHA,
-  SCENT_ALONE_STAYS_TRUE,
-  STELLE_REMEMBRANCE,
-  THE_HERTA,
-  VICTORY_IN_A_BLINK,
-  YET_HOPE_IS_PRICELESS,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { INTO_THE_UNREACHABLE_VEIL, JADE, LINGSHA, SCENT_ALONE_STAYS_TRUE, STELLE_REMEMBRANCE, THE_HERTA, VICTORY_IN_A_BLINK, YET_HOPE_IS_PRICELESS, } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
 import { BenchmarkSetting } from 'lib/tabs/tabBenchmarks/BenchmarkSettings'
 import { handleBenchmarkFormSubmit, handleCharacterSelectChange, } from 'lib/tabs/tabBenchmarks/benchmarksTabController'
 import { CharacterEidolonFormRadio } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
 import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
-import { BenchmarkForm, SimpleCharacter, useBenchmarksTabStore, } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
+import { BenchmarkForm, SimpleCharacterSets, useBenchmarksTabStore, } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormSetConditionals'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
@@ -353,6 +344,7 @@ function TeammatesSection() {
 }
 
 const iconSize = 64
+const setSize = 22
 
 function Teammate({ index }: { index: number }) {
   const { t } = useTranslation('common')
@@ -404,10 +396,46 @@ function Teammate({ index }: { index: number }) {
           top={-12}
         />
 
-        <img
-          src={Assets.getLightConeIconById(lightCone)}
-          style={{ height: iconSize, marginTop: -3 }}
-        />
+
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <img
+            src={Assets.getLightConeIconById(lightCone)}
+            style={{ height: iconSize, marginTop: -3 }}
+          />
+
+
+          {teammate && teammate.teamRelicSet && (
+            <img
+              style={{
+                position: 'absolute',
+                top: 3,
+                right: -5,
+                width: setSize,
+                height: setSize,
+                borderRadius: '50%',
+                backgroundColor: 'rgba(124, 124, 124, 0.1)',
+                border: showcaseOutline,
+              }}
+              src={Assets.getSetImage(teammate.teamRelicSet)}
+            />
+          )}
+
+          {teammate && teammate.teamOrnamentSet && (
+            <img
+              style={{
+                position: 'absolute',
+                top: 25,
+                right: -5,
+                width: setSize,
+                height: setSize,
+                borderRadius: '50%',
+                backgroundColor: 'rgba(124, 124, 124, 0.1)',
+                border: showcaseOutline,
+              }}
+              src={Assets.getSetImage(teammate.teamOrnamentSet)}
+            />
+          )}
+        </div>
 
         <OverlayText
           text={t('SuperimpositionNShort', { superimposition: lightConeSuperimposition })}
@@ -418,7 +446,7 @@ function Teammate({ index }: { index: number }) {
   )
 }
 
-function getTeammate(index: number, teammate0?: SimpleCharacter, teammate1?: SimpleCharacter, teammate2?: SimpleCharacter) {
+function getTeammate(index: number, teammate0?: SimpleCharacterSets, teammate1?: SimpleCharacterSets, teammate2?: SimpleCharacterSets) {
   if (index == 0) return teammate0
   if (index == 1) return teammate1
   return teammate2

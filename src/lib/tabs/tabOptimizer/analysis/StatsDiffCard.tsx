@@ -1,8 +1,5 @@
 import { Flex } from 'antd'
-import {
-  getStatRenderValues,
-  StatRow,
-} from 'lib/characterPreview/StatRow'
+import { getStatRenderValues, StatRow, } from 'lib/characterPreview/StatRow'
 import StatText from 'lib/characterPreview/StatText'
 import { Stats } from 'lib/constants/constants'
 import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
@@ -31,7 +28,7 @@ export function StatsDiffCard(props: {
       }}
       gap={10}
     >
-      <CardImage analysis={analysis} />
+      <CardImage analysis={analysis}/>
 
       <Flex
         style={{
@@ -43,7 +40,7 @@ export function StatsDiffCard(props: {
           boxShadow: cardShadow,
         }}
       >
-        <StatDiffSummary analysis={analysis} />
+        <StatDiffSummary analysis={analysis}/>
       </Flex>
     </Flex>
   )
@@ -63,19 +60,19 @@ function StatDiffSummary(props: { analysis: OptimizerResultAnalysis }) {
   return (
     <StatText style={{ width: '100%' }}>
       <Flex vertical gap={5}>
-        <DiffRow oldStats={oldStats} newStats={newStats} stat='COMBO_DMG' />
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.HP} />
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.ATK} />
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.DEF} />
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.SPD} />
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.CR} />
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.CD} />
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.EHR} />
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.RES} />
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.BE} />
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.OHB} />
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.ERR} />
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={props.analysis.elementalDmgValue} />
+        <DiffRow oldStats={oldStats} newStats={newStats} stat='COMBO_DMG'/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.HP}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.ATK}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.DEF}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.SPD}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.CR}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.CD}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.EHR}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.RES}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.BE}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.OHB}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.ERR}/>
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={props.analysis.elementalDmgValue}/>
       </Flex>
     </StatText>
   )
@@ -100,7 +97,7 @@ function DiffRow(props: {
   return (
     <Flex gap={12} align='center'>
       <div style={{ width: 240 }}>
-        <StatRow finalStats={oldStats} stat={stat == 'COMBO_DMG' ? 'simScore' : stat} value={stat == 'COMBO_DMG' ? oldValue : undefined} />
+        <StatRow finalStats={oldStats} stat={stat == 'COMBO_DMG' ? 'simScore' : stat} value={stat == 'COMBO_DMG' ? oldValue : undefined}/>
       </div>
 
       <span style={{ marginLeft: 15, marginRight: 15, fontSize: 14, lineHeight: '17px' }}>
@@ -108,10 +105,10 @@ function DiffRow(props: {
       </span>
 
       <Flex style={{ width: 55 }} justify='end'>
-        <RenderValue value={valueDisplay} stat={stat} />
+        <RenderValue value={valueDisplay} stat={stat}/>
       </Flex>
 
-      <DiffRender oldValue={oldValue} newValue={newValue} stat={stat} />
+      <DiffRender oldValue={oldValue} newValue={newValue} stat={stat}/>
     </Flex>
   )
 }
@@ -144,14 +141,14 @@ function DiffRender(props: { oldValue: number, newValue: number, stat: string })
   if (visualDiff(newValue, oldValue, stat) == 0) return <></>
 
   const increase = newValue > oldValue
-  const diff = increase ? visualDiff(newValue, oldValue, stat) : visualDiff(oldValue, newValue, stat)
+  const diff = increase ? visualDiff(newValue, oldValue, stat) : -visualDiff(newValue, oldValue, stat)
   const icon = arrowDirection(increase)
   const color = arrowColor(increase)
   const { valueDisplay } = getStatDiffRenderValues(diff, diff, stat)
 
   return (
     <Flex style={{ color: color, width: 90 }} gap={10} justify='end' align='center'>
-      <RenderValue value={valueDisplay} stat={stat} comboDiff={true} />
+      <RenderValue value={valueDisplay} stat={stat} comboDiff={true}/>
       <span style={{ fontSize: 10, lineHeight: '17px' }}>
         {icon}
       </span>
@@ -194,7 +191,7 @@ function CardImage(props: { analysis: OptimizerResultAnalysis }) {
         background: '#243356',
       }}
     >
-      <CharacterPreviewInternalImage id={props.analysis.request.characterId} disableClick={true} parentH={400} />
+      <CharacterPreviewInternalImage id={props.analysis.request.characterId} disableClick={true} parentH={400}/>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { Button, Flex, Form as AntDForm, Modal, Radio, Select, Typography, } from 'antd'
+import { Button, Flex, Form as AntDForm, Modal, Radio, Select, } from 'antd'
 import DB from 'lib/state/db'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
@@ -7,17 +7,19 @@ import React, { useEffect, useMemo, useState, } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character, CharacterId, } from 'types/character'
 import { Form } from 'types/form'
-import {
-  OptionRender,
-  optionRenderer,
-  renderTeammateOrnamentSetOptions,
-  renderTeammateRelicSetOptions
-} from "lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard";
+import { OptionRender, optionRenderer, renderTeammateOrnamentSetOptions, renderTeammateRelicSetOptions } from "lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard";
 import { Assets } from "lib/rendering/assets";
 import { Constants } from "lib/constants/constants";
+import { LightCone } from "types/lightCone";
 
-const { Text } = Typography
-
+export type CharacterModalForm = {
+  characterId: CharacterId,
+  lightCone: LightCone['id'],
+  characterEidolon: number,
+  lightConeSuperimposition: number,
+  teamOrnamentSet?: string,
+  teamRelicSet?: string,
+}
 
 export default function CharacterModal(props: {
   open: boolean,
@@ -43,11 +45,13 @@ export default function CharacterModal(props: {
 
     const defaultValues = {
       characterId: props.initialCharacter?.form.characterId,
-      characterLevel: 80,
       characterEidolon: props.initialCharacter?.form.characterEidolon ?? 0,
       lightCone: props.initialCharacter?.form.lightCone,
-      lightConeLevel: 80,
       lightConeSuperimposition: props.initialCharacter?.form.lightConeSuperimposition ?? 1,
+      // @ts-ignore
+      teamRelicSet: props.initialCharacter?.form.teamRelicSet,
+      // @ts-ignore
+      teamOrnamentSet: props.initialCharacter?.form.teamOrnamentSet,
     }
 
     setCharacterId(props.initialCharacter?.form.characterId ?? null)
@@ -154,7 +158,6 @@ export default function CharacterModal(props: {
 
           <Flex vertical gap={5}>
             <HeaderText>Sets</HeaderText>
-
 
             <AntDForm.Item name={`teamRelicSet`}>
               <Select

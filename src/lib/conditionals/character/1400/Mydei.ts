@@ -135,6 +135,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_HP_SCALING.buff((r.skillEnhances == 2) ? skillEnhanced2Scaling : 0, SOURCE_SKILL)
       x.SKILL_HP_SCALING.buff((e >= 1 && r.e1EnhancedSkillBuff && r.skillEnhances == 2) ? 0.30 : 0, SOURCE_E1)
 
+      // TODO: Uptime?
       // const cyreneSkillCdBuff = cyreneTeammateSpecialEffectActive(action)
       //   ? (cyreneSpecialEffectEidolonUpgraded(action) ? 2.20 : 2.00)
       //   : 0

@@ -200,7 +200,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 2 ? memoSkillScaling2 : 0, SOURCE_MEMO)
       x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 3 ? memoSkillScaling3 : 0, SOURCE_MEMO)
 
-      const cyreneOverflowPercentAssumption = 30 // Assumes 140% overflow
+      const cyreneOverflowPercentAssumption = 30 // Assumes 130% overflow
       const cyreneMultiplierBuff = cyreneTeammateSpecialEffectActive(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.00264 : 0.0024) * cyreneOverflowPercentAssumption * (context.enemyCount < 3 ? 3 : 1)
         : 0

@@ -3,6 +3,8 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  cyreneSpecialEffectEidolonUpgraded,
+  cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
 import {
   dynamicStatConversion,
@@ -132,6 +134,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_HP_SCALING.buff((r.skillEnhances == 1) ? skillEnhanced1Scaling : 0, SOURCE_SKILL)
       x.SKILL_HP_SCALING.buff((r.skillEnhances == 2) ? skillEnhanced2Scaling : 0, SOURCE_SKILL)
       x.SKILL_HP_SCALING.buff((e >= 1 && r.e1EnhancedSkillBuff && r.skillEnhances == 2) ? 0.30 : 0, SOURCE_E1)
+
+      // TODO: Uptime?
+      // const cyreneSkillCdBuff = cyreneTeammateSpecialEffectActive(action)
+      //   ? (cyreneSpecialEffectEidolonUpgraded(action) ? 2.20 : 2.00)
+      //   : 0
+      // x.SKILL_CD_BOOST.buff((r.skillEnhances > 0) ? cyreneSkillCdBuff : 0, SOURCE_MEMO)
 
       x.ULT_HP_SCALING.buff(ultScaling, SOURCE_ULT)
 

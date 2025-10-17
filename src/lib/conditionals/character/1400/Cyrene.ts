@@ -9,6 +9,8 @@ import {
   Conditionals,
   ContentDefinition,
   countTeamPath,
+  teamCharacterIds,
+  teammateCharacterIds,
 } from 'lib/conditionals/conditionalUtils'
 import {
   ConditionalActivation,
@@ -106,7 +108,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const memoSkillPhainonCr = memoSkill(e, 0.16, 0.176)
   const memoSkillPhainonAdditionalDmg = memoSkill(e, 0.30, 0.33)
 
-  const memoSkillHysilensDmgBuff = memoSkill(e, 1.00, 1.10)
+  const memoSkillHysilensDmgBuff = memoSkill(e, 1.20, 1.32)
   const memoSkillHysilensBasicDetonation = memoSkill(e, 0.60, 0.66)
   const memoSkillHysilensSkillDetonation = memoSkill(e, 0.80, 0.88)
 
@@ -148,6 +150,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     hpBuff: true,
     traceSpdBasedBuff: true,
     e2TrueDmgStacks: 2,
+    e4BounceStacks: 24,
     e6DefPen: true,
   }
 
@@ -225,6 +228,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       max: 4,
       disabled: e < 2,
     },
+    e4BounceStacks: {
+      id: 'e4BounceStacks',
+      formItem: 'slider',
+      text: 'E4 bounce stacks',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      min: 0,
+      max: 24,
+      disabled: e < 4,
+    },
     e6DefPen: {
       id: 'e6DefPen',
       formItem: 'switch',
@@ -294,7 +306,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_HP_SCALING.buff((r.enhancedBasic) ? basicEnhancedScaling * 2 : basicScaling, SOURCE_BASIC)
 
       const memosprites = countTeamPath(context, PathNames.Remembrance)
-      const memoSkillScalingTotal = memoSkillDmgScaling + memoSkillDmgScaling
+      const memoSkillScalingIndividual = memoSkillDmgScaling + (e >= 4 ? r.e4BounceStacks * 0.06 : 0)
+      const memoSkillScalingTotal = memoSkillScalingIndividual + memoSkillScalingIndividual
           * (r.enhancedMemoSkill
             ? (memosprites + 3 + (e >= 1 ? 12 : 0)) / context.enemyCount
             : 0)
@@ -357,8 +370,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           // ----------------------------------------------------------------------------------------------
         } else if (context.characterId == CIPHER) {
           x.ELEMENTAL_DMG.buff(memoSkillCipherDmgBuff, SOURCE_MEMO)
-          x.DEF_PEN.buff(memoSkillCipherDefPen, SOURCE_MEMO)
-
+          // DEF PEN handled in Cipher's conditionals
           // ----------------------------------------------------------------------------------------------
         } else if (context.characterId == PHAINON) {
           x.CR.buff(memoSkillPhainonCr, SOURCE_MEMO)

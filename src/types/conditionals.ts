@@ -33,7 +33,7 @@ export interface ConditionalsController {
 
   // Shared effects that apply both as a teammate and as the primary character
   // e.g. AOE team buff
-  precomputeMutualEffects?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
+  precomputeMutualEffects?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => void
 
   // Effects that only apply as a teammate, onto the primary character
   // e.g. Targeted teammate buff

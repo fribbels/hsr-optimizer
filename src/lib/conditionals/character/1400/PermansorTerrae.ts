@@ -180,7 +180,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DEF_PEN.buff((e >= 6 && t.e6Buffs) ? 0.12 : 0, SOURCE_E6)
 
       const cyreneDmgBoost = cyreneTeammateSpecialEffectActive(originalCharacterAction!)
-        ? cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.176 : 0.16
+        ? cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.264 : 0.24
         : 0
       x.ELEMENTAL_DMG.buff(cyreneDmgBoost, SOURCE_MEMO)
     },

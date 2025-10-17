@@ -136,6 +136,23 @@ export function teammateMatchesId(context: OptimizerContext, id: string) {
     + (context.teammate2Metadata?.characterId == id ? 1 : 0)
 }
 
+export function teamCharacterIds(context: OptimizerContext) {
+  return [
+    context.characterId,
+    context.teammate0Metadata?.characterId,
+    context.teammate1Metadata?.characterId,
+    context.teammate2Metadata?.characterId,
+  ].filter((x) => !!x)
+}
+
+export function teammateCharacterIds(context: OptimizerContext) {
+  return [
+    context.teammate0Metadata?.characterId,
+    context.teammate1Metadata?.characterId,
+    context.teammate2Metadata?.characterId,
+  ].filter((x) => !!x)
+}
+
 export function mainIsPath(context: OptimizerContext, path: PathName) {
   return context.path == path
 }
@@ -145,7 +162,7 @@ export function cyreneTeammateSpecialEffectActive(action: OptimizerAction) {
     action.teammate0,
     action.teammate1,
     action.teammate2,
-  ].find((x) => x.actorId == CYRENE)
+  ].find((x) => x && x.actorId == CYRENE)
 
   return cyreneAction && cyreneAction.characterConditionals['specialEffect']
 }
@@ -156,7 +173,7 @@ export function cyreneSpecialEffectEidolonUpgraded(action: OptimizerAction) {
     action.teammate0,
     action.teammate1,
     action.teammate2,
-  ].find((x) => x.actorId == CYRENE)!
+  ].find((x) => x && x.actorId == CYRENE)!
 
   return cyreneAction.actorEidolon >= 3
 }

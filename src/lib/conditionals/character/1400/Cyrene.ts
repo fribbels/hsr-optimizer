@@ -9,6 +9,8 @@ import {
   Conditionals,
   ContentDefinition,
   countTeamPath,
+  teamCharacterIds,
+  teammateCharacterIds,
 } from 'lib/conditionals/conditionalUtils'
 import {
   ConditionalActivation,
@@ -357,8 +359,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           // ----------------------------------------------------------------------------------------------
         } else if (context.characterId == CIPHER) {
           x.ELEMENTAL_DMG.buff(memoSkillCipherDmgBuff, SOURCE_MEMO)
-          x.DEF_PEN.buff(memoSkillCipherDefPen, SOURCE_MEMO)
-
+          // DEF PEN handled in Cipher's conditionals
           // ----------------------------------------------------------------------------------------------
         } else if (context.characterId == PHAINON) {
           x.CR.buff(memoSkillPhainonCr, SOURCE_MEMO)

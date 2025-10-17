@@ -186,8 +186,8 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
   characterConditionals.precomputeEffects?.(x, action, context)
 
   // Precompute mutual stage
-  lightConeConditionals.precomputeMutualEffects?.(x, action, context)
-  characterConditionals.precomputeMutualEffects?.(x, action, context)
+  lightConeConditionals.precomputeMutualEffects?.(x, action, context, action)
+  characterConditionals.precomputeMutualEffects?.(x, action, context, action)
 
   precomputeTeammates(action, comboState, context)
 }
@@ -216,7 +216,7 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
     const teammateCharacterConditionals = CharacterConditionalsResolver.get(teammate.metadata)
     const teammateLightConeConditionals = LightConeConditionalsResolver.get(teammate.metadata)
 
-    if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateAction, context)
+    if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateAction, context, action)
     if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(x, teammateAction, context, action)
 
     if (teammateLightConeConditionals.precomputeMutualEffects) teammateLightConeConditionals.precomputeMutualEffects(x, teammateAction, context)

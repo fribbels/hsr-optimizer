@@ -196,6 +196,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.MEMO_BASE_SPD_FLAT.buff(165, SOURCE_MEMO)
       x.MEMO_BASE_HP_FLAT.buff(34000, SOURCE_MEMO)
 
+      x.m.ELEMENTAL_DMG.buff(0.30 * r.memoDmgStacks, SOURCE_TRACE)
+
       x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 1 ? memoSkillScaling1 : 0, SOURCE_MEMO)
       x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 2 ? memoSkillScaling2 : 0, SOURCE_MEMO)
       x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 3 ? memoSkillScaling3 : 0, SOURCE_MEMO)
@@ -204,8 +206,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneMultiplierBuff = cyreneTeammateSpecialEffectActive(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.00264 : 0.0024) * cyreneOverflowPercentAssumption * (context.enemyCount < 3 ? 3 : 1)
         : 0
-      const memoTalentScalingTotal = memoTalentScaling + cyreneMultiplierBuff
-      x.m.MEMO_TALENT_SPECIAL_SCALING.buff(r.memoTalentHits * memoTalentScalingTotal, SOURCE_MEMO)
+      x.m.MEMO_TALENT_SPECIAL_SCALING.buff(r.memoTalentHits * memoTalentScaling, SOURCE_MEMO)
       x.m.MEMO_TALENT_SPECIAL_SCALING.buff(r.memoTalentHits * cyreneMultiplierBuff, SOURCE_MEMO)
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)

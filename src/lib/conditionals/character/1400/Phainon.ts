@@ -177,7 +177,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneAdditionalScaling = cyreneTeammateSpecialEffectActive(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.11 : 0.10) * 5 / context.enemyCount
         : 0
+      const cyreneCdBuff = cyreneTeammateSpecialEffectActive(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.132 : 0.12) * (e >= 6 ? 6 : 3)
+        : 0
 
+      x.CD.buff(cyreneCdBuff, SOURCE_MEMO)
       x.CD.buff(r.cdBuff ? talentCdBuffScaling : 0, SOURCE_TALENT)
       x.ATK_P.buff(r.atkBuffStacks * 0.50, SOURCE_TRACE)
 

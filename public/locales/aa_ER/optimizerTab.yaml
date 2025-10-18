@@ -476,7 +476,7 @@ TeammateCard:
       Set: 'crwdns43332:0$t(gameData:RelicSets.121.Name)crwdne43332:0'
       Text: crwdns43334:0crwdne43334:0
     Warrior:
-      Desc: 'crwdns45234:0$t(gameData:RelicSets.125.Name)crwdne45234:0'
+      Desc: 'crwdns45994:0$t(gameData:RelicSets.125.Name)crwdne45994:0'
       Set: 'crwdns45236:0$t(gameData:RelicSets.125.Name)crwdne45236:0'
       Text: crwdns45238:0crwdne45238:0
     Keel:

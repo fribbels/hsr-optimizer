@@ -54,6 +54,8 @@ export type SimulationMetadata = {
     lightCone: LightCone['id'],
     characterEidolon: number,
     lightConeSuperimposition: number,
+    teamRelicSet?: string,
+    teamOrnamentSet?: string,
   }[],
   breakpoints?: {
     [stat: string]: number,

@@ -349,7 +349,7 @@ export function MainStatsSection(props: { simType: string }) {
             simType={props.simType}
           />
           <MainStatSelector
-            placeholder={t('SpherePlaceholder') /* 'Rope' */}
+            placeholder={t('RopePlaceholder') /* 'Rope' */}
             part={Parts.LinkRope}
             options={LinkRopeStatOptions}
             simType={props.simType}

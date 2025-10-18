@@ -494,7 +494,6 @@ TeammateCard:
       Set: '$t(gameData:RelicSets.121.Name)'
       Text: 치피 36%
     Warrior:
-      Desc: '$t(gameData:RelicSets.125.Name) (+15% 치피)'
       Set: '$t(gameData:RelicSets.125.Name)'
       Text: 치피 15%
     Keel:

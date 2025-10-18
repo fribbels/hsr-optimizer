@@ -106,7 +106,7 @@ export function RelicsGrid() {
     if (filters.equipped.length && !filters.equipped.includes(relic.equippedBy != null)) return false
     if (filters.set.length && !filters.set.includes(relic.set)) return false
     if (filters.mainStat.length && !filters.mainStat.includes(relic.main.stat)) return false
-    if (filters.subStat.length && !relic.substats.some((s) => filters.subStat.includes(s.stat))) return false
+    if (filters.subStat.length && !filters.subStat.every((filterStat) => relic.substats.some((s) => s.stat === filterStat))) return false
     return true
   }, [filters])
 

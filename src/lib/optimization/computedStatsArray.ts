@@ -97,6 +97,7 @@ export type StatController = {
   buffDual: (value: number, source: BuffSource) => void,
   buffBaseDual: (value: number, source: BuffSource) => void,
   multiply: (value: number, source: BuffSource) => void,
+  multiplySingle: (value: number, source: BuffSource) => void,
   multiplyTeam: (value: number, source: BuffSource) => void,
   set: (value: number, source: BuffSource) => void,
   config: (value: number, source: BuffSource) => void,
@@ -221,8 +222,20 @@ export class ComputedStatsArrayCore {
             }
           },
           multiply: (value: number, source: BuffSource) => {
+            if (value == 1) return
             this.a[key] *= value
             trace(value, source)
+          },
+          multiplySingle: (value: number, source: BuffSource) => {
+            if (value == 1) return
+            if (this.a[Key.DEPRIORITIZE_BUFFS]) return
+            if (this.a[Key.MEMO_BUFF_PRIORITY]) {
+              this.m.a[key] *= value
+              traceMemo(value, source)
+            } else {
+              this.a[key] *= value
+              trace(value, source)
+            }
           },
           multiplyTeam: (value: number, source: BuffSource) => {
             this.a[key] *= value

@@ -246,6 +246,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.MEMO_BASE_SPD_FLAT.buff(160, SOURCE_MEMO)
       x.MEMO_BASE_HP_SCALING.buff(0.50, SOURCE_MEMO)
+      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
+      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
 
       x.CD.buffBaseDual((e >= 2 && r.e2CdBuff) ? 0.40 : 0, SOURCE_E2)
       x.m.BREAK_EFFICIENCY_BOOST.buff((e >= 4 && r.e4Buffs) ? 0.25 : 0, SOURCE_E4)

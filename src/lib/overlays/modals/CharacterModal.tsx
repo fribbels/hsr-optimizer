@@ -13,8 +13,8 @@ import { Constants } from "lib/constants/constants";
 import { LightCone } from "types/lightCone";
 
 export type CharacterModalForm = {
-  characterId: CharacterId,
-  lightCone: LightCone['id'],
+  characterId?: CharacterId,
+  lightCone?: LightCone['id'],
   characterEidolon: number,
   lightConeSuperimposition: number,
   teamOrnamentSet?: string,
@@ -25,7 +25,7 @@ export default function CharacterModal(props: {
   open: boolean,
   onOk: (form: Form) => void,
   setOpen: (open: boolean) => void,
-  initialCharacter?: Character | null,
+  initialCharacter?: CharacterModalForm | null,
 }) {
   const [characterForm] = AntDForm.useForm<Form>()
 
@@ -43,14 +43,12 @@ export default function CharacterModal(props: {
   useEffect(() => {
     if (!props.open) return
 
-    const defaultValues = {
+    const defaultValues: CharacterModalForm = {
       characterId: props.initialCharacter?.form.characterId,
       characterEidolon: props.initialCharacter?.form.characterEidolon ?? 0,
       lightCone: props.initialCharacter?.form.lightCone,
       lightConeSuperimposition: props.initialCharacter?.form.lightConeSuperimposition ?? 1,
-      // @ts-ignore
       teamRelicSet: props.initialCharacter?.form.teamRelicSet,
-      // @ts-ignore
       teamOrnamentSet: props.initialCharacter?.form.teamOrnamentSet,
     }
 

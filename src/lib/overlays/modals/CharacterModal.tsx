@@ -40,7 +40,6 @@ export type CharacterModalForm = {
   teamRelicSet?: string,
 }
 
-
 export default function CharacterModal(props: {
   open: boolean,
   onOk: (form: Form) => void,

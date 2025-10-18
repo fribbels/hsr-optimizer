@@ -385,7 +385,7 @@ function TeammatesSection() {
 }
 
 const iconSize = 64
-const setSize = 22
+const setSize = 24
 
 function Teammate({ index }: { index: number }) {
   const { t } = useTranslation('common')
@@ -448,11 +448,11 @@ function Teammate({ index }: { index: number }) {
               style={{
                 position: 'absolute',
                 top: 3,
-                right: -5,
+                right: -4,
                 width: setSize,
                 height: setSize,
                 borderRadius: '50%',
-                backgroundColor: 'rgba(124, 124, 124, 0.1)',
+                backgroundColor: 'rgba(50, 50, 50, 0.5)',
                 border: showcaseOutline,
               }}
               src={Assets.getSetImage(teammate.teamRelicSet)}
@@ -463,12 +463,12 @@ function Teammate({ index }: { index: number }) {
             <img
               style={{
                 position: 'absolute',
-                top: 25,
-                right: -5,
+                top: 27,
+                right: -4,
                 width: setSize,
                 height: setSize,
                 borderRadius: '50%',
-                backgroundColor: 'rgba(124, 124, 124, 0.1)',
+                backgroundColor: 'rgba(50, 50, 50, 0.5)',
                 border: showcaseOutline,
               }}
               src={Assets.getSetImage(teammate.teamOrnamentSet)}

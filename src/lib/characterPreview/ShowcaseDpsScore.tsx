@@ -191,7 +191,7 @@ function CharacterPreviewScoringTeammate(props: {
 
   const teammate = result.simulationMetadata.teammates[index]
   const iconSize = 64
-  const setSize = 22
+  const setSize = 24
 
   const simForm = result.simulationForm
   const formTeammate = getTeammate(index, simForm)
@@ -231,18 +231,18 @@ function CharacterPreviewScoringTeammate(props: {
         </div>
 
         <div style={{ position: 'relative', display: 'inline-block' }}>
-          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: -3 }} />
+          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: 0 }} />
 
           {formTeammate.teamRelicSet && (
             <img
               style={{
                 position: 'absolute',
                 top: 3,
-                right: -5,
+                right: -4,
                 width: setSize,
                 height: setSize,
                 borderRadius: '50%',
-                backgroundColor: 'rgba(124, 124, 124, 0.1)',
+                backgroundColor: 'rgba(50, 50, 50, 0.5)',
                 border: showcaseOutline,
               }}
               src={Assets.getSetImage(formTeammate.teamRelicSet)}
@@ -253,12 +253,12 @@ function CharacterPreviewScoringTeammate(props: {
             <img
               style={{
                 position: 'absolute',
-                top: 25,
-                right: -5,
+                top: 27,
+                right: -4,
                 width: setSize,
                 height: setSize,
                 borderRadius: '50%',
-                backgroundColor: 'rgba(124, 124, 124, 0.1)',
+                backgroundColor: 'rgba(50, 50, 50, 0.5)',
                 border: showcaseOutline,
               }}
               src={Assets.getSetImage(formTeammate.teamOrnamentSet)}

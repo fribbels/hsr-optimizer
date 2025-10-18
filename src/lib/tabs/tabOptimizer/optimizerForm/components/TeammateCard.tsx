@@ -1,5 +1,12 @@
 import { SyncOutlined } from '@ant-design/icons'
-import { Button, Flex, Form as AntDForm, Select, Typography, } from 'antd'
+import {
+  Button,
+  Flex,
+  Form as AntDForm,
+  Select,
+  Typography,
+} from 'antd'
+import { TFunction } from 'i18next'
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import { applyTeamAwareSetConditionalPresetsToOptimizerFormInstance } from 'lib/conditionals/evaluation/applyPresets'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
@@ -21,14 +28,23 @@ import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Ligh
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
-import { useEffect, useMemo, useState, } from 'react'
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character, CharacterId, } from 'types/character'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
 import { ReactElement } from 'types/components'
 import { TeammateProperty } from 'types/form'
-import { LightCone, SuperImpositionLevel, } from 'types/lightCone'
+import {
+  LightCone,
+  SuperImpositionLevel,
+} from 'types/lightCone'
 import { DBMetadata } from 'types/metadata'
-import { TFunction } from "i18next";
 
 const { Text } = Typography
 
@@ -335,7 +351,7 @@ const TeammateCard = (props: {
           </AntDForm.Item>
 
           <Button
-            icon={<SyncOutlined/>}
+            icon={<SyncOutlined />}
             style={{ width: 35 }}
             disabled={disabled}
             onClick={() => {

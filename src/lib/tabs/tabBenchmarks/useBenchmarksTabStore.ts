@@ -109,7 +109,7 @@ export const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
       // @ts-ignore
       teamRelicSet: form.teamRelicSet,
       // @ts-ignore
-      teamOrnamentSet: form.teamOrnamentSet
+      teamOrnamentSet: form.teamOrnamentSet,
     }
 
     const { selectedTeammateIndex, updateTeammate } = get()

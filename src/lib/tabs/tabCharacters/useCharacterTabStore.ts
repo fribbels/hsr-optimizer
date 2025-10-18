@@ -1,9 +1,15 @@
-import { ElementName, PathName, } from 'lib/constants/constants'
+import {
+  ElementName,
+  PathName,
+} from 'lib/constants/constants'
+import { CharacterModalForm } from 'lib/overlays/modals/CharacterModal'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Character, CharacterId, } from 'types/character'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
 import { create } from 'zustand'
-import { CharacterModalForm } from "lib/overlays/modals/CharacterModal";
 
 export type CharacterTabFilters = {
   name: string,
@@ -22,7 +28,7 @@ type CharacterTabValues = {
   selectedCharacter: Character | null,
   characters: Character[],
   charactersById: Partial<Record<CharacterId, Character>>,
-  characterModalInitialCharacter: CharacterModalForm | null,
+  characterModalInitialCharacter: Character | null,
   characterModalOpen: boolean,
   filters: CharacterTabFilters,
 }

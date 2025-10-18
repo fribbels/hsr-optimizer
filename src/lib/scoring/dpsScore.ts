@@ -1,6 +1,12 @@
-import { Constants, Parts, } from 'lib/constants/constants'
+import {
+  Constants,
+  Parts,
+} from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { RelicBuild, SimulationScore, } from 'lib/scoring/simScoringUtils'
+import {
+  RelicBuild,
+  SimulationScore,
+} from 'lib/scoring/simScoringUtils'
 import {
   resolveDpsScoreSimulationMetadata,
   retrieveBenchmarkCache,
@@ -10,7 +16,10 @@ import {
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Character } from 'types/character'
-import { ShowcaseTemporaryOptions, SimulationMetadata, } from 'types/metadata'
+import {
+  ShowcaseTemporaryOptions,
+  SimulationMetadata,
+} from 'types/metadata'
 
 export type AsyncSimScoringExecution = {
   done: boolean,
@@ -42,7 +51,7 @@ export function getShowcaseSimScoringExecution(
 
   const {
     cacheKey,
-    cachedOrchestrator
+    cachedOrchestrator,
   } = retrieveBenchmarkCache(character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
   if (cachedOrchestrator) {
     // console.debug('CACHED')

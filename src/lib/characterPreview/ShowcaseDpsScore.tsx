@@ -1,27 +1,56 @@
-import { SettingOutlined, SwapOutlined, SyncOutlined, } from '@ant-design/icons'
-import { Button, Card, ConfigProvider, Flex, Segmented, } from 'antd'
+import {
+  SettingOutlined,
+  SwapOutlined,
+  SyncOutlined,
+} from '@ant-design/icons'
+import {
+  Button,
+  Card,
+  ConfigProvider,
+  Flex,
+  Segmented,
+} from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
 import { CharacterCardCombatStats } from 'lib/characterPreview/CharacterCardCombatStats'
-import { OverlayText, showcaseOutline, } from 'lib/characterPreview/CharacterPreviewComponents'
+import {
+  OverlayText,
+  showcaseOutline,
+} from 'lib/characterPreview/CharacterPreviewComponents'
 import StatText from 'lib/characterPreview/StatText'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
-import { CUSTOM_TEAM, DEFAULT_TEAM, SETTINGS_TEAM, } from 'lib/constants/constants'
+import {
+  CUSTOM_TEAM,
+  DEFAULT_TEAM,
+  SETTINGS_TEAM,
+} from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
-import { AsyncSimScoringExecution, getSimScoreGrade, } from 'lib/scoring/dpsScore'
+import {
+  AsyncSimScoringExecution,
+  getSimScoreGrade,
+} from 'lib/scoring/dpsScore'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import React, { CSSProperties, useState, } from 'react'
+import React, {
+  CSSProperties,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character, CharacterId, } from 'types/character'
-import { Form, OptimizerForm } from 'types/form'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
+import {
+  Form,
+  OptimizerForm,
+} from 'types/form'
 
 export function ShowcaseDpsScorePanel(props: {
   characterId: CharacterId,
@@ -131,7 +160,7 @@ export function ShowcaseCombatScoreDetailsFooter(props: {
 
   return (
     <Flex vertical gap={defaultGap}>
-      <CharacterCardCombatStats result={result}/>
+      <CharacterCardCombatStats result={result} />
     </Flex>
   )
 }
@@ -157,7 +186,7 @@ function CharacterPreviewScoringTeammate(props: {
     token,
     setCharacterModalOpen,
     setSelectedTeammateIndex,
-    setCharacterModalInitialCharacter
+    setCharacterModalInitialCharacter,
   } = props
 
   const teammate = result.simulationMetadata.teammates[index]
@@ -198,13 +227,11 @@ function CharacterPreviewScoringTeammate(props: {
             }}
           />
 
-          <OverlayText text={t('common:EidolonNShort', { eidolon: teammate.characterEidolon })} top={-12}/>
+          <OverlayText text={t('common:EidolonNShort', { eidolon: teammate.characterEidolon })} top={-12} />
         </div>
 
-        {/* Weapon container with equipment sets */}
         <div style={{ position: 'relative', display: 'inline-block' }}>
-          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: -3 }}/>
-
+          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: -3 }} />
 
           {formTeammate.teamRelicSet && (
             <img
@@ -237,7 +264,6 @@ function CharacterPreviewScoringTeammate(props: {
               src={Assets.getSetImage(formTeammate.teamOrnamentSet)}
             />
           )}
-
 
           <OverlayText
             text={t('common:SuperimpositionNShort', { superimposition: teammate.lightConeSuperimposition })}
@@ -366,7 +392,7 @@ function ShowcaseTeamSelectPanel(props: {
                 <Flex vertical gap={10}>
                   <HeaderText>{t('modals:ScoreFooter.ModalTitle') /* Combat sim scoring settings */}</HeaderText>
                   <Button
-                    icon={<SyncOutlined/>}
+                    icon={<SyncOutlined />}
                     onClick={() => {
                       const characterMetadata = TsUtils.clone(DB.getMetadata().characters[characterId])
                       const simulation = characterMetadata.scoringMetadata.simulation!
@@ -382,7 +408,7 @@ function ShowcaseTeamSelectPanel(props: {
                     {t('modals:ScoreFooter.ResetButtonText') /* Reset custom team to default */}
                   </Button>
                   <Button
-                    icon={<SwapOutlined/>}
+                    icon={<SwapOutlined />}
                     onClick={() => {
                       const characterMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
                       const simulation = characterMetadata.simulation!
@@ -427,7 +453,7 @@ function ShowcaseTeamSelectPanel(props: {
           ),
         },
         {
-          label: <SettingOutlined/>,
+          label: <SettingOutlined />,
           value: SETTINGS_TEAM,
           className: 'short-segmented',
         },

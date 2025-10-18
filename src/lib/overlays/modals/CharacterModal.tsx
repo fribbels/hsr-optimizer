@@ -1,16 +1,35 @@
-import { Button, Flex, Form as AntDForm, Modal, Radio, Select, } from 'antd'
+import {
+  Button,
+  Flex,
+  Form as AntDForm,
+  Modal,
+  Radio,
+  Select,
+} from 'antd'
+import { Constants } from 'lib/constants/constants'
+import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
+import {
+  OptionRender,
+  optionRenderer,
+  renderTeammateOrnamentSetOptions,
+  renderTeammateRelicSetOptions,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard'
 import { HeaderText } from 'lib/ui/HeaderText'
-import React, { useEffect, useMemo, useState, } from 'react'
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character, CharacterId, } from 'types/character'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
 import { Form } from 'types/form'
-import { OptionRender, optionRenderer, renderTeammateOrnamentSetOptions, renderTeammateRelicSetOptions } from "lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard";
-import { Assets } from "lib/rendering/assets";
-import { Constants } from "lib/constants/constants";
-import { LightCone } from "types/lightCone";
+import { LightCone } from 'types/lightCone'
 
 export type CharacterModalForm = {
   characterId?: CharacterId,
@@ -21,11 +40,12 @@ export type CharacterModalForm = {
   teamRelicSet?: string,
 }
 
+
 export default function CharacterModal(props: {
   open: boolean,
   onOk: (form: Form) => void,
   setOpen: (open: boolean) => void,
-  initialCharacter?: CharacterModalForm | null,
+  initialCharacter?: Character | null,
 }) {
   const [characterForm] = AntDForm.useForm<Form>()
 
@@ -115,13 +135,13 @@ export default function CharacterModal(props: {
                 buttonStyle='solid'
                 style={{ width: '100%', display: 'flex' }}
               >
-                <RadioButton text={t('EidolonButton', { eidolon: 0 })} value={0}/>
-                <RadioButton text={t('EidolonButton', { eidolon: 1 })} value={1}/>
-                <RadioButton text={t('EidolonButton', { eidolon: 2 })} value={2}/>
-                <RadioButton text={t('EidolonButton', { eidolon: 3 })} value={3}/>
-                <RadioButton text={t('EidolonButton', { eidolon: 4 })} value={4}/>
-                <RadioButton text={t('EidolonButton', { eidolon: 5 })} value={5}/>
-                <RadioButton text={t('EidolonButton', { eidolon: 6 })} value={6}/>
+                <RadioButton text={t('EidolonButton', { eidolon: 0 })} value={0} />
+                <RadioButton text={t('EidolonButton', { eidolon: 1 })} value={1} />
+                <RadioButton text={t('EidolonButton', { eidolon: 2 })} value={2} />
+                <RadioButton text={t('EidolonButton', { eidolon: 3 })} value={3} />
+                <RadioButton text={t('EidolonButton', { eidolon: 4 })} value={4} />
+                <RadioButton text={t('EidolonButton', { eidolon: 5 })} value={5} />
+                <RadioButton text={t('EidolonButton', { eidolon: 6 })} value={6} />
               </Radio.Group>
             </AntDForm.Item>
           </Flex>
@@ -145,11 +165,11 @@ export default function CharacterModal(props: {
                 buttonStyle='solid'
                 style={{ width: '100%', display: 'flex' }}
               >
-                <RadioButton text={t('SuperimpositionButton', { superimposition: 1 })} value={1}/>
-                <RadioButton text={t('SuperimpositionButton', { superimposition: 2 })} value={2}/>
-                <RadioButton text={t('SuperimpositionButton', { superimposition: 3 })} value={3}/>
-                <RadioButton text={t('SuperimpositionButton', { superimposition: 4 })} value={4}/>
-                <RadioButton text={t('SuperimpositionButton', { superimposition: 5 })} value={5}/>
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 1 })} value={1} />
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 2 })} value={2} />
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 3 })} value={3} />
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 4 })} value={4} />
+                <RadioButton text={t('SuperimpositionButton', { superimposition: 5 })} value={5} />
               </Radio.Group>
             </AntDForm.Item>
           </Flex>
@@ -196,17 +216,16 @@ function RadioButton(props: {
   text: string,
   value: number,
 }) {
-  return <Radio.Button value={props.value}
-                       style={{ flex: 1, padding: 'unset', textAlign: 'center' }}>{props.text}</Radio.Button>
+  return <Radio.Button value={props.value} style={{ flex: 1, padding: 'unset', textAlign: 'center' }}>{props.text}</Radio.Button>
 }
 
 function labelRenderer(props: {
-  label: React.ReactNode
-  value: string | number
+  label: React.ReactNode,
+  value: string | number,
 }) {
   return (
     <Flex align='center' gap={5} style={{ fontSize: 13 }}>
-      <img src={Assets.getSetImage(props.value, Constants.Parts.PlanarSphere)} style={{ width: 20, height: 20 }}/>
+      <img src={Assets.getSetImage(props.value, Constants.Parts.PlanarSphere)} style={{ width: 20, height: 20 }} />
       {props.label}
     </Flex>
   )

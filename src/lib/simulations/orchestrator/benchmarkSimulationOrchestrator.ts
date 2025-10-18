@@ -1,11 +1,25 @@
 import { applyTeamAwareSetConditionalPresets } from 'lib/conditionals/evaluation/applyPresets'
-import { Parts, Sets, Stats, } from 'lib/constants/constants'
+import {
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { AbilityKind, toTurnAbility, } from 'lib/optimization/rotation/turnAbilityConfig'
-import { calculateSetNames, calculateSimSets, SimulationSets, } from 'lib/scoring/dpsScore'
-import { calculateMaxSubstatRollCounts, calculateMinSubstatRollCounts, } from 'lib/scoring/rollCounter'
+import {
+  AbilityKind,
+  toTurnAbility,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  calculateSetNames,
+  calculateSimSets,
+  SimulationSets,
+} from 'lib/scoring/dpsScore'
+import {
+  calculateMaxSubstatRollCounts,
+  calculateMinSubstatRollCounts,
+} from 'lib/scoring/rollCounter'
 import {
   applyScoringFunction,
   baselineScoringParams,
@@ -21,20 +35,38 @@ import {
   spdRollsCap,
 } from 'lib/scoring/simScoringUtils'
 import { generatePartialSimulations } from 'lib/simulations/benchmarks/simulateBenchmarkBuild'
-import { generateStatImprovements, SimulationStatUpgrade, } from 'lib/simulations/scoringUpgrades'
+import {
+  generateStatImprovements,
+  SimulationStatUpgrade,
+} from 'lib/simulations/scoringUpgrades'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { convertRelicsToSimulation } from 'lib/simulations/statSimulationController'
-import { RunSimulationsParams, RunStatSimulationsResult, Simulation, SimulationRequest, StatSimTypes, } from 'lib/simulations/statSimulationTypes'
-import { KAFKA_B1, PERMANSOR_TERRAE, } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  RunSimulationsParams,
+  RunStatSimulationsResult,
+  Simulation,
+  SimulationRequest,
+  StatSimTypes,
+} from 'lib/simulations/statSimulationTypes'
+import {
+  KAFKA_B1,
+  PERMANSOR_TERRAE,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
 import { runComputeOptimalSimulationWorker } from 'lib/simulations/workerPool'
 import { SimpleCharacter } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { computeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorker'
-import { ComputeOptimalSimulationWorkerInput, ComputeOptimalSimulationWorkerOutput, } from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import {
+  ComputeOptimalSimulationWorkerInput,
+  ComputeOptimalSimulationWorkerOutput,
+} from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { WorkerType } from 'lib/worker/workerUtils'
-import { Form, OptimizerForm, } from 'types/form'
+import {
+  Form,
+  OptimizerForm,
+} from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
 

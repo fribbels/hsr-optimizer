@@ -1,4 +1,13 @@
-import { ElementName, MainStats, Parts, PathName, Sets, ShowcaseColorMode, StatsValues, SubStats, } from 'lib/constants/constants'
+import {
+  ElementName,
+  MainStats,
+  Parts,
+  PathName,
+  Sets,
+  ShowcaseColorMode,
+  StatsValues,
+  SubStats,
+} from 'lib/constants/constants'
 import { statConversion } from 'lib/importer/characterConverter'
 import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'

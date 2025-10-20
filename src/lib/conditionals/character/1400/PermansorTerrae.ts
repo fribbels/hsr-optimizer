@@ -171,18 +171,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const atkBuff = t.sourceAtk * 0.15
-      x.ATK.buff((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
-      x.UNCONVERTIBLE_ATK_BUFF.buff((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
+      x.ATK.buffSingle((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
+      x.UNCONVERTIBLE_ATK_BUFF.buffSingle((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
 
-      x.RES_PEN.buff((e >= 1 && t.bondmate && t.e1ResPen) ? 0.18 : 0, SOURCE_E1)
-      x.DMG_RED_MULTI.multiply((e >= 4 && t.bondmate && t.e4DmgReduction) ? 1 - 0.20 : 1, SOURCE_E4)
-      x.VULNERABILITY.buff((e >= 6 && t.e6Buffs) ? 0.20 : 0, SOURCE_E6)
-      x.DEF_PEN.buff((e >= 6 && t.e6Buffs) ? 0.12 : 0, SOURCE_E6)
+      x.RES_PEN.buffSingle((e >= 1 && t.bondmate && t.e1ResPen) ? 0.18 : 0, SOURCE_E1)
+      x.DMG_RED_MULTI.multiplySingle((e >= 4 && t.bondmate && t.e4DmgReduction) ? 1 - 0.20 : 1, SOURCE_E4)
+      x.VULNERABILITY.buffTeam((e >= 6 && t.e6Buffs) ? 0.20 : 0, SOURCE_E6)
+      x.DEF_PEN.buffSingle((e >= 6 && t.e6Buffs) ? 0.12 : 0, SOURCE_E6)
 
       const cyreneDmgBoost = cyreneTeammateSpecialEffectActive(originalCharacterAction!)
         ? cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.264 : 0.24
         : 0
-      x.ELEMENTAL_DMG.buff(cyreneDmgBoost, SOURCE_MEMO)
+      x.ELEMENTAL_DMG.buffSingle(cyreneDmgBoost, SOURCE_MEMO)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

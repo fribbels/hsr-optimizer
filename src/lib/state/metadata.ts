@@ -9181,7 +9181,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       parts: {
         [Parts.Body]: [
-          Stats.CD,
           Stats.ATK_P,
         ],
         [Parts.Feet]: [

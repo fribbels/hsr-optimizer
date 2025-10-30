@@ -92,6 +92,11 @@ export const PresetEffects = {
     value: true,
     set: Sets.WarriorGoddessOfSunAndThunder,
   } as PresetDefinition,
+  TENGOKU_SET: {
+    name: 'TENGOKU_SET',
+    value: true,
+    set: Sets.TengokuLivestream,
+  } as PresetDefinition,
 }
 
 export function setSortColumn(columnId: string) {

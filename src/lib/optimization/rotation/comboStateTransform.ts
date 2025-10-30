@@ -277,6 +277,10 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
         case Sets.SelfEnshroudedRecluse:
           x.CD.buffTeam(0.15, Source.SelfEnshroudedRecluse)
           break
+        case Sets.AmphoreusTheEternalLand:
+          if (teammateSetEffects[Sets.AmphoreusTheEternalLand]) break
+          x.SPD_P.buffTeam(0.08, Source.AmphoreusTheEternalLand)
+          break
         default:
       }
 
@@ -332,6 +336,8 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
     enabledWavestriderCaptain: transformConditional(conditionals[Sets.WavestriderCaptain], actionIndex),
     enabledWorldRemakingDeliverer: transformConditional(conditionals[Sets.WorldRemakingDeliverer], actionIndex),
     enabledSelfEnshroudedRecluse: transformConditional(conditionals[Sets.SelfEnshroudedRecluse], actionIndex),
+    enabledAmphoreusTheEternalLand: transformConditional(conditionals[Sets.AmphoreusTheEternalLand], actionIndex),
+    enabledTengokuLivestream: transformConditional(conditionals[Sets.TengokuLivestream], actionIndex),
     valueChampionOfStreetwiseBoxing: transformConditional(conditionals[Sets.ChampionOfStreetwiseBoxing], actionIndex),
     valueWastelanderOfBanditryDesert: transformConditional(conditionals[Sets.WastelanderOfBanditryDesert], actionIndex),
     valueLongevousDisciple: transformConditional(conditionals[Sets.LongevousDisciple], actionIndex),

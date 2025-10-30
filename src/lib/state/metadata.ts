@@ -2543,7 +2543,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Sets.FirmamentFrontlineGlamoth]: 1,
         [Sets.InertSalsotto]: 1,
       },
-      presets: [],
+      presets: [
+        PresetEffects.TENGOKU_SET,
+      ],
       sortOption: SortOption.SKILL,
       hiddenColumns: [SortOption.FUA, SortOption.DOT],
       simulation: {
@@ -3548,6 +3550,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [
         PresetEffects.VALOROUS_SET,
+        PresetEffects.TENGOKU_SET,
         PresetEffects.fnSacerdosSet(2),
       ],
       sortOption: SortOption.BASIC,
@@ -4537,6 +4540,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [
         PresetEffects.WASTELANDER_SET,
+        PresetEffects.TENGOKU_SET,
       ],
       sortOption: SortOption.BASIC,
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
@@ -8480,6 +8484,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
+        PresetEffects.TENGOKU_SET,
       ],
       sortOption: SortOption.SKILL,
       hiddenColumns: [SortOption.DOT],

@@ -188,4 +188,6 @@ export const defaultSetConditionals = {
   [Sets.GiantTreeOfRaptBrooding]: [undefined, true],
   [Sets.ArcadiaOfWovenDreams]: [undefined, 4],
   [Sets.RevelryByTheSea]: [undefined, true],
+  [Sets.AmphoreusTheEternalLand]: [undefined, false],
+  [Sets.TengokuLivestream]: [undefined, false],
 }

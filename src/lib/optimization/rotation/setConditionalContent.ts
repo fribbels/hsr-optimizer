@@ -226,6 +226,12 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
   [Sets.RevelryByTheSea]: {
     type: ConditionalDataType.BOOLEAN,
   },
+  [Sets.AmphoreusTheEternalLand]: {
+    type: ConditionalDataType.BOOLEAN,
+  },
+  [Sets.TengokuLivestream]: {
+    type: ConditionalDataType.BOOLEAN,
+  },
 }
 
 function SetContentSacerdosRelivedOrdealOptions(t: SetConditionalTFunction) {

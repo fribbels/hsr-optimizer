@@ -434,6 +434,8 @@ export const SetsOrnaments = {
   GiantTreeOfRaptBrooding: 'Giant Tree of Rapt Brooding',
   ArcadiaOfWovenDreams: 'Arcadia of Woven Dreams',
   RevelryByTheSea: 'Revelry by the Sea',
+  AmphoreusTheEternalLand: 'Amphoreus, The Eternal Land',
+  TengokuLivestream: 'Tengoku@Livestream',
 } as const
 
 // Delete unreleased data
@@ -705,6 +707,8 @@ export const setToId = {
   [Sets.GiantTreeOfRaptBrooding]: '320',
   [Sets.ArcadiaOfWovenDreams]: '321',
   [Sets.RevelryByTheSea]: '322',
+  [Sets.AmphoreusTheEternalLand]: '323',
+  [Sets.TengokuLivestream]: '324',
 } as const
 
 export const ABILITY_LIMIT = 12

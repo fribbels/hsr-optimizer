@@ -72,6 +72,8 @@ export type SetConditional = {
   enabledWavestriderCaptain: boolean,
   enabledWorldRemakingDeliverer: boolean,
   enabledSelfEnshroudedRecluse: boolean,
+  enabledAmphoreusTheEternalLand: boolean,
+  enabledTengokuLivestream: boolean,
   valueChampionOfStreetwiseBoxing: number,
   valueWastelanderOfBanditryDesert: number,
   valueLongevousDisciple: number,

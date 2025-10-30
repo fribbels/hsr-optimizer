@@ -4362,7 +4362,7 @@ interface Resources {
         "Description2pc": "Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked."
       },
       "324": {
-        "Name": "Tengoku @Live Stream",
+        "Name": "Tengoku@Livestream",
         "Description2pc": "Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns."
       }
     },
@@ -4638,7 +4638,7 @@ interface Resources {
         "Name": "The Forever Victual"
       },
       "22006": {
-        "Name": "Take Flight Toward A Pink Tomorrow"
+        "Name": "Fly Into a Pink Tomorrow"
       },
       "23000": {
         "Name": "Night on the Milky Way"
@@ -6158,7 +6158,7 @@ interface Resources {
           "Text": "36% CD"
         },
         "Warrior": {
-          "Desc": "$t(gameData:RelicSets.125.Name) (+15% CD)",
+          "Desc": "4 Piece: $t(gameData:RelicSets.125.Name) (+15% CD)",
           "Set": "$t(gameData:RelicSets.125.Name)",
           "Text": "15% CD"
         },
@@ -6181,6 +6181,11 @@ interface Resources {
           "Desc": "$t(gameData:RelicSets.317.Name) (+12% ATK)",
           "Set": "$t(gameData:RelicSets.317.Name)",
           "Text": "12% ATK"
+        },
+        "Amphoreus": {
+          "Desc": "$t(gameData:RelicSets.323.Name) (+8% SPD)",
+          "Set": "$t(gameData:RelicSets.323.Name)",
+          "Text": "8% SPD"
         }
       }
     },

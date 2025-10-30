@@ -123,6 +123,7 @@ const teammateOrnamentSets = [
   Sets.FleetOfTheAgeless,
   Sets.PenaconyLandOfTheDreams,
   Sets.LushakaTheSunkenSeas,
+  Sets.AmphoreusTheEternalLand,
 ]
 
 // Find 4 piece relic sets and 2 piece ornament sets
@@ -234,6 +235,11 @@ export function renderTeammateOrnamentSetOptions(t: TFunction<'optimizerTab', 'T
         value: Sets.LushakaTheSunkenSeas,
         desc: t('TeammateSets.Lushaka.Desc'), // `${Sets.LushakaTheSunkenSeas} (+12% ATK)`,
         label: labelRender(Sets.LushakaTheSunkenSeas, t('TeammateSets.Lushaka.Text')), // labelRender(Sets.LushakaTheSunkenSeas, '12% ATK'),
+      },
+      {
+        value: Sets.AmphoreusTheEternalLand,
+        desc: t('TeammateSets.Amphoreus.Desc'), // `${Sets.AmphoreusTheEternalLand} (+8% SPD)`,
+        label: labelRender(Sets.AmphoreusTheEternalLand, t('TeammateSets.Amphoreus.Text')), // labelRender(Sets.AmphoreusTheEternalLand, '8% SPD'),
       },
     ]
   }

@@ -10,6 +10,7 @@ import {
   TurnMarker,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
+  ANAXA,
   ARCHER,
   CASTORICE,
   HOOK,
@@ -265,5 +266,28 @@ export class HysilensE1Preprocessor extends AbilityPreprocessorBase {
     if (marker == TurnMarker.END || marker == TurnMarker.WHOLE) {
       this.state.ultActivated = false
     }
+  }
+}
+
+export class AnaxaCyreneEffectPreprocessor extends AbilityPreprocessorBase {
+  id = ANAXA
+  defaultState = { cyreneSpecialEffect: false }
+  state = { ...this.defaultState }
+
+  reset() {
+    this.state = { ...this.defaultState }
+  }
+
+  processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
+    const { kind, marker } = turnAbility
+
+    if (marker == TurnMarker.START || marker == TurnMarker.WHOLE) {
+      if (this.state.cyreneSpecialEffect) {
+        this.state.cyreneSpecialEffect = false
+      } else {
+        this.state.cyreneSpecialEffect = true
+      }
+    }
+    setComboBooleanCategoryCharacterActivation(comboState, 'cyreneSpecialEffect', index, this.state.cyreneSpecialEffect)
   }
 }

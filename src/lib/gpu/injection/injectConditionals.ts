@@ -1,3 +1,4 @@
+import { request } from '@playwright/test'
 import {
   BASIC_ABILITY_TYPE,
   BREAK_ABILITY_TYPE,
@@ -220,7 +221,8 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
   conditionalDefinitionsWgsl += registeredConditionals[stat]
     .map((conditional) => {
       if (conditional.teammateIndex == null) {
-        return conditional.gpu(request as unknown as OptimizerAction, context)
+        // Note: This uses the default OptimizerAction
+        return conditional.gpu(context.actions[0], context)
       } else {
         const teammate = getRequestTeammateIndex(request, conditional)
         return conditional.gpu(teammate as unknown as OptimizerAction, context)

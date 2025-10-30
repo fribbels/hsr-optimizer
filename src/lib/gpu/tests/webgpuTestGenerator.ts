@@ -14,13 +14,23 @@ import {
   A_THANKLESS_CORONATION,
   ANAXA,
   ARCHER,
+  CERYDRA,
+  CYRENE,
+  EPOCH_ETCHED_IN_GOLDEN_BLOOD,
+  EVERNIGHT,
   HYACINE,
+  HYSILENS,
   LIFE_SHOULD_BE_CAST_TO_FLAMES,
   LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+  PERMANSOR_TERRAE,
   PHAINON,
   SABER,
   THE_HELL_WHERE_IDEALS_BURN,
+  THIS_LOVE_FOREVER,
+  THOUGH_WORLDS_APART,
   THUS_BURNS_THE_DAWN,
+  TO_EVERNIGHTS_STARS,
+  WHY_DOES_THE_OCEAN_SING,
 } from 'lib/simulations/tests/testMetadataConstants'
 
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
@@ -122,6 +132,11 @@ const baseCharacterLightConeMappings: Array<{ characterId: CharacterId, lightCon
   { characterId: PHAINON, lightConeId: THUS_BURNS_THE_DAWN },
   { characterId: SABER, lightConeId: A_THANKLESS_CORONATION },
   { characterId: ARCHER, lightConeId: THE_HELL_WHERE_IDEALS_BURN },
+  { characterId: HYSILENS, lightConeId: WHY_DOES_THE_OCEAN_SING },
+  { characterId: CERYDRA, lightConeId: EPOCH_ETCHED_IN_GOLDEN_BLOOD },
+  { characterId: EVERNIGHT, lightConeId: TO_EVERNIGHTS_STARS },
+  { characterId: PERMANSOR_TERRAE, lightConeId: THOUGH_WORLDS_APART },
+  { characterId: CYRENE, lightConeId: THIS_LOVE_FOREVER },
   { characterId: '8001', lightConeId: basicLc }, // Trailblazer
   { characterId: '8002', lightConeId: basicLc }, // Trailblazer
   { characterId: '8003', lightConeId: basicLc }, // Trailblazer

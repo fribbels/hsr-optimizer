@@ -26,6 +26,8 @@ import {
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
+import i18next from 'i18next'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { CYRENE } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -66,6 +68,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     ultZone: true,
     alliesMaxHp: 25000,
     talentFuaStacks: 3,
+    cyreneSpecialEffect: true,
     e1TrueDmg: true,
     e2AdditionalDmg: true,
     e4DefPen: true,
@@ -111,6 +114,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: t('talentFuaStacks.content'),
       min: 0,
       max: 3,
+    },
+    cyreneSpecialEffect: {
+      id: 'cyreneSpecialEffect',
+      formItem: 'switch',
+      text: `Cyrene special effect`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     e1TrueDmg: {
       id: 'e1TrueDmg',
@@ -179,7 +188,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
       x.FUA_TOUGHNESS_DMG.buff(5, SOURCE_TALENT)
 
-      if (cyreneTeammateSpecialEffectActive(action)) {
+      // Cyrene
+      if (cyreneTeammateSpecialEffectActive(action) && r.cyreneSpecialEffect) {
+        const cyreneDefPenBuff = cyreneTeammateSpecialEffectActive(action)
+          ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.132 : 0.12)
+          : 0
+        x.DEF_PEN.buff(cyreneDefPenBuff, SOURCE_MEMO)
+
         x.BASIC_ADDITIONAL_DMG_SCALING.buff(additionalScaling, SOURCE_MEMO)
         x.ULT_ADDITIONAL_DMG_SCALING.buff(additionalScaling, SOURCE_MEMO)
         x.FUA_ADDITIONAL_DMG_SCALING.buff(additionalScaling, SOURCE_MEMO)

@@ -2175,9 +2175,9 @@ interface Resources {
             "text": "Memo Talent DMG Buff",
             "content": "While Evernight is on the field, increases DMG dealt by Evernight and Evey by {{MemoTalentDmgBuff}}%."
           },
-          "crBuff": {
-            "text": "CR buff",
-            "content": "Increases Evernight and the memosprite Evey's CRIT Rate by 35%."
+          "traceCritBuffs": {
+            "text": "Trace Crit buffs",
+            "content": "Increases Evernight and the memosprite Evey's CRIT Rate by 35%. When using abilities, consumes 5% of this unit's current HP to increase both their CRIT DMG by 15% for 2 turns."
           },
           "skillMemoCdBuff": {
             "text": "Skill Memo CD buff",
@@ -2186,10 +2186,6 @@ interface Resources {
           "talentMemoCdBuff": {
             "text": "Talent Memo CD buff",
             "content": "Each time Evernight or memosprite Evey loses HP, increases CRIT DMG for both this unit and memosprite Evey by {{TalentCdScaling}}% for 2 turns."
-          },
-          "traceCdBuff": {
-            "text": "Trace CD buff",
-            "content": "When using abilities, consumes 5% of this unit's current HP to increase both their CRIT DMG by 15% for 2 turns."
           },
           "memoriaStacks": {
             "text": "Memoria stacks",

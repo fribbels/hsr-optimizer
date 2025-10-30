@@ -252,7 +252,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     specialEffect: {
       id: 'specialEffect',
       formItem: 'switch',
-      text: `Character special effect`,
+      text: `Cyrene special effect`,
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     cyreneSpdDmg: {
@@ -361,12 +361,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         } else if (context.characterId == CASTORICE) {
           // TODO: Effective for the entire battle. When used on Castorice, "Newbud" can overflow up to 200%. When summoning Netherwing, consumes all overflowed "Newbud," increases the DMG multiplier of the DMG dealt by 0.24% for every 1% of overflow value consumed when the summoned Netherwing triggers the ability effect of its Talent, "Wings Sweep the Ruins." If there are 2 enemy target(s) on the field or fewer, the DMG multiplier additionally increases by 0.48%.
           // ----------------------------------------------------------------------------------------------
-        } else if (context.characterId == ANAXA) {
-          // x.SKILL_DMG_BOOST.buff(memoSkillAnaxaSkillDmg, SOURCE_MEMO)
-          // x.ATK_P.buff(memoSkillAnaxaAtkBuff, SOURCE_MEMO)
-
-          // TODO: One-time effect. When used on Anaxa, recovers 1 Skill Point(s) for allies and allows Anaxa to take action immediately. Increases the number of Skill DMG instances by 3 for 1 turn. The next time Anaxa uses an ability, he gains "True Knowledge": Increases the ATK of all Erudition Path characters by 60% and Skill DMG dealt by 40% until the start of Anaxa's next turn
-          // ----------------------------------------------------------------------------------------------
         } else if (context.characterId == HYACINE) {
           // TODO: When Hyacine has "A Poem about 'Sky'" and is providing healing, additionally increases the healing value for Little Ica's Memosprite Skill by an amount equal to 72% of the healing value this time. After Hyacine uses Skill/Ultimate, consumes 1 stack of "A Poem about 'Sky'."
           // ----------------------------------------------------------------------------------------------
@@ -410,9 +404,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return `
 if (x.SPD >= 180 && ${wgslTrue(r.traceSpdBasedBuff)}) {
   x.ELEMENTAL_DMG += 0.20;
-  x.ICE_RES_PEN += floor(min(60, x.SPD - 180)) * 0.02;
+  m.ELEMENTAL_DMG += 0.20;
+  
+  let penBuff = floor(min(60, x.SPD - 180)) * 0.02;
+  x.ICE_RES_PEN += penBuff;
+  m.ICE_RES_PEN += penBuff;
 }
 `
     },
   }
 }
+

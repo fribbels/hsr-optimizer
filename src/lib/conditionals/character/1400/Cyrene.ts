@@ -336,6 +336,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         if (!chrysosHeirs[context.characterId]) {
           x.ELEMENTAL_DMG.buffSingle((t.specialEffect) ? memoSkillDmgBuff : 0, SOURCE_MEMO)
         } else if (context.characterId == STELLE_REMEMBRANCE || context.characterId == CAELUS_REMEMBRANCE) {
+          // Cannot be inlined with the main character conditional because of the cyreneHp dependency
+
           const atkBuff = memoSkillTrailblazerAtkScaling * t.cyreneHp
           x.ATK.buffBaseDual(atkBuff, SOURCE_MEMO)
           x.UNCONVERTIBLE_ATK_BUFF.buffBaseDual(atkBuff, SOURCE_MEMO)
@@ -345,47 +347,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           x.UNCONVERTIBLE_CR_BUFF.buffBaseDual(crBuff, SOURCE_MEMO)
 
           // TODO: Effective for the entire battle. When used on Trailblazer (Remembrance), increases Trailblazer (Remembrance)'s ATK by a value equal to 16% of ███'s Max HP, and increases Trailblazer (Remembrance)'s CRIT Rate by a value equal to 60%72% of ███'s CRIT Rate. This effect also applies to Mem. After Trailblazer (Remembrance) uses Enhanced Basic ATK in this battle, ███ immediately gains 1 extra turn and automatically uses "Minuet of Blooms and Plumes." If the target was defeated before this ability is used, it will be used on newly appeared enemy targets instead.
-          // ----------------------------------------------------------------------------------------------
-        } else if (context.characterId == AGLAEA) {
-          x.ELEMENTAL_DMG.buffBaseDual(memoSkillAglaeaDmgBuff, SOURCE_MEMO)
-          x.DEF_PEN.buffBaseDual(memoSkillAglaeaDefPen, SOURCE_MEMO)
-
-          // ----------------------------------------------------------------------------------------------
-        } else if (context.characterId == TRIBBIE) {
-          x.DEF_PEN.buff(memoSkillTribbieDefPen, SOURCE_MEMO)
-
-          // ----------------------------------------------------------------------------------------------
-        } else if (context.characterId == MYDEI) {
-          // TODO: One-time effect. When used on Mydei while Mydei is in the "Vendetta" state, he automatically uses "Godslayer Be God." In this attack, increases Mydei's CRIT DMG by 60%, and this usage does not consume Charge. If he is not in the "Vendetta" state, advances Mydei's action by 100%.
-          // ----------------------------------------------------------------------------------------------
-        } else if (context.characterId == CASTORICE) {
-          // TODO: Effective for the entire battle. When used on Castorice, "Newbud" can overflow up to 200%. When summoning Netherwing, consumes all overflowed "Newbud," increases the DMG multiplier of the DMG dealt by 0.24% for every 1% of overflow value consumed when the summoned Netherwing triggers the ability effect of its Talent, "Wings Sweep the Ruins." If there are 2 enemy target(s) on the field or fewer, the DMG multiplier additionally increases by 0.48%.
-          // ----------------------------------------------------------------------------------------------
-        } else if (context.characterId == HYACINE) {
-          // TODO: When Hyacine has "A Poem about 'Sky'" and is providing healing, additionally increases the healing value for Little Ica's Memosprite Skill by an amount equal to 72% of the healing value this time. After Hyacine uses Skill/Ultimate, consumes 1 stack of "A Poem about 'Sky'."
-          // ----------------------------------------------------------------------------------------------
-        } else if (context.characterId == CIPHER) {
-          x.ELEMENTAL_DMG.buff(memoSkillCipherDmgBuff, SOURCE_MEMO)
-          // DEF PEN handled in Cipher's conditionals
-          // ----------------------------------------------------------------------------------------------
-        } else if (context.characterId == PHAINON) {
-          x.CR.buff(memoSkillPhainonCr, SOURCE_MEMO)
-
-          // TODO: After using an attack, deals 5 instance(s) of Additional DMG, with each DMG dealing Fire DMG equal to 30% of Khaslana's ATK to one random enemy.
-          // ----------------------------------------------------------------------------------------------
-        } else if (context.characterId == HYSILENS) {
-          x.ELEMENTAL_DMG.buff(memoSkillHysilensDmgBuff, SOURCE_MEMO)
-
-          // TODO: After Hysilens uses Basic ATK/Skill to attack enemies, causes the DoT currently applied on the attacked enemy targets to immediately produce DMG equal to 60%/80% of the original DMG.
-          // ----------------------------------------------------------------------------------------------
-        } else if (context.characterId == CERYDRA) {
-          // TODO: After using on Cerydra, increases the CRIT DMG of the character with "Military Merit" by 30%.
-          // ----------------------------------------------------------------------------------------------
-        } else if (context.characterId == EVERNIGHT) {
-          x.MEMO_SKILL_DMG_BOOST.buff(memoSkillEvernightDmgBuff, SOURCE_MEMO)
-          // ----------------------------------------------------------------------------------------------
-        } else if (context.characterId == PERMANSOR_TERRAE) {
-          // TODO: When ███ uses Memosprite Skill, increases the DMG dealt by Dan Heng • Permansor Terrae's "Bondmate" by 16%, lasting for 2 turn(s). The next 3 attack(s) of "Souldragon" deals Additional DMG of corresponding Type equal to 80% of "Bondmate's" Shield Effect. When used on Dan Heng • Permansor Terrae, additionally advances Souldragon's action by 100%. The Souldragon's next action gains the enhance effects of Dan Heng • Permansor Terrae's Ultimate and increases the multiplier of Shield provided by Souldragon by 150%. Does not consume the enhancement Charge of Dan Heng • Permansor Terrae's Ultimate.
           // ----------------------------------------------------------------------------------------------
         }
       }
@@ -414,4 +375,3 @@ if (x.SPD >= 180 && ${wgslTrue(r.traceSpdBasedBuff)}) {
     },
   }
 }
-

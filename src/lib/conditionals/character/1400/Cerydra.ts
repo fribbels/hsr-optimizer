@@ -198,6 +198,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ELEMENTAL_DMG.buffSingle((e >= 2 && t.e2DmgBoost && t.militaryMerit) ? 0.40 : 0, SOURCE_E2)
       x.RES_PEN.buffSingle((e >= 6 && t.e6Buffs && t.militaryMerit) ? 0.20 : 0, SOURCE_E6)
 
+      // Cyrene
       if (cyreneTeammateSpecialEffectActive(originalCharacterAction!)) {
         const cdBuff = cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.33 : 0.30
         x.CD.buffSingle(cdBuff, SOURCE_MEMO)

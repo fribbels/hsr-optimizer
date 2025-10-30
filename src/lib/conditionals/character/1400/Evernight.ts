@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import {
   AbilityType,
   BUFF_PRIORITY_MEMO,
@@ -14,6 +15,7 @@ import {
 import {
   ConditionalActivation,
   ConditionalType,
+  CURRENT_DATA_VERSION,
   PathNames,
   Stats,
 } from 'lib/constants/constants'
@@ -75,6 +77,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     traceCdBuff: true,
     memoriaStacks: 16,
     enhancedState: true,
+    cyreneSpecialEffect: true,
     e1FinalDmg: true,
     e2CdBuff: true,
     e4Buffs: true,
@@ -158,6 +161,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         UltVulnScaling: TsUtils.precisionRound(100 * ultVulnScaling),
         UltDmgBoostScaling: TsUtils.precisionRound(100 * ultDmgBoostScaling),
       }),
+    },
+    cyreneSpecialEffect: {
+      id: 'cyreneSpecialEffect',
+      formItem: 'switch',
+      text: `Cyrene special effect`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     e1FinalDmg: {
       id: 'e1FinalDmg',
@@ -262,6 +271,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
+
+      // Cyrene
+      const cyreneMemoSkillDmgBuff = cyreneTeammateSpecialEffectActive(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.198 : 0.18)
+        : 0
+      x.MEMO_SKILL_DMG_BOOST.buff((r.cyreneSpecialEffect) ? cyreneMemoSkillDmgBuff : 0, SOURCE_MEMO)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

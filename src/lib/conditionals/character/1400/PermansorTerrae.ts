@@ -16,6 +16,7 @@ import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 
 import i18next from 'i18next'
+import cyrene from 'lib/conditionals/character/1400/Cyrene'
 import {
   boostAshblazingAtkP,
   gpuBoostAshblazingAtkP,
@@ -192,7 +193,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneDmgBoost = cyreneTeammateSpecialEffectActive(originalCharacterAction!)
         ? cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.264 : 0.24
         : 0
-      x.ELEMENTAL_DMG.buffSingle(cyrene(m.cyreneSpecialEffect) ? cyreneDmgBoost : 0, SOURCE_MEMO)
+      x.ELEMENTAL_DMG.buffSingle((t.cyreneSpecialEffect) ? cyreneDmgBoost : 0, SOURCE_MEMO)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

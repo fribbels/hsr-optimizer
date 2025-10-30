@@ -71,10 +71,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const defaults = {
     buffPriority: BUFF_PRIORITY_MEMO,
     memoTalentDmgBuff: true,
-    crBuff: true,
+    traceCritBuffs: true,
     skillMemoCdBuff: true,
     talentMemoCdBuff: true,
-    traceCdBuff: true,
     memoriaStacks: 16,
     enhancedState: true,
     cyreneSpecialEffect: true,
@@ -113,11 +112,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         MemoTalentDmgBuff: TsUtils.precisionRound(100 * memoTalentDmgBoost),
       }),
     },
-    crBuff: {
-      id: 'crBuff',
+    traceCritBuffs: {
+      id: 'traceCritBuffs',
       formItem: 'switch',
-      text: t('Content.crBuff.text'),
-      content: t('Content.crBuff.content'),
+      text: t('Content.traceCritBuffs.text'),
+      content: t('Content.traceCritBuffs.content'),
     },
     skillMemoCdBuff: {
       id: 'skillMemoCdBuff',
@@ -134,12 +133,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: t('Content.talentMemoCdBuff.content', {
         TalentCdScaling: TsUtils.precisionRound(100 * talentCdScaling),
       }),
-    },
-    traceCdBuff: {
-      id: 'traceCdBuff',
-      formItem: 'switch',
-      text: t('Content.traceCdBuff.text'),
-      content: t('Content.traceCdBuff.content'),
     },
     memoriaStacks: {
       id: 'memoriaStacks',
@@ -247,9 +240,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.m.ULT_HP_SCALING.buff(ultMemoScaling, SOURCE_MEMO)
 
-      x.CR.buffBaseDual((r.crBuff) ? 0.35 : 0, SOURCE_TRACE)
+      x.CR.buffBaseDual((r.traceCritBuffs) ? 0.35 : 0, SOURCE_TRACE)
+      x.CD.buffBaseDual((r.traceCritBuffs) ? 0.15 : 0, SOURCE_TRACE)
       x.CD.buffBaseDual((r.talentMemoCdBuff) ? talentCdScaling : 0, SOURCE_TALENT)
-      x.CD.buffBaseDual((r.traceCdBuff) ? 0.15 : 0, SOURCE_TRACE)
       x.ELEMENTAL_DMG.buffBaseDual((r.enhancedState) ? ultDmgBoostScaling : 0, SOURCE_ULT)
       x.ELEMENTAL_DMG.buffBaseDual((r.memoTalentDmgBuff) ? memoTalentDmgBoost : 0, SOURCE_MEMO)
 

@@ -192,7 +192,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneAtkBuff = cyreneTeammateSpecialEffectActive(originalCharacterAction!)
         ? (cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.66 : 0.60)
         : 0
-      x.ATK_P.buff((m.cyreneSpecialEffect) ? cyreneAtkBuff : 0, SOURCE_MEMO)
+      x.ATK_P.buff((m.cyreneSpecialEffect && context.path == PathNames.Erudition) ? cyreneAtkBuff : 0, SOURCE_MEMO)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {},
     gpuFinalizeCalculations: () => '',

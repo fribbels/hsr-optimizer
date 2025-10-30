@@ -193,7 +193,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         const cyreneDefPenBuff = cyreneTeammateSpecialEffectActive(action)
           ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.132 : 0.12)
           : 0
-        x.DEF_PEN.buffBaseDual(cyreneDefPenBuff, SOURCE_MEMO)
+        x.DEF_PEN.buff(cyreneDefPenBuff, SOURCE_MEMO)
 
         x.BASIC_ADDITIONAL_DMG_SCALING.buff(additionalScaling, SOURCE_MEMO)
         x.ULT_ADDITIONAL_DMG_SCALING.buff(additionalScaling, SOURCE_MEMO)

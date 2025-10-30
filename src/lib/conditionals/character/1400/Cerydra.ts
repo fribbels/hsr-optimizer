@@ -68,6 +68,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     peerage: true,
     teammateATKValue: 4000,
     spdBuff: true,
+    cyreneSpecialEffect: true,
     e1DefPen: true,
     e2DmgBoost: true,
     e6Buffs: true,
@@ -121,6 +122,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       formItem: 'switch',
       text: t('TeammateContent.militaryMerit.text'),
       content: t('TeammateContent.militaryMerit.content', { TalentAtkConversion: TsUtils.precisionRound(talentAtkScaling * 100) }),
+    },
+    cyreneSpecialEffect: {
+      id: 'cyreneSpecialEffect',
+      formItem: 'switch',
+      text: `Cyrene special effect`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     peerage: {
       id: 'peerage',
@@ -201,7 +208,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Cyrene
       if (cyreneTeammateSpecialEffectActive(originalCharacterAction!)) {
         const cdBuff = cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.33 : 0.30
-        x.CD.buffSingle(cdBuff, SOURCE_MEMO)
+        x.CD.buffSingle((t.cyreneSpecialEffect) ? cdBuff : 0, SOURCE_MEMO)
       }
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

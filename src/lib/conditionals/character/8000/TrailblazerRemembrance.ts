@@ -7,8 +7,6 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
-  cyreneSpecialEffectEidolonUpgraded,
-  cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
 import {
   ConditionalActivation,

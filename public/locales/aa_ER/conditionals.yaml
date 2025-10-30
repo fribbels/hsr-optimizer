@@ -1194,18 +1194,15 @@ Characters:
       memoTalentDmgBuff:
         text: crwdns45908:0crwdne45908:0
         content: crwdns45910:0{{MemoTalentDmgBuff}}crwdne45910:0
-      crBuff:
-        text: crwdns45912:0crwdne45912:0
-        content: crwdns45914:0crwdne45914:0
+      traceCritBuffs:
+        text: crwdns46002:0crwdne46002:0
+        content: crwdns46004:0crwdne46004:0
       skillMemoCdBuff:
         text: crwdns45916:0crwdne45916:0
         content: crwdns45918:0{{SkillMemoCdBuff}}crwdne45918:0
       talentMemoCdBuff:
         text: crwdns45920:0crwdne45920:0
         content: crwdns45922:0{{TalentCdScaling}}crwdne45922:0
-      traceCdBuff:
-        text: crwdns45924:0crwdne45924:0
-        content: crwdns45926:0crwdne45926:0
       memoriaStacks:
         text: crwdns45928:0crwdne45928:0
         content: >-

@@ -486,6 +486,18 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
             conditional={t('Conditionals.DefaultMessage')}
             // 'The selected buff is applied to damage calculations.'
           />
+          <ConditionalSetOption
+            set={Constants.Sets.AmphoreusTheEternalLand}
+            description={t('PlanarDescription', { id: 323 })}
+            conditional={t('Conditionals.DefaultMessage')}
+            // 'The selected buff is applied to damage calculations.'
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.TengokuLivestream}
+            description={t('PlanarDescription', { id: 324 })}
+            conditional={t('Conditionals.DefaultMessage')}
+            // 'The selected buff is applied to damage calculations.'
+          />
         </Flex>
       </Flex>
     </Drawer>

@@ -100,6 +100,8 @@ struct Sets {
   GiantTreeOfRaptBrooding: i32,
   ArcadiaOfWovenDreams: i32,
   RevelryByTheSea: i32,
+  AmphoreusTheEternalLand: i32,
+  TengokuLivestream: i32,
 }
 
 struct SetConditionals {
@@ -121,6 +123,8 @@ struct SetConditionals {
   enabledWavestriderCaptain: bool,
   enabledWorldRemakingDeliverer: bool,
   enabledSelfEnshroudedRecluse: bool,
+  enabledAmphoreusTheEternalLand: bool,
+  enabledTengokuLivestream: bool,
   valueChampionOfStreetwiseBoxing: i32,
   valueWastelanderOfBanditryDesert: i32,
   valueLongevousDisciple: i32,

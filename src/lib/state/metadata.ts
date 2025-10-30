@@ -2543,7 +2543,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Sets.FirmamentFrontlineGlamoth]: 1,
         [Sets.InertSalsotto]: 1,
       },
-      presets: [],
+      presets: [
+        PresetEffects.TENGOKU_SET,
+      ],
       sortOption: SortOption.SKILL,
       hiddenColumns: [SortOption.FUA, SortOption.DOT],
       simulation: {

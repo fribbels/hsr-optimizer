@@ -353,7 +353,7 @@ if (${wgslFalse(r.skillMemoCdBuff)}) {
 }
 
 let stateValue: f32 = (*p_state).EvernightCdConditional;
-let convertibleCdValue: f32 = (*p_x).CD - (*p_m).UNCONVERTIBLE_CD_BUFF;
+let convertibleCdValue: f32 = (*p_x).CD - (*p_x).UNCONVERTIBLE_CD_BUFF;
 
 var buffCD: f32 = ${cdBuffScaling} * convertibleCdValue;
 var stateBuffCD: f32 = ${cdBuffScaling} * stateValue;

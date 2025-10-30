@@ -4,7 +4,10 @@ import {
   FUA_DMG_TYPE,
   SKILL_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
-import { standardAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
+import {
+  gpuStandardAdditionalDmgAtkFinalizer,
+  standardAdditionalDmgAtkFinalizer,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
@@ -259,6 +262,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardAdditionalDmgAtkFinalizer(x)
     },
-    gpuFinalizeCalculations: () => '',
+    gpuFinalizeCalculations: () => gpuStandardAdditionalDmgAtkFinalizer(),
   }
 }

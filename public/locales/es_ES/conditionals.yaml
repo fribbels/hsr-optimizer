@@ -1194,18 +1194,12 @@ Characters:
       memoTalentDmgBuff:
         text: Mejora de daño talentoᴹ
         content: Mientras Nox está en la batalla, el daño que infligen Larganoche y Nox aumenta en un {{MemoTalentDmgBuff}}%.
-      crBuff:
-        text: Mejora PC
-        content: La Prob. CRIT de Larganoche y el mnemoduende Nox aumenta en un 35%.
       skillMemoCdBuff:
         text: Mejora DC habilidadᴹ
         content: Consume un 10% de los PV actuales de Larganoche para invocar al mnemoduende Nox y aumenta el Daño CRIT de todos los mnemoduendes aliados en una cantidad equivalente al {{SkillMemoCdBuff}}% del Daño CRIT de Larganoche durante 2 turnos.
       talentMemoCdBuff:
         text: Mejora DC talentoᴹ
         content: Cada vez que se reducen los PV de Larganoche o de Nox, el Daño CRIT de ambas aumenta en un {{TalentCdScaling}}% durante 2 turnos.
-      traceCdBuff:
-        text: Mejora DC rastro
-        content: Al lanzar una habilidad, consume un 5% de sus PV actuales y hace que el Daño CRIT de ambas aumente en un 15% durante 2 turnos.
       memoriaStacks:
         text: Acums. de Memoria
         content: >-

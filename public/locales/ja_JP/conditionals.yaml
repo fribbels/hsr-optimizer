@@ -1195,18 +1195,15 @@ Characters:
       memoTalentDmgBuff:
         text: 精霊天賦のバフ
         content: 長夜がフィールド上にいる時、長夜月と長夜の与ダメージ+{{MemoTalentDmgBuff}}%。
-      crBuff:
-        text: 会心率バフ
-        content: 長夜月と記憶の精霊「長夜」の会心率+35%。
+      traceCritBuffs:
+        text: 追加能力の会心バフ
+        content: 長夜月と記憶の精霊「長夜」の会心率+35%。スキルを発動する時、自身の残りHPを5%分消費し、両者の会心ダメージを15%アップする、2ターン継続。
       skillMemoCdBuff:
         text: スキルの会心ダメバフ
         content: 長夜月の残りHP10%分のHPを消費して、記憶の精霊「長夜」を召喚する。味方の記憶の精霊全体の会心ダメージが長夜月の会心ダメージの{{SkillMemoCdBuff}}%分アップする、2ターン継続。
       talentMemoCdBuff:
         text: 天賦の会心ダメバフ
         content: 長夜月または長夜のHPが減少するたびに、それぞれの会心ダメージ+{{TalentCdScaling}}%、2ターン継続。
-      traceCdBuff:
-        text: 追加能力の会心ダメバフ
-        content: スキルを発動する時、自身の残りHPを5%分消費し、両者の会心ダメージを15%アップする、2ターン継続。
       memoriaStacks:
         text: '「憶質」層数'
         content: >-

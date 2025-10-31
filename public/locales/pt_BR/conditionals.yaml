@@ -1136,8 +1136,6 @@ Characters:
           Ao usar sua Habilidade, Dr. Ratio tem 40% de chance fixa de lançar um ataque adicional contra seu alvo uma vez, causando DMG Imaginário igual a {{FuaScaling}}% do ATK de Dr. Ratio. Para cada debuff que o inimigo alvo possui, a chance fixa de lançar o ataque adicional aumenta em 20%. Se o inimigo alvo for derrotado antes que o ataque adicional ocorra, o ataque adicional será direcionado a um único inimigo aleatório.::BR::Ao causar DMG a um alvo que possui 3 ou mais debuffs, para cada debuff que o alvo tem, o DMG causado por Dr. Ratio a esse alvo aumenta em 10%, até um aumento máximo de 50%.::BR::E2: Quando o ataque adicional de seu Talento atinge um alvo, para cada debuff que o alvo possui, causa adicionalmente DMG Imaginário igual a 20% do ATK de Dr. Ratio. Esse efeito pode ser acionado no máximo 4 vezes durante cada ataque adicional.
   Evernight:
     Content:
-      crBuff:
-        text: Bônus de Chance Crítica
       memoriaStacks:
         content: >-
           Esta habilidade seleciona automaticamente um alvo, priorizando o inimigo-alvo que Noite Eterna atacou por último. Causa Dano de Gelo igual a {{MemoSkillScaling}}% dos PV máximos de Nox a um inimigo. Para cada 4 pontos de "Memória" que Noite Eterna possui atualmente, causa adicionalmente Dano de Gelo igual a {{MemoSkillAdditionalScaling}}% dos PV máximos de "Nox". ::BR::Quando a "Memória" de Noite Eterna é maior ou igual a 16 pontos, e ela não estiver sob efeito de Controle Negativo, "Sonho, Dissolvendo-se, como Orvalho" pode ser usada. Para cada ponto de "Memória" atualmente em posse, Causa Dano de Gelo igual a {{MemoSkillEnhancedScaling}}% dos PV máximos de "Nox" no alvo principal.

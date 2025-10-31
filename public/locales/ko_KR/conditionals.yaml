@@ -1167,18 +1167,12 @@ Characters:
       memoTalentDmgBuff:
         text: 기억정령 특성 데미지 버프
         content: '「긴 밤」이 필드에 있을 시 에버나이트와 「긴 밤」이 가하는 피해가 {{MemoTalentDmgBuff}}% 증가한다.'
-      crBuff:
-        text: 치확 버프
-        content: 에버나이트와 기억정령「긴 밤」의 치명타 확률이 35%증가한다.
       skillMemoCdBuff:
         text: 전스 정령 치피 버프
         content: '에버나이트 현재 HP의 10%를 소모해 기억 정령 「긴 밤」을 소환하고, 모든 아군 기억 정령의 치명타 피해를 에버나이트 치명타 피해의 {{SkillMemoCdBuff}}%만큼 증가시킨다, 지속 시간: 2턴'
       talentMemoCdBuff:
         text: 특성 정령 치피 버프
         content: 에버나이트 또는 기억 정령 「긴 밤」의 HP가 감소할 때마다 자신과 기억 정령 「긴 밤」의 치명타 피해가 2턴 동안 {{TalentCdScaling}}% 증가한다.
-      traceCdBuff:
-        text: 특성 치피 버프
-        content: '스킬 발동 시 자신의 현재 HP의 5%를 소모해 에버나이트와 기억 정령 「긴 밤」의 치명타 피해를 15% 증가시킨다, 지속 시간: 2턴'
       memoriaStacks:
         text: '[기억 물질] 스택'
         content: >-

@@ -6,7 +6,7 @@ import {
 import {
   AbilityEidolon,
   Conditionals,
-  ContentDefinition,
+  ContentDefinition, cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
   cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
@@ -220,7 +220,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Cyrene
       const cyreneOverflowPercentAssumption = 30 // Assumes 130% overflow
-      const cyreneMultiplierBuff = cyreneTeammateSpecialEffectActive(action)
+      const cyreneMultiplierBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.00264 : 0.0024) * cyreneOverflowPercentAssumption * (context.enemyCount < 3 ? 3 : 1)
         : 0
       x.m.MEMO_TALENT_SPECIAL_SCALING.buff(r.memoTalentHits * memoTalentScaling, SOURCE_MEMO)

@@ -8,7 +8,7 @@ import {
 import {
   AbilityEidolon,
   Conditionals,
-  ContentDefinition,
+  ContentDefinition, cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
   cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
@@ -190,7 +190,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DEF_PEN.buffSingle((e >= 6 && t.e6Buffs) ? 0.12 : 0, SOURCE_E6)
 
       // Cyrene
-      const cyreneDmgBoost = cyreneTeammateSpecialEffectActive(originalCharacterAction!)
+      const cyreneDmgBoost = cyreneActionExists(originalCharacterAction!)
         ? cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.264 : 0.24
         : 0
       x.ELEMENTAL_DMG.buffSingle((t.cyreneSpecialEffect) ? cyreneDmgBoost : 0, SOURCE_MEMO)

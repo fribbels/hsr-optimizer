@@ -5,6 +5,7 @@ import {
   Conditionals,
   ContentDefinition,
   countTeamPath,
+  cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
   cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
@@ -173,7 +174,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Cyrene
       // Uptime in AnaxaCyreneEffectPreprocessor
-      const cyreneSkillDmgBuff = cyreneTeammateSpecialEffectActive(action)
+      const cyreneSkillDmgBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.44 : 0.40)
         : 0
       x.SKILL_DMG_BOOST.buff((r.cyreneSpecialEffect) ? cyreneSkillDmgBuff : 0, SOURCE_MEMO)
@@ -189,7 +190,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Cyrene
       // Uptime in AnaxaCyreneEffectPreprocessor
-      const cyreneAtkBuff = cyreneTeammateSpecialEffectActive(originalCharacterAction!)
+      const cyreneAtkBuff = cyreneActionExists(originalCharacterAction!)
         ? (cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.66 : 0.60)
         : 0
       x.ATK_P.buff((m.cyreneSpecialEffect && context.path == PathNames.Erudition) ? cyreneAtkBuff : 0, SOURCE_MEMO)

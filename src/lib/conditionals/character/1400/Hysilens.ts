@@ -3,7 +3,7 @@ import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
-  ContentDefinition,
+  ContentDefinition, cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
   cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
@@ -194,7 +194,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DOT_CHANCE.set(1.00, SOURCE_TALENT)
 
       // Cyrene
-      const cyreneDmgBuff = cyreneTeammateSpecialEffectActive(action)
+      const cyreneDmgBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 1.32 : 1.20)
         : 0
       x.ELEMENTAL_DMG.buff((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, SOURCE_MEMO)

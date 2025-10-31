@@ -8,15 +8,14 @@ import {
 import {
   AbilityEidolon,
   Conditionals,
-  ContentDefinition, cyreneActionExists,
+  ContentDefinition,
+  cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
-  cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 
 import i18next from 'i18next'
-import cyrene from 'lib/conditionals/character/1400/Cyrene'
 import {
   boostAshblazingAtkP,
   gpuBoostAshblazingAtkP,

@@ -13,7 +13,6 @@ import {
   ContentDefinition,
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
-  cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
 import {
   ConditionalActivation,

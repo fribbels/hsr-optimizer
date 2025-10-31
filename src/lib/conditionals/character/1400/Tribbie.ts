@@ -16,7 +16,6 @@ import {
   ContentDefinition,
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
-  cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
@@ -29,7 +28,6 @@ import { TsUtils } from 'lib/utils/TsUtils'
 
 import i18next from 'i18next'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
-import { CYRENE } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {

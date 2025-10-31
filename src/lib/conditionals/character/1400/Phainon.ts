@@ -15,7 +15,6 @@ import {
   countTeamPath,
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
-  cyreneTeammateSpecialEffectActive,
   teammateMatchesId,
 } from 'lib/conditionals/conditionalUtils'
 import {

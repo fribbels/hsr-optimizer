@@ -3,9 +3,9 @@ import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
-  ContentDefinition, cyreneActionExists,
+  ContentDefinition,
+  cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
-  cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
 import {
   dynamicStatConversion,

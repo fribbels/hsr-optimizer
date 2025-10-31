@@ -6,9 +6,9 @@ import {
 import {
   AbilityEidolon,
   Conditionals,
-  ContentDefinition, cyreneActionExists,
+  ContentDefinition,
+  cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
-  cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {

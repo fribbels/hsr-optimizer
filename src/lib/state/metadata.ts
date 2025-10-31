@@ -2581,8 +2581,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboDot: 0,
         relicSets: [
-          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -3591,6 +3591,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboDot: 0,
         relicSets: [
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
           [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
@@ -5794,6 +5795,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         deprioritizeBuffs: true,
         relicSets: [
+          [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
           [Sets.KnightOfPurityPalace, Sets.KnightOfPurityPalace],
           [Sets.TheAshblazingGrandDuke, Sets.KnightOfPurityPalace, Sets.PioneerDiverOfDeadWaters],
@@ -6598,8 +6600,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboDot: 0,
         relicSets: [
-          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
           [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -7880,9 +7882,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         errRopeEidolon: 0,
         deprioritizeBuffs: false,
         relicSets: [
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
-          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -8175,8 +8177,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         errRopeEidolon: 0,
         relicSets: [
-          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -8780,8 +8782,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         errRopeEidolon: 0,
         relicSets: [
-          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           RELICS_2P_SPEED,
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,

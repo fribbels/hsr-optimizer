@@ -5,23 +5,23 @@ import {
 } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
 import {
-  ANAXA,
-  CERYDRA,
+  ANAXA, CASTORICE,
+  CERYDRA, CIPHER,
   CYRENE,
   EPOCH_ETCHED_IN_GOLDEN_BLOOD,
-  EVERNIGHT,
-  HYSILENS,
+  EVERNIGHT, FLAME_OF_BLOOD_BLAZE_MY_PATH, HYACINE,
+  HYSILENS, IF_TIME_WERE_A_FLOWER,
   INCESSANT_RAIN,
   INTO_THE_UNREACHABLE_VEIL,
-  KAFKA_B1,
-  LIFE_SHOULD_BE_CAST_TO_FLAMES,
+  KAFKA_B1, LIES_DANCE_ON_THE_BREEZE,
+  LIFE_SHOULD_BE_CAST_TO_FLAMES, LONG_MAY_RAINBOWS_ADORN_THE_SKY, MAKE_FAREWELLS_MORE_BEAUTIFUL, MYDEI,
   PATIENCE_IS_ALL_YOU_NEED,
-  PERMANSOR_TERRAE,
+  PERMANSOR_TERRAE, PHAINON,
   SILVER_WOLF_B1,
   THE_HERTA,
   THIS_LOVE_FOREVER,
-  THOUGH_WORLDS_APART,
-  TO_EVERNIGHTS_STARS,
+  THOUGH_WORLDS_APART, THUS_BURNS_THE_DAWN,
+  TO_EVERNIGHTS_STARS, TRIBBIE,
   WHY_DOES_THE_OCEAN_SING,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB, {
@@ -74,11 +74,13 @@ export function presetCharacters(): Preset[] {
   return [
     { characterId: char(CYRENE), lightConeId: lc(THIS_LOVE_FOREVER) },
 
-    { characterId: char(EVERNIGHT), lightConeId: lc(TO_EVERNIGHTS_STARS) },
-    { characterId: char(PERMANSOR_TERRAE), lightConeId: lc(THOUGH_WORLDS_APART) },
+    { characterId: char(CASTORICE), lightConeId: lc(MAKE_FAREWELLS_MORE_BEAUTIFUL) },
+    { characterId: char(HYACINE), lightConeId: lc(LONG_MAY_RAINBOWS_ADORN_THE_SKY) },
+    { characterId: char(TRIBBIE), lightConeId: lc(IF_TIME_WERE_A_FLOWER) },
 
-    { characterId: char(THE_HERTA), lightConeId: lc(INTO_THE_UNREACHABLE_VEIL) },
-    { characterId: char(ANAXA), lightConeId: lc(LIFE_SHOULD_BE_CAST_TO_FLAMES) },
+    { characterId: char(PHAINON), lightConeId: lc(THUS_BURNS_THE_DAWN) },
+    { characterId: char(CIPHER), lightConeId: lc(LIES_DANCE_ON_THE_BREEZE) },
+    { characterId: char(MYDEI), lightConeId: lc(FLAME_OF_BLOOD_BLAZE_MY_PATH) },
 
     { custom: true },
   ].filter((x) => x.custom || !!x.characterId) as Preset[]

@@ -14,12 +14,12 @@ import {
   A_THANKLESS_CORONATION,
   ANAXA,
   ARCHER,
-  CERYDRA,
+  CERYDRA, CIPHER,
   CYRENE,
   EPOCH_ETCHED_IN_GOLDEN_BLOOD,
   EVERNIGHT,
   HYACINE,
-  HYSILENS,
+  HYSILENS, LIES_DANCE_ON_THE_BREEZE,
   LIFE_SHOULD_BE_CAST_TO_FLAMES,
   LONG_MAY_RAINBOWS_ADORN_THE_SKY,
   PERMANSOR_TERRAE,
@@ -127,6 +127,7 @@ const baseCharacterLightConeMappings: Array<{ characterId: CharacterId, lightCon
   { characterId: '1404', lightConeId: '23039' }, // Mydei
   { characterId: '1405', lightConeId: '23041' }, // Anaxa
   { characterId: '1407', lightConeId: '23040' }, // Castorice
+  { characterId: CIPHER, lightConeId: LIES_DANCE_ON_THE_BREEZE },
   { characterId: ANAXA, lightConeId: LIFE_SHOULD_BE_CAST_TO_FLAMES },
   { characterId: HYACINE, lightConeId: LONG_MAY_RAINBOWS_ADORN_THE_SKY },
   { characterId: PHAINON, lightConeId: THUS_BURNS_THE_DAWN },

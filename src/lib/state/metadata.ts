@@ -9456,6 +9456,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.HP_P,
           Stats.HP,
         ],
+        breakpoints: {
+          [Stats.SPD]: 180,
+        },
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
           DEFAULT_ULT,

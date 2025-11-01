@@ -45,7 +45,6 @@ export type ScoringParams = {
     stat: string,
     sim: Simulation,
   ) => number,
-  user?: boolean,
 }
 
 export type SimulationResult = OptimizerDisplayData & {

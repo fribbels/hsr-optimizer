@@ -79,6 +79,7 @@ import {
   SPARKLE,
   STELLE_REMEMBRANCE,
   SUNDAY,
+  TAKE_FLIGHT_TOWARD_A_PINK_TOMORROW,
   THE_HERTA,
   THOSE_MANY_SPRINGS,
   TINGYUN,
@@ -9400,8 +9401,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Stats.HP]: 1,
         [Stats.HP_P]: 1,
         [Stats.SPD]: 1,
-        [Stats.CR]: 0.5,
-        [Stats.CD]: 0.5,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
         [Stats.EHR]: 0,
         [Stats.RES]: 0,
         [Stats.BE]: 0,
@@ -9427,9 +9428,76 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       presets: [
         PresetEffects.BANANA_SET,
       ],
-      sortOption: SortOption.SPD,
+      sortOption: SortOption.COMBO,
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.ULT, SortOption.DOT],
       addedColumns: [SortOption.MEMO_SKILL],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+            Stats.HP_P,
+          ],
+          [Parts.Feet]: [
+            Stats.HP_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.HP_P,
+            Stats.Ice_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.HP_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.HP_P,
+          Stats.HP,
+        ],
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          DEFAULT_ULT,
+          DEFAULT_MEMO_SKILL,
+          WHOLE_BASIC,
+          DEFAULT_MEMO_SKILL,
+          WHOLE_BASIC,
+          DEFAULT_MEMO_SKILL,
+        ],
+        comboDot: 0,
+        deprioritizeBuffs: true,
+        relicSets: [
+          [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
+          RELICS_2P_SPEED,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.BoneCollectionsSereneDemesne,
+          Sets.AmphoreusTheEternalLand,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: CASTORICE,
+            lightCone: MAKE_FAREWELLS_MORE_BEAUTIFUL,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: STELLE_REMEMBRANCE,
+            lightCone: TAKE_FLIGHT_TOWARD_A_PINK_TOMORROW,
+            characterEidolon: 6,
+            lightConeSuperimposition: 5,
+          },
+          {
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
   }
 }

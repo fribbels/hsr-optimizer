@@ -3,8 +3,8 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
-  cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
 import {
   dynamicStatConversion,
@@ -154,7 +154,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
 
       // Cyrene
-      const cyreneSkillCdBuff = cyreneTeammateSpecialEffectActive(action)
+      const cyreneSkillCdBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 2.20 : 2.00)
         : 0
       x.SKILL_CD_BOOST.buff((r.skillEnhances > 0 && r.cyreneSpecialEffect) ? cyreneSkillCdBuff : 0, SOURCE_MEMO)

@@ -9,14 +9,13 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
-  cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 
 import i18next from 'i18next'
-import cyrene from 'lib/conditionals/character/1400/Cyrene'
 import {
   boostAshblazingAtkP,
   gpuBoostAshblazingAtkP,
@@ -190,7 +189,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.DEF_PEN.buffSingle((e >= 6 && t.e6Buffs) ? 0.12 : 0, SOURCE_E6)
 
       // Cyrene
-      const cyreneDmgBoost = cyreneTeammateSpecialEffectActive(originalCharacterAction!)
+      const cyreneDmgBoost = cyreneActionExists(originalCharacterAction!)
         ? cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.264 : 0.24
         : 0
       x.ELEMENTAL_DMG.buffSingle((t.cyreneSpecialEffect) ? cyreneDmgBoost : 0, SOURCE_MEMO)

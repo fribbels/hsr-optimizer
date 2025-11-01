@@ -9,8 +9,8 @@ import {
   Conditionals,
   ContentDefinition,
   countTeamPath,
+  cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
-  cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
 import {
   ConditionalActivation,
@@ -266,7 +266,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
 
       // Cyrene
-      const cyreneMemoSkillDmgBuff = cyreneTeammateSpecialEffectActive(action)
+      const cyreneMemoSkillDmgBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.198 : 0.18)
         : 0
       x.MEMO_SKILL_DMG_BOOST.buff((r.cyreneSpecialEffect) ? cyreneMemoSkillDmgBuff : 0, SOURCE_MEMO)
@@ -290,7 +290,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       let cdBuffScaling = skillCdScaling
-      if (cyreneTeammateSpecialEffectActive(originalCharacterAction!)) {
+      if (cyreneActionExists(originalCharacterAction!)) {
         cdBuffScaling += cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.132 : 0.12
       }
 
@@ -323,7 +323,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           const convertibleCdValue = x.a[Key.CD] - x.a[Key.UNCONVERTIBLE_CD_BUFF]
 
           let cdBuffScaling = skillCdScaling
-          if (cyreneTeammateSpecialEffectActive(action)) {
+          if (cyreneActionExists(action)) {
             cdBuffScaling += cyreneSpecialEffectEidolonUpgraded(action) ? 0.132 : 0.12
           }
 
@@ -341,7 +341,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           const r = action.characterConditionals as Conditionals<typeof content>
 
           let cdBuffScaling = skillCdScaling
-          if (cyreneTeammateSpecialEffectActive(action)) {
+          if (cyreneActionExists(action)) {
             cdBuffScaling += cyreneSpecialEffectEidolonUpgraded(action) ? 0.132 : 0.12
           }
 

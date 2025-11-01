@@ -6,15 +6,13 @@ import {
 } from 'lib/simulations/tests/testMetadataConstants'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v3.7.1'
+export const CURRENT_OPTIMIZER_VERSION = 'v3.7.5'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '3.7v4'
+export const CURRENT_DATA_VERSION = '3.7v5'
 
 const generateMessage = (message?: string) => `${CURRENT_DATA_VERSION} - ${message}`
-export const CharacterAnnouncementMessages: Record<string, string> = {
-  [CYRENE]: generateMessage(`Cyrene's Chrysos Heirs special effects are WIP`),
-}
+export const CharacterAnnouncementMessages: Record<string, string> = {}
 
 export const Stats = {
   ATK_P: 'ATK%',

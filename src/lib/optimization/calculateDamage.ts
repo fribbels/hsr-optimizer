@@ -45,7 +45,10 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   const baseDmgBoost = 1 + a[Key.ELEMENTAL_DMG]
   const baseDefPen = a[Key.DEF_PEN] + context.combatBuffs.DEF_PEN
   const baseUniversalMulti = a[Key.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
-  const baseResistance = context.enemyDamageResistance - a[Key.RES_PEN] - context.combatBuffs.RES_PEN - getResPenType(x, context.elementalResPenType)
+  const baseResistance = Math.max(
+    -1.00,
+    context.enemyDamageResistance - a[Key.RES_PEN] - context.combatBuffs.RES_PEN - getResPenType(x, context.elementalResPenType),
+  )
   const baseBreakEfficiencyBoost = 1 + a[Key.BREAK_EFFICIENCY_BOOST]
 
   // === Super / Break ===

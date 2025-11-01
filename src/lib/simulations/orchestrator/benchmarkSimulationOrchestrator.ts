@@ -493,7 +493,7 @@ export class BenchmarkSimulationOrchestrator {
     const perfectionSimResult = this.perfectionSimResult!
 
     applyScoringFunction(baselineSimResult, metadata)
-    applyScoringFunction(originalSimResult, metadata)
+    applyScoringFunction(originalSimResult, metadata, true, true)
 
     const benchmarkSimScore = benchmarkSimResult.simScore
     const originalSimScore = originalSimResult.simScore

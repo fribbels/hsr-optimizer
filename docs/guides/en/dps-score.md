@@ -113,6 +113,8 @@ Certain characters will have breakpoints that are forced. For example, 120% comb
 passive EHR to DMG conversion, and to land Arcana stacks. Failing to reach the breakpoint will penalize the DPS Score
 for the missing percentage. This penalty applies to all simulations.
 
+Missing a SPD breakpoint (e.g. Cyrene's 180 SPD) will penalize by -25%.
+
 ### Formula
 
 The resulting formula is:

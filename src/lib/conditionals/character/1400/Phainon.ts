@@ -13,8 +13,8 @@ import {
   Conditionals,
   ContentDefinition,
   countTeamPath,
+  cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
-  cyreneTeammateSpecialEffectActive,
   teammateMatchesId,
 } from 'lib/conditionals/conditionalUtils'
 import {
@@ -188,10 +188,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-      const cyreneAdditionalScaling = cyreneTeammateSpecialEffectActive(action) && r.cyreneSpecialEffect
+      const cyreneAdditionalScaling = cyreneActionExists(action) && r.cyreneSpecialEffect
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.11 : 0.10) * 5 / context.enemyCount
         : 0
-      const cyreneCdBuff = cyreneTeammateSpecialEffectActive(action) && r.cyreneSpecialEffect
+      const cyreneCdBuff = cyreneActionExists(action) && r.cyreneSpecialEffect
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.132 : 0.12) * (e >= 6 ? 6 : 3)
         : 0
 
@@ -249,7 +249,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       }
 
       // Cyrene
-      const cyreneCrBuff = cyreneTeammateSpecialEffectActive(action)
+      const cyreneCrBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.176 : 0.16)
         : 0
       x.CR.buff((r.cyreneSpecialEffect && r.transformedState) ? cyreneCrBuff : 0, SOURCE_MEMO)

@@ -720,7 +720,7 @@ fn calculateDamage(
   let baseDmgBoost = 1 + x.ELEMENTAL_DMG;
   let baseDefPen = x.DEF_PEN + combatBuffsDEF_PEN;
   let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
-  let baseResistance = resistance - x.RES_PEN - combatBuffsRES_PEN - getElementalResPen(p_x);
+  let baseResistance = max(-1.00, resistance - x.RES_PEN - combatBuffsRES_PEN - getElementalResPen(p_x));
   let baseBreakEfficiencyBoost = 1 + x.BREAK_EFFICIENCY_BOOST;
 
   // === Super / Break ===

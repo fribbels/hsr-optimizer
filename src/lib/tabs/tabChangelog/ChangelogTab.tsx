@@ -134,7 +134,7 @@ function getChangelogContent() {
         `disclaimer.webp`,
         `Added a "Cyrene special effect" to Chrysos Heirs affected by Cyrene's buff`,
         `Fix: Memosprites now inherit the proper ATK / HP / DEF stats from their summoner, of their non-scaling stats`,
-        `Fix: Relics tab substat filter now correctly chains with AND instead of OR`,
+        `Fix: Relics tab substat filter now correctly combine with AND instead of OR`,
         `Fix: HoyoLab import now correctly imports buffed characters`,
         `Balance: Changing the default DPS Score sets for the following characters due to DEF PEN overcap on Genius of Brilliant Stars:`,
         `— Seele, Qingque, Jade, Anaxa, Cipher, Silverwolf`,

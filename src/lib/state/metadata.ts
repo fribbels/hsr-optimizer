@@ -9409,7 +9409,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       parts: {
         [Parts.Body]: [
-          Stats.HP,
+          Stats.HP_P,
           Stats.CR,
           Stats.CD,
         ],
@@ -9417,7 +9417,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.SPD,
         ],
         [Parts.PlanarSphere]: [
-          Stats.HP,
+          Stats.HP_P,
           Stats.Ice_DMG,
         ],
         [Parts.LinkRope]: [
@@ -9428,7 +9428,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       presets: [
         PresetEffects.BANANA_SET,
       ],
-      sortOption: SortOption.COMBO,
+      sortOption: SortOption.MEMO_SKILL,
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.ULT, SortOption.DOT],
       addedColumns: [SortOption.MEMO_SKILL],
       simulation: {

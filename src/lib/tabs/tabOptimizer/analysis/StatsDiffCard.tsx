@@ -144,7 +144,7 @@ function DiffRender(props: { oldValue: number, newValue: number, stat: string })
   if (visualDiff(newValue, oldValue, stat) == 0) return <></>
 
   const increase = newValue > oldValue
-  const diff = increase ? visualDiff(newValue, oldValue, stat) : visualDiff(oldValue, newValue, stat)
+  const diff = increase ? visualDiff(newValue, oldValue, stat) : -visualDiff(newValue, oldValue, stat)
   const icon = arrowDirection(increase)
   const color = arrowColor(increase)
   const { valueDisplay } = getStatDiffRenderValues(diff, diff, stat)

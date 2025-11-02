@@ -4,13 +4,23 @@ import {
   Form as AntDForm,
   Modal,
   Radio,
+  Select,
 } from 'antd'
+import { Constants } from 'lib/constants/constants'
+import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
+import {
+  OptionRender,
+  optionRenderer,
+  renderTeammateOrnamentSetOptions,
+  renderTeammateRelicSetOptions,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard'
 import { HeaderText } from 'lib/ui/HeaderText'
 import React, {
   useEffect,
+  useMemo,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -19,6 +29,16 @@ import {
   CharacterId,
 } from 'types/character'
 import { Form } from 'types/form'
+import { LightCone } from 'types/lightCone'
+
+export type CharacterModalForm = {
+  characterId?: CharacterId,
+  lightCone?: LightCone['id'],
+  characterEidolon: number,
+  lightConeSuperimposition: number,
+  teamOrnamentSet?: string,
+  teamRelicSet?: string,
+}
 
 export default function CharacterModal(props: {
   open: boolean,
@@ -30,21 +50,25 @@ export default function CharacterModal(props: {
 
   const { t } = useTranslation('modals', { keyPrefix: 'EditCharacter' })
   const { t: tCommon } = useTranslation('common')
+  const { t: tTeammateCard } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
 
   const [characterId, setCharacterId] = useState<CharacterId | null | undefined>(props.initialCharacter?.form.characterId ?? null)
   const [eidolon] = useState(props.initialCharacter?.form.characterEidolon ?? 0)
   const [superimposition, setSuperimposition] = useState(props.initialCharacter?.form.lightConeSuperimposition ?? 1)
 
+  const teammateRelicSetOptions: OptionRender[] = useMemo(renderTeammateRelicSetOptions(tTeammateCard), [tTeammateCard])
+  const teammateOrnamentSetOptions: OptionRender[] = useMemo(renderTeammateOrnamentSetOptions(tTeammateCard), [tTeammateCard])
+
   useEffect(() => {
     if (!props.open) return
 
-    const defaultValues = {
+    const defaultValues: CharacterModalForm = {
       characterId: props.initialCharacter?.form.characterId,
-      characterLevel: 80,
       characterEidolon: props.initialCharacter?.form.characterEidolon ?? 0,
       lightCone: props.initialCharacter?.form.lightCone,
-      lightConeLevel: 80,
       lightConeSuperimposition: props.initialCharacter?.form.lightConeSuperimposition ?? 1,
+      teamRelicSet: props.initialCharacter?.form.teamRelicSet,
+      teamOrnamentSet: props.initialCharacter?.form.teamOrnamentSet,
     }
 
     setCharacterId(props.initialCharacter?.form.characterId ?? null)
@@ -148,6 +172,38 @@ export default function CharacterModal(props: {
               </Radio.Group>
             </AntDForm.Item>
           </Flex>
+
+          <Flex vertical gap={5}>
+            <HeaderText>Sets</HeaderText>
+
+            <AntDForm.Item name={`teamRelicSet`}>
+              <Select
+                className='teammate-set-select'
+                options={teammateRelicSetOptions}
+                placeholder={tTeammateCard('RelicsPlaceholder')} // 'Relics'
+                allowClear
+                popupMatchSelectWidth={false}
+                optionLabelProp='desc'
+                optionRender={optionRenderer()}
+                labelRender={labelRenderer}
+                disabled={false}
+              />
+            </AntDForm.Item>
+
+            <AntDForm.Item name={`teamOrnamentSet`}>
+              <Select
+                className='teammate-set-select'
+                options={teammateOrnamentSetOptions}
+                placeholder={tTeammateCard('OrnamentsPlaceholder')} // 'Ornaments'
+                allowClear
+                popupMatchSelectWidth={false}
+                optionLabelProp='desc'
+                optionRender={optionRenderer()}
+                labelRender={labelRenderer}
+                disabled={false}
+              />
+            </AntDForm.Item>
+          </Flex>
         </Flex>
       </AntDForm>
     </Modal>
@@ -160,4 +216,16 @@ function RadioButton(props: {
   value: number,
 }) {
   return <Radio.Button value={props.value} style={{ flex: 1, padding: 'unset', textAlign: 'center' }}>{props.text}</Radio.Button>
+}
+
+function labelRenderer(props: {
+  label: React.ReactNode,
+  value: string | number,
+}) {
+  return (
+    <Flex align='center' gap={5} style={{ fontSize: 13 }}>
+      <img src={Assets.getSetImage(props.value, Constants.Parts.PlanarSphere)} style={{ width: 20, height: 20 }} />
+      {props.label}
+    </Flex>
+  )
 }

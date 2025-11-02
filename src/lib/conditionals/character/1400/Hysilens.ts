@@ -1,9 +1,13 @@
+import i18next from 'i18next'
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  cyreneActionExists,
+  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
@@ -28,6 +32,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_TALENT,
     SOURCE_TRACE,
     SOURCE_ULT,
+    SOURCE_MEMO,
     SOURCE_E1,
     SOURCE_E2,
     SOURCE_E4,
@@ -54,6 +59,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     ultDotStacks: maxUltDotInstances,
     ehrToDmg: true,
     dotDetonation: false,
+    cyreneSpecialEffect: true,
     e1Buffs: true,
     e4ResPen: true,
     e6Buffs: true,
@@ -100,6 +106,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: t('Content.dotDetonation.text'),
       content: t('Content.dotDetonation.content', {}),
       disabled: true,
+    },
+    cyreneSpecialEffect: {
+      id: 'cyreneSpecialEffect',
+      formItem: 'switch',
+      text: `Cyrene special effect`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     e1Buffs: {
       id: 'e1Buffs',
@@ -180,6 +192,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
 
       x.DOT_CHANCE.set(1.00, SOURCE_TALENT)
+
+      // Cyrene
+      const cyreneDmgBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 1.32 : 1.20)
+        : 0
+      x.ELEMENTAL_DMG.buff((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, SOURCE_MEMO)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

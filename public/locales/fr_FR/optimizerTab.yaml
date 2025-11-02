@@ -494,7 +494,7 @@ TeammateCard:
       Set: '$t(gameData:RelicSets.121.Name)'
       Text: 36% DC
     Warrior:
-      Desc: '$t(gameData:RelicSets.125.Name) (+15% DC)'
+      Desc: '4 Pièces: $t(gameData:RelicSets.125.Name) (+15% DC)'
       Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% DC
     Keel:

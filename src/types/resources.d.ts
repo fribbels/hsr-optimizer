@@ -2175,9 +2175,9 @@ interface Resources {
             "text": "Memo Talent DMG Buff",
             "content": "While Evernight is on the field, increases DMG dealt by Evernight and Evey by {{MemoTalentDmgBuff}}%."
           },
-          "crBuff": {
-            "text": "CR buff",
-            "content": "Increases Evernight and the memosprite Evey's CRIT Rate by 35%."
+          "traceCritBuffs": {
+            "text": "Trace Crit buffs",
+            "content": "Increases Evernight and the memosprite Evey's CRIT Rate by 35%. When using abilities, consumes 5% of this unit's current HP to increase both their CRIT DMG by 15% for 2 turns."
           },
           "skillMemoCdBuff": {
             "text": "Skill Memo CD buff",
@@ -2186,10 +2186,6 @@ interface Resources {
           "talentMemoCdBuff": {
             "text": "Talent Memo CD buff",
             "content": "Each time Evernight or memosprite Evey loses HP, increases CRIT DMG for both this unit and memosprite Evey by {{TalentCdScaling}}% for 2 turns."
-          },
-          "traceCdBuff": {
-            "text": "Trace CD buff",
-            "content": "When using abilities, consumes 5% of this unit's current HP to increase both their CRIT DMG by 15% for 2 turns."
           },
           "memoriaStacks": {
             "text": "Memoria stacks",
@@ -4362,7 +4358,7 @@ interface Resources {
         "Description2pc": "Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked."
       },
       "324": {
-        "Name": "Tengoku @Live Stream",
+        "Name": "Tengoku@Livestream",
         "Description2pc": "Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns."
       }
     },
@@ -4638,7 +4634,7 @@ interface Resources {
         "Name": "The Forever Victual"
       },
       "22006": {
-        "Name": "Take Flight Toward A Pink Tomorrow"
+        "Name": "Fly Into a Pink Tomorrow"
       },
       "23000": {
         "Name": "Night on the Milky Way"
@@ -6158,7 +6154,7 @@ interface Resources {
           "Text": "36% CD"
         },
         "Warrior": {
-          "Desc": "$t(gameData:RelicSets.125.Name) (+15% CD)",
+          "Desc": "4 Piece: $t(gameData:RelicSets.125.Name) (+15% CD)",
           "Set": "$t(gameData:RelicSets.125.Name)",
           "Text": "15% CD"
         },
@@ -6181,6 +6177,11 @@ interface Resources {
           "Desc": "$t(gameData:RelicSets.317.Name) (+12% ATK)",
           "Set": "$t(gameData:RelicSets.317.Name)",
           "Text": "12% ATK"
+        },
+        "Amphoreus": {
+          "Desc": "$t(gameData:RelicSets.323.Name) (+8% SPD)",
+          "Set": "$t(gameData:RelicSets.323.Name)",
+          "Text": "8% SPD"
         }
       }
     },

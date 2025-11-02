@@ -224,6 +224,30 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
       c.ATK_P.buff(0.12, Source.RevelryByTheSea)
     },
   },
+  AmphoreusTheEternalLand: {
+    key: 'AmphoreusTheEternalLand',
+    index: 22,
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+      c.CR.buff(0.08, Source.AmphoreusTheEternalLand)
+    },
+    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+      if (x.a[Key.MEMOSPRITE] > 0 && setConditionals.enabledAmphoreusTheEternalLand) {
+        x.SPD_P.buffTeam(0.08, Source.AmphoreusTheEternalLand)
+      }
+    },
+  },
+  TengokuLivestream: {
+    key: 'TengokuLivestream',
+    index: 23,
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+      c.CD.buff(0.16, Source.TengokuLivestream)
+    },
+    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+      if (setConditionals.enabledTengokuLivestream) {
+        x.CD.buff(0.32, Source.TengokuLivestream)
+      }
+    },
+  },
 }
 
 export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = {

@@ -187,6 +187,8 @@ fn main(
       sets.GiantTreeOfRaptBrooding         = i32((1 >> (setP ^ 19)) + (1 >> (setL ^ 19)));
       sets.ArcadiaOfWovenDreams            = i32((1 >> (setP ^ 20)) + (1 >> (setL ^ 20)));
       sets.RevelryByTheSea                 = i32((1 >> (setP ^ 21)) + (1 >> (setL ^ 21)));
+      sets.AmphoreusTheEternalLand         = i32((1 >> (setP ^ 22)) + (1 >> (setL ^ 22)));
+      sets.TengokuLivestream               = i32((1 >> (setP ^ 23)) + (1 >> (setL ^ 23)));
     }
 
     var c: BasicStats = BasicStats();
@@ -279,13 +281,15 @@ fn main(
       0.04 * p2(sets.SigoniaTheUnclaimedDesolation) +
       0.06 * p4(sets.TheWindSoaringValorous) +
       0.08 * p2(sets.ScholarLostInErudition) +
-      0.08 * p2(sets.WorldRemakingDeliverer)
+      0.08 * p2(sets.WorldRemakingDeliverer) +
+      0.08 * p2(sets.AmphoreusTheEternalLand)
     );
 
     c.CD += (
       0.16 * p2(sets.CelestialDifferentiator) +
       0.16 * p2(sets.TheWondrousBananAmusementPark) +
-      0.16 * p2(sets.WavestriderCaptain)
+      0.16 * p2(sets.WavestriderCaptain) +
+      0.16 * p2(sets.TengokuLivestream)
     );
 
     c.EHR += (
@@ -367,6 +371,10 @@ fn main(
       if (p4(sets.WarriorGoddessOfSunAndThunder) >= 1 && setConditionals.enabledWarriorGoddessOfSunAndThunder == true) {
         x.SPD_P += 0.06;
       }
+      if (p2(sets.AmphoreusTheEternalLand) >= 1 && setConditionals.enabledAmphoreusTheEternalLand == true && x.MEMOSPRITE >= 1) {
+        x.SPD_P += 0.08;
+        m.SPD_P += 0.08;
+      }
 
       // ATK
 
@@ -418,6 +426,9 @@ fn main(
       if (p4(sets.WarriorGoddessOfSunAndThunder) >= 1 && setConditionals.enabledWarriorGoddessOfSunAndThunder == true) {
         x.CD += 0.15;
         m.CD += 0.15;
+      }
+      if (p2(sets.TengokuLivestream) >= 1 && setConditionals.enabledTengokuLivestream == true) {
+        x.CD += 0.32;
       }
 
       // CR
@@ -709,7 +720,7 @@ fn calculateDamage(
   let baseDmgBoost = 1 + x.ELEMENTAL_DMG;
   let baseDefPen = x.DEF_PEN + combatBuffsDEF_PEN;
   let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
-  let baseResistance = resistance - x.RES_PEN - combatBuffsRES_PEN - getElementalResPen(p_x);
+  let baseResistance = max(-1.00, resistance - x.RES_PEN - combatBuffsRES_PEN - getElementalResPen(p_x));
   let baseBreakEfficiencyBoost = 1 + x.BREAK_EFFICIENCY_BOOST;
 
   // === Super / Break ===

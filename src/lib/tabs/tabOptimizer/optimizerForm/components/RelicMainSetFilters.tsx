@@ -152,7 +152,7 @@ export default function RelicMainSetFilters() {
           theme={{
             components: {
               Cascader: {
-                dropdownHeight: 700,
+                dropdownHeight: 750,
                 controlItemWidth: 150,
                 controlWidth: 150,
                 optionPadding: '0px 12px',

@@ -49,7 +49,10 @@ export function getShowcaseSimScoringExecution(
     return asyncResult
   }
 
-  const { cacheKey, cachedOrchestrator } = retrieveBenchmarkCache(character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
+  const {
+    cacheKey,
+    cachedOrchestrator,
+  } = retrieveBenchmarkCache(character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
   if (cachedOrchestrator) {
     // console.debug('CACHED')
     const simScore = cachedOrchestrator.simulationScore!

@@ -47,7 +47,10 @@ import {
   Character,
   CharacterId,
 } from 'types/character'
-import { Form } from 'types/form'
+import {
+  Form,
+  OptimizerForm,
+} from 'types/form'
 
 export function ShowcaseDpsScorePanel(props: {
   characterId: CharacterId,
@@ -162,6 +165,12 @@ export function ShowcaseCombatScoreDetailsFooter(props: {
   )
 }
 
+function getTeammate(index: number, form: OptimizerForm) {
+  if (index == 0) return form.teammate0
+  if (index == 1) return form.teammate1
+  return form.teammate2
+}
+
 function CharacterPreviewScoringTeammate(props: {
   index: number,
   result: SimulationScore,
@@ -171,10 +180,21 @@ function CharacterPreviewScoringTeammate(props: {
   setCharacterModalInitialCharacter: (character: Character) => void,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
-  const { result, index, token, setCharacterModalOpen, setSelectedTeammateIndex, setCharacterModalInitialCharacter } = props
+  const {
+    result,
+    index,
+    token,
+    setCharacterModalOpen,
+    setSelectedTeammateIndex,
+    setCharacterModalInitialCharacter,
+  } = props
 
   const teammate = result.simulationMetadata.teammates[index]
   const iconSize = 64
+  const setSize = 24
+
+  const simForm = result.simulationForm
+  const formTeammate = getTeammate(index, simForm)
 
   return (
     <Card.Grid
@@ -195,22 +215,61 @@ function CharacterPreviewScoringTeammate(props: {
       className='custom-grid'
     >
       <Flex vertical align='center' gap={0}>
-        <img
-          src={Assets.getCharacterAvatarById(teammate.characterId)}
-          style={{
-            height: iconSize,
-            width: iconSize,
-            borderRadius: iconSize,
-            backgroundColor: 'rgba(124, 124, 124, 0.1)',
-            border: showcaseOutline,
-          }}
-        />
-        <OverlayText text={t('common:EidolonNShort', { eidolon: teammate.characterEidolon })} top={-12} />
-        <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: -3 }} />
-        <OverlayText
-          text={t('common:SuperimpositionNShort', { superimposition: teammate.lightConeSuperimposition })}
-          top={-18}
-        />
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <img
+            src={Assets.getCharacterAvatarById(teammate.characterId)}
+            style={{
+              height: iconSize,
+              width: iconSize,
+              borderRadius: iconSize,
+              backgroundColor: 'rgba(124, 124, 124, 0.1)',
+              border: showcaseOutline,
+            }}
+          />
+
+          <OverlayText text={t('common:EidolonNShort', { eidolon: teammate.characterEidolon })} top={-12} />
+        </div>
+
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: 0 }} />
+
+          {formTeammate.teamRelicSet && (
+            <img
+              style={{
+                position: 'absolute',
+                top: 3,
+                right: -4,
+                width: setSize,
+                height: setSize,
+                borderRadius: '50%',
+                backgroundColor: 'rgba(50, 50, 50, 0.5)',
+                border: showcaseOutline,
+              }}
+              src={Assets.getSetImage(formTeammate.teamRelicSet)}
+            />
+          )}
+
+          {formTeammate.teamOrnamentSet && (
+            <img
+              style={{
+                position: 'absolute',
+                top: 27,
+                right: -4,
+                width: setSize,
+                height: setSize,
+                borderRadius: '50%',
+                backgroundColor: 'rgba(50, 50, 50, 0.5)',
+                border: showcaseOutline,
+              }}
+              src={Assets.getSetImage(formTeammate.teamOrnamentSet)}
+            />
+          )}
+
+          <OverlayText
+            text={t('common:SuperimpositionNShort', { superimposition: teammate.lightConeSuperimposition })}
+            top={-18}
+          />
+        </div>
       </Flex>
     </Card.Grid>
   )

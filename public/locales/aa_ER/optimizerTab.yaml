@@ -476,7 +476,7 @@ TeammateCard:
       Set: 'crwdns43332:0$t(gameData:RelicSets.121.Name)crwdne43332:0'
       Text: crwdns43334:0crwdne43334:0
     Warrior:
-      Desc: 'crwdns45234:0$t(gameData:RelicSets.125.Name)crwdne45234:0'
+      Desc: 'crwdns45994:0$t(gameData:RelicSets.125.Name)crwdne45994:0'
       Set: 'crwdns45236:0$t(gameData:RelicSets.125.Name)crwdne45236:0'
       Text: crwdns45238:0crwdne45238:0
     Keel:
@@ -495,6 +495,10 @@ TeammateCard:
       Desc: 'crwdns43354:0$t(gameData:RelicSets.317.Name)crwdne43354:0'
       Set: 'crwdns43356:0$t(gameData:RelicSets.317.Name)crwdne43356:0'
       Text: crwdns43358:0crwdne43358:0
+    Amphoreus:
+      Desc: 'crwdns45996:0$t(gameData:RelicSets.323.Name)crwdne45996:0'
+      Set: 'crwdns45998:0$t(gameData:RelicSets.323.Name)crwdne45998:0'
+      Text: crwdns46000:0crwdne46000:0
 StatSimulation:
   DuplicateSimMessage: crwdns43360:0crwdne43360:0
   MissingMainstatsMessage: crwdns43362:0crwdne43362:0

@@ -1194,18 +1194,12 @@ Characters:
       memoTalentDmgBuff:
         text: 忆灵天赋伤害增益
         content: '「长夜」在场时，长夜月和「长夜」造成的伤害提高{{MemoTalentDmgBuff}}。'
-      crBuff:
-        text: 暴击率增益
-        content: 长夜月和忆灵「长夜」的暴击率提高35%。 
       skillMemoCdBuff:
         text: 战技亿灵爆伤增益
         content: 消耗长夜月当前10%的生命值召唤忆灵「长夜」，并使我方全体忆灵的暴击伤害提高，提高数值等同于长夜月暴击伤害的{{SkillMemoCdBuff}}%，持续2回合。
       talentMemoCdBuff:
         text: 天赋忆灵爆伤增益
         content: 长夜月或忆灵「长夜」每次生命降低时，使自身和忆灵「长夜」的暴击伤害提高{{TalentCdScaling}}%，持续2回合。
-      traceCdBuff:
-        text: 行迹爆伤增益
-        content: 施放技能时，消耗自身当前生命值的5%使双方的暴击伤害提高15%，持续2回合。
       memoriaStacks:
         text: 忆质层数
         content: >-

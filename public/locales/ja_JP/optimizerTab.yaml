@@ -478,7 +478,7 @@ TeammateCard:
       Set: '$t(gameData:RelicSets.121.Name)'
       Text: 会心ダメ36%
     Warrior:
-      Desc: '$t(gameData:RelicSets.125.Name) （会心ダメージ+15%）'
+      Desc: '4セット：$t(gameData:RelicSets.125.Name)（会心ダメージ+15%）'
       Set: '$t(gameData:RelicSets.125.Name)'
       Text: 会心ダメ15%
     Keel:
@@ -497,6 +497,10 @@ TeammateCard:
       Desc: '$t(gameData:RelicSets.317.Name) （攻撃力+12%）'
       Set: '$t(gameData:RelicSets.317.Name)'
       Text: 攻撃力12%
+    Amphoreus:
+      Desc: '$t(gameData:RelicSets.323.Name) (速度+8%)'
+      Set: '$t(gameData:RelicSets.323.Name)'
+      Text: 速度8%
 StatSimulation:
   DuplicateSimMessage: 同一のシミュレーションが既に存在します
   MissingMainstatsMessage: メインステータスを入力してください

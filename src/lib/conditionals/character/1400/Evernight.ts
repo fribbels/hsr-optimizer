@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import {
   AbilityType,
   BUFF_PRIORITY_MEMO,
@@ -8,12 +9,13 @@ import {
   Conditionals,
   ContentDefinition,
   countTeamPath,
+  cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
-  cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
 import {
   ConditionalActivation,
   ConditionalType,
+  CURRENT_DATA_VERSION,
   PathNames,
   Stats,
 } from 'lib/constants/constants'
@@ -69,12 +71,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const defaults = {
     buffPriority: BUFF_PRIORITY_MEMO,
     memoTalentDmgBuff: true,
-    crBuff: true,
+    traceCritBuffs: true,
     skillMemoCdBuff: true,
     talentMemoCdBuff: true,
-    traceCdBuff: true,
     memoriaStacks: 16,
     enhancedState: true,
+    cyreneSpecialEffect: true,
     e1FinalDmg: true,
     e2CdBuff: true,
     e4Buffs: true,
@@ -110,11 +112,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         MemoTalentDmgBuff: TsUtils.precisionRound(100 * memoTalentDmgBoost),
       }),
     },
-    crBuff: {
-      id: 'crBuff',
+    traceCritBuffs: {
+      id: 'traceCritBuffs',
       formItem: 'switch',
-      text: t('Content.crBuff.text'),
-      content: t('Content.crBuff.content'),
+      text: t('Content.traceCritBuffs.text'),
+      content: t('Content.traceCritBuffs.content'),
     },
     skillMemoCdBuff: {
       id: 'skillMemoCdBuff',
@@ -131,12 +133,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: t('Content.talentMemoCdBuff.content', {
         TalentCdScaling: TsUtils.precisionRound(100 * talentCdScaling),
       }),
-    },
-    traceCdBuff: {
-      id: 'traceCdBuff',
-      formItem: 'switch',
-      text: t('Content.traceCdBuff.text'),
-      content: t('Content.traceCdBuff.content'),
     },
     memoriaStacks: {
       id: 'memoriaStacks',
@@ -158,6 +154,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         UltVulnScaling: TsUtils.precisionRound(100 * ultVulnScaling),
         UltDmgBoostScaling: TsUtils.precisionRound(100 * ultDmgBoostScaling),
       }),
+    },
+    cyreneSpecialEffect: {
+      id: 'cyreneSpecialEffect',
+      formItem: 'switch',
+      text: `Cyrene special effect`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     e1FinalDmg: {
       id: 'e1FinalDmg',
@@ -238,14 +240,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.m.ULT_HP_SCALING.buff(ultMemoScaling, SOURCE_MEMO)
 
-      x.CR.buffBaseDual((r.crBuff) ? 0.35 : 0, SOURCE_TRACE)
+      x.CR.buffBaseDual((r.traceCritBuffs) ? 0.35 : 0, SOURCE_TRACE)
+      x.CD.buffBaseDual((r.traceCritBuffs) ? 0.15 : 0, SOURCE_TRACE)
       x.CD.buffBaseDual((r.talentMemoCdBuff) ? talentCdScaling : 0, SOURCE_TALENT)
-      x.CD.buffBaseDual((r.traceCdBuff) ? 0.15 : 0, SOURCE_TRACE)
       x.ELEMENTAL_DMG.buffBaseDual((r.enhancedState) ? ultDmgBoostScaling : 0, SOURCE_ULT)
       x.ELEMENTAL_DMG.buffBaseDual((r.memoTalentDmgBuff) ? memoTalentDmgBoost : 0, SOURCE_MEMO)
 
       x.MEMO_BASE_SPD_FLAT.buff(160, SOURCE_MEMO)
       x.MEMO_BASE_HP_SCALING.buff(0.50, SOURCE_MEMO)
+      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
+      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
 
       x.CD.buffBaseDual((e >= 2 && r.e2CdBuff) ? 0.40 : 0, SOURCE_E2)
       x.m.BREAK_EFFICIENCY_BOOST.buff((e >= 4 && r.e4Buffs) ? 0.25 : 0, SOURCE_E4)
@@ -260,6 +264,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.ULT_TOUGHNESS_DMG.buff(90, SOURCE_ULT)
+
+      // Cyrene
+      const cyreneMemoSkillDmgBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.198 : 0.18)
+        : 0
+      x.MEMO_SKILL_DMG_BOOST.buff((r.cyreneSpecialEffect) ? cyreneMemoSkillDmgBuff : 0, SOURCE_MEMO)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -280,7 +290,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       let cdBuffScaling = skillCdScaling
-      if (cyreneTeammateSpecialEffectActive(originalCharacterAction!)) {
+      if (cyreneActionExists(originalCharacterAction!)) {
         cdBuffScaling += cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.132 : 0.12
       }
 
@@ -313,7 +323,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           const convertibleCdValue = x.a[Key.CD] - x.a[Key.UNCONVERTIBLE_CD_BUFF]
 
           let cdBuffScaling = skillCdScaling
-          if (cyreneTeammateSpecialEffectActive(action)) {
+          if (cyreneActionExists(action)) {
             cdBuffScaling += cyreneSpecialEffectEidolonUpgraded(action) ? 0.132 : 0.12
           }
 
@@ -331,7 +341,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           const r = action.characterConditionals as Conditionals<typeof content>
 
           let cdBuffScaling = skillCdScaling
-          if (cyreneTeammateSpecialEffectActive(action)) {
+          if (cyreneActionExists(action)) {
             cdBuffScaling += cyreneSpecialEffectEidolonUpgraded(action) ? 0.132 : 0.12
           }
 
@@ -343,7 +353,7 @@ if (${wgslFalse(r.skillMemoCdBuff)}) {
 }
 
 let stateValue: f32 = (*p_state).EvernightCdConditional;
-let convertibleCdValue: f32 = (*p_x).CD - (*p_m).UNCONVERTIBLE_CD_BUFF;
+let convertibleCdValue: f32 = (*p_x).CD - (*p_x).UNCONVERTIBLE_CD_BUFF;
 
 var buffCD: f32 = ${cdBuffScaling} * convertibleCdValue;
 var stateBuffCD: f32 = ${cdBuffScaling} * stateValue;

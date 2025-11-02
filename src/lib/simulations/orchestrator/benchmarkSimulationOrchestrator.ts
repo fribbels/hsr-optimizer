@@ -213,7 +213,7 @@ export class BenchmarkSimulationOrchestrator {
     this.simSets = simSets
   }
 
-  public setSimForm(form: SimpleCharacter) {
+  public setSimForm(form: SimpleCharacter, simulationMetadata: SimulationMetadata) {
     const metadata = this.metadata
     const { characterId, characterEidolon, lightCone, lightConeSuperimposition } = form
 
@@ -242,6 +242,15 @@ export class BenchmarkSimulationOrchestrator {
     simulationForm.teammate0 = simulationFormT0
     simulationForm.teammate1 = simulationFormT1
     simulationForm.teammate2 = simulationFormT2
+
+    simulationForm.teammate0.teamRelicSet = metadata.teammates[0].teamRelicSet
+    simulationForm.teammate0.teamOrnamentSet = metadata.teammates[0].teamOrnamentSet
+
+    simulationForm.teammate1.teamRelicSet = metadata.teammates[1].teamRelicSet
+    simulationForm.teammate1.teamOrnamentSet = metadata.teammates[1].teamOrnamentSet
+
+    simulationForm.teammate2.teamRelicSet = metadata.teammates[2].teamRelicSet
+    simulationForm.teammate2.teamOrnamentSet = metadata.teammates[2].teamOrnamentSet
 
     simulationForm.deprioritizeBuffs = this.metadata.deprioritizeBuffs
 
@@ -484,7 +493,7 @@ export class BenchmarkSimulationOrchestrator {
     const perfectionSimResult = this.perfectionSimResult!
 
     applyScoringFunction(baselineSimResult, metadata)
-    applyScoringFunction(originalSimResult, metadata)
+    applyScoringFunction(originalSimResult, metadata, true, true)
 
     const benchmarkSimScore = benchmarkSimResult.simScore
     const originalSimScore = originalSimResult.simScore

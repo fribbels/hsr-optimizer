@@ -11,10 +11,13 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  cyreneActionExists,
+  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import {
   ConditionalActivation,
   ConditionalType,
+  CURRENT_DATA_VERSION,
   Stats,
 } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -29,6 +32,7 @@ import {
 } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
+import i18next from 'i18next'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -73,6 +77,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     supremeStanceState: true,
     seamStitch: true,
     memoSpdStacks: memoSpdStacksMax,
+    cyreneSpecialEffect: true,
     e1Vulnerability: true,
     e2DefShredStacks: 3,
     e6Buffs: true,
@@ -114,6 +119,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: t('Content.memoSpdStacks.content', { SpdBuff: memoTalentSpd, StackLimit: memoSpdStacksMax }),
       min: 0,
       max: memoSpdStacksMax,
+    },
+    cyreneSpecialEffect: {
+      id: 'cyreneSpecialEffect',
+      formItem: 'switch',
+      text: `Cyrene special effect`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     e1Vulnerability: {
       id: 'e1Vulnerability',
@@ -186,6 +197,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_TOUGHNESS_DMG.buff((r.supremeStanceState) ? 20 : 10, SOURCE_BASIC)
       x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
+
+      // Cyrene
+      const cyreneDmgBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.792 : 0.72)
+        : 0
+      const cyreneDefPenBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
+        : 0
+      x.ELEMENTAL_DMG.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, SOURCE_MEMO)
+      x.DEF_PEN.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDefPenBuff : 0, SOURCE_MEMO)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

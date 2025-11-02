@@ -9,18 +9,20 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
-  cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 
+import i18next from 'i18next'
 import {
   boostAshblazingAtkP,
   gpuBoostAshblazingAtkP,
   gpuStandardAtkShieldFinalizer,
   standardAtkShieldFinalizer,
 } from 'lib/conditionals/conditionalFinalizers'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
@@ -64,6 +66,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const teammateDefaults = {
     bondmate: true,
     sourceAtk: 3000,
+    cyreneSpecialEffect: true,
     e1ResPen: true,
     e4DmgReduction: true,
     e6Buffs: true,
@@ -98,6 +101,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: t('sourceAtk.content'),
       min: 0,
       max: 10000,
+    },
+    cyreneSpecialEffect: {
+      id: 'cyreneSpecialEffect',
+      formItem: 'switch',
+      text: `Cyrene special effect`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     e1ResPen: {
       id: 'e1ResPen',
@@ -171,18 +180,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const atkBuff = t.sourceAtk * 0.15
-      x.ATK.buff((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
-      x.UNCONVERTIBLE_ATK_BUFF.buff((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
+      x.ATK.buffSingle((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
+      x.UNCONVERTIBLE_ATK_BUFF.buffSingle((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
 
-      x.RES_PEN.buff((e >= 1 && t.bondmate && t.e1ResPen) ? 0.18 : 0, SOURCE_E1)
-      x.DMG_RED_MULTI.multiply((e >= 4 && t.bondmate && t.e4DmgReduction) ? 1 - 0.20 : 1, SOURCE_E4)
-      x.VULNERABILITY.buff((e >= 6 && t.e6Buffs) ? 0.20 : 0, SOURCE_E6)
-      x.DEF_PEN.buff((e >= 6 && t.e6Buffs) ? 0.12 : 0, SOURCE_E6)
+      x.RES_PEN.buffSingle((e >= 1 && t.bondmate && t.e1ResPen) ? 0.18 : 0, SOURCE_E1)
+      x.DMG_RED_MULTI.multiplySingle((e >= 4 && t.bondmate && t.e4DmgReduction) ? 1 - 0.20 : 1, SOURCE_E4)
+      x.VULNERABILITY.buffTeam((e >= 6 && t.e6Buffs) ? 0.20 : 0, SOURCE_E6)
+      x.DEF_PEN.buffSingle((e >= 6 && t.e6Buffs) ? 0.12 : 0, SOURCE_E6)
 
-      const cyreneDmgBoost = cyreneTeammateSpecialEffectActive(originalCharacterAction!)
+      // Cyrene
+      const cyreneDmgBoost = cyreneActionExists(originalCharacterAction!)
         ? cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.264 : 0.24
         : 0
-      x.ELEMENTAL_DMG.buff(cyreneDmgBoost, SOURCE_MEMO)
+      x.ELEMENTAL_DMG.buffSingle((t.cyreneSpecialEffect) ? cyreneDmgBoost : 0, SOURCE_MEMO)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

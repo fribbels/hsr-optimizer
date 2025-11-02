@@ -3,8 +3,8 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
-  cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
 import {
   dynamicStatConversion,
@@ -13,6 +13,7 @@ import {
 import {
   ConditionalActivation,
   ConditionalType,
+  CURRENT_DATA_VERSION,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -23,6 +24,7 @@ import {
 } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
+import i18next from 'i18next'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -59,6 +61,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     skillEnhances: 2,
     vendettaState: true,
     hpToCrConversion: true,
+    cyreneSpecialEffect: false,
     e1EnhancedSkillBuff: true,
     e2DefPen: true,
     e4CdBuff: true,
@@ -93,6 +96,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       formItem: 'switch',
       text: t('hpToCrConversion.text'),
       content: t('hpToCrConversion.content'),
+    },
+    cyreneSpecialEffect: {
+      id: 'cyreneSpecialEffect',
+      formItem: 'switch',
+      text: `Cyrene special effect`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     e1EnhancedSkillBuff: {
       id: 'e1EnhancedSkillBuff',
@@ -135,12 +144,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SKILL_HP_SCALING.buff((r.skillEnhances == 2) ? skillEnhanced2Scaling : 0, SOURCE_SKILL)
       x.SKILL_HP_SCALING.buff((e >= 1 && r.e1EnhancedSkillBuff && r.skillEnhances == 2) ? 0.30 : 0, SOURCE_E1)
 
-      // TODO: Uptime?
-      // const cyreneSkillCdBuff = cyreneTeammateSpecialEffectActive(action)
-      //   ? (cyreneSpecialEffectEidolonUpgraded(action) ? 2.20 : 2.00)
-      //   : 0
-      // x.SKILL_CD_BOOST.buff((r.skillEnhances > 0) ? cyreneSkillCdBuff : 0, SOURCE_MEMO)
-
       x.ULT_HP_SCALING.buff(ultScaling, SOURCE_ULT)
 
       x.DEF_PEN.buff((e >= 2 && r.e2DefPen && r.vendettaState) ? 0.15 : 0, SOURCE_E2)
@@ -149,6 +152,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff((r.skillEnhances > 1) ? 30 : 20, SOURCE_SKILL)
       x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
+
+      // Cyrene
+      const cyreneSkillCdBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 2.20 : 2.00)
+        : 0
+      x.SKILL_CD_BOOST.buff((r.skillEnhances > 0 && r.cyreneSpecialEffect) ? cyreneSkillCdBuff : 0, SOURCE_MEMO)
     },
     calculateBasicEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

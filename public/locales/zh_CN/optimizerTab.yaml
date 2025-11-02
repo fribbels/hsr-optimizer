@@ -494,7 +494,7 @@ TeammateCard:
       Set: '$t(gameData:RelicSets.121.Name)'
       Text: 36%暴伤
     Warrior:
-      Desc: '$t(gameData:RelicSets.125.Name) (+15%暴击伤害)'
+      Desc: '四件套: $t(gameData:RelicSets.125.Name) (+15%暴击伤害)'
       Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% 爆伤
     Keel:
@@ -513,6 +513,10 @@ TeammateCard:
       Desc: '$t(gameData:RelicSets.317.Name) (+12%攻击力)'
       Set: '$t(gameData:RelicSets.317.Name)'
       Text: 12%攻击力
+    Amphoreus:
+      Desc: '$t(gameData:RelicSets.323.Name)（+8%速度）'
+      Set: '$t(gameData:RelicSets.323.Name)'
+      Text: 8% 速度
 StatSimulation:
   DuplicateSimMessage: 相同属性的模拟已存在
   MissingMainstatsMessage: 模拟主属性缺失

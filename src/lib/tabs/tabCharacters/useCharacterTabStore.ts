@@ -2,6 +2,7 @@ import {
   ElementName,
   PathName,
 } from 'lib/constants/constants'
+import { CharacterModalForm } from 'lib/overlays/modals/CharacterModal'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {

@@ -1,3 +1,4 @@
+import { request } from '@playwright/test'
 import {
   BASIC_ABILITY_TYPE,
   BREAK_ABILITY_TYPE,
@@ -145,6 +146,8 @@ const action${i} = Action( // ${action.actionIndex}
     ${action.setConditionals.enabledWavestriderCaptain},${gpuParams.DEBUG ? ' // enabledWavestriderCaptain' : ''}
     ${action.setConditionals.enabledWorldRemakingDeliverer},${gpuParams.DEBUG ? ' // enabledWorldRemakingDeliverer' : ''}
     ${action.setConditionals.enabledSelfEnshroudedRecluse},${gpuParams.DEBUG ? ' // enabledSelfEnshroudedRecluse' : ''}
+    ${action.setConditionals.enabledAmphoreusTheEternalLand},${gpuParams.DEBUG ? ' // enabledAmphoreusTheEternalLand' : ''}
+    ${action.setConditionals.enabledTengokuLivestream},${gpuParams.DEBUG ? ' // enabledTengokuLivestream' : ''}
     ${action.setConditionals.valueChampionOfStreetwiseBoxing},${gpuParams.DEBUG ? ' // valueChampionOfStreetwiseBoxing' : ''}
     ${action.setConditionals.valueWastelanderOfBanditryDesert},${gpuParams.DEBUG ? ' // valueWastelanderOfBanditryDesert' : ''}
     ${action.setConditionals.valueLongevousDisciple},${gpuParams.DEBUG ? ' // valueLongevousDisciple' : ''}
@@ -218,7 +221,8 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
   conditionalDefinitionsWgsl += registeredConditionals[stat]
     .map((conditional) => {
       if (conditional.teammateIndex == null) {
-        return conditional.gpu(request as unknown as OptimizerAction, context)
+        // Note: This uses the default OptimizerAction
+        return conditional.gpu(context.actions[0], context)
       } else {
         const teammate = getRequestTeammateIndex(request, conditional)
         return conditional.gpu(teammate as unknown as OptimizerAction, context)

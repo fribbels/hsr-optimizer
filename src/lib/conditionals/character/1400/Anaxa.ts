@@ -1,11 +1,17 @@
+import i18next from 'i18next'
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
   countTeamPath,
+  cyreneActionExists,
+  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
-import { PathNames } from 'lib/constants/constants'
+import {
+  CURRENT_DATA_VERSION,
+  PathNames,
+} from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -43,6 +49,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     exposedNature: true,
     eruditionTeammateBuffs: true,
     enemyWeaknessTypes: 7,
+    cyreneSpecialEffect: false,
     e1DefPen: true,
     e2ResPen: true,
     e4AtkBuffStacks: 2,
@@ -51,6 +58,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const teammateDefaults = {
     eruditionTeammateBuffs: true,
+    cyreneSpecialEffect: false,
     e1DefPen: true,
     e2ResPen: true,
     e6Buffs: true,
@@ -84,6 +92,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: t('enemyWeaknessTypes.content'),
       min: 0,
       max: 7,
+    },
+    cyreneSpecialEffect: {
+      id: 'cyreneSpecialEffect',
+      formItem: 'switch',
+      text: `Cyrene special effect`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     e1DefPen: {
       id: 'e1DefPen',
@@ -119,6 +133,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     eruditionTeammateBuffs: content.eruditionTeammateBuffs,
+    cyreneSpecialEffect: content.cyreneSpecialEffect,
     e1DefPen: content.e1DefPen,
     e2ResPen: content.e2ResPen,
     e6Buffs: content.e6Buffs,
@@ -154,8 +169,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(10 + (r.skillHits) * 10, SOURCE_SKILL)
       x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
+
+      // Cyrene
+      // Uptime in AnaxaCyreneEffectPreprocessor
+      const cyreneSkillDmgBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.44 : 0.40)
+        : 0
+      x.SKILL_DMG_BOOST.buff((r.cyreneSpecialEffect) ? cyreneSkillDmgBuff : 0, SOURCE_MEMO)
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const eruditionMembers = countTeamPath(context, PathNames.Erudition)
@@ -163,6 +185,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.DEF_PEN.buff((e >= 1 && m.e1DefPen) ? 0.16 : 0, SOURCE_E1)
       x.RES_PEN.buffTeam((e >= 2 && m.e2ResPen) ? 0.20 : 0, SOURCE_E2)
+
+      // Cyrene
+      // Uptime in AnaxaCyreneEffectPreprocessor
+      const cyreneAtkBuff = cyreneActionExists(originalCharacterAction!)
+        ? (cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.66 : 0.60)
+        : 0
+      x.ATK_P.buff((m.cyreneSpecialEffect && context.path == PathNames.Erudition) ? cyreneAtkBuff : 0, SOURCE_MEMO)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {},
     gpuFinalizeCalculations: () => '',

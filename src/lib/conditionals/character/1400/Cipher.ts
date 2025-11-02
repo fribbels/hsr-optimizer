@@ -12,12 +12,13 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
-  cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
 import {
   ConditionalActivation,
   ConditionalType,
+  CURRENT_DATA_VERSION,
   Stats,
 } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -31,6 +32,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 
+import i18next from 'i18next'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
@@ -68,6 +70,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     skillAtkBuff: true,
     fuaCdBoost: true,
     spdBasedBuffs: true,
+    cyreneSpecialEffect: true,
     e1AtkBuff: true,
     e2Vulnerability: true,
     e4AdditionalDmg: true,
@@ -76,6 +79,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const teammateDefaults = {
     vulnerability: true,
+    cyreneSpecialEffect: true,
     e2Vulnerability: true,
   }
 
@@ -103,6 +107,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       formItem: 'switch',
       text: t('spdBasedBuffs.text'),
       content: t('spdBasedBuffs.content'),
+    },
+    cyreneSpecialEffect: {
+      id: 'cyreneSpecialEffect',
+      formItem: 'switch',
+      text: `Cyrene special effect`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     e1AtkBuff: {
       id: 'e1AtkBuff',
@@ -136,6 +146,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     vulnerability: content.vulnerability,
+    cyreneSpecialEffect: content.cyreneSpecialEffect,
     e2Vulnerability: content.e2Vulnerability,
   }
 
@@ -178,7 +189,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
       x.FUA_TOUGHNESS_DMG.buff(20, SOURCE_TALENT)
 
-      return x
+      // Cyrene
+      const cyreneDmgBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
+        : 0
+      x.ELEMENTAL_DMG.buff((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, SOURCE_MEMO)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -186,10 +201,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.VULNERABILITY.buffTeam((m.vulnerability) ? 0.40 : 0, SOURCE_TRACE)
       x.VULNERABILITY.buffTeam((e >= 2 && m.e2Vulnerability) ? 0.30 : 0, SOURCE_E2)
 
-      const cyreneDefPen = cyreneTeammateSpecialEffectActive(originalCharacterAction!)
+      // Cyrene
+      const cyreneDefPen = cyreneActionExists(originalCharacterAction!)
         ? (cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.22 : 0.20)
         : 0
-      x.DEF_PEN.buffTeam(cyreneDefPen, SOURCE_MEMO)
+      x.DEF_PEN.buffTeam((m.cyreneSpecialEffect) ? cyreneDefPen : 0, SOURCE_MEMO)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

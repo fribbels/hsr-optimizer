@@ -494,7 +494,7 @@ TeammateCard:
       Set: '$t(gameData:RelicSets.121.Name)'
       Text: 36% КУ
     Warrior:
-      Desc: '$t(gameData:RelicSets.125.Name) (+15% КУ)'
+      Desc: '4 Части: $t(gameData:RelicSets.125.Name) (+15% КУ)'
       Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% КУ
     Keel:
@@ -513,6 +513,10 @@ TeammateCard:
       Desc: '$t(gameData:RelicSets.317.Name) (+12% АТК)'
       Set: '$t(gameData:RelicSets.317.Name)'
       Text: 12% АТК
+    Amphoreus:
+      Desc: '$t(gameData:RelicSets.323.Name) (+8% СКР)'
+      Set: '$t(gameData:RelicSets.323.Name)'
+      Text: 8% СКР
 StatSimulation:
   DuplicateSimMessage: Идентичный вариант статов уже существует
   MissingMainstatsMessage: Отсутствуют основные характеристики для симуляции

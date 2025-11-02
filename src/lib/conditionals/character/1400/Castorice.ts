@@ -7,8 +7,8 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
-  cyreneTeammateSpecialEffectActive,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
@@ -17,6 +17,8 @@ import {
 } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
+import i18next from 'i18next'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -66,6 +68,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     memoTalentHits: e >= 6 ? 9 : 6,
     teamDmgBoost: true,
     memoDmgStacks: 3,
+    cyreneSpecialEffect: true,
     e1EnemyHp50: true,
     e6Buffs: true,
   }
@@ -143,6 +146,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       min: 0,
       max: e >= 6 ? 9 : 6,
     },
+    cyreneSpecialEffect: {
+      id: 'cyreneSpecialEffect',
+      formItem: 'switch',
+      text: `Cyrene special effect`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
     e1EnemyHp50: {
       id: 'e1EnemyHp50',
       formItem: 'switch',
@@ -195,6 +204,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.MEMO_BASE_SPD_FLAT.buff(165, SOURCE_MEMO)
       x.MEMO_BASE_HP_FLAT.buff(34000, SOURCE_MEMO)
+      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
+      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
 
       x.m.ELEMENTAL_DMG.buff(0.30 * r.memoDmgStacks, SOURCE_TRACE)
 
@@ -202,17 +213,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 2 ? memoSkillScaling2 : 0, SOURCE_MEMO)
       x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 3 ? memoSkillScaling3 : 0, SOURCE_MEMO)
 
-      const cyreneOverflowPercentAssumption = 30 // Assumes 130% overflow
-      const cyreneMultiplierBuff = cyreneTeammateSpecialEffectActive(action)
-        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.00264 : 0.0024) * cyreneOverflowPercentAssumption * (context.enemyCount < 3 ? 3 : 1)
-        : 0
-      x.m.MEMO_TALENT_SPECIAL_SCALING.buff(r.memoTalentHits * memoTalentScaling, SOURCE_MEMO)
-      x.m.MEMO_TALENT_SPECIAL_SCALING.buff(r.memoTalentHits * cyreneMultiplierBuff, SOURCE_MEMO)
-
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_BASIC)
       x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
       x.m.MEMO_TALENT_TOUGHNESS_DMG.buff(5 * (r.memoTalentHits), SOURCE_MEMO)
+
+      // Cyrene
+      const cyreneOverflowPercentAssumption = 30 // Assumes 130% overflow
+      const cyreneMultiplierBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.00264 : 0.0024) * cyreneOverflowPercentAssumption * (context.enemyCount < 3 ? 3 : 1)
+        : 0
+      x.m.MEMO_TALENT_SPECIAL_SCALING.buff(r.memoTalentHits * memoTalentScaling, SOURCE_MEMO)
+      x.m.MEMO_TALENT_SPECIAL_SCALING.buff((r.cyreneSpecialEffect) ? r.memoTalentHits * cyreneMultiplierBuff : 0, SOURCE_MEMO)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

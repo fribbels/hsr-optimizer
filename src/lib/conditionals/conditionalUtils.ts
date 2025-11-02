@@ -157,14 +157,18 @@ export function mainIsPath(context: OptimizerContext, path: PathName) {
   return context.path == path
 }
 
-export function cyreneTeammateSpecialEffectActive(action: OptimizerAction) {
+export function getCyreneAction(action: OptimizerAction) {
   const cyreneAction = [
     action.teammate0,
     action.teammate1,
     action.teammate2,
   ].find((x) => x && x.actorId == CYRENE)
 
-  return cyreneAction && cyreneAction.characterConditionals['specialEffect']
+  return cyreneAction
+}
+
+export function cyreneActionExists(action: OptimizerAction) {
+  return getCyreneAction(action) ? true :false
 }
 
 // Assumes cyreneTeammateSpecialEffectActive returned true

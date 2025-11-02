@@ -29,6 +29,15 @@ export type SimpleCharacter = {
   lightConeSuperimposition: number,
 }
 
+export type SimpleCharacterSets = {
+  characterId: CharacterId,
+  lightCone: LightCone['id'],
+  characterEidolon: number,
+  lightConeSuperimposition: number,
+  teamOrnamentSet?: string,
+  teamRelicSet?: string,
+}
+
 type RelicSetSelection = {
   simRelicSet1?: string,
   simRelicSet2?: string,
@@ -92,11 +101,15 @@ export const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
     }),
 
   onCharacterModalOk: (form: Form) => {
-    const character: SimpleCharacter = {
+    const character: SimpleCharacterSets = {
       characterId: form.characterId,
       characterEidolon: form.characterEidolon,
       lightCone: form.lightCone,
       lightConeSuperimposition: form.lightConeSuperimposition,
+      // @ts-ignore
+      teamRelicSet: form.teamRelicSet,
+      // @ts-ignore
+      teamOrnamentSet: form.teamOrnamentSet,
     }
 
     const { selectedTeammateIndex, updateTeammate } = get()

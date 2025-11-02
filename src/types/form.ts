@@ -108,6 +108,8 @@ export type Form = {
   deprioritizeBuffs?: boolean,
   resultMinFilter: number,
   trace?: boolean,
+  teamRelicSet?: string,
+  teamOrnamentSet?: string,
 
   // Combo
   comboStateJson: string,

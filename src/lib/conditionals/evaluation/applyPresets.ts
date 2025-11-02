@@ -115,6 +115,7 @@ export function applySetConditionalPresets(form: Form | BenchmarkForm) {
   form.setConditionals[Sets.HeroOfTriumphantSong][1] = path == PathNames.Remembrance
   form.setConditionals[Sets.WarriorGoddessOfSunAndThunder][1] = path == PathNames.Remembrance
   form.setConditionals[Sets.WorldRemakingDeliverer][1] = path == PathNames.Remembrance
+  form.setConditionals[Sets.AmphoreusTheEternalLand][1] = path == PathNames.Remembrance
 
   applyTeamAwareSetConditionalPresets(form)
 }

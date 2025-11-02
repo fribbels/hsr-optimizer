@@ -13,6 +13,7 @@ import {
   ANAXA,
   ARCHER,
   CASTORICE,
+  CYRENE,
   HOOK,
   HYSILENS,
   JINGLIU_B1,
@@ -289,5 +290,30 @@ export class AnaxaCyreneEffectPreprocessor extends AbilityPreprocessorBase {
       }
     }
     setComboBooleanCategoryCharacterActivation(comboState, 'cyreneSpecialEffect', index, this.state.cyreneSpecialEffect)
+  }
+}
+
+export class CyrenePreprocessor extends AbilityPreprocessorBase {
+  id = CYRENE
+  defaultState = { memoSkillCounter: 3 }
+  state = { ...this.defaultState }
+
+  reset() {
+    this.state = { ...this.defaultState }
+  }
+
+  processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
+    const { kind, marker } = turnAbility
+
+    if (kind == AbilityKind.MEMO_SKILL && this.state.memoSkillCounter >= 3) {
+      this.state.memoSkillCounter = 0
+      setComboBooleanCategoryCharacterActivation(comboState, 'enhancedMemoSkill', index, true)
+    } else {
+      setComboBooleanCategoryCharacterActivation(comboState, 'enhancedMemoSkill', index, false)
+    }
+
+    if (kind == AbilityKind.MEMO_SKILL) {
+      this.state.memoSkillCounter++
+    }
   }
 }

@@ -52,7 +52,7 @@ export function generateStatImprovements(
       substatRollsModifier: (num: number) => num,
     })[0]
 
-    applyScoringFunction(statImprovementResult, metadata)
+    applyScoringFunction(statImprovementResult, metadata, true, true)
     substatUpgradeResults.push({
       stat: stat,
       simulation: originalSimClone,
@@ -72,7 +72,7 @@ export function generateStatImprovements(
     substatRollsModifier: (num: number) => num,
   })[0]
 
-  applyScoringFunction(setUpgradeResult, metadata)
+  applyScoringFunction(setUpgradeResult, metadata, true, true)
   setUpgradeResults.push({
     simulation: originalSimClone,
     simulationResult: setUpgradeResult,
@@ -97,7 +97,7 @@ export function generateStatImprovements(
         substatRollsModifier: (num: number) => num,
       })[0]
 
-      applyScoringFunction(mainUpgradeResult, metadata)
+      applyScoringFunction(mainUpgradeResult, metadata, true, true)
       const simulationStatUpgrade = {
         stat: upgradeMainStat,
         part: part,

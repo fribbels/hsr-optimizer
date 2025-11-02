@@ -7251,72 +7251,72 @@
       },
       "traceTree": [
         {
-          "id": "1415201_3.6v4",
+          "id": "1415201",
           "stat": "CRIT DMG",
           "value": 0.053,
           "pre": null,
           "children": [
             {
-              "id": "1415202_3.6v4",
+              "id": "1415202",
               "stat": "SPD",
               "value": 2,
-              "pre": "1415201_3.6v4",
+              "pre": "1415201",
               "children": []
             },
             {
-              "id": "1415203_3.6v4",
+              "id": "1415203",
               "stat": "CRIT DMG",
               "value": 0.053,
-              "pre": "1415201_3.6v4",
+              "pre": "1415201",
               "children": []
             }
           ]
         },
         {
-          "id": "1415204_3.6v4",
+          "id": "1415204",
           "stat": "HP%",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1415205_3.6v4",
+          "id": "1415205",
           "stat": "CRIT DMG",
           "value": 0.08,
           "pre": null,
           "children": []
         },
         {
-          "id": "1415206_3.6v4",
+          "id": "1415206",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": []
         },
         {
-          "id": "1415207_3.6v4",
+          "id": "1415207",
           "stat": "CRIT DMG",
           "value": 0.08,
           "pre": null,
           "children": []
         },
         {
-          "id": "1415208_3.6v4",
+          "id": "1415208",
           "stat": "HP%",
           "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "1415209_3.6v4",
+              "id": "1415209",
               "stat": "SPD",
               "value": 4,
-              "pre": "1415208_3.6v4",
+              "pre": "1415208",
               "children": [
                 {
-                  "id": "1415210_3.6v4",
+                  "id": "1415210",
                   "stat": "CRIT DMG",
                   "value": 0.107,
-                  "pre": "1415209_3.6v4",
+                  "pre": "1415209",
                   "children": []
                 }
               ]
@@ -7333,7 +7333,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "8001": {
       "id": "8001",
@@ -9605,7 +9605,7 @@
         "ATK": 476.28,
         "DEF": 396.9
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23000": {
       "id": "23000",
@@ -10229,7 +10229,7 @@
         "ATK": 476.28,
         "DEF": 463.05
       },
-      "unreleased": true
+      "unreleased": false
     },
     "24000": {
       "id": "24000",

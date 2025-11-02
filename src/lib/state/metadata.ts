@@ -44,7 +44,7 @@ import {
   CIPHER,
   DANCE_DANCE_DANCE,
   EARTHLY_ESCAPADE,
-  EPOCH_ETCHED_IN_GOLDEN_BLOOD,
+  EPOCH_ETCHED_IN_GOLDEN_BLOOD, EVERNIGHT,
   FEIXIAO,
   FIREFLY,
   FLOWING_NIGHTGLOW,
@@ -82,7 +82,7 @@ import {
   TAKE_FLIGHT_TOWARD_A_PINK_TOMORROW,
   THE_HERTA,
   THOSE_MANY_SPRINGS,
-  TINGYUN,
+  TINGYUN, TO_EVERNIGHTS_STARS,
   TOPAZ_NUMBY,
   TRIBBIE,
   WHEREABOUTS_SHOULD_DREAMS_REST,
@@ -9478,7 +9478,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ornamentSets: [
           Sets.BoneCollectionsSereneDemesne,
           Sets.AmphoreusTheEternalLand,
-          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          Sets.ArcadiaOfWovenDreams,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
         ],
         teammates: [
           {
@@ -9488,10 +9489,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: STELLE_REMEMBRANCE,
-            lightCone: TAKE_FLIGHT_TOWARD_A_PINK_TOMORROW,
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterId: EVERNIGHT,
+            lightCone: TO_EVERNIGHTS_STARS,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
           {
             characterId: HYACINE,

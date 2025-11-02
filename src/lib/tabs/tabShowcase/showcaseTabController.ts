@@ -74,13 +74,13 @@ export function presetCharacters(): Preset[] {
   return [
     { characterId: char(CYRENE), lightConeId: lc(THIS_LOVE_FOREVER) },
 
-    { characterId: char(CASTORICE), lightConeId: lc(MAKE_FAREWELLS_MORE_BEAUTIFUL) },
-    { characterId: char(HYACINE), lightConeId: lc(LONG_MAY_RAINBOWS_ADORN_THE_SKY) },
-    { characterId: char(TRIBBIE), lightConeId: lc(IF_TIME_WERE_A_FLOWER) },
+    { characterId: char(CASTORICE), lightConeId: lc(MAKE_FAREWELLS_MORE_BEAUTIFUL) , rerun: true},
+    { characterId: char(HYACINE), lightConeId: lc(LONG_MAY_RAINBOWS_ADORN_THE_SKY) , rerun: true},
+    { characterId: char(TRIBBIE), lightConeId: lc(IF_TIME_WERE_A_FLOWER), rerun: true },
 
-    { characterId: char(PHAINON), lightConeId: lc(THUS_BURNS_THE_DAWN) },
-    { characterId: char(CIPHER), lightConeId: lc(LIES_DANCE_ON_THE_BREEZE) },
-    { characterId: char(MYDEI), lightConeId: lc(FLAME_OF_BLOOD_BLAZE_MY_PATH) },
+    { characterId: char(PHAINON), lightConeId: lc(THUS_BURNS_THE_DAWN) , rerun: true},
+    { characterId: char(CIPHER), lightConeId: lc(LIES_DANCE_ON_THE_BREEZE) , rerun: true},
+    { characterId: char(MYDEI), lightConeId: lc(FLAME_OF_BLOOD_BLAZE_MY_PATH) , rerun: true},
 
     { custom: true },
   ].filter((x) => x.custom || !!x.characterId) as Preset[]

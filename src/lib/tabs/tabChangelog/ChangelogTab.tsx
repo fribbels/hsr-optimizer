@@ -124,6 +124,8 @@ function getChangelogContent() {
       date: '2025-11-01',
       content: [
         `Updated content to v3.7v5`,
+        `Cyrene now has DPS Score benchmarks`,
+        `cyrene.webp`,
         `Added the new ornament sets Amphoreus, The Eternal Land and Tengoku@Livestream`,
         `sets.webp`,
         `DPS Score showcases now have the option to include teammate relic / ornament sets that provide team stat buffs`,

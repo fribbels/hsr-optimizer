@@ -1194,6 +1194,9 @@ Characters:
       memoTalentDmgBuff:
         text: Bonus de DGT Talentᴹ
         content: Lorsque Nox est sur le champ de bataille, Nocterna et Nox infligent {{MemoTalentDmgBuff}}% de DGT supplémentaires.
+      traceCritBuffs:
+        text: Buffs de Crit de la trace
+        content: Augmente le TC de Nox et Nocterna de 35%. Lorsque Nocterna utilise une capacité, consomme 5% de ses PV pour augmenter les DC de Nox et Nocterna de 15% pendant 2 tours.
       skillMemoCdBuff:
         text: Bonus de DCᴹ de Comp.
         content: Consomme 10% des PV actuels de Nocterna pour invoquer le mnémesprit Nox, et augmente les DGT critiques de tous les mnémesprits alliés d'un montant équivalent à {{SkillMemoCdBuff}}% des DGT critiques de Nocterna pour une durée de 2 tours.

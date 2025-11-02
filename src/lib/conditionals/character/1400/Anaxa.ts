@@ -45,6 +45,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const talentDmgScaling = talent(e, 0.30, 0.324)
 
   const defaults = {
+    // if cyreneSpecialEffect is changed to default to true then skillHits should be set to default at 7
     skillHits: 4,
     exposedNature: true,
     eruditionTeammateBuffs: true,
@@ -71,7 +72,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: t('skillHits.text'),
       content: t('skillHits.content'),
       min: 0,
-      max: 4,
+      max: 7,
     },
     exposedNature: {
       id: 'exposedNature',
@@ -167,15 +168,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.CD.buff((r.eruditionTeammateBuffs && eruditionMembers == 1 || e >= 6 && r.e6Buffs) ? 1.40 : 0, SOURCE_TRACE)
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(10 + (r.skillHits) * 10, SOURCE_SKILL)
+      let addedSkillHits = r.skillHits
+      if (r.skillHits > 4 && !r.cyreneSpecialEffect) addedSkillHits = 4
+      x.SKILL_TOUGHNESS_DMG.buff(10 + addedSkillHits * 5, SOURCE_SKILL)
       x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-
-      // Cyrene
-      // Uptime in AnaxaCyreneEffectPreprocessor
-      const cyreneSkillDmgBuff = cyreneActionExists(action)
-        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.44 : 0.40)
-        : 0
-      x.SKILL_DMG_BOOST.buff((r.cyreneSpecialEffect) ? cyreneSkillDmgBuff : 0, SOURCE_MEMO)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -188,10 +184,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Cyrene
       // Uptime in AnaxaCyreneEffectPreprocessor
+      const cyreneBuffActive = m.cyreneSpecialEffect && context.path === PathNames.Erudition
+      const cyreneSkillDmgBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.44 : 0.40)
+        : 0
+      x.SKILL_DMG_BOOST.buff(cyreneBuffActive ? cyreneSkillDmgBuff : 0, SOURCE_MEMO)
+
       const cyreneAtkBuff = cyreneActionExists(originalCharacterAction!)
         ? (cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.66 : 0.60)
         : 0
-      x.ATK_P.buff((m.cyreneSpecialEffect && context.path == PathNames.Erudition) ? cyreneAtkBuff : 0, SOURCE_MEMO)
+      x.ATK_P.buff(cyreneBuffActive ? cyreneAtkBuff : 0, SOURCE_MEMO)
     },
     finalizeCalculations: (x: ComputedStatsArray) => {},
     gpuFinalizeCalculations: () => '',

@@ -513,6 +513,10 @@ TeammateCard:
       Desc: '$t(gameData:RelicSets.317.Name) (+12% ATQ)'
       Set: '$t(gameData:RelicSets.317.Name)'
       Text: 12% ATQ
+    Amphoreus:
+      Desc: '$t(gameData:RelicSets.323.Name) (+8% VIT)'
+      Set: '$t(gameData:RelicSets.323.Name)'
+      Text: 8% VIT
 StatSimulation:
   DuplicateSimMessage: Une simulation identique existe déjà
   MissingMainstatsMessage: Les mainstats de simulation sont manquantes

@@ -1021,6 +1021,13 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.SPD_P]: 0.27 },
       5: { [Constants.Stats.SPD_P]: 0.30 },
     },
+    23050: {
+      1: { [Constants.Stats.BE]: 0.60 },
+      2: { [Constants.Stats.BE]: 0.75 },
+      3: { [Constants.Stats.BE]: 0.90 },
+      4: { [Constants.Stats.BE]: 1.05 },
+      5: { [Constants.Stats.BE]: 1.20 },
+    },
   }
 }
 
@@ -1160,7 +1167,6 @@ function getLightConeOverrideCenter(): Record<string, number> {
     23045: 180,
     23046: 200,
 
-    // TODO
     23047: 155,
     23048: 215,
     22005: 190,
@@ -1180,6 +1186,8 @@ function getLightConeOverrideCenter(): Record<string, number> {
 
     22006: 290,
     23052: 190,
+
+    23050: 180,
   }
 }
 // Default 200
@@ -1626,9 +1634,9 @@ function getOverrideImageCenter(): Record<string, {
       z: 1.60,
     },
     1321: { // The Dahlia
-      x: 1024,
-      y: 1024,
-      z: 1.00,
+      x: 950,
+      y: 950,
+      z: 1.025,
     },
   }
 }
@@ -9556,6 +9564,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         parts: {
           [Parts.Body]: [
             Stats.CR,
+            Stats.CD,
             Stats.ATK_P,
           ],
           [Parts.Feet]: [

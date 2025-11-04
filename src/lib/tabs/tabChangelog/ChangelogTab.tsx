@@ -121,6 +121,15 @@ function getChangelogContent() {
     },
     {
       title: '',
+      date: '2025-11-03',
+      content: [
+        `Updated content to v3.8v1`,
+        `Added The Dahlia showcase`,
+        `dahlia.webp`,
+      ],
+    },
+    {
+      title: '',
       date: '2025-11-01',
       content: [
         `Updated content to v3.7v5`,

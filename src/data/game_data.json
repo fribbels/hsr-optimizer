@@ -5969,6 +5969,105 @@
       },
       "unreleased": false
     },
+    "1321": {
+      "id": "1321",
+      "name": "The Dahlia",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Fire",
+      "traces": {
+        "Effect RES": 0.18,
+        "HP%": 0.1,
+        "Break Effect": 0.373
+      },
+      "traceTree": [
+        {
+          "id": "1321201_3.8v1",
+          "stat": "Break Effect",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "1321210_3.8v1",
+              "stat": "Break Effect",
+              "value": 0.107,
+              "pre": "1321201_3.8v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1321202_3.8v1",
+          "stat": "Effect RES",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1321203_3.8v1",
+              "stat": "Break Effect",
+              "value": 0.053,
+              "pre": "1321202_3.8v1",
+              "children": [
+                {
+                  "id": "1321204_3.8v1",
+                  "stat": "HP%",
+                  "value": 0.04,
+                  "pre": "1321203_3.8v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1321205_3.8v1",
+          "stat": "Break Effect",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1321206_3.8v1",
+              "stat": "Effect RES",
+              "value": 0.06,
+              "pre": "1321205_3.8v1",
+              "children": [
+                {
+                  "id": "1321207_3.8v1",
+                  "stat": "Break Effect",
+                  "value": 0.08,
+                  "pre": "1321206_3.8v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1321208_3.8v1",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1321209_3.8v1",
+          "stat": "Effect RES",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
+      "max_sp": 130,
+      "stats": {
+        "HP": 1086.624,
+        "ATK": 679.14,
+        "DEF": 606.375,
+        "SPD": 96,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
     "1401": {
       "id": "1401",
       "name": "The Herta",
@@ -9597,7 +9696,7 @@
     },
     "22006": {
       "id": "22006",
-      "name": "Take Flight Toward A Pink Tomorrow",
+      "name": "Fly Into a Pink Tomorrow",
       "rarity": 4,
       "path": "Remembrance",
       "stats": {
@@ -10207,6 +10306,18 @@
       },
       "unreleased": false
     },
+    "23050": {
+      "id": "23050",
+      "name": "Never Forget Her Flame",
+      "rarity": 5,
+      "path": "Nihility",
+      "stats": {
+        "HP": 1164.24,
+        "ATK": 529.2,
+        "DEF": 463.05
+      },
+      "unreleased": true
+    },
     "23051": {
       "id": "23051",
       "name": "Though Worlds Apart",
@@ -10307,7 +10418,7 @@
   "relics": [
     {
       "id": "324",
-      "name": "Tengoku @Live Stream",
+      "name": "Tengoku@Livestream",
       "skills": "Increases the wearer's CRIT DMG by <b>16%</b>. If <b>3</b> or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by <b>32%</b> for <b>3</b> turns."
     },
     {

@@ -77,6 +77,7 @@ import kafkaB1 from 'lib/conditionals/character/1000/KafkaB1'
 import silverWolfB1 from 'lib/conditionals/character/1000/SilverWolfB1'
 import bladeB1 from 'lib/conditionals/character/1200/BladeB1'
 import jingliuB1 from 'lib/conditionals/character/1200/JingliuB1'
+import theDahlia from 'lib/conditionals/character/1300/TheDahlia'
 import cerydra from 'lib/conditionals/character/1400/Cerydra'
 import cyrene from 'lib/conditionals/character/1400/Cyrene'
 import hysilens from 'lib/conditionals/character/1400/Hysilens'
@@ -181,6 +182,8 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
   1414: permansorTerrae,
 
   1415: cyrene,
+
+  1321: theDahlia,
 }
 
 /**

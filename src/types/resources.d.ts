@@ -4019,6 +4019,10 @@ interface Resources {
         "Name": "Rappa",
         "LongName": "Rappa"
       },
+      "1321": {
+        "Name": "The Dahlia",
+        "LongName": "The Dahlia"
+      },
       "1401": {
         "Name": "The Herta",
         "LongName": "The Herta"
@@ -4785,6 +4789,9 @@ interface Resources {
       },
       "23049": {
         "Name": "To Evernight's Stars"
+      },
+      "23050": {
+        "Name": "Never Forget Her Flame"
       },
       "23051": {
         "Name": "Though Worlds Apart"

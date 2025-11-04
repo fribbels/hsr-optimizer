@@ -51,6 +51,7 @@ export default function FormCard(props: {
         boxShadow: cardShadow,
         overflow: props.style?.overflow,
       }}
+      className='hide-scrollbar'
     >
       <Flex
         style={{ width: width }}

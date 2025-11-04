@@ -254,7 +254,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.SPD_P.buff((m.spdBuff) ? 0.30 : 0, SOURCE_TRACE)
 
       x.RES_PEN.buffTeam((e >= 2 && m.e2ResPen) ? 0.18 : 0, SOURCE_E2)
-      x.VULNERABILITY.buffTeam((e >= 4 && m.e4Vuln) ? 0.12 * fuaHits : 0, SOURCE_E4)
+      x.VULNERABILITY.buffTeam((e >= 4 && m.e4Vuln) ? 0.12 : 0, SOURCE_E4)
 
       if (e >= 1 && m.e1Buffs && m.dancePartner) {
         const e1ToughnessDmg = Math.max(10, Math.min(300, context.enemyMaxToughness / 30 * 0.25))

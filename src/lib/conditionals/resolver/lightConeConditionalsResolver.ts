@@ -120,6 +120,7 @@ import MakeFarewellsMoreBeautiful from 'lib/conditionals/lightcone/5star/MakeFar
 import MayRainbowsRemainInTheSky from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import MemorysCurtainNeverFalls from 'lib/conditionals/lightcone/5star/MemorysCurtainNeverFalls'
 import MomentOfVictory from 'lib/conditionals/lightcone/5star/MomentOfVictory'
+import NeverForgetHerFlame from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
 import NightOfFright from 'lib/conditionals/lightcone/5star/NightOfFright'
 import NightOnTheMilkyWay from 'lib/conditionals/lightcone/5star/NightOnTheMilkyWay'
 import NinjutsuInscriptionDazzlingEvilbreaker from 'lib/conditionals/lightcone/5star/NinjutsuInscriptionDazzlingEvilbreaker'
@@ -198,6 +199,7 @@ const fiveStar: Record<string, LightConeConditionalFunction> = {
   23049: ToEvernightsStars,
   23051: ThoughWorldsApart,
   23052: ThisLoveForever,
+  23050: NeverForgetHerFlame,
 
   24000: OnTheFallOfAnAeon,
   24001: CruisingInTheStellarSea,

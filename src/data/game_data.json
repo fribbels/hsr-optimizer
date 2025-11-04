@@ -5982,37 +5982,37 @@
       },
       "traceTree": [
         {
-          "id": "1321201_3.7v5",
+          "id": "1321201_3.8v1",
           "stat": "Break Effect",
           "value": 0.053,
           "pre": null,
           "children": [
             {
-              "id": "1321210_3.7v5",
+              "id": "1321210_3.8v1",
               "stat": "Break Effect",
               "value": 0.107,
-              "pre": "1321201_3.7v5",
+              "pre": "1321201_3.8v1",
               "children": []
             }
           ]
         },
         {
-          "id": "1321202_3.7v5",
+          "id": "1321202_3.8v1",
           "stat": "Effect RES",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1321203_3.7v5",
+              "id": "1321203_3.8v1",
               "stat": "Break Effect",
               "value": 0.053,
-              "pre": "1321202_3.7v5",
+              "pre": "1321202_3.8v1",
               "children": [
                 {
-                  "id": "1321204_3.7v5",
+                  "id": "1321204_3.8v1",
                   "stat": "HP%",
                   "value": 0.04,
-                  "pre": "1321203_3.7v5",
+                  "pre": "1321203_3.8v1",
                   "children": []
                 }
               ]
@@ -6020,22 +6020,22 @@
           ]
         },
         {
-          "id": "1321205_3.7v5",
+          "id": "1321205_3.8v1",
           "stat": "Break Effect",
           "value": 0.08,
           "pre": null,
           "children": [
             {
-              "id": "1321206_3.7v5",
+              "id": "1321206_3.8v1",
               "stat": "Effect RES",
               "value": 0.06,
-              "pre": "1321205_3.7v5",
+              "pre": "1321205_3.8v1",
               "children": [
                 {
-                  "id": "1321207_3.7v5",
+                  "id": "1321207_3.8v1",
                   "stat": "Break Effect",
                   "value": 0.08,
-                  "pre": "1321206_3.7v5",
+                  "pre": "1321206_3.8v1",
                   "children": []
                 }
               ]
@@ -6043,14 +6043,14 @@
           ]
         },
         {
-          "id": "1321208_3.7v5",
+          "id": "1321208_3.8v1",
           "stat": "HP%",
           "value": 0.06,
           "pre": null,
           "children": []
         },
         {
-          "id": "1321209_3.7v5",
+          "id": "1321209_3.8v1",
           "stat": "Effect RES",
           "value": 0.08,
           "pre": null,

@@ -44,7 +44,8 @@ import {
   CIPHER,
   DANCE_DANCE_DANCE,
   EARTHLY_ESCAPADE,
-  EPOCH_ETCHED_IN_GOLDEN_BLOOD, EVERNIGHT,
+  EPOCH_ETCHED_IN_GOLDEN_BLOOD,
+  EVERNIGHT,
   FEIXIAO,
   FIREFLY,
   FLOWING_NIGHTGLOW,
@@ -82,7 +83,8 @@ import {
   TAKE_FLIGHT_TOWARD_A_PINK_TOMORROW,
   THE_HERTA,
   THOSE_MANY_SPRINGS,
-  TINGYUN, TO_EVERNIGHTS_STARS,
+  TINGYUN,
+  TO_EVERNIGHTS_STARS,
   TOPAZ_NUMBY,
   TRIBBIE,
   WHEREABOUTS_SHOULD_DREAMS_REST,
@@ -1019,6 +1021,13 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.SPD_P]: 0.27 },
       5: { [Constants.Stats.SPD_P]: 0.30 },
     },
+    23050: {
+      1: { [Constants.Stats.BE]: 0.60 },
+      2: { [Constants.Stats.BE]: 0.75 },
+      3: { [Constants.Stats.BE]: 0.90 },
+      4: { [Constants.Stats.BE]: 1.05 },
+      5: { [Constants.Stats.BE]: 1.20 },
+    },
   }
 }
 
@@ -1158,7 +1167,6 @@ function getLightConeOverrideCenter(): Record<string, number> {
     23045: 180,
     23046: 200,
 
-    // TODO
     23047: 155,
     23048: 215,
     22005: 190,
@@ -1178,6 +1186,8 @@ function getLightConeOverrideCenter(): Record<string, number> {
 
     22006: 290,
     23052: 190,
+
+    23050: 180,
   }
 }
 // Default 200
@@ -1622,6 +1632,11 @@ function getOverrideImageCenter(): Record<string, {
       x: 1030,
       y: 1225,
       z: 1.60,
+    },
+    1321: { // The Dahlia
+      x: 950,
+      y: 950,
+      z: 1.025,
     },
   }
 }
@@ -9497,6 +9512,121 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           {
             characterId: HYACINE,
             lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    1321: { // The Dahlia
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 0,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 1,
+      },
+      parts: {
+        [Parts.Body]: [],
+        [Parts.Feet]: [
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [],
+        [Parts.LinkRope]: [
+          Stats.ERR,
+          Stats.BE,
+        ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+        [Sets.IronCavalryAgainstTheScourge]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.SprightlyVonwacq]: 1,
+        [Sets.LushakaTheSunkenSeas]: 1,
+      },
+      presets: [
+        PresetEffects.fnAshblazingSet(5),
+      ],
+      sortOption: SortOption.FUA,
+      hiddenColumns: [SortOption.DOT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+            Stats.ATK_P,
+          ],
+          [Parts.Feet]: [
+            Stats.SPD,
+            Stats.ATK_P,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Fire_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.BE,
+          ],
+        },
+        substats: [
+          Stats.BE,
+          Stats.ATK_P,
+          Stats.CR,
+          Stats.CD,
+        ],
+        errRopeEidolon: 0,
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          START_ULT,
+          DEFAULT_SKILL,
+          END_BREAK,
+          DEFAULT_FUA,
+          WHOLE_BASIC,
+          DEFAULT_FUA,
+          WHOLE_BASIC,
+          DEFAULT_FUA,
+          WHOLE_BASIC,
+        ],
+        comboDot: 0,
+        deprioritizeBuffs: true,
+        relicSets: [
+          [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+          [Sets.ThiefOfShootingMeteor, Sets.ThiefOfShootingMeteor],
+          RELICS_2P_BREAK_EFFECT_SPEED,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.ForgeOfTheKalpagniLantern,
+          ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
+        ],
+        teammates: [
+          {
+            characterId: FIREFLY,
+            lightCone: WHEREABOUTS_SHOULD_DREAMS_REST,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

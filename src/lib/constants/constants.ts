@@ -6,10 +6,10 @@ import {
 } from 'lib/simulations/tests/testMetadataConstants'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v3.7.5'
+export const CURRENT_OPTIMIZER_VERSION = 'v3.8.1'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '3.7v5'
+export const CURRENT_DATA_VERSION = '3.8v1'
 
 const generateMessage = (message?: string) => `${CURRENT_DATA_VERSION} - ${message}`
 export const CharacterAnnouncementMessages: Record<string, string> = {}

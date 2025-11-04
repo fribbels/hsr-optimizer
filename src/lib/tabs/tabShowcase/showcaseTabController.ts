@@ -14,10 +14,10 @@ import {
   INCESSANT_RAIN,
   INTO_THE_UNREACHABLE_VEIL,
   KAFKA_B1, LIES_DANCE_ON_THE_BREEZE,
-  LIFE_SHOULD_BE_CAST_TO_FLAMES, LONG_MAY_RAINBOWS_ADORN_THE_SKY, MAKE_FAREWELLS_MORE_BEAUTIFUL, MYDEI,
+  LIFE_SHOULD_BE_CAST_TO_FLAMES, LONG_MAY_RAINBOWS_ADORN_THE_SKY, MAKE_FAREWELLS_MORE_BEAUTIFUL, MYDEI, NEVER_FORGET_HER_FLAME,
   PATIENCE_IS_ALL_YOU_NEED,
   PERMANSOR_TERRAE, PHAINON,
-  SILVER_WOLF_B1,
+  SILVER_WOLF_B1, THE_DAHLIA,
   THE_HERTA,
   THIS_LOVE_FOREVER,
   THOUGH_WORLDS_APART, THUS_BURNS_THE_DAWN,
@@ -72,6 +72,7 @@ export function presetCharacters(): Preset[] {
   const lc = (id: LightCone['id']) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
+    { characterId: char(THE_DAHLIA), lightConeId: lc(NEVER_FORGET_HER_FLAME) },
     { characterId: char(CYRENE), lightConeId: lc(THIS_LOVE_FOREVER) },
 
     { characterId: char(CASTORICE), lightConeId: lc(MAKE_FAREWELLS_MORE_BEAUTIFUL) , rerun: true},

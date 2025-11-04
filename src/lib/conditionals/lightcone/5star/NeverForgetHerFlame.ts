@@ -1,4 +1,5 @@
 import i18next from 'i18next'
+import { BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   Conditionals,
   ContentDefinition,
@@ -6,6 +7,10 @@ import {
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
+import {
+  buffAbilityDmg,
+  Target,
+} from 'lib/optimization/calculateBuffs'
 import {
   ComputedStatsArray,
   Key,
@@ -38,7 +43,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       lc: true,
       id: 'breakDmgBuff',
       formItem: 'switch',
-      text: 'Break DMG buff',
+      text: 'Break DMG boost',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
   }
@@ -53,11 +58,16 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals as Conditionals<typeof content>
+
+      buffAbilityDmg(x, BREAK_DMG_TYPE, (r.breakDmgBuff) ? sValuesBreakDmg[s] : 0, SOURCE_LC)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
+    },
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const t = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.BREAK_DMG_BOOST.buffTeam((m.breakDmgBuff) ? sValuesBreakDmg[s] : 0, SOURCE_LC)
+      buffAbilityDmg(x, BREAK_DMG_TYPE, (t.breakDmgBuff) ? sValuesBreakDmg[s] : 0, SOURCE_LC, Target.SINGLE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {},
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',

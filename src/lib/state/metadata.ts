@@ -9547,9 +9547,11 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Sets.SprightlyVonwacq]: 1,
         [Sets.LushakaTheSunkenSeas]: 1,
       },
-      presets: [],
-      sortOption: SortOption.BASIC,
-      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      presets: [
+        PresetEffects.fnAshblazingSet(5),
+      ],
+      sortOption: SortOption.FUA,
+      hiddenColumns: [SortOption.DOT],
       simulation: {
         parts: {
           [Parts.Body]: [
@@ -9578,24 +9580,25 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
           START_ULT,
-          DEFAULT_BASIC,
+          DEFAULT_SKILL,
           END_BREAK,
-          START_BASIC,
-          END_BREAK,
-          START_BASIC,
-          END_BREAK,
+          DEFAULT_FUA,
+          WHOLE_BASIC,
+          DEFAULT_FUA,
+          WHOLE_BASIC,
+          DEFAULT_FUA,
+          WHOLE_BASIC,
         ],
         comboDot: 0,
         deprioritizeBuffs: true,
         relicSets: [
+          [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
           [Sets.ThiefOfShootingMeteor, Sets.ThiefOfShootingMeteor],
-          [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
           RELICS_2P_BREAK_EFFECT_SPEED,
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.ForgeOfTheKalpagniLantern,
-          Sets.TaliaKingdomOfBanditry,
           ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
           ...SPREAD_ORNAMENTS_2P_SUPPORT,
         ],

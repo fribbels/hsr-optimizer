@@ -732,6 +732,8 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
     1414: ['#aefcf3'], // dan heng
 
     1415: ['#8a88e4'], // cyrene
+
+    1321: ['#586bec'], // the dahlia
   }
 
   return (defaults[characterId] ?? ['#000000'])[0]

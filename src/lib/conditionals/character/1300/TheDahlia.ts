@@ -1,8 +1,6 @@
 import {
   AbilityType,
   ASHBLAZING_ATK_STACK,
-  BREAK_DMG_TYPE,
-  FUA_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
@@ -10,32 +8,16 @@ import {
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  buffAbilityCd,
-  buffAbilityDmg,
-  Target,
-} from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import { TsUtils } from 'lib/utils/TsUtils'
 
 import i18next from 'i18next'
 import {
   boostAshblazingAtkP,
   gpuBoostAshblazingAtkP,
-  gpuStandardAdditionalDmgAtkFinalizer,
-  standardAdditionalDmgAtkFinalizer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
-  dynamicStatConversion,
-  gpuDynamicStatConversion,
-} from 'lib/conditionals/evaluation/statConversion'
-import {
-  ConditionalActivation,
-  ConditionalType,
   CURRENT_DATA_VERSION,
-  Stats,
 } from 'lib/constants/constants'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { THE_DAHLIA } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
@@ -134,7 +116,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       formItem: 'switch',
       text: 'E1 buffs',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 6,
+      disabled: e < 1,
     },
     e2ResPen: {
       id: 'e2ResPen',

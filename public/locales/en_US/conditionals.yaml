@@ -869,6 +869,10 @@ Characters:
       enemyWeaknessTypes:
         text: Enemy weaknesses
         content: For every different Weakness Type an enemy target has, the DMG that Anaxa deals to that target ignores 4% of DEF, up to a max of 7 Weakness Types.
+      cyreneSpecialEffect:
+        text: Cyrene Special Effect
+        content: >-
+          Increases the number of Skill DMG instances by 3 for 1 turn. The next time Anaxa uses his Basic ATK or Skill, he gains "True Knowledge": Increases the ATK of all Erudition Path characters by 60%/66% and Skill DMG dealt by 40%/44% until the start of Anaxa's next turn.
       e1DefPen:
         text: E1 DEF PEN
         content: When any enemy targets are hit by this Anaxa's Skill, decreases the targets' DEF by 16% for 2 turns.

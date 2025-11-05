@@ -1169,6 +1169,9 @@ Characters:
       spdBasedBuffs:
         text: SPD based buffs
         content: When Cipher's SPD is greater or equal to 140/170, increases CRIT Rate by 25%/50%.
+      cyreneSpecialEffect:
+        text: Cyrene Special Effect
+        content: Increases the DMG dealt by Cipher by 36%/39.6%, and decreases the DEF of the "Patron" by 20%/22% and the DEF of enemy targets other than "Patron" by 12%/13.2%.
       e1AtkBuff:
         text: E1 ATK buff
         content: When using a Follow-up ATK caused by her Talent, increases Cipher's ATK by 80% for 2 turns.

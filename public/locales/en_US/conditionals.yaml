@@ -1854,6 +1854,9 @@ Characters:
         text: Dan Heng's combat ATK
         content: >-
           When using Skill, increases the ATK of the "Bondmate" target by 15% of Dan Heng • Permansor Terrae's ATK. ::BR:: Set this to the Dan Heng • Permansor Terrae's self ATK stat that he uses to buff teammates.
+      cyreneSpecialEffect:
+        text: Cyrene Special Effect
+        content: The "Bondmate" deals 24%/26.4% more DMG.
       e1ResPen:
         text: E1 RES PEN
         content: When Dan Heng • Permansor Terrae uses his Ultimate, increases the "Bondmate's" All-Type RES PEN by 18% for 3 turns.

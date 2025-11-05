@@ -1163,6 +1163,18 @@ interface Resources {
           }
         }
       },
+      "FlyIntoAPinkTomorrow": {
+        "Content": {
+          "dmgBoost": {
+            "text": "DMG Boost",
+            "content": "Increases all ally targets' DMG dealt by {{DmgBuff}}%."
+          },
+          "enhancedBasicBoost": {
+            "text": "Trailblazer Enhanced Basic",
+            "content": "Increases DMG dealt by Enhanced Basic ATK \"Together, We Script Tomorrow!\" by {{DmgBoost}}% ."
+          }
+        }
+      },
       "ForTomorrowsJourney": {
         "Content": {
           "ultDmgBuff": {

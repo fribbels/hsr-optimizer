@@ -4,12 +4,8 @@ import {
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import {
   CAELUS_REMEMBRANCE,
   STELLE_REMEMBRANCE,
@@ -24,7 +20,7 @@ import {
 } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TakeFlightTowardAPinkTomorrow')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.FlyIntoAPinkTomorrow')
   const { SOURCE_LC } = Source.lightCone(TAKE_FLIGHT_TOWARD_A_PINK_TOMORROW)
 
   const sValuesDmg = [0.08, 0.10, 0.12, 0.14, 0.16]
@@ -44,15 +40,15 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       lc: true,
       id: 'dmgBoost',
       formItem: 'switch',
-      text: 'DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.dmgBoost.text'),
+      content: t('Content.dmgBoost.content', {DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s])}),
     },
     enhancedBasicBoost: {
       lc: true,
       id: 'enhancedBasicBoost',
       formItem: 'switch',
-      text: 'Trailblazer Enhanced Basic',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.enhancedBasicBoost.text'),
+      content: t('Content.enhancedBasicBoost.content', {DmgBoost: TsUtils.precisionRound(100 * sValuesEnhancedBasicDmg[s])}),
     },
   }
 
@@ -75,7 +71,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.ELEMENTAL_DMG.buffTeam((m.dmgBoost) ? sValuesDmg[s] : 0, SOURCE_LC)
+      if (context.characterId == STELLE_REMEMBRANCE || context.characterId == CAELUS_REMEMBRANCE) {
+        x.ELEMENTAL_DMG.buffTeam((m.dmgBoost) ? sValuesDmg[s] : 0, SOURCE_LC)
+      }
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },

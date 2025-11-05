@@ -4,18 +4,9 @@ import {
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
-import {
-  CAELUS_REMEMBRANCE,
-  STELLE_REMEMBRANCE,
-  TAKE_FLIGHT_TOWARD_A_PINK_TOMORROW,
-  THIS_LOVE_FOREVER,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { THIS_LOVE_FOREVER } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'

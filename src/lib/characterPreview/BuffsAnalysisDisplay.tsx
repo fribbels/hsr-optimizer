@@ -166,7 +166,7 @@ function BuffTable(props: { buffs: Buff[], size: BuffDisplaySize }) {
     switch (source.buffType) {
       case BUFF_TYPE.CHARACTER:
         if (source.ability === BUFF_ABILITY.CYRENE_ODE_TO) {
-          sourceLabel = tGameData(`Special.CyreneBuffs.${source.id}`)
+          sourceLabel = tGameData('Characters.1415.Name')
         } else {
           sourceLabel = tOptimizerTab(`Sources.${source.ability}`)
         }

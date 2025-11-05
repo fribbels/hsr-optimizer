@@ -483,6 +483,14 @@ Lightcones:
         text: DMG buff
         content: >-
           When the cumulative HP loss of the wearer during a single attack exceeds 25% of their Max HP, or if the amount of their own HP they consume at one time is greater than 25% of their Max HP, immediately heals the wearer for 15% of their Max HP, and at the same time, increases the DMG they deal by {{DmgBuff}}% for 2 turns. This effect can only be triggered once every 3 turns.
+  FlyIntoAPinkTomorrow:
+    Content:
+      dmgBoost:
+        text: DMG Boost
+        content: Increases all ally targets' DMG dealt by {{DmgBuff}}%.
+      enhancedBasicBoost:
+        text: Trailblazer Enhanced Basic
+        content: Increases DMG dealt by Enhanced Basic ATK "Together, We Script Tomorrow!" by {{DmgBoost}}% .
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:

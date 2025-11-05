@@ -1703,6 +1703,10 @@ interface Resources {
             "text": "Memo SPD stacks",
             "content": "After attacking an enemy afflicted with \"Seam Stitch,\" increases this unit's SPD by {{SpdBuff}}, stacking up to {{StackLimit}} times."
           },
+          "cyreneSpecialEffect": {
+            "text": "Cyrene special effect",
+            "content": "Increases DMG dealt by Aglaea and Garmentmaker by 72%/79.2%, and ignores 36%/39.6% of the target's DEF, lasting until Aglaea exits the \"Supreme Stance\" state."
+          },
           "e1Vulnerability": {
             "text": "E1 vulnerability",
             "content": "Enemies afflicted with \"Seam Stitch\" take 15% increased DMG."

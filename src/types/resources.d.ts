@@ -2103,6 +2103,10 @@ interface Resources {
             "text": "Military Merit",
             "content": "When using Skill, increases SPD by 20 for this unit and the teammate with \"Military Merit,\" lasting for 3 turns. ::BR:: The character with \"Military Merit\" increases ATK by an amount equal to {{TalentAtkConversion}}% of Cerydra's ATK. ::BR:: E1: The character with \"Military Merit\" ignores 16% of the targets' DEF when dealing DMG."
           },
+          "cyreneSpecialEffect": {
+            "text": "Cyrene Special Effect",
+            "content": "Increases the CRIT DMG of the character with \"Military Merit\" by 30%/33%."
+          },
           "peerage": {
             "text": "Peerage",
             "content": "The character with \"Peerage\" increases the CRIT DMG for their dealt Skill DMG by {{SkillCdBuff}}%, increases their All-Type RES PEN by {{SkillResPenBuff}}% ::BR:: E1: If \"Military Merit\" has been upgraded to \"Peerage,\" then the character additionally ignores 20% of the targets' DEF when dealing Skill DMG."

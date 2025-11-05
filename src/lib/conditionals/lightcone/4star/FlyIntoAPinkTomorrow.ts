@@ -12,6 +12,7 @@ import {
   TAKE_FLIGHT_TOWARD_A_PINK_TOMORROW,
 } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { CharacterId } from 'types/character'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 import {
@@ -19,7 +20,7 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+export default (s: SuperImpositionLevel, withContent: boolean, { characterId }: { characterId: CharacterId }): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.FlyIntoAPinkTomorrow')
   const { SOURCE_LC } = Source.lightCone(TAKE_FLIGHT_TOWARD_A_PINK_TOMORROW)
 
@@ -41,14 +42,14 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       id: 'dmgBoost',
       formItem: 'switch',
       text: t('Content.dmgBoost.text'),
-      content: t('Content.dmgBoost.content', {DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s])}),
+      content: t('Content.dmgBoost.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]) }),
     },
     enhancedBasicBoost: {
       lc: true,
       id: 'enhancedBasicBoost',
       formItem: 'switch',
       text: t('Content.enhancedBasicBoost.text'),
-      content: t('Content.enhancedBasicBoost.content', {DmgBoost: TsUtils.precisionRound(100 * sValuesEnhancedBasicDmg[s])}),
+      content: t('Content.enhancedBasicBoost.content', { DmgBoost: TsUtils.precisionRound(100 * sValuesEnhancedBasicDmg[s]) }),
     },
   }
 
@@ -71,7 +72,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      if (context.characterId == STELLE_REMEMBRANCE || context.characterId == CAELUS_REMEMBRANCE) {
+      if (characterId === STELLE_REMEMBRANCE || characterId === CAELUS_REMEMBRANCE) {
         x.ELEMENTAL_DMG.buffTeam((m.dmgBoost) ? sValuesDmg[s] : 0, SOURCE_LC)
       }
     },

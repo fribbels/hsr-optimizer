@@ -3113,6 +3113,10 @@ interface Resources {
             "text": "Team SPD buff",
             "content": "When the Transformation ends, increases all allies' SPD by 15%, lasting for 1 turn."
           },
+          "cyreneSpecialEffect": {
+            "text": "Cyrene Special Effect",
+            "content": "Phainon gains 6 \"Coreflames\" as well as \"Eternal Ignition\" when Transforming. When Transforming, if \"Coreflame\" exceeds 12, for each point in excess, Khaslana's CRIT DMG increases by 12%/13.2%, up to 72%/79.2%. While \"Eternal Ignition\" persists, increases Khaslana's CRIT Rate by 16%/17.6%. After the extra turns are depleted, the Transformation does not end, but refreshes all of Khaslana's extra turns and gains 4 points of \"Scourge.\" At the start of Khaslana's extra turns, Khaslana consumes an amount of HP equal to 15% of his current HP. After using an attack, deals 5 instances of Additional DMG, with each instance dealing Fire Additional DMG equal to 10%11% of Khaslana's ATK to one random enemy."
+          },
           "e1Buffs": {
             "text": "E1 buffs",
             "content": "The inheritance ratio of Khaslana's extra turn's SPD is increased to 66%. For every enemy target defeated within 1 battle, the inheritance ratio of Khaslana's extra turn's SPD further increases by 1.5%, up to 84%. ::BR:: When using Ultimate, CRIT DMG increases by 50%, lasting for 3 turns."

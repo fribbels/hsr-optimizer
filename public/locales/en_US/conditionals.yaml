@@ -1242,6 +1242,9 @@ Characters:
       enhancedState:
         text: Enhanced state
         content: Casting her ultimate causes Evernight to enter the "Darkest Riddle" state. During this state, the DMG received by all enemies increases by {{UltVulnScaling}}%, the DMG dealt by Evernight and memosprite Evey increases by {{UltDmgBoostScaling}}%.
+      cyreneSpecialEffect:
+        text: Cyrene Special Effect
+        content: Increases DMG dealt when Evey uses the Memosprite Skill "Dream, Dissolving, as Dew" by 18%/19.8%. The CRIT DMG boost effect provided by the Skill is further increased by an amount equal to 12%/13.2% of Evernight's CRIT DMG.
       e1FinalDmg:
         text: E1 Final DMG
         content: When Evernight is on the field and when there are 4 or more/3/2/1 enemy targets on the field, ally memosprites deal 120%/125%/130%/150% of their original DMG respectively.

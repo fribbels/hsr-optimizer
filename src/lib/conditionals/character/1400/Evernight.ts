@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import {
   AbilityType,
   BUFF_PRIORITY_MEMO,
@@ -15,7 +14,6 @@ import {
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   PathNames,
   Stats,
 } from 'lib/constants/constants'

@@ -18,7 +18,6 @@ import {
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   Stats,
 } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -33,7 +32,6 @@ import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 
-import i18next from 'i18next'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,

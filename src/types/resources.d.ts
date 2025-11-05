@@ -4880,7 +4880,8 @@ interface Resources {
     },
     "ComboFilters": {
       "Title": "Combo rotation",
-      "p1": "Define the ability rotation to measure Combo DMG. Rotations are defined with [ as the start of a turn, and ] as the end of a turn. See the Advanced Rotation menu and user guide for more details."
+      "p1": "Define the ability rotation to measure Combo DMG. Rotations are defined with [ as the start of a turn, and ] as the end of a turn. See the Advanced Rotation menu and user guide for more details.",
+      "p2": "The \"Presets\" option allows you to disable the pre-processor if you so desire."
     },
     "StatFilters": {
       "Title": "Stat filters",

@@ -16,7 +16,7 @@ import {
 } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TakeFlightTowardAPinkTomorrow')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThisLoveForever.Content')
   const { SOURCE_LC } = Source.lightCone(THIS_LOVE_FOREVER)
 
   const sValuesVulnerability = [0.10, 0.12, 0.14, 0.16, 0.18]
@@ -38,15 +38,21 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       lc: true,
       id: 'vulnerability',
       formItem: 'switch',
-      text: 'Vulnerability',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('vulnerability.text'),
+      content: t('vulnerability.content', {
+        Vulnerability: TsUtils.precisionRound(100 * sValuesVulnerability[s]),
+        Multi: TsUtils.precisionRound(100 * sValuesMulti[s]),
+      }),
     },
     cdBoost: {
       lc: true,
       id: 'cdBoost',
       formItem: 'switch',
-      text: 'CD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('cdBoost.text'),
+      content: t('cdBoost.content', {
+        CdBuff: TsUtils.precisionRound(100 * sValuesCd[s]),
+        Multi: TsUtils.precisionRound(100 * sValuesMulti[s]),
+      }),
     },
   }
 

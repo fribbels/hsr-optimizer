@@ -1459,6 +1459,18 @@ interface Resources {
           }
         }
       },
+      "ThisLoveForever": {
+        "Content": {
+          "vulnerability": {
+            "text": "Vulnerability",
+            "content": "When the wearer's memosprite uses a Memosprite Skill on an ally, gains \"Blank,\" which increases DMG taken by all enemies by {{Vulnerability}}%. When the wearer's memosprite has both \"Blank\" and \"Verse,\" increases the effects of \"Blank\" and \"Verse\" by {{Multi}}%."
+          },
+          "cdBoost": {
+            "text": "CD buff",
+            "content": "When the wearer's memosprite uses a Memosprite Skill on an enemy, gains \"Verse,\" which increases CRIT DMG of all allies by {{CdBuff}}%. When the wearer's memosprite has both \"Blank\" and \"Verse,\" increases the effects of \"Blank\" and \"Verse\" by {{Multi}}%."
+          }
+        }
+      },
       "TodayIsAnotherPeacefulDay": {
         "Content": {
           "maxEnergyDmgBoost": {

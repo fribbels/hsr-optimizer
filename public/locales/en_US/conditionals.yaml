@@ -673,6 +673,14 @@ Lightcones:
         text: DEF scaling Ult DMG (Not implemented)
         content: >-
           Increases the DMG of the wearer when they use their Ultimate by {{Multiplier}}% of the wearer's DEF. This effect only applies 1 time per enemy target during each use of the wearer's Ultimate.
+  ThisLoveForever:
+    Content:
+      vulnerability:
+        text: Vulnerability
+        content: When the wearer's memosprite uses a Memosprite Skill on an ally, gains "Blank," which increases DMG taken by all enemies by {{Vulnerability}}%. When the wearer's memosprite has both "Blank" and "Verse," increases the effects of "Blank" and "Verse" by {{Multi}}%.
+      cdBoost:
+        text: CD buff
+        content: When the wearer's memosprite uses a Memosprite Skill on an enemy, gains "Verse," which increases CRIT DMG of all allies by {{CdBuff}}%. When the wearer's memosprite has both "Blank" and "Verse," increases the effects of "Blank" and "Verse" by {{Multi}}%.
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:

@@ -208,7 +208,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Cyrene
       if (cyreneActionExists(originalCharacterAction!)) {
         const cdBuff = cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.33 : 0.30
-        x.CD.buffSingle((t.cyreneSpecialEffect) ? cdBuff : 0, SOURCE_MEMO)
+        x.CD.buffSingle((t.cyreneSpecialEffect) ? cdBuff : 0, Source.odeTo(CERYDRA))
       }
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

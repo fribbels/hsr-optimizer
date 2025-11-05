@@ -252,7 +252,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneCrBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.176 : 0.16)
         : 0
-      x.CR.buff((r.cyreneSpecialEffect && r.transformedState) ? cyreneCrBuff : 0, SOURCE_MEMO)
+      x.CR.buff((r.cyreneSpecialEffect && r.transformedState) ? cyreneCrBuff : 0, Source.odeTo(PHAINON))
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

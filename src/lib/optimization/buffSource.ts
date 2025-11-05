@@ -1,4 +1,20 @@
 import { Sets } from 'lib/constants/constants'
+import {
+  AGLAEA,
+  ANAXA,
+  CAELUS_REMEMBRANCE,
+  CASTORICE,
+  CERYDRA,
+  CIPHER,
+  CYRENE,
+  EVERNIGHT,
+  HYSILENS,
+  MYDEI,
+  PERMANSOR_TERRAE,
+  PHAINON,
+  STELLE_REMEMBRANCE,
+  TRIBBIE,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { CharacterId } from 'types/character'
 import { LightCone } from 'types/lightCone'
 
@@ -25,6 +41,8 @@ export enum BUFF_ABILITY {
   E4 = 'E4',
   E6 = 'E6',
 
+  CYRENE_ODE_TO = 'CYRENE_ODE_TO',
+
   LC = 'LC',
   SETS = 'SETS',
   NONE = 'NONE',
@@ -37,12 +55,12 @@ const setsSourceExpansion = Object.fromEntries(
   ]),
 ) as Record<keyof typeof Sets, SetsBuffSource>
 
-export type BuffSource = CharacterBuffSource | SetsBuffSource | LightConeBuffSource | NoneBuffSource
+export type BuffSource = CharacterBuffSource | SetsBuffSource | LightConeBuffSource | NoneBuffSource | CyreneSpecialBuffSource
 
 type CharacterBuffSource = {
   id: CharacterId,
   label: `${CharacterId}_${Exclude<BUFF_ABILITY, BUFF_ABILITY.LC | BUFF_ABILITY.SETS | BUFF_ABILITY.NONE>}`,
-  ability: Exclude<BUFF_ABILITY, BUFF_ABILITY.LC | BUFF_ABILITY.SETS | BUFF_ABILITY.NONE>,
+  ability: Exclude<BUFF_ABILITY, BUFF_ABILITY.CYRENE_ODE_TO | BUFF_ABILITY.LC | BUFF_ABILITY.SETS | BUFF_ABILITY.NONE>,
   buffType: BUFF_TYPE.CHARACTER,
 }
 
@@ -65,6 +83,29 @@ type NoneBuffSource = {
   label: 'NONE',
   ability: BUFF_ABILITY.NONE,
   buffType: BUFF_TYPE.NONE,
+}
+
+type CHRYSOS_HEIRS =
+  | typeof AGLAEA
+  | typeof ANAXA
+  | typeof CASTORICE
+  | typeof CERYDRA
+  | typeof CIPHER
+  | typeof CYRENE
+  | typeof EVERNIGHT
+  | typeof HYSILENS
+  | typeof MYDEI
+  | typeof PERMANSOR_TERRAE
+  | typeof PHAINON
+  | typeof TRIBBIE
+  | typeof CAELUS_REMEMBRANCE
+  | typeof STELLE_REMEMBRANCE
+
+type CyreneSpecialBuffSource = {
+  id: CHRYSOS_HEIRS,
+  label: `${BUFF_ABILITY.CYRENE_ODE_TO}_${CharacterId}`,
+  ability: BUFF_ABILITY.CYRENE_ODE_TO,
+  buffType: BUFF_TYPE.CHARACTER,
 }
 
 export const Source = {
@@ -100,6 +141,14 @@ export const Source = {
         ability: BUFF_ABILITY.LC,
         buffType: BUFF_TYPE.LIGHTCONE,
       },
+    }
+  },
+  odeTo(id: CHRYSOS_HEIRS): CyreneSpecialBuffSource {
+    return {
+      id: id,
+      label: `${BUFF_ABILITY.CYRENE_ODE_TO}_${id}`,
+      ability: BUFF_ABILITY.CYRENE_ODE_TO,
+      buffType: BUFF_TYPE.CHARACTER,
     }
   },
   NONE: { id: 'NONE', label: 'NONE', buffType: BUFF_TYPE.NONE, ability: BUFF_ABILITY.NONE } as NoneBuffSource,

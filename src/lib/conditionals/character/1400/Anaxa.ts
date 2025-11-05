@@ -14,6 +14,7 @@ import {
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ANAXA } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -188,12 +189,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneSkillDmgBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.44 : 0.40)
         : 0
-      x.SKILL_DMG_BOOST.buff(cyreneBuffActive ? cyreneSkillDmgBuff : 0, SOURCE_MEMO)
+      x.SKILL_DMG_BOOST.buff(cyreneBuffActive ? cyreneSkillDmgBuff : 0, Source.odeTo(ANAXA))
 
       const cyreneAtkBuff = cyreneActionExists(originalCharacterAction!)
         ? (cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.66 : 0.60)
         : 0
-      x.ATK_P.buff(cyreneBuffActive ? cyreneAtkBuff : 0, SOURCE_MEMO)
+      x.ATK_P.buff(cyreneBuffActive ? cyreneAtkBuff : 0, Source.odeTo(ANAXA))
     },
     finalizeCalculations: (x: ComputedStatsArray) => {},
     gpuFinalizeCalculations: () => '',

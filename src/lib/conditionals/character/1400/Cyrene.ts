@@ -8,12 +8,8 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
-  countTeamPath,
 } from 'lib/conditionals/conditionalUtils'
-import {
-  CURRENT_DATA_VERSION,
-  PathNames,
-} from 'lib/constants/constants'
+import {  CURRENT_DATA_VERSION,} from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {

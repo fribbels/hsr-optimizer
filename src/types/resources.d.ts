@@ -4363,7 +4363,7 @@ interface Resources {
       },
       "324": {
         "Name": "Tengoku@Livestream",
-        "Description2pc": "Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns."
+        "Description2pc": "Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32%, lasting for 3 turns."
       }
     },
     "Lightcones": {
@@ -4837,6 +4837,25 @@ interface Resources {
       "Wind": "Wind",
       "Quantum": "Quantum",
       "Imaginary": "Imaginary"
+    },
+    "Special": {
+      "CyreneBuffs": {
+        "1402": "Ode to Romance",
+        "1403": "Ode to Passage",
+        "1404": "Ode to Strife",
+        "1405": "Ode to Reason",
+        "1406": "Ode to Trickery",
+        "1407": "Ode to Life and Death",
+        "1408": "Ode to Worldbearing",
+        "1409": "Ode to Sky",
+        "1410": "Ode to Ocean",
+        "1412": "Ode to Law",
+        "1413": "Ode to Time",
+        "1414": "Ode to Earth",
+        "1415": "Ode to Ego",
+        "8007": "Ode to Genesis",
+        "8008": "Ode to Genesis"
+      }
     }
   },
   "getStartedTab": {

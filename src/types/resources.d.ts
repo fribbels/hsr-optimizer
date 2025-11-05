@@ -3693,6 +3693,10 @@ interface Resources {
             "text": "FUA stacks",
             "content": "After using Talent's Follow-up ATK, increases the DMG dealt by Tribbie by 72%. This effect can stack up to 3 times, lasting for 3 turns."
           },
+          "cyreneSpecialEffect": {
+            "text": "Cyrene Special Effect",
+            "content": "DMG dealt by Tribbie ignoes 12%/13.2% of the enemy's DEF. When Tribbie launches Follow-up ATK and triggers the Additional DMG from Tribbie's Zone, it further deals 1 instance of Additional DMG."
+          },
           "e1TrueDmg": {
             "text": "E1 True DMG",
             "content": "While the Zone from her Ultimate lasts and after ally targets attack enemies, additionally deals True DMG equal to 24% of the total DMG of this attack to targets that have been dealt Additional DMG by the Zone."

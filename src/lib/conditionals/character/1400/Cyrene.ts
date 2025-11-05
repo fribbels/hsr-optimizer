@@ -9,21 +9,12 @@ import {
   Conditionals,
   ContentDefinition,
   countTeamPath,
-  teamCharacterIds,
-  teammateCharacterIds,
 } from 'lib/conditionals/conditionalUtils'
 import {
-  ConditionalActivation,
-  ConditionalType,
   CURRENT_DATA_VERSION,
   PathNames,
-  Stats,
 } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import {
-  wgslFalse,
-  wgslTrue,
-} from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
   ComputedStatsArray,
@@ -88,40 +79,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const memoSkillTrailblazerAtkScaling = memoSkill(e, 0.16, 0.176)
   const memoSkillTrailblazerCrScaling = memoSkill(e, 0.72, 0.792)
 
-  const memoSkillAglaeaDmgBuff = memoSkill(e, 0.72, 0.792)
-  const memoSkillAglaeaDefPen = memoSkill(e, 0.36, 0.396)
-
-  const memoSkillTribbieDefPen = memoSkill(e, 0.12, 0.132)
-
-  const memoSkillMydeiCd = memoSkill(e, 0.60, 0.66)
-
-  const memoSkillCastoriceMulti = memoSkill(e, 0.0024, 0.00264)
-
-  const memoSkillAnaxaSkillDmg = memoSkill(e, 0.40, 0.44)
-  const memoSkillAnaxaAtkBuff = memoSkill(e, 0.60, 0.66)
-
-  const memoSkillHyacineHealValue = memoSkill(e, 0.72, 0.792)
-
-  const memoSkillCipherDmgBuff = memoSkill(e, 0.36, 0.396)
-  const memoSkillCipherDefPen = memoSkill(e, 0.20, 0.22)
-
-  const memoSkillPhainonCr = memoSkill(e, 0.16, 0.176)
-  const memoSkillPhainonAdditionalDmg = memoSkill(e, 0.30, 0.33)
-
-  const memoSkillHysilensDmgBuff = memoSkill(e, 1.20, 1.32)
-  const memoSkillHysilensBasicDetonation = memoSkill(e, 0.60, 0.66)
-  const memoSkillHysilensSkillDetonation = memoSkill(e, 0.80, 0.88)
-
-  const memoSkillCerydraCdBuff = memoSkill(e, 0.30, 0.33)
-
-  const memoSkillEvernightDmgBuff = memoSkill(e, 0.18, 0.198)
-  const memoSkillEvernightCdBuff = memoSkill(e, 0.12, 0.132)
-
-  const memoSkillDenHengDmgBuff = memoSkill(e, 0.16, 0.176)
-  const memoSkillDenHengShieldAdditionalDmg = memoSkill(e, 0.80, 0.88)
-
-  const memoSkillMemoDmgScaling = memoSkill(e, 0.50, 0.55)
-
   const chrysosHeirs: Record<string, boolean> = {
     [CYRENE]: true,
     [MYDEI]: true,
@@ -142,13 +99,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const defaults = {
     buffPriority: BUFF_PRIORITY_SELF,
-    enhancedBasic: true,
-    enhancedMemoSkill: true,
+    memospriteActive: true,
     zoneActive: true,
-    crBuff: true,
     talentDmgBuff: true,
-    hpBuff: true,
     traceSpdBasedBuff: true,
+    odeToEgoExtraBounces: 3,
+    e1ExtraBounces: 12,
     e2TrueDmgStacks: 2,
     e4BounceStacks: 24,
     e6DefPen: true,
@@ -177,16 +133,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       ],
       fullWidth: true,
     },
-    enhancedBasic: {
-      id: 'enhancedBasic',
+    memospriteActive: {
+      id: 'memospriteActive',
       formItem: 'switch',
-      text: `Enhanced Basic`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    },
-    enhancedMemoSkill: {
-      id: 'enhancedMemoSkill',
-      formItem: 'switch',
-      text: `Enhanced Memo Skill`,
+      text: `Memosprite Active`,
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     zoneActive: {
@@ -195,22 +145,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: `Zone active`,
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
-    crBuff: {
-      id: 'crBuff',
-      formItem: 'switch',
-      text: `CR buff`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    },
     talentDmgBuff: {
       id: 'talentDmgBuff',
       formItem: 'switch',
       text: `Talent DMG buff`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-    },
-    hpBuff: {
-      id: 'hpBuff',
-      formItem: 'switch',
-      text: `HP buff`,
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     traceSpdBasedBuff: {
@@ -218,6 +156,23 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       formItem: 'switch',
       text: `SPD based buffs`,
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    },
+    odeToEgoExtraBounces: {
+      id: 'odeToEgoExtraBounces',
+      formItem: 'slider',
+      text: `Ode to Ego Extra bounces`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      min: 0,
+      max: 6,
+    },
+    e1ExtraBounces: {
+      id: 'e1ExtraBounces',
+      formItem: 'slider',
+      text: `E1 Extra bounces`,
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      min: 0,
+      max: 12,
+      disabled: e < 1,
     },
     e2TrueDmgStacks: {
       id: 'e2TrueDmgStacks',
@@ -297,23 +252,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-      x.CR.buffBaseDual((r.crBuff) ? ultCrBuff : 0, SOURCE_ULT)
-      x.HP_P.buffBaseDual((r.hpBuff) ? memoTalentHpBuff : 0, SOURCE_MEMO)
+      x.CR.buffBaseDual((r.memospriteActive) ? ultCrBuff : 0, SOURCE_ULT)
+      x.HP_P.buffBaseDual((r.memospriteActive) ? memoTalentHpBuff : 0, SOURCE_MEMO)
 
       x.MEMO_BASE_SPD_FLAT.buff(0, SOURCE_MEMO)
       x.MEMO_BASE_HP_SCALING.buff(1.00, SOURCE_MEMO)
       x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
       x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
 
-      x.BASIC_HP_SCALING.buff((r.enhancedBasic) ? basicEnhancedScaling * 2 : basicScaling, SOURCE_BASIC)
+      x.BASIC_HP_SCALING.buff((r.memospriteActive) ? basicEnhancedScaling * 2 : basicScaling, SOURCE_BASIC)
 
-      const memosprites = countTeamPath(context, PathNames.Remembrance)
       const memoSkillScalingIndividual = memoSkillDmgScaling + (e >= 4 ? r.e4BounceStacks * 0.06 : 0)
-      const memoSkillScalingTotal = memoSkillScalingIndividual + memoSkillScalingIndividual
-          * (r.enhancedMemoSkill
-            ? (memosprites + 3 + (e >= 1 ? 12 : 0)) / context.enemyCount
-            : 0)
-      x.m.MEMO_SKILL_HP_SCALING.buff(memoSkillScalingTotal, SOURCE_MEMO)
+      x.m.MEMO_SKILL_HP_SCALING.buff(memoSkillDmgScaling, SOURCE_MEMO)
+      x.m.MEMO_SKILL_HP_SCALING.buff(r.odeToEgoExtraBounces * memoSkillScalingIndividual, Source.odeTo(CYRENE))
+      x.m.MEMO_SKILL_HP_SCALING.buff(r.e1ExtraBounces * memoSkillScalingIndividual, SOURCE_E1)
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
@@ -339,15 +291,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           // Cannot be inlined with the main character conditional because of the cyreneHp dependency
 
           const atkBuff = memoSkillTrailblazerAtkScaling * t.cyreneHp
-          x.ATK.buffBaseDual(atkBuff, SOURCE_MEMO)
-          x.UNCONVERTIBLE_ATK_BUFF.buffBaseDual(atkBuff, SOURCE_MEMO)
+          x.ATK.buffBaseDual(atkBuff, Source.odeTo(context.characterId))
+          x.UNCONVERTIBLE_ATK_BUFF.buffBaseDual(atkBuff, Source.odeTo(context.characterId))
 
           const crBuff = memoSkillTrailblazerCrScaling * t.cyreneCr
-          x.CR.buffBaseDual(crBuff, SOURCE_MEMO)
-          x.UNCONVERTIBLE_CR_BUFF.buffBaseDual(crBuff, SOURCE_MEMO)
-
-          // TODO: Effective for the entire battle. When used on Trailblazer (Remembrance), increases Trailblazer (Remembrance)'s ATK by a value equal to 16% of ███'s Max HP, and increases Trailblazer (Remembrance)'s CRIT Rate by a value equal to 60%72% of ███'s CRIT Rate. This effect also applies to Mem. After Trailblazer (Remembrance) uses Enhanced Basic ATK in this battle, ███ immediately gains 1 extra turn and automatically uses "Minuet of Blooms and Plumes." If the target was defeated before this ability is used, it will be used on newly appeared enemy targets instead.
-          // ----------------------------------------------------------------------------------------------
+          x.CR.buffBaseDual(crBuff, Source.odeTo(context.characterId))
+          x.UNCONVERTIBLE_CR_BUFF.buffBaseDual(crBuff, Source.odeTo(context.characterId))
         }
       }
     },

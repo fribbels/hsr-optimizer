@@ -124,8 +124,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     cyreneSpecialEffect: {
       id: 'cyreneSpecialEffect',
       formItem: 'switch',
-      text: t('TeammateContent.cyreneSpecialEffect.content'),
-      content: t('TeammateContent.cyreneSpecialEffect.text'),
+      text: t('TeammateContent.cyreneSpecialEffect.text'),
+      content: t('TeammateContent.cyreneSpecialEffect.content'),
     },
     peerage: {
       id: 'peerage',

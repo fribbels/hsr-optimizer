@@ -148,8 +148,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     cyreneSpecialEffect: {
       id: 'cyreneSpecialEffect',
       formItem: 'switch',
-      text: t('cyreneSpecialEffect.content'),
-      content: t('cyreneSpecialEffect.text'),
+      text: t('cyreneSpecialEffect.text'),
+      content: t('cyreneSpecialEffect.content'),
     },
     e1EnemyHp50: {
       id: 'e1EnemyHp50',

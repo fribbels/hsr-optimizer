@@ -1106,6 +1106,9 @@ Characters:
       memoDmgStacks:
         text: Memo DMG stacks
         content: Each time Netherwing uses "Breath Scorches the Shadow," increases its DMG dealt by 30%. This effect stacks up to 6 and lasts until the end of this turn.
+      cyreneSpecialEffect:
+        text: Cyrene Special Effect
+        content: When used on Castorice, "Newbud" can overflow up to 200%. When summoning Netherwing, consumes all overflowed "Newbud," increases the DMG multiplier of the DMG dealt by 0.24%/0.264% for every 1% of overflow value consumed when the summoned Netherwing triggers the ability effect of its Talent, "Wings Sweep the Ruins." If there are 2 enemy targets on the field or fewer when summoned, the DMG multiplier additionally increases by 0.48%/0.528% when summoning.
       e1EnemyHp50:
         text: E1 Enemy HP ≤ 50%
         content: When the enemy target's current HP is 50% or lower than this unit's Max HP, the DMG dealt with "Boneclaw, Doomdrake's Embrace," "Claw Splits the Veil," "Breath Scorches the Shadow," and "Wings Sweep the Ruins" is 140% of the original DMG.

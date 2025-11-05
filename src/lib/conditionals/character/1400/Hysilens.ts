@@ -110,8 +110,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     cyreneSpecialEffect: {
       id: 'cyreneSpecialEffect',
       formItem: 'switch',
-      text: `Cyrene special effect`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.cyreneSpecialEffect.content'),
+      content: t('Content.cyreneSpecialEffect.text'),
     },
     e1Buffs: {
       id: 'e1Buffs',

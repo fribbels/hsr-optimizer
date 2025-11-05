@@ -42,7 +42,7 @@ import {
 } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cyrene')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cyrene')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
 
   // TODO: Confirm memo scaling
@@ -132,40 +132,43 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     memospriteActive: {
       id: 'memospriteActive',
       formItem: 'switch',
-      text: `Memosprite Active`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.memospriteActive.text'),
+      content: t('Content.memospriteActive.content', {
+        CRBuff: TsUtils.precisionRound(100 * ultCrBuff),
+        HPBuff: TsUtils.precisionRound(100 * memoTalentHpBuff),
+      }),
     },
     zoneActive: {
       id: 'zoneActive',
       formItem: 'switch',
-      text: `Zone active`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.zoneActive.text'),
+      content: t('Content.zoneActive.content', { TrueDmg: TsUtils.precisionRound(100 * skillTrueDmgBuff) }),
     },
     talentDmgBuff: {
       id: 'talentDmgBuff',
       formItem: 'switch',
-      text: `Talent DMG buff`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.talentDmgBuff.text'),
+      content: t('Content.talentDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * talentDmgBuff) }),
     },
     traceSpdBasedBuff: {
       id: 'traceSpdBasedBuff',
       formItem: 'switch',
-      text: `SPD based buffs`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.traceSpdBasedBuff.text'),
+      content: t('Content.traceSpdBasedBuff.content'),
     },
     odeToEgoExtraBounces: {
       id: 'odeToEgoExtraBounces',
       formItem: 'slider',
-      text: `Ode to Ego Extra bounces`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.odeToEgoExtraBounces.text'),
+      content: t('Content.odeToEgoExtraBounces.content'),
       min: 0,
       max: 6,
     },
     e1ExtraBounces: {
       id: 'e1ExtraBounces',
       formItem: 'slider',
-      text: `E1 Extra bounces`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e1ExtraBounces.text'),
+      content: t('Content.e1ExtraBounces.content'),
       min: 0,
       max: 12,
       disabled: e < 1,
@@ -173,8 +176,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e2TrueDmgStacks: {
       id: 'e2TrueDmgStacks',
       formItem: 'slider',
-      text: 'E2 True DMG stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e2TrueDmgStacks.text'),
+      content: t('Content.e2TrueDmgStacks.content'),
       min: 0,
       max: 4,
       disabled: e < 2,
@@ -182,8 +185,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e4BounceStacks: {
       id: 'e4BounceStacks',
       formItem: 'slider',
-      text: 'E4 bounce stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e4BounceStacks.text'),
+      content: t('Content.e4BounceStacks.content'),
       min: 0,
       max: 24,
       disabled: e < 4,
@@ -191,8 +194,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e6DefPen: {
       id: 'e6DefPen',
       formItem: 'switch',
-      text: `E6 DEF PEN`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e6DefPen.text'),
+      content: t('Content.e6DefPen.content'),
       disabled: e < 6,
     },
   }
@@ -203,28 +206,28 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     specialEffect: {
       id: 'specialEffect',
       formItem: 'switch',
-      text: `Cyrene special effect`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.specialEffect.text'),
+      content: t('TeammateContent.specialEffect.content', { DmgBuff: TsUtils.precisionRound(100 * memoSkillDmgBuff) }),
     },
     cyreneSpdDmg: {
       id: 'cyreneSpdDmg',
       formItem: 'switch',
-      text: `Cyrene 180 SPD DMG boost`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.cyreneSpdDmg.text'),
+      content: t('TeammateContent.cyreneSpdDmg.content'),
     },
     cyreneHp: {
       id: 'cyreneHp',
       formItem: 'slider',
-      text: `Cyrene's Memo combat HP`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.cyreneHp.text'),
+      content: t('TeammateContent.cyreneHp.content', { ConversionRate: TsUtils.precisionRound(100 * memoSkillTrailblazerAtkScaling) }),
       min: 0,
       max: 20000,
     },
     cyreneCr: {
       id: 'cyreneCr',
       formItem: 'slider',
-      text: `Cyrene's Memo combat CR`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.cyreneCr.text'),
+      content: t('TeammateContent.cyreneCr.content', { ConversionRate: TsUtils.precisionRound(100 * memoSkillTrailblazerCrScaling) }),
       min: 0,
       max: 1.00,
       percent: true,
@@ -258,6 +261,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_HP_SCALING.buff((r.memospriteActive) ? basicEnhancedScaling * 2 : basicScaling, SOURCE_BASIC)
 
+      // TODO: is this actually correct or does it only buff the odeToEgoExtraBounces?
       const memoSkillScalingIndividual = memoSkillDmgScaling + (e >= 4 ? r.e4BounceStacks * 0.06 : 0)
       x.m.MEMO_SKILL_HP_SCALING.buff(memoSkillDmgScaling, SOURCE_MEMO)
       x.m.MEMO_SKILL_HP_SCALING.buff(r.odeToEgoExtraBounces * memoSkillScalingIndividual, Source.odeTo(CYRENE))

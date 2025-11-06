@@ -18,6 +18,10 @@ Lightcones:
     Content:
       shieldBoost:
         text: Aumento scudo
+  ThisLoveForever:
+    Content:
+      vulnerability:
+        text: Vulnerabilità
 Characters:
   Archer:
     Content:

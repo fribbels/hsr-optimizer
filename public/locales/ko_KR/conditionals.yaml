@@ -476,6 +476,10 @@ Lightcones:
         text: 데미지 버프
         content: >-
           장착한 캐릭터가 단일 공격에서 누적으로 잃은 HP가 최대 HP의 25%를 초과하거나, 자신이 단일 소모한 HP가 최대 HP의 25%를 초과할 시, 즉시 장착한 캐릭터 HP 최대치의 15%만큼 HP를 회복하고, 동시에 장착한 캐릭터가 가하는 피해가 {{DmgBuff}}% 증가한다. 지속 시간: 2턴. 해당 효과는 3턴마다 최대 1회 발동한다
+  FlyIntoAPinkTomorrow:
+    Content:
+      dmgBoost:
+        text: 가하는 피해
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:
@@ -657,6 +661,12 @@ Lightcones:
         text: 방어력 증가 비례 데미지 증가 (미구현)
         content: >-
           장착한 캐릭터는 필살기 발동 시 가하는 피해량이 증가하고, 증가 수치는 자신 방어력의 {{Multiplier}}%만큼이다. 해당 효과는 필살기를 발동할 때마다 적 1기당 1회만 적용된다.
+  ThisLoveForever:
+    Content:
+      vulnerability:
+        text: 취약
+      cdBoost:
+        text: 치명타 피해 버프
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:

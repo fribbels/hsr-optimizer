@@ -483,6 +483,10 @@ Lightcones:
         text: '↑Урон'
         content: >-
           Когда потерянное за одну атаку НР владельца превышает 25% от его макс. НР или когда поглощённое им НР превышает 25% от его макс. НР, владелец немедленно восстанавливает 15% своего НР, в то время как наносимый им урон повышается на {{DmgBuff}}% на 2 хода. Этот эффект может сработать только 1 раз за 3 хода.
+  FlyIntoAPinkTomorrow:
+    Content:
+      dmgBoost:
+        text: '↑Урон'
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:
@@ -665,6 +669,12 @@ Lightcones:
         text: '↑Ульты от защиты владельца (в разработке)'
         content: >-
           Наносимый сверхспособностью владельца урон повышается на {{Multiplier}}% от его защиты. Этот эффект применяется только 1 раз к каждому противнику.
+  ThisLoveForever:
+    Content:
+      vulnerability:
+        text: Слабость
+      cdBoost:
+        text: '↑КУ после траты/регена ХП'
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:

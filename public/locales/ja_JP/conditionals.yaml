@@ -483,6 +483,10 @@ Lightcones:
         text: ダメバフ
         content: >-
           装備キャラが1回の攻撃で最大HP25%分を超えるHPを失う、または1回で最大HP25%分を超えるHPを消費した後、装備キャラの最大HP15%分のHPを回復し、与ダメージ+{{DmgBuff}}%、2ターン継続。この効果は3ターンごとに1回発動できる。
+  FlyIntoAPinkTomorrow:
+    Content:
+      dmgBoost:
+        text: 味方与ダメージバフ
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:
@@ -665,6 +669,12 @@ Lightcones:
         text: 防御力での必殺ダメバフ
         content: >-
           装備キャラの必殺技のダメージ基礎値が、装備キャラの防御力{{Multiplier}}%分アップする。この効果は必殺技を発動するたび、1体の敵に対して1回まで発動できる。
+  ThisLoveForever:
+    Content:
+      vulnerability:
+        text: 敵被ダメージ増加
+      cdBoost:
+        text: 会心ダメバフ
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:

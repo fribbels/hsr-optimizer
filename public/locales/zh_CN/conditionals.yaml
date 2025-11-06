@@ -483,6 +483,10 @@ Lightcones:
         text: 伤害增益
         content: >-
           当装备者在单次受到攻击中累计损失的生命值超过最大生命值的25%，或单次消耗自身生命值超过最大生命值的25%，则立即回复等同于装备者生命上限15%的生命值，同时使装备者造成的伤害提高{{DmgBuff}}%，持续2回合。该效果每3回合只能触发1次。
+  FlyIntoAPinkTomorrow:
+    Content:
+      dmgBoost:
+        text: 伤害提高
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:
@@ -665,6 +669,12 @@ Lightcones:
         text: 基于防御力的终结技伤害（未实施）
         content: >-
           使装备者施放终结技时造成的伤害值提高，提高数值等同于装备者防御力的{{Multiplier}}%，该效果每次施放终结技时对每个敌方目标仅生效1次。
+  ThisLoveForever:
+    Content:
+      vulnerability:
+        text: 易伤
+      cdBoost:
+        text: 生命变化时暴击伤害增益
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:
@@ -1194,6 +1204,9 @@ Characters:
       memoTalentDmgBuff:
         text: 忆灵天赋伤害增益
         content: '「长夜」在场时，长夜月和「长夜」造成的伤害提高{{MemoTalentDmgBuff}}。'
+      traceCritBuffs:
+        text: 行迹暴击率增益
+        content: 长夜月和忆灵「长夜」的暴击率提高35%，施放技能时，消耗自身当前生命值的5%使双方的暴击伤害提高15%，持续2回合。
       skillMemoCdBuff:
         text: 战技亿灵爆伤增益
         content: 消耗长夜月当前10%的生命值召唤忆灵「长夜」，并使我方全体忆灵的暴击伤害提高，提高数值等同于长夜月暴击伤害的{{SkillMemoCdBuff}}%，持续2回合。
@@ -1221,7 +1234,7 @@ Characters:
         content: 长夜月在场时，我方全体目标的全属性抗性穿透提高20%。忆灵「长夜」施放【迷梦，流失，如露】后，长夜月获得本次攻击消耗【忆质】数量的30%。
     TeammateContent:
       skillMemoCdBuff:
-        text: 战机忆灵爆伤增益
+        text: 战技忆灵爆伤
         content: 释放战技时，使我方全体忆灵的暴击伤害提高，提高数值等同于长夜月暴击伤害的{{SkillCdScaling}}%，持续2回合。
       evernightCombatCD:
         text: 长夜月战斗时爆伤

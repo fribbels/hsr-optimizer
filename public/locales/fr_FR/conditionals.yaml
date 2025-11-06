@@ -483,6 +483,10 @@ Lightcones:
         text: Bonus de DGT
         content: >-
           Lorsque le porteur perd un montant de PV supérieur à 25% de ses PV max en une attaque, ou qu'il consomme un montant de PV supérieur à 25% de ses PV max, soigne immédiatement un montant de PV équivalent à 15% de ses PV max en plus d'augmenter de {{DmgBuff}}% les DGT qu'il inflige pendant 2 tours. Cet effet ne peut être activé qu'une seule fois tous les 3 tours.
+  FlyIntoAPinkTomorrow:
+    Content:
+      dmgBoost:
+        text: Bonus de DGT
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:
@@ -665,6 +669,12 @@ Lightcones:
         text: DGT d'ULT basés sur DÉF (non mis en œuvre)
         content: >-
           Augmente les DGT du porteur de {{Multiplier}}% de sa DÉF lorsqu'il utilise son ultime. Cet effet ne s'applique qu'une fois par cible ennemie.
+  ThisLoveForever:
+    Content:
+      vulnerability:
+        text: Vulnérabilité
+      cdBoost:
+        text: Bonus de DC
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:

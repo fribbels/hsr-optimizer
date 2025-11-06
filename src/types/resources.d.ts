@@ -1741,7 +1741,7 @@ interface Resources {
           },
           "cyreneSpecialEffect": {
             "text": "Cyrene Special Effect",
-            "content": "Increases the number of Skill DMG instances by 3 for 1 turn. The next time Anaxa uses his Basic ATK or Skill, he gains \"True Knowledge\": Increases the ATK of all Erudition Path characters by 60%/66% and Skill DMG dealt by 40%/44% until the start of Anaxa's next turn."
+            "content": "Increases the number of Skill DMG instances by 3 for 1 turn. ::BR:: The next time Anaxa uses his Basic ATK or Skill, he gains \"True Knowledge\": Increases the ATK of all Erudition Path characters by 60%/66% and Skill DMG dealt by 40%/44% until the start of Anaxa's next turn."
           },
           "e1DefPen": {
             "text": "E1 DEF PEN",
@@ -2299,7 +2299,7 @@ interface Resources {
           },
           "cyreneSpecialEffect": {
             "text": "Cyrene Special Effect",
-            "content": "Increases DMG dealt when Evey uses the Memosprite Skill \"Dream, Dissolving, as Dew\" by 18%/19.8%. The CRIT DMG boost effect provided by the Skill is further increased by an amount equal to 12%/13.2% of Evernight's CRIT DMG."
+            "content": "Increases DMG dealt when Evey uses the Memosprite Skill \"Dream, Dissolving, as Dew\" by 18%/19.8%. ::BR:: The CRIT DMG boost effect provided by the Skill is further increased by an amount equal to 12%/13.2% of Evernight's CRIT DMG."
           },
           "e1FinalDmg": {
             "text": "E1 Final DMG",
@@ -2687,7 +2687,7 @@ interface Resources {
           },
           "cyreneSpecialEffect": {
             "text": "Cyrene Special Effect",
-            "content": "Increases DMG dealt by Hysilens by 120%/132%. After Hysilens uses Basic ATK to attack enemies, causes the DoT currently applied on the attacked enemy targets to immediately produce DMG equal to 60%/66% of the original DMG. After Hysilens uses Skill to attack enemies, causes the DoT currently applied on the attacked enemy targets to immediately produce DMG equal to 80%/88% of the original DMG."
+            "content": "Increases DMG dealt by Hysilens by 120%/132%. ::BR:: After Hysilens uses Basic ATK to attack enemies, causes the DoT currently applied on the attacked enemy targets to immediately produce DMG equal to 60%/66% of the original DMG. ::BR:: After Hysilens uses Skill to attack enemies, causes the DoT currently applied on the attacked enemy targets to immediately produce DMG equal to 80%/88% of the original DMG."
           },
           "e1Buffs": {
             "text": "E1 buffs",
@@ -3173,7 +3173,7 @@ interface Resources {
           },
           "cyreneSpecialEffect": {
             "text": "Cyrene Special Effect",
-            "content": "Phainon gains 6 \"Coreflames\" as well as \"Eternal Ignition\" when Transforming. When Transforming, if \"Coreflame\" exceeds 12, for each point in excess, Khaslana's CRIT DMG increases by 12%/13.2%, up to 72%/79.2%. While \"Eternal Ignition\" persists, increases Khaslana's CRIT Rate by 16%/17.6%. After the extra turns are depleted, the Transformation does not end, but refreshes all of Khaslana's extra turns and gains 4 points of \"Scourge.\" At the start of Khaslana's extra turns, Khaslana consumes an amount of HP equal to 15% of his current HP. After using an attack, deals 5 instances of Additional DMG, with each instance dealing Fire Additional DMG equal to 10%11% of Khaslana's ATK to one random enemy."
+            "content": "Phainon gains 6 \"Coreflames\" as well as \"Eternal Ignition\" when Transforming. ::RB:: When Transforming, if \"Coreflame\" exceeds 12, for each point in excess, Khaslana's CRIT DMG increases by 12%/13.2%, up to 72%/79.2%. While \"Eternal Ignition\" persists, increases Khaslana's CRIT Rate by 16%/17.6%. ::BR:: After using an attack, deals 5 instances of Additional DMG, with each instance dealing Fire Additional DMG equal to 10%/11% of Khaslana's ATK to one random enemy."
           },
           "e1Buffs": {
             "text": "E1 buffs",

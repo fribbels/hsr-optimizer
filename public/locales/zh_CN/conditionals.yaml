@@ -483,6 +483,10 @@ Lightcones:
         text: 伤害增益
         content: >-
           当装备者在单次受到攻击中累计损失的生命值超过最大生命值的25%，或单次消耗自身生命值超过最大生命值的25%，则立即回复等同于装备者生命上限15%的生命值，同时使装备者造成的伤害提高{{DmgBuff}}%，持续2回合。该效果每3回合只能触发1次。
+  FlyIntoAPinkTomorrow:
+    Content:
+      dmgBoost:
+        text: 伤害提高
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:
@@ -665,6 +669,12 @@ Lightcones:
         text: 基于防御力的终结技伤害（未实施）
         content: >-
           使装备者施放终结技时造成的伤害值提高，提高数值等同于装备者防御力的{{Multiplier}}%，该效果每次施放终结技时对每个敌方目标仅生效1次。
+  ThisLoveForever:
+    Content:
+      vulnerability:
+        text: 易伤
+      cdBoost:
+        text: 生命变化时暴击伤害增益
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:

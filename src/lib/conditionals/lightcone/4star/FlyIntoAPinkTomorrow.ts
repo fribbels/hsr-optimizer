@@ -7,7 +7,7 @@ import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import {
   CAELUS_REMEMBRANCE,
   STELLE_REMEMBRANCE,
-  TAKE_FLIGHT_TOWARD_A_PINK_TOMORROW,
+  FLY_INTO_A_PINK_TOMORROW,
 } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
@@ -20,7 +20,7 @@ import {
 
 export default (s: SuperImpositionLevel, withContent: boolean, { characterId }: { characterId: CharacterId }): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.FlyIntoAPinkTomorrow')
-  const { SOURCE_LC } = Source.lightCone(TAKE_FLIGHT_TOWARD_A_PINK_TOMORROW)
+  const { SOURCE_LC } = Source.lightCone(FLY_INTO_A_PINK_TOMORROW)
 
   const sValuesDmg = [0.08, 0.10, 0.12, 0.14, 0.16]
   const sValuesEnhancedBasicDmg = [0.60, 0.70, 0.80, 0.90, 1.00]

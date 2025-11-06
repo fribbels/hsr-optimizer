@@ -25,13 +25,15 @@ export default (s: SuperImpositionLevel, withContent: boolean, { characterId }: 
   const sValuesDmg = [0.08, 0.10, 0.12, 0.14, 0.16]
   const sValuesEnhancedBasicDmg = [0.60, 0.70, 0.80, 0.90, 1.00]
 
+  const isValidWearer = characterId == STELLE_REMEMBRANCE || characterId == CAELUS_REMEMBRANCE
+
   const defaults = {
-    dmgBoost: true,
+    dmgBoost: isValidWearer,
     enhancedBasicBoost: true,
   }
 
   const teammateDefaults = {
-    dmgBoost: true,
+    dmgBoost: isValidWearer,
   }
 
   const content: ContentDefinition<typeof defaults> = {

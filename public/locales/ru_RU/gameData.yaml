@@ -182,6 +182,9 @@ Characters:
   "1317":
     Name: Раппа
     LongName: Раппа
+  "1321":
+    Name: The Dahlia
+    LongName: The Dahlia
   "1401":
     Name: Великая Герта
     LongName: Великая Герта
@@ -222,8 +225,8 @@ Characters:
     Name: "Дань Хэн: Освободитель Пустошей"
     LongName: "Дань Хэн: Освободитель Пустошей"
   "1415":
-    Name: Cyrene
-    LongName: Cyrene
+    Name: Кирена
+    LongName: Кирена
   "8001":
     Name: Келус
     LongName: Келус (Разрушение)
@@ -440,11 +443,11 @@ RelicSets:
     Name: Хмельная бухта
     Description2pc: Сила атаки владельца повышается на 12%. Если сила атаки владельца выше или равна 2400/3600 ед., то наносимый периодический урон дополнительно повышается на 12%/24%.
   "323":
-    Name: Amphoreus, The Eternal Land
-    Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
+    Name: Вечная земля Амфореус
+    Description2pc: Повышает крит. шанс владельца на 8%. Пока дух памяти владельца находится на поле боя, скорость всех союзников повышается на 8%. Этот эффект не может складываться.
   "324":
-    Name: Tengoku@Livestream
-    Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
+    Name: Тенгоку @Стрим
+    Description2pc: Повышает крит. урон владельца на 16%. Если в течение одного хода расходуется 3 или более очков навыков, крит. урон владельца дополнительно повышается на 32% на 3 хода.
 Lightcones:
   "20000":
     Name: Стрелы
@@ -627,7 +630,7 @@ Lightcones:
   "22005":
     Name: Вечный ресторан лабиринта
   "22006":
-    Name: Fly Into a Pink Tomorrow
+    Name: Полёт к розовому завтра
   "23000":
     Name: Ночь на Млечном Пути
   "23001":
@@ -728,10 +731,12 @@ Lightcones:
     Name: Эпоха золотой крови
   "23049":
     Name: Звёздному свету во тьме
+  "23050":
+    Name: Never Forget Her Flame
   "23051":
     Name: Пусть простор бескраен
   "23052":
-    Name: This Love, Forever
+    Name: Как этот миг вечна любовь
   "24000":
     Name: О падении Эона
   "24001":

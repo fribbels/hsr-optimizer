@@ -182,6 +182,9 @@ Characters:
   "1317":
     Name: Rappa
     LongName: Rappa
+  "1321":
+    Name: The Dahlia
+    LongName: The Dahlia
   "1401":
     Name: The Herta
     LongName: The Herta
@@ -441,10 +444,10 @@ RelicSets:
     Description2pc: Meningkatkan 12% ATK pengguna. Saat ATK pengguna lebih dari atau sama dengan 2400/3600, akan meningkatkan ekstra 12%/24% DoT yang diakibatkan.
   "323":
     Name: Amphoreus, The Eternal Land
-    Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
+    Description2pc: Meningkatkan 8% CRIT Rate pengguna. Saat Memosprite pengguna berada di medan pertempuran, SPD seluruh rekan tim meningkat 8%. Efek ini tidak dapat ditumpuk.
   "324":
     Name: Tengoku@Livestream
-    Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
+    Description2pc: Meningkatkan 16% CRIT DMG pengguna. Jika mengonsumsi lebih dari atau sama dengan 3 Poin Skill dalam giliran yang sama, akan meningkatkan ekstra 32% CRIT DMG pengguna selama 3 giliran.
 Lightcones:
   "20000":
     Name: Arrows
@@ -728,6 +731,8 @@ Lightcones:
     Name: Epoch Etched in Golden Blood
   "23049":
     Name: To Evernight's Stars
+  "23050":
+    Name: Never Forget Her Flame
   "23051":
     Name: Though Worlds Apart
   "23052":

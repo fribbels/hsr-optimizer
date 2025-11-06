@@ -182,6 +182,9 @@ Characters:
   "1317":
     Name: Rappa
     LongName: Rappa
+  "1321":
+    Name: The Dahlia
+    LongName: The Dahlia
   "1401":
     Name: ท่าน Herta
     LongName: ท่าน Herta
@@ -441,10 +444,10 @@ RelicSets:
     Description2pc: ทำให้ ATK ของผู้สวมใส่เพิ่มขึ้น 12% เมื่อ ATK ของผู้สวมใส่ มากกว่าหรือเท่ากับ 2400/3600 จะทำให้ DMG ต่อเนื่องที่สร้างเพิ่มขึ้นอีก 12%/24%
   "323":
     Name: Amphoreus, The Eternal Land
-    Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
+    Description2pc: อัตราคริติคอลของผู้สวมใส่ เพิ่มขึ้น 8% เมื่อภูตความทรงจำ ของผู้สวมใส่อยู่ในสนาม ความเร็วของฝ่ายเราทั้งหมด จะเพิ่มขึ้น 8% และเอฟเฟกต์นี้ไม่สามารถซ้อนทับได้
   "324":
     Name: Tengoku@Livestream
-    Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
+    Description2pc: DMG คริติคอลของผู้สวมใส่ เพิ่มขึ้น 16% หากภายในหนึ่งเทิร์น ใช้แต้มสกิลต่อสู้มากกว่าหรือเท่ากับ 3 แต้ม จะทำให้ DMG คริติคอลของผู้สวมใส่ เพิ่มขึ้นอีก 32% เป็นเวลา 3 เทิร์น
 Lightcones:
   "20000":
     Name: Arrows
@@ -728,6 +731,8 @@ Lightcones:
     Name: Epoch Etched in Golden Blood
   "23049":
     Name: To Evernight's Stars
+  "23050":
+    Name: Never Forget Her Flame
   "23051":
     Name: Though Worlds Apart
   "23052":

@@ -13,7 +13,6 @@ import {
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -22,9 +21,9 @@ import {
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import { MYDEI } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
-import i18next from 'i18next'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -100,8 +99,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     cyreneSpecialEffect: {
       id: 'cyreneSpecialEffect',
       formItem: 'switch',
-      text: `Cyrene special effect`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('cyreneSpecialEffect.text'),
+      content: t('cyreneSpecialEffect.content'),
     },
     e1EnhancedSkillBuff: {
       id: 'e1EnhancedSkillBuff',
@@ -157,7 +156,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneSkillCdBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 2.20 : 2.00)
         : 0
-      x.SKILL_CD_BOOST.buff((r.skillEnhances > 0 && r.cyreneSpecialEffect) ? cyreneSkillCdBuff : 0, SOURCE_MEMO)
+      x.SKILL_CD_BOOST.buff((r.skillEnhances > 0 && r.cyreneSpecialEffect) ? cyreneSkillCdBuff : 0, Source.odeTo(MYDEI))
     },
     calculateBasicEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

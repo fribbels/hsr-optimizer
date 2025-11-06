@@ -7,7 +7,10 @@ import {
   Sets,
   setToId,
 } from 'lib/constants/constants'
-import { BUFF_TYPE } from 'lib/optimization/buffSource'
+import {
+  BUFF_ABILITY,
+  BUFF_TYPE,
+} from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
 import {
   ComputedStatsObject,
@@ -159,18 +162,23 @@ function BuffTable(props: { buffs: Buff[], size: BuffDisplaySize }) {
     const statLabel = translatedLabel(stat, buff.memo)
 
     let sourceLabel: string
-    switch (buff.source.buffType) {
+    const source = buff.source
+    switch (source.buffType) {
       case BUFF_TYPE.CHARACTER:
-        sourceLabel = tOptimizerTab(`Sources.${buff.source.ability}`)
+        if (source.ability === BUFF_ABILITY.CYRENE_ODE_TO) {
+          sourceLabel = tGameData('Characters.1415.Name')
+        } else {
+          sourceLabel = tOptimizerTab(`Sources.${source.ability}`)
+        }
         break
       case BUFF_TYPE.LIGHTCONE:
-        sourceLabel = tGameData(`Lightcones.${buff.source.id}.Name`)
+        sourceLabel = tGameData(`Lightcones.${source.id}.Name`)
         break
       case BUFF_TYPE.SETS:
-        sourceLabel = tGameData(`RelicSets.${setToId[Sets[buff.source.id]]}.Name`)
+        sourceLabel = tGameData(`RelicSets.${setToId[Sets[source.id]]}.Name`)
         break
       default:
-        sourceLabel = buff.source.label
+        sourceLabel = source.label
     }
     let value
     if (bool) {

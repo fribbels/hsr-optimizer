@@ -46,7 +46,7 @@ export default function FormCard(props: {
       style={{
         borderRadius: 5,
         backgroundColor: token.colorBgContainer,
-        height: props.height ?? 400,
+        height: props.height ?? 415,
         padding: props.style?.padding ?? defaultPadding,
         boxShadow: cardShadow,
         overflow: props.style?.overflow,

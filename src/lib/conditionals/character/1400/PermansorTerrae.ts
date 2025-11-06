@@ -23,6 +23,7 @@ import {
   standardAtkShieldFinalizer,
 } from 'lib/conditionals/conditionalFinalizers'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
+import { PERMANSOR_TERRAE } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
@@ -105,8 +106,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     cyreneSpecialEffect: {
       id: 'cyreneSpecialEffect',
       formItem: 'switch',
-      text: `Cyrene special effect`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('cyreneSpecialEffect.text'),
+      content: t('cyreneSpecialEffect.content'),
     },
     e1ResPen: {
       id: 'e1ResPen',
@@ -192,7 +193,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneDmgBoost = cyreneActionExists(originalCharacterAction!)
         ? cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.264 : 0.24
         : 0
-      x.ELEMENTAL_DMG.buffSingle((t.cyreneSpecialEffect) ? cyreneDmgBoost : 0, SOURCE_MEMO)
+      x.ELEMENTAL_DMG.buffSingle((t.cyreneSpecialEffect) ? cyreneDmgBoost : 0, Source.odeTo(PERMANSOR_TERRAE))
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

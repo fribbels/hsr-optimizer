@@ -18,7 +18,6 @@ import {
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   Stats,
 } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -28,11 +27,11 @@ import {
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import { CIPHER } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 
-import i18next from 'i18next'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
@@ -111,8 +110,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     cyreneSpecialEffect: {
       id: 'cyreneSpecialEffect',
       formItem: 'switch',
-      text: `Cyrene special effect`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('cyreneSpecialEffect.text'),
+      content: t('cyreneSpecialEffect.content'),
     },
     e1AtkBuff: {
       id: 'e1AtkBuff',
@@ -193,7 +192,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneDmgBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
         : 0
-      x.ELEMENTAL_DMG.buff((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, SOURCE_MEMO)
+      x.ELEMENTAL_DMG.buff((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, Source.odeTo(CIPHER))
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -205,7 +204,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneDefPen = cyreneActionExists(originalCharacterAction!)
         ? (cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.22 : 0.20)
         : 0
-      x.DEF_PEN.buffTeam((m.cyreneSpecialEffect) ? cyreneDefPen : 0, SOURCE_MEMO)
+      x.DEF_PEN.buffTeam((m.cyreneSpecialEffect) ? cyreneDefPen : 0, Source.odeTo(CIPHER))
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

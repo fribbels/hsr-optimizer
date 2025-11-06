@@ -182,6 +182,9 @@ Characters:
   "1317":
     Name: Rappa
     LongName: Rappa
+  "1321":
+    Name: The Dahlia
+    LongName: The Dahlia
   "1401":
     Name: Đại Herta
     LongName: Đại Herta
@@ -440,11 +443,11 @@ RelicSets:
     Name: Bờ Biển Men Say
     Description2pc: Khiến Tấn Công của người trang bị tăng 12%. Khi Tấn Công của người trang bị lớn hơn hoặc bằng 2400/3600, sẽ khiến Sát Thương Duy Trì gây ra tăng thêm 12%/24%.
   "323":
-    Name: Amphoreus, The Eternal Land
-    Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
+    Name: Vùng Đất Vĩnh Hằng Amphoreus
+    Description2pc: Khiến Tỷ Lệ Bạo Kích của người trang bị tăng 8%. Khi Linh Hồn Ký Ức của người trang bị trong trận, Tốc Độ của toàn bộ phe ta tăng 8%, hiệu ứng này không thể cộng dồn.
   "324":
     Name: Tengoku@Livestream
-    Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
+    Description2pc: Khiến Sát Thương Bạo Kích của người trang bị tăng 16%. Nếu trong cùng một hiệp tiêu hao từ 3 Điểm Chiến Kỹ trở lên, sẽ khiến Sát Thương Bạo Kích của người trang bị tăng thêm 32%, duy trì 3 hiệp.
 Lightcones:
   "20000":
     Name: Mũi Tên
@@ -627,7 +630,7 @@ Lightcones:
   "22005":
     Name: Món Ăn Vĩnh Hằng
   "22006":
-    Name: Fly Into a Pink Tomorrow
+    Name: Bay Đến Ngày Mai Màu Hồng
   "23000":
     Name: Chuyến Tàu Đêm Trên Dải Ngân Hà
   "23001":
@@ -728,10 +731,12 @@ Lightcones:
     Name: Thời Đại Máu Vàng Khắc Ghi
   "23049":
     Name: Gửi Ánh Sao Của Đêm Dài
+  "23050":
+    Name: Never Forget Her Flame
   "23051":
     Name: Dù Núi Sông Vạn Dặm
   "23052":
-    Name: This Love, Forever
+    Name: Nguyện Yêu Như Lúc Này, Mãi Mãi
   "24000":
     Name: Sự Sụp Đổ Của Aeon
   "24001":

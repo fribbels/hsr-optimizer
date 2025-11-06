@@ -106,7 +106,7 @@ export type BasicForm = {
 }
 
 export type CharacterMetadata = {
-  characterId: string,
+  characterId: CharacterId,
   characterEidolon: number,
   lightCone: string,
   lightConeSuperimposition: number,

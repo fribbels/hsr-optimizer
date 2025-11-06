@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
@@ -14,7 +13,6 @@ import {
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -126,8 +124,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     cyreneSpecialEffect: {
       id: 'cyreneSpecialEffect',
       formItem: 'switch',
-      text: `Cyrene special effect`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.cyreneSpecialEffect.text'),
+      content: t('TeammateContent.cyreneSpecialEffect.content'),
     },
     peerage: {
       id: 'peerage',
@@ -208,7 +206,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Cyrene
       if (cyreneActionExists(originalCharacterAction!)) {
         const cdBuff = cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.33 : 0.30
-        x.CD.buffSingle((t.cyreneSpecialEffect) ? cdBuff : 0, SOURCE_MEMO)
+        x.CD.buffSingle((t.cyreneSpecialEffect) ? cdBuff : 0, Source.odeTo(CERYDRA))
       }
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

@@ -147,8 +147,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     cyreneSpecialEffect: {
       id: 'cyreneSpecialEffect',
       formItem: 'switch',
-      text: `Cyrene special effect`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('cyreneSpecialEffect.text'),
+      content: t('cyreneSpecialEffect.content'),
     },
     e1Buffs: {
       id: 'e1Buffs',
@@ -252,7 +252,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneCrBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.176 : 0.16)
         : 0
-      x.CR.buff((r.cyreneSpecialEffect && r.transformedState) ? cyreneCrBuff : 0, SOURCE_MEMO)
+      x.CR.buff((r.cyreneSpecialEffect && r.transformedState) ? cyreneCrBuff : 0, Source.odeTo(PHAINON))
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

@@ -182,6 +182,9 @@ Characters:
   "1317":
     Name: Rappa
     LongName: Rappa
+  "1321":
+    Name: The Dahlia
+    LongName: The Dahlia
   "1401":
     Name: The Herta
     LongName: The Herta
@@ -444,7 +447,7 @@ RelicSets:
     Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
   "324":
     Name: Tengoku@Livestream
-    Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
+    Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32%, lasting for 3 turns.
 Lightcones:
   "20000":
     Name: Arrows
@@ -728,6 +731,8 @@ Lightcones:
     Name: Epoch Etched in Golden Blood
   "23049":
     Name: To Evernight's Stars
+  "23050":
+    Name: Never Forget Her Flame
   "23051":
     Name: Though Worlds Apart
   "23052":

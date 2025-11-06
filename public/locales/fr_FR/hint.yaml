@@ -12,6 +12,7 @@ CombatBuffs:
 ComboFilters:
   Title: Rotation COMBO
   p1: Définissez la rotation de capacités à mesurer pour les dégâts combo. Les rotations sont définies avec [ pour indiquer le début de tour et ] pour indiquer la fin du tour. Consultez le menu de rotation expert ainsi que le guide d'utilisation pour plus de détails.
+  p2: L'option "Préréglages" vous permet de désactiver les préprocesseurs si vous le souhaitez.
 StatFilters:
   Title: Filtres de stats
   p1: Filtres min (à gauche) / max (à droite) pour les stats du personnage, inclusifs. L'optimiseur ne montrera que les résultats satisfaisant ces filtres

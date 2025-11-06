@@ -43,6 +43,7 @@ export default (s: SuperImpositionLevel, withContent: boolean, { characterId }: 
       formItem: 'switch',
       text: t('Content.dmgBoost.text'),
       content: t('Content.dmgBoost.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmg[s]) }),
+      disabled: !isValidWearer,
     },
     enhancedBasicBoost: {
       lc: true,

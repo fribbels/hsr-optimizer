@@ -288,11 +288,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      const CyreneAdditionalCdScaling = cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.132 : 0.12
       x.m.CD.buff(t.skillMemoCdBuff ? skillCdScaling : 0, SOURCE_SKILL)
       x.m.UNCONVERTIBLE_CD_BUFF.buff(t.skillMemoCdBuff ? skillCdScaling : 0, SOURCE_SKILL)
-      x.m.CD.buff(t.skillMemoCdBuff && cyreneActionExists(originalCharacterAction!) ? CyreneAdditionalCdScaling : 0, Source.odeTo(EVERNIGHT))
-      x.m.UNCONVERTIBLE_CD_BUFF.buff(t.skillMemoCdBuff && cyreneActionExists(originalCharacterAction!) ? CyreneAdditionalCdScaling : 0, Source.odeTo(EVERNIGHT))
+
+      if (cyreneActionExists(originalCharacterAction!)) {
+        const cyreneAdditionalCdScaling = cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.132 : 0.12
+        x.m.CD.buff(t.skillMemoCdBuff ? cyreneAdditionalCdScaling : 0, Source.odeTo(EVERNIGHT))
+        x.m.UNCONVERTIBLE_CD_BUFF.buff(t.skillMemoCdBuff ? cyreneAdditionalCdScaling : 0, Source.odeTo(EVERNIGHT))
+      }
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {},
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',

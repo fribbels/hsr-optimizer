@@ -75,6 +75,10 @@ Lightcones:
     Content:
       postUltSpdBuff:
         text: 終結技後速度提高
+  EpochEtchedInGoldenBlood:
+    Content:
+      skillDmgBoost:
+        text: 戰技傷害提高
   EternalCalculus:
     Content:
       atkBuffStacks:
@@ -107,7 +111,6 @@ Lightcones:
         text: 敵人陷入負面效果時傷害提高
         content: 使裝備者對陷入負面效果的敵方目標造成的傷害提高{{DmgBuff}}%。
       skillAtkBoost:
-        text: 戰技攻擊力提升（未實施）
         content: 當裝備者施放戰技時，裝備者此攻擊的效果命中提高{{EhrBuff}}%，攻擊力提高{{AtkBuff}}%。
   InTheNight:
     Content:
@@ -225,6 +228,10 @@ Lightcones:
     Content:
       dmgBuff:
         text: 傷害增益
+  ToEvernightsStars:
+    Content:
+      dmgBoost:
+        text: 傷害提高
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -235,6 +242,10 @@ Lightcones:
     Content:
       routedVulnerability:
         text: 潰敗易傷
+  WhyDoesTheOceanSing:
+    Content:
+      spdBuff:
+        text: 速度增益
   WorrisomeBlissful:
     Content:
       targetTameStacks:
@@ -407,6 +418,10 @@ Lightcones:
     Content:
       cdBuffActive:
         text: '≥2個對應屬性弱點目標暴擊傷害增益'
+  TheForeverVictual:
+    Content:
+      atkStacks:
+        text: 攻擊力提升層數
   TheMolesWelcomeYou:
     Content:
       atkBuffStacks:
@@ -425,6 +440,10 @@ Lightcones:
         text: 基於防禦力的終結技傷害（未實施）
         content: >-
           使裝備者施放終結技時造成的傷害值提高，提高數值等同於裝備者防禦力的{{Multiplier}}%，此效果每次施放終結技時對每個敵方目標僅生效1次。
+  ThisLoveForever:
+    Content:
+      cdBoost:
+        text: 生命變化時暴擊傷害增益
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:
@@ -705,6 +724,15 @@ Characters:
         text: 速度增益
       e6Buffs:
         text: 6魂增益
+  Cerydra:
+    Content:
+      spdBuff:
+        text: 速度增益
+      e6Buffs:
+        text: 6魂增益
+    TeammateContent:
+      e1DefPen:
+        text: 1魂防禦穿透
   Cipher:
     Content:
       skillAtkBuff:
@@ -738,6 +766,12 @@ Characters:
         text: 歸納層數
       enemyDebuffStacks:
         text: 敵人負面效果層數
+  Evernight:
+    Content:
+      enhancedState:
+        text: 強化狀態
+      e4Buffs:
+        text: 4魂增益
   Feixiao:
     Content:
       weaknessBrokenUlt:
@@ -828,6 +862,12 @@ Characters:
     Content:
       e2EnemyHp50DmgBoost:
         content: 對目前生命值百分比小於等於50%的敵方目標造成的傷害提高15% 。
+  Hysilens:
+    Content:
+      ehrToDmg:
+        text: 效果命中轉至傷害提高
+      e6Buffs:
+        text: 6魂增益
   Jingliu:
     Content:
       talentEnhancedState:
@@ -840,6 +880,10 @@ Characters:
     Content:
       e2BeBuff:
         text: 2魂擊破特攻增益
+  PermansorTerrae:
+    TeammateContent:
+      e6Buffs:
+        text: 6魂增益
   Phainon:
     Content:
       atkBuffStacks:

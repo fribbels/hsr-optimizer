@@ -141,6 +141,7 @@ export function substatRollsModifier(
   rolls: number,
   stat: string,
   sim: Simulation,
+  customDiminishingReturnsFormula?: (mainsCount: number, rolls: number) => number,
 ) {
   const mainsCount = [
     sim.request.simBody,
@@ -149,7 +150,13 @@ export function substatRollsModifier(
     sim.request.simLinkRope,
   ].filter((x) => x == stat).length
 
-  return stat == Stats.SPD ? spdDiminishingReturnsFormula(mainsCount, rolls) : diminishingReturnsFormula(mainsCount, rolls)
+  return stat == Stats.SPD
+    ? spdDiminishingReturnsFormula(mainsCount, rolls)
+    : (
+      customDiminishingReturnsFormula
+        ? customDiminishingReturnsFormula(mainsCount, rolls)
+        : diminishingReturnsFormula(mainsCount, rolls)
+    )
 }
 
 export function diminishingReturnsFormula(mainsCount: number, rolls: number) {
@@ -240,23 +247,28 @@ export function simSorter(a: Simulation, b: Simulation) {
   return bResult.simScore - aResult.simScore
 }
 
-export function applyScoringFunction(result: RunStatSimulationsResult, metadata: SimulationMetadata, penalty = true) {
+export function applyScoringFunction(result: RunStatSimulationsResult, metadata: SimulationMetadata, penalty = true, user = false) {
   if (!result) return
 
   const unpenalizedSimScore = result.xa[Key.COMBO_DMG]
-  const penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, benchmarkScoringParams)
+  const penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, user)
   result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)
 }
 
 export function calculatePenaltyMultiplier(
   simulationResult: RunStatSimulationsResult,
   metadata: SimulationMetadata,
-  scoringParams: ScoringParams,
+  user = false,
 ) {
   let newPenaltyMultiplier = 1
   if (metadata.breakpoints) {
     for (const stat of Object.keys(metadata.breakpoints)) {
-      if (Utils.isFlat(stat)) {
+      if (stat == Stats.SPD && simulationResult.xa[StatToKey[stat]] < metadata.breakpoints[stat]) {
+        if (user) {
+          // Cyrene case
+          newPenaltyMultiplier *= 0.75
+        }
+      } else if (Utils.isFlat(stat)) {
         // Flats are penalized by their percentage
         newPenaltyMultiplier *= (Math.min(1, simulationResult.xa[StatToKey[stat]] / metadata.breakpoints[stat]) + 1) / 2
       } else {
@@ -265,7 +277,7 @@ export function calculatePenaltyMultiplier(
           1,
           1
             - (metadata.breakpoints[stat] - simulationResult.xa[StatToKey[stat]])
-              / StatCalculator.getMaxedSubstatValue(stat as SubStats, scoringParams.quality),
+              / StatCalculator.getMaxedSubstatValue(stat as SubStats, 1.0),
         )
       }
     }

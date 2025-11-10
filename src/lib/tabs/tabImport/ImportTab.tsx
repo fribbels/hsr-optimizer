@@ -10,10 +10,13 @@ import { SaveState } from 'lib/state/saveState'
 import { ClearDataSubmenu } from 'lib/tabs/tabImport/ClearDataSubmenu'
 import { LoadDataSubmenu } from 'lib/tabs/tabImport/LoadDataSubmenu'
 import { ScannerImportSubmenu } from 'lib/tabs/tabImport/ScannerImportSubmenu'
+import {
+  ScannerWebsocket,
+  useScannerState,
+} from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScannerWebsocket, useScannerState } from './ScannerWebsocketClient'
 
 const { Text } = Typography
 
@@ -106,7 +109,7 @@ export default function ImportTab() {
 
   return (
     <div>
-      {ingest && <ScannerWebsocket/>}
+      {ingest && <ScannerWebsocket />}
 
       <Flex vertical gap={5} style={{ marginLeft: 20, width: 1200 }}>
         <Tabs

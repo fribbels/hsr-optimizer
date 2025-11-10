@@ -1,6 +1,5 @@
 import {
   BASIC_DMG_TYPE,
-  DOT_DMG_TYPE,
   FUA_DMG_TYPE,
   SKILL_DMG_TYPE,
   ULT_DMG_TYPE,
@@ -229,6 +228,30 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     index: 21,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.ATK_P.buff(0.12, Source.RevelryByTheSea)
+    },
+  },
+  AmphoreusTheEternalLand: {
+    key: 'AmphoreusTheEternalLand',
+    index: 22,
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+      c.CR.buff(0.08, Source.AmphoreusTheEternalLand)
+    },
+    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+      if (x.a[Key.MEMOSPRITE] > 0 && setConditionals.enabledAmphoreusTheEternalLand) {
+        x.SPD_P.buffTeam(0.08, Source.AmphoreusTheEternalLand)
+      }
+    },
+  },
+  TengokuLivestream: {
+    key: 'TengokuLivestream',
+    index: 23,
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+      c.CD.buff(0.16, Source.TengokuLivestream)
+    },
+    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+      if (setConditionals.enabledTengokuLivestream) {
+        x.CD.buff(0.32, Source.TengokuLivestream)
+      }
     },
   },
 }
@@ -568,6 +591,32 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       // if (setConditionals.enabledWavestriderCaptain) {
       //   x.ATK_P.buff(0.48, Source.WavestriderCaptain)
       // }
+    },
+  },
+  WorldRemakingDeliverer: {
+    key: 'WorldRemakingDeliverer',
+    index: 26,
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+      c.CR.buff(0.08, Source.WorldRemakingDeliverer)
+    },
+    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+      if (setConditionals.enabledWorldRemakingDeliverer) {
+        x.HP_P.buffBaseDual(0.24, Source.WorldRemakingDeliverer)
+        x.ELEMENTAL_DMG.buffTeam(0.15, Source.WorldRemakingDeliverer)
+      }
+    },
+  },
+  SelfEnshroudedRecluse: {
+    key: 'SelfEnshroudedRecluse',
+    index: 27,
+    p2x: (x: ComputedStatsArray, context: OptimizerContext) => {
+      x.SHIELD_BOOST.buff(0.10, Source.SelfEnshroudedRecluse)
+    },
+    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
+      x.SHIELD_BOOST.buff(0.12, Source.SelfEnshroudedRecluse)
+      if (setConditionals.enabledSelfEnshroudedRecluse) {
+        x.CD.buff(0.15, Source.SelfEnshroudedRecluse)
+      }
     },
   },
 }

@@ -158,6 +158,8 @@ fn main(
     sets.PoetOfMourningCollapse              = i32((1 >> (setH ^ 23)) + (1 >> (setG ^ 23)) + (1 >> (setB ^ 23)) + (1 >> (setF ^ 23)));
     sets.WarriorGoddessOfSunAndThunder       = i32((1 >> (setH ^ 24)) + (1 >> (setG ^ 24)) + (1 >> (setB ^ 24)) + (1 >> (setF ^ 24)));
     sets.WavestriderCaptain                  = i32((1 >> (setH ^ 25)) + (1 >> (setG ^ 25)) + (1 >> (setB ^ 25)) + (1 >> (setF ^ 25)));
+    sets.WorldRemakingDeliverer              = i32((1 >> (setH ^ 26)) + (1 >> (setG ^ 26)) + (1 >> (setB ^ 26)) + (1 >> (setF ^ 26)));
+    sets.SelfEnshroudedRecluse               = i32((1 >> (setH ^ 27)) + (1 >> (setG ^ 27)) + (1 >> (setB ^ 27)) + (1 >> (setF ^ 27)));
 
 
     // Calculate ornament set counts
@@ -185,6 +187,8 @@ fn main(
       sets.GiantTreeOfRaptBrooding         = i32((1 >> (setP ^ 19)) + (1 >> (setL ^ 19)));
       sets.ArcadiaOfWovenDreams            = i32((1 >> (setP ^ 20)) + (1 >> (setL ^ 20)));
       sets.RevelryByTheSea                 = i32((1 >> (setP ^ 21)) + (1 >> (setL ^ 21)));
+      sets.AmphoreusTheEternalLand         = i32((1 >> (setP ^ 22)) + (1 >> (setL ^ 22)));
+      sets.TengokuLivestream               = i32((1 >> (setP ^ 23)) + (1 >> (setL ^ 23)));
     }
 
     var c: BasicStats = BasicStats();
@@ -276,13 +280,16 @@ fn main(
       0.04 * p4(sets.PioneerDiverOfDeadWaters) +
       0.04 * p2(sets.SigoniaTheUnclaimedDesolation) +
       0.06 * p4(sets.TheWindSoaringValorous) +
-      0.08 * p2(sets.ScholarLostInErudition)
+      0.08 * p2(sets.ScholarLostInErudition) +
+      0.08 * p2(sets.WorldRemakingDeliverer) +
+      0.08 * p2(sets.AmphoreusTheEternalLand)
     );
 
     c.CD += (
       0.16 * p2(sets.CelestialDifferentiator) +
       0.16 * p2(sets.TheWondrousBananAmusementPark) +
-      0.16 * p2(sets.WavestriderCaptain)
+      0.16 * p2(sets.WavestriderCaptain) +
+      0.16 * p2(sets.TengokuLivestream)
     );
 
     c.EHR += (
@@ -364,6 +371,10 @@ fn main(
       if (p4(sets.WarriorGoddessOfSunAndThunder) >= 1 && setConditionals.enabledWarriorGoddessOfSunAndThunder == true) {
         x.SPD_P += 0.06;
       }
+      if (p2(sets.AmphoreusTheEternalLand) >= 1 && setConditionals.enabledAmphoreusTheEternalLand == true && x.MEMOSPRITE >= 1) {
+        x.SPD_P += 0.08;
+        m.SPD_P += 0.08;
+      }
 
       // ATK
 
@@ -383,6 +394,11 @@ fn main(
       // DEF
 
       // HP
+
+      if (p4(sets.WorldRemakingDeliverer) >= 1 && setConditionals.enabledWorldRemakingDeliverer == true) {
+        x.HP_P += 0.24;
+        m.HP_P += 0.24;
+      }
 
       // CD
 
@@ -410,6 +426,9 @@ fn main(
       if (p4(sets.WarriorGoddessOfSunAndThunder) >= 1 && setConditionals.enabledWarriorGoddessOfSunAndThunder == true) {
         x.CD += 0.15;
         m.CD += 0.15;
+      }
+      if (p2(sets.TengokuLivestream) >= 1 && setConditionals.enabledTengokuLivestream == true) {
+        x.CD += 0.32;
       }
 
       // CR
@@ -493,6 +512,11 @@ fn main(
         x.ELEMENTAL_DMG += 0.12;
       }
 
+      if (p4(sets.WorldRemakingDeliverer) >= 1 && setConditionals.enabledWorldRemakingDeliverer == true) {
+        x.ELEMENTAL_DMG += 0.15;
+        m.ELEMENTAL_DMG += 0.15;
+      }
+
       if (p2(sets.FiresmithOfLavaForging) >= 1 && setConditionals.enabledFiresmithOfLavaForging == true) {
         x.FIRE_DMG_BOOST += 0.12;
       }
@@ -513,6 +537,19 @@ fn main(
         let buffValue = getArcadiaOfWovenDreamsValue(setConditionals.valueArcadiaOfWovenDreams);
         x.ELEMENTAL_DMG += buffValue;
         m.ELEMENTAL_DMG += buffValue;
+      }
+
+      if (p2(sets.SelfEnshroudedRecluse) >= 1) {
+        x.SHIELD_BOOST += 0.10;
+
+        if (p4(sets.SelfEnshroudedRecluse) >= 1) {
+          x.SHIELD_BOOST += 0.12;
+
+          if (setConditionals.enabledSelfEnshroudedRecluse == true) {
+            x.CD += 0.15;
+            m.CD += 0.15;
+          }
+        }
       }
 
       x.ATK += diffATK;
@@ -550,15 +587,15 @@ fn main(
 
       addElementalDmg(&mc, &m);
 
-      m.BASE_ATK = mc.ATK * x.MEMO_BASE_ATK_SCALING + x.MEMO_BASE_ATK_FLAT;
-      m.BASE_DEF = mc.DEF * x.MEMO_BASE_DEF_SCALING + x.MEMO_BASE_DEF_FLAT;
-      m.BASE_HP = mc.HP * x.MEMO_BASE_HP_SCALING + x.MEMO_BASE_HP_FLAT;
-      m.BASE_SPD = mc.SPD * x.MEMO_BASE_SPD_SCALING + x.MEMO_BASE_SPD_FLAT;
+      m.BASE_ATK = baseATK * x.MEMO_BASE_ATK_SCALING;
+      m.BASE_DEF = baseDEF * x.MEMO_BASE_DEF_SCALING;
+      m.BASE_HP = baseHP * x.MEMO_BASE_HP_SCALING;
+      m.BASE_SPD = baseSPD * x.MEMO_BASE_SPD_SCALING;
 
-      m.ATK += m.BASE_ATK + m.BASE_ATK * m.ATK_P;
-      m.DEF += m.BASE_DEF + m.BASE_DEF * m.DEF_P;
-      m.HP += m.BASE_HP + m.BASE_HP * m.HP_P;
-      m.SPD += m.BASE_SPD + m.BASE_SPD * m.SPD_P;
+      m.ATK += diffATK * x.MEMO_BASE_ATK_SCALING + x.MEMO_BASE_ATK_FLAT + m.BASE_ATK * m.ATK_P;
+      m.DEF += diffDEF * x.MEMO_BASE_DEF_SCALING + x.MEMO_BASE_DEF_FLAT + m.BASE_DEF * m.DEF_P;
+      m.HP += diffHP * x.MEMO_BASE_HP_SCALING + x.MEMO_BASE_HP_FLAT + m.BASE_HP * m.HP_P;
+      m.SPD += diffSPD * x.MEMO_BASE_SPD_SCALING + x.MEMO_BASE_SPD_FLAT + m.BASE_SPD * m.SPD_P;
       /* END COPY MEMOSPRITE BASIC STATS */
 
       // START BASIC CONDITIONALS
@@ -683,7 +720,7 @@ fn calculateDamage(
   let baseDmgBoost = 1 + x.ELEMENTAL_DMG;
   let baseDefPen = x.DEF_PEN + combatBuffsDEF_PEN;
   let baseUniversalMulti = 0.9 + x.ENEMY_WEAKNESS_BROKEN * 0.1;
-  let baseResistance = resistance - x.RES_PEN - combatBuffsRES_PEN - getElementalResPen(p_x);
+  let baseResistance = max(-1.00, resistance - x.RES_PEN - combatBuffsRES_PEN - getElementalResPen(p_x));
   let baseBreakEfficiencyBoost = 1 + x.BREAK_EFFICIENCY_BOOST;
 
   // === Super / Break ===

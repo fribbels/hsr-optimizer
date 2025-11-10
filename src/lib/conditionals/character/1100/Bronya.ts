@@ -169,7 +169,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.DEF_P.buffTeam((m.battleStartDefBuff) ? 0.20 : 0, SOURCE_TRACE)
-      x.SPD_P.buffSingle((m.e2SkillSpdBuff) ? 0.30 : 0, SOURCE_E2)
+      x.SPD_P.buffSingle((e >= 2 && m.e2SkillSpdBuff) ? 0.30 : 0, SOURCE_E2)
       x.ATK_P.buffTeam((m.techniqueBuff) ? 0.15 : 0, SOURCE_TECHNIQUE)
       x.ATK_P.buffTeam((m.ultBuff) ? ultAtkBoostValue : 0, SOURCE_ULT)
 

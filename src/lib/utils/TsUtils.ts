@@ -15,7 +15,6 @@ export const TsUtils = {
   },
 
   objectHash<T>(obj: T): string {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     return stringify(obj)!
   },
 
@@ -35,14 +34,14 @@ export const TsUtils = {
     grade: number,
     enhance: number,
   ): number => {
-    return Constants.MainStatsValues[mainStatType][grade].base
-      + Constants.MainStatsValues[mainStatType][grade].increment * enhance
+    return TsUtils.precisionRound(
+      Constants.MainStatsValues[mainStatType][grade].base + Constants.MainStatsValues[mainStatType][grade].increment * enhance,
+    )
   },
 
   wrappedFixedT: (withContent: boolean) => {
     return {
       get: withContent
-        // eslint-disable-next-line @typescript-eslint/unbound-method
         ? i18next.getFixedT
         : getEmptyT,
     }

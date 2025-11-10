@@ -4,9 +4,9 @@ import {
 } from 'ag-grid-community'
 import { TFunction } from 'i18next'
 import { Stats } from 'lib/constants/constants'
+import { ScoredRelic } from 'lib/relics/scoreRelics'
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
-import { Relic } from 'types/relic'
 
 export function generateValueColumnOptions(t: TFunction<'relicsTab', 'RelicGrid'>) {
   return [
@@ -76,7 +76,7 @@ export function generateValueColumnOptions(t: TFunction<'relicsTab', 'RelicGrid'
         // Custom Chars\nAvg Reroll | Custom characters: Average reroll potential
         {
           column: t('ValueColumns.CustomCharacters.RerollAvg.Header'),
-          value: 'weights.rerollAllCustom.rerollAvgPct',
+          value: 'weights.rerollAllCustom',
           label: t('ValueColumns.CustomCharacters.RerollAvg.Label'),
           percent: true,
         },
@@ -102,21 +102,8 @@ export function generateValueColumnOptions(t: TFunction<'relicsTab', 'RelicGrid'
         // All Chars\nAvg Reroll | All characters: Average reroll potential
         {
           column: t('ValueColumns.AllCharacters.RerollAvg.Header'),
-          value: 'weights.rerollAllAll.rerollAvgPct',
+          value: 'weights.rerollAllAll',
           label: t('ValueColumns.AllCharacters.RerollAvg.Label'),
-          percent: true,
-        },
-      ],
-    },
-    {
-      label: t('ValueColumns.ComingSoon.Label'), /* Coming soon */
-      options: [
-        /* 'Relic / Ornament sets potential' | 'All Chars\nMax Potential + Sets' */
-        {
-          column: t('ValueColumns.ComingSoon.SetsPotential.Header'),
-          disabled: true,
-          value: 'set',
-          label: t('ValueColumns.ComingSoon.SetsPotential.Label'),
           percent: true,
         },
       ],
@@ -128,7 +115,7 @@ type ValueColumnGroup = {
   label: string,
   options: {
     column: string,
-    value: ColDef<Relic>['field'],
+    value: ColDef<ScoredRelic>['field'],
     label: string,
     percent?: boolean,
     disabled?: boolean,
@@ -139,7 +126,7 @@ export function generateOptionalColDefs(t: TFunction<'relicsTab', 'RelicGrid'>) 
   return generateValueColumnOptions(t)
     .flatMap((x) =>
       (x.options as ValueColumnGroup['options']).map((x) => {
-        const colDef: ColDef<Relic> = {
+        const colDef: ColDef<ScoredRelic> = {
           field: x.value,
           headerName: x.column,
           cellStyle: Gradient.getRelicGradient,
@@ -151,7 +138,7 @@ export function generateOptionalColDefs(t: TFunction<'relicsTab', 'RelicGrid'>) 
     )
 }
 
-export function generateBaselineColDefs(t: TFunction<'relicsTab', 'RelicGrid'>): ColDef<Relic>[] {
+export function generateBaselineColDefs(t: TFunction<'relicsTab', 'RelicGrid'>): ColDef<ScoredRelic>[] {
   return [
     {
       field: 'equippedBy',
@@ -277,13 +264,13 @@ export function generateBaselineColDefs(t: TFunction<'relicsTab', 'RelicGrid'>):
   ]
 }
 
-function calculateCv(params: ValueGetterParams<Relic>) {
+function calculateCv(params: ValueGetterParams<ScoredRelic>) {
   const stats = params.data?.augmentedStats
   if (!stats) return 0
   return 2 * stats[Stats.CR] + stats[Stats.CD]
 }
 
-export const defaultRelicsGridColDefs: ColDef<Relic> = {
+export const defaultRelicsGridColDefs: ColDef<ScoredRelic> = {
   sortable: true,
   width: 46,
   headerClass: 'relicsTableHeader',

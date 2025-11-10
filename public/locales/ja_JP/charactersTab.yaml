@@ -63,7 +63,7 @@ CharacterPreview:
       BaseSpdLabel: 初期速度 - 基準ビルドの速度を最小にします
       CommonBreakpointsLabel: 一般的な速度のしきい値（速度バフを含まない）
     BuffPriority:
-      Header: DPS の型
+      Header: アタッカーの型
       High: メイン
       Low: サブ
   CustomizationSidebar:

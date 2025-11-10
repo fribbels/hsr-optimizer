@@ -1,6 +1,9 @@
 Scoring:
   StatWeightsHeader: Peso dos atributos
   MainstatsHeader: Subatributos otimizados
+  SetWeights:
+    AddRelicSetPlaceholder: Adicionar conjunto de relíquia
+    AddOrnamentSetPlaceholder: Adicionar conjunto de ornamento
   WeightMethodology:
     Header: Como o Pontuador de atributos funciona?
   Footer:
@@ -271,6 +274,7 @@ Relic:
   Substat: Subatributos
   SubstatPlaceholder: Subatributo
   SpdInputWarning: Nota - Subatributos de SPD dentro do jogo contém valores decimais ocultos que estarão imprecisos se inseridos manualmente. Para valores de SPD precisos, uso a aba de Apresentação ou o Importador de Relíquias
+  LiveImportWarning: Modo de importação em tempo real ativado, suas mudanças podem ser substituídas.
   Upgrades: Melhorias de subatributo
   Messages:
     SubmitFail: O envio falhou!
@@ -363,3 +367,7 @@ CharacterSelect:
 LightconeSelect:
   Placeholder: Cone de luz
   Title: Selecione um cone de luz
+RelicReroll:
+  Title: Redistribuição de Relíquia Detectada
+  OriginalSubstats: Substatus Originais
+  RerolledSubstats: Substatus Redistribuídos

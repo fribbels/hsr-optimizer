@@ -11,6 +11,8 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  cyreneActionExists,
+  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import {
   ConditionalActivation,
@@ -27,6 +29,7 @@ import {
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -73,6 +76,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     supremeStanceState: true,
     seamStitch: true,
     memoSpdStacks: memoSpdStacksMax,
+    cyreneSpecialEffect: true,
     e1Vulnerability: true,
     e2DefShredStacks: 3,
     e6Buffs: true,
@@ -114,6 +118,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: t('Content.memoSpdStacks.content', { SpdBuff: memoTalentSpd, StackLimit: memoSpdStacksMax }),
       min: 0,
       max: memoSpdStacksMax,
+    },
+    cyreneSpecialEffect: {
+      id: 'cyreneSpecialEffect',
+      formItem: 'switch',
+      text: t('Content.cyreneSpecialEffect.text'),
+      content: t('Content.cyreneSpecialEffect.content'),
     },
     e1Vulnerability: {
       id: 'e1Vulnerability',
@@ -186,6 +196,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_TOUGHNESS_DMG.buff((r.supremeStanceState) ? 20 : 10, SOURCE_BASIC)
       x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
+
+      // Cyrene
+      const cyreneDmgBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.792 : 0.72)
+        : 0
+      const cyreneDefPenBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
+        : 0
+      x.ELEMENTAL_DMG.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, Source.odeTo(AGLAEA))
+      x.DEF_PEN.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDefPenBuff : 0, Source.odeTo(AGLAEA))
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

@@ -182,6 +182,9 @@ Characters:
   "1317":
     Name: 亂破
     LongName: 亂破
+  "1321":
+    Name: 大丽花
+    LongName: 大丽花
   "1401":
     Name: 大黑塔
     LongName: 大黑塔
@@ -215,6 +218,15 @@ Characters:
   "1412":
     Name: 刻律德菈
     LongName: 刻律德菈
+  "1413":
+    Name: 長夜月
+    LongName: 長夜月
+  "1414":
+    Name: 丹恆•騰荒
+    LongName: 丹恆•騰荒
+  "1415":
+    Name: 昔漣
+    LongName: 昔漣
   "8001":
     Name: 穹
     LongName: 穹 (毀滅)
@@ -239,18 +251,18 @@ Characters:
   "8008":
     Name: 星
     LongName: 星 (記憶)
-  1006b1:
-    Name: 銀狼
-    LongName: 銀狼
-  1005b1:
-    Name: 卡芙卡
-    LongName: 卡芙卡
-  1205b1:
-    Name: 刃
-    LongName: 刃
   1212b1:
     Name: 鏡流
     LongName: 鏡流
+  1205b1:
+    Name: 刃
+    LongName: 刃
+  1005b1:
+    Name: 卡芙卡
+    LongName: 卡芙卡
+  1006b1:
+    Name: 銀狼
+    LongName: 銀狼
 RelicSets:
   "101":
     Name: 雲無留跡的過客
@@ -356,6 +368,14 @@ RelicSets:
     Name: 惡海逐波的船長
     Description2pc: 暴擊傷害提高16%。
     Description4pc: 裝備者成為其他我方目標的技能目標時，獲得1層【助力】，最多疊加2層。施放終結技時，若持有2層【助力】，消耗所有【助力】，使裝備者攻擊力提高48%，持續1回合。
+  "127":
+    Name: 再創天地的救世主
+    Description2pc: 暴擊率提高8%。
+    Description4pc: 裝備者發動普通攻擊或戰技後，若裝備者的憶靈在場，使裝備者及其憶靈生命上限提高24%，我方全體造成的傷害提高15%，持續至裝備者下次發動普通攻擊或戰技後。
+  "128":
+    Name: 自匿星芒的隱士
+    Description2pc: 提供的護盾量提高10%。
+    Description4pc: 使裝備者提供的護盾量提高12%，我方目標持有裝備者提供的護盾時，暴擊傷害提高15%。
   "301":
     Name: 太空封印站
     Description2pc: 使裝備者的攻擊力提高12%。當裝備者的速度大於等於120時，攻擊力額外提高12%。
@@ -422,6 +442,12 @@ RelicSets:
   "322":
     Name: 沉歡醉飲的海隅
     Description2pc: 使裝備者的攻擊力提高12%。當裝備者的攻擊力大於等於2400/3600時，使造成的持續傷害額外提高12%/24%。
+  "323":
+    Name: 永恆之地翁法羅斯
+    Description2pc: 使裝備者的暴擊率提高8%。裝備者的憶靈在場時，我方全體速度提高8%，該效果無法疊加。
+  "324":
+    Name: 天國@直播頻道
+    Description2pc: 使裝備者的暴擊傷害提高16%，若在同一回合內消耗至少3點戰技點，則額外使裝備者暴擊傷害提高32%，持續3回合。
 Lightcones:
   "20000":
     Name: 鋒鏑
@@ -602,7 +628,9 @@ Lightcones:
   "22004":
     Name: 宇宙大生意
   "22005":
-    Name: 永远的迷境饭
+    Name: 永遠的迷境飯
+  "22006":
+    Name: 飛向粉紅色的明天
   "23000":
     Name: 銀河鐵道之夜
   "23001":
@@ -698,9 +726,17 @@ Lightcones:
   "23046":
     Name: 理想燃燒的地獄
   "23047":
-    Name: 海洋为何而歌
+    Name: 海洋為何而歌
   "23048":
-    Name: 金血铭刻的时代
+    Name: 金血銘刻的時代
+  "23049":
+    Name: 致長夜的星光
+  "23050":
+    Name: 勿忘她的火焰
+  "23051":
+    Name: 縱然山河萬程
+  "23052":
+    Name: 愛如此刻永恆
   "24000":
     Name: 記一位星神的殞落
   "24001":

@@ -14,6 +14,8 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  cyreneActionExists,
+  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
@@ -22,8 +24,11 @@ import {
   Target,
 } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { TRIBBIE } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
+import i18next from 'i18next'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -63,6 +68,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     ultZone: true,
     alliesMaxHp: 25000,
     talentFuaStacks: 3,
+    cyreneSpecialEffect: true,
     e1TrueDmg: true,
     e2AdditionalDmg: true,
     e4DefPen: true,
@@ -108,6 +114,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       content: t('talentFuaStacks.content'),
       min: 0,
       max: 3,
+    },
+    cyreneSpecialEffect: {
+      id: 'cyreneSpecialEffect',
+      formItem: 'switch',
+      text: t('cyreneSpecialEffect.text'),
+      content: t('cyreneSpecialEffect.content'),
     },
     e1TrueDmg: {
       id: 'e1TrueDmg',
@@ -175,6 +187,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
       x.FUA_TOUGHNESS_DMG.buff(5, SOURCE_TALENT)
+
+      // Cyrene
+      if (cyreneActionExists(action) && r.cyreneSpecialEffect) {
+        const cyreneDefPenBuff = cyreneSpecialEffectEidolonUpgraded(action) ? 0.132 : 0.12
+        x.DEF_PEN.buff(cyreneDefPenBuff, Source.odeTo(TRIBBIE))
+
+        x.BASIC_ADDITIONAL_DMG_SCALING.buff(additionalScaling, Source.odeTo(TRIBBIE))
+        x.ULT_ADDITIONAL_DMG_SCALING.buff(additionalScaling, Source.odeTo(TRIBBIE))
+        x.FUA_ADDITIONAL_DMG_SCALING.buff(additionalScaling, Source.odeTo(TRIBBIE))
+      }
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

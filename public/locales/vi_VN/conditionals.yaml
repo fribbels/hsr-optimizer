@@ -90,6 +90,10 @@ Lightcones:
         text: Buff SPD sau khi sử dụng tuyệt kỹ
         content: >-
           Sau khi người trang bị tấn công, mỗi khi đánh trúng một kẻ địch khác nhau, sẽ hồi {{EnergyRecovered}} Năng Lượng, tối đa hồi năng lượng 3 lần bằng cách này. Sau khi người trang bị thi triển Tuyệt Kỹ, sẽ khiến toàn bộ phe ta tăng {{SpdBuff}} tốc độ, duy trì 1 hiệp.
+  EpochEtchedInGoldenBlood:
+    Content:
+      skillDmgBoost:
+        text: Tăng Sát Thương Chiến Kỹ
   EternalCalculus:
     Content:
       atkBuffStacks:
@@ -135,7 +139,6 @@ Lightcones:
         text: Kẻ địch đang trong Hiệu Ứng Xấu
         content: Khiến sát thương mà người trang bị gây cho kẻ địch đang trong Hiệu Ứng Xấu tăng {{DmgBuff}}%
       skillAtkBoost:
-        text: Tấn công tăng (chưa được tính)
         content: Khi người trang bị thi triển Chiến Kỹ, Chính Xác Hiệu Ứng của lần tấn công này của người trang bị sẽ tăng {{EhrBuff}}%, Tấn Công tăng {{AtkBuff}}%.
   InTheNight:
     Content:
@@ -304,6 +307,10 @@ Lightcones:
         text: Xuyên Phòng Thủ
       dmgBuff:
         text: Tăng Sát Thương
+  ToEvernightsStars:
+    Content:
+      dmgBoost:
+        text: Tăng Sát Thương
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -326,6 +333,10 @@ Lightcones:
         text: Điểm yếu được định tuyến
         content: >-
           Khi người trang bị gây Sát Thương Phá Vỡ cho kẻ địch, sẽ khiến kẻ địch rơi vào trạng thái Thảm Bại, duy trì 2 hiệp. Ở trạng thái Thảm Bại, Sát Thương Phá Vỡ mục tiêu phải chịu do người trang bị gây ra tăng {{Vulnerability}}%, Tốc Độ giảm 20%. Hiệu ứng cùng loại không thể cộng dồn.
+  WhyDoesTheOceanSing:
+    Content:
+      spdBuff:
+        text: Tăng Tốc Độ
   WorrisomeBlissful:
     Content:
       targetTameStacks:
@@ -537,6 +548,10 @@ Lightcones:
       cdBuffActive:
         text: '≥ 2 kẻ địch có điểm yếu thuộc tính tương ứng tăng STBK'
         content: Sau khi người trang bị tấn công, nếu có từ 2 kẻ địch bị tấn công trở lên mang Điểm Yếu thuộc tính tương ứng, thì Sát Thương Bạo Kích của người trang bị tăng {{CritBuff}}%, duy trì 2 hiệp.
+  TheForeverVictual:
+    Content:
+      atkStacks:
+        text: Các cộng dồn buff ATK
   TheMolesWelcomeYou:
     Content:
       atkBuffStacks:
@@ -556,6 +571,12 @@ Lightcones:
         text: Tuyệt Kỹ tăng sát thương theo phòng thủ
         content: >-
           Tăng sát thương gây ra khi người trang bị thi triển Tuyệt Kỹ, mức tăng tương đương {{Multiplier}}% Phòng Thủ của người trang bị. Mỗi lần dùng Tuyệt Kỹ, hiệu ứng này chỉ có hiệu lực 1 lần cho mỗi kẻ địch.
+  ThisLoveForever:
+    Content:
+      vulnerability:
+        text: Yếu điểm
+      cdBoost:
+        text: Tăng Sát Thương Bạo Kích
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:
@@ -919,6 +940,17 @@ Characters:
         text: Tăng Sát Thương Đội
       e6Buffs:
         text: E6 Tăng Gì Đó
+  Cerydra:
+    Content:
+      spdBuff:
+        text: Tăng Tốc Độ
+      e2DmgBoost:
+        text: E2 Tăng Sát Thương
+      e6Buffs:
+        text: E6 Tăng Gì Đó
+    TeammateContent:
+      e1DefPen:
+        text: E1 Xuyên Phòng Thủ
   Cipher:
     Content:
       skillAtkBuff:
@@ -962,6 +994,12 @@ Characters:
         text: Số Hiệu Ứng Xấu Địch Có
         content: >-
           Khi thi triển Chiến Kỹ, có 40% xác suất cố định phát động 1 lần Đòn Đánh Theo Sau lên mục tiêu này, gây Sát Thương Số Ảo bằng {{FuaScaling}}% Tấn Công của Dr. Ratio. Mỗi khi mục tiêu có 1 Hiệu Ứng Xấu sẽ tăng 20% xác suất cố định phát động Đòn Đánh Theo Sau. Nếu mục tiêu bị tiêu diệt trước khi phát động Đòn Đánh Theo Sau thì sẽ phát động Đòn Đánh Theo Sau lên 1 kẻ địch ngẫu nhiên.::BR::Khi gây sát thương, nếu mục tiêu có từ 3 Hiệu Ứng Xấu trở lên, thì mỗi một Hiệu Ứng Xấu của mục tiêu sẽ tăng 10% sát thương Dr. Ratio gây ra cho mục tiêu đó, tối đa tăng 50%.::BR::E2: Khi Đòn Đánh Theo Sau của Thiên Phú đánh trúng mục tiêu, mỗi lần mục tiêu có 1 Hiệu Ứng Xấu, sẽ gây thêm Sát Thương Số Ảo kèm theo bằng 20% Tấn Công của Dr. Ratio. Hiệu ứng này trong mỗi Đòn Đánh Theo Sau tối đa kích hoạt 4 lần.
+  Evernight:
+    Content:
+      enhancedState:
+        text: Trạng Thái Cường Hóa
+      e4Buffs:
+        text: E4 Tăng Gì Đó
   Feixiao:
     Content:
       weaknessBrokenUlt:
@@ -1184,6 +1222,12 @@ Characters:
       e6DmgBuff:
         text: E6 Tăng Sát Thương
         content: Khi cung cấp trị liệu cho mục tiêu phe ta, khiến Sát Thương do mục tiêu gây ra tăng 50%, duy trì 2 hiệp.
+  Hysilens:
+    Content:
+      ehrToDmg:
+        text: Chính Xác Hiệu Ứng sang Sát Thương Tăng
+      e6Buffs:
+        text: E6 Tăng Gì Đó
   ImbibitorLunae:
     Content:
       basicEnhanced:
@@ -1435,6 +1479,10 @@ Characters:
       e4SkillResShred:
         text: E4 Chiến Kỹ giảm kháng Băng
         content: Khi thi triển Chiến Kỹ, có 100% xác suất cơ bản khiến Kháng Băng của mục tiêu địch giảm 12%, duy trì 2 hiệp.
+  PermansorTerrae:
+    TeammateContent:
+      e6Buffs:
+        text: E6 Tăng Gì Đó
   Phainon:
     Content:
       atkBuffStacks:
@@ -1509,8 +1557,6 @@ Characters:
     TeammateContent:
       teammateATKValue:
         text: Tấn Công của Robin Trong Combat
-        content: >-
-          Khi trong trạng thái Hợp Tấu, tấn công của toàn thể phe ta tăng, giá trị tăng bằng {{ultAtkBuffScalingValue}}% Tấn Công của Robin +{{ultAtkBuffFlatValue}}. ::BR:: Đặt số này theo chỉ số Tấn Công của Robin
       traceFuaCdBoost:
         text: Tăng Sát Thương BK Đòn Sau
         content: Trong trạng thái Hợp Tấu, Sát Thương Bạo Kích của toàn thể phe ta gây ra khi phát động Đòn Đánh Theo Sau tăng 25%.

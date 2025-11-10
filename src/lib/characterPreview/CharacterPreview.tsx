@@ -48,6 +48,7 @@ import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
 import {
+  Parts,
   ShowcaseColorMode,
   Stats,
 } from 'lib/constants/constants'
@@ -64,6 +65,7 @@ import { Assets } from 'lib/rendering/assets'
 import { getShowcaseSimScoringExecution } from 'lib/scoring/dpsScore'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
+import { CYRENE } from 'lib/simulations/tests/testMetadataConstants'
 import DB, { AppPages } from 'lib/state/db'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import {
@@ -74,7 +76,6 @@ import {
   showcaseSegmentedColor,
   showcaseTransition,
 } from 'lib/utils/colorUtils'
-import Vibrant from 'node-vibrant'
 import {
   useRef,
   useState,
@@ -104,9 +105,11 @@ export function CharacterPreview(props: {
 
   const { token } = useToken()
   const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
+  const [selectedPart, setSelectedPart] = useState<Parts | null>(null)
   const [relicModalOpen, setRelicModalOpen] = useState(false)
   const setEditModalOpen = (open: boolean) => setRelicModalOpen(open)
-  const setAddModalOpen = (open: boolean) => {
+  const setAddModalOpen = (open: boolean, part: Parts) => {
+    setSelectedPart(part)
     setSelectedRelic(null)
     setRelicModalOpen(open)
   }
@@ -244,10 +247,23 @@ export function CharacterPreview(props: {
   const artistName = getArtistName(character)
   const finalStats = getShowcaseStats(character, displayRelics, showcaseMetadata)
 
+  const yOffset = (
+    {
+      [CYRENE]: 0,
+    } as Record<string, number>
+  )[character.id] ?? 0
+
+  const zoom = (
+    {
+      [CYRENE]: 200,
+    } as Record<string, number>
+  )[character.id] ?? 150
+
   return (
     <Flex vertical style={{ width: 1068, minHeight: source == ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>
       <RelicModal
         selectedRelic={selectedRelic}
+        selectedPart={selectedPart}
         onOk={onRelicModalOk}
         setOpen={setRelicModalOpen}
         open={relicModalOpen}
@@ -291,9 +307,9 @@ export function CharacterPreview(props: {
               backgroundImage: `url(${portraitUrl})`,
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
-              backgroundSize: '150%',
+              backgroundSize: `${zoom}%`,
               position: 'absolute',
-              top: 0,
+              top: -yOffset,
               left: 0,
               right: 0,
               bottom: 0,
@@ -429,7 +445,10 @@ export function CharacterPreview(props: {
         </Flex>
       </ConfigProvider>
 
-      <CharacterAnnouncement characterId={showcaseMetadata.characterId} />
+      <CharacterAnnouncement
+        characterId={showcaseMetadata.characterId}
+        asyncSimScoringExecution={asyncSimScoringExecution}
+      />
 
       {/* Showcase analysis footer */}
       {source != ShowcaseSource.BUILDS_MODAL && (

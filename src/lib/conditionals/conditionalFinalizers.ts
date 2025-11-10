@@ -143,3 +143,13 @@ export function gpuStandardDefShieldFinalizer() {
 x.SHIELD_VALUE += x.SHIELD_SCALING * x.DEF + x.SHIELD_FLAT;
 `
 }
+
+export function standardAtkShieldFinalizer(x: ComputedStatsArray) {
+  x.SHIELD_VALUE.buff(x.a[Key.SHIELD_SCALING] * x.a[Key.ATK] + x.a[Key.SHIELD_FLAT], Source.NONE)
+}
+
+export function gpuStandardAtkShieldFinalizer() {
+  return `
+x.SHIELD_VALUE += x.SHIELD_SCALING * x.ATK + x.SHIELD_FLAT;
+`
+}

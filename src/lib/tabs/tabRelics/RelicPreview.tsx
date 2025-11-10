@@ -9,6 +9,7 @@ import {
   showcaseShadowInsetAddition,
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
+import { Parts } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
@@ -26,7 +27,6 @@ import {
   Languages,
   localeNumberComma_0,
 } from 'lib/utils/i18nUtils'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
@@ -43,7 +43,7 @@ export function RelicPreview(props: {
   score?: RelicScoringResult,
   scoringType?: ScoringType,
   setEditModalOpen?: (open: boolean) => void,
-  setAddModalOpen?: (open: boolean) => void,
+  setAddModalOpen?: (open: boolean, part: Parts) => void,
   setSelectedRelic?: (relic: Relic) => void,
   showcaseTheme?: ShowcaseTheme,
   unhoverable?: boolean,
@@ -84,8 +84,9 @@ export function RelicPreview(props: {
       relic.equippedBy = characterId
       relic.enhance = 15
       relic.grade = 5
+      relic.part = props.relic?.part ?? Parts.Head
       setSelectedRelic?.(relic)
-      setAddModalOpen?.(true)
+      setAddModalOpen?.(true, relic.part)
     } else {
       setSelectedRelic?.(relic)
       setEditModalOpen?.(true)

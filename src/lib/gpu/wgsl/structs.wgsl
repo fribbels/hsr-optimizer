@@ -76,6 +76,8 @@ struct Sets {
   PoetOfMourningCollapse: i32,
   WarriorGoddessOfSunAndThunder: i32,
   WavestriderCaptain: i32,
+  WorldRemakingDeliverer: i32,
+  SelfEnshroudedRecluse: i32,
   SpaceSealingStation: i32,
   FleetOfTheAgeless: i32,
   PanCosmicCommercialEnterprise: i32,
@@ -98,6 +100,8 @@ struct Sets {
   GiantTreeOfRaptBrooding: i32,
   ArcadiaOfWovenDreams: i32,
   RevelryByTheSea: i32,
+  AmphoreusTheEternalLand: i32,
+  TengokuLivestream: i32,
 }
 
 struct SetConditionals {
@@ -117,6 +121,10 @@ struct SetConditionals {
   enabledHeroOfTriumphantSong: bool,
   enabledWarriorGoddessOfSunAndThunder: bool,
   enabledWavestriderCaptain: bool,
+  enabledWorldRemakingDeliverer: bool,
+  enabledSelfEnshroudedRecluse: bool,
+  enabledAmphoreusTheEternalLand: bool,
+  enabledTengokuLivestream: bool,
   valueChampionOfStreetwiseBoxing: i32,
   valueWastelanderOfBanditryDesert: i32,
   valueLongevousDisciple: i32,

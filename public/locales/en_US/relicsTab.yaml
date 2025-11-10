@@ -10,7 +10,6 @@ RelicFilterBar:
   Set: Set
   Mainstat: Main stats
   Substat: Substats
-  ReapplyButton: Reapply scores
   ScoringButton: Scoring algorithm
   RecommendationHeader: Relic recommendation character
   Rating: Relic ratings
@@ -133,13 +132,6 @@ RelicGrid:
         Header: |-
           All Chars
           Avg Reroll
-    ComingSoon:
-      Label: Coming soon
-      SetsPotential:
-        Label: Relic / Ornament sets potential
-        Header: |-
-          All Chars
-          Max Potential + Sets
 Toolbar:
   RelicLocator:
     Width: Inventory width

@@ -80,6 +80,10 @@ OptimizerOptions:
     Label9: '+9'
     Label12: '+12'
     Label15: '+15'
+  DPSMode:
+    Header: Chế độ DPS
+    Main: Chính
+    Sub: Phụ
 AdvancedOptions:
   Header: Tùy chọn nâng cao
   EnemyConfigButtonText: Tùy chọn quái địch

@@ -5,9 +5,13 @@ import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { HsrOptimizerSaveFormat } from 'types/store'
+import { Relic } from "types/relic";
 
 let saveTimeout: NodeJS.Timeout | null
+
+const STATE_KEY = 'state'
 
 export const SaveState = {
   save: () => {
@@ -17,12 +21,11 @@ export const SaveState = {
     const globalSession = globalState.savedSession
     const relicLocatorSession = useRelicLocatorStore.getState()
 
-    // @ts-ignore TODO remove once migration complete | added on 02/05/2025 (dd/mm/yyyy)
-    delete globalSession.relicScorerSidebarOpen
     const warpCalculatorTabState = useWarpCalculatorStore.getState()
     const scannerState = useScannerState.getState()
+
     const state: HsrOptimizerSaveFormat = {
-      relics: DB.getRelics(),
+      relics: DB.getRelics().map(({ augmentedStats, ...rest }) => rest) as Relic[],
       characters: DB.getCharacters(),
       scoringMetadataOverrides: globalState.scoringMetadataOverrides,
       showcasePreferences: globalState.showcasePreferences,
@@ -48,7 +51,7 @@ export const SaveState = {
     }
 
     const stateString = JSON.stringify(state)
-    localStorage.state = stateString
+    localStorage.setItem(STATE_KEY, stateString)
     saveTimeout = null
 
     return stateString
@@ -66,7 +69,7 @@ export const SaveState = {
 
   load: (autosave = true, sanitize = true) => {
     try {
-      const state = localStorage.state as string
+      const state = localStorage.getItem(STATE_KEY)
       if (state) {
         const parsed = JSON.parse(state) as HsrOptimizerSaveFormat
         console.log('Loaded SaveState')

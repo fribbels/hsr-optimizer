@@ -182,6 +182,9 @@ Characters:
   "1317":
     Name: Rappa
     LongName: Rappa
+  "1321":
+    Name: The Dahlia
+    LongName: The Dahlia
   "1401":
     Name: A Herta
     LongName: A Herta
@@ -215,6 +218,15 @@ Characters:
   "1412":
     Name: Cerydra
     LongName: Cerydra
+  "1413":
+    Name: Noite Eterna
+    LongName: Noite Eterna
+  "1414":
+    Name: Permansor Terrae
+    LongName: Dan Heng - Permansor Terrae
+  "1415":
+    Name: Cyrene
+    LongName: Cyrene
   "8001":
     Name: Caelus
     LongName: Caelus (A Destruição)
@@ -239,18 +251,18 @@ Characters:
   "8008":
     Name: Stelle
     LongName: Stelle (A Recordação)
-  1006b1:
-    Name: Loba Prateada
-    LongName: Loba Prateada
-  1005b1:
-    Name: Kafka
-    LongName: Kafka
-  1205b1:
-    Name: Blade
-    LongName: Blade
   1212b1:
     Name: Jingliu
     LongName: Jingliu
+  1205b1:
+    Name: Blade
+    LongName: Blade
+  1005b1:
+    Name: Kafka
+    LongName: Kafka
+  1006b1:
+    Name: Loba Prateada
+    LongName: Loba Prateada
 RelicSets:
   "101":
     Name: Transeunte da Nuvem Errante
@@ -356,6 +368,14 @@ RelicSets:
     Name: Capitão Navegante de Ondas
     Description2pc: Aumenta o Dano CRIT em 16%.
     Description4pc: Quando o usuário se torna o alvo da habilidade de outro aliado-alvo, ganha 1 acúmulo de "Ajuda", acumulando até 2 vezes. Se tiver 2 acúmulos de "Ajuda" quando o usuário usar sua Perícia Suprema, consome toda a "Ajuda" para aumentar o ATQ do usuário em 48% por 1 rodada.
+  "127":
+    Name: Portador da Reconstrução do Mundo
+    Description2pc: Aumenta a Chance de CRIT em 8%.
+    Description4pc: Depois que o usuário usar o ATQ Básico ou a Perícia, se o Memoespírito do usuário estiver em campo, aumenta os PV máximos do usuário e de seu Memoespírito em 24% e aumenta o Dano causado por todos os aliados em 15%, durando até o próximo uso de ATQ Básico ou Perícia do usuário.
+  "128":
+    Name: Ermitão Envolto em Si Mesmo
+    Description2pc: O Efeito de <u>Escudo</u> concedido é aumentado em 10%.
+    Description4pc: Aumenta o Efeito de <u>Escudo</u> fornecido pelo usuário em 12%. Quando um aliado-alvo tem um Efeito de <u>Escudo</u> fornecido pelo usuário, o Dano CRIT do aliado-alvo aumenta em 15%.
   "301":
     Name: Estação de Vedação Espacial
     Description2pc: Aumenta em 12% o ATQ do usuário. Quando a VEL do usuário chegar a 120 ou mais, aumenta em um extra de 12% o ATQ do usuário.
@@ -422,6 +442,12 @@ RelicSets:
   "322":
     Name: Folia à Beira-Mar
     Description2pc: Aumenta o ATQ do usuário em 12%. Quando o ATQ do usuário for maior ou igual a 2400/3600, aumenta o <u>Dano Contínuo</u> causado em 12%/24%.
+  "323":
+    Name: Amphoreus, a Terra Eterna
+    Description2pc: Aumenta a Chance de CRIT do usuário em 8%. Enquanto o Memoespírito do usuário estiver em campo, aumenta a VEL de todos os aliados em 8%. Este efeito não pode ser acumulado.
+  "324":
+    Name: Tengoku@Stream
+    Description2pc: Aumenta o Dano CRIT do usuário em 16%. Se 3 ou mais Pontos de Perícia forem consumidos na mesma rodada, aumenta adicionalmente o Dano CRIT do usuário em 32%, durando por 3 rodadas.
 Lightcones:
   "20000":
     Name: Flechas
@@ -602,7 +628,9 @@ Lightcones:
   "22004":
     Name: O Grande Empreendimento Cósmico
   "22005":
-    Name: Maze Restaurant Forever
+    Name: O Víveres Eterno
+  "22006":
+    Name: Rumo ao Amanhã Cor-de-Rosa
   "23000":
     Name: Noite na Via Láctea
   "23001":
@@ -698,9 +726,17 @@ Lightcones:
   "23046":
     Name: O Inferno Onde os Ideais Ardem
   "23047":
-    Name: Why Does the Ocean Sing
+    Name: Por que o Oceano Canta?
   "23048":
-    Name: Era Engraved by Golden Blood
+    Name: Era Gravada pelo Sangue Dourado
+  "23049":
+    Name: Ao Brilho Estelar da Noite Eterna
+  "23050":
+    Name: Never Forget Her Flame
+  "23051":
+    Name: Ainda que o Caminho Seja Longo
+  "23052":
+    Name: Instante de Eterno Amor
   "24000":
     Name: Na Queda de Um Aeon
   "24001":

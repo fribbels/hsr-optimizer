@@ -46,6 +46,7 @@ export type OptimizerAction = {
   },
 
   actorId: string,
+  actorEidolon: number,
   actionType: AbilityKind,
   actionIndex: number,
 
@@ -60,6 +61,7 @@ export type OptimizerAction = {
 
 export type TeammateAction = {
   actorId: string,
+  actorEidolon: number,
   characterConditionals: ConditionalValueMap,
   lightConeConditionals: ConditionalValueMap,
 }
@@ -81,6 +83,10 @@ export type SetConditional = {
   enabledHeroOfTriumphantSong: boolean,
   enabledWarriorGoddessOfSunAndThunder: boolean,
   enabledWavestriderCaptain: boolean,
+  enabledWorldRemakingDeliverer: boolean,
+  enabledSelfEnshroudedRecluse: boolean,
+  enabledAmphoreusTheEternalLand: boolean,
+  enabledTengokuLivestream: boolean,
   valueChampionOfStreetwiseBoxing: number,
   valueWastelanderOfBanditryDesert: number,
   valueLongevousDisciple: number,
@@ -113,7 +119,7 @@ export type BasicForm = {
 }
 
 export type CharacterMetadata = {
-  characterId: string,
+  characterId: CharacterId,
   characterEidolon: number,
   lightCone: string,
   lightConeSuperimposition: number,

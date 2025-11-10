@@ -1,10 +1,39 @@
+Title: Генератор Тестовых Сборок
+LeftPanel:
+  Header: Сборка для теста
 MiddlePanel:
   CharacterHeader: Персонаж
   LCHeader: Световой конус
+  TeammatesHeader: Союзники
 RightPanel:
   Settings:
     Header: Настройки
+    SPD: Скорость перса вне боя
+    ERR: Верёвка на реген
+    SubDPS: Саб-ДПС
+  SetsHeader: Наборы для теста
+  ButtonText:
+    Generate: Сгенерировать сборки
+    Clear: Очистить
 ResultsGrid:
   Combo: Урон Комбо
+  Delta: Дельта
+  Sets: Наборы 
+ResultsTabs:
+  WithSpeed:
+    100: 100% Тестовые сборки ({{Speed}} СКР)
+    200: 200% Тестовые сборки ({{Speed}} СКР)
+  WithoutSpeed:
+    100: 100% Тестовые сборки
+    200: 200% Тестовые сборки
 ResultsPanel:
-  CombatStats: Статы персонажа в бою
+  BasicStats: Базовые Статы (вне боя)
+  CombatStats: Статы Персонажа в бою
+  Rolls: Проки Статов
+  Combo: Ротация
+  Damage: Урон способностей
+Messages:
+  Error:
+    MissingField: Отсутствует персонаж/световой конус/союзник
+    UnsupportedCharacter: Нельзя сгенерировать сборку для этого персонажа
+    SPDUnselected: Выберите базовую скорость (вне боя) основного персонажа для теста

@@ -1,13 +1,10 @@
-import i18next from 'i18next'
-import {
-  AbilityType,
-  FUA_DMG_TYPE,
-  SKILL_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  cyreneActionExists,
+  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import {
   dynamicStatConversion,
@@ -16,7 +13,6 @@ import {
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -25,10 +21,7 @@ import {
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
-import {
-  CERYDRA,
-  PHAINON,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { CERYDRA } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -38,7 +31,7 @@ import {
 } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cerydra.Content')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cerydra')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_BASIC,
@@ -50,10 +43,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
+    SOURCE_MEMO,
   } = Source.character(CERYDRA)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillCdScaling = skill(e, 0.72, 0.792)
+  const skillResPenScaling = skill(e, 0.10, 0.104)
   const ultScaling = ult(e, 2.40, 2.592)
   const talentAtkScaling = talent(e, 0.24, 0.252)
 
@@ -68,9 +63,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const teammateDefaults = {
     militaryMerit: true,
-    nobility: true,
+    peerage: true,
     teammateATKValue: 4000,
     spdBuff: true,
+    cyreneSpecialEffect: true,
     e1DefPen: true,
     e2DmgBoost: true,
     e6Buffs: true,
@@ -80,40 +76,40 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     spdBuff: {
       id: 'spdBuff',
       formItem: 'switch',
-      text: 'SPD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.spdBuff.text'),
+      content: t('Content.spdBuff.content'),
     },
     crBuff: {
       id: 'crBuff',
       formItem: 'switch',
-      text: 'CR buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.crBuff.text'),
+      content: t('Content.crBuff.content'),
     },
     atkToCd: {
       id: 'atkToCd',
       formItem: 'switch',
-      text: 'ATK to CD',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.atkToCd.text'),
+      content: t('Content.atkToCd.content'),
     },
     e2DmgBoost: {
       id: 'e2DmgBoost',
       formItem: 'switch',
-      text: 'E2 DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e2DmgBoost.text'),
+      content: t('Content.e2DmgBoost.content'),
       disabled: e < 2,
     },
     e4UltDmg: {
       id: 'e4UltDmg',
       formItem: 'switch',
-      text: 'E4 Ult DMG',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e4UltDmg.text'),
+      content: t('Content.e4UltDmg.content'),
       disabled: e < 4,
     },
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: 'E6 buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e6Buffs.text'),
+      content: t('Content.e6Buffs.content'),
       disabled: e < 6,
     },
   }
@@ -122,20 +118,29 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     militaryMerit: {
       id: 'militaryMerit',
       formItem: 'switch',
-      text: 'Military Merit',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.militaryMerit.text'),
+      content: t('TeammateContent.militaryMerit.content', { TalentAtkConversion: TsUtils.precisionRound(talentAtkScaling * 100) }),
     },
-    nobility: {
-      id: 'nobility',
+    cyreneSpecialEffect: {
+      id: 'cyreneSpecialEffect',
       formItem: 'switch',
-      text: 'Nobility',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.cyreneSpecialEffect.text'),
+      content: t('TeammateContent.cyreneSpecialEffect.content'),
+    },
+    peerage: {
+      id: 'peerage',
+      formItem: 'switch',
+      text: t('TeammateContent.peerage.text'),
+      content: t('TeammateContent.peerage.content', {
+        SkillCdBuff: TsUtils.precisionRound(100 * skillCdScaling),
+        SkillResPenBuff: TsUtils.precisionRound(100 * skillResPenScaling),
+      }),
     },
     teammateATKValue: {
       id: 'teammateATKValue',
       formItem: 'slider',
-      text: `Cerydra's combat ATK`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.teammateATKValue.text'),
+      content: t('TeammateContent.teammateATKValue.content', { TalentAtkConversion: TsUtils.precisionRound(talentAtkScaling * 100) }),
       min: 0,
       max: 10000,
     },
@@ -143,8 +148,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e1DefPen: {
       id: 'e1DefPen',
       formItem: 'switch',
-      text: 'E1 DEF PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.e1DefPen.text'),
+      content: t('TeammateContent.e1DefPen.content'),
       disabled: e < 1,
     },
     e2DmgBoost: content.e2DmgBoost,
@@ -178,14 +183,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.SPD.buffSingle(t.spdBuff && t.militaryMerit ? 20 : 0, SOURCE_TRACE)
 
-      x.SKILL_CD_BOOST.buffSingle((t.militaryMerit && t.nobility) ? skillCdScaling : 0, SOURCE_SKILL)
+      x.SKILL_CD_BOOST.buffSingle((t.militaryMerit && t.peerage) ? skillCdScaling : 0, SOURCE_SKILL)
 
-      x.SKILL_RES_PEN.buffSingle((t.militaryMerit && t.nobility) ? 0.10 : 0, SOURCE_SKILL)
+      x.SKILL_RES_PEN.buffSingle((t.militaryMerit && t.peerage) ? skillResPenScaling : 0, SOURCE_SKILL)
 
       const atkBuff = talentAtkScaling * t.teammateATKValue
 
@@ -193,10 +198,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.UNCONVERTIBLE_ATK_BUFF.buffSingle((t.militaryMerit) ? atkBuff : 0, SOURCE_TALENT)
 
       x.DEF_PEN.buffSingle((e >= 1 && t.e1DefPen && t.militaryMerit) ? 0.16 : 0, SOURCE_E1)
-      x.SKILL_DEF_PEN.buffSingle((e >= 1 && t.e1DefPen && t.nobility) ? 0.20 : 0, SOURCE_E1)
+      x.SKILL_DEF_PEN.buffSingle((e >= 1 && t.e1DefPen && t.peerage) ? 0.20 : 0, SOURCE_E1)
 
       x.ELEMENTAL_DMG.buffSingle((e >= 2 && t.e2DmgBoost && t.militaryMerit) ? 0.40 : 0, SOURCE_E2)
       x.RES_PEN.buffSingle((e >= 6 && t.e6Buffs && t.militaryMerit) ? 0.20 : 0, SOURCE_E6)
+
+      // Cyrene
+      if (cyreneActionExists(originalCharacterAction!)) {
+        const cdBuff = cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.33 : 0.30
+        x.CD.buffSingle((t.cyreneSpecialEffect) ? cdBuff : 0, Source.odeTo(CERYDRA))
+      }
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },

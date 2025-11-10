@@ -7,6 +7,7 @@ import {
 import {
   ConditionalActivation,
   ConditionalType,
+  PathNames,
   Stats,
 } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -18,6 +19,11 @@ import {
 } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
+import {
+  JING_YUAN,
+  LINGSHA,
+  TOPAZ_NUMBY,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -174,7 +180,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ELEMENTAL_DMG.buffDual((m.techniqueDmgBuff) ? 0.50 : 0, SOURCE_TECHNIQUE)
 
       x.DEF_PEN.buffDual((e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.16 : 0, SOURCE_E1)
-      x.DEF_PEN.buffDual((e >= 1 && m.e1DefPen && m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? 0.24 : 0, SOURCE_E1)
+
+      // Special cases for summons - currently the only way to buff non-memo summons directly is through FUA
+      if (context.path == PathNames.Remembrance) {
+        x.DEF_PEN.buffMemo((e >= 1 && m.e1DefPen && m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? 0.24 : 0, SOURCE_E1)
+      } else if (
+        [
+          TOPAZ_NUMBY,
+          JING_YUAN,
+          LINGSHA,
+        ].includes(context.characterId)
+      ) {
+        x.FUA_DEF_PEN.buffSingle((e >= 1 && m.e1DefPen && m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? 0.24 : 0, SOURCE_E1)
+      }
 
       x.ELEMENTAL_DMG.buffDual((e >= 2 && m.e2DmgBuff) ? 0.30 : 0, SOURCE_E2)
     },

@@ -40,22 +40,25 @@ import {
   BRONYA,
   BUT_THE_BATTLE_ISNT_OVER,
   CASTORICE,
+  CERYDRA,
   CIPHER,
   DANCE_DANCE_DANCE,
   EARTHLY_ESCAPADE,
+  EPOCH_ETCHED_IN_GOLDEN_BLOOD,
+  EVERNIGHT,
   FEIXIAO,
   FIREFLY,
   FLOWING_NIGHTGLOW,
   FUGUE,
   HUOHUO,
   HYACINE,
+  HYSILENS,
   I_VENTURE_FORTH_TO_HUNT,
   IF_TIME_WERE_A_FLOWER,
   INHERENTLY_UNJUST_DESTINY,
   INTO_THE_UNREACHABLE_VEIL,
   JADE,
   JIAOQIU,
-  KAFKA,
   KAFKA_B1,
   LIES_DANCE_ON_THE_BREEZE,
   LINGSHA,
@@ -69,7 +72,6 @@ import {
   NIGHT_OF_FRIGHT,
   PAST_SELF_IN_MIRROR,
   PATIENCE_IS_ALL_YOU_NEED,
-  PHAINON,
   QUID_PRO_QUO,
   REFORGED_REMEMBRANCE,
   ROBIN,
@@ -78,13 +80,15 @@ import {
   SPARKLE,
   STELLE_REMEMBRANCE,
   SUNDAY,
+  FLY_INTO_A_PINK_TOMORROW,
   THE_HERTA,
   THOSE_MANY_SPRINGS,
-  THUS_BURNS_THE_DAWN,
   TINGYUN,
+  TO_EVERNIGHTS_STARS,
   TOPAZ_NUMBY,
   TRIBBIE,
   WHEREABOUTS_SHOULD_DREAMS_REST,
+  WHY_DOES_THE_OCEAN_SING,
   WORRISOME_BLISSFUL,
   YET_HOPE_IS_PRICELESS,
 } from 'lib/simulations/tests/testMetadataConstants'
@@ -155,6 +159,7 @@ const SPREAD_RELICS_2P_ATK_WEIGHTS = {
 const SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS = {
   ...SPREAD_RELICS_2P_ATK_WEIGHTS,
   [Sets.ScholarLostInErudition]: MATCH_2P_WEIGHT,
+  [Sets.WorldRemakingDeliverer]: MATCH_2P_WEIGHT,
 }
 
 const SPREAD_RELICS_4P_GENERAL_CONDITIONALS = [
@@ -864,6 +869,20 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.SPD_P]: 0.27 },
       5: { [Constants.Stats.SPD_P]: 0.30 },
     },
+    23049: {
+      1: { [Constants.Stats.HP_P]: 0.30 },
+      2: { [Constants.Stats.HP_P]: 0.375 },
+      3: { [Constants.Stats.HP_P]: 0.45 },
+      4: { [Constants.Stats.HP_P]: 0.525 },
+      5: { [Constants.Stats.HP_P]: 0.60 },
+    },
+    23051: {
+      1: { [Constants.Stats.ATK_P]: 0.64 },
+      2: { [Constants.Stats.ATK_P]: 0.80 },
+      3: { [Constants.Stats.ATK_P]: 0.96 },
+      4: { [Constants.Stats.ATK_P]: 1.12 },
+      5: { [Constants.Stats.ATK_P]: 1.28 },
+    },
     23041: {},
     24000: {},
     24001: {
@@ -987,6 +1006,27 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       3: { [Constants.Stats.ATK_P]: 0.24 },
       4: { [Constants.Stats.ATK_P]: 0.28 },
       5: { [Constants.Stats.ATK_P]: 0.32 },
+    },
+    22006: {
+      1: { [Constants.Stats.CD]: 0.12 },
+      2: { [Constants.Stats.CD]: 0.15 },
+      3: { [Constants.Stats.CD]: 0.18 },
+      4: { [Constants.Stats.CD]: 0.21 },
+      5: { [Constants.Stats.CD]: 0.24 },
+    },
+    23052: {
+      1: { [Constants.Stats.SPD_P]: 0.18 },
+      2: { [Constants.Stats.SPD_P]: 0.21 },
+      3: { [Constants.Stats.SPD_P]: 0.24 },
+      4: { [Constants.Stats.SPD_P]: 0.27 },
+      5: { [Constants.Stats.SPD_P]: 0.30 },
+    },
+    23050: {
+      1: { [Constants.Stats.BE]: 0.60 },
+      2: { [Constants.Stats.BE]: 0.75 },
+      3: { [Constants.Stats.BE]: 0.90 },
+      4: { [Constants.Stats.BE]: 1.05 },
+      5: { [Constants.Stats.BE]: 1.20 },
     },
   }
 }
@@ -1127,7 +1167,6 @@ function getLightConeOverrideCenter(): Record<string, number> {
     23045: 180,
     23046: 200,
 
-    // TODO
     23047: 155,
     23048: 215,
     22005: 190,
@@ -1141,8 +1180,17 @@ function getLightConeOverrideCenter(): Record<string, number> {
     21060: 200,
     21061: 180,
     21062: 165,
+
+    23049: 320,
+    23051: 150,
+
+    22006: 290,
+    23052: 190,
+
+    23050: 180,
   }
 }
+// Default 200
 
 function getOverrideImageCenter(): Record<string, {
   x: number,
@@ -1569,6 +1617,26 @@ function getOverrideImageCenter(): Record<string, {
       x: 1050,
       y: 950,
       z: 1.05,
+    },
+    1413: { // Evernight
+      x: 985,
+      y: 985,
+      z: 1.075,
+    },
+    1414: { // Dan Heng • Permansor Terrae
+      x: 975,
+      y: 1024,
+      z: 1.05,
+    },
+    1415: { // Cyrene
+      x: 1030,
+      y: 1225,
+      z: 1.60,
+    },
+    1321: { // The Dahlia
+      x: 950,
+      y: 950,
+      z: 1.025,
     },
   }
 }
@@ -2074,8 +2142,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: RUAN_MEI,
-            lightCone: PAST_SELF_IN_MIRROR,
+            characterId: HYSILENS,
+            lightCone: WHY_DOES_THE_OCEAN_SING,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -2491,7 +2559,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         [Sets.FirmamentFrontlineGlamoth]: 1,
         [Sets.InertSalsotto]: 1,
       },
-      presets: [],
+      presets: [
+        PresetEffects.TENGOKU_SET,
+      ],
       sortOption: SortOption.SKILL,
       hiddenColumns: [SortOption.FUA, SortOption.DOT],
       simulation: {
@@ -2527,12 +2597,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboDot: 0,
         relicSets: [
-          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
+          Sets.TengokuLivestream,
           Sets.FirmamentFrontlineGlamoth,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
@@ -3029,8 +3100,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: RUAN_MEI,
-            lightCone: PAST_SELF_IN_MIRROR,
+            characterId: HYSILENS,
+            lightCone: WHY_DOES_THE_OCEAN_SING,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -3496,6 +3567,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [
         PresetEffects.VALOROUS_SET,
+        PresetEffects.TENGOKU_SET,
         PresetEffects.fnSacerdosSet(2),
       ],
       sortOption: SortOption.BASIC,
@@ -3536,6 +3608,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboDot: 0,
         relicSets: [
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
           [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
@@ -3543,6 +3616,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.RutilantArena,
+          Sets.TengokuLivestream,
           ...SPREAD_ORNAMENTS_2P_FUA,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
@@ -4485,6 +4559,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [
         PresetEffects.WASTELANDER_SET,
+        PresetEffects.TENGOKU_SET,
       ],
       sortOption: SortOption.BASIC,
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
@@ -4527,6 +4602,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.RutilantArena,
+          Sets.TengokuLivestream,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
@@ -5739,6 +5815,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         deprioritizeBuffs: true,
         relicSets: [
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
           [Sets.KnightOfPurityPalace, Sets.KnightOfPurityPalace],
           [Sets.TheAshblazingGrandDuke, Sets.KnightOfPurityPalace, Sets.PioneerDiverOfDeadWaters],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -6035,8 +6112,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: RUAN_MEI,
-            lightCone: PAST_SELF_IN_MIRROR,
+            characterId: HYSILENS,
+            lightCone: WHY_DOES_THE_OCEAN_SING,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -6542,8 +6619,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboDot: 0,
         relicSets: [
-          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
           [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -7824,9 +7901,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         errRopeEidolon: 0,
         deprioritizeBuffs: false,
         relicSets: [
+          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
-          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -7846,8 +7923,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: ROBIN,
-            lightCone: FLOWING_NIGHTGLOW,
+            characterId: CERYDRA,
+            lightCone: EPOCH_ETCHED_IN_GOLDEN_BLOOD,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8119,8 +8196,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         errRopeEidolon: 0,
         relicSets: [
-          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
@@ -8255,14 +8332,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: ROBIN,
-            lightCone: FLOWING_NIGHTGLOW,
+            characterId: CERYDRA,
+            lightCone: EPOCH_ETCHED_IN_GOLDEN_BLOOD,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
           {
-            characterId: HUOHUO,
-            lightCone: NIGHT_OF_FRIGHT,
+            characterId: BRONYA,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },
@@ -8301,6 +8378,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.LinkRope]: [
           Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       sets: {
@@ -8427,6 +8505,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [
         PresetEffects.fnPioneerSet(4),
+        PresetEffects.TENGOKU_SET,
       ],
       sortOption: SortOption.SKILL,
       hiddenColumns: [SortOption.DOT],
@@ -8470,12 +8549,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         errRopeEidolon: 0,
         relicSets: [
+          [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
           [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
-          [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
           Sets.RutilantArena,
+          Sets.TengokuLivestream,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [
@@ -8722,8 +8802,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         comboDot: 0,
         errRopeEidolon: 0,
         relicSets: [
-          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+          [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
           [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
           RELICS_2P_SPEED,
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -9128,7 +9208,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       parts: {
         [Parts.Body]: [
-          Stats.CD,
           Stats.ATK_P,
         ],
         [Parts.Feet]: [
@@ -9153,78 +9232,406 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       presets: [],
       sortOption: SortOption.ULT,
       hiddenColumns: [SortOption.DOT],
-      // simulation: {
-      //   parts: {
-      //     [Parts.Body]: [
-      //       Stats.CD,
-      //       Stats.ATK_P,
-      //     ],
-      //     [Parts.Feet]: [
-      //       Stats.ATK_P,
-      //       Stats.SPD,
-      //     ],
-      //     [Parts.PlanarSphere]: [
-      //       Stats.ATK_P,
-      //       Stats.Wind_DMG,
-      //     ],
-      //     [Parts.LinkRope]: [
-      //       Stats.ATK_P,
-      //     ],
-      //   },
-      //   substats: [
-      //     Stats.ATK_P,
-      //     Stats.ATK,
-      //     Stats.CD,
-      //   ],
-      //   breakpoints: {
-      //     [Stats.ATK]: 4000,
-      //   },
-      //   comboTurnAbilities: [
-      //     NULL_TURN_ABILITY_NAME,
-      //     START_ULT,
-      //     END_SKILL,
-      //     WHOLE_BASIC,
-      //     WHOLE_BASIC,
-      //   ],
-      //   comboDot: 0,
-      //   errRopeEidolon: 0,
-      //   deprioritizeBuffs: true,
-      //   relicSets: [
-      //     [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
-      //     [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
-      //     [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
-      //     [...RELICS_2P_ATK, ...RELICS_2P_SPEED, Sets.PioneerDiverOfDeadWaters, Sets.EagleOfTwilightLine, Sets.WavestriderCaptain],
-      //     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-      //   ],
-      //   ornamentSets: [
-      //     Sets.SpaceSealingStation,
-      //     Sets.FirmamentFrontlineGlamoth,
-      //     Sets.InertSalsotto,
-      //     ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
-      //     ...SPREAD_ORNAMENTS_2P_SUPPORT,
-      //     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-      //   ],
-      //   teammates: [
-      //     {
-      //       characterId: PHAINON,
-      //       lightCone: THUS_BURNS_THE_DAWN,
-      //       characterEidolon: 0,
-      //       lightConeSuperimposition: 1,
-      //     },
-      //     {
-      //       characterId: SUNDAY,
-      //       lightCone: A_GROUNDED_ASCENT,
-      //       characterEidolon: 0,
-      //       lightConeSuperimposition: 1,
-      //     },
-      //     {
-      //       characterId: HUOHUO,
-      //       lightCone: NIGHT_OF_FRIGHT,
-      //       characterEidolon: 0,
-      //       lightConeSuperimposition: 1,
-      //     },
-      //   ],
-      // },
+    },
+    1413: { // Evernight
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 1,
+        [Stats.HP_P]: 1,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+          Stats.HP_P,
+        ],
+        [Parts.Feet]: [
+          Stats.HP_P,
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.HP_P,
+          Stats.Ice_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.HP_P,
+        ],
+      },
+      sets: {
+        [Sets.WorldRemakingDeliverer]: 1,
+        [Sets.PoetOfMourningCollapse]: 1,
+        [Sets.ScholarLostInErudition]: T2_WEIGHT,
+        [Sets.LongevousDisciple]: MATCH_2P_WEIGHT,
+        [Sets.GeniusOfBrilliantStars]: MATCH_2P_WEIGHT,
+
+        [Sets.BoneCollectionsSereneDemesne]: 1,
+        [Sets.ArcadiaOfWovenDreams]: 1,
+        [Sets.TheWondrousBananAmusementPark]: T2_WEIGHT,
+        [Sets.RutilantArena]: T2_WEIGHT,
+        [Sets.InertSalsotto]: T2_WEIGHT,
+      },
+      presets: [
+        PresetEffects.BANANA_SET,
+      ],
+      sortOption: SortOption.MEMO_SKILL,
+      addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.MEMO_TALENT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+            Stats.HP_P,
+          ],
+          [Parts.Feet]: [
+            Stats.HP_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.HP_P,
+            Stats.Ice_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.HP_P,
+            Stats.ERR,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.HP_P,
+          Stats.HP,
+        ],
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          START_ULT,
+          END_SKILL,
+          DEFAULT_MEMO_SKILL,
+          DEFAULT_MEMO_SKILL,
+          WHOLE_SKILL,
+          DEFAULT_MEMO_SKILL,
+          DEFAULT_MEMO_SKILL,
+        ],
+        comboDot: 0,
+        deprioritizeBuffs: true,
+        errRopeEidolon: 0,
+        relicSets: [
+          [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
+          [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.BoneCollectionsSereneDemesne,
+          Sets.ArcadiaOfWovenDreams,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: TRIBBIE,
+            lightCone: IF_TIME_WERE_A_FLOWER,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: CASTORICE,
+            lightCone: MAKE_FAREWELLS_MORE_BEAUTIFUL,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    1414: { // Dan Heng • Permansor Terrae
+      stats: {
+        [Stats.ATK]: 1,
+        [Stats.ATK_P]: 1,
+        [Stats.DEF]: 0.25,
+        [Stats.DEF_P]: 0.25,
+        [Stats.HP]: 0.25,
+        [Stats.HP_P]: 0.25,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 0,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0.25,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.ATK_P,
+          Stats.EHR,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+          Stats.ATK_P,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.ATK_P,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ERR,
+          Stats.ATK_P,
+        ],
+      },
+      sets: {
+        [Sets.SelfEnshroudedRecluse]: 1,
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.MusketeerOfWildWheat]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
+      presets: [
+        PresetEffects.BANANA_SET,
+        PresetEffects.fnAshblazingSet(8),
+        PresetEffects.VALOROUS_SET,
+      ],
+      sortOption: SortOption.ATK,
+      addedColumns: [SortOption.SHIELD],
+      hiddenColumns: [SortOption.DOT, SortOption.SKILL],
+    },
+    1415: { // Cyrene
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 1,
+        [Stats.HP_P]: 1,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.HP_P,
+          Stats.CR,
+          Stats.CD,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.HP_P,
+          Stats.Ice_DMG,
+        ],
+        [Parts.LinkRope]: [
+          Stats.HP_P,
+        ],
+      },
+      sets: {},
+      presets: [
+        PresetEffects.BANANA_SET,
+      ],
+      sortOption: SortOption.MEMO_SKILL,
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.ULT, SortOption.DOT],
+      addedColumns: [SortOption.MEMO_SKILL],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+            Stats.HP_P,
+          ],
+          [Parts.Feet]: [
+            Stats.HP_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.HP_P,
+            Stats.Ice_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.HP_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.HP_P,
+          Stats.HP,
+        ],
+        breakpoints: {
+          [Stats.SPD]: 180,
+        },
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          DEFAULT_ULT,
+          DEFAULT_MEMO_SKILL,
+          WHOLE_BASIC,
+          DEFAULT_MEMO_SKILL,
+          WHOLE_BASIC,
+          DEFAULT_MEMO_SKILL,
+        ],
+        comboDot: 0,
+        deprioritizeBuffs: true,
+        relicSets: [
+          [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
+          RELICS_2P_SPEED,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.BoneCollectionsSereneDemesne,
+          Sets.AmphoreusTheEternalLand,
+          Sets.ArcadiaOfWovenDreams,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
+        ],
+        teammates: [
+          {
+            characterId: CASTORICE,
+            lightCone: MAKE_FAREWELLS_MORE_BEAUTIFUL,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: EVERNIGHT,
+            lightCone: TO_EVERNIGHTS_STARS,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: HYACINE,
+            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    1321: { // The Dahlia
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 0,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 1,
+      },
+      parts: {
+        [Parts.Body]: [],
+        [Parts.Feet]: [
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [],
+        [Parts.LinkRope]: [
+          Stats.ERR,
+          Stats.BE,
+        ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+        [Sets.IronCavalryAgainstTheScourge]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.SprightlyVonwacq]: 1,
+        [Sets.LushakaTheSunkenSeas]: 1,
+      },
+      presets: [
+        PresetEffects.fnAshblazingSet(5),
+      ],
+      sortOption: SortOption.FUA,
+      hiddenColumns: [SortOption.DOT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+            Stats.ATK_P,
+          ],
+          [Parts.Feet]: [
+            Stats.SPD,
+            Stats.ATK_P,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Fire_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.BE,
+          ],
+        },
+        substats: [
+          Stats.BE,
+          Stats.ATK_P,
+          Stats.CR,
+          Stats.CD,
+        ],
+        errRopeEidolon: 0,
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          START_ULT,
+          DEFAULT_SKILL,
+          END_BREAK,
+          DEFAULT_FUA,
+          WHOLE_BASIC,
+          DEFAULT_FUA,
+          WHOLE_BASIC,
+          DEFAULT_FUA,
+          WHOLE_BASIC,
+        ],
+        comboDot: 0,
+        deprioritizeBuffs: true,
+        relicSets: [
+          [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+          [Sets.ThiefOfShootingMeteor, Sets.ThiefOfShootingMeteor],
+          RELICS_2P_BREAK_EFFECT_SPEED,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.ForgeOfTheKalpagniLantern,
+          ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
+        ],
+        teammates: [
+          {
+            characterId: FIREFLY,
+            lightCone: WHEREABOUTS_SHOULD_DREAMS_REST,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: FUGUE,
+            lightCone: LONG_ROAD_LEADS_HOME,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: LINGSHA,
+            lightCone: SCENT_ALONE_STAYS_TRUE,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
   }
 }

@@ -5,21 +5,23 @@ import {
 } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
 import {
-  AGLAEA,
-  BLADE_B1,
-  CERYDRA,
-  ERA_ENGRAVED_BY_GOLDEN_BLOOD,
-  HYSILENS,
-  I_SHALL_BE_MY_OWN_SWORD,
+  ANAXA, CASTORICE,
+  CERYDRA, CIPHER,
+  CYRENE,
+  EPOCH_ETCHED_IN_GOLDEN_BLOOD,
+  EVERNIGHT, FLAME_OF_BLOOD_BLAZE_MY_PATH, HYACINE,
+  HYSILENS, IF_TIME_WERE_A_FLOWER,
   INCESSANT_RAIN,
   INTO_THE_UNREACHABLE_VEIL,
-  JINGLIU_B1,
-  KAFKA_B1,
+  KAFKA_B1, LIES_DANCE_ON_THE_BREEZE,
+  LIFE_SHOULD_BE_CAST_TO_FLAMES, LONG_MAY_RAINBOWS_ADORN_THE_SKY, MAKE_FAREWELLS_MORE_BEAUTIFUL, MYDEI, NEVER_FORGET_HER_FLAME,
   PATIENCE_IS_ALL_YOU_NEED,
-  SILVER_WOLF_B1,
+  PERMANSOR_TERRAE, PHAINON,
+  SILVER_WOLF_B1, THE_DAHLIA,
   THE_HERTA,
-  THE_UNREACHABLE_SIDE,
-  TIME_WOVEN_INTO_GOLD,
+  THIS_LOVE_FOREVER,
+  THOUGH_WORLDS_APART, THUS_BURNS_THE_DAWN,
+  TO_EVERNIGHTS_STARS, TRIBBIE,
   WHY_DOES_THE_OCEAN_SING,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB, {
@@ -70,20 +72,16 @@ export function presetCharacters(): Preset[] {
   const lc = (id: LightCone['id']) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
-    { characterId: char(HYSILENS), lightConeId: lc(WHY_DOES_THE_OCEAN_SING) },
-    { characterId: char(CERYDRA), lightConeId: lc(ERA_ENGRAVED_BY_GOLDEN_BLOOD) },
+    { characterId: char(THE_DAHLIA), lightConeId: lc(NEVER_FORGET_HER_FLAME) },
+    { characterId: char(CYRENE), lightConeId: lc(THIS_LOVE_FOREVER) },
 
-    { characterId: char('1408'), lightConeId: lc('23044') },
-    { characterId: char('1014'), lightConeId: lc('23045') },
-    { characterId: char('1015'), lightConeId: lc('23046') },
+    { characterId: char(CASTORICE), lightConeId: lc(MAKE_FAREWELLS_MORE_BEAUTIFUL) , rerun: true},
+    { characterId: char(HYACINE), lightConeId: lc(LONG_MAY_RAINBOWS_ADORN_THE_SKY) , rerun: true},
+    { characterId: char(TRIBBIE), lightConeId: lc(IF_TIME_WERE_A_FLOWER), rerun: true },
 
-    { characterId: char(KAFKA_B1), lightConeId: lc(PATIENCE_IS_ALL_YOU_NEED) },
-    { characterId: char(SILVER_WOLF_B1), lightConeId: lc(INCESSANT_RAIN) },
-    { characterId: char(BLADE_B1), lightConeId: lc(THE_UNREACHABLE_SIDE) },
-    { characterId: char(JINGLIU_B1), lightConeId: lc(I_SHALL_BE_MY_OWN_SWORD) },
-
-    { characterId: char(THE_HERTA), lightConeId: lc(INTO_THE_UNREACHABLE_VEIL), rerun: true },
-    { characterId: char(AGLAEA), lightConeId: lc(TIME_WOVEN_INTO_GOLD), rerun: true },
+    { characterId: char(PHAINON), lightConeId: lc(THUS_BURNS_THE_DAWN) , rerun: true},
+    { characterId: char(CIPHER), lightConeId: lc(LIES_DANCE_ON_THE_BREEZE) , rerun: true},
+    { characterId: char(MYDEI), lightConeId: lc(FLAME_OF_BLOOD_BLAZE_MY_PATH) , rerun: true},
 
     { custom: true },
   ].filter((x) => x.custom || !!x.characterId) as Preset[]

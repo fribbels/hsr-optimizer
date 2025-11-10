@@ -8,6 +8,8 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  cyreneActionExists,
+  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import {
   CURRENT_DATA_VERSION,
@@ -26,9 +28,8 @@ import {
   HitKey,
   StatKey,
 } from 'lib/optimization/engine/computedStatsContainer'
-import {
-  HYSILENS,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { HYSILENS } from 'lib/simulations/tests/testMetadataConstants'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -42,7 +43,7 @@ import {
 } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hysilens.Content')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hysilens')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
     SOURCE_BASIC,
@@ -50,6 +51,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_TALENT,
     SOURCE_TRACE,
     SOURCE_ULT,
+    SOURCE_MEMO,
     SOURCE_E1,
     SOURCE_E2,
     SOURCE_E4,
@@ -76,6 +78,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     ultDotStacks: maxUltDotInstances,
     ehrToDmg: true,
     dotDetonation: false,
+    cyreneSpecialEffect: true,
     e1Buffs: true,
     e4ResPen: true,
     e6Buffs: true,
@@ -85,7 +88,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     skillVulnerability: true,
     ultZone: true,
     e1Buffs: true,
-    e2MaxDmgBoost: true,
+    e2TeammateEhr: 1.20,
     e4ResPen: true,
   }
 
@@ -93,55 +96,61 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     skillVulnerability: {
       id: 'skillVulnerability',
       formItem: 'switch',
-      text: 'Skill Vulnerability',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.skillVulnerability.text'),
+      content: t('Content.skillVulnerability.content', { SkillVuln: TsUtils.precisionRound(100 * skillVulnScaling) }),
     },
     ultZone: {
       id: 'ultZone',
       formItem: 'switch',
-      text: 'Ult zone active',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.ultZone.text'),
+      content: t('Content.ultZone.content', { ZoneDefShred: TsUtils.precisionRound(100 * ultDefPenScaling) }),
     },
     ultDotStacks: {
       id: 'ultDotStacks',
       formItem: 'slider',
-      text: 'Ult DOT trigger stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.ultDotStacks.text'),
+      content: t('Content.ultDotStacks.content', {}),
       min: 0,
       max: maxUltDotInstances,
     },
     ehrToDmg: {
       id: 'ehrToDmg',
       formItem: 'switch',
-      text: 'EHR to DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.ehrToDmg.text'),
+      content: t('Content.ehrToDmg.content', {}),
     },
     dotDetonation: {
       id: 'dotDetonation',
       formItem: 'switch',
-      text: 'DOT detonation (Automatic activation)',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.dotDetonation.text'),
+      content: t('Content.dotDetonation.content', {}),
       disabled: true,
+    },
+    cyreneSpecialEffect: {
+      id: 'cyreneSpecialEffect',
+      formItem: 'switch',
+      text: t('Content.cyreneSpecialEffect.text'),
+      content: t('Content.cyreneSpecialEffect.content'),
     },
     e1Buffs: {
       id: 'e1Buffs',
       formItem: 'switch',
-      text: 'E1 buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e1Buffs.text'),
+      content: t('Content.e1Buffs.content', {}),
       disabled: e < 1,
     },
     e4ResPen: {
       id: 'e4ResPen',
       formItem: 'switch',
-      text: 'E4 RES PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e4ResPen.text'),
+      content: t('Content.e4ResPen.content', {}),
       disabled: e < 4,
     },
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: 'E6 buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e6Buffs.text'),
+      content: t('Content.e6Buffs.content', {}),
       disabled: e < 6,
     },
   }
@@ -150,12 +159,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     skillVulnerability: content.skillVulnerability,
     ultZone: content.ultZone,
     e1Buffs: content.e1Buffs,
-    e2MaxDmgBoost: {
-      id: 'e2MaxDmgBoost',
-      formItem: 'switch',
-      text: 'E2 DMG boost maxed',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    e2TeammateEhr: {
+      id: 'e2TeammateEhr',
+      formItem: 'slider',
+      text: t('TeammateContent.e2TeammateEhr.text'),
+      content: t('TeammateContent.e2TeammateEhr.content'),
       disabled: e < 2,
+      min: 0,
+      max: 1.20,
+      percent: true,
     },
     e4ResPen: content.e4ResPen,
   }
@@ -357,10 +369,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const hitActions = context.hitActions!
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
+      x.SKILL_TOUGHNESS_DMG.buff(10, SOURCE_SKILL)
       x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
 
       x.DOT_CHANCE.set(1.00, SOURCE_TALENT)
+
+      // Cyrene
+      const cyreneDmgBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 1.32 : 1.20)
+        : 0
+      x.ELEMENTAL_DMG.buff((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, Source.odeTo(HYSILENS))
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -373,7 +391,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ELEMENTAL_DMG.buffTeam((e >= 2 && t.e2MaxDmgBoost) ? 0.90 : 0, SOURCE_E2)
+      x.ELEMENTAL_DMG.buffTeam(
+        (e >= 2)
+          ? Math.max(0, Math.min(0.90, 0.15 * Math.floor(TsUtils.precisionRound((t.e2TeammateEhr - 0.60) / 0.10))))
+          : 0,
+        SOURCE_E2,
+      )
     },
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

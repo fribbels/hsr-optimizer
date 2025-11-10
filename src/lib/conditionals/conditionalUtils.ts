@@ -3,6 +3,7 @@ import {
   PathName,
 } from 'lib/constants/constants'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { CYRENE } from 'lib/simulations/tests/testMetadataConstants'
 import { ContentItem } from 'types/conditionals'
 import {
   OptimizerAction,
@@ -97,6 +98,14 @@ export const AbilityEidolon = {
     memoTalent: ability(3),
     memoSkill: ability(5),
   },
+  ULT_TALENT_MEMO_SKILL_3_SKILL_BASIC_MEMO_TALENT_5: {
+    basic: ability(5),
+    skill: ability(5),
+    ult: ability(3),
+    talent: ability(3),
+    memoTalent: ability(5),
+    memoSkill: ability(3),
+  },
   ULT_BASIC_MEMO_SKILL_3_SKILL_TALENT_MEMO_TALENT_5: {
     basic: ability(3),
     skill: ability(5),
@@ -121,6 +130,54 @@ export function countTeamElement(context: OptimizerContext, element: ElementName
     + (context.teammate2Metadata?.element == element ? 1 : 0)
 }
 
+export function teammateMatchesId(context: OptimizerContext, id: string) {
+  return (context.teammate0Metadata?.characterId == id ? 1 : 0)
+    + (context.teammate1Metadata?.characterId == id ? 1 : 0)
+    + (context.teammate2Metadata?.characterId == id ? 1 : 0)
+}
+
+export function teamCharacterIds(context: OptimizerContext) {
+  return [
+    context.characterId,
+    context.teammate0Metadata?.characterId,
+    context.teammate1Metadata?.characterId,
+    context.teammate2Metadata?.characterId,
+  ].filter((x) => !!x)
+}
+
+export function teammateCharacterIds(context: OptimizerContext) {
+  return [
+    context.teammate0Metadata?.characterId,
+    context.teammate1Metadata?.characterId,
+    context.teammate2Metadata?.characterId,
+  ].filter((x) => !!x)
+}
+
 export function mainIsPath(context: OptimizerContext, path: PathName) {
   return context.path == path
+}
+
+export function getCyreneAction(action: OptimizerAction) {
+  const cyreneAction = [
+    action.teammate0,
+    action.teammate1,
+    action.teammate2,
+  ].find((x) => x && x.actorId == CYRENE)
+
+  return cyreneAction
+}
+
+export function cyreneActionExists(action: OptimizerAction) {
+  return getCyreneAction(action) ? true :false
+}
+
+// Assumes cyreneTeammateSpecialEffectActive returned true
+export function cyreneSpecialEffectEidolonUpgraded(action: OptimizerAction) {
+  const cyreneAction = [
+    action.teammate0,
+    action.teammate1,
+    action.teammate2,
+  ].find((x) => x && x.actorId == CYRENE)!
+
+  return cyreneAction.actorEidolon >= 3
 }

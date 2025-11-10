@@ -1,5 +1,5 @@
 Messages:
-  ThrottleWarning: "Por favor espere {{seconds}} segundos antes de volver a intentarlo"
+  ThrottleWarning: 'Por favor espere {{seconds}} segundos antes de volver a intentarlo'
   InvalidIdWarning: ID inválido
   IdLoadError: Error cargando la ID
   SuccessMsg: Perfil cargado con éxito
@@ -8,8 +8,8 @@ Messages:
   CharacterAlreadyExists: El personaje seleccionado ya existe
   UnknownButtonClicked: Botón desconocido presionado
 Header:
-  DowntimeWarning: "Puede que el evaluador de artefactos esté de baja por mantenimiento luego del parche {{game_version}}, por favor intenta más tarde"
-  WithVersion: "Ingresa la UID de tu cuenta para evaluar los personajes de tu perfil que sean nivel 80 y tengan los rastros al máximo. Cierra sesión para actualizar instantáneamente. (Versión actual {{beta_version}})"
+  DowntimeWarning: 'Puede que el evaluador de artefactos esté de baja por mantenimiento luego del parche {{game_version}}, por favor intenta más tarde'
+  WithVersion: 'Ingresa la UID de tu cuenta para evaluar los personajes de tu perfil que sean nivel 80 y tengan los rastros al máximo. Cierra sesión para actualizar instantáneamente. (Versión actual {{beta_version}})'
   WithoutVersion: Ingresa la UID de tu cuenta para evaluar los personajes de tu perfil que sean nivel 80 y tengan los rastros al máximo. Cierra sesión para actualizar instantáneamente.
 SubmissionBar:
   Placeholder: UID de la cuenta
@@ -21,4 +21,5 @@ ImportLabels:
   AllCharacters: Importar todos los personajes y todos los artefactos al optimizador
 SimulateRelics: Simular artefactos en otro personaje
 OptimizeOnCharacter: Optimizar atributos del personaje
-Disclaimer: "Nota: ¡El daño de Combo es para comparar diferentes artefactos en relación al equipo seleccionado, y <1>NO</1> debe usarse para comparar diferentes equipos / conos / eidolones!"
+Disclaimer: 'Nota: ¡El daño de Combo es para comparar diferentes artefactos en relación al equipo seleccionado, y <1>NO</1> debe usarse para comparar diferentes equipos / conos / eidolones!'
+DisclaimerDescription: 'El Daño de combo es una herramienta para medir el daño de una sola rotación de habilidades en el contexto de un equipo específico. Cambiar el equipo / eidolones / conos de luz afecta la duración de la rotación, la energía generada, el tiempo activo de las mejoras, etc. Esto significa que el Daño de combo NO PUEDE ser usado para determinar qué equipo es mejor, qué cono de luz es mejor, o medir el aumento de daño entre eidolones. El Daño de combo está diseñado únicamente para comparar diferentes artefactos dentro de un mismo equipo y umbral de velocidad.'

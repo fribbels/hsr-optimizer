@@ -38,6 +38,7 @@ import EyesOfThePrey from 'lib/conditionals/lightcone/4star/EyesOfThePrey'
 import Fermata from 'lib/conditionals/lightcone/4star/Fermata'
 import FinalVictor from 'lib/conditionals/lightcone/4star/FinalVictor'
 import FlamesAfar from 'lib/conditionals/lightcone/4star/FlamesAfar'
+import FlyIntoAPinkTomorrow from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
 import ForTomorrowsJourney from 'lib/conditionals/lightcone/4star/ForTomorrowsJourney'
 import GeniusesGreetings from 'lib/conditionals/lightcone/4star/GeniusesGreetings'
 import GeniusesRepose from 'lib/conditionals/lightcone/4star/GeniusesRepose'
@@ -50,7 +51,6 @@ import ItsShowtime from 'lib/conditionals/lightcone/4star/ItsShowtime'
 import JourneyForeverPeaceful from 'lib/conditionals/lightcone/4star/JourneyForeverPeaceful'
 import LandausChoice from 'lib/conditionals/lightcone/4star/LandausChoice'
 import MakeTheWorldClamor from 'lib/conditionals/lightcone/4star/MakeTheWorldClamor'
-import MazeRestaurantForever from 'lib/conditionals/lightcone/4star/MazeRestaurantForever'
 import MemoriesOfThePast from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
 import NinjaRecordSoundHunt from 'lib/conditionals/lightcone/4star/NinjaRecordSoundHunt'
 import NowhereToRun from 'lib/conditionals/lightcone/4star/NowhereToRun'
@@ -73,6 +73,7 @@ import Swordplay from 'lib/conditionals/lightcone/4star/Swordplay'
 import TheBirthOfTheSelf from 'lib/conditionals/lightcone/4star/TheBirthOfTheSelf'
 import TheDayTheCosmosFell from 'lib/conditionals/lightcone/4star/TheDayTheCosmosFell'
 import TheFlowerRemembers from 'lib/conditionals/lightcone/4star/TheFlowerRemembers'
+import TheForeverVictual from 'lib/conditionals/lightcone/4star/TheForeverVictual'
 import TheGreatCosmicEnterprise from 'lib/conditionals/lightcone/4star/TheGreatCosmicEnterprise'
 import TheMolesWelcomeYou from 'lib/conditionals/lightcone/4star/TheMolesWelcomeYou'
 import TheSeriousnessOfBreakfast from 'lib/conditionals/lightcone/4star/TheSeriousnessOfBreakfast'
@@ -100,7 +101,7 @@ import CruisingInTheStellarSea from 'lib/conditionals/lightcone/5star/CruisingIn
 import DanceAtSunset from 'lib/conditionals/lightcone/5star/DanceAtSunset'
 import EarthlyEscapade from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import EchoesOfTheCoffin from 'lib/conditionals/lightcone/5star/EchoesOfTheCoffin'
-import EraEngravedByGoldenBlood from 'lib/conditionals/lightcone/5star/EraEngravedByGoldenBlood'
+import EpochEtchedInGoldenBlood from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
 import EternalCalculus from 'lib/conditionals/lightcone/5star/EternalCalculus'
 import FlameOfBloodBlazeMyPath from 'lib/conditionals/lightcone/5star/FlameOfBloodBlazeMyPath'
 import FlowingNightglow from 'lib/conditionals/lightcone/5star/FlowingNightglow'
@@ -119,6 +120,7 @@ import MakeFarewellsMoreBeautiful from 'lib/conditionals/lightcone/5star/MakeFar
 import MayRainbowsRemainInTheSky from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import MemorysCurtainNeverFalls from 'lib/conditionals/lightcone/5star/MemorysCurtainNeverFalls'
 import MomentOfVictory from 'lib/conditionals/lightcone/5star/MomentOfVictory'
+import NeverForgetHerFlame from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
 import NightOfFright from 'lib/conditionals/lightcone/5star/NightOfFright'
 import NightOnTheMilkyWay from 'lib/conditionals/lightcone/5star/NightOnTheMilkyWay'
 import NinjutsuInscriptionDazzlingEvilbreaker from 'lib/conditionals/lightcone/5star/NinjutsuInscriptionDazzlingEvilbreaker'
@@ -135,6 +137,7 @@ import SomethingIrreplaceable from 'lib/conditionals/lightcone/5star/SomethingIr
 import TextureOfMemories from 'lib/conditionals/lightcone/5star/TextureOfMemories'
 import TheHellWhereIdealsBurn from 'lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn'
 import TheUnreachableSide from 'lib/conditionals/lightcone/5star/TheUnreachableSide'
+import ThisLoveForever from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import ThoseManySprings from 'lib/conditionals/lightcone/5star/ThoseManySprings'
 import ThusBurnsTheDawn from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import TimeWaitsForNoOne from 'lib/conditionals/lightcone/5star/TimeWaitsForNoOne'
@@ -147,10 +150,13 @@ import {
   ElementName,
   PathName,
 } from 'lib/constants/constants'
+import { CharacterId } from 'types/character'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import ThoughWorldsApart from '../lightcone/5star/ThoughWorldsApart'
+import ToEvernightsStars from '../lightcone/5star/ToEvernightsStars'
 
-export type WearerMetadata = { element: ElementName }
+export type WearerMetadata = { element: ElementName, characterId: CharacterId }
 
 export type LightConeConditionalFunction = (s: SuperImpositionLevel, withContent: boolean, wearerMetadata: WearerMetadata) => LightConeConditionalsController
 
@@ -191,6 +197,10 @@ const fiveStar: Record<string, LightConeConditionalFunction> = {
   23033: NinjutsuInscriptionDazzlingEvilbreaker,
   23034: AGroundedAscent,
   23035: LongRoadLeadsHome,
+  23049: ToEvernightsStars,
+  23051: ThoughWorldsApart,
+  23052: ThisLoveForever,
+  23050: NeverForgetHerFlame,
 
   24000: OnTheFallOfAnAeon,
   24001: CruisingInTheStellarSea,
@@ -214,7 +224,7 @@ const fiveStar: Record<string, LightConeConditionalFunction> = {
   23046: TheHellWhereIdealsBurn,
 
   23047: WhyDoesTheOceanSing,
-  23048: EraEngravedByGoldenBlood,
+  23048: EpochEtchedInGoldenBlood,
 
   21053: JourneyForeverPeaceful,
   21054: TheStorysNextPage,
@@ -286,7 +296,8 @@ const fourStar: Record<string, LightConeConditionalFunction> = {
   22002: ForTomorrowsJourney,
   22003: NinjaRecordSoundHunt,
   22004: TheGreatCosmicEnterprise,
-  22005: MazeRestaurantForever,
+  22005: TheForeverVictual,
+  22006: FlyIntoAPinkTomorrow,
 }
 
 const threeStar: Record<string, LightConeConditionalFunction> = {
@@ -324,7 +335,7 @@ export const lightConeOptionMapping: Record<string, LightConeConditionalFunction
 
 export const LightConeConditionalsResolver = {
   get: (
-    request: { lightCone: string, lightConeSuperimposition: number, lightConePath: PathName, path: PathName, element: ElementName },
+    request: { lightCone: string, lightConeSuperimposition: number, lightConePath: PathName, path: PathName, element: ElementName, characterId: CharacterId },
     withContent = false,
   ): LightConeConditionalsController => {
     const lcFn = lightConeOptionMapping[request.lightCone]
@@ -340,6 +351,6 @@ export const LightConeConditionalsResolver = {
         },
       }
     }
-    return lcFn(request.lightConeSuperimposition - 1, withContent, { element: request.element })
+    return lcFn(request.lightConeSuperimposition - 1, withContent, { element: request.element, characterId: request.characterId })
   },
 }

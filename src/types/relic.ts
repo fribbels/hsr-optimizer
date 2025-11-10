@@ -6,44 +6,40 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { AugmentedStats } from 'lib/relics/relicAugmenter'
-import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
-import { RelicScoringWeights } from 'lib/tabs/tabRelics/RelicFilterBar'
 import { CharacterId } from 'types/character'
 
 export type RelicId = string
 export type RelicGrade = number
 export type RelicEnhance = number
 
-export type UnaugmentedRelic = Pick<Relic, 'main' | 'substats' | 'grade' | 'enhance' | 'augmentedStats' | 'part' | 'verified' | 'initialRolls'> & {
-  id?: Relic['id'],
-}
+export type UnaugmentedRelic =
+  & Pick<Relic, 'main' | 'substats' | 'grade' | 'enhance' | 'part' | 'verified'>
+  & Partial<Pick<Relic, 'id' | 'augmentedStats' | 'initialRolls'>>
 
 export type Relic = {
   /*
    * refactor?
    * augmentedCaseWeight?: any;
    */
-  weights?: RelicScoringWeights,
-  weightScore: number,
+  weightScore: number, // optimiser
 
   enhance: RelicEnhance,
   equippedBy: CharacterId | undefined,
   grade: RelicGrade,
   id: RelicId,
   verified?: boolean,
-  ageIndex?: number,
-  scoringResult?: RelicScoringResult,
+  ageIndex: number,
 
   main: {
     stat: MainStats,
     value: number,
   },
-  condensedStats?: [number, number][],
-  augmentedStats?: AugmentedStats,
+  condensedStats?: [number, number][], // optimiser
+  augmentedStats: AugmentedStats, // optimiser + relicsGrid cv getter
   part: Parts,
   set: Sets,
   substats: RelicSubstatMetadata[],
-  initialRolls?: number,
+  initialRolls: number,
 }
 
 export type RelicSubstatMetadata = {

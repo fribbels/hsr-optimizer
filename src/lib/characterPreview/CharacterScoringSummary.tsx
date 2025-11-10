@@ -24,6 +24,7 @@ import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Trans, useTranslation } from 'react-i18next'
+import {DPSScoreDisclaimer} from "lib/tabs/tabShowcase/ShowcaseTab";
 
 // FIXME MED
 
@@ -264,18 +265,19 @@ export const CharacterScoringSummary = (props: {
 
   return (
     <Flex vertical gap={15} align='center' style={{ width: 1068 }}>
-      <Flex align='center' vertical gap={15}>
+      <Flex align='center' vertical gap={5}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           <ColorizedTitleWithInfo
             text={t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
             url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
           />
         </pre>
-        <pre style={{ textAlign: 'center', color: 'rgb(225, 165, 100)', lineHeight: '24px', fontSize: 14, textWrap: 'wrap', margin: 0 }}>
-          {
-            t('CharacterPreview.BuildAnalysis.ScoringNote')
-          }
-        </pre>
+        <DPSScoreDisclaimer/>
+        {/*<pre style={{ textAlign: 'center', color: 'rgb(225, 165, 100)', lineHeight: '24px', fontSize: 14, textWrap: 'wrap', margin: 0 }}>*/}
+        {/*  {*/}
+        {/*    t('CharacterPreview.BuildAnalysis.ScoringNote')*/}
+        {/*  }*/}
+        {/*</pre>*/}
         <DpsScoreGradeRuler
           score={result.originalSimScore}
           minimum={result.baselineSimScore}

@@ -151,7 +151,7 @@ CharacterPreview:
         COMBO: DANNO COMBO
     CombatBuffs:
       Header: Buff in combattimento
-      SubDpsHeader: Buff in combattimento (DPS Secondario)
+      SubDpsHeader: Buff in combattimento (DPS secondario)
   ScoringColumn:
     Character:
       Header: "Build personaggio ({{score}}%)"

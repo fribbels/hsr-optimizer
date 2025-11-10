@@ -71,7 +71,6 @@ export function LoadDataSubmenu() {
     setLoading2(true)
     setTimeout(() => {
       DB.setStore(currentSave!, false)
-      window.refreshRelicsScore()
 
       setTimeout(() => {
         setCurrentStage(Stages.FINISHED)

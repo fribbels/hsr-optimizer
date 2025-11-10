@@ -3,6 +3,8 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  cyreneActionExists,
+  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import {
   dynamicStatConversion,
@@ -19,6 +21,7 @@ import {
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import { MYDEI } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -57,6 +60,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     skillEnhances: 2,
     vendettaState: true,
     hpToCrConversion: true,
+    cyreneSpecialEffect: false,
     e1EnhancedSkillBuff: true,
     e2DefPen: true,
     e4CdBuff: true,
@@ -91,6 +95,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       formItem: 'switch',
       text: t('hpToCrConversion.text'),
       content: t('hpToCrConversion.content'),
+    },
+    cyreneSpecialEffect: {
+      id: 'cyreneSpecialEffect',
+      formItem: 'switch',
+      text: t('cyreneSpecialEffect.text'),
+      content: t('cyreneSpecialEffect.content'),
     },
     e1EnhancedSkillBuff: {
       id: 'e1EnhancedSkillBuff',
@@ -141,6 +151,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff((r.skillEnhances > 1) ? 30 : 20, SOURCE_SKILL)
       x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
+
+      // Cyrene
+      const cyreneSkillCdBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 2.20 : 2.00)
+        : 0
+      x.SKILL_CD_BOOST.buff((r.skillEnhances > 0 && r.cyreneSpecialEffect) ? cyreneSkillCdBuff : 0, Source.odeTo(MYDEI))
     },
     calculateBasicEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

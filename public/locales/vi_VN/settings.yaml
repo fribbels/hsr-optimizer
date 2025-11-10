@@ -1,14 +1,10 @@
 Title: Cài đặt
 RelicEquippingBehavior:
   Label: Trang bị di vật từ một nhân vật khác
-  Replace: "Mặc định: Thay thế di vật mà không hoán đổi"
+  Replace: 'Mặc định: Thay thế di vật mà không hoán đổi'
   Swap: Hoán đổi di vật với chủ sở hữu trước đó
 PermutationsSidebarBehavior:
   Label: Thu nhỏ thanh bên của bộ tối ưu hóa trên màn hình nhỏ
-  ShowXL: "Mặc định: Thu nhỏ nếu phần lớn thanh bên bị ẩn"
+  ShowXL: 'Mặc định: Thu nhỏ nếu phần lớn thanh bên bị ẩn'
   ShowXXL: Thu nhỏ nếu bất kỳ phần nào của thanh bên bị ẩn
   NoShow: Luôn giữ thanh bên ở bên phải
-RelicPotentialLoadBehavior:
-  Label: Chấm điểm tiềm năng di vật khi tải trang
-  ScoreAtStartup: "Mặc định: Tự động chấm điểm di vật khi tải trang"
-  ManuallyClickReapplyScores: Chỉ chấm điểm di vật khi nhấn "Áp dụng lại điểm" (tải trang nhanh hơn)

@@ -112,13 +112,6 @@ export function getPreviewRelics(source: ShowcaseSource, character: Character, r
     displayRelics = equipped
   }
 
-  filterNonNull(Object.values(displayRelics)).forEach((relic) => {
-    const foundScore = scoringResults.relics.find((result) => result.part == relic.part)
-    if (foundScore) {
-      relic.scoringResult = foundScore
-    }
-  })
-
   return { scoringResults, displayRelics }
 }
 

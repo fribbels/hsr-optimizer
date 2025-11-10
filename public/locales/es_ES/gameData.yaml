@@ -182,6 +182,9 @@ Characters:
   "1317":
     Name: Rappa
     LongName: Rappa
+  "1321":
+    Name: The Dahlia
+    LongName: The Dahlia
   "1401":
     Name: Sra. Herta
     LongName: Sra. Herta
@@ -213,8 +216,17 @@ Characters:
     Name: Hysilens
     LongName: Hysilens
   "1412":
-    Name: Cerydra
-    LongName: Cerydra
+    Name: Céridra
+    LongName: Céridra
+  "1413":
+    Name: Larganoche
+    LongName: Larganoche
+  "1414":
+    Name: Permansor Terrae
+    LongName: Dan Heng - Permansor Terrae
+  "1415":
+    Name: Cirene
+    LongName: Cirene
   "8001":
     Name: Caelus
     LongName: Caelus (Destrucción)
@@ -239,18 +251,18 @@ Characters:
   "8008":
     Name: Estela
     LongName: Estela (Reminiscencia)
-  1006b1:
-    Name: Silver Wolf
-    LongName: Silver Wolf
-  1005b1:
-    Name: Kafka
-    LongName: Kafka
-  1205b1:
-    Name: Blade
-    LongName: Blade
   1212b1:
     Name: Jingliu
     LongName: Jingliu
+  1205b1:
+    Name: Blade
+    LongName: Blade
+  1005b1:
+    Name: Kafka
+    LongName: Kafka
+  1006b1:
+    Name: Silver Wolf
+    LongName: Silver Wolf
 RelicSets:
   "101":
     Name: Transeúnte de la nube pasajera
@@ -356,6 +368,14 @@ RelicSets:
     Name: Capitán del mar maldito
     Description2pc: Daño CRIT +16%.
     Description4pc: Cuando el portador se convierte en el objetivo de la habilidad de otro aliado, obtiene 1 acumulación de Ayuda (hasta 2 como máximo). Si el portador tiene 2 acumulaciones de Ayuda al lanzar la habilidad definitiva, las consume todas y su ATQ aumenta en un 48% durante 1 turno.
+  "127":
+    Name: Salvador que reforja el mundo
+    Description2pc: Prob. CRIT +8%.
+    Description4pc: Después de que el portador lance el ATQ básico o la habilidad básica cuando su mnemoduende está en el campo de batalla, los PV máx. del portador y su mnemoduende aumentan en un 24% y el daño que infligen todos los aliados aumenta en un 15%. El efecto dura hasta que el portador lance su siguiente ATQ básico o habilidad básica.
+  "128":
+    Name: Eremita aislado en las estrellas
+    Description2pc: Efecto de escudo otorgado +10%.
+    Description4pc: El efecto de escudo otorgado por el portador aumenta en un 12%. Cuando un aliado tiene un escudo otorgado por el portador, su Daño CRIT aumenta en un 15%.
   "301":
     Name: Estación sellaespacios
     Description2pc: El ATQ del portador aumenta en un 12%. Cuando su VEL es igual o superior a 120, el ATQ aumenta en un 12% adicional.
@@ -422,6 +442,12 @@ RelicSets:
   "322":
     Name: Litoral embriagado
     Description2pc: El ATQ del portador aumenta en un 12%. Cuando el ATQ del portador es igual o superior a 2400/3600, el Daño con el tiempo que inflige aumenta en un 12%/24% adicional.
+  "323":
+    Name: Amphoreus, la tierra eterna
+    Description2pc: La Prob. CRIT del portador aumenta en un 8%. Cuando el mnemoduende del portador está en la batalla, la VEL de todos los aliados aumenta en un 8%. Este efecto no se puede acumular.
+  "324":
+    Name: Tengoku@sala de chat
+    Description2pc: El Daño CRIT del portador aumenta en un 16%. Si el portador consume 3 o más pts. de habilidad básica en el mismo turno, su Daño CRIT aumenta en un 32% adicional durante 3 turnos.
 Lightcones:
   "20000":
     Name: Flechas
@@ -602,7 +628,9 @@ Lightcones:
   "22004":
     Name: El gran negocio cósmico
   "22005":
-    Name: Maze Restaurant Forever
+    Name: Viandas sin fin
+  "22006":
+    Name: Volando hacia un mañana rosado
   "23000":
     Name: Noche en la Vía Láctea
   "23001":
@@ -698,9 +726,17 @@ Lightcones:
   "23046":
     Name: Infierno donde arden los ideales
   "23047":
-    Name: Why Does the Ocean Sing
+    Name: Por qué canta el océano
   "23048":
-    Name: Era Engraved by Golden Blood
+    Name: Era grabada en sangre dorada
+  "23049":
+    Name: A la estrella de la larga noche
+  "23050":
+    Name: Never Forget Her Flame
+  "23051":
+    Name: A través de montañas y ríos
+  "23052":
+    Name: Amor eterno como este momento
   "24000":
     Name: Sobre la caída de un Eón
   "24001":

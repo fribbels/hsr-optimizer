@@ -1,6 +1,8 @@
 import {
+  AnaxaCyreneEffectPreprocessor,
   ArcherPreprocessor,
   CastoricePreprocessor,
+  CyrenePreprocessor,
   HookPreprocessor,
   HysilensE1Preprocessor,
   JingliuB1DefPenPreprocessor,
@@ -35,6 +37,8 @@ export const characterPreprocessors: AbilityPreprocessorBase[] = [
   new JingliuB1E2Preprocessor(),
   new JingliuB1DefPenPreprocessor(),
   new HysilensE1Preprocessor(),
+  new AnaxaCyreneEffectPreprocessor(),
+  new CyrenePreprocessor(),
 ]
 
 export const setPreprocessors: AbilityPreprocessorBase[] = [

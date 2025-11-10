@@ -11,6 +11,7 @@ import {
 import {
   ConditionalActivation,
   ConditionalType,
+  CURRENT_DATA_VERSION,
   Stats,
 } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -22,6 +23,7 @@ import {
 } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
+import i18next from 'i18next'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -48,6 +50,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   } = Source.character('8008')
 
   const basicScaling = basic(e, 1.00, 1.10)
+  const enhancedBasicScaling = basic(e, 1.20, 1.32)
 
   const ultScaling = ult(e, 2.40, 2.64)
 
@@ -66,6 +69,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const defaults = {
     buffPriority: BUFF_PRIORITY_SELF,
+    enhancedBasic: false,
     memoSkillHits: 4,
     teamCdBuff: true,
     memsSupport: false,
@@ -95,6 +99,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         { display: tBuff('Memo'), value: BUFF_PRIORITY_MEMO, label: tBuff('Memo') },
       ],
       fullWidth: true,
+    },
+    enhancedBasic: {
+      id: 'enhancedBasic',
+      formItem: 'switch',
+      text: 'Enhanced Basic',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     memoSkillHits: {
       id: 'memoSkillHits',
@@ -187,7 +197,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      if (r.enhancedBasic) {
+        x.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_BASIC)
+        x.m.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_MEMO)
+      } else {
+        x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      }
 
       x.MEMO_BASE_HP_SCALING.buff(memoHpScaling, SOURCE_MEMO)
       x.MEMO_BASE_HP_FLAT.buff(memoHpFlat, SOURCE_MEMO)
@@ -226,7 +241,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const teamCDBuff = t.teamCdBuff ? memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat : 0
-      x.CD.buffTeam(teamCDBuff, Source.NONE)
+      x.CD.buffTeam(teamCDBuff, SOURCE_MEMO)
       x.UNCONVERTIBLE_CD_BUFF.buffTeam(teamCDBuff, SOURCE_MEMO)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

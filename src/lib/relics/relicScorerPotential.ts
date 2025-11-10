@@ -173,7 +173,7 @@ export class RelicScorer {
    * returns the current score, mainstat score, and rating for the relic\
    * additionally returns the part, and scoring metadata
    */
-  static scoreCurrentRelic(relic: Relic, id: CharacterId): RelicScoringResult {
+  static scoreCurrentRelic(relic: Relic, id: CharacterId) {
     return new RelicScorer().getCurrentRelicScore(relic, id)
   }
 
@@ -849,7 +849,8 @@ export class RelicScorer {
     const mainstatBonus = mainStatBonus(relic.part, relic.main.stat, meta)
     const futureScore = this.getFutureRelicScore(relic, id, withMeta)
 
-    const multiplier = meta.sets[relic.set] ?? 0.5
+    // Disabled until we have better sets metadata
+    const multiplier = 1 // meta.sets[relic.set] ?? 0.5
 
     return {
       currentPct: Math.max(0, futureScore.current - mainstatBonus) / percentToScore * multiplier,

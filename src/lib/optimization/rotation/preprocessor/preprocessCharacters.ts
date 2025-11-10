@@ -10,8 +10,10 @@ import {
   TurnMarker,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
+  ANAXA,
   ARCHER,
   CASTORICE,
+  CYRENE,
   HOOK,
   HYSILENS,
   JINGLIU_B1,
@@ -264,6 +266,54 @@ export class HysilensE1Preprocessor extends AbilityPreprocessorBase {
 
     if (marker == TurnMarker.END || marker == TurnMarker.WHOLE) {
       this.state.ultActivated = false
+    }
+  }
+}
+
+export class AnaxaCyreneEffectPreprocessor extends AbilityPreprocessorBase {
+  id = ANAXA
+  defaultState = { cyreneSpecialEffect: false }
+  state = { ...this.defaultState }
+
+  reset() {
+    this.state = { ...this.defaultState }
+  }
+
+  processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
+    const { kind, marker } = turnAbility
+
+    if (marker == TurnMarker.START || marker == TurnMarker.WHOLE) {
+      if (this.state.cyreneSpecialEffect) {
+        this.state.cyreneSpecialEffect = false
+      } else {
+        this.state.cyreneSpecialEffect = true
+      }
+    }
+    setComboBooleanCategoryCharacterActivation(comboState, 'cyreneSpecialEffect', index, this.state.cyreneSpecialEffect)
+  }
+}
+
+export class CyrenePreprocessor extends AbilityPreprocessorBase {
+  id = CYRENE
+  defaultState = { memoSkillCounter: 3 }
+  state = { ...this.defaultState }
+
+  reset() {
+    this.state = { ...this.defaultState }
+  }
+
+  processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
+    const { kind, marker } = turnAbility
+
+    if (kind == AbilityKind.MEMO_SKILL && this.state.memoSkillCounter >= 3) {
+      this.state.memoSkillCounter = 0
+      setComboBooleanCategoryCharacterActivation(comboState, 'enhancedMemoSkill', index, true)
+    } else {
+      setComboBooleanCategoryCharacterActivation(comboState, 'enhancedMemoSkill', index, false)
+    }
+
+    if (kind == AbilityKind.MEMO_SKILL) {
+      this.state.memoSkillCounter++
     }
   }
 }

@@ -61,8 +61,10 @@ import aglaea from 'lib/conditionals/character/1400/Aglaea'
 import anaxa from 'lib/conditionals/character/1400/Anaxa'
 import castorice from 'lib/conditionals/character/1400/Castorice'
 import cipher from 'lib/conditionals/character/1400/Cipher'
+import evernight from 'lib/conditionals/character/1400/Evernight'
 import hyacine from 'lib/conditionals/character/1400/Hyacine'
 import mydei from 'lib/conditionals/character/1400/Mydei'
+import permansorTerrae from 'lib/conditionals/character/1400/PermansorTerrae'
 import theHerta from 'lib/conditionals/character/1400/TheHerta'
 import tribbie from 'lib/conditionals/character/1400/Tribbie'
 import trailblazerdestruction from 'lib/conditionals/character/8000/TrailblazerDestruction'
@@ -75,7 +77,9 @@ import kafkaB1 from 'lib/conditionals/character/1000/KafkaB1'
 import silverWolfB1 from 'lib/conditionals/character/1000/SilverWolfB1'
 import bladeB1 from 'lib/conditionals/character/1200/BladeB1'
 import jingliuB1 from 'lib/conditionals/character/1200/JingliuB1'
+import theDahlia from 'lib/conditionals/character/1300/TheDahlia'
 import cerydra from 'lib/conditionals/character/1400/Cerydra'
+import cyrene from 'lib/conditionals/character/1400/Cyrene'
 import hysilens from 'lib/conditionals/character/1400/Hysilens'
 import { CharacterConditionalsController } from 'types/conditionals'
 import archer from '../character/1000/Archer'
@@ -173,6 +177,13 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
 
   1410: hysilens,
   1412: cerydra,
+
+  1413: evernight,
+  1414: permansorTerrae,
+
+  1415: cyrene,
+
+  1321: theDahlia,
 }
 
 /**

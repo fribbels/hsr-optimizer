@@ -99,6 +99,11 @@ Lightcones:
         text: Post Ult SPD buff
         content: >-
           After the wearer uses an attack, for each different enemy target the wearer hits, regenerates {{EnergyRecovered}} Energy. Each attack can regenerate Energy up to 3 times this way. After the wearer uses their Ultimate, all allies gain {{SpdBuff}} SPD for 1 turn.
+  EpochEtchedInGoldenBlood:
+    Content:
+      skillDmgBoost:
+        text: Skill DMG boost
+        content: When the wearer uses their Skill on one ally character, increases the Skill DMG dealt by the target by {{DmgBuff}}% for 3 turns.
   EternalCalculus:
     Content:
       atkBuffStacks:
@@ -150,7 +155,7 @@ Lightcones:
         text: Enemy debuffed DMG boost
         content: Increases the wearer's DMG to debuffed enemies by {{DmgBuff}}%.
       skillAtkBoost:
-        text: Skill ATK boost (not implemented)
+        text: Skill ATK boost
         content: When the wearer uses their Skill, the Effect Hit Rate for this attack increases by {{EhrBuff}}%, and ATK increases by {{AtkBuff}}%.
   InTheNight:
     Content:
@@ -333,6 +338,11 @@ Lightcones:
         text: Cornered vulnerability
         content: >-
           After the wearer uses Basic ATK, Skill, or Ultimate to attack an enemy target, there is a 60% base chance to inflict Unarmored on the target. While in the Unarmored state, the enemy target receives {{UnarmoredVulnerability}}% increased DMG, lasting for 2 turns. If the target is under a DoT state inflicted by the wearer, there is a 60% base chance to upgrade the Unarmored state inflicted by the wearer to the Cornered state, which additionally increases the DMG the enemy target receives by {{CorneredVulnerability}}%, lasting for 2 turns.
+  ThoughWorldsApart:
+    Content:
+      dmgBoost:
+        text: DMG Boost
+        content: When the wearer uses Ultimate, grants "Redoubt" to all allies for 3 turns. Targets with "Redoubt" deal {{DmgBuff}}% more DMG, which further increases by {{SummonDmgBuff}}% if they have summons.
   ThusBurnsTheDawn:
     Content:
       defPen:
@@ -341,6 +351,14 @@ Lightcones:
       dmgBuff:
         text: DMG buff
         content: While "Blazing Sun" is in possession, increases the wearer's DMG dealt by {{DmgBuff}}% .
+  ToEvernightsStars:
+    Content:
+      defPen:
+        text: Memo DEF PEN
+        content: When the wearer's memosprite uses an ability, the wearer gains "Noctis." While the wearer has "Noctis," all allies' memosprites ignore {{MemoDefPen}}% of the target's DEF when dealing DMG.
+      dmgBoost:
+        text: DMG boost
+        content: Increases the DMG dealt by the wearer and their memosprite by {{DmgBuff}}%.
   TimeWaitsForNoOne:
     Content:
       healingBasedDmgProc:
@@ -363,6 +381,14 @@ Lightcones:
         text: Routed vulnerability
         content: >-
           When the wearer deals Break DMG to an enemy target, inflicts Routed on the enemy, lasting for 2 turns. Targets afflicted with Routed receive {{Vulnerability}}% increased Break DMG from the wearer, and their SPD is lowered by 20%. Effects of the similar type cannot be stacked.
+  WhyDoesTheOceanSing:
+    Content:
+      dotVulnStacks:
+        text: DOT vulnerability stacks
+        content: When an enemy target gets inflicted with a debuff by the wearer, there is a 80% base chance for them to enter "Enthrallment," lasting for 3 turns. While the target is in "Enthrallment," for every 1 debuff applied by the wearer on the target, increases the target's received DoT by {{DotVuln}}%, stacking up to 6 times.
+      spdBuff:
+        text: SPD buff
+        content: When an enemy target gets inflicted with a debuff by the wearer, there is a 80% base chance for them to enter "Enthrallment," lasting for 3 turns. When the target gets attacked by an ally, increases the attacker's SPD by {{SpdBuff}}% for 3 turns.
   WorrisomeBlissful:
     Content:
       targetTameStacks:
@@ -457,6 +483,14 @@ Lightcones:
         text: DMG buff
         content: >-
           When the cumulative HP loss of the wearer during a single attack exceeds 25% of their Max HP, or if the amount of their own HP they consume at one time is greater than 25% of their Max HP, immediately heals the wearer for 15% of their Max HP, and at the same time, increases the DMG they deal by {{DmgBuff}}% for 2 turns. This effect can only be triggered once every 3 turns.
+  FlyIntoAPinkTomorrow:
+    Content:
+      dmgBoost:
+        text: DMG Boost
+        content: Increases all ally targets' DMG dealt by {{DmgBuff}}%.
+      enhancedBasicBoost:
+        text: Trailblazer Enhanced Basic
+        content: Increases DMG dealt by Enhanced Basic ATK "Together, We Script Tomorrow!" by {{DmgBoost}}% .
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:
@@ -605,6 +639,11 @@ Lightcones:
       memoCdBoost:
         text: Memo CD boost
         content: The CRIT DMG dealt by the wearer's memosprite increases by {{CritDmgBuff}}%
+  TheForeverVictual:
+    Content:
+      atkStacks:
+        text: ATK buff stacks
+        content: After using their Skill, the wearer's ATK increases by {{AtkBuff}}%, stacking up to 3 times.
   TheGreatCosmicEnterprise:
     Content:
       weaknessTypes:
@@ -634,6 +673,14 @@ Lightcones:
         text: DEF scaling Ult DMG (Not implemented)
         content: >-
           Increases the DMG of the wearer when they use their Ultimate by {{Multiplier}}% of the wearer's DEF. This effect only applies 1 time per enemy target during each use of the wearer's Ultimate.
+  ThisLoveForever:
+    Content:
+      vulnerability:
+        text: Vulnerability
+        content: When the wearer's memosprite uses a Memosprite Skill on an ally, gains "Blank," which increases DMG taken by all enemies by {{Vulnerability}}%. When the wearer's memosprite has both "Blank" and "Verse," increases the effects of "Blank" and "Verse" by {{Multi}}%.
+      cdBoost:
+        text: CD buff
+        content: When the wearer's memosprite uses a Memosprite Skill on an enemy, gains "Verse," which increases CRIT DMG of all allies by {{CdBuff}}%. When the wearer's memosprite has both "Blank" and "Verse," increases the effects of "Blank" and "Verse" by {{Multi}}%.
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:
@@ -792,6 +839,9 @@ Characters:
         text: Memo SPD stacks
         content: >-
           After attacking an enemy afflicted with "Seam Stitch," increases this unit's SPD by {{SpdBuff}}, stacking up to {{StackLimit}} times.
+      cyreneSpecialEffect:
+        text: Cyrene Special Effect
+        content: Increases DMG dealt by Aglaea and Garmentmaker by 72%/79.2%, and ignores 36%/39.6% of the target's DEF, lasting until Aglaea exits the "Supreme Stance" state.
       e1Vulnerability:
         text: E1 vulnerability
         content: Enemies afflicted with "Seam Stitch" take 15% increased DMG.
@@ -819,6 +869,12 @@ Characters:
       enemyWeaknessTypes:
         text: Enemy weaknesses
         content: For every different Weakness Type an enemy target has, the DMG that Anaxa deals to that target ignores 4% of DEF, up to a max of 7 Weakness Types.
+      cyreneSpecialEffect:
+        text: Cyrene Special Effect
+        content: >-
+          Increases the number of Skill DMG instances by 3 for 1 turn.
+          ::BR::
+          The next time Anaxa uses his Basic ATK or Skill, he gains "True Knowledge": Increases the ATK of all Erudition Path characters by 60%/66% and Skill DMG dealt by 40%/44% until the start of Anaxa's next turn.
       e1DefPen:
         text: E1 DEF PEN
         content: When any enemy targets are hit by this Anaxa's Skill, decreases the targets' DEF by 16% for 2 turns.
@@ -1052,6 +1108,9 @@ Characters:
       memoDmgStacks:
         text: Memo DMG stacks
         content: Each time Netherwing uses "Breath Scorches the Shadow," increases its DMG dealt by 30%. This effect stacks up to 6 and lasts until the end of this turn.
+      cyreneSpecialEffect:
+        text: Cyrene Special Effect
+        content: When used on Castorice, "Newbud" can overflow up to 200%. When summoning Netherwing, consumes all overflowed "Newbud," increases the DMG multiplier of the DMG dealt by 0.24%/0.264% for every 1% of overflow value consumed when the summoned Netherwing triggers the ability effect of its Talent, "Wings Sweep the Ruins." If there are 2 enemy targets on the field or fewer when summoned, the DMG multiplier additionally increases by 0.48%/0.528% when summoning.
       e1EnemyHp50:
         text: E1 Enemy HP ≤ 50%
         content: When the enemy target's current HP is 50% or lower than this unit's Max HP, the DMG dealt with "Boneclaw, Doomdrake's Embrace," "Claw Splits the Veil," "Breath Scorches the Shadow," and "Wings Sweep the Ruins" is 140% of the original DMG.
@@ -1059,6 +1118,45 @@ Characters:
         text: E6 buffs
         content: >-
           When Castorice or Netherwing deals DMG, increases Quantum RES PEN by 20%. ::BR:: Increases the Bounce count for Netherwing's Talent "Wings Sweep the Ruins" by 3 times.
+  Cerydra:
+    Content:
+      spdBuff:
+        text: SPD buff
+        content: When using Skill, increases SPD by 20 for this unit and the teammate with "Military Merit," lasting for 3 turns.
+      crBuff:
+        text: CR buff
+        content: Increases Cerydra's CRIT Rate by 100%.
+      atkToCd:
+        text: ATK to CD
+        content: For every 100 of Cerydra's ATK that exceeds 2000, increases her CRIT DMG by 18%, up to a max increase of 360%.
+      e2DmgBoost:
+        text: E2 DMG boost
+        content: The character with "Military Merit" deals 40% increased DMG. While a teammate on the field has "Military Merit," Cerydra's DMG dealt increases by 160%.
+      e4UltDmg:
+        text: E4 Ult DMG
+        content: Increases Ultimate's DMG multiplier by 240%.
+      e6Buffs:
+        text: E6 buffs
+        content: The character with "Military Merit" increases their All-Type RES PEN by 20%, and the multiplier for the Additional DMG triggered via "Military Merit" increases by 300%. While a teammate on the field has "Military Merit," Cerydra's All-Type RES PEN increases by 20%.
+    TeammateContent:
+      militaryMerit:
+        text: Military Merit
+        content: >-
+          When using Skill, increases SPD by 20 for this unit and the teammate with "Military Merit," lasting for 3 turns. ::BR:: The character with "Military Merit" increases ATK by an amount equal to {{TalentAtkConversion}}% of Cerydra's ATK. ::BR:: E1: The character with "Military Merit" ignores 16% of the targets' DEF when dealing DMG.
+      cyreneSpecialEffect:
+        text: Cyrene Special Effect
+        content: Increases the CRIT DMG of the character with "Military Merit" by 30%/33%.
+      peerage:
+        text: Peerage
+        content: >-
+          The character with "Peerage" increases the CRIT DMG for their dealt Skill DMG by {{SkillCdBuff}}%, increases their All-Type RES PEN by {{SkillResPenBuff}}% ::BR:: E1: If "Military Merit" has been upgraded to "Peerage," then the character additionally ignores 20% of the targets' DEF when dealing Skill DMG.
+      teammateATKValue:
+        text: Cerydra's combat ATK
+        content: >-
+          The character with "Military Merit" increases ATK by an amount equal to {{TalentAtkConversion}}% of Cerydra's ATK. ::BR:: Set this to the Cerydra's self ATK stat that she uses to buff teammates.
+      e1DefPen:
+        text: E1 DEF PEN
+        content: The character with "Military Merit" ignores 16% of the targets' DEF when dealing DMG. If "Military Merit" has been upgraded to "Peerage," then the character additionally ignores 20% of the targets' DEF when dealing Skill DMG.
   Cipher:
     Content:
       vulnerability:
@@ -1073,6 +1171,9 @@ Characters:
       spdBasedBuffs:
         text: SPD based buffs
         content: When Cipher's SPD is greater or equal to 140/170, increases CRIT Rate by 25%/50%.
+      cyreneSpecialEffect:
+        text: Cyrene Special Effect
+        content: Increases the DMG dealt by Cipher by 36%/39.6%, and decreases the DEF of the "Patron" by 20%/22% and the DEF of enemy targets other than "Patron" by 12%/13.2%.
       e1AtkBuff:
         text: E1 ATK buff
         content: When using a Follow-up ATK caused by her Talent, increases Cipher's ATK by 80% for 2 turns.
@@ -1099,6 +1200,53 @@ Characters:
       e4DmgReductionBuff:
         text: E4 DMG reduction buff
         content: Decreases DMG taken by 30%.
+  Cyrene:
+    Content:
+      memospriteActive:
+        text: Memosprite Active
+        content: >-
+          Increases Cyrene's and Demiurge's CRIT Rate by {{CRBuff}}%.
+          ::BR::
+          Cyrene's and Demiurge's Max HP increases by {{HPBuff}}%.
+          ::BR::
+          Cyrene's basic attack is enhanced to "To Love and Tomorrow ♪" and can only use this attack.
+      zoneActive:
+        text: Zone Active
+        content: While the Zone is active, for each instance of DMG dealt by all ally targets, deals 1 additional instance of True DMG equal to {{TrueDmg}}% of the original DMG.
+      talentDmgBuff:
+        text: Talent DMG Buff
+        content: While Cyrene is on the field, increases DMG dealt by all ally targets by {{DmgBuff}}%.
+      traceSpdBasedBuff:
+        text: Trace SPD Based Buff
+        content: When Cyrene's SPD is at 180 or higher, increases all allies' DMG dealt by 20%. Then, for each point of SPD exceeded, increases Cyrene and Demiurge's Ice RES PEN by 2%, counting up to a maximum of 60 exceeded SPD points.
+      odeToEgoExtraBounces:
+        text: Ode To Ego Extra Bounces
+        content: After Cyrene has gained "Recollection" from each different teammate (other than Demiurge), when Demiurge uses "Minuet of Blooms and Plumes," it additionally deals 1 instance of Ice DMG equal to 60% of Demiurge's Max HP to one random enemy.
+      e1ExtraBounces:
+        text: E1 Extra Bounces
+        content: When Demiurge triggers the Memosprite Skill "Ode to Ego" while using "Minuet of Blooms and Plumes," gains 6 "Recollection" point(s) and increases the number of bounces for this attack by 12.
+      e2TrueDmgStacks:
+        text: E2 True DMG Stacks
+        content: For each different ally character that gains the Memosprite Skill buff from Demiurge, the DMG multiplier of the True DMG dealt by ally targets via the Skill's Zone increases by 6%, up to a max increase of 24%.
+      e4BounceStacks:
+        text: E4 Bounce Stacks
+        content: Each time after Demiurge uses "Minuet of Blooms and Plumes," the Bounce DMG multiplier of the triggered Memosprite Skill "Ode to Ego" increases by 6% in the current battle and can be stacked up to 24 times.
+      e6DefPen:
+        text: E6 DEF PEN
+        content: While Demiurge is on the field, reduces all enemy targets' DEF by 20%.
+    TeammateContent:
+      specialEffect:
+        text: Special Effect
+        content: Applies a buff to one designated ally character. When the character is a Chrysos Heir, the target gains a special effect. When the character is not a Chrysos Heir, increases the target's DMG dealt by {{DmgBuff}}% for 2 turns. This effect also applies on memosprites.
+      cyreneSpdDmg:
+        text: Cyrene SPD ≥ 180
+        content: When Cyrene's SPD is at 180 or higher, increases all allies' DMG dealt by 20%.
+      cyreneHp:
+        text: Cyrene Memo HP
+        content: increases Trailblazer (Remembrance)'s ATK by a value equal to {{ConversionRate}}% of Demiurge's Max HP. This effect also applies to Mem.
+      cyreneCr:
+        text: Cyrene Memo CR
+        content: increases Trailblazer (Remembrance)'s CRIT Rate by a value equal to {{ConversionRate}}% of Demiurge's CRIT Rate. This effect also applies to Mem.
   DanHeng:
     Content:
       talentPenBuff:
@@ -1122,6 +1270,55 @@ Characters:
         text: Enemy debuff stacks
         content: >-
           When using his Skill, Dr. Ratio has a 40% fixed chance of launching a follow-up attack against his target for 1 time, dealing Imaginary DMG equal to {{FuaScaling}}% of Dr. Ratio's ATK. For each debuff the target enemy has, the fixed chance of launching follow-up attack increases by 20%. If the target enemy is defeated before the follow-up attack triggers, the follow-up attack will be directed at a single random enemy instead.::BR::When dealing DMG to a target that has 3 or more debuffs, for each debuff the target has, the DMG dealt by Dr. Ratio to this target increases by 10%, up to a maximum increase of 50%.::BR::E2: When his Talent's follow-up attack hits a target, for every debuff the target has, additionally deals Imaginary Additional DMG equal to 20% of Dr. Ratio's ATK. This effect can be triggered for a maximum of 4 times during each follow-up attack.
+  Evernight:
+    Content:
+      memoTalentDmgBuff:
+        text: Memo Talent DMG Buff
+        content: While Evernight is on the field, increases DMG dealt by Evernight and Evey by {{MemoTalentDmgBuff}}%.
+      traceCritBuffs:
+        text: Trace Crit buffs
+        content: Increases Evernight and the memosprite Evey's CRIT Rate by 35%. When using abilities, consumes 5% of this unit's current HP to increase both their CRIT DMG by 15% for 2 turns.
+      skillMemoCdBuff:
+        text: Skill Memo CD buff
+        content: Consumes 10% of Evernight's current HP to summon memosprite Evey and increases CRIT DMG of all ally memosprites by an amount equal to {{SkillMemoCdBuff}}% of Evernight's CRIT DMG for 2 turns.
+      talentMemoCdBuff:
+        text: Talent Memo CD buff
+        content: Each time Evernight or memosprite Evey loses HP, increases CRIT DMG for both this unit and memosprite Evey by {{TalentCdScaling}}% for 2 turns.
+      memoriaStacks:
+        text: Memoria stacks
+        content: >-
+          This ability automatically selects a target, prioritizing the enemy target that Evernight last attacked. Deals Ice DMG equal to {{MemoSkillScaling}}% of Evey's Max HP to one enemy. For every 4 points of "Memoria" Evernight currently has, further deals Ice DMG equal to {{MemoSkillAdditionalScaling}}% of Evey's Max HP.
+          ::BR::
+          When Evernight's "Memoria" is greater than or equal to 16 points, and Evernight is not under a Crowd Control state, "Dream, Dissolving, as Dew" will instead be used. For each point of "Memoria" currently in possession, deals Ice DMG equal to {{MemoSkillEnhancedScaling}}% of Evey's Max HP to the primary target
+      enhancedState:
+        text: Enhanced state
+        content: Casting her ultimate causes Evernight to enter the "Darkest Riddle" state. During this state, the DMG received by all enemies increases by {{UltVulnScaling}}%, the DMG dealt by Evernight and memosprite Evey increases by {{UltDmgBoostScaling}}%.
+      cyreneSpecialEffect:
+        text: Cyrene Special Effect
+        content: >-
+          Increases DMG dealt when Evey uses the Memosprite Skill "Dream, Dissolving, as Dew" by 18%/19.8%.
+          ::BR::
+          The CRIT DMG boost effect provided by the Skill is further increased by an amount equal to 12%/13.2% of Evernight's CRIT DMG.
+      e1FinalDmg:
+        text: E1 Final DMG
+        content: When Evernight is on the field and when there are 4 or more/3/2/1 enemy targets on the field, ally memosprites deal 120%/125%/130%/150% of their original DMG respectively.
+      e2CdBuff:
+        text: E2 CD buff
+        content: Increases Evernight's and memosprite Evey's CRIT DMG by 40%.
+      e4Buffs:
+        text: E4 buffs
+        content: While Evernight is on the field, ally memosprites' Weakness Break Efficiency increases by 25%, and memosprite Evey gains an additional 25% Weakness Break Efficiency.
+      e6ResPen:
+        text: E6 RES PEN
+        content: While Evernight is on the field, all allies' All-Type RES PEN increases by 20%. After memosprite Evey uses "Dream, Dissolving, as Dew," Evernight gains 30% of the consumed "Memoria" in this attack.
+    TeammateContent:
+      skillMemoCdBuff:
+        text: Skill Memo CD buff
+        content: When using Skill, increases CRIT DMG of all ally memosprites by an amount equal to {{SkillCdScaling}}% of Evernight's CRIT DMG for 2 turns.
+      evernightCombatCD:
+        text: Evernight's combat CD
+        content: >-
+          When using Skill, increases CRIT DMG of all ally memosprites by an amount equal to {{SkillCdScaling}}% of Evernight's CRIT DMG for 2 turns. ::BR:: Set this to the Evernight's self CD stat that she uses to buff teammates.
   Feixiao:
     Content:
       weaknessBrokenUlt:
@@ -1371,6 +1568,46 @@ Characters:
       e6ResPen:
         text: E6 RES PEN
         content: When Little Ica is on the field, increases all ally targets' All-Type RES PEN by 20%.
+  Hysilens:
+    Content:
+      skillVulnerability:
+        text: Skill Vulnerability
+        content: Hysilens' skill has a 100% base chance to increase the DMG taken by all enemies by {{SkillVuln}}%, lasting for 3 turns.
+      ultZone:
+        text: Ult Zone active
+        content: When casting her ultimate, Hysilens deploys a Zone that reduces enemy targets' ATK by 15% and DEF by {{ZoneDefShred}}%.
+      ultDotStacks:
+        text: Ult DOT trigger stacks
+        content: When Hysilens uses Ultimate, if the enemy target is currently afflicted with DoTs, all DoTs currently applied on the target will immediately produce DMG equal to 150% of their original DMG.
+      ehrToDmg:
+        text: EHR to DMG boost
+        content: For every 10% of Hysilens's Effect Hit Rate that exceeds 60%, increases her DMG dealt by 15%, up to a max increase of 90%.
+      dotDetonation:
+        text: DOT detonation (Automatic activation)
+        content: When Hysilens uses Ultimate, if the enemy target is currently afflicted with DoTs, all DoTs currently applied on the target will immediately produce DMG equal to 150% of their original DMG.
+      cyreneSpecialEffect:
+        text: Cyrene Special Effect
+        content: >-
+          Increases DMG dealt by Hysilens by 120%/132%.
+          ::BR::
+          After Hysilens uses Basic ATK to attack enemies, causes the DoT currently applied on the attacked enemy targets to immediately produce DMG equal to 60%/66% of the original DMG.
+          ::BR::
+          After Hysilens uses Skill to attack enemies, causes the DoT currently applied on the attacked enemy targets to immediately produce DMG equal to 80%/88% of the original DMG.
+      e1Buffs:
+        text: E1 buffs
+        content: >-
+          While Hysilens is on the field, ally targets deal DoT equal to 116% of the original DMG. ::BR:: When Hysilens inflicts Wind Shear/Bleed/Burn/Shock on enemies through her Talent, there is a 100% base chance to additionally inflict the target with 1 instance of Wind Shear/Bleed/Burn/Shock state that is identical to and can coexist with that of the original Talent effect.
+      e4ResPen:
+        text: E4 RES PEN
+        content: While the Zone is active, reduces All-Type RES of all enemies by 20%.
+      e6Buffs:
+        text: E6 buffs
+        content: While the Zone is active, at the start of each turn or after one attack by an ally target, increases the maximum trigger count for Hysilens's Physical DoT effect to 12, and increases the multiplier of the DMG dealt by 20%.
+    TeammateContent:
+      e2TeammateEhr:
+        text: "E2 Hysilens' combat EHR"
+        content: >-
+          While the Zone is active, the DMG Boost effect from Trace "The Fiddle of Pearls" applies to all allies. ::BR:: The Fiddle of Pearls: For every 10% of Hysilens's Effect Hit Rate that exceeds 60%, increases her DMG dealt by 15%, up to a max increase of 90%.
   ImbibitorLunae:
     Content:
       basicEnhanced:
@@ -1638,6 +1875,9 @@ Characters:
       hpToCrConversion:
         text: HP to CR conversion
         content: When battle starts, if Mydei's Max HP exceeds 4000, for every 100 excess HP, Mydei's CRIT Rate increases by 1.2%, his Charge ratio from enemy targets' DMG increases by 2.5%, and his Incoming Healing increases by 0.75%. Up to 4000 excess HP can be taken into account for this effect.
+      cyreneSpecialEffect:
+        text: Cyrene Special Effect
+        content: If Mydei is in the "Vendetta" state, he automatically uses 1 instance of "Godslayer Be God" without consuming Charge. Mydei's CRIT DMG increases by 200%/220% during this attack.
       e1EnhancedSkillBuff:
         text: E1 Enhanced Skill boost
         content: The DMG multiplier dealt by "Godslayer Be God" to the primary target increases by 30%. And "Godslayer Be God" becomes Imaginary DMG dealt to all enemies equal to the DMG multiplier applied to the primary target.
@@ -1664,6 +1904,27 @@ Characters:
       e4SkillResShred:
         text: E4 Skill Ice RES shred
         content: When using Skill, there is a 100% base chance to reduce the target enemy's Ice RES by 12% for 2 turns.
+  PermansorTerrae:
+    TeammateContent:
+      bondmate:
+        text: Bondmate
+        content: When using Skill, increases the ATK of the "Bondmate" target by 15% of Dan Heng • Permansor Terrae's ATK. "Bondmate" gains posession of the summon "Souldragon".
+      sourceAtk:
+        text: Dan Heng's combat ATK
+        content: >-
+          When using Skill, increases the ATK of the "Bondmate" target by 15% of Dan Heng • Permansor Terrae's ATK. ::BR:: Set this to the Dan Heng • Permansor Terrae's self ATK stat that he uses to buff teammates.
+      cyreneSpecialEffect:
+        text: Cyrene Special Effect
+        content: The "Bondmate" deals 24%/26.4% more DMG.
+      e1ResPen:
+        text: E1 RES PEN
+        content: When Dan Heng • Permansor Terrae uses his Ultimate, increases the "Bondmate's" All-Type RES PEN by 18% for 3 turns.
+      e4DmgReduction:
+        text: E4 DMG reduction
+        content: Reduces DMG taken by "Bondmate" by 20%.
+      e6Buffs:
+        text: E6 buffs
+        content: When there is a "Bondmate" on the field, increases the DMG received by all enemies by 20%. When the "Bondmate" deals DMG, ignores 12% of the enemy targets' DEF.
   Phainon:
     Content:
       transformedState:
@@ -1693,6 +1954,14 @@ Characters:
       spdBuff:
         text: Team SPD buff
         content: When the Transformation ends, increases all allies' SPD by 15%, lasting for 1 turn.
+      cyreneSpecialEffect:
+        text: Cyrene Special Effect
+        content: >-
+          Phainon gains 6 "Coreflames" as well as "Eternal Ignition" when Transforming.
+          ::RB::
+          When Transforming, if "Coreflame" exceeds 12, for each point in excess, Khaslana's CRIT DMG increases by 12%/13.2%, up to 72%/79.2%. While "Eternal Ignition" persists, increases Khaslana's CRIT Rate by 16%/17.6%.
+          ::BR::
+          After using an attack, deals 5 instances of Additional DMG, with each instance dealing Fire Additional DMG equal to 10%/11% of Khaslana's ATK to one random enemy.
       e1Buffs:
         text: E1 buffs
         content: >-
@@ -1770,7 +2039,7 @@ Characters:
       teammateATKValue:
         text: Robin's Combat ATK
         content: >-
-          While in the Concerto state, increases all allies' ATK by {{ultAtkBuffScalingValue}}% of Robin's ATK plus {{ultAtkBuffFlatValue}}.::BR::Set this to the Robin's self ATK stat that she uses to buff teammates.
+          While in the Concerto state, increases all allies' ATK by {{ultAtkBuffScalingValue}}% of Robin's ATK plus {{ultAtkBuffFlatValue}}. ::BR:: Set this to the Robin's self ATK stat that she uses to buff teammates.
       traceFuaCdBoost:
         text: FUA CD boost
         content: While the Concerto state is active, the CRIT DMG dealt when all allies launch follow-up attacks increases by 25%.
@@ -2143,6 +2412,9 @@ Characters:
       talentFuaStacks:
         text: FUA stacks
         content: After using Talent's Follow-up ATK, increases the DMG dealt by Tribbie by 72%. This effect can stack up to 3 times, lasting for 3 turns.
+      cyreneSpecialEffect:
+        text: Cyrene Special Effect
+        content: DMG dealt by Tribbie ignoes 12%/13.2% of the enemy's DEF. When Tribbie launches Follow-up ATK and triggers the Additional DMG from Tribbie's Zone, it further deals 1 instance of Additional DMG.
       e1TrueDmg:
         text: E1 True DMG
         content: While the Zone from her Ultimate lasts and after ally targets attack enemies, additionally deals True DMG equal to 24% of the total DMG of this attack to targets that have been dealt Additional DMG by the Zone.

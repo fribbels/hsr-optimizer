@@ -26,8 +26,8 @@ MainStats: Atributos principais
 Sets: Sets
 RelicSetSelector:
   Placeholder: Set de Relíquia
-  4pcLabel: 4 Pedaços
-  2+2pcLabel: 2 + 2 Pedaços
+  4pcLabel: 4 Peças
+  2+2pcLabel: 2 + 2 Peças
   2pcLabel: 2 + Qualquer
 OrnamentSetSelector:
   Placeholder: Set de Ornamento
@@ -90,6 +90,10 @@ OptimizerOptions:
     Label9: '+9'
     Label12: '+12'
     Label15: '+15'
+  DPSMode:
+    Header: Modo DPS
+    Main: Principal
+    Sub: Sub
 AdvancedOptions:
   Header: Opções avançadas
   EnemyConfigButtonText: Configurações de inimigo
@@ -488,7 +492,6 @@ TeammateCard:
       Set: '$t(gameData:RelicSets.121.Name)'
       Text: 36% CD
     Warrior:
-      Desc: '$t(gameData:RelicSets.125.Name) (+15% CD)'
       Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% CD
     Keel:

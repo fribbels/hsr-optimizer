@@ -615,6 +615,14 @@ interface Resources {
           }
         }
       },
+      "EpochEtchedInGoldenBlood": {
+        "Content": {
+          "skillDmgBoost": {
+            "text": "Skill DMG boost",
+            "content": "When the wearer uses their Skill on one ally character, increases the Skill DMG dealt by the target by {{DmgBuff}}% for 3 turns."
+          }
+        }
+      },
       "EternalCalculus": {
         "Content": {
           "atkBuffStacks": {
@@ -686,7 +694,7 @@ interface Resources {
             "content": "Increases the wearer's DMG to debuffed enemies by {{DmgBuff}}%."
           },
           "skillAtkBoost": {
-            "text": "Skill ATK boost (not implemented)",
+            "text": "Skill ATK boost",
             "content": "When the wearer uses their Skill, the Effect Hit Rate for this attack increases by {{EhrBuff}}%, and ATK increases by {{AtkBuff}}%."
           }
         }
@@ -951,6 +959,14 @@ interface Resources {
           }
         }
       },
+      "ThoughWorldsApart": {
+        "Content": {
+          "dmgBoost": {
+            "text": "DMG Boost",
+            "content": "When the wearer uses Ultimate, grants \"Redoubt\" to all allies for 3 turns. Targets with \"Redoubt\" deal {{DmgBuff}}% more DMG, which further increases by {{SummonDmgBuff}}% if they have summons."
+          }
+        }
+      },
       "ThusBurnsTheDawn": {
         "Content": {
           "defPen": {
@@ -960,6 +976,18 @@ interface Resources {
           "dmgBuff": {
             "text": "DMG buff",
             "content": "While \"Blazing Sun\" is in possession, increases the wearer's DMG dealt by {{DmgBuff}}% ."
+          }
+        }
+      },
+      "ToEvernightsStars": {
+        "Content": {
+          "defPen": {
+            "text": "Memo DEF PEN",
+            "content": "When the wearer's memosprite uses an ability, the wearer gains \"Noctis.\" While the wearer has \"Noctis,\" all allies' memosprites ignore {{MemoDefPen}}% of the target's DEF when dealing DMG."
+          },
+          "dmgBoost": {
+            "text": "DMG boost",
+            "content": "Increases the DMG dealt by the wearer and their memosprite by {{DmgBuff}}%."
           }
         }
       },
@@ -988,6 +1016,18 @@ interface Resources {
           "routedVulnerability": {
             "text": "Routed vulnerability",
             "content": "When the wearer deals Break DMG to an enemy target, inflicts Routed on the enemy, lasting for 2 turns. Targets afflicted with Routed receive {{Vulnerability}}% increased Break DMG from the wearer, and their SPD is lowered by 20%. Effects of the similar type cannot be stacked."
+          }
+        }
+      },
+      "WhyDoesTheOceanSing": {
+        "Content": {
+          "dotVulnStacks": {
+            "text": "DOT vulnerability stacks",
+            "content": "When an enemy target gets inflicted with a debuff by the wearer, there is a 80% base chance for them to enter \"Enthrallment,\" lasting for 3 turns. While the target is in \"Enthrallment,\" for every 1 debuff applied by the wearer on the target, increases the target's received DoT by {{DotVuln}}%, stacking up to 6 times."
+          },
+          "spdBuff": {
+            "text": "SPD buff",
+            "content": "When an enemy target gets inflicted with a debuff by the wearer, there is a 80% base chance for them to enter \"Enthrallment,\" lasting for 3 turns. When the target gets attacked by an ally, increases the attacker's SPD by {{SpdBuff}}% for 3 turns."
           }
         }
       },
@@ -1120,6 +1160,18 @@ interface Resources {
           "dmgBuff": {
             "text": "DMG buff",
             "content": "When the cumulative HP loss of the wearer during a single attack exceeds 25% of their Max HP, or if the amount of their own HP they consume at one time is greater than 25% of their Max HP, immediately heals the wearer for 15% of their Max HP, and at the same time, increases the DMG they deal by {{DmgBuff}}% for 2 turns. This effect can only be triggered once every 3 turns."
+          }
+        }
+      },
+      "FlyIntoAPinkTomorrow": {
+        "Content": {
+          "dmgBoost": {
+            "text": "DMG Boost",
+            "content": "Increases all ally targets' DMG dealt by {{DmgBuff}}%."
+          },
+          "enhancedBasicBoost": {
+            "text": "Trailblazer Enhanced Basic",
+            "content": "Increases DMG dealt by Enhanced Basic ATK \"Together, We Script Tomorrow!\" by {{DmgBoost}}% ."
           }
         }
       },
@@ -1355,6 +1407,14 @@ interface Resources {
           }
         }
       },
+      "TheForeverVictual": {
+        "Content": {
+          "atkStacks": {
+            "text": "ATK buff stacks",
+            "content": "After using their Skill, the wearer's ATK increases by {{AtkBuff}}%, stacking up to 3 times."
+          }
+        }
+      },
       "TheGreatCosmicEnterprise": {
         "Content": {
           "weaknessTypes": {
@@ -1396,6 +1456,18 @@ interface Resources {
           "defScalingUltDmg": {
             "text": "DEF scaling Ult DMG (Not implemented)",
             "content": "Increases the DMG of the wearer when they use their Ultimate by {{Multiplier}}% of the wearer's DEF. This effect only applies 1 time per enemy target during each use of the wearer's Ultimate."
+          }
+        }
+      },
+      "ThisLoveForever": {
+        "Content": {
+          "vulnerability": {
+            "text": "Vulnerability",
+            "content": "When the wearer's memosprite uses a Memosprite Skill on an ally, gains \"Blank,\" which increases DMG taken by all enemies by {{Vulnerability}}%. When the wearer's memosprite has both \"Blank\" and \"Verse,\" increases the effects of \"Blank\" and \"Verse\" by {{Multi}}%."
+          },
+          "cdBoost": {
+            "text": "CD buff",
+            "content": "When the wearer's memosprite uses a Memosprite Skill on an enemy, gains \"Verse,\" which increases CRIT DMG of all allies by {{CdBuff}}%. When the wearer's memosprite has both \"Blank\" and \"Verse,\" increases the effects of \"Blank\" and \"Verse\" by {{Multi}}%."
           }
         }
       },
@@ -1631,6 +1703,10 @@ interface Resources {
             "text": "Memo SPD stacks",
             "content": "After attacking an enemy afflicted with \"Seam Stitch,\" increases this unit's SPD by {{SpdBuff}}, stacking up to {{StackLimit}} times."
           },
+          "cyreneSpecialEffect": {
+            "text": "Cyrene special effect",
+            "content": "Increases DMG dealt by Aglaea and Garmentmaker by 72%/79.2%, and ignores 36%/39.6% of the target's DEF, lasting until Aglaea exits the \"Supreme Stance\" state."
+          },
           "e1Vulnerability": {
             "text": "E1 vulnerability",
             "content": "Enemies afflicted with \"Seam Stitch\" take 15% increased DMG."
@@ -1662,6 +1738,10 @@ interface Resources {
           "enemyWeaknessTypes": {
             "text": "Enemy weaknesses",
             "content": "For every different Weakness Type an enemy target has, the DMG that Anaxa deals to that target ignores 4% of DEF, up to a max of 7 Weakness Types."
+          },
+          "cyreneSpecialEffect": {
+            "text": "Cyrene Special Effect",
+            "content": "Increases the number of Skill DMG instances by 3 for 1 turn. ::BR:: The next time Anaxa uses his Basic ATK or Skill, he gains \"True Knowledge\": Increases the ATK of all Erudition Path characters by 60%/66% and Skill DMG dealt by 40%/44% until the start of Anaxa's next turn."
           },
           "e1DefPen": {
             "text": "E1 DEF PEN",
@@ -1977,6 +2057,10 @@ interface Resources {
             "text": "Memo DMG stacks",
             "content": "Each time Netherwing uses \"Breath Scorches the Shadow,\" increases its DMG dealt by 30%. This effect stacks up to 6 and lasts until the end of this turn."
           },
+          "cyreneSpecialEffect": {
+            "text": "Cyrene Special Effect",
+            "content": "When used on Castorice, \"Newbud\" can overflow up to 200%. When summoning Netherwing, consumes all overflowed \"Newbud,\" increases the DMG multiplier of the DMG dealt by 0.24%/0.264% for every 1% of overflow value consumed when the summoned Netherwing triggers the ability effect of its Talent, \"Wings Sweep the Ruins.\" If there are 2 enemy targets on the field or fewer when summoned, the DMG multiplier additionally increases by 0.48%/0.528% when summoning."
+          },
           "e1EnemyHp50": {
             "text": "E1 Enemy HP ≤ 50%",
             "content": "When the enemy target's current HP is 50% or lower than this unit's Max HP, the DMG dealt with \"Boneclaw, Doomdrake's Embrace,\" \"Claw Splits the Veil,\" \"Breath Scorches the Shadow,\" and \"Wings Sweep the Ruins\" is 140% of the original DMG."
@@ -1984,6 +2068,56 @@ interface Resources {
           "e6Buffs": {
             "text": "E6 buffs",
             "content": "When Castorice or Netherwing deals DMG, increases Quantum RES PEN by 20%. ::BR:: Increases the Bounce count for Netherwing's Talent \"Wings Sweep the Ruins\" by 3 times."
+          }
+        }
+      },
+      "Cerydra": {
+        "Content": {
+          "spdBuff": {
+            "text": "SPD buff",
+            "content": "When using Skill, increases SPD by 20 for this unit and the teammate with \"Military Merit,\" lasting for 3 turns."
+          },
+          "crBuff": {
+            "text": "CR buff",
+            "content": "Increases Cerydra's CRIT Rate by 100%."
+          },
+          "atkToCd": {
+            "text": "ATK to CD",
+            "content": "For every 100 of Cerydra's ATK that exceeds 2000, increases her CRIT DMG by 18%, up to a max increase of 360%."
+          },
+          "e2DmgBoost": {
+            "text": "E2 DMG boost",
+            "content": "The character with \"Military Merit\" deals 40% increased DMG. While a teammate on the field has \"Military Merit,\" Cerydra's DMG dealt increases by 160%."
+          },
+          "e4UltDmg": {
+            "text": "E4 Ult DMG",
+            "content": "Increases Ultimate's DMG multiplier by 240%."
+          },
+          "e6Buffs": {
+            "text": "E6 buffs",
+            "content": "The character with \"Military Merit\" increases their All-Type RES PEN by 20%, and the multiplier for the Additional DMG triggered via \"Military Merit\" increases by 300%. While a teammate on the field has \"Military Merit,\" Cerydra's All-Type RES PEN increases by 20%."
+          }
+        },
+        "TeammateContent": {
+          "militaryMerit": {
+            "text": "Military Merit",
+            "content": "When using Skill, increases SPD by 20 for this unit and the teammate with \"Military Merit,\" lasting for 3 turns. ::BR:: The character with \"Military Merit\" increases ATK by an amount equal to {{TalentAtkConversion}}% of Cerydra's ATK. ::BR:: E1: The character with \"Military Merit\" ignores 16% of the targets' DEF when dealing DMG."
+          },
+          "cyreneSpecialEffect": {
+            "text": "Cyrene Special Effect",
+            "content": "Increases the CRIT DMG of the character with \"Military Merit\" by 30%/33%."
+          },
+          "peerage": {
+            "text": "Peerage",
+            "content": "The character with \"Peerage\" increases the CRIT DMG for their dealt Skill DMG by {{SkillCdBuff}}%, increases their All-Type RES PEN by {{SkillResPenBuff}}% ::BR:: E1: If \"Military Merit\" has been upgraded to \"Peerage,\" then the character additionally ignores 20% of the targets' DEF when dealing Skill DMG."
+          },
+          "teammateATKValue": {
+            "text": "Cerydra's combat ATK",
+            "content": "The character with \"Military Merit\" increases ATK by an amount equal to {{TalentAtkConversion}}% of Cerydra's ATK. ::BR:: Set this to the Cerydra's self ATK stat that she uses to buff teammates."
+          },
+          "e1DefPen": {
+            "text": "E1 DEF PEN",
+            "content": "The character with \"Military Merit\" ignores 16% of the targets' DEF when dealing DMG. If \"Military Merit\" has been upgraded to \"Peerage,\" then the character additionally ignores 20% of the targets' DEF when dealing Skill DMG."
           }
         }
       },
@@ -2004,6 +2138,10 @@ interface Resources {
           "spdBasedBuffs": {
             "text": "SPD based buffs",
             "content": "When Cipher's SPD is greater or equal to 140/170, increases CRIT Rate by 25%/50%."
+          },
+          "cyreneSpecialEffect": {
+            "text": "Cyrene Special Effect",
+            "content": "Increases the DMG dealt by Cipher by 36%/39.6%, and decreases the DEF of the \"Patron\" by 20%/22% and the DEF of enemy targets other than \"Patron\" by 12%/13.2%."
           },
           "e1AtkBuff": {
             "text": "E1 ATK buff",
@@ -2043,6 +2181,64 @@ interface Resources {
           }
         }
       },
+      "Cyrene": {
+        "Content": {
+          "memospriteActive": {
+            "text": "Memosprite Active",
+            "content": "Increases Cyrene's and Demiurge's CRIT Rate by {{CRBuff}}%. ::BR:: Cyrene's and Demiurge's Max HP increases by {{HPBuff}}%. ::BR:: Cyrene's basic attack is enhanced to \"To Love and Tomorrow ♪\" and can only use this attack."
+          },
+          "zoneActive": {
+            "text": "Zone Active",
+            "content": "While the Zone is active, for each instance of DMG dealt by all ally targets, deals 1 additional instance of True DMG equal to {{TrueDmg}}% of the original DMG."
+          },
+          "talentDmgBuff": {
+            "text": "Talent Dmg Buff",
+            "content": "While Cyrene is on the field, increases DMG dealt by all ally targets by {{DmgBuff}}%."
+          },
+          "traceSpdBasedBuff": {
+            "text": "Trace Spd Based Buff",
+            "content": "When Cyrene's SPD is at 180 or higher, increases all allies' DMG dealt by 20%. Then, for each point of SPD exceeded, increases Cyrene and Demiurge's Ice RES PEN by 2%, counting up to a maximum of 60 exceeded SPD points."
+          },
+          "odeToEgoExtraBounces": {
+            "text": "Ode To Ego Extra Bounces",
+            "content": "After Cyrene has gained \"Recollection\" from each different teammate (other than Demiurge), when Demiurge uses \"Minuet of Blooms and Plumes,\" it additionally deals 1 instance of Ice DMG equal to 60% of Demiurge's Max HP to one random enemy."
+          },
+          "e1ExtraBounces": {
+            "text": "E1 Extra Bounces",
+            "content": "When Demiurge triggers the Memosprite Skill \"Ode to Ego\" while using \"Minuet of Blooms and Plumes,\" gains 6 \"Recollection\" point(s) and increases the number of bounces for this attack by 12."
+          },
+          "e2TrueDmgStacks": {
+            "text": "E2 True Dmg Stacks",
+            "content": "For each different ally character that gains the Memosprite Skill buff from Demiurge, the DMG multiplier of the True DMG dealt by ally targets via the Skill's Zone increases by 6%, up to a max increase of 24%."
+          },
+          "e4BounceStacks": {
+            "text": "E4 Bounce Stacks",
+            "content": "Each time after Demiurge uses \"Minuet of Blooms and Plumes,\" the Bounce DMG multiplier of the triggered Memosprite Skill \"Ode to Ego\" increases by 6% in the current battle and can be stacked up to 24 times."
+          },
+          "e6DefPen": {
+            "text": "E6 Def Pen",
+            "content": "While Demiurge is on the field, reduces all enemy targets' DEF by 20%."
+          }
+        },
+        "TeammateContent": {
+          "specialEffect": {
+            "text": "Special Effect",
+            "content": "Applies a buff to one designated ally character. When the character is a Chrysos Heir, the target gains a special effect. When the character is not a Chrysos Heir, increases the target's DMG dealt by {{DmgBuff}}% for 2 turns. This effect also applies on memosprites."
+          },
+          "cyreneSpdDmg": {
+            "text": "Cyrene Spd ≥ 180",
+            "content": "When Cyrene's SPD is at 180 or higher, increases all allies' DMG dealt by 20%."
+          },
+          "cyreneHp": {
+            "text": "Cyrene HP",
+            "content": "increases Trailblazer (Remembrance)'s ATK by a value equal to {{ConversionRate}}% of Demiurge's Max HP. This effect also applies to Mem."
+          },
+          "cyreneCr": {
+            "text": "Cyrene CR",
+            "content": "increases Trailblazer (Remembrance)'s CRIT Rate by a value equal to {{ConversionRate}}% of Demiurge's CRIT Rate. This effect also applies to Mem."
+          }
+        }
+      },
       "DanHeng": {
         "Content": {
           "talentPenBuff": {
@@ -2072,6 +2268,64 @@ interface Resources {
           "enemyDebuffStacks": {
             "text": "Enemy debuff stacks",
             "content": "When using his Skill, Dr. Ratio has a 40% fixed chance of launching a follow-up attack against his target for 1 time, dealing Imaginary DMG equal to {{FuaScaling}}% of Dr. Ratio's ATK. For each debuff the target enemy has, the fixed chance of launching follow-up attack increases by 20%. If the target enemy is defeated before the follow-up attack triggers, the follow-up attack will be directed at a single random enemy instead.::BR::When dealing DMG to a target that has 3 or more debuffs, for each debuff the target has, the DMG dealt by Dr. Ratio to this target increases by 10%, up to a maximum increase of 50%.::BR::E2: When his Talent's follow-up attack hits a target, for every debuff the target has, additionally deals Imaginary Additional DMG equal to 20% of Dr. Ratio's ATK. This effect can be triggered for a maximum of 4 times during each follow-up attack."
+          }
+        }
+      },
+      "Evernight": {
+        "Content": {
+          "memoTalentDmgBuff": {
+            "text": "Memo Talent DMG Buff",
+            "content": "While Evernight is on the field, increases DMG dealt by Evernight and Evey by {{MemoTalentDmgBuff}}%."
+          },
+          "traceCritBuffs": {
+            "text": "Trace Crit buffs",
+            "content": "Increases Evernight and the memosprite Evey's CRIT Rate by 35%. When using abilities, consumes 5% of this unit's current HP to increase both their CRIT DMG by 15% for 2 turns."
+          },
+          "skillMemoCdBuff": {
+            "text": "Skill Memo CD buff",
+            "content": "Consumes 10% of Evernight's current HP to summon memosprite Evey and increases CRIT DMG of all ally memosprites by an amount equal to {{SkillMemoCdBuff}}% of Evernight's CRIT DMG for 2 turns."
+          },
+          "talentMemoCdBuff": {
+            "text": "Talent Memo CD buff",
+            "content": "Each time Evernight or memosprite Evey loses HP, increases CRIT DMG for both this unit and memosprite Evey by {{TalentCdScaling}}% for 2 turns."
+          },
+          "memoriaStacks": {
+            "text": "Memoria stacks",
+            "content": "This ability automatically selects a target, prioritizing the enemy target that Evernight last attacked. Deals Ice DMG equal to {{MemoSkillScaling}}% of Evey's Max HP to one enemy. For every 4 points of \"Memoria\" Evernight currently has, further deals Ice DMG equal to {{MemoSkillAdditionalScaling}}% of Evey's Max HP. ::BR:: When Evernight's \"Memoria\" is greater than or equal to 16 points, and Evernight is not under a Crowd Control state, \"Dream, Dissolving, as Dew\" will instead be used. For each point of \"Memoria\" currently in possession, deals Ice DMG equal to {{MemoSkillEnhancedScaling}}% of Evey's Max HP to the primary target"
+          },
+          "enhancedState": {
+            "text": "Enhanced state",
+            "content": "Casting her ultimate causes Evernight to enter the \"Darkest Riddle\" state. During this state, the DMG received by all enemies increases by {{UltVulnScaling}}%, the DMG dealt by Evernight and memosprite Evey increases by {{UltDmgBoostScaling}}%."
+          },
+          "cyreneSpecialEffect": {
+            "text": "Cyrene Special Effect",
+            "content": "Increases DMG dealt when Evey uses the Memosprite Skill \"Dream, Dissolving, as Dew\" by 18%/19.8%. ::BR:: The CRIT DMG boost effect provided by the Skill is further increased by an amount equal to 12%/13.2% of Evernight's CRIT DMG."
+          },
+          "e1FinalDmg": {
+            "text": "E1 Final DMG",
+            "content": "When Evernight is on the field and when there are 4 or more/3/2/1 enemy targets on the field, ally memosprites deal 120%/125%/130%/150% of their original DMG respectively."
+          },
+          "e2CdBuff": {
+            "text": "E2 CD buff",
+            "content": "Increases Evernight's and memosprite Evey's CRIT DMG by 40%."
+          },
+          "e4Buffs": {
+            "text": "E4 buffs",
+            "content": "While Evernight is on the field, ally memosprites' Weakness Break Efficiency increases by 25%, and memosprite Evey gains an additional 25% Weakness Break Efficiency."
+          },
+          "e6ResPen": {
+            "text": "E6 RES PEN",
+            "content": "While Evernight is on the field, all allies' All-Type RES PEN increases by 20%. After memosprite Evey uses \"Dream, Dissolving, as Dew,\" Evernight gains 30% of the consumed \"Memoria\" in this attack."
+          }
+        },
+        "TeammateContent": {
+          "skillMemoCdBuff": {
+            "text": "Skill Memo CD buff",
+            "content": "When using Skill, increases CRIT DMG of all ally memosprites by an amount equal to {{SkillCdScaling}}% of Evernight's CRIT DMG for 2 turns."
+          },
+          "evernightCombatCD": {
+            "text": "Evernight's combat CD",
+            "content": "When using Skill, increases CRIT DMG of all ally memosprites by an amount equal to {{SkillCdScaling}}% of Evernight's CRIT DMG for 2 turns. ::BR:: Set this to the Evernight's self CD stat that she uses to buff teammates."
           }
         }
       },
@@ -2406,6 +2660,52 @@ interface Resources {
           "e6ResPen": {
             "text": "E6 RES PEN",
             "content": "When Little Ica is on the field, increases all ally targets' All-Type RES PEN by 20%."
+          }
+        }
+      },
+      "Hysilens": {
+        "Content": {
+          "skillVulnerability": {
+            "text": "Skill Vulnerability",
+            "content": "Hysilens' skill has a 100% base chance to increase the DMG taken by all enemies by {{SkillVuln}}%, lasting for 3 turns."
+          },
+          "ultZone": {
+            "text": "Ult Zone active",
+            "content": "When casting her ultimate, Hysilens deploys a Zone that reduces enemy targets' ATK by 15% and DEF by {{ZoneDefShred}}%."
+          },
+          "ultDotStacks": {
+            "text": "Ult DOT trigger stacks",
+            "content": "When Hysilens uses Ultimate, if the enemy target is currently afflicted with DoTs, all DoTs currently applied on the target will immediately produce DMG equal to 150% of their original DMG."
+          },
+          "ehrToDmg": {
+            "text": "EHR to DMG boost",
+            "content": "For every 10% of Hysilens's Effect Hit Rate that exceeds 60%, increases her DMG dealt by 15%, up to a max increase of 90%."
+          },
+          "dotDetonation": {
+            "text": "DOT detonation (Automatic activation)",
+            "content": "When Hysilens uses Ultimate, if the enemy target is currently afflicted with DoTs, all DoTs currently applied on the target will immediately produce DMG equal to 150% of their original DMG."
+          },
+          "cyreneSpecialEffect": {
+            "text": "Cyrene Special Effect",
+            "content": "Increases DMG dealt by Hysilens by 120%/132%. ::BR:: After Hysilens uses Basic ATK to attack enemies, causes the DoT currently applied on the attacked enemy targets to immediately produce DMG equal to 60%/66% of the original DMG. ::BR:: After Hysilens uses Skill to attack enemies, causes the DoT currently applied on the attacked enemy targets to immediately produce DMG equal to 80%/88% of the original DMG."
+          },
+          "e1Buffs": {
+            "text": "E1 buffs",
+            "content": "While Hysilens is on the field, ally targets deal DoT equal to 116% of the original DMG. ::BR:: When Hysilens inflicts Wind Shear/Bleed/Burn/Shock on enemies through her Talent, there is a 100% base chance to additionally inflict the target with 1 instance of Wind Shear/Bleed/Burn/Shock state that is identical to and can coexist with that of the original Talent effect."
+          },
+          "e4ResPen": {
+            "text": "E4 RES PEN",
+            "content": "While the Zone is active, reduces All-Type RES of all enemies by 20%."
+          },
+          "e6Buffs": {
+            "text": "E6 buffs",
+            "content": "While the Zone is active, at the start of each turn or after one attack by an ally target, increases the maximum trigger count for Hysilens's Physical DoT effect to 12, and increases the multiplier of the DMG dealt by 20%."
+          }
+        },
+        "TeammateContent": {
+          "e2TeammateEhr": {
+            "text": "E2 Hysilens' combat EHR",
+            "content": "While the Zone is active, the DMG Boost effect from Trace \"The Fiddle of Pearls\" applies to all allies. ::BR:: The Fiddle of Pearls: For every 10% of Hysilens's Effect Hit Rate that exceeds 60%, increases her DMG dealt by 15%, up to a max increase of 90%."
           }
         }
       },
@@ -2765,6 +3065,10 @@ interface Resources {
             "text": "HP to CR conversion",
             "content": "When battle starts, if Mydei's Max HP exceeds 4000, for every 100 excess HP, Mydei's CRIT Rate increases by 1.2%, his Charge ratio from enemy targets' DMG increases by 2.5%, and his Incoming Healing increases by 0.75%. Up to 4000 excess HP can be taken into account for this effect."
           },
+          "cyreneSpecialEffect": {
+            "text": "Cyrene Special Effect",
+            "content": "If Mydei is in the \"Vendetta\" state, he automatically uses 1 instance of \"Godslayer Be God\" without consuming Charge. Mydei's CRIT DMG increases by 200%/220% during this attack."
+          },
           "e1EnhancedSkillBuff": {
             "text": "E1 Enhanced Skill boost",
             "content": "The DMG multiplier dealt by \"Godslayer Be God\" to the primary target increases by 30%. And \"Godslayer Be God\" becomes Imaginary DMG dealt to all enemies equal to the DMG multiplier applied to the primary target."
@@ -2803,6 +3107,34 @@ interface Resources {
           }
         }
       },
+      "PermansorTerrae": {
+        "TeammateContent": {
+          "bondmate": {
+            "text": "Bondmate",
+            "content": "When using Skill, increases the ATK of the \"Bondmate\" target by 15% of Dan Heng • Permansor Terrae's ATK. \"Bondmate\" gains posession of the summon \"Souldragon\"."
+          },
+          "sourceAtk": {
+            "text": "Dan Heng's combat ATK",
+            "content": "When using Skill, increases the ATK of the \"Bondmate\" target by 15% of Dan Heng • Permansor Terrae's ATK. ::BR:: Set this to the Dan Heng • Permansor Terrae's self ATK stat that he uses to buff teammates."
+          },
+          "cyreneSpecialEffect": {
+            "text": "Cyrene Special Effect",
+            "content": "The \"Bondmate\" deals 24%/26.4% more DMG."
+          },
+          "e1ResPen": {
+            "text": "E1 RES PEN",
+            "content": "When Dan Heng • Permansor Terrae uses his Ultimate, increases the \"Bondmate's\" All-Type RES PEN by 18% for 3 turns."
+          },
+          "e4DmgReduction": {
+            "text": "E4 DMG reduction",
+            "content": "Reduces DMG taken by \"Bondmate\" by 20%."
+          },
+          "e6Buffs": {
+            "text": "E6 buffs",
+            "content": "When there is a \"Bondmate\" on the field, increases the DMG received by all enemies by 20%. When the \"Bondmate\" deals DMG, ignores 12% of the enemy targets' DEF."
+          }
+        }
+      },
       "Phainon": {
         "Content": {
           "transformedState": {
@@ -2838,6 +3170,10 @@ interface Resources {
           "spdBuff": {
             "text": "Team SPD buff",
             "content": "When the Transformation ends, increases all allies' SPD by 15%, lasting for 1 turn."
+          },
+          "cyreneSpecialEffect": {
+            "text": "Cyrene Special Effect",
+            "content": "Phainon gains 6 \"Coreflames\" as well as \"Eternal Ignition\" when Transforming. ::RB:: When Transforming, if \"Coreflame\" exceeds 12, for each point in excess, Khaslana's CRIT DMG increases by 12%/13.2%, up to 72%/79.2%. While \"Eternal Ignition\" persists, increases Khaslana's CRIT Rate by 16%/17.6%. ::BR:: After using an attack, deals 5 instances of Additional DMG, with each instance dealing Fire Additional DMG equal to 10%/11% of Khaslana's ATK to one random enemy."
           },
           "e1Buffs": {
             "text": "E1 buffs",
@@ -2937,7 +3273,7 @@ interface Resources {
         "TeammateContent": {
           "teammateATKValue": {
             "text": "Robin's Combat ATK",
-            "content": "While in the Concerto state, increases all allies' ATK by {{ultAtkBuffScalingValue}}% of Robin's ATK plus {{ultAtkBuffFlatValue}}.::BR::Set this to the Robin's self ATK stat that she uses to buff teammates."
+            "content": "While in the Concerto state, increases all allies' ATK by {{ultAtkBuffScalingValue}}% of Robin's ATK plus {{ultAtkBuffFlatValue}}. ::BR:: Set this to the Robin's self ATK stat that she uses to buff teammates."
           },
           "traceFuaCdBoost": {
             "text": "FUA CD boost",
@@ -3415,6 +3751,10 @@ interface Resources {
             "text": "FUA stacks",
             "content": "After using Talent's Follow-up ATK, increases the DMG dealt by Tribbie by 72%. This effect can stack up to 3 times, lasting for 3 turns."
           },
+          "cyreneSpecialEffect": {
+            "text": "Cyrene Special Effect",
+            "content": "DMG dealt by Tribbie ignoes 12%/13.2% of the enemy's DEF. When Tribbie launches Follow-up ATK and triggers the Additional DMG from Tribbie's Zone, it further deals 1 instance of Additional DMG."
+          },
           "e1TrueDmg": {
             "text": "E1 True DMG",
             "content": "While the Zone from her Ultimate lasts and after ally targets attack enemies, additionally deals True DMG equal to 24% of the total DMG of this attack to targets that have been dealt Additional DMG by the Zone."
@@ -3805,6 +4145,10 @@ interface Resources {
         "Name": "Rappa",
         "LongName": "Rappa"
       },
+      "1321": {
+        "Name": "The Dahlia",
+        "LongName": "The Dahlia"
+      },
       "1401": {
         "Name": "The Herta",
         "LongName": "The Herta"
@@ -3849,6 +4193,18 @@ interface Resources {
         "Name": "Cerydra",
         "LongName": "Cerydra"
       },
+      "1413": {
+        "Name": "Evernight",
+        "LongName": "Evernight"
+      },
+      "1414": {
+        "Name": "Permansor Terrae",
+        "LongName": "Dan Heng • Permansor Terrae"
+      },
+      "1415": {
+        "Name": "Cyrene",
+        "LongName": "Cyrene"
+      },
       "8001": {
         "Name": "Caelus",
         "LongName": "Caelus (Destruction)"
@@ -3881,21 +4237,21 @@ interface Resources {
         "Name": "Stelle",
         "LongName": "Stelle (Remembrance)"
       },
-      "1006b1": {
-        "Name": "Silver Wolf",
-        "LongName": "Silver Wolf"
-      },
-      "1005b1": {
-        "Name": "Kafka",
-        "LongName": "Kafka"
+      "1212b1": {
+        "Name": "Jingliu",
+        "LongName": "Jingliu"
       },
       "1205b1": {
         "Name": "Blade",
         "LongName": "Blade"
       },
-      "1212b1": {
-        "Name": "Jingliu",
-        "LongName": "Jingliu"
+      "1005b1": {
+        "Name": "Kafka",
+        "LongName": "Kafka"
+      },
+      "1006b1": {
+        "Name": "Silver Wolf",
+        "LongName": "Silver Wolf"
       }
     },
     "RelicSets": {
@@ -4029,6 +4385,16 @@ interface Resources {
         "Description2pc": "Increases CRIT DMG by 16%.",
         "Description4pc": "When the wearer becomes the target of another ally target's ability, gains 1 stack of \"Help,\" stacking up to 2 times. If there are 2 stacks of \"Help\" when the wearer uses their Ultimate, consumes all \"Help\" to increase the wearer's ATK by 48% for 1 turn."
       },
+      "127": {
+        "Name": "World-Remaking Deliverer",
+        "Description2pc": "Increases CRIT Rate by 8%.",
+        "Description4pc": "After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' dealt DMG by 15%, lasting until after the wearer's next use of Basic ATK or Skill."
+      },
+      "128": {
+        "Name": "Self-Enshrouded Recluse",
+        "Description2pc": "The provided Shield Effect increases by 10%.",
+        "Description4pc": "Increases the Shield Effect provided by the wearer by 12%. When an ally target holds a Shield provided by the wearer, the ally target's CRIT DMG increases by 15%."
+      },
       "301": {
         "Name": "Space Sealing Station",
         "Description2pc": "Increases the wearer's ATK by 12%. When the wearer's SPD reaches 120 or higher, the wearer's ATK increases by an extra 12%."
@@ -4039,7 +4405,7 @@ interface Resources {
       },
       "303": {
         "Name": "Pan-Cosmic Commercial Enterprise",
-        "Description2pc": "Increases the wearer's Effect Hit Rate by 10%. Meanwhile, the wearer's ATK increases by an amount that is equal to 25% of the current Effect Hit Rate, up to a maximum of 25%."
+        "Description2pc": "Increases the wearer's Effect Hit Rate by 10%. Meanwhile, the wearer's ATK increases by an amount that is equal to 25% of the current Effect Hit Rate, up to a maximum increase of 25%."
       },
       "304": {
         "Name": "Belobog of the Architects",
@@ -4116,6 +4482,14 @@ interface Resources {
       "322": {
         "Name": "Revelry by the Sea",
         "Description2pc": "Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24% respectively."
+      },
+      "323": {
+        "Name": "Amphoreus, The Eternal Land",
+        "Description2pc": "Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked."
+      },
+      "324": {
+        "Name": "Tengoku@Livestream",
+        "Description2pc": "Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32%, lasting for 3 turns."
       }
     },
     "Lightcones": {
@@ -4387,7 +4761,10 @@ interface Resources {
         "Name": "The Great Cosmic Enterprise"
       },
       "22005": {
-        "Name": "Maze Restaurant Forever"
+        "Name": "The Forever Victual"
+      },
+      "22006": {
+        "Name": "Fly Into a Pink Tomorrow"
       },
       "23000": {
         "Name": "Night on the Milky Way"
@@ -4534,7 +4911,19 @@ interface Resources {
         "Name": "Why Does the Ocean Sing"
       },
       "23048": {
-        "Name": "Era Engraved by Golden Blood"
+        "Name": "Epoch Etched in Golden Blood"
+      },
+      "23049": {
+        "Name": "To Evernight's Stars"
+      },
+      "23050": {
+        "Name": "Never Forget Her Flame"
+      },
+      "23051": {
+        "Name": "Though Worlds Apart"
+      },
+      "23052": {
+        "Name": "This Love, Forever"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"
@@ -4598,7 +4987,8 @@ interface Resources {
     },
     "ComboFilters": {
       "Title": "Combo rotation",
-      "p1": "Define the ability rotation to measure Combo DMG. Rotations are defined with [ as the start of a turn, and ] as the end of a turn. See the Advanced Rotation menu and user guide for more details."
+      "p1": "Define the ability rotation to measure Combo DMG. Rotations are defined with [ as the start of a turn, and ] as the end of a turn. See the Advanced Rotation menu and user guide for more details.",
+      "p2": "The \"Presets\" option allows you to disable the pre-processor if you so desire."
     },
     "StatFilters": {
       "Title": "Stat filters",
@@ -4643,14 +5033,14 @@ interface Resources {
     },
     "OptimizerOptions": {
       "Title": "Optimizer options",
-      "p1": "<0>Character priority filter</0> - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.",
-      "p2": "<0>Boost main stat</0> - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats are not changed accordingly, so builds with lower level relics may be stronger once you level them.",
-      "p3": "<0>Keep current relics</0> - The character must use its currently equipped items and the optimizer will try to fill in empty slots",
-      "p4": "<0>Include equipped relics</0> - When enabled, the optimizer will allow using relics that are currently equipped by a character for the search. Otherwise equipped relics are excluded",
-      "p5": "<0>Priority</0> - See: Character priority filter. Changing this setting will change the character's priority",
-      "p6": "<0>Exclude</0> - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter",
-      "p7": "<0>Enhance / grade</0> - Select the minimum enhance to search for and minimum stars for relics to include",
-      "p8": "<0>DPS mode</0> - Select whether the character should be the primary target for supportive buffs (Main DPS) or not (Sub DPS) for optimizer stat calculations"
+      "PriorityFilter": "<0>Character priority filter</0> - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.",
+      "BoostMain": "<0>Boost main stat</0> - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats are not changed accordingly, so builds with lower level relics may be stronger once you level them.",
+      "KeepCurrent": "<0>Keep current relics</0> - The character must use its currently equipped items and the optimizer will try to fill in empty slots",
+      "AllowEquipped": "<0>Allow equipped relics</0> - When enabled, the optimizer will allow using relics that are currently equipped by a character for the search. Otherwise equipped relics are excluded",
+      "Priority": "<0>Priority</0> - See: Character priority filter. Changing this setting will change the character's priority",
+      "Exclude": "<0>Exclude</0> - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter",
+      "Enhance": "<0>Enhance / rarity</0> - Select the minimum enhance to search for and minimum stars for relics to include",
+      "DPSMode": "<0>DPS mode</0> - Select whether the character should be the primary target for supportive buffs (Main DPS) or not (Sub DPS) for optimizer stat calculations"
     },
     "Relics": {
       "Title": "Relics",
@@ -5471,6 +5861,11 @@ interface Resources {
         "Label9": "+9",
         "Label12": "+12",
         "Label15": "+15"
+      },
+      "DPSMode": {
+        "Header": "DPS mode",
+        "Main": "Main",
+        "Sub": "Sub"
       }
     },
     "AdvancedOptions": {
@@ -5893,7 +6288,7 @@ interface Resources {
           "Text": "36% CD"
         },
         "Warrior": {
-          "Desc": "$t(gameData:RelicSets.125.Name) (+15% CD)",
+          "Desc": "4 Piece: $t(gameData:RelicSets.125.Name) (+15% CD)",
           "Set": "$t(gameData:RelicSets.125.Name)",
           "Text": "15% CD"
         },
@@ -5916,6 +6311,11 @@ interface Resources {
           "Desc": "$t(gameData:RelicSets.317.Name) (+12% ATK)",
           "Set": "$t(gameData:RelicSets.317.Name)",
           "Text": "12% ATK"
+        },
+        "Amphoreus": {
+          "Desc": "$t(gameData:RelicSets.323.Name) (+8% SPD)",
+          "Set": "$t(gameData:RelicSets.323.Name)",
+          "Text": "8% SPD"
         }
       }
     },
@@ -6151,7 +6551,8 @@ interface Resources {
     },
     "SimulateRelics": "Simulate relics on another character",
     "OptimizeOnCharacter": "Optimize character stats",
-    "Disclaimer": "Note: Combo DMG is meant to compare different relics relative to the selected team, and should <1>NOT</1> be used to compare different teams / LCs / eidolons!"
+    "Disclaimer": "Note: Combo DMG is meant to compare different relics relative to the selected team, and should <1>NOT</1> be used to compare different teams / LCs / eidolons!",
+    "DisclaimerDescription": "Combo DMG is a tool to measure the damage of a single ability rotation within the context of a specific team. Changing the team / eidolons / light cones will change the duration of the rotation, how much energy is generated, uptime of buffs, etc. This means Combo DMG can NOT be used to determine which team is better, or which light cone is better, or measure the damage increase between eidolons. Combo DMG is only meant to compare different relics within a defined team and speed target."
   },
   "relicsTab": {
     "RelicFilterBar": {
@@ -6166,7 +6567,6 @@ interface Resources {
       "Set": "Set",
       "Mainstat": "Main stats",
       "Substat": "Substats",
-      "ReapplyButton": "Reapply scores",
       "ScoringButton": "Scoring algorithm",
       "RecommendationHeader": "Relic recommendation character",
       "Rating": "Relic ratings",
@@ -6266,13 +6666,6 @@ interface Resources {
             "Label": "All characters: Average reroll potential",
             "Header": "All Chars\nAvg Reroll"
           }
-        },
-        "ComingSoon": {
-          "Label": "Coming soon",
-          "SetsPotential": {
-            "Label": "Relic / Ornament sets potential",
-            "Header": "All Chars\nMax Potential + Sets"
-          }
         }
       }
     },
@@ -6319,11 +6712,6 @@ interface Resources {
       "ShowXXL": "Minimize if any of the sidebar is hidden",
       "NoShow": "Always keep the sidebar on the right"
     },
-    "RelicPotentialLoadBehavior": {
-      "Label": "Relic potential scoring on load",
-      "ScoreAtStartup": "Default: Automatically score relics on page load",
-      "ManuallyClickReapplyScores": "Only score relics when \"Reapply scores\" is clicked (faster page load)"
-    },
     "ExpandedInfoPanelPosition": {
       "Label": "Optimizer Expanded info panel position",
       "Above": "Show expanded info above relics preview",
@@ -6333,6 +6721,11 @@ interface Resources {
       "Label": "Relic locator in relic editor",
       "Yes": "Show the relic locator in the relic editor",
       "No": "Default: Do not show the relic locator in the relic editor"
+    },
+    "ShowComboDmgWarning": {
+      "Label": "Show Combo DMG warning",
+      "Show": "Default: Show warning",
+      "Hide": "Hide warning"
     }
   },
   "sidebar": {

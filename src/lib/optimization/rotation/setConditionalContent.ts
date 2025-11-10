@@ -139,6 +139,14 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
     type: ConditionalDataType.BOOLEAN,
     modifiable: true,
   },
+  [Sets.WorldRemakingDeliverer]: {
+    type: ConditionalDataType.BOOLEAN,
+    modifiable: true,
+  },
+  [Sets.SelfEnshroudedRecluse]: {
+    type: ConditionalDataType.BOOLEAN,
+    modifiable: true,
+  },
 
   // Ornaments
 
@@ -216,6 +224,12 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
     modifiable: true,
   },
   [Sets.RevelryByTheSea]: {
+    type: ConditionalDataType.BOOLEAN,
+  },
+  [Sets.AmphoreusTheEternalLand]: {
+    type: ConditionalDataType.BOOLEAN,
+  },
+  [Sets.TengokuLivestream]: {
     type: ConditionalDataType.BOOLEAN,
   },
 }

@@ -18,10 +18,7 @@ import {
   OverlayText,
   showcaseOutline,
 } from 'lib/characterPreview/CharacterPreviewComponents'
-import {
-  applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance,
-  applyTeamAwareSetConditionalPresetsToOptimizerFormInstance,
-} from 'lib/conditionals/evaluation/applyPresets'
+import { applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance } from 'lib/conditionals/evaluation/applyPresets'
 import { Sets } from 'lib/constants/constants'
 import {
   OpenCloseIDs,
@@ -51,7 +48,7 @@ import { CharacterEidolonFormRadio } from 'lib/tabs/tabBenchmarks/CharacterEidol
 import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
 import {
   BenchmarkForm,
-  SimpleCharacter,
+  SimpleCharacterSets,
   useBenchmarksTabStore,
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
@@ -74,7 +71,6 @@ import {
   CharacterId,
 } from 'types/character'
 import { ReactElement } from 'types/components'
-import { BenchFactory } from 'vitest'
 
 const GAP = 8
 const HEADER_GAP = 5
@@ -143,13 +139,13 @@ export default function BenchmarksTab(): ReactElement {
   }, [teammate0, teammate1, teammate2])
 
   return (
-    <Flex vertical style={{ minHeight: 1500, width: 1200, marginBottom: 200 }} align='center'>
+    <Flex vertical style={{ minHeight: 1500, width: 1200, marginBottom: 200 }} align='center' gap={8}>
       <ColorizedTitleWithInfo
         text={t('Title') /* 'Benchmark Generator' */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmark-generator.md'
       />
 
-      <Card style={{ width: 900, marginBottom: 8 }}>
+      <Card style={{ width: 900 }}>
         <AntDForm
           form={benchmarkForm}
           initialValues={initialForm}
@@ -159,7 +155,7 @@ export default function BenchmarksTab(): ReactElement {
         </AntDForm>
       </Card>
 
-      <DPSScoreDisclaimer style={{ marginBottom: 8, width: '100%' }} />
+      <DPSScoreDisclaimer />
 
       <BenchmarkResults />
 
@@ -389,6 +385,7 @@ function TeammatesSection() {
 }
 
 const iconSize = 64
+const setSize = 24
 
 function Teammate({ index }: { index: number }) {
   const { t } = useTranslation('common')
@@ -440,10 +437,44 @@ function Teammate({ index }: { index: number }) {
           top={-12}
         />
 
-        <img
-          src={Assets.getLightConeIconById(lightCone)}
-          style={{ height: iconSize, marginTop: -3 }}
-        />
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <img
+            src={Assets.getLightConeIconById(lightCone)}
+            style={{ height: iconSize, marginTop: -3 }}
+          />
+
+          {teammate && teammate.teamRelicSet && (
+            <img
+              style={{
+                position: 'absolute',
+                top: 3,
+                right: -4,
+                width: setSize,
+                height: setSize,
+                borderRadius: '50%',
+                backgroundColor: 'rgba(50, 50, 50, 0.5)',
+                border: showcaseOutline,
+              }}
+              src={Assets.getSetImage(teammate.teamRelicSet)}
+            />
+          )}
+
+          {teammate && teammate.teamOrnamentSet && (
+            <img
+              style={{
+                position: 'absolute',
+                top: 27,
+                right: -4,
+                width: setSize,
+                height: setSize,
+                borderRadius: '50%',
+                backgroundColor: 'rgba(50, 50, 50, 0.5)',
+                border: showcaseOutline,
+              }}
+              src={Assets.getSetImage(teammate.teamOrnamentSet)}
+            />
+          )}
+        </div>
 
         <OverlayText
           text={t('SuperimpositionNShort', { superimposition: lightConeSuperimposition })}
@@ -454,7 +485,7 @@ function Teammate({ index }: { index: number }) {
   )
 }
 
-function getTeammate(index: number, teammate0?: SimpleCharacter, teammate1?: SimpleCharacter, teammate2?: SimpleCharacter) {
+function getTeammate(index: number, teammate0?: SimpleCharacterSets, teammate1?: SimpleCharacterSets, teammate2?: SimpleCharacterSets) {
   if (index == 0) return teammate0
   if (index == 1) return teammate1
   return teammate2

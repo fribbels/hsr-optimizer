@@ -1,5 +1,5 @@
 Messages:
-  ThrottleWarning: "Attendi {{seconds}} secondi prima di riprovare"
+  ThrottleWarning: 'Attendi {{seconds}} secondi prima di riprovare'
   InvalidIdWarning: ID invalido
   IdLoadError: Errore caricamento ID
   SuccessMsg: Profilo caricato con successo
@@ -8,8 +8,8 @@ Messages:
   CharacterAlreadyExists: Il personaggio selezionato esiste già
   UnknownButtonClicked: Pulsante sconosciuto cliccato
 Header:
-  DowntimeWarning: "Il valutatore delle reliquie potrebbe non essere disponibile per manutenzione dopo la patch {{game_version}}, riprova più tardi"
-  WithVersion: "Inserisci il tuo UID per calcolare il punteggio dei personaggi del tuo profilo a livello 80 e con le tracce massimizzate. Effettua il logout per aggiornare istantaneamente. (Versione attuale {{beta_version}})"
+  DowntimeWarning: 'Il valutatore delle reliquie potrebbe non essere disponibile per manutenzione dopo la patch {{game_version}}, riprova più tardi'
+  WithVersion: 'Inserisci il tuo UID per calcolare il punteggio dei personaggi del tuo profilo a livello 80 e con le tracce massimizzate. Effettua il logout per aggiornare istantaneamente. (Versione attuale {{beta_version}})'
   WithoutVersion: Inserisci il tuo UID per calcolare il punteggio dei personaggi del tuo profilo a livello 80 e con le tracce massimizzate. Effettua il logout per aggiornare istantaneamente.
 SubmissionBar:
   Placeholder: UID Account
@@ -21,4 +21,4 @@ ImportLabels:
   AllCharacters: Importa tutti i personaggi e tutte le reliquie nell'ottimizzatore
 SimulateRelics: Simula le reliquie su un altro personaggio
 OptimizeOnCharacter: Ottimizza le statistiche del personaggio
-Disclaimer: "Nota: la funzione DAN da Combo è pensata per confrontare reliquie diverse in base alla squadra selezionata e <1>NON</1> dovrebbe essere utilizzata per confrontare squadre/lc/eidolon diversi!"
+Disclaimer: 'Nota: la funzione DAN da Combo è pensata per confrontare reliquie diverse in base alla squadra selezionata e <1>NON</1> dovrebbe essere utilizzata per confrontare squadre/lc/eidolon diversi!'

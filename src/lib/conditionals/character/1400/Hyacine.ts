@@ -210,6 +210,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.OHB.buffBaseDual((r.healTargetHp50) ? 0.25 : 0, SOURCE_TRACE)
       x.RES.buff((r.resBuff) ? 0.50 : 0, SOURCE_TRACE)
 
+      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
       x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
       x.MEMO_BASE_HP_SCALING.buff(0.50, SOURCE_MEMO)
       x.MEMO_BASE_HP_FLAT.buff(0, SOURCE_MEMO)
@@ -233,6 +234,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
+
+      // Cyrene
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

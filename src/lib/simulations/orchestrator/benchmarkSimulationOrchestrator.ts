@@ -48,7 +48,10 @@ import {
   SimulationRequest,
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
-import { KAFKA_B1 } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  KAFKA_B1,
+  PERMANSOR_TERRAE,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
 import { runComputeOptimalSimulationWorker } from 'lib/simulations/workerPool'
@@ -145,6 +148,11 @@ export class BenchmarkSimulationOrchestrator {
       metadata.ornamentSets.push(Sets.ForgeOfTheKalpagniLantern)
     }
 
+    // Add banana if DH PT is on the team
+    if (!metadata.ornamentSets.find((set) => set == Sets.TheWondrousBananAmusementPark) && metadata.teammates.find((x) => x.characterId == PERMANSOR_TERRAE)) {
+      metadata.ornamentSets.push(Sets.TheWondrousBananAmusementPark)
+    }
+
     // Add ehr if kafka is on the team
     if (metadata.teammates.find((x) => x.characterId == KAFKA_B1)) {
       addEffectHitRate = true
@@ -205,7 +213,7 @@ export class BenchmarkSimulationOrchestrator {
     this.simSets = simSets
   }
 
-  public setSimForm(form: SimpleCharacter) {
+  public setSimForm(form: SimpleCharacter, simulationMetadata: SimulationMetadata) {
     const metadata = this.metadata
     const { characterId, characterEidolon, lightCone, lightConeSuperimposition } = form
 
@@ -234,6 +242,15 @@ export class BenchmarkSimulationOrchestrator {
     simulationForm.teammate0 = simulationFormT0
     simulationForm.teammate1 = simulationFormT1
     simulationForm.teammate2 = simulationFormT2
+
+    simulationForm.teammate0.teamRelicSet = metadata.teammates[0].teamRelicSet
+    simulationForm.teammate0.teamOrnamentSet = metadata.teammates[0].teamOrnamentSet
+
+    simulationForm.teammate1.teamRelicSet = metadata.teammates[1].teamRelicSet
+    simulationForm.teammate1.teamOrnamentSet = metadata.teammates[1].teamOrnamentSet
+
+    simulationForm.teammate2.teamRelicSet = metadata.teammates[2].teamRelicSet
+    simulationForm.teammate2.teamOrnamentSet = metadata.teammates[2].teamOrnamentSet
 
     simulationForm.deprioritizeBuffs = this.metadata.deprioritizeBuffs
 
@@ -464,7 +481,7 @@ export class BenchmarkSimulationOrchestrator {
     const perfectionSim = candidates[0]
 
     this.perfectionSimCandidates = candidates
-    this.perfectionSimResult = perfectionSim.result!
+    this.perfectionSimResult = cloneWorkerResult(perfectionSim.result!)
     this.perfectionSimRequest = perfectionSim.request
   }
 
@@ -476,7 +493,7 @@ export class BenchmarkSimulationOrchestrator {
     const perfectionSimResult = this.perfectionSimResult!
 
     applyScoringFunction(baselineSimResult, metadata)
-    applyScoringFunction(originalSimResult, metadata)
+    applyScoringFunction(originalSimResult, metadata, true, true)
 
     const benchmarkSimScore = benchmarkSimResult.simScore
     const originalSimScore = originalSimResult.simScore

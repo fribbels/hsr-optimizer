@@ -100,8 +100,6 @@ function SetPicker(props: {
 export default function ScoringModal() {
   const { t } = useTranslation(['modals', 'common'])
 
-  const pubRefreshRelicsScore = usePublish()
-
   const [scoringAlgorithmForm] = Form.useForm<ScoringAlgorithmForm>()
 
   const scoringAlgorithmFocusCharacter = window.store((s) => s.scoringAlgorithmFocusCharacter)
@@ -183,7 +181,6 @@ export default function ScoringModal() {
     console.log('onModalOk OK', values)
     onFinish(getScoringValuesForOverrides(values))
     closeScoringModal()
-    pubRefreshRelicsScore('refreshRelicsScore', 'null')
   }
 
   const onFinish = (scoringMetadata: Partial<ScoringMetadata>) => {
@@ -414,7 +411,7 @@ export default function ScoringModal() {
           </Flex>
         </Flex>
 
-        <TitleDivider>{t('Scoring.SetWeightsHeader') /* Set weights */}</TitleDivider>
+        <TitleDivider>{t('Scoring.SetWeightsHeader') /* Set weights */} {'(EXPERIMENTAL)'}</TitleDivider>
 
         <Flex gap={20}>
           <Flex vertical gap={20} flex={1}>

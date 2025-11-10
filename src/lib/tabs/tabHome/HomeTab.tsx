@@ -146,7 +146,7 @@ function HeaderImage() {
             linear-gradient(to bottom, rgba(24, 34, 57, 0) 99.5%, rgba(24, 34, 57, 1) 100%),
             linear-gradient(to left, rgba(24, 34, 57, 0) 98%, rgba(24, 34, 57, 1) 99.5%),
             linear-gradient(to right, rgba(24, 34, 57, 0) 98%, rgba(24, 34, 57, 1) 99.5%),
-            url(${Assets.getHomeBackground('nous')})
+            url(${Assets.getHomeBackground('evernight')})
           `,
         backgroundSize: 'cover',
       }}

@@ -34,7 +34,7 @@ OrnamentSetSelector:
 SortOptions:
   DMGLabel: Cálculos de daño
   StatLabel: Atributos
-  COMBO: Ord. por daño de Combo
+  COMBO: Ord. por Daño de combo
   BASIC: Ord. por daño Básico
   SKILL: Ord. por daño de Habilidad
   ULT: Ord. por daño de Definitiva
@@ -60,13 +60,13 @@ SortOptions:
   EHP: Ord. por PV efectivos
 OptimizerOptions:
   Header: Opciones del optimizador
-  PriorityFilter: Filtro de prioridad de personaje
+  PriorityFilter: Filtrar prioridad de los pj.
   Priority:
     Header: Prioridad
     Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
-  AllowEquipped: Permitir artefactos equipados
-  KeepCurrent: Mantener artefactos actuales
+  AllowEquipped: Permitir artef. equipados
+  KeepCurrent: Mantener artefactos
   Exclude: Excluir
   MinEnhance:
     Header: Nivel mínimo
@@ -90,6 +90,10 @@ OptimizerOptions:
     Label9: '+9'
     Label12: '+12'
     Label15: '+15'
+  DPSMode:
+    Header: Modo DPS
+    Main: Princ.
+    Sub: Sec.
 AdvancedOptions:
   Header: Opciones avanzadas
   EnemyConfigButtonText: Ajustes del enemigo
@@ -438,7 +442,7 @@ ComboFilter:
       Description: '¿Restablecer todos los ajustes de Rotación simple / avanzada a los por defecto?'
     PresetsHeader: Preajustes
   CounterLabels:
-    Dot: DOTs
+    Dot: DoTs
   ComboOptions:
     None: 'Ninguno'
     Basic: Básico
@@ -489,7 +493,7 @@ TeammateCard:
       Set: '$t(gameData:RelicSets.121.Name)'
       Text: 36% DC
     Warrior:
-      Desc: '$t(gameData:RelicSets.125.Name) (+15% DC)'
+      Desc: '4 Piezas: $t(gameData:RelicSets.125.Name) (+15% DC)'
       Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% DC
     Keel:

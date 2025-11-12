@@ -267,8 +267,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.m.MEMO_SKILL_HP_SCALING.buff(r.odeToEgoExtraBounces * memoSkillScalingIndividual, Source.odeTo(CYRENE))
       x.m.MEMO_SKILL_HP_SCALING.buff(r.e1ExtraBounces * memoSkillScalingIndividual, SOURCE_E1)
 
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
+      x.BASIC_TOUGHNESS_DMG.buff(r.memospriteActive ? 15 : 10, SOURCE_BASIC)
+      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10 + 5 / 3 * (r.odeToEgoExtraBounces + r.e1ExtraBounces), SOURCE_MEMO)
+      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(5 / 3 * r.e1ExtraBounces, SOURCE_E1)
+      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(5 / 3 * r.odeToEgoExtraBounces, Source.odeTo(CYRENE))
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

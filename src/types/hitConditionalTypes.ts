@@ -13,7 +13,7 @@ import {
   ActionKey,
   ActionKeyValue,
   ComputedStatsContainer,
-  HitKey,
+  StatKey,
 } from 'lib/optimization/engine/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ElementalResPenType } from 'types/metadata'
@@ -75,27 +75,27 @@ export const DotDamageFunction: DamageFunction = {
     const a = x.a
 
     const baseDmgBoost = 1 + a[ActionKey.ELEMENTAL_DMG]
-    const baseDefPen = x.getHit(HitKey.DEF_PEN, hit) + context.combatBuffs.DEF_PEN
+    const baseDefPen = x.getHit(StatKey.DEF_PEN, hit) + context.combatBuffs.DEF_PEN
     const baseUniversalMulti = a[ActionKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
-    const baseResistance = context.enemyDamageResistance - x.getHit(HitKey.RES_PEN, hit) - context.combatBuffs.RES_PEN
+    const baseResistance = context.enemyDamageResistance - x.getHit(StatKey.RES_PEN, hit) - context.combatBuffs.RES_PEN
       - getResPenType(x, context.elementalResPenType)
-    const baseBreakEfficiencyBoost = 1 + x.getHit(HitKey.BREAK_EFFICIENCY_BOOST, hit)
+    const baseBreakEfficiencyBoost = 1 + x.getHit(StatKey.BREAK_EFFICIENCY_BOOST, hit)
 
-    const dotDmgBoostMulti = baseDmgBoost + x.getHit(HitKey.DMG_BOOST, hit) + getElementSpecificDamageBoost(x, hit)
-    const dotDefMulti = calculateDefMulti(eLevel, baseDefPen + x.getHit(HitKey.DEF_PEN, hit))
-    const dotVulnerabilityMulti = 1 + x.getHit(HitKey.VULNERABILITY, hit) + x.getHit(HitKey.VULNERABILITY, hit)
-    const dotResMulti = 1 - (baseResistance - x.getHit(HitKey.RES_PEN, hit))
+    const dotDmgBoostMulti = baseDmgBoost + x.getHit(StatKey.DMG_BOOST, hit) + getElementSpecificDamageBoost(x, hit)
+    const dotDefMulti = calculateDefMulti(eLevel, baseDefPen + x.getHit(StatKey.DEF_PEN, hit))
+    const dotVulnerabilityMulti = 1 + x.getHit(StatKey.VULNERABILITY, hit) + x.getHit(StatKey.VULNERABILITY, hit)
+    const dotResMulti = 1 - (baseResistance - x.getHit(StatKey.RES_PEN, hit))
     const dotEhrMulti = calculateEhrMulti(x, context)
-    const dotFinalDmgMulti = 1 + x.getHit(HitKey.FINAL_DMG_BOOST, hit)
+    const dotFinalDmgMulti = 1 + x.getHit(StatKey.FINAL_DMG_BOOST, hit)
 
     const initialDmg = calculateInitial(
       a,
       context,
-      x.getHit(HitKey.DMG, hit),
+      x.getHit(StatKey.DMG, hit),
       hit.hpScaling,
       hit.defScaling,
       hit.atkScaling,
-      x.getHit(HitKey.ATK_P_BOOST, hit),
+      x.getHit(StatKey.ATK_P_BOOST, hit),
     )
     const instanceDmg = calculateDotDmg(
       x,

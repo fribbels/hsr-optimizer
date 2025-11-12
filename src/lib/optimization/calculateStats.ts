@@ -46,7 +46,7 @@ import {
   ActionKey,
   ComputedStatsContainer,
   EntityType,
-  HitKey,
+  StatKey,
 } from 'lib/optimization/engine/computedStatsContainer'
 import { SimulationRelic } from 'lib/simulations/statSimulationTypes'
 import {
@@ -318,8 +318,8 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
 
   if (p4(SetKeys.IronCavalryAgainstTheScourge, sets) && x.a[Key.BE] >= 1.50) {
     // TODO
-    x.buffHit(HitKey.DEF_PEN, BREAK_DMG_TYPE, 0.10, Source.IronCavalryAgainstTheScourge, EntityType.SELF)
-    x.buffHit(HitKey.DEF_PEN, SUPER_BREAK_DMG_TYPE, x.a[Key.BE] >= 2.50 ? 0.15 : 0, Source.IronCavalryAgainstTheScourge, EntityType.SELF)
+    x.buffHit(StatKey.DEF_PEN, BREAK_DMG_TYPE, 0.10, Source.IronCavalryAgainstTheScourge, EntityType.SELF)
+    x.buffHit(StatKey.DEF_PEN, SUPER_BREAK_DMG_TYPE, x.a[Key.BE] >= 2.50 ? 0.15 : 0, Source.IronCavalryAgainstTheScourge, EntityType.SELF)
   }
 
   return x

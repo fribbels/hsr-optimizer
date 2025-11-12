@@ -25,7 +25,7 @@ import {
   ActionKey,
   ComputedStatsContainer,
   EntityType,
-  HitKey,
+  StatKey,
   StatKey,
 } from 'lib/optimization/engine/computedStatsContainer'
 import { HYSILENS } from 'lib/simulations/tests/testMetadataConstants'

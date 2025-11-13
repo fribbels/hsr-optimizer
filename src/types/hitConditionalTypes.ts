@@ -1,3 +1,4 @@
+import { type } from '@testing-library/user-event/dist/type'
 import {
   ElementName,
   ElementNames,
@@ -15,6 +16,7 @@ import {
   ComputedStatsContainer,
   StatKey,
 } from 'lib/optimization/engine/computedStatsContainer'
+import { Tag } from 'lib/optimization/engine/config/tags'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ElementalResPenType } from 'types/metadata'
 import {
@@ -38,6 +40,8 @@ export interface Hit {
   hpScaling: number
   defScaling: number
   specialScaling: number
+
+  tags: Tag[]
 
   toughnessDmg: number
 

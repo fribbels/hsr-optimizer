@@ -1,10 +1,11 @@
 import {BasicStatsArray} from 'lib/optimization/basicStatsArray'
 import {BuffSource} from 'lib/optimization/buffSource'
 import {ComputedStatsConfigBaseType, ComputedStatsConfigType,} from 'lib/optimization/config/computedStatsConfig'
+import {StatKeyValue} from 'lib/optimization/engine/config/keys'
 import {newStatsConfig} from 'lib/optimization/engine/config/statsConfig'
+import {NamedArray} from 'lib/optimization/engine/util/namedArray'
 import {Hit} from 'types/hitConditionalTypes'
 import {OptimizerContext} from 'types/optimizer'
-import {NamedArray} from "lib/optimization/engine/util/namedArray";
 
 enum StatCategory {
   CD,
@@ -63,6 +64,13 @@ export const FullStatsConfig: ComputedStatsConfigType = Object.fromEntries(
  * Rutilant Arena set buffs SKILL | BASIC
  * What if we're calculating a SKILL | ULT hit?
  * Precompute which Hits are affected by SKILL | BASIC, then apply the buff to those Hits
+ *
+ * Buffs are applied at the Action level, but the effects have Hit granularity
+ *
+ * Array structure
+ * [Action]
+ * [[Hit][Hit][Hit][Hit]]
+ * [[[Stat,Stat,Stat,...],...],...]
  */
 export class ComputedStatsContainer {
   public damageTypes: number[] = []
@@ -81,6 +89,13 @@ export class ComputedStatsContainer {
   public arrayLength: number
 
   public damageTypeIndexLookup: Record<number, number> = {}
+
+  /*
+  Array structure
+  [Action]
+  [[Hit][Hit][Hit][Hit]]
+  [[[Stat,Stat,Stat,...],...],...]
+  */
 
   constructor(context: OptimizerContext) {
     // ===== Hits =====

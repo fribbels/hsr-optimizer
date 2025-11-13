@@ -248,14 +248,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.RES_PEN.buffTeam((e >= 6 && m.e6ResPen) ? 0.20 : 0, SOURCE_E6)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
       standardHpHealFinalizer(x)
+      x.m.MEMO_SKILL_DMG.buff(x.a[Key.HEAL_VALUE] * 0.20, Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      return gpuStandardHpHealFinalizer()
+      return gpuStandardHpHealFinalizer() + `
+m.MEMO_SKILL_DMG += x.HEAL_VALUE * 0.20;
+`
     },
     dynamicConditionals: [
       {

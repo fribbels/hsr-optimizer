@@ -162,6 +162,7 @@ export function getCyreneAction(action: OptimizerAction) {
     action.teammate0,
     action.teammate1,
     action.teammate2,
+    action,
   ].find((x) => x && x.actorId == CYRENE)
 
   return cyreneAction
@@ -177,6 +178,7 @@ export function cyreneSpecialEffectEidolonUpgraded(action: OptimizerAction) {
     action.teammate0,
     action.teammate1,
     action.teammate2,
+    action,
   ].find((x) => x && x.actorId == CYRENE)!
 
   return cyreneAction.actorEidolon >= 3

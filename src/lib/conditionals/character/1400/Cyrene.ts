@@ -99,7 +99,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     zoneActive: true,
     talentDmgBuff: true,
     traceSpdBasedBuff: true,
-    odeToEgoExtraBounces: 3,
+    odeToEgoExtraBounces: 4,
     e1ExtraBounces: 12,
     e2TrueDmgStacks: 2,
     e4BounceStacks: 24,
@@ -162,7 +162,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: t('Content.odeToEgoExtraBounces.text'),
       content: t('Content.odeToEgoExtraBounces.content'),
       min: 0,
-      max: 6,
+      max: 7,
     },
     e1ExtraBounces: {
       id: 'e1ExtraBounces',

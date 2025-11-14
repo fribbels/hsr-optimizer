@@ -353,11 +353,15 @@ let buffDelta = buffFull - stateValue;
 (*p_state).${this.id} = buffFull;
 
 (*p_x).UNCONVERTIBLE_OHB_BUFF += buffDelta;
+(*p_m).UNCONVERTIBLE_OHB_BUFF += buffDelta;
 (*p_x).OHB += buffDelta;
+(*p_m).OHB += buffDelta;
 
 if (${wgslTrue(e >= 4 && r.e4CdBuff)}) {
   (*p_x).UNCONVERTIBLE_CD_BUFF += buffDelta * 2;
+  (*p_m).UNCONVERTIBLE_CD_BUFF += buffDelta * 2;
   (*p_x).CD += buffDelta * 2;
+  (*p_m).CD += buffDelta * 2;
 }
     `,
           )

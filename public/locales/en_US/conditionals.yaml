@@ -1556,6 +1556,9 @@ Characters:
       healingDmgStacks:
         text: Healing DMG stacks
         content: When Hyacine or Little Ica provides healing, increases Little Ica's DMG dealt by {{TalentDmgBuff}}% for 2 turns. Stacks up to 3 times.
+      healTallyMultiplier:
+        text: Heal tally multiplier
+        content: As currently implemented, memosprite skill damage is only based on a single instance of healing. This multiplier can be adjusted to scale the memosprite skill damage to better reflect in-game damage.
       e1HpBuff:
         text: E1 HP buff
         content: When Hyacine is in the "After Rain" state, additionally increases the Max HP of all ally targets by 50%.

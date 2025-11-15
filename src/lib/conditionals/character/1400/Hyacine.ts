@@ -70,6 +70,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const talentHealingDmgStackValue = talent(e, 0.80, 0.88)
 
+  const memoSkillScaling = memoSkill(e, 0.20, 0.22)
+
   // TODO: Heal tally
 
   const defaults = {
@@ -80,6 +82,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     resBuff: true,
     spd200HpBuff: true,
     healingDmgStacks: 3,
+    healTallyMultiplier: 20,
     e1HpBuff: true,
     e2SpdBuff: true,
     e4CdBuff: true,
@@ -152,6 +155,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       }),
       min: 0,
       max: 3,
+    },
+    healTallyMultiplier: {
+      id: 'healTallyMultiplier',
+      formItem: 'slider',
+      text: t('healTallyMultiplier.text'),
+      content: t('healTallyMultiplier.content'),
+      min: 1,
+      max: 100,
     },
     e1HpBuff: {
       id: 'e1HpBuff',
@@ -251,11 +262,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       standardHpHealFinalizer(x)
+      x.m.MEMO_SKILL_DMG.buff(x.a[Key.HEAL_VALUE] * memoSkillScaling * r.healTallyMultiplier, Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      return gpuStandardHpHealFinalizer()
+      return gpuStandardHpHealFinalizer() + `
+m.MEMO_SKILL_DMG += x.HEAL_VALUE * ${memoSkillScaling} * ${r.healTallyMultiplier};
+`
     },
     dynamicConditionals: [
       {
@@ -354,11 +368,15 @@ let buffDelta = buffFull - stateValue;
 (*p_state).${this.id} = buffFull;
 
 (*p_x).UNCONVERTIBLE_OHB_BUFF += buffDelta;
+(*p_m).UNCONVERTIBLE_OHB_BUFF += buffDelta;
 (*p_x).OHB += buffDelta;
+(*p_m).OHB += buffDelta;
 
 if (${wgslTrue(e >= 4 && r.e4CdBuff)}) {
   (*p_x).UNCONVERTIBLE_CD_BUFF += buffDelta * 2;
+  (*p_m).UNCONVERTIBLE_CD_BUFF += buffDelta * 2;
   (*p_x).CD += buffDelta * 2;
+  (*p_m).CD += buffDelta * 2;
 }
     `,
           )

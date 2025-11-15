@@ -82,6 +82,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     resBuff: true,
     spd200HpBuff: true,
     healingDmgStacks: 3,
+    healTallyMultiplier: 20,
     e1HpBuff: true,
     e2SpdBuff: true,
     e4CdBuff: true,
@@ -154,6 +155,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       }),
       min: 0,
       max: 3,
+    },
+    healTallyMultiplier: {
+      id: 'healTallyMultiplier',
+      formItem: 'slider',
+      text: t('healTallyMultiplier.text'),
+      content: t('healTallyMultiplier.content'),
+      min: 1,
+      max: 100,
     },
     e1HpBuff: {
       id: 'e1HpBuff',
@@ -250,12 +259,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.RES_PEN.buffTeam((e >= 6 && m.e6ResPen) ? 0.20 : 0, SOURCE_E6)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
       standardHpHealFinalizer(x)
-      x.m.MEMO_SKILL_DMG.buff(x.a[Key.HEAL_VALUE] * memoSkillScaling, Source.NONE)
+      x.m.MEMO_SKILL_DMG.buff(x.a[Key.HEAL_VALUE] * memoSkillScaling * r.healTallyMultiplier, Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
       return gpuStandardHpHealFinalizer() + `
-m.MEMO_SKILL_DMG += x.HEAL_VALUE * ${memoSkillScaling};
+m.MEMO_SKILL_DMG += x.HEAL_VALUE * ${memoSkillScaling} * ${r.healTallyMultiplier};
 `
     },
     dynamicConditionals: [

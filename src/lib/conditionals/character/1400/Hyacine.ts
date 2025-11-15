@@ -70,6 +70,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const talentHealingDmgStackValue = talent(e, 0.80, 0.88)
 
+  const memoSkillScaling = memoSkill(e, 0.20, 0.22)
+
   // TODO: Heal tally
 
   const defaults = {
@@ -249,11 +251,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       standardHpHealFinalizer(x)
-      x.m.MEMO_SKILL_DMG.buff(x.a[Key.HEAL_VALUE] * 0.20, Source.NONE)
+      x.m.MEMO_SKILL_DMG.buff(x.a[Key.HEAL_VALUE] * memoSkillScaling, Source.NONE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuStandardHpHealFinalizer() + `
-m.MEMO_SKILL_DMG += x.HEAL_VALUE * 0.20;
+m.MEMO_SKILL_DMG += x.HEAL_VALUE * ${memoSkillScaling};
 `
     },
     dynamicConditionals: [

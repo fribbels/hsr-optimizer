@@ -1,23 +1,9 @@
-import { type } from '@testing-library/user-event/dist/type'
-import {
-  ElementName,
-  ElementNames,
-  ElementToResPenType,
-} from 'lib/constants/constants'
-import {
-  ComputedStatsArray,
-  DefaultActionDamageValues,
-  Key,
-} from 'lib/optimization/computedStatsArray'
-import { StatsConfigByIndex } from 'lib/optimization/config/computedStatsConfig'
-import {
-  ActionKey,
-  ActionKeyValue,
-  ComputedStatsContainer,
-  StatKey,
-} from 'lib/optimization/engine/computedStatsContainer'
+import { ElementToResPenType } from 'lib/constants/constants'
+import { Key } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { Tag } from 'lib/optimization/engine/config/tags'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { ElementalResPenType } from 'types/metadata'
 import {
   OptimizerAction,
@@ -34,7 +20,7 @@ export type DamageFunctionName = string
 export interface Hit {
   damageFunction: DamageFunction
   damageType: number
-  damageElement: ElementName
+  damageElement: ElementTag
 
   atkScaling: number
   hpScaling: number
@@ -48,6 +34,8 @@ export interface Hit {
   activeHit: boolean
 }
 
+const ActionKey = {}
+
 export interface DamageFunction {
   apply: (x: ComputedStatsContainer, hit: Hit, action: OptimizerAction, context: OptimizerContext) => number
 }
@@ -56,14 +44,14 @@ export const DefaultDamageFunction: DamageFunction = {
   apply: (x: ComputedStatsContainer, hit: Hit, action: OptimizerAction, context: OptimizerContext) => 1,
 }
 
-const actionElementDamageKeyByElement: Record<ElementName, ActionKeyValue> = {
-  [ElementNames.Physical]: ActionKey.PHYSICAL_DMG_BOOST,
-  [ElementNames.Quantum]: ActionKey.QUANTUM_DMG_BOOST,
-  [ElementNames.Imaginary]: ActionKey.IMAGINARY_DMG_BOOST,
-  [ElementNames.Ice]: ActionKey.ICE_DMG_BOOST,
-  [ElementNames.Wind]: ActionKey.WIND_DMG_BOOST,
-  [ElementNames.Fire]: ActionKey.FIRE_DMG_BOOST,
-  [ElementNames.Lightning]: ActionKey.LIGHTNING_DMG_BOOST,
+const actionElementDamageKeyByElement: Record<ElementTag, ActionKeyValue> = {
+  [ElementTag.Physical]: StatKey.PHYSICAL_DMG_BOOST,
+  [ElementTag.Quantum]: ActionKey.QUANTUM_DMG_BOOST,
+  [ElementTag.Imaginary]: ActionKey.IMAGINARY_DMG_BOOST,
+  [ElementTag.Ice]: ActionKey.ICE_DMG_BOOST,
+  [ElementTag.Wind]: ActionKey.WIND_DMG_BOOST,
+  [ElementTag.Fire]: ActionKey.FIRE_DMG_BOOST,
+  [ElementTag.Lightning]: ActionKey.LIGHTNING_DMG_BOOST,
 } as const
 
 function getElementSpecificDamageBoost(x: ComputedStatsContainer, hit: Hit) {

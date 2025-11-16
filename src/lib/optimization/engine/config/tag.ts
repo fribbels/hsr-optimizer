@@ -16,3 +16,15 @@ export enum ElementTag {
 }
 
 export type Tag = ElementTag | DamageTag
+
+export const ALL_TAGS = ~0
+
+export const SELF_ENTITY = 0
+
+export const ALL_DAMAGE_TAGS = Object.values(DamageTag)
+  .filter((v): v is number => typeof v === 'number')
+  .reduce((acc, val) => acc | val, 0)
+
+export const ALL_ELEMENT_TAGS = Object.values(ElementTag)
+  .filter((v): v is number => typeof v === 'number')
+  .reduce((acc, val) => acc | val, 0)

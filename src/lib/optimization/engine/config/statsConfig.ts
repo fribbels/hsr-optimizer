@@ -1,5 +1,5 @@
-import {Namespaces} from 'lib/i18n/i18n'
-import Resources from 'types/resources'
+import { Namespaces } from 'lib/i18n/i18n'
+import Resources      from 'types/resources'
 
 interface tInput {
   ns: Namespaces
@@ -113,3 +113,5 @@ export const newStatsConfig = {
 
   FINAL_DMG_BOOST: { label: optimizerTabCompositeSuffix('Final DMG multiplier') },
 }
+
+export const STATS_LENGTH = Object.values(newStatsConfig).length

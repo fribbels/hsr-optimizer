@@ -1,8 +1,7 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
-import { calculateActions } from 'lib/optimization/context/calculateActions'
-import { ComputedStatsContainer } from 'lib/optimization/engine/computedStatsContainer'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   countDotAbilities,
   defineAction,
@@ -52,8 +51,6 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
   context.defaultActions = defaultActions
   context.rotationActions = rotationActions
 
-  // calculateActions(request, context)
-
   for (let i = 0; i < rotationActions.length; i++) {
     prepareActionData(rotationActions[i], i, comboState, request, context)
   }
@@ -71,7 +68,7 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
 }
 
 function prepareActionData(action: OptimizerAction, i: number, comboState: ComboState, request: Form, context: OptimizerContext) {
-  const container = new ComputedStatsContainer(context)
+  const container = new ComputedStatsContainer(action, context)
   console.log(container)
 
   action.precomputedStats = container

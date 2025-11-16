@@ -1,23 +1,31 @@
-import { BasicStatsArray }  from 'lib/optimization/basicStatsArray'
-import { BuffSource }       from 'lib/optimization/buffSource'
+import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BuffSource }      from 'lib/optimization/buffSource'
 import {
   ComputedStatsConfigBaseType,
   ComputedStatsConfigType,
-}                           from 'lib/optimization/config/computedStatsConfig'
-import { StatKeyValue }     from 'lib/optimization/engine/config/keys'
-import { newStatsConfig }   from 'lib/optimization/engine/config/statsConfig'
+}                          from 'lib/optimization/config/computedStatsConfig'
+import { StatKeyValue }    from 'lib/optimization/engine/config/keys'
 import {
+  newStatsConfig,
+  STATS_LENGTH,
+}                          from 'lib/optimization/engine/config/statsConfig'
+import {
+  ALL_DAMAGE_TAGS,
+  ALL_ELEMENT_TAGS,
   DamageTag,
   ElementTag,
-}                           from 'lib/optimization/engine/config/tag'
+}                          from 'lib/optimization/engine/config/tag'
 import {
   BuffBuilder,
   CompleteBuffBuilder,
   IncompleteBuffBuilder,
-}                           from 'lib/optimization/engine/container/buffBuilder'
-import { NamedArray }       from 'lib/optimization/engine/util/namedArray'
-import { Hit }              from 'types/hitConditionalTypes'
-import { OptimizerContext } from 'types/optimizer'
+}                          from 'lib/optimization/engine/container/buffBuilder'
+import { NamedArray }      from 'lib/optimization/engine/util/namedArray'
+import { Hit }             from 'types/hitConditionalTypes'
+import {
+  OptimizerAction,
+  OptimizerContext,
+}                          from 'types/optimizer'
 
 enum StatCategory {
   CD,
@@ -66,8 +74,6 @@ export const FullStatsConfig: ComputedStatsConfigType = Object.fromEntries(
  * [[[Stat,Stat,Stat,...],...],...]
  */
 export class ComputedStatsContainer {
-  public damageTypes: number[] = []
-
   public entityRegistry: NamedArray<OptimizerEntity>
   public selfEntity: OptimizerEntity
 
@@ -75,44 +81,46 @@ export class ComputedStatsContainer {
   // @ts-ignore
   public c: BasicStatsArray
 
-  public actionStatsLength: number
-  public entityLength: number
-  public damageTypesLength: number
+  public hits: Hit[]
+
+  public hitsLength: number
+  public entitiesLength: number
   public statsLength: number
   public arrayLength: number
 
   public damageTypeIndexLookup: Record<number, number> = {}
 
-  private readonly builder = new BuffBuilder()
+  private readonly builder: BuffBuilder
 
   /*
   Array structure
   [Action]
-  [[Hit][Hit][Hit][Hit]]
-  [[[Stat,Stat,Stat,...],...],...]
+  [[Entity][Entity]]
+  [[[Hit][Hit][Hit][Hit]]]
+  [[[[Stat,Stat,Stat,...],...],...]]
   */
 
-  constructor(context: OptimizerContext) {
-    // ===== Hits =====
+  constructor(
+    action: OptimizerAction,
+    context: OptimizerContext,
+  ) {
+    this.statsLength = STATS_LENGTH
 
-    this.damageTypes = [...activeDamageTypes]
-    for (let i = 0; i < this.damageTypes.length; i++) {
-      this.damageTypeIndexLookup[this.damageTypes[i]] = i
-    }
+    this.builder = new BuffBuilder(this)
 
-    // ===== Entities =====
+    // Hits
 
-    this.actionStatsLength = Object.keys(newStatsConfig).length
-    this.entityLength = context.entities!.length
-    this.damageTypesLength = this.damageTypes.length
-    this.statsLength = Object.keys(FullStatsConfig).length
-    this.arrayLength = this.entityLength * this.damageTypesLength * this.statsLength
-    const array = new Float32Array(this.arrayLength)
+    this.hits = action.hits!
+    this.hitsLength = this.hits.length
 
-    this.a = array
-
+    // Entities
+    this.entitiesLength = context.entities!.length
     this.entityRegistry = new NamedArray(context.entities!, (entity) => entity.name)
     this.selfEntity = this.entityRegistry.get(0)!
+
+    // Each entity x stats x hits, plus the action stats
+    this.arrayLength = this.entitiesLength * this.statsLength * (this.hitsLength + 1)
+    this.a = new Float32Array(this.arrayLength)
   }
 
   buff(key: StatKeyValue, value: number, config: BuffBuilder<true>): this {
@@ -120,19 +128,49 @@ export class ComputedStatsContainer {
       key,
       value,
       config._source,
+      config._origin,
+      config._target,
       config._elementTags,
       config._damageTags,
     )
-    return this
   }
 
   internalBuff(
     key: StatKeyValue,
     value: number,
     source: BuffSource,
+    origin: number,
+    target: number,
     elementTags: ElementTag,
     damageTags: DamageTag,
   ): void {
+    if (value == 0) return
+
+    if (elementTags == ALL_ELEMENT_TAGS && damageTags == ALL_DAMAGE_TAGS) {
+      const index = this.getActionIndex(target, key)
+      this.a[index] = value
+      return
+    }
+
+    for (let hitIndex = 0; hitIndex < this.hitsLength; hitIndex++) {
+      const hit = this.hits[hitIndex]
+
+      if (hit.damageType & damageTags && hit.damageElement & elementTags) {
+        const index = this.getHitIndex(target, hitIndex, key)
+        this.a[index] = value
+      }
+    }
+  }
+
+  public getActionIndex(entityIndex: number, statIndex: number): number {
+    return entityIndex * (this.statsLength * (this.hitsLength + 1))
+      + statIndex
+  }
+
+  public getHitIndex(entityIndex: number, hitIndex: number, statIndex: number): number {
+    return entityIndex * (this.statsLength * (this.hitsLength + 1))
+      + (hitIndex + 1) * this.statsLength
+      + statIndex
   }
 
   elements(e: ElementTag): IncompleteBuffBuilder {
@@ -143,7 +181,15 @@ export class ComputedStatsContainer {
     return this.builder.reset().damageType(d)
   }
 
-  source(s: number): CompleteBuffBuilder {
+  origin(e: string): IncompleteBuffBuilder {
+    return this.builder.reset().origin(e)
+  }
+
+  target(e: string): IncompleteBuffBuilder {
+    return this.builder.reset().target(e)
+  }
+
+  source(s: BuffSource): CompleteBuffBuilder {
     return this.builder.reset().source(s)
   }
 
@@ -196,18 +242,18 @@ export class ComputedStatsContainer {
   //   const index = this.getIndex(entityIndex, damageTypeIndex, key)
   // }
 
-  // Array structure
-  // [action stats]
-  // [entity0 damageType0 hitStats]
-  // [entity0 damageType1 hitStats]
-  // [entity1 damageType0 hitStats]
-  // [entity1 damageType1 hitStats]
-  public getIndex(entityIndex: number, damageTypeIndex: number, statIndex: number): number {
-    return entityIndex * (this.damageTypesLength * this.statsLength)
-      + damageTypeIndex * this.statsLength
-      + statIndex
-      + this.actionStatsLength
-  }
+  // // Array structure
+  // // [action stats]
+  // // [entity0 damageType0 hitStats]
+  // // [entity0 damageType1 hitStats]
+  // // [entity1 damageType0 hitStats]
+  // // [entity1 damageType1 hitStats]
+  // public getIndex(entityIndex: number, damageTypeIndex: number, statIndex: number): number {
+  //   return entityIndex * (this.damageTypesLength * this.statsLength)
+  //     + damageTypeIndex * this.statsLength
+  //     + statIndex
+  //     + this.actionStatsLength
+  // }
 
   public setPrecompute(array: Float32Array) {
     this.a.set(array)

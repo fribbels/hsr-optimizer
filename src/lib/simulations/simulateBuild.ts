@@ -7,42 +7,29 @@ import {
   RelicSetToIndex,
   SetsOrnaments,
   SetsRelics,
-} from 'lib/constants/constants'
+}                                 from 'lib/constants/constants'
 import {
   BasicStatsArray,
   BasicStatsArrayCore,
-} from 'lib/optimization/basicStatsArray'
-import { Source } from 'lib/optimization/buffSource'
-import {
-  calculateBaseMultis,
-  calculateDamage,
-} from 'lib/optimization/calculateDamage'
+}                                 from 'lib/optimization/basicStatsArray'
+import { Source }                 from 'lib/optimization/buffSource'
+import { calculateBaseMultis }    from 'lib/optimization/calculateDamage'
 import {
   calculateBaseStats,
-  calculateBasicEffects,
   calculateBasicSetEffects,
   calculateComputedStats,
   calculateElementalStats,
   calculateRelicStats,
   calculateSetCounts,
-} from 'lib/optimization/calculateStats'
-import {
-  ComputedStatsArray,
-  ComputedStatsArrayCore,
-  Key,
-} from 'lib/optimization/computedStatsArray'
-import {
-  ActionKey,
-  ComputedStatsContainer,
-} from 'lib/optimization/engine/computedStatsContainer'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+}                                 from 'lib/optimization/calculateStats'
+import { ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   SimulationRelic,
   SimulationRelicByPart,
-} from 'lib/simulations/statSimulationTypes'
-import { HitAction } from 'types/hitConditionalTypes'
-import { OptimizerContext } from 'types/optimizer'
-import { a } from 'vitest/dist/chunks/suite.d.FvehnV49'
+}                                 from 'lib/simulations/statSimulationTypes'
+import { HitAction }              from 'types/hitConditionalTypes'
+import { OptimizerContext }       from 'types/optimizer'
 
 // To use after combo state and context has been initialized
 export function simulateBuild(
@@ -66,7 +53,6 @@ export function simulateBuild(
   const setL = OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
 
   const c = (cachedBasicStatsArrayCore ?? new BasicStatsArrayCore(false)) as BasicStatsArray
-  const x = new ComputedStatsContainer(context)
 
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount
@@ -85,7 +71,6 @@ export function simulateBuild(
     c.SPD.set(forcedBasicSpd, Source.NONE)
   }
 
-  x.setBasic(c)
   // if (x.a[Key.MEMOSPRITE]) {
   //   m.setBasic(c.m)
   //   c.initMemo()
@@ -106,6 +91,9 @@ export function simulateBuild(
 
   for (let i = 0; i < context.rotationActions.length; i++) {
     const action = context.rotationActions[i]
+    const x = new ComputedStatsContainer(action, context)
+    x.setBasic(c)
+
     action.conditionalState = {}
 
     x.setPrecompute(action.precomputedStats.a)

@@ -3,20 +3,36 @@ import {
   Source,
 } from 'lib/optimization/buffSource'
 import {
+  ALL_TAGS,
   DamageTag,
   ElementTag,
-} from 'lib/optimization/engine/config/tag'
+  SELF_ENTITY,
+}                     from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer,
+  OptimizerEntity
+}                     from 'lib/optimization/engine/container/computedStatsContainer'
+import { NamedArray } from "lib/optimization/engine/util/namedArray";
 
 export class BuffBuilder<_Completed extends boolean = false> {
   private readonly _completionBrand!: _Completed
 
-  _elementTags = 0
-  _damageTags = 0
+  _elementTags = ALL_TAGS
+  _damageTags = ALL_TAGS
+  _origin = SELF_ENTITY
+  _target = SELF_ENTITY
   _source = Source.NONE
 
+  entityRegistry: NamedArray<OptimizerEntity>
+
+  constructor(container: ComputedStatsContainer) {
+    this.entityRegistry = container.entityRegistry
+  }
+
   reset(): IncompleteBuffBuilder {
-    this._elementTags = 0
-    this._damageTags = 0
+    this._elementTags = ALL_TAGS
+    this._damageTags = ALL_TAGS
+    this._origin = SELF_ENTITY
+    this._target = SELF_ENTITY
     this._source = Source.NONE
     return this as IncompleteBuffBuilder
   }
@@ -28,6 +44,16 @@ export class BuffBuilder<_Completed extends boolean = false> {
 
   damageType(d: DamageTag): IncompleteBuffBuilder {
     this._damageTags = d
+    return this as IncompleteBuffBuilder
+  }
+
+  origin(entity: string): IncompleteBuffBuilder {
+    this._origin = this.entityRegistry.getIndex(entity)
+    return this as IncompleteBuffBuilder
+  }
+
+  target(entity: string): IncompleteBuffBuilder {
+    this._target = this.entityRegistry.getIndex(entity)
     return this as IncompleteBuffBuilder
   }
 

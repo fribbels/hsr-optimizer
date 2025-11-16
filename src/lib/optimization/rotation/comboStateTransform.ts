@@ -1,55 +1,54 @@
-import { countTeamPath } from 'lib/conditionals/conditionalUtils'
-import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
-import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { countTeamPath }                       from 'lib/conditionals/conditionalUtils'
+import { CharacterConditionalsResolver }       from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver }       from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
   ConditionalDataType,
   SACERDOS_RELIVED_ORDEAL_1_STACK,
   SACERDOS_RELIVED_ORDEAL_2_STACK,
   Sets,
-} from 'lib/constants/constants'
-import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { Source } from 'lib/optimization/buffSource'
+}                                              from 'lib/constants/constants'
+import { DynamicConditional }                  from 'lib/gpu/conditionals/dynamicConditionals'
+import { Source }                              from 'lib/optimization/buffSource'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import {
   baseComputedStatsArray,
   ComputedStatsArray,
   ComputedStatsArrayCore,
   Key,
-} from 'lib/optimization/computedStatsArray'
-import { calculateActions } from 'lib/optimization/context/calculateActions'
-import { ComputedStatsContainer } from 'lib/optimization/engine/computedStatsContainer'
-import { newTransformStateActions } from 'lib/optimization/rotation/actionTransform'
+}                                              from 'lib/optimization/computedStatsArray'
+import { calculateActions }                    from 'lib/optimization/context/calculateActions'
+import { ComputedStatsContainer }              from 'lib/optimization/engine/container/computedStatsContainer'
+import { newTransformStateActions }            from 'lib/optimization/rotation/actionTransform'
 import {
   AbilityKind,
   DEFAULT_BASIC,
   getAbilityKind,
   NULL_TURN_ABILITY_NAME,
   TurnAbilityName,
-} from 'lib/optimization/rotation/turnAbilityConfig'
-import DB from 'lib/state/db'
+}                                              from 'lib/optimization/rotation/turnAbilityConfig'
+import DB                                      from 'lib/state/db'
 import {
   ComboConditionalCategory,
   ComboConditionals,
   ComboSelectConditional,
   ComboState,
   initializeComboState,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { CharacterId } from 'types/character'
+}                                              from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { CharacterId }                         from 'types/character'
 import {
   CharacterConditionalsController,
   ConditionalValueMap,
   LightConeConditionalsController,
-} from 'types/conditionals'
+}                                              from 'types/conditionals'
 import {
   Form,
   OptimizerForm,
-} from 'types/form'
-import { HitAction } from 'types/hitConditionalTypes'
+}                                              from 'types/form'
 import {
   OptimizerAction,
   OptimizerContext,
   SetConditional,
-} from 'types/optimizer'
+}                                              from 'types/optimizer'
 
 const SUNDAY_ID = '1313'
 
@@ -202,6 +201,7 @@ export function precomputeConditionals(action: OptimizerAction, comboState: Comb
   const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(comboState.comboCharacter.metadata)
 
   const x = action.precomputedX
+  const container = action.precomputedStats
 
   if (context.deprioritizeBuffs) {
     x.DEPRIORITIZE_BUFFS.set(1, Source.NONE)

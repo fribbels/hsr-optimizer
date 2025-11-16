@@ -354,15 +354,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // x.buff(ActionKey.ATK_P, 0.50, Source.NONE, EntityType.SELF, EntityType.SELF)
-      // x.buffHit(HitKey.ADDITIONAL_DMG, NONE_DMG_TYPE, 0.50, Source.NONE, EntityType.SELF, EntityType.SELF)
-
-      x.buff(ActionKey.DOT_CHANCE, 1.00, Source.NONE, EntityType.SELF, EntityType.SELF)
+      x.buff(StatKey.ATK_P, 50, x.elements(ElementTag.Fire).damageType(DamageTag.BASIC).source(Source.NONE))
     },
     precomputeEffects: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-
-      x.buff(StatKey.ATK_P, 50, x.elements(ElementTag.Fire).damageType(DamageTag.BASIC).source(Source.NONE))
 
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)

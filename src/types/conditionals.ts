@@ -1,23 +1,23 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
-import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { AbilityType }                from 'lib/conditionals/conditionalConstants'
+import { DynamicConditional }         from 'lib/gpu/conditionals/dynamicConditionals'
+import { ComputedStatsArray }         from 'lib/optimization/computedStatsArray'
 import {
   ComputedStatsContainer,
   OptimizerEntity,
-} from 'lib/optimization/engine/computedStatsContainer'
+}                                     from 'lib/optimization/engine/container/computedStatsContainer'
 import { FormSelectWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import {
   ComponentProps,
   ComponentType,
-} from 'react'
+}                                     from 'react'
 import {
   OptimizerAction,
   OptimizerContext,
-} from 'types/optimizer'
-import { ActionModifier } from '../lib/optimization/context/calculateActions'
-import { HitAction } from './hitConditionalTypes'
+}                                     from 'types/optimizer'
+import { ActionModifier }             from '../lib/optimization/context/calculateActions'
+import { HitAction }                  from './hitConditionalTypes'
 
 // Interface to an instance of a Character or Light Cone conditional controller
 export interface ConditionalsController {

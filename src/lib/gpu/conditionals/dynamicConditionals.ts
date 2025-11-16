@@ -1,7 +1,6 @@
 import { ConditionalActivation } from 'lib/constants/constants'
 import { indent } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import { ComputedStatsContainer } from 'lib/optimization/engine/computedStatsContainer'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   OptimizerAction,
   OptimizerContext,

@@ -1,16 +1,16 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { OptimizerEntity } from 'lib/optimization/engine/computedStatsContainer'
+import { OptimizerEntity }               from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   CharacterConditionalsController,
   LightConeConditionalsController,
-} from 'types/conditionals'
-import { OptimizerForm } from 'types/form'
-import { HitAction } from 'types/hitConditionalTypes'
+}                                        from 'types/conditionals'
+import { OptimizerForm }                 from 'types/form'
+import { HitAction }                     from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
-} from 'types/optimizer'
+}                                        from 'types/optimizer'
 
 export type ActionModifier = { modify: (action: OptimizerAction, context: OptimizerContext) => void }
 

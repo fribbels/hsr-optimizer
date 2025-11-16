@@ -1,11 +1,6 @@
 import {
-  BASIC_DMG_TYPE,
   BREAK_DMG_TYPE,
-  DOT_DMG_TYPE,
-  FUA_DMG_TYPE,
-  SKILL_DMG_TYPE,
   SUPER_BREAK_DMG_TYPE,
-  ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
   Sets,
@@ -27,12 +22,7 @@ import {
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import {
-  buffAbilityDefPen,
-  buffAbilityDmg,
-} from 'lib/optimization/calculateBuffs'
-import {
   buffElementalDamageType,
-  ComputedStatsArray,
   Key,
   StatToKey,
 } from 'lib/optimization/computedStatsArray'
@@ -43,11 +33,9 @@ import {
   SetKeyType,
 } from 'lib/optimization/config/setsConfig'
 import {
-  ActionKey,
   ComputedStatsContainer,
   EntityType,
-  StatKey,
-} from 'lib/optimization/engine/computedStatsContainer'
+} from 'lib/optimization/engine/container/computedStatsContainer'
 import { SimulationRelic } from 'lib/simulations/statSimulationTypes'
 import {
   OptimizerAction,

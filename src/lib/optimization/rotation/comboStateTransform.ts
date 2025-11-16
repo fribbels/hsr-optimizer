@@ -16,6 +16,9 @@ import {
   ComputedStatsArrayCore,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import { calculateActions } from 'lib/optimization/context/calculateActions'
+import { ComputedStatsContainer } from 'lib/optimization/engine/computedStatsContainer'
+import { newTransformStateActions } from 'lib/optimization/rotation/actionTransform'
 import {
   AbilityKind,
   DEFAULT_BASIC,
@@ -41,6 +44,7 @@ import {
   Form,
   OptimizerForm,
 } from 'types/form'
+import { HitAction } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -58,31 +62,71 @@ export function transformComboState(request: Form, context: OptimizerContext) {
 
   if (request.comboType == ComboType.ADVANCED) {
     const comboState = initializeComboState(request, true)
-    transformStateActions(comboState, request, context)
+    newTransformStateActions(comboState, request, context)
   } else {
     const comboState = initializeComboState(request, false)
-    transformStateActions(comboState, request, context)
+    newTransformStateActions(comboState, request, context)
   }
 }
 
 function transformStateActions(comboState: ComboState, request: Form, context: OptimizerContext) {
   const { comboTurnAbilities, comboDot } = getComboTypeAbilities(request)
 
+  // OLD
+
   const actions: OptimizerAction[] = []
   for (let i = 0; i < comboTurnAbilities.length; i++) {
-    actions.push(transformAction(i, comboState, comboTurnAbilities, request, context))
+    actions.push(defineAction(i, comboState, comboTurnAbilities[i], request, context))
+  }
+
+  context.actions = actions
+  calculateActions(request, context)
+
+  for (let i = 0; i < comboTurnAbilities.length; i++) {
+    const action = actions[i]
+
+    const container = new ComputedStatsContainer(context)
+    console.log(container)
+
+    action.precomputedStats = container
+
+    if (comboState.comboTeammate0) {
+      action.teammate0.actorId = comboState.comboTeammate0.metadata.characterId
+      action.teammate0.characterConditionals = transformConditionals(i, comboState.comboTeammate0.characterConditionals)
+      action.teammate0.lightConeConditionals = transformConditionals(i, comboState.comboTeammate0.lightConeConditionals)
+    }
+
+    if (comboState.comboTeammate1) {
+      action.teammate1.actorId = comboState.comboTeammate1.metadata.characterId
+      action.teammate1.characterConditionals = transformConditionals(i, comboState.comboTeammate1.characterConditionals)
+      action.teammate1.lightConeConditionals = transformConditionals(i, comboState.comboTeammate1.lightConeConditionals)
+    }
+
+    if (comboState.comboTeammate2) {
+      action.teammate2.actorId = comboState.comboTeammate2.metadata.characterId
+      action.teammate2.characterConditionals = transformConditionals(i, comboState.comboTeammate2.characterConditionals)
+      action.teammate2.lightConeConditionals = transformConditionals(i, comboState.comboTeammate2.lightConeConditionals)
+    }
+
+    precomputeConditionals(action, comboState, context)
+    calculateContextConditionalRegistry(action, context)
   }
 
   const characterConditionalController = CharacterConditionalsResolver.get(context)
 
-  context.actions = actions
   context.dotAbilities = countDotAbilities(actions)
   context.comboDot = comboDot || 0
   context.activeAbilities = characterConditionalController.activeAbilities ?? []
   context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
 }
 
-function transformAction(actionIndex: number, comboState: ComboState, turnAbilityNames: TurnAbilityName[], request: OptimizerForm, context: OptimizerContext) {
+export function defineAction(
+  actionIndex: number,
+  comboState: ComboState,
+  abilityName: TurnAbilityName,
+  request: OptimizerForm,
+  context: OptimizerContext,
+) {
   const action: OptimizerAction = {
     characterConditionals: {},
     lightConeConditionals: {},
@@ -104,7 +148,7 @@ function transformAction(actionIndex: number, comboState: ComboState, turnAbilit
   action.actorId = context.characterId
   action.actorEidolon = context.characterEidolon
   action.actionIndex = actionIndex
-  action.actionType = getAbilityKind(turnAbilityNames[actionIndex])
+  action.actionType = getAbilityKind(abilityName)
 
   action.characterConditionals = transformConditionals(actionIndex, comboState.comboCharacter.characterConditionals)
   action.lightConeConditionals = transformConditionals(actionIndex, comboState.comboCharacter.lightConeConditionals)
@@ -115,6 +159,16 @@ function transformAction(actionIndex: number, comboState: ComboState, turnAbilit
   action.precomputedX.setPrecompute(baseComputedStatsArray())
   action.precomputedM = action.precomputedX.m
   action.precomputedM.setPrecompute(baseComputedStatsArray())
+
+  const actionKind = actionIndex == 0 ? abilityName : action.actionType
+
+  const provider = context.actionMapping[actionKind]!
+  const hitAction = provider(action, context).find((x) => x.name == actionKind)!
+  action.hits = hitAction.hits
+
+  for (const modifier of context.actionModifiers) {
+    modifier.modify(action, context)
+  }
 
   if (comboState.comboTeammate0) {
     action.teammate0.actorId = comboState.comboTeammate0.metadata.characterId
@@ -137,13 +191,13 @@ function transformAction(actionIndex: number, comboState: ComboState, turnAbilit
     action.teammate2.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate2.lightConeConditionals)
   }
 
-  precomputeConditionals(action, comboState, context)
-  calculateContextConditionalRegistry(action, context)
-
   return action
 }
 
-function precomputeConditionals(action: OptimizerAction, comboState: ComboState, context: OptimizerContext) {
+function calculateActionHits() {
+}
+
+export function precomputeConditionals(action: OptimizerAction, comboState: ComboState, context: OptimizerContext) {
   const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(comboState.comboCharacter.metadata)
   const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(comboState.comboCharacter.metadata)
 
@@ -188,6 +242,8 @@ function precomputeConditionals(action: OptimizerAction, comboState: ComboState,
   // Precompute mutual stage
   lightConeConditionals.precomputeMutualEffects?.(x, action, context, action)
   characterConditionals.precomputeMutualEffects?.(x, action, context, action)
+
+  characterConditionals.precomputeEffectsContainer(action.precomputedStats, action, context)
 
   precomputeTeammates(action, comboState, context)
 }
@@ -290,7 +346,7 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
   }
 }
 
-function transformConditionals(actionIndex: number, conditionals: ComboConditionals) {
+export function transformConditionals(actionIndex: number, conditionals: ComboConditionals) {
   const result: Record<string, number | boolean> = {}
   for (const [key, category] of Object.entries(conditionals)) {
     result[key] = transformConditional(category, actionIndex)

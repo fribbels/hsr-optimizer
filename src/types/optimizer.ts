@@ -6,6 +6,11 @@ import {
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ActionModifier } from 'lib/optimization/context/calculateActions'
+import {
+  ComputedStatsContainer,
+  OptimizerEntity,
+} from 'lib/optimization/engine/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CharacterId } from 'types/character'
 import {
@@ -18,10 +23,16 @@ import {
   ElementalDamageType,
   ElementalResPenType,
 } from 'types/metadata'
+import {
+  Hit,
+  HitAction,
+} from './hitConditionalTypes'
 
 export type OptimizerAction = {
   precomputedX: ComputedStatsArray,
   precomputedM: ComputedStatsArray,
+
+  precomputedStats: ComputedStatsContainer,
 
   characterConditionals: ConditionalValueMap,
   lightConeConditionals: ConditionalValueMap,
@@ -38,6 +49,8 @@ export type OptimizerAction = {
   actorEidolon: number,
   actionType: AbilityKind,
   actionIndex: number,
+
+  hits?: Hit[],
 
   teammate0: TeammateAction,
   teammate1: TeammateAction,
@@ -116,6 +129,14 @@ export type CharacterMetadata = {
 }
 
 export type OptimizerContext = CharacterMetadata & {
+  // NEW
+  actionDeclarations: string[],
+  actionModifiers: ActionModifier[],
+  actionMapping: Record<string, ((action: OptimizerAction, context: OptimizerContext) => HitAction[])>,
+
+  rotationActions: OptimizerAction[],
+  defaultActions: OptimizerAction[],
+
   teammate0Metadata: CharacterMetadata,
   teammate1Metadata: CharacterMetadata,
   teammate2Metadata: CharacterMetadata,
@@ -152,6 +173,8 @@ export type OptimizerContext = CharacterMetadata & {
   activeAbilities: AbilityType[],
   activeAbilityFlags: number,
   actions: OptimizerAction[],
+  hitActions?: HitAction[],
+  entities?: OptimizerEntity[],
   comboDot: number,
   dotAbilities: number,
 

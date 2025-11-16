@@ -1,25 +1,16 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
-} from 'lib/conditionals/conditionalUtils'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
-import { HYSILENS } from 'lib/simulations/tests/testMetadataConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
-import { Eidolon } from 'types/character'
-import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import {AbilityType, DamageType,} from 'lib/conditionals/conditionalConstants'
+import {AbilityEidolon, Conditionals, ContentDefinition, cyreneActionExists, cyreneSpecialEffectEidolonUpgraded,} from 'lib/conditionals/conditionalUtils'
+import {ElementNames} from 'lib/constants/constants'
+import {wgslTrue} from 'lib/gpu/injection/wgslUtils'
+import {Source} from 'lib/optimization/buffSource'
+import {ComputedStatsArray} from 'lib/optimization/computedStatsArray'
+import {ActionKey, ComputedStatsContainer, EntityType,} from 'lib/optimization/engine/computedStatsContainer'
+import {HYSILENS} from 'lib/simulations/tests/testMetadataConstants'
+import {TsUtils} from 'lib/utils/TsUtils'
+import {Eidolon} from 'types/character'
+import {CharacterConditionalsController} from 'types/conditionals'
+import {DefaultDamageFunction, DotDamageFunction, Hit,} from 'types/hitConditionalTypes'
+import {OptimizerAction, OptimizerContext,} from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hysilens')
@@ -157,9 +148,197 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
+    actionDeclaration: () => {
+      return [
+        'BASIC',
+        'SKILL',
+        'ULT',
+        'DOT',
+      ]
+    },
+    entityDeclaration: () => {
+      return [
+        {
+          name: 'Hysilens',
+          primary: true,
+          summon: false,
+          memosprite: false,
+        },
+        {
+          name: 'Summon',
+          primary: false,
+          summon: true,
+          memosprite: false,
+        },
+      ]
+    },
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      const talentDot = talentDotScaling * 3 + talentDotAtkLimitScaling
+      const updatedUltDotScaling = (e >= 6 && r.e6Buffs) ? ultDotScaling + 0.20 : ultDotScaling
+      const ultDot = r.ultDotStacks * updatedUltDotScaling
+
+      let dotAtkScaling = 0
+
+      return [
+        {
+          name: 'BASIC',
+          hits: [
+            {
+              damageFunction: DefaultDamageFunction,
+              damageType: DamageType.BASIC,
+              atkScaling: basicScaling,
+              defScaling: 0,
+              hpScaling: 0,
+              activeHit: true,
+              tags: [
+                DamageTag.BASIC,
+                ElementTag.PHYSICAL,
+              ],
+            },
+          ],
+        },
+        {
+          name: 'SKILL',
+          hits: [
+            {
+              damageFunction: DefaultDamageFunction,
+              damageType: DamageType.SKILL,
+              atkScaling: skillScaling,
+              defScaling: 0,
+              hpScaling: 0,
+              activeHit: true,
+              tags: [
+                DamageTag.SKILL,
+                ElementTag.PHYSICAL,
+              ],
+            },
+          ],
+        },
+        {
+          name: 'ULT',
+          hits: [
+            {
+              damageFunction: DefaultDamageFunction,
+              damageType: DamageType.ULT,
+              atkScaling: ultScaling,
+              defScaling: 0,
+              hpScaling: 0,
+              activeHit: true,
+              tags: [
+                DamageTag.ULT,
+                ElementTag.PHYSICAL,
+              ],
+            },
+          ],
+        },
+        {
+          name: 'DOT',
+          hits: [
+            {
+              damageFunction: DotDamageFunction,
+              damageType: DamageType.DOT,
+              damageElement: ElementNames.Fire,
+              atkScaling: talentDotScaling,
+              defScaling: 0,
+              hpScaling: 0,
+              activeHit: false,
+              tags: [
+                DamageTag.DOT,
+                ElementTag.FIRE,
+              ],
+            },
+            {
+              damageFunction: DotDamageFunction,
+              damageType: DamageType.DOT,
+              damageElement: ElementNames.Wind,
+              atkScaling: talentDotScaling,
+              defScaling: 0,
+              hpScaling: 0,
+              activeHit: false,
+              tags: [
+                DamageTag.DOT,
+                ElementTag.WIND,
+              ],
+            },
+            {
+              damageFunction: DotDamageFunction,
+              damageType: DamageType.DOT,
+              damageElement: ElementNames.Lightning,
+              atkScaling: talentDotScaling,
+              defScaling: 0,
+              hpScaling: 0,
+              activeHit: false,
+              tags: [
+                DamageTag.DOT,
+                ElementTag.LIGHTNING,
+              ],
+            },
+            {
+              damageFunction: DotDamageFunction,
+              damageType: DamageType.DOT,
+              damageElement: ElementNames.Physical,
+              atkScaling: talentDotScaling,
+              defScaling: 0,
+              hpScaling: 0,
+              activeHit: false,
+              tags: [
+                DamageTag.DOT,
+                ElementTag.PHYSICAL,
+              ],
+            },
+          ],
+        },
+      ]
+    },
+    actionModifiers() {
+      return [
+        {
+          modify: (action: OptimizerAction, context: OptimizerContext) => {
+            const hits = action.hits!
+            const len = hits.length
+            for (let i = 0; i < len; i++) {
+              const hit = hits[i]
+
+              if (hit.activeHit) {
+                const trueDmgHit = {
+                  damageFunction: DefaultDamageFunction,
+                  damageType: DamageType.DOT,
+                  damageElement: ElementNames.Physical,
+                  activeHit: false,
+                }
+
+                hits.push(trueDmgHit as Hit)
+              }
+
+              if (hit.toughnessDmg) {
+                const superBreakHit = {
+                  damageFunction: DefaultDamageFunction,
+                  damageType: DamageType.SUPER_BREAK,
+                  damageElement: ElementNames.Physical,
+                  activeHit: false,
+                  toughnessDmg: hit.toughnessDmg,
+                }
+
+                hits.push(superBreakHit as Hit)
+              }
+            }
+          },
+        },
+      ]
+    },
     initializeConfigurations: (x: ComputedStatsArray) => {
     },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // x.buff(ActionKey.ATK_P, 0.50, Source.NONE, EntityType.SELF, EntityType.SELF)
+      // x.buffHit(HitKey.ADDITIONAL_DMG, NONE_DMG_TYPE, 0.50, Source.NONE, EntityType.SELF, EntityType.SELF)
+
+      x.buff(ActionKey.DOT_CHANCE, 1.00, Source.NONE, EntityType.SELF, EntityType.SELF)
+    },
+    precomputeEffects: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
@@ -184,6 +363,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.DOT_ATK_SCALING.buff(talentDot, SOURCE_TALENT)
         x.DOT_ATK_SCALING.buff((e >= 1 && r.e1Buffs) ? talentDot : 0, SOURCE_E1)
       }
+
+      const hitActions = context.hitActions!
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(10, SOURCE_SKILL)
@@ -215,10 +396,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         SOURCE_E2,
       )
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.ELEMENTAL_DMG.buff((r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * Math.floor((x.a[Key.EHR] - 0.60) / 0.10))) : 0, SOURCE_TRACE)
+      x.buff(
+        ActionKey.ELEMENTAL_DMG,
+        (r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * Math.floor((x.a[ActionKey.EHR] - 0.60) / 0.10))) : 0,
+        Source.NONE,
+        EntityType.SELF,
+        EntityType.SELF,
+      )
+      // x.ELEMENTAL_DMG.buff((r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * Math.floor((x.a[Key.EHR] - 0.60) / 0.10))) : 0, SOURCE_TRACE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

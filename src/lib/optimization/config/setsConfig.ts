@@ -13,10 +13,8 @@ import {
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { Key } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/computedStatsContainer'
 import {
   OptimizerContext,
   SetConditional,
@@ -29,11 +27,11 @@ export type SetsDefinition = {
   p2c?: (c: BasicStatsArray, context: OptimizerContext) => void,
   p4c?: (c: BasicStatsArray, context: OptimizerContext) => void,
   // Combat
-  p2x?: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => void,
-  p4x?: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => void,
+  p2x?: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => void,
+  p4x?: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => void,
   // Terminal
-  p2t?: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => void,
-  p4t?: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => void,
+  p2t?: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => void,
+  p4t?: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => void,
 }
 
 export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefinition> = {
@@ -71,10 +69,11 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.CD.buff(0.16, Source.CelestialDifferentiator)
     },
-    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledCelestialDifferentiator && x.c.a[Key.CD] >= 1.20) {
-        x.CR.buff(0.60, Source.CelestialDifferentiator)
-      }
+    p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // if (setConditionals.enabledCelestialDifferentiator && x.c.a[Key.CD] >= 1.20) {
+      //   x.CR.buff(0.60, Source.CelestialDifferentiator)
+      // }
     },
   },
   InertSalsotto: {
@@ -125,10 +124,11 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.ERR.buff(0.05, Source.PenaconyLandOfTheDreams)
     },
-    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledPenaconyLandOfTheDreams) {
-        x.ELEMENTAL_DMG.buffMemo(0.10, Source.PenaconyLandOfTheDreams)
-      }
+    p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // if (setConditionals.enabledPenaconyLandOfTheDreams) {
+      //   x.ELEMENTAL_DMG.buffMemo(0.10, Source.PenaconyLandOfTheDreams)
+      // }
     },
   },
   SigoniaTheUnclaimedDesolation: {
@@ -137,8 +137,9 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.CR.buff(0.04, Source.SigoniaTheUnclaimedDesolation)
     },
-    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.CD.buff(0.04 * (setConditionals.valueSigoniaTheUnclaimedDesolation), Source.SigoniaTheUnclaimedDesolation)
+    p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // x.CD.buff(0.04 * (setConditionals.valueSigoniaTheUnclaimedDesolation), Source.SigoniaTheUnclaimedDesolation)
     },
   },
   IzumoGenseiAndTakamaDivineRealm: {
@@ -147,10 +148,11 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.ATK_P.buff(0.12, Source.IzumoGenseiAndTakamaDivineRealm)
     },
-    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledIzumoGenseiAndTakamaDivineRealm) {
-        x.CR.buff(0.12, Source.IzumoGenseiAndTakamaDivineRealm)
-      }
+    p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // if (setConditionals.enabledIzumoGenseiAndTakamaDivineRealm) {
+      //   x.CR.buff(0.12, Source.IzumoGenseiAndTakamaDivineRealm)
+      // }
     },
   },
   DuranDynastyOfRunningWolves: {
@@ -158,11 +160,12 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     index: 14,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     },
-    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      buffAbilityDmg(x, FUA_DMG_TYPE, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves, Source.DuranDynastyOfRunningWolves)
-      if (setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
-        x.CD.buff(0.25, Source.DuranDynastyOfRunningWolves)
-      }
+    p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // buffAbilityDmg(x, FUA_DMG_TYPE, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves, Source.DuranDynastyOfRunningWolves)
+      // if (setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
+      //   x.CD.buff(0.25, Source.DuranDynastyOfRunningWolves)
+      // }
     },
   },
   ForgeOfTheKalpagniLantern: {
@@ -171,10 +174,11 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.SPD_P.buff(0.06, Source.ForgeOfTheKalpagniLantern)
     },
-    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledForgeOfTheKalpagniLantern) {
-        x.BE.buff(0.40, Source.ForgeOfTheKalpagniLantern)
-      }
+    p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // if (setConditionals.enabledForgeOfTheKalpagniLantern) {
+      //   x.BE.buff(0.40, Source.ForgeOfTheKalpagniLantern)
+      // }
     },
   },
   LushakaTheSunkenSeas: {
@@ -190,10 +194,11 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.CD.buff(0.16, Source.TheWondrousBananAmusementPark)
     },
-    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (x.a[Key.SUMMONS] > 0) {
-        x.CD.buff(0.32, Source.TheWondrousBananAmusementPark)
-      }
+    p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // if (setConditionals.enabledTheWondrousBananAmusementPark) {
+      //   x.CD.buff(0.32, Source.TheWondrousBananAmusementPark)
+      // }
     },
   },
   BoneCollectionsSereneDemesne: {
@@ -213,8 +218,9 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
   ArcadiaOfWovenDreams: {
     key: 'ArcadiaOfWovenDreams',
     index: 20,
-    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.ELEMENTAL_DMG.buffBaseDual(arcadiaSetIndexToCd[setConditionals.valueArcadiaOfWovenDreams], Source.ArcadiaOfWovenDreams)
+    p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // x.ELEMENTAL_DMG.buffBaseDual(arcadiaSetIndexToCd[setConditionals.valueArcadiaOfWovenDreams], Source.ArcadiaOfWovenDreams)
     },
   },
   RevelryByTheSea: {
@@ -267,8 +273,9 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p4c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.SPD_P.buff(0.06, Source.MusketeerOfWildWheat)
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      buffAbilityDmg(x, BASIC_DMG_TYPE, 0.10, Source.MusketeerOfWildWheat)
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // buffAbilityDmg(x, BASIC_DMG_TYPE, 0.10, Source.MusketeerOfWildWheat)
     },
   },
   KnightOfPurityPalace: {
@@ -277,8 +284,9 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.DEF_P.buff(0.15, Source.KnightOfPurityPalace)
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.SHIELD_BOOST.buff(0.20, Source.KnightOfPurityPalace)
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // x.SHIELD_BOOST.buff(0.20, Source.KnightOfPurityPalace)
     },
   },
   HunterOfGlacialForest: {
@@ -289,10 +297,11 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
         c.ICE_DMG_BOOST.buff(0.10, Source.HunterOfGlacialForest)
       }
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledHunterOfGlacialForest) {
-        x.CD.buff(0.25, Source.HunterOfGlacialForest)
-      }
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // if (setConditionals.enabledHunterOfGlacialForest) {
+      //   x.CD.buff(0.25, Source.HunterOfGlacialForest)
+      // }
     },
   },
   ChampionOfStreetwiseBoxing: {
@@ -303,8 +312,9 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
         c.PHYSICAL_DMG_BOOST.buff(0.10, Source.ChampionOfStreetwiseBoxing)
       }
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.ATK_P.buff(0.05 * setConditionals.valueChampionOfStreetwiseBoxing, Source.ChampionOfStreetwiseBoxing)
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // x.ATK_P.buff(0.05 * setConditionals.valueChampionOfStreetwiseBoxing, Source.ChampionOfStreetwiseBoxing)
     },
   },
   GuardOfWutheringSnow: {
@@ -312,8 +322,9 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     index: 5,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     },
-    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.DMG_RED_MULTI.multiply(1 - 0.08, Source.GuardOfWutheringSnow)
+    p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // x.DMG_RED_MULTI.multiply(1 - 0.08, Source.GuardOfWutheringSnow)
     },
   },
   FiresmithOfLavaForging: {
@@ -324,11 +335,12 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
         c.FIRE_DMG_BOOST.buff(0.10, Source.FiresmithOfLavaForging)
       }
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      buffAbilityDmg(x, SKILL_DMG_TYPE, 0.12, Source.FiresmithOfLavaForging)
-      if (setConditionals.enabledFiresmithOfLavaForging) {
-        x.FIRE_DMG_BOOST.buff(0.12, Source.FiresmithOfLavaForging)
-      }
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // buffAbilityDmg(x, SKILL_DMG_TYPE, 0.12, Source.FiresmithOfLavaForging)
+      // if (setConditionals.enabledFiresmithOfLavaForging) {
+      //   x.FIRE_DMG_BOOST.buff(0.12, Source.FiresmithOfLavaForging)
+      // }
     },
   },
   GeniusOfBrilliantStars: {
@@ -339,8 +351,9 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
         c.QUANTUM_DMG_BOOST.buff(0.10, Source.GeniusOfBrilliantStars)
       }
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.DEF_PEN.buff(setConditionals.enabledGeniusOfBrilliantStars ? 0.20 : 0.10, Source.GeniusOfBrilliantStars)
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // x.DEF_PEN.buff(setConditionals.enabledGeniusOfBrilliantStars ? 0.20 : 0.10, Source.GeniusOfBrilliantStars)
     },
   },
   BandOfSizzlingThunder: {
@@ -351,10 +364,11 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
         c.LIGHTNING_DMG_BOOST.buff(0.10, Source.BandOfSizzlingThunder)
       }
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledBandOfSizzlingThunder) {
-        x.ATK_P.buff(0.20, Source.BandOfSizzlingThunder)
-      }
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // if (setConditionals.enabledBandOfSizzlingThunder) {
+      //   x.ATK_P.buff(0.20, Source.BandOfSizzlingThunder)
+      // }
     },
   },
   EagleOfTwilightLine: {
@@ -384,11 +398,12 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
         c.IMAGINARY_DMG_BOOST.buff(0.10, Source.WastelanderOfBanditryDesert)
       }
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.CD_BOOST.buff(0.10 * (setConditionals.valueWastelanderOfBanditryDesert == 2 ? 1 : 0), Source.WastelanderOfBanditryDesert)
-      if (setConditionals.valueWastelanderOfBanditryDesert > 0) {
-        x.CR_BOOST.buff(0.10, Source.WastelanderOfBanditryDesert)
-      }
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // x.CD_BOOST.buff(0.10 * (setConditionals.valueWastelanderOfBanditryDesert == 2 ? 1 : 0), Source.WastelanderOfBanditryDesert)
+      // if (setConditionals.valueWastelanderOfBanditryDesert > 0) {
+      //   x.CR_BOOST.buff(0.10, Source.WastelanderOfBanditryDesert)
+      // }
     },
   },
   LongevousDisciple: {
@@ -397,8 +412,9 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.HP_P.buff(0.12, Source.LongevousDisciple)
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.CR.buff(0.08 * setConditionals.valueLongevousDisciple, Source.LongevousDisciple)
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // x.CR.buff(0.08 * setConditionals.valueLongevousDisciple, Source.LongevousDisciple)
     },
   },
   MessengerTraversingHackerspace: {
@@ -407,10 +423,11 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.SPD_P.buff(0.06, Source.MessengerTraversingHackerspace)
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledMessengerTraversingHackerspace) {
-        x.SPD_P.buffTeam(0.12, Source.MessengerTraversingHackerspace)
-      }
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // if (setConditionals.enabledMessengerTraversingHackerspace) {
+      //   x.SPD_P.buffTeam(0.12, Source.MessengerTraversingHackerspace)
+      // }
     },
   },
   TheAshblazingGrandDuke: {
@@ -418,11 +435,13 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     index: 14,
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     },
-    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      buffAbilityDmg(x, FUA_DMG_TYPE, 0.20, Source.TheAshblazingGrandDuke)
+    p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // buffAbilityDmg(x, FUA_DMG_TYPE, 0.20, Source.TheAshblazingGrandDuke)
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.ATK_P.buff(0.06 * setConditionals.valueTheAshblazingGrandDuke, Source.TheAshblazingGrandDuke)
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // x.ATK_P.buff(0.06 * setConditionals.valueTheAshblazingGrandDuke, Source.TheAshblazingGrandDuke)
     },
   },
   PrisonerInDeepConfinement: {
@@ -431,26 +450,29 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.ATK_P.buff(0.12, Source.PrisonerInDeepConfinement)
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.DEF_PEN.buff(0.06 * setConditionals.valuePrisonerInDeepConfinement, Source.PrisonerInDeepConfinement)
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // x.DEF_PEN.buff(0.06 * setConditionals.valuePrisonerInDeepConfinement, Source.PrisonerInDeepConfinement)
     },
   },
   PioneerDiverOfDeadWaters: {
     key: 'PioneerDiverOfDeadWaters',
     index: 16,
-    p2x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
-        x.ELEMENTAL_DMG.buff(0.12, Source.PioneerDiverOfDeadWaters)
-      }
+    p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // if (setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
+      //   x.ELEMENTAL_DMG.buff(0.12, Source.PioneerDiverOfDeadWaters)
+      // }
     },
     p4c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.CR.buff(0.04, Source.PioneerDiverOfDeadWaters)
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.CD_BOOST.buff(pioneerSetIndexToCd[setConditionals.valuePioneerDiverOfDeadWaters], Source.PioneerDiverOfDeadWaters)
-      if (setConditionals.valuePioneerDiverOfDeadWaters > 2) {
-        x.CR.buff(0.04, Source.PioneerDiverOfDeadWaters)
-      }
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // x.CD_BOOST.buff(pioneerSetIndexToCd[setConditionals.valuePioneerDiverOfDeadWaters], Source.PioneerDiverOfDeadWaters)
+      // if (setConditionals.valuePioneerDiverOfDeadWaters > 2) {
+      //   x.CR.buff(0.04, Source.PioneerDiverOfDeadWaters)
+      // }
     },
   },
   WatchmakerMasterOfDreamMachinations: {
@@ -459,10 +481,11 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.BE.buff(0.16, Source.WatchmakerMasterOfDreamMachinations)
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledWatchmakerMasterOfDreamMachinations) {
-        x.BE.buffTeam(0.30, Source.WatchmakerMasterOfDreamMachinations)
-      }
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // if (setConditionals.enabledWatchmakerMasterOfDreamMachinations) {
+      //   x.BE.buffTeam(0.30, Source.WatchmakerMasterOfDreamMachinations)
+      // }
     },
   },
   IronCavalryAgainstTheScourge: {
@@ -481,10 +504,11 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p4c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.CR.buff(0.06, Source.TheWindSoaringValorous)
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledTheWindSoaringValorous) {
-        buffAbilityDmg(x, ULT_DMG_TYPE, 0.36, Source.TheWindSoaringValorous)
-      }
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // if (setConditionals.enabledTheWindSoaringValorous) {
+      //   buffAbilityDmg(x, ULT_DMG_TYPE, 0.36, Source.TheWindSoaringValorous)
+      // }
     },
   },
   SacerdosRelivedOrdeal: {
@@ -493,8 +517,9 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.SPD_P.buff(0.06, Source.SacerdosRelivedOrdeal)
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.CD.buff(0.18 * setConditionals.valueSacerdosRelivedOrdeal, Source.SacerdosRelivedOrdeal)
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // x.CD.buff(0.18 * setConditionals.valueSacerdosRelivedOrdeal, Source.SacerdosRelivedOrdeal)
     },
   },
   ScholarLostInErudition: {
@@ -503,11 +528,12 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.CR.buff(0.08, Source.ScholarLostInErudition)
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      buffAbilityDmg(x, ULT_DMG_TYPE | SKILL_DMG_TYPE, 0.20, Source.ScholarLostInErudition)
-      if (setConditionals.enabledScholarLostInErudition) {
-        buffAbilityDmg(x, SKILL_DMG_TYPE, 0.25, Source.ScholarLostInErudition)
-      }
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // buffAbilityDmg(x, ULT_DMG_TYPE | SKILL_DMG_TYPE, 0.20, Source.ScholarLostInErudition)
+      // if (setConditionals.enabledScholarLostInErudition) {
+      //   buffAbilityDmg(x, SKILL_DMG_TYPE, 0.25, Source.ScholarLostInErudition)
+      // }
     },
   },
   HeroOfTriumphantSong: {
@@ -516,11 +542,12 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.ATK_P.buff(0.12, Source.HeroOfTriumphantSong)
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledHeroOfTriumphantSong) {
-        x.SPD_P.buff(0.06, Source.HeroOfTriumphantSong)
-        x.CD.buffDual(0.30, Source.HeroOfTriumphantSong)
-      }
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // if (setConditionals.enabledHeroOfTriumphantSong) {
+      //   x.SPD_P.buff(0.06, Source.HeroOfTriumphantSong)
+      //   x.CD.buffDual(0.30, Source.HeroOfTriumphantSong)
+      // }
     },
   },
   PoetOfMourningCollapse: {
@@ -534,8 +561,9 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p4c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.SPD_P.buff(-0.08, Source.PoetOfMourningCollapse)
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.CR.buffBaseDual((x.c.a[Key.SPD] < 110 ? 0.20 : 0) + (x.c.a[Key.SPD] < 95 ? 0.12 : 0), Source.PoetOfMourningCollapse)
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // x.CR.buffBaseDual((x.c.a[Key.SPD] < 110 ? 0.20 : 0) + (x.c.a[Key.SPD] < 95 ? 0.12 : 0), Source.PoetOfMourningCollapse)
     },
   },
   WarriorGoddessOfSunAndThunder: {
@@ -544,11 +572,12 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.SPD_P.buff(0.06, Source.WarriorGoddessOfSunAndThunder)
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledWarriorGoddessOfSunAndThunder) {
-        x.SPD_P.buff(0.06, Source.WarriorGoddessOfSunAndThunder)
-        x.CD.buffTeam(0.15, Source.WarriorGoddessOfSunAndThunder)
-      }
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // if (setConditionals.enabledWarriorGoddessOfSunAndThunder) {
+      //   x.SPD_P.buff(0.06, Source.WarriorGoddessOfSunAndThunder)
+      //   x.CD.buffTeam(0.15, Source.WarriorGoddessOfSunAndThunder)
+      // }
     },
   },
   WavestriderCaptain: {
@@ -557,10 +586,11 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
       c.CD.buff(0.16, Source.WavestriderCaptain)
     },
-    p4x: (x: ComputedStatsArray, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledWavestriderCaptain) {
-        x.ATK_P.buff(0.48, Source.WavestriderCaptain)
-      }
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      // TODO
+      // if (setConditionals.enabledWavestriderCaptain) {
+      //   x.ATK_P.buff(0.48, Source.WavestriderCaptain)
+      // }
     },
   },
   WorldRemakingDeliverer: {

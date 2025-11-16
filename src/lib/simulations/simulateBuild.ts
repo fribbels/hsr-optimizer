@@ -31,12 +31,18 @@ import {
   ComputedStatsArrayCore,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import {
+  ActionKey,
+  ComputedStatsContainer,
+} from 'lib/optimization/engine/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   SimulationRelic,
   SimulationRelicByPart,
 } from 'lib/simulations/statSimulationTypes'
+import { HitAction } from 'types/hitConditionalTypes'
 import { OptimizerContext } from 'types/optimizer'
+import { a } from 'vitest/dist/chunks/suite.d.FvehnV49'
 
 // To use after combo state and context has been initialized
 export function simulateBuild(
@@ -60,8 +66,7 @@ export function simulateBuild(
   const setL = OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
 
   const c = (cachedBasicStatsArrayCore ?? new BasicStatsArrayCore(false)) as BasicStatsArray
-  const x = (cachedComputedStatsArrayCore ?? new ComputedStatsArrayCore(false)) as ComputedStatsArray
-  const m = x.m
+  const x = new ComputedStatsContainer(context)
 
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount
@@ -81,58 +86,61 @@ export function simulateBuild(
   }
 
   x.setBasic(c)
-  if (x.a[Key.MEMOSPRITE]) {
-    m.setBasic(c.m)
-    c.initMemo()
-  }
+  // if (x.a[Key.MEMOSPRITE]) {
+  //   m.setBasic(c.m)
+  //   c.initMemo()
+  // }
+
+  let dmgTracker = 0
 
   let combo = 0
-  for (let i = context.actions.length - 1; i >= 0; i--) {
-    const action = context.actions[i]
+  const hitActions = context.hitActions!
+  const defaultActions = context.defaultActions
+
+  // for (let i = 0; i < hitActions.length; i++) {
+  //   calculateAction(hitActions[i])
+  // }
+  // for (let i = 0; i < defaultActions.length; i++) {
+  //   calculateAction(defaultActions[i])
+  // }
+
+  for (let i = 0; i < context.rotationActions.length; i++) {
+    const action = context.rotationActions[i]
     action.conditionalState = {}
 
-    x.setPrecompute(action.precomputedX.a)
-    if (x.a[Key.MEMOSPRITE]) {
-      m.setPrecompute(action.precomputedM.a)
-    }
+    x.setPrecompute(action.precomputedStats.a)
+    // if (x.a[Key.MEMOSPRITE]) {
+    //   m.setPrecompute(action.precomputedM.a)
+    // }
 
-    if (x.trace) {
-      x.tracePrecompute(action.precomputedX)
-      m.tracePrecompute(action.precomputedM)
-    }
+    // if (x.trace) {
+    //   x.tracePrecompute(action.precomputedX)
+    //   m.tracePrecompute(action.precomputedM)
+    // }
 
-    calculateBasicEffects(x, action, context)
+    // calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
 
-    calculateDamage(x, action, context)
+    for (let j = 0; j < action.hits!.length; j++) {
+      const hit = action.hits![j]
+
+      const dmg = hit.damageFunction.apply(x, hit, action, context)
+      dmgTracker += dmg
+    }
+
+    // calculateDamage(x, action, context)
 
     const a = x.a
-    if (action.actionType === AbilityKind.BASIC) {
-      combo += a[Key.BASIC_DMG]
-    } else if (action.actionType === AbilityKind.SKILL) {
-      combo += a[Key.SKILL_DMG]
-    } else if (action.actionType === AbilityKind.ULT) {
-      combo += a[Key.ULT_DMG]
-    } else if (action.actionType === AbilityKind.FUA) {
-      combo += a[Key.FUA_DMG]
-    } else if (action.actionType === AbilityKind.DOT) {
-      combo += a[Key.DOT_DMG] * context.comboDot / Math.max(1, context.dotAbilities)
-    } else if (action.actionType === AbilityKind.BREAK) {
-      combo += a[Key.BREAK_DMG]
-    } else if (action.actionType === AbilityKind.MEMO_SKILL) {
-      combo += a[Key.MEMO_SKILL_DMG]
-    } else if (action.actionType === AbilityKind.MEMO_TALENT) {
-      combo += a[Key.MEMO_TALENT_DMG]
-    }
-
-    if (i === 0) {
-      combo += a[Key.DOT_DMG] * (context.dotAbilities == 0 ? context.comboDot / Math.max(1, context.dotAbilities) : 0)
-      x.COMBO_DMG.set(combo, Source.NONE)
-    }
   }
 
+  x.set(ActionKey.COMBO_DMG, dmgTracker, Source.NONE)
+
   return x
+}
+
+function calculateAction(hitAction: HitAction) {
+  hitAction.hits
 }
 
 function generateUnusedSets(relics: SimulationRelicByPart) {

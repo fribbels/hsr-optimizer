@@ -1,6 +1,7 @@
 import { ConditionalActivation } from 'lib/constants/constants'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/computedStatsContainer'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -14,8 +15,8 @@ export type DynamicConditional = {
   dependsOn: string[],
   chainsTo: string[],
   supplementalState?: string[],
-  condition: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => boolean | number,
-  effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void,
+  condition: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => boolean | number,
+  effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void,
   gpu: (action: OptimizerAction, context: OptimizerContext) => string,
   teammateIndex?: number,
 }
@@ -26,7 +27,7 @@ function getTeammateFromIndex(conditional: DynamicConditional, action: Optimizer
   else return action.teammate2
 }
 
-export function evaluateConditional(conditional: DynamicConditional, x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+export function evaluateConditional(conditional: DynamicConditional, x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
   let conditionalAction: OptimizerAction
   if (conditional.teammateIndex != null) {
     const teammate = getTeammateFromIndex(conditional, action)

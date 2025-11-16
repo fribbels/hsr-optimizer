@@ -89,6 +89,8 @@ export function simulateBuild(
   //   calculateAction(defaultActions[i])
   // }
 
+  let tempX: ComputedStatsContainer
+
   for (let i = 0; i < context.rotationActions.length; i++) {
     const action = context.rotationActions[i]
     const x = new ComputedStatsContainer(action, context)
@@ -110,21 +112,23 @@ export function simulateBuild(
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
 
-    for (let j = 0; j < action.hits!.length; j++) {
-      const hit = action.hits![j]
+    for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
+      const hit = action.hits![hitIndex]
 
-      const dmg = hit.damageFunction.apply(x, hit, action, context)
+      const dmg = hit.damageFunction.apply(x, action, hitIndex, context)
       dmgTracker += dmg
     }
 
     // calculateDamage(x, action, context)
 
     const a = x.a
+
+    tempX = x
   }
 
-  x.set(ActionKey.COMBO_DMG, dmgTracker, Source.NONE)
+  // x.set(ActionKey.COMBO_DMG, dmgTracker, Source.NONE)
 
-  return x
+  return tempX
 }
 
 function calculateAction(hitAction: HitAction) {

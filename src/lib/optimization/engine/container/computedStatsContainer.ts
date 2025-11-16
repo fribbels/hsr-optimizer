@@ -193,9 +193,8 @@ export class ComputedStatsContainer {
     return this.builder.reset().source(s)
   }
 
-  public getHit(key: StatKeyValue, hit: Hit) {
-    const damageTypeIndex = this.damageTypeIndexLookup[hit.damageType]
-    const index = this.getIndex(0, damageTypeIndex, key)
+  public getHit(key: StatKeyValue, hitIndex: number) {
+    const index = this.getHitIndex(0, hitIndex, key)
 
     return this.a[index]
   }

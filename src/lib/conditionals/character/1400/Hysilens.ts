@@ -417,13 +417,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.buff(
-        ActionKey.ELEMENTAL_DMG,
-        (r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * Math.floor((x.a[ActionKey.EHR] - 0.60) / 0.10))) : 0,
-        Source.NONE,
-        EntityType.SELF,
-        EntityType.SELF,
-      )
+      // x.buff(
+      //   ActionKey.ELEMENTAL_DMG,
+      //   (r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * Math.floor((x.a[ActionKey.EHR] - 0.60) / 0.10))) : 0,
+      //   Source.NONE,
+      //   EntityType.SELF,
+      //   EntityType.SELF,
+      // )
       // x.ELEMENTAL_DMG.buff((r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * Math.floor((x.a[Key.EHR] - 0.60) / 0.10))) : 0, SOURCE_TRACE)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {

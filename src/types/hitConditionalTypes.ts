@@ -2,7 +2,6 @@ import { ElementToResPenType } from 'lib/constants/constants'
 import { Key } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
-import { Tag } from 'lib/optimization/engine/config/tags'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { ElementalResPenType } from 'types/metadata'
 import {
@@ -37,57 +36,45 @@ export interface Hit {
 const ActionKey = {}
 
 export interface DamageFunction {
-  apply: (x: ComputedStatsContainer, hit: Hit, action: OptimizerAction, context: OptimizerContext) => number
+  apply: (x: ComputedStatsContainer, action: OptimizerAction, hitIndex: number, context: OptimizerContext) => number
 }
 
 export const DefaultDamageFunction: DamageFunction = {
-  apply: (x: ComputedStatsContainer, hit: Hit, action: OptimizerAction, context: OptimizerContext) => 1,
+  apply: (x: ComputedStatsContainer, action: OptimizerAction, hitIndex: number, context: OptimizerContext) => 1,
 }
 
-const actionElementDamageKeyByElement: Record<ElementTag, ActionKeyValue> = {
-  [ElementTag.Physical]: StatKey.PHYSICAL_DMG_BOOST,
-  [ElementTag.Quantum]: ActionKey.QUANTUM_DMG_BOOST,
-  [ElementTag.Imaginary]: ActionKey.IMAGINARY_DMG_BOOST,
-  [ElementTag.Ice]: ActionKey.ICE_DMG_BOOST,
-  [ElementTag.Wind]: ActionKey.WIND_DMG_BOOST,
-  [ElementTag.Fire]: ActionKey.FIRE_DMG_BOOST,
-  [ElementTag.Lightning]: ActionKey.LIGHTNING_DMG_BOOST,
-} as const
-
 function getElementSpecificDamageBoost(x: ComputedStatsContainer, hit: Hit) {
-  const actionKey = actionElementDamageKeyByElement[hit.damageElement]
-  const value = actionKey ? x.a[actionKey] : 0
-
-  return value
+  return 0
 }
 
 export const DotDamageFunction: DamageFunction = {
-  apply: (x: ComputedStatsContainer, hit: Hit, action: OptimizerAction, context: OptimizerContext) => {
+  apply: (x: ComputedStatsContainer, action: OptimizerAction, hitIndex: number, context: OptimizerContext) => {
+    const hit = action.hits![hitIndex]
     const eLevel = context.enemyLevel
     const a = x.a
 
-    const baseDmgBoost = 1 + a[ActionKey.ELEMENTAL_DMG]
-    const baseDefPen = x.getHit(StatKey.DEF_PEN, hit) + context.combatBuffs.DEF_PEN
-    const baseUniversalMulti = a[ActionKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
-    const baseResistance = context.enemyDamageResistance - x.getHit(StatKey.RES_PEN, hit) - context.combatBuffs.RES_PEN
+    const baseDmgBoost = 1 + a[StatKey.DMG_BOOST]
+    const baseDefPen = x.getHit(StatKey.DEF_PEN, hitIndex) + context.combatBuffs.DEF_PEN
+    const baseUniversalMulti = a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
+    const baseResistance = context.enemyDamageResistance - x.getHit(StatKey.RES_PEN, hitIndex) - context.combatBuffs.RES_PEN
       - getResPenType(x, context.elementalResPenType)
-    const baseBreakEfficiencyBoost = 1 + x.getHit(StatKey.BREAK_EFFICIENCY_BOOST, hit)
+    const baseBreakEfficiencyBoost = 1 + x.getHit(StatKey.BREAK_EFFICIENCY_BOOST, hitIndex)
 
-    const dotDmgBoostMulti = baseDmgBoost + x.getHit(StatKey.DMG_BOOST, hit) + getElementSpecificDamageBoost(x, hit)
-    const dotDefMulti = calculateDefMulti(eLevel, baseDefPen + x.getHit(StatKey.DEF_PEN, hit))
-    const dotVulnerabilityMulti = 1 + x.getHit(StatKey.VULNERABILITY, hit) + x.getHit(StatKey.VULNERABILITY, hit)
-    const dotResMulti = 1 - (baseResistance - x.getHit(StatKey.RES_PEN, hit))
+    const dotDmgBoostMulti = baseDmgBoost + x.getHit(StatKey.DMG_BOOST, hitIndex) + getElementSpecificDamageBoost(x, hit)
+    const dotDefMulti = calculateDefMulti(eLevel, baseDefPen + x.getHit(StatKey.DEF_PEN, hitIndex))
+    const dotVulnerabilityMulti = 1 + x.getHit(StatKey.VULNERABILITY, hitIndex) + x.getHit(StatKey.VULNERABILITY, hitIndex)
+    const dotResMulti = 1 - (baseResistance - x.getHit(StatKey.RES_PEN, hitIndex))
     const dotEhrMulti = calculateEhrMulti(x, context)
-    const dotFinalDmgMulti = 1 + x.getHit(StatKey.FINAL_DMG_BOOST, hit)
+    const dotFinalDmgMulti = 1 + x.getHit(StatKey.FINAL_DMG_BOOST, hitIndex)
 
     const initialDmg = calculateInitial(
       a,
       context,
-      x.getHit(StatKey.DMG, hit),
+      x.getHit(StatKey.DMG_BOOST, hitIndex),
       hit.hpScaling,
       hit.defScaling,
       hit.atkScaling,
-      x.getHit(StatKey.ATK_P_BOOST, hit),
+      x.getHit(StatKey.ATK_P_BOOST, hitIndex),
     )
     const instanceDmg = calculateDotDmg(
       x,

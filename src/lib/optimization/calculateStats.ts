@@ -32,6 +32,7 @@ import {
   SetKeys,
   SetKeyType,
 } from 'lib/optimization/config/setsConfig'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   ComputedStatsContainer,
   EntityType,
@@ -176,22 +177,22 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   const buffs = context.combatBuffs
 
   // Add base to computed
-  a[ActionKey.ATK] += c.a[ActionKey.ATK] + buffs.ATK + buffs.ATK_P * context.baseATK
-  a[ActionKey.DEF] += c.a[ActionKey.DEF] + buffs.DEF + buffs.DEF_P * context.baseDEF
-  a[ActionKey.HP] += c.a[ActionKey.HP] + buffs.HP + buffs.HP_P * context.baseHP
-  a[ActionKey.SPD] += c.a[ActionKey.SPD] + buffs.SPD + buffs.SPD_P * context.baseSPD
-  a[ActionKey.CD] += c.a[ActionKey.CD] + buffs.CD
-  a[ActionKey.CR] += c.a[ActionKey.CR] + buffs.CR
-  a[ActionKey.BE] += c.a[ActionKey.BE] + buffs.BE
-  a[ActionKey.EHR] += c.a[ActionKey.EHR]
-  a[ActionKey.RES] += c.a[ActionKey.RES]
-  a[ActionKey.ERR] += c.a[ActionKey.ERR]
-  a[ActionKey.OHB] += c.a[ActionKey.OHB]
+  a[StatKey.ATK] += c.a[StatKey.ATK] + buffs.ATK + buffs.ATK_P * context.baseATK
+  a[StatKey.DEF] += c.a[StatKey.DEF] + buffs.DEF + buffs.DEF_P * context.baseDEF
+  a[StatKey.HP] += c.a[StatKey.HP] + buffs.HP + buffs.HP_P * context.baseHP
+  a[StatKey.SPD] += c.a[StatKey.SPD] + buffs.SPD + buffs.SPD_P * context.baseSPD
+  a[StatKey.CD] += c.a[StatKey.CD] + buffs.CD
+  a[StatKey.CR] += c.a[StatKey.CR] + buffs.CR
+  a[StatKey.BE] += c.a[StatKey.BE] + buffs.BE
+  a[StatKey.EHR] += c.a[StatKey.EHR]
+  a[StatKey.RES] += c.a[StatKey.RES]
+  a[StatKey.ERR] += c.a[StatKey.ERR]
+  a[StatKey.OHB] += c.a[StatKey.OHB]
 
-  a[ActionKey.BASE_ATK] = context.baseATK
-  a[ActionKey.BASE_DEF] = context.baseDEF
-  a[ActionKey.BASE_HP] = context.baseHP
-  a[ActionKey.BASE_SPD] = context.baseSPD
+  a[StatKey.BASE_ATK] = context.baseATK
+  a[StatKey.BASE_DEF] = context.baseDEF
+  a[StatKey.BASE_HP] = context.baseHP
+  a[StatKey.BASE_SPD] = context.baseSPD
 
   // TODO
   // if (x.a[Key.MEMOSPRITE]) {

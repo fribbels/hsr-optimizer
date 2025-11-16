@@ -47,6 +47,7 @@ import {
   Form,
   OptimizerForm,
 }                                 from 'types/form'
+import { StatKey }                from "lib/optimization/engine/config/keys";
 
 // FIXME HIGH
 
@@ -312,30 +313,30 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
 
   d.ED = c.ELEMENTAL_DMG.get()
   // TODO
-  // d.BASIC = a[ActionKey.BASIC_DMG]
-  // d.SKILL = a[ActionKey.SKILL_DMG]
-  // d.ULT = a[ActionKey.ULT_DMG]
-  // d.FUA = a[ActionKey.FUA_DMG]
-  // d.MEMO_SKILL = a[ActionKey.MEMO_SKILL_DMG]
-  // d.MEMO_TALENT = a[ActionKey.MEMO_TALENT_DMG]
-  // d.DOT = a[ActionKey.DOT_DMG]
-  // d.BREAK = a[ActionKey.BREAK_DMG]
-  d.COMBO = a[ActionKey.COMBO_DMG]
-  d.EHP = a[ActionKey.EHP]
-  d.HEAL = a[ActionKey.HEAL_VALUE]
-  d.SHIELD = a[ActionKey.SHIELD_VALUE]
-  d.xHP = a[ActionKey.HP]
-  d.xATK = a[ActionKey.ATK]
-  d.xDEF = a[ActionKey.DEF]
-  d.xSPD = a[ActionKey.SPD]
-  d.xCR = a[ActionKey.CR]
-  d.xCD = a[ActionKey.CD]
-  d.xEHR = a[ActionKey.EHR]
-  d.xRES = a[ActionKey.RES]
-  d.xBE = a[ActionKey.BE]
-  d.xERR = a[ActionKey.ERR]
-  d.xOHB = a[ActionKey.OHB]
-  d.xELEMENTAL_DMG = a[ActionKey.ELEMENTAL_DMG]
+  // d.BASIC = a[StatKey.BASIC_DMG]
+  // d.SKILL = a[StatKey.SKILL_DMG]
+  // d.ULT = a[StatKey.ULT_DMG]
+  // d.FUA = a[StatKey.FUA_DMG]
+  // d.MEMO_SKILL = a[StatKey.MEMO_SKILL_DMG]
+  // d.MEMO_TALENT = a[StatKey.MEMO_TALENT_DMG]
+  // d.DOT = a[StatKey.DOT_DMG]
+  // d.BREAK = a[StatKey.BREAK_DMG]
+  d.COMBO = a[StatKey.COMBO_DMG]
+  d.EHP = a[StatKey.EHP]
+  d.HEAL = a[StatKey.HEAL_VALUE]
+  d.SHIELD = a[StatKey.SHIELD_VALUE]
+  d.xHP = a[StatKey.HP]
+  d.xATK = a[StatKey.ATK]
+  d.xDEF = a[StatKey.DEF]
+  d.xSPD = a[StatKey.SPD]
+  d.xCR = a[StatKey.CR]
+  d.xCD = a[StatKey.CD]
+  d.xEHR = a[StatKey.EHR]
+  d.xRES = a[StatKey.RES]
+  d.xBE = a[StatKey.BE]
+  d.xERR = a[StatKey.ERR]
+  d.xOHB = a[StatKey.OHB]
+  d.xELEMENTAL_DMG = a[StatKey.DMG_BOOST]
 
   d.mELEMENTAL_DMG = c.ELEMENTAL_DMG.get()
   // TODO

@@ -34,8 +34,6 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
   const a = x.a
 
   calculateEhp(x, context)
-  calculateHeal(x, context)
-  calculateShield(x, context)
 
   a[Key.CR] += a[Key.CR_BOOST]
   a[Key.CD] += a[Key.CD_BOOST]
@@ -409,21 +407,6 @@ function calculateEhp(x: ComputedStatsArray, context: OptimizerContext) {
   let ehp = a[Key.HP] / (1 - a[Key.DEF] / (a[Key.DEF] + 200 + 10 * context.enemyLevel))
   ehp *= 1 / a[Key.DMG_RED_MULTI]
   a[Key.EHP] = ehp
-}
-
-function calculateHeal(x: ComputedStatsArray, context: OptimizerContext) {
-  const a = x.a
-  a[Key.HEAL_VALUE] = a[Key.HEAL_VALUE] * (
-    1
-    + a[Key.OHB]
-    + a[Key.SKILL_OHB] * (a[Key.HEAL_TYPE] == SKILL_DMG_TYPE ? 1 : 0)
-    + a[Key.ULT_OHB] * (a[Key.HEAL_TYPE] == ULT_DMG_TYPE ? 1 : 0)
-  )
-}
-
-function calculateShield(x: ComputedStatsArray, context: OptimizerContext) {
-  const a = x.a
-  a[Key.SHIELD_VALUE] = a[Key.SHIELD_VALUE] * (1 + a[Key.SHIELD_BOOST])
 }
 
 function calculateAbilityDmg(

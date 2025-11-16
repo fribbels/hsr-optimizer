@@ -1704,7 +1704,7 @@ interface Resources {
             "content": "After attacking an enemy afflicted with \"Seam Stitch,\" increases this unit's SPD by {{SpdBuff}}, stacking up to {{StackLimit}} times."
           },
           "cyreneSpecialEffect": {
-            "text": "Cyrene special effect",
+            "text": "Cyrene Special Effect",
             "content": "Increases DMG dealt by Aglaea and Garmentmaker by 72%/79.2%, and ignores 36%/39.6% of the target's DEF, lasting until Aglaea exits the \"Supreme Stance\" state."
           },
           "e1Vulnerability": {
@@ -2192,11 +2192,11 @@ interface Resources {
             "content": "While the Zone is active, for each instance of DMG dealt by all ally targets, deals 1 additional instance of True DMG equal to {{TrueDmg}}% of the original DMG."
           },
           "talentDmgBuff": {
-            "text": "Talent Dmg Buff",
+            "text": "Talent DMG Buff",
             "content": "While Cyrene is on the field, increases DMG dealt by all ally targets by {{DmgBuff}}%."
           },
           "traceSpdBasedBuff": {
-            "text": "Trace Spd Based Buff",
+            "text": "Trace SPD Based Buff",
             "content": "When Cyrene's SPD is at 180 or higher, increases all allies' DMG dealt by 20%. Then, for each point of SPD exceeded, increases Cyrene and Demiurge's Ice RES PEN by 2%, counting up to a maximum of 60 exceeded SPD points."
           },
           "odeToEgoExtraBounces": {
@@ -2208,7 +2208,7 @@ interface Resources {
             "content": "When Demiurge triggers the Memosprite Skill \"Ode to Ego\" while using \"Minuet of Blooms and Plumes,\" gains 6 \"Recollection\" point(s) and increases the number of bounces for this attack by 12."
           },
           "e2TrueDmgStacks": {
-            "text": "E2 True Dmg Stacks",
+            "text": "E2 True DMG Stacks",
             "content": "For each different ally character that gains the Memosprite Skill buff from Demiurge, the DMG multiplier of the True DMG dealt by ally targets via the Skill's Zone increases by 6%, up to a max increase of 24%."
           },
           "e4BounceStacks": {
@@ -2216,7 +2216,7 @@ interface Resources {
             "content": "Each time after Demiurge uses \"Minuet of Blooms and Plumes,\" the Bounce DMG multiplier of the triggered Memosprite Skill \"Ode to Ego\" increases by 6% in the current battle and can be stacked up to 24 times."
           },
           "e6DefPen": {
-            "text": "E6 Def Pen",
+            "text": "E6 DEF PEN",
             "content": "While Demiurge is on the field, reduces all enemy targets' DEF by 20%."
           }
         },
@@ -2226,15 +2226,15 @@ interface Resources {
             "content": "Applies a buff to one designated ally character. When the character is a Chrysos Heir, the target gains a special effect. When the character is not a Chrysos Heir, increases the target's DMG dealt by {{DmgBuff}}% for 2 turns. This effect also applies on memosprites."
           },
           "cyreneSpdDmg": {
-            "text": "Cyrene Spd ≥ 180",
+            "text": "Cyrene SPD ≥ 180",
             "content": "When Cyrene's SPD is at 180 or higher, increases all allies' DMG dealt by 20%."
           },
           "cyreneHp": {
-            "text": "Cyrene HP",
+            "text": "Cyrene Memo HP",
             "content": "increases Trailblazer (Remembrance)'s ATK by a value equal to {{ConversionRate}}% of Demiurge's Max HP. This effect also applies to Mem."
           },
           "cyreneCr": {
-            "text": "Cyrene CR",
+            "text": "Cyrene Memo CR",
             "content": "increases Trailblazer (Remembrance)'s CRIT Rate by a value equal to {{ConversionRate}}% of Demiurge's CRIT Rate. This effect also applies to Mem."
           }
         }
@@ -2644,6 +2644,10 @@ interface Resources {
           "healingDmgStacks": {
             "text": "Healing DMG stacks",
             "content": "When Hyacine or Little Ica provides healing, increases Little Ica's DMG dealt by {{TalentDmgBuff}}% for 2 turns. Stacks up to 3 times."
+          },
+          "healTallyMultiplier": {
+            "text": "Heal tally multiplier",
+            "content": "As currently implemented, memosprite skill damage is only based on a single instance of healing. This multiplier can be adjusted to scale the memosprite skill damage to better reflect in-game damage."
           },
           "e1HpBuff": {
             "text": "E1 HP buff",

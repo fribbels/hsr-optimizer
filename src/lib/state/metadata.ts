@@ -8101,8 +8101,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.HEAL,
-      addedColumns: [SortOption.OHB, SortOption.HEAL],
-      hiddenColumns: [SortOption.DOT],
+      addedColumns: [SortOption.OHB, SortOption.HEAL, SortOption.MEMO_SKILL],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.ULT],
     },
     1406: { // Cipher
       stats: {

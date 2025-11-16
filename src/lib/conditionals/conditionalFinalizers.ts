@@ -8,6 +8,7 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import { SKILL_DMG_TYPE, ULT_DMG_TYPE } from './conditionalConstants'
 
 export const basicAdditionalDmgAtkFinalizer = (x: ComputedStatsArray) =>
   x.BASIC_ADDITIONAL_DMG.buff(x.a[Key.BASIC_ADDITIONAL_DMG_SCALING] * boostedAtk(x, 0), Source.NONE)
@@ -102,54 +103,77 @@ export function gpuBoostAshblazingAtkP(hitMulti: number) {
 
 // Heals
 
+function addRawHealing(rawHealing: number, x: ComputedStatsArray) {
+  const a = x.a
+  const finalHealing = rawHealing * (
+    1
+    + a[Key.OHB]
+    + a[Key.SKILL_OHB] * (a[Key.HEAL_TYPE] == SKILL_DMG_TYPE ? 1 : 0)
+    + a[Key.ULT_OHB] * (a[Key.HEAL_TYPE] == ULT_DMG_TYPE ? 1 : 0)
+  )
+
+  x.HEAL_VALUE.buff(finalHealing, Source.NONE)
+}
+
 export function standardHpHealFinalizer(x: ComputedStatsArray) {
-  x.HEAL_VALUE.buff(x.a[Key.HEAL_SCALING] * x.a[Key.HP] + x.a[Key.HEAL_FLAT], Source.NONE)
+  addRawHealing(x.a[Key.HEAL_SCALING] * x.a[Key.HP] + x.a[Key.HEAL_FLAT], x)
 }
 
 export function standardAtkHealFinalizer(x: ComputedStatsArray) {
-  x.HEAL_VALUE.buff(x.a[Key.HEAL_SCALING] * x.a[Key.ATK] + x.a[Key.HEAL_FLAT], Source.NONE)
+  addRawHealing(x.a[Key.HEAL_SCALING] * x.a[Key.ATK] + x.a[Key.HEAL_FLAT], x)
 }
 
 export function standardFlatHealFinalizer(x: ComputedStatsArray) {
-  x.HEAL_VALUE.buff(x.a[Key.HEAL_FLAT], Source.NONE)
+  addRawHealing(x.a[Key.HEAL_FLAT], x)
+}
+
+function gpuAddRawHealing(wsglRawHealing: string) {
+  return `
+x.HEAL_VALUE += (${wsglRawHealing}) * (
+  1
+  + x.OHB
+  + select(0.0, x.SKILL_OHB, x.HEAL_TYPE == SKILL_DMG_TYPE)
+  + select(0.0, x.ULT_OHB, x.HEAL_TYPE == ULT_DMG_TYPE)
+);
+`
 }
 
 export function gpuStandardAtkHealFinalizer() {
-  return `
-x.HEAL_VALUE += x.HEAL_SCALING * x.ATK + x.HEAL_FLAT;
-`
+  return gpuAddRawHealing('x.HEAL_SCALING * x.ATK + x.HEAL_FLAT');
 }
 
 export function gpuStandardHpHealFinalizer() {
-  return `
-x.HEAL_VALUE += x.HEAL_SCALING * x.HP + x.HEAL_FLAT;
-`
+  return gpuAddRawHealing('x.HEAL_SCALING * x.HP + x.HEAL_FLAT');
 }
 
 export function gpuStandardFlatHealFinalizer() {
-  return `
-x.HEAL_VALUE += x.HEAL_FLAT;
-`
+  return gpuAddRawHealing('x.HEAL_FLAT');
 }
 
 // Shields
 
-export function standardDefShieldFinalizer(x: ComputedStatsArray) {
-  x.SHIELD_VALUE.buff(x.a[Key.SHIELD_SCALING] * x.a[Key.DEF] + x.a[Key.SHIELD_FLAT], Source.NONE)
-}
-
-export function gpuStandardDefShieldFinalizer() {
-  return `
-x.SHIELD_VALUE += x.SHIELD_SCALING * x.DEF + x.SHIELD_FLAT;
-`
+function addRawShield(rawShield: number, x: ComputedStatsArray) {
+  x.SHIELD_VALUE.buff(rawShield * (1 + x.a[Key.SHIELD_BOOST]), Source.NONE)
 }
 
 export function standardAtkShieldFinalizer(x: ComputedStatsArray) {
-  x.SHIELD_VALUE.buff(x.a[Key.SHIELD_SCALING] * x.a[Key.ATK] + x.a[Key.SHIELD_FLAT], Source.NONE)
+  addRawShield(x.a[Key.SHIELD_SCALING] * x.a[Key.ATK] + x.a[Key.SHIELD_FLAT], x)
+}
+
+export function standardDefShieldFinalizer(x: ComputedStatsArray) {
+  addRawShield(x.a[Key.SHIELD_SCALING] * x.a[Key.DEF] + x.a[Key.SHIELD_FLAT], x)
+}
+
+function gpuAddRawShield(wsglRawShield: string) {
+  return `
+x.SHIELD_VALUE = (${wsglRawShield}) * (1 + x.SHIELD_BOOST);
+`;
+}
+
+export function gpuStandardDefShieldFinalizer() {
+  return gpuAddRawShield('x.SHIELD_SCALING * x.DEF + x.SHIELD_FLAT');
 }
 
 export function gpuStandardAtkShieldFinalizer() {
-  return `
-x.SHIELD_VALUE += x.SHIELD_SCALING * x.ATK + x.SHIELD_FLAT;
-`
+  return gpuAddRawShield('x.SHIELD_SCALING * x.ATK + x.SHIELD_FLAT');
 }

@@ -6,6 +6,7 @@ import {newStatsConfig} from 'lib/optimization/engine/config/statsConfig'
 import {NamedArray} from 'lib/optimization/engine/util/namedArray'
 import {Hit} from 'types/hitConditionalTypes'
 import {OptimizerContext} from 'types/optimizer'
+import {BuffBuilder} from "lib/optimization/engine/container/buffBuilder";
 
 enum StatCategory {
   CD,
@@ -90,6 +91,8 @@ export class ComputedStatsContainer {
 
   public damageTypeIndexLookup: Record<number, number> = {}
 
+  private readonly builder = new BuffBuilder(this);
+
   /*
   Array structure
   [Action]
@@ -120,11 +123,20 @@ export class ComputedStatsContainer {
     this.selfEntity = this.entityRegistry.get(0)!
   }
 
-  public buff(key: ActionKeyValue, value: number, source: BuffSource, origin: string, destination: string) {
-    if (destination == EntityType.SELF) {
-      this.a[key] += value
-    }
+  internalBuff(
+    key: number,
+    value: number,
+    source: number,
+    elements: number,
+    damageType: number,
+  ): void {
   }
+
+
+  public buff(key: ActionKeyValue, value: number, source: BuffSource, origin: string, destination: string) {
+    return this.builder.init(key, value);
+  }
+
 
   public getHit(key: StatKeyValue, hit: Hit) {
     const damageTypeIndex = this.damageTypeIndexLookup[hit.damageType]

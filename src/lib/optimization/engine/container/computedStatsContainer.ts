@@ -1,36 +1,28 @@
-import {BasicStatsArray} from 'lib/optimization/basicStatsArray'
-import {BuffSource} from 'lib/optimization/buffSource'
-import {ComputedStatsConfigBaseType, ComputedStatsConfigType,} from 'lib/optimization/config/computedStatsConfig'
-import {StatKeyValue} from 'lib/optimization/engine/config/keys'
-import {newStatsConfig} from 'lib/optimization/engine/config/statsConfig'
-import {NamedArray} from 'lib/optimization/engine/util/namedArray'
-import {Hit} from 'types/hitConditionalTypes'
-import {OptimizerContext} from 'types/optimizer'
-import {BuffBuilder} from "lib/optimization/engine/container/buffBuilder";
+import { BasicStatsArray }  from 'lib/optimization/basicStatsArray'
+import { BuffSource }       from 'lib/optimization/buffSource'
+import {
+  ComputedStatsConfigBaseType,
+  ComputedStatsConfigType,
+}                           from 'lib/optimization/config/computedStatsConfig'
+import { StatKeyValue }     from 'lib/optimization/engine/config/keys'
+import { newStatsConfig }   from 'lib/optimization/engine/config/statsConfig'
+import {
+  DamageTag,
+  ElementTag,
+}                           from 'lib/optimization/engine/config/tag'
+import {
+  BuffBuilder,
+  CompleteBuffBuilder,
+  IncompleteBuffBuilder,
+}                           from 'lib/optimization/engine/container/buffBuilder'
+import { NamedArray }       from 'lib/optimization/engine/util/namedArray'
+import { Hit }              from 'types/hitConditionalTypes'
+import { OptimizerContext } from 'types/optimizer'
 
 enum StatCategory {
   CD,
   NONE,
 }
-
-enum AbilityTag {
-  BASIC = 1 << 0,
-  SKILL = 1 << 1,
-  ULTIMATE = 1 << 2,
-  TALENT = 1 << 3,
-}
-
-enum ElementTag {
-  Physical = 1 << 0,
-  Fire = 1 << 1,
-  Ice = 1 << 2,
-  Lightning = 1 << 3,
-  Wind = 1 << 4,
-  Quantum = 1 << 5,
-  Imaginary = 1 << 6,
-}
-
-type Tag = ElementTag | AbilityTag
 
 export const FullStatsConfig: ComputedStatsConfigType = Object.fromEntries(
   Object.entries(newStatsConfig).map(([key, value], index) => {
@@ -91,7 +83,7 @@ export class ComputedStatsContainer {
 
   public damageTypeIndexLookup: Record<number, number> = {}
 
-  private readonly builder = new BuffBuilder(this);
+  private readonly builder = new BuffBuilder()
 
   /*
   Array structure
@@ -123,20 +115,37 @@ export class ComputedStatsContainer {
     this.selfEntity = this.entityRegistry.get(0)!
   }
 
+  buff(key: StatKeyValue, value: number, config: BuffBuilder<true>): this {
+    this.internalBuff(
+      key,
+      value,
+      config._source,
+      config._elementTags,
+      config._damageTags,
+    )
+    return this
+  }
+
   internalBuff(
-    key: number,
+    key: StatKeyValue,
     value: number,
-    source: number,
-    elements: number,
-    damageType: number,
+    source: BuffSource,
+    elementTags: ElementTag,
+    damageTags: DamageTag,
   ): void {
   }
 
-
-  public buff(key: ActionKeyValue, value: number, source: BuffSource, origin: string, destination: string) {
-    return this.builder.init(key, value);
+  elements(e: ElementTag): IncompleteBuffBuilder {
+    return this.builder.reset().elements(e)
   }
 
+  damageType(d: DamageTag): IncompleteBuffBuilder {
+    return this.builder.reset().damageType(d)
+  }
+
+  source(s: number): CompleteBuffBuilder {
+    return this.builder.reset().source(s)
+  }
 
   public getHit(key: StatKeyValue, hit: Hit) {
     const damageTypeIndex = this.damageTypeIndexLookup[hit.damageType]

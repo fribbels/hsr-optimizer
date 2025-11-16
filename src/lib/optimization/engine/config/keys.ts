@@ -1,4 +1,4 @@
-import {newStatsConfig} from 'lib/optimization/engine/config/statsConfig'
+import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 
 export type StatKeyType = keyof typeof newStatsConfig
 

@@ -1,41 +1,41 @@
-import {ComputedStatsContainer} from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  BuffSource,
+  Source,
+} from 'lib/optimization/buffSource'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
 
-export class BuffBuilder {
-  private _key = 0
-  private _value = 0
-  private _elements = 0
-  private _damageType = 0
+export class BuffBuilder<_Completed extends boolean = false> {
+  private readonly _completionBrand!: _Completed
 
-  constructor(private readonly container: ComputedStatsContainer) {}
+  _elementTags = 0
+  _damageTags = 0
+  _source = Source.NONE
 
-  init(key: number, value: number): this {
-    this._key = key
-    this._value = value
-
-    // Reset
-    this._elements = 0
-    this._damageType = 0
-    return this
+  reset(): IncompleteBuffBuilder {
+    this._elementTags = 0
+    this._damageTags = 0
+    this._source = Source.NONE
+    return this as IncompleteBuffBuilder
   }
 
-  elements(e: number): this {
-    this._elements = e
-    return this
+  elements(e: ElementTag): IncompleteBuffBuilder {
+    this._elementTags = e
+    return this as IncompleteBuffBuilder
   }
 
-  damageType(a: number): this {
-    this._damageType = a
-    return this
+  damageType(d: DamageTag): IncompleteBuffBuilder {
+    this._damageTags = d
+    return this as IncompleteBuffBuilder
   }
 
-  source(s: number): ComputedStatsContainer {
-    this.container.internalBuff(
-      this._key,
-      this._value,
-      s,
-      this._elements,
-      this._damageType,
-    )
-    return this.container
+  source(s: BuffSource): CompleteBuffBuilder {
+    this._source = Source.NONE
+    return this as CompleteBuffBuilder
   }
 }
+
+export type IncompleteBuffBuilder = BuffBuilder<false>
+export type CompleteBuffBuilder = BuffBuilder<true>

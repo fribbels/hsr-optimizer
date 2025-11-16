@@ -1,16 +1,37 @@
-import {AbilityType, DamageType,} from 'lib/conditionals/conditionalConstants'
-import {AbilityEidolon, Conditionals, ContentDefinition, cyreneActionExists, cyreneSpecialEffectEidolonUpgraded,} from 'lib/conditionals/conditionalUtils'
-import {ElementNames} from 'lib/constants/constants'
-import {wgslTrue} from 'lib/gpu/injection/wgslUtils'
-import {Source} from 'lib/optimization/buffSource'
-import {ComputedStatsArray} from 'lib/optimization/computedStatsArray'
-import {ActionKey, ComputedStatsContainer, EntityType,} from 'lib/optimization/engine/computedStatsContainer'
-import {HYSILENS} from 'lib/simulations/tests/testMetadataConstants'
-import {TsUtils} from 'lib/utils/TsUtils'
-import {Eidolon} from 'types/character'
-import {CharacterConditionalsController} from 'types/conditionals'
-import {DefaultDamageFunction, DotDamageFunction, Hit,} from 'types/hitConditionalTypes'
-import {OptimizerAction, OptimizerContext,} from 'types/optimizer'
+import {
+  AbilityType,
+  DamageType,
+}                                          from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  cyreneActionExists,
+  cyreneSpecialEffectEidolonUpgraded,
+}                                          from 'lib/conditionals/conditionalUtils'
+import { ElementNames }                    from 'lib/constants/constants'
+import { wgslTrue }                        from 'lib/gpu/injection/wgslUtils'
+import { Source }                          from 'lib/optimization/buffSource'
+import { ComputedStatsArray }              from 'lib/optimization/computedStatsArray'
+import { StatKey }                         from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+}                                          from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer }          from 'lib/optimization/engine/container/computedStatsContainer'
+import { HYSILENS }                        from 'lib/simulations/tests/testMetadataConstants'
+import { TsUtils }                         from 'lib/utils/TsUtils'
+import { Eidolon }                         from 'types/character'
+import { CharacterConditionalsController } from 'types/conditionals'
+import {
+  DefaultDamageFunction,
+  DotDamageFunction,
+  Hit,
+}                                          from 'types/hitConditionalTypes'
+import {
+  OptimizerAction,
+  OptimizerContext,
+}                                          from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hysilens')
@@ -340,6 +361,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     precomputeEffects: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.ATK_P, 50, x.elements(ElementTag.Fire).damageType(DamageTag.BASIC).source(Source.NONE))
 
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
       x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)

@@ -5977,42 +5977,42 @@
       "element": "Fire",
       "traces": {
         "Effect RES": 0.18,
-        "HP%": 0.1,
+        "SPD": 5,
         "Break Effect": 0.373
       },
       "traceTree": [
         {
-          "id": "1321201_3.8v1",
+          "id": "1321201_3.8v3",
           "stat": "Break Effect",
           "value": 0.053,
           "pre": null,
           "children": [
             {
-              "id": "1321210_3.8v1",
+              "id": "1321210_3.8v3",
               "stat": "Break Effect",
               "value": 0.107,
-              "pre": "1321201_3.8v1",
+              "pre": "1321201_3.8v3",
               "children": []
             }
           ]
         },
         {
-          "id": "1321202_3.8v1",
+          "id": "1321202_3.8v3",
           "stat": "Effect RES",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1321203_3.8v1",
+              "id": "1321203_3.8v3",
               "stat": "Break Effect",
               "value": 0.053,
-              "pre": "1321202_3.8v1",
+              "pre": "1321202_3.8v3",
               "children": [
                 {
-                  "id": "1321204_3.8v1",
-                  "stat": "HP%",
-                  "value": 0.04,
-                  "pre": "1321203_3.8v1",
+                  "id": "1321204_3.8v3",
+                  "stat": "SPD",
+                  "value": 2,
+                  "pre": "1321203_3.8v3",
                   "children": []
                 }
               ]
@@ -6020,22 +6020,22 @@
           ]
         },
         {
-          "id": "1321205_3.8v1",
+          "id": "1321205_3.8v3",
           "stat": "Break Effect",
           "value": 0.08,
           "pre": null,
           "children": [
             {
-              "id": "1321206_3.8v1",
+              "id": "1321206_3.8v3",
               "stat": "Effect RES",
               "value": 0.06,
-              "pre": "1321205_3.8v1",
+              "pre": "1321205_3.8v3",
               "children": [
                 {
-                  "id": "1321207_3.8v1",
+                  "id": "1321207_3.8v3",
                   "stat": "Break Effect",
                   "value": 0.08,
-                  "pre": "1321206_3.8v1",
+                  "pre": "1321206_3.8v3",
                   "children": []
                 }
               ]
@@ -6043,14 +6043,14 @@
           ]
         },
         {
-          "id": "1321208_3.8v1",
-          "stat": "HP%",
-          "value": 0.06,
+          "id": "1321208_3.8v3",
+          "stat": "SPD",
+          "value": 3,
           "pre": null,
           "children": []
         },
         {
-          "id": "1321209_3.8v1",
+          "id": "1321209_3.8v3",
           "stat": "Effect RES",
           "value": 0.08,
           "pre": null,
@@ -10419,7 +10419,7 @@
     {
       "id": "324",
       "name": "Tengoku@Livestream",
-      "skills": "Increases the wearer's CRIT DMG by <b>16%</b>. If <b>3</b> or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by <b>32%</b> for <b>3</b> turns."
+      "skills": "Increases the wearer's CRIT DMG by <b>16%</b>. If <b>3</b> or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by <b>32%</b>, lasting for <b>3</b> turns."
     },
     {
       "id": "323",
@@ -10464,7 +10464,7 @@
     {
       "id": "315",
       "name": "Duran, Dynasty of Running Wolves",
-      "skills": "When an ally uses a Follow-up ATK, the wearer gains 1 stack of Merit, stacking up to <b>5</b> time(s). Each stack of Merit increases the DMG dealt by the wearer's Follow-up ATKs by <b>5%</b>. When there are <b>5</b> stacks, additionally increases the wearer's CRIT DMG by <b>25%</b>."
+      "skills": "When an ally uses a Follow-Up ATK, the wearer gains 1 stack of Merit, stacking up to <b>5</b> time(s). Each stack of Merit increases the DMG dealt by the wearer's Follow-Up ATKs by <b>5%</b>. When there are <b>5</b> stacks, additionally increases the wearer's CRIT DMG by <b>25%</b>."
     },
     {
       "id": "314",
@@ -10509,7 +10509,7 @@
     {
       "id": "306",
       "name": "Inert Salsotto",
-      "skills": "Increases the wearer's CRIT Rate by <b>8%</b>. When the wearer's current CRIT Rate reaches <b>50%</b> or higher, the DMG dealt by the wearer's Ultimate and Follow-up ATK increases by <b>15%</b>."
+      "skills": "Increases the wearer's CRIT Rate by <b>8%</b>. When the wearer's current CRIT Rate reaches <b>50%</b> or higher, the DMG dealt by the wearer's Ultimate and Follow-Up ATK increases by <b>15%</b>."
     },
     {
       "id": "305",
@@ -10579,7 +10579,7 @@
     {
       "id": "120",
       "name": "The Wind-Soaring Valorous",
-      "skills": "Increases ATK by <b>12%</b>. Increases the wearer's CRIT Rate by <b>6%</b>. After the wearer uses a Follow-up ATK, increases DMG dealt by Ultimate by <b>36%</b>, lasting for <b>1</b> turn(s)."
+      "skills": "Increases ATK by <b>12%</b>. Increases the wearer's CRIT Rate by <b>6%</b>. After the wearer uses a Follow-Up ATK, increases DMG dealt by Ultimate by <b>36%</b>, lasting for <b>1</b> turn(s)."
     },
     {
       "id": "119",
@@ -10604,7 +10604,7 @@
     {
       "id": "115",
       "name": "The Ashblazing Grand Duke",
-      "skills": "Increases the DMG dealt by Follow-up ATK by <b>20%</b>. When the wearer uses a Follow-up ATK, increases the wearer's ATK by <b>6%</b> for every time the Follow-up ATK deals DMG. This effect can stack up to <b>8</b> time(s) and lasts for <b>3</b> turn(s). This effect is removed the next time the wearer uses a Follow-up ATK."
+      "skills": "Increases the DMG dealt by Follow-Up ATK by <b>20%</b>. When the wearer uses a Follow-Up ATK, increases the wearer's ATK by <b>6%</b> for every time the Follow-Up ATK deals DMG. This effect can stack up to <b>8</b> time(s) and lasts for <b>3</b> turn(s). This effect is removed the next time the wearer uses a Follow-Up ATK."
     },
     {
       "id": "114",

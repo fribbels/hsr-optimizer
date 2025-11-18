@@ -1,53 +1,53 @@
-import i18next                    from 'i18next'
+import i18next from 'i18next'
 import {
   COMPUTE_ENGINE_CPU,
   Constants,
   Parts,
   Stats,
-}                                 from 'lib/constants/constants'
-import { SavedSessionKeys }       from 'lib/constants/constantsSession'
-import { getWebgpuDevice }        from 'lib/gpu/webgpuDevice'
-import { gpuOptimize }            from 'lib/gpu/webgpuOptimizer'
-import { RelicsByPart }           from 'lib/gpu/webgpuTypes'
-import { Message }                from 'lib/interactions/message'
+} from 'lib/constants/constants'
+import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
+import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
+import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { Message } from 'lib/interactions/message'
 import {
   BufferPacker,
   OptimizerDisplayData,
-}                                 from 'lib/optimization/bufferPacker'
-import { generateContext }        from 'lib/optimization/context/calculateContext'
+} from 'lib/optimization/bufferPacker'
+import { generateContext } from 'lib/optimization/context/calculateContext'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import {
   generateOrnamentSetSolutions,
   generateRelicSetSolutions,
-}                                 from 'lib/optimization/relicSetSolver'
-import { SortOption }             from 'lib/optimization/sortOptions'
-import { RelicFilters }           from 'lib/relics/relicFilters'
-import { simulateBuild }          from 'lib/simulations/simulateBuild'
+} from 'lib/optimization/relicSetSolver'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { RelicFilters } from 'lib/relics/relicFilters'
+import { simulateBuild } from 'lib/simulations/simulateBuild'
 import {
   SimulationRelic,
   SimulationRelicByPart,
-}                                 from 'lib/simulations/statSimulationTypes'
-import DB                         from 'lib/state/db'
-import { setSortColumn }          from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+} from 'lib/simulations/statSimulationTypes'
+import DB from 'lib/state/db'
+import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import {
   activateZeroPermutationsSuggestionsModal,
   activateZeroResultSuggestionsModal,
-}                                 from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
+} from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { TsUtils }                from 'lib/utils/TsUtils'
-import { Utils }                  from 'lib/utils/utils'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { Utils } from 'lib/utils/utils'
 import {
   WorkerPool,
   WorkerResult,
   WorkerTask,
-}                                 from 'lib/worker/workerPool'
-import { WorkerType }             from 'lib/worker/workerUtils'
+} from 'lib/worker/workerPool'
+import { WorkerType } from 'lib/worker/workerUtils'
 import {
   Form,
   OptimizerForm,
-}                                 from 'types/form'
-import { StatKey }                from "lib/optimization/engine/config/keys";
+} from 'types/form'
 
 // FIXME HIGH
 

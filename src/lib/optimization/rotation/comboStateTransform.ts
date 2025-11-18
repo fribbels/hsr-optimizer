@@ -1,54 +1,51 @@
-import { countTeamPath }                       from 'lib/conditionals/conditionalUtils'
-import { CharacterConditionalsResolver }       from 'lib/conditionals/resolver/characterConditionalsResolver'
-import { LightConeConditionalsResolver }       from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { countTeamPath } from 'lib/conditionals/conditionalUtils'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
   ConditionalDataType,
   SACERDOS_RELIVED_ORDEAL_1_STACK,
   SACERDOS_RELIVED_ORDEAL_2_STACK,
   Sets,
-}                                              from 'lib/constants/constants'
-import { DynamicConditional }                  from 'lib/gpu/conditionals/dynamicConditionals'
-import { Source }                              from 'lib/optimization/buffSource'
-import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
+} from 'lib/constants/constants'
+import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { Source } from 'lib/optimization/buffSource'
 import {
   baseComputedStatsArray,
   ComputedStatsArray,
   ComputedStatsArrayCore,
   Key,
-}                                              from 'lib/optimization/computedStatsArray'
-import { calculateActions }                    from 'lib/optimization/context/calculateActions'
-import { ComputedStatsContainer }              from 'lib/optimization/engine/container/computedStatsContainer'
-import { newTransformStateActions }            from 'lib/optimization/rotation/actionTransform'
+} from 'lib/optimization/computedStatsArray'
+import { newTransformStateActions } from 'lib/optimization/rotation/actionTransform'
 import {
   AbilityKind,
   DEFAULT_BASIC,
   getAbilityKind,
   NULL_TURN_ABILITY_NAME,
   TurnAbilityName,
-}                                              from 'lib/optimization/rotation/turnAbilityConfig'
-import DB                                      from 'lib/state/db'
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import DB from 'lib/state/db'
 import {
   ComboConditionalCategory,
   ComboConditionals,
   ComboSelectConditional,
   ComboState,
   initializeComboState,
-}                                              from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { CharacterId }                         from 'types/character'
+} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { CharacterId } from 'types/character'
 import {
   CharacterConditionalsController,
   ConditionalValueMap,
   LightConeConditionalsController,
-}                                              from 'types/conditionals'
+} from 'types/conditionals'
 import {
   Form,
   OptimizerForm,
-}                                              from 'types/form'
+} from 'types/form'
 import {
   OptimizerAction,
   OptimizerContext,
   SetConditional,
-}                                              from 'types/optimizer'
+} from 'types/optimizer'
 
 const SUNDAY_ID = '1313'
 
@@ -68,57 +65,72 @@ export function transformComboState(request: Form, context: OptimizerContext) {
   }
 }
 
-function transformStateActions(comboState: ComboState, request: Form, context: OptimizerContext) {
-  const { comboTurnAbilities, comboDot } = getComboTypeAbilities(request)
+// function transformStateActions(comboState: ComboState, request: Form, context: OptimizerContext) {
+//   const { comboTurnAbilities, comboDot } = getComboTypeAbilities(request)
+//
+//   // OLD
+//
+//   const actions: OptimizerAction[] = []
+//   for (let i = 0; i < comboTurnAbilities.length; i++) {
+//     actions.push(defineAction(i, comboState, comboTurnAbilities[i], request, context))
+//   }
+//
+//   context.actions = actions
+//   calculateActions(request, context)
+//
+//   for (let i = 0; i < comboTurnAbilities.length; i++) {
+//     const action = actions[i]
+//
+//     const container = new ComputedStatsContainer(context)
+//     console.log(container)
+//
+//     action.precomputedStats = container
+//
+//     if (comboState.comboTeammate0) {
+//       action.teammate0.actorId = comboState.comboTeammate0.metadata.characterId
+//       action.teammate0.characterConditionals = transformConditionals(i, comboState.comboTeammate0.characterConditionals)
+//       action.teammate0.lightConeConditionals = transformConditionals(i, comboState.comboTeammate0.lightConeConditionals)
+//     }
+//
+//     if (comboState.comboTeammate1) {
+//       action.teammate1.actorId = comboState.comboTeammate1.metadata.characterId
+//       action.teammate1.characterConditionals = transformConditionals(i, comboState.comboTeammate1.characterConditionals)
+//       action.teammate1.lightConeConditionals = transformConditionals(i, comboState.comboTeammate1.lightConeConditionals)
+//     }
+//
+//     if (comboState.comboTeammate2) {
+//       action.teammate2.actorId = comboState.comboTeammate2.metadata.characterId
+//       action.teammate2.characterConditionals = transformConditionals(i, comboState.comboTeammate2.characterConditionals)
+//       action.teammate2.lightConeConditionals = transformConditionals(i, comboState.comboTeammate2.lightConeConditionals)
+//     }
+//
+//     precomputeConditionals(action, comboState, context)
+//     calculateContextConditionalRegistry(action, context)
+//   }
+//
+//   const characterConditionalController = CharacterConditionalsResolver.get(context)
+//
+//   context.dotAbilities = countDotAbilities(actions)
+//   context.comboDot = comboDot || 0
+//   context.activeAbilities = characterConditionalController.activeAbilities ?? []
+//   context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
+// }
+/*
 
-  // OLD
+DefaultActions
+[BASIC]
+[SKILL]
+Same X stats
 
-  const actions: OptimizerAction[] = []
-  for (let i = 0; i < comboTurnAbilities.length; i++) {
-    actions.push(defineAction(i, comboState, comboTurnAbilities[i], request, context))
-  }
+RotationActions
+[BASIC]
+[SKILL]
+[BASIC]
+[SKILL]
 
-  context.actions = actions
-  calculateActions(request, context)
 
-  for (let i = 0; i < comboTurnAbilities.length; i++) {
-    const action = actions[i]
 
-    const container = new ComputedStatsContainer(context)
-    console.log(container)
-
-    action.precomputedStats = container
-
-    if (comboState.comboTeammate0) {
-      action.teammate0.actorId = comboState.comboTeammate0.metadata.characterId
-      action.teammate0.characterConditionals = transformConditionals(i, comboState.comboTeammate0.characterConditionals)
-      action.teammate0.lightConeConditionals = transformConditionals(i, comboState.comboTeammate0.lightConeConditionals)
-    }
-
-    if (comboState.comboTeammate1) {
-      action.teammate1.actorId = comboState.comboTeammate1.metadata.characterId
-      action.teammate1.characterConditionals = transformConditionals(i, comboState.comboTeammate1.characterConditionals)
-      action.teammate1.lightConeConditionals = transformConditionals(i, comboState.comboTeammate1.lightConeConditionals)
-    }
-
-    if (comboState.comboTeammate2) {
-      action.teammate2.actorId = comboState.comboTeammate2.metadata.characterId
-      action.teammate2.characterConditionals = transformConditionals(i, comboState.comboTeammate2.characterConditionals)
-      action.teammate2.lightConeConditionals = transformConditionals(i, comboState.comboTeammate2.lightConeConditionals)
-    }
-
-    precomputeConditionals(action, comboState, context)
-    calculateContextConditionalRegistry(action, context)
-  }
-
-  const characterConditionalController = CharacterConditionalsResolver.get(context)
-
-  context.dotAbilities = countDotAbilities(actions)
-  context.comboDot = comboDot || 0
-  context.activeAbilities = characterConditionalController.activeAbilities ?? []
-  context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
-}
-
+ */
 export function defineAction(
   actionIndex: number,
   comboState: ComboState,
@@ -148,6 +160,7 @@ export function defineAction(
   action.actorEidolon = context.characterEidolon
   action.actionIndex = actionIndex
   action.actionType = getAbilityKind(abilityName)
+  action.actionName = abilityName
 
   action.characterConditionals = transformConditionals(actionIndex, comboState.comboCharacter.characterConditionals)
   action.lightConeConditionals = transformConditionals(actionIndex, comboState.comboCharacter.lightConeConditionals)

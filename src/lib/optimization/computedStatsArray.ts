@@ -1,28 +1,28 @@
 import {
   ElementToResPenType,
   Stats,
-}                                 from 'lib/constants/constants'
-import { evaluateConditional }    from 'lib/gpu/conditionals/dynamicConditionals'
+} from 'lib/constants/constants'
+import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   BasicStatsArray,
   BasicStatsArrayCore,
-}                                 from 'lib/optimization/basicStatsArray'
-import { BuffSource }             from 'lib/optimization/buffSource'
+} from 'lib/optimization/basicStatsArray'
+import { BuffSource } from 'lib/optimization/buffSource'
 import {
   BaseComputedStatsConfig,
   baseComputedStatsObject,
   ComputedStatsObject,
-}                                 from 'lib/optimization/config/computedStatsConfig'
-import { StatKey }                from 'lib/optimization/engine/config/keys'
+} from 'lib/optimization/config/computedStatsConfig'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   ElementalDamageType,
   ElementalResPenType,
-}                                 from 'types/metadata'
+} from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
-}                                 from 'types/optimizer'
+} from 'types/optimizer'
 
 export type Buff = {
   stat: string,

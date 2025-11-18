@@ -26,11 +26,11 @@ export interface Hit {
   defScaling: number
   specialScaling: number
 
-  tags: Tag[]
-
   toughnessDmg: number
 
   activeHit: boolean
+
+  registerIndex: number
 }
 
 const ActionKey = {}
@@ -95,7 +95,8 @@ export const DotDamageFunction: DamageFunction = {
     // TODO
     const comboDotMulti = context.comboDot / Math.max(1, context.dotAbilities)
 
-    return instanceDmg * comboDotMulti
+    return 1
+    // return instanceDmg * comboDotMulti
   },
 }
 

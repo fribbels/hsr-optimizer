@@ -1,7 +1,10 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  ComputedStatsContainer,
+  ComputedStatsContainerConfig,
+} from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   countDotAbilities,
   defineAction,
@@ -43,13 +46,34 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
 
   const defaultActions: OptimizerAction[] = []
 
+  const actionMapping: Record<number, any> = {}
+
   for (let i = 0; i < context.actionDeclarations.length; i++) {
     const actionDeclaration = context.actionDeclarations[i]
-    defaultActions.push(defineAction(0, comboState, actionDeclaration as TurnAbilityName, request, context))
+    const action = defineAction(0, comboState, actionDeclaration as TurnAbilityName, request, context)
+    defaultActions.push(action)
   }
 
   context.defaultActions = defaultActions
   context.rotationActions = rotationActions
+
+  let hitCounter = 0
+
+  function prepareRegisters(actions: OptimizerAction[]) {
+    for (const action of actions) {
+      action.registerIndices = []
+      for (const hit of action.hits!) {
+        const index = hitCounter++
+        hit.registerIndex = index
+        action.registerIndices.push(index)
+      }
+    }
+  }
+
+  prepareRegisters(defaultActions)
+  prepareRegisters(rotationActions)
+
+  context.outputRegistersLength = hitCounter
 
   for (let i = 0; i < rotationActions.length; i++) {
     prepareActionData(rotationActions[i], i, comboState, request, context)
@@ -68,7 +92,10 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
 }
 
 function prepareActionData(action: OptimizerAction, i: number, comboState: ComboState, request: Form, context: OptimizerContext) {
-  const container = new ComputedStatsContainer(action, context)
+  const container = new ComputedStatsContainer()
+  action.config = new ComputedStatsContainerConfig(action, context)
+  container.setConfig(action.config)
+
   console.log(container)
 
   action.precomputedStats = container

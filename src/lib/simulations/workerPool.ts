@@ -2,8 +2,8 @@ import ComputeOptimalSimulationWorker from 'lib/worker/baseWorker.ts?worker&inli
 import {
   ComputeOptimalSimulationWorkerInput,
   ComputeOptimalSimulationWorkerOutput,
-}                                     from 'lib/worker/computeOptimalSimulationWorkerRunner'
-import { WorkerType }                 from 'lib/worker/workerUtils'
+} from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import { WorkerType } from 'lib/worker/workerUtils'
 
 // const poolSize = 10
 const poolSize = 1

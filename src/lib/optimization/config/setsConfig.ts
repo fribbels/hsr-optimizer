@@ -3,15 +3,15 @@ import {
   SetsOrnaments,
   SetsRelics,
   Stats,
-}                                 from 'lib/constants/constants'
-import { BasicStatsArray }        from 'lib/optimization/basicStatsArray'
-import { Source }                 from 'lib/optimization/buffSource'
-import { Key }                    from 'lib/optimization/computedStatsArray'
+} from 'lib/constants/constants'
+import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { Key } from 'lib/optimization/computedStatsArray'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   OptimizerContext,
   SetConditional,
-}                                 from 'types/optimizer'
+} from 'types/optimizer'
 
 export type SetsDefinition = {
   key: keyof typeof Sets,

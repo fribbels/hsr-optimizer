@@ -1,5 +1,5 @@
 import { Namespaces } from 'lib/i18n/i18n'
-import Resources      from 'types/resources'
+import Resources from 'types/resources'
 
 interface tInput {
   ns: Namespaces

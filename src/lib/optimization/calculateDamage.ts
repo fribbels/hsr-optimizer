@@ -1,18 +1,18 @@
-import { AbilityType }            from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   ComputedStatsArray,
   DefaultActionDamageValues,
   getElementalDamageType,
   getResPenType,
   Key,
-}                                 from 'lib/optimization/computedStatsArray'
-import { StatsConfigByIndex }     from 'lib/optimization/config/computedStatsConfig'
+} from 'lib/optimization/computedStatsArray'
+import { StatsConfigByIndex } from 'lib/optimization/config/computedStatsConfig'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind }            from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   OptimizerAction,
   OptimizerContext,
-}                                 from 'types/optimizer'
+} from 'types/optimizer'
 
 export function calculateBaseMultis(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
   const lightConeConditionalController = context.lightConeConditionalController

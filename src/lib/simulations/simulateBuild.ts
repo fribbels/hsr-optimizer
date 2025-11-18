@@ -7,13 +7,13 @@ import {
   RelicSetToIndex,
   SetsOrnaments,
   SetsRelics,
-}                                 from 'lib/constants/constants'
+} from 'lib/constants/constants'
 import {
   BasicStatsArray,
   BasicStatsArrayCore,
-}                                 from 'lib/optimization/basicStatsArray'
-import { Source }                 from 'lib/optimization/buffSource'
-import { calculateBaseMultis }    from 'lib/optimization/calculateDamage'
+} from 'lib/optimization/basicStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { calculateBaseMultis } from 'lib/optimization/calculateDamage'
 import {
   calculateBaseStats,
   calculateBasicSetEffects,
@@ -21,15 +21,15 @@ import {
   calculateElementalStats,
   calculateRelicStats,
   calculateSetCounts,
-}                                 from 'lib/optimization/calculateStats'
+} from 'lib/optimization/calculateStats'
 import { ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   SimulationRelic,
   SimulationRelicByPart,
-}                                 from 'lib/simulations/statSimulationTypes'
-import { HitAction }              from 'types/hitConditionalTypes'
-import { OptimizerContext }       from 'types/optimizer'
+} from 'lib/simulations/statSimulationTypes'
+import { OptimizerContext } from 'types/optimizer'
 
 // To use after combo state and context has been initialized
 export function simulateBuild(
@@ -76,7 +76,7 @@ export function simulateBuild(
   //   c.initMemo()
   // }
 
-  let dmgTracker = 0
+  let comboDmg = 0
 
   let combo = 0
   const hitActions = context.hitActions!
@@ -89,12 +89,13 @@ export function simulateBuild(
   //   calculateAction(defaultActions[i])
   // }
 
-  let tempX: ComputedStatsContainer
+  const x = new ComputedStatsContainer()
+  x.setBasic(c)
+  x.setRegisters(context)
 
   for (let i = 0; i < context.rotationActions.length; i++) {
     const action = context.rotationActions[i]
-    const x = new ComputedStatsContainer(action, context)
-    x.setBasic(c)
+    x.setConfig(action.config)
 
     action.conditionalState = {}
 
@@ -116,23 +117,47 @@ export function simulateBuild(
       const hit = action.hits![hitIndex]
 
       const dmg = hit.damageFunction.apply(x, action, hitIndex, context)
-      dmgTracker += dmg
+      x.setHitRegisterValue(hit.registerIndex, dmg)
+      comboDmg += dmg
     }
 
     // calculateDamage(x, action, context)
 
     const a = x.a
-
-    tempX = x
   }
+
+  calculateComputedStats(x, context.defaultActions[0], context)
+
+  for (let i = 0; i < context.defaultActions.length; i++) {
+    const action = context.defaultActions[i]
+    x.setConfig(action.config)
+
+    action.conditionalState = {}
+
+    x.setPrecompute(action.precomputedStats.a)
+
+    calculateComputedStats(x, action, context)
+    calculateBaseMultis(x, action, context)
+
+    let sum = 0
+
+    for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
+      const hit = action.hits![hitIndex]
+
+      const dmg = hit.damageFunction.apply(x, action, hitIndex, context)
+      x.setHitRegisterValue(hit.registerIndex, dmg)
+
+      sum += dmg
+    }
+
+    x.setActionRegisterValue(i, sum)
+  }
+
+  x.a[StatKey.COMBO_DMG] = comboDmg
 
   // x.set(ActionKey.COMBO_DMG, dmgTracker, Source.NONE)
 
-  return tempX
-}
-
-function calculateAction(hitAction: HitAction) {
-  hitAction.hits
+  return x
 }
 
 function generateUnusedSets(relics: SimulationRelicByPart) {

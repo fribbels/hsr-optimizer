@@ -1,38 +1,40 @@
-import { AbilityType }         from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   ElementName,
   PathName,
-}                              from 'lib/constants/constants'
-import { DynamicConditional }  from 'lib/gpu/conditionals/dynamicConditionals'
+} from 'lib/constants/constants'
+import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
-import { ComputedStatsArray }  from 'lib/optimization/computedStatsArray'
-import { ActionModifier }      from 'lib/optimization/context/calculateActions'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ActionModifier } from 'lib/optimization/context/calculateActions'
 import {
   ComputedStatsContainer,
+  ComputedStatsContainerConfig,
   OptimizerEntity,
-}                              from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind }         from 'lib/optimization/rotation/turnAbilityConfig'
-import { CharacterId }         from 'types/character'
+} from 'lib/optimization/engine/container/computedStatsContainer'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { CharacterId } from 'types/character'
 import {
   CharacterConditionalsController,
   ConditionalValueMap,
   LightConeConditionalsController,
-}                              from 'types/conditionals'
-import { LightCone }           from 'types/lightCone'
+} from 'types/conditionals'
+import { LightCone } from 'types/lightCone'
 import {
   ElementalDamageType,
   ElementalResPenType,
-}                              from 'types/metadata'
+} from 'types/metadata'
 import {
   Hit,
   HitAction,
-}                              from './hitConditionalTypes'
+} from './hitConditionalTypes'
 
 export type OptimizerAction = {
   precomputedX: ComputedStatsArray,
   precomputedM: ComputedStatsArray,
 
   precomputedStats: ComputedStatsContainer,
+  config: ComputedStatsContainerConfig,
 
   characterConditionals: ConditionalValueMap,
   lightConeConditionals: ConditionalValueMap,
@@ -48,6 +50,7 @@ export type OptimizerAction = {
   actorId: string,
   actorEidolon: number,
   actionType: AbilityKind,
+  actionName: string,
   actionIndex: number,
 
   hits?: Hit[],
@@ -57,6 +60,8 @@ export type OptimizerAction = {
   teammate2: TeammateAction,
   teammateDynamicConditionals: DynamicConditional[],
   // Teammate data all gets precomputed, only the non-precomputable values go in here
+
+  registerIndices: number[],
 }
 
 export type TeammateAction = {
@@ -133,6 +138,7 @@ export type OptimizerContext = CharacterMetadata & {
   actionDeclarations: string[],
   actionModifiers: ActionModifier[],
   actionMapping: Record<string, ((action: OptimizerAction, context: OptimizerContext) => HitAction[])>,
+  outputRegistersLength: number,
 
   rotationActions: OptimizerAction[],
   defaultActions: OptimizerAction[],

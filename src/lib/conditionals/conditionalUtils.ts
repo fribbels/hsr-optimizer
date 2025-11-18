@@ -169,7 +169,7 @@ export function getCyreneAction(action: OptimizerAction) {
 }
 
 export function cyreneActionExists(action: OptimizerAction) {
-  return getCyreneAction(action) ? true :false
+  return getCyreneAction(action) ? true : false
 }
 
 // Assumes cyreneTeammateSpecialEffectActive returned true
@@ -182,4 +182,15 @@ export function cyreneSpecialEffectEidolonUpgraded(action: OptimizerAction) {
   ].find((x) => x && x.actorId == CYRENE)!
 
   return cyreneAction.actorEidolon >= 3
+}
+
+export function teammateConditionalActive(action: OptimizerAction, teammateId: string, conditionalId: string) {
+  const teammateAction = [
+    action.teammate0,
+    action.teammate1,
+    action.teammate2,
+  ].find((x) => x && x.actorId == teammateId)
+  if (!teammateAction) return false
+
+  return teammateAction.characterConditionals[conditionalId]
 }

@@ -1,8 +1,4 @@
-import {
-  AbilityType,
-  SKILL_DMG_TYPE,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   ComputedStatsArray,
   DefaultActionDamageValues,
@@ -111,6 +107,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       a[Key.BASIC_SUPER_BREAK_MODIFIER],
       a[Key.BASIC_BREAK_DMG_MODIFIER],
       a[Key.BASIC_TOUGHNESS_DMG],
+      a[Key.BASIC_FIXED_TOUGHNESS_DMG],
       a[Key.BASIC_ADDITIONAL_DMG],
       0, // a[Key.BASIC_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.BASIC_ADDITIONAL_DMG_CD_OVERRIDE],
@@ -152,6 +149,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       0, // a[Key.SKILL_SUPER_BREAK_MODIFIER],
       0, // a[Key.SKILL_BREAK_DMG_MODIFIER],
       a[Key.SKILL_TOUGHNESS_DMG],
+      a[Key.SKILL_FIXED_TOUGHNESS_DMG],
       a[Key.SKILL_ADDITIONAL_DMG],
       0, // a[Key.SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
@@ -193,6 +191,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       0, // a[Key.ULT_SUPER_BREAK_MODIFIER],
       0, // a[Key.ULT_BREAK_DMG_MODIFIER],
       a[Key.ULT_TOUGHNESS_DMG],
+      a[Key.ULT_FIXED_TOUGHNESS_DMG],
       a[Key.ULT_ADDITIONAL_DMG],
       a[Key.ULT_ADDITIONAL_DMG_CR_OVERRIDE],
       a[Key.ULT_ADDITIONAL_DMG_CD_OVERRIDE],
@@ -234,6 +233,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
       0, // a[Key.FUA_SUPER_BREAK_MODIFIER],
       0, // a[Key.FUA_BREAK_DMG_MODIFIER],
       a[Key.FUA_TOUGHNESS_DMG],
+      a[Key.FUA_FIXED_TOUGHNESS_DMG],
       a[Key.FUA_ADDITIONAL_DMG],
       0, // a[Key.FUA_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.FUA_ADDITIONAL_DMG_CD_OVERRIDE],
@@ -313,6 +313,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         0, // a[Key.MEMO_SKILL_SUPER_BREAK_MODIFIER],
         0, // a[Key.MEMO_SKILL_BREAK_DMG_MODIFIER],
         a[Key.MEMO_SKILL_TOUGHNESS_DMG],
+        a[Key.MEMO_SKILL_FIXED_TOUGHNESS_DMG],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
@@ -358,6 +359,7 @@ export function calculateDamage(x: ComputedStatsArray, action: OptimizerAction, 
         0, // a[Key.MEMO_TALENT_SUPER_BREAK_MODIFIER],
         0, // a[Key.MEMO_TALENT_BREAK_DMG_MODIFIER],
         a[Key.MEMO_TALENT_TOUGHNESS_DMG],
+        a[Key.MEMO_TALENT_FIXED_TOUGHNESS_DMG],
         0, // a[Key.MEMO_TALENT_ADDITIONAL_DMG],
         0, // a[Key.MEMO_TALENT_ADDITIONAL_DMG_CR_OVERRIDE],
         0, // a[Key.MEMO_TALENT_ADDITIONAL_DMG_CD_OVERRIDE],
@@ -432,6 +434,7 @@ function calculateAbilityDmg(
   abilitySuperBreakModifier: number,
   abilityBreakDmgModifier: number,
   abilityToughnessDmg: number,
+  abilityFixedToughnessDmg: number,
   abilityAdditionalDmg: number,
   abilityAdditionalCrOverride: number,
   abilityAdditionalCdOverride: number,
@@ -482,6 +485,7 @@ function calculateAbilityDmg(
       superBreakModifier,
       baseBreakEfficiencyBoost + abilityBreakEfficiencyBoost,
       abilityToughnessDmg,
+      abilityFixedToughnessDmg,
     )
   }
 
@@ -540,11 +544,14 @@ function calculateSuperBreakDmg(
   superBreakModifier: number,
   breakEfficiencyBoost: number,
   toughnessDmg: number,
+  fixedToughnessDmg: number,
 ) {
   return superBreakInstanceDmg
     * superBreakModifier
-    * breakEfficiencyBoost
-    * toughnessDmg
+    * (
+      (breakEfficiencyBoost * toughnessDmg)
+      + fixedToughnessDmg
+    )
 }
 
 function calculateCritDmg(

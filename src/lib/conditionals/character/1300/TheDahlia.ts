@@ -8,17 +8,25 @@ import {
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import {
+  ComputedStatsArray,
+  Key,
+} from 'lib/optimization/computedStatsArray'
 
 import i18next from 'i18next'
 import {
   boostAshblazingAtkP,
   gpuBoostAshblazingAtkP,
 } from 'lib/conditionals/conditionalFinalizers'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import {
-  CURRENT_DATA_VERSION,
-} from 'lib/constants/constants'
-import { THE_DAHLIA } from 'lib/simulations/tests/testMetadataConstants'
+  ANAXA,
+  BOOTHILL,
+  FIREFLY,
+  PHAINON,
+  SILVER_WOLF,
+  THE_DAHLIA,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -211,12 +219,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
       x.FUA_ATK_SCALING.buff(fuaScaling * fuaHits / context.enemyCount, SOURCE_TALENT)
 
+      x.SPD_P.buff((r.spdBuff) ? 0.30 : 0, SOURCE_TRACE)
+
       x.BE.buff((e >= 6 && r.e6BeBuff) ? 1.50 : 0, SOURCE_E6)
 
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(10, SOURCE_SKILL)
       x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
       x.FUA_TOUGHNESS_DMG.buff(3 * fuaHits / context.enemyCount, SOURCE_TALENT)
+
+      x.ULT_FIXED_TOUGHNESS_DMG.buff(20, SOURCE_TRACE)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -233,23 +245,32 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         }
       }
 
-      x.SPD_P.buff((m.spdBuff) ? 0.30 : 0, SOURCE_TRACE)
-
-      x.RES_PEN.buffTeam((e >= 2 && m.e2ResPen) ? 0.18 : 0, SOURCE_E2)
+      x.RES_PEN.buffTeam((e >= 2 && m.e2ResPen) ? 0.20 : 0, SOURCE_E2)
       x.VULNERABILITY.buffTeam((e >= 4 && m.e4Vuln) ? 0.12 : 0, SOURCE_E4)
 
       if (e >= 1 && m.e1Buffs && m.dancePartner) {
         const e1ToughnessDmg = Math.max(10, Math.min(300, context.enemyMaxToughness / 30 * 0.25))
-        x.BASIC_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
-        x.SKILL_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
-        x.ULT_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
-        x.FUA_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
-        x.MEMO_SKILL_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
-        x.MEMO_TALENT_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
+        if (x.a[Key.BASIC_TOUGHNESS_DMG] > 0) x.BASIC_FIXED_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
+        if (x.a[Key.SKILL_TOUGHNESS_DMG] > 0) x.SKILL_FIXED_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
+        if (x.a[Key.ULT_TOUGHNESS_DMG] > 0) x.ULT_FIXED_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
+        if (x.a[Key.FUA_TOUGHNESS_DMG] > 0) x.FUA_FIXED_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
+        if (x.a[Key.MEMO_SKILL_TOUGHNESS_DMG] > 0) x.MEMO_SKILL_FIXED_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
+        if (x.a[Key.MEMO_TALENT_TOUGHNESS_DMG] > 0) x.MEMO_TALENT_FIXED_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
       }
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
+
+      const IMPLANT_CHARACTERS = [
+        FIREFLY,
+        BOOTHILL,
+        PHAINON,
+        ANAXA,
+        SILVER_WOLF,
+      ]
+      if (IMPLANT_CHARACTERS.includes(context.characterId)) {
+        x.SPD_P.buff((t.spdBuff) ? 0.30 : 0, SOURCE_TRACE)
+      }
 
       const beBuff = (t.beConversion) ? t.teammateBeValue * 0.24 + 0.50 : 0
       x.BE.buffTeam(beBuff, SOURCE_TRACE)

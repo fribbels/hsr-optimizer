@@ -316,12 +316,18 @@ export function ScannerImportSubmenu() {
                       url={ReliquaryArchiverConfig.releases}
                       linkIcon={true}
                     />
-                    {websocketUrl != DEFAULT_WEBSOCKET_URL && (new URL(websocketUrl).port === '53313') && (
-                      <>
-                        <br />
-                        If you have a custom ws url set, the default port has changed from 53313 to 23313.
-                      </>
-                    )}
+                    {websocketUrl != DEFAULT_WEBSOCKET_URL && (() => {
+                      try {
+                        return new URL(websocketUrl).port === '53313' && (
+                          <>
+                            <br />
+                            If you have a custom ws url set, the default port has changed from 53313 to 23313.
+                          </>
+                        )
+                      } catch {
+                        return null
+                      }
+                    })()}
                   </div>
                 }
                 type='info'

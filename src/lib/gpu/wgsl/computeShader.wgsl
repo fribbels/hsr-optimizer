@@ -846,6 +846,7 @@ fn calculateAbilityDmg(
   abilitySuperBreakModifier: f32,
   abilityBreakDmgModifier: f32,
   abilityToughnessDmg: f32,
+  abilityFixedToughnessDmg: f32,
   abilityAdditionalDmg: f32,
   abilityAdditionalCrOverride: f32,
   abilityAdditionalCdOverride: f32,
@@ -888,8 +889,10 @@ fn calculateAbilityDmg(
   if (superBreakModifier > 0) {
     abilitySuperBreakDmgOutput = baseSuperBreakInstanceDmg
       * (superBreakModifier)
-      * (baseBreakEfficiencyBoost + abilityBreakEfficiencyBoost)
-      * (abilityToughnessDmg);
+      * (
+        (baseBreakEfficiencyBoost + abilityBreakEfficiencyBoost) * (abilityToughnessDmg)
+        + abilityFixedToughnessDmg
+      );
   }
 
   // === Additional DMG ===

@@ -198,6 +198,7 @@ export const newBaseComputedStatsAbilityPropertiesConfig = {
   BREAK_DEF_PEN: { label: optimizerTabCompositeSuffix('Break DEF PEN') },
 
   TOUGHNESS_DMG: { flat: true, separated: true, label: optimizerTabCompositeSuffix('Toughness DMG') },
+  FIXED_TOUGHNESS_DMG: { flat: true, separated: true, label: optimizerTabCompositeSuffix('Fixed Toughness DMG') },
   SUPER_BREAK_MODIFIER: { label: optimizerTabCompositeSuffix('Super Break multiplier') },
   BREAK_EFFICIENCY_BOOST: { label: optimizerTabCompositeSuffix('Break Efficiency boost') },
 

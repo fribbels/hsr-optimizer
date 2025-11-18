@@ -117,7 +117,11 @@ function getChangelogContent() {
     {
       title: `Current data version: ${CURRENT_DATA_VERSION}`,
       date: '',
-      content: [],
+      content: [
+        `Updated content to v3.8v3`,
+        `Fixed various issues with Cyrene damage calculations`,
+        `Added a tentative Memo Skill damage calculation for Hyacine. More accurate calculations to follow`,
+      ],
     },
     {
       title: '',

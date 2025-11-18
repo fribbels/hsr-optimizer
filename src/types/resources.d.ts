@@ -6456,6 +6456,7 @@ interface Resources {
               "DEF PEN": "DEF PEN",
               "Break DEF PEN": "Break DEF PEN",
               "Toughness DMG": "Toughness DMG",
+              "Fixed Toughness DMG": "Fixed Toughness DMG",
               "Super Break multiplier": "Super Break multiplier",
               "Break Efficiency boost": "Break Efficiency boost",
               "True DMG multiplier": "True DMG multiplier",

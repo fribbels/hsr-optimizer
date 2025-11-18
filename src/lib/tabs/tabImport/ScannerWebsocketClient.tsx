@@ -16,7 +16,6 @@ import { SaveState } from 'lib/state/saveState'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { debounceEffect } from 'lib/utils/debounceUtils'
 import { EventEmitter } from 'lib/utils/events'
-import { TsUtils } from 'lib/utils/TsUtils'
 import useWebSocket from 'partysocket/use-ws'
 import {
   useEffect,

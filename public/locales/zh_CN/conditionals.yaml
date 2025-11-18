@@ -1546,6 +1546,9 @@ Characters:
       healingDmgStacks:
         text: 治疗增伤层数
         content: 风堇或小伊卡提供治疗时，小伊卡造成的伤害提高80%，持续2回合，最多可叠加3层。
+      healTallyMultiplier:
+        text: 治疗统计倍率
+        content: 现阶段实现中，忆灵技伤害仅基于一次治疗效果。你可以调整此倍率，以更准确地反映游戏中的忆灵技伤害。
       e1HpBuff:
         text: 1魂生命值增益
         content: 风堇处于【雨过天晴】状态时，我方全体目标生命上限额外提高50%。

@@ -483,6 +483,14 @@ Lightcones:
         text: 伤害增益
         content: >-
           当装备者在单次受到攻击中累计损失的生命值超过最大生命值的25%，或单次消耗自身生命值超过最大生命值的25%，则立即回复等同于装备者生命上限15%的生命值，同时使装备者造成的伤害提高{{DmgBuff}}%，持续2回合。该效果每3回合只能触发1次。
+  FlyIntoAPinkTomorrow:
+    Content:
+      dmgBoost:
+        text: 伤害提高
+        content: 使我方全体目标造成的伤害提高{{DmgBuff}}%。
+      enhancedBasicBoost:
+        text: 开拓者强化普攻
+        content: 强化普攻【明天，一同写下！】造成的伤害提高{{DmgBoost}}。
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:
@@ -665,6 +673,14 @@ Lightcones:
         text: 基于防御力的终结技伤害（未实施）
         content: >-
           使装备者施放终结技时造成的伤害值提高，提高数值等同于装备者防御力的{{Multiplier}}%，该效果每次施放终结技时对每个敌方目标仅生效1次。
+  ThisLoveForever:
+    Content:
+      vulnerability:
+        text: 易伤
+        content: 装备者的忆灵对我方单体施放忆灵技时获得【空白】：敌方全体受到的伤害提高{{Vulnerability}}%。装备者的忆灵同时持有【空白】和【诗行】时，【空白】和【诗行】的效果提高{{Multi}}。
+      cdBoost:
+        text: 生命变化时暴击伤害增益
+        content: 装备者的忆灵对敌方施放忆灵技时获得【诗行】：我方全体的暴击伤害提高{{CdBuff}}%。装备者的忆灵同时持有【空白】和【诗行】时，【空白】和【诗行】的效果提高{{Multi}}。
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:
@@ -823,6 +839,9 @@ Characters:
         text: 忆灵速度层数
         content: >-
           攻击处于【间隙织线】状态的敌人后，使自身的速度提高{{SpdBuff}}点，该效果最多叠加6层。
+      cyreneSpecialEffect:
+        text: 昔涟特殊效果
+        content: 阿格莱雅与衣匠造成的伤害提高72%/79.2%，并无视目标36%/39.6%的防御，持续至阿格莱雅退出【至高之姿】状态。
       e1Vulnerability:
         text: 1魂易伤
         content: 处于【间隙织线】状态下的敌人受到的伤害提高15%。
@@ -850,6 +869,10 @@ Characters:
       enemyWeaknessTypes:
         text: 敌方属性弱点数量
         content: 敌方目标每拥有1个不同属性的弱点，那刻夏对其造成的伤害无视4%的防御力，最多计入7个。
+      cyreneSpecialEffect:
+        text: 昔涟特殊效果
+        content: >-
+          使其战技的伤害次数增加3次，持续1回合。::BR:: 那刻夏在下一次施放普攻、战技时获得【真知】：所有「智识」命途角色攻击力提高60%/66%,造成的战技伤害提高40%/44%，持续至下一个那刻夏回合开始时。
       e1DefPen:
         text: 1魂防御穿透
         content: 施放战技击中敌方目标时，使目标防御力降低16%，持续2回合。
@@ -1083,13 +1106,16 @@ Characters:
       memoDmgStacks:
         text: 忆灵伤害层数
         content: 死龙每次施放【燎尽黯泽的焰息】时，造成的伤害提高30%，该效果最多叠加6层，持续至本回合结束。
+      cyreneSpecialEffect:
+        text: 昔涟特殊效果
+        content: 对遐蝶施放时，【新蕊】可以溢出至 200%。召唤死龙时会消耗所有溢出【新蕊】，每消耗1%溢出值，使本次召唤的死龙触发天赋【灼掠幽墟的晦翼】的技能效果时，造成的伤害倍率提高0.24%/0.264%，召唤时若场上敌方目标小于等于2名，伤害倍率额外提高0.48%/0.528%.
       e1EnemyHp50:
         text: 1魂敌方生命值 ≤ 50%
         content: 敌方目标当前生命值小于等于自身生命上限50%时，【骸爪，冥龙之环拥】、【擘裂冥茫的爪痕】、【燎尽黯泽的焰息】、【灼掠幽墟的晦翼】对其造成的伤害为原伤害的140%。
       e6Buffs:
         text: 6魂增益
         content: >-
-          遐蝶与死龙造成伤害时，量子属性抗性穿透提高20%。:BR:触发天赋【灼掠幽墟的晦翼】的弹射次数额外增加3次。
+          遐蝶与死龙造成伤害时，量子属性抗性穿透提高20%。::BR::触发天赋【灼掠幽墟的晦翼】的弹射次数额外增加3次。
   Cerydra:
     Content:
       spdBuff:
@@ -1115,6 +1141,9 @@ Characters:
         text: 军功
         content: >-
           施放战技时，使自身和持有【军功】的队友速度提高20点，持续3回合。::BR:: 持有【军功】的角色攻击力提高，提高数值等同于刻律德菈攻击力的{{TalentAtkConversion}}%。::BR::持有【军功】的角色造成伤害时无视目标16%的防御力。
+      cyreneSpecialEffect:
+        text: 昔涟特殊效果
+        content: 持有【军功】的角色暴击伤害提高30%/33%.
       peerage:
         text: 爵位
         content: >-
@@ -1140,6 +1169,9 @@ Characters:
       spdBasedBuffs:
         text: 基于速度的增益
         content: 赛飞儿的速度大于等于140/170时，暴击率提高25%/50%，获得的记录值提高50%/100%。
+      cyreneSpecialEffect:
+        text: 昔涟特殊效果
+        content: 使赛飞儿造成的伤害提高36%/39.6%，并使【老主顾】的防御力降低20%/22%，【老主顾】以外的敌方目标的防御力降低12%/13.2%。
       e1AtkBuff:
         text: 1魂攻击力增益
         content: 施放天赋的追加攻击时，赛飞儿的攻击力提高80%，持续2回合。
@@ -1166,6 +1198,49 @@ Characters:
       e4DmgReductionBuff:
         text: 4魂减伤增益
         content: 受到攻击后，克拉拉受到的伤害降低30%。
+  Cyrene:
+    Content:
+      memospriteActive:
+        text: 忆灵启用
+        content: >-
+          昔涟和德谬歌的暴击率提高{{CRBuff}}%。::BR:: 昔涟与德谬歌的生命上限提高{{HPBuff}}%。::BR:: 昔涟的普攻强化为【向着爱与明天♪】且仅能使用该普攻。
+      zoneActive:
+        text: 结界启用
+        content: 结界持续期间，我方全体目标每造成1次伤害，都会再额外造成1次等同于原伤害{{TrueDmg}}%的真实伤害。
+      talentDmgBuff:
+        text: 天赋伤害增益
+        content: 昔涟在场时，我方全体目标造成的伤害提高{{DmgBuff}}%。
+      traceSpdBasedBuff:
+        text: 行迹基于速度的增益
+        content: 昔涟的速度大于等于180点时，我方全体造成的伤害提高20%，之后每超过1点速度，昔涟与德谬歌的冰属性抗性穿透提高2%，最多计入60点超出的速度。
+      odeToEgoExtraBounces:
+        text: 献予真我之诗额外弹射
+        content: 昔涟每从1个除德谬歌以外不同的队友处获得【追忆】后，德谬歌施放【花与箭的舞曲】时额外对敌方随机单体造成1次等同于德谬歌60%生命上限的冰属性伤害。
+      e1ExtraBounces:
+        text: 1魂额外弹射
+        content: 德谬歌触发忆灵技【献予「真我」之诗】施放【花与箭的舞曲】时获得6点【追忆】并使本次攻击的弹射次数额外增加12次。
+      e2TrueDmgStacks:
+        text: 2魂真实伤害层数
+        content: 每有1名不同的我方角色获得德谬歌忆灵技的增益效果，我方目标通过战技的结界造成的真实伤害倍率提高6%，最多提高24%。
+      e4BounceStacks:
+        text: 4魂弹射层数
+        content: 德谬歌每施放1次【花与箭的舞曲】后，本场战斗中触发忆灵技【献予「真我」之诗】的弹射伤害倍率提高6%，最多可叠加24层。
+      e6DefPen:
+        text: 6魂防御穿透
+        content: 德谬歌在场时，敌方全体目标的防御力降低20%。
+    TeammateContent:
+      specialEffect:
+        text: 特殊效果
+        content: 对指定我方单体角色施加增益效果。当该角色为黄金裔时，使其获得 特殊效果 。当该角色不是黄金裔时，使其造成的伤害提高{{DmgBuff}}%，持续2回合，该效果对其忆灵也生效。
+      cyreneSpdDmg:
+        text: 昔涟速度 ≥ 180
+        content: 昔涟的速度大于等于180点时，我方全体造成的伤害提高20%。
+      cyreneHp:
+        text: 昔涟忆灵生命值
+        content: 使开拓者•记忆的攻击力提高，提高数值等同于德谬歌生命上限的{{ConversionRate}}%。该效果对迷迷也生效。
+      cyreneCr:
+        text: 昔涟忆灵暴击率
+        content: 使开拓者•记忆的暴击率提高，提高数值等同于德谬歌暴击率的{{ConversionRate}}%。该效果对迷迷也生效。
   DanHeng:
     Content:
       talentPenBuff:
@@ -1194,6 +1269,9 @@ Characters:
       memoTalentDmgBuff:
         text: 忆灵天赋伤害增益
         content: '「长夜」在场时，长夜月和「长夜」造成的伤害提高{{MemoTalentDmgBuff}}。'
+      traceCritBuffs:
+        text: 行迹暴击率增益
+        content: 长夜月和忆灵「长夜」的暴击率提高35%，施放技能时，消耗自身当前生命值的5%使双方的暴击伤害提高15%，持续2回合。
       skillMemoCdBuff:
         text: 战技亿灵爆伤增益
         content: 消耗长夜月当前10%的生命值召唤忆灵「长夜」，并使我方全体忆灵的暴击伤害提高，提高数值等同于长夜月暴击伤害的{{SkillMemoCdBuff}}%，持续2回合。
@@ -1207,6 +1285,10 @@ Characters:
       enhancedState:
         text: 强化状态
         content: 释放终结技时使长夜月进入【至暗之谜】状态，期间敌方全体受到的伤害提高{{UltVulnScaling}}%，长夜月和忆灵「长夜」造成的伤害提高{{UltDmgBoostScaling}}%。
+      cyreneSpecialEffect:
+        text: 昔涟特殊效果
+        content: >-
+          长夜」施放忆灵技【迷梦，流失，如露】时造成的伤害提高18%/19.8%。::BR:: 长夜月战技的暴击伤害提高效果额外提高，提高数值等同于长夜月暴击伤害的12%/13.2%。
       e1FinalDmg:
         text: 1魂最终伤害
         content: 长夜月在场时，场上敌方目标数量等于4或以上/3/2/1名时，我方忆灵造成的伤害为原伤害的120%/125%/130%/150%。
@@ -1221,7 +1303,7 @@ Characters:
         content: 长夜月在场时，我方全体目标的全属性抗性穿透提高20%。忆灵「长夜」施放【迷梦，流失，如露】后，长夜月获得本次攻击消耗【忆质】数量的30%。
     TeammateContent:
       skillMemoCdBuff:
-        text: 战机忆灵爆伤增益
+        text: 战技忆灵爆伤
         content: 释放战技时，使我方全体忆灵的暴击伤害提高，提高数值等同于长夜月暴击伤害的{{SkillCdScaling}}%，持续2回合。
       evernightCombatCD:
         text: 长夜月战斗时爆伤
@@ -1464,6 +1546,9 @@ Characters:
       healingDmgStacks:
         text: 治疗增伤层数
         content: 风堇或小伊卡提供治疗时，小伊卡造成的伤害提高80%，持续2回合，最多可叠加3层。
+      healTallyMultiplier:
+        text: 治疗统计倍率
+        content: 现阶段实现中，忆灵技伤害仅基于一次治疗效果。你可以调整此倍率，以更准确地反映游戏中的忆灵技伤害。
       e1HpBuff:
         text: 1魂生命值增益
         content: 风堇处于【雨过天晴】状态时，我方全体目标生命上限额外提高50%。
@@ -1493,6 +1578,10 @@ Characters:
       dotDetonation:
         text: 引爆持续伤害（自动触发）
         content: 海瑟音施放终结技时，若敌方目标处于持续伤害状态，使其当前承受的所有持续伤害立即产生相当于原伤害150%的伤害。
+      cyreneSpecialEffect:
+        text: 昔涟特殊效果
+        content: >-
+          本场战斗中，海瑟音造成的伤害提高120%/132%。::BR:: 海瑟音施放普攻攻击敌方目标后，使受到攻击的敌方目标当前承受的所有持续伤害立即产生相当于原伤害60%/66%的伤害。::BR:: 海瑟音施放战技攻击敌方目标后，使受到攻击的敌方目标当前承受的所有持续伤害立即产生相当于原伤害80%/88%的伤害。
       e1Buffs:
         text: 1魂增益
         content: >-
@@ -1775,6 +1864,9 @@ Characters:
       hpToCrConversion:
         text: 生命值转换至暴击率
         content: 战斗开始时，若万敌的生命上限高于4000点，每超过100点生命值可使自身暴击率提高1.2%，万敌受到来自敌方目标伤害造成的充能比例提高2.5%，受到治疗时的回复量提高0.75%，超出部分最多计入4000点生命值。
+      cyreneSpecialEffect:
+        text: 昔涟特殊效果
+        content: 若万敌处于【血仇】状态，则使其自动施放1次不消耗充能的【弑神登神】，本次攻击中万敌的暴击伤害提高200%/220%。
       e1EnhancedSkillBuff:
         text: 1魂强化战技提升
         content: '【弑神登神】对主目标造成的伤害倍率提高30%，且变成对敌方全体造成等同于主目标伤害倍率的虚数属性伤害。'
@@ -1810,6 +1902,9 @@ Characters:
         text: 丹恒战斗时攻击力
         content: >-
           施放战技时，使成为【同袍】的目标攻击力提高，提高数值等同于丹恒•腾荒15%攻击力。::BR::将此设置为丹恒•腾荒为队友提供增益时自身的攻击力值。
+      cyreneSpecialEffect:
+        text: 昔涟特殊效果
+        content: '【同袍】造成的伤害提高24%/26.4%。'
       e1ResPen:
         text: 1魂抗性穿透
         content: 丹恒•腾荒施放终结技时，使【同袍】全属性抗性穿透提高18%，持续3回合。
@@ -1848,6 +1943,10 @@ Characters:
       spdBuff:
         text: 团队速度增益
         content: 变身结束时，使我方全体速度提高15%，持续1回合。
+      cyreneSpecialEffect:
+        text: 昔涟特殊效果
+        content: >-
+          使白厄获得6点【火种】，且在变身时获得【永续的燃烧】。::BR:: 变身时若【火种】大于12点，每超出1点，卡厄斯兰那的暴击伤害提高12%/13.2%，最多可提高72%/79.2%。持有【永续的燃烧】时，卡厄斯兰那的暴击率提高16%/17.6%。::BR:: 施放攻击后，造成5次附加伤害，每次伤害对敌方随机单体造成等同于卡厄斯兰那10%/11%攻击力的火属性附加伤害。
       e1Buffs:
         text: 1魂增益
         content: >-
@@ -1855,7 +1954,7 @@ Characters:
       e2ResPen:
         text: 2魂属性抗性穿透
         content: >-
-          卡厄斯兰那的物理属性抗性穿透提高20 。单次施放【支柱•死星天裁】消耗【毁伤】点数达到4点时，获得1个额外回合。
+          卡厄斯兰那的物理属性抗性穿透提高20%。单次施放【支柱•死星天裁】消耗【毁伤】点数达到4点时，获得1个额外回合。
       e6TrueDmg:
         text: 6魂真实伤害
         content: >-
@@ -2299,6 +2398,9 @@ Characters:
       talentFuaStacks:
         text: 追加攻击层数
         content: 施放天赋的追加攻击后，缇宝造成的伤害提高72%，该效果最多叠加3层，持续3回合。
+      cyreneSpecialEffect:
+        text: 昔涟特殊效果
+        content: 使缇宝造成的伤害无视敌方目标 12%/13.2%的防御力。缇宝施放追加攻击触发缇宝的结界的附加伤害时，会额外造成1次附加伤害。
       e1TrueDmg:
         text: 1魂真实伤害
         content: 结界持续期间，我方目标攻击敌人后，对结界造成附加伤害的目标额外造成等同于本次攻击总伤害值24%的真实伤害。

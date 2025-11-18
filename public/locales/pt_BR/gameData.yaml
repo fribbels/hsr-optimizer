@@ -182,6 +182,9 @@ Characters:
   "1317":
     Name: Rappa
     LongName: Rappa
+  "1321":
+    Name: The Dahlia
+    LongName: The Dahlia
   "1401":
     Name: A Herta
     LongName: A Herta
@@ -440,11 +443,11 @@ RelicSets:
     Name: Folia à Beira-Mar
     Description2pc: Aumenta o ATQ do usuário em 12%. Quando o ATQ do usuário for maior ou igual a 2400/3600, aumenta o <u>Dano Contínuo</u> causado em 12%/24%.
   "323":
-    Name: Amphoreus, The Eternal Land
-    Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
+    Name: Amphoreus, a Terra Eterna
+    Description2pc: Aumenta a Chance de CRIT do usuário em 8%. Enquanto o Memoespírito do usuário estiver em campo, aumenta a VEL de todos os aliados em 8%. Este efeito não pode ser acumulado.
   "324":
-    Name: Tengoku@Livestream
-    Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
+    Name: Tengoku@Stream
+    Description2pc: Aumenta o Dano CRIT do usuário em 16%. Se 3 ou mais Pontos de Perícia forem consumidos na mesma rodada, aumenta adicionalmente o Dano CRIT do usuário em 32%, durando por 3 rodadas.
 Lightcones:
   "20000":
     Name: Flechas
@@ -627,7 +630,7 @@ Lightcones:
   "22005":
     Name: O Víveres Eterno
   "22006":
-    Name: Fly Into a Pink Tomorrow
+    Name: Rumo ao Amanhã Cor-de-Rosa
   "23000":
     Name: Noite na Via Láctea
   "23001":
@@ -728,10 +731,12 @@ Lightcones:
     Name: Era Gravada pelo Sangue Dourado
   "23049":
     Name: Ao Brilho Estelar da Noite Eterna
+  "23050":
+    Name: Never Forget Her Flame
   "23051":
     Name: Ainda que o Caminho Seja Longo
   "23052":
-    Name: This Love, Forever
+    Name: Instante de Eterno Amor
   "24000":
     Name: Na Queda de Um Aeon
   "24001":

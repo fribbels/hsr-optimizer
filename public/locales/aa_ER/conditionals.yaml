@@ -483,6 +483,14 @@ Lightcones:
         text: crwdns40438:0crwdne40438:0
         content: >-
           crwdns44028:0{{DmgBuff}}crwdne44028:0
+  FlyIntoAPinkTomorrow:
+    Content:
+      dmgBoost:
+        text: crwdns46006:0crwdne46006:0
+        content: crwdns46008:0{{DmgBuff}}crwdne46008:0
+      enhancedBasicBoost:
+        text: crwdns46010:0crwdne46010:0
+        content: crwdns46012:0{{DmgBoost}}crwdne46012:0
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:
@@ -665,6 +673,14 @@ Lightcones:
         text: crwdns40538:0crwdne40538:0
         content: >-
           crwdns40540:0{{Multiplier}}crwdne40540:0
+  ThisLoveForever:
+    Content:
+      vulnerability:
+        text: crwdns46014:0crwdne46014:0
+        content: crwdns46016:0{{Vulnerability}}crwdnd46016:0{{Multi}}crwdne46016:0
+      cdBoost:
+        text: crwdns46018:0crwdne46018:0
+        content: crwdns46020:0{{CdBuff}}crwdnd46020:0{{Multi}}crwdne46020:0
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:
@@ -823,6 +839,9 @@ Characters:
         text: crwdns43860:0crwdne43860:0
         content: >-
           crwdns43862:0{{SpdBuff}}crwdnd43862:0{{StackLimit}}crwdne43862:0
+      cyreneSpecialEffect:
+        text: crwdns46022:0crwdne46022:0
+        content: crwdns46024:0crwdne46024:0
       e1Vulnerability:
         text: crwdns43864:0crwdne43864:0
         content: crwdns43866:0crwdne43866:0
@@ -850,6 +869,10 @@ Characters:
       enemyWeaknessTypes:
         text: crwdns44961:0crwdne44961:0
         content: crwdns44963:0crwdne44963:0
+      cyreneSpecialEffect:
+        text: crwdns46026:0crwdne46026:0
+        content: >-
+          crwdns46028:0:BR:crwdne46028:0
       e1DefPen:
         text: crwdns44965:0crwdne44965:0
         content: crwdns44967:0crwdne44967:0
@@ -1083,6 +1106,9 @@ Characters:
       memoDmgStacks:
         text: crwdns45005:0crwdne45005:0
         content: crwdns45007:0crwdne45007:0
+      cyreneSpecialEffect:
+        text: crwdns46030:0crwdne46030:0
+        content: crwdns46032:0crwdne46032:0
       e1EnemyHp50:
         text: crwdns45009:0crwdne45009:0
         content: crwdns45011:0crwdne45011:0
@@ -1115,6 +1141,9 @@ Characters:
         text: crwdns45820:0crwdne45820:0
         content: >-
           crwdns45822:0:BR:crwdnd45822:0{{TalentAtkConversion}}crwdnd45822:0:BR:crwdne45822:0
+      cyreneSpecialEffect:
+        text: crwdns46034:0crwdne46034:0
+        content: crwdns46036:0crwdne46036:0
       peerage:
         text: crwdns45824:0crwdne45824:0
         content: >-
@@ -1140,6 +1169,9 @@ Characters:
       spdBasedBuffs:
         text: crwdns45264:0crwdne45264:0
         content: crwdns45266:0crwdne45266:0
+      cyreneSpecialEffect:
+        text: crwdns46038:0crwdne46038:0
+        content: crwdns46040:0crwdne46040:0
       e1AtkBuff:
         text: crwdns45268:0crwdne45268:0
         content: crwdns45270:0crwdne45270:0
@@ -1166,6 +1198,49 @@ Characters:
       e4DmgReductionBuff:
         text: crwdns40838:0crwdne40838:0
         content: crwdns44316:0crwdne44316:0
+  Cyrene:
+    Content:
+      memospriteActive:
+        text: crwdns46042:0crwdne46042:0
+        content: >-
+          crwdns46044:0{{CRBuff}}crwdnd46044:0:BR:crwdnd46044:0{{HPBuff}}crwdnd46044:0:BR:crwdne46044:0
+      zoneActive:
+        text: crwdns46046:0crwdne46046:0
+        content: crwdns46048:0{{TrueDmg}}crwdne46048:0
+      talentDmgBuff:
+        text: crwdns46050:0crwdne46050:0
+        content: crwdns46052:0{{DmgBuff}}crwdne46052:0
+      traceSpdBasedBuff:
+        text: crwdns46054:0crwdne46054:0
+        content: crwdns46056:0crwdne46056:0
+      odeToEgoExtraBounces:
+        text: crwdns46058:0crwdne46058:0
+        content: crwdns46060:0crwdne46060:0
+      e1ExtraBounces:
+        text: crwdns46062:0crwdne46062:0
+        content: crwdns46064:0crwdne46064:0
+      e2TrueDmgStacks:
+        text: crwdns46066:0crwdne46066:0
+        content: crwdns46068:0crwdne46068:0
+      e4BounceStacks:
+        text: crwdns46070:0crwdne46070:0
+        content: crwdns46072:0crwdne46072:0
+      e6DefPen:
+        text: crwdns46074:0crwdne46074:0
+        content: crwdns46076:0crwdne46076:0
+    TeammateContent:
+      specialEffect:
+        text: crwdns46078:0crwdne46078:0
+        content: crwdns46080:0{{DmgBuff}}crwdne46080:0
+      cyreneSpdDmg:
+        text: crwdns46082:0crwdne46082:0
+        content: crwdns46084:0crwdne46084:0
+      cyreneHp:
+        text: crwdns46086:0crwdne46086:0
+        content: crwdns46088:0{{ConversionRate}}crwdne46088:0
+      cyreneCr:
+        text: crwdns46090:0crwdne46090:0
+        content: crwdns46092:0{{ConversionRate}}crwdne46092:0
   DanHeng:
     Content:
       talentPenBuff:
@@ -1210,6 +1285,10 @@ Characters:
       enhancedState:
         text: crwdns45932:0crwdne45932:0
         content: crwdns45934:0{{UltVulnScaling}}crwdnd45934:0{{UltDmgBoostScaling}}crwdne45934:0
+      cyreneSpecialEffect:
+        text: crwdns46094:0crwdne46094:0
+        content: >-
+          crwdns46096:0:BR:crwdne46096:0
       e1FinalDmg:
         text: crwdns45936:0crwdne45936:0
         content: crwdns45984:0crwdne45984:0
@@ -1467,6 +1546,9 @@ Characters:
       healingDmgStacks:
         text: crwdns45300:0crwdne45300:0
         content: crwdns45302:0{{TalentDmgBuff}}crwdne45302:0
+      healTallyMultiplier:
+        text: crwdns46120:0crwdne46120:0
+        content: crwdns46122:0crwdne46122:0
       e1HpBuff:
         text: crwdns45304:0crwdne45304:0
         content: crwdns45306:0crwdne45306:0
@@ -1496,6 +1578,10 @@ Characters:
       dotDetonation:
         text: crwdns45852:0crwdne45852:0
         content: crwdns45854:0crwdne45854:0
+      cyreneSpecialEffect:
+        text: crwdns46098:0crwdne46098:0
+        content: >-
+          crwdns46100:0:BR:crwdnd46100:0:BR:crwdne46100:0
       e1Buffs:
         text: crwdns45856:0crwdne45856:0
         content: >-
@@ -1778,6 +1864,9 @@ Characters:
       hpToCrConversion:
         text: crwdns44606:0crwdne44606:0
         content: crwdns44608:0crwdne44608:0
+      cyreneSpecialEffect:
+        text: crwdns46102:0crwdne46102:0
+        content: crwdns46104:0crwdne46104:0
       e1EnhancedSkillBuff:
         text: crwdns44610:0crwdne44610:0
         content: crwdns44612:0crwdne44612:0
@@ -1813,6 +1902,9 @@ Characters:
         text: crwdns45964:0crwdne45964:0
         content: >-
           crwdns45966:0:BR:crwdne45966:0
+      cyreneSpecialEffect:
+        text: crwdns46106:0crwdne46106:0
+        content: crwdns46108:0crwdne46108:0
       e1ResPen:
         text: crwdns45968:0crwdne45968:0
         content: crwdns45970:0crwdne45970:0
@@ -1851,6 +1943,10 @@ Characters:
       spdBuff:
         text: crwdns45618:0crwdne45618:0
         content: crwdns45620:0crwdne45620:0
+      cyreneSpecialEffect:
+        text: crwdns46110:0crwdne46110:0
+        content: >-
+          crwdns46112:0:RB:crwdnd46112:0:BR:crwdne46112:0
       e1Buffs:
         text: crwdns45622:0crwdne45622:0
         content: >-
@@ -2301,6 +2397,9 @@ Characters:
       talentFuaStacks:
         text: crwdns44634:0crwdne44634:0
         content: crwdns44636:0crwdne44636:0
+      cyreneSpecialEffect:
+        text: crwdns46114:0crwdne46114:0
+        content: crwdns46116:0crwdne46116:0
       e1TrueDmg:
         text: crwdns44638:0crwdne44638:0
         content: crwdns44640:0crwdne44640:0

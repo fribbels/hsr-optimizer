@@ -30,7 +30,7 @@ export const EnemyConfigurationsDrawer = () => {
 
   const enemyLevelOptions = useMemo(() => {
     const options: { value: number, label: string }[] = []
-    for (let i = 95; i >= 1; i--) {
+    for (let i = 100; i >= 1; i--) {
       options.push({
         value: i,
         label: t('LevelOptionLabel', { level: i, defense: 200 + 10 * i }), // `Lv. ${i} - ${200 + 10 * i} DEF`,

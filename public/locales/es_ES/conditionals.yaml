@@ -483,6 +483,10 @@ Lightcones:
         text: Mejora de daño
         content: >-
           Cuando los PV que pierde el portador durante un único ataque superan el 25% de sus PV máx., o si los PV que consume de una sola vez superan el 25% de sus PV máx., el portador regenera inmediatamente un 15% de sus PV máx. y el daño que inflige aumenta en un {{DmgBuff}}% durante 2 turnos. Este efecto solo se puede activar una vez cada 3 turnos.
+  FlyIntoAPinkTomorrow:
+    Content:
+      dmgBoost:
+        text: Aumento de daño
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:
@@ -665,6 +669,12 @@ Lightcones:
         text: Daño de Definitiva aumentado por DEF (sin implementar)
         content: >-
           Cuando el portador usa la habilidad definitiva, el daño que inflige aumenta en una cantidad equivalente al {{Multiplier}}% de su DEF. Este efecto solo se activa una vez con cada enemigo por cada vez que se utilice la habilidad definitiva.
+  ThisLoveForever:
+    Content:
+      vulnerability:
+        text: Vulnerabilidad
+      cdBoost:
+        text: Mejora de DC
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:

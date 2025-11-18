@@ -182,6 +182,9 @@ Characters:
   "1317":
     Name: Rappa
     LongName: Rappa
+  "1321":
+    Name: The Dahlia
+    LongName: The Dahlia
   "1401":
     Name: Sra. Herta
     LongName: Sra. Herta
@@ -222,8 +225,8 @@ Characters:
     Name: Permansor Terrae
     LongName: Dan Heng - Permansor Terrae
   "1415":
-    Name: Cyrene
-    LongName: Cyrene
+    Name: Cirene
+    LongName: Cirene
   "8001":
     Name: Caelus
     LongName: Caelus (Destrucción)
@@ -440,11 +443,11 @@ RelicSets:
     Name: Litoral embriagado
     Description2pc: El ATQ del portador aumenta en un 12%. Cuando el ATQ del portador es igual o superior a 2400/3600, el Daño con el tiempo que inflige aumenta en un 12%/24% adicional.
   "323":
-    Name: Amphoreus, The Eternal Land
-    Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
+    Name: Amphoreus, la tierra eterna
+    Description2pc: La Prob. CRIT del portador aumenta en un 8%. Cuando el mnemoduende del portador está en la batalla, la VEL de todos los aliados aumenta en un 8%. Este efecto no se puede acumular.
   "324":
-    Name: Tengoku@Livestream
-    Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
+    Name: Tengoku@sala de chat
+    Description2pc: El Daño CRIT del portador aumenta en un 16%. Si el portador consume 3 o más pts. de habilidad básica en el mismo turno, su Daño CRIT aumenta en un 32% adicional durante 3 turnos.
 Lightcones:
   "20000":
     Name: Flechas
@@ -627,7 +630,7 @@ Lightcones:
   "22005":
     Name: Viandas sin fin
   "22006":
-    Name: Fly Into a Pink Tomorrow
+    Name: Volando hacia un mañana rosado
   "23000":
     Name: Noche en la Vía Láctea
   "23001":
@@ -728,10 +731,12 @@ Lightcones:
     Name: Era grabada en sangre dorada
   "23049":
     Name: A la estrella de la larga noche
+  "23050":
+    Name: Never Forget Her Flame
   "23051":
     Name: A través de montañas y ríos
   "23052":
-    Name: This Love, Forever
+    Name: Amor eterno como este momento
   "24000":
     Name: Sobre la caída de un Eón
   "24001":

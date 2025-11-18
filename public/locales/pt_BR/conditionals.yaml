@@ -471,6 +471,10 @@ Lightcones:
         text: Buff de DMG
         content: >-
           Quando a perda acumulada de HP do usuário durante um único ataque excede 25% de seu HP Máximo, ou se a quantidade de HP que ele consome de uma só vez for superior a 25% de seu HP Máximo, cura imediatamente o usuário em 15% de seu HP Máximo e, ao mesmo tempo, aumenta o Dano que ele causa em {{DmgBuff}}% por 2 turnos. Este efeito pode ser ativado apenas uma vez a cada 3 turnos.
+  FlyIntoAPinkTomorrow:
+    Content:
+      dmgBoost:
+        text: Bônus de Dano
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:
@@ -636,6 +640,12 @@ Lightcones:
         text: DMG ultimate escalonado por DEF (Não implementado)
         content: >-
           Aumenta o DMG do portador quando ele usa seu Ultimate em {{Multiplier}}% da DEF do portador. Esse efeito se aplica apenas 1 vez por alvo inimigo durante cada uso do Ultimate do portador.
+  ThisLoveForever:
+    Content:
+      vulnerability:
+        text: Vulnerabilidade
+      cdBoost:
+        text: Buff de CD
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:

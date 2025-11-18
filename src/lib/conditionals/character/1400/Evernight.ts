@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import {
   AbilityType,
   BUFF_PRIORITY_MEMO,
@@ -15,7 +14,6 @@ import {
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   PathNames,
   Stats,
 } from 'lib/constants/constants'
@@ -26,6 +24,7 @@ import {
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import { EVERNIGHT } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -85,6 +84,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const teammateDefaults = {
     enhancedState: true,
+    cyreneSpecialEffect: true,
     skillMemoCdBuff: true,
     evernightCombatCD: 2.50,
     e1FinalDmg: true,
@@ -158,8 +158,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     cyreneSpecialEffect: {
       id: 'cyreneSpecialEffect',
       formItem: 'switch',
-      text: `Cyrene special effect`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.cyreneSpecialEffect.text'),
+      content: t('Content.cyreneSpecialEffect.content'),
     },
     e1FinalDmg: {
       id: 'e1FinalDmg',
@@ -193,6 +193,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     enhancedState: content.enhancedState,
+    cyreneSpecialEffect: content.cyreneSpecialEffect,
     skillMemoCdBuff: {
       id: 'skillMemoCdBuff',
       formItem: 'switch',
@@ -269,7 +270,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneMemoSkillDmgBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.198 : 0.18)
         : 0
-      x.MEMO_SKILL_DMG_BOOST.buff((r.cyreneSpecialEffect) ? cyreneMemoSkillDmgBuff : 0, SOURCE_MEMO)
+      x.MEMO_SKILL_DMG_BOOST.buff((r.cyreneSpecialEffect) ? cyreneMemoSkillDmgBuff : 0, Source.odeTo(EVERNIGHT))
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -289,14 +290,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      let cdBuffScaling = skillCdScaling
-      if (cyreneActionExists(originalCharacterAction!)) {
-        cdBuffScaling += cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.132 : 0.12
-      }
+      x.m.CD.buff(t.skillMemoCdBuff ? skillCdScaling * t.evernightCombatCD : 0, SOURCE_SKILL)
+      x.m.UNCONVERTIBLE_CD_BUFF.buff(t.skillMemoCdBuff ? skillCdScaling * t.evernightCombatCD : 0, SOURCE_SKILL)
 
-      const memoCDBuff = t.skillMemoCdBuff ? cdBuffScaling * t.evernightCombatCD : 0
-      x.m.CD.buff(memoCDBuff, SOURCE_SKILL)
-      x.m.UNCONVERTIBLE_CD_BUFF.buff(memoCDBuff, SOURCE_SKILL)
+      if (t.cyreneSpecialEffect && cyreneActionExists(originalCharacterAction!)) {
+        const cyreneAdditionalCdScaling = cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.132 : 0.12
+        x.m.CD.buff(t.skillMemoCdBuff ? cyreneAdditionalCdScaling * t.evernightCombatCD : 0, Source.odeTo(EVERNIGHT))
+        x.m.UNCONVERTIBLE_CD_BUFF.buff(t.skillMemoCdBuff ? cyreneAdditionalCdScaling * t.evernightCombatCD : 0, Source.odeTo(EVERNIGHT))
+      }
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {},
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
@@ -322,20 +323,27 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           const stateValue = action.conditionalState[this.id] || 0
           const convertibleCdValue = x.a[Key.CD] - x.a[Key.UNCONVERTIBLE_CD_BUFF]
 
-          let cdBuffScaling = skillCdScaling
+          let ownCdBuffScaling = skillCdScaling
+          let odeCdBuffScaling = 0
           if (cyreneActionExists(action)) {
-            cdBuffScaling += cyreneSpecialEffectEidolonUpgraded(action) ? 0.132 : 0.12
+            odeCdBuffScaling += cyreneSpecialEffectEidolonUpgraded(action) ? 0.132 : 0.12
           }
 
-          const buffCD = cdBuffScaling * convertibleCdValue
-          const stateBuffCD = cdBuffScaling * stateValue
+          const ownBuffCD = ownCdBuffScaling * convertibleCdValue
+          const ownStateBuffCD = ownCdBuffScaling * stateValue
+
+          const odeBuffCD = odeCdBuffScaling * convertibleCdValue
+          const odeStateBuffCD = odeCdBuffScaling * stateValue
 
           action.conditionalState[this.id] = convertibleCdValue
 
-          const finalBuffCd = Math.max(0, buffCD - (stateValue ? stateBuffCD : 0))
-          x.m.UNCONVERTIBLE_CD_BUFF.buff(finalBuffCd, SOURCE_SKILL)
+          const ownFinalBuffCd = Math.max(0, ownBuffCD - (stateValue ? ownStateBuffCD : 0))
+          const odeFinalBuffCd = Math.max(0, odeBuffCD - (stateValue ? odeStateBuffCD : 0))
+          x.m.UNCONVERTIBLE_CD_BUFF.buff(ownFinalBuffCd, SOURCE_SKILL)
+          x.m.UNCONVERTIBLE_CD_BUFF.buff(odeFinalBuffCd, Source.odeTo(EVERNIGHT))
 
-          x.m.CD.buffDynamic(finalBuffCd, SOURCE_SKILL, action, context)
+          x.m.CD.buffDynamic(ownFinalBuffCd, SOURCE_SKILL, action, context)
+          x.m.CD.buffDynamic(odeFinalBuffCd, Source.odeTo(EVERNIGHT), action, context)
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>

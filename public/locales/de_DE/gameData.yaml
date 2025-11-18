@@ -182,6 +182,9 @@ Characters:
   "1317":
     Name: Rappa
     LongName: Rappa
+  "1321":
+    Name: The Dahlia
+    LongName: The Dahlia
   "1401":
     Name: Große Herta
     LongName: Große Herta
@@ -440,11 +443,11 @@ RelicSets:
     Name: Küste der Weintrunkenheit
     Description2pc: Erhöht den ANG des Trägers um 12%. Wenn der ANG des Trägers 2400/3600 oder höher beträgt, wird sein verursachter DoT zusätzlich um 12%/24% erhöht.
   "323":
-    Name: Amphoreus, The Eternal Land
-    Description2pc: Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked.
+    Name: Amphoreus, Land der Ewigkeit
+    Description2pc: Erhöht die KRIT-Rate des Trägers um 8%. Wenn sich der Memogeist des Trägers auf dem Kampffeld befindet, wird die GES aller Verbündeten um 8% erhöht. Dieser Effekt ist nicht stapelbar.
   "324":
     Name: Tengoku@Livestream
-    Description2pc: Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32% for 3 turns.
+    Description2pc: Erhöht den KRIT-SCH des Trägers um 16%. Wenn in derselben Runde mindestens 3 Fertigkeitspunkte verbraucht werden, wird der KRIT-SCH des Trägers für 3 Rd. zusätzlich um 32% erhöht.
 Lightcones:
   "20000":
     Name: Pfeile
@@ -627,7 +630,7 @@ Lightcones:
   "22005":
     Name: Wirrgarten-Restaurant für immer
   "22006":
-    Name: Fly Into a Pink Tomorrow
+    Name: Flug in einen rosaroten Morgen
   "23000":
     Name: Nacht auf der Milchstraße
   "23001":
@@ -728,10 +731,12 @@ Lightcones:
     Name: Zeitalter des goldenen Blutes
   "23049":
     Name: Auf das Sternenlicht der langen Nacht
+  "23050":
+    Name: Never Forget Her Flame
   "23051":
     Name: Selbst über endlose Lande
   "23052":
-    Name: This Love, Forever
+    Name: Liebe, so ewig wie dieser Moment
   "24000":
     Name: Der Niedergang eines Äons
   "24001":

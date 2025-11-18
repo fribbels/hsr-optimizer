@@ -26,6 +26,7 @@ import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
+import { CharacterId } from 'types/character'
 import {
   CharacterConditionalsController,
   ConditionalValueMap,
@@ -74,7 +75,7 @@ export type ComboSubSelectConditional = {
 }
 
 export type ComboCharacterMetadata = {
-  characterId: string,
+  characterId: CharacterId,
   characterEidolon: number,
   path: PathName,
   lightCone: string,

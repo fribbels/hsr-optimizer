@@ -8,7 +8,7 @@ export function ReliquaryDescription(): ReactElement {
   return (
     <>
       <li>
-        <b>{t('Title') /* (Recommended) IceDynamix Reliquary Archiver */}</b>
+        <b>{t('Title') /* (Recommended) IceDynamix Reliquary Archiver */}</b>{' '}
         (<ColorizedLinkWithIcon text={t('Link') /* Github */} url={ReliquaryArchiverConfig.releases} linkIcon={true} />)
         <ul>
           {/*<li>*/}

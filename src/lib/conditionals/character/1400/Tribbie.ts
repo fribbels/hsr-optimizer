@@ -24,6 +24,7 @@ import {
   Target,
 } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { TRIBBIE } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import i18next from 'i18next'
@@ -117,8 +118,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     cyreneSpecialEffect: {
       id: 'cyreneSpecialEffect',
       formItem: 'switch',
-      text: `Cyrene special effect`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('cyreneSpecialEffect.text'),
+      content: t('cyreneSpecialEffect.content'),
     },
     e1TrueDmg: {
       id: 'e1TrueDmg',
@@ -190,11 +191,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Cyrene
       if (cyreneActionExists(action) && r.cyreneSpecialEffect) {
         const cyreneDefPenBuff = cyreneSpecialEffectEidolonUpgraded(action) ? 0.132 : 0.12
-        x.DEF_PEN.buff(cyreneDefPenBuff, SOURCE_MEMO)
+        x.DEF_PEN.buff(cyreneDefPenBuff, Source.odeTo(TRIBBIE))
 
-        x.BASIC_ADDITIONAL_DMG_SCALING.buff(additionalScaling, SOURCE_MEMO)
-        x.ULT_ADDITIONAL_DMG_SCALING.buff(additionalScaling, SOURCE_MEMO)
-        x.FUA_ADDITIONAL_DMG_SCALING.buff(additionalScaling, SOURCE_MEMO)
+        x.BASIC_ADDITIONAL_DMG_SCALING.buff(additionalScaling, Source.odeTo(TRIBBIE))
+        x.ULT_ADDITIONAL_DMG_SCALING.buff(additionalScaling, Source.odeTo(TRIBBIE))
+        x.FUA_ADDITIONAL_DMG_SCALING.buff(additionalScaling, Source.odeTo(TRIBBIE))
       }
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

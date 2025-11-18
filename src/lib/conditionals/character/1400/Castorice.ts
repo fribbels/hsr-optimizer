@@ -15,10 +15,9 @@ import {
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import { CASTORICE } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
-import i18next from 'i18next'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -149,8 +148,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     cyreneSpecialEffect: {
       id: 'cyreneSpecialEffect',
       formItem: 'switch',
-      text: `Cyrene special effect`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('cyreneSpecialEffect.text'),
+      content: t('cyreneSpecialEffect.content'),
     },
     e1EnemyHp50: {
       id: 'e1EnemyHp50',
@@ -218,13 +217,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
       x.m.MEMO_TALENT_TOUGHNESS_DMG.buff(5 * (r.memoTalentHits), SOURCE_MEMO)
 
+      x.m.MEMO_TALENT_SPECIAL_SCALING.buff(r.memoTalentHits * memoTalentScaling, SOURCE_MEMO)
       // Cyrene
       const cyreneOverflowPercentAssumption = 30 // Assumes 130% overflow
       const cyreneMultiplierBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.00264 : 0.0024) * cyreneOverflowPercentAssumption * (context.enemyCount < 3 ? 3 : 1)
         : 0
-      x.m.MEMO_TALENT_SPECIAL_SCALING.buff(r.memoTalentHits * memoTalentScaling, SOURCE_MEMO)
-      x.m.MEMO_TALENT_SPECIAL_SCALING.buff((r.cyreneSpecialEffect) ? r.memoTalentHits * cyreneMultiplierBuff : 0, SOURCE_MEMO)
+      x.m.MEMO_TALENT_SPECIAL_SCALING.buff((r.cyreneSpecialEffect) ? r.memoTalentHits * cyreneMultiplierBuff : 0, Source.odeTo(CASTORICE))
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

@@ -571,6 +571,12 @@ Lightcones:
         text: Tuyệt Kỹ tăng sát thương theo phòng thủ
         content: >-
           Tăng sát thương gây ra khi người trang bị thi triển Tuyệt Kỹ, mức tăng tương đương {{Multiplier}}% Phòng Thủ của người trang bị. Mỗi lần dùng Tuyệt Kỹ, hiệu ứng này chỉ có hiệu lực 1 lần cho mỗi kẻ địch.
+  ThisLoveForever:
+    Content:
+      vulnerability:
+        text: Yếu điểm
+      cdBoost:
+        text: Tăng Sát Thương Bạo Kích
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:

@@ -80,7 +80,7 @@ import {
   SPARKLE,
   STELLE_REMEMBRANCE,
   SUNDAY,
-  TAKE_FLIGHT_TOWARD_A_PINK_TOMORROW,
+  FLY_INTO_A_PINK_TOMORROW,
   THE_HERTA,
   THOSE_MANY_SPRINGS,
   TINGYUN,
@@ -8101,8 +8101,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.HEAL,
-      addedColumns: [SortOption.OHB, SortOption.HEAL],
-      hiddenColumns: [SortOption.DOT],
+      addedColumns: [SortOption.OHB, SortOption.HEAL, SortOption.MEMO_SKILL],
+      hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.ULT],
     },
     1406: { // Cipher
       stats: {

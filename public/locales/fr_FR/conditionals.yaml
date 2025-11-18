@@ -483,6 +483,13 @@ Lightcones:
         text: Bonus de DGT
         content: >-
           Lorsque le porteur perd un montant de PV supérieur à 25% de ses PV max en une attaque, ou qu'il consomme un montant de PV supérieur à 25% de ses PV max, soigne immédiatement un montant de PV équivalent à 15% de ses PV max en plus d'augmenter de {{DmgBuff}}% les DGT qu'il inflige pendant 2 tours. Cet effet ne peut être activé qu'une seule fois tous les 3 tours.
+  FlyIntoAPinkTomorrow:
+    Content:
+      dmgBoost:
+        text: Bonus de DGT
+        content: Augmente les DGT infligés par tous les alliés de {{DmgBuff}}%.
+      enhancedBasicBoost:
+        text: Basique améliorée du pionnier
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:
@@ -665,6 +672,12 @@ Lightcones:
         text: DGT d'ULT basés sur DÉF (non mis en œuvre)
         content: >-
           Augmente les DGT du porteur de {{Multiplier}}% de sa DÉF lorsqu'il utilise son ultime. Cet effet ne s'applique qu'une fois par cible ennemie.
+  ThisLoveForever:
+    Content:
+      vulnerability:
+        text: Vulnérabilité
+      cdBoost:
+        text: Bonus de DC
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:
@@ -823,6 +836,8 @@ Characters:
         text: Cumuls de VIT mnémesprit
         content: >-
           Augmente la VIT de cette unité de {{SpdBuff}} après avoir attaqué un ennemi affecté par Point de couture, cumulable jusqu'à {{StackLimit}} fois.
+      cyreneSpecialEffect:
+        text: Effet spécial Cyrène
       e1Vulnerability:
         text: 'E1: Vulnérabilité'
         content: Les ennemis affectés par Point de couture subissent 15% de DGT supplémentaires.
@@ -850,6 +865,8 @@ Characters:
       enemyWeaknessTypes:
         text: Faiblesses Élémentaires
         content: Les DGT infligés par Anaxa ignorent 4% de la DÉF d'une cible ennemie pour chaque type de faiblesse qu'elle possède. Un maximum de 7 faiblesses sont comptabilisées pour cet effet.
+      cyreneSpecialEffect:
+        text: Effet spécial Cyrène
       e1DefPen:
         text: 'E1: PÉN de DÉF'
         content: Lorsque la compétence touche une cible ennemie, réduit la DÉF de la cible de 16% pendant 2 tours.
@@ -1083,6 +1100,8 @@ Characters:
       memoDmgStacks:
         text: Cumuls de DGT mnémo
         content: Chaque fois qu'Aile du néant utilise Souffle des ombres, les DGT qu'il inflige augmentent de 30%. Cumulable jusqu'à 6 fois et dure jusqu'à la fin de ce tour.
+      cyreneSpecialEffect:
+        text: Effet spécial Cyrène
       e1EnemyHp50:
         text: 'E1: PV Ennemi ≤ 50%'
         content: Lorsque les PV actuels de la cible ennemie sont inférieurs ou égaux à 50% des PV max de cette unité, les DGT infligés par Étreinte du dragon funeste, Griffe lacérante de ténèbres, Souffle des ombres et Ailes ravageuses de ruines sont équivalents à 140% des DGT initiaux.
@@ -1115,6 +1134,8 @@ Characters:
         text: Décoration militaire
         content: >-
           Lorsque Cérydra utilise une compétence, sa VIT et celle du coéquipier avec Décoration militaire augmentent de 20 points pendant 3 tours. ::BR:: Augmente l'ATQ du personnage avec Décoration militaire d'un montant équivalent à {{TalentAtkConversion}}% de l'ATQ de Cérydra. ::BR:: E1: Les DGT infligés par le personnage avec Décoration militaire ignorent 16% de la DÉF des cibles.
+      cyreneSpecialEffect:
+        text: Effet spécial Cyrène
       peerage:
         text: Noblesse
         content: >-
@@ -1140,6 +1161,8 @@ Characters:
       spdBasedBuffs:
         text: Bonus basés sur la VIT
         content: Lorsque la VIT de Cipher est supérieure ou égale à 140/170, ses chances de coup critique augmentent de 25%/50%.
+      cyreneSpecialEffect:
+        text: Effet spécial Cyrène
       e1AtkBuff:
         text: 'E1: Bonus d''ATQ'
         content: Déclencher l'ATQ de suivi du talent de Cipher augmente son ATQ de 80% pendant 2 tours.
@@ -1210,6 +1233,8 @@ Characters:
       enhancedState:
         text: État amélioré
         content: Utiliser son ultime fait entrer Nocterna dans l'état Énigme sibylline. Dans cet état, les DGT subis par tous les ennemis augmentent de {{UltVulnScaling}}% et les DGT infligés par Nocterna et Nox augmentent de {{UltDmgBoostScaling}}%.
+      cyreneSpecialEffect:
+        text: Effet spécial Cyrène
       e1FinalDmg:
         text: 'E1: DGT Finaux'
         content: Lorsque Nocterna est sur le champ de bataille et que le champ de bataille compte 4+/3/2/1 cibles ennemies, les mnémesprits alliés infligent des DGT équivalents à 120%/125%/130%/150% de leurs DGT initiaux.
@@ -1496,6 +1521,8 @@ Characters:
       dotDetonation:
         text: Détonation de DsD (activation automatique)
         content: Lorsque Hysilens utilise son ultime, si la cible ennemie est affectée par des dégâts sur la durée, tous les dégâts sur la durée actuellement appliqués sur la cible infligent immédiatement des DGT équivalents à 150% de leurs DGT initiaux.
+      cyreneSpecialEffect:
+        text: Effet spécial Cyrène
       e1Buffs:
         text: 'E1: Divers bonus'
         content: >-
@@ -1778,6 +1805,8 @@ Characters:
       hpToCrConversion:
         text: Conversion PV à TC
         content: En début de combat, si les PV max de Mydei sont supérieurs à 4000, pour chaque tranche de 100 PV en excès, les chances de coup critique de Mydei augmentent 1,2%, son pourcentage de charge de la part des DGT des cibles ennemies augmente de 2,5% et les soins reçus augmentent de 0,75%. Un maximum de 4000 PV excédentaires peuvent être pris en compte.
+      cyreneSpecialEffect:
+        text: Effet spécial Cyrène
       e1EnhancedSkillBuff:
         text: 'E1: Amélioration de Compétence améliorée'
         content: Augmente le multiplicateur de DGT de Dieu déicide à la cible principale de 30%. Cette capacité inflige désormais à tous les ennemis des DGT imaginaires équivalents au multiplicateur de DGT appliqué à la cible principale.
@@ -1813,6 +1842,8 @@ Characters:
         text: ATQ en combat de Dan Heng
         content: >-
           Augmente l'ATQ de la cible désignée comme Alter ego d'un montant équivalent à 15% de l'ATQ de Dan Heng • Permansor Terrae lors de l'utilisation de la compétence. ::BR:: saisissez la valeur de l'ATQ de Dan Hen qui sera utilisée pour son buff.
+      cyreneSpecialEffect:
+        text: Effet spécial Cyrène
       e1ResPen:
         text: 'E1: PÉN de RÉS'
         content: Lorsque Dan Heng • Permansor Terrae lance un ultime, a PÉN de RÉS à tous les types de l'Alter ego augmente de 18% pendant 3 tours.
@@ -1851,6 +1882,8 @@ Characters:
       spdBuff:
         text: Bonus d'équipe de VIT
         content: À la fin de la transformation, augmente la VIT de tous les alliés de 15% pendant 1 tour.
+      cyreneSpecialEffect:
+        text: Effet spécial Cyrène
       e1Buffs:
         text: 'E1: Divers bonus'
         content: >-
@@ -2301,6 +2334,8 @@ Characters:
       talentFuaStacks:
         text: Cumuls d'ADS
         content: Après avoir utilisé l'ATQ de suivi du talent, les DGT infligés par Tribbie augmentent de 72%. Cet effet peut être cumulé jusqu'à 3 fois, et dure 3 tours.
+      cyreneSpecialEffect:
+        text: Effet spécial Cyrène
       e1TrueDmg:
         text: 'E1: Dégâts réels'
         content: Lorsque la zone est active et après que des cibles alliées ont attaqué des ennemis, inflige des DGT réels supplémentaires équivalents à 24% du total des DGT de cette attaque aux cibles qui ont subi des DGT additionnels de la part de la zone.

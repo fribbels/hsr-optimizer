@@ -14,6 +14,7 @@ import {
   ALL_ELEMENT_TAGS,
   DamageTag,
   ElementTag,
+  SELF_ENTITY,
 } from 'lib/optimization/engine/config/tag'
 import {
   BuffBuilder,
@@ -141,6 +142,7 @@ export class ComputedStatsContainer {
   setHitRegisterValue(index: number, value: number) {
     this.o[index] = value
   }
+
   setActionRegisterValue(index: number, value: number) {
     this.o[this.config.outputRegistersLength + index] = value
   }
@@ -182,6 +184,10 @@ export class ComputedStatsContainer {
         this.a[index] = value
       }
     }
+  }
+
+  public getStat(key: StatKeyValue, hitIndex: number) {
+    return this.a[this.getActionIndex(SELF_ENTITY, key)] + this.a[this.getHitIndex(SELF_ENTITY, hitIndex, key)]
   }
 
   public setRegister(index: number) {

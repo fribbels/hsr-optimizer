@@ -62,6 +62,7 @@ export type OptimizerAction = {
   // Teammate data all gets precomputed, only the non-precomputable values go in here
 
   registerIndices: number[],
+  registerIndex: number,
 }
 
 export type TeammateAction = {

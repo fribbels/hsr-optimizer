@@ -9,7 +9,6 @@ import {
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
-import { ElementNames } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -209,6 +208,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             {
               damageFunction: DefaultDamageFunction,
               damageType: DamageType.BASIC,
+              damageElement: ElementTag.Physical,
               atkScaling: basicScaling,
               defScaling: 0,
               hpScaling: 0,
@@ -226,6 +226,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             {
               damageFunction: DefaultDamageFunction,
               damageType: DamageType.SKILL,
+              damageElement: ElementTag.Physical,
               atkScaling: skillScaling,
               defScaling: 0,
               hpScaling: 0,
@@ -243,6 +244,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             {
               damageFunction: DefaultDamageFunction,
               damageType: DamageType.ULT,
+              damageElement: ElementTag.Physical,
               atkScaling: ultScaling,
               defScaling: 0,
               hpScaling: 0,
@@ -260,7 +262,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             {
               damageFunction: DotDamageFunction,
               damageType: DamageType.DOT,
-              damageElement: ElementNames.Fire,
+              damageElement: ElementTag.Fire,
               atkScaling: talentDotScaling,
               defScaling: 0,
               hpScaling: 0,
@@ -273,7 +275,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             {
               damageFunction: DotDamageFunction,
               damageType: DamageType.DOT,
-              damageElement: ElementNames.Wind,
+              damageElement: ElementTag.Wind,
               atkScaling: talentDotScaling,
               defScaling: 0,
               hpScaling: 0,
@@ -286,7 +288,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             {
               damageFunction: DotDamageFunction,
               damageType: DamageType.DOT,
-              damageElement: ElementNames.Lightning,
+              damageElement: ElementTag.Lightning,
               atkScaling: talentDotScaling,
               defScaling: 0,
               hpScaling: 0,
@@ -299,7 +301,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             {
               damageFunction: DotDamageFunction,
               damageType: DamageType.DOT,
-              damageElement: ElementNames.Physical,
+              damageElement: ElementTag.Physical,
               atkScaling: talentDotScaling,
               defScaling: 0,
               hpScaling: 0,
@@ -326,7 +328,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
                 const trueDmgHit = {
                   damageFunction: DefaultDamageFunction,
                   damageType: DamageType.DOT,
-                  damageElement: ElementNames.Physical,
+                  damageElement: ElementTag.Physical,
                   activeHit: false,
                 }
 
@@ -337,7 +339,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
                 const superBreakHit = {
                   damageFunction: DefaultDamageFunction,
                   damageType: DamageType.SUPER_BREAK,
-                  damageElement: ElementNames.Physical,
+                  damageElement: ElementTag.Physical,
                   activeHit: false,
                   toughnessDmg: hit.toughnessDmg,
                 }
@@ -355,6 +357,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.ATK_P, 50, x.elements(ElementTag.Fire).damageType(DamageTag.BASIC).source(Source.NONE))
+      x.buff(StatKey.DOT_CHANCE, 1.00, x.source(Source.NONE))
+      x.buff(StatKey.DMG_BOOST, 1.00, x.elements(ElementTag.Physical).source(Source.NONE))
     },
     precomputeEffects: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

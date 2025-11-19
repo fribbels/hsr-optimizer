@@ -1,5 +1,4 @@
 import { ElementToResPenType } from 'lib/constants/constants'
-import { Key } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -53,49 +52,38 @@ export const DotDamageFunction: DamageFunction = {
     const eLevel = context.enemyLevel
     const a = x.a
 
-    const baseDmgBoost = 1 + a[StatKey.DMG_BOOST]
     const baseDefPen = x.getHit(StatKey.DEF_PEN, hitIndex) + context.combatBuffs.DEF_PEN
     const baseUniversalMulti = a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
     const baseResistance = context.enemyDamageResistance - x.getHit(StatKey.RES_PEN, hitIndex) - context.combatBuffs.RES_PEN
-      - getResPenType(x, context.elementalResPenType)
-    const baseBreakEfficiencyBoost = 1 + x.getHit(StatKey.BREAK_EFFICIENCY_BOOST, hitIndex)
+    // - getResPenType(x, context.elementalResPenType)
 
-    const dotDmgBoostMulti = baseDmgBoost + x.getHit(StatKey.DMG_BOOST, hitIndex) + getElementSpecificDamageBoost(x, hit)
+    const dotDmgBoostMulti = 1 + x.getHit(StatKey.DMG_BOOST, hitIndex)
     const dotDefMulti = calculateDefMulti(eLevel, baseDefPen + x.getHit(StatKey.DEF_PEN, hitIndex))
     const dotVulnerabilityMulti = 1 + x.getHit(StatKey.VULNERABILITY, hitIndex) + x.getHit(StatKey.VULNERABILITY, hitIndex)
     const dotResMulti = 1 - (baseResistance - x.getHit(StatKey.RES_PEN, hitIndex))
-    const dotEhrMulti = calculateEhrMulti(x, context)
+    const dotEhrMulti = calculateEhrMulti(x, hitIndex, context)
     const dotFinalDmgMulti = 1 + x.getHit(StatKey.FINAL_DMG_BOOST, hitIndex)
 
     const initialDmg = calculateInitial(
       a,
       context,
-      x.getHit(StatKey.DMG_BOOST, hitIndex),
+      0,
       hit.hpScaling,
       hit.defScaling,
       hit.atkScaling,
       x.getHit(StatKey.ATK_P_BOOST, hitIndex),
     )
-    const instanceDmg = calculateDotDmg(
-      x,
-      action,
-      Key.DOT_DMG,
-      initialDmg,
-      baseUniversalMulti,
-      dotDmgBoostMulti,
-      dotDefMulti,
-      dotVulnerabilityMulti,
-      dotResMulti,
-      dotEhrMulti,
-      // dotTrueDmgMulti,
-      dotFinalDmgMulti,
-    )
-    // a[ActionKey.DOT_DMG] = instanceDmg
 
-    // TODO
-    const comboDotMulti = context.comboDot / Math.max(1, context.dotAbilities)
+    const dmg = initialDmg
+      * baseUniversalMulti
+      * dotDmgBoostMulti
+      * dotDefMulti
+      * dotVulnerabilityMulti
+      * dotResMulti
+      * dotEhrMulti
+      * dotFinalDmgMulti
 
-    return 1
+    return dmg
     // return instanceDmg * comboDotMulti
   },
 }
@@ -134,6 +122,7 @@ function calculateDefMulti(eLevel: number, defPen: number) {
 
 function calculateEhrMulti(
   x: ComputedStatsContainer,
+  hitIndex: number,
   context: OptimizerContext,
 ) {
   const a = x.a
@@ -142,10 +131,18 @@ function calculateEhrMulti(
   // Dot calcs
   // For stacking dots where the first stack has extra value
   // c = dot chance, s = stacks => avg dmg = (full dmg) * (1 + 0.05 * c * (s-1)) / (1 + 0.05 * (s-1))
-  const effectiveDotChance = Math.min(1, a[ActionKey.DOT_CHANCE] * (1 + a[ActionKey.EHR]) * (1 - enemyEffectRes + a[ActionKey.EFFECT_RES_PEN]))
-  return a[ActionKey.DOT_SPLIT]
-    ? (1 + a[ActionKey.DOT_SPLIT] * effectiveDotChance * (a[ActionKey.DOT_STACKS] - 1)) / (1 + a[ActionKey.DOT_SPLIT] * (a[ActionKey.DOT_STACKS] - 1))
-    : effectiveDotChance
+  const dotChance = x.getStat(StatKey.DOT_CHANCE, hitIndex)
+  const ehr = x.getStat(StatKey.EHR, hitIndex)
+  const effResPen = x.getStat(StatKey.EFFECT_RES_PEN, hitIndex)
+  const dotSplit = x.getStat(StatKey.DOT_SPLIT, hitIndex)
+
+  const effectiveDotChance = Math.min(1, dotChance * (1 + ehr) * (1 - enemyEffectRes + effResPen))
+
+  if (dotSplit) {
+    const dotStacks = x.getStat(StatKey.DOT_STACKS, hitIndex)
+    return (1 + dotSplit * effectiveDotChance * (dotStacks - 1)) / (1 + dotSplit * (dotStacks - 1))
+  }
+  return effectiveDotChance
 }
 
 function calculateInitial(
@@ -158,9 +155,9 @@ function calculateInitial(
   atkBoostP: number,
 ) {
   return abilityDmg
-    + hpScaling * a[ActionKey.HP]
-    + defScaling * a[ActionKey.DEF]
-    + atkScaling * (a[ActionKey.ATK] + atkBoostP * context.baseATK)
+    + hpScaling * a[StatKey.HP]
+    + defScaling * a[StatKey.DEF]
+    + atkScaling * (a[StatKey.ATK] + atkBoostP * context.baseATK)
 }
 
 export function getResPenType(x: ComputedStatsContainer, type: ElementalResPenType) {

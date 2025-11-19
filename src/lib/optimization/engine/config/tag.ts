@@ -3,6 +3,7 @@ export enum DamageTag {
   SKILL = 1 << 1,
   ULTIMATE = 1 << 2,
   TALENT = 1 << 3,
+  DOT = 1 << 4,
 }
 
 export enum ElementTag {

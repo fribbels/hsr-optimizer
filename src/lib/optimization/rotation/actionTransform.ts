@@ -75,12 +75,16 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
 
   context.outputRegistersLength = hitCounter
 
-  for (let i = 0; i < rotationActions.length; i++) {
-    prepareActionData(rotationActions[i], i, comboState, request, context)
-  }
+  let actionCounter = 0
 
   for (let i = 0; i < defaultActions.length; i++) {
     prepareActionData(defaultActions[i], 0, comboState, request, context)
+    defaultActions[i].registerIndex = actionCounter++
+  }
+
+  for (let i = 0; i < rotationActions.length; i++) {
+    prepareActionData(rotationActions[i], i, comboState, request, context)
+    rotationActions[i].registerIndex = actionCounter++
   }
 
   const characterConditionalController = CharacterConditionalsResolver.get(context)

@@ -23,6 +23,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
+  CritDamageFunction,
   DefaultDamageFunction,
   DotDamageFunction,
   Hit,
@@ -199,14 +200,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const updatedUltDotScaling = (e >= 6 && r.e6Buffs) ? ultDotScaling + 0.20 : ultDotScaling
       const ultDot = r.ultDotStacks * updatedUltDotScaling
 
-      let dotAtkScaling = 0
-
       return [
         {
           name: 'BASIC',
           hits: [
             {
-              damageFunction: DefaultDamageFunction,
+              damageFunction: CritDamageFunction,
               damageType: DamageType.BASIC,
               damageElement: ElementTag.Physical,
               atkScaling: basicScaling,
@@ -224,7 +223,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           name: 'SKILL',
           hits: [
             {
-              damageFunction: DefaultDamageFunction,
+              damageFunction: CritDamageFunction,
               damageType: DamageType.SKILL,
               damageElement: ElementTag.Physical,
               atkScaling: skillScaling,
@@ -242,7 +241,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           name: 'ULT',
           hits: [
             {
-              damageFunction: DefaultDamageFunction,
+              damageFunction: CritDamageFunction,
               damageType: DamageType.ULT,
               damageElement: ElementTag.Physical,
               atkScaling: ultScaling,
@@ -356,11 +355,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.ATK_P, 50, x.elements(ElementTag.Fire).damageType(DamageTag.BASIC).source(Source.NONE))
+      // x.buff(StatKey.ATK_P, 50, x.elements(ElementTag.Fire).damageType(DamageTag.BASIC).source(Source.NONE))
       x.buff(StatKey.DOT_CHANCE, 1.00, x.source(Source.NONE))
-      x.buff(StatKey.DMG_BOOST, 1.00, x.elements(ElementTag.Physical).source(Source.NONE))
+      // x.buff(StatKey.DMG_BOOST, 1.00, x.elements(ElementTag.Physical).source(Source.NONE))
     },
-    precomputeEffects: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
@@ -386,8 +385,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.DOT_ATK_SCALING.buff((e >= 1 && r.e1Buffs) ? talentDot : 0, SOURCE_E1)
       }
 
-      const hitActions = context.hitActions!
-
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(10, SOURCE_SKILL)
       x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
@@ -399,6 +396,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 1.32 : 1.20)
         : 0
       x.ELEMENTAL_DMG.buff((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, Source.odeTo(HYSILENS))
+    },
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.FINAL_DMG_BOOST, (e >= 1 && m.e1Buffs) ? 0.16 : 0, x.damageType(DamageTag.DOT).source(SOURCE_E1))
+      x.buff(StatKey.VULNERABILITY, (m.skillVulnerability) ? skillVulnScaling : 0, x.source(SOURCE_SKILL))
+      x.buff(StatKey.DEF_PEN, (m.ultZone) ? ultDefPenScaling : 0, x.source(SOURCE_ULT))
+      x.buff(StatKey.RES_PEN, (e >= 4 && m.e4ResPen) ? 0.20 : 0, x.source(SOURCE_E4))
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

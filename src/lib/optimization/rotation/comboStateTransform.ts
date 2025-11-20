@@ -257,6 +257,7 @@ export function precomputeConditionals(action: OptimizerAction, comboState: Comb
   characterConditionals.precomputeMutualEffects?.(x, action, context, action)
 
   characterConditionals.precomputeEffectsContainer(action.precomputedStats, action, context)
+  characterConditionals.precomputeMutualEffectsContainer(action.precomputedStats, action, context)
 
   precomputeTeammates(action, comboState, context)
 }

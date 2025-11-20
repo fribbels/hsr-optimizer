@@ -42,6 +42,59 @@ export const DefaultDamageFunction: DamageFunction = {
   apply: (x: ComputedStatsContainer, action: OptimizerAction, hitIndex: number, context: OptimizerContext) => 1,
 }
 
+export const CritDamageFunction: DamageFunction = {
+  apply: (x: ComputedStatsContainer, action: OptimizerAction, hitIndex: number, context: OptimizerContext) => {
+    const hit = action.hits![hitIndex]
+    const eLevel = context.enemyLevel
+    const a = x.a
+
+    const cr = x.getValue(StatKey.CR, hitIndex)
+    const crBoost = x.getValue(StatKey.CR_BOOST, hitIndex)
+
+    const cd = x.getValue(StatKey.CD, hitIndex)
+    const cdBoost = x.getValue(StatKey.CD_BOOST, hitIndex)
+
+    const abilityCr = Math.min(1, cr + crBoost)
+    const abilityCd = cd + cdBoost
+    const abilityCritMulti = abilityCr * (1 + abilityCd) + (1 - abilityCr)
+
+    const defPen = x.getValue(StatKey.DEF_PEN, hitIndex)
+    const resPen = x.getValue(StatKey.RES_PEN, hitIndex)
+    const vulnerability = x.getValue(StatKey.VULNERABILITY, hitIndex)
+    const finalDmg = x.getValue(StatKey.FINAL_DMG_BOOST, hitIndex)
+    const dmgBoost = x.getValue(StatKey.DMG_BOOST, hitIndex)
+
+    const baseUniversalMulti = a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
+    const dmgBoostMulti = 1 + dmgBoost
+    const defMulti = calculateDefMulti(eLevel, context.combatBuffs.DEF_PEN + defPen)
+    const vulnerabilityMulti = 1 + vulnerability
+    const resMulti = 1 - (context.enemyDamageResistance - context.combatBuffs.RES_PEN - resPen)
+    const finalDmgMulti = 1 + finalDmg
+
+    const initialDmg = calculateInitial(
+      a,
+      context,
+      0,
+      hit.hpScaling ?? 0,
+      hit.defScaling ?? 0,
+      hit.atkScaling ?? 0,
+      x.getValue(StatKey.ATK_P_BOOST, hitIndex),
+    )
+
+    const dmg = initialDmg
+      * baseUniversalMulti
+      * dmgBoostMulti
+      * defMulti
+      * vulnerabilityMulti
+      * resMulti
+      * abilityCritMulti
+      * finalDmgMulti
+
+    return dmg
+    // return instanceDmg * comboDotMulti
+  },
+}
+
 function getElementSpecificDamageBoost(x: ComputedStatsContainer, hit: Hit) {
   return 0
 }

@@ -635,6 +635,7 @@ ExpandedDataPanel:
           DEF PEN: 防御穿透
           Break DEF PEN: 击破防御穿透
           Toughness DMG: 韧性伤害值
+          Fixed Toughness DMG: 固定韧性伤害
           Super Break multiplier: 击破特攻倍率
           Break Efficiency boost: 击破效率提升
           True DMG multiplier: 真实伤害倍率

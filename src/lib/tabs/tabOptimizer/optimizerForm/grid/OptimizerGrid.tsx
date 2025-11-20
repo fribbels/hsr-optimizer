@@ -13,9 +13,11 @@ import {
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { Renderer } from 'lib/rendering/renderer'
 import { getGridTheme } from 'lib/rendering/theme'
 import DB from 'lib/state/db'
 import {
+  DIGITS_5,
   getBasicColumnDefs,
   getCombatColumnDefs,
   getMemoBasicColumnDefs,
@@ -27,6 +29,7 @@ import {
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
+import { useOptimizerTabStore } from 'lib/tabs/tabOptimizer/useOptimizerTabStore'
 import { localeNumber } from 'lib/utils/i18nUtils'
 import React, {
   useCallback,
@@ -63,6 +66,8 @@ export function OptimizerGrid() {
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
   const gridLanguage = useRef(i18n.resolvedLanguage)
 
+  const context = useOptimizerTabStore((s) => s.context)
+
   window.optimizerGrid = optimizerGrid
 
   const datasource = useMemo(() => {
@@ -93,8 +98,22 @@ export function OptimizerGrid() {
       columnDefinitions = columnDefinitions.filter((column) => !hiddenFields.includes(column.field))
     }
 
+    if (context) {
+      for (const action of context.defaultActions) {
+        columnDefinitions.push(
+          {
+            field: action.actionName,
+            valueFormatter: Renderer.floor,
+            minWidth: DIGITS_5,
+            flex: 12,
+            headerName: action.actionName,
+          },
+        )
+      }
+    }
+
     return columnDefinitions
-  }, [optimizerTabFocusCharacter, statDisplay, memoDisplay, t])
+  }, [optimizerTabFocusCharacter, statDisplay, memoDisplay, context, t])
 
   optimizerGridOptions.datasource = datasource
 

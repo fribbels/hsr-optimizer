@@ -147,6 +147,13 @@ export class ComputedStatsContainer {
     this.o[this.config.outputRegistersLength + index] = value
   }
 
+  getHitRegisterValue(index: number) {
+    return this.o[index]
+  }
+  getActionRegisterValue(index: number) {
+    return this.o[this.config.outputRegistersLength + index]
+  }
+
   buff(key: StatKeyValue, value: number, config: BuffBuilder<true>) {
     this.internalBuff(
       key,
@@ -186,7 +193,7 @@ export class ComputedStatsContainer {
     }
   }
 
-  public getStat(key: StatKeyValue, hitIndex: number) {
+  public getValue(key: StatKeyValue, hitIndex: number) {
     return this.a[this.getActionIndex(SELF_ENTITY, key)] + this.a[this.getHitIndex(SELF_ENTITY, hitIndex, key)]
   }
 

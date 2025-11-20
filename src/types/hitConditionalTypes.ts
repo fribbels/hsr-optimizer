@@ -52,15 +52,11 @@ export const DotDamageFunction: DamageFunction = {
     const eLevel = context.enemyLevel
     const a = x.a
 
-    const baseDefPen = x.getHit(StatKey.DEF_PEN, hitIndex) + context.combatBuffs.DEF_PEN
     const baseUniversalMulti = a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
-    const baseResistance = context.enemyDamageResistance - x.getHit(StatKey.RES_PEN, hitIndex) - context.combatBuffs.RES_PEN
-    // - getResPenType(x, context.elementalResPenType)
-
     const dotDmgBoostMulti = 1 + x.getHit(StatKey.DMG_BOOST, hitIndex)
-    const dotDefMulti = calculateDefMulti(eLevel, baseDefPen + x.getHit(StatKey.DEF_PEN, hitIndex))
+    const dotDefMulti = calculateDefMulti(eLevel, context.combatBuffs.DEF_PEN + x.getHit(StatKey.DEF_PEN, hitIndex))
     const dotVulnerabilityMulti = 1 + x.getHit(StatKey.VULNERABILITY, hitIndex) + x.getHit(StatKey.VULNERABILITY, hitIndex)
-    const dotResMulti = 1 - (baseResistance - x.getHit(StatKey.RES_PEN, hitIndex))
+    const dotResMulti = 1 - (context.enemyDamageResistance - context.combatBuffs.RES_PEN - x.getHit(StatKey.RES_PEN, hitIndex))
     const dotEhrMulti = calculateEhrMulti(x, hitIndex, context)
     const dotFinalDmgMulti = 1 + x.getHit(StatKey.FINAL_DMG_BOOST, hitIndex)
 
@@ -131,15 +127,15 @@ function calculateEhrMulti(
   // Dot calcs
   // For stacking dots where the first stack has extra value
   // c = dot chance, s = stacks => avg dmg = (full dmg) * (1 + 0.05 * c * (s-1)) / (1 + 0.05 * (s-1))
-  const dotChance = x.getStat(StatKey.DOT_CHANCE, hitIndex)
-  const ehr = x.getStat(StatKey.EHR, hitIndex)
-  const effResPen = x.getStat(StatKey.EFFECT_RES_PEN, hitIndex)
-  const dotSplit = x.getStat(StatKey.DOT_SPLIT, hitIndex)
+  const dotChance = x.getValue(StatKey.DOT_CHANCE, hitIndex)
+  const ehr = x.getValue(StatKey.EHR, hitIndex)
+  const effResPen = x.getValue(StatKey.EFFECT_RES_PEN, hitIndex)
+  const dotSplit = x.getValue(StatKey.DOT_SPLIT, hitIndex)
 
   const effectiveDotChance = Math.min(1, dotChance * (1 + ehr) * (1 - enemyEffectRes + effResPen))
 
   if (dotSplit) {
-    const dotStacks = x.getStat(StatKey.DOT_STACKS, hitIndex)
+    const dotStacks = x.getValue(StatKey.DOT_STACKS, hitIndex)
     return (1 + dotSplit * effectiveDotChance * (dotStacks - 1)) / (1 + dotSplit * (dotStacks - 1))
   }
   return effectiveDotChance

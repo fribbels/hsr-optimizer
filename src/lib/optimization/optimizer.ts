@@ -36,6 +36,7 @@ import {
   activateZeroResultSuggestionsModal,
 } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { useOptimizerTabStore } from 'lib/tabs/tabOptimizer/useOptimizerTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import {
@@ -150,6 +151,8 @@ export const Optimizer = {
     window.optimizerGrid.current!.api.setGridOption('loading', true)
 
     const context = generateContext(request)
+
+    useOptimizerTabStore.getState().setContext(context)
 
     // Create a special optimization request for the top row, ignoring filters and with a custom callback
     setTimeout(() => {
@@ -339,6 +342,14 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
   d.xELEMENTAL_DMG = a[StatKey.DMG_BOOST]
 
   d.mELEMENTAL_DMG = c.ELEMENTAL_DMG.get()
+
+  const context = useOptimizerTabStore.getState().context
+  if (context) {
+    for (const action of context.defaultActions) {
+      d[action.actionName] = x.getActionRegisterValue(action.registerIndex)
+    }
+  }
+
   // TODO
   // if (x.a[Key.MEMOSPRITE]) {
   //   const c = x.m.c

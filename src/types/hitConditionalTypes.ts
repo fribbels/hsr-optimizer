@@ -1,8 +1,6 @@
-import { ElementToResPenType } from 'lib/constants/constants'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { ElementalResPenType } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -91,12 +89,7 @@ export const CritDamageFunction: DamageFunction = {
       * finalDmgMulti
 
     return dmg
-    // return instanceDmg * comboDotMulti
   },
-}
-
-function getElementSpecificDamageBoost(x: ComputedStatsContainer, hit: Hit) {
-  return 0
 }
 
 export const DotDamageFunction: DamageFunction = {
@@ -137,30 +130,44 @@ export const DotDamageFunction: DamageFunction = {
   },
 }
 
-function calculateDotDmg(
-  x: ComputedStatsContainer,
-  action: OptimizerAction,
-  abilityKey: number,
-  baseDmg: number,
-  universalMulti: number,
-  dmgBoostMulti: number,
-  defMulti: number,
-  vulnerabilityMulti: number,
-  resMulti: number,
-  ehrMulti: number,
-  // trueDmgMulti: number,
-  finalDmgMulti: number,
-) {
-  const dotDmg = baseDmg
-    * universalMulti
-    * dmgBoostMulti
-    * defMulti
-    * vulnerabilityMulti
-    * resMulti
-    * ehrMulti
-    * finalDmgMulti
+export const BreakDamageFunction: DamageFunction = {
+  apply: (x: ComputedStatsContainer, action: OptimizerAction, hitIndex: number, context: OptimizerContext) => {
+    const hit = action.hits![hitIndex]
+    const eLevel = context.enemyLevel
+    const a = x.a
 
-  return dotDmg
+    const be = x.getValue(StatKey.BE, hitIndex)
+
+    const defPen = x.getValue(StatKey.DEF_PEN, hitIndex)
+    const resPen = x.getValue(StatKey.RES_PEN, hitIndex)
+    const vulnerability = x.getValue(StatKey.VULNERABILITY, hitIndex)
+    const finalDmg = x.getValue(StatKey.FINAL_DMG_BOOST, hitIndex)
+    const dmgBoost = x.getValue(StatKey.DMG_BOOST, hitIndex)
+
+    const baseUniversalMulti = a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
+    const dmgBoostMulti = 1 + dmgBoost
+    const defMulti = calculateDefMulti(eLevel, context.combatBuffs.DEF_PEN + defPen)
+    const vulnerabilityMulti = 1 + vulnerability
+    const resMulti = 1 - (context.enemyDamageResistance - context.combatBuffs.RES_PEN - resPen)
+    const finalDmgMulti = 1 + finalDmg
+    const beMulti = 1 + be
+
+    const breakFixedMulti = 3767.5533
+
+    const dmg = baseUniversalMulti
+      * breakFixedMulti
+      * context.elementalBreakScaling
+      * defMulti
+      * (0.5 + context.enemyMaxToughness / 120)
+      * vulnerabilityMulti
+      * resMulti
+      * beMulti
+      * dmgBoostMulti
+      * finalDmgMulti
+
+    return dmg
+    // return instanceDmg * comboDotMulti
+  },
 }
 
 const cLevelConst = 20 + 80
@@ -208,17 +215,3 @@ function calculateInitial(
     + defScaling * a[StatKey.DEF]
     + atkScaling * (a[StatKey.ATK] + atkBoostP * context.baseATK)
 }
-
-export function getResPenType(x: ComputedStatsContainer, type: ElementalResPenType) {
-  return x.a[ElementToResPenTypeToKey[type]]
-}
-
-const ElementToResPenTypeToKey = {
-  [ElementToResPenType.Physical]: ActionKey.PHYSICAL_RES_PEN,
-  [ElementToResPenType.Fire]: ActionKey.FIRE_RES_PEN,
-  [ElementToResPenType.Ice]: ActionKey.ICE_RES_PEN,
-  [ElementToResPenType.Lightning]: ActionKey.LIGHTNING_RES_PEN,
-  [ElementToResPenType.Wind]: ActionKey.WIND_RES_PEN,
-  [ElementToResPenType.Quantum]: ActionKey.QUANTUM_RES_PEN,
-  [ElementToResPenType.Imaginary]: ActionKey.IMAGINARY_RES_PEN,
-} as const

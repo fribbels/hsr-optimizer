@@ -7,6 +7,7 @@ export enum DamageTag {
 }
 
 export enum ElementTag {
+  None = 0,
   Physical = 1 << 0,
   Fire = 1 << 1,
   Ice = 1 << 2,
@@ -17,8 +18,6 @@ export enum ElementTag {
 }
 
 export type Tag = ElementTag | DamageTag
-
-export const ALL_TAGS = ~0
 
 export const SELF_ENTITY = 0
 

@@ -23,6 +23,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
+  BreakDamageFunction,
   CritDamageFunction,
   DefaultDamageFunction,
   DotDamageFunction,
@@ -175,6 +176,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         'SKILL',
         'ULT',
         'DOT',
+        'BREAK',
       ]
     },
     entityDeclaration: () => {
@@ -312,6 +314,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             },
           ],
         },
+        {
+          name: 'BREAK',
+          hits: [
+            {
+              damageFunction: BreakDamageFunction,
+              damageType: DamageType.BREAK,
+              damageElement: ElementTag.None,
+              activeHit: false,
+              tags: [
+                DamageTag.ULT,
+                ElementTag.PHYSICAL,
+              ],
+            },
+          ],
+        },
       ]
     },
     actionModifiers() {
@@ -355,9 +372,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // x.buff(StatKey.ATK_P, 50, x.elements(ElementTag.Fire).damageType(DamageTag.BASIC).source(Source.NONE))
       x.buff(StatKey.DOT_CHANCE, 1.00, x.source(Source.NONE))
-      // x.buff(StatKey.DMG_BOOST, 1.00, x.elements(ElementTag.Physical).source(Source.NONE))
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

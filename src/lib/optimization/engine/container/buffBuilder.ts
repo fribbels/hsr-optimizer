@@ -3,21 +3,23 @@ import {
   Source,
 } from 'lib/optimization/buffSource'
 import {
-  ALL_TAGS,
+  ALL_DAMAGE_TAGS,
+  ALL_ELEMENT_TAGS,
   DamageTag,
   ElementTag,
   SELF_ENTITY,
-}                     from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer,
-  OptimizerEntity
-}                     from 'lib/optimization/engine/container/computedStatsContainer'
-import { NamedArray } from "lib/optimization/engine/util/namedArray";
+} from 'lib/optimization/engine/config/tag'
+import {
+  ComputedStatsContainer,
+  OptimizerEntity,
+} from 'lib/optimization/engine/container/computedStatsContainer'
+import { NamedArray } from 'lib/optimization/engine/util/namedArray'
 
 export class BuffBuilder<_Completed extends boolean = false> {
   private readonly _completionBrand!: _Completed
 
-  _elementTags = ALL_TAGS
-  _damageTags = ALL_TAGS
+  _elementTags = ALL_ELEMENT_TAGS
+  _damageTags = ALL_DAMAGE_TAGS
   _origin = SELF_ENTITY
   _target = SELF_ENTITY
   _source = Source.NONE
@@ -29,8 +31,8 @@ export class BuffBuilder<_Completed extends boolean = false> {
   }
 
   reset(): IncompleteBuffBuilder {
-    this._elementTags = ALL_TAGS
-    this._damageTags = ALL_TAGS
+    this._elementTags = ALL_ELEMENT_TAGS
+    this._damageTags = ALL_DAMAGE_TAGS
     this._origin = SELF_ENTITY
     this._target = SELF_ENTITY
     this._source = Source.NONE

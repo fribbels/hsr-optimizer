@@ -8,26 +8,44 @@ import {
 
 export interface HitAction {
   name: string
-  hits: Hit[]
+  hits: HitDefinition[]
 }
 
 export type DamageFunctionName = string
 
-export interface Hit {
+export interface Hit extends HitDefinition {
+  registerIndex: number
+}
+
+export interface HitDefinition {
   damageFunction: DamageFunction
   damageType: number
   damageElement: ElementTag
 
-  atkScaling: number
-  hpScaling: number
-  defScaling: number
-  specialScaling: number
+  atkScaling?: number
+  hpScaling?: number
+  defScaling?: number
+  specialScaling?: number
 
-  toughnessDmg: number
+  toughnessDmg?: number
 
   activeHit: boolean
+}
 
-  registerIndex: number
+export interface EntityDefinition {
+  primary: boolean
+  summon: boolean
+  memosprite: boolean
+
+  memoBaseAtkFlat: number
+  memoBaseHpFlat: number
+  memoBaseDefFlat: number
+  memoBaseSpdFlat: number
+
+  memoBaseAtkScaling: number
+  memoBaseHpScaling: number
+  memoBaseDefScaling: number
+  memoBaseSpdScaling: number
 }
 
 const ActionKey = {}

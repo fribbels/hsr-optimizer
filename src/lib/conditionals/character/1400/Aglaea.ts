@@ -33,6 +33,7 @@ import {
 import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Eidolon } from 'types/character'
@@ -69,8 +70,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const ultSpdBoost = ult(e, 0.15, 0.16)
 
-  const memoHpScaling = talent(e, 0.66, 0.704)
-  const memoHpFlat = talent(e, 720, 828)
+  const memoBaseHpScaling = talent(e, 0.66, 0.704)
+  const memoBaseHpFlat = talent(e, 720, 828)
   const talentAdditionalDmg = talent(e, 0.30, 0.336)
 
   const memoSkillScaling = memoSkill(e, 1.10, 1.21)
@@ -168,6 +169,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
+    entityDeclaration: () => {
+      return [
+        'Hysilens',
+      ]
+    },
     actionDeclaration: () => {
       return [
         'BASIC',
@@ -175,21 +181,26 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         'BREAK',
       ]
     },
-    entityDeclaration: () => {
-      return [
-        {
-          name: 'Hysilens',
+
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      // x.set(StatKey.MEMO_BASE_HP_SCALING, memoBaseHpScaling, x.source(SOURCE_MEMO))
+      // x.MEMO_BASE_HP_FLAT.buff(memoBaseHpFlat, SOURCE_MEMO)
+      // x.MEMO_BASE_SPD_SCALING.buff(0.35, SOURCE_MEMO)
+      return {
+        Hysilens: {
           primary: true,
           summon: false,
           memosprite: false,
         },
-        {
-          name: 'Garmentmaker',
+        Garmentmaker: {
+          memoBaseHpScaling,
+          memoBaseHpFlat,
+          memoBaseSpdScaling: 0.35,
           primary: false,
           summon: true,
           memosprite: true,
         },
-      ]
+      }
     },
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -269,9 +280,48 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.SUMMONS.set(1, SOURCE_TALENT)
-      x.MEMOSPRITE.set(1, SOURCE_TALENT)
-      x.MEMO_BUFF_PRIORITY.set(r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, SOURCE_TALENT)
+      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
+      x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
+      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
+    },
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // x.BASIC_ATK_SCALING.buff((r.supremeStanceState) ? enhancedBasicScaling : basicScaling, SOURCE_BASIC)
+      // x.m.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_MEMO)
+
+      x.buff(StatKey.SPD_P, (r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, x.source(SOURCE_ULT))
+
+      x.set(StatKey.MEMO_BASE_HP_SCALING, memoBaseHpScaling, x.source(SOURCE_MEMO))
+      x.MEMO_BASE_HP_FLAT.buff(memoBaseHpFlat, SOURCE_MEMO)
+      x.MEMO_BASE_SPD_SCALING.buff(0.35, SOURCE_MEMO)
+      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
+      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
+
+      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.seamStitch) ? talentAdditionalDmg : 0, SOURCE_TALENT)
+
+      x.m.MEMO_SKILL_ATK_SCALING.buff(memoSkillScaling, SOURCE_MEMO)
+
+      x.m.SPD.buff(r.memoSpdStacks * memoTalentSpd, SOURCE_MEMO)
+
+      x.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
+      x.m.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
+
+      x.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
+      x.m.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
+
+      x.BASIC_TOUGHNESS_DMG.buff((r.supremeStanceState) ? 20 : 10, SOURCE_BASIC)
+      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
+
+      // Cyrene
+      const cyreneDmgBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.792 : 0.72)
+        : 0
+      const cyreneDefPenBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
+        : 0
+      x.ELEMENTAL_DMG.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, Source.odeTo(AGLAEA))
+      x.DEF_PEN.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDefPenBuff : 0, Source.odeTo(AGLAEA))
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -281,8 +331,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.SPD_P.buff((r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, SOURCE_ULT)
 
-      x.MEMO_BASE_HP_SCALING.buff(memoHpScaling, SOURCE_MEMO)
-      x.MEMO_BASE_HP_FLAT.buff(memoHpFlat, SOURCE_MEMO)
+      x.MEMO_BASE_HP_SCALING.buff(memoBaseHpScaling, SOURCE_MEMO)
+      x.MEMO_BASE_HP_FLAT.buff(memoBaseHpFlat, SOURCE_MEMO)
       x.MEMO_BASE_SPD_SCALING.buff(0.35, SOURCE_MEMO)
       x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
       x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)

@@ -151,23 +151,68 @@ export class ComputedStatsContainer {
 
   // ============== Buffs ==============
 
+  set(key: StatKeyValue, value: number, config: BuffBuilder<true>) {
+    this.internalBuff(
+      key,
+      value,
+      this.operatorSet,
+      config._source,
+      config._origin,
+      config._target,
+      config._elementTags,
+      config._damageTags,
+    )
+  }
+
   buff(key: StatKeyValue, value: number, config: BuffBuilder<true>) {
+    this.internalBuff(
+      key,
+      value,
+      this.operatorAdd,
+      config._source,
+      config._origin,
+      config._target,
+      config._elementTags,
+      config._damageTags,
+    )
+  }
+
+  internalBuff(
+    key: StatKeyValue,
+    value: number,
+    operator: (index: number, value: number) => void,
+    source: BuffSource,
+    origin: number,
+    target: number,
+    elementTags: ElementTag,
+    damageTags: DamageTag,
+  ): void {
     if (value == 0) return
 
-    if (config._elementTags == ALL_ELEMENT_TAGS && config._damageTags == ALL_DAMAGE_TAGS) {
-      const index = this.getActionIndex(config._target, key)
-      this.a[index] = value
+    if (elementTags == ALL_ELEMENT_TAGS && damageTags == ALL_DAMAGE_TAGS) {
+      const index = this.getActionIndex(target, key)
+      operator(index, value)
       return
     }
 
     for (let hitIndex = 0; hitIndex < this.config.hitsLength; hitIndex++) {
       const hit = this.config.hits[hitIndex]
 
-      if (hit.damageType & config._damageTags && hit.damageElement & config._elementTags) {
-        const index = this.getHitIndex(config._target, hitIndex, key)
-        this.a[index] = value
+      if (hit.damageType & damageTags && hit.damageElement & elementTags) {
+        const index = this.getHitIndex(target, hitIndex, key)
+        operator(index, value)
       }
     }
+  }
+
+  // ============== Operators ==============
+
+  operatorAdd(index: number, value: number) {
+    this.a[index] += value
+  }
+
+  operatorSet(index: number, value: number) {
+    this.a[index] = value
   }
 
   // ============== Registers ==============

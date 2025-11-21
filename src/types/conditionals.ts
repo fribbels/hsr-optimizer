@@ -1,10 +1,7 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import {
-  ComputedStatsContainer,
-  OptimizerEntity,
-} from 'lib/optimization/engine/container/computedStatsContainer'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FormSelectWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
@@ -16,8 +13,11 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
-import { ActionModifier } from '../lib/optimization/context/calculateActions'
-import { HitAction } from './hitConditionalTypes'
+import { ActionModifier } from 'lib/optimization/context/calculateActions'
+import {
+  EntityDefinition,
+  HitAction,
+} from './hitConditionalTypes'
 
 // Interface to an instance of a Character or Light Cone conditional controller
 export interface ConditionalsController {
@@ -27,7 +27,8 @@ export interface ConditionalsController {
   teammateContent?: () => ContentItem[]
   defaults: () => ConditionalValueMap
   teammateDefaults?: () => ConditionalValueMap
-  entityDeclaration: () => OptimizerEntity[]
+  entityDeclaration: () => string[]
+  entityDefinition: (action: OptimizerAction, context: OptimizerContext) => Record<string, EntityDefinition>
   actionDeclaration: () => string[]
   actionModifiers: () => ActionModifier[]
   actionDefinition: (action: OptimizerAction, context: OptimizerContext) => HitAction[]

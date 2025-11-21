@@ -52,7 +52,7 @@
     "i18next": "^23.14.0",
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-http-backend": "^2.6.1",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^4.1.1",
     "json-stable-stringify": "^1.1.1",
     "node-vibrant": "^3.1.6",
     "overlayscrollbars": "^2.11.1",

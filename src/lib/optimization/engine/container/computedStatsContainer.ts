@@ -127,17 +127,50 @@ export class ComputedStatsContainer {
     this.builder = new BuffBuilder(this)
   }
 
-  setConfig(config: ComputedStatsContainerConfig) {
+  // ============== Precomputes ==============
+
+  public setConfig(config: ComputedStatsContainerConfig) {
     this.config = config
     this.a = new Float32Array(this.config.arrayLength)
   }
 
-  setRegisters(context: OptimizerContext) {
+  public setPrecompute(array: Float32Array) {
+    this.a.set(array)
+  }
+
+  public setBasic(basic: BasicStatsArray) {
+    this.c = basic
+  }
+
+  public setRegisters(context: OptimizerContext) {
     const hitRegistersLength = context.outputRegistersLength
     const actionRegistersLength = context.actionDeclarations.length
 
     this.o = new Float32Array(hitRegistersLength + actionRegistersLength)
   }
+
+  // ============== Buffs ==============
+
+  buff(key: StatKeyValue, value: number, config: BuffBuilder<true>) {
+    if (value == 0) return
+
+    if (config._elementTags == ALL_ELEMENT_TAGS && config._damageTags == ALL_DAMAGE_TAGS) {
+      const index = this.getActionIndex(config._target, key)
+      this.a[index] = value
+      return
+    }
+
+    for (let hitIndex = 0; hitIndex < this.config.hitsLength; hitIndex++) {
+      const hit = this.config.hits[hitIndex]
+
+      if (hit.damageType & config._damageTags && hit.damageElement & config._elementTags) {
+        const index = this.getHitIndex(config._target, hitIndex, key)
+        this.a[index] = value
+      }
+    }
+  }
+
+  // ============== Registers ==============
 
   setHitRegisterValue(index: number, value: number) {
     this.o[index] = value
@@ -150,55 +183,18 @@ export class ComputedStatsContainer {
   getHitRegisterValue(index: number) {
     return this.o[index]
   }
+
   getActionRegisterValue(index: number) {
     return this.o[this.config.outputRegistersLength + index]
   }
 
-  buff(key: StatKeyValue, value: number, config: BuffBuilder<true>) {
-    this.internalBuff(
-      key,
-      value,
-      config._source,
-      config._origin,
-      config._target,
-      config._elementTags,
-      config._damageTags,
-    )
-  }
-
-  internalBuff(
-    key: StatKeyValue,
-    value: number,
-    source: BuffSource,
-    origin: number,
-    target: number,
-    elementTags: ElementTag,
-    damageTags: DamageTag,
-  ): void {
-    if (value == 0) return
-
-    if (elementTags == ALL_ELEMENT_TAGS && damageTags == ALL_DAMAGE_TAGS) {
-      const index = this.getActionIndex(target, key)
-      this.a[index] = value
-      return
-    }
-
-    for (let hitIndex = 0; hitIndex < this.config.hitsLength; hitIndex++) {
-      const hit = this.config.hits[hitIndex]
-
-      if (hit.damageType & damageTags && hit.damageElement & elementTags) {
-        const index = this.getHitIndex(target, hitIndex, key)
-        this.a[index] = value
-      }
-    }
-  }
+  // ============== Value Getters ==============
 
   public getValue(key: StatKeyValue, hitIndex: number) {
     return this.a[this.getActionIndex(SELF_ENTITY, key)] + this.a[this.getHitIndex(SELF_ENTITY, hitIndex, key)]
   }
 
-  public setRegister(index: number) {
-  }
+  // ============== Indexing ==============
 
   public getActionIndex(entityIndex: number, statIndex: number): number {
     return entityIndex * (this.config.statsLength * (this.config.hitsLength + 1))
@@ -210,6 +206,8 @@ export class ComputedStatsContainer {
       + (hitIndex + 1) * this.config.statsLength
       + statIndex
   }
+
+  // ============== Buff builder ==============
 
   elements(e: ElementTag): IncompleteBuffBuilder {
     return this.builder.reset().elements(e)
@@ -229,54 +227,6 @@ export class ComputedStatsContainer {
 
   source(s: BuffSource): CompleteBuffBuilder {
     return this.builder.reset().source(s)
-  }
-
-  public getHit(key: StatKeyValue, hitIndex: number) {
-    const index = this.getHitIndex(0, hitIndex, key)
-
-    return this.a[index]
-  }
-
-  public buffHit(key: StatKeyValue, damageType: number, value: number, source: BuffSource, origin?: string, destination?: string) {
-    for (let damageTypeIndex = 0; damageTypeIndex < this.damageTypes.length; damageTypeIndex++) {
-      const type = this.damageTypes[damageTypeIndex]
-
-      if (damageType & type) {
-        if (destination == EntityType.SELF) {
-          const entityIndex = 0
-          const index = this.getIndex(entityIndex, damageTypeIndex, key)
-
-          this.a[index] += value
-        }
-      }
-    }
-  }
-
-  public set(key: ActionKeyValue, value: number, source: BuffSource, origin?: string, destination?: string) {
-    if (!destination || destination == EntityType.SELF) {
-      this.a[key] = value
-    }
-  }
-
-  // // Array structure
-  // // [action stats]
-  // // [entity0 damageType0 hitStats]
-  // // [entity0 damageType1 hitStats]
-  // // [entity1 damageType0 hitStats]
-  // // [entity1 damageType1 hitStats]
-  // public getIndex(entityIndex: number, damageTypeIndex: number, statIndex: number): number {
-  //   return entityIndex * (this.damageTypesLength * this.statsLength)
-  //     + damageTypeIndex * this.statsLength
-  //     + statIndex
-  //     + this.actionStatsLength
-  // }
-
-  public setPrecompute(array: Float32Array) {
-    this.a.set(array)
-  }
-
-  public setBasic(basic: BasicStatsArray) {
-    this.c = basic
   }
 }
 

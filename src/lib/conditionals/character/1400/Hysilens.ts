@@ -211,13 +211,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               damageType: DamageType.BASIC,
               damageElement: ElementTag.Physical,
               atkScaling: basicScaling,
-              defScaling: 0,
-              hpScaling: 0,
               activeHit: true,
-              tags: [
-                DamageTag.BASIC,
-                ElementTag.PHYSICAL,
-              ],
             },
           ],
         },
@@ -229,13 +223,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               damageType: DamageType.SKILL,
               damageElement: ElementTag.Physical,
               atkScaling: skillScaling,
-              defScaling: 0,
-              hpScaling: 0,
               activeHit: true,
-              tags: [
-                DamageTag.SKILL,
-                ElementTag.PHYSICAL,
-              ],
             },
           ],
         },
@@ -247,13 +235,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               damageType: DamageType.ULT,
               damageElement: ElementTag.Physical,
               atkScaling: ultScaling,
-              defScaling: 0,
-              hpScaling: 0,
               activeHit: true,
-              tags: [
-                DamageTag.ULT,
-                ElementTag.PHYSICAL,
-              ],
             },
           ],
         },
@@ -265,52 +247,28 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               damageType: DamageType.DOT,
               damageElement: ElementTag.Fire,
               atkScaling: talentDotScaling,
-              defScaling: 0,
-              hpScaling: 0,
               activeHit: false,
-              tags: [
-                DamageTag.DOT,
-                ElementTag.FIRE,
-              ],
             },
             {
               damageFunction: DotDamageFunction,
               damageType: DamageType.DOT,
               damageElement: ElementTag.Wind,
               atkScaling: talentDotScaling,
-              defScaling: 0,
-              hpScaling: 0,
               activeHit: false,
-              tags: [
-                DamageTag.DOT,
-                ElementTag.WIND,
-              ],
             },
             {
               damageFunction: DotDamageFunction,
               damageType: DamageType.DOT,
               damageElement: ElementTag.Lightning,
               atkScaling: talentDotScaling,
-              defScaling: 0,
-              hpScaling: 0,
               activeHit: false,
-              tags: [
-                DamageTag.DOT,
-                ElementTag.LIGHTNING,
-              ],
             },
             {
               damageFunction: DotDamageFunction,
               damageType: DamageType.DOT,
               damageElement: ElementTag.Physical,
               atkScaling: talentDotScaling,
-              defScaling: 0,
-              hpScaling: 0,
               activeHit: false,
-              tags: [
-                DamageTag.DOT,
-                ElementTag.PHYSICAL,
-              ],
             },
           ],
         },
@@ -322,10 +280,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               damageType: DamageType.BREAK,
               damageElement: ElementTag.None,
               activeHit: false,
-              tags: [
-                DamageTag.ULT,
-                ElementTag.PHYSICAL,
-              ],
             },
           ],
         },
@@ -423,10 +377,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.DOT_FINAL_DMG_BOOST.buffTeam((e >= 1 && m.e1Buffs) ? 0.16 : 0, SOURCE_E1)
-      x.VULNERABILITY.buffTeam(m.skillVulnerability ? skillVulnScaling : 0, SOURCE_SKILL)
-      x.DEF_PEN.buffTeam(m.ultZone ? ultDefPenScaling : 0, SOURCE_ULT)
-      x.RES_PEN.buffTeam((e >= 4 && m.e4ResPen) ? 0.20 : 0, SOURCE_E4)
+      // x.DOT_FINAL_DMG_BOOST.buffTeam((e >= 1 && m.e1Buffs) ? 0.16 : 0, SOURCE_E1)
+      // x.VULNERABILITY.buffTeam(m.skillVulnerability ? skillVulnScaling : 0, SOURCE_SKILL)
+      // x.DEF_PEN.buffTeam(m.ultZone ? ultDefPenScaling : 0, SOURCE_ULT)
+      // x.RES_PEN.buffTeam((e >= 4 && m.e4ResPen) ? 0.20 : 0, SOURCE_E4)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>

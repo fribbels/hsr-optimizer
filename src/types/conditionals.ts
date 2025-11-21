@@ -35,6 +35,7 @@ export interface ConditionalsController {
   // Configuration changes to the character & combat environment executed before the precompute steps
   // This can include things like ability damage type switches, weakness break overrides, etc
   initializeConfigurations?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
+  initializeConfigurationsContainer?: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void
 
   initializeTeammateConfigurations?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
 

@@ -99,12 +99,12 @@ export const DotDamageFunction: DamageFunction = {
     const a = x.a
 
     const baseUniversalMulti = a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
-    const dotDmgBoostMulti = 1 + x.getHit(StatKey.DMG_BOOST, hitIndex)
-    const dotDefMulti = calculateDefMulti(eLevel, context.combatBuffs.DEF_PEN + x.getHit(StatKey.DEF_PEN, hitIndex))
-    const dotVulnerabilityMulti = 1 + x.getHit(StatKey.VULNERABILITY, hitIndex) + x.getHit(StatKey.VULNERABILITY, hitIndex)
-    const dotResMulti = 1 - (context.enemyDamageResistance - context.combatBuffs.RES_PEN - x.getHit(StatKey.RES_PEN, hitIndex))
+    const dotDmgBoostMulti = 1 + x.getValue(StatKey.DMG_BOOST, hitIndex)
+    const dotDefMulti = calculateDefMulti(eLevel, context.combatBuffs.DEF_PEN + x.getValue(StatKey.DEF_PEN, hitIndex))
+    const dotVulnerabilityMulti = 1 + x.getValue(StatKey.VULNERABILITY, hitIndex) + x.getValue(StatKey.VULNERABILITY, hitIndex)
+    const dotResMulti = 1 - (context.enemyDamageResistance - context.combatBuffs.RES_PEN - x.getValue(StatKey.RES_PEN, hitIndex))
     const dotEhrMulti = calculateEhrMulti(x, hitIndex, context)
-    const dotFinalDmgMulti = 1 + x.getHit(StatKey.FINAL_DMG_BOOST, hitIndex)
+    const dotFinalDmgMulti = 1 + x.getValue(StatKey.FINAL_DMG_BOOST, hitIndex)
 
     const initialDmg = calculateInitial(
       a,
@@ -113,7 +113,7 @@ export const DotDamageFunction: DamageFunction = {
       hit.hpScaling,
       hit.defScaling,
       hit.atkScaling,
-      x.getHit(StatKey.ATK_P_BOOST, hitIndex),
+      x.getValue(StatKey.ATK_P_BOOST, hitIndex),
     )
 
     const dmg = initialDmg

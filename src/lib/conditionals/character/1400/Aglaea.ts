@@ -2,6 +2,7 @@ import {
   AbilityType,
   BUFF_PRIORITY_MEMO,
   BUFF_PRIORITY_SELF,
+  DamageType,
 } from 'lib/conditionals/conditionalConstants'
 import {
   basicAdditionalDmgAtkFinalizer,
@@ -32,8 +33,14 @@ import {
 import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
+import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
+import {
+  BreakDamageFunction,
+  CritDamageFunction,
+} from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -161,7 +168,105 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
+    actionDeclaration: () => {
+      return [
+        'BASIC',
+        'MEMO SKILL',
+        'BREAK',
+      ]
+    },
+    entityDeclaration: () => {
+      return [
+        {
+          name: 'Hysilens',
+          primary: true,
+          summon: false,
+          memosprite: false,
+        },
+        {
+          name: 'Garmentmaker',
+          primary: false,
+          summon: true,
+          memosprite: true,
+        },
+      ]
+    },
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      const basicAbility = {
+        name: 'BASIC',
+        hits: [
+          {
+            damageFunction: CritDamageFunction,
+            damageType: DamageType.BASIC,
+            damageElement: ElementTag.Lightning,
+            atkScaling: basicScaling,
+            defScaling: 0,
+            hpScaling: 0,
+            activeHit: true,
+          },
+        ],
+      }
+
+      const enhancedBasicAbility = {
+        name: 'BASIC',
+        hits: [
+          {
+            damageFunction: CritDamageFunction,
+            damageType: DamageType.BASIC,
+            damageElement: ElementTag.Lightning,
+            atkScaling: enhancedBasicScaling,
+            activeHit: true,
+          },
+          {
+            damageFunction: CritDamageFunction,
+            damageType: DamageType.BASIC | DamageType.MEMO,
+            damageElement: ElementTag.Lightning,
+            atkScaling: enhancedBasicScaling,
+            activeHit: true,
+          },
+        ],
+      }
+
+      return [
+        (r.supremeStanceState) ? enhancedBasicAbility : basicAbility,
+        {
+          name: 'MEMO SKILL',
+          hits: [
+            {
+              damageFunction: CritDamageFunction,
+              damageType: DamageType.MEMO,
+              damageElement: ElementTag.Lightning,
+              atkScaling: basicScaling,
+              activeHit: true,
+            },
+          ],
+        },
+        {
+          name: 'BREAK',
+          hits: [
+            {
+              damageFunction: BreakDamageFunction,
+              damageType: DamageType.BREAK,
+              damageElement: ElementTag.None,
+              activeHit: false,
+            },
+          ],
+        },
+      ]
+    },
+    actionModifiers() {
+      return []
+    },
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // x.SUMMONS.set(1, SOURCE_TALENT)
+      // x.MEMOSPRITE.set(1, SOURCE_TALENT)
+      // x.MEMO_BUFF_PRIORITY.set(r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, SOURCE_TALENT)
+    },
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.SUMMONS.set(1, SOURCE_TALENT)

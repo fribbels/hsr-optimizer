@@ -9470,6 +9470,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CR,
           Stats.HP_P,
           Stats.HP,
+          Stats.SPD,
         ],
         breakpoints: {
           [Stats.SPD]: 180,

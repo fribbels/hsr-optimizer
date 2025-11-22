@@ -202,6 +202,15 @@ export const AdditionalDamageFunction: DamageFunction = {
     const sourceEntityIndex = hit.sourceEntityIndex ?? 0
     const eLevel = context.enemyLevel
 
+    const cr = x.getValue(StatKey.CR, hitIndex)
+    const crBoost = x.getValue(StatKey.CR_BOOST, hitIndex)
+    const cd = x.getValue(StatKey.CD, hitIndex)
+    const cdBoost = x.getValue(StatKey.CD_BOOST, hitIndex)
+
+    const abilityCr = Math.min(1, cr + crBoost)
+    const abilityCd = cd + cdBoost
+    const abilityCritMulti = abilityCr * (1 + abilityCd) + (1 - abilityCr)
+
     const defPen = x.getValue(StatKey.DEF_PEN, hitIndex)
     const resPen = x.getValue(StatKey.RES_PEN, hitIndex)
     const vulnerability = x.getValue(StatKey.VULNERABILITY, hitIndex)
@@ -215,6 +224,8 @@ export const AdditionalDamageFunction: DamageFunction = {
     const resMulti = 1 - (context.enemyDamageResistance - context.combatBuffs.RES_PEN - resPen)
     const finalDmgMulti = 1 + finalDmg
 
+    const atkBoost = x.getValue(StatKey.ATK_P_BOOST, hitIndex)
+
     const initialDmg = calculateInitial(
       x,
       hitIndex,
@@ -224,7 +235,7 @@ export const AdditionalDamageFunction: DamageFunction = {
       hit.hpScaling ?? 0,
       hit.defScaling ?? 0,
       hit.atkScaling ?? 0,
-      x.getValue(StatKey.ATK_P_BOOST, hitIndex),
+      atkBoost,
     )
 
     const dmg = initialDmg
@@ -233,6 +244,7 @@ export const AdditionalDamageFunction: DamageFunction = {
       * defMulti
       * vulnerabilityMulti
       * resMulti
+      * abilityCritMulti
       * finalDmgMulti
 
     return dmg

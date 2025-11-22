@@ -37,10 +37,7 @@ import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  BreakDamageFunction,
-  CritDamageFunction,
-} from 'types/hitConditionalTypes'
+import { CritDamageFunction } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -250,19 +247,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               damageFunction: CritDamageFunction,
               damageType: DamageType.MEMO,
               damageElement: ElementTag.Lightning,
-              atkScaling: basicScaling,
+              atkScaling: memoSkillScaling,
               activeHit: true,
             },
           ],
         },
         [AglaeaAbilities.BREAK]: {
           hits: [
-            {
-              damageFunction: BreakDamageFunction,
-              damageType: DamageType.BREAK,
-              damageElement: ElementTag.None,
-              activeHit: false,
-            },
+            HitDefinitionBuilder.standardBreak().build(),
           ],
         },
       }

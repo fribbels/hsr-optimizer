@@ -124,7 +124,7 @@ export class ComputedStatsContainer {
   private readonly builder: BuffBuilder
 
   constructor() {
-    this.builder = new BuffBuilder(this)
+    this.builder = new BuffBuilder()
   }
 
   // ============== Precomputes ==============
@@ -132,6 +132,7 @@ export class ComputedStatsContainer {
   public setConfig(config: ComputedStatsContainerConfig) {
     this.config = config
     this.a = new Float32Array(this.config.arrayLength)
+    this.builder.setConfig(config)
   }
 
   public setPrecompute(array: Float32Array) {

@@ -180,6 +180,18 @@ export class ComputedStatsContainer {
     )
   }
 
+  public actionBuff(key: StatKeyValue, value: number) {
+    for (let entityIndex = 0; entityIndex < this.config.entitiesLength; entityIndex++) {
+      this.a[this.getActionIndex(entityIndex, key)] += value
+    }
+  }
+
+  public actionSet(key: StatKeyValue, value: number) {
+    for (let entityIndex = 0; entityIndex < this.config.entitiesLength; entityIndex++) {
+      this.a[this.getActionIndex(entityIndex, key)] = value
+    }
+  }
+
   internalBuff(
     key: StatKeyValue,
     value: number,

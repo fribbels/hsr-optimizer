@@ -219,19 +219,10 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
     a[x.getActionIndex(entityIndex, StatKey.OHB)] += c.a[StatKey.OHB]
   }
 
-  a[Key.ELEMENTAL_DMG] += buffs.DMG_BOOST
-  a[Key.EFFECT_RES_PEN] += buffs.EFFECT_RES_PEN
-  a[Key.VULNERABILITY] += buffs.VULNERABILITY
-  a[Key.BREAK_EFFICIENCY_BOOST] += buffs.BREAK_EFFICIENCY
-
-
-  // TODO
-  // This is not accurate
-  // buffElementalDamageType(x, context.elementalDamageType, c.a[Key.ELEMENTAL_DMG])
-  // ...
-  //   const key = ElementalDmgTypeToKey[type]
-  //   x.a[key] += value
-  a[StatKey.DMG_BOOST] += c.a[Key.ELEMENTAL_DMG]
+  x.actionBuff(StatKey.DMG_BOOST, buffs.DMG_BOOST + c.a[Key.ELEMENTAL_DMG])
+  x.actionBuff(StatKey.EFFECT_RES_PEN, buffs.EFFECT_RES_PEN)
+  x.actionBuff(StatKey.VULNERABILITY, buffs.VULNERABILITY)
+  x.actionBuff(StatKey.BREAK_EFFICIENCY_BOOST, buffs.BREAK_EFFICIENCY)
 
   // TODO
   // if (x.a[Key.MEMOSPRITE]) {
@@ -242,10 +233,10 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
 
   executeNonDynamicCombatSets(x, context, setConditionals, sets, setsArray)
 
-  a[Key.SPD] += a[Key.SPD_P] * context.baseSPD
-  a[Key.ATK] += a[Key.ATK_P] * context.baseATK
-  a[Key.DEF] += a[Key.DEF_P] * context.baseDEF
-  a[Key.HP] += a[Key.HP_P] * context.baseHP
+  x.actionBuff(StatKey.SPD, a[StatKey.SPD_P] * context.baseSPD)
+  x.actionBuff(StatKey.ATK, a[StatKey.ATK_P] * context.baseATK)
+  x.actionBuff(StatKey.DEF, a[StatKey.DEF_P] * context.baseDEF)
+  x.actionBuff(StatKey.HP, a[StatKey.HP_P] * context.baseHP)
 
   // Apply percent stats to memosprite entities
   for (let entityIndex = 1; entityIndex < x.config.entitiesLength; entityIndex++) {

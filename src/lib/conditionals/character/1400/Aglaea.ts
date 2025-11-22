@@ -12,6 +12,7 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
@@ -33,6 +34,7 @@ import {
 import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -46,6 +48,17 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const AglaeaAbilities = createEnum(
+  'BASIC',
+  'MEMO SKILL',
+  'BREAK',
+)
+
+export const AglaeaEntities = createEnum(
+  'Aglaea',
+  'Garmentmaker',
+)
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aglaea')
@@ -169,30 +182,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    entityDeclaration: () => {
-      return [
-        'Hysilens',
-      ]
-    },
-    actionDeclaration: () => {
-      return [
-        'BASIC',
-        'MEMO SKILL',
-        'BREAK',
-      ]
-    },
+    entityDeclaration: () => Object.values(AglaeaEntities),
+    actionDeclaration: () => Object.values(AglaeaAbilities),
 
     entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       // x.set(StatKey.MEMO_BASE_HP_SCALING, memoBaseHpScaling, x.source(SOURCE_MEMO))
       // x.MEMO_BASE_HP_FLAT.buff(memoBaseHpFlat, SOURCE_MEMO)
       // x.MEMO_BASE_SPD_SCALING.buff(0.35, SOURCE_MEMO)
       return {
-        Hysilens: {
+        [AglaeaEntities.Aglaea]: {
           primary: true,
           summon: false,
           memosprite: false,
         },
-        Garmentmaker: {
+        [AglaeaEntities.Garmentmaker]: {
           memoBaseHpScaling,
           memoBaseHpFlat,
           memoBaseSpdScaling: 0.35,
@@ -206,30 +209,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       const basicAbility = {
-        name: 'BASIC',
         hits: [
-          {
-            damageFunction: CritDamageFunction,
-            damageType: DamageType.BASIC,
-            damageElement: ElementTag.Lightning,
-            atkScaling: basicScaling,
-            defScaling: 0,
-            hpScaling: 0,
-            activeHit: true,
-          },
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Lightning)
+            .atkScaling(basicScaling)
+            .build(),
         ],
       }
 
       const enhancedBasicAbility = {
-        name: 'BASIC',
         hits: [
-          {
-            damageFunction: CritDamageFunction,
-            damageType: DamageType.BASIC,
-            damageElement: ElementTag.Lightning,
-            atkScaling: enhancedBasicScaling,
-            activeHit: true,
-          },
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Lightning)
+            .atkScaling(basicScaling)
+            .build(),
           {
             damageFunction: CritDamageFunction,
             damageType: DamageType.BASIC | DamageType.MEMO,
@@ -240,10 +233,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         ],
       }
 
-      return [
-        (r.supremeStanceState) ? enhancedBasicAbility : basicAbility,
-        {
-          name: 'MEMO SKILL',
+      if (r.seamStitch) {
+        const additionalDmgHit = HitDefinitionBuilder.standardAdditional()
+          .damageElement(ElementTag.Lightning)
+          .atkScaling(talentAdditionalDmg)
+          .build()
+
+        basicAbility.hits.push(additionalDmgHit)
+        enhancedBasicAbility.hits.push(additionalDmgHit)
+      }
+
+      return {
+        [AglaeaAbilities.BASIC]: (r.supremeStanceState) ? enhancedBasicAbility : basicAbility,
+        [AglaeaAbilities.MEMO_SKILL]: {
           hits: [
             {
               damageFunction: CritDamageFunction,
@@ -254,8 +256,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             },
           ],
         },
-        {
-          name: 'BREAK',
+        [AglaeaAbilities.BREAK]: {
           hits: [
             {
               damageFunction: BreakDamageFunction,
@@ -265,7 +266,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             },
           ],
         },
-      ]
+      }
     },
     actionModifiers() {
       return []
@@ -292,36 +293,28 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.buff(StatKey.SPD_P, (r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, x.source(SOURCE_ULT))
 
-      x.set(StatKey.MEMO_BASE_HP_SCALING, memoBaseHpScaling, x.source(SOURCE_MEMO))
-      x.MEMO_BASE_HP_FLAT.buff(memoBaseHpFlat, SOURCE_MEMO)
-      x.MEMO_BASE_SPD_SCALING.buff(0.35, SOURCE_MEMO)
-      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
-      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
+      x.buff(StatKey.SPD_P, r.memoSpdStacks * memoTalentSpd, x.target(AglaeaEntities.Garmentmaker).source(SOURCE_MEMO))
 
-      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.seamStitch) ? talentAdditionalDmg : 0, SOURCE_TALENT)
-
-      x.m.MEMO_SKILL_ATK_SCALING.buff(memoSkillScaling, SOURCE_MEMO)
-
-      x.m.SPD.buff(r.memoSpdStacks * memoTalentSpd, SOURCE_MEMO)
-
-      x.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
-      x.m.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
-
-      x.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
-      x.m.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
-
-      x.BASIC_TOUGHNESS_DMG.buff((r.supremeStanceState) ? 20 : 10, SOURCE_BASIC)
-      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
-
-      // Cyrene
-      const cyreneDmgBuff = cyreneActionExists(action)
-        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.792 : 0.72)
-        : 0
-      const cyreneDefPenBuff = cyreneActionExists(action)
-        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
-        : 0
-      x.ELEMENTAL_DMG.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, Source.odeTo(AGLAEA))
-      x.DEF_PEN.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDefPenBuff : 0, Source.odeTo(AGLAEA))
+      // x.m.SPD.buff(r.memoSpdStacks * memoTalentSpd, SOURCE_MEMO)
+      //
+      // x.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
+      // x.m.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
+      //
+      // x.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
+      // x.m.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
+      //
+      // x.BASIC_TOUGHNESS_DMG.buff((r.supremeStanceState) ? 20 : 10, SOURCE_BASIC)
+      // x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
+      //
+      // // Cyrene
+      // const cyreneDmgBuff = cyreneActionExists(action)
+      //   ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.792 : 0.72)
+      //   : 0
+      // const cyreneDefPenBuff = cyreneActionExists(action)
+      //   ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
+      //   : 0
+      // x.ELEMENTAL_DMG.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, Source.odeTo(AGLAEA))
+      // x.DEF_PEN.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDefPenBuff : 0, Source.odeTo(AGLAEA))
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

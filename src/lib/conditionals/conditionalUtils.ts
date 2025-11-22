@@ -182,6 +182,13 @@ export function cyreneSpecialEffectEidolonUpgraded(action: OptimizerAction) {
   return cyreneAction.actorEidolon >= 3
 }
 
+type Sanitize<S extends string> = S extends `${infer Start}${' ' | '-' | '/' | '.'}${infer Rest}` ? Sanitize<`${Start}_${Rest}`>
+  : S
+
 export function createEnum<T extends string>(...values: T[]) {
-  return Object.fromEntries(values.map((v) => [v, v])) as { [K in T]: K }
+  const obj: any = {}
+  for (const v of values) {
+    obj[v.replace(/[^a-zA-Z0-9]+/g, '_')] = v
+  }
+  return obj as { [K in T as Sanitize<K>]: K }
 }

@@ -184,6 +184,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateDefaults: () => teammateDefaults,
 
     entityDeclaration: () => Object.values(HysilensEntities),
+    actionDeclaration: () => Object.values(HysilensAbilities),
     entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       return {
         [HysilensEntities.Hysilens]: {
@@ -193,8 +194,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
       }
     },
-
-    actionDeclaration: () => Object.values(HysilensAbilities),
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 

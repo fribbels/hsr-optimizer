@@ -187,6 +187,46 @@ export const BreakDamageFunction: DamageFunction = {
   },
 }
 
+export const AdditionalDamageFunction: DamageFunction = {
+  apply: (x: ComputedStatsContainer, action: OptimizerAction, hitIndex: number, context: OptimizerContext) => {
+    const hit = action.hits![hitIndex]
+    const eLevel = context.enemyLevel
+    const a = x.a
+
+    const be = x.getValue(StatKey.BE, hitIndex)
+
+    const defPen = x.getValue(StatKey.DEF_PEN, hitIndex)
+    const resPen = x.getValue(StatKey.RES_PEN, hitIndex)
+    const vulnerability = x.getValue(StatKey.VULNERABILITY, hitIndex)
+    const finalDmg = x.getValue(StatKey.FINAL_DMG_BOOST, hitIndex)
+    const dmgBoost = x.getValue(StatKey.DMG_BOOST, hitIndex)
+
+    const baseUniversalMulti = a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
+    const dmgBoostMulti = 1 + dmgBoost
+    const defMulti = calculateDefMulti(eLevel, context.combatBuffs.DEF_PEN + defPen)
+    const vulnerabilityMulti = 1 + vulnerability
+    const resMulti = 1 - (context.enemyDamageResistance - context.combatBuffs.RES_PEN - resPen)
+    const finalDmgMulti = 1 + finalDmg
+    const beMulti = 1 + be
+
+    const breakFixedMulti = 3767.5533
+
+    const dmg = baseUniversalMulti
+      * breakFixedMulti
+      * context.elementalBreakScaling
+      * defMulti
+      * (0.5 + context.enemyMaxToughness / 120)
+      * vulnerabilityMulti
+      * resMulti
+      * beMulti
+      * dmgBoostMulti
+      * finalDmgMulti
+
+    return dmg
+    // return instanceDmg * comboDotMulti
+  },
+}
+
 const cLevelConst = 20 + 80
 
 function calculateDefMulti(eLevel: number, defPen: number) {

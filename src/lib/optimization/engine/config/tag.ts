@@ -1,20 +1,24 @@
 export enum DamageTag {
-  BASIC = 1 << 0,
-  SKILL = 1 << 1,
-  ULTIMATE = 1 << 2,
-  TALENT = 1 << 3,
-  DOT = 1 << 4,
+  BASIC = 1,
+  SKILL = 2,
+  ULT = 4,
+  FUA = 8,
+  DOT = 16,
+  BREAK = 32,
+  SUPER_BREAK = 64,
+  MEMO = 128,
+  ADDITIONAL = 256,
 }
 
 export enum ElementTag {
   None = 0,
-  Physical = 1 << 0,
-  Fire = 1 << 1,
-  Ice = 1 << 2,
-  Lightning = 1 << 3,
-  Wind = 1 << 4,
-  Quantum = 1 << 5,
-  Imaginary = 1 << 6,
+  Physical = 1,
+  Fire = 2,
+  Ice = 4,
+  Lightning = 8,
+  Wind = 16,
+  Quantum = 32,
+  Imaginary = 64,
 }
 
 export type Tag = ElementTag | DamageTag

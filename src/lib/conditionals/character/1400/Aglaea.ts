@@ -10,8 +10,6 @@ import {
   Conditionals,
   ContentDefinition,
   createEnum,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import {
   ConditionalActivation,
@@ -28,12 +26,14 @@ import {
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
-import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { ElementTag } from 'lib/optimization/engine/config/tag'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -286,6 +286,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.buff(StatKey.SPD_P, r.memoSpdStacks * memoTalentSpd, x.target(AglaeaEntities.Garmentmaker).source(SOURCE_MEMO))
 
+      x.buff(StatKey.DEF_PEN, (e >= 2) ? 0.14 * r.e2DefShredStacks : 0, x.target(AglaeaEntities.Aglaea).source(SOURCE_E2))
+      x.buff(StatKey.DEF_PEN, (e >= 2) ? 0.14 * r.e2DefShredStacks : 0, x.target(AglaeaEntities.Garmentmaker).source(SOURCE_E2))
+
+      const e6ResPenValue = (e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0
+      x.buff(StatKey.RES_PEN, e6ResPenValue, x.elements(ElementTag.Lightning).target(AglaeaEntities.Aglaea).source(SOURCE_E6))
+      x.buff(StatKey.RES_PEN, e6ResPenValue, x.elements(ElementTag.Lightning).target(AglaeaEntities.Garmentmaker).source(SOURCE_E6))
+
       // x.m.SPD.buff(r.memoSpdStacks * memoTalentSpd, SOURCE_MEMO)
       //
       // x.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
@@ -310,41 +317,41 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_ATK_SCALING.buff((r.supremeStanceState) ? enhancedBasicScaling : basicScaling, SOURCE_BASIC)
-      x.m.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_MEMO)
-
-      x.SPD_P.buff((r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, SOURCE_ULT)
-
-      x.MEMO_BASE_HP_SCALING.buff(memoBaseHpScaling, SOURCE_MEMO)
-      x.MEMO_BASE_HP_FLAT.buff(memoBaseHpFlat, SOURCE_MEMO)
-      x.MEMO_BASE_SPD_SCALING.buff(0.35, SOURCE_MEMO)
-      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
-      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
-
-      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.seamStitch) ? talentAdditionalDmg : 0, SOURCE_TALENT)
-
-      x.m.MEMO_SKILL_ATK_SCALING.buff(memoSkillScaling, SOURCE_MEMO)
-
-      x.m.SPD.buff(r.memoSpdStacks * memoTalentSpd, SOURCE_MEMO)
-
-      x.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
-      x.m.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
-
-      x.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
-      x.m.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
-
-      x.BASIC_TOUGHNESS_DMG.buff((r.supremeStanceState) ? 20 : 10, SOURCE_BASIC)
-      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
-
-      // Cyrene
-      const cyreneDmgBuff = cyreneActionExists(action)
-        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.792 : 0.72)
-        : 0
-      const cyreneDefPenBuff = cyreneActionExists(action)
-        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
-        : 0
-      x.ELEMENTAL_DMG.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, Source.odeTo(AGLAEA))
-      x.DEF_PEN.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDefPenBuff : 0, Source.odeTo(AGLAEA))
+      // x.BASIC_ATK_SCALING.buff((r.supremeStanceState) ? enhancedBasicScaling : basicScaling, SOURCE_BASIC)
+      // x.m.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_MEMO)
+      //
+      // x.SPD_P.buff((r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, SOURCE_ULT)
+      //
+      // x.MEMO_BASE_HP_SCALING.buff(memoBaseHpScaling, SOURCE_MEMO)
+      // x.MEMO_BASE_HP_FLAT.buff(memoBaseHpFlat, SOURCE_MEMO)
+      // x.MEMO_BASE_SPD_SCALING.buff(0.35, SOURCE_MEMO)
+      // x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
+      // x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
+      //
+      // x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.seamStitch) ? talentAdditionalDmg : 0, SOURCE_TALENT)
+      //
+      // x.m.MEMO_SKILL_ATK_SCALING.buff(memoSkillScaling, SOURCE_MEMO)
+      //
+      // x.m.SPD.buff(r.memoSpdStacks * memoTalentSpd, SOURCE_MEMO)
+      //
+      // x.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
+      // x.m.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
+      //
+      // x.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
+      // x.m.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
+      //
+      // x.BASIC_TOUGHNESS_DMG.buff((r.supremeStanceState) ? 20 : 10, SOURCE_BASIC)
+      // x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
+      //
+      // // Cyrene
+      // const cyreneDmgBuff = cyreneActionExists(action)
+      //   ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.792 : 0.72)
+      //   : 0
+      // const cyreneDefPenBuff = cyreneActionExists(action)
+      //   ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
+      //   : 0
+      // x.ELEMENTAL_DMG.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, Source.odeTo(AGLAEA))
+      // x.DEF_PEN.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDefPenBuff : 0, Source.odeTo(AGLAEA))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -363,24 +370,26 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.ATK, 1172, x.source(SOURCE_ULT))
-      x.buff(StatKey.ATK, 1172, x.target(AglaeaEntities.Garmentmaker).source(SOURCE_ULT))
-      //
-      // if (e >= 6 && r.supremeStanceState && r.e6Buffs) {
-      //   let jointBoost = 0
-      //   if (x.a[Key.SPD] > 320 || x.m.a[Key.SPD] >= 320) {
-      //     jointBoost = 0.60
-      //   } else if (x.a[Key.SPD] > 240 || x.m.a[Key.SPD] >= 240) {
-      //     jointBoost = 0.30
-      //   } else if (x.a[Key.SPD] > 160 || x.m.a[Key.SPD] >= 160) {
-      //     jointBoost = 0.10
-      //   }
-      //
-      //   x.BASIC_DMG_BOOST.buff(jointBoost, SOURCE_E6)
-      //   x.m.BASIC_DMG_BOOST.buff(jointBoost, SOURCE_E6)
-      // }
-      //
-      // basicAdditionalDmgAtkFinalizer(x)
+      if (e >= 6 && r.supremeStanceState && r.e6Buffs) {
+        let jointBoost = 0
+
+        const aglaeaSpd = x.getActionValue(StatKey.SPD, AglaeaEntities.Aglaea)
+        const garmentmakerSpd = x.getActionValue(StatKey.SPD, AglaeaEntities.Garmentmaker)
+
+        if (aglaeaSpd > 320 || garmentmakerSpd >= 320) {
+          jointBoost = 0.60
+        } else if (aglaeaSpd > 240 || garmentmakerSpd >= 240) {
+          jointBoost = 0.30
+        } else if (aglaeaSpd > 160 || garmentmakerSpd >= 160) {
+          jointBoost = 0.10
+        }
+
+        x.buff(StatKey.DMG_BOOST, jointBoost, x.damageType(DamageTag.BASIC).target(AglaeaEntities.Aglaea).source(SOURCE_E6))
+        x.buff(StatKey.DMG_BOOST, jointBoost, x.damageType(DamageTag.BASIC).target(AglaeaEntities.Garmentmaker).source(SOURCE_E6))
+      }
+
+      x.buff(StatKey.ATK, 3436, x.target(AglaeaEntities.Aglaea).source(SOURCE_E6))
+      x.buff(StatKey.ATK, 3436, x.target(AglaeaEntities.Garmentmaker).source(SOURCE_E6))
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

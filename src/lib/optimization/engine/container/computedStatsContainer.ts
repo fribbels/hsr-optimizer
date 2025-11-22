@@ -260,6 +260,11 @@ export class ComputedStatsContainer {
     return actionValue + hitValue
   }
 
+  public getActionValue(key: StatKeyValue, entityName: string): number {
+    const entityIndex = this.config.entityRegistry.getIndex(entityName)
+    return this.a[this.getActionIndex(entityIndex, key)]
+  }
+
   public getHitValue(key: StatKeyValue, hitIndex: number) {
     const hit = this.config.hits[hitIndex]
     const sourceEntityIndex = hit.sourceEntityIndex ?? 0

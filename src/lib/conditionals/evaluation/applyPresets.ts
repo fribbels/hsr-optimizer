@@ -137,6 +137,8 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
     ),
   ]
 
+  // Arcadia depends on the number of ally targets
+  // Demiurge is out-of-bounds and therefore not a target
   const targetableMemosprites = allyIds.filter((id) => (
     id
     && id != CYRENE

@@ -6,9 +6,11 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
@@ -23,8 +25,6 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
-  BreakDamageFunction,
-  CritDamageFunction,
   DefaultDamageFunction,
   DotDamageFunction,
   Hit,
@@ -33,6 +33,18 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const HysilensAbilities = createEnum(
+  'BASIC',
+  'SKILL',
+  'ULT',
+  'DOT',
+  'BREAK',
+)
+
+export const HysilensEntities = createEnum(
+  'Hysilens',
+)
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hysilens')
@@ -170,31 +182,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    actionDeclaration: () => {
-      return [
-        'BASIC',
-        'SKILL',
-        'ULT',
-        'DOT',
-        'BREAK',
-      ]
-    },
-    entityDeclaration: () => {
-      return [
-        {
-          name: 'Hysilens',
+
+    entityDeclaration: () => Object.values(HysilensEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      return {
+        [HysilensEntities.Hysilens]: {
           primary: true,
           summon: false,
           memosprite: false,
         },
-        {
-          name: 'Summon',
-          primary: false,
-          summon: true,
-          memosprite: false,
-        },
-      ]
+      }
     },
+
+    actionDeclaration: () => Object.values(HysilensAbilities),
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -202,45 +202,32 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const updatedUltDotScaling = (e >= 6 && r.e6Buffs) ? ultDotScaling + 0.20 : ultDotScaling
       const ultDot = r.ultDotStacks * updatedUltDotScaling
 
-      return [
-        {
-          name: 'BASIC',
+      return {
+        [HysilensAbilities.BASIC]: {
           hits: [
-            {
-              damageFunction: CritDamageFunction,
-              damageType: DamageType.BASIC,
-              damageElement: ElementTag.Physical,
-              atkScaling: basicScaling,
-              activeHit: true,
-            },
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(basicScaling)
+              .build(),
           ],
         },
-        {
-          name: 'SKILL',
+        [HysilensAbilities.SKILL]: {
           hits: [
-            {
-              damageFunction: CritDamageFunction,
-              damageType: DamageType.SKILL,
-              damageElement: ElementTag.Physical,
-              atkScaling: skillScaling,
-              activeHit: true,
-            },
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(skillScaling)
+              .build(),
           ],
         },
-        {
-          name: 'ULT',
+        [HysilensAbilities.ULT]: {
           hits: [
-            {
-              damageFunction: CritDamageFunction,
-              damageType: DamageType.ULT,
-              damageElement: ElementTag.Physical,
-              atkScaling: ultScaling,
-              activeHit: true,
-            },
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(ultScaling)
+              .build(),
           ],
         },
-        {
-          name: 'DOT',
+        [HysilensAbilities.DOT]: {
           hits: [
             {
               damageFunction: DotDamageFunction,
@@ -272,18 +259,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             },
           ],
         },
-        {
-          name: 'BREAK',
+        [HysilensAbilities.BREAK]: {
           hits: [
-            {
-              damageFunction: BreakDamageFunction,
-              damageType: DamageType.BREAK,
-              damageElement: ElementTag.None,
-              activeHit: false,
-            },
+            HitDefinitionBuilder.standardBreak().build(),
           ],
         },
-      ]
+      }
     },
     actionModifiers() {
       return [

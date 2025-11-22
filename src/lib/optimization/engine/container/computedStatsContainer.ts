@@ -77,7 +77,7 @@ export class ComputedStatsContainerConfig {
     this.hitsLength = this.hits.length
 
     // Entities
-    this.entitiesLength = context.entities!.length
+    this.entitiesLength = context.entityNames!.length
     this.entityRegistry = new NamedArray(context.entities!, (entity) => entity.name)
     this.selfEntity = this.entityRegistry.get(0)!
 

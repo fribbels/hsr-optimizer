@@ -18,7 +18,7 @@ import {
   Form,
   OptimizerForm,
 } from 'types/form'
-import { HitAction } from 'types/hitConditionalTypes'
+import { AbilityDefinition } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -130,7 +130,7 @@ export function calculateActionDeclarations(request: OptimizerForm, context: Opt
   const characterConditionalController = CharacterConditionalsResolver.get(context)
   const actionDeclarations = characterConditionalController.actionDeclaration()
   const actionDefinitionProvider = characterConditionalController.actionDefinition
-  const actionMapping: Record<string, ((action: OptimizerAction, context: OptimizerContext) => HitAction[])> = {}
+  const actionMapping: Record<string, ((action: OptimizerAction, context: OptimizerContext) => AbilityDefinition[])> = {}
   const actionModifiers = [
     ...characterConditionalController.actionModifiers(),
   ]

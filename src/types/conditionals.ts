@@ -1,6 +1,7 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ActionModifier } from 'lib/optimization/context/calculateActions'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FormSelectWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
@@ -13,10 +14,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
-import { ActionModifier } from 'lib/optimization/context/calculateActions'
 import {
+  AbilityDefinition,
   EntityDefinition,
-  HitAction,
 } from './hitConditionalTypes'
 
 // Interface to an instance of a Character or Light Cone conditional controller
@@ -31,7 +31,7 @@ export interface ConditionalsController {
   entityDefinition: (action: OptimizerAction, context: OptimizerContext) => Record<string, EntityDefinition>
   actionDeclaration: () => string[]
   actionModifiers: () => ActionModifier[]
-  actionDefinition: (action: OptimizerAction, context: OptimizerContext) => HitAction[]
+  actionDefinition: (action: OptimizerAction, context: OptimizerContext) => Record<string, AbilityDefinition>
 
   // Configuration changes to the character & combat environment executed before the precompute steps
   // This can include things like ability damage type switches, weakness break overrides, etc

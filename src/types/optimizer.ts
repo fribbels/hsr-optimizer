@@ -25,8 +25,8 @@ import {
   ElementalResPenType,
 } from 'types/metadata'
 import {
+  AbilityDefinition,
   Hit,
-  HitAction,
 } from './hitConditionalTypes'
 
 export type OptimizerAction = {
@@ -138,7 +138,7 @@ export type OptimizerContext = CharacterMetadata & {
   // NEW
   actionDeclarations: string[],
   actionModifiers: ActionModifier[],
-  actionMapping: Record<string, ((action: OptimizerAction, context: OptimizerContext) => HitAction[])>,
+  actionMapping: Record<string, ((action: OptimizerAction, context: OptimizerContext) => AbilityDefinition[])>,
   outputRegistersLength: number,
 
   rotationActions: OptimizerAction[],
@@ -180,8 +180,9 @@ export type OptimizerContext = CharacterMetadata & {
   activeAbilities: AbilityType[],
   activeAbilityFlags: number,
   actions: OptimizerAction[],
-  hitActions?: HitAction[],
+  hitActions?: AbilityDefinition[],
   entities?: OptimizerEntity[],
+  entityNames?: string[],
   comboDot: number,
   dotAbilities: number,
 

@@ -168,7 +168,7 @@ export function getCyreneAction(action: OptimizerAction) {
 }
 
 export function cyreneActionExists(action: OptimizerAction) {
-  return getCyreneAction(action) ? true :false
+  return getCyreneAction(action) ? true : false
 }
 
 // Assumes cyreneTeammateSpecialEffectActive returned true
@@ -180,4 +180,8 @@ export function cyreneSpecialEffectEidolonUpgraded(action: OptimizerAction) {
   ].find((x) => x && x.actorId == CYRENE)!
 
   return cyreneAction.actorEidolon >= 3
+}
+
+export function createEnum<T extends string>(...values: T[]) {
+  return Object.fromEntries(values.map((v) => [v, v])) as { [K in T]: K }
 }

@@ -6,8 +6,7 @@ import {
   OptimizerContext,
 } from './optimizer'
 
-export interface HitAction {
-  name: string
+export interface AbilityDefinition {
   hits: HitDefinition[]
 }
 
@@ -37,15 +36,15 @@ export interface EntityDefinition {
   summon: boolean
   memosprite: boolean
 
-  memoBaseAtkFlat: number
-  memoBaseHpFlat: number
-  memoBaseDefFlat: number
-  memoBaseSpdFlat: number
+  memoBaseAtkFlat?: number
+  memoBaseHpFlat?: number
+  memoBaseDefFlat?: number
+  memoBaseSpdFlat?: number
 
-  memoBaseAtkScaling: number
-  memoBaseHpScaling: number
-  memoBaseDefScaling: number
-  memoBaseSpdScaling: number
+  memoBaseAtkScaling?: number
+  memoBaseHpScaling?: number
+  memoBaseDefScaling?: number
+  memoBaseSpdScaling?: number
 }
 
 const ActionKey = {}

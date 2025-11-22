@@ -9,6 +9,9 @@ import {
 
 const BASE_HIT_DEFAULTS: Partial<HitDefinition> = {
   activeHit: false,
+  atkScaling: 0,
+  hpScaling: 0,
+  defScaling: 0,
 }
 
 export function HitDefinitionBuilder(defaults?: Partial<HitDefinition>) {

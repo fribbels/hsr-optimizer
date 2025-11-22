@@ -127,9 +127,9 @@ export const DotDamageFunction: DamageFunction = {
       a,
       context,
       0,
-      hit.hpScaling,
-      hit.defScaling,
-      hit.atkScaling,
+      hit.hpScaling ?? 0,
+      hit.defScaling ?? 0,
+      hit.atkScaling ?? 0,
       x.getValue(StatKey.ATK_P_BOOST, hitIndex),
     )
 

@@ -619,6 +619,7 @@ ExpandedDataPanel:
           DEF PEN: 防御力無視
           Break DEF PEN: 撃破後防御力無視
           Toughness DMG: 削靭値
+          Fixed Toughness DMG: 固定削靭値
           Super Break multiplier: 超撃破倍率
           Break Efficiency boost: 弱点撃破効率増加
           True DMG multiplier: 確定ダメージ倍率

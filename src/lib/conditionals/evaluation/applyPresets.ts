@@ -16,6 +16,7 @@ import {
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
   ANAXA,
+  CYRENE,
   MOZE,
   PHAINON,
 } from 'lib/simulations/tests/testMetadataConstants'
@@ -136,10 +137,15 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
     ),
   ]
 
-  const allyPaths = allyIds.map((id) => id ? metadataCharacters[id].path : null)
-  const memosprites = allyPaths.filter((path) => path == PathNames.Remembrance).length
+  // Arcadia depends on the number of ally targets
+  // Demiurge is out-of-bounds and therefore not a target
+  const targetableMemosprites = allyIds.filter((id) => (
+    id
+    && id != CYRENE
+    && metadataCharacters[id].path == PathNames.Remembrance
+  )).length
   const mozes = allyIds.filter((id) => id == MOZE).length
-  form.setConditionals[Sets.ArcadiaOfWovenDreams][1] = form.characterId == PHAINON ? 1 : 4 + memosprites - mozes
+  form.setConditionals[Sets.ArcadiaOfWovenDreams][1] = form.characterId == PHAINON ? 1 : 4 + targetableMemosprites - mozes
 }
 
 export function applyTeamAwareSetConditionalPresetsToOptimizerFormInstance(formInstance: FormInstance<Form>) {

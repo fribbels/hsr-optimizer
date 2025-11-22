@@ -4,7 +4,6 @@ import {
   BUFF_PRIORITY_SELF,
   DamageType,
 } from 'lib/conditionals/conditionalConstants'
-import { gpuBasicAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
@@ -17,10 +16,7 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import {
-  wgslFalse,
-  wgslTrue,
-} from 'lib/gpu/injection/wgslUtils'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
   ComputedStatsArray,
@@ -286,13 +282,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // x.m.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_MEMO)
 
       x.buff(StatKey.SPD_P, (r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, x.source(SOURCE_ULT))
-
       x.buff(StatKey.SPD_P, r.memoSpdStacks * memoTalentSpd, x.target(AglaeaEntities.Garmentmaker).source(SOURCE_MEMO))
 
       x.buff(StatKey.DEF_PEN, (e >= 2) ? 0.14 * r.e2DefShredStacks : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E2))
 
-      const e6ResPenValue = (e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0
-      x.buff(StatKey.RES_PEN, e6ResPenValue, x.elements(ElementTag.Lightning).targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6))
+      x.buff(
+        StatKey.RES_PEN,
+        (e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0,
+        x.elements(ElementTag.Lightning).targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6),
+      )
 
       // x.m.SPD.buff(r.memoSpdStacks * memoTalentSpd, SOURCE_MEMO)
       //
@@ -391,22 +389,23 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      return `
-if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
-  if (x.SPD > 320 || m.SPD > 320) {
-    x.BASIC_DMG_BOOST += 0.60;
-    m.BASIC_DMG_BOOST += 0.60;
-  } else if (x.SPD > 240 || m.SPD > 240) {
-    x.BASIC_DMG_BOOST += 0.30;
-    m.BASIC_DMG_BOOST += 0.30;
-  } else if (x.SPD > 160 || m.SPD > 160) {
-    x.BASIC_DMG_BOOST += 0.10;
-    m.BASIC_DMG_BOOST += 0.10;
-  }
-}
-
-${gpuBasicAdditionalDmgAtkFinalizer()}
-`
+      return ``
+      //       return `
+      // if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
+      //   if (x.SPD > 320 || m.SPD > 320) {
+      //     x.BASIC_DMG_BOOST += 0.60;
+      //     m.BASIC_DMG_BOOST += 0.60;
+      //   } else if (x.SPD > 240 || m.SPD > 240) {
+      //     x.BASIC_DMG_BOOST += 0.30;
+      //     m.BASIC_DMG_BOOST += 0.30;
+      //   } else if (x.SPD > 160 || m.SPD > 160) {
+      //     x.BASIC_DMG_BOOST += 0.10;
+      //     m.BASIC_DMG_BOOST += 0.10;
+      //   }
+      // }
+      //
+      // ${gpuBasicAdditionalDmgAtkFinalizer()}
+      // `
     },
     dynamicConditionals: [
       {

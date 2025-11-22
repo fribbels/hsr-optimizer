@@ -18,6 +18,7 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
+  TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { HYSILENS } from 'lib/simulations/tests/testMetadataConstants'
@@ -351,10 +352,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.FINAL_DMG_BOOST, (e >= 1 && m.e1Buffs) ? 0.16 : 0, x.damageType(DamageTag.DOT).source(SOURCE_E1))
-      x.buff(StatKey.VULNERABILITY, (m.skillVulnerability) ? skillVulnScaling : 0, x.source(SOURCE_SKILL))
-      x.buff(StatKey.DEF_PEN, (m.ultZone) ? ultDefPenScaling : 0, x.source(SOURCE_ULT))
-      x.buff(StatKey.RES_PEN, (e >= 4 && m.e4ResPen) ? 0.20 : 0, x.source(SOURCE_E4))
+      x.buff(StatKey.FINAL_DMG_BOOST, (e >= 1 && m.e1Buffs) ? 0.16 : 0, x.targets(TargetTag.FullTeam).damageType(DamageTag.DOT).source(SOURCE_E1))
+      x.buff(StatKey.VULNERABILITY, (m.skillVulnerability) ? skillVulnScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+      x.buff(StatKey.DEF_PEN, (m.ultZone) ? ultDefPenScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
+      x.buff(StatKey.RES_PEN, (e >= 4 && m.e4ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -384,7 +385,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       //   EntityType.SELF,
       //   EntityType.SELF,
       // )
-      // x.ELEMENTAL_DMG.buff((r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * Math.floor((x.a[Key.EHR] - 0.60) / 0.10))) : 0, SOURCE_TRACE)
+
+      const ehrValue = x.getActionValue(StatKey.EHR, HysilensEntities.Hysilens)
+      const ehrBoost = (r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * Math.floor((ehrValue - 0.60) / 0.10))) : 0
+
+      x.buff(StatKey.DMG_BOOST, ehrBoost, x.source(SOURCE_TRACE))
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

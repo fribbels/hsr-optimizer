@@ -479,6 +479,14 @@ TeammateCard:
       Desc: 'crwdns45994:0$t(gameData:RelicSets.125.Name)crwdne45994:0'
       Set: 'crwdns45236:0$t(gameData:RelicSets.125.Name)crwdne45236:0'
       Text: crwdns45238:0crwdne45238:0
+    WorldRemaking:
+      Desc: 'crwdns46128:0$t(gameData:RelicSets.127.Name)crwdne46128:0'
+      Set: 'crwdns46130:0$t(gameData:RelicSets.127.Name)crwdne46130:0'
+      Text: crwdns46132:0crwdne46132:0
+    SelfEnshrouded:
+      Desc: 'crwdns46134:0$t(gameData:RelicSets.128.Name)crwdne46134:0'
+      Set: 'crwdns46136:0$t(gameData:RelicSets.128.Name)crwdne46136:0'
+      Text: crwdns46138:0crwdne46138:0
     Keel:
       Desc: 'crwdns43336:0$t(gameData:RelicSets.310.Name)crwdne43336:0'
       Set: 'crwdns43338:0$t(gameData:RelicSets.310.Name)crwdne43338:0'

@@ -10,7 +10,6 @@ import { ActionModifier } from 'lib/optimization/context/calculateActions'
 import {
   ComputedStatsContainer,
   ComputedStatsContainerConfig,
-  OptimizerEntity,
 } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CharacterId } from 'types/character'
@@ -138,7 +137,8 @@ export type OptimizerContext = CharacterMetadata & {
   // NEW
   actionDeclarations: string[],
   actionModifiers: ActionModifier[],
-  actionMapping: Record<string, ((action: OptimizerAction, context: OptimizerContext) => AbilityDefinition[])>,
+  characterController: CharacterConditionalsController,
+  teammateControllers: CharacterConditionalsController[],
   outputRegistersLength: number,
 
   rotationActions: OptimizerAction[],
@@ -181,8 +181,6 @@ export type OptimizerContext = CharacterMetadata & {
   activeAbilityFlags: number,
   actions: OptimizerAction[],
   hitActions?: AbilityDefinition[],
-  entities?: OptimizerEntity[],
-  entityNames?: string[],
   comboDot: number,
   dotAbilities: number,
 

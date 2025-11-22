@@ -1,17 +1,19 @@
 export function genericBuilder<T>(defaults?: Partial<T>): BuilderFor<T> {
   const obj = { ...defaults } as any
 
-  return new Proxy(obj, {
+  const proxy = new Proxy(obj, {
     get(target, prop) {
       if (prop === 'build') {
         return () => target
       }
       return (value: any) => {
         target[prop] = value
-        return this
+        return proxy
       }
     },
   }) as BuilderFor<T>
+
+  return proxy
 }
 
 type BuilderFor<T> =

@@ -4,7 +4,9 @@ import { calculateContextConditionalRegistry } from 'lib/optimization/calculateC
 import {
   ComputedStatsContainer,
   ComputedStatsContainerConfig,
+  OptimizerEntity,
 } from 'lib/optimization/engine/container/computedStatsContainer'
+import { NamedArray } from 'lib/optimization/engine/util/namedArray'
 import {
   countDotAbilities,
   defineAction,
@@ -14,11 +16,12 @@ import {
 } from 'lib/optimization/rotation/comboStateTransform'
 import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { CharacterConditionalsController } from 'types/conditionals'
 import {
   Form,
   OptimizerForm,
 } from 'types/form'
-import { AbilityDefinition } from 'types/hitConditionalTypes'
+import { Hit } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -28,76 +31,107 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
   const { comboTurnAbilities, comboDot } = getComboTypeAbilities(request)
   calculateActionDeclarations(request, context)
 
-  // ComboTurnAbilities are the string[] representation of the rotation
-  // ComboState contains the activation status of each conditional for each ability in the rotation
-  // Calculating Combo DMG uses ComboTurnAbilities[1] -> ComboTurnAbilities[n]
-  // Calculating each individual ability's default damage uses ComboTurnAbilities[0]
-  // Therefore there will be an action calculation each default action definition, then also each rotation action
-
-  // Combo Rotation
-
-  const rotationActions: OptimizerAction[] = []
-
-  for (let i = 1; i < comboTurnAbilities.length; i++) {
-    rotationActions.push(defineAction(i, comboState, comboTurnAbilities[i], request, context))
-  }
-
-  // Defaults
-
-  const defaultActions: OptimizerAction[] = []
-
-  const actionMapping: Record<number, any> = {}
-
-  for (let i = 0; i < context.actionDeclarations.length; i++) {
-    const actionDeclaration = context.actionDeclarations[i]
-    const action = defineAction(0, comboState, actionDeclaration as TurnAbilityName, request, context)
-    defaultActions.push(action)
-  }
-
-  context.defaultActions = defaultActions
-  context.rotationActions = rotationActions
-
   let hitCounter = 0
-
-  function prepareRegisters(actions: OptimizerAction[]) {
-    for (const action of actions) {
-      action.registerIndices = []
-      for (const hit of action.hits!) {
-        const index = hitCounter++
-        hit.registerIndex = index
-        action.registerIndices.push(index)
-      }
-    }
-  }
-
-  prepareRegisters(defaultActions)
-  prepareRegisters(rotationActions)
-
-  context.outputRegistersLength = hitCounter
-
   let actionCounter = 0
 
-  for (let i = 0; i < defaultActions.length; i++) {
-    prepareActionData(defaultActions[i], 0, comboState, request, context)
-    defaultActions[i].registerIndex = actionCounter++
+  // Helper to fully initialize an action with hits and register indices
+  function initializeAction(
+    comboIndex: number,
+    actionName: string,
+    isDefaultAction: boolean = false,
+  ): OptimizerAction {
+    // 1. Create action
+    const action = defineAction(comboIndex, comboState, actionName as TurnAbilityName, request, context)
+
+    // 2. Get initial hits from definition
+    const actionKind = isDefaultAction ? actionName : action.actionType
+    const actionDefinitions = context.characterController.actionDefinition(action, context)
+    action.hits = actionDefinitions[actionKind].hits as Hit[] // Cast without registerIndex
+
+    // 3. Apply modifiers (may add more hits)
+    for (const modifier of context.actionModifiers) {
+      modifier.modify(action, context)
+    }
+
+    // 4. Assign registerIndex to all hits (original + added by modifiers)
+    action.registerIndices = []
+    for (const hit of action.hits) {
+      hit.registerIndex = hitCounter
+      action.registerIndices.push(hitCounter)
+      hitCounter++
+    }
+
+    // 5. Prepare action data and assign action register
+    prepareActionData(action, isDefaultAction ? 0 : comboIndex, comboState, request, context)
+    action.registerIndex = actionCounter++
+
+    return action
   }
 
-  for (let i = 0; i < rotationActions.length; i++) {
-    prepareActionData(rotationActions[i], i, comboState, request, context)
-    rotationActions[i].registerIndex = actionCounter++
-  }
+  // Create default actions
+  const defaultActions = context.actionDeclarations.map((actionDeclaration) => initializeAction(0, actionDeclaration, true))
 
+  // Create rotation actions
+  const rotationActions = comboTurnAbilities.slice(1).map((turnAbility, index) => initializeAction(index + 1, turnAbility, false))
+
+  // Store results
+  context.defaultActions = defaultActions
+  context.rotationActions = rotationActions
+  context.outputRegistersLength = hitCounter
+
+  // Finalize context
   const characterConditionalController = CharacterConditionalsResolver.get(context)
-
   context.dotAbilities = countDotAbilities(rotationActions)
   context.comboDot = comboDot || 0
   context.activeAbilities = characterConditionalController.activeAbilities ?? []
   context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
 }
 
+function prepareEntitiesForAction(
+  action: OptimizerAction,
+  context: OptimizerContext,
+): NamedArray<OptimizerEntity> {
+  const entityNames: string[] = []
+  const entityDefinitionsMap: Record<string, any> = {}
+
+  // Main character entities
+  const characterController = context.characterController
+  const charEntityNames = characterController.entityDeclaration()
+  const charEntityDefs = characterController.entityDefinition(action, context)
+
+  entityNames.push(...charEntityNames)
+  Object.assign(entityDefinitionsMap, charEntityDefs)
+
+  // Teammate entities
+  for (const teammateController of context.teammateControllers) {
+    if (teammateController.entityDeclaration) {
+      const teammateEntityNames = teammateController.entityDeclaration()
+      entityNames.push(...teammateEntityNames)
+
+      if (teammateController.entityDefinition) {
+        const teammateEntityDefs = teammateController.entityDefinition(action, context)
+        Object.assign(entityDefinitionsMap, teammateEntityDefs)
+      }
+    }
+  }
+
+  // Build OptimizerEntity array
+  const entities: OptimizerEntity[] = entityNames.map((name) => ({
+    name: name,
+    primary: entityDefinitionsMap[name]?.primary ?? false,
+    summon: entityDefinitionsMap[name]?.summon ?? false,
+    memosprite: entityDefinitionsMap[name]?.memosprite ?? false,
+  }))
+
+  return new NamedArray(entities, (entity) => entity.name)
+}
+
 function prepareActionData(action: OptimizerAction, i: number, comboState: ComboState, request: Form, context: OptimizerContext) {
+  // Build entities for this specific action
+  const entityRegistry = prepareEntitiesForAction(action, context)
+
   const container = new ComputedStatsContainer()
-  action.config = new ComputedStatsContainerConfig(action, context)
+  action.config = new ComputedStatsContainerConfig(action, context, entityRegistry)
   container.setConfig(action.config)
 
   console.log(container)
@@ -129,40 +163,28 @@ function prepareActionData(action: OptimizerAction, i: number, comboState: Combo
 export function calculateActionDeclarations(request: OptimizerForm, context: OptimizerContext) {
   const characterConditionalController = CharacterConditionalsResolver.get(context)
   const actionDeclarations = characterConditionalController.actionDeclaration()
-  const actionDefinitionProvider = characterConditionalController.actionDefinition
-  const actionMapping: Record<string, ((action: OptimizerAction, context: OptimizerContext) => AbilityDefinition[])> = {}
   const actionModifiers = [
     ...characterConditionalController.actionModifiers(),
   ]
-
-  // Define action mapping
-
-  for (const actionDeclaration of actionDeclarations) {
-    actionMapping[actionDeclaration] = actionDefinitionProvider
-  }
 
   const teammates = [
     context.teammate0Metadata,
     context.teammate1Metadata,
     context.teammate2Metadata,
   ].filter((x) => !!x?.characterId)
-  for (let i = 0; i < teammates.length; i++) {
-    const teammate = teammates[i]!
 
-    const teammateCharacterConditionals = CharacterConditionalsResolver.get(teammate)
-    const teammateLightConeConditionals = LightConeConditionalsResolver.get(teammate)
+  const teammateControllers: CharacterConditionalsController[] = []
 
-    const actionDeclarations = teammateCharacterConditionals.actionDeclaration?.() ?? []
-    const actionDefinitionProvider = teammateCharacterConditionals.actionDefinition
-    for (const actionDeclaration of actionDeclarations) {
-      actionMapping[actionDeclaration] = actionDefinitionProvider
-    }
+  for (const teammate of teammates) {
+    const teammateController = CharacterConditionalsResolver.get(teammate)
+    teammateControllers.push(teammateController)
 
-    const actionModifiers = teammateCharacterConditionals.actionModifiers?.() ?? []
-    actionModifiers.concat(actionModifiers)
+    const teammateActionModifiers = teammateController.actionModifiers?.() ?? []
+    actionModifiers.push(...teammateActionModifiers)
   }
 
   context.actionDeclarations = actionDeclarations
   context.actionModifiers = actionModifiers
-  context.actionMapping = actionMapping
+  context.characterController = characterConditionalController
+  context.teammateControllers = teammateControllers
 }

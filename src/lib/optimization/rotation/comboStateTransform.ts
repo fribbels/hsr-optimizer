@@ -172,16 +172,6 @@ export function defineAction(
   action.precomputedM = action.precomputedX.m
   action.precomputedM.setPrecompute(baseComputedStatsArray())
 
-  const actionKind = actionIndex == 0 ? abilityName : action.actionType
-
-  const provider = context.actionMapping[actionKind]!
-  const hitAction = provider(action, context).find((x) => x.name == actionKind)!
-  action.hits = hitAction.hits
-
-  for (const modifier of context.actionModifiers) {
-    modifier.modify(action, context)
-  }
-
   if (comboState.comboTeammate0) {
     action.teammate0.actorId = comboState.comboTeammate0.metadata.characterId
     action.teammate0.actorEidolon = comboState.comboTeammate0.metadata.characterEidolon

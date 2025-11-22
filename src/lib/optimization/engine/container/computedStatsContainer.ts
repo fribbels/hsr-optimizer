@@ -68,17 +68,17 @@ export class ComputedStatsContainerConfig {
   constructor(
     action: OptimizerAction,
     context: OptimizerContext,
+    entityRegistry: NamedArray<OptimizerEntity>,
   ) {
     this.statsLength = STATS_LENGTH
 
     // Hits
-
     this.hits = action.hits!
     this.hitsLength = this.hits.length
 
     // Entities
-    this.entitiesLength = context.entityNames!.length
-    this.entityRegistry = new NamedArray(context.entities!, (entity) => entity.name)
+    this.entityRegistry = entityRegistry
+    this.entitiesLength = entityRegistry.length
     this.selfEntity = this.entityRegistry.get(0)!
 
     // Each entity x stats x hits, plus the action stats
@@ -207,11 +207,11 @@ export class ComputedStatsContainer {
 
   // ============== Operators ==============
 
-  operatorAdd(index: number, value: number) {
+  operatorAdd = (index: number, value: number) => {
     this.a[index] += value
   }
 
-  operatorSet(index: number, value: number) {
+  operatorSet = (index: number, value: number) => {
     this.a[index] = value
   }
 

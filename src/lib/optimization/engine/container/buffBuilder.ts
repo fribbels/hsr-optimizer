@@ -8,6 +8,7 @@ import {
   DamageTag,
   ElementTag,
   SELF_ENTITY,
+  TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainerConfig } from 'lib/optimization/engine/container/computedStatsContainer'
 
@@ -47,13 +48,18 @@ export class BuffBuilder<_Completed extends boolean = false> {
     return this as IncompleteBuffBuilder
   }
 
-  origin(entity: string): IncompleteBuffBuilder {
-    this._origin = this.config.entityRegistry.getIndex(entity)
+  origin(e: string): IncompleteBuffBuilder {
+    this._origin = this.config.entityRegistry.getIndex(e)
     return this as IncompleteBuffBuilder
   }
 
-  target(entity: string): IncompleteBuffBuilder {
-    this._target = this.config.entityRegistry.getIndex(entity)
+  target(e: string): IncompleteBuffBuilder {
+    this._target = this.config.entityRegistry.getIndex(e)
+    return this as IncompleteBuffBuilder
+  }
+
+  targets(t: TargetTag): IncompleteBuffBuilder {
+    // this._target = this.config.entityRegistry.getIndex(entity)
     return this as IncompleteBuffBuilder
   }
 

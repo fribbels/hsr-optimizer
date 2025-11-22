@@ -1,4 +1,5 @@
 export enum DamageTag {
+  None = 0,
   BASIC = 1,
   SKILL = 2,
   ULT = 4,
@@ -19,6 +20,15 @@ export enum ElementTag {
   Wind = 16,
   Quantum = 32,
   Imaginary = 64,
+}
+
+export enum TargetTag {
+  None = 0,
+  Self = 1,
+  FullTeam = 2,
+  TargetAndMemosprite = 4,
+  SelfAndMemosprite = 8,
+  SummonsOnly = 16,
 }
 
 export type Tag = ElementTag | DamageTag

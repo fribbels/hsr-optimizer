@@ -14,6 +14,7 @@ import {
   ALL_ELEMENT_TAGS,
   DamageTag,
   ElementTag,
+  TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import {
   BuffBuilder,
@@ -295,12 +296,16 @@ export class ComputedStatsContainer {
     return this.builder.reset().damageType(d)
   }
 
-  origin(e: string): IncompleteBuffBuilder {
-    return this.builder.reset().origin(e)
+  origin(o: string): IncompleteBuffBuilder {
+    return this.builder.reset().origin(o)
   }
 
   target(e: string): IncompleteBuffBuilder {
     return this.builder.reset().target(e)
+  }
+
+  targets(t: TargetTag): IncompleteBuffBuilder {
+    return this.builder.reset().targets(t)
   }
 
   source(s: BuffSource): CompleteBuffBuilder {

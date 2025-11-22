@@ -795,7 +795,7 @@ Characters:
       supremeStanceState:
         text: Estado da Postura Suprema
         content: >-
-          Enquanto estiver no estado de "Postura Suprema", Aglaea ganha os acúmulos de aumento de SPD do talento do memosprite Confeccionadora, cada acúmulo aumenta a SPD em {{SpdBuff}}%. Melhora Ataque Básico para "Cortado por um Beijo Milenar", e não pode usar habilidade.
+          Enquanto estiver no estado de "Postura Suprema", Aglaea ganha os acúmulos de aumento de VEL do talento do Memoespírito Confeccionadora, cada acúmulo aumenta a VEL em {{SpdBuff}}%. Melhora Ataque Básico para "Cortado por um Beijo Milenar", e não pode usar sua Perícia.
       seamStitch:
         text: Costura Vinculante
         content: >-

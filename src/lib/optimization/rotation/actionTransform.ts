@@ -99,6 +99,12 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
 
     const entityRegistry = prepareEntitiesForAction(action, context)
 
+    for (const hit of action.hits!) {
+      hit.sourceEntityIndex = hit.sourceEntity
+        ? entityRegistry.getIndex(hit.sourceEntity)
+        : 0
+    }
+
     const container = new ComputedStatsContainer()
     action.config = new ComputedStatsContainerConfig(action, context, entityRegistry)
     container.setConfig(action.config)

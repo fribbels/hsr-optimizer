@@ -14,9 +14,12 @@ export type DamageFunctionName = string
 
 export interface Hit extends HitDefinition {
   registerIndex: number
+  sourceEntityIndex: number
 }
 
 export interface HitDefinition {
+  sourceEntity?: string
+
   damageFunction: DamageFunction
   damageType: number
   damageElement: ElementTag
@@ -60,12 +63,11 @@ export const DefaultDamageFunction: DamageFunction = {
 export const CritDamageFunction: DamageFunction = {
   apply: (x: ComputedStatsContainer, action: OptimizerAction, hitIndex: number, context: OptimizerContext) => {
     const hit = action.hits![hitIndex]
+    const sourceEntityIndex = hit.sourceEntityIndex ?? 0
     const eLevel = context.enemyLevel
-    const a = x.a
 
     const cr = x.getValue(StatKey.CR, hitIndex)
     const crBoost = x.getValue(StatKey.CR_BOOST, hitIndex)
-
     const cd = x.getValue(StatKey.CD, hitIndex)
     const cdBoost = x.getValue(StatKey.CD_BOOST, hitIndex)
 
@@ -79,21 +81,25 @@ export const CritDamageFunction: DamageFunction = {
     const finalDmg = x.getValue(StatKey.FINAL_DMG_BOOST, hitIndex)
     const dmgBoost = x.getValue(StatKey.DMG_BOOST, hitIndex)
 
-    const baseUniversalMulti = a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
+    const baseUniversalMulti = x.a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
     const dmgBoostMulti = 1 + dmgBoost
     const defMulti = calculateDefMulti(eLevel, context.combatBuffs.DEF_PEN + defPen)
     const vulnerabilityMulti = 1 + vulnerability
     const resMulti = 1 - (context.enemyDamageResistance - context.combatBuffs.RES_PEN - resPen)
     const finalDmgMulti = 1 + finalDmg
 
+    const atkBoost = x.getValue(StatKey.ATK_P_BOOST, hitIndex)
+
     const initialDmg = calculateInitial(
-      a,
+      x,
+      hitIndex,
+      sourceEntityIndex,
       context,
       0,
       hit.hpScaling ?? 0,
       hit.defScaling ?? 0,
       hit.atkScaling ?? 0,
-      x.getValue(StatKey.ATK_P_BOOST, hitIndex),
+      atkBoost,
     )
 
     const dmg = initialDmg
@@ -112,10 +118,10 @@ export const CritDamageFunction: DamageFunction = {
 export const DotDamageFunction: DamageFunction = {
   apply: (x: ComputedStatsContainer, action: OptimizerAction, hitIndex: number, context: OptimizerContext) => {
     const hit = action.hits![hitIndex]
+    const sourceEntityIndex = hit.sourceEntityIndex ?? 0
     const eLevel = context.enemyLevel
-    const a = x.a
 
-    const baseUniversalMulti = a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
+    const baseUniversalMulti = x.a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
     const dotDmgBoostMulti = 1 + x.getValue(StatKey.DMG_BOOST, hitIndex)
     const dotDefMulti = calculateDefMulti(eLevel, context.combatBuffs.DEF_PEN + x.getValue(StatKey.DEF_PEN, hitIndex))
     const dotVulnerabilityMulti = 1 + x.getValue(StatKey.VULNERABILITY, hitIndex) + x.getValue(StatKey.VULNERABILITY, hitIndex)
@@ -123,17 +129,21 @@ export const DotDamageFunction: DamageFunction = {
     const dotEhrMulti = calculateEhrMulti(x, hitIndex, context)
     const dotFinalDmgMulti = 1 + x.getValue(StatKey.FINAL_DMG_BOOST, hitIndex)
 
+    const atkBoost = x.getValue(StatKey.ATK_P_BOOST, hitIndex)
+
     const initialDmg = calculateInitial(
-      a,
+      x,
+      hitIndex,
+      sourceEntityIndex,
       context,
       0,
       hit.hpScaling ?? 0,
       hit.defScaling ?? 0,
       hit.atkScaling ?? 0,
-      x.getValue(StatKey.ATK_P_BOOST, hitIndex),
+      atkBoost,
     )
 
-    const dmg = initialDmg
+    return initialDmg
       * baseUniversalMulti
       * dotDmgBoostMulti
       * dotDefMulti
@@ -141,9 +151,6 @@ export const DotDamageFunction: DamageFunction = {
       * dotResMulti
       * dotEhrMulti
       * dotFinalDmgMulti
-
-    return dmg
-    // return instanceDmg * comboDotMulti
   },
 }
 
@@ -192,10 +199,8 @@ export const BreakDamageFunction: DamageFunction = {
 export const AdditionalDamageFunction: DamageFunction = {
   apply: (x: ComputedStatsContainer, action: OptimizerAction, hitIndex: number, context: OptimizerContext) => {
     const hit = action.hits![hitIndex]
+    const sourceEntityIndex = hit.sourceEntityIndex ?? 0
     const eLevel = context.enemyLevel
-    const a = x.a
-
-    const be = x.getValue(StatKey.BE, hitIndex)
 
     const defPen = x.getValue(StatKey.DEF_PEN, hitIndex)
     const resPen = x.getValue(StatKey.RES_PEN, hitIndex)
@@ -203,29 +208,34 @@ export const AdditionalDamageFunction: DamageFunction = {
     const finalDmg = x.getValue(StatKey.FINAL_DMG_BOOST, hitIndex)
     const dmgBoost = x.getValue(StatKey.DMG_BOOST, hitIndex)
 
-    const baseUniversalMulti = a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
+    const baseUniversalMulti = x.a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
     const dmgBoostMulti = 1 + dmgBoost
     const defMulti = calculateDefMulti(eLevel, context.combatBuffs.DEF_PEN + defPen)
     const vulnerabilityMulti = 1 + vulnerability
     const resMulti = 1 - (context.enemyDamageResistance - context.combatBuffs.RES_PEN - resPen)
     const finalDmgMulti = 1 + finalDmg
-    const beMulti = 1 + be
 
-    const breakFixedMulti = 3767.5533
+    const initialDmg = calculateInitial(
+      x,
+      hitIndex,
+      sourceEntityIndex,
+      context,
+      0,
+      hit.hpScaling ?? 0,
+      hit.defScaling ?? 0,
+      hit.atkScaling ?? 0,
+      x.getValue(StatKey.ATK_P_BOOST, hitIndex),
+    )
 
-    const dmg = baseUniversalMulti
-      * breakFixedMulti
-      * context.elementalBreakScaling
+    const dmg = initialDmg
+      * baseUniversalMulti
+      * dmgBoostMulti
       * defMulti
-      * (0.5 + context.enemyMaxToughness / 120)
       * vulnerabilityMulti
       * resMulti
-      * beMulti
-      * dmgBoostMulti
       * finalDmgMulti
 
     return dmg
-    // return instanceDmg * comboDotMulti
   },
 }
 
@@ -261,7 +271,9 @@ function calculateEhrMulti(
 }
 
 function calculateInitial(
-  a: Float32Array,
+  x: ComputedStatsContainer,
+  hitIndex: number,
+  sourceEntityIndex: number,
   context: OptimizerContext,
   abilityDmg: number,
   hpScaling: number,
@@ -269,8 +281,12 @@ function calculateInitial(
   atkScaling: number,
   atkBoostP: number,
 ) {
+  const hp = x.getValue(StatKey.HP, hitIndex)
+  const def = x.getValue(StatKey.DEF, hitIndex)
+  const atk = x.getValue(StatKey.ATK, hitIndex)
+
   return abilityDmg
-    + hpScaling * a[StatKey.HP]
-    + defScaling * a[StatKey.DEF]
-    + atkScaling * (a[StatKey.ATK] + atkBoostP * context.baseATK)
+    + hpScaling * hp
+    + defScaling * def
+    + atkScaling * (atk + atkBoostP * context.baseATK)
 }

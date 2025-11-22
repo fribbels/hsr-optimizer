@@ -218,9 +218,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Lightning)
-            .atkScaling(basicScaling)
+            .atkScaling(enhancedBasicScaling)
             .build(),
           {
+            sourceEntity: AglaeaEntities.Garmentmaker,
             damageFunction: CritDamageFunction,
             damageType: DamageType.BASIC | DamageType.MEMO,
             damageElement: ElementTag.Lightning,
@@ -245,6 +246,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         [AglaeaAbilities.MEMO_SKILL]: {
           hits: [
             {
+              sourceEntity: AglaeaEntities.Garmentmaker,
               damageFunction: CritDamageFunction,
               damageType: DamageType.MEMO,
               damageElement: ElementTag.Lightning,
@@ -358,6 +360,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // TODO: Team
       x.buff(StatKey.VULNERABILITY, (e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, x.source(SOURCE_E1))
+      x.buff(StatKey.VULNERABILITY, (e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, x.target(AglaeaEntities.Garmentmaker).source(SOURCE_E1))
     },
 
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -365,8 +368,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.VULNERABILITY.buffTeam((e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, SOURCE_E1)
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.ATK, 1172, x.source(SOURCE_ULT))
+      x.buff(StatKey.ATK, 1172, x.target(AglaeaEntities.Garmentmaker).source(SOURCE_ULT))
       //
       // if (e >= 6 && r.supremeStanceState && r.e6Buffs) {
       //   let jointBoost = 0

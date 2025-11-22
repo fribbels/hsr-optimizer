@@ -17,7 +17,6 @@ import {
 } from 'lib/gpu/conditionals/setConditionals'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import {
-  buffElementalDamageType,
   Key,
   StatToKey,
 } from 'lib/optimization/computedStatsArray'
@@ -193,10 +192,10 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
     if (!entity.memosprite) continue
 
     // Calculate memosprite base stats from primary entity
-    const memoBaseAtk = (entity.memoBaseAtkScaling ?? 0) * c.a[StatKey.ATK] + (entity.memoBaseAtkFlat ?? 0)
-    const memoBaseDef = (entity.memoBaseDefScaling ?? 0) * c.a[StatKey.DEF] + (entity.memoBaseDefFlat ?? 0)
-    const memoBaseHp = (entity.memoBaseHpScaling ?? 0) * c.a[StatKey.HP] + (entity.memoBaseHpFlat ?? 0)
-    const memoBaseSpd = (entity.memoBaseSpdScaling ?? 0) * c.a[StatKey.SPD] + (entity.memoBaseSpdFlat ?? 0)
+    const memoBaseAtk = (entity.memoBaseAtkScaling ?? 1) * c.a[StatKey.ATK] + (entity.memoBaseAtkFlat ?? 0)
+    const memoBaseDef = (entity.memoBaseDefScaling ?? 1) * c.a[StatKey.DEF] + (entity.memoBaseDefFlat ?? 0)
+    const memoBaseHp = (entity.memoBaseHpScaling ?? 1) * c.a[StatKey.HP] + (entity.memoBaseHpFlat ?? 0)
+    const memoBaseSpd = (entity.memoBaseSpdScaling ?? 1) * c.a[StatKey.SPD] + (entity.memoBaseSpdFlat ?? 0)
 
     // Set base stats
     a[x.getActionIndex(entityIndex, StatKey.BASE_ATK)] = memoBaseAtk
@@ -225,7 +224,15 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   a[Key.VULNERABILITY] += buffs.VULNERABILITY
   a[Key.BREAK_EFFICIENCY_BOOST] += buffs.BREAK_EFFICIENCY
 
-  buffElementalDamageType(x, context.elementalDamageType, c.a[Key.ELEMENTAL_DMG])
+
+  // TODO
+  // This is not accurate
+  // buffElementalDamageType(x, context.elementalDamageType, c.a[Key.ELEMENTAL_DMG])
+  // ...
+  //   const key = ElementalDmgTypeToKey[type]
+  //   x.a[key] += value
+  a[StatKey.DMG_BOOST] += c.a[Key.ELEMENTAL_DMG]
+
   // TODO
   // if (x.a[Key.MEMOSPRITE]) {
   //   buffElementalDamageType(x.m, context.elementalDamageType, c.a[Key.ELEMENTAL_DMG])

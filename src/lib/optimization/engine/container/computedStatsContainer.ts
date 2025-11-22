@@ -14,7 +14,6 @@ import {
   ALL_ELEMENT_TAGS,
   DamageTag,
   ElementTag,
-  SELF_ENTITY,
 } from 'lib/optimization/engine/config/tag'
 import {
   BuffBuilder,
@@ -22,7 +21,10 @@ import {
   IncompleteBuffBuilder,
 } from 'lib/optimization/engine/container/buffBuilder'
 import { NamedArray } from 'lib/optimization/engine/util/namedArray'
-import { EntityDefinition, Hit } from 'types/hitConditionalTypes'
+import {
+  EntityDefinition,
+  Hit,
+} from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -237,11 +239,20 @@ export class ComputedStatsContainer {
   // ============== Value Getters ==============
 
   public getValue(key: StatKeyValue, hitIndex: number) {
-    return this.a[this.getActionIndex(SELF_ENTITY, key)] + this.a[this.getHitIndex(SELF_ENTITY, hitIndex, key)]
+    const hit = this.config.hits[hitIndex]
+    const sourceEntityIndex = hit.sourceEntityIndex ?? 0
+
+    const actionValue = this.a[this.getActionIndex(sourceEntityIndex, key)]
+    const hitValue = this.a[this.getHitIndex(sourceEntityIndex, hitIndex, key)]
+
+    return actionValue + hitValue
   }
 
   public getHitValue(key: StatKeyValue, hitIndex: number) {
-    return this.a[this.getHitIndex(SELF_ENTITY, hitIndex, key)]
+    const hit = this.config.hits[hitIndex]
+    const sourceEntityIndex = hit.sourceEntityIndex ?? 0
+
+    return this.a[this.getHitIndex(sourceEntityIndex, hitIndex, key)]
   }
 
   // ============== Indexing ==============

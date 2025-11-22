@@ -260,7 +260,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
         [HysilensAbilities.BREAK]: {
           hits: [
-            HitDefinitionBuilder.standardBreak().build(),
+            HitDefinitionBuilder.standardBreak()
+              .damageElement(ElementTag.Physical)
+              .build(),
           ],
         },
       }

@@ -33,6 +33,7 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
+  TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Eidolon } from 'types/character'
@@ -254,7 +255,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
         [AglaeaAbilities.BREAK]: {
           hits: [
-            HitDefinitionBuilder.standardBreak().build(),
+            HitDefinitionBuilder.standardBreak()
+              .damageElement(ElementTag.Lightning)
+              .build(),
           ],
         },
       }
@@ -286,12 +289,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.buff(StatKey.SPD_P, r.memoSpdStacks * memoTalentSpd, x.target(AglaeaEntities.Garmentmaker).source(SOURCE_MEMO))
 
-      x.buff(StatKey.DEF_PEN, (e >= 2) ? 0.14 * r.e2DefShredStacks : 0, x.target(AglaeaEntities.Aglaea).source(SOURCE_E2))
-      x.buff(StatKey.DEF_PEN, (e >= 2) ? 0.14 * r.e2DefShredStacks : 0, x.target(AglaeaEntities.Garmentmaker).source(SOURCE_E2))
+      x.buff(StatKey.DEF_PEN, (e >= 2) ? 0.14 * r.e2DefShredStacks : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E2))
 
       const e6ResPenValue = (e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0
-      x.buff(StatKey.RES_PEN, e6ResPenValue, x.elements(ElementTag.Lightning).target(AglaeaEntities.Aglaea).source(SOURCE_E6))
-      x.buff(StatKey.RES_PEN, e6ResPenValue, x.elements(ElementTag.Lightning).target(AglaeaEntities.Garmentmaker).source(SOURCE_E6))
+      x.buff(StatKey.RES_PEN, e6ResPenValue, x.elements(ElementTag.Lightning).targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6))
 
       // x.m.SPD.buff(r.memoSpdStacks * memoTalentSpd, SOURCE_MEMO)
       //
@@ -357,9 +358,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      // TODO: Team
-      x.buff(StatKey.VULNERABILITY, (e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, x.source(SOURCE_E1))
-      x.buff(StatKey.VULNERABILITY, (e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, x.target(AglaeaEntities.Garmentmaker).source(SOURCE_E1))
+      x.buff(StatKey.VULNERABILITY, (e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
     },
 
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -384,12 +383,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           jointBoost = 0.10
         }
 
-        x.buff(StatKey.DMG_BOOST, jointBoost, x.damageType(DamageTag.BASIC).target(AglaeaEntities.Aglaea).source(SOURCE_E6))
-        x.buff(StatKey.DMG_BOOST, jointBoost, x.damageType(DamageTag.BASIC).target(AglaeaEntities.Garmentmaker).source(SOURCE_E6))
+        x.buff(StatKey.DMG_BOOST, jointBoost, x.damageType(DamageTag.BASIC).targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6))
       }
 
-      x.buff(StatKey.ATK, 3436, x.target(AglaeaEntities.Aglaea).source(SOURCE_E6))
-      x.buff(StatKey.ATK, 3436, x.target(AglaeaEntities.Garmentmaker).source(SOURCE_E6))
+      x.buff(StatKey.ATK, 3436, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6))
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

@@ -163,6 +163,7 @@ export class ComputedStatsContainer {
       config._source,
       config._origin,
       config._target,
+      config._targetTags,
       config._elementTags,
       config._damageTags,
     )
@@ -176,6 +177,7 @@ export class ComputedStatsContainer {
       config._source,
       config._origin,
       config._target,
+      config._targetTags,
       config._elementTags,
       config._damageTags,
     )
@@ -200,25 +202,60 @@ export class ComputedStatsContainer {
     source: BuffSource,
     origin: number,
     target: number,
+    targetTags: TargetTag,
     elementTags: ElementTag,
     damageTags: DamageTag,
   ): void {
     if (value == 0) return
 
-    if (elementTags == ALL_ELEMENT_TAGS && damageTags == ALL_DAMAGE_TAGS) {
-      const index = this.getActionIndex(target, key)
-      operator(index, value)
-      return
-    }
+    const targetEntities = this.getTargetEntities(target, targetTags)
 
-    for (let hitIndex = 0; hitIndex < this.config.hitsLength; hitIndex++) {
-      const hit = this.config.hits[hitIndex]
-
-      if (hit.damageType & damageTags && hit.damageElement & elementTags) {
-        const index = this.getHitIndex(target, hitIndex, key)
-        operator(index, value)
+    for (const entityIndex of targetEntities) {
+      if (elementTags == ALL_ELEMENT_TAGS && damageTags == ALL_DAMAGE_TAGS) {
+        operator(this.getActionIndex(entityIndex, key), value)
+      } else {
+        this.applyToMatchingHits(entityIndex, key, value, operator, elementTags, damageTags)
       }
     }
+  }
+
+  private getTargetEntities(target: number, targetTags: TargetTag): number[] {
+    if (!targetTags) {
+      return [target]
+    }
+
+    const targets: number[] = []
+    for (let i = 0; i < this.config.entitiesLength; i++) {
+      const entity = this.config.entityRegistry.get(i)!
+      if (this.matchesTargetTags(entity, i, targetTags)) {
+        targets.push(i)
+      }
+    }
+    return targets
+  }
+
+  private applyToMatchingHits(
+    entityIndex: number,
+    key: StatKeyValue,
+    value: number,
+    operator: (index: number, value: number) => void,
+    elementTags: ElementTag,
+    damageTags: DamageTag,
+  ): void {
+    for (let hitIndex = 0; hitIndex < this.config.hitsLength; hitIndex++) {
+      const hit = this.config.hits[hitIndex]
+      if (hit.damageType & damageTags && hit.damageElement & elementTags) {
+        operator(this.getHitIndex(entityIndex, hitIndex, key), value)
+      }
+    }
+  }
+
+  private matchesTargetTags(entity: OptimizerEntity, entityIndex: number, targetTags: TargetTag): boolean {
+    if (targetTags & TargetTag.Self) return entity.primary
+    if (targetTags & TargetTag.FullTeam) return true
+    if (targetTags & TargetTag.SelfAndMemosprite) return entity.primary || entity.memosprite
+    if (targetTags & TargetTag.SummonsOnly) return entity.summon
+    return false
   }
 
   // ============== Operators ==============

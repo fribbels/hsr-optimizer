@@ -262,7 +262,6 @@ EditCharacter:
     $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
   Character: Nhân vật
   Lightcone: Nón Ánh Sáng
-  Sets: Bộ
 Relic:
   Part: Bộ phận
   Wearer: Được trang bị bởi

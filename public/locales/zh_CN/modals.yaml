@@ -266,7 +266,6 @@ EditCharacter:
     $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
   Character: 角色
   Lightcone: 光锥
-  Sets: 套装
 Relic:
   Part: 部件
   Wearer: 装备由

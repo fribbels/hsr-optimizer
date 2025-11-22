@@ -15,8 +15,8 @@ export const MinMaxStatFilters = () => {
         <TooltipImage type={Hint.statFilters()} />
       </Flex>
       <Flex vertical gap={7}>
-        <FilterRow name='Hp' label={t('HPLabel')} />
         <FilterRow name='Atk' label={t('ATKLabel')} />
+        <FilterRow name='Hp' label={t('HPLabel')} />
         <FilterRow name='Def' label={t('DEFLabel')} />
         <FilterRow name='Spd' label={t('SPDLabel')} />
         <FilterRow name='Cr' label={t('CRLabel')} />

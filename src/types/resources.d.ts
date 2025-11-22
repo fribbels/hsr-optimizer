@@ -5606,7 +5606,8 @@ interface Resources {
       "EidolonButton": "$t(common:EidolonNShort, {\"eidolon\":{{eidolon}} })",
       "SuperimpositionButton": "$t(common:SuperimpositionNShort, {\"superimposition\":{{superimposition}} })",
       "Character": "Character",
-      "Lightcone": "Light cone"
+      "Lightcone": "Light cone",
+      "Sets": "Sets"
     },
     "Relic": {
       "Part": "Part",
@@ -6294,6 +6295,16 @@ interface Resources {
         "Warrior": {
           "Desc": "4 Piece: $t(gameData:RelicSets.125.Name) (+15% CD)",
           "Set": "$t(gameData:RelicSets.125.Name)",
+          "Text": "15% CD"
+        },
+        "WorldRemaking": {
+          "Desc": "4 Piece: $t(gameData:RelicSets.127.Name) (+15% DMG)",
+          "Set": "$t(gameData:RelicSets.127.Name)",
+          "Text": "15% DMG"
+        },
+        "SelfEnshrouded": {
+          "Desc": "4 Piece: $t(gameData:RelicSets.128.Name) (+15% CD)",
+          "Set": "$t(gameData:RelicSets.128.Name)",
           "Text": "15% CD"
         },
         "Keel": {

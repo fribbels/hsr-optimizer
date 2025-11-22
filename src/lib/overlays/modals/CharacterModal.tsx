@@ -174,7 +174,7 @@ export default function CharacterModal(props: {
           </Flex>
 
           <Flex vertical gap={5}>
-            <HeaderText>Sets</HeaderText>
+            <HeaderText>{t('Sets')}</HeaderText>
 
             <AntDForm.Item name={`teamRelicSet`}>
               <Select

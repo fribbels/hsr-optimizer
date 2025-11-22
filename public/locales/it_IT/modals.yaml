@@ -33,6 +33,7 @@ EditCharacter:
     $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
   Character: Personaggio
   Lightcone: Cono di luce
+  Sets: Set
 Relic:
   Part: Pezzo
   Substat: Statistiche secondarie

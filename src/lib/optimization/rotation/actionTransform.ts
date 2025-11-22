@@ -170,9 +170,7 @@ function prepareEntitiesForAction(
   // Build OptimizerEntity array
   const entities: OptimizerEntity[] = entityNames.map((name) => ({
     name: name,
-    primary: entityDefinitionsMap[name]?.primary ?? false,
-    summon: entityDefinitionsMap[name]?.summon ?? false,
-    memosprite: entityDefinitionsMap[name]?.memosprite ?? false,
+    ...entityDefinitionsMap[name],
   }))
 
   return new NamedArray(entities, (entity) => entity.name)

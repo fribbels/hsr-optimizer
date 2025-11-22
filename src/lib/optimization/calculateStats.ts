@@ -186,33 +186,39 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   a[StatKey.BASE_HP] = context.baseHP
   a[StatKey.BASE_SPD] = context.baseSPD
 
-  // TODO
-  // if (x.a[Key.MEMOSPRITE]) {
-  //   const xmc = x.m.c
-  //   const xmca = x.m.c.a
-  //   const xma = x.m.a
-  //   xmca[Key.ATK] = x.a[Key.MEMO_BASE_ATK_SCALING] * c.a[Key.ATK] + x.a[Key.MEMO_BASE_ATK_FLAT]
-  //   xmca[Key.DEF] = x.a[Key.MEMO_BASE_DEF_SCALING] * c.a[Key.DEF] + x.a[Key.MEMO_BASE_DEF_FLAT]
-  //   xmca[Key.HP] = x.a[Key.MEMO_BASE_HP_SCALING] * c.a[Key.HP] + x.a[Key.MEMO_BASE_HP_FLAT]
-  //   xmca[Key.SPD] = x.a[Key.MEMO_BASE_SPD_SCALING] * c.a[Key.SPD] + x.a[Key.MEMO_BASE_SPD_FLAT]
-  //
-  //   xma[Key.BASE_ATK] = xmc.a[Key.ATK]
-  //   xma[Key.BASE_DEF] = xmc.a[Key.DEF]
-  //   xma[Key.BASE_HP] = xmc.a[Key.HP]
-  //   xma[Key.BASE_SPD] = xmc.a[Key.SPD]
-  //
-  //   xma[Key.ATK] += xmc.a[Key.ATK]
-  //   xma[Key.DEF] += xmc.a[Key.DEF]
-  //   xma[Key.HP] += xmc.a[Key.HP]
-  //   xma[Key.SPD] += xmc.a[Key.SPD]
-  //   xma[Key.CD] += c.a[Key.CD]
-  //   xma[Key.CR] += c.a[Key.CR]
-  //   xma[Key.BE] += c.a[Key.BE]
-  //   xma[Key.EHR] += c.a[Key.EHR]
-  //   xma[Key.RES] += c.a[Key.RES]
-  //   xma[Key.ERR] += c.a[Key.ERR]
-  //   xma[Key.OHB] += c.a[Key.OHB]
-  // }
+  // Calculate memosprite entity stats
+  for (let entityIndex = 1; entityIndex < x.config.entitiesLength; entityIndex++) {
+    const entity = x.config.entityRegistry.get(entityIndex)!
+
+    if (!entity.memosprite) continue
+
+    // Calculate memosprite base stats from primary entity
+    const memoBaseAtk = (entity.memoBaseAtkScaling ?? 0) * c.a[StatKey.ATK] + (entity.memoBaseAtkFlat ?? 0)
+    const memoBaseDef = (entity.memoBaseDefScaling ?? 0) * c.a[StatKey.DEF] + (entity.memoBaseDefFlat ?? 0)
+    const memoBaseHp = (entity.memoBaseHpScaling ?? 0) * c.a[StatKey.HP] + (entity.memoBaseHpFlat ?? 0)
+    const memoBaseSpd = (entity.memoBaseSpdScaling ?? 0) * c.a[StatKey.SPD] + (entity.memoBaseSpdFlat ?? 0)
+
+    // Set base stats
+    a[x.getActionIndex(entityIndex, StatKey.BASE_ATK)] = memoBaseAtk
+    a[x.getActionIndex(entityIndex, StatKey.BASE_DEF)] = memoBaseDef
+    a[x.getActionIndex(entityIndex, StatKey.BASE_HP)] = memoBaseHp
+    a[x.getActionIndex(entityIndex, StatKey.BASE_SPD)] = memoBaseSpd
+
+    // Add to actual stats
+    a[x.getActionIndex(entityIndex, StatKey.ATK)] += memoBaseAtk
+    a[x.getActionIndex(entityIndex, StatKey.DEF)] += memoBaseDef
+    a[x.getActionIndex(entityIndex, StatKey.HP)] += memoBaseHp
+    a[x.getActionIndex(entityIndex, StatKey.SPD)] += memoBaseSpd
+
+    // Copy secondary stats from primary entity
+    a[x.getActionIndex(entityIndex, StatKey.CD)] += c.a[StatKey.CD]
+    a[x.getActionIndex(entityIndex, StatKey.CR)] += c.a[StatKey.CR]
+    a[x.getActionIndex(entityIndex, StatKey.BE)] += c.a[StatKey.BE]
+    a[x.getActionIndex(entityIndex, StatKey.EHR)] += c.a[StatKey.EHR]
+    a[x.getActionIndex(entityIndex, StatKey.RES)] += c.a[StatKey.RES]
+    a[x.getActionIndex(entityIndex, StatKey.ERR)] += c.a[StatKey.ERR]
+    a[x.getActionIndex(entityIndex, StatKey.OHB)] += c.a[StatKey.OHB]
+  }
 
   a[Key.ELEMENTAL_DMG] += buffs.DMG_BOOST
   a[Key.EFFECT_RES_PEN] += buffs.EFFECT_RES_PEN
@@ -234,14 +240,17 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   a[Key.DEF] += a[Key.DEF_P] * context.baseDEF
   a[Key.HP] += a[Key.HP_P] * context.baseHP
 
-  // TODO
-  // if (x.a[Key.MEMOSPRITE]) {
-  //   const xma = x.m.a
-  //   xma[Key.SPD] += xma[Key.SPD_P] * (xma[Key.BASE_SPD])
-  //   xma[Key.ATK] += xma[Key.ATK_P] * (xma[Key.BASE_ATK])
-  //   xma[Key.DEF] += xma[Key.DEF_P] * (xma[Key.BASE_DEF])
-  //   xma[Key.HP] += xma[Key.HP_P] * (xma[Key.BASE_HP])
-  // }
+  // Apply percent stats to memosprite entities
+  for (let entityIndex = 1; entityIndex < x.config.entitiesLength; entityIndex++) {
+    const entity = x.config.entityRegistry.get(entityIndex)!
+
+    if (!entity.memosprite) continue
+
+    a[x.getActionIndex(entityIndex, StatKey.SPD)] += a[x.getActionIndex(entityIndex, StatKey.SPD_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_SPD)]
+    a[x.getActionIndex(entityIndex, StatKey.ATK)] += a[x.getActionIndex(entityIndex, StatKey.ATK_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_ATK)]
+    a[x.getActionIndex(entityIndex, StatKey.DEF)] += a[x.getActionIndex(entityIndex, StatKey.DEF_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_DEF)]
+    a[x.getActionIndex(entityIndex, StatKey.HP)] += a[x.getActionIndex(entityIndex, StatKey.HP_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_HP)]
+  }
 
   // Dynamic ornament set conditionals
 

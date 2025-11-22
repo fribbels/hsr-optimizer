@@ -22,7 +22,7 @@ import {
   IncompleteBuffBuilder,
 } from 'lib/optimization/engine/container/buffBuilder'
 import { NamedArray } from 'lib/optimization/engine/util/namedArray'
-import { Hit } from 'types/hitConditionalTypes'
+import { EntityDefinition, Hit } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -285,9 +285,4 @@ export const EntityType = {
   TEAM: 'TEAM',
 } as const
 
-export interface OptimizerEntity {
-  name: string
-  primary: boolean
-  summon: boolean
-  memosprite: boolean
-}
+export type OptimizerEntity = EntityDefinition & { name: string }

@@ -159,7 +159,9 @@ export const BreakDamageFunction: DamageFunction = {
     const resPen = x.getValue(StatKey.RES_PEN, hitIndex)
     const vulnerability = x.getValue(StatKey.VULNERABILITY, hitIndex)
     const finalDmg = x.getValue(StatKey.FINAL_DMG_BOOST, hitIndex)
-    const dmgBoost = x.getValue(StatKey.DMG_BOOST, hitIndex)
+
+    // Break only benefits from Break type DMG boost
+    const dmgBoost = x.getHitValue(StatKey.DMG_BOOST, hitIndex)
 
     const baseUniversalMulti = a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
     const dmgBoostMulti = 1 + dmgBoost

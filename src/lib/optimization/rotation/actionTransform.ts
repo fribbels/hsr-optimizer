@@ -46,20 +46,29 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
     return action
   })
 
-  const rotationActions: OptimizerAction[] = comboTurnAbilities.slice(1).map((turnAbility, index) => {
-    const comboIndex = index + 1
-    const action = defineAction(comboIndex, comboState, turnAbility, request, context)
+  const rotationActions: OptimizerAction[] = comboTurnAbilities.slice(1)
+    .map((turnAbility, index) => {
+      const comboIndex = index + 1
+      const action = defineAction(comboIndex, comboState, turnAbility, request, context)
 
-    const actionKind = action.actionType
-    const actionDefinitions = context.characterController.actionDefinition(action, context)
-    action.hits = actionDefinitions[actionKind].hits as Hit[]
+      const actionKind = action.actionType
+      const actionDefinitions = context.characterController.actionDefinition(action, context)
+      const actionDef = actionDefinitions[actionKind]
 
-    for (const modifier of context.actionModifiers) {
-      modifier.modify(action, context)
-    }
+      // Skip marker abilities that don't have hit definitions
+      if (!actionDef) {
+        return null
+      }
 
-    return action
-  })
+      action.hits = actionDef.hits as Hit[]
+
+      for (const modifier of context.actionModifiers) {
+        modifier.modify(action, context)
+      }
+
+      return action
+    })
+    .filter((action): action is OptimizerAction => action !== null)
 
   // ========== PHASE 2: REGISTRATION ==========
 

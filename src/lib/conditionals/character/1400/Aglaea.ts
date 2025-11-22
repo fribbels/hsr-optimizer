@@ -4,10 +4,7 @@ import {
   BUFF_PRIORITY_SELF,
   DamageType,
 } from 'lib/conditionals/conditionalConstants'
-import {
-  basicAdditionalDmgAtkFinalizer,
-  gpuBasicAdditionalDmgAtkFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
+import { gpuBasicAdditionalDmgAtkFinalizer } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
@@ -355,6 +352,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.ELEMENTAL_DMG.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, Source.odeTo(AGLAEA))
       x.DEF_PEN.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDefPenBuff : 0, Source.odeTo(AGLAEA))
     },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
+
+      // TODO: Team
+      x.buff(StatKey.VULNERABILITY, (e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, x.source(SOURCE_E1))
+    },
+
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
@@ -362,22 +367,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-
-      if (e >= 6 && r.supremeStanceState && r.e6Buffs) {
-        let jointBoost = 0
-        if (x.a[Key.SPD] > 320 || x.m.a[Key.SPD] >= 320) {
-          jointBoost = 0.60
-        } else if (x.a[Key.SPD] > 240 || x.m.a[Key.SPD] >= 240) {
-          jointBoost = 0.30
-        } else if (x.a[Key.SPD] > 160 || x.m.a[Key.SPD] >= 160) {
-          jointBoost = 0.10
-        }
-
-        x.BASIC_DMG_BOOST.buff(jointBoost, SOURCE_E6)
-        x.m.BASIC_DMG_BOOST.buff(jointBoost, SOURCE_E6)
-      }
-
-      basicAdditionalDmgAtkFinalizer(x)
+      //
+      // if (e >= 6 && r.supremeStanceState && r.e6Buffs) {
+      //   let jointBoost = 0
+      //   if (x.a[Key.SPD] > 320 || x.m.a[Key.SPD] >= 320) {
+      //     jointBoost = 0.60
+      //   } else if (x.a[Key.SPD] > 240 || x.m.a[Key.SPD] >= 240) {
+      //     jointBoost = 0.30
+      //   } else if (x.a[Key.SPD] > 160 || x.m.a[Key.SPD] >= 160) {
+      //     jointBoost = 0.10
+      //   }
+      //
+      //   x.BASIC_DMG_BOOST.buff(jointBoost, SOURCE_E6)
+      //   x.m.BASIC_DMG_BOOST.buff(jointBoost, SOURCE_E6)
+      // }
+      //
+      // basicAdditionalDmgAtkFinalizer(x)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

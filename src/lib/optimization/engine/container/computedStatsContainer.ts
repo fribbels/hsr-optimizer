@@ -240,6 +240,10 @@ export class ComputedStatsContainer {
     return this.a[this.getActionIndex(SELF_ENTITY, key)] + this.a[this.getHitIndex(SELF_ENTITY, hitIndex, key)]
   }
 
+  public getHitValue(key: StatKeyValue, hitIndex: number) {
+    return this.a[this.getHitIndex(SELF_ENTITY, hitIndex, key)]
+  }
+
   // ============== Indexing ==============
 
   public getActionIndex(entityIndex: number, statIndex: number): number {

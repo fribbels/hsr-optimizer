@@ -497,6 +497,8 @@ TeammateCard:
       Desc: '四件套: $t(gameData:RelicSets.125.Name) (+15%暴击伤害)'
       Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% 爆伤
+    SelfEnshrouded:
+      Text: 15% 爆伤
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10%暴击伤害)'
       Set: '$t(gameData:RelicSets.310.Name)'

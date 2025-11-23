@@ -1159,7 +1159,7 @@ function getLightConeOverrideCenter(): Record<string, number> {
 
     23038: 210,
     23039: 165,
-    24005: 300,
+    24005: 200,
 
     23043: 370,
 
@@ -9470,6 +9470,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CR,
           Stats.HP_P,
           Stats.HP,
+          Stats.SPD,
         ],
         breakpoints: {
           [Stats.SPD]: 180,

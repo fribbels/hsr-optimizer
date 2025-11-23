@@ -15,7 +15,7 @@ import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-type SubstatUpgradeItem = {
+export type SubstatUpgradeItem = {
   stat: SubStats,
   scorePercentUpgrade: number,
   scoreValueUpgrade: number,

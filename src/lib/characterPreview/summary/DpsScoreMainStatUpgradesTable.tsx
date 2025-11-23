@@ -3,10 +3,13 @@ import {
   Table,
   TableProps,
 } from 'antd'
+import { AnyObject } from 'antd/es/_util/type'
 import { TFunction } from 'i18next'
+import { SubstatUpgradeItem } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
 import {
   MainStats,
   Parts,
+  Stats,
 } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
@@ -130,11 +133,13 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
       title: t('DpsScorePercentUpgrade'), // DPS Score Δ %
       dataIndex: 'scorePercentUpgrade',
       align: 'center',
-      render: (n: number) => (
-        <Flex align='center' justify='center' gap={5}>
-          <Arrow up={n >= 0} />
-          {` ${localeNumber_00(n)}%`}
-        </Flex>
+      render: (n: number, record: AnyObject) => (
+        (record as SubstatUpgradeItem)?.stat == Stats.SPD ? <>-</> : (
+          <Flex align='center' justify='center' gap={5}>
+            <Arrow up={n >= 0} />
+            {` ${localeNumber_00(n)}%`}
+          </Flex>
+        )
       ),
     },
     {
@@ -152,10 +157,12 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
       title: t('UpgradedDpsScore'), // Upgraded DPS Score
       dataIndex: 'scoreValueUpgrade',
       align: 'center',
-      render: (n: number) => (
-        <>
-          {`${localeNumber_0(Math.max(0, n))}%`}
-        </>
+      render: (n: number, record: AnyObject) => (
+        (record as SubstatUpgradeItem)?.stat == Stats.SPD ? <>-</> : (
+          <>
+            {`${localeNumber_0(Math.max(0, n))}%`}
+          </>
+        )
       ),
     },
     {

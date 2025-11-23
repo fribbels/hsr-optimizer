@@ -1,4 +1,7 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityType,
+  DamageType,
+} from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -18,6 +21,10 @@ import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
+import {
+  Hit,
+  SuperBreakDamageFunction,
+} from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -168,7 +175,31 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         hits: [HitDefinitionBuilder.standardBreak().build()],
       },
     }),
-    actionModifiers: () => [],
+    actionModifiers() {
+      return [
+        {
+          modify: (action: OptimizerAction, context: OptimizerContext) => {
+            const hits = action.hits!
+            const len = hits.length
+            for (let i = 0; i < len; i++) {
+              const hit = hits[i]
+
+              if (hit.toughnessDmg) {
+                const superBreakHit = {
+                  damageFunction: SuperBreakDamageFunction,
+                  damageType: DamageType.SUPER_BREAK,
+                  damageElement: ElementTag.None,
+                  activeHit: false,
+                  toughnessDmg: hit.toughnessDmg,
+                }
+
+                hits.push(superBreakHit as Hit)
+              }
+            }
+          },
+        },
+      ]
+    },
 
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

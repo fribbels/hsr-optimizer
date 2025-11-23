@@ -15,17 +15,17 @@ Scoring:
     Description: Questo significa che i tuoi filtri sulle statistiche e/o valutazioni sono troppo restrittivi.
   RootCauses:
     MAX_EHP:
-      SuccessMessage: "Filtro PVE Massimi Reimpostato"
-      ButtonText: "Reimposta Filtro PVE Massimi"
+      SuccessMessage: 'Filtro PVE Massimi Reimpostato'
+      ButtonText: 'Reimposta Filtro PVE Massimi'
     MIN_EHP:
-      SuccessMessage: "Filtro PVE Minimi Reimpostato"
-      ButtonText: "Reimposta Filtro PVE Minimi"
+      SuccessMessage: 'Filtro PVE Minimi Reimpostato'
+      ButtonText: 'Reimposta Filtro PVE Minimi'
     MAX_COMBO:
-      SuccessMessage: "Filtro Combo Massima reimpostato"
-      ButtonText: "Reimposta Filtro Combo Massima"
+      SuccessMessage: 'Filtro Combo Massima reimpostato'
+      ButtonText: 'Reimposta Filtro Combo Massima'
     MIN_COMBO:
-      SuccessMessage: "Filtro Combo Minima reimpostato"
-      ButtonText: "Reimposta Filtro Combo Minima"
+      SuccessMessage: 'Filtro Combo Minima reimpostato'
+      ButtonText: 'Reimposta Filtro Combo Minima'
 EditCharacter:
   EidolonButton: >-
     $t(common:EidolonNShort, {"eidolon":{{eidolon}} })
@@ -33,6 +33,7 @@ EditCharacter:
     $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
   Character: Personaggio
   Lightcone: Cono di luce
+  Sets: Set
 Relic:
   Part: Pezzo
   Substat: Statistiche secondarie
@@ -48,7 +49,7 @@ EditImage:
       Default: Usa l'immagine predefinita
     Upload:
       Method: Clicca o trascina un file immagine in quest'area per caricarlo
-      Limit: "Accetta .jpg .jpeg .png .gif (Massimo: 20MB)"
+      Limit: 'Accetta .jpg .jpeg .png .gif (Massimo: 20MB)'
     Url:
       Label: Immagine
   Edit:
@@ -56,17 +57,17 @@ EditImage:
     Zoom: Ingrandisci
     Drag: Trascina per muovere
     Pinch: Pizzica o scorri per ingrandire
-    ArtBy: "(Opzionale) Immagine di:"
+    ArtBy: '(Opzionale) Immagine di:'
     CreditPlaceholder: Dai credito all'artista se possibile
   Footer:
     Previous: Indietro
     Next: Avanti
 Builds:
   ConfirmEquip:
-    SuccessMessage: "Build equipaggiata con successo: {{buildName}}"
+    SuccessMessage: 'Build equipaggiata con successo: {{buildName}}'
   ConfirmDelete:
-    SuccessMessageAll: "Eliminate con successo tutte le build di {{characterName}}"
-    SuccessMessageSingle: "Build eliminata con successo: {{name}}"
+    SuccessMessageAll: 'Eliminate con successo tutte le build di {{characterName}}'
+    SuccessMessageSingle: 'Build eliminata con successo: {{name}}'
 ScoreFooter:
   ResetSuccessMsg: Squadra predefinita ripristinata
   SyncSuccessMsg: Compagni di squadra sincronizzati

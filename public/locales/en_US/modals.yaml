@@ -23,21 +23,21 @@ Scoring:
       ButtonText: Navigate to Importer tab
       SuccessMessage: Choose an import method and import your relics and characters
     Body_MAIN:
-      Description: "The main stat for the $t(common:Parts.Body) filter might be too restrictive"
-      ButtonText: "Clear $t(common:Parts.Body) main stat filters"
-      SuccessMessage: "Cleared $t(common:Parts.Body) main stat filters"
+      Description: 'The main stat for the $t(common:Parts.Body) filter might be too restrictive'
+      ButtonText: 'Clear $t(common:Parts.Body) main stat filters'
+      SuccessMessage: 'Cleared $t(common:Parts.Body) main stat filters'
     Feet_MAIN:
-      Description: "The main stat for the $t(common:Parts.Feet) filter might be too restrictive"
-      ButtonText: "Clear $t(common:Parts.Feet) main stat filters"
-      SuccessMessage: "Cleared $t(common:Parts.Feet) main stat filters"
+      Description: 'The main stat for the $t(common:Parts.Feet) filter might be too restrictive'
+      ButtonText: 'Clear $t(common:Parts.Feet) main stat filters'
+      SuccessMessage: 'Cleared $t(common:Parts.Feet) main stat filters'
     PlanarSphere_MAIN:
-      Description: "The main stat for the $t(common:Parts.PlanarSphere) filter might be too restrictive"
-      ButtonText: "Clear $t(common:Parts.PlanarSphere) main stat filters"
-      SuccessMessage: "Cleared $t(common:Parts.PlanarSphere) main stat filters"
+      Description: 'The main stat for the $t(common:Parts.PlanarSphere) filter might be too restrictive'
+      ButtonText: 'Clear $t(common:Parts.PlanarSphere) main stat filters'
+      SuccessMessage: 'Cleared $t(common:Parts.PlanarSphere) main stat filters'
     LinkRope_MAIN:
-      Description: "The main stat for the $t(common:Parts.LinkRope) filter might be too restrictive"
-      ButtonText: "Clear $t(common:Parts.LinkRope) main stat filters"
-      SuccessMessage: "Cleared $t(common:Parts.LinkRope) main stat filters"
+      Description: 'The main stat for the $t(common:Parts.LinkRope) filter might be too restrictive'
+      ButtonText: 'Clear $t(common:Parts.LinkRope) main stat filters'
+      SuccessMessage: 'Cleared $t(common:Parts.LinkRope) main stat filters'
     RELIC_SETS:
       Description: The selected relic set filters might be too restrictive
       ButtonText: Clear Relic set filters
@@ -52,8 +52,8 @@ Scoring:
       SuccessMessage: Disabled "Keep current relics"
     PRIORITY:
       Description: The character is ranked below other characters on the priority list. When the "Character priority filter" is enabled, characters may only take lower priority characters' relics
-      ButtonText: "Move character to priority #1"
-      SuccessMessage: "Moved character to priority #1"
+      ButtonText: 'Move character to priority #1'
+      SuccessMessage: 'Moved character to priority #1'
     EXCLUDE_ENABLED:
       Description: The "Exclude" filter has some selected characters, which means this character cannot take relics from the selected characters
       ButtonText: Clear excluded characters
@@ -74,185 +74,185 @@ Scoring:
     Description: This means your stat and/or rating filters are too restrictive.
   RootCauses:
     StatView:
-      SuccessMessage: "Switched to Combat stats view"
-      Description: "Your stat filters are configured for basic stats, which does not include buffs. The Combat stats view will show buffed stats from abilities / teammates / relics / etc."
-      ButtonText: "Switch to Combat stats view"
+      SuccessMessage: 'Switched to Combat stats view'
+      Description: 'Your stat filters are configured for basic stats, which does not include buffs. The Combat stats view will show buffed stats from abilities / teammates / relics / etc.'
+      ButtonText: 'Switch to Combat stats view'
     MAX_HP:
-      SuccessMessage: "Reset Maximum $t(common:Stats.HP) filter"
-      Description: "Maximum $t(common:Stats.HP) may be too low"
-      ButtonText: "Reset Maximum $t(common:Stats.HP) filter"
+      SuccessMessage: 'Reset Maximum $t(common:Stats.HP) filter'
+      Description: 'Maximum $t(common:Stats.HP) may be too low'
+      ButtonText: 'Reset Maximum $t(common:Stats.HP) filter'
     MIN_HP:
-      SuccessMessage: "Reset Minimum $t(common:Stats.HP) filter"
-      Description: "Minimum $t(common:Stats.HP) may be too high"
-      ButtonText: "Reset Minimum $t(common:Stats.HP) filter"
+      SuccessMessage: 'Reset Minimum $t(common:Stats.HP) filter'
+      Description: 'Minimum $t(common:Stats.HP) may be too high'
+      ButtonText: 'Reset Minimum $t(common:Stats.HP) filter'
     MAX_ATK:
-      SuccessMessage: "Reset Maximum $t(common:Stats.ATK) filter"
-      Description: "Maximum $t(common:Stats.ATK) may be too low"
-      ButtonText: "Reset Maximum $t(common:Stats.ATK) filter"
+      SuccessMessage: 'Reset Maximum $t(common:Stats.ATK) filter'
+      Description: 'Maximum $t(common:Stats.ATK) may be too low'
+      ButtonText: 'Reset Maximum $t(common:Stats.ATK) filter'
     MIN_ATK:
-      SuccessMessage: "Reset Minimum $t(common:Stats.ATK) filter"
-      Description: "Minimum $t(common:Stats.ATK) may be too high"
-      ButtonText: "Reset Minimum $t(common:Stats.ATK) filter"
+      SuccessMessage: 'Reset Minimum $t(common:Stats.ATK) filter'
+      Description: 'Minimum $t(common:Stats.ATK) may be too high'
+      ButtonText: 'Reset Minimum $t(common:Stats.ATK) filter'
     MAX_DEF:
-      SuccessMessage: "Reset Maximum $t(common:Stats.DEF) filter"
-      Description: "Maximum $t(common:Stats.DEF) may be too low"
-      ButtonText: "Reset Maximum $t(common:Stats.DEF) filter"
+      SuccessMessage: 'Reset Maximum $t(common:Stats.DEF) filter'
+      Description: 'Maximum $t(common:Stats.DEF) may be too low'
+      ButtonText: 'Reset Maximum $t(common:Stats.DEF) filter'
     MIN_DEF:
-      SuccessMessage: "Reset Minimum $t(common:Stats.DEF) filter"
-      Description: "Minimum $t(common:Stats.DEF) may be too high"
-      ButtonText: "Reset Minimum $t(common:Stats.DEF) filter"
+      SuccessMessage: 'Reset Minimum $t(common:Stats.DEF) filter'
+      Description: 'Minimum $t(common:Stats.DEF) may be too high'
+      ButtonText: 'Reset Minimum $t(common:Stats.DEF) filter'
     MAX_SPD:
-      SuccessMessage: "Reset Maximum $t(common:Stats.SPD) filter"
-      Description: "Maximum $t(common:Stats.SPD) may be too low"
-      ButtonText: "Reset Maximum $t(common:Stats.SPD) filter"
+      SuccessMessage: 'Reset Maximum $t(common:Stats.SPD) filter'
+      Description: 'Maximum $t(common:Stats.SPD) may be too low'
+      ButtonText: 'Reset Maximum $t(common:Stats.SPD) filter'
     MIN_SPD:
-      SuccessMessage: "Reset Minimum $t(common:Stats.SPD) filter"
-      Description: "Minimum $t(common:Stats.SPD) may be too high"
-      ButtonText: "Reset Minimum $t(common:Stats.SPD) filter"
+      SuccessMessage: 'Reset Minimum $t(common:Stats.SPD) filter'
+      Description: 'Minimum $t(common:Stats.SPD) may be too high'
+      ButtonText: 'Reset Minimum $t(common:Stats.SPD) filter'
     MAX_CR:
-      SuccessMessage: "Reset Maximum $t(common:Stats.CRIT Rate) filter"
-      Description: "Maximum $t(common:Stats.CRIT Rate) may be too low"
-      ButtonText: "Reset Maximum $t(common:Stats.CRIT Rate) filter"
+      SuccessMessage: 'Reset Maximum $t(common:Stats.CRIT Rate) filter'
+      Description: 'Maximum $t(common:Stats.CRIT Rate) may be too low'
+      ButtonText: 'Reset Maximum $t(common:Stats.CRIT Rate) filter'
     MIN_CR:
-      SuccessMessage: "Reset Minimum $t(common:Stats.CRIT Rate) filter"
-      Description: "Minimum $t(common:Stats.CRIT Rate) may be too high"
-      ButtonText: "Reset Minimum $t(common:Stats.CRIT Rate) filter"
+      SuccessMessage: 'Reset Minimum $t(common:Stats.CRIT Rate) filter'
+      Description: 'Minimum $t(common:Stats.CRIT Rate) may be too high'
+      ButtonText: 'Reset Minimum $t(common:Stats.CRIT Rate) filter'
     MAX_CD:
-      SuccessMessage: "Reset Maximum $t(common:Stats.CRIT DMG) filter"
-      Description: "Maximum $t(common:Stats.CRIT DMG) may be too low"
-      ButtonText: "Reset Maximum $t(common:Stats.CRIT DMG) filter"
+      SuccessMessage: 'Reset Maximum $t(common:Stats.CRIT DMG) filter'
+      Description: 'Maximum $t(common:Stats.CRIT DMG) may be too low'
+      ButtonText: 'Reset Maximum $t(common:Stats.CRIT DMG) filter'
     MIN_CD:
-      SuccessMessage: "Reset Minimum $t(common:Stats.CRIT DMG) filter"
-      Description: "Minimum $t(common:Stats.CRIT DMG) may be too high"
-      ButtonText: "Reset Minimum $t(common:Stats.CRIT DMG) filter"
+      SuccessMessage: 'Reset Minimum $t(common:Stats.CRIT DMG) filter'
+      Description: 'Minimum $t(common:Stats.CRIT DMG) may be too high'
+      ButtonText: 'Reset Minimum $t(common:Stats.CRIT DMG) filter'
     MAX_EHR:
-      SuccessMessage: "Reset Maximum $t(common:Stats.Effect Hit Rate) filter"
-      Description: "Maximum $t(common:Stats.Effect Hit Rate) may be too low"
-      ButtonText: "Reset Maximum $t(common:Stats.Effect Hit Rate) filter"
+      SuccessMessage: 'Reset Maximum $t(common:Stats.Effect Hit Rate) filter'
+      Description: 'Maximum $t(common:Stats.Effect Hit Rate) may be too low'
+      ButtonText: 'Reset Maximum $t(common:Stats.Effect Hit Rate) filter'
     MIN_EHR:
-      SuccessMessage: "Reset Minimum $t(common:Stats.Effect Hit Rate) filter"
-      Description: "Minimum $t(common:Stats.Effect Hit Rate) may be too high"
-      ButtonText: "Reset Minimum $t(common:Stats.Effect Hit Rate) filter"
+      SuccessMessage: 'Reset Minimum $t(common:Stats.Effect Hit Rate) filter'
+      Description: 'Minimum $t(common:Stats.Effect Hit Rate) may be too high'
+      ButtonText: 'Reset Minimum $t(common:Stats.Effect Hit Rate) filter'
     MAX_RES:
-      SuccessMessage: "Reset Maximum $t(common:Stats.Effect RES) filter"
-      Description: "Maximum $t(common:Stats.Effect RES) may be too low"
-      ButtonText: "Reset Maximum $t(common:Stats.Effect RES) filter"
+      SuccessMessage: 'Reset Maximum $t(common:Stats.Effect RES) filter'
+      Description: 'Maximum $t(common:Stats.Effect RES) may be too low'
+      ButtonText: 'Reset Maximum $t(common:Stats.Effect RES) filter'
     MIN_RES:
-      SuccessMessage: "Reset Minimum $t(common:Stats.Effect RES) filter"
-      Description: "Minimum $t(common:Stats.Effect RES) may be too high"
-      ButtonText: "Reset Minimum $t(common:Stats.Effect RES) filter"
+      SuccessMessage: 'Reset Minimum $t(common:Stats.Effect RES) filter'
+      Description: 'Minimum $t(common:Stats.Effect RES) may be too high'
+      ButtonText: 'Reset Minimum $t(common:Stats.Effect RES) filter'
     MAX_BE:
-      SuccessMessage: "Reset Maximum $t(common:Stats.Break Effect) filter"
-      Description: "Maximum $t(common:Stats.Break Effect) may be too low"
-      ButtonText: "Reset Maximum $t(common:Stats.Break Effect) filter"
+      SuccessMessage: 'Reset Maximum $t(common:Stats.Break Effect) filter'
+      Description: 'Maximum $t(common:Stats.Break Effect) may be too low'
+      ButtonText: 'Reset Maximum $t(common:Stats.Break Effect) filter'
     MIN_BE:
-      SuccessMessage: "Reset Minimum $t(common:Stats.Break Effect) filter"
-      Description: "Minimum $t(common:Stats.Break Effect) may be too high"
-      ButtonText: "Reset Minimum $t(common:Stats.Break Effect) filter"
+      SuccessMessage: 'Reset Minimum $t(common:Stats.Break Effect) filter'
+      Description: 'Minimum $t(common:Stats.Break Effect) may be too high'
+      ButtonText: 'Reset Minimum $t(common:Stats.Break Effect) filter'
     MAX_ERR:
-      SuccessMessage: "Reset Maximum $t(common:Stats.Energy Regeneration Rate) filter"
-      Description: "Maximum $t(common:Stats.Energy Regeneration Rate) may be too low"
-      ButtonText: "Reset Maximum $t(common:Stats.Energy Regeneration Rate) filter"
+      SuccessMessage: 'Reset Maximum $t(common:Stats.Energy Regeneration Rate) filter'
+      Description: 'Maximum $t(common:Stats.Energy Regeneration Rate) may be too low'
+      ButtonText: 'Reset Maximum $t(common:Stats.Energy Regeneration Rate) filter'
     MIN_ERR:
-      SuccessMessage: "Reset Minimum $t(common:Stats.Energy Regeneration Rate) filter"
-      Description: "Minimum $t(common:Stats.Energy Regeneration Rate) may be too high"
-      ButtonText: "Reset Minimum $t(common:Stats.Energy Regeneration Rate) filter"
+      SuccessMessage: 'Reset Minimum $t(common:Stats.Energy Regeneration Rate) filter'
+      Description: 'Minimum $t(common:Stats.Energy Regeneration Rate) may be too high'
+      ButtonText: 'Reset Minimum $t(common:Stats.Energy Regeneration Rate) filter'
     MAX_EHP:
-      SuccessMessage: "Reset Maximum EHP filter"
-      Description: "Maximum EHP may be too low"
-      ButtonText: "Reset Maximum EHP filter"
+      SuccessMessage: 'Reset Maximum EHP filter'
+      Description: 'Maximum EHP may be too low'
+      ButtonText: 'Reset Maximum EHP filter'
     MIN_EHP:
-      SuccessMessage: "Reset Minimum EHP filter"
-      Description: "Minimum EHP may be too high"
-      ButtonText: "Reset Minimum EHP filter"
+      SuccessMessage: 'Reset Minimum EHP filter'
+      Description: 'Minimum EHP may be too high'
+      ButtonText: 'Reset Minimum EHP filter'
     MAX_BASIC:
-      SuccessMessage: "Reset Maximum Basic filter"
-      Description: "Maximum basic attack damage may be too low"
-      ButtonText: "Reset Maximum Basic filter"
+      SuccessMessage: 'Reset Maximum Basic filter'
+      Description: 'Maximum basic attack damage may be too low'
+      ButtonText: 'Reset Maximum Basic filter'
     MIN_BASIC:
-      SuccessMessage: "Reset Minimum Basic filter"
-      Description: "Minimum basic attack damage may be too high"
-      ButtonText: "Reset Minimum Basic filter"
+      SuccessMessage: 'Reset Minimum Basic filter'
+      Description: 'Minimum basic attack damage may be too high'
+      ButtonText: 'Reset Minimum Basic filter'
     MAX_SKILL:
-      SuccessMessage: "Reset Maximum Skill filter"
-      Description: "Maximum skill damage may be too low"
-      ButtonText: "Reset Maximum Skill filter"
+      SuccessMessage: 'Reset Maximum Skill filter'
+      Description: 'Maximum skill damage may be too low'
+      ButtonText: 'Reset Maximum Skill filter'
     MIN_SKILL:
-      SuccessMessage: "Reset Minimum Skill filter"
-      Description: "Minimum skill damage may be too high"
-      ButtonText: "Reset Minimum Skill filter"
+      SuccessMessage: 'Reset Minimum Skill filter'
+      Description: 'Minimum skill damage may be too high'
+      ButtonText: 'Reset Minimum Skill filter'
     MAX_ULT:
-      SuccessMessage: "Reset Maximum ULT filter"
-      Description: "Maximum ultimate damage may be too low"
-      ButtonText: "Reset Maximum ULT filter"
+      SuccessMessage: 'Reset Maximum ULT filter'
+      Description: 'Maximum ultimate damage may be too low'
+      ButtonText: 'Reset Maximum ULT filter'
     MIN_ULT:
-      SuccessMessage: "Reset Minimum ULT filter"
-      Description: "Minimum ultimate damage may be too high"
-      ButtonText: "Reset Minimum ULT filter"
+      SuccessMessage: 'Reset Minimum ULT filter'
+      Description: 'Minimum ultimate damage may be too high'
+      ButtonText: 'Reset Minimum ULT filter'
     MAX_FUA:
-      SuccessMessage: "Reset Maximum FUA filter"
-      Description: "Maximum follow-up attack damage may be too low"
-      ButtonText: "Reset Maximum FUA filter"
+      SuccessMessage: 'Reset Maximum FUA filter'
+      Description: 'Maximum follow-up attack damage may be too low'
+      ButtonText: 'Reset Maximum FUA filter'
     MIN_FUA:
-      SuccessMessage: "Reset Minimum FUA filter"
-      Description: "Minimum follow-up attack damage may be too high"
-      ButtonText: "Reset Minimum FUA filter"
+      SuccessMessage: 'Reset Minimum FUA filter'
+      Description: 'Minimum follow-up attack damage may be too high'
+      ButtonText: 'Reset Minimum FUA filter'
     MAX_DOT:
-      SuccessMessage: "Reset Maximum DOT filter"
-      Description: "Maximum DOT damage may be too low"
-      ButtonText: "Reset Maximum DOT filter"
+      SuccessMessage: 'Reset Maximum DOT filter'
+      Description: 'Maximum DOT damage may be too low'
+      ButtonText: 'Reset Maximum DOT filter'
     MIN_DOT:
-      SuccessMessage: "Reset Minimum DOT filter"
-      Description: "Minimum DOT damage may be too high"
-      ButtonText: "Reset Minimum DOT filter"
+      SuccessMessage: 'Reset Minimum DOT filter'
+      Description: 'Minimum DOT damage may be too high'
+      ButtonText: 'Reset Minimum DOT filter'
     MAX_BREAK:
-      SuccessMessage: "Reset Maximum Break filter"
-      Description: "Maximum break damage may be too low"
-      ButtonText: "Reset Maximum Break filter"
+      SuccessMessage: 'Reset Maximum Break filter'
+      Description: 'Maximum break damage may be too low'
+      ButtonText: 'Reset Maximum Break filter'
     MIN_BREAK:
-      SuccessMessage: "Reset Minimum Break filter"
-      Description: "Minimum break damage may be too high"
-      ButtonText: "Reset Minimum Break filter"
+      SuccessMessage: 'Reset Minimum Break filter'
+      Description: 'Minimum break damage may be too high'
+      ButtonText: 'Reset Minimum Break filter'
     MAX_MEMO_SKILL:
-      SuccessMessage: "Reset Maximum Memo Skill filter"
-      Description: "Maximum Memo Skill damage may be too low"
-      ButtonText: "Reset Maximum Memo Skill filter"
+      SuccessMessage: 'Reset Maximum Memo Skill filter'
+      Description: 'Maximum Memo Skill damage may be too low'
+      ButtonText: 'Reset Maximum Memo Skill filter'
     MIN_MEMO_SKILL:
-      SuccessMessage: "Reset Minimum Memo Skill filter"
-      Description: "Minimum Memo Skill damage may be too high"
-      ButtonText: "Reset Minimum Memo Skill filter"
+      SuccessMessage: 'Reset Minimum Memo Skill filter'
+      Description: 'Minimum Memo Skill damage may be too high'
+      ButtonText: 'Reset Minimum Memo Skill filter'
     MAX_MEMO_TALENT:
-      SuccessMessage: "Reset Maximum Memo Talent filter"
-      Description: "Maximum Memo Talent damage may be too low"
-      ButtonText: "Reset Maximum Memo Talent filter"
+      SuccessMessage: 'Reset Maximum Memo Talent filter'
+      Description: 'Maximum Memo Talent damage may be too low'
+      ButtonText: 'Reset Maximum Memo Talent filter'
     MIN_MEMO_TALENT:
-      SuccessMessage: "Reset Minimum Memo Talent filter"
-      Description: "Minimum Memo Talent damage may be too high"
-      ButtonText: "Reset Minimum Memo Talent filter"
+      SuccessMessage: 'Reset Minimum Memo Talent filter'
+      Description: 'Minimum Memo Talent damage may be too high'
+      ButtonText: 'Reset Minimum Memo Talent filter'
     MAX_HEAL:
-      SuccessMessage: "Reset Maximum HEAL filter"
-      Description: "Maximum HEAL may be too low"
-      ButtonText: "Reset Maximum HEAL filter"
+      SuccessMessage: 'Reset Maximum HEAL filter'
+      Description: 'Maximum HEAL may be too low'
+      ButtonText: 'Reset Maximum HEAL filter'
     MIN_HEAL:
-      SuccessMessage: "Reset Minimum HEAL filter"
-      Description: "Minimum HEAL may be too high"
-      ButtonText: "Reset Minimum HEAL filter"
+      SuccessMessage: 'Reset Minimum HEAL filter'
+      Description: 'Minimum HEAL may be too high'
+      ButtonText: 'Reset Minimum HEAL filter'
     MAX_SHIELD:
-      SuccessMessage: "Reset Maximum SHIELD filter"
-      Description: "Maximum SHIELD may be too low"
-      ButtonText: "Reset Maximum SHIELD filter"
+      SuccessMessage: 'Reset Maximum SHIELD filter'
+      Description: 'Maximum SHIELD may be too low'
+      ButtonText: 'Reset Maximum SHIELD filter'
     MIN_SHIELD:
-      SuccessMessage: "Reset Minimum SHIELD filter"
-      Description: "Minimum SHIELD may be too high"
-      ButtonText: "Reset Minimum SHIELD filter"
+      SuccessMessage: 'Reset Minimum SHIELD filter'
+      Description: 'Minimum SHIELD may be too high'
+      ButtonText: 'Reset Minimum SHIELD filter'
     MAX_COMBO:
-      SuccessMessage: "Reset Maximum Combo filter"
-      Description: "Maximum combo damage may be too low"
-      ButtonText: "Reset Maximum Combo filter"
+      SuccessMessage: 'Reset Maximum Combo filter'
+      Description: 'Maximum combo damage may be too low'
+      ButtonText: 'Reset Maximum Combo filter'
     MIN_COMBO:
-      SuccessMessage: "Reset Minimum Combo filter"
-      Description: "Minimum combo damage may be too high"
-      ButtonText: "Reset Minimum Combo filter"
+      SuccessMessage: 'Reset Minimum Combo filter'
+      Description: 'Minimum combo damage may be too high'
+      ButtonText: 'Reset Minimum Combo filter'
 ManyPerms:
   Title: Very large search requested
   Text: >-
@@ -266,6 +266,7 @@ EditCharacter:
     $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
   Character: Character
   Lightcone: Light cone
+  Sets: Sets
 Relic:
   Part: Part
   Wearer: Equipped by
@@ -292,7 +293,7 @@ Relic:
       SetInvalid: Set value is invalid
       SetNotOrnament: The selected set is not an ornament set
       SetNotRelic: The selected set is not a relic set
-      SubNInvalid: "Substat {{number}} is invalid"
+      SubNInvalid: 'Substat {{number}} is invalid'
       SubsOutOfOrder: Substats are out of order
       DuplicateSubs: Duplicate substats, only one of each type is allowed
       MainAsSub: Substat type is the same as the main stat
@@ -310,7 +311,7 @@ EditImage:
       Default: Use default image
     Upload:
       Method: Click or drag image file to this area to upload
-      Limit: "Accepts .jpg .jpeg .png .gif (Max: 20MB)"
+      Limit: 'Accepts .jpg .jpeg .png .gif (Max: 20MB)'
     Url:
       Label: Image
       Rule: Please input a valid image URL
@@ -319,7 +320,7 @@ EditImage:
     Zoom: Zoom
     Drag: Drag to move
     Pinch: Pinch or scroll to zoom
-    ArtBy: "(Optional) Art by:"
+    ArtBy: '(Optional) Art by:'
     CreditPlaceholder: Credit the artist if possible
   Footer:
     Change: Change image
@@ -335,12 +336,12 @@ Builds:
   Equip: Equip
   ConfirmEquip:
     Content: Equipping this will unequip characters that use the relics in this build
-    SuccessMessage: "Successfully equipped build: {{buildName}}"
+    SuccessMessage: 'Successfully equipped build: {{buildName}}'
   ConfirmDelete:
     DeleteAll: Are you sure you want to delete all builds?
-    DeleteSingle: "Are you sure you want to delete {{name}}?"
-    SuccessMessageAll: "Successfully deleted all builds for {{characterName}}"
-    SuccessMessageSingle: "Successfully deleted build: {{name}}"
+    DeleteSingle: 'Are you sure you want to delete {{name}}?'
+    SuccessMessageAll: 'Successfully deleted all builds for {{characterName}}'
+    SuccessMessageSingle: 'Successfully deleted build: {{name}}'
   NoBuilds:
     NoneSaved: No saved builds
 ScoreFooter:
@@ -356,7 +357,7 @@ ScoreFooter:
 CharacterSelect:
   MultiSelect:
     Placeholder: Customize characters
-    MaxTagPlaceholderSome: "{{count}} characters excluded"
+    MaxTagPlaceholderSome: '{{count}} characters excluded'
     MaxTagPlaceholderNone: All characters enabled
     ModalTitle: Select characters to exclude
   SingleSelect:

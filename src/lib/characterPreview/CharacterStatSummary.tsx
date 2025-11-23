@@ -46,29 +46,36 @@ export const CharacterStatSummary = (props: {
         <StatRow finalStats={props.finalStats} stat={Stats.EHR} edits={edits} />
         <StatRow finalStats={props.finalStats} stat={Stats.RES} edits={edits} />
         <StatRow finalStats={props.finalStats} stat={Stats.BE} edits={edits} />
-        {(props.showAll || !props.asyncSimScoringExecution && props.finalStats[Stats.OHB] > epsilon) && (
-          <StatRow finalStats={props.finalStats} stat={Stats.OHB} edits={edits} />
-        )}
-        {((props.showAll || props.finalStats[Stats.ERR] > epsilon) || props.asyncSimScoringExecution == null) && (
-          <StatRow finalStats={props.finalStats} stat={Stats.ERR} edits={edits} />
-        )}
+
+        {(props.showAll || !props.asyncSimScoringExecution && props.finalStats[Stats.OHB] > epsilon)
+          && <StatRow finalStats={props.finalStats} stat={Stats.OHB} edits={edits} />}
+
+        {((props.showAll || props.finalStats[Stats.ERR] > epsilon) || props.asyncSimScoringExecution == null)
+          && <StatRow finalStats={props.finalStats} stat={Stats.ERR} edits={edits} />}
+
         <StatRow finalStats={props.finalStats} stat={props.elementalDmgValue} edits={edits} />
 
-        {!props.asyncSimScoringExecution?.done && props.asyncSimScoringExecution?.result == null && (
-          <StatRow
-            finalStats={props.finalStats}
-            stat='simScore'
-            value={props.simScore}
-          />
-        )}
-        {props.asyncSimScoringExecution?.result != null && (
-          <StatRow
-            finalStats={props.finalStats}
-            stat='simScore'
-            value={simScoringExecution?.result?.originalSimResult.simScore}
-            loading={!simScoringExecution?.done}
-          />
-        )}
+        {props.scoringType == ScoringType.COMBAT_SCORE
+          && !props.asyncSimScoringExecution?.done
+          && props.asyncSimScoringExecution?.result == null
+          && (
+            <StatRow
+              finalStats={props.finalStats}
+              stat='simScore'
+              value={props.simScore}
+            />
+          )}
+
+        {props.scoringType == ScoringType.COMBAT_SCORE
+          && props.asyncSimScoringExecution?.result != null
+          && (
+            <StatRow
+              finalStats={props.finalStats}
+              stat='simScore'
+              value={simScoringExecution?.result?.originalSimResult.simScore}
+              loading={!simScoringExecution?.done}
+            />
+          )}
       </Flex>
     </StatText>
   )

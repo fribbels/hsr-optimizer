@@ -107,10 +107,17 @@ export class ComputedStatsContainerConfig {
  * Buffs are applied at the Action level, but the effects have Hit granularity
  *
  * Array structure
- *   [Action]
- *   [[Entity][Entity]]
- *   [[[Hit][Hit][Hit][Hit]]]
- *   [[[[Stat,Stat,Stat,...],...],...]]
+ *   [Action (this container)                                                 ...]
+ *   [Entity 0                   ][Entity 1                    ][Entity 2    ]...
+ *   [Action stats][Hit 0][Hit 1][Hit 2][Action stats][Hit 0][Hit 1][Hit 2]......
+ *   [ATK, DEF, HP, SPD, CR, CD, BE, RES, EHR, OHB, ERR, DMG_BOOST, DEF_PEN].....
+ *
+ * Key points:
+ * - Each container is 1 action
+ * - Multiple entities per action (e.g., Aglaea + Garmentmaker)
+ * - Each entity has: 1 action-level + N hit-scope stat blocks
+ * - Each block contains all stats (ATK, DEF, DMG_BOOST, etc.)
+ * - Hit definitions are shared, but each entity has its own stat values
  */
 export class ComputedStatsContainer {
   // @ts-ignore

@@ -9,6 +9,8 @@ import {
   Conditionals,
   ContentDefinition,
   createEnum,
+  cyreneActionExists,
+  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import {
   ConditionalActivation,
@@ -32,6 +34,7 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { CritDamageFunction } from 'types/hitConditionalTypes'
@@ -281,9 +284,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // x.BASIC_ATK_SCALING.buff((r.supremeStanceState) ? enhancedBasicScaling : basicScaling, SOURCE_BASIC)
-      // x.m.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_MEMO)
-
       x.buff(StatKey.SPD_P, (r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, x.source(SOURCE_ULT))
       x.buff(StatKey.SPD_P, r.memoSpdStacks * memoTalentSpd, x.target(AglaeaEntities.Garmentmaker).source(SOURCE_MEMO))
 
@@ -295,26 +295,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.elements(ElementTag.Lightning).targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6),
       )
 
-      // x.m.SPD.buff(r.memoSpdStacks * memoTalentSpd, SOURCE_MEMO)
-      //
-      // x.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
-      // x.m.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
-      //
-      // x.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
-      // x.m.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
-      //
-      // x.BASIC_TOUGHNESS_DMG.buff((r.supremeStanceState) ? 20 : 10, SOURCE_BASIC)
-      // x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
-      //
-      // // Cyrene
-      // const cyreneDmgBuff = cyreneActionExists(action)
-      //   ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.792 : 0.72)
-      //   : 0
-      // const cyreneDefPenBuff = cyreneActionExists(action)
-      //   ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
-      //   : 0
-      // x.ELEMENTAL_DMG.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, Source.odeTo(AGLAEA))
-      // x.DEF_PEN.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDefPenBuff : 0, Source.odeTo(AGLAEA))
+      // Cyrene
+      const cyreneDmgBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.792 : 0.72)
+        : 0
+      const cyreneDefPenBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
+        : 0
+
+      x.buff(StatKey.DMG_BOOST, (r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, x.targets(TargetTag.SelfAndMemosprite).source(Source.odeTo(AGLAEA)))
+      x.buff(StatKey.DEF_PEN, (r.cyreneSpecialEffect) ? cyreneDefPenBuff : 0, x.targets(TargetTag.SelfAndMemosprite).source(Source.odeTo(AGLAEA)))
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -365,7 +355,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buffTeam((e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, SOURCE_E1)
+      // x.VULNERABILITY.buffTeam((e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, SOURCE_E1)
     },
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -387,11 +377,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.buff(StatKey.DMG_BOOST, jointBoost, x.damageType(DamageTag.BASIC).targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6))
       }
 
+      // TODO
       x.buff(StatKey.ATK, 3436, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6))
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
+      // TODO
       return ``
       //       return `
       // if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
@@ -421,6 +413,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return true
         },
         effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          // TODO
           const r = action.characterConditionals as Conditionals<typeof content>
           if (!r.supremeStanceState) {
             return
@@ -433,6 +426,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           x.m.ATK.buffDynamic(buffValue - stateValue, SOURCE_TRACE, action, context)
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
+          // TODO
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return conditionalWgslWrapper(

@@ -266,7 +266,6 @@ EditCharacter:
     $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
   Character: Personaje
   Lightcone: Cono de luz
-  Sets: Conjuntos
 Relic:
   Part: Ranura
   Wearer: Equipado por

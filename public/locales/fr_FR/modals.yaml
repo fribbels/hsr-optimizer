@@ -266,7 +266,6 @@ EditCharacter:
     $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
   Character: Personnage
   Lightcone: Cône de lumière
-  Sets: Sets
 Relic:
   Part: Pièce
   Wearer: Equipée par

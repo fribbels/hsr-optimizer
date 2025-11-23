@@ -204,6 +204,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Lightning)
             .atkScaling(basicScaling)
+            .toughnessDmg(10)
             .build(),
         ],
       }
@@ -246,6 +247,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               damageType: DamageType.MEMO,
               damageElement: ElementTag.Lightning,
               atkScaling: memoSkillScaling,
+              toughnessDmg: 10,
               activeHit: true,
             },
           ],

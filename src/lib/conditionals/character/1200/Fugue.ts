@@ -191,6 +191,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
                   damageType: DamageType.SUPER_BREAK,
                   referenceHit: hit,
                   damageElement: hit.damageElement,
+                  sourceEntity: hit.sourceEntity,
                   activeHit: false,
                 }
 

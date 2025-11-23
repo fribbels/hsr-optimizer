@@ -203,9 +203,8 @@ export const SuperBreakDamageFunction: DamageFunction = {
     const eLevel = context.enemyLevel
 
     const toughnessDmg = hit.referenceHit?.toughnessDmg ?? 0
-    if (toughnessDmg === 0) return 0
-
     const superBreakModifier = x.getValue(StatKey.SUPER_BREAK_MODIFIER, hitIndex)
+
     if (superBreakModifier === 0) return 0
 
     const be = x.getValue(StatKey.BE, hitIndex)

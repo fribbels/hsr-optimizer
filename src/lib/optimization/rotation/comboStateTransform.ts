@@ -216,6 +216,9 @@ export function precomputeConditionals(action: OptimizerAction, comboState: Comb
   lightConeConditionals.initializeConfigurations?.(x, action, context)
   characterConditionals.initializeConfigurations?.(x, action, context)
 
+  lightConeConditionals.initializeConfigurationsContainer?.(container, action, context)
+  characterConditionals.initializeConfigurationsContainer?.(container, action, context)
+
   const teammates = [
     comboState.comboTeammate0,
     comboState.comboTeammate1,
@@ -236,6 +239,9 @@ export function precomputeConditionals(action: OptimizerAction, comboState: Comb
 
     teammateCharacterConditionals.initializeTeammateConfigurations?.(x, teammateAction, context)
     teammateLightConeConditionals.initializeTeammateConfigurations?.(x, teammateAction, context)
+
+    teammateCharacterConditionals.initializeTeammateConfigurationsContainer?.(container, teammateAction, context)
+    teammateLightConeConditionals.initializeTeammateConfigurationsContainer?.(container, teammateAction, context)
   }
 
   // Precompute stage
@@ -246,8 +252,24 @@ export function precomputeConditionals(action: OptimizerAction, comboState: Comb
   lightConeConditionals.precomputeMutualEffects?.(x, action, context, action)
   characterConditionals.precomputeMutualEffects?.(x, action, context, action)
 
-  characterConditionals.precomputeEffectsContainer(action.precomputedStats, action, context)
-  characterConditionals.precomputeMutualEffectsContainer(action.precomputedStats, action, context)
+  // ================ Container ================
+
+  lightConeConditionals.precomputeEffectsContainer?.(container, action, context)
+  characterConditionals.precomputeEffectsContainer?.(container, action, context)
+
+  lightConeConditionals.precomputeMutualEffectsContainer?.(container, action, context, action)
+  characterConditionals.precomputeMutualEffectsContainer?.(container, action, context, action)
+
+  // // Precompute stage
+  // lightConeConditionals.precomputeEffects?.(x, action, context)
+  // characterConditionals.precomputeEffects?.(x, action, context)
+  //
+  // // Precompute mutual stage
+  // lightConeConditionals.precomputeMutualEffects?.(x, action, context, action)
+  // characterConditionals.precomputeMutualEffects?.(x, action, context, action)
+  //
+  // characterConditionals.precomputeEffectsContainer(action.precomputedStats, action, context)
+  // characterConditionals.precomputeMutualEffectsContainer(action.precomputedStats, action, context)
 
   precomputeTeammates(action, comboState, context)
 }
@@ -255,6 +277,7 @@ export function precomputeConditionals(action: OptimizerAction, comboState: Comb
 function precomputeTeammates(action: OptimizerAction, comboState: ComboState, context: OptimizerContext) {
   // Precompute teammate effects
   const x = action.precomputedX
+  const container = action.precomputedStats
   const teammateSetEffects: Record<string, boolean> = {}
   const teammates = [
     comboState.comboTeammate0,
@@ -279,8 +302,22 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
     if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateAction, context, action)
     if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(x, teammateAction, context, action)
 
+    if (teammateCharacterConditionals.precomputeMutualEffectsContainer) {
+      teammateCharacterConditionals.precomputeMutualEffectsContainer(container, teammateAction, context, action)
+    }
+    if (teammateCharacterConditionals.precomputeTeammateEffectsContainer) {
+      teammateCharacterConditionals.precomputeTeammateEffectsContainer(container, teammateAction, context, action)
+    }
+
     if (teammateLightConeConditionals.precomputeMutualEffects) teammateLightConeConditionals.precomputeMutualEffects(x, teammateAction, context)
     if (teammateLightConeConditionals.precomputeTeammateEffects) teammateLightConeConditionals.precomputeTeammateEffects(x, teammateAction, context)
+
+    if (teammateLightConeConditionals.precomputeMutualEffectsContainer) {
+      teammateLightConeConditionals.precomputeMutualEffectsContainer(container, teammateAction, context)
+    }
+    if (teammateLightConeConditionals.precomputeTeammateEffectsContainer) {
+      teammateLightConeConditionals.precomputeTeammateEffectsContainer(container, teammateAction, context)
+    }
 
     for (const [key, value] of [...Object.entries(teammateRequest.relicSetConditionals), ...Object.entries(teammateRequest.ornamentSetConditionals)]) {
       if (value.type == ConditionalDataType.BOOLEAN) {

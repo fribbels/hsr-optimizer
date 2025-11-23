@@ -39,6 +39,7 @@ export interface ConditionalsController {
   initializeConfigurationsContainer?: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void
 
   initializeTeammateConfigurations?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
+  initializeTeammateConfigurationsContainer?: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void
 
   // Individual effects that apply only for the primary character
   // e.g. Self buffs
@@ -58,6 +59,12 @@ export interface ConditionalsController {
   // Effects that only apply as a teammate, onto the primary character
   // e.g. Targeted teammate buff
   precomputeTeammateEffects?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => void
+  precomputeTeammateEffectsContainer?: (
+    x: ComputedStatsContainer,
+    action: OptimizerAction,
+    context: OptimizerContext,
+    originalCharacterAction?: OptimizerAction,
+  ) => void
 
   calculateBasicEffects?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
   gpuCalculateBasicEffects?: (action: OptimizerAction, context: OptimizerContext) => string

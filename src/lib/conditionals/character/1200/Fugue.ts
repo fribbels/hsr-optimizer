@@ -1,18 +1,19 @@
-import {
-  AbilityType,
-  BREAK_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
-  buffAbilityDmg,
-  Target,
-} from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -21,6 +22,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const FugueEntities = createEnum('Fugue')
+export const FugueAbilities = createEnum('BASIC', 'ULT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Fugue')
@@ -132,49 +136,114 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
 
+    entityDeclaration: () => Object.values(FugueEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [FugueEntities.Fugue]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(FugueAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [FugueAbilities.BASIC]: {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Fire)
+            .atkScaling(basicScaling)
+            .build(),
+        ],
+      },
+      [FugueAbilities.ULT]: {
+        hits: [
+          HitDefinitionBuilder.standardUlt()
+            .damageElement(ElementTag.Fire)
+            .atkScaling(ultScaling)
+            .build(),
+        ],
+      },
+      [FugueAbilities.BREAK]: {
+        hits: [HitDefinitionBuilder.standardBreak().build()],
+      },
+    }),
+    actionModifiers: () => [],
+
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
       if (r.superBreakDmg) {
-        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_TALENT)
+        x.set(StatKey.ENEMY_WEAKNESS_BROKEN, 1, x.source(SOURCE_TALENT))
       }
     },
-    initializeTeammateConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    // initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    //   const r = action.characterConditionals as Conditionals<typeof content>
+    //   if (r.superBreakDmg) {
+    //     x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_TALENT)
+    //   }
+    // },
+
+    initializeTeammateConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       if (r.superBreakDmg) {
-        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_TALENT)
+        x.set(StatKey.ENEMY_WEAKNESS_BROKEN, 1, x.source(SOURCE_TALENT))
       }
     },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    // initializeTeammateConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    //   const r = action.characterConditionals as Conditionals<typeof content>
+    //   if (r.superBreakDmg) {
+    //     x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_TALENT)
+    //   }
+    // },
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BE.buff(0.30, SOURCE_TRACE)
-
-      x.BREAK_EFFICIENCY_BOOST.buff((e >= 6 && r.e6BreakEfficiency) ? 0.50 : 0, SOURCE_E6)
-
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
+      x.buff(StatKey.BE, 0.30, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 6 && r.e6BreakEfficiency) ? 0.50 : 0, x.source(SOURCE_E6))
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    // precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    //   const r = action.characterConditionals as Conditionals<typeof content>
+    //   x.BE.buff(0.30, SOURCE_TRACE)
+    //   x.BREAK_EFFICIENCY_BOOST.buff((e >= 6 && r.e6BreakEfficiency) ? 0.50 : 0, SOURCE_E6)
+    //   x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+    //   x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+    //   x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+    //   x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
+    // },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.BE.buffSingle((m.foxianPrayer) ? skillBeValue : 0, SOURCE_SKILL)
+      x.buff(StatKey.BE, (m.foxianPrayer) ? skillBeValue : 0, x.source(SOURCE_SKILL))
+      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 1 && m.foxianPrayer) ? 0.50 : 0, x.source(SOURCE_E1))
 
-      x.SUPER_BREAK_MODIFIER.buffTeam((m.superBreakDmg) ? superBreakScaling : 0, SOURCE_TALENT)
-      x.DEF_PEN.buffTeam((m.defReduction) ? skillDefPenValue : 0, SOURCE_SKILL)
-
-      x.BREAK_EFFICIENCY_BOOST.buffSingle((e >= 1 && m.foxianPrayer) ? 0.50 : 0, SOURCE_E1)
-      buffAbilityDmg(x, BREAK_DMG_TYPE, (e >= 4 && m.foxianPrayer && m.e4BreakDmg) ? 0.20 : 0, SOURCE_E4, Target.SINGLE)
+      x.buff(StatKey.SUPER_BREAK_MODIFIER, (m.superBreakDmg) ? superBreakScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
+      x.buff(StatKey.DEF_PEN, (m.defReduction) ? skillDefPenValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+      x.buff(StatKey.DMG_BOOST, (e >= 4 && m.foxianPrayer && m.e4BreakDmg) ? 0.20 : 0, x.damageType(DamageTag.BREAK).source(SOURCE_E4))
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    // precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    //   const m = action.characterConditionals as Conditionals<typeof teammateContent>
+    //   x.BE.buffSingle((m.foxianPrayer) ? skillBeValue : 0, SOURCE_SKILL)
+    //   x.SUPER_BREAK_MODIFIER.buffTeam((m.superBreakDmg) ? superBreakScaling : 0, SOURCE_TALENT)
+    //   x.DEF_PEN.buffTeam((m.defReduction) ? skillDefPenValue : 0, SOURCE_SKILL)
+    //   x.BREAK_EFFICIENCY_BOOST.buffSingle((e >= 1 && m.foxianPrayer) ? 0.50 : 0, SOURCE_E1)
+    //   buffAbilityDmg(x, BREAK_DMG_TYPE, (e >= 4 && m.foxianPrayer && m.e4BreakDmg) ? 0.20 : 0, SOURCE_E4, Target.SINGLE)
+    // },
+
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.BE.buffTeam(t.weaknessBreakBeStacks * (0.06 + (t.be220Buff ? 0.12 : 0)), SOURCE_TRACE)
+      x.buff(StatKey.BE, t.weaknessBreakBeStacks * (0.06 + (t.be220Buff ? 0.12 : 0)), x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {},
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    // OLD - Commented out for reference
+    // precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    //   const t = action.characterConditionals as Conditionals<typeof teammateContent>
+    //   x.BE.buffTeam(t.weaknessBreakBeStacks * (0.06 + (t.be220Buff ? 0.12 : 0)), SOURCE_TRACE)
+    // },
   }
 }

@@ -213,6 +213,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Lightning)
             .atkScaling(enhancedBasicScaling)
+            .toughnessDmg(20)
             .build(),
           {
             sourceEntity: AglaeaEntities.Garmentmaker,

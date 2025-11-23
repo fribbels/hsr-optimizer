@@ -23,6 +23,7 @@ import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   Hit,
+  HitDefinition,
   SuperBreakDamageFunction,
 } from 'types/hitConditionalTypes'
 import {
@@ -185,12 +186,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               const hit = hits[i]
 
               if (hit.toughnessDmg) {
-                const superBreakHit = {
+                const superBreakHit: HitDefinition = {
                   damageFunction: SuperBreakDamageFunction,
                   damageType: DamageType.SUPER_BREAK,
-                  damageElement: ElementTag.None,
+                  referenceHit: hit,
+                  damageElement: hit.damageElement,
                   activeHit: false,
-                  toughnessDmg: hit.toughnessDmg,
                 }
 
                 hits.push(superBreakHit as Hit)

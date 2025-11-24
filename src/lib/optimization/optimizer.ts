@@ -54,6 +54,8 @@ import {
 
 let CANCEL = false
 
+const TESTING = false
+
 export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
   let relics = DB.getRelics()
   relics = relics.filter((x) => x.equippedBy == request.characterId)
@@ -270,19 +272,21 @@ export const Optimizer = {
           }
         }
 
-        WorkerPool.execute(task, callback)
+        if (!TESTING) {
+          WorkerPool.execute(task, callback)
+        } else {
+          window.store.getState().setOptimizationInProgress(false)
+          results = queueResults.toArray()
 
-        // window.store.getState().setOptimizationInProgress(false)
-        // results = queueResults.toArray()
-        //
-        // OptimizerTabController.setRows(results)
-        // setSortColumn(gridSortColumn)
-        //
-        // window.optimizerGrid.current!.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
-        // console.log('Done', results.length)
-        // resultsShown = true
-        // if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)
-        // return
+          OptimizerTabController.setRows(results)
+          setSortColumn(gridSortColumn)
+
+          window.optimizerGrid.current!.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+          console.log('Done', results.length)
+          resultsShown = true
+          if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)
+          return
+        }
       }
     }
   },

@@ -135,6 +135,7 @@ export type CharacterMetadata = {
 
 export type OptimizerContext = CharacterMetadata & {
   // NEW
+  maxContainerArrayLength: number,  // Maximum array size for container reuse
   actionDeclarations: string[],
   actionModifiers: ActionModifier[],
   characterController: CharacterConditionalsController,

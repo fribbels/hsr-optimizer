@@ -165,6 +165,9 @@ export function optimizerWorker(e: MessageEvent) {
   const c = new BasicStatsArrayCore(false) as BasicStatsArray
   const x = new ComputedStatsContainer()
 
+  // Initialize arrays once with maximum size (performance optimization)
+  x.initializeArrays(context.maxContainerArrayLength, context)
+
   // Find memosprite entity index from first default action
   let memospriteEntityIndex = -1
   if (context.defaultActions.length > 0) {

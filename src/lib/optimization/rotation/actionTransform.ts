@@ -131,6 +131,20 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
     }
   }
 
+  // ========== CALCULATE MAX ARRAY LENGTH ==========
+
+  // Calculate maximum array length for container reuse optimization
+  let maxArrayLength = 0
+  for (const action of allActions) {
+    maxArrayLength = Math.max(maxArrayLength, action.config.arrayLength)
+  }
+  context.maxContainerArrayLength = maxArrayLength
+
+  // Initialize precomputed arrays for all actions before Phase 4
+  for (const action of allActions) {
+    action.precomputedStats.a = new Float32Array(action.config.arrayLength)
+  }
+
   // ========== PHASE 4: PRECOMPUTATION ==========
 
   for (const action of allActions) {

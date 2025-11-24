@@ -139,11 +139,18 @@ export class ComputedStatsContainer {
     this.builder = new BuffBuilder()
   }
 
+  // ============== Array Initialization ==============
+
+  public initializeArrays(maxArrayLength: number, context: OptimizerContext) {
+    this.a = new Float32Array(maxArrayLength)
+    this.setRegisters(context)
+  }
+
   // ============== Precomputes ==============
 
   public setConfig(config: ComputedStatsContainerConfig) {
     this.config = config
-    this.a = new Float32Array(this.config.arrayLength)
+    // Reuse existing array - don't recreate (performance optimization)
     this.builder.setConfig(config)
   }
 

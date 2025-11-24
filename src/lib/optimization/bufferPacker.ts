@@ -165,7 +165,7 @@ export const BufferPacker = {
     arr[offset + 34] = x.getActionValue(StatKey.BE, primaryEntity)
     arr[offset + 35] = x.getActionValue(StatKey.ERR, primaryEntity)
     arr[offset + 36] = x.getActionValue(StatKey.OHB, primaryEntity)
-    arr[offset + 37] = x.getActionValue(StatKey.DMG_BOOST, primaryEntity)
+    arr[offset + 37] = x.getActionValue(StatKey.DMG_BOOST as any, primaryEntity)
 
     // [38-39] Set indices
     arr[offset + 38] = c.relicSetIndex
@@ -187,7 +187,7 @@ export const BufferPacker = {
       arr[offset + 48] = ca[StatKey.BE]
       arr[offset + 49] = ca[StatKey.ERR]
       arr[offset + 50] = ca[StatKey.OHB]
-      arr[offset + 51] = ca[StatKey.ELEMENTAL_DMG]
+      arr[offset + 51] = ca[Key.ELEMENTAL_DMG]
 
       // [52-63] Memosprite combat stats
       arr[offset + 52] = x.getActionValue(StatKey.HP, memoEntity)

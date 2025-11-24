@@ -91,8 +91,8 @@ export function simulateBuild(
   // }
 
   const x = new ComputedStatsContainer()
+  x.initializeArrays(context.maxContainerArrayLength, context)
   x.setBasic(c)
-  x.setRegisters(context)
 
   for (let i = 0; i < context.rotationActions.length; i++) {
     const action = context.rotationActions[i]

@@ -37,7 +37,7 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { CritDamageFunction } from 'types/hitConditionalTypes'
+import { CritDamageFunction, DamageFunctionType } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -222,6 +222,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           {
             sourceEntity: AglaeaEntities.Garmentmaker,
             damageFunction: CritDamageFunction,
+            damageFunctionType: DamageFunctionType.Crit,
             damageType: DamageType.BASIC | DamageType.MEMO,
             damageElement: ElementTag.Lightning,
             atkScaling: enhancedBasicScaling,
@@ -247,6 +248,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             {
               sourceEntity: AglaeaEntities.Garmentmaker,
               damageFunction: CritDamageFunction,
+              damageFunctionType: DamageFunctionType.Crit,
               damageType: DamageType.MEMO,
               damageElement: ElementTag.Lightning,
               atkScaling: memoSkillScaling,

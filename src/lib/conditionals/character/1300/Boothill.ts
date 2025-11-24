@@ -29,7 +29,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { BreakDamageFunction } from 'types/hitConditionalTypes'
+import { BreakDamageFunction, DamageFunctionType } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -189,6 +189,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         // Use specialScaling to encode the modified break scaling
         enhancedBasicHits.push({
           damageFunction: BreakDamageFunction,
+          damageFunctionType: DamageFunctionType.Break,
           damageType: DamageTag.BREAK,
           damageElement: ElementTag.Physical,
           specialScaling: totalScaling,

@@ -24,7 +24,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
 import { CharacterConditionalsController } from 'types/conditionals'
-import { CritDamageFunction } from 'types/hitConditionalTypes'
+import { CritDamageFunction, DamageFunctionType } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -145,6 +145,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           hits: [
             {
               damageFunction: CritDamageFunction,
+              damageFunctionType: DamageFunctionType.Crit,
               damageType: DamageType.BASIC | DamageType.FUA,
               damageElement: ElementTag.Fire,
               atkScaling: basicScaling,
@@ -158,6 +159,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             {
               sourceEntity: TopazEntities.Numby,
               damageFunction: CritDamageFunction,
+              damageFunctionType: DamageFunctionType.Crit,
               damageType: DamageType.SKILL | DamageType.FUA,
               damageElement: ElementTag.Fire,
               atkScaling: skillScaling + (r.numbyEnhancedState ? enhancedStateFuaScalingBoost : 0),
@@ -171,6 +173,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             {
               sourceEntity: TopazEntities.Numby,
               damageFunction: CritDamageFunction,
+              damageFunctionType: DamageFunctionType.Crit,
               damageType: DamageType.FUA,
               damageElement: ElementTag.Fire,
               atkScaling: fuaScaling + (r.numbyEnhancedState ? enhancedStateFuaScalingBoost : 0),

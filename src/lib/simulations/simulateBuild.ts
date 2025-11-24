@@ -29,6 +29,7 @@ import {
   SimulationRelic,
   SimulationRelicByPart,
 } from 'lib/simulations/statSimulationTypes'
+import { getDamageFunction } from 'types/hitConditionalTypes'
 import { OptimizerContext } from 'types/optimizer'
 
 // To use after combo state and context has been initialized
@@ -116,7 +117,7 @@ export function simulateBuild(
     for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
       const hit = action.hits![hitIndex]
 
-      const dmg = hit.damageFunction.apply(x, action, hitIndex, context)
+      const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
       x.setHitRegisterValue(hit.registerIndex, dmg)
       comboDmg += dmg
     }
@@ -144,7 +145,7 @@ export function simulateBuild(
     for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
       const hit = action.hits![hitIndex]
 
-      const dmg = hit.damageFunction.apply(x, action, hitIndex, context)
+      const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
       x.setHitRegisterValue(hit.registerIndex, dmg)
 
       sum += dmg

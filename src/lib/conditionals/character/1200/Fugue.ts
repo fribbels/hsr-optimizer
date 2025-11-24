@@ -1,4 +1,4 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
+import { AbilityType, DamageType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -19,6 +19,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
+  DamageFunctionType,
   Hit,
   HitDefinition,
   SuperBreakDamageFunction,
@@ -187,7 +188,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               if (hit.toughnessDmg) {
                 const superBreakHit: HitDefinition = {
                   damageFunction: SuperBreakDamageFunction,
-                  damageType: DamageTag.SUPER_BREAK,
+                  damageFunctionType: DamageFunctionType.SuperBreak,
+                  damageType: DamageType.SUPER_BREAK,
                   referenceHit: hit,
                   damageElement: hit.damageElement,
                   sourceEntity: hit.sourceEntity,

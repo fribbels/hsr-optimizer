@@ -6,6 +6,15 @@ import {
   OptimizerContext,
 } from './optimizer'
 
+export enum DamageFunctionType {
+  Default,
+  Crit,
+  Dot,
+  Break,
+  SuperBreak,
+  Additional,
+}
+
 export interface AbilityDefinition {
   hits: HitDefinition[]
 }
@@ -23,6 +32,7 @@ export interface HitDefinition {
   referenceHit?: Hit
 
   damageFunction: DamageFunction
+  damageFunctionType: DamageFunctionType  // For serialization
   damageType: number
   damageElement: ElementTag
 
@@ -350,4 +360,17 @@ function calculateInitial(
     + hpScaling * hp
     + defScaling * def
     + atkScaling * (atk + atkBoostP * context.baseATK)
+}
+
+export const DamageFunctionRegistry: Record<DamageFunctionType, DamageFunction> = {
+  [DamageFunctionType.Default]: DefaultDamageFunction,
+  [DamageFunctionType.Crit]: CritDamageFunction,
+  [DamageFunctionType.Dot]: DotDamageFunction,
+  [DamageFunctionType.Break]: BreakDamageFunction,
+  [DamageFunctionType.SuperBreak]: SuperBreakDamageFunction,
+  [DamageFunctionType.Additional]: AdditionalDamageFunction,
+}
+
+export function getDamageFunction(type: DamageFunctionType): DamageFunction {
+  return DamageFunctionRegistry[type]
 }

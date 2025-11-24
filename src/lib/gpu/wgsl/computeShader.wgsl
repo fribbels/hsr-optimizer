@@ -779,19 +779,6 @@ fn calculateDamage(
       }
     }
 
-    if (x.HEAL_VALUE > 0) {
-      (*p_x).HEAL_VALUE = x.HEAL_VALUE * (
-        1
-        + x.OHB
-        + select(0.0, x.SKILL_OHB, x.HEAL_TYPE == SKILL_DMG_TYPE)
-        + select(0.0, x.ULT_OHB, x.HEAL_TYPE == ULT_DMG_TYPE)
-      );
-    }
-
-    if (x.SHIELD_VALUE > 0) {
-      (*p_x).SHIELD_VALUE = x.SHIELD_VALUE * (1 + x.SHIELD_BOOST);
-    }
-
     /* START EHP CALC */
     (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / x.DMG_RED_MULTI);
     /* END EHP CALC */
@@ -859,6 +846,7 @@ fn calculateAbilityDmg(
   abilitySuperBreakModifier: f32,
   abilityBreakDmgModifier: f32,
   abilityToughnessDmg: f32,
+  abilityFixedToughnessDmg: f32,
   abilityAdditionalDmg: f32,
   abilityAdditionalCrOverride: f32,
   abilityAdditionalCdOverride: f32,
@@ -901,8 +889,10 @@ fn calculateAbilityDmg(
   if (superBreakModifier > 0) {
     abilitySuperBreakDmgOutput = baseSuperBreakInstanceDmg
       * (superBreakModifier)
-      * (baseBreakEfficiencyBoost + abilityBreakEfficiencyBoost)
-      * (abilityToughnessDmg);
+      * (
+        (baseBreakEfficiencyBoost + abilityBreakEfficiencyBoost) * (abilityToughnessDmg)
+        + abilityFixedToughnessDmg
+      );
   }
 
   // === Additional DMG ===

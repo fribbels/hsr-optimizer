@@ -84,6 +84,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const teammateDefaults = {
     enhancedState: true,
+    cyreneSpecialEffect: true,
     skillMemoCdBuff: true,
     evernightCombatCD: 2.50,
     e1FinalDmg: true,
@@ -192,6 +193,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     enhancedState: content.enhancedState,
+    cyreneSpecialEffect: content.cyreneSpecialEffect,
     skillMemoCdBuff: {
       id: 'skillMemoCdBuff',
       formItem: 'switch',
@@ -288,13 +290,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.m.CD.buff(t.skillMemoCdBuff ? skillCdScaling : 0, SOURCE_SKILL)
-      x.m.UNCONVERTIBLE_CD_BUFF.buff(t.skillMemoCdBuff ? skillCdScaling : 0, SOURCE_SKILL)
+      x.m.CD.buff(t.skillMemoCdBuff ? skillCdScaling * t.evernightCombatCD : 0, SOURCE_SKILL)
+      x.m.UNCONVERTIBLE_CD_BUFF.buff(t.skillMemoCdBuff ? skillCdScaling * t.evernightCombatCD : 0, SOURCE_SKILL)
 
-      if (cyreneActionExists(originalCharacterAction!)) {
+      if (t.cyreneSpecialEffect && cyreneActionExists(originalCharacterAction!)) {
         const cyreneAdditionalCdScaling = cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.132 : 0.12
-        x.m.CD.buff(t.skillMemoCdBuff ? cyreneAdditionalCdScaling : 0, Source.odeTo(EVERNIGHT))
-        x.m.UNCONVERTIBLE_CD_BUFF.buff(t.skillMemoCdBuff ? cyreneAdditionalCdScaling : 0, Source.odeTo(EVERNIGHT))
+        x.m.CD.buff(t.skillMemoCdBuff ? cyreneAdditionalCdScaling * t.evernightCombatCD : 0, Source.odeTo(EVERNIGHT))
+        x.m.UNCONVERTIBLE_CD_BUFF.buff(t.skillMemoCdBuff ? cyreneAdditionalCdScaling * t.evernightCombatCD : 0, Source.odeTo(EVERNIGHT))
       }
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {},

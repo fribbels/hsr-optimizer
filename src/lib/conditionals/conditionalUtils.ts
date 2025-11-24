@@ -162,6 +162,7 @@ export function getCyreneAction(action: OptimizerAction) {
     action.teammate0,
     action.teammate1,
     action.teammate2,
+    action,
   ].find((x) => x && x.actorId == CYRENE)
 
   return cyreneAction
@@ -177,6 +178,7 @@ export function cyreneSpecialEffectEidolonUpgraded(action: OptimizerAction) {
     action.teammate0,
     action.teammate1,
     action.teammate2,
+    action,
   ].find((x) => x && x.actorId == CYRENE)!
 
   return cyreneAction.actorEidolon >= 3
@@ -191,4 +193,15 @@ export function createEnum<T extends string>(...values: T[]) {
     obj[v.replace(/[^a-zA-Z0-9]+/g, '_')] = v
   }
   return obj as { [K in T as Sanitize<K>]: K }
+}
+
+export function teammateConditionalActive(action: OptimizerAction, teammateId: string, conditionalId: string) {
+  const teammateAction = [
+    action.teammate0,
+    action.teammate1,
+    action.teammate2,
+  ].find((x) => x && x.actorId == teammateId)
+  if (!teammateAction) return false
+
+  return teammateAction.characterConditionals[conditionalId]
 }

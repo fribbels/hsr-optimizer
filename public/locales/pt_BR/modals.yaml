@@ -22,21 +22,21 @@ Scoring:
       ButtonText: Navegar para aba Importador
       SuccessMessage: Escolha um método de importação e importe suas relíquias e personagens
     Body_MAIN:
-      Description: "A principal estatística para o filtro $t(common:Parts.Body) pode ser muito restritiva"
-      ButtonText: "Limpar os filtros de estatísticas principais de $t(common:Parts.Body)"
-      SuccessMessage: "Filtros de estatísticas principais de $t(common:Parts.Body) limpos."
+      Description: 'A principal estatística para o filtro $t(common:Parts.Body) pode ser muito restritiva'
+      ButtonText: 'Limpar os filtros de estatísticas principais de $t(common:Parts.Body)'
+      SuccessMessage: 'Filtros de estatísticas principais de $t(common:Parts.Body) limpos.'
     Feet_MAIN:
-      Description: "A principal estatística para o filtro $t(common:Parts.Feet) pode ser muito restritiva."
-      ButtonText: "Limpar os filtros de estatísticas principais de $t(common:Parts.Feet)."
-      SuccessMessage: "Filtros de estatísticas principais de $t(common:Parts.Feet) limpos"
+      Description: 'A principal estatística para o filtro $t(common:Parts.Feet) pode ser muito restritiva.'
+      ButtonText: 'Limpar os filtros de estatísticas principais de $t(common:Parts.Feet).'
+      SuccessMessage: 'Filtros de estatísticas principais de $t(common:Parts.Feet) limpos'
     PlanarSphere_MAIN:
-      Description: "A principal estatística para o filtro $t(common:Parts.PlanarSphere) pode ser muito restritiva"
-      ButtonText: "Limpar os filtros de estatísticas principais de $t(common:Parts.PlanarSphere)"
-      SuccessMessage: "Filtros de estatísticas principais de $t(common:Parts.PlanarSphere) limpos"
+      Description: 'A principal estatística para o filtro $t(common:Parts.PlanarSphere) pode ser muito restritiva'
+      ButtonText: 'Limpar os filtros de estatísticas principais de $t(common:Parts.PlanarSphere)'
+      SuccessMessage: 'Filtros de estatísticas principais de $t(common:Parts.PlanarSphere) limpos'
     LinkRope_MAIN:
-      Description: "A principal estatística para o filtro $t(common:Parts.LinkRope) pode ser muito restritiva"
-      ButtonText: "Limpar os filtros de estatísticas principais de $t(common:Parts.LinkRope)"
-      SuccessMessage: "Filtros de estatísticas principais de $t(common:Parts.LinkRope) limpos"
+      Description: 'A principal estatística para o filtro $t(common:Parts.LinkRope) pode ser muito restritiva'
+      ButtonText: 'Limpar os filtros de estatísticas principais de $t(common:Parts.LinkRope)'
+      SuccessMessage: 'Filtros de estatísticas principais de $t(common:Parts.LinkRope) limpos'
     RELIC_SETS:
       Description: Os filtros do conjunto de relíquias selecionado podem ser muito restritivos
       ButtonText: Limpar filtros do conjunto de Relíquias
@@ -51,8 +51,8 @@ Scoring:
       SuccessMessage: '"Manter relíquias atuais" desativado'
     PRIORITY:
       Description: O personagem está classificado abaixo de outros personagens na lista de prioridade. Quando o "filtro de prioridade de personagem" está habilitado, os personagens podem pegar apenas as relíquias de personagens de prioridade inferior
-      ButtonText: "Mover personagem para a prioridade #1"
-      SuccessMessage: "Personagem movido para a prioridade #1"
+      ButtonText: 'Mover personagem para a prioridade #1'
+      SuccessMessage: 'Personagem movido para a prioridade #1'
     EXCLUDE_ENABLED:
       Description: O filtro "Excluir" tem alguns personagens selecionados, o que significa que este personagem não pode pegar relíquias dos personagens selecionados
       ButtonText: Limpar personagens excluídos
@@ -73,185 +73,185 @@ Scoring:
     Description: Isso significa que seus filtros de estatísticas e/ou classificações estão muito restritivos.
   RootCauses:
     StatView:
-      SuccessMessage: "Mudou para a visualização de estatísticas de Combate"
-      Description: "Seus filtros de estatísticas estão configurados para estatísticas básicas, que não incluem bônus. A visualização de estatísticas de Combate mostrará as estatísticas aumentadas por habilidades / companheiros / relíquias / etc."
-      ButtonText: "Mudar para a visualização de estatísticas de Combate"
+      SuccessMessage: 'Mudou para a visualização de estatísticas de Combate'
+      Description: 'Seus filtros de estatísticas estão configurados para estatísticas básicas, que não incluem bônus. A visualização de estatísticas de Combate mostrará as estatísticas aumentadas por habilidades / companheiros / relíquias / etc.'
+      ButtonText: 'Mudar para a visualização de estatísticas de Combate'
     MAX_HP:
-      SuccessMessage: "Redefinir o filtro Máximo de $t(common:Stats.HP)"
-      Description: "O máximo de $t(common:Stats.HP) pode estar muito baixo"
-      ButtonText: "Redefinir o filtro Máximo de $t(common:Stats.HP)"
+      SuccessMessage: 'Redefinir o filtro Máximo de $t(common:Stats.HP)'
+      Description: 'O máximo de $t(common:Stats.HP) pode estar muito baixo'
+      ButtonText: 'Redefinir o filtro Máximo de $t(common:Stats.HP)'
     MIN_HP:
-      SuccessMessage: "Redefinir o filtro Mínimo de $t(common:Stats.HP)"
-      Description: "O mínimo de $t(common:Stats.HP) pode estar muito alto"
-      ButtonText: "Redefinir o filtro Mínimo de $t(common:Stats.HP)"
+      SuccessMessage: 'Redefinir o filtro Mínimo de $t(common:Stats.HP)'
+      Description: 'O mínimo de $t(common:Stats.HP) pode estar muito alto'
+      ButtonText: 'Redefinir o filtro Mínimo de $t(common:Stats.HP)'
     MAX_ATK:
-      SuccessMessage: "Redefinir o filtro Máximo de $t(common:Stats.ATK)"
-      Description: "O máximo de $t(common:Stats.ATK) pode estar muito baixo"
-      ButtonText: "Redefinir o filtro Máximo de $t(common:Stats.ATK)"
+      SuccessMessage: 'Redefinir o filtro Máximo de $t(common:Stats.ATK)'
+      Description: 'O máximo de $t(common:Stats.ATK) pode estar muito baixo'
+      ButtonText: 'Redefinir o filtro Máximo de $t(common:Stats.ATK)'
     MIN_ATK:
-      SuccessMessage: "Redefinir o filtro Mínimo de $t(common:Stats.ATK)"
-      Description: "O mínimo de $t(common:Stats.ATK) pode estar muito alto"
-      ButtonText: "Redefinir o filtro Mínimo de $t(common:Stats.ATK)"
+      SuccessMessage: 'Redefinir o filtro Mínimo de $t(common:Stats.ATK)'
+      Description: 'O mínimo de $t(common:Stats.ATK) pode estar muito alto'
+      ButtonText: 'Redefinir o filtro Mínimo de $t(common:Stats.ATK)'
     MAX_DEF:
-      SuccessMessage: "Redefinir o filtro Máximo de $t(common:Stats.DEF)."
-      Description: "O máximo de $t(common:Stats.DEF) pode estar muito baixo"
-      ButtonText: "Redefinir o filtro Máximo de $t(common:Stats.DEF)."
+      SuccessMessage: 'Redefinir o filtro Máximo de $t(common:Stats.DEF).'
+      Description: 'O máximo de $t(common:Stats.DEF) pode estar muito baixo'
+      ButtonText: 'Redefinir o filtro Máximo de $t(common:Stats.DEF).'
     MIN_DEF:
-      SuccessMessage: "Redefinir Mínimo filtro de $t(common:Stats.DEF)"
-      Description: "O mínimo $t(common:Stats.DEF) pode estar muito alto"
-      ButtonText: "Redefinir Mínimo filtro de $t(common:Stats.DEF)"
+      SuccessMessage: 'Redefinir Mínimo filtro de $t(common:Stats.DEF)'
+      Description: 'O mínimo $t(common:Stats.DEF) pode estar muito alto'
+      ButtonText: 'Redefinir Mínimo filtro de $t(common:Stats.DEF)'
     MAX_SPD:
-      SuccessMessage: "Redefinir Máximo $t(common:Stats.SPD) filtro"
-      Description: "O máximo $t(common:Stats.SPD) pode estar muito baixo"
-      ButtonText: "Redefinir Máximo $t(common:Stats.SPD) filtro"
+      SuccessMessage: 'Redefinir Máximo $t(common:Stats.SPD) filtro'
+      Description: 'O máximo $t(common:Stats.SPD) pode estar muito baixo'
+      ButtonText: 'Redefinir Máximo $t(common:Stats.SPD) filtro'
     MIN_SPD:
-      SuccessMessage: "Redefinir Mínimo filtro de $t(common:Stats.SPD)"
-      Description: "O mínimo $t(common:Stats.SPD) pode estar muito alto"
-      ButtonText: "Redefinir Mínimo filtro de $t(common:Stats.SPD)"
+      SuccessMessage: 'Redefinir Mínimo filtro de $t(common:Stats.SPD)'
+      Description: 'O mínimo $t(common:Stats.SPD) pode estar muito alto'
+      ButtonText: 'Redefinir Mínimo filtro de $t(common:Stats.SPD)'
     MAX_CR:
-      SuccessMessage: "Redefinir Máximo filtro de $t(common:Stats.CRIT Rate)"
-      Description: "O máximo $t(common:Stats.CRIT Rate) pode estar muito baixo"
-      ButtonText: "Redefinir Máximo filtro de $t(common:Stats.CRIT Rate)"
+      SuccessMessage: 'Redefinir Máximo filtro de $t(common:Stats.CRIT Rate)'
+      Description: 'O máximo $t(common:Stats.CRIT Rate) pode estar muito baixo'
+      ButtonText: 'Redefinir Máximo filtro de $t(common:Stats.CRIT Rate)'
     MIN_CR:
-      SuccessMessage: "Redefinir Mínimo filtro de $t(common:Stats.CRIT Rate)"
-      Description: "O mínimo $t(common:Stats.CRIT Rate) pode estar muito alto"
-      ButtonText: "Redefinir Mínimo filtro de $t(common:Stats.CRIT Rate)"
+      SuccessMessage: 'Redefinir Mínimo filtro de $t(common:Stats.CRIT Rate)'
+      Description: 'O mínimo $t(common:Stats.CRIT Rate) pode estar muito alto'
+      ButtonText: 'Redefinir Mínimo filtro de $t(common:Stats.CRIT Rate)'
     MAX_CD:
-      SuccessMessage: "Redefinir Máximo filtro de $t(common:Stats.CRIT DMG)"
-      Description: "O máximo $t(common:Stats.CRIT DMG) pode estar muito baixo"
-      ButtonText: "Redefinir Máximo filtro de $t(common:Stats.CRIT DMG)"
+      SuccessMessage: 'Redefinir Máximo filtro de $t(common:Stats.CRIT DMG)'
+      Description: 'O máximo $t(common:Stats.CRIT DMG) pode estar muito baixo'
+      ButtonText: 'Redefinir Máximo filtro de $t(common:Stats.CRIT DMG)'
     MIN_CD:
-      SuccessMessage: "Redefinir Mínimo filtro de $t(common:Stats.CRIT DMG)"
-      Description: "O mínimo $t(common:Stats.CRIT DMG) pode estar muito alto"
-      ButtonText: "Redefinir Mínimo filtro de $t(common:Stats.CRIT DMG)"
+      SuccessMessage: 'Redefinir Mínimo filtro de $t(common:Stats.CRIT DMG)'
+      Description: 'O mínimo $t(common:Stats.CRIT DMG) pode estar muito alto'
+      ButtonText: 'Redefinir Mínimo filtro de $t(common:Stats.CRIT DMG)'
     MAX_EHR:
-      SuccessMessage: "Redefinir Máximo filtro de $t(common:Stats.Effect Hit Rate) "
-      Description: "O máximo $t(common:Stats.Effect Hit Rate) pode estar muito baixo"
-      ButtonText: "Redefinir Máximo filtro de $t(common:Stats.Effect Hit Rate) "
+      SuccessMessage: 'Redefinir Máximo filtro de $t(common:Stats.Effect Hit Rate) '
+      Description: 'O máximo $t(common:Stats.Effect Hit Rate) pode estar muito baixo'
+      ButtonText: 'Redefinir Máximo filtro de $t(common:Stats.Effect Hit Rate) '
     MIN_EHR:
-      SuccessMessage: "Redefinir Mínimo filtro de $t(common:Stats.Effect Hit Rate)"
-      Description: "O máximo $t(common:Stats.Effect Hit Rate) pode estar muito alto"
-      ButtonText: "Redefinir Mínimo filtro de $t(common:Stats.Effect Hit Rate)"
+      SuccessMessage: 'Redefinir Mínimo filtro de $t(common:Stats.Effect Hit Rate)'
+      Description: 'O máximo $t(common:Stats.Effect Hit Rate) pode estar muito alto'
+      ButtonText: 'Redefinir Mínimo filtro de $t(common:Stats.Effect Hit Rate)'
     MAX_RES:
-      SuccessMessage: "Redefinir Máximo filtro de $t(common:Stats.Effect RES)"
-      Description: "O máximo $t(common:Stats.Effect RES) pode estar muito baixo"
-      ButtonText: "Redefinir Máximo filtro de $t(common:Stats.Effect RES)"
+      SuccessMessage: 'Redefinir Máximo filtro de $t(common:Stats.Effect RES)'
+      Description: 'O máximo $t(common:Stats.Effect RES) pode estar muito baixo'
+      ButtonText: 'Redefinir Máximo filtro de $t(common:Stats.Effect RES)'
     MIN_RES:
-      SuccessMessage: "Redefinir Mínimo filtro de $t(common:Stats.Effect RES)"
-      Description: "O mínimo $t(common:Stats.Effect RES) pode estar muito alto"
-      ButtonText: "Redefinir Mínimo filtro de $t(common:Stats.Effect RES)"
+      SuccessMessage: 'Redefinir Mínimo filtro de $t(common:Stats.Effect RES)'
+      Description: 'O mínimo $t(common:Stats.Effect RES) pode estar muito alto'
+      ButtonText: 'Redefinir Mínimo filtro de $t(common:Stats.Effect RES)'
     MAX_BE:
-      SuccessMessage: "Redefinir Máximo filtro de $t(common:Stats.Break Effect)"
-      Description: "O máximo $t(common:Stats.Break Effect) pode estar muito baixo"
-      ButtonText: "Redefinir Máximo filtro de $t(common:Stats.Break Effect)"
+      SuccessMessage: 'Redefinir Máximo filtro de $t(common:Stats.Break Effect)'
+      Description: 'O máximo $t(common:Stats.Break Effect) pode estar muito baixo'
+      ButtonText: 'Redefinir Máximo filtro de $t(common:Stats.Break Effect)'
     MIN_BE:
-      SuccessMessage: "Redefinir Mínimo filtro de $t(common:Stats.Break Effect)"
-      Description: "O mínimo $t(common:Stats.Break Effect) pode estar muito alto"
-      ButtonText: "Redefinir Mínimo filtro de $t(common:Stats.Break Effect)"
+      SuccessMessage: 'Redefinir Mínimo filtro de $t(common:Stats.Break Effect)'
+      Description: 'O mínimo $t(common:Stats.Break Effect) pode estar muito alto'
+      ButtonText: 'Redefinir Mínimo filtro de $t(common:Stats.Break Effect)'
     MAX_ERR:
-      SuccessMessage: "Redefinir Máximo filtro de $t(common:Stats.Energy Regeneration Rate)"
-      Description: "O máximo $t(common:Stats.Energy Regeneration Rate) pode estar muito baixo"
-      ButtonText: "Redefinir Máximo filtro de $t(common:Stats.Energy Regeneration Rate)"
+      SuccessMessage: 'Redefinir Máximo filtro de $t(common:Stats.Energy Regeneration Rate)'
+      Description: 'O máximo $t(common:Stats.Energy Regeneration Rate) pode estar muito baixo'
+      ButtonText: 'Redefinir Máximo filtro de $t(common:Stats.Energy Regeneration Rate)'
     MIN_ERR:
-      SuccessMessage: "Redefinir Mínimo filtro de $t(common:Stats.Energy Regeneration Rate)"
-      Description: "O mínimo $t(common:Stats.Energy Regeneration Rate) pode estar muito alto"
-      ButtonText: "Redefinir Mínimo filtro de $t(common:Stats.Energy Regeneration Rate)"
+      SuccessMessage: 'Redefinir Mínimo filtro de $t(common:Stats.Energy Regeneration Rate)'
+      Description: 'O mínimo $t(common:Stats.Energy Regeneration Rate) pode estar muito alto'
+      ButtonText: 'Redefinir Mínimo filtro de $t(common:Stats.Energy Regeneration Rate)'
     MAX_EHP:
-      SuccessMessage: "Redefinir Máximo do filtro EHP"
-      Description: "O máximo de EHP pode estar muito baixo"
-      ButtonText: "Redefinir Máximo do filtro EHP"
+      SuccessMessage: 'Redefinir Máximo do filtro EHP'
+      Description: 'O máximo de EHP pode estar muito baixo'
+      ButtonText: 'Redefinir Máximo do filtro EHP'
     MIN_EHP:
-      SuccessMessage: "Redefinir Mínimo do filtro EHP"
-      Description: "O mínimo de EHP pode estar muito alto"
-      ButtonText: "Redefinir Mínimo do filtro EHP"
+      SuccessMessage: 'Redefinir Mínimo do filtro EHP'
+      Description: 'O mínimo de EHP pode estar muito alto'
+      ButtonText: 'Redefinir Mínimo do filtro EHP'
     MAX_BASIC:
-      SuccessMessage: "Redefinir Máximo do filtro Básico"
-      Description: "O máximo de dano de ataque básico pode estar muito baixo"
-      ButtonText: "Redefinir Máximo do filtro Básico"
+      SuccessMessage: 'Redefinir Máximo do filtro Básico'
+      Description: 'O máximo de dano de ataque básico pode estar muito baixo'
+      ButtonText: 'Redefinir Máximo do filtro Básico'
     MIN_BASIC:
-      SuccessMessage: "Redefinir Mínimo do filtro Básico"
-      Description: "O mínimo de dano de ataque básico pode estar muito alto"
-      ButtonText: "Redefinir Mínimo do filtro Básico"
+      SuccessMessage: 'Redefinir Mínimo do filtro Básico'
+      Description: 'O mínimo de dano de ataque básico pode estar muito alto'
+      ButtonText: 'Redefinir Mínimo do filtro Básico'
     MAX_SKILL:
-      SuccessMessage: "Redefinir Máximo do filtro de Habilidade"
-      Description: "O máximo de dano de habilidade pode estar muito baixo"
-      ButtonText: "Redefinir Máximo do filtro de Habilidade"
+      SuccessMessage: 'Redefinir Máximo do filtro de Habilidade'
+      Description: 'O máximo de dano de habilidade pode estar muito baixo'
+      ButtonText: 'Redefinir Máximo do filtro de Habilidade'
     MIN_SKILL:
-      SuccessMessage: "Redefinir Mínimo do filtro de Habilidade"
-      Description: "O mínimo de dano de habilidade pode estar muito alto"
-      ButtonText: "Redefinir Mínimo do filtro de Habilidade"
+      SuccessMessage: 'Redefinir Mínimo do filtro de Habilidade'
+      Description: 'O mínimo de dano de habilidade pode estar muito alto'
+      ButtonText: 'Redefinir Mínimo do filtro de Habilidade'
     MAX_ULT:
-      SuccessMessage: "Redefinir Máximo do filtro ULT"
-      Description: "O máximo de dano supremo pode estar muito baixo"
-      ButtonText: "Redefinir Máximo do filtro ULT"
+      SuccessMessage: 'Redefinir Máximo do filtro ULT'
+      Description: 'O máximo de dano supremo pode estar muito baixo'
+      ButtonText: 'Redefinir Máximo do filtro ULT'
     MIN_ULT:
-      SuccessMessage: "Redefinir Mínimo do filtro ULT"
-      Description: "O mínimo de dano supremo pode estar muito alto"
-      ButtonText: "Redefinir Mínimo do filtro ULT"
+      SuccessMessage: 'Redefinir Mínimo do filtro ULT'
+      Description: 'O mínimo de dano supremo pode estar muito alto'
+      ButtonText: 'Redefinir Mínimo do filtro ULT'
     MAX_FUA:
-      SuccessMessage: "Redefinir Máximo do filtro FUA"
-      Description: "O máximo de dano de ataque de seguimento pode estar muito baixo"
-      ButtonText: "Redefinir Máximo do filtro FUA"
+      SuccessMessage: 'Redefinir Máximo do filtro FUA'
+      Description: 'O máximo de dano de ataque de seguimento pode estar muito baixo'
+      ButtonText: 'Redefinir Máximo do filtro FUA'
     MIN_FUA:
-      SuccessMessage: "Redefinir Mínimo do filtro FUA"
-      Description: "O mínimo de dano de ataque de seguimento pode estar muito alto"
-      ButtonText: "Redefinir Mínimo do filtro FUA"
+      SuccessMessage: 'Redefinir Mínimo do filtro FUA'
+      Description: 'O mínimo de dano de ataque de seguimento pode estar muito alto'
+      ButtonText: 'Redefinir Mínimo do filtro FUA'
     MAX_DOT:
-      SuccessMessage: "Redefinir filtro de DOT Máximo"
-      Description: "Dano DOT máximo pode estar baixo"
-      ButtonText: "Redefinir filtro de DOT Máximo"
+      SuccessMessage: 'Redefinir filtro de DOT Máximo'
+      Description: 'Dano DOT máximo pode estar baixo'
+      ButtonText: 'Redefinir filtro de DOT Máximo'
     MIN_DOT:
-      SuccessMessage: "Redefinir filtro de DOT Mínimo"
-      Description: "Dano DOT mínimo pode estar alto"
-      ButtonText: "Redefinir filtro de DOT Mínimo"
+      SuccessMessage: 'Redefinir filtro de DOT Mínimo'
+      Description: 'Dano DOT mínimo pode estar alto'
+      ButtonText: 'Redefinir filtro de DOT Mínimo'
     MAX_BREAK:
-      SuccessMessage: "Redefinir filtro de Quebra Máximo"
-      Description: "Dano de quebra máximo pode estar baixo"
-      ButtonText: "Redefinir filtro de Quebra Máximo"
+      SuccessMessage: 'Redefinir filtro de Quebra Máximo'
+      Description: 'Dano de quebra máximo pode estar baixo'
+      ButtonText: 'Redefinir filtro de Quebra Máximo'
     MIN_BREAK:
-      SuccessMessage: "Redefinir filtro de Quebra Mínimo"
-      Description: "Dano de quebra mínimo pode estar alto"
-      ButtonText: "Redefinir filtro de Quebra Mínimo"
+      SuccessMessage: 'Redefinir filtro de Quebra Mínimo'
+      Description: 'Dano de quebra mínimo pode estar alto'
+      ButtonText: 'Redefinir filtro de Quebra Mínimo'
     MAX_MEMO_SKILL:
-      SuccessMessage: "Redefinir filtro de Perícia Máxima do Memo"
-      Description: "Dano Máximo da Perícia do Memo pode estar muito baixo"
-      ButtonText: "Redefinir filtro de Perícia Máxima do Memo"
+      SuccessMessage: 'Redefinir filtro de Perícia Máxima do Memo'
+      Description: 'Dano Máximo da Perícia do Memo pode estar muito baixo'
+      ButtonText: 'Redefinir filtro de Perícia Máxima do Memo'
     MIN_MEMO_SKILL:
-      SuccessMessage: "Redefinir filtro de Perícia Mínima do Memo"
-      Description: "Dano Mínimo da Perícia do Memo pode estar muito alto"
-      ButtonText: "Redefinir filtro de Perícia Mínima do Memo"
+      SuccessMessage: 'Redefinir filtro de Perícia Mínima do Memo'
+      Description: 'Dano Mínimo da Perícia do Memo pode estar muito alto'
+      ButtonText: 'Redefinir filtro de Perícia Mínima do Memo'
     MAX_MEMO_TALENT:
-      SuccessMessage: "Redefinir filtro de Talento Máximo do Memo"
-      Description: "Dano Máximo do Talento do Memo pode estar muito baixo"
-      ButtonText: "Redefinir filtro de Talento Máximo do Memo"
+      SuccessMessage: 'Redefinir filtro de Talento Máximo do Memo'
+      Description: 'Dano Máximo do Talento do Memo pode estar muito baixo'
+      ButtonText: 'Redefinir filtro de Talento Máximo do Memo'
     MIN_MEMO_TALENT:
-      SuccessMessage: "Redefinir filtro de Talento Mínimo do Memo"
-      Description: "Dano Mínimo do Talento do Memo pode estar muito alto"
-      ButtonText: "Redefinir filtro de Talento Mínimo do Memo"
+      SuccessMessage: 'Redefinir filtro de Talento Mínimo do Memo'
+      Description: 'Dano Mínimo do Talento do Memo pode estar muito alto'
+      ButtonText: 'Redefinir filtro de Talento Mínimo do Memo'
     MAX_HEAL:
-      SuccessMessage: "Redefinir filtro de CURA Máxima"
-      Description: "CURA Máxima pode estar muito baixa"
-      ButtonText: "Redefinir filtro de CURA Máxima"
+      SuccessMessage: 'Redefinir filtro de CURA Máxima'
+      Description: 'CURA Máxima pode estar muito baixa'
+      ButtonText: 'Redefinir filtro de CURA Máxima'
     MIN_HEAL:
-      SuccessMessage: "Redefinir filtro de CURA Mínima"
-      Description: "CURA Mínima pode estar muito alta"
-      ButtonText: "Redefinir filtro de CURA Mínima"
+      SuccessMessage: 'Redefinir filtro de CURA Mínima'
+      Description: 'CURA Mínima pode estar muito alta'
+      ButtonText: 'Redefinir filtro de CURA Mínima'
     MAX_SHIELD:
-      SuccessMessage: "Redefinir filtro de ESCUDO Máximo"
-      Description: "ESCUDO Máximo pode estar muito baixo"
-      ButtonText: "Redefinir filtro de ESCUDO Máximo"
+      SuccessMessage: 'Redefinir filtro de ESCUDO Máximo'
+      Description: 'ESCUDO Máximo pode estar muito baixo'
+      ButtonText: 'Redefinir filtro de ESCUDO Máximo'
     MIN_SHIELD:
-      SuccessMessage: "Redefinir filtro de ESCUDO Mínimo"
-      Description: "ESCUDO Mínimo pode estar muito alto"
-      ButtonText: "Redefinir filtro de ESCUDO Mínimo"
+      SuccessMessage: 'Redefinir filtro de ESCUDO Mínimo'
+      Description: 'ESCUDO Mínimo pode estar muito alto'
+      ButtonText: 'Redefinir filtro de ESCUDO Mínimo'
     MAX_COMBO:
-      SuccessMessage: "Redefinir filtro de Combo Máximo"
-      Description: "Dano de combo máximo pode estar baixo"
-      ButtonText: "Redefinir filtro de Combo Máximo"
+      SuccessMessage: 'Redefinir filtro de Combo Máximo'
+      Description: 'Dano de combo máximo pode estar baixo'
+      ButtonText: 'Redefinir filtro de Combo Máximo'
     MIN_COMBO:
-      SuccessMessage: "Redefinir filtro de Combo Mínimo"
-      Description: "Dano de combo mínimo pode estar alto"
-      ButtonText: "Redefinir filtro de Combo Mínimo"
+      SuccessMessage: 'Redefinir filtro de Combo Mínimo'
+      Description: 'Dano de combo mínimo pode estar alto'
+      ButtonText: 'Redefinir filtro de Combo Mínimo'
 ManyPerms:
   Title: Solicitação de pesquisa muito grande
   Text: >-
@@ -265,6 +265,7 @@ EditCharacter:
     $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
   Character: Personagem 
   Lightcone: Cone de luz
+  Sets: Conjuntos
 Relic:
   Part: Parte
   Wearer: Equipado por
@@ -291,7 +292,7 @@ Relic:
       SetInvalid: Valor de conjunto é inválido
       SetNotOrnament: O conjunto selecionado não é um conjunto de ornamento
       SetNotRelic: O conjunto selecionado não é um conjunto de relíquia
-      SubNInvalid: "Subatributo {{number}} é inválido"
+      SubNInvalid: 'Subatributo {{number}} é inválido'
       SubsOutOfOrder: Subatributos estão fora de ordem
       DuplicateSubs: Subatributos duplicados, somente um de cada tipo é permitido
       MainAsSub: O tipo de subatributo é o mesmo do atributo principal
@@ -309,7 +310,7 @@ EditImage:
       Default: Usar imagem padrão
     Upload:
       Method: Clique ou arraste o arquivo de imagem para essa área para fazer o envio
-      Limit: "Aceita .jpg .jpeg .png .gif (Max: 20MB)"
+      Limit: 'Aceita .jpg .jpeg .png .gif (Max: 20MB)'
     Url:
       Label: Imagem
       Rule: Por gentileza ponha um URL de imagem válido
@@ -318,7 +319,7 @@ EditImage:
     Zoom: Zoom
     Drag: Arrastar para mexer
     Pinch: Pince ou role para ampliar
-    ArtBy: "(Opcional) Arte por:"
+    ArtBy: '(Opcional) Arte por:'
     CreditPlaceholder: Dê créditos ao artista se possível
   Footer:
     Change: Trocar imagem
@@ -334,12 +335,12 @@ Builds:
   Equip: Equipar
   ConfirmEquip:
     Content: Equipar isso desequipará personagens que estão com relíquias dessa build
-    SuccessMessage: "Equipado com sucesso, build: {{buildName}}"
+    SuccessMessage: 'Equipado com sucesso, build: {{buildName}}'
   ConfirmDelete:
     DeleteAll: Você tem certeza que gostaria de apagar todas as builds?
-    DeleteSingle: "Você tem certeza que quer apagar {{name}}?"
-    SuccessMessageAll: "Excluído com sucesso todas as builds para {{characterName}}"
-    SuccessMessageSingle: "Excluído com sucesso build: {{name}}"
+    DeleteSingle: 'Você tem certeza que quer apagar {{name}}?'
+    SuccessMessageAll: 'Excluído com sucesso todas as builds para {{characterName}}'
+    SuccessMessageSingle: 'Excluído com sucesso build: {{name}}'
   NoBuilds:
     NoneSaved: Não há builds salvas
 ScoreFooter:
@@ -355,7 +356,7 @@ ScoreFooter:
 CharacterSelect:
   MultiSelect:
     Placeholder: Customizar personagens
-    MaxTagPlaceholderSome: "{{count}} personagens excluídos"
+    MaxTagPlaceholderSome: '{{count}} personagens excluídos'
     MaxTagPlaceholderNone: Todos os personagens habilitados
     ModalTitle: Selecione personagens para excluir
   SingleSelect:

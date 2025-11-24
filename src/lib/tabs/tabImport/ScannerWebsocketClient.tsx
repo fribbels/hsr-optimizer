@@ -16,7 +16,6 @@ import { SaveState } from 'lib/state/saveState'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { debounceEffect } from 'lib/utils/debounceUtils'
 import { EventEmitter } from 'lib/utils/events'
-import { TsUtils } from 'lib/utils/TsUtils'
 import useWebSocket from 'partysocket/use-ws'
 import {
   useEffect,
@@ -132,7 +131,7 @@ type ScannerStore =
   & PrivateScannerState
   & PrivateScannerActions
 
-export const DEFAULT_WEBSOCKET_URL = 'ws://127.0.0.1:53313/ws'
+export const DEFAULT_WEBSOCKET_URL = 'ws://127.0.0.1:23313/ws'
 
 const usePrivateScannerState = create<ScannerStore>((set, get) => ({
   websocketUrl: DEFAULT_WEBSOCKET_URL,

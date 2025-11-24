@@ -6,6 +6,7 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  teammateMatchesId,
 } from 'lib/conditionals/conditionalUtils'
 import {
   dynamicStatConversion,
@@ -27,6 +28,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 
+import { THE_DAHLIA } from 'lib/simulations/tests/testMetadataConstants'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
@@ -165,6 +167,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 15 : 10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 30 : 20, SOURCE_SKILL)
+
+      if (teammateMatchesId(context, THE_DAHLIA)) {
+        x.SKILL_FIXED_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
+      }
 
       return x
     },

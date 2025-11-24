@@ -201,13 +201,13 @@ export function renderTeammateRelicSetOptions(t: TFunction<'optimizerTab', 'Team
       },
       {
         value: Sets.WorldRemakingDeliverer,
-        desc: '4 Piece: World-Remaking Deliverer (+15% DMG)',
-        label: labelRender(Sets.WorldRemakingDeliverer, '15% DMG'), // labelRender(Sets.WorldRemakingDeliverer, '15% DMG'),
+        desc: t('TeammateSets.WorldRemaking.Desc'), // '4 Piece: World-Remaking Deliverer (+15% DMG)',
+        label: labelRender(Sets.WorldRemakingDeliverer, t('TeammateSets.WorldRemaking.Text')), // labelRender(Sets.WorldRemakingDeliverer, '15% DMG'),
       },
       {
         value: Sets.SelfEnshroudedRecluse,
-        desc: '4 Piece: Self-Enshrouded Recluse (+15% CD)',
-        label: labelRender(Sets.SelfEnshroudedRecluse, '15% CD'), // labelRender(Sets.SelfEnshroudedRecluse, '15% CD'),
+        desc: t('TeammateSets.SelfEnshrouded.Desc'), // '4 Piece: Self-Enshrouded Recluse (+15% CD)',
+        label: labelRender(Sets.SelfEnshroudedRecluse, t('TeammateSets.SelfEnshrouded.Text')), // labelRender(Sets.SelfEnshroudedRecluse, '15% CD'),
       },
     ]
   }

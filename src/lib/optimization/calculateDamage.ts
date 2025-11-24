@@ -33,8 +33,6 @@ export function calculateDamage(x: ComputedStatsContainer, action: OptimizerActi
   const a = x.a
 
   calculateEhp(x, context)
-  calculateHeal(x, context)
-  calculateShield(x, context)
 
   a[Key.CR] += a[Key.CR_BOOST]
   a[Key.CD] += a[Key.CD_BOOST]
@@ -112,6 +110,7 @@ export function calculateDamage(x: ComputedStatsContainer, action: OptimizerActi
       a[Key.BASIC_SUPER_BREAK_MODIFIER],
       a[Key.BASIC_BREAK_DMG_MODIFIER],
       a[Key.BASIC_TOUGHNESS_DMG],
+      a[Key.BASIC_FIXED_TOUGHNESS_DMG],
       a[Key.BASIC_ADDITIONAL_DMG],
       0, // a[Key.BASIC_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.BASIC_ADDITIONAL_DMG_CD_OVERRIDE],
@@ -153,6 +152,7 @@ export function calculateDamage(x: ComputedStatsContainer, action: OptimizerActi
       0, // a[Key.SKILL_SUPER_BREAK_MODIFIER],
       0, // a[Key.SKILL_BREAK_DMG_MODIFIER],
       a[Key.SKILL_TOUGHNESS_DMG],
+      a[Key.SKILL_FIXED_TOUGHNESS_DMG],
       a[Key.SKILL_ADDITIONAL_DMG],
       0, // a[Key.SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
@@ -194,6 +194,7 @@ export function calculateDamage(x: ComputedStatsContainer, action: OptimizerActi
       0, // a[Key.ULT_SUPER_BREAK_MODIFIER],
       0, // a[Key.ULT_BREAK_DMG_MODIFIER],
       a[Key.ULT_TOUGHNESS_DMG],
+      a[Key.ULT_FIXED_TOUGHNESS_DMG],
       a[Key.ULT_ADDITIONAL_DMG],
       a[Key.ULT_ADDITIONAL_DMG_CR_OVERRIDE],
       a[Key.ULT_ADDITIONAL_DMG_CD_OVERRIDE],
@@ -235,6 +236,7 @@ export function calculateDamage(x: ComputedStatsContainer, action: OptimizerActi
       0, // a[Key.FUA_SUPER_BREAK_MODIFIER],
       0, // a[Key.FUA_BREAK_DMG_MODIFIER],
       a[Key.FUA_TOUGHNESS_DMG],
+      a[Key.FUA_FIXED_TOUGHNESS_DMG],
       a[Key.FUA_ADDITIONAL_DMG],
       0, // a[Key.FUA_ADDITIONAL_DMG_CR_OVERRIDE],
       0, // a[Key.FUA_ADDITIONAL_DMG_CD_OVERRIDE],
@@ -314,6 +316,7 @@ export function calculateDamage(x: ComputedStatsContainer, action: OptimizerActi
         0, // a[Key.MEMO_SKILL_SUPER_BREAK_MODIFIER],
         0, // a[Key.MEMO_SKILL_BREAK_DMG_MODIFIER],
         a[Key.MEMO_SKILL_TOUGHNESS_DMG],
+        a[Key.MEMO_SKILL_FIXED_TOUGHNESS_DMG],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CR_OVERRIDE],
         0, // a[Key.MEMO_SKILL_ADDITIONAL_DMG_CD_OVERRIDE],
@@ -359,6 +362,7 @@ export function calculateDamage(x: ComputedStatsContainer, action: OptimizerActi
         0, // a[Key.MEMO_TALENT_SUPER_BREAK_MODIFIER],
         0, // a[Key.MEMO_TALENT_BREAK_DMG_MODIFIER],
         a[Key.MEMO_TALENT_TOUGHNESS_DMG],
+        a[Key.MEMO_TALENT_FIXED_TOUGHNESS_DMG],
         0, // a[Key.MEMO_TALENT_ADDITIONAL_DMG],
         0, // a[Key.MEMO_TALENT_ADDITIONAL_DMG_CR_OVERRIDE],
         0, // a[Key.MEMO_TALENT_ADDITIONAL_DMG_CD_OVERRIDE],
@@ -410,21 +414,21 @@ function calculateEhp(x: ComputedStatsContainer, context: OptimizerContext) {
   a[ActionKey.EHP] = ehp
 }
 
-function calculateHeal(x: ComputedStatsContainer, context: OptimizerContext) {
-  const a = x.a
-  a[ActionKey.HEAL_VALUE] = a[ActionKey.HEAL_VALUE] * (
-    1
-    + a[ActionKey.OHB]
-    // TODO
-    // + a[ActionKey.SKILL_OHB] * (a[Key.HEAL_TYPE] == SKILL_DMG_TYPE ? 1 : 0)
-    // + a[ActionKey.ULT_OHB] * (a[Key.HEAL_TYPE] == ULT_DMG_TYPE ? 1 : 0)
-  )
-}
-
-function calculateShield(x: ComputedStatsContainer, context: OptimizerContext) {
-  const a = x.a
-  a[Key.SHIELD_VALUE] = a[Key.SHIELD_VALUE] * (1 + a[Key.SHIELD_BOOST])
-}
+// function calculateHeal(x: ComputedStatsContainer, context: OptimizerContext) {
+//   const a = x.a
+//   a[ActionKey.HEAL_VALUE] = a[ActionKey.HEAL_VALUE] * (
+//     1
+//     + a[ActionKey.OHB]
+//     // TODO
+//     // + a[ActionKey.SKILL_OHB] * (a[Key.HEAL_TYPE] == SKILL_DMG_TYPE ? 1 : 0)
+//     // + a[ActionKey.ULT_OHB] * (a[Key.HEAL_TYPE] == ULT_DMG_TYPE ? 1 : 0)
+//   )
+// }
+//
+// function calculateShield(x: ComputedStatsContainer, context: OptimizerContext) {
+//   const a = x.a
+//   a[Key.SHIELD_VALUE] = a[Key.SHIELD_VALUE] * (1 + a[Key.SHIELD_BOOST])
+// }
 
 function calculateAbilityDmg(
   x: ComputedStatsArray,
@@ -449,6 +453,7 @@ function calculateAbilityDmg(
   abilitySuperBreakModifier: number,
   abilityBreakDmgModifier: number,
   abilityToughnessDmg: number,
+  abilityFixedToughnessDmg: number,
   abilityAdditionalDmg: number,
   abilityAdditionalCrOverride: number,
   abilityAdditionalCdOverride: number,
@@ -499,6 +504,7 @@ function calculateAbilityDmg(
       superBreakModifier,
       baseBreakEfficiencyBoost + abilityBreakEfficiencyBoost,
       abilityToughnessDmg,
+      abilityFixedToughnessDmg,
     )
   }
 
@@ -557,11 +563,14 @@ function calculateSuperBreakDmg(
   superBreakModifier: number,
   breakEfficiencyBoost: number,
   toughnessDmg: number,
+  fixedToughnessDmg: number,
 ) {
   return superBreakInstanceDmg
     * superBreakModifier
-    * breakEfficiencyBoost
-    * toughnessDmg
+    * (
+      (breakEfficiencyBoost * toughnessDmg)
+      + fixedToughnessDmg
+    )
 }
 
 function calculateCritDmg(

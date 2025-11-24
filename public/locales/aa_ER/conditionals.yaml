@@ -1546,6 +1546,9 @@ Characters:
       healingDmgStacks:
         text: crwdns45300:0crwdne45300:0
         content: crwdns45302:0{{TalentDmgBuff}}crwdne45302:0
+      healTallyMultiplier:
+        text: crwdns46120:0crwdne46120:0
+        content: crwdns46122:0crwdne46122:0
       e1HpBuff:
         text: crwdns45304:0crwdne45304:0
         content: crwdns45306:0crwdne45306:0

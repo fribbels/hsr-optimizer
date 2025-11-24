@@ -23,21 +23,21 @@ Scoring:
       ButtonText: 导航至导入器选项卡。
       SuccessMessage: 选择导入方法，然后导入你的遗器和角色
     Body_MAIN:
-      Description: "$t(common:Parts.Body)的主属性筛选条件可能过于严格"
-      ButtonText: "清除$t(common:Parts.Body)的主属性筛选条件"
-      SuccessMessage: "已清除$t(common:Parts.Body)的主属性筛选条件"
+      Description: '$t(common:Parts.Body)的主属性筛选条件可能过于严格'
+      ButtonText: '清除$t(common:Parts.Body)的主属性筛选条件'
+      SuccessMessage: '已清除$t(common:Parts.Body)的主属性筛选条件'
     Feet_MAIN:
-      Description: "$t(common:Parts.Feet)的主属性筛选条件可能过于严格"
-      ButtonText: "清除$t(common:Parts.Feet)的主属性筛选条件"
-      SuccessMessage: "已清除$t(common:Parts.Feet)的主属性筛选条件"
+      Description: '$t(common:Parts.Feet)的主属性筛选条件可能过于严格'
+      ButtonText: '清除$t(common:Parts.Feet)的主属性筛选条件'
+      SuccessMessage: '已清除$t(common:Parts.Feet)的主属性筛选条件'
     PlanarSphere_MAIN:
-      Description: "$t(common:Parts.PlanarSphere)的主属性筛选条件可能过于严格"
-      ButtonText: "清除$t(common:Parts.PlanarSphere)的主属性筛选条件"
-      SuccessMessage: "已清除$t(common:Parts.PlanarSphere)的主属性筛选条件"
+      Description: '$t(common:Parts.PlanarSphere)的主属性筛选条件可能过于严格'
+      ButtonText: '清除$t(common:Parts.PlanarSphere)的主属性筛选条件'
+      SuccessMessage: '已清除$t(common:Parts.PlanarSphere)的主属性筛选条件'
     LinkRope_MAIN:
-      Description: "$t(common:Parts.LinkRope)的主属性筛选条件可能过于严格"
-      ButtonText: "清除$t(common:Parts.LinkRope)的主属性筛选条件"
-      SuccessMessage: "已清除$t(common:Parts.LinkRope)的主属性筛选条件"
+      Description: '$t(common:Parts.LinkRope)的主属性筛选条件可能过于严格'
+      ButtonText: '清除$t(common:Parts.LinkRope)的主属性筛选条件'
+      SuccessMessage: '已清除$t(common:Parts.LinkRope)的主属性筛选条件'
     RELIC_SETS:
       Description: 所选的遗器套装筛选条件可能过于严格
       ButtonText: 清除遗器套装筛选条件
@@ -52,8 +52,8 @@ Scoring:
       SuccessMessage: 已禁用“保持当前遗器”
     PRIORITY:
       Description: 该角色在优先级列表中排名低于其他角色。当“角色优先级过滤器”被启用时，角色只能使用低于当前角色优先级角色的遗器
-      ButtonText: "将角色优先级移至第1位"
-      SuccessMessage: "已将角色优先级移至第1位"
+      ButtonText: '将角色优先级移至第1位'
+      SuccessMessage: '已将角色优先级移至第1位'
     EXCLUDE_ENABLED:
       Description: '“排除”过滤条件中选择了一些角色，这意味着当前角色无法从所选角色中获得遗器'
       ButtonText: 清除被排除的角色
@@ -74,185 +74,185 @@ Scoring:
     Description: 这意味着你的属性和/或评分筛选条件过于严格
   RootCauses:
     StatView:
-      SuccessMessage: "已切换至战斗属性视角"
-      Description: "你的属性筛选条件被设置为基础属性，这不包括增益效果。战斗属性视角将显示来自技能/队友/遗器等的增益属性"
-      ButtonText: "切换至战斗属性视角"
+      SuccessMessage: '已切换至战斗属性视角'
+      Description: '你的属性筛选条件被设置为基础属性，这不包括增益效果。战斗属性视角将显示来自技能/队友/遗器等的增益属性'
+      ButtonText: '切换至战斗属性视角'
     MAX_HP:
-      SuccessMessage: "已重置最大$t(common:Stats.HP)的过滤条件"
-      Description: "最大$t(common:Stats.HP)的过滤条件可能过低"
-      ButtonText: "重置最大$t(common:Stats.HP)的过滤条件"
+      SuccessMessage: '已重置最大$t(common:Stats.HP)的过滤条件'
+      Description: '最大$t(common:Stats.HP)的过滤条件可能过低'
+      ButtonText: '重置最大$t(common:Stats.HP)的过滤条件'
     MIN_HP:
-      SuccessMessage: "已重置最小$t(common:Stats.HP)的过滤条件"
-      Description: "最小$t(common:Stats.HP)的过滤条件可能过高"
-      ButtonText: "重置最小$t(common:Stats.HP)的过滤条件"
+      SuccessMessage: '已重置最小$t(common:Stats.HP)的过滤条件'
+      Description: '最小$t(common:Stats.HP)的过滤条件可能过高'
+      ButtonText: '重置最小$t(common:Stats.HP)的过滤条件'
     MAX_ATK:
-      SuccessMessage: "已重置最大$t(common:Stats.ATK)的过滤条件"
-      Description: "最大$t(common:Stats.ATK)的过滤条件可能过低"
-      ButtonText: "重置最大$t(common:Stats.ATK)的过滤条件"
+      SuccessMessage: '已重置最大$t(common:Stats.ATK)的过滤条件'
+      Description: '最大$t(common:Stats.ATK)的过滤条件可能过低'
+      ButtonText: '重置最大$t(common:Stats.ATK)的过滤条件'
     MIN_ATK:
-      SuccessMessage: "已重置最小$t(common:Stats.ATK)的过滤条件"
-      Description: "最小$t(common:Stats.ATK)的过滤条件可能过高"
-      ButtonText: "重置最小$t(common:Stats.ATK)的过滤条件"
+      SuccessMessage: '已重置最小$t(common:Stats.ATK)的过滤条件'
+      Description: '最小$t(common:Stats.ATK)的过滤条件可能过高'
+      ButtonText: '重置最小$t(common:Stats.ATK)的过滤条件'
     MAX_DEF:
-      SuccessMessage: "已重置最大$t(common:Stats.DEF)的过滤条件"
-      Description: "最大$t(common:Stats.DEF)的过滤条件可能过低"
-      ButtonText: "重置最大$t(common:Stats.DEF)的过滤条件"
+      SuccessMessage: '已重置最大$t(common:Stats.DEF)的过滤条件'
+      Description: '最大$t(common:Stats.DEF)的过滤条件可能过低'
+      ButtonText: '重置最大$t(common:Stats.DEF)的过滤条件'
     MIN_DEF:
-      SuccessMessage: "已重置最小$t(common:Stats.DEF)的过滤条件"
-      Description: "最小$t(common:Stats.DEF)的过滤条件可能过高"
-      ButtonText: "重置最小$t(common:Stats.DEF)的过滤条件"
+      SuccessMessage: '已重置最小$t(common:Stats.DEF)的过滤条件'
+      Description: '最小$t(common:Stats.DEF)的过滤条件可能过高'
+      ButtonText: '重置最小$t(common:Stats.DEF)的过滤条件'
     MAX_SPD:
-      SuccessMessage: "已重置最大$t(common:Stats.SPD)的过滤条件"
-      Description: "最大$t(common:Stats.SPD)的过滤条件可能过低"
-      ButtonText: "重置最大$t(common:Stats.SPD)的过滤条件"
+      SuccessMessage: '已重置最大$t(common:Stats.SPD)的过滤条件'
+      Description: '最大$t(common:Stats.SPD)的过滤条件可能过低'
+      ButtonText: '重置最大$t(common:Stats.SPD)的过滤条件'
     MIN_SPD:
-      SuccessMessage: "已重置最小$t(common:Stats.SPD)的过滤条件"
-      Description: "最小$t(common:Stats.SPD)的过滤条件可能过高"
-      ButtonText: "重置最小$t(common:Stats.SPD)的过滤条件"
+      SuccessMessage: '已重置最小$t(common:Stats.SPD)的过滤条件'
+      Description: '最小$t(common:Stats.SPD)的过滤条件可能过高'
+      ButtonText: '重置最小$t(common:Stats.SPD)的过滤条件'
     MAX_CR:
-      SuccessMessage: "已重置最大$t(common:Stats.CRIT Rate)的过滤条件"
-      Description: "最大$t(common:Stats.CRIT Rate)的过滤条件可能过低"
-      ButtonText: "重置最大$t(common:Stats.CRIT Rate)的过滤条件"
+      SuccessMessage: '已重置最大$t(common:Stats.CRIT Rate)的过滤条件'
+      Description: '最大$t(common:Stats.CRIT Rate)的过滤条件可能过低'
+      ButtonText: '重置最大$t(common:Stats.CRIT Rate)的过滤条件'
     MIN_CR:
-      SuccessMessage: "已重置最小$t(common:Stats.CRIT Rate)的过滤条件"
-      Description: "最小$t(common:Stats.CRIT Rate)的过滤条件可能过高"
-      ButtonText: "重置最小$t(common:Stats.CRIT Rate)的过滤条件"
+      SuccessMessage: '已重置最小$t(common:Stats.CRIT Rate)的过滤条件'
+      Description: '最小$t(common:Stats.CRIT Rate)的过滤条件可能过高'
+      ButtonText: '重置最小$t(common:Stats.CRIT Rate)的过滤条件'
     MAX_CD:
-      SuccessMessage: "已重置最大$t(common:Stats.CRIT DMG)的过滤条件"
-      Description: "最大$t(common:Stats.CRIT DMG)的过滤条件可能过低"
-      ButtonText: "重置最大$t(common:Stats.CRIT DMG)的过滤条件"
+      SuccessMessage: '已重置最大$t(common:Stats.CRIT DMG)的过滤条件'
+      Description: '最大$t(common:Stats.CRIT DMG)的过滤条件可能过低'
+      ButtonText: '重置最大$t(common:Stats.CRIT DMG)的过滤条件'
     MIN_CD:
-      SuccessMessage: "已重置最小$t(common:Stats.CRIT DMG)的过滤条件"
-      Description: "最小$t(common:Stats.CRIT DMG)的过滤条件可能过高"
-      ButtonText: "重置最小$t(common:Stats.CRIT DMG)的过滤条件"
+      SuccessMessage: '已重置最小$t(common:Stats.CRIT DMG)的过滤条件'
+      Description: '最小$t(common:Stats.CRIT DMG)的过滤条件可能过高'
+      ButtonText: '重置最小$t(common:Stats.CRIT DMG)的过滤条件'
     MAX_EHR:
-      SuccessMessage: "已重置最大$t(common:Stats.Effect Hit Rate)的过滤条件"
-      Description: "最大$t(common:Stats.Effect Hit Rate)的过滤条件可能过低"
-      ButtonText: "重置最大$t(common:Stats.Effect Hit Rate)的过滤条件"
+      SuccessMessage: '已重置最大$t(common:Stats.Effect Hit Rate)的过滤条件'
+      Description: '最大$t(common:Stats.Effect Hit Rate)的过滤条件可能过低'
+      ButtonText: '重置最大$t(common:Stats.Effect Hit Rate)的过滤条件'
     MIN_EHR:
-      SuccessMessage: "已重置最小$t(common:Stats.Effect Hit Rate)的过滤条件"
-      Description: "最小$t(common:Stats.Effect Hit Rate)的过滤条件可能过高"
-      ButtonText: "重置最小$t(common:Stats.Effect Hit Rate)的过滤条件"
+      SuccessMessage: '已重置最小$t(common:Stats.Effect Hit Rate)的过滤条件'
+      Description: '最小$t(common:Stats.Effect Hit Rate)的过滤条件可能过高'
+      ButtonText: '重置最小$t(common:Stats.Effect Hit Rate)的过滤条件'
     MAX_RES:
-      SuccessMessage: "已重置最大$t(common:Stats.Effect RES)的过滤条件"
-      Description: "最大$t(common:Stats.Effect RES)的过滤条件可能过低"
-      ButtonText: "重置最大$t(common:Stats.Effect RES)的过滤条件"
+      SuccessMessage: '已重置最大$t(common:Stats.Effect RES)的过滤条件'
+      Description: '最大$t(common:Stats.Effect RES)的过滤条件可能过低'
+      ButtonText: '重置最大$t(common:Stats.Effect RES)的过滤条件'
     MIN_RES:
-      SuccessMessage: "已重置最小$t(common:Stats.Effect RES)的过滤条件"
-      Description: "最小$t(common:Stats.Effect RES)的过滤条件可能过高"
-      ButtonText: "重置最小$t(common:Stats.Effect RES)的过滤条件"
+      SuccessMessage: '已重置最小$t(common:Stats.Effect RES)的过滤条件'
+      Description: '最小$t(common:Stats.Effect RES)的过滤条件可能过高'
+      ButtonText: '重置最小$t(common:Stats.Effect RES)的过滤条件'
     MAX_BE:
-      SuccessMessage: "已重置最大$t(common:Stats.Break Effect)的过滤条件"
-      Description: "最大$t(common:Stats.Break Effect)的过滤条件可能过低"
-      ButtonText: "重置最大$t(common:Stats.Break Effect)的过滤条件"
+      SuccessMessage: '已重置最大$t(common:Stats.Break Effect)的过滤条件'
+      Description: '最大$t(common:Stats.Break Effect)的过滤条件可能过低'
+      ButtonText: '重置最大$t(common:Stats.Break Effect)的过滤条件'
     MIN_BE:
-      SuccessMessage: "已重置最小$t(common:Stats.Break Effect)的过滤条件"
-      Description: "最小$t(common:Stats.Break Effect)的过滤条件可能过高"
-      ButtonText: "重置最小$t(common:Stats.Break Effect)的过滤条件"
+      SuccessMessage: '已重置最小$t(common:Stats.Break Effect)的过滤条件'
+      Description: '最小$t(common:Stats.Break Effect)的过滤条件可能过高'
+      ButtonText: '重置最小$t(common:Stats.Break Effect)的过滤条件'
     MAX_ERR:
-      SuccessMessage: "已重置最大$t(common:Stats.Energy Regeneration Rate)的过滤条件"
-      Description: "最大$t(common:Stats.Energy Regeneration Rate)的过滤条件可能过低"
-      ButtonText: "重置最大$t(common:Stats.Energy Regeneration Rate)的过滤条件"
+      SuccessMessage: '已重置最大$t(common:Stats.Energy Regeneration Rate)的过滤条件'
+      Description: '最大$t(common:Stats.Energy Regeneration Rate)的过滤条件可能过低'
+      ButtonText: '重置最大$t(common:Stats.Energy Regeneration Rate)的过滤条件'
     MIN_ERR:
-      SuccessMessage: "已重置最小$t(common:Stats.Energy Regeneration Rate)的过滤条件"
-      Description: "最小$t(common:Stats.Energy Regeneration Rate)的过滤条件可能过高"
-      ButtonText: "重置最小$t(common:Stats.Energy Regeneration Rate)的过滤条件"
+      SuccessMessage: '已重置最小$t(common:Stats.Energy Regeneration Rate)的过滤条件'
+      Description: '最小$t(common:Stats.Energy Regeneration Rate)的过滤条件可能过高'
+      ButtonText: '重置最小$t(common:Stats.Energy Regeneration Rate)的过滤条件'
     MAX_EHP:
-      SuccessMessage: "已重置最大有效生命值的过滤条件"
-      Description: "最大有效生命值的过滤条件可能过低"
-      ButtonText: "重置最大有效生命值的过滤条件"
+      SuccessMessage: '已重置最大有效生命值的过滤条件'
+      Description: '最大有效生命值的过滤条件可能过低'
+      ButtonText: '重置最大有效生命值的过滤条件'
     MIN_EHP:
-      SuccessMessage: "已重置最小有效生命值的过滤条件"
-      Description: "最小有效生命值的过滤条件可能过高"
-      ButtonText: "重置最小有效生命值的过滤条件"
+      SuccessMessage: '已重置最小有效生命值的过滤条件'
+      Description: '最小有效生命值的过滤条件可能过高'
+      ButtonText: '重置最小有效生命值的过滤条件'
     MAX_BASIC:
-      SuccessMessage: "已重置最大普攻伤害的过滤条件"
-      Description: "最大普攻伤害的过滤条件可能过低"
-      ButtonText: "重置最大普攻伤害的过滤条件"
+      SuccessMessage: '已重置最大普攻伤害的过滤条件'
+      Description: '最大普攻伤害的过滤条件可能过低'
+      ButtonText: '重置最大普攻伤害的过滤条件'
     MIN_BASIC:
-      SuccessMessage: "已重置最小普攻伤害的过滤条件"
-      Description: "最小普攻伤害的过滤条件可能过高"
-      ButtonText: "重置最小普攻伤害的过滤条件"
+      SuccessMessage: '已重置最小普攻伤害的过滤条件'
+      Description: '最小普攻伤害的过滤条件可能过高'
+      ButtonText: '重置最小普攻伤害的过滤条件'
     MAX_SKILL:
-      SuccessMessage: "已重置最大战技伤害的过滤条件"
-      Description: "最大战技伤害的过滤条件可能过低"
-      ButtonText: "重置最大战技伤害的过滤条件"
+      SuccessMessage: '已重置最大战技伤害的过滤条件'
+      Description: '最大战技伤害的过滤条件可能过低'
+      ButtonText: '重置最大战技伤害的过滤条件'
     MIN_SKILL:
-      SuccessMessage: "已重置最小战技伤害的过滤条件"
-      Description: "最小战技伤害的过滤条件可能过高"
-      ButtonText: "重置最小战技伤害的过滤条件"
+      SuccessMessage: '已重置最小战技伤害的过滤条件'
+      Description: '最小战技伤害的过滤条件可能过高'
+      ButtonText: '重置最小战技伤害的过滤条件'
     MAX_ULT:
-      SuccessMessage: "已重置最大终结技伤害的过滤条件"
-      Description: "最大终结技伤害的过滤条件可能过低"
-      ButtonText: "重置最大终结技伤害的过滤条件"
+      SuccessMessage: '已重置最大终结技伤害的过滤条件'
+      Description: '最大终结技伤害的过滤条件可能过低'
+      ButtonText: '重置最大终结技伤害的过滤条件'
     MIN_ULT:
-      SuccessMessage: "已重置最小终结技伤害的过滤条件"
-      Description: "最小终结技伤害的过滤条件可能过高"
-      ButtonText: "重置最小终结技伤害的过滤条件"
+      SuccessMessage: '已重置最小终结技伤害的过滤条件'
+      Description: '最小终结技伤害的过滤条件可能过高'
+      ButtonText: '重置最小终结技伤害的过滤条件'
     MAX_FUA:
-      SuccessMessage: "已重置最大追加攻击伤害的过滤条件"
-      Description: "最大追加攻击伤害的过滤条件可能过低"
-      ButtonText: "重置最大追加攻击伤害的过滤条件"
+      SuccessMessage: '已重置最大追加攻击伤害的过滤条件'
+      Description: '最大追加攻击伤害的过滤条件可能过低'
+      ButtonText: '重置最大追加攻击伤害的过滤条件'
     MIN_FUA:
-      SuccessMessage: "已重置最小追加攻击伤害的过滤条件"
-      Description: "最小追加攻击伤害的过滤条件可能过高"
-      ButtonText: "重置最小追加攻击伤害的过滤条件"
+      SuccessMessage: '已重置最小追加攻击伤害的过滤条件'
+      Description: '最小追加攻击伤害的过滤条件可能过高'
+      ButtonText: '重置最小追加攻击伤害的过滤条件'
     MAX_DOT:
-      SuccessMessage: "已重置最大持续伤害的过滤条件"
-      Description: "最大持续伤害的过滤条件可能过低"
-      ButtonText: "重置最大持续伤害的过滤条件"
+      SuccessMessage: '已重置最大持续伤害的过滤条件'
+      Description: '最大持续伤害的过滤条件可能过低'
+      ButtonText: '重置最大持续伤害的过滤条件'
     MIN_DOT:
-      SuccessMessage: "已重置最小持续伤害的过滤条件"
-      Description: "最小持续伤害的过滤条件可能过高"
-      ButtonText: "重置最小持续伤害的过滤条件"
+      SuccessMessage: '已重置最小持续伤害的过滤条件'
+      Description: '最小持续伤害的过滤条件可能过高'
+      ButtonText: '重置最小持续伤害的过滤条件'
     MAX_BREAK:
-      SuccessMessage: "已重置最大击破伤害的过滤条件"
-      Description: "最大击破伤害的过滤条件可能过低"
-      ButtonText: "重置最大击破伤害的过滤条件"
+      SuccessMessage: '已重置最大击破伤害的过滤条件'
+      Description: '最大击破伤害的过滤条件可能过低'
+      ButtonText: '重置最大击破伤害的过滤条件'
     MIN_BREAK:
-      SuccessMessage: "已重置最小击破伤害的过滤条件"
-      Description: "最小击破伤害的过滤条件可能过高"
-      ButtonText: "重置最小击破伤害的过滤条件"
+      SuccessMessage: '已重置最小击破伤害的过滤条件'
+      Description: '最小击破伤害的过滤条件可能过高'
+      ButtonText: '重置最小击破伤害的过滤条件'
     MAX_MEMO_SKILL:
-      SuccessMessage: "已重置最大忆灵技的过滤条件"
-      Description: "最大忆灵技伤害的过滤条件可能过低"
-      ButtonText: "已重置最大忆灵技的过滤条件"
+      SuccessMessage: '已重置最大忆灵技的过滤条件'
+      Description: '最大忆灵技伤害的过滤条件可能过低'
+      ButtonText: '已重置最大忆灵技的过滤条件'
     MIN_MEMO_SKILL:
-      SuccessMessage: "重置最小忆灵技的过滤条件"
-      Description: "最小忆灵技伤害的过滤条件可能过高"
-      ButtonText: "重置最小忆灵技的过滤条件"
+      SuccessMessage: '重置最小忆灵技的过滤条件'
+      Description: '最小忆灵技伤害的过滤条件可能过高'
+      ButtonText: '重置最小忆灵技的过滤条件'
     MAX_MEMO_TALENT:
-      SuccessMessage: "已重置最大忆灵天赋的过滤条件"
-      Description: "最大忆灵天赋的过滤条件可能过低"
-      ButtonText: "重置最大忆灵天赋的过滤条件"
+      SuccessMessage: '已重置最大忆灵天赋的过滤条件'
+      Description: '最大忆灵天赋的过滤条件可能过低'
+      ButtonText: '重置最大忆灵天赋的过滤条件'
     MIN_MEMO_TALENT:
-      SuccessMessage: "已重置最小忆灵天赋的过滤条件"
-      Description: "最小忆灵天赋的过滤条件可能过高"
-      ButtonText: "重置最小忆灵天赋的过滤条件"
+      SuccessMessage: '已重置最小忆灵天赋的过滤条件'
+      Description: '最小忆灵天赋的过滤条件可能过高'
+      ButtonText: '重置最小忆灵天赋的过滤条件'
     MAX_HEAL:
-      SuccessMessage: "已重置最大治疗值的过滤条件"
-      Description: "最大治疗值的过滤条件可能过低"
-      ButtonText: "重置最大治疗值的过滤条件"
+      SuccessMessage: '已重置最大治疗值的过滤条件'
+      Description: '最大治疗值的过滤条件可能过低'
+      ButtonText: '重置最大治疗值的过滤条件'
     MIN_HEAL:
-      SuccessMessage: "已重置最小治疗值的过滤条件"
-      Description: "最小治疗值的过滤条件可能过高"
-      ButtonText: "重置最小治疗值的过滤条件"
+      SuccessMessage: '已重置最小治疗值的过滤条件'
+      Description: '最小治疗值的过滤条件可能过高'
+      ButtonText: '重置最小治疗值的过滤条件'
     MAX_SHIELD:
-      SuccessMessage: "已重置最大护盾值的过滤条件"
-      Description: "最大护盾值的过滤条件可能过低"
-      ButtonText: "重置最大护盾值的过滤条件"
+      SuccessMessage: '已重置最大护盾值的过滤条件'
+      Description: '最大护盾值的过滤条件可能过低'
+      ButtonText: '重置最大护盾值的过滤条件'
     MIN_SHIELD:
-      SuccessMessage: "已重置最小护盾值的过滤条件"
-      Description: "最小护盾值的过滤条件可能过高"
-      ButtonText: "重置最小护盾值的过滤条件"
+      SuccessMessage: '已重置最小护盾值的过滤条件'
+      Description: '最小护盾值的过滤条件可能过高'
+      ButtonText: '重置最小护盾值的过滤条件'
     MAX_COMBO:
-      SuccessMessage: "已重置最大连招伤害的过滤条件"
-      Description: "最大连招伤害的过滤条件可能过低"
-      ButtonText: "重置最大连招伤害的过滤条件"
+      SuccessMessage: '已重置最大连招伤害的过滤条件'
+      Description: '最大连招伤害的过滤条件可能过低'
+      ButtonText: '重置最大连招伤害的过滤条件'
     MIN_COMBO:
-      SuccessMessage: "已重置最小连招伤害的过滤条件"
-      Description: "最小连招伤害的过滤条件可能过高"
-      ButtonText: "重置最小连招伤害的过滤条件"
+      SuccessMessage: '已重置最小连招伤害的过滤条件'
+      Description: '最小连招伤害的过滤条件可能过高'
+      ButtonText: '重置最小连招伤害的过滤条件'
 ManyPerms:
   Title: 被请求大规模搜索
   Text: >-
@@ -266,6 +266,7 @@ EditCharacter:
     $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
   Character: 角色
   Lightcone: 光锥
+  Sets: 套装
 Relic:
   Part: 部件
   Wearer: 装备由
@@ -292,7 +293,7 @@ Relic:
       SetInvalid: 套装值无效
       SetNotOrnament: 所选套装不是位面饰品套装
       SetNotRelic: 所选套装不是隧洞遗器套装
-      SubNInvalid: "副词条{{number}}无效"
+      SubNInvalid: '副词条{{number}}无效'
       SubsOutOfOrder: 副词条顺序不正确
       DuplicateSubs: 副词条重复，每种类型只允许有一个
       MainAsSub: 副词条类型与主属性相同
@@ -310,7 +311,7 @@ EditImage:
       Default: 使用默认图片
     Upload:
       Method: 点击或将图片文件拖到此区域上传
-      Limit: "支持 .jpg .jpeg .png .gif 格式（最大: 20MB）"
+      Limit: '支持 .jpg .jpeg .png .gif 格式（最大: 20MB）'
     Url:
       Label: 图片
       Rule: 请输入有效的图片网址
@@ -319,7 +320,7 @@ EditImage:
     Zoom: 缩放
     Drag: 拖动来移动
     Pinch: 捏合或滚动来缩放
-    ArtBy: "（可不填）艺术来自："
+    ArtBy: '（可不填）艺术来自：'
     CreditPlaceholder: 如有可能，请注明艺术家
   Footer:
     Change: 更换图像
@@ -335,12 +336,12 @@ Builds:
   Equip: 装备
   ConfirmEquip:
     Content: 装备此配装将卸下使用任何该配装中遗器的角色
-    SuccessMessage: "成功装备配装：{{buildName}}"
+    SuccessMessage: '成功装备配装：{{buildName}}'
   ConfirmDelete:
     DeleteAll: 你确定要删除所有配装吗？
-    DeleteSingle: "你确定要删除{{name}}吗?"
-    SuccessMessageAll: "成功删除了{{characterName}}的所有配装"
-    SuccessMessageSingle: "成功删除配装：{{name}}"
+    DeleteSingle: '你确定要删除{{name}}吗?'
+    SuccessMessageAll: '成功删除了{{characterName}}的所有配装'
+    SuccessMessageSingle: '成功删除配装：{{name}}'
   NoBuilds:
     NoneSaved: 无保存配装
 ScoreFooter:
@@ -356,7 +357,7 @@ ScoreFooter:
 CharacterSelect:
   MultiSelect:
     Placeholder: 自定义角色
-    MaxTagPlaceholderSome: "已排除{{count}}个角色"
+    MaxTagPlaceholderSome: '已排除{{count}}个角色'
     MaxTagPlaceholderNone: 已启用所有角色
     ModalTitle: 选择要排除的角色
   SingleSelect:

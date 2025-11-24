@@ -4,6 +4,7 @@ import {
   Key,
 } from 'lib/optimization/computedStatsArray'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
+import { StatKey } from "./engine/config/keys"
 
 const SIZE = 65
 
@@ -99,6 +100,114 @@ export type OptimizerDisplayDataStatSim = OptimizerDisplayData & {
 }
 
 export const BufferPacker = {
+  packCharacterContainer: (arr: Float32Array, offset: number, x: any, c: any, context: any, memoEntityIndex: number) => {
+    offset = offset * SIZE
+    const ca = c.a
+
+    // [0] ID
+    arr[offset] = c.id
+
+    // [1-11] Basic stats
+    arr[offset + 1] = ca[StatKey.HP]
+    arr[offset + 2] = ca[StatKey.ATK]
+    arr[offset + 3] = ca[StatKey.DEF]
+    arr[offset + 4] = ca[StatKey.SPD]
+    arr[offset + 5] = ca[StatKey.CR]
+    arr[offset + 6] = ca[StatKey.CD]
+    arr[offset + 7] = ca[StatKey.EHR]
+    arr[offset + 8] = ca[StatKey.RES]
+    arr[offset + 9] = ca[StatKey.BE]
+    arr[offset + 10] = ca[StatKey.ERR]
+    arr[offset + 11] = ca[StatKey.OHB]
+
+    // [12-13] Elemental DMG + weight
+    arr[offset + 12] = ca[Key.ELEMENTAL_DMG]
+    arr[offset + 13] = c.weight
+
+    // [14-16] Computed values
+    arr[offset + 14] = x.a[StatKey.EHP]
+    arr[offset + 15] = x.a[StatKey.HEAL_VALUE]
+    arr[offset + 16] = x.a[StatKey.SHIELD_VALUE]
+
+    // [17-24] Damage values from action registers - dynamically mapped
+    const actionNameToOffset: Record<string, number> = {
+      'BASIC': 17,
+      'SKILL': 18,
+      'ULT': 19,
+      'FUA': 20,
+      'MEMO SKILL': 21,
+      'MEMO TALENT': 22,
+      'DOT': 23,
+      'BREAK': 24,
+    }
+
+    for (let i = 0; i < context.defaultActions.length; i++) {
+      const action = context.defaultActions[i]
+      const bufferOffset = actionNameToOffset[action.actionName]
+      if (bufferOffset !== undefined) {
+        arr[offset + bufferOffset] = x.getActionRegisterValue(i)
+      }
+    }
+
+    // [25] COMBO
+    arr[offset + 25] = x.a[StatKey.COMBO_DMG]
+
+    // [26-37] Combat stats from primary entity (index 0)
+    const primaryEntity = x.config.entityRegistry.get(0)!.name
+    arr[offset + 26] = x.getActionValue(StatKey.HP, primaryEntity)
+    arr[offset + 27] = x.getActionValue(StatKey.ATK, primaryEntity)
+    arr[offset + 28] = x.getActionValue(StatKey.DEF, primaryEntity)
+    arr[offset + 29] = x.getActionValue(StatKey.SPD, primaryEntity)
+    arr[offset + 30] = x.getActionValue(StatKey.CR, primaryEntity)
+    arr[offset + 31] = x.getActionValue(StatKey.CD, primaryEntity)
+    arr[offset + 32] = x.getActionValue(StatKey.EHR, primaryEntity)
+    arr[offset + 33] = x.getActionValue(StatKey.RES, primaryEntity)
+    arr[offset + 34] = x.getActionValue(StatKey.BE, primaryEntity)
+    arr[offset + 35] = x.getActionValue(StatKey.ERR, primaryEntity)
+    arr[offset + 36] = x.getActionValue(StatKey.OHB, primaryEntity)
+    arr[offset + 37] = x.getActionValue(StatKey.DMG_BOOST, primaryEntity)
+
+    // [38-39] Set indices
+    arr[offset + 38] = c.relicSetIndex
+    arr[offset + 39] = c.ornamentSetIndex
+
+    // [40-64] Memosprite stats (if exists)
+    if (memoEntityIndex >= 0) {
+      const memoEntity = x.config.entityRegistry.get(memoEntityIndex)!.name
+
+      // [40-51] Memosprite basic stats (copy from primary for now)
+      arr[offset + 40] = ca[StatKey.HP]
+      arr[offset + 41] = ca[StatKey.ATK]
+      arr[offset + 42] = ca[StatKey.DEF]
+      arr[offset + 43] = ca[StatKey.SPD]
+      arr[offset + 44] = ca[StatKey.CR]
+      arr[offset + 45] = ca[StatKey.CD]
+      arr[offset + 46] = ca[StatKey.EHR]
+      arr[offset + 47] = ca[StatKey.RES]
+      arr[offset + 48] = ca[StatKey.BE]
+      arr[offset + 49] = ca[StatKey.ERR]
+      arr[offset + 50] = ca[StatKey.OHB]
+      arr[offset + 51] = ca[StatKey.ELEMENTAL_DMG]
+
+      // [52-63] Memosprite combat stats
+      arr[offset + 52] = x.getActionValue(StatKey.HP, memoEntity)
+      arr[offset + 53] = x.getActionValue(StatKey.ATK, memoEntity)
+      arr[offset + 54] = x.getActionValue(StatKey.DEF, memoEntity)
+      arr[offset + 55] = x.getActionValue(StatKey.SPD, memoEntity)
+      arr[offset + 56] = x.getActionValue(StatKey.CR, memoEntity)
+      arr[offset + 57] = x.getActionValue(StatKey.CD, memoEntity)
+      arr[offset + 58] = x.getActionValue(StatKey.EHR, memoEntity)
+      arr[offset + 59] = x.getActionValue(StatKey.RES, memoEntity)
+      arr[offset + 60] = x.getActionValue(StatKey.BE, memoEntity)
+      arr[offset + 61] = x.getActionValue(StatKey.ERR, memoEntity)
+      arr[offset + 62] = x.getActionValue(StatKey.OHB, memoEntity)
+      arr[offset + 63] = x.getActionValue(StatKey.DMG_BOOST, memoEntity)
+
+      // [64] mxEHP (same as primary)
+      arr[offset + 64] = x.a[StatKey.EHP]
+    }
+  },
+
   extractCharacter: (arr: Float32Array, offset: number, skip: number): OptimizerDisplayData => { // Float32Array
     offset = offset * SIZE
     return {

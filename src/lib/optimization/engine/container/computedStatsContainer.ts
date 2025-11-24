@@ -58,6 +58,7 @@ export const FullStatsConfig: ComputedStatsConfigType = Object.fromEntries(
 
 export class ComputedStatsContainerConfig {
   public entityRegistry: NamedArray<OptimizerEntity>
+  public entitiesArray: OptimizerEntity[]  // Plain array for serialization
   public selfEntity: OptimizerEntity
 
   public hits: Hit[]
@@ -81,6 +82,7 @@ export class ComputedStatsContainerConfig {
 
     // Entities
     this.entityRegistry = entityRegistry
+    this.entitiesArray = entityRegistry.values  // Store plain array for worker transfer
     this.entitiesLength = entityRegistry.length
     this.selfEntity = this.entityRegistry.get(0)!
 

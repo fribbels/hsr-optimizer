@@ -1,4 +1,4 @@
-import { AbilityType, } from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -170,7 +170,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         ],
       },
       [FugueAbilities.BREAK]: {
-        hits: [HitDefinitionBuilder.standardBreak().build()],
+        hits: [
+          HitDefinitionBuilder.standardBreak()
+            .damageElement(ElementTag.Fire)
+            .build(),
+        ],
       },
     }),
     actionModifiers() {

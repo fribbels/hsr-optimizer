@@ -1,6 +1,8 @@
-import { DamageType } from 'lib/conditionals/conditionalConstants'
 import { genericBuilder } from 'lib/conditionals/genericBuilder'
-import { ElementTag } from 'lib/optimization/engine/config/tag'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
 import {
   AdditionalDamageFunction,
   BreakDamageFunction,
@@ -23,7 +25,7 @@ HitDefinitionBuilder.standardBasic = () =>
   genericBuilder<HitDefinition>({
     ...BASE_HIT_DEFAULTS,
     damageFunction: CritDamageFunction,
-    damageType: DamageType.BASIC,
+    damageType: DamageTag.BASIC,
     activeHit: true,
   })
 
@@ -31,7 +33,7 @@ HitDefinitionBuilder.standardSkill = () =>
   genericBuilder<HitDefinition>({
     ...BASE_HIT_DEFAULTS,
     damageFunction: CritDamageFunction,
-    damageType: DamageType.SKILL,
+    damageType: DamageTag.SKILL,
     activeHit: true,
   })
 
@@ -39,7 +41,7 @@ HitDefinitionBuilder.standardUlt = () =>
   genericBuilder<HitDefinition>({
     ...BASE_HIT_DEFAULTS,
     damageFunction: CritDamageFunction,
-    damageType: DamageType.ULT,
+    damageType: DamageTag.ULT,
     activeHit: true,
   })
 
@@ -47,7 +49,7 @@ HitDefinitionBuilder.standardBreak = () =>
   genericBuilder<HitDefinition>({
     ...BASE_HIT_DEFAULTS,
     damageFunction: BreakDamageFunction,
-    damageType: DamageType.BREAK,
+    damageType: DamageTag.BREAK,
     damageElement: ElementTag.None,
     activeHit: false,
   })
@@ -56,6 +58,6 @@ HitDefinitionBuilder.standardAdditional = () =>
   genericBuilder<HitDefinition>({
     ...BASE_HIT_DEFAULTS,
     damageFunction: AdditionalDamageFunction,
-    damageType: DamageType.ADDITIONAL,
+    damageType: DamageTag.ADDITIONAL,
     activeHit: false,
   })

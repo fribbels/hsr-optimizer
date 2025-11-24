@@ -29,10 +29,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  BreakDamageFunction,
-  CritDamageFunction,
-} from 'types/hitConditionalTypes'
+import { BreakDamageFunction } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -215,7 +212,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           ],
         },
         [BoothillAbilities.BREAK]: {
-          hits: [HitDefinitionBuilder.standardBreak().build()],
+          hits: [
+            HitDefinitionBuilder.standardBreak()
+              .damageElement(ElementTag.Physical)
+              .build(),
+          ],
         },
       }
     },

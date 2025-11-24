@@ -181,12 +181,17 @@ export const BreakDamageFunction: DamageFunction = {
     const beMulti = 1 + be
 
     const breakFixedMulti = 3767.5533
+    // hit.atkScaling ?? 0
+    // Check if specialScaling is present (e.g., Boothill's talent break DMG with custom toughness calculation)
+    const enemyToughnessMulti = 0.5 + context.enemyMaxToughness / 120
+    const abilityBreakMulti = 1 + (hit.specialScaling ?? 0)
 
     const dmg = baseUniversalMulti
       * breakFixedMulti
       * context.elementalBreakScaling
       * defMulti
-      * (0.5 + context.enemyMaxToughness / 120)
+      * enemyToughnessMulti
+      * abilityBreakMulti
       * vulnerabilityMulti
       * resMulti
       * beMulti

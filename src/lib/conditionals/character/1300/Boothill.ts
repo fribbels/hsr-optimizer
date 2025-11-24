@@ -3,7 +3,9 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -16,15 +18,28 @@ import {
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
+  BreakDamageFunction,
+  CritDamageFunction,
+} from 'types/hitConditionalTypes'
+import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const BoothillEntities = createEnum('Boothill')
+export const BoothillAbilities = createEnum('BASIC', 'ULT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Boothill')
@@ -128,6 +143,115 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.ULT],
     content: () => Object.values(content),
     defaults: () => defaults,
+
+    entityDeclaration: () => Object.values(BoothillEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [BoothillEntities.Boothill]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(BoothillAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      const normalBasic = {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Physical)
+            .atkScaling(basicScaling)
+            .toughnessDmg(10)
+            .build(),
+        ],
+      }
+
+      const enhancedBasicHits = [
+        HitDefinitionBuilder.standardBasic()
+          .damageElement(ElementTag.Physical)
+          .atkScaling(basicEnhancedScaling)
+          .toughnessDmg(20)
+          .build(),
+      ]
+
+      // Add talent break DMG hit if enabled
+      if (r.talentBreakDmgScaling) {
+        // Calculate toughness-capped scaling
+        const newMaxToughness = Math.min(16.00 * 30, context.enemyMaxToughness)
+        const inverseBreakToughnessMultiplier = 1 / (0.5 + context.enemyMaxToughness / 120)
+        const newBreakToughnessMultiplier = 0.5 + newMaxToughness / 120
+
+        let talentBreakDmgScaling = pocketTrickshotsToTalentBreakDmg[r.pocketTrickshotStacks]
+        talentBreakDmgScaling += (e >= 6 && r.e6AdditionalBreakDmg) ? 0.40 : 0
+
+        const totalScaling = inverseBreakToughnessMultiplier
+          * newBreakToughnessMultiplier
+          * talentBreakDmgScaling
+
+        // Use specialScaling to encode the modified break scaling
+        enhancedBasicHits.push({
+          damageFunction: BreakDamageFunction,
+          damageType: DamageTag.BREAK,
+          damageElement: ElementTag.Physical,
+          specialScaling: totalScaling,
+          activeHit: false,
+        })
+      }
+
+      const enhancedBasic = {
+        hits: enhancedBasicHits,
+      }
+
+      return {
+        [BoothillAbilities.BASIC]: r.standoffActive ? enhancedBasic : normalBasic,
+        [BoothillAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(ultScaling)
+              .toughnessDmg(30)
+              .build(),
+          ],
+        },
+        [BoothillAbilities.BREAK]: {
+          hits: [HitDefinitionBuilder.standardBreak().build()],
+        },
+      }
+    },
+    actionModifiers: () => [],
+
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      if (r.talentBreakDmgScaling) {
+        x.set(StatKey.ENEMY_WEAKNESS_BROKEN, 1, x.source(SOURCE_TALENT))
+      }
+    },
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // E2 BE buff
+      x.buff(StatKey.BE, (e >= 2 && r.e2BeBuff) ? 0.30 : 0, x.source(SOURCE_E2))
+
+      // Standoff vulnerability
+      x.buff(StatKey.VULNERABILITY, (r.standoffActive) ? standoffVulnerabilityBoost : 0, x.source(SOURCE_SKILL))
+
+      // E1 DEF shred
+      x.buff(StatKey.DEF_PEN, (e >= 1 && r.e1DefShred) ? 0.16 : 0, x.source(SOURCE_E1))
+
+      // E4 additional vulnerability
+      x.buff(StatKey.VULNERABILITY, (e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0, x.source(SOURCE_E4))
+
+      // Enhanced Basic break efficiency
+      x.buff(
+        StatKey.BREAK_EFFICIENCY_BOOST,
+        (r.standoffActive) ? r.pocketTrickshotStacks * 0.50 : 0,
+        x.damageType(DamageTag.BASIC).source(SOURCE_TALENT),
+      )
+    },
+
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -167,7 +291,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       return x
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {},
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
     gpuFinalizeCalculations: () => '',
     dynamicConditionals: [{
       id: 'BoothillConversionConditional',

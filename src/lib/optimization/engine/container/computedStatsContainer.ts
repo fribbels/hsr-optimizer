@@ -36,6 +36,50 @@ enum StatCategory {
   NONE,
 }
 
+// Pre-calculate all actionBuff/actionSet indices for performance
+function buildActionBuffIndexCache(
+  entityRegistry: NamedArray<OptimizerEntity>,
+  entitiesLength: number,
+  statsLength: number,
+  hitsLength: number,
+): Record<number, number[]> {
+  const cache: Record<number, number[]> = {}
+  const stride = statsLength * (hitsLength + 1)
+
+  // Get all TargetTag enum values dynamically
+  const allTargetTags = Object.values(TargetTag).filter((v): v is number => typeof v === 'number')
+
+  // For each TargetTag
+  for (const targetTags of allTargetTags) {
+    // For each stat key
+    for (let statKey = 0; statKey < statsLength; statKey++) {
+      const indices: number[] = []
+
+      // Find matching entities
+      for (let entityIndex = 0; entityIndex < entitiesLength; entityIndex++) {
+        const entity = entityRegistry.get(entityIndex)!
+
+        let matches = false
+        if (targetTags & TargetTag.Self) matches = entity.primary
+        else if (targetTags & TargetTag.SelfAndPet) matches = entity.primary || (entity.pet ?? false)
+        else if (targetTags & TargetTag.FullTeam) matches = true
+        else if (targetTags & TargetTag.SelfAndMemosprite) matches = entity.primary || entity.memosprite
+        else if (targetTags & TargetTag.SummonsOnly) matches = entity.summon
+        else if (targetTags === TargetTag.None) matches = false
+
+        if (matches) {
+          indices.push(entityIndex * stride + statKey)
+        }
+      }
+
+      const cacheKey = (targetTags << 8) | statKey
+      cache[cacheKey] = indices
+    }
+  }
+
+  return cache
+}
+
 export const FullStatsConfig: ComputedStatsConfigType = Object.fromEntries(
   Object.entries(newStatsConfig).map(([key, value], index) => {
     const baseValue = value as ComputedStatsConfigBaseType
@@ -69,6 +113,8 @@ export class ComputedStatsContainerConfig {
   public arrayLength: number
   public outputRegistersLength: number
 
+  public actionBuffIndices: Record<number, number[]>  // Cached indices for actionBuff/actionSet
+
   constructor(
     action: OptimizerAction,
     context: OptimizerContext,
@@ -89,6 +135,14 @@ export class ComputedStatsContainerConfig {
     // Each entity x stats x hits, plus the action stats
     this.arrayLength = this.entitiesLength * this.statsLength * (this.hitsLength + 1)
     this.outputRegistersLength = context.outputRegistersLength
+
+    // Pre-calculate actionBuff indices for performance
+    this.actionBuffIndices = buildActionBuffIndexCache(
+      entityRegistry,
+      this.entitiesLength,
+      this.statsLength,
+      this.hitsLength,
+    )
   }
 }
 
@@ -200,16 +254,20 @@ export class ComputedStatsContainer {
   }
 
   public actionBuff(key: StatKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
-    const entities = this.getTargetEntities(0, targetTags)
-    for (const entityIndex of entities) {
-      this.a[this.getActionIndex(entityIndex, key)] += value
+    const cacheKey = (targetTags << 8) | (key as number)
+    const indices = this.config.actionBuffIndices[cacheKey]
+
+    for (let i = 0; i < indices.length; i++) {
+      this.a[indices[i]] += value
     }
   }
 
   public actionSet(key: StatKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
-    const entities = this.getTargetEntities(0, targetTags)
-    for (const entityIndex of entities) {
-      this.a[this.getActionIndex(entityIndex, key)] = value
+    const cacheKey = (targetTags << 8) | (key as number)
+    const indices = this.config.actionBuffIndices[cacheKey]
+
+    for (let i = 0; i < indices.length; i++) {
+      this.a[indices[i]] = value
     }
   }
 

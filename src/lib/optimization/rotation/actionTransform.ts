@@ -1,5 +1,4 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
-import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import {
   ComputedStatsContainer,
@@ -78,7 +77,10 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
 
   for (const action of allActions) {
     action.registerIndices = []
-    for (const hit of action.hits!) {
+
+    for (let i = 0; i < action.hits!.length; i++) {
+      const hit = action.hits![i]
+      hit.localHitIndex = i
       hit.registerIndex = hitCounter
       action.registerIndices.push(hitCounter)
       hitCounter++

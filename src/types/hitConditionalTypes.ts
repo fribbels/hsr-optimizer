@@ -13,6 +13,7 @@ export interface AbilityDefinition {
 export type DamageFunctionName = string
 
 export interface Hit extends HitDefinition {
+  localHitIndex: number
   registerIndex: number
   sourceEntityIndex: number
 }
@@ -181,10 +182,8 @@ export const BreakDamageFunction: DamageFunction = {
     const beMulti = 1 + be
 
     const breakFixedMulti = 3767.5533
-    // hit.atkScaling ?? 0
-    // Check if specialScaling is present (e.g., Boothill's talent break DMG with custom toughness calculation)
     const enemyToughnessMulti = 0.5 + context.enemyMaxToughness / 120
-    const abilityBreakMulti = 1 + (hit.specialScaling ?? 0)
+    const abilityBreakMulti = hit.specialScaling ?? 1
 
     const dmg = baseUniversalMulti
       * breakFixedMulti
@@ -199,7 +198,6 @@ export const BreakDamageFunction: DamageFunction = {
       * finalDmgMulti
 
     return dmg
-    // return instanceDmg * comboDotMulti
   },
 }
 
@@ -218,7 +216,6 @@ export const SuperBreakDamageFunction: DamageFunction = {
     const resPen = x.getValue(StatKey.RES_PEN, hitIndex)
     const vulnerability = x.getValue(StatKey.VULNERABILITY, hitIndex)
     const dmgBoost = x.getHitValue(StatKey.DMG_BOOST, hitIndex)
-    const breakEfficiencyBoost = x.getValue(StatKey.BREAK_EFFICIENCY_BOOST, hitIndex)
 
     const baseUniversalMulti = x.a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
     const defMulti = calculateDefMulti(eLevel, context.combatBuffs.DEF_PEN + defPen)
@@ -226,6 +223,10 @@ export const SuperBreakDamageFunction: DamageFunction = {
     const resMulti = 1 - (context.enemyDamageResistance - context.combatBuffs.RES_PEN - resPen)
     const beMulti = 1 + be
     const dmgBoostMulti = 1 + dmgBoost
+
+    const breakEfficiencyBoost = hit.referenceHit
+      ? x.getValue(StatKey.BREAK_EFFICIENCY_BOOST, hit.referenceHit.localHitIndex)
+      : x.getValue(StatKey.BREAK_EFFICIENCY_BOOST, hitIndex)
 
     const baseSuperBreakInstanceDmg = baseUniversalMulti
       * 3767.5533 / 10

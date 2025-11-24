@@ -57,6 +57,7 @@ export class BuffBuilder<_Completed extends boolean = false> {
 
   target(e: string): IncompleteBuffBuilder {
     this._target = this.config.entityRegistry.getIndex(e)
+    this._targetTags = TargetTag.None
     return this as IncompleteBuffBuilder
   }
 

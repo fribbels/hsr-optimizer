@@ -25,10 +25,11 @@ export enum ElementTag {
 export enum TargetTag {
   None = 0,
   Self = 1,
-  FullTeam = 2,
-  TargetAndMemosprite = 4,
-  SelfAndMemosprite = 8,
-  SummonsOnly = 16,
+  SelfAndPet = 2,
+  FullTeam = 4,
+  TargetAndMemosprite = 8,
+  SelfAndMemosprite = 16,
+  SummonsOnly = 32,
 }
 
 export type Tag = ElementTag | DamageTag

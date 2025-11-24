@@ -39,6 +39,7 @@ export interface EntityDefinition {
   primary: boolean
   summon: boolean
   memosprite: boolean
+  pet?: boolean
 
   memoBaseAtkFlat?: number
   memoBaseHpFlat?: number

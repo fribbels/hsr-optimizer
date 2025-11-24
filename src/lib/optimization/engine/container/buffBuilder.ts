@@ -19,7 +19,7 @@ export class BuffBuilder<_Completed extends boolean = false> {
   _damageTags = ALL_DAMAGE_TAGS
   _origin = SELF_ENTITY
   _target = SELF_ENTITY
-  _targetTags = TargetTag.None
+  _targetTags = TargetTag.SelfAndPet
   _source: BuffSource = Source.NONE
 
   private config!: ComputedStatsContainerConfig
@@ -35,7 +35,7 @@ export class BuffBuilder<_Completed extends boolean = false> {
     this._damageTags = ALL_DAMAGE_TAGS
     this._origin = SELF_ENTITY
     this._target = SELF_ENTITY
-    this._targetTags = TargetTag.None
+    this._targetTags = TargetTag.SelfAndPet
     this._source = Source.NONE
     return this as IncompleteBuffBuilder
   }

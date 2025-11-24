@@ -27,6 +27,7 @@ import {
   SetKeyType,
 } from 'lib/optimization/config/setsConfig'
 import { StatKey } from 'lib/optimization/engine/config/keys'
+import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SimulationRelic } from 'lib/simulations/statSimulationTypes'
 import {
@@ -167,23 +168,23 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   const setsArray = c.setsArray
   const buffs = context.combatBuffs
 
-  // Add base to computed
-  a[StatKey.ATK] += c.a[StatKey.ATK] + buffs.ATK + buffs.ATK_P * context.baseATK
-  a[StatKey.DEF] += c.a[StatKey.DEF] + buffs.DEF + buffs.DEF_P * context.baseDEF
-  a[StatKey.HP] += c.a[StatKey.HP] + buffs.HP + buffs.HP_P * context.baseHP
-  a[StatKey.SPD] += c.a[StatKey.SPD] + buffs.SPD + buffs.SPD_P * context.baseSPD
-  a[StatKey.CD] += c.a[StatKey.CD] + buffs.CD
-  a[StatKey.CR] += c.a[StatKey.CR] + buffs.CR
-  a[StatKey.BE] += c.a[StatKey.BE] + buffs.BE
-  a[StatKey.EHR] += c.a[StatKey.EHR]
-  a[StatKey.RES] += c.a[StatKey.RES]
-  a[StatKey.ERR] += c.a[StatKey.ERR]
-  a[StatKey.OHB] += c.a[StatKey.OHB]
+  // Add base to computed (defaults to SelfAndPet targeting)
+  x.actionBuff(StatKey.ATK, c.a[StatKey.ATK] + buffs.ATK + buffs.ATK_P * context.baseATK)
+  x.actionBuff(StatKey.DEF, c.a[StatKey.DEF] + buffs.DEF + buffs.DEF_P * context.baseDEF)
+  x.actionBuff(StatKey.HP, c.a[StatKey.HP] + buffs.HP + buffs.HP_P * context.baseHP)
+  x.actionBuff(StatKey.SPD, c.a[StatKey.SPD] + buffs.SPD + buffs.SPD_P * context.baseSPD)
+  x.actionBuff(StatKey.CD, c.a[StatKey.CD] + buffs.CD)
+  x.actionBuff(StatKey.CR, c.a[StatKey.CR] + buffs.CR)
+  x.actionBuff(StatKey.BE, c.a[StatKey.BE] + buffs.BE)
+  x.actionBuff(StatKey.EHR, c.a[StatKey.EHR])
+  x.actionBuff(StatKey.RES, c.a[StatKey.RES])
+  x.actionBuff(StatKey.ERR, c.a[StatKey.ERR])
+  x.actionBuff(StatKey.OHB, c.a[StatKey.OHB])
 
-  a[StatKey.BASE_ATK] = context.baseATK
-  a[StatKey.BASE_DEF] = context.baseDEF
-  a[StatKey.BASE_HP] = context.baseHP
-  a[StatKey.BASE_SPD] = context.baseSPD
+  x.actionSet(StatKey.BASE_ATK, context.baseATK)
+  x.actionSet(StatKey.BASE_DEF, context.baseDEF)
+  x.actionSet(StatKey.BASE_HP, context.baseHP)
+  x.actionSet(StatKey.BASE_SPD, context.baseSPD)
 
   // Calculate memosprite entity stats
   for (let entityIndex = 1; entityIndex < x.config.entitiesLength; entityIndex++) {
@@ -219,10 +220,10 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
     a[x.getActionIndex(entityIndex, StatKey.OHB)] += c.a[StatKey.OHB]
   }
 
-  x.actionBuff(StatKey.DMG_BOOST, buffs.DMG_BOOST + c.a[Key.ELEMENTAL_DMG])
-  x.actionBuff(StatKey.EFFECT_RES_PEN, buffs.EFFECT_RES_PEN)
-  x.actionBuff(StatKey.VULNERABILITY, buffs.VULNERABILITY)
-  x.actionBuff(StatKey.BREAK_EFFICIENCY_BOOST, buffs.BREAK_EFFICIENCY)
+  x.actionBuff(StatKey.DMG_BOOST, buffs.DMG_BOOST + c.a[Key.ELEMENTAL_DMG], TargetTag.FullTeam)
+  x.actionBuff(StatKey.EFFECT_RES_PEN, buffs.EFFECT_RES_PEN, TargetTag.FullTeam)
+  x.actionBuff(StatKey.VULNERABILITY, buffs.VULNERABILITY, TargetTag.FullTeam)
+  x.actionBuff(StatKey.BREAK_EFFICIENCY_BOOST, buffs.BREAK_EFFICIENCY, TargetTag.FullTeam)
 
   // TODO
   // if (x.a[Key.MEMOSPRITE]) {
@@ -233,10 +234,10 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
 
   executeNonDynamicCombatSets(x, context, setConditionals, sets, setsArray)
 
-  x.actionBuff(StatKey.SPD, a[StatKey.SPD_P] * context.baseSPD)
-  x.actionBuff(StatKey.ATK, a[StatKey.ATK_P] * context.baseATK)
-  x.actionBuff(StatKey.DEF, a[StatKey.DEF_P] * context.baseDEF)
-  x.actionBuff(StatKey.HP, a[StatKey.HP_P] * context.baseHP)
+  x.actionBuff(StatKey.SPD, a[StatKey.SPD_P] * context.baseSPD, TargetTag.FullTeam)
+  x.actionBuff(StatKey.ATK, a[StatKey.ATK_P] * context.baseATK, TargetTag.FullTeam)
+  x.actionBuff(StatKey.DEF, a[StatKey.DEF_P] * context.baseDEF, TargetTag.FullTeam)
+  x.actionBuff(StatKey.HP, a[StatKey.HP_P] * context.baseHP, TargetTag.FullTeam)
 
   // Apply percent stats to memosprite entities
   for (let entityIndex = 1; entityIndex < x.config.entitiesLength; entityIndex++) {

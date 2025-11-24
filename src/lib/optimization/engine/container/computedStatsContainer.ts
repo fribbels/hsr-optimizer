@@ -190,14 +190,16 @@ export class ComputedStatsContainer {
     )
   }
 
-  public actionBuff(key: StatKeyValue, value: number) {
-    for (let entityIndex = 0; entityIndex < this.config.entitiesLength; entityIndex++) {
+  public actionBuff(key: StatKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
+    const entities = this.getTargetEntities(0, targetTags)
+    for (const entityIndex of entities) {
       this.a[this.getActionIndex(entityIndex, key)] += value
     }
   }
 
-  public actionSet(key: StatKeyValue, value: number) {
-    for (let entityIndex = 0; entityIndex < this.config.entitiesLength; entityIndex++) {
+  public actionSet(key: StatKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
+    const entities = this.getTargetEntities(0, targetTags)
+    for (const entityIndex of entities) {
       this.a[this.getActionIndex(entityIndex, key)] = value
     }
   }
@@ -259,6 +261,7 @@ export class ComputedStatsContainer {
 
   private matchesTargetTags(entity: OptimizerEntity, entityIndex: number, targetTags: TargetTag): boolean {
     if (targetTags & TargetTag.Self) return entity.primary
+    if (targetTags & TargetTag.SelfAndPet) return entity.primary || (entity.pet ?? false)
     if (targetTags & TargetTag.FullTeam) return true
     if (targetTags & TargetTag.SelfAndMemosprite) return entity.primary || entity.memosprite
     if (targetTags & TargetTag.SummonsOnly) return entity.summon

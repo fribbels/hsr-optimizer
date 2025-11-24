@@ -171,9 +171,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
       [FugueAbilities.BREAK]: {
         hits: [
-          HitDefinitionBuilder.standardBreak()
-            .damageElement(ElementTag.Fire)
-            .build(),
+          HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
         ],
       },
     }),

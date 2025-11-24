@@ -181,9 +181,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
         [TopazAbilities.BREAK]: {
           hits: [
-            HitDefinitionBuilder.standardBreak()
-              .damageElement(ElementTag.Fire)
-              .build(),
+            HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
           ],
         },
       }

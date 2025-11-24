@@ -257,9 +257,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
         [AglaeaAbilities.BREAK]: {
           hits: [
-            HitDefinitionBuilder.standardBreak()
-              .damageElement(ElementTag.Lightning)
-              .build(),
+            HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
           ],
         },
       }

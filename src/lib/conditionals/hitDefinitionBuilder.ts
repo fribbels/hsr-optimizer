@@ -45,12 +45,12 @@ HitDefinitionBuilder.standardUlt = () =>
     activeHit: true,
   })
 
-HitDefinitionBuilder.standardBreak = () =>
+HitDefinitionBuilder.standardBreak = (e: ElementTag) =>
   genericBuilder<HitDefinition>({
     ...BASE_HIT_DEFAULTS,
     damageFunction: BreakDamageFunction,
     damageType: DamageTag.BREAK,
-    damageElement: ElementTag.None,
+    damageElement: e,
     activeHit: false,
   })
 

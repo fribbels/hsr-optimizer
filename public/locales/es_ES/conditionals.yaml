@@ -1472,7 +1472,7 @@ Characters:
         text: Estado Cielo lavado
         content: Luego de usar su Definitiva, Hyacine entra en el estado de Cielo lavado durante 3 turnos. La duración se reduce en 1 cada vez que Hyacine comienza su turno. En el estado Cielo lavado, los PV máx. de todos los aliados aumentan en un {{UltHpBuffScaling}}% + {{UltHpBuffFlat}}.
       healingDmgStacks:
-        text: Acumulaciones de daño por curación
+        text: Acum. daño / curación
         content: Cuando Hyacine o Ica realizan una curación, el daño que inflige Ica aumenta en un {{TalentDmgBuff}}% durante 2 turnos. Se puede acumular hasta 3 veces.
       e1HpBuff:
         text: E1 Mejora de PV

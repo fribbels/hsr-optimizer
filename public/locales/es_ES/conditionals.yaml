@@ -487,6 +487,9 @@ Lightcones:
     Content:
       dmgBoost:
         text: Aumento de daño
+        content: El daño que infligen todos los aliados aumenta en un {{DmgBuff}}%.
+      enhancedBasicBoost:
+        content: El daño que inflige el ATQ básico potenciado “¡Escribamos el mañana!” aumenta en un {{DmgBoost}}%.
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:

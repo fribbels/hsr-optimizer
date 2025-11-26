@@ -343,13 +343,18 @@ fn main(
 
     for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
       var action: Action;
-      var x: ComputedStats;
-      var computedStatsContainer: array<ComputedStats, 3>;
+  //      var x: ComputedStats;
+      var computedStatsContainer: array<ComputedStats, calculationsPerAction>;
       getAction(actionIndex, &action, &computedStatsContainer);
 
       let setConditionals = action.setConditionals;
       var state = ConditionalState();
       state.actionIndex = actionIndex;
+
+      results[index] = computedStatsContainer[0]; // DEBUG
+    }
+
+
 
 //      let p_x = &x;
 //      let p_sets = &sets;
@@ -697,19 +702,8 @@ fn main(
 //        // END RATING STAT FILTERS
 //
 //
-//        // START RETURN VALUE
-//        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-//        /* INJECT RETURN VALUE */
-//        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-//        // END RETURN VALUE
 //      }
-
-        // START RETURN VALUE
-        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-        /* INJECT RETURN VALUE */
-        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-        // END RETURN VALUE
-    }
+//    }
   }
 }
 

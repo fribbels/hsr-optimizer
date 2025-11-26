@@ -1,13 +1,15 @@
 import { GpuExecutionContext } from 'lib/gpu/webgpuTypes'
 import {
-  ComputedStatsArray,
-  ComputedStatsArrayCore,
   ComputedStatsObjectExternal,
   InternalKeyToExternal,
   Key,
   KeysType,
 } from 'lib/optimization/computedStatsArray'
-import { baseComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
+import { SELF_ENTITY } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { useOptimizerTabStore } from 'lib/tabs/tabOptimizer/useOptimizerTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 export function logIterationTimer(i: number, gpuContext: GpuExecutionContext) {
@@ -20,7 +22,7 @@ export function logIterationTimer(i: number, gpuContext: GpuExecutionContext) {
 
 export function debugWebgpuOutput(gpuContext: GpuExecutionContext, arrayBuffer: ArrayBuffer) {
   const array = new Float32Array(arrayBuffer)
-  console.log(array)
+  console.log(array.slice(0, 1000))
 
   debugPrintWebgpuArray(array)
   debugPinOptimizerWebgpuArray(array)
@@ -53,40 +55,41 @@ export function debugWebgpuOutput(gpuContext: GpuExecutionContext, arrayBuffer: 
  */
 
 export function debugExportWebgpuResult(array: Float32Array) {
-  const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
-  const m = new ComputedStatsArrayCore(false) as ComputedStatsArray
-  const len = Object.keys(baseComputedStatsObject).length
+  const x = new ComputedStatsContainer()
+  const len = Object.keys(newStatsConfig).length
+  const context = useOptimizerTabStore.getState().context!
+
+  x.initializeArrays(context.maxContainerArrayLength, context)
+  x.setConfig(context.defaultActions[0].config)
   x.setPrecompute(array.slice(0, len))
-  m.setPrecompute(array.slice(len, len * 2))
 
   console.log(x)
-  console.log(m)
   return {
-    ED: x.$ELEMENTAL_DMG,
-    BASIC: x.$BASIC_DMG,
-    SKILL: x.$SKILL_DMG,
-    ULT: x.$ULT_DMG,
-    FUA: x.$FUA_DMG,
-    MEMO_SKILL: x.$MEMO_SKILL_DMG,
-    MEMO_TALENT: x.$MEMO_TALENT_DMG,
-    DOT: x.$DOT_DMG,
-    BREAK: x.$BREAK_DMG,
-    COMBO: x.$COMBO_DMG,
-    EHP: x.$EHP,
-    HEAL: x.$HEAL_VALUE,
-    SHIELD: x.$SHIELD_VALUE,
-    xHP: x.$HP,
-    xATK: x.$ATK,
-    xDEF: x.$DEF,
-    xSPD: x.$SPD,
-    xCR: x.$CR,
-    xCD: x.$CD,
-    xEHR: x.$EHR,
-    xRES: x.$RES,
-    xBE: x.$BE,
-    xERR: x.$ERR,
-    xOHB: x.$OHB,
-    xELEMENTAL_DMG: x.$ELEMENTAL_DMG,
+    ED: 0,
+    BASIC: 0,
+    SKILL: 0,
+    ULT: 0,
+    FUA: 0,
+    MEMO_SKILL: 0,
+    MEMO_TALENT: 0,
+    DOT: 0,
+    BREAK: 0,
+    COMBO: 0,
+    EHP: 0,
+    HEAL: 0,
+    SHIELD: 0,
+    xHP: x.getActionValueByIndex(StatKey.HP, SELF_ENTITY),
+    xATK: 0,
+    xDEF: 0,
+    xSPD: 0,
+    xCR: 0,
+    xCD: 0,
+    xEHR: 0,
+    xRES: 0,
+    xBE: x.getActionValueByIndex(StatKey.BE, SELF_ENTITY),
+    xERR: 0,
+    xOHB: 0,
+    xELEMENTAL_DMG: 0,
     // mHP: x.y,
     // mATK: x.y,
     // mDEF: x.y,
@@ -99,19 +102,19 @@ export function debugExportWebgpuResult(array: Float32Array) {
     // mERR: x.y,
     // mOHB: x.y,
     // mELEMENTAL_DMG: x.y,
-    mxHP: m.$HP,
-    mxATK: m.$ATK,
-    mxDEF: m.$DEF,
-    mxSPD: m.$SPD,
-    mxCR: m.$CR,
-    mxCD: m.$CD,
-    mxEHR: m.$EHR,
-    mxRES: m.$RES,
-    mxBE: m.$BE,
-    mxERR: m.$ERR,
-    mxOHB: m.$OHB,
-    mxELEMENTAL_DMG: m.$ELEMENTAL_DMG,
-    mxEHP: m.$EHP,
+    mxHP: 0,
+    mxATK: 0,
+    mxDEF: 0,
+    mxSPD: 0,
+    mxCR: 0,
+    mxCD: 0,
+    mxEHR: 0,
+    mxRES: 0,
+    mxBE: 0,
+    mxERR: 0,
+    mxOHB: 0,
+    mxELEMENTAL_DMG: 0,
+    mxEHP: 0,
   }
 }
 

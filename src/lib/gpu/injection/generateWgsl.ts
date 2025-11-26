@@ -38,9 +38,11 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
 
 function injectConditionalsNew(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   const actionLength = context.resultSort == SortOption.COMBO.key ? context.defaultActions.length + context.rotationActions.length : 1
+  const calculationsPerAction = context.maxContainerArrayLength / Object.values(newStatsConfig).length
 
   let actionsDefinition = `
 const actionCount = ${actionLength};
+const calculationsPerAction = ${calculationsPerAction};
 `
   let computedStatsDefinition = ''
 

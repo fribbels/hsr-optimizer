@@ -102,7 +102,7 @@ export const FullStatsConfig: ComputedStatsConfigType = Object.fromEntries(
 
 export class ComputedStatsContainerConfig {
   public entityRegistry: NamedArray<OptimizerEntity>
-  public entitiesArray: OptimizerEntity[]  // Plain array for serialization
+  public entitiesArray: OptimizerEntity[] // Plain array for serialization
   public selfEntity: OptimizerEntity
 
   public hits: Hit[]
@@ -113,7 +113,7 @@ export class ComputedStatsContainerConfig {
   public arrayLength: number
   public outputRegistersLength: number
 
-  public actionBuffIndices: Record<number, number[]>  // Cached indices for actionBuff/actionSet
+  public actionBuffIndices: Record<number, number[]> // Cached indices for actionBuff/actionSet
 
   constructor(
     action: OptimizerAction,
@@ -128,7 +128,7 @@ export class ComputedStatsContainerConfig {
 
     // Entities
     this.entityRegistry = entityRegistry
-    this.entitiesArray = entityRegistry.values  // Store plain array for worker transfer
+    this.entitiesArray = entityRegistry.values // Store plain array for worker transfer
     this.entitiesLength = entityRegistry.length
     this.selfEntity = this.entityRegistry.get(0)!
 
@@ -377,6 +377,10 @@ export class ComputedStatsContainer {
 
   public getActionValue(key: StatKeyValue, entityName: string): number {
     const entityIndex = this.config.entityRegistry.getIndex(entityName)
+    return this.a[this.getActionIndex(entityIndex, key)]
+  }
+
+  public getActionValueByIndex(key: StatKeyValue, entityIndex: number): number {
     return this.a[this.getActionIndex(entityIndex, key)]
   }
 

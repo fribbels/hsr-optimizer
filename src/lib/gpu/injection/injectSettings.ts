@@ -1,6 +1,5 @@
 import {
   Constants,
-  PathNames,
   Stats,
 } from 'lib/constants/constants'
 import { indent } from 'lib/gpu/injection/wgslUtils'
@@ -42,31 +41,18 @@ const hSize = ${relics.Head.length};
 }
 
 function generateActions(context: OptimizerContext) {
-  const actionLength = context.resultSort == SortOption.COMBO.key ? context.actions.length : 1
+  const actionLength = context.resultSort == SortOption.COMBO.key ? context.defaultActions.length + context.rotationActions.length : 1
   let actionSwitcher = ``
   for (let i = 0; i < actionLength; i++) {
-    if (context.path == PathNames.Remembrance) {
-      actionSwitcher += indent(
-        `
+    actionSwitcher += indent(
+      `
 case ${i}: { 
-  (*outAction) = action${i}; 
-  (*outX) = computedStatsX${i}; 
-  (*outM) = computedStatsM${i}; 
+(*outAction) = action${i}; 
+(*outX) = computedStatsX${i}; 
 }
-    `,
-        0,
-      )
-    } else {
-      actionSwitcher += indent(
-        `
-case ${i}: { 
-  (*outAction) = action${i}; 
-  (*outX) = computedStatsX${i}; 
-}
-    `,
-        0,
-      )
-    }
+  `,
+      0,
+    )
   }
 
   const wgsl = `

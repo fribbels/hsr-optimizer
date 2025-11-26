@@ -1,22 +1,22 @@
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
-import {
-  ComputedStatsArray,
-  Key,
-  KeysType,
-} from 'lib/optimization/computedStatsArray'
-import { baseComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
+import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 
-export function injectPrecomputedStatsContext(x: ComputedStatsArray, gpuParams: GpuConstants) {
+export function injectPrecomputedStatsContext(x: ComputedStatsContainer, gpuParams: GpuConstants) {
   const a = x.a
-  a[Key.EHP] = 0
+  const statsCount = Object.keys(newStatsConfig).length
+  const statsKeys = Object.keys(newStatsConfig)
+  const totalSize = a.length
 
-  const computedStatsWgsl = Object.keys(baseComputedStatsObject)
-    .map((key) => {
-      const value = a[Key[key as KeysType]]
-      const comment = gpuParams.DEBUG ? ` // Stats.${key}` : ''
-      return `${value},${comment}`
-    })
-    .join('\n')
+  const values = Array.from(a).map((value, index) => {
+    const containerIndex = Math.floor(index / statsCount)
+    const statIndex = index % statsCount
+    const statKey = statsKeys[statIndex]
 
-  return computedStatsWgsl
+    const comment = gpuParams.DEBUG ? ` // Stats.${statKey} #${containerIndex}` : ''
+    const comma = index < totalSize - 1 ? ',' : ''
+    return `  ${value}${comma}${comment}`
+  }).join('\n')
+
+  return values
 }

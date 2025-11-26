@@ -651,54 +651,60 @@ fn main(
 
       calculateDamage(&x, &m, actionIndex, action.abilityType);
 
-      if (actionIndex > 0) {
-        if (action.abilityType == BASIC_ABILITY_TYPE) {
-          combo += x.BASIC_DMG;
-        } else if (action.abilityType == SKILL_ABILITY_TYPE) {
-          combo += x.SKILL_DMG;
-        } else if (action.abilityType == ULT_ABILITY_TYPE) {
-          combo += x.ULT_DMG;
-        } else if (action.abilityType == FUA_ABILITY_TYPE) {
-          combo += x.FUA_DMG;
-        } else if (action.abilityType == DOT_ABILITY_TYPE) {
-          combo += x.DOT_DMG * comboDot / max(1, dotAbilities);
-        } else if (action.abilityType == BREAK_ABILITY_TYPE) {
-          combo += x.BREAK_DMG;
-        } else if (action.abilityType == MEMO_SKILL_ABILITY_TYPE) {
-          combo += x.MEMO_SKILL_DMG;
-        } else if (action.abilityType == MEMO_TALENT_ABILITY_TYPE) {
-          combo += x.MEMO_TALENT_DMG;
-        }
-      } else {
-        x.COMBO_DMG = combo + x.DOT_DMG * select(0, comboDot, dotAbilities == 0);
-
-        // START COMBAT STAT FILTERS
-        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-        /* INJECT COMBAT STAT FILTERS */
-        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-        // END COMBAT STAT FILTERS
-
-
-        // START BASIC STAT FILTERS
-        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-        /* INJECT BASIC STAT FILTERS */
-        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-        // END BASIC STAT FILTERS
-
-
-        // START RATING STAT FILTERS
-        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-        /* INJECT RATING STAT FILTERS */
-        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-        // END RATING STAT FILTERS
-
+//      if (actionIndex > 0) {
+//        if (action.abilityType == BASIC_ABILITY_TYPE) {
+//          combo += x.BASIC_DMG;
+//        } else if (action.abilityType == SKILL_ABILITY_TYPE) {
+//          combo += x.SKILL_DMG;
+//        } else if (action.abilityType == ULT_ABILITY_TYPE) {
+//          combo += x.ULT_DMG;
+//        } else if (action.abilityType == FUA_ABILITY_TYPE) {
+//          combo += x.FUA_DMG;
+//        } else if (action.abilityType == DOT_ABILITY_TYPE) {
+//          combo += x.DOT_DMG * comboDot / max(1, dotAbilities);
+//        } else if (action.abilityType == BREAK_ABILITY_TYPE) {
+//          combo += x.BREAK_DMG;
+//        } else if (action.abilityType == MEMO_SKILL_ABILITY_TYPE) {
+//          combo += x.MEMO_SKILL_DMG;
+//        } else if (action.abilityType == MEMO_TALENT_ABILITY_TYPE) {
+//          combo += x.MEMO_TALENT_DMG;
+//        }
+//      } else {
+//        x.COMBO_DMG = combo + x.DOT_DMG * select(0, comboDot, dotAbilities == 0);
+//
+//        // START COMBAT STAT FILTERS
+//        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+//        /* INJECT COMBAT STAT FILTERS */
+//        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+//        // END COMBAT STAT FILTERS
+//
+//
+//        // START BASIC STAT FILTERS
+//        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+//        /* INJECT BASIC STAT FILTERS */
+//        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+//        // END BASIC STAT FILTERS
+//
+//
+//        // START RATING STAT FILTERS
+//        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+//        /* INJECT RATING STAT FILTERS */
+//        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+//        // END RATING STAT FILTERS
+//
+//
+//        // START RETURN VALUE
+//        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+//        /* INJECT RETURN VALUE */
+//        // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+//        // END RETURN VALUE
+//      }
 
         // START RETURN VALUE
         // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
         /* INJECT RETURN VALUE */
         // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
         // END RETURN VALUE
-      }
     }
   }
 }
@@ -746,43 +752,43 @@ fn calculateDamage(
     * (1 + x.SUPER_BREAK_DMG_BOOST)
     * (0.10f);
 
-  if (actionIndex == 0) {
-    if (dotAbilities == 0) {
-      // Duplicated in injectActionDamage.ts
-
-      let dotDmgBoostMulti = baseDmgBoost + x.DOT_DMG_BOOST;
-      let dotDefMulti = calculateDefMulti(baseDefPen + x.DOT_DEF_PEN);
-      let dotVulnerabilityMulti = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY;
-      let dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN);
-      let dotEhrMulti = calculateEhrMulti(p_x);
-      let dotTrueDmgMulti = 1 + x.TRUE_DMG_MODIFIER + x.DOT_TRUE_DMG_MODIFIER;
-      let dotFinalDmgMulti = 1 + x.FINAL_DMG_BOOST + x.DOT_FINAL_DMG_BOOST;
-      let initialDmg = calculateInitial(
-        p_x,
-        x.DOT_DMG,
-        x.DOT_HP_SCALING,
-        x.DOT_DEF_SCALING,
-        x.DOT_ATK_SCALING,
-        x.DOT_ATK_P_BOOST
-      );
-
-      if (initialDmg > 0) {
-        (*p_x).DOT_DMG = initialDmg // When no DOT abilities specified, use the default
-          * (baseUniversalMulti)
-          * (dotDmgBoostMulti)
-          * (dotDefMulti)
-          * (dotVulnerabilityMulti)
-          * (dotResMulti)
-          * (dotEhrMulti)
-          * (dotTrueDmgMulti)
-          * (dotFinalDmgMulti);
-      }
-    }
-
-    /* START EHP CALC */
-    (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / x.DMG_RED_MULTI);
-    /* END EHP CALC */
-  }
+//  if (actionIndex == 0) {
+//    if (dotAbilities == 0) {
+//      // Duplicated in injectActionDamage.ts
+//
+//      let dotDmgBoostMulti = baseDmgBoost + x.DOT_DMG_BOOST;
+//      let dotDefMulti = calculateDefMulti(baseDefPen + x.DOT_DEF_PEN);
+//      let dotVulnerabilityMulti = 1 + x.VULNERABILITY + x.DOT_VULNERABILITY;
+//      let dotResMulti = 1 - (baseResistance - x.DOT_RES_PEN);
+//      let dotEhrMulti = calculateEhrMulti(p_x);
+//      let dotTrueDmgMulti = 1 + x.TRUE_DMG_MODIFIER + x.DOT_TRUE_DMG_MODIFIER;
+//      let dotFinalDmgMulti = 1 + x.FINAL_DMG_BOOST + x.DOT_FINAL_DMG_BOOST;
+//      let initialDmg = calculateInitial(
+//        p_x,
+//        x.DOT_DMG,
+//        x.DOT_HP_SCALING,
+//        x.DOT_DEF_SCALING,
+//        x.DOT_ATK_SCALING,
+//        x.DOT_ATK_P_BOOST
+//      );
+//
+//      if (initialDmg > 0) {
+//        (*p_x).DOT_DMG = initialDmg // When no DOT abilities specified, use the default
+//          * (baseUniversalMulti)
+//          * (dotDmgBoostMulti)
+//          * (dotDefMulti)
+//          * (dotVulnerabilityMulti)
+//          * (dotResMulti)
+//          * (dotEhrMulti)
+//          * (dotTrueDmgMulti)
+//          * (dotFinalDmgMulti);
+//      }
+//    }
+//
+//    /* START EHP CALC */
+//    (*p_x).EHP = x.HP / (1 - x.DEF / (x.DEF + 200 + 10 * eLevel)) * (1 / x.DMG_RED_MULTI);
+//    /* END EHP CALC */
+//  }
 
   // START ACTION DAMAGE
   // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -946,33 +952,33 @@ fn buffAbilityTrueDmg(
   value: f32,
   condition: i32
 ) {
-  if (condition == 0) {
-    return;
-  }
-  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
-    (*p_x).BASIC_TRUE_DMG_MODIFIER += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
-    (*p_x).SKILL_TRUE_DMG_MODIFIER += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
-    (*p_x).ULT_TRUE_DMG_MODIFIER += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
-    (*p_x).FUA_TRUE_DMG_MODIFIER += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
-    (*p_x).DOT_TRUE_DMG_MODIFIER += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
-    (*p_x).BREAK_TRUE_DMG_MODIFIER += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
-    (*p_x).MEMO_SKILL_TRUE_DMG_MODIFIER += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
-    (*p_x).MEMO_TALENT_TRUE_DMG_MODIFIER += value;
-  }
+//  if (condition == 0) {
+//    return;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
+//    (*p_x).BASIC_TRUE_DMG_MODIFIER += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
+//    (*p_x).SKILL_TRUE_DMG_MODIFIER += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
+//    (*p_x).ULT_TRUE_DMG_MODIFIER += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
+//    (*p_x).FUA_TRUE_DMG_MODIFIER += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
+//    (*p_x).DOT_TRUE_DMG_MODIFIER += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
+//    (*p_x).BREAK_TRUE_DMG_MODIFIER += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+//    (*p_x).MEMO_SKILL_TRUE_DMG_MODIFIER += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+//    (*p_x).MEMO_TALENT_TRUE_DMG_MODIFIER += value;
+//  }
 //  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
 //    (*p_x).ADDITIONAL_TRUE_DMG_MODIFIER += value;
 //  }
@@ -987,39 +993,39 @@ fn buffAbilityDmg(
   value: f32,
   condition: i32
 ) {
-  if (condition == 0) {
-    return;
-  }
-  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
-    (*p_x).BASIC_DMG_BOOST += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
-    (*p_x).SKILL_DMG_BOOST += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
-    (*p_x).ULT_DMG_BOOST += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
-    (*p_x).FUA_DMG_BOOST += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
-    (*p_x).DOT_DMG_BOOST += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
-    (*p_x).BREAK_DMG_BOOST += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
-    (*p_x).MEMO_SKILL_DMG_BOOST += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
-    (*p_x).MEMO_TALENT_DMG_BOOST += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
-    (*p_x).ADDITIONAL_DMG_BOOST += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
-    (*p_x).SUPER_BREAK_DMG_BOOST += value;
-  }
+//  if (condition == 0) {
+//    return;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
+//    (*p_x).BASIC_DMG_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
+//    (*p_x).SKILL_DMG_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
+//    (*p_x).ULT_DMG_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
+//    (*p_x).FUA_DMG_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
+//    (*p_x).DOT_DMG_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
+//    (*p_x).BREAK_DMG_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+//    (*p_x).MEMO_SKILL_DMG_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+//    (*p_x).MEMO_TALENT_DMG_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
+//    (*p_x).ADDITIONAL_DMG_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
+//    (*p_x).SUPER_BREAK_DMG_BOOST += value;
+//  }
 }
 
 fn buffAbilityCr(
@@ -1028,33 +1034,33 @@ fn buffAbilityCr(
   value: f32,
   condition: i32
 ) {
-  if (condition == 0) {
-    return;
-  }
-  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
-    (*p_x).BASIC_CR_BOOST += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
-    (*p_x).SKILL_CR_BOOST += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
-    (*p_x).ULT_CR_BOOST += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
-    (*p_x).FUA_CR_BOOST += value;
-  }
+//  if (condition == 0) {
+//    return;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
+//    (*p_x).BASIC_CR_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
+//    (*p_x).SKILL_CR_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
+//    (*p_x).ULT_CR_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
+//    (*p_x).FUA_CR_BOOST += value;
+//  }
 //  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
 //    (*p_x).DOT_CR_BOOST += value;
 //  }
 //  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
 //    (*p_x).BREAK_CR_BOOST += value;
 //  }
-  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
-    (*p_x).MEMO_SKILL_CR_BOOST += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
-    (*p_x).MEMO_TALENT_CR_BOOST += value;
-  }
+//  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+//    (*p_x).MEMO_SKILL_CR_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+//    (*p_x).MEMO_TALENT_CR_BOOST += value;
+//  }
 //  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
 //    (*p_x).ADDITIONAL_CR_BOOST += value;
 //  }
@@ -1069,33 +1075,33 @@ fn buffAbilityCd(
   value: f32,
   condition: i32
 ) {
-  if (condition == 0) {
-    return;
-  }
-  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
-    (*p_x).BASIC_CD_BOOST += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
-    (*p_x).SKILL_CD_BOOST += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
-    (*p_x).ULT_CD_BOOST += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
-    (*p_x).FUA_CD_BOOST += value;
-  }
+//  if (condition == 0) {
+//    return;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
+//    (*p_x).BASIC_CD_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
+//    (*p_x).SKILL_CD_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
+//    (*p_x).ULT_CD_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
+//    (*p_x).FUA_CD_BOOST += value;
+//  }
 //  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
 //    (*p_x).DOT_CD_BOOST += value;
 //  }
 //  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
 //    (*p_x).BREAK_CD_BOOST += value;
 //  }
-  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
-    (*p_x).MEMO_SKILL_CD_BOOST += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
-    (*p_x).MEMO_TALENT_CD_BOOST += value;
-  }
+//  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+//    (*p_x).MEMO_SKILL_CD_BOOST += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+//    (*p_x).MEMO_TALENT_CD_BOOST += value;
+//  }
 //  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
 //    (*p_x).ADDITIONAL_CD_BOOST += value;
 //  }
@@ -1110,39 +1116,39 @@ fn buffAbilityDefShred(
   value: f32,
   condition: i32
 ) {
-  if (condition == 0) {
-    return;
-  }
-  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
-    (*p_x).BASIC_DEF_PEN += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
-    (*p_x).SKILL_DEF_PEN += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
-    (*p_x).ULT_DEF_PEN += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
-    (*p_x).FUA_DEF_PEN += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
-    (*p_x).DOT_DEF_PEN += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
-    (*p_x).BREAK_DEF_PEN += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
-    (*p_x).MEMO_SKILL_DEF_PEN += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
-    (*p_x).MEMO_TALENT_DEF_PEN += value;
-  }
+//  if (condition == 0) {
+//    return;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
+//    (*p_x).BASIC_DEF_PEN += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
+//    (*p_x).SKILL_DEF_PEN += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
+//    (*p_x).ULT_DEF_PEN += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
+//    (*p_x).FUA_DEF_PEN += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
+//    (*p_x).DOT_DEF_PEN += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
+//    (*p_x).BREAK_DEF_PEN += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+//    (*p_x).MEMO_SKILL_DEF_PEN += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+//    (*p_x).MEMO_TALENT_DEF_PEN += value;
+//  }
 //  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
 //    (*p_x).ADDITIONAL_DEF_PEN += value;
 //  }
-  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
-    (*p_x).SUPER_BREAK_DEF_PEN += value;
-  }
+//  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
+//    (*p_x).SUPER_BREAK_DEF_PEN += value;
+//  }
 }
 
 fn buffAbilityVulnerability(
@@ -1151,133 +1157,133 @@ fn buffAbilityVulnerability(
   value: f32,
   condition: i32
 ) {
-  if (condition == 0) {
-    return;
-  }
-  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
-    (*p_x).BASIC_VULNERABILITY += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
-    (*p_x).SKILL_VULNERABILITY += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
-    (*p_x).ULT_VULNERABILITY += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
-    (*p_x).FUA_VULNERABILITY += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
-    (*p_x).DOT_VULNERABILITY += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
-    (*p_x).BREAK_VULNERABILITY += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
-    (*p_x).MEMO_SKILL_VULNERABILITY += value;
-  }
-  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
-    (*p_x).MEMO_TALENT_VULNERABILITY += value;
-  }
+//  if (condition == 0) {
+//    return;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).BASIC_DMG_TYPE)) != 0) {
+//    (*p_x).BASIC_VULNERABILITY += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).SKILL_DMG_TYPE)) != 0) {
+//    (*p_x).SKILL_VULNERABILITY += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).ULT_DMG_TYPE)) != 0) {
+//    (*p_x).ULT_VULNERABILITY += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).FUA_DMG_TYPE)) != 0) {
+//    (*p_x).FUA_VULNERABILITY += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).DOT_DMG_TYPE)) != 0) {
+//    (*p_x).DOT_VULNERABILITY += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).BREAK_DMG_TYPE)) != 0) {
+//    (*p_x).BREAK_VULNERABILITY += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).MEMO_SKILL_DMG_TYPE)) != 0) {
+//    (*p_x).MEMO_SKILL_VULNERABILITY += value;
+//  }
+//  if ((abilityTypeFlags & i32((*p_x).MEMO_TALENT_DMG_TYPE)) != 0) {
+//    (*p_x).MEMO_TALENT_VULNERABILITY += value;
+//  }
 //  if ((abilityTypeFlags & i32((*p_x).ADDITIONAL_DMG_TYPE)) != 0) {
 //    (*p_x).ADDITIONAL_VULNERABILITY += value;
 //  }
-  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
-    (*p_x).SUPER_BREAK_VULNERABILITY += value;
-  }
+//  if ((abilityTypeFlags & i32((*p_x).SUPER_BREAK_DMG_TYPE)) != 0) {
+//    (*p_x).SUPER_BREAK_VULNERABILITY += value;
+//  }
 }
 
 fn addElementalDmg(
   c_x: ptr<function, BasicStats>,
   p_x: ptr<function, ComputedStats>,
 ) {
-  switch (ELEMENT_INDEX) {
-    case 0: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).PHYSICAL_DMG_BOOST;
-    }
-    case 1: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).FIRE_DMG_BOOST;
-    }
-    case 2: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).ICE_DMG_BOOST;
-    }
-    case 3: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).LIGHTNING_DMG_BOOST;
-    }
-    case 4: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).WIND_DMG_BOOST;
-    }
-    case 5: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).QUANTUM_DMG_BOOST;
-    }
-    case 6: {
-      (*p_x).ELEMENTAL_DMG += (*c_x).IMAGINARY_DMG_BOOST;
-    }
-    default: {
-
-    }
-  }
+//  switch (ELEMENT_INDEX) {
+//    case 0: {
+//      (*p_x).ELEMENTAL_DMG += (*c_x).PHYSICAL_DMG_BOOST;
+//    }
+//    case 1: {
+//      (*p_x).ELEMENTAL_DMG += (*c_x).FIRE_DMG_BOOST;
+//    }
+//    case 2: {
+//      (*p_x).ELEMENTAL_DMG += (*c_x).ICE_DMG_BOOST;
+//    }
+//    case 3: {
+//      (*p_x).ELEMENTAL_DMG += (*c_x).LIGHTNING_DMG_BOOST;
+//    }
+//    case 4: {
+//      (*p_x).ELEMENTAL_DMG += (*c_x).WIND_DMG_BOOST;
+//    }
+//    case 5: {
+//      (*p_x).ELEMENTAL_DMG += (*c_x).QUANTUM_DMG_BOOST;
+//    }
+//    case 6: {
+//      (*p_x).ELEMENTAL_DMG += (*c_x).IMAGINARY_DMG_BOOST;
+//    }
+//    default: {
+//
+//    }
+//  }
 }
 
 fn addComputedElementalDmg(
   p_x: ptr<function, ComputedStats>,
 ) {
-  switch (ELEMENT_INDEX) {
-    case 0: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).PHYSICAL_DMG_BOOST;
-    }
-    case 1: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).FIRE_DMG_BOOST;
-    }
-    case 2: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).ICE_DMG_BOOST;
-    }
-    case 3: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).LIGHTNING_DMG_BOOST;
-    }
-    case 4: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).WIND_DMG_BOOST;
-    }
-    case 5: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).QUANTUM_DMG_BOOST;
-    }
-    case 6: {
-      (*p_x).ELEMENTAL_DMG += (*p_x).IMAGINARY_DMG_BOOST;
-    }
-    default: {
-
-    }
-  }
+//  switch (ELEMENT_INDEX) {
+//    case 0: {
+//      (*p_x).ELEMENTAL_DMG += (*p_x).PHYSICAL_DMG_BOOST;
+//    }
+//    case 1: {
+//      (*p_x).ELEMENTAL_DMG += (*p_x).FIRE_DMG_BOOST;
+//    }
+//    case 2: {
+//      (*p_x).ELEMENTAL_DMG += (*p_x).ICE_DMG_BOOST;
+//    }
+//    case 3: {
+//      (*p_x).ELEMENTAL_DMG += (*p_x).LIGHTNING_DMG_BOOST;
+//    }
+//    case 4: {
+//      (*p_x).ELEMENTAL_DMG += (*p_x).WIND_DMG_BOOST;
+//    }
+//    case 5: {
+//      (*p_x).ELEMENTAL_DMG += (*p_x).QUANTUM_DMG_BOOST;
+//    }
+//    case 6: {
+//      (*p_x).ELEMENTAL_DMG += (*p_x).IMAGINARY_DMG_BOOST;
+//    }
+//    default: {
+//
+//    }
+//  }
 }
 
 fn getElementalResPen(
   p_x: ptr<function, ComputedStats>,
 ) -> f32 {
-  switch (ELEMENT_INDEX) {
-    case 0: {
-      return (*p_x).PHYSICAL_RES_PEN;
-    }
-    case 1: {
-      return (*p_x).FIRE_RES_PEN;
-    }
-    case 2: {
-      return (*p_x).ICE_RES_PEN;
-    }
-    case 3: {
-      return (*p_x).LIGHTNING_RES_PEN;
-    }
-    case 4: {
-      return (*p_x).WIND_RES_PEN;
-    }
-    case 5: {
-      return (*p_x).QUANTUM_RES_PEN;
-    }
-    case 6: {
-      return (*p_x).IMAGINARY_RES_PEN;
-    }
-    default: {
-      return 0;
-    }
-  }
+//  switch (ELEMENT_INDEX) {
+//    case 0: {
+//      return (*p_x).PHYSICAL_RES_PEN;
+//    }
+//    case 1: {
+//      return (*p_x).FIRE_RES_PEN;
+//    }
+//    case 2: {
+//      return (*p_x).ICE_RES_PEN;
+//    }
+//    case 3: {
+//      return (*p_x).LIGHTNING_RES_PEN;
+//    }
+//    case 4: {
+//      return (*p_x).WIND_RES_PEN;
+//    }
+//    case 5: {
+//      return (*p_x).QUANTUM_RES_PEN;
+//    }
+//    case 6: {
+//      return (*p_x).IMAGINARY_RES_PEN;
+//    }
+//    default: {
+//      return 0;
+//    }
+//  }
 }
 
 fn getPioneerSetValue(

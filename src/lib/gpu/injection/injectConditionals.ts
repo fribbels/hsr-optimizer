@@ -165,7 +165,7 @@ const action${i} = Action( // ${action.actionIndex}
 
     actionsDefinition += `
 const computedStatsX${i} = ComputedStats(
-${injectPrecomputedStatsContext(action.precomputedX, gpuParams)}
+${injectPrecomputedStatsContext(action.precomputedX, context, gpuParams)}
 );`
   }
 
@@ -175,7 +175,7 @@ ${injectPrecomputedStatsContext(action.precomputedX, gpuParams)}
 
       actionsDefinition += `
 const computedStatsM${i} = ComputedStats(
-${injectPrecomputedStatsContext(action.precomputedM, gpuParams)}
+${injectPrecomputedStatsContext(action.precomputedM, context, gpuParams)}
 );`
     }
   }

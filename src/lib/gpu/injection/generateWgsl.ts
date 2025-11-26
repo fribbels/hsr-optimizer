@@ -408,7 +408,6 @@ ${debugValues}
       indent(
         `
 results[index] = x; // DEBUG
-results[index + 1] = m; // DEBUG
     `,
         4,
       ),

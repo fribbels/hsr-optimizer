@@ -12,6 +12,7 @@ CombatBuffs:
 ComboFilters:
   Title: Rotación del combo
   p1: Define la rotación de habilidades para medir el Daño de combo. Las rotaciones se definen con [ al comienzo del turno, y ] al final del turno. Vea el menú de Rotación avanzada y la guía de usuario para más información.
+  p2: La opción "Preajustes" te permite desactivar el preprocesador si así lo deseas.
 StatFilters:
   Title: Filtros de atributos
   p1: Filtros mín. (izqquierda) / máx. (derecha) para los atributos de personaje, inclusivos. El optimizador sólo mostrará resultados en estos rangos.

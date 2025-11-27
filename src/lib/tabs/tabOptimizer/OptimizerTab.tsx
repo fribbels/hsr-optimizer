@@ -30,7 +30,8 @@ export default function OptimizerTab() {
           style={{ flexDirection: expandedPanelPosition == SettingOptions.ExpandedInfoPanelPosition.Below ? 'column' : 'column-reverse' }}
         >
           <OptimizerBuildPreview />
-          <ExpandedDataPanel />
+          // TODO
+          {/*<ExpandedDataPanel />*/}
         </Flex>
       </Flex>
       <ZeroPermutationsSuggestionsModal />

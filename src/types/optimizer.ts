@@ -6,6 +6,11 @@ import {
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ActionModifier } from 'lib/optimization/context/calculateActions'
+import {
+  ComputedStatsContainer,
+  ComputedStatsContainerConfig,
+} from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CharacterId } from 'types/character'
 import {
@@ -18,10 +23,17 @@ import {
   ElementalDamageType,
   ElementalResPenType,
 } from 'types/metadata'
+import {
+  AbilityDefinition,
+  Hit,
+} from './hitConditionalTypes'
 
 export type OptimizerAction = {
   precomputedX: ComputedStatsArray,
   precomputedM: ComputedStatsArray,
+
+  precomputedStats: ComputedStatsContainer,
+  config: ComputedStatsContainerConfig,
 
   characterConditionals: ConditionalValueMap,
   lightConeConditionals: ConditionalValueMap,
@@ -37,13 +49,19 @@ export type OptimizerAction = {
   actorId: string,
   actorEidolon: number,
   actionType: AbilityKind,
+  actionName: string,
   actionIndex: number,
+
+  hits?: Hit[],
 
   teammate0: TeammateAction,
   teammate1: TeammateAction,
   teammate2: TeammateAction,
   teammateDynamicConditionals: DynamicConditional[],
   // Teammate data all gets precomputed, only the non-precomputable values go in here
+
+  registerIndices: number[],
+  registerIndex: number,
 }
 
 export type TeammateAction = {
@@ -116,6 +134,17 @@ export type CharacterMetadata = {
 }
 
 export type OptimizerContext = CharacterMetadata & {
+  // NEW
+  maxContainerArrayLength: number,  // Maximum array size for container reuse
+  actionDeclarations: string[],
+  actionModifiers: ActionModifier[],
+  characterController: CharacterConditionalsController,
+  teammateControllers: CharacterConditionalsController[],
+  outputRegistersLength: number,
+
+  rotationActions: OptimizerAction[],
+  defaultActions: OptimizerAction[],
+
   teammate0Metadata: CharacterMetadata,
   teammate1Metadata: CharacterMetadata,
   teammate2Metadata: CharacterMetadata,
@@ -152,6 +181,7 @@ export type OptimizerContext = CharacterMetadata & {
   activeAbilities: AbilityType[],
   activeAbilityFlags: number,
   actions: OptimizerAction[],
+  hitActions?: AbilityDefinition[],
   comboDot: number,
   dotAbilities: number,
 

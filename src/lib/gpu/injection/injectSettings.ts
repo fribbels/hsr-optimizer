@@ -1,10 +1,10 @@
 import {
   Constants,
-  PathNames,
   Stats,
 } from 'lib/constants/constants'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { STATS_LENGTH } from 'lib/optimization/engine/config/statsConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
@@ -42,35 +42,23 @@ const hSize = ${relics.Head.length};
 }
 
 function generateActions(context: OptimizerContext) {
-  const actionLength = context.resultSort == SortOption.COMBO.key ? context.actions.length : 1
+  const actionLength = context.resultSort == SortOption.COMBO.key ? context.defaultActions.length + context.rotationActions.length : 1
+  const computedStatsLength = context.maxContainerArrayLength / STATS_LENGTH
   let actionSwitcher = ``
   for (let i = 0; i < actionLength; i++) {
-    if (context.path == PathNames.Remembrance) {
-      actionSwitcher += indent(
-        `
+    actionSwitcher += indent(
+      `
 case ${i}: { 
-  (*outAction) = action${i}; 
-  (*outX) = computedStatsX${i}; 
-  (*outM) = computedStatsM${i}; 
+(*outAction) = action${i}; 
+(*outX) = computedStatsX${i}; 
 }
-    `,
-        0,
-      )
-    } else {
-      actionSwitcher += indent(
-        `
-case ${i}: { 
-  (*outAction) = action${i}; 
-  (*outX) = computedStatsX${i}; 
-}
-    `,
-        0,
-      )
-    }
+  `,
+      0,
+    )
   }
 
   const wgsl = `
-fn getAction(actionIndex: i32, outAction: ptr<function, Action>, outX: ptr<function, ComputedStats>, outM: ptr<function, ComputedStats>) {
+fn getAction(actionIndex: i32, outAction: ptr<function, Action>, outX: ptr<function, array<ComputedStats, ${computedStatsLength}>>) {
   switch (actionIndex) {
     ${actionSwitcher}
     default: { 

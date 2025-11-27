@@ -30,6 +30,7 @@ export function generateContext(request: Form): OptimizerContext {
   generateCombatBuffsContext(request, context)
   generateFiltersContext(request, context)
 
+  // calculateEntities(request, context)
   calculateConditionals(request, context)
 
   initializeContextConditionals(context)

@@ -11,6 +11,12 @@ import {
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 import {
@@ -59,6 +65,15 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
       buffAbilityVulnerability(x, BREAK_DMG_TYPE, m.breakVulnerabilityStacks * sValuesBreakVulnerability[s], SOURCE_LC, Target.TEAM)
+    },
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
+
+      x.buff(
+        StatKey.VULNERABILITY,
+        m.breakVulnerabilityStacks * sValuesBreakVulnerability[s],
+        x.damageType(DamageTag.BREAK).targets(TargetTag.FullTeam).source(SOURCE_LC),
+      )
     },
     finalizeCalculations: () => {
     },

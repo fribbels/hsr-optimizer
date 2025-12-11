@@ -6811,7 +6811,7 @@ interface Resources {
       "S5": "S5"
     },
     "IncomeOptions": {
-      "Label": "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: ",
+      "Label": "[v{{versionNumber}} ({{phaseNumber}}/{{totalPhases}}) | {{type}}]: ",
       "Type": {
         "0": "None",
         "1": "F2P",

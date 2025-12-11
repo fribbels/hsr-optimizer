@@ -67,7 +67,7 @@ function Inputs() {
 
         form.setFieldValue("passes", specialPasses.count + Math.floor(undyingStarlight.count / 20))
         break
-      
+
       case "GachaResult":
         const gachaResult = event.data
         const pityUpdate = gachaResult.pity_5
@@ -463,21 +463,21 @@ function generateIncomeOptions() {
     selectable: false,
     children: WarpIncomeOptions
       .filter((option) => option.type === type)
-      .flatMap((option) => {
+      .flatMap((option, idx, options) => {
         const results = [{
           value: option.id,
           title: option.type == WarpIncomeType.NONE
             ? t('Type.0')
             : (
               <Flex align='center' gap={3}>
-                <IncomeOptionLabel option={option}/>
+                <IncomeOptionLabel option={option} totalPhases={Math.max(...options.filter((o) => o.version === option.version).map((o) => o.phase))}/>
                 {`+${option.passes.toLocaleString(locale)}`}
                 <img style={{ height: 18 }} src={Assets.getPass()}/>
               </Flex>
             ),
         }]
 
-        if (option.phase == 2) {
+        if (options[idx +1]?.version != option.version) {
           results.push({
             title: <></>,
             value: option.id + 'divider',
@@ -495,7 +495,7 @@ function generateIncomeOptions() {
   return options
 }
 
-function IncomeOptionLabel(props: { option: WarpIncomeDefinition }) {
+function IncomeOptionLabel(props: { option: WarpIncomeDefinition, totalPhases: number }) {
   const t = i18next.getFixedT(null, 'warpCalculatorTab', 'IncomeOptions')
   return (
     <div style={{ marginRight: 2 }}>
@@ -504,6 +504,7 @@ function IncomeOptionLabel(props: { option: WarpIncomeDefinition }) {
           {
             versionNumber: props.option.version,
             phaseNumber: props.option.phase,
+            totalPhases: props.totalPhases,
             type: t(`Type.${props.option.type}`),
           },
         )

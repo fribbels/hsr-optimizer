@@ -33,7 +33,7 @@ SuperimpositionLevels:
   S4: S4
   S5: S5
 IncomeOptions:
-  Label: "[PB{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
+  Label: "[v{{versionNumber}} ({{phaseNumber}}/{{totalPhases}}) | {{type}}]: "
   Type:
     0: Không có
     1: F2P

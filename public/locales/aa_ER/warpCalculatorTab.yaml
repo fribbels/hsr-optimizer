@@ -33,7 +33,7 @@ SuperimpositionLevels:
   S4: crwdns44864:0crwdne44864:0
   S5: crwdns44866:0crwdne44866:0
 IncomeOptions:
-  Label: "crwdns44580:0{{versionNumber}}crwdnd44580:0{{phaseNumber}}crwdnd44580:0{{type}}crwdne44580:0"
+  Label: "crwdns46154:0{{versionNumber}}crwdnd46154:0{{phaseNumber}}crwdnd46154:0{{totalPhases}}crwdnd46154:0{{type}}crwdne46154:0"
   Type:
     0: crwdns44526:0crwdne44526:0
     1: crwdns44528:0crwdne44528:0

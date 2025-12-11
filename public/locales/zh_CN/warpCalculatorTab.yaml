@@ -33,7 +33,6 @@ SuperimpositionLevels:
   S4: 叠4
   S5: 叠5
 IncomeOptions:
-  Label: "【版本{{versionNumber}} ({{phaseNumber}}/2) | {{type}}】: "
   Type:
     0: 无
     1: 零氪

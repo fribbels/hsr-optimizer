@@ -1,6 +1,8 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ActionModifier } from 'lib/optimization/context/calculateActions'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FormSelectWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
@@ -12,6 +14,10 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import {
+  AbilityDefinition,
+  EntityDefinition,
+} from './hitConditionalTypes'
 
 // Interface to an instance of a Character or Light Cone conditional controller
 export interface ConditionalsController {
@@ -21,30 +27,51 @@ export interface ConditionalsController {
   teammateContent?: () => ContentItem[]
   defaults: () => ConditionalValueMap
   teammateDefaults?: () => ConditionalValueMap
+  entityDeclaration: () => string[]
+  entityDefinition: (action: OptimizerAction, context: OptimizerContext) => Record<string, EntityDefinition>
+  actionDeclaration: () => string[]
+  actionModifiers: () => ActionModifier[]
+  actionDefinition: (action: OptimizerAction, context: OptimizerContext) => Record<string, AbilityDefinition>
 
   // Configuration changes to the character & combat environment executed before the precompute steps
   // This can include things like ability damage type switches, weakness break overrides, etc
   initializeConfigurations?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
+  initializeConfigurationsContainer?: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void
+
   initializeTeammateConfigurations?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
+  initializeTeammateConfigurationsContainer?: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void
 
   // Individual effects that apply only for the primary character
   // e.g. Self buffs
+  precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void
   precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
 
   // Shared effects that apply both as a teammate and as the primary character
   // e.g. AOE team buff
   precomputeMutualEffects?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => void
+  precomputeMutualEffectsContainer?: (
+    x: ComputedStatsContainer,
+    action: OptimizerAction,
+    context: OptimizerContext,
+    originalCharacterAction?: OptimizerAction,
+  ) => void
 
   // Effects that only apply as a teammate, onto the primary character
   // e.g. Targeted teammate buff
   precomputeTeammateEffects?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => void
+  precomputeTeammateEffectsContainer?: (
+    x: ComputedStatsContainer,
+    action: OptimizerAction,
+    context: OptimizerContext,
+    originalCharacterAction?: OptimizerAction,
+  ) => void
 
   calculateBasicEffects?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
   gpuCalculateBasicEffects?: (action: OptimizerAction, context: OptimizerContext) => string
 
   // Multipliers that can be evaluated after all stat modifications are complete
   // No changes to stats should occur at this stage
-  finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
+  finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void
 
   // WGSL implementation of finalizeCalculations to run on GPU
   gpuFinalizeCalculations?: (action: OptimizerAction, context: OptimizerContext) => string

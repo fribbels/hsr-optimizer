@@ -15,7 +15,7 @@ export function initializeContextConditionals(context: OptimizerContext) {
   context.characterConditionalController = CharacterConditionalsResolver.get(context)
   context.lightConeConditionalController = LightConeConditionalsResolver.get(context)
 
-  for (const action of context.actions) {
+  for (const action of [...context.rotationActions, ...context.defaultActions]) {
     action.teammateDynamicConditionals = []
     if (context.teammate0Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate0Metadata, 0)
     if (context.teammate1Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate1Metadata, 1)

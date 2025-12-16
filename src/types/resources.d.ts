@@ -3571,6 +3571,56 @@ interface Resources {
           }
         }
       },
+      "TheDahlia": {
+        "Content": {
+          "zoneActive": {
+            "text": "Zone active",
+            "content": "While the Zone is active, increases all allies' Weakness Break Efficiency by 50%."
+          },
+          "ultDefPen": {
+            "text": "Ult DEF PEN",
+            "content": "Reduces DEF of enemy targets by {{DefShred}}% and applies Weakness of all \"Dance Partners'\" Types to enemy targets."
+          },
+          "dancePartner": {
+            "text": "Dance Partner",
+            "content": "After a \"Dance Partner\" attacks a Weakness Broken enemy target, the Toughness Reduction from this attack is converted into 1 instance of Super Break DMG at {{SBScaling}}%."
+          },
+          "superBreakDmg": {
+            "text": "Super Break DMG (force weakness break)",
+            "content": "Forces the weakness broken state to enable super break damage calculations."
+          },
+          "spdBuff": {
+            "text": "SPD buff",
+            "content": "When an ally target adds Weakness to an enemy target, increases SPD by 30% for 2 turns."
+          },
+          "e1Buffs": {
+            "text": "E1 buffs",
+            "content": "Applies Talent's Super Break DMG multiplier provided to \"Dance Partner\" to all ally characters, with \"Dance Partner\" additionally receiving a 40% boost. After \"Dance Partner\" uses an attack, deals an additional fixed amount of Toughness Reduction equal to 25% of the enemy target's Max Toughness (minimum of 10 points, up to 300 points). This effect can only trigger once per enemy target, and the trigger count for each target resets after the enemy target receives a killing blow."
+          },
+          "e2ResPen": {
+            "text": "E2 RES PEN",
+            "content": "When The Dahlia is on the field, decreases all enemies' All-Type RES by 20%."
+          },
+          "e4Vuln": {
+            "text": "E4 Vulnerability",
+            "content": "Increases the target's DMG taken by 12%, lasting for 2 turns."
+          },
+          "e6BeBuff": {
+            "text": "E6 BE buff",
+            "content": "Increases \"Dance Partner's\" Break Effect by 150%."
+          }
+        },
+        "TeammateContent": {
+          "beConversion": {
+            "text": "Break Effect conversion",
+            "content": "When entering combat, increases other characters' Break Effect equal to 24% of The Dahlia's Break Effect plus 50% for 1 turns. This effect triggers again lasting 3 turns when The Dahlia receives healing or a Shield from a teammate, but cannot be triggered repeatedly within a single turn."
+          },
+          "teammateBeValue": {
+            "text": "The Dahlia's Combat BE",
+            "content": "When entering combat, increases other characters' Break Effect equal to 24% of The Dahlia's Break Effect plus 50% for 1 turns. ::BR:: Set this to The Dahlia's self Break Effect stat that she uses to buff teammates."
+          }
+        }
+      },
       "TheHerta": {
         "Content": {
           "enhancedSkill": {

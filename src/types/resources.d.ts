@@ -801,6 +801,14 @@ interface Resources {
           }
         }
       },
+      "NeverForgetHerFlame": {
+        "Content": {
+          "breakDmgBuff": {
+            "text": "Break DMG boost",
+            "content": "When entering combat, increases Break DMG dealt by the wearer and another teammate who triggered combat by {{BreakBoost}}%. If there is no teammate who triggered combat, applies this effect to the wearer and the teammate with the highest Break Effect."
+          }
+        }
+      },
       "NightOfFright": {
         "Content": {
           "atkBuffStacks": {
@@ -3177,7 +3185,7 @@ interface Resources {
           },
           "cyreneSpecialEffect": {
             "text": "Cyrene Special Effect",
-            "content": "Phainon gains 6 \"Coreflames\" as well as \"Eternal Ignition\" when Transforming. ::RB:: When Transforming, if \"Coreflame\" exceeds 12, for each point in excess, Khaslana's CRIT DMG increases by 12%/13.2%, up to 72%/79.2%. While \"Eternal Ignition\" persists, increases Khaslana's CRIT Rate by 16%/17.6%. ::BR:: After using an attack, deals 5 instances of Additional DMG, with each instance dealing Fire Additional DMG equal to 10%/11% of Khaslana's ATK to one random enemy."
+            "content": "Phainon gains 6 \"Coreflames\" as well as \"Eternal Ignition\" when Transforming. ::BR:: When Transforming, if \"Coreflame\" exceeds 12, for each point in excess, Khaslana's CRIT DMG increases by 12%/13.2%, up to 72%/79.2%. While \"Eternal Ignition\" persists, increases Khaslana's CRIT Rate by 16%/17.6%. ::BR:: After using an attack, deals 5 instances of Additional DMG, with each instance dealing Fire Additional DMG equal to 10%/11% of Khaslana's ATK to one random enemy."
           },
           "e1Buffs": {
             "text": "E1 buffs",
@@ -3701,6 +3709,10 @@ interface Resources {
       },
       "TrailblazerRemembrance": {
         "Content": {
+          "enhancedBasic": {
+            "text": "Enhanced Basic",
+            "content": "After using Ultimate, gains 1 stack of \"Epic,\" up to 2 stacks. When this unit has \"Epic\" and Mem is on the field, Basic ATK gets enhanced to \"Together, We Script Tomorrow!\" ::BR:: Consumes 1 stack of \"Epic\" to dispel all Crowd Control debuffs on Mem. Trailblazer and Mem launch a Joint ATK, dealing Ice DMG to all enemies equal to {{Scaling}}% of Trailblazer's ATK and {{Scaling}}% of Mem's ATK respectively. Then, Mem gains 10% Charge."
+          },
           "memoSkillHits": {
             "text": "Memo Skill hits",
             "content": "Deals 4 instances of DMG, with each instance dealing Ice DMG equal to {{SingleScaling}}% of Mem's ATK to one random enemy. Finally, deals Ice DMG equal to {{AoeScaling}}% of Mem's ATK to all enemies."
@@ -3757,7 +3769,7 @@ interface Resources {
           },
           "cyreneSpecialEffect": {
             "text": "Cyrene Special Effect",
-            "content": "DMG dealt by Tribbie ignoes 12%/13.2% of the enemy's DEF. When Tribbie launches Follow-up ATK and triggers the Additional DMG from Tribbie's Zone, it further deals 1 instance of Additional DMG."
+            "content": "DMG dealt by Tribbie ignores 12%/13.2% of the enemy's DEF. When Tribbie launches Follow-up ATK and triggers the Additional DMG from Tribbie's Zone, it further deals 1 instance of Additional DMG."
           },
           "e1TrueDmg": {
             "text": "E1 True DMG",
@@ -5836,7 +5848,7 @@ interface Resources {
       "PriorityFilter": "Character priority filter",
       "Priority": {
         "Header": "Priority",
-        "Label": "# {{rank}} - $t(common:Characters.{{id}}.Name)",
+        "Label": "# {{rank}} - $t(common:Characters.{{id}}.LongName)",
         "Name": "# {{rank}}"
       },
       "AllowEquipped": "Allow equipped relics",

@@ -228,6 +228,11 @@ Lightcones:
       selfAttackedDefBuff:
         text: Self attacked DEF buff
         content: Increases the chance for the wearer to be attacked by enemies. When the wearer is attacked, increase their DEF by an extra {{DefBuff}}% until the end of the wearer's turn.
+  NeverForgetHerFlame:
+    Content:
+      breakDmgBuff:
+        text: Break DMG boost
+        content: When entering combat, increases Break DMG dealt by the wearer and another teammate who triggered combat by {{BreakBoost}}%. If there is no teammate who triggered combat, applies this effect to the wearer and the teammate with the highest Break Effect.
   NightOfFright:
     Content:
       atkBuffStacks:
@@ -2348,6 +2353,12 @@ Characters:
         content: Increases DEF by 10% per stack.
   TrailblazerRemembrance:
     Content:
+      enhancedBasic:
+        text: Enhanced Basic
+        content: >-
+          After using Ultimate, gains 1 stack of "Epic," up to 2 stacks. When this unit has "Epic" and Mem is on the field, Basic ATK gets enhanced to "Together, We Script Tomorrow!"
+          ::BR::
+          Consumes 1 stack of "Epic" to dispel all Crowd Control debuffs on Mem. Trailblazer and Mem launch a Joint ATK, dealing Ice DMG to all enemies equal to {{Scaling}}% of Trailblazer's ATK and {{Scaling}}% of Mem's ATK respectively. Then, Mem gains 10% Charge.
       memoSkillHits:
         text: Memo Skill hits
         content: >-

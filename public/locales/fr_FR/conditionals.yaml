@@ -228,6 +228,10 @@ Lightcones:
       selfAttackedDefBuff:
         text: Bonus de DÉF après porteur attaqué
         content: Augmente la probabilité pour le porteur d'être attaqué par des ennemis. Lorsque le porteur est attaqué, sa DÉF augmente de {{DefBuff}}% supplémentaires jusqu'à la fin de son tour.
+  NeverForgetHerFlame:
+    Content:
+      breakDmgBuff:
+        text: Bonus de DGT de Rupture
   NightOfFright:
     Content:
       atkBuffStacks:
@@ -2180,6 +2184,18 @@ Characters:
       e2DmgReductionBuff:
         text: 'E2: Réduction de dégâts'
         content: Après avoir déclenché Posture de l'épée, les DGT subis par Sushang sont réduits de 20% pendant 1 tour.
+  TheDahlia:
+    Content:
+      superBreakDmg:
+        text: Rupture extrême (force l'état de rupture)
+      spdBuff:
+        text: Bonus de VIT
+      e1Buffs:
+        text: 'E1: Divers bonus'
+      e2ResPen:
+        text: 'E2: PÉN de RÉS'
+      e6BeBuff:
+        text: 'E6: Bonus d''ER'
   TheHerta:
     Content:
       enhancedSkill:
@@ -2285,6 +2301,8 @@ Characters:
         content: Après utilisation de son ATQ de base renforcée ou de son ultime, la DÉF du/de la Pionnier/ère augmente de 10%. Cumulable jusqu'à 3 fois.
   TrailblazerRemembrance:
     Content:
+      enhancedBasic:
+        text: Normale améliorée
       memoSkillHits:
         text: Nombre de coups de Mem
         content: >-

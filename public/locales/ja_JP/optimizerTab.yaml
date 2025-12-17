@@ -63,7 +63,6 @@ OptimizerOptions:
   PriorityFilter: 優先順位でフィルター
   Priority:
     Header: 優先順位
-    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
   AllowEquipped: 別キャラの遺物を含める
   KeepCurrent: 装備済みの遺物を保持

@@ -63,7 +63,6 @@ OptimizerOptions:
   PriorityFilter: 角色优先级过滤器
   Priority:
     Header: 优先级
-    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
   AllowEquipped: 允许已装备的遗器
   KeepCurrent: 保持当前遗器

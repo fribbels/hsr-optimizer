@@ -33,7 +33,6 @@ SuperimpositionLevels:
   S4: 4재
   S5: 5재
 IncomeOptions:
-  Label: "[v{{versionNumber}} ({{phaseNumber}}/2) | {{type}}]: "
   Type:
     0: 없음
     1: 무과금

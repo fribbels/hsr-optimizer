@@ -63,7 +63,6 @@ OptimizerOptions:
   PriorityFilter: Фильтр по приоритету 
   Priority:
     Header: Приоритет
-    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
   AllowEquipped: Учитывать надетые
   KeepCurrent: Оставить текущие

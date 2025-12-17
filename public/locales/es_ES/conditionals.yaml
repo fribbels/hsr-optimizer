@@ -487,6 +487,10 @@ Lightcones:
     Content:
       dmgBoost:
         text: Aumento de daño
+        content: El daño que infligen todos los aliados aumenta en un {{DmgBuff}}%.
+      enhancedBasicBoost:
+        text: Básico potenciado de la/el Trazacaminos
+        content: El daño que inflige el ATQ básico potenciado “¡Escribamos el mañana!” aumenta en un {{DmgBoost}}%.
   ForTomorrowsJourney:
     Content:
       ultDmgBuff:
@@ -673,8 +677,10 @@ Lightcones:
     Content:
       vulnerability:
         text: Vulnerabilidad
+        content: Cuando el mnemoduende del portador lanza la habilidad de mnemoduende sobre un aliado, obtiene Espacio en blanco, que aumenta el daño que reciben todos los enemigos en un {{Vulnerability}}%. Si el mnemoduende del portador tiene simultáneamente Espacio en blanco y Verso, los efectos de ambos aumentan en un {{Multi}}%.
       cdBoost:
         text: Mejora de DC
+        content: Cuando el mnemoduende del portador lanza la habilidad de mnemoduende sobre enemigos, obtiene Verso, que aumenta el Daño CRIT de todos los aliados en un {{CdBuff}}%. Si el mnemoduende del portador tiene simultáneamente Espacio en blanco y Verso, los efectos de ambos aumentan en un {{Multi}}%.
   TodayIsAnotherPeacefulDay:
     Content:
       maxEnergyDmgBoost:
@@ -833,6 +839,9 @@ Characters:
         text: Acumulaciones de VEL mnemo
         content: >-
           Tras atacar a un enemigo en el estado de Hilván, su VEL aumenta en {{SpdBuff}} pts. Este efecto puede acumularse hasta {{StackLimit}} veces.
+      cyreneSpecialEffect:
+        text: Efecto especial de Cirene
+        content: El daño que infligen Aglaea y el Sastre aumenta en un 72%/79.2% e ignora el 36%/39.6% de la DEF del objetivo hasta que Aglaea salga del estado de Disposición suprema.
       e1Vulnerability:
         text: E1 Vulnerabilidad
         content: El daño que recibe el enemigo afectado con Hilván aumenta en un 15%.
@@ -860,6 +869,10 @@ Characters:
       enemyWeaknessTypes:
         text: Debilidades del enemigo
         content: Por cada Debilidad de un tipo distinto que tenga un enemigo, el daño que inflige Anaxa a ese objetivo ignora un 4% de su DEF. Se cuentan como máximo 7 tipos de Debilidad.
+      cyreneSpecialEffect:
+        text: Efecto especial de Cirene
+        content: >-
+          La habilidad básica inflige daño 3 veces más durante 1 turno. ::BR:: La siguiente vez que Anaxa lanza el ATQ básico o la habilidad básica, obtiene Sabiduría verdadera, con lo que el ATQ y el daño de habilidad básica infligido de todos los personajes de la Vía de la Erudición aumentan en un 60%/66% y un 40%/44% respectivamente hasta que comience el siguiente turno de Anaxa.
       e1DefPen:
         text: E1 PEN DEF
         content: Cuando golpea a un enemigo con la habilidad básica, reduce la DEF del objetivo en un 16% durante 2 turnos.
@@ -1093,6 +1106,9 @@ Characters:
       memoDmgStacks:
         text: Acums. de dañoᴹ
         content: Cada vez que el Dragón Caído lanza Aliento que prende las sombras, el daño que inflige aumenta en un 30%. Este efecto se puede acumular hasta 6 veces y dura hasta el final de ese turno.
+      cyreneSpecialEffect:
+        text: Efecto especial de Cirene
+        content: Al lanzarse sobre Castorice, Nuevo brote puede tener un excedente de hasta el 200%. Al invocar al Dragón Caído, se consume todo el exceso de Nuevo brote. Por cada 1% de exceso consumido, aumenta en un 0.24/0.264% el multiplicador del daño que inflige el Dragón Caído invocado esta vez al activar el efecto del talento "Alas que abaten las ruinas". Si en el campo de batalla hay 2 enemigos o menos al invocarlo, el multiplicador de daño aumenta adicionalmente en un 0.48%/0.528%.
       e1EnemyHp50:
         text: E1 PV del enemigo ≤ 50%
         content: Cuando los PV actuales del enemigo son iguales o inferiores al 50% de sus PV máx., el daño que le infligen Garra ósea, abrazo del dragón lóbrego, Garras que rasgan la oscuridad, Aliento que prende las sombras y Alas que abaten las ruinas es un 140% del daño original.
@@ -1125,6 +1141,9 @@ Characters:
         text: Mérito militar
         content: >-
           Al lanzar la habilidad básica, su VEL y la del compañero de equipo con Mérito militar aumenta en 20 pts. durante 3 turnos. ::BR:: El ATQ del personaje con Mérito militar aumenta en una cantidad equivalente al {{TalentAtkConversion}}% del ATQ de Céridra. ::BR:: E1: Cuando el personaje con Mérito militar inflige daño, ignora el 16% de la DEF de cada objetivo.
+      cyreneSpecialEffect:
+        text: Efecto especial de Cirene
+        content: El Daño CRIT del personaje con Mérito militar aumenta en un 30%/33%.
       peerage:
         text: Título nobiliario
         content: >-
@@ -1150,6 +1169,9 @@ Characters:
       spdBasedBuffs:
         text: Mejoras por VEL
         content: Cuando la VEL de Cífer es igual o superior a 140/170, su Prob. CRIT aumenta en un 25%/50%.
+      cyreneSpecialEffect:
+        text: Efecto especial de Cirene
+        content: El daño que inflige Cífer aumenta en un 36/39.6% y la DEF del Cliente habitual se reduce en un 20%/22%. La DEF de los enemigos que no sean el Cliente habitual se reduce en un 12%/13.2%.
       e1AtkBuff:
         text: E1 Mejora de ATQ
         content: Cuando se lanza el ataque adicional del talento, el ATQ de Cífer aumenta en un 80% durante 2 turnos.
@@ -1176,6 +1198,49 @@ Characters:
       e4DmgReductionBuff:
         text: E4 Mejora de reducción de daño
         content: Reduce el daño recibido en un 30%.
+  Cyrene:
+    Content:
+      memospriteActive:
+        text: Mnemoduende activo
+        content: >-
+          La Prob. CRIT de Cirene y del Demiurgo aumenta en un {{CRBuff}}%. ::BR:: Los PV máx. de Cirene y el Demiurgo aumentan en un {{HPBuff}}%. ::BR:: Cirene potencia su ATQ básico a ♪ Por el amor y el mañana ♪ y solo puede usar este ATQ básico.
+      zoneActive:
+        text: Zona activa
+        content: Mientras el campo está activo, cada vez que cualquier aliado inflige daño, inflige adicionalmente un {{TrueDmg}}% del daño original como Daño verdadero.
+      talentDmgBuff:
+        text: Mejora daño del talento
+        content: Cuando Cirene está en el campo de batalla, el daño que infligen todos los aliados aumenta en un {{DmgBuff}}%.
+      traceSpdBasedBuff:
+        text: Mejora por VEL del rastro
+        content: Cuando la VEL de Cirene es superior o igual a 180, el daño que infligen todos los aliados aumenta en un 20%. Después, por cada punto de VEL de exceso, la PEN de la RES a Hielo de Cirene y el Demiurgo aumenta en un 2%. Se cuentan hasta un máximo de 60 puntos de VEL de exceso.
+      odeToEgoExtraBounces:
+        text: Poema del yo verdadero rebotes extra
+        content: Por cada compañero de equipo distinto (excepto el Demiurgo) del que Cirene haya recibido Remembranza, cuando el Demiurgo lanza Danza de flores y flechas, inflige una vez adicional un 60% de sus PV máx. como Daño de Hielo a un enemigo al azar. 
+      e1ExtraBounces:
+        text: E1 Rebotes extra
+        content: Cuando el Demiurgo activa la habilidad de mnemoduende "Poema del yo verdadero" para lanzar Danza de flores y flechas, obtiene 6 puntos de Remembranza y aumenta en 12 la cantidad de rebotes de este ataque.
+      e2TrueDmgStacks:
+        text: E2 Acumulaciones de daño verdadero
+        content: Por cada personaje aliado distinto que reciba un efecto positivo mediante la habilidad de mnemoduende del Demiurgo, el multiplicador del Daño verdadero que infligen los aliados mediante el campo de la habilidad básica aumenta en un 6%, hasta un máximo del 24%.
+      e4BounceStacks:
+        text: E4 Acumulaciones de rebotes
+        content: Cada vez que el Demiurgo lanza Danza de flores y flechas, el multiplicador de daño de los Rebotes de la habilidad de mnemoduende "Poema del yo verdadero" aumenta en un 6% durante la batalla actual. Se puede acumular hasta 24 veces.
+      e6DefPen:
+        text: E6 PEN DEF
+        content: Cuando el Demiurgo está en el campo de batalla, la DEF de todos los enemigos se reduce en un 20%.
+    TeammateContent:
+      specialEffect:
+        text: Efecto especial
+        content: Aplica un efecto positivo a un personaje aliado. Si ese personaje es un Heredero de Crisos, le otorga un efecto especial. Si ese personaje no es un Heredero de Crisos, el daño que inflige aumenta en un {{DmgBuff}}% durante 2 turnos. También tiene efecto en su mnemoduende.
+      cyreneSpdDmg:
+        text: VEL de Cirene ≥ 180
+        content: Cuando la VEL de Cirene es superior o igual a 180, el daño que infligen todos los aliados aumenta en un 20%.
+      cyreneHp:
+        text: PV del mnemo de Cirene
+        content: El ATQ de la/el Trazacaminos (Reminiscencia) aumenta en una cantidad equivalente al {{ConversionRate}}% de los PV máx. del Demiurgo. Este efecto también se aplica a Mem.
+      cyreneCr:
+        text: PC del mnemo de Cirene
+        content: La Prob. CRIT de la/el Trazacaminos (Reminiscencia) aumenta en una cantidad equivalente al {{ConversionRate}}% de la Prob. CRIT del Demiurgo. Este efecto también se aplica a Mem.
   DanHeng:
     Content:
       talentPenBuff:
@@ -1204,6 +1269,9 @@ Characters:
       memoTalentDmgBuff:
         text: Mejora de daño talentoᴹ
         content: Mientras Nox está en la batalla, el daño que infligen Larganoche y Nox aumenta en un {{MemoTalentDmgBuff}}%.
+      traceCritBuffs:
+        text: Mejoras CRIT del rastro
+        content: La Prob. CRIT de Larganoche y el mnemoduende Nox aumenta en un 35%. Al lanzar una habilidad, consume un 5% de sus PV actuales y hace que el Daño CRIT de ambas aumente en un 15% durante 2 turnos.
       skillMemoCdBuff:
         text: Mejora DC habilidadᴹ
         content: Consume un 10% de los PV actuales de Larganoche para invocar al mnemoduende Nox y aumenta el Daño CRIT de todos los mnemoduendes aliados en una cantidad equivalente al {{SkillMemoCdBuff}}% del Daño CRIT de Larganoche durante 2 turnos.
@@ -1217,6 +1285,10 @@ Characters:
       enhancedState:
         text: Estado potenciado
         content: Lanzar su habilidad definitiva hace que Larganoche entre en el estado de "Adivinanza oscura". Durante este estado, el daño que reciben los enemigos aumenta en un {{UltVulnScaling}}%, el daño que infligen Larganoche y Nox aumenta en un {{UltDmgBoostScaling}}%.
+      cyreneSpecialEffect:
+        text: Efecto especial de Cirene
+        content: >-
+          El daño que inflige Nox cuando lanza la habilidad de mnemoduende "Sueños que desaparecen como el rocío" aumenta en un 18%/19.8%. ::BR:: El efecto de aumento de Daño CRIT de la habilidad básica de Larganoche aumenta adicionalmente en una cantidad equivalente al 12%/13.2% del Daño CRIT de Larganoche.
       e1FinalDmg:
         text: E1 Daño final
         content: Cuando Larganoche está en la batalla y hay 4 o más/3/2/1 enemigos en el campo de batalla, el daño que infligen los mnemoduendes aliados es un 120%/125%/130%/150% del daño original.
@@ -1472,8 +1544,11 @@ Characters:
         text: Estado Cielo lavado
         content: Luego de usar su Definitiva, Hyacine entra en el estado de Cielo lavado durante 3 turnos. La duración se reduce en 1 cada vez que Hyacine comienza su turno. En el estado Cielo lavado, los PV máx. de todos los aliados aumentan en un {{UltHpBuffScaling}}% + {{UltHpBuffFlat}}.
       healingDmgStacks:
-        text: Acumulaciones de daño por curación
+        text: Acum. daño / curación
         content: Cuando Hyacine o Ica realizan una curación, el daño que inflige Ica aumenta en un {{TalentDmgBuff}}% durante 2 turnos. Se puede acumular hasta 3 veces.
+      healTallyMultiplier:
+        text: Multipl. curación acum.
+        content: La implementación actual considera una sola curación para el daño de la habilidad del mnemoduende. Este multiplicador puede ajustarse para escalar el daño de la habilidad del mnemoduende y reflejar mejor el daño dentro del juego.
       e1HpBuff:
         text: E1 Mejora de PV
         content: Cuando Hyacine está en el estado de Cielo lavado, todos los aliados aumentan sus PV máx. en un 50% adicional.
@@ -1503,6 +1578,10 @@ Characters:
       dotDetonation:
         text: Detonación DoT (Activación automática)
         content: Cuando Hysilens lanza su habilidad definitiva, si el enemigo está afectado con estados de Daño con el tiempo, todos los estados de Daño con el tiempo que tiene actualmente infligen inmediatamente un daño equivalente al 150% de su daño original.
+      cyreneSpecialEffect:
+        text: Efecto especial de Cirene
+        content: >-
+          El daño que inflige Hysilens aumenta en un 120%/132%. ::BR:: Después de lanzar un ATQ básico contra el enemigo, todos los estados de Daño con el tiempo que tengan los enemigos atacados infligen un 60%/66% del daño original. ::BR:: Después de lanzar una habilidad básica contra el enemigo, todos los estados de Daño con el tiempo que tengan los enemigos atacados infligen un 80%/88% del daño original.
       e1Buffs:
         text: E1 Mejoras
         content: >-
@@ -1785,6 +1864,9 @@ Characters:
       hpToCrConversion:
         text: Conversión PV a PC
         content: Al comenzar la batalla, si los PV máx. de Midei son superiores a 4000, por cada 100 PV de exceso su Prob. CRIT aumenta en un 1.2%, la proporción de carga obtenida al recibir daño de los enemigos aumenta en un 2.5%, y los PV regenerados al recibir curación aumentan en un 0.75%. Se pueden calcular como máximo 4000 PV de exceso.
+      cyreneSpecialEffect:
+        text: Efecto especial de Cirene
+        content: Si Midei está en el estado Venganza de sangre, lanza automáticamente "Deicidio, ascenso divino" 1 vez sin consumir carga y su Daño CRIT en este ataque aumenta en un 200%/220%. 
       e1EnhancedSkillBuff:
         text: E1 Aumento de Habilidad potenciada
         content: El multiplicador del daño que Deicidio, ascenso divino inflige al objetivo principal aumenta en un 30%. Deicidio, ascenso divino pasa a infligir a todos los enemigos un Daño Imaginario equivalente al multiplicador de daño del objetivo principal.
@@ -1820,6 +1902,9 @@ Characters:
         text: ATQ en combate de Dan Heng
         content: >-
           Al lanzar la habilidad básica, el ATQ del objetivo designado como Camarada aumenta en una cantidad equivalente al 15% del ATQ de Dan Heng - Permansor Terrae. ::BR:: Ingresa el ATQ propio de Dan Heng - Permansor Terrae que usa para mejorar aliados.
+      cyreneSpecialEffect:
+        text: Efecto especial de Cirene
+        content: El daño que inflige el Camarada aumenta en un 24%/26.4%.
       e1ResPen:
         text: E1 PEN RES
         content: Cuando Dan Heng - Permansor Terrae lanza la habilidad definitiva, la PEN de la RES a todos los tipos del Camarada aumenta en un 18% durante 3 turnos.
@@ -1858,6 +1943,10 @@ Characters:
       spdBuff:
         text: Mejora de VEL al equipo
         content: Al terminar la transformación, la VEL de todos los aliados aumenta en un 15% durante 1 turno.
+      cyreneSpecialEffect:
+        text: Efecto especial de Cirene
+        content: >-
+          Fainón recibe 6 pts. de Yesca y obtiene Combustión perpetua al transformarse. ::BR:: Si al transformarse tiene más de 12 pts. de Yesca, por cada pt. excedente el Daño CRIT de Khaslana aumenta en un 12%/13.2%, hasta un máximo del 72%/79.2%. Cuando tiene Combustión perpetua, la Prob. CRIT de Khaslana aumenta en un 16%/17.6%. ::BR:: Tras atacar, inflige daño adicional 5 veces, infligiendo cada vez un Daño de Fuego adicional equivalente al 10%/11% del ATQ de Khaslana a un enemigo al azar.
       e1Buffs:
         text: E1 Mejoras
         content: >-
@@ -2243,7 +2332,7 @@ Characters:
     TeammateContent:
       teammateBeValue:
         text: E4 EdR en combate
-        content: Mientras la(el) Trazacaminos está en el campo de batalla, el efecto de Ruptura de todos los aliados excepto ella(él) aumenta en una cantidad equivalente al 15% del efecto de Ruptura de la(del) Trazacaminos.
+        content: Mientras la/el Trazacaminos está en el campo de batalla, el efecto de Ruptura de todos los aliados excepto ella/él aumenta en una cantidad equivalente al 15% del efecto de Ruptura de la/del Trazacaminos.
   TrailblazerPreservation:
     Content:
       enhancedBasic:
@@ -2251,10 +2340,10 @@ Characters:
         content: El ATQ básico potenciado inflige un {{basicEnhancedAtkScaling}}% del ATQ de la(del) Trazacaminos como Daño de Fuego a un enemigo y daño reducido a los enemigos adyacentes.
       skillActive:
         text: Reducción de daño de la Habilidad
-        content: Tras usar la habilidad básica, el daño que recibe la(el) Trazacaminos se reduce en un {{skillDamageReductionValue}}%. También se reduce el daño que reciben todos los aliados en un 15% durante 1 turno.
+        content: Tras usar la habilidad básica, el daño que recibe la/el Trazacaminos se reduce en un {{skillDamageReductionValue}}%. También se reduce el daño que reciben todos los aliados en un 15% durante 1 turno.
       shieldActive:
         text: Escudo activado
-        content: "Si la(el) Trazacaminos está protegida(o) por un escudo, su ATQ aumenta en un 15%.\n"
+        content: "Si la/el Trazacaminos está protegida(o) por un escudo, su ATQ aumenta en un 15%.\n"
       e6DefStacks:
         text: E6 Acumulaciones de la mejora de DEF
         content: Aumenta la DEF en un 10% por acumulación.
@@ -2309,6 +2398,9 @@ Characters:
       talentFuaStacks:
         text: Acumulaciones de ataque adicional
         content: Después de lanzar el ataque adicional del talento, el daño que inflige Tribbie aumenta en un 72%. Este efecto se puede acumular hasta 3 veces y dura 3 turnos.
+      cyreneSpecialEffect:
+        text: Efecto especial de Cirene
+        content: El daño que inflige Tribbie ignora un 12%/13.2% de la DEF del enemigo. Cuando el ataque adicional de Tribbie activa el daño adicional de su campo, inflige daño adicional 1 vez más.
       e1TrueDmg:
         text: E1 Daño verdadero
         content: Después de que un aliado ataque al enemigo mientras el campo está activo, inflige adicionalmente al objetivo que recibe el daño adicional del campo un Daño verdadero equivalente al 24% del daño total del ataque.

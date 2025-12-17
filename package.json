@@ -23,7 +23,7 @@
     "test:generate": "npx playwright codegen localhost:3000/hsr-optimizer",
     "test:ui": "npm run test -- --ui",
     "test:report": "npx playwright show-report",
-    "typecheck": "tsc --noEmit -p ./tsconfig.json",
+    "typecheck": "npm run update-resources && tsc --noEmit -p ./tsconfig.json",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "update-resources": "npx i18next-resources-for-ts interface -i ./public/locales/en_US -o ./src/types/resources.d.ts"

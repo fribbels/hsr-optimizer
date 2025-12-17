@@ -497,6 +497,14 @@ TeammateCard:
       Desc: '四件套: $t(gameData:RelicSets.125.Name) (+15%暴击伤害)'
       Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% 爆伤
+    WorldRemaking:
+      Desc: '四件套：$t(gameData:RelicSets.127.Name)（+15%增伤）'
+      Set: '$t(gameData:RelicSets.127.Name)'
+      Text: 15%增伤
+    SelfEnshrouded:
+      Desc: '四件套: $t(gameData:RelicSets.128.Name)（+15%暴击伤害）'
+      Set: '$t(gameData:RelicSets.128.Name)'
+      Text: 15% 爆伤
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10%暴击伤害)'
       Set: '$t(gameData:RelicSets.310.Name)'
@@ -635,6 +643,7 @@ ExpandedDataPanel:
           DEF PEN: 防御穿透
           Break DEF PEN: 击破防御穿透
           Toughness DMG: 韧性伤害值
+          Fixed Toughness DMG: 固定韧性伤害
           Super Break multiplier: 击破特攻倍率
           Break Efficiency boost: 击破效率提升
           True DMG multiplier: 真实伤害倍率

@@ -63,7 +63,7 @@ OptimizerOptions:
   PriorityFilter: Character priority filter
   Priority:
     Header: Priority
-    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
+    Label: '# {{rank}} - $t(common:Characters.{{id}}.LongName)'
     Name: '# {{rank}}'
   AllowEquipped: Allow equipped relics
   KeepCurrent: Keep current relics
@@ -496,6 +496,14 @@ TeammateCard:
     Warrior:
       Desc: '4 Piece: $t(gameData:RelicSets.125.Name) (+15% CD)'
       Set: '$t(gameData:RelicSets.125.Name)'
+      Text: 15% CD
+    WorldRemaking:
+      Desc: '4 Piece: $t(gameData:RelicSets.127.Name) (+15% DMG)'
+      Set: '$t(gameData:RelicSets.127.Name)'
+      Text: 15% DMG
+    SelfEnshrouded:
+      Desc: '4 Piece: $t(gameData:RelicSets.128.Name) (+15% CD)'
+      Set: '$t(gameData:RelicSets.128.Name)'
       Text: 15% CD
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10% CD)'

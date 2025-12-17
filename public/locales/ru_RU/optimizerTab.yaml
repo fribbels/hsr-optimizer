@@ -497,6 +497,14 @@ TeammateCard:
       Desc: '4 Части: $t(gameData:RelicSets.125.Name) (+15% КУ)'
       Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% КУ
+    WorldRemaking:
+      Desc: '4 Части: $t(gameData:RelicSets.127.Name) (+15% УРОН)'
+      Set: '$t(gameData:RelicSets.127.Name)'
+      Text: 15% Урона
+    SelfEnshrouded:
+      Desc: '4 Части: $t(gameData:RelicSets.128.Name) (+15% КУ)'
+      Set: '$t(gameData:RelicSets.128.Name)'
+      Text: 15% КУ
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10% КУ)'
       Set: '$t(gameData:RelicSets.310.Name)'
@@ -635,6 +643,7 @@ ExpandedDataPanel:
           DEF PEN: Игнор Защиты
           Break DEF PEN: Игнор ЗАЩ Пробития
           Toughness DMG: УронСтойкости
+          Fixed Toughness DMG: Фиксированный урон Стойкости
           Super Break multiplier: Коэф-т Суперпробития
           Break Efficiency boost: Эффективность Пробития↑
           True DMG multiplier: Коэф-т Истинного Урона

@@ -496,6 +496,14 @@ TeammateCard:
       Desc: '4 Piezas: $t(gameData:RelicSets.125.Name) (+15% DC)'
       Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% DC
+    WorldRemaking:
+      Desc: '4 Piezas: $t(gameData:RelicSets.127.Name) (+15% DAÑO)'
+      Set: '$t(gameData:RelicSets.127.Name)'
+      Text: 15% DAÑO
+    SelfEnshrouded:
+      Desc: '4 Piezas: $t(gameData:RelicSets.128.Name) (+15% DC)'
+      Set: '$t(gameData:RelicSets.128.Name)'
+      Text: 15% DC
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10% DC)'
       Set: '$t(gameData:RelicSets.310.Name)'
@@ -512,6 +520,10 @@ TeammateCard:
       Desc: '$t(gameData:RelicSets.317.Name) (+12% ATQ)'
       Set: '$t(gameData:RelicSets.317.Name)'
       Text: 12% ATQ
+    Amphoreus:
+      Desc: '$t(gameData:RelicSets.323.Name) (+8% VEL)'
+      Set: '$t(gameData:RelicSets.323.Name)'
+      Text: 8% VEL
 StatSimulation:
   DuplicateSimMessage: Ya existe una simulación de atributos idéntica
   MissingMainstatsMessage: Faltan los atributos principales de la simulación
@@ -630,6 +642,7 @@ ExpandedDataPanel:
           DEF PEN: PEN DEF
           Break DEF PEN: PEN DEF a Ruptura
           Toughness DMG: Daño de firmeza
+          Fixed Toughness DMG: Daño de firmeza fijo
           Super Break multiplier: Multiplic. de Ultrarruptura
           Break Efficiency boost: Mejora de Eficiencia de Rupt.
           True DMG multiplier: Multiplic. de Daño verdadero

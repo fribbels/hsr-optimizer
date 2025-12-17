@@ -23,21 +23,21 @@ Scoring:
       ButtonText: インポートと保存のタブに移動
       SuccessMessage: インポート方法を選択して、遺物とキャラクターをインポートしてください。
     Body_MAIN:
-      Description: "$t(common:Parts.Body)のメインステータスのフィルターが厳しすぎる可能性があります"
-      ButtonText: "$t(common:Parts.Body)のフィルターをクリア"
-      SuccessMessage: "$t(common:Parts.Body)のメインステータスのフィルターをクリアしました"
+      Description: '$t(common:Parts.Body)のメインステータスのフィルターが厳しすぎる可能性があります'
+      ButtonText: '$t(common:Parts.Body)のフィルターをクリア'
+      SuccessMessage: '$t(common:Parts.Body)のメインステータスのフィルターをクリアしました'
     Feet_MAIN:
-      Description: "$t(common:Parts.Feet)のメインステータスのフィルターが厳しすぎる可能性があります"
-      ButtonText: "$t(common:Parts.Feet)のフィルターをクリア"
-      SuccessMessage: "$t(common:Parts.Feet)のメインステータスのフィルターをクリアしました"
+      Description: '$t(common:Parts.Feet)のメインステータスのフィルターが厳しすぎる可能性があります'
+      ButtonText: '$t(common:Parts.Feet)のフィルターをクリア'
+      SuccessMessage: '$t(common:Parts.Feet)のメインステータスのフィルターをクリアしました'
     PlanarSphere_MAIN:
-      Description: "$t(common:Parts.PlanarSphere)のメインステータスのフィルターが厳しすぎる可能性があります"
-      ButtonText: "$t(common:Parts.PlanarSphere)のフィルターをクリア"
-      SuccessMessage: "$t(common:Parts.PlanarSphere)のメインステータスのフィルターをクリアしました"
+      Description: '$t(common:Parts.PlanarSphere)のメインステータスのフィルターが厳しすぎる可能性があります'
+      ButtonText: '$t(common:Parts.PlanarSphere)のフィルターをクリア'
+      SuccessMessage: '$t(common:Parts.PlanarSphere)のメインステータスのフィルターをクリアしました'
     LinkRope_MAIN:
-      Description: "$t(common:Parts.LinkRope)のメインステータスのフィルターが厳しすぎる可能性があります"
-      ButtonText: "$t(common:Parts.LinkRope)のフィルターをクリア"
-      SuccessMessage: "$t(common:Parts.LinkRope)のメインステータスのフィルターをクリアしました"
+      Description: '$t(common:Parts.LinkRope)のメインステータスのフィルターが厳しすぎる可能性があります'
+      ButtonText: '$t(common:Parts.LinkRope)のフィルターをクリア'
+      SuccessMessage: '$t(common:Parts.LinkRope)のメインステータスのフィルターをクリアしました'
     RELIC_SETS:
       Description: 遺物セットのフィルターが厳しすぎる可能性があります
       ButtonText: 遺物セットのフィルターをクリア
@@ -52,8 +52,8 @@ Scoring:
       SuccessMessage: 装備済みの遺物を保持するオプションを無効にしました
     PRIORITY:
       Description: このキャラクターの優先順位は他のキャラクターよりも低く設定されています。優先順位フィルターが有効の場合、より優先度が低いキャラクターの遺物のみが検索対象になります。
-      ButtonText: "キャラクターを優先順位#1に移動"
-      SuccessMessage: "キャラクターを優先順位#1に移動しました"
+      ButtonText: 'キャラクターを優先順位#1に移動'
+      SuccessMessage: 'キャラクターを優先順位#1に移動しました'
     EXCLUDE_ENABLED:
       Description: 除外フィルターにキャラクターを複数追加しています。追加したキャラクターの遺物は検索対象になりません。
       ButtonText: 除外フィルターをクリア
@@ -74,185 +74,185 @@ Scoring:
     Description: ステータスまたは・かつレーティングフィルターが厳しすぎる可能性があります
   RootCauses:
     StatView:
-      SuccessMessage: "戦闘中のステータスの表示に切り替えました"
-      Description: "設定したステータスフィルターの対象は非戦闘時のステータスであり、戦闘中のバフは適用されていません。戦闘中のステータスの表示に切り替えることで、追加能力、チームメイト、遺物のセットなどの戦闘中のバフを適用したステータスが表示されます。"
-      ButtonText: "戦闘中のステータスの表示に切り替える"
+      SuccessMessage: '戦闘中のステータスの表示に切り替えました'
+      Description: '設定したステータスフィルターの対象は非戦闘時のステータスであり、戦闘中のバフは適用されていません。戦闘中のステータスの表示に切り替えることで、追加能力、チームメイト、遺物のセットなどの戦闘中のバフを適用したステータスが表示されます。'
+      ButtonText: '戦闘中のステータスの表示に切り替える'
     MAX_HP:
-      SuccessMessage: "$t(common:Stats.HP)の最大値をリセットしました"
-      Description: "$t(common:Stats.HP)フィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.HP)の最大値をリセット"
+      SuccessMessage: '$t(common:Stats.HP)の最大値をリセットしました'
+      Description: '$t(common:Stats.HP)フィルターの最大値が低すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.HP)の最大値をリセット'
     MIN_HP:
-      SuccessMessage: "$t(common:Stats.HP)の最小値をリセットしました"
-      Description: "$t(common:Stats.HP)フィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.HP)の最小値をリセット"
+      SuccessMessage: '$t(common:Stats.HP)の最小値をリセットしました'
+      Description: '$t(common:Stats.HP)フィルターの最小値が高すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.HP)の最小値をリセット'
     MAX_ATK:
-      SuccessMessage: "$t(common:Stats.ATK)の最大値をリセットしました"
-      Description: "$t(common:Stats.ATK)フィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.ATK)の最大値をリセット"
+      SuccessMessage: '$t(common:Stats.ATK)の最大値をリセットしました'
+      Description: '$t(common:Stats.ATK)フィルターの最大値が低すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.ATK)の最大値をリセット'
     MIN_ATK:
-      SuccessMessage: "$t(common:Stats.ATK)の最小値をリセットしました"
-      Description: "$t(common:Stats.ATK)フィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.ATK)の最小値をリセット"
+      SuccessMessage: '$t(common:Stats.ATK)の最小値をリセットしました'
+      Description: '$t(common:Stats.ATK)フィルターの最小値が高すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.ATK)の最小値をリセット'
     MAX_DEF:
-      SuccessMessage: "$t(common:Stats.DEF)の最大値をリセットしました"
-      Description: "$t(common:Stats.DEF)フィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.DEF)の最大値をリセット"
+      SuccessMessage: '$t(common:Stats.DEF)の最大値をリセットしました'
+      Description: '$t(common:Stats.DEF)フィルターの最大値が低すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.DEF)の最大値をリセット'
     MIN_DEF:
-      SuccessMessage: "$t(common:Stats.DEF)の最小値をリセットしました"
-      Description: "$t(common:Stats.DEF)フィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.DEF)の最小値をリセット"
+      SuccessMessage: '$t(common:Stats.DEF)の最小値をリセットしました'
+      Description: '$t(common:Stats.DEF)フィルターの最小値が高すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.DEF)の最小値をリセット'
     MAX_SPD:
-      SuccessMessage: "$t(common:Stats.SPD)の最大値をリセットしました"
-      Description: "$t(common:Stats.SPD)フィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.SPD)の最大値をリセット"
+      SuccessMessage: '$t(common:Stats.SPD)の最大値をリセットしました'
+      Description: '$t(common:Stats.SPD)フィルターの最大値が低すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.SPD)の最大値をリセット'
     MIN_SPD:
-      SuccessMessage: "$t(common:Stats.SPD)の最小値をリセットしました"
-      Description: "$t(common:Stats.SPD)フィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.SPD)の最小値をリセット"
+      SuccessMessage: '$t(common:Stats.SPD)の最小値をリセットしました'
+      Description: '$t(common:Stats.SPD)フィルターの最小値が高すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.SPD)の最小値をリセット'
     MAX_CR:
-      SuccessMessage: "$t(common:Stats.CRIT Rate)の最大値をリセットしました"
-      Description: "$t(common:Stats.CRIT Rate)フィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.CRIT Rate)の最大値をリセット"
+      SuccessMessage: '$t(common:Stats.CRIT Rate)の最大値をリセットしました'
+      Description: '$t(common:Stats.CRIT Rate)フィルターの最大値が低すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.CRIT Rate)の最大値をリセット'
     MIN_CR:
-      SuccessMessage: "$t(common:Stats.CRIT Rate)の最小値をリセットしました"
-      Description: "$t(common:Stats.CRIT Rate)フィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.CRIT Rate)の最小値をリセット"
+      SuccessMessage: '$t(common:Stats.CRIT Rate)の最小値をリセットしました'
+      Description: '$t(common:Stats.CRIT Rate)フィルターの最小値が高すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.CRIT Rate)の最小値をリセット'
     MAX_CD:
-      SuccessMessage: "$t(common:Stats.CRIT DMG)の最大値をリセットしました"
-      Description: "$t(common:Stats.CRIT DMG)フィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.CRIT DMG)の最大値をリセット"
+      SuccessMessage: '$t(common:Stats.CRIT DMG)の最大値をリセットしました'
+      Description: '$t(common:Stats.CRIT DMG)フィルターの最大値が低すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.CRIT DMG)の最大値をリセット'
     MIN_CD:
-      SuccessMessage: "$t(common:Stats.CRIT DMG)の最小値をリセットしました"
-      Description: "$t(common:Stats.CRIT DMG)フィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.CRIT DMG)の最小値をリセット"
+      SuccessMessage: '$t(common:Stats.CRIT DMG)の最小値をリセットしました'
+      Description: '$t(common:Stats.CRIT DMG)フィルターの最小値が高すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.CRIT DMG)の最小値をリセット'
     MAX_EHR:
-      SuccessMessage: "$t(common:Stats.Effect Hit Rate)の最大値をリセットしました"
-      Description: "$t(common:Stats.Effect Hit Rate)フィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.Effect Hit Rate)の最大値をリセット"
+      SuccessMessage: '$t(common:Stats.Effect Hit Rate)の最大値をリセットしました'
+      Description: '$t(common:Stats.Effect Hit Rate)フィルターの最大値が低すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.Effect Hit Rate)の最大値をリセット'
     MIN_EHR:
-      SuccessMessage: "$t(common:Stats.Effect Hit Rate)の最小値をリセットしました"
-      Description: "$t(common:Stats.Effect Hit Rate)フィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.Effect Hit Rate)の最小値をリセット"
+      SuccessMessage: '$t(common:Stats.Effect Hit Rate)の最小値をリセットしました'
+      Description: '$t(common:Stats.Effect Hit Rate)フィルターの最小値が高すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.Effect Hit Rate)の最小値をリセット'
     MAX_RES:
-      SuccessMessage: "$t(common:Stats.Effect RES)の最大値をリセットしました"
-      Description: "$t(common:Stats.Effect RES)フィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.Effect RES)の最大値をリセット"
+      SuccessMessage: '$t(common:Stats.Effect RES)の最大値をリセットしました'
+      Description: '$t(common:Stats.Effect RES)フィルターの最大値が低すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.Effect RES)の最大値をリセット'
     MIN_RES:
-      SuccessMessage: "$t(common:Stats.Effect RES)の最小値をリセットしました"
-      Description: "$t(common:Stats.Effect RES)フィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.Effect RES)の最小値をリセット"
+      SuccessMessage: '$t(common:Stats.Effect RES)の最小値をリセットしました'
+      Description: '$t(common:Stats.Effect RES)フィルターの最小値が高すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.Effect RES)の最小値をリセット'
     MAX_BE:
-      SuccessMessage: "$t(common:Stats.Break Effect)の最大値をリセットしました"
-      Description: "$t(common:Stats.Break Effect)フィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.Break Effect)の最大値をリセット"
+      SuccessMessage: '$t(common:Stats.Break Effect)の最大値をリセットしました'
+      Description: '$t(common:Stats.Break Effect)フィルターの最大値が低すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.Break Effect)の最大値をリセット'
     MIN_BE:
-      SuccessMessage: "$t(common:Stats.Break Effect)の最小値をリセットしました"
-      Description: "$t(common:Stats.Break Effect)フィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.Break Effect)の最小値をリセット"
+      SuccessMessage: '$t(common:Stats.Break Effect)の最小値をリセットしました'
+      Description: '$t(common:Stats.Break Effect)フィルターの最小値が高すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.Break Effect)の最小値をリセット'
     MAX_ERR:
-      SuccessMessage: "$t(common:Stats.Energy Regeneration Rate)の最大値をリセットしました"
-      Description: "$t(common:Stats.Energy Regeneration Rate)フィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.Energy Regeneration Rate)の最大値をリセット"
+      SuccessMessage: '$t(common:Stats.Energy Regeneration Rate)の最大値をリセットしました'
+      Description: '$t(common:Stats.Energy Regeneration Rate)フィルターの最大値が低すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.Energy Regeneration Rate)の最大値をリセット'
     MIN_ERR:
-      SuccessMessage: "$t(common:Stats.Energy Regeneration Rate)の最小値をリセットしました"
-      Description: "$t(common:Stats.Energy Regeneration Rate)フィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "$t(common:Stats.Energy Regeneration Rate)の最小値をリセット"
+      SuccessMessage: '$t(common:Stats.Energy Regeneration Rate)の最小値をリセットしました'
+      Description: '$t(common:Stats.Energy Regeneration Rate)フィルターの最小値が高すぎる可能性があります。'
+      ButtonText: '$t(common:Stats.Energy Regeneration Rate)の最小値をリセット'
     MAX_EHP:
-      SuccessMessage: "EHPの最大値をリセットしました"
-      Description: "EHPフィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "EHPの最大値をリセット"
+      SuccessMessage: 'EHPの最大値をリセットしました'
+      Description: 'EHPフィルターの最大値が低すぎる可能性があります。'
+      ButtonText: 'EHPの最大値をリセット'
     MIN_EHP:
-      SuccessMessage: "EHPの最小値をリセットしました"
-      Description: "EHPフィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "EHPの最小値をリセット"
+      SuccessMessage: 'EHPの最小値をリセットしました'
+      Description: 'EHPフィルターの最小値が高すぎる可能性があります。'
+      ButtonText: 'EHPの最小値をリセット'
     MAX_BASIC:
-      SuccessMessage: "基礎攻撃ダメージの最大値をリセットしました"
-      Description: "基礎攻撃ダメージフィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "基礎攻撃ダメージの最大値をリセット"
+      SuccessMessage: '基礎攻撃ダメージの最大値をリセットしました'
+      Description: '基礎攻撃ダメージフィルターの最大値が低すぎる可能性があります。'
+      ButtonText: '基礎攻撃ダメージの最大値をリセット'
     MIN_BASIC:
-      SuccessMessage: "基礎攻撃ダメージの最小値をリセットしました"
-      Description: "基礎攻撃ダメージフィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "基礎攻撃ダメージの最小値をリセット"
+      SuccessMessage: '基礎攻撃ダメージの最小値をリセットしました'
+      Description: '基礎攻撃ダメージフィルターの最小値が高すぎる可能性があります。'
+      ButtonText: '基礎攻撃ダメージの最小値をリセット'
     MAX_SKILL:
-      SuccessMessage: "戦闘スキル攻撃の最大値をリセットしました"
-      Description: "戦闘スキル攻撃フィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "戦闘スキル攻撃の最大値をリセット"
+      SuccessMessage: '戦闘スキル攻撃の最大値をリセットしました'
+      Description: '戦闘スキル攻撃フィルターの最大値が低すぎる可能性があります。'
+      ButtonText: '戦闘スキル攻撃の最大値をリセット'
     MIN_SKILL:
-      SuccessMessage: "戦闘スキル攻撃の最小値をリセットしました"
-      Description: "戦闘スキル攻撃フィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "戦闘スキル攻撃の最小値をリセット"
+      SuccessMessage: '戦闘スキル攻撃の最小値をリセットしました'
+      Description: '戦闘スキル攻撃フィルターの最小値が高すぎる可能性があります。'
+      ButtonText: '戦闘スキル攻撃の最小値をリセット'
     MAX_ULT:
-      SuccessMessage: "必殺技ダメージの最大値をリセットしました"
-      Description: "必殺技ダメージフィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "必殺技ダメージの最大値をリセット"
+      SuccessMessage: '必殺技ダメージの最大値をリセットしました'
+      Description: '必殺技ダメージフィルターの最大値が低すぎる可能性があります。'
+      ButtonText: '必殺技ダメージの最大値をリセット'
     MIN_ULT:
-      SuccessMessage: "必殺技ダメージの最小値をリセットしました"
-      Description: "必殺技ダメージフィルターの最小値が高すぎる可能性があります"
-      ButtonText: "必殺技ダメージの最小値をリセット"
+      SuccessMessage: '必殺技ダメージの最小値をリセットしました'
+      Description: '必殺技ダメージフィルターの最小値が高すぎる可能性があります'
+      ButtonText: '必殺技ダメージの最小値をリセット'
     MAX_FUA:
-      SuccessMessage: "追加攻撃ダメージの最大値をリセットしました"
-      Description: "追加攻撃ダメージフィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "追加攻撃ダメージの最大値をリセット"
+      SuccessMessage: '追加攻撃ダメージの最大値をリセットしました'
+      Description: '追加攻撃ダメージフィルターの最大値が低すぎる可能性があります。'
+      ButtonText: '追加攻撃ダメージの最大値をリセット'
     MIN_FUA:
-      SuccessMessage: "追加攻撃ダメージの最小値をリセットしました"
-      Description: "追加攻撃ダメージフィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "追加攻撃ダメージの最小値をリセット"
+      SuccessMessage: '追加攻撃ダメージの最小値をリセットしました'
+      Description: '追加攻撃ダメージフィルターの最小値が高すぎる可能性があります。'
+      ButtonText: '追加攻撃ダメージの最小値をリセット'
     MAX_DOT:
-      SuccessMessage: "持続ダメージの最大値をリセットしました"
-      Description: "持続ダメージフィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "持続ダメージの最大値をリセット"
+      SuccessMessage: '持続ダメージの最大値をリセットしました'
+      Description: '持続ダメージフィルターの最大値が低すぎる可能性があります。'
+      ButtonText: '持続ダメージの最大値をリセット'
     MIN_DOT:
-      SuccessMessage: "持続ダメージの最小値をリセットしました"
-      Description: "持続ダメージフィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "持続ダメージの最小値をリセット"
+      SuccessMessage: '持続ダメージの最小値をリセットしました'
+      Description: '持続ダメージフィルターの最小値が高すぎる可能性があります。'
+      ButtonText: '持続ダメージの最小値をリセット'
     MAX_BREAK:
-      SuccessMessage: "撃破ダメージの最大値をリセットしました"
-      Description: "撃破ダメージフィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "撃破ダメージの最大値をリセット"
+      SuccessMessage: '撃破ダメージの最大値をリセットしました'
+      Description: '撃破ダメージフィルターの最大値が低すぎる可能性があります。'
+      ButtonText: '撃破ダメージの最大値をリセット'
     MIN_BREAK:
-      SuccessMessage: "撃破ダメージの最小値をリセットしました"
-      Description: "撃破ダメージフィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "撃破ダメージの最小値をリセット"
+      SuccessMessage: '撃破ダメージの最小値をリセットしました'
+      Description: '撃破ダメージフィルターの最小値が高すぎる可能性があります。'
+      ButtonText: '撃破ダメージの最小値をリセット'
     MAX_MEMO_SKILL:
-      SuccessMessage: "精霊スキルダメージの最大値をリセットしました"
-      Description: "精霊スキルダメージの最大値が低すぎる可能性があります。"
-      ButtonText: "精霊スキルダメージの最大値をリセット"
+      SuccessMessage: '精霊スキルダメージの最大値をリセットしました'
+      Description: '精霊スキルダメージの最大値が低すぎる可能性があります。'
+      ButtonText: '精霊スキルダメージの最大値をリセット'
     MIN_MEMO_SKILL:
-      SuccessMessage: "精霊スキルダメージの最小値をリセットしました"
-      Description: "精霊スキルダメージの最小値が高すぎる可能性があります。"
-      ButtonText: "精霊スキルダメージの最小値をリセット"
+      SuccessMessage: '精霊スキルダメージの最小値をリセットしました'
+      Description: '精霊スキルダメージの最小値が高すぎる可能性があります。'
+      ButtonText: '精霊スキルダメージの最小値をリセット'
     MAX_MEMO_TALENT:
-      SuccessMessage: "精霊天賦ダメージの最大値をリセットしました"
-      Description: "精霊天賦ダメージの最大値が低すぎる可能性があります。"
-      ButtonText: "精霊天賦ダメージの最大値をリセット"
+      SuccessMessage: '精霊天賦ダメージの最大値をリセットしました'
+      Description: '精霊天賦ダメージの最大値が低すぎる可能性があります。'
+      ButtonText: '精霊天賦ダメージの最大値をリセット'
     MIN_MEMO_TALENT:
-      SuccessMessage: "精霊天賦ダメージの最小値をリセットしました"
-      Description: "精霊天賦ダメージの最小値が高すぎる可能性があります。"
-      ButtonText: "精霊天賦ダメージの最小値をリセット"
+      SuccessMessage: '精霊天賦ダメージの最小値をリセットしました'
+      Description: '精霊天賦ダメージの最小値が高すぎる可能性があります。'
+      ButtonText: '精霊天賦ダメージの最小値をリセット'
     MAX_HEAL:
-      SuccessMessage: "治癒量の最大値をリセットしました"
-      Description: "治癒量フィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "治癒量の最大値をリセット"
+      SuccessMessage: '治癒量の最大値をリセットしました'
+      Description: '治癒量フィルターの最大値が低すぎる可能性があります。'
+      ButtonText: '治癒量の最大値をリセット'
     MIN_HEAL:
-      SuccessMessage: "治癒量の最小値をリセットしました"
-      Description: "治癒量フィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "治癒量の最小値をリセット"
+      SuccessMessage: '治癒量の最小値をリセットしました'
+      Description: '治癒量フィルターの最小値が高すぎる可能性があります。'
+      ButtonText: '治癒量の最小値をリセット'
     MAX_SHIELD:
-      SuccessMessage: "シールド量の最大値をリセットしました"
-      Description: "シールド量フィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "シールド量の最大値をリセット"
+      SuccessMessage: 'シールド量の最大値をリセットしました'
+      Description: 'シールド量フィルターの最大値が低すぎる可能性があります。'
+      ButtonText: 'シールド量の最大値をリセット'
     MIN_SHIELD:
-      SuccessMessage: "シールド量の最小値をリセットしました"
-      Description: "シールド量フィルターの最小値が高すぎる可能性があります。"
-      ButtonText: "シールド量の最小値をリセット"
+      SuccessMessage: 'シールド量の最小値をリセットしました'
+      Description: 'シールド量フィルターの最小値が高すぎる可能性があります。'
+      ButtonText: 'シールド量の最小値をリセット'
     MAX_COMBO:
-      SuccessMessage: "コンボダメージの最大値をリセットしました"
-      Description: "コンボダメージフィルターの最大値が低すぎる可能性があります。"
-      ButtonText: "コンボダメージの最大値をリセット"
+      SuccessMessage: 'コンボダメージの最大値をリセットしました'
+      Description: 'コンボダメージフィルターの最大値が低すぎる可能性があります。'
+      ButtonText: 'コンボダメージの最大値をリセット'
     MIN_COMBO:
-      SuccessMessage: "コンボダメージの最小値をリセットしました"
-      Description: "コンボダメージの最小値が高すぎる可能性があります。"
-      ButtonText: "コンボダメージの最小値をリセット"
+      SuccessMessage: 'コンボダメージの最小値をリセットしました'
+      Description: 'コンボダメージの最小値が高すぎる可能性があります。'
+      ButtonText: 'コンボダメージの最小値をリセット'
 ManyPerms:
   Title: 大規模な検索をリクエストしました
   Text: >-
@@ -266,9 +266,10 @@ EditCharacter:
     $t(common:SuperimpositionNShort, {"superimposition":{{superimposition}} })
   Character: キャラクター
   Lightcone: 光円錐
+  Sets: セット
 Relic:
   Part: 部位
-  Wearer: 装備者：
+  Wearer: 装備キャラ：
   Set: セット
   Enhance: 強化・レア度
   Mainstat: メインステータス
@@ -292,7 +293,7 @@ Relic:
       SetInvalid: セットが無効です
       SetNotOrnament: 選択されたセットはオーナメントセットではありません
       SetNotRelic: 選択されたセットは遺物セットではありません
-      SubNInvalid: "サブステータス {{number}} は使用できる値ではありません"
+      SubNInvalid: 'サブステータス {{number}} は使用できる値ではありません'
       SubsOutOfOrder: サブステータスの順番が間違っています
       DuplicateSubs: サブステータスが重複しています。各タイプは一つのみ許可されています。
       MainAsSub: サブステータスとメインステータスが一致しています
@@ -310,7 +311,7 @@ EditImage:
       Default: デフォルトを使用
     Upload:
       Method: ここをクリックしてアップロードするか、画像ファイルをここにドラッグしてください
-      Limit: "対応フォーマット：.jpg .jpeg .png .gif (Max: 20MB)"
+      Limit: '対応フォーマット：.jpg .jpeg .png .gif (Max: 20MB)'
     Url:
       Label: 画像
       Rule: 有効な画像のURLを入力してください
@@ -319,7 +320,7 @@ EditImage:
     Zoom: 拡大
     Drag: ドラッグして移動
     Pinch: ピンチまたはスクロールしてズーム
-    ArtBy: "(任意) 出典："
+    ArtBy: '(任意) 出典：'
     CreditPlaceholder: 可能であれば、アーティストの名前を明記してください。
   Footer:
     Change: 画像を変更
@@ -335,12 +336,12 @@ Builds:
   Equip: 装備
   ConfirmEquip:
     Content: 装備すると、このビルドの遺物を使用するキャラクターの装備が外されます。
-    SuccessMessage: "ビルドを装備しました：{{buildName}}"
+    SuccessMessage: 'ビルドを装備しました：{{buildName}}'
   ConfirmDelete:
     DeleteAll: 本当に全てのビルドを削除しますか？
-    DeleteSingle: "{{name}}を削除しますか？"
-    SuccessMessageAll: "{{characterName}}のすべてのビルドを削除しました"
-    SuccessMessageSingle: "ビルドを削除しました：{{name}}"
+    DeleteSingle: '{{name}}を削除しますか？'
+    SuccessMessageAll: '{{characterName}}のすべてのビルドを削除しました'
+    SuccessMessageSingle: 'ビルドを削除しました：{{name}}'
   NoBuilds:
     NoneSaved: 保存したビルドなし
 ScoreFooter:
@@ -356,7 +357,7 @@ ScoreFooter:
 CharacterSelect:
   MultiSelect:
     Placeholder: キャラクターをカスタマイズ
-    MaxTagPlaceholderSome: "{{count}}人のキャラクターが除外されました"
+    MaxTagPlaceholderSome: '{{count}}人のキャラクターが除外されました'
     MaxTagPlaceholderNone: すべてのキャラクターが有効です。
     ModalTitle: 除外するキャラクターの選択
   SingleSelect:

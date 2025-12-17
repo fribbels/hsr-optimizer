@@ -37,7 +37,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       id: 'dmgBuff',
       formItem: 'switch',
       text: t('dmgBuff.text'),
-      content: t('dmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDefPen[s]) }),
+      content: t('dmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmgBuff[s]) }),
     },
   }
 

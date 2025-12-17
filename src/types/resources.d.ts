@@ -801,6 +801,14 @@ interface Resources {
           }
         }
       },
+      "NeverForgetHerFlame": {
+        "Content": {
+          "breakDmgBuff": {
+            "text": "Break DMG boost",
+            "content": "When entering combat, increases Break DMG dealt by the wearer and another teammate who triggered combat by {{BreakBoost}}%. If there is no teammate who triggered combat, applies this effect to the wearer and the teammate with the highest Break Effect."
+          }
+        }
+      },
       "NightOfFright": {
         "Content": {
           "atkBuffStacks": {
@@ -3177,7 +3185,7 @@ interface Resources {
           },
           "cyreneSpecialEffect": {
             "text": "Cyrene Special Effect",
-            "content": "Phainon gains 6 \"Coreflames\" as well as \"Eternal Ignition\" when Transforming. ::RB:: When Transforming, if \"Coreflame\" exceeds 12, for each point in excess, Khaslana's CRIT DMG increases by 12%/13.2%, up to 72%/79.2%. While \"Eternal Ignition\" persists, increases Khaslana's CRIT Rate by 16%/17.6%. ::BR:: After using an attack, deals 5 instances of Additional DMG, with each instance dealing Fire Additional DMG equal to 10%/11% of Khaslana's ATK to one random enemy."
+            "content": "Phainon gains 6 \"Coreflames\" as well as \"Eternal Ignition\" when Transforming. ::BR:: When Transforming, if \"Coreflame\" exceeds 12, for each point in excess, Khaslana's CRIT DMG increases by 12%/13.2%, up to 72%/79.2%. While \"Eternal Ignition\" persists, increases Khaslana's CRIT Rate by 16%/17.6%. ::BR:: After using an attack, deals 5 instances of Additional DMG, with each instance dealing Fire Additional DMG equal to 10%/11% of Khaslana's ATK to one random enemy."
           },
           "e1Buffs": {
             "text": "E1 buffs",
@@ -3563,6 +3571,56 @@ interface Resources {
           }
         }
       },
+      "TheDahlia": {
+        "Content": {
+          "zoneActive": {
+            "text": "Zone active",
+            "content": "While the Zone is active, increases all allies' Weakness Break Efficiency by 50%."
+          },
+          "ultDefPen": {
+            "text": "Ult DEF PEN",
+            "content": "Reduces DEF of enemy targets by {{DefShred}}% and applies Weakness of all \"Dance Partners'\" Types to enemy targets."
+          },
+          "dancePartner": {
+            "text": "Dance Partner",
+            "content": "After a \"Dance Partner\" attacks a Weakness Broken enemy target, the Toughness Reduction from this attack is converted into 1 instance of Super Break DMG at {{SBScaling}}%."
+          },
+          "superBreakDmg": {
+            "text": "Super Break DMG (force weakness break)",
+            "content": "Forces the weakness broken state to enable super break damage calculations."
+          },
+          "spdBuff": {
+            "text": "SPD buff",
+            "content": "When an ally target adds Weakness to an enemy target, increases SPD by 30% for 2 turns."
+          },
+          "e1Buffs": {
+            "text": "E1 buffs",
+            "content": "Applies Talent's Super Break DMG multiplier provided to \"Dance Partner\" to all ally characters, with \"Dance Partner\" additionally receiving a 40% boost. After \"Dance Partner\" uses an attack, deals an additional fixed amount of Toughness Reduction equal to 25% of the enemy target's Max Toughness (minimum of 10 points, up to 300 points). This effect can only trigger once per enemy target, and the trigger count for each target resets after the enemy target receives a killing blow."
+          },
+          "e2ResPen": {
+            "text": "E2 RES PEN",
+            "content": "When The Dahlia is on the field, decreases all enemies' All-Type RES by 20%."
+          },
+          "e4Vuln": {
+            "text": "E4 Vulnerability",
+            "content": "Increases the target's DMG taken by 12%, lasting for 2 turns."
+          },
+          "e6BeBuff": {
+            "text": "E6 BE buff",
+            "content": "Increases \"Dance Partner's\" Break Effect by 150%."
+          }
+        },
+        "TeammateContent": {
+          "beConversion": {
+            "text": "Break Effect conversion",
+            "content": "When entering combat, increases other characters' Break Effect equal to 24% of The Dahlia's Break Effect plus 50% for 1 turns. This effect triggers again lasting 3 turns when The Dahlia receives healing or a Shield from a teammate, but cannot be triggered repeatedly within a single turn."
+          },
+          "teammateBeValue": {
+            "text": "The Dahlia's Combat BE",
+            "content": "When entering combat, increases other characters' Break Effect equal to 24% of The Dahlia's Break Effect plus 50% for 1 turns. ::BR:: Set this to The Dahlia's self Break Effect stat that she uses to buff teammates."
+          }
+        }
+      },
       "TheHerta": {
         "Content": {
           "enhancedSkill": {
@@ -3701,6 +3759,10 @@ interface Resources {
       },
       "TrailblazerRemembrance": {
         "Content": {
+          "enhancedBasic": {
+            "text": "Enhanced Basic",
+            "content": "After using Ultimate, gains 1 stack of \"Epic,\" up to 2 stacks. When this unit has \"Epic\" and Mem is on the field, Basic ATK gets enhanced to \"Together, We Script Tomorrow!\" ::BR:: Consumes 1 stack of \"Epic\" to dispel all Crowd Control debuffs on Mem. Trailblazer and Mem launch a Joint ATK, dealing Ice DMG to all enemies equal to {{Scaling}}% of Trailblazer's ATK and {{Scaling}}% of Mem's ATK respectively. Then, Mem gains 10% Charge."
+          },
           "memoSkillHits": {
             "text": "Memo Skill hits",
             "content": "Deals 4 instances of DMG, with each instance dealing Ice DMG equal to {{SingleScaling}}% of Mem's ATK to one random enemy. Finally, deals Ice DMG equal to {{AoeScaling}}% of Mem's ATK to all enemies."
@@ -3757,7 +3819,7 @@ interface Resources {
           },
           "cyreneSpecialEffect": {
             "text": "Cyrene Special Effect",
-            "content": "DMG dealt by Tribbie ignoes 12%/13.2% of the enemy's DEF. When Tribbie launches Follow-up ATK and triggers the Additional DMG from Tribbie's Zone, it further deals 1 instance of Additional DMG."
+            "content": "DMG dealt by Tribbie ignores 12%/13.2% of the enemy's DEF. When Tribbie launches Follow-up ATK and triggers the Additional DMG from Tribbie's Zone, it further deals 1 instance of Additional DMG."
           },
           "e1TrueDmg": {
             "text": "E1 True DMG",
@@ -5606,7 +5668,8 @@ interface Resources {
       "EidolonButton": "$t(common:EidolonNShort, {\"eidolon\":{{eidolon}} })",
       "SuperimpositionButton": "$t(common:SuperimpositionNShort, {\"superimposition\":{{superimposition}} })",
       "Character": "Character",
-      "Lightcone": "Light cone"
+      "Lightcone": "Light cone",
+      "Sets": "Sets"
     },
     "Relic": {
       "Part": "Part",
@@ -5835,7 +5898,7 @@ interface Resources {
       "PriorityFilter": "Character priority filter",
       "Priority": {
         "Header": "Priority",
-        "Label": "# {{rank}} - $t(common:Characters.{{id}}.Name)",
+        "Label": "# {{rank}} - $t(common:Characters.{{id}}.LongName)",
         "Name": "# {{rank}}"
       },
       "AllowEquipped": "Allow equipped relics",
@@ -6294,6 +6357,16 @@ interface Resources {
         "Warrior": {
           "Desc": "4 Piece: $t(gameData:RelicSets.125.Name) (+15% CD)",
           "Set": "$t(gameData:RelicSets.125.Name)",
+          "Text": "15% CD"
+        },
+        "WorldRemaking": {
+          "Desc": "4 Piece: $t(gameData:RelicSets.127.Name) (+15% DMG)",
+          "Set": "$t(gameData:RelicSets.127.Name)",
+          "Text": "15% DMG"
+        },
+        "SelfEnshrouded": {
+          "Desc": "4 Piece: $t(gameData:RelicSets.128.Name) (+15% CD)",
+          "Set": "$t(gameData:RelicSets.128.Name)",
           "Text": "15% CD"
         },
         "Keel": {

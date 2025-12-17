@@ -479,6 +479,14 @@ TeammateCard:
       Desc: 'crwdns45994:0$t(gameData:RelicSets.125.Name)crwdne45994:0'
       Set: 'crwdns45236:0$t(gameData:RelicSets.125.Name)crwdne45236:0'
       Text: crwdns45238:0crwdne45238:0
+    WorldRemaking:
+      Desc: 'crwdns46142:0$t(gameData:RelicSets.127.Name)crwdne46142:0'
+      Set: 'crwdns46144:0$t(gameData:RelicSets.127.Name)crwdne46144:0'
+      Text: crwdns46146:0crwdne46146:0
+    SelfEnshrouded:
+      Desc: 'crwdns46148:0$t(gameData:RelicSets.128.Name)crwdne46148:0'
+      Set: 'crwdns46150:0$t(gameData:RelicSets.128.Name)crwdne46150:0'
+      Text: crwdns46152:0crwdne46152:0
     Keel:
       Desc: 'crwdns43336:0$t(gameData:RelicSets.310.Name)crwdne43336:0'
       Set: 'crwdns43338:0$t(gameData:RelicSets.310.Name)crwdne43338:0'
@@ -617,6 +625,7 @@ ExpandedDataPanel:
           DEF PEN: crwdns45073:0crwdne45073:0
           Break DEF PEN: crwdns45075:0crwdne45075:0
           Toughness DMG: crwdns45077:0crwdne45077:0
+          Fixed Toughness DMG: crwdns46124:0crwdne46124:0
           Super Break multiplier: crwdns45079:0crwdne45079:0
           Break Efficiency boost: crwdns45081:0crwdne45081:0
           True DMG multiplier: crwdns45083:0crwdne45083:0

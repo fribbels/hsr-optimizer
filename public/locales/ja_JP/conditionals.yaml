@@ -1548,6 +1548,9 @@ Characters:
       healingDmgStacks:
         text: 治癒時のダメージ増加数
         content: ヒアンシーまたはイカルンが治癒を行う時、イカルンの与ダメージ+{{TalentDmgBuff}}%、2ターン継続。最大で3層累積できる。
+      healTallyMultiplier:
+        text: 集計治癒倍率
+        content: 現在の仕様では、記憶の精霊のスキルダメージは1回の治癒行動のみを基準に算出されています。ゲーム内で出すダメージと合わせたい場合は、この倍率を調整してください。
       e1HpBuff:
         text: 1凸 HPバフ
         content: ヒアンシーが「雨上がり」状態の時、味方それぞれの最大HPアップ効果がさらに50%アップする。

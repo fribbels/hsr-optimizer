@@ -228,6 +228,10 @@ Lightcones:
       selfAttackedDefBuff:
         text: '↑Защита при получении атаки'
         content: "Когда противник атакует владельца, защита владельца повышается на доп. {{DefBuff}}% до конца его хода.\n"
+  NeverForgetHerFlame:
+    Content:
+      breakDmgBuff:
+        text: '↑Урон Пробития'
   NightOfFright:
     Content:
       atkBuffStacks:
@@ -2248,6 +2252,18 @@ Characters:
       e2DmgReductionBuff:
         text: E2 -20% урона по Сушан
         content: Срабатывание Стойки меча понижает получаемый Сушан урон на 20% на 1 ход.
+  TheDahlia:
+    Content:
+      superBreakDmg:
+        text: Урон Суперпробития (уязвимость считается пробитой)
+      spdBuff:
+        text: '↑Скорость после ульты'
+      e1Buffs:
+        text: E1 Баффы
+      e2ResPen:
+        text: E2 Игнор Сопр. Урону
+      e6BeBuff:
+        text: E6 ↑Пробития
   TheHerta:
     Content:
       enhancedSkill:
@@ -2353,6 +2369,8 @@ Characters:
         content: После использования усиленной базовой атаки или сверхспособности защита Первопроходца повышается на 10%.
   TrailblazerRemembrance:
     Content:
+      enhancedBasic:
+        text: '↑Базовая Атака'
       memoSkillHits:
         text: Ударов навыка Мемо
         content: >-

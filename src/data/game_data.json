@@ -6066,7 +6066,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1401": {
       "id": "1401",
@@ -10316,7 +10316,7 @@
         "ATK": 529.2,
         "DEF": 463.05
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23051": {
       "id": "23051",

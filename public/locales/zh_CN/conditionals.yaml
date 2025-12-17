@@ -228,6 +228,10 @@ Lightcones:
       selfAttackedDefBuff:
         text: 被攻击时防御力增益
         content: 使自身受到攻击的概率提高。当装备者受到攻击后，防御力额外提高{{DefBuff}}%，持续到自身回合结束。
+  NeverForgetHerFlame:
+    Content:
+      breakDmgBuff:
+        text: 击破伤害提升
   NightOfFright:
     Content:
       atkBuffStacks:
@@ -2243,6 +2247,18 @@ Characters:
       e2DmgReductionBuff:
         text: 2魂减伤增益
         content: 触发【剑势】后，素裳受到的伤害降低20%，持续1回合。
+  TheDahlia:
+    Content:
+      superBreakDmg:
+        text: 超击破伤害（强制弱点击破）
+      spdBuff:
+        text: 速度增益
+      e1Buffs:
+        text: 1魂增益
+      e2ResPen:
+        text: 2魂属性抗性穿透
+      e6BeBuff:
+        text: 6魂击破特攻增益
   TheHerta:
     Content:
       enhancedSkill:
@@ -2348,6 +2364,8 @@ Characters:
         content: 施放强化普攻或终结技后，开拓者的防御力提高10%，最多叠加3层。
   TrailblazerRemembrance:
     Content:
+      enhancedBasic:
+        text: 强化普攻
       memoSkillHits:
         text: 忆灵技击中次数
         content: >-

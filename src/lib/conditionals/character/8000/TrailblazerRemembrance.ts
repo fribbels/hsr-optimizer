@@ -103,8 +103,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     enhancedBasic: {
       id: 'enhancedBasic',
       formItem: 'switch',
-      text: 'Enhanced Basic',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.enhancedBasic.text'),
+      content: t('Content.enhancedBasic.content', { Scaling: TsUtils.precisionRound(100 * enhancedBasicScaling) }),
     },
     memoSkillHits: {
       id: 'memoSkillHits',

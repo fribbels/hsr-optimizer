@@ -63,7 +63,7 @@ OptimizerOptions:
   PriorityFilter: Character priority filter
   Priority:
     Header: Priority
-    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
+    Label: '# {{rank}} - $t(common:Characters.{{id}}.LongName)'
     Name: '# {{rank}}'
   AllowEquipped: Allow equipped relics
   KeepCurrent: Keep current relics

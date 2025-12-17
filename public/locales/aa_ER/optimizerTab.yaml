@@ -63,7 +63,7 @@ OptimizerOptions:
   PriorityFilter: crwdns42736:0crwdne42736:0
   Priority:
     Header: crwdns42738:0crwdne42738:0
-    Label: 'crwdns42740:0{{rank}}crwdnd42740:0$t(common:Characters.{{id}}.Name)crwdne42740:0'
+    Label: 'crwdns46208:0{{rank}}crwdnd46208:0$t(common:Characters.{{id}}.LongName)crwdne46208:0'
     Name: 'crwdns42742:0{{rank}}crwdne42742:0'
   AllowEquipped: crwdns42744:0crwdne42744:0
   KeepCurrent: crwdns42746:0crwdne42746:0

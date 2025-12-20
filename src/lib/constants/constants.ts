@@ -7,6 +7,11 @@ export const CURRENT_OPTIMIZER_VERSION = 'v3.8.1'
 // Represents the beta data content version, used for display but not for update notifications
 export const CURRENT_DATA_VERSION = '3.8v5'
 
+// Controls downtime messaging
+export const SHOWCASE_DOWNTIME = false
+export const RELIQUARY_DOWNTIME = false
+export const DOWNTIME_VERSION = 3.8
+
 const generateMessage = (message?: string) => `${CURRENT_DATA_VERSION} - ${message}`
 export const CharacterAnnouncementMessages: Record<string, string> = {}
 

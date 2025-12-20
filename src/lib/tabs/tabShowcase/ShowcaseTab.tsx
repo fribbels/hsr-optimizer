@@ -22,7 +22,9 @@ import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   CURRENT_DATA_VERSION,
+  DOWNTIME_VERSION,
   officialOnly,
+  SHOWCASE_DOWNTIME,
 } from 'lib/constants/constants'
 import {
   OpenCloseIDs,
@@ -84,11 +86,13 @@ export default function ShowcaseTab() {
   return (
     <div>
       <Flex vertical gap={0} align='center'>
-        {/*<Flex gap={10} vertical align='center'>*/}
-        {/*  <Text>*/}
-        {/*    <h3 style={{ color: '#ffaa4f' }}>{t('Header.DowntimeWarning', { game_version: 3.7 })}</h3>*/}
-        {/*  </Text>*/}
-        {/*</Flex>*/}
+        {SHOWCASE_DOWNTIME && (
+          <Flex gap={10} vertical align='center'>
+            <Text>
+              <h3 style={{ color: '#ffaa4f' }}>{t('Header.DowntimeWarning', { game_version: DOWNTIME_VERSION })}</h3>
+            </Text>
+          </Flex>
+        )}
 
         <Flex gap={10} vertical align='center'>
           <Text>

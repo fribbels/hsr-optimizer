@@ -63,7 +63,6 @@ OptimizerOptions:
   PriorityFilter: Filtrar prioridad de los pj.
   Priority:
     Header: Prioridad
-    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
   AllowEquipped: Permitir artef. equipados
   KeepCurrent: Mantener artefactos

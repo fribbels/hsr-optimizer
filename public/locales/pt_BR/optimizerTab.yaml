@@ -63,7 +63,6 @@ OptimizerOptions:
   PriorityFilter: Filtro de prioridade
   Priority:
     Header: Prioridade
-    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
   AllowEquipped: Permitir relics equipadas
   KeepCurrent: Manter as relíquias atuais

@@ -228,6 +228,11 @@ Lightcones:
       selfAttackedDefBuff:
         text: crwdns40278:0crwdne40278:0
         content: crwdns40280:0{{DefBuff}}crwdne40280:0
+  NeverForgetHerFlame:
+    Content:
+      breakDmgBuff:
+        text: crwdns46156:0crwdne46156:0
+        content: crwdns46158:0{{BreakBoost}}crwdne46158:0
   NightOfFright:
     Content:
       atkBuffStacks:
@@ -2243,6 +2248,43 @@ Characters:
       e2DmgReductionBuff:
         text: crwdns41592:0crwdne41592:0
         content: crwdns44416:0crwdne44416:0
+  TheDahlia:
+    Content:
+      zoneActive:
+        text: crwdns46160:0crwdne46160:0
+        content: crwdns46162:0crwdne46162:0
+      ultDefPen:
+        text: crwdns46164:0crwdne46164:0
+        content: crwdns46166:0{{DefShred}}crwdne46166:0
+      dancePartner:
+        text: crwdns46168:0crwdne46168:0
+        content: crwdns46170:0{{SBScaling}}crwdne46170:0
+      superBreakDmg:
+        text: crwdns46172:0crwdne46172:0
+        content: crwdns46174:0crwdne46174:0
+      spdBuff:
+        text: crwdns46176:0crwdne46176:0
+        content: crwdns46178:0crwdne46178:0
+      e1Buffs:
+        text: crwdns46180:0crwdne46180:0
+        content: crwdns46182:0crwdne46182:0
+      e2ResPen:
+        text: crwdns46184:0crwdne46184:0
+        content: crwdns46186:0crwdne46186:0
+      e4Vuln:
+        text: crwdns46188:0crwdne46188:0
+        content: crwdns46190:0crwdne46190:0
+      e6BeBuff:
+        text: crwdns46192:0crwdne46192:0
+        content: crwdns46194:0crwdne46194:0
+    TeammateContent:
+      beConversion:
+        text: crwdns46196:0crwdne46196:0
+        content: crwdns46198:0crwdne46198:0
+      teammateBeValue:
+        text: crwdns46200:0crwdne46200:0
+        content: >-
+          crwdns46202:0:BR:crwdne46202:0
   TheHerta:
     Content:
       enhancedSkill:
@@ -2348,6 +2390,10 @@ Characters:
         content: crwdns44428:0crwdne44428:0
   TrailblazerRemembrance:
     Content:
+      enhancedBasic:
+        text: crwdns46204:0crwdne46204:0
+        content: >-
+          crwdns46206:0:BR:crwdnd46206:0{{Scaling}}crwdnd46206:0{{Scaling}}crwdne46206:0
       memoSkillHits:
         text: crwdns43908:0crwdne43908:0
         content: >-

@@ -63,7 +63,7 @@ OptimizerOptions:
   PriorityFilter: 優先順位でフィルター
   Priority:
     Header: 優先順位
-    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
+    Label: '# {{rank}} - $t(common:Characters.{{id}}.LongName)'
     Name: '# {{rank}}'
   AllowEquipped: 別キャラの遺物を含める
   KeepCurrent: 装備済みの遺物を保持
@@ -484,7 +484,7 @@ TeammateCard:
     WorldRemaking:
       Desc: '4セット：$t(gameData:RelicSets.127.Name)（与ダメージ+15%）'
       Set: '$t(gameData:RelicSets.127.Name)'
-      Text: 与ダメ15%
+      Text: 与ダメ+15%
     SelfEnshrouded:
       Desc: '4セット：$t(gameData:RelicSets.128.Name)（会心ダメージ+15%）'
       Set: '$t(gameData:RelicSets.128.Name)'

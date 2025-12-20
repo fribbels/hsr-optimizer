@@ -63,7 +63,6 @@ OptimizerOptions:
   PriorityFilter: Filtre de priorité de pers.
   Priority:
     Header: Priorité
-    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
   AllowEquipped: Filtre reliques équipées
   KeepCurrent: Garder reliques courantes

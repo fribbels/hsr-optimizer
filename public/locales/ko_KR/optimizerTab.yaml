@@ -63,7 +63,6 @@ OptimizerOptions:
   PriorityFilter: 캐릭터 우선순위 필터
   Priority:
     Header: 우선순위
-    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
   AllowEquipped: 장착된 유물 포함
   KeepCurrent: 현재 유물 유지

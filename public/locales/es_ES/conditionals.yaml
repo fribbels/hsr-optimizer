@@ -228,6 +228,10 @@ Lightcones:
       selfAttackedDefBuff:
         text: Mejora de DEF por ser atacado
         content: Incrementa la probabilidad de recibir ataques enemigos. Cuando el portador recibe un ataque, su DEF aumenta en un {{DefBuff}}% adicional hasta el final de su turno.
+  NeverForgetHerFlame:
+    Content:
+      breakDmgBuff:
+        text: Aumento de Daño de Ruptura
   NightOfFright:
     Content:
       atkBuffStacks:
@@ -2244,6 +2248,18 @@ Characters:
       e2DmgReductionBuff:
         text: E2 Mejora de reducción de daño
         content: Tras activar Postura espadachina, el daño que recibe Sushang se reduce en un 20% durante 1 turno.
+  TheDahlia:
+    Content:
+      superBreakDmg:
+        text: Daño de Ultrarruptura (forzar rupt. de debilidad)
+      spdBuff:
+        text: Mejora de VEL
+      e1Buffs:
+        text: E1 Mejoras
+      e2ResPen:
+        text: E2 PEN RES
+      e6BeBuff:
+        text: E6 Mejora de EdR
   TheHerta:
     Content:
       enhancedSkill:
@@ -2349,6 +2365,8 @@ Characters:
         content: Aumenta la DEF en un 10% por acumulación.
   TrailblazerRemembrance:
     Content:
+      enhancedBasic:
+        text: Básico potenciado
       memoSkillHits:
         text: Golpes de Habilidad Mnemo
         content: >-

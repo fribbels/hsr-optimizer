@@ -226,6 +226,10 @@ Lightcones:
       selfAttackedDefBuff:
         text: 피격 후 방어력 증가
         content: 자신이 피격될 확률이 증가하고 장착한 캐릭터는 피격 후 자신의 턴이 끝날 때까지 방어력이 추가로{{DefBuff}}% 증가한다.
+  NeverForgetHerFlame:
+    Content:
+      breakDmgBuff:
+        text: 격파 피해 버프
   NightOfFright:
     Content:
       atkBuffStacks:
@@ -2107,6 +2111,18 @@ Characters:
       e2DmgReductionBuff:
         text: 2돌 받는 피해 감소
         content: '[검세] 발동 후 소상이 받는 피해가 20% 감소한다. 지속 시간: 1턴'
+  TheDahlia:
+    Content:
+      superBreakDmg:
+        text: 슈펴 걱파 피해 (격파 상태)
+      spdBuff:
+        text: 속도 버프
+      e1Buffs:
+        text: 1돌 버프
+      e2ResPen:
+        text: 2돌 속성 저항 감소
+      e6BeBuff:
+        text: 6돌 격특 버프
   TheHerta:
     Content:
       enhancedSkill:
@@ -2212,6 +2228,8 @@ Characters:
         content: '일반 공격 강화 혹은 필살기 발동 후 개척자의 방어력이 10% 증가한다. 최대 중첩수: 3스택'
   TrailblazerRemembrance:
     Content:
+      enhancedBasic:
+        text: 강화 공격
       memoSkillHits:
         text: 기억 정령 적중 수
         content: >-

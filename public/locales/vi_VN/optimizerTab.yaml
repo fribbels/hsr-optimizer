@@ -53,7 +53,6 @@ OptimizerOptions:
   PriorityFilter: Bộ lọc ưu tiên nhân vật.
   Priority:
     Header: Ưu tiên
-    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
   AllowEquipped: Cho phép sử dụng di vật đang được mặc
   KeepCurrent: Giữ di vật hiện tại

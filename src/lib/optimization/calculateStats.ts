@@ -1,13 +1,4 @@
 import {
-  BASIC_DMG_TYPE,
-  BREAK_DMG_TYPE,
-  DOT_DMG_TYPE,
-  FUA_DMG_TYPE,
-  SKILL_DMG_TYPE,
-  SUPER_BREAK_DMG_TYPE,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
   Sets,
   Stats,
   StatsValues,
@@ -25,14 +16,7 @@ import {
   TaliaKingdomOfBanditryConditional,
 } from 'lib/gpu/conditionals/setConditionals'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
-import { Source } from 'lib/optimization/buffSource'
 import {
-  buffAbilityDefPen,
-  buffAbilityDmg,
-} from 'lib/optimization/calculateBuffs'
-import {
-  buffElementalDamageType,
-  ComputedStatsArray,
   Key,
   StatToKey,
 } from 'lib/optimization/computedStatsArray'
@@ -42,6 +26,9 @@ import {
   SetKeys,
   SetKeyType,
 } from 'lib/optimization/config/setsConfig'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SimulationRelic } from 'lib/simulations/statSimulationTypes'
 import {
   OptimizerAction,
@@ -164,15 +151,16 @@ export function calculateBaseStats(c: BasicStatsArray, context: OptimizerContext
   a[Key.OHB] = sumPercentStat(Stats.OHB, base, lc, trace, c, 0)
 }
 
-export function calculateBasicEffects(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+export function calculateBasicEffects(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
   const lightConeConditionalController = context.lightConeConditionalController
   const characterConditionalController = context.characterConditionalController
 
-  if (lightConeConditionalController.calculateBasicEffects) lightConeConditionalController.calculateBasicEffects(x, action, context)
-  if (characterConditionalController.calculateBasicEffects) characterConditionalController.calculateBasicEffects(x, action, context)
+  // TODO
+  // if (lightConeConditionalController.calculateBasicEffects) lightConeConditionalController.calculateBasicEffects(x, action, context)
+  // if (characterConditionalController.calculateBasicEffects) characterConditionalController.calculateBasicEffects(x, action, context)
 }
 
-export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+export function calculateComputedStats(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
   const setConditionals = action.setConditionals
   const a = x.a
   const c = x.c
@@ -180,76 +168,87 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
   const setsArray = c.setsArray
   const buffs = context.combatBuffs
 
-  // Add base to computed
-  a[Key.ATK] += c.a[Key.ATK] + buffs.ATK + buffs.ATK_P * context.baseATK
-  a[Key.DEF] += c.a[Key.DEF] + buffs.DEF + buffs.DEF_P * context.baseDEF
-  a[Key.HP] += c.a[Key.HP] + buffs.HP + buffs.HP_P * context.baseHP
-  a[Key.SPD] += c.a[Key.SPD] + buffs.SPD + buffs.SPD_P * context.baseSPD
-  a[Key.CD] += c.a[Key.CD] + buffs.CD
-  a[Key.CR] += c.a[Key.CR] + buffs.CR
-  a[Key.BE] += c.a[Key.BE] + buffs.BE
-  a[Key.EHR] += c.a[Key.EHR]
-  a[Key.RES] += c.a[Key.RES]
-  a[Key.ERR] += c.a[Key.ERR]
-  a[Key.OHB] += c.a[Key.OHB]
+  // Add base to computed (defaults to SelfAndPet targeting)
+  x.actionBuff(StatKey.ATK, c.a[StatKey.ATK] + buffs.ATK + buffs.ATK_P * context.baseATK)
+  x.actionBuff(StatKey.DEF, c.a[StatKey.DEF] + buffs.DEF + buffs.DEF_P * context.baseDEF)
+  x.actionBuff(StatKey.HP, c.a[StatKey.HP] + buffs.HP + buffs.HP_P * context.baseHP)
+  x.actionBuff(StatKey.SPD, c.a[StatKey.SPD] + buffs.SPD + buffs.SPD_P * context.baseSPD)
+  x.actionBuff(StatKey.CD, c.a[StatKey.CD] + buffs.CD)
+  x.actionBuff(StatKey.CR, c.a[StatKey.CR] + buffs.CR)
+  x.actionBuff(StatKey.BE, c.a[StatKey.BE] + buffs.BE)
+  x.actionBuff(StatKey.EHR, c.a[StatKey.EHR])
+  x.actionBuff(StatKey.RES, c.a[StatKey.RES])
+  x.actionBuff(StatKey.ERR, c.a[StatKey.ERR])
+  x.actionBuff(StatKey.OHB, c.a[StatKey.OHB])
 
-  a[Key.BASE_ATK] = context.baseATK
-  a[Key.BASE_DEF] = context.baseDEF
-  a[Key.BASE_HP] = context.baseHP
-  a[Key.BASE_SPD] = context.baseSPD
+  x.actionSet(StatKey.BASE_ATK, context.baseATK)
+  x.actionSet(StatKey.BASE_DEF, context.baseDEF)
+  x.actionSet(StatKey.BASE_HP, context.baseHP)
+  x.actionSet(StatKey.BASE_SPD, context.baseSPD)
 
-  if (x.a[Key.MEMOSPRITE]) {
-    const xmc = x.m.c
-    const xmca = x.m.c.a
-    const xma = x.m.a
-    xmca[Key.ATK] = x.a[Key.MEMO_BASE_ATK_SCALING] * c.a[Key.ATK] + x.a[Key.MEMO_BASE_ATK_FLAT]
-    xmca[Key.DEF] = x.a[Key.MEMO_BASE_DEF_SCALING] * c.a[Key.DEF] + x.a[Key.MEMO_BASE_DEF_FLAT]
-    xmca[Key.HP] = x.a[Key.MEMO_BASE_HP_SCALING] * c.a[Key.HP] + x.a[Key.MEMO_BASE_HP_FLAT]
-    xmca[Key.SPD] = x.a[Key.MEMO_BASE_SPD_SCALING] * c.a[Key.SPD] + x.a[Key.MEMO_BASE_SPD_FLAT]
+  // Calculate memosprite entity stats
+  for (let entityIndex = 1; entityIndex < x.config.entitiesLength; entityIndex++) {
+    const entity = x.config.entityRegistry.get(entityIndex)!
 
-    xma[Key.BASE_ATK] = x.a[Key.MEMO_BASE_ATK_SCALING] * context.baseATK
-    xma[Key.BASE_DEF] = x.a[Key.MEMO_BASE_DEF_SCALING] * context.baseDEF
-    xma[Key.BASE_HP] = x.a[Key.MEMO_BASE_HP_SCALING] * context.baseHP
-    xma[Key.BASE_SPD] = x.a[Key.MEMO_BASE_SPD_SCALING] * context.baseSPD
+    if (!entity.memosprite) continue
 
-    xma[Key.ATK] += xmc.a[Key.ATK]
-    xma[Key.DEF] += xmc.a[Key.DEF]
-    xma[Key.HP] += xmc.a[Key.HP]
-    xma[Key.SPD] += xmc.a[Key.SPD]
-    xma[Key.CD] += c.a[Key.CD]
-    xma[Key.CR] += c.a[Key.CR]
-    xma[Key.BE] += c.a[Key.BE]
-    xma[Key.EHR] += c.a[Key.EHR]
-    xma[Key.RES] += c.a[Key.RES]
-    xma[Key.ERR] += c.a[Key.ERR]
-    xma[Key.OHB] += c.a[Key.OHB]
+    // Calculate memosprite base stats from primary entity
+    const memoBaseAtk = (entity.memoBaseAtkScaling ?? 1) * c.a[StatKey.ATK] + (entity.memoBaseAtkFlat ?? 0)
+    const memoBaseDef = (entity.memoBaseDefScaling ?? 1) * c.a[StatKey.DEF] + (entity.memoBaseDefFlat ?? 0)
+    const memoBaseHp = (entity.memoBaseHpScaling ?? 1) * c.a[StatKey.HP] + (entity.memoBaseHpFlat ?? 0)
+    const memoBaseSpd = (entity.memoBaseSpdScaling ?? 1) * c.a[StatKey.SPD] + (entity.memoBaseSpdFlat ?? 0)
+
+    // Set base stats
+    a[x.getActionIndex(entityIndex, StatKey.BASE_ATK)] = memoBaseAtk
+    a[x.getActionIndex(entityIndex, StatKey.BASE_DEF)] = memoBaseDef
+    a[x.getActionIndex(entityIndex, StatKey.BASE_HP)] = memoBaseHp
+    a[x.getActionIndex(entityIndex, StatKey.BASE_SPD)] = memoBaseSpd
+
+    // Add to actual stats
+    a[x.getActionIndex(entityIndex, StatKey.ATK)] += memoBaseAtk
+    a[x.getActionIndex(entityIndex, StatKey.DEF)] += memoBaseDef
+    a[x.getActionIndex(entityIndex, StatKey.HP)] += memoBaseHp
+    a[x.getActionIndex(entityIndex, StatKey.SPD)] += memoBaseSpd
+
+    // Copy secondary stats from primary entity
+    a[x.getActionIndex(entityIndex, StatKey.CD)] += c.a[StatKey.CD]
+    a[x.getActionIndex(entityIndex, StatKey.CR)] += c.a[StatKey.CR]
+    a[x.getActionIndex(entityIndex, StatKey.BE)] += c.a[StatKey.BE]
+    a[x.getActionIndex(entityIndex, StatKey.EHR)] += c.a[StatKey.EHR]
+    a[x.getActionIndex(entityIndex, StatKey.RES)] += c.a[StatKey.RES]
+    a[x.getActionIndex(entityIndex, StatKey.ERR)] += c.a[StatKey.ERR]
+    a[x.getActionIndex(entityIndex, StatKey.OHB)] += c.a[StatKey.OHB]
   }
 
-  a[Key.ELEMENTAL_DMG] += buffs.DMG_BOOST
-  a[Key.EFFECT_RES_PEN] += buffs.EFFECT_RES_PEN
-  a[Key.VULNERABILITY] += buffs.VULNERABILITY
-  a[Key.BREAK_EFFICIENCY_BOOST] += buffs.BREAK_EFFICIENCY
+  x.actionBuff(StatKey.DMG_BOOST, buffs.DMG_BOOST + c.a[Key.ELEMENTAL_DMG], TargetTag.FullTeam)
+  x.actionBuff(StatKey.EFFECT_RES_PEN, buffs.EFFECT_RES_PEN, TargetTag.FullTeam)
+  x.actionBuff(StatKey.VULNERABILITY, buffs.VULNERABILITY, TargetTag.FullTeam)
+  x.actionBuff(StatKey.BREAK_EFFICIENCY_BOOST, buffs.BREAK_EFFICIENCY, TargetTag.FullTeam)
 
-  buffElementalDamageType(x, context.elementalDamageType, c.a[Key.ELEMENTAL_DMG])
-  if (x.a[Key.MEMOSPRITE]) {
-    buffElementalDamageType(x.m, context.elementalDamageType, c.a[Key.ELEMENTAL_DMG])
-  }
+  // TODO
+  // if (x.a[Key.MEMOSPRITE]) {
+  //   buffElementalDamageType(x.m, context.elementalDamageType, c.a[Key.ELEMENTAL_DMG])
+  // }
 
   // BASIC
 
   executeNonDynamicCombatSets(x, context, setConditionals, sets, setsArray)
 
-  a[Key.SPD] += a[Key.SPD_P] * context.baseSPD
-  a[Key.ATK] += a[Key.ATK_P] * context.baseATK
-  a[Key.DEF] += a[Key.DEF_P] * context.baseDEF
-  a[Key.HP] += a[Key.HP_P] * context.baseHP
+  x.actionBuff(StatKey.SPD, a[StatKey.SPD_P] * context.baseSPD, TargetTag.FullTeam)
+  x.actionBuff(StatKey.ATK, a[StatKey.ATK_P] * context.baseATK, TargetTag.FullTeam)
+  x.actionBuff(StatKey.DEF, a[StatKey.DEF_P] * context.baseDEF, TargetTag.FullTeam)
+  x.actionBuff(StatKey.HP, a[StatKey.HP_P] * context.baseHP, TargetTag.FullTeam)
 
-  if (x.a[Key.MEMOSPRITE]) {
-    const xma = x.m.a
-    xma[Key.SPD] += xma[Key.SPD_P] * (xma[Key.BASE_SPD])
-    xma[Key.ATK] += xma[Key.ATK_P] * (xma[Key.BASE_ATK])
-    xma[Key.DEF] += xma[Key.DEF_P] * (xma[Key.BASE_DEF])
-    xma[Key.HP] += xma[Key.HP_P] * (xma[Key.BASE_HP])
+  // Apply percent stats to memosprite entities
+  for (let entityIndex = 1; entityIndex < x.config.entitiesLength; entityIndex++) {
+    const entity = x.config.entityRegistry.get(entityIndex)!
+
+    if (!entity.memosprite) continue
+
+    a[x.getActionIndex(entityIndex, StatKey.SPD)] += a[x.getActionIndex(entityIndex, StatKey.SPD_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_SPD)]
+    a[x.getActionIndex(entityIndex, StatKey.ATK)] += a[x.getActionIndex(entityIndex, StatKey.ATK_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_ATK)]
+    a[x.getActionIndex(entityIndex, StatKey.DEF)] += a[x.getActionIndex(entityIndex, StatKey.DEF_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_DEF)]
+    a[x.getActionIndex(entityIndex, StatKey.HP)] += a[x.getActionIndex(entityIndex, StatKey.HP_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_HP)]
   }
 
   // Dynamic ornament set conditionals
@@ -268,52 +267,55 @@ export function calculateComputedStats(x: ComputedStatsArray, action: OptimizerA
 
   // Dynamic character / lc conditionals
 
-  for (const conditional of action.teammateDynamicConditionals ?? []) {
-    evaluateConditional(conditional, x, action, context)
-  }
-  for (const conditional of context.characterConditionalController.dynamicConditionals ?? []) {
-    evaluateConditional(conditional, x, action, context)
-  }
-  for (const conditional of context.lightConeConditionalController.dynamicConditionals ?? []) {
-    evaluateConditional(conditional, x, action, context)
-  }
+  // TODO
+  // for (const conditional of context.characterConditionalController.dynamicConditionals ?? []) {
+  //   evaluateConditional(conditional, x, action, context)
+  // }
+  // for (const conditional of context.lightConeConditionalController.dynamicConditionals ?? []) {
+  //   evaluateConditional(conditional, x, action, context)
+  // }
+  // for (const conditional of action.teammateDynamicConditionals ?? []) {
+  //   evaluateConditional(conditional, x, action, context)
+  // }
 
   // Terminal ornament set conditionals
 
   if (setsArray[4] == setsArray[5]) {
-    if (p2(SetKeys.FirmamentFrontlineGlamoth, sets) && x.a[Key.SPD] >= 135) {
-      x.ELEMENTAL_DMG.buff(x.a[Key.SPD] >= 160 ? 0.18 : 0.12, Source.FirmamentFrontlineGlamoth)
-    }
-
-    if (p2(SetKeys.RutilantArena, sets) && x.a[Key.CR] >= 0.70) {
-      buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 0.20, Source.RutilantArena)
-    }
-
-    if (p2(SetKeys.InertSalsotto, sets) && x.a[Key.CR] >= 0.50) {
-      buffAbilityDmg(x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, Source.InertSalsotto)
-    }
-
-    if (p2(SetKeys.RevelryByTheSea, sets)) {
-      if (x.a[Key.ATK] >= 3600) {
-        buffAbilityDmg(x, DOT_DMG_TYPE, 0.24, Source.RevelryByTheSea)
-      } else if (x.a[Key.ATK] >= 2400) {
-        buffAbilityDmg(x, DOT_DMG_TYPE, 0.12, Source.RevelryByTheSea)
-      }
-    }
+    // TODO
+    // if (p2(SetKeys.FirmamentFrontlineGlamoth, sets) && x.a[Key.SPD] >= 135) {
+    //   x.ELEMENTAL_DMG.buff(x.a[Key.SPD] >= 160 ? 0.18 : 0.12, Source.FirmamentFrontlineGlamoth)
+    // }
+    //
+    // if (p2(SetKeys.RutilantArena, sets) && x.a[Key.CR] >= 0.70) {
+    //   buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 0.20, Source.RutilantArena)
+    // }
+    //
+    // if (p2(SetKeys.InertSalsotto, sets) && x.a[Key.CR] >= 0.50) {
+    //   buffAbilityDmg(x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, Source.InertSalsotto)
+    // }
+    //
+    // if (p2(SetKeys.RevelryByTheSea, sets)) {
+    //   if (x.a[Key.ATK] >= 3600) {
+    //     buffAbilityDmg(x, DOT_DMG_TYPE, 0.24, Source.RevelryByTheSea)
+    //   } else if (x.a[Key.ATK] >= 2400) {
+    //     buffAbilityDmg(x, DOT_DMG_TYPE, 0.12, Source.RevelryByTheSea)
+    //   }
+    // }
   }
 
   // Terminal relic set conditionals
 
   if (p4(SetKeys.IronCavalryAgainstTheScourge, sets) && x.a[Key.BE] >= 1.50) {
-    buffAbilityDefPen(x, BREAK_DMG_TYPE, 0.10, Source.IronCavalryAgainstTheScourge)
-    buffAbilityDefPen(x, SUPER_BREAK_DMG_TYPE, x.a[Key.BE] >= 2.50 ? 0.15 : 0, Source.IronCavalryAgainstTheScourge)
+    // TODO
+    // x.buffHit(StatKey.DEF_PEN, BREAK_DMG_TYPE, 0.10, Source.IronCavalryAgainstTheScourge, EntityType.SELF)
+    // x.buffHit(StatKey.DEF_PEN, SUPER_BREAK_DMG_TYPE, x.a[Key.BE] >= 2.50 ? 0.15 : 0, Source.IronCavalryAgainstTheScourge, EntityType.SELF)
   }
 
   return x
 }
 
 function executeNonDynamicCombatSets(
-  x: ComputedStatsArray,
+  x: ComputedStatsContainer,
   context: OptimizerContext,
   setConditionals: SetConditional,
   sets: SetCounts,

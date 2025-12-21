@@ -2,15 +2,13 @@ import {
   AbilityType,
   BUFF_PRIORITY_MEMO,
   BUFF_PRIORITY_SELF,
+  DamageType,
 } from 'lib/conditionals/conditionalConstants'
-import {
-  basicAdditionalDmgAtkFinalizer,
-  gpuBasicAdditionalDmgAtkFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
@@ -20,24 +18,41 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import {
-  wgslFalse,
-  wgslTrue,
-} from 'lib/gpu/injection/wgslUtils'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
-import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { CritDamageFunction, DamageFunctionType } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const AglaeaAbilities = createEnum(
+  'BASIC',
+  'MEMO SKILL',
+  'BREAK',
+)
+
+export const AglaeaEntities = createEnum(
+  'Aglaea',
+  'Garmentmaker',
+)
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aglaea')
@@ -62,8 +77,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const ultSpdBoost = ult(e, 0.15, 0.16)
 
-  const memoHpScaling = talent(e, 0.66, 0.704)
-  const memoHpFlat = talent(e, 720, 828)
+  const memoBaseHpScaling = talent(e, 0.66, 0.704)
+  const memoBaseHpFlat = talent(e, 720, 828)
   const talentAdditionalDmg = talent(e, 0.30, 0.336)
 
   const memoSkillScaling = memoSkill(e, 1.10, 1.21)
@@ -161,41 +176,124 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
+    entityDeclaration: () => Object.values(AglaeaEntities),
+    actionDeclaration: () => Object.values(AglaeaAbilities),
+
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      // x.set(StatKey.MEMO_BASE_HP_SCALING, memoBaseHpScaling, x.source(SOURCE_MEMO))
+      // x.MEMO_BASE_HP_FLAT.buff(memoBaseHpFlat, SOURCE_MEMO)
+      // x.MEMO_BASE_SPD_SCALING.buff(0.35, SOURCE_MEMO)
+      return {
+        [AglaeaEntities.Aglaea]: {
+          primary: true,
+          summon: false,
+          memosprite: false,
+        },
+        [AglaeaEntities.Garmentmaker]: {
+          memoBaseHpScaling,
+          memoBaseHpFlat,
+          memoBaseSpdScaling: 0.35,
+          primary: false,
+          summon: true,
+          memosprite: true,
+        },
+      }
+    },
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      const basicAbility = {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Lightning)
+            .atkScaling(basicScaling)
+            .toughnessDmg(10)
+            .build(),
+        ],
+      }
+
+      const enhancedBasicAbility = {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Lightning)
+            .atkScaling(enhancedBasicScaling)
+            .toughnessDmg(20)
+            .build(),
+          {
+            sourceEntity: AglaeaEntities.Garmentmaker,
+            damageFunction: CritDamageFunction,
+            damageFunctionType: DamageFunctionType.Crit,
+            damageType: DamageType.BASIC | DamageType.MEMO,
+            damageElement: ElementTag.Lightning,
+            atkScaling: enhancedBasicScaling,
+            activeHit: true,
+          },
+        ],
+      }
+
+      if (r.seamStitch) {
+        const additionalDmgHit = HitDefinitionBuilder.standardAdditional()
+          .damageElement(ElementTag.Lightning)
+          .atkScaling(talentAdditionalDmg)
+          .build()
+
+        basicAbility.hits.push(additionalDmgHit)
+        enhancedBasicAbility.hits.push(additionalDmgHit)
+      }
+
+      return {
+        [AglaeaAbilities.BASIC]: (r.supremeStanceState) ? enhancedBasicAbility : basicAbility,
+        [AglaeaAbilities.MEMO_SKILL]: {
+          hits: [
+            {
+              sourceEntity: AglaeaEntities.Garmentmaker,
+              damageFunction: CritDamageFunction,
+              damageFunctionType: DamageFunctionType.Crit,
+              damageType: DamageType.MEMO,
+              damageElement: ElementTag.Lightning,
+              atkScaling: memoSkillScaling,
+              toughnessDmg: 10,
+              activeHit: true,
+            },
+          ],
+        },
+        [AglaeaAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
+          ],
+        },
+      }
+    },
+    actionModifiers() {
+      return []
+    },
     initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.SUMMONS.set(1, SOURCE_TALENT)
-      x.MEMOSPRITE.set(1, SOURCE_TALENT)
-      x.MEMO_BUFF_PRIORITY.set(r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, SOURCE_TALENT)
+      // x.SUMMONS.set(1, SOURCE_TALENT)
+      // x.MEMOSPRITE.set(1, SOURCE_TALENT)
+      // x.MEMO_BUFF_PRIORITY.set(r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, SOURCE_TALENT)
     },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_ATK_SCALING.buff((r.supremeStanceState) ? enhancedBasicScaling : basicScaling, SOURCE_BASIC)
-      x.m.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_MEMO)
+      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
+      x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
+      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
+    },
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.SPD_P.buff((r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, SOURCE_ULT)
+      x.buff(StatKey.SPD_P, (r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, x.source(SOURCE_ULT))
+      x.buff(StatKey.SPD_P, r.memoSpdStacks * memoTalentSpd, x.target(AglaeaEntities.Garmentmaker).source(SOURCE_MEMO))
 
-      x.MEMO_BASE_HP_SCALING.buff(memoHpScaling, SOURCE_MEMO)
-      x.MEMO_BASE_HP_FLAT.buff(memoHpFlat, SOURCE_MEMO)
-      x.MEMO_BASE_SPD_SCALING.buff(0.35, SOURCE_MEMO)
-      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
-      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
+      x.buff(StatKey.DEF_PEN, (e >= 2) ? 0.14 * r.e2DefShredStacks : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E2))
 
-      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.seamStitch) ? talentAdditionalDmg : 0, SOURCE_TALENT)
-
-      x.m.MEMO_SKILL_ATK_SCALING.buff(memoSkillScaling, SOURCE_MEMO)
-
-      x.m.SPD.buff(r.memoSpdStacks * memoTalentSpd, SOURCE_MEMO)
-
-      x.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
-      x.m.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
-
-      x.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
-      x.m.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
-
-      x.BASIC_TOUGHNESS_DMG.buff((r.supremeStanceState) ? 20 : 10, SOURCE_BASIC)
-      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
+      x.buff(
+        StatKey.RES_PEN,
+        (e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0,
+        x.elements(ElementTag.Lightning).targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6),
+      )
 
       // Cyrene
       const cyreneDmgBuff = cyreneActionExists(action)
@@ -204,52 +302,105 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneDefPenBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
         : 0
-      x.ELEMENTAL_DMG.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, Source.odeTo(AGLAEA))
-      x.DEF_PEN.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDefPenBuff : 0, Source.odeTo(AGLAEA))
+
+      x.buff(StatKey.DMG_BOOST, (r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, x.targets(TargetTag.SelfAndMemosprite).source(Source.odeTo(AGLAEA)))
+      x.buff(StatKey.DEF_PEN, (r.cyreneSpecialEffect) ? cyreneDefPenBuff : 0, x.targets(TargetTag.SelfAndMemosprite).source(Source.odeTo(AGLAEA)))
     },
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // x.BASIC_ATK_SCALING.buff((r.supremeStanceState) ? enhancedBasicScaling : basicScaling, SOURCE_BASIC)
+      // x.m.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_MEMO)
+      //
+      // x.SPD_P.buff((r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, SOURCE_ULT)
+      //
+      // x.MEMO_BASE_HP_SCALING.buff(memoBaseHpScaling, SOURCE_MEMO)
+      // x.MEMO_BASE_HP_FLAT.buff(memoBaseHpFlat, SOURCE_MEMO)
+      // x.MEMO_BASE_SPD_SCALING.buff(0.35, SOURCE_MEMO)
+      // x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
+      // x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
+      //
+      // x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.seamStitch) ? talentAdditionalDmg : 0, SOURCE_TALENT)
+      //
+      // x.m.MEMO_SKILL_ATK_SCALING.buff(memoSkillScaling, SOURCE_MEMO)
+      //
+      // x.m.SPD.buff(r.memoSpdStacks * memoTalentSpd, SOURCE_MEMO)
+      //
+      // x.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
+      // x.m.DEF_PEN.buff((e >= 2) ? 0.14 * r.e2DefShredStacks : 0, SOURCE_E2)
+      //
+      // x.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
+      // x.m.LIGHTNING_RES_PEN.buff((e >= 6 && r.e6Buffs && r.supremeStanceState) ? 0.20 : 0, SOURCE_E6)
+      //
+      // x.BASIC_TOUGHNESS_DMG.buff((r.supremeStanceState) ? 20 : 10, SOURCE_BASIC)
+      // x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
+      //
+      // // Cyrene
+      // const cyreneDmgBuff = cyreneActionExists(action)
+      //   ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.792 : 0.72)
+      //   : 0
+      // const cyreneDefPenBuff = cyreneActionExists(action)
+      //   ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
+      //   : 0
+      // x.ELEMENTAL_DMG.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, Source.odeTo(AGLAEA))
+      // x.DEF_PEN.buffBaseDual((r.cyreneSpecialEffect) ? cyreneDefPenBuff : 0, Source.odeTo(AGLAEA))
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
+
+      x.buff(StatKey.VULNERABILITY, (e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+    },
+
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buffTeam((e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, SOURCE_E1)
+      // x.VULNERABILITY.buffTeam((e >= 1 && m.seamStitch && m.e1Vulnerability) ? 0.15 : 0, SOURCE_E1)
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (e >= 6 && r.supremeStanceState && r.e6Buffs) {
         let jointBoost = 0
-        if (x.a[Key.SPD] > 320 || x.m.a[Key.SPD] >= 320) {
+
+        const aglaeaSpd = x.getActionValue(StatKey.SPD, AglaeaEntities.Aglaea)
+        const garmentmakerSpd = x.getActionValue(StatKey.SPD, AglaeaEntities.Garmentmaker)
+
+        if (aglaeaSpd > 320 || garmentmakerSpd >= 320) {
           jointBoost = 0.60
-        } else if (x.a[Key.SPD] > 240 || x.m.a[Key.SPD] >= 240) {
+        } else if (aglaeaSpd > 240 || garmentmakerSpd >= 240) {
           jointBoost = 0.30
-        } else if (x.a[Key.SPD] > 160 || x.m.a[Key.SPD] >= 160) {
+        } else if (aglaeaSpd > 160 || garmentmakerSpd >= 160) {
           jointBoost = 0.10
         }
 
-        x.BASIC_DMG_BOOST.buff(jointBoost, SOURCE_E6)
-        x.m.BASIC_DMG_BOOST.buff(jointBoost, SOURCE_E6)
+        x.buff(StatKey.DMG_BOOST, jointBoost, x.damageType(DamageTag.BASIC).targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6))
       }
 
-      basicAdditionalDmgAtkFinalizer(x)
+      // TODO
+      x.buff(StatKey.ATK, 3436, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6))
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      return `
-if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
-  if (x.SPD > 320 || m.SPD > 320) {
-    x.BASIC_DMG_BOOST += 0.60;
-    m.BASIC_DMG_BOOST += 0.60;
-  } else if (x.SPD > 240 || m.SPD > 240) {
-    x.BASIC_DMG_BOOST += 0.30;
-    m.BASIC_DMG_BOOST += 0.30;
-  } else if (x.SPD > 160 || m.SPD > 160) {
-    x.BASIC_DMG_BOOST += 0.10;
-    m.BASIC_DMG_BOOST += 0.10;
-  }
-}
-
-${gpuBasicAdditionalDmgAtkFinalizer()}
-`
+      // TODO
+      return ``
+      //       return `
+      // if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
+      //   if (x.SPD > 320 || m.SPD > 320) {
+      //     x.BASIC_DMG_BOOST += 0.60;
+      //     m.BASIC_DMG_BOOST += 0.60;
+      //   } else if (x.SPD > 240 || m.SPD > 240) {
+      //     x.BASIC_DMG_BOOST += 0.30;
+      //     m.BASIC_DMG_BOOST += 0.30;
+      //   } else if (x.SPD > 160 || m.SPD > 160) {
+      //     x.BASIC_DMG_BOOST += 0.10;
+      //     m.BASIC_DMG_BOOST += 0.10;
+      //   }
+      // }
+      //
+      // ${gpuBasicAdditionalDmgAtkFinalizer()}
+      // `
     },
     dynamicConditionals: [
       {
@@ -262,6 +413,7 @@ ${gpuBasicAdditionalDmgAtkFinalizer()}
           return true
         },
         effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+          // TODO
           const r = action.characterConditionals as Conditionals<typeof content>
           if (!r.supremeStanceState) {
             return
@@ -274,6 +426,7 @@ ${gpuBasicAdditionalDmgAtkFinalizer()}
           x.m.ATK.buffDynamic(buffValue - stateValue, SOURCE_TRACE, action, context)
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
+          // TODO
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return conditionalWgslWrapper(

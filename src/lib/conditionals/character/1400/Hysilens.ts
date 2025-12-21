@@ -1,25 +1,51 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityType,
+  DamageType,
+} from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { HYSILENS } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
+  DefaultDamageFunction,
+  DotDamageFunction,
+  Hit,
+} from 'types/hitConditionalTypes'
+import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const HysilensAbilities = createEnum(
+  'BASIC',
+  'SKILL',
+  'ULT',
+  'DOT',
+  'BREAK',
+)
+
+export const HysilensEntities = createEnum(
+  'Hysilens',
+)
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hysilens')
@@ -157,7 +183,131 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
+
+    entityDeclaration: () => Object.values(HysilensEntities),
+    actionDeclaration: () => Object.values(HysilensAbilities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      return {
+        [HysilensEntities.Hysilens]: {
+          primary: true,
+          summon: false,
+          memosprite: false,
+        },
+      }
+    },
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      const talentDot = talentDotScaling * 3 + talentDotAtkLimitScaling
+      const updatedUltDotScaling = (e >= 6 && r.e6Buffs) ? ultDotScaling + 0.20 : ultDotScaling
+      const ultDot = r.ultDotStacks * updatedUltDotScaling
+
+      return {
+        [HysilensAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(basicScaling)
+              .build(),
+          ],
+        },
+        [HysilensAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(skillScaling)
+              .build(),
+          ],
+        },
+        [HysilensAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(ultScaling)
+              .build(),
+          ],
+        },
+        [HysilensAbilities.DOT]: {
+          hits: [
+            {
+              damageFunction: DotDamageFunction,
+              damageType: DamageType.DOT,
+              damageElement: ElementTag.Fire,
+              atkScaling: talentDotScaling,
+              activeHit: false,
+            },
+            {
+              damageFunction: DotDamageFunction,
+              damageType: DamageType.DOT,
+              damageElement: ElementTag.Wind,
+              atkScaling: talentDotScaling,
+              activeHit: false,
+            },
+            {
+              damageFunction: DotDamageFunction,
+              damageType: DamageType.DOT,
+              damageElement: ElementTag.Lightning,
+              atkScaling: talentDotScaling,
+              activeHit: false,
+            },
+            {
+              damageFunction: DotDamageFunction,
+              damageType: DamageType.DOT,
+              damageElement: ElementTag.Physical,
+              atkScaling: talentDotScaling,
+              activeHit: false,
+            },
+          ],
+        },
+        [HysilensAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
+          ],
+        },
+      }
+    },
+    actionModifiers() {
+      return [
+        {
+          modify: (action: OptimizerAction, context: OptimizerContext) => {
+            const hits = action.hits!
+            const len = hits.length
+            for (let i = 0; i < len; i++) {
+              const hit = hits[i]
+
+              if (hit.activeHit) {
+                const trueDmgHit = {
+                  damageFunction: DefaultDamageFunction,
+                  damageType: DamageType.DOT,
+                  damageElement: ElementTag.Physical,
+                  activeHit: false,
+                }
+
+                hits.push(trueDmgHit as Hit)
+              }
+
+              if (hit.toughnessDmg) {
+                const superBreakHit = {
+                  damageFunction: DefaultDamageFunction,
+                  damageType: DamageType.SUPER_BREAK,
+                  damageElement: ElementTag.Physical,
+                  activeHit: false,
+                  toughnessDmg: hit.toughnessDmg,
+                }
+
+                hits.push(superBreakHit as Hit)
+              }
+            }
+          },
+        },
+      ]
+    },
     initializeConfigurations: (x: ComputedStatsArray) => {
+    },
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.DOT_CHANCE, 1.00, x.source(Source.NONE))
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -197,13 +347,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         : 0
       x.ELEMENTAL_DMG.buff((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, Source.odeTo(HYSILENS))
     },
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.FINAL_DMG_BOOST, (e >= 1 && m.e1Buffs) ? 0.16 : 0, x.targets(TargetTag.FullTeam).damageType(DamageTag.DOT).source(SOURCE_E1))
+      x.buff(StatKey.VULNERABILITY, (m.skillVulnerability) ? skillVulnScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+      x.buff(StatKey.DEF_PEN, (m.ultZone) ? ultDefPenScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
+      x.buff(StatKey.RES_PEN, (e >= 4 && m.e4ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
+    },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.DOT_FINAL_DMG_BOOST.buffTeam((e >= 1 && m.e1Buffs) ? 0.16 : 0, SOURCE_E1)
-      x.VULNERABILITY.buffTeam(m.skillVulnerability ? skillVulnScaling : 0, SOURCE_SKILL)
-      x.DEF_PEN.buffTeam(m.ultZone ? ultDefPenScaling : 0, SOURCE_ULT)
-      x.RES_PEN.buffTeam((e >= 4 && m.e4ResPen) ? 0.20 : 0, SOURCE_E4)
+      // x.DOT_FINAL_DMG_BOOST.buffTeam((e >= 1 && m.e1Buffs) ? 0.16 : 0, SOURCE_E1)
+      // x.VULNERABILITY.buffTeam(m.skillVulnerability ? skillVulnScaling : 0, SOURCE_SKILL)
+      // x.DEF_PEN.buffTeam(m.ultZone ? ultDefPenScaling : 0, SOURCE_ULT)
+      // x.RES_PEN.buffTeam((e >= 4 && m.e4ResPen) ? 0.20 : 0, SOURCE_E4)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -215,10 +373,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         SOURCE_E2,
       )
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.ELEMENTAL_DMG.buff((r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * Math.floor((x.a[Key.EHR] - 0.60) / 0.10))) : 0, SOURCE_TRACE)
+      // x.buff(
+      //   ActionKey.ELEMENTAL_DMG,
+      //   (r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * Math.floor((x.a[ActionKey.EHR] - 0.60) / 0.10))) : 0,
+      //   Source.NONE,
+      //   EntityType.SELF,
+      //   EntityType.SELF,
+      // )
+
+      const ehrValue = x.getActionValue(StatKey.EHR, HysilensEntities.Hysilens)
+      const ehrBoost = (r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * Math.floor((ehrValue - 0.60) / 0.10))) : 0
+
+      x.buff(StatKey.DMG_BOOST, ehrBoost, x.source(SOURCE_TRACE))
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

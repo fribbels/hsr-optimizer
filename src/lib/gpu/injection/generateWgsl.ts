@@ -3,7 +3,7 @@ import {
   PathNames,
 } from 'lib/constants/constants'
 import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
-import { injectConditionals } from 'lib/gpu/injection/injectConditionals'
+import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomputedStats'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import {
@@ -12,10 +12,7 @@ import {
 } from 'lib/gpu/webgpuTypes'
 import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
 import structs from 'lib/gpu/wgsl/structs.wgsl?raw'
-import {
-  AbilityKind,
-  getAbilityKind,
-} from 'lib/optimization/rotation/turnAbilityConfig'
+import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
@@ -25,15 +22,81 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
 
   wgsl = injectSettings(wgsl, context, request, relics)
   wgsl = injectComputeShader(wgsl)
-  wgsl = injectConditionals(wgsl, request, context, gpuParams)
+  // wgsl = injectConditionals(wgsl, request, context, gpuParams)
+  wgsl = injectConditionalsNew(wgsl, request, context, gpuParams)
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)
   wgsl = injectRelicIndexStrategy(wgsl, relics)
-  wgsl = injectBasicFilters(wgsl, request, gpuParams)
-  wgsl = injectCombatFilters(wgsl, request, gpuParams)
-  wgsl = injectRatingFilters(wgsl, request, gpuParams)
-  wgsl = injectSetFilters(wgsl, gpuParams)
+  // wgsl = injectBasicFilters(wgsl, request, gpuParams)
+  // wgsl = injectCombatFilters(wgsl, request, gpuParams)
+  // wgsl = injectRatingFilters(wgsl, request, gpuParams)
+  // wgsl = injectSetFilters(wgsl, gpuParams)
   wgsl = injectComputedStats(wgsl, gpuParams)
-  wgsl = injectSuppressions(wgsl, request, context, gpuParams)
+  // wgsl = injectSuppressions(wgsl, request, context, gpuParams)
+
+  return wgsl
+}
+
+function injectConditionalsNew(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
+  const actionLength = context.resultSort == SortOption.COMBO.key ? context.defaultActions.length + context.rotationActions.length : 1
+  const calculationsPerAction = context.maxContainerArrayLength / Object.values(newStatsConfig).length
+
+  let actionsDefinition = `
+const actionCount = ${actionLength};
+const calculationsPerAction = ${calculationsPerAction};
+`
+  let computedStatsDefinition = ''
+
+  for (let i = 0; i < actionLength; i++) {
+    const action = i < context.defaultActions.length ? context.defaultActions[i] : context.rotationActions[i - context.defaultActions.length]
+
+    actionsDefinition += `
+const action${i} = Action( // ${action.actionIndex}
+  0,
+  SetConditionals(
+    ${action.setConditionals.enabledHunterOfGlacialForest},${gpuParams.DEBUG ? ' // enabledHunterOfGlacialForest' : ''}
+    ${action.setConditionals.enabledFiresmithOfLavaForging},${gpuParams.DEBUG ? ' // enabledFiresmithOfLavaForging' : ''}
+    ${action.setConditionals.enabledGeniusOfBrilliantStars},${gpuParams.DEBUG ? ' // enabledGeniusOfBrilliantStars' : ''}
+    ${action.setConditionals.enabledBandOfSizzlingThunder},${gpuParams.DEBUG ? ' // enabledBandOfSizzlingThunder' : ''}
+    ${action.setConditionals.enabledMessengerTraversingHackerspace},${gpuParams.DEBUG ? ' // enabledMessengerTraversingHackerspace' : ''}
+    ${action.setConditionals.enabledCelestialDifferentiator},${gpuParams.DEBUG ? ' // enabledCelestialDifferentiator' : ''}
+    ${action.setConditionals.enabledWatchmakerMasterOfDreamMachinations},${gpuParams.DEBUG ? ' // enabledWatchmakerMasterOfDreamMachinations' : ''}
+    ${action.setConditionals.enabledPenaconyLandOfTheDreams},${gpuParams.DEBUG ? ' // enabledPenaconyLandOfTheDreams' : ''}
+    ${action.setConditionals.enabledIzumoGenseiAndTakamaDivineRealm},${gpuParams.DEBUG ? ' // enabledIzumoGenseiAndTakamaDivineRealm' : ''}
+    ${action.setConditionals.enabledForgeOfTheKalpagniLantern},${gpuParams.DEBUG ? ' // enabledForgeOfTheKalpagniLantern' : ''}
+    ${action.setConditionals.enabledTheWindSoaringValorous},${gpuParams.DEBUG ? ' // enabledTheWindSoaringValorous' : ''}
+    ${action.setConditionals.enabledTheWondrousBananAmusementPark},${gpuParams.DEBUG ? ' // enabledTheWondrousBananAmusementPark' : ''}
+    ${action.setConditionals.enabledScholarLostInErudition},${gpuParams.DEBUG ? ' // enabledScholarLostInErudition' : ''}
+    ${action.setConditionals.enabledHeroOfTriumphantSong},${gpuParams.DEBUG ? ' // enabledHeroOfTriumphantSong' : ''}
+    ${action.setConditionals.enabledWarriorGoddessOfSunAndThunder},${gpuParams.DEBUG ? ' // enabledWarriorGoddessOfSunAndThunder' : ''}
+    ${action.setConditionals.enabledWavestriderCaptain},${gpuParams.DEBUG ? ' // enabledWavestriderCaptain' : ''}
+    ${action.setConditionals.enabledWorldRemakingDeliverer},${gpuParams.DEBUG ? ' // enabledWorldRemakingDeliverer' : ''}
+    ${action.setConditionals.enabledSelfEnshroudedRecluse},${gpuParams.DEBUG ? ' // enabledSelfEnshroudedRecluse' : ''}
+    ${action.setConditionals.enabledAmphoreusTheEternalLand},${gpuParams.DEBUG ? ' // enabledAmphoreusTheEternalLand' : ''}
+    ${action.setConditionals.enabledTengokuLivestream},${gpuParams.DEBUG ? ' // enabledTengokuLivestream' : ''}
+    ${action.setConditionals.valueChampionOfStreetwiseBoxing},${gpuParams.DEBUG ? ' // valueChampionOfStreetwiseBoxing' : ''}
+    ${action.setConditionals.valueWastelanderOfBanditryDesert},${gpuParams.DEBUG ? ' // valueWastelanderOfBanditryDesert' : ''}
+    ${action.setConditionals.valueLongevousDisciple},${gpuParams.DEBUG ? ' // valueLongevousDisciple' : ''}
+    ${action.setConditionals.valueTheAshblazingGrandDuke},${gpuParams.DEBUG ? ' // valueTheAshblazingGrandDuke' : ''}
+    ${action.setConditionals.valuePrisonerInDeepConfinement},${gpuParams.DEBUG ? ' // valuePrisonerInDeepConfinement' : ''}
+    ${action.setConditionals.valuePioneerDiverOfDeadWaters},${gpuParams.DEBUG ? ' // valuePioneerDiverOfDeadWaters' : ''}
+    ${action.setConditionals.valueSigoniaTheUnclaimedDesolation},${gpuParams.DEBUG ? ' // valueSigoniaTheUnclaimedDesolation' : ''}
+    ${action.setConditionals.valueDuranDynastyOfRunningWolves},${gpuParams.DEBUG ? ' // valueDuranDynastyOfRunningWolves' : ''}
+    ${action.setConditionals.valueSacerdosRelivedOrdeal},${gpuParams.DEBUG ? ' // valueSacerdosRelivedOrdeal' : ''}
+    ${action.setConditionals.valueArcadiaOfWovenDreams},${gpuParams.DEBUG ? ' // valueArcadiaOfWovenDreams' : ''}
+  ),
+);`
+  }
+
+  for (let i = 0; i < actionLength; i++) {
+    const action = i < context.defaultActions.length ? context.defaultActions[i] : context.rotationActions[i - context.defaultActions.length]
+
+    computedStatsDefinition += `
+const computedStatsX${i} = array<ComputedStats, ${context.maxContainerArrayLength / Object.values(newStatsConfig).length}>(
+    ${injectPrecomputedStatsContext(action.precomputedStats, context, gpuParams)}
+);`
+  }
+
+  wgsl = wgsl.replace('/* INJECT ACTIONS DEFINITION */', actionsDefinition + '\n\n' + computedStatsDefinition)
 
   return wgsl
 }
@@ -297,14 +360,14 @@ function injectGpuParams(wgsl: string, request: Form, context: OptimizerContext,
   let debugValues = ''
 
   if (gpuParams.DEBUG) {
-    debugValues = `
-const DEBUG_BASIC_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.BASIC).length};
-const DEBUG_SKILL_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.SKILL).length};
-const DEBUG_ULT_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.ULT).length};
-const DEBUG_FUA_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.FUA).length};
-const DEBUG_DOT_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.DOT).length};
-const DEBUG_BREAK_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.BREAK).length};
-`
+    //     debugValues = `
+    // const DEBUG_BASIC_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.BASIC).length};
+    // const DEBUG_SKILL_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.SKILL).length};
+    // const DEBUG_ULT_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.ULT).length};
+    // const DEBUG_FUA_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.FUA).length};
+    // const DEBUG_DOT_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.DOT).length};
+    // const DEBUG_BREAK_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.BREAK).length};
+    // `
   }
 
   wgsl = wgsl.replace(
@@ -347,7 +410,6 @@ ${debugValues}
       indent(
         `
 results[index] = x; // DEBUG
-results[index + 1] = m; // DEBUG
     `,
         4,
       ),
@@ -406,10 +468,11 @@ function injectRelicIndexStrategy(wgsl: string, relics: RelicsByPart): string {
     * relics.PlanarSphere.length
     * relics.Feet.length
     * relics.Body.length
-    * relics.Hands.length
-  ) > 2147483647
+    * relics.Hands.length) > 2147483647
   if (overflows) {
-    return wgsl.replace(injectionLabel, `
+    return wgsl.replace(
+      injectionLabel,
+      `
     let l = (index % lSize);
     let indexCarryL = index / lSize;
     let p = (indexCarryL % pSize);
@@ -421,14 +484,18 @@ function injectRelicIndexStrategy(wgsl: string, relics: RelicsByPart): string {
     let g = (indexCarryB % gSize);
     let indexCarryG = indexCarryB / gSize;
     let h = (indexCarryG % hSize);
-  `)
+  `,
+    )
   }
-  return wgsl.replace(injectionLabel, `
+  return wgsl.replace(
+    injectionLabel,
+    `
     let l = (index % lSize);
     let p = (((index - l) / lSize) % pSize);
     let f = (((index - p * lSize - l) / (lSize * pSize)) % fSize);
     let b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize);
     let g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize);
     let h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize);
-  `)
+  `,
+  )
 }

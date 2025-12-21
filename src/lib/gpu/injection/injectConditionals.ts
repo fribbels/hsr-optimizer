@@ -1,4 +1,3 @@
-import { request } from '@playwright/test'
 import {
   BASIC_ABILITY_TYPE,
   BREAK_ABILITY_TYPE,
@@ -43,7 +42,7 @@ export function injectConditionals(wgsl: string, request: Form, context: Optimiz
   const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(context)
 
   // Actions
-  const actionLength = context.resultSort == SortOption.COMBO.key ? context.actions.length : 1
+  const actionLength = context.resultSort == SortOption.COMBO.key ? context.defaultActions.length + context.rotationActions.length : 1
 
   let conditionalsWgsl = `
 switch (actionIndex) {
@@ -166,7 +165,7 @@ const action${i} = Action( // ${action.actionIndex}
 
     actionsDefinition += `
 const computedStatsX${i} = ComputedStats(
-${injectPrecomputedStatsContext(action.precomputedX, gpuParams)}
+${injectPrecomputedStatsContext(action.precomputedX, context, gpuParams)}
 );`
   }
 
@@ -176,7 +175,7 @@ ${injectPrecomputedStatsContext(action.precomputedX, gpuParams)}
 
       actionsDefinition += `
 const computedStatsM${i} = ComputedStats(
-${injectPrecomputedStatsContext(action.precomputedM, gpuParams)}
+${injectPrecomputedStatsContext(action.precomputedM, context, gpuParams)}
 );`
     }
   }

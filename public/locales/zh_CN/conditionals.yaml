@@ -232,6 +232,7 @@ Lightcones:
     Content:
       breakDmgBuff:
         text: 击破伤害提升
+        content: 进入战斗时，使装备者和另一位开战的队友造成的击破伤害提高{{BreakBoost}}%，若不存在开战的队友则对装备者和击破特攻最高的队友生效。
   NightOfFright:
     Content:
       atkBuffStacks:
@@ -2249,16 +2250,41 @@ Characters:
         content: 触发【剑势】后，素裳受到的伤害降低20%，持续1回合。
   TheDahlia:
     Content:
+      zoneActive:
+        text: 结界启用
+        content: 结界持续期间，我方全体的弱点击破效率提高50%。
+      ultDefPen:
+        text: 终结技防御穿透
+        content: 降低敌方目标{{DefShred}}%防御力，并为敌方目标添加所有【共舞者】属性的弱点。
+      dancePartner:
+        text: 共舞者
+        content: '【共舞者】攻击处于弱点击破状态的敌方目标后，会将本次攻击的削韧值转化为1次{{SBScaling}}%的超击破伤害。'
       superBreakDmg:
         text: 超击破伤害（强制弱点击破）
+        content: 强制弱点击破状态，以启用超击破伤害计算。
       spdBuff:
         text: 速度增益
+        content: 我方目标为敌方目标添加弱点时，速度提高30%，持续2回合。
       e1Buffs:
         text: 1魂增益
+        content: 天赋为【共舞者】提供的超击破伤害倍率对我方全体角色生效，其中【共舞者】的倍率额外提高40%。【共舞者】施放攻击后，对受到攻击的敌方目标额外造成等同于其韧性上限25%的固定削韧（至少10点，至多300点）。该效果每个敌方目标只能触发1次，敌方目标受到致命攻击后重置该目标的可触发次数。
       e2ResPen:
         text: 2魂属性抗性穿透
+        content: 大丽花在场时，敌方全体全属性抗性降低20%。
+      e4Vuln:
+        text: 4魂易伤
+        content: 使目标受到的伤害提高12%，持续2回合。
       e6BeBuff:
         text: 6魂击破特攻增益
+        content: '【共舞者】的击破特攻提高150%。'
+    TeammateContent:
+      beConversion:
+        text: 击破特攻转换增益
+        content: 进入战斗时，使其他角色的击破特攻提高，提高数值等同于24%大丽花的击破特攻 + 50%，持续1回合。当大丽花受到队友提供的治疗效果或护盾时，再次触发该效果，持续3回合，单个回合内不可重复触发。
+      teammateBeValue:
+        text: 大丽花战斗时击破特攻
+        content: >-
+          进入战斗时，使其他角色的击破特攻提高，提高数值等同于24%大丽花的击破特攻 + 50%，持续1回合。 ::BR:: 将其设置为大丽花自身用于增强队友的击破特攻数值。
   TheHerta:
     Content:
       enhancedSkill:
@@ -2366,6 +2392,8 @@ Characters:
     Content:
       enhancedBasic:
         text: 强化普攻
+        content: >-
+          施放终结技后，获得1层【史诗】，最多持有2层。持有【史诗】且迷迷在场时，普攻强化为【明天，一同写下！】。 ::BR:: 消耗1层【史诗】，解除迷迷陷入的所有控制类负面状态。开拓者与迷迷发起连携攻击，对敌方全体分别造成等同于开拓者 {{Scaling}}% 攻击力以及迷迷 {{Scaling}}% 攻击力的冰属性伤害，随后使迷迷获得10%充能。
       memoSkillHits:
         text: 忆灵技击中次数
         content: >-

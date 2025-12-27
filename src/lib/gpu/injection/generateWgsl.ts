@@ -50,7 +50,7 @@ const calculationsPerAction = ${calculationsPerAction};
     const action = i < context.defaultActions.length ? context.defaultActions[i] : context.rotationActions[i - context.defaultActions.length]
 
     actionsDefinition += `
-const action${i} = Action( // ${action.actionIndex}
+const action${i} = Action( // ${action.actionIndex} ${action.actionName}
   0,
   SetConditionals(
     ${action.setConditionals.enabledHunterOfGlacialForest},${gpuParams.DEBUG ? ' // enabledHunterOfGlacialForest' : ''}
@@ -91,8 +91,8 @@ const action${i} = Action( // ${action.actionIndex}
     const action = i < context.defaultActions.length ? context.defaultActions[i] : context.rotationActions[i - context.defaultActions.length]
 
     computedStatsDefinition += `
-const computedStatsX${i} = array<ComputedStats, ${context.maxContainerArrayLength / Object.values(newStatsConfig).length}>(
-    ${injectPrecomputedStatsContext(action.precomputedStats, context, gpuParams)}
+const computedStatsX${i} = array<ComputedStats, ${context.maxContainerArrayLength / Object.values(newStatsConfig).length}>( // ${action.actionName}
+    ${injectPrecomputedStatsContext(action.precomputedStats, context, gpuParams, action)}
 );`
   }
 

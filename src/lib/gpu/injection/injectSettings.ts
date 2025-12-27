@@ -46,10 +46,17 @@ function generateActions(context: OptimizerContext) {
   const computedStatsLength = context.maxContainerArrayLength / STATS_LENGTH
   let actionSwitcher = ``
   for (let i = 0; i < actionLength; i++) {
+    const label = i == 0
+      ? 'Action Stats'
+      : (
+        i < context.defaultActions.length
+          ? context.defaultActions[i].actionName
+          : context.rotationActions[i - context.defaultActions.length].actionName
+      )
     actionSwitcher += indent(
       `
 case ${i}: { 
-(*outAction) = action${i}; 
+(*outAction) = action${i}; // ${i == 0 ? 'Action Stats' : label}
 (*outX) = computedStatsX${i}; 
 }
   `,

@@ -343,13 +343,25 @@ fn main(
 
     for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
       var action: Action;
-  //      var x: ComputedStats;
       var computedStatsContainer: array<ComputedStats, calculationsPerAction>;
       getAction(actionIndex, &action, &computedStatsContainer);
 
       let setConditionals = action.setConditionals;
       var state = ConditionalState();
       state.actionIndex = actionIndex;
+
+//      x.ATK += diffATK;
+//      x.DEF += diffDEF;
+//      x.HP  += diffHP;
+//      x.SPD += diffSPD;
+//      x.CD  += diffCD;
+//      x.CR  += diffCR;
+//      x.EHR += diffEHR;
+//      x.RES += diffRES;
+//      x.BE  += diffBE;
+//      x.ERR += diffERR;
+//      x.OHB += diffOHB;
+
 
       results[index] = computedStatsContainer[0]; // DEBUG
     }

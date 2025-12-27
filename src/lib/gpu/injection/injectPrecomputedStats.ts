@@ -1,15 +1,23 @@
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { OptimizerContext } from 'types/optimizer'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export function injectPrecomputedStatsContext(x: ComputedStatsContainer, context: OptimizerContext, gpuParams: GpuConstants) {
+export function injectPrecomputedStatsContext(
+  x: ComputedStatsContainer,
+  context: OptimizerContext,
+  gpuParams: GpuConstants,
+  action?: OptimizerAction,
+) {
   const a = x.a
   const statsCount = Object.keys(newStatsConfig).length
   const statsKeys = Object.keys(newStatsConfig)
   const containerCount = Math.ceil(context.maxContainerArrayLength / statsCount)
 
   const structs = []
+  const hitsLength = x.config?.hitsLength ?? 0
+  const slotsPerEntity = hitsLength + 1 // Action stats + hits
+
   for (let containerIndex = 0; containerIndex < containerCount; containerIndex++) {
     const statsLines = []
 
@@ -23,9 +31,18 @@ export function injectPrecomputedStatsContext(x: ComputedStatsContainer, context
       statsLines.push(`    ${value}${comma}${comment}`)
     }
 
-    const structComment = gpuParams.DEBUG ? ` // Container #${containerIndex}` : ''
+    // Calculate entity and slot type
+    const entityIndex = Math.floor(containerIndex / slotsPerEntity)
+    const localIndex = containerIndex % slotsPerEntity
+    const entityName = x.config?.entitiesArray?.[entityIndex]?.name ?? `Entity ${entityIndex}`
+    const slotType = localIndex === 0 ? 'Action' : `Hit ${localIndex - 1}`
+    const actionName = action?.actionName ?? ''
+
+    const structComment = gpuParams.DEBUG
+      ? ` // ${entityName} | ${slotType}${actionName ? ` | ${actionName}` : ''}`
+      : ''
     const structComma = containerIndex < containerCount - 1 ? ',' : ''
-    structs.push(`  ComputedStats(\n${statsLines.join('\n')}\n  )${structComma}${structComment}`)
+    structs.push(`  ComputedStats(${structComment}\n${statsLines.join('\n')}\n  )${structComma}`)
   }
 
   return structs.join('\n')

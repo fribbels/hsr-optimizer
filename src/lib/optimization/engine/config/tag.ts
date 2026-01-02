@@ -34,7 +34,7 @@ export enum TargetTag {
 
 export type Tag = ElementTag | DamageTag
 
-export const SELF_ENTITY = 0
+export const SELF_ENTITY_INDEX = 0
 
 export const ALL_DAMAGE_TAGS = Object.values(DamageTag)
   .filter((v): v is number => typeof v === 'number')

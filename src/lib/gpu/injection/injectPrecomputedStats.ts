@@ -14,23 +14,12 @@ export function injectPrecomputedStatsContext(
   const statsKeys = Object.keys(newStatsConfig)
   const containerCount = Math.ceil(context.maxContainerArrayLength / statsCount)
 
-  const structs = []
+  const lines: string[] = ['']
   const hitsLength = x.config?.hitsLength ?? 0
   const slotsPerEntity = hitsLength + 1 // Action stats + hits
+  const totalValues = containerCount * statsCount
 
   for (let containerIndex = 0; containerIndex < containerCount; containerIndex++) {
-    const statsLines = []
-
-    for (let statIndex = 0; statIndex < statsCount; statIndex++) {
-      const index = containerIndex * statsCount + statIndex
-      const value = index < a.length ? a[index] : 0
-      const statKey = statsKeys[statIndex]
-
-      const comment = gpuParams.DEBUG ? ` // Stats.${statKey}` : ''
-      const comma = statIndex < statsCount - 1 ? ',' : ''
-      statsLines.push(`    ${value}${comma}${comment}`)
-    }
-
     // Calculate entity and slot type
     const entityIndex = Math.floor(containerIndex / slotsPerEntity)
     const localIndex = containerIndex % slotsPerEntity
@@ -38,12 +27,18 @@ export function injectPrecomputedStatsContext(
     const slotType = localIndex === 0 ? 'Action' : `Hit ${localIndex - 1}`
     const actionName = action?.actionName ?? ''
 
-    const structComment = gpuParams.DEBUG
-      ? ` // ${entityName} | ${slotType}${actionName ? ` | ${actionName}` : ''}`
-      : ''
-    const structComma = containerIndex < containerCount - 1 ? ',' : ''
-    structs.push(`  ComputedStats(${structComment}\n${statsLines.join('\n')}\n  )${structComma}`)
+    for (let statIndex = 0; statIndex < statsCount; statIndex++) {
+      const globalIndex = containerIndex * statsCount + statIndex
+      const value = globalIndex < a.length ? a[globalIndex] : 0
+      const statKey = statsKeys[statIndex]
+
+      const comment = gpuParams.DEBUG
+        ? ` // Global: ${globalIndex} | Local: ${statIndex} | Hit: ${localIndex} | Stats.${statKey} | ${entityName} | ${slotType}${actionName ? ` | ${actionName}` : ''}`
+        : ''
+      const comma = globalIndex < totalValues - 1 ? ',' : ''
+      lines.push(`    ${value}${comma}${comment}`)
+    }
   }
 
-  return structs.join('\n')
+  return lines.join('\n')
 }

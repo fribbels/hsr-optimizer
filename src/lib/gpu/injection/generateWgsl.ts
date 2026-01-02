@@ -119,7 +119,7 @@ const action${i} = Action( // ${action.actionIndex} ${action.actionName}
     const action = i < context.defaultActions.length ? context.defaultActions[i] : context.rotationActions[i - context.defaultActions.length]
 
     computedStatsDefinition += `
-const computedStatsX${i} = array<ComputedStats, ${context.maxContainerArrayLength / Object.values(newStatsConfig).length}>( // ${action.actionName}
+const computedStatsX${i} = array<f32, ${context.maxContainerArrayLength}>( // ${action.actionName}
     ${injectPrecomputedStatsContext(action.precomputedStats, context, gpuParams, action)}
 );`
   }

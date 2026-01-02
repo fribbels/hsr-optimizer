@@ -7,7 +7,7 @@ import {
 } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
-import { SELF_ENTITY } from 'lib/optimization/engine/config/tag'
+import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { useOptimizerTabStore } from 'lib/tabs/tabOptimizer/useOptimizerTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -65,7 +65,7 @@ export function debugExportWebgpuResult(array: Float32Array) {
 
   console.log(x)
   return {
-    ED: x.getActionValueByIndex(StatKey.DMG_BOOST, SELF_ENTITY),
+    ED: x.getActionValueByIndex(StatKey.DMG_BOOST, SELF_ENTITY_INDEX),
     BASIC: 0,
     SKILL: 0,
     ULT: 0,
@@ -78,18 +78,18 @@ export function debugExportWebgpuResult(array: Float32Array) {
     EHP: 0,
     HEAL: 0,
     SHIELD: 0,
-    xHP: x.getActionValueByIndex(StatKey.HP, SELF_ENTITY),
-    xATK: x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY),
-    xDEF: x.getActionValueByIndex(StatKey.DEF, SELF_ENTITY),
-    xSPD: x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY),
-    xCR: x.getActionValueByIndex(StatKey.CR, SELF_ENTITY),
-    xCD: x.getActionValueByIndex(StatKey.CD, SELF_ENTITY),
-    xEHR: x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY),
-    xRES: x.getActionValueByIndex(StatKey.RES, SELF_ENTITY),
-    xBE: x.getActionValueByIndex(StatKey.BE, SELF_ENTITY),
-    xERR: x.getActionValueByIndex(StatKey.ERR, SELF_ENTITY),
-    xOHB: x.getActionValueByIndex(StatKey.OHB, SELF_ENTITY),
-    xELEMENTAL_DMG: x.getActionValueByIndex(StatKey.DMG_BOOST, SELF_ENTITY),
+    xHP: x.getActionValueByIndex(StatKey.HP, SELF_ENTITY_INDEX),
+    xATK: x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX),
+    xDEF: x.getActionValueByIndex(StatKey.DEF, SELF_ENTITY_INDEX),
+    xSPD: x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX),
+    xCR: x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX),
+    xCD: x.getActionValueByIndex(StatKey.CD, SELF_ENTITY_INDEX),
+    xEHR: x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX),
+    xRES: x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX),
+    xBE: x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX),
+    xERR: x.getActionValueByIndex(StatKey.ERR, SELF_ENTITY_INDEX),
+    xOHB: x.getActionValueByIndex(StatKey.OHB, SELF_ENTITY_INDEX),
+    xELEMENTAL_DMG: x.getActionValueByIndex(StatKey.DMG_BOOST, SELF_ENTITY_INDEX),
     // mHP: x.y,
     // mATK: x.y,
     // mDEF: x.y,

@@ -65,7 +65,7 @@ case ${i}: {
   }
 
   const wgsl = `
-fn getAction(actionIndex: i32, outAction: ptr<function, Action>, outX: ptr<function, array<ComputedStats, ${computedStatsLength}>>) {
+fn getAction(actionIndex: i32, outAction: ptr<function, Action>, outX: ptr<function, array<f32, ${context.maxContainerArrayLength}>>) {
   switch (actionIndex) {
     ${actionSwitcher}
     default: { 

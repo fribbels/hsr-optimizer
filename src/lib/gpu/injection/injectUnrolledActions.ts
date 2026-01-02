@@ -4,7 +4,7 @@ import {
   StatKeyType,
   StatKeyValue,
 } from 'lib/optimization/engine/config/keys'
-import { SELF_ENTITY } from 'lib/optimization/engine/config/tag'
+import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import {
   ComputedStatsContainerConfig,
   EntityType,
@@ -44,7 +44,7 @@ function generateTemplate(index: number, action: OptimizerAction, context: Optim
   return `
     { // Action ${index} - ${action.actionName} 
       var action: Action = action${index};
-      var computedStatsContainer: array<ComputedStats, calculationsPerAction> = computedStatsX${index};
+      var computedStatsContainer: array<f32, ${context.maxContainerArrayLength}> = computedStatsX${index};
       let p_container = &computedStatsContainer;
 
       let setConditionals = action.setConditionals;
@@ -54,30 +54,10 @@ function generateTemplate(index: number, action: OptimizerAction, context: Optim
       let p_sets = &sets;
       let p_state = &state;
 
-      let slotsPerEntity = maxHitsCount + 1;
-      for (var entityIndex = 0; entityIndex < maxEntitiesCount; entityIndex++) {
-        // Set the Action-scope stats, to be added to the Hit-scope stats later
-
-        let actionSlotIndex = entityIndex * slotsPerEntity;
-        computedStatsContainer[actionSlotIndex].ATK += diffATK;
-        computedStatsContainer[actionSlotIndex].DEF += diffDEF;
-        computedStatsContainer[actionSlotIndex].HP  += diffHP;
-        computedStatsContainer[actionSlotIndex].SPD += diffSPD;
-        computedStatsContainer[actionSlotIndex].CD  += diffCD;
-        computedStatsContainer[actionSlotIndex].CR  += diffCR;
-        computedStatsContainer[actionSlotIndex].EHR += diffEHR;
-        computedStatsContainer[actionSlotIndex].RES += diffRES;
-        computedStatsContainer[actionSlotIndex].BE  += diffBE;
-        computedStatsContainer[actionSlotIndex].ERR += diffERR;
-        computedStatsContainer[actionSlotIndex].OHB += diffOHB;
-
-        computedStatsContainer[actionSlotIndex].ATK += computedStatsContainer[actionSlotIndex].ATK_P * baseATK;
-        computedStatsContainer[actionSlotIndex].DEF += computedStatsContainer[actionSlotIndex].DEF_P * baseDEF;
-        computedStatsContainer[actionSlotIndex].HP  += computedStatsContainer[actionSlotIndex].HP_P * baseHP;
-        computedStatsContainer[actionSlotIndex].SPD += computedStatsContainer[actionSlotIndex].SPD_P * baseSPD;
-      }
+      // Set the Action-scope stats, to be added to the Hit-scope stats later
+      ${unrollEntityBaseStats(action)}
     
-      if (p2(sets.AmphoreusTheEternalLand) >= 1 && setConditionals.enabledAmphoreusTheEternalLand == true && computedStatsContainer[${getActionIndex(SELF_ENTITY, StatKey.MEMOSPRITE, action.config)}] >= 1) {
+      if (p2(sets.AmphoreusTheEternalLand) >= 1 && setConditionals.enabledAmphoreusTheEternalLand == true && ${containerActionRef(SELF_ENTITY_INDEX, StatKey.MEMOSPRITE, action.config)} >= 1) {
         ${actionBuff(StatKey.SPD_P, 0.08, action, context)}
         ${actionBuffMemo(StatKey.SPD_P, 0.08, action, context)}
       }
@@ -152,6 +132,41 @@ export function injectUnrolledActionHelpers() {
   return `
 
   `
+}
+
+function containerActionRef(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
+  return `computedStatsContainer[${getActionIndex(entityIndex, statIndex, config)}]`
+}
+
+function unrollEntityBaseStats(action: OptimizerAction, filter: EntityFilter = Filters.all) {
+  const config = action.config
+  const lines: string[] = ['']
+  for (let entityIndex = 0; entityIndex < config.entitiesLength; entityIndex++) {
+    const entity = config.entitiesArray[entityIndex]
+    if (filter(entity)) {
+      const entityName = entity.name ?? `Entity ${entityIndex}`
+      const baseIndex = getActionIndex(entityIndex, 0, config)
+      lines.push(`\
+        // Entity ${entityIndex}: ${entityName} | Base index: ${baseIndex}
+        ${containerActionRef(entityIndex, StatKey.ATK, config)} += diffATK;
+        ${containerActionRef(entityIndex, StatKey.DEF, config)} += diffDEF;
+        ${containerActionRef(entityIndex, StatKey.HP, config)} += diffHP;
+        ${containerActionRef(entityIndex, StatKey.SPD, config)} += diffSPD;
+        ${containerActionRef(entityIndex, StatKey.CD, config)} += diffCD;
+        ${containerActionRef(entityIndex, StatKey.CR, config)} += diffCR;
+        ${containerActionRef(entityIndex, StatKey.EHR, config)} += diffEHR;
+        ${containerActionRef(entityIndex, StatKey.RES, config)} += diffRES;
+        ${containerActionRef(entityIndex, StatKey.BE, config)} += diffBE;
+        ${containerActionRef(entityIndex, StatKey.ERR, config)} += diffERR;
+        ${containerActionRef(entityIndex, StatKey.OHB, config)} += diffOHB;
+        ${containerActionRef(entityIndex, StatKey.ATK, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.ATK, config)} * baseATK;
+        ${containerActionRef(entityIndex, StatKey.DEF, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.DEF, config)} * baseDEF;
+        ${containerActionRef(entityIndex, StatKey.HP, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.HP, config)} * baseHP;
+        ${containerActionRef(entityIndex, StatKey.SPD, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.SPD, config)} * baseSPD;`
+      )
+    }
+  }
+  return lines.join('\n')
 }
 
 function getActionIndex(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig): number {

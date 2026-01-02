@@ -7,7 +7,7 @@ import {
   ALL_ELEMENT_TAGS,
   DamageTag,
   ElementTag,
-  SELF_ENTITY,
+  SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainerConfig } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -17,8 +17,8 @@ export class BuffBuilder<_Completed extends boolean = false> {
 
   _elementTags = ALL_ELEMENT_TAGS
   _damageTags = ALL_DAMAGE_TAGS
-  _origin = SELF_ENTITY
-  _target = SELF_ENTITY
+  _origin = SELF_ENTITY_INDEX
+  _target = SELF_ENTITY_INDEX
   _targetTags = TargetTag.SelfAndPet
   _source: BuffSource = Source.NONE
 
@@ -33,8 +33,8 @@ export class BuffBuilder<_Completed extends boolean = false> {
   reset(): IncompleteBuffBuilder {
     this._elementTags = ALL_ELEMENT_TAGS
     this._damageTags = ALL_DAMAGE_TAGS
-    this._origin = SELF_ENTITY
-    this._target = SELF_ENTITY
+    this._origin = SELF_ENTITY_INDEX
+    this._target = SELF_ENTITY_INDEX
     this._targetTags = TargetTag.SelfAndPet
     this._source = Source.NONE
     return this as IncompleteBuffBuilder

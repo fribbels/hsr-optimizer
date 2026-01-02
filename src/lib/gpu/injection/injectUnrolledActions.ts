@@ -94,9 +94,26 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
         ${buff.hit(StatKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action, 4)}
       }
       
+      // Dynamic conditional chain
+      
       ${characterConditionalWgsl}
       
       ${lightConeConditionalWgsl}
+      
+      // Damage
+      
+      // Add to combo
+      
+      // Combat stat filters
+      
+      // Basic stat filters
+      
+      // Rating stat filters
+      
+      // Return value
+      
+        results[index] = container; // DEBUG
+        results[index + 1] = container; // DEBUG
     }
   `
 }

@@ -433,7 +433,7 @@ ${debugValues}
     wgsl = wgsl.replace(
       '/* INJECT RESULTS BUFFER */',
       `
-@group(2) @binding(0) var<storage, read_write> results : array<ComputedStats>; // DEBUG
+@group(2) @binding(0) var<storage, read_write> results : array<array<f32, ${context.maxContainerArrayLength}>>; // DEBUG
     `,
     )
   } else {

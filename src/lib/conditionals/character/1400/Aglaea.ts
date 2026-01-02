@@ -516,7 +516,7 @@ let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;
 (*p_state).AglaeaConversionConditional = buffValue;
 ${containerActionPtrVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} += buffValue - stateValue;
 ${containerActionPtrVal(memoEntityIndex, StatKey.ATK, config)} += buffValue - stateValue;
-    `,
+`,
           )
         },
       },

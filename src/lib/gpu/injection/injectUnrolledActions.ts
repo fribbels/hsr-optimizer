@@ -1,16 +1,13 @@
 import {
-  actionBuff,
-  actionBuffMemo,
   containerActionRef,
-  EntityFilter,
-  EntityFilters,
   getActionIndex,
 } from 'lib/gpu/injection/injectUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
+import { DamageTag, SELF_ENTITY_INDEX, TargetTag } from 'lib/optimization/engine/config/tag'
+import { buff, matchesTargetTag } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { Form } from 'types/form'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export function injectUnrolledActions(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   let unrolledActionsWgsl = ''
@@ -54,23 +51,29 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
       ${unrollEntityBaseStats(action)}
     
       if (
-        p2(sets.AmphoreusTheEternalLand) >= 1 
-        && setConditionals.enabledAmphoreusTheEternalLand == true 
+        p2(sets.AmphoreusTheEternalLand) >= 1
+        && setConditionals.enabledAmphoreusTheEternalLand == true
         && ${containerActionRef(SELF_ENTITY_INDEX, StatKey.MEMOSPRITE, action.config)} >= 1
       ) {
-        ${actionBuff(StatKey.SPD_P, 0.08, action, context)}
-        ${actionBuffMemo(StatKey.SPD_P, 0.08, action, context)}
+        ${buff.action(StatKey.SPD_P, 0.08).targets(TargetTag.FullTeam).wgsl(action)}
+      }
+
+      if (
+        p2(sets.RutilantArena) >= 1
+        && ${containerActionRef(SELF_ENTITY_INDEX, StatKey.CR, action.config)} >= 0.70
+      ) {
+        ${buff.hit(StatKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action)}
       }
     }
   `
 }
 
-function unrollEntityBaseStats(action: OptimizerAction, filter: EntityFilter = EntityFilters.all) {
+function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = TargetTag.FullTeam) {
   const config = action.config
   const lines: string[] = ['']
   for (let entityIndex = 0; entityIndex < config.entitiesLength; entityIndex++) {
     const entity = config.entitiesArray[entityIndex]
-    if (filter(entity)) {
+    if (matchesTargetTag(entity, targetTag)) {
       const entityName = entity.name ?? `Entity ${entityIndex}`
       const baseIndex = getActionIndex(entityIndex, 0, config)
       lines.push(

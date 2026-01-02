@@ -20,6 +20,10 @@ export function containerActionRef(entityIndex: number, statIndex: number, confi
   return `computedStatsContainer[${getActionIndex(entityIndex, statIndex, config)}]`
 }
 
+export function containerHitRef(entityIndex: number, hitIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
+  return `computedStatsContainer[${getHitIndex(entityIndex, hitIndex, statIndex, config)}]`
+}
+
 function actionBuffFiltered(
   statKey: StatKeyValue,
   value: number,
@@ -48,7 +52,7 @@ export const EntityFilters = {
   summon: (e: OptimizerEntity) => e.pet || e.memosprite,
 } as const
 
-// Buffing entities
+// Buffing actions
 
 export const actionBuff = (
   statKey: StatKeyValue,
@@ -63,6 +67,29 @@ export const actionBuffMemo = (
   action: OptimizerAction,
   context: OptimizerContext,
 ) => actionBuffFiltered(statKey, value, action, context, EntityFilters.memo)
+
+// Buffing hits
+
+function hitBuffFiltered(
+  statKey: StatKeyValue,
+  value: number,
+  action: OptimizerAction,
+  context: OptimizerContext,
+  filter: EntityFilter,
+) {
+  const lines: string[] = []
+  for (let entityIndex = 0; entityIndex < action.config.entitiesLength; entityIndex++) {
+    const entity = action.config.entitiesArray[entityIndex]
+
+    for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
+      if (filter(entity)) {
+        const index = getHitIndex(entityIndex, hitIndex, statKey, action.config)
+        lines.push(`computedStatsContainer[${index}] += ${value}; // ${entity.name} ${getStatKeyName(statKey)}`)
+      }
+    }
+  }
+  return lines.filter(Boolean).join('\n        ')
+}
 
 // public getValue(key: StatKeyValue, hitIndex: number) {
 //   const hit = this.config.hits[hitIndex]

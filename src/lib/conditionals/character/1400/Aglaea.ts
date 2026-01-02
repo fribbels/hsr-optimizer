@@ -17,7 +17,10 @@ import {
   ConditionalType,
   Stats,
 } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import {
+  conditionalWgslWrapper,
+  newConditionalWgslWrapper,
+} from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   wgsl,
   wgslFalse,
@@ -436,7 +439,7 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
           .damageType(DamageTag.BASIC)
           .targets(TargetTag.SelfAndMemosprite)
           .wgsl(action, 2)
-    }
+      }
   } else if (
     ${containerActionRef(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} > 160 || 
     ${containerActionRef(action.config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, action.config)} > 160
@@ -496,6 +499,26 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
 
           return conditionalWgslWrapper(
             this,
+            `
+if (${wgslFalse(r.supremeStanceState)}) {
+  return;
+}
+let spd = x.SPD;
+let memoSpd = (*p_m).SPD;
+let stateValue: f32 = (*p_state).AglaeaConversionConditional;
+let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;
+
+(*p_state).AglaeaConversionConditional = buffValue;
+(*p_x).ATK += buffValue - stateValue;
+(*p_m).ATK += buffValue - stateValue;
+    `,
+          )
+        },
+        newGpu: function(action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          return newConditionalWgslWrapper(
+            this,
+            action,
             `
 if (${wgslFalse(r.supremeStanceState)}) {
   return;

@@ -17,6 +17,7 @@ export type DynamicConditional = {
   condition: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => boolean | number,
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void,
   gpu: (action: OptimizerAction, context: OptimizerContext) => string,
+  newGpu: (action: OptimizerAction, context: OptimizerContext) => string,
   teammateIndex?: number,
 }
 
@@ -57,6 +58,16 @@ export function conditionalWgslWrapper(conditional: DynamicConditional, wgsl: st
   return `
 fn evaluate${conditional.id}(p_x: ptr<function, ComputedStats>, p_sets: ptr<function, Sets>, p_state: ptr<function, ConditionalState>) {
   let x = *p_x;
+${indent(wgsl.trim(), 1)}
+}
+  `
+}
+}
+
+export function newConditionalWgslWrapper(conditional: DynamicConditional, action: OptimizerAction, wgsl: string) {
+  return `
+fn evaluate${conditional.id}(p_container: ptr<function, array<f32, ${action.config.arrayLength}>>, p_sets: ptr<function, Sets>, p_state: ptr<function, ConditionalState>) {
+  let container = *p_container;
 ${indent(wgsl.trim(), 1)}
 }
   `

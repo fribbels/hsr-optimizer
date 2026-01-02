@@ -54,8 +54,8 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
   const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(context)
   const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(context)
 
-  let characterConditionalWgsl = '  // Character conditionals\n'
-  let lightConeConditionalWgsl = '  // Light cone conditionals\n'
+  let characterConditionalWgsl = "// Character conditionals\n"
+  let lightConeConditionalWgsl = '// Light cone conditionals\n'
 
   if (characterConditionals.newGpuFinalizeCalculations) {
     characterConditionalWgsl += indent(characterConditionals.newGpuFinalizeCalculations(action, context), 3)
@@ -84,14 +84,14 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
         && setConditionals.enabledAmphoreusTheEternalLand == true
         && ${containerActionRef(SELF_ENTITY_INDEX, StatKey.MEMOSPRITE, action.config)} >= 1
       ) {
-${buff.action(StatKey.SPD_P, 0.08).targets(TargetTag.FullTeam).wgsl(action, 4)}
+        ${buff.action(StatKey.SPD_P, 0.08).targets(TargetTag.FullTeam).wgsl(action, 4)}
       }
 
       if (
         p2(sets.RutilantArena) >= 1
         && ${containerActionRef(SELF_ENTITY_INDEX, StatKey.CR, action.config)} >= 0.70
       ) {
-${buff.hit(StatKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action, 4)}
+        ${buff.hit(StatKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action, 4)}
       }
       
       ${characterConditionalWgsl}

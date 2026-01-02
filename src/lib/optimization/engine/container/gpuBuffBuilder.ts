@@ -27,13 +27,16 @@ export function matchesTargetTag(entity: OptimizerEntity, targetTag: TargetTag):
   return false
 }
 
+// Value can be a number (compile-time constant) or string (WGSL runtime expression)
+export type WgslBuffValue = number | string
+
 // Action buff builder - only supports target filtering
 class ActionBuffBuilder {
   private _targetTag: TargetTag = TargetTag.SelfAndPet
   private readonly statKey: StatKeyValue
-  private readonly value: number
+  private readonly value: WgslBuffValue
 
-  constructor(statKey: StatKeyValue, value: number) {
+  constructor(statKey: StatKeyValue, value: WgslBuffValue) {
     this.statKey = statKey
     this.value = value
   }
@@ -75,9 +78,9 @@ class HitBuffBuilder {
   private _damageTags: DamageTag = ALL_DAMAGE_TAGS
   private _elementTags: ElementTag = ALL_ELEMENT_TAGS
   private readonly statKey: StatKeyValue
-  private readonly value: number
+  private readonly value: WgslBuffValue
 
-  constructor(statKey: StatKeyValue, value: number) {
+  constructor(statKey: StatKeyValue, value: WgslBuffValue) {
     this.statKey = statKey
     this.value = value
   }
@@ -135,6 +138,6 @@ class HitBuffBuilder {
 
 // Entry point - stat and value first, .wgsl(action) finalizes
 export const buff = {
-  action: (statKey: StatKeyValue, value: number) => new ActionBuffBuilder(statKey, value),
-  hit: (statKey: StatKeyValue, value: number) => new HitBuffBuilder(statKey, value),
+  action: (statKey: StatKeyValue, value: WgslBuffValue) => new ActionBuffBuilder(statKey, value),
+  hit: (statKey: StatKeyValue, value: WgslBuffValue) => new HitBuffBuilder(statKey, value),
 }

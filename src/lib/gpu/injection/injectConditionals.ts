@@ -11,7 +11,10 @@ import {
 import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyEvaluator'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { PathNames, Stats, } from 'lib/constants/constants'
+import {
+  PathNames,
+  Stats,
+} from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { injectActionDamage } from 'lib/gpu/injection/injectActionDamage'
 import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomputedStats'
@@ -21,9 +24,18 @@ import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { countDotAbilities } from 'lib/optimization/rotation/comboStateTransform'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { StringToNumberMap } from 'types/common'
-import { CharacterConditionalsController, LightConeConditionalsController, } from 'types/conditionals'
-import { Form, Teammate, } from 'types/form'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  CharacterConditionalsController,
+  LightConeConditionalsController,
+} from 'types/conditionals'
+import {
+  Form,
+  Teammate,
+} from 'types/form'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export function injectConditionals(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(context)

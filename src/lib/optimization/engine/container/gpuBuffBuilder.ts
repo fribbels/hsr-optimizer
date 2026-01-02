@@ -44,23 +44,25 @@ class ActionBuffBuilder {
     throw new Error('ActionBuffBuilder: Missing .wgsl(action) call - cannot use builder directly in template literal')
   }
 
-  wgsl(action: OptimizerAction): string {
+  wgsl(action: OptimizerAction, indent: number = 0): string {
     const config = action.config
     const lines: string[] = []
+    const prefix = '  '.repeat(indent)
 
     for (let entityIndex = 0; entityIndex < config.entitiesLength; entityIndex++) {
       const entity = config.entitiesArray[entityIndex]
       const index = getActionIndex(entityIndex, this.statKey, config)
-      const line = `computedStatsContainer[${index}] += ${this.value}; // ${entity.name} ${getStatKeyName(this.statKey)}`
+      const code = `computedStatsContainer[${index}] += ${this.value}; // ${entity.name} ${getStatKeyName(this.statKey)}`
 
       if (matchesTargetTag(entity, this._targetTag)) {
-        lines.push(line)
+        lines.push(code)
       } else {
-        lines.push(`// ${line}`)
+        lines.push(`// ${code}`)
       }
     }
 
-    return lines.join('\n')
+    // First line uses template position, subsequent lines need prefix
+    return lines.join(`\n${prefix}`)
   }
 }
 
@@ -96,10 +98,11 @@ class HitBuffBuilder {
     throw new Error('HitBuffBuilder: Missing .wgsl(action) call - cannot use builder directly in template literal')
   }
 
-  wgsl(action: OptimizerAction): string {
+  wgsl(action: OptimizerAction, indent: number = 0): string {
     const config = action.config
     const hits = action.hits ?? []
     const lines: string[] = []
+    const prefix = '  '.repeat(indent)
 
     for (let entityIndex = 0; entityIndex < config.entitiesLength; entityIndex++) {
       const entity = config.entitiesArray[entityIndex]
@@ -108,21 +111,22 @@ class HitBuffBuilder {
       for (let hitIndex = 0; hitIndex < hits.length; hitIndex++) {
         const hit = hits[hitIndex]
         const index = getHitIndex(entityIndex, hitIndex, this.statKey, config)
-        const line = `computedStatsContainer[${index}] += ${this.value}; // ${entity.name} Hit${hitIndex} ${getStatKeyName(this.statKey)}`
+        const code = `computedStatsContainer[${index}] += ${this.value}; // ${entity.name} Hit${hitIndex} ${getStatKeyName(this.statKey)}`
 
         // Check all filters
         const damageMatches = this._damageTags === ALL_DAMAGE_TAGS || (hit.damageType & this._damageTags)
         const elementMatches = this._elementTags === ALL_ELEMENT_TAGS || (hit.damageElement & this._elementTags)
 
         if (entityMatches && damageMatches && elementMatches) {
-          lines.push(line)
+          lines.push(code)
         } else {
-          lines.push(`// ${line}`)
+          lines.push(`// ${code}`)
         }
       }
     }
 
-    return lines.join('\n')
+    // First line uses template position, subsequent lines need prefix
+    return lines.join(`\n${prefix}`)
   }
 }
 

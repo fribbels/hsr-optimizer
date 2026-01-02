@@ -1,14 +1,30 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { containerActionRef, getActionIndex, } from 'lib/gpu/injection/injectUtils'
+import {
+  containerActionRef,
+  getActionIndex,
+} from 'lib/gpu/injection/injectUtils'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
-import { buff, matchesTargetTag, } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import { CharacterConditionalsController, LightConeConditionalsController, } from 'types/conditionals'
+import {
+  DamageTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import {
+  buff,
+  matchesTargetTag,
+} from 'lib/optimization/engine/container/gpuBuffBuilder'
+import {
+  CharacterConditionalsController,
+  LightConeConditionalsController,
+} from 'types/conditionals'
 import { Form } from 'types/form'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export function injectUnrolledActions(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   let unrolledActionsWgsl = ''
@@ -42,10 +58,10 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
   let lightConeConditionalWgsl = '  // Light cone conditionals\n'
 
   if (characterConditionals.newGpuFinalizeCalculations) {
-    characterConditionalWgsl += indent(characterConditionals.newGpuFinalizeCalculations(action, context), 1)
+    characterConditionalWgsl += indent(characterConditionals.newGpuFinalizeCalculations(action, context), 3)
   }
   if (lightConeConditionals.newGpuFinalizeCalculations) {
-    lightConeConditionalWgsl += indent(lightConeConditionals.newGpuFinalizeCalculations(action, context), 1)
+    lightConeConditionalWgsl += indent(lightConeConditionals.newGpuFinalizeCalculations(action, context), 3)
   }
   return `
     { // Action ${index} - ${action.actionName} 
@@ -68,14 +84,14 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
         && setConditionals.enabledAmphoreusTheEternalLand == true
         && ${containerActionRef(SELF_ENTITY_INDEX, StatKey.MEMOSPRITE, action.config)} >= 1
       ) {
-        ${buff.action(StatKey.SPD_P, 0.08).targets(TargetTag.FullTeam).wgsl(action)}
+${buff.action(StatKey.SPD_P, 0.08).targets(TargetTag.FullTeam).wgsl(action, 4)}
       }
 
       if (
         p2(sets.RutilantArena) >= 1
         && ${containerActionRef(SELF_ENTITY_INDEX, StatKey.CR, action.config)} >= 0.70
       ) {
-        ${buff.hit(StatKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action)}
+${buff.hit(StatKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action, 4)}
       }
       
       ${characterConditionalWgsl}

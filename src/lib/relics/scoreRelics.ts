@@ -2,6 +2,7 @@ import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import DB from 'lib/state/db'
 import { CharacterId } from 'types/character'
 import { Nullable } from 'types/common'
+import { ScoringMetadata } from 'types/metadata'
 import { Relic } from 'types/relic'
 
 export type ScoredRelic = Relic & { weights: RelicScoringWeights }
@@ -25,20 +26,22 @@ type PotentialWeights = {
   averagePct: number,
 }
 
-// Simple cache: WeakMap keyed by relic reference, auto-clears when params change
+type ScoringMetadataOverrides = Partial<Record<CharacterId, ScoringMetadata>>
+
+// Keyed by relic reference, autoclears when cache params change
 let scoreCache: WeakMap<Relic, ScoredRelic> = new WeakMap()
-let cacheParams: { focusCharacter: Nullable<CharacterId>; excludedIds: string; metadataRef: unknown } | null = null
+let cacheParams: { focusCharacter: Nullable<CharacterId>; excludedIds: string; metadataRef?: ScoringMetadataOverrides } | null = null
 
 export function scoreRelics(
   relics: Array<Relic>,
   excludedRelicPotentialCharacters: Array<CharacterId>,
   focusCharacter: Nullable<CharacterId>,
-  scoringMetadataOverrides?: unknown,
+  scoringMetadataOverrides?: ScoringMetadataOverrides,
 ): Array<ScoredRelic> {
   const characterIds = Object.values(DB.getMetadata().characters).map((x) => x.id)
   const relicScorer = new RelicScorer()
 
-  // Check if params changed - if so, clear cache
+  // Clear cache if params change
   const excludedIds = excludedRelicPotentialCharacters.join(',')
   if (
     !cacheParams
@@ -50,7 +53,6 @@ export function scoreRelics(
     cacheParams = { focusCharacter, excludedIds, metadataRef: scoringMetadataOverrides }
   }
 
-  // Score relics, using cache when available
   const scored = relics.map((relic) => {
     const cached = scoreCache.get(relic)
     if (cached) return cached

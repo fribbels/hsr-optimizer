@@ -62,7 +62,6 @@ ${indent(wgsl.trim(), 1)}
 }
   `
 }
-}
 
 export function newConditionalWgslWrapper(conditional: DynamicConditional, action: OptimizerAction, wgsl: string) {
   return `

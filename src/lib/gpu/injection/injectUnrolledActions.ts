@@ -66,8 +66,8 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
   return `
     { // Action ${index} - ${action.actionName} 
       var action: Action = action${index};
-      var computedStatsContainer: array<f32, ${context.maxContainerArrayLength}> = computedStatsX${index};
-      let p_container = &computedStatsContainer;
+      var container: array<f32, ${context.maxContainerArrayLength}> = computedStatsX${index};
+      let p_container = &container;
 
       let setConditionals = action.setConditionals;
       var state = ConditionalState();

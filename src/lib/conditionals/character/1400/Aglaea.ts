@@ -516,6 +516,8 @@ let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;
         },
         newGpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
+          const config = action.config
+
           return newConditionalWgslWrapper(
             this,
             action,
@@ -523,8 +525,8 @@ let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;
 if (${wgslFalse(r.supremeStanceState)}) {
   return;
 }
-let spd = x.SPD;
-let memoSpd = (*p_m).SPD;
+let spd = ${containerActionRef(SELF_ENTITY_INDEX, StatKey.SPD, config)};
+let memoSpd = ${containerActionRef(config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, config)};
 let stateValue: f32 = (*p_state).AglaeaConversionConditional;
 let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;
 

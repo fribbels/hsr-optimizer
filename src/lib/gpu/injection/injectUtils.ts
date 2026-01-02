@@ -1,9 +1,15 @@
-import { getStatKeyName, StatKeyValue, } from 'lib/optimization/engine/config/keys'
+import {
+  getStatKeyName,
+  StatKeyValue,
+} from 'lib/optimization/engine/config/keys'
 import {
   ComputedStatsContainerConfig,
   OptimizerEntity,
 } from 'lib/optimization/engine/container/computedStatsContainer'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export function getActionIndex(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig): number {
   return entityIndex * (config.statsLength * (config.hitsLength + 1))
@@ -17,11 +23,11 @@ export function getHitIndex(entityIndex: number, hitIndex: number, statIndex: nu
 }
 
 export function containerActionRef(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
-  return `computedStatsContainer[${getActionIndex(entityIndex, statIndex, config)}]`
+  return `container[${getActionIndex(entityIndex, statIndex, config)}]`
 }
 
 export function containerHitRef(entityIndex: number, hitIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
-  return `computedStatsContainer[${getHitIndex(entityIndex, hitIndex, statIndex, config)}]`
+  return `container[${getHitIndex(entityIndex, hitIndex, statIndex, config)}]`
 }
 
 function actionBuffFiltered(
@@ -37,7 +43,7 @@ function actionBuffFiltered(
 
     if (filter(entity)) {
       const index = getActionIndex(entityIndex, statKey, action.config)
-      lines.push(`computedStatsContainer[${index}] += ${value}; // ${entity.name} ${getStatKeyName(statKey)}`)
+      lines.push(`container[${index}] += ${value}; // ${entity.name} ${getStatKeyName(statKey)}`)
     }
   }
   return lines.filter(Boolean).join('\n        ')
@@ -84,7 +90,7 @@ function hitBuffFiltered(
     for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
       if (filter(entity)) {
         const index = getHitIndex(entityIndex, hitIndex, statKey, action.config)
-        lines.push(`computedStatsContainer[${index}] += ${value}; // ${entity.name} ${getStatKeyName(statKey)}`)
+        lines.push(`container[${index}] += ${value}; // ${entity.name} ${getStatKeyName(statKey)}`)
       }
     }
   }

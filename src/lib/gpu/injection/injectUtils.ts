@@ -22,12 +22,16 @@ export function getHitIndex(entityIndex: number, hitIndex: number, statIndex: nu
     + statIndex
 }
 
-export function containerActionRef(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
+export function containerActionVal(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
   return `container[${getActionIndex(entityIndex, statIndex, config)}]`
 }
 
-export function containerHitRef(entityIndex: number, hitIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
+export function containerHitVal(entityIndex: number, hitIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
   return `container[${getHitIndex(entityIndex, hitIndex, statIndex, config)}]`
+}
+
+export function containerActionPtrVal(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
+  return `(*p_container)[${getActionIndex(entityIndex, statIndex, config)}]`
 }
 
 function actionBuffFiltered(

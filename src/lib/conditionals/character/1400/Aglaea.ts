@@ -34,7 +34,10 @@ import {
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { containerActionRef } from 'lib/gpu/injection/injectUtils'
+import {
+  containerActionPtrVal,
+  containerActionVal,
+} from 'lib/gpu/injection/injectUtils'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
@@ -421,8 +424,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return wgsl`
 if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
   if (
-    ${containerActionRef(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} > 320 || 
-    ${containerActionRef(action.config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, action.config)} > 320
+    ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} > 320 || 
+    ${containerActionVal(action.config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, action.config)} > 320
   ) {
     ${
         buff.hit(StatKey.DMG_BOOST, 0.60)
@@ -431,8 +434,8 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
           .wgsl(action, 2)
       }
   } else if (
-    ${containerActionRef(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} > 240 || 
-    ${containerActionRef(action.config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, action.config)} > 240
+    ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} > 240 || 
+    ${containerActionVal(action.config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, action.config)} > 240
   ) {
     ${
         buff.hit(StatKey.DMG_BOOST, 0.30)
@@ -441,8 +444,8 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
           .wgsl(action, 2)
       }
   } else if (
-    ${containerActionRef(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} > 160 || 
-    ${containerActionRef(action.config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, action.config)} > 160
+    ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} > 160 || 
+    ${containerActionVal(action.config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, action.config)} > 160
   ) {
     ${
         buff.hit(StatKey.DMG_BOOST, 0.10)
@@ -494,29 +497,9 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
           x.m.ATK.buffDynamic(buffValue - stateValue, SOURCE_TRACE, action, context)
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
-          // TODO
-          const r = action.characterConditionals as Conditionals<typeof content>
-
-          return conditionalWgslWrapper(
-            this,
-            `
-if (${wgslFalse(r.supremeStanceState)}) {
-  return;
-}
-let spd = x.SPD;
-let memoSpd = (*p_m).SPD;
-let stateValue: f32 = (*p_state).AglaeaConversionConditional;
-let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;
-
-(*p_state).AglaeaConversionConditional = buffValue;
-(*p_x).ATK += buffValue - stateValue;
-(*p_m).ATK += buffValue - stateValue;
-    `,
-          )
-        },
-        newGpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           const config = action.config
+          const memoEntityIndex = config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker)
 
           return newConditionalWgslWrapper(
             this,
@@ -525,14 +508,14 @@ let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;
 if (${wgslFalse(r.supremeStanceState)}) {
   return;
 }
-let spd = ${containerActionRef(SELF_ENTITY_INDEX, StatKey.SPD, config)};
-let memoSpd = ${containerActionRef(config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, config)};
+let spd = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)};
+let memoSpd = ${containerActionVal(memoEntityIndex, StatKey.SPD, config)};
 let stateValue: f32 = (*p_state).AglaeaConversionConditional;
 let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;
 
 (*p_state).AglaeaConversionConditional = buffValue;
-(*p_x).ATK += buffValue - stateValue;
-(*p_m).ATK += buffValue - stateValue;
+${containerActionPtrVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} += buffValue - stateValue;
+${containerActionPtrVal(memoEntityIndex, StatKey.ATK, config)} += buffValue - stateValue;
     `,
           )
         },

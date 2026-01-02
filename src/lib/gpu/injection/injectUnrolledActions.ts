@@ -1,7 +1,7 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
-  containerActionRef,
+  containerActionVal,
   getActionIndex,
 } from 'lib/gpu/injection/injectUtils'
 import { indent } from 'lib/gpu/injection/wgslUtils'
@@ -82,14 +82,14 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
       if (
         p2(sets.AmphoreusTheEternalLand) >= 1
         && setConditionals.enabledAmphoreusTheEternalLand == true
-        && ${containerActionRef(SELF_ENTITY_INDEX, StatKey.MEMOSPRITE, action.config)} >= 1
+        && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.MEMOSPRITE, action.config)} >= 1
       ) {
         ${buff.action(StatKey.SPD_P, 0.08).targets(TargetTag.FullTeam).wgsl(action, 4)}
       }
 
       if (
         p2(sets.RutilantArena) >= 1
-        && ${containerActionRef(SELF_ENTITY_INDEX, StatKey.CR, action.config)} >= 0.70
+        && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, action.config)} >= 0.70
       ) {
         ${buff.hit(StatKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action, 4)}
       }
@@ -112,21 +112,21 @@ function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = T
       lines.push(
         `\
         // Entity ${entityIndex}: ${entityName} | Base index: ${baseIndex}
-        ${containerActionRef(entityIndex, StatKey.ATK, config)} += diffATK;
-        ${containerActionRef(entityIndex, StatKey.DEF, config)} += diffDEF;
-        ${containerActionRef(entityIndex, StatKey.HP, config)} += diffHP;
-        ${containerActionRef(entityIndex, StatKey.SPD, config)} += diffSPD;
-        ${containerActionRef(entityIndex, StatKey.CD, config)} += diffCD;
-        ${containerActionRef(entityIndex, StatKey.CR, config)} += diffCR;
-        ${containerActionRef(entityIndex, StatKey.EHR, config)} += diffEHR;
-        ${containerActionRef(entityIndex, StatKey.RES, config)} += diffRES;
-        ${containerActionRef(entityIndex, StatKey.BE, config)} += diffBE;
-        ${containerActionRef(entityIndex, StatKey.ERR, config)} += diffERR;
-        ${containerActionRef(entityIndex, StatKey.OHB, config)} += diffOHB;
-        ${containerActionRef(entityIndex, StatKey.ATK, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.ATK, config)} * baseATK;
-        ${containerActionRef(entityIndex, StatKey.DEF, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.DEF, config)} * baseDEF;
-        ${containerActionRef(entityIndex, StatKey.HP, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.HP, config)} * baseHP;
-        ${containerActionRef(entityIndex, StatKey.SPD, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.SPD, config)} * baseSPD;`,
+        ${containerActionVal(entityIndex, StatKey.ATK, config)} += diffATK;
+        ${containerActionVal(entityIndex, StatKey.DEF, config)} += diffDEF;
+        ${containerActionVal(entityIndex, StatKey.HP, config)} += diffHP;
+        ${containerActionVal(entityIndex, StatKey.SPD, config)} += diffSPD;
+        ${containerActionVal(entityIndex, StatKey.CD, config)} += diffCD;
+        ${containerActionVal(entityIndex, StatKey.CR, config)} += diffCR;
+        ${containerActionVal(entityIndex, StatKey.EHR, config)} += diffEHR;
+        ${containerActionVal(entityIndex, StatKey.RES, config)} += diffRES;
+        ${containerActionVal(entityIndex, StatKey.BE, config)} += diffBE;
+        ${containerActionVal(entityIndex, StatKey.ERR, config)} += diffERR;
+        ${containerActionVal(entityIndex, StatKey.OHB, config)} += diffOHB;
+        ${containerActionVal(entityIndex, StatKey.ATK, config)} += ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} * baseATK;
+        ${containerActionVal(entityIndex, StatKey.DEF, config)} += ${containerActionVal(SELF_ENTITY_INDEX, StatKey.DEF, config)} * baseDEF;
+        ${containerActionVal(entityIndex, StatKey.HP, config)} += ${containerActionVal(SELF_ENTITY_INDEX, StatKey.HP, config)} * baseHP;
+        ${containerActionVal(entityIndex, StatKey.SPD, config)} += ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} * baseSPD;`,
       )
     }
   }

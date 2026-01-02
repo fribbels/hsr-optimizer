@@ -32,7 +32,7 @@ export interface HitDefinition {
   referenceHit?: Hit
 
   damageFunction: DamageFunction
-  damageFunctionType: DamageFunctionType  // For serialization
+  damageFunctionType: DamageFunctionType // For serialization
   damageType: number
   damageElement: ElementTag
 

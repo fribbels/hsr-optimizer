@@ -10,9 +10,6 @@
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 // END ACTIONS DEFINITION
 
-struct ConditionalState {
-  actionIndex: i32
-}
 
 const BASIC_DMG_TYPE = 1;
 const SKILL_DMG_TYPE = 2;
@@ -341,30 +338,61 @@ fn main(
     var mc = c;
     /* END MC ASSIGNMENT */
 
-    for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
-      var action: Action;
-      var computedStatsContainer: array<ComputedStats, calculationsPerAction>;
-      getAction(actionIndex, &action, &computedStatsContainer);
 
-      let setConditionals = action.setConditionals;
-      var state = ConditionalState();
-      state.actionIndex = actionIndex;
+    // START UNROLLED ACTIONS
+    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+    /* INJECT UNROLLED ACTIONS */
+    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+    // END UNROLLED ACTIONS
 
-//      x.ATK += diffATK;
-//      x.DEF += diffDEF;
-//      x.HP  += diffHP;
-//      x.SPD += diffSPD;
-//      x.CD  += diffCD;
-//      x.CR  += diffCR;
-//      x.EHR += diffEHR;
-//      x.RES += diffRES;
-//      x.BE  += diffBE;
-//      x.ERR += diffERR;
-//      x.OHB += diffOHB;
-
-
-      results[index] = computedStatsContainer[0]; // DEBUG
-    }
+//    for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
+//      var action: Action;
+//      var computedStatsContainer: array<ComputedStats, calculationsPerAction>;
+//      let p_container = &computedStatsContainer;
+//      getAction(actionIndex, &action, &computedStatsContainer);
+//
+//      let setConditionals = action.setConditionals;
+//      var state = ConditionalState();
+//      state.actionIndex = actionIndex;
+//
+//      let p_sets = &sets;
+//      let p_state = &state;
+//
+//      let slotsPerEntity = maxHitsCount + 1;
+//      for (var entityIndex = 0; entityIndex < maxEntitiesCount; entityIndex++) {
+//        let actionSlotIndex = entityIndex * slotsPerEntity;
+//        computedStatsContainer[actionSlotIndex].ATK += diffATK;
+//        computedStatsContainer[actionSlotIndex].DEF += diffDEF;
+//        computedStatsContainer[actionSlotIndex].HP  += diffHP;
+//        computedStatsContainer[actionSlotIndex].SPD += diffSPD;
+//        computedStatsContainer[actionSlotIndex].CD  += diffCD;
+//        computedStatsContainer[actionSlotIndex].CR  += diffCR;
+//        computedStatsContainer[actionSlotIndex].EHR += diffEHR;
+//        computedStatsContainer[actionSlotIndex].RES += diffRES;
+//        computedStatsContainer[actionSlotIndex].BE  += diffBE;
+//        computedStatsContainer[actionSlotIndex].ERR += diffERR;
+//        computedStatsContainer[actionSlotIndex].OHB += diffOHB;
+//
+//        computedStatsContainer[actionSlotIndex].ATK += computedStatsContainer[actionSlotIndex].ATK_P * baseATK;
+//        computedStatsContainer[actionSlotIndex].DEF += computedStatsContainer[actionSlotIndex].DEF_P * baseDEF;
+//        computedStatsContainer[actionSlotIndex].HP  += computedStatsContainer[actionSlotIndex].HP_P * baseHP;
+//        computedStatsContainer[actionSlotIndex].SPD += computedStatsContainer[actionSlotIndex].SPD_P * baseSPD;
+//
+////      // START BASIC CONDITIONALS
+////      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+////      /* INJECT BASIC -----DISABLED------ CONDITIONALS */
+////      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+////      // END BASIC CONDITIONALS
+////
+////      // START COMBAT CONDITIONALS
+////      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+////      /* INJECT COMBAT -----DISABLED------ CONDITIONALS */
+////      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+////      // END COMBAT CONDITIONALS
+//      }
+//
+//      results[index] = computedStatsContainer[0]; // DEBUG
+//    }
 
 
 
@@ -619,17 +647,6 @@ fn main(
 ////      m.SPD += diffSPD * x.MEMO_BASE_SPD_SCALING + x.MEMO_BASE_SPD_FLAT + m.BASE_SPD * m.SPD_P;
 //      /* END COPY MEMOSPRITE BASIC STATS */
 //
-//      // START BASIC CONDITIONALS
-//      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-//      /* INJECT BASIC CONDITIONALS */
-//      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-//      // END BASIC CONDITIONALS
-//
-//      // START COMBAT CONDITIONALS
-//      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-//      /* INJECT COMBAT CONDITIONALS */
-//      // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-//      // END COMBAT CONDITIONALS
 //
 //      if (p2(sets.FirmamentFrontlineGlamoth) >= 1 && x.SPD >= 135) {
 ////        x.ELEMENTAL_DMG += select(0.12, 0.18, x.SPD >= 160);

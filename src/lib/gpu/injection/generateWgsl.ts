@@ -1,10 +1,14 @@
+import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyEvaluator'
 import {
   Constants,
   PathNames,
 } from 'lib/constants/constants'
+import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
+import { generateDynamicConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomputedStats'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
+import { injectUnrolledActions } from 'lib/gpu/injection/injectUnrolledActions'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import {
   GpuConstants,
@@ -15,14 +19,33 @@ import structs from 'lib/gpu/wgsl/structs.wgsl?raw'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
-import { OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerContext,
+  ShaderVariables,
+} from 'types/optimizer'
+
+export function generateShaderVariables(context: OptimizerContext) {
+  // Combo DMG needs to read the rotation for damage, and default actions for filtering
+  // Non-Combo optimization only needs to read a single default action
+  const actionLength = context.resultSort == SortOption.COMBO.key
+    ? context.defaultActions.length + context.rotationActions.length
+    : 1
+
+  const shaderVariables: ShaderVariables = {
+    actionLength,
+  }
+
+  return shaderVariables
+}
 
 export function generateWgsl(context: OptimizerContext, request: Form, relics: RelicsByPart, gpuParams: GpuConstants) {
   let wgsl = ''
 
+  context.shaderVariables = generateShaderVariables(context)
+
   wgsl = injectSettings(wgsl, context, request, relics)
   wgsl = injectComputeShader(wgsl)
-  // wgsl = injectConditionals(wgsl, request, context, gpuParams)
+  wgsl = injectUnrolledActions(wgsl, request, context, gpuParams)
   wgsl = injectConditionalsNew(wgsl, request, context, gpuParams)
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)
   wgsl = injectRelicIndexStrategy(wgsl, relics)
@@ -37,12 +60,17 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
 }
 
 function injectConditionalsNew(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
-  const actionLength = context.resultSort == SortOption.COMBO.key ? context.defaultActions.length + context.rotationActions.length : 1
+  const actionLength = context.shaderVariables.actionLength
   const calculationsPerAction = context.maxContainerArrayLength / Object.values(newStatsConfig).length
+
+  const statsLength = Object.values(newStatsConfig).length
 
   let actionsDefinition = `
 const actionCount = ${actionLength};
 const calculationsPerAction = ${calculationsPerAction};
+const maxEntitiesCount = ${context.maxEntitiesCount};
+const maxHitsCount = ${context.maxHitsCount};
+const statsLength = ${statsLength};
 `
   let computedStatsDefinition = ''
 
@@ -97,6 +125,26 @@ const computedStatsX${i} = array<ComputedStats, ${context.maxContainerArrayLengt
   }
 
   wgsl = wgsl.replace('/* INJECT ACTIONS DEFINITION */', actionsDefinition + '\n\n' + computedStatsDefinition)
+
+  // Combat conditionals
+
+  wgsl += generateDynamicConditionals(request, context)
+
+  function generateConditionalExecution(conditional: DynamicConditional) {
+    return `evaluate${conditional.id}(p_container, p_sets, p_state);`
+  }
+
+  const { conditionalSequence, terminalConditionals } = evaluateDependencyOrder(context.defaultActions[0].conditionalRegistry)
+  let conditionalSequenceWgsl = '\n'
+  conditionalSequenceWgsl += conditionalSequence.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 3)).join('\n') + '\n'
+
+  conditionalSequenceWgsl += '\n'
+  conditionalSequenceWgsl += terminalConditionals.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 3)).join('\n') + '\n'
+
+  wgsl = wgsl.replace(
+    '/* INJECT COMBAT CONDITIONALS */',
+    conditionalSequenceWgsl,
+  )
 
   return wgsl
 }

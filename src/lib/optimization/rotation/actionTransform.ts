@@ -91,6 +91,7 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
   context.outputRegistersLength = hitCounter
   context.defaultActions = defaultActions
   context.rotationActions = rotationActions
+  context.allActions = allActions
 
   // ========== PHASE 3: CONFIGURATION ==========
 
@@ -133,12 +134,18 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
 
   // ========== CALCULATE MAX ARRAY LENGTH ==========
 
-  // Calculate maximum array length for container reuse optimization
+  // Calculate maximum values for container reuse optimization
   let maxArrayLength = 0
+  let maxEntitiesCount = 1
+  let maxHitsCount = 0
   for (const action of allActions) {
     maxArrayLength = Math.max(maxArrayLength, action.config.arrayLength)
+    maxEntitiesCount = Math.max(maxEntitiesCount, action.config.entitiesLength)
+    maxHitsCount = Math.max(maxHitsCount, action.config.hitsLength)
   }
   context.maxContainerArrayLength = maxArrayLength
+  context.maxEntitiesCount = maxEntitiesCount
+  context.maxHitsCount = maxHitsCount
 
   // Initialize precomputed arrays for all actions before Phase 4
   for (const action of allActions) {

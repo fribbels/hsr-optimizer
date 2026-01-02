@@ -195,7 +195,7 @@ const actionCount = ${actionLength};
 }
 
 function generateConditionalExecution(conditional: DynamicConditional) {
-  return `evaluate${conditional.id}(p_x, p_m, p_sets, p_state);`
+  return `evaluate${conditional.id}(p_container, p_sets, p_state);`
 }
 
 function getRequestTeammateIndex(request: Form, conditional: DynamicConditional) {
@@ -221,7 +221,7 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
     .map((conditional) => {
       if (conditional.teammateIndex == null) {
         // Note: This uses the default OptimizerAction
-        return conditional.gpu(context.actions[0], context)
+        return conditional.gpu(context.defaultActions[0], context)
       } else {
         const teammate = getRequestTeammateIndex(request, conditional)
         return conditional.gpu(teammate as unknown as OptimizerAction, context)
@@ -242,7 +242,7 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
   }
 }
 
-function generateDynamicConditionals(
+export function generateDynamicConditionals(
   request: Form,
   context: OptimizerContext,
 ) {
@@ -264,7 +264,7 @@ function generateDynamicConditionals(
     conditionalStateDefinition += conditionalWgsl.conditionalStateDefinition
   }
 
-  const registeredConditionals = context.actions[0].conditionalRegistry
+  const registeredConditionals = context.defaultActions[0].conditionalRegistry
 
   inject(generateDependencyEvaluator(registeredConditionals, Stats.HP, 'HP', request, context))
   inject(generateDependencyEvaluator(registeredConditionals, Stats.ATK, 'ATK', request, context))

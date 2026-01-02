@@ -133,9 +133,17 @@ export type CharacterMetadata = {
   element: ElementName,
 }
 
+export type ShaderVariables = {
+  actionLength: number,
+}
+
 export type OptimizerContext = CharacterMetadata & {
+  shaderVariables: ShaderVariables,
+
   // NEW
-  maxContainerArrayLength: number,  // Maximum array size for container reuse
+  maxContainerArrayLength: number, // Maximum array size for container reuse
+  maxEntitiesCount: number, // Maximum entities across all actions
+  maxHitsCount: number, // Maximum hits across all actions
   actionDeclarations: string[],
   actionModifiers: ActionModifier[],
   characterController: CharacterConditionalsController,
@@ -144,6 +152,7 @@ export type OptimizerContext = CharacterMetadata & {
 
   rotationActions: OptimizerAction[],
   defaultActions: OptimizerAction[],
+  allActions: OptimizerAction[],
 
   teammate0Metadata: CharacterMetadata,
   teammate1Metadata: CharacterMetadata,

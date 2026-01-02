@@ -74,7 +74,7 @@ if (
 ) {
   (*p_state).FleetOfTheAgelessConditional = 1.0;
   (*p_x).ATK += 0.08 * baseATK;
-  (*p_m).ATK += 0.08 * baseATK;
+  // (*p_m).ATK += 0.08 * baseATK;
 }
     `,
     )
@@ -172,7 +172,7 @@ if (
 ) {
   (*p_state).BrokenKeelConditional = 1.0;
   (*p_x).CD += 0.10;
-  (*p_m).CD += 0.10;
+  // (*p_m).CD += 0.10;
 }
     `,
     )
@@ -232,7 +232,7 @@ if (
 ) {
   (*p_state).GiantTreeOfRaptBrooding135Conditional = 1.0;
   (*p_x).OHB += 0.12;
-  (*p_m).OHB += 0.12;
+  // (*p_m).OHB += 0.12;
 }
     `,
     )
@@ -263,7 +263,7 @@ if (
 ) {
   (*p_state).GiantTreeOfRaptBrooding180Conditional = 1.0;
   (*p_x).OHB += 0.08;
-  (*p_m).OHB += 0.08;
+  // (*p_m).OHB += 0.08;
 }
     `,
     )
@@ -293,7 +293,7 @@ if (
 ) {
   (*p_state).BoneCollectionsSereneDemesneConditional = 1.0;
   (*p_x).CD += 0.28;
-  (*p_m).CD += 0.28;
+  // (*p_m).CD += 0.28;
 }
     `,
     )

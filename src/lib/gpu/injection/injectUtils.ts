@@ -36,7 +36,7 @@ function actionBuffFiltered(
       lines.push(`computedStatsContainer[${index}] += ${value}; // ${entity.name} ${getStatKeyName(statKey)}`)
     }
   }
-  return lines.join('\n        ')
+  return lines.filter(Boolean).join('\n        ')
 }
 
 export type EntityFilter = (entity: OptimizerEntity) => boolean
@@ -63,3 +63,28 @@ export const actionBuffMemo = (
   action: OptimizerAction,
   context: OptimizerContext,
 ) => actionBuffFiltered(statKey, value, action, context, EntityFilters.memo)
+
+// public getValue(key: StatKeyValue, hitIndex: number) {
+//   const hit = this.config.hits[hitIndex]
+//   const sourceEntityIndex = hit.sourceEntityIndex ?? 0
+//
+//   const actionValue = this.a[this.getActionIndex(sourceEntityIndex, key)]
+//   const hitValue = this.a[this.getHitIndex(sourceEntityIndex, hitIndex, key)]
+//
+//   return actionValue + hitValue
+// }
+//
+// function getActionValue(key: StatKeyValue, entityIndex: number, config: ComputedStatsContainerConfig): number {
+//   return this.a[this.getActionIndex(entityIndex, key)]
+// }
+
+// public getActionValueByIndex(key: StatKeyValue, entityIndex: number): number {
+//   return this.a[this.getActionIndex(entityIndex, key)]
+// }
+//
+// public getHitValue(key: StatKeyValue, hitIndex: number) {
+//   const hit = this.config.hits[hitIndex]
+//   const sourceEntityIndex = hit.sourceEntityIndex ?? 0
+//
+//   return this.a[this.getHitIndex(sourceEntityIndex, hitIndex, key)]
+// }

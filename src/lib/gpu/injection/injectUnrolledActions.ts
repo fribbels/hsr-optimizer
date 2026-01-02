@@ -1,4 +1,11 @@
-import { containerActionRef, EntityFilter, EntityFilters, getActionIndex, } from 'lib/gpu/injection/injectUtils'
+import {
+  actionBuff,
+  actionBuffMemo,
+  containerActionRef,
+  EntityFilter,
+  EntityFilters,
+  getActionIndex,
+} from 'lib/gpu/injection/injectUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
@@ -11,7 +18,7 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
   for (let i = 0; i < context.defaultActions.length; i++) {
     const action = context.defaultActions[i]
 
-    let unrolledAction = generateTemplate(i, action, context)
+    let unrolledAction = unrollAction(i, action, context)
 
     unrolledActionsWgsl += unrolledAction
   }
@@ -29,7 +36,7 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
 }
 
 // dprint-ignore
-function generateTemplate(index: number, action: OptimizerAction, context: OptimizerContext) {
+function unrollAction(index: number, action: OptimizerAction, context: OptimizerContext) {
   return `
     { // Action ${index} - ${action.actionName} 
       var action: Action = action${index};
@@ -46,7 +53,11 @@ function generateTemplate(index: number, action: OptimizerAction, context: Optim
       // Set the Action-scope stats, to be added to the Hit-scope stats later
       ${unrollEntityBaseStats(action)}
     
-      if (p2(sets.AmphoreusTheEternalLand) >= 1 && setConditionals.enabledAmphoreusTheEternalLand == true && ${containerActionRef(SELF_ENTITY_INDEX, StatKey.MEMOSPRITE, action.config)} >= 1) {
+      if (
+        p2(sets.AmphoreusTheEternalLand) >= 1 
+        && setConditionals.enabledAmphoreusTheEternalLand == true 
+        && ${containerActionRef(SELF_ENTITY_INDEX, StatKey.MEMOSPRITE, action.config)} >= 1
+      ) {
         ${actionBuff(StatKey.SPD_P, 0.08, action, context)}
         ${actionBuffMemo(StatKey.SPD_P, 0.08, action, context)}
       }
@@ -62,7 +73,8 @@ function unrollEntityBaseStats(action: OptimizerAction, filter: EntityFilter = E
     if (filter(entity)) {
       const entityName = entity.name ?? `Entity ${entityIndex}`
       const baseIndex = getActionIndex(entityIndex, 0, config)
-      lines.push(`\
+      lines.push(
+        `\
         // Entity ${entityIndex}: ${entityName} | Base index: ${baseIndex}
         ${containerActionRef(entityIndex, StatKey.ATK, config)} += diffATK;
         ${containerActionRef(entityIndex, StatKey.DEF, config)} += diffDEF;
@@ -78,33 +90,9 @@ function unrollEntityBaseStats(action: OptimizerAction, filter: EntityFilter = E
         ${containerActionRef(entityIndex, StatKey.ATK, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.ATK, config)} * baseATK;
         ${containerActionRef(entityIndex, StatKey.DEF, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.DEF, config)} * baseDEF;
         ${containerActionRef(entityIndex, StatKey.HP, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.HP, config)} * baseHP;
-        ${containerActionRef(entityIndex, StatKey.SPD, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.SPD, config)} * baseSPD;`)
+        ${containerActionRef(entityIndex, StatKey.SPD, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.SPD, config)} * baseSPD;`,
+      )
     }
   }
   return lines.join('\n')
 }
-
-// public getValue(key: StatKeyValue, hitIndex: number) {
-//   const hit = this.config.hits[hitIndex]
-//   const sourceEntityIndex = hit.sourceEntityIndex ?? 0
-//
-//   const actionValue = this.a[this.getActionIndex(sourceEntityIndex, key)]
-//   const hitValue = this.a[this.getHitIndex(sourceEntityIndex, hitIndex, key)]
-//
-//   return actionValue + hitValue
-// }
-//
-// function getActionValue(key: StatKeyValue, entityIndex: number, config: ComputedStatsContainerConfig): number {
-//   return this.a[this.getActionIndex(entityIndex, key)]
-// }
-
-// public getActionValueByIndex(key: StatKeyValue, entityIndex: number): number {
-//   return this.a[this.getActionIndex(entityIndex, key)]
-// }
-//
-// public getHitValue(key: StatKeyValue, hitIndex: number) {
-//   const hit = this.config.hits[hitIndex]
-//   const sourceEntityIndex = hit.sourceEntityIndex ?? 0
-//
-//   return this.a[this.getHitIndex(sourceEntityIndex, hitIndex, key)]
-// }

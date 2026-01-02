@@ -1,20 +1,9 @@
+import { containerActionRef, EntityFilter, EntityFilters, getActionIndex, } from 'lib/gpu/injection/injectUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
-import {
-  StatKey,
-  StatKeyType,
-  StatKeyValue,
-} from 'lib/optimization/engine/config/keys'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
-import {
-  ComputedStatsContainerConfig,
-  EntityType,
-  OptimizerEntity,
-} from 'lib/optimization/engine/container/computedStatsContainer'
 import { Form } from 'types/form'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export function injectUnrolledActions(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   let unrolledActionsWgsl = ''
@@ -65,80 +54,7 @@ function generateTemplate(index: number, action: OptimizerAction, context: Optim
   `
 }
 
-type EntityFilter = (entity: OptimizerEntity) => boolean
-
-function actionBuffFiltered(
-  statKey: StatKeyValue,
-  value: number,
-  action: OptimizerAction,
-  context: OptimizerContext,
-  filter: EntityFilter,
-) {
-  let wgsl = ''
-  for (let entityIndex = 0; entityIndex < action.config.entitiesLength; entityIndex++) {
-    const entity = action.config.entitiesArray[entityIndex]
-
-    if (filter(entity)) {
-      const index = getActionIndex(entityIndex, statKey, action.config)
-      wgsl += `\
-computedStatsContainer[${index}] += ${value};
-`
-    }
-  }
-  return wgsl
-}
-
-const Filters = {
-  primaryOrPet: (e: OptimizerEntity) => Boolean(e.primary || e.pet),
-  memo: (e: OptimizerEntity) => e.memosprite,
-  all: () => true,
-  summon: (e: OptimizerEntity) => e.pet || e.memosprite,
-} as const
-
-const actionBuff = (
-  statKey: StatKeyValue,
-  value: number,
-  action: OptimizerAction,
-  context: OptimizerContext,
-) => actionBuffFiltered(statKey, value, action, context, Filters.primaryOrPet)
-
-const actionBuffMemo = (
-  statKey: StatKeyValue,
-  value: number,
-  action: OptimizerAction,
-  context: OptimizerContext,
-) => actionBuffFiltered(statKey, value, action, context, Filters.memo)
-
-// Usage
-// actionBuffFiltered(statKey, value, action, context, Filters.primaryOrPet);
-// actionBuffFiltered(statKey, value, action, context, Filters.memo);
-// actionBuffFiltered(statKey, value, action, context, (e) => e.primary && !e.pet); // custom
-
-function perHit(action: OptimizerAction, context: OptimizerContext) {
-  let wgsl = ''
-  for (let entityIndex = 0; entityIndex < action.config.entitiesLength; entityIndex++) {
-    const entity = action.config.entitiesArray[entityIndex]
-
-    for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
-      const hit = action.hits![hitIndex]
-    }
-  }
-  return `
-
-  `
-}
-
-export function injectUnrolledActionHelpers() {
-  return `
-
-  `
-}
-
-function containerActionRef(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
-  return `computedStatsContainer[${getActionIndex(entityIndex, statIndex, config)}]`
-}
-
-function unrollEntityBaseStats(action: OptimizerAction, filter: EntityFilter = Filters.all) {
+function unrollEntityBaseStats(action: OptimizerAction, filter: EntityFilter = EntityFilters.all) {
   const config = action.config
   const lines: string[] = ['']
   for (let entityIndex = 0; entityIndex < config.entitiesLength; entityIndex++) {
@@ -162,22 +78,10 @@ function unrollEntityBaseStats(action: OptimizerAction, filter: EntityFilter = F
         ${containerActionRef(entityIndex, StatKey.ATK, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.ATK, config)} * baseATK;
         ${containerActionRef(entityIndex, StatKey.DEF, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.DEF, config)} * baseDEF;
         ${containerActionRef(entityIndex, StatKey.HP, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.HP, config)} * baseHP;
-        ${containerActionRef(entityIndex, StatKey.SPD, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.SPD, config)} * baseSPD;`
-      )
+        ${containerActionRef(entityIndex, StatKey.SPD, config)} += ${containerActionRef(SELF_ENTITY_INDEX, StatKey.SPD, config)} * baseSPD;`)
     }
   }
   return lines.join('\n')
-}
-
-function getActionIndex(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig): number {
-  return entityIndex * (config.statsLength * (config.hitsLength + 1))
-    + statIndex
-}
-
-function getHitIndex(entityIndex: number, hitIndex: number, statIndex: number, config: ComputedStatsContainerConfig): number {
-  return entityIndex * (config.statsLength * (config.hitsLength + 1))
-    + (hitIndex + 1) * config.statsLength
-    + statIndex
 }
 
 // public getValue(key: StatKeyValue, hitIndex: number) {

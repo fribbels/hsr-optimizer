@@ -13,3 +13,9 @@ export const StatKey: Record<StatKeyType, StatKeyValue> = Object.keys(newStatsCo
   },
   {} as Record<StatKeyType, StatKeyValue>,
 )
+
+const StatKeyNames = Object.keys(newStatsConfig) as StatKeyType[]
+
+export function getStatKeyName(statKey: StatKeyValue): StatKeyType {
+  return StatKeyNames[statKey]
+}

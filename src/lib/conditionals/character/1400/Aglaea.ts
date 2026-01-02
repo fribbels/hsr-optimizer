@@ -1,9 +1,4 @@
-import {
-  AbilityType,
-  BUFF_PRIORITY_MEMO,
-  BUFF_PRIORITY_SELF,
-  DamageType,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF, DamageType, } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -12,36 +7,24 @@ import {
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
-import {
-  ConditionalActivation,
-  ConditionalType,
-  Stats,
-} from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
 import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { wgsl, wgslFalse, wgslTrue, } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, Key, } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { containerActionRef } from 'lib/gpu/injection/injectUtils'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  DamageTag,
-  ElementTag,
-  TargetTag,
-} from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { CritDamageFunction, DamageFunctionType } from 'types/hitConditionalTypes'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { CritDamageFunction, DamageFunctionType, } from 'types/hitConditionalTypes'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const AglaeaAbilities = createEnum(
   'BASIC',
@@ -385,6 +368,46 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // TODO
       return ``
+      //       return `
+      // if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
+      //   if (x.SPD > 320 || m.SPD > 320) {
+      //     x.BASIC_DMG_BOOST += 0.60;
+      //     m.BASIC_DMG_BOOST += 0.60;
+      //   } else if (x.SPD > 240 || m.SPD > 240) {
+      //     x.BASIC_DMG_BOOST += 0.30;
+      //     m.BASIC_DMG_BOOST += 0.30;
+      //   } else if (x.SPD > 160 || m.SPD > 160) {
+      //     x.BASIC_DMG_BOOST += 0.10;
+      //     m.BASIC_DMG_BOOST += 0.10;
+      //   }
+      // }
+      //
+      // ${gpuBasicAdditionalDmgAtkFinalizer()}
+      // `
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      return wgsl`
+if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
+  if (
+    ${containerActionRef(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} > 320 || 
+    ${containerActionRef(action.config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, action.config)} > 320
+  ) {
+    ${buff.hit(StatKey.DMG_BOOST, 0.60).damageType(DamageTag.BASIC).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
+  } else if (
+    ${containerActionRef(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} > 240 || 
+    ${containerActionRef(action.config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, action.config)} > 240
+  ) {
+    ${buff.hit(StatKey.DMG_BOOST, 0.30).damageType(DamageTag.BASIC).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
+  } else if (
+    ${containerActionRef(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} > 160 || 
+    ${containerActionRef(action.config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, action.config)} > 160
+  ) {
+    ${buff.hit(StatKey.DMG_BOOST, 0.10).damageType(DamageTag.BASIC).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
+  }
+}
+      `
       //       return `
       // if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
       //   if (x.SPD > 320 || m.SPD > 320) {

@@ -1,13 +1,14 @@
-import {
-  containerActionRef,
-  getActionIndex,
-} from 'lib/gpu/injection/injectUtils'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { containerActionRef, getActionIndex, } from 'lib/gpu/injection/injectUtils'
+import { indent } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, SELF_ENTITY_INDEX, TargetTag } from 'lib/optimization/engine/config/tag'
-import { buff, matchesTargetTag } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import { DamageTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
+import { buff, matchesTargetTag, } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import { CharacterConditionalsController, LightConeConditionalsController, } from 'types/conditionals'
 import { Form } from 'types/form'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export function injectUnrolledActions(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   let unrolledActionsWgsl = ''
@@ -34,6 +35,18 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
 
 // dprint-ignore
 function unrollAction(index: number, action: OptimizerAction, context: OptimizerContext) {
+  const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(context)
+  const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(context)
+
+  let characterConditionalWgsl = '  // Character conditionals\n'
+  let lightConeConditionalWgsl = '  // Light cone conditionals\n'
+
+  if (characterConditionals.newGpuFinalizeCalculations) {
+    characterConditionalWgsl += indent(characterConditionals.newGpuFinalizeCalculations(action, context), 1)
+  }
+  if (lightConeConditionals.newGpuFinalizeCalculations) {
+    lightConeConditionalWgsl += indent(lightConeConditionals.newGpuFinalizeCalculations(action, context), 1)
+  }
   return `
     { // Action ${index} - ${action.actionName} 
       var action: Action = action${index};
@@ -64,6 +77,10 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
       ) {
         ${buff.hit(StatKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action)}
       }
+      
+      ${characterConditionalWgsl}
+      
+      ${lightConeConditionalWgsl}
     }
   `
 }

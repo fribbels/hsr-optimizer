@@ -1,5 +1,3 @@
-
-
 export class NamedArray<T> {
   private readonly items: T[] = []
   private readonly nameToIndex = new Map<string, number>()
@@ -25,6 +23,7 @@ export class NamedArray<T> {
     return index !== undefined ? this.items[index] : undefined
   }
 
+  // Get the entity index by name
   getIndex(key: string): number {
     return this.nameToIndex.get(key) ?? -1
   }

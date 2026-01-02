@@ -40,6 +40,10 @@ class ActionBuffBuilder {
     return this
   }
 
+  toString(): never {
+    throw new Error('ActionBuffBuilder: Missing .wgsl(action) call - cannot use builder directly in template literal')
+  }
+
   wgsl(action: OptimizerAction): string {
     const config = action.config
     const lines: string[] = []
@@ -56,7 +60,7 @@ class ActionBuffBuilder {
       }
     }
 
-    return lines.join('\n        ')
+    return lines.join('\n')
   }
 }
 
@@ -88,6 +92,10 @@ class HitBuffBuilder {
     return this
   }
 
+  toString(): never {
+    throw new Error('HitBuffBuilder: Missing .wgsl(action) call - cannot use builder directly in template literal')
+  }
+
   wgsl(action: OptimizerAction): string {
     const config = action.config
     const hits = action.hits ?? []
@@ -114,7 +122,7 @@ class HitBuffBuilder {
       }
     }
 
-    return lines.join('\n        ')
+    return lines.join('\n')
   }
 }
 

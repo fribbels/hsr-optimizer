@@ -496,7 +496,7 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
 
           action.conditionalState[this.id] = buffValue
 
-          x.buffDynamic(StatKey.ATK, buffValue - stateValue, action, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E2))
+          x.buffDynamic(StatKey.ATK, buffValue - stateValue, action, context, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E2))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>

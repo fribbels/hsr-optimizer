@@ -261,7 +261,7 @@ export class ComputedStatsContainer {
     )
   }
 
-  buffDynamic(key: StatKeyValue, value: number, action: OptimizerAction, config: BuffBuilder<true>) {
+  buffDynamic(key: StatKeyValue, value: number, action: OptimizerAction, context: OptimizerContext, config: BuffBuilder<true>) {
     this.internalBuff(
       key,
       value,
@@ -277,6 +277,7 @@ export class ComputedStatsContainer {
       key,
       value,
       action,
+      context,
       this.operatorAdd,
       config._source,
       config._origin,

@@ -196,6 +196,14 @@ function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = T
         ${containerActionVal(entityIndex, StatKey.DEF, config)} += ${containerActionVal(entityIndex, StatKey.DEF_P, config)} * ${containerActionVal(entityIndex, StatKey.BASE_DEF, config)};
         ${containerActionVal(entityIndex, StatKey.HP, config)} += ${containerActionVal(entityIndex, StatKey.HP_P, config)} * ${containerActionVal(entityIndex, StatKey.BASE_HP, config)};
         ${containerActionVal(entityIndex, StatKey.SPD, config)} += ${containerActionVal(entityIndex, StatKey.SPD_P, config)} * ${containerActionVal(entityIndex, StatKey.BASE_SPD, config)};
+        
+        ${containerActionVal(entityIndex, StatKey.PHYSICAL_DMG_BOOST, config)} += c.PHYSICAL_DMG_BOOST;
+        ${containerActionVal(entityIndex, StatKey.FIRE_DMG_BOOST, config)} += c.FIRE_DMG_BOOST;
+        ${containerActionVal(entityIndex, StatKey.ICE_DMG_BOOST, config)} += c.ICE_DMG_BOOST;
+        ${containerActionVal(entityIndex, StatKey.LIGHTNING_DMG_BOOST, config)} += c.LIGHTNING_DMG_BOOST;
+        ${containerActionVal(entityIndex, StatKey.WIND_DMG_BOOST, config)} += c.WIND_DMG_BOOST;
+        ${containerActionVal(entityIndex, StatKey.QUANTUM_DMG_BOOST, config)} += c.QUANTUM_DMG_BOOST;
+        ${containerActionVal(entityIndex, StatKey.IMAGINARY_DMG_BOOST, config)} += c.IMAGINARY_DMG_BOOST;
 `,
       )
     }

@@ -45,6 +45,13 @@ export const newStatsConfig = {
   ERR: { label: commonReadableStat('Energy Regeneration Rate') },
   OHB: { label: commonReadableStat('Outgoing Healing Boost') },
 
+  PHYSICAL_DMG_BOOST: { label: 'Physical DMG Boost' },
+  FIRE_DMG_BOOST: { label: 'Fire DMG Boost' },
+  ICE_DMG_BOOST: { label: 'Ice DMG Boost' },
+  LIGHTNING_DMG_BOOST: { label: 'Lightning DMG Boost' },
+  WIND_DMG_BOOST: { label: 'Wind DMG Boost' },
+  QUANTUM_DMG_BOOST: { label: 'Quantum DMG Boost' },
+  IMAGINARY_DMG_BOOST: { label: 'Imaginary DMG Boost' },
   DMG_BOOST: { label: 'DMG Boost' },
 
   // Base

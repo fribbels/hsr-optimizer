@@ -1,3 +1,4 @@
+import { ElementNames } from 'lib/constants/constants'
 import { GpuExecutionContext } from 'lib/gpu/webgpuTypes'
 import {
   ComputedStatsObjectExternal,
@@ -65,6 +66,17 @@ export function debugExportWebgpuResult(array: Float32Array) {
 
   console.log(x)
   console.log(x.getActionValueByIndex(StatKey.HP, 1))
+
+  const elementToStatKeyBoost = {
+    [ElementNames.Physical]: StatKey.PHYSICAL_DMG_BOOST,
+    [ElementNames.Fire]: StatKey.FIRE_DMG_BOOST,
+    [ElementNames.Ice]: StatKey.ICE_DMG_BOOST,
+    [ElementNames.Lightning]: StatKey.LIGHTNING_DMG_BOOST,
+    [ElementNames.Wind]: StatKey.WIND_DMG_BOOST,
+    [ElementNames.Quantum]: StatKey.QUANTUM_DMG_BOOST,
+    [ElementNames.Imaginary]: StatKey.IMAGINARY_DMG_BOOST,
+  }
+
   return {
     ED: x.getActionValueByIndex(StatKey.DMG_BOOST, SELF_ENTITY_INDEX),
     BASIC: 0,
@@ -90,7 +102,7 @@ export function debugExportWebgpuResult(array: Float32Array) {
     xBE: x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX),
     xERR: x.getActionValueByIndex(StatKey.ERR, SELF_ENTITY_INDEX),
     xOHB: x.getActionValueByIndex(StatKey.OHB, SELF_ENTITY_INDEX),
-    xELEMENTAL_DMG: x.getActionValueByIndex(StatKey.DMG_BOOST, SELF_ENTITY_INDEX),
+    xELEMENTAL_DMG: x.getActionValueByIndex(elementToStatKeyBoost[context.element], SELF_ENTITY_INDEX),
     // mHP: x.y,
     // mATK: x.y,
     // mDEF: x.y,
@@ -114,7 +126,7 @@ export function debugExportWebgpuResult(array: Float32Array) {
     mxBE: x.getActionValueByIndex(StatKey.BE, 1),
     mxERR: x.getActionValueByIndex(StatKey.ERR, 1),
     mxOHB: x.getActionValueByIndex(StatKey.OHB, 1),
-    mxELEMENTAL_DMG: x.getActionValueByIndex(StatKey.DMG_BOOST, 1),
+    mxELEMENTAL_DMG: x.getActionValueByIndex(elementToStatKeyBoost[context.element], 1),
     mxEHP: 0,
   }
 }

@@ -107,8 +107,6 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
       
       ${lightConeConditionalWgsl}
       
-      // Fix the hp/atk/spd/def bug
-      
       ${damageCalculationWgsl}
       
       // Combat stat filters
@@ -166,10 +164,10 @@ function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = T
         ${containerActionVal(entityIndex, StatKey.BE, config)} += diffBE;
         ${containerActionVal(entityIndex, StatKey.ERR, config)} += diffERR;
         ${containerActionVal(entityIndex, StatKey.OHB, config)} += diffOHB;
-        ${containerActionVal(entityIndex, StatKey.ATK, config)} += ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} * baseATK;
-        ${containerActionVal(entityIndex, StatKey.DEF, config)} += ${containerActionVal(SELF_ENTITY_INDEX, StatKey.DEF, config)} * baseDEF;
-        ${containerActionVal(entityIndex, StatKey.HP, config)} += ${containerActionVal(SELF_ENTITY_INDEX, StatKey.HP, config)} * baseHP;
-        ${containerActionVal(entityIndex, StatKey.SPD, config)} += ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} * baseSPD;`,
+        ${containerActionVal(entityIndex, StatKey.ATK, config)} += ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK_P, config)} * baseATK;
+        ${containerActionVal(entityIndex, StatKey.DEF, config)} += ${containerActionVal(SELF_ENTITY_INDEX, StatKey.DEF_P, config)} * baseDEF;
+        ${containerActionVal(entityIndex, StatKey.HP, config)} += ${containerActionVal(SELF_ENTITY_INDEX, StatKey.HP_P, config)} * baseHP;
+        ${containerActionVal(entityIndex, StatKey.SPD, config)} += ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD_P, config)} * baseSPD;`,
       )
     }
   }

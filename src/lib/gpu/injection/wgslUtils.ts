@@ -18,8 +18,8 @@ export function wgslFalse(condition: number | boolean) {
 
 /**
  * Tagged template for WGSL code generation.
- * Enforces at compile-time that all interpolated values are strings.
+ * Accepts strings and numbers as interpolated values.
  */
-export function wgsl(strings: TemplateStringsArray, ...values: string[]): string {
-  return String.raw(strings, ...values)
+export function wgsl(strings: TemplateStringsArray, ...values: (string | number)[]): string {
+  return String.raw(strings, ...values.map(String))
 }

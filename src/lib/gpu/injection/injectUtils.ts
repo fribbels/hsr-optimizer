@@ -30,7 +30,7 @@ export function containerHitVal(entityIndex: number, hitIndex: number, statIndex
   return `container[${getHitIndex(entityIndex, hitIndex, statIndex, config)}]`
 }
 
-export function containerActionPtrVal(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
+export function p_containerActionVal(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
   return `(*p_container)[${getActionIndex(entityIndex, statIndex, config)}]`
 }
 

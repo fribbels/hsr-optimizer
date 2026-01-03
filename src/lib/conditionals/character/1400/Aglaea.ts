@@ -35,7 +35,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
-  containerActionPtrVal,
+  p_containerActionVal,
   containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -514,8 +514,8 @@ let stateValue: f32 = (*p_state).AglaeaConversionConditional;
 let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;
 
 (*p_state).AglaeaConversionConditional = buffValue;
-${containerActionPtrVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} += buffValue - stateValue;
-${containerActionPtrVal(memoEntityIndex, StatKey.ATK, config)} += buffValue - stateValue;
+${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} += buffValue - stateValue;
+${p_containerActionVal(memoEntityIndex, StatKey.ATK, config)} += buffValue - stateValue;
 `,
           )
         },

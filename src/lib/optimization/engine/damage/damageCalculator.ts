@@ -1,3 +1,8 @@
+import {
+  containerActionVal,
+  containerHitVal,
+} from 'lib/gpu/injection/injectUtils'
+import { wgsl } from 'lib/gpu/injection/wgslUtils'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
@@ -54,11 +59,59 @@ export const CritDamageFunction: DamageFunction = {
     const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * dmgBoost * m.finalDmg
     const initial = calculateInitialDamage(x, hit, hitIndex, context)
     const crit = getCritMultiplier(x, hitIndex)
+
     return initial * baseMulti * crit
   },
   wgsl: (action, hitIndex, context) => {
-    // TODO: Implement WGSL generation
-    return '/* CritDamageFunction WGSL stub */'
+    const hit = action.hits![hitIndex]
+    const config = action.config
+    const entityIndex = hit.sourceEntityIndex ?? 0
+
+    // Helper to generate getValue (action + hit)
+    const getValue = (stat: number) =>
+      `(${containerActionVal(entityIndex, stat, config)} + ${containerHitVal(entityIndex, hitIndex, stat, config)})`
+
+    // Scalings from hit definition (compile-time constants)
+    const atkScaling = hit.atkScaling ?? 0
+    const hpScaling = hit.hpScaling ?? 0
+    const defScaling = hit.defScaling ?? 0
+
+    return wgsl`
+// Hit ${hitIndex}: Crit Damage
+fn CritDamageFunction(
+  p_container: ptr<function, array<f32, ${String(context.maxContainerArrayLength)}>>,
+  actionIndex: i32,
+  abilityType: f32,
+) {
+  // Common multipliers
+  let defPen = ${getValue(StatKey.DEF_PEN)};
+  let resPen = ${getValue(StatKey.RES_PEN)};
+  let baseUniversal = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
+  let def = ${cLevelConst}.0 / ((${context.enemyLevel}.0 + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - defPen) + ${cLevelConst}.0);
+  let res = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - resPen);
+  let vulnerability = 1.0 + ${getValue(StatKey.VULNERABILITY)};
+  let finalDmg = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
+
+  // Crit-specific: dmgBoost uses getValue (action + hit)
+  let dmgBoost = 1.0 + ${getValue(StatKey.DMG_BOOST)};
+
+  // Initial damage
+  let atk = ${getValue(StatKey.ATK)};
+  let hp = ${getValue(StatKey.HP)};
+  let def_stat = ${getValue(StatKey.DEF)};
+  let atkBoost = ${getValue(StatKey.ATK_P_BOOST)};
+  let initial = ${atkScaling} * (atk + atkBoost * baseATK) + ${hpScaling} * hp + ${defScaling} * def_stat;
+
+  // Crit multiplier
+  let cr = min(1.0, ${getValue(StatKey.CR)} + ${getValue(StatKey.CR_BOOST)});
+  let cd = ${getValue(StatKey.CD)} + ${getValue(StatKey.CD_BOOST)};
+  let crit = cr * (1.0 + cd) + (1.0 - cr);
+
+  // Final damage
+  let baseMulti = baseUniversal * def * res * vulnerability * dmgBoost * finalDmg;
+  damage += initial * baseMulti * crit;
+}
+`
   },
 }
 

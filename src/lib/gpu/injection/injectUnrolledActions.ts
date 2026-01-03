@@ -4,7 +4,10 @@ import {
   containerActionVal,
   getActionIndex,
 } from 'lib/gpu/injection/injectUtils'
-import { indent } from 'lib/gpu/injection/wgslUtils'
+import {
+  indent,
+  wgsl,
+} from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -63,6 +66,9 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
   if (lightConeConditionals.newGpuFinalizeCalculations) {
     lightConeConditionalWgsl += indent(lightConeConditionals.newGpuFinalizeCalculations(action, context), 3)
   }
+
+  const damageCalculationWgsl = unrollDamageCalculations(index, action, context)
+
   return `
     { // Action ${index} - ${action.actionName} 
       var action: Action = action${index};
@@ -100,6 +106,8 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
       
       ${lightConeConditionalWgsl}
       
+      // Fix the hp/atk/spd/def bug
+      
       // Damage
       
       // Add to combo
@@ -112,10 +120,23 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
       
       // Return value
       
-        results[index] = container; // DEBUG
-        results[index + 1] = container; // DEBUG
+      results[index] = container; // DEBUG
+      results[index + 1] = container; // DEBUG
     }
   `
+}
+
+function unrollDamageCalculations(index: number, action: OptimizerAction, context: OptimizerContext) {
+  let code = ''
+
+  for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
+    const hit = action.hits![hitIndex]
+    code += hit.damageFunction.wgsl(action, hitIndex, context)
+  }
+
+  return wgsl`\
+      var damage: f32 = 0;  
+`
 }
 
 function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = TargetTag.FullTeam) {

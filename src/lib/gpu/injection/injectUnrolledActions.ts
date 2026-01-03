@@ -19,6 +19,7 @@ import {
   buff,
   matchesTargetTag,
 } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import { CritDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
 import {
   CharacterConditionalsController,
   LightConeConditionalsController,
@@ -67,7 +68,7 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
     lightConeConditionalWgsl += indent(lightConeConditionals.newGpuFinalizeCalculations(action, context), 3)
   }
 
-  const damageCalculationWgsl = unrollDamageCalculations(index, action, context)
+  const damageCalculationWgsl = indent(unrollDamageCalculations(index, action, context), 3)
 
   return `
     { // Action ${index} - ${action.actionName} 
@@ -108,9 +109,7 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
       
       // Fix the hp/atk/spd/def bug
       
-      // Damage
-      
-      // Add to combo
+      ${damageCalculationWgsl}
       
       // Combat stat filters
       
@@ -122,6 +121,7 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
       
       results[index] = container; // DEBUG
       results[index + 1] = container; // DEBUG
+      return;
     }
   `
 }
@@ -131,11 +131,16 @@ function unrollDamageCalculations(index: number, action: OptimizerAction, contex
 
   for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
     const hit = action.hits![hitIndex]
-    code += hit.damageFunction.wgsl(action, hitIndex, context)
+    // code += hit.damageFunction.wgsl(action, hitIndex, context)
+    code += CritDamageFunction.wgsl(action, hitIndex, context)
   }
 
-  return wgsl`\
-      var damage: f32 = 0;  
+  return wgsl`
+var comboDmg: f32 = 0;
+
+${code}
+
+${containerActionVal(0, StatKey.EHP, action.config)} = comboDmg;
 `
 }
 

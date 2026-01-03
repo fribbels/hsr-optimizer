@@ -75,7 +75,7 @@ export function debugExportWebgpuResult(array: Float32Array) {
     DOT: 0,
     BREAK: 0,
     COMBO: 0,
-    EHP: 0,
+    EHP: x.getActionValueByIndex(StatKey.EHP, SELF_ENTITY_INDEX),
     HEAL: 0,
     SHIELD: 0,
     xHP: x.getActionValueByIndex(StatKey.HP, SELF_ENTITY_INDEX),

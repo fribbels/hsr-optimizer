@@ -34,6 +34,10 @@ export function p_containerActionVal(entityIndex: number, statIndex: number, con
   return `(*p_container)[${getActionIndex(entityIndex, statIndex, config)}]`
 }
 
+export function p_containerHitVal(entityIndex: number, hitIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
+  return `(*p_container)[${getHitIndex(entityIndex, hitIndex, statIndex, config)}]`
+}
+
 function actionBuffFiltered(
   statKey: StatKeyValue,
   value: number,

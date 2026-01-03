@@ -1,6 +1,8 @@
 import {
   containerActionVal,
   containerHitVal,
+  p_containerActionVal,
+  p_containerHitVal,
 } from 'lib/gpu/injection/injectUtils'
 import { wgsl } from 'lib/gpu/injection/wgslUtils'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -68,48 +70,50 @@ export const CritDamageFunction: DamageFunction = {
     const entityIndex = hit.sourceEntityIndex ?? 0
 
     // Helper to generate getValue (action + hit)
-    const getValue = (stat: number) =>
-      `(${containerActionVal(entityIndex, stat, config)} + ${containerHitVal(entityIndex, hitIndex, stat, config)})`
+    const getValue = (stat: number) => `(${p_containerActionVal(entityIndex, stat, config)} + ${p_containerHitVal(entityIndex, hitIndex, stat, config)})`
 
-    // Scalings from hit definition (compile-time constants)
+    // Scalings from hit definition
     const atkScaling = hit.atkScaling ?? 0
     const hpScaling = hit.hpScaling ?? 0
     const defScaling = hit.defScaling ?? 0
 
     return wgsl`
-// Hit ${hitIndex}: Crit Damage
-fn CritDamageFunction(
-  p_container: ptr<function, array<f32, ${String(context.maxContainerArrayLength)}>>,
-  actionIndex: i32,
-  abilityType: f32,
-) {
+{
   // Common multipliers
-  let defPen = ${getValue(StatKey.DEF_PEN)};
-  let resPen = ${getValue(StatKey.RES_PEN)};
-  let baseUniversal = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
-  let def = ${cLevelConst}.0 / ((${context.enemyLevel}.0 + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - defPen) + ${cLevelConst}.0);
-  let res = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - resPen);
-  let vulnerability = 1.0 + ${getValue(StatKey.VULNERABILITY)};
-  let finalDmg = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
+  let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
+  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
+  let resMulti = 1.0 - (enemyResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
+  let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
+  let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
 
-  // Crit-specific: dmgBoost uses getValue (action + hit)
-  let dmgBoost = 1.0 + ${getValue(StatKey.DMG_BOOST)};
+  // Crit-specific
+  let dmgBoostMulti = 1.0 + ${getValue(StatKey.DMG_BOOST)};
 
   // Initial damage
   let atk = ${getValue(StatKey.ATK)};
   let hp = ${getValue(StatKey.HP)};
-  let def_stat = ${getValue(StatKey.DEF)};
-  let atkBoost = ${getValue(StatKey.ATK_P_BOOST)};
-  let initial = ${atkScaling} * (atk + atkBoost * baseATK) + ${hpScaling} * hp + ${defScaling} * def_stat;
+  let def = ${getValue(StatKey.DEF)};
+  let atkPBoost = ${getValue(StatKey.ATK_P_BOOST)};
+  let abilityMulti = ${atkScaling} * (atk + atkPBoost * baseATK) 
+    + ${hpScaling} * hp 
+    + ${defScaling} * def;
 
   // Crit multiplier
   let cr = min(1.0, ${getValue(StatKey.CR)} + ${getValue(StatKey.CR_BOOST)});
   let cd = ${getValue(StatKey.CD)} + ${getValue(StatKey.CD_BOOST)};
-  let crit = cr * (1.0 + cd) + (1.0 - cr);
+  let critMulti = cr * (1.0 + cd) + (1.0 - cr);
 
   // Final damage
-  let baseMulti = baseUniversal * def * res * vulnerability * dmgBoost * finalDmg;
-  damage += initial * baseMulti * crit;
+  let damage = baseUniversalMulti 
+    * abilityMulti
+    * defMulti 
+    * resMulti 
+    * vulnMulti 
+    * dmgBoostMulti 
+    * finalDmgMulti
+    * critMulti;
+
+  comboDmg += damage;
 }
 `
   },

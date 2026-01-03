@@ -301,7 +301,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.SPD_P, (r.supremeStanceState) ? ultSpdBoost * r.memoSpdStacks : 0, x.source(SOURCE_ULT))
-      x.buff(StatKey.SPD_P, r.memoSpdStacks * memoTalentSpd, x.target(AglaeaEntities.Garmentmaker).source(SOURCE_MEMO))
+      x.buff(StatKey.SPD, r.memoSpdStacks * memoTalentSpd, x.target(AglaeaEntities.Garmentmaker).source(SOURCE_MEMO))
 
       x.buff(StatKey.DEF_PEN, (e >= 2) ? 0.14 * r.e2DefShredStacks : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E2))
 
@@ -490,7 +490,9 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
             return
           }
           const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = 7.20 * x.getActionValue(StatKey.SPD, AglaeaEntities.Aglaea) + 3.60 * x.getActionValue(StatKey.SPD, AglaeaEntities.Garmentmaker)
+          const aglaeaSpd = x.getActionValue(StatKey.SPD, AglaeaEntities.Aglaea)
+          const memoSpd = x.getActionValue(StatKey.SPD, AglaeaEntities.Garmentmaker)
+          const buffValue = 7.20 * aglaeaSpd + 3.60 * memoSpd
 
           action.conditionalState[this.id] = buffValue
 

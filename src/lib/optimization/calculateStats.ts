@@ -192,23 +192,23 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
 
     if (!entity.memosprite) continue
 
-    // Calculate memosprite base stats from primary entity
-    const memoBaseAtk = (entity.memoBaseAtkScaling ?? 1) * c.a[StatKey.ATK] + (entity.memoBaseAtkFlat ?? 0)
-    const memoBaseDef = (entity.memoBaseDefScaling ?? 1) * c.a[StatKey.DEF] + (entity.memoBaseDefFlat ?? 0)
-    const memoBaseHp = (entity.memoBaseHpScaling ?? 1) * c.a[StatKey.HP] + (entity.memoBaseHpFlat ?? 0)
-    const memoBaseSpd = (entity.memoBaseSpdScaling ?? 1) * c.a[StatKey.SPD] + (entity.memoBaseSpdFlat ?? 0)
+    // Calculate memosprite stats from primary entity's total stats (scaling * total + flat)
+    const memoAtk = (entity.memoBaseAtkScaling ?? 1) * c.a[StatKey.ATK] + (entity.memoBaseAtkFlat ?? 0)
+    const memoDef = (entity.memoBaseDefScaling ?? 1) * c.a[StatKey.DEF] + (entity.memoBaseDefFlat ?? 0)
+    const memoHp = (entity.memoBaseHpScaling ?? 1) * c.a[StatKey.HP] + (entity.memoBaseHpFlat ?? 0)
+    const memoSpd = (entity.memoBaseSpdScaling ?? 1) * c.a[StatKey.SPD] + (entity.memoBaseSpdFlat ?? 0)
 
-    // Set base stats
-    a[x.getActionIndex(entityIndex, StatKey.BASE_ATK)] = memoBaseAtk
-    a[x.getActionIndex(entityIndex, StatKey.BASE_DEF)] = memoBaseDef
-    a[x.getActionIndex(entityIndex, StatKey.BASE_HP)] = memoBaseHp
-    a[x.getActionIndex(entityIndex, StatKey.BASE_SPD)] = memoBaseSpd
+    // Set BASE_* stats using raw base stats with scaling only (no flat)
+    a[x.getActionIndex(entityIndex, StatKey.BASE_ATK)] = (entity.memoBaseAtkScaling ?? 1) * context.baseATK
+    a[x.getActionIndex(entityIndex, StatKey.BASE_DEF)] = (entity.memoBaseDefScaling ?? 1) * context.baseDEF
+    a[x.getActionIndex(entityIndex, StatKey.BASE_HP)] = (entity.memoBaseHpScaling ?? 1) * context.baseHP
+    a[x.getActionIndex(entityIndex, StatKey.BASE_SPD)] = (entity.memoBaseSpdScaling ?? 1) * context.baseSPD
 
-    // Add to actual stats
-    a[x.getActionIndex(entityIndex, StatKey.ATK)] += memoBaseAtk
-    a[x.getActionIndex(entityIndex, StatKey.DEF)] += memoBaseDef
-    a[x.getActionIndex(entityIndex, StatKey.HP)] += memoBaseHp
-    a[x.getActionIndex(entityIndex, StatKey.SPD)] += memoBaseSpd
+    // Add calculated stats to actual stats
+    a[x.getActionIndex(entityIndex, StatKey.ATK)] += memoAtk
+    a[x.getActionIndex(entityIndex, StatKey.DEF)] += memoDef
+    a[x.getActionIndex(entityIndex, StatKey.HP)] += memoHp
+    a[x.getActionIndex(entityIndex, StatKey.SPD)] += memoSpd
 
     // Copy secondary stats from primary entity
     a[x.getActionIndex(entityIndex, StatKey.CD)] += c.a[StatKey.CD]
@@ -234,10 +234,10 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
 
   executeNonDynamicCombatSets(x, context, setConditionals, sets, setsArray)
 
-  x.actionBuff(StatKey.SPD, a[StatKey.SPD_P] * context.baseSPD, TargetTag.FullTeam)
-  x.actionBuff(StatKey.ATK, a[StatKey.ATK_P] * context.baseATK, TargetTag.FullTeam)
-  x.actionBuff(StatKey.DEF, a[StatKey.DEF_P] * context.baseDEF, TargetTag.FullTeam)
-  x.actionBuff(StatKey.HP, a[StatKey.HP_P] * context.baseHP, TargetTag.FullTeam)
+  x.actionBuff(StatKey.SPD, a[StatKey.SPD_P] * context.baseSPD, TargetTag.SelfAndPet)
+  x.actionBuff(StatKey.ATK, a[StatKey.ATK_P] * context.baseATK, TargetTag.SelfAndPet)
+  x.actionBuff(StatKey.DEF, a[StatKey.DEF_P] * context.baseDEF, TargetTag.SelfAndPet)
+  x.actionBuff(StatKey.HP, a[StatKey.HP_P] * context.baseHP, TargetTag.SelfAndPet)
 
   // Apply percent stats to memosprite entities
   for (let entityIndex = 1; entityIndex < x.config.entitiesLength; entityIndex++) {

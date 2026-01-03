@@ -24,7 +24,6 @@ interface DamageMultipliers {
   def: number
   res: number
   vulnerability: number
-  dmgBoost: number
   finalDmg: number
 }
 
@@ -34,7 +33,6 @@ const m: DamageMultipliers = {
   def: 0,
   res: 0,
   vulnerability: 0,
-  dmgBoost: 0,
   finalDmg: 0,
 }
 
@@ -51,8 +49,9 @@ export const DefaultDamageFunction: DamageFunction = {
 export const CritDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
-    computeCommonMultipliers(x, hitIndex, context, false)
-    const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * m.dmgBoost * m.finalDmg
+    computeCommonMultipliers(x, hitIndex, context)
+    const dmgBoost = 1 + x.getValue(StatKey.DMG_BOOST, hitIndex)
+    const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * dmgBoost * m.finalDmg
     const initial = calculateInitialDamage(x, hit, hitIndex, context)
     const crit = getCritMultiplier(x, hitIndex)
     return initial * baseMulti * crit
@@ -66,8 +65,9 @@ export const CritDamageFunction: DamageFunction = {
 export const DotDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
-    computeCommonMultipliers(x, hitIndex, context, false)
-    const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * m.dmgBoost * m.finalDmg
+    computeCommonMultipliers(x, hitIndex, context)
+    const dmgBoost = 1 + x.getValue(StatKey.DMG_BOOST, hitIndex)
+    const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * dmgBoost * m.finalDmg
     const initial = calculateInitialDamage(x, hit, hitIndex, context)
     const ehr = calculateEhrMulti(x, hitIndex, context)
     return initial * baseMulti * ehr
@@ -81,8 +81,9 @@ export const DotDamageFunction: DamageFunction = {
 export const BreakDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
-    computeCommonMultipliers(x, hitIndex, context, true)
-    const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * m.dmgBoost * m.finalDmg
+    computeCommonMultipliers(x, hitIndex, context)
+    const dmgBoost = 1 + x.getHitValue(StatKey.DMG_BOOST, hitIndex)
+    const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * dmgBoost * m.finalDmg
     const be = 1 + x.getValue(StatKey.BE, hitIndex)
     const breakBase = 3767.5533 * context.elementalBreakScaling
       * (0.5 + context.enemyMaxToughness / 120)
@@ -98,8 +99,9 @@ export const BreakDamageFunction: DamageFunction = {
 export const SuperBreakDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
-    computeCommonMultipliers(x, hitIndex, context, true)
-    const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * m.dmgBoost * m.finalDmg
+    computeCommonMultipliers(x, hitIndex, context)
+    const dmgBoost = 1 + x.getHitValue(StatKey.DMG_BOOST, hitIndex)
+    const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * dmgBoost * m.finalDmg
     const toughnessDmg = hit.referenceHit?.toughnessDmg ?? 0
     const superBreakMod = x.getValue(StatKey.SUPER_BREAK_MODIFIER, hitIndex)
     if (superBreakMod === 0) return 0
@@ -118,8 +120,9 @@ export const AdditionalDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     // Same as Crit for now
     const hit = action.hits![hitIndex]
-    computeCommonMultipliers(x, hitIndex, context, false)
-    const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * m.dmgBoost * m.finalDmg
+    computeCommonMultipliers(x, hitIndex, context)
+    const dmgBoost = 1 + x.getValue(StatKey.DMG_BOOST, hitIndex)
+    const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * dmgBoost * m.finalDmg
     const initial = calculateInitialDamage(x, hit, hitIndex, context)
     const crit = getCritMultiplier(x, hitIndex)
     return initial * baseMulti * crit
@@ -139,16 +142,6 @@ export const DamageFunctionRegistry: Record<DamageFunctionType, DamageFunction> 
   [DamageFunctionType.Additional]: AdditionalDamageFunction,
 }
 
-export function calculateDamage(
-  x: ComputedStatsContainer,
-  action: OptimizerAction,
-  hitIndex: number,
-  context: OptimizerContext,
-  type: DamageFunctionType,
-): number {
-  return DamageFunctionRegistry[type].apply(x, action, hitIndex, context)
-}
-
 export function getDamageFunction(type: DamageFunctionType): DamageFunction {
   return DamageFunctionRegistry[type]
 }
@@ -157,7 +150,6 @@ function computeCommonMultipliers(
   x: ComputedStatsContainer,
   hitIndex: number,
   context: OptimizerContext,
-  useHitDmgBoost: boolean = false,
 ): void {
   const defPen = x.getValue(StatKey.DEF_PEN, hitIndex)
   const resPen = x.getValue(StatKey.RES_PEN, hitIndex)
@@ -166,9 +158,6 @@ function computeCommonMultipliers(
   m.def = calculateDefMulti(context.enemyLevel, context.combatBuffs.DEF_PEN + defPen)
   m.res = 1 - (context.enemyDamageResistance - context.combatBuffs.RES_PEN - resPen)
   m.vulnerability = 1 + x.getValue(StatKey.VULNERABILITY, hitIndex)
-  m.dmgBoost = 1 + (useHitDmgBoost
-    ? x.getHitValue(StatKey.DMG_BOOST, hitIndex)
-    : x.getValue(StatKey.DMG_BOOST, hitIndex))
   m.finalDmg = 1 + x.getValue(StatKey.FINAL_DMG_BOOST, hitIndex)
 }
 

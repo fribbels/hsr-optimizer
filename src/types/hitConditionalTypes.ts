@@ -1,6 +1,7 @@
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { DamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -61,12 +62,6 @@ export interface EntityDefinition {
   memoBaseHpScaling?: number
   memoBaseDefScaling?: number
   memoBaseSpdScaling?: number
-}
-
-const ActionKey = {}
-
-export interface DamageFunction {
-  apply: (x: ComputedStatsContainer, action: OptimizerAction, hitIndex: number, context: OptimizerContext) => number
 }
 
 export const DefaultDamageFunction: DamageFunction = {

@@ -394,7 +394,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       }
 
       // TODO
-      x.buff(StatKey.ATK, 3436, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6))
+      // x.buff(StatKey.ATK, 3436, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6))
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -480,21 +480,21 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.SPD],
         chainsTo: [Stats.ATK],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           return true
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           // TODO
           const r = action.characterConditionals as Conditionals<typeof content>
           if (!r.supremeStanceState) {
             return
           }
           const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = 7.20 * x.a[Key.SPD] + 3.60 * x.m.a[Key.SPD]
+          const buffValue = 7.20 * x.getActionValue(StatKey.SPD, AglaeaEntities.Aglaea) + 3.60 * x.getActionValue(StatKey.SPD, AglaeaEntities.Garmentmaker)
 
           action.conditionalState[this.id] = buffValue
-          x.ATK.buffDynamic(buffValue - stateValue, SOURCE_TRACE, action, context)
-          x.m.ATK.buffDynamic(buffValue - stateValue, SOURCE_TRACE, action, context)
+
+          x.buffDynamic(StatKey.ATK, buffValue - stateValue, action, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E2))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>

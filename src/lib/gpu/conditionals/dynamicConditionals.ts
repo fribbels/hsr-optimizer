@@ -17,7 +17,6 @@ export type DynamicConditional = {
   condition: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => boolean | number,
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void,
   gpu: (action: OptimizerAction, context: OptimizerContext) => string,
-  newGpu: (action: OptimizerAction, context: OptimizerContext) => string,
   teammateIndex?: number,
 }
 

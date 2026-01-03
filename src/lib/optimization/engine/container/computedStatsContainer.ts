@@ -1,10 +1,18 @@
+import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { BuffSource } from 'lib/optimization/buffSource'
+import {
+  ComputedStatsArray,
+  KeyToStat,
+} from 'lib/optimization/computedStatsArray'
 import {
   ComputedStatsConfigBaseType,
   ComputedStatsConfigType,
 } from 'lib/optimization/config/computedStatsConfig'
-import { StatKeyValue } from 'lib/optimization/engine/config/keys'
+import {
+  getStatKeyName,
+  StatKeyValue,
+} from 'lib/optimization/engine/config/keys'
 import {
   newStatsConfig,
   STATS_LENGTH,
@@ -253,6 +261,32 @@ export class ComputedStatsContainer {
     )
   }
 
+  buffDynamic(key: StatKeyValue, value: number, action: OptimizerAction, config: BuffBuilder<true>) {
+    this.internalBuff(
+      key,
+      value,
+      this.operatorAdd,
+      config._source,
+      config._origin,
+      config._target,
+      config._targetTags,
+      config._elementTags,
+      config._damageTags,
+    )
+    this.internalBuffDynamic(
+      key,
+      value,
+      action,
+      this.operatorAdd,
+      config._source,
+      config._origin,
+      config._target,
+      config._targetTags,
+      config._elementTags,
+      config._damageTags,
+    )
+  }
+
   public actionBuff(key: StatKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
     const cacheKey = (targetTags << 8) | (key as number)
     const indices = this.config.actionBuffIndices[cacheKey]
@@ -292,6 +326,26 @@ export class ComputedStatsContainer {
       } else {
         this.applyToMatchingHits(entityIndex, key, value, operator, elementTags, damageTags)
       }
+    }
+  }
+
+  internalBuffDynamic(
+    key: StatKeyValue,
+    value: number,
+    action: OptimizerAction,
+    context: OptimizerContext,
+    operator: (index: number, value: number) => void,
+    source: BuffSource,
+    origin: number,
+    target: number,
+    targetTags: TargetTag,
+    elementTags: ElementTag,
+    damageTags: DamageTag,
+  ): void {
+    if (value == 0) return
+
+    for (const conditional of action.conditionalRegistry[getStatKeyName(key)] || []) {
+      evaluateConditional(conditional, this, action, context)
     }
   }
 

@@ -57,12 +57,20 @@ export const CritDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
     computeCommonMultipliers(x, hitIndex, context)
-    const dmgBoost = 1 + x.getValue(StatKey.DMG_BOOST, hitIndex)
-    const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * dmgBoost * m.finalDmg
+    const dmgBoostMulti = 1 + x.getValue(StatKey.DMG_BOOST, hitIndex)
     const initial = calculateInitialDamage(x, hit, hitIndex, context)
     const crit = getCritMultiplier(x, hitIndex)
 
-    return initial * baseMulti * crit
+    const dmg = m.baseUniversal
+      * m.def
+      * m.res
+      * m.vulnerability
+      * m.finalDmg
+      * dmgBoostMulti
+      * initial
+      * crit
+
+    return dmg
   },
   wgsl: (action, hitIndex, context) => {
     const hit = action.hits![hitIndex]

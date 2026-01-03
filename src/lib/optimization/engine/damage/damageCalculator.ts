@@ -1,15 +1,13 @@
 import {
   containerActionVal,
-  containerHitVal,
   p_containerActionVal,
   p_containerHitVal,
 } from 'lib/gpu/injection/injectUtils'
 import { wgsl } from 'lib/gpu/injection/wgslUtils'
 import { StatKey } from 'lib/optimization/engine/config/keys'
+import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
-  Hit,
-} from 'types/hitConditionalTypes'
+import { Hit } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -53,6 +51,16 @@ export const DefaultDamageFunction: DamageFunction = {
   wgsl: () => '1',
 }
 
+const elementTagToStatKeyBoost = {
+  [ElementTag.Physical]: StatKey.PHYSICAL_DMG_BOOST,
+  [ElementTag.Fire]: StatKey.FIRE_DMG_BOOST,
+  [ElementTag.Ice]: StatKey.ICE_DMG_BOOST,
+  [ElementTag.Lightning]: StatKey.LIGHTNING_DMG_BOOST,
+  [ElementTag.Wind]: StatKey.WIND_DMG_BOOST,
+  [ElementTag.Quantum]: StatKey.QUANTUM_DMG_BOOST,
+  [ElementTag.Imaginary]: StatKey.IMAGINARY_DMG_BOOST,
+}
+
 export const CritDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
@@ -85,24 +93,26 @@ export const CritDamageFunction: DamageFunction = {
     const hpScaling = hit.hpScaling ?? 0
     const defScaling = hit.defScaling ?? 0
 
+    const elementalDmgStat = hit.damageElement == ElementTag.None ? 0 : elementTagToStatKeyBoost[hit.damageElement]
+
     return wgsl`
 {
   // Common multipliers
   let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
   let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
-  let resMulti = 1.0 - (enemyResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
+  let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
   let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
 
   // Crit-specific
-  let dmgBoostMulti = 1.0 + ${getValue(StatKey.DMG_BOOST)};
+  let dmgBoostMulti = 1.0 + ${getValue(StatKey.DMG_BOOST)} + ${getValue(elementalDmgStat)};
 
   // Initial damage
   let atk = ${getValue(StatKey.ATK)};
   let hp = ${getValue(StatKey.HP)};
   let def = ${getValue(StatKey.DEF)};
   let atkPBoost = ${getValue(StatKey.ATK_P_BOOST)};
-  let abilityMulti = ${atkScaling} * (atk + atkPBoost * baseATK) 
+  let abilityMulti = ${atkScaling} * (atk + atkPBoost * ${getValue(StatKey.BASE_ATK)}) 
     + ${hpScaling} * hp 
     + ${defScaling} * def;
 
@@ -121,6 +131,7 @@ export const CritDamageFunction: DamageFunction = {
     * finalDmgMulti
     * critMulti;
 
+  // comboDmg = abilityMulti;
   comboDmg += damage;
 }
 `

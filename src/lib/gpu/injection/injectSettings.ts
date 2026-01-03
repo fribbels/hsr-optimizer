@@ -90,13 +90,12 @@ function generateRequest(request: Form) {
   wgsl += `const enemyElementalWeak: i32 = ${request.enemyElementalWeak ? 1 : 0};\n`
   wgsl += `const enemyLevel: i32 = ${request.enemyLevel};\n`
   wgsl += `const enemyMaxToughness: f32 = ${request.enemyMaxToughness};\n`
-  wgsl += `const enemyResistance: f32 = ${request.enemyResistance};\n`
   wgsl += `const enemyEffectResistance: f32 = ${request.enemyEffectResistance};\n`
   wgsl += `const enemyWeaknessBroken: i32 = ${request.enemyWeaknessBroken ? 1 : 0};\n`
   wgsl += '\n'
 
   // TODO: Refactor this to not duplicate res
-  wgsl += `const resistance: f32 = ${(request.enemyElementalWeak ? 0 : request.enemyResistance) - request.combatBuffs.RES_PEN};\n`
+  wgsl += `const enemyDamageResistance: f32 = ${(request.enemyElementalWeak ? 0 : request.enemyResistance) - request.combatBuffs.RES_PEN};\n`
   wgsl += '\n'
 
   // Filters

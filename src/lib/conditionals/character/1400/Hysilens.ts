@@ -21,15 +21,15 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  DefaultDamageFunction,
+  DotDamageFunction,
+} from 'lib/optimization/engine/damage/damageCalculator'
 import { HYSILENS } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  DefaultDamageFunction,
-  DotDamageFunction,
-  Hit,
-} from 'types/hitConditionalTypes'
+import { Hit } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,

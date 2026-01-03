@@ -25,11 +25,11 @@ import {
 import { ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
 import {
   SimulationRelic,
   SimulationRelicByPart,
 } from 'lib/simulations/statSimulationTypes'
-import { getDamageFunction } from 'types/hitConditionalTypes'
 import { OptimizerContext } from 'types/optimizer'
 
 // To use after combo state and context has been initialized

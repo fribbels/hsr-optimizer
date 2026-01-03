@@ -1,4 +1,7 @@
-import { AbilityType, DamageType } from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityType,
+  DamageType,
+} from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -16,14 +19,14 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
-import { Eidolon } from 'types/character'
-import { CharacterConditionalsController } from 'types/conditionals'
 import {
   DamageFunctionType,
   Hit,
   HitDefinition,
   SuperBreakDamageFunction,
-} from 'types/hitConditionalTypes'
+} from 'lib/optimization/engine/damage/damageCalculator'
+import { Eidolon } from 'types/character'
+import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,

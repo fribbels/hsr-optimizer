@@ -18,7 +18,10 @@ import {
   calculateContextConditionalRegistry,
   wrapTeammateDynamicConditional,
 } from 'lib/optimization/calculateConditionals'
-import { calculateBaseMultis, calculateDamage } from 'lib/optimization/calculateDamage'
+import {
+  calculateBaseMultis,
+  calculateDamage,
+} from 'lib/optimization/calculateDamage'
 import {
   calculateBaseStats,
   calculateBasicEffects,
@@ -36,9 +39,9 @@ import {
 } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
 import { NamedArray } from 'lib/optimization/engine/util/namedArray'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
-import { getDamageFunction } from 'types/hitConditionalTypes'
 import {
   SortOption,
   SortOptionProperties,

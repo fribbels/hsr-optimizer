@@ -26,10 +26,13 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
+import {
+  BreakDamageFunction,
+  DamageFunctionType,
+} from 'lib/optimization/engine/damage/damageCalculator'
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { BreakDamageFunction, DamageFunctionType } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,

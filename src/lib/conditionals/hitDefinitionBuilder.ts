@@ -8,8 +8,8 @@ import {
   BreakDamageFunction,
   CritDamageFunction,
   DamageFunctionType,
-  HitDefinition,
-} from 'types/hitConditionalTypes'
+} from 'lib/optimization/engine/damage/damageCalculator'
+import { HitDefinition } from 'types/hitConditionalTypes'
 
 const BASE_HIT_DEFAULTS: Partial<HitDefinition> = {
   activeHit: false,

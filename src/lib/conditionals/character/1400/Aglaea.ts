@@ -47,13 +47,13 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
-import { Eidolon } from 'types/character'
-import { CharacterConditionalsController } from 'types/conditionals'
 import {
   CritDamageFunction,
   DamageFunctionType,
-} from 'types/hitConditionalTypes'
+} from 'lib/optimization/engine/damage/damageCalculator'
+import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
+import { Eidolon } from 'types/character'
+import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,

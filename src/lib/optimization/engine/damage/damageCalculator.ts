@@ -1,7 +1,6 @@
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
-  DamageFunctionType,
   Hit,
 } from 'types/hitConditionalTypes'
 import {
@@ -10,6 +9,15 @@ import {
 } from 'types/optimizer'
 
 const cLevelConst = 20 + 80
+
+export enum DamageFunctionType {
+  Default,
+  Crit,
+  Dot,
+  Break,
+  SuperBreak,
+  Additional,
+}
 
 interface DamageMultipliers {
   baseUniversal: number
@@ -35,12 +43,12 @@ export interface DamageFunction {
   wgsl: (action: OptimizerAction, hitIndex: number, context: OptimizerContext) => string
 }
 
-const DefaultDamageFunction: DamageFunction = {
+export const DefaultDamageFunction: DamageFunction = {
   apply: () => 1,
   wgsl: () => '1',
 }
 
-const CritDamageFunction: DamageFunction = {
+export const CritDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
     computeCommonMultipliers(x, hitIndex, context, false)
@@ -55,7 +63,7 @@ const CritDamageFunction: DamageFunction = {
   },
 }
 
-const DotDamageFunction: DamageFunction = {
+export const DotDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
     computeCommonMultipliers(x, hitIndex, context, false)
@@ -70,7 +78,7 @@ const DotDamageFunction: DamageFunction = {
   },
 }
 
-const BreakDamageFunction: DamageFunction = {
+export const BreakDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
     computeCommonMultipliers(x, hitIndex, context, true)
@@ -87,7 +95,7 @@ const BreakDamageFunction: DamageFunction = {
   },
 }
 
-const SuperBreakDamageFunction: DamageFunction = {
+export const SuperBreakDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
     computeCommonMultipliers(x, hitIndex, context, true)
@@ -106,7 +114,7 @@ const SuperBreakDamageFunction: DamageFunction = {
   },
 }
 
-const AdditionalDamageFunction: DamageFunction = {
+export const AdditionalDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     // Same as Crit for now
     const hit = action.hits![hitIndex]
@@ -139,6 +147,10 @@ export function calculateDamage(
   type: DamageFunctionType,
 ): number {
   return DamageFunctionRegistry[type].apply(x, action, hitIndex, context)
+}
+
+export function getDamageFunction(type: DamageFunctionType): DamageFunction {
+  return DamageFunctionRegistry[type]
 }
 
 function computeCommonMultipliers(

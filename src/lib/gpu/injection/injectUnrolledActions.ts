@@ -129,6 +129,8 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
       
       ${damageCalculationWgsl}
       
+      // TODO: Figure out how to inject dmg % basic stats
+      
       // Combat stat filters
       
       // Basic stat filters
@@ -138,7 +140,6 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
       // Return value
       
       results[index] = container; // DEBUG
-      results[index + 1] = container; // DEBUG
       return;
     }
   `

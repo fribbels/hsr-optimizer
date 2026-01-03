@@ -55,15 +55,16 @@ export function debugWebgpuOutput(gpuContext: GpuExecutionContext, arrayBuffer: 
  */
 
 export function debugExportWebgpuResult(array: Float32Array) {
-  const x = new ComputedStatsContainer()
-  const len = Object.keys(newStatsConfig).length
   const context = useOptimizerTabStore.getState().context!
+  const x = new ComputedStatsContainer()
+  const len = context.maxContainerArrayLength
 
   x.initializeArrays(context.maxContainerArrayLength, context)
   x.setConfig(context.defaultActions[0].config)
   x.setPrecompute(array.slice(0, len))
 
   console.log(x)
+  console.log(x.getActionValueByIndex(StatKey.HP, 1))
   return {
     ED: x.getActionValueByIndex(StatKey.DMG_BOOST, SELF_ENTITY_INDEX),
     BASIC: 0,
@@ -102,18 +103,18 @@ export function debugExportWebgpuResult(array: Float32Array) {
     // mERR: x.y,
     // mOHB: x.y,
     // mELEMENTAL_DMG: x.y,
-    mxHP: 0,
-    mxATK: 0,
-    mxDEF: 0,
-    mxSPD: 0,
-    mxCR: 0,
-    mxCD: 0,
-    mxEHR: 0,
-    mxRES: 0,
-    mxBE: 0,
-    mxERR: 0,
-    mxOHB: 0,
-    mxELEMENTAL_DMG: 0,
+    mxHP: x.getActionValueByIndex(StatKey.HP, 1),
+    mxATK: x.getActionValueByIndex(StatKey.ATK, 1),
+    mxDEF: x.getActionValueByIndex(StatKey.DEF, 1),
+    mxSPD: x.getActionValueByIndex(StatKey.SPD, 1),
+    mxCR: x.getActionValueByIndex(StatKey.CR, 1),
+    mxCD: x.getActionValueByIndex(StatKey.CD, 1),
+    mxEHR: x.getActionValueByIndex(StatKey.EHR, 1),
+    mxRES: x.getActionValueByIndex(StatKey.RES, 1),
+    mxBE: x.getActionValueByIndex(StatKey.BE, 1),
+    mxERR: x.getActionValueByIndex(StatKey.ERR, 1),
+    mxOHB: x.getActionValueByIndex(StatKey.OHB, 1),
+    mxELEMENTAL_DMG: x.getActionValueByIndex(StatKey.DMG_BOOST, 1),
     mxEHP: 0,
   }
 }

@@ -431,18 +431,21 @@ export class ComputedStatsContainer {
 
   public getActionValue(key: StatKeyValue, entityName: string): number {
     const entityIndex = this.config.entityRegistry.getIndex(entityName)
-    return this.a[this.getActionIndex(entityIndex, key)]
+    const index = this.getActionIndex(entityIndex, key)
+    return this.a[index]
   }
 
   public getActionValueByIndex(key: StatKeyValue, entityIndex: number): number {
-    return this.a[this.getActionIndex(entityIndex, key)]
+    const index = this.getActionIndex(entityIndex, key)
+    return this.a[index]
   }
 
   public getHitValue(key: StatKeyValue, hitIndex: number) {
     const hit = this.config.hits[hitIndex]
     const sourceEntityIndex = hit.sourceEntityIndex ?? 0
+    const index = this.getHitIndex(sourceEntityIndex, hitIndex, key)
 
-    return this.a[this.getHitIndex(sourceEntityIndex, hitIndex, key)]
+    return this.a[index]
   }
 
   // ============== Indexing ==============

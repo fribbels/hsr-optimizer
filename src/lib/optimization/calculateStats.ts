@@ -192,23 +192,17 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
 
     if (!entity.memosprite) continue
 
-    // Calculate memosprite stats from primary entity's total stats (scaling * total + flat)
-    const memoAtk = (entity.memoBaseAtkScaling ?? 1) * c.a[StatKey.ATK] + (entity.memoBaseAtkFlat ?? 0)
-    const memoDef = (entity.memoBaseDefScaling ?? 1) * c.a[StatKey.DEF] + (entity.memoBaseDefFlat ?? 0)
-    const memoHp = (entity.memoBaseHpScaling ?? 1) * c.a[StatKey.HP] + (entity.memoBaseHpFlat ?? 0)
-    const memoSpd = (entity.memoBaseSpdScaling ?? 1) * c.a[StatKey.SPD] + (entity.memoBaseSpdFlat ?? 0)
-
     // Set BASE_* stats using raw base stats with scaling only (no flat)
     a[x.getActionIndex(entityIndex, StatKey.BASE_ATK)] = (entity.memoBaseAtkScaling ?? 1) * context.baseATK
     a[x.getActionIndex(entityIndex, StatKey.BASE_DEF)] = (entity.memoBaseDefScaling ?? 1) * context.baseDEF
     a[x.getActionIndex(entityIndex, StatKey.BASE_HP)] = (entity.memoBaseHpScaling ?? 1) * context.baseHP
     a[x.getActionIndex(entityIndex, StatKey.BASE_SPD)] = (entity.memoBaseSpdScaling ?? 1) * context.baseSPD
 
-    // Add calculated stats to actual stats
-    a[x.getActionIndex(entityIndex, StatKey.ATK)] += memoAtk
-    a[x.getActionIndex(entityIndex, StatKey.DEF)] += memoDef
-    a[x.getActionIndex(entityIndex, StatKey.HP)] += memoHp
-    a[x.getActionIndex(entityIndex, StatKey.SPD)] += memoSpd
+    // Calculate memosprite stats from primary entity's total stats (scaling * total + flat)
+    a[x.getActionIndex(entityIndex, StatKey.ATK)] += (entity.memoBaseAtkScaling ?? 1) * c.a[StatKey.ATK] + (entity.memoBaseAtkFlat ?? 0)
+    a[x.getActionIndex(entityIndex, StatKey.DEF)] += (entity.memoBaseDefScaling ?? 1) * c.a[StatKey.DEF] + (entity.memoBaseDefFlat ?? 0)
+    a[x.getActionIndex(entityIndex, StatKey.HP)] += (entity.memoBaseHpScaling ?? 1) * c.a[StatKey.HP] + (entity.memoBaseHpFlat ?? 0)
+    a[x.getActionIndex(entityIndex, StatKey.SPD)] += (entity.memoBaseSpdScaling ?? 1) * c.a[StatKey.SPD] + (entity.memoBaseSpdFlat ?? 0)
 
     // Copy secondary stats from primary entity
     a[x.getActionIndex(entityIndex, StatKey.CD)] += c.a[StatKey.CD]

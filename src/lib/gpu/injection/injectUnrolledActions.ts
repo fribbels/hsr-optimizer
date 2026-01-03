@@ -1,5 +1,7 @@
+import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyEvaluator'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   containerActionVal,
   getActionIndex,
@@ -68,8 +70,26 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
     lightConeConditionalWgsl += indent(lightConeConditionals.newGpuFinalizeCalculations(action, context), 3)
   }
 
+  //////////
+
   const damageCalculationWgsl = indent(unrollDamageCalculations(index, action, context), 3)
 
+  //////////
+
+  function generateConditionalExecution(conditional: DynamicConditional) {
+    return `evaluate${conditional.id}(p_container, p_sets, p_state);`
+  }
+
+  const { conditionalSequence, terminalConditionals } = evaluateDependencyOrder(action.conditionalRegistry)
+  let conditionalSequenceWgsl = '\n'
+  conditionalSequenceWgsl += conditionalSequence.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 3)).join('\n') + '\n'
+
+  conditionalSequenceWgsl += '\n'
+  conditionalSequenceWgsl += terminalConditionals.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 3)).join('\n') + '\n'
+
+  //////////
+
+  
   return `
     { // Action ${index} - ${action.actionName} 
       var action: Action = action${index};
@@ -101,7 +121,7 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
         ${buff.hit(StatKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action, 4)}
       }
       
-      // Dynamic conditional chain
+      ${conditionalSequenceWgsl}
       
       ${characterConditionalWgsl}
       
@@ -150,13 +170,19 @@ function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = T
     if (matchesTargetTag(entity, targetTag)) {
       const entityName = entity.name ?? `Entity ${entityIndex}`
       const baseIndex = getActionIndex(entityIndex, 0, config)
+      // dprint-ignore
       lines.push(
         `\
         // Entity ${entityIndex}: ${entityName} | Base index: ${baseIndex}
-        ${containerActionVal(entityIndex, StatKey.ATK, config)} += diffATK;
-        ${containerActionVal(entityIndex, StatKey.DEF, config)} += diffDEF;
-        ${containerActionVal(entityIndex, StatKey.HP, config)} += diffHP;
-        ${containerActionVal(entityIndex, StatKey.SPD, config)} += diffSPD;
+        ${containerActionVal(entityIndex, StatKey.BASE_ATK, config)} = ${entity.memoBaseAtkScaling ?? 1} * baseATK;
+        ${containerActionVal(entityIndex, StatKey.BASE_DEF, config)} = ${entity.memoBaseDefScaling ?? 1} * baseDEF;
+        ${containerActionVal(entityIndex, StatKey.BASE_HP, config)} = ${entity.memoBaseHpScaling ?? 1} * baseHP;
+        ${containerActionVal(entityIndex, StatKey.BASE_SPD, config)} = ${entity.memoBaseSpdScaling ?? 1} * baseSPD;
+
+        ${containerActionVal(entityIndex, StatKey.ATK, config)} += diffATK * ${entity.memoBaseAtkScaling ?? 1} + ${entity.memoBaseAtkFlat ?? 0};
+        ${containerActionVal(entityIndex, StatKey.DEF, config)} += diffDEF * ${entity.memoBaseDefScaling ?? 1} + ${entity.memoBaseDefFlat ?? 0};
+        ${containerActionVal(entityIndex, StatKey.HP, config)} += diffHP * ${entity.memoBaseHpScaling ?? 1} + ${entity.memoBaseHpFlat ?? 0};
+        ${containerActionVal(entityIndex, StatKey.SPD, config)} += diffSPD * ${entity.memoBaseSpdScaling ?? 1} + ${entity.memoBaseSpdFlat ?? 0};
         ${containerActionVal(entityIndex, StatKey.CD, config)} += diffCD;
         ${containerActionVal(entityIndex, StatKey.CR, config)} += diffCR;
         ${containerActionVal(entityIndex, StatKey.EHR, config)} += diffEHR;
@@ -164,10 +190,12 @@ function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = T
         ${containerActionVal(entityIndex, StatKey.BE, config)} += diffBE;
         ${containerActionVal(entityIndex, StatKey.ERR, config)} += diffERR;
         ${containerActionVal(entityIndex, StatKey.OHB, config)} += diffOHB;
-        ${containerActionVal(entityIndex, StatKey.ATK, config)} += ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK_P, config)} * baseATK;
-        ${containerActionVal(entityIndex, StatKey.DEF, config)} += ${containerActionVal(SELF_ENTITY_INDEX, StatKey.DEF_P, config)} * baseDEF;
-        ${containerActionVal(entityIndex, StatKey.HP, config)} += ${containerActionVal(SELF_ENTITY_INDEX, StatKey.HP_P, config)} * baseHP;
-        ${containerActionVal(entityIndex, StatKey.SPD, config)} += ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD_P, config)} * baseSPD;`,
+        
+        ${containerActionVal(entityIndex, StatKey.ATK, config)} += ${containerActionVal(entityIndex, StatKey.ATK_P, config)} * ${containerActionVal(entityIndex, StatKey.BASE_ATK, config)};
+        ${containerActionVal(entityIndex, StatKey.DEF, config)} += ${containerActionVal(entityIndex, StatKey.DEF_P, config)} * ${containerActionVal(entityIndex, StatKey.BASE_DEF, config)};
+        ${containerActionVal(entityIndex, StatKey.HP, config)} += ${containerActionVal(entityIndex, StatKey.HP_P, config)} * ${containerActionVal(entityIndex, StatKey.BASE_HP, config)};
+        ${containerActionVal(entityIndex, StatKey.SPD, config)} += ${containerActionVal(entityIndex, StatKey.SPD_P, config)} * ${containerActionVal(entityIndex, StatKey.BASE_SPD, config)};
+`,
       )
     }
   }

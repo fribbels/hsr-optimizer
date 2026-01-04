@@ -209,14 +209,22 @@ export class ComputedStatsContainer {
   public config: ComputedStatsContainerConfig
   private readonly builder: BuffBuilder
 
+  private emptyRegisters!: Float32Array
+  private registersOffset!: number
+
   constructor() {
     this.builder = new BuffBuilder()
   }
 
   // ============== Array Initialization ==============
 
-  public initializeArrays(maxArrayLength: number, _context: OptimizerContext) {
+  public initializeArrays(maxArrayLength: number, context: OptimizerContext) {
     this.a = new Float32Array(maxArrayLength)
+
+    // Create empty registers array for efficient clearing
+    const totalRegistersLength = context.allActions.length + context.outputRegistersLength
+    this.emptyRegisters = new Float32Array(totalRegistersLength)
+    this.registersOffset = maxArrayLength - totalRegistersLength
   }
 
   // ============== Precomputes ==============
@@ -405,21 +413,26 @@ export class ComputedStatsContainer {
 
   // ============== Registers ==============
   // Layout: [Stats...][Action Registers][Hit Registers]
+  // Indexed from end of array (using maxArrayLength for stability across actions)
 
   setActionRegisterValue(index: number, value: number) {
-    this.a[this.config.registersOffset + index] = value
+    this.a[this.registersOffset + index] = value
   }
 
   setHitRegisterValue(index: number, value: number) {
-    this.a[this.config.registersOffset + this.config.actionRegistersLength + index] = value
+    this.a[this.registersOffset + this.emptyRegisters.length - this.config.hitRegistersLength + index] = value
   }
 
   getActionRegisterValue(index: number) {
-    return this.a[this.config.registersOffset + index]
+    return this.a[this.registersOffset + index]
   }
 
   getHitRegisterValue(index: number) {
-    return this.a[this.config.registersOffset + this.config.actionRegistersLength + index]
+    return this.a[this.registersOffset + this.emptyRegisters.length - this.config.hitRegistersLength + index]
+  }
+
+  clearRegisters() {
+    this.a.set(this.emptyRegisters, this.registersOffset)
   }
 
   // ============== Value Getters ==============

@@ -136,21 +136,24 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
 
   // Calculate maximum values for container reuse optimization
   let maxArrayLength = 0
+  let maxStatsArrayLength = 0
   let maxEntitiesCount = 1
   let maxHitsCount = 0
   for (const action of allActions) {
     maxArrayLength = Math.max(maxArrayLength, action.config.arrayLength)
+    maxStatsArrayLength = Math.max(maxStatsArrayLength, action.config.registersOffset)
     maxEntitiesCount = Math.max(maxEntitiesCount, action.config.entitiesLength)
     maxHitsCount = Math.max(maxHitsCount, action.config.hitsLength)
   }
   context.maxContainerArrayLength = maxArrayLength
+  context.maxStatsArrayLength = maxStatsArrayLength
   context.maxEntitiesCount = maxEntitiesCount
   context.maxHitsCount = maxHitsCount
 
   // Initialize precomputed arrays for all actions before Phase 4
+  // Use stats-only length so setPrecompute doesn't overwrite registers
   for (const action of allActions) {
-    // action.precomputedStats.a = new Float32Array(action.config.arrayLength)
-    action.precomputedStats.a = new Float32Array(maxArrayLength)
+    action.precomputedStats.a = new Float32Array(maxStatsArrayLength)
   }
 
   // ========== PHASE 4: PRECOMPUTATION ==========

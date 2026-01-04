@@ -24,13 +24,14 @@ export function getHitIndex(entityIndex: number, hitIndex: number, statIndex: nu
 
 // Register index helpers
 // Layout: [Stats...][Action Registers][Hit Registers]
+// Indexed from end of array for stability
 
 export function getActionRegisterIndex(actionRegisterIndex: number, config: ComputedStatsContainerConfig): number {
-  return config.registersOffset + actionRegisterIndex
+  return config.arrayLength - config.totalRegistersLength + actionRegisterIndex
 }
 
 export function getHitRegisterIndex(hitRegisterIndex: number, config: ComputedStatsContainerConfig): number {
-  return config.registersOffset + config.actionRegistersLength + hitRegisterIndex
+  return config.arrayLength - config.hitRegistersLength + hitRegisterIndex
 }
 
 export function containerActionVal(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {

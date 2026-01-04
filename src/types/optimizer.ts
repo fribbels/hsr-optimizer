@@ -144,7 +144,8 @@ export type OptimizerContext = CharacterMetadata & {
   shaderVariables: ShaderVariables,
 
   // NEW
-  maxContainerArrayLength: number, // Maximum array size for container reuse
+  maxContainerArrayLength: number, // Maximum array size for container reuse (stats + registers)
+  maxStatsArrayLength: number, // Maximum stats array size (without registers)
   maxEntitiesCount: number, // Maximum entities across all actions
   maxHitsCount: number, // Maximum hits across all actions
   actionDeclarations: string[],

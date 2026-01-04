@@ -241,7 +241,7 @@ export function optimizerWorker(e: MessageEvent) {
     }
 
     x.setBasic(c)
-    x.setRegisters(context)
+    x.clearRegisters()
 
     let comboDmg = 0
 

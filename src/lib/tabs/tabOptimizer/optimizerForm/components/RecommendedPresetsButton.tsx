@@ -195,6 +195,11 @@ export function generateSpdPresets(t: TFunction<'optimizerTab', 'Presets'>): Spd
       label: t('SpdValues.SPD0'), // 'No minimum speed',
       value: 0,
     },
+    AA_SPD160: {
+      key: 'AA_SPD160',
+      label: t('SpdValues.SPD160'), // '',
+      value: 160.000,
+    },
   }
 
   const categories: SpdPresetCategory[] = [
@@ -228,15 +233,13 @@ export const RecommendedPresetsButton = () => {
     const character = DB.getMetadata().characters[optimizerTabFocusCharacter]
     if (!character) return []
 
-    const groupedChildren = categories.flatMap((category) => {
+    const groupedChildren = categories.map((category) => {
       const presetItems = Object.values(category.presets).map((preset) => ({
         ...preset,
         label: <div style={{ minWidth: 450 }}>{preset.label}</div>,
       }))
 
-      return [
-        { type: 'group' as const, label: category.label, children: presetItems },
-      ]
+      return { type: 'group' as const, label: category.label, children: presetItems }
     })
 
     return [{

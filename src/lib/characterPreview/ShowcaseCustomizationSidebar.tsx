@@ -41,7 +41,7 @@ import {
 } from 'lib/scoring/simScoringUtils'
 import DB, { AppPages } from 'lib/state/db'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import { generateSpdPresets, SpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HorizontalDivider } from 'lib/ui/Dividers'
@@ -512,13 +512,19 @@ function SelectSpdPresets(props: {
   const { t: tCharacterTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd' })
 
   const spdPresetOptions = useMemo(() => {
-    const { allPresets } = generateSpdPresets(t)
-    const presets = Object.values(TsUtils.clone<SpdPresets>(allPresets)).slice(1)
-    if (props.spdFilter != null) {
-      presets.map((preset) => {
-        preset.disabled = preset.value != null && preset.value > props.spdFilter!
-      })
-    }
+    const { categories } = generateSpdPresets(t)
+
+    const categoryOptions = categories.map((category) => {
+      // Skip the first preset (SPD0 / "No minimum speed") since "Base SPD" covers that
+      const presets = Object.values(category.presets).slice(1).map((preset) => ({
+        ...preset,
+        disabled: props.spdFilter != null && preset.value != null && preset.value > props.spdFilter,
+      }))
+      return {
+        label: <span>{category.label}</span>,
+        options: presets,
+      }
+    })
 
     return [
       {
@@ -539,12 +545,9 @@ function SelectSpdPresets(props: {
           },
         ],
       },
-      {
-        label: <span>{tCharacterTab('CommonBreakpointsLabel') /* Common SPD breakpoint presets (SPD buffs considered separately) */}</span>,
-        options: presets,
-      },
+      ...categoryOptions,
     ]
-  }, [t, tCharacterTab, props.spdFilter, props.characterId, props.simScoringResult])
+  }, [t, tCharacterTab, props.spdFilter])
 
   return (
     <Select

@@ -330,7 +330,6 @@ function RightPanel() {
 
 function SpdBenchmarkSetting() {
   const { t: tOptimizerTab } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
-  const { t: tCharacterTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd' })
   const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
 
   const options = useMemo(() => {

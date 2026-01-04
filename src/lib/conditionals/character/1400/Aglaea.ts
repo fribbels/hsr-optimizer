@@ -61,7 +61,7 @@ import {
 
 export const AglaeaAbilities = createEnum(
   'BASIC',
-  'MEMO SKILL',
+  'MEMO_SKILL',
   'BREAK',
 )
 

@@ -33,18 +33,18 @@ import {
 } from 'types/optimizer'
 
 export function injectUnrolledActions(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
-  let unrolledActionsWgsl = ''
+  let unrolledActionsWgsl = '\nvar comboDmg: f32 = 0;\n'
 
   for (let i = 0; i < context.defaultActions.length; i++) {
     const action = context.defaultActions[i]
-
-    let unrolledAction = unrollAction(i, action, context)
-
-    unrolledActionsWgsl += unrolledAction
   }
 
   for (let i = 0; i < context.rotationActions.length; i++) {
     const action = context.rotationActions[i]
+
+    let unrolledAction = unrollAction(i, action, context)
+
+    unrolledActionsWgsl += unrolledAction
   }
 
   wgsl = wgsl.replace(
@@ -140,7 +140,7 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
       // Return value
       
       results[index] = container; // DEBUG
-      return;
+      // return;
     }
   `
 }
@@ -155,8 +155,6 @@ function unrollDamageCalculations(index: number, action: OptimizerAction, contex
   }
 
   return wgsl`
-var comboDmg: f32 = 0;
-
 ${code}
 
 ${containerActionVal(0, StatKey.EHP, action.config)} = comboDmg;

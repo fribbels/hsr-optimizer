@@ -115,17 +115,18 @@ export function simulateBuild(
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
 
+    let sum = 0
+
     for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
       const hit = action.hits![hitIndex]
 
       const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
       x.setHitRegisterValue(hit.registerIndex, dmg)
-      comboDmg += dmg
+      sum += dmg
     }
 
-    // calculateDamage(x, action, context)
-
-    const a = x.a
+    x.setActionRegisterValue(action.registerIndex, sum)
+    comboDmg += sum
   }
 
   calculateComputedStats(x, context.defaultActions[0], context)
@@ -159,8 +160,8 @@ export function simulateBuild(
 
   // x.set(ActionKey.COMBO_DMG, dmgTracker, Source.NONE)
 
-  logRegisters(x, context)
-  
+  logRegisters(x, context, 'Simulate Build')
+
   return x
 }
 

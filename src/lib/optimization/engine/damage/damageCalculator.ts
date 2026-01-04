@@ -2,6 +2,7 @@ import {
   containerActionVal,
   p_containerActionVal,
   p_containerHitVal,
+  wgslDebugHitRegister,
 } from 'lib/gpu/injection/injectUtils'
 import { wgsl } from 'lib/gpu/injection/wgslUtils'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -122,17 +123,18 @@ export const CritDamageFunction: DamageFunction = {
   let critMulti = cr * (1.0 + cd) + (1.0 - cr);
 
   // Final damage
-  let damage = baseUniversalMulti 
+  let damage = baseUniversalMulti
     * abilityMulti
-    * defMulti 
-    * resMulti 
-    * vulnMulti 
-    * dmgBoostMulti 
+    * defMulti
+    * resMulti
+    * vulnMulti
+    * dmgBoostMulti
     * finalDmgMulti
     * critMulti;
 
   // comboDmg = abilityMulti;
   comboDmg += damage;
+  ${wgslDebugHitRegister(hit, context)}
 }
 `
   },

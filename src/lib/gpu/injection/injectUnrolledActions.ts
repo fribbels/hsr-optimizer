@@ -5,6 +5,8 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   containerActionVal,
   getActionIndex,
+  getHitRegisterIndexWgsl,
+  wgslDebugActionRegister,
 } from 'lib/gpu/injection/injectUtils'
 import {
   indent,
@@ -42,7 +44,7 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
   for (let i = 0; i < context.rotationActions.length; i++) {
     const action = context.rotationActions[i]
 
-    let unrolledAction = unrollAction(context.defaultActions.length + i, action, context)
+    let unrolledAction = unrollAction(context.defaultActions.length + i, action, context, gpuParams)
 
     unrolledActionsWgsl += unrolledAction
   }
@@ -56,7 +58,7 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
 }
 
 // dprint-ignore
-function unrollAction(index: number, action: OptimizerAction, context: OptimizerContext) {
+function unrollAction(index: number, action: OptimizerAction, context: OptimizerContext, gpuParams: GpuConstants) {
   const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(context)
   const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(context)
 
@@ -72,7 +74,7 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
 
   //////////
 
-  const damageCalculationWgsl = indent(unrollDamageCalculations(index, action, context), 3)
+  const damageCalculationWgsl = indent(unrollDamageCalculations(index, action, context, gpuParams), 3)
 
   //////////
 
@@ -142,13 +144,26 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
   `
 }
 
-function unrollDamageCalculations(index: number, action: OptimizerAction, context: OptimizerContext) {
-  let code = ''
+function unrollDamageCalculations(index: number, action: OptimizerAction, context: OptimizerContext, gpuParams: GpuConstants) {
+  let code = gpuParams.DEBUG
+    ? 'var actionDmg: f32 = 0;\n'
+    : ''
 
   for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
     const hit = action.hits![hitIndex]
     // code += hit.damageFunction.wgsl(action, hitIndex, context)
     code += CritDamageFunction.wgsl(action, hitIndex, context)
+
+    if (gpuParams.DEBUG) {
+      // Read from hit register (set inside damage function) to accumulate action damage
+      const hitRegisterIndex = getHitRegisterIndexWgsl(hit.registerIndex, context)
+      code += `actionDmg += (*p_container)[${hitRegisterIndex}]; // Read HitRegister[${hit.registerIndex}]\n`
+    }
+  }
+
+  if (gpuParams.DEBUG) {
+    // Set action register with sum of hit damages
+    code += wgslDebugActionRegister(action, context) + '\n'
   }
 
   return wgsl`

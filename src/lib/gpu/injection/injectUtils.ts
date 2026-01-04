@@ -6,6 +6,7 @@ import {
   ComputedStatsContainerConfig,
   OptimizerEntity,
 } from 'lib/optimization/engine/container/computedStatsContainer'
+import { Hit } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -32,6 +33,30 @@ export function getActionRegisterIndex(actionRegisterIndex: number, config: Comp
 
 export function getHitRegisterIndex(hitRegisterIndex: number, config: ComputedStatsContainerConfig): number {
   return config.arrayLength - config.hitRegistersLength + hitRegisterIndex
+}
+
+// WGSL versions that use maxArrayLength for stability (since WGSL container is always maxArrayLength)
+export function getActionRegisterIndexWgsl(actionRegisterIndex: number, context: OptimizerContext): number {
+  const totalRegistersLength = context.allActions.length + context.outputRegistersLength
+  return context.maxContainerArrayLength - totalRegistersLength + actionRegisterIndex
+}
+
+export function getHitRegisterIndexWgsl(hitRegisterIndex: number, context: OptimizerContext): number {
+  return context.maxContainerArrayLength - context.outputRegistersLength + hitRegisterIndex
+}
+
+// Debug utility to generate WGSL code that stores hit damage to register
+// Call this inside damage function wgsl() after calculating `damage`
+export function wgslDebugHitRegister(hit: Hit, context: OptimizerContext): string {
+  const registerIndex = getHitRegisterIndexWgsl(hit.registerIndex, context)
+  return `(*p_container)[${registerIndex}] = damage; // HitRegister[${hit.registerIndex}]`
+}
+
+// Debug utility to generate WGSL code that stores action damage sum to register
+// Call this after all hits are calculated
+export function wgslDebugActionRegister(action: OptimizerAction, context: OptimizerContext, valueExpr: string = 'actionDmg'): string {
+  const registerIndex = getActionRegisterIndexWgsl(action.registerIndex, context)
+  return `container[${registerIndex}] = ${valueExpr}; // ActionRegister[${action.registerIndex}]`
 }
 
 export function containerActionVal(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {

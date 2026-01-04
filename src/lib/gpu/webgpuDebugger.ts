@@ -10,6 +10,7 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { logRegisters } from 'lib/simulations/registerLogger'
 import { useOptimizerTabStore } from 'lib/tabs/tabOptimizer/useOptimizerTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -62,10 +63,12 @@ export function debugExportWebgpuResult(array: Float32Array) {
 
   x.initializeArrays(context.maxContainerArrayLength, context)
   x.setConfig(context.rotationActions[0].config)
-  x.setPrecompute(array.slice(0, len))
 
-  console.log(x)
-  console.log(x.getActionIndex(1, StatKey.SPD))
+  // Copy full GPU array including registers (bypass setPrecompute which only copies stats)
+  x.a.set(array.slice(0, len))
+
+  // Log GPU register values
+  logRegisters(x, context, 'GPU')
 
   const elementToStatKeyBoost = {
     [ElementNames.Physical]: StatKey.PHYSICAL_DMG_BOOST,

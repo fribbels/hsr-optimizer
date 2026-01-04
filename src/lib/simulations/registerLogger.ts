@@ -17,10 +17,12 @@ function getDamageTypeName(damageType: number): string {
   return types.length > 0 ? types.join(' | ') : 'NONE'
 }
 
-export function logRegisters(x: ComputedStatsContainer, context: OptimizerContext) {
+export function logRegisters(x: ComputedStatsContainer, context: OptimizerContext, label: string) {
   const lines: string[] = []
   const defaultActionsCount = context.defaultActions.length
   const rotationActionsCount = context.rotationActions.length
+
+  lines.push(`**************** ${label} ****************`)
 
   lines.push('')
   lines.push('           ACTION REGISTERS')

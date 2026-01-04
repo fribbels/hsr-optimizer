@@ -119,8 +119,19 @@ export type SpdPresets = Record<string, {
   disabled?: boolean,
 }>
 
-export function generateSpdPresets(t: TFunction<'optimizerTab', 'Presets'>) {
-  const spdPresets: SpdPresets = {
+export type SpdPresetCategory = {
+  key: string,
+  label: string,
+  presets: SpdPresets,
+}
+
+export type SpdPresetsResult = {
+  categories: SpdPresetCategory[],
+  allPresets: SpdPresets,
+}
+
+export function generateSpdPresets(t: TFunction<'optimizerTab', 'Presets'>): SpdPresetsResult {
+  const mocPresets: SpdPresets = {
     SPD0: {
       key: 'SPD0',
       label: t('SpdValues.SPD0'), // 'No minimum speed',
@@ -177,44 +188,71 @@ export function generateSpdPresets(t: TFunction<'optimizerTab', 'Presets'>) {
       value: 200.000,
     },
   }
-  return spdPresets
+
+  const aaPresets: SpdPresets = {
+    AA_SPD0: {
+      key: 'AA_SPD0',
+      label: t('SpdValues.SPD0'), // 'No minimum speed',
+      value: 0,
+    },
+  }
+
+  const categories: SpdPresetCategory[] = [
+    {
+      key: 'moc',
+      label: t('SpdCategories.MemoryOfChaos'), // 'Memory of Chaos',
+      presets: mocPresets,
+    },
+    {
+      key: 'aa',
+      label: t('SpdCategories.AnomalyArbitration'), // 'Anomaly Arbitration',
+      presets: aaPresets,
+    },
+  ]
+
+  const allPresets: SpdPresets = { ...mocPresets, ...aaPresets }
+
+  return { categories, allPresets }
 }
 
 export const RecommendedPresetsButton = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
-  const spdPresets = useMemo(() => {
+  const { categories, allPresets } = useMemo(() => {
     return generateSpdPresets(t)
   }, [t])
-
-  const standardSpdOptions = Object.values(spdPresets)
-  standardSpdOptions.map((x) => x.label = <div style={{ minWidth: 450 }}>{x.label}</div>)
-
-  function generateStandardSpdOptions(label: string) {
-    return {
-      key: label,
-      label: label,
-      children: standardSpdOptions,
-    }
-  }
 
   const items = useMemo(function() {
     if (!optimizerTabFocusCharacter) return []
     const character = DB.getMetadata().characters[optimizerTabFocusCharacter]
     if (!character) return []
 
-    // "Standard" Placeholder for now until we have customized builds
-    return [generateStandardSpdOptions(t('StandardLabel', { id: character.id }))] // Standard ${CharacterName})
-  }, [optimizerTabFocusCharacter, t])
+    const groupedChildren = categories.flatMap((category) => {
+      const presetItems = Object.values(category.presets).map((preset) => ({
+        ...preset,
+        label: <div style={{ minWidth: 450 }}>{preset.label}</div>,
+      }))
+
+      return [
+        { type: 'group' as const, label: category.label, children: presetItems },
+      ]
+    })
+
+    return [{
+      key: t('StandardLabel', { id: character.id }),
+      label: t('StandardLabel', { id: character.id }),
+      children: groupedChildren,
+    }]
+  }, [optimizerTabFocusCharacter, t, categories])
 
   const actionsMenuProps = {
     items,
     onClick: (event: {
       key: string,
     }) => {
-      if (spdPresets[event.key]) {
-        applySpdPreset(spdPresets[event.key].value!, optimizerTabFocusCharacter)
+      if (allPresets[event.key]) {
+        applySpdPreset(allPresets[event.key].value!, optimizerTabFocusCharacter)
       } else {
         Message.warning(t('PresetNotAvailable') /* 'Preset not available, please select another option' */)
       }
@@ -226,7 +264,7 @@ export const RecommendedPresetsButton = () => {
       className='full-width-dropdown-button'
       type='primary'
       menu={actionsMenuProps}
-      onClick={() => applySpdPreset(spdPresets.SPD0.value!, optimizerTabFocusCharacter)}
+      onClick={() => applySpdPreset(allPresets.SPD0.value!, optimizerTabFocusCharacter)}
       icon={<DownOutlined />}
       style={{ flex: 1, width: '100%' }}
     >

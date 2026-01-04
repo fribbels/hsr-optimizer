@@ -333,19 +333,20 @@ function SpdBenchmarkSetting() {
   const { t: tCharacterTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd' })
   const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
 
-  const presetOptions = useMemo(() => {
-    // Optimizer has SPD0 as undefined for filters, we want to set it to 0
-    const presets = generateSpdPresets(tOptimizerTab)
-    presets.SPD0.value = 0
-    return Object.values(presets)
+  const options = useMemo(() => {
+    const { categories } = generateSpdPresets(tOptimizerTab)
+    return categories.map((category) => {
+      const presetOptions = Object.values(category.presets).map((preset) => ({
+        ...preset,
+        // Optimizer has SPD0 as undefined for filters, we want to set it to 0
+        value: preset.value ?? 0,
+      }))
+      return {
+        label: <span>{category.label}</span>,
+        options: presetOptions,
+      }
+    })
   }, [tOptimizerTab])
-
-  const options = [
-    {
-      label: <span>{tCharacterTab('CommonBreakpointsLabel') /* Common SPD breakpoint presets (SPD buffs considered separately) */}</span>,
-      options: presetOptions,
-    },
-  ]
 
   return (
     <BenchmarkSetting label='SPD' itemName='basicSpd'>

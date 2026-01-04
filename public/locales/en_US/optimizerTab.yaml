@@ -357,6 +357,9 @@ Presets:
     SPD171: 171.429 SPD - 6 actions in first three cycles
     SPD177: 177.778 SPD - 8 actions in first four cycles
     SPD200: 200.000 SPD - 3 actions in first cycle
+  SpdCategories:
+    MemoryOfChaos: Memory of Chaos
+    AnomalyArbitration: Anomaly Arbitration
   StandardLabel: 'Standard $t(gameData:Characters.{{id}}.Name)'
   RecommendedPresets: Recommended presets
   PresetNotAvailable: Preset not available, please select another option

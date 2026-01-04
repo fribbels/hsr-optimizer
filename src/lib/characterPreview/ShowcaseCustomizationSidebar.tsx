@@ -41,7 +41,7 @@ import {
 } from 'lib/scoring/simScoringUtils'
 import DB, { AppPages } from 'lib/state/db'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { generateSpdPresets, SpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HorizontalDivider } from 'lib/ui/Dividers'
@@ -512,7 +512,8 @@ function SelectSpdPresets(props: {
   const { t: tCharacterTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd' })
 
   const spdPresetOptions = useMemo(() => {
-    const presets = Object.values(TsUtils.clone(generateSpdPresets(t))).slice(1)
+    const { allPresets } = generateSpdPresets(t)
+    const presets = Object.values(TsUtils.clone<SpdPresets>(allPresets)).slice(1)
     if (props.spdFilter != null) {
       presets.map((preset) => {
         preset.disabled = preset.value != null && preset.value > props.spdFilter!

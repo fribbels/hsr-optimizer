@@ -550,7 +550,7 @@ function SelectSpdPresets(props: {
       },
       ...categoryOptions,
     ]
-  }, [t, tCharacterTab, props.spdFilter])
+  }, [t, tCharacterTab, props.spdFilter, props.characterId, props.simScoringResult])
 
   return (
     <Select

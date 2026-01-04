@@ -339,7 +339,7 @@ function SpdBenchmarkSetting() {
     return categories.map((category) => {
       const presetOptions = Object.values(category.presets).map((preset) => ({
         ...preset,
-        // Optimizer has SPD0 as undefined for filters, we want to set it to 0
+        // Optimizer tab has SPD0 as undefined for filters, we want to set it to 0
         value: preset.value ?? 0,
         label: <div>{preset.label}</div>,
       }))

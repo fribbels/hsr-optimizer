@@ -212,7 +212,6 @@ export class ComputedStatsContainer {
 
   public setConfig(config: ComputedStatsContainerConfig) {
     this.config = config
-    // Reuse existing array - don't recreate (performance optimization)
     this.builder.setConfig(config)
   }
 
@@ -462,7 +461,7 @@ export class ComputedStatsContainer {
       + statIndex
   }
 
-  // ============== Buff builder ==============
+  // ============== Buff Builder ==============
 
   elements(e: ElementTag): IncompleteBuffBuilder {
     return this.builder.reset().elements(e)
@@ -488,10 +487,5 @@ export class ComputedStatsContainer {
     return this.builder.reset().source(s)
   }
 }
-
-export const EntityType = {
-  SELF: 'SELF',
-  TEAM: 'TEAM',
-} as const
 
 export type OptimizerEntity = EntityDefinition & { name: string }

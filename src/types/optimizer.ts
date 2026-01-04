@@ -49,7 +49,10 @@ export type OptimizerAction = {
   actorId: string,
   actorEidolon: number,
   actionType: AbilityKind,
+  // Ability name
   actionName: string,
+  // Identifier variable
+  actionIdentifier: string,
   actionIndex: number,
 
   hits?: Hit[],

@@ -132,6 +132,7 @@ RotationActions
 
  */
 export function defineAction(
+  rotation: boolean,
   actionIndex: number,
   comboState: ComboState,
   abilityName: TurnAbilityName,
@@ -161,6 +162,9 @@ export function defineAction(
   action.actionIndex = actionIndex
   action.actionType = getAbilityKind(abilityName)
   action.actionName = abilityName
+  action.actionIdentifier = rotation
+    ? 'Rotation' + actionIndex
+    : 'Default' + actionIndex
 
   action.characterConditionals = transformConditionals(actionIndex, comboState.comboCharacter.characterConditionals)
   action.lightConeConditionals = transformConditionals(actionIndex, comboState.comboCharacter.lightConeConditionals)

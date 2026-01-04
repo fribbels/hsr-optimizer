@@ -506,16 +506,17 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
           return newConditionalWgslWrapper(
             this,
             action,
+            context,
             `
 if (${wgslFalse(r.supremeStanceState)}) {
   return;
 }
 let spd = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)};
 let memoSpd = ${containerActionVal(memoEntityIndex, StatKey.SPD, config)};
-let stateValue: f32 = (*p_state).AglaeaConversionConditional;
+let stateValue: f32 = (*p_state).AglaeaConversionConditional${action.actionIdentifier};
 let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;
 
-(*p_state).AglaeaConversionConditional = buffValue;
+(*p_state).AglaeaConversionConditional${action.actionIdentifier} = buffValue;
 ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} += buffValue - stateValue;
 ${p_containerActionVal(memoEntityIndex, StatKey.ATK, config)} += buffValue - stateValue;
 `,

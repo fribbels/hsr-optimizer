@@ -217,23 +217,25 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
   let conditionalDefinitionsWgsl = ''
   let conditionalStateDefinition = ''
 
-  conditionalDefinitionsWgsl += registeredConditionals[stat]
-    .map((conditional) => {
-      if (conditional.teammateIndex == null) {
-        // Note: This uses the default OptimizerAction
-        return conditional.gpu(context.rotationActions[0], context)
-      } else {
-        const teammate = getRequestTeammateIndex(request, conditional)
-        return conditional.gpu(teammate as unknown as OptimizerAction, context)
-      }
-    }).join('\n') // TODO!!
-  conditionalStateDefinition += registeredConditionals[stat]
-    .flatMap((conditional) => {
-      return [
-        conditional.id,
-        ...(conditional.supplementalState ?? []),
-      ].map((id) => id + ': f32,\n')
-    }).join('')
+  for (const action of context.allActions) {
+    conditionalDefinitionsWgsl += registeredConditionals[stat]
+      .map((conditional) => {
+        if (conditional.teammateIndex == null) {
+          // Note: This uses the default OptimizerAction
+          return conditional.gpu(action, context)
+        } else {
+          const teammate = getRequestTeammateIndex(request, conditional)
+          return conditional.gpu(teammate as unknown as OptimizerAction, context)
+        }
+      }).join('\n') // TODO!!
+    conditionalStateDefinition += registeredConditionals[stat]
+      .flatMap((conditional) => {
+        return [
+          conditional.id,
+          ...(conditional.supplementalState ?? []),
+        ].map((id) => id + action.actionIdentifier + ': f32,\n')
+      }).join('')
+  }
 
   return {
     conditionalEvaluators,

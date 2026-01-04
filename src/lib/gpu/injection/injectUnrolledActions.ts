@@ -77,7 +77,7 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
   //////////
 
   function generateConditionalExecution(conditional: DynamicConditional) {
-    return `evaluate${conditional.id}(p_container, p_sets, p_state);`
+    return `evaluate${conditional.id}${action.actionIdentifier}(p_container, p_sets, p_state);`
   }
 
   const { conditionalSequence, terminalConditionals } = evaluateDependencyOrder(action.conditionalRegistry)

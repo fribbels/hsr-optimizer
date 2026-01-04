@@ -32,8 +32,8 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
 
   // ========== PHASE 1: STRUCTURE DEFINITION ==========
 
-  const defaultActions: OptimizerAction[] = context.actionDeclarations.map((actionDeclaration) => {
-    const action = defineAction(0, comboState, actionDeclaration as TurnAbilityName, request, context)
+  const defaultActions: OptimizerAction[] = context.actionDeclarations.map((actionDeclaration, index) => {
+    const action = defineAction(false, index, comboState, actionDeclaration as TurnAbilityName, request, context)
 
     const actionDefinitions = context.characterController.actionDefinition(action, context)
     action.hits = actionDefinitions[actionDeclaration].hits as Hit[]
@@ -48,7 +48,7 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
   const rotationActions: OptimizerAction[] = comboTurnAbilities.slice(1)
     .map((turnAbility, index) => {
       const comboIndex = index + 1
-      const action = defineAction(comboIndex, comboState, turnAbility, request, context)
+      const action = defineAction(true, comboIndex, comboState, turnAbility, request, context)
 
       const actionKind = action.actionType
       const actionDefinitions = context.characterController.actionDefinition(action, context)

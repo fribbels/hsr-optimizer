@@ -42,7 +42,7 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
   for (let i = 0; i < context.rotationActions.length; i++) {
     const action = context.rotationActions[i]
 
-    let unrolledAction = unrollAction(i, action, context)
+    let unrolledAction = unrollAction(context.defaultActions.length + i, action, context)
 
     unrolledActionsWgsl += unrolledAction
   }
@@ -140,7 +140,6 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
       // Return value
       
       results[index] = container; // DEBUG
-      // return;
     }
   `
 }

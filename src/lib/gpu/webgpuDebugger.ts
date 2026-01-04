@@ -61,11 +61,11 @@ export function debugExportWebgpuResult(array: Float32Array) {
   const len = context.maxContainerArrayLength
 
   x.initializeArrays(context.maxContainerArrayLength, context)
-  x.setConfig(context.defaultActions[0].config)
+  x.setConfig(context.rotationActions[0].config)
   x.setPrecompute(array.slice(0, len))
 
   console.log(x)
-  console.log(x.getActionValueByIndex(StatKey.HP, 1))
+  console.log(x.getActionIndex(1, StatKey.SPD))
 
   const elementToStatKeyBoost = {
     [ElementNames.Physical]: StatKey.PHYSICAL_DMG_BOOST,

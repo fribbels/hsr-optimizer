@@ -41,7 +41,9 @@ import {
 } from 'lib/scoring/simScoringUtils'
 import DB, { AppPages } from 'lib/state/db'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import {
+  generateSpdPresets,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HorizontalDivider } from 'lib/ui/Dividers'
@@ -519,6 +521,7 @@ function SelectSpdPresets(props: {
       const presets = Object.values(category.presets).slice(1).map((preset) => ({
         ...preset,
         disabled: props.spdFilter != null && preset.value != null && preset.value > props.spdFilter,
+        label: <div>{preset.label}</div>,
       }))
       return {
         label: <span>{category.label}</span>,
@@ -554,6 +557,7 @@ function SelectSpdPresets(props: {
       style={{ width: 34 }}
       labelRender={() => <></>}
       dropdownStyle={{ width: 'fit-content' }}
+      popupClassName='spd-preset-dropdown'
       options={spdPresetOptions}
       placement='bottomRight'
       listHeight={800}

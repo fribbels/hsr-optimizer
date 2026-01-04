@@ -195,10 +195,40 @@ export function generateSpdPresets(t: TFunction<'optimizerTab', 'Presets'>): Spd
       label: t('SpdValues.SPD0'), // 'No minimum speed',
       value: 0,
     },
+    AA_SPD133: {
+      key: 'AA_SPD133',
+      label: t('AaSpdValues.SPD133'), // '133.334 SPD - 4 turns in first cycle',
+      value: 133.334,
+    },
+    AA_SPD166: {
+      key: 'AA_SPD166',
+      label: t('AaSpdValues.SPD166'), // '166.667 SPD - 5 turns in first cycle',
+      value: 166.667,
+    },
+    AA_SPD120: {
+      key: 'AA_SPD120',
+      label: t('AaSpdValues.SPD120'), // '120.000 SPD - 6 turns in first two cycles',
+      value: 120.000,
+    },
+    AA_SPD140: {
+      key: 'AA_SPD140',
+      label: t('AaSpdValues.SPD140'), // '140.000 SPD - 7 turns in first two cycles',
+      value: 140.000,
+    },
     AA_SPD160: {
       key: 'AA_SPD160',
-      label: t('SpdValues.SPD160'), // '',
+      label: t('AaSpdValues.SPD160'), // '160.000 SPD - 8 turns in first two cycles',
       value: 160.000,
+    },
+    AA_SPD180: {
+      key: 'AA_SPD180',
+      label: t('AaSpdValues.SPD180'), // '180.000 SPD - 9 turns in first two cycles',
+      value: 180.000,
+    },
+    AA_SPD200: {
+      key: 'AA_SPD200',
+      label: t('AaSpdValues.SPD200'), // '200.000 SPD - 6 turns in first cycle, 10 turns in first two cycles',
+      value: 200.000,
     },
   }
 
@@ -236,7 +266,7 @@ export const RecommendedPresetsButton = () => {
     const groupedChildren = categories.map((category) => {
       const presetItems = Object.values(category.presets).map((preset) => ({
         ...preset,
-        label: <div style={{ minWidth: 450 }}>{preset.label}</div>,
+        label: <div style={{ minWidth: 450, lineHeight: '18px' }}>{preset.label}</div>,
       }))
 
       return { type: 'group' as const, label: category.label, children: presetItems }

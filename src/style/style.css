@@ -827,3 +827,10 @@ a {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
+/* Compact SPD preset dropdown options */
+.spd-preset-dropdown .ant-select-item {
+    min-height: 28px !important;
+    padding: 2px 12px !important;
+    line-height: 24px !important;
+}

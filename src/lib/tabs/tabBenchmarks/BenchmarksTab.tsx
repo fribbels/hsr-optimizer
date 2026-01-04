@@ -54,7 +54,9 @@ import {
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormSetConditionals'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
-import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import {
+  generateSpdPresets,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import { CenteredImage } from 'lib/ui/CenteredImage'
@@ -339,6 +341,7 @@ function SpdBenchmarkSetting() {
         ...preset,
         // Optimizer has SPD0 as undefined for filters, we want to set it to 0
         value: preset.value ?? 0,
+        label: <div>{preset.label}</div>,
       }))
       return {
         label: <span>{category.label}</span>,
@@ -358,6 +361,7 @@ function SpdBenchmarkSetting() {
             style={{ width: 34 }}
             labelRender={() => <></>}
             dropdownStyle={{ width: 'fit-content' }}
+            popupClassName='spd-preset-dropdown'
             options={options}
             placement='bottomRight'
             listHeight={800}

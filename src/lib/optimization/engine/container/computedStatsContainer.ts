@@ -119,7 +119,12 @@ export class ComputedStatsContainerConfig {
   public entitiesLength: number
   public statsLength: number
   public arrayLength: number
-  public outputRegistersLength: number
+
+  // Register layout: [Stats...][Action Registers][Hit Registers]
+  public registersOffset: number // Where registers start in array
+  public actionRegistersLength: number // Number of action registers
+  public hitRegistersLength: number // Number of hit registers
+  public totalRegistersLength: number // action + hit registers
 
   public actionBuffIndices: Record<number, number[]> // Cached indices for actionBuff/actionSet
 
@@ -140,9 +145,17 @@ export class ComputedStatsContainerConfig {
     this.entitiesLength = entityRegistry.length
     this.selfEntity = this.entityRegistry.get(0)!
 
-    // Each entity x stats x hits, plus the action stats
-    this.arrayLength = this.entitiesLength * this.statsLength * (this.hitsLength + 1)
-    this.outputRegistersLength = context.outputRegistersLength
+    // Stats section: each entity x stats x (action + hits)
+    const statsArrayLength = this.entitiesLength * this.statsLength * (this.hitsLength + 1)
+
+    // Registers section: [Action Registers][Hit Registers]
+    this.registersOffset = statsArrayLength
+    this.actionRegistersLength = context.actionDeclarations.length
+    this.hitRegistersLength = context.outputRegistersLength
+    this.totalRegistersLength = this.actionRegistersLength + this.hitRegistersLength
+
+    // Total array length includes stats + registers
+    this.arrayLength = statsArrayLength + this.totalRegistersLength
 
     // Pre-calculate actionBuff indices for performance
     this.actionBuffIndices = buildActionBuffIndexCache(
@@ -171,10 +184,10 @@ export class ComputedStatsContainerConfig {
  * Buffs are applied at the Action level, but the effects have Hit granularity
  *
  * Array structure
- *   [Action (this container)                                                 ...]
- *   [Entity 0                   ][Entity 1                    ][Entity 2    ]...
- *   [Action stats][Hit 0][Hit 1][Hit 2][Action stats][Hit 0][Hit 1][Hit 2]......
- *   [ATK, DEF, HP, SPD, CR, CD, BE, RES, EHR, OHB, ERR, DMG_BOOST, DEF_PEN].....
+ *   [Action (this container)                                                     ][Output Registers]
+ *   [Entity 0                   ][Entity 1                    ][Entity 2    ].....
+ *   [Action stats][Hit 0][Hit 1][Hit 2][Action stats][Hit 0][Hit 1][Hit 2]........
+ *   [ATK, DEF, HP, SPD, CR, CD, BE, RES, EHR, OHB, ERR, DMG_BOOST, DEF_PEN].......
  *
  * Key points:
  * - Each container is 1 action
@@ -186,9 +199,6 @@ export class ComputedStatsContainerConfig {
 export class ComputedStatsContainer {
   // @ts-ignore
   public a: Float32Array
-
-  // @ts-ignore
-  public o: Float32Array
 
   // @ts-ignore
   public c: BasicStatsArray
@@ -203,9 +213,8 @@ export class ComputedStatsContainer {
 
   // ============== Array Initialization ==============
 
-  public initializeArrays(maxArrayLength: number, context: OptimizerContext) {
+  public initializeArrays(maxArrayLength: number, _context: OptimizerContext) {
     this.a = new Float32Array(maxArrayLength)
-    this.setRegisters(context)
   }
 
   // ============== Precomputes ==============
@@ -221,13 +230,6 @@ export class ComputedStatsContainer {
 
   public setBasic(basic: BasicStatsArray) {
     this.c = basic
-  }
-
-  public setRegisters(context: OptimizerContext) {
-    const hitRegistersLength = context.outputRegistersLength
-    const actionRegistersLength = context.actionDeclarations.length
-
-    this.o = new Float32Array(hitRegistersLength + actionRegistersLength)
   }
 
   // ============== Buffs ==============
@@ -400,21 +402,22 @@ export class ComputedStatsContainer {
   }
 
   // ============== Registers ==============
-
-  setHitRegisterValue(index: number, value: number) {
-    this.o[index] = value
-  }
+  // Layout: [Stats...][Action Registers][Hit Registers]
 
   setActionRegisterValue(index: number, value: number) {
-    this.o[this.config.outputRegistersLength + index] = value
+    this.a[this.config.registersOffset + index] = value
   }
 
-  getHitRegisterValue(index: number) {
-    return this.o[index]
+  setHitRegisterValue(index: number, value: number) {
+    this.a[this.config.registersOffset + this.config.actionRegistersLength + index] = value
   }
 
   getActionRegisterValue(index: number) {
-    return this.o[this.config.outputRegistersLength + index]
+    return this.a[this.config.registersOffset + index]
+  }
+
+  getHitRegisterValue(index: number) {
+    return this.a[this.config.registersOffset + this.config.actionRegistersLength + index]
   }
 
   // ============== Value Getters ==============

@@ -22,6 +22,17 @@ export function getHitIndex(entityIndex: number, hitIndex: number, statIndex: nu
     + statIndex
 }
 
+// Register index helpers
+// Layout: [Stats...][Action Registers][Hit Registers]
+
+export function getActionRegisterIndex(actionRegisterIndex: number, config: ComputedStatsContainerConfig): number {
+  return config.registersOffset + actionRegisterIndex
+}
+
+export function getHitRegisterIndex(hitRegisterIndex: number, config: ComputedStatsContainerConfig): number {
+  return config.registersOffset + config.actionRegistersLength + hitRegisterIndex
+}
+
 export function containerActionVal(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
   return `container[${getActionIndex(entityIndex, statIndex, config)}]`
 }
@@ -36,6 +47,22 @@ export function p_containerActionVal(entityIndex: number, statIndex: number, con
 
 export function p_containerHitVal(entityIndex: number, hitIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
   return `(*p_container)[${getHitIndex(entityIndex, hitIndex, statIndex, config)}]`
+}
+
+export function containerActionRegister(actionRegisterIndex: number, config: ComputedStatsContainerConfig) {
+  return `container[${getActionRegisterIndex(actionRegisterIndex, config)}]`
+}
+
+export function containerHitRegister(hitRegisterIndex: number, config: ComputedStatsContainerConfig) {
+  return `container[${getHitRegisterIndex(hitRegisterIndex, config)}]`
+}
+
+export function p_containerActionRegister(actionRegisterIndex: number, config: ComputedStatsContainerConfig) {
+  return `(*p_container)[${getActionRegisterIndex(actionRegisterIndex, config)}]`
+}
+
+export function p_containerHitRegister(hitRegisterIndex: number, config: ComputedStatsContainerConfig) {
+  return `(*p_container)[${getHitRegisterIndex(hitRegisterIndex, config)}]`
 }
 
 function actionBuffFiltered(

@@ -26,6 +26,7 @@ import { ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
+import { logRegisters } from 'lib/simulations/registerLogger'
 import {
   SimulationRelic,
   SimulationRelicByPart,
@@ -151,13 +152,15 @@ export function simulateBuild(
       sum += dmg
     }
 
-    x.setActionRegisterValue(i, sum)
+    x.setActionRegisterValue(action.registerIndex, sum)
   }
 
   x.a[StatKey.COMBO_DMG] = comboDmg
 
   // x.set(ActionKey.COMBO_DMG, dmgTracker, Source.NONE)
 
+  logRegisters(x, context)
+  
   return x
 }
 

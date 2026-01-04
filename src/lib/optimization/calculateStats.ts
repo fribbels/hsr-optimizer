@@ -16,6 +16,7 @@ import {
   TaliaKingdomOfBanditryConditional,
 } from 'lib/gpu/conditionals/setConditionals'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { Source } from 'lib/optimization/buffSource'
 import {
   Key,
   StatToKey,
@@ -27,7 +28,11 @@ import {
   SetKeyType,
 } from 'lib/optimization/config/setsConfig'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { TargetTag } from 'lib/optimization/engine/config/tag'
+import {
+  DamageTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SimulationRelic } from 'lib/simulations/statSimulationTypes'
 import {
@@ -280,9 +285,10 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
     //   x.ELEMENTAL_DMG.buff(x.a[Key.SPD] >= 160 ? 0.18 : 0.12, Source.FirmamentFrontlineGlamoth)
     // }
     //
-    // if (p2(SetKeys.RutilantArena, sets) && x.a[Key.CR] >= 0.70) {
-    //   buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE, 0.20, Source.RutilantArena)
-    // }
+    if (p2(SetKeys.RutilantArena, sets) && x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) >= 0.70) {
+      x.buff(StatKey.DMG_BOOST, 0.20, x.damageType(DamageTag.SKILL).source(Source.RutilantArena))
+      x.buff(StatKey.DMG_BOOST, 0.20, x.damageType(DamageTag.BASIC).source(Source.RutilantArena))
+    }
     //
     // if (p2(SetKeys.InertSalsotto, sets) && x.a[Key.CR] >= 0.50) {
     //   buffAbilityDmg(x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, Source.InertSalsotto)

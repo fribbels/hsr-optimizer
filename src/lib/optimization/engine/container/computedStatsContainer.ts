@@ -149,8 +149,10 @@ export class ComputedStatsContainerConfig {
     const statsArrayLength = this.entitiesLength * this.statsLength * (this.hitsLength + 1)
 
     // Registers section: [Action Registers][Hit Registers]
+    // Action registers: 1 per action (default + rotation)
+    // Hit registers: 1 per hit across all actions
     this.registersOffset = statsArrayLength
-    this.actionRegistersLength = context.actionDeclarations.length
+    this.actionRegistersLength = context.allActions.length
     this.hitRegistersLength = context.outputRegistersLength
     this.totalRegistersLength = this.actionRegistersLength + this.hitRegistersLength
 

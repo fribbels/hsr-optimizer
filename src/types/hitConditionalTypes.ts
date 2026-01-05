@@ -45,6 +45,8 @@ export interface EntityDefinition {
   memosprite: boolean
   pet?: boolean
 
+  teammate?: boolean
+
   memoBaseAtkFlat?: number
   memoBaseHpFlat?: number
   memoBaseDefFlat?: number

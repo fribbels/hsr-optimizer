@@ -154,6 +154,9 @@ export type OptimizerContext = CharacterMetadata & {
   teammateControllers: CharacterConditionalsController[],
   outputRegistersLength: number,
 
+  // GPU buffer data (populated during WGSL generation)
+  precomputedStatsData?: Float32Array,
+
   rotationActions: OptimizerAction[],
   defaultActions: OptimizerAction[],
   allActions: OptimizerAction[],

@@ -56,15 +56,15 @@ export function wgslDebugHitRegister(hit: Hit, context: OptimizerContext): strin
 // Call this after all hits are calculated
 export function wgslDebugActionRegister(action: OptimizerAction, context: OptimizerContext, valueExpr: string = 'actionDmg'): string {
   const registerIndex = getActionRegisterIndexWgsl(action.registerIndex, context)
-  return `container[${registerIndex}] = ${valueExpr}; // ActionRegister[${action.registerIndex}]`
+  return `(*p_container)[${registerIndex}] = ${valueExpr}; // ActionRegister[${action.registerIndex}]`
 }
 
 export function containerActionVal(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
-  return `container[${getActionIndex(entityIndex, statIndex, config)}]`
+  return `(*p_container)[${getActionIndex(entityIndex, statIndex, config)}]`
 }
 
 export function containerHitVal(entityIndex: number, hitIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
-  return `container[${getHitIndex(entityIndex, hitIndex, statIndex, config)}]`
+  return `(*p_container)[${getHitIndex(entityIndex, hitIndex, statIndex, config)}]`
 }
 
 export function p_containerActionVal(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
@@ -76,11 +76,11 @@ export function p_containerHitVal(entityIndex: number, hitIndex: number, statInd
 }
 
 export function containerActionRegister(actionRegisterIndex: number, config: ComputedStatsContainerConfig) {
-  return `container[${getActionRegisterIndex(actionRegisterIndex, config)}]`
+  return `(*p_container)[${getActionRegisterIndex(actionRegisterIndex, config)}]`
 }
 
 export function containerHitRegister(hitRegisterIndex: number, config: ComputedStatsContainerConfig) {
-  return `container[${getHitRegisterIndex(hitRegisterIndex, config)}]`
+  return `(*p_container)[${getHitRegisterIndex(hitRegisterIndex, config)}]`
 }
 
 export function p_containerActionRegister(actionRegisterIndex: number, config: ComputedStatsContainerConfig) {
@@ -104,7 +104,7 @@ function actionBuffFiltered(
 
     if (filter(entity)) {
       const index = getActionIndex(entityIndex, statKey, action.config)
-      lines.push(`container[${index}] += ${value}; // ${entity.name} ${getStatKeyName(statKey)}`)
+      lines.push(`(*p_container)[${index}] += ${value}; // ${entity.name} ${getStatKeyName(statKey)}`)
     }
   }
   return lines.filter(Boolean).join('\n        ')
@@ -151,7 +151,7 @@ function hitBuffFiltered(
     for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
       if (filter(entity)) {
         const index = getHitIndex(entityIndex, hitIndex, statKey, action.config)
-        lines.push(`container[${index}] += ${value}; // ${entity.name} ${getStatKeyName(statKey)}`)
+        lines.push(`(*p_container)[${index}] += ${value}; // ${entity.name} ${getStatKeyName(statKey)}`)
       }
     }
   }

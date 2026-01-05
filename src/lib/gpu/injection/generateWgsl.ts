@@ -6,7 +6,6 @@ import {
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
 import { generateDynamicConditionals } from 'lib/gpu/injection/injectConditionals'
-import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomputedStats'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
 import { injectUnrolledActions } from 'lib/gpu/injection/injectUnrolledActions'
 import { indent } from 'lib/gpu/injection/wgslUtils'
@@ -61,9 +60,31 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
 
 function injectConditionalsNew(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   const actionLength = context.shaderVariables.actionLength
-  const calculationsPerAction = context.maxContainerArrayLength / Object.values(newStatsConfig).length
+  const containerLength = context.maxContainerArrayLength
+  const calculationsPerAction = containerLength / Object.values(newStatsConfig).length
 
   const statsLength = Object.values(newStatsConfig).length
+
+  // Generate precomputed stats buffer data
+  const precomputedStatsData = new Float32Array(actionLength * containerLength)
+
+  for (let i = 0; i < actionLength; i++) {
+    const action = i < context.defaultActions.length
+      ? context.defaultActions[i]
+      : context.rotationActions[i - context.defaultActions.length]
+
+    const offset = i * containerLength
+    // Copy full container (stats + registers)
+    precomputedStatsData.set(action.precomputedStats.a.subarray(0, containerLength), offset)
+  }
+
+  // Store for later use in pipeline creation
+  context.precomputedStatsData = precomputedStatsData
+
+  // Buffer declaration (added to actionsDefinition)
+  const bufferDeclaration = `
+@group(1) @binding(3) var<storage> precomputedStats : array<array<f32, ${containerLength}>, ${actionLength}>;
+`
 
   let actionsDefinition = `
 const actionCount = ${actionLength};
@@ -72,7 +93,6 @@ const maxEntitiesCount = ${context.maxEntitiesCount};
 const maxHitsCount = ${context.maxHitsCount};
 const statsLength = ${statsLength};
 `
-  let computedStatsDefinition = ''
 
   for (let i = 0; i < actionLength; i++) {
     const action = i < context.defaultActions.length ? context.defaultActions[i] : context.rotationActions[i - context.defaultActions.length]
@@ -115,16 +135,7 @@ const action${i} = Action( // ${action.actionIndex} ${action.actionName}
 );`
   }
 
-  for (let i = 0; i < actionLength; i++) {
-    const action = i < context.defaultActions.length ? context.defaultActions[i] : context.rotationActions[i - context.defaultActions.length]
-
-    computedStatsDefinition += `
-const computedStatsX${i} = array<f32, ${context.maxContainerArrayLength}>( // ${action.actionName}
-    ${injectPrecomputedStatsContext(action.precomputedStats, context, gpuParams, action)}
-);`
-  }
-
-  wgsl = wgsl.replace('/* INJECT ACTIONS DEFINITION */', actionsDefinition + '\n\n' + computedStatsDefinition)
+  wgsl = wgsl.replace('/* INJECT ACTIONS DEFINITION */', bufferDeclaration + actionsDefinition)
 
   // Combat conditionals
 

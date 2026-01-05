@@ -81,17 +81,17 @@ export const newStatsConfig = {
   SUMMONS: { flat: true, label: optimizerTabMisc('Summons') },
   MEMOSPRITE: { bool: true, label: optimizerTabMisc('Memosprite') },
   ENEMY_WEAKNESS_BROKEN: { bool: true, label: optimizerTabMisc('Enemy weakness broken') },
-  MEMO_BUFF_PRIORITY: { bool: true, label: optimizerTabMisc('Prioritize memosprite buffs') },
-  DEPRIORITIZE_BUFFS: { bool: true, label: optimizerTabMisc('Deprioritize buffs') },
+  // MEMO_BUFF_PRIORITY: { bool: true, label: optimizerTabMisc('Prioritize memosprite buffs') },
+  // DEPRIORITIZE_BUFFS: { bool: true, label: optimizerTabMisc('Deprioritize buffs') },
   COMBO_DMG: { flat: true, label: optimizerTabMisc('Combo DMG') },
 
-  // DOT
-  DOT_CHANCE: { label: optimizerTabMisc('Dot base chance') },
-  EFFECT_RES_PEN: { label: optimizerTabMisc('Effect RES PEN') },
-  DOT_SPLIT: { label: optimizerTabMisc('Dot DMG split') }, // Black Swan's stacking DoTs, the initial DoT has full value but subsequent stacks have reduced (DOT_SPLIT) value
-  DOT_STACKS: { flat: true, label: optimizerTabMisc('Dot stacks') },
-
-  // Heal / Shield
+  // // DOT
+  // DOT_CHANCE: { label: optimizerTabMisc('Dot base chance') },
+  // EFFECT_RES_PEN: { label: optimizerTabMisc('Effect RES PEN') },
+  // DOT_SPLIT: { label: optimizerTabMisc('Dot DMG split') }, // Black Swan's stacking DoTs, the initial DoT has full value but subsequent stacks have reduced (DOT_SPLIT) value
+  // DOT_STACKS: { flat: true, label: optimizerTabMisc('Dot stacks') },
+  //
+  // // Heal / Shield
   HEAL_TYPE: { flat: true, label: optimizerTabMisc('Heal ability type') },
   HEAL_FLAT: { flat: true, label: optimizerTabMisc('Heal flat') },
   HEAL_SCALING: { label: optimizerTabMisc('Heal scaling') },
@@ -100,7 +100,7 @@ export const newStatsConfig = {
   SHIELD_SCALING: { label: optimizerTabMisc('Shield scaling') },
   SHIELD_VALUE: { flat: true, label: optimizerTabMisc('Shield value') },
   SHIELD_BOOST: { label: optimizerTabMisc('Shield boost') },
-
+  //
   ATK_SCALING: { separated: true, label: optimizerTabCompositeSuffix('ATK scaling') },
   DEF_SCALING: { separated: true, label: optimizerTabCompositeSuffix('DEF scaling') },
   HP_SCALING: { separated: true, label: optimizerTabCompositeSuffix('HP scaling') },
@@ -114,7 +114,7 @@ export const newStatsConfig = {
   RES_PEN: { label: optimizerTabCompositeSuffix('RES PEN') },
   DEF_PEN: { label: optimizerTabCompositeSuffix('DEF PEN') },
 
-  TOUGHNESS_DMG: { flat: true, separated: true, label: optimizerTabCompositeSuffix('Toughness DMG') },
+  // TOUGHNESS_DMG: { flat: true, separated: true, label: optimizerTabCompositeSuffix('Toughness DMG') },
   SUPER_BREAK_MODIFIER: { label: optimizerTabCompositeSuffix('Super Break multiplier') },
   BREAK_EFFICIENCY_BOOST: { label: optimizerTabCompositeSuffix('Break Efficiency boost') },
 

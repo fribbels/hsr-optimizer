@@ -58,7 +58,7 @@ class ActionBuffBuilder {
     for (let entityIndex = 0; entityIndex < config.entitiesLength; entityIndex++) {
       const entity = config.entitiesArray[entityIndex]
       const index = getActionIndex(entityIndex, this.statKey, config)
-      const code = `container[${index}] += ${this.value}; // ${entity.name} ${getStatKeyName(this.statKey)}`
+      const code = `(*p_container)[${index}] += ${this.value}; // ${entity.name} ${getStatKeyName(this.statKey)}`
 
       if (matchesTargetTag(entity, this._targetTag)) {
         lines.push(code)
@@ -117,7 +117,7 @@ class HitBuffBuilder {
       for (let hitIndex = 0; hitIndex < hits.length; hitIndex++) {
         const hit = hits[hitIndex]
         const index = getHitIndex(entityIndex, hitIndex, this.statKey, config)
-        const code = `container[${index}] += ${this.value}; // ${entity.name} Hit${hitIndex} ${getStatKeyName(this.statKey)}`
+        const code = `(*p_container)[${index}] += ${this.value}; // ${entity.name} Hit${hitIndex} ${getStatKeyName(this.statKey)}`
 
         // Check all filters
         const damageMatches = this._damageTags === ALL_DAMAGE_TAGS || (hit.damageType & this._damageTags)

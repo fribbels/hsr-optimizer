@@ -11,13 +11,9 @@ import {
 import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyEvaluator'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import {
-  PathNames,
-  Stats,
-} from 'lib/constants/constants'
+import { Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { injectActionDamage } from 'lib/gpu/injection/injectActionDamage'
-import { injectPrecomputedStatsContext } from 'lib/gpu/injection/injectPrecomputedStats'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
@@ -160,25 +156,7 @@ const action${i} = Action( // ${action.actionIndex}
   ),
 );`
   }
-  for (let i = 0; i < actionLength; i++) {
-    const action = context.actions[i]
-
-    actionsDefinition += `
-const computedStatsX${i} = ComputedStats(
-${injectPrecomputedStatsContext(action.precomputedX, context, gpuParams)}
-);`
-  }
-
-  if (context.path == PathNames.Remembrance) {
-    for (let i = 0; i < actionLength; i++) {
-      const action = context.actions[i]
-
-      actionsDefinition += `
-const computedStatsM${i} = ComputedStats(
-${injectPrecomputedStatsContext(action.precomputedM, context, gpuParams)}
-);`
-    }
-  }
+  // Legacy: computedStatsX and computedStatsM inline arrays removed - now using precomputedStats buffer
 
   wgsl = wgsl.replace('/* INJECT ACTIONS DEFINITION */', actionsDefinition)
 

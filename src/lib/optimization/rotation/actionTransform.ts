@@ -15,6 +15,7 @@ import {
 } from 'lib/optimization/rotation/comboStateTransform'
 import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   Form,
@@ -100,16 +101,16 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
     const isDefault = i < defaultActions.length
     const comboIndex = isDefault ? 0 : (i - defaultActions.length + 1)
 
-    const entityRegistry = prepareEntitiesForAction(action, context)
+    const { primaryEntityRegistry, teammateEntityRegistry } = prepareEntitiesForAction(action, context)
 
     for (const hit of action.hits!) {
       hit.sourceEntityIndex = hit.sourceEntity
-        ? entityRegistry.getIndex(hit.sourceEntity)
+        ? primaryEntityRegistry.getIndex(hit.sourceEntity)
         : 0
     }
 
     const container = new ComputedStatsContainer()
-    action.config = new ComputedStatsContainerConfig(action, context, entityRegistry)
+    action.config = new ComputedStatsContainerConfig(action, context, primaryEntityRegistry)
     container.setConfig(action.config)
     action.precomputedStats = container
 
@@ -172,41 +173,56 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
   context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
 }
 
+interface PreparedEntities {
+  primaryEntityRegistry: NamedArray<OptimizerEntity>
+  teammateEntityRegistry: NamedArray<OptimizerEntity>
+}
+
 function prepareEntitiesForAction(
   action: OptimizerAction,
   context: OptimizerContext,
-): NamedArray<OptimizerEntity> {
-  const entityNames: string[] = []
+): PreparedEntities {
   const entityDefinitionsMap: Record<string, any> = {}
 
   // Main character entities
   const characterController = context.characterController
-  const charEntityNames = characterController.entityDeclaration()
-  const charEntityDefs = characterController.entityDefinition(action, context)
+  const primaryEntityNames = characterController.entityDeclaration()
+  const charEntityDefs = TsUtils.clone(characterController.entityDefinition(action, context))
 
-  entityNames.push(...charEntityNames)
   Object.assign(entityDefinitionsMap, charEntityDefs)
 
   // Teammate entities
+  const teammateEntityNames: string[] = []
   for (const teammateController of context.teammateControllers) {
     if (teammateController.entityDeclaration) {
-      const teammateEntityNames = teammateController.entityDeclaration()
-      entityNames.push(...teammateEntityNames)
+      const controllerEntityNames = teammateController.entityDeclaration()
+      teammateEntityNames.push(...controllerEntityNames)
 
       if (teammateController.entityDefinition) {
-        const teammateEntityDefs = teammateController.entityDefinition(action, context)
+        const teammateEntityDefs = TsUtils.clone(teammateController.entityDefinition(action, context))
+        Object.values(teammateEntityDefs).forEach((entityDefinition) => {
+          entityDefinition.teammate = true
+        })
         Object.assign(entityDefinitionsMap, teammateEntityDefs)
       }
     }
   }
 
-  // Build OptimizerEntity array
-  const entities: OptimizerEntity[] = entityNames.map((name) => ({
+  // Build primary entity registry
+  const primaryEntities: OptimizerEntity[] = primaryEntityNames.map((name) => ({
     name: name,
     ...entityDefinitionsMap[name],
   }))
+  const primaryEntityRegistry = new NamedArray(primaryEntities, (entity) => entity.name)
 
-  return new NamedArray(entities, (entity) => entity.name)
+  // Build teammate entity registry
+  const teammateEntities: OptimizerEntity[] = teammateEntityNames.map((name) => ({
+    name: name,
+    ...entityDefinitionsMap[name],
+  }))
+  const teammateEntityRegistry = new NamedArray(teammateEntities, (entity) => entity.name)
+
+  return { primaryEntityRegistry, teammateEntityRegistry }
 }
 
 export function calculateActionDeclarations(request: OptimizerForm, context: OptimizerContext) {

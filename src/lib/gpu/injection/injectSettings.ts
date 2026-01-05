@@ -75,7 +75,7 @@ fn getAction(actionIndex: i32, outAction: ptr<function, Action>, outX: ptr<funct
 }
   `
 
-  return wgsl
+  return ''
 }
 
 function generateRequest(request: Form) {

@@ -81,6 +81,30 @@ export const CritDamageFunction: DamageFunction = {
 
     return dmg
   },
+  wgslx: (action, hitIndex, context) => {
+    const hit = action.hits![hitIndex]
+    const config = action.config
+    const entityIndex = hit.sourceEntityIndex ?? 0
+
+    // Helper to generate getValue (action + hit)
+    const getValue = (stat: number) => `(${p_containerActionVal(entityIndex, stat, config)} + ${p_containerHitVal(entityIndex, hitIndex, stat, config)})`
+
+    // Scalings from hit definition
+    const atkScaling = hit.atkScaling ?? 0
+    const hpScaling = hit.hpScaling ?? 0
+    const defScaling = hit.defScaling ?? 0
+
+    const elementalDmgStat = hit.damageElement == ElementTag.None ? 0 : elementTagToStatKeyBoost[hit.damageElement]
+
+    return `
+{
+  let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
+  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
+
+  comboDmg += baseUniversalMulti * defMulti;
+}
+    `
+  },
   wgsl: (action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
     const config = action.config
@@ -133,7 +157,7 @@ export const CritDamageFunction: DamageFunction = {
     * critMulti;
 
   // comboDmg = abilityMulti;
-  comboDmg += damage;
+  comboDmg += damage + 0;
   ${wgslDebugHitRegister(hit, context)}
 }
 `

@@ -35,7 +35,8 @@ import {
 } from 'types/optimizer'
 
 export function injectUnrolledActions(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
-  let unrolledActionsWgsl = '\nvar comboDmg: f32 = 0;\n'
+  let unrolledActionCallsWgsl = '\nvar comboDmg: f32 = 0;\n'
+  let unrolledActionFunctionsWgsl = ''
 
   for (let i = 0; i < context.defaultActions.length; i++) {
     const action = context.defaultActions[i]
@@ -44,14 +45,29 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
   for (let i = 0; i < context.rotationActions.length; i++) {
     const action = context.rotationActions[i]
 
-    let unrolledAction = unrollAction(context.defaultActions.length + i, action, context, gpuParams)
+    let { actionCall, actionFunction } = unrollAction(context.defaultActions.length + i, action, context, gpuParams)
 
-    unrolledActionsWgsl += unrolledAction
+    unrolledActionCallsWgsl += actionCall
+    unrolledActionFunctionsWgsl += actionFunction
   }
+
+  unrolledActionCallsWgsl += `
+if (comboDmg > 3800000) {
+  results[index] = comboDmg;
+  failures = 1;
+} else {
+  results[index] = -failures; failures = failures + 1;
+}
+  `
 
   wgsl = wgsl.replace(
     '/* INJECT UNROLLED ACTIONS */',
-    unrolledActionsWgsl,
+    unrolledActionCallsWgsl,
+  )
+
+  wgsl = wgsl.replace(
+    '/* INJECT UNROLLED ACTION FUNCTIONS */',
+    unrolledActionFunctionsWgsl,
   )
 
   return wgsl
@@ -91,57 +107,90 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
 
   //////////
 
+  const actionCall = `
+    var container${index}: array<f32, ${context.maxContainerArrayLength}> = precomputedStats[${index}];
+    let dmg${index} = unrolledAction${index}(
+      &container${index},
+      &sets,
+      &c,
+      diffATK,
+      diffDEF,
+      diffHP,
+      diffSPD,
+      diffCD,
+      diffCR,
+      diffEHR,
+      diffRES,
+      diffBE,
+      diffERR,
+      diffOHB,
+    );
+    comboDmg += dmg${index};
+`
   
-  return `
-    { // Action ${index} - ${action.actionName} 
-      var action: Action = action${index};
-      var container: array<f32, ${context.maxContainerArrayLength}> = computedStatsX${index};
-      let p_container = &container;
+  const actionFunction = `
+fn unrolledAction${index}(
+  p_container: ptr<function, array<f32, ${context.maxContainerArrayLength}>>,
+  p_sets: ptr<function, Sets>,
+  p_c: ptr<function, BasicStats>,
+  diffATK: f32,
+  diffDEF: f32,
+  diffHP: f32,
+  diffSPD: f32,
+  diffCD: f32,
+  diffCR: f32,
+  diffEHR: f32,
+  diffRES: f32,
+  diffBE: f32,
+  diffERR: f32,
+  diffOHB: f32,
+) -> f32 { // Action ${index} - ${action.actionName} 
+  let setConditionals = action${index}.setConditionals;
+  var state = ConditionalState();
+  let p_state = &state;
+  state.actionIndex = ${index};
+  
+  var comboDmg = 0.0;
 
-      let setConditionals = action.setConditionals;
-      var state = ConditionalState();
-      state.actionIndex = ${index};
+  // Set the Action-scope stats, to be added to the Hit-scope stats later
+  ${unrollEntityBaseStats(action)}
 
-      let p_sets = &sets;
-      let p_state = &state;
+  if (
+    p2((*p_sets).AmphoreusTheEternalLand) >= 1
+    && setConditionals.enabledAmphoreusTheEternalLand == true
+    && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.MEMOSPRITE, action.config)} >= 1
+  ) {
+    ${buff.action(StatKey.SPD_P, 0.08).targets(TargetTag.FullTeam).wgsl(action, 4)}
+  }
 
-      // Set the Action-scope stats, to be added to the Hit-scope stats later
-      ${unrollEntityBaseStats(action)}
-    
-      if (
-        p2(sets.AmphoreusTheEternalLand) >= 1
-        && setConditionals.enabledAmphoreusTheEternalLand == true
-        && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.MEMOSPRITE, action.config)} >= 1
-      ) {
-        ${buff.action(StatKey.SPD_P, 0.08).targets(TargetTag.FullTeam).wgsl(action, 4)}
-      }
-
-      if (
-        p2(sets.RutilantArena) >= 1
-        && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, action.config)} >= 0.70
-      ) {
-        ${buff.hit(StatKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action, 4)}
-      }
-      
-      ${conditionalSequenceWgsl}
-      
-      ${characterConditionalWgsl}
-      
-      ${lightConeConditionalWgsl}
-      
-      ${damageCalculationWgsl}
-      
-      // Combat stat filters
-      
-      // Basic stat filters
-      
-      // Rating stat filters
-      
-      // Return value
-      
-      results[index] = container; // DEBUG
-    }
+  if (
+    p2((*p_sets).RutilantArena) >= 1
+    && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, action.config)} >= 0.70
+  ) {
+    ${buff.hit(StatKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action, 4)}
+  }
+  
+  ${conditionalSequenceWgsl}
+  
+  ${characterConditionalWgsl}
+  
+  ${lightConeConditionalWgsl}
+  
+  ${damageCalculationWgsl}
+  
+  // Combat stat filters
+  
+  // Basic stat filters
+  
+  // Rating stat filters
+  
+  // Return value
+  
+  return comboDmg;
+}
   `
+
+  return { actionCall, actionFunction }
 }
 
 function unrollDamageCalculations(index: number, action: OptimizerAction, context: OptimizerContext, gpuParams: GpuConstants) {
@@ -207,13 +256,13 @@ function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = T
         ${containerActionVal(entityIndex, StatKey.HP, config)} += ${containerActionVal(entityIndex, StatKey.HP_P, config)} * ${containerActionVal(entityIndex, StatKey.BASE_HP, config)};
         ${containerActionVal(entityIndex, StatKey.SPD, config)} += ${containerActionVal(entityIndex, StatKey.SPD_P, config)} * ${containerActionVal(entityIndex, StatKey.BASE_SPD, config)};
         
-        ${containerActionVal(entityIndex, StatKey.PHYSICAL_DMG_BOOST, config)} += c.PHYSICAL_DMG_BOOST;
-        ${containerActionVal(entityIndex, StatKey.FIRE_DMG_BOOST, config)} += c.FIRE_DMG_BOOST;
-        ${containerActionVal(entityIndex, StatKey.ICE_DMG_BOOST, config)} += c.ICE_DMG_BOOST;
-        ${containerActionVal(entityIndex, StatKey.LIGHTNING_DMG_BOOST, config)} += c.LIGHTNING_DMG_BOOST;
-        ${containerActionVal(entityIndex, StatKey.WIND_DMG_BOOST, config)} += c.WIND_DMG_BOOST;
-        ${containerActionVal(entityIndex, StatKey.QUANTUM_DMG_BOOST, config)} += c.QUANTUM_DMG_BOOST;
-        ${containerActionVal(entityIndex, StatKey.IMAGINARY_DMG_BOOST, config)} += c.IMAGINARY_DMG_BOOST;
+        ${containerActionVal(entityIndex, StatKey.PHYSICAL_DMG_BOOST, config)} += (*p_c).PHYSICAL_DMG_BOOST;
+        ${containerActionVal(entityIndex, StatKey.FIRE_DMG_BOOST, config)} += (*p_c).FIRE_DMG_BOOST;
+        ${containerActionVal(entityIndex, StatKey.ICE_DMG_BOOST, config)} += (*p_c).ICE_DMG_BOOST;
+        ${containerActionVal(entityIndex, StatKey.LIGHTNING_DMG_BOOST, config)} += (*p_c).LIGHTNING_DMG_BOOST;
+        ${containerActionVal(entityIndex, StatKey.WIND_DMG_BOOST, config)} += (*p_c).WIND_DMG_BOOST;
+        ${containerActionVal(entityIndex, StatKey.QUANTUM_DMG_BOOST, config)} += (*p_c).QUANTUM_DMG_BOOST;
+        ${containerActionVal(entityIndex, StatKey.IMAGINARY_DMG_BOOST, config)} += (*p_c).IMAGINARY_DMG_BOOST;
 `,
       )
     }

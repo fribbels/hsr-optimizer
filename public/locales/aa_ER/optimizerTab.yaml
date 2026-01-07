@@ -339,6 +339,17 @@ Presets:
     SPD171: crwdns43114:0crwdne43114:0
     SPD177: crwdns43116:0crwdne43116:0
     SPD200: crwdns43118:0crwdne43118:0
+  SpdCategories:
+    MemoryOfChaos: crwdns46210:0crwdne46210:0
+    AnomalyArbitration: crwdns46212:0crwdne46212:0
+  AaSpdValues:
+    SPD120: crwdns46214:0crwdne46214:0
+    SPD133: crwdns46216:0crwdne46216:0
+    SPD140: crwdns46218:0crwdne46218:0
+    SPD160: crwdns46220:0crwdne46220:0
+    SPD166: crwdns46222:0crwdne46222:0
+    SPD180: crwdns46224:0crwdne46224:0
+    SPD200: crwdns46226:0crwdne46226:0
   StandardLabel: 'crwdns43120:0$t(gameData:Characters.{{id}}.Name)crwdne43120:0'
   RecommendedPresets: crwdns43122:0crwdne43122:0
   PresetNotAvailable: crwdns43124:0crwdne43124:0

@@ -11,7 +11,10 @@ import {
 } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { DotHit, Hit } from 'types/hitConditionalTypes'
+import {
+  DotHit,
+  Hit,
+} from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -172,7 +175,7 @@ export const DotDamageFunction: DamageFunction = {
       : getValue(elementTagToStatKeyBoost[hit.damageElement])
 
     // DOT properties from hit definition (compile-time constants)
-    const dotChance = hit.dotChance
+    const dotBaseChance = hit.dotBaseChance
     const dotSplit = hit.dotSplit ?? 0
     const dotStacks = hit.dotStacks ?? 1
 
@@ -202,7 +205,7 @@ export const DotDamageFunction: DamageFunction = {
   // EHR multiplier (from hit definition)
   let ehr = ${getValue(StatKey.EHR)};
   let effResPen = ${getValue(StatKey.EFFECT_RES_PEN)};
-  let effectiveDotChance = min(1.0, ${dotChance} * (1.0 + ehr) * (1.0 - ${enemyEffectRes} + effResPen));
+  let effectiveDotChance = min(1.0, ${dotBaseChance} * (1.0 + ehr) * (1.0 - ${enemyEffectRes} + effResPen));
 
   let ehrMulti = effectiveDotChance;
   if (${dotSplit} > 0.0) {
@@ -346,14 +349,14 @@ function calculateEhrMultiFromHit(
   const enemyEffectRes = context.enemyEffectResistance
 
   // Read from hit definition instead of stats
-  const dotChance = hit.dotChance
+  const dotBaseChance = hit.dotBaseChance
   const dotSplit = hit.dotSplit ?? 0
   const dotStacks = hit.dotStacks ?? 1
 
   const ehr = x.getValue(StatKey.EHR, hitIndex)
   const effResPen = x.getValue(StatKey.EFFECT_RES_PEN, hitIndex)
 
-  const effectiveDotChance = Math.min(1, dotChance * (1 + ehr) * (1 - enemyEffectRes + effResPen))
+  const effectiveDotChance = Math.min(1, dotBaseChance * (1 + ehr) * (1 - enemyEffectRes + effResPen))
 
   if (dotSplit) {
     return (1 + dotSplit * effectiveDotChance * (dotStacks - 1)) / (1 + dotSplit * (dotStacks - 1))

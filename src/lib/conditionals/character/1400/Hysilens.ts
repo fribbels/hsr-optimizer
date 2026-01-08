@@ -237,25 +237,25 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         [HysilensAbilities.DOT]: {
           hits: [
             HitDefinitionBuilder.dot()
-              .dotChance(1.0)
+              .dotBaseChance(1.0)
               .damageElement(ElementTag.Fire)
               .damageType(DamageType.DOT)
               .atkScaling(talentDotScaling)
               .build(),
             HitDefinitionBuilder.dot()
-              .dotChance(1.0)
+              .dotBaseChance(1.0)
               .damageElement(ElementTag.Wind)
               .damageType(DamageType.DOT)
               .atkScaling(talentDotScaling)
               .build(),
             HitDefinitionBuilder.dot()
-              .dotChance(1.0)
+              .dotBaseChance(1.0)
               .damageElement(ElementTag.Lightning)
               .damageType(DamageType.DOT)
               .atkScaling(talentDotScaling)
               .build(),
             HitDefinitionBuilder.dot()
-              .dotChance(1.0)
+              .dotBaseChance(1.0)
               .damageElement(ElementTag.Physical)
               .damageType(DamageType.DOT)
               .atkScaling(talentDotScaling)

@@ -23,24 +23,22 @@ interface BaseHitDefinition {
   damageElement: ElementTag
   toughnessDmg?: number
   activeHit: boolean
+  // Common scaling properties (optional for all hit types)
+  atkScaling?: number
+  hpScaling?: number
+  defScaling?: number
 }
 
 // Crit hits (default for most abilities)
 export interface CritHitDefinition extends BaseHitDefinition {
   damageFunctionType: DamageFunctionType.Crit
-  atkScaling?: number
-  hpScaling?: number
-  defScaling?: number
 }
 
 // DOT hits with specialized properties
 export interface DotHitDefinition extends BaseHitDefinition {
   damageFunctionType: DamageFunctionType.Dot
-  atkScaling?: number
-  hpScaling?: number
-  defScaling?: number
   // DOT-specific properties (moved from stats)
-  dotChance: number
+  dotBaseChance: number
   dotSplit?: number
   dotStacks?: number
 }
@@ -59,9 +57,6 @@ export interface SuperBreakHitDefinition extends BaseHitDefinition {
 // Additional damage hits
 export interface AdditionalHitDefinition extends BaseHitDefinition {
   damageFunctionType: DamageFunctionType.Additional
-  atkScaling?: number
-  hpScaling?: number
-  defScaling?: number
 }
 
 // Union type for all hit definitions

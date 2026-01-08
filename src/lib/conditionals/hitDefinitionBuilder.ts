@@ -1,4 +1,7 @@
-import { genericBuilder, schemaBuilder } from 'lib/conditionals/genericBuilder'
+import {
+  genericBuilder,
+  schemaBuilder,
+} from 'lib/conditionals/genericBuilder'
 import {
   DamageTag,
   ElementTag,
@@ -7,10 +10,10 @@ import {
   DamageFunctionType,
 } from 'lib/optimization/engine/damage/damageCalculator'
 import {
+  AdditionalHitDefinition,
+  BreakHitDefinition,
   CritHitDefinition,
   DotHitDefinition,
-  BreakHitDefinition,
-  AdditionalHitDefinition,
   HitDefinition,
 } from 'types/hitConditionalTypes'
 
@@ -25,13 +28,13 @@ const BASE_HIT_DEFAULTS = {
 const dotHitSchema = schemaBuilder<
   DotHitDefinition,
   Pick<DotHitDefinition, 'damageFunctionType' | 'activeHit'>,
-  Pick<DotHitDefinition, 'dotChance' | 'damageElement'>
+  Pick<DotHitDefinition, 'dotBaseChance' | 'damageElement'>
 >({
   defaults: {
     damageFunctionType: DamageFunctionType.Dot,
     activeHit: false,
   },
-  required: ['dotChance', 'damageElement'],
+  required: ['dotBaseChance', 'damageElement'],
 })
 
 // Schema for Crit hits with required damageElement

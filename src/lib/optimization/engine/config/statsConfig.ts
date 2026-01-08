@@ -52,7 +52,7 @@ export const newStatsConfig = {
   WIND_DMG_BOOST: { label: 'Wind DMG Boost' },
   QUANTUM_DMG_BOOST: { label: 'Quantum DMG Boost' },
   IMAGINARY_DMG_BOOST: { label: 'Imaginary DMG Boost' },
-  
+
   DMG_BOOST: { hit: true, label: 'DMG Boost' },
 
   // Base
@@ -101,7 +101,7 @@ export const newStatsConfig = {
   SHIELD_SCALING: { label: optimizerTabMisc('Shield scaling') },
   SHIELD_VALUE: { flat: true, label: optimizerTabMisc('Shield value') },
   SHIELD_BOOST: { label: optimizerTabMisc('Shield boost') },
-  //
+
   ATK_SCALING: { separated: true, label: optimizerTabCompositeSuffix('ATK scaling') },
   DEF_SCALING: { separated: true, label: optimizerTabCompositeSuffix('DEF scaling') },
   HP_SCALING: { separated: true, label: optimizerTabCompositeSuffix('HP scaling') },

@@ -11,7 +11,7 @@ declare const HKeyBrand: unique symbol
 export type AKeyValue = number & { readonly [AKeyBrand]: true }
 export type HKeyValue = number & { readonly [HKeyBrand]: true }
 
-// ============== AKey (all stats, indices 0-N) ==============
+// ============== AKey ==============
 
 export const AKey: Record<AKeyType, AKeyValue> = Object.keys(newStatsConfig).reduce(
   (acc, key, index) => {
@@ -27,7 +27,7 @@ export function getAKeyName(key: AKeyValue): AKeyType {
   return AKeyNames[key]
 }
 
-// ============== HKey (only hit stats, indices 0-M) ==============
+// ============== HKey ==============
 
 const hitStatEntries = Object.entries(newStatsConfig)
   .filter(([_, value]) => (value as { hit?: boolean }).hit === true)
@@ -51,7 +51,7 @@ export function getHKeyName(key: HKeyValue): HKeyType {
 
 // ============== Mapping AKey <-> HKey ==============
 
-// Map from AKey index to HKey index (for stats that are hit stats)
+// Map from AKey index to HKey index
 export const AToHKey: Partial<Record<AKeyValue, HKeyValue>> = hitStatEntries.reduce(
   (acc, [key], hitIndex) => {
     const actionIndex = AKey[key as AKeyType]
@@ -71,7 +71,6 @@ export const HToAKey: Record<HKeyValue, AKeyValue> = hitStatEntries.reduce(
   {} as Record<HKeyValue, AKeyValue>,
 )
 
-// Helper to check if a stat is a hit stat
 export function isHitStat(key: AKeyValue): boolean {
   return AToHKey[key] !== undefined
 }
@@ -81,13 +80,9 @@ export function isHitStat(key: AKeyValue): boolean {
 export const ACTION_STATS_LENGTH = Object.keys(newStatsConfig).length
 export const HIT_STATS_LENGTH = hitStatEntries.length
 
-// ============== Legacy aliases (for migration) ==============
+// ============== Legacy aliases ==============
 
-/** @deprecated Use AKey instead */
 export const StatKey = AKey
-/** @deprecated Use AKeyType instead */
 export type StatKeyType = AKeyType
-/** @deprecated Use AKeyValue instead */
 export type StatKeyValue = AKeyValue
-/** @deprecated Use getAKeyName instead */
 export const getStatKeyName = getAKeyName

@@ -46,8 +46,7 @@ enum StatCategory {
   NONE,
 }
 
-// Pre-calculate all actionBuff/actionSet indices for performance
-// New layout: [Entity][Action Stats (56)][Hit 0 (M)][Hit 1 (M)]...
+// Precompute all actionBuff/actionSet indices
 function buildActionBuffIndexCache(
   entityRegistry: NamedArray<OptimizerEntity>,
   entitiesLength: number,
@@ -56,19 +55,14 @@ function buildActionBuffIndexCache(
   hitsLength: number,
 ): Record<number, number[]> {
   const cache: Record<number, number[]> = {}
-  // Entity stride: action stats + (hit stats per hit)
   const entityStride = actionStatsLength + (hitsLength * hitStatsLength)
 
-  // Get all TargetTag enum values dynamically
   const allTargetTags = Object.values(TargetTag).filter((v): v is number => typeof v === 'number')
 
-  // For each TargetTag
   for (const targetTags of allTargetTags) {
-    // For each action stat key (only action stats, not hit stats)
     for (let statKey = 0; statKey < actionStatsLength; statKey++) {
       const indices: number[] = []
 
-      // Find matching entities
       for (let entityIndex = 0; entityIndex < entitiesLength; entityIndex++) {
         const entity = entityRegistry.get(entityIndex)!
 
@@ -81,7 +75,6 @@ function buildActionBuffIndexCache(
         else if (targetTags === TargetTag.None) matches = false
 
         if (matches) {
-          // Action stats start at beginning of entity block
           indices.push(entityIndex * entityStride + statKey)
         }
       }
@@ -123,8 +116,8 @@ export class ComputedStatsContainerConfig {
 
   public hitsLength: number
   public entitiesLength: number
-  public actionStatsLength: number // 56 - all stats at action level
-  public hitStatsLength: number // M - only hit stats per hit
+  public actionStatsLength: number // All stats at action level
+  public hitStatsLength: number // Only hit stats per hit
   public entityStride: number // actionStatsLength + (hitsLength * hitStatsLength)
   public arrayLength: number
 
@@ -171,7 +164,7 @@ export class ComputedStatsContainerConfig {
     // Total array length includes stats + registers
     this.arrayLength = statsArrayLength + this.totalRegistersLength
 
-    // Pre-calculate actionBuff indices for performance
+    // Precompute actionBuff indices for performance
     this.actionBuffIndices = buildActionBuffIndexCache(
       entityRegistry,
       this.entitiesLength,
@@ -201,12 +194,12 @@ export class ComputedStatsContainerConfig {
  * Array structure (optimized - hit stats only stored per-hit):
  *   [Action (this container)                                           ][Output Registers]
  *   [Entity 0                              ][Entity 1                  ]...
- *   [Action stats (56)][Hit0 (M)][Hit1 (M)][Action stats (56)][Hit0...]...
+ *   [Action stats][Hit0 (M)][Hit1 (M)][Action stats][Hit0...]...
  *
  * Where:
- * - Action stats: 56 floats (all AKey stats)
- * - Hit stats: M floats per hit (only HKey stats, ~20)
- * - Entity stride: 56 + (hitsLength * M)
+ * - Action stats: all AKey stats
+ * - Hit stats: M floats per hit
+ * - Entity stride: actionStatsLength + (hitsLength * M)
  *
  * Key points:
  * - Each container is 1 action
@@ -214,17 +207,11 @@ export class ComputedStatsContainerConfig {
  * - Each entity has: 1 action-level block + N hit-level blocks
  * - Action block contains ALL stats
  * - Hit blocks contain only hit-specific stats (DMG_BOOST, DEF_PEN, etc.)
- * - Memory savings: ~62% reduction vs storing all stats per-hit
  */
 export class ComputedStatsContainer {
-  // @ts-ignore
-  public a: Float32Array
-
-  // @ts-ignore
-  public c: BasicStatsArray
-
-  // @ts-ignore
-  public config: ComputedStatsContainerConfig
+  public a!: Float32Array
+  public c!: BasicStatsArray
+  public config!: ComputedStatsContainerConfig
   private readonly builder: BuffBuilder
 
   private emptyRegisters!: Float32Array
@@ -493,8 +480,6 @@ export class ComputedStatsContainer {
   }
 
   // ============== Indexing ==============
-  // New layout: [Entity][Action Stats (56)][Hit 0 (M)][Hit 1 (M)]...
-  // Where M = HIT_STATS_LENGTH
 
   public getActionIndex(entityIndex: number, actionStatKey: AKeyValue): number {
     return entityIndex * this.config.entityStride + actionStatKey

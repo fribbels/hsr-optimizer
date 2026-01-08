@@ -32,7 +32,7 @@ export function matchesTargetTag(entity: OptimizerEntity, targetTag: TargetTag):
 // Value can be a number (compile-time constant) or string (WGSL runtime expression)
 export type WgslBuffValue = number | string
 
-// Action buff builder - uses AKeyValue (any stat), only supports target filtering
+// Action buff builder
 class ActionBuffBuilder {
   private _targetTag: TargetTag = TargetTag.SelfAndPet
   private readonly actionKey: AKeyValue
@@ -74,7 +74,7 @@ class ActionBuffBuilder {
   }
 }
 
-// Hit buff builder - uses HKeyValue (hit stats only), supports target, damage type, and element filtering
+// Hit buff builder
 class HitBuffBuilder {
   private _targetTag: TargetTag = TargetTag.SelfAndPet
   private _damageTags: DamageTag = ALL_DAMAGE_TAGS
@@ -139,8 +139,6 @@ class HitBuffBuilder {
 }
 
 // Entry point - stat and value first, .wgsl(action) finalizes
-// action() accepts AKeyValue (all stats)
-// hit() accepts HKeyValue (hit stats only) for type safety
 export const buff = {
   action: (actionKey: AKeyValue, value: WgslBuffValue) => new ActionBuffBuilder(actionKey, value),
   hit: (hitKey: HKeyValue, value: WgslBuffValue) => new HitBuffBuilder(hitKey, value),

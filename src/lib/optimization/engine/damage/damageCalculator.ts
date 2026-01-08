@@ -89,7 +89,7 @@ export const CritDamageFunction: DamageFunction = {
     const config = action.config
     const entityIndex = hit.sourceEntityIndex ?? 0
 
-    // Helper to generate getValue (action + hit) - uses containerGetValue which handles hit stat detection
+    // Helper to generate getValue (action + hit)
     const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
 
     // Scalings from hit definition

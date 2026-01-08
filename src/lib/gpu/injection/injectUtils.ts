@@ -16,8 +16,6 @@ import {
 } from 'types/optimizer'
 
 // ============== Index Calculations ==============
-// New layout: [Entity][Action Stats (56)][Hit 0 (M)][Hit 1 (M)]...
-// Where M = hitStatsLength
 
 export function getActionIndex(entityIndex: number, actionKey: AKeyValue, config: ComputedStatsContainerConfig): number {
   return entityIndex * config.entityStride + actionKey
@@ -31,8 +29,6 @@ export function getHitIndex(entityIndex: number, hitIndex: number, hitKey: HKeyV
 }
 
 // ============== Register Index Helpers ==============
-// Layout: [Stats...][Action Registers][Hit Registers]
-// Indexed from end of array for stability
 
 export function getActionRegisterIndex(actionRegisterIndex: number, config: ComputedStatsContainerConfig): number {
   return config.arrayLength - config.totalRegistersLength + actionRegisterIndex
@@ -91,7 +87,7 @@ export function containerGetValue(entityIndex: number, hitIndex: number, actionK
   return `(*p_container)[${actionIdx}]`
 }
 
-// Aliases for p_container (same as container, kept for compatibility)
+// Aliases for p_container
 export function p_containerActionVal(entityIndex: number, actionKey: AKeyValue, config: ComputedStatsContainerConfig) {
   return containerActionVal(entityIndex, actionKey, config)
 }
@@ -129,7 +125,7 @@ export const EntityFilters = {
   summon: (e: OptimizerEntity) => e.pet || e.memosprite,
 } as const
 
-// ============== Action Buffing (uses AKeyValue - all stats) ==============
+// ============== Action Buffing ==============
 
 function actionBuffFiltered(
   actionKey: AKeyValue,
@@ -164,7 +160,7 @@ export const actionBuffMemo = (
   context: OptimizerContext,
 ) => actionBuffFiltered(actionKey, value, action, context, EntityFilters.memo)
 
-// ============== Hit Buffing (uses HKeyValue - hit stats only) ==============
+// ============== Hit Buffing ==============
 
 function hitBuffFiltered(
   hitKey: HKeyValue,

@@ -11,7 +11,7 @@ import {
 } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { Hit } from 'types/hitConditionalTypes'
+import { DotHit, Hit } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -89,7 +89,6 @@ export const CritDamageFunction: DamageFunction = {
     const config = action.config
     const entityIndex = hit.sourceEntityIndex ?? 0
 
-    // Helper to generate getValue (action + hit)
     const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
 
     // Scalings from hit definition
@@ -147,17 +146,84 @@ export const CritDamageFunction: DamageFunction = {
 
 export const DotDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
-    const hit = action.hits![hitIndex]
+    const hit = action.hits![hitIndex] as DotHit
     computeCommonMultipliers(x, hitIndex, context)
     const dmgBoost = 1 + x.getValue(StatKey.DMG_BOOST, hitIndex)
     const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * dmgBoost * m.finalDmg
     const initial = calculateInitialDamage(x, hit, hitIndex, context)
-    const ehr = calculateEhrMulti(x, hitIndex, context)
+    const ehr = calculateEhrMultiFromHit(x, hit, hitIndex, context)
+
     return initial * baseMulti * ehr
   },
   wgsl: (action, hitIndex, context) => {
-    // TODO: Implement WGSL generation
-    return '/* DotDamageFunction WGSL stub */'
+    const hit = action.hits![hitIndex] as DotHit
+    const config = action.config
+    const entityIndex = hit.sourceEntityIndex ?? 0
+
+    const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
+
+    // Scalings from hit definition
+    const atkScaling = hit.atkScaling ?? 0
+    const hpScaling = hit.hpScaling ?? 0
+    const defScaling = hit.defScaling ?? 0
+
+    const elementalDmgBoost = hit.damageElement == ElementTag.None
+      ? '0.0'
+      : getValue(elementTagToStatKeyBoost[hit.damageElement])
+
+    // DOT properties from hit definition (compile-time constants)
+    const dotChance = hit.dotChance
+    const dotSplit = hit.dotSplit ?? 0
+    const dotStacks = hit.dotStacks ?? 1
+
+    const enemyEffectRes = context.enemyEffectResistance
+
+    return wgsl`
+{
+  // Common multipliers
+  let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
+  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
+  let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
+  let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
+  let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
+
+  // DOT-specific
+  let dmgBoostMulti = 1.0 + ${getValue(StatKey.DMG_BOOST)} + ${elementalDmgBoost};
+
+  // Initial damage
+  let atk = ${getValue(StatKey.ATK)};
+  let hp = ${getValue(StatKey.HP)};
+  let def = ${getValue(StatKey.DEF)};
+  let atkPBoost = ${getValue(StatKey.ATK_P_BOOST)};
+  let abilityMulti = ${atkScaling} * (atk + atkPBoost * ${getValue(StatKey.BASE_ATK)})
+    + ${hpScaling} * hp
+    + ${defScaling} * def;
+
+  // EHR multiplier (from hit definition)
+  let ehr = ${getValue(StatKey.EHR)};
+  let effResPen = ${getValue(StatKey.EFFECT_RES_PEN)};
+  let effectiveDotChance = min(1.0, ${dotChance} * (1.0 + ehr) * (1.0 - ${enemyEffectRes} + effResPen));
+
+  let ehrMulti = effectiveDotChance;
+  if (${dotSplit} > 0.0) {
+    ehrMulti = (1.0 + ${dotSplit} * effectiveDotChance * (${dotStacks} - 1.0)) / (1.0 + ${dotSplit} * (${dotStacks} - 1.0));
+  }
+
+  // Final damage
+  let damage = baseUniversalMulti
+    * abilityMulti
+    * defMulti
+    * resMulti
+    * vulnMulti
+    * dmgBoostMulti
+    * finalDmgMulti
+    * ehrMulti;
+
+  // comboDmg = abilityMulti;
+  comboDmg += damage + 0;
+  ${wgslDebugHitRegister(hit, context)}
+}
+`
   },
 }
 
@@ -270,25 +336,26 @@ function getCritMultiplier(x: ComputedStatsContainer, hitIndex: number): number 
   return cr * (1 + cd) + (1 - cr)
 }
 
-function calculateEhrMulti(
+// New function: reads DOT properties from hit definition
+function calculateEhrMultiFromHit(
   x: ComputedStatsContainer,
+  hit: DotHit,
   hitIndex: number,
   context: OptimizerContext,
-) {
+): number {
   const enemyEffectRes = context.enemyEffectResistance
 
-  // Dot calcs
-  // For stacking dots where the first stack has extra value
-  // c = dot chance, s = stacks => avg dmg = (full dmg) * (1 + 0.05 * c * (s-1)) / (1 + 0.05 * (s-1))
-  const dotChance = x.getValue(StatKey.DOT_CHANCE, hitIndex)
+  // Read from hit definition instead of stats
+  const dotChance = hit.dotChance
+  const dotSplit = hit.dotSplit ?? 0
+  const dotStacks = hit.dotStacks ?? 1
+
   const ehr = x.getValue(StatKey.EHR, hitIndex)
   const effResPen = x.getValue(StatKey.EFFECT_RES_PEN, hitIndex)
-  const dotSplit = x.getValue(StatKey.DOT_SPLIT, hitIndex)
 
   const effectiveDotChance = Math.min(1, dotChance * (1 + ehr) * (1 - enemyEffectRes + effResPen))
 
   if (dotSplit) {
-    const dotStacks = x.getValue(StatKey.DOT_STACKS, hitIndex)
     return (1 + dotSplit * effectiveDotChance * (dotStacks - 1)) / (1 + dotSplit * (dotStacks - 1))
   }
   return effectiveDotChance

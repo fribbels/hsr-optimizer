@@ -96,11 +96,7 @@ export const newStatsConfig = {
   DEPRIORITIZE_BUFFS: { bool: true, label: optimizerTabMisc('Deprioritize buffs') },
   COMBO_DMG: { flat: true, label: optimizerTabMisc('Combo DMG') },
 
-  // DOT
-  DOT_CHANCE: { label: optimizerTabMisc('Dot base chance') },
   EFFECT_RES_PEN: { label: optimizerTabMisc('Effect RES PEN') },
-  DOT_SPLIT: { label: optimizerTabMisc('Dot DMG split') }, // Black Swan's stacking DoTs, the initial DoT has full value but subsequent stacks have reduced (DOT_SPLIT) value
-  DOT_STACKS: { flat: true, label: optimizerTabMisc('Dot stacks') },
 
   // Heal / Shield
   HEAL_TYPE: { flat: true, label: optimizerTabMisc('Heal ability type') },

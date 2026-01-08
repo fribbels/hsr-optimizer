@@ -105,7 +105,8 @@ export function debugExportWebgpuResult(array: Float32Array) {
     xBE: x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX),
     xERR: x.getActionValueByIndex(StatKey.ERR, SELF_ENTITY_INDEX),
     xOHB: x.getActionValueByIndex(StatKey.OHB, SELF_ENTITY_INDEX),
-    xELEMENTAL_DMG: x.getActionValueByIndex(elementToStatKeyBoost[context.element], SELF_ENTITY_INDEX),
+    xELEMENTAL_DMG: x.getActionValueByIndex(StatKey.DMG_BOOST, SELF_ENTITY_INDEX)
+      + x.getActionValueByIndex(elementToStatKeyBoost[context.element], SELF_ENTITY_INDEX),
     // mHP: x.y,
     // mATK: x.y,
     // mDEF: x.y,

@@ -1,42 +1,94 @@
-import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
-  DamageFunction,
   DamageFunctionType,
 } from 'lib/optimization/engine/damage/damageCalculator'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from './optimizer'
 
 export interface AbilityDefinition {
   hits: HitDefinition[]
 }
 
-export interface Hit extends HitDefinition {
+// Runtime fields added to all hits during execution
+interface HitRuntime {
   localHitIndex: number
   registerIndex: number
   sourceEntityIndex: number
 }
 
-export interface HitDefinition {
+// Base properties shared by all hit types
+interface BaseHitDefinition {
   sourceEntity?: string
   referenceHit?: Hit
-
-  // damageFunction: DamageFunction
-  damageFunctionType: DamageFunctionType // For serialization
+  damageFunctionType: DamageFunctionType
   damageType: number
   damageElement: ElementTag
+  toughnessDmg?: number
+  activeHit: boolean
+}
 
+// Crit hits (default for most abilities)
+export interface CritHitDefinition extends BaseHitDefinition {
+  damageFunctionType: DamageFunctionType.Crit
   atkScaling?: number
   hpScaling?: number
   defScaling?: number
+}
+
+// DOT hits with specialized properties
+export interface DotHitDefinition extends BaseHitDefinition {
+  damageFunctionType: DamageFunctionType.Dot
+  atkScaling?: number
+  hpScaling?: number
+  defScaling?: number
+  // DOT-specific properties (moved from stats)
+  dotChance: number
+  dotSplit?: number
+  dotStacks?: number
+}
+
+// Break hits
+export interface BreakHitDefinition extends BaseHitDefinition {
+  damageFunctionType: DamageFunctionType.Break
   specialScaling?: number
+}
 
-  toughnessDmg?: number
+// Super Break hits
+export interface SuperBreakHitDefinition extends BaseHitDefinition {
+  damageFunctionType: DamageFunctionType.SuperBreak
+}
 
-  activeHit: boolean
+// Additional damage hits
+export interface AdditionalHitDefinition extends BaseHitDefinition {
+  damageFunctionType: DamageFunctionType.Additional
+  atkScaling?: number
+  hpScaling?: number
+  defScaling?: number
+}
+
+// Union type for all hit definitions
+export type HitDefinition =
+  | CritHitDefinition
+  | DotHitDefinition
+  | BreakHitDefinition
+  | SuperBreakHitDefinition
+  | AdditionalHitDefinition
+
+// Specialized Hit types (definition + runtime fields)
+export type CritHit = CritHitDefinition & HitRuntime
+export type DotHit = DotHitDefinition & HitRuntime
+export type BreakHit = BreakHitDefinition & HitRuntime
+export type SuperBreakHit = SuperBreakHitDefinition & HitRuntime
+export type AdditionalHit = AdditionalHitDefinition & HitRuntime
+
+// Union type for all hits (definition + runtime fields)
+export type Hit = CritHit | DotHit | BreakHit | SuperBreakHit | AdditionalHit
+
+// Type guards for Hit (runtime)
+export function isDotHit(hit: Hit): hit is DotHit {
+  return hit.damageFunctionType === DamageFunctionType.Dot
+}
+
+export function isCritHit(hit: Hit): hit is CritHit {
+  return hit.damageFunctionType === DamageFunctionType.Crit
 }
 
 export interface EntityDefinition {

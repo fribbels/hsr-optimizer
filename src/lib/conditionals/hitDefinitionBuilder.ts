@@ -1,58 +1,87 @@
-import { genericBuilder } from 'lib/conditionals/genericBuilder'
+import { genericBuilder, schemaBuilder } from 'lib/conditionals/genericBuilder'
 import {
   DamageTag,
   ElementTag,
 } from 'lib/optimization/engine/config/tag'
 import {
-  AdditionalDamageFunction,
-  BreakDamageFunction,
-  CritDamageFunction,
   DamageFunctionType,
 } from 'lib/optimization/engine/damage/damageCalculator'
-import { HitDefinition } from 'types/hitConditionalTypes'
+import {
+  CritHitDefinition,
+  DotHitDefinition,
+  BreakHitDefinition,
+  AdditionalHitDefinition,
+  HitDefinition,
+} from 'types/hitConditionalTypes'
 
-const BASE_HIT_DEFAULTS: Partial<HitDefinition> = {
+const BASE_HIT_DEFAULTS = {
   activeHit: false,
   atkScaling: 0,
   hpScaling: 0,
   defScaling: 0,
 }
 
+// Schema for DOT hits with required dotChance and damageElement
+const dotHitSchema = schemaBuilder<
+  DotHitDefinition,
+  Pick<DotHitDefinition, 'damageFunctionType' | 'activeHit'>,
+  Pick<DotHitDefinition, 'dotChance' | 'damageElement'>
+>({
+  defaults: {
+    damageFunctionType: DamageFunctionType.Dot,
+    activeHit: false,
+  },
+  required: ['dotChance', 'damageElement'],
+})
+
+// Schema for Crit hits with required damageElement
+const critHitSchema = schemaBuilder<
+  CritHitDefinition,
+  Pick<CritHitDefinition, 'damageFunctionType' | 'activeHit'>,
+  Pick<CritHitDefinition, 'damageElement'>
+>({
+  defaults: {
+    damageFunctionType: DamageFunctionType.Crit,
+    activeHit: true,
+  },
+  required: ['damageElement'],
+})
+
 export function HitDefinitionBuilder(defaults?: Partial<HitDefinition>) {
   return genericBuilder<HitDefinition>({ ...BASE_HIT_DEFAULTS, ...defaults })
 }
 
+// New schema-driven builders
+HitDefinitionBuilder.dot = dotHitSchema
+HitDefinitionBuilder.crit = critHitSchema
+
+// Convenience builders for standard hit types
 HitDefinitionBuilder.standardBasic = () =>
-  genericBuilder<HitDefinition>({
+  genericBuilder<CritHitDefinition>({
     ...BASE_HIT_DEFAULTS,
-    damageFunction: CritDamageFunction,
     damageFunctionType: DamageFunctionType.Crit,
     damageType: DamageTag.BASIC,
     activeHit: true,
   })
 
 HitDefinitionBuilder.standardSkill = () =>
-  genericBuilder<HitDefinition>({
+  genericBuilder<CritHitDefinition>({
     ...BASE_HIT_DEFAULTS,
-    damageFunction: CritDamageFunction,
     damageFunctionType: DamageFunctionType.Crit,
     damageType: DamageTag.SKILL,
     activeHit: true,
   })
 
 HitDefinitionBuilder.standardUlt = () =>
-  genericBuilder<HitDefinition>({
+  genericBuilder<CritHitDefinition>({
     ...BASE_HIT_DEFAULTS,
-    damageFunction: CritDamageFunction,
     damageFunctionType: DamageFunctionType.Crit,
     damageType: DamageTag.ULT,
     activeHit: true,
   })
 
 HitDefinitionBuilder.standardBreak = (e: ElementTag) =>
-  genericBuilder<HitDefinition>({
-    ...BASE_HIT_DEFAULTS,
-    damageFunction: BreakDamageFunction,
+  genericBuilder<BreakHitDefinition>({
     damageFunctionType: DamageFunctionType.Break,
     damageType: DamageTag.BREAK,
     damageElement: e,
@@ -60,9 +89,8 @@ HitDefinitionBuilder.standardBreak = (e: ElementTag) =>
   })
 
 HitDefinitionBuilder.standardAdditional = () =>
-  genericBuilder<HitDefinition>({
+  genericBuilder<AdditionalHitDefinition>({
     ...BASE_HIT_DEFAULTS,
-    damageFunction: AdditionalDamageFunction,
     damageFunctionType: DamageFunctionType.Additional,
     damageType: DamageTag.ADDITIONAL,
     activeHit: false,

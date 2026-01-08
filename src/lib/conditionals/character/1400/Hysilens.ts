@@ -236,34 +236,30 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
         [HysilensAbilities.DOT]: {
           hits: [
-            {
-              damageFunctionType: DamageFunctionType.Dot,
-              damageType: DamageType.DOT,
-              damageElement: ElementTag.Fire,
-              atkScaling: talentDotScaling,
-              activeHit: false,
-            },
-            {
-              damageFunctionType: DamageFunctionType.Dot,
-              damageType: DamageType.DOT,
-              damageElement: ElementTag.Wind,
-              atkScaling: talentDotScaling,
-              activeHit: false,
-            },
-            {
-              damageFunctionType: DamageFunctionType.Dot,
-              damageType: DamageType.DOT,
-              damageElement: ElementTag.Lightning,
-              atkScaling: talentDotScaling,
-              activeHit: false,
-            },
-            {
-              damageFunctionType: DamageFunctionType.Dot,
-              damageType: DamageType.DOT,
-              damageElement: ElementTag.Physical,
-              atkScaling: talentDotScaling,
-              activeHit: false,
-            },
+            HitDefinitionBuilder.dot()
+              .dotChance(1.0)
+              .damageElement(ElementTag.Fire)
+              .damageType(DamageType.DOT)
+              .atkScaling(talentDotScaling)
+              .build(),
+            HitDefinitionBuilder.dot()
+              .dotChance(1.0)
+              .damageElement(ElementTag.Wind)
+              .damageType(DamageType.DOT)
+              .atkScaling(talentDotScaling)
+              .build(),
+            HitDefinitionBuilder.dot()
+              .dotChance(1.0)
+              .damageElement(ElementTag.Lightning)
+              .damageType(DamageType.DOT)
+              .atkScaling(talentDotScaling)
+              .build(),
+            HitDefinitionBuilder.dot()
+              .dotChance(1.0)
+              .damageElement(ElementTag.Physical)
+              .damageType(DamageType.DOT)
+              .atkScaling(talentDotScaling)
+              .build(),
           ],
         },
         [HysilensAbilities.BREAK]: {
@@ -313,8 +309,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-
-      x.buff(StatKey.DOT_CHANCE, 1.00, x.source(Source.NONE))
     },
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -345,8 +339,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
       x.SKILL_TOUGHNESS_DMG.buff(10, SOURCE_SKILL)
       x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-
-      x.DOT_CHANCE.set(1.00, SOURCE_TALENT)
 
       // Cyrene
       const cyreneDmgBuff = cyreneActionExists(action)

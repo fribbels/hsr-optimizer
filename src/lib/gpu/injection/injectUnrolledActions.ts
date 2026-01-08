@@ -11,6 +11,8 @@ import {
 import {
   indent,
   wgsl,
+  wgslFalse,
+  wgslTrue,
 } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import {
@@ -54,14 +56,20 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
     unrolledActionFunctionsWgsl += actionFunction
   }
 
-  unrolledActionCallsWgsl += `
-if (comboDmg > 3800000) {
+  if (!gpuParams.DEBUG) {
+    unrolledActionCallsWgsl += `
+if (comboDmg > 0) {
   results[index] = comboDmg;
   failures = 1;
 } else {
   results[index] = -failures; failures = failures + 1;
 }
-  `
+`
+  } else {
+    unrolledActionCallsWgsl += `
+results[index] = container${context.defaultActions.length};
+`
+  }
 
   wgsl = wgsl.replace(
     '/* INJECT UNROLLED ACTIONS */',

@@ -24,7 +24,7 @@ export interface HitDefinition {
   sourceEntity?: string
   referenceHit?: Hit
 
-  damageFunction: DamageFunction
+  // damageFunction: DamageFunction
   damageFunctionType: DamageFunctionType // For serialization
   damageType: number
   damageElement: ElementTag

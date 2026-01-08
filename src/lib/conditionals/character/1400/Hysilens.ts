@@ -11,17 +11,24 @@ import {
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  AKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
+  SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
+  DamageFunctionType,
   DefaultDamageFunction,
   DotDamageFunction,
 } from 'lib/optimization/engine/damage/damageCalculator'
@@ -230,28 +237,28 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         [HysilensAbilities.DOT]: {
           hits: [
             {
-              damageFunction: DotDamageFunction,
+              damageFunctionType: DamageFunctionType.Dot,
               damageType: DamageType.DOT,
               damageElement: ElementTag.Fire,
               atkScaling: talentDotScaling,
               activeHit: false,
             },
             {
-              damageFunction: DotDamageFunction,
+              damageFunctionType: DamageFunctionType.Dot,
               damageType: DamageType.DOT,
               damageElement: ElementTag.Wind,
               atkScaling: talentDotScaling,
               activeHit: false,
             },
             {
-              damageFunction: DotDamageFunction,
+              damageFunctionType: DamageFunctionType.Dot,
               damageType: DamageType.DOT,
               damageElement: ElementTag.Lightning,
               atkScaling: talentDotScaling,
               activeHit: false,
             },
             {
-              damageFunction: DotDamageFunction,
+              damageFunctionType: DamageFunctionType.Dot,
               damageType: DamageType.DOT,
               damageElement: ElementTag.Physical,
               atkScaling: talentDotScaling,
@@ -268,38 +275,38 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     actionModifiers() {
       return [
-        {
-          modify: (action: OptimizerAction, context: OptimizerContext) => {
-            const hits = action.hits!
-            const len = hits.length
-            for (let i = 0; i < len; i++) {
-              const hit = hits[i]
-
-              if (hit.activeHit) {
-                const trueDmgHit = {
-                  damageFunction: DefaultDamageFunction,
-                  damageType: DamageType.DOT,
-                  damageElement: ElementTag.Physical,
-                  activeHit: false,
-                }
-
-                hits.push(trueDmgHit as Hit)
-              }
-
-              if (hit.toughnessDmg) {
-                const superBreakHit = {
-                  damageFunction: DefaultDamageFunction,
-                  damageType: DamageType.SUPER_BREAK,
-                  damageElement: ElementTag.Physical,
-                  activeHit: false,
-                  toughnessDmg: hit.toughnessDmg,
-                }
-
-                hits.push(superBreakHit as Hit)
-              }
-            }
-          },
-        },
+        // {
+        //   modify: (action: OptimizerAction, context: OptimizerContext) => {
+        //     const hits = action.hits!
+        //     const len = hits.length
+        //     for (let i = 0; i < len; i++) {
+        //       const hit = hits[i]
+        //
+        //       if (hit.activeHit) {
+        //         const trueDmgHit = {
+        //           damageFunctionType: DamageFunctionType.Default,
+        //           damageType: DamageType.DOT,
+        //           damageElement: ElementTag.Physical,
+        //           activeHit: false,
+        //         }
+        //
+        //         hits.push(trueDmgHit as Hit)
+        //       }
+        //
+        //       if (hit.toughnessDmg) {
+        //         const superBreakHit = {
+        //           damageFunctionType: DamageFunctionType.Default,
+        //           damageType: DamageType.SUPER_BREAK,
+        //           damageElement: ElementTag.Physical,
+        //           activeHit: false,
+        //           toughnessDmg: hit.toughnessDmg,
+        //         }
+        //
+        //         hits.push(superBreakHit as Hit)
+        //       }
+        //     }
+        //   },
+        // },
       ]
     },
     initializeConfigurations: (x: ComputedStatsArray) => {
@@ -392,9 +399,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
+      return ``
+      // if (${wgslTrue(r.ehrToDmg)}) {
+      //   x.ELEMENTAL_DMG += min(0.90, 0.15 * floor((x.EHR - 0.60) / 0.10));
+      // }
+      // `
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
       return `
 if (${wgslTrue(r.ehrToDmg)}) {
-  x.ELEMENTAL_DMG += min(0.90, 0.15 * floor((x.EHR - 0.60) / 0.10));
+  let dmgBuff = min(0.90, 0.15 * floor((${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)} - 0.60) / 0.10));
+  ${buff.action(AKey.DMG_BOOST, 'dmgBuff').wgsl(action)}
 }
 `
     },

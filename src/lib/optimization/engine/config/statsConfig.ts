@@ -29,6 +29,8 @@ const optimizerTabUnconvertible = createI18nKey<keyof Resources['common']['Stats
 const optimizerTabResPen = createI18nKey<keyof Resources['common']['Elements']>('optimizerTab', `${keyPrefix}.ResPen`, 'element')
 
 export const newStatsConfig = {
+  // ================ Hit Stats ================
+
   HP_P: { hit: true, label: commonReadableStat('HP%') },
   ATK_P: { hit: true, label: commonReadableStat('ATK%') },
   DEF_P: { hit: true, label: commonReadableStat('DEF%') },
@@ -45,6 +47,16 @@ export const newStatsConfig = {
   ERR: { hit: true, label: commonReadableStat('Energy Regeneration Rate') },
   OHB: { hit: true, label: commonReadableStat('Outgoing Healing Boost') },
 
+  DMG_BOOST: { hit: true, label: 'DMG Boost' },
+
+  VULNERABILITY: { hit: true, label: optimizerTabCompositeSuffix('Vulnerability') },
+  RES_PEN: { hit: true, label: optimizerTabCompositeSuffix('RES PEN') },
+  DEF_PEN: { hit: true, label: optimizerTabCompositeSuffix('DEF PEN') },
+  BREAK_EFFICIENCY_BOOST: { hit: true, label: optimizerTabCompositeSuffix('Break Efficiency boost') },
+  FINAL_DMG_BOOST: { hit: true, label: optimizerTabCompositeSuffix('Final DMG multiplier') },
+
+  // ================ Action Stats ================
+
   PHYSICAL_DMG_BOOST: { label: 'Physical DMG Boost' },
   FIRE_DMG_BOOST: { label: 'Fire DMG Boost' },
   ICE_DMG_BOOST: { label: 'Ice DMG Boost' },
@@ -52,8 +64,6 @@ export const newStatsConfig = {
   WIND_DMG_BOOST: { label: 'Wind DMG Boost' },
   QUANTUM_DMG_BOOST: { label: 'Quantum DMG Boost' },
   IMAGINARY_DMG_BOOST: { label: 'Imaginary DMG Boost' },
-
-  DMG_BOOST: { hit: true, label: 'DMG Boost' },
 
   // Base
   BASE_HP: { flat: true, label: optimizerTabMisc('Base HP') },
@@ -111,15 +121,7 @@ export const newStatsConfig = {
   CR_BOOST: { label: optimizerTabCompositeSuffix('Crit Rate boost') },
   CD_BOOST: { label: optimizerTabCompositeSuffix('Crit DMG boost') },
 
-  VULNERABILITY: { hit: true, label: optimizerTabCompositeSuffix('Vulnerability') },
-  RES_PEN: { hit: true, label: optimizerTabCompositeSuffix('RES PEN') },
-  DEF_PEN: { hit: true, label: optimizerTabCompositeSuffix('DEF PEN') },
-
-  // TOUGHNESS_DMG: { flat: true, separated: true, label: optimizerTabCompositeSuffix('Toughness DMG') },
   SUPER_BREAK_MODIFIER: { label: optimizerTabCompositeSuffix('Super Break multiplier') },
-  BREAK_EFFICIENCY_BOOST: { hit: true, label: optimizerTabCompositeSuffix('Break Efficiency boost') },
-
-  FINAL_DMG_BOOST: { hit: true, label: optimizerTabCompositeSuffix('Final DMG multiplier') },
 }
 
 export const STATS_LENGTH = Object.values(newStatsConfig).length

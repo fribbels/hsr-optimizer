@@ -367,20 +367,6 @@ fn calculateDefMulti(defPen: f32) -> f32 {
   return (100.0f) / ((f32(enemyLevel) + 20.0f) * max(0.0f, 1.0f - defPen) + 100.0f);
 }
 
-//fn calculateEhrMulti(
-//  p_x: ptr<function, ComputedStats>
-//) -> f32 {
-//  let x = *p_x;
-//  let effectiveDotChance = min(1, x.DOT_CHANCE * (1 + x.EHR) * (1 - enemyEffectResistance + x.EFFECT_RES_PEN));
-//  let dotEhrMulti = select(
-//    (effectiveDotChance),
-//    (1 + x.DOT_SPLIT * effectiveDotChance * (x.DOT_STACKS - 1)) / (1 + x.DOT_SPLIT * (x.DOT_STACKS - 1)),
-//    x.DOT_SPLIT > 0.0
-//  );
-//
-//  return dotEhrMulti;
-//}
-
 fn p2(n: i32) -> f32 {
   return f32(min(1, n >> 1));
 }

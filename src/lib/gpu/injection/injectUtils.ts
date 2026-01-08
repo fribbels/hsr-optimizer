@@ -1,6 +1,9 @@
 import {
-  getStatKeyName,
-  StatKeyValue,
+  AKeyValue,
+  AToHKey,
+  getAKeyName,
+  getHKeyName,
+  HKeyValue,
 } from 'lib/optimization/engine/config/keys'
 import {
   ComputedStatsContainerConfig,
@@ -12,18 +15,22 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
-export function getActionIndex(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig): number {
-  return entityIndex * (config.statsLength * (config.hitsLength + 1))
-    + statIndex
+// ============== Index Calculations ==============
+// New layout: [Entity][Action Stats (56)][Hit 0 (M)][Hit 1 (M)]...
+// Where M = hitStatsLength
+
+export function getActionIndex(entityIndex: number, actionKey: AKeyValue, config: ComputedStatsContainerConfig): number {
+  return entityIndex * config.entityStride + actionKey
 }
 
-export function getHitIndex(entityIndex: number, hitIndex: number, statIndex: number, config: ComputedStatsContainerConfig): number {
-  return entityIndex * (config.statsLength * (config.hitsLength + 1))
-    + (hitIndex + 1) * config.statsLength
-    + statIndex
+export function getHitIndex(entityIndex: number, hitIndex: number, hitKey: HKeyValue, config: ComputedStatsContainerConfig): number {
+  return entityIndex * config.entityStride
+    + config.actionStatsLength
+    + hitIndex * config.hitStatsLength
+    + hitKey
 }
 
-// Register index helpers
+// ============== Register Index Helpers ==============
 // Layout: [Stats...][Action Registers][Hit Registers]
 // Indexed from end of array for stability
 
@@ -59,21 +66,41 @@ export function wgslDebugActionRegister(action: OptimizerAction, context: Optimi
   return `(*p_container)[${registerIndex}] = ${valueExpr}; // ActionRegister[${action.registerIndex}]`
 }
 
-export function containerActionVal(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
-  return `(*p_container)[${getActionIndex(entityIndex, statIndex, config)}]`
+// ============== Container Value Accessors ==============
+
+// Action value accessor (any stat)
+export function containerActionVal(entityIndex: number, actionKey: AKeyValue, config: ComputedStatsContainerConfig) {
+  return `(*p_container)[${getActionIndex(entityIndex, actionKey, config)}]`
 }
 
-export function containerHitVal(entityIndex: number, hitIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
-  return `(*p_container)[${getHitIndex(entityIndex, hitIndex, statIndex, config)}]`
+// Hit value accessor (hit stats only)
+export function containerHitVal(entityIndex: number, hitIndex: number, hitKey: HKeyValue, config: ComputedStatsContainerConfig) {
+  return `(*p_container)[${getHitIndex(entityIndex, hitIndex, hitKey, config)}]`
 }
 
-export function p_containerActionVal(entityIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
-  return `(*p_container)[${getActionIndex(entityIndex, statIndex, config)}]`
+// Combined value accessor (action + hit) for WGSL
+// Returns expression that computes actionValue + hitValue for hit stats, or just actionValue for action-only stats
+export function containerGetValue(entityIndex: number, hitIndex: number, actionKey: AKeyValue, config: ComputedStatsContainerConfig): string {
+  const actionIdx = getActionIndex(entityIndex, actionKey, config)
+  const hitKey = AToHKey[actionKey]
+
+  if (hitKey !== undefined) {
+    const hitIdx = getHitIndex(entityIndex, hitIndex, hitKey, config)
+    return `((*p_container)[${actionIdx}] + (*p_container)[${hitIdx}])`
+  }
+  return `(*p_container)[${actionIdx}]`
 }
 
-export function p_containerHitVal(entityIndex: number, hitIndex: number, statIndex: number, config: ComputedStatsContainerConfig) {
-  return `(*p_container)[${getHitIndex(entityIndex, hitIndex, statIndex, config)}]`
+// Aliases for p_container (same as container, kept for compatibility)
+export function p_containerActionVal(entityIndex: number, actionKey: AKeyValue, config: ComputedStatsContainerConfig) {
+  return containerActionVal(entityIndex, actionKey, config)
 }
+
+export function p_containerHitVal(entityIndex: number, hitIndex: number, hitKey: HKeyValue, config: ComputedStatsContainerConfig) {
+  return containerHitVal(entityIndex, hitIndex, hitKey, config)
+}
+
+// ============== Register Accessors ==============
 
 export function containerActionRegister(actionRegisterIndex: number, config: ComputedStatsContainerConfig) {
   return `(*p_container)[${getActionRegisterIndex(actionRegisterIndex, config)}]`
@@ -91,24 +118,7 @@ export function p_containerHitRegister(hitRegisterIndex: number, config: Compute
   return `(*p_container)[${getHitRegisterIndex(hitRegisterIndex, config)}]`
 }
 
-function actionBuffFiltered(
-  statKey: StatKeyValue,
-  value: number,
-  action: OptimizerAction,
-  context: OptimizerContext,
-  filter: EntityFilter,
-) {
-  const lines: string[] = []
-  for (let entityIndex = 0; entityIndex < action.config.entitiesLength; entityIndex++) {
-    const entity = action.config.entitiesArray[entityIndex]
-
-    if (filter(entity)) {
-      const index = getActionIndex(entityIndex, statKey, action.config)
-      lines.push(`(*p_container)[${index}] += ${value}; // ${entity.name} ${getStatKeyName(statKey)}`)
-    }
-  }
-  return lines.filter(Boolean).join('\n        ')
-}
+// ============== Entity Filters ==============
 
 export type EntityFilter = (entity: OptimizerEntity) => boolean
 
@@ -119,26 +129,45 @@ export const EntityFilters = {
   summon: (e: OptimizerEntity) => e.pet || e.memosprite,
 } as const
 
-// Buffing actions
+// ============== Action Buffing (uses AKeyValue - all stats) ==============
+
+function actionBuffFiltered(
+  actionKey: AKeyValue,
+  value: number,
+  action: OptimizerAction,
+  context: OptimizerContext,
+  filter: EntityFilter,
+) {
+  const lines: string[] = []
+  for (let entityIndex = 0; entityIndex < action.config.entitiesLength; entityIndex++) {
+    const entity = action.config.entitiesArray[entityIndex]
+
+    if (filter(entity)) {
+      const index = getActionIndex(entityIndex, actionKey, action.config)
+      lines.push(`(*p_container)[${index}] += ${value}; // ${entity.name} ${getAKeyName(actionKey)}`)
+    }
+  }
+  return lines.filter(Boolean).join('\n        ')
+}
 
 export const actionBuff = (
-  statKey: StatKeyValue,
+  actionKey: AKeyValue,
   value: number,
   action: OptimizerAction,
   context: OptimizerContext,
-) => actionBuffFiltered(statKey, value, action, context, EntityFilters.primaryOrPet)
+) => actionBuffFiltered(actionKey, value, action, context, EntityFilters.primaryOrPet)
 
 export const actionBuffMemo = (
-  statKey: StatKeyValue,
+  actionKey: AKeyValue,
   value: number,
   action: OptimizerAction,
   context: OptimizerContext,
-) => actionBuffFiltered(statKey, value, action, context, EntityFilters.memo)
+) => actionBuffFiltered(actionKey, value, action, context, EntityFilters.memo)
 
-// Buffing hits
+// ============== Hit Buffing (uses HKeyValue - hit stats only) ==============
 
 function hitBuffFiltered(
-  statKey: StatKeyValue,
+  hitKey: HKeyValue,
   value: number,
   action: OptimizerAction,
   context: OptimizerContext,
@@ -150,35 +179,24 @@ function hitBuffFiltered(
 
     for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
       if (filter(entity)) {
-        const index = getHitIndex(entityIndex, hitIndex, statKey, action.config)
-        lines.push(`(*p_container)[${index}] += ${value}; // ${entity.name} ${getStatKeyName(statKey)}`)
+        const index = getHitIndex(entityIndex, hitIndex, hitKey, action.config)
+        lines.push(`(*p_container)[${index}] += ${value}; // ${entity.name} hit${hitIndex} ${getHKeyName(hitKey)}`)
       }
     }
   }
   return lines.filter(Boolean).join('\n        ')
 }
 
-// public getValue(key: StatKeyValue, hitIndex: number) {
-//   const hit = this.config.hits[hitIndex]
-//   const sourceEntityIndex = hit.sourceEntityIndex ?? 0
-//
-//   const actionValue = this.a[this.getActionIndex(sourceEntityIndex, key)]
-//   const hitValue = this.a[this.getHitIndex(sourceEntityIndex, hitIndex, key)]
-//
-//   return actionValue + hitValue
-// }
-//
-// function getActionValue(key: StatKeyValue, entityIndex: number, config: ComputedStatsContainerConfig): number {
-//   return this.a[this.getActionIndex(entityIndex, key)]
-// }
+export const hitBuff = (
+  hitKey: HKeyValue,
+  value: number,
+  action: OptimizerAction,
+  context: OptimizerContext,
+) => hitBuffFiltered(hitKey, value, action, context, EntityFilters.primaryOrPet)
 
-// public getActionValueByIndex(key: StatKeyValue, entityIndex: number): number {
-//   return this.a[this.getActionIndex(entityIndex, key)]
-// }
-//
-// public getHitValue(key: StatKeyValue, hitIndex: number) {
-//   const hit = this.config.hits[hitIndex]
-//   const sourceEntityIndex = hit.sourceEntityIndex ?? 0
-//
-//   return this.a[this.getHitIndex(sourceEntityIndex, hitIndex, key)]
-// }
+export const hitBuffMemo = (
+  hitKey: HKeyValue,
+  value: number,
+  action: OptimizerAction,
+  context: OptimizerContext,
+) => hitBuffFiltered(hitKey, value, action, context, EntityFilters.memo)

@@ -1,11 +1,14 @@
 import {
   containerActionVal,
-  p_containerActionVal,
-  p_containerHitVal,
+  containerGetValue,
   wgslDebugHitRegister,
 } from 'lib/gpu/injection/injectUtils'
 import { wgsl } from 'lib/gpu/injection/wgslUtils'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  HKey,
+  StatKey,
+  StatKeyValue,
+} from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Hit } from 'types/hitConditionalTypes'
@@ -81,44 +84,22 @@ export const CritDamageFunction: DamageFunction = {
 
     return dmg
   },
-  wgslx: (action, hitIndex, context) => {
-    const hit = action.hits![hitIndex]
-    const config = action.config
-    const entityIndex = hit.sourceEntityIndex ?? 0
-
-    // Helper to generate getValue (action + hit)
-    const getValue = (stat: number) => `(${p_containerActionVal(entityIndex, stat, config)} + ${p_containerHitVal(entityIndex, hitIndex, stat, config)})`
-
-    // Scalings from hit definition
-    const atkScaling = hit.atkScaling ?? 0
-    const hpScaling = hit.hpScaling ?? 0
-    const defScaling = hit.defScaling ?? 0
-
-    const elementalDmgStat = hit.damageElement == ElementTag.None ? 0 : elementTagToStatKeyBoost[hit.damageElement]
-
-    return `
-{
-  let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
-  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
-
-  comboDmg += baseUniversalMulti * defMulti;
-}
-    `
-  },
   wgsl: (action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
     const config = action.config
     const entityIndex = hit.sourceEntityIndex ?? 0
 
-    // Helper to generate getValue (action + hit)
-    const getValue = (stat: number) => `(${p_containerActionVal(entityIndex, stat, config)} + ${p_containerHitVal(entityIndex, hitIndex, stat, config)})`
+    // Helper to generate getValue (action + hit) - uses containerGetValue which handles hit stat detection
+    const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
 
     // Scalings from hit definition
     const atkScaling = hit.atkScaling ?? 0
     const hpScaling = hit.hpScaling ?? 0
     const defScaling = hit.defScaling ?? 0
 
-    const elementalDmgStat = hit.damageElement == ElementTag.None ? 0 : elementTagToStatKeyBoost[hit.damageElement]
+    const elementalDmgBoost = hit.damageElement == ElementTag.None
+      ? '0.0'
+      : getValue(elementTagToStatKeyBoost[hit.damageElement])
 
     return wgsl`
 {
@@ -130,7 +111,7 @@ export const CritDamageFunction: DamageFunction = {
   let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
 
   // Crit-specific
-  let dmgBoostMulti = 1.0 + ${getValue(StatKey.DMG_BOOST)} + ${getValue(elementalDmgStat)};
+  let dmgBoostMulti = 1.0 + ${getValue(StatKey.DMG_BOOST)} + ${elementalDmgBoost};
 
   // Initial damage
   let atk = ${getValue(StatKey.ATK)};
@@ -184,7 +165,7 @@ export const BreakDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
     computeCommonMultipliers(x, hitIndex, context)
-    const dmgBoost = 1 + x.getHitValue(StatKey.DMG_BOOST, hitIndex)
+    const dmgBoost = 1 + x.getHitValue(HKey.DMG_BOOST, hitIndex)
     const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * dmgBoost * m.finalDmg
     const be = 1 + x.getValue(StatKey.BE, hitIndex)
     const breakBase = 3767.5533 * context.elementalBreakScaling
@@ -202,7 +183,7 @@ export const SuperBreakDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
     computeCommonMultipliers(x, hitIndex, context)
-    const dmgBoost = 1 + x.getHitValue(StatKey.DMG_BOOST, hitIndex)
+    const dmgBoost = 1 + x.getHitValue(HKey.DMG_BOOST, hitIndex)
     const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * dmgBoost * m.finalDmg
     const toughnessDmg = hit.referenceHit?.toughnessDmg ?? 0
     const superBreakMod = x.getValue(StatKey.SUPER_BREAK_MODIFIER, hitIndex)

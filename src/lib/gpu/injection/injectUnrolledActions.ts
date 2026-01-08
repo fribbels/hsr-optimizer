@@ -13,7 +13,10 @@ import {
   wgsl,
 } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  AKey,
+  HKey,
+} from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   SELF_ENTITY_INDEX,
@@ -158,16 +161,16 @@ fn unrolledAction${index}(
   if (
     p2((*p_sets).AmphoreusTheEternalLand) >= 1
     && setConditionals.enabledAmphoreusTheEternalLand == true
-    && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.MEMOSPRITE, action.config)} >= 1
+    && ${containerActionVal(SELF_ENTITY_INDEX, AKey.MEMOSPRITE, action.config)} >= 1
   ) {
-    ${buff.action(StatKey.SPD_P, 0.08).targets(TargetTag.FullTeam).wgsl(action, 4)}
+    ${buff.action(AKey.SPD_P, 0.08).targets(TargetTag.FullTeam).wgsl(action, 4)}
   }
 
   if (
     p2((*p_sets).RutilantArena) >= 1
-    && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, action.config)} >= 0.70
+    && ${containerActionVal(SELF_ENTITY_INDEX, AKey.CR, action.config)} >= 0.70
   ) {
-    ${buff.hit(StatKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action, 4)}
+    ${buff.hit(HKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action, 4)}
   }
   
   ${conditionalSequenceWgsl}
@@ -218,7 +221,7 @@ function unrollDamageCalculations(index: number, action: OptimizerAction, contex
   return wgsl`
 ${code}
 
-${containerActionVal(0, StatKey.EHP, action.config)} = comboDmg;
+${containerActionVal(0, AKey.EHP, action.config)} = comboDmg;
 `
 }
 
@@ -229,40 +232,40 @@ function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = T
     const entity = config.entitiesArray[entityIndex]
     if (matchesTargetTag(entity, targetTag)) {
       const entityName = entity.name ?? `Entity ${entityIndex}`
-      const baseIndex = getActionIndex(entityIndex, 0, config)
+      const baseIndex = getActionIndex(entityIndex, AKey.HP_P, config)
       // dprint-ignore
       lines.push(
         `\
         // Entity ${entityIndex}: ${entityName} | Base index: ${baseIndex}
-        ${containerActionVal(entityIndex, StatKey.BASE_ATK, config)} = ${entity.memoBaseAtkScaling ?? 1} * baseATK;
-        ${containerActionVal(entityIndex, StatKey.BASE_DEF, config)} = ${entity.memoBaseDefScaling ?? 1} * baseDEF;
-        ${containerActionVal(entityIndex, StatKey.BASE_HP, config)} = ${entity.memoBaseHpScaling ?? 1} * baseHP;
-        ${containerActionVal(entityIndex, StatKey.BASE_SPD, config)} = ${entity.memoBaseSpdScaling ?? 1} * baseSPD;
+        ${containerActionVal(entityIndex, AKey.BASE_ATK, config)} = ${entity.memoBaseAtkScaling ?? 1} * baseATK;
+        ${containerActionVal(entityIndex, AKey.BASE_DEF, config)} = ${entity.memoBaseDefScaling ?? 1} * baseDEF;
+        ${containerActionVal(entityIndex, AKey.BASE_HP, config)} = ${entity.memoBaseHpScaling ?? 1} * baseHP;
+        ${containerActionVal(entityIndex, AKey.BASE_SPD, config)} = ${entity.memoBaseSpdScaling ?? 1} * baseSPD;
 
-        ${containerActionVal(entityIndex, StatKey.ATK, config)} += diffATK * ${entity.memoBaseAtkScaling ?? 1} + ${entity.memoBaseAtkFlat ?? 0};
-        ${containerActionVal(entityIndex, StatKey.DEF, config)} += diffDEF * ${entity.memoBaseDefScaling ?? 1} + ${entity.memoBaseDefFlat ?? 0};
-        ${containerActionVal(entityIndex, StatKey.HP, config)} += diffHP * ${entity.memoBaseHpScaling ?? 1} + ${entity.memoBaseHpFlat ?? 0};
-        ${containerActionVal(entityIndex, StatKey.SPD, config)} += diffSPD * ${entity.memoBaseSpdScaling ?? 1} + ${entity.memoBaseSpdFlat ?? 0};
-        ${containerActionVal(entityIndex, StatKey.CD, config)} += diffCD;
-        ${containerActionVal(entityIndex, StatKey.CR, config)} += diffCR;
-        ${containerActionVal(entityIndex, StatKey.EHR, config)} += diffEHR;
-        ${containerActionVal(entityIndex, StatKey.RES, config)} += diffRES;
-        ${containerActionVal(entityIndex, StatKey.BE, config)} += diffBE;
-        ${containerActionVal(entityIndex, StatKey.ERR, config)} += diffERR;
-        ${containerActionVal(entityIndex, StatKey.OHB, config)} += diffOHB;
+        ${containerActionVal(entityIndex, AKey.ATK, config)} += diffATK * ${entity.memoBaseAtkScaling ?? 1} + ${entity.memoBaseAtkFlat ?? 0};
+        ${containerActionVal(entityIndex, AKey.DEF, config)} += diffDEF * ${entity.memoBaseDefScaling ?? 1} + ${entity.memoBaseDefFlat ?? 0};
+        ${containerActionVal(entityIndex, AKey.HP, config)} += diffHP * ${entity.memoBaseHpScaling ?? 1} + ${entity.memoBaseHpFlat ?? 0};
+        ${containerActionVal(entityIndex, AKey.SPD, config)} += diffSPD * ${entity.memoBaseSpdScaling ?? 1} + ${entity.memoBaseSpdFlat ?? 0};
+        ${containerActionVal(entityIndex, AKey.CD, config)} += diffCD;
+        ${containerActionVal(entityIndex, AKey.CR, config)} += diffCR;
+        ${containerActionVal(entityIndex, AKey.EHR, config)} += diffEHR;
+        ${containerActionVal(entityIndex, AKey.RES, config)} += diffRES;
+        ${containerActionVal(entityIndex, AKey.BE, config)} += diffBE;
+        ${containerActionVal(entityIndex, AKey.ERR, config)} += diffERR;
+        ${containerActionVal(entityIndex, AKey.OHB, config)} += diffOHB;
         
-        ${containerActionVal(entityIndex, StatKey.ATK, config)} += ${containerActionVal(entityIndex, StatKey.ATK_P, config)} * ${containerActionVal(entityIndex, StatKey.BASE_ATK, config)};
-        ${containerActionVal(entityIndex, StatKey.DEF, config)} += ${containerActionVal(entityIndex, StatKey.DEF_P, config)} * ${containerActionVal(entityIndex, StatKey.BASE_DEF, config)};
-        ${containerActionVal(entityIndex, StatKey.HP, config)} += ${containerActionVal(entityIndex, StatKey.HP_P, config)} * ${containerActionVal(entityIndex, StatKey.BASE_HP, config)};
-        ${containerActionVal(entityIndex, StatKey.SPD, config)} += ${containerActionVal(entityIndex, StatKey.SPD_P, config)} * ${containerActionVal(entityIndex, StatKey.BASE_SPD, config)};
+        ${containerActionVal(entityIndex, AKey.ATK, config)} += ${containerActionVal(entityIndex, AKey.ATK_P, config)} * ${containerActionVal(entityIndex, AKey.BASE_ATK, config)};
+        ${containerActionVal(entityIndex, AKey.DEF, config)} += ${containerActionVal(entityIndex, AKey.DEF_P, config)} * ${containerActionVal(entityIndex, AKey.BASE_DEF, config)};
+        ${containerActionVal(entityIndex, AKey.HP, config)} += ${containerActionVal(entityIndex, AKey.HP_P, config)} * ${containerActionVal(entityIndex, AKey.BASE_HP, config)};
+        ${containerActionVal(entityIndex, AKey.SPD, config)} += ${containerActionVal(entityIndex, AKey.SPD_P, config)} * ${containerActionVal(entityIndex, AKey.BASE_SPD, config)};
         
-        ${containerActionVal(entityIndex, StatKey.PHYSICAL_DMG_BOOST, config)} += (*p_c).PHYSICAL_DMG_BOOST;
-        ${containerActionVal(entityIndex, StatKey.FIRE_DMG_BOOST, config)} += (*p_c).FIRE_DMG_BOOST;
-        ${containerActionVal(entityIndex, StatKey.ICE_DMG_BOOST, config)} += (*p_c).ICE_DMG_BOOST;
-        ${containerActionVal(entityIndex, StatKey.LIGHTNING_DMG_BOOST, config)} += (*p_c).LIGHTNING_DMG_BOOST;
-        ${containerActionVal(entityIndex, StatKey.WIND_DMG_BOOST, config)} += (*p_c).WIND_DMG_BOOST;
-        ${containerActionVal(entityIndex, StatKey.QUANTUM_DMG_BOOST, config)} += (*p_c).QUANTUM_DMG_BOOST;
-        ${containerActionVal(entityIndex, StatKey.IMAGINARY_DMG_BOOST, config)} += (*p_c).IMAGINARY_DMG_BOOST;
+        ${containerActionVal(entityIndex, AKey.PHYSICAL_DMG_BOOST, config)} += (*p_c).PHYSICAL_DMG_BOOST;
+        ${containerActionVal(entityIndex, AKey.FIRE_DMG_BOOST, config)} += (*p_c).FIRE_DMG_BOOST;
+        ${containerActionVal(entityIndex, AKey.ICE_DMG_BOOST, config)} += (*p_c).ICE_DMG_BOOST;
+        ${containerActionVal(entityIndex, AKey.LIGHTNING_DMG_BOOST, config)} += (*p_c).LIGHTNING_DMG_BOOST;
+        ${containerActionVal(entityIndex, AKey.WIND_DMG_BOOST, config)} += (*p_c).WIND_DMG_BOOST;
+        ${containerActionVal(entityIndex, AKey.QUANTUM_DMG_BOOST, config)} += (*p_c).QUANTUM_DMG_BOOST;
+        ${containerActionVal(entityIndex, AKey.IMAGINARY_DMG_BOOST, config)} += (*p_c).IMAGINARY_DMG_BOOST;
 `,
       )
     }

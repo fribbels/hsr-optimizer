@@ -29,21 +29,21 @@ const optimizerTabUnconvertible = createI18nKey<keyof Resources['common']['Stats
 const optimizerTabResPen = createI18nKey<keyof Resources['common']['Elements']>('optimizerTab', `${keyPrefix}.ResPen`, 'element')
 
 export const newStatsConfig = {
-  HP_P: { label: commonReadableStat('HP%') },
-  ATK_P: { label: commonReadableStat('ATK%') },
-  DEF_P: { label: commonReadableStat('DEF%') },
-  SPD_P: { label: commonReadableStat('SPD%') },
-  HP: { flat: true, label: commonReadableStat('HP') },
-  ATK: { flat: true, label: commonReadableStat('ATK') },
-  DEF: { flat: true, label: commonReadableStat('DEF') },
-  SPD: { flat: true, default: 0.0001, label: commonReadableStat('SPD') },
-  CR: { label: commonReadableStat('CRIT Rate') },
-  CD: { label: commonReadableStat('CRIT DMG') },
-  EHR: { label: commonReadableStat('Effect Hit Rate') },
-  RES: { label: commonReadableStat('Effect RES') },
-  BE: { label: commonReadableStat('Break Effect') },
-  ERR: { label: commonReadableStat('Energy Regeneration Rate') },
-  OHB: { label: commonReadableStat('Outgoing Healing Boost') },
+  HP_P: { hit: true, label: commonReadableStat('HP%') },
+  ATK_P: { hit: true, label: commonReadableStat('ATK%') },
+  DEF_P: { hit: true, label: commonReadableStat('DEF%') },
+  SPD_P: { hit: true, label: commonReadableStat('SPD%') },
+  HP: { hit: true, flat: true, label: commonReadableStat('HP') },
+  ATK: { hit: true, flat: true, label: commonReadableStat('ATK') },
+  DEF: { hit: true, flat: true, label: commonReadableStat('DEF') },
+  SPD: { hit: true, flat: true, default: 0.0001, label: commonReadableStat('SPD') },
+  CR: { hit: true, label: commonReadableStat('CRIT Rate') },
+  CD: { hit: true, label: commonReadableStat('CRIT DMG') },
+  EHR: { hit: true, label: commonReadableStat('Effect Hit Rate') },
+  RES: { hit: true, label: commonReadableStat('Effect RES') },
+  BE: { hit: true, label: commonReadableStat('Break Effect') },
+  ERR: { hit: true, label: commonReadableStat('Energy Regeneration Rate') },
+  OHB: { hit: true, label: commonReadableStat('Outgoing Healing Boost') },
 
   PHYSICAL_DMG_BOOST: { label: 'Physical DMG Boost' },
   FIRE_DMG_BOOST: { label: 'Fire DMG Boost' },
@@ -52,7 +52,8 @@ export const newStatsConfig = {
   WIND_DMG_BOOST: { label: 'Wind DMG Boost' },
   QUANTUM_DMG_BOOST: { label: 'Quantum DMG Boost' },
   IMAGINARY_DMG_BOOST: { label: 'Imaginary DMG Boost' },
-  DMG_BOOST: { label: 'DMG Boost' },
+  
+  DMG_BOOST: { hit: true, label: 'DMG Boost' },
 
   // Base
   BASE_HP: { flat: true, label: optimizerTabMisc('Base HP') },
@@ -81,17 +82,17 @@ export const newStatsConfig = {
   SUMMONS: { flat: true, label: optimizerTabMisc('Summons') },
   MEMOSPRITE: { bool: true, label: optimizerTabMisc('Memosprite') },
   ENEMY_WEAKNESS_BROKEN: { bool: true, label: optimizerTabMisc('Enemy weakness broken') },
-  // MEMO_BUFF_PRIORITY: { bool: true, label: optimizerTabMisc('Prioritize memosprite buffs') },
-  // DEPRIORITIZE_BUFFS: { bool: true, label: optimizerTabMisc('Deprioritize buffs') },
+  MEMO_BUFF_PRIORITY: { bool: true, label: optimizerTabMisc('Prioritize memosprite buffs') },
+  DEPRIORITIZE_BUFFS: { bool: true, label: optimizerTabMisc('Deprioritize buffs') },
   COMBO_DMG: { flat: true, label: optimizerTabMisc('Combo DMG') },
 
-  // // DOT
-  // DOT_CHANCE: { label: optimizerTabMisc('Dot base chance') },
-  // EFFECT_RES_PEN: { label: optimizerTabMisc('Effect RES PEN') },
-  // DOT_SPLIT: { label: optimizerTabMisc('Dot DMG split') }, // Black Swan's stacking DoTs, the initial DoT has full value but subsequent stacks have reduced (DOT_SPLIT) value
-  // DOT_STACKS: { flat: true, label: optimizerTabMisc('Dot stacks') },
-  //
-  // // Heal / Shield
+  // DOT
+  DOT_CHANCE: { label: optimizerTabMisc('Dot base chance') },
+  EFFECT_RES_PEN: { label: optimizerTabMisc('Effect RES PEN') },
+  DOT_SPLIT: { label: optimizerTabMisc('Dot DMG split') }, // Black Swan's stacking DoTs, the initial DoT has full value but subsequent stacks have reduced (DOT_SPLIT) value
+  DOT_STACKS: { flat: true, label: optimizerTabMisc('Dot stacks') },
+
+  // Heal / Shield
   HEAL_TYPE: { flat: true, label: optimizerTabMisc('Heal ability type') },
   HEAL_FLAT: { flat: true, label: optimizerTabMisc('Heal flat') },
   HEAL_SCALING: { label: optimizerTabMisc('Heal scaling') },
@@ -110,15 +111,15 @@ export const newStatsConfig = {
   CR_BOOST: { label: optimizerTabCompositeSuffix('Crit Rate boost') },
   CD_BOOST: { label: optimizerTabCompositeSuffix('Crit DMG boost') },
 
-  VULNERABILITY: { label: optimizerTabCompositeSuffix('Vulnerability') },
-  RES_PEN: { label: optimizerTabCompositeSuffix('RES PEN') },
-  DEF_PEN: { label: optimizerTabCompositeSuffix('DEF PEN') },
+  VULNERABILITY: { hit: true, label: optimizerTabCompositeSuffix('Vulnerability') },
+  RES_PEN: { hit: true, label: optimizerTabCompositeSuffix('RES PEN') },
+  DEF_PEN: { hit: true, label: optimizerTabCompositeSuffix('DEF PEN') },
 
   // TOUGHNESS_DMG: { flat: true, separated: true, label: optimizerTabCompositeSuffix('Toughness DMG') },
   SUPER_BREAK_MODIFIER: { label: optimizerTabCompositeSuffix('Super Break multiplier') },
-  BREAK_EFFICIENCY_BOOST: { label: optimizerTabCompositeSuffix('Break Efficiency boost') },
+  BREAK_EFFICIENCY_BOOST: { hit: true, label: optimizerTabCompositeSuffix('Break Efficiency boost') },
 
-  FINAL_DMG_BOOST: { label: optimizerTabCompositeSuffix('Final DMG multiplier') },
+  FINAL_DMG_BOOST: { hit: true, label: optimizerTabCompositeSuffix('Final DMG multiplier') },
 }
 
 export const STATS_LENGTH = Object.values(newStatsConfig).length

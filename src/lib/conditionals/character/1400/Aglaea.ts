@@ -38,7 +38,10 @@ import {
   containerActionVal,
   p_containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  HKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
@@ -428,7 +431,7 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
     ${containerActionVal(action.config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, action.config)} > 320
   ) {
     ${
-        buff.hit(StatKey.DMG_BOOST, 0.60)
+        buff.hit(HKey.DMG_BOOST, 0.60)
           .damageType(DamageTag.BASIC)
           .targets(TargetTag.SelfAndMemosprite)
           .wgsl(action, 2)
@@ -438,7 +441,7 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
     ${containerActionVal(action.config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, action.config)} > 240
   ) {
     ${
-        buff.hit(StatKey.DMG_BOOST, 0.30)
+        buff.hit(HKey.DMG_BOOST, 0.30)
           .damageType(DamageTag.BASIC)
           .targets(TargetTag.SelfAndMemosprite)
           .wgsl(action, 2)
@@ -448,7 +451,7 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
     ${containerActionVal(action.config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, action.config)} > 160
   ) {
     ${
-        buff.hit(StatKey.DMG_BOOST, 0.10)
+        buff.hit(HKey.DMG_BOOST, 0.10)
           .damageType(DamageTag.BASIC)
           .targets(TargetTag.SelfAndMemosprite)
           .wgsl(action, 2)

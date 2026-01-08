@@ -3,8 +3,10 @@ import {
   getHitIndex,
 } from 'lib/gpu/injection/injectUtils'
 import {
-  getStatKeyName,
-  StatKeyValue,
+  AKeyValue,
+  getAKeyName,
+  getHKeyName,
+  HKeyValue,
 } from 'lib/optimization/engine/config/keys'
 import {
   ALL_DAMAGE_TAGS,
@@ -30,14 +32,14 @@ export function matchesTargetTag(entity: OptimizerEntity, targetTag: TargetTag):
 // Value can be a number (compile-time constant) or string (WGSL runtime expression)
 export type WgslBuffValue = number | string
 
-// Action buff builder - only supports target filtering
+// Action buff builder - uses AKeyValue (any stat), only supports target filtering
 class ActionBuffBuilder {
   private _targetTag: TargetTag = TargetTag.SelfAndPet
-  private readonly statKey: StatKeyValue
+  private readonly actionKey: AKeyValue
   private readonly value: WgslBuffValue
 
-  constructor(statKey: StatKeyValue, value: WgslBuffValue) {
-    this.statKey = statKey
+  constructor(actionKey: AKeyValue, value: WgslBuffValue) {
+    this.actionKey = actionKey
     this.value = value
   }
 
@@ -57,8 +59,8 @@ class ActionBuffBuilder {
 
     for (let entityIndex = 0; entityIndex < config.entitiesLength; entityIndex++) {
       const entity = config.entitiesArray[entityIndex]
-      const index = getActionIndex(entityIndex, this.statKey, config)
-      const code = `(*p_container)[${index}] += ${this.value}; // ${entity.name} ${getStatKeyName(this.statKey)}`
+      const index = getActionIndex(entityIndex, this.actionKey, config)
+      const code = `(*p_container)[${index}] += ${this.value}; // ${entity.name} ${getAKeyName(this.actionKey)}`
 
       if (matchesTargetTag(entity, this._targetTag)) {
         lines.push(code)
@@ -72,16 +74,16 @@ class ActionBuffBuilder {
   }
 }
 
-// Hit buff builder - supports target, damage type, and element filtering
+// Hit buff builder - uses HKeyValue (hit stats only), supports target, damage type, and element filtering
 class HitBuffBuilder {
   private _targetTag: TargetTag = TargetTag.SelfAndPet
   private _damageTags: DamageTag = ALL_DAMAGE_TAGS
   private _elementTags: ElementTag = ALL_ELEMENT_TAGS
-  private readonly statKey: StatKeyValue
+  private readonly hitKey: HKeyValue
   private readonly value: WgslBuffValue
 
-  constructor(statKey: StatKeyValue, value: WgslBuffValue) {
-    this.statKey = statKey
+  constructor(hitKey: HKeyValue, value: WgslBuffValue) {
+    this.hitKey = hitKey
     this.value = value
   }
 
@@ -116,8 +118,8 @@ class HitBuffBuilder {
 
       for (let hitIndex = 0; hitIndex < hits.length; hitIndex++) {
         const hit = hits[hitIndex]
-        const index = getHitIndex(entityIndex, hitIndex, this.statKey, config)
-        const code = `(*p_container)[${index}] += ${this.value}; // ${entity.name} Hit${hitIndex} ${getStatKeyName(this.statKey)}`
+        const index = getHitIndex(entityIndex, hitIndex, this.hitKey, config)
+        const code = `(*p_container)[${index}] += ${this.value}; // ${entity.name} Hit${hitIndex} ${getHKeyName(this.hitKey)}`
 
         // Check all filters
         const damageMatches = this._damageTags === ALL_DAMAGE_TAGS || (hit.damageType & this._damageTags)
@@ -137,7 +139,9 @@ class HitBuffBuilder {
 }
 
 // Entry point - stat and value first, .wgsl(action) finalizes
+// action() accepts AKeyValue (all stats)
+// hit() accepts HKeyValue (hit stats only) for type safety
 export const buff = {
-  action: (statKey: StatKeyValue, value: WgslBuffValue) => new ActionBuffBuilder(statKey, value),
-  hit: (statKey: StatKeyValue, value: WgslBuffValue) => new HitBuffBuilder(statKey, value),
+  action: (actionKey: AKeyValue, value: WgslBuffValue) => new ActionBuffBuilder(actionKey, value),
+  hit: (hitKey: HKeyValue, value: WgslBuffValue) => new HitBuffBuilder(hitKey, value),
 }

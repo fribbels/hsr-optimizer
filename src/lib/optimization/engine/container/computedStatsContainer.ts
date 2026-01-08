@@ -10,13 +10,15 @@ import {
   ComputedStatsConfigType,
 } from 'lib/optimization/config/computedStatsConfig'
 import {
-  getStatKeyName,
-  StatKeyValue,
+  ACTION_STATS_LENGTH,
+  AKeyValue,
+  AToHKey,
+  getAKeyName,
+  HIT_STATS_LENGTH,
+  HKeyValue,
+  isHitStat,
 } from 'lib/optimization/engine/config/keys'
-import {
-  newStatsConfig,
-  STATS_LENGTH,
-} from 'lib/optimization/engine/config/statsConfig'
+import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import {
   ALL_DAMAGE_TAGS,
   ALL_ELEMENT_TAGS,
@@ -45,22 +47,25 @@ enum StatCategory {
 }
 
 // Pre-calculate all actionBuff/actionSet indices for performance
+// New layout: [Entity][Action Stats (56)][Hit 0 (M)][Hit 1 (M)]...
 function buildActionBuffIndexCache(
   entityRegistry: NamedArray<OptimizerEntity>,
   entitiesLength: number,
-  statsLength: number,
+  actionStatsLength: number,
+  hitStatsLength: number,
   hitsLength: number,
 ): Record<number, number[]> {
   const cache: Record<number, number[]> = {}
-  const stride = statsLength * (hitsLength + 1)
+  // Entity stride: action stats + (hit stats per hit)
+  const entityStride = actionStatsLength + (hitsLength * hitStatsLength)
 
   // Get all TargetTag enum values dynamically
   const allTargetTags = Object.values(TargetTag).filter((v): v is number => typeof v === 'number')
 
   // For each TargetTag
   for (const targetTags of allTargetTags) {
-    // For each stat key
-    for (let statKey = 0; statKey < statsLength; statKey++) {
+    // For each action stat key (only action stats, not hit stats)
+    for (let statKey = 0; statKey < actionStatsLength; statKey++) {
       const indices: number[] = []
 
       // Find matching entities
@@ -76,7 +81,8 @@ function buildActionBuffIndexCache(
         else if (targetTags === TargetTag.None) matches = false
 
         if (matches) {
-          indices.push(entityIndex * stride + statKey)
+          // Action stats start at beginning of entity block
+          indices.push(entityIndex * entityStride + statKey)
         }
       }
 
@@ -117,7 +123,9 @@ export class ComputedStatsContainerConfig {
 
   public hitsLength: number
   public entitiesLength: number
-  public statsLength: number
+  public actionStatsLength: number // 56 - all stats at action level
+  public hitStatsLength: number // M - only hit stats per hit
+  public entityStride: number // actionStatsLength + (hitsLength * hitStatsLength)
   public arrayLength: number
 
   // Register layout: [Stats...][Action Registers][Hit Registers]
@@ -133,7 +141,8 @@ export class ComputedStatsContainerConfig {
     context: OptimizerContext,
     entityRegistry: NamedArray<OptimizerEntity>,
   ) {
-    this.statsLength = STATS_LENGTH
+    this.actionStatsLength = ACTION_STATS_LENGTH
+    this.hitStatsLength = HIT_STATS_LENGTH
 
     // Hits
     this.hits = action.hits!
@@ -145,8 +154,11 @@ export class ComputedStatsContainerConfig {
     this.entitiesLength = entityRegistry.length
     this.selfEntity = this.entityRegistry.get(0)!
 
-    // Stats section: each entity x stats x (action + hits)
-    const statsArrayLength = this.entitiesLength * this.statsLength * (this.hitsLength + 1)
+    // Entity stride: action stats + (hit stats per hit)
+    this.entityStride = this.actionStatsLength + (this.hitsLength * this.hitStatsLength)
+
+    // Stats section: each entity has action stats + hit stats per hit
+    const statsArrayLength = this.entitiesLength * this.entityStride
 
     // Registers section: [Action Registers][Hit Registers]
     // Action registers: 1 per action (default + rotation)
@@ -163,7 +175,8 @@ export class ComputedStatsContainerConfig {
     this.actionBuffIndices = buildActionBuffIndexCache(
       entityRegistry,
       this.entitiesLength,
-      this.statsLength,
+      this.actionStatsLength,
+      this.hitStatsLength,
       this.hitsLength,
     )
   }
@@ -185,18 +198,23 @@ export class ComputedStatsContainerConfig {
  *
  * Buffs are applied at the Action level, but the effects have Hit granularity
  *
- * Array structure
- *   [Action (this container)                                                     ][Output Registers]
- *   [Entity 0                   ][Entity 1                    ][Entity 2    ].....
- *   [Action stats][Hit 0][Hit 1][Hit 2][Action stats][Hit 0][Hit 1][Hit 2]........
- *   [ATK, DEF, HP, SPD, CR, CD, BE, RES, EHR, OHB, ERR, DMG_BOOST, DEF_PEN].......
+ * Array structure (optimized - hit stats only stored per-hit):
+ *   [Action (this container)                                           ][Output Registers]
+ *   [Entity 0                              ][Entity 1                  ]...
+ *   [Action stats (56)][Hit0 (M)][Hit1 (M)][Action stats (56)][Hit0...]...
+ *
+ * Where:
+ * - Action stats: 56 floats (all AKey stats)
+ * - Hit stats: M floats per hit (only HKey stats, ~20)
+ * - Entity stride: 56 + (hitsLength * M)
  *
  * Key points:
  * - Each container is 1 action
  * - Multiple entities per action (e.g., Aglaea + Garmentmaker)
- * - Each entity has: 1 action-level + N hit-scope stat blocks
- * - Each block contains all stats (ATK, DEF, DMG_BOOST, etc.)
- * - Hit definitions are shared, but each entity has its own stat values
+ * - Each entity has: 1 action-level block + N hit-level blocks
+ * - Action block contains ALL stats
+ * - Hit blocks contain only hit-specific stats (DMG_BOOST, DEF_PEN, etc.)
+ * - Memory savings: ~62% reduction vs storing all stats per-hit
  */
 export class ComputedStatsContainer {
   // @ts-ignore
@@ -244,7 +262,7 @@ export class ComputedStatsContainer {
 
   // ============== Buffs ==============
 
-  set(key: StatKeyValue, value: number, config: BuffBuilder<true>) {
+  set(key: AKeyValue, value: number, config: BuffBuilder<true>) {
     this.internalBuff(
       key,
       value,
@@ -258,7 +276,7 @@ export class ComputedStatsContainer {
     )
   }
 
-  buff(key: StatKeyValue, value: number, config: BuffBuilder<true>) {
+  buff(key: AKeyValue, value: number, config: BuffBuilder<true>) {
     this.internalBuff(
       key,
       value,
@@ -272,7 +290,7 @@ export class ComputedStatsContainer {
     )
   }
 
-  buffDynamic(key: StatKeyValue, value: number, action: OptimizerAction, context: OptimizerContext, config: BuffBuilder<true>) {
+  buffDynamic(key: AKeyValue, value: number, action: OptimizerAction, context: OptimizerContext, config: BuffBuilder<true>) {
     this.internalBuff(
       key,
       value,
@@ -299,7 +317,7 @@ export class ComputedStatsContainer {
     )
   }
 
-  public actionBuff(key: StatKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
+  public actionBuff(key: AKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
     const cacheKey = (targetTags << 8) | (key as number)
     const indices = this.config.actionBuffIndices[cacheKey]
 
@@ -308,7 +326,7 @@ export class ComputedStatsContainer {
     }
   }
 
-  public actionSet(key: StatKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
+  public actionSet(key: AKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
     const cacheKey = (targetTags << 8) | (key as number)
     const indices = this.config.actionBuffIndices[cacheKey]
 
@@ -318,7 +336,7 @@ export class ComputedStatsContainer {
   }
 
   internalBuff(
-    key: StatKeyValue,
+    key: AKeyValue,
     value: number,
     operator: (index: number, value: number) => void,
     source: BuffSource,
@@ -336,13 +354,18 @@ export class ComputedStatsContainer {
       if (elementTags == ALL_ELEMENT_TAGS && damageTags == ALL_DAMAGE_TAGS) {
         operator(this.getActionIndex(entityIndex, key), value)
       } else {
-        this.applyToMatchingHits(entityIndex, key, value, operator, elementTags, damageTags)
+        // Hit-level filtering requires a hit stat
+        const hitKey = AToHKey[key]
+        if (hitKey === undefined) {
+          throw new Error(`Cannot apply hit-level buff to action-only stat: ${getAKeyName(key)}`)
+        }
+        this.applyToMatchingHits(entityIndex, hitKey, value, operator, elementTags, damageTags)
       }
     }
   }
 
   internalBuffDynamic(
-    key: StatKeyValue,
+    key: AKeyValue,
     value: number,
     action: OptimizerAction,
     context: OptimizerContext,
@@ -356,7 +379,7 @@ export class ComputedStatsContainer {
   ): void {
     if (value == 0) return
 
-    for (const conditional of action.conditionalRegistry[getStatKeyName(key)] || []) {
+    for (const conditional of action.conditionalRegistry[getAKeyName(key)] || []) {
       evaluateConditional(conditional, this, action, context)
     }
   }
@@ -378,7 +401,7 @@ export class ComputedStatsContainer {
 
   private applyToMatchingHits(
     entityIndex: number,
-    key: StatKeyValue,
+    hitKey: HKeyValue,
     value: number,
     operator: (index: number, value: number) => void,
     elementTags: ElementTag,
@@ -387,7 +410,7 @@ export class ComputedStatsContainer {
     for (let hitIndex = 0; hitIndex < this.config.hitsLength; hitIndex++) {
       const hit = this.config.hits[hitIndex]
       if (hit.damageType & damageTags && hit.damageElement & elementTags) {
-        operator(this.getHitIndex(entityIndex, hitIndex, key), value)
+        operator(this.getHitIndex(entityIndex, hitIndex, hitKey), value)
       }
     }
   }
@@ -437,46 +460,51 @@ export class ComputedStatsContainer {
 
   // ============== Value Getters ==============
 
-  public getValue(key: StatKeyValue, hitIndex: number) {
+  // Returns combined action + hit value for a stat
+  public getValue(key: AKeyValue, hitIndex: number) {
     const hit = this.config.hits[hitIndex]
     const sourceEntityIndex = hit.sourceEntityIndex ?? 0
+    const hitKey = AToHKey[key]
 
     const actionValue = this.a[this.getActionIndex(sourceEntityIndex, key)]
-    const hitValue = this.a[this.getHitIndex(sourceEntityIndex, hitIndex, key)]
+    const hitValue = hitKey !== undefined ? this.a[this.getHitIndex(sourceEntityIndex, hitIndex, hitKey)] : 0
 
     return actionValue + hitValue
   }
 
-  public getActionValue(key: StatKeyValue, entityName: string): number {
+  public getActionValue(key: AKeyValue, entityName: string): number {
     const entityIndex = this.config.entityRegistry.getIndex(entityName)
     const index = this.getActionIndex(entityIndex, key)
     return this.a[index]
   }
 
-  public getActionValueByIndex(key: StatKeyValue, entityIndex: number): number {
+  public getActionValueByIndex(key: AKeyValue, entityIndex: number): number {
     const index = this.getActionIndex(entityIndex, key)
     return this.a[index]
   }
 
-  public getHitValue(key: StatKeyValue, hitIndex: number) {
+  // Get hit-level value only (requires hit stat)
+  public getHitValue(hitKey: HKeyValue, hitIndex: number) {
     const hit = this.config.hits[hitIndex]
     const sourceEntityIndex = hit.sourceEntityIndex ?? 0
-    const index = this.getHitIndex(sourceEntityIndex, hitIndex, key)
+    const index = this.getHitIndex(sourceEntityIndex, hitIndex, hitKey)
 
     return this.a[index]
   }
 
   // ============== Indexing ==============
+  // New layout: [Entity][Action Stats (56)][Hit 0 (M)][Hit 1 (M)]...
+  // Where M = HIT_STATS_LENGTH
 
-  public getActionIndex(entityIndex: number, statIndex: number): number {
-    return entityIndex * (this.config.statsLength * (this.config.hitsLength + 1))
-      + statIndex
+  public getActionIndex(entityIndex: number, actionStatKey: AKeyValue): number {
+    return entityIndex * this.config.entityStride + actionStatKey
   }
 
-  public getHitIndex(entityIndex: number, hitIndex: number, statIndex: number): number {
-    return entityIndex * (this.config.statsLength * (this.config.hitsLength + 1))
-      + (hitIndex + 1) * this.config.statsLength
-      + statIndex
+  public getHitIndex(entityIndex: number, hitIndex: number, hitStatKey: HKeyValue): number {
+    return entityIndex * this.config.entityStride
+      + this.config.actionStatsLength
+      + hitIndex * this.config.hitStatsLength
+      + hitStatKey
   }
 
   // ============== Buff Builder ==============

@@ -1,6 +1,7 @@
 import {
   containerActionVal,
   containerGetValue,
+  wgslDebugActionRegister,
   wgslDebugHitRegister,
 } from 'lib/gpu/injection/injectUtils'
 import { wgsl } from 'lib/gpu/injection/wgslUtils'
@@ -68,11 +69,24 @@ const elementTagToStatKeyBoost = {
   [ElementTag.Imaginary]: StatKey.IMAGINARY_DMG_BOOST,
 }
 
+// Helper function to calculate total damage boost (generic + elemental)
+function getTotalDmgBoost(
+  x: ComputedStatsContainer,
+  hit: Hit,
+  hitIndex: number,
+): number {
+  const genericDmgBoost = x.getValue(StatKey.DMG_BOOST, hitIndex)
+  const elementalDmgBoost = hit.damageElement === ElementTag.None
+    ? 0
+    : x.getValue(elementTagToStatKeyBoost[hit.damageElement], hitIndex)
+  return 1 + genericDmgBoost + elementalDmgBoost
+}
+
 export const CritDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
     computeCommonMultipliers(x, hitIndex, context)
-    const dmgBoostMulti = 1 + x.getValue(StatKey.DMG_BOOST, hitIndex)
+    const dmgBoostMulti = getTotalDmgBoost(x, hit, hitIndex)
     const initial = calculateInitialDamage(x, hit, hitIndex, context)
     const crit = getCritMultiplier(x, hitIndex)
 
@@ -151,7 +165,7 @@ export const DotDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex] as DotHit
     computeCommonMultipliers(x, hitIndex, context)
-    const dmgBoost = 1 + x.getValue(StatKey.DMG_BOOST, hitIndex)
+    const dmgBoost = getTotalDmgBoost(x, hit, hitIndex)
     const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * dmgBoost * m.finalDmg
     const initial = calculateInitialDamage(x, hit, hitIndex, context)
     const ehr = calculateEhrMultiFromHit(x, hit, hitIndex, context)
@@ -207,10 +221,11 @@ export const DotDamageFunction: DamageFunction = {
   let effResPen = ${getValue(StatKey.EFFECT_RES_PEN)};
   let effectiveDotChance = min(1.0, ${dotBaseChance} * (1.0 + ehr) * (1.0 - ${enemyEffectRes} + effResPen));
 
-  let ehrMulti = effectiveDotChance;
-  if (${dotSplit} > 0.0) {
-    ehrMulti = (1.0 + ${dotSplit} * effectiveDotChance * (${dotStacks} - 1.0)) / (1.0 + ${dotSplit} * (${dotStacks} - 1.0));
-  }
+  let ehrMulti = select(
+    effectiveDotChance,
+    (1.0 + ${dotSplit} * effectiveDotChance * (${dotStacks} - 1.0)) / (1.0 + ${dotSplit} * (${dotStacks} - 1.0)),
+    ${dotSplit} > 0.0
+  );
 
   // Final damage
   let damage = baseUniversalMulti
@@ -222,8 +237,8 @@ export const DotDamageFunction: DamageFunction = {
     * finalDmgMulti
     * ehrMulti;
 
-  // comboDmg = abilityMulti;
-  comboDmg += damage + 0;
+  comboDmg += damage;
+  
   ${wgslDebugHitRegister(hit, context)}
 }
 `
@@ -239,7 +254,7 @@ export const BreakDamageFunction: DamageFunction = {
     const be = 1 + x.getValue(StatKey.BE, hitIndex)
     const breakBase = 3767.5533 * context.elementalBreakScaling
       * (0.5 + context.enemyMaxToughness / 120)
-      * (hit.specialScaling ?? 1)
+    // * (hit.specialScaling ?? 1)
     return breakBase * baseMulti * be
   },
   wgsl: (action, hitIndex, context) => {
@@ -273,7 +288,7 @@ export const AdditionalDamageFunction: DamageFunction = {
     // Same as Crit for now
     const hit = action.hits![hitIndex]
     computeCommonMultipliers(x, hitIndex, context)
-    const dmgBoost = 1 + x.getValue(StatKey.DMG_BOOST, hitIndex)
+    const dmgBoost = getTotalDmgBoost(x, hit, hitIndex)
     const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * dmgBoost * m.finalDmg
     const initial = calculateInitialDamage(x, hit, hitIndex, context)
     const crit = getCritMultiplier(x, hitIndex)

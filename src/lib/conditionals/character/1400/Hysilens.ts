@@ -205,7 +205,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      const talentDot = talentDotScaling * 3 + talentDotAtkLimitScaling
+      const talentDot = talentDotScaling * (e >= 1  && r.e1Buffs ? 2 : 1)
       const updatedUltDotScaling = (e >= 6 && r.e6Buffs) ? ultDotScaling + 0.20 : ultDotScaling
       const ultDot = r.ultDotStacks * updatedUltDotScaling
 
@@ -240,25 +240,25 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Fire)
               .damageType(DamageType.DOT)
-              .atkScaling(talentDotScaling)
+              .atkScaling(talentDot)
               .build(),
             HitDefinitionBuilder.dot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Wind)
               .damageType(DamageType.DOT)
-              .atkScaling(talentDotScaling)
+              .atkScaling(talentDot)
               .build(),
             HitDefinitionBuilder.dot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Lightning)
               .damageType(DamageType.DOT)
-              .atkScaling(talentDotScaling)
+              .atkScaling(talentDot)
               .build(),
             HitDefinitionBuilder.dot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Physical)
               .damageType(DamageType.DOT)
-              .atkScaling(talentDotScaling)
+              .atkScaling(talentDot)
               .build(),
           ],
         },

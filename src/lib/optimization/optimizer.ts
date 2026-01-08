@@ -14,6 +14,7 @@ import {
   BufferPacker,
   OptimizerDisplayData,
 } from 'lib/optimization/bufferPacker'
+import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -294,6 +295,7 @@ export const Optimizer = {
 
 // TODO: This is a temporary tool to rename computed stats variables to fit the optimizer grid
 export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
+  const context = useOptimizerTabStore.getState().context!
   const c = x.c
   const d: Partial<OptimizerDisplayData> = {
     relicSetIndex: c.relicSetIndex,
@@ -347,8 +349,31 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
 
   d.mELEMENTAL_DMG = c.ELEMENTAL_DMG.get()
 
-  const context = useOptimizerTabStore.getState().context
   if (context) {
+    switch (context.elementalDamageType) {
+      case Stats.Physical_DMG:
+        d.xELEMENTAL_DMG += a[StatKey.PHYSICAL_DMG_BOOST]
+        break
+      case Stats.Fire_DMG:
+        d.xELEMENTAL_DMG += a[StatKey.FIRE_DMG_BOOST]
+        break
+      case Stats.Ice_DMG:
+        d.xELEMENTAL_DMG += a[StatKey.ICE_DMG_BOOST]
+        break
+      case Stats.Lightning_DMG:
+        d.xELEMENTAL_DMG += a[StatKey.LIGHTNING_DMG_BOOST]
+        break
+      case Stats.Wind_DMG:
+        d.xELEMENTAL_DMG += a[StatKey.WIND_DMG_BOOST]
+        break
+      case Stats.Quantum_DMG:
+        d.xELEMENTAL_DMG += a[StatKey.QUANTUM_DMG_BOOST]
+        break
+      case Stats.Imaginary_DMG:
+        d.xELEMENTAL_DMG += a[StatKey.IMAGINARY_DMG_BOOST]
+        break
+    }
+
     for (const action of context.defaultActions) {
       d[action.actionName] = x.getActionRegisterValue(action.registerIndex)
     }

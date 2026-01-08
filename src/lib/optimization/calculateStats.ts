@@ -114,25 +114,25 @@ export function calculateElementalStats(c: BasicStatsArray, context: OptimizerCo
   a[Key.ELEMENTAL_DMG] = 0
   switch (context.elementalDamageType) {
     case Stats.Physical_DMG:
-      a[Key.ELEMENTAL_DMG] = sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0)
+      a[Key.PHYSICAL_DMG_BOOST] = sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0)
       break
     case Stats.Fire_DMG:
-      a[Key.ELEMENTAL_DMG] = sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0)
+      a[Key.FIRE_DMG_BOOST] = sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0)
       break
     case Stats.Ice_DMG:
-      a[Key.ELEMENTAL_DMG] = sumPercentStat(Stats.Ice_DMG, base, lc, trace, c, 0)
+      a[Key.ICE_DMG_BOOST] = sumPercentStat(Stats.Ice_DMG, base, lc, trace, c, 0)
       break
     case Stats.Lightning_DMG:
-      a[Key.ELEMENTAL_DMG] = sumPercentStat(Stats.Lightning_DMG, base, lc, trace, c, 0)
+      a[Key.LIGHTNING_DMG_BOOST] = sumPercentStat(Stats.Lightning_DMG, base, lc, trace, c, 0)
       break
     case Stats.Wind_DMG:
-      a[Key.ELEMENTAL_DMG] = sumPercentStat(Stats.Wind_DMG, base, lc, trace, c, 0)
+      a[Key.WIND_DMG_BOOST] = sumPercentStat(Stats.Wind_DMG, base, lc, trace, c, 0)
       break
     case Stats.Quantum_DMG:
-      a[Key.ELEMENTAL_DMG] = sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0)
+      a[Key.QUANTUM_DMG_BOOST] = sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0)
       break
     case Stats.Imaginary_DMG:
-      a[Key.ELEMENTAL_DMG] = sumPercentStat(Stats.Imaginary_DMG, base, lc, trace, c, 0)
+      a[Key.IMAGINARY_DMG_BOOST] = sumPercentStat(Stats.Imaginary_DMG, base, lc, trace, c, 0)
       break
   }
 }
@@ -186,6 +186,14 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   x.actionBuff(StatKey.ERR, c.a[StatKey.ERR])
   x.actionBuff(StatKey.OHB, c.a[StatKey.OHB])
 
+  x.actionBuff(StatKey.PHYSICAL_DMG_BOOST, c.a[Key.PHYSICAL_DMG_BOOST])
+  x.actionBuff(StatKey.FIRE_DMG_BOOST, c.a[Key.FIRE_DMG_BOOST])
+  x.actionBuff(StatKey.ICE_DMG_BOOST, c.a[Key.ICE_DMG_BOOST])
+  x.actionBuff(StatKey.LIGHTNING_DMG_BOOST, c.a[Key.LIGHTNING_DMG_BOOST])
+  x.actionBuff(StatKey.WIND_DMG_BOOST, c.a[Key.WIND_DMG_BOOST])
+  x.actionBuff(StatKey.QUANTUM_DMG_BOOST, c.a[Key.QUANTUM_DMG_BOOST])
+  x.actionBuff(StatKey.IMAGINARY_DMG_BOOST, c.a[Key.IMAGINARY_DMG_BOOST])
+
   x.actionSet(StatKey.BASE_ATK, context.baseATK)
   x.actionSet(StatKey.BASE_DEF, context.baseDEF)
   x.actionSet(StatKey.BASE_HP, context.baseHP)
@@ -219,7 +227,7 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
     a[x.getActionIndex(entityIndex, StatKey.OHB)] += c.a[StatKey.OHB]
   }
 
-  x.actionBuff(StatKey.DMG_BOOST, buffs.DMG_BOOST + c.a[Key.ELEMENTAL_DMG], TargetTag.FullTeam)
+  x.actionBuff(StatKey.DMG_BOOST, buffs.DMG_BOOST, TargetTag.FullTeam)
   x.actionBuff(StatKey.EFFECT_RES_PEN, buffs.EFFECT_RES_PEN, TargetTag.FullTeam)
   x.actionBuff(StatKey.VULNERABILITY, buffs.VULNERABILITY, TargetTag.FullTeam)
   x.actionBuff(StatKey.BREAK_EFFICIENCY_BOOST, buffs.BREAK_EFFICIENCY, TargetTag.FullTeam)

@@ -50,9 +50,9 @@ export function getHitRegisterIndexWgsl(hitRegisterIndex: number, context: Optim
 
 // Debug utility to generate WGSL code that stores hit damage to register
 // Call this inside damage function wgsl() after calculating `damage`
-export function wgslDebugHitRegister(hit: Hit, context: OptimizerContext): string {
+export function wgslDebugHitRegister(hit: Hit, context: OptimizerContext, valueExpr: string = 'damage'): string {
   const registerIndex = getHitRegisterIndexWgsl(hit.registerIndex, context)
-  return `(*p_container)[${registerIndex}] = damage; // HitRegister[${hit.registerIndex}]`
+  return `(*p_container)[${registerIndex}] = ${valueExpr}; // HitRegister[${hit.registerIndex}]`
 }
 
 // Debug utility to generate WGSL code that stores action damage sum to register

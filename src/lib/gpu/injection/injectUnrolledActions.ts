@@ -28,7 +28,7 @@ import {
   buff,
   matchesTargetTag,
 } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import { CritDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
+import { getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
 import {
   CharacterConditionalsController,
   LightConeConditionalsController,
@@ -211,8 +211,8 @@ function unrollDamageCalculations(index: number, action: OptimizerAction, contex
 
   for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
     const hit = action.hits![hitIndex]
-    // code += hit.damageFunction.wgsl(action, hitIndex, context)
-    code += CritDamageFunction.wgsl(action, hitIndex, context)
+    const damageFunction = getDamageFunction(hit.damageFunctionType)
+    code += damageFunction.wgsl(action, hitIndex, context)
 
     if (gpuParams.DEBUG) {
       // Read from hit register (set inside damage function) to accumulate action damage

@@ -19,7 +19,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { HitDefinition } from 'types/hitConditionalTypes'
+import { Hit, HitDefinition } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -176,18 +176,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return [
         {
           modify: (action: OptimizerAction, context: OptimizerContext) => {
-            const hits = action.hits! as HitDefinition[]
+            const hits = action.hits!
             const len = hits.length
             for (let i = 0; i < len; i++) {
               const hit = hits[i]
-
+0
               if (hit.toughnessDmg) {
                 const superBreakHit = HitDefinitionBuilder.standardSuperBreak(hit.damageElement)
                   .referenceHit(hit)
                   .sourceEntity(hit.sourceEntity)
                   .build()
 
-                hits.push(superBreakHit)
+                hits.push(superBreakHit as Hit)
               }
             }
           },

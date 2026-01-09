@@ -5,7 +5,6 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   containerActionVal,
   getActionIndex,
-  getHitRegisterIndexWgsl,
   wgslDebugActionRegister,
 } from 'lib/gpu/injection/injectUtils'
 import {
@@ -43,17 +42,41 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
   let unrolledActionCallsWgsl = '\nvar comboDmg: f32 = 0;\n'
   let unrolledActionFunctionsWgsl = ''
 
+  // Execute default actions
   for (let i = 0; i < context.defaultActions.length; i++) {
     const action = context.defaultActions[i]
-  }
 
-  for (let i = 0; i < context.rotationActions.length; i++) {
-    const action = context.rotationActions[i]
-
-    let { actionCall, actionFunction } = unrollAction(context.defaultActions.length + i, action, context, gpuParams)
+    const { actionCall, actionFunction } = unrollAction(i, action, context, gpuParams)
 
     unrolledActionCallsWgsl += actionCall
     unrolledActionFunctionsWgsl += actionFunction
+
+    // DEBUG: Copy entire container0, then copy registers from other actions
+    if (gpuParams.DEBUG) {
+      if (i === 0) {
+        // Copy entire container0 to get all action stats and hit stats
+        unrolledActionCallsWgsl += `\n  var debugContainer: array<f32, ${context.maxContainerArrayLength}> = container0;\n\n`
+      } else {
+        // Copy only registers from actions 1+
+        unrolledActionCallsWgsl += generateRegisterCopy(i, action, context)
+      }
+    }
+  }
+
+  // Execute rotation actions
+  for (let i = 0; i < context.rotationActions.length; i++) {
+    const action = context.rotationActions[i]
+    const actionIndex = context.defaultActions.length + i
+
+    const { actionCall, actionFunction } = unrollAction(actionIndex, action, context, gpuParams)
+
+    unrolledActionCallsWgsl += actionCall
+    unrolledActionFunctionsWgsl += actionFunction
+
+    // DEBUG: Copy registers after execution
+    if (gpuParams.DEBUG) {
+      unrolledActionCallsWgsl += generateRegisterCopy(actionIndex, action, context)
+    }
   }
 
   if (!gpuParams.DEBUG) {
@@ -67,7 +90,7 @@ if (comboDmg > 0) {
 `
   } else {
     unrolledActionCallsWgsl += `
-results[index] = container${context.defaultActions.length};
+results[index] = debugContainer;
 `
   }
 
@@ -82,6 +105,30 @@ results[index] = container${context.defaultActions.length};
   )
 
   return wgsl
+}
+
+function generateRegisterCopy(actionIndex: number, action: OptimizerAction, context: OptimizerContext): string {
+  const registersOffset = context.maxContainerArrayLength - (context.allActions.length + context.outputRegistersLength)
+  const actionRegisterOffset = registersOffset
+  const hitRegisterOffset = registersOffset + context.allActions.length
+
+  let code = `  // Copy action ${actionIndex} registers to debug container\n`
+
+  // Copy action register
+  const actionRegIdx = actionRegisterOffset + action.registerIndex
+  code += `  debugContainer[${actionRegIdx}] = container${actionIndex}[${actionRegIdx}];\n`
+
+  // Copy all hit registers
+  if (action.hits) {
+    for (let hitIndex = 0; hitIndex < action.hits.length; hitIndex++) {
+      const hit = action.hits[hitIndex]
+      const hitRegIdx = hitRegisterOffset + hit.registerIndex
+      code += `  debugContainer[${hitRegIdx}] = container${actionIndex}[${hitRegIdx}];\n`
+    }
+  }
+
+  code += '\n'
+  return code
 }
 
 // dprint-ignore
@@ -205,25 +252,17 @@ fn unrolledAction${index}(
 }
 
 function unrollDamageCalculations(index: number, action: OptimizerAction, context: OptimizerContext, gpuParams: GpuConstants) {
-  let code = gpuParams.DEBUG
-    ? 'var actionDmg: f32 = 0;\n'
-    : ''
+  let code = ''
 
   for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
     const hit = action.hits![hitIndex]
     const damageFunction = getDamageFunction(hit.damageFunctionType)
     code += damageFunction.wgsl(action, hitIndex, context)
-
-    if (gpuParams.DEBUG) {
-      // Read from hit register (set inside damage function) to accumulate action damage
-      const hitRegisterIndex = getHitRegisterIndexWgsl(hit.registerIndex, context)
-      code += `actionDmg += (*p_container)[${hitRegisterIndex}]; // Read HitRegister[${hit.registerIndex}]\n`
-    }
   }
 
   if (gpuParams.DEBUG) {
-    // Set action register with sum of hit damages
-    code += wgslDebugActionRegister(action, context) + '\n'
+    // Set action register with total combo damage
+    code += wgslDebugActionRegister(action, context, 'comboDmg') + '\n'
   }
 
   return wgsl`

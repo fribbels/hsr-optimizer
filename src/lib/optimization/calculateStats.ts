@@ -225,17 +225,20 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
     a[x.getActionIndex(entityIndex, StatKey.RES)] += c.a[StatKey.RES]
     a[x.getActionIndex(entityIndex, StatKey.ERR)] += c.a[StatKey.ERR]
     a[x.getActionIndex(entityIndex, StatKey.OHB)] += c.a[StatKey.OHB]
+
+    a[x.getActionIndex(entityIndex, StatKey.PHYSICAL_DMG_BOOST)] += c.a[Key.PHYSICAL_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.FIRE_DMG_BOOST)] += c.a[Key.FIRE_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.ICE_DMG_BOOST)] += c.a[Key.ICE_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.LIGHTNING_DMG_BOOST)] += c.a[Key.LIGHTNING_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.WIND_DMG_BOOST)] += c.a[Key.WIND_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.QUANTUM_DMG_BOOST)] += c.a[Key.QUANTUM_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.IMAGINARY_DMG_BOOST)] += c.a[Key.IMAGINARY_DMG_BOOST]
   }
 
   x.actionBuff(StatKey.DMG_BOOST, buffs.DMG_BOOST, TargetTag.FullTeam)
   x.actionBuff(StatKey.EFFECT_RES_PEN, buffs.EFFECT_RES_PEN, TargetTag.FullTeam)
   x.actionBuff(StatKey.VULNERABILITY, buffs.VULNERABILITY, TargetTag.FullTeam)
   x.actionBuff(StatKey.BREAK_EFFICIENCY_BOOST, buffs.BREAK_EFFICIENCY, TargetTag.FullTeam)
-
-  // TODO
-  // if (x.a[Key.MEMOSPRITE]) {
-  //   buffElementalDamageType(x.m, context.elementalDamageType, c.a[Key.ELEMENTAL_DMG])
-  // }
 
   // BASIC
 
@@ -281,9 +284,9 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   // for (const conditional of context.lightConeConditionalController.dynamicConditionals ?? []) {
   //   evaluateConditional(conditional, x, action, context)
   // }
-  // for (const conditional of action.teammateDynamicConditionals ?? []) {
-  //   evaluateConditional(conditional, x, action, context)
-  // }
+  for (const conditional of action.teammateDynamicConditionals ?? []) {
+    evaluateConditional(conditional, x, action, context)
+  }
 
   // Terminal ornament set conditionals
 

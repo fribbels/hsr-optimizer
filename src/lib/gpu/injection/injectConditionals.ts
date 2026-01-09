@@ -199,10 +199,12 @@ function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry
     conditionalDefinitionsWgsl += registeredConditionals[stat]
       .map((conditional) => {
         if (conditional.teammateIndex == null) {
-          // Note: This uses the default OptimizerAction
           return conditional.gpu(action, context)
         } else {
-          const teammate = getRequestTeammateIndex(request, conditional)
+          const teammate = {
+            ...action,
+            ...getRequestTeammateIndex(request, conditional),
+          }
           return conditional.gpu(teammate as unknown as OptimizerAction, context)
         }
       }).join('\n') // TODO!!

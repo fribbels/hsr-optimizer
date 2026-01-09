@@ -324,9 +324,9 @@ let unconvertibleCr = ${containerActionVal(memoIndex, StatKey.UNCONVERTIBLE_CR_B
 
 if (cr > 1.00) {
   let buffValue: f32 = floor((cr - unconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01;
-  let stateValue: f32 = (*p_state).SundayMemoCrConditional${action.actionIdentifier};
+  let stateValue: f32 = (*p_state).${this.id}${action.actionIdentifier};
 
-  (*p_state).SundayMemoCrConditional${action.actionIdentifier} = buffValue;
+  (*p_state).${this.id}${action.actionIdentifier} = buffValue;
   ${p_containerActionVal(memoIndex, StatKey.CD, config)} += buffValue - stateValue;
   ${p_containerActionVal(memoIndex, StatKey.UNCONVERTIBLE_CD_BUFF, config)} += buffValue - stateValue;
 }
@@ -382,9 +382,9 @@ let unconvertibleCr = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTI
 
 if (cr > 1.00) {
   let buffValue: f32 = floor((cr - unconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01;
-  let stateValue: f32 = (*p_state).SundayCrConditional${action.actionIdentifier};
+  let stateValue: f32 = (*p_state).${this.id}${action.actionIdentifier};
 
-  (*p_state).SundayCrConditional${action.actionIdentifier} = buffValue;
+  (*p_state).${this.id}${action.actionIdentifier} = buffValue;
   ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += buffValue - stateValue;
   ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_CD_BUFF, config)} += buffValue - stateValue;
 }

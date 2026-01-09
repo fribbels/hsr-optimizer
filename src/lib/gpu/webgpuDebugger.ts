@@ -74,10 +74,8 @@ function mapActionNameToField(actionName: string): string | null {
   if (upperName.includes('FUA') || upperName.includes('FOLLOW') || upperName.includes('FOLLOWUP')) return 'FUA'
 
   // Memosprite variations
-  if (upperName.includes('MEMO')) {
-    if (upperName.includes('SKILL')) return 'MEMO_SKILL'
-    if (upperName.includes('TALENT')) return 'MEMO_TALENT'
-  }
+  if (upperName === 'MEMO_SKILL' || upperName.includes('MEMO_SKILL')) return 'MEMO_SKILL'
+  if (upperName === 'MEMO_TALENT' || upperName.includes('MEMO_TALENT')) return 'MEMO_TALENT'
 
   return null
 }

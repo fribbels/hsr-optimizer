@@ -13,6 +13,7 @@ import {
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  BreakHit,
   DotHit,
   Hit,
 } from 'types/hitConditionalTypes'
@@ -247,14 +248,15 @@ export const DotDamageFunction: DamageFunction = {
 
 export const BreakDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
-    const hit = action.hits![hitIndex]
+    const hit = action.hits![hitIndex] as BreakHit
     computeCommonMultipliers(x, hitIndex, context)
     const dmgBoost = 1 + x.getHitValue(HKey.DMG_BOOST, hitIndex)
     const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * dmgBoost * m.finalDmg
     const be = 1 + x.getValue(StatKey.BE, hitIndex)
     const breakBase = 3767.5533 * context.elementalBreakScaling
       * (0.5 + context.enemyMaxToughness / 120)
-    // * (hit.specialScaling ?? 1)
+      * (hit.specialScaling ?? 1)
+    
     return breakBase * baseMulti * be
   },
   wgsl: (action, hitIndex, context) => {

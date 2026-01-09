@@ -11,8 +11,15 @@ import {
   ConditionalType,
   Stats,
 } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import {
+  conditionalWgslWrapper,
+  newConditionalWgslWrapper,
+} from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import {
+  containerActionVal,
+  p_containerActionVal,
+} from 'lib/gpu/injection/injectUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
   ComputedStatsArray,
@@ -22,17 +29,16 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
+  SELF_ENTITY_INDEX,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
-import {
-  BreakDamageFunction,
-  DamageFunctionType,
-} from 'lib/optimization/engine/damage/damageCalculator'
+import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { HitDefinition } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -167,7 +173,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         ],
       }
 
-      const enhancedBasicHits = [
+      const enhancedBasicHits: HitDefinition[] = [
         HitDefinitionBuilder.standardBasic()
           .damageElement(ElementTag.Physical)
           .atkScaling(basicEnhancedScaling)
@@ -190,14 +196,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           * talentBreakDmgScaling
 
         // Use specialScaling to encode the modified break scaling
-        enhancedBasicHits.push({
-          damageFunction: BreakDamageFunction,
-          damageFunctionType: DamageFunctionType.Break,
-          damageType: DamageTag.BREAK,
-          damageElement: ElementTag.Physical,
-          specialScaling: totalScaling,
-          activeHit: false,
-        })
+        enhancedBasicHits.push(
+          HitDefinitionBuilder.standardBreak(ElementTag.Physical)
+            .specialScaling(totalScaling)
+            .build(),
+        )
       }
 
       const enhancedBasic = {
@@ -302,37 +305,43 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       activation: ConditionalActivation.CONTINUOUS,
       dependsOn: [Stats.BE],
       chainsTo: [Stats.CR, Stats.CD],
-      condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+      condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
 
         return r.beToCritBoost
       },
-      effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+      effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+        const r = action.characterConditionals as Conditionals<typeof content>
+        if (!r.beToCritBoost) return
+
         const stateValue = action.conditionalState[this.id] || 0
 
         const stateCrBuffValue = Math.min(0.30, 0.10 * stateValue)
         const stateCdBuffValue = Math.min(1.50, 0.50 * stateValue)
 
-        const crBuffValue = Math.min(0.30, 0.10 * x.a[Key.BE])
-        const cdBuffValue = Math.min(1.50, 0.50 * x.a[Key.BE])
+        const beValue = x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX)
+        const crBuffValue = Math.min(0.30, 0.10 * beValue)
+        const cdBuffValue = Math.min(1.50, 0.50 * beValue)
 
-        action.conditionalState[this.id] = x.a[Key.BE]
+        action.conditionalState[this.id] = beValue
 
-        x.CR.buffDynamic(crBuffValue - stateCrBuffValue, SOURCE_TRACE, action, context)
-        x.CD.buffDynamic(cdBuffValue - stateCdBuffValue, SOURCE_TRACE, action, context)
+        x.buffDynamic(StatKey.CR, crBuffValue - stateCrBuffValue, action, context, x.source(SOURCE_TRACE))
+        x.buffDynamic(StatKey.CD, cdBuffValue - stateCdBuffValue, action, context, x.source(SOURCE_TRACE))
       },
       gpu: function(action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
 
-        return conditionalWgslWrapper(
+        return newConditionalWgslWrapper(
           this,
+          action,
+          context,
           `
 if (${wgslFalse(r.beToCritBoost)}) {
   return;
 }
 
-let be = x.BE;
-let stateValue = (*p_state).BoothillConversionConditional;
+let be = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, action.config)};
+let stateValue: f32 = (*p_state).BoothillConversionConditional${action.actionIdentifier};
 
 let stateCrBuffValue = min(0.30, 0.10 * stateValue);
 let stateCdBuffValue = min(1.50, 0.50 * stateValue);
@@ -340,11 +349,11 @@ let stateCdBuffValue = min(1.50, 0.50 * stateValue);
 let crBuffValue = min(0.30, 0.10 * be);
 let cdBuffValue = min(1.50, 0.50 * be);
 
-(*p_state).BoothillConversionConditional = be;
+(*p_state).BoothillConversionConditional${action.actionIdentifier} = be;
 
-(*p_x).CR += crBuffValue - stateCrBuffValue;
-(*p_x).CD += cdBuffValue - stateCdBuffValue;
-    `,
+${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, action.config)} += crBuffValue - stateCrBuffValue;
+${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, action.config)} += cdBuffValue - stateCdBuffValue;
+`,
         )
       },
     }],

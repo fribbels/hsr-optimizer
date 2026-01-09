@@ -356,8 +356,60 @@ export const SuperBreakDamageFunction: DamageFunction = {
     return dmg
   },
   wgsl: (action, hitIndex, context) => {
-    // TODO: Implement WGSL generation
-    return '/* SuperBreakDamageFunction WGSL stub */'
+    const hit = action.hits![hitIndex]
+    const config = action.config
+    const entityIndex = hit.sourceEntityIndex ?? 0
+
+    const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
+    const getHitValue = (stat: HKeyValue) => containerHitVal(entityIndex, hitIndex, stat, config)
+
+    // SuperBreak-specific constants from hit definition
+    const toughnessDmg = hit.referenceHit?.toughnessDmg ?? 0
+    const referenceHitIndex = hit.referenceHit?.localHitIndex ?? hitIndex
+
+    return wgsl`
+{
+  // SuperBreak modifier check (early return if 0)
+  let superBreakModMulti = ${getValue(StatKey.SUPER_BREAK_MODIFIER)};
+  let damage = 0.0;
+
+  if (superBreakModMulti != 0.0) {
+    // Common multipliers
+    let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
+    let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
+    let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
+    let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
+    let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
+
+    // SuperBreak-specific: dmgBoost is hit-level only (no action-level, no elemental boost)
+    let dmgBoostMulti = 1.0 + ${getHitValue(HKey.DMG_BOOST)};
+
+    // SuperBreak base damage calculation
+    let superBreakBaseMulti = (3767.5533 / 10.0) * ${toughnessDmg};
+
+    // BE multiplier (action + hit combined)
+    let beMulti = 1.0 + ${getValue(StatKey.BE)};
+
+    // Break efficiency multiplier from reference hit
+    let breakEfficiencyMulti = 1.0 + ${containerGetValue(entityIndex, referenceHitIndex, StatKey.BREAK_EFFICIENCY_BOOST, config)};
+
+    // Final damage
+    damage = baseUniversalMulti
+      * defMulti
+      * resMulti
+      * vulnMulti
+      * finalDmgMulti
+      * dmgBoostMulti
+      * superBreakBaseMulti
+      * beMulti
+      * superBreakModMulti
+      * breakEfficiencyMulti;
+  }
+
+  comboDmg += damage;
+  ${wgslDebugHitRegister(hit, context)}
+}
+`
   },
 }
 
@@ -382,8 +434,61 @@ export const AdditionalDamageFunction: DamageFunction = {
     return dmg
   },
   wgsl: (action, hitIndex, context) => {
-    // TODO: Implement WGSL generation
-    return '/* AdditionalDamageFunction WGSL stub */'
+    const hit = action.hits![hitIndex]
+    const config = action.config
+    const entityIndex = hit.sourceEntityIndex ?? 0
+
+    const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
+
+    // Scalings from hit definition
+    const atkScaling = hit.atkScaling ?? 0
+    const hpScaling = hit.hpScaling ?? 0
+    const defScaling = hit.defScaling ?? 0
+
+    const elementalDmgBoost = hit.damageElement == ElementTag.None
+      ? '0.0'
+      : getValue(elementTagToStatKeyBoost[hit.damageElement])
+
+    return wgsl`
+{
+  // Common multipliers
+  let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
+  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
+  let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
+  let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
+  let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
+
+  // Additional-specific: uses generic + elemental dmg boost (same as Crit)
+  let dmgBoostMulti = 1.0 + ${getValue(StatKey.DMG_BOOST)} + ${elementalDmgBoost};
+
+  // Initial damage
+  let atk = ${getValue(StatKey.ATK)};
+  let hp = ${getValue(StatKey.HP)};
+  let def = ${getValue(StatKey.DEF)};
+  let atkPBoost = ${getValue(StatKey.ATK_P_BOOST)};
+  let abilityMulti = ${atkScaling} * (atk + atkPBoost * ${getValue(StatKey.BASE_ATK)})
+    + ${hpScaling} * hp
+    + ${defScaling} * def;
+
+  // Crit multiplier
+  let cr = min(1.0, ${getValue(StatKey.CR)} + ${getValue(StatKey.CR_BOOST)});
+  let cd = ${getValue(StatKey.CD)} + ${getValue(StatKey.CD_BOOST)};
+  let critMulti = cr * (1.0 + cd) + (1.0 - cr);
+
+  // Final damage
+  let damage = baseUniversalMulti
+    * defMulti
+    * resMulti
+    * vulnMulti
+    * finalDmgMulti
+    * dmgBoostMulti
+    * abilityMulti
+    * critMulti;
+
+  comboDmg += damage;
+  ${wgslDebugHitRegister(hit, context)}
+}
+`
   },
 }
 

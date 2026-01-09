@@ -72,6 +72,8 @@ function buildActionBuffIndexCache(
         else if (targetTags & TargetTag.FullTeam) matches = true
         else if (targetTags & TargetTag.SelfAndMemosprite) matches = entity.primary || entity.memosprite
         else if (targetTags & TargetTag.SummonsOnly) matches = entity.summon
+        else if (targetTags & TargetTag.SelfAndSummon) matches = entity.primary || entity.summon
+        else if (targetTags & TargetTag.MemospritesOnly) matches = entity.memosprite
         else if (targetTags === TargetTag.None) matches = false
 
         if (matches) {
@@ -408,6 +410,8 @@ export class ComputedStatsContainer {
     if (targetTags & TargetTag.FullTeam) return true
     if (targetTags & TargetTag.SelfAndMemosprite) return entity.primary || entity.memosprite
     if (targetTags & TargetTag.SummonsOnly) return entity.summon
+    if (targetTags & TargetTag.SelfAndSummon) return entity.primary || entity.summon
+    if (targetTags & TargetTag.MemospritesOnly) return entity.memosprite
     return false
   }
 

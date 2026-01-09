@@ -26,6 +26,8 @@ export function matchesTargetTag(entity: OptimizerEntity, targetTag: TargetTag):
   if (targetTag & TargetTag.SelfAndMemosprite) return entity.primary || entity.memosprite
   if (targetTag & TargetTag.TargetAndMemosprite) return entity.memosprite
   if (targetTag & TargetTag.SummonsOnly) return entity.summon
+  if (targetTag & TargetTag.SelfAndSummon) return entity.primary || entity.summon
+  if (targetTag & TargetTag.MemospritesOnly) return entity.memosprite
   return false
 }
 

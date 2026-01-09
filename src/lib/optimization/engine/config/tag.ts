@@ -30,6 +30,8 @@ export enum TargetTag {
   TargetAndMemosprite = 8,
   SelfAndMemosprite = 16,
   SummonsOnly = 32,
+  SelfAndSummon = 64,
+  MemospritesOnly = 128,
 }
 
 export type Tag = ElementTag | DamageTag

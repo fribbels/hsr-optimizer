@@ -205,7 +205,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      const talentDot = talentDotScaling * (e >= 1  && r.e1Buffs ? 2 : 1)
+      const talentDot = talentDotScaling * (e >= 1 && r.e1Buffs ? 2 : 1)
       const updatedUltDotScaling = (e >= 6 && r.e6Buffs) ? ultDotScaling + 0.20 : ultDotScaling
       const ultDot = r.ultDotStacks * updatedUltDotScaling
 
@@ -215,6 +215,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
               .atkScaling(basicScaling)
+              .toughnessDmg(10)
               .build(),
           ],
         },
@@ -223,6 +224,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Physical)
               .atkScaling(skillScaling)
+              .toughnessDmg(10)
               .build(),
           ],
         },
@@ -231,6 +233,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Physical)
               .atkScaling(ultScaling)
+              .toughnessDmg(20)
               .build(),
           ],
         },

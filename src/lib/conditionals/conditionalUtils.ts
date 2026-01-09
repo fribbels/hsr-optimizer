@@ -205,3 +205,14 @@ export function teammateConditionalActive(action: OptimizerAction, teammateId: s
 
   return teammateAction.characterConditionals[conditionalId]
 }
+
+// Returns the entity index of the memosprite, or -1 if not found
+export function findMemospriteIndex(action: OptimizerAction): number {
+  const config = action.config
+  for (let i = 0; i < config.entitiesLength; i++) {
+    if (config.entitiesArray[i].memosprite) {
+      return i
+    }
+  }
+  return -1
+}

@@ -2,7 +2,6 @@ import {
   AbilityType,
   BUFF_PRIORITY_MEMO,
   BUFF_PRIORITY_SELF,
-  DamageType,
 } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
@@ -50,10 +49,7 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import {
-  CritDamageFunction,
-  DamageFunctionType,
-} from 'lib/optimization/engine/damage/damageCalculator'
+import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -238,15 +234,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             .atkScaling(enhancedBasicScaling)
             .toughnessDmg(20)
             .build(),
-          {
-            sourceEntity: AglaeaEntities.Garmentmaker,
-            damageFunction: CritDamageFunction,
-            damageFunctionType: DamageFunctionType.Crit,
-            damageType: DamageType.BASIC | DamageType.MEMO,
-            damageElement: ElementTag.Lightning,
-            atkScaling: enhancedBasicScaling,
-            activeHit: true,
-          },
+          HitDefinitionBuilder()
+            .sourceEntity(AglaeaEntities.Garmentmaker)
+            .damageFunctionType(DamageFunctionType.Crit)
+            .damageType(DamageTag.BASIC | DamageTag.MEMO)
+            .damageElement(ElementTag.Lightning)
+            .atkScaling(enhancedBasicScaling)
+            .activeHit(true)
+            .build(),
         ],
       }
 
@@ -264,16 +259,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         [AglaeaAbilities.BASIC]: (r.supremeStanceState) ? enhancedBasicAbility : basicAbility,
         [AglaeaAbilities.MEMO_SKILL]: {
           hits: [
-            {
-              sourceEntity: AglaeaEntities.Garmentmaker,
-              damageFunction: CritDamageFunction,
-              damageFunctionType: DamageFunctionType.Crit,
-              damageType: DamageType.MEMO,
-              damageElement: ElementTag.Lightning,
-              atkScaling: memoSkillScaling,
-              toughnessDmg: 10,
-              activeHit: true,
-            },
+            HitDefinitionBuilder()
+              .sourceEntity(AglaeaEntities.Garmentmaker)
+              .damageFunctionType(DamageFunctionType.Crit)
+              .damageType(DamageTag.MEMO)
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(memoSkillScaling)
+              .toughnessDmg(10)
+              .activeHit(true)
+              .build(),
           ],
         },
         [AglaeaAbilities.BREAK]: {

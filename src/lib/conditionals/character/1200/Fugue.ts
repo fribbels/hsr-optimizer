@@ -1,7 +1,4 @@
-import {
-  AbilityType,
-  DamageType,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -10,6 +7,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
@@ -19,14 +17,9 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
-import {
-  DamageFunctionType,
-  Hit,
-  HitDefinition,
-  SuperBreakDamageFunction,
-} from 'lib/optimization/engine/damage/damageCalculator'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { HitDefinition } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -183,23 +176,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return [
         {
           modify: (action: OptimizerAction, context: OptimizerContext) => {
-            const hits = action.hits!
+            const hits = action.hits! as HitDefinition[]
             const len = hits.length
             for (let i = 0; i < len; i++) {
               const hit = hits[i]
 
               if (hit.toughnessDmg) {
-                const superBreakHit: HitDefinition = {
-                  damageFunction: SuperBreakDamageFunction,
-                  damageFunctionType: DamageFunctionType.SuperBreak,
-                  damageType: DamageType.SUPER_BREAK,
-                  referenceHit: hit,
-                  damageElement: hit.damageElement,
-                  sourceEntity: hit.sourceEntity,
-                  activeHit: false,
-                }
+                const superBreakHit = HitDefinitionBuilder.standardSuperBreak(hit.damageElement)
+                  .referenceHit(hit)
+                  .sourceEntity(hit.sourceEntity)
+                  .build()
 
-                hits.push(superBreakHit as Hit)
+                hits.push(superBreakHit)
               }
             }
           },
@@ -240,7 +228,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.BE, 0.30, x.source(SOURCE_TRACE))
       x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 6 && r.e6BreakEfficiency) ? 0.50 : 0, x.source(SOURCE_E6))
     },
-    // precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     //   const r = action.characterConditionals as Conditionals<typeof content>
     //   x.BE.buff(0.30, SOURCE_TRACE)
     //   x.BREAK_EFFICIENCY_BOOST.buff((e >= 6 && r.e6BreakEfficiency) ? 0.50 : 0, SOURCE_E6)
@@ -248,7 +236,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     //   x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
     //   x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
     //   x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-    // },
+    },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>

@@ -15,6 +15,7 @@ import {
   CritHitDefinition,
   DotHitDefinition,
   HitDefinition,
+  SuperBreakHitDefinition,
 } from 'types/hitConditionalTypes'
 
 const BASE_HIT_DEFAULTS = {
@@ -102,5 +103,13 @@ HitDefinitionBuilder.standardAdditional = () =>
     ...BASE_HIT_DEFAULTS,
     damageFunctionType: DamageFunctionType.Additional,
     damageType: DamageTag.ADDITIONAL,
+    activeHit: false,
+  })
+
+HitDefinitionBuilder.standardSuperBreak = (e: ElementTag) =>
+  genericBuilder<SuperBreakHitDefinition>({
+    damageFunctionType: DamageFunctionType.SuperBreak,
+    damageType: DamageTag.SUPER_BREAK,
+    damageElement: e,
     activeHit: false,
   })

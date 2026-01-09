@@ -81,7 +81,7 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
 
   if (!gpuParams.DEBUG) {
     unrolledActionCallsWgsl += `
-if (comboDmg > 0) {
+if (comboDmg > 300000) {
   results[index] = comboDmg;
   failures = 1;
 } else {
@@ -267,8 +267,6 @@ function unrollDamageCalculations(index: number, action: OptimizerAction, contex
 
   return wgsl`
 ${code}
-
-${containerActionVal(0, AKey.EHP, action.config)} = comboDmg;
 `
 }
 

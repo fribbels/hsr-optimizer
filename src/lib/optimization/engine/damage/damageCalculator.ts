@@ -369,42 +369,39 @@ export const SuperBreakDamageFunction: DamageFunction = {
 
     return wgsl`
 {
-  // SuperBreak modifier check (early return if 0)
+  // Common multipliers
+  let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
+  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
+  let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
+  let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
+  let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
+
+  // SuperBreak-specific: dmgBoost is hit-level only (no action-level, no elemental boost)
+  let dmgBoostMulti = 1.0 + ${getHitValue(HKey.DMG_BOOST)};
+
+  // SuperBreak base damage calculation
+  let superBreakBaseMulti = (3767.5533 / 10.0) * ${toughnessDmg};
+
+  // BE multiplier (action + hit combined)
+  let beMulti = 1.0 + ${getValue(StatKey.BE)};
+
+  // SuperBreak modifier
   let superBreakModMulti = ${getValue(StatKey.SUPER_BREAK_MODIFIER)};
-  let damage = 0.0;
 
-  if (superBreakModMulti != 0.0) {
-    // Common multipliers
-    let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
-    let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
-    let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
-    let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
-    let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
+  // Break efficiency multiplier from reference hit
+  let breakEfficiencyMulti = 1.0 + ${containerGetValue(entityIndex, referenceHitIndex, StatKey.BREAK_EFFICIENCY_BOOST, config)};
 
-    // SuperBreak-specific: dmgBoost is hit-level only (no action-level, no elemental boost)
-    let dmgBoostMulti = 1.0 + ${getHitValue(HKey.DMG_BOOST)};
-
-    // SuperBreak base damage calculation
-    let superBreakBaseMulti = (3767.5533 / 10.0) * ${toughnessDmg};
-
-    // BE multiplier (action + hit combined)
-    let beMulti = 1.0 + ${getValue(StatKey.BE)};
-
-    // Break efficiency multiplier from reference hit
-    let breakEfficiencyMulti = 1.0 + ${containerGetValue(entityIndex, referenceHitIndex, StatKey.BREAK_EFFICIENCY_BOOST, config)};
-
-    // Final damage
-    damage = baseUniversalMulti
-      * defMulti
-      * resMulti
-      * vulnMulti
-      * finalDmgMulti
-      * dmgBoostMulti
-      * superBreakBaseMulti
-      * beMulti
-      * superBreakModMulti
-      * breakEfficiencyMulti;
-  }
+  // Final damage
+  let damage = baseUniversalMulti
+    * defMulti
+    * resMulti
+    * vulnMulti
+    * finalDmgMulti
+    * dmgBoostMulti
+    * superBreakBaseMulti
+    * beMulti
+    * superBreakModMulti
+    * breakEfficiencyMulti;
 
   comboDmg += damage;
   ${wgslDebugHitRegister(hit, context)}

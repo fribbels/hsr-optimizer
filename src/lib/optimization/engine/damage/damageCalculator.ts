@@ -1,12 +1,14 @@
 import {
   containerActionVal,
   containerGetValue,
+  containerHitVal,
   wgslDebugActionRegister,
   wgslDebugHitRegister,
 } from 'lib/gpu/injection/injectUtils'
 import { wgsl } from 'lib/gpu/injection/wgslUtils'
 import {
   HKey,
+  HKeyValue,
   StatKey,
   StatKeyValue,
 } from 'lib/optimization/engine/config/keys'
@@ -256,12 +258,56 @@ export const BreakDamageFunction: DamageFunction = {
     const breakBase = 3767.5533 * context.elementalBreakScaling
       * (0.5 + context.enemyMaxToughness / 120)
       * (hit.specialScaling ?? 1)
-    
+
     return breakBase * baseMulti * be
   },
   wgsl: (action, hitIndex, context) => {
-    // TODO: Implement WGSL generation
-    return '/* BreakDamageFunction WGSL stub */'
+    const hit = action.hits![hitIndex] as BreakHit
+    const config = action.config
+    const entityIndex = hit.sourceEntityIndex ?? 0
+
+    const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
+    const getHitValue = (stat: HKeyValue) => containerHitVal(entityIndex, hitIndex, stat, config)
+
+    // Break-specific constants from hit definition and context
+    const specialScaling = hit.specialScaling ?? 1
+    const elementalBreakScaling = context.elementalBreakScaling
+    const enemyMaxToughness = context.enemyMaxToughness
+
+    return wgsl`
+{
+  // Common multipliers
+  let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
+  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
+  let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
+  let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
+  let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
+
+  // Break-specific: dmgBoost is hit-level only (no action-level, no elemental boost)
+  let dmgBoostMulti = 1.0 + ${getHitValue(HKey.DMG_BOOST)};
+
+  // Break base damage calculation
+  let breakBase = 3767.5533 * ${elementalBreakScaling}
+    * (0.5 + ${enemyMaxToughness} / 120.0)
+    * ${specialScaling};
+
+  // BE multiplier (action + hit combined)
+  let beMulti = 1.0 + ${getValue(StatKey.BE)};
+
+  // Final damage
+  let damage = breakBase
+    * baseUniversalMulti
+    * defMulti
+    * resMulti
+    * vulnMulti
+    * dmgBoostMulti
+    * finalDmgMulti
+    * beMulti;
+
+  comboDmg += damage;
+  ${wgslDebugHitRegister(hit, context)}
+}
+`
   },
 }
 

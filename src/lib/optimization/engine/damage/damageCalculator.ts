@@ -36,20 +36,20 @@ export enum DamageFunctionType {
 }
 
 interface DamageMultipliers {
-  baseUniversal: number
-  def: number
-  res: number
-  vulnerability: number
-  finalDmg: number
+  baseUniversalMulti: number
+  defMulti: number
+  resMulti: number
+  vulnMulti: number
+  finalDmgMulti: number
 }
 
 // Pre-allocated reusable object to avoid GC pressure in hot path
 const m: DamageMultipliers = {
-  baseUniversal: 0,
-  def: 0,
-  res: 0,
-  vulnerability: 0,
-  finalDmg: 0,
+  baseUniversalMulti: 0,
+  defMulti: 0,
+  resMulti: 0,
+  vulnMulti: 0,
+  finalDmgMulti: 0,
 }
 
 export interface DamageFunction {
@@ -89,18 +89,19 @@ export const CritDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
     computeCommonMultipliers(x, hitIndex, context)
-    const dmgBoostMulti = getTotalDmgBoost(x, hit, hitIndex)
-    const initial = calculateInitialDamage(x, hit, hitIndex, context)
-    const crit = getCritMultiplier(x, hitIndex)
 
-    const dmg = m.baseUniversal
-      * m.def
-      * m.res
-      * m.vulnerability
-      * m.finalDmg
+    const dmgBoostMulti = getTotalDmgBoost(x, hit, hitIndex)
+    const initialDmgMulti = calculateInitialDamage(x, hit, hitIndex, context)
+    const critMulti = getCritMultiplier(x, hitIndex)
+
+    const dmg = m.baseUniversalMulti
+      * m.defMulti
+      * m.resMulti
+      * m.vulnMulti
+      * m.finalDmgMulti
       * dmgBoostMulti
-      * initial
-      * crit
+      * initialDmgMulti
+      * critMulti
 
     return dmg
   },
@@ -148,16 +149,15 @@ export const CritDamageFunction: DamageFunction = {
 
   // Final damage
   let damage = baseUniversalMulti
-    * abilityMulti
     * defMulti
     * resMulti
     * vulnMulti
-    * dmgBoostMulti
     * finalDmgMulti
+    * dmgBoostMulti
+    * abilityMulti
     * critMulti;
 
-  // comboDmg = abilityMulti;
-  comboDmg += damage + 0;
+  comboDmg += damage;
   ${wgslDebugHitRegister(hit, context)}
 }
 `
@@ -168,12 +168,21 @@ export const DotDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex] as DotHit
     computeCommonMultipliers(x, hitIndex, context)
-    const dmgBoost = getTotalDmgBoost(x, hit, hitIndex)
-    const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * dmgBoost * m.finalDmg
-    const initial = calculateInitialDamage(x, hit, hitIndex, context)
-    const ehr = calculateEhrMultiFromHit(x, hit, hitIndex, context)
 
-    return initial * baseMulti * ehr
+    const dmgBoostMulti = getTotalDmgBoost(x, hit, hitIndex)
+    const abilityMulti = calculateInitialDamage(x, hit, hitIndex, context)
+    const ehrMulti = calculateEhrMultiFromHit(x, hit, hitIndex, context)
+
+    const dmg = m.baseUniversalMulti
+      * m.defMulti
+      * m.resMulti
+      * m.vulnMulti
+      * m.finalDmgMulti
+      * dmgBoostMulti
+      * abilityMulti
+      * ehrMulti
+
+    return dmg
   },
   wgsl: (action, hitIndex, context) => {
     const hit = action.hits![hitIndex] as DotHit
@@ -232,12 +241,12 @@ export const DotDamageFunction: DamageFunction = {
 
   // Final damage
   let damage = baseUniversalMulti
-    * abilityMulti
     * defMulti
     * resMulti
     * vulnMulti
-    * dmgBoostMulti
     * finalDmgMulti
+    * dmgBoostMulti
+    * abilityMulti
     * ehrMulti;
 
   comboDmg += damage;
@@ -252,14 +261,23 @@ export const BreakDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex] as BreakHit
     computeCommonMultipliers(x, hitIndex, context)
-    const dmgBoost = 1 + x.getHitValue(HKey.DMG_BOOST, hitIndex)
-    const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * dmgBoost * m.finalDmg
-    const be = 1 + x.getValue(StatKey.BE, hitIndex)
-    const breakBase = 3767.5533 * context.elementalBreakScaling
+
+    const dmgBoostMulti = 1 + x.getHitValue(HKey.DMG_BOOST, hitIndex)
+    const breakBaseMulti = 3767.5533 * context.elementalBreakScaling
       * (0.5 + context.enemyMaxToughness / 120)
       * (hit.specialScaling ?? 1)
+    const beMulti = 1 + x.getValue(StatKey.BE, hitIndex)
 
-    return breakBase * baseMulti * be
+    const dmg = m.baseUniversalMulti
+      * m.defMulti
+      * m.resMulti
+      * m.vulnMulti
+      * m.finalDmgMulti
+      * dmgBoostMulti
+      * breakBaseMulti
+      * beMulti
+
+    return dmg
   },
   wgsl: (action, hitIndex, context) => {
     const hit = action.hits![hitIndex] as BreakHit
@@ -287,7 +305,7 @@ export const BreakDamageFunction: DamageFunction = {
   let dmgBoostMulti = 1.0 + ${getHitValue(HKey.DMG_BOOST)};
 
   // Break base damage calculation
-  let breakBase = 3767.5533 * ${elementalBreakScaling}
+  let breakBaseMulti = 3767.5533 * ${elementalBreakScaling}
     * (0.5 + ${enemyMaxToughness} / 120.0)
     * ${specialScaling};
 
@@ -295,13 +313,13 @@ export const BreakDamageFunction: DamageFunction = {
   let beMulti = 1.0 + ${getValue(StatKey.BE)};
 
   // Final damage
-  let damage = breakBase
-    * baseUniversalMulti
+  let damage = baseUniversalMulti
     * defMulti
     * resMulti
     * vulnMulti
-    * dmgBoostMulti
     * finalDmgMulti
+    * dmgBoostMulti
+    * breakBaseMulti
     * beMulti;
 
   comboDmg += damage;
@@ -315,15 +333,27 @@ export const SuperBreakDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
     computeCommonMultipliers(x, hitIndex, context)
-    const dmgBoost = 1 + x.getHitValue(HKey.DMG_BOOST, hitIndex)
-    const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * dmgBoost * m.finalDmg
-    const toughnessDmg = hit.referenceHit?.toughnessDmg ?? 0
-    const superBreakMod = x.getValue(StatKey.SUPER_BREAK_MODIFIER, hitIndex)
-    if (superBreakMod === 0) return 0
 
-    const be = 1 + x.getValue(StatKey.BE, hitIndex)
-    const breakEff = 1 + x.getValue(StatKey.BREAK_EFFICIENCY_BOOST, hit.referenceHit?.localHitIndex ?? hitIndex)
-    return (3767.5533 / 10) * baseMulti * be * superBreakMod * breakEff * toughnessDmg
+    const superBreakModMulti = x.getValue(StatKey.SUPER_BREAK_MODIFIER, hitIndex)
+    if (superBreakModMulti === 0) return 0
+
+    const dmgBoostMulti = 1 + x.getHitValue(HKey.DMG_BOOST, hitIndex)
+    const superBreakBaseMulti = (3767.5533 / 10) * (hit.referenceHit?.toughnessDmg ?? 0)
+    const beMulti = 1 + x.getValue(StatKey.BE, hitIndex)
+    const breakEfficiencyMulti = 1 + x.getValue(StatKey.BREAK_EFFICIENCY_BOOST, hit.referenceHit?.localHitIndex ?? hitIndex)
+
+    const dmg = m.baseUniversalMulti
+      * m.defMulti
+      * m.resMulti
+      * m.vulnMulti
+      * m.finalDmgMulti
+      * dmgBoostMulti
+      * superBreakBaseMulti
+      * beMulti
+      * superBreakModMulti
+      * breakEfficiencyMulti
+
+    return dmg
   },
   wgsl: (action, hitIndex, context) => {
     // TODO: Implement WGSL generation
@@ -333,14 +363,23 @@ export const SuperBreakDamageFunction: DamageFunction = {
 
 export const AdditionalDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
-    // Same as Crit for now
     const hit = action.hits![hitIndex]
     computeCommonMultipliers(x, hitIndex, context)
-    const dmgBoost = getTotalDmgBoost(x, hit, hitIndex)
-    const baseMulti = m.baseUniversal * m.def * m.res * m.vulnerability * dmgBoost * m.finalDmg
-    const initial = calculateInitialDamage(x, hit, hitIndex, context)
-    const crit = getCritMultiplier(x, hitIndex)
-    return initial * baseMulti * crit
+
+    const dmgBoostMulti = getTotalDmgBoost(x, hit, hitIndex)
+    const abilityMulti = calculateInitialDamage(x, hit, hitIndex, context)
+    const critMulti = getCritMultiplier(x, hitIndex)
+
+    const dmg = m.baseUniversalMulti
+      * m.defMulti
+      * m.resMulti
+      * m.vulnMulti
+      * m.finalDmgMulti
+      * dmgBoostMulti
+      * abilityMulti
+      * critMulti
+
+    return dmg
   },
   wgsl: (action, hitIndex, context) => {
     // TODO: Implement WGSL generation
@@ -369,11 +408,11 @@ function computeCommonMultipliers(
   const defPen = x.getValue(StatKey.DEF_PEN, hitIndex)
   const resPen = x.getValue(StatKey.RES_PEN, hitIndex)
 
-  m.baseUniversal = x.a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
-  m.def = calculateDefMulti(context.enemyLevel, context.combatBuffs.DEF_PEN + defPen)
-  m.res = 1 - (context.enemyDamageResistance - context.combatBuffs.RES_PEN - resPen)
-  m.vulnerability = 1 + x.getValue(StatKey.VULNERABILITY, hitIndex)
-  m.finalDmg = 1 + x.getValue(StatKey.FINAL_DMG_BOOST, hitIndex)
+  m.baseUniversalMulti = x.a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
+  m.defMulti = calculateDefMulti(context.enemyLevel, context.combatBuffs.DEF_PEN + defPen)
+  m.resMulti = 1 - (context.enemyDamageResistance - context.combatBuffs.RES_PEN - resPen)
+  m.vulnMulti = 1 + x.getValue(StatKey.VULNERABILITY, hitIndex)
+  m.finalDmgMulti = 1 + x.getValue(StatKey.FINAL_DMG_BOOST, hitIndex)
 }
 
 function calculateInitialDamage(

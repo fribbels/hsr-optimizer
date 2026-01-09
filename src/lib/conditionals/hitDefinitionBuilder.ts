@@ -24,7 +24,6 @@ const BASE_HIT_DEFAULTS = {
   defScaling: 0,
 }
 
-// Schema for DOT hits with required dotChance and damageElement
 const dotHitSchema = schemaBuilder<
   DotHitDefinition,
   Pick<DotHitDefinition, 'damageFunctionType' | 'activeHit'>,
@@ -37,7 +36,6 @@ const dotHitSchema = schemaBuilder<
   required: ['dotBaseChance', 'damageElement'],
 })
 
-// Schema for Crit hits with required damageElement
 const critHitSchema = schemaBuilder<
   CritHitDefinition,
   Pick<CritHitDefinition, 'damageFunctionType' | 'activeHit'>,

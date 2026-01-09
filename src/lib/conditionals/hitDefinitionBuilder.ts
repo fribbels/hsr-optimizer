@@ -81,6 +81,14 @@ HitDefinitionBuilder.standardUlt = () =>
     activeHit: true,
   })
 
+HitDefinitionBuilder.standardFua = () =>
+  genericBuilder<CritHitDefinition>({
+    ...BASE_HIT_DEFAULTS,
+    damageFunctionType: DamageFunctionType.Crit,
+    damageType: DamageTag.FUA,
+    activeHit: true,
+  })
+
 HitDefinitionBuilder.standardBreak = (e: ElementTag) =>
   genericBuilder<BreakHitDefinition>({
     damageFunctionType: DamageFunctionType.Break,

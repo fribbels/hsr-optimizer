@@ -22,11 +22,6 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
-
-import {
-  CritDamageFunction,
-  DamageFunctionType,
-} from 'lib/optimization/engine/damage/damageCalculator'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
@@ -146,43 +141,33 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return {
         [TopazAbilities.BASIC]: {
           hits: [
-            {
-              damageFunction: CritDamageFunction,
-              damageFunctionType: DamageFunctionType.Crit,
-              damageType: DamageType.BASIC | DamageType.FUA,
-              damageElement: ElementTag.Fire,
-              atkScaling: basicScaling,
-              toughnessDmg: 10,
-              activeHit: true,
-            },
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Fire)
+              .damageType(DamageType.BASIC | DamageType.FUA)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
           ],
         },
         [TopazAbilities.SKILL]: {
           hits: [
-            {
-              sourceEntity: TopazEntities.Numby,
-              damageFunction: CritDamageFunction,
-              damageFunctionType: DamageFunctionType.Crit,
-              damageType: DamageType.SKILL | DamageType.FUA,
-              damageElement: ElementTag.Fire,
-              atkScaling: skillScaling + (r.numbyEnhancedState ? enhancedStateFuaScalingBoost : 0),
-              toughnessDmg: 20,
-              activeHit: true,
-            },
+            HitDefinitionBuilder.standardSkill()
+              .sourceEntity(TopazEntities.Numby)
+              .damageElement(ElementTag.Fire)
+              .damageType(DamageType.SKILL | DamageType.FUA)
+              .atkScaling(skillScaling + (r.numbyEnhancedState ? enhancedStateFuaScalingBoost : 0))
+              .toughnessDmg(20)
+              .build(),
           ],
         },
         [TopazAbilities.FUA]: {
           hits: [
-            {
-              sourceEntity: TopazEntities.Numby,
-              damageFunction: CritDamageFunction,
-              damageFunctionType: DamageFunctionType.Crit,
-              damageType: DamageType.FUA,
-              damageElement: ElementTag.Fire,
-              atkScaling: fuaScaling + (r.numbyEnhancedState ? enhancedStateFuaScalingBoost : 0),
-              toughnessDmg: 20,
-              activeHit: true,
-            },
+            HitDefinitionBuilder.standardFua()
+              .sourceEntity(TopazEntities.Numby)
+              .damageElement(ElementTag.Fire)
+              .atkScaling(fuaScaling + (r.numbyEnhancedState ? enhancedStateFuaScalingBoost : 0))
+              .toughnessDmg(20)
+              .build(),
           ],
         },
         [TopazAbilities.BREAK]: {
@@ -283,11 +268,11 @@ x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action
       const r = action.characterConditionals as Conditionals<typeof content>
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
 
-      return `
-x.BASIC_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${basicHitCountMulti});
-x.SKILL_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMulti});
-x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMulti});
-      `
+      return ``
+// x.BASIC_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${basicHitCountMulti});
+// x.SKILL_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMulti});
+// x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMulti});
+//       `
     },
   }
 }

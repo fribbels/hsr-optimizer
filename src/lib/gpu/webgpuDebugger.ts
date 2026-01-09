@@ -13,6 +13,7 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { logRegisters } from 'lib/simulations/registerLogger'
 import { useOptimizerTabStore } from 'lib/tabs/tabOptimizer/useOptimizerTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { OptimizerContext } from 'types/optimizer'
 
 export function logIterationTimer(i: number, gpuContext: GpuExecutionContext) {
   const endTime = new Date().getTime()
@@ -56,6 +57,66 @@ export function debugWebgpuOutput(gpuContext: GpuExecutionContext, arrayBuffer: 
  xELEMENTAL_DMG: array[22],
  */
 
+/**
+ * Maps action names to standardized ability field names
+ */
+function mapActionNameToField(actionName: string): string | null {
+  const upperName = actionName.toUpperCase()
+
+  // Direct matches
+  if (upperName === 'BASIC' || upperName.includes('BASIC')) return 'BASIC'
+  if (upperName === 'SKILL' || upperName.includes('SKILL')) return 'SKILL'
+  if (upperName === 'ULT' || upperName.includes('ULT') || upperName.includes('ULTIMATE')) return 'ULT'
+  if (upperName === 'DOT' || upperName.includes('DOT')) return 'DOT'
+  if (upperName === 'BREAK' || upperName.includes('BREAK')) return 'BREAK'
+
+  // FUA variations
+  if (upperName.includes('FUA') || upperName.includes('FOLLOW') || upperName.includes('FOLLOWUP')) return 'FUA'
+
+  // Memosprite variations
+  if (upperName.includes('MEMO')) {
+    if (upperName.includes('SKILL')) return 'MEMO_SKILL'
+    if (upperName.includes('TALENT')) return 'MEMO_TALENT'
+  }
+
+  return null
+}
+
+/**
+ * Extracts action damage values from default actions and maps them to standardized fields.
+ * Also computes COMBO damage from rotation actions.
+ */
+function extractActionDamageFields(x: ComputedStatsContainer, context: OptimizerContext) {
+  const fields = {
+    BASIC: 0,
+    SKILL: 0,
+    ULT: 0,
+    FUA: 0,
+    MEMO_SKILL: 0,
+    MEMO_TALENT: 0,
+    DOT: 0,
+    BREAK: 0,
+    COMBO: 0,
+  }
+
+  // Map default actions to standardized fields
+  for (const action of context.defaultActions) {
+    const field = mapActionNameToField(action.actionName)
+    if (field && field in fields) {
+      const damageValue = x.getActionRegisterValue(action.registerIndex)
+      fields[field as keyof typeof fields] += damageValue
+    }
+  }
+
+  // COMBO is the sum of rotation action damages
+  for (const action of context.rotationActions) {
+    const damageValue = x.getActionRegisterValue(action.registerIndex)
+    fields.COMBO += damageValue
+  }
+
+  return fields
+}
+
 export function debugExportWebgpuResult(array: Float32Array) {
   const context = useOptimizerTabStore.getState().context!
   const x = new ComputedStatsContainer()
@@ -80,17 +141,12 @@ export function debugExportWebgpuResult(array: Float32Array) {
     [ElementNames.Imaginary]: StatKey.IMAGINARY_DMG_BOOST,
   }
 
+  // Extract action damages dynamically
+  const actionDamages = extractActionDamageFields(x, context)
+
   return {
     ED: x.getActionValueByIndex(StatKey.DMG_BOOST, SELF_ENTITY_INDEX),
-    BASIC: 0,
-    SKILL: 0,
-    ULT: 0,
-    FUA: 0,
-    MEMO_SKILL: 0,
-    MEMO_TALENT: 0,
-    DOT: 0,
-    BREAK: 0,
-    COMBO: 0,
+    ...actionDamages,
     EHP: x.getActionValueByIndex(StatKey.EHP, SELF_ENTITY_INDEX),
     HEAL: 0,
     SHIELD: 0,

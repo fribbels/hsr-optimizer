@@ -11,9 +11,14 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -21,6 +26,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const HuohuoEntities = createEnum('Huohuo')
+export const HuohuoAbilities = createEnum('BASIC', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Huohuo')
@@ -116,13 +124,47 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
+
+    entityDeclaration: () => Object.values(HuohuoEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [HuohuoEntities.Huohuo]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(HuohuoAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [HuohuoAbilities.BASIC]: {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Wind)
+            .hpScaling(basicScaling)
+            .toughnessDmg(10)
+            .build(),
+        ],
+      },
+      [HuohuoAbilities.BREAK]: {
+        hits: [
+          HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
+        ],
+      },
+    }),
+    actionModifiers: () => [],
+
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      // TODO: Migrate healing system
+    },
+
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Scaling
-      x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+      // TODO: Migrate healing system to Container
+      // x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
+      // x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
 
       if (r.healAbility == SKILL_DMG_TYPE) {
         x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
@@ -137,17 +179,26 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       return x
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ATK_P.buffTeam((m.ultBuff) ? ultBuffValue : 0, SOURCE_ULT)
-      x.SPD_P.buffTeam((e >= 1 && m.skillBuff) ? 0.12 : 0, SOURCE_E1)
+      x.buff(StatKey.ATK_P, (m.ultBuff) ? ultBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
+      x.buff(StatKey.SPD_P, (e >= 1 && m.skillBuff) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+      x.buff(StatKey.DMG_BOOST, (e >= 6 && m.e6DmgBuff) ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
+    },
 
-      x.ELEMENTAL_DMG.buffTeam((e >= 6 && m.e6DmgBuff) ? 0.50 : 0, SOURCE_E6)
+    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+      // const m = action.characterConditionals as Conditionals<typeof teammateContent>
+      // x.ATK_P.buffTeam((m.ultBuff) ? ultBuffValue : 0, SOURCE_ULT)
+      // x.SPD_P.buffTeam((e >= 1 && m.skillBuff) ? 0.12 : 0, SOURCE_E1)
+      // x.ELEMENTAL_DMG.buffTeam((e >= 6 && m.e6DmgBuff) ? 0.50 : 0, SOURCE_E6)
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardHpHealFinalizer(x)
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      // TODO: Migrate healing finalizer
     },
-    gpuFinalizeCalculations: () => gpuStandardHpHealFinalizer(),
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

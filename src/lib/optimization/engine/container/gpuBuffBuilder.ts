@@ -13,12 +13,13 @@ import {
   ALL_ELEMENT_TAGS,
   DamageTag,
   ElementTag,
+  SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { OptimizerEntity } from 'lib/optimization/engine/container/computedStatsContainer'
 import { OptimizerAction } from 'types/optimizer'
 
-export function matchesTargetTag(entity: OptimizerEntity, targetTag: TargetTag): boolean {
+export function matchesTargetTag(entity: OptimizerEntity, targetTag: TargetTag, entities?: OptimizerEntity[]): boolean {
   if (targetTag === TargetTag.None) return false
   if (targetTag & TargetTag.Self) return entity.primary
   if (targetTag & TargetTag.SelfAndPet) return entity.primary || (entity.pet ?? false)
@@ -28,6 +29,11 @@ export function matchesTargetTag(entity: OptimizerEntity, targetTag: TargetTag):
   if (targetTag & TargetTag.SummonsOnly) return entity.summon
   if (targetTag & TargetTag.SelfAndSummon) return entity.primary || entity.summon
   if (targetTag & TargetTag.MemospritesOnly) return entity.memosprite
+  if (targetTag & TargetTag.SingleTarget) {
+    const primaryEntity = entities?.[SELF_ENTITY_INDEX]
+    if (primaryEntity?.memoBuffPriority && entities?.some(e => e.memosprite)) return entity.memosprite
+    return entity.primary
+  }
   return false
 }
 
@@ -64,7 +70,7 @@ class ActionBuffBuilder {
       const index = getActionIndex(entityIndex, this.actionKey, config)
       const code = `(*p_container)[${index}] += ${this.value}; // ${entity.name} ${getAKeyName(this.actionKey)}`
 
-      if (matchesTargetTag(entity, this._targetTag)) {
+      if (matchesTargetTag(entity, this._targetTag, config.entitiesArray)) {
         lines.push(code)
       } else {
         lines.push(`// ${code}`)
@@ -116,7 +122,7 @@ class HitBuffBuilder {
 
     for (let entityIndex = 0; entityIndex < config.entitiesLength; entityIndex++) {
       const entity = config.entitiesArray[entityIndex]
-      const entityMatches = matchesTargetTag(entity, this._targetTag)
+      const entityMatches = matchesTargetTag(entity, this._targetTag, config.entitiesArray)
 
       for (let hitIndex = 0; hitIndex < hits.length; hitIndex++) {
         const hit = hits[hitIndex]

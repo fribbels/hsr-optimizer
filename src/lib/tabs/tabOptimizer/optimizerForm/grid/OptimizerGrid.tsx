@@ -98,19 +98,19 @@ export function OptimizerGrid() {
       columnDefinitions = columnDefinitions.filter((column) => !hiddenFields.includes(column.field))
     }
 
-    if (context) {
-      for (const action of context.defaultActions) {
-        columnDefinitions.push(
-          {
-            field: action.actionName,
-            valueFormatter: Renderer.floor,
-            minWidth: DIGITS_5,
-            flex: 12,
-            headerName: action.actionName,
-          },
-        )
-      }
-    }
+    // if (context) {
+    //   for (const action of context.defaultActions) {
+    //     columnDefinitions.push(
+    //       {
+    //         field: action.actionName,
+    //         valueFormatter: Renderer.floor,
+    //         minWidth: DIGITS_5,
+    //         flex: 12,
+    //         headerName: action.actionName,
+    //       },
+    //     )
+    //   }
+    // }
 
     return columnDefinitions
   }, [optimizerTabFocusCharacter, statDisplay, memoDisplay, context, t])

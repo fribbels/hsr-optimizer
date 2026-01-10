@@ -24,6 +24,7 @@ import {
   ALL_ELEMENT_TAGS,
   DamageTag,
   ElementTag,
+  SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import {
@@ -74,6 +75,12 @@ function buildActionBuffIndexCache(
         else if (targetTags & TargetTag.SummonsOnly) matches = entity.summon
         else if (targetTags & TargetTag.SelfAndSummon) matches = entity.primary || entity.summon
         else if (targetTags & TargetTag.MemospritesOnly) matches = entity.memosprite
+        else if (targetTags & TargetTag.SingleTarget) {
+          const primaryEntity = entityRegistry.get(SELF_ENTITY_INDEX)!
+          const hasMemosprite = Array.from({ length: entitiesLength }, (_, i) => entityRegistry.get(i)!).some(e => e.memosprite)
+          if (primaryEntity.memoBuffPriority && hasMemosprite) matches = entity.memosprite
+          else matches = entity.primary
+        }
         else if (targetTags === TargetTag.None) matches = false
 
         if (matches) {
@@ -412,6 +419,11 @@ export class ComputedStatsContainer {
     if (targetTags & TargetTag.SummonsOnly) return entity.summon
     if (targetTags & TargetTag.SelfAndSummon) return entity.primary || entity.summon
     if (targetTags & TargetTag.MemospritesOnly) return entity.memosprite
+    if (targetTags & TargetTag.SingleTarget) {
+      const primaryEntity = this.config.entitiesArray[SELF_ENTITY_INDEX]
+      if (primaryEntity.memoBuffPriority && this.config.entitiesArray.some(e => e.memosprite)) return entity.memosprite
+      return entity.primary
+    }
     return false
   }
 

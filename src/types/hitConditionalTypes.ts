@@ -94,6 +94,8 @@ export interface EntityDefinition {
 
   teammate?: boolean
 
+  memoBuffPriority?: boolean
+
   memoBaseAtkFlat?: number
   memoBaseHpFlat?: number
   memoBaseDefFlat?: number

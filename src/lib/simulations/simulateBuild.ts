@@ -24,6 +24,7 @@ import {
 } from 'lib/optimization/calculateStats'
 import { ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
+import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
 import { logRegisters } from 'lib/simulations/registerLogger'
@@ -123,10 +124,14 @@ export function simulateBuild(
       const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
       x.setHitRegisterValue(hit.registerIndex, dmg)
       sum += dmg
+
+      // Only accumulate damage hits to comboDmg (not heals/shields)
+      if (hit.outputTag == OutputTag.DAMAGE) {
+        comboDmg += dmg
+      }
     }
 
     x.setActionRegisterValue(action.registerIndex, sum)
-    comboDmg += sum
   }
 
   calculateComputedStats(x, context.defaultActions[0], context)

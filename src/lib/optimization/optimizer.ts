@@ -17,6 +17,7 @@ import {
 import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { StatKey } from 'lib/optimization/engine/config/keys'
+import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import {
@@ -332,8 +333,7 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
   // d.BREAK = a[StatKey.BREAK_DMG]
   d.COMBO = a[StatKey.COMBO_DMG]
   d.EHP = a[StatKey.EHP]
-  d.HEAL = a[StatKey.HEAL_VALUE]
-  d.SHIELD = a[StatKey.SHIELD_VALUE]
+
   d.xHP = a[StatKey.HP]
   d.xATK = a[StatKey.ATK]
   d.xDEF = a[StatKey.DEF]
@@ -350,6 +350,23 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
   d.mELEMENTAL_DMG = c.ELEMENTAL_DMG.get()
 
   if (context) {
+    let heal = 0
+    let shield = 0
+    for (const action of context.rotationActions) {
+      if (action.hits) {
+        for (const hit of action.hits) {
+          const hitValue = x.getHitRegisterValue(hit.registerIndex)
+          if (hit.outputTag === OutputTag.HEAL) {
+            heal += hitValue
+          } else if (hit.outputTag === OutputTag.SHIELD) {
+            shield += hitValue
+          }
+        }
+      }
+    }
+    d.HEAL = heal
+    d.SHIELD = shield
+
     switch (context.elementalDamageType) {
       case Stats.Physical_DMG:
         d.xELEMENTAL_DMG += a[StatKey.PHYSICAL_DMG_BOOST]

@@ -81,7 +81,7 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
 
   if (!gpuParams.DEBUG) {
     unrolledActionCallsWgsl += `
-if (comboDmg > 0) {
+if (comboDmg > threshold) {
   results[index] = comboDmg;
   failures = 1;
 } else {

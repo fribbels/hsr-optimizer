@@ -54,6 +54,7 @@ export const newStatsConfig = {
   DEF_PEN: { hit: true, label: optimizerTabCompositeSuffix('DEF PEN') },
   BREAK_EFFICIENCY_BOOST: { hit: true, label: optimizerTabCompositeSuffix('Break Efficiency boost') },
   FINAL_DMG_BOOST: { hit: true, label: optimizerTabCompositeSuffix('Final DMG multiplier') },
+  TRUE_DMG_MODIFIER: { hit: true, label: optimizerTabCompositeSuffix('True DMG multiplier') },
 
   // ================ Action Stats ================
 

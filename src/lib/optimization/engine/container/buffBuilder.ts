@@ -18,7 +18,6 @@ export class BuffBuilder<_Completed extends boolean = false> {
 
   _elementTags = ALL_ELEMENT_TAGS
   _damageTags = ALL_DAMAGE_TAGS
-  // Default to DAMAGE only - prevents damage boosts from leaking to heals/shields
   _outputTags = OutputTag.DAMAGE
   _origin = SELF_ENTITY_INDEX
   _target = SELF_ENTITY_INDEX

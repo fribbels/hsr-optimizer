@@ -32,7 +32,7 @@ export function matchesTargetTag(entity: OptimizerEntity, targetTag: TargetTag, 
   if (targetTag & TargetTag.MemospritesOnly) return entity.memosprite
   if (targetTag & TargetTag.SingleTarget) {
     const primaryEntity = entities?.[SELF_ENTITY_INDEX]
-    if (primaryEntity?.memoBuffPriority && entities?.some(e => e.memosprite)) return entity.memosprite
+    if (primaryEntity?.memoBuffPriority && entities?.some((e) => e.memosprite)) return entity.memosprite
     return entity.primary
   }
   return false
@@ -88,7 +88,6 @@ class HitBuffBuilder {
   private _targetTag: TargetTag = TargetTag.SelfAndPet
   private _damageTags: DamageTag = ALL_DAMAGE_TAGS
   private _elementTags: ElementTag = ALL_ELEMENT_TAGS
-  // Default to DAMAGE only - prevents damage boosts from leaking to heals/shields
   private _outputTags: OutputTag = OutputTag.DAMAGE
   private readonly hitKey: HKeyValue
   private readonly value: WgslBuffValue

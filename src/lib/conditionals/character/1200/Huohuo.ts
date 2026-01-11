@@ -9,7 +9,10 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import {
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
@@ -143,12 +146,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      // Healing is handled via heal hits in actionDefinition
     },
 
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      // Healing is now handled via heal hits in actionDefinition
-      return x
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -160,14 +160,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
 
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      // const m = action.characterConditionals as Conditionals<typeof teammateContent>
-      // x.ATK_P.buffTeam((m.ultBuff) ? ultBuffValue : 0, SOURCE_ULT)
-      // x.SPD_P.buffTeam((e >= 1 && m.skillBuff) ? 0.12 : 0, SOURCE_E1)
-      // x.ELEMENTAL_DMG.buffTeam((e >= 6 && m.e6DmgBuff) ? 0.50 : 0, SOURCE_E6)
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      // Healing is calculated via HealDamageFunction in actionDefinition hits
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',

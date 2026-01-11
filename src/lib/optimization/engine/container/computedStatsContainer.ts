@@ -78,11 +78,10 @@ function buildActionBuffIndexCache(
         else if (targetTags & TargetTag.MemospritesOnly) matches = entity.memosprite
         else if (targetTags & TargetTag.SingleTarget) {
           const primaryEntity = entityRegistry.get(SELF_ENTITY_INDEX)!
-          const hasMemosprite = Array.from({ length: entitiesLength }, (_, i) => entityRegistry.get(i)!).some(e => e.memosprite)
+          const hasMemosprite = Array.from({ length: entitiesLength }, (_, i) => entityRegistry.get(i)!).some((e) => e.memosprite)
           if (primaryEntity.memoBuffPriority && hasMemosprite) matches = entity.memosprite
           else matches = entity.primary
-        }
-        else if (targetTags === TargetTag.None) matches = false
+        } else if (targetTags === TargetTag.None) matches = false
 
         if (matches) {
           indices.push(entityIndex * entityStride + statKey)
@@ -289,6 +288,21 @@ export class ComputedStatsContainer {
     )
   }
 
+  multiply(key: AKeyValue, value: number, config: BuffBuilder<true>) {
+    this.internalBuff(
+      key,
+      value,
+      this.operatorMultiply,
+      config._source,
+      config._origin,
+      config._target,
+      config._targetTags,
+      config._elementTags,
+      config._damageTags,
+      config._outputTags,
+    )
+  }
+
   buffDynamic(key: AKeyValue, value: number, action: OptimizerAction, context: OptimizerContext, config: BuffBuilder<true>) {
     this.internalBuff(
       key,
@@ -430,7 +444,7 @@ export class ComputedStatsContainer {
     if (targetTags & TargetTag.MemospritesOnly) return entity.memosprite
     if (targetTags & TargetTag.SingleTarget) {
       const primaryEntity = this.config.entitiesArray[SELF_ENTITY_INDEX]
-      if (primaryEntity.memoBuffPriority && this.config.entitiesArray.some(e => e.memosprite)) return entity.memosprite
+      if (primaryEntity.memoBuffPriority && this.config.entitiesArray.some((e) => e.memosprite)) return entity.memosprite
       return entity.primary
     }
     return false
@@ -444,6 +458,10 @@ export class ComputedStatsContainer {
 
   operatorSet = (index: number, value: number) => {
     this.a[index] = value
+  }
+
+  operatorMultiply = (index: number, value: number) => {
+    this.a[index] *= value
   }
 
   // ============== Registers ==============

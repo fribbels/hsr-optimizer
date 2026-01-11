@@ -53,6 +53,7 @@ import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalcula
 import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { AbilityDefinition } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -217,7 +218,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      const basicAbility = {
+      const basicAbility: AbilityDefinition = {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Lightning)
@@ -227,16 +228,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         ],
       }
 
-      const enhancedBasicAbility = {
+      const enhancedBasicAbility: AbilityDefinition = {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Lightning)
             .atkScaling(enhancedBasicScaling)
             .toughnessDmg(20)
             .build(),
-          HitDefinitionBuilder()
+          HitDefinitionBuilder.crit()
             .sourceEntity(AglaeaEntities.Garmentmaker)
-            .damageFunctionType(DamageFunctionType.Crit)
             .damageType(DamageTag.BASIC | DamageTag.MEMO)
             .damageElement(ElementTag.Lightning)
             .atkScaling(enhancedBasicScaling)
@@ -259,9 +259,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         [AglaeaAbilities.BASIC]: (r.supremeStanceState) ? enhancedBasicAbility : basicAbility,
         [AglaeaAbilities.MEMO_SKILL]: {
           hits: [
-            HitDefinitionBuilder()
+            HitDefinitionBuilder.crit()
               .sourceEntity(AglaeaEntities.Garmentmaker)
-              .damageFunctionType(DamageFunctionType.Crit)
               .damageType(DamageTag.MEMO)
               .damageElement(ElementTag.Lightning)
               .atkScaling(memoSkillScaling)

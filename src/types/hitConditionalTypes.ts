@@ -56,6 +56,8 @@ export interface SuperBreakHitDefinition extends BaseHitDefinition {
 
 export interface AdditionalHitDefinition extends BaseHitDefinition {
   damageFunctionType: DamageFunctionType.Additional
+  crOverride?: number
+  cdOverride?: number
 }
 
 export interface HealHitDefinition extends BaseHitDefinition {

@@ -75,8 +75,8 @@ export function dynamicStatConversionContainer(
 
   action.conditionalState[conditional.id] = buffFull
 
-  x.buffDynamic(destConfig.key, buffDelta, action, context, x.source(source))
   x.buffDynamic(statConfig.unconvertibleKey, buffDelta, action, context, x.source(source))
+  x.buffDynamic(destConfig.key, buffDelta, action, context, x.source(source))
 }
 
 export function gpuDynamicStatConversion(

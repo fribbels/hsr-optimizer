@@ -15,6 +15,7 @@ import {
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  AdditionalHit,
   BreakHit,
   DotHit,
   HealHit,
@@ -440,12 +441,12 @@ export const SuperBreakDamageFunction: DamageFunction = {
 
 export const AdditionalDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
-    const hit = action.hits![hitIndex]
+    const hit = action.hits![hitIndex] as AdditionalHit
     computeCommonMultipliers(x, hitIndex, context)
 
     const dmgBoostMulti = getTotalDmgBoost(x, hit, hitIndex)
     const abilityMulti = calculateInitialDamage(x, hit, hitIndex, context)
-    const critMulti = getCritMultiplier(x, hitIndex)
+    const critMulti = getAdditionalCritMultiplier(x, hit, hitIndex)
     const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex)
 
     const dmg = m.baseUniversalMulti
@@ -461,7 +462,7 @@ export const AdditionalDamageFunction: DamageFunction = {
     return dmg
   },
   wgsl: (action, hitIndex, context) => {
-    const hit = action.hits![hitIndex]
+    const hit = action.hits![hitIndex] as AdditionalHit
     const config = action.config
     const entityIndex = hit.sourceEntityIndex ?? 0
 
@@ -475,6 +476,14 @@ export const AdditionalDamageFunction: DamageFunction = {
     const elementalDmgBoost = hit.damageElement == ElementTag.None
       ? '0.0'
       : getValue(elementTagToStatKeyBoost[hit.damageElement])
+
+    // CR/CD override support - each can be overridden independently
+    const crExpr = hit.crOverride != null
+      ? `${hit.crOverride}`
+      : `min(1.0, ${getValue(StatKey.CR)} + ${getValue(StatKey.CR_BOOST)})`
+    const cdExpr = hit.cdOverride != null
+      ? `${hit.cdOverride}`
+      : `${getValue(StatKey.CD)} + ${getValue(StatKey.CD_BOOST)}`
 
     return wgsl`
 {
@@ -497,9 +506,9 @@ export const AdditionalDamageFunction: DamageFunction = {
     + ${hpScaling} * hp
     + ${defScaling} * def;
 
-  // Crit multiplier
-  let cr = min(1.0, ${getValue(StatKey.CR)} + ${getValue(StatKey.CR_BOOST)});
-  let cd = ${getValue(StatKey.CD)} + ${getValue(StatKey.CD_BOOST)};
+  // Crit multiplier (supports independent CR/CD overrides)
+  let cr: f32 = ${crExpr};
+  let cd: f32 = ${cdExpr};
   let critMulti = cr * (1.0 + cd) + (1.0 - cr);
 
   // True damage multiplier
@@ -686,6 +695,16 @@ function calculateDefMulti(eLevel: number, defPen: number) {
 function getCritMultiplier(x: ComputedStatsContainer, hitIndex: number): number {
   const cr = Math.min(1, x.getValue(StatKey.CR, hitIndex) + x.getValue(StatKey.CR_BOOST, hitIndex))
   const cd = x.getValue(StatKey.CD, hitIndex) + x.getValue(StatKey.CD_BOOST, hitIndex)
+  return cr * (1 + cd) + (1 - cr)
+}
+
+function getAdditionalCritMultiplier(x: ComputedStatsContainer, hit: AdditionalHit, hitIndex: number): number {
+  const cr = hit.crOverride != null
+    ? hit.crOverride
+    : Math.min(1, x.getValue(StatKey.CR, hitIndex) + x.getValue(StatKey.CR_BOOST, hitIndex))
+  const cd = hit.cdOverride != null
+    ? hit.cdOverride
+    : x.getValue(StatKey.CD, hitIndex) + x.getValue(StatKey.CD_BOOST, hitIndex)
   return cr * (1 + cd) + (1 - cr)
 }
 

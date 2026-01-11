@@ -105,7 +105,7 @@ function extractActionDamageFields(x: ComputedStatsContainer, context: Optimizer
 
   // Map default actions to standardized fields
   for (const action of context.defaultActions) {
-    const field = mapActionNameToField(action.actionName)
+    const field = action.actionName
     if (field && field in fields) {
       const damageValue = x.getActionRegisterValue(action.registerIndex)
       fields[field as keyof typeof fields] += damageValue

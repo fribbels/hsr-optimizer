@@ -166,9 +166,11 @@ export function defineAction(
     ? 'Rotation' + actionIndex
     : 'Default' + actionIndex
 
-  action.characterConditionals = transformConditionals(actionIndex, comboState.comboCharacter.characterConditionals)
-  action.lightConeConditionals = transformConditionals(actionIndex, comboState.comboCharacter.lightConeConditionals)
-  action.setConditionals = transformSetConditionals(actionIndex, comboState.comboCharacter.setConditionals) as SetConditional
+  const conditionalIndex = rotation ?  actionIndex : 0
+
+  action.characterConditionals = transformConditionals(conditionalIndex, comboState.comboCharacter.characterConditionals)
+  action.lightConeConditionals = transformConditionals(conditionalIndex, comboState.comboCharacter.lightConeConditionals)
+  action.setConditionals = transformSetConditionals(conditionalIndex, comboState.comboCharacter.setConditionals) as SetConditional
   action.setConditionals = overrideSetConditionals(action.setConditionals, context)
 
   action.precomputedX = new ComputedStatsArrayCore(request.trace) as ComputedStatsArray
@@ -179,22 +181,22 @@ export function defineAction(
   if (comboState.comboTeammate0) {
     action.teammate0.actorId = comboState.comboTeammate0.metadata.characterId
     action.teammate0.actorEidolon = comboState.comboTeammate0.metadata.characterEidolon
-    action.teammate0.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate0.characterConditionals)
-    action.teammate0.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate0.lightConeConditionals)
+    action.teammate0.characterConditionals = transformConditionals(conditionalIndex, comboState.comboTeammate0.characterConditionals)
+    action.teammate0.lightConeConditionals = transformConditionals(conditionalIndex, comboState.comboTeammate0.lightConeConditionals)
   }
 
   if (comboState.comboTeammate1) {
     action.teammate1.actorId = comboState.comboTeammate1.metadata.characterId
     action.teammate1.actorEidolon = comboState.comboTeammate1.metadata.characterEidolon
-    action.teammate1.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate1.characterConditionals)
-    action.teammate1.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate1.lightConeConditionals)
+    action.teammate1.characterConditionals = transformConditionals(conditionalIndex, comboState.comboTeammate1.characterConditionals)
+    action.teammate1.lightConeConditionals = transformConditionals(conditionalIndex, comboState.comboTeammate1.lightConeConditionals)
   }
 
   if (comboState.comboTeammate2) {
     action.teammate2.actorId = comboState.comboTeammate2.metadata.characterId
     action.teammate2.actorEidolon = comboState.comboTeammate2.metadata.characterEidolon
-    action.teammate2.characterConditionals = transformConditionals(actionIndex, comboState.comboTeammate2.characterConditionals)
-    action.teammate2.lightConeConditionals = transformConditionals(actionIndex, comboState.comboTeammate2.lightConeConditionals)
+    action.teammate2.characterConditionals = transformConditionals(conditionalIndex, comboState.comboTeammate2.characterConditionals)
+    action.teammate2.lightConeConditionals = transformConditionals(conditionalIndex, comboState.comboTeammate2.lightConeConditionals)
   }
 
   return action

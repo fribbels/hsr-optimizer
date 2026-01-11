@@ -92,7 +92,6 @@ export type ShieldHit = ShieldHitDefinition & HitRuntime
 // Union type for all hits (definition + runtime fields)
 export type Hit = CritHit | DotHit | BreakHit | SuperBreakHit | AdditionalHit | HealHit | ShieldHit
 
-
 export interface EntityDefinition {
   primary: boolean
   summon: boolean

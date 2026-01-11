@@ -123,10 +123,10 @@ export function simulateBuild(
 
       const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
       x.setHitRegisterValue(hit.registerIndex, dmg)
-      sum += dmg
 
-      // Only accumulate damage hits to comboDmg (not heals/shields)
+      // Only accumulate damage hits to sum and comboDmg (not heals/shields)
       if (hit.outputTag == OutputTag.DAMAGE) {
+        sum += dmg
         comboDmg += dmg
       }
     }
@@ -155,7 +155,10 @@ export function simulateBuild(
       const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
       x.setHitRegisterValue(hit.registerIndex, dmg)
 
-      sum += dmg
+      // Only accumulate damage hits to sum (not heals/shields)
+      if (hit.outputTag == OutputTag.DAMAGE) {
+        sum += dmg
+      }
     }
 
     x.setActionRegisterValue(action.registerIndex, sum)

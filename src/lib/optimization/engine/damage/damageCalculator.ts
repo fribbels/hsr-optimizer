@@ -511,7 +511,7 @@ export const HealDamageFunction: DamageFunction = {
     const ohbMulti = 1 + ohb
 
     // Heal boost (reuses DMG_BOOST slot, filtered by OutputTag at buff application)
-    const healBoost = x.getValue(StatKey.DMG_BOOST, hitIndex)
+    const healBoost = x.getHitValue(HKey.DMG_BOOST, hitIndex)
     const healBoostMulti = 1 + healBoost
 
     return baseHeal * ohbMulti * healBoostMulti
@@ -522,6 +522,7 @@ export const HealDamageFunction: DamageFunction = {
     const entityIndex = hit.sourceEntityIndex ?? 0
 
     const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
+    const getHitValue = (stat: HKeyValue) => containerHitVal(entityIndex, hitIndex, stat, config)
 
     const atkScaling = hit.atkScaling ?? 0
     const hpScaling = hit.hpScaling ?? 0
@@ -539,7 +540,7 @@ export const HealDamageFunction: DamageFunction = {
   let ohbMulti = 1.0 + ohb;
 
   // Heal boost multiplier (from DMG_BOOST slot, filtered by outputType at buff time)
-  let healBoost = ${getValue(StatKey.DMG_BOOST)};
+  let healBoost = ${getHitValue(HKey.DMG_BOOST)};
   let healBoostMulti = 1.0 + healBoost;
 
   let heal = baseHeal * ohbMulti * healBoostMulti;
@@ -565,7 +566,7 @@ export const ShieldDamageFunction: DamageFunction = {
       + (hit.flatShield ?? 0)
 
     // Shield boost (from DMG_BOOST slot, filtered by OutputTag at buff application)
-    const shieldBoost = x.getValue(StatKey.DMG_BOOST, hitIndex)
+    const shieldBoost = x.getHitValue(HKey.DMG_BOOST, hitIndex)
     const shieldBoostMulti = 1 + shieldBoost
 
     return baseShield * shieldBoostMulti
@@ -576,6 +577,7 @@ export const ShieldDamageFunction: DamageFunction = {
     const entityIndex = hit.sourceEntityIndex ?? 0
 
     const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
+    const getHitValue = (stat: HKeyValue) => containerHitVal(entityIndex, hitIndex, stat, config)
 
     const defScaling = hit.defScaling ?? 0
     const hpScaling = hit.hpScaling ?? 0
@@ -589,7 +591,7 @@ export const ShieldDamageFunction: DamageFunction = {
   let baseShield = ${defScaling} * def + ${hpScaling} * hp + ${flatShield};
 
   // Shield boost multiplier (from DMG_BOOST slot, filtered by outputType at buff time)
-  let shieldBoost = ${getValue(StatKey.DMG_BOOST)};
+  let shieldBoost = ${getHitValue(HKey.DMG_BOOST)};
   let shieldBoostMulti = 1.0 + shieldBoost;
 
   let shield = baseShield * shieldBoostMulti;

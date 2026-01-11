@@ -24,6 +24,7 @@ import {
   ALL_ELEMENT_TAGS,
   DamageTag,
   ElementTag,
+  OutputTag,
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
@@ -269,6 +270,7 @@ export class ComputedStatsContainer {
       config._targetTags,
       config._elementTags,
       config._damageTags,
+      config._outputTags,
     )
   }
 
@@ -283,6 +285,7 @@ export class ComputedStatsContainer {
       config._targetTags,
       config._elementTags,
       config._damageTags,
+      config._outputTags,
     )
   }
 
@@ -297,6 +300,7 @@ export class ComputedStatsContainer {
       config._targetTags,
       config._elementTags,
       config._damageTags,
+      config._outputTags,
     )
     this.internalBuffDynamic(
       key,
@@ -310,6 +314,7 @@ export class ComputedStatsContainer {
       config._targetTags,
       config._elementTags,
       config._damageTags,
+      config._outputTags,
     )
   }
 
@@ -341,13 +346,15 @@ export class ComputedStatsContainer {
     targetTags: TargetTag,
     elementTags: ElementTag,
     damageTags: DamageTag,
+    outputTags: OutputTag,
   ): void {
     if (value == 0) return
 
     const targetEntities = this.getTargetEntities(target, targetTags)
 
     for (const entityIndex of targetEntities) {
-      if (elementTags == ALL_ELEMENT_TAGS && damageTags == ALL_DAMAGE_TAGS) {
+      if (elementTags == ALL_ELEMENT_TAGS && damageTags == ALL_DAMAGE_TAGS && outputTags == OutputTag.DAMAGE) {
+        // Fast path: no filtering needed for standard damage buffs
         operator(this.getActionIndex(entityIndex, key), value)
       } else {
         // Hit-level filtering requires a hit stat
@@ -355,7 +362,7 @@ export class ComputedStatsContainer {
         if (hitKey === undefined) {
           throw new Error(`Cannot apply hit-level buff to action-only stat: ${getAKeyName(key)}`)
         }
-        this.applyToMatchingHits(entityIndex, hitKey, value, operator, elementTags, damageTags)
+        this.applyToMatchingHits(entityIndex, hitKey, value, operator, elementTags, damageTags, outputTags)
       }
     }
   }
@@ -372,6 +379,7 @@ export class ComputedStatsContainer {
     targetTags: TargetTag,
     elementTags: ElementTag,
     damageTags: DamageTag,
+    outputTags: OutputTag,
   ): void {
     if (value == 0) return
 
@@ -402,10 +410,11 @@ export class ComputedStatsContainer {
     operator: (index: number, value: number) => void,
     elementTags: ElementTag,
     damageTags: DamageTag,
+    outputTags: OutputTag,
   ): void {
     for (let hitIndex = 0; hitIndex < this.config.hitsLength; hitIndex++) {
       const hit = this.config.hits[hitIndex]
-      if (hit.damageType & damageTags && hit.damageElement & elementTags) {
+      if (hit.damageType & damageTags && hit.damageElement & elementTags && hit.outputTag & outputTags) {
         operator(this.getHitIndex(entityIndex, hitIndex, hitKey), value)
       }
     }
@@ -528,6 +537,10 @@ export class ComputedStatsContainer {
 
   targets(t: TargetTag): IncompleteBuffBuilder {
     return this.builder.reset().targets(t)
+  }
+
+  outputType(o: OutputTag): IncompleteBuffBuilder {
+    return this.builder.reset().outputType(o)
   }
 
   source(s: BuffSource): CompleteBuffBuilder {

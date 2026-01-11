@@ -207,8 +207,10 @@ fn unrolledAction${index}(
   var state = ConditionalState();
   let p_state = &state;
   state.actionIndex = ${index};
-  
+
   var comboDmg = 0.0;
+  var comboHeal = 0.0;
+  var comboShield = 0.0;
 
   // Set the Action-scope stats, to be added to the Hit-scope stats later
   ${unrollEntityBaseStats(action)}

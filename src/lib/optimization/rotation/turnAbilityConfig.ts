@@ -8,6 +8,17 @@ export enum AbilityKind {
   BREAK = 'BREAK',
   MEMO_SKILL = 'MEMO_SKILL',
   MEMO_TALENT = 'MEMO_TALENT',
+
+  BASIC_HEAL = 'BASIC_HEAL',
+  SKILL_HEAL = 'SKILL_HEAL',
+  ULT_HEAL = 'ULT_HEAL',
+  FUA_HEAL = 'FUA_HEAL',
+  TALENT_HEAL = 'TALENT_HEAL',
+  BASIC_SHIELD = 'BASIC_SHIELD',
+  SKILL_SHIELD = 'SKILL_SHIELD',
+  ULT_SHIELD = 'ULT_SHIELD',
+  FUA_SHIELD = 'FUA_SHIELD',
+  TALENT_SHIELD = 'TALENT_SHIELD',
 }
 
 export enum TurnMarker {
@@ -27,6 +38,16 @@ export const ComboOptionsLabelMapping: Record<AbilityKind, AbilityLabel> = {
   [AbilityKind.BREAK]: 'Break',
   [AbilityKind.MEMO_SKILL]: 'MemoSkill',
   [AbilityKind.MEMO_TALENT]: 'MemoTalent',
+  [AbilityKind.BASIC_HEAL]: 'BASIC_HEAL',
+  [AbilityKind.SKILL_HEAL]: 'SKILL_HEAL',
+  [AbilityKind.ULT_HEAL]: 'ULT_HEAL',
+  [AbilityKind.FUA_HEAL]: 'FUA_HEAL',
+  [AbilityKind.TALENT_HEAL]: 'TALENT_HEAL',
+  [AbilityKind.BASIC_SHIELD]: 'BASIC_SHIELD',
+  [AbilityKind.SKILL_SHIELD]: 'SKILL_SHIELD',
+  [AbilityKind.ULT_SHIELD]: 'ULT_SHIELD',
+  [AbilityKind.FUA_SHIELD]: 'FUA_SHIELD',
+  [AbilityKind.TALENT_SHIELD]: 'TALENT_SHIELD',
 }
 
 type AbilityLabel =
@@ -39,6 +60,16 @@ type AbilityLabel =
   | 'Break'
   | 'MemoSkill'
   | 'MemoTalent'
+  | 'BASIC_HEAL'
+  | 'SKILL_HEAL'
+  | 'ULT_HEAL'
+  | 'FUA_HEAL'
+  | 'TALENT_HEAL'
+  | 'BASIC_SHIELD'
+  | 'SKILL_SHIELD'
+  | 'ULT_SHIELD'
+  | 'FUA_SHIELD'
+  | 'TALENT_SHIELD'
 
 export type TurnAbilityName =
   | `${TurnMarker}_${Exclude<AbilityKind, AbilityKind.NULL>}`
@@ -119,6 +150,16 @@ export const {
   DEFAULT_BREAK,
   DEFAULT_MEMO_SKILL,
   DEFAULT_MEMO_TALENT,
+  DEFAULT_BASIC_HEAL,
+  DEFAULT_SKILL_HEAL,
+  DEFAULT_ULT_HEAL,
+  DEFAULT_FUA_HEAL,
+  DEFAULT_TALENT_HEAL,
+  DEFAULT_BASIC_SHIELD,
+  DEFAULT_SKILL_SHIELD,
+  DEFAULT_ULT_SHIELD,
+  DEFAULT_FUA_SHIELD,
+  DEFAULT_TALENT_SHIELD,
 
   // Start turn abilities
   START_BASIC,
@@ -129,6 +170,16 @@ export const {
   START_BREAK,
   START_MEMO_SKILL,
   START_MEMO_TALENT,
+  START_BASIC_HEAL,
+  START_SKILL_HEAL,
+  START_ULT_HEAL,
+  START_FUA_HEAL,
+  START_TALENT_HEAL,
+  START_BASIC_SHIELD,
+  START_SKILL_SHIELD,
+  START_ULT_SHIELD,
+  START_FUA_SHIELD,
+  START_TALENT_SHIELD,
 
   // End turn abilities
   END_BASIC,
@@ -139,6 +190,16 @@ export const {
   END_BREAK,
   END_MEMO_SKILL,
   END_MEMO_TALENT,
+  END_BASIC_HEAL,
+  END_SKILL_HEAL,
+  END_ULT_HEAL,
+  END_FUA_HEAL,
+  END_TALENT_HEAL,
+  END_BASIC_SHIELD,
+  END_SKILL_SHIELD,
+  END_ULT_SHIELD,
+  END_FUA_SHIELD,
+  END_TALENT_SHIELD,
 
   // Whole turn abilities
   WHOLE_BASIC,
@@ -149,6 +210,16 @@ export const {
   WHOLE_BREAK,
   WHOLE_MEMO_SKILL,
   WHOLE_MEMO_TALENT,
+  WHOLE_BASIC_HEAL,
+  WHOLE_SKILL_HEAL,
+  WHOLE_ULT_HEAL,
+  WHOLE_FUA_HEAL,
+  WHOLE_TALENT_HEAL,
+  WHOLE_BASIC_SHIELD,
+  WHOLE_SKILL_SHIELD,
+  WHOLE_ULT_SHIELD,
+  WHOLE_FUA_SHIELD,
+  WHOLE_TALENT_SHIELD,
 } = abilityNames
 
 export function isStartTurnAbility(ability: TurnAbility): boolean {

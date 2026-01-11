@@ -5,6 +5,7 @@ import {
 import {
   DamageTag,
   ElementTag,
+  OutputTag,
 } from 'lib/optimization/engine/config/tag'
 import {
   DamageFunctionType,
@@ -14,7 +15,9 @@ import {
   BreakHitDefinition,
   CritHitDefinition,
   DotHitDefinition,
+  HealHitDefinition,
   HitDefinition,
+  ShieldHitDefinition,
   SuperBreakHitDefinition,
 } from 'types/hitConditionalTypes'
 
@@ -27,24 +30,26 @@ const BASE_HIT_DEFAULTS = {
 
 const dotHitSchema = schemaBuilder<
   DotHitDefinition,
-  Pick<DotHitDefinition, 'damageFunctionType' | 'activeHit'>,
+  Pick<DotHitDefinition, 'damageFunctionType' | 'activeHit' | 'outputTag'>,
   Pick<DotHitDefinition, 'dotBaseChance' | 'damageElement'>
 >({
   defaults: {
     damageFunctionType: DamageFunctionType.Dot,
     activeHit: false,
+    outputTag: OutputTag.DAMAGE,
   },
   required: ['dotBaseChance', 'damageElement'],
 })
 
 const critHitSchema = schemaBuilder<
   CritHitDefinition,
-  Pick<CritHitDefinition, 'damageFunctionType' | 'activeHit'>,
+  Pick<CritHitDefinition, 'damageFunctionType' | 'activeHit' | 'outputTag'>,
   Pick<CritHitDefinition, 'damageElement'>
 >({
   defaults: {
     damageFunctionType: DamageFunctionType.Crit,
     activeHit: true,
+    outputTag: OutputTag.DAMAGE,
   },
   required: ['damageElement'],
 })
@@ -63,6 +68,7 @@ HitDefinitionBuilder.standardBasic = () =>
     ...BASE_HIT_DEFAULTS,
     damageFunctionType: DamageFunctionType.Crit,
     damageType: DamageTag.BASIC,
+    outputTag: OutputTag.DAMAGE,
     activeHit: true,
   })
 
@@ -71,6 +77,7 @@ HitDefinitionBuilder.standardSkill = () =>
     ...BASE_HIT_DEFAULTS,
     damageFunctionType: DamageFunctionType.Crit,
     damageType: DamageTag.SKILL,
+    outputTag: OutputTag.DAMAGE,
     activeHit: true,
   })
 
@@ -79,6 +86,7 @@ HitDefinitionBuilder.standardUlt = () =>
     ...BASE_HIT_DEFAULTS,
     damageFunctionType: DamageFunctionType.Crit,
     damageType: DamageTag.ULT,
+    outputTag: OutputTag.DAMAGE,
     activeHit: true,
   })
 
@@ -87,6 +95,7 @@ HitDefinitionBuilder.standardFua = () =>
     ...BASE_HIT_DEFAULTS,
     damageFunctionType: DamageFunctionType.Crit,
     damageType: DamageTag.FUA,
+    outputTag: OutputTag.DAMAGE,
     activeHit: true,
   })
 
@@ -95,6 +104,7 @@ HitDefinitionBuilder.standardBreak = (e: ElementTag) =>
     damageFunctionType: DamageFunctionType.Break,
     damageType: DamageTag.BREAK,
     damageElement: e,
+    outputTag: OutputTag.DAMAGE,
     activeHit: false,
   })
 
@@ -103,6 +113,7 @@ HitDefinitionBuilder.standardAdditional = () =>
     ...BASE_HIT_DEFAULTS,
     damageFunctionType: DamageFunctionType.Additional,
     damageType: DamageTag.ADDITIONAL,
+    outputTag: OutputTag.DAMAGE,
     activeHit: false,
   })
 
@@ -111,5 +122,78 @@ HitDefinitionBuilder.standardSuperBreak = (e: ElementTag) =>
     damageFunctionType: DamageFunctionType.SuperBreak,
     damageType: DamageTag.SUPER_BREAK,
     damageElement: e,
+    outputTag: OutputTag.DAMAGE,
+    activeHit: false,
+  })
+
+// Heal builders - heals produce healing instead of damage
+// Heals default to ElementTag.None and activeHit: false
+HitDefinitionBuilder.heal = () =>
+  genericBuilder<HealHitDefinition>({
+    ...BASE_HIT_DEFAULTS,
+    damageFunctionType: DamageFunctionType.Heal,
+    damageElement: ElementTag.None,
+    outputTag: OutputTag.HEAL,
+    activeHit: false,
+  })
+
+HitDefinitionBuilder.skillHeal = () =>
+  genericBuilder<HealHitDefinition>({
+    ...BASE_HIT_DEFAULTS,
+    damageFunctionType: DamageFunctionType.Heal,
+    damageType: DamageTag.SKILL,
+    damageElement: ElementTag.None,
+    outputTag: OutputTag.HEAL,
+    activeHit: false,
+  })
+
+HitDefinitionBuilder.ultHeal = () =>
+  genericBuilder<HealHitDefinition>({
+    ...BASE_HIT_DEFAULTS,
+    damageFunctionType: DamageFunctionType.Heal,
+    damageType: DamageTag.ULT,
+    damageElement: ElementTag.None,
+    outputTag: OutputTag.HEAL,
+    activeHit: false,
+  })
+
+HitDefinitionBuilder.talentHeal = () =>
+  genericBuilder<HealHitDefinition>({
+    ...BASE_HIT_DEFAULTS,
+    damageFunctionType: DamageFunctionType.Heal,
+    damageType: DamageTag.None,
+    damageElement: ElementTag.None,
+    outputTag: OutputTag.HEAL,
+    activeHit: false,
+  })
+
+// Shield builders - shields produce shields instead of damage
+// Shields default to ElementTag.None and activeHit: false
+HitDefinitionBuilder.shield = () =>
+  genericBuilder<ShieldHitDefinition>({
+    ...BASE_HIT_DEFAULTS,
+    damageFunctionType: DamageFunctionType.Shield,
+    damageElement: ElementTag.None,
+    outputTag: OutputTag.SHIELD,
+    activeHit: false,
+  })
+
+HitDefinitionBuilder.skillShield = () =>
+  genericBuilder<ShieldHitDefinition>({
+    ...BASE_HIT_DEFAULTS,
+    damageFunctionType: DamageFunctionType.Shield,
+    damageType: DamageTag.SKILL,
+    damageElement: ElementTag.None,
+    outputTag: OutputTag.SHIELD,
+    activeHit: false,
+  })
+
+HitDefinitionBuilder.ultShield = () =>
+  genericBuilder<ShieldHitDefinition>({
+    ...BASE_HIT_DEFAULTS,
+    damageFunctionType: DamageFunctionType.Shield,
+    damageType: DamageTag.ULT,
+    damageElement: ElementTag.None,
+    outputTag: OutputTag.SHIELD,
     activeHit: false,
   })

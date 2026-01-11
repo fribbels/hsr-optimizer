@@ -8,7 +8,7 @@ import {
 } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
-import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
+import { OutputTag, SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { logRegisters } from 'lib/simulations/registerLogger'
 import { useOptimizerTabStore } from 'lib/tabs/tabOptimizer/useOptimizerTabStore'
@@ -83,6 +83,7 @@ function mapActionNameToField(actionName: string): string | null {
 /**
  * Extracts action damage values from default actions and maps them to standardized fields.
  * Also computes COMBO damage from rotation actions.
+ * Extracts HEAL and SHIELD values from rotation action hit registers based on outputTag.
  */
 function extractActionDamageFields(x: ComputedStatsContainer, context: OptimizerContext) {
   const fields = {
@@ -95,6 +96,8 @@ function extractActionDamageFields(x: ComputedStatsContainer, context: Optimizer
     DOT: 0,
     BREAK: 0,
     COMBO: 0,
+    HEAL: 0,
+    SHIELD: 0,
   }
 
   // Map default actions to standardized fields
@@ -106,10 +109,24 @@ function extractActionDamageFields(x: ComputedStatsContainer, context: Optimizer
     }
   }
 
-  // COMBO is the sum of rotation action damages
+  // Extract values from rotation actions
+  // COMBO is sum of damage only, HEAL/SHIELD are summed separately from hit registers
   for (const action of context.rotationActions) {
+    // Action register stores comboDmg (damage only)
     const damageValue = x.getActionRegisterValue(action.registerIndex)
     fields.COMBO += damageValue
+
+    // Extract heal/shield values from hit registers
+    if (action.hits) {
+      for (const hit of action.hits) {
+        const hitValue = x.getHitRegisterValue(hit.registerIndex)
+        if (hit.outputTag === OutputTag.HEAL) {
+          fields.HEAL += hitValue
+        } else if (hit.outputTag === OutputTag.SHIELD) {
+          fields.SHIELD += hitValue
+        }
+      }
+    }
   }
 
   return fields
@@ -146,8 +163,6 @@ export function debugExportWebgpuResult(array: Float32Array) {
     ED: x.getActionValueByIndex(StatKey.DMG_BOOST, SELF_ENTITY_INDEX),
     ...actionDamages,
     EHP: x.getActionValueByIndex(StatKey.EHP, SELF_ENTITY_INDEX),
-    HEAL: 0,
-    SHIELD: 0,
     xHP: x.getActionValueByIndex(StatKey.HP, SELF_ENTITY_INDEX),
     xATK: x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX),
     xDEF: x.getActionValueByIndex(StatKey.DEF, SELF_ENTITY_INDEX),

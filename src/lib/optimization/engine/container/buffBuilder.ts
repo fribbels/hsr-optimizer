@@ -7,6 +7,7 @@ import {
   ALL_ELEMENT_TAGS,
   DamageTag,
   ElementTag,
+  OutputTag,
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
@@ -17,6 +18,8 @@ export class BuffBuilder<_Completed extends boolean = false> {
 
   _elementTags = ALL_ELEMENT_TAGS
   _damageTags = ALL_DAMAGE_TAGS
+  // Default to DAMAGE only - prevents damage boosts from leaking to heals/shields
+  _outputTags = OutputTag.DAMAGE
   _origin = SELF_ENTITY_INDEX
   _target = SELF_ENTITY_INDEX
   _targetTags = TargetTag.SelfAndPet
@@ -33,6 +36,7 @@ export class BuffBuilder<_Completed extends boolean = false> {
   reset(): IncompleteBuffBuilder {
     this._elementTags = ALL_ELEMENT_TAGS
     this._damageTags = ALL_DAMAGE_TAGS
+    this._outputTags = OutputTag.DAMAGE
     this._origin = SELF_ENTITY_INDEX
     this._target = SELF_ENTITY_INDEX
     this._targetTags = TargetTag.SelfAndPet
@@ -47,6 +51,11 @@ export class BuffBuilder<_Completed extends boolean = false> {
 
   damageType(d: DamageTag): IncompleteBuffBuilder {
     this._damageTags = d
+    return this as IncompleteBuffBuilder
+  }
+
+  outputType(o: OutputTag): IncompleteBuffBuilder {
+    this._outputTags = o
     return this as IncompleteBuffBuilder
   }
 

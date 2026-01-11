@@ -13,6 +13,7 @@ import {
   ALL_ELEMENT_TAGS,
   DamageTag,
   ElementTag,
+  OutputTag,
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
@@ -87,6 +88,8 @@ class HitBuffBuilder {
   private _targetTag: TargetTag = TargetTag.SelfAndPet
   private _damageTags: DamageTag = ALL_DAMAGE_TAGS
   private _elementTags: ElementTag = ALL_ELEMENT_TAGS
+  // Default to DAMAGE only - prevents damage boosts from leaking to heals/shields
+  private _outputTags: OutputTag = OutputTag.DAMAGE
   private readonly hitKey: HKeyValue
   private readonly value: WgslBuffValue
 
@@ -107,6 +110,11 @@ class HitBuffBuilder {
 
   elements(e: ElementTag): this {
     this._elementTags = e
+    return this
+  }
+
+  outputType(o: OutputTag): this {
+    this._outputTags = o
     return this
   }
 
@@ -132,8 +140,9 @@ class HitBuffBuilder {
         // Check all filters
         const damageMatches = this._damageTags === ALL_DAMAGE_TAGS || (hit.damageType & this._damageTags)
         const elementMatches = this._elementTags === ALL_ELEMENT_TAGS || (hit.damageElement & this._elementTags)
+        const outputMatches = hit.outputTag & this._outputTags
 
-        if (entityMatches && damageMatches && elementMatches) {
+        if (entityMatches && damageMatches && elementMatches && outputMatches) {
           lines.push(code)
         } else {
           lines.push(`// ${code}`)

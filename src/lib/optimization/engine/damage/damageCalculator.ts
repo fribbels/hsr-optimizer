@@ -17,7 +17,9 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import {
   BreakHit,
   DotHit,
+  HealHit,
   Hit,
+  ShieldHit,
 } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
@@ -33,6 +35,8 @@ export enum DamageFunctionType {
   Break,
   SuperBreak,
   Additional,
+  Heal,
+  Shield,
 }
 
 interface DamageMultipliers {
@@ -489,6 +493,114 @@ export const AdditionalDamageFunction: DamageFunction = {
   },
 }
 
+// Heal hits use: BaseHeal = (ATK * atkScaling) + (HP * hpScaling) + flatHeal
+// Then multiplied by (1 + OHB) * (1 + DMG_BOOST filtered by OutputTag.HEAL)
+export const HealDamageFunction: DamageFunction = {
+  apply: (x, action, hitIndex, context) => {
+    const hit = action.hits![hitIndex] as HealHit
+
+    // Base heal from scalings
+    const atk = x.getValue(StatKey.ATK, hitIndex)
+    const hp = x.getValue(StatKey.HP, hitIndex)
+    const baseHeal = (hit.atkScaling ?? 0) * atk
+      + (hit.hpScaling ?? 0) * hp
+      + (hit.flatHeal ?? 0)
+
+    // OHB multiplier - already filtered by damageType at buff application time
+    const ohb = x.getValue(StatKey.OHB, hitIndex)
+    const ohbMulti = 1 + ohb
+
+    // Heal boost (reuses DMG_BOOST slot, filtered by OutputTag at buff application)
+    const healBoost = x.getValue(StatKey.DMG_BOOST, hitIndex)
+    const healBoostMulti = 1 + healBoost
+
+    return baseHeal * ohbMulti * healBoostMulti
+  },
+  wgsl: (action, hitIndex, context) => {
+    const hit = action.hits![hitIndex] as HealHit
+    const config = action.config
+    const entityIndex = hit.sourceEntityIndex ?? 0
+
+    const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
+
+    const atkScaling = hit.atkScaling ?? 0
+    const hpScaling = hit.hpScaling ?? 0
+    const flatHeal = hit.flatHeal ?? 0
+
+    return wgsl`
+{
+  // Base heal calculation
+  let atk = ${getValue(StatKey.ATK)};
+  let hp = ${getValue(StatKey.HP)};
+  let baseHeal = ${atkScaling} * atk + ${hpScaling} * hp + ${flatHeal};
+
+  // OHB multiplier (already filtered by damageType at buff time)
+  let ohb = ${getValue(StatKey.OHB)};
+  let ohbMulti = 1.0 + ohb;
+
+  // Heal boost multiplier (from DMG_BOOST slot, filtered by outputType at buff time)
+  let healBoost = ${getValue(StatKey.DMG_BOOST)};
+  let healBoostMulti = 1.0 + healBoost;
+
+  let heal = baseHeal * ohbMulti * healBoostMulti;
+  comboHeal += heal;
+
+  ${wgslDebugHitRegister(hit, context, 'heal')}
+}
+`
+  },
+}
+
+// Shield hits use: BaseShield = (DEF * defScaling) + (HP * hpScaling) + flatShield
+// Then multiplied by (1 + DMG_BOOST filtered by OutputTag.SHIELD)
+export const ShieldDamageFunction: DamageFunction = {
+  apply: (x, action, hitIndex, context) => {
+    const hit = action.hits![hitIndex] as ShieldHit
+
+    // Base shield from scalings
+    const def = x.getValue(StatKey.DEF, hitIndex)
+    const hp = x.getValue(StatKey.HP, hitIndex)
+    const baseShield = (hit.defScaling ?? 0) * def
+      + (hit.hpScaling ?? 0) * hp
+      + (hit.flatShield ?? 0)
+
+    // Shield boost (from DMG_BOOST slot, filtered by OutputTag at buff application)
+    const shieldBoost = x.getValue(StatKey.DMG_BOOST, hitIndex)
+    const shieldBoostMulti = 1 + shieldBoost
+
+    return baseShield * shieldBoostMulti
+  },
+  wgsl: (action, hitIndex, context) => {
+    const hit = action.hits![hitIndex] as ShieldHit
+    const config = action.config
+    const entityIndex = hit.sourceEntityIndex ?? 0
+
+    const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
+
+    const defScaling = hit.defScaling ?? 0
+    const hpScaling = hit.hpScaling ?? 0
+    const flatShield = hit.flatShield ?? 0
+
+    return wgsl`
+{
+  // Base shield calculation
+  let def = ${getValue(StatKey.DEF)};
+  let hp = ${getValue(StatKey.HP)};
+  let baseShield = ${defScaling} * def + ${hpScaling} * hp + ${flatShield};
+
+  // Shield boost multiplier (from DMG_BOOST slot, filtered by outputType at buff time)
+  let shieldBoost = ${getValue(StatKey.DMG_BOOST)};
+  let shieldBoostMulti = 1.0 + shieldBoost;
+
+  let shield = baseShield * shieldBoostMulti;
+  comboShield += shield;
+
+  ${wgslDebugHitRegister(hit, context, 'shield')}
+}
+`
+  },
+}
+
 export const DamageFunctionRegistry: Record<DamageFunctionType, DamageFunction> = {
   [DamageFunctionType.Default]: DefaultDamageFunction,
   [DamageFunctionType.Crit]: CritDamageFunction,
@@ -496,6 +608,8 @@ export const DamageFunctionRegistry: Record<DamageFunctionType, DamageFunction> 
   [DamageFunctionType.Break]: BreakDamageFunction,
   [DamageFunctionType.SuperBreak]: SuperBreakDamageFunction,
   [DamageFunctionType.Additional]: AdditionalDamageFunction,
+  [DamageFunctionType.Heal]: HealDamageFunction,
+  [DamageFunctionType.Shield]: ShieldDamageFunction,
 }
 
 export function getDamageFunction(type: DamageFunctionType): DamageFunction {

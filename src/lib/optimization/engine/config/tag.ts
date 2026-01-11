@@ -46,3 +46,16 @@ export const ALL_DAMAGE_TAGS = Object.values(DamageTag)
 export const ALL_ELEMENT_TAGS = Object.values(ElementTag)
   .filter((v): v is number => typeof v === 'number')
   .reduce((acc, val) => acc | val, 0)
+
+// OutputTag classifies what a hit produces (damage, heal, or shield)
+// When no outputType is specified on a buff, it defaults to DAMAGE
+// This prevents regular damage boosts from leaking to heals/shields
+export enum OutputTag {
+  DAMAGE = 1,
+  HEAL = 2,
+  SHIELD = 4,
+}
+
+export const ALL_OUTPUT_TAGS = Object.values(OutputTag)
+  .filter((v): v is number => typeof v === 'number')
+  .reduce((acc, val) => acc | val, 0)

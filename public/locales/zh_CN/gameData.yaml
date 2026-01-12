@@ -153,11 +153,11 @@ Characters:
     Name: 真理医生
     LongName: 真理医生
   "1306":
-    Name: 花火
-    LongName: 花火
+    Name: ⚰️ 花火
+    LongName: ⚰️ 花火
   "1307":
-    Name: 黑天鹅
-    LongName: 黑天鹅
+    Name: ⚰️ 黑天鹅
+    LongName: ⚰️ 黑天鹅
   "1308":
     Name: 黄泉
     LongName: 黄泉
@@ -227,6 +227,12 @@ Characters:
   "1415":
     Name: 昔涟
     LongName: 昔涟
+  "1501":
+    Name: 火花
+    LongName: 火花
+  "1502":
+    Name: 爻光
+    LongName: 爻光
   "8001":
     Name: 穹
     LongName: 穹 (毁灭)
@@ -251,6 +257,12 @@ Characters:
   "8008":
     Name: 星
     LongName: 星 (记忆)
+  1306b1:
+    Name: 花火
+    LongName: 花火
+  1307b1:
+    Name: 黑天鹅
+    LongName: 黑天鹅
   1212b1:
     Name: 镜流
     LongName: 镜流
@@ -376,6 +388,14 @@ RelicSets:
     Name: 自匿星芒的隐士
     Description2pc: 提供的护盾量提高10%。
     Description4pc: 使装备者提供的护盾量提高12%，我方目标持有装备者提供的护盾时，暴击伤害提高15%。
+  "129":
+    Name: 闪耀功勋的魔法少女
+    Description2pc: 暴击伤害提高16%。
+    Description4pc: 装备者及其忆灵造成的欢愉伤害无视目标10%的防御力，我方每累计获得5点笑点，造成的欢愉伤害额外无视目标1%的防御力，最多叠加10层。
+  "130":
+    Name: 应天涉远的卜者
+    Description2pc: 速度提高6%。
+    Description4pc: 进入战斗前，若装备者的速度大于等于120/160，使装备者的暴击率提高10%/18%。装备者每场战斗首次施放欢愉技时，使我方全体欢愉度提高10%，该效果无法叠加。
   "301":
     Name: 太空封印站
     Description2pc: 使装备者的攻击力提高12%。当装备者的速度大于等于120时，攻击力额外提高12%。
@@ -495,6 +515,10 @@ Lightcones:
     Name: 焚影
   "20022":
     Name: 溯忆
+  "20023":
+    Name: 嗤笑
+  "20024":
+    Name: 残泪
   "21000":
     Name: 一场术后对话
   "21001":
@@ -617,6 +641,10 @@ Lightcones:
     Name: 假日浴场大冒险
   "21062":
     Name: 于那终点再见
+  "21064":
+    Name: 菇菇嘎嘎历险记
+  "21065":
+    Name: 今日好手气
   "22000":
     Name: 新手任务开始前
   "22001":
@@ -737,6 +765,10 @@ Lightcones:
     Name: 纵然山河万程
   "23052":
     Name: 爱如此刻永恒
+  "23053":
+    Name: 花花世界迷人眼
+  "23054":
+    Name: 当她决定看见
   "24000":
     Name: 记一位星神的陨落
   "24001":
@@ -758,7 +790,6 @@ Paths:
   Knight: 存护
   Priest: 丰饶
   Memory: 记忆
-  Unknown: 通用
 Elements:
   Physical: 物理
   Fire: 火

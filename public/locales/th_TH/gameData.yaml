@@ -153,11 +153,11 @@ Characters:
     Name: Dr. Ratio
     LongName: Dr. Ratio
   "1306":
-    Name: Sparkle
-    LongName: Sparkle
+    Name: ⚰️ Sparkle
+    LongName: ⚰️ Sparkle
   "1307":
-    Name: Black Swan
-    LongName: Black Swan
+    Name: ⚰️ Black Swan
+    LongName: ⚰️ Black Swan
   "1308":
     Name: Acheron
     LongName: Acheron
@@ -183,8 +183,8 @@ Characters:
     Name: Rappa
     LongName: Rappa
   "1321":
-    Name: The Dahlia
-    LongName: The Dahlia
+    Name: ดอกดาห์เลีย
+    LongName: ดอกดาห์เลีย
   "1401":
     Name: ท่าน Herta
     LongName: ท่าน Herta
@@ -227,6 +227,12 @@ Characters:
   "1415":
     Name: Cyrene
     LongName: Cyrene
+  "1501":
+    Name: Sparxie
+    LongName: Sparxie
+  "1502":
+    Name: Yao Guang
+    LongName: Yao Guang
   "8001":
     Name: Caelus
     LongName: Caelus (ทำลายล้าง)
@@ -251,6 +257,12 @@ Characters:
   "8008":
     Name: Stelle
     LongName: Stelle (ความทรงจำ)
+  1306b1:
+    Name: Sparkle
+    LongName: Sparkle
+  1307b1:
+    Name: Black Swan
+    LongName: Black Swan
   1212b1:
     Name: Jingliu
     LongName: Jingliu
@@ -376,6 +388,14 @@ RelicSets:
     Name: Self-Enshrouded Recluse
     Description2pc: มอบปริมาณโล่เพิ่มขึ้น 10%
     Description4pc: ผู้สวมใส่จะมอบปริมาณโล่เพิ่มขึ้น 12% เมื่อเป้าหมายฝ่ายเรา มีโล่ที่ได้รับจากผู้สวมใส่ DMG คริติคอลจะเพิ่มขึ้น 15%
+  "129":
+    Name: Ever-Glorious Magical Girl
+    Description2pc: Increases CRIT DMG by 16%.
+    Description4pc: The Elation DMG dealt by the wearer and their memosprites ignores 10% of targets' DEF. For every 5 accumulated Punchline allies gain, the Elation DMG dealt additionally ignores 1% of targets' DEF, which stacks up to 10 times.
+  "130":
+    Name: Diviner of Distant Reach
+    Description2pc: Increases SPD by 6%.
+    Description4pc: Before entering combat, if the wearer's SPD is greater than or equal to 120/160, increases the wearer's CRIT Rate by 10%/18%. When the wearer uses Elation Skill for the first time in each battle, enhances all allies' Elation by 10%. This effect cannot stack.
   "301":
     Name: Space Sealing Station
     Description2pc: ATK ของผู้สวมใส่เพิ่มขึ้น 12% เมื่อความเร็วของผู้สวมใส่เท่ากับหรือมากกว่า 120 ATK จะเพิ่มขึ้นอีก 12%
@@ -495,6 +515,10 @@ Lightcones:
     Name: Shadowburn
   "20022":
     Name: Reminiscence
+  "20023":
+    Name: Sneering
+  "20024":
+    Name: Lingering Tears
   "21000":
     Name: Post-Op Conversation
   "21001":
@@ -617,6 +641,10 @@ Lightcones:
     Name: Holiday Thermae Escapade
   "21062":
     Name: See You at the End
+  "21064":
+    Name: Mushy Shroomy's Adventures
+  "21065":
+    Name: Today's Good Luck
   "22000":
     Name: Before the Tutorial Mission Starts
   "22001":
@@ -737,6 +765,10 @@ Lightcones:
     Name: Though Worlds Apart
   "23052":
     Name: This Love, Forever
+  "23053":
+    Name: Dazzled By A Flowery World
+  "23054":
+    Name: When She Decided To See
   "24000":
     Name: On the Fall of an Aeon
   "24001":
@@ -758,7 +790,6 @@ Paths:
   Knight: อนุรักษ์
   Priest: เฟื่องฟู
   Memory: ความทรงจำ
-  Unknown: ทั่วไป
 Elements:
   Physical: กายภาพ
   Fire: ไฟ

@@ -17,6 +17,7 @@ import {
   HIT_STATS_LENGTH,
   HKeyValue,
   isHitStat,
+  StatKey,
 } from 'lib/optimization/engine/config/keys'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import {
@@ -364,10 +365,18 @@ export class ComputedStatsContainer {
   ): void {
     if (value == 0) return
 
+    // Elemental damage boosts (e.g. +Ice DMG) don't affect break damage.
+    // When buffing DMG_BOOST with element filtering, exclude break hits.
+    const isElementalDmgBoost = key === StatKey.DMG_BOOST && elementTags !== ALL_ELEMENT_TAGS
+    const excludeBreakDamage = DamageTag.BREAK | DamageTag.SUPER_BREAK
+    const effectiveDamageTags = isElementalDmgBoost
+      ? damageTags & ~excludeBreakDamage
+      : damageTags
+
     const targetEntities = this.getTargetEntities(target, targetTags)
 
     for (const entityIndex of targetEntities) {
-      if (elementTags == ALL_ELEMENT_TAGS && damageTags == ALL_DAMAGE_TAGS && outputTags == OutputTag.DAMAGE) {
+      if (elementTags == ALL_ELEMENT_TAGS && effectiveDamageTags == ALL_DAMAGE_TAGS && outputTags == OutputTag.DAMAGE) {
         // Fast path: no filtering needed for standard damage buffs
         operator(this.getActionIndex(entityIndex, key), value)
       } else {
@@ -376,7 +385,7 @@ export class ComputedStatsContainer {
         if (hitKey === undefined) {
           throw new Error(`Cannot apply hit-level buff to action-only stat: ${getAKeyName(key)}`)
         }
-        this.applyToMatchingHits(entityIndex, hitKey, value, operator, elementTags, damageTags, outputTags)
+        this.applyToMatchingHits(entityIndex, hitKey, value, operator, elementTags, effectiveDamageTags, outputTags)
       }
     }
   }

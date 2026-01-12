@@ -6,6 +6,7 @@ import {
   AKeyValue,
   getAKeyName,
   getHKeyName,
+  HKey,
   HKeyValue,
 } from 'lib/optimization/engine/config/keys'
 import {
@@ -127,6 +128,14 @@ class HitBuffBuilder {
     const lines: string[] = []
     const prefix = '  '.repeat(indent)
 
+    // Elemental damage boosts (e.g. +Ice DMG) don't affect break damage.
+    // When buffing DMG_BOOST with element filtering, exclude break hits.
+    const isElementalDmgBoost = this.hitKey === HKey.DMG_BOOST && this._elementTags !== ALL_ELEMENT_TAGS
+    const excludeBreakDamage = DamageTag.BREAK | DamageTag.SUPER_BREAK
+    const effectiveDamageTags = isElementalDmgBoost
+      ? this._damageTags & ~excludeBreakDamage
+      : this._damageTags
+
     for (let entityIndex = 0; entityIndex < config.entitiesLength; entityIndex++) {
       const entity = config.entitiesArray[entityIndex]
       const entityMatches = matchesTargetTag(entity, this._targetTag, config.entitiesArray)
@@ -137,7 +146,7 @@ class HitBuffBuilder {
         const code = `(*p_container)[${index}] += ${this.value}; // ${entity.name} Hit${hitIndex} ${getHKeyName(this.hitKey)}`
 
         // Check all filters
-        const damageMatches = this._damageTags === ALL_DAMAGE_TAGS || (hit.damageType & this._damageTags)
+        const damageMatches = effectiveDamageTags === ALL_DAMAGE_TAGS || (hit.damageType & effectiveDamageTags)
         const elementMatches = this._elementTags === ALL_ELEMENT_TAGS || (hit.damageElement & this._elementTags)
         const outputMatches = hit.outputTag & this._outputTags
 

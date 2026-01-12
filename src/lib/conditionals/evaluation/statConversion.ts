@@ -75,7 +75,7 @@ export function dynamicStatConversionContainer(
 
   action.conditionalState[conditional.id] = buffFull
 
-  x.buffDynamic(statConfig.unconvertibleKey, buffDelta, action, context, x.source(source))
+  x.buffDynamic(destConfig.unconvertibleKey, buffDelta, action, context, x.source(source))
   x.buffDynamic(destConfig.key, buffDelta, action, context, x.source(source))
 }
 

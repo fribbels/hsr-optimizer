@@ -5088,8 +5088,205 @@
       },
       "unreleased": false
     },
+    "1306b1": {
+      "id": "1306b1",
+      "name": "Sparkle",
+      "rarity": 5,
+      "path": "Harmony",
+      "element": "Quantum",
+      "traces": {
+        "Effect RES": 0.1,
+        "HP%": 0.28,
+        "CRIT DMG": 0.24
+      },
+      "traceTree": [
+        {
+          "id": "1306201",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1306204",
+              "stat": "Effect RES",
+              "value": 0.04,
+              "pre": "1306201",
+              "children": []
+            },
+            {
+              "id": "1306207",
+              "stat": "HP%",
+              "value": 0.06,
+              "pre": "1306201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1306202",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "1306203",
+              "stat": "HP%",
+              "value": 0.04,
+              "pre": "1306202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1306205",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1306206",
+              "stat": "CRIT DMG",
+              "value": 0.08,
+              "pre": "1306205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1306208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1306209",
+              "stat": "CRIT DMG",
+              "value": 0.107,
+              "pre": "1306208",
+              "children": []
+            },
+            {
+              "id": "1306210",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "1306208",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "max_sp": 110,
+      "stats": {
+        "HP": 1397.088,
+        "ATK": 523.908,
+        "DEF": 485.1,
+        "SPD": 101,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
     "1307": {
       "id": "1307",
+      "name": "Black Swan",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Wind",
+      "traces": {
+        "Wind DMG Boost": 0.144,
+        "Effect Hit Rate": 0.1,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "1307201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1307210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1307201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1307202",
+          "stat": "Wind DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1307203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1307202",
+              "children": [
+                {
+                  "id": "1307204",
+                  "stat": "Effect Hit Rate",
+                  "value": 0.04,
+                  "pre": "1307203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1307205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1307206",
+              "stat": "Wind DMG Boost",
+              "value": 0.048,
+              "pre": "1307205",
+              "children": [
+                {
+                  "id": "1307207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "1307206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1307208",
+          "stat": "Effect Hit Rate",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1307209",
+          "stat": "Wind DMG Boost",
+          "value": 0.064,
+          "pre": null,
+          "children": []
+        }
+      ],
+      "max_sp": 120,
+      "stats": {
+        "HP": 1086.624,
+        "ATK": 659.736,
+        "DEF": 485.1,
+        "SPD": 102,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1307b1": {
+      "id": "1307b1",
       "name": "Black Swan",
       "rarity": 5,
       "path": "Nihility",

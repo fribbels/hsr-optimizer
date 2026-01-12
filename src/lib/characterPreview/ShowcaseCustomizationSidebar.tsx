@@ -699,7 +699,9 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
     1304: ['#7cbcea'], // aventurine
     1305: ['#3151c7'], // drratio
     1306: ['#5866bc'], // sparkle
+    '1306b1': ['#5866bc'], // sparkle
     1307: ['#a37df4'], // blackswan
+    '1307b1': ['#a37df4'], // blackswan
     1308: ['#837bd4'], // acheron
     1309: ['#d7a4f1'], // robin
     1310: ['#a0efec'], // firefly

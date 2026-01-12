@@ -197,7 +197,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               (r.concertoActive)
                 ? [
                   HitDefinitionBuilder.standardAdditional()
-                    .damageType(DamageTag.ULT | DamageTag.ADDITIONAL)
                     .damageElement(ElementTag.Physical)
                     .atkScaling(ultScaling)
                     .crOverride(1.00)

@@ -17,6 +17,7 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import {
   AdditionalHit,
   BreakHit,
+  CritHit,
   DotHit,
   HealHit,
   Hit,
@@ -113,7 +114,7 @@ export const CritDamageFunction: DamageFunction = {
     return dmg
   },
   wgsl: (action, hitIndex, context) => {
-    const hit = action.hits![hitIndex]
+    const hit = action.hits![hitIndex] as CritHit
     const config = action.config
     const entityIndex = hit.sourceEntityIndex ?? 0
 
@@ -124,9 +125,24 @@ export const CritDamageFunction: DamageFunction = {
     const hpScaling = hit.hpScaling ?? 0
     const defScaling = hit.defScaling ?? 0
 
+    // BE-based ATK scaling (e.g., Firefly skill)
+    const beScaling = hit.beScaling
+    const beCap = hit.beCap
+
     const elementalDmgBoost = hit.damageElement == ElementTag.None
       ? '0.0'
       : getValue(elementTagToStatKeyBoost[hit.damageElement])
+
+    // Build total ATK scaling expression
+    let totalAtkScalingExpr: string
+    if (beScaling != null) {
+      const beExpr = beCap != null
+        ? `min(${beCap}, ${getValue(StatKey.BE)})`
+        : getValue(StatKey.BE)
+      totalAtkScalingExpr = `(${atkScaling} + ${beScaling} * ${beExpr})`
+    } else {
+      totalAtkScalingExpr = `${atkScaling}`
+    }
 
     return wgsl`
 {
@@ -145,7 +161,7 @@ export const CritDamageFunction: DamageFunction = {
   let hp = ${getValue(StatKey.HP)};
   let def = ${getValue(StatKey.DEF)};
   let atkPBoost = ${getValue(StatKey.ATK_P_BOOST)};
-  let abilityMulti = ${atkScaling} * (atk + atkPBoost * ${getValue(StatKey.BASE_ATK)})
+  let abilityMulti = ${totalAtkScalingExpr} * (atk + atkPBoost * ${getValue(StatKey.BASE_ATK)})
     + ${hpScaling} * hp
     + ${defScaling} * def;
 
@@ -361,10 +377,15 @@ export const SuperBreakDamageFunction: DamageFunction = {
     if (superBreakModMulti === 0) return 0
 
     const dmgBoostMulti = 1 + x.getHitValue(HKey.DMG_BOOST, hitIndex)
-    const superBreakBaseMulti = (3767.5533 / 10) * (hit.referenceHit?.toughnessDmg ?? 0)
     const beMulti = 1 + x.getValue(StatKey.BE, hitIndex)
     const breakEfficiencyMulti = 1 + x.getValue(StatKey.BREAK_EFFICIENCY_BOOST, hit.referenceHit?.localHitIndex ?? hitIndex)
     const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex)
+
+    // Super break toughness: (breakEfficiency * toughnessDmg) + fixedToughnessDmg
+    const toughnessDmg = hit.referenceHit?.toughnessDmg ?? 0
+    const fixedToughnessDmg = hit.referenceHit?.fixedToughnessDmg ?? 0
+    const effectiveToughness = breakEfficiencyMulti * toughnessDmg + fixedToughnessDmg
+    const superBreakBaseMulti = (3767.5533 / 10) * effectiveToughness
 
     const dmg = m.baseUniversalMulti
       * m.defMulti
@@ -375,7 +396,6 @@ export const SuperBreakDamageFunction: DamageFunction = {
       * superBreakBaseMulti
       * beMulti
       * superBreakModMulti
-      * breakEfficiencyMulti
       * trueDmgMulti
 
     return dmg
@@ -390,6 +410,7 @@ export const SuperBreakDamageFunction: DamageFunction = {
 
     // SuperBreak-specific constants from hit definition
     const toughnessDmg = hit.referenceHit?.toughnessDmg ?? 0
+    const fixedToughnessDmg = hit.referenceHit?.fixedToughnessDmg ?? 0
     const referenceHitIndex = hit.referenceHit?.localHitIndex ?? hitIndex
 
     return wgsl`
@@ -404,17 +425,18 @@ export const SuperBreakDamageFunction: DamageFunction = {
   // SuperBreak-specific: dmgBoost is hit-level only (no action-level, no elemental boost)
   let dmgBoostMulti = 1.0 + ${getHitValue(HKey.DMG_BOOST)};
 
-  // SuperBreak base damage calculation
-  let superBreakBaseMulti = (3767.5533 / 10.0) * ${toughnessDmg};
+  // Break efficiency multiplier from reference hit
+  let breakEfficiencyMulti = 1.0 + ${containerGetValue(entityIndex, referenceHitIndex, StatKey.BREAK_EFFICIENCY_BOOST, config)};
+
+  // SuperBreak base damage: (breakEfficiency * toughnessDmg) + fixedToughnessDmg
+  let effectiveToughness = breakEfficiencyMulti * ${toughnessDmg} + ${fixedToughnessDmg};
+  let superBreakBaseMulti = (3767.5533 / 10.0) * effectiveToughness;
 
   // BE multiplier (action + hit combined)
   let beMulti = 1.0 + ${getValue(StatKey.BE)};
 
   // SuperBreak modifier
   let superBreakModMulti = ${getValue(StatKey.SUPER_BREAK_MODIFIER)};
-
-  // Break efficiency multiplier from reference hit
-  let breakEfficiencyMulti = 1.0 + ${containerGetValue(entityIndex, referenceHitIndex, StatKey.BREAK_EFFICIENCY_BOOST, config)};
 
   // True damage multiplier
   let trueDmgMulti = 1.0 + ${getValue(StatKey.TRUE_DMG_MODIFIER)};
@@ -429,7 +451,6 @@ export const SuperBreakDamageFunction: DamageFunction = {
     * superBreakBaseMulti
     * beMulti
     * superBreakModMulti
-    * breakEfficiencyMulti
     * trueDmgMulti;
 
   comboDmg += damage;
@@ -683,7 +704,17 @@ function calculateInitialDamage(
   const def = x.getValue(StatKey.DEF, hitIndex)
   const atkBoost = x.getValue(StatKey.ATK_P_BOOST, hitIndex)
 
-  return (hit.atkScaling ?? 0) * (atk + atkBoost * context.baseATK)
+  // BE-based ATK scaling
+  const critHit = hit as CritHit
+  const beScaling = critHit.beScaling
+  let totalAtkScaling = hit.atkScaling ?? 0
+  if (beScaling != null) {
+    const be = x.getValue(StatKey.BE, hitIndex)
+    const effectiveBe = critHit.beCap != null ? Math.min(critHit.beCap, be) : be
+    totalAtkScaling += beScaling * effectiveBe
+  }
+
+  return totalAtkScaling * (atk + atkBoost * context.baseATK)
     + (hit.hpScaling ?? 0) * hp
     + (hit.defScaling ?? 0) * def
 }

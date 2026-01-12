@@ -26,6 +26,7 @@ interface BaseHitDefinition {
   damageElement: ElementTag
   outputTag: OutputTag
   toughnessDmg?: number
+  fixedToughnessDmg?: number // For super break: added without break efficiency multiplier
   activeHit: boolean
   // Common scaling properties (optional for all hit types)
   atkScaling?: number
@@ -36,6 +37,8 @@ interface BaseHitDefinition {
 // Crit hits (default for most abilities)
 export interface CritHitDefinition extends BaseHitDefinition {
   damageFunctionType: DamageFunctionType.Crit
+  beScaling?: number // BE-based ATK scaling
+  beCap?: number // Maximum BE value for scaling
 }
 
 export interface DotHitDefinition extends BaseHitDefinition {

@@ -1,9 +1,4 @@
-import {
-  AbilityType,
-  BASIC_DMG_TYPE,
-  SKILL_DMG_TYPE,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -171,10 +166,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         + ultStygianResurgeScaling
         + r.stygianResurgeHitsOnTarget * ultThunderCoreScaling
 
+      // E6: Basic and Skill also count as ULT damage type
+      const e6Active = e >= 6 && r.e6UltBuffs
+
       return {
         [AcheronAbilities.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
+              .damageType(e6Active ? DamageTag.BASIC | DamageTag.ULT : DamageTag.BASIC)
               .damageElement(ElementTag.Lightning)
               .atkScaling(basicScaling)
               .toughnessDmg(10)
@@ -184,6 +183,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         [AcheronAbilities.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
+              .damageType(e6Active ? DamageTag.SKILL | DamageTag.ULT : DamageTag.SKILL)
               .damageElement(ElementTag.Lightning)
               .atkScaling(skillScaling)
               .toughnessDmg(20)
@@ -207,15 +207,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       }
     },
     actionModifiers: () => [],
-
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      if (e >= 6 && r.e6UltBuffs) {
-        x.BASIC_DMG_TYPE.set(ULT_DMG_TYPE | BASIC_DMG_TYPE, SOURCE_E6)
-        x.SKILL_DMG_TYPE.set(ULT_DMG_TYPE | SKILL_DMG_TYPE, SOURCE_E6)
-      }
-    },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

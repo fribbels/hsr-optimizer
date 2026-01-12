@@ -174,7 +174,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     actionModifiers: () => [],
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      // Self effects are handled via dynamicConditionals for HP conversion
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -202,7 +201,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.multiply(StatKey.DMG_RED_MULTI, (t.skillActive) ? (1 - 0.65) : 1, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
     },
 
-    // Legacy stubs for backwards compatibility
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

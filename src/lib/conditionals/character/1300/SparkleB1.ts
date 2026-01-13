@@ -66,6 +66,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     talentStacks: 4,
     teamAtkBuff: true,
     teammateCDValue: 2.5,
+    e2DefPen: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -92,7 +93,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teamAtkBuff: {
       id: 'teamAtkBuff',
       formItem: 'switch',
-      text: "Team ATK buff",
+      text: 'Team ATK buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
     },
     e1SpdBuff: {
@@ -100,8 +101,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       formItem: 'switch',
       text: 'E1 SPD buff',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 1
-    }
+      disabled: e < 1,
+    },
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
@@ -118,6 +119,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     cipherBuff: content.cipherBuff,
     talentStacks: content.talentStacks,
     teamAtkBuff: content.teamAtkBuff,
+    e2DefPen: {
+      id: 'e2DefPen',
+      formItem: 'switch',
+      text: 'E2 DEF PEN',
+      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      disabled: e < 2,
+    },
   }
 
   return {
@@ -138,7 +146,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.UNCONVERTIBLE_CD_BUFF.buff(skillCdBuffBase, SOURCE_SKILL)
       }
 
-      x.SPD_P.buff(0.15, SOURCE_E1)
+      x.SPD_P.buff((e >= 1 && r.e1SpdBuff) ? 0.15 : 0, SOURCE_E1)
     },
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -155,7 +163,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           : m.talentStacks * talentBaseStackBoost,
         SOURCE_TALENT,
       )
-      x.DEF_PEN.buffTeam((e >= 2) ? 0.08 * m.talentStacks : 0, SOURCE_E2)
+      x.DEF_PEN.buffTeam((e >= 2 && m.e2DefPen) ? 0.08 * m.talentStacks : 0, SOURCE_E2)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>

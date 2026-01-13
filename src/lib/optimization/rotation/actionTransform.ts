@@ -1,5 +1,6 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   ComputedStatsContainer,
   ComputedStatsContainerConfig,
@@ -160,6 +161,10 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
   // ========== PHASE 4: PRECOMPUTATION ==========
 
   for (const action of allActions) {
+    if (context.enemyWeaknessBroken) {
+      action.precomputedStats.actionBuff(StatKey.ENEMY_WEAKNESS_BROKEN, 1)
+    }
+
     precomputeConditionals(action, comboState, context)
     calculateContextConditionalRegistry(action, context)
   }

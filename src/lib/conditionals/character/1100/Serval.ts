@@ -90,10 +90,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .toughnessDmg(10)
               .build(),
             ...(r.targetShocked
-              ? [HitDefinitionBuilder.standardAdditional()
+              ? [
+                HitDefinitionBuilder.standardAdditional()
                   .damageElement(ElementTag.Lightning)
                   .atkScaling(talentExtraDmgScaling)
-                  .build()]
+                  .build(),
+              ]
               : []),
           ],
         },
@@ -105,10 +107,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .toughnessDmg(20)
               .build(),
             ...(r.targetShocked
-              ? [HitDefinitionBuilder.standardAdditional()
+              ? [
+                HitDefinitionBuilder.standardAdditional()
                   .damageElement(ElementTag.Lightning)
                   .atkScaling(talentExtraDmgScaling)
-                  .build()]
+                  .build(),
+              ]
               : []),
           ],
         },
@@ -120,16 +124,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .toughnessDmg(20)
               .build(),
             ...(r.targetShocked
-              ? [HitDefinitionBuilder.standardAdditional()
+              ? [
+                HitDefinitionBuilder.standardAdditional()
                   .damageElement(ElementTag.Lightning)
                   .atkScaling(talentExtraDmgScaling)
-                  .build()]
+                  .build(),
+              ]
               : []),
           ],
         },
         [ServalAbilities.DOT]: {
           hits: [
-            HitDefinitionBuilder.dot()
+            HitDefinitionBuilder.standardDot()
               .damageElement(ElementTag.Lightning)
               .atkScaling(dotScaling)
               .dotBaseChance(1.0)

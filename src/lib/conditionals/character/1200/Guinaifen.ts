@@ -9,7 +9,10 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import {
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -162,7 +165,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
         [GuinaifenAbilities.DOT]: {
           hits: [
-            HitDefinitionBuilder.dot()
+            HitDefinitionBuilder.standardDot()
               .damageElement(ElementTag.Fire)
               .dotBaseChance(dotChance)
               .atkScaling(dotAtkScaling)
@@ -195,12 +198,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Talent - Firekiss vulnerability debuff
-      x.buff(StatKey.VULNERABILITY, m.talentDebuffStacks * talentDebuffDmgIncreaseValue,
-        x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
+      x.buff(StatKey.VULNERABILITY, m.talentDebuffStacks * talentDebuffDmgIncreaseValue, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
 
       // E1 - Effect RES shred
-      x.buff(StatKey.EFFECT_RES_PEN, (e >= 1 && m.e1EffectResShred) ? 0.10 : 0,
-        x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+      x.buff(StatKey.EFFECT_RES_PEN, (e >= 1 && m.e1EffectResShred) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

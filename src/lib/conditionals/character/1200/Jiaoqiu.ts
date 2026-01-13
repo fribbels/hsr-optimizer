@@ -20,7 +20,12 @@ import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag } from 'lib/optimization/engine/config/tag'
+import {
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -195,7 +200,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
         [JiaoqiuAbilities.DOT]: {
           hits: [
-            HitDefinitionBuilder.dot()
+            HitDefinitionBuilder.standardDot()
               .damageElement(ElementTag.Fire)
               .dotBaseChance(1.0)
               .atkScaling(dotAtkScaling)
@@ -224,22 +229,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Ult field vulnerability (ULT damage type only)
-      x.buff(StatKey.VULNERABILITY, (m.ultFieldActive) ? ultVulnerabilityScaling : 0,
-        x.damageType(DamageTag.ULT).targets(TargetTag.FullTeam).source(SOURCE_ULT))
+      x.buff(
+        StatKey.VULNERABILITY,
+        (m.ultFieldActive) ? ultVulnerabilityScaling : 0,
+        x.damageType(DamageTag.ULT).targets(TargetTag.FullTeam).source(SOURCE_ULT),
+      )
 
       // Ashen Roast vulnerability (all damage)
-      x.buff(StatKey.VULNERABILITY, (m.ashenRoastStacks > 0) ? talentVulnerabilityBase : 0,
-        x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
-      x.buff(StatKey.VULNERABILITY, Math.max(0, m.ashenRoastStacks - 1) * talentVulnerabilityScaling,
-        x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
+      x.buff(StatKey.VULNERABILITY, (m.ashenRoastStacks > 0) ? talentVulnerabilityBase : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
+      x.buff(StatKey.VULNERABILITY, Math.max(0, m.ashenRoastStacks - 1) * talentVulnerabilityScaling, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
 
       // E1: DMG boost when enemies have Ashen Roast
-      x.buff(StatKey.DMG_BOOST, (e >= 1 && m.e1DmgBoost && m.ashenRoastStacks > 0) ? 0.40 : 0,
-        x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+      x.buff(StatKey.DMG_BOOST, (e >= 1 && m.e1DmgBoost && m.ashenRoastStacks > 0) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
 
       // E6: RES shred based on stacks
-      x.buff(StatKey.RES_PEN, (e >= 6 && m.e6ResShred) ? m.ashenRoastStacks * 0.03 : 0,
-        x.targets(TargetTag.FullTeam).source(SOURCE_E6))
+      x.buff(StatKey.RES_PEN, (e >= 6 && m.e6ResShred) ? m.ashenRoastStacks * 0.03 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -253,11 +257,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       activation: ConditionalActivation.CONTINUOUS,
       dependsOn: [Stats.EHR],
       chainsTo: [Stats.ATK],
-      condition: function (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+      condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
         return r.ehrToAtkBoost && x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) > 0.80
       },
-      effect: function (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+      effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
         dynamicStatConversionContainer(
           Stats.EHR,
           Stats.ATK,
@@ -269,7 +273,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           (convertibleValue) => Math.min(2.40, 0.60 * Math.floor((convertibleValue - 0.80) / 0.15)) * context.baseATK,
         )
       },
-      gpu: function (action: OptimizerAction, context: OptimizerContext) {
+      gpu: function(action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
         const config = action.config
 

@@ -58,9 +58,17 @@ export function HitDefinitionBuilder(defaults?: Partial<HitDefinition>) {
   return genericBuilder<HitDefinition>({ ...BASE_HIT_DEFAULTS, ...defaults })
 }
 
-// New schema-driven builders
-HitDefinitionBuilder.dot = dotHitSchema
+// New schema-driven builders // TODO: Careful
 HitDefinitionBuilder.crit = critHitSchema
+
+HitDefinitionBuilder.standardDot = () =>
+  genericBuilder<DotHitDefinition>({
+    ...BASE_HIT_DEFAULTS,
+    damageFunctionType: DamageFunctionType.Dot,
+    damageType: DamageTag.DOT,
+    outputTag: OutputTag.DAMAGE,
+    activeHit: false,
+  })
 
 // Convenience builders for standard hit types
 HitDefinitionBuilder.standardBasic = () =>

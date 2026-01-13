@@ -6,19 +6,36 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
+import {
+  wgsl,
+  wgslTrue,
+} from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
-import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag } from 'lib/optimization/engine/config/tag'
+import {
+  ComputedStatsArray,
+  Key,
+} from 'lib/optimization/computedStatsArray'
+import {
+  AKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export const BlackSwanEntities = createEnum('BlackSwan')
 export const BlackSwanAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'DOT', 'BREAK')
@@ -169,7 +186,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
         [BlackSwanAbilities.DOT]: {
           hits: [
-            HitDefinitionBuilder.dot()
+            HitDefinitionBuilder.standardDot()
               .dotBaseChance(dotChance)
               .dotSplit(0.05)
               .dotStacks(r.arcanaStacks)
@@ -200,7 +217,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // TODO: Technically this isnt a DoT vulnerability but rather vulnerability to damage on the enemy's turn which includes ults/etc.
       x.buff(StatKey.VULNERABILITY, (m.epiphanyDebuff) ? epiphanyDmgTakenBoost : 0, x.damageType(DamageTag.DOT).targets(TargetTag.FullTeam).source(SOURCE_ULT))
       x.buff(StatKey.DEF_PEN, (m.defDecreaseDebuff) ? defShredValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
-      x.buff(StatKey.RES_PEN, (e >= 1 && m.e1ResReduction) ? 0.25 : 0, x.elements(ElementTag.Wind | ElementTag.Fire | ElementTag.Physical | ElementTag.Lightning).targets(TargetTag.FullTeam).source(SOURCE_E1))
+      x.buff(
+        StatKey.RES_PEN,
+        (e >= 1 && m.e1ResReduction) ? 0.25 : 0,
+        x.elements(ElementTag.Wind | ElementTag.Fire | ElementTag.Physical | ElementTag.Lightning).targets(TargetTag.FullTeam).source(SOURCE_E1),
+      )
       x.buff(StatKey.EFFECT_RES_PEN, (e >= 4 && m.epiphanyDebuff && m.e4EffResPen) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
 
@@ -246,10 +267,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       return ``
-// if (${wgslTrue(r.ehrToDmgBoost)}) {
-//   x.ELEMENTAL_DMG += min(0.72, 0.60 * x.EHR);
-// }
-// `
+      // if (${wgslTrue(r.ehrToDmgBoost)}) {
+      //   x.ELEMENTAL_DMG += min(0.72, 0.60 * x.EHR);
+      // }
+      // `
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

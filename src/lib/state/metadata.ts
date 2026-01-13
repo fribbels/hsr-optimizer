@@ -36,7 +36,6 @@ import {
   ACHERON,
   ALONG_THE_PASSING_SHORE,
   AVENTURINE,
-  BLACK_SWAN,
   BRONYA,
   BUT_THE_BATTLE_ISNT_OVER,
   CASTORICE,
@@ -90,7 +89,7 @@ import {
   WHEREABOUTS_SHOULD_DREAMS_REST,
   WHY_DOES_THE_OCEAN_SING,
   WORRISOME_BLISSFUL,
-  YET_HOPE_IS_PRICELESS,
+  YET_HOPE_IS_PRICELESS, BLACK_SWAN_B1, SPARKLE_B1,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -1463,7 +1462,17 @@ function getOverrideImageCenter(): Record<string, {
       y: 1050,
       z: 1,
     },
+    '1306b1': { // SparkleB1
+      x: 1050,
+      y: 1050,
+      z: 1,
+    },
     1307: { // Black Swan
+      x: 950,
+      y: 925,
+      z: 1.25,
+    },
+    '1307b1': { // Black SwanB1
       x: 950,
       y: 925,
       z: 1.25,
@@ -2136,7 +2145,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: BLACK_SWAN,
+            characterId: BLACK_SWAN_B1,
             lightCone: REFORGED_REMEMBRANCE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -2615,7 +2624,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: SPARKLE,
+            characterId: SPARKLE_B1,
             lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -3207,7 +3216,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: SPARKLE,
+            characterId: SPARKLE_B1,
             lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -3628,7 +3637,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: SPARKLE,
+            characterId: SPARKLE_B1,
             lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -6006,7 +6015,165 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       sortOption: SortOption.CD,
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
+    '1306b1': { // SparkleB1
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0.25,
+        [Stats.DEF_P]: 0.25,
+        [Stats.HP]: 0.25,
+        [Stats.HP_P]: 0.25,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0.25,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CD,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [],
+        [Parts.LinkRope]: [
+          Stats.ERR,
+        ],
+      },
+      sets: {
+        [Sets.SacerdosRelivedOrdeal]: 1,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
+      presets: [],
+      sortOption: SortOption.CD,
+      hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+    },
     1307: { // Black Swan
+      stats: {
+        [Stats.ATK]: 1,
+        [Stats.ATK_P]: 1,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 0,
+        [Stats.EHR]: 1,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.ATK_P,
+          Stats.EHR,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+          Stats.ATK_P,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.Wind_DMG,
+          Stats.ATK_P,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ATK_P,
+        ],
+      },
+      sets: {
+        [Sets.PrisonerInDeepConfinement]: 1,
+        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+        [Sets.MusketeerOfWildWheat]: MATCH_2P_WEIGHT,
+        [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
+
+        [Sets.RevelryByTheSea]: 1,
+        [Sets.PanCosmicCommercialEnterprise]: 1,
+        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.SpaceSealingStation]: 1,
+      },
+      presets: [
+        PresetEffects.PRISONER_SET,
+      ],
+      sortOption: SortOption.DOT,
+      hiddenColumns: [SortOption.FUA],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.EHR,
+            Stats.ATK_P,
+          ],
+          [Parts.Feet]: [
+            Stats.ATK_P,
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Wind_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.ATK_P,
+          Stats.EHR,
+          Stats.ATK,
+          Stats.CR,
+          Stats.CD,
+        ],
+        breakpoints: {
+          [Stats.EHR]: 1.20,
+        },
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          START_ULT,
+          END_SKILL,
+          DEFAULT_DOT,
+          WHOLE_BASIC,
+          DEFAULT_DOT,
+          WHOLE_SKILL,
+          DEFAULT_DOT,
+          WHOLE_BASIC,
+          DEFAULT_DOT,
+        ],
+        comboDot: 8,
+        relicSets: [
+          [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.RevelryByTheSea,
+          Sets.FirmamentFrontlineGlamoth,
+          Sets.PanCosmicCommercialEnterprise,
+        ],
+        teammates: [
+          {
+            characterId: KAFKA_B1,
+            lightCone: PATIENCE_IS_ALL_YOU_NEED,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: HYSILENS,
+            lightCone: WHY_DOES_THE_OCEAN_SING,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
+    },
+    '1307b1': { // Black SwanB1
       stats: {
         [Stats.ATK]: 1,
         [Stats.ATK_P]: 1,
@@ -6482,7 +6649,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: SPARKLE,
+            characterId: SPARKLE_B1,
             lightCone: BUT_THE_BATTLE_ISNT_OVER,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -8560,7 +8727,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: SPARKLE,
+            characterId: SPARKLE_B1,
             lightCone: EARTHLY_ESCAPADE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -8687,7 +8854,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: BLACK_SWAN,
+            characterId: BLACK_SWAN_B1,
             lightCone: REFORGED_REMEMBRANCE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
@@ -9177,7 +9344,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: BLACK_SWAN,
+            characterId: BLACK_SWAN_B1,
             lightCone: REFORGED_REMEMBRANCE,
             characterEidolon: 0,
             lightConeSuperimposition: 1,

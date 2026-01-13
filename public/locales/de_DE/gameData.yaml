@@ -153,11 +153,11 @@ Characters:
     Name: Dr. Wahrheit
     LongName: Dr. Wahrheit
   "1306":
-    Name: Sparkle
-    LongName: Sparkle
+    Name: ⚰️ Sparkle
+    LongName: ⚰️ Sparkle
   "1307":
-    Name: Schwarzer Schwan
-    LongName: Schwarzer Schwan
+    Name: ⚰️ Schwarzer Schwan
+    LongName: ⚰️ Schwarzer Schwan
   "1308":
     Name: Acheron
     LongName: Acheron
@@ -183,8 +183,8 @@ Characters:
     Name: Rappa
     LongName: Rappa
   "1321":
-    Name: The Dahlia
-    LongName: The Dahlia
+    Name: Die Dahlie
+    LongName: Die Dahlie
   "1401":
     Name: Große Herta
     LongName: Große Herta
@@ -227,6 +227,12 @@ Characters:
   "1415":
     Name: Cyrene
     LongName: Cyrene
+  "1501":
+    Name: Sparxie
+    LongName: Sparxie
+  "1502":
+    Name: Yao Guang
+    LongName: Yao Guang
   "8001":
     Name: Caelus
     LongName: Caelus (Die Zerstörung)
@@ -251,6 +257,12 @@ Characters:
   "8008":
     Name: Stella
     LongName: Stella (Das Gedenken)
+  1306b1:
+    Name: Sparkle
+    LongName: Sparkle
+  1307b1:
+    Name: Black Swan
+    LongName: Black Swan
   1212b1:
     Name: Jingliu
     LongName: Jingliu
@@ -376,6 +388,14 @@ RelicSets:
     Name: Sternenverhüllter Einsiedler
     Description2pc: Erhöht die gewährte Schildmenge um 10%.
     Description4pc: Erhöht die vom Träger gewährte Schildmenge um 12%. Wenn ein Verbündeter einen vom Träger gewährten Schild hat, wird sein KRIT-SCH um 15% erhöht.
+  "129":
+    Name: Ever-Glorious Magical Girl
+    Description2pc: Increases CRIT DMG by 16%.
+    Description4pc: The Elation DMG dealt by the wearer and their memosprites ignores 10% of targets' DEF. For every 5 accumulated Punchline allies gain, the Elation DMG dealt additionally ignores 1% of targets' DEF, which stacks up to 10 times.
+  "130":
+    Name: Diviner of Distant Reach
+    Description2pc: Increases SPD by 6%.
+    Description4pc: Before entering combat, if the wearer's SPD is greater than or equal to 120/160, increases the wearer's CRIT Rate by 10%/18%. When the wearer uses Elation Skill for the first time in each battle, enhances all allies' Elation by 10%. This effect cannot stack.
   "301":
     Name: Raumstation für Versiegelung
     Description2pc: Erhöht ANG des Trägers um 12%. Wenn die GES des Trägers 120 oder höher erreicht, wird sein ANG zusätzlich um 12% erhöht.
@@ -425,7 +445,7 @@ RelicSets:
     Name: Schmiede der Kalpagni-Laterne
     Description2pc: Erhöht die GES des Trägers um 6%. Trifft der Träger einen Gegner mit Feuer-Schwäche, wird sein Brucheffekt für 1 Rd. um 40% erhöht.
   "317":
-    Name: Lushaka, die versunkenen See
+    Name: Lushaka, die versunkene See
     Description2pc: Erhöht Die Energie-Wiederherstellungsrate des Trägers um 5%. Wenn der Träger nicht die erste Figur in der Teamformation ist, wird der ANG der ersten Figur in der Teamformation um 12% erhöht.
   "318":
     Name: Wunbanana-Park
@@ -495,6 +515,10 @@ Lightcones:
     Name: Brennender Schatten
   "20022":
     Name: Rückblick
+  "20023":
+    Name: Sneering
+  "20024":
+    Name: Lingering Tears
   "21000":
     Name: Ein Gespräch nach der OP
   "21001":
@@ -617,6 +641,10 @@ Lightcones:
     Name: Abenteuer der Urlaubsbäder
   "21062":
     Name: Wiedersehen an der Ziellinie
+  "21064":
+    Name: Mushy Shroomy's Adventures
+  "21065":
+    Name: Today's Good Luck
   "22000":
     Name: Bevor das Tutorial beginnt
   "22001":
@@ -732,11 +760,15 @@ Lightcones:
   "23049":
     Name: Auf das Sternenlicht der langen Nacht
   "23050":
-    Name: Never Forget Her Flame
+    Name: Vergiss ihre Flamme niemals
   "23051":
     Name: Selbst über endlose Lande
   "23052":
     Name: Liebe, so ewig wie dieser Moment
+  "23053":
+    Name: Dazzled By A Flowery World
+  "23054":
+    Name: When She Decided To See
   "24000":
     Name: Der Niedergang eines Äons
   "24001":
@@ -758,7 +790,6 @@ Paths:
   Knight: Die Bewahrung
   Priest: Der Überfluss
   Memory: Das Gedenken
-  Unknown: Universal
 Elements:
   Physical: Physisch
   Fire: Feuer

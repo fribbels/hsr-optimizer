@@ -15,11 +15,10 @@ import {
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
-import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 
-import {CURRENT_DATA_VERSION} from 'lib/constants/constants'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -28,7 +27,7 @@ import {
 } from 'types/optimizer'
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  //const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.BlackSwan')
+  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.BlackSwan')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
     SOURCE_BASIC,
@@ -50,7 +49,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0.90, 0.99)
-  const ultScaling = ult(e, 1.20, 1.30)
+  const ultScaling = ult(e, 1.20, 1.296)
   const dotScaling = talent(e, 2.40, 2.64)
 
   const dotChance = talent(e, 0.65, 0.68)
@@ -88,7 +87,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     arcanaStacks: {
       id: 'arcanaStacks',
       formItem: 'slider',
-      text: "Arcana stacks",
+      text: 'Arcana stacks',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 1,
       max: 100,
@@ -164,12 +163,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.PHYSICAL_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, SOURCE_E1)
       x.LIGHTNING_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, SOURCE_E1)
 
+      x.VULNERABILITY.buffTeam((m.epiphanyDebuff) ? epiphanyDmgTakenBoost : 0, SOURCE_ULT)
+
       x.VULNERABILITY.buffTeam((e >= 4 && m.epiphanyDebuff && m.e4Vulnerability) ? 0.20 : 0, SOURCE_E4)
     },
     precomputeTeammateEffects: (x, action, context) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ELEMENTAL_DMG.buff(t.ehrToDmgBoost ? Math.min(0.72, 0.6 * t.combatEhr) : 0, SOURCE_TRACE)
+      x.ELEMENTAL_DMG.buff(t.ehrToDmgBoost ? Math.min(0.72, 0.60 * t.combatEhr) : 0, SOURCE_TRACE)
     },
     finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

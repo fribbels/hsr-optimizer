@@ -13,25 +13,21 @@ import {
   BasicStatsArrayCore,
 } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  calculateBaseMultis,
-  calculateDamage,
-} from 'lib/optimization/calculateDamage'
+import { calculateBaseMultis } from 'lib/optimization/calculateDamage'
 import {
   calculateBaseStats,
-  calculateBasicEffects,
   calculateBasicSetEffects,
   calculateComputedStats,
   calculateElementalStats,
   calculateRelicStats,
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
-import {
-  ComputedStatsArray,
-  ComputedStatsArrayCore,
-  Key,
-} from 'lib/optimization/computedStatsArray'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { OutputTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
+import { logRegisters } from 'lib/simulations/registerLogger'
 import {
   SimulationRelic,
   SimulationRelicByPart,
@@ -60,8 +56,6 @@ export function simulateBuild(
   const setL = OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
 
   const c = (cachedBasicStatsArrayCore ?? new BasicStatsArrayCore(false)) as BasicStatsArray
-  const x = (cachedComputedStatsArrayCore ?? new ComputedStatsArrayCore(false)) as ComputedStatsArray
-  const m = x.m
 
   const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
   const ornamentSetIndex = setP + setL * OrnamentSetCount
@@ -80,57 +74,101 @@ export function simulateBuild(
     c.SPD.set(forcedBasicSpd, Source.NONE)
   }
 
-  x.setBasic(c)
-  if (x.a[Key.MEMOSPRITE]) {
-    m.setBasic(c.m)
-    c.initMemo()
-  }
+  // if (x.a[Key.MEMOSPRITE]) {
+  //   m.setBasic(c.m)
+  //   c.initMemo()
+  // }
+
+  let comboDmg = 0
 
   let combo = 0
-  for (let i = context.actions.length - 1; i >= 0; i--) {
-    const action = context.actions[i]
+  const hitActions = context.hitActions!
+  const defaultActions = context.defaultActions
+
+  // for (let i = 0; i < hitActions.length; i++) {
+  //   calculateAction(hitActions[i])
+  // }
+  // for (let i = 0; i < defaultActions.length; i++) {
+  //   calculateAction(defaultActions[i])
+  // }
+
+  const x = new ComputedStatsContainer()
+  x.initializeArrays(context.maxContainerArrayLength, context)
+  x.setBasic(c)
+
+  for (let i = 0; i < context.rotationActions.length; i++) {
+    const action = context.rotationActions[i]
+    x.setConfig(action.config)
+
     action.conditionalState = {}
 
-    x.setPrecompute(action.precomputedX.a)
-    if (x.a[Key.MEMOSPRITE]) {
-      m.setPrecompute(action.precomputedM.a)
-    }
+    x.setPrecompute(action.precomputedStats.a)
+    // if (x.a[Key.MEMOSPRITE]) {
+    //   m.setPrecompute(action.precomputedM.a)
+    // }
 
-    if (x.trace) {
-      x.tracePrecompute(action.precomputedX)
-      m.tracePrecompute(action.precomputedM)
-    }
+    // if (x.trace) {
+    //   x.tracePrecompute(action.precomputedX)
+    //   m.tracePrecompute(action.precomputedM)
+    // }
 
-    calculateBasicEffects(x, action, context)
+    // calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
 
-    calculateDamage(x, action, context)
+    let sum = 0
 
-    const a = x.a
-    if (action.actionType === AbilityKind.BASIC) {
-      combo += a[Key.BASIC_DMG]
-    } else if (action.actionType === AbilityKind.SKILL) {
-      combo += a[Key.SKILL_DMG]
-    } else if (action.actionType === AbilityKind.ULT) {
-      combo += a[Key.ULT_DMG]
-    } else if (action.actionType === AbilityKind.FUA) {
-      combo += a[Key.FUA_DMG]
-    } else if (action.actionType === AbilityKind.DOT) {
-      combo += a[Key.DOT_DMG] * context.comboDot / Math.max(1, context.dotAbilities)
-    } else if (action.actionType === AbilityKind.BREAK) {
-      combo += a[Key.BREAK_DMG]
-    } else if (action.actionType === AbilityKind.MEMO_SKILL) {
-      combo += a[Key.MEMO_SKILL_DMG]
-    } else if (action.actionType === AbilityKind.MEMO_TALENT) {
-      combo += a[Key.MEMO_TALENT_DMG]
+    for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
+      const hit = action.hits![hitIndex]
+
+      const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
+      x.setHitRegisterValue(hit.registerIndex, dmg)
+
+      // Only accumulate damage hits to sum and comboDmg (not heals/shields)
+      if (hit.outputTag == OutputTag.DAMAGE) {
+        sum += dmg
+        comboDmg += dmg
+      }
     }
 
-    if (i === 0) {
-      combo += a[Key.DOT_DMG] * (context.dotAbilities == 0 ? context.comboDot / Math.max(1, context.dotAbilities) : 0)
-      x.COMBO_DMG.set(combo, Source.NONE)
-    }
+    x.setActionRegisterValue(action.registerIndex, sum)
   }
+
+  calculateComputedStats(x, context.defaultActions[0], context)
+
+  for (let i = 0; i < context.defaultActions.length; i++) {
+    const action = context.defaultActions[i]
+    x.setConfig(action.config)
+
+    action.conditionalState = {}
+
+    x.setPrecompute(action.precomputedStats.a)
+
+    calculateComputedStats(x, action, context)
+    calculateBaseMultis(x, action, context)
+
+    let sum = 0
+
+    for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
+      const hit = action.hits![hitIndex]
+
+      const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
+      x.setHitRegisterValue(hit.registerIndex, dmg)
+
+      // Only accumulate damage hits to sum (not heals/shields)
+      if (hit.outputTag == OutputTag.DAMAGE) {
+        sum += dmg
+      }
+    }
+
+    x.setActionRegisterValue(action.registerIndex, sum)
+  }
+
+  x.a[StatKey.COMBO_DMG] = comboDmg
+
+  // x.set(ActionKey.COMBO_DMG, dmgTracker, Source.NONE)
+
+  logRegisters(x, context, 'Simulate Build')
 
   return x
 }

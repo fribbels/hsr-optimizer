@@ -40,8 +40,8 @@ export function initializeGpuPipeline(
     DEBUG,
   })
 
+  console.log(wgsl)
   if (DEBUG && !silent) {
-    console.log(wgsl)
   } else {
     // console.log(wgsl)
   }
@@ -67,6 +67,7 @@ export function initializeGpuPipeline(
   const relicsMatrixBuffer = createGpuBuffer(device, new Float32Array(mergedRelics), GPUBufferUsage.STORAGE)
   const relicSetSolutionsMatrixBuffer = createGpuBuffer(device, new Int32Array(relicSetSolutions), GPUBufferUsage.STORAGE, true, true)
   const ornamentSetSolutionsMatrixBuffer = createGpuBuffer(device, new Int32Array(ornamentSetSolutions), GPUBufferUsage.STORAGE, true, true)
+  const precomputedStatsBuffer = createGpuBuffer(device, context.precomputedStatsData!, GPUBufferUsage.STORAGE)
 
   const layout0 = computePipeline.getBindGroupLayout(0)
   const layout1 = computePipeline.getBindGroupLayout(1)
@@ -85,6 +86,7 @@ export function initializeGpuPipeline(
       { binding: 0, resource: { buffer: relicsMatrixBuffer } },
       { binding: 1, resource: { buffer: ornamentSetSolutionsMatrixBuffer } },
       { binding: 2, resource: { buffer: relicSetSolutionsMatrixBuffer } },
+      { binding: 3, resource: { buffer: precomputedStatsBuffer } },
     ],
   })
 
@@ -148,6 +150,7 @@ export function initializeGpuPipeline(
     relicsMatrixBuffer,
     relicSetSolutionsMatrixBuffer,
     ornamentSetSolutionsMatrixBuffer,
+    precomputedStatsBuffer,
 
     gpuReadBuffer,
     bindGroupLayouts,
@@ -252,6 +255,7 @@ function generateLayouts(device: GPUDevice) {
         { binding: 0, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
         { binding: 1, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
         { binding: 2, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
+        { binding: 3, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'read-only-storage' } },
       ],
     }),
     device.createBindGroupLayout({
@@ -298,4 +302,7 @@ export function destroyPipeline(gpuContext: GpuExecutionContext) {
 
   gpuContext.ornamentSetSolutionsMatrixBuffer.unmap()
   gpuContext.ornamentSetSolutionsMatrixBuffer.destroy()
+
+  gpuContext.precomputedStatsBuffer.unmap()
+  gpuContext.precomputedStatsBuffer.destroy()
 }

@@ -184,6 +184,17 @@ export function cyreneSpecialEffectEidolonUpgraded(action: OptimizerAction) {
   return cyreneAction.actorEidolon >= 3
 }
 
+type Sanitize<S extends string> = S extends `${infer Start}${' ' | '-' | '/' | '.'}${infer Rest}` ? Sanitize<`${Start}_${Rest}`>
+  : S
+
+export function createEnum<T extends string>(...values: T[]) {
+  const obj: any = {}
+  for (const v of values) {
+    obj[v.replace(/[^a-zA-Z0-9]+/g, '_')] = v
+  }
+  return obj as { [K in T as Sanitize<K>]: K }
+}
+
 export function teammateConditionalActive(action: OptimizerAction, teammateId: string, conditionalId: string) {
   const teammateAction = [
     action.teammate0,
@@ -193,4 +204,15 @@ export function teammateConditionalActive(action: OptimizerAction, teammateId: s
   if (!teammateAction) return false
 
   return teammateAction.characterConditionals[conditionalId]
+}
+
+// Returns the entity index of the memosprite, or -1 if not found
+export function findMemospriteIndex(action: OptimizerAction): number {
+  const config = action.config
+  for (let i = 0; i < config.entitiesLength; i++) {
+    if (config.entitiesArray[i].memosprite) {
+      return i
+    }
+  }
+  return -1
 }

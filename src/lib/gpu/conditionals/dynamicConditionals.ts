@@ -1,6 +1,6 @@
 import { ConditionalActivation } from 'lib/constants/constants'
 import { indent } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -14,8 +14,8 @@ export type DynamicConditional = {
   dependsOn: string[],
   chainsTo: string[],
   supplementalState?: string[],
-  condition: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => boolean | number,
-  effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void,
+  condition: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => boolean | number,
+  effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void,
   gpu: (action: OptimizerAction, context: OptimizerContext) => string,
   teammateIndex?: number,
 }
@@ -26,7 +26,7 @@ function getTeammateFromIndex(conditional: DynamicConditional, action: Optimizer
   else return action.teammate2
 }
 
-export function evaluateConditional(conditional: DynamicConditional, x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+export function evaluateConditional(conditional: DynamicConditional, x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
   let conditionalAction: OptimizerAction
   if (conditional.teammateIndex != null) {
     const teammate = getTeammateFromIndex(conditional, action)
@@ -53,10 +53,18 @@ export function evaluateConditional(conditional: DynamicConditional, x: Computed
   }
 }
 
-export function conditionalWgslWrapper(conditional: DynamicConditional, wgsl: string) {
+export function conditionalWgslWrapper(conditional: DynamicConditional, wgsl: string, context: OptimizerContext) {
   return `
-fn evaluate${conditional.id}(p_x: ptr<function, ComputedStats>, p_m: ptr<function, ComputedStats>, p_sets: ptr<function, Sets>, p_state: ptr<function, ConditionalState>) {
+fn evaluate${conditional.id}(p_container: ptr<function, array<f32, ${context.maxContainerArrayLength}>>, p_sets: ptr<function, Sets>, p_state: ptr<function, ConditionalState>) {
   let x = *p_x;
+${indent(wgsl.trim(), 1)}
+}
+  `
+}
+
+export function newConditionalWgslWrapper(conditional: DynamicConditional, action: OptimizerAction, context: OptimizerContext, wgsl: string) {
+  return `
+fn evaluate${conditional.id}${action.actionIdentifier}(p_container: ptr<function, array<f32, ${context.maxContainerArrayLength}>>, p_sets: ptr<function, Sets>, p_state: ptr<function, ConditionalState>) {
 ${indent(wgsl.trim(), 1)}
 }
   `

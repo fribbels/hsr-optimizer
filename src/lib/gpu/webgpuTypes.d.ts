@@ -52,6 +52,7 @@ export type GpuExecutionContext = {
   relicsMatrixBuffer: GPUBuffer,
   relicSetSolutionsMatrixBuffer: GPUBuffer,
   ornamentSetSolutionsMatrixBuffer: GPUBuffer,
+  precomputedStatsBuffer: GPUBuffer,
 
   gpuReadBuffer: GPUBuffer,
   bindGroupLayouts: GPUBindGroupLayout[],

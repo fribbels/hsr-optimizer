@@ -12,6 +12,7 @@ import {
   Radio,
 } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
 import {
   OpenCloseIDs,
@@ -41,6 +42,7 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerForm } from 'types/form'
 
 const radioStyle = {
@@ -55,14 +57,23 @@ export const ComboFilters = () => {
   const { t: tCommon } = useTranslation('common')
   const form = Form.useFormInstance<OptimizerForm>()
   const comboType = Form.useWatch('comboType', form)
-  const comboOptions = useMemo(() => [
-    { label: t('ComboOptions.Basic'), /* Basic */ value: 'BASIC' },
-    { label: t('ComboOptions.Skill'), /* Skill */ value: 'SKILL' },
-    { label: t('ComboOptions.Ult'), /* Ult */ value: 'ULT' },
-    { label: t('ComboOptions.Fua'), /* Fua */ value: 'FUA' },
-    { label: t('ComboOptions.MemoSkill'), /* Skillᴹ */ value: 'MEMO_SKILL' },
-    { label: t('ComboOptions.MemoTalent'), /* Talentᴹ */ value: 'MEMO_TALENT' },
-  ], [t])
+  const characterId = Form.useWatch('characterId', form)
+  const characterEidolon = Form.useWatch('characterEidolon', form)
+  const comboOptions = useMemo(() => {
+    if (characterId == null || characterEidolon == null) return []
+
+    const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get({
+      characterId,
+      characterEidolon,
+    })
+
+    const actions = characterConditionals.actionDeclaration ? characterConditionals.actionDeclaration() : []
+
+    return actions.map((x) => ({
+      label: x,
+      value: x,
+    }))
+  }, [t, characterId, characterEidolon])
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>
@@ -214,7 +225,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string, label: str
         </Flex>
 
         <Flex vertical style={{ width: '100%' }} gap={5}>
-          <HeaderText>{t('RowControls.PresetsHeader')/*Presets*/}</HeaderText>
+          <HeaderText>{t('RowControls.PresetsHeader') /*Presets*/}</HeaderText>
           <Form.Item name='comboPreprocessor'>
             <Radio.Group buttonStyle='solid' block size='small' disabled={disabled}>
               <Radio.Button value={true}>

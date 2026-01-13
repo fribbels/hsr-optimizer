@@ -1,10 +1,10 @@
 import {
   Constants,
-  PathNames,
   Stats,
 } from 'lib/constants/constants'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { STATS_LENGTH } from 'lib/optimization/engine/config/statsConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
@@ -42,35 +42,30 @@ const hSize = ${relics.Head.length};
 }
 
 function generateActions(context: OptimizerContext) {
-  const actionLength = context.resultSort == SortOption.COMBO.key ? context.actions.length : 1
+  const actionLength = context.resultSort == SortOption.COMBO.key ? context.defaultActions.length + context.rotationActions.length : 1
+  const computedStatsLength = context.maxContainerArrayLength / STATS_LENGTH
   let actionSwitcher = ``
   for (let i = 0; i < actionLength; i++) {
-    if (context.path == PathNames.Remembrance) {
-      actionSwitcher += indent(
-        `
-case ${i}: { 
-  (*outAction) = action${i}; 
-  (*outX) = computedStatsX${i}; 
-  (*outM) = computedStatsM${i}; 
-}
-    `,
-        0,
+    const label = i == 0
+      ? 'Action Stats'
+      : (
+        i < context.defaultActions.length
+          ? context.defaultActions[i].actionName
+          : context.rotationActions[i - context.defaultActions.length].actionName
       )
-    } else {
-      actionSwitcher += indent(
-        `
+    actionSwitcher += indent(
+      `
 case ${i}: { 
-  (*outAction) = action${i}; 
-  (*outX) = computedStatsX${i}; 
+(*outAction) = action${i}; // ${i == 0 ? 'Action Stats' : label}
+(*outX) = computedStatsX${i}; 
 }
-    `,
-        0,
-      )
-    }
+  `,
+      0,
+    )
   }
 
   const wgsl = `
-fn getAction(actionIndex: i32, outAction: ptr<function, Action>, outX: ptr<function, ComputedStats>, outM: ptr<function, ComputedStats>) {
+fn getAction(actionIndex: i32, outAction: ptr<function, Action>, outX: ptr<function, array<f32, ${context.maxContainerArrayLength}>>) {
   switch (actionIndex) {
     ${actionSwitcher}
     default: { 
@@ -80,7 +75,7 @@ fn getAction(actionIndex: i32, outAction: ptr<function, Action>, outX: ptr<funct
 }
   `
 
-  return wgsl
+  return ''
 }
 
 function generateRequest(request: Form) {
@@ -95,13 +90,12 @@ function generateRequest(request: Form) {
   wgsl += `const enemyElementalWeak: i32 = ${request.enemyElementalWeak ? 1 : 0};\n`
   wgsl += `const enemyLevel: i32 = ${request.enemyLevel};\n`
   wgsl += `const enemyMaxToughness: f32 = ${request.enemyMaxToughness};\n`
-  wgsl += `const enemyResistance: f32 = ${request.enemyResistance};\n`
   wgsl += `const enemyEffectResistance: f32 = ${request.enemyEffectResistance};\n`
   wgsl += `const enemyWeaknessBroken: i32 = ${request.enemyWeaknessBroken ? 1 : 0};\n`
   wgsl += '\n'
 
   // TODO: Refactor this to not duplicate res
-  wgsl += `const resistance: f32 = ${(request.enemyElementalWeak ? 0 : request.enemyResistance) - request.combatBuffs.RES_PEN};\n`
+  wgsl += `const enemyDamageResistance: f32 = ${(request.enemyElementalWeak ? 0 : request.enemyResistance) - request.combatBuffs.RES_PEN};\n`
   wgsl += '\n'
 
   // Filters

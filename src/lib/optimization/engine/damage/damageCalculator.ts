@@ -100,7 +100,7 @@ export const CritDamageFunction: DamageFunction = {
     const dmgBoostMulti = getTotalDmgBoost(x, hit, hitIndex)
     const initialDmgMulti = calculateInitialDamage(x, hit, hitIndex, context)
     const critMulti = getCritMultiplier(x, hitIndex)
-    const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex)
+    const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex) + (hit.trueDmgModifier ?? 0)
 
     const dmg = m.baseUniversalMulti
       * m.defMulti
@@ -125,6 +125,7 @@ export const CritDamageFunction: DamageFunction = {
     const atkScaling = hit.atkScaling ?? 0
     const hpScaling = hit.hpScaling ?? 0
     const defScaling = hit.defScaling ?? 0
+    const hitTrueDmgModifier = hit.trueDmgModifier ?? 0
 
     // BE-based ATK scaling (e.g., Firefly skill)
     const beScaling = hit.beScaling
@@ -172,7 +173,7 @@ export const CritDamageFunction: DamageFunction = {
   let critMulti = cr * (1.0 + cd) + (1.0 - cr);
 
   // True damage multiplier
-  let trueDmgMulti = 1.0 + ${getValue(StatKey.TRUE_DMG_MODIFIER)};
+  let trueDmgMulti = 1.0 + ${getValue(StatKey.TRUE_DMG_MODIFIER)} + ${hitTrueDmgModifier};
 
   // Final damage
   let damage = baseUniversalMulti
@@ -200,7 +201,7 @@ export const DotDamageFunction: DamageFunction = {
     const dmgBoostMulti = getTotalDmgBoost(x, hit, hitIndex)
     const abilityMulti = calculateInitialDamage(x, hit, hitIndex, context)
     const ehrMulti = calculateEhrMultiFromHit(x, hit, hitIndex, context)
-    const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex)
+    const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex) + (hit.trueDmgModifier ?? 0)
 
     const dmg = m.baseUniversalMulti
       * m.defMulti
@@ -225,6 +226,7 @@ export const DotDamageFunction: DamageFunction = {
     const atkScaling = hit.atkScaling ?? 0
     const hpScaling = hit.hpScaling ?? 0
     const defScaling = hit.defScaling ?? 0
+    const hitTrueDmgModifier = hit.trueDmgModifier ?? 0
 
     const elementalDmgBoost = hit.damageElement == ElementTag.None
       ? '0.0'
@@ -270,7 +272,7 @@ export const DotDamageFunction: DamageFunction = {
   );
 
   // True damage multiplier
-  let trueDmgMulti = 1.0 + ${getValue(StatKey.TRUE_DMG_MODIFIER)};
+  let trueDmgMulti = 1.0 + ${getValue(StatKey.TRUE_DMG_MODIFIER)} + ${hitTrueDmgModifier};
 
   // Final damage
   let damage = baseUniversalMulti
@@ -301,7 +303,7 @@ export const BreakDamageFunction: DamageFunction = {
       * (0.5 + context.enemyMaxToughness / 120)
       * (hit.specialScaling ?? 1)
     const beMulti = 1 + x.getValue(StatKey.BE, hitIndex)
-    const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex)
+    const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex) + (hit.trueDmgModifier ?? 0)
 
     const dmg = m.baseUniversalMulti
       * m.defMulti
@@ -327,6 +329,7 @@ export const BreakDamageFunction: DamageFunction = {
     const specialScaling = hit.specialScaling ?? 1
     const elementalBreakScaling = context.elementalBreakScaling
     const enemyMaxToughness = context.enemyMaxToughness
+    const hitTrueDmgModifier = hit.trueDmgModifier ?? 0
 
     return wgsl`
 {
@@ -349,7 +352,7 @@ export const BreakDamageFunction: DamageFunction = {
   let beMulti = 1.0 + ${getValue(StatKey.BE)};
 
   // True damage multiplier
-  let trueDmgMulti = 1.0 + ${getValue(StatKey.TRUE_DMG_MODIFIER)};
+  let trueDmgMulti = 1.0 + ${getValue(StatKey.TRUE_DMG_MODIFIER)} + ${hitTrueDmgModifier};
 
   // Final damage
   let damage = baseUniversalMulti
@@ -380,7 +383,7 @@ export const SuperBreakDamageFunction: DamageFunction = {
     const dmgBoostMulti = 1 + x.getHitValue(HKey.DMG_BOOST, hitIndex)
     const beMulti = 1 + x.getValue(StatKey.BE, hitIndex)
     const breakEfficiencyMulti = 1 + x.getValue(StatKey.BREAK_EFFICIENCY_BOOST, hit.referenceHit?.localHitIndex ?? hitIndex)
-    const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex)
+    const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex) + (hit.trueDmgModifier ?? 0)
 
     // Super break toughness: (breakEfficiency * toughnessDmg) + fixedToughnessDmg
     const toughnessDmg = hit.referenceHit?.toughnessDmg ?? 0
@@ -414,6 +417,7 @@ export const SuperBreakDamageFunction: DamageFunction = {
     const fixedToughnessDmg = hit.referenceHit?.fixedToughnessDmg ?? 0
     const referenceHitIndex = hit.referenceHit?.localHitIndex ?? hitIndex
     const extraSuperBreakModMulti = hit.extraSuperBreakModifier ?? 0
+    const hitTrueDmgModifier = hit.trueDmgModifier ?? 0
 
     return wgsl`
 {
@@ -441,7 +445,7 @@ export const SuperBreakDamageFunction: DamageFunction = {
   let superBreakModMulti = ${getValue(StatKey.SUPER_BREAK_MODIFIER)} + ${extraSuperBreakModMulti};
 
   // True damage multiplier
-  let trueDmgMulti = 1.0 + ${getValue(StatKey.TRUE_DMG_MODIFIER)};
+  let trueDmgMulti = 1.0 + ${getValue(StatKey.TRUE_DMG_MODIFIER)} + ${hitTrueDmgModifier};
 
   // Final damage
   let damage = baseUniversalMulti
@@ -470,7 +474,7 @@ export const AdditionalDamageFunction: DamageFunction = {
     const dmgBoostMulti = getTotalDmgBoost(x, hit, hitIndex)
     const abilityMulti = calculateInitialDamage(x, hit, hitIndex, context)
     const critMulti = getAdditionalCritMultiplier(x, hit, hitIndex)
-    const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex)
+    const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex) + (hit.trueDmgModifier ?? 0)
 
     const dmg = m.baseUniversalMulti
       * m.defMulti
@@ -495,6 +499,7 @@ export const AdditionalDamageFunction: DamageFunction = {
     const atkScaling = hit.atkScaling ?? 0
     const hpScaling = hit.hpScaling ?? 0
     const defScaling = hit.defScaling ?? 0
+    const hitTrueDmgModifier = hit.trueDmgModifier ?? 0
 
     const elementalDmgBoost = hit.damageElement == ElementTag.None
       ? '0.0'
@@ -535,7 +540,7 @@ export const AdditionalDamageFunction: DamageFunction = {
   let critMulti = cr * (1.0 + cd) + (1.0 - cr);
 
   // True damage multiplier
-  let trueDmgMulti = 1.0 + ${getValue(StatKey.TRUE_DMG_MODIFIER)};
+  let trueDmgMulti = 1.0 + ${getValue(StatKey.TRUE_DMG_MODIFIER)} + ${hitTrueDmgModifier};
 
   // Final damage
   let damage = baseUniversalMulti

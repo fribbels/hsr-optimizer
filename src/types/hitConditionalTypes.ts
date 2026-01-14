@@ -32,6 +32,8 @@ interface BaseHitDefinition {
   atkScaling?: number
   hpScaling?: number
   defScaling?: number
+  // Hit-specific modifiers
+  trueDmgModifier?: number
 }
 
 // Crit hits (default for most abilities)

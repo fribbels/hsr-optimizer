@@ -205,3 +205,13 @@ HitDefinitionBuilder.ultShield = () =>
     outputTag: OutputTag.SHIELD,
     directHit: false,
   })
+
+HitDefinitionBuilder.fuaShield = () =>
+  genericBuilder<ShieldHitDefinition>({
+    ...BASE_HIT_DEFAULTS,
+    damageFunctionType: DamageFunctionType.Shield,
+    damageType: DamageTag.FUA,
+    damageElement: ElementTag.None,
+    outputTag: OutputTag.SHIELD,
+    directHit: false,
+  })

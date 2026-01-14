@@ -628,8 +628,10 @@ export const ShieldDamageFunction: DamageFunction = {
     // Base shield from scalings
     const def = x.getValue(StatKey.DEF, hitIndex)
     const hp = x.getValue(StatKey.HP, hitIndex)
+    const atk = x.getValue(StatKey.ATK, hitIndex)
     const baseShield = (hit.defScaling ?? 0) * def
       + (hit.hpScaling ?? 0) * hp
+      + (hit.atkScaling ?? 0) * atk
       + (hit.flatShield ?? 0)
 
     // Shield boost (from DMG_BOOST slot, filtered by OutputTag at buff application)
@@ -648,6 +650,7 @@ export const ShieldDamageFunction: DamageFunction = {
 
     const defScaling = hit.defScaling ?? 0
     const hpScaling = hit.hpScaling ?? 0
+    const atkScaling = hit.atkScaling ?? 0
     const flatShield = hit.flatShield ?? 0
 
     return wgsl`
@@ -655,7 +658,8 @@ export const ShieldDamageFunction: DamageFunction = {
   // Base shield calculation
   let def = ${getValue(StatKey.DEF)};
   let hp = ${getValue(StatKey.HP)};
-  let baseShield = ${defScaling} * def + ${hpScaling} * hp + ${flatShield};
+  let atk = ${getValue(StatKey.ATK)};
+  let baseShield = ${defScaling} * def + ${hpScaling} * hp + ${atkScaling} * atk + ${flatShield};
 
   // Shield boost multiplier (from DMG_BOOST slot, filtered by outputType at buff time)
   let shieldBoost = ${getHitValue(HKey.DMG_BOOST)};

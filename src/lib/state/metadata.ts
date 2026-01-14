@@ -2324,8 +2324,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: HYACINE,
-            lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+            characterId: PERMANSOR_TERRAE,
+            lightCone: THOUGH_WORLDS_APART,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

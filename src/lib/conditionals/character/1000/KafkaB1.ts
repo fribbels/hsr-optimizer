@@ -17,7 +17,7 @@ import {
   ConditionalType,
   Stats,
 } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { conditionalWgslWrapper, newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
   wgsl,
@@ -248,8 +248,10 @@ if (${wgslTrue(r.ehrBasedBuff)} && ${containerActionVal(SELF_ENTITY_INDEX, StatK
         gpu: function (action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
 
-          return conditionalWgslWrapper(
+          return newConditionalWgslWrapper(
             this,
+            action,
+            context,
             `
 if (${wgslFalse(r.ehrBasedBuff)}) {
   return;

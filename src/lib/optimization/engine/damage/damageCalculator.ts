@@ -22,6 +22,7 @@ import {
   HealHit,
   Hit,
   ShieldHit,
+  SuperBreakHit,
 } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
@@ -370,10 +371,10 @@ export const BreakDamageFunction: DamageFunction = {
 
 export const SuperBreakDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
-    const hit = action.hits![hitIndex]
+    const hit = action.hits![hitIndex] as SuperBreakHit
     computeCommonMultipliers(x, hitIndex, context)
 
-    const superBreakModMulti = x.getValue(StatKey.SUPER_BREAK_MODIFIER, hitIndex)
+    const superBreakModMulti = x.getValue(StatKey.SUPER_BREAK_MODIFIER, hitIndex) + (hit.extraSuperBreakModifier ?? 0)
     if (superBreakModMulti === 0) return 0
 
     const dmgBoostMulti = 1 + x.getHitValue(HKey.DMG_BOOST, hitIndex)
@@ -401,7 +402,7 @@ export const SuperBreakDamageFunction: DamageFunction = {
     return dmg
   },
   wgsl: (action, hitIndex, context) => {
-    const hit = action.hits![hitIndex]
+    const hit = action.hits![hitIndex] as SuperBreakHit
     const config = action.config
     const entityIndex = hit.sourceEntityIndex ?? 0
 
@@ -412,6 +413,7 @@ export const SuperBreakDamageFunction: DamageFunction = {
     const toughnessDmg = hit.referenceHit?.toughnessDmg ?? 0
     const fixedToughnessDmg = hit.referenceHit?.fixedToughnessDmg ?? 0
     const referenceHitIndex = hit.referenceHit?.localHitIndex ?? hitIndex
+    const extraSuperBreakModMulti = hit.extraSuperBreakModifier ?? 0
 
     return wgsl`
 {
@@ -436,7 +438,7 @@ export const SuperBreakDamageFunction: DamageFunction = {
   let beMulti = 1.0 + ${getValue(StatKey.BE)};
 
   // SuperBreak modifier
-  let superBreakModMulti = ${getValue(StatKey.SUPER_BREAK_MODIFIER)};
+  let superBreakModMulti = ${getValue(StatKey.SUPER_BREAK_MODIFIER)} + ${extraSuperBreakModMulti};
 
   // True damage multiplier
   let trueDmgMulti = 1.0 + ${getValue(StatKey.TRUE_DMG_MODIFIER)};

@@ -55,6 +55,7 @@ export interface BreakHitDefinition extends BaseHitDefinition {
 
 export interface SuperBreakHitDefinition extends BaseHitDefinition {
   damageFunctionType: DamageFunctionType.SuperBreak
+  extraSuperBreakModifier?: number
 }
 
 export interface AdditionalHitDefinition extends BaseHitDefinition {

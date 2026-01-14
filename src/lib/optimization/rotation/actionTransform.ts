@@ -42,7 +42,9 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
     const action = defineAction(false, index, comboState, actionDeclaration as TurnAbilityName, request, context)
 
     const actionDefinitions = context.characterController.actionDefinition(action, context)
-    action.hits = actionDefinitions[actionDeclaration].hits as Hit[]
+    const actionDef = actionDefinitions[actionDeclaration]
+    actionDef.actionKind = actionDeclaration
+    action.hits = actionDef.hits as Hit[]
 
     for (const modifier of context.actionModifiers) {
       const self = buildModifierContext(action, modifier)
@@ -66,6 +68,7 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
         return null
       }
 
+      actionDef.actionKind = actionKind
       action.hits = actionDef.hits as Hit[]
 
       for (const modifier of context.actionModifiers) {

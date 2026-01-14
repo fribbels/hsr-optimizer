@@ -7,6 +7,7 @@ import {
 } from 'lib/optimization/engine/damage/damageCalculator'
 
 export interface AbilityDefinition {
+  actionKind?: string
   hits: HitDefinition[]
 }
 

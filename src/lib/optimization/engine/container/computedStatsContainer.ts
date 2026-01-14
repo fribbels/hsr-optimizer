@@ -139,6 +139,7 @@ export class ComputedStatsContainerConfig {
   public selfEntity: OptimizerEntity
 
   public hits: Hit[]
+  public actionKind: string // The action type (e.g., 'BASIC', 'SKILL', 'ULT')
 
   public hitsLength: number
   public entitiesLength: number
@@ -166,6 +167,7 @@ export class ComputedStatsContainerConfig {
     // Hits
     this.hits = action.hits!
     this.hitsLength = this.hits.length
+    this.actionKind = action.actionType
 
     // Entities
     this.entityRegistry = entityRegistry
@@ -288,6 +290,7 @@ export class ComputedStatsContainer {
       config._damageTags,
       config._outputTags,
       config._directnessTag,
+      config._actionKind,
     )
   }
 
@@ -304,6 +307,7 @@ export class ComputedStatsContainer {
       config._damageTags,
       config._outputTags,
       config._directnessTag,
+      config._actionKind,
     )
   }
 
@@ -320,6 +324,7 @@ export class ComputedStatsContainer {
       config._damageTags,
       config._outputTags,
       config._directnessTag,
+      config._actionKind,
     )
   }
 
@@ -336,6 +341,7 @@ export class ComputedStatsContainer {
       config._damageTags,
       config._outputTags,
       config._directnessTag,
+      config._actionKind,
     )
     this.internalBuffDynamic(
       key,
@@ -383,8 +389,12 @@ export class ComputedStatsContainer {
     damageTags: DamageTag,
     outputTags: OutputTag,
     directnessTag: number,
+    actionKind: string | undefined,
   ): void {
     if (value == 0 && operator == Operator.ADD) return
+
+    // Action kind filter: skip if this action doesn't match the specified kind
+    if (actionKind !== undefined && this.config.actionKind !== actionKind) return
 
     // Elemental damage boosts (e.g. +Ice DMG) don't affect break damage.
     // When buffing DMG_BOOST with element filtering, exclude break hits.
@@ -593,6 +603,10 @@ export class ComputedStatsContainer {
 
   directness(d: DirectnessTag): IncompleteBuffBuilder {
     return this.builder.reset().directness(d)
+  }
+
+  actionKind(k: string): IncompleteBuffBuilder {
+    return this.builder.reset().actionKind(k)
   }
 
   source(s: BuffSource): CompleteBuffBuilder {

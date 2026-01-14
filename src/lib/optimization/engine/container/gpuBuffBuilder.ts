@@ -52,6 +52,7 @@ export enum WgslOperator {
 // Action buff builder
 class ActionBuffBuilder {
   private _targetTag: TargetTag = TargetTag.SelfAndPet
+  private _actionKind: string | undefined = undefined
   private readonly actionKey: AKeyValue
   private readonly value: WgslBuffValue
   private readonly operator: WgslOperator
@@ -67,12 +68,23 @@ class ActionBuffBuilder {
     return this
   }
 
+  actionKind(k: string): this {
+    this._actionKind = k
+    return this
+  }
+
   toString(): never {
     throw new Error('ActionBuffBuilder: Missing .wgsl(action) call - cannot use builder directly in template literal')
   }
 
   wgsl(action: OptimizerAction, indent: number = 0): string {
     const config = action.config
+
+    // Action kind filter: skip if this action doesn't match the specified kind
+    if (this._actionKind !== undefined && config.actionKind !== this._actionKind) {
+      return `// Skipped: actionKind filter (${this._actionKind}) doesn't match action (${config.actionKind})`
+    }
+
     const lines: string[] = []
     const prefix = '  '.repeat(indent)
 
@@ -101,6 +113,7 @@ class HitBuffBuilder {
   private _elementTags: ElementTag = ALL_ELEMENT_TAGS
   private _outputTags: OutputTag = OutputTag.DAMAGE
   private _directnessTag: number = ALL_DIRECTNESS_TAGS
+  private _actionKind: string | undefined = undefined
   private readonly hitKey: HKeyValue
   private readonly value: WgslBuffValue
 
@@ -134,12 +147,23 @@ class HitBuffBuilder {
     return this
   }
 
+  actionKind(k: string): this {
+    this._actionKind = k
+    return this
+  }
+
   toString(): never {
     throw new Error('HitBuffBuilder: Missing .wgsl(action) call - cannot use builder directly in template literal')
   }
 
   wgsl(action: OptimizerAction, indent: number = 0): string {
     const config = action.config
+
+    // Action kind filter: skip if this action doesn't match the specified kind
+    if (this._actionKind !== undefined && config.actionKind !== this._actionKind) {
+      return `// Skipped: actionKind filter (${this._actionKind}) doesn't match action (${config.actionKind})`
+    }
+
     const hits = action.hits ?? []
     const lines: string[] = []
     const prefix = '  '.repeat(indent)

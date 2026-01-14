@@ -18,6 +18,7 @@ import { ComputedStatsContainerConfig } from 'lib/optimization/engine/container/
 export class BuffBuilder<_Completed extends boolean = false> {
   private readonly _completionBrand!: _Completed
 
+  _actionKind: string | undefined = undefined
   _elementTags = ALL_ELEMENT_TAGS
   _damageTags = ALL_DAMAGE_TAGS
   _outputTags = OutputTag.DAMAGE
@@ -36,6 +37,7 @@ export class BuffBuilder<_Completed extends boolean = false> {
   }
 
   reset(): IncompleteBuffBuilder {
+    this._actionKind = undefined
     this._elementTags = ALL_ELEMENT_TAGS
     this._damageTags = ALL_DAMAGE_TAGS
     this._outputTags = OutputTag.DAMAGE
@@ -64,6 +66,11 @@ export class BuffBuilder<_Completed extends boolean = false> {
 
   directness(d: DirectnessTag): IncompleteBuffBuilder {
     this._directnessTag = d
+    return this as IncompleteBuffBuilder
+  }
+
+  actionKind(k: string): IncompleteBuffBuilder {
+    this._actionKind = k
     return this as IncompleteBuffBuilder
   }
 

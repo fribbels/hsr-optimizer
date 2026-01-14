@@ -14,9 +14,9 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
-import { ModifierContext } from 'lib/optimization/context/calculateActions'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ModifierContext } from 'lib/optimization/context/calculateActions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   ElementTag,
@@ -221,11 +221,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
+      const fuaHit = HitDefinitionBuilder.standardFua()
+        .damageElement(ElementTag.Fire)
+        .atkScaling(fuaScaling * fuaHits / context.enemyCount)
+        .toughnessDmg(3 * fuaHits / context.enemyCount)
+        .build()
+
       return {
         [TheDahliaAbilities.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
-              .damageElement(ElementTag.Wind)
+              .damageElement(ElementTag.Fire)
               .atkScaling(basicScaling)
               .toughnessDmg(10)
               .build(),
@@ -234,7 +240,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         [TheDahliaAbilities.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
-              .damageElement(ElementTag.Wind)
+              .damageElement(ElementTag.Fire)
               .atkScaling(skillScaling)
               .toughnessDmg(10)
               .build(),
@@ -243,7 +249,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         [TheDahliaAbilities.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
-              .damageElement(ElementTag.Wind)
+              .damageElement(ElementTag.Fire)
               .atkScaling(ultScaling)
               .toughnessDmg(30)
               .fixedToughnessDmg(20)
@@ -252,17 +258,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
         [TheDahliaAbilities.FUA]: {
           hits: [
-            HitDefinitionBuilder.standardFua()
-              .damageElement(ElementTag.Wind)
-              .atkScaling(fuaScaling * fuaHits / context.enemyCount)
-              .toughnessDmg(3 * fuaHits / context.enemyCount)
-              .build(),
+            fuaHit,
             // FUA-specific super break hit
             ...(
               (r.superBreakDmg)
                 ? [
-                  HitDefinitionBuilder.standardSuperBreak(ElementTag.Wind)
+                  HitDefinitionBuilder.standardSuperBreak(ElementTag.Fire)
                     .extraSuperBreakModifier(fuaSuperBreakScaling)
+                    .referenceHit(fuaHit as Hit)
                     .build(),
                 ]
                 : []
@@ -271,7 +274,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
         [TheDahliaAbilities.BREAK]: {
           hits: [
-            HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
+            HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
           ],
         },
       }
@@ -279,19 +282,23 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     actionModifiers() {
       return [
         {
-          modify: (action: OptimizerAction, context: OptimizerContext, _self: ModifierContext) => {
+          modify: (action: OptimizerAction, context: OptimizerContext, self: ModifierContext) => {
+            const m = self.ownConditionals as Conditionals<typeof teammateContent>
             const hits = action.hits!
             const len = hits.length
-            for (let i = 0; i < len; i++) {
-              const hit = hits[i]
 
-              if (hit.toughnessDmg) {
-                const superBreakHit = HitDefinitionBuilder.standardSuperBreak(hit.damageElement)
-                  .referenceHit(hit)
-                  .sourceEntity(hit.sourceEntity)
-                  .build()
+            if (m.superBreakDmg) {
+              for (let i = 0; i < len; i++) {
+                const hit = hits[i]
 
-                hits.push(superBreakHit as Hit)
+                if (hit.toughnessDmg) {
+                  const superBreakHit = HitDefinitionBuilder.standardSuperBreak(hit.damageElement)
+                    .referenceHit(hit)
+                    .sourceEntity(hit.sourceEntity)
+                    .build()
+
+                  hits.push(superBreakHit as Hit)
+                }
               }
             }
           },
@@ -355,7 +362,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.buff(StatKey.RES_PEN, (e >= 2 && m.e2ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
       x.buff(StatKey.VULNERABILITY, (e >= 4 && m.e4Vuln) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
-      
+
       x.buff(StatKey.BE, (e >= 6 && m.e6BeBuff) ? 1.50 : 0, x.source(SOURCE_E6))
 
       // E1: Fixed toughness damage buff for dance partner

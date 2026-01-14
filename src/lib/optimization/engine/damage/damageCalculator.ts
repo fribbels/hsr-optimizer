@@ -118,8 +118,12 @@ export const CritDamageFunction: DamageFunction = {
     const hit = action.hits![hitIndex] as CritHit
     const config = action.config
     const entityIndex = hit.sourceEntityIndex ?? 0
+    const scalingEntityIndex = hit.scalingEntityIndex ?? entityIndex
 
+    // getValue uses sourceEntityIndex for combat stats (CR, CD, DMG_BOOST, etc.)
     const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
+    // getScalingValue uses scalingEntityIndex for base stats (ATK, HP, DEF)
+    const getScalingValue = (stat: StatKeyValue) => containerGetValue(scalingEntityIndex, hitIndex, stat, config)
 
     // Scalings from hit definition
     const atkScaling = hit.atkScaling ?? 0
@@ -135,12 +139,12 @@ export const CritDamageFunction: DamageFunction = {
       ? '0.0'
       : getValue(elementTagToStatKeyBoost[hit.damageElement])
 
-    // Build total ATK scaling expression
+    // Build total ATK scaling expression (BE uses scalingEntityIndex)
     let totalAtkScalingExpr: string
     if (beScaling != null) {
       const beExpr = beCap != null
-        ? `min(${beCap}, ${getValue(StatKey.BE)})`
-        : getValue(StatKey.BE)
+        ? `min(${beCap}, ${getScalingValue(StatKey.BE)})`
+        : getScalingValue(StatKey.BE)
       totalAtkScalingExpr = `(${atkScaling} + ${beScaling} * ${beExpr})`
     } else {
       totalAtkScalingExpr = `${atkScaling}`
@@ -158,12 +162,12 @@ export const CritDamageFunction: DamageFunction = {
   // Crit-specific
   let dmgBoostMulti = 1.0 + ${getValue(StatKey.DMG_BOOST)} + ${elementalDmgBoost};
 
-  // Initial damage
-  let atk = ${getValue(StatKey.ATK)};
-  let hp = ${getValue(StatKey.HP)};
-  let def = ${getValue(StatKey.DEF)};
-  let atkPBoost = ${getValue(StatKey.ATK_P_BOOST)};
-  let abilityMulti = ${totalAtkScalingExpr} * (atk + atkPBoost * ${getValue(StatKey.BASE_ATK)})
+  // Initial damage (uses scalingEntityIndex for ATK/HP/DEF)
+  let atk = ${getScalingValue(StatKey.ATK)};
+  let hp = ${getScalingValue(StatKey.HP)};
+  let def = ${getScalingValue(StatKey.DEF)};
+  let atkPBoost = ${getScalingValue(StatKey.ATK_P_BOOST)};
+  let abilityMulti = ${totalAtkScalingExpr} * (atk + atkPBoost * ${getScalingValue(StatKey.BASE_ATK)})
     + ${hpScaling} * hp
     + ${defScaling} * def;
 
@@ -219,8 +223,12 @@ export const DotDamageFunction: DamageFunction = {
     const hit = action.hits![hitIndex] as DotHit
     const config = action.config
     const entityIndex = hit.sourceEntityIndex ?? 0
+    const scalingEntityIndex = hit.scalingEntityIndex ?? entityIndex
 
+    // getValue uses sourceEntityIndex for combat stats
     const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
+    // getScalingValue uses scalingEntityIndex for base stats (ATK, HP, DEF)
+    const getScalingValue = (stat: StatKeyValue) => containerGetValue(scalingEntityIndex, hitIndex, stat, config)
 
     // Scalings from hit definition
     const atkScaling = hit.atkScaling ?? 0
@@ -251,12 +259,12 @@ export const DotDamageFunction: DamageFunction = {
   // DOT-specific
   let dmgBoostMulti = 1.0 + ${getValue(StatKey.DMG_BOOST)} + ${elementalDmgBoost};
 
-  // Initial damage
-  let atk = ${getValue(StatKey.ATK)};
-  let hp = ${getValue(StatKey.HP)};
-  let def = ${getValue(StatKey.DEF)};
-  let atkPBoost = ${getValue(StatKey.ATK_P_BOOST)};
-  let abilityMulti = ${atkScaling} * (atk + atkPBoost * ${getValue(StatKey.BASE_ATK)})
+  // Initial damage (uses scalingEntityIndex for ATK/HP/DEF)
+  let atk = ${getScalingValue(StatKey.ATK)};
+  let hp = ${getScalingValue(StatKey.HP)};
+  let def = ${getScalingValue(StatKey.DEF)};
+  let atkPBoost = ${getScalingValue(StatKey.ATK_P_BOOST)};
+  let abilityMulti = ${atkScaling} * (atk + atkPBoost * ${getScalingValue(StatKey.BASE_ATK)})
     + ${hpScaling} * hp
     + ${defScaling} * def;
 
@@ -492,8 +500,12 @@ export const AdditionalDamageFunction: DamageFunction = {
     const hit = action.hits![hitIndex] as AdditionalHit
     const config = action.config
     const entityIndex = hit.sourceEntityIndex ?? 0
+    const scalingEntityIndex = hit.scalingEntityIndex ?? entityIndex
 
+    // getValue uses sourceEntityIndex for combat stats
     const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
+    // getScalingValue uses scalingEntityIndex for base stats (ATK, HP, DEF)
+    const getScalingValue = (stat: StatKeyValue) => containerGetValue(scalingEntityIndex, hitIndex, stat, config)
 
     // Scalings from hit definition
     const atkScaling = hit.atkScaling ?? 0
@@ -525,12 +537,12 @@ export const AdditionalDamageFunction: DamageFunction = {
   // Additional-specific: uses generic + elemental dmg boost (same as Crit)
   let dmgBoostMulti = 1.0 + ${getValue(StatKey.DMG_BOOST)} + ${elementalDmgBoost};
 
-  // Initial damage
-  let atk = ${getValue(StatKey.ATK)};
-  let hp = ${getValue(StatKey.HP)};
-  let def = ${getValue(StatKey.DEF)};
-  let atkPBoost = ${getValue(StatKey.ATK_P_BOOST)};
-  let abilityMulti = ${atkScaling} * (atk + atkPBoost * ${getValue(StatKey.BASE_ATK)})
+  // Initial damage (uses scalingEntityIndex for ATK/HP/DEF)
+  let atk = ${getScalingValue(StatKey.ATK)};
+  let hp = ${getScalingValue(StatKey.HP)};
+  let def = ${getScalingValue(StatKey.DEF)};
+  let atkPBoost = ${getScalingValue(StatKey.ATK_P_BOOST)};
+  let abilityMulti = ${atkScaling} * (atk + atkPBoost * ${getScalingValue(StatKey.BASE_ATK)})
     + ${hpScaling} * hp
     + ${defScaling} * def;
 
@@ -565,10 +577,11 @@ export const AdditionalDamageFunction: DamageFunction = {
 export const HealDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex] as HealHit
+    const scalingEntityIndex = hit.scalingEntityIndex ?? hit.sourceEntityIndex ?? 0
 
-    // Base heal from scalings
-    const atk = x.getValue(StatKey.ATK, hitIndex)
-    const hp = x.getValue(StatKey.HP, hitIndex)
+    // Base heal from scalings (use scalingEntityIndex for ATK/HP)
+    const atk = x.getValue(StatKey.ATK, hitIndex, scalingEntityIndex)
+    const hp = x.getValue(StatKey.HP, hitIndex, scalingEntityIndex)
     const baseHeal = (hit.atkScaling ?? 0) * atk
       + (hit.hpScaling ?? 0) * hp
       + (hit.flatHeal ?? 0)
@@ -587,8 +600,12 @@ export const HealDamageFunction: DamageFunction = {
     const hit = action.hits![hitIndex] as HealHit
     const config = action.config
     const entityIndex = hit.sourceEntityIndex ?? 0
+    const scalingEntityIndex = hit.scalingEntityIndex ?? entityIndex
 
+    // getValue uses sourceEntityIndex for combat stats
     const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
+    // getScalingValue uses scalingEntityIndex for base stats (ATK, HP)
+    const getScalingValue = (stat: StatKeyValue) => containerGetValue(scalingEntityIndex, hitIndex, stat, config)
     const getHitValue = (stat: HKeyValue) => containerHitVal(entityIndex, hitIndex, stat, config)
 
     const atkScaling = hit.atkScaling ?? 0
@@ -597,9 +614,9 @@ export const HealDamageFunction: DamageFunction = {
 
     return wgsl`
 {
-  // Base heal calculation
-  let atk = ${getValue(StatKey.ATK)};
-  let hp = ${getValue(StatKey.HP)};
+  // Base heal calculation (uses scalingEntityIndex for ATK/HP)
+  let atk = ${getScalingValue(StatKey.ATK)};
+  let hp = ${getScalingValue(StatKey.HP)};
   let baseHeal = ${atkScaling} * atk + ${hpScaling} * hp + ${flatHeal};
 
   // OHB multiplier (already filtered by damageType at buff time)
@@ -624,11 +641,12 @@ export const HealDamageFunction: DamageFunction = {
 export const ShieldDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex] as ShieldHit
+    const scalingEntityIndex = hit.scalingEntityIndex ?? hit.sourceEntityIndex ?? 0
 
-    // Base shield from scalings
-    const def = x.getValue(StatKey.DEF, hitIndex)
-    const hp = x.getValue(StatKey.HP, hitIndex)
-    const atk = x.getValue(StatKey.ATK, hitIndex)
+    // Base shield from scalings (use scalingEntityIndex for DEF/HP/ATK)
+    const def = x.getValue(StatKey.DEF, hitIndex, scalingEntityIndex)
+    const hp = x.getValue(StatKey.HP, hitIndex, scalingEntityIndex)
+    const atk = x.getValue(StatKey.ATK, hitIndex, scalingEntityIndex)
     const baseShield = (hit.defScaling ?? 0) * def
       + (hit.hpScaling ?? 0) * hp
       + (hit.atkScaling ?? 0) * atk
@@ -644,8 +662,10 @@ export const ShieldDamageFunction: DamageFunction = {
     const hit = action.hits![hitIndex] as ShieldHit
     const config = action.config
     const entityIndex = hit.sourceEntityIndex ?? 0
+    const scalingEntityIndex = hit.scalingEntityIndex ?? entityIndex
 
-    const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
+    // getScalingValue uses scalingEntityIndex for base stats (DEF, HP, ATK)
+    const getScalingValue = (stat: StatKeyValue) => containerGetValue(scalingEntityIndex, hitIndex, stat, config)
     const getHitValue = (stat: HKeyValue) => containerHitVal(entityIndex, hitIndex, stat, config)
 
     const defScaling = hit.defScaling ?? 0
@@ -655,10 +675,10 @@ export const ShieldDamageFunction: DamageFunction = {
 
     return wgsl`
 {
-  // Base shield calculation
-  let def = ${getValue(StatKey.DEF)};
-  let hp = ${getValue(StatKey.HP)};
-  let atk = ${getValue(StatKey.ATK)};
+  // Base shield calculation (uses scalingEntityIndex for DEF/HP/ATK)
+  let def = ${getScalingValue(StatKey.DEF)};
+  let hp = ${getScalingValue(StatKey.HP)};
+  let atk = ${getScalingValue(StatKey.ATK)};
   let baseShield = ${defScaling} * def + ${hpScaling} * hp + ${atkScaling} * atk + ${flatShield};
 
   // Shield boost multiplier (from DMG_BOOST slot, filtered by outputType at buff time)
@@ -710,17 +730,21 @@ function calculateInitialDamage(
   hitIndex: number,
   context: OptimizerContext,
 ): number {
-  const atk = x.getValue(StatKey.ATK, hitIndex)
-  const hp = x.getValue(StatKey.HP, hitIndex)
-  const def = x.getValue(StatKey.DEF, hitIndex)
-  const atkBoost = x.getValue(StatKey.ATK_P_BOOST, hitIndex)
+  // Use scalingEntityIndex for base stat lookups (ATK, HP, DEF)
+  // This allows hits from one entity to scale off another entity's stats (e.g., Castorice's memosprite)
+  const scalingEntityIndex = hit.scalingEntityIndex ?? hit.sourceEntityIndex ?? 0
+
+  const atk = x.getValue(StatKey.ATK, hitIndex, scalingEntityIndex)
+  const hp = x.getValue(StatKey.HP, hitIndex, scalingEntityIndex)
+  const def = x.getValue(StatKey.DEF, hitIndex, scalingEntityIndex)
+  const atkBoost = x.getValue(StatKey.ATK_P_BOOST, hitIndex, scalingEntityIndex)
 
   // BE-based ATK scaling
   const critHit = hit as CritHit
   const beScaling = critHit.beScaling
   let totalAtkScaling = hit.atkScaling ?? 0
   if (beScaling != null) {
-    const be = x.getValue(StatKey.BE, hitIndex)
+    const be = x.getValue(StatKey.BE, hitIndex, scalingEntityIndex)
     const effectiveBe = critHit.beCap != null ? Math.min(critHit.beCap, be) : be
     totalAtkScaling += beScaling * effectiveBe
   }

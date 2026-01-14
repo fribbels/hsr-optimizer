@@ -16,11 +16,13 @@ interface HitRuntime {
   localHitIndex: number
   registerIndex: number
   sourceEntityIndex: number
+  scalingEntityIndex: number // Entity whose ATK/HP/DEF to use for scaling (defaults to sourceEntityIndex)
 }
 
 // Base properties shared by all hit types
 interface BaseHitDefinition {
   sourceEntity?: string
+  scalingEntity?: string // Entity whose ATK/HP/DEF to use for scaling (defaults to sourceEntity)
   referenceHit?: Hit
   damageFunctionType: DamageFunctionType
   damageType: number

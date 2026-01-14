@@ -537,13 +537,14 @@ export class ComputedStatsContainer {
   // ============== Value Getters ==============
 
   // Returns combined action + hit value for a stat
-  public getValue(key: AKeyValue, hitIndex: number) {
+  // Optional entityIndex overrides the default sourceEntityIndex from the hit
+  public getValue(key: AKeyValue, hitIndex: number, entityIndex?: number) {
     const hit = this.config.hits[hitIndex]
-    const sourceEntityIndex = hit.sourceEntityIndex ?? 0
+    const resolvedEntityIndex = entityIndex ?? hit.sourceEntityIndex ?? 0
     const hitKey = AToHKey[key]
 
-    const actionValue = this.a[this.getActionIndex(sourceEntityIndex, key)]
-    const hitValue = hitKey !== undefined ? this.a[this.getHitIndex(sourceEntityIndex, hitIndex, hitKey)] : 0
+    const actionValue = this.a[this.getActionIndex(resolvedEntityIndex, key)]
+    const hitValue = hitKey !== undefined ? this.a[this.getHitIndex(resolvedEntityIndex, hitIndex, hitKey)] : 0
 
     return actionValue + hitValue
   }

@@ -119,6 +119,10 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
       hit.sourceEntityIndex = hit.sourceEntity
         ? primaryEntityRegistry.getIndex(hit.sourceEntity)
         : 0
+      // scalingEntityIndex defaults to sourceEntityIndex if not specified
+      hit.scalingEntityIndex = hit.scalingEntity
+        ? primaryEntityRegistry.getIndex(hit.scalingEntity)
+        : hit.sourceEntityIndex
     }
 
     const container = new ComputedStatsContainer()

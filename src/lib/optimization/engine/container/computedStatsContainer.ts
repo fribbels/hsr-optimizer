@@ -60,9 +60,15 @@ export enum Operator {
 type Operation = (a: Float32Array, index: number, value: number) => void
 
 const OPERATOR_MAP: Record<Operator, Operation> = {
-  [Operator.ADD]: (a, i, v) => { a[i] += v },
-  [Operator.SET]: (a, i, v) => { a[i] = v },
-  [Operator.MULTIPLY]: (a, i, v) => { a[i] *= v },
+  [Operator.ADD]: (a, i, v) => {
+    a[i] += v
+  },
+  [Operator.SET]: (a, i, v) => {
+    a[i] = v
+  },
+  [Operator.MULTIPLY]: (a, i, v) => {
+    a[i] *= v
+  },
 }
 
 // Precompute all actionBuff/actionSet indices

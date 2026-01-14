@@ -44,6 +44,8 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
     const actionDefinitions = context.characterController.actionDefinition(action, context)
     const actionDef = actionDefinitions[actionDeclaration]
     actionDef.actionKind = actionDeclaration
+    // @ts-ignore
+    action.actionType = actionDeclaration
     action.hits = actionDef.hits as Hit[]
 
     for (const modifier of context.actionModifiers) {
@@ -68,7 +70,7 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
         return null
       }
 
-      actionDef.actionKind = actionKind
+      action.actionType = actionKind
       action.hits = actionDef.hits as Hit[]
 
       for (const modifier of context.actionModifiers) {

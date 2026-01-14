@@ -366,7 +366,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneMemoSkillDmgBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.198 : 0.18)
         : 0
-      x.buff(StatKey.DMG_BOOST, (r.cyreneSpecialEffect) ? cyreneMemoSkillDmgBuff : 0, x.damageType(DamageTag.MEMO).source(Source.odeTo(EVERNIGHT)))
+      x.buff(
+        StatKey.DMG_BOOST,
+        (r.cyreneSpecialEffect) ? cyreneMemoSkillDmgBuff : 0,
+        x.actionKind(EvernightAbilities.MEMO_SKILL).target(EvernightEntities.Evey).source(Source.odeTo(EVERNIGHT)),
+      )
     },
 
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
@@ -396,18 +400,35 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
     },
-    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
+    precomputeTeammateEffectsContainer: (
+      x: ComputedStatsContainer,
+      action: OptimizerAction,
+      context: OptimizerContext,
+      originalCharacterAction?: OptimizerAction,
+    ) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Skill CD buff to teammate's memosprite
       x.buff(StatKey.CD, t.skillMemoCdBuff ? skillCdScaling * t.evernightCombatCD : 0, x.targets(TargetTag.MemospritesOnly).source(SOURCE_SKILL))
-      x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, t.skillMemoCdBuff ? skillCdScaling * t.evernightCombatCD : 0, x.targets(TargetTag.MemospritesOnly).source(SOURCE_SKILL))
+      x.buff(
+        StatKey.UNCONVERTIBLE_CD_BUFF,
+        t.skillMemoCdBuff ? skillCdScaling * t.evernightCombatCD : 0,
+        x.targets(TargetTag.MemospritesOnly).source(SOURCE_SKILL),
+      )
 
       // Cyrene additional CD buff
       if (t.cyreneSpecialEffect && cyreneActionExists(originalCharacterAction!)) {
         const cyreneAdditionalCdScaling = cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.132 : 0.12
-        x.buff(StatKey.CD, t.skillMemoCdBuff ? cyreneAdditionalCdScaling * t.evernightCombatCD : 0, x.targets(TargetTag.MemospritesOnly).source(Source.odeTo(EVERNIGHT)))
-        x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, t.skillMemoCdBuff ? cyreneAdditionalCdScaling * t.evernightCombatCD : 0, x.targets(TargetTag.MemospritesOnly).source(Source.odeTo(EVERNIGHT)))
+        x.buff(
+          StatKey.CD,
+          t.skillMemoCdBuff ? cyreneAdditionalCdScaling * t.evernightCombatCD : 0,
+          x.targets(TargetTag.MemospritesOnly).source(Source.odeTo(EVERNIGHT)),
+        )
+        x.buff(
+          StatKey.UNCONVERTIBLE_CD_BUFF,
+          t.skillMemoCdBuff ? cyreneAdditionalCdScaling * t.evernightCombatCD : 0,
+          x.targets(TargetTag.MemospritesOnly).source(Source.odeTo(EVERNIGHT)),
+        )
       }
     },
 
@@ -485,7 +506,9 @@ if (${wgslFalse(r.skillMemoCdBuff)}) {
 }
 
 let stateValue: f32 = (*p_state).EvernightCdConditional${action.actionIdentifier};
-let convertibleCdValue: f32 = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} - ${containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_CD_BUFF, config)};
+let convertibleCdValue: f32 = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} - ${
+              containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_CD_BUFF, config)
+            };
 
 var buffCD: f32 = ${cdBuffScaling} * convertibleCdValue;
 var stateBuffCD: f32 = ${cdBuffScaling} * stateValue;

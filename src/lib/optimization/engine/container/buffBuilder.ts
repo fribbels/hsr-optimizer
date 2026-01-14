@@ -4,8 +4,10 @@ import {
 } from 'lib/optimization/buffSource'
 import {
   ALL_DAMAGE_TAGS,
+  ALL_DIRECTNESS_TAGS,
   ALL_ELEMENT_TAGS,
   DamageTag,
+  DirectnessTag,
   ElementTag,
   OutputTag,
   SELF_ENTITY_INDEX,
@@ -19,6 +21,7 @@ export class BuffBuilder<_Completed extends boolean = false> {
   _elementTags = ALL_ELEMENT_TAGS
   _damageTags = ALL_DAMAGE_TAGS
   _outputTags = OutputTag.DAMAGE
+  _directnessTag = ALL_DIRECTNESS_TAGS
   _origin = SELF_ENTITY_INDEX
   _target = SELF_ENTITY_INDEX
   _targetTags = TargetTag.SelfAndPet
@@ -36,6 +39,7 @@ export class BuffBuilder<_Completed extends boolean = false> {
     this._elementTags = ALL_ELEMENT_TAGS
     this._damageTags = ALL_DAMAGE_TAGS
     this._outputTags = OutputTag.DAMAGE
+    this._directnessTag = ALL_DIRECTNESS_TAGS
     this._origin = SELF_ENTITY_INDEX
     this._target = SELF_ENTITY_INDEX
     this._targetTags = TargetTag.SelfAndPet
@@ -55,6 +59,11 @@ export class BuffBuilder<_Completed extends boolean = false> {
 
   outputType(o: OutputTag): IncompleteBuffBuilder {
     this._outputTags = o
+    return this as IncompleteBuffBuilder
+  }
+
+  directness(d: DirectnessTag): IncompleteBuffBuilder {
+    this._directnessTag = d
     return this as IncompleteBuffBuilder
   }
 

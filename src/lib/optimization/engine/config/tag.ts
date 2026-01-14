@@ -58,3 +58,14 @@ export enum OutputTag {
 export const ALL_OUTPUT_TAGS = Object.values(OutputTag)
   .filter((v): v is number => typeof v === 'number')
   .reduce((acc, val) => acc | val, 0)
+
+// DirectnessTag classifies whether an action is "direct" (player-initiated attacks)
+// or "indirect" (automatic damage like DOT/Break). 
+export enum DirectnessTag {
+  Direct = 1,   // Actions where primaryHit.directHit === true
+  Indirect = 2, // Actions where primaryHit.directHit === false
+}
+
+export const ALL_DIRECTNESS_TAGS = Object.values(DirectnessTag)
+  .filter((v): v is number => typeof v === 'number')
+  .reduce((acc, val) => acc | val, 0)

@@ -73,7 +73,7 @@ export function logRegisters(x: ComputedStatsContainer, context: OptimizerContex
       const hit = action.hits![hitIndex]
       const value = x.getHitRegisterValue(hit.registerIndex)
       const entity = action.config.entitiesArray[hit.sourceEntityIndex ?? 0]?.name ?? 'Unknown'
-      const activeStatus = hit.activeHit ? 'Active' : 'Passive'
+      const activeStatus = hit.directHit ? 'Direct' : 'Indirect'
       const damageType = getDamageTypeName(hit.damageType)
       lines.push(`  [${hit.registerIndex}] ${value.toFixed(2).padStart(12)} - Hit ${hitIndex} | ${entity} | ${damageType} | ${activeStatus}`)
     }

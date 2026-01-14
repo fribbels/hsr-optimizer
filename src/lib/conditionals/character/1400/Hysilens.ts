@@ -277,12 +277,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         //     for (let i = 0; i < len; i++) {
         //       const hit = hits[i]
         //
-        //       if (hit.activeHit) {
+        //       if (hit.directHit) {
         //         const trueDmgHit = {
         //           damageFunctionType: DamageFunctionType.Default,
         //           damageType: DamageType.DOT,
         //           damageElement: ElementTag.Physical,
-        //           activeHit: false,
+        //           directHit: false,
         //         }
         //
         //         hits.push(trueDmgHit as Hit)
@@ -293,7 +293,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         //           damageFunctionType: DamageFunctionType.Default,
         //           damageType: DamageType.SUPER_BREAK,
         //           damageElement: ElementTag.Physical,
-        //           activeHit: false,
+        //           directHit: false,
         //           toughnessDmg: hit.toughnessDmg,
         //         }
         //

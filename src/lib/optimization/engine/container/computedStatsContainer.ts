@@ -22,8 +22,10 @@ import {
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import {
   ALL_DAMAGE_TAGS,
+  ALL_DIRECTNESS_TAGS,
   ALL_ELEMENT_TAGS,
   DamageTag,
+  DirectnessTag,
   ElementTag,
   OutputTag,
   SELF_ENTITY_INDEX,
@@ -271,6 +273,7 @@ export class ComputedStatsContainer {
       config._elementTags,
       config._damageTags,
       config._outputTags,
+      config._directnessTag,
     )
   }
 
@@ -286,6 +289,7 @@ export class ComputedStatsContainer {
       config._elementTags,
       config._damageTags,
       config._outputTags,
+      config._directnessTag,
     )
   }
 
@@ -301,6 +305,7 @@ export class ComputedStatsContainer {
       config._elementTags,
       config._damageTags,
       config._outputTags,
+      config._directnessTag,
     )
   }
 
@@ -316,6 +321,7 @@ export class ComputedStatsContainer {
       config._elementTags,
       config._damageTags,
       config._outputTags,
+      config._directnessTag,
     )
     this.internalBuffDynamic(
       key,
@@ -362,6 +368,7 @@ export class ComputedStatsContainer {
     elementTags: ElementTag,
     damageTags: DamageTag,
     outputTags: OutputTag,
+    directnessTag: number,
   ): void {
     if (value == 0) return
 
@@ -375,8 +382,14 @@ export class ComputedStatsContainer {
 
     const targetEntities = this.getTargetEntities(target, targetTags)
 
+    // Check if we need hit-level filtering
+    const needsHitFiltering = elementTags !== ALL_ELEMENT_TAGS
+      || effectiveDamageTags !== ALL_DAMAGE_TAGS
+      || outputTags !== OutputTag.DAMAGE
+      || directnessTag !== ALL_DIRECTNESS_TAGS
+
     for (const entityIndex of targetEntities) {
-      if (elementTags == ALL_ELEMENT_TAGS && effectiveDamageTags == ALL_DAMAGE_TAGS && outputTags == OutputTag.DAMAGE) {
+      if (!needsHitFiltering) {
         // Fast path: no filtering needed for standard damage buffs
         operator(this.getActionIndex(entityIndex, key), value)
       } else {
@@ -385,7 +398,7 @@ export class ComputedStatsContainer {
         if (hitKey === undefined) {
           throw new Error(`Cannot apply hit-level buff to action-only stat: ${getAKeyName(key)}`)
         }
-        this.applyToMatchingHits(entityIndex, hitKey, value, operator, elementTags, effectiveDamageTags, outputTags)
+        this.applyToMatchingHits(entityIndex, hitKey, value, operator, elementTags, effectiveDamageTags, outputTags, directnessTag)
       }
     }
   }
@@ -434,10 +447,16 @@ export class ComputedStatsContainer {
     elementTags: ElementTag,
     damageTags: DamageTag,
     outputTags: OutputTag,
+    directnessTag: number,
   ): void {
+    // Directness is determined by the primary hit - all hits in an action inherit this
+    const primaryHit = this.config.hits[0]
+    const actionDirectness = primaryHit.directHit ? DirectnessTag.Direct : DirectnessTag.Indirect
+    const directnessMatches = (actionDirectness & directnessTag) !== 0
+
     for (let hitIndex = 0; hitIndex < this.config.hitsLength; hitIndex++) {
       const hit = this.config.hits[hitIndex]
-      if (hit.damageType & damageTags && hit.damageElement & elementTags && hit.outputTag & outputTags) {
+      if (directnessMatches && hit.damageType & damageTags && hit.damageElement & elementTags && hit.outputTag & outputTags) {
         operator(this.getHitIndex(entityIndex, hitIndex, hitKey), value)
       }
     }
@@ -568,6 +587,10 @@ export class ComputedStatsContainer {
 
   outputType(o: OutputTag): IncompleteBuffBuilder {
     return this.builder.reset().outputType(o)
+  }
+
+  directness(d: DirectnessTag): IncompleteBuffBuilder {
+    return this.builder.reset().directness(d)
   }
 
   source(s: BuffSource): CompleteBuffBuilder {

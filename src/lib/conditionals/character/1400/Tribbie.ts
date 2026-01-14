@@ -13,6 +13,7 @@ import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
+  DirectnessTag,
   ElementTag,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
@@ -153,9 +154,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     e4DefPen: content.e4DefPen,
   }
 
-  // Define damage tag for E1 true damage (all types except DOT)
-  const E1_TRUE_DMG_TYPES = DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT | DamageTag.FUA | DamageTag.BREAK | DamageTag.MEMO | DamageTag.ADDITIONAL
-
   return {
     activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
@@ -285,11 +283,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Team VULNERABILITY from ultZone
       x.buff(StatKey.VULNERABILITY, m.ultZone ? ultVulnerability : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
 
-      // E1 TRUE_DMG_MODIFIER for team (all types except DOT)
+      // E1 TRUE_DMG_MODIFIER for team (direct actions only - excludes DOT/Break)
       x.buff(
         StatKey.TRUE_DMG_MODIFIER,
         e >= 1 && m.ultZone && m.e1TrueDmg ? 0.24 : 0,
-        x.damageType(E1_TRUE_DMG_TYPES).targets(TargetTag.FullTeam).source(SOURCE_E1),
+        x.directness(DirectnessTag.Direct).targets(TargetTag.FullTeam).source(SOURCE_E1),
       )
 
       // E4 DEF PEN for team when numinosity active

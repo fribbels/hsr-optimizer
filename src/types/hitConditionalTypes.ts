@@ -27,7 +27,7 @@ interface BaseHitDefinition {
   outputTag: OutputTag
   toughnessDmg?: number
   fixedToughnessDmg?: number // For super break: added without break efficiency multiplier
-  activeHit: boolean
+  directHit: boolean
   // Common scaling properties (optional for all hit types)
   atkScaling?: number
   hpScaling?: number

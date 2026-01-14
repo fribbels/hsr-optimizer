@@ -11,8 +11,10 @@ import {
 } from 'lib/optimization/engine/config/keys'
 import {
   ALL_DAMAGE_TAGS,
+  ALL_DIRECTNESS_TAGS,
   ALL_ELEMENT_TAGS,
   DamageTag,
+  DirectnessTag,
   ElementTag,
   OutputTag,
   SELF_ENTITY_INDEX,
@@ -90,6 +92,7 @@ class HitBuffBuilder {
   private _damageTags: DamageTag = ALL_DAMAGE_TAGS
   private _elementTags: ElementTag = ALL_ELEMENT_TAGS
   private _outputTags: OutputTag = OutputTag.DAMAGE
+  private _directnessTag: number = ALL_DIRECTNESS_TAGS
   private readonly hitKey: HKeyValue
   private readonly value: WgslBuffValue
 
@@ -118,6 +121,11 @@ class HitBuffBuilder {
     return this
   }
 
+  directness(d: DirectnessTag): this {
+    this._directnessTag = d
+    return this
+  }
+
   toString(): never {
     throw new Error('HitBuffBuilder: Missing .wgsl(action) call - cannot use builder directly in template literal')
   }
@@ -136,6 +144,11 @@ class HitBuffBuilder {
       ? this._damageTags & ~excludeBreakDamage
       : this._damageTags
 
+    // Directness is determined by the primary hit - all hits in an action inherit this
+    const primaryHit = hits[0]
+    const actionDirectness = primaryHit?.directHit ? DirectnessTag.Direct : DirectnessTag.Indirect
+    const directnessMatches = (actionDirectness & this._directnessTag) !== 0
+
     for (let entityIndex = 0; entityIndex < config.entitiesLength; entityIndex++) {
       const entity = config.entitiesArray[entityIndex]
       const entityMatches = matchesTargetTag(entity, this._targetTag, config.entitiesArray)
@@ -150,7 +163,7 @@ class HitBuffBuilder {
         const elementMatches = this._elementTags === ALL_ELEMENT_TAGS || (hit.damageElement & this._elementTags)
         const outputMatches = hit.outputTag & this._outputTags
 
-        if (entityMatches && damageMatches && elementMatches && outputMatches) {
+        if (directnessMatches && entityMatches && damageMatches && elementMatches && outputMatches) {
           lines.push(code)
         } else {
           lines.push(`// ${code}`)

@@ -51,6 +51,20 @@ enum StatCategory {
   NONE,
 }
 
+export enum Operator {
+  ADD,
+  SET,
+  MULTIPLY,
+}
+
+type Operation = (a: Float32Array, index: number, value: number) => void
+
+const OPERATOR_MAP: Record<Operator, Operation> = {
+  [Operator.ADD]: (a, i, v) => { a[i] += v },
+  [Operator.SET]: (a, i, v) => { a[i] = v },
+  [Operator.MULTIPLY]: (a, i, v) => { a[i] *= v },
+}
+
 // Precompute all actionBuff/actionSet indices
 function buildActionBuffIndexCache(
   entityRegistry: NamedArray<OptimizerEntity>,
@@ -265,7 +279,7 @@ export class ComputedStatsContainer {
     this.internalBuff(
       key,
       value,
-      this.operatorSet,
+      Operator.SET,
       config._source,
       config._origin,
       config._target,
@@ -281,7 +295,7 @@ export class ComputedStatsContainer {
     this.internalBuff(
       key,
       value,
-      this.operatorAdd,
+      Operator.ADD,
       config._source,
       config._origin,
       config._target,
@@ -297,7 +311,7 @@ export class ComputedStatsContainer {
     this.internalBuff(
       key,
       value,
-      this.operatorMultiply,
+      Operator.MULTIPLY,
       config._source,
       config._origin,
       config._target,
@@ -313,7 +327,7 @@ export class ComputedStatsContainer {
     this.internalBuff(
       key,
       value,
-      this.operatorAdd,
+      Operator.ADD,
       config._source,
       config._origin,
       config._target,
@@ -328,7 +342,7 @@ export class ComputedStatsContainer {
       value,
       action,
       context,
-      this.operatorAdd,
+      Operator.ADD,
       config._source,
       config._origin,
       config._target,
@@ -360,7 +374,7 @@ export class ComputedStatsContainer {
   internalBuff(
     key: AKeyValue,
     value: number,
-    operator: (index: number, value: number) => void,
+    operator: Operator,
     source: BuffSource,
     origin: number,
     target: number,
@@ -370,7 +384,7 @@ export class ComputedStatsContainer {
     outputTags: OutputTag,
     directnessTag: number,
   ): void {
-    if (value == 0) return
+    if (value == 0 && operator == Operator.ADD) return
 
     // Elemental damage boosts (e.g. +Ice DMG) don't affect break damage.
     // When buffing DMG_BOOST with element filtering, exclude break hits.
@@ -381,6 +395,7 @@ export class ComputedStatsContainer {
       : damageTags
 
     const targetEntities = this.getTargetEntities(target, targetTags)
+    const operation = OPERATOR_MAP[operator]
 
     // Check if we need hit-level filtering
     const needsHitFiltering = elementTags !== ALL_ELEMENT_TAGS
@@ -391,7 +406,7 @@ export class ComputedStatsContainer {
     for (const entityIndex of targetEntities) {
       if (!needsHitFiltering) {
         // Fast path: no filtering needed for standard damage buffs
-        operator(this.getActionIndex(entityIndex, key), value)
+        operation(this.a, this.getActionIndex(entityIndex, key), value)
       } else {
         // Hit-level filtering requires a hit stat
         const hitKey = AToHKey[key]
@@ -408,7 +423,7 @@ export class ComputedStatsContainer {
     value: number,
     action: OptimizerAction,
     context: OptimizerContext,
-    operator: (index: number, value: number) => void,
+    operator: Operator,
     source: BuffSource,
     origin: number,
     target: number,
@@ -417,7 +432,7 @@ export class ComputedStatsContainer {
     damageTags: DamageTag,
     outputTags: OutputTag,
   ): void {
-    if (value == 0) return
+    if (value == 0 && operator == Operator.ADD) return
 
     for (const conditional of action.conditionalRegistry[getAKeyName(key)] || []) {
       evaluateConditional(conditional, this, action, context)
@@ -443,7 +458,7 @@ export class ComputedStatsContainer {
     entityIndex: number,
     hitKey: HKeyValue,
     value: number,
-    operator: (index: number, value: number) => void,
+    operator: Operator,
     elementTags: ElementTag,
     damageTags: DamageTag,
     outputTags: OutputTag,
@@ -453,11 +468,12 @@ export class ComputedStatsContainer {
     const primaryHit = this.config.hits[0]
     const actionDirectness = primaryHit.directHit ? DirectnessTag.Direct : DirectnessTag.Indirect
     const directnessMatches = (actionDirectness & directnessTag) !== 0
+    const operation = OPERATOR_MAP[operator]
 
     for (let hitIndex = 0; hitIndex < this.config.hitsLength; hitIndex++) {
       const hit = this.config.hits[hitIndex]
       if (directnessMatches && hit.damageType & damageTags && hit.damageElement & elementTags && hit.outputTag & outputTags) {
-        operator(this.getHitIndex(entityIndex, hitIndex, hitKey), value)
+        operation(this.a, this.getHitIndex(entityIndex, hitIndex, hitKey), value)
       }
     }
   }
@@ -476,20 +492,6 @@ export class ComputedStatsContainer {
       return entity.primary
     }
     return false
-  }
-
-  // ============== Operators ==============
-
-  operatorAdd = (index: number, value: number) => {
-    this.a[index] += value
-  }
-
-  operatorSet = (index: number, value: number) => {
-    this.a[index] = value
-  }
-
-  operatorMultiply = (index: number, value: number) => {
-    this.a[index] *= value
   }
 
   // ============== Registers ==============

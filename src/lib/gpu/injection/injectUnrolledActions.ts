@@ -148,6 +148,17 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
 
   //////////
 
+  let basicConditionalsWgsl = "// Basic Character conditionals\n"
+
+  if (characterConditionals.newGpuCalculateBasicEffects) {
+    basicConditionalsWgsl += indent(characterConditionals.newGpuCalculateBasicEffects(action, context), 1)
+  }
+  if (lightConeConditionals.newGpuCalculateBasicEffects) {
+    basicConditionalsWgsl += indent(lightConeConditionals.newGpuCalculateBasicEffects(action, context), 1)
+  }
+
+  //////////
+
   const damageCalculationWgsl = indent(unrollDamageCalculations(index, action, context, gpuParams), 3)
 
   //////////
@@ -229,6 +240,8 @@ fn unrolledAction${index}(
   ) {
     ${buff.hit(HKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action, 4)}
   }
+  
+  ${basicConditionalsWgsl}
   
   ${conditionalSequenceWgsl}
   

@@ -69,7 +69,7 @@ export interface ConditionalsController {
   calculateBasicEffects?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
   gpuCalculateBasicEffects?: (action: OptimizerAction, context: OptimizerContext) => string
 
-  newCalculateBasicEffects?: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void
+  newCalculateBasicEffects?: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void
   newGpuCalculateBasicEffects?: (action: OptimizerAction, context: OptimizerContext) => string
 
   // Multipliers that can be evaluated after all stat modifications are complete

@@ -320,6 +320,14 @@ fn main(
       0.10 * p2(sets.PasserbyOfWanderingCloud)
     );
 
+    // Basic filters here
+
+    // START BASIC CONDITIONALS
+    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+    /* INJECT BASIC CONDITIONALS */
+    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+    // END BASIC CONDITIONALS
+
     let diffATK = c.ATK + combatBuffsATK + combatBuffsATK_P * baseATK;
     let diffDEF = c.DEF + combatBuffsDEF + combatBuffsDEF_P * baseDEF;
     let diffHP = c.HP   + combatBuffsHP  + combatBuffsHP_P  * baseHP;

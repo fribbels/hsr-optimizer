@@ -44,15 +44,22 @@ export function matchesTargetTag(entity: OptimizerEntity, targetTag: TargetTag, 
 // Value can be a number (compile-time constant) or string (WGSL runtime expression)
 export type WgslBuffValue = number | string
 
+export enum WgslOperator {
+  ADD = '+=',
+  SET = '=',
+}
+
 // Action buff builder
 class ActionBuffBuilder {
   private _targetTag: TargetTag = TargetTag.SelfAndPet
   private readonly actionKey: AKeyValue
   private readonly value: WgslBuffValue
+  private readonly operator: WgslOperator
 
-  constructor(actionKey: AKeyValue, value: WgslBuffValue) {
+  constructor(actionKey: AKeyValue, value: WgslBuffValue, operator: WgslOperator = WgslOperator.ADD) {
     this.actionKey = actionKey
     this.value = value
+    this.operator = operator
   }
 
   targets(t: TargetTag): this {
@@ -72,7 +79,8 @@ class ActionBuffBuilder {
     for (let entityIndex = 0; entityIndex < config.entitiesLength; entityIndex++) {
       const entity = config.entitiesArray[entityIndex]
       const index = getActionIndex(entityIndex, this.actionKey, config)
-      const code = `(*p_container)[${index}] += ${this.value}; // ${entity.name} ${getAKeyName(this.actionKey)}`
+
+      const code = `(*p_container)[${index}] ${this.operator} ${this.value}; // ${entity.name} ${getAKeyName(this.actionKey)}`
 
       if (matchesTargetTag(entity, this._targetTag, config.entitiesArray)) {
         lines.push(code)
@@ -179,5 +187,6 @@ class HitBuffBuilder {
 // Entry point - stat and value first, .wgsl(action) finalizes
 export const buff = {
   action: (actionKey: AKeyValue, value: WgslBuffValue) => new ActionBuffBuilder(actionKey, value),
+  actionSet: (actionKey: AKeyValue, value: WgslBuffValue) => new ActionBuffBuilder(actionKey, value, WgslOperator.SET),
   hit: (hitKey: HKeyValue, value: WgslBuffValue) => new HitBuffBuilder(hitKey, value),
 }

@@ -16,6 +16,7 @@ import { Source } from 'lib/optimization/buffSource'
 import { calculateBaseMultis } from 'lib/optimization/calculateDamage'
 import {
   calculateBaseStats,
+  calculateBasicEffects,
   calculateBasicSetEffects,
   calculateComputedStats,
   calculateElementalStats,
@@ -112,7 +113,7 @@ export function simulateBuild(
     //   m.tracePrecompute(action.precomputedM)
     // }
 
-    // calculateBasicEffects(x, action, context)
+    calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
 
@@ -144,6 +145,7 @@ export function simulateBuild(
 
     x.setPrecompute(action.precomputedStats.a)
 
+    calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
 

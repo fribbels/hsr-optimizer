@@ -4987,8 +4987,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: CIPHER,
-            lightCone: LIES_DANCE_ON_THE_BREEZE,
+            characterId: ROBIN,
+            lightCone: FLOWING_NIGHTGLOW,
             characterEidolon: 0,
             lightConeSuperimposition: 1,
           },

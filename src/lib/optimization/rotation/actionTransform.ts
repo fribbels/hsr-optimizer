@@ -1,5 +1,9 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
+import {
+  ActionModifier,
+  ModifierContext,
+} from 'lib/optimization/context/calculateActions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   ComputedStatsContainer,
@@ -41,7 +45,8 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
     action.hits = actionDefinitions[actionDeclaration].hits as Hit[]
 
     for (const modifier of context.actionModifiers) {
-      modifier.modify(action, context)
+      const self = buildModifierContext(action, modifier)
+      modifier.modify(action, context, self)
     }
 
     return action
@@ -64,7 +69,8 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
       action.hits = actionDef.hits as Hit[]
 
       for (const modifier of context.actionModifiers) {
-        modifier.modify(action, context)
+        const self = buildModifierContext(action, modifier)
+        modifier.modify(action, context, self)
       }
 
       return action
@@ -230,12 +236,56 @@ function prepareEntitiesForAction(
   return { primaryEntityRegistry, teammateEntityRegistry }
 }
 
+function buildModifierContext(
+  action: OptimizerAction,
+  modifier: ActionModifier,
+): ModifierContext {
+  if (!modifier.isTeammate) {
+    return {
+      characterId: modifier.characterId!,
+      eidolon: modifier.eidolon ?? 0,
+      isTeammate: false,
+      ownConditionals: action.characterConditionals,
+      ownLightConeConditionals: action.lightConeConditionals,
+    }
+  }
+
+  // Find teammate slot
+  const teammates = [action.teammate0, action.teammate1, action.teammate2]
+  for (const teammate of teammates) {
+    if (teammate?.actorId === modifier.characterId) {
+      return {
+        characterId: modifier.characterId!,
+        eidolon: modifier.eidolon ?? teammate.actorEidolon ?? 0,
+        isTeammate: true,
+        ownConditionals: teammate.characterConditionals,
+        ownLightConeConditionals: teammate.lightConeConditionals,
+      }
+    }
+  }
+
+  // Fallback (shouldn't happen)
+  return {
+    characterId: modifier.characterId!,
+    eidolon: modifier.eidolon ?? 0,
+    isTeammate: true,
+    ownConditionals: {},
+    ownLightConeConditionals: {},
+  }
+}
+
 export function calculateActionDeclarations(request: OptimizerForm, context: OptimizerContext) {
   const characterConditionalController = CharacterConditionalsResolver.get(context)
   const actionDeclarations = characterConditionalController.actionDeclaration()
-  const actionModifiers = [
-    ...characterConditionalController.actionModifiers(),
-  ]
+
+  // Tag main character's modifiers with source info
+  const mainCharacterModifiers = characterConditionalController.actionModifiers()
+  for (const modifier of mainCharacterModifiers) {
+    modifier.characterId = context.characterId
+    modifier.eidolon = context.characterEidolon
+    modifier.isTeammate = false
+  }
+  const actionModifiers: ActionModifier[] = [...mainCharacterModifiers]
 
   const teammates = [
     context.teammate0Metadata,
@@ -249,7 +299,13 @@ export function calculateActionDeclarations(request: OptimizerForm, context: Opt
     const teammateController = CharacterConditionalsResolver.get(teammate)
     teammateControllers.push(teammateController)
 
+    // Tag teammate's modifiers with source info
     const teammateActionModifiers = teammateController.actionModifiers?.() ?? []
+    for (const modifier of teammateActionModifiers) {
+      modifier.characterId = teammate.characterId
+      modifier.eidolon = teammate.characterEidolon
+      modifier.isTeammate = true
+    }
     actionModifiers.push(...teammateActionModifiers)
   }
 

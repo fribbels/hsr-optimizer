@@ -14,6 +14,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
+import { ModifierContext } from 'lib/optimization/context/calculateActions'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -278,7 +279,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     actionModifiers() {
       return [
         {
-          modify: (action: OptimizerAction, context: OptimizerContext) => {
+          modify: (action: OptimizerAction, context: OptimizerContext, _self: ModifierContext) => {
             const hits = action.hits!
             const len = hits.length
             for (let i = 0; i < len; i++) {
@@ -296,24 +297,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           },
         },
         {
-          modify: (action: OptimizerAction, context: OptimizerContext) => {
-            const m = action.characterConditionals as Conditionals<typeof teammateContent>
+          modify: (action: OptimizerAction, context: OptimizerContext, self: ModifierContext) => {
+            const m = self.ownConditionals as Conditionals<typeof teammateContent>
 
             const hits = action.hits!
             const len = hits.length
-            if (e >= 1 && m.e1Buffs && m.dancePartner) {
+            if (self.eidolon >= 1 && m.e1Buffs && m.dancePartner) {
               for (let i = 0; i < len; i++) {
                 const hit = hits[i]
 
                 if (hit.toughnessDmg) {
                   const e1ToughnessDmg = Math.max(10, Math.min(300, context.enemyMaxToughness / 30 * 0.25))
                   hit.fixedToughnessDmg = (hit.fixedToughnessDmg ?? 0) + e1ToughnessDmg
-                  const superBreakHit = HitDefinitionBuilder.standardSuperBreak(hit.damageElement)
-                    .referenceHit(hit)
-                    .sourceEntity(hit.sourceEntity)
-                    .build()
-
-                  hits.push(superBreakHit as Hit)
                 }
               }
             }

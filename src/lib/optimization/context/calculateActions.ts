@@ -1,9 +1,24 @@
+import { CharacterId } from 'types/character'
+import { ConditionalValueMap } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export type ActionModifier = { modify: (action: OptimizerAction, context: OptimizerContext) => void }
+export interface ModifierContext {
+  characterId: CharacterId
+  eidolon: number
+  isTeammate: boolean
+  ownConditionals: ConditionalValueMap
+  ownLightConeConditionals: ConditionalValueMap
+}
+
+export type ActionModifier = {
+  characterId?: CharacterId
+  eidolon?: number
+  isTeammate?: boolean
+  modify: (action: OptimizerAction, context: OptimizerContext, self: ModifierContext) => void
+}
 
 // export function calculateEntities(request: OptimizerForm, context: OptimizerContext) {
 //   const characterConditionalController = CharacterConditionalsResolver.get(context)

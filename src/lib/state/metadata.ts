@@ -2999,10 +2999,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             lightConeSuperimposition: 1,
           },
           {
-            characterId: ROBIN,
-            lightCone: FLOWING_NIGHTGLOW,
+            characterId: SPARKLE_B1,
+            lightCone: DANCE_DANCE_DANCE,
             characterEidolon: 0,
-            lightConeSuperimposition: 1,
+            lightConeSuperimposition: 5,
           },
           {
             characterId: PERMANSOR_TERRAE,
@@ -5101,10 +5101,10 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         teammates: [
           {
-            characterId: ROBIN,
-            lightCone: FLOWING_NIGHTGLOW,
+            characterId: SPARKLE_B1,
+            lightCone: DANCE_DANCE_DANCE,
             characterEidolon: 0,
-            lightConeSuperimposition: 1,
+            lightConeSuperimposition: 5,
           },
           {
             characterId: TINGYUN,

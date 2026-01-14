@@ -6,6 +6,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { ModifierContext } from 'lib/optimization/context/calculateActions'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -154,7 +155,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     actionModifiers() {
       return [
         {
-          modify: (action: OptimizerAction, context: OptimizerContext) => {
+          modify: (action: OptimizerAction, context: OptimizerContext, _self: ModifierContext) => {
             const hits = action.hits!
             const len = hits.length
             for (let i = 0; i < len; i++) {

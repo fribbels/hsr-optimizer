@@ -124,9 +124,8 @@ export const Utils = {
 
     function handleBlob(blob) {
       const prefix = characterName || 'Hsr-optimizer'
-      const date = new Date().toLocaleDateString(currentLocale()).replace(/[^apm\d]+/gi, '-')
-      const time = new Date().toLocaleTimeString(currentLocale()).replace(/[^apm\d]+/gi, '-')
-      const filename = `${prefix}_${date}_${time}.png`
+      const dateTime = new Date().toISOString()
+      const filename = `${prefix}_${dateTime}.png`
 
       if (action == 'clipboard') {
         if (isMobileOrSafari) {

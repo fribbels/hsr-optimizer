@@ -141,21 +141,21 @@ const action${i} = Action( // ${action.actionIndex} ${action.actionName}
 
   wgsl += generateDynamicConditionals(request, context)
 
-  function generateConditionalExecution(conditional: DynamicConditional) {
-    return `evaluate${conditional.id}(p_container, p_sets, p_state);`
-  }
+  // function generateConditionalExecution(conditional: DynamicConditional) {
+  //   return `evaluate${conditional.id}(p_container, p_sets, p_state);`
+  // }
 
-  const { conditionalSequence, terminalConditionals } = evaluateDependencyOrder(context.defaultActions[0].conditionalRegistry)
-  let conditionalSequenceWgsl = '\n'
-  conditionalSequenceWgsl += conditionalSequence.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 3)).join('\n') + '\n'
+  // const { conditionalSequence, terminalConditionals } = evaluateDependencyOrder(context.defaultActions[0].conditionalRegistry)
+  // let conditionalSequenceWgsl = '\n'
+  // conditionalSequenceWgsl += conditionalSequence.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 0)).join('\n') + '\n'
 
-  conditionalSequenceWgsl += '\n'
-  conditionalSequenceWgsl += terminalConditionals.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 3)).join('\n') + '\n'
+  // conditionalSequenceWgsl += '\n'
+  // conditionalSequenceWgsl += terminalConditionals.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 0)).join('\n') + '\n'
 
-  wgsl = wgsl.replace(
-    '/* INJECT COMBAT CONDITIONALS */',
-    conditionalSequenceWgsl,
-  )
+  // wgsl = wgsl.replace(
+  //   '/* INJECT COMBAT CONDITIONALS */',
+  //   conditionalSequenceWgsl,
+  // )
 
   return wgsl
 }

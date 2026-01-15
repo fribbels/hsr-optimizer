@@ -39,7 +39,7 @@ import {
 } from 'types/optimizer'
 
 export function injectUnrolledActions(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
-  let unrolledActionCallsWgsl = '\nvar comboDmg: f32 = 0;\n'
+  let unrolledActionCallsWgsl = '\n    var comboDmg: f32 = 0;\n'
   let unrolledActionFunctionsWgsl = ''
 
   // Execute default actions
@@ -55,7 +55,7 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
     if (gpuParams.DEBUG) {
       if (i === 0) {
         // Copy entire container0 to get all action stats and hit stats
-        unrolledActionCallsWgsl += `\n  var debugContainer: array<f32, ${context.maxContainerArrayLength}> = container0;\n\n`
+        unrolledActionCallsWgsl += `\n    var debugContainer: array<f32, ${context.maxContainerArrayLength}> = container0;\n\n`
       } else {
         // Copy only registers from actions 1+
         unrolledActionCallsWgsl += generateRegisterCopy(i, action, context)
@@ -81,16 +81,16 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
 
   if (!gpuParams.DEBUG) {
     unrolledActionCallsWgsl += `
-if (comboDmg > threshold) {
-  results[index] = comboDmg;
-  failures = 1;
-} else {
-  results[index] = -failures; failures = failures + 1;
-}
+    if (comboDmg > threshold) {
+      results[index] = comboDmg;
+      failures = 1;
+    } else {
+      results[index] = -failures; failures = failures + 1;
+    }
 `
   } else {
     unrolledActionCallsWgsl += `
-results[index] = debugContainer;
+    results[index] = debugContainer;
 `
   }
 
@@ -112,7 +112,7 @@ function generateRegisterCopy(actionIndex: number, action: OptimizerAction, cont
   const actionRegisterOffset = registersOffset
   const hitRegisterOffset = registersOffset + context.allActions.length
 
-  let code = `  // Copy action ${actionIndex} registers to debug container\n`
+  let code = `    // Copy action ${actionIndex} registers to debug container\n`
 
   // Copy action register
   const actionRegIdx = actionRegisterOffset + action.registerIndex
@@ -169,10 +169,10 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
 
   const { conditionalSequence, terminalConditionals } = evaluateDependencyOrder(action.conditionalRegistry)
   let conditionalSequenceWgsl = '\n'
-  conditionalSequenceWgsl += conditionalSequence.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 3)).join('\n') + '\n'
+  conditionalSequenceWgsl += conditionalSequence.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 1)).join('\n') + '\n'
 
   conditionalSequenceWgsl += '\n'
-  conditionalSequenceWgsl += terminalConditionals.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 3)).join('\n') + '\n'
+  conditionalSequenceWgsl += terminalConditionals.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 1)).join('\n') + '\n'
 
   //////////
 

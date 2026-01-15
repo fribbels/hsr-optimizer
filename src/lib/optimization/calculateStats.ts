@@ -291,35 +291,38 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   // Terminal ornament set conditionals
 
   if (setsArray[4] == setsArray[5]) {
-    // TODO
-    // if (p2(SetKeys.FirmamentFrontlineGlamoth, sets) && x.a[Key.SPD] >= 135) {
-    //   x.ELEMENTAL_DMG.buff(x.a[Key.SPD] >= 160 ? 0.18 : 0.12, Source.FirmamentFrontlineGlamoth)
-    // }
-    //
-    if (p2(SetKeys.RutilantArena, sets) && x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) >= 0.70) {
-      x.buff(StatKey.DMG_BOOST, 0.20, x.damageType(DamageTag.SKILL).source(Source.RutilantArena))
-      x.buff(StatKey.DMG_BOOST, 0.20, x.damageType(DamageTag.BASIC).source(Source.RutilantArena))
+
+    if (p2(SetKeys.FirmamentFrontlineGlamoth, sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 135) {
+      const spd = x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
+      x.buff(StatKey.DMG_BOOST, spd >= 160 ? 0.18 : 0.12, x.source(Source.FirmamentFrontlineGlamoth))
     }
-    //
-    // if (p2(SetKeys.InertSalsotto, sets) && x.a[Key.CR] >= 0.50) {
-    //   buffAbilityDmg(x, ULT_DMG_TYPE | FUA_DMG_TYPE, 0.15, Source.InertSalsotto)
-    // }
-    //
-    // if (p2(SetKeys.RevelryByTheSea, sets)) {
-    //   if (x.a[Key.ATK] >= 3600) {
-    //     buffAbilityDmg(x, DOT_DMG_TYPE, 0.24, Source.RevelryByTheSea)
-    //   } else if (x.a[Key.ATK] >= 2400) {
-    //     buffAbilityDmg(x, DOT_DMG_TYPE, 0.12, Source.RevelryByTheSea)
-    //   }
-    // }
+    
+    if (p2(SetKeys.RutilantArena, sets) && x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) >= 0.70) {
+      x.buff(StatKey.DMG_BOOST, 0.20, x.damageType(DamageTag.BASIC | DamageTag.SKILL).source(Source.RutilantArena))
+    }
+
+    if (p2(SetKeys.InertSalsotto, sets) && x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) >= 0.50) {
+      x.buff(StatKey.DMG_BOOST, 0.15, x.damageType(DamageTag.ULT | DamageTag.FUA).source(Source.InertSalsotto))
+    }
+
+    if (p2(SetKeys.RevelryByTheSea, sets)) {
+      const atk = x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX)
+      if (atk >= 3600) {
+        x.buff(StatKey.DMG_BOOST, 0.24, x.damageType(DamageTag.DOT).source(Source.RevelryByTheSea))
+      } else if (atk >= 2400) {
+        x.buff(StatKey.DMG_BOOST, 0.12, x.damageType(DamageTag.DOT).source(Source.RevelryByTheSea))
+      }
+    }
   }
 
   // Terminal relic set conditionals
 
-  if (p4(SetKeys.IronCavalryAgainstTheScourge, sets) && x.a[Key.BE] >= 1.50) {
-    // TODO
-    // x.buffHit(StatKey.DEF_PEN, BREAK_DMG_TYPE, 0.10, Source.IronCavalryAgainstTheScourge, EntityType.SELF)
-    // x.buffHit(StatKey.DEF_PEN, SUPER_BREAK_DMG_TYPE, x.a[Key.BE] >= 2.50 ? 0.15 : 0, Source.IronCavalryAgainstTheScourge, EntityType.SELF)
+  if (p4(SetKeys.IronCavalryAgainstTheScourge, sets) && x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX) >= 1.50) {
+    const be = x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX)
+    x.buff(StatKey.DEF_PEN, 0.10, x.damageType(DamageTag.BREAK).source(Source.IronCavalryAgainstTheScourge))
+    if (be >= 2.50) {
+      x.buff(StatKey.DEF_PEN, 0.15, x.damageType(DamageTag.SUPER_BREAK).source(Source.IronCavalryAgainstTheScourge))
+    }
   }
 
   return x

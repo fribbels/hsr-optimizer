@@ -31,6 +31,7 @@ interface BaseHitDefinition {
   toughnessDmg?: number
   fixedToughnessDmg?: number // For super break: added without break efficiency multiplier
   directHit: boolean
+  recorded?: boolean // Whether to add to combo totals (comboHeal/comboDmg/comboShield). Default true.
   // Common scaling properties (optional for all hit types)
   atkScaling?: number
   hpScaling?: number
@@ -81,6 +82,13 @@ export interface ShieldHitDefinition extends BaseHitDefinition {
   flatShield?: number
 }
 
+// HealTally hits - damage based on a referenced heal hit's computed value
+export interface HealTallyHitDefinition extends BaseHitDefinition {
+  damageFunctionType: DamageFunctionType.HealTally
+  healTallyScaling: number // Multiplier for the referenced heal value
+  referenceHitOffset: number // Offset from this hit's index to find the reference heal hit (e.g., -1 for previous hit)
+}
+
 // Union type for all hit definitions
 export type HitDefinition =
   | CritHitDefinition
@@ -90,6 +98,7 @@ export type HitDefinition =
   | AdditionalHitDefinition
   | HealHitDefinition
   | ShieldHitDefinition
+  | HealTallyHitDefinition
 
 // Specialized Hit types (definition + runtime fields)
 export type CritHit = CritHitDefinition & HitRuntime
@@ -99,9 +108,10 @@ export type SuperBreakHit = SuperBreakHitDefinition & HitRuntime
 export type AdditionalHit = AdditionalHitDefinition & HitRuntime
 export type HealHit = HealHitDefinition & HitRuntime
 export type ShieldHit = ShieldHitDefinition & HitRuntime
+export type HealTallyHit = HealTallyHitDefinition & HitRuntime
 
 // Union type for all hits (definition + runtime fields)
-export type Hit = CritHit | DotHit | BreakHit | SuperBreakHit | AdditionalHit | HealHit | ShieldHit
+export type Hit = CritHit | DotHit | BreakHit | SuperBreakHit | AdditionalHit | HealHit | ShieldHit | HealTallyHit
 
 export interface EntityDefinition {
   primary: boolean

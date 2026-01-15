@@ -1,8 +1,8 @@
 import {
   containerActionVal,
   containerGetValue,
+  containerHitRegister,
   containerHitVal,
-  wgslDebugActionRegister,
   wgslDebugHitRegister,
 } from 'lib/gpu/injection/injectUtils'
 import { wgsl } from 'lib/gpu/injection/wgslUtils'
@@ -20,6 +20,7 @@ import {
   CritHit,
   DotHit,
   HealHit,
+  HealTallyHit,
   Hit,
   ShieldHit,
   SuperBreakHit,
@@ -40,6 +41,7 @@ export enum DamageFunctionType {
   Additional,
   Heal,
   Shield,
+  HealTally,
 }
 
 interface DamageMultipliers {
@@ -611,6 +613,7 @@ export const HealDamageFunction: DamageFunction = {
     const atkScaling = hit.atkScaling ?? 0
     const hpScaling = hit.hpScaling ?? 0
     const flatHeal = hit.flatHeal ?? 0
+    const shouldRecord = hit.recorded !== false
 
     return wgsl`
 {
@@ -628,7 +631,7 @@ export const HealDamageFunction: DamageFunction = {
   let healBoostMulti = 1.0 + healBoost;
 
   let heal = baseHeal * ohbMulti * healBoostMulti;
-  comboHeal += heal;
+  ${shouldRecord ? 'comboHeal += heal;' : ''}
 
   ${wgslDebugHitRegister(hit, context, 'heal')}
 }
@@ -694,6 +697,99 @@ export const ShieldDamageFunction: DamageFunction = {
   },
 }
 
+// HealTally hits - damage based on a referenced heal hit's computed value
+// Reads the heal value from a previous hit's register, multiplies by scaling, applies damage multipliers
+export const HealTallyDamageFunction: DamageFunction = {
+  apply: (x, action, hitIndex, context) => {
+    const hit = action.hits![hitIndex] as HealTallyHit
+    computeCommonMultipliers(x, hitIndex, context)
+
+    // Resolve reference heal hit from offset
+    const refLocalHitIndex = hit.localHitIndex + hit.referenceHitOffset
+    const refHit = action.hits![refLocalHitIndex]
+    const healValue = x.getHitRegisterValue(refHit.registerIndex)
+
+    // Base damage from heal value
+    const baseDmg = healValue * hit.healTallyScaling
+
+    // Apply damage multipliers (from THIS hit's stats)
+    const dmgBoostMulti = getTotalDmgBoost(x, hit, hitIndex)
+    const critMulti = getCritMultiplier(x, hitIndex)
+    const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex) + (hit.trueDmgModifier ?? 0)
+
+    const dmg = m.baseUniversalMulti
+      * m.defMulti
+      * m.resMulti
+      * m.vulnMulti
+      * m.finalDmgMulti
+      * dmgBoostMulti
+      * baseDmg
+      * critMulti
+      * trueDmgMulti
+
+    return dmg
+  },
+  wgsl: (action, hitIndex, context) => {
+    const hit = action.hits![hitIndex] as HealTallyHit
+    const config = action.config
+    const entityIndex = hit.sourceEntityIndex ?? 0
+
+    const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
+
+    // Resolve reference heal hit from offset
+    const refLocalHitIndex = hit.localHitIndex + hit.referenceHitOffset
+    const refHit = action.hits![refLocalHitIndex]
+    const healRegisterExpr = containerHitRegister(refHit.registerIndex, config)
+
+    const healTallyScaling = hit.healTallyScaling
+    const hitTrueDmgModifier = hit.trueDmgModifier ?? 0
+
+    const elementalDmgBoost = hit.damageElement === ElementTag.None
+      ? '0.0'
+      : getValue(elementTagToStatKeyBoost[hit.damageElement])
+
+    return wgsl`
+{
+  // Common multipliers
+  let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
+  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
+  let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
+  let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
+  let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
+
+  // Read heal value from reference hit register
+  let healValue = ${healRegisterExpr};
+  let baseDmg = healValue * ${healTallyScaling};
+
+  // Damage boost multiplier
+  let dmgBoostMulti = 1.0 + ${getValue(StatKey.DMG_BOOST)} + ${elementalDmgBoost};
+
+  // Crit multiplier
+  let cr = min(1.0, ${getValue(StatKey.CR)} + ${getValue(StatKey.CR_BOOST)});
+  let cd = ${getValue(StatKey.CD)} + ${getValue(StatKey.CD_BOOST)};
+  let critMulti = cr * (1.0 + cd) + (1.0 - cr);
+
+  // True damage multiplier
+  let trueDmgMulti = 1.0 + ${getValue(StatKey.TRUE_DMG_MODIFIER)} + ${hitTrueDmgModifier};
+
+  // Final damage
+  let damage = baseUniversalMulti
+    * defMulti
+    * resMulti
+    * vulnMulti
+    * finalDmgMulti
+    * dmgBoostMulti
+    * baseDmg
+    * critMulti
+    * trueDmgMulti;
+
+  comboDmg += damage;
+  ${wgslDebugHitRegister(hit, context)}
+}
+`
+  },
+}
+
 export const DamageFunctionRegistry: Record<DamageFunctionType, DamageFunction> = {
   [DamageFunctionType.Default]: DefaultDamageFunction,
   [DamageFunctionType.Crit]: CritDamageFunction,
@@ -703,6 +799,7 @@ export const DamageFunctionRegistry: Record<DamageFunctionType, DamageFunction> 
   [DamageFunctionType.Additional]: AdditionalDamageFunction,
   [DamageFunctionType.Heal]: HealDamageFunction,
   [DamageFunctionType.Shield]: ShieldDamageFunction,
+  [DamageFunctionType.HealTally]: HealTallyDamageFunction,
 }
 
 export function getDamageFunction(type: DamageFunctionType): DamageFunction {

@@ -16,6 +16,7 @@ import {
   CritHitDefinition,
   DotHitDefinition,
   HealHitDefinition,
+  HealTallyHitDefinition,
   HitDefinition,
   ShieldHitDefinition,
   SuperBreakHitDefinition,
@@ -214,4 +215,14 @@ HitDefinitionBuilder.fuaShield = () =>
     damageElement: ElementTag.None,
     outputTag: OutputTag.SHIELD,
     directHit: false,
+  })
+
+// HealTally builders - damage based on a referenced heal hit's computed value
+// Used for abilities like Hyacine's memo skill that deal damage based on heal amount
+HitDefinitionBuilder.healTally = () =>
+  genericBuilder<HealTallyHitDefinition>({
+    ...BASE_HIT_DEFAULTS,
+    damageFunctionType: DamageFunctionType.HealTally,
+    outputTag: OutputTag.DAMAGE,
+    directHit: true,
   })

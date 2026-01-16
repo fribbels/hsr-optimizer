@@ -6,6 +6,7 @@ import {
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { Key } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
@@ -69,7 +70,7 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
       c.CD.buff(0.16, Source.CelestialDifferentiator)
     },
     p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledCelestialDifferentiator && x.getActionValueByIndex(StatKey.CD, SELF_ENTITY_INDEX) >= 1.20) {
+      if (setConditionals.enabledCelestialDifferentiator && x.c.a[Key.CD] >= 1.20) {
         x.buff(StatKey.CR, 0.60, x.source(Source.CelestialDifferentiator))
       }
     },
@@ -211,7 +212,11 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     key: 'ArcadiaOfWovenDreams',
     index: 20,
     p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.buff(StatKey.DMG_BOOST, arcadiaSetIndexToDmg[setConditionals.valueArcadiaOfWovenDreams], x.targets(TargetTag.SelfAndMemosprite).source(Source.ArcadiaOfWovenDreams))
+      x.buff(
+        StatKey.DMG_BOOST,
+        arcadiaSetIndexToDmg[setConditionals.valueArcadiaOfWovenDreams],
+        x.targets(TargetTag.SelfAndMemosprite).source(Source.ArcadiaOfWovenDreams),
+      )
     },
   },
   RevelryByTheSea: {
@@ -532,7 +537,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       c.SPD_P.buff(-0.08, Source.PoetOfMourningCollapse)
     },
     p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-      const spd = x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
+      const spd = x.c.a[Key.SPD]
       x.buff(StatKey.CR, (spd < 110 ? 0.20 : 0) + (spd < 95 ? 0.12 : 0), x.targets(TargetTag.SelfAndMemosprite).source(Source.PoetOfMourningCollapse))
     },
   },

@@ -67,52 +67,36 @@ export const newStatsConfig = {
   IMAGINARY_DMG_BOOST: { label: 'Imaginary DMG Boost' },
 
   // Base
-  BASE_HP: { flat: true, label: optimizerTabMisc('Base HP') },
-  BASE_ATK: { flat: true, label: optimizerTabMisc('Base ATK') },
-  BASE_DEF: { flat: true, label: optimizerTabMisc('Base DEF') },
-  BASE_SPD: { flat: true, label: optimizerTabMisc('Base SPD') },
+  BASE_HP: { flat: true, label: optimizerTabMisc('Base HP') }, // Remove
+  BASE_ATK: { flat: true, label: optimizerTabMisc('Base ATK') }, // Remove
+  BASE_DEF: { flat: true, label: optimizerTabMisc('Base DEF') }, // Remove
+  BASE_SPD: { flat: true, label: optimizerTabMisc('Base SPD') }, // Remove
 
   // Secondary conversions
   UNCONVERTIBLE_HP_BUFF: { flat: true, label: optimizerTabUnconvertible('HP') },
   UNCONVERTIBLE_ATK_BUFF: { flat: true, label: optimizerTabUnconvertible('ATK') },
-  UNCONVERTIBLE_DEF_BUFF: { flat: true, label: optimizerTabUnconvertible('DEF') },
+  // UNCONVERTIBLE_DEF_BUFF: { flat: true, label: optimizerTabUnconvertible('DEF') }, // Unused
   UNCONVERTIBLE_SPD_BUFF: { flat: true, label: optimizerTabUnconvertible('SPD') },
   UNCONVERTIBLE_CR_BUFF: { label: optimizerTabUnconvertible('CRIT Rate') },
   UNCONVERTIBLE_CD_BUFF: { label: optimizerTabUnconvertible('CRIT DMG') },
-  UNCONVERTIBLE_EHR_BUFF: { label: optimizerTabUnconvertible('Effect Hit Rate') },
+  // UNCONVERTIBLE_EHR_BUFF: { label: optimizerTabUnconvertible('Effect Hit Rate') }, // Unused
   UNCONVERTIBLE_BE_BUFF: { label: optimizerTabUnconvertible('Break Effect') },
   UNCONVERTIBLE_OHB_BUFF: { label: optimizerTabUnconvertible('Outgoing Healing Boost') },
-  UNCONVERTIBLE_RES_BUFF: { label: optimizerTabUnconvertible('Effect RES') },
-  UNCONVERTIBLE_ERR_BUFF: { label: optimizerTabUnconvertible('Energy Regeneration Rate') },
+  // UNCONVERTIBLE_RES_BUFF: { label: optimizerTabUnconvertible('Effect RES') }, // Unused
+  // UNCONVERTIBLE_ERR_BUFF: { label: optimizerTabUnconvertible('Energy Regeneration Rate') }, // Unused
 
   // EHP
   DMG_RED_MULTI: { default: 1, label: optimizerTabMisc('DMG reduction') }, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi) instead of additive
-  EHP: { flat: true, label: optimizerTabMisc('Effective HP') },
 
   // Misc configs
-  SUMMONS: { flat: true, label: optimizerTabMisc('Summons') },
-  MEMOSPRITE: { bool: true, label: optimizerTabMisc('Memosprite') },
-  ENEMY_WEAKNESS_BROKEN: { bool: true, label: optimizerTabMisc('Enemy weakness broken') },
-  MEMO_BUFF_PRIORITY: { bool: true, label: optimizerTabMisc('Prioritize memosprite buffs') },
-  DEPRIORITIZE_BUFFS: { bool: true, label: optimizerTabMisc('Deprioritize buffs') },
-  COMBO_DMG: { flat: true, label: optimizerTabMisc('Combo DMG') },
+  SUMMONS: { flat: true, label: optimizerTabMisc('Summons') }, // Remove
+  MEMOSPRITE: { bool: true, label: optimizerTabMisc('Memosprite') }, // Remove
+  ENEMY_WEAKNESS_BROKEN: { bool: true, label: optimizerTabMisc('Enemy weakness broken') }, // Remove
+  MEMO_BUFF_PRIORITY: { bool: true, label: optimizerTabMisc('Prioritize memosprite buffs') }, // Remove
+  DEPRIORITIZE_BUFFS: { bool: true, label: optimizerTabMisc('Deprioritize buffs') }, // Remove
+  COMBO_DMG: { flat: true, label: optimizerTabMisc('Combo DMG') }, // Remove
 
   EFFECT_RES_PEN: { label: optimizerTabMisc('Effect RES PEN') },
-
-  // Heal / Shield
-  HEAL_TYPE: { flat: true, label: optimizerTabMisc('Heal ability type') },
-  HEAL_FLAT: { flat: true, label: optimizerTabMisc('Heal flat') },
-  HEAL_SCALING: { label: optimizerTabMisc('Heal scaling') },
-  HEAL_VALUE: { flat: true, label: optimizerTabMisc('Heal value') },
-  SHIELD_FLAT: { flat: true, label: optimizerTabMisc('Shield flat') },
-  SHIELD_SCALING: { label: optimizerTabMisc('Shield scaling') },
-  SHIELD_VALUE: { flat: true, label: optimizerTabMisc('Shield value') },
-  SHIELD_BOOST: { label: optimizerTabMisc('Shield boost') },
-
-  ATK_SCALING: { separated: true, label: optimizerTabCompositeSuffix('ATK scaling') },
-  DEF_SCALING: { separated: true, label: optimizerTabCompositeSuffix('DEF scaling') },
-  HP_SCALING: { separated: true, label: optimizerTabCompositeSuffix('HP scaling') },
-  SPECIAL_SCALING: { separated: true, label: optimizerTabCompositeSuffix('Special scaling') },
 
   ATK_P_BOOST: { label: optimizerTabCompositeSuffix('ATK % boost') },
   CR_BOOST: { label: optimizerTabCompositeSuffix('Crit Rate boost') },

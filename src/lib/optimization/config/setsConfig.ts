@@ -393,7 +393,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     },
     p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
       // TODO
-      // x.CD_BOOST.buff(0.10 * (setConditionals.valueWastelanderOfBanditryDesert == 2 ? 1 : 0), Source.WastelanderOfBanditryDesert)
+      // x.CD_BOOST.buff(0.20 * (setConditionals.valueWastelanderOfBanditryDesert == 2 ? 1 : 0), Source.WastelanderOfBanditryDesert)
       // if (setConditionals.valueWastelanderOfBanditryDesert > 0) {
       //   x.CR_BOOST.buff(0.10, Source.WastelanderOfBanditryDesert)
       // }

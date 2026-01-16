@@ -46,6 +46,7 @@ export type WgslBuffValue = number | string
 
 export enum WgslOperator {
   ADD = '+=',
+  MULTIPLY = '*=',
   SET = '=',
 }
 
@@ -212,5 +213,6 @@ class HitBuffBuilder {
 export const buff = {
   action: (actionKey: AKeyValue, value: WgslBuffValue) => new ActionBuffBuilder(actionKey, value),
   actionSet: (actionKey: AKeyValue, value: WgslBuffValue) => new ActionBuffBuilder(actionKey, value, WgslOperator.SET),
+  actionMultiply: (actionKey: AKeyValue, value: WgslBuffValue) => new ActionBuffBuilder(actionKey, value, WgslOperator.MULTIPLY),
   hit: (hitKey: HKeyValue, value: WgslBuffValue) => new HitBuffBuilder(hitKey, value),
 }

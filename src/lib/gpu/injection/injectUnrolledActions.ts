@@ -43,11 +43,11 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
   let unrolledActionCallsWgsl = '\n    var comboDmg: f32 = 0;\n'
   let unrolledActionFunctionsWgsl = ''
 
-  // Execute default actions
+  // Execute default actions (don't add to comboDmg)
   for (let i = 0; i < context.defaultActions.length; i++) {
     const action = context.defaultActions[i]
 
-    const { actionCall, actionFunction } = unrollAction(i, action, context, gpuParams)
+    const { actionCall, actionFunction } = unrollAction(i, action, context, gpuParams, false)
 
     unrolledActionCallsWgsl += actionCall
     unrolledActionFunctionsWgsl += actionFunction
@@ -64,12 +64,12 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
     }
   }
 
-  // Execute rotation actions
+  // Execute rotation actions (add to comboDmg)
   for (let i = 0; i < context.rotationActions.length; i++) {
     const action = context.rotationActions[i]
     const actionIndex = context.defaultActions.length + i
 
-    const { actionCall, actionFunction } = unrollAction(actionIndex, action, context, gpuParams)
+    const { actionCall, actionFunction } = unrollAction(actionIndex, action, context, gpuParams, true)
 
     unrolledActionCallsWgsl += actionCall
     unrolledActionFunctionsWgsl += actionFunction
@@ -133,7 +133,7 @@ function generateRegisterCopy(actionIndex: number, action: OptimizerAction, cont
 }
 
 // dprint-ignore
-function unrollAction(index: number, action: OptimizerAction, context: OptimizerContext, gpuParams: GpuConstants) {
+function unrollAction(index: number, action: OptimizerAction, context: OptimizerContext, gpuParams: GpuConstants, addToComboDmg: boolean) {
   const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(context)
   const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(context)
 
@@ -195,8 +195,7 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
       diffERR,
       diffOHB,
     );
-    comboDmg += dmg${index};
-`
+${addToComboDmg ? `    comboDmg += dmg${index};\n` : ''}`
   
   const actionFunction = `
 fn unrolledAction${index}(

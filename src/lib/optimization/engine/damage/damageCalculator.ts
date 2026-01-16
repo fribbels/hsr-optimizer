@@ -136,6 +136,7 @@ export const CritDamageFunction: DamageFunction = {
     // BE-based ATK scaling (e.g., Firefly skill)
     const beScaling = hit.beScaling
     const beCap = hit.beCap
+    const shouldRecord = hit.recorded !== false
 
     const elementalDmgBoost = hit.damageElement == ElementTag.None
       ? '0.0'
@@ -192,7 +193,7 @@ export const CritDamageFunction: DamageFunction = {
     * critMulti
     * trueDmgMulti;
 
-  comboDmg += damage;
+  ${shouldRecord ? 'comboDmg += damage;' : ''}
   ${wgslDebugHitRegister(hit, context)}
 }
 `
@@ -246,6 +247,7 @@ export const DotDamageFunction: DamageFunction = {
     const dotBaseChance = hit.dotBaseChance
     const dotSplit = hit.dotSplit ?? 0
     const dotStacks = hit.dotStacks ?? 1
+    const shouldRecord = hit.recorded !== false
 
     const enemyEffectRes = context.enemyEffectResistance
 
@@ -295,7 +297,7 @@ export const DotDamageFunction: DamageFunction = {
     * ehrMulti
     * trueDmgMulti;
 
-  comboDmg += damage;
+  ${shouldRecord ? 'comboDmg += damage;' : ''}
 
   ${wgslDebugHitRegister(hit, context)}
 }
@@ -340,6 +342,7 @@ export const BreakDamageFunction: DamageFunction = {
     const elementalBreakScaling = context.elementalBreakScaling
     const enemyMaxToughness = context.enemyMaxToughness
     const hitTrueDmgModifier = hit.trueDmgModifier ?? 0
+    const shouldRecord = hit.recorded !== false
 
     return wgsl`
 {
@@ -375,7 +378,7 @@ export const BreakDamageFunction: DamageFunction = {
     * beMulti
     * trueDmgMulti;
 
-  comboDmg += damage;
+  ${shouldRecord ? 'comboDmg += damage;' : ''}
   ${wgslDebugHitRegister(hit, context)}
 }
 `
@@ -428,6 +431,7 @@ export const SuperBreakDamageFunction: DamageFunction = {
     const referenceHitIndex = hit.referenceHit?.localHitIndex ?? hitIndex
     const extraSuperBreakModMulti = hit.extraSuperBreakModifier ?? 0
     const hitTrueDmgModifier = hit.trueDmgModifier ?? 0
+    const shouldRecord = hit.recorded !== false
 
     return wgsl`
 {
@@ -469,7 +473,7 @@ export const SuperBreakDamageFunction: DamageFunction = {
     * superBreakModMulti
     * trueDmgMulti;
 
-  comboDmg += damage;
+  ${shouldRecord ? 'comboDmg += damage;' : ''}
   ${wgslDebugHitRegister(hit, context)}
 }
 `
@@ -526,6 +530,7 @@ export const AdditionalDamageFunction: DamageFunction = {
     const cdExpr = hit.cdOverride != null
       ? `${hit.cdOverride}`
       : `${getValue(StatKey.CD)} + ${getValue(StatKey.CD_BOOST)}`
+    const shouldRecord = hit.recorded !== false
 
     return wgsl`
 {
@@ -567,7 +572,7 @@ export const AdditionalDamageFunction: DamageFunction = {
     * critMulti
     * trueDmgMulti;
 
-  comboDmg += damage;
+  ${shouldRecord ? 'comboDmg += damage;' : ''}
   ${wgslDebugHitRegister(hit, context)}
 }
 `
@@ -675,6 +680,7 @@ export const ShieldDamageFunction: DamageFunction = {
     const hpScaling = hit.hpScaling ?? 0
     const atkScaling = hit.atkScaling ?? 0
     const flatShield = hit.flatShield ?? 0
+    const shouldRecord = hit.recorded !== false
 
     return wgsl`
 {
@@ -689,7 +695,7 @@ export const ShieldDamageFunction: DamageFunction = {
   let shieldBoostMulti = 1.0 + shieldBoost;
 
   let shield = baseShield * shieldBoostMulti;
-  comboShield += shield;
+  ${shouldRecord ? 'comboShield += shield;' : ''}
 
   ${wgslDebugHitRegister(hit, context, 'shield')}
 }
@@ -747,6 +753,7 @@ export const HealTallyDamageFunction: DamageFunction = {
     const elementalDmgBoost = hit.damageElement === ElementTag.None
       ? '0.0'
       : getValue(elementTagToStatKeyBoost[hit.damageElement])
+    const shouldRecord = hit.recorded !== false
 
     return wgsl`
 {
@@ -783,7 +790,7 @@ export const HealTallyDamageFunction: DamageFunction = {
     * critMulti
     * trueDmgMulti;
 
-  comboDmg += damage;
+  ${shouldRecord ? 'comboDmg += damage;' : ''}
   ${wgslDebugHitRegister(hit, context)}
 }
 `

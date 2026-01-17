@@ -2,12 +2,13 @@ import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
+import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
+import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 
@@ -40,22 +41,21 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   return {
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
+      const atk = x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX)
+
+      x.buff(StatKey.BASIC_ADDITIONAL_DMG, ((r.extraDmgProc) ? sValues[s] : 0) * atk, x.source(SOURCE_LC))
+      x.buff(StatKey.SKILL_ADDITIONAL_DMG, ((r.extraDmgProc) ? sValues[s] : 0) * atk, x.source(SOURCE_LC))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.BASIC_ADDITIONAL_DMG.buff(((r.extraDmgProc) ? sValues[s] : 0) * x.a[Key.ATK], Source.NONE)
-      x.SKILL_ADDITIONAL_DMG.buff(((r.extraDmgProc) ? sValues[s] : 0) * x.a[Key.ATK], Source.NONE)
-    },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals as Conditionals<typeof content>
-
-      return `
+      return wgsl`
 if (${wgslTrue(r.extraDmgProc)}) {
-  x.BASIC_ADDITIONAL_DMG += ${sValues[s]} * x.ATK;
-  x.SKILL_ADDITIONAL_DMG += ${sValues[s]} * x.ATK;
+  let atk = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)};
+  ${buff.action(AKey.BASIC_ADDITIONAL_DMG, `${sValues[s]} * atk`).wgsl(action)}
+  ${buff.action(AKey.SKILL_ADDITIONAL_DMG, `${sValues[s]} * atk`).wgsl(action)}
 }
       `
     },

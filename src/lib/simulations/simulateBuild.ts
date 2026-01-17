@@ -170,8 +170,6 @@ export function simulateBuild(
 
   // x.set(ActionKey.COMBO_DMG, dmgTracker, Source.NONE)
 
-  logRegisters(x, context, 'Simulate Build')
-
   return x
 }
 

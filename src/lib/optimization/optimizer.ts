@@ -26,6 +26,7 @@ import {
 } from 'lib/optimization/relicSetSolver'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { RelicFilters } from 'lib/relics/relicFilters'
+import { logRegisters } from 'lib/simulations/registerLogger'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import {
   SimulationRelic,
@@ -72,6 +73,11 @@ export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
 
   const context = generateContext(request)
   const x = simulateBuild(relicsByPart as SimulationRelicByPart, context, null, null)
+
+  if (request.keepCurrentRelics) {
+    logRegisters(x, context, 'Simulate Build')
+  }
+
   const optimizerDisplayData = formatOptimizerDisplayData(x)
   OptimizerTabController.setTopRow(optimizerDisplayData, true)
   window.store.getState().setOptimizerSelectedRowData(optimizerDisplayData)

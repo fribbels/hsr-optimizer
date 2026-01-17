@@ -238,12 +238,12 @@ fn unrolledAction${index}(
     && setConditionals.enabledCelestialDifferentiator == true
     && (*p_c).CD >= 1.20
   ) {
-    ${buff.action(AKey.CR, 0.60).wgsl(action, 4)}
+    ${buff.action(AKey.CR, 0.60).wgsl(action, 2)}
   }
 
   if (p4((*p_sets).PoetOfMourningCollapse) >= 1) {
     let crValue = select(0.0, 0.20, (*p_c).SPD < 110.0) + select(0.0, 0.12, (*p_c).SPD < 95.0);
-    ${buff.action(AKey.CR, 'crValue').targets(TargetTag.SelfAndMemosprite).wgsl(action, 4)}
+    ${buff.action(AKey.CR, 'crValue').targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
   }
 
   // ===== SPD BUFFS =====
@@ -252,15 +252,15 @@ fn unrolledAction${index}(
     p4((*p_sets).MessengerTraversingHackerspace) >= 1
     && setConditionals.enabledMessengerTraversingHackerspace == true
   ) {
-    ${buff.action(AKey.SPD_P, 0.12).targets(TargetTag.FullTeam).wgsl(action, 4)}
+    ${buff.action(AKey.SPD_P, 0.12).targets(TargetTag.FullTeam).wgsl(action, 2)}
   }
 
   if (
     p4((*p_sets).HeroOfTriumphantSong) >= 1
     && setConditionals.enabledHeroOfTriumphantSong == true
   ) {
-    ${buff.action(AKey.SPD_P, 0.06).wgsl(action, 4)}
-    ${buff.action(AKey.CD, 0.30).targets(TargetTag.SelfAndMemosprite).wgsl(action, 4)}
+    ${buff.action(AKey.SPD_P, 0.06).wgsl(action, 2)}
+    ${buff.action(AKey.CD, 0.30).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
   }
 
   if (
@@ -268,7 +268,7 @@ fn unrolledAction${index}(
     && setConditionals.enabledWarriorGoddessOfSunAndThunder == true
   ) {
     ${buff.action(AKey.SPD_P, 0.06).wgsl(action, 4)}
-    ${buff.action(AKey.CD, 0.15).targets(TargetTag.FullTeam).wgsl(action, 4)}
+    ${buff.action(AKey.CD, 0.15).targets(TargetTag.FullTeam).wgsl(action, 2)}
   }
 
   if (
@@ -276,26 +276,26 @@ fn unrolledAction${index}(
     && setConditionals.enabledAmphoreusTheEternalLand == true
     && ${containerActionVal(SELF_ENTITY_INDEX, AKey.MEMOSPRITE, action.config)} >= 1
   ) {
-    ${buff.action(AKey.SPD_P, 0.08).targets(TargetTag.FullTeam).wgsl(action, 4)}
+    ${buff.action(AKey.SPD_P, 0.08).targets(TargetTag.FullTeam).wgsl(action, 2)}
   }
 
   // ===== ATK BUFFS =====
 
   if (p4((*p_sets).ChampionOfStreetwiseBoxing) >= 1) {
-    ${buff.action(AKey.ATK_P, `0.05 * f32(setConditionals.valueChampionOfStreetwiseBoxing)`).wgsl(action, 4)}
+    ${buff.action(AKey.ATK_P, `0.05 * f32(setConditionals.valueChampionOfStreetwiseBoxing)`).wgsl(action, 2)}
   }
 
   if (
     p4((*p_sets).BandOfSizzlingThunder) >= 1
     && setConditionals.enabledBandOfSizzlingThunder == true
   ) {
-    ${buff.action(AKey.ATK_P, 0.20).wgsl(action, 4)}
+    ${buff.action(AKey.ATK_P, 0.20).wgsl(action, 2)}
   }
 
   if (p2((*p_sets).TheAshblazingGrandDuke) >= 1) {
-    ${buff.hit(HKey.DMG_BOOST, 0.20).damageType(DamageTag.FUA).wgsl(action, 4)}
+    ${buff.hit(HKey.DMG_BOOST, 0.20).damageType(DamageTag.FUA).wgsl(action, 2)}
     if (p4((*p_sets).TheAshblazingGrandDuke) >= 1) {
-      ${buff.action(AKey.ATK_P, `0.06 * f32(setConditionals.valueTheAshblazingGrandDuke)`).wgsl(action, 6)}
+      ${buff.action(AKey.ATK_P, `0.06 * f32(setConditionals.valueTheAshblazingGrandDuke)`).wgsl(action, 3)}
     }
   }
 
@@ -303,7 +303,7 @@ fn unrolledAction${index}(
     p4((*p_sets).WavestriderCaptain) >= 1
     && setConditionals.enabledWavestriderCaptain == true
   ) {
-    ${buff.action(AKey.ATK_P, 0.48).wgsl(action, 4)}
+    ${buff.action(AKey.ATK_P, 0.48).wgsl(action, 2)}
   }
 
   // ===== HP BUFFS =====
@@ -312,8 +312,8 @@ fn unrolledAction${index}(
     p4((*p_sets).WorldRemakingDeliverer) >= 1
     && setConditionals.enabledWorldRemakingDeliverer == true
   ) {
-    ${buff.action(AKey.HP_P, 0.24).targets(TargetTag.SelfAndMemosprite).wgsl(action, 4)}
-    ${buff.action(AKey.DMG_BOOST, 0.15).targets(TargetTag.FullTeam).wgsl(action, 4)}
+    ${buff.action(AKey.HP_P, 0.24).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
+    ${buff.action(AKey.DMG_BOOST, 0.15).targets(TargetTag.FullTeam).wgsl(action, 2)}
   }
 
   // ===== CD BUFFS =====
@@ -322,36 +322,36 @@ fn unrolledAction${index}(
     p4((*p_sets).HunterOfGlacialForest) >= 1
     && setConditionals.enabledHunterOfGlacialForest == true
   ) {
-    ${buff.action(AKey.CD, 0.25).wgsl(action, 4)}
+    ${buff.action(AKey.CD, 0.25).wgsl(action, 2)}
   }
 
   if (p4((*p_sets).WastelanderOfBanditryDesert) >= 1) {
     if (setConditionals.valueWastelanderOfBanditryDesert > 0) {
-      ${buff.action(AKey.CR_BOOST, 0.10).wgsl(action, 6)}
+      ${buff.action(AKey.CR_BOOST, 0.10).wgsl(action, 3)}
     }
     if (setConditionals.valueWastelanderOfBanditryDesert == 2) {
-      ${buff.action(AKey.CD_BOOST, 0.20).wgsl(action, 6)}
+      ${buff.action(AKey.CD_BOOST, 0.20).wgsl(action, 3)}
     }
   }
 
   if (p2((*p_sets).PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
-    ${buff.action(AKey.DMG_BOOST, 0.12).wgsl(action, 4)}
+    ${buff.action(AKey.DMG_BOOST, 0.12).wgsl(action, 2)}
     if (p4((*p_sets).PioneerDiverOfDeadWaters) >= 1) {
-      ${buff.action(AKey.CD_BOOST, `getPioneerSetValue(setConditionals.valuePioneerDiverOfDeadWaters)`).wgsl(action, 6)}
+      ${buff.action(AKey.CD_BOOST, `getPioneerSetValue(setConditionals.valuePioneerDiverOfDeadWaters)`).wgsl(action, 3)}
       if (setConditionals.valuePioneerDiverOfDeadWaters > 2) {
-        ${buff.action(AKey.CR, 0.04).wgsl(action, 8)}
+        ${buff.action(AKey.CR, 0.04).wgsl(action, 4)}
       }
     }
   }
 
   if (p2((*p_sets).SigoniaTheUnclaimedDesolation) >= 1) {
-    ${buff.action(AKey.CD, `0.04 * f32(setConditionals.valueSigoniaTheUnclaimedDesolation)`).wgsl(action, 4)}
+    ${buff.action(AKey.CD, `0.04 * f32(setConditionals.valueSigoniaTheUnclaimedDesolation)`).wgsl(action, 2)}
   }
 
   if (p2((*p_sets).DuranDynastyOfRunningWolves) >= 1) {
-    ${buff.hit(HKey.DMG_BOOST, `0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves)`).damageType(DamageTag.FUA).wgsl(action, 4)}
+    ${buff.hit(HKey.DMG_BOOST, `0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves)`).damageType(DamageTag.FUA).wgsl(action, 2)}
     if (setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
-      ${buff.action(AKey.CD, 0.25).wgsl(action, 6)}
+      ${buff.action(AKey.CD, 0.25).wgsl(action, 3)}
     }
   }
 
@@ -359,31 +359,31 @@ fn unrolledAction${index}(
     p2((*p_sets).TheWondrousBananAmusementPark) >= 1
     && setConditionals.enabledTheWondrousBananAmusementPark == true
   ) {
-    ${buff.action(AKey.CD, 0.32).wgsl(action, 4)}
+    ${buff.action(AKey.CD, 0.32).wgsl(action, 2)}
   }
 
   if (p4((*p_sets).SacerdosRelivedOrdeal) >= 1) {
-    ${buff.action(AKey.CD, `0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal)`).wgsl(action, 4)}
+    ${buff.action(AKey.CD, `0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal)`).wgsl(action, 2)}
   }
 
   if (
     p2((*p_sets).TengokuLivestream) >= 1
     && setConditionals.enabledTengokuLivestream == true
   ) {
-    ${buff.action(AKey.CD, 0.32).wgsl(action, 4)}
+    ${buff.action(AKey.CD, 0.32).wgsl(action, 2)}
   }
 
   // ===== CR BUFFS =====
 
   if (p4((*p_sets).LongevousDisciple) >= 1) {
-    ${buff.action(AKey.CR, `0.08 * f32(setConditionals.valueLongevousDisciple)`).wgsl(action, 4)}
+    ${buff.action(AKey.CR, `0.08 * f32(setConditionals.valueLongevousDisciple)`).wgsl(action, 2)}
   }
 
   if (
     p2((*p_sets).IzumoGenseiAndTakamaDivineRealm) >= 1
     && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm == true
   ) {
-    ${buff.action(AKey.CR, 0.12).wgsl(action, 4)}
+    ${buff.action(AKey.CR, 0.12).wgsl(action, 2)}
   }
 
   // ===== BE BUFFS =====
@@ -392,76 +392,76 @@ fn unrolledAction${index}(
     p4((*p_sets).WatchmakerMasterOfDreamMachinations) >= 1
     && setConditionals.enabledWatchmakerMasterOfDreamMachinations == true
   ) {
-    ${buff.action(AKey.BE, 0.30).targets(TargetTag.FullTeam).wgsl(action, 4)}
+    ${buff.action(AKey.BE, 0.30).targets(TargetTag.FullTeam).wgsl(action, 2)}
   }
 
   if (
     p2((*p_sets).ForgeOfTheKalpagniLantern) >= 1
     && setConditionals.enabledForgeOfTheKalpagniLantern == true
   ) {
-    ${buff.action(AKey.BE, 0.40).wgsl(action, 4)}
+    ${buff.action(AKey.BE, 0.40).wgsl(action, 2)}
   }
 
   // ===== ABILITY DMG BOOSTS =====
 
   if (p4((*p_sets).MusketeerOfWildWheat) >= 1) {
-    ${buff.hit(HKey.DMG_BOOST, 0.10).damageType(DamageTag.BASIC).wgsl(action, 4)}
+    ${buff.hit(HKey.DMG_BOOST, 0.10).damageType(DamageTag.BASIC).wgsl(action, 2)}
   }
 
   if (p4((*p_sets).FiresmithOfLavaForging) >= 1) {
-    ${buff.hit(HKey.DMG_BOOST, 0.12).damageType(DamageTag.SKILL).wgsl(action, 4)}
+    ${buff.hit(HKey.DMG_BOOST, 0.12).damageType(DamageTag.SKILL).wgsl(action, 2)}
     if (setConditionals.enabledFiresmithOfLavaForging == true) {
-      ${buff.action(AKey.FIRE_DMG_BOOST, 0.12).wgsl(action, 6)}
+      ${buff.action(AKey.FIRE_DMG_BOOST, 0.12).wgsl(action, 3)}
     }
   }
 
   if (p4((*p_sets).TheWindSoaringValorous) >= 1) {
-    ${buff.hit(HKey.DMG_BOOST, `0.36 * f32(setConditionals.enabledTheWindSoaringValorous)`).damageType(DamageTag.ULT).wgsl(action, 4)}
+    ${buff.hit(HKey.DMG_BOOST, `0.36 * f32(setConditionals.enabledTheWindSoaringValorous)`).damageType(DamageTag.ULT).wgsl(action, 2)}
   }
 
   if (p4((*p_sets).ScholarLostInErudition) >= 1) {
-    ${buff.hit(HKey.DMG_BOOST, 0.20).damageType(DamageTag.SKILL | DamageTag.ULT).wgsl(action, 4)}
+    ${buff.hit(HKey.DMG_BOOST, 0.20).damageType(DamageTag.SKILL | DamageTag.ULT).wgsl(action, 2)}
     if (setConditionals.enabledScholarLostInErudition == true) {
-      ${buff.hit(HKey.DMG_BOOST, 0.25).damageType(DamageTag.SKILL).wgsl(action, 6)}
+      ${buff.hit(HKey.DMG_BOOST, 0.25).damageType(DamageTag.SKILL).wgsl(action, 3)}
     }
   }
 
   // ===== OTHER BOOSTS =====
 
   if (p4((*p_sets).GeniusOfBrilliantStars) >= 1) {
-    ${buff.action(AKey.DEF_PEN, `select(0.10, 0.20, setConditionals.enabledGeniusOfBrilliantStars == true)`).wgsl(action, 4)}
+    ${buff.action(AKey.DEF_PEN, `select(0.10, 0.20, setConditionals.enabledGeniusOfBrilliantStars == true)`).wgsl(action, 2)}
   }
 
   if (p4((*p_sets).PrisonerInDeepConfinement) >= 1) {
-    ${buff.action(AKey.DEF_PEN, `0.06 * f32(setConditionals.valuePrisonerInDeepConfinement)`).wgsl(action, 4)}
+    ${buff.action(AKey.DEF_PEN, `0.06 * f32(setConditionals.valuePrisonerInDeepConfinement)`).wgsl(action, 2)}
   }
 
   if (p2((*p_sets).GuardOfWutheringSnow) >= 1) {
-    ${buff.actionMultiply(AKey.DMG_RED_MULTI, 1 - 0.08).wgsl(action, 4)}
+    ${buff.actionMultiply(AKey.DMG_RED_MULTI, 1 - 0.08).wgsl(action, 2)}
   }
 
   if (p4((*p_sets).KnightOfPurityPalace) >= 1) {
-    ${buff.hit(HKey.DMG_BOOST, 0.20).outputType(OutputTag.SHIELD).wgsl(action, 4)}
+    ${buff.hit(HKey.DMG_BOOST, 0.20).outputType(OutputTag.SHIELD).wgsl(action, 2)}
   }
 
   if (
     p2((*p_sets).PenaconyLandOfTheDreams) >= 1
     && setConditionals.enabledPenaconyLandOfTheDreams == true
   ) {
-    ${buff.action(AKey.DMG_BOOST, 0.10).targets(TargetTag.MemospritesOnly).wgsl(action, 4)}
+    ${buff.action(AKey.DMG_BOOST, 0.10).targets(TargetTag.MemospritesOnly).wgsl(action, 2)}
   }
 
   if (p2((*p_sets).ArcadiaOfWovenDreams) >= 1) {
     let arcadiaBuffValue = getArcadiaOfWovenDreamsValue(setConditionals.valueArcadiaOfWovenDreams);
-    ${buff.action(AKey.DMG_BOOST, 'arcadiaBuffValue').targets(TargetTag.SelfAndMemosprite).wgsl(action, 4)}
+    ${buff.action(AKey.DMG_BOOST, 'arcadiaBuffValue').targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
   }
 
   if (p2((*p_sets).SelfEnshroudedRecluse) >= 1) {
-    ${buff.hit(HKey.DMG_BOOST, 0.10).outputType(OutputTag.SHIELD).wgsl(action, 4)}
+    ${buff.hit(HKey.DMG_BOOST, 0.10).outputType(OutputTag.SHIELD).wgsl(action, 2)}
     if (p4((*p_sets).SelfEnshroudedRecluse) >= 1) {
-      ${buff.hit(HKey.DMG_BOOST, 0.12).outputType(OutputTag.SHIELD).wgsl(action, 6)}
+      ${buff.hit(HKey.DMG_BOOST, 0.12).outputType(OutputTag.SHIELD).wgsl(action, 3)}
       if (setConditionals.enabledSelfEnshroudedRecluse == true) {
-        ${buff.action(AKey.CD, 0.15).targets(TargetTag.FullTeam).wgsl(action, 8)}
+        ${buff.action(AKey.CD, 0.15).targets(TargetTag.FullTeam).wgsl(action, 4)}
       }
     }
   }

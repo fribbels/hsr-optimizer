@@ -73,7 +73,10 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         x.targets(TargetTag.FullTeam).source(SOURCE_LC),
       )
       x.buff(
-        StatKey.VULNERABILITY, (m.corneredVulnerability) ? sValuesVulnerabilityEnhanced[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
+        StatKey.VULNERABILITY,
+        (m.corneredVulnerability) ? sValuesVulnerabilityEnhanced[s] : 0,
+        x.targets(TargetTag.FullTeam).source(SOURCE_LC),
+      )
     },
   }
 }

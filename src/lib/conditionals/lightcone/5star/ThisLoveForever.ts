@@ -3,7 +3,9 @@ import {
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { THIS_LOVE_FOREVER } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
@@ -64,26 +66,23 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buffTeam(
+      x.buff(
+        StatKey.VULNERABILITY,
         (m.vulnerability)
           ? (m.cdBoost ? 1 + sValuesMulti[s] : 1) * sValuesVulnerability[s]
           : 0,
-        SOURCE_LC,
+        x.targets(TargetTag.FullTeam).source(SOURCE_LC),
       )
-      x.CD.buffTeam(
+      x.buff(
+        StatKey.CD,
         (m.cdBoost)
           ? (m.vulnerability ? 1 + sValuesMulti[s] : 1) * sValuesCd[s]
           : 0,
-        SOURCE_LC,
+        x.targets(TargetTag.FullTeam).source(SOURCE_LC),
       )
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

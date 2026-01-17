@@ -1,4 +1,3 @@
-import { BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   Conditionals,
   ContentDefinition,
@@ -8,13 +7,16 @@ import {
   ConditionalType,
   Stats,
 } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDefPen } from 'lib/optimization/calculateBuffs'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+  DamageTag,
+  SELF_ENTITY_INDEX,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -55,11 +57,10 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   return {
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
-      buffAbilityDefPen(x, BREAK_DMG_TYPE, (r.breakDmgDefShred) ? sValuesDefShred[s] : 0, SOURCE_LC)
-    },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+      x.buff(StatKey.DEF_PEN, (r.breakDmgDefShred) ? sValuesDefShred[s] : 0, x.damageType(DamageTag.BREAK).source(SOURCE_LC))
     },
     dynamicConditionals: [
       {
@@ -68,24 +69,32 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.BE],
         chainsTo: [Stats.SPD],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.lightConeConditionals as Conditionals<typeof content>
 
-          return r.spdBuffConditional && x.a[Key.BE] >= 1.50
+          return r.spdBuffConditional && x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX) >= 1.50
         },
-        effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-          x.SPD.buffDynamic((sValuesSpdBuff[s]) * context.baseSPD, SOURCE_LC, action, context)
+        effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+          x.buffDynamic(StatKey.SPD, sValuesSpdBuff[s] * context.baseSPD, action, context, x.source(SOURCE_LC))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
-          return conditionalWgslWrapper(
+          const r = action.lightConeConditionals as Conditionals<typeof content>
+
+          return newConditionalWgslWrapper(
             this,
+            action,
+            context,
             `
+if (${wgslFalse(r.spdBuffConditional)}) {
+  return;
+}
+
 if (
-  (*p_state).SailingTowardsASecondLifeConditional == 0.0 &&
-  x.BE >= 1.50
+  (*p_state).SailingTowardsASecondLifeConditional${action.actionIdentifier} == 0.0 &&
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, action.config)} >= 1.50
 ) {
-  (*p_state).SailingTowardsASecondLifeConditional = 1.0;
-  (*p_x).SPD += ${sValuesSpdBuff[s]} * baseSPD;
+  (*p_state).SailingTowardsASecondLifeConditional${action.actionIdentifier} = 1.0;
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} += ${sValuesSpdBuff[s]} * baseSPD;
 }
     `,
           )

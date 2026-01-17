@@ -7,19 +7,17 @@ import {
   ConditionalType,
   Stats,
 } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ItsShowtime')
@@ -50,12 +48,10 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   return {
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.ELEMENTAL_DMG.buff(r.trickStacks * sValuesDmg[s], SOURCE_LC)
-    },
-    finalizeCalculations: () => {
+      x.buff(StatKey.DMG_BOOST, r.trickStacks * sValuesDmg[s], x.source(SOURCE_LC))
     },
     dynamicConditionals: [
       {
@@ -64,22 +60,24 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.EHR],
         chainsTo: [Stats.ATK],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          return x.a[Key.EHR] >= 0.80
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          return x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) >= 0.80
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          x.ATK.buffDynamic(sValuesAtkBuff[s] * context.baseATK, SOURCE_LC, action, context)
+        effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+          x.buffDynamic(StatKey.ATK, sValuesAtkBuff[s] * context.baseATK, action, context, x.source(SOURCE_LC))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
-          return conditionalWgslWrapper(
+          return newConditionalWgslWrapper(
             this,
+            action,
+            context,
             `
 if (
-  (*p_state).ItsShowtimeConversionConditional == 0.0 &&
-  x.EHR >= 0.80
+  (*p_state).ItsShowtimeConversionConditional${action.actionIdentifier} == 0.0 &&
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)} >= 0.80
 ) {
-  (*p_state).ItsShowtimeConversionConditional = 1.0;
-  (*p_x).ATK += ${sValuesAtkBuff[s]} * baseATK;
+  (*p_state).ItsShowtimeConversionConditional${action.actionIdentifier} = 1.0;
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)} += ${sValuesAtkBuff[s]} * baseATK;
 }
     `,
           )

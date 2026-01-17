@@ -282,8 +282,7 @@ if (statDisplay == 1) {
   if (
 ${format(basicFilters)}
   ) {
-    results[index] = -failures;
-    failures = failures + 1;
+    results[index] = -failures; failures = failures + 1;
     continue;
   }
 }

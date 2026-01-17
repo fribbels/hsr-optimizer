@@ -124,10 +124,10 @@ export const BufferPacker = {
     arr[offset + 12] = ca[Key.ELEMENTAL_DMG]
     arr[offset + 13] = c.weight
 
-    // [14-16] Computed values
-    arr[offset + 14] = x.a[StatKey.EHP]
-    arr[offset + 15] = x.a[StatKey.HEAL_VALUE]
-    arr[offset + 16] = x.a[StatKey.SHIELD_VALUE]
+    // [14-16] Computed values (EHP, HEAL, SHIELD - TODO: calculate from hit registers)
+    arr[offset + 14] = 0 // EHP - not yet implemented in new engine
+    arr[offset + 15] = 0 // HEAL_VALUE - not yet implemented in new engine
+    arr[offset + 16] = 0 // SHIELD_VALUE - not yet implemented in new engine
 
     // [17-24] Damage values from action registers - dynamically mapped
     const actionNameToOffset: Record<string, number> = {
@@ -204,7 +204,7 @@ export const BufferPacker = {
       arr[offset + 63] = x.getActionValue(StatKey.DMG_BOOST, memoEntity)
 
       // [64] mxEHP (same as primary)
-      arr[offset + 64] = x.a[StatKey.EHP]
+      arr[offset + 64] = 0 // EHP - not yet implemented in new engine
     }
   },
 

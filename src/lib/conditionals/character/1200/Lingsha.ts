@@ -39,7 +39,7 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
-export const LingshaEntities = createEnum('Lingsha')
+export const LingshaEntities = createEnum('Lingsha', 'Fuyuan')
 export const LingshaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
@@ -154,6 +154,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         summon: false,
         memosprite: false,
       },
+      [LingshaEntities.Fuyuan]: {
+        primary: false,
+        summon: true,
+        memosprite: false,
+        pet: true,
+      },
     }),
 
     actionDeclaration: () => Object.values(LingshaAbilities),
@@ -199,6 +205,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         [LingshaAbilities.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
+              .sourceEntity(LingshaEntities.Fuyuan)
               .damageElement(ElementTag.Fire)
               .atkScaling(fuaScaling * 2 + ((e >= 6 && r.e6ResShred) ? 0.50 : 0))
               .toughnessDmg(10 * 2 + ((e >= 6) ? 5 : 0))

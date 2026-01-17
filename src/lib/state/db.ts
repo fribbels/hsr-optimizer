@@ -705,7 +705,7 @@ export const DB = {
       return
     }
 
-    let build = character.builds?.find((x) => x.name == name)?.build
+    let build = character.builds?.find((x) => x.name == name)?.equipped
     if (build) {
       const errorMessage = i18next.t('charactersTab:Messages.BuildAlreadyExists', { name })
       console.warn(errorMessage)
@@ -713,7 +713,7 @@ export const DB = {
     } else {
       build = Object.values(character.equipped)
       const builds = character.builds ?? []
-      builds.push({ name, build, score })
+      builds.push({ name, equipped: build, score })
 
       const updatedCharacter = { ...character, builds: [...builds] }
       DB.setCharacter(updatedCharacter)
@@ -962,7 +962,7 @@ export const DB = {
         // Update saved builds relic IDs
         if (character.builds && character.builds.length > 0) {
           newSavedBuilds = character.builds.map((savedBuild) => {
-            const updatedBuild = savedBuild.build.map((relicId) => relicIdMapping[relicId] || relicId)
+            const updatedBuild = savedBuild.equipped.map((relicId) => relicIdMapping[relicId] || relicId)
 
             return { ...savedBuild, build: updatedBuild }
           })

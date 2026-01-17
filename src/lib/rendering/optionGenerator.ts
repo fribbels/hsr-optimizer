@@ -3,7 +3,7 @@ import { sortAlphabeticEmojiLast } from 'lib/rendering/displayUtils'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 import {
   DBMetadataCharacter,
   DBMetadataLightCone,
@@ -42,5 +42,5 @@ export function generateLightConeOptions(characterId?: CharacterId) {
     .sort(sortAlphabeticEmojiLast('label'))
 }
 
-export type LcOptions = Record<LightCone['id'], DBMetadataLightCone & { value: DBMetadataLightCone['id'], label: string }>
+export type LcOptions = Record<LightConeId, DBMetadataLightCone & { value: DBMetadataLightCone['id'], label: string }>
 export type CharacterOptions = Record<CharacterId, DBMetadataCharacter & { value: DBMetadataCharacter['id'], label: string }>

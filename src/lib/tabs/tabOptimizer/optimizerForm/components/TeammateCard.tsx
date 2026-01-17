@@ -41,7 +41,7 @@ import {
 import { ReactElement } from 'types/components'
 import { TeammateProperty } from 'types/form'
 import {
-  LightCone,
+  LightConeId,
   SuperImpositionLevel,
 } from 'types/lightCone'
 import { DBMetadata } from 'types/metadata'
@@ -254,7 +254,7 @@ const TeammateCard = (props: {
   const teammateCharacterId: CharacterId = AntDForm.useWatch([teammateProperty, 'characterId'], window.optimizerForm)
   const teammateEidolon: number = AntDForm.useWatch([teammateProperty, 'characterEidolon'], window.optimizerForm)
 
-  const teammateLightConeId: LightCone['id'] = AntDForm.useWatch([teammateProperty, 'lightCone'], window.optimizerForm)
+  const teammateLightConeId: LightConeId = AntDForm.useWatch([teammateProperty, 'lightCone'], window.optimizerForm)
   const teammateSuperimposition: SuperImpositionLevel = AntDForm.useWatch([teammateProperty, 'lightConeSuperimposition'], window.optimizerForm)
 
   const [teammateSelectModalOpen, setTeammateSelectModalOpen] = useState(false)

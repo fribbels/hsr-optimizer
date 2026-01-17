@@ -17,7 +17,7 @@ import {
 
 import { ConditionalValueMap } from 'types/conditionals'
 import {
-  LightCone,
+  LightConeId,
   SuperImpositionLevel,
 } from 'types/lightCone'
 import { ScoringMetadata } from 'types/metadata'
@@ -33,7 +33,7 @@ import {
 export type Teammate = {
   characterId: CharacterId,
   characterEidolon: number,
-  lightCone: LightCone['id'],
+  lightCone: LightConeId,
   lightConeSuperimposition: number,
   teamOrnamentSet?: string,
   teamRelicSet?: string,
@@ -50,7 +50,7 @@ export type Form = {
   characterLevel: number,
 
   // Light cone
-  lightCone: LightCone['id'],
+  lightCone: LightConeId,
   lightConeLevel: number,
   lightConeSuperimposition: SuperImpositionLevel,
 

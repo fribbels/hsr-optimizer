@@ -9,7 +9,6 @@ import {
 } from 'lib/simulations/statSimulationTypes'
 import { AppPage } from 'lib/state/db'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { RelicTabFilters } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
 import {
@@ -20,7 +19,7 @@ import {
 } from 'types/character'
 import { Form } from 'types/form'
 import {
-  LightCone,
+  LightConeId,
   SuperImpositionLevel,
 } from 'types/lightCone'
 import {
@@ -90,7 +89,7 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ setOptimizerEndTime: (open: number) => void,
   /* optimizerTab             */ setOptimizerRunningEngine: (s: ComputeEngine) => void,
   /* optimizerTab             */ optimizerFormCharacterEidolon: number,
-  /* optimizerTab             */ optimizerFormSelectedLightCone: LightCone['id'] | null | undefined,
+  /* optimizerTab             */ optimizerFormSelectedLightCone: LightConeId | null | undefined,
   /* optimizerTab             */ optimizerFormSelectedLightConeSuperimposition: number,
   /* optimizerTab             */ setPermutationsResults: (n: number) => void,
   /* optimizerTab             */ setPermutationsSearched: (n: number) => void,
@@ -107,7 +106,7 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ setOptimizerBuild: (x: Build) => void,
   /* optimizerTab             */ setOptimizerSelectedRowData: (x: OptimizerDisplayDataStatSim | null) => void,
   /* global                   */ setSavedSession: (x: GlobalSavedSession) => void,
-  /* optimizerTab             */ setOptimizerFormSelectedLightCone: (x: LightCone['id'] | null) => void,
+  /* optimizerTab             */ setOptimizerFormSelectedLightCone: (x: LightConeId | null) => void,
   /* optimizerTab             */ setOptimizerFormCharacterEidolon: (x: Eidolon) => void,
   /* optimizerTab             */ setTeammateCount: (x: number) => void,
   /* optimizerTab             */ setSelectedStatSimulations: (x: Simulation['key'][]) => void,

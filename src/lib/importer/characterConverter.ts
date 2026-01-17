@@ -9,7 +9,7 @@ import DB from 'lib/state/db'
 import { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { Utils } from 'lib/utils/utils'
 import { CharacterId } from 'types/character'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 import { Relic } from 'types/relic'
 
 // FIXME MED
@@ -88,7 +88,7 @@ interface SubAffixCount extends SubAffixBase {
 type SubAffix = SubAffixCnt | SubAffixCount
 
 type PreLightCone = {
-  tid: LightCone['id'],
+  tid: LightConeId,
   level: number,
   rank: number,
 }
@@ -99,7 +99,7 @@ export const CharacterConverter = {
     const preLightCone = character.equipment
     const characterEidolon = character.rank ?? 0
     const id = '' + character.avatarId as CharacterId
-    const lightConeId = preLightCone ? ('' + preLightCone.tid) as LightCone['id'] : null
+    const lightConeId = preLightCone ? ('' + preLightCone.tid) as LightConeId : null
     const lightConeSuperimposition = preLightCone ? preLightCone.rank : 0
 
     const relics = preRelics

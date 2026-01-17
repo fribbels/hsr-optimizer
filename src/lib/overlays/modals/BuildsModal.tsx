@@ -53,9 +53,9 @@ export function BuildsModal() {
 
   // Reuse the character preview for the saved build
   const statDisplay = useMemo(() => {
-    if (selectedBuild != null && selectedCharacter?.builds?.[selectedBuild].build) {
+    if (selectedBuild != null && selectedCharacter?.builds?.[selectedBuild].equipped) {
       const relicsById = window.store.getState().relicsById
-      const relics = Object.values(selectedCharacter.builds[selectedBuild].build).map((x) => relicsById[x])
+      const relics = Object.values(selectedCharacter.builds[selectedBuild].equipped).map((x) => relicsById[x])
 
       const relicObject = relics
         .filter((x) => !!x)
@@ -107,7 +107,7 @@ export function BuildsModal() {
   // Updates all saved builds with the latest scoring algorithm
   function updateBuildsScoringAlgo(builds: SavedBuild[]) {
     for (const b of builds) {
-      const relics = Object.values(b.build).map(DB.getRelicById)
+      const relics = Object.values(b.equipped).map(DB.getRelicById)
       const score = RelicScorer.scoreCharacterWithRelics(selectedCharacter!, relics)
       b.score = { score: Math.round(score.totalScore ?? 0).toString(), rating: score.totalRating ?? 'N/A' }
     }
@@ -152,7 +152,7 @@ export function BuildsModal() {
     const result = await confirm(t('Builds.ConfirmEquip.Content') /* Equipping this will unequip characters that use the relics in this build */)
     if (result) {
       DB.equipRelicIdsToCharacter(
-        Object.values(build.build),
+        Object.values(build.equipped),
         selectedCharacter?.id,
       )
       SaveState.delayedSave()

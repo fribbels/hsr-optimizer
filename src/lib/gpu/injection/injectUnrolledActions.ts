@@ -1,6 +1,7 @@
 import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyEvaluator'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { Constants } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   containerActionVal,
@@ -16,6 +17,7 @@ import {
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import {
   AKey,
+  AKeyValue,
   HKey,
 } from 'lib/optimization/engine/config/keys'
 import {
@@ -61,6 +63,11 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
         // Copy only registers from actions 1+
         unrolledActionCallsWgsl += generateRegisterCopy(i, action, context)
       }
+    }
+
+    // Combat stat filters execute after the first default action
+    if (i === 0) {
+      unrolledActionCallsWgsl += generateCombatStatFilters(request, context, gpuParams)
     }
   }
 
@@ -586,4 +593,61 @@ function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = T
     }
   }
   return lines.join('\n')
+}
+
+/**
+ * Generates combat stat filters that execute after the first default action.
+ * Uses conditional extraction - only extracts stats that have active min/max filters.
+ */
+export function generateCombatStatFilters(request: Form, context: OptimizerContext, gpuParams: GpuConstants): string {
+  const action = context.defaultActions[0]
+  const config = action.config
+
+  const extractions: string[] = []
+  const conditions: string[] = []
+
+  // Helper to add filter for a stat - only extracts if filter is active
+  const addStatFilter = (
+    varName: string,
+    key: AKeyValue,
+    minKey: keyof Form,
+    maxKey: keyof Form,
+  ) => {
+    const minVal = request[minKey] as number
+    const maxVal = request[maxKey] as number
+    const hasMin = minVal > 0
+    const hasMax = maxVal < Constants.MAX_INT
+
+    if (hasMin || hasMax) {
+      const index = getActionIndex(SELF_ENTITY_INDEX, key, config)
+      extractions.push(`let ${varName} = container0[${index}];`)
+      if (hasMin) conditions.push(`${varName} < ${minKey}`)
+      if (hasMax) conditions.push(`${varName} > ${maxKey}`)
+    }
+  }
+
+  // Add filters for each combat stat
+  addStatFilter('fSpd', AKey.SPD, 'minSpd', 'maxSpd')
+  addStatFilter('fHp', AKey.HP, 'minHp', 'maxHp')
+  addStatFilter('fAtk', AKey.ATK, 'minAtk', 'maxAtk')
+  addStatFilter('fDef', AKey.DEF, 'minDef', 'maxDef')
+  addStatFilter('fCr', AKey.CR, 'minCr', 'maxCr')
+  addStatFilter('fCd', AKey.CD, 'minCd', 'maxCd')
+  addStatFilter('fEhr', AKey.EHR, 'minEhr', 'maxEhr')
+  addStatFilter('fRes', AKey.RES, 'minRes', 'maxRes')
+  addStatFilter('fBe', AKey.BE, 'minBe', 'maxBe')
+  addStatFilter('fErr', AKey.ERR, 'minErr', 'maxErr')
+
+  if (conditions.length === 0) return ''
+
+  return `
+    // Combat stat filters (after action 0)
+    ${extractions.join('\n    ')}
+    if (
+      ${conditions.join(' ||\n      ')}
+    ) {
+      results[index] = ${gpuParams.DEBUG ? 'debugContainer' : '-failures; failures = failures + 1'};
+      continue;
+    }
+`
 }

@@ -229,7 +229,7 @@ function injectSetFilters(wgsl: string, gpuParams: GpuConstants) {
     indent(
       `
 if (relicSetSolutionsMatrix[relicSetIndex] < 1 || ornamentSetSolutionsMatrix[ornamentSetIndex] < 1) {
-  results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
+  ${gpuParams.DEBUG ? '' : 'results[index] = -failures; failures = failures + 1'};
   continue;
 }
   `,
@@ -282,7 +282,7 @@ if (statDisplay == 1) {
   if (
 ${format(basicFilters)}
   ) {
-    results[index] = -failures; failures = failures + 1;
+    ${gpuParams.DEBUG ? '' : 'results[index] = -failures; failures = failures + 1'};
     continue;
   }
 }

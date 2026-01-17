@@ -160,7 +160,6 @@ export function calculateBasicEffects(x: ComputedStatsContainer, action: Optimiz
   const lightConeConditionalController = context.lightConeConditionalController
   const characterConditionalController = context.characterConditionalController
 
-  // TODO
   if (lightConeConditionalController.newCalculateBasicEffects) lightConeConditionalController.newCalculateBasicEffects(x, action, context)
   if (characterConditionalController.newCalculateBasicEffects) characterConditionalController.newCalculateBasicEffects(x, action, context)
 }
@@ -277,13 +276,12 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
 
   // Dynamic character / lc conditionals
 
-  // TODO
   for (const conditional of context.characterConditionalController.dynamicConditionals ?? []) {
     evaluateConditional(conditional, x, action, context)
   }
-  // for (const conditional of context.lightConeConditionalController.dynamicConditionals ?? []) {
-  //   evaluateConditional(conditional, x, action, context)
-  // }
+  for (const conditional of context.lightConeConditionalController.dynamicConditionals ?? []) {
+    evaluateConditional(conditional, x, action, context)
+  }
   for (const conditional of action.teammateDynamicConditionals ?? []) {
     evaluateConditional(conditional, x, action, context)
   }
@@ -291,12 +289,11 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   // Terminal ornament set conditionals
 
   if (setsArray[4] == setsArray[5]) {
-
     if (p2(SetKeys.FirmamentFrontlineGlamoth, sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 135) {
       const spd = x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
       x.buff(StatKey.DMG_BOOST, spd >= 160 ? 0.18 : 0.12, x.source(Source.FirmamentFrontlineGlamoth))
     }
-    
+
     if (p2(SetKeys.RutilantArena, sets) && x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) >= 0.70) {
       x.buff(StatKey.DMG_BOOST, 0.20, x.damageType(DamageTag.BASIC | DamageTag.SKILL).source(Source.RutilantArena))
     }

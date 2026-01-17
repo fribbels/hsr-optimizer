@@ -12,10 +12,7 @@ import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.FlameOfBloodBlazeMyPath.Content')
@@ -41,8 +38,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   return {
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: () => {
-    },
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 

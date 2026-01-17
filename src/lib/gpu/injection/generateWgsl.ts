@@ -48,7 +48,7 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
   wgsl = injectConditionalsNew(wgsl, request, context, gpuParams)
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)
   wgsl = injectRelicIndexStrategy(wgsl, relics)
-  // wgsl = injectBasicFilters(wgsl, request, gpuParams)
+  wgsl = injectBasicFilters(wgsl, request, gpuParams)
   // wgsl = injectCombatFilters(wgsl, request, gpuParams)
   // wgsl = injectRatingFilters(wgsl, request, gpuParams)
   // wgsl = injectSetFilters(wgsl, gpuParams)
@@ -206,6 +206,7 @@ ${structs}
 
 function filterFn(request: Form) {
   return (text: string) => {
+    if (text.length == 0) return text
     const [variable, stat, threshold] = text.split(/[><]/).flatMap((x) => x.split('.')).map((x) => x.trim())
     const min = threshold.includes('min')
     const max = threshold.includes('max')
@@ -237,14 +238,14 @@ if (relicSetSolutionsMatrix[relicSetIndex] < 1 || ornamentSetSolutionsMatrix[orn
   )
 }
 
-function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
+export function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
   const sortOption = SortOption[request.resultSort!]
   const sortOptionGpu: string = sortOption.gpuProperty
   const sortOptionComputed = sortOption.isComputedRating
   const filter = filterFn(request)
 
   let sortString = sortOptionComputed ? `x.${sortOptionGpu} < threshold` : `c.${sortOptionGpu} < threshold`
-  if (sortOptionGpu == SortOption.COMBO.key) {
+  if (sortOptionGpu == SortOption.COMBO.gpuProperty) {
     sortString = ''
   }
 
@@ -281,12 +282,13 @@ if (statDisplay == 1) {
   if (
 ${format(basicFilters)}
   ) {
-    results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
-    break;
+    results[index] = -failures;
+    failures = failures + 1;
+    continue;
   }
 }
   `,
-      4,
+      2,
     ),
   )
 

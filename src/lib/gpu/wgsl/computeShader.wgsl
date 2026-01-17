@@ -322,11 +322,11 @@ fn main(
 
     // Basic filters here
 
-    // START BASIC CONDITIONALS
+    // START BASIC STAT FILTERS
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-    /* INJECT BASIC CONDITIONALS */
+    /* INJECT BASIC STAT FILTERS */
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-    // END BASIC CONDITIONALS
+    // END BASIC STAT FILTERS
 
     let diffATK = c.ATK + combatBuffsATK + combatBuffsATK_P * baseATK;
     let diffDEF = c.DEF + combatBuffsDEF + combatBuffsDEF_P * baseDEF;

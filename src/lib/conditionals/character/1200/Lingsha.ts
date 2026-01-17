@@ -19,16 +19,19 @@ import {
   ConditionalType,
   Stats,
 } from 'lib/constants/constants'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
+import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
+  SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -225,9 +228,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     actionModifiers: () => [],
 
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.SUMMONS.set(1, SOURCE_TALENT)
-    },
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
     },
@@ -247,9 +247,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.RES_PEN, (e >= 6 && m.e6ResShred) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
     },
 
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
@@ -258,8 +255,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.DEF_PEN, (e >= 1 && m.e1DefShred && isWeaknessBroken) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
     },
 
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
+
+      return wgsl`
+if (${wgslTrue(e >= 1 && m.e1DefShred)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ENEMY_WEAKNESS_BROKEN, action.config)} > 0.0) {
+  ${buff.action(AKey.DEF_PEN, 0.20).targets(TargetTag.FullTeam).wgsl(action)}
+}
+      `
+    },
 
     dynamicConditionals: [
       {
@@ -268,11 +272,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.BE],
         chainsTo: [Stats.ATK],
-        condition: function (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           return r.beConversion
         },
-        effect: function (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           dynamicStatConversionContainer(
             Stats.BE,
             Stats.ATK,
@@ -284,7 +288,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             (convertibleValue) => Math.min(0.50, 0.25 * convertibleValue) * context.baseATK,
           )
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return gpuDynamicStatConversion(
@@ -304,11 +308,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.BE],
         chainsTo: [Stats.OHB],
-        condition: function (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           return r.beConversion
         },
-        effect: function (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           dynamicStatConversionContainer(
             Stats.BE,
             Stats.OHB,
@@ -320,7 +324,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             (convertibleValue) => Math.min(0.20, 0.10 * convertibleValue),
           )
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return gpuDynamicStatConversion(

@@ -8,12 +8,17 @@ import {
 } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   containerActionVal,
-  p_containerActionVal,
+  getActionIndex,
 } from 'lib/gpu/injection/injectUtils'
 import { BuffSource } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
+import { AKeyValue } from 'lib/optimization/engine/config/keys'
+import {
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { matchesTargetTag } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -58,6 +63,7 @@ export function dynamicStatConversionContainer(
   context: OptimizerContext,
   source: BuffSource,
   buffFn: (convertibleValue: number) => number,
+  targetTag: TargetTag = TargetTag.SelfAndPet,
 ) {
   const statConfig = statConversionConfig[sourceStat]
   const destConfig = statConversionConfig[destinationStat]
@@ -75,8 +81,29 @@ export function dynamicStatConversionContainer(
 
   action.conditionalState[conditional.id] = buffFull
 
-  x.buffDynamic(destConfig.unconvertibleKey, buffDelta, action, context, x.source(source))
-  x.buffDynamic(destConfig.key, buffDelta, action, context, x.source(source))
+  x.buffDynamic(destConfig.unconvertibleKey, buffDelta, action, context, x.targets(targetTag).source(source))
+  x.buffDynamic(destConfig.key, buffDelta, action, context, x.targets(targetTag).source(source))
+}
+
+// Helper to generate WGSL buff lines for all entities matching the target tag
+function generateMultiEntityBuffWgsl(
+  actionKey: AKeyValue,
+  valueExpr: string,
+  action: OptimizerAction,
+  targetTag: TargetTag,
+): string {
+  const config = action.config
+  const lines: string[] = []
+
+  for (let entityIndex = 0; entityIndex < config.entitiesLength; entityIndex++) {
+    const entity = config.entitiesArray[entityIndex]
+    if (matchesTargetTag(entity, targetTag, config.entitiesArray)) {
+      const index = getActionIndex(entityIndex, actionKey, config)
+      lines.push(`(*p_container)[${index}] += ${valueExpr}; // ${entity.name}`)
+    }
+  }
+
+  return lines.join('\n')
 }
 
 export function gpuDynamicStatConversion(
@@ -88,6 +115,7 @@ export function gpuDynamicStatConversion(
   buffWgsl: string,
   activeConditionWgsl: string,
   thresholdConditionWgsl: string = 'true',
+  targetTag: TargetTag = TargetTag.SelfAndPet,
 ) {
   const statConfig = statConversionConfig[sourceStat]
   const destConfig = statConversionConfig[destinationStat]
@@ -95,8 +123,10 @@ export function gpuDynamicStatConversion(
 
   const sourceVal = containerActionVal(SELF_ENTITY_INDEX, statConfig.key, config)
   const sourceUnconvertibleVal = containerActionVal(SELF_ENTITY_INDEX, statConfig.unconvertibleKey, config)
-  const destVal = p_containerActionVal(SELF_ENTITY_INDEX, destConfig.key, config)
-  const destUnconvertibleVal = p_containerActionVal(SELF_ENTITY_INDEX, destConfig.unconvertibleKey, config)
+
+  // Generate buff lines for all entities matching the target tag
+  const destUnconvertibleBuffLines = generateMultiEntityBuffWgsl(destConfig.unconvertibleKey, 'buffDelta', action, targetTag)
+  const destBuffLines = generateMultiEntityBuffWgsl(destConfig.key, 'buffDelta', action, targetTag)
 
   return newConditionalWgslWrapper(
     conditional,
@@ -119,8 +149,8 @@ let buffDelta = buffFull - stateValue;
 
 (*p_state).${conditional.id}${action.actionIdentifier} += buffDelta;
 
-${destUnconvertibleVal} += buffDelta;
-${destVal} += buffDelta;
+${destUnconvertibleBuffLines}
+${destBuffLines}
 `,
   )
 }

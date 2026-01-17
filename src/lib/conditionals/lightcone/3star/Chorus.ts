@@ -3,7 +3,9 @@ import {
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -43,17 +45,11 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
-    teammateDefaults: () => ({
-      inBattleAtkBuff: true,
-    }),
-    precomputeEffects: () => {
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    teammateDefaults: () => teammateDefaults,
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.ATK_P.buffTeam((m.inBattleAtkBuff) ? sValues[s] : 0, SOURCE_LC)
-    },
-    finalizeCalculations: () => {
+      x.buff(StatKey.ATK_P, (m.inBattleAtkBuff) ? sValues[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
 }

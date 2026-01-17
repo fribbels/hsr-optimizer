@@ -1,25 +1,15 @@
 import {
-  BASIC_DMG_TYPE,
-  SKILL_DMG_TYPE,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  buffAbilityDmg,
-  Target,
-} from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.DreamvilleAdventure')
@@ -74,16 +64,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: () => {
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityDmg(x, BASIC_DMG_TYPE, (m.basicDmgBuff) ? sValues[s] : 0, SOURCE_LC, Target.TEAM)
-      buffAbilityDmg(x, SKILL_DMG_TYPE, (m.skillDmgBuff) ? sValues[s] : 0, SOURCE_LC, Target.TEAM)
-      buffAbilityDmg(x, ULT_DMG_TYPE, (m.ultDmgBuff) ? sValues[s] : 0, SOURCE_LC, Target.TEAM)
-    },
-    finalizeCalculations: () => {
+      x.buff(StatKey.DMG_BOOST, (m.basicDmgBuff) ? sValues[s] : 0, x.damageType(DamageTag.BASIC).targets(TargetTag.FullTeam).source(SOURCE_LC))
+      x.buff(StatKey.DMG_BOOST, (m.skillDmgBuff) ? sValues[s] : 0, x.damageType(DamageTag.SKILL).targets(TargetTag.FullTeam).source(SOURCE_LC))
+      x.buff(StatKey.DMG_BOOST, (m.ultDmgBuff) ? sValues[s] : 0, x.damageType(DamageTag.ULT).targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
 }

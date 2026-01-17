@@ -77,7 +77,7 @@ export interface ConditionalsController {
   finalizeCalculations?: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void
 
   // WGSL implementation of finalizeCalculations to run on GPU
-  gpuFinalizeCalculations?: (action: OptimizerAction, context: OptimizerContext) => string
+  // gpuFinalizeCalculations?: (action: OptimizerAction, context: OptimizerContext) => string
 
   // WGSL implementation of finalizeCalculations to run on GPU
   newGpuFinalizeCalculations?: (action: OptimizerAction, context: OptimizerContext) => string

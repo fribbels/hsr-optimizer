@@ -19,7 +19,7 @@ export function calculateBaseMultis(x: ComputedStatsContainer, action: Optimizer
   const characterConditionalController = context.characterConditionalController
 
   // TODO
-  // if (lightConeConditionalController.finalizeCalculations) lightConeConditionalController.finalizeCalculations(x, action, context)
+  if (lightConeConditionalController.finalizeCalculations) lightConeConditionalController.finalizeCalculations(x, action, context)
   if (characterConditionalController.finalizeCalculations) characterConditionalController.finalizeCalculations(x, action, context)
 }
 

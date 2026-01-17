@@ -49,10 +49,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   return {
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: () => {
-    },
-    finalizeCalculations: () => {
-    },
     dynamicConditionals: [
       {
         id: 'PerfectTimingConditional',

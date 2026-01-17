@@ -34,7 +34,7 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
-globalThis.WEBGPU_DEBUG = true
+globalThis.WEBGPU_DEBUG = false
 
 export async function gpuOptimize(props: {
   device: GPUDevice | null,

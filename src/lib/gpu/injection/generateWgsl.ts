@@ -51,7 +51,7 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
   wgsl = injectBasicFilters(wgsl, request, gpuParams)
   // wgsl = injectCombatFilters(wgsl, request, gpuParams)
   // wgsl = injectRatingFilters(wgsl, request, gpuParams)
-  // wgsl = injectSetFilters(wgsl, gpuParams)
+  wgsl = injectSetFilters(wgsl, gpuParams)
   wgsl = injectComputedStats(wgsl, gpuParams)
   // wgsl = injectSuppressions(wgsl, request, context, gpuParams)
 

@@ -230,9 +230,6 @@ fn unrolledAction${index}(
   var comboHeal = 0.0;
   var comboShield = 0.0;
 
-  // Set the Action-scope stats, to be added to the Hit-scope stats later
-  ${unrollEntityBaseStats(action)}
-
   if (
     p2((*p_sets).CelestialDifferentiator) >= 1
     && setConditionals.enabledCelestialDifferentiator == true
@@ -465,6 +462,9 @@ fn unrolledAction${index}(
       }
     }
   }
+
+  // Set the Action-scope stats, to be added to the Hit-scope stats later
+  ${unrollEntityBaseStats(action)}
 
   ${basicConditionalsWgsl}
   

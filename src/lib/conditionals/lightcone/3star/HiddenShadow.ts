@@ -2,22 +2,23 @@ import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { Source } from 'lib/optimization/buffSource'
-import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
-import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { WearerMetadata } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
+import { Hit } from 'types/hitConditionalTypes'
 import { SuperImpositionLevel } from 'types/lightCone'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+export default (s: SuperImpositionLevel, withContent: boolean, wearerMeta: WearerMetadata): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.HiddenShadow')
-  const { SOURCE_LC } = Source.lightCone('20018')
 
   const sValues = [0.60, 0.75, 0.90, 1.05, 1.20]
 
@@ -38,20 +39,24 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   return {
     content: () => Object.values(content),
     defaults: () => defaults,
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals as Conditionals<typeof content>
-      const atk = x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX)
+    actionModifiers: () => [{
+      modify: (action: OptimizerAction, context: OptimizerContext, self) => {
+        const r = self.ownLightConeConditionals as Conditionals<typeof content>
+        if (!r.basicAtkBuff) return
 
-      x.buff(AKey.BASIC_ADDITIONAL_DMG, (r.basicAtkBuff) ? sValues[s] * atk : 0, x.source(SOURCE_LC))
-    },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals as Conditionals<typeof content>
+        // Only add to actions that have a direct BASIC hit
+        const hasDirectBasicHit = action.hits?.some(
+          (hit) => hit.directHit && (hit.damageType! & DamageTag.BASIC),
+        )
+        if (!hasDirectBasicHit) return
 
-      return `
-if (${wgslTrue(r.basicAtkBuff)}) {
-  actionValue[${AKey.BASIC_ADDITIONAL_DMG}] += ${sValues[s]} * getActionValueByIndex(${StatKey.ATK}, ${SELF_ENTITY_INDEX});
-}
-      `
-    },
+        action.hits!.push(
+          HitDefinitionBuilder.standardAdditional()
+            .damageElement(ElementTag[wearerMeta.element as keyof typeof ElementTag])
+            .atkScaling(sValues[s])
+            .build() as Hit,
+        )
+      },
+    }],
   }
 }

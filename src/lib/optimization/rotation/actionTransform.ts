@@ -1,4 +1,5 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import {
   ActionModifier,
@@ -295,6 +296,11 @@ export function calculateActionDeclarations(request: OptimizerForm, context: Opt
     modifier.isTeammate = false
   }
   const actionModifiers: ActionModifier[] = [...mainCharacterModifiers]
+
+  // Also collect light cone modifiers for main character
+  const lightConeController = LightConeConditionalsResolver.get(context)
+  const lightConeModifiers = lightConeController.actionModifiers?.() ?? []
+  actionModifiers.push(...lightConeModifiers)
 
   const teammates = [
     context.teammate0Metadata,

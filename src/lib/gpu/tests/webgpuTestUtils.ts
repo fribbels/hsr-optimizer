@@ -105,6 +105,18 @@ const P_4 = 0.0001
 const P_5 = 0.00001
 const P_6 = 0.000001
 
+// Dynamic precision based on combo magnitude
+// Larger values have more floating point precision loss
+function getDynamicComboPrecision(value: number): number {
+  const absValue = Math.abs(value)
+  if (absValue > 1_000_000_000) return 6
+  if (absValue > 100_000_000) return 5
+  if (absValue > 10_000_000) return 4
+  if (absValue > 1_000_000) return 3
+  if (absValue > 100_000) return 2
+  return 1
+}
+
 // Map StatKey index -> Stats string for relic conversion
 const StatKeyToStat: Record<number, string> = {
   [StatKey.HP_P]: Stats.HP_P,
@@ -225,7 +237,7 @@ function arrayDelta(cpuContainer: ComputedStatsContainer, gpuContainer: Computed
       }
     }
   }
-  analyze('COMBO_REGISTER', cpuCombo, gpuCombo, P_0)
+  analyze('COMBO_REGISTER', cpuCombo, gpuCombo, getDynamicComboPrecision(Math.max(cpuCombo, gpuCombo)))
   analyze('HEAL_REGISTER', cpuHeal, gpuHeal, P_2)
   analyze('SHIELD_REGISTER', cpuShield, gpuShield, P_2)
 
@@ -233,7 +245,7 @@ function arrayDelta(cpuContainer: ComputedStatsContainer, gpuContainer: Computed
   for (const action of context.defaultActions) {
     const cpuValue = cpuContainer.getActionRegisterValue(action.registerIndex)
     const gpuValue = gpuContainer.getActionRegisterValue(action.registerIndex)
-    analyze(`${action.actionName}_REGISTER`, cpuValue, gpuValue, P_0)
+    analyze(`${action.actionName}_REGISTER`, cpuValue, gpuValue, getDynamicComboPrecision(Math.max(cpuValue, gpuValue)))
   }
 
   return {

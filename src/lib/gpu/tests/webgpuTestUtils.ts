@@ -11,11 +11,14 @@ import {
   initializeGpuPipeline,
 } from 'lib/gpu/webgpuInternals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { generateContext } from 'lib/optimization/context/calculateContext'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { newStatsConfig, STATS_LENGTH } from 'lib/optimization/engine/config/statsConfig'
+import {
+  newStatsConfig,
+  STATS_LENGTH,
+} from 'lib/optimization/engine/config/statsConfig'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { generateContext } from 'lib/optimization/context/calculateContext'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
@@ -153,6 +156,7 @@ const overridePrecision: Record<number, number> = {
   // Unconvertible buffs
   [StatKey.UNCONVERTIBLE_HP_BUFF]: P_2,
   [StatKey.UNCONVERTIBLE_ATK_BUFF]: P_2,
+  [StatKey.UNCONVERTIBLE_DEF_BUFF]: P_2,
 }
 
 function arrayDelta(cpuContainer: ComputedStatsContainer, gpuContainer: ComputedStatsContainer, context: OptimizerContext) {

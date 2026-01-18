@@ -228,7 +228,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.damageType(DamageTag.FUA).targets(TargetTag.FullTeam).source(SOURCE_SKILL),
       )
       x.buff(
-        StatKey.CD_BOOST,
+        StatKey.CD,
         (e >= 1 && m.enemyProofOfDebtDebuff) ? 0.25 * m.e1DebtorStacks : 0,
         x.damageType(DamageTag.FUA).targets(TargetTag.FullTeam).source(SOURCE_E1),
       )
@@ -269,10 +269,10 @@ x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
 
       return ``
-// x.BASIC_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${basicHitCountMulti});
-// x.SKILL_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMulti});
-// x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMulti});
-//       `
+      // x.BASIC_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${basicHitCountMulti});
+      // x.SKILL_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMulti});
+      // x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMulti});
+      //       `
     },
   }
 }

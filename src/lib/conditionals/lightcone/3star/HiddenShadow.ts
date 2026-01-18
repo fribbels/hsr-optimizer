@@ -41,6 +41,9 @@ export default (s: SuperImpositionLevel, withContent: boolean, wearerMeta: Weare
     defaults: () => defaults,
     actionModifiers: () => [{
       modify: (action: OptimizerAction, context: OptimizerContext, self) => {
+        // Only apply when wearer is the primary character
+        if (self.isTeammate) return
+
         const r = self.ownLightConeConditionals as Conditionals<typeof content>
         if (!r.basicAtkBuff) return
 

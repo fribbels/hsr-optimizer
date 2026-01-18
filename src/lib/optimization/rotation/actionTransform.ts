@@ -314,7 +314,7 @@ export function calculateActionDeclarations(request: OptimizerForm, context: Opt
     const teammateController = CharacterConditionalsResolver.get(teammate)
     teammateControllers.push(teammateController)
 
-    // Tag teammate's modifiers with source info
+    // Tag teammate's character modifiers with source info
     const teammateActionModifiers = teammateController.actionModifiers?.() ?? []
     for (const modifier of teammateActionModifiers) {
       modifier.characterId = teammate.characterId
@@ -322,6 +322,15 @@ export function calculateActionDeclarations(request: OptimizerForm, context: Opt
       modifier.isTeammate = true
     }
     actionModifiers.push(...teammateActionModifiers)
+
+    // Tag teammate's light cone modifiers with source info
+    const teammateLcController = LightConeConditionalsResolver.get(teammate)
+    const teammateLcModifiers = teammateLcController.actionModifiers?.() ?? []
+    for (const modifier of teammateLcModifiers) {
+      modifier.characterId = teammate.characterId
+      modifier.isTeammate = true
+    }
+    actionModifiers.push(...teammateLcModifiers)
   }
 
   context.actionDeclarations = actionDeclarations

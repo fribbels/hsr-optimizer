@@ -480,6 +480,11 @@ export class ComputedStatsContainer {
     outputTags: OutputTag,
     directnessTag: number,
   ): void {
+    // Skip if no hits defined (some actions like non-transformed Phainon ULT have no damage hits)
+    if (this.config.hitsLength === 0) {
+      return
+    }
+
     // Directness is determined by the primary hit - all hits in an action inherit this
     const primaryHit = this.config.hits[0]
     const actionDirectness = primaryHit.directHit ? DirectnessTag.Direct : DirectnessTag.Indirect

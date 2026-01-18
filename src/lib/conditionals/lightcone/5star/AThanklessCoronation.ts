@@ -46,7 +46,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.ATK_P_BOOST, (r.ultAtkBoost) ? sValuesUltAtk[s] : 0, x.damageType(DamageTag.ULT).source(SOURCE_LC))
+      x.buff(StatKey.ATK_P, (r.ultAtkBoost) ? sValuesUltAtk[s] : 0, x.damageType(DamageTag.ULT).source(SOURCE_LC))
       x.buff(StatKey.ATK_P, (r.energyAtkBuff && context.baseEnergy >= 300) ? sValuesEnergyAtk[s] : 0, x.source(SOURCE_LC))
     },
   }

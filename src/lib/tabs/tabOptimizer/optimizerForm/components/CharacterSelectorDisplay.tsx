@@ -3,8 +3,9 @@ import {
   Form,
   Select,
 } from 'antd'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
-import { SortOption } from 'lib/optimization/sortOptions'
+import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { RecommendedPresetsButton } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -33,6 +34,9 @@ export default function CharacterSelectorDisplay() {
 
   const optimizerTabFocusCharacterSelectModalOpen = window.store((s) => s.optimizerTabFocusCharacterSelectModalOpen)
   const setOptimizerTabFocusCharacterSelectModalOpen = window.store((s) => s.setOptimizerTabFocusCharacterSelectModalOpen)
+
+  const form = Form.useFormInstance()
+  const characterEidolon = Form.useWatch('characterEidolon', form)
 
   useEffect(() => {
     OptimizerTabController.updateCharacter(optimizerTabFocusCharacter!)
@@ -64,23 +68,50 @@ export default function CharacterSelectorDisplay() {
   }, [t])
 
   const resultSortOptions = useMemo(() => { // `Sorted by ${key}`
+    // Damage sort options that map directly to action names from actionDeclaration()
+    const actionToSortOption: Record<string, SortOptionProperties> = {
+      BASIC: SortOption.BASIC,
+      SKILL: SortOption.SKILL,
+      ULT: SortOption.ULT,
+      FUA: SortOption.FUA,
+      MEMO_SKILL: SortOption.MEMO_SKILL,
+      MEMO_TALENT: SortOption.MEMO_TALENT,
+      DOT: SortOption.DOT,
+      BREAK: SortOption.BREAK,
+    }
+
+    // Get available actions for the selected character
+    let availableActions: string[] = []
+    if (optimizerTabFocusCharacter && characterEidolon != null) {
+      const characterConditionals = CharacterConditionalsResolver.get({
+        characterId: optimizerTabFocusCharacter,
+        characterEidolon: characterEidolon,
+      })
+      availableActions = characterConditionals.actionDeclaration?.() ?? []
+    }
+
+    // Build damage options: COMBO always first, then character-specific actions, then EHP
+    const damageOptions: { value: string, label: string }[] = [
+      { value: SortOption.COMBO.key, label: t('SortOptions.COMBO') },
+    ]
+
+    // Add character-specific damage options based on available actions
+    if (availableActions.length > 0) {
+      for (const action of availableActions) {
+        const sortOption = actionToSortOption[action]
+        if (sortOption) {
+          damageOptions.push({ value: sortOption.key, label: t(`SortOptions.${sortOption.key}` as const) })
+        }
+      }
+    }
+
+    // EHP always available
+    damageOptions.push({ value: SortOption.EHP.key, label: t('SortOptions.EHP') })
+
     return [
       {
         label: t('SortOptions.DMGLabel'),
-        options: [
-          { value: SortOption.COMBO.key, label: t('SortOptions.COMBO') },
-          { value: SortOption.BASIC.key, label: t('SortOptions.BASIC') },
-          { value: SortOption.SKILL.key, label: t('SortOptions.SKILL') },
-          { value: SortOption.ULT.key, label: t('SortOptions.ULT') },
-          { value: SortOption.FUA.key, label: t('SortOptions.FUA') },
-          { value: SortOption.MEMO_SKILL.key, label: t('SortOptions.MEMO_SKILL') },
-          { value: SortOption.MEMO_TALENT.key, label: t('SortOptions.MEMO_TALENT') },
-          { value: SortOption.DOT.key, label: t('SortOptions.DOT') },
-          { value: SortOption.BREAK.key, label: t('SortOptions.BREAK') },
-          { value: SortOption.HEAL.key, label: t('SortOptions.HEAL') },
-          { value: SortOption.SHIELD.key, label: t('SortOptions.SHIELD') },
-          { value: SortOption.EHP.key, label: t('SortOptions.EHP') },
-        ],
+        options: damageOptions,
       },
       {
         label: t('SortOptions.StatLabel'),
@@ -100,7 +131,7 @@ export default function CharacterSelectorDisplay() {
         ],
       },
     ]
-  }, [t])
+  }, [t, optimizerTabFocusCharacter, characterEidolon])
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>

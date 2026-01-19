@@ -5,7 +5,8 @@ import {
 } from 'antd'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
-import { SortOption, SortOptionProperties } from 'lib/optimization/sortOptions'
+import { AbilityKind, AbilityToSortOption } from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { RecommendedPresetsButton } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -68,18 +69,6 @@ export default function CharacterSelectorDisplay() {
   }, [t])
 
   const resultSortOptions = useMemo(() => { // `Sorted by ${key}`
-    // Damage sort options that map directly to action names from actionDeclaration()
-    const actionToSortOption: Record<string, SortOptionProperties> = {
-      BASIC: SortOption.BASIC,
-      SKILL: SortOption.SKILL,
-      ULT: SortOption.ULT,
-      FUA: SortOption.FUA,
-      MEMO_SKILL: SortOption.MEMO_SKILL,
-      MEMO_TALENT: SortOption.MEMO_TALENT,
-      DOT: SortOption.DOT,
-      BREAK: SortOption.BREAK,
-    }
-
     // Get available actions for the selected character
     let availableActions: string[] = []
     if (optimizerTabFocusCharacter && characterEidolon != null) {
@@ -95,13 +84,12 @@ export default function CharacterSelectorDisplay() {
       { value: SortOption.COMBO.key, label: t('SortOptions.COMBO') },
     ]
 
-    // Add character-specific damage options based on available actions
-    if (availableActions.length > 0) {
-      for (const action of availableActions) {
-        const sortOption = actionToSortOption[action]
-        if (sortOption) {
-          damageOptions.push({ value: sortOption.key, label: t(`SortOptions.${sortOption.key}` as const) })
-        }
+    // Add character-specific damage options using AbilityToSortOption mapping
+    for (const action of availableActions) {
+      const sortKey = AbilityToSortOption[action as AbilityKind]
+      if (sortKey) {
+        const sortOption = SortOption[sortKey]
+        damageOptions.push({ value: sortOption.key, label: t(`SortOptions.${sortOption.key}` as const) })
       }
     }
 

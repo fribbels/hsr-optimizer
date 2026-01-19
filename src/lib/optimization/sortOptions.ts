@@ -3,8 +3,10 @@
 
 import { Key } from 'lib/optimization/computedStatsArray'
 
+export type SortOptionKey = keyof typeof SortOption
+
 export type SortOptionProperties = {
-  key: keyof typeof SortOption,
+  key: SortOptionKey,
   gpuProperty: string,
   basicProperty: string,
   combatProperty: string,

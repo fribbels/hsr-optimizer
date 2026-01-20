@@ -124,8 +124,9 @@ function getChangelogContent() {
       date: '2026-01-19',
       content: [
         `Updated content to v4.0v3`,
-        'Added Black Swan and Sparkle Novaflare buffs',
+        'Added Black Swan Novaflare buffs',
         'blackswan.webp',
+        'Added Sparkle Novaflare buffs',
         'sparkle.webp',
         'Added Anomaly Arbitration speed breakpoints',
         'aa.webp',

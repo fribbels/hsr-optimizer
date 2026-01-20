@@ -57,7 +57,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const defaults = {
     skillDefShred: true,
     epiphanyDebuff: true,
-    arcanaStacks: e >= 6 ? 70 : 50,
+    arcanaStacks: e >= 6 ? 80 : 50,
     ehrToDmgBoost: true,
     e1ResReduction: true,
     e4Vulnerability: true,

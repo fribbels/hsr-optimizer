@@ -153,11 +153,11 @@ Characters:
     Name: Dr.レイシオ
     LongName: Dr.レイシオ
   "1306":
-    Name: 花火
-    LongName: 花火
+    Name: ⚰️ 花火
+    LongName: ⚰️ 花火
   "1307":
-    Name: ブラックスワン
-    LongName: ブラックスワン
+    Name: ⚰️ ブラックスワン
+    LongName: ⚰️ ブラックスワン
   "1308":
     Name: 黄泉
     LongName: 黄泉
@@ -227,6 +227,12 @@ Characters:
   "1415":
     Name: キュレネ
     LongName: キュレネ
+  "1501":
+    Name: 火花
+    LongName: 火花
+  "1502":
+    Name: 爻光
+    LongName: 爻光
   "8001":
     Name: 穹
     LongName: 穹 (壊滅)
@@ -251,6 +257,12 @@ Characters:
   "8008":
     Name: 星
     LongName: 星 (記憶)
+  1306b1:
+    Name: 花火
+    LongName: 花火
+  1307b1:
+    Name: ブラックスワン
+    LongName: ブラックスワン
   1212b1:
     Name: 鏡流
     LongName: 鏡流
@@ -376,6 +388,14 @@ RelicSets:
     Name: 星の光を隠した隠者
     Description2pc: 付与するバリアの耐久値+10%。
     Description4pc: 装備キャラが付与するバリアの耐久値+12%。装備キャラが付与したバリアを持つ味方の会心ダメージ+15%。
+  "129":
+    Name: 功績輝く魔法少女
+    Description2pc: 会心ダメージ+16%。
+    Description4pc: 装備キャラとその記憶の精霊が与える愉悦ダメージが、ターゲットの防御力を10%無視する。味方が「笑いのツボ」を5を獲得するごとに、与える愉悦ダメージはさらにターゲットの防御力を1%無視する。最大10層累積できる。
+  "130":
+    Name: 天命に従う旅の卜者
+    Description2pc: 速度+6%。
+    Description4pc: 戦闘に入る前に、装備キャラの速度が120/160以上の場合、装備キャラの会心率+10%/18%。装備キャラが各戦闘で初めて愉悦スキルを使用する時、味方全体の愉悦度+10%。この効果は累積できない。
   "301":
     Name: 宇宙封印ステーション
     Description2pc: 装備キャラの攻撃力+12%。装備キャラの速度が120以上の場合、さらに攻撃力+12%。
@@ -495,6 +515,10 @@ Lightcones:
     Name: 燃ゆる影
   "20022":
     Name: 辿る記憶
+  "20023":
+    Name: あざ笑い
+  "20024":
+    Name: 涙の跡
   "21000":
     Name: 手術後の会話
   "21001":
@@ -617,6 +641,10 @@ Lightcones:
     Name: 休日のバルネア大冒険
   "21062":
     Name: 終点でまた会おう
+  "21064":
+    Name: タケタケ冒険記
+  "21065":
+    Name: 今日はラッキー
   "22000":
     Name: 初めてのクエストの前に
   "22001":
@@ -737,6 +765,10 @@ Lightcones:
     Name: 万里の山河を越えて
   "23052":
     Name: 愛はいま永遠に
+  "23053":
+    Name: きらびやかな世界
+  "23054":
+    Name: 彼女が視ると決めた時
   "24000":
     Name: とある星神の殞落を記す
   "24001":
@@ -758,7 +790,6 @@ Paths:
   Knight: 存護
   Priest: 豊穣
   Memory: 記憶
-  Unknown: 共用
 Elements:
   Physical: 物理
   Fire: 炎

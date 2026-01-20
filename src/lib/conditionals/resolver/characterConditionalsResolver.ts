@@ -1,3 +1,7 @@
+import { CharacterId, Eidolon } from 'types/character'
+import { CharacterConditionalsController } from 'types/conditionals'
+
+import archer from 'lib/conditionals/character/1000/Archer'
 import arlan from 'lib/conditionals/character/1000/Arlan'
 import asta from 'lib/conditionals/character/1000/Asta'
 import danheng from 'lib/conditionals/character/1000/DanHeng'
@@ -5,6 +9,7 @@ import herta from 'lib/conditionals/character/1000/Herta'
 import himeko from 'lib/conditionals/character/1000/Himeko'
 import kafka from 'lib/conditionals/character/1000/Kafka'
 import march7th from 'lib/conditionals/character/1000/March7th'
+import saber from 'lib/conditionals/character/1000/Saber'
 import silverwolf from 'lib/conditionals/character/1000/SilverWolf'
 import welt from 'lib/conditionals/character/1000/Welt'
 import bronya from 'lib/conditionals/character/1100/Bronya'
@@ -57,38 +62,36 @@ import robin from 'lib/conditionals/character/1300/Robin'
 import ruanmei from 'lib/conditionals/character/1300/RuanMei'
 import sparkle from 'lib/conditionals/character/1300/Sparkle'
 import sunday from 'lib/conditionals/character/1300/Sunday'
+import theDahlia from 'lib/conditionals/character/1300/TheDahlia'
 import aglaea from 'lib/conditionals/character/1400/Aglaea'
 import anaxa from 'lib/conditionals/character/1400/Anaxa'
 import castorice from 'lib/conditionals/character/1400/Castorice'
+import cerydra from 'lib/conditionals/character/1400/Cerydra'
 import cipher from 'lib/conditionals/character/1400/Cipher'
+import cyrene from 'lib/conditionals/character/1400/Cyrene'
 import evernight from 'lib/conditionals/character/1400/Evernight'
 import hyacine from 'lib/conditionals/character/1400/Hyacine'
+import hysilens from 'lib/conditionals/character/1400/Hysilens'
 import mydei from 'lib/conditionals/character/1400/Mydei'
 import permansorTerrae from 'lib/conditionals/character/1400/PermansorTerrae'
+import phainon from 'lib/conditionals/character/1400/Phainon'
 import theHerta from 'lib/conditionals/character/1400/TheHerta'
 import tribbie from 'lib/conditionals/character/1400/Tribbie'
 import trailblazerdestruction from 'lib/conditionals/character/8000/TrailblazerDestruction'
 import trailblazerHarmony from 'lib/conditionals/character/8000/TrailblazerHarmony'
 import trailblazerpreservation from 'lib/conditionals/character/8000/TrailblazerPreservation'
 import trailblazerRemembrance from 'lib/conditionals/character/8000/TrailblazerRemembrance'
-import { Eidolon } from 'types/character'
 
 import kafkaB1 from 'lib/conditionals/character/1000/KafkaB1'
 import silverWolfB1 from 'lib/conditionals/character/1000/SilverWolfB1'
 import bladeB1 from 'lib/conditionals/character/1200/BladeB1'
 import jingliuB1 from 'lib/conditionals/character/1200/JingliuB1'
-import theDahlia from 'lib/conditionals/character/1300/TheDahlia'
-import cerydra from 'lib/conditionals/character/1400/Cerydra'
-import cyrene from 'lib/conditionals/character/1400/Cyrene'
-import hysilens from 'lib/conditionals/character/1400/Hysilens'
-import { CharacterConditionalsController } from 'types/conditionals'
-import archer from '../character/1000/Archer'
-import saber from '../character/1000/Saber'
-import phainon from '../character/1400/Phainon'
+import SparkleB1 from 'lib/conditionals/character/1300/SparkleB1'
+import BlackSwanB1 from 'lib/conditionals/character/1300/BlackSwanB1'
 
 export type CharacterConditionalFunction = (e: Eidolon, withContent: boolean) => CharacterConditionalsController
 
-export const characterOptionMapping: Record<string, CharacterConditionalFunction> = {
+export const characterOptionMapping: Record<CharacterId, CharacterConditionalFunction> = {
   1001: march7th,
   1002: danheng,
   1003: himeko,
@@ -174,6 +177,8 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
   '1006b1': silverWolfB1,
   '1205b1': bladeB1,
   '1212b1': jingliuB1,
+  '1306b1': SparkleB1,
+  '1307b1': BlackSwanB1,
 
   1410: hysilens,
   1412: cerydra,
@@ -202,7 +207,7 @@ export const characterOptionMapping: Record<string, CharacterConditionalFunction
  */
 export const CharacterConditionalsResolver = {
   get: (request: {
-    characterId: string,
+    characterId: CharacterId,
     characterEidolon: number,
   }, withContent = false): CharacterConditionalsController => {
     const characterFn = characterOptionMapping[request.characterId]

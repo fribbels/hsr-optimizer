@@ -63,6 +63,7 @@ OptimizerOptions:
   PriorityFilter: 角色优先级过滤器
   Priority:
     Header: 优先级
+    Label: '# {{rank}} - $t(common:Characters.{{id}}.LongName)'
     Name: '# {{rank}}'
   AllowEquipped: 允许已装备的遗器
   KeepCurrent: 保持当前遗器
@@ -356,6 +357,17 @@ Presets:
     SPD171: 171.429速 - 在前三轮中行动6次
     SPD177: 177.778速 - 在前四轮中行动8次
     SPD200: 200.000速 - 在第一轮中行动3次
+  SpdCategories:
+    MemoryOfChaos: 混沌回忆
+    AnomalyArbitration: 异相仲裁
+  AaSpdValues:
+    SPD120: 120.000速 - 在前二轮中行动6次
+    SPD133: 133.334速 - 在第一轮中行动4次
+    SPD140: 140.000速 - 在前二轮中行动7次
+    SPD160: 160.000速 - 在前二轮中行动8次
+    SPD166: 166.667速 - 在第一轮中行动5次
+    SPD180: 180.000速 - 在前二轮中行动9次
+    SPD200: 200.000速 - 在第一轮中行动6次，在前二轮中行动10次
   StandardLabel: '标准$t(gameData:Characters.{{id}}.Name)'
   RecommendedPresets: 推荐预设
   PresetNotAvailable: 预设不可用，请选择其他选项

@@ -41,7 +41,9 @@ import {
 } from 'lib/scoring/simScoringUtils'
 import DB, { AppPages } from 'lib/state/db'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import {
+  generateSpdPresets,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HorizontalDivider } from 'lib/ui/Dividers'
@@ -512,12 +514,20 @@ function SelectSpdPresets(props: {
   const { t: tCharacterTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd' })
 
   const spdPresetOptions = useMemo(() => {
-    const presets = Object.values(TsUtils.clone(generateSpdPresets(t))).slice(1)
-    if (props.spdFilter != null) {
-      presets.map((preset) => {
-        preset.disabled = preset.value != null && preset.value > props.spdFilter!
-      })
-    }
+    const { categories } = generateSpdPresets(t)
+
+    const categoryOptions = categories.map((category) => {
+      // Skip the first preset (SPD0 / "No minimum speed") since "Base SPD" covers that
+      const presets = Object.values(category.presets).slice(1).map((preset) => ({
+        ...preset,
+        disabled: props.spdFilter != null && preset.value != null && preset.value > props.spdFilter,
+        label: <div>{preset.label}</div>,
+      }))
+      return {
+        label: <span>{category.label}</span>,
+        options: presets,
+      }
+    })
 
     return [
       {
@@ -538,10 +548,7 @@ function SelectSpdPresets(props: {
           },
         ],
       },
-      {
-        label: <span>{tCharacterTab('CommonBreakpointsLabel') /* Common SPD breakpoint presets (SPD buffs considered separately) */}</span>,
-        options: presets,
-      },
+      ...categoryOptions,
     ]
   }, [t, tCharacterTab, props.spdFilter, props.characterId, props.simScoringResult])
 
@@ -550,6 +557,7 @@ function SelectSpdPresets(props: {
       style={{ width: 34 }}
       labelRender={() => <></>}
       dropdownStyle={{ width: 'fit-content' }}
+      popupClassName='spd-preset-dropdown'
       options={spdPresetOptions}
       placement='bottomRight'
       listHeight={800}
@@ -691,7 +699,9 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
     1304: ['#7cbcea'], // aventurine
     1305: ['#3151c7'], // drratio
     1306: ['#5866bc'], // sparkle
+    '1306b1': ['#5866bc'], // sparkle
     1307: ['#a37df4'], // blackswan
+    '1307b1': ['#a37df4'], // blackswan
     1308: ['#837bd4'], // acheron
     1309: ['#d7a4f1'], // robin
     1310: ['#a0efec'], // firefly

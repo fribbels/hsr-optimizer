@@ -153,11 +153,11 @@ Characters:
     Name: Доктор Рацио
     LongName: Доктор Рацио
   "1306":
-    Name: Искорка
-    LongName: Искорка
+    Name: ⚰️ Искорка
+    LongName: ⚰️ Искорка
   "1307":
-    Name: Чёрный Лебедь
-    LongName: Чёрный Лебедь
+    Name: ⚰️ Чёрный Лебедь
+    LongName: ⚰️ Чёрный Лебедь
   "1308":
     Name: Ахерон
     LongName: Ахерон
@@ -183,8 +183,8 @@ Characters:
     Name: Раппа
     LongName: Раппа
   "1321":
-    Name: The Dahlia
-    LongName: The Dahlia
+    Name: Георгина
+    LongName: Георгина
   "1401":
     Name: Великая Герта
     LongName: Великая Герта
@@ -227,6 +227,12 @@ Characters:
   "1415":
     Name: Кирена
     LongName: Кирена
+  "1501":
+    Name: Sparxie
+    LongName: Sparxie
+  "1502":
+    Name: Yao Guang
+    LongName: Yao Guang
   "8001":
     Name: Келус
     LongName: Келус (Разрушение)
@@ -251,6 +257,12 @@ Characters:
   "8008":
     Name: Стелла
     LongName: Стелла (Память)
+  1306b1:
+    Name: Sparkle
+    LongName: Sparkle
+  1307b1:
+    Name: Black Swan
+    LongName: Black Swan
   1212b1:
     Name: Цзинлю
     LongName: Цзинлю
@@ -376,6 +388,14 @@ RelicSets:
     Name: Таящий сияние отшельник
     Description2pc: Повышает поглощаемый наложенным щитом урон на 10%.
     Description4pc: Повышает поглощаемый наложенным щитом урон на 12%. Пока союзник имеет наложенный владельцем щит, его крит. урон повышается на 15%.
+  "129":
+    Name: Ever-Glorious Magical Girl
+    Description2pc: Increases CRIT DMG by 16%.
+    Description4pc: The Elation DMG dealt by the wearer and their memosprites ignores 10% of targets' DEF. For every 5 accumulated Punchline allies gain, the Elation DMG dealt additionally ignores 1% of targets' DEF, which stacks up to 10 times.
+  "130":
+    Name: Diviner of Distant Reach
+    Description2pc: Increases SPD by 6%.
+    Description4pc: Before entering combat, if the wearer's SPD is greater than or equal to 120/160, increases the wearer's CRIT Rate by 10%/18%. When the wearer uses Elation Skill for the first time in each battle, enhances all allies' Elation by 10%. This effect cannot stack.
   "301":
     Name: Запечатывающая космос станция
     Description2pc: Повышает силу атаки владельца на 12%. Если скорость владельца выше или равна 120 ед., то его сила атаки повышается на доп. 12%.
@@ -446,7 +466,7 @@ RelicSets:
     Name: Вечная земля Амфореус
     Description2pc: Повышает крит. шанс владельца на 8%. Пока дух памяти владельца находится на поле боя, скорость всех союзников повышается на 8%. Этот эффект не может складываться.
   "324":
-    Name: Тенгоку @Стрим
+    Name: Тэнгоку @Стрим
     Description2pc: Повышает крит. урон владельца на 16%. Если в течение одного хода расходуется 3 или более очков навыков, крит. урон владельца дополнительно повышается на 32% на 3 хода.
 Lightcones:
   "20000":
@@ -495,6 +515,10 @@ Lightcones:
     Name: Выжженные тени
   "20022":
     Name: Образ прошлого
+  "20023":
+    Name: Sneering
+  "20024":
+    Name: Lingering Tears
   "21000":
     Name: Беседа после операции
   "21001":
@@ -617,6 +641,10 @@ Lightcones:
     Name: Приключения в купальне
   "21062":
     Name: Встреча в конце пути
+  "21064":
+    Name: Mushy Shroomy's Adventures
+  "21065":
+    Name: Today's Good Luck
   "22000":
     Name: Перед началом тренировочной миссии
   "22001":
@@ -732,11 +760,15 @@ Lightcones:
   "23049":
     Name: Звёздному свету во тьме
   "23050":
-    Name: Never Forget Her Flame
+    Name: Не забывай её пламя
   "23051":
     Name: Пусть простор бескраен
   "23052":
     Name: Как этот миг вечна любовь
+  "23053":
+    Name: Dazzled By A Flowery World
+  "23054":
+    Name: When She Decided To See
   "24000":
     Name: О падении Эона
   "24001":
@@ -758,7 +790,6 @@ Paths:
   Knight: Сохранение
   Priest: Изобилие
   Memory: Память
-  Unknown: Обычный
 Elements:
   Physical: Физический
   Fire: Огненный

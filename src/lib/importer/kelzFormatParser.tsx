@@ -107,7 +107,7 @@ export type ScannerParserJson = {
     uid: number,
     trailblazer: 'Stelle' | 'Caelus',
     current_trailblazer_path?: PathName,
-  }
+  },
   gacha: V4ParserGachaFunds,
   materials: V4ParserMaterial[],
   characters: V4ParserCharacter[],
@@ -229,15 +229,21 @@ export class KelzFormatParser { // TODO abstract class
   }
 }
 
-export const buffedCharacters: Record<string, string> = {
-  [JINGLIU]: JINGLIU_B1,
-  [KAFKA]: KAFKA_B1,
-  [BLADE]: BLADE_B1,
-  [SILVER_WOLF]: SILVER_WOLF_B1,
+function generateBuffedCharacterIdMap() {
+  // id of buffed characters follows the layout `${unbuffedId}b${buffRevision}`
+  // where unbuffedId is a 4 digit identifier
+  const buffedChars = (Object.keys(gameData.characters) as CharacterId[]).filter((id) => id.at(4) === 'b')
+  return buffedChars.reduce((record, id) => {
+    const unbuffedId = id.replace(/b\d+/g, '') as CharacterId
+    record[unbuffedId] = id
+    return record
+  }, {} as Partial<Record<CharacterId, CharacterId>>)
 }
 
+export const buffedCharacters = generateBuffedCharacterIdMap()
+
 export function getMappedCharacterId(character: V4ParserCharacter): string {
-  const id = character.id
+  const id = character.id as CharacterId
   const abilityVersion = character.ability_version
   if (abilityVersion == null && buffedCharacters[id]) {
     // We don't have a defined abilityVersion in this case, assume buffed version

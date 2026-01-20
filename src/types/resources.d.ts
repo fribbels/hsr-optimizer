@@ -4172,12 +4172,12 @@ interface Resources {
         "LongName": "Dr. Ratio"
       },
       "1306": {
-        "Name": "Sparkle",
-        "LongName": "Sparkle"
+        "Name": "⚰️ Sparkle",
+        "LongName": "⚰️ Sparkle"
       },
       "1307": {
-        "Name": "Black Swan",
-        "LongName": "Black Swan"
+        "Name": "⚰️ Black Swan",
+        "LongName": "⚰️ Black Swan"
       },
       "1308": {
         "Name": "Acheron",
@@ -4271,6 +4271,14 @@ interface Resources {
         "Name": "Cyrene",
         "LongName": "Cyrene"
       },
+      "1501": {
+        "Name": "Sparxie",
+        "LongName": "Sparxie"
+      },
+      "1502": {
+        "Name": "Yao Guang",
+        "LongName": "Yao Guang"
+      },
       "8001": {
         "Name": "Caelus",
         "LongName": "Caelus (Destruction)"
@@ -4302,6 +4310,14 @@ interface Resources {
       "8008": {
         "Name": "Stelle",
         "LongName": "Stelle (Remembrance)"
+      },
+      "1306b1": {
+        "Name": "Sparkle",
+        "LongName": "Sparkle"
+      },
+      "1307b1": {
+        "Name": "Black Swan",
+        "LongName": "Black Swan"
       },
       "1212b1": {
         "Name": "Jingliu",
@@ -4393,8 +4409,8 @@ interface Resources {
       },
       "115": {
         "Name": "The Ashblazing Grand Duke",
-        "Description2pc": "Increases the DMG dealt by Follow-up ATK by 20%.",
-        "Description4pc": "When the wearer uses a Follow-up ATK, increases the wearer's ATK by 6% for every time the Follow-up ATK deals DMG. This effect can stack up to 8 times and lasts for 3 turns. This effect is removed the next time the wearer uses a Follow-up ATK."
+        "Description2pc": "Increases the DMG dealt by Follow-Up ATK by 20%.",
+        "Description4pc": "When the wearer uses a Follow-Up ATK, increases the wearer's ATK by 6% for every time the Follow-Up ATK deals DMG. This effect can stack up to 8 times and lasts for 3 turns. This effect is removed the next time the wearer uses a Follow-Up ATK."
       },
       "116": {
         "Name": "Prisoner in Deep Confinement",
@@ -4419,7 +4435,7 @@ interface Resources {
       "120": {
         "Name": "The Wind-Soaring Valorous",
         "Description2pc": "Increases ATK by 12%.",
-        "Description4pc": "Increases the wearer's CRIT Rate by 6%. After the wearer uses a Follow-up ATK, increases DMG dealt by Ultimate by 36%, lasting for 1 turn."
+        "Description4pc": "Increases the wearer's CRIT Rate by 6%. After the wearer uses a Follow-Up ATK, increases DMG dealt by Ultimate by 36%, lasting for 1 turn."
       },
       "121": {
         "Name": "Sacerdos' Relived Ordeal",
@@ -4461,6 +4477,16 @@ interface Resources {
         "Description2pc": "The provided Shield Effect increases by 10%.",
         "Description4pc": "Increases the Shield Effect provided by the wearer by 12%. When an ally target holds a Shield provided by the wearer, the ally target's CRIT DMG increases by 15%."
       },
+      "129": {
+        "Name": "Ever-Glorious Magical Girl",
+        "Description2pc": "Increases CRIT DMG by 16%.",
+        "Description4pc": "The Elation DMG dealt by the wearer and their memosprites ignores 10% of targets' DEF. For every 5 accumulated Punchline allies gain, the Elation DMG dealt additionally ignores 1% of targets' DEF, which stacks up to 10 times."
+      },
+      "130": {
+        "Name": "Diviner of Distant Reach",
+        "Description2pc": "Increases SPD by 6%.",
+        "Description4pc": "Before entering combat, if the wearer's SPD is greater than or equal to 120/160, increases the wearer's CRIT Rate by 10%/18%. When the wearer uses Elation Skill for the first time in each battle, enhances all allies' Elation by 10%. This effect cannot stack."
+      },
       "301": {
         "Name": "Space Sealing Station",
         "Description2pc": "Increases the wearer's ATK by 12%. When the wearer's SPD reaches 120 or higher, the wearer's ATK increases by an extra 12%."
@@ -4483,7 +4509,7 @@ interface Resources {
       },
       "306": {
         "Name": "Inert Salsotto",
-        "Description2pc": "Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate reaches 50% or higher, the DMG dealt by the wearer's Ultimate and Follow-up ATK increases by 15%."
+        "Description2pc": "Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate reaches 50% or higher, the DMG dealt by the wearer's Ultimate and Follow-Up ATK increases by 15%."
       },
       "307": {
         "Name": "Talia: Kingdom of Banditry",
@@ -4519,7 +4545,7 @@ interface Resources {
       },
       "315": {
         "Name": "Duran, Dynasty of Running Wolves",
-        "Description2pc": "When an ally uses a Follow-up ATK, the wearer gains 1 stack of Merit, stacking up to 5 times. Each stack of Merit increases the DMG dealt by the wearer's Follow-up ATKs by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%."
+        "Description2pc": "When an ally character uses a Follow-Up ATK, the wearer gains 1 stack of \"Merit,\" stacking up to 5 times. Each stack of \"Merit\" increases the DMG dealt by the wearer's Follow-Up ATKs by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%."
       },
       "316": {
         "Name": "Forge of the Kalpagni Lantern",
@@ -4627,6 +4653,12 @@ interface Resources {
       },
       "20022": {
         "Name": "Reminiscence"
+      },
+      "20023": {
+        "Name": "Sneering"
+      },
+      "20024": {
+        "Name": "Lingering Tears"
       },
       "21000": {
         "Name": "Post-Op Conversation"
@@ -4811,6 +4843,12 @@ interface Resources {
       "21062": {
         "Name": "See You at the End"
       },
+      "21064": {
+        "Name": "Mushy Shroomy's Adventures"
+      },
+      "21065": {
+        "Name": "Today's Good Luck"
+      },
       "22000": {
         "Name": "Before the Tutorial Mission Starts"
       },
@@ -4991,6 +5029,12 @@ interface Resources {
       "23052": {
         "Name": "This Love, Forever"
       },
+      "23053": {
+        "Name": "Dazzled By A Flowery World"
+      },
+      "23054": {
+        "Name": "When She Decided To See"
+      },
       "24000": {
         "Name": "On the Fall of an Aeon"
       },
@@ -5018,8 +5062,7 @@ interface Resources {
       "Warlock": "Nihility",
       "Knight": "Preservation",
       "Priest": "Abundance",
-      "Memory": "Remembrance",
-      "Unknown": "General"
+      "Memory": "Remembrance"
     },
     "Elements": {
       "Physical": "Physical",
@@ -6202,6 +6245,19 @@ interface Resources {
         "SPD171": "171.429 SPD - 6 actions in first three cycles",
         "SPD177": "177.778 SPD - 8 actions in first four cycles",
         "SPD200": "200.000 SPD - 3 actions in first cycle"
+      },
+      "SpdCategories": {
+        "MemoryOfChaos": "Memory of Chaos",
+        "AnomalyArbitration": "Anomaly Arbitration"
+      },
+      "AaSpdValues": {
+        "SPD120": "120.000 SPD - 6 turns in first two cycles",
+        "SPD133": "133.334 SPD - 4 turns in first cycle",
+        "SPD140": "140.000 SPD - 7 turns in first two cycles",
+        "SPD160": "160.000 SPD - 8 turns in first two cycles",
+        "SPD166": "166.667 SPD - 5 turns in first cycle",
+        "SPD180": "180.000 SPD - 9 turns in first two cycles",
+        "SPD200": "200.000 SPD - 6 turns in first cycle, 10 turns in first two cycles"
       },
       "StandardLabel": "Standard $t(gameData:Characters.{{id}}.Name)",
       "RecommendedPresets": "Recommended presets",

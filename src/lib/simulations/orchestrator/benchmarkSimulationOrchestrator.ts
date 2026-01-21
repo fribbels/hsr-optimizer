@@ -527,9 +527,9 @@ export class BenchmarkSimulationOrchestrator {
       this.metadata,
       this.flags,
       benchmarkScoringParams,
-      this.baselineSimResult?.simScore,
-      this.benchmarkSimResult?.simScore,
-      this.perfectionSimResult?.simScore,
+      this.baselineSimResult?.simScore!,
+      this.benchmarkSimResult?.simScore!,
+      this.perfectionSimResult?.simScore!,
     )
 
     this.substatUpgradeResults = substatUpgradeResults

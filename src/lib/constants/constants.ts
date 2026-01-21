@@ -17,8 +17,8 @@ export const RELIQUARY_DOWNTIME = false
 export const DOWNTIME_VERSION = 4.0
 
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  [SPARKLE_B1]: `${CURRENT_DATA_VERSION} buffs - Numbers may change`,
-  [BLACK_SWAN_B1]: `${CURRENT_DATA_VERSION} buffs - Numbers may change`,
+  [SPARKLE_B1]: `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
+  [BLACK_SWAN_B1]: `${CURRENT_DATA_VERSION} buffs - Numbers may change. Default Arcana stacks changed from 7 pre-buff to 50 post-buff.`,
 }
 
 export const Stats = {

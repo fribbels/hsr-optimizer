@@ -49,8 +49,12 @@ import {
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
 import {
+  CAELUS_HARMONY,
+  FUGUE,
   KAFKA_B1,
   PERMANSOR_TERRAE,
+  STELLE_HARMONY,
+  THE_DAHLIA,
 } from 'lib/simulations/tests/testMetadataConstants'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
@@ -126,7 +130,14 @@ export class BenchmarkSimulationOrchestrator {
     }
 
     // Add break if the harmony trailblazer | fugue is on the team
-    if (metadata.teammates.find((x) => x.characterId == '8005' || x.characterId == '8006' || x.characterId == '1225')) {
+    if (
+      metadata.teammates.find((x) =>
+        x.characterId == CAELUS_HARMONY
+        || x.characterId == STELLE_HARMONY
+        || x.characterId == FUGUE
+        || x.characterId == THE_DAHLIA
+      )
+    ) {
       addBreakEffect = true
     }
     if (addBreakEffect && !substats.includes(Stats.BE)) {

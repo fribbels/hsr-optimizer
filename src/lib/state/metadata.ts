@@ -5302,46 +5302,36 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
     },
     1224: { // March 8th
       stats: {
-        [Constants.Stats.ATK]: 0.75,
-        [Constants.Stats.ATK_P]: 0.75,
-        [Constants.Stats.DEF]: 0,
-        [Constants.Stats.DEF_P]: 0,
-        [Constants.Stats.HP]: 0,
-        [Constants.Stats.HP_P]: 0,
-        [Constants.Stats.SPD]: 1,
-        [Constants.Stats.CR]: 1,
-        [Constants.Stats.CD]: 1,
-        [Constants.Stats.EHR]: 0,
-        [Constants.Stats.RES]: 0,
-        [Constants.Stats.BE]: 0,
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 0,
+        [Stats.CD]: 0,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 1,
       },
       parts: {
-        [Constants.Parts.Body]: [
-          Constants.Stats.CR,
-          Constants.Stats.CD,
-          Stats.EHR,
+        [Parts.Body]: [],
+        [Parts.Feet]: [
+          Stats.SPD,
         ],
-        [Constants.Parts.Feet]: [
-          Constants.Stats.ATK_P,
-          Constants.Stats.SPD,
-        ],
-        [Constants.Parts.PlanarSphere]: [
-          Constants.Stats.ATK_P,
-          Constants.Stats.Imaginary_DMG,
-        ],
+        [Parts.PlanarSphere]: [],
         [Constants.Parts.LinkRope]: [
-          Constants.Stats.ATK_P,
+          Stats.BE,
         ],
       },
       sets: {
-        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-        [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
-        [Sets.MusketeerOfWildWheat]: 1,
-        [Sets.WastelanderOfBanditryDesert]: 1,
+        [Sets.IronCavalryAgainstTheScourge]: 1,
+        [Sets.ThiefOfShootingMeteor]: 1,
+        [Sets.EagleOfTwilightLine]: 1,
 
-        [Sets.RutilantArena]: 1,
-        [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
-        [Sets.FirmamentFrontlineGlamoth]: 1,
+        [Sets.TaliaKingdomOfBanditry]: 1,
+        [Sets.ForgeOfTheKalpagniLantern]: 1,
       },
       presets: [
         PresetEffects.fnAshblazingSet(2),
@@ -5354,6 +5344,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           [Parts.Body]: [
             Stats.CR,
             Stats.CD,
+            Stats.ATK_P,
           ],
           [Parts.Feet]: [
             Stats.ATK_P,
@@ -5365,9 +5356,11 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ],
           [Parts.LinkRope]: [
             Stats.ATK_P,
+            Stats.BE,
           ],
         },
         substats: [
+          Stats.BE,
           Stats.ATK_P,
           Stats.CR,
           Stats.CD,
@@ -5388,11 +5381,14 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         errRopeEidolon: 0,
         deprioritizeBuffs: false,
         relicSets: [
+          [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
           [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
           [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
+          Sets.TaliaKingdomOfBanditry,
+          Sets.ForgeOfTheKalpagniLantern,
           Sets.RutilantArena,
           Sets.IzumoGenseiAndTakamaDivineRealm,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,

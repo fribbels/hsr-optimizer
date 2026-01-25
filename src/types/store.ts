@@ -149,7 +149,7 @@ export type UserSettings = {
   ShowComboDmgWarning: string,
 }
 
-// The JSON format we save to localstorage / save file
+// The JSON format we save to the save file, for localstorage characters and relics are stored under their own key
 export type HsrOptimizerSaveFormat = {
   relics: Relic[],
   characters: Character[],

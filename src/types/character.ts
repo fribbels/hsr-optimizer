@@ -1,8 +1,15 @@
 import type data from 'data/game_data.json'
 import { Parts } from 'lib/constants/constants'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { ConditionalValueMap } from 'types/conditionals'
 import { CustomImageConfig } from 'types/customImage'
-import { Form } from 'types/form'
+import {
+  Form,
+  OrnamentSetFilters,
+  RelicSetFilters,
+  StatFilters,
+} from 'types/form'
 import { LightConeId } from 'types/lightCone'
 
 export type CharacterId = keyof typeof data.characters
@@ -26,18 +33,19 @@ export type Character = {
 export type SavedBuild = {
   equipped: Build,
   name: string,
-  scoringType: ScoringType,
   team: Array<BuildTeammate>,
-  optimizerMetadata: {
-    teammates: Array<{
-      id: CharacterId,
-      conditionals: unknown,
-      lcConditionals: unknown,
-    }>,
-    setFilters: unknown,
-    statFilters: unknown,
-    setConditionals: unknown,
+  optimizerMetadata: BuildOptimizerMetadata | null,
+}
+
+export type BuildOptimizerMetadata = {
+  allyConditionals: Partial<Record<CharacterId | LightConeId, ConditionalValueMap>>,
+  comboStateJson: string | null,
+  statFilters: StatFilters | null,
+  setFilters: {
+    ornaments: OrnamentSetFilters,
+    relics: RelicSetFilters,
   },
+  setConditionals: SetConditionals,
 }
 
 export type BuildTeammate = {

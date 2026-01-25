@@ -740,6 +740,7 @@ export const DB = {
         statFilters: statFiltersFromForm(formData),
         comboStateJson: TsUtils.clone(formData.comboStateJson),
         setConditionals: TsUtils.clone(formData.setConditionals),
+        presets: formData.comboPreprocessor,
       }
       ;[formData.teammate0, formData.teammate1, formData.teammate2].forEach((teammate) => {
         team.push({

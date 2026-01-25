@@ -46,6 +46,7 @@ export type BuildOptimizerMetadata = {
     relics: RelicSetFilters,
   },
   setConditionals: SetConditionals,
+  presets: boolean,
 }
 
 export type BuildTeammate = {

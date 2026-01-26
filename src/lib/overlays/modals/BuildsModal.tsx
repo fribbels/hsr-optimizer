@@ -10,18 +10,15 @@ import {
 } from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { Parts } from 'lib/constants/constants'
 import {
   OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
 import { Message } from 'lib/interactions/message'
-import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { ArrayFilters } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
   ReactNode,
@@ -31,7 +28,6 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SavedBuild } from 'types/character'
-import { Relic } from 'types/relic'
 
 // FIXME LOW
 
@@ -47,25 +43,14 @@ export function BuildsModal() {
   useEffect(() => {
     if (isOpen && selectedCharacter?.builds?.length) {
       setSelectedBuild(0)
-      updateBuildsScoringAlgo(selectedCharacter.builds)
     }
   }, [isOpen, selectedCharacter])
 
   // Reuse the character preview for the saved build
   const statDisplay = useMemo(() => {
     if (selectedBuild != null && selectedCharacter?.builds?.[selectedBuild].equipped) {
-      const relicsById = window.store.getState().relicsById
-      const relics = Object.values(selectedCharacter.builds[selectedBuild].equipped).map((x) => relicsById[x])
-
-      const relicObject = relics
-        .filter((x) => !!x)
-        .reduce((acc, cur) => {
-          acc[cur.part] = cur.id
-          return acc
-        }, {} as Record<Parts, Relic['id']>)
-
       const previewCharacter = TsUtils.clone(selectedCharacter)
-      previewCharacter.equipped = relicObject
+      previewCharacter.equipped = selectedCharacter.builds[selectedBuild].equipped
 
       console.log('Previewing builds character:', previewCharacter)
       // @ts-expect-error we don't need the character modal to be accessible from here
@@ -102,15 +87,6 @@ export function BuildsModal() {
       cancelText: t('common:Cancel'), /* Cancel */
       centered: true,
     })
-  }
-
-  // Updates all saved builds with the latest scoring algorithm
-  function updateBuildsScoringAlgo(builds: SavedBuild[]) {
-    for (const b of builds) {
-      const relics = Object.values(b.equipped).map(DB.getRelicById)
-      const score = RelicScorer.scoreCharacterWithRelics(selectedCharacter!, relics)
-      b.score = { score: Math.round(score.totalScore ?? 0).toString(), rating: score.totalRating ?? 'N/A' }
-    }
   }
 
   function onModalOk() {

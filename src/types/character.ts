@@ -11,14 +11,13 @@ import {
   StatFilters,
 } from 'types/form'
 import { LightConeId } from 'types/lightCone'
+import { Relic } from 'types/relic'
 
 export type CharacterId = keyof typeof data.characters
 
 export type Eidolon = number
 
-export type Build = {
-  [key in Parts]?: string
-}
+export type Build = Partial<Record<Parts, Relic['id']>>
 
 // store.getState().characters[0]
 export type Character = {

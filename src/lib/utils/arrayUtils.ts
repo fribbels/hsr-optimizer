@@ -2,7 +2,7 @@ export function arrayIncludes<T>(array: T[], element: T): boolean {
   return array.includes(element)
 }
 
-// ([{'x': 'y'}], 'x') => {'y': {'x': 'y'}}
+/** ([{'x': 'y'}], 'x') => {'y': {'x': 'y'}} */
 export function arrayToMap<
   T,
   K extends keyof T,
@@ -14,7 +14,7 @@ export function arrayToMap<
   }, {} as Record<T[K], T>)
 }
 
-// ['z'] => {'z': true}
+/** ['z'] => {'z': true} */
 export function stringArrayToMap<T extends string>(array: T[]) {
   return array.reduce((map, str) => {
     map[str] = true
@@ -22,7 +22,7 @@ export function stringArrayToMap<T extends string>(array: T[]) {
   }, {} as Record<T, true>)
 }
 
-// [1, 2, 2, 3] => [1, 2, 3]
+/** [1, 2, 2, 3] => [1, 2, 3] */
 export function filterUnique<T>(arr: T[]) {
   return arr.filter((value, index, array) => array.indexOf(value) === index)
 }
@@ -39,12 +39,12 @@ export function filterUniqueStringify<T>(arr: T[]) {
   })
 }
 
-// [1, 2, null, 3] => [1, 2, 3]
+/** [0, 1, 2, null, 3] => [0, 1, 2, 3] */
 export function filterNonNull<T>(arr: T[]) {
   return arr.filter(ArrayFilters.nonNullable)
 }
 
-// [1, 2], 2 => 1
+/** [1, 2], 2 => 1 */
 export function getIndexOf<T>(array: readonly T[], item: unknown): number {
   return array.indexOf(item as T)
 }

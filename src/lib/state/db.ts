@@ -11,10 +11,7 @@ import {
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Message } from 'lib/interactions/message'
-import {
-  defaultSetConditionals,
-  getDefaultForm,
-} from 'lib/optimization/defaultForm'
+import { getDefaultForm } from 'lib/optimization/defaultForm'
 import {
   DefaultSettingOptions,
   SettingOptions,
@@ -71,6 +68,11 @@ import {
   HsrOptimizerStore,
 } from 'types/store'
 import { create } from 'zustand'
+
+export enum SavedBuildSource {
+  SHOWCASE = 'showcase',
+  OPTIMIZER = 'optimizer',
+}
 
 export type HsrOptimizerMetadataState = {
   metadata: DBMetadata,
@@ -719,7 +721,7 @@ export const DB = {
     console.log('Deleted portrait', DB.getState())
   },
 
-  saveCharacterBuild: (name: string, characterId: CharacterId, source: 'optimizer' | 'showcase') => {
+  saveCharacterBuild: (name: string, characterId: CharacterId, source: SavedBuildSource) => {
     const character = DB.getCharacterById(characterId)
     if (!character) {
       console.warn('No character selected')
@@ -729,54 +731,58 @@ export const DB = {
     let build: SavedBuild
     const team: BuildTeammate[] = []
 
-    if (source === 'optimizer') {
-      const formData = OptimizerTabController.getForm()
-      const optimizerMetadata: BuildOptimizerMetadata = {
-        allyConditionals: {},
-        setFilters: {
-          relics: TsUtils.clone(formData.relicSets),
-          ornaments: TsUtils.clone(formData.ornamentSets),
-        },
-        statFilters: statFiltersFromForm(formData),
-        comboStateJson: TsUtils.clone(formData.comboStateJson),
-        setConditionals: TsUtils.clone(formData.setConditionals),
-        presets: formData.comboPreprocessor,
-      }
-      ;[formData.teammate0, formData.teammate1, formData.teammate2].forEach((teammate) => {
-        team.push({
-          characterId: teammate.characterId,
-          lightConeId: teammate.lightCone,
-          eidolon: teammate.characterEidolon,
-          superimposition: teammate.lightConeSuperimposition,
-        })
-        if (teammate.characterId) optimizerMetadata.allyConditionals[teammate.characterId] = TsUtils.clone(teammate.characterConditionals)
-        if (teammate.lightCone) optimizerMetadata.allyConditionals[teammate.lightCone] = TsUtils.clone(teammate.lightConeConditionals)
-      })
-
-      build = {
-        name,
-        equipped: character.equipped,
-        optimizerMetadata,
-        team,
-      }
-    } else {
-      const scoringMeta = DB.getScoringMetadata(character.id)
-      if (scoringMeta.simulation) {
-        scoringMeta.simulation.teammates.forEach((teammate) => {
+    switch (source) {
+      case SavedBuildSource.OPTIMIZER:
+        const formData = OptimizerTabController.getForm()
+        const optimizerMetadata: BuildOptimizerMetadata = {
+          allyConditionals: {},
+          setFilters: {
+            relics: TsUtils.clone(formData.relicSets),
+            ornaments: TsUtils.clone(formData.ornamentSets),
+          },
+          statFilters: statFiltersFromForm(formData),
+          comboStateJson: TsUtils.clone(formData.comboStateJson),
+          setConditionals: TsUtils.clone(formData.setConditionals),
+          presets: formData.comboPreprocessor,
+        }
+        ;[formData.teammate0, formData.teammate1, formData.teammate2].forEach((teammate) => {
           team.push({
             characterId: teammate.characterId,
             lightConeId: teammate.lightCone,
             eidolon: teammate.characterEidolon,
             superimposition: teammate.lightConeSuperimposition,
           })
+          if (teammate.characterId) optimizerMetadata.allyConditionals[teammate.characterId] = TsUtils.clone(teammate.characterConditionals)
+          if (teammate.lightCone) optimizerMetadata.allyConditionals[teammate.lightCone] = TsUtils.clone(teammate.lightConeConditionals)
         })
-      }
-      build = {
-        name,
-        equipped: character.equipped,
-        optimizerMetadata: null,
-        team,
-      }
+
+        build = {
+          name,
+          equipped: character.equipped,
+          optimizerMetadata,
+          team,
+        }
+        break
+      case SavedBuildSource.SHOWCASE:
+        // TODO: Refactor CharacterPreview to use a zustand store so as to expose if character is using the default team or the custom one
+        const simulation = DB.getScoringMetadata(character.id)?.simulation
+        if (simulation) {
+          simulation.teammates.forEach((teammate) => {
+            team.push({
+              characterId: teammate.characterId,
+              lightConeId: teammate.lightCone,
+              eidolon: teammate.characterEidolon,
+              superimposition: teammate.lightConeSuperimposition,
+            })
+          })
+        }
+        build = {
+          name,
+          equipped: character.equipped,
+          optimizerMetadata: null,
+          team,
+        }
+        break
     }
 
     let equipped = character.builds?.find((x) => x.name == name)?.equipped

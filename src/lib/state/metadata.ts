@@ -7859,8 +7859,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           {
             characterId: ANAXA,
             lightCone: LIFE_SHOULD_BE_CAST_TO_FLAMES,
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
           {
             characterId: PERMANSOR_TERRAE,
@@ -8211,8 +8211,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           {
             characterId: EVERNIGHT,
             lightCone: TO_EVERNIGHTS_STARS,
-            characterEidolon: 6,
-            lightConeSuperimposition: 5,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
           },
           {
             characterId: HYACINE,

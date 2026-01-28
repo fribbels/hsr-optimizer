@@ -33,6 +33,7 @@ import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStor
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
+import { statFiltersFromForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormTransform'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
@@ -43,8 +44,12 @@ import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import {
+  Build,
+  BuildOptimizerMetadata,
+  BuildTeammate,
   Character,
   CharacterId,
+  SavedBuild,
 } from 'types/character'
 import { CustomImageConfig } from 'types/customImage'
 import { Form } from 'types/form'
@@ -63,6 +68,11 @@ import {
   HsrOptimizerStore,
 } from 'types/store'
 import { create } from 'zustand'
+
+export enum SavedBuildSource {
+  SHOWCASE = 'showcase',
+  OPTIMIZER = 'optimizer',
+}
 
 export type HsrOptimizerMetadataState = {
   metadata: DBMetadata,
@@ -450,6 +460,22 @@ export const DB = {
         character.form.statSim.simulations = character.form.statSim.simulations.filter((simulation: Simulation) => simulation.request?.stats)
       }
 
+      character.builds = character.builds.map((savedBuild) => {
+        if (savedBuild.optimizerMetadata) return savedBuild
+        const build = savedBuild as unknown as { build: string[], name: string, score: { score: string, rating: string } }
+        const migratedBuild: SavedBuild = {
+          name: build.name,
+          equipped: build.build.reduce((acc, cur) => {
+            const relic = saveData.relics.find((x) => x.id = cur)
+            if (relic) acc[relic.part] = cur
+            return acc
+          }, {} as Build),
+          team: [],
+          optimizerMetadata: null,
+        }
+        return migratedBuild
+      })
+
       // Previously characters had customizable options, now we're defaulting to 80s
       character.form.characterLevel = 80
       character.form.lightConeLevel = 80
@@ -695,29 +721,83 @@ export const DB = {
     console.log('Deleted portrait', DB.getState())
   },
 
-  saveCharacterBuild: (name: string, characterId: CharacterId, score: {
-    rating: string,
-    score: string,
-  }) => {
+  saveCharacterBuild: (name: string, characterId: CharacterId, source: SavedBuildSource) => {
     const character = DB.getCharacterById(characterId)
     if (!character) {
       console.warn('No character selected')
       return
     }
 
-    let build = character.builds?.find((x) => x.name == name)?.build
-    if (build) {
+    let build: SavedBuild
+    const team: BuildTeammate[] = []
+
+    switch (source) {
+      case SavedBuildSource.OPTIMIZER:
+        const formData = OptimizerTabController.getForm()
+        const optimizerMetadata: BuildOptimizerMetadata = {
+          allyConditionals: {},
+          setFilters: {
+            relics: TsUtils.clone(formData.relicSets),
+            ornaments: TsUtils.clone(formData.ornamentSets),
+          },
+          statFilters: statFiltersFromForm(formData),
+          comboStateJson: TsUtils.clone(formData.comboStateJson),
+          setConditionals: TsUtils.clone(formData.setConditionals),
+          presets: formData.comboPreprocessor,
+        }
+        ;[formData.teammate0, formData.teammate1, formData.teammate2].forEach((teammate) => {
+          team.push({
+            characterId: teammate.characterId,
+            lightConeId: teammate.lightCone,
+            eidolon: teammate.characterEidolon,
+            superimposition: teammate.lightConeSuperimposition,
+          })
+          if (teammate.characterId) optimizerMetadata.allyConditionals[teammate.characterId] = TsUtils.clone(teammate.characterConditionals)
+          if (teammate.lightCone) optimizerMetadata.allyConditionals[teammate.lightCone] = TsUtils.clone(teammate.lightConeConditionals)
+        })
+
+        build = {
+          name,
+          equipped: character.equipped,
+          optimizerMetadata,
+          team,
+        }
+        break
+      case SavedBuildSource.SHOWCASE:
+        // TODO: Refactor CharacterPreview to use a zustand store so as to expose if character is using the default team or the custom one
+        const simulation = DB.getScoringMetadata(character.id)?.simulation
+        if (simulation) {
+          simulation.teammates.forEach((teammate) => {
+            team.push({
+              characterId: teammate.characterId,
+              lightConeId: teammate.lightCone,
+              eidolon: teammate.characterEidolon,
+              superimposition: teammate.lightConeSuperimposition,
+            })
+          })
+        }
+        build = {
+          name,
+          equipped: character.equipped,
+          optimizerMetadata: null,
+          team,
+        }
+        break
+    }
+
+    let equipped = character.builds?.find((x) => x.name == name)?.equipped
+    if (equipped) {
       const errorMessage = i18next.t('charactersTab:Messages.BuildAlreadyExists', { name })
       console.warn(errorMessage)
       return { error: errorMessage }
     } else {
-      build = Object.values(character.equipped)
+      equipped = character.equipped
       const builds = character.builds ?? []
-      builds.push({ name, build, score })
+      builds.push(build)
 
       const updatedCharacter = { ...character, builds: [...builds] }
       DB.setCharacter(updatedCharacter)
-      console.log('Saved build', build, useCharacterTabStore.getState())
+      console.log('Saved build', equipped, useCharacterTabStore.getState())
     }
   },
 
@@ -962,7 +1042,11 @@ export const DB = {
         // Update saved builds relic IDs
         if (character.builds && character.builds.length > 0) {
           newSavedBuilds = character.builds.map((savedBuild) => {
-            const updatedBuild = savedBuild.build.map((relicId) => relicIdMapping[relicId] || relicId)
+            const updatedBuild = savedBuild
+            ;(Object.entries(savedBuild.equipped) as Array<[Parts, string | undefined]>).forEach(([part, id]) => {
+              if (!id) return
+              updatedBuild.equipped[part] = relicIdMapping[id] || id
+            })
 
             return { ...savedBuild, build: updatedBuild }
           })

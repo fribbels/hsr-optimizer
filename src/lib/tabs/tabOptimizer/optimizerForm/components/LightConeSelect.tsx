@@ -32,14 +32,14 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 
 // FIXME HIGH
 
 interface LightConeSelectProps {
-  value: LightCone['id'] | null
+  value: LightConeId | null
   characterId: CharacterId | null | undefined
-  onChange?: (id: LightCone['id'] | null) => void
+  onChange?: (id: LightConeId | null) => void
   selectStyle?: React.CSSProperties
   initialPath?: PathName
   withIcon?: boolean
@@ -119,7 +119,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
     }
   }, [open, externalOpen])
 
-  function applyFilters(x: LcOptions[LightCone['id']]) {
+  function applyFilters(x: LcOptions[LightConeId]) {
     if (currentFilters.rarity.length && !currentFilters.rarity.includes(x.rarity)) {
       return false
     }
@@ -129,7 +129,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
     return x.name.toLowerCase().includes(currentFilters.name)
   }
 
-  const handleClick = (id: LightCone['id']) => {
+  const handleClick = (id: LightConeId) => {
     setOpen(false)
     if (setExternalOpen) setExternalOpen(false)
     if (onChange) onChange(id)

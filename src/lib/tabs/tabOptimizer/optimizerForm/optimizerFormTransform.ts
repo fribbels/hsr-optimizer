@@ -32,6 +32,7 @@ import { Utils } from 'lib/utils/utils'
 import { ConditionalValueMap } from 'types/conditionals'
 import {
   Form,
+  StatFilters,
   Teammate,
 } from 'types/form'
 import { OptimizerCombatBuffs } from 'types/optimizer'
@@ -410,4 +411,34 @@ function sanitizeConditionals(conditionals: ConditionalValueMap) {
   }
 
   return conditionals
+}
+
+const filters: { [K in keyof StatFilters]: number | null } = {
+  minAtk: null,
+  maxAtk: null,
+  minHp: null,
+  maxHp: null,
+  minDef: null,
+  maxDef: null,
+  minSpd: null,
+  maxSpd: null,
+  minCr: null,
+  maxCr: null,
+  minCd: null,
+  maxCd: null,
+  minEhr: null,
+  maxEhr: null,
+  minRes: null,
+  maxRes: null,
+  minBe: null,
+  maxBe: null,
+  minErr: null,
+  maxErr: null,
+}
+
+export function statFiltersFromForm(form: Form): StatFilters {
+  return (Object.keys(filters) as Array<keyof StatFilters>).reduce((acc, key) => {
+    acc[key] = form[key]
+    return acc
+  }, {} as StatFilters)
 }

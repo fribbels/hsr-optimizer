@@ -80,7 +80,10 @@ import {
   useRef,
   useState,
 } from 'react'
-import { Character } from 'types/character'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
 import {
   CustomImageConfig,
   CustomImagePayload,
@@ -117,7 +120,7 @@ export function CharacterPreview(props: {
   const [customPortrait, setCustomPortrait] = useState<CustomImageConfig>()
   const [teamSelectionByCharacter, setTeamSelectionByCharacter] = useState<Record<string, string>>({})
 
-  const [storedScoringType, setScoringType] = useState(ScoringType.COMBAT_SCORE)
+  const [storedScoringType, setScoringType] = useState(window.store.getState().savedSession.scoringType)
   const prevCharId = useRef<string>()
   const prevSeedColor = useRef<string>(DEFAULT_SHOWCASE_COLOR)
   const relicsById = window.store((s) => s.relicsById)

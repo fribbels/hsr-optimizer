@@ -29,11 +29,11 @@ import {
   CharacterId,
 } from 'types/character'
 import { Form } from 'types/form'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 
 export type CharacterModalForm = {
   characterId?: CharacterId,
-  lightCone?: LightCone['id'],
+  lightCone?: LightConeId,
   characterEidolon: number,
   lightConeSuperimposition: number,
   teamOrnamentSet?: string,

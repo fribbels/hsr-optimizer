@@ -14,12 +14,14 @@ import {
   A_THANKLESS_CORONATION,
   ANAXA,
   ARCHER,
-  CERYDRA, CIPHER,
+  CERYDRA,
+  CIPHER,
   CYRENE,
   EPOCH_ETCHED_IN_GOLDEN_BLOOD,
   EVERNIGHT,
   HYACINE,
-  HYSILENS, LIES_DANCE_ON_THE_BREEZE,
+  HYSILENS,
+  LIES_DANCE_ON_THE_BREEZE,
   LIFE_SHOULD_BE_CAST_TO_FLAMES,
   LONG_MAY_RAINBOWS_ADORN_THE_SKY,
   PERMANSOR_TERRAE,
@@ -38,7 +40,7 @@ import DB from 'lib/state/db'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 import {
   DBMetadata,
   DBMetadataLightCone,
@@ -61,7 +63,7 @@ const cache: {
 }
 
 const basicLc = '23001' // In the Night
-const baseCharacterLightConeMappings: Array<{ characterId: CharacterId, lightConeId: LightCone['id'] }> = [
+const baseCharacterLightConeMappings: Array<{ characterId: CharacterId, lightConeId: LightConeId }> = [
   { characterId: '1001', lightConeId: basicLc }, // March 7th
   { characterId: '1002', lightConeId: basicLc }, // Dan Heng
   { characterId: '1003', lightConeId: '23000' }, // Himeko
@@ -167,7 +169,7 @@ export async function generateAllTests() {
 
 export function generateSingleCharacterTest(
   device: GPUDevice,
-  pair: { characterId: CharacterId, lightConeId: LightCone['id'] },
+  pair: { characterId: CharacterId, lightConeId: LightConeId },
 ) {
   return [
     generateE0S1CharacterTest(pair.characterId, pair.lightConeId, device),
@@ -238,7 +240,7 @@ export function generateRelicSetTests(device: GPUDevice) {
   return tests
 }
 
-export function generateE0S1CharacterTest(characterId: CharacterId, lightConeId: LightCone['id'], device: GPUDevice) {
+export function generateE0S1CharacterTest(characterId: CharacterId, lightConeId: LightConeId, device: GPUDevice) {
   const request = OptimizerTabController.displayToForm(generateFullDefaultForm(characterId, lightConeId, 0, 1))
   const relics = generateTestRelics()
   request.sortOption = SortOption.COMBO.key
@@ -252,7 +254,7 @@ export function generateE0S1CharacterTest(characterId: CharacterId, lightConeId:
   )
 }
 
-export function generateE6S5CharacterTest(characterId: CharacterId, lightConeId: LightCone['id'], device: GPUDevice) {
+export function generateE6S5CharacterTest(characterId: CharacterId, lightConeId: LightConeId, device: GPUDevice) {
   const request = OptimizerTabController.displayToForm(generateFullDefaultForm(characterId, lightConeId, 6, 5))
   const relics = generateTestRelics()
   request.sortOption = SortOption.COMBO.key
@@ -270,7 +272,7 @@ export function generateE6S5CharacterTest(characterId: CharacterId, lightConeId:
   )
 }
 
-export function addE6S5Teammate(request: Form, index: number, characterId: CharacterId, lightConeId: LightCone['id']) {
+export function addE6S5Teammate(request: Form, index: number, characterId: CharacterId, lightConeId: LightConeId) {
   const teammate = generateFullDefaultForm(
     characterId,
     lightConeId,

@@ -10,7 +10,7 @@ export function useAsyncSimScoringExecution(asyncSimScoringExecution: AsyncSimSc
 
   useEffect(() => {
     if (asyncSimScoringExecution?.promise) {
-      asyncSimScoringExecution.promise.then(() => {
+      void asyncSimScoringExecution.promise.then(() => {
         setForceRender((prev) => prev + 1)
       })
     }

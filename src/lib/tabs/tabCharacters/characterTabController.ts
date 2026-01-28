@@ -17,6 +17,7 @@ import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import {
   AppPages,
   DB,
+  SavedBuildSource,
 } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
@@ -79,10 +80,7 @@ export const CharacterTabController = {
     const res = DB.saveCharacterBuild(
       name,
       selectedCharacter.id,
-      {
-        score: score.totalScore.toFixed(),
-        rating: score.totalRating,
-      },
+      SavedBuildSource.SHOWCASE,
     )
     if (res) return Message.error(res.error)
     Message.success(t('SaveSuccess', { name }))

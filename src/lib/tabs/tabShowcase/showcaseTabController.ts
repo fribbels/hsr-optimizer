@@ -5,23 +5,37 @@ import {
 } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
 import {
-  ANAXA, CASTORICE,
-  CERYDRA, CIPHER,
+  ANAXA,
+  CASTORICE,
+  CERYDRA,
+  CIPHER,
   CYRENE,
   EPOCH_ETCHED_IN_GOLDEN_BLOOD,
-  EVERNIGHT, FLAME_OF_BLOOD_BLAZE_MY_PATH, HYACINE,
-  HYSILENS, IF_TIME_WERE_A_FLOWER,
+  EVERNIGHT,
+  FLAME_OF_BLOOD_BLAZE_MY_PATH,
+  HYACINE,
+  HYSILENS,
+  IF_TIME_WERE_A_FLOWER,
   INCESSANT_RAIN,
   INTO_THE_UNREACHABLE_VEIL,
-  KAFKA_B1, LIES_DANCE_ON_THE_BREEZE,
-  LIFE_SHOULD_BE_CAST_TO_FLAMES, LONG_MAY_RAINBOWS_ADORN_THE_SKY, MAKE_FAREWELLS_MORE_BEAUTIFUL, MYDEI, NEVER_FORGET_HER_FLAME,
+  KAFKA_B1,
+  LIES_DANCE_ON_THE_BREEZE,
+  LIFE_SHOULD_BE_CAST_TO_FLAMES,
+  LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+  MAKE_FAREWELLS_MORE_BEAUTIFUL,
+  MYDEI,
+  NEVER_FORGET_HER_FLAME,
   PATIENCE_IS_ALL_YOU_NEED,
-  PERMANSOR_TERRAE, PHAINON,
-  SILVER_WOLF_B1, THE_DAHLIA,
+  PERMANSOR_TERRAE,
+  PHAINON,
+  SILVER_WOLF_B1,
+  THE_DAHLIA,
   THE_HERTA,
   THIS_LOVE_FOREVER,
-  THOUGH_WORLDS_APART, THUS_BURNS_THE_DAWN,
-  TO_EVERNIGHTS_STARS, TRIBBIE,
+  THOUGH_WORLDS_APART,
+  THUS_BURNS_THE_DAWN,
+  TO_EVERNIGHTS_STARS,
+  TRIBBIE,
   WHY_DOES_THE_OCEAN_SING,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB, {
@@ -42,7 +56,7 @@ import {
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 
 export const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'
 
@@ -54,7 +68,7 @@ export type Preset = CharacterPreset | FillerPreset
 
 export type CharacterPreset = {
   characterId: CharacterId | null,
-  lightConeId: LightCone['id'] | null,
+  lightConeId: LightConeId | null,
   rerun?: boolean,
   custom?: never,
 }
@@ -69,19 +83,19 @@ type FillerPreset = {
 export function presetCharacters(): Preset[] {
   const DBMetadata = DB.getMetadata()
   const char = (id: CharacterId) => Object.values(DBMetadata.characters).some((x) => x.id === id) ? id : null
-  const lc = (id: LightCone['id']) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
+  const lc = (id: LightConeId) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
     { characterId: char(THE_DAHLIA), lightConeId: lc(NEVER_FORGET_HER_FLAME) },
     { characterId: char(CYRENE), lightConeId: lc(THIS_LOVE_FOREVER) },
 
-    { characterId: char(CASTORICE), lightConeId: lc(MAKE_FAREWELLS_MORE_BEAUTIFUL) , rerun: true},
-    { characterId: char(HYACINE), lightConeId: lc(LONG_MAY_RAINBOWS_ADORN_THE_SKY) , rerun: true},
+    { characterId: char(CASTORICE), lightConeId: lc(MAKE_FAREWELLS_MORE_BEAUTIFUL), rerun: true },
+    { characterId: char(HYACINE), lightConeId: lc(LONG_MAY_RAINBOWS_ADORN_THE_SKY), rerun: true },
     { characterId: char(TRIBBIE), lightConeId: lc(IF_TIME_WERE_A_FLOWER), rerun: true },
 
-    { characterId: char(PHAINON), lightConeId: lc(THUS_BURNS_THE_DAWN) , rerun: true},
-    { characterId: char(CIPHER), lightConeId: lc(LIES_DANCE_ON_THE_BREEZE) , rerun: true},
-    { characterId: char(MYDEI), lightConeId: lc(FLAME_OF_BLOOD_BLAZE_MY_PATH) , rerun: true},
+    { characterId: char(PHAINON), lightConeId: lc(THUS_BURNS_THE_DAWN), rerun: true },
+    { characterId: char(CIPHER), lightConeId: lc(LIES_DANCE_ON_THE_BREEZE), rerun: true },
+    { characterId: char(MYDEI), lightConeId: lc(FLAME_OF_BLOOD_BLAZE_MY_PATH), rerun: true },
 
     { custom: true },
   ].filter((x) => x.custom || !!x.characterId) as Preset[]

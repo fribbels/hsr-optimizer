@@ -27,7 +27,10 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SavedBuild } from 'types/character'
+import type {
+  Character,
+  SavedBuild,
+} from 'types/character'
 
 // FIXME LOW
 
@@ -45,20 +48,6 @@ export function BuildsModal() {
       setSelectedBuild(0)
     }
   }, [isOpen, selectedCharacter])
-
-  // Reuse the character preview for the saved build
-  const statDisplay = useMemo(() => {
-    if (selectedBuild != null && selectedCharacter?.builds?.[selectedBuild].equipped) {
-      const previewCharacter = TsUtils.clone(selectedCharacter)
-      previewCharacter.equipped = selectedCharacter.builds[selectedBuild].equipped
-
-      console.log('Previewing builds character:', previewCharacter)
-      // @ts-expect-error we don't need the character modal to be accessible from here
-      return <CharacterPreview character={previewCharacter} source={ShowcaseSource.BUILDS_MODAL} id='relicScorerPreview' />
-    }
-
-    return <div style={{ width: 656, height: 856, border: '1px solid #354b7d' }}></div>
-  }, [selectedBuild, selectedCharacter])
 
   if (!selectedCharacter?.builds?.length) {
     return (
@@ -212,8 +201,21 @@ export function BuildsModal() {
         )}
 
         {contextHolder}
-        {statDisplay}
+        <BuildPreview character={selectedCharacter} buildIndex={selectedBuild} />
       </Flex>
     </Modal>
   )
+}
+
+function BuildPreview(props: { character: Character | null, buildIndex: number | null }) {
+  if (props.buildIndex != null && props.character?.builds?.[props.buildIndex].equipped) {
+    const previewCharacter = TsUtils.clone(props.character)
+    previewCharacter.equipped = props.character.builds[props.buildIndex].equipped
+
+    console.log('Previewing builds character:', previewCharacter)
+    // @ts-expect-error we don't need the character modal to be accessible from here
+    return <CharacterPreview character={previewCharacter} source={ShowcaseSource.BUILDS_MODAL} id='relicScorerPreview' />
+  }
+
+  return <div style={{ width: 656, height: 856, border: '1px solid #354b7d' }}></div>
 }

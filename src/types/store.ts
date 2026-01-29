@@ -1,5 +1,9 @@
 import { ThemeConfig } from 'antd'
-import { ComputeEngine } from 'lib/constants/constants'
+import {
+  ComputeEngine,
+  CUSTOM_TEAM,
+  DEFAULT_TEAM,
+} from 'lib/constants/constants'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
@@ -65,6 +69,7 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ optimizationId: string | null,
   /* optimizerTab             */ teammateCount: number,
   /* showcaseTab              */ relicScorerSidebarOpen: boolean,
+  /* showcase Tab             */ showcaseTeamPreferenceById: Partial<Record<CharacterId, typeof CUSTOM_TEAM | typeof DEFAULT_TEAM>>,
   /* optimizerTab             */ optimizerRunningEngine: ComputeEngine,
   /* optimizerTab             */ optimizerStartTime: number | null,
   /* optimizerTab             */ optimizerEndTime: number | null,
@@ -113,6 +118,7 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ setStatSimulations: (x: Simulation[]) => void,
   /* optimizerTab             */ setStatSimulationDisplay: (x: StatSimTypes) => void,
   /* global                   */ setScoringMetadataOverrides: (x: Partial<Record<CharacterId, ScoringMetadata>>) => void,
+  /* characterTab/showcaseTab */ setShowcaseTeamPreferenceById: (update: [CharacterId, typeof CUSTOM_TEAM | typeof DEFAULT_TEAM]) => void,
   /* characterTab/showcaseTab */ setShowcasePreferences: (x: Partial<Record<CharacterId, ShowcasePreferences>>) => void,
   /* characterTab/showcaseTab */ setShowcaseTemporaryOptionsByCharacter: (x: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>) => void,
   /* optimizerTab             */ setPermutations: (x: number) => void,

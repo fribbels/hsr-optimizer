@@ -77,12 +77,12 @@ import {
   showcaseTransition,
 } from 'lib/utils/colorUtils'
 import {
+  useCallback,
   useRef,
   useState,
 } from 'react'
 import {
   Character,
-  CharacterId,
 } from 'types/character'
 import {
   CustomImageConfig,
@@ -118,7 +118,8 @@ export function CharacterPreview(props: {
   }
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
   const [customPortrait, setCustomPortrait] = useState<CustomImageConfig>()
-  const [teamSelectionByCharacter, setTeamSelectionByCharacter] = useState<Record<string, string>>({})
+
+  const teamSelectionByCharacter = window.store((s) => s.showcaseTeamPreferenceById)
 
   const [storedScoringType, setScoringType] = useState(window.store.getState().savedSession.scoringType)
   const prevCharId = useRef<string>()
@@ -164,13 +165,6 @@ export function CharacterPreview(props: {
   }
 
   console.log('======================================================================= RENDER CharacterPreview', source)
-
-  function wrappedSetTeamSelectionByCharacter(update: Record<string, string>) {
-    setTeamSelectionByCharacter({
-      ...teamSelectionByCharacter,
-      ...update,
-    })
-  }
 
   // ===== Relics =====
 
@@ -396,7 +390,6 @@ export function CharacterPreview(props: {
                     asyncSimScoringExecution={asyncSimScoringExecution}
                     teamSelection={currentSelection}
                     displayRelics={displayRelics}
-                    setTeamSelectionByCharacter={wrappedSetTeamSelectionByCharacter}
                     setRedrawTeammates={setRedrawTeammates}
                   />
 

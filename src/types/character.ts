@@ -53,4 +53,6 @@ export type BuildTeammate = {
   eidolon: number,
   lightConeId: LightConeId,
   superimposition: number,
+  relicSet?: string,
+  ornamentSet?: string,
 }

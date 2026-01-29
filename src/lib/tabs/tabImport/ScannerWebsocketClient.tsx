@@ -532,6 +532,9 @@ function updateCharacter(
     if (parsed) {
       DB.addFromForm(parsed, false)
     }
+    if (window.store.getState().optimizerTabFocusCharacter === parsed?.characterId) {
+      window.OptimizerTabController.redrawRows()
+    }
   }
 }
 

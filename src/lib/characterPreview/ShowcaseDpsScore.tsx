@@ -58,7 +58,6 @@ export function ShowcaseDpsScorePanel(props: {
   asyncSimScoringExecution: AsyncSimScoringExecution,
   teamSelection: string,
   displayRelics: SingleRelicByPart,
-  setTeamSelectionByCharacter: (t: Record<string, string>) => void,
   setRedrawTeammates: (n: number) => void,
 }) {
   const {
@@ -67,7 +66,6 @@ export function ShowcaseDpsScorePanel(props: {
     asyncSimScoringExecution,
     teamSelection,
     displayRelics,
-    setTeamSelectionByCharacter,
     setRedrawTeammates,
   } = props
 
@@ -128,7 +126,6 @@ export function ShowcaseDpsScorePanel(props: {
         characterModalInitialCharacter={characterModalInitialCharacter}
         isCharacterModalOpen={isCharacterModalOpen}
         setCharacterModalOpen={setCharacterModalOpen}
-        setTeamSelectionByCharacter={setTeamSelectionByCharacter}
         setRedrawTeammates={setRedrawTeammates}
       />
     </Flex>
@@ -339,7 +336,6 @@ function ShowcaseTeamSelectPanel(props: {
   teamSelection: string,
   selectedTeammateIndex: number,
   characterModalInitialCharacter: Character | undefined,
-  setTeamSelectionByCharacter: (t: Record<string, string>) => void,
   setRedrawTeammates: (random: number) => void,
   isCharacterModalOpen: boolean,
   setCharacterModalOpen: (open: boolean) => void,
@@ -352,11 +348,12 @@ function ShowcaseTeamSelectPanel(props: {
     teamSelection,
     selectedTeammateIndex,
     characterModalInitialCharacter,
-    setTeamSelectionByCharacter,
     setRedrawTeammates,
     isCharacterModalOpen,
     setCharacterModalOpen,
   } = props
+
+  const setTeamSelectionByCharacter = window.store((s) => s.setShowcaseTeamPreferenceById)
 
   // Teammate character modal OK
   function onCharacterModalOk(form: Form) {
@@ -373,7 +370,7 @@ function ShowcaseTeamSelectPanel(props: {
     simulation.teammates[selectedTeammateIndex] = form
 
     DB.updateSimulationScoreOverrides(characterId, simulation)
-    setTeamSelectionByCharacter({ [characterId]: CUSTOM_TEAM })
+    setTeamSelectionByCharacter([characterId, CUSTOM_TEAM])
     setRedrawTeammates(Math.random())
   }
 
@@ -399,7 +396,7 @@ function ShowcaseTeamSelectPanel(props: {
 
                       DB.updateSimulationScoreOverrides(characterId, simulation)
 
-                      if (teamSelection != DEFAULT_TEAM) setTeamSelectionByCharacter({ [characterId]: DEFAULT_TEAM })
+                      if (teamSelection != DEFAULT_TEAM) setTeamSelectionByCharacter([characterId, DEFAULT_TEAM])
                       setRedrawTeammates(Math.random())
 
                       Message.success(t('modals:ScoreFooter.ResetSuccessMsg') /* Reset to default teams */)
@@ -425,7 +422,7 @@ function ShowcaseTeamSelectPanel(props: {
                       }
 
                       DB.updateSimulationScoreOverrides(characterId, simulation)
-                      if (teamSelection != CUSTOM_TEAM) setTeamSelectionByCharacter({ [characterId]: CUSTOM_TEAM })
+                      if (teamSelection != CUSTOM_TEAM) setTeamSelectionByCharacter([characterId, CUSTOM_TEAM])
                       setRedrawTeammates(Math.random())
 
                       Message.success(t('modals:ScoreFooter.SyncSuccessMsg') /* Synced teammates */)
@@ -438,7 +435,7 @@ function ShowcaseTeamSelectPanel(props: {
             ),
           })
         } else {
-          setTeamSelectionByCharacter({ [characterId]: selection })
+          setTeamSelectionByCharacter([characterId, selection as typeof DEFAULT_TEAM | typeof CUSTOM_TEAM])
         }
       }}
       value={teamSelection}

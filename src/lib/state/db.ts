@@ -186,6 +186,7 @@ window.store = create<HsrOptimizerStore>()((set) => ({
   relicsById: {},
   relics: [],
   scoringMetadataOverrides: {},
+  showcaseTeamPreferenceById: {},
   showcasePreferences: {},
   showcaseTemporaryOptionsByCharacter: {},
   statDisplay: DEFAULT_STAT_DISPLAY,
@@ -255,6 +256,11 @@ window.store = create<HsrOptimizerStore>()((set) => ({
       return { relicsById, relics }
     }),
   setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
+  setShowcaseTeamPreferenceById(update) {
+    set((state) => ({
+      showcaseTeamPreferenceById: { ...state.showcaseTeamPreferenceById, [update[0]]: update[1] },
+    }))
+  },
   setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
   setShowcaseTemporaryOptionsByCharacter: (x) => set(() => ({ showcaseTemporaryOptionsByCharacter: x })),
   setStatDisplay: (x) => set(() => ({ statDisplay: x })),
@@ -448,72 +454,6 @@ export const DB = {
     const charactersById: Record<string, Character> = {}
     const dbCharacters = DB.getMetadata().characters
 
-    // Remove invalid characters
-    saveData.characters = saveData.characters.filter((x) => dbCharacters[x.id])
-
-    for (const character of saveData.characters) {
-      character.equipped = {}
-      charactersById[character.id] = character
-
-      // Previously sim requests didn't use the stats field
-      if (character.form?.statSim?.simulations) {
-        character.form.statSim.simulations = character.form.statSim.simulations.filter((simulation: Simulation) => simulation.request?.stats)
-      }
-
-      character.builds = character.builds.map((savedBuild) => {
-        if (savedBuild.optimizerMetadata) return savedBuild
-        const build = savedBuild as unknown as { build: string[], name: string, score: { score: string, rating: string } }
-        const migratedBuild: SavedBuild = {
-          name: build.name,
-          equipped: build.build.reduce((acc, cur) => {
-            const relic = saveData.relics.find((x) => x.id = cur)
-            if (relic) acc[relic.part] = cur
-            return acc
-          }, {} as Build),
-          team: [],
-          optimizerMetadata: null,
-        }
-        return migratedBuild
-      })
-
-      // Previously characters had customizable options, now we're defaulting to 80s
-      character.form.characterLevel = 80
-      character.form.lightConeLevel = 80
-
-      // Previously there was a weight sort which is now removed, arbitrarily replaced with SPD if the user had used it
-      // @ts-ignore
-      if (character.form.resultSort === 'WEIGHT') {
-        character.form.resultSort = 'SPD'
-      }
-
-      // Deduplicate main stat filter values
-      character.form.mainBody = deduplicateStringArray(character.form.mainBody)
-      character.form.mainFeet = deduplicateStringArray(character.form.mainFeet)
-      character.form.mainPlanarSphere = deduplicateStringArray(character.form.mainPlanarSphere)
-      character.form.mainLinkRope = deduplicateStringArray(character.form.mainLinkRope)
-    }
-
-    for (const character of Object.values(dbCharacters)) {
-      // Deduplicate scoring optimal main stat
-      for (const part of Object.keys(Constants.Parts) as Parts[]) {
-        if (part === Parts.Hands || part === Parts.Head) continue
-        character.scoringMetadata.parts[part] = deduplicateStringArray(character.scoringMetadata.parts[part])
-      }
-    }
-
-    for (const relic of saveData.relics) {
-      // @ts-ignore temporary while migrating relic object format
-      delete relic.weights
-      RelicAugmenter.augment(relic)
-      const character = charactersById[relic.equippedBy!]
-      if (character && !character.equipped[relic.part]) {
-        character.equipped[relic.part] = relic.id
-      } else {
-        relic.equippedBy = undefined
-      }
-    }
-    indexRelics(saveData.relics)
-
     if (saveData.scoringMetadataOverrides) {
       for (const [key, value] of Object.entries(saveData.scoringMetadataOverrides) as [CharacterId, unknown][]) {
         // Migration: previously the overrides were an array, invalidate the arrays
@@ -572,6 +512,81 @@ export const DB = {
 
       window.store.getState().setScoringMetadataOverrides(saveData.scoringMetadataOverrides || {})
     }
+
+    // Remove invalid characters
+    saveData.characters = saveData.characters.filter((x) => dbCharacters[x.id])
+
+    for (const character of saveData.characters) {
+      character.equipped = {}
+      charactersById[character.id] = character
+
+      // Previously sim requests didn't use the stats field
+      if (character.form?.statSim?.simulations) {
+        character.form.statSim.simulations = character.form.statSim.simulations.filter((simulation: Simulation) => simulation.request?.stats)
+      }
+
+      // TODO: Temporary migration from old to new format, remove once appropriate
+      const scoringMetadata = DB.getScoringMetadata(character.id)
+      character.builds = character.builds?.map((savedBuild) => {
+        if (savedBuild.optimizerMetadata !== undefined) return savedBuild
+        const build = savedBuild as unknown as { build: string[], name: string, score: { score: string, rating: string } }
+        const migratedBuild: SavedBuild = {
+          name: build.name,
+          equipped: build.build.reduce((acc, cur) => {
+            const relic = saveData.relics.find((x) => x.id === cur)
+            if (relic) acc[relic.part] = cur
+            return acc
+          }, {} as Build),
+          team: scoringMetadata.simulation?.teammates.map((x) => ({
+            characterId: x.characterId,
+            eidolon: x.characterEidolon,
+            lightConeId: x.lightCone,
+            superimposition: x.lightConeSuperimposition,
+            relicSet: x.teamRelicSet,
+            ornamentSet: x.teamOrnamentSet,
+          })) ?? [],
+          optimizerMetadata: null,
+        }
+        return migratedBuild
+      })
+
+      // Previously characters had customizable options, now we're defaulting to 80s
+      character.form.characterLevel = 80
+      character.form.lightConeLevel = 80
+
+      // Previously there was a weight sort which is now removed, arbitrarily replaced with SPD if the user had used it
+      // @ts-ignore
+      if (character.form.resultSort === 'WEIGHT') {
+        character.form.resultSort = 'SPD'
+      }
+
+      // Deduplicate main stat filter values
+      character.form.mainBody = deduplicateStringArray(character.form.mainBody)
+      character.form.mainFeet = deduplicateStringArray(character.form.mainFeet)
+      character.form.mainPlanarSphere = deduplicateStringArray(character.form.mainPlanarSphere)
+      character.form.mainLinkRope = deduplicateStringArray(character.form.mainLinkRope)
+    }
+
+    for (const character of Object.values(dbCharacters)) {
+      // Deduplicate scoring optimal main stat
+      for (const part of Object.keys(Constants.Parts) as Parts[]) {
+        if (part === Parts.Hands || part === Parts.Head) continue
+        character.scoringMetadata.parts[part] = deduplicateStringArray(character.scoringMetadata.parts[part])
+      }
+    }
+
+    for (const relic of saveData.relics) {
+      // @ts-ignore temporary while migrating relic object format
+      delete relic.weights
+      RelicAugmenter.augment(relic)
+      const character = charactersById[relic.equippedBy!]
+      if (character && !character.equipped[relic.part]) {
+        character.equipped[relic.part] = relic.id
+      } else {
+        relic.equippedBy = undefined
+      }
+    }
+    indexRelics(saveData.relics)
 
     if (saveData.showcasePreferences) {
       window.store.getState().setShowcasePreferences(saveData.showcasePreferences || {})
@@ -764,10 +779,11 @@ export const DB = {
         }
         break
       case SavedBuildSource.SHOWCASE:
-        // TODO: Refactor CharacterPreview to use a zustand store so as to expose if character is using the default team or the custom one
         const simulation = DB.getScoringMetadata(character.id)?.simulation
-        if (simulation) {
-          simulation.teammates.forEach((teammate) => {
+        const useCustomTeam = simulation && window.store.getState().showcaseTeamPreferenceById[characterId]
+        let teammates = useCustomTeam ? simulation.teammates : DB.getMetadata().characters[characterId].scoringMetadata.simulation?.teammates
+        if (teammates) {
+          teammates.forEach((teammate) => {
             team.push({
               characterId: teammate.characterId,
               lightConeId: teammate.lightCone,

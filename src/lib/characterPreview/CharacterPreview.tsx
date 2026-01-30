@@ -412,6 +412,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
                     teamSelection={currentSelection}
                     displayRelics={displayRelics}
                     setRedrawTeammates={setRedrawTeammates}
+                    source={source}
                   />
 
                   <ShowcaseCombatScoreDetailsFooter asyncSimScoringExecution={asyncSimScoringExecution} />

@@ -538,15 +538,14 @@ export const DB = {
             if (relic) acc[relic.part] = cur
             return acc
           }, {} as Build),
-          team: /* scoringMetadata.simulation?.teammates.map((x) => ({
+          team: scoringMetadata.simulation?.teammates.map((x) => ({
             characterId: x.characterId,
             eidolon: x.characterEidolon,
             lightConeId: x.lightCone,
             superimposition: x.lightConeSuperimposition,
             relicSet: x.teamRelicSet,
             ornamentSet: x.teamOrnamentSet,
-          })) ?? */
-            [],
+          })) ?? [],
           optimizerMetadata: null,
         }
         return migratedBuild

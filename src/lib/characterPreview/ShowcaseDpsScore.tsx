@@ -15,6 +15,7 @@ import { CharacterCardCombatStats } from 'lib/characterPreview/CharacterCardComb
 import {
   OverlayText,
   showcaseOutline,
+  ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import StatText from 'lib/characterPreview/StatText'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
@@ -60,15 +61,23 @@ export function ShowcaseDpsScorePanel(props: {
   teamSelection: string,
   displayRelics: SingleRelicByPart,
   setRedrawTeammates: (n: number) => void,
+  source: ShowcaseSource,
 }) {
-  const {
+  let {
     characterId,
     token,
     asyncSimScoringExecution,
     teamSelection,
     displayRelics,
     setRedrawTeammates,
+    source,
   } = props
+
+  const readonly = source === ShowcaseSource.BUILDS_MODAL
+
+  if (readonly) {
+    teamSelection = CUSTOM_TEAM
+  }
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState<number | undefined>()
@@ -101,6 +110,7 @@ export function ShowcaseDpsScorePanel(props: {
           setCharacterModalOpen={setCharacterModalOpen}
           setSelectedTeammateIndex={setSelectedTeammateIndex}
           setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+          readonly={readonly}
         />
         <CharacterPreviewScoringTeammate
           index={1}
@@ -109,6 +119,7 @@ export function ShowcaseDpsScorePanel(props: {
           setCharacterModalOpen={setCharacterModalOpen}
           setSelectedTeammateIndex={setSelectedTeammateIndex}
           setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+          readonly={readonly}
         />
         <CharacterPreviewScoringTeammate
           index={2}
@@ -117,6 +128,7 @@ export function ShowcaseDpsScorePanel(props: {
           setCharacterModalOpen={setCharacterModalOpen}
           setSelectedTeammateIndex={setSelectedTeammateIndex}
           setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+          readonly={readonly}
         />
       </Flex>
 
@@ -128,6 +140,7 @@ export function ShowcaseDpsScorePanel(props: {
         isCharacterModalOpen={isCharacterModalOpen}
         setCharacterModalOpen={setCharacterModalOpen}
         setRedrawTeammates={setRedrawTeammates}
+        readonly={readonly}
       />
     </Flex>
   )
@@ -176,6 +189,7 @@ function CharacterPreviewScoringTeammate(props: {
   setCharacterModalOpen: (b: boolean) => void,
   setSelectedTeammateIndex: (i: number | undefined) => void,
   setCharacterModalInitialCharacter: (character: Character) => void,
+  readonly?: boolean,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
   const {
@@ -185,6 +199,7 @@ function CharacterPreviewScoringTeammate(props: {
     setCharacterModalOpen,
     setSelectedTeammateIndex,
     setCharacterModalInitialCharacter,
+    readonly,
   } = props
 
   const teammate = result.simulationMetadata.teammates[index] as SimulationMetadata['teammates'][number] | undefined
@@ -205,12 +220,13 @@ function CharacterPreviewScoringTeammate(props: {
       }}
       hoverable={true}
       onClick={() => {
+        if (readonly) return
         setCharacterModalInitialCharacter({ form: teammate } as Character)
         setCharacterModalOpen(true)
 
         setSelectedTeammateIndex(index)
       }}
-      className='custom-grid'
+      className={readonly ? 'readonly-custom-grid' : 'custom-grid'}
     >
       <Flex vertical align='center' gap={0}>
         <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -340,6 +356,7 @@ function ShowcaseTeamSelectPanel(props: {
   setRedrawTeammates: (random: number) => void,
   isCharacterModalOpen: boolean,
   setCharacterModalOpen: (open: boolean) => void,
+  readonly?: boolean,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
   const globalThemeConfig = window.store((s) => s.globalThemeConfig)
@@ -352,6 +369,7 @@ function ShowcaseTeamSelectPanel(props: {
     setRedrawTeammates,
     isCharacterModalOpen,
     setCharacterModalOpen,
+    readonly,
   } = props
 
   const setTeamSelectionByCharacter = window.store((s) => s.setShowcaseTeamPreferenceById)
@@ -377,6 +395,7 @@ function ShowcaseTeamSelectPanel(props: {
 
   const tabsDisplay = (
     <Segmented
+      disabled={readonly}
       style={{ marginLeft: 10, marginRight: 10, marginTop: 2, marginBottom: 0, alignItems: 'center' }}
       onChange={(selection) => {
         if (selection == SETTINGS_TEAM) {

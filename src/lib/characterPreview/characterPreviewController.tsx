@@ -91,20 +91,25 @@ export type ScoringResults = {
   totalRating: string,
 }
 
-export function getPreviewRelics(source: ShowcaseSource, character: Character, relicsById: Partial<Record<string, Relic>>) {
+export function getPreviewRelics(
+  source: ShowcaseSource,
+  character: Character,
+  relicsById: Partial<Record<string, Relic>>,
+  buildIndex?: number,
+) {
   let scoringResults: ScoringResults
   let displayRelics: SingleRelicByPart
   // Showcase tab relics are stored in equipped as relics instead of ids
   if (source !== ShowcaseSource.SHOWCASE_TAB) {
-    scoringResults = RelicScorer.scoreCharacter(character) as ScoringResults
     displayRelics = {
-      Head: getRelic(relicsById, character, Parts.Head)!,
-      Hands: getRelic(relicsById, character, Parts.Hands)!,
-      Body: getRelic(relicsById, character, Parts.Body)!,
-      Feet: getRelic(relicsById, character, Parts.Feet)!,
-      PlanarSphere: getRelic(relicsById, character, Parts.PlanarSphere)!,
-      LinkRope: getRelic(relicsById, character, Parts.LinkRope)!,
+      Head: getRelic(relicsById, character, Parts.Head, buildIndex)!,
+      Hands: getRelic(relicsById, character, Parts.Hands, buildIndex)!,
+      Body: getRelic(relicsById, character, Parts.Body, buildIndex)!,
+      Feet: getRelic(relicsById, character, Parts.Feet, buildIndex)!,
+      PlanarSphere: getRelic(relicsById, character, Parts.PlanarSphere, buildIndex)!,
+      LinkRope: getRelic(relicsById, character, Parts.LinkRope, buildIndex)!,
     }
+    scoringResults = RelicScorer.scoreCharacterWithRelics(character, Object.values(displayRelics))
   } else {
     const equipped = character.equipped as unknown as SingleRelicByPart
     const relicsArray = Object.values(equipped)
@@ -115,7 +120,10 @@ export function getPreviewRelics(source: ShowcaseSource, character: Character, r
   return { scoringResults, displayRelics }
 }
 
-function getRelic(relicsById: Partial<Record<string, Relic>>, character: Character, part: Parts) {
+function getRelic(relicsById: Partial<Record<string, Relic>>, character: Character, part: Parts, buildIndex?: number): Relic | null {
+  if (buildIndex != undefined) {
+    return relicsById[character.builds[buildIndex].equipped[part]!] ?? null
+  }
   if (character.equipped?.[part]) {
     return relicsById[character.equipped[part]] ?? null
   }

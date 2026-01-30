@@ -9,7 +9,7 @@ import {
 export const CURRENT_OPTIMIZER_VERSION = 'v4.0.1'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '4.0v1'
+export const CURRENT_DATA_VERSION = '4.0v3'
 
 // Controls downtime messaging
 export const SHOWCASE_DOWNTIME = false
@@ -17,8 +17,8 @@ export const RELIQUARY_DOWNTIME = false
 export const DOWNTIME_VERSION = 4.0
 
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  [SPARKLE_B1]: `${CURRENT_DATA_VERSION} buffs - Numbers may change`,
-  [BLACK_SWAN_B1]: `${CURRENT_DATA_VERSION} buffs - Numbers may change`,
+  [SPARKLE_B1]: `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
+  [BLACK_SWAN_B1]: `${CURRENT_DATA_VERSION} buffs - Numbers may change. Default Arcana stacks changed from 7 pre-buff to 50 post-buff.`,
 }
 
 export const Stats = {

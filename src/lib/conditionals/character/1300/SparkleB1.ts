@@ -47,15 +47,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const skillCdBuffScaling = skill(e, 0.24, 0.264)
   const skillCdBuffBase = skill(e, 0.45, 0.486)
-  const cipherTalentStackBoost = ult(e, 0.05, 0.054)
-  const talentBaseStackBoost = talent(e, 0.03, 0.033)
+  const cipherTalentStackBoost = ult(e, 0.06, 0.0648)
+  const talentBaseStackBoost = talent(e, 0.04, 0.044)
 
   const basicScaling = basic(e, 1.00, 1.10)
 
   const defaults = {
     skillBuffs: false,
     cipherBuff: true,
-    talentStacks: 4,
+    talentStacks: 3,
     teamAtkBuff: true,
     e1SpdBuff: true,
   }
@@ -63,7 +63,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const teammateDefaults = {
     skillBuffs: true,
     cipherBuff: true,
-    talentStacks: 4,
+    talentStacks: 3,
     teamAtkBuff: true,
     teammateCDValue: 2.5,
     e2DefPen: true,
@@ -88,7 +88,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'Talent stacks',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
-      max: 4,
+      max: 3,
     },
     teamAtkBuff: {
       id: 'teamAtkBuff',
@@ -163,7 +163,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           : m.talentStacks * talentBaseStackBoost,
         SOURCE_TALENT,
       )
-      x.DEF_PEN.buffTeam((e >= 2 && m.e2DefPen) ? 0.08 * m.talentStacks : 0, SOURCE_E2)
+      x.DEF_PEN.buffTeam((e >= 2 && m.e2DefPen) ? 0.10 * m.talentStacks : 0, SOURCE_E2)
     },
     precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>

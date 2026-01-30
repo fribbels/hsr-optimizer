@@ -92,18 +92,34 @@ import { Relic } from 'types/relic'
 
 const { useToken } = theme
 
-export function CharacterPreview(props: {
-  id: string,
-  source: ShowcaseSource,
-  character: Character | null,
-  setOriginalCharacterModalOpen: (open: boolean) => void,
-  setOriginalCharacterModalInitialCharacter: (character: Character) => void,
-}) {
+interface InteractiveCharacterPreviewProps {
+  setOriginalCharacterModalOpen: (open: boolean) => void
+  setOriginalCharacterModalInitialCharacter: (character: Character) => void
+  savedBuildOverride?: never
+  source: Exclude<ShowcaseSource, ShowcaseSource.BUILDS_MODAL>
+}
+
+interface SavedBuildPreviewProps {
+  setOriginalCharacterModalOpen?: never
+  setOriginalCharacterModalInitialCharacter?: never
+  savedBuildOverride: number
+  source: ShowcaseSource.BUILDS_MODAL
+}
+
+interface CharacterPreviewPropsBase {
+  id: string
+  character: Character | null
+}
+
+type CharacterPreviewProps = CharacterPreviewPropsBase & (SavedBuildPreviewProps | InteractiveCharacterPreviewProps)
+
+export function CharacterPreview(props: CharacterPreviewProps) {
   const {
     source,
     character,
     setOriginalCharacterModalOpen,
     setOriginalCharacterModalInitialCharacter,
+    savedBuildOverride,
   } = props
 
   const { token } = useToken()
@@ -258,28 +274,32 @@ export function CharacterPreview(props: {
 
   return (
     <Flex vertical style={{ width: 1068, minHeight: source == ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>
-      <RelicModal
-        selectedRelic={selectedRelic}
-        selectedPart={selectedPart}
-        onOk={onRelicModalOk}
-        setOpen={setRelicModalOpen}
-        open={relicModalOpen}
-        defaultWearer={character.id}
-      />
-      <ShowcaseCustomizationSidebar
-        ref={sidebarRef}
-        source={source}
-        id={props.id}
-        characterId={character.id}
-        asyncSimScoringExecution={asyncSimScoringExecution}
-        token={seedToken}
-        showcasePreferences={characterShowcasePreferences}
-        scoringType={scoringType}
-        seedColor={overrideSeedColor}
-        setSeedColor={setSeedColor}
-        colorMode={overrideColorMode}
-        setColorMode={setColorMode}
-      />
+      {source !== ShowcaseSource.BUILDS_MODAL && (
+        <>
+          <RelicModal
+            selectedRelic={selectedRelic}
+            selectedPart={selectedPart}
+            onOk={onRelicModalOk}
+            setOpen={setRelicModalOpen}
+            open={relicModalOpen}
+            defaultWearer={character.id}
+          />
+          <ShowcaseCustomizationSidebar
+            ref={sidebarRef}
+            source={source}
+            id={props.id}
+            characterId={character.id}
+            asyncSimScoringExecution={asyncSimScoringExecution}
+            token={seedToken}
+            showcasePreferences={characterShowcasePreferences}
+            scoringType={scoringType}
+            seedColor={overrideSeedColor}
+            setSeedColor={setSeedColor}
+            colorMode={overrideColorMode}
+            setColorMode={setColorMode}
+          />
+        </>
+      )}
 
       <ConfigProvider theme={seedTheme}>
         {/* Showcase full card */}
@@ -413,16 +433,21 @@ export function CharacterPreview(props: {
             </Flex>
 
             {scoringType != ScoringType.COMBAT_SCORE && (
-              <>
-                <ShowcaseLightConeLarge
-                  source={source}
-                  character={character}
-                  showcaseMetadata={showcaseMetadata}
-                  displayDimensions={displayDimensions}
-                  setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                  setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                />
-              </>
+              // @ts-expect-error Typescript is satisfied if there are 2 instances of ShowcaseLightConeLarge
+              // i.e.
+              // <>
+              //   {source === ShowcaseSource.BUILDS_MODAL && <ShowcaseLightConeLarge ... />}
+              //   {source !== ShowcaseSource.BUILDS_MODAL && <ShowcaseLightConeLarge ... />}
+              // </>
+              // however when only 1 instance it will error due to not properly narrowing the type
+              <ShowcaseLightConeLarge
+                source={source}
+                character={character}
+                showcaseMetadata={showcaseMetadata}
+                displayDimensions={displayDimensions}
+                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+              />
             )}
           </Flex>
 

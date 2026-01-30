@@ -273,8 +273,6 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
       }
     }, [tScoring])
 
-    if (source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.CHARACTER_TAB) return <></>
-
     return (
       <Flex
         vertical

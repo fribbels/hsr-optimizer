@@ -209,12 +209,14 @@ export function BuildsModal() {
 
 function BuildPreview(props: { character: Character | null, buildIndex: number | null }) {
   if (props.buildIndex != null && props.character?.builds?.[props.buildIndex].equipped) {
-    const previewCharacter = TsUtils.clone(props.character)
-    previewCharacter.equipped = props.character.builds[props.buildIndex].equipped
-
-    console.log('Previewing builds character:', previewCharacter)
-    // @ts-expect-error we don't need the character modal to be accessible from here
-    return <CharacterPreview character={previewCharacter} source={ShowcaseSource.BUILDS_MODAL} id='relicScorerPreview' />
+    return (
+      <CharacterPreview
+        character={props.character}
+        source={ShowcaseSource.BUILDS_MODAL}
+        id='relicScorerPreview'
+        savedBuildOverride={props.buildIndex}
+      />
+    )
   }
 
   return <div style={{ width: 656, height: 856, border: '1px solid #354b7d' }}></div>

@@ -15,20 +15,30 @@ import {
 import StatText, { StatTextEllipses } from 'lib/characterPreview/StatText'
 import { parentW } from 'lib/constants/constantsUi'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 
 const { Text } = Typography
 
-export function ShowcaseLightConeSmall(props: {
-  source: ShowcaseSource,
+interface UnInteractiveShowcaseLightConeProps {
+  source: ShowcaseSource.BUILDS_MODAL
+  setOriginalCharacterModalInitialCharacter?: never
+  setOriginalCharacterModalOpen?: never
+}
+
+interface InteractiveShowcaseLightConeProps {
+  source: Exclude<ShowcaseSource, ShowcaseSource.BUILDS_MODAL>
+  setOriginalCharacterModalInitialCharacter: (c: Character) => void
+  setOriginalCharacterModalOpen: (b: boolean) => void
+}
+
+type ShowcaseLightConeProps = {
   character: Character,
   displayDimensions: ShowcaseDisplayDimensions,
-  setOriginalCharacterModalInitialCharacter: (c: Character) => void,
-  setOriginalCharacterModalOpen: (b: boolean) => void,
   showcaseMetadata: ShowcaseMetadata,
-}) {
+} & (UnInteractiveShowcaseLightConeProps | InteractiveShowcaseLightConeProps)
+
+export function ShowcaseLightConeSmall(props: ShowcaseLightConeProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
   const {
@@ -106,10 +116,7 @@ export function ShowcaseLightConeSmall(props: {
           boxShadow: showcaseShadow,
         }}
         onClick={() => {
-          if (source == ShowcaseSource.SHOWCASE_TAB) {
-            setOriginalCharacterModalInitialCharacter(character)
-            setOriginalCharacterModalOpen(true)
-          } else {
+          if (source !== ShowcaseSource.BUILDS_MODAL) {
             setOriginalCharacterModalInitialCharacter(character)
             setOriginalCharacterModalOpen(true)
           }
@@ -129,14 +136,7 @@ export function ShowcaseLightConeSmall(props: {
   )
 }
 
-export function ShowcaseLightConeLarge(props: {
-  source: ShowcaseSource,
-  character: Character,
-  displayDimensions: ShowcaseDisplayDimensions,
-  setOriginalCharacterModalInitialCharacter: (c: Character) => void,
-  setOriginalCharacterModalOpen: (b: boolean) => void,
-  showcaseMetadata: ShowcaseMetadata,
-}) {
+export function ShowcaseLightConeLarge(props: ShowcaseLightConeProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
   const {
@@ -175,10 +175,7 @@ export function ShowcaseLightConeLarge(props: {
         boxShadow: showcaseShadow,
       }}
       onClick={() => {
-        if (source == ShowcaseSource.SHOWCASE_TAB) {
-          setOriginalCharacterModalInitialCharacter(character)
-          setOriginalCharacterModalOpen(true)
-        } else {
+        if (source !== ShowcaseSource.BUILDS_MODAL) {
           setOriginalCharacterModalInitialCharacter(character)
           setOriginalCharacterModalOpen(true)
         }

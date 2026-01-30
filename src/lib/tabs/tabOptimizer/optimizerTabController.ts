@@ -509,7 +509,7 @@ export const OptimizerTabController = {
       // console.log('@updateForm', displayFormValues, character)
 
       generateContext(request)
-      void calculateCurrentlyEquippedRow(request)
+      calculateCurrentlyEquippedRow(request)
 
       window.onOptimizerFormValuesChange({} as Form, displayFormValues)
     }, 50)

@@ -13,6 +13,7 @@ import {
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
+import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
 import {
   DefaultSettingOptions,
   SettingOptions,
@@ -52,8 +53,10 @@ import {
   CharacterId,
   SavedBuild,
 } from 'types/character'
+import { ConditionalValueMap } from 'types/conditionals'
 import { CustomImageConfig } from 'types/customImage'
 import { Form } from 'types/form'
+import { LightConeId } from 'types/lightCone'
 import {
   DBMetadata,
   ScoringMetadata,
@@ -532,6 +535,10 @@ export const DB = {
         if (savedBuild.optimizerMetadata !== undefined) return savedBuild
         const build = savedBuild as unknown as { build: string[], name: string, score: { score: string, rating: string } }
         const migratedBuild: SavedBuild = {
+          characterId: character.id,
+          eidolon: character.form.characterEidolon,
+          lightConeId: character.form.lightCone,
+          superimposition: character.form.lightConeSuperimposition,
           name: build.name,
           equipped: build.build.reduce((acc, cur) => {
             const relic = saveData.relics.find((x) => x.id === cur)
@@ -751,7 +758,7 @@ export const DB = {
       case SavedBuildSource.OPTIMIZER:
         const formData = OptimizerTabController.getForm()
         const optimizerMetadata: BuildOptimizerMetadata = {
-          allyConditionals: {},
+          conditionals: {},
           setFilters: {
             relics: TsUtils.clone(formData.relicSets),
             ornaments: TsUtils.clone(formData.ornamentSets),
@@ -761,18 +768,26 @@ export const DB = {
           setConditionals: TsUtils.clone(formData.setConditionals),
           presets: formData.comboPreprocessor,
         }
+        optimizerMetadata.conditionals[formData.characterId] = TsUtils.clone(formData.characterConditionals)
+        optimizerMetadata.conditionals[formData.lightCone] = TsUtils.clone(formData.lightConeConditionals)
         ;[formData.teammate0, formData.teammate1, formData.teammate2].forEach((teammate) => {
           team.push({
             characterId: teammate.characterId,
             lightConeId: teammate.lightCone,
             eidolon: teammate.characterEidolon,
             superimposition: teammate.lightConeSuperimposition,
+            relicSet: teammate.teamRelicSet,
+            ornamentSet: teammate.teamOrnamentSet,
           })
-          if (teammate.characterId) optimizerMetadata.allyConditionals[teammate.characterId] = TsUtils.clone(teammate.characterConditionals)
-          if (teammate.lightCone) optimizerMetadata.allyConditionals[teammate.lightCone] = TsUtils.clone(teammate.lightConeConditionals)
+          if (teammate.characterId) optimizerMetadata.conditionals[teammate.characterId] = TsUtils.clone(teammate.characterConditionals)
+          if (teammate.lightCone) optimizerMetadata.conditionals[teammate.lightCone] = TsUtils.clone(teammate.lightConeConditionals)
         })
 
         build = {
+          characterId,
+          eidolon: formData.characterEidolon,
+          lightConeId: formData.lightCone,
+          superimposition: formData.lightConeSuperimposition,
           name,
           equipped: character.equipped,
           optimizerMetadata,
@@ -794,6 +809,10 @@ export const DB = {
           })
         }
         build = {
+          characterId,
+          eidolon: character.form.characterEidolon,
+          lightConeId: character.form.lightCone,
+          superimposition: character.form.lightConeSuperimposition,
           name,
           equipped: character.equipped,
           optimizerMetadata: null,
@@ -832,6 +851,87 @@ export const DB = {
 
     const updatedCharacter = { ...character, builds: [] }
     DB.setCharacter(updatedCharacter)
+  },
+
+  loadCharacterBuildInOptimizer: (characterId: CharacterId, buildIndex: number) => {
+    const build = DB.getCharacterById(characterId)?.builds[buildIndex]
+    if (!build) {
+      console.error(`attempted to load build ${buildIndex} into optimizer for character ${characterId} but build does not exist`)
+      return
+    }
+    if (build.characterId !== characterId) {
+      console.error(`attempted to load build`, build, `for character ${characterId} but characterIds do not match`)
+    }
+    if (window.store.getState().optimizerTabFocusCharacter !== characterId) window.OptimizerTabController.updateCharacter(characterId)
+    const form = window.optimizerForm
+
+    form.setFieldValue('characterEidolon', build.eidolon)
+    form.setFieldValue('lightCone', build.lightConeId)
+    form.setFieldValue('lightConeSuperimposition', build.superimposition)
+
+    build.team.forEach((teammate, idx) => {
+      const key = `teammate${idx}` as `teammate${0 | 1 | 2}`
+      form.setFieldValue([key, 'characterId'], teammate.characterId)
+      form.setFieldValue([key, 'characterEidolon'], teammate.eidolon)
+      form.setFieldValue([key, 'lightCone'], teammate.lightConeId)
+      form.setFieldValue([key, 'lightConeSuperimposition'], teammate.superimposition)
+      form.setFieldValue([key, 'teamOrnamentSet'], teammate.ornamentSet)
+      form.setFieldValue([key, 'teamRelicSet'], teammate.relicSet)
+    })
+
+    const meta = build.optimizerMetadata
+    if (meta) {
+      if (meta.comboStateJson) {
+        form.setFieldValue('comboType', ComboType.ADVANCED)
+        form.setFieldValue('comboPreprocessor', meta.presets)
+        form.setFieldValue('comboStateJson', TsUtils.clone(meta.comboStateJson))
+      } else {
+        form.setFieldValue('comboType', ComboType.SIMPLE)
+      }
+      if (meta.statFilters) {
+        form.setFieldsValue(TsUtils.clone(meta.statFilters))
+      }
+      form.setFieldValue('relicSets', TsUtils.clone(meta.setFilters.relics))
+      form.setFieldValue('ornamentSets', TsUtils.clone(meta.setFilters.ornaments))
+      form.setFieldValue('setConditionals', TsUtils.clone(meta.setConditionals))
+      ;(Object.entries(meta.conditionals) as Array<[LightConeId | CharacterId, ConditionalValueMap]>)
+        .forEach(([id, conditionalValueMap]) => {
+          if (id === build.characterId) {
+            form.setFieldValue('characterConditionals', TsUtils.clone(conditionalValueMap))
+            return
+          }
+          if (id === build.lightConeId) {
+            form.setFieldValue('lightConeConditionals', TsUtils.clone(conditionalValueMap))
+            return
+          }
+
+          let teammateIdx = build.team.findIndex((x) => x.characterId === id)
+          switch (teammateIdx) {
+            case 0:
+            case 1:
+            case 2:
+              form.setFieldValue([`teammate${teammateIdx}`, 'characterConditionals'], TsUtils.clone(conditionalValueMap))
+              return
+            default:
+              break
+          }
+
+          teammateIdx = build.team.findIndex((x) => x.lightConeId === id)
+          switch (teammateIdx) {
+            case 0:
+            case 1:
+            case 2:
+              form.setFieldValue([`teammate${teammateIdx}`, 'lightConeConditionals'], TsUtils.clone(conditionalValueMap))
+              return
+            default:
+              break
+          }
+
+          console.error('Found orphaned conditional while loading build')
+        })
+    }
+
+    window.store.getState().setActiveKey(AppPages.OPTIMIZER)
   },
 
   unequipCharacter: (id: CharacterId) => {

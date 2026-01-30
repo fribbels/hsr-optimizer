@@ -29,6 +29,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import type {
   Character,
+  CharacterId,
   SavedBuild,
 } from 'types/character'
 
@@ -183,6 +184,13 @@ export function BuildsModal() {
                         }}
                       >
                         {t('Builds.Equip') /* Equip */}
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          DB.loadCharacterBuildInOptimizer(selectedCharacter.id, index)
+                        }}
+                      >
+                        Load to Optimizer
                       </Button>
                       <Button
                         style={{ width: 35 }}

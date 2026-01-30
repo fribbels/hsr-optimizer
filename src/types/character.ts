@@ -2,6 +2,7 @@ import type data from 'data/game_data.json'
 import { Parts } from 'lib/constants/constants'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { Prettify } from 'types/common'
 import { ConditionalValueMap } from 'types/conditionals'
 import { CustomImageConfig } from 'types/customImage'
 import {
@@ -29,15 +30,17 @@ export type Character = {
   portrait?: CustomImageConfig,
 }
 
-export type SavedBuild = {
-  equipped: Build,
-  name: string,
-  team: Array<BuildTeammate>,
-  optimizerMetadata: BuildOptimizerMetadata | null,
-}
+export type SavedBuild = Prettify<
+  {
+    equipped: Build,
+    name: string,
+    team: Array<BuildTeammate>,
+    optimizerMetadata: BuildOptimizerMetadata | null,
+  } & Omit<BuildTeammate, 'relicSet' | 'ornamentSet'>
+>
 
 export type BuildOptimizerMetadata = {
-  allyConditionals: Partial<Record<CharacterId | LightConeId, ConditionalValueMap>>,
+  conditionals: Partial<Record<CharacterId | LightConeId, ConditionalValueMap>>,
   comboStateJson: string | null,
   statFilters: StatFilters | null,
   setFilters: {

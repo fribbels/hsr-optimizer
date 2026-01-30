@@ -66,6 +66,7 @@ import { WorkerType } from 'lib/worker/workerUtils'
 import {
   Form,
   OptimizerForm,
+  Teammate,
 } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'
@@ -218,39 +219,20 @@ export class BenchmarkSimulationOrchestrator {
     const { characterId, characterEidolon, lightCone, lightConeSuperimposition } = form
 
     const simulationForm: Form = generateFullDefaultForm(characterId, lightCone, characterEidolon, lightConeSuperimposition, false)
-    const simulationFormT0 = generateFullDefaultForm(
-      metadata.teammates[0].characterId,
-      metadata.teammates[0].lightCone,
-      metadata.teammates[0].characterEidolon,
-      metadata.teammates[0].lightConeSuperimposition,
-      true,
-    )
-    const simulationFormT1 = generateFullDefaultForm(
-      metadata.teammates[1].characterId,
-      metadata.teammates[1].lightCone,
-      metadata.teammates[1].characterEidolon,
-      metadata.teammates[1].lightConeSuperimposition,
-      true,
-    )
-    const simulationFormT2 = generateFullDefaultForm(
-      metadata.teammates[2].characterId,
-      metadata.teammates[2].lightCone,
-      metadata.teammates[2].characterEidolon,
-      metadata.teammates[2].lightConeSuperimposition,
-      true,
-    )
-    simulationForm.teammate0 = simulationFormT0
-    simulationForm.teammate1 = simulationFormT1
-    simulationForm.teammate2 = simulationFormT2
 
-    simulationForm.teammate0.teamRelicSet = metadata.teammates[0].teamRelicSet
-    simulationForm.teammate0.teamOrnamentSet = metadata.teammates[0].teamOrnamentSet
-
-    simulationForm.teammate1.teamRelicSet = metadata.teammates[1].teamRelicSet
-    simulationForm.teammate1.teamOrnamentSet = metadata.teammates[1].teamOrnamentSet
-
-    simulationForm.teammate2.teamRelicSet = metadata.teammates[2].teamRelicSet
-    simulationForm.teammate2.teamOrnamentSet = metadata.teammates[2].teamOrnamentSet
+    metadata.teammates.forEach((teammate, idx) => {
+      if (!teammate) return
+      const key = `teammate${idx}` as `teammate${0 | 1 | 2}`
+      simulationForm[key] = generateFullDefaultForm(
+        teammate.characterId,
+        teammate.lightCone,
+        teammate.characterEidolon,
+        teammate.lightConeSuperimposition,
+        true,
+      )
+      simulationForm[key].teamRelicSet = teammate.teamRelicSet
+      simulationForm[key].teamOrnamentSet = teammate.teamOrnamentSet
+    })
 
     simulationForm.deprioritizeBuffs = this.metadata.deprioritizeBuffs
 

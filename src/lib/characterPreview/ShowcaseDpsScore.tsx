@@ -51,6 +51,7 @@ import {
   Form,
   OptimizerForm,
 } from 'types/form'
+import { SimulationMetadata } from 'types/metadata'
 
 export function ShowcaseDpsScorePanel(props: {
   characterId: CharacterId,
@@ -186,7 +187,7 @@ function CharacterPreviewScoringTeammate(props: {
     setCharacterModalInitialCharacter,
   } = props
 
-  const teammate = result.simulationMetadata.teammates[index]
+  const teammate = result.simulationMetadata.teammates[index] as SimulationMetadata['teammates'][number] | undefined
   const iconSize = 64
   const setSize = 24
 
@@ -214,7 +215,7 @@ function CharacterPreviewScoringTeammate(props: {
       <Flex vertical align='center' gap={0}>
         <div style={{ position: 'relative', display: 'inline-block' }}>
           <img
-            src={Assets.getCharacterAvatarById(teammate.characterId)}
+            src={Assets.getCharacterAvatarById(teammate?.characterId)}
             style={{
               height: iconSize,
               width: iconSize,
@@ -224,11 +225,11 @@ function CharacterPreviewScoringTeammate(props: {
             }}
           />
 
-          <OverlayText text={t('common:EidolonNShort', { eidolon: teammate.characterEidolon })} top={-12} />
+          <OverlayText text={t('common:EidolonNShort', { eidolon: teammate?.characterEidolon })} top={-12} />
         </div>
 
         <div style={{ position: 'relative', display: 'inline-block' }}>
-          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: 0 }} />
+          <img src={Assets.getLightConeIconById(teammate?.lightCone)} style={{ height: iconSize, marginTop: 0 }} />
 
           {formTeammate.teamRelicSet && (
             <img
@@ -263,7 +264,7 @@ function CharacterPreviewScoringTeammate(props: {
           )}
 
           <OverlayText
-            text={t('common:SuperimpositionNShort', { superimposition: teammate.lightConeSuperimposition })}
+            text={t('common:SuperimpositionNShort', { superimposition: teammate?.lightConeSuperimposition })}
             top={-18}
           />
         </div>

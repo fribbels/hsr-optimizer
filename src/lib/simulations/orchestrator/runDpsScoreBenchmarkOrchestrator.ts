@@ -3,8 +3,12 @@ import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Character } from 'types/character'
 import {
+  Character,
+  CharacterId,
+} from 'types/character'
+import {
+  ScoringMetadata,
   ShowcaseTemporaryOptions,
   SimulationMetadata,
 } from 'types/metadata'
@@ -67,6 +71,7 @@ export function setBenchmarkCache(cacheKey: string, orchestator: BenchmarkSimula
 export function resolveDpsScoreSimulationMetadata(
   character: Character,
   teamSelection: string,
+  buildIndex?: number,
 ) {
   const characterId = character.id
   const form = character.form
@@ -87,8 +92,31 @@ export function resolveDpsScoreSimulationMetadata(
   // Merge any necessary configs from the custom metadata
 
   const metadata = defaultScoringMetadata.simulation
-  metadata.teammates = teamSelection == CUSTOM_TEAM ? customScoringMetadata.simulation.teammates : defaultScoringMetadata.simulation.teammates
+  metadata.teammates = getTeammates(teamSelection, character, customScoringMetadata, defaultScoringMetadata, buildIndex)
   metadata.deprioritizeBuffs = customScoringMetadata.simulation.deprioritizeBuffs ?? false
 
   return metadata
+}
+
+function getTeammates(
+  teamSelection: string,
+  character: Character,
+  customMetadata: ScoringMetadata,
+  defaultMetadata: ScoringMetadata,
+  buildIndex?: number,
+): SimulationMetadata['teammates'] {
+  if (buildIndex !== undefined) {
+    return character.builds[buildIndex].team.map((x) => ({
+      characterId: x.characterId,
+      lightCone: x.lightConeId,
+      characterEidolon: x.eidolon,
+      lightConeSuperimposition: x.superimposition,
+      teamRelicSet: x.relicSet,
+      teamOrnamentSet: x.ornamentSet,
+    }))
+  }
+  if (teamSelection === CUSTOM_TEAM) {
+    return customMetadata.simulation!.teammates
+  }
+  return defaultMetadata.simulation!.teammates
 }

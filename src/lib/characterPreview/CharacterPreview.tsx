@@ -198,6 +198,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
     displayRelics,
     currentSelection,
     showcaseTemporaryOptions,
+    savedBuildOverride,
   )
   const scoringType = resolveScoringType(storedScoringType, asyncSimScoringExecution)
 

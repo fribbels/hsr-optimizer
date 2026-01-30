@@ -6,6 +6,7 @@ import {
   CURRENT_OPTIMIZER_VERSION,
   DEFAULT_MEMO_DISPLAY,
   DEFAULT_STAT_DISPLAY,
+  DEFAULT_TEAM,
   Parts,
   SubStats,
 } from 'lib/constants/constants'
@@ -537,14 +538,15 @@ export const DB = {
             if (relic) acc[relic.part] = cur
             return acc
           }, {} as Build),
-          team: scoringMetadata.simulation?.teammates.map((x) => ({
+          team: /* scoringMetadata.simulation?.teammates.map((x) => ({
             characterId: x.characterId,
             eidolon: x.characterEidolon,
             lightConeId: x.lightCone,
             superimposition: x.lightConeSuperimposition,
             relicSet: x.teamRelicSet,
             ornamentSet: x.teamOrnamentSet,
-          })) ?? [],
+          })) ?? */
+            [],
           optimizerMetadata: null,
         }
         return migratedBuild
@@ -780,7 +782,7 @@ export const DB = {
         break
       case SavedBuildSource.SHOWCASE:
         const simulation = DB.getScoringMetadata(character.id)?.simulation
-        const useCustomTeam = simulation && window.store.getState().showcaseTeamPreferenceById[characterId]
+        const useCustomTeam = simulation && (window.store.getState().showcaseTeamPreferenceById[characterId] !== DEFAULT_TEAM)
         let teammates = useCustomTeam ? simulation.teammates : DB.getMetadata().characters[characterId].scoringMetadata.simulation?.teammates
         if (teammates) {
           teammates.forEach((teammate) => {

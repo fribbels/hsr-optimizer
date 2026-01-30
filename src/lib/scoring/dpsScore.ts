@@ -32,9 +32,10 @@ export function getShowcaseSimScoringExecution(
   displayRelics: RelicBuild,
   teamSelection: string,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions = {},
+  buildIndex?: number,
 ): AsyncSimScoringExecution {
   const characterMetadata = DB.getMetadata().characters[character.id]
-  const simulationMetadata = resolveDpsScoreSimulationMetadata(character, teamSelection)
+  const simulationMetadata = resolveDpsScoreSimulationMetadata(character, teamSelection, buildIndex)
   const singleRelicByPart = displayRelics as SingleRelicByPart
 
   const asyncResult: AsyncSimScoringExecution = {

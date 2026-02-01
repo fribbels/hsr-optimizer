@@ -1,29 +1,35 @@
 import {
+  CameraOutlined,
   DeleteOutlined,
+  DownloadOutlined,
   ExclamationCircleOutlined,
 } from '@ant-design/icons'
 import {
   Button,
-  Card,
   Flex,
   Modal,
+  theme,
 } from 'antd'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { CUSTOM_TEAM } from 'lib/constants/constants'
 import {
   OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
 import { Message } from 'lib/interactions/message'
+import { defaultTeammate } from 'lib/optimization/defaultForm'
+import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { Utils } from 'lib/utils/utils'
 import {
+  CSSProperties,
   ReactNode,
   useEffect,
-  useMemo,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -32,6 +38,9 @@ import type {
   CharacterId,
   SavedBuild,
 } from 'types/character'
+import { Teammate } from 'types/form'
+
+const { useToken } = theme
 
 // FIXME LOW
 
@@ -40,6 +49,8 @@ export function BuildsModal() {
   const [confirmationModal, contextHolder] = Modal.useModal()
   const [selectedBuild, setSelectedBuild] = useState<null | number>(null)
   const { isOpen, close } = useOpenClose(OpenCloseIDs.BUILDS_MODAL)
+
+  const [loading, setLoading] = useState(false)
 
   const selectedCharacter = useCharacterTabStore((s) => s.selectedCharacter)
 
@@ -121,21 +132,79 @@ export function BuildsModal() {
         Object.values(build.equipped),
         selectedCharacter?.id,
       )
+      const simulation = TsUtils.clone(DB.getScoringMetadata(selectedCharacter.id).simulation)
+      if (simulation) {
+        simulation.deprioritizeBuffs = build.deprioritizeBuffs
+        for (let i = 0; i <= 2; i++) {
+          const teammate = build.team[i]
+          if (!teammate) {
+            simulation.teammates[i] = defaultTeammate() as Teammate
+          } else {
+            simulation.teammates[i] = {
+              characterId: teammate.characterId,
+              characterEidolon: teammate.eidolon,
+              lightCone: teammate.lightConeId,
+              lightConeSuperimposition: teammate.superimposition,
+              teamRelicSet: teammate.relicSet,
+              teamOrnamentSet: teammate.ornamentSet,
+            }
+          }
+        }
+        DB.updateSimulationScoreOverrides(selectedCharacter.id, simulation)
+        window.store.getState().setShowcaseTeamPreferenceById([selectedCharacter.id, CUSTOM_TEAM])
+      }
       SaveState.delayedSave()
       Message.success(t('Builds.ConfirmEquip.SuccessMessage', { buildName: build.name }) /* Successfully equipped build: {{buildName}} */)
       handleCancel()
     }
   }
 
+  function clipboardClicked(action: string) {
+    if (selectedBuild === null || selectedCharacter === null) {
+      console.debug(selectedBuild, selectedCharacter)
+      return
+    }
+    setLoading(true)
+    const charId = selectedCharacter.id
+    const buildName = selectedCharacter.builds[selectedBuild].name
+    setTimeout(() => {
+      void Utils.screenshotElementById('buildPreview', action, `${t(`gameData:Characters.${charId}.LongName`)}_${buildName}`)
+        .finally(() => {
+          setLoading(false)
+        })
+    }, 100)
+  }
+
   return (
     <Modal
       open={isOpen}
-      width={1115}
+      width={1550}
       destroyOnClose
       centered
       onOk={onModalOk}
       onCancel={handleCancel}
       footer={[
+        <Button
+          key='download'
+          icon={<DownloadOutlined style={{ fontSize: 30 }} />}
+          loading={loading}
+          onClick={() => {
+            console.log('download')
+            clipboardClicked('download')
+          }}
+          type='primary'
+          style={{ height: 50, width: 50, borderRadius: 8 }}
+        >
+        </Button>,
+        <Button
+          key='clipboard'
+          icon={<CameraOutlined style={{ fontSize: 30 }} />}
+          loading={loading}
+          onClick={() => clipboardClicked('clipboard')}
+          type='primary'
+          style={{ height: 50, width: 50, borderRadius: 8 }}
+        >
+        </Button>,
         <Button key='delete' onClick={() => handleDeleteAllBuilds()}>
           {t('Builds.DeleteAll') /* Delete All */}
         </Button>,
@@ -145,69 +214,13 @@ export function BuildsModal() {
       ]}
     >
       <Flex gap={10}>
-        {selectedCharacter && (
-          <>
-            <Flex
-              vertical
-              style={{
-                overflowY: 'auto',
-                marginBottom: 20,
-                minWidth: 400,
-                maxWidth: 400,
-                height: 840,
-              }}
-              gap={8}
-            >
-              {selectedCharacter.builds?.map((build, index) => (
-                <Card
-                  style={{
-                    backgroundColor: selectedBuild === index ? '#001529' : undefined,
-                    cursor: 'pointer',
-                  }}
-                  onClick={(e) => {
-                    const isButtonClicked = (e.target as HTMLElement).closest('button') !== null
-                    if (!isButtonClicked) {
-                      setSelectedBuild(index)
-                    }
-                  }}
-                  key={index}
-                  hoverable
-                >
-                  <Flex justify='space-between' gap={8} align='center'>
-                    <Flex vertical align='flex-start'>
-                      <HeaderText style={{ flex: 1, fontSize: 16, fontWeight: 600 }}>{build.name}</HeaderText>
-                    </Flex>
-                    <Flex gap={5}>
-                      <Button
-                        onClick={() => {
-                          void handleEquip(build)
-                        }}
-                      >
-                        {t('Builds.Equip') /* Equip */}
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          DB.loadCharacterBuildInOptimizer(selectedCharacter.id, index)
-                          close()
-                        }}
-                      >
-                        Load to Optimizer
-                      </Button>
-                      <Button
-                        style={{ width: 35 }}
-                        type='primary'
-                        icon={<DeleteOutlined />}
-                        onClick={() => {
-                          void handleDeleteSingleBuild(build.name)
-                        }}
-                      />
-                    </Flex>
-                  </Flex>
-                </Card>
-              ))}
-            </Flex>
-          </>
-        )}
+        <BuildList
+          character={selectedCharacter}
+          selectedBuild={selectedBuild}
+          setSelectedBuild={setSelectedBuild}
+          handleEquip={handleEquip}
+          handleDelete={handleDeleteSingleBuild}
+        />
 
         {contextHolder}
         <BuildPreview character={selectedCharacter} buildIndex={selectedBuild} />
@@ -222,11 +235,155 @@ function BuildPreview(props: { character: Character | null, buildIndex: number |
       <CharacterPreview
         character={props.character}
         source={ShowcaseSource.BUILDS_MODAL}
-        id='relicScorerPreview'
+        id='buildPreview'
         savedBuildOverride={props.buildIndex}
       />
     )
   }
 
   return <div style={{ width: 656, height: 856, border: '1px solid #354b7d' }}></div>
+}
+
+export function BuildList(props: {
+  character: Character | null,
+  selectedBuild: number | null,
+  setSelectedBuild: (index: number) => void,
+  handleEquip: (build: SavedBuild) => Promise<void>,
+  handleDelete: (name: string) => void,
+}) {
+  const {
+    character,
+    selectedBuild,
+    setSelectedBuild,
+    handleEquip,
+    handleDelete,
+  } = props
+  return (
+    <Flex
+      vertical
+      style={{
+        overflowY: 'auto',
+        marginBottom: 20,
+        minWidth: 400,
+        maxWidth: 400,
+        height: 840,
+      }}
+      gap={8}
+    >
+      {character?.builds?.map((build, index) => (
+        <BuildCard
+          key={index}
+          index={index}
+          build={build}
+          characterId={character.id}
+          selectedBuild={selectedBuild}
+          setSelectedBuild={setSelectedBuild}
+          handleEquip={handleEquip}
+          handleDelete={handleDelete}
+        />
+      ))}
+    </Flex>
+  )
+}
+
+function BuildCard(props: {
+  characterId: CharacterId,
+  index: number,
+  build: SavedBuild,
+  selectedBuild: number | null,
+  setSelectedBuild: (index: number) => void,
+  handleEquip: (build: SavedBuild) => Promise<void>,
+  handleDelete: (name: string) => void,
+}) {
+  const {
+    characterId,
+    index,
+    build,
+    selectedBuild,
+    setSelectedBuild,
+    handleEquip,
+    handleDelete,
+  } = props
+  const { t } = useTranslation('modals', { keyPrefix: 'Builds' })
+  const [hovered, setHovered] = useState(false)
+  const selected = selectedBuild === index
+  const { token } = useToken()
+  return (
+    <div
+      style={{
+        backgroundColor: selected ? '#001529' : token.colorBorderBg,
+        cursor: 'pointer',
+        height: hovered ? 80 : 32,
+        padding: 24,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: hovered ? 'rgba(255, 255, 255, 0.45)' : token.colorBorderSecondary,
+        borderStyle: 'solid',
+        boxShadow: hovered ? 'rgba(0,0,0,0.3) 2px 4px' : undefined,
+        transition: 'all ease-in-out 0.2s, height ease-in-out 0.4s',
+      }}
+      onClick={() => {
+        setSelectedBuild(index)
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <Flex vertical gap={8}>
+        <Flex justify='space-between' gap={8} align='center' style={{ zIndex: 10 }}>
+          <Flex vertical align='flex-start'>
+            <HeaderText style={{ flex: 1, fontSize: 16, fontWeight: 600 }}>{build.name}</HeaderText>
+          </Flex>
+          <Flex gap={5}>
+            <Button
+              onClick={() => {
+                void handleEquip(build)
+              }}
+            >
+              {t('Equip') /* Equip */}
+            </Button>
+            <Button
+              onClick={() => {
+                DB.loadCharacterBuildInOptimizer(characterId, index)
+                close()
+              }}
+            >
+              Load to Optimizer
+            </Button>
+            <Button
+              style={{ width: 35 }}
+              type='primary'
+              icon={<DeleteOutlined />}
+              onClick={() => {
+                handleDelete(build.name)
+              }}
+            />
+          </Flex>
+        </Flex>
+        <TeammatePreview build={build} display={hovered} />
+      </Flex>
+    </div>
+  )
+}
+
+function TeammatePreview(props: { build: SavedBuild, display: boolean }) {
+  const { build, display } = props
+  const imgStyle: CSSProperties = {
+    opacity: display ? 1 : 0,
+    position: 'relative',
+    height: display ? 50 : 0,
+    transition: 'height ease-in-out 0.4s, opacity ease-out 0.4s',
+  }
+  return (
+    <Flex
+      justify='space-around'
+      gap={8}
+    >
+      {build.team.map((ally, idx) => (
+        <>
+          <img src={Assets.getCharacterAvatarById(ally.characterId)} style={imgStyle} key={`char${idx}`} />
+          <img src={Assets.getLightConeIconById(ally.lightConeId)} style={imgStyle} key={`lc${idx}`} />
+        </>
+      ))}
+    </Flex>
+  )
 }

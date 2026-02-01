@@ -93,7 +93,9 @@ export function resolveDpsScoreSimulationMetadata(
 
   const metadata = defaultScoringMetadata.simulation
   metadata.teammates = getTeammates(teamSelection, character, customScoringMetadata, defaultScoringMetadata, buildIndex)
-  metadata.deprioritizeBuffs = customScoringMetadata.simulation.deprioritizeBuffs ?? false
+  metadata.deprioritizeBuffs = buildIndex !== undefined
+    ? character.builds[buildIndex].deprioritizeBuffs
+    : customScoringMetadata.simulation.deprioritizeBuffs ?? false
 
   return metadata
 }

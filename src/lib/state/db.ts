@@ -560,6 +560,7 @@ export const DB = {
             ornamentSet: x.teamOrnamentSet,
           })) ?? [],
           optimizerMetadata: null,
+          deprioritizeBuffs: scoringMetadata.simulation?.deprioritizeBuffs ?? false,
         }
         return migratedBuild
       })
@@ -798,6 +799,7 @@ export const DB = {
           equipped: character.equipped,
           optimizerMetadata,
           team,
+          deprioritizeBuffs: formData.deprioritizeBuffs ?? false,
         }
         break
       case SavedBuildSource.SHOWCASE:
@@ -811,6 +813,8 @@ export const DB = {
               lightConeId: teammate.lightCone,
               eidolon: teammate.characterEidolon,
               superimposition: teammate.lightConeSuperimposition,
+              relicSet: teammate.teamRelicSet,
+              ornamentSet: teammate.teamOrnamentSet,
             })
           })
         }
@@ -823,6 +827,7 @@ export const DB = {
           equipped: character.equipped,
           optimizerMetadata: null,
           team,
+          deprioritizeBuffs: simulation?.deprioritizeBuffs ?? false,
         }
         break
     }
@@ -876,6 +881,8 @@ export const DB = {
     form.setFieldValue('characterEidolon', build.eidolon)
     form.setFieldValue('lightCone', build.lightConeId)
     form.setFieldValue('lightConeSuperimposition', build.superimposition)
+
+    form.setFieldValue('deprioritizeBuffs', build.deprioritizeBuffs)
 
     const teammateIndices = [0, 1, 2] as const
 

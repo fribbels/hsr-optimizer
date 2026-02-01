@@ -383,8 +383,8 @@ function ShowcaseTeamSelectPanel(props: {
       return Message.error(t('CharacterPreview.Messages.NoSelectedLightCone') /* No Selected light cone */)
     }
 
-    const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
-    const simulation = scoringMetadata.simulation!
+    const scoringMetadata = DB.getScoringMetadata(characterId)
+    const simulation = TsUtils.clone(scoringMetadata.simulation!)
 
     simulation.teammates[selectedTeammateIndex] = form
 

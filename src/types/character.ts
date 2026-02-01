@@ -36,6 +36,7 @@ export type SavedBuild = Prettify<
     name: string,
     team: Array<BuildTeammate>,
     optimizerMetadata: BuildOptimizerMetadata | null,
+    deprioritizeBuffs: boolean,
   } & Omit<BuildTeammate, 'relicSet' | 'ornamentSet'>
 >
 

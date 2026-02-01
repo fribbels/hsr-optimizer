@@ -77,7 +77,6 @@ import {
   showcaseTransition,
 } from 'lib/utils/colorUtils'
 import {
-  useCallback,
   useRef,
   useState,
 } from 'react'
@@ -274,7 +273,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
   )[character.id] ?? 150
 
   return (
-    <Flex vertical style={{ width: 1068, minHeight: source == ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>
+    <Flex vertical style={{ width: source == ShowcaseSource.BUILDS_MODAL ? 1076 : 1068, minHeight: source == ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>
       {source !== ShowcaseSource.BUILDS_MODAL && (
         <>
           <RelicModal
@@ -338,7 +337,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
           />
 
           {/* Portrait left panel */}
-          {source != ShowcaseSource.BUILDS_MODAL && (
+          {(source != ShowcaseSource.BUILDS_MODAL || source == ShowcaseSource.BUILDS_MODAL) && (
             <Flex vertical gap={8} className='character-build-portrait'>
               <ShowcasePortrait
                 source={source}
@@ -350,12 +349,19 @@ export function CharacterPreview(props: CharacterPreviewProps) {
                 setEditPortraitModalOpen={setEditPortraitModalOpen}
                 onEditPortraitOk={(payload: CustomImagePayload) => showcaseOnEditPortraitOk(character, payload, setCustomPortrait, setEditPortraitModalOpen)}
                 artistName={artistName}
-                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+                setOriginalCharacterModalInitialCharacter={(character) => setOriginalCharacterModalInitialCharacter?.(character)}
+                setOriginalCharacterModalOpen={(open) => setOriginalCharacterModalOpen?.(open)}
                 onPortraitLoad={(img: string) => sidebarRef.current?.onPortraitLoad!(img, character.id)}
               />
 
               {scoringType == ScoringType.COMBAT_SCORE && (
+                // @ts-expect-error Typescript is satisfied if there are 2 instances of ShowcaseLightConeSmall
+                // i.e.
+                // <>
+                //   {source === ShowcaseSource.BUILDS_MODAL && <ShowcaseLightConeSmall ... />}
+                //   {source !== ShowcaseSource.BUILDS_MODAL && <ShowcaseLightConeSmall ... />}
+                // </>
+                // however when only 1 instance it will error due to not properly narrowing the type
                 <ShowcaseLightConeSmall
                   source={source}
                   character={character}

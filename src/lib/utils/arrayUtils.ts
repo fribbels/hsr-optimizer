@@ -52,3 +52,8 @@ export function getIndexOf<T>(array: readonly T[], item: unknown): number {
 export const ArrayFilters = {
   nonNullable: <T>(x: T) => x != null,
 }
+
+/** only use this on objects where you know the shape strictly matches the type, otherwise you might get surprised by unexpected keys */
+export function definedEntries<K extends string | number | symbol, V>(record: Partial<Record<K, V>>) {
+  return Object.entries(record).filter((x) => x[1] !== undefined) as Array<[K, V]>
+}

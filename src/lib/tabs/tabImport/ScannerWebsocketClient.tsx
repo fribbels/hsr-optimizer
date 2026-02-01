@@ -13,6 +13,7 @@ import {
 import RelicRerollModal from 'lib/overlays/modals/RelicRerollModal'
 import DB, { AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { debounceEffect } from 'lib/utils/debounceUtils'
 import { EventEmitter } from 'lib/utils/events'
@@ -533,7 +534,7 @@ function updateCharacter(
       DB.addFromForm(parsed, false)
     }
     if (window.store.getState().optimizerTabFocusCharacter === parsed?.characterId) {
-      window.OptimizerTabController.redrawRows()
+      OptimizerTabController.redrawRows()
     }
   }
 }

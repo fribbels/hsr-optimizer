@@ -413,31 +413,31 @@ function sanitizeConditionals(conditionals: ConditionalValueMap) {
   return conditionals
 }
 
-const filters: { [K in keyof StatFilters]: number | null } = {
-  minAtk: null,
-  maxAtk: null,
-  minHp: null,
-  maxHp: null,
-  minDef: null,
-  maxDef: null,
-  minSpd: null,
-  maxSpd: null,
-  minCr: null,
-  maxCr: null,
-  minCd: null,
-  maxCd: null,
-  minEhr: null,
-  maxEhr: null,
-  minRes: null,
-  maxRes: null,
-  minBe: null,
-  maxBe: null,
-  minErr: null,
-  maxErr: null,
+export const emptyFilters: { [K in keyof StatFilters]: number | undefined } = {
+  minAtk: undefined,
+  maxAtk: undefined,
+  minHp: undefined,
+  maxHp: undefined,
+  minDef: undefined,
+  maxDef: undefined,
+  minSpd: undefined,
+  maxSpd: undefined,
+  minCr: undefined,
+  maxCr: undefined,
+  minCd: undefined,
+  maxCd: undefined,
+  minEhr: undefined,
+  maxEhr: undefined,
+  minRes: undefined,
+  maxRes: undefined,
+  minBe: undefined,
+  maxBe: undefined,
+  minErr: undefined,
+  maxErr: undefined,
 }
 
 export function statFiltersFromForm(form: Form): StatFilters {
-  return (Object.keys(filters) as Array<keyof StatFilters>).reduce((acc, key) => {
+  return (Object.keys(emptyFilters) as Array<keyof StatFilters>).reduce((acc, key) => {
     acc[key] = form[key]
     return acc
   }, {} as StatFilters)

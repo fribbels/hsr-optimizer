@@ -188,6 +188,7 @@ export function BuildsModal() {
                       <Button
                         onClick={() => {
                           DB.loadCharacterBuildInOptimizer(selectedCharacter.id, index)
+                          close()
                         }}
                       >
                         Load to Optimizer

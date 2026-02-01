@@ -55,8 +55,8 @@ const { useBreakpoint } = Grid
 
 const { Text } = Typography
 
-const SCROLLBAR_WIDTH = 5; //px
-const RESERVED_SPACE = 2; //px
+const SCROLLBAR_WIDTH = 5 // px
+const RESERVED_SPACE = 2 // px
 
 type GpuOption = { label: ReactElement, key: ComputeEngine }
 
@@ -138,7 +138,7 @@ function ComputeEngineSelect() {
             window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
             Message.success(t('EngineSwitchSuccessMsg.CPU') /* Switched compute engine to CPU */)
           } else {
-            verifyWebgpuSupport(true).then((device) => {
+            void verifyWebgpuSupport(true).then((device) => {
               if (device) {
                 window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, key)
                 Message.success(e.key === COMPUTE_ENGINE_GPU_EXPERIMENTAL ? t('EngineSwitchSuccessMsg.Experimental') : t('EngineSwitchSuccessMsg.Stable'))
@@ -159,10 +159,10 @@ function ComputeEngineSelect() {
             {
               t(`Display.${computeEngine}`)
               /*
-               [COMPUTE_ENGINE_GPU_EXPERIMENTAL]: 'GPU acceleration: Enabled',
-               [COMPUTE_ENGINE_GPU_STABLE]: 'GPU acceleration: Enabled',
-               [COMPUTE_ENGINE_CPU]: 'GPU acceleration: Disabled',
-               */
+                [COMPUTE_ENGINE_GPU_EXPERIMENTAL]: 'GPU acceleration: Enabled',
+                [COMPUTE_ENGINE_GPU_STABLE]: 'GPU acceleration: Enabled',
+                [COMPUTE_ENGINE_CPU]: 'GPU acceleration: Disabled',
+              */
             }
           </Text>
           <DownOutlined />
@@ -290,7 +290,7 @@ function ManyPermsModal(props: { manyPermsModalOpen: boolean, setManyPermsModalO
 
 function OptimizerSidebar(props: { isFullSize: boolean }) {
   const { token } = useToken()
-  const totalSideOffset = SCROLLBAR_WIDTH + RESERVED_SPACE;
+  const totalSideOffset = SCROLLBAR_WIDTH + RESERVED_SPACE
   const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
   return (
     <Flex vertical style={{ overflow: 'clip' }}>

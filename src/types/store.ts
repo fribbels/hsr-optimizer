@@ -23,10 +23,6 @@ import {
 } from 'types/character'
 import { Form } from 'types/form'
 import {
-  LightConeId,
-  SuperImpositionLevel,
-} from 'types/lightCone'
-import {
   ScoringMetadata,
   ShowcasePreferences,
   ShowcaseTemporaryOptions,
@@ -93,9 +89,6 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ setOptimizerStartTime: (open: number) => void,
   /* optimizerTab             */ setOptimizerEndTime: (open: number) => void,
   /* optimizerTab             */ setOptimizerRunningEngine: (s: ComputeEngine) => void,
-  /* optimizerTab             */ optimizerFormCharacterEidolon: number,
-  /* optimizerTab             */ optimizerFormSelectedLightCone: LightConeId | null | undefined,
-  /* optimizerTab             */ optimizerFormSelectedLightConeSuperimposition: number,
   /* optimizerTab             */ setPermutationsResults: (n: number) => void,
   /* optimizerTab             */ setPermutationsSearched: (n: number) => void,
   /* global                   */ setRelicsById: (relicsById: Partial<Record<string, Relic>>) => void,
@@ -106,13 +99,10 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void,
   /* optimizerTab             */ setStatDisplay: (display: StatDisplay) => void,
   /* optimizerTab             */ setMemoDisplay: (display: MemoDisplay) => void,
-  /* optimizerTab             */ setOptimizerFormSelectedLightConeSuperimposition: (x: SuperImpositionLevel) => void,
   /* global                   */ setColorTheme: (x: ColorThemeOverrides) => void,
   /* optimizerTab             */ setOptimizerBuild: (x: Build) => void,
   /* optimizerTab             */ setOptimizerSelectedRowData: (x: OptimizerDisplayDataStatSim | null) => void,
   /* global                   */ setSavedSession: (x: GlobalSavedSession) => void,
-  /* optimizerTab             */ setOptimizerFormSelectedLightCone: (x: LightConeId | null) => void,
-  /* optimizerTab             */ setOptimizerFormCharacterEidolon: (x: Eidolon) => void,
   /* optimizerTab             */ setTeammateCount: (x: number) => void,
   /* optimizerTab             */ setSelectedStatSimulations: (x: Simulation['key'][]) => void,
   /* optimizerTab             */ setStatSimulations: (x: Simulation[]) => void,
@@ -155,7 +145,7 @@ export type UserSettings = {
   ShowComboDmgWarning: string,
 }
 
-// The JSON format we save to the save file, for localstorage characters and relics are stored under their own key
+// The JSON format we save to localstorage / save file
 export type HsrOptimizerSaveFormat = {
   relics: Relic[],
   characters: Character[],

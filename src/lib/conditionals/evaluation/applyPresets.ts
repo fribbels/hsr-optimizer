@@ -19,6 +19,7 @@ import {
   CYRENE,
   MOZE,
   PHAINON,
+  THE_DAHLIA,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import {
@@ -146,6 +147,10 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
   )).length
   const mozes = allyIds.filter((id) => id == MOZE).length
   form.setConditionals[Sets.ArcadiaOfWovenDreams][1] = form.characterId == PHAINON ? 1 : 4 + targetableMemosprites - mozes
+
+  if (allyIds.includes(THE_DAHLIA)) {
+    form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = true
+  }
 }
 
 export function applyTeamAwareSetConditionalPresetsToOptimizerFormInstance(formInstance: FormInstance<Form>) {

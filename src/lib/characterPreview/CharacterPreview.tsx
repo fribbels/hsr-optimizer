@@ -1,4 +1,5 @@
 import {
+  Button,
   ConfigProvider,
   Flex,
   theme,
@@ -166,7 +167,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
     }
   }
 
-  if (!character || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE)) {
+  if (!character || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE && activeKey != AppPages.OPTIMIZER)) {
     return (
       <div
         style={{
@@ -276,31 +277,36 @@ export function CharacterPreview(props: CharacterPreviewProps) {
   return (
     <Flex vertical style={{ width: source == ShowcaseSource.BUILDS_MODAL ? 1076 : 1068, minHeight: source == ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>
       {source !== ShowcaseSource.BUILDS_MODAL && (
-        <>
-          <RelicModal
-            selectedRelic={selectedRelic}
-            selectedPart={selectedPart}
-            onOk={onRelicModalOk}
-            setOpen={setRelicModalOpen}
-            open={relicModalOpen}
-            defaultWearer={character.id}
-          />
-          <ShowcaseCustomizationSidebar
-            ref={sidebarRef}
-            source={source}
-            id={props.id}
-            characterId={character.id}
-            asyncSimScoringExecution={asyncSimScoringExecution}
-            token={seedToken}
-            showcasePreferences={characterShowcasePreferences}
-            scoringType={scoringType}
-            seedColor={overrideSeedColor}
-            setSeedColor={setSeedColor}
-            colorMode={overrideColorMode}
-            setColorMode={setColorMode}
-          />
-        </>
+        <RelicModal
+          selectedRelic={selectedRelic}
+          selectedPart={selectedPart}
+          onOk={onRelicModalOk}
+          setOpen={setRelicModalOpen}
+          open={relicModalOpen}
+          defaultWearer={character.id}
+        />
       )}
+
+      {
+        /*
+        Will only render (<></>) if source == ShowcaseSource.BUILDS_MODAL
+        It still needs to be mounted in order to provide colour to the build modals opened from the optimizer tab
+      */
+      }
+      <ShowcaseCustomizationSidebar
+        ref={sidebarRef}
+        source={source}
+        id={props.id}
+        characterId={character.id}
+        asyncSimScoringExecution={asyncSimScoringExecution}
+        token={seedToken}
+        showcasePreferences={characterShowcasePreferences}
+        scoringType={scoringType}
+        seedColor={overrideSeedColor}
+        setSeedColor={setSeedColor}
+        colorMode={overrideColorMode}
+        setColorMode={setColorMode}
+      />
 
       <ConfigProvider theme={seedTheme}>
         {/* Showcase full card */}

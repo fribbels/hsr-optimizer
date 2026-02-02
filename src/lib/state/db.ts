@@ -761,7 +761,7 @@ export const DB = {
 
     switch (source) {
       case SavedBuildSource.OPTIMIZER:
-        const formData = OptimizerTabController.getForm()
+        const formData = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
         const optimizerMetadata: BuildOptimizerMetadata = {
           conditionals: {},
           setFilters: {
@@ -862,6 +862,7 @@ export const DB = {
 
   deleteCharacterBuild: (characterId: CharacterId, name: string) => {
     const character = DB.getCharacterById(characterId)
+    console.info('intercepted attempt to delete build', name, 'for character', characterId, character?.builds)
     if (!character) return console.warn('No character to delete build for')
 
     const updatedCharacter = { ...character, builds: character.builds!.filter((x) => x.name != name) }

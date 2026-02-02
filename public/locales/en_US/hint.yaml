@@ -49,6 +49,10 @@ Actions:
   p2: Filter - Re-apply the search filters to existing results. Use this to narrow filters without restarting a search
   p3: Pin build - Pin the currently selected row to the top of the grid. Use this to compare multiple builds more easily
   p4: Clear pins - Clear all the builds that you pinned to the top of the grid
+Builds:
+  Title: Builds
+  p1: Save - Save the currently selected build as well as all the optimizer settings
+  p2: Load - Load a saved build into the optimizer. This includes teammates, conditionals, and combo settings
 OptimizerOptions:
   Title: Optimizer options
   PriorityFilter: >-

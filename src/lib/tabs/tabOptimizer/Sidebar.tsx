@@ -26,12 +26,19 @@ import {
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
+import {
+  OpenCloseIDs,
+  setOpen,
+} from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { Optimizer } from 'lib/optimization/optimizer'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
-import DB from 'lib/state/db'
+import { BuildsModal } from 'lib/overlays/modals/BuildsModal'
+import { SaveBuildModal } from 'lib/overlays/modals/SaveBuildModal'
+import DB, { AppPages } from 'lib/state/db'
+import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -39,7 +46,7 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
-import {
+import React, {
   ReactElement,
   useState,
 } from 'react'
@@ -329,6 +336,7 @@ function OptimizerSidebar(props: { isFullSize: boolean }) {
             <PermutationsGroup isFullSize={props.isFullSize} />
             <OptimizerControlsGroup isFullSize={props.isFullSize} />
             <ResultsGroup isFullSize={props.isFullSize} />
+            <BuildsGroup isFullSize={props.isFullSize} />
           </Flex>
         </Flex>
       </Flex>
@@ -395,6 +403,52 @@ function ProgressDisplay() {
     </Flex>
   )
 }
+
+const BuildsGroup = React.memo((props: { isFullSize: boolean }) => {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.BuildsGroup' })
+  const [saveBuildModalOpen, setSaveBuildModalOpen] = useState(false)
+  const [buildsModalOpen, setBuildsModalOpen] = useState(false)
+  const focusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+  const charactersById = useCharacterTabStore((s) => s.charactersById)
+
+  if (!props.isFullSize || !focusCharacter) return <></>
+
+  const character = charactersById[focusCharacter] ?? null
+
+  return (
+    <Flex vertical>
+      <SaveBuildModal
+        character={character}
+        source={AppPages.OPTIMIZER}
+        isOpen={saveBuildModalOpen}
+        close={() => setSaveBuildModalOpen(false)}
+      />
+      <BuildsModal
+        selectedCharacter={character}
+        isOpen={buildsModalOpen}
+        close={() => setBuildsModalOpen(false)}
+      />
+      <Flex justify='space-between' align='center'>
+        <HeaderText>{t('Header')}</HeaderText>
+        <TooltipImage type={Hint.builds()} />
+      </Flex>
+      <Flex gap={defaultGap} justify='space-around'>
+        <Button
+          style={{ width: '100px' }}
+          onClick={() => setSaveBuildModalOpen(true)}
+        >
+          {t('Save')}
+        </Button>
+        <Button
+          style={{ width: '100px' }}
+          onClick={() => setBuildsModalOpen(true)}
+        >
+          {t('Load')}
+        </Button>
+      </Flex>
+    </Flex>
+  )
+})
 
 function ResultsGroup(props: { isFullSize: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.ResultsGroup' })

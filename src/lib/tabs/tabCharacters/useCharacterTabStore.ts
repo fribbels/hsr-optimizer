@@ -30,6 +30,8 @@ type CharacterTabValues = {
   charactersById: Partial<Record<CharacterId, Character>>,
   characterModalInitialCharacter: Character | null,
   characterModalOpen: boolean,
+  saveBuildModalOpen: boolean,
+  buildsModalOpen: boolean,
   filters: CharacterTabFilters,
 }
 
@@ -37,6 +39,8 @@ type CharacterTabActions = {
   setFocusCharacter: (focusCharacter: CharacterId | null) => void,
   setCharacterModalInitialCharacter: (character: Character | null) => void,
   setCharacterModalOpen: (characterModalOpen: boolean) => void,
+  setSaveBuildModalOpen: (saveBuildModalOpen: boolean) => void,
+  setBuildsModalOpen: (buildsModalOpen: boolean) => void,
 
   setFilters: (filters: CharacterTabFilters) => void,
   setNameFilter: (name: CharacterTabFilters['name']) => void,
@@ -57,6 +61,8 @@ export const useCharacterTabStore = create<CharacterTabState>()((set) => ({
   charactersById: {},
   characterModalInitialCharacter: null,
   characterModalOpen: false,
+  saveBuildModalOpen: false,
+  buildsModalOpen: false,
   filters: TsUtils.clone(defaultFilters),
 
   setFocusCharacter: (focusCharacter) =>
@@ -68,6 +74,8 @@ export const useCharacterTabStore = create<CharacterTabState>()((set) => ({
     }),
   setCharacterModalInitialCharacter: (character) => set({ characterModalInitialCharacter: character }),
   setCharacterModalOpen: (characterModalOpen) => set({ characterModalOpen }),
+  setSaveBuildModalOpen: (saveBuildModalOpen) => set({ saveBuildModalOpen }),
+  setBuildsModalOpen: (buildsModalOpen) => set({ buildsModalOpen }),
 
   setFilters: (filters) => set({ filters }),
   setNameFilter: (name) => set((s) => ({ filters: { ...s.filters, name } })),

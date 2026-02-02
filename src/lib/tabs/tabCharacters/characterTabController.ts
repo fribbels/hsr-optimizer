@@ -123,7 +123,6 @@ export const CharacterTabController = {
 }
 
 function updateBuilds(name: string, overwrite: boolean) {
-  const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
   const selectedCharacter = useCharacterTabStore.getState().selectedCharacter
   if (!selectedCharacter) return
   const res = DB.saveCharacterBuild(
@@ -138,6 +137,4 @@ function updateBuilds(name: string, overwrite: boolean) {
   } else {
     Message.success(i18next.t('charactersTab:Messages.SaveSuccess', { name }))
   }
-  SaveState.delayedSave()
-  setClose(OpenCloseIDs.SAVE_BUILDS_MODAL)
 }

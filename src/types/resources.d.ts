@@ -5142,6 +5142,11 @@ interface Resources {
       "p3": "Pin build - Pin the currently selected row to the top of the grid. Use this to compare multiple builds more easily",
       "p4": "Clear pins - Clear all the builds that you pinned to the top of the grid"
     },
+    "Builds": {
+      "Title": "Builds",
+      "p1": "Save - Save the currently selected build as well as all the optimizer settings",
+      "p2": "Load - Load a saved build into the optimizer. This includes teammates, conditionals, and combo settings"
+    },
     "OptimizerOptions": {
       "Title": "Optimizer options",
       "PriorityFilter": "<0>Character priority filter</0> - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.",
@@ -6118,6 +6123,11 @@ interface Resources {
         "Filter": "Filter",
         "Pin": "Pin builds",
         "Clear": "Clear pins"
+      },
+      "BuildsGroup": {
+        "Header": "Builds",
+        "Save": "Save",
+        "Load": "Load"
       }
     },
     "TeammateRow": {

@@ -28,6 +28,10 @@ export default function CharacterTab() {
   const setCharacterModalOpen = useCharacterTabStore((s) => s.setCharacterModalOpen)
   const characterModalInitialCharacter = useCharacterTabStore((s) => s.characterModalInitialCharacter)
   const setCharacterModalInitialCharacter = useCharacterTabStore((s) => s.setCharacterModalInitialCharacter)
+  const saveBuildModalOpen = useCharacterTabStore((s) => s.saveBuildModalOpen)
+  const setSaveBuildModalOpen = useCharacterTabStore((s) => s.setSaveBuildModalOpen)
+  const buildsModalOpen = useCharacterTabStore((s) => s.buildsModalOpen)
+  const setBuildsModalOpen = useCharacterTabStore((s) => s.setBuildsModalOpen)
 
   console.log('======================================================================= RENDER CharacterTab')
 
@@ -87,9 +91,18 @@ export default function CharacterTab() {
 
       <SwitchRelicsModal />
 
-      <SaveBuildModal source={AppPages.CHARACTERS} character={selectedCharacter} />
+      <SaveBuildModal
+        source={AppPages.CHARACTERS}
+        character={selectedCharacter}
+        isOpen={saveBuildModalOpen}
+        close={() => setSaveBuildModalOpen(false)}
+      />
 
-      <BuildsModal />
+      <BuildsModal
+        selectedCharacter={selectedCharacter}
+        isOpen={buildsModalOpen}
+        close={() => setBuildsModalOpen(false)}
+      />
     </Flex>
   )
 }

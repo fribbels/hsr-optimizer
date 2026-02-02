@@ -8,10 +8,7 @@ import {
   Modal,
   Tooltip,
 } from 'antd'
-import {
-  OpenCloseIDs,
-  useOpenClose,
-} from 'lib/hooks/useOpenClose'
+import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import {
   BuildList,
@@ -21,15 +18,15 @@ import {
   lockScroll,
   unlockScroll,
 } from 'lib/rendering/scrollController'
-import {
+import DB, {
   AppPages,
+  SavedBuildSource,
 } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import {
   ReactNode,
   useEffect,
-  useMemo,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -48,15 +45,17 @@ const buttonStyle = { margin: '4px 0px 4px 0px', height: '5.5%' }
 export function SaveBuildModal(props: {
   source: AppPages.CHARACTERS | AppPages.OPTIMIZER,
   character: Character | null,
+  isOpen: boolean,
+  close: () => void,
 }) {
   const {
     source,
     character,
+    isOpen,
+    close,
   } = props
   const [characterForm] = Form.useForm<CharacterForm>()
-  const [confirmationModal] = Modal.useModal()
-
-  const { isOpen, close } = useOpenClose(OpenCloseIDs.SAVE_BUILDS_MODAL)
+  const [confirmationModal, contextHolder] = Modal.useModal()
 
   const [selectedBuild, setSelectedBuild] = useState<number | null>(null)
   const [inputName, setInputName] = useState<string>('')
@@ -77,6 +76,9 @@ export function SaveBuildModal(props: {
       const buildName = character.builds![idx].name
       characterForm.setFieldValue('name', buildName)
       setInputName(buildName)
+    } else {
+      characterForm.setFieldValue('name', '')
+      setInputName('')
     }
   }
 
@@ -104,10 +106,22 @@ export function SaveBuildModal(props: {
         }
         break
       case AppPages.OPTIMIZER:
-        // TODO:
-        break
-      default:
-        break
+        const overwrite = mode === 'overwrite'
+        const selectedCharacter = window.store.getState().optimizerTabFocusCharacter
+        if (!selectedCharacter) {
+          console.warn('no selected character')
+          break
+        }
+        const res = DB.saveCharacterBuild(inputName, selectedCharacter, SavedBuildSource.OPTIMIZER, overwrite)
+        if (res) {
+          Message.error(res.error)
+          break
+        }
+        if (overwrite) {
+          Message.success(i18next.t('modals:SaveBuild.ConfirmOverwrite.SuccessMessage', { name: inputName }))
+        } else {
+          Message.success(i18next.t('charactersTab:Messages.SaveSuccess', { name: inputName }))
+        }
     }
     SaveState.delayedSave()
     close()
@@ -115,6 +129,13 @@ export function SaveBuildModal(props: {
 
   function onModalOk() {
     handleInput('save')
+  }
+
+  const handleOverwrite = async () => {
+    const res = await confirm(t('ConfirmOverwrite.Content'))
+    if (res) {
+      handleInput('overwrite')
+    }
   }
 
   const handleCancel = () => {
@@ -127,7 +148,7 @@ export function SaveBuildModal(props: {
 
   const build: SavedBuild | null = (() => {
     // if build is null then the preview will show the character's currently equipped build as seen in the character tab
-    if (selectedBuild !== null) {
+    if (selectedBuild !== null && selectedBuild !== -1) {
       return character?.builds![selectedBuild] ?? null
     }
     switch (source) {
@@ -157,13 +178,6 @@ export function SaveBuildModal(props: {
     }
   })()
 
-  const handleOverwrite = async () => {
-    const res = await confirm(t('ConfirmOverwrite.Content'))
-    if (res) {
-      handleInput('overwrite')
-    }
-  }
-
   return (
     <Modal
       open={isOpen}
@@ -174,6 +188,7 @@ export function SaveBuildModal(props: {
       onCancel={handleCancel}
       footer={[]}
     >
+      {contextHolder}
       <Flex gap={10} style={{ height: 856 }}>
         <Flex vertical>
           <Form

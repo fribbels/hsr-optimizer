@@ -273,6 +273,8 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
       }
     }, [tScoring])
 
+    if (source === ShowcaseSource.BUILDS_MODAL) return <></>
+
     return (
       <Flex
         vertical

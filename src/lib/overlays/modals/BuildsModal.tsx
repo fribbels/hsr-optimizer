@@ -24,7 +24,7 @@ import {
   lockScroll,
   unlockScroll,
 } from 'lib/rendering/scrollController'
-import DB from 'lib/state/db'
+import DB, { AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -48,15 +48,17 @@ const { useToken } = theme
 
 // FIXME LOW
 
-export function BuildsModal() {
+export function BuildsModal(props: { selectedCharacter: Character | null, isOpen: boolean, close: () => void }) {
+  const {
+    selectedCharacter,
+    isOpen,
+    close,
+  } = props
   const { t } = useTranslation(['modals', 'gameData', 'common'])
   const [confirmationModal, contextHolder] = Modal.useModal()
   const [selectedBuild, setSelectedBuild] = useState<null | number>(null)
-  const { isOpen, close } = useOpenClose(OpenCloseIDs.BUILDS_MODAL)
 
   const [loading, setLoading] = useState(false)
-
-  const selectedCharacter = useCharacterTabStore((s) => s.selectedCharacter)
 
   // When opening, pick the first build if there are any + update build scores
   useEffect(() => {
@@ -165,6 +167,9 @@ export function BuildsModal() {
       SaveState.delayedSave()
       Message.success(t('Builds.ConfirmEquip.SuccessMessage', { buildName: build.name }) /* Successfully equipped build: {{buildName}} */)
       handleCancel()
+      // equip can be triggered from the optimizer tab, move to character tab and focus on the appropriate character
+      useCharacterTabStore.getState().setFocusCharacter(build.characterId)
+      window.store.getState().setActiveKey(AppPages.CHARACTERS)
     }
   }
 
@@ -184,7 +189,7 @@ export function BuildsModal() {
     }, 100)
   }
 
-  const build = selectedBuild
+  const build = selectedBuild !== null
     ? selectedCharacter?.builds[selectedBuild] ?? null
     : null
 
@@ -233,6 +238,7 @@ export function BuildsModal() {
           setSelectedBuild={setSelectedBuild}
           handleEquip={handleEquip}
           handleDelete={handleDeleteSingleBuild}
+          closeModal={close}
         />
 
         {contextHolder}
@@ -260,8 +266,9 @@ export function BuildPreview(props: { character: Character | null, build: SavedB
 interface BuildListBaseProps {
   character: Character | null
   selectedBuild: number | null
-  setSelectedBuild: (index: number) => void
+  setSelectedBuild: (index: number | null) => void
   style?: CSSProperties
+  closeModal?: () => void
 }
 
 interface InteractiveBuildListProps extends BuildListBaseProps {
@@ -287,6 +294,7 @@ export function BuildList(props: BuildListProps) {
     handleDelete,
     preview,
     style,
+    closeModal,
   } = props
   return (
     <Flex
@@ -300,6 +308,7 @@ export function BuildList(props: BuildListProps) {
         ...style,
       }}
       gap={8}
+      onClick={() => setSelectedBuild(null)}
     >
       {character?.builds?.map((build, index) => {
         return preview
@@ -311,6 +320,7 @@ export function BuildList(props: BuildListProps) {
               characterId={character.id}
               selectedBuild={selectedBuild}
               setSelectedBuild={setSelectedBuild}
+              closeModal={closeModal}
               preview
             />
           )
@@ -322,6 +332,7 @@ export function BuildList(props: BuildListProps) {
               characterId={character.id}
               selectedBuild={selectedBuild}
               setSelectedBuild={setSelectedBuild}
+              closeModal={closeModal}
               handleEquip={handleEquip}
               handleDelete={handleDelete}
             />
@@ -337,6 +348,7 @@ interface BuildCardBaseProps {
   build: SavedBuild
   selectedBuild: number | null
   setSelectedBuild: (index: number) => void
+  closeModal?: () => void
 }
 
 interface InteractiveBuildCardProps extends BuildCardBaseProps {
@@ -363,6 +375,7 @@ function BuildCard(props: BuildCardProps) {
     handleEquip,
     handleDelete,
     preview,
+    closeModal,
   } = props
   const { t } = useTranslation('modals', { keyPrefix: 'Builds' })
   const [hovered, setHovered] = useState(false)
@@ -382,8 +395,9 @@ function BuildCard(props: BuildCardProps) {
         boxShadow: hovered ? 'rgba(0,0,0,0.3) 2px 4px' : undefined,
         transition: 'all ease-in-out 0.2s, height ease-in-out 0.4s',
       }}
-      onClick={() => {
+      onClick={(e) => {
         setSelectedBuild(index)
+        e.stopPropagation()
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -405,7 +419,7 @@ function BuildCard(props: BuildCardProps) {
               <Button
                 onClick={() => {
                   DB.loadCharacterBuildInOptimizer(characterId, index)
-                  close()
+                  closeModal?.()
                 }}
               >
                 Load to Optimizer
@@ -441,10 +455,10 @@ function TeammatePreview(props: { build: SavedBuild, display: boolean }) {
       gap={8}
     >
       {build.team.map((ally, idx) => (
-        <>
+        <div key={idx}>
           <img src={Assets.getCharacterAvatarById(ally.characterId)} style={imgStyle} key={`char${idx}`} />
           <img src={Assets.getLightConeIconById(ally.lightConeId)} style={imgStyle} key={`lc${idx}`} />
-        </>
+        </div>
       ))}
     </Flex>
   )

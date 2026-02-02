@@ -12,7 +12,6 @@ import {
 } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import Sidebar from 'lib/tabs/tabOptimizer/Sidebar'
 import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
-import React from 'react'
 
 export default function OptimizerTab() {
   const expandedPanelPosition = window.store((s) => s.settings.ExpandedInfoPanelPosition)

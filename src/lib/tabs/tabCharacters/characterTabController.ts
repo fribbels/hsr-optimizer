@@ -88,6 +88,8 @@ export const CharacterTabController = {
     setClose(OpenCloseIDs.SAVE_BUILDS_MODAL)
   },
 
+  confirmOverwriteBuild: (name: string) => {},
+
   onSwitchRelicsOk: (switchTo: SwitchRelicsFormSelectedCharacter) => {
     const focusCharacter = useCharacterTabStore.getState().focusCharacter
     const t = i18next.getFixedT(null, 'charactersTab', 'Messages')

@@ -6,6 +6,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import {
   Character,
   CharacterId,
+  SavedBuild,
 } from 'types/character'
 import {
   ScoringMetadata,
@@ -71,7 +72,7 @@ export function setBenchmarkCache(cacheKey: string, orchestator: BenchmarkSimula
 export function resolveDpsScoreSimulationMetadata(
   character: Character,
   teamSelection: string,
-  buildIndex?: number,
+  buildOverride?: SavedBuild | null,
 ) {
   const characterId = character.id
   const form = character.form
@@ -81,44 +82,42 @@ export function resolveDpsScoreSimulationMetadata(
     return null
   }
 
-  const customScoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
-  const defaultScoringMetadata = TsUtils.clone(DB.getMetadata().characters[characterId].scoringMetadata)
+  const customSimulation = TsUtils.clone(DB.getScoringMetadata(characterId).simulation)
+  const simulation = TsUtils.clone(DB.getMetadata().characters[characterId].scoringMetadata.simulation)
 
-  if (!defaultScoringMetadata?.simulation || !customScoringMetadata?.simulation) {
+  if (!simulation || !customSimulation) {
     console.log('No scoring sim defined for this character')
     return null
   }
 
   // Merge any necessary configs from the custom metadata
 
-  const metadata = defaultScoringMetadata.simulation
-  metadata.teammates = getTeammates(teamSelection, character, customScoringMetadata, defaultScoringMetadata, buildIndex)
-  metadata.deprioritizeBuffs = buildIndex !== undefined
-    ? character.builds[buildIndex].deprioritizeBuffs
-    : customScoringMetadata.simulation.deprioritizeBuffs ?? false
+  simulation.teammates = getTeammates(teamSelection, customSimulation, simulation, buildOverride)
+  simulation.deprioritizeBuffs = buildOverride != undefined
+    ? buildOverride.deprioritizeBuffs
+    : customSimulation.deprioritizeBuffs ?? false
 
-  return metadata
+  return simulation
 }
 
 function getTeammates(
   teamSelection: string,
-  character: Character,
-  customMetadata: ScoringMetadata,
-  defaultMetadata: ScoringMetadata,
-  buildIndex?: number,
+  customSimulation: NonNullable<ScoringMetadata['simulation']>,
+  defaultSimulation: NonNullable<ScoringMetadata['simulation']>,
+  buildOverride?: SavedBuild | null,
 ): SimulationMetadata['teammates'] {
-  if (buildIndex !== undefined) {
-    return character.builds[buildIndex].team.map((x) => ({
-      characterId: x.characterId,
-      lightCone: x.lightConeId,
-      characterEidolon: x.eidolon,
-      lightConeSuperimposition: x.superimposition,
-      teamRelicSet: x.relicSet,
-      teamOrnamentSet: x.ornamentSet,
+  if (buildOverride != undefined) {
+    return buildOverride.team.map((t) => ({
+      characterId: t.characterId,
+      lightCone: t.lightConeId,
+      characterEidolon: t.eidolon,
+      lightConeSuperimposition: t.superimposition,
+      teamRelicSet: t.relicSet,
+      teamOrnamentSet: t.ornamentSet,
     }))
   }
   if (teamSelection === CUSTOM_TEAM) {
-    return customMetadata.simulation!.teammates
+    return customSimulation.teammates
   }
-  return defaultMetadata.simulation!.teammates
+  return defaultSimulation.teammates
 }

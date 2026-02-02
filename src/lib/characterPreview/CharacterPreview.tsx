@@ -82,6 +82,7 @@ import {
 } from 'react'
 import {
   Character,
+  SavedBuild,
 } from 'types/character'
 import {
   CustomImageConfig,
@@ -101,7 +102,7 @@ interface InteractiveCharacterPreviewProps {
 interface SavedBuildPreviewProps {
   setOriginalCharacterModalOpen?: never
   setOriginalCharacterModalInitialCharacter?: never
-  savedBuildOverride: number
+  savedBuildOverride: SavedBuild | null
   source: ShowcaseSource.BUILDS_MODAL
 }
 
@@ -183,7 +184,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
 
   // ===== Relics =====
 
-  const { scoringResults, displayRelics } = getPreviewRelics(source, character, relicsById)
+  const { scoringResults, displayRelics } = getPreviewRelics(source, character, relicsById, savedBuildOverride)
   const scoredRelics = scoringResults.relics || []
 
   const showcaseMetadata = getShowcaseMetadata(character)

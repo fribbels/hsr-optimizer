@@ -42,6 +42,7 @@ import { MutableRefObject } from 'react'
 import {
   Character,
   CharacterId,
+  SavedBuild,
 } from 'types/character'
 import {
   CustomImageConfig,
@@ -95,19 +96,19 @@ export function getPreviewRelics(
   source: ShowcaseSource,
   character: Character,
   relicsById: Partial<Record<string, Relic>>,
-  buildIndex?: number,
+  buildOverride?: SavedBuild | null,
 ) {
   let scoringResults: ScoringResults
   let displayRelics: SingleRelicByPart
   // Showcase tab relics are stored in equipped as relics instead of ids
   if (source !== ShowcaseSource.SHOWCASE_TAB) {
     displayRelics = {
-      Head: getRelic(relicsById, character, Parts.Head, buildIndex)!,
-      Hands: getRelic(relicsById, character, Parts.Hands, buildIndex)!,
-      Body: getRelic(relicsById, character, Parts.Body, buildIndex)!,
-      Feet: getRelic(relicsById, character, Parts.Feet, buildIndex)!,
-      PlanarSphere: getRelic(relicsById, character, Parts.PlanarSphere, buildIndex)!,
-      LinkRope: getRelic(relicsById, character, Parts.LinkRope, buildIndex)!,
+      Head: getRelic(relicsById, character, Parts.Head, buildOverride)!,
+      Hands: getRelic(relicsById, character, Parts.Hands, buildOverride)!,
+      Body: getRelic(relicsById, character, Parts.Body, buildOverride)!,
+      Feet: getRelic(relicsById, character, Parts.Feet, buildOverride)!,
+      PlanarSphere: getRelic(relicsById, character, Parts.PlanarSphere, buildOverride)!,
+      LinkRope: getRelic(relicsById, character, Parts.LinkRope, buildOverride)!,
     }
     scoringResults = RelicScorer.scoreCharacterWithRelics(character, Object.values(displayRelics))
   } else {
@@ -120,9 +121,9 @@ export function getPreviewRelics(
   return { scoringResults, displayRelics }
 }
 
-function getRelic(relicsById: Partial<Record<string, Relic>>, character: Character, part: Parts, buildIndex?: number): Relic | null {
-  if (buildIndex != undefined) {
-    return relicsById[character.builds[buildIndex].equipped[part]!] ?? null
+function getRelic(relicsById: Partial<Record<string, Relic>>, character: Character, part: Parts, buildOverride?: SavedBuild | null): Relic | null {
+  if (buildOverride != undefined) {
+    return relicsById[buildOverride.equipped[part]!] ?? null
   }
   if (character.equipped?.[part]) {
     return relicsById[character.equipped[part]] ?? null

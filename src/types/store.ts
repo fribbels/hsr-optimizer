@@ -11,7 +11,7 @@ import {
   Simulation,
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
-import { AppPage } from 'lib/state/db'
+import { AppPages } from 'lib/state/db'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
@@ -51,7 +51,7 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ optimizerTabFocusCharacter?: CharacterId | null,
   /* give own store?          */ scoringAlgorithmFocusCharacter?: CharacterId | null,
   /* give own store?          */ statTracesDrawerFocusCharacter?: CharacterId | null,
-  /* global                   */ activeKey: AppPage,
+  /* global                   */ activeKey: AppPages,
   /* optimizerTab             */ permutations: number,
   /* optimizerTab             */ permutationsResults: number,
   /* optimizerTab             */ permutationsSearched: number,
@@ -93,7 +93,7 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ setPermutationsSearched: (n: number) => void,
   /* global                   */ setRelicsById: (relicsById: Partial<Record<string, Relic>>) => void,
   /* global                   */ setSavedSessionKey: <T extends keyof GlobalSavedSession>(key: T, value: GlobalSavedSession[T]) => void,
-  /* global                   */ setActiveKey: (key: AppPage) => void,
+  /* global                   */ setActiveKey: (key: AppPages) => void,
   /* give own store?          */ setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void,
   /* give own store?          */ setStatTracesDrawerFocusCharacter: (id: CharacterId | null | undefined) => void,
   /* optimizerTab             */ setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void,

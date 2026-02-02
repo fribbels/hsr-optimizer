@@ -4,7 +4,6 @@ import {
 } from 'antd'
 import ScoringModal from 'lib/overlays/modals/ScoringModal'
 import {
-  AppPage,
   AppPages,
   PageToRoute,
 } from 'lib/state/db'
@@ -35,7 +34,7 @@ const defaultErrorRender = ({ error: { message } }: {
 let optimizerInitialized = false
 
 const Tabs = () => {
-  const activeKey = window.store((s) => s.activeKey).split('?')[0] as AppPage
+  const activeKey = window.store((s) => s.activeKey).split('?')[0] as AppPages
 
   const homeTab = React.useMemo(() => <HomeTab />, [])
   const optimizerTab = React.useMemo(() => <OptimizerTab />, [])
@@ -95,8 +94,8 @@ const Tabs = () => {
 export default Tabs
 
 function TabRenderer(props: {
-  activeKey: AppPage,
-  tabKey: AppPage,
+  activeKey: AppPages,
+  tabKey: AppPages,
   content: ReactElement,
 }) {
   return (

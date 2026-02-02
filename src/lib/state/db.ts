@@ -107,24 +107,22 @@ export enum BasePath {
 // This string is replaced by BasePath.BETA by github actions, don't change
 export const BASE_PATH: BasePath = BasePath.MAIN
 
-export const AppPages = {
-  HOME: 'HOME',
+export enum AppPages {
+  HOME = 'HOME',
 
-  OPTIMIZER: 'OPTIMIZER',
-  CHARACTERS: 'CHARACTERS',
-  RELICS: 'RELICS',
-  IMPORT: 'IMPORT',
+  OPTIMIZER = 'OPTIMIZER',
+  CHARACTERS = 'CHARACTERS',
+  RELICS = 'RELICS',
+  IMPORT = 'IMPORT',
 
-  CHANGELOG: 'CHANGELOG',
-  SHOWCASE: 'SHOWCASE',
-  WARP: 'WARP',
-  BENCHMARKS: 'BENCHMARKS',
+  CHANGELOG = 'CHANGELOG',
+  SHOWCASE = 'SHOWCASE',
+  WARP = 'WARP',
+  BENCHMARKS = 'BENCHMARKS',
 
-  WEBGPU_TEST: 'WEBGPU_TEST',
-  METADATA_TEST: 'METADATA_TEST',
-} as const
-
-export type AppPage = typeof AppPages[keyof typeof AppPages]
+  WEBGPU_TEST = 'WEBGPU_TEST',
+  METADATA_TEST = 'METADATA_TEST',
+}
 
 export type Route = `${typeof BASE_PATH}${RouteSuffix}`
 
@@ -145,7 +143,7 @@ export const PageToRoute = {
 
   [AppPages.WEBGPU_TEST]: `${BASE_PATH}#webgpu`,
   [AppPages.METADATA_TEST]: `${BASE_PATH}#metadata`,
-} as const satisfies Record<AppPage, Route>
+} as const satisfies Record<AppPages, Route>
 
 export const RouteToPage = {
   [PageToRoute[AppPages.OPTIMIZER]]: AppPages.OPTIMIZER,
@@ -157,7 +155,7 @@ export const RouteToPage = {
   [PageToRoute[AppPages.WEBGPU_TEST]]: AppPages.WEBGPU_TEST,
   [PageToRoute[AppPages.METADATA_TEST]]: AppPages.METADATA_TEST,
   [PageToRoute[AppPages.HOME]]: AppPages.HOME,
-} as const satisfies Record<Route, AppPage>
+} as const satisfies Record<Route, AppPages>
 
 // React usage
 // let characterTabBlur = store(s => s.characterTabBlur);
@@ -832,19 +830,17 @@ export const DB = {
         break
     }
 
-    let equipped = character.builds?.find((x) => x.name == name)?.equipped
-    if (equipped) {
+    if (character.builds?.find((x) => x.name == name)) {
       const errorMessage = i18next.t('charactersTab:Messages.BuildAlreadyExists', { name })
       console.warn(errorMessage)
       return { error: errorMessage }
     } else {
-      equipped = character.equipped
       const builds = character.builds ?? []
       builds.push(build)
 
       const updatedCharacter = { ...character, builds: [...builds] }
       DB.setCharacter(updatedCharacter)
-      console.log('Saved build', equipped, useCharacterTabStore.getState())
+      console.log('Saved build', build, useCharacterTabStore.getState())
     }
   },
 
@@ -852,7 +848,7 @@ export const DB = {
     const character = DB.getCharacterById(characterId)
     if (!character) return console.warn('No character to delete build for')
 
-    const updatedCharacter = { ...character, builds: character.builds.filter((x) => x.name != name) }
+    const updatedCharacter = { ...character, builds: character.builds!.filter((x) => x.name != name) }
     DB.setCharacter(updatedCharacter)
   },
 
@@ -1362,7 +1358,7 @@ function loadCharacterBuildInOptimizer(build: SavedBuild): void
 function loadCharacterBuildInOptimizer(characterId: CharacterId, buildIndex: number): void
 function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildIndex?: number) {
   const characterId = typeof arg1 === 'string' ? arg1 : arg1.characterId
-  const build = typeof arg1 === 'string' ? DB.getCharacterById(characterId)?.builds[buildIndex!] : arg1
+  const build = typeof arg1 === 'string' ? DB.getCharacterById(characterId)?.builds![buildIndex!] : arg1
 
   if (!build) {
     console.error(`attempted to load build ${buildIndex} into optimizer for character ${characterId} but build does not exist`)

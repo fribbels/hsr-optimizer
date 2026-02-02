@@ -119,7 +119,7 @@ export function BuildsModal() {
       SaveState.delayedSave()
       Message.success(t('Builds.ConfirmDelete.SuccessMessageSingle', { name: name }) /* Successfully deleted build: {{name}} */)
 
-      if (selectedCharacter?.builds.length == 0) {
+      if (selectedCharacter?.builds!.length == 0) {
         close()
       }
     }
@@ -160,7 +160,7 @@ export function BuildsModal() {
   }
 
   function clipboardClicked(action: string) {
-    if (selectedBuild === null || selectedCharacter === null) {
+    if (selectedBuild === null || selectedCharacter === null || !selectedCharacter.builds) {
       console.debug(selectedBuild, selectedCharacter)
       return
     }
@@ -174,6 +174,10 @@ export function BuildsModal() {
         })
     }, 100)
   }
+
+  const build = selectedBuild
+    ? selectedCharacter?.builds[selectedBuild] ?? null
+    : null
 
   return (
     <Modal
@@ -223,20 +227,20 @@ export function BuildsModal() {
         />
 
         {contextHolder}
-        <BuildPreview character={selectedCharacter} buildIndex={selectedBuild} />
+        <BuildPreview character={selectedCharacter} build={build} />
       </Flex>
     </Modal>
   )
 }
 
-function BuildPreview(props: { character: Character | null, buildIndex: number | null }) {
-  if (props.buildIndex != null && props.character?.builds?.[props.buildIndex].equipped) {
+export function BuildPreview(props: { character: Character | null, build: SavedBuild | null }) {
+  if (props.character !== null) {
     return (
       <CharacterPreview
         character={props.character}
         source={ShowcaseSource.BUILDS_MODAL}
         id='buildPreview'
-        savedBuildOverride={props.buildIndex}
+        savedBuildOverride={props.build}
       />
     )
   }
@@ -244,19 +248,36 @@ function BuildPreview(props: { character: Character | null, buildIndex: number |
   return <div style={{ width: 656, height: 856, border: '1px solid #354b7d' }}></div>
 }
 
-export function BuildList(props: {
-  character: Character | null,
-  selectedBuild: number | null,
-  setSelectedBuild: (index: number) => void,
-  handleEquip: (build: SavedBuild) => Promise<void>,
-  handleDelete: (name: string) => void,
-}) {
+interface BuildListBaseProps {
+  character: Character | null
+  selectedBuild: number | null
+  setSelectedBuild: (index: number) => void
+  style?: CSSProperties
+}
+
+interface InteractiveBuildListProps extends BuildListBaseProps {
+  handleEquip: (build: SavedBuild) => Promise<void>
+  handleDelete: (name: string) => void
+  preview?: never
+}
+
+interface PreviewBuildListProps extends BuildListBaseProps {
+  preview: true
+  handleEquip?: never
+  handleDelete?: never
+}
+
+type BuildListProps = InteractiveBuildListProps | PreviewBuildListProps
+
+export function BuildList(props: BuildListProps) {
   const {
     character,
     selectedBuild,
     setSelectedBuild,
     handleEquip,
     handleDelete,
+    preview,
+    style,
   } = props
   return (
     <Flex
@@ -267,34 +288,63 @@ export function BuildList(props: {
         minWidth: 400,
         maxWidth: 400,
         height: 840,
+        ...style,
       }}
       gap={8}
     >
-      {character?.builds?.map((build, index) => (
-        <BuildCard
-          key={index}
-          index={index}
-          build={build}
-          characterId={character.id}
-          selectedBuild={selectedBuild}
-          setSelectedBuild={setSelectedBuild}
-          handleEquip={handleEquip}
-          handleDelete={handleDelete}
-        />
-      ))}
+      {character?.builds?.map((build, index) => {
+        return preview
+          ? (
+            <BuildCard
+              key={index}
+              index={index}
+              build={build}
+              characterId={character.id}
+              selectedBuild={selectedBuild}
+              setSelectedBuild={setSelectedBuild}
+              preview
+            />
+          )
+          : (
+            <BuildCard
+              key={index}
+              index={index}
+              build={build}
+              characterId={character.id}
+              selectedBuild={selectedBuild}
+              setSelectedBuild={setSelectedBuild}
+              handleEquip={handleEquip}
+              handleDelete={handleDelete}
+            />
+          )
+      })}
     </Flex>
   )
 }
 
-function BuildCard(props: {
-  characterId: CharacterId,
-  index: number,
-  build: SavedBuild,
-  selectedBuild: number | null,
-  setSelectedBuild: (index: number) => void,
-  handleEquip: (build: SavedBuild) => Promise<void>,
-  handleDelete: (name: string) => void,
-}) {
+interface BuildCardBaseProps {
+  characterId: CharacterId
+  index: number
+  build: SavedBuild
+  selectedBuild: number | null
+  setSelectedBuild: (index: number) => void
+}
+
+interface InteractiveBuildCardProps extends BuildCardBaseProps {
+  handleEquip: (build: SavedBuild) => Promise<void>
+  handleDelete: (name: string) => void
+  preview?: never
+}
+
+interface PreviewBuildCardProps extends BuildCardBaseProps {
+  preview: true
+  handleEquip?: never
+  handleDelete?: never
+}
+
+type BuildCardProps = InteractiveBuildCardProps | PreviewBuildCardProps
+
+function BuildCard(props: BuildCardProps) {
   const {
     characterId,
     index,
@@ -303,6 +353,7 @@ function BuildCard(props: {
     setSelectedBuild,
     handleEquip,
     handleDelete,
+    preview,
   } = props
   const { t } = useTranslation('modals', { keyPrefix: 'Builds' })
   const [hovered, setHovered] = useState(false)
@@ -329,35 +380,37 @@ function BuildCard(props: {
       onMouseLeave={() => setHovered(false)}
     >
       <Flex vertical gap={8}>
-        <Flex justify='space-between' gap={8} align='center' style={{ zIndex: 10 }}>
+        <Flex justify='space-between' gap={8} align='center'>
           <Flex vertical align='flex-start'>
-            <HeaderText style={{ flex: 1, fontSize: 16, fontWeight: 600 }}>{build.name}</HeaderText>
+            <HeaderText style={{ flex: 1, fontSize: 16, fontWeight: 600, maxWidth: preview ? undefined : 85, overflow: 'clip' }}>{build.name}</HeaderText>
           </Flex>
-          <Flex gap={5}>
-            <Button
-              onClick={() => {
-                void handleEquip(build)
-              }}
-            >
-              {t('Equip') /* Equip */}
-            </Button>
-            <Button
-              onClick={() => {
-                DB.loadCharacterBuildInOptimizer(characterId, index)
-                close()
-              }}
-            >
-              Load to Optimizer
-            </Button>
-            <Button
-              style={{ width: 35 }}
-              type='primary'
-              icon={<DeleteOutlined />}
-              onClick={() => {
-                handleDelete(build.name)
-              }}
-            />
-          </Flex>
+          {!preview && (
+            <Flex gap={5}>
+              <Button
+                onClick={() => {
+                  void handleEquip(build)
+                }}
+              >
+                {t('Equip') /* Equip */}
+              </Button>
+              <Button
+                onClick={() => {
+                  DB.loadCharacterBuildInOptimizer(characterId, index)
+                  close()
+                }}
+              >
+                Load to Optimizer
+              </Button>
+              <Button
+                style={{ width: 35 }}
+                type='primary'
+                icon={<DeleteOutlined />}
+                onClick={() => {
+                  handleDelete(build.name)
+                }}
+              />
+            </Flex>
+          )}
         </Flex>
         <TeammatePreview build={build} display={hovered} />
       </Flex>

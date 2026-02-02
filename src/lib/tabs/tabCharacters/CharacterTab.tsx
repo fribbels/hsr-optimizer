@@ -11,6 +11,7 @@ import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { SaveBuildModal } from 'lib/overlays/modals/SaveBuildModal'
 import { SwitchRelicsModal } from 'lib/overlays/modals/SwitchRelicsModal'
 import { getGridTheme } from 'lib/rendering/theme'
+import { AppPages } from 'lib/state/db'
 import { CharacterGrid } from 'lib/tabs/tabCharacters/CharacterGrid'
 import { CharacterMenu } from 'lib/tabs/tabCharacters/CharacterMenu'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
@@ -86,7 +87,7 @@ export default function CharacterTab() {
 
       <SwitchRelicsModal />
 
-      <SaveBuildModal />
+      <SaveBuildModal source={AppPages.CHARACTERS} character={selectedCharacter} />
 
       <BuildsModal />
     </Flex>

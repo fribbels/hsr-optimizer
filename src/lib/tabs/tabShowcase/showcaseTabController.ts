@@ -39,7 +39,6 @@ import {
   WHY_DOES_THE_OCEAN_SING,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB, {
-  AppPage,
   AppPages,
   PageToRoute,
 } from 'lib/state/db'
@@ -150,7 +149,7 @@ export function importClicked(mode: 'relics' | 'singleCharacter' | 'multiCharact
   SaveState.delayedSave()
 }
 
-export function initialiseShowcaseTab(activeKey: AppPage) {
+export function initialiseShowcaseTab(activeKey: AppPages) {
   const { savedSession, availableCharacters } = useShowcaseTabStore.getState()
   const { scorerId } = savedSession
 

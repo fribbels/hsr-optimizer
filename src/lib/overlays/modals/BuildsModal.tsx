@@ -423,7 +423,7 @@ function BuildCard(props: BuildCardProps) {
                   closeModal?.()
                 }}
               >
-                Load to Optimizer
+                {t('Load') /* Load in Optimizer */}
               </Button>
               <Button
                 style={{ width: 35 }}

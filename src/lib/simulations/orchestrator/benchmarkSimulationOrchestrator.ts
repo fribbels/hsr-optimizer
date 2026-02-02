@@ -233,16 +233,23 @@ export class BenchmarkSimulationOrchestrator {
 
     metadata.teammates.forEach((teammate, idx) => {
       if (!teammate) return
-      const key = `teammate${idx}` as `teammate${0 | 1 | 2}`
-      simulationForm[key] = generateFullDefaultForm(
-        teammate.characterId,
-        teammate.lightCone,
-        teammate.characterEidolon,
-        teammate.lightConeSuperimposition,
-        true,
-      )
-      simulationForm[key].teamRelicSet = teammate.teamRelicSet
-      simulationForm[key].teamOrnamentSet = teammate.teamOrnamentSet
+      switch (idx) {
+        case 0:
+        case 1:
+        case 2:
+          simulationForm[`teammate${idx}`] = generateFullDefaultForm(
+            teammate.characterId,
+            teammate.lightCone,
+            teammate.characterEidolon,
+            teammate.lightConeSuperimposition,
+            true,
+          )
+          simulationForm[`teammate${idx}`].teamRelicSet = teammate.teamRelicSet
+          simulationForm[`teammate${idx}`].teamOrnamentSet = teammate.teamOrnamentSet
+          break
+        default:
+          break
+      }
     })
 
     simulationForm.deprioritizeBuffs = this.metadata.deprioritizeBuffs

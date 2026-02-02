@@ -5812,6 +5812,7 @@ interface Resources {
     "Builds": {
       "DeleteAll": "Delete All",
       "Equip": "Equip",
+      "Load": "Load In Optimizer",
       "ConfirmEquip": {
         "Content": "Equipping this will unequip characters that use the relics in this build",
         "SuccessMessage": "Successfully equipped build: {{buildName}}"

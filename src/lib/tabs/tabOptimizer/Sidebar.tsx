@@ -26,10 +26,6 @@ import {
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
-import {
-  OpenCloseIDs,
-  setOpen,
-} from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'

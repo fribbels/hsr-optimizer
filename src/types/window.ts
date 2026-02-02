@@ -75,8 +75,6 @@ declare global {
     relicsGrid: RefObject<AgGridReact<ScoredRelic>>
     optimizerGrid: RefObject<AgGridReact<OptimizerDisplayData>>
 
-    setOptimizerBuild: (build?: Build) => void
-
     showcaseTabForm: FormInstance<ShowcaseTabForm>
 
     // TODO see OptimizerForm

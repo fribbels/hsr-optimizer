@@ -1,3 +1,4 @@
+import { ExclamationCircleOutlined } from '@ant-design/icons'
 import {
   Button,
   Divider,
@@ -5,20 +6,28 @@ import {
   Form,
   Input,
   Modal,
+  Tooltip,
 } from 'antd'
 import {
   OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
+import { Message } from 'lib/interactions/message'
 import {
   BuildList,
   BuildPreview,
 } from 'lib/overlays/modals/BuildsModal'
 import {
+  lockScroll,
+  unlockScroll,
+} from 'lib/rendering/scrollController'
+import {
   AppPages,
 } from 'lib/state/db'
+import { SaveState } from 'lib/state/saveState'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import {
+  ReactNode,
   useEffect,
   useState,
 } from 'react'
@@ -43,6 +52,7 @@ export function SaveBuildModal(props: {
     character,
   } = props
   const [characterForm] = Form.useForm<CharacterForm>()
+  const [confirmationModal] = Modal.useModal()
 
   const { isOpen, close } = useOpenClose(OpenCloseIDs.SAVE_BUILDS_MODAL)
 
@@ -52,6 +62,11 @@ export function SaveBuildModal(props: {
   useEffect(() => {
     setInputName('')
     setSelectedBuild(null)
+    if (isOpen) {
+      lockScroll()
+    } else {
+      unlockScroll()
+    }
   }, [isOpen, character])
 
   const setSelectedBuildWrapped = (idx: number | null) => {
@@ -66,6 +81,17 @@ export function SaveBuildModal(props: {
   const { t } = useTranslation('modals', { keyPrefix: 'SaveBuild' })
   const { t: tCommon } = useTranslation('common')
 
+  async function confirm(content: ReactNode) {
+    return confirmationModal.confirm({
+      title: tCommon('Confirm'), /* Confirm */
+      icon: <ExclamationCircleOutlined />,
+      content: content,
+      okText: tCommon('Confirm'), /* Confirm */
+      cancelText: tCommon('Cancel'), /* Cancel */
+      centered: true,
+    })
+  }
+
   function handleInput(mode: 'overwrite' | 'save') {
     switch (source) {
       case AppPages.CHARACTERS:
@@ -76,10 +102,13 @@ export function SaveBuildModal(props: {
         }
         break
       case AppPages.OPTIMIZER:
+        // TODO:
         break
       default:
         break
     }
+    SaveState.delayedSave()
+    close()
   }
 
   function onModalOk() {
@@ -103,9 +132,17 @@ export function SaveBuildModal(props: {
       case AppPages.CHARACTERS:
         return null
       case AppPages.OPTIMIZER:
+        // TODO:
         return null
     }
   })()
+
+  const handleOverwrite = async () => {
+    const res = await confirm(t('ConfirmOverwrite.Content'))
+    if (res) {
+      handleInput('overwrite')
+    }
+  }
 
   return (
     <Modal
@@ -140,12 +177,21 @@ export function SaveBuildModal(props: {
           <Button onClick={handleCancel} style={buttonStyle}>
             {tCommon('Cancel') /* Cancel */}
           </Button>
-          <Button type='primary' onClick={onModalOk} style={buttonStyle} disabled={saveDisabled}>
-            {tCommon('Save') /* Save */}
-          </Button>
-          <Button type='primary' onClick={() => handleInput('overwrite')} style={buttonStyle} disabled={overwriteDisabled}>
-            Overwrite
-          </Button>
+          <Tooltip
+            title={saveDisabled
+              ? nameTaken ? t('Tooltip.SaveDisabled.NameTaken') : t('Tooltip.SaveDisabled.NoName')
+              : ''}
+            placement='right'
+          >
+            <Button type='primary' onClick={onModalOk} style={buttonStyle} disabled={saveDisabled}>
+              {tCommon('Save') /* Save */}
+            </Button>
+          </Tooltip>
+          <Tooltip title={overwriteDisabled ? t('Tooltip.OverwriteDisabled') : ''} placement='right'>
+            <Button type='primary' onClick={handleOverwrite} style={buttonStyle} disabled={overwriteDisabled}>
+              {t('Overwrite')}
+            </Button>
+          </Tooltip>
           <Divider style={{ margin: '6px 0px 6px 0px' }} />
           <BuildList
             preview

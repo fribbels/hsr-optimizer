@@ -749,7 +749,7 @@ export const DB = {
     console.log('Deleted portrait', DB.getState())
   },
 
-  saveCharacterBuild: (name: string, characterId: CharacterId, source: SavedBuildSource) => {
+  saveCharacterBuild: (name: string, characterId: CharacterId, source: SavedBuildSource, overwriteExisting: boolean) => {
     const character = DB.getCharacterById(characterId)
     if (!character) {
       console.warn('No character selected')
@@ -830,18 +830,34 @@ export const DB = {
         break
     }
 
-    if (character.builds?.find((x) => x.name == name)) {
-      const errorMessage = i18next.t('charactersTab:Messages.BuildAlreadyExists', { name })
-      console.warn(errorMessage)
-      return { error: errorMessage }
-    } else {
-      const builds = character.builds ?? []
-      builds.push(build)
+    const builds = character.builds ?? []
 
-      const updatedCharacter = { ...character, builds: [...builds] }
-      DB.setCharacter(updatedCharacter)
-      console.log('Saved build', build, useCharacterTabStore.getState())
+    if (overwriteExisting) {
+      const idx = character.builds?.findIndex((x) => x.name === name)
+      if (idx === undefined) {
+        const error = i18next.t('charactersTab:Messages.NoBuilds', { name, charId: characterId })
+        console.error(error)
+        return { error }
+      }
+      if (idx === -1) {
+        const error = i18next.t('charactersTab:Messages.NoMatchingBuild', { name })
+        console.error(error)
+        return { error }
+      }
+      builds[idx] = build
+    } else {
+      if (character.builds?.find((x) => x.name == name)) {
+        const error = i18next.t('charactersTab:Messages.BuildAlreadyExists', { name })
+        console.warn(error)
+        return { error }
+      } else {
+        builds.push(build)
+      }
     }
+
+    const updatedCharacter = { ...character, builds: [...builds] }
+    DB.setCharacter(updatedCharacter)
+    console.log('Saved build', build, useCharacterTabStore.getState())
   },
 
   deleteCharacterBuild: (characterId: CharacterId, name: string) => {

@@ -106,6 +106,8 @@ interface Resources {
       "SaveSuccess": "Successfully saved build: {{name}}",
       "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?",
       "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?",
+      "NoBuilds": "Attempted to overwrite build {{name}} but $t(gameData:Characters.{{charId}}.Name) has no saved builds",
+      "NoMatchingBuild": "attempted to overwrite build {{name}} but no such build exists",
       "BuildAlreadyExists": "Build name {{name}} already exists",
       "ImageUploadFailed": "Image upload failed",
       "InvalidFile": "File is not a valid image file"
@@ -5785,7 +5787,19 @@ interface Resources {
     },
     "SaveBuild": {
       "Label": "Build name",
-      "Rule": "Please input a name"
+      "Rule": "Please input a name",
+      "Overwrite": "Overwrite",
+      "ConfirmOverwrite": {
+        "Content": "Are you sure you want to overwrite this build?",
+        "SuccessMessage": "Successfully overwrote build: {{name}}"
+      },
+      "Tooltip": {
+        "SaveDisabled": {
+          "NameTaken": "A build with this name already exists. Change the name in order to save the build.",
+          "NoName": "Builds must have a name in order to be saved. Please enter a name for the build in order to save it."
+        },
+        "OverwriteDisabled": "No build with this name exists. Click on an existing build, or type in its name, in order to be able to overwrite it."
+      }
     },
     "SwitchRelics": {
       "Title": "Switch relics with character"
@@ -6825,7 +6839,8 @@ interface Resources {
         "Warning_one": "Delete the selected relic?",
         "Warning_other": "Delete the {{count}} selected relics?"
       },
-      "AddRelic": "Add New Relic"
+      "AddRelic": "Add New Relic",
+      "LiveImportTooltip": "Disabled in live import mode."
     },
     "RelicInsights": {
       "NewStats": "New stats: ",

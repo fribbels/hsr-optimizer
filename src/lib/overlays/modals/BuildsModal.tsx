@@ -20,6 +20,10 @@ import {
 import { Message } from 'lib/interactions/message'
 import { defaultTeammate } from 'lib/optimization/defaultForm'
 import { Assets } from 'lib/rendering/assets'
+import {
+  lockScroll,
+  unlockScroll,
+} from 'lib/rendering/scrollController'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
@@ -58,6 +62,11 @@ export function BuildsModal() {
   useEffect(() => {
     if (isOpen && selectedCharacter?.builds?.length) {
       setSelectedBuild(0)
+    }
+    if (isOpen) {
+      lockScroll()
+    } else {
+      unlockScroll()
     }
   }, [isOpen, selectedCharacter])
 

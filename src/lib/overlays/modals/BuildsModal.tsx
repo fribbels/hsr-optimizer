@@ -32,6 +32,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import {
   CSSProperties,
+  Fragment,
   ReactNode,
   useEffect,
   useState,
@@ -455,10 +456,10 @@ function TeammatePreview(props: { build: SavedBuild, display: boolean }) {
       gap={8}
     >
       {build.team.map((ally, idx) => (
-        <div key={idx}>
-          <img src={Assets.getCharacterAvatarById(ally.characterId)} style={imgStyle} key={`char${idx}`} />
-          <img src={Assets.getLightConeIconById(ally.lightConeId)} style={imgStyle} key={`lc${idx}`} />
-        </div>
+        <Fragment key={idx}>
+          <img src={Assets.getCharacterAvatarById(ally.characterId)} style={imgStyle} />
+          <img src={Assets.getLightConeIconById(ally.lightConeId)} style={imgStyle} />
+        </Fragment>
       ))}
     </Flex>
   )

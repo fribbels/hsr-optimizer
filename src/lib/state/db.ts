@@ -1438,12 +1438,13 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
   }
 
   if (!meta) {
+    const dbCharForm = DB.getCharacterById(characterId)!.form
     form.setFieldValue('comboType', ComboType.SIMPLE)
     form.setFieldValue('comboPreprocessor', true)
     form.setFieldValue('comboStateJson', '{}')
-    form.setFieldValue('setConditionals', TsUtils.clone(defaultSetConditionals))
-    form.setFieldValue('relicSets', [])
-    form.setFieldValue('ornamentSets', [])
+    form.setFieldValue('setConditionals', TsUtils.clone(dbCharForm.setConditionals))
+    form.setFieldValue('relicSets', TsUtils.clone(dbCharForm.relicSets))
+    form.setFieldValue('ornamentSets', TsUtils.clone(dbCharForm.ornamentSets))
     form.setFieldsValue(TsUtils.clone(emptyFilters))
   } else {
     if (meta.comboStateJson) {

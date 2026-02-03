@@ -28,7 +28,6 @@ import {
   localeNumber_0,
   localeNumber_00,
 } from 'lib/utils/i18nUtils'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 type MainStatUpgradeItem = {
@@ -84,7 +83,7 @@ export function DpsScoreMainStatUpgradesTable(props: {
               {upgrade.setUpgradeRequest.simRelicSet1 === upgrade.setUpgradeRequest.simRelicSet2
                 ? (
                   <>
-                    <RelicDoubleImageWithToltip name={upgrade.setUpgradeRequest.simRelicSet1} height={iconSize} width={iconSize} />
+                    <RelicDoubleImageWithTooltip name={upgrade.setUpgradeRequest.simRelicSet1} height={iconSize} width={iconSize} />
                   </>
                 )
                 : (
@@ -124,7 +123,7 @@ export function DpsScoreMainStatUpgradesTable(props: {
   )
 }
 
-function RelicDoubleImageWithToltip(props: { name: Sets, height: number, width: number }) {
+function RelicDoubleImageWithTooltip(props: { name: Sets, height: number, width: number }) {
   const {
     name,
     width,

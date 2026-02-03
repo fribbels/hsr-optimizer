@@ -1,6 +1,8 @@
 import {
   Constants,
   Parts,
+  SetsOrnaments,
+  SetsRelics,
 } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import {
@@ -92,18 +94,23 @@ export function getShowcaseSimScoringExecution(
 }
 
 export type SimulationSets = {
-  relicSet1: string,
-  relicSet2: string,
-  ornamentSet: string,
+  relicSet1: SetsRelics,
+  relicSet2: SetsRelics,
+  ornamentSet: SetsOrnaments,
 }
 
-export function calculateSimSets(relicSetName0: string, relicSetName1: string, ornamentSetName: string, metadata: SimulationMetadata): SimulationSets {
+export function calculateSimSets(
+  relicSetName0: SetsRelics,
+  relicSetName1: SetsRelics,
+  ornamentSetName: SetsOrnaments,
+  metadata: SimulationMetadata,
+): SimulationSets {
   // Allow equivalent sets
   let relicSet1 = metadata.relicSets[0][0]
   let relicSet2 = metadata.relicSets[0][1]
   let ornamentSet = metadata.ornamentSets[0]
 
-  const equivalents: string[][] = metadata.relicSets.map((x: string[]) => x.sort())
+  const equivalents = metadata.relicSets.map((x) => x.sort())
   for (const equivalent of equivalents) {
     // Find 4p matches
     if (relicSetName0 == equivalent[0] && relicSetName1 == equivalent[1]) {

@@ -2,6 +2,7 @@ import {
   Flex,
   Table,
   TableProps,
+  Tooltip,
 } from 'antd'
 import { AnyObject } from 'antd/es/_util/type'
 import { TFunction } from 'i18next'
@@ -9,6 +10,8 @@ import { SubstatUpgradeItem } from 'lib/characterPreview/summary/DpsScoreSubstat
 import {
   MainStats,
   Parts,
+  Sets,
+  setToId,
   Stats,
 } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
@@ -78,10 +81,20 @@ export function DpsScoreMainStatUpgradesTable(props: {
         upgrade.setUpgradeRequest
           ? (
             <Flex align='center' gap={3}>
-              <img src={Assets.getSetImage(upgrade.setUpgradeRequest.simRelicSet1)} style={{ width: iconSize, height: iconSize }} />
-              <img src={Assets.getSetImage(upgrade.setUpgradeRequest.simRelicSet2)} style={{ width: iconSize, height: iconSize }} />
+              {upgrade.setUpgradeRequest.simRelicSet1 === upgrade.setUpgradeRequest.simRelicSet2
+                ? (
+                  <>
+                    <RelicDoubleImageWithToltip name={upgrade.setUpgradeRequest.simRelicSet1} height={iconSize} width={iconSize} />
+                  </>
+                )
+                : (
+                  <>
+                    <RelicImageWithTooltip name={upgrade.setUpgradeRequest.simRelicSet1} height={iconSize} width={iconSize} />
+                    <RelicImageWithTooltip name={upgrade.setUpgradeRequest.simRelicSet2} height={iconSize} width={iconSize} />
+                  </>
+                )}
               <span></span>
-              <img src={Assets.getSetImage(upgrade.setUpgradeRequest.simOrnamentSet)} style={{ width: iconSize, height: iconSize, marginLeft: 3 }} />
+              <RelicImageWithTooltip name={upgrade.setUpgradeRequest.simOrnamentSet} height={iconSize} width={iconSize} />
             </Flex>
           )
           : (
@@ -108,6 +121,39 @@ export function DpsScoreMainStatUpgradesTable(props: {
       style={tableStyle}
       locale={{ emptyText: '' }}
     />
+  )
+}
+
+function RelicDoubleImageWithToltip(props: { name: Sets, height: number, width: number }) {
+  const {
+    name,
+    width,
+    height,
+  } = props
+  const id = setToId[name]
+  const { t } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
+  return (
+    <Tooltip title={t(`${id}.Name`)}>
+      <Flex gap={3}>
+        <img src={Assets.getSetImage(name)} style={{ width, height }} />
+        <img src={Assets.getSetImage(name)} style={{ width, height }} />
+      </Flex>
+    </Tooltip>
+  )
+}
+
+function RelicImageWithTooltip(props: { name: Sets, height: number, width: number }) {
+  const {
+    name,
+    width,
+    height,
+  } = props
+  const id = setToId[name]
+  const { t } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
+  return (
+    <Tooltip title={t(`${id}.Name`)}>
+      <img src={Assets.getSetImage(name)} style={{ width, height }} />
+    </Tooltip>
   )
 }
 

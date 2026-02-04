@@ -43,10 +43,10 @@ const cascaderTheme = {
   },
 }
 
-interface Option {
+export interface AbilityOption {
   value: string
   label: string
-  children: Option[]
+  children: AbilityOption[]
 }
 
 const start = '['
@@ -68,7 +68,7 @@ export function toI18NVisual(ability: TurnAbility, t: TFunction<'optimizerTab', 
   }
 }
 
-function generateOptions(t: TFunction<'optimizerTab', 'ComboFilter'>, characterId: string, characterEidolon: number): Option[] {
+export function generateAbilityOptions(t: TFunction<'optimizerTab', 'ComboFilter'>, characterId?: string, characterEidolon?: number): AbilityOption[] {
   // const t = i18next.getFixedT(null, 'optimizerTab', 'ComboFilter')
   if (characterId && characterEidolon != null) {
     const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get({
@@ -112,7 +112,7 @@ export function TurnAbilitySelector({ formName, disabled }: { formName: (string 
   const form = Form.useFormInstance<OptimizerForm>()
   const characterId = Form.useWatch('characterId', form)
   const characterEidolon = Form.useWatch('characterEidolon', form)
-  const options = useMemo(() => generateOptions(t, characterId, characterEidolon), [t, characterId, characterEidolon])
+  const options = useMemo(() => generateAbilityOptions(t, characterId, characterEidolon), [t, characterId, characterEidolon])
 
   return (
     <ConfigProvider theme={cascaderTheme}>
@@ -124,7 +124,7 @@ export function TurnAbilitySelector({ formName, disabled }: { formName: (string 
         })}
         noStyle
       >
-        <Cascader<Option>
+        <Cascader<AbilityOption>
           className='turn-ability-cascader-filter'
           options={options}
           displayRender={(labels: string[]) => {
@@ -156,7 +156,7 @@ export function TurnAbilitySelector({ formName, disabled }: { formName: (string 
 
 export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbilityName, index: number }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
-  const options = useMemo(() => generateOptions(t), [t])
+  const options = useMemo(() => generateAbilityOptions(t), [t])
 
   if (value == null) {
     return <></>
@@ -164,7 +164,7 @@ export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbility
 
   return (
     <ConfigProvider theme={cascaderTheme}>
-      <Cascader<Option>
+      <Cascader<AbilityOption>
         className='turn-ability-cascader-filter'
         options={options}
         // @ts-ignore
@@ -196,7 +196,10 @@ export function ControlledTurnAbilitySelector({
   style?: React.CSSProperties,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
-  const options = useMemo(() => generateOptions(t), [t])
+  const form = Form.useFormInstance<OptimizerForm>()
+  const characterId = Form.useWatch('characterId', form)
+  const characterEidolon = Form.useWatch('characterEidolon', form)
+  const options = useMemo(() => generateAbilityOptions(t, characterId, characterEidolon), [t, characterId, characterEidolon])
 
   return (
     <ConfigProvider theme={cascaderTheme}>

@@ -17,7 +17,7 @@ import {
 
 import { ConditionalValueMap } from 'types/conditionals'
 import {
-  LightCone,
+  LightConeId,
   SuperImpositionLevel,
 } from 'types/lightCone'
 import { ScoringMetadata } from 'types/metadata'
@@ -33,7 +33,7 @@ import {
 export type Teammate = {
   characterId: CharacterId,
   characterEidolon: number,
-  lightCone: LightCone['id'],
+  lightCone: LightConeId,
   lightConeSuperimposition: number,
   teamOrnamentSet?: string,
   teamRelicSet?: string,
@@ -43,100 +43,119 @@ export type Teammate = {
 
 export type OptimizerForm = Form
 
-export type Form = {
-  // Core
-  characterEidolon: Eidolon,
-  characterId: CharacterId,
-  characterLevel: number,
+export type Form =
+  & {
+    // Core
+    characterEidolon: Eidolon,
+    characterId: CharacterId,
+    characterLevel: number,
 
-  // Light cone
-  lightCone: LightCone['id'],
-  lightConeLevel: number,
-  lightConeSuperimposition: SuperImpositionLevel,
+    // Light cone
+    lightCone: LightConeId,
+    lightConeLevel: number,
+    lightConeSuperimposition: SuperImpositionLevel,
 
-  // Enemy
-  enemyCount: number,
-  enemyElementalWeak: boolean,
-  enemyLevel: number,
-  enemyMaxToughness: number,
-  enemyResistance: number,
-  enemyEffectResistance: number,
-  enemyWeaknessBroken: boolean,
+    // Enemy
+    enemyCount: number,
+    enemyElementalWeak: boolean,
+    enemyLevel: number,
+    enemyMaxToughness: number,
+    enemyResistance: number,
+    enemyEffectResistance: number,
+    enemyWeaknessBroken: boolean,
 
-  // Conditionals
-  characterConditionals: ConditionalValueMap,
-  lightConeConditionals: ConditionalValueMap,
-  setConditionals: SetConditionals,
+    // Conditionals
+    characterConditionals: ConditionalValueMap,
+    lightConeConditionals: ConditionalValueMap,
+    setConditionals: SetConditionals,
 
-  // Optimizer filters
-  enhance: RelicEnhance,
-  grade: RelicGrade,
-  rank: number,
-  exclude: CharacterId[],
-  includeEquippedRelics: boolean,
-  keepCurrentRelics: boolean,
-  mainBody: string[],
-  mainFeet: string[],
-  mainHands: string[],
-  mainHead: string[],
-  mainLinkRope: string[],
-  mainPlanarSphere: string[],
-  ornamentSets: SetsOrnaments[],
-  mainStatUpscaleLevel: number,
-  rankFilter: boolean,
-  relicSets: ([pieces: string, set: SetsRelics] | [pieces: string, set1: SetsRelics, set2: SetsRelics])[],
-  statDisplay: StatDisplay,
-  memoDisplay: MemoDisplay,
+    // Optimizer filters
+    enhance: RelicEnhance,
+    grade: RelicGrade,
+    rank: number,
+    exclude: CharacterId[],
+    includeEquippedRelics: boolean,
+    keepCurrentRelics: boolean,
+    mainBody: string[],
+    mainFeet: string[],
+    mainHands: string[],
+    mainHead: string[],
+    mainLinkRope: string[],
+    mainPlanarSphere: string[],
+    mainStatUpscaleLevel: number,
+    rankFilter: boolean,
+    ornamentSets: OrnamentSetFilters,
+    relicSets: RelicSetFilters,
+    statDisplay: StatDisplay,
+    memoDisplay: MemoDisplay,
 
-  weights: ScoringMetadata['stats'],
+    weights: ScoringMetadata['stats'],
 
-  combatBuffs: {
-    [key: string]: number,
-  },
+    combatBuffs: {
+      [key: string]: number,
+    },
 
-  // Optimizer additional data
-  statSim?: {
-    key: string,
-    benchmarks: SimulationRequest,
-    substatRolls: SimulationRequest,
-    simulations: Simulation[],
-  },
-  optimizationId?: string,
-  sortOption?: string,
-  resultSort?: keyof typeof SortOption,
-  resultsLimit?: number,
-  deprioritizeBuffs?: boolean,
-  resultMinFilter: number,
-  trace?: boolean,
-  teamRelicSet?: string,
-  teamOrnamentSet?: string,
+    // Optimizer additional data
+    statSim?: {
+      key: string,
+      benchmarks: SimulationRequest,
+      substatRolls: SimulationRequest,
+      simulations: Simulation[],
+    },
+    optimizationId?: string,
+    sortOption?: string,
+    resultSort?: keyof typeof SortOption,
+    resultsLimit?: number,
+    deprioritizeBuffs?: boolean,
+    resultMinFilter: number,
+    trace?: boolean,
+    teamRelicSet?: string,
+    teamOrnamentSet?: string,
 
-  // Combo
-  comboStateJson: string,
-  comboTurnAbilities: TurnAbilityName[],
-  comboPreprocessor: boolean,
-  comboType: ComboType,
-  comboDot: number,
+    // Combo
+    comboStateJson: string,
+    comboTurnAbilities: TurnAbilityName[],
+    comboPreprocessor: boolean,
+    comboType: ComboType,
+    comboDot: number,
 
-  teammate0: Teammate,
-  teammate1: Teammate,
-  teammate2: Teammate,
-
+    teammate0: Teammate,
+    teammate1: Teammate,
+    teammate2: Teammate,
+  }
   // Min / Max
+  & StatFilters
+  & RatingFilters
+
+export type RelicSetFilters = Array<[pieces: string, set: SetsRelics] | [pieces: string, set1: SetsRelics, set2: SetsRelics]>
+export type OrnamentSetFilters = Array<SetsOrnaments>
+
+export type StatFilters = {
   minAtk: number,
   maxAtk: number,
-  minBasic: number,
-  maxBasic: number,
-  minBe: number,
-  maxBe: number,
-  minCd: number,
-  maxCd: number,
-  minCr: number,
-  maxCr: number,
+  minHp: number,
+  maxHp: number,
   minDef: number,
   maxDef: number,
-  minDmg: number,
-  maxDmg: number,
+  minSpd: number,
+  maxSpd: number,
+  minCr: number,
+  maxCr: number,
+  minCd: number,
+  maxCd: number,
+  minEhr: number,
+  maxEhr: number,
+  minRes: number,
+  maxRes: number,
+  minBe: number,
+  maxBe: number,
+  minErr: number,
+  maxErr: number,
+}
+
+export type RatingFilters = {
+  minBasic: number,
+  maxBasic: number,
   minDot: number,
   maxDot: number,
   minBreak: number,
@@ -147,26 +166,14 @@ export type Form = {
   maxShield: number,
   minEhp: number,
   maxEhp: number,
-  minEhr: number,
-  maxEhr: number,
-  minErr: number,
-  maxErr: number,
   minFua: number,
   maxFua: number,
-  minHp: number,
-  maxHp: number,
-  minMcd: number,
-  maxMcd: number,
-  minRes: number,
-  maxRes: number,
   minSkill: number,
   maxSkill: number,
   minMemoSkill: number,
   maxMemoSkill: number,
   minMemoTalent: number,
   maxMemoTalent: number,
-  minSpd: number,
-  maxSpd: number,
   minUlt: number,
   maxUlt: number,
 }

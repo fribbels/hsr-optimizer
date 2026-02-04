@@ -5,9 +5,8 @@ import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { Relic } from 'types/relic'
 import { HsrOptimizerSaveFormat } from 'types/store'
-import { Relic } from "types/relic";
 
 let saveTimeout: NodeJS.Timeout | null
 

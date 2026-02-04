@@ -4,7 +4,9 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { SUNDAY } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { CharacterId } from 'types/character'
 
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -13,7 +15,7 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+export default (s: SuperImpositionLevel, withContent: boolean, { characterId }: { characterId: CharacterId }): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.AGroundedAscent')
   const { SOURCE_LC } = Source.lightCone('23034')
 
@@ -53,7 +55,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      if (action.actorId == '1313') {
+      if (characterId === SUNDAY) {
         x.ELEMENTAL_DMG.buffDual(m.dmgBuffStacks * sValuesDmg[s], SOURCE_LC)
       } else {
         x.ELEMENTAL_DMG.buffSingle(m.dmgBuffStacks * sValuesDmg[s], SOURCE_LC)

@@ -1,21 +1,23 @@
 import { Flex } from 'antd'
+import { useState } from 'react'
 
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
-import DB, { AppPages } from 'lib/state/db'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { AppPages } from 'lib/state/db'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
-import React, { useState } from 'react'
 import { Relic } from 'types/relic'
 
 export default function OptimizerBuildPreview() {
   const optimizerBuild = window.store((s) => s.optimizerBuild)
+  const relicsById = window.store((s) => s.relicsById)
+  const characterId = window.store((s) => s.optimizerTabFocusCharacter)
+  const activeKey = window.store((s) => s.activeKey)
 
   const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false)
 
-  if (window.store.getState().activeKey != AppPages.OPTIMIZER) {
+  if (activeKey !== AppPages.OPTIMIZER || characterId == undefined) {
     return <></>
   }
 
@@ -23,9 +25,6 @@ export default function OptimizerBuildPreview() {
     const updatedRelic = RelicModalController.onEditOk(selectedRelic!, relic)
     setSelectedRelic(updatedRelic)
   }
-
-  const relicsById = DB.getRelicsById()
-  const characterId = OptimizerTabController.getForm().characterId
 
   const headRelic = optimizerBuild?.Head ? relicsById[optimizerBuild.Head] : undefined
   const handsRelic = optimizerBuild?.Hands ? relicsById[optimizerBuild.Hands] : undefined

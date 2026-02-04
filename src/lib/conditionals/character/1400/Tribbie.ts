@@ -27,8 +27,6 @@ import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TRIBBIE } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
-import i18next from 'i18next'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {

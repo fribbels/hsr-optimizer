@@ -166,6 +166,8 @@ export function simulateBuild(
     x.setActionRegisterValue(action.registerIndex, sum)
   }
 
+  calculateEhp(x, context)
+
   x.a[StatKey.COMBO_DMG] = comboDmg
 
   // x.set(ActionKey.COMBO_DMG, dmgTracker, Source.NONE)
@@ -199,4 +201,16 @@ export function emptyRelicWithSetAndSubstats(): SimulationRelic {
     set: '',
     condensedStats: [],
   }
+}
+
+function calculateEhp(x: ComputedStatsContainer, context: OptimizerContext) {
+  const hpIndex = x.getActionIndex(0, StatKey.HP)
+  const defIndex = x.getActionIndex(0, StatKey.DEF)
+  const dmgRedIndex = x.getActionIndex(0, StatKey.DMG_RED)
+  const ehpIndex = x.getActionIndex(0, StatKey.EHP)
+
+  const hp = x.a[hpIndex]
+  const def = x.a[defIndex]
+  const dmgRed = x.a[dmgRedIndex]
+  x.a[ehpIndex] = hp / (1 - def / (def + 200 + 10 * context.enemyLevel)) / (1 - dmgRed)
 }

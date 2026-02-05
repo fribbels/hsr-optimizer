@@ -175,6 +175,17 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
 `
   }
 
+  if (sortKey === SortOption.EHP.key) {
+    return `
+    if (ehp > threshold) {
+      results[index] = ehp;
+      failures = 1;
+    } else {
+      results[index] = -failures; failures = failures + 1;
+    }
+`
+  }
+
   // Ability damage sorts - find matching default action
   const matchingIndex = context.defaultActions.findIndex((action) => {
     return action.actionType === sortKey
@@ -191,7 +202,7 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
 `
   }
 
-  // TODO: Handle other computed ratings (EHP, ELEMENTAL_DMG)
+  // TODO: Handle other computed ratings (ELEMENTAL_DMG)
   throw new Error(`GPU sort: unsupported sort option '${sortKey}'`)
 }
 
@@ -718,7 +729,29 @@ export function generateCombatStatFilters(request: Form, context: OptimizerConte
   addStatFilter('fBe', AKey.BE, 'minBe', 'maxBe')
   addStatFilter('fErr', AKey.ERR, 'minErr', 'maxErr')
 
-  if (conditions.length === 0) return ''
+  // EHP calculation (needed for filtering or sorting)
+  if (context.shaderVariables.needsEhp) {
+    const hpIndex = getActionIndex(SELF_ENTITY_INDEX, AKey.HP, config)
+    const defIndex = getActionIndex(SELF_ENTITY_INDEX, AKey.DEF, config)
+    const dmgRedIndex = getActionIndex(SELF_ENTITY_INDEX, AKey.DMG_RED_MULTI, config)
+
+    extractions.push(`let ehpHp = container0[${hpIndex}];`)
+    extractions.push(`let ehpDef = container0[${defIndex}];`)
+    extractions.push(`let ehpDmgRed = container0[${dmgRedIndex}];`)
+    extractions.push(`let ehp = ehpHp / (1.0 - ehpDef / (ehpDef + 200.0 + 10.0 * f32(enemyLevel))) / ehpDmgRed;`)
+
+    if (request.minEhp > 0) conditions.push(`ehp < minEhp`)
+    if (request.maxEhp < Constants.MAX_INT) conditions.push(`ehp > maxEhp`)
+  }
+
+  if (extractions.length === 0) return ''
+
+  if (conditions.length === 0) {
+    return `
+    // Combat stat extractions (after action 0)
+    ${extractions.join('\n    ')}
+`
+  }
 
   return `
     // Combat stat filters (after action 0)

@@ -138,6 +138,7 @@ export type CharacterMetadata = {
 
 export type ShaderVariables = {
   actionLength: number,
+  needsEhp: boolean,
 }
 
 export type OptimizerContext = CharacterMetadata & {

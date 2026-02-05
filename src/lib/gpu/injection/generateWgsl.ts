@@ -23,12 +23,18 @@ import {
   ShaderVariables,
 } from 'types/optimizer'
 
-export function generateShaderVariables(context: OptimizerContext) {
+export function generateShaderVariables(context: OptimizerContext, request: Form, gpuParams: GpuConstants) {
   // All sort options need all actions generated for proper stat computation
   const actionLength = context.defaultActions.length + context.rotationActions.length
 
+  // EHP is needed for filtering, sorting, or debug mode
+  const needsEhpFilter = request.minEhp > 0 || request.maxEhp < Constants.MAX_INT
+  const needsEhpSort = request.resultSort === SortOption.EHP.key
+  const needsEhp = needsEhpFilter || needsEhpSort || gpuParams.DEBUG
+
   const shaderVariables: ShaderVariables = {
     actionLength,
+    needsEhp,
   }
 
   return shaderVariables
@@ -37,7 +43,7 @@ export function generateShaderVariables(context: OptimizerContext) {
 export function generateWgsl(context: OptimizerContext, request: Form, relics: RelicsByPart, gpuParams: GpuConstants) {
   let wgsl = ''
 
-  context.shaderVariables = generateShaderVariables(context)
+  context.shaderVariables = generateShaderVariables(context, request, gpuParams)
 
   wgsl = injectSettings(wgsl, context, request, relics)
   wgsl = injectComputeShader(wgsl)

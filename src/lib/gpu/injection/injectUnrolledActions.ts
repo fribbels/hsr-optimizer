@@ -525,7 +525,7 @@ fn unrolledAction${index}(
   }
 
   if (p2((*p_sets).GuardOfWutheringSnow) >= 1) {
-    ${buff.actionMultiply(AKey.DMG_RED_MULTI, 1 - 0.08).wgsl(action, 2)}
+    ${buff.actionMultiplicativeComplement(AKey.DMG_RED, 0.08).wgsl(action, 2)}
   }
 
   if (p4((*p_sets).KnightOfPurityPalace) >= 1) {
@@ -733,13 +733,13 @@ export function generateCombatStatFilters(request: Form, context: OptimizerConte
   if (context.shaderVariables.needsEhp) {
     const hpIndex = getActionIndex(SELF_ENTITY_INDEX, AKey.HP, config)
     const defIndex = getActionIndex(SELF_ENTITY_INDEX, AKey.DEF, config)
-    const dmgRedIndex = getActionIndex(SELF_ENTITY_INDEX, AKey.DMG_RED_MULTI, config)
+    const dmgRedIndex = getActionIndex(SELF_ENTITY_INDEX, AKey.DMG_RED, config)
     const ehpIndex = getActionIndex(SELF_ENTITY_INDEX, AKey.EHP, config)
 
     extractions.push(`let ehpHp = container0[${hpIndex}];`)
     extractions.push(`let ehpDef = container0[${defIndex}];`)
     extractions.push(`let ehpDmgRed = container0[${dmgRedIndex}];`)
-    extractions.push(`let ehp = ehpHp / (1.0 - ehpDef / (ehpDef + 200.0 + 10.0 * f32(enemyLevel))) / ehpDmgRed;`)
+    extractions.push(`let ehp = ehpHp / (1.0 - ehpDef / (ehpDef + 200.0 + 10.0 * f32(enemyLevel))) / (1.0 - ehpDmgRed);`)
     extractions.push(`container0[${ehpIndex}] = ehp;`)
 
     if (request.minEhp > 0) conditions.push(`ehp < minEhp`)

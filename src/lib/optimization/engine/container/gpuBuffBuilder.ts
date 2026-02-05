@@ -48,6 +48,7 @@ export enum WgslOperator {
   ADD = '+=',
   MULTIPLY = '*=',
   SET = '=',
+  MULTIPLICATIVE_COMPLEMENT = 'MULTIPLICATIVE_COMPLEMENT',
 }
 
 // Action buff builder
@@ -93,7 +94,14 @@ class ActionBuffBuilder {
       const entity = config.entitiesArray[entityIndex]
       const index = getActionIndex(entityIndex, this.actionKey, config)
 
-      const code = `(*p_container)[${index}] ${this.operator} ${this.value}; // ${entity.name} ${getAKeyName(this.actionKey)}`
+      let code: string
+      if (this.operator === WgslOperator.MULTIPLICATIVE_COMPLEMENT) {
+        // Composes damage reductions multiplicatively: 1 - (1 - current) * (1 - new)
+        const ref = `(*p_container)[${index}]`
+        code = `${ref} = 1.0 - (1.0 - ${ref}) * (1.0 - ${this.value}); // ${entity.name} ${getAKeyName(this.actionKey)}`
+      } else {
+        code = `(*p_container)[${index}] ${this.operator} ${this.value}; // ${entity.name} ${getAKeyName(this.actionKey)}`
+      }
 
       if (matchesTargetTag(entity, this._targetTag, config.entitiesArray)) {
         lines.push(code)
@@ -214,5 +222,6 @@ export const buff = {
   action: (actionKey: AKeyValue, value: WgslBuffValue) => new ActionBuffBuilder(actionKey, value),
   actionSet: (actionKey: AKeyValue, value: WgslBuffValue) => new ActionBuffBuilder(actionKey, value, WgslOperator.SET),
   actionMultiply: (actionKey: AKeyValue, value: WgslBuffValue) => new ActionBuffBuilder(actionKey, value, WgslOperator.MULTIPLY),
+  actionMultiplicativeComplement: (actionKey: AKeyValue, value: WgslBuffValue) => new ActionBuffBuilder(actionKey, value, WgslOperator.MULTIPLICATIVE_COMPLEMENT),
   hit: (hitKey: HKeyValue, value: WgslBuffValue) => new HitBuffBuilder(hitKey, value),
 }

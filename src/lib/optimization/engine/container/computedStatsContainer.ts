@@ -55,6 +55,7 @@ export enum Operator {
   ADD,
   SET,
   MULTIPLY,
+  MULTIPLICATIVE_COMPLEMENT,
 }
 
 type Operation = (a: Float32Array, index: number, value: number) => void
@@ -68,6 +69,12 @@ const OPERATOR_MAP: Record<Operator, Operation> = {
   },
   [Operator.MULTIPLY]: (a, i, v) => {
     a[i] *= v
+  },
+  [Operator.MULTIPLICATIVE_COMPLEMENT]: (a, i, v) => {
+    // Composes damage reductions multiplicatively: 1 - (1 - current) * (1 - new)
+    // Default 0 means no reduction. 0.08 means 8% reduction.
+    // Two 8% + 10% reductions: 1 - (1-0)*(1-0.08) = 0.08, then 1 - (1-0.08)*(1-0.10) = 0.172
+    a[i] = 1 - (1 - a[i]) * (1 - v)
   },
 }
 

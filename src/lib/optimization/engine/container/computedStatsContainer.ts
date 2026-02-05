@@ -341,6 +341,23 @@ export class ComputedStatsContainer {
     )
   }
 
+  multiplicativeComplement(key: AKeyValue, value: number, config: BuffBuilder<true>) {
+    this.internalBuff(
+      key,
+      value,
+      Operator.MULTIPLICATIVE_COMPLEMENT,
+      config._source,
+      config._origin,
+      config._target,
+      config._targetTags,
+      config._elementTags,
+      config._damageTags,
+      config._outputTags,
+      config._directnessTag,
+      config._actionKind,
+    )
+  }
+
   buffDynamic(key: AKeyValue, value: number, action: OptimizerAction, context: OptimizerContext, config: BuffBuilder<true>) {
     this.internalBuff(
       key,

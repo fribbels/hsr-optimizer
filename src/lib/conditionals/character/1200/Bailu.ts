@@ -182,7 +182,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.buff(StatKey.HP_P, (m.healingMaxHpBuff) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
       x.buff(StatKey.DMG_BOOST, (e >= 4) ? m.e4SkillHealingDmgBuffStacks * 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
-      x.multiply(StatKey.DMG_RED_MULTI, (m.talentDmgReductionBuff) ? (1 - 0.10) : 1, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.multiplicativeComplement(StatKey.DMG_RED, (m.talentDmgReductionBuff) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

@@ -186,7 +186,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.CD, (e >= 1 && m.skillActive) ? 0.30 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
 
       // Talent: Team damage reduction (shared)
-      x.multiply(StatKey.DMG_RED_MULTI, (m.talentActive) ? (1 - talentDmgReductionValue) : 1, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
+      x.multiplicativeComplement(StatKey.DMG_RED, (m.talentActive) ? talentDmgReductionValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -198,7 +198,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.UNCONVERTIBLE_HP_BUFF, hpBuff, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
 
       // Skill: Additional damage reduction for teammates only (65%)
-      x.multiply(StatKey.DMG_RED_MULTI, (t.skillActive) ? (1 - 0.65) : 1, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+      x.multiplicativeComplement(StatKey.DMG_RED, (t.skillActive) ? 0.65 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
     },
 
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

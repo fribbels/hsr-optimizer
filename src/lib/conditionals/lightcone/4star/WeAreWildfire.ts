@@ -54,7 +54,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.multiply(StatKey.DMG_RED_MULTI, (m.initialDmgReductionBuff) ? (1 - sValues[s]) : 1, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
+      x.multiplicativeComplement(StatKey.DMG_RED, (m.initialDmgReductionBuff) ? sValues[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
 }

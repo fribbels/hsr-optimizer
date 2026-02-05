@@ -281,7 +281,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.UNCONVERTIBLE_ATK_BUFF.buffSingle((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
 
       x.RES_PEN.buffSingle((e >= 1 && t.bondmate && t.e1ResPen) ? 0.18 : 0, SOURCE_E1)
-      x.DMG_RED_MULTI.multiplySingle((e >= 4 && t.bondmate && t.e4DmgReduction) ? 1 - 0.20 : 1, SOURCE_E4)
+      x.DMG_RED.multiplySingle((e >= 4 && t.bondmate && t.e4DmgReduction) ? 1 - 0.20 : 1, SOURCE_E4)
       x.VULNERABILITY.buffTeam((e >= 6 && t.e6Buffs) ? 0.20 : 0, SOURCE_E6)
       x.DEF_PEN.buffSingle((e >= 6 && t.e6Buffs) ? 0.12 : 0, SOURCE_E6)
 
@@ -299,7 +299,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.UNCONVERTIBLE_ATK_BUFF, (t.bondmate) ? atkBuff : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_TRACE))
 
       x.buff(StatKey.RES_PEN, (e >= 1 && t.bondmate && t.e1ResPen) ? 0.18 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E1))
-      x.multiply(StatKey.DMG_RED_MULTI, (e >= 4 && t.bondmate && t.e4DmgReduction) ? 1 - 0.20 : 1, x.targets(TargetTag.SingleTarget).source(SOURCE_E4))
+      x.multiplicativeComplement(StatKey.DMG_RED, (e >= 4 && t.bondmate && t.e4DmgReduction) ? 0.20 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E4))
       x.buff(StatKey.VULNERABILITY, (e >= 6 && t.e6Buffs) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
       x.buff(StatKey.DEF_PEN, (e >= 6 && t.e6Buffs) ? 0.12 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E6))
 

@@ -315,7 +315,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     },
     p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-      x.multiply(StatKey.DMG_RED_MULTI, 1 - 0.08, x.source(Source.GuardOfWutheringSnow))
+      x.multiplicativeComplement(StatKey.DMG_RED, 0.08, x.source(Source.GuardOfWutheringSnow))
     },
   },
   FiresmithOfLavaForging: {

@@ -245,7 +245,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.ATK_P, (r.counterAtkBuff) ? 0.30 : 0, x.source(SOURCE_TRACE))
 
       // Trace: Damage reduction during parry
-      x.multiply(StatKey.DMG_RED_MULTI, (r.blockActive) ? 1 - 0.20 : 1, x.source(SOURCE_TRACE))
+      x.multiplicativeComplement(StatKey.DMG_RED, (r.blockActive) ? 0.20 : 0, x.source(SOURCE_TRACE))
 
       // E1: FUA DMG boost when parry active
       x.buff(StatKey.DMG_BOOST, (e >= 1 && r.e1UltBuff && r.blockActive) ? 0.20 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E1))

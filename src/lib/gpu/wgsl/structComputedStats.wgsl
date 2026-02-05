@@ -37,7 +37,7 @@ struct ComputedStats {
   UNCONVERTIBLE_ERR_BUFF: f32,
 
   // EHP
-  DMG_RED_MULTI: f32,
+  DMG_RED: f32,
   EHP: f32,
 
   // Misc configs

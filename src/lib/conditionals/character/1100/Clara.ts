@@ -165,9 +165,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.buff(StatKey.ATK_P, (e >= 2 && r.e2UltAtkBuff) ? 0.30 : 0, x.source(SOURCE_E2))
 
-      x.multiply(StatKey.DMG_RED_MULTI, 1 - 0.10, x.source(SOURCE_TALENT))
-      x.multiply(StatKey.DMG_RED_MULTI, (r.ultBuff) ? (1 - ultDmgReductionValue) : 1, x.source(SOURCE_ULT))
-      x.multiply(StatKey.DMG_RED_MULTI, (e >= 4 && r.e4DmgReductionBuff) ? (1 - 0.30) : 1, x.source(SOURCE_E4))
+      x.multiplicativeComplement(StatKey.DMG_RED, 0.10, x.source(SOURCE_TALENT))
+      x.multiplicativeComplement(StatKey.DMG_RED, (r.ultBuff) ? ultDmgReductionValue : 0, x.source(SOURCE_ULT))
+      x.multiplicativeComplement(StatKey.DMG_RED, (e >= 4 && r.e4DmgReductionBuff) ? 0.30 : 0, x.source(SOURCE_E4))
 
       x.buff(StatKey.DMG_BOOST, 0.30, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
     },

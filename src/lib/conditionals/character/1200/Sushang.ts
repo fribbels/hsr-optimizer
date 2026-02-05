@@ -187,7 +187,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.DMG_BOOST, r.skillTriggerStacks * 0.025, x.damageType(DamageTag.ADDITIONAL).source(SOURCE_SKILL))
 
       // E2: DMG reduction
-      x.multiply(StatKey.DMG_RED_MULTI, (e >= 2 && r.e2DmgReductionBuff) ? (1 - 0.20) : 1, x.source(SOURCE_E2))
+      x.multiplicativeComplement(StatKey.DMG_RED, (e >= 2 && r.e2DmgReductionBuff) ? 0.20 : 0, x.source(SOURCE_E2))
     },
 
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

@@ -43,7 +43,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.multiply(StatKey.DMG_RED_MULTI, (r.activeShieldDmgDecrease) ? (1 - sValues[s]) : 1, x.source(SOURCE_LC))
+      x.multiplicativeComplement(StatKey.DMG_RED, (r.activeShieldDmgDecrease) ? sValues[s] : 0, x.source(SOURCE_LC))
     },
   }
 }

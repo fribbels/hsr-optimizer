@@ -410,7 +410,7 @@ function calculateEhp(x: ComputedStatsContainer, context: OptimizerContext) {
   const a = x.a
 
   let ehp = a[ActionKey.HP] / (1 - a[ActionKey.DEF] / (a[ActionKey.DEF] + 200 + 10 * context.enemyLevel))
-  ehp *= 1 / a[ActionKey.DMG_RED_MULTI]
+  ehp /= (1 - a[ActionKey.DMG_RED])
   a[ActionKey.EHP] = ehp
 }
 

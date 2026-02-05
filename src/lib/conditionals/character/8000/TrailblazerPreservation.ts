@@ -172,14 +172,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.ATK_P, (r.shieldActive) ? 0.15 : 0, x.source(SOURCE_TRACE))
 
       // Skill: Damage reduction (self only)
-      x.multiply(StatKey.DMG_RED_MULTI, (r.skillActive) ? (1 - skillDamageReductionValue) : 1, x.source(SOURCE_SKILL))
+      x.multiplicativeComplement(StatKey.DMG_RED, (r.skillActive) ? skillDamageReductionValue : 0, x.source(SOURCE_SKILL))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Trace: 15% damage reduction for all allies
-      x.multiply(StatKey.DMG_RED_MULTI, (m.skillActive) ? (1 - 0.15) : 1, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.multiplicativeComplement(StatKey.DMG_RED, (m.skillActive) ? 0.15 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
 
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

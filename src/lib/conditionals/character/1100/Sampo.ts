@@ -157,7 +157,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.multiply(StatKey.DMG_RED_MULTI, (r.targetWindShear) ? (1 - 0.15) : 1, x.source(SOURCE_TRACE))
+      x.multiplicativeComplement(StatKey.DMG_RED, (r.targetWindShear) ? 0.15 : 0, x.source(SOURCE_TRACE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

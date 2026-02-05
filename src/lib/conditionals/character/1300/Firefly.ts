@@ -216,7 +216,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.RES, (r.enhancedStateActive) ? talentResBuff : 0, x.source(SOURCE_TALENT))
       x.buff(StatKey.SPD, (r.enhancedStateActive && r.enhancedStateSpdBuff) ? ultSpdBuff : 0, x.source(SOURCE_ULT))
       x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (r.enhancedStateActive) ? 0.50 : 0, x.source(SOURCE_ULT))
-      x.multiply(StatKey.DMG_RED_MULTI, (r.enhancedStateActive && r.talentDmgReductionBuff) ? (1 - talentDmgReductionBuff) : 1, x.source(SOURCE_TALENT))
+      x.multiplicativeComplement(StatKey.DMG_RED, (r.enhancedStateActive && r.talentDmgReductionBuff) ? talentDmgReductionBuff : 0, x.source(SOURCE_TALENT))
 
       // Break vulnerability (only to weakness-broken enemies)
       const isWeaknessBroken = x.getActionValue(StatKey.ENEMY_WEAKNESS_BROKEN, FireflyEntities.Firefly)

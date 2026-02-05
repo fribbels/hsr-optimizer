@@ -14,7 +14,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     content: () => [],
     defaults: () => ({}),
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      x.multiply(StatKey.DMG_RED_MULTI, 1 - sValues[s], x.source(SOURCE_LC))
+      x.multiplicativeComplement(StatKey.DMG_RED, sValues[s], x.source(SOURCE_LC))
     },
   }
 }

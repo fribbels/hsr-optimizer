@@ -352,7 +352,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
         // Calamity damage reduction
         if (r.enhancedSkillType === PhainonEnhancedSkillType.CALAMITY) {
-          x.multiply(StatKey.DMG_RED_MULTI, 1 - 0.75, x.source(SOURCE_SKILL))
+          x.multiplicativeComplement(StatKey.DMG_RED, 0.75, x.source(SOURCE_SKILL))
         }
 
         // Cyrene CR buff (transformed only)

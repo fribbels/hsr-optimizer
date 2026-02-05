@@ -24,11 +24,8 @@ import {
 } from 'types/optimizer'
 
 export function generateShaderVariables(context: OptimizerContext) {
-  // Combo DMG needs to read the rotation for damage, and default actions for filtering
-  // Non-Combo optimization only needs to read a single default action
-  const actionLength = context.resultSort == SortOption.COMBO.key
-    ? context.defaultActions.length + context.rotationActions.length
-    : 1
+  // All sort options need all actions generated for proper stat computation
+  const actionLength = context.defaultActions.length + context.rotationActions.length
 
   const shaderVariables: ShaderVariables = {
     actionLength,

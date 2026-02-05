@@ -164,8 +164,7 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
 `
   }
 
-  // COMBO - use comboDmg
-  if (sortKey === 'COMBO') {
+  if (sortKey === SortOption.COMBO.key) {
     return `
     if (comboDmg > threshold) {
       results[index] = comboDmg;
@@ -176,7 +175,23 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
 `
   }
 
-  // TODO: Handle other computed ratings (BASIC, SKILL, ULT, FUA, DOT, BREAK, MEMO_SKILL, MEMO_TALENT, EHP, ELEMENTAL_DMG)
+  // Ability damage sorts - find matching default action
+  const matchingIndex = context.defaultActions.findIndex((action) => {
+    return action.actionType === sortKey
+  })
+
+  if (matchingIndex >= 0) {
+    return `
+    if (dmg${matchingIndex} > threshold) {
+      results[index] = dmg${matchingIndex};
+      failures = 1;
+    } else {
+      results[index] = -failures; failures = failures + 1;
+    }
+`
+  }
+
+  // TODO: Handle other computed ratings (EHP, ELEMENTAL_DMG)
   throw new Error(`GPU sort: unsupported sort option '${sortKey}'`)
 }
 

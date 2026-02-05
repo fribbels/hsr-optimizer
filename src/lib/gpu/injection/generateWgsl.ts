@@ -241,9 +241,11 @@ export function injectBasicFilters(wgsl: string, request: Form, context: Optimiz
   const sortOptionComputed = sortOption.isComputedRating
   const filter = filterFn(request)
 
-  let sortString = sortOptionComputed ? `x.${sortOptionGpu} < threshold` : `c.${sortOptionGpu} < threshold`
-  if (sortOptionGpu == SortOption.COMBO.gpuProperty) {
-    sortString = ''
+  // For basic stats, threshold check is here. For computed ratings (COMBO, damage types),
+  // threshold check is in generateSortOptionReturn
+  let sortString = ''
+  if (!sortOptionComputed) {
+    sortString = `c.${sortOptionGpu} < threshold`
   }
 
   const basicFilters = [

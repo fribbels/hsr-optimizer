@@ -31,6 +31,7 @@ import {
   matchesTargetTag,
 } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
+import { SortOption, SortOptionKey } from 'lib/optimization/sortOptions'
 import {
   CharacterConditionalsController,
   LightConeConditionalsController,
@@ -88,14 +89,7 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
   }
 
   if (!gpuParams.DEBUG) {
-    unrolledActionCallsWgsl += `
-    if (comboDmg > threshold) {
-      results[index] = comboDmg;
-      failures = 1;
-    } else {
-      results[index] = -failures; failures = failures + 1;
-    }
-`
+    unrolledActionCallsWgsl += generateSortOptionReturn(request, context)
   } else {
     unrolledActionCallsWgsl += `
     results[index] = debugContainer;
@@ -113,6 +107,77 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
   )
 
   return wgsl
+}
+
+const SortOptionToAKey: Partial<Record<SortOptionKey, AKeyValue>> = {
+  ATK: AKey.ATK,
+  DEF: AKey.DEF,
+  HP: AKey.HP,
+  SPD: AKey.SPD,
+  CR: AKey.CR,
+  CD: AKey.CD,
+  EHR: AKey.EHR,
+  RES: AKey.RES,
+  BE: AKey.BE,
+  ERR: AKey.ERR,
+  OHB: AKey.OHB,
+}
+
+/**
+ * Generates WGSL code to output the result based on the selected sort option.
+ * Currently handles: basic stats + COMBO
+ */
+function generateSortOptionReturn(request: Form, context: OptimizerContext): string {
+  const sortOption = SortOption[request.resultSort!]
+  const sortOptionGpu = sortOption.gpuProperty
+  const sortKey = sortOption.key
+
+  // Basic stats (not isComputedRating)
+  // - statDisplay == 1 (basic mode): use c.{property}
+  // - statDisplay == 0 (combat mode): use container0[stat index]
+  if (!sortOption.isComputedRating) {
+    const aKey = SortOptionToAKey[sortKey]
+    if (aKey === undefined) {
+      throw new Error(`GPU sort: no AKey mapping for basic stat '${sortKey}'`)
+    }
+
+    const config = context.defaultActions[0].config
+    const statIndex = getActionIndex(SELF_ENTITY_INDEX, aKey, config)
+
+    return `
+    if (statDisplay == 1) {
+      if (c.${sortOptionGpu} > threshold) {
+        results[index] = c.${sortOptionGpu};
+        failures = 1;
+      } else {
+        results[index] = -failures; failures = failures + 1;
+      }
+    } else {
+      let sortValue = container0[${statIndex}];
+      if (sortValue > threshold) {
+        results[index] = sortValue;
+        failures = 1;
+      } else {
+        results[index] = -failures; failures = failures + 1;
+      }
+    }
+`
+  }
+
+  // COMBO - use comboDmg
+  if (sortKey === 'COMBO') {
+    return `
+    if (comboDmg > threshold) {
+      results[index] = comboDmg;
+      failures = 1;
+    } else {
+      results[index] = -failures; failures = failures + 1;
+    }
+`
+  }
+
+  // TODO: Handle other computed ratings (BASIC, SKILL, ULT, FUA, DOT, BREAK, MEMO_SKILL, MEMO_TALENT, EHP, ELEMENTAL_DMG)
+  throw new Error(`GPU sort: unsupported sort option '${sortKey}'`)
 }
 
 function generateRegisterCopy(actionIndex: number, action: OptimizerAction, context: OptimizerContext): string {

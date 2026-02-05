@@ -340,13 +340,6 @@ fn main(
     let diffERR = c.ERR;
     let diffOHB = c.OHB;
 
-    var combo = 0.0;
-
-    /* START MC ASSIGNMENT */
-    var mc = c;
-    /* END MC ASSIGNMENT */
-
-
     // START UNROLLED ACTIONS
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
     /* INJECT UNROLLED ACTIONS */

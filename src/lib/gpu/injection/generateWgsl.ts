@@ -48,7 +48,7 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
   wgsl = injectConditionalsNew(wgsl, request, context, gpuParams)
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)
   wgsl = injectRelicIndexStrategy(wgsl, relics)
-  wgsl = injectBasicFilters(wgsl, request, gpuParams)
+  wgsl = injectBasicFilters(wgsl, request, context, gpuParams)
   // wgsl = injectCombatFilters(wgsl, request, gpuParams)
   // wgsl = injectRatingFilters(wgsl, request, gpuParams)
   wgsl = injectSetFilters(wgsl, gpuParams)
@@ -238,7 +238,7 @@ if (relicSetSolutionsMatrix[relicSetIndex] < 1 || ornamentSetSolutionsMatrix[orn
   )
 }
 
-export function injectBasicFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
+export function injectBasicFilters(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   const sortOption = SortOption[request.resultSort!]
   const sortOptionGpu: string = sortOption.gpuProperty
   const sortOptionComputed = sortOption.isComputedRating

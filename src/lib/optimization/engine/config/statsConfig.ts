@@ -87,6 +87,7 @@ export const newStatsConfig = {
 
   // EHP
   DMG_RED_MULTI: { default: 1, label: optimizerTabMisc('DMG reduction') }, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi) instead of additive
+  EHP: { flat: true, label: optimizerTabMisc('Effective HP') },
 
   // Misc configs
   SUMMONS: { flat: true, label: optimizerTabMisc('Summons') }, // Remove

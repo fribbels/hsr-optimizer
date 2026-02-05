@@ -55,20 +55,20 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
     unrolledActionCallsWgsl += actionCall
     unrolledActionFunctionsWgsl += actionFunction
 
-    // DEBUG: Copy entire container0, then copy registers from other actions
+    // Combat stat filters execute after the first default action (includes EHP calculation)
+    if (i === 0) {
+      unrolledActionCallsWgsl += generateCombatStatFilters(request, context, gpuParams)
+    }
+
+    // DEBUG: Copy entire container0 (after combat stat filters for EHP), then copy registers from other actions
     if (gpuParams.DEBUG) {
       if (i === 0) {
-        // Copy entire container0 to get all action stats and hit stats
+        // Copy entire container0 to get all action stats and hit stats (after EHP calculation)
         unrolledActionCallsWgsl += `\n    var debugContainer: array<f32, ${context.maxContainerArrayLength}> = container0;\n\n`
       } else {
         // Copy only registers from actions 1+
         unrolledActionCallsWgsl += generateRegisterCopy(i, action, context)
       }
-    }
-
-    // Combat stat filters execute after the first default action
-    if (i === 0) {
-      unrolledActionCallsWgsl += generateCombatStatFilters(request, context, gpuParams)
     }
   }
 
@@ -734,11 +734,13 @@ export function generateCombatStatFilters(request: Form, context: OptimizerConte
     const hpIndex = getActionIndex(SELF_ENTITY_INDEX, AKey.HP, config)
     const defIndex = getActionIndex(SELF_ENTITY_INDEX, AKey.DEF, config)
     const dmgRedIndex = getActionIndex(SELF_ENTITY_INDEX, AKey.DMG_RED_MULTI, config)
+    const ehpIndex = getActionIndex(SELF_ENTITY_INDEX, AKey.EHP, config)
 
     extractions.push(`let ehpHp = container0[${hpIndex}];`)
     extractions.push(`let ehpDef = container0[${defIndex}];`)
     extractions.push(`let ehpDmgRed = container0[${dmgRedIndex}];`)
     extractions.push(`let ehp = ehpHp / (1.0 - ehpDef / (ehpDef + 200.0 + 10.0 * f32(enemyLevel))) / ehpDmgRed;`)
+    extractions.push(`container0[${ehpIndex}] = ehp;`)
 
     if (request.minEhp > 0) conditions.push(`ehp < minEhp`)
     if (request.maxEhp < Constants.MAX_INT) conditions.push(`ehp > maxEhp`)

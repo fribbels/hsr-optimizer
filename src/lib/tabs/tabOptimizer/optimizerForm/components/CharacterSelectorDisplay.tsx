@@ -5,7 +5,10 @@ import {
 } from 'antd'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
-import { AbilityKind, AbilityToSortOption } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  AbilityToSortOption,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'

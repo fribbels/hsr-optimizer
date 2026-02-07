@@ -17,7 +17,6 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import {
-  conditionalWgslWrapper,
   newConditionalWgslWrapper,
 } from 'lib/gpu/conditionals/dynamicConditionals'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
@@ -289,7 +288,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
     precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
-    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
+    precomputeMutualEffectsContainer: (
+      x: ComputedStatsContainer,
+      action: OptimizerAction,
+      context: OptimizerContext,
+      originalCharacterAction?: OptimizerAction,
+    ) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Trace vulnerability (full team)
@@ -339,7 +343,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          return newConditionalWgslWrapper(this, action, context, `
+          return newConditionalWgslWrapper(
+            this,
+            action,
+            context,
+            `
 if (
   (*p_state).CipherSpdActivation140${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} >= 140.0 &&
@@ -348,7 +356,8 @@ if (
   (*p_state).CipherSpdActivation140${action.actionIdentifier} = 1.0;
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, action.config)} += 0.25;
 }
-          `)
+          `,
+          )
         },
       },
       {
@@ -370,7 +379,11 @@ if (
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          return newConditionalWgslWrapper(this, action, context, `
+          return newConditionalWgslWrapper(
+            this,
+            action,
+            context,
+            `
 if (
   (*p_state).CipherSpdActivation170${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} >= 170.0 &&
@@ -379,7 +392,8 @@ if (
   (*p_state).CipherSpdActivation170${action.actionIdentifier} = 1.0;
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, action.config)} += 0.25;
 }
-          `)
+          `,
+          )
         },
       },
     ],

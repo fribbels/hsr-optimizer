@@ -1,11 +1,7 @@
 import { ConditionalActivation } from 'lib/constants/constants'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
-  OptimizerAction,
-  OptimizerContext,
-  TeammateAction,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, TeammateAction, } from 'types/optimizer'
 
 export type DynamicConditional = {
   id: string,
@@ -51,15 +47,6 @@ export function evaluateConditional(conditional: DynamicConditional, x: Computed
   } else {
     // No-op
   }
-}
-
-export function conditionalWgslWrapper(conditional: DynamicConditional, wgsl: string, context: OptimizerContext) {
-  return `
-fn evaluate${conditional.id}(p_container: ptr<function, array<f32, ${context.maxContainerArrayLength}>>, p_sets: ptr<function, Sets>, p_state: ptr<function, ConditionalState>) {
-  let x = *p_x;
-${indent(wgsl.trim(), 1)}
-}
-  `
 }
 
 export function newConditionalWgslWrapper(conditional: DynamicConditional, action: OptimizerAction, context: OptimizerContext, wgsl: string) {

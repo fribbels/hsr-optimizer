@@ -12,14 +12,13 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import {
-  conditionalWgslWrapper,
   newConditionalWgslWrapper,
 } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import {
   containerActionVal,
   p_containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
   ComputedStatsArray,

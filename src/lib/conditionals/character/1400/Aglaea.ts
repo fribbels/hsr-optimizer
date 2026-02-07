@@ -1,8 +1,4 @@
-import {
-  AbilityType,
-  BUFF_PRIORITY_MEMO,
-  BUFF_PRIORITY_SELF,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF, } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -11,53 +7,24 @@ import {
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
-import {
-  ConditionalActivation,
-  ConditionalType,
-  Stats,
-} from 'lib/constants/constants'
-import {
-  conditionalWgslWrapper,
-  newConditionalWgslWrapper,
-} from 'lib/gpu/conditionals/dynamicConditionals'
-import {
-  wgsl,
-  wgslFalse,
-  wgslTrue,
-} from 'lib/gpu/injection/wgslUtils'
+import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
+import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { wgsl, wgslFalse, wgslTrue, } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import {
-  containerActionVal,
-  p_containerActionVal,
-} from 'lib/gpu/injection/injectUtils'
-import {
-  HKey,
-  StatKey,
-} from 'lib/optimization/engine/config/keys'
-import {
-  DamageTag,
-  ElementTag,
-  SELF_ENTITY_INDEX,
-  TargetTag,
-} from 'lib/optimization/engine/config/tag'
+import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
+import { HKey, StatKey, } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { AbilityDefinition } from 'types/hitConditionalTypes'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const AglaeaAbilities = createEnum(
   'BASIC',

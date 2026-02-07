@@ -16,7 +16,6 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import {
-  conditionalWgslWrapper,
   newConditionalWgslWrapper,
 } from 'lib/gpu/conditionals/dynamicConditionals'
 import {

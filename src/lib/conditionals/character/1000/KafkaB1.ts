@@ -17,7 +17,7 @@ import {
   ConditionalType,
   Stats,
 } from 'lib/constants/constants'
-import { conditionalWgslWrapper, newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
   wgsl,
@@ -26,10 +26,18 @@ import {
 } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag } from 'lib/optimization/engine/config/tag'
-import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import {
+  AKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -216,8 +224,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      //gpuBoostAshblazingAtkP(hitMulti) +
-      return  wgsl`
+      // gpuBoostAshblazingAtkP(hitMulti) +
+      return wgsl`
 if (${wgslTrue(r.ehrBasedBuff)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)} >= 0.75) {
   ${buff.action(AKey.ATK, `1.00 * baseATK`).wgsl(action)}
 }
@@ -231,10 +239,10 @@ if (${wgslTrue(r.ehrBasedBuff)} && ${containerActionVal(SELF_ENTITY_INDEX, StatK
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.EHR],
         chainsTo: [],
-        condition: function (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           return x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) >= 0.75
         },
-        effect: function (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
           if (!r.ehrBasedBuff) {
             return
@@ -245,7 +253,7 @@ if (${wgslTrue(r.ehrBasedBuff)} && ${containerActionVal(SELF_ENTITY_INDEX, StatK
             x.buff(StatKey.ATK, 1.00 * context.baseATK, x.source(SOURCE_TRACE))
           }
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
 
           return newConditionalWgslWrapper(

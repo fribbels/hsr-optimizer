@@ -13,15 +13,11 @@ import {
   BasicStatsArrayCore,
 } from 'lib/optimization/basicStatsArray'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
-import { Source } from 'lib/optimization/buffSource'
 import {
   calculateContextConditionalRegistry,
   wrapTeammateDynamicConditional,
 } from 'lib/optimization/calculateConditionals'
-import {
-  calculateBaseMultis,
-  calculateDamage,
-} from 'lib/optimization/calculateDamage'
+import { calculateBaseMultis } from 'lib/optimization/calculateDamage'
 import {
   calculateBaseStats,
   calculateBasicEffects,
@@ -40,9 +36,8 @@ import {
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
+import { calculateEhp, getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
 import { NamedArray } from 'lib/optimization/engine/util/namedArray'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   SortOption,
   SortOptionProperties,
@@ -187,7 +182,7 @@ export function optimizerWorker(e: MessageEvent) {
 
   const failsCombatStatsFilter = combatStatsFilter(request)
   const failsBasicStatsFilter = basicStatsFilter(request)
-  // const failsRatingStatsFilter = ratingStatsFilter(request, context)
+  const failsEhpFilter = ehpFilter(request)
 
   for (let col = 0; col < limit; col++) {
     const index = data.skip + col
@@ -257,16 +252,19 @@ export function optimizerWorker(e: MessageEvent) {
       calculateComputedStats(x, action, context)
       calculateBaseMultis(x, action, context)
 
+      let sum = 0
       for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
         const hit = action.hits![hitIndex]
         const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
         x.setHitRegisterValue(hit.registerIndex, dmg)
 
-        // Only accumulate recorded damage hits to comboDmg (not heals/shields)
+        // Only accumulate recorded damage hits to sum and comboDmg (not heals/shields)
         if (hit.outputTag == OutputTag.DAMAGE && hit.recorded !== false) {
+          sum += dmg
           comboDmg += dmg
         }
       }
+      x.setActionRegisterValue(action.registerIndex, sum)
     }
 
     // Calculate default actions for display stats and store in registers
@@ -293,8 +291,10 @@ export function optimizerWorker(e: MessageEvent) {
           sum += dmg
         }
       }
-      x.setActionRegisterValue(i, sum)
+      x.setActionRegisterValue(action.registerIndex, sum)
     }
+
+    calculateEhp(x, context)
 
     x.a[StatKey.COMBO_DMG] = comboDmg
 
@@ -306,10 +306,10 @@ export function optimizerWorker(e: MessageEvent) {
       continue
     }
 
-    // Rating filtering
-    // if (failsRatingStatsFilter(x)) {
-    //   continue
-    // }
+    // EHP filtering
+    if (failsEhpFilter(x)) {
+      continue
+    }
 
     BufferPacker.packCharacterContainer(arr, passCount, x, c, context, memospriteEntityIndex)
     passCount++
@@ -342,20 +342,6 @@ function addCombatConditionIfNeeded(
     conditions.push((x, entityIndex) => {
       const entityName = x.config.entityRegistry.get(entityIndex)!.name
       const value = x.getActionValue(statKey as any, entityName)
-      return value < min || value > max
-    })
-  }
-}
-
-function addRatingConditionIfNeeded(
-  conditions: ((x: ComputedStatsContainer) => boolean)[],
-  actionIndex: number,
-  min: number,
-  max: number,
-) {
-  if (min !== 0 || max !== Constants.MAX_INT) {
-    conditions.push((x) => {
-      const value = x.getActionRegisterValue(actionIndex)
       return value < min || value > max
     })
   }
@@ -395,46 +381,19 @@ function combatStatsFilter(request: Form) {
   return (x: ComputedStatsContainer, entityIndex: number) => conditions.some((condition) => condition(x, entityIndex))
 }
 
-// function ratingStatsFilter(request: Form, context: OptimizerContext) {
-//   const conditions: ((x: ComputedStatsContainer) => boolean)[] = []
+function ehpFilter(request: Form) {
+  const minEhp = request.minEhp
+  const maxEhp = request.maxEhp
 
-//   // Map action names to indices to find the right register
-//   const actionNameToIndex: Record<string, number> = {}
-//   context.defaultActions.forEach((action, index) => {
-//     actionNameToIndex[action.actionName] = index
-//   })
+  if (minEhp === 0 && maxEhp === Constants.MAX_INT) {
+    return () => false
+  }
 
-//   addRatingConditionIfNeeded(conditions, actionNameToIndex['BASIC'] ?? 0, request.minBasic, request.maxBasic)
-//   addRatingConditionIfNeeded(conditions, actionNameToIndex['SKILL'] ?? 1, request.minSkill, request.maxSkill)
-//   addRatingConditionIfNeeded(conditions, actionNameToIndex['ULT'] ?? 2, request.minUlt, request.maxUlt)
-//   addRatingConditionIfNeeded(conditions, actionNameToIndex['FUA'] ?? 3, request.minFua, request.maxFua)
-//   addRatingConditionIfNeeded(conditions, actionNameToIndex['MEMO SKILL'] ?? 4, request.minMemoSkill, request.maxMemoSkill)
-//   addRatingConditionIfNeeded(conditions, actionNameToIndex['MEMO TALENT'] ?? 5, request.minMemoTalent, request.maxMemoTalent)
-//   addRatingConditionIfNeeded(conditions, actionNameToIndex['DOT'] ?? 6, request.minDot, request.maxDot)
-//   addRatingConditionIfNeeded(conditions, actionNameToIndex['BREAK'] ?? 7, request.minBreak, request.maxBreak)
-
-//   // EHP, HEAL, SHIELD are still in x.a as action-level stats
-//   if (request.minEhp !== 0 || request.maxEhp !== Constants.MAX_INT) {
-//     conditions.push((x) => {
-//       const value = x.a[StatKey.EHP]
-//       return value < request.minEhp || value > request.maxEhp
-//     })
-//   }
-//   if (request.minHeal !== 0 || request.maxHeal !== Constants.MAX_INT) {
-//     conditions.push((x) => {
-//       const value = x.a[StatKey.HEAL_VALUE]
-//       return value < request.minHeal || value > request.maxHeal
-//     })
-//   }
-//   if (request.minShield !== 0 || request.maxShield !== Constants.MAX_INT) {
-//     conditions.push((x) => {
-//       const value = x.a[StatKey.SHIELD_VALUE]
-//       return value < request.minShield || value > request.maxShield
-//     })
-//   }
-
-//   return (x: ComputedStatsContainer) => conditions.some((condition) => condition(x))
-// }
+  return (x: ComputedStatsContainer) => {
+    const ehp = x.a[StatKey.EHP]
+    return ehp < minEhp || ehp > maxEhp
+  }
+}
 
 function generateResultMinFilter(request: Form, combatDisplay: string) {
   const filter = request.resultMinFilter

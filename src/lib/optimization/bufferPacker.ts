@@ -1,10 +1,11 @@
+import { ElementName, ElementToStatKeyDmgBoost } from 'lib/constants/constants'
 import {
   Buff,
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
-import { StatKey } from "./engine/config/keys"
+import { StatKey } from './engine/config/keys'
 
 const SIZE = 65
 
@@ -124,10 +125,11 @@ export const BufferPacker = {
     arr[offset + 12] = ca[Key.ELEMENTAL_DMG]
     arr[offset + 13] = c.weight
 
-    // [14-16] Computed values (EHP, HEAL, SHIELD - TODO: calculate from hit registers)
-    arr[offset + 14] = 0 // EHP - not yet implemented in new engine
-    arr[offset + 15] = 0 // HEAL_VALUE - not yet implemented in new engine
-    arr[offset + 16] = 0 // SHIELD_VALUE - not yet implemented in new engine
+    // [14-16] Computed values (EHP, HEAL, SHIELD)
+    const primaryEntity = x.config.entityRegistry.get(0)!.name
+    arr[offset + 14] = x.getActionValue(StatKey.EHP, primaryEntity)
+    arr[offset + 15] = 0 // HEAL_VALUE - TODO: calculate from hit registers
+    arr[offset + 16] = 0 // SHIELD_VALUE - TODO: calculate from hit registers
 
     // [17-24] Damage values from action registers - dynamically mapped
     const actionNameToOffset: Record<string, number> = {
@@ -153,7 +155,6 @@ export const BufferPacker = {
     arr[offset + 25] = x.a[StatKey.COMBO_DMG]
 
     // [26-37] Combat stats from primary entity (index 0)
-    const primaryEntity = x.config.entityRegistry.get(0)!.name
     arr[offset + 26] = x.getActionValue(StatKey.HP, primaryEntity)
     arr[offset + 27] = x.getActionValue(StatKey.ATK, primaryEntity)
     arr[offset + 28] = x.getActionValue(StatKey.DEF, primaryEntity)
@@ -165,7 +166,10 @@ export const BufferPacker = {
     arr[offset + 34] = x.getActionValue(StatKey.BE, primaryEntity)
     arr[offset + 35] = x.getActionValue(StatKey.ERR, primaryEntity)
     arr[offset + 36] = x.getActionValue(StatKey.OHB, primaryEntity)
-    arr[offset + 37] = x.getActionValue(StatKey.DMG_BOOST as any, primaryEntity)
+    // xELEMENTAL_DMG = generic DMG_BOOST + character's elemental boost
+    const elementalBoostKey = ElementToStatKeyDmgBoost[context.elementalDamageType as ElementName]
+    arr[offset + 37] = x.getActionValue(StatKey.DMG_BOOST, primaryEntity)
+      + x.getActionValue(elementalBoostKey, primaryEntity)
 
     // [38-39] Set indices
     arr[offset + 38] = c.relicSetIndex
@@ -201,10 +205,12 @@ export const BufferPacker = {
       arr[offset + 60] = x.getActionValue(StatKey.BE, memoEntity)
       arr[offset + 61] = x.getActionValue(StatKey.ERR, memoEntity)
       arr[offset + 62] = x.getActionValue(StatKey.OHB, memoEntity)
+      // mxELEMENTAL_DMG = generic DMG_BOOST + character's elemental boost
       arr[offset + 63] = x.getActionValue(StatKey.DMG_BOOST, memoEntity)
+        + x.getActionValue(elementalBoostKey, memoEntity)
 
-      // [64] mxEHP (same as primary)
-      arr[offset + 64] = 0 // EHP - not yet implemented in new engine
+      // [64] mxEHP
+      arr[offset + 64] = x.getActionValue(StatKey.EHP, memoEntity)
     }
   },
 

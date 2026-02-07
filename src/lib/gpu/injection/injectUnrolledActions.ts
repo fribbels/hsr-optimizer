@@ -177,8 +177,8 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
 
   if (sortKey === SortOption.EHP.key) {
     return `
-    if (ehp > threshold) {
-      results[index] = ehp;
+    if (ehp0 > threshold) {
+      results[index] = ehp0;
       failures = 1;
     } else {
       results[index] = -failures; failures = failures + 1;
@@ -729,21 +729,24 @@ export function generateCombatStatFilters(request: Form, context: OptimizerConte
   addStatFilter('fBe', AKey.BE, 'minBe', 'maxBe')
   addStatFilter('fErr', AKey.ERR, 'minErr', 'maxErr')
 
-  // EHP calculation (needed for filtering or sorting)
+  // EHP calculation for all entities (needed for filtering or sorting)
   if (context.shaderVariables.needsEhp) {
-    const hpIndex = getActionIndex(SELF_ENTITY_INDEX, AKey.HP, config)
-    const defIndex = getActionIndex(SELF_ENTITY_INDEX, AKey.DEF, config)
-    const dmgRedIndex = getActionIndex(SELF_ENTITY_INDEX, AKey.DMG_RED, config)
-    const ehpIndex = getActionIndex(SELF_ENTITY_INDEX, AKey.EHP, config)
+    for (let entityIndex = 0; entityIndex < config.entitiesLength; entityIndex++) {
+      const hpIndex = getActionIndex(entityIndex, AKey.HP, config)
+      const defIndex = getActionIndex(entityIndex, AKey.DEF, config)
+      const dmgRedIndex = getActionIndex(entityIndex, AKey.DMG_RED, config)
+      const ehpIndex = getActionIndex(entityIndex, AKey.EHP, config)
 
-    extractions.push(`let ehpHp = container0[${hpIndex}];`)
-    extractions.push(`let ehpDef = container0[${defIndex}];`)
-    extractions.push(`let ehpDmgRed = container0[${dmgRedIndex}];`)
-    extractions.push(`let ehp = ehpHp / (1.0 - ehpDef / (ehpDef + 200.0 + 10.0 * f32(enemyLevel))) / (1.0 - ehpDmgRed);`)
-    extractions.push(`container0[${ehpIndex}] = ehp;`)
+      extractions.push(`let ehpHp${entityIndex} = container0[${hpIndex}];`)
+      extractions.push(`let ehpDef${entityIndex} = container0[${defIndex}];`)
+      extractions.push(`let ehpDmgRed${entityIndex} = container0[${dmgRedIndex}];`)
+      extractions.push(`let ehp${entityIndex} = ehpHp${entityIndex} / (1.0 - ehpDef${entityIndex} / (ehpDef${entityIndex} + 200.0 + 10.0 * f32(enemyLevel))) / (1.0 - ehpDmgRed${entityIndex});`)
+      extractions.push(`container0[${ehpIndex}] = ehp${entityIndex};`)
+    }
 
-    if (request.minEhp > 0) conditions.push(`ehp < minEhp`)
-    if (request.maxEhp < Constants.MAX_INT) conditions.push(`ehp > maxEhp`)
+    // EHP filtering uses entity 0 (primary character)
+    if (request.minEhp > 0) conditions.push(`ehp0 < minEhp`)
+    if (request.maxEhp < Constants.MAX_INT) conditions.push(`ehp0 > maxEhp`)
   }
 
   if (extractions.length === 0) return ''

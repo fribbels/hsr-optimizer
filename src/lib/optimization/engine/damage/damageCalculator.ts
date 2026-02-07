@@ -902,3 +902,24 @@ function calculateEhrMultiFromHit(
   }
   return effectiveDotChance
 }
+
+/**
+ * Calculates Effective HP (EHP) for survivability assessment.
+ * Calculates EHP for all entities (primary character and memosprite if present).
+ * EHP = HP / (1 - DEF / (DEF + 200 + 10 * enemyLevel)) / (1 - DMG_RED)
+ */
+export function calculateEhp(x: ComputedStatsContainer, context: OptimizerContext): void {
+  const entitiesLength = x.config.entitiesLength
+
+  for (let entityIndex = 0; entityIndex < entitiesLength; entityIndex++) {
+    const hpIndex = x.getActionIndex(entityIndex, StatKey.HP)
+    const defIndex = x.getActionIndex(entityIndex, StatKey.DEF)
+    const dmgRedIndex = x.getActionIndex(entityIndex, StatKey.DMG_RED)
+    const ehpIndex = x.getActionIndex(entityIndex, StatKey.EHP)
+
+    const hp = x.a[hpIndex]
+    const def = x.a[defIndex]
+    const dmgRed = x.a[dmgRedIndex]
+    x.a[ehpIndex] = hp / (1 - def / (def + 200 + 10 * context.enemyLevel)) / (1 - dmgRed)
+  }
+}

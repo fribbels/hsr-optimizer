@@ -27,7 +27,7 @@ import { ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
+import { calculateEhp, getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
 import { logRegisters } from 'lib/simulations/registerLogger'
 import {
   SimulationRelic,
@@ -201,16 +201,4 @@ export function emptyRelicWithSetAndSubstats(): SimulationRelic {
     set: '',
     condensedStats: [],
   }
-}
-
-function calculateEhp(x: ComputedStatsContainer, context: OptimizerContext) {
-  const hpIndex = x.getActionIndex(0, StatKey.HP)
-  const defIndex = x.getActionIndex(0, StatKey.DEF)
-  const dmgRedIndex = x.getActionIndex(0, StatKey.DMG_RED)
-  const ehpIndex = x.getActionIndex(0, StatKey.EHP)
-
-  const hp = x.a[hpIndex]
-  const def = x.a[defIndex]
-  const dmgRed = x.a[dmgRedIndex]
-  x.a[ehpIndex] = hp / (1 - def / (def + 200 + 10 * context.enemyLevel)) / (1 - dmgRed)
 }

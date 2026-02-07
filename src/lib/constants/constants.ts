@@ -1,5 +1,6 @@
 // Represents the version of the latest info, which should be the beta leaks version at the time of the major update
 import gameData from 'data/game_data.json' with { type: 'json' }
+import { StatKey, StatKeyValue } from 'lib/optimization/engine/config/keys'
 
 // Semver defined optimizer version
 export const CURRENT_OPTIMIZER_VERSION = 'v3.8.1'
@@ -519,6 +520,16 @@ export const ElementToDamage = {
   Wind: Stats.Wind_DMG,
   Quantum: Stats.Quantum_DMG,
   Imaginary: Stats.Imaginary_DMG,
+}
+
+export const ElementToStatKeyDmgBoost: Record<ElementName, StatKeyValue> = {
+  Physical: StatKey.PHYSICAL_DMG_BOOST,
+  Fire: StatKey.FIRE_DMG_BOOST,
+  Ice: StatKey.ICE_DMG_BOOST,
+  Lightning: StatKey.LIGHTNING_DMG_BOOST,
+  Wind: StatKey.WIND_DMG_BOOST,
+  Quantum: StatKey.QUANTUM_DMG_BOOST,
+  Imaginary: StatKey.IMAGINARY_DMG_BOOST,
 }
 
 export const ElementToResPenType = {

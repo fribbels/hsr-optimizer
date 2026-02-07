@@ -255,6 +255,7 @@ if (${wgslTrue(r.ehrBasedBuff)} && ${containerActionVal(SELF_ENTITY_INDEX, StatK
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
+          const stateKey = `${this.id}${action.actionIdentifier}`
 
           return newConditionalWgslWrapper(
             this,
@@ -265,12 +266,12 @@ if (${wgslFalse(r.ehrBasedBuff)}) {
   return;
 }
 
-let stateValue: f32 = (*p_state).${this.id};
+let stateValue: f32 = (*p_state).${stateKey};
 let ehrValue: f32 = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)};
 
 if (ehrValue >= 0.75 && stateValue == 0) {
   ${buff.action(AKey.ATK, `1.00 * baseATK`).wgsl(action)}
-  (*p_state).${this.id} = 1;
+  (*p_state).${stateKey} = 1;
 }
         `,
           )

@@ -167,7 +167,7 @@ export const BufferPacker = {
     arr[offset + 35] = x.getActionValue(StatKey.ERR, primaryEntity)
     arr[offset + 36] = x.getActionValue(StatKey.OHB, primaryEntity)
     // xELEMENTAL_DMG = generic DMG_BOOST + character's elemental boost
-    const elementalBoostKey = ElementToStatKeyDmgBoost[context.elementalDamageType as ElementName]
+    const elementalBoostKey = ElementToStatKeyDmgBoost[context.element as ElementName]
     arr[offset + 37] = x.getActionValue(StatKey.DMG_BOOST, primaryEntity)
       + x.getActionValue(elementalBoostKey, primaryEntity)
 

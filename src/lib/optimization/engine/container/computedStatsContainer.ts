@@ -1,7 +1,11 @@
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import {
+  BasicStatsArray,
+  BasicStatsArrayCore,
+} from 'lib/optimization/basicStatsArray'
 import { BuffSource } from 'lib/optimization/buffSource'
 import {
+  Buff,
   ComputedStatsArray,
   KeyToStat,
 } from 'lib/optimization/computedStatsArray'
@@ -217,6 +221,16 @@ export class ComputedStatsContainerConfig {
 }
 
 /**
+ * Rebuilds the entityRegistry from entitiesArray after deserialization.
+ * Call this on the worker side after receiving the context via postMessage.
+ * This is a standalone function because the config object loses its class methods after serialization.
+ */
+export function rebuildEntityRegistry(config: ComputedStatsContainerConfig): void {
+  config.entityRegistry = new NamedArray(config.entitiesArray, (entity) => entity.name)
+  config.selfEntity = config.entitiesArray[0]
+}
+
+/**
  * Each combo is an array of actions
  * Each action is an array of hits
  * Each hit can have multiple damage types, elements
@@ -258,8 +272,23 @@ export class ComputedStatsContainer {
   private emptyRegisters!: Float32Array
   private registersOffset!: number
 
+  // Buff tracing properties
+  public trace: boolean = false
+  public buffs: Buff[] = []
+  public buffsMemo: Buff[] = []
+
   constructor() {
     this.builder = new BuffBuilder()
+  }
+
+  /**
+   * Enable buff tracing for debugging/display purposes.
+   * When enabled, all buff applications are recorded to buffs/buffsMemo arrays.
+   */
+  public enableTracing(): void {
+    this.trace = true
+    this.buffs = []
+    this.buffsMemo = []
   }
 
   // ============== Array Initialization ==============
@@ -271,6 +300,64 @@ export class ComputedStatsContainer {
     const totalRegistersLength = context.allActions.length + context.outputRegistersLength
     this.emptyRegisters = new Float32Array(totalRegistersLength)
     this.registersOffset = maxArrayLength - totalRegistersLength
+  }
+
+  // ============== Cloning ==============
+
+  /**
+   * Creates a deep clone of this container for result preservation.
+   * Clones arrays and metadata while sharing immutable config references.
+   */
+  public clone(): ComputedStatsContainer {
+    const clone = new ComputedStatsContainer()
+
+    // Clone the stats array
+    clone.a = new Float32Array(this.a)
+
+    // Clone basic stats with metadata
+    const clonedBasic = new BasicStatsArrayCore(false)
+    clonedBasic.a.set(this.c.a)
+    clonedBasic.id = this.c.id
+    clonedBasic.relicSetIndex = this.c.relicSetIndex
+    clonedBasic.ornamentSetIndex = this.c.ornamentSetIndex
+    clonedBasic.weight = this.c.weight
+    clone.c = clonedBasic as BasicStatsArray
+
+    // Share immutable config reference
+    if (this.config) {
+      clone.config = this.config
+      clone.builder.setConfig(this.config)
+    }
+
+    // Copy register offsets
+    if (this.emptyRegisters) {
+      clone.emptyRegisters = this.emptyRegisters // Shared reference (read-only template)
+      clone.registersOffset = this.registersOffset
+    }
+
+    // Copy trace data
+    clone.trace = this.trace
+    if (this.trace) {
+      clone.buffs = [...this.buffs]
+      clone.buffsMemo = [...this.buffsMemo]
+    }
+
+    return clone
+  }
+
+  /**
+   * Creates a minimal container from raw arrays (for worker result reconstruction).
+   * Does not include config - only suitable for array access.
+   */
+  public static fromArrays(xa: Float32Array, ca: Float32Array): ComputedStatsContainer {
+    const container = new ComputedStatsContainer()
+    container.a = xa
+
+    const basic = new BasicStatsArrayCore(false)
+    basic.a.set(ca)
+    container.c = basic as BasicStatsArray
+
+    return container
   }
 
   // ============== Precomputes ==============
@@ -455,6 +542,24 @@ export class ComputedStatsContainer {
         }
         this.applyToMatchingHits(entityIndex, hitKey, value, operator, elementTags, effectiveDamageTags, outputTags, directnessTag)
       }
+
+      // Record trace if enabled
+      if (this.trace && value !== 0) {
+        const entity = this.config.entitiesArray[entityIndex]
+        const isMemo = entity?.memosprite ?? false
+        const buff: Buff = {
+          stat: getAKeyName(key),
+          key: key as number,
+          value: value,
+          source: source,
+          memo: isMemo,
+        }
+        if (isMemo) {
+          this.buffsMemo.push(buff)
+        } else {
+          this.buffs.push(buff)
+        }
+      }
     }
   }
 
@@ -486,7 +591,7 @@ export class ComputedStatsContainer {
 
     const targets: number[] = []
     for (let i = 0; i < this.config.entitiesLength; i++) {
-      const entity = this.config.entityRegistry.get(i)!
+      const entity = this.config.entitiesArray[i]
       if (this.matchesTargetTags(entity, i, targetTags)) {
         targets.push(i)
       }
@@ -579,7 +684,7 @@ export class ComputedStatsContainer {
   }
 
   public getActionValue(key: AKeyValue, entityName: string): number {
-    const entityIndex = this.config.entityRegistry.getIndex(entityName)
+    const entityIndex = this.config.entitiesArray.findIndex((e) => e.name === entityName)
     const index = this.getActionIndex(entityIndex, key)
     return this.a[index]
   }

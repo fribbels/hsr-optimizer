@@ -5,6 +5,7 @@ import {
   calculateContextConditionalRegistry,
   wrapTeammateDynamicConditional,
 } from 'lib/optimization/calculateConditionals'
+import { rebuildEntityRegistry } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   CharacterMetadata,
   OptimizerAction,
@@ -24,6 +25,12 @@ export function initializeContextConditionals(context: OptimizerContext) {
     // Reconstruct arrays after transfer
     action.precomputedX.a = new Float32Array(Object.values(action.precomputedX.a))
     action.precomputedM.a = new Float32Array(Object.values(action.precomputedM.a))
+    action.precomputedStats.a = new Float32Array(Object.values(action.precomputedStats.a))
+
+    // Rebuild entityRegistry from entitiesArray after serialization
+    if (action.config) {
+      rebuildEntityRegistry(action.config)
+    }
 
     calculateContextConditionalRegistry(action, context, context.characterConditionalController, context.lightConeConditionalController)
   }

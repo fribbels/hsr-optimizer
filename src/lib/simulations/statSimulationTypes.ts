@@ -1,4 +1,4 @@
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SimulationFlags } from 'lib/scoring/simScoringUtils'
 
 export enum StatSimTypes {
@@ -40,7 +40,7 @@ export type RunSimulationsParams = {
 }
 
 export type RunStatSimulationsResult = {
-  x: ComputedStatsArray,
+  x: ComputedStatsContainer,
   xa: Float32Array,
   ca: Float32Array,
   simScore: number,

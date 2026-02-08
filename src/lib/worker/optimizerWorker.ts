@@ -35,9 +35,8 @@ import {
 } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { ComputedStatsContainer, rebuildEntityRegistry } from 'lib/optimization/engine/container/computedStatsContainer'
 import { calculateEhp, getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
-import { NamedArray } from 'lib/optimization/engine/util/namedArray'
 import {
   SortOption,
   SortOptionProperties,
@@ -139,9 +138,9 @@ export function optimizerWorker(e: MessageEvent) {
     // Reconstruct arrays after transfer
     action.precomputedStats.a = new Float32Array(Object.values(action.precomputedStats.a))
 
-    // Reconstruct entityRegistry as NamedArray from plain array
-    if (action.config?.entitiesArray) {
-      action.config.entityRegistry = new NamedArray(action.config.entitiesArray, (entity) => entity.name)
+    // Rebuild entityRegistry from entitiesArray after serialization
+    if (action.config) {
+      rebuildEntityRegistry(action.config)
     }
   }
   for (const action of context.defaultActions) {
@@ -153,9 +152,9 @@ export function optimizerWorker(e: MessageEvent) {
     // Reconstruct arrays after transfer
     action.precomputedStats.a = new Float32Array(Object.values(action.precomputedStats.a))
 
-    // Reconstruct entityRegistry as NamedArray from plain array
-    if (action.config?.entitiesArray) {
-      action.config.entityRegistry = new NamedArray(action.config.entitiesArray, (entity) => entity.name)
+    // Rebuild entityRegistry from entitiesArray after serialization
+    if (action.config) {
+      rebuildEntityRegistry(action.config)
     }
   }
 
@@ -172,7 +171,7 @@ export function optimizerWorker(e: MessageEvent) {
   if (context.defaultActions.length > 0) {
     const firstAction = context.defaultActions[0]
     for (let i = 1; i < firstAction.config.entitiesLength; i++) {
-      const entity = firstAction.config.entityRegistry.get(i)!
+      const entity = firstAction.config.entitiesArray[i]
       if (entity.memosprite) {
         memospriteEntityIndex = i
         break
@@ -340,7 +339,7 @@ function addCombatConditionIfNeeded(
 ) {
   if (min !== 0 || max !== Constants.MAX_INT) {
     conditions.push((x, entityIndex) => {
-      const entityName = x.config.entityRegistry.get(entityIndex)!.name
+      const entityName = x.config.entitiesArray[entityIndex].name
       const value = x.getActionValue(statKey as any, entityName)
       return value < min || value > max
     })

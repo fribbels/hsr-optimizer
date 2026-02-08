@@ -315,19 +315,20 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
   }
   const a = x.a
 
-  d[Stats.HP] = c.HP.get()
-  d[Stats.ATK] = c.ATK.get()
-  d[Stats.DEF] = c.DEF.get()
-  d[Stats.SPD] = c.SPD.get()
-  d[Stats.CR] = c.CR.get()
-  d[Stats.CD] = c.CD.get()
-  d[Stats.EHR] = c.EHR.get()
-  d[Stats.RES] = c.RES.get()
-  d[Stats.BE] = c.BE.get()
-  d[Stats.ERR] = c.ERR.get()
-  d[Stats.OHB] = c.OHB.get()
+  // Use direct array access for robustness (c may be deserialized plain object)
+  d[Stats.HP] = c.a[Key.HP]
+  d[Stats.ATK] = c.a[Key.ATK]
+  d[Stats.DEF] = c.a[Key.DEF]
+  d[Stats.SPD] = c.a[Key.SPD]
+  d[Stats.CR] = c.a[Key.CR]
+  d[Stats.CD] = c.a[Key.CD]
+  d[Stats.EHR] = c.a[Key.EHR]
+  d[Stats.RES] = c.a[Key.RES]
+  d[Stats.BE] = c.a[Key.BE]
+  d[Stats.ERR] = c.a[Key.ERR]
+  d[Stats.OHB] = c.a[Key.OHB]
 
-  d.ED = c.ELEMENTAL_DMG.get()
+  d.ED = c.a[Key.ELEMENTAL_DMG]
   // TODO
   // d.BASIC = a[StatKey.BASIC_DMG]
   // d.SKILL = a[StatKey.SKILL_DMG]
@@ -353,7 +354,7 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
   d.xOHB = a[StatKey.OHB]
   d.xELEMENTAL_DMG = a[StatKey.DMG_BOOST]
 
-  d.mELEMENTAL_DMG = c.ELEMENTAL_DMG.get()
+  d.mELEMENTAL_DMG = c.a[Key.ELEMENTAL_DMG]
 
   if (context) {
     let heal = 0

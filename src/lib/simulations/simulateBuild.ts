@@ -97,6 +97,11 @@ export function simulateBuild(
   x.initializeArrays(context.maxContainerArrayLength, context)
   x.setBasic(c)
 
+  // Enable tracing if requested (for buff display)
+  if (cachedComputedStatsArrayCore?.trace) {
+    x.enableTracing()
+  }
+
   for (let i = 0; i < context.rotationActions.length; i++) {
     const action = context.rotationActions[i]
     x.setConfig(action.config)
@@ -106,11 +111,6 @@ export function simulateBuild(
     x.setPrecompute(action.precomputedStats.a)
     // if (x.a[Key.MEMOSPRITE]) {
     //   m.setPrecompute(action.precomputedM.a)
-    // }
-
-    // if (x.trace) {
-    //   x.tracePrecompute(action.precomputedX)
-    //   m.tracePrecompute(action.precomputedM)
     // }
 
     calculateBasicEffects(x, action, context)

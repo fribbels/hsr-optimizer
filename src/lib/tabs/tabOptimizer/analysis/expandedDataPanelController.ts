@@ -4,15 +4,11 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
-import {
-  Buff,
-  ComputedStatsArray,
-  ComputedStatsArrayCore,
-} from 'lib/optimization/computedStatsArray'
+import { Buff } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
@@ -41,8 +37,8 @@ export type OptimizerResultAnalysis = {
   oldRelics: Partial<SingleRelicByPart>,
   newRelics: Partial<SingleRelicByPart>,
   request: OptimizerForm,
-  oldX: ComputedStatsArray,
-  newX: ComputedStatsArray,
+  oldX: ComputedStatsContainer,
+  newX: ComputedStatsContainer,
   buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>>,
   elementalDmgValue: StatsValues,
 }
@@ -50,7 +46,7 @@ export type OptimizerResultAnalysis = {
 type StatUpgrade = {
   stat: SubStats,
   simRequest: SimulationRequest,
-  x: ComputedStatsArray,
+  x: ComputedStatsContainer,
 }
 
 export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
@@ -91,13 +87,14 @@ export function generateAnalysisData(
   RelicFilters.condenseSingleRelicByPartSubstatsForOptimizer(oldRelics)
   RelicFilters.condenseSingleRelicByPartSubstatsForOptimizer(newRelics)
 
-  request.trace = true
+  // TODO: Buff tracing not yet implemented on ComputedStatsContainer
+  // request.trace = true
 
   const contextOld = generateContext(request)
   const contextNew = generateContext(request)
 
-  const oldX = simulateBuild(oldRelics as unknown as SimulationRelicByPart, contextOld, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
-  const newX = simulateBuild(newRelics as unknown as SimulationRelicByPart, contextNew, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
+  const oldX = simulateBuild(oldRelics as unknown as SimulationRelicByPart, contextOld, null, null)
+  const newX = simulateBuild(newRelics as unknown as SimulationRelicByPart, contextNew, null, null)
 
   const buffGroups = aggregateCombatBuffs(newX, request)
 

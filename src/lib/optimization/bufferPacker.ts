@@ -4,6 +4,7 @@ import {
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { StatKey } from './engine/config/keys'
 
@@ -84,7 +85,7 @@ export type OptimizerDisplayData = {
   'ca': Float32Array,
 
   // Not safe to use unless trace is activated with a new instance
-  'tracedX'?: ComputedStatsArray,
+  'tracedX'?: ComputedStatsContainer,
 
   'statSim': { key: string },
 }
@@ -126,7 +127,7 @@ export const BufferPacker = {
     arr[offset + 13] = c.weight
 
     // [14-16] Computed values (EHP, HEAL, SHIELD)
-    const primaryEntity = x.config.entityRegistry.get(0)!.name
+    const primaryEntity = x.config.entitiesArray[0].name
     arr[offset + 14] = x.getActionValue(StatKey.EHP, primaryEntity)
     arr[offset + 15] = 0 // HEAL_VALUE - TODO: calculate from hit registers
     arr[offset + 16] = 0 // SHIELD_VALUE - TODO: calculate from hit registers
@@ -177,7 +178,7 @@ export const BufferPacker = {
 
     // [40-64] Memosprite stats (if exists)
     if (memoEntityIndex >= 0) {
-      const memoEntity = x.config.entityRegistry.get(memoEntityIndex)!.name
+      const memoEntity = x.config.entitiesArray[memoEntityIndex].name
 
       // [40-51] Memosprite basic stats (copy from primary for now)
       arr[offset + 40] = ca[StatKey.HP]

@@ -200,7 +200,7 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
 
   // Calculate memosprite entity stats
   for (let entityIndex = 1; entityIndex < x.config.entitiesLength; entityIndex++) {
-    const entity = x.config.entityRegistry.get(entityIndex)!
+    const entity = x.config.entitiesArray[entityIndex]
 
     if (!entity.memosprite) continue
 
@@ -250,7 +250,7 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
 
   // Apply percent stats to memosprite entities
   for (let entityIndex = 1; entityIndex < x.config.entitiesLength; entityIndex++) {
-    const entity = x.config.entityRegistry.get(entityIndex)!
+    const entity = x.config.entitiesArray[entityIndex]
 
     if (!entity.memosprite) continue
 

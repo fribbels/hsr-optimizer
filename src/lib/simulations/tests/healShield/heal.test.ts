@@ -52,7 +52,7 @@ test('Gallagher healing', async () => {
 
   const request = OptimizerTabController.displayToForm(generateFullDefaultForm(GALLAGHER, MULTIPLICATION, 5, 1));
   const context = generateContext(request);
-  const x = simulateBuild(relics, context, null, null);
+  const { x } = simulateBuild(relics, context, null, null);
 
   // 707.2 * (1 + 0.34561 + (0.663 / 2) + 0.12)
   expect(x.a[Key.HEAL_VALUE]).toBeCloseTo(1270.916192, 3);

@@ -45,6 +45,11 @@ export type PrimaryActionStats = {
   CD_BOOST: number
 }
 
+export type SimulateBuildResult = {
+  x: ComputedStatsContainer
+  primaryActionStats: PrimaryActionStats
+}
+
 export type RunStatSimulationsResult = {
   x: ComputedStatsContainer,
   xa: Float32Array,

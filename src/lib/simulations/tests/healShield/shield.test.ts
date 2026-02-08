@@ -43,7 +43,7 @@ test('March 7th shield', async () => {
 
   const request = OptimizerTabController.displayToForm(generateFullDefaultForm(MARCH_7TH, MULTIPLICATION, 0, 1));
   const context = generateContext(request);
-  const x = simulateBuild(relics, context, null, null);
+  const { x } = simulateBuild(relics, context, null, null);
 
   console.log(x.a[Key.DEF], x.a[Key.SHIELD_SCALING], x.a[Key.SHIELD_FLAT], x.a[Key.SHIELD_BOOST]);
 

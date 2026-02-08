@@ -93,8 +93,8 @@ export function generateAnalysisData(
   const contextOld = generateContext(request)
   const contextNew = generateContext(request)
 
-  const oldX = simulateBuild(oldRelics as unknown as SimulationRelicByPart, contextOld, null, null)
-  const newX = simulateBuild(newRelics as unknown as SimulationRelicByPart, contextNew, null, null)
+  const { x: oldX } = simulateBuild(oldRelics as unknown as SimulationRelicByPart, contextOld, null, null)
+  const { x: newX } = simulateBuild(newRelics as unknown as SimulationRelicByPart, contextNew, null, null)
 
   const buffGroups = aggregateCombatBuffs(newX, request)
 

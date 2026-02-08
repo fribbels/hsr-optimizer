@@ -330,6 +330,10 @@ export function cloneSimResult(result: RunStatSimulationsResult) {
   result.x = x
   result.xa = x.a
   result.ca = x.c.a
+  // primaryActionStats is a simple object, shallow copy is sufficient
+  if (result.primaryActionStats) {
+    result.primaryActionStats = { ...result.primaryActionStats }
+  }
 
   return result
 }

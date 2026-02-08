@@ -169,6 +169,7 @@ export type OptimizerContext = CharacterMetadata & {
   // Optimizer environment
   resultsLimit: number,
   resultSort: string,
+  primaryAbilityKey: string, // Primary ability from scoringMetadata.sortOption.key (e.g., 'BASIC', 'SKILL')
   combatBuffs: OptimizerCombatBuffs,
   deprioritizeBuffs: boolean,
 

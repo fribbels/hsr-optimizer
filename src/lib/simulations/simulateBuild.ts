@@ -31,6 +31,7 @@ import { calculateEhp, getDamageFunction } from 'lib/optimization/engine/damage/
 import { logRegisters } from 'lib/simulations/registerLogger'
 import {
   PrimaryActionStats,
+  SimulateBuildResult,
   SimulationRelic,
   SimulationRelicByPart,
 } from 'lib/simulations/statSimulationTypes'
@@ -43,7 +44,7 @@ export function simulateBuild(
   cachedBasicStatsArrayCore: BasicStatsArrayCore | null,
   cachedComputedStatsArrayCore: ComputedStatsArrayCore | null,
   forcedBasicSpd: number = 0,
-) {
+): SimulateBuildResult {
   // Compute
   const { Head, Hands, Body, Feet, PlanarSphere, LinkRope } = extractRelics(relics)
 
@@ -138,6 +139,13 @@ export function simulateBuild(
 
   calculateComputedStats(x, context.defaultActions[0], context)
 
+  // Track primary action stats for the scoring action (for combat stats display)
+  let primaryActionStats: PrimaryActionStats = {
+    DMG_BOOST: 0,
+    CR_BOOST: 0,
+    CD_BOOST: 0,
+  }
+
   for (let i = 0; i < context.defaultActions.length; i++) {
     const action = context.defaultActions[i]
     x.setConfig(action.config)
@@ -149,6 +157,18 @@ export function simulateBuild(
     calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
+
+    // Capture stats for the primary scoring action (from scoringMetadata.sortOption.key)
+    // This must happen after calculateComputedStats but before stats are overwritten by next action
+    if (action.actionName === context.primaryAbilityKey) {
+      primaryActionStats = {
+        // DMG_BOOST: action + hit level for first hit (main damage hit)
+        DMG_BOOST: action.hits?.length ? x.getValue(StatKey.DMG_BOOST, 0) : 0,
+        // CR_BOOST and CD_BOOST are action-level stats
+        CR_BOOST: x.a[StatKey.CR_BOOST],
+        CD_BOOST: x.a[StatKey.CD_BOOST],
+      }
+    }
 
     let sum = 0
 
@@ -173,7 +193,7 @@ export function simulateBuild(
 
   // x.set(ActionKey.COMBO_DMG, dmgTracker, Source.NONE)
 
-  return x
+  return { x, primaryActionStats }
 }
 
 function generateUnusedSets(relics: SimulationRelicByPart) {

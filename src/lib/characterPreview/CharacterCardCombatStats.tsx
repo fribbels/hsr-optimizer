@@ -15,16 +15,14 @@ import {
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { iconSize } from 'lib/constants/constantsUi'
-import { Key } from 'lib/optimization/computedStatsArray'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
 import {
-  getElementalDmgFromContainer,
   SimulationScore,
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
-import { SortOptionProperties } from 'lib/simulations/sortOptions'
+import { PrimaryActionStats } from 'lib/simulations/statSimulationTypes'
 import { HeaderText } from 'lib/ui/HeaderText'
 import {
   filterUnique,
@@ -53,9 +51,10 @@ export function CharacterCardCombatStats(props: {
   const characterMetadata = result.characterMetadata!
   const element = characterMetadata.element as ElementName
   const x = result.originalSimResult.x
+  const primaryActionStats = result.originalSimResult.primaryActionStats
 
   const upgradeStats: StatsValues[] = pickCombatStats(characterMetadata)
-  const upgradeDisplayWrappers = aggregateCombatStats(x, upgradeStats, preciseSpd, element)
+  const upgradeDisplayWrappers = aggregateCombatStats(x, upgradeStats, preciseSpd, element, primaryActionStats)
 
   const rows: ReactElement[] = []
 
@@ -106,32 +105,25 @@ function aggregateCombatStats(
   upgradeStats: StatsValues[],
   preciseSpd: boolean,
   element: ElementName,
+  primaryActionStats?: PrimaryActionStats,
 ) {
   const displayWrappers: StatDisplayWrapper[] = []
-
-  // Compute elemental DMG using Container accessor
-  const xaElementalDmg = getElementalDmgFromContainer(x, element)
-  // For basic stats comparison, use the basic stats array via x.c
-  const caElementalDmg = getBasicElementalDmg(x, element)
 
   for (const stat of upgradeStats) {
     if (percentFlatStats[stat]) continue
 
     const flat = Utils.isFlat(stat)
-    const xaValue = getStatValue(x, stat, element)
-    const caValue = getBasicStatValue(x, stat)
-    const value = damageStats[stat] ? xaElementalDmg : xaValue
-    const upgraded = damageStats[stat]
-      ? Utils.precisionRound(xaElementalDmg, 2) != Utils.precisionRound(caElementalDmg, 2)
-      : Utils.precisionRound(xaValue, 2) != Utils.precisionRound(caValue, 2)
+    const xaValue = getStatValue(x, stat, element, primaryActionStats)
+    const caValue = getBasicStatValue(x, stat, element)
+    const upgraded = Utils.precisionRound(xaValue, 2) != Utils.precisionRound(caValue, 2)
 
-    let display = localeNumber(Math.floor(value))
+    let display = localeNumber(Math.floor(xaValue))
     if (stat == Stats.SPD) {
       display = preciseSpd
-        ? localeNumber_000(TsUtils.precisionRound(value, 4))
-        : localeNumber_0(Utils.truncate10ths(TsUtils.precisionRound(value, 4)))
+        ? localeNumber_000(TsUtils.precisionRound(xaValue, 4))
+        : localeNumber_0(Utils.truncate10ths(TsUtils.precisionRound(xaValue, 4)))
     } else if (!flat) {
-      display = localeNumber_0(Utils.truncate10ths(TsUtils.precisionRound(value * 100, 4)))
+      display = localeNumber_0(Utils.truncate10ths(TsUtils.precisionRound(xaValue * 100, 4)))
     }
 
     displayWrappers.push({
@@ -167,32 +159,44 @@ const percentFlatStats: Record<string, boolean> = {
   [Stats.HP_P]: true,
 }
 
-// Get stat value from Container with CR/CD boosts included
-function getStatValue(x: ComputedStatsContainer, stat: StatsValues, element: ElementName): number {
+// Get stat value from Container with primary action's boosts included
+function getStatValue(
+  x: ComputedStatsContainer,
+  stat: StatsValues,
+  element: ElementName,
+  primaryActionStats?: PrimaryActionStats,
+): number {
+  // Handle elemental DMG stats
+  // primaryActionStats.DMG_BOOST already includes action-level + hit-level DMG_BOOST
+  // So we only add the element-specific boost (like Ice DMG Boost from relics)
+  if (damageStats[stat]) {
+    const elementBoost = x.getSelfValue(ElementToStatKeyDmgBoost[element])
+    return elementBoost + (primaryActionStats?.DMG_BOOST ?? 0)
+  }
+
   const statKey = StatsToStatKey[stat]
   let value = x.getActionValueByIndex(statKey, SELF_ENTITY_INDEX)
 
-  // Add CR_BOOST/CD_BOOST for combat display
+  // Add primary action's CR_BOOST/CD_BOOST for combat display
   if (stat === Stats.CR) {
-    value += x.getActionValueByIndex(StatKey.CR_BOOST, SELF_ENTITY_INDEX)
+    value += primaryActionStats?.CR_BOOST ?? 0
   } else if (stat === Stats.CD) {
-    value += x.getActionValueByIndex(StatKey.CD_BOOST, SELF_ENTITY_INDEX)
+    value += primaryActionStats?.CD_BOOST ?? 0
   }
 
   return value
 }
 
 // Get basic stat value from Container's basic stats array
-function getBasicStatValue(x: ComputedStatsContainer, stat: StatsValues): number {
+function getBasicStatValue(x: ComputedStatsContainer, stat: StatsValues, element: ElementName): number {
+  // Handle elemental DMG stats
+  if (damageStats[stat]) {
+    return x.c.a[ElementToStatKeyDmgBoost[element]]
+  }
+
   const statKey = StatsToStatKey[stat]
   // Basic stats use the same indices 0-14 for core stats
   return x.c.a[statKey]
-}
-
-// Get basic elemental DMG (from basic stats before combat modifiers)
-function getBasicElementalDmg(x: ComputedStatsContainer, element: ElementName): number {
-  // Basic stats use element-specific boost index
-  return x.c.a[ElementToStatKeyDmgBoost[element]]
 }
 
 function Arrow() {

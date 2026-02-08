@@ -62,6 +62,10 @@ function generateCombatBuffsContext(request: Form, context: OptimizerContext) {
 
 function generateFiltersContext(request: Form, context: OptimizerContext) {
   context.resultSort = request.resultSort!
+
+  // Store the scoring metadata's sortOption key for primary ability stats capture
+  const characterMetadata = DB.getMetadata().characters[request.characterId]
+  context.primaryAbilityKey = characterMetadata?.scoringMetadata?.sortOption?.key ?? ''
 }
 
 function calculateConditionals(request: Form, context: OptimizerContext) {

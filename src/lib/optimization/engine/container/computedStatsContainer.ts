@@ -1,4 +1,5 @@
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { Stats } from 'lib/constants/constants'
 import {
   BasicStatsArray,
   BasicStatsArrayCore,
@@ -7,6 +8,7 @@ import { BuffSource } from 'lib/optimization/buffSource'
 import {
   Buff,
   ComputedStatsArray,
+  ComputedStatsObjectExternal,
   KeyToStat,
 } from 'lib/optimization/computedStatsArray'
 import {
@@ -15,6 +17,7 @@ import {
 } from 'lib/optimization/config/computedStatsConfig'
 import {
   ACTION_STATS_LENGTH,
+  AKeyType,
   AKeyValue,
   AToHKey,
   getAKeyName,
@@ -774,6 +777,51 @@ export class ComputedStatsContainer {
   source(s: BuffSource): CompleteBuffBuilder {
     return this.builder.reset().source(s)
   }
+
+  // ============== Stats Conversion ==============
+
+  /**
+   * Converts the container's entity 0 action-level stats to a ComputedStatsObjectExternal.
+   * Maps from AKey indices to the external readable stat names (e.g., CR -> 'CRIT Rate').
+   * Stats not present in newStatsConfig will be 0 in the result.
+   */
+  public toComputedStatsObject(): ComputedStatsObjectExternal {
+    const result: Partial<ComputedStatsObjectExternal> = {}
+
+    for (const key in newStatsConfig) {
+      const aKey = key as AKeyType
+      const externalKey = ContainerKeyToExternal[aKey] ?? aKey
+      result[externalKey as keyof ComputedStatsObjectExternal] = this.a[StatKey[aKey]]
+    }
+
+    return result as ComputedStatsObjectExternal
+  }
+}
+
+// Mapping from new AKey names to ComputedStatsObjectExternal keys
+const ContainerKeyToExternal: Partial<Record<AKeyType, keyof ComputedStatsObjectExternal>> = {
+  ATK_P: Stats.ATK_P as keyof ComputedStatsObjectExternal,
+  ATK: Stats.ATK as keyof ComputedStatsObjectExternal,
+  BE: Stats.BE as keyof ComputedStatsObjectExternal,
+  CD: Stats.CD as keyof ComputedStatsObjectExternal,
+  CR: Stats.CR as keyof ComputedStatsObjectExternal,
+  DEF_P: Stats.DEF_P as keyof ComputedStatsObjectExternal,
+  DEF: Stats.DEF as keyof ComputedStatsObjectExternal,
+  EHR: Stats.EHR as keyof ComputedStatsObjectExternal,
+  ERR: Stats.ERR as keyof ComputedStatsObjectExternal,
+  FIRE_DMG_BOOST: Stats.Fire_DMG as keyof ComputedStatsObjectExternal,
+  HP_P: Stats.HP_P as keyof ComputedStatsObjectExternal,
+  HP: Stats.HP as keyof ComputedStatsObjectExternal,
+  ICE_DMG_BOOST: Stats.Ice_DMG as keyof ComputedStatsObjectExternal,
+  IMAGINARY_DMG_BOOST: Stats.Imaginary_DMG as keyof ComputedStatsObjectExternal,
+  LIGHTNING_DMG_BOOST: Stats.Lightning_DMG as keyof ComputedStatsObjectExternal,
+  OHB: Stats.OHB as keyof ComputedStatsObjectExternal,
+  PHYSICAL_DMG_BOOST: Stats.Physical_DMG as keyof ComputedStatsObjectExternal,
+  QUANTUM_DMG_BOOST: Stats.Quantum_DMG as keyof ComputedStatsObjectExternal,
+  RES: Stats.RES as keyof ComputedStatsObjectExternal,
+  SPD_P: Stats.SPD_P as keyof ComputedStatsObjectExternal,
+  SPD: Stats.SPD as keyof ComputedStatsObjectExternal,
+  WIND_DMG_BOOST: Stats.Wind_DMG as keyof ComputedStatsObjectExternal,
 }
 
 export type OptimizerEntity = EntityDefinition & { name: string }

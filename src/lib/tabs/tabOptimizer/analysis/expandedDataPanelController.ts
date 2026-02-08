@@ -6,7 +6,10 @@ import {
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
-import { Buff } from 'lib/optimization/computedStatsArray'
+import {
+  Buff,
+  ComputedStatsArrayCore,
+} from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { RelicFilters } from 'lib/relics/relicFilters'
@@ -87,14 +90,13 @@ export function generateAnalysisData(
   RelicFilters.condenseSingleRelicByPartSubstatsForOptimizer(oldRelics)
   RelicFilters.condenseSingleRelicByPartSubstatsForOptimizer(newRelics)
 
-  // TODO: Buff tracing not yet implemented on ComputedStatsContainer
-  // request.trace = true
+  request.trace = true
 
   const contextOld = generateContext(request)
   const contextNew = generateContext(request)
 
   const { x: oldX } = simulateBuild(oldRelics as unknown as SimulationRelicByPart, contextOld, null, null)
-  const { x: newX } = simulateBuild(newRelics as unknown as SimulationRelicByPart, contextNew, null, null)
+  const { x: newX } = simulateBuild(newRelics as unknown as SimulationRelicByPart, contextNew, null, new ComputedStatsArrayCore(true))
 
   const buffGroups = aggregateCombatBuffs(newX, request)
 

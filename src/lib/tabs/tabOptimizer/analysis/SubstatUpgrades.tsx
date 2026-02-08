@@ -5,7 +5,7 @@ import {
 } from 'antd'
 import { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
-import { ComputedStatKeys } from 'lib/optimization/config/computedStatsConfig'
+import { AKeyType, StatKey } from 'lib/optimization/engine/config/keys'
 import { Assets } from 'lib/rendering/assets'
 import {
   calculateStatUpgrades,
@@ -20,8 +20,10 @@ import { Utils } from 'lib/utils/utils'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
+type Metrics = 'COMBO_DMG' | 'EHP'
+
 type StatUpgradeGroup = {
-  key: ComputedStatKeys,
+  key: Metrics,
   upgrades: StatUpgradeItem[],
 }
 
@@ -30,8 +32,6 @@ type StatUpgradeItem = {
   value: number,
   percent: number,
 }
-
-type Metrics = 'COMBO_DMG' | 'EHP' | 'HEAL_VALUE' | 'SHIELD_VALUE'
 
 export function DamageUpgrades(props: {
   analysis: OptimizerResultAnalysis,
@@ -45,11 +45,9 @@ export function DamageUpgrades(props: {
   }
 
   const statUpgrades = calculateStatUpgrades(analysis)
-  const metrics: ComputedStatKeys[] = [
+  const metrics: Metrics[] = [
     'COMBO_DMG',
     'EHP',
-    'HEAL_VALUE',
-    'SHIELD_VALUE',
   ]
   const upgradeGroups: StatUpgradeGroup[] = []
 
@@ -59,9 +57,10 @@ export function DamageUpgrades(props: {
       key: metric,
       upgrades: [],
     }
+    const statKeyValue = StatKey[metric as AKeyType]
     for (const statUpgrade of statUpgrades) {
-      const baseValue = analysis.newX[metric].get()
-      const upgradeValue = statUpgrade.x[metric].get()
+      const baseValue = analysis.newX.getSelfValue(statKeyValue)
+      const upgradeValue = statUpgrade.x.getSelfValue(statKeyValue)
       const diff = upgradeValue - baseValue
       if (diff > 1) {
         const percent = diff / baseValue
@@ -98,7 +97,7 @@ export function DamageUpgrades(props: {
         ),
       },
       {
-        title: t(`ColumnHeaders.${group.key as Metrics}_P`),
+        title: t(`ColumnHeaders.${group.key}_P`),
         dataIndex: 'percent',
         align: 'center',
         width: 110,
@@ -109,7 +108,7 @@ export function DamageUpgrades(props: {
         ),
       },
       {
-        title: t(`ColumnHeaders.${group.key as Metrics}`),
+        title: t(`ColumnHeaders.${group.key}`),
         dataIndex: 'value',
         align: 'center',
         width: 110,

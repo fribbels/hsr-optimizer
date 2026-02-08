@@ -101,10 +101,8 @@ export function simulateBuild(
   x.initializeArrays(context.maxContainerArrayLength, context)
   x.setBasic(c)
 
-  // Enable tracing if requested (for buff display)
-  if (cachedComputedStatsArrayCore?.trace) {
-    x.enableTracing()
-  }
+  // Store trace request - tracing is deferred to the primary default action only
+  const shouldTrace = cachedComputedStatsArrayCore?.trace ?? false
 
   for (let i = 0; i < context.rotationActions.length; i++) {
     const action = context.rotationActions[i]
@@ -113,7 +111,6 @@ export function simulateBuild(
     action.conditionalState = {}
 
     x.setPrecompute(action.precomputedStats.a)
-    x.mergePrecomputedTraces(action.precomputedStats)
     // if (x.a[Key.MEMOSPRITE]) {
     //   m.setPrecompute(action.precomputedM.a)
     // }
@@ -156,11 +153,21 @@ export function simulateBuild(
     action.conditionalState = {}
 
     x.setPrecompute(action.precomputedStats.a)
-    x.mergePrecomputedTraces(action.precomputedStats)
+
+    // Only trace buffs for the primary scoring action to avoid duplicates
+    const isPrimaryAction = shouldTrace && action.actionName === context.primaryAbilityKey
+    if (isPrimaryAction) {
+      x.enableTracing()
+      x.mergePrecomputedTraces(action.precomputedStats)
+    }
 
     calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
+
+    if (isPrimaryAction) {
+      x.trace = false
+    }
 
     // Capture stats for the primary scoring action (from scoringMetadata.sortOption.key)
     // This must happen after calculateComputedStats but before stats are overwritten by next action

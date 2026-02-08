@@ -113,6 +113,7 @@ export function simulateBuild(
     action.conditionalState = {}
 
     x.setPrecompute(action.precomputedStats.a)
+    x.mergePrecomputedTraces(action.precomputedStats)
     // if (x.a[Key.MEMOSPRITE]) {
     //   m.setPrecompute(action.precomputedM.a)
     // }
@@ -155,6 +156,7 @@ export function simulateBuild(
     action.conditionalState = {}
 
     x.setPrecompute(action.precomputedStats.a)
+    x.mergePrecomputedTraces(action.precomputedStats)
 
     calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)

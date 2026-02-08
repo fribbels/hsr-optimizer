@@ -129,6 +129,9 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
     const container = new ComputedStatsContainer()
     action.config = new ComputedStatsContainerConfig(action, context, primaryEntityRegistry)
     container.setConfig(action.config)
+    if (request.trace) {
+      container.enableTracing()
+    }
     action.precomputedStats = container
 
     if (comboState.comboTeammate0) {

@@ -291,6 +291,16 @@ export class ComputedStatsContainer {
     this.buffsMemo = []
   }
 
+  /**
+   * Merge buff traces from a precomputed container into this container.
+   * Called after setPrecompute to transfer traced buffs that were recorded during precomputation.
+   */
+  public mergePrecomputedTraces(precomputed: ComputedStatsContainer): void {
+    if (!this.trace || !precomputed.trace) return
+    if (precomputed.buffs.length) this.buffs.push(...precomputed.buffs)
+    if (precomputed.buffsMemo.length) this.buffsMemo.push(...precomputed.buffsMemo)
+  }
+
   // ============== Array Initialization ==============
 
   public initializeArrays(maxArrayLength: number, context: OptimizerContext) {

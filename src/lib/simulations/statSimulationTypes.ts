@@ -1,4 +1,5 @@
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SimulationFlags } from 'lib/scoring/simScoringUtils'
 
 export enum StatSimTypes {
@@ -45,9 +46,12 @@ export type PrimaryActionStats = {
   CD_BOOST: number
 }
 
+export type ActionDamage = Partial<Record<AbilityKind, number>>
+
 export type SimulateBuildResult = {
   x: ComputedStatsContainer
   primaryActionStats: PrimaryActionStats
+  actionDamage: ActionDamage
 }
 
 export type RunStatSimulationsResult = {
@@ -57,6 +61,7 @@ export type RunStatSimulationsResult = {
   simScore: number,
   key?: string,
   primaryActionStats?: PrimaryActionStats,
+  actionDamage?: ActionDamage,
 }
 
 export type SimulationRelic = {

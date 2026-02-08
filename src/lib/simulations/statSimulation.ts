@@ -68,7 +68,7 @@ export function runStatSimulations(
     const basicStatsArray = form.trace ? new BasicStatsArrayCore(true) : cachedBasicStatsArray
     const computedStatsArray = form.trace ? new ComputedStatsArrayCore(true) : cachedComputedStatsArray
 
-    const { x, primaryActionStats } = simulateBuild(
+    const { x, primaryActionStats, actionDamage } = simulateBuild(
       simRelics,
       context,
       basicStatsArray,
@@ -84,6 +84,7 @@ export function runStatSimulations(
       simScore: x.getActionValueByIndex(StatKey.COMBO_DMG, SELF_ENTITY_INDEX),
       key: sim.key,
       primaryActionStats,
+      actionDamage,
     }
 
     simulationResults.push(params.stabilize ? cloneSimResult(result) : result)

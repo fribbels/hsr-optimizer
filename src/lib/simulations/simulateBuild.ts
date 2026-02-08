@@ -28,8 +28,10 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { calculateEhp, getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { logRegisters } from 'lib/simulations/registerLogger'
 import {
+  ActionDamage,
   PrimaryActionStats,
   SimulateBuildResult,
   SimulationRelic,
@@ -191,9 +193,13 @@ export function simulateBuild(
 
   x.a[StatKey.COMBO_DMG] = comboDmg
 
-  // x.set(ActionKey.COMBO_DMG, dmgTracker, Source.NONE)
+  // Capture action damage for each default action
+  const actionDamage: ActionDamage = {}
+  for (const action of defaultActions) {
+    actionDamage[action.actionName as AbilityKind] = x.getActionRegisterValue(action.registerIndex)
+  }
 
-  return { x, primaryActionStats }
+  return { x, primaryActionStats, actionDamage }
 }
 
 function generateUnusedSets(relics: SimulationRelicByPart) {

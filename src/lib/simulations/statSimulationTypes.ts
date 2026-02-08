@@ -39,12 +39,19 @@ export type RunSimulationsParams = {
   stabilize?: boolean,
 }
 
+export type PrimaryActionStats = {
+  DMG_BOOST: number
+  CR_BOOST: number
+  CD_BOOST: number
+}
+
 export type RunStatSimulationsResult = {
   x: ComputedStatsContainer,
   xa: Float32Array,
   ca: Float32Array,
   simScore: number,
   key?: string,
+  primaryActionStats?: PrimaryActionStats,
 }
 
 export type SimulationRelic = {

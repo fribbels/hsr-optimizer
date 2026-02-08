@@ -694,6 +694,17 @@ export class ComputedStatsContainer {
     return this.a[index]
   }
 
+  /**
+   * Get action-level stat value for entity 0 (self).
+   * Works without config because entity 0's array offset is always 0.
+   * Use this for containers from fromArrays() that lack config.
+   *
+   * Mathematical basis: getActionIndex(0, key) = 0 * entityStride + key = key
+   */
+  public getSelfValue(key: AKeyValue): number {
+    return this.a[key]
+  }
+
   // Get hit-level value only (requires hit stat)
   public getHitValue(hitKey: HKeyValue, hitIndex: number) {
     const hit = this.config.hits[hitIndex]

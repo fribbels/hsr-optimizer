@@ -1,4 +1,6 @@
 import {
+  ElementName,
+  ElementToStatKeyDmgBoost,
   Stats,
   StatsValues,
   SubStats,
@@ -8,14 +10,13 @@ import {
   AKeyValue,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
-import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { StatCalculator } from 'lib/relics/statCalculator'
 
 import { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
 
 // Stats string to StatKey mapping - defined here to avoid circular dependency with keys.ts
-const StatsToStatKey: Record<StatsValues, AKeyValue> = {
+export const StatsToStatKey: Record<StatsValues, AKeyValue> = {
   [Stats.ATK_P]: StatKey.ATK_P,
   [Stats.ATK]: StatKey.ATK,
   [Stats.BE]: StatKey.BE,
@@ -38,6 +39,15 @@ const StatsToStatKey: Record<StatsValues, AKeyValue> = {
   [Stats.SPD_P]: StatKey.SPD_P,
   [Stats.SPD]: StatKey.SPD,
   [Stats.Wind_DMG]: StatKey.WIND_DMG_BOOST,
+}
+
+// Get combined elemental DMG from the Container for the self entity
+// DMG_BOOST (generic) + element-specific boost (e.g., ICE_DMG_BOOST)
+// Uses getSelfValue() to work with containers from fromArrays() that lack config
+export function getElementalDmgFromContainer(x: ComputedStatsContainer, element: ElementName): number {
+  const dmgBoost = x.getSelfValue(StatKey.DMG_BOOST)
+  const elementBoost = x.getSelfValue(ElementToStatKeyDmgBoost[element])
+  return dmgBoost + elementBoost
 }
 import {
   RunStatSimulationsResult,
@@ -277,7 +287,7 @@ export function simSorter(a: Simulation, b: Simulation) {
 export function applyScoringFunction(result: RunStatSimulationsResult, metadata: SimulationMetadata, penalty = true, user = false) {
   if (!result) return
 
-  const unpenalizedSimScore = result.x.getActionValueByIndex(StatKey.COMBO_DMG, SELF_ENTITY_INDEX)
+  const unpenalizedSimScore = result.x.getSelfValue(StatKey.COMBO_DMG)
   const penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, user)
   result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)
 }
@@ -291,7 +301,7 @@ export function calculatePenaltyMultiplier(
   let newPenaltyMultiplier = 1
   if (metadata.breakpoints) {
     for (const stat of Object.keys(metadata.breakpoints)) {
-      const statValue = x.getActionValueByIndex(StatsToStatKey[stat as StatsValues], SELF_ENTITY_INDEX)
+      const statValue = x.getSelfValue(StatsToStatKey[stat as StatsValues])
       if (stat == Stats.SPD && statValue < metadata.breakpoints[stat]) {
         if (user) {
           // Cyrene case

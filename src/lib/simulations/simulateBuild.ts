@@ -30,6 +30,7 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { calculateEhp, getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
 import { logRegisters } from 'lib/simulations/registerLogger'
 import {
+  PrimaryActionStats,
   SimulationRelic,
   SimulationRelicByPart,
 } from 'lib/simulations/statSimulationTypes'

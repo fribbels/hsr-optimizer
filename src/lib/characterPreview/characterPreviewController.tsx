@@ -192,7 +192,8 @@ export function getShowcaseStats(
     ...basicStats,
   }
 
-  finalStats[showcaseMetadata.elementalDmgType] = finalStats.ELEMENTAL_DMG
+  // Element-specific DMG (e.g., "Ice DMG Boost") is already populated by toBasicStatsObject
+  // from the correct Key index - no need to overwrite with ELEMENTAL_DMG
 
   return finalStats
 }

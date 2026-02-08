@@ -96,6 +96,13 @@ export default function RelicFilterBar() {
     setOpen(OpenCloseIDs.SCORING_MODAL)
   }
 
+  const gradeData = generateGradeTags([2, 3, 4, 5])
+  const verifiedData = generateVerifiedTags([true, false])
+  const partsData = generatePartsTags(Object.values(Constants.Parts), (x) => Assets.getPart(x))
+  const enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
+  const equippedByData = generateEquippedByTags([true, false])
+  const initialRollsData = generateInitialRollsTags([4, 3])
+
   return (
     <Flex vertical gap={2}>
       <Flex gap={10}>
@@ -322,10 +329,3 @@ function generateTooltipDisplay(key: Sets | StatsValues, srcFn: (s: string) => s
     </Tooltip>
   )
 }
-
-const gradeData = generateGradeTags([2, 3, 4, 5])
-const verifiedData = generateVerifiedTags([true, false])
-const partsData = generatePartsTags(Object.values(Constants.Parts), (x) => Assets.getPart(x))
-const enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
-const equippedByData = generateEquippedByTags([true, false])
-const initialRollsData = generateInitialRollsTags([4, 3])

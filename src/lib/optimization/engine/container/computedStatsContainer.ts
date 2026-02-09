@@ -175,6 +175,7 @@ export class ComputedStatsContainerConfig {
   public totalRegistersLength: number // action + hit registers
 
   public actionBuffIndices: Record<number, number[]> // Cached indices for actionBuff/actionSet
+  public deprioritizeBuffs: boolean
 
   constructor(
     action: OptimizerAction,
@@ -220,6 +221,8 @@ export class ComputedStatsContainerConfig {
       this.hitStatsLength,
       this.hitsLength,
     )
+
+    this.deprioritizeBuffs = context.deprioritizeBuffs
   }
 }
 
@@ -530,7 +533,7 @@ export class ComputedStatsContainer {
     if (value == 0 && operator == Operator.ADD) return
 
     // Deferrable buffs are skipped when the character deprioritizes buffs (subdps)
-    if (deferrable && this.a[StatKey.DEPRIORITIZE_BUFFS]) return
+    if (deferrable && this.config.deprioritizeBuffs) return
 
     // Action kind filter: skip if this action doesn't match the specified kind
     if (actionKind !== undefined && this.config.actionKind !== actionKind) return

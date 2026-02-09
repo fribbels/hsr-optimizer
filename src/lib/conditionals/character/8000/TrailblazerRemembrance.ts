@@ -373,10 +373,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           + (e >= 4 && m.e4TrueDmgBoost ? 0.06 : 0)
 
         if (e >= 1) {
-          x.buff(StatKey.CR, (m.e1CrBuff) ? 0.10 : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E1))
-          x.buff(StatKey.TRUE_DMG_MODIFIER, trueDmg, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_MEMO))
+          x.buff(StatKey.CR, (m.e1CrBuff) ? 0.10 : 0, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(SOURCE_E1))
+          x.buff(StatKey.TRUE_DMG_MODIFIER, trueDmg, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(SOURCE_MEMO))
         } else {
-          x.buff(StatKey.TRUE_DMG_MODIFIER, trueDmg, x.targets(TargetTag.SingleTarget).source(SOURCE_MEMO))
+          x.buff(StatKey.TRUE_DMG_MODIFIER, trueDmg, x.targets(TargetTag.SingleTarget).deferrable().source(SOURCE_MEMO))
         }
       }
     },
@@ -405,6 +405,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const teamCDBuff = t.teamCdBuff ? memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat : 0
       x.CD.buffTeam(teamCDBuff, SOURCE_MEMO)
       x.UNCONVERTIBLE_CD_BUFF.buffTeam(teamCDBuff, SOURCE_MEMO)
+    },
+
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
+
+      const teamCDBuff = t.teamCdBuff ? memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat : 0
+      x.buff(StatKey.CD, teamCDBuff, x.targets(TargetTag.FullTeam).source(SOURCE_MEMO))
+      x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, teamCDBuff, x.targets(TargetTag.FullTeam).source(SOURCE_MEMO))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

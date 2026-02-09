@@ -8,7 +8,6 @@ import {
   getHKeyName,
   HKey,
   HKeyValue,
-  StatKey,
 } from 'lib/optimization/engine/config/keys'
 import {
   ALL_DAMAGE_TAGS,
@@ -95,7 +94,7 @@ class ActionBuffBuilder {
     }
 
     // Deferrable: skip if character deprioritizes buffs (resolved at WGSL generation time)
-    if (this._deferrable && action.precomputedStats.a[StatKey.DEPRIORITIZE_BUFFS]) {
+    if (this._deferrable && action.config.deprioritizeBuffs) {
       return `// Skipped: deferrable buff deprioritized`
     }
 
@@ -192,7 +191,7 @@ class HitBuffBuilder {
     }
 
     // Deferrable: skip if character deprioritizes buffs (resolved at WGSL generation time)
-    if (this._deferrable && action.precomputedStats.a[StatKey.DEPRIORITIZE_BUFFS]) {
+    if (this._deferrable && action.config.deprioritizeBuffs) {
       return `// Skipped: deferrable buff deprioritized`
     }
 

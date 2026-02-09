@@ -26,6 +26,7 @@ export class BuffBuilder<_Completed extends boolean = false> {
   _origin = SELF_ENTITY_INDEX
   _target = SELF_ENTITY_INDEX
   _targetTags = TargetTag.SelfAndPet
+  _deferrable = false
   _source: BuffSource = Source.NONE
 
   private config!: ComputedStatsContainerConfig
@@ -45,6 +46,7 @@ export class BuffBuilder<_Completed extends boolean = false> {
     this._origin = SELF_ENTITY_INDEX
     this._target = SELF_ENTITY_INDEX
     this._targetTags = TargetTag.SelfAndPet
+    this._deferrable = false
     this._source = Source.NONE
     return this as IncompleteBuffBuilder
   }
@@ -87,6 +89,11 @@ export class BuffBuilder<_Completed extends boolean = false> {
 
   targets(t: TargetTag): IncompleteBuffBuilder {
     this._targetTags = t
+    return this as IncompleteBuffBuilder
+  }
+
+  deferrable(): IncompleteBuffBuilder {
+    this._deferrable = true
     return this as IncompleteBuffBuilder
   }
 

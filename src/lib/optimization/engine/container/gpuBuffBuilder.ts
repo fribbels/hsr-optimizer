@@ -8,6 +8,7 @@ import {
   getHKeyName,
   HKey,
   HKeyValue,
+  StatKey,
 } from 'lib/optimization/engine/config/keys'
 import {
   ALL_DAMAGE_TAGS,
@@ -55,6 +56,7 @@ export enum WgslOperator {
 class ActionBuffBuilder {
   private _targetTag: TargetTag = TargetTag.SelfAndPet
   private _actionKind: string | undefined = undefined
+  private _deferrable: boolean = false
   private readonly actionKey: AKeyValue
   private readonly value: WgslBuffValue
   private readonly operator: WgslOperator
@@ -75,6 +77,11 @@ class ActionBuffBuilder {
     return this
   }
 
+  deferrable(): this {
+    this._deferrable = true
+    return this
+  }
+
   toString(): never {
     throw new Error('ActionBuffBuilder: Missing .wgsl(action) call - cannot use builder directly in template literal')
   }
@@ -85,6 +92,11 @@ class ActionBuffBuilder {
     // Action kind filter: skip if this action doesn't match the specified kind
     if (this._actionKind !== undefined && config.actionKind !== this._actionKind) {
       return `// Skipped: actionKind filter (${this._actionKind}) doesn't match action (${config.actionKind})`
+    }
+
+    // Deferrable: skip if character deprioritizes buffs (resolved at WGSL generation time)
+    if (this._deferrable && action.precomputedStats.a[StatKey.DEPRIORITIZE_BUFFS]) {
+      return `// Skipped: deferrable buff deprioritized`
     }
 
     const lines: string[] = []
@@ -123,6 +135,7 @@ class HitBuffBuilder {
   private _outputTags: OutputTag = OutputTag.DAMAGE
   private _directnessTag: number = ALL_DIRECTNESS_TAGS
   private _actionKind: string | undefined = undefined
+  private _deferrable: boolean = false
   private readonly hitKey: HKeyValue
   private readonly value: WgslBuffValue
 
@@ -161,6 +174,11 @@ class HitBuffBuilder {
     return this
   }
 
+  deferrable(): this {
+    this._deferrable = true
+    return this
+  }
+
   toString(): never {
     throw new Error('HitBuffBuilder: Missing .wgsl(action) call - cannot use builder directly in template literal')
   }
@@ -171,6 +189,11 @@ class HitBuffBuilder {
     // Action kind filter: skip if this action doesn't match the specified kind
     if (this._actionKind !== undefined && config.actionKind !== this._actionKind) {
       return `// Skipped: actionKind filter (${this._actionKind}) doesn't match action (${config.actionKind})`
+    }
+
+    // Deferrable: skip if character deprioritizes buffs (resolved at WGSL generation time)
+    if (this._deferrable && action.precomputedStats.a[StatKey.DEPRIORITIZE_BUFFS]) {
+      return `// Skipped: deferrable buff deprioritized`
     }
 
     const hits = action.hits ?? []

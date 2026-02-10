@@ -3,6 +3,10 @@ import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
 import {
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
+} from 'lib/conditionals/conditionalFinalizers'
+import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
@@ -223,6 +227,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
 
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
@@ -230,7 +235,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
 
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return ``
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }

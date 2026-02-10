@@ -57,6 +57,8 @@ export class BuffBuilder<_Completed extends boolean = false> {
   }
 
   damageType(d: DamageTag): IncompleteBuffBuilder {
+    // BREAK buffs should also affect SUPER_BREAK hits
+    if (d & DamageTag.BREAK) d |= DamageTag.SUPER_BREAK
     this._damageTags = d
     return this as IncompleteBuffBuilder
   }

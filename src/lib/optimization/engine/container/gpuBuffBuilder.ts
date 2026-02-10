@@ -149,6 +149,8 @@ class HitBuffBuilder {
   }
 
   damageType(d: DamageTag): this {
+    // BREAK buffs should also affect SUPER_BREAK hits
+    if (d & DamageTag.BREAK) d |= DamageTag.SUPER_BREAK
     this._damageTags = d
     return this
   }

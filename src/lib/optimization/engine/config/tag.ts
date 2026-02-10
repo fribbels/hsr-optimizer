@@ -6,7 +6,7 @@ export enum DamageTag {
   FUA = 8,
   DOT = 16,
   BREAK = 32,
-  SUPER_BREAK = 32 | 64, // SuperBreak is a subtype of Break - includes BREAK bit so Break buffs automatically affect it
+  SUPER_BREAK = 64,
   MEMO = 128,
   ADDITIONAL = 256,
 }

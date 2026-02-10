@@ -8,6 +8,7 @@ import {
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
+  addSuperBreakHits,
   Conditionals,
   ContentDefinition,
   createEnum,
@@ -284,22 +285,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         {
           modify: (action: OptimizerAction, context: OptimizerContext, self: ModifierContext) => {
             const m = self.ownConditionals as Conditionals<typeof teammateContent>
-            const hits = action.hits!
-            const len = hits.length
 
             if (m.superBreakDmg) {
-              for (let i = 0; i < len; i++) {
-                const hit = hits[i]
-
-                if (hit.toughnessDmg) {
-                  const superBreakHit = HitDefinitionBuilder.standardSuperBreak(hit.damageElement)
-                    .referenceHit(hit)
-                    .sourceEntity(hit.sourceEntity)
-                    .build()
-
-                  hits.push(superBreakHit as Hit)
-                }
-              }
+              addSuperBreakHits(action.hits!)
             }
           },
         },

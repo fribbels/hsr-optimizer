@@ -1,6 +1,7 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
+  addSuperBreakHits,
   Conditionals,
   ContentDefinition,
   createEnum,
@@ -20,7 +21,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { Hit, HitDefinition } from 'types/hitConditionalTypes'
+import { HitDefinition } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -177,20 +178,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return [
         {
           modify: (action: OptimizerAction, context: OptimizerContext, _self: ModifierContext) => {
-            const hits = action.hits!
-            const len = hits.length
-            for (let i = 0; i < len; i++) {
-              const hit = hits[i]
-
-              if (hit.toughnessDmg) {
-                const superBreakHit = HitDefinitionBuilder.standardSuperBreak(hit.damageElement)
-                  .referenceHit(hit)
-                  .sourceEntity(hit.sourceEntity)
-                  .build()
-
-                hits.push(superBreakHit as Hit)
-              }
-            }
+            addSuperBreakHits(action.hits!)
           },
         },
       ]

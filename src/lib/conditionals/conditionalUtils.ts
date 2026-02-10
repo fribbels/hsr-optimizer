@@ -9,6 +9,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import { Hit } from 'types/hitConditionalTypes'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { DamageTag } from 'lib/optimization/engine/config/tag'
 
 /**
  * Helper methods used in conditional files
@@ -215,4 +218,23 @@ export function findMemospriteIndex(action: OptimizerAction): number {
     }
   }
   return -1
+}
+
+export function addSuperBreakHits(hits: Hit[]) {
+  const len = hits.length
+  for (let i = 0; i < len; i++) {
+    const hit = hits[i]
+
+    if (hit.toughnessDmg) {
+      const alreadyHasSuperBreak = hits.some((h) => (h.damageType & DamageTag.SUPER_BREAK) && h.referenceHit === hit)
+      if (alreadyHasSuperBreak) continue
+
+      const superBreakHit = HitDefinitionBuilder.standardSuperBreak(hit.damageElement)
+        .referenceHit(hit)
+        .sourceEntity(hit.sourceEntity)
+        .build()
+
+      hits.push(superBreakHit as Hit)
+    }
+  }
 }

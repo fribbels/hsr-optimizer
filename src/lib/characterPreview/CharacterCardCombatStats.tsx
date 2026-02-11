@@ -113,7 +113,7 @@ function aggregateCombatStats(
     if (percentFlatStats[stat]) continue
 
     const flat = Utils.isFlat(stat)
-    const xaValue = getStatValue(x, stat, element, primaryActionStats)
+    const xaValue = getStatValue(x, stat, element, primaryActionStats!)
     const caValue = getBasicStatValue(x, stat, element)
     const upgraded = Utils.precisionRound(xaValue, 2) != Utils.precisionRound(caValue, 2)
 
@@ -159,32 +159,31 @@ const percentFlatStats: Record<string, boolean> = {
   [Stats.HP_P]: true,
 }
 
-// Get stat value from Container with primary action's boosts included
+// Get stat value from Container with primary action's boosts included.
+// For memosprite characters, the source entity (memosprite) may differ from entity 0 (main character).
+// primaryActionStats contains fully resolved values from the source entity at primary action time,
+// matching the damage formula: cr = CR + CR_BOOST, cd = CD + CD_BOOST, dmg = DMG_BOOST + elementBoost.
 function getStatValue(
   x: ComputedStatsContainer,
   stat: StatsValues,
   element: ElementName,
-  primaryActionStats?: PrimaryActionStats,
+  primaryActionStats: PrimaryActionStats,
 ): number {
-  // Handle elemental DMG stats
-  // primaryActionStats.DMG_BOOST already includes action-level + hit-level DMG_BOOST
-  // So we only add the element-specific boost (like Ice DMG Boost from relics)
+  // Handle elemental DMG stats: source entity's element boost + generic DMG_BOOST (action+hit)
   if (damageStats[stat]) {
-    const elementBoost = x.getSelfValue(ElementToStatKeyDmgBoost[element])
-    return elementBoost + (primaryActionStats?.DMG_BOOST ?? 0)
+    return primaryActionStats.sourceEntityElementDmgBoost + primaryActionStats.DMG_BOOST
+  }
+
+  // For CR and CD, use the fully resolved source entity values (already includes CR_BOOST/CD_BOOST)
+  if (stat === Stats.CR) {
+    return primaryActionStats.sourceEntityCR
+  }
+  if (stat === Stats.CD) {
+    return primaryActionStats.sourceEntityCD
   }
 
   const statKey = StatsToStatKey[stat]
-  let value = x.getActionValueByIndex(statKey, SELF_ENTITY_INDEX)
-
-  // Add primary action's CR_BOOST/CD_BOOST for combat display
-  if (stat === Stats.CR) {
-    value += primaryActionStats?.CR_BOOST ?? 0
-  } else if (stat === Stats.CD) {
-    value += primaryActionStats?.CD_BOOST ?? 0
-  }
-
-  return value
+  return x.getActionValueByIndex(statKey, SELF_ENTITY_INDEX)
 }
 
 // Get basic stat value from Container's basic stats array

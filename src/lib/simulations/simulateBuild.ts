@@ -1,4 +1,6 @@
 import {
+  ElementName,
+  ElementToStatKeyDmgBoost,
   OrnamentSetCount,
   OrnamentSetToIndex,
   Parts,
@@ -142,8 +144,9 @@ export function simulateBuild(
   // Track primary action stats for the scoring action (for combat stats display)
   let primaryActionStats: PrimaryActionStats = {
     DMG_BOOST: 0,
-    CR_BOOST: 0,
-    CD_BOOST: 0,
+    sourceEntityCR: 0,
+    sourceEntityCD: 0,
+    sourceEntityElementDmgBoost: 0,
   }
 
   for (let i = 0; i < context.defaultActions.length; i++) {
@@ -172,12 +175,23 @@ export function simulateBuild(
     // Capture stats for the primary scoring action (from scoringMetadata.sortOption.key)
     // This must happen after calculateComputedStats but before stats are overwritten by next action
     if (action.actionName === context.primaryAbilityKey) {
+      // Resolve the source entity index from the primary hit (hit 0)
+      // For memosprite characters, the source entity is the memosprite (entity 1), not the main char (entity 0)
+      const sourceEntityIndex = action.hits?.length ? (action.hits[0].sourceEntityIndex ?? 0) : 0
+      const elementDmgBoostKey = ElementToStatKeyDmgBoost[context.element as ElementName]
+
+      // Capture fully resolved stats matching the damage formula:
+      //   cr = getValue(CR) + getActionValue(CR_BOOST)   = (action+hit CR) + (action CR_BOOST)
+      //   cd = getValue(CD) + getActionValue(CD_BOOST)   = (action+hit CD) + (action CD_BOOST)
+      //   dmg = getValue(DMG_BOOST) + getActionValue(elementDmgBoost)
+      const hasHits = action.hits?.length ?? 0
       primaryActionStats = {
-        // DMG_BOOST: action + hit level for first hit (main damage hit)
-        DMG_BOOST: action.hits?.length ? x.getValue(StatKey.DMG_BOOST, 0) : 0,
-        // CR_BOOST and CD_BOOST are action-level stats
-        CR_BOOST: x.a[StatKey.CR_BOOST],
-        CD_BOOST: x.a[StatKey.CD_BOOST],
+        DMG_BOOST: hasHits ? x.getValue(StatKey.DMG_BOOST, 0) : 0,
+        sourceEntityCR: (hasHits ? x.getValue(StatKey.CR, 0) : 0)
+          + x.getActionValueByIndex(StatKey.CR_BOOST, sourceEntityIndex),
+        sourceEntityCD: (hasHits ? x.getValue(StatKey.CD, 0) : 0)
+          + x.getActionValueByIndex(StatKey.CD_BOOST, sourceEntityIndex),
+        sourceEntityElementDmgBoost: x.getActionValueByIndex(elementDmgBoostKey, sourceEntityIndex),
       }
     }
 

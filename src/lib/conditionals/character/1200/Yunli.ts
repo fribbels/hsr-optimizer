@@ -3,6 +3,10 @@ import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
 import {
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
+} from 'lib/conditionals/conditionalFinalizers'
+import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,

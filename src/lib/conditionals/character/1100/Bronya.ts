@@ -3,8 +3,8 @@ import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
@@ -246,10 +246,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      // TODO: Ashblazing set ATK% boost needs container version
+      boostAshblazingAtkContainer(x, action, hitMulti)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuBoostAshblazingAtkP(hitMulti),
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(hitMulti, action)
+    },
     dynamicConditionals: [
       {
         id: 'BronyaCdConditional',

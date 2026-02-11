@@ -3,7 +3,8 @@ import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  gpuBoostAshblazingAtkP,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
@@ -219,17 +220,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       if (r.ehrBasedBuff && ehrValue >= 0.75) {
         x.buff(StatKey.ATK, 1.00 * context.baseATK, x.source(SOURCE_TRACE))
       }
+
+      boostAshblazingAtkContainer(x, action, hitMulti)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // gpuBoostAshblazingAtkP(hitMulti) +
       return wgsl`
 if (${wgslTrue(r.ehrBasedBuff)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)} >= 0.75) {
   ${buff.action(AKey.ATK, `1.00 * baseATK`).wgsl(action)}
 }
-      `
+      ` + gpuBoostAshblazingAtkContainer(hitMulti, action)
     },
 
     teammateDynamicConditionals: [

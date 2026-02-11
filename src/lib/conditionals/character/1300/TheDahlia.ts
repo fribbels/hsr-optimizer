@@ -3,8 +3,8 @@ import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
@@ -390,11 +390,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      // boostAshblazingAtkP(x, action, context, hitMultiByTargets[context.enemyCount])
+      boostAshblazingAtkContainer(x, action, hitMultiByTargets[context.enemyCount])
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return ``
-      // return gpuBoostAshblazingAtkP(hitMultiByTargets[context.enemyCount])
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
     },
   }
 }

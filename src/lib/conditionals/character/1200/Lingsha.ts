@@ -4,6 +4,10 @@ import {
   BREAK_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
+} from 'lib/conditionals/conditionalFinalizers'
+import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
@@ -253,8 +257,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // E1 DEF shred when enemy is weakness broken
       const isWeaknessBroken = x.getActionValue(StatKey.ENEMY_WEAKNESS_BROKEN, LingshaEntities.Lingsha)
       x.buff(StatKey.DEF_PEN, (e >= 1 && m.e1DefShred && isWeaknessBroken) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+
+      boostAshblazingAtkContainer(x, action, hitMultiByTargets[context.enemyCount])
     },
 
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
@@ -262,7 +269,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 if (${wgslTrue(e >= 1 && m.e1DefShred)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ENEMY_WEAKNESS_BROKEN, action.config)} > 0.0) {
   ${buff.action(AKey.DEF_PEN, 0.20).targets(TargetTag.FullTeam).wgsl(action)}
 }
-      `
+      ` + gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
     },
 
     dynamicConditionals: [

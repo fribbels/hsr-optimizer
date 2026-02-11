@@ -36,7 +36,7 @@ export function matchesTargetTag(entity: OptimizerEntity, targetTag: TargetTag, 
   if (targetTag & TargetTag.SingleTarget) {
     const primaryEntity = entities?.[SELF_ENTITY_INDEX]
     if (primaryEntity?.memoBuffPriority && entities?.some((e) => e.memosprite)) return entity.memosprite
-    return entity.primary
+    return entity.primary || (entity.pet ?? false)
   }
   return false
 }

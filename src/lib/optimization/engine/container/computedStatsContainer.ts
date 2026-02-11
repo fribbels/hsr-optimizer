@@ -117,7 +117,7 @@ function buildActionBuffIndexCache(
           const primaryEntity = entityRegistry.get(SELF_ENTITY_INDEX)!
           const hasMemosprite = Array.from({ length: entitiesLength }, (_, i) => entityRegistry.get(i)!).some((e) => e.memosprite)
           if (primaryEntity.memoBuffPriority && hasMemosprite) matches = entity.memosprite
-          else matches = entity.primary
+          else matches = entity.primary || (entity.pet ?? false)
         } else if (targetTags === TargetTag.None) matches = false
 
         if (matches) {
@@ -664,7 +664,7 @@ export class ComputedStatsContainer {
     if (targetTags & TargetTag.SingleTarget) {
       const primaryEntity = this.config.entitiesArray[SELF_ENTITY_INDEX]
       if (primaryEntity.memoBuffPriority && this.config.entitiesArray.some((e) => e.memosprite)) return entity.memosprite
-      return entity.primary
+      return entity.primary || (entity.pet ?? false)
     }
     return false
   }

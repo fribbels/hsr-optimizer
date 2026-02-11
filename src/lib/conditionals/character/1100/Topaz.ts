@@ -25,6 +25,8 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -247,13 +249,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-      const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
+      const hitMulti = action.actionType === AbilityKind.BASIC
+        ? basicHitCountMulti
+        : (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
       boostAshblazingAtkContainer(x, action, hitMulti)
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-      const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
+      const hitMulti = action.actionType === AbilityKind.BASIC
+        ? basicHitCountMulti
+        : (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
       return gpuBoostAshblazingAtkContainer(hitMulti, action)
     },
   }

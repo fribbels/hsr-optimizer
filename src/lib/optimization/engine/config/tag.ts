@@ -28,7 +28,7 @@ export enum TargetTag {
   SelfAndPet = 2,
   FullTeam = 4,
   TargetAndMemosprite = 8,
-  SelfAndMemosprite = 16,
+  SelfAndMemosprite = 16 | 2, // And pet
   SummonsOnly = 32,
   SelfAndSummon = 64,
   MemospritesOnly = 128,

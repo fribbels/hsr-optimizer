@@ -1,6 +1,7 @@
 import { ConditionalActivation } from 'lib/constants/constants'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { ConditionalValueMap } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, TeammateAction, } from 'types/optimizer'
 
 export type DynamicConditional = {
@@ -23,29 +24,31 @@ function getTeammateFromIndex(conditional: DynamicConditional, action: Optimizer
 }
 
 export function evaluateConditional(conditional: DynamicConditional, x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-  let conditionalAction: OptimizerAction
+  let savedCharConds: ConditionalValueMap | undefined
+  let savedLcConds: ConditionalValueMap | undefined
+
   if (conditional.teammateIndex != null) {
     const teammate = getTeammateFromIndex(conditional, action)
-    conditionalAction = {
-      ...action,
-      teammateCharacterConditionals: teammate.characterConditionals,
-      teammateLightConeConditionals: teammate.lightConeConditionals,
-    }
-  } else {
-    conditionalAction = action
+    savedCharConds = action.teammateCharacterConditionals
+    savedLcConds = action.teammateLightConeConditionals
+    action.teammateCharacterConditionals = teammate.characterConditionals
+    action.teammateLightConeConditionals = teammate.lightConeConditionals
   }
 
   if (conditional.activation == ConditionalActivation.SINGLE) {
-    if (!action.conditionalState[conditional.id] && conditional.condition(x, conditionalAction, context)) {
+    if (!action.conditionalState[conditional.id] && conditional.condition(x, action, context)) {
       action.conditionalState[conditional.id] = 1
-      conditional.effect(x, conditionalAction, context)
+      conditional.effect(x, action, context)
     }
   } else if (conditional.activation == ConditionalActivation.CONTINUOUS) {
-    if (conditional.condition(x, conditionalAction, context)) {
-      conditional.effect(x, conditionalAction, context)
+    if (conditional.condition(x, action, context)) {
+      conditional.effect(x, action, context)
     }
-  } else {
-    // No-op
+  }
+
+  if (conditional.teammateIndex != null) {
+    action.teammateCharacterConditionals = savedCharConds!
+    action.teammateLightConeConditionals = savedLcConds!
   }
 }
 

@@ -567,23 +567,17 @@ export class ComputedStatsContainer {
         }
         this.applyToMatchingHits(entityIndex, hitKey, value, operator, elementTags, effectiveDamageTags, outputTags, directnessTag)
       }
+    }
 
-      // Record trace if enabled
-      if (this.trace && value !== 0) {
-        const entity = this.config.entitiesArray[entityIndex]
-        const isMemo = entity?.memosprite ?? false
-        const buff: Buff = {
-          stat: getAKeyName(key),
-          key: key as number,
-          value: value,
-          source: source,
-          memo: isMemo,
-        }
-        if (isMemo) {
-          this.buffsMemo.push(buff)
-        } else {
-          this.buffs.push(buff)
-        }
+    // Record trace once per buff call (outside entity loop to avoid duplicates from multi-entity targeting)
+    if (this.trace && value !== 0) {
+      const isMemo = targetEntities.length > 0
+        && targetEntities.every((i) => this.config.entitiesArray[i]?.memosprite)
+      const buff: Buff = { stat: getAKeyName(key), key: key as number, value: value, source: source, memo: isMemo }
+      if (isMemo) {
+        this.buffsMemo.push(buff)
+      } else {
+        this.buffs.push(buff)
       }
     }
   }

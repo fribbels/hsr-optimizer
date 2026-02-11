@@ -220,9 +220,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const originalDmgBoost = r.nihilityTeammatesBuff
         ? nihilityTeammateScaling[countTeamPath(context, PathNames.Nihility) - 1]
         : 0
-      x.buff(StatKey.FINAL_DMG_BOOST, originalDmgBoost, x.damageType(DamageTag.BASIC).source(SOURCE_TRACE))
-      x.buff(StatKey.FINAL_DMG_BOOST, originalDmgBoost, x.damageType(DamageTag.SKILL).source(SOURCE_TRACE))
-      x.buff(StatKey.FINAL_DMG_BOOST, originalDmgBoost, x.damageType(DamageTag.ULT).source(SOURCE_TRACE))
+      x.buff(StatKey.FINAL_DMG_BOOST, originalDmgBoost, x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).source(SOURCE_TRACE))
     },
 
     precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {

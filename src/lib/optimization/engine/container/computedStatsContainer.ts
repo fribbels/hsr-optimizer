@@ -498,6 +498,11 @@ export class ComputedStatsContainer {
   }
 
   public actionBuff(key: AKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
+    // Optimization temporarily disabled
+    // if (this.config.entitiesLength === 1) {
+    //   this.a[key as number] += value
+    //   return
+    // }
     const cacheKey = (targetTags << 8) | (key as number)
     const indices = this.config.actionBuffIndices[cacheKey]
 
@@ -507,6 +512,11 @@ export class ComputedStatsContainer {
   }
 
   public actionSet(key: AKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
+    // Optimization temporarily disabled
+    // if (this.config.entitiesLength === 1) {
+    //   this.a[key as number] = value
+    //   return
+    // }
     const cacheKey = (targetTags << 8) | (key as number)
     const indices = this.config.actionBuffIndices[cacheKey]
 

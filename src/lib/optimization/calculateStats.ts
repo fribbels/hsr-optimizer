@@ -170,6 +170,20 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   const c = x.c
   const sets = c.sets
   const setsArray = c.setsArray
+
+  transferBaseStats(x, a, c, context)
+  calculateMemospriteBaseStats(x, a, c, context)
+  applyCombatBuffs(x, context)
+  executeNonDynamicCombatSets(x, context, setConditionals, sets, setsArray)
+  applyPercentStats(x, a, context)
+  evaluateDynamicSetConditionals(x, sets, setsArray, action, context)
+  evaluateDynamicConditionals(x, action, context)
+  evaluateTerminalSetConditionals(x, a, sets, setsArray, action, context)
+
+  return x
+}
+
+function transferBaseStats(x: ComputedStatsContainer, a: Float32Array, c: BasicStatsArray, context: OptimizerContext) {
   const buffs = context.combatBuffs
 
   // Add base to computed (defaults to SelfAndPet targeting)
@@ -197,8 +211,9 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   x.actionSet(StatKey.BASE_DEF, context.baseDEF)
   x.actionSet(StatKey.BASE_HP, context.baseHP)
   x.actionSet(StatKey.BASE_SPD, context.baseSPD)
+}
 
-  // Calculate memosprite entity stats
+function calculateMemospriteBaseStats(x: ComputedStatsContainer, a: Float32Array, c: BasicStatsArray, context: OptimizerContext) {
   for (let entityIndex = 1; entityIndex < x.config.entitiesLength; entityIndex++) {
     const entity = x.config.entitiesArray[entityIndex]
 
@@ -233,16 +248,18 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
     a[x.getActionIndex(entityIndex, StatKey.QUANTUM_DMG_BOOST)] += c.a[Key.QUANTUM_DMG_BOOST]
     a[x.getActionIndex(entityIndex, StatKey.IMAGINARY_DMG_BOOST)] += c.a[Key.IMAGINARY_DMG_BOOST]
   }
+}
+
+function applyCombatBuffs(x: ComputedStatsContainer, context: OptimizerContext) {
+  const buffs = context.combatBuffs
 
   x.actionBuff(StatKey.DMG_BOOST, buffs.DMG_BOOST, TargetTag.FullTeam)
   x.actionBuff(StatKey.EFFECT_RES_PEN, buffs.EFFECT_RES_PEN, TargetTag.FullTeam)
   x.actionBuff(StatKey.VULNERABILITY, buffs.VULNERABILITY, TargetTag.FullTeam)
   x.actionBuff(StatKey.BREAK_EFFICIENCY_BOOST, buffs.BREAK_EFFICIENCY, TargetTag.FullTeam)
+}
 
-  // BASIC
-
-  executeNonDynamicCombatSets(x, context, setConditionals, sets, setsArray)
-
+function applyPercentStats(x: ComputedStatsContainer, a: Float32Array, context: OptimizerContext) {
   x.actionBuff(StatKey.SPD, a[StatKey.SPD_P] * context.baseSPD, TargetTag.SelfAndPet)
   x.actionBuff(StatKey.ATK, a[StatKey.ATK_P] * context.baseATK, TargetTag.SelfAndPet)
   x.actionBuff(StatKey.DEF, a[StatKey.DEF_P] * context.baseDEF, TargetTag.SelfAndPet)
@@ -259,9 +276,15 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
     a[x.getActionIndex(entityIndex, StatKey.DEF)] += a[x.getActionIndex(entityIndex, StatKey.DEF_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_DEF)]
     a[x.getActionIndex(entityIndex, StatKey.HP)] += a[x.getActionIndex(entityIndex, StatKey.HP_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_HP)]
   }
+}
 
-  // Dynamic ornament set conditionals
-
+function evaluateDynamicSetConditionals(
+  x: ComputedStatsContainer,
+  sets: SetCounts,
+  setsArray: number[],
+  action: OptimizerAction,
+  context: OptimizerContext,
+) {
   if (setsArray[4] == setsArray[5]) {
     p2(SetKeys.SpaceSealingStation, sets) && evaluateConditional(SpaceSealingStationConditional, x, action, context)
     p2(SetKeys.FleetOfTheAgeless, sets) && evaluateConditional(FleetOfTheAgelessConditional, x, action, context)
@@ -273,9 +296,9 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
     p2(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding135Conditional, x, action, context)
     p2(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding180Conditional, x, action, context)
   }
+}
 
-  // Dynamic character / lc conditionals
-
+function evaluateDynamicConditionals(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
   for (const conditional of context.characterConditionalController.dynamicConditionals ?? []) {
     evaluateConditional(conditional, x, action, context)
   }
@@ -285,9 +308,17 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   for (const conditional of action.teammateDynamicConditionals ?? []) {
     evaluateConditional(conditional, x, action, context)
   }
+}
 
+function evaluateTerminalSetConditionals(
+  x: ComputedStatsContainer,
+  a: Float32Array,
+  sets: SetCounts,
+  setsArray: number[],
+  action: OptimizerAction,
+  context: OptimizerContext,
+) {
   // Terminal ornament set conditionals
-
   if (setsArray[4] == setsArray[5]) {
     if (p2(SetKeys.FirmamentFrontlineGlamoth, sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 135) {
       const spd = x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
@@ -313,7 +344,6 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   }
 
   // Terminal relic set conditionals
-
   if (p4(SetKeys.IronCavalryAgainstTheScourge, sets) && x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX) >= 1.50) {
     const be = x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX)
     x.buff(StatKey.DEF_PEN, 0.10, x.damageType(DamageTag.BREAK).source(Source.IronCavalryAgainstTheScourge))
@@ -321,8 +351,6 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
       x.buff(StatKey.DEF_PEN, 0.15, x.damageType(DamageTag.SUPER_BREAK).source(Source.IronCavalryAgainstTheScourge))
     }
   }
-
-  return x
 }
 
 function executeNonDynamicCombatSets(

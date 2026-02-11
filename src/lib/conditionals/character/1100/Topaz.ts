@@ -4,6 +4,10 @@ import {
   DamageType,
 } from 'lib/conditionals/conditionalConstants'
 import {
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
+} from 'lib/conditionals/conditionalFinalizers'
+import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
@@ -243,36 +247,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-
-      // const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
-      // const basicAshblazingAtkP = calculateAshblazingSetP(x, action, context, basicHitCountMulti)
-      // const fuaAshblazingAtkP = calculateAshblazingSetP(x, action, context, hitMulti)
-
-      // x.BASIC_ATK_P_BOOST.buff(basicAshblazingAtkP, Source.NONE)
-      // x.SKILL_ATK_P_BOOST.buff(fuaAshblazingAtkP, Source.NONE)
-      // x.FUA_ATK_P_BOOST.buff(fuaAshblazingAtkP, Source.NONE)
-    },
-
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
-
-      return `
-x.BASIC_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${basicHitCountMulti});
-x.SKILL_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMulti});
-x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMulti});
-      `
+      boostAshblazingAtkContainer(x, action, hitMulti)
     },
-
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
-
-      return ``
-      // x.BASIC_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${basicHitCountMulti});
-      // x.SKILL_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMulti});
-      // x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMulti});
-      //       `
+      return gpuBoostAshblazingAtkContainer(hitMulti, action)
     },
   }
 }

@@ -3,6 +3,10 @@ import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
 import {
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
+} from 'lib/conditionals/conditionalFinalizers'
+import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
@@ -201,21 +205,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const be = x.getActionValue(StatKey.BE, XueyiEntities.Xueyi)
       x.buff(StatKey.DMG_BOOST, (r.beToDmgBoost) ? Math.min(2.40, be) : 0, x.source(SOURCE_TRACE))
 
-      // TODO: Ashblazing set bonus
-      // boostAshblazingAtkP(x, action, context, hitMultiByFuaHits[r.fuaHits])
+      boostAshblazingAtkContainer(x, action, hitMultiByFuaHits[r.fuaHits])
     },
 
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      return `
-if (${wgslTrue(r.beToDmgBoost)}) {
-  x.ELEMENTAL_DMG += min(2.40, x.BE);
-}
-
-x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMultiByFuaHits[r.fuaHits]});
-`
-    },
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
 
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -225,7 +218,7 @@ if (${wgslTrue(r.beToDmgBoost)}) {
   let dmgBuff = min(2.40, ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, action.config)});
   ${buff.action(AKey.DMG_BOOST, 'dmgBuff').wgsl(action)}
 }
-      `
+      ` + gpuBoostAshblazingAtkContainer(hitMultiByFuaHits[r.fuaHits], action)
     },
   }
 }

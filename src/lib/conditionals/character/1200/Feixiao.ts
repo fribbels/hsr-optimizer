@@ -3,6 +3,10 @@ import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
 import {
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
+} from 'lib/conditionals/conditionalFinalizers'
+import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
@@ -235,21 +239,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      // TODO: Ashblazing set bonus
-    },
-
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const ultHitMulti = getUltHitMulti(action, context)
       const fuaHitMulti = ASHBLAZING_ATK_STACK * (1 * 1.00)
-
-      return `
-x.ULT_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${ultHitMulti});
-x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${fuaHitMulti});
-    `
+      boostAshblazingAtkContainer(x, action, fuaHitMulti)
     },
-
+    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return ``
+      const fuaHitMulti = ASHBLAZING_ATK_STACK * (1 * 1.00)
+      return gpuBoostAshblazingAtkContainer(fuaHitMulti, action)
     },
   }
 }

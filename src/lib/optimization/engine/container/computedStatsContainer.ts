@@ -569,15 +569,22 @@ export class ComputedStatsContainer {
       }
     }
 
-    // Record trace once per buff call (outside entity loop to avoid duplicates from multi-entity targeting)
+    // Record trace once per buff call (outside entity loop to avoid duplicates from multi-entity targeting).
+    // - buffs goes to the main character trace (recorded unless targeting exclusively memosprites)
+    // - buffsMemo goes to the memosprite trace (recorded when any target is a memosprite)
     if (this.trace && value !== 0) {
-      const isMemo = targetEntities.length > 0
-        && targetEntities.every((i) => this.config.entitiesArray[i]?.memosprite)
-      const buff: Buff = { stat: getAKeyName(key), key: key as number, value: value, source: source, memo: isMemo }
-      if (isMemo) {
-        this.buffsMemo.push(buff)
-      } else {
-        this.buffs.push(buff)
+      let hasMemo = false
+      let allMemo = true
+      for (const i of targetEntities) {
+        const entity = this.config.entitiesArray[i]
+        if (entity?.memosprite) hasMemo = true
+        else allMemo = false
+      }
+      if (!allMemo) {
+        this.buffs.push({ stat: getAKeyName(key), key: key as number, value: value, source: source, memo: false })
+      }
+      if (hasMemo) {
+        this.buffsMemo.push({ stat: getAKeyName(key), key: key as number, value: value, source: source, memo: true })
       }
     }
   }

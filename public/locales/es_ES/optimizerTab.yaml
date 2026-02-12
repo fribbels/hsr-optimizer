@@ -63,6 +63,7 @@ OptimizerOptions:
   PriorityFilter: Filtrar prioridad de los pj.
   Priority:
     Header: Prioridad
+    Label: '# {{rank}} - $t(common:Characters.{{id}}.LongName)'
     Name: '# {{rank}}'
   AllowEquipped: Permitir artef. equipados
   KeepCurrent: Mantener artefactos
@@ -345,16 +346,27 @@ SetConditionals:
 Presets:
   SpdValues:
     SPD0: Sin velocidad mínima
-    SPD111: 111.112 VEL  - 5 acciones en los primeros cuatro ciclos
-    SPD114: 114.286 VEL - 4 acciones en los primeros tres ciclos
-    SPD120: 120.000 VEL - 3 acciones en los primeros dos ciclos
-    SPD133: 133.334 VEL  - 2 acciones en el primer ciclo, 6 acciones en los primeros cuatro ciclos
-    SPD142: 142.858 VEL - 5 acciones en los primeros tres ciclos
-    SPD155: 155.556 VEL - 7 acciones en los primeros cuatro ciclos 
-    SPD160: 160.000 VEL - 4 acciones en los primeros dos ciclos
-    SPD171: 171.429 VEL - 6 acciones en los primeros tres ciclos
-    SPD177: 177.778 VEL - 8 acciones en los primeros cuatro ciclos
-    SPD200: 200.000 VEL - 3 acciones en el primer ciclo
+    SPD111: 111.112 VEL  - 5 turnos en los primeros cuatro ciclos
+    SPD114: 114.286 VEL - 4 turnos en los primeros tres ciclos
+    SPD120: 120.000 VEL - 3 turnos en los primeros dos ciclos
+    SPD133: 133.334 VEL  - 2 turnos en el primer ciclo, 6 turnos en los primeros cuatro ciclos
+    SPD142: 142.858 VEL - 5 turnos en los primeros tres ciclos
+    SPD155: 155.556 VEL - 7 turnos en los primeros cuatro ciclos 
+    SPD160: 160.000 VEL - 4 turnos en los primeros dos ciclos
+    SPD171: 171.429 VEL - 6 turnos en los primeros tres ciclos
+    SPD177: 177.778 VEL - 8 turnos en los primeros cuatro ciclos
+    SPD200: 200.000 VEL - 3 turnos en el primer ciclo
+  SpdCategories:
+    MemoryOfChaos: Evocación caótica
+    AnomalyArbitration: Arbitraje atípico
+  AaSpdValues:
+    SPD120: 120.000 SPD - 6 turnos en los primeros dos ciclos
+    SPD133: 133.334 SPD - 4 turnos en el primer ciclo
+    SPD140: 140.000 SPD - 7 turnos en los primeros dos ciclos
+    SPD160: 160.000 SPD - 8 turnos en los primeros dos ciclos
+    SPD166: 166.667 SPD - 5 turnos en el primer ciclo
+    SPD180: 180.000 SPD - 9 turnos en los primeros dos ciclos
+    SPD200: 200.000 SPD - 6 turnos en el primer ciclo, 10 turnos en los primeros dos ciclos
   StandardLabel: '$t(gameData:Characters.{{id}}.Name) estándar'
   RecommendedPresets: Preajustes recomendados
   PresetNotAvailable: Preajuste no disponible, por favor elige otra opción

@@ -185,32 +185,49 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
 
 function transferBaseStats(x: ComputedStatsContainer, a: Float32Array, c: BasicStatsArray, context: OptimizerContext) {
   const buffs = context.combatBuffs
+  const ca = c.a
+  const offsets = x.config.entityBaseOffsets[TargetTag.SelfAndPet]
 
-  // Add base to computed (defaults to SelfAndPet targeting)
-  x.actionBuff(StatKey.ATK, c.a[StatKey.ATK] + buffs.ATK + buffs.ATK_P * context.baseATK)
-  x.actionBuff(StatKey.DEF, c.a[StatKey.DEF] + buffs.DEF + buffs.DEF_P * context.baseDEF)
-  x.actionBuff(StatKey.HP, c.a[StatKey.HP] + buffs.HP + buffs.HP_P * context.baseHP)
-  x.actionBuff(StatKey.SPD, c.a[StatKey.SPD] + buffs.SPD + buffs.SPD_P * context.baseSPD)
-  x.actionBuff(StatKey.CD, c.a[StatKey.CD] + buffs.CD)
-  x.actionBuff(StatKey.CR, c.a[StatKey.CR] + buffs.CR)
-  x.actionBuff(StatKey.BE, c.a[StatKey.BE] + buffs.BE)
-  x.actionBuff(StatKey.EHR, c.a[StatKey.EHR])
-  x.actionBuff(StatKey.RES, c.a[StatKey.RES])
-  x.actionBuff(StatKey.ERR, c.a[StatKey.ERR])
-  x.actionBuff(StatKey.OHB, c.a[StatKey.OHB])
+  // Precompute values once, then write to all matched entities
+  const vATK = ca[StatKey.ATK] + buffs.ATK + buffs.ATK_P * context.baseATK
+  const vDEF = ca[StatKey.DEF] + buffs.DEF + buffs.DEF_P * context.baseDEF
+  const vHP = ca[StatKey.HP] + buffs.HP + buffs.HP_P * context.baseHP
+  const vSPD = ca[StatKey.SPD] + buffs.SPD + buffs.SPD_P * context.baseSPD
+  const vCD = ca[StatKey.CD] + buffs.CD
+  const vCR = ca[StatKey.CR] + buffs.CR
+  const vBE = ca[StatKey.BE] + buffs.BE
 
-  x.actionBuff(StatKey.PHYSICAL_DMG_BOOST, c.a[Key.PHYSICAL_DMG_BOOST])
-  x.actionBuff(StatKey.FIRE_DMG_BOOST, c.a[Key.FIRE_DMG_BOOST])
-  x.actionBuff(StatKey.ICE_DMG_BOOST, c.a[Key.ICE_DMG_BOOST])
-  x.actionBuff(StatKey.LIGHTNING_DMG_BOOST, c.a[Key.LIGHTNING_DMG_BOOST])
-  x.actionBuff(StatKey.WIND_DMG_BOOST, c.a[Key.WIND_DMG_BOOST])
-  x.actionBuff(StatKey.QUANTUM_DMG_BOOST, c.a[Key.QUANTUM_DMG_BOOST])
-  x.actionBuff(StatKey.IMAGINARY_DMG_BOOST, c.a[Key.IMAGINARY_DMG_BOOST])
+  for (let i = 0; i < offsets.length; i++) {
+    const o = offsets[i]
 
-  x.actionSet(StatKey.BASE_ATK, context.baseATK)
-  x.actionSet(StatKey.BASE_DEF, context.baseDEF)
-  x.actionSet(StatKey.BASE_HP, context.baseHP)
-  x.actionSet(StatKey.BASE_SPD, context.baseSPD)
+    // Core stats (actionBuff += semantics)
+    a[o + StatKey.ATK] += vATK
+    a[o + StatKey.DEF] += vDEF
+    a[o + StatKey.HP] += vHP
+    a[o + StatKey.SPD] += vSPD
+    a[o + StatKey.CD] += vCD
+    a[o + StatKey.CR] += vCR
+    a[o + StatKey.BE] += vBE
+    a[o + StatKey.EHR] += ca[StatKey.EHR]
+    a[o + StatKey.RES] += ca[StatKey.RES]
+    a[o + StatKey.ERR] += ca[StatKey.ERR]
+    a[o + StatKey.OHB] += ca[StatKey.OHB]
+
+    // Elemental damage boosts
+    a[o + StatKey.PHYSICAL_DMG_BOOST] += ca[Key.PHYSICAL_DMG_BOOST]
+    a[o + StatKey.FIRE_DMG_BOOST] += ca[Key.FIRE_DMG_BOOST]
+    a[o + StatKey.ICE_DMG_BOOST] += ca[Key.ICE_DMG_BOOST]
+    a[o + StatKey.LIGHTNING_DMG_BOOST] += ca[Key.LIGHTNING_DMG_BOOST]
+    a[o + StatKey.WIND_DMG_BOOST] += ca[Key.WIND_DMG_BOOST]
+    a[o + StatKey.QUANTUM_DMG_BOOST] += ca[Key.QUANTUM_DMG_BOOST]
+    a[o + StatKey.IMAGINARY_DMG_BOOST] += ca[Key.IMAGINARY_DMG_BOOST]
+
+    // Base stats (actionSet = semantics)
+    a[o + StatKey.BASE_ATK] = context.baseATK
+    a[o + StatKey.BASE_DEF] = context.baseDEF
+    a[o + StatKey.BASE_HP] = context.baseHP
+    a[o + StatKey.BASE_SPD] = context.baseSPD
+  }
 }
 
 function calculateMemospriteBaseStats(x: ComputedStatsContainer, a: Float32Array, c: BasicStatsArray, context: OptimizerContext) {
@@ -252,18 +269,34 @@ function calculateMemospriteBaseStats(x: ComputedStatsContainer, a: Float32Array
 
 function applyCombatBuffs(x: ComputedStatsContainer, context: OptimizerContext) {
   const buffs = context.combatBuffs
+  const a = x.a
+  const offsets = x.config.entityBaseOffsets[TargetTag.FullTeam]
 
-  x.actionBuff(StatKey.DMG_BOOST, buffs.DMG_BOOST, TargetTag.FullTeam)
-  x.actionBuff(StatKey.EFFECT_RES_PEN, buffs.EFFECT_RES_PEN, TargetTag.FullTeam)
-  x.actionBuff(StatKey.VULNERABILITY, buffs.VULNERABILITY, TargetTag.FullTeam)
-  x.actionBuff(StatKey.BREAK_EFFICIENCY_BOOST, buffs.BREAK_EFFICIENCY, TargetTag.FullTeam)
+  for (let i = 0; i < offsets.length; i++) {
+    const o = offsets[i]
+    a[o + StatKey.DMG_BOOST] += buffs.DMG_BOOST
+    a[o + StatKey.EFFECT_RES_PEN] += buffs.EFFECT_RES_PEN
+    a[o + StatKey.VULNERABILITY] += buffs.VULNERABILITY
+    a[o + StatKey.BREAK_EFFICIENCY_BOOST] += buffs.BREAK_EFFICIENCY
+  }
 }
 
 function applyPercentStats(x: ComputedStatsContainer, a: Float32Array, context: OptimizerContext) {
-  x.actionBuff(StatKey.SPD, a[StatKey.SPD_P] * context.baseSPD, TargetTag.SelfAndPet)
-  x.actionBuff(StatKey.ATK, a[StatKey.ATK_P] * context.baseATK, TargetTag.SelfAndPet)
-  x.actionBuff(StatKey.DEF, a[StatKey.DEF_P] * context.baseDEF, TargetTag.SelfAndPet)
-  x.actionBuff(StatKey.HP, a[StatKey.HP_P] * context.baseHP, TargetTag.SelfAndPet)
+  const offsets = x.config.entityBaseOffsets[TargetTag.SelfAndPet]
+
+  // Use entity 0's percent stats for all SelfAndPet entities
+  const vSPD = a[StatKey.SPD_P] * context.baseSPD
+  const vATK = a[StatKey.ATK_P] * context.baseATK
+  const vDEF = a[StatKey.DEF_P] * context.baseDEF
+  const vHP = a[StatKey.HP_P] * context.baseHP
+
+  for (let i = 0; i < offsets.length; i++) {
+    const o = offsets[i]
+    a[o + StatKey.SPD] += vSPD
+    a[o + StatKey.ATK] += vATK
+    a[o + StatKey.DEF] += vDEF
+    a[o + StatKey.HP] += vHP
+  }
 
   // Apply percent stats to memosprite entities
   for (let entityIndex = 1; entityIndex < x.config.entitiesLength; entityIndex++) {

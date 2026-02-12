@@ -85,6 +85,29 @@ const OPERATOR_MAP: Record<Operator, Operation> = {
   },
 }
 
+// Shared entity matching logic for target tags
+function entityMatchesTargetTag(
+  entity: OptimizerEntity,
+  targetTags: number,
+  entityRegistry: NamedArray<OptimizerEntity>,
+  entitiesLength: number,
+): boolean {
+  if (targetTags & TargetTag.Self) return entity.primary
+  else if (targetTags & TargetTag.SelfAndPet) return entity.primary || (entity.pet ?? false)
+  else if (targetTags & TargetTag.FullTeam) return true
+  else if (targetTags & TargetTag.SelfAndMemosprite) return entity.primary || entity.memosprite
+  else if (targetTags & TargetTag.SummonsOnly) return entity.summon
+  else if (targetTags & TargetTag.SelfAndSummon) return entity.primary || entity.summon
+  else if (targetTags & TargetTag.MemospritesOnly) return entity.memosprite
+  else if (targetTags & TargetTag.SingleTarget) {
+    const primaryEntity = entityRegistry.get(SELF_ENTITY_INDEX)!
+    const hasMemosprite = Array.from({ length: entitiesLength }, (_, i) => entityRegistry.get(i)!).some((e) => e.memosprite)
+    if (primaryEntity.memoBuffPriority && hasMemosprite) return entity.memosprite
+    else return entity.primary || (entity.pet ?? false)
+  } else if (targetTags === TargetTag.None) return false
+  return false
+}
+
 // Precompute all actionBuff/actionSet indices
 function buildActionBuffIndexCache(
   entityRegistry: NamedArray<OptimizerEntity>,
@@ -104,23 +127,7 @@ function buildActionBuffIndexCache(
 
       for (let entityIndex = 0; entityIndex < entitiesLength; entityIndex++) {
         const entity = entityRegistry.get(entityIndex)!
-
-        let matches = false
-        if (targetTags & TargetTag.Self) matches = entity.primary
-        else if (targetTags & TargetTag.SelfAndPet) matches = entity.primary || (entity.pet ?? false)
-        else if (targetTags & TargetTag.FullTeam) matches = true
-        else if (targetTags & TargetTag.SelfAndMemosprite) matches = entity.primary || entity.memosprite
-        else if (targetTags & TargetTag.SummonsOnly) matches = entity.summon
-        else if (targetTags & TargetTag.SelfAndSummon) matches = entity.primary || entity.summon
-        else if (targetTags & TargetTag.MemospritesOnly) matches = entity.memosprite
-        else if (targetTags & TargetTag.SingleTarget) {
-          const primaryEntity = entityRegistry.get(SELF_ENTITY_INDEX)!
-          const hasMemosprite = Array.from({ length: entitiesLength }, (_, i) => entityRegistry.get(i)!).some((e) => e.memosprite)
-          if (primaryEntity.memoBuffPriority && hasMemosprite) matches = entity.memosprite
-          else matches = entity.primary || (entity.pet ?? false)
-        } else if (targetTags === TargetTag.None) matches = false
-
-        if (matches) {
+        if (entityMatchesTargetTag(entity, targetTags, entityRegistry, entitiesLength)) {
           indices.push(entityIndex * entityStride + statKey)
         }
       }
@@ -131,6 +138,29 @@ function buildActionBuffIndexCache(
   }
 
   return cache
+}
+
+// Precompute entity base offsets per TargetTag for loop-flipped stat writes
+function buildEntityBaseOffsets(
+  entityRegistry: NamedArray<OptimizerEntity>,
+  entitiesLength: number,
+  entityStride: number,
+): Record<number, number[]> {
+  const offsets: Record<number, number[]> = {}
+  const allTargetTags = Object.values(TargetTag).filter((v): v is number => typeof v === 'number')
+
+  for (const targetTags of allTargetTags) {
+    const matched: number[] = []
+    for (let entityIndex = 0; entityIndex < entitiesLength; entityIndex++) {
+      const entity = entityRegistry.get(entityIndex)!
+      if (entityMatchesTargetTag(entity, targetTags, entityRegistry, entitiesLength)) {
+        matched.push(entityIndex * entityStride)
+      }
+    }
+    offsets[targetTags] = matched
+  }
+
+  return offsets
 }
 
 export const FullStatsConfig: ComputedStatsConfigType = Object.fromEntries(
@@ -175,6 +205,7 @@ export class ComputedStatsContainerConfig {
   public totalRegistersLength: number // action + hit registers
 
   public actionBuffIndices: Record<number, number[]> // Cached indices for actionBuff/actionSet
+  public entityBaseOffsets: Record<number, number[]> // Per-TargetTag entity base offsets for loop-flipped stat writes
   public deprioritizeBuffs: boolean
 
   constructor(
@@ -220,6 +251,13 @@ export class ComputedStatsContainerConfig {
       this.actionStatsLength,
       this.hitStatsLength,
       this.hitsLength,
+    )
+
+    // Precompute entity base offsets per TargetTag for loop-flipped stat writes
+    this.entityBaseOffsets = buildEntityBaseOffsets(
+      entityRegistry,
+      this.entitiesLength,
+      this.entityStride,
     )
 
     this.deprioritizeBuffs = context.deprioritizeBuffs

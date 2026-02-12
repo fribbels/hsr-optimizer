@@ -601,7 +601,7 @@ export const DB = {
       scannerState.setIngestWarpResources(saveData.scannerSettings.ingestWarpResources)
 
       // For security, don't restore the websocket url if we're sanitizing (manual load)
-      if (!sanitize) {
+      if (!sanitize && saveData.scannerSettings.customUrl) {
         scannerState.setWebsocketUrl(saveData.scannerSettings.websocketUrl)
       }
     }

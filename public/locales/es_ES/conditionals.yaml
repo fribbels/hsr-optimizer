@@ -2393,6 +2393,8 @@ Characters:
     Content:
       enhancedBasic:
         text: Básico potenciado
+        content: >-
+          Después de lanzar la habilidad definitiva, obtiene 1 acumulación de Epopeya, hasta un máximo de 2 acumulaciones. Cuando tenga Epopeya y Mem esté en el campo de batalla, el ATQ básico se potencia a "¡Escribamos el mañana!". ::BR:: Consume 1 acumulación de Epopeya y disipa todos los estados negativos de Control que afecten a Mem. La(El) Trazacaminos y Mem lanzan un ataque combinado que inflige a todos los enemigos un Daño de Hielo equivalente al {{Scaling}}% del ATQ de la(del) Trazacaminos y al {{Scaling}}% del ATQ de Mem. Después, Mem obtiene un 10% de carga.
       memoSkillHits:
         text: Golpes de Habilidad Mnemo
         content: >-

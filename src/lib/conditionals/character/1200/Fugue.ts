@@ -230,12 +230,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.BE, (m.foxianPrayer) ? skillBeValue : 0, x.targets(TargetTag.SingleTarget).deferrable().source(SOURCE_SKILL))
-      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 1 && m.foxianPrayer) ? 0.50 : 0, x.targets(TargetTag.SingleTarget).deferrable().source(SOURCE_E1))
+      x.buff(StatKey.BE, (m.foxianPrayer) ? skillBeValue : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL))
+      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 1 && m.foxianPrayer) ? 0.50 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E1))
 
       x.buff(StatKey.SUPER_BREAK_MODIFIER, (m.superBreakDmg) ? superBreakScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
       x.buff(StatKey.DEF_PEN, (m.defReduction) ? skillDefPenValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
-      x.buff(StatKey.DMG_BOOST, (e >= 4 && m.foxianPrayer && m.e4BreakDmg) ? 0.20 : 0, x.damageType(DamageTag.BREAK).targets(TargetTag.SingleTarget).deferrable().source(SOURCE_E4))
+      x.buff(StatKey.DMG_BOOST, (e >= 4 && m.foxianPrayer && m.e4BreakDmg) ? 0.20 : 0, x.damageType(DamageTag.BREAK).targets(TargetTag.SingleTarget).source(SOURCE_E4))
     },
     // precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     //   const m = action.characterConditionals as Conditionals<typeof teammateContent>

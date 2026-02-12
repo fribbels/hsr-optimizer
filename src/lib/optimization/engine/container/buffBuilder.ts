@@ -91,6 +91,7 @@ export class BuffBuilder<_Completed extends boolean = false> {
 
   targets(t: TargetTag): IncompleteBuffBuilder {
     this._targetTags = t
+    if (t & TargetTag.SingleTarget) this._deferrable = true
     return this as IncompleteBuffBuilder
   }
 

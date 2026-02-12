@@ -52,7 +52,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       if (action.actorId == '1313') {
         x.buff(StatKey.DMG_BOOST, m.dmgBuffStacks * sValuesDmg[s], x.targets(TargetTag.SelfAndMemosprite).deferrable().source(SOURCE_LC))
       } else {
-        x.buff(StatKey.DMG_BOOST, m.dmgBuffStacks * sValuesDmg[s], x.targets(TargetTag.SingleTarget).deferrable().source(SOURCE_LC))
+        x.buff(StatKey.DMG_BOOST, m.dmgBuffStacks * sValuesDmg[s], x.targets(TargetTag.SingleTarget).source(SOURCE_LC))
       }
     },
   }

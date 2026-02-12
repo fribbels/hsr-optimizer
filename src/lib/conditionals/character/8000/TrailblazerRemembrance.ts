@@ -376,7 +376,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           x.buff(StatKey.CR, (m.e1CrBuff) ? 0.10 : 0, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(SOURCE_E1))
           x.buff(StatKey.TRUE_DMG_MODIFIER, trueDmg, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(SOURCE_MEMO))
         } else {
-          x.buff(StatKey.TRUE_DMG_MODIFIER, trueDmg, x.targets(TargetTag.SingleTarget).deferrable().source(SOURCE_MEMO))
+          x.buff(StatKey.TRUE_DMG_MODIFIER, trueDmg, x.targets(TargetTag.SingleTarget).source(SOURCE_MEMO))
         }
       }
     },

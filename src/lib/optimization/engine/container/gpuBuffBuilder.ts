@@ -68,6 +68,7 @@ class ActionBuffBuilder {
 
   targets(t: TargetTag): this {
     this._targetTag = t
+    if (t & TargetTag.SingleTarget) this._deferrable = true
     return this
   }
 
@@ -145,6 +146,7 @@ class HitBuffBuilder {
 
   targets(t: TargetTag): this {
     this._targetTag = t
+    if (t & TargetTag.SingleTarget) this._deferrable = true
     return this
   }
 

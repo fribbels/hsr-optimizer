@@ -7,6 +7,7 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { Hint } from 'lib/interactions/hint'
 import {
   AbilityKind,
+  AbilityMeta,
   AbilityToSortOption,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'

@@ -14,6 +14,7 @@ import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
+import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { getGridTheme } from 'lib/rendering/theme'
 import DB from 'lib/state/db'
@@ -106,7 +107,8 @@ export function OptimizerGrid() {
             valueFormatter: Renderer.floor,
             minWidth: DIGITS_5,
             flex: 12,
-            headerName: t(`Headers.Basic.${action.actionType}` as const),
+            headerName: t(`Headers.Basic.${action.actionType}`),
+            cellStyle: Gradient.getOptimizerColumnGradient,
           })
         }
       }

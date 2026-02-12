@@ -57,16 +57,16 @@ export const AbilityMeta: Record<AbilityKind, AbilityMetaEntry> = {
   [AbilityKind.MEMO_SKILL]: { label: 'MemoSkill', sortKey: 'MEMO_SKILL', category: 'damage' },
   [AbilityKind.MEMO_TALENT]: { label: 'MemoTalent', sortKey: 'MEMO_TALENT', category: 'damage' },
 
-  [AbilityKind.BASIC_HEAL]: { label: 'Basic Heal', sortKey: 'BASIC_HEAL', category: 'heal' },
-  [AbilityKind.SKILL_HEAL]: { label: 'Skill Heal', sortKey: 'SKILL_HEAL', category: 'heal' },
-  [AbilityKind.ULT_HEAL]: { label: 'Ult Heal', sortKey: 'ULT_HEAL', category: 'heal' },
-  [AbilityKind.FUA_HEAL]: { label: 'Fua Heal', sortKey: 'FUA_HEAL', category: 'heal' },
-  [AbilityKind.TALENT_HEAL]: { label: 'Talent Heal', sortKey: 'TALENT_HEAL', category: 'heal' },
-  [AbilityKind.BASIC_SHIELD]: { label: 'Basic Shield', sortKey: 'BASIC_SHIELD', category: 'shield' },
-  [AbilityKind.SKILL_SHIELD]: { label: 'Skill Shield', sortKey: 'SKILL_SHIELD', category: 'shield' },
-  [AbilityKind.ULT_SHIELD]: { label: 'Ult Shield', sortKey: 'ULT_SHIELD', category: 'shield' },
-  [AbilityKind.FUA_SHIELD]: { label: 'Fua Shield', sortKey: 'FUA_SHIELD', category: 'shield' },
-  [AbilityKind.TALENT_SHIELD]: { label: 'Talent Shield', sortKey: 'TALENT_SHIELD', category: 'shield' },
+  [AbilityKind.BASIC_HEAL]: { label: 'BasicHeal', sortKey: 'BASIC_HEAL', category: 'heal' },
+  [AbilityKind.SKILL_HEAL]: { label: 'SkillHeal', sortKey: 'SKILL_HEAL', category: 'heal' },
+  [AbilityKind.ULT_HEAL]: { label: 'UltHeal', sortKey: 'ULT_HEAL', category: 'heal' },
+  [AbilityKind.FUA_HEAL]: { label: 'FuaHeal', sortKey: 'FUA_HEAL', category: 'heal' },
+  [AbilityKind.TALENT_HEAL]: { label: 'TalentHeal', sortKey: 'TALENT_HEAL', category: 'heal' },
+  [AbilityKind.BASIC_SHIELD]: { label: 'BasicShield', sortKey: 'BASIC_SHIELD', category: 'shield' },
+  [AbilityKind.SKILL_SHIELD]: { label: 'SkillShield', sortKey: 'SKILL_SHIELD', category: 'shield' },
+  [AbilityKind.ULT_SHIELD]: { label: 'UltShield', sortKey: 'ULT_SHIELD', category: 'shield' },
+  [AbilityKind.FUA_SHIELD]: { label: 'FuaShield', sortKey: 'FUA_SHIELD', category: 'shield' },
+  [AbilityKind.TALENT_SHIELD]: { label: 'TalentShield', sortKey: 'TALENT_SHIELD', category: 'shield' },
 }
 
 // =============================================================================

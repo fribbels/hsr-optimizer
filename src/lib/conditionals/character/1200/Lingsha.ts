@@ -47,7 +47,7 @@ import {
 } from 'types/optimizer'
 
 export const LingshaEntities = createEnum('Lingsha', 'Fuyuan')
-export const LingshaAbilities = createEnum('BASIC', 'SKILL', 'SKILL_HEAL', 'ULT', 'ULT_HEAL', 'FUA', 'FUA_HEAL', 'BREAK')
+export const LingshaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK', 'SKILL_HEAL', 'ULT_HEAL', 'FUA_HEAL')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lingsha')

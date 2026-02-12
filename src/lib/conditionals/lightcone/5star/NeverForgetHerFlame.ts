@@ -1,20 +1,16 @@
-import i18next from 'i18next'
-import {
-  Conditionals,
-  ContentDefinition,
-} from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
+import { Conditionals, ContentDefinition, } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import { DamageTag, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { NEVER_FORGET_HER_FLAME } from 'lib/simulations/tests/testMetadataConstants'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.NeverForgetHerFlame')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.NeverForgetHerFlame.Content')
   const { SOURCE_LC } = Source.lightCone(NEVER_FORGET_HER_FLAME)
 
   const sValuesBreakDmg = [0.32, 0.42, 0.52, 0.62, 0.72]
@@ -32,8 +28,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       lc: true,
       id: 'breakDmgBuff',
       formItem: 'switch',
-      text: 'Break DMG boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('breakDmgBuff.text'),
+      content: t('breakDmgBuff.content', { BreakBoost: TsUtils.precisionRound(100 * sValuesBreakDmg[s]) }),
     },
   }
 

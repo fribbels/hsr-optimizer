@@ -918,6 +918,12 @@ Characters:
     Content:
       skillExtraHits:
         text: 戰技額外擊中次數
+  TheDahlia:
+    Content:
+      superBreakDmg:
+        text: 超擊破傷害（強制弱點擊破）
+      spdBuff:
+        text: 速度增益
   TheHerta:
     Content:
       e6Buffs:

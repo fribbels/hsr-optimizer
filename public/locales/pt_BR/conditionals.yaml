@@ -1991,6 +1991,18 @@ Characters:
       e2DmgReductionBuff:
         text: Buff de redução de DMG E2
         content: Após ativar a Postura da Espada, o DMG recebido por Sushang é reduzido em 20% por 1 turno.
+  TheDahlia:
+    Content:
+      superBreakDmg:
+        text: DMG de Super Quebra (força a quebra de fraqueza)
+      spdBuff:
+        text: Buff de SPD
+      e1Buffs:
+        text: Buffs da E1
+      e2ResPen:
+        text: E2 RES PEN
+      e6BeBuff:
+        text: Buff de BE E6
   TheHerta:
     Content:
       enhancedSkill:
@@ -2096,6 +2108,8 @@ Characters:
         content: Aumenta a DEF em 10% por acúmulo.
   TrailblazerRemembrance:
     Content:
+      enhancedBasic:
+        text: Básico Aprimorado
       memoSkillHits:
         text: Perícia do Memo acerta
         content: >-

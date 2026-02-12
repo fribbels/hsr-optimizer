@@ -66,10 +66,7 @@ export function RelicsGrid() {
   window.relicsGrid = gridRef
 
   const scoredRelics = useMemo(() => {
-    return scoreRelics(relics, excludedRelicPotentialCharacters, focusCharacter)
-    // relic scores have sn implicit dependency on scoringMetadataOverrides
-    // settings only relevant on first load so doesn't need to be in array
-    // eslint-disable-next-line exhaustive-deps
+    return scoreRelics(relics, excludedRelicPotentialCharacters, focusCharacter, scoringMetadataOverrides)
   }, [relics, scoringMetadataOverrides, focusCharacter, excludedRelicPotentialCharacters])
 
   const { filters, valueColumns } = useRelicsTabStore()

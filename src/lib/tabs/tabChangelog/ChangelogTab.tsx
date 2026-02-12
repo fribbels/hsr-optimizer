@@ -117,10 +117,21 @@ function getChangelogContent() {
     {
       title: `Current data version: ${CURRENT_DATA_VERSION}`,
       date: '',
+      content: [],
+    },
+    {
+      title: '',
+      date: '2026-01-19',
       content: [
-        `Updated content to v3.8v3`,
-        `Fixed various issues with Cyrene damage calculations`,
-        `Added a tentative Memo Skill damage calculation for Hyacine. More accurate calculations to follow`,
+        `Updated content to v4.0v3`,
+        'Added Black Swan Novaflare buffs',
+        'blackswan.webp',
+        'Added Sparkle Novaflare buffs',
+        'sparkle.webp',
+        'Added Anomaly Arbitration speed breakpoints',
+        'aa.webp',
+        'Fix: Added better naming scheme for screenshot downloads',
+        'Balance: Updated default showcase teams for multiple characters',
       ],
     },
     {
@@ -130,6 +141,8 @@ function getChangelogContent() {
         `Updated content to v3.8v1`,
         `Added The Dahlia showcase`,
         `dahlia.webp`,
+        `Fixed various issues with Cyrene damage calculations`,
+        `Added a tentative Memo Skill damage calculation for Hyacine. More accurate calculations to follow`,
       ],
     },
     {

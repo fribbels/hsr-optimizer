@@ -1,11 +1,5 @@
-import {
-  AbilityType,
-  ASHBLAZING_ATK_STACK,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  boostAshblazingAtkContainer,
-  gpuBoostAshblazingAtkContainer,
-} from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType, ASHBLAZING_ATK_STACK, } from 'lib/conditionals/conditionalConstants'
+import { boostAshblazingAtkContainer, gpuBoostAshblazingAtkContainer, } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   addSuperBreakHits,
@@ -14,18 +8,11 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { ModifierContext } from 'lib/optimization/context/calculateActions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  ElementTag,
-  TargetTag,
-} from 'lib/optimization/engine/config/tag'
+import { ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-
-import i18next from 'i18next'
 import {
   ANAXA,
   BOOTHILL,
@@ -34,20 +21,18 @@ import {
   SILVER_WOLF,
   THE_DAHLIA,
 } from 'lib/simulations/tests/testMetadataConstants'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { Hit } from 'types/hitConditionalTypes'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const TheDahliaEntities = createEnum('TheDahlia')
 export const TheDahliaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TheDahlia')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TheDahlia')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
     SOURCE_BASIC,
@@ -104,59 +89,59 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     zoneActive: {
       id: 'zoneActive',
       formItem: 'switch',
-      text: 'Zone active',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.zoneActive.text'),
+      content: t('Content.zoneActive.content'),
     },
     ultDefPen: {
       id: 'ultDefPen',
       formItem: 'switch',
-      text: 'Ult DEF PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.ultDefPen.text'),
+      content: t('Content.ultDefPen.content', { DefShred: TsUtils.precisionRound(100 * ultDefPenValue) }),
     },
     dancePartner: {
       id: 'dancePartner',
       formItem: 'switch',
-      text: 'Dance Partner',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.dancePartner.text'),
+      content: t('Content.dancePartner.content', { SBScaling: TsUtils.precisionRound(100 * superBreakScaling) }),
     },
     superBreakDmg: {
       id: 'superBreakDmg',
       formItem: 'switch',
-      text: 'Super Break DMG (force weakness break)',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.superBreakDmg.text'),
+      content: t('Content.superBreakDmg.content'),
     },
     spdBuff: {
       id: 'spdBuff',
       formItem: 'switch',
-      text: 'SPD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.spdBuff.text'),
+      content: t('Content.spdBuff.content'),
     },
     e1Buffs: {
       id: 'e1Buffs',
       formItem: 'switch',
-      text: 'E1 buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e1Buffs.text'),
+      content: t('Content.e1Buffs.content'),
       disabled: e < 1,
     },
     e2ResPen: {
       id: 'e2ResPen',
       formItem: 'switch',
-      text: 'E2 RES PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e2ResPen.text'),
+      content: t('Content.e2ResPen.content'),
       disabled: e < 2,
     },
     e4Vuln: {
       id: 'e4Vuln',
       formItem: 'switch',
-      text: 'E4 Vulnerability',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e4Vuln.text'),
+      content: t('Content.e4Vuln.content'),
       disabled: e < 4,
     },
     e6BeBuff: {
       id: 'e6BeBuff',
       formItem: 'switch',
-      text: 'E6 BE buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e6BeBuff.text'),
+      content: t('Content.e6BeBuff.content'),
       disabled: e < 6,
     },
   }
@@ -169,14 +154,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     beConversion: {
       id: 'beConversion',
       formItem: 'switch',
-      text: 'Break Effect conversion',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.beConversion.text'),
+      content: t('TeammateContent.beConversion.content'),
     },
     teammateBeValue: {
       id: 'teammateBeValue',
       formItem: 'slider',
-      text: `The Dahlia's Combat BE`,
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.teammateBeValue.text'),
+      content: t('TeammateContent.teammateBeValue.content'),
       min: 0,
       max: 7.50,
       percent: true,
@@ -340,9 +325,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.DEF_PEN, (m.ultDefPen) ? ultDefPenValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
 
       if (m.superBreakDmg) {
-        if (e >= 1 && m.e1Buffs && m.dancePartner) {
+        if (e >= 1 && m.e1Buffs) {
           x.buff(StatKey.SUPER_BREAK_MODIFIER, superBreakScaling, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
-          x.buff(StatKey.SUPER_BREAK_MODIFIER, 0.40, x.source(SOURCE_E1))
+          x.buff(StatKey.SUPER_BREAK_MODIFIER, (m.dancePartner) ? 0.40 : 0, x.source(SOURCE_E1))
         } else {
           x.buff(StatKey.SUPER_BREAK_MODIFIER, (m.dancePartner) ? superBreakScaling : 0, x.source(SOURCE_TALENT))
         }
@@ -350,8 +335,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.buff(StatKey.RES_PEN, (e >= 2 && m.e2ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
       x.buff(StatKey.VULNERABILITY, (e >= 4 && m.e4Vuln) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
-
-      x.buff(StatKey.BE, (e >= 6 && m.e6BeBuff) ? 1.50 : 0, x.source(SOURCE_E6))
+      x.buff(StatKey.BE, (e >= 6 && m.e6BeBuff && m.dancePartner) ? 1.50 : 0, x.source(SOURCE_E6))
 
       // E1: Fixed toughness damage buff for dance partner
       if (e >= 1 && m.e1Buffs && m.dancePartner) {

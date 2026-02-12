@@ -153,11 +153,11 @@ Characters:
     Name: Dr. Ratio
     LongName: Dr. Ratio
   "1306":
-    Name: Sparkle
-    LongName: Sparkle
+    Name: ⚰️ Sparkle
+    LongName: ⚰️ Sparkle
   "1307":
-    Name: Cisne Negro
-    LongName: Cisne Negro
+    Name: ⚰️ Cisne Negro
+    LongName: ⚰️ Cisne Negro
   "1308":
     Name: Acheron
     LongName: Acheron
@@ -183,8 +183,8 @@ Characters:
     Name: Rappa
     LongName: Rappa
   "1321":
-    Name: The Dahlia
-    LongName: The Dahlia
+    Name: A Dália
+    LongName: A Dália
   "1401":
     Name: A Herta
     LongName: A Herta
@@ -227,6 +227,12 @@ Characters:
   "1415":
     Name: Cyrene
     LongName: Cyrene
+  "1501":
+    Name: Sparxie
+    LongName: Sparxie
+  "1502":
+    Name: Yao Guang
+    LongName: Yao Guang
   "8001":
     Name: Caelus
     LongName: Caelus (A Destruição)
@@ -251,6 +257,12 @@ Characters:
   "8008":
     Name: Stelle
     LongName: Stelle (A Recordação)
+  1306b1:
+    Name: Sparkle
+    LongName: Sparkle
+  1307b1:
+    Name: Black Swan
+    LongName: Black Swan
   1212b1:
     Name: Jingliu
     LongName: Jingliu
@@ -376,6 +388,14 @@ RelicSets:
     Name: Ermitão Envolto em Si Mesmo
     Description2pc: O Efeito de <u>Escudo</u> concedido é aumentado em 10%.
     Description4pc: Aumenta o Efeito de <u>Escudo</u> fornecido pelo usuário em 12%. Quando um aliado-alvo tem um Efeito de <u>Escudo</u> fornecido pelo usuário, o Dano CRIT do aliado-alvo aumenta em 15%.
+  "129":
+    Name: Ever-Glorious Magical Girl
+    Description2pc: Increases CRIT DMG by 16%.
+    Description4pc: The Elation DMG dealt by the wearer and their memosprites ignores 10% of targets' DEF. For every 5 accumulated Punchline allies gain, the Elation DMG dealt additionally ignores 1% of targets' DEF, which stacks up to 10 times.
+  "130":
+    Name: Diviner of Distant Reach
+    Description2pc: Increases SPD by 6%.
+    Description4pc: Before entering combat, if the wearer's SPD is greater than or equal to 120/160, increases the wearer's CRIT Rate by 10%/18%. When the wearer uses Elation Skill for the first time in each battle, enhances all allies' Elation by 10%. This effect cannot stack.
   "301":
     Name: Estação de Vedação Espacial
     Description2pc: Aumenta em 12% o ATQ do usuário. Quando a VEL do usuário chegar a 120 ou mais, aumenta em um extra de 12% o ATQ do usuário.
@@ -495,6 +515,10 @@ Lightcones:
     Name: Queimada
   "20022":
     Name: Reminiscência
+  "20023":
+    Name: Sneering
+  "20024":
+    Name: Lingering Tears
   "21000":
     Name: Conversa Pós-Operatória
   "21001":
@@ -617,6 +641,10 @@ Lightcones:
     Name: Fuga Termal de Férias
   "21062":
     Name: Te Vejo no Fim
+  "21064":
+    Name: Mushy Shroomy's Adventures
+  "21065":
+    Name: Today's Good Luck
   "22000":
     Name: Antes do Início da Missão do Tutorial
   "22001":
@@ -732,11 +760,15 @@ Lightcones:
   "23049":
     Name: Ao Brilho Estelar da Noite Eterna
   "23050":
-    Name: Never Forget Her Flame
+    Name: Nunca Esqueça Sua Chama
   "23051":
     Name: Ainda que o Caminho Seja Longo
   "23052":
     Name: Instante de Eterno Amor
+  "23053":
+    Name: Dazzled By A Flowery World
+  "23054":
+    Name: When She Decided To See
   "24000":
     Name: Na Queda de Um Aeon
   "24001":
@@ -758,7 +790,6 @@ Paths:
   Knight: A Preservação
   Priest: A Abundância
   Memory: A Recordação
-  Unknown: Geral
 Elements:
   Physical: Físico
   Fire: Fogo

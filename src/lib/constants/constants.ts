@@ -1,15 +1,23 @@
 // Represents the version of the latest info, which should be the beta leaks version at the time of the major update
 import gameData from 'data/game_data.json' with { type: 'json' }
-import { StatKey, StatKeyValue } from 'lib/optimization/engine/config/keys'
+import { StatKey, StatKeyValue, } from 'lib/optimization/engine/config/keys'
+import { BLACK_SWAN_B1, SPARKLE_B1, } from 'lib/simulations/tests/testMetadataConstants'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v3.8.1'
+export const CURRENT_OPTIMIZER_VERSION = 'v4.0.1'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '3.8v3'
+export const CURRENT_DATA_VERSION = '4.0v3'
 
-const generateMessage = (message?: string) => `${CURRENT_DATA_VERSION} - ${message}`
-export const CharacterAnnouncementMessages: Record<string, string> = {}
+// Controls downtime messaging
+export const SHOWCASE_DOWNTIME = false
+export const RELIQUARY_DOWNTIME = false
+export const DOWNTIME_VERSION = 4.0
+
+export const CharacterAnnouncementMessages: Record<string, string> = {
+  [SPARKLE_B1]: `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
+  [BLACK_SWAN_B1]: `${CURRENT_DATA_VERSION} buffs - Numbers may change. Default Arcana stacks changed from 7 pre-buff to 50 post-buff.`,
+}
 
 export const Stats = {
   ATK_P: 'ATK%',

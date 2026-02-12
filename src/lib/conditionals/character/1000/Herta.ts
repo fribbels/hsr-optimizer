@@ -1,35 +1,17 @@
-import {
-  AbilityType,
-  ASHBLAZING_ATK_STACK,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  boostAshblazingAtkContainer,
-  gpuBoostAshblazingAtkContainer,
-} from 'lib/conditionals/conditionalFinalizers'
-import {
-  AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
-  createEnum,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityType, ASHBLAZING_ATK_STACK, } from 'lib/conditionals/conditionalConstants'
+import { boostAshblazingAtkContainer, gpuBoostAshblazingAtkContainer, } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  DamageTag,
-  ElementTag,
-} from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const HertaEntities = createEnum('Herta')
 export const HertaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
@@ -196,11 +178,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             ...(
               (e >= 1 && r.enemyHpLte50)
                 ? [
-                    HitDefinitionBuilder.standardAdditional()
-                      .damageElement(ElementTag.Ice)
-                      .atkScaling(0.40)
-                      .build(),
-                  ]
+                  HitDefinitionBuilder.standardAdditional()
+                    .damageElement(ElementTag.Ice)
+                    .atkScaling(0.40)
+                    .build(),
+                ]
                 : []
             ),
           ],

@@ -33,7 +33,7 @@ SuperimpositionLevels:
   S4: 4重
   S5: 5重
 IncomeOptions:
-  Label: "［ver{{versionNumber}}（{{phaseNumber}}/2）｜{{type}}］："
+  Label: "[ver{{versionNumber}} ({{phaseNumber}}/{{totalPhases}}) | {{type}}]： "
   Type:
     0: なし
     1: 無課金

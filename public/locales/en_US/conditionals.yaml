@@ -228,6 +228,11 @@ Lightcones:
       selfAttackedDefBuff:
         text: Self attacked DEF buff
         content: Increases the chance for the wearer to be attacked by enemies. When the wearer is attacked, increase their DEF by an extra {{DefBuff}}% until the end of the wearer's turn.
+  NeverForgetHerFlame:
+    Content:
+      breakDmgBuff:
+        text: Break DMG boost
+        content: When entering combat, increases Break DMG dealt by the wearer and another teammate who triggered combat by {{BreakBoost}}%. If there is no teammate who triggered combat, applies this effect to the wearer and the teammate with the highest Break Effect.
   NightOfFright:
     Content:
       atkBuffStacks:
@@ -872,9 +877,7 @@ Characters:
       cyreneSpecialEffect:
         text: Cyrene Special Effect
         content: >-
-          Increases the number of Skill DMG instances by 3 for 1 turn.
-          ::BR::
-          The next time Anaxa uses his Basic ATK or Skill, he gains "True Knowledge": Increases the ATK of all Erudition Path characters by 60%/66% and Skill DMG dealt by 40%/44% until the start of Anaxa's next turn.
+          Increases the number of Skill DMG instances by 3 for 1 turn. ::BR:: The next time Anaxa uses his Basic ATK or Skill, he gains "True Knowledge": Increases the ATK of all Erudition Path characters by 60%/66% and Skill DMG dealt by 40%/44% until the start of Anaxa's next turn.
       e1DefPen:
         text: E1 DEF PEN
         content: When any enemy targets are hit by this Anaxa's Skill, decreases the targets' DEF by 16% for 2 turns.
@@ -1205,11 +1208,7 @@ Characters:
       memospriteActive:
         text: Memosprite Active
         content: >-
-          Increases Cyrene's and Demiurge's CRIT Rate by {{CRBuff}}%.
-          ::BR::
-          Cyrene's and Demiurge's Max HP increases by {{HPBuff}}%.
-          ::BR::
-          Cyrene's basic attack is enhanced to "To Love and Tomorrow ♪" and can only use this attack.
+          Increases Cyrene's and Demiurge's CRIT Rate by {{CRBuff}}%. ::BR:: Cyrene's and Demiurge's Max HP increases by {{HPBuff}}%. ::BR:: Cyrene's basic attack is enhanced to "To Love and Tomorrow ♪" and can only use this attack.
       zoneActive:
         text: Zone Active
         content: While the Zone is active, for each instance of DMG dealt by all ally targets, deals 1 additional instance of True DMG equal to {{TrueDmg}}% of the original DMG.
@@ -1287,18 +1286,14 @@ Characters:
       memoriaStacks:
         text: Memoria stacks
         content: >-
-          This ability automatically selects a target, prioritizing the enemy target that Evernight last attacked. Deals Ice DMG equal to {{MemoSkillScaling}}% of Evey's Max HP to one enemy. For every 4 points of "Memoria" Evernight currently has, further deals Ice DMG equal to {{MemoSkillAdditionalScaling}}% of Evey's Max HP.
-          ::BR::
-          When Evernight's "Memoria" is greater than or equal to 16 points, and Evernight is not under a Crowd Control state, "Dream, Dissolving, as Dew" will instead be used. For each point of "Memoria" currently in possession, deals Ice DMG equal to {{MemoSkillEnhancedScaling}}% of Evey's Max HP to the primary target
+          This ability automatically selects a target, prioritizing the enemy target that Evernight last attacked. Deals Ice DMG equal to {{MemoSkillScaling}}% of Evey's Max HP to one enemy. For every 4 points of "Memoria" Evernight currently has, further deals Ice DMG equal to {{MemoSkillAdditionalScaling}}% of Evey's Max HP. ::BR:: When Evernight's "Memoria" is greater than or equal to 16 points, and Evernight is not under a Crowd Control state, "Dream, Dissolving, as Dew" will instead be used. For each point of "Memoria" currently in possession, deals Ice DMG equal to {{MemoSkillEnhancedScaling}}% of Evey's Max HP to the primary target
       enhancedState:
         text: Enhanced state
         content: Casting her ultimate causes Evernight to enter the "Darkest Riddle" state. During this state, the DMG received by all enemies increases by {{UltVulnScaling}}%, the DMG dealt by Evernight and memosprite Evey increases by {{UltDmgBoostScaling}}%.
       cyreneSpecialEffect:
         text: Cyrene Special Effect
         content: >-
-          Increases DMG dealt when Evey uses the Memosprite Skill "Dream, Dissolving, as Dew" by 18%/19.8%.
-          ::BR::
-          The CRIT DMG boost effect provided by the Skill is further increased by an amount equal to 12%/13.2% of Evernight's CRIT DMG.
+          Increases DMG dealt when Evey uses the Memosprite Skill "Dream, Dissolving, as Dew" by 18%/19.8%. ::BR:: The CRIT DMG boost effect provided by the Skill is further increased by an amount equal to 12%/13.2% of Evernight's CRIT DMG.
       e1FinalDmg:
         text: E1 Final DMG
         content: When Evernight is on the field and when there are 4 or more/3/2/1 enemy targets on the field, ally memosprites deal 120%/125%/130%/150% of their original DMG respectively.
@@ -1591,11 +1586,7 @@ Characters:
       cyreneSpecialEffect:
         text: Cyrene Special Effect
         content: >-
-          Increases DMG dealt by Hysilens by 120%/132%.
-          ::BR::
-          After Hysilens uses Basic ATK to attack enemies, causes the DoT currently applied on the attacked enemy targets to immediately produce DMG equal to 60%/66% of the original DMG.
-          ::BR::
-          After Hysilens uses Skill to attack enemies, causes the DoT currently applied on the attacked enemy targets to immediately produce DMG equal to 80%/88% of the original DMG.
+          Increases DMG dealt by Hysilens by 120%/132%. ::BR:: After Hysilens uses Basic ATK to attack enemies, causes the DoT currently applied on the attacked enemy targets to immediately produce DMG equal to 60%/66% of the original DMG. ::BR:: After Hysilens uses Skill to attack enemies, causes the DoT currently applied on the attacked enemy targets to immediately produce DMG equal to 80%/88% of the original DMG.
       e1Buffs:
         text: E1 buffs
         content: >-
@@ -1960,11 +1951,7 @@ Characters:
       cyreneSpecialEffect:
         text: Cyrene Special Effect
         content: >-
-          Phainon gains 6 "Coreflames" as well as "Eternal Ignition" when Transforming.
-          ::RB::
-          When Transforming, if "Coreflame" exceeds 12, for each point in excess, Khaslana's CRIT DMG increases by 12%/13.2%, up to 72%/79.2%. While "Eternal Ignition" persists, increases Khaslana's CRIT Rate by 16%/17.6%.
-          ::BR::
-          After using an attack, deals 5 instances of Additional DMG, with each instance dealing Fire Additional DMG equal to 10%/11% of Khaslana's ATK to one random enemy.
+          Phainon gains 6 "Coreflames" as well as "Eternal Ignition" when Transforming. ::BR:: When Transforming, if "Coreflame" exceeds 12, for each point in excess, Khaslana's CRIT DMG increases by 12%/13.2%, up to 72%/79.2%. While "Eternal Ignition" persists, increases Khaslana's CRIT Rate by 16%/17.6%. ::BR:: After using an attack, deals 5 instances of Additional DMG, with each instance dealing Fire Additional DMG equal to 10%/11% of Khaslana's ATK to one random enemy.
       e1Buffs:
         text: E1 buffs
         content: >-
@@ -2261,6 +2248,45 @@ Characters:
       e2DmgReductionBuff:
         text: E2 DMG reduction buff
         content: After triggering Sword Stance, the DMG taken by Sushang is reduced by 20% for 1 turn.
+  TheDahlia:
+    Content:
+      zoneActive:
+        text: Zone active
+        content: While the Zone is active, increases all allies' Weakness Break Efficiency by 50%.
+      ultDefPen:
+        text: Ult DEF PEN
+        content: Reduces DEF of enemy targets by {{DefShred}}% and applies Weakness of all "Dance Partners'" Types to enemy targets.
+      dancePartner:
+        text: Dance Partner
+        content: After a "Dance Partner" attacks a Weakness Broken enemy target, the Toughness Reduction from this attack is converted into 1 instance of Super Break DMG at {{SBScaling}}%.
+      superBreakDmg:
+        text: Super Break DMG (force weakness break)
+        content: Forces the weakness broken state to enable super break damage calculations.
+      spdBuff:
+        text: SPD buff
+        content: When an ally target adds Weakness to an enemy target, increases SPD by 30% for 2 turns.
+      e1Buffs:
+        text: E1 buffs
+        content: Applies Talent's Super Break DMG multiplier provided to "Dance Partner" to all ally characters, with "Dance Partner" additionally receiving a 40% boost. After "Dance Partner" uses an attack, deals an additional fixed amount of Toughness Reduction equal to 25% of the enemy target's Max Toughness (minimum of 10 points, up to 300 points). This effect can only trigger once per enemy target, and the trigger count for each target resets after the enemy target receives a killing blow.
+      e2ResPen:
+        text: E2 RES PEN
+        content: When The Dahlia is on the field, decreases all enemies' All-Type RES by 20%.
+      e4Vuln:
+        text: E4 Vulnerability
+        content: Increases the target's DMG taken by 12%, lasting for 2 turns.
+      e6BeBuff:
+        text: E6 BE buff
+        content: Increases "Dance Partner's" Break Effect by 150%.
+    TeammateContent:
+      beConversion:
+        text: Break Effect conversion
+        content: When entering combat, increases other characters' Break Effect equal to 24% of The Dahlia's Break Effect plus 50% for 1 turns. This effect triggers again lasting 3 turns when The Dahlia receives healing or a Shield from a teammate, but cannot be triggered repeatedly within a single turn.
+      teammateBeValue:
+        text: The Dahlia's Combat BE
+        content: >-
+          When entering combat, increases other characters' Break Effect equal to 24% of The Dahlia's Break Effect plus 50% for 1 turns.
+          ::BR::
+          Set this to The Dahlia's self Break Effect stat that she uses to buff teammates.
   TheHerta:
     Content:
       enhancedSkill:
@@ -2366,6 +2392,12 @@ Characters:
         content: Increases DEF by 10% per stack.
   TrailblazerRemembrance:
     Content:
+      enhancedBasic:
+        text: Enhanced Basic
+        content: >-
+          After using Ultimate, gains 1 stack of "Epic," up to 2 stacks. When this unit has "Epic" and Mem is on the field, Basic ATK gets enhanced to "Together, We Script Tomorrow!"
+          ::BR::
+          Consumes 1 stack of "Epic" to dispel all Crowd Control debuffs on Mem. Trailblazer and Mem launch a Joint ATK, dealing Ice DMG to all enemies equal to {{Scaling}}% of Trailblazer's ATK and {{Scaling}}% of Mem's ATK respectively. Then, Mem gains 10% Charge.
       memoSkillHits:
         text: Memo Skill hits
         content: >-
@@ -2417,7 +2449,7 @@ Characters:
         content: After using Talent's Follow-up ATK, increases the DMG dealt by Tribbie by 72%. This effect can stack up to 3 times, lasting for 3 turns.
       cyreneSpecialEffect:
         text: Cyrene Special Effect
-        content: DMG dealt by Tribbie ignoes 12%/13.2% of the enemy's DEF. When Tribbie launches Follow-up ATK and triggers the Additional DMG from Tribbie's Zone, it further deals 1 instance of Additional DMG.
+        content: DMG dealt by Tribbie ignores 12%/13.2% of the enemy's DEF. When Tribbie launches Follow-up ATK and triggers the Additional DMG from Tribbie's Zone, it further deals 1 instance of Additional DMG.
       e1TrueDmg:
         text: E1 True DMG
         content: While the Zone from her Ultimate lasts and after ally targets attack enemies, additionally deals True DMG equal to 24% of the total DMG of this attack to targets that have been dealt Additional DMG by the Zone.

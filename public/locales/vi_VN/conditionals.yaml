@@ -1738,6 +1738,16 @@ Characters:
       e2DmgReductionBuff:
         text: E2 Giảm Sát Thương Nhận Vào
         content: Sau khi kích hoạt Kiếm Thế, sát thương mà Sushang phải chịu sẽ giảm 20%, kéo dài 1 hiệp.
+  TheDahlia:
+    Content:
+      superBreakDmg:
+        text: Siêu Sát Thương Phá Vỡ (Trường hợp địch bị vỡ)
+      spdBuff:
+        text: Tăng Tốc Độ
+      e2ResPen:
+        text: E2 Xuyên Kháng ST Nguyên Tố
+      e6BeBuff:
+        text: E6 Tăng Kích Phá
   TheHerta:
     Content:
       enhancedSkill:
@@ -1843,6 +1853,8 @@ Characters:
         content: Tăng Phòng Ngự 10% với mỗi tầng
   TrailblazerRemembrance:
     Content:
+      enhancedBasic:
+        text: Tấn Công Thường Cường Hóa
       memoSkillHits:
         text: Số Địch Linh Hồn Ký Ức Đánh
         content: >-

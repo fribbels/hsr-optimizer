@@ -63,7 +63,6 @@ OptimizerOptions:
   PriorityFilter: Filtro priorità personaggio
   Priority:
     Header: Priorità
-    Label: '# {{rank}} - $t(common:Characters.{{id}}.Name)'
     Name: '# {{rank}}'
   AllowEquipped: Includi reliquie equipaggiate
   KeepCurrent: Mantieni reliquie attuali

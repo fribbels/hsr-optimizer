@@ -12,7 +12,7 @@ export function CharacterAnnouncement(props: { characterId: string, asyncSimScor
   const { characterId } = props
   const simScoringExecution = useAsyncSimScoringExecution(props.asyncSimScoringExecution)
 
-  const result = simScoringExecution?.result!
+  const result = simScoringExecution?.result
   const messages: string[] = []
 
   if (characterId && CharacterAnnouncementMessages[characterId]) {
@@ -37,7 +37,7 @@ export function CharacterAnnouncement(props: { characterId: string, asyncSimScor
     const message = messages[i]
     render.push(
       <Alert
-        message={message.replace('__VERSION__', i18next.t('CurrentVersion', { Version: CURRENT_DATA_VERSION }))}
+        message={message}
         type='info'
         showIcon
         style={{ marginTop: 10 }}

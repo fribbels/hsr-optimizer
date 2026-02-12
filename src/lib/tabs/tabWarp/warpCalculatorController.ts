@@ -50,32 +50,22 @@ function generateOptions(
 
 // Modified each patch
 export const WarpIncomeOptions: WarpIncomeDefinition[] = [
-  // generateOption('3.0', 1, WarpIncomeType.F2P, 75),
-  // generateOption('3.0', 2, WarpIncomeType.F2P, 34),
-  // generateOption('3.0', 1, WarpIncomeType.EXPRESS, 86),
-  // generateOption('3.0', 2, WarpIncomeType.EXPRESS, 46),
-  // generateOption('3.0', 1, WarpIncomeType.BP_EXPRESS, 90),
-  // generateOption('3.0', 2, WarpIncomeType.BP_EXPRESS, 51),
-
-  // generateOption('3.1', 1, WarpIncomeType.F2P, 80),
-  // generateOption('3.1', 2, WarpIncomeType.F2P, 27),
-  // generateOption('3.1', 1, WarpIncomeType.EXPRESS, 91),
-  // generateOption('3.1', 2, WarpIncomeType.EXPRESS, 40),
-  // generateOption('3.1', 1, WarpIncomeType.BP_EXPRESS, 94),
-  // generateOption('3.1', 2, WarpIncomeType.BP_EXPRESS, 45),
-
-  // generateOption('3.2', 1, WarpIncomeType.F2P, 89),
-  // generateOption('3.2', 2, WarpIncomeType.F2P, 114 - 89),
-  // generateOption('3.2', 1, WarpIncomeType.EXPRESS, 102),
-  // generateOption('3.2', 2, WarpIncomeType.EXPRESS, 137 - 102),
-  // generateOption('3.2', 1, WarpIncomeType.BP_EXPRESS, 103),
-  // generateOption('3.2', 2, WarpIncomeType.BP_EXPRESS, 146 - 103),
-
   // ...generateOptions('3.4', 92, 57, 116, 69, 124, 77),
+  // ...generateOptions('3.5', 88, 66, 112, 77, 120, 86),
 
-  ...generateOptions('3.5', 88, 66, 112, 77, 120, 86),
   ...generateOptions('3.6', 96, 64, 119, 76, 128, 84),
   ...generateOptions('3.7', 107, 82, 130, 94, 138, 102),
+  ...[
+    generateOption('3.8', 1, WarpIncomeType.F2P, 66),
+    generateOption('3.8', 2, WarpIncomeType.F2P, 21),
+    generateOption('3.8', 3, WarpIncomeType.F2P, 22),
+    generateOption('3.8', 1, WarpIncomeType.EXPRESS, 78),
+    generateOption('3.8', 2, WarpIncomeType.EXPRESS, 32),
+    generateOption('3.8', 3, WarpIncomeType.EXPRESS, 31),
+    generateOption('3.8', 1, WarpIncomeType.BP_EXPRESS, 82),
+    generateOption('3.8', 2, WarpIncomeType.BP_EXPRESS, 36),
+    generateOption('3.8', 3, WarpIncomeType.BP_EXPRESS, 31),
+  ],
 ]
 
 export enum WarpStrategy {

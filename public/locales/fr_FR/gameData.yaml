@@ -153,11 +153,11 @@ Characters:
     Name: Dr Ratio
     LongName: Dr Ratio
   "1306":
-    Name: Sparkle
-    LongName: Sparkle
+    Name: ⚰️ Sparkle
+    LongName: ⚰️ Sparkle
   "1307":
-    Name: Cygne noir
-    LongName: Cygne noir
+    Name: ⚰️ Cygne noir
+    LongName: ⚰️ Cygne noir
   "1308":
     Name: Achéron
     LongName: Achéron
@@ -183,8 +183,8 @@ Characters:
     Name: Rappa
     LongName: Rappa
   "1321":
-    Name: The Dahlia
-    LongName: The Dahlia
+    Name: Le Dahlia
+    LongName: Le Dahlia
   "1401":
     Name: La Grande Herta
     LongName: La Grande Herta
@@ -227,6 +227,12 @@ Characters:
   "1415":
     Name: Cyrène
     LongName: Cyrène
+  "1501":
+    Name: Sparxie
+    LongName: Sparxie
+  "1502":
+    Name: Yao Guang
+    LongName: Yao Guang
   "8001":
     Name: Caelus
     LongName: Caelus (La Destruction)
@@ -251,6 +257,12 @@ Characters:
   "8008":
     Name: Stelle
     LongName: Stelle (Le Souvenir)
+  1306b1:
+    Name: Sparkle
+    LongName: Sparkle
+  1307b1:
+    Name: Black Swan
+    LongName: Black Swan
   1212b1:
     Name: Jingliu
     LongName: Jingliu
@@ -376,6 +388,14 @@ RelicSets:
     Name: Ermite des étoiles
     Description2pc: Augmente la valeur de bouclier accordée de 10%.
     Description4pc: Augmente la valeur de bouclier accordée par le porteur de 12%. Lorsqu'une cible alliée bénéficie d'un bouclier accordé par le porteur, augmente les DGT critiques qu'elle inflige de 15%.
+  "129":
+    Name: Ever-Glorious Magical Girl
+    Description2pc: Increases CRIT DMG by 16%.
+    Description4pc: The Elation DMG dealt by the wearer and their memosprites ignores 10% of targets' DEF. For every 5 accumulated Punchline allies gain, the Elation DMG dealt additionally ignores 1% of targets' DEF, which stacks up to 10 times.
+  "130":
+    Name: Diviner of Distant Reach
+    Description2pc: Increases SPD by 6%.
+    Description4pc: Before entering combat, if the wearer's SPD is greater than or equal to 120/160, increases the wearer's CRIT Rate by 10%/18%. When the wearer uses Elation Skill for the first time in each battle, enhances all allies' Elation by 10%. This effect cannot stack.
   "301":
     Name: Station de scellement spatial
     Description2pc: Augmente l'ATQ du porteur de 12%. Lorsque sa VIT est supérieure ou égale à 120, son ATQ augmente encore de 12%.
@@ -420,7 +440,7 @@ RelicSets:
     Description2pc: Augmente l'ATQ du porteur de 12%. Si au moins un autre coéquipier suit la même Voie que le porteur en entrant en combat, les chances de coup critique du porteur augmentent de 12%.
   "315":
     Name: Duran, dynastie des loups
-    Description2pc: "Lorsqu'un allié utilise une ATQ de suivi, le porteur gagne 1\_cumul de Mérite, cumulable jusqu'à 5 fois. Chaque cumul de Mérite augmente les DGT infligés par les ATQ de suivi du porteur de 5%. À 5 cumuls, les DGT critiques du porteur augmentent de 25%."
+    Description2pc: "Lorsqu'un personnage allié utilise une ATQ de suivi, le porteur gagne 1\_cumul de Mérite, cumulable jusqu'à 5 fois. Chaque cumul de Mérite augmente les DGT infligés par les ATQ de suivi du porteur de 5%. À 5 cumuls, les DGT critiques du porteur augmentent de 25%."
   "316":
     Name: Forge de la lanterne Kalpagni
     Description2pc: Augmente la VIT du porteur de 6%. Lorsque le porteur touche une cible ennemie qui a une Faiblesse au feu, l'effet de Rupture du porteur augmente de 40% pendant 1 tour.
@@ -495,6 +515,10 @@ Lightcones:
     Name: Brûlombre
   "20022":
     Name: Réminiscence
+  "20023":
+    Name: Sneering
+  "20024":
+    Name: Lingering Tears
   "21000":
     Name: Conversation post-opératoire
   "21001":
@@ -617,6 +641,10 @@ Lightcones:
     Name: Virée festive aux thermes
   "21062":
     Name: Retrouvons-nous à la fin
+  "21064":
+    Name: Mushy Shroomy's Adventures
+  "21065":
+    Name: Today's Good Luck
   "22000":
     Name: Avant que le tutoriel ne commence
   "22001":
@@ -732,11 +760,15 @@ Lightcones:
   "23049":
     Name: Jusqu'aux étoiles de l'Éternuitée
   "23050":
-    Name: Never Forget Her Flame
+    Name: Une flamme à graver
   "23051":
     Name: Par-delà les paysages infinis
   "23052":
     Name: Éternel amour
+  "23053":
+    Name: Dazzled By A Flowery World
+  "23054":
+    Name: When She Decided To See
   "24000":
     Name: La chute d'un Aiôn
   "24001":
@@ -758,7 +790,6 @@ Paths:
   Knight: La Préservation
   Priest: L'Abondance
   Memory: Le Souvenir
-  Unknown: Général
 Elements:
   Physical: Physique
   Fire: Feu

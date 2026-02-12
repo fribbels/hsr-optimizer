@@ -28,7 +28,7 @@ export const optimizerGridOptions: GridOptions<OptimizerDisplayDataStatSim> = {
   paginationPageSizeSelector: [100, 500, 1000],
   cacheBlockSize: 500,
   maxBlocksInCache: 1,
-  alwaysShowVerticalScroll: true,
+  suppressVerticalScroll: true,
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
   suppressMultiSort: true,

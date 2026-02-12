@@ -552,20 +552,14 @@ a {
     --os-size: 8px !important;
 }
 
-/* Hides pinned bar scrollbar */
-.ag-floating-top {
-    overflow-y: hidden !important;
+/* Hide vertical scrollbar for optimizer grid */
+#optimizerGridContainer .ag-body-vertical-scroll {
+    display: none;
 }
 
-/*!* Sets small scrollbar *!*/
-/*.ag-body-vertical-scroll,*/
-/*.ag-body-vertical-scroll-viewport,*/
-/*.ag-body-vertical-scroll-container {*/
-/*    width: 4px !important;*/
-/*    max-width: 4px !important;*/
-/*    min-width: 4px !important;*/
-/*    margin-right: 2px !important;*/
-/*}*/
+#optimizerGridContainer .ag-floating-top {
+    overflow-y: hidden !important;
+}
 
 
 /* Hidden scroll for a sidebar */

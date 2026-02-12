@@ -14,6 +14,7 @@ export const DIGITS_3 = 46
 export const DIGITS_4 = 50
 export const DIGITS_5 = 56
 export const DIGITS_6 = 62
+export const DIGITS_7 = 68
 
 export const optimizerTabDefaultGap = 5
 export const panelWidth = 211
@@ -28,7 +29,7 @@ export const optimizerGridOptions: GridOptions<OptimizerDisplayDataStatSim> = {
   paginationPageSizeSelector: [100, 500, 1000],
   cacheBlockSize: 500,
   maxBlocksInCache: 1,
-  suppressVerticalScroll: true,
+  alwaysShowVerticalScroll: false,
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
   suppressMultiSort: true,
@@ -44,6 +45,16 @@ export const optimizerGridDefaultColDef: ColDef<OptimizerDisplayDataStatSim> = {
 }
 
 const memo = 'ᴹ'
+
+function comboColumnDef(headerName: string) {
+  return {
+    field: 'COMBO' as const,
+    valueFormatter: Renderer.floor,
+    minWidth: DIGITS_7,
+    flex: 14,
+    headerName: headerName,
+  }
+}
 
 export function getBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
   return [
@@ -162,13 +173,7 @@ export function getBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
       headerName: t('Headers.Basic.EHP'), // 'EHP',
     },
     // Dynamic ability columns (BASIC, SKILL, ULT, etc.) are injected in OptimizerGrid.tsx
-    {
-      field: 'COMBO' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_6,
-      flex: 13,
-      headerName: t('Headers.Basic.COMBO'), // 'COMBO\nDMG',
-    },
+    comboColumnDef(t('Headers.Basic.COMBO')),
   ]
 }
 
@@ -289,13 +294,7 @@ export function getMemoBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
       headerName: t('Headers.Basic.EHP'), // 'EHP',
     },
     // Dynamic ability columns (BASIC, SKILL, ULT, etc.) are injected in OptimizerGrid.tsx
-    {
-      field: 'COMBO' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_6,
-      flex: 13,
-      headerName: t('Headers.Basic.COMBO'), // 'COMBO\nDMG',
-    },
+    comboColumnDef(t('Headers.Basic.COMBO')),
   ]
 }
 
@@ -415,13 +414,7 @@ export function getCombatColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
       headerName: t('Headers.Combat.EHP'), // 'EHP',
     },
     // Dynamic ability columns (BASIC, SKILL, ULT, etc.) are injected in OptimizerGrid.tsx
-    {
-      field: 'COMBO' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_6,
-      flex: 13,
-      headerName: t('Headers.Combat.COMBO'), // 'COMBO\nDMG',
-    },
+    comboColumnDef(t('Headers.Combat.COMBO')),
   ]
 }
 
@@ -541,13 +534,7 @@ export function getMemoCombatColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
       headerName: t('Headers.Combat.EHP'), // 'EHP',
     },
     // Dynamic ability columns (BASIC, SKILL, ULT, etc.) are injected in OptimizerGrid.tsx
-    {
-      field: 'COMBO' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_6,
-      flex: 13,
-      headerName: t('Headers.Combat.COMBO'), // 'COMBO\nDMG',
-    },
+    comboColumnDef(t('Headers.Combat.COMBO')),
   ]
 }
 

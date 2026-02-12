@@ -7,7 +7,6 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
@@ -165,9 +164,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.buff(StatKey.DMG_BOOST, (e >= 1 && r.enhancedSkill) ? 0.20 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_E1))
       x.buff(StatKey.DMG_BOOST, (e >= 6 && r.targetBurned) ? 0.20 : 0, x.source(SOURCE_E6))
-    },
-
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

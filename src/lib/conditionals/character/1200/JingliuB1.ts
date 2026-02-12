@@ -201,12 +201,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6ResPen) ? 0.30 : 0, x.elements(ElementTag.Ice).source(SOURCE_E6))
     },
 
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',

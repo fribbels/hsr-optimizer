@@ -235,9 +235,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6Buffs) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E6))
     },
 
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const fuaHitMulti = ASHBLAZING_ATK_STACK * (1 * 1.00)
       boostAshblazingAtkContainer(x, action, fuaHitMulti)

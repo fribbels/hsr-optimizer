@@ -235,9 +235,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.RES_PEN, (e >= 4 && r.e4CurrentHp80) ? 0.12 : 0, x.elements(ElementTag.Ice).source(SOURCE_E4))
     },
 
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       boostAshblazingAtkContainer(x, action, hitMulti)
     },

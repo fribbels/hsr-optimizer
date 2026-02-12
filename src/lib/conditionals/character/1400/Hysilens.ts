@@ -304,46 +304,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         // },
       ]
     },
-    initializeConfigurations: (x: ComputedStatsArray) => {
-    },
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-    },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-
-      // Currently adds together, but they should be separate damage elements
-      // E1 doubles the talent proc
-      const talentDot = talentDotScaling * 3 + talentDotAtkLimitScaling
-      const updatedUltDotScaling = (e >= 6 && r.e6Buffs) ? ultDotScaling + 0.20 : ultDotScaling
-      const ultDot = r.ultDotStacks * updatedUltDotScaling
-
-      if (r.dotDetonation) {
-        // Triggers ult proc
-        x.DOT_ATK_SCALING.buff(ultDot, SOURCE_ULT)
-        // Detonates at 1.5x
-        x.DOT_ATK_SCALING.buff(talentDot * 1.5, SOURCE_TALENT)
-        // E1 doubles the talent and also detonates at 1.5x
-        x.DOT_ATK_SCALING.buff((e >= 1 && r.e1Buffs) ? talentDot * 1.5 : 0, SOURCE_E1)
-      } else {
-        x.DOT_ATK_SCALING.buff(ultDot, SOURCE_ULT)
-        x.DOT_ATK_SCALING.buff(talentDot, SOURCE_TALENT)
-        x.DOT_ATK_SCALING.buff((e >= 1 && r.e1Buffs) ? talentDot : 0, SOURCE_E1)
-      }
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(10, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-
-      // Cyrene
-      const cyreneDmgBuff = cyreneActionExists(action)
-        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 1.32 : 1.20)
-        : 0
-      x.ELEMENTAL_DMG.buff((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, Source.odeTo(HYSILENS))
     },
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof content>
@@ -352,24 +314,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.VULNERABILITY, (m.skillVulnerability) ? skillVulnScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
       x.buff(StatKey.DEF_PEN, (m.ultZone) ? ultDefPenScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
       x.buff(StatKey.RES_PEN, (e >= 4 && m.e4ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
-      const m = action.characterConditionals as Conditionals<typeof teammateContent>
-
-      // x.DOT_FINAL_DMG_BOOST.buffTeam((e >= 1 && m.e1Buffs) ? 0.16 : 0, SOURCE_E1)
-      // x.VULNERABILITY.buffTeam(m.skillVulnerability ? skillVulnScaling : 0, SOURCE_SKILL)
-      // x.DEF_PEN.buffTeam(m.ultZone ? ultDefPenScaling : 0, SOURCE_ULT)
-      // x.RES_PEN.buffTeam((e >= 4 && m.e4ResPen) ? 0.20 : 0, SOURCE_E4)
-    },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals as Conditionals<typeof teammateContent>
-
-      x.ELEMENTAL_DMG.buffTeam(
-        (e >= 2)
-          ? Math.max(0, Math.min(0.90, 0.15 * Math.floor(TsUtils.precisionRound((t.e2TeammateEhr - 0.60) / 0.10))))
-          : 0,
-        SOURCE_E2,
-      )
     },
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

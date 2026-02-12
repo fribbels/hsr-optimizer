@@ -313,8 +313,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     actionModifiers: () => [],
 
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
 
@@ -363,8 +361,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       }
     },
 
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -372,8 +368,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.SPD_P, m.spdBuff ? 0.15 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
     },
 
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
-    },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },

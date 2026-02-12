@@ -185,12 +185,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.RES_PEN, (e >= 2 && m.e2QuantumResPen) ? 0.20 : 0, x.elements(ElementTag.Quantum).targets(TargetTag.FullTeam).source(SOURCE_E2))
     },
 
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',

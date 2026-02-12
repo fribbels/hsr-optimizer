@@ -257,45 +257,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       )
     },
 
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      if (r.talentBreakDmgScaling) {
-        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_TALENT)
-      }
-    },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      x.BE.buff((e >= 2 && r.e2BeBuff) ? 0.30 : 0, SOURCE_E2)
-      x.VULNERABILITY.buff((r.standoffActive) ? standoffVulnerabilityBoost : 0, SOURCE_SKILL)
-
-      x.DEF_PEN.buff((e >= 1 && r.e1DefShred) ? 0.16 : 0, SOURCE_E1)
-      x.VULNERABILITY.buff((e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0, SOURCE_E4)
-
-      x.BASIC_ATK_SCALING.buff((r.standoffActive) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
-      x.BASIC_BREAK_EFFICIENCY_BOOST.buff((r.standoffActive) ? r.pocketTrickshotStacks * 0.50 : 0, SOURCE_TALENT)
-
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-
-      x.BASIC_TOUGHNESS_DMG.buff((r.standoffActive) ? 20 : 10, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
-
-      // Since his toughness scaling is capped at 1600% x 30, we invert the toughness scaling on the original break dmg and apply the new scaling
-      const newMaxToughness = Math.min(16.00 * 30, context.enemyMaxToughness)
-      const inverseBreakToughnessMultiplier = 1 / (0.5 + context.enemyMaxToughness / 120)
-      const newBreakToughnessMultiplier = 0.5 + newMaxToughness / 120
-      let talentBreakDmgScaling = pocketTrickshotsToTalentBreakDmg[r.pocketTrickshotStacks]
-      talentBreakDmgScaling += (e >= 6 && r.e6AdditionalBreakDmg) ? 0.40 : 0
-      x.BASIC_BREAK_DMG_MODIFIER.buff(
-        (r.talentBreakDmgScaling && r.standoffActive)
-          ? inverseBreakToughnessMultiplier * newBreakToughnessMultiplier * talentBreakDmgScaling
-          : 0,
-        SOURCE_TALENT,
-      )
-
-      return x
-    },
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
     gpuFinalizeCalculations: () => '',
     dynamicConditionals: [{

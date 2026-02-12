@@ -225,38 +225,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.EFFECT_RES_PEN, (e >= 4 && m.epiphanyDebuff && m.e4EffResPen) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
 
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      // x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      // x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      // x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      // x.DOT_ATK_SCALING.buff(dotScaling + arcanaStackMultiplier * r.arcanaStacks, SOURCE_TALENT)
-
-      // buffAbilityDefPen(x, DOT_DMG_TYPE, (r.arcanaStacks >= 7) ? 0.20 : 0, SOURCE_TALENT)
-
-      // x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      // x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      // x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-
-      // x.DOT_CHANCE.set(dotChance, SOURCE_TALENT)
-      // x.DOT_SPLIT.set(0.05, SOURCE_TALENT)
-      // x.DOT_STACKS.set(r.arcanaStacks, SOURCE_TALENT)
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals as Conditionals<typeof teammateContent>
-
-      // // TODO: Technically this isnt a DoT vulnerability but rather vulnerability to damage on the enemy's turn which includes ults/etc.
-      // buffAbilityVulnerability(x, DOT_DMG_TYPE, (m.epiphanyDebuff) ? epiphanyDmgTakenBoost : 0, SOURCE_ULT, Target.TEAM)
-
-      // x.DEF_PEN.buffTeam((m.defDecreaseDebuff) ? defShredValue : 0, SOURCE_SKILL)
-      // x.WIND_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, SOURCE_E1)
-      // x.FIRE_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, SOURCE_E1)
-      // x.PHYSICAL_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, SOURCE_E1)
-      // x.LIGHTNING_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, SOURCE_E1)
-
-      // x.EFFECT_RES_PEN.buffTeam((e >= 4 && m.epiphanyDebuff && m.e4EffResPen) ? 0.10 : 0, SOURCE_E4)
-    },
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 

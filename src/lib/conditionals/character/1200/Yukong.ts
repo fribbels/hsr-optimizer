@@ -157,9 +157,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.DMG_BOOST, (e >= 4 && r.roaringBowstringsActive) ? 0.30 : 0, x.source(SOURCE_E4))
     },
 
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
@@ -175,9 +172,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Trace: Imaginary DMG boost for team
       x.buff(StatKey.IMAGINARY_DMG_BOOST, (m.teamImaginaryDmgBoost) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
-    },
-
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

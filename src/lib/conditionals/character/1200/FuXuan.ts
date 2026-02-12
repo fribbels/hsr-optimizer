@@ -201,13 +201,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.multiplicativeComplement(StatKey.DMG_RED, (t.skillActive) ? 0.65 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
     },
 
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',

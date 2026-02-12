@@ -209,17 +209,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 6 && r.e6BeBuff) ? 0.20 : 0, x.source(SOURCE_E6))
     },
 
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.buff(StatKey.RES, (e >= 2 && m.e2ResBuff) ? 0.30 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E2))
       x.buff(StatKey.VULNERABILITY, (m.targetBesotted) ? talentBesottedScaling : 0, x.damageType(DamageTag.BREAK).targets(TargetTag.FullTeam).source(SOURCE_TALENT))
-    },
-
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

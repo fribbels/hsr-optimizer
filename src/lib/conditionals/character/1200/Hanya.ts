@@ -168,17 +168,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     actionModifiers: () => [],
 
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // E2 - SPD buff after using skill
       x.buff(StatKey.SPD_P, (e >= 2 && r.e2SkillSpdBuff) ? 0.20 : 0, x.source(SOURCE_E2))
-    },
-
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -190,9 +184,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Talent - DMG boost for Basic/Skill/Ult against Burdened enemy
       x.buff(StatKey.DMG_BOOST, (m.targetBurdenActive) ? talentDmgBoostValue : 0,
         x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).targets(TargetTag.FullTeam).source(SOURCE_TALENT))
-    },
-
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

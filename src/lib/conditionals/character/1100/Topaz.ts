@@ -15,7 +15,6 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
@@ -188,11 +187,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
     },
-    // initializeConfigurations: (x: ComputedStatsArray, action, context) => {
-    //   x.BASIC_DMG_TYPE.set(BASIC_DMG_TYPE | FUA_DMG_TYPE, SOURCE_TRACE)
-    //   x.SKILL_DMG_TYPE.set(SKILL_DMG_TYPE | FUA_DMG_TYPE, SOURCE_SKILL)
-    //   x.SUMMONS.set(1, SOURCE_TALENT)
-    // },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -201,28 +195,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.RES_PEN, (e >= 6) ? 0.10 : 0, x.target(TopazEntities.Numby).source(SOURCE_E6))
 
       x.buff(StatKey.DMG_BOOST, (context.enemyElementalWeak) ? 0.15 : 0, x.source(SOURCE_TRACE))
-    },
-
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      // // Numby buffs only applies to the skill/fua not basic, we deduct it from basic
-      // buffAbilityCd(x, BASIC_DMG_TYPE, (r.numbyEnhancedState) ? -enhancedStateFuaCdBoost : 0, SOURCE_ULT)
-      // buffAbilityResPen(x, BASIC_DMG_TYPE, (e >= 6) ? -0.10 : 0, SOURCE_E6)
-      //
-      // // Scaling
-      // x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      // x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      // x.SKILL_ATK_SCALING.buff((r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0, SOURCE_ULT)
-      // x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
-      // x.FUA_ATK_SCALING.buff((r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0, SOURCE_ULT)
-      //
-      // // Boost
-      // x.ELEMENTAL_DMG.buff((context.enemyElementalWeak) ? 0.15 : 0, SOURCE_TRACE)
-      //
-      // x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      // x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      // x.FUA_TOUGHNESS_DMG.buff(20, SOURCE_TALENT)
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -238,13 +210,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         (e >= 1 && m.enemyProofOfDebtDebuff) ? 0.25 * m.e1DebtorStacks : 0,
         x.damageType(DamageTag.FUA).targets(TargetTag.FullTeam).source(SOURCE_E1),
       )
-    },
-
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals as Conditionals<typeof teammateContent>
-
-      // buffAbilityVulnerability(x, FUA_DMG_TYPE, (m.enemyProofOfDebtDebuff) ? proofOfDebtFuaVulnerability : 0, SOURCE_SKILL, Target.TEAM)
-      // buffAbilityCd(x, FUA_DMG_TYPE, (e >= 1 && m.enemyProofOfDebtDebuff) ? 0.25 * m.e1DebtorStacks : 0, SOURCE_E1, Target.TEAM)
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

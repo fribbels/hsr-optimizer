@@ -229,16 +229,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     actionModifiers: () => [],
 
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.SUMMONS.set(1, SOURCE_TALENT)
-    },
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
-    },
-    initializeTeammateConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals as Conditionals<typeof teammateContent>
-
-      x.SUMMONS.buff((t.bondmate) ? 1 : 0, SOURCE_SKILL)
     },
     initializeTeammateConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -246,51 +238,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.SUMMONS, (t.bondmate) ? 1 : 0, x.source(SOURCE_SKILL))
     },
 
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_ULT)
-
-      if (r.shieldAbility == ULT_DMG_TYPE) {
-        x.SHIELD_SCALING.buff(talentShieldScaling * 2, SOURCE_ULT)
-        x.SHIELD_FLAT.buff(talentShieldFlat * 2, SOURCE_ULT)
-      }
-      if (r.shieldAbility == SKILL_DMG_TYPE) {
-        x.SHIELD_SCALING.buff(talentShieldScaling * 2, SOURCE_SKILL)
-        x.SHIELD_FLAT.buff(talentShieldFlat * 2, SOURCE_SKILL)
-      }
-      if (r.shieldAbility == NONE_TYPE) {
-        x.SHIELD_SCALING.buff(talentShieldScaling, SOURCE_TALENT)
-        x.SHIELD_FLAT.buff(talentShieldFlat, SOURCE_TALENT)
-      }
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-    },
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       // No self-buffs to apply - scaling is handled in actionDefinition
     },
 
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
-      const t = action.characterConditionals as Conditionals<typeof teammateContent>
-
-      const atkBuff = t.sourceAtk * 0.15
-      x.ATK.buffSingle((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
-      x.UNCONVERTIBLE_ATK_BUFF.buffSingle((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
-
-      x.RES_PEN.buffSingle((e >= 1 && t.bondmate && t.e1ResPen) ? 0.18 : 0, SOURCE_E1)
-      x.DMG_RED.multiplySingle((e >= 4 && t.bondmate && t.e4DmgReduction) ? 1 - 0.20 : 1, SOURCE_E4)
-      x.VULNERABILITY.buffTeam((e >= 6 && t.e6Buffs) ? 0.20 : 0, SOURCE_E6)
-      x.DEF_PEN.buffSingle((e >= 6 && t.e6Buffs) ? 0.12 : 0, SOURCE_E6)
-
-      // Cyrene
-      const cyreneDmgBoost = cyreneActionExists(originalCharacterAction!)
-        ? cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.264 : 0.24
-        : 0
-      x.ELEMENTAL_DMG.buffSingle((t.cyreneSpecialEffect) ? cyreneDmgBoost : 0, Source.odeTo(PERMANSOR_TERRAE))
-    },
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
@@ -310,8 +261,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.DMG_BOOST, (t.cyreneSpecialEffect) ? cyreneDmgBoost : 0, x.source(Source.odeTo(PERMANSOR_TERRAE)))
     },
 
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
 

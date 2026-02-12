@@ -206,9 +206,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     actionModifiers: () => [],
 
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.SUMMONS.set(1, SOURCE_TALENT)
-    },
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
     },
@@ -229,12 +226,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // E6 FUA vulnerability
       x.buff(StatKey.VULNERABILITY, (e >= 6) ? r.e6FuaVulnerabilityStacks * 0.12 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
-    },
-
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

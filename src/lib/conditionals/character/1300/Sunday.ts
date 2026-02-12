@@ -241,27 +241,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, cdBuff, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_ULT))
     },
 
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      // OLD - Commented out for reference
-      // x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      // x.BASIC_TOUGHNESS_DMG.set(10, SOURCE_BASIC)
-    },
-    // precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    //   const m = action.characterConditionals as Conditionals<typeof teammateContent>
-    //   x.CR.buffDual(m.talentCrBuffStacks * talentCrBuffValue, SOURCE_TALENT)
-    //   x.ELEMENTAL_DMG.buffDual((m.skillDmgBuff) ? skillDmgBoostValue : 0, SOURCE_SKILL)
-    //   x.ELEMENTAL_DMG.buffDual((m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? skillDmgBoostSummonValue : 0, SOURCE_SKILL)
-    //   x.ELEMENTAL_DMG.buffDual((m.techniqueDmgBuff) ? 0.50 : 0, SOURCE_TECHNIQUE)
-    //   x.DEF_PEN.buffDual((e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.16 : 0, SOURCE_E1)
-    //   x.ELEMENTAL_DMG.buffDual((e >= 2 && m.e2DmgBuff) ? 0.30 : 0, SOURCE_E2)
-    // },
-    // precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    //   const t = action.characterConditionals as Conditionals<typeof teammateContent>
-    //   const cdBuff = (t.beatified) ? ultCdBoostValue * t.teammateCDValue + ultCdBoostBaseValue : 0
-    //   x.CD.buffDual(cdBuff, SOURCE_ULT)
-    //   x.UNCONVERTIBLE_CD_BUFF.buffDual(cdBuff, SOURCE_ULT)
-    // },
-
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',

@@ -199,14 +199,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.ATK_P, (e >= 2 && t.e2AtkBoost) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
     },
 
-    // Legacy stubs for backwards compatibility
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       // Trace: DMG boost based on BE over 120%
       const be = x.getActionValue(StatKey.BE, RuanMeiEntities.RuanMei)

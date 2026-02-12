@@ -219,9 +219,6 @@ export function precomputeConditionals(action: OptimizerAction, comboState: Comb
   // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
   x.ENEMY_WEAKNESS_BROKEN.config(x.a[Key.ENEMY_WEAKNESS_BROKEN] || context.enemyWeaknessBroken ? 1 : 0, Source.NONE)
 
-  lightConeConditionals.initializeConfigurations?.(x, action, context)
-  characterConditionals.initializeConfigurations?.(x, action, context)
-
   lightConeConditionals.initializeConfigurationsContainer?.(container, action, context)
   characterConditionals.initializeConfigurationsContainer?.(container, action, context)
 
@@ -243,39 +240,15 @@ export function precomputeConditionals(action: OptimizerAction, comboState: Comb
     const teammateCharacterConditionals = CharacterConditionalsResolver.get(teammate.metadata)
     const teammateLightConeConditionals = LightConeConditionalsResolver.get(teammate.metadata)
 
-    teammateCharacterConditionals.initializeTeammateConfigurations?.(x, teammateAction, context)
-    teammateLightConeConditionals.initializeTeammateConfigurations?.(x, teammateAction, context)
-
     teammateCharacterConditionals.initializeTeammateConfigurationsContainer?.(container, teammateAction, context)
     teammateLightConeConditionals.initializeTeammateConfigurationsContainer?.(container, teammateAction, context)
   }
-
-  // Precompute stage
-  lightConeConditionals.precomputeEffects?.(x, action, context)
-  characterConditionals.precomputeEffects?.(x, action, context)
-
-  // Precompute mutual stage
-  lightConeConditionals.precomputeMutualEffects?.(x, action, context, action)
-  characterConditionals.precomputeMutualEffects?.(x, action, context, action)
-
-  // ================ Container ================
 
   lightConeConditionals.precomputeEffectsContainer?.(container, action, context)
   characterConditionals.precomputeEffectsContainer?.(container, action, context)
 
   lightConeConditionals.precomputeMutualEffectsContainer?.(container, action, context, action)
   characterConditionals.precomputeMutualEffectsContainer?.(container, action, context, action)
-
-  // // Precompute stage
-  // lightConeConditionals.precomputeEffects?.(x, action, context)
-  // characterConditionals.precomputeEffects?.(x, action, context)
-  //
-  // // Precompute mutual stage
-  // lightConeConditionals.precomputeMutualEffects?.(x, action, context, action)
-  // characterConditionals.precomputeMutualEffects?.(x, action, context, action)
-  //
-  // characterConditionals.precomputeEffectsContainer(action.precomputedStats, action, context)
-  // characterConditionals.precomputeMutualEffectsContainer(action.precomputedStats, action, context)
 
   precomputeTeammates(action, comboState, context)
 }
@@ -305,18 +278,12 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
     const teammateCharacterConditionals = CharacterConditionalsResolver.get(teammate.metadata)
     const teammateLightConeConditionals = LightConeConditionalsResolver.get(teammate.metadata)
 
-    if (teammateCharacterConditionals.precomputeMutualEffects) teammateCharacterConditionals.precomputeMutualEffects(x, teammateAction, context, action)
-    if (teammateCharacterConditionals.precomputeTeammateEffects) teammateCharacterConditionals.precomputeTeammateEffects(x, teammateAction, context, action)
-
     if (teammateCharacterConditionals.precomputeMutualEffectsContainer) {
       teammateCharacterConditionals.precomputeMutualEffectsContainer(container, teammateAction, context, action)
     }
     if (teammateCharacterConditionals.precomputeTeammateEffectsContainer) {
       teammateCharacterConditionals.precomputeTeammateEffectsContainer(container, teammateAction, context, action)
     }
-
-    if (teammateLightConeConditionals.precomputeMutualEffects) teammateLightConeConditionals.precomputeMutualEffects(x, teammateAction, context)
-    if (teammateLightConeConditionals.precomputeTeammateEffects) teammateLightConeConditionals.precomputeTeammateEffects(x, teammateAction, context)
 
     if (teammateLightConeConditionals.precomputeMutualEffectsContainer) {
       teammateLightConeConditionals.precomputeMutualEffectsContainer(container, teammateAction, context)

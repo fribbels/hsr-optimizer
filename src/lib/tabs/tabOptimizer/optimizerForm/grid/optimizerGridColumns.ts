@@ -50,8 +50,8 @@ function comboColumnDef(headerName: string) {
   return {
     field: 'COMBO' as const,
     valueFormatter: Renderer.floor,
-    minWidth: DIGITS_7,
-    flex: 14,
+    minWidth: DIGITS_6, // DIGITS_7
+    flex: 13, // 14
     headerName: headerName,
   }
 }

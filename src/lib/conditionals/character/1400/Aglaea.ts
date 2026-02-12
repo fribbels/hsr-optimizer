@@ -308,28 +308,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // TODO
       // x.buff(StatKey.ATK, 3436, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6))
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      // TODO
-      return ``
-      //       return `
-      // if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
-      //   if (x.SPD > 320 || m.SPD > 320) {
-      //     x.BASIC_DMG_BOOST += 0.60;
-      //     m.BASIC_DMG_BOOST += 0.60;
-      //   } else if (x.SPD > 240 || m.SPD > 240) {
-      //     x.BASIC_DMG_BOOST += 0.30;
-      //     m.BASIC_DMG_BOOST += 0.30;
-      //   } else if (x.SPD > 160 || m.SPD > 160) {
-      //     x.BASIC_DMG_BOOST += 0.10;
-      //     m.BASIC_DMG_BOOST += 0.10;
-      //   }
-      // }
-      //
-      // ${gpuBasicAdditionalDmgAtkFinalizer()}
-      // `
-    },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 

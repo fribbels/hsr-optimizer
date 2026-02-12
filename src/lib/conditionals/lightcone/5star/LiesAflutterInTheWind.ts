@@ -78,7 +78,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 
       x.buff(StatKey.DEF_PEN, (r.defPen && spd >= 170) ? sValuesDefPenAdditional[s] : 0, x.source(SOURCE_LC))
     },
-    gpuFinalizeCalculations: () => '',
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 

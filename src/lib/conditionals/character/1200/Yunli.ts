@@ -268,7 +268,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },

@@ -239,7 +239,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const fuaHitMulti = ASHBLAZING_ATK_STACK * (1 * 1.00)
       boostAshblazingAtkContainer(x, action, fuaHitMulti)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const fuaHitMulti = ASHBLAZING_ATK_STACK * (1 * 1.00)
       return gpuBoostAshblazingAtkContainer(fuaHitMulti, action)

@@ -49,7 +49,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.DMG_BOOST, (r.spdScalingBuffs) ? stacks * sValuesDmg[s] : 0, x.damageType(DamageTag.BASIC | DamageTag.SKILL).source(SOURCE_LC))
       x.buff(StatKey.CD, (r.spdScalingBuffs) ? stacks * sValuesCd[s] : 0, x.damageType(DamageTag.ULT).source(SOURCE_LC))
     },
-    gpuFinalizeCalculations: () => '',
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 

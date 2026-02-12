@@ -205,8 +205,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       boostAshblazingAtkContainer(x, action, hitMultiByFuaHits[r.fuaHits])
     },
 
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
-
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 

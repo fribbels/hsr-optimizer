@@ -228,13 +228,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
 
-    calculateBasicEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      // const crBuff = (r.hpToCrConversion) ? Math.max(0, Math.min(0.48, 0.016 * Math.floor((x.c.a[Key.HP] - 5000) / 100))) : 0
-      // x.UNCONVERTIBLE_CR_BUFF.buff(crBuff, SOURCE_TRACE)
-      // x.CR.buff(crBuff, SOURCE_TRACE)
-    },
     newCalculateBasicEffects: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -262,15 +255,6 @@ if (${wgslTrue(r.hpToCrConversion)}) {
         x.set(StatKey.DEF, 0, x.source(SOURCE_TALENT))
       }
     },
-//     gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-//       const r = action.characterConditionals as Conditionals<typeof content>
-
-//       return `
-// if (${wgslTrue(r.vendettaState)}) {
-//   ${buff.actionSet(AKey.DEF, '0.0').wgsl(action)}
-// }
-// `
-//     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 

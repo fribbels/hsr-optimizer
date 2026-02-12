@@ -231,15 +231,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const ehrValue = x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX)
       x.buff(StatKey.DMG_BOOST, (r.ehrToDmgBoost) ? Math.min(0.72, 0.60 * ehrValue) : 0, x.source(SOURCE_TRACE))
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      return ``
-      // if (${wgslTrue(r.ehrToDmgBoost)}) {
-      //   x.ELEMENTAL_DMG += min(0.72, 0.60 * x.EHR);
-      // }
-      // `
-    },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 

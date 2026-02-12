@@ -206,7 +206,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateDefaults: () => teammateDefaults,
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
 
     // New container methods

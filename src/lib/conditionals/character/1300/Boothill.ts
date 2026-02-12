@@ -258,7 +258,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
-    gpuFinalizeCalculations: () => '',
     dynamicConditionals: [{
       id: 'BoothillConversionConditional',
       type: ConditionalType.ABILITY,

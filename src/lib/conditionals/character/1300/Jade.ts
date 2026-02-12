@@ -224,10 +224,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
 
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return `x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${getHitMulti(action, context)});`
-    },
-
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },

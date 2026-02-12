@@ -206,7 +206,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const buffValue = Math.min(0.36, Math.max(0, beOver) * 0.06)
       x.buff(StatKey.DMG_BOOST, buffValue, x.source(SOURCE_TRACE))
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return wgsl`
 let beOver = (${containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, action.config)} * 100.0 - 120.0) / 10.0;

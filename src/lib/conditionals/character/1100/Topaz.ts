@@ -219,7 +219,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         : (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
       boostAshblazingAtkContainer(x, action, hitMulti)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       const hitMulti = action.actionType === AbilityKind.BASIC

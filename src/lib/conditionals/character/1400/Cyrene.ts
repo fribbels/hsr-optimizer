@@ -385,7 +385,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.buff(StatKey.RES_PEN, Math.floor(Math.min(60, spd - 180)) * 0.02, x.elements(ElementTag.Ice).targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE))
       }
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 

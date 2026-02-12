@@ -53,7 +53,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
           x.damageType(DamageTag.SKILL | DamageTag.ULT).source(SOURCE_LC))
       }
     },
-    gpuFinalizeCalculations: () => '',
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 

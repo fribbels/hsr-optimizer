@@ -246,8 +246,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.SUPER_BREAK_MODIFIER, (r.superBreakDmg && r.enhancedStateActive && be >= 3.60) ? 0.15 : 0, x.source(SOURCE_TRACE))
     },
 
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
-
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 

@@ -371,7 +371,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: () => '',
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

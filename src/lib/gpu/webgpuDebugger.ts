@@ -89,7 +89,7 @@ function mapActionNameToField(actionName: string): string | null {
  * Extracts HEAL and SHIELD values from rotation action hit registers based on outputTag.
  */
 function extractActionDamageFields(x: ComputedStatsContainer, context: OptimizerContext) {
-  const fields = {
+  const fields: Record<string, number> = {
     BASIC: 0,
     SKILL: 0,
     ULT: 0,
@@ -103,23 +103,21 @@ function extractActionDamageFields(x: ComputedStatsContainer, context: Optimizer
     SHIELD: 0,
   }
 
-  // Map default actions to standardized fields
+  // Map default actions to fields (includes damage, heal, and shield actions)
   for (const action of context.defaultActions) {
     const field = action.actionName
-    if (field && field in fields) {
-      const damageValue = x.getActionRegisterValue(action.registerIndex)
-      fields[field as keyof typeof fields] += damageValue
+    if (field) {
+      const value = x.getActionRegisterValue(action.registerIndex)
+      fields[field] = (fields[field] ?? 0) + value
     }
   }
 
   // Extract values from rotation actions
-  // COMBO is sum of damage only, HEAL/SHIELD are summed separately from hit registers
   for (const action of context.rotationActions) {
-    // Action register stores comboDmg (damage only)
-    const damageValue = x.getActionRegisterValue(action.registerIndex)
-    fields.COMBO += damageValue
+    const actionValue = x.getActionRegisterValue(action.registerIndex)
+    fields.COMBO += actionValue
 
-    // Extract heal/shield values from hit registers
+    // Extract heal/shield values from hit registers for aggregate HEAL/SHIELD
     if (action.hits) {
       for (const hit of action.hits) {
         const hitValue = x.getHitRegisterValue(hit.registerIndex)

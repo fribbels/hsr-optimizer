@@ -612,7 +612,7 @@ fn unrolledAction${index}(
   
   // Return value
   
-  return comboDmg;
+  return comboDmg + comboHeal + comboShield;
 }
   `
 
@@ -630,7 +630,7 @@ function unrollDamageCalculations(index: number, action: OptimizerAction, contex
 
   if (gpuParams.DEBUG) {
     // Set action register with total combo damage
-    code += wgslDebugActionRegister(action, context, 'comboDmg') + '\n'
+    code += wgslDebugActionRegister(action, context, 'comboDmg + comboHeal + comboShield') + '\n'
   }
 
   return wgsl`

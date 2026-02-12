@@ -8,7 +8,7 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { StatKey } from './engine/config/keys'
 
-const SIZE = 65
+const SIZE = 75
 
 export type OptimizerDisplayData = {
   'id': number,
@@ -81,6 +81,17 @@ export type OptimizerDisplayData = {
 
   'mxEHP': number,
 
+  'BASIC_HEAL'?: number,
+  'SKILL_HEAL'?: number,
+  'ULT_HEAL'?: number,
+  'FUA_HEAL'?: number,
+  'TALENT_HEAL'?: number,
+  'BASIC_SHIELD'?: number,
+  'SKILL_SHIELD'?: number,
+  'ULT_SHIELD'?: number,
+  'FUA_SHIELD'?: number,
+  'TALENT_SHIELD'?: number,
+
   'xa': Float32Array,
   'ca': Float32Array,
 
@@ -132,7 +143,7 @@ export const BufferPacker = {
     arr[offset + 15] = 0 // HEAL_VALUE - TODO: calculate from hit registers
     arr[offset + 16] = 0 // SHIELD_VALUE - TODO: calculate from hit registers
 
-    // [17-24] Damage values from action registers - dynamically mapped
+    // [17-24] Damage values, [65-74] Heal/Shield values from action registers - dynamically mapped
     const actionNameToOffset: Record<string, number> = {
       'BASIC': 17,
       'SKILL': 18,
@@ -142,6 +153,16 @@ export const BufferPacker = {
       'MEMO TALENT': 22,
       'DOT': 23,
       'BREAK': 24,
+      'BASIC_HEAL': 65,
+      'SKILL_HEAL': 66,
+      'ULT_HEAL': 67,
+      'FUA_HEAL': 68,
+      'TALENT_HEAL': 69,
+      'BASIC_SHIELD': 70,
+      'SKILL_SHIELD': 71,
+      'ULT_SHIELD': 72,
+      'FUA_SHIELD': 73,
+      'TALENT_SHIELD': 74,
     }
 
     for (let i = 0; i < context.defaultActions.length; i++) {
@@ -283,6 +304,16 @@ export const BufferPacker = {
       'mxOHB': arr[offset + 62],
       'mxELEMENTAL_DMG': arr[offset + 63],
       'mxEHP': arr[offset + 64],
+      'BASIC_HEAL': arr[offset + 65],
+      'SKILL_HEAL': arr[offset + 66],
+      'ULT_HEAL': arr[offset + 67],
+      'FUA_HEAL': arr[offset + 68],
+      'TALENT_HEAL': arr[offset + 69],
+      'BASIC_SHIELD': arr[offset + 70],
+      'SKILL_SHIELD': arr[offset + 71],
+      'ULT_SHIELD': arr[offset + 72],
+      'FUA_SHIELD': arr[offset + 73],
+      'TALENT_SHIELD': arr[offset + 74],
     } as OptimizerDisplayData
   },
 

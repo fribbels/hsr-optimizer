@@ -13,6 +13,7 @@ import {
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Renderer } from 'lib/rendering/renderer'
 import { getGridTheme } from 'lib/rendering/theme'
 import DB from 'lib/state/db'
@@ -44,10 +45,6 @@ const { useToken } = theme
 
 const defaultHiddenColumns = [
   SortOption.OHB,
-  SortOption.HEAL,
-  SortOption.SHIELD,
-  SortOption.MEMO_SKILL,
-  SortOption.MEMO_TALENT,
 ]
 
 export const GRID_DIMENSIONS = {
@@ -98,19 +95,25 @@ export function OptimizerGrid() {
       columnDefinitions = columnDefinitions.filter((column) => !hiddenFields.includes(column.field))
     }
 
-    // if (context) {
-    //   for (const action of context.defaultActions) {
-    //     columnDefinitions.push(
-    //       {
-    //         field: action.actionName,
-    //         valueFormatter: Renderer.floor,
-    //         minWidth: DIGITS_5,
-    //         flex: 12,
-    //         headerName: action.actionName,
-    //       },
-    //     )
-    //   }
-    // }
+    if (context) {
+      // Insert dynamic ability columns before COMBO (last column)
+      const comboColumn = columnDefinitions.pop()
+      for (const action of context.defaultActions) {
+        const meta = AbilityMeta[action.actionType]
+        if (meta) {
+          columnDefinitions.push({
+            field: action.actionName as any,
+            valueFormatter: Renderer.floor,
+            minWidth: DIGITS_5,
+            flex: 12,
+            headerName: t(`Headers.Basic.${action.actionType}` as const),
+          })
+        }
+      }
+      if (comboColumn) {
+        columnDefinitions.push(comboColumn)
+      }
+    }
 
     return columnDefinitions
   }, [optimizerTabFocusCharacter, statDisplay, memoDisplay, context, t])

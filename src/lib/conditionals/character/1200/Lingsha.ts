@@ -47,7 +47,7 @@ import {
 } from 'types/optimizer'
 
 export const LingshaEntities = createEnum('Lingsha', 'Fuyuan')
-export const LingshaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
+export const LingshaAbilities = createEnum('BASIC', 'SKILL', 'SKILL_HEAL', 'ULT', 'ULT_HEAL', 'FUA', 'FUA_HEAL', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lingsha')
@@ -190,6 +190,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .atkScaling(skillScaling)
               .toughnessDmg(10)
               .build(),
+          ],
+        },
+        [LingshaAbilities.SKILL_HEAL]: {
+          hits: [
             HitDefinitionBuilder.skillHeal()
               .atkScaling(skillHealScaling)
               .flatHeal(skillHealFlat)
@@ -203,6 +207,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .atkScaling(ultScaling)
               .toughnessDmg(20)
               .build(),
+          ],
+        },
+        [LingshaAbilities.ULT_HEAL]: {
+          hits: [
             HitDefinitionBuilder.ultHeal()
               .atkScaling(ultHealScaling)
               .flatHeal(ultHealFlat)
@@ -217,6 +225,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .atkScaling(fuaScaling * 2 + ((e >= 6 && r.e6ResShred) ? 0.50 : 0))
               .toughnessDmg(10 * 2 + ((e >= 6) ? 5 : 0))
               .build(),
+          ],
+        },
+        [LingshaAbilities.FUA_HEAL]: {
+          hits: [
             HitDefinitionBuilder.talentHeal()
               .atkScaling(talentHealScaling)
               .flatHeal(talentHealFlat)

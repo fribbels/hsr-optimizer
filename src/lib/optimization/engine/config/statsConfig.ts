@@ -11,6 +11,14 @@ interface SimpleLabel extends tInput {
   composite?: false
 }
 
+export interface StatConfigEntry {
+  hit?: boolean
+  flat?: boolean
+  bool?: boolean
+  default?: number
+  label: SimpleLabel | string
+}
+
 const createI18nKey = <K extends string>(ns: SimpleLabel['ns'], path: string, argName?: string) => (value: K): SimpleLabel =>
   argName
     ? { ns, key: path, args: { [argName]: value } }
@@ -104,6 +112,6 @@ export const newStatsConfig = {
   CD_BOOST: { label: optimizerTabCompositeSuffix('Crit DMG boost') },
 
   SUPER_BREAK_MODIFIER: { label: optimizerTabCompositeSuffix('Super Break multiplier') },
-}
+} satisfies Record<string, StatConfigEntry>
 
 export const STATS_LENGTH = Object.values(newStatsConfig).length

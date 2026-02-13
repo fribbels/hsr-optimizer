@@ -13,7 +13,7 @@ import {
 } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
 import { AKeyType } from 'lib/optimization/engine/config/keys'
-import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
+import { newStatsConfig, StatConfigEntry } from 'lib/optimization/engine/config/statsConfig'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { Assets } from 'lib/rendering/assets'
 import {
@@ -35,9 +35,7 @@ type BuffsAnalysisProps = {
   size?: BuffDisplaySize,
 }
 
-type NewStatConfigEntry = (typeof newStatsConfig)[AKeyType]
-
-function getStatConfig(stat: string): NewStatConfigEntry | undefined {
+function getStatConfig(stat: string): StatConfigEntry | undefined {
   return newStatsConfig[stat as AKeyType]
 }
 

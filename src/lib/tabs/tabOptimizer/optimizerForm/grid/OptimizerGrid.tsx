@@ -13,7 +13,7 @@ import {
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind, AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { getGridTheme } from 'lib/rendering/theme'
@@ -101,7 +101,7 @@ export function OptimizerGrid() {
       const comboColumn = columnDefinitions.pop()
       for (const action of context.defaultActions) {
         const meta = AbilityMeta[action.actionType]
-        if (meta) {
+        if (meta && action.actionType !== AbilityKind.NULL) {
           columnDefinitions.push({
             field: action.actionName as any,
             valueFormatter: Renderer.floor,

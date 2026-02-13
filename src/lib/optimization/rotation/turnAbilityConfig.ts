@@ -46,8 +46,8 @@ interface AbilityMetaEntry {
   category: AbilityCategory
 }
 
-export const AbilityMeta: Record<AbilityKind, AbilityMetaEntry> = {
-  [AbilityKind.NULL]: { label: 'None', category: 'null' },
+export const AbilityMeta = {
+  [AbilityKind.NULL]: { label: 'None', sortKey: undefined, category: 'null' },
   [AbilityKind.BASIC]: { label: 'Basic', sortKey: 'BASIC', category: 'damage' },
   [AbilityKind.SKILL]: { label: 'Skill', sortKey: 'SKILL', category: 'damage' },
   [AbilityKind.ULT]: { label: 'Ult', sortKey: 'ULT', category: 'damage' },
@@ -67,16 +67,19 @@ export const AbilityMeta: Record<AbilityKind, AbilityMetaEntry> = {
   [AbilityKind.ULT_SHIELD]: { label: 'UltShield', sortKey: 'ULT_SHIELD', category: 'shield' },
   [AbilityKind.FUA_SHIELD]: { label: 'FuaShield', sortKey: 'FUA_SHIELD', category: 'shield' },
   [AbilityKind.TALENT_SHIELD]: { label: 'TalentShield', sortKey: 'TALENT_SHIELD', category: 'shield' },
-}
+} as const
+
+// Derived union of all combo option label strings (e.g. 'Basic' | 'Skill' | 'Ult' | ...)
+export type ComboOptionLabel = typeof AbilityMeta[AbilityKind]['label']
 
 // =============================================================================
 // DERIVED MAPPINGS
 // =============================================================================
 
 // ComboOptionsLabelMapping - derived from AbilityMeta
-export const ComboOptionsLabelMapping: Record<AbilityKind, string> = Object.fromEntries(
+export const ComboOptionsLabelMapping: Record<AbilityKind, ComboOptionLabel> = Object.fromEntries(
   Object.entries(AbilityMeta).map(([kind, meta]) => [kind, meta.label]),
-) as Record<AbilityKind, string>
+) as Record<AbilityKind, ComboOptionLabel>
 
 // AbilityToSortOption - maps AbilityKind to SortOption key (only for abilities with sortKey)
 export const AbilityToSortOption: Partial<Record<AbilityKind, SortOptionKey>> = Object.fromEntries(

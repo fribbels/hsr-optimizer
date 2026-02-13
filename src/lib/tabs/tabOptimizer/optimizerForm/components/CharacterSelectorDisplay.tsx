@@ -119,7 +119,6 @@ export default function CharacterSelectorDisplay() {
           { value: SortOption.BE.key, label: t('SortOptions.BE') },
           { value: SortOption.OHB.key, label: t('SortOptions.OHB') },
           { value: SortOption.ERR.key, label: t('SortOptions.ERR') },
-          // { value: SortOption.ELEMENTAL_DMG.key, label: t('SortOptions.DMG') },
         ],
       },
     ]

@@ -5,6 +5,7 @@ import {
 } from 'antd'
 import { TFunction } from 'i18next'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { CharacterId } from 'types/character'
 import {
   AbilityKind,
   ALL_ABILITIES,
@@ -72,7 +73,7 @@ export function generateAbilityOptions(t: TFunction<'optimizerTab', 'ComboFilter
   // const t = i18next.getFixedT(null, 'optimizerTab', 'ComboFilter')
   if (characterId && characterEidolon != null) {
     const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get({
-      characterId: characterId,
+      characterId: characterId as CharacterId,
       characterEidolon: characterEidolon,
     })
     const actions = characterConditionals.actionDeclaration ? characterConditionals.actionDeclaration() : []
@@ -248,3 +249,4 @@ function findMarkerForAbility(abilityName: TurnAbilityName): TurnMarker {
   }
   return TurnMarker.DEFAULT
 }
+

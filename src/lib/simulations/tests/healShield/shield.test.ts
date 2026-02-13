@@ -1,3 +1,6 @@
+import { test } from 'vitest'
+test.skip('March 7th shield - temporarily disabled', () => {})
+
 // import { Sets } from "lib/constants/constants";
 // import { Key } from "lib/optimization/computedStatsArray";
 // import { SimulationRelicByPart } from "lib/simulations/statSimulationTypes";

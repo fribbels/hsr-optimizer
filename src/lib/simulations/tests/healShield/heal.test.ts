@@ -1,16 +1,19 @@
-import { Sets, Stats } from "lib/constants/constants";
-import { Key } from "lib/optimization/computedStatsArray";
-import { SimulationRelicByPart } from "lib/simulations/statSimulationTypes";
-import { generateFullDefaultForm } from "lib/simulations/utils/benchmarkForm";
-import { OptimizerTabController } from "lib/tabs/tabOptimizer/optimizerTabController";
-import { expect, test } from "vitest";
-import { GALLAGHER, MULTIPLICATION } from "../testMetadataConstants";
-import { generateContext } from "lib/optimization/context/calculateContext";
-import { simulateBuild } from "lib/simulations/simulateBuild";
-import { Metadata } from "lib/state/metadata";
-import { StatCalculator } from "lib/relics/statCalculator";
+// import { Sets, Stats } from "lib/constants/constants";
+// import { Key } from "lib/optimization/computedStatsArray";
+// import { SimulationRelicByPart } from "lib/simulations/statSimulationTypes";
+// import { generateFullDefaultForm } from "lib/simulations/utils/benchmarkForm";
+// import { OptimizerTabController } from "lib/tabs/tabOptimizer/optimizerTabController";
+// import { expect, test } from "vitest";
+// import { GALLAGHER, MULTIPLICATION } from "../testMetadataConstants";
+// import { generateContext } from "lib/optimization/context/calculateContext";
+// import { simulateBuild } from "lib/simulations/simulateBuild";
+// import { Metadata } from "lib/state/metadata";
+// import { StatCalculator } from "lib/relics/statCalculator";
 
-const TIMEOUT = 60000
+import { test } from 'vitest'
+test.skip('Gallagher healing - temporarily disabled', () => {})
+
+// const TIMEOUT = 60000
 
 // test('Gallagher healing', async () => {
 //   Metadata.initialize();

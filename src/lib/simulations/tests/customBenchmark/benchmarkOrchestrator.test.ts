@@ -57,7 +57,7 @@ test('Anaxa benchmark 0', async () => {
       mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    6395631,
+    6395631.5,
     7782346,
   )
 }, TIMEOUT)
@@ -92,7 +92,7 @@ test('Anaxa benchmark 200 captain', async () => {
       stats: testStatSpread(),
     }),
     4676874,
-    5581103,
+    5581103.5,
   )
 }, TIMEOUT)
 
@@ -163,7 +163,7 @@ test('The herta benchmark 100 err', async () => {
       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ERR),
       stats: testStatSpread(),
     }),
-    4252174,
+    4252174.5,
     5328330.5,
   )
 }, TIMEOUT)

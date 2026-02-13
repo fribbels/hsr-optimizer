@@ -14,7 +14,7 @@ import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
+import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
@@ -393,7 +393,7 @@ if (${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} >= 180.
   ${buff.action(AKey.DMG_BOOST, 0.20).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
 
   let penBuff = floor(min(60.0, ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} - 180.0)) * 0.02;
-  ${buff.hit(AKey.RES_PEN, 'penBuff').elements(ElementTag.Ice).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
+  ${buff.hit(HKey.RES_PEN, 'penBuff').elements(ElementTag.Ice).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
 }
       `
     },

@@ -221,7 +221,7 @@ export class ComputedStatsArrayCore {
             }
 
             for (const conditional of action.conditionalRegistry[KeyToStat[stat]] ?? []) {
-              evaluateConditional(conditional, this as unknown as ComputedStatsArray, action, context)
+              evaluateConditional(conditional, this as unknown as ComputedStatsContainer, action, context)
             }
           },
           multiply: (value: number, source: BuffSource) => {
@@ -254,7 +254,7 @@ export class ComputedStatsArrayCore {
             trace(value, source)
 
             for (const conditional of action.conditionalRegistry[KeyToStat[stat]] || []) {
-              evaluateConditional(conditional, this as unknown as ComputedStatsArray, action, context)
+              evaluateConditional(conditional, this as unknown as ComputedStatsContainer, action, context)
             }
           },
           set: (value: number, source: BuffSource) => {

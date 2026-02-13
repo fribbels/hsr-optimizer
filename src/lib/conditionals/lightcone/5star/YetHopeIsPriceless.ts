@@ -5,7 +5,7 @@ import {
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
+import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
@@ -67,7 +67,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
 if (${wgslTrue(r.fuaDmgBoost)}) {
   let cdValue = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, action.config)};
   let fuaDmgBuff = ${sValuesFuaDmg[s]} * min(4.0, floor((cdValue - 1.20) / 0.20));
-  ${buff.hit(AKey.DMG_BOOST, 'fuaDmgBuff').damageType(DamageTag.FUA).wgsl(action)}
+  ${buff.hit(HKey.DMG_BOOST, 'fuaDmgBuff').damageType(DamageTag.FUA).wgsl(action)}
 }
     `
     },

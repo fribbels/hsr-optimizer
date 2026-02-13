@@ -233,6 +233,7 @@ function translatedLabel(stat: string, isMemo = false): string {
   }
 
   // SimpleLabel with ns/key properties
+  // @ts-ignore
   const finalLabel: string = i18next.t(`${label.ns}:${label.key}`, label.args)
   return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) as string : finalLabel
 }

@@ -399,6 +399,7 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
     }
 
     for (const action of context.defaultActions) {
+      // @ts-ignore
       d[action.actionName] = x.getActionRegisterValue(action.registerIndex)
     }
   }

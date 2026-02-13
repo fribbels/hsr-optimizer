@@ -169,6 +169,8 @@ const overridePrecision: Record<number, number> = {
   [StatKey.UNCONVERTIBLE_HP_BUFF]: P_2,
   [StatKey.UNCONVERTIBLE_ATK_BUFF]: P_2,
   [StatKey.UNCONVERTIBLE_DEF_BUFF]: P_2,
+
+  [StatKey.EHP]: P_2,
 }
 
 function arrayDelta(cpuContainer: ComputedStatsContainer, gpuContainer: ComputedStatsContainer, context: OptimizerContext) {

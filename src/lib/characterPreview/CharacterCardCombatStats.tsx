@@ -120,8 +120,8 @@ function aggregateCombatStats(
     let display = localeNumber(Math.floor(xaValue))
     if (stat == Stats.SPD) {
       display = preciseSpd
-        ? localeNumber_000(TsUtils.precisionRound(xaValue, 4))
-        : localeNumber_0(Utils.truncate10ths(TsUtils.precisionRound(xaValue, 4)))
+        ? localeNumber_000(TsUtils.precisionRound(xaValue, 3))
+        : localeNumber_0(Utils.truncate10ths(TsUtils.precisionRound(xaValue, 3)))
     } else if (!flat) {
       display = localeNumber_0(Utils.truncate10ths(TsUtils.precisionRound(xaValue * 100, 4)))
     }

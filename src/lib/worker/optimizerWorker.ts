@@ -346,6 +346,22 @@ function addCombatConditionIfNeeded(
   }
 }
 
+function addCombatBoostedConditionIfNeeded(
+  conditions: ((x: ComputedStatsContainer, entityIndex: number) => boolean)[],
+  statKey: any,
+  boostKey: any,
+  min: number,
+  max: number,
+) {
+  if (min !== 0 || max !== Constants.MAX_INT) {
+    conditions.push((x, entityIndex) => {
+      const entityName = x.config.entitiesArray[entityIndex].name
+      const value = x.getActionValue(statKey as any, entityName) + x.getActionValue(boostKey as any, entityName)
+      return value < min || value > max
+    })
+  }
+}
+
 function basicStatsFilter(request: Form) {
   const conditions: ((c: BasicStatsArray) => boolean)[] = []
 
@@ -370,8 +386,8 @@ function combatStatsFilter(request: Form) {
   addCombatConditionIfNeeded(conditions, StatKey.ATK, request.minAtk, request.maxAtk)
   addCombatConditionIfNeeded(conditions, StatKey.DEF, request.minDef, request.maxDef)
   addCombatConditionIfNeeded(conditions, StatKey.SPD, request.minSpd, request.maxSpd)
-  addCombatConditionIfNeeded(conditions, StatKey.CR, request.minCr, request.maxCr)
-  addCombatConditionIfNeeded(conditions, StatKey.CD, request.minCd, request.maxCd)
+  addCombatBoostedConditionIfNeeded(conditions, StatKey.CR, StatKey.CR_BOOST, request.minCr, request.maxCr)
+  addCombatBoostedConditionIfNeeded(conditions, StatKey.CD, StatKey.CD_BOOST, request.minCd, request.maxCd)
   addCombatConditionIfNeeded(conditions, StatKey.EHR, request.minEhr, request.maxEhr)
   addCombatConditionIfNeeded(conditions, StatKey.RES, request.minRes, request.maxRes)
   addCombatConditionIfNeeded(conditions, StatKey.BE, request.minBe, request.maxBe)

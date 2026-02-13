@@ -123,6 +123,12 @@ const SortOptionToAKey: Partial<Record<SortOptionKey, AKeyValue>> = {
   OHB: AKey.OHB,
 }
 
+// Stats that need their corresponding BOOST key added for sorting/display
+const SortOptionBoostKey: Partial<Record<SortOptionKey, AKeyValue>> = {
+  CR: AKey.CR_BOOST,
+  CD: AKey.CD_BOOST,
+}
+
 /**
  * Generates WGSL code to output the result based on the selected sort option.
  * Currently handles: basic stats + COMBO
@@ -143,6 +149,10 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
 
     const config = context.defaultActions[0].config
     const statIndex = getActionIndex(SELF_ENTITY_INDEX, aKey, config)
+    const boostKey = SortOptionBoostKey[sortKey]
+    const boostExpr = boostKey !== undefined
+      ? ` + container0[${getActionIndex(SELF_ENTITY_INDEX, boostKey, config)}]`
+      : ''
 
     return `
     if (statDisplay == 1) {
@@ -153,7 +163,7 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
         results[index] = -failures; failures = failures + 1;
       }
     } else {
-      let sortValue = container0[${statIndex}];
+      let sortValue = container0[${statIndex}]${boostExpr};
       if (sortValue > threshold) {
         results[index] = sortValue;
         failures = 1;
@@ -717,13 +727,35 @@ export function generateCombatStatFilters(request: Form, context: OptimizerConte
     }
   }
 
+  // Helper to add filter for a stat that combines a base key + boost key
+  const addBoostedStatFilter = (
+    varName: string,
+    key: AKeyValue,
+    boostKey: AKeyValue,
+    minKey: keyof Form,
+    maxKey: keyof Form,
+  ) => {
+    const minVal = request[minKey] as number
+    const maxVal = request[maxKey] as number
+    const hasMin = minVal > 0
+    const hasMax = maxVal < Constants.MAX_INT
+
+    if (hasMin || hasMax) {
+      const index = getActionIndex(SELF_ENTITY_INDEX, key, config)
+      const boostIndex = getActionIndex(SELF_ENTITY_INDEX, boostKey, config)
+      extractions.push(`let ${varName} = container0[${index}] + container0[${boostIndex}];`)
+      if (hasMin) conditions.push(`${varName} < ${minKey}`)
+      if (hasMax) conditions.push(`${varName} > ${maxKey}`)
+    }
+  }
+
   // Add filters for each combat stat
   addStatFilter('fSpd', AKey.SPD, 'minSpd', 'maxSpd')
   addStatFilter('fHp', AKey.HP, 'minHp', 'maxHp')
   addStatFilter('fAtk', AKey.ATK, 'minAtk', 'maxAtk')
   addStatFilter('fDef', AKey.DEF, 'minDef', 'maxDef')
-  addStatFilter('fCr', AKey.CR, 'minCr', 'maxCr')
-  addStatFilter('fCd', AKey.CD, 'minCd', 'maxCd')
+  addBoostedStatFilter('fCr', AKey.CR, AKey.CR_BOOST, 'minCr', 'maxCr')
+  addBoostedStatFilter('fCd', AKey.CD, AKey.CD_BOOST, 'minCd', 'maxCd')
   addStatFilter('fEhr', AKey.EHR, 'minEhr', 'maxEhr')
   addStatFilter('fRes', AKey.RES, 'minRes', 'maxRes')
   addStatFilter('fBe', AKey.BE, 'minBe', 'maxBe')

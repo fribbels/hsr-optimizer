@@ -95,7 +95,8 @@ function generateRequest(request: Form) {
   wgsl += '\n'
 
   // TODO: Refactor this to not duplicate res
-  wgsl += `const enemyDamageResistance: f32 = ${(request.enemyElementalWeak ? 0 : request.enemyResistance) - request.combatBuffs.RES_PEN};\n`
+  // TODO: TEMPORARILY DISABLED - Extra combat buffs zeroed out (RES_PEN removed from resistance calc)
+  wgsl += `const enemyDamageResistance: f32 = ${(request.enemyElementalWeak ? 0 : request.enemyResistance) /* - request.combatBuffs.RES_PEN */};\n`
   wgsl += '\n'
 
   // Filters
@@ -107,8 +108,9 @@ function generateRequest(request: Form) {
   wgsl += '\n'
 
   // Buffs
-  for (const [key, value] of Object.entries(request.combatBuffs)) {
-    wgsl += `const combatBuffs${key}: f32 = ${value};\n`
+  // TODO: TEMPORARILY DISABLED - Extra combat buffs zeroed out
+  for (const [key] of Object.entries(request.combatBuffs)) {
+    wgsl += `const combatBuffs${key}: f32 = 0;\n`
   }
   wgsl += '\n'
 

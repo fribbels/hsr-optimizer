@@ -3,9 +3,14 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -13,6 +18,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const SaberEntities = createEnum('Saber')
+export const SaberAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Saber.Content')
@@ -140,45 +148,101 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: () => {
-      // x.FUA_DMG_TYPE.set(SKILL_DMG_TYPE | FUA_DMG_TYPE, SOURCE_SKILL)
-    },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(SaberEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [SaberEntities.Saber]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(SaberAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.CD.buff(r.cdBuff ? 0.50 : 0, SOURCE_TRACE)
-      x.CR.buff(r.crBuff ? 0.20 : 0, SOURCE_TRACE)
-      x.CD.buff(r.coreResonanceCdBuff ? 0.04 * 8 : 0, SOURCE_TRACE)
-      x.ELEMENTAL_DMG.buff(r.talentDmgBuff ? talentDmgBuffScaling : 0, SOURCE_TALENT)
+      // Basic scaling: normal or enhanced (+ extra hit on single target)
+      const basicTotalScaling = r.enhancedBasic
+        ? basicEnhancedScaling + (context.enemyCount == 1 ? basicEnhancedExtraScaling : 0)
+        : basicScaling
+      const basicToughness = r.enhancedBasic ? 20 : 10
 
-      x.ELEMENTAL_DMG.buff((e >= 1 && r.e1DmgBuff) ? 0.60 : 0, SOURCE_E1)
+      // Skill scaling: base + enhanced stacks + E2 bonus
+      const skillTotalScaling = skillScaling
+        + (r.enhancedSkill ? r.coreResonanceStacks * skillStackScaling : 0)
+        + (e >= 2 && r.e2Buffs ? 0.07 * r.coreResonanceStacks : 0)
 
-      x.DEF_PEN.buff((e >= 2 && r.e2Buffs) ? 0.01 * 15 : 0, SOURCE_E2)
-      x.SKILL_ATK_SCALING.buff((e >= 2 && r.e2Buffs) ? 0.07 * r.coreResonanceStacks : 0, SOURCE_E2)
+      // ULT scaling: base + bounces divided by enemy count
+      const ultTotalScaling = ultScaling + ultBounceScaling * 10 / context.enemyCount
+      const ultToughness = 40 + 20 / context.enemyCount
 
-      x.WIND_RES_PEN.buff((e >= 4 && r.e4ResPen) ? 0.08 + 0.04 * 3 : 0, SOURCE_E4)
-
-      x.ULT_RES_PEN.buff((e >= 6 && r.e6ResPen) ? 0.20 : 0, SOURCE_E6)
-
-      x.BASIC_ATK_SCALING.buff(r.enhancedBasic ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
-      if (context.enemyCount == 1) {
-        x.BASIC_ATK_SCALING.buff(r.enhancedBasic ? basicEnhancedExtraScaling : 0, SOURCE_BASIC)
+      return {
+        [SaberAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Wind)
+              .atkScaling(basicTotalScaling)
+              .toughnessDmg(basicToughness)
+              .build(),
+          ],
+        },
+        [SaberAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Wind)
+              .atkScaling(skillTotalScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [SaberAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Wind)
+              .atkScaling(ultTotalScaling)
+              .toughnessDmg(ultToughness)
+              .build(),
+          ],
+        },
+        [SaberAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
+          ],
+        },
       }
-
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.SKILL_ATK_SCALING.buff(r.enhancedSkill ? r.coreResonanceStacks * skillStackScaling : 0, SOURCE_SKILL)
-
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.ULT_ATK_SCALING.buff(ultBounceScaling * 10 / context.enemyCount, SOURCE_ULT)
-
-      x.BASIC_TOUGHNESS_DMG.buff(r.enhancedBasic ? 20 : 10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(40 + 20 / context.enemyCount, SOURCE_ULT)
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // Trace buffs
+      x.buff(StatKey.CD, r.cdBuff ? 0.50 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.CR, r.crBuff ? 0.20 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.CD, r.coreResonanceCdBuff ? 0.04 * 8 : 0, x.source(SOURCE_TRACE))
+
+      // Talent DMG buff
+      x.buff(StatKey.DMG_BOOST, r.talentDmgBuff ? talentDmgBuffScaling : 0, x.source(SOURCE_TALENT))
+
+      // E1: DMG boost
+      x.buff(StatKey.DMG_BOOST, (e >= 1 && r.e1DmgBuff) ? 0.60 : 0, x.source(SOURCE_E1))
+
+      // E2: DEF PEN (skill scaling handled in actionDefinition)
+      x.buff(StatKey.DEF_PEN, (e >= 2 && r.e2Buffs) ? 0.01 * 15 : 0, x.source(SOURCE_E2))
+
+      // E4: Wind RES PEN
+      x.buff(StatKey.RES_PEN, (e >= 4 && r.e4ResPen) ? 0.08 + 0.04 * 3 : 0, x.elements(ElementTag.Wind).source(SOURCE_E4))
+
+      // E6: ULT RES PEN
+      x.buff(StatKey.RES_PEN, (e >= 6 && r.e6ResPen) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E6))
     },
-    finalizeCalculations: () => {
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: () => '',
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

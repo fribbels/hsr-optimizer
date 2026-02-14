@@ -147,6 +147,15 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
     type: ConditionalDataType.BOOLEAN,
     modifiable: true,
   },
+  [Sets.EverGloriousMagicalGirl]: {
+    type: ConditionalDataType.SELECT,
+    selectionOptions: SetContentEverGloriousMagicalGirl,
+    modifiable: true,
+  },
+  [Sets.DivinerOfDistantReach]: {
+    type: ConditionalDataType.BOOLEAN,
+    modifiable: true,
+  },
 
   // Ornaments
 
@@ -425,4 +434,17 @@ function SetContentArcadiaOfWovenDreams(t: SetConditionalTFunction) {
       label: '8 allies (+36% DMG)',
     },
   ]
+}
+
+function SetContentEverGloriousMagicalGirl(t: SetConditionalTFunction) {
+  const options: SelectOptionContent[] = []
+  for (let i = 0; i <= 10; i++) {
+    options.push({
+      display: i + 'x',
+      value: i,
+      label: `${i} stacks (+${TsUtils.precisionRound(i)}% DEF ignore)`,
+    })
+  }
+
+  return options
 }

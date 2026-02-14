@@ -15,3 +15,11 @@ export function wgslTrue(condition: number | boolean) {
 export function wgslFalse(condition: number | boolean) {
   return condition ? 'false' : 'true'
 }
+
+/**
+ * Tagged template for WGSL code generation.
+ * Accepts strings and numbers as interpolated values.
+ */
+export function wgsl(strings: TemplateStringsArray, ...values: (string | number)[]): string {
+  return String.raw(strings, ...values.map(String))
+}

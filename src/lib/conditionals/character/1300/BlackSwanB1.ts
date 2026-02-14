@@ -1,30 +1,41 @@
 import i18next from 'i18next'
-import {
-  AbilityType,
-  DOT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDefPen } from 'lib/optimization/calculateBuffs'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+  wgsl,
+  wgslTrue,
+} from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
+import {
+  AKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 
 import { Eidolon } from 'types/character'
-
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
-
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const BlackSwanB1Entities = createEnum('BlackSwanB1')
+export const BlackSwanB1Abilities = createEnum('BASIC', 'SKILL', 'ULT', 'DOT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.BlackSwan')
@@ -136,55 +147,110 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(BlackSwanB1Entities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [BlackSwanB1Entities.BlackSwanB1]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(BlackSwanB1Abilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.DOT_ATK_SCALING.buff(dotScaling + arcanaStackMultiplier * r.arcanaStacks, SOURCE_TALENT)
-
-      buffAbilityDefPen(x, DOT_DMG_TYPE, 0.20, SOURCE_TALENT)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-
-      x.DOT_CHANCE.set(dotChance, SOURCE_TALENT)
-      x.DOT_SPLIT.set(0.05, SOURCE_TALENT)
-      x.DOT_STACKS.set(r.arcanaStacks, SOURCE_TALENT)
+      return {
+        [BlackSwanB1Abilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Wind)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [BlackSwanB1Abilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Wind)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [BlackSwanB1Abilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Wind)
+              .atkScaling(ultScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [BlackSwanB1Abilities.DOT]: {
+          hits: [
+            HitDefinitionBuilder.standardDot()
+              .dotBaseChance(dotChance)
+              .dotSplit(0.05)
+              .dotStacks(r.arcanaStacks)
+              .damageElement(ElementTag.Wind)
+              .damageType(DamageTag.DOT)
+              .atkScaling(dotScaling + arcanaStackMultiplier * r.arcanaStacks)
+              .build(),
+          ],
+        },
+        [BlackSwanB1Abilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
+          ],
+        },
+      }
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      // B1: DOT DEF_PEN is unconditional (not gated on arcana >= 7 like migrated BlackSwan)
+      x.buff(StatKey.DEF_PEN, 0.20, x.damageType(DamageTag.DOT).source(SOURCE_TALENT))
+    },
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.DEF_PEN.buffTeam((m.skillDefShred) ? skillDefShredValue : 0, SOURCE_SKILL)
-      x.WIND_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, SOURCE_E1)
-      x.FIRE_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, SOURCE_E1)
-      x.PHYSICAL_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, SOURCE_E1)
-      x.LIGHTNING_RES_PEN.buffTeam((e >= 1 && m.e1ResReduction) ? 0.25 : 0, SOURCE_E1)
+      x.buff(StatKey.DEF_PEN, (m.skillDefShred) ? skillDefShredValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+      x.buff(
+        StatKey.RES_PEN,
+        (e >= 1 && m.e1ResReduction) ? 0.25 : 0,
+        x.elements(ElementTag.Wind | ElementTag.Fire | ElementTag.Physical | ElementTag.Lightning).targets(TargetTag.FullTeam).source(SOURCE_E1),
+      )
 
-      x.VULNERABILITY.buffTeam((m.epiphanyDebuff) ? epiphanyDmgTakenBoost : 0, SOURCE_ULT)
+      // B1: Generic vulnerability (not DOT-filtered like migrated BlackSwan)
+      x.buff(StatKey.VULNERABILITY, (m.epiphanyDebuff) ? epiphanyDmgTakenBoost : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
 
-      x.VULNERABILITY.buffTeam((e >= 4 && m.epiphanyDebuff && m.e4Vulnerability) ? 0.20 : 0, SOURCE_E4)
+      x.buff(StatKey.VULNERABILITY, (e >= 4 && m.epiphanyDebuff && m.e4Vulnerability) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
-    precomputeTeammateEffects: (x, action, context) => {
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ELEMENTAL_DMG.buff(t.ehrToDmgBoost ? Math.min(0.72, 0.60 * t.combatEhr) : 0, SOURCE_TRACE)
+      x.buff(StatKey.DMG_BOOST, t.ehrToDmgBoost ? Math.min(0.72, 0.60 * t.combatEhr) : 0, x.source(SOURCE_TRACE))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.ELEMENTAL_DMG.buff((r.ehrToDmgBoost) ? Math.min(0.72, 0.60 * x.a[Key.EHR]) : 0, SOURCE_TRACE)
+      const ehrValue = x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX)
+      x.buff(StatKey.DMG_BOOST, (r.ehrToDmgBoost) ? Math.min(0.72, 0.60 * ehrValue) : 0, x.source(SOURCE_TRACE))
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      return `
+      return wgsl`
 if (${wgslTrue(r.ehrToDmgBoost)}) {
-  x.ELEMENTAL_DMG += min(0.72, 0.60 * x.EHR);
+  let dmgBuff = min(0.72, 0.60 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)});
+  ${buff.action(AKey.DMG_BOOST, 'dmgBuff').wgsl(action)}
 }
-`
+      `
     },
   }
 }

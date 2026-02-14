@@ -7,23 +7,43 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { CASTORICE } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { AbilityDefinition } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const CastoriceEntities = createEnum(
+  'Castorice',
+  'Netherwing',
+)
+
+export const CastoriceAbilities = createEnum(
+  'BASIC',
+  'SKILL',
+  'MEMO_SKILL',
+  'MEMO_TALENT',
+  'BREAK',
+)
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Castorice.Content')
@@ -178,71 +198,166 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(CastoriceEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [CastoriceEntities.Castorice]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+      [CastoriceEntities.Netherwing]: {
+        primary: false,
+        summon: true,
+        memosprite: true,
+        memoBaseSpdFlat: 165,
+        memoBaseHpFlat: 34000,
+        memoBaseAtkScaling: 1,
+        memoBaseDefScaling: 1,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(CastoriceAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.SUMMONS.set(1, SOURCE_TALENT)
-      x.MEMOSPRITE.set(1, SOURCE_TALENT)
-      x.MEMO_BUFF_PRIORITY.set(r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, SOURCE_TALENT)
-    },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
+      // Compute memo skill scaling based on enhances
+      const memoSkillHpScaling = r.memoSkillEnhances === 1 ? memoSkillScaling1
+        : r.memoSkillEnhances === 2 ? memoSkillScaling2
+          : memoSkillScaling3
 
-      x.SPD_P.buff((r.spdBuff) ? 0.40 : 0, SOURCE_TRACE)
-
-      x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_HP_SCALING.buff((r.memospriteActive) ? skillEnhancedScaling1 : skillScaling, SOURCE_SKILL)
-      x.m.SKILL_SPECIAL_SCALING.buff((r.memospriteActive) ? skillEnhancedScaling2 : 0, SOURCE_SKILL)
-
-      x.ELEMENTAL_DMG.buffBaseDual(talentDmgBoost * r.talentDmgStacks, SOURCE_TALENT)
-      if (e >= 1) {
-        x.m.FINAL_DMG_BOOST.buff((r.e1EnemyHp50) ? 0.40 : 0.20, SOURCE_E1)
-      }
-
-      x.QUANTUM_RES_PEN.buffBaseDual((e >= 6 && r.e6Buffs) ? 0.20 : 0, SOURCE_E6)
-
-      x.MEMO_BASE_SPD_FLAT.buff(165, SOURCE_MEMO)
-      x.MEMO_BASE_HP_FLAT.buff(34000, SOURCE_MEMO)
-      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
-      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
-
-      x.m.ELEMENTAL_DMG.buff(0.30 * r.memoDmgStacks, SOURCE_TRACE)
-
-      x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 1 ? memoSkillScaling1 : 0, SOURCE_MEMO)
-      x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 2 ? memoSkillScaling2 : 0, SOURCE_MEMO)
-      x.m.MEMO_SKILL_SPECIAL_SCALING.buff((r.memoSkillEnhances) == 3 ? memoSkillScaling3 : 0, SOURCE_MEMO)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_BASIC)
-      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
-      x.m.MEMO_TALENT_TOUGHNESS_DMG.buff(5 * (r.memoTalentHits), SOURCE_MEMO)
-
-      x.m.MEMO_TALENT_SPECIAL_SCALING.buff(r.memoTalentHits * memoTalentScaling, SOURCE_MEMO)
-      // Cyrene
+      // Compute memo talent total scaling (includes Cyrene buff)
       const cyreneOverflowPercentAssumption = 30 // Assumes 130% overflow
       const cyreneMultiplierBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.00264 : 0.0024) * cyreneOverflowPercentAssumption * (context.enemyCount < 3 ? 3 : 1)
         : 0
-      x.m.MEMO_TALENT_SPECIAL_SCALING.buff((r.cyreneSpecialEffect) ? r.memoTalentHits * cyreneMultiplierBuff : 0, Source.odeTo(CASTORICE))
+      const cyreneTalentScaling = r.cyreneSpecialEffect ? cyreneMultiplierBuff : 0
+      const totalMemoTalentScaling = r.memoTalentHits * (memoTalentScaling + cyreneTalentScaling)
+
+      // Normal skill ability (no memosprite)
+      const normalSkillAbility: AbilityDefinition = {
+        hits: [
+          HitDefinitionBuilder.standardSkill()
+            .damageElement(ElementTag.Quantum)
+            .hpScaling(skillScaling)
+            .toughnessDmg(20)
+            .build(),
+        ],
+      }
+
+      // Enhanced skill ability (with memosprite active)
+      const enhancedSkillAbility: AbilityDefinition = {
+        hits: [
+          // Castorice's part
+          HitDefinitionBuilder.standardSkill()
+            .damageElement(ElementTag.Quantum)
+            .hpScaling(skillEnhancedScaling1)
+            .toughnessDmg(20)
+            .build(),
+          // Netherwing's part - scales off Castorice's HP
+          HitDefinitionBuilder.crit()
+            .sourceEntity(CastoriceEntities.Netherwing)
+            .scalingEntity(CastoriceEntities.Castorice)
+            .damageType(DamageTag.SKILL | DamageTag.MEMO)
+            .damageElement(ElementTag.Quantum)
+            .hpScaling(skillEnhancedScaling2)
+            .directHit(true)
+            .build(),
+        ],
+      }
+
+      return {
+        [CastoriceAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Quantum)
+              .hpScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [CastoriceAbilities.SKILL]: r.memospriteActive ? enhancedSkillAbility : normalSkillAbility,
+        [CastoriceAbilities.MEMO_SKILL]: {
+          hits: [
+            // Netherwing's skill - scales off Castorice's HP
+            HitDefinitionBuilder.crit()
+              .sourceEntity(CastoriceEntities.Netherwing)
+              .scalingEntity(CastoriceEntities.Castorice)
+              .damageType(DamageTag.MEMO)
+              .damageElement(ElementTag.Quantum)
+              .hpScaling(memoSkillHpScaling)
+              .toughnessDmg(10)
+              .directHit(true)
+              .build(),
+          ],
+        },
+        [CastoriceAbilities.MEMO_TALENT]: {
+          hits: [
+            // Netherwing's talent bounces - scales off Castorice's HP
+            // Combined into single hit with total scaling
+            HitDefinitionBuilder.crit()
+              .sourceEntity(CastoriceEntities.Netherwing)
+              .scalingEntity(CastoriceEntities.Castorice)
+              .damageType(DamageTag.MEMO)
+              .damageElement(ElementTag.Quantum)
+              .hpScaling(totalMemoTalentScaling)
+              .toughnessDmg(5 * r.memoTalentHits)
+              .directHit(true)
+              .build(),
+          ],
+        },
+        [CastoriceAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
+          ],
+        },
+      }
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
+      x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
+      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
+    },
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // SPD buff
+      x.buff(StatKey.SPD_P, (r.spdBuff) ? 0.40 : 0, x.source(SOURCE_TRACE))
+
+      // Talent DMG boost (both Castorice and Netherwing)
+      x.buff(StatKey.DMG_BOOST, talentDmgBoost * r.talentDmgStacks, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TALENT))
+
+      // E1: Final DMG boost for Netherwing
+      if (e >= 1) {
+        x.buff(StatKey.FINAL_DMG_BOOST, (r.e1EnemyHp50) ? 0.40 : 0.20, x.target(CastoriceEntities.Netherwing).source(SOURCE_E1))
+      }
+
+      // E6: Quantum RES PEN (both Castorice and Netherwing)
+      x.buff(
+        StatKey.RES_PEN,
+        (e >= 6 && r.e6Buffs) ? 0.20 : 0,
+        x.elements(ElementTag.Quantum).targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6),
+      )
+
+      // Netherwing's trace DMG boost
+      x.buff(StatKey.DMG_BOOST, 0.30 * r.memoDmgStacks, x.target(CastoriceEntities.Netherwing).source(SOURCE_TRACE))
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.RES_PEN.buffTeam((m.memospriteActive) ? ultTerritoryResPen : 0, SOURCE_ULT)
-      x.ELEMENTAL_DMG.buffTeam((m.teamDmgBoost) ? 0.10 : 0, SOURCE_MEMO)
+      x.buff(StatKey.RES_PEN, (m.memospriteActive) ? ultTerritoryResPen : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
+      x.buff(StatKey.DMG_BOOST, (m.teamDmgBoost) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_MEMO))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      // Scales off of Castorice's HP not the memo
-      x.m.SKILL_DMG.buff(x.m.a[Key.SKILL_SPECIAL_SCALING] * x.a[Key.HP], Source.NONE)
-      x.m.MEMO_SKILL_DMG.buff(x.m.a[Key.MEMO_SKILL_SPECIAL_SCALING] * x.a[Key.HP], Source.NONE)
-      x.m.MEMO_TALENT_DMG.buff(x.m.a[Key.MEMO_TALENT_SPECIAL_SCALING] * x.a[Key.HP], Source.NONE)
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      // No longer needed - scalingEntity handles the cross-entity HP scaling
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return ` 
-m.SKILL_DMG += m.SKILL_SPECIAL_SCALING * x.HP;
-m.MEMO_SKILL_DMG += m.MEMO_SKILL_SPECIAL_SCALING * x.HP;
-m.MEMO_TALENT_DMG += m.MEMO_TALENT_SPECIAL_SCALING * x.HP;
-`
-    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

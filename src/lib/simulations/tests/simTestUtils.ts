@@ -12,10 +12,13 @@ import {
   StatConfig,
   StatsConfig,
 } from 'lib/optimization/config/computedStatsConfig'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import { generateContext } from 'lib/optimization/context/calculateContext'
+import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import {
+  RunStatSimulationsResult,
   Simulation,
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
@@ -105,7 +108,7 @@ export function generateE6S5Test(input: TestInputBasic) {
   return applyEidolonSuperimposition(input, 6, 5)
 }
 
-export function runTest(input: TestInput) {
+export function runTest(input: TestInput): RunStatSimulationsResult {
   const { character, teammate0, teammate1, teammate2, sets, stats, mains } = input
 
   const form = generateFullDefaultForm(character.characterId, character.lightCone, character.characterEidolon, character.lightConeSuperimposition)
@@ -123,8 +126,7 @@ export function runTest(input: TestInput) {
     },
   } as unknown as Simulation
 
-  const simulationResult = runStatSimulations([simulation], form, context)[0]
-  return simulationResult.x
+  return runStatSimulations([simulation], form, context)[0]
 }
 
 export function testCharacter(characterId: string, lightCone: string): TestCharacterBasic {
@@ -139,6 +141,8 @@ export function testMains(simBody: MainStats, simFeet: MainStats, simPlanarSpher
   return { simBody, simFeet, simPlanarSphere, simLinkRope }
 }
 
+// Only stats 0-14 (HP_P through OHB) have matching indices between StatsConfig and StatKey.
+// Stats past OHB are populated manually in collectResults using StatKey / actionDamage / primaryActionStats.
 export const trackedCombatStats: StatConfig[] = [
   StatsConfig.ATK,
   StatsConfig.DEF,
@@ -151,19 +155,6 @@ export const trackedCombatStats: StatConfig[] = [
   StatsConfig.BE,
   StatsConfig.OHB,
   StatsConfig.ERR,
-  StatsConfig.ELEMENTAL_DMG,
-  StatsConfig.EHP,
-  StatsConfig.HEAL_VALUE,
-  StatsConfig.SHIELD_VALUE,
-  StatsConfig.BASIC_DMG,
-  StatsConfig.SKILL_DMG,
-  StatsConfig.ULT_DMG,
-  StatsConfig.FUA_DMG,
-  StatsConfig.DOT_DMG,
-  StatsConfig.BREAK_DMG,
-  StatsConfig.MEMO_SKILL_DMG,
-  StatsConfig.MEMO_TALENT_DMG,
-  StatsConfig.COMBO_DMG,
 ]
 export const trackedBasicStats: StatConfig[] = [
   StatsConfig.ATK,
@@ -177,11 +168,18 @@ export const trackedBasicStats: StatConfig[] = [
   StatsConfig.BE,
   StatsConfig.OHB,
   StatsConfig.ERR,
-  StatsConfig.ELEMENTAL_DMG,
+  StatsConfig.PHYSICAL_DMG_BOOST,
+  StatsConfig.FIRE_DMG_BOOST,
+  StatsConfig.ICE_DMG_BOOST,
+  StatsConfig.LIGHTNING_DMG_BOOST,
+  StatsConfig.WIND_DMG_BOOST,
+  StatsConfig.QUANTUM_DMG_BOOST,
+  StatsConfig.IMAGINARY_DMG_BOOST,
 ]
 
 export function collectResults(input: TestInput) {
-  const x = runTest(input)
+  const result = runTest(input)
+  const { x, primaryActionStats, actionDamage } = result
 
   const keyCombatResults: TestResultByKey = {}
   const nameCombatResults: TestResultByName = {}
@@ -189,12 +187,61 @@ export function collectResults(input: TestInput) {
   const keyBasicResults: TestResultByKey = {}
   const nameBasicResults: TestResultByName = {}
 
+  // Stats 0-14 have matching indices between StatsConfig and StatKey
   for (const stat of trackedCombatStats) {
     const value = TsUtils.precisionRound(x.a[stat.index], 7)
 
     keyCombatResults[stat.index] = value
     nameCombatResults[stat.name] = value
   }
+
+  // CR and CD display values include their respective _BOOST components
+  if (primaryActionStats) {
+    nameCombatResults['CR'] = TsUtils.precisionRound(primaryActionStats.sourceEntityCR, 7)
+    nameCombatResults['CD'] = TsUtils.precisionRound(primaryActionStats.sourceEntityCD, 7)
+  }
+
+  // Total DMG% = generic DMG_BOOST (action+hit) + element-specific boost (action)
+  if (primaryActionStats) {
+    nameCombatResults['DMG_BOOST'] = TsUtils.precisionRound(
+      primaryActionStats.DMG_BOOST + primaryActionStats.sourceEntityElementDmgBoost, 7,
+    )
+  }
+
+  // EHP and COMBO_DMG via correct StatKey indices
+  nameCombatResults['EHP'] = TsUtils.precisionRound(x.a[StatKey.EHP], 7)
+  nameCombatResults['COMBO_DMG'] = TsUtils.precisionRound(x.a[StatKey.COMBO_DMG], 7)
+
+  // Default all ability damage types to 0, then populate from actionDamage
+  const damageAbilities = ['BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK', 'MEMO_SKILL', 'MEMO_TALENT']
+  for (const ability of damageAbilities) {
+    nameCombatResults[`${ability}_DMG`] = 0
+  }
+  nameCombatResults['HEAL_VALUE'] = 0
+  nameCombatResults['SHIELD_VALUE'] = 0
+
+  if (actionDamage) {
+    let healValue = 0
+    let shieldValue = 0
+
+    for (const [actionName, dmg] of Object.entries(actionDamage)) {
+      // actionName is TurnAbilityName like 'DEFAULT_BASIC' - strip marker prefix to get AbilityKind
+      const abilityKind = actionName.replace(/^[A-Z]+_/, '')
+      const meta = AbilityMeta[abilityKind as keyof typeof AbilityMeta]
+
+      if (meta?.category === 'heal') {
+        healValue += dmg ?? 0
+      } else if (meta?.category === 'shield') {
+        shieldValue += dmg ?? 0
+      } else if (meta?.category === 'damage') {
+        nameCombatResults[`${abilityKind}_DMG`] = TsUtils.precisionRound(dmg ?? 0, 7)
+      }
+    }
+
+    nameCombatResults['HEAL_VALUE'] = TsUtils.precisionRound(healValue, 7)
+    nameCombatResults['SHIELD_VALUE'] = TsUtils.precisionRound(shieldValue, 7)
+  }
+
   for (const stat of trackedBasicStats) {
     const value = TsUtils.precisionRound(x.c.a[stat.index], 7)
 

@@ -1,19 +1,19 @@
-import {
-  AbilityType,
-  ADDITIONAL_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  gpuStandardAdditionalDmgAtkFinalizer,
-  standardAdditionalDmgAtkFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -23,6 +23,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const SushangEntities = createEnum('Sushang')
+export const SushangAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sushang')
@@ -102,42 +105,94 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(SushangEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [SushangEntities.Sushang]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(SushangAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Stats
-      x.BE.buff((e >= 4) ? 0.40 : 0, SOURCE_E4)
-      x.ATK_P.buff((r.ultBuffedState) ? ultBuffedAtk : 0, SOURCE_ULT)
-      x.SPD_P.buff((r.talentSpdBuffStacks) * talentSpdBuffValue, SOURCE_TALENT)
-
-      /*
-       * Scaling
-       * Trace only affects stance damage not skill damage - boost this based on proportion of stance : total skill dmg
-       */
-      const originalSkillScaling = skillScaling
       let stanceSkillScaling = 0
       stanceSkillScaling += (r.skillExtraHits >= 1) ? skillExtraHitScaling : 0
       stanceSkillScaling += (r.ultBuffedState && r.skillExtraHits >= 2) ? skillExtraHitScaling * 0.5 : 0
       stanceSkillScaling += (r.ultBuffedState && r.skillExtraHits >= 3) ? skillExtraHitScaling * 0.5 : 0
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(originalSkillScaling, SOURCE_SKILL)
-      x.SKILL_ADDITIONAL_DMG_SCALING.buff(stanceSkillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-
-      // Boost
-      buffAbilityDmg(x, ADDITIONAL_DMG_TYPE, r.skillTriggerStacks * 0.025, SOURCE_SKILL)
-      x.DMG_RED_MULTI.multiply((e >= 2 && r.e2DmgReductionBuff) ? (1 - 0.20) : 1, SOURCE_E2)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
-
-      return x
+      return {
+        [SushangAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [SushangAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+            ...(
+              (stanceSkillScaling > 0)
+                ? [
+                  HitDefinitionBuilder.standardAdditional()
+                    .damageElement(ElementTag.Physical)
+                    .atkScaling(stanceSkillScaling)
+                    .build(),
+                ]
+                : []
+            ),
+          ],
+        },
+        [SushangAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(ultScaling)
+              .toughnessDmg(30)
+              .build(),
+          ],
+        },
+        [SushangAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
+          ],
+        },
+      }
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {
-      standardAdditionalDmgAtkFinalizer(x)
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // E4: BE buff
+      x.buff(StatKey.BE, (e >= 4) ? 0.40 : 0, x.source(SOURCE_E4))
+
+      // ULT: ATK% buff
+      x.buff(StatKey.ATK_P, (r.ultBuffedState) ? ultBuffedAtk : 0, x.source(SOURCE_ULT))
+
+      // Talent: SPD% buff per stack
+      x.buff(StatKey.SPD_P, r.talentSpdBuffStacks * talentSpdBuffValue, x.source(SOURCE_TALENT))
+
+      // Trace: Additional DMG boost based on skill trigger stacks
+      x.buff(StatKey.DMG_BOOST, r.skillTriggerStacks * 0.025, x.damageType(DamageTag.ADDITIONAL).source(SOURCE_SKILL))
+
+      // E2: DMG reduction
+      x.multiplicativeComplement(StatKey.DMG_RED, (e >= 2 && r.e2DmgReductionBuff) ? 0.20 : 0, x.source(SOURCE_E2))
     },
-    gpuFinalizeCalculations: () => gpuStandardAdditionalDmgAtkFinalizer(),
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

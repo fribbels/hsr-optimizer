@@ -257,12 +257,6 @@ Characters:
   "8008":
     Name: 星
     LongName: 星 (記憶)
-  1306b1:
-    Name: 花火
-    LongName: 花火
-  1307b1:
-    Name: 黑天鹅
-    LongName: 黑天鹅
   1212b1:
     Name: 鏡流
     LongName: 鏡流
@@ -275,6 +269,12 @@ Characters:
   1006b1:
     Name: 銀狼
     LongName: 銀狼
+  1307b1:
+    Name: 黑天鵝
+    LongName: 黑天鵝
+  1306b1:
+    Name: 花火
+    LongName: 花火
 RelicSets:
   "101":
     Name: 雲無留跡的過客
@@ -389,13 +389,13 @@ RelicSets:
     Description2pc: 提供的護盾量提高10%。
     Description4pc: 使裝備者提供的護盾量提高12%，我方目標持有裝備者提供的護盾時，暴擊傷害提高15%。
   "129":
-    Name: 闪耀功勋的魔法少女
-    Description2pc: 暴击伤害提高16%。
-    Description4pc: 装备者及其忆灵造成的欢愉伤害无视目标10%的防御力，我方每累计获得5点笑点，造成的欢愉伤害额外无视目标1%的防御力，最多叠加10层。
+    Name: 功勳閃耀的魔法少女
+    Description2pc: 暴擊傷害提高16%。
+    Description4pc: 裝備者及其憶靈造成的歡愉傷害無視目標10%的防禦力，我方每累積獲得5點笑點，造成的歡愉傷害便額外無視目標1%的防禦力，最多疊加10層。
   "130":
-    Name: 应天涉远的卜者
+    Name: 應天涉遠的卜者
     Description2pc: 速度提高6%。
-    Description4pc: 进入战斗前，若装备者的速度大于等于120/160，使装备者的暴击率提高10%/18%。装备者每场战斗首次施放欢愉技时，使我方全体欢愉度提高10%，该效果无法叠加。
+    Description4pc: 進入戰鬥前，若裝備者的速度達到120/160，則使裝備者的暴擊率提高10%/18%。裝備者每場戰鬥首次施放歡愉技時，使我方全體歡愉度提高10%，該效果無法疊加。
   "301":
     Name: 太空封印站
     Description2pc: 使裝備者的攻擊力提高12%。當裝備者的速度大於等於120時，攻擊力額外提高12%。
@@ -518,7 +518,7 @@ Lightcones:
   "20023":
     Name: 嗤笑
   "20024":
-    Name: 残泪
+    Name: 殘淚
   "21000":
     Name: 一場術後對話
   "21001":
@@ -642,9 +642,9 @@ Lightcones:
   "21062":
     Name: 於那終點再見
   "21064":
-    Name: 菇菇嘎嘎历险记
+    Name: 菇菇嘎嘎歷險記
   "21065":
-    Name: 今日好手气
+    Name: 今日好手氣
   "22000":
     Name: 新手任務開始前
   "22001":
@@ -768,7 +768,7 @@ Lightcones:
   "23053":
     Name: 花花世界迷人眼
   "23054":
-    Name: 当她决定看见
+    Name: 當她決定看見
   "24000":
     Name: 記一位星神的殞落
   "24001":
@@ -790,6 +790,8 @@ Paths:
   Knight: 存護
   Priest: 豐饒
   Memory: 記憶
+  Elation: 歡愉
+  Unknown: 通用
 Elements:
   Physical: 物理
   Fire: 火

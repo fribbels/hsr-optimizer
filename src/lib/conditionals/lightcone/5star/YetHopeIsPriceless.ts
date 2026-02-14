@@ -1,21 +1,14 @@
 import {
-  FUA_DMG_TYPE,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
+import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  buffAbilityDefPen,
-  buffAbilityDmg,
-} from 'lib/optimization/calculateBuffs'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -43,7 +36,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       formItem: 'switch',
       text: t('Content.fuaDmgBoost.text'),
       content: t('Content.fuaDmgBoost.content', { DmgBuff: TsUtils.precisionRound(sValuesFuaDmg[s] * 100) }),
-      // `While the wearer is in battle, for every 20% CRIT DMG that exceeds 120%, the DMG dealt by follow-up attack increases by ${precisionRound(sValuesFuaDmg[s] * 100)}%. This effect can stack up to 4 time(s).`,
     },
     ultFuaDefShred: {
       lc: true,
@@ -51,29 +43,31 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       formItem: 'switch',
       text: t('Content.ultFuaDefShred.text'),
       content: t('Content.ultFuaDefShred.content', { DefShred: TsUtils.precisionRound(sValuesFuaDmg[s] * 100) }),
-      // `When the battle starts or after the wearer uses their Basic ATK, enables Ultimate or the DMG dealt by follow-up attack to ignore ${sValuesUltFuaDefShred[s] * 100}% of the target's DEF, lasting for 2 turn(s).`,
     },
   }
 
   return {
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      buffAbilityDefPen(x, ULT_DMG_TYPE | FUA_DMG_TYPE, (r.ultFuaDefShred) ? sValuesUltFuaDefShred[s] : 0, SOURCE_LC)
+      x.buff(StatKey.DEF_PEN, (r.ultFuaDefShred) ? sValuesUltFuaDefShred[s] : 0, x.damageType(DamageTag.ULT | DamageTag.FUA).source(SOURCE_LC))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      buffAbilityDmg(x, FUA_DMG_TYPE, (r.fuaDmgBoost) ? sValuesFuaDmg[s] * Math.min(4, Math.floor(x.a[Key.CD] - 1.20) / 0.20) : 0, SOURCE_LC)
+      const cdValue = x.getActionValueByIndex(StatKey.CD, SELF_ENTITY_INDEX)
+      x.buff(StatKey.DMG_BOOST, (r.fuaDmgBoost) ? sValuesFuaDmg[s] * Math.min(4, Math.floor((cdValue - 1.20) / 0.20)) : 0, x.damageType(DamageTag.FUA).source(SOURCE_LC))
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      return `
+      return wgsl`
 if (${wgslTrue(r.fuaDmgBoost)}) {
-  buffAbilityDmg(p_x, FUA_DMG_TYPE, ${sValuesFuaDmg[s]} * min(4, floor(x.CD - 1.20) / 0.20), 1);
+  let cdValue = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, action.config)};
+  let fuaDmgBuff = ${sValuesFuaDmg[s]} * min(4.0, floor((cdValue - 1.20) / 0.20));
+  ${buff.hit(HKey.DMG_BOOST, 'fuaDmgBuff').damageType(DamageTag.FUA).wgsl(action)}
 }
     `
     },

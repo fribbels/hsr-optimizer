@@ -33,6 +33,8 @@ OrnamentSetSelector:
   Placeholder: Ornament set
 SortOptions:
   DMGLabel: Damage calculations
+  HealLabel: Heal calculations
+  ShieldLabel: Shield calculations
   StatLabel: Stats
   COMBO: Sorted by Combo DMG
   BASIC: Sorted by Basic DMG
@@ -45,6 +47,16 @@ SortOptions:
   BREAK: Sorted by Break DMG
   HEAL: Sorted by Heal
   SHIELD: Sorted by Shield
+  BASIC_HEAL: Sorted by Basic HEAL
+  SKILL_HEAL: Sorted by Skill HEAL
+  ULT_HEAL: Sorted by Ult HEAL
+  FUA_HEAL: Sorted by Follow-up HEAL
+  TALENT_HEAL: Sorted by Talent HEAL
+  BASIC_SHIELD: Sorted by Basic SHIELD
+  SKILL_SHIELD: Sorted by Skill SHIELD
+  ULT_SHIELD: Sorted by Ult SHIELD
+  FUA_SHIELD: Sorted by Follow-up SHIELD
+  TALENT_SHIELD: Sorted by Talent SHIELD
   HP: 'Sorted by $t(common:ReadableStats.HP)'
   ATK: 'Sorted by $t(common:ReadableStats.ATK)'
   DEF: 'Sorted by $t(common:ReadableStats.DEF)'
@@ -148,6 +160,36 @@ Grid:
       BREAK: |-
         BREAK
         DMG
+      BASIC_HEAL: |-
+        BASIC
+        HEAL
+      SKILL_HEAL: |-
+        SKILL
+        HEAL
+      ULT_HEAL: |-
+        ULT
+        HEAL
+      FUA_HEAL: |-
+        FUA
+        HEAL
+      TALENT_HEAL: |-
+        TALENT
+        HEAL
+      BASIC_SHIELD: |-
+        BASIC
+        SHIELD
+      SKILL_SHIELD: |-
+        SKILL
+        SHIELD
+      ULT_SHIELD: |-
+        ULT
+        SHIELD
+      FUA_SHIELD: |-
+        FUA
+        SHIELD
+      TALENT_SHIELD: |-
+        TALENT
+        SHIELD
       COMBO: |-
         COMBO
         DMG
@@ -192,6 +234,36 @@ Grid:
       BREAK: |-
         BREAK
         DMG
+      BASIC_HEAL: |-
+        BASIC
+        HEAL
+      SKILL_HEAL: |-
+        SKILL
+        HEAL
+      ULT_HEAL: |-
+        ULT
+        HEAL
+      FUA_HEAL: |-
+        FUA
+        HEAL
+      TALENT_HEAL: |-
+        TALENT
+        HEAL
+      BASIC_SHIELD: |-
+        BASIC
+        SHIELD
+      SKILL_SHIELD: |-
+        SKILL
+        SHIELD
+      ULT_SHIELD: |-
+        ULT
+        SHIELD
+      FUA_SHIELD: |-
+        FUA
+        SHIELD
+      TALENT_SHIELD: |-
+        TALENT
+        SHIELD
       COMBO: |-
         COMBO
         DMG
@@ -465,6 +537,16 @@ ComboFilter:
     Break: Break
     MemoSkill: Skillᴹ
     MemoTalent: Talentᴹ
+    BasicHeal: Basic HEAL
+    SkillHeal: Skill HEAL
+    UltHeal: Ult HEAL
+    FuaHeal: Fua HEAL
+    TalentHeal: Talent HEAL
+    BasicShield: Basic SHIELD
+    SkillShield: Skill SHIELD
+    UltShield: Ult SHIELD
+    FuaShield: Fua SHIELD
+    TalentShield: Talent SHIELD
   RotationButton: Advanced rotation
 ComboDrawer:
   NoConditionals: No conditional passives

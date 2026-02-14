@@ -3,9 +3,17 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -14,6 +22,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const YukongEntities = createEnum('Yukong')
+export const YukongAbilities = createEnum('BASIC', 'ULT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yukong')
@@ -99,33 +110,73 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(YukongEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [YukongEntities.Yukong]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(YukongAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      return {
+        [YukongAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(basicScaling + talentAtkScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [YukongAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(ultScaling)
+              .toughnessDmg(30)
+              .build(),
+          ],
+        },
+        [YukongAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
+          ],
+        },
+      }
+    },
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.BASIC_ATK_SCALING.buff(talentAtkScaling, SOURCE_TALENT)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-
-      // Boost
-      x.ELEMENTAL_DMG.buff((e >= 4 && r.roaringBowstringsActive) ? 0.30 : 0, SOURCE_E4)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
-
-      return x
+      // E4: Elemental DMG boost when roaring bowstrings active
+      x.buff(StatKey.DMG_BOOST, (e >= 4 && r.roaringBowstringsActive) ? 0.30 : 0, x.source(SOURCE_E4))
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ATK_P.buffTeam((m.roaringBowstringsActive) ? skillAtkBuffValue : 0, SOURCE_SKILL)
-      x.CR.buffTeam((m.ultBuff && m.roaringBowstringsActive) ? ultCrBuffValue : 0, SOURCE_ULT)
-      x.CD.buffTeam((m.ultBuff && m.roaringBowstringsActive) ? ultCdBuffValue : 0, SOURCE_ULT)
-      x.SPD_P.buffTeam((e >= 1 && m.initialSpeedBuff) ? 0.10 : 0, SOURCE_E1)
+      // Skill: ATK% buff for team
+      x.buff(StatKey.ATK_P, (m.roaringBowstringsActive) ? skillAtkBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
 
-      x.IMAGINARY_DMG_BOOST.buffTeam((m.teamImaginaryDmgBoost) ? 0.12 : 0, SOURCE_TRACE)
+      // ULT: CR and CD buff for team (requires roaring bowstrings)
+      x.buff(StatKey.CR, (m.ultBuff && m.roaringBowstringsActive) ? ultCrBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
+      x.buff(StatKey.CD, (m.ultBuff && m.roaringBowstringsActive) ? ultCdBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
+
+      // E1: SPD% buff for team
+      x.buff(StatKey.SPD_P, (e >= 1 && m.initialSpeedBuff) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+
+      // Trace: Imaginary DMG boost for team
+      x.buff(StatKey.IMAGINARY_DMG_BOOST, (m.teamImaginaryDmgBoost) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {},
-    gpuFinalizeCalculations: () => '',
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

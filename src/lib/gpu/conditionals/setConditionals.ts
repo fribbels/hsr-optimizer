@@ -4,16 +4,23 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import {
-  conditionalWgslWrapper,
   DynamicConditional,
+  newConditionalWgslWrapper,
 } from 'lib/gpu/conditionals/dynamicConditionals'
+import {
+  containerActionVal,
+  p_containerActionVal,
+} from 'lib/gpu/injection/injectUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { p2 } from 'lib/optimization/calculateStats'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
 import { SetKeys } from 'lib/optimization/config/setsConfig'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -25,23 +32,28 @@ export const SpaceSealingStationConditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.ATK],
-  condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(SetKeys.SpaceSealingStation, x.c.sets) && x.a[Key.SPD] >= 120
+  condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+    return p2(SetKeys.SpaceSealingStation, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 120
   },
-  effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    x.ATK.buffDynamic(0.12 * context.baseATK, Source.SpaceSealingStation, action, context)
+  effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    const baseAtk = x.getActionValueByIndex(StatKey.BASE_ATK, SELF_ENTITY_INDEX)
+    x.buffDynamic(StatKey.ATK, 0.12 * baseAtk, action, context, x.source(Source.SpaceSealingStation))
   },
-  gpu: function() {
-    return conditionalWgslWrapper(
+  gpu: function(action: OptimizerAction, context: OptimizerContext) {
+    const config = action.config
+
+    return newConditionalWgslWrapper(
       this,
+      action,
+      context,
       `
 if (
   p2((*p_sets).SpaceSealingStation) >= 1 &&
-  (*p_state).SpaceSealingStationConditional == 0.0 &&
-  x.SPD >= 120
+  (*p_state).SpaceSealingStationConditional${action.actionIdentifier} == 0.0 &&
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 120.0
 ) {
-  (*p_state).SpaceSealingStationConditional = 1.0;
-  (*p_x).ATK += 0.12 * baseATK;
+  (*p_state).SpaceSealingStationConditional${action.actionIdentifier} = 1.0;
+  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} += 0.12 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BASE_ATK, config)};
 }
     `,
     )
@@ -54,27 +66,28 @@ export const FleetOfTheAgelessConditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.ATK],
-  condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(SetKeys.FleetOfTheAgeless, x.c.sets) && x.a[Key.SPD] >= 120
+  condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+    return p2(SetKeys.FleetOfTheAgeless, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 120
   },
-  effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    x.ATK.buffDynamic(0.08 * x.a[Key.BASE_ATK], Source.FleetOfTheAgeless, action, context)
-    if (x.a[Key.MEMOSPRITE]) {
-      x.m.ATK.buffDynamic(0.08 * x.a[Key.BASE_ATK], Source.FleetOfTheAgeless, action, context)
-    }
+  effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    const baseAtk = x.getActionValueByIndex(StatKey.BASE_ATK, SELF_ENTITY_INDEX)
+    x.buffDynamic(StatKey.ATK, 0.08 * baseAtk, action, context, x.targets(TargetTag.SelfAndMemosprite).source(Source.FleetOfTheAgeless))
   },
-  gpu: function() {
-    return conditionalWgslWrapper(
+  gpu: function(action: OptimizerAction, context: OptimizerContext) {
+    const config = action.config
+
+    return newConditionalWgslWrapper(
       this,
+      action,
+      context,
       `
 if (
   p2((*p_sets).FleetOfTheAgeless) >= 1 &&
-  (*p_state).FleetOfTheAgelessConditional == 0.0 &&
-  x.SPD >= 120
+  (*p_state).FleetOfTheAgelessConditional${action.actionIdentifier} == 0.0 &&
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 120.0
 ) {
-  (*p_state).FleetOfTheAgelessConditional = 1.0;
-  (*p_x).ATK += 0.08 * baseATK;
-  (*p_m).ATK += 0.08 * baseATK;
+  (*p_state).FleetOfTheAgelessConditional${action.actionIdentifier} = 1.0;
+  ${buff.action(StatKey.ATK, `0.08 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BASE_ATK, config)}`).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
 }
     `,
     )
@@ -87,23 +100,28 @@ export const BelobogOfTheArchitectsConditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.EHR],
   chainsTo: [Stats.DEF],
-  condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(SetKeys.BelobogOfTheArchitects, x.c.sets) && x.a[Key.EHR] >= 0.50
+  condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+    return p2(SetKeys.BelobogOfTheArchitects, x.c.sets) && x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) >= 0.50
   },
-  effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    x.DEF.buffDynamic(0.15 * context.baseDEF, Source.BelobogOfTheArchitects, action, context)
+  effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    const baseDef = x.getActionValueByIndex(StatKey.BASE_DEF, SELF_ENTITY_INDEX)
+    x.buffDynamic(StatKey.DEF, 0.15 * baseDef, action, context, x.source(Source.BelobogOfTheArchitects))
   },
-  gpu: function() {
-    return conditionalWgslWrapper(
+  gpu: function(action: OptimizerAction, context: OptimizerContext) {
+    const config = action.config
+
+    return newConditionalWgslWrapper(
       this,
+      action,
+      context,
       `
 if (
   p2((*p_sets).BelobogOfTheArchitects) >= 1 &&
-  (*p_state).BelobogOfTheArchitectsConditional == 0.0 &&
-  x.EHR >= 0.50
+  (*p_state).BelobogOfTheArchitectsConditional${action.actionIdentifier} == 0.0 &&
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, config)} >= 0.50
 ) {
-  (*p_state).BelobogOfTheArchitectsConditional = 1.0;
-  (*p_x).DEF += 0.15 * baseDEF;
+  (*p_state).BelobogOfTheArchitectsConditional${action.actionIdentifier} = 1.0;
+  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.DEF, config)} += 0.15 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BASE_DEF, config)};
 }
     `,
     )
@@ -116,30 +134,36 @@ export const PanCosmicCommercialEnterpriseConditional: DynamicConditional = {
   activation: ConditionalActivation.CONTINUOUS,
   dependsOn: [Stats.EHR],
   chainsTo: [Stats.ATK],
-  condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+  condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
     return p2(SetKeys.PanCosmicCommercialEnterprise, x.c.sets)
   },
-  effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+  effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
-    const buffValue = Math.min(0.25, 0.25 * x.a[Key.EHR]) * context.baseATK
+    const ehr = x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX)
+    const baseAtk = x.getActionValueByIndex(StatKey.BASE_ATK, SELF_ENTITY_INDEX)
+    const buffValue = Math.min(0.25, 0.25 * ehr) * baseAtk
 
     action.conditionalState[this.id] = buffValue
-    x.ATK.buffDynamic(buffValue - stateValue, Source.PanCosmicCommercialEnterprise, action, context)
+    x.buffDynamic(StatKey.ATK, buffValue - stateValue, action, context, x.source(Source.PanCosmicCommercialEnterprise))
 
     return buffValue
   },
-  gpu: function() {
-    return conditionalWgslWrapper(
+  gpu: function(action: OptimizerAction, context: OptimizerContext) {
+    const config = action.config
+
+    return newConditionalWgslWrapper(
       this,
+      action,
+      context,
       `
 if (
   p2((*p_sets).PanCosmicCommercialEnterprise) >= 1
 ) {
-  let stateValue: f32 = (*p_state).PanCosmicCommercialEnterpriseConditional;
-  let buffValue: f32 = min(0.25, 0.25 * x.EHR) * baseATK;
+  let stateValue: f32 = (*p_state).PanCosmicCommercialEnterpriseConditional${action.actionIdentifier};
+  let buffValue: f32 = min(0.25, 0.25 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, config)}) * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BASE_ATK, config)};
 
-  (*p_state).PanCosmicCommercialEnterpriseConditional = buffValue;
-  (*p_x).ATK += buffValue - stateValue;
+  (*p_state).PanCosmicCommercialEnterpriseConditional${action.actionIdentifier} = buffValue;
+  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} += buffValue - stateValue;
 }
     `,
     )
@@ -152,27 +176,27 @@ export const BrokenKeelConditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.RES],
   chainsTo: [Stats.CD],
-  condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(SetKeys.BrokenKeel, x.c.sets) && x.a[Key.RES] >= 0.30
+  condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+    return p2(SetKeys.BrokenKeel, x.c.sets) && x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX) >= 0.30
   },
-  effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    x.CD.buffDynamic(0.10, Source.BrokenKeel, action, context)
-    if (x.a[Key.MEMOSPRITE]) {
-      x.m.CD.buffDynamic(0.10, Source.BrokenKeel, action, context)
-    }
+  effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    x.buffDynamic(StatKey.CD, 0.10, action, context, x.targets(TargetTag.SelfAndMemosprite).source(Source.BrokenKeel))
   },
-  gpu: function() {
-    return conditionalWgslWrapper(
+  gpu: function(action: OptimizerAction, context: OptimizerContext) {
+    const config = action.config
+
+    return newConditionalWgslWrapper(
       this,
+      action,
+      context,
       `
 if (
   p2((*p_sets).BrokenKeel) >= 1 &&
-  (*p_state).BrokenKeelConditional == 0.0 &&
-  x.RES >= 0.30
+  (*p_state).BrokenKeelConditional${action.actionIdentifier} == 0.0 &&
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.RES, config)} >= 0.30
 ) {
-  (*p_state).BrokenKeelConditional = 1.0;
-  (*p_x).CD += 0.10;
-  (*p_m).CD += 0.10;
+  (*p_state).BrokenKeelConditional${action.actionIdentifier} = 1.0;
+  ${buff.action(StatKey.CD, 0.10).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
 }
     `,
     )
@@ -185,23 +209,27 @@ export const TaliaKingdomOfBanditryConditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.BE],
-  condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(SetKeys.TaliaKingdomOfBanditry, x.c.sets) && x.a[Key.SPD] >= 145
+  condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+    return p2(SetKeys.TaliaKingdomOfBanditry, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 145
   },
-  effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    x.BE.buffDynamic(0.20, Source.TaliaKingdomOfBanditry, action, context)
+  effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    x.buffDynamic(StatKey.BE, 0.20, action, context, x.source(Source.TaliaKingdomOfBanditry))
   },
-  gpu: function() {
-    return conditionalWgslWrapper(
+  gpu: function(action: OptimizerAction, context: OptimizerContext) {
+    const config = action.config
+
+    return newConditionalWgslWrapper(
       this,
+      action,
+      context,
       `
 if (
   p2((*p_sets).TaliaKingdomOfBanditry) >= 1 &&
-  (*p_state).TaliaKingdomOfBanditryConditional == 0.0 &&
-  x.SPD >= 145
+  (*p_state).TaliaKingdomOfBanditryConditional${action.actionIdentifier} == 0.0 &&
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 145.0
 ) {
-  (*p_state).TaliaKingdomOfBanditryConditional = 1.0;
-  (*p_x).BE += 0.20;
+  (*p_state).TaliaKingdomOfBanditryConditional${action.actionIdentifier} = 1.0;
+  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, config)} += 0.20;
 }
     `,
     )
@@ -214,25 +242,27 @@ export const GiantTreeOfRaptBrooding135Conditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.OHB],
-  condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(SetKeys.GiantTreeOfRaptBrooding, x.c.sets) && x.a[Key.SPD] >= 135
+  condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+    return p2(SetKeys.GiantTreeOfRaptBrooding, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 135
   },
-  effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    x.OHB.buffDynamic(0.12, Source.GiantTreeOfRaptBrooding, action, context)
-    x.m.OHB.buffDynamic(0.12, Source.GiantTreeOfRaptBrooding, action, context)
+  effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    x.buffDynamic(StatKey.OHB, 0.12, action, context, x.targets(TargetTag.SelfAndMemosprite).source(Source.GiantTreeOfRaptBrooding))
   },
-  gpu: function() {
-    return conditionalWgslWrapper(
+  gpu: function(action: OptimizerAction, context: OptimizerContext) {
+    const config = action.config
+
+    return newConditionalWgslWrapper(
       this,
+      action,
+      context,
       `
 if (
   p2((*p_sets).GiantTreeOfRaptBrooding) >= 1 &&
-  (*p_state).GiantTreeOfRaptBrooding135Conditional == 0.0 &&
-  x.SPD >= 135
+  (*p_state).GiantTreeOfRaptBrooding135Conditional${action.actionIdentifier} == 0.0 &&
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 135.0
 ) {
-  (*p_state).GiantTreeOfRaptBrooding135Conditional = 1.0;
-  (*p_x).OHB += 0.12;
-  (*p_m).OHB += 0.12;
+  (*p_state).GiantTreeOfRaptBrooding135Conditional${action.actionIdentifier} = 1.0;
+  ${buff.action(StatKey.OHB, 0.12).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
 }
     `,
     )
@@ -245,25 +275,27 @@ export const GiantTreeOfRaptBrooding180Conditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.OHB],
-  condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(SetKeys.GiantTreeOfRaptBrooding, x.c.sets) && x.a[Key.SPD] >= 180
+  condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+    return p2(SetKeys.GiantTreeOfRaptBrooding, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 180
   },
-  effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    x.OHB.buffDynamic(0.08, Source.GiantTreeOfRaptBrooding, action, context)
-    x.m.OHB.buffDynamic(0.08, Source.GiantTreeOfRaptBrooding, action, context)
+  effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    x.buffDynamic(StatKey.OHB, 0.08, action, context, x.targets(TargetTag.SelfAndMemosprite).source(Source.GiantTreeOfRaptBrooding))
   },
-  gpu: function() {
-    return conditionalWgslWrapper(
+  gpu: function(action: OptimizerAction, context: OptimizerContext) {
+    const config = action.config
+
+    return newConditionalWgslWrapper(
       this,
+      action,
+      context,
       `
 if (
   p2((*p_sets).GiantTreeOfRaptBrooding) >= 1 &&
-  (*p_state).GiantTreeOfRaptBrooding180Conditional == 0.0 &&
-  x.SPD >= 180
+  (*p_state).GiantTreeOfRaptBrooding180Conditional${action.actionIdentifier} == 0.0 &&
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 180.0
 ) {
-  (*p_state).GiantTreeOfRaptBrooding180Conditional = 1.0;
-  (*p_x).OHB += 0.08;
-  (*p_m).OHB += 0.08;
+  (*p_state).GiantTreeOfRaptBrooding180Conditional${action.actionIdentifier} = 1.0;
+  ${buff.action(StatKey.OHB, 0.08).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
 }
     `,
     )
@@ -276,24 +308,27 @@ export const BoneCollectionsSereneDemesneConditional: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.HP],
   chainsTo: [Stats.CD],
-  condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-    return p2(SetKeys.BoneCollectionsSereneDemesne, x.c.sets) && x.a[Key.HP] >= 5000
+  condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+    return p2(SetKeys.BoneCollectionsSereneDemesne, x.c.sets) && x.getActionValueByIndex(StatKey.HP, SELF_ENTITY_INDEX) >= 5000
   },
-  effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    x.CD.buffBaseDualDynamic(0.28, Source.BoneCollectionsSereneDemesne, action, context)
+  effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    x.buffDynamic(StatKey.CD, 0.28, action, context, x.targets(TargetTag.SelfAndMemosprite).source(Source.BoneCollectionsSereneDemesne))
   },
-  gpu: function() {
-    return conditionalWgslWrapper(
+  gpu: function(action: OptimizerAction, context: OptimizerContext) {
+    const config = action.config
+
+    return newConditionalWgslWrapper(
       this,
+      action,
+      context,
       `
 if (
   p2((*p_sets).BoneCollectionsSereneDemesne) >= 1 &&
-  (*p_state).BoneCollectionsSereneDemesneConditional == 0.0 &&
-  x.HP >= 5000
+  (*p_state).BoneCollectionsSereneDemesneConditional${action.actionIdentifier} == 0.0 &&
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.HP, config)} >= 5000.0
 ) {
-  (*p_state).BoneCollectionsSereneDemesneConditional = 1.0;
-  (*p_x).CD += 0.28;
-  (*p_m).CD += 0.28;
+  (*p_state).BoneCollectionsSereneDemesneConditional${action.actionIdentifier} = 1.0;
+  ${buff.action(StatKey.CD, 0.28).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
 }
     `,
     )

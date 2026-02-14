@@ -1,22 +1,15 @@
-import { BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  buffAbilityVulnerability,
-  Target,
-} from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
-
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.LongRoadLeadsHome')
@@ -53,14 +46,14 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: () => {
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, BREAK_DMG_TYPE, m.breakVulnerabilityStacks * sValuesBreakVulnerability[s], SOURCE_LC, Target.TEAM)
-    },
-    finalizeCalculations: () => {
+      x.buff(
+        StatKey.VULNERABILITY,
+        m.breakVulnerabilityStacks * sValuesBreakVulnerability[s],
+        x.damageType(DamageTag.BREAK).targets(TargetTag.FullTeam).source(SOURCE_LC),
+      )
     },
   }
 }

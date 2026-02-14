@@ -4,11 +4,13 @@ import {
   Conditionals,
   ContentDefinition,
   countTeamElement,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
-  dynamicStatConversion,
+  dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -18,6 +20,9 @@ import {
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -27,6 +32,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const SparkleEntities = createEnum('Sparkle')
+export const SparkleAbilities = createEnum('BASIC', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sparkle')
@@ -130,56 +138,98 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(SparkleEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [SparkleEntities.Sparkle]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(SparkleAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [SparkleAbilities.BASIC]: {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Quantum)
+            .atkScaling(basicScaling)
+            .toughnessDmg(10)
+            .build(),
+        ],
+      },
+      [SparkleAbilities.BREAK]: {
+        hits: [
+          HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
+        ],
+      },
+    }),
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-
+      // Skill CD buff (base portion - the scaling portion is handled in dynamicConditionals)
       if (r.skillCdBuff) {
-        x.CD.buff(skillCdBuffBase, SOURCE_SKILL)
-        x.UNCONVERTIBLE_CD_BUFF.buff(skillCdBuffBase, SOURCE_SKILL)
+        x.buff(StatKey.CD, skillCdBuffBase, x.source(SOURCE_SKILL))
+        x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, skillCdBuffBase, x.source(SOURCE_SKILL))
       }
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      // Main damage type
-      x.ATK_P.buffTeam(0.15, SOURCE_TRACE)
-      x.ATK_P.buffDual(
+      // Trace: Team ATK +15%
+      x.buff(StatKey.ATK_P, 0.15, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+
+      // Trace: Additional ATK for Quantum-Type allies based on Quantum ally count
+      x.buff(
+        StatKey.ATK_P,
         context.element == ElementNames.Quantum && m.quantumAlliesAtkBuff
           ? atkBoostByQuantumAllies[countTeamElement(context, ElementNames.Quantum)]
           : 0,
-        SOURCE_TRACE,
+        x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE),
       )
-      x.ATK_P.buffTeam((e >= 1 && m.cipherBuff) ? 0.40 : 0, SOURCE_E1)
 
-      x.ELEMENTAL_DMG.buffTeam(
+      // E1: ATK +40% when cipher active
+      x.buff(StatKey.ATK_P, (e >= 1 && m.cipherBuff) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+
+      // Talent: DMG boost based on stacks (with cipher bonus if active)
+      x.buff(
+        StatKey.DMG_BOOST,
         (m.cipherBuff)
           ? m.talentStacks * (talentBaseStackBoost + cipherTalentStackBoost)
           : m.talentStacks * talentBaseStackBoost,
-        SOURCE_TALENT,
+        x.targets(TargetTag.FullTeam).source(SOURCE_TALENT),
       )
-      x.DEF_PEN.buffTeam((e >= 2) ? 0.08 * m.talentStacks : 0, SOURCE_E2)
+
+      // E2: DEF PEN +8% per talent stack
+      x.buff(StatKey.DEF_PEN, (e >= 2) ? 0.08 * m.talentStacks : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
+      // Skill CD buff with scaling from teammate's CD value
       const cdBuff = t.skillCdBuff
         ? skillCdBuffBase + (skillCdBuffScaling + (e >= 6 ? 0.30 : 0)) * t.teammateCDValue
         : 0
+
+      // E6: CD buff applies to whole team, otherwise single target
       if (e >= 6) {
-        x.CD.buffTeam(cdBuff, SOURCE_SKILL)
-        x.UNCONVERTIBLE_CD_BUFF.buffTeam(cdBuff, SOURCE_SKILL)
+        x.buff(StatKey.CD, cdBuff, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+        x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, cdBuff, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
       } else {
-        x.CD.buffSingle(cdBuff, SOURCE_SKILL)
-        x.UNCONVERTIBLE_CD_BUFF.buffSingle(cdBuff, SOURCE_SKILL)
+        x.buff(StatKey.CD, cdBuff, x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL))
+        x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, cdBuff, x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL))
       }
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: () => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+
     dynamicConditionals: [
       {
         id: 'SparkleCdConditional',
@@ -187,13 +237,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CD],
         chainsTo: [Stats.CD],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-
           return r.skillCdBuff
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversionContainer(
             Stats.CD,
             Stats.CD,
             this,

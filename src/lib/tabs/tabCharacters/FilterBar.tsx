@@ -38,7 +38,7 @@ export function FilterBar() {
       <Flex style={{ flex: 1 }}>
         <SegmentedFilterRow
           tags={generatePathTags()}
-          flexBasis='12.5%'
+          flexBasis='11.111%'
           currentFilter={pathFilter}
           setCurrentFilters={setPathFilter}
         />

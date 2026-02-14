@@ -3,12 +3,17 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
+import { wgsl } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
+import { ElementTag, SELF_ENTITY_INDEX, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -17,6 +22,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const RuanMeiEntities = createEnum('RuanMei')
+export const RuanMeiAbilities = createEnum('BASIC', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.RuanMei')
@@ -120,51 +128,89 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(RuanMeiEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [RuanMeiEntities.RuanMei]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(RuanMeiAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [RuanMeiAbilities.BASIC]: {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Ice)
+            .atkScaling(basicScaling)
+            .toughnessDmg(10)
+            .build(),
+        ],
+      },
+      [RuanMeiAbilities.BREAK]: {
+        hits: [
+          HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
+        ],
+      },
+    }),
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Stats
-      x.ATK_P.buff((e >= 2 && r.e2AtkBoost) ? 0.40 : 0, SOURCE_E2)
-      x.BE.buff((e >= 4 && r.e4BeBuff) ? 1.00 : 0, SOURCE_E4)
+      // E2: ATK +40%
+      x.buff(StatKey.ATK_P, (e >= 2 && r.e2AtkBoost) ? 0.40 : 0, x.source(SOURCE_E2))
 
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-
-      return x
+      // E4: BE +100%
+      x.buff(StatKey.BE, (e >= 4 && r.e4BeBuff) ? 1.00 : 0, x.source(SOURCE_E4))
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.BE.buffTeam((m.teamBEBuff) ? 0.20 : 0, SOURCE_TRACE)
+      // Trace: Team BE +20%
+      x.buff(StatKey.BE, (m.teamBEBuff) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
-      x.ELEMENTAL_DMG.buffTeam((m.skillOvertoneBuff) ? skillScaling : 0, SOURCE_SKILL)
-      x.BREAK_EFFICIENCY_BOOST.buffTeam((m.skillOvertoneBuff) ? 0.50 : 0, SOURCE_SKILL)
+      // Skill: Team DMG boost when overtone active
+      x.buff(StatKey.DMG_BOOST, (m.skillOvertoneBuff) ? skillScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
 
-      x.RES_PEN.buffTeam((m.ultFieldActive) ? fieldResPenValue : 0, SOURCE_ULT)
-      x.DEF_PEN.buffTeam((e >= 1 && m.ultFieldActive) ? 0.20 : 0, SOURCE_E1)
+      // Skill: Team Break Efficiency +50% when overtone active
+      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (m.skillOvertoneBuff) ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+
+      // Ult: Team RES PEN when field active
+      x.buff(StatKey.RES_PEN, (m.ultFieldActive) ? fieldResPenValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
+
+      // E1: Team DEF PEN +20% when field active
+      x.buff(StatKey.DEF_PEN, (e >= 1 && m.ultFieldActive) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD_P.buffTeam((t.teamSpdBuff) ? talentSpdScaling : 0, SOURCE_TALENT)
-      x.ELEMENTAL_DMG.buffTeam(t.teamDmgBuff, SOURCE_TRACE)
+      // Talent: Team SPD% buff
+      x.buff(StatKey.SPD_P, (t.teamSpdBuff) ? talentSpdScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
 
-      x.ATK_P_BOOST.buffTeam((e >= 2 && t.e2AtkBoost) ? 0.40 : 0, SOURCE_E2)
+      // Trace: Team DMG boost (from BE scaling)
+      x.buff(StatKey.DMG_BOOST, t.teamDmgBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+
+      // E2: Team ATK% buff
+      x.buff(StatKey.ATK_P, (e >= 2 && t.e2AtkBoost) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
 
-      const beOver = Math.floor(TsUtils.precisionRound((x.a[Key.BE] * 100 - 120) / 10))
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      // Trace: DMG boost based on BE over 120%
+      const be = x.getActionValue(StatKey.BE, RuanMeiEntities.RuanMei)
+      const beOver = Math.floor(TsUtils.precisionRound((be * 100 - 120) / 10))
       const buffValue = Math.min(0.36, Math.max(0, beOver) * 0.06)
-      x.ELEMENTAL_DMG.buff(buffValue, SOURCE_TRACE)
+      x.buff(StatKey.DMG_BOOST, buffValue, x.source(SOURCE_TRACE))
     },
-    gpuFinalizeCalculations: () => {
-      return `
-let beOver = (x.BE * 100 - 120) / 10;
-let buffValue: f32 = min(0.36, floor(max(0, beOver)) * 0.06);
-x.ELEMENTAL_DMG += buffValue;
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return wgsl`
+let beOver = (${containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, action.config)} * 100.0 - 120.0) / 10.0;
+let beDmgBuff = min(0.36, floor(max(0.0, beOver)) * 0.06);
+${buff.action(AKey.DMG_BOOST, 'beDmgBuff').wgsl(action)}
       `
     },
   }

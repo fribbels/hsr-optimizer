@@ -1,24 +1,27 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
-  gpuStandardDefShieldFinalizer,
-  standardDefShieldFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
-import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
-  dynamicStatConversion,
+  dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
   Stats,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -27,6 +30,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const GepardEntities = createEnum('Gepard')
+export const GepardAbilities = createEnum('BASIC', 'SKILL', 'ULT_SHIELD', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Gepard')
@@ -78,27 +84,65 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
 
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
+    entityDeclaration: () => Object.values(GepardEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [GepardEntities.Gepard]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
 
-      x.SHIELD_SCALING.buff(ultShieldScaling, SOURCE_ULT)
-      x.SHIELD_FLAT.buff(ultShieldFlat, SOURCE_ULT)
+    actionDeclaration: () => Object.values(GepardAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [GepardAbilities.BASIC]: {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Ice)
+            .atkScaling(basicScaling)
+            .toughnessDmg(10)
+            .build(),
+        ],
+      },
+      [GepardAbilities.SKILL]: {
+        hits: [
+          HitDefinitionBuilder.standardSkill()
+            .damageElement(ElementTag.Ice)
+            .atkScaling(skillScaling)
+            .toughnessDmg(20)
+            .build(),
+        ],
+      },
+      [GepardAbilities.ULT_SHIELD]: {
+        hits: [
+          HitDefinitionBuilder.ultShield()
+            .defScaling(ultShieldScaling)
+            .flatShield(ultShieldFlat)
+            .build(),
+        ],
+      },
+      [GepardAbilities.BREAK]: {
+        hits: [
+          HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
+        ],
+      },
+    }),
+    actionModifiers: () => [],
 
-      return x
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.RES.buffTeam((e >= 4 && m.e4TeamResBuff) ? 0.20 : 0, SOURCE_E4)
+      x.buff(StatKey.RES, (e >= 4 && m.e4TeamResBuff) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {
-      standardDefShieldFinalizer(x)
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: () => gpuStandardDefShieldFinalizer(),
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+
     dynamicConditionals: [
       {
         id: 'GepardConversionConditional',
@@ -106,11 +150,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.DEF],
         chainsTo: [Stats.ATK],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           return true
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.DEF, Stats.ATK, this, x, action, context, SOURCE_TRACE, (convertibleValue) => convertibleValue * 0.35)
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversionContainer(Stats.DEF, Stats.ATK, this, x, action, context, SOURCE_TRACE, (convertibleValue) => convertibleValue * 0.35)
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           return gpuDynamicStatConversion(Stats.DEF, Stats.ATK, this, action, context, `0.35 * convertibleValue`, `true`)

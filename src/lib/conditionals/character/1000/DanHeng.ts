@@ -1,15 +1,19 @@
-import {
-  AbilityType,
-  BASIC_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -19,6 +23,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const DanHengEntities = createEnum('DanHeng')
+export const DanHengAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.DanHeng')
@@ -83,30 +90,70 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(DanHengEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [DanHengEntities.DanHeng]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(DanHengAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Stats
-      x.CR.buff((e >= 1 && r.e1EnemyHp50) ? 0.12 : 0, SOURCE_E1)
-      x.SPD_P.buff((r.spdBuff) ? 0.20 : 0, SOURCE_TRACE)
+      const ultTotalScaling = ultScaling + (r.enemySlowed ? ultExtraScaling : 0)
 
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.ULT_ATK_SCALING.buff((r.enemySlowed) ? ultExtraScaling : 0, SOURCE_ULT)
-
-      // Boost
-      x.RES_PEN.buff((r.talentPenBuff) ? extraPenValue : 0, SOURCE_TALENT)
-      buffAbilityDmg(x, BASIC_DMG_TYPE, (r.enemySlowed) ? 0.40 : 0, SOURCE_TRACE)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
-
-      return x
+      return {
+        [DanHengAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Wind)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [DanHengAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Wind)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [DanHengAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Wind)
+              .atkScaling(ultTotalScaling)
+              .toughnessDmg(30)
+              .build(),
+          ],
+        },
+        [DanHengAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
+          ],
+        },
+      }
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {},
-    gpuFinalizeCalculations: () => '',
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.CR, (e >= 1 && r.e1EnemyHp50) ? 0.12 : 0, x.source(SOURCE_E1))
+      x.buff(StatKey.SPD_P, (r.spdBuff) ? 0.20 : 0, x.source(SOURCE_TRACE))
+
+      x.buff(StatKey.RES_PEN, (r.talentPenBuff) ? extraPenValue : 0, x.source(SOURCE_TALENT))
+      x.buff(StatKey.DMG_BOOST, (r.enemySlowed) ? 0.40 : 0, x.damageType(DamageTag.BASIC).source(SOURCE_TRACE))
+    },
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
   }
 }

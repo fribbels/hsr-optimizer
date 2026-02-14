@@ -1,4 +1,5 @@
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SimulationFlags } from 'lib/scoring/simScoringUtils'
 
 export enum StatSimTypes {
@@ -39,12 +40,33 @@ export type RunSimulationsParams = {
   stabilize?: boolean,
 }
 
+export type PrimaryActionStats = {
+  // Full resolved stats for the primary hit's source entity, matching the damage formula:
+  //   cr = CR (action+hit) + CR_BOOST (action)
+  //   cd = CD (action+hit) + CD_BOOST (action)
+  //   dmg = DMG_BOOST (action+hit) + elementDmgBoost (action)
+  DMG_BOOST: number
+  sourceEntityCR: number
+  sourceEntityCD: number
+  sourceEntityElementDmgBoost: number
+}
+
+export type ActionDamage = Partial<Record<AbilityKind, number>>
+
+export type SimulateBuildResult = {
+  x: ComputedStatsContainer
+  primaryActionStats: PrimaryActionStats
+  actionDamage: ActionDamage
+}
+
 export type RunStatSimulationsResult = {
-  x: ComputedStatsArray,
+  x: ComputedStatsContainer,
   xa: Float32Array,
   ca: Float32Array,
   simScore: number,
   key?: string,
+  primaryActionStats?: PrimaryActionStats,
+  actionDamage?: ActionDamage,
 }
 
 export type SimulationRelic = {

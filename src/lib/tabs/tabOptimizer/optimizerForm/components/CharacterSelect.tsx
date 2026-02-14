@@ -1,21 +1,7 @@
-import {
-  Button,
-  Card,
-  Flex,
-  Input,
-  InputRef,
-  Modal,
-  Select,
-} from 'antd'
-import {
-  ElementName,
-  PathName,
-} from 'lib/constants/constants'
+import { Button, Card, Flex, Input, InputRef, Modal, Select, } from 'antd'
+import { ElementName, PathName, } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import {
-  CharacterOptions,
-  generateCharacterOptions,
-} from 'lib/rendering/optionGenerator'
+import { CharacterOptions, generateCharacterOptions, } from 'lib/rendering/optionGenerator'
 import {
   CardGridItemContent,
   generateElementTags,
@@ -25,14 +11,7 @@ import {
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
-import {
-  ChangeEvent,
-  ReactNode,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { ChangeEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 
@@ -262,7 +241,7 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
               <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
                 <SegmentedFilterRow
                   tags={generatePathTags()}
-                  flexBasis='12.5%'
+                  flexBasis='11.111%'
                   currentFilter={currentFilters.path}
                   setCurrentFilters={setPathFilter}
                 />

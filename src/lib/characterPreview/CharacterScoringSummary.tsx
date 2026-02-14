@@ -13,10 +13,17 @@ import { ElementToDamage, MainStats, Parts, Stats } from 'lib/constants/constant
 import { defaultGap } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
-import { Key, StatToKey, toComputedStatsObject } from 'lib/optimization/computedStatsArray'
+import { toComputedStatsObject } from 'lib/optimization/computedStatsArray'
+import { ElementName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { diminishingReturnsFormula, ScoringType, SimulationScore, spdDiminishingReturnsFormula } from 'lib/scoring/simScoringUtils'
-import { Simulation } from 'lib/simulations/statSimulationTypes'
+import {
+  diminishingReturnsFormula,
+  getElementalDmgFromContainer,
+  ScoringType,
+  SimulationScore,
+  spdDiminishingReturnsFormula,
+} from 'lib/scoring/simScoringUtils'
+import { RunStatSimulationsResult, Simulation } from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
@@ -112,26 +119,7 @@ export const CharacterScoringSummary = (props: {
     )
   }
 
-  // We clone stats to make DMG % a combat stat, since it the stat preview only cares about elemental stat not all type
-  const original = TsUtils.clone(result.originalSimResult)
-  const benchmark = TsUtils.clone(result.benchmarkSimResult)
-  const maximum = TsUtils.clone(result.maximumSimResult)
-
-  const originalBasicStats = original.ca
-  const benchmarkBasicStats = benchmark.ca
-  const maximumBasicStats = maximum.ca
-
-  const originalCombatStats = original.xa
-  const benchmarkCombatStats = benchmark.xa
-  const maximumCombatStats = maximum.xa
-
-  originalBasicStats[StatToKey[elementalDmgValue]] = originalBasicStats[Key.ELEMENTAL_DMG]
-  benchmarkBasicStats[StatToKey[elementalDmgValue]] = benchmarkBasicStats[Key.ELEMENTAL_DMG]
-  maximumBasicStats[StatToKey[elementalDmgValue]] = maximumBasicStats[Key.ELEMENTAL_DMG]
-
-  originalCombatStats[StatToKey[elementalDmgValue]] = originalCombatStats[Key.ELEMENTAL_DMG]
-  benchmarkCombatStats[StatToKey[elementalDmgValue]] = benchmarkCombatStats[Key.ELEMENTAL_DMG]
-  maximumCombatStats[StatToKey[elementalDmgValue]] = maximumCombatStats[Key.ELEMENTAL_DMG]
+  const element = characterMetadata.element as ElementName
 
   const statPreviewWidth = 300
   const divider = (
@@ -142,6 +130,7 @@ export const CharacterScoringSummary = (props: {
 
   function ScoringColumn(props: {
     simulation: Simulation
+    originalSimResult: RunStatSimulationsResult // Original (non-cloned) for Container method access
     percent: number
     precision: number
     type: 'Character' | 'Benchmark' | 'Perfect'
@@ -155,8 +144,10 @@ export const CharacterScoringSummary = (props: {
 
     const highlight = props.type == 'Character'
     const color = 'rgb(225, 165, 100)'
-    basicStats[elementalDmgValue] = basicStats.ELEMENTAL_DMG
-    combatStats[elementalDmgValue] = combatStats.ELEMENTAL_DMG
+    // Basic stats: toBasicStatsObject already reads element-specific DMG from correct Key index
+    // Combat stats: combine DMG_BOOST + element-specific boost using Container accessor
+    // Use originalSimResult.x (non-cloned) because TsUtils.clone strips Container methods
+    combatStats[elementalDmgValue] = getElementalDmgFromContainer(props.originalSimResult.x, element)
 
     const diminishingReturns: Record<string, number> = {}
     if (props.type == 'Benchmark') {
@@ -386,6 +377,7 @@ export const CharacterScoringSummary = (props: {
       <Flex>
         <ScoringColumn
           simulation={result.originalSim}
+          originalSimResult={props.simScoringResult.originalSimResult}
           percent={result.percent}
           precision={2}
           type='Character'
@@ -395,6 +387,7 @@ export const CharacterScoringSummary = (props: {
 
         <ScoringColumn
           simulation={result.benchmarkSim}
+          originalSimResult={props.simScoringResult.benchmarkSimResult}
           percent={1.00}
           precision={0}
           type='Benchmark'
@@ -404,6 +397,7 @@ export const CharacterScoringSummary = (props: {
 
         <ScoringColumn
           simulation={result.maximumSim}
+          originalSimResult={props.simScoringResult.maximumSimResult}
           percent={2.00}
           precision={0}
           type='Perfect'
@@ -413,9 +407,11 @@ export const CharacterScoringSummary = (props: {
       <Flex vertical align='center' style={{ width: '100%' }}>
         <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
           {
-            result.simulationForm.deprioritizeBuffs
+            (
+              result.simulationForm.deprioritizeBuffs
               ? t('CharacterPreview.BuildAnalysis.CombatBuffs.SubDpsHeader')/* Combat buffs (Sub DPS) */
               : t('CharacterPreview.BuildAnalysis.CombatBuffs.Header')/* Combat buffs */
+            ) + ` (${result.characterMetadata!.scoringMetadata.sortOption.key} DMG)`
           }
         </pre>
 

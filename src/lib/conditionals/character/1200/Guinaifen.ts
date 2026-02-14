@@ -3,9 +3,17 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -15,6 +23,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const GuinaifenEntities = createEnum('Guinaifen')
+export const GuinaifenAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'DOT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Guinaifen')
@@ -105,34 +116,90 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(GuinaifenEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [GuinaifenEntities.Guinaifen]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(GuinaifenAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.DOT_ATK_SCALING.buff(dotScaling, SOURCE_SKILL)
-      x.DOT_ATK_SCALING.buff((e >= 2 && r.e2BurnMultiBoost) ? 0.40 : 0, SOURCE_E2)
+      // Calculate DoT scaling with E2 bonus
+      const dotAtkScaling = dotScaling + ((e >= 2 && r.e2BurnMultiBoost) ? 0.40 : 0)
+      // DoT chance: 100% from skill, 80% from trace
+      const dotChance = r.skillDot ? 1.00 : 0.80
 
-      // Boost
-      x.ELEMENTAL_DMG.buff((r.enemyBurned) ? 0.20 : 0, SOURCE_TRACE)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-
-      x.DOT_CHANCE.set(r.skillDot ? 1.00 : 0.80, r.skillDot ? SOURCE_SKILL : SOURCE_TRACE)
-
-      return x
+      return {
+        [GuinaifenAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [GuinaifenAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [GuinaifenAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(ultScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [GuinaifenAbilities.DOT]: {
+          hits: [
+            HitDefinitionBuilder.standardDot()
+              .damageElement(ElementTag.Fire)
+              .dotBaseChance(dotChance)
+              .atkScaling(dotAtkScaling)
+              .build(),
+          ],
+        },
+        [GuinaifenAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
+          ],
+        },
+      }
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // Trace - DMG boost when enemy is burned
+      x.buff(StatKey.DMG_BOOST, (r.enemyBurned) ? 0.20 : 0, x.source(SOURCE_TRACE))
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buffTeam(m.talentDebuffStacks * talentDebuffDmgIncreaseValue, SOURCE_TALENT)
-      x.EFFECT_RES_PEN.buffTeam((e >= 1 && m.e1EffectResShred) ? 0.10 : 0, SOURCE_E1)
+      // Talent - Firekiss vulnerability debuff
+      x.buff(StatKey.VULNERABILITY, m.talentDebuffStacks * talentDebuffDmgIncreaseValue, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
+
+      // E1 - Effect RES shred
+      x.buff(StatKey.EFFECT_RES_PEN, (e >= 1 && m.e1EffectResShred) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {},
-    gpuFinalizeCalculations: () => '',
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

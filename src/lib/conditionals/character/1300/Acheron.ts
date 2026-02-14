@@ -1,31 +1,32 @@
-import {
-  AbilityType,
-  BASIC_DMG_TYPE,
-  SKILL_DMG_TYPE,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
   countTeamPath,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { PathNames } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  buffAbilityResPen,
-  buffAbilityVulnerability,
-  Target,
-} from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
-import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const AcheronEntities = createEnum('Acheron')
+export const AcheronAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Acheron')
@@ -55,7 +56,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const maxCrimsonKnotStacks = 9
 
-  const nihilityTeammateScaling: NumberToNumberMap = {
+  const nihilityTeammateScaling: Record<number, number> = {
     0: 0,
     1: (e >= 2) ? 0.60 : 0.15,
     2: 0.60,
@@ -144,52 +145,93 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(AcheronEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [AcheronEntities.Acheron]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(AcheronAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      if (e >= 6 && r.e6UltBuffs) {
-        x.BASIC_DMG_TYPE.set(ULT_DMG_TYPE | BASIC_DMG_TYPE, SOURCE_E6)
-        x.SKILL_DMG_TYPE.set(ULT_DMG_TYPE | SKILL_DMG_TYPE, SOURCE_E6)
+      // Each ult is 3 rainblades, 3 base crimson knots, and then 1 crimson knot per stack, then 1 stygian resurge, and thunder cores from trace
+      const ultAtkScaling = 3 * ultRainbladeScaling
+        + 3 * ultCrimsonKnotScaling
+        + ultCrimsonKnotScaling * r.crimsonKnotStacks
+        + ultStygianResurgeScaling
+        + r.stygianResurgeHitsOnTarget * ultThunderCoreScaling
+
+      // E6: Basic and Skill also count as ULT damage type
+      const e6Active = e >= 6 && r.e6UltBuffs
+
+      return {
+        [AcheronAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageType(e6Active ? DamageTag.BASIC | DamageTag.ULT : DamageTag.BASIC)
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [AcheronAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageType(e6Active ? DamageTag.SKILL | DamageTag.ULT : DamageTag.SKILL)
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [AcheronAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(ultAtkScaling)
+              .toughnessDmg(35)
+              .build(),
+          ],
+        },
+        [AcheronAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
+          ],
+        },
       }
     },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.CR_BOOST.buff((e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0, SOURCE_E1)
+      x.buff(StatKey.CR_BOOST, (e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0, x.source(SOURCE_E1))
 
-      x.ELEMENTAL_DMG.buff((r.thunderCoreStacks) * 0.30, SOURCE_TRACE)
-      buffAbilityResPen(x, ULT_DMG_TYPE, talentResPen, SOURCE_TALENT)
-      buffAbilityResPen(x, ULT_DMG_TYPE, (e >= 6 && r.e6UltBuffs) ? 0.20 : 0, SOURCE_E6)
+      x.buff(StatKey.DMG_BOOST, r.thunderCoreStacks * 0.30, x.source(SOURCE_TRACE))
+      x.buff(StatKey.RES_PEN, talentResPen, x.damageType(DamageTag.ULT).source(SOURCE_TALENT))
+      x.buff(StatKey.RES_PEN, (e >= 6 && r.e6UltBuffs) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E6))
 
       const originalDmgBoost = r.nihilityTeammatesBuff
         ? nihilityTeammateScaling[countTeamPath(context, PathNames.Nihility) - 1]
         : 0
-      x.BASIC_FINAL_DMG_BOOST.buff(originalDmgBoost, SOURCE_TRACE)
-      x.SKILL_FINAL_DMG_BOOST.buff(originalDmgBoost, SOURCE_TRACE)
-      x.ULT_FINAL_DMG_BOOST.buff(originalDmgBoost, SOURCE_TRACE)
-
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      // Each ult is 3 rainblades, 3 base crimson knots, and then 1 crimson knot per stack, then 1 stygian resurge, and 6 thunder cores from trace
-      x.ULT_ATK_SCALING.buff(3 * ultRainbladeScaling, SOURCE_ULT)
-      x.ULT_ATK_SCALING.buff(3 * ultCrimsonKnotScaling, SOURCE_ULT)
-      x.ULT_ATK_SCALING.buff(ultCrimsonKnotScaling * (r.crimsonKnotStacks), SOURCE_ULT)
-      x.ULT_ATK_SCALING.buff(ultStygianResurgeScaling, SOURCE_ULT)
-      x.ULT_ATK_SCALING.buff(r.stygianResurgeHitsOnTarget * ultThunderCoreScaling, SOURCE_ULT)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(35, SOURCE_ULT)
-
-      return x
+      x.buff(StatKey.FINAL_DMG_BOOST, originalDmgBoost, x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).source(SOURCE_TRACE))
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, ULT_DMG_TYPE, (e >= 4 && m.e4UltVulnerability) ? 0.08 : 0, SOURCE_E4, Target.TEAM)
+      x.buff(StatKey.VULNERABILITY, (e >= 4 && m.e4UltVulnerability) ? 0.08 : 0, x.damageType(DamageTag.ULT).targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: () => '',
+
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

@@ -3,15 +3,13 @@ import {
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
-
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.AGroundedAscent')
@@ -48,18 +46,14 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: () => {
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
       if (action.actorId == '1313') {
-        x.ELEMENTAL_DMG.buffDual(m.dmgBuffStacks * sValuesDmg[s], SOURCE_LC)
+        x.buff(StatKey.DMG_BOOST, m.dmgBuffStacks * sValuesDmg[s], x.targets(TargetTag.SelfAndMemosprite).deferrable().source(SOURCE_LC))
       } else {
-        x.ELEMENTAL_DMG.buffSingle(m.dmgBuffStacks * sValuesDmg[s], SOURCE_LC)
+        x.buff(StatKey.DMG_BOOST, m.dmgBuffStacks * sValuesDmg[s], x.targets(TargetTag.SingleTarget).source(SOURCE_LC))
       }
-    },
-    finalizeCalculations: () => {
     },
   }
 }

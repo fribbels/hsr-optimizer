@@ -1,18 +1,20 @@
 import {
   AbilityType,
   ASHBLAZING_ATK_STACK,
-  FUA_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
-import { gpuBoostAshblazingAtkP } from 'lib/conditionals/conditionalFinalizers'
+import { boostAshblazingAtkContainer, gpuBoostAshblazingAtkContainer } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
-  calculateAshblazingSetP,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -22,6 +24,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const BladeEntities = createEnum('Blade')
+export const BladeAbilities = createEnum('BASIC', 'ULT', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Blade')
@@ -95,42 +100,87 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(BladeEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [BladeEntities.Blade]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(BladeAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // Calculate scaling values based on conditionals
+      const basicAtkScaling = r.enhancedStateActive ? basicEnhancedAtkScaling : basicScaling
+      const basicHpScaling = r.enhancedStateActive ? basicEnhancedHpScaling : 0
+
+      const ultTotalHpScaling = ultHpScaling
+        + ultLostHpScaling * r.hpPercentLostTotal
+        + ((e >= 1 && context.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal : 0)
+
+      const fuaTotalHpScaling = fuaHpScaling + ((e >= 6) ? 0.50 : 0)
+
+      return {
+        [BladeAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Wind)
+              .atkScaling(basicAtkScaling)
+              .hpScaling(basicHpScaling)
+              .toughnessDmg(r.enhancedStateActive ? 20 : 10)
+              .build(),
+          ],
+        },
+        [BladeAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Wind)
+              .atkScaling(ultAtkScaling)
+              .hpScaling(ultTotalHpScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [BladeAbilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .damageElement(ElementTag.Wind)
+              .atkScaling(fuaAtkScaling)
+              .hpScaling(fuaTotalHpScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [BladeAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
+          ],
+        },
+      }
+    },
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.CR.buff((e >= 2 && r.enhancedStateActive) ? 0.15 : 0, SOURCE_E2)
-      x.HP_P.buff((e >= 4) ? r.e4MaxHpIncreaseStacks * 0.20 : 0, SOURCE_E4)
-
-      // Scaling
-      if (r.enhancedStateActive) {
-        x.BASIC_ATK_SCALING.buff(basicEnhancedAtkScaling, SOURCE_BASIC)
-        x.BASIC_HP_SCALING.buff(basicEnhancedHpScaling, SOURCE_BASIC)
-      } else {
-        x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      }
-      x.ULT_ATK_SCALING.buff(ultAtkScaling, SOURCE_ULT)
-      x.ULT_HP_SCALING.buff(ultHpScaling, SOURCE_ULT)
-      x.ULT_HP_SCALING.buff(ultLostHpScaling * r.hpPercentLostTotal, SOURCE_ULT)
-      x.ULT_HP_SCALING.buff((e >= 1 && context.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal : 0, SOURCE_E1)
-      x.FUA_ATK_SCALING.buff(fuaAtkScaling, SOURCE_TALENT)
-      x.FUA_HP_SCALING.buff(fuaHpScaling, SOURCE_TALENT)
-      x.FUA_HP_SCALING.buff((e >= 6) ? 0.50 : 0, SOURCE_E6)
+      x.buff(StatKey.CR, (e >= 2 && r.enhancedStateActive) ? 0.15 : 0, x.source(SOURCE_E2))
+      x.buff(StatKey.HP_P, (e >= 4) ? r.e4MaxHpIncreaseStacks * 0.20 : 0, x.source(SOURCE_E4))
 
       // Boost
-      x.ELEMENTAL_DMG.buff(r.enhancedStateActive ? enhancedStateDmgBoost : 0, SOURCE_SKILL)
-      buffAbilityDmg(x, FUA_DMG_TYPE, 0.20, SOURCE_TRACE)
-
-      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 20 : 10, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(10, SOURCE_TALENT)
-
-      return x
+      x.buff(StatKey.DMG_BOOST, r.enhancedStateActive ? enhancedStateDmgBoost : 0, x.source(SOURCE_SKILL))
+      x.buff(StatKey.DMG_BOOST, 0.20, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const hitMulti = hitMultiByTargets[context.enemyCount]
-      x.FUA_ATK_P_BOOST.buff(calculateAshblazingSetP(x, action, context, hitMulti), Source.NONE)
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, hitMultiByTargets[context.enemyCount])
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuBoostAshblazingAtkP(hitMultiByTargets[context.enemyCount]),
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
+    },
   }
 }

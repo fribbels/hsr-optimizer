@@ -1,17 +1,7 @@
-import {
-  Card,
-  Flex,
-  Input,
-  InputRef,
-  Modal,
-  Select,
-} from 'antd'
+import { Card, Flex, Input, InputRef, Modal, Select, } from 'antd'
 import { PathName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import {
-  generateLightConeOptions,
-  LcOptions,
-} from 'lib/rendering/optionGenerator'
+import { generateLightConeOptions, LcOptions, } from 'lib/rendering/optionGenerator'
 import DB from 'lib/state/db'
 import {
   CardGridItemContent,
@@ -22,14 +12,7 @@ import {
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
-import {
-  ChangeEvent,
-  ReactNode,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { ChangeEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { LightCone } from 'types/lightCone'
@@ -190,7 +173,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
               <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
                 <SegmentedFilterRow
                   tags={generatePathTags()}
-                  flexBasis='12.5%'
+                  flexBasis='11.111%'
                   currentFilter={currentFilters.path}
                   setCurrentFilters={setPathFilter}
                 />

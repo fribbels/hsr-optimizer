@@ -1,11 +1,18 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
+  addSuperBreakHits,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { ModifierContext } from 'lib/optimization/context/calculateActions'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -15,6 +22,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const TrailblazerHarmonyEntities = createEnum('TrailblazerHarmony')
+export const TrailblazerHarmonyAbilities = createEnum('BASIC', 'SKILL', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerHarmony')
@@ -104,58 +114,98 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   return {
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL],
+    entityDeclaration: () => Object.values(TrailblazerHarmonyEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [TrailblazerHarmonyEntities.TrailblazerHarmony]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+    actionDeclaration: () => Object.values(TrailblazerHarmonyAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      return {
+        [TrailblazerHarmonyAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [TrailblazerHarmonyAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(skillScaling + r.skillHitsOnTarget * skillScaling)
+              .toughnessDmg(10 * r.skillHitsOnTarget)
+              .build(),
+          ],
+        },
+        [TrailblazerHarmonyAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
+          ],
+        },
+      }
+    },
+    actionModifiers() {
+      return [
+        {
+          modify: (action: OptimizerAction, context: OptimizerContext, _self: ModifierContext) => {
+            addSuperBreakHits(action.hits!)
+          },
+        },
+      ]
+    },
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+
+    // New container methods
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       if (r.superBreakDmg) {
-        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_ULT)
+        x.set(StatKey.ENEMY_WEAKNESS_BROKEN, 1, x.source(SOURCE_ULT))
       }
     },
-    initializeTeammateConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    initializeTeammateConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       if (r.superBreakDmg) {
-        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_ULT)
+        x.set(StatKey.ENEMY_WEAKNESS_BROKEN, 1, x.source(SOURCE_ULT))
       }
     },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.ERR.buff((e >= 2 && r.e2EnergyRegenBuff) ? 0.25 : 0, SOURCE_E2)
-
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.SKILL_ATK_SCALING.buff(r.skillHitsOnTarget * skillScaling, SOURCE_SKILL)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(10 * r.skillHitsOnTarget, SOURCE_SKILL)
-
-      return x
+      x.buff(StatKey.ERR, (e >= 2 && r.e2EnergyRegenBuff) ? 0.25 : 0, x.source(SOURCE_E2))
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.BE.buffTeam((m.backupDancer) ? ultBeScaling : 0, SOURCE_ULT)
-      x.SUPER_BREAK_MODIFIER.buffTeam(
+      x.buff(StatKey.BE, (m.backupDancer) ? ultBeScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
+      x.buff(
+        StatKey.SUPER_BREAK_MODIFIER,
         (m.superBreakDmg)
           ? targetsToSuperBreakMulti[context.enemyCount]
           : 0,
-        SOURCE_ULT,
+        x.targets(TargetTag.FullTeam).source(SOURCE_ULT),
       )
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const beBuff = (e >= 4) ? 0.15 * t.teammateBeValue : 0
-      x.BE.buffTeam(beBuff, SOURCE_E4)
-      x.UNCONVERTIBLE_BE_BUFF.buffTeam(beBuff, SOURCE_E4)
+      x.buff(StatKey.BE, beBuff, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
+      x.buff(StatKey.UNCONVERTIBLE_BE_BUFF, beBuff, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {
-    },
-    gpuFinalizeCalculations: () => '',
   }
 }

@@ -1,44 +1,44 @@
-import {
-  AbilityType,
-  NONE_TYPE,
-  SKILL_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  gpuStandardDefShieldFinalizer,
-  standardDefShieldFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
-  dynamicStatConversion,
+  dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
   Stats,
 } from 'lib/constants/constants'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
-
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
+export const AventurineEntities = createEnum('Aventurine')
+export const AventurineAbilities = createEnum('BASIC', 'ULT', 'FUA', 'SKILL_SHIELD', 'BREAK')
+
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aventurine')
-  const tShield = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.ShieldAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
     SOURCE_BASIC,
@@ -70,7 +70,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const traceShieldFlat = 96
 
   const defaults = {
-    shieldAbility: SKILL_DMG_TYPE,
     defToCrBoost: true,
     fuaHitsOnTarget: fuaHits,
     fortifiedWagerBuff: true,
@@ -87,17 +86,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    shieldAbility: {
-      id: 'shieldAbility',
-      formItem: 'select',
-      text: tShield('Text'),
-      content: tShield('Content'),
-      options: [
-        { display: tShield('Skill'), value: SKILL_DMG_TYPE, label: tShield('Skill') },
-        { display: tShield('Trace'), value: NONE_TYPE, label: tShield('Trace') },
-      ],
-      fullWidth: true,
-    },
     defToCrBoost: {
       id: 'defToCrBoost',
       formItem: 'switch',
@@ -161,55 +149,103 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(AventurineEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [AventurineEntities.Aventurine]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(AventurineAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.DEF_P.buff((e >= 4 && r.e4DefBuff) ? 0.40 : 0, SOURCE_E4)
-      x.ELEMENTAL_DMG.buff((e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0, SOURCE_E6)
-
-      x.BASIC_DEF_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.ULT_DEF_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_DEF_SCALING.buff(talentDmgScaling * r.fuaHitsOnTarget, SOURCE_TALENT)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(10 / 3 * r.fuaHitsOnTarget, SOURCE_TALENT)
-
-      if (r.shieldAbility == SKILL_DMG_TYPE) {
-        x.SHIELD_SCALING.buff(skillShieldScaling, SOURCE_SKILL)
-        x.SHIELD_FLAT.buff(skillShieldFlat, SOURCE_SKILL)
+      return {
+        [AventurineAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Imaginary)
+              .defScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [AventurineAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Imaginary)
+              .defScaling(ultScaling)
+              .toughnessDmg(30)
+              .build(),
+          ],
+        },
+        [AventurineAbilities.FUA]: {
+          hits: [
+            // FUA damage hit (multiplied scaling based on fuaHitsOnTarget)
+            HitDefinitionBuilder.standardFua()
+              .damageElement(ElementTag.Imaginary)
+              .defScaling(talentDmgScaling * r.fuaHitsOnTarget)
+              .toughnessDmg(10 / 3 * r.fuaHitsOnTarget)
+              .build(),
+            // Trace shield hit (triggered on FUA)
+            HitDefinitionBuilder.shield()
+              .defScaling(traceShieldScaling)
+              .flatShield(traceShieldFlat)
+              .build(),
+          ],
+        },
+        [AventurineAbilities.SKILL_SHIELD]: {
+          hits: [
+            HitDefinitionBuilder.skillShield()
+              .defScaling(skillShieldScaling)
+              .flatShield(skillShieldFlat)
+              .build(),
+          ],
+        },
+        [AventurineAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
+          ],
+        },
       }
-      if (r.shieldAbility == 0) {
-        x.SHIELD_SCALING.buff(traceShieldScaling, SOURCE_SKILL)
-        x.SHIELD_FLAT.buff(traceShieldFlat, SOURCE_SKILL)
-      }
-
-      return x
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.DEF_P, (e >= 4 && r.e4DefBuff) ? 0.40 : 0, x.source(SOURCE_E4))
+      x.buff(StatKey.DMG_BOOST, (e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0, x.source(SOURCE_E6))
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.RES.buffTeam((m.fortifiedWagerBuff) ? talentResScaling : 0, SOURCE_TALENT)
-      x.CD.buffTeam((m.enemyUnnervedDebuff) ? ultCdBoost : 0, SOURCE_ULT)
-      x.CD.buffTeam((e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0, SOURCE_E1)
-      x.RES_PEN.buffTeam((e >= 2 && m.e2ResShred) ? 0.12 : 0, SOURCE_E2)
+      x.buff(StatKey.RES, (m.fortifiedWagerBuff) ? talentResScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
+      x.buff(StatKey.CD, (m.enemyUnnervedDebuff) ? ultCdBoost : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
+      x.buff(StatKey.CD, (e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+      x.buff(StatKey.RES_PEN, (e >= 2 && m.e2ResShred) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardDefShieldFinalizer(x)
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: () => gpuStandardDefShieldFinalizer(),
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+
     dynamicConditionals: [{
       id: 'AventurineConversionConditional',
       type: ConditionalType.ABILITY,
       activation: ConditionalActivation.CONTINUOUS,
       dependsOn: [Stats.DEF],
       chainsTo: [Stats.CR],
-      condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+      condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
-        return r.defToCrBoost && x.a[Key.DEF] > 1600
+        return r.defToCrBoost && x.getActionValueByIndex(StatKey.DEF, SELF_ENTITY_INDEX) > 1600
       },
-      effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-        dynamicStatConversion(
+      effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+        dynamicStatConversionContainer(
           Stats.DEF,
           Stats.CR,
           this,
@@ -222,6 +258,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
       gpu: function(action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
+        const config = action.config
 
         return gpuDynamicStatConversion(
           Stats.DEF,
@@ -230,7 +267,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           action,
           context,
           `min(0.48, 0.02 * floor((convertibleValue - 1600) / 100))`,
-          `${wgslTrue(r.defToCrBoost)} && x.DEF > 1600`,
+          `${wgslTrue(r.defToCrBoost)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.DEF, config)} > 1600`,
         )
       },
     }],

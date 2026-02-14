@@ -1,13 +1,11 @@
 import { PathNames } from 'lib/constants/constants'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
-import {
-  Buff,
-  ComputedStatsArray,
-} from 'lib/optimization/computedStatsArray'
+import { Buff } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import DB from 'lib/state/db'
 import { OptimizerForm } from 'types/form'
 
-export function aggregateCombatBuffs(x: ComputedStatsArray, request: OptimizerForm) {
+export function aggregateCombatBuffs(x: ComputedStatsContainer, request: OptimizerForm) {
   const combatBuffs = extractCombatBuffs(x)
   return groupCombatBuffs(combatBuffs, request)
 }
@@ -35,14 +33,13 @@ function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm) {
   return buffGroups
 }
 
-function extractCombatBuffs(x: ComputedStatsArray) {
-  const buffs = x.buffs
-  const buffsBasic = x.c.buffs
-  const buffsMemo = x.m
-    ? [...x.buffsMemo, ...x.m.buffs]
-    : []
-
-  buffsMemo.forEach((buff) => buff.memo = true)
+function extractCombatBuffs(x: ComputedStatsContainer) {
+  // Container buff tracing - x.buffs contains computed stat buffs, x.buffsMemo contains memosprite buffs
+  const buffs: Buff[] = x.buffs ?? []
+  // Basic stats array also has buffs if tracing was enabled
+  const buffsBasic: Buff[] = (x.c as unknown as { buffs?: Buff[] }).buffs ?? []
+  // Memosprite buffs from Container
+  const buffsMemo: Buff[] = x.buffsMemo ?? []
 
   const combatBuffs = {
     buffs,

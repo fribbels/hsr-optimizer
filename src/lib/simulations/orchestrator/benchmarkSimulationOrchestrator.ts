@@ -5,7 +5,8 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { Key } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import {
   AbilityKind,
@@ -327,13 +328,13 @@ export class BenchmarkSimulationOrchestrator {
     }
 
     this.spdBenchmark = inputSpdBenchmark != null
-      ? Math.max(baselineSimResult.ca[Key.SPD], inputSpdBenchmark)
+      ? Math.max(baselineSimResult.x.c.SPD.get(), inputSpdBenchmark)
       : undefined
 
     // Run the original character's sim to find the original basic SPD value
     // This value is used to determine the benchmark's corresponding basic SPD in special set cases (poet)
     const originalSimResult = cloneSimResult(runStatSimulations([originalSim], form, context, simParams)[0])
-    const originalSpd = TsUtils.precisionRound(originalSimResult.ca[Key.SPD], 3)
+    const originalSpd = TsUtils.precisionRound(originalSimResult.x.c.SPD.get(), 3)
 
     applyBasicSpeedTargetFlag(flags, baselineSimResult, originalSpd, this.spdBenchmark, force)
 
@@ -342,7 +343,7 @@ export class BenchmarkSimulationOrchestrator {
     const forcedSpdSimResult = cloneSimResult(runStatSimulations([originalSim], form, context, simParams)[0])
 
     // Set the combat SPD target to the outcome of the forced result
-    this.benchmarkCombatSpdTarget = forcedSpdSimResult.xa[Key.SPD]
+    this.benchmarkCombatSpdTarget = forcedSpdSimResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
 
     if (this.flags.characterPoetActive) {
       this.originalSimResult = originalSimResult
@@ -378,7 +379,7 @@ export class BenchmarkSimulationOrchestrator {
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
 
       // Find the speed deduction
-      const finalSpeed = simulationResult.xa[Key.SPD]
+      const finalSpeed = simulationResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
       const mainsCount = partialSimulationWrapper.simulation.request.simFeet == Stats.SPD ? 1 : 0
       const rolls = TsUtils.precisionRound(
         invertDiminishingReturnsSpdFormula(mainsCount, targetSpd - finalSpeed, clonedBenchmarkScoringParams.speedRollValue),
@@ -449,7 +450,7 @@ export class BenchmarkSimulationOrchestrator {
     const runnerPromises = partialSimulationWrappers.map((partialSimulationWrapper) => {
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
 
-      const finalSpeed = simulationResult.xa[Key.SPD]
+      const finalSpeed = simulationResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
       const rolls = TsUtils.precisionRound((targetSpd - finalSpeed) / clonedPerfectionScoringParams.speedRollValue, 3)
 
       partialSimulationWrapper.speedRollsDeduction = Math.min(

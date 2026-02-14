@@ -9,6 +9,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import { Hit } from 'types/hitConditionalTypes'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { DamageTag } from 'lib/optimization/engine/config/tag'
 
 /**
  * Helper methods used in conditional files
@@ -184,6 +187,17 @@ export function cyreneSpecialEffectEidolonUpgraded(action: OptimizerAction) {
   return cyreneAction.actorEidolon >= 3
 }
 
+type Sanitize<S extends string> = S extends `${infer Start}${' ' | '-' | '/' | '.'}${infer Rest}` ? Sanitize<`${Start}_${Rest}`>
+  : S
+
+export function createEnum<T extends string>(...values: T[]) {
+  const obj: any = {}
+  for (const v of values) {
+    obj[v.replace(/[^a-zA-Z0-9]+/g, '_')] = v
+  }
+  return obj as { [K in T as Sanitize<K>]: K }
+}
+
 export function teammateConditionalActive(action: OptimizerAction, teammateId: string, conditionalId: string) {
   const teammateAction = [
     action.teammate0,
@@ -193,4 +207,34 @@ export function teammateConditionalActive(action: OptimizerAction, teammateId: s
   if (!teammateAction) return false
 
   return teammateAction.characterConditionals[conditionalId]
+}
+
+// Returns the entity index of the memosprite, or -1 if not found
+export function findMemospriteIndex(action: OptimizerAction): number {
+  const config = action.config
+  for (let i = 0; i < config.entitiesLength; i++) {
+    if (config.entitiesArray[i].memosprite) {
+      return i
+    }
+  }
+  return -1
+}
+
+export function addSuperBreakHits(hits: Hit[]) {
+  const len = hits.length
+  for (let i = 0; i < len; i++) {
+    const hit = hits[i]
+
+    if (hit.toughnessDmg) {
+      const alreadyHasSuperBreak = hits.some((h) => (h.damageType & DamageTag.SUPER_BREAK) && h.referenceHit === hit)
+      if (alreadyHasSuperBreak) continue
+
+      const superBreakHit = HitDefinitionBuilder.standardSuperBreak(hit.damageElement)
+        .referenceHit(hit)
+        .sourceEntity(hit.sourceEntity)
+        .build()
+
+      hits.push(superBreakHit as Hit)
+    }
+  }
 }

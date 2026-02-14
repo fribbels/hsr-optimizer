@@ -1,9 +1,10 @@
-import { DOT_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const { SOURCE_LC } = Source.lightCone('21008')
@@ -13,10 +14,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   return {
     content: () => [],
     defaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsArray) => {
-      buffAbilityDmg(x, DOT_DMG_TYPE, sValues[s], SOURCE_LC)
-    },
-    finalizeCalculations: () => {
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      x.buff(StatKey.DMG_BOOST, sValues[s], x.damageType(DamageTag.DOT).source(SOURCE_LC))
     },
   }
 }

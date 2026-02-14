@@ -14,6 +14,7 @@ export const DIGITS_3 = 46
 export const DIGITS_4 = 50
 export const DIGITS_5 = 56
 export const DIGITS_6 = 62
+export const DIGITS_7 = 68
 
 export const optimizerTabDefaultGap = 5
 export const panelWidth = 211
@@ -28,7 +29,7 @@ export const optimizerGridOptions: GridOptions<OptimizerDisplayDataStatSim> = {
   paginationPageSizeSelector: [100, 500, 1000],
   cacheBlockSize: 500,
   maxBlocksInCache: 1,
-  alwaysShowVerticalScroll: true,
+  alwaysShowVerticalScroll: false,
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
   suppressMultiSort: true,
@@ -44,6 +45,16 @@ export const optimizerGridDefaultColDef: ColDef<OptimizerDisplayDataStatSim> = {
 }
 
 const memo = 'ᴹ'
+
+function comboColumnDef(headerName: string) {
+  return {
+    field: 'COMBO' as const,
+    valueFormatter: Renderer.floor,
+    minWidth: DIGITS_6, // DIGITS_7
+    flex: 13, // 14
+    headerName: headerName,
+  }
+}
 
 export function getBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
   return [
@@ -161,84 +172,8 @@ export function getBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
       flex: 10,
       headerName: t('Headers.Basic.EHP'), // 'EHP',
     },
-    {
-      field: 'HEAL' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Basic.HEAL'), // 'HEAL',
-    },
-    {
-      field: 'SHIELD' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Basic.SHIELD'), // 'SHIELD',
-    },
-
-    {
-      field: 'BASIC' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Basic.BASIC'), // 'BASIC\nDMG',
-    },
-    {
-      field: 'SKILL' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Basic.SKILL'), // 'SKILL\nDMG',
-    },
-    {
-      field: 'ULT' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Basic.ULT'), // 'ULT\nDMG',
-    },
-    {
-      field: 'FUA' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Basic.FUA'), // 'FUA\nDMG',
-    },
-    {
-      field: 'MEMO_SKILL' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Basic.MEMO_SKILL'), // 'SKILLᴹ\nDMG',
-    },
-    {
-      field: 'MEMO_TALENT' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Basic.MEMO_TALENT'), // 'TALENTᴹ\nDMG',
-    },
-    {
-      field: 'DOT' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Basic.DOT'), // 'DOT\nDMG',
-    },
-    {
-      field: 'BREAK' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 12,
-      headerName: t('Headers.Basic.BREAK'), // 'BREAK\nDMG',
-    },
-    {
-      field: 'COMBO' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_6,
-      flex: 13,
-      headerName: t('Headers.Basic.COMBO'), // 'COMBO\nDMG',
-    },
+    // Dynamic ability columns (BASIC, SKILL, ULT, etc.) are injected in OptimizerGrid.tsx
+    comboColumnDef(t('Headers.Basic.COMBO')),
   ]
 }
 
@@ -358,84 +293,8 @@ export function getMemoBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
       flex: 10,
       headerName: t('Headers.Basic.EHP'), // 'EHP',
     },
-    {
-      field: 'HEAL' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Basic.HEAL'), // 'HEAL',
-    },
-    {
-      field: 'SHIELD' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Basic.SHIELD'), // 'SHIELD',
-    },
-
-    {
-      field: 'BASIC' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Basic.BASIC'), // 'BASIC\nDMG',
-    },
-    {
-      field: 'SKILL' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Basic.SKILL'), // 'SKILL\nDMG',
-    },
-    {
-      field: 'ULT' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Basic.ULT'), // 'ULT\nDMG',
-    },
-    {
-      field: 'FUA' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Basic.FUA'), // 'FUA\nDMG',
-    },
-    {
-      field: 'MEMO_SKILL' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Basic.MEMO_SKILL'), // 'SKILLᴹ\nDMG',
-    },
-    {
-      field: 'MEMO_TALENT' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Basic.MEMO_TALENT'), // 'TALENTᴹ\nDMG',
-    },
-    {
-      field: 'DOT' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Basic.DOT'), // 'DOT\nDMG',
-    },
-    {
-      field: 'BREAK' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 12,
-      headerName: t('Headers.Basic.BREAK'), // 'BREAK\nDMG',
-    },
-    {
-      field: 'COMBO' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_6,
-      flex: 13,
-      headerName: t('Headers.Basic.COMBO'), // 'COMBO\nDMG',
-    },
+    // Dynamic ability columns (BASIC, SKILL, ULT, etc.) are injected in OptimizerGrid.tsx
+    comboColumnDef(t('Headers.Basic.COMBO')),
   ]
 }
 
@@ -554,84 +413,8 @@ export function getCombatColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
       flex: 10,
       headerName: t('Headers.Combat.EHP'), // 'EHP',
     },
-    {
-      field: 'HEAL' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Combat.HEAL'), // 'HEAL',
-    },
-    {
-      field: 'SHIELD' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Combat.SHIELD'), // 'SHIELD',
-    },
-
-    {
-      field: 'BASIC' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Combat.BASIC'), // 'BASIC\nDMG',
-    },
-    {
-      field: 'SKILL' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Combat.SKILL'), // 'SKILL\nDMG',
-    },
-    {
-      field: 'ULT' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Combat.ULT'), // 'ULT\nDMG',
-    },
-    {
-      field: 'FUA' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Combat.FUA'), // 'FUA\nDMG',
-    },
-    {
-      field: 'MEMO_SKILL' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Combat.MEMO_SKILL'), // 'SKILLᴹ\nDMG',
-    },
-    {
-      field: 'MEMO_TALENT' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Combat.MEMO_TALENT'), // 'TALENTᴹ\nDMG',
-    },
-    {
-      field: 'DOT' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Combat.DOT'), // 'DOT\nDMG',
-    },
-    {
-      field: 'BREAK' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 12,
-      headerName: t('Headers.Combat.BREAK'), // 'BREAK\nDMG',
-    },
-    {
-      field: 'COMBO' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_6,
-      flex: 13,
-      headerName: t('Headers.Combat.COMBO'), // 'COMBO\nDMG',
-    },
+    // Dynamic ability columns (BASIC, SKILL, ULT, etc.) are injected in OptimizerGrid.tsx
+    comboColumnDef(t('Headers.Combat.COMBO')),
   ]
 }
 
@@ -750,84 +533,8 @@ export function getMemoCombatColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
       flex: 10,
       headerName: t('Headers.Combat.EHP'), // 'EHP',
     },
-    {
-      field: 'HEAL' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Combat.HEAL'), // 'HEAL',
-    },
-    {
-      field: 'SHIELD' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Combat.SHIELD'), // 'SHIELD',
-    },
-
-    {
-      field: 'BASIC' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Combat.BASIC'), // 'BASIC\nDMG',
-    },
-    {
-      field: 'SKILL' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Combat.SKILL'), // 'SKILL\nDMG',
-    },
-    {
-      field: 'ULT' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Combat.ULT'), // 'ULT\nDMG',
-    },
-    {
-      field: 'FUA' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Combat.FUA'), // 'FUA\nDMG',
-    },
-    {
-      field: 'MEMO_SKILL' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Combat.MEMO_SKILL'), // 'SKILLᴹ\nDMG',
-    },
-    {
-      field: 'MEMO_TALENT' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Combat.MEMO_TALENT'), // 'TALENTᴹ\nDMG',
-    },
-    {
-      field: 'DOT' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_5,
-      flex: 12,
-      headerName: t('Headers.Combat.DOT'), // 'DOT\nDMG',
-    },
-    {
-      field: 'BREAK' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 12,
-      headerName: t('Headers.Combat.BREAK'), // 'BREAK\nDMG',
-    },
-    {
-      field: 'COMBO' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_6,
-      flex: 13,
-      headerName: t('Headers.Combat.COMBO'), // 'COMBO\nDMG',
-    },
+    // Dynamic ability columns (BASIC, SKILL, ULT, etc.) are injected in OptimizerGrid.tsx
+    comboColumnDef(t('Headers.Combat.COMBO')),
   ]
 }
 

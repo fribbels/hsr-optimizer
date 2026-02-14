@@ -338,6 +338,16 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
             description={t('RelicDescription', { id: 128 })}
             conditional={t('Conditionals.DefaultMessage')}
           />
+          <ConditionalSetOption
+            set={Constants.Sets.EverGloriousMagicalGirl}
+            description={t('RelicDescription', { id: 129 })}
+            conditional={t('Conditionals.DefaultMessage')}
+          />
+          <ConditionalSetOption
+            set={Constants.Sets.DivinerOfDistantReach}
+            description={t('RelicDescription', { id: 130 })}
+            conditional={t('Conditionals.DefaultMessage')}
+          />
         </Flex>
 
         <VerticalDivider />

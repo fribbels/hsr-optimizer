@@ -1,31 +1,37 @@
 import {
   AbilityType,
   ASHBLAZING_ATK_STACK,
-  FUA_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
-  gpuStandardAdditionalDmgAtkFinalizer,
-  standardAdditionalDmgAtkFinalizer,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
-import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const DrRatioEntities = createEnum('DrRatio')
+export const DrRatioAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.DrRatio')
@@ -59,7 +65,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const baseHitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
-  const fuaMultiByDebuffs: NumberToNumberMap = {
+  const fuaMultiByDebuffs: Record<number, number> = {
     0: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0
     1: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(1, true) + 2 * e2FuaRatio(1, false)), // 2
     2: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(2, true) + 5 * e2FuaRatio(2, false)), // 2 + 3
@@ -102,37 +108,95 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(DrRatioEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [DrRatioEntities.DrRatio]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(DrRatioAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      const e2AdditionalScaling = (e >= 2) ? 0.20 * Math.min(4, r.enemyDebuffStacks) : 0
+
+      return {
+        [DrRatioAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [DrRatioAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [DrRatioAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(ultScaling)
+              .toughnessDmg(30)
+              .build(),
+          ],
+        },
+        [DrRatioAbilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(fuaScaling)
+              .toughnessDmg(10)
+              .build(),
+            ...(e2AdditionalScaling > 0
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageType(DamageTag.FUA | DamageTag.ADDITIONAL)
+                  .damageElement(ElementTag.Imaginary)
+                  .atkScaling(e2AdditionalScaling)
+                  .build(),
+              ]
+              : []
+            ),
+          ],
+        },
+        [DrRatioAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
+          ],
+        },
+      }
+    },
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.CR.buff(r.summationStacks * 0.025, SOURCE_TRACE)
-      x.CD.buff(r.summationStacks * 0.05, SOURCE_TRACE)
-
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
-      x.FUA_ADDITIONAL_DMG_SCALING.buff((e >= 2) ? 0.20 * Math.min(4, r.enemyDebuffStacks) : 0, SOURCE_E2)
+      x.buff(StatKey.CR, r.summationStacks * 0.025, x.source(SOURCE_TRACE))
+      x.buff(StatKey.CD, r.summationStacks * 0.05, x.source(SOURCE_TRACE))
 
       // Boost
-      x.ELEMENTAL_DMG.buff((r.enemyDebuffStacks >= 3) ? Math.min(0.50, r.enemyDebuffStacks * 0.10) : 0, SOURCE_TRACE)
-      buffAbilityDmg(x, FUA_DMG_TYPE, (e >= 6) ? 0.50 : 0, SOURCE_E6)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(10, SOURCE_TALENT)
-
-      return x
+      x.buff(StatKey.DMG_BOOST, (r.enemyDebuffStacks >= 3) ? Math.min(0.50, r.enemyDebuffStacks * 0.10) : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.DMG_BOOST, (e >= 6) ? 0.50 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkP(x, action, context, getHitMulti(action, context))
-      standardAdditionalDmgAtkFinalizer(x)
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkP(getHitMulti(action, context)) + gpuStandardAdditionalDmgAtkFinalizer()
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }

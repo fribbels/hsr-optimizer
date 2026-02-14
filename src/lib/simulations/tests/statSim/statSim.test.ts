@@ -56,7 +56,7 @@ test('Anaxa sim', () => {
       BE: 0.648,
       OHB: 0,
       ERR: 0,
-      ELEMENTAL_DMG: 0.6128,
+      WIND_DMG_BOOST: 0.6128,
     },
     {
       ATK: 5822.3603516,
@@ -70,7 +70,7 @@ test('Anaxa sim', () => {
       BE: 0.648,
       OHB: 0,
       ERR: 0,
-      ELEMENTAL_DMG: 5.2368002,
+      DMG_BOOST: 6.0868,
       EHP: 8966.4990234,
       HEAL_VALUE: 0,
       SHIELD_VALUE: 0,
@@ -79,10 +79,10 @@ test('Anaxa sim', () => {
       ULT_DMG: 564471.3125,
       FUA_DMG: 0,
       DOT_DMG: 0,
-      BREAK_DMG: 35680.359375,
+      BREAK_DMG: 46384.46875,
       MEMO_SKILL_DMG: 0,
       MEMO_TALENT_DMG: 0,
-      COMBO_DMG: 5858483,
+      COMBO_DMG: 5858483.5,
     },
   )
 })
@@ -110,7 +110,7 @@ test('Acheron sim', () => {
       BE: 0.648,
       OHB: 0,
       ERR: 0,
-      ELEMENTAL_DMG: 0.4688,
+      LIGHTNING_DMG_BOOST: 0.4688,
     },
     {
       ATK: 4681.6137695,
@@ -124,7 +124,7 @@ test('Acheron sim', () => {
       BE: 0.648,
       OHB: 0,
       ERR: 0,
-      ELEMENTAL_DMG: 2.9607999,
+      DMG_BOOST: 3.3607999,
       EHP: 32793.9453125,
       HEAL_VALUE: 0,
       SHIELD_VALUE: 0,
@@ -136,7 +136,7 @@ test('Acheron sim', () => {
       BREAK_DMG: 26575.1464844,
       MEMO_SKILL_DMG: 0,
       MEMO_TALENT_DMG: 0,
-      COMBO_DMG: 3570607,
+      COMBO_DMG: 3570607.25,
     },
   )
 })
@@ -164,7 +164,7 @@ test('Acheron sim', () => {
 //       BE: 0.648,
 //       OHB: 0,
 //       ERR: 0,
-//       ELEMENTAL_DMG: 0.3888,
+//       ICE_DMG_BOOST: 0.3888,
 //     },
 //     {
 //       ATK: 7670.6303711,
@@ -178,7 +178,7 @@ test('Acheron sim', () => {
 //       BE: 0.848,
 //       OHB: 0,
 //       ERR: 0,
-//       ELEMENTAL_DMG: 4.0468001,
+//       DMG_BOOST: 4.0468001,
 //       EHP: 10227.2568359,
 //       HEAL_VALUE: 0,
 //       SHIELD_VALUE: 0,

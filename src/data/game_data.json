@@ -10903,6 +10903,90 @@
         "DEF": 396.9
       },
       "unreleased": false
+    },
+    "23053": {
+      "id": "23053",
+      "name": "Dazzled by a Flowery World",
+      "rarity": 5,
+      "path": "Elation",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 582.12,
+        "DEF": 463.05
+      },
+      "unreleased": true
+    },
+    "23054": {
+      "id": "23054",
+      "name": "When She Decided to See",
+      "rarity": 5,
+      "path": "Elation",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 529.2,
+        "DEF": 529.2
+      },
+      "unreleased": true
+    },
+    "24006": {
+      "id": "24006",
+      "name": "Elation Brimming With Blessings",
+      "rarity": 5,
+      "path": "Elation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 529.2,
+        "DEF": 463.05
+      },
+      "unreleased": true
+    },
+    "21064": {
+      "id": "21064",
+      "name": "Mushy Shroomy's Adventures",
+      "rarity": 4,
+      "path": "Elation",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 476.28,
+        "DEF": 396.9
+      },
+      "unreleased": true
+    },
+    "21065": {
+      "id": "21065",
+      "name": "Today's Good Luck",
+      "rarity": 4,
+      "path": "Elation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 529.2,
+        "DEF": 396.9
+      },
+      "unreleased": true
+    },
+    "20023": {
+      "id": "20023",
+      "name": "Sneering",
+      "rarity": 3,
+      "path": "Elation",
+      "stats": {
+        "HP": 740.88,
+        "ATK": 370.44,
+        "DEF": 264.6
+      },
+      "unreleased": true
+    },
+    "20024": {
+      "id": "20024",
+      "name": "Lingering Tear",
+      "rarity": 3,
+      "path": "Elation",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 317.52,
+        "DEF": 264.6
+      },
+      "unreleased": true
     }
   },
   "relics": [

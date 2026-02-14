@@ -1035,6 +1035,44 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.BE]: 1.05 },
       5: { [Constants.Stats.BE]: 1.20 },
     },
+    
+    23053: {
+      1: { [Constants.Stats.CD]: 0.48 },
+      2: { [Constants.Stats.CD]: 0.56 },
+      3: { [Constants.Stats.CD]: 0.64 },
+      4: { [Constants.Stats.CD]: 0.72 },
+      5: { [Constants.Stats.CD]: 0.80 },
+    },
+    23054: {
+      1: { [Constants.Stats.SPD_P]: 0.18 },
+      2: { [Constants.Stats.SPD_P]: 0.21 },
+      3: { [Constants.Stats.SPD_P]: 0.24 },
+      4: { [Constants.Stats.SPD_P]: 0.27 },
+      5: { [Constants.Stats.SPD_P]: 0.30 },
+    },
+    24006: {
+      1: { [Constants.Stats.ATK_P]: 0.20 },
+      2: { [Constants.Stats.ATK_P]: 0.25 },
+      3: { [Constants.Stats.ATK_P]: 0.30 },
+      4: { [Constants.Stats.ATK_P]: 0.35 },
+      5: { [Constants.Stats.ATK_P]: 0.40 },
+    },
+    21064: {
+      1: { [Constants.Stats.Elation_DMG]: 0.12 },
+      2: { [Constants.Stats.Elation_DMG]: 0.14 },
+      3: { [Constants.Stats.Elation_DMG]: 0.16 },
+      4: { [Constants.Stats.Elation_DMG]: 0.18 },
+      5: { [Constants.Stats.Elation_DMG]: 0.20 },
+    },
+    21065: {
+      1: { [Constants.Stats.CR]: 0.12 },
+      2: { [Constants.Stats.CR]: 0.14 },
+      3: { [Constants.Stats.CR]: 0.16 },
+      4: { [Constants.Stats.CR]: 0.18 },
+      5: { [Constants.Stats.CR]: 0.20 },
+    },
+    20023: {},
+    20024: {},
   }
 }
 

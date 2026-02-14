@@ -9934,7 +9934,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
         [Sets.BandOfSizzlingThunder]: 1,
 
-        ...SPREAD_ORNAMENTS_2P_GENERAL_WEIGHTS,
+        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
       },
       presets: [],
       sortOption: SortOption.BASIC,

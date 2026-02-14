@@ -506,6 +506,7 @@ export const PathNames = {
   Nihility: 'Nihility',
   Preservation: 'Preservation',
   Remembrance: 'Remembrance',
+  Elation: 'Elation',
 } as const
 export type PathName = typeof PathNames[keyof typeof PathNames]
 

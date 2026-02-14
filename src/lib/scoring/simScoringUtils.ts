@@ -39,6 +39,7 @@ export const StatsToStatKey: Record<StatsValues, AKeyValue> = {
   [Stats.SPD_P]: StatKey.SPD_P,
   [Stats.SPD]: StatKey.SPD,
   [Stats.Wind_DMG]: StatKey.WIND_DMG_BOOST,
+  [Stats.Elation_DMG]: StatKey.ELATION_DMG_BOOST,
 }
 
 // Get combined elemental DMG from the Container for the self entity

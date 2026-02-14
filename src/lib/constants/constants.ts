@@ -42,6 +42,7 @@ export const Stats = {
   SPD_P: 'SPD%',
   SPD: 'SPD',
   Wind_DMG: 'Wind DMG Boost',
+  Elation_DMG: 'Elation DMG Boost',
 } as const
 
 export type StatsKeys = keyof typeof Stats
@@ -326,6 +327,7 @@ export const StatsToReadable = {
   [Stats.Wind_DMG]: 'Wind DMG',
   [Stats.Quantum_DMG]: 'Quantum DMG',
   [Stats.Imaginary_DMG]: 'Imaginary DMG',
+  [Stats.Elation_DMG]: 'Elation DMG',
 }
 
 export const Parts = {

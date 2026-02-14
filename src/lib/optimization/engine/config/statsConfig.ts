@@ -74,6 +74,8 @@ export const newStatsConfig = {
   QUANTUM_DMG_BOOST: { label: 'Quantum DMG Boost' },
   IMAGINARY_DMG_BOOST: { label: 'Imaginary DMG Boost' },
 
+  ELATION_DMG_BOOST: { label: 'Elation DMG Boost' },
+
   // Base
   BASE_HP: { flat: true, label: optimizerTabMisc('Base HP') }, // Remove
   BASE_ATK: { flat: true, label: optimizerTabMisc('Base ATK') }, // Remove

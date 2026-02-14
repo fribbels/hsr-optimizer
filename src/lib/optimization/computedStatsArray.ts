@@ -356,6 +356,7 @@ export const InternalKeyToExternal: Record<string, keyof ComputedStatsObjectExte
   SPD_P: Stats.SPD_P,
   SPD: Stats.SPD,
   WIND_DMG_BOOST: Stats.Wind_DMG,
+  ELATION_DMG_BOOST: Stats.Elation_DMG,
 }
 
 export const KeyToStat: Record<string, string> = {
@@ -381,6 +382,7 @@ export const KeyToStat: Record<string, string> = {
   SPD_P: Stats.SPD_P,
   SPD: Stats.SPD,
   WIND_DMG_BOOST: Stats.Wind_DMG,
+  ELATION_DMG_BOOST: Stats.Elation_DMG,
 }
 
 const ElementToResPenTypeToKey = {
@@ -441,6 +443,7 @@ export type ComputedStatsObjectExternal =
     | 'WIND_DMG_BOOST'
     | 'QUANTUM_DMG_BOOST'
     | 'IMAGINARY_DMG_BOOST'
+    | 'ELATION_DMG_BOOST'
   >
   & {
     ['HP%']: number,
@@ -466,6 +469,7 @@ export type ComputedStatsObjectExternal =
     ['Wind DMG Boost']: number,
     ['Quantum DMG Boost']: number,
     ['Imaginary DMG Boost']: number,
+    ['Elation DMG Boost']: number,
   }
 
 export const StatToKey: Record<string, number> = {
@@ -491,4 +495,5 @@ export const StatToKey: Record<string, number> = {
   [Stats.SPD_P]: Key.SPD_P,
   [Stats.SPD]: Key.SPD,
   [Stats.Wind_DMG]: Key.WIND_DMG_BOOST,
+  [Stats.Elation_DMG]: Key.ELATION_DMG_BOOST,
 }

@@ -89,6 +89,7 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   WIND_DMG_BOOST: { label: commonStat('Wind DMG Boost') },
   QUANTUM_DMG_BOOST: { label: commonStat('Quantum DMG Boost') },
   IMAGINARY_DMG_BOOST: { label: commonStat('Imaginary DMG Boost') },
+  ELATION_DMG_BOOST: { label: commonStat('Elation DMG Boost') },
 
   ELEMENTAL_DMG: { label: optimizerTabMisc('Elemental DMG') },
 

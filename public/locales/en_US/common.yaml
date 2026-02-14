@@ -61,6 +61,7 @@ Stats:
   Wind DMG Boost: '$t(gameData:Elements.Wind) DMG Boost'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum) DMG Boost'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary) DMG Boost'
+  Elation DMG Boost: Elation DMG Boost
 ShortStats:
   HP%: HP%
   HP: HP
@@ -84,6 +85,7 @@ ShortStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
+  Elation DMG Boost: Elation
 ShortSpacedStats:
   HP%: HP %
   HP: HP
@@ -107,6 +109,7 @@ ShortSpacedStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
+  Elation DMG Boost: Elation
 Damage: DMG
 DamagePercent: DMG %
 ReadableStats:
@@ -132,6 +135,7 @@ ReadableStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind) DMG'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum) DMG'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary) DMG'
+  Elation DMG Boost: Elation DMG
 ShortReadableStats:
   HP%: HP %
   HP: HP
@@ -155,6 +159,7 @@ ShortReadableStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
+  Elation DMG Boost: Elation
 Elements:
   Physical: '$t(gameData:Elements.Physical)'
   Fire: '$t(gameData:Elements.Fire)'

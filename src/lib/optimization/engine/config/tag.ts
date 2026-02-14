@@ -9,6 +9,7 @@ export enum DamageTag {
   SUPER_BREAK = 64,
   MEMO = 128,
   ADDITIONAL = 256,
+  ELATION = 512,
 }
 
 export enum ElementTag {

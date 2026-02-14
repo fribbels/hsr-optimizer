@@ -887,6 +887,7 @@ const ContainerKeyToExternal: Partial<Record<AKeyType, keyof ComputedStatsObject
   SPD_P: Stats.SPD_P as keyof ComputedStatsObjectExternal,
   SPD: Stats.SPD as keyof ComputedStatsObjectExternal,
   WIND_DMG_BOOST: Stats.Wind_DMG as keyof ComputedStatsObjectExternal,
+  ELATION_DMG_BOOST: Stats.Elation_DMG as keyof ComputedStatsObjectExternal,
 }
 
 export type OptimizerEntity = EntityDefinition & { name: string }

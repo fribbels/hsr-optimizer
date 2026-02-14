@@ -228,8 +228,8 @@ Characters:
     Name: Cirene
     LongName: Cirene
   "1501":
-    Name: Sparxie
-    LongName: Sparxie
+    Name: Chispa
+    LongName: Chispa
   "1502":
     Name: Yao Guang
     LongName: Yao Guang
@@ -257,12 +257,6 @@ Characters:
   "8008":
     Name: Estela
     LongName: Estela (Reminiscencia)
-  1306b1:
-    Name: Sparkle
-    LongName: Sparkle
-  1307b1:
-    Name: Black Swan
-    LongName: Black Swan
   1212b1:
     Name: Jingliu
     LongName: Jingliu
@@ -275,6 +269,12 @@ Characters:
   1006b1:
     Name: Silver Wolf
     LongName: Silver Wolf
+  1307b1:
+    Name: Cisne Negro
+    LongName: Cisne Negro
+  1306b1:
+    Name: Sparkle
+    LongName: Sparkle
 RelicSets:
   "101":
     Name: Transeúnte de la nube pasajera
@@ -389,13 +389,13 @@ RelicSets:
     Description2pc: Efecto de escudo otorgado +10%.
     Description4pc: El efecto de escudo otorgado por el portador aumenta en un 12%. Cuando un aliado tiene un escudo otorgado por el portador, su Daño CRIT aumenta en un 15%.
   "129":
-    Name: Ever-Glorious Magical Girl
-    Description2pc: Increases CRIT DMG by 16%.
-    Description4pc: The Elation DMG dealt by the wearer and their memosprites ignores 10% of targets' DEF. For every 5 accumulated Punchline allies gain, the Elation DMG dealt additionally ignores 1% of targets' DEF, which stacks up to 10 times.
+    Name: Chica mágica de hazañas gloriosas
+    Description2pc: Daño CRIT +16%.
+    Description4pc: Al infligir daño de Exultación, el portador y su mnemoduende ignoran un 10% de la DEF del objetivo. Por cada 5 pts. de Chiste acumulados por los aliados, ignoran un 1% adicional de la DEF del objetivo al infligir Daño de Exultación. Se puede acumular hasta 10 veces.
   "130":
-    Name: Diviner of Distant Reach
-    Description2pc: Increases SPD by 6%.
-    Description4pc: Before entering combat, if the wearer's SPD is greater than or equal to 120/160, increases the wearer's CRIT Rate by 10%/18%. When the wearer uses Elation Skill for the first time in each battle, enhances all allies' Elation by 10%. This effect cannot stack.
+    Name: Adivino de alcance remoto
+    Description2pc: VEL +6%.
+    Description4pc: Antes de entrar en combate, si la VEL del portador es igual o superior a 120/160, la Prob. CRIT del portador aumenta en un 10%/18%. La primera vez que el portador lance una habilidad de Exultación en cada combate, la Exultación de todos los aliados aumenta en un 10%. Este efecto no se puede acumular.
   "301":
     Name: Estación sellaespacios
     Description2pc: El ATQ del portador aumenta en un 12%. Cuando su VEL es igual o superior a 120, el ATQ aumenta en un 12% adicional.
@@ -516,9 +516,9 @@ Lightcones:
   "20022":
     Name: Retrospección
   "20023":
-    Name: Sneering
+    Name: Risita burlona
   "20024":
-    Name: Lingering Tears
+    Name: Las lágrimas que quedan
   "21000":
     Name: Conversación en el postoperatorio
   "21001":
@@ -642,9 +642,9 @@ Lightcones:
   "21062":
     Name: Nos vemos al final
   "21064":
-    Name: Mushy Shroomy's Adventures
+    Name: Las aventuras de Champigaga
   "21065":
-    Name: Today's Good Luck
+    Name: La buena suerte de hoy
   "22000":
     Name: Antes de que comience la misión del tutorial
   "22001":
@@ -766,9 +766,9 @@ Lightcones:
   "23052":
     Name: Amor eterno como este momento
   "23053":
-    Name: Dazzled By A Flowery World
+    Name: El cautivador mundochispa
   "23054":
-    Name: When She Decided To See
+    Name: Cuando se decidió a ver
   "24000":
     Name: Sobre la caída de un Eón
   "24001":
@@ -790,6 +790,8 @@ Paths:
   Knight: Conservación
   Priest: Abundancia
   Memory: Reminiscencia
+  Elation: Exultación
+  Unknown: General
 Elements:
   Physical: Físico
   Fire: Fuego

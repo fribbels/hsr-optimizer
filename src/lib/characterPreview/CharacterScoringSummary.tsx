@@ -407,9 +407,11 @@ export const CharacterScoringSummary = (props: {
       <Flex vertical align='center' style={{ width: '100%' }}>
         <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
           {
-            result.simulationForm.deprioritizeBuffs
+            (
+              result.simulationForm.deprioritizeBuffs
               ? t('CharacterPreview.BuildAnalysis.CombatBuffs.SubDpsHeader')/* Combat buffs (Sub DPS) */
               : t('CharacterPreview.BuildAnalysis.CombatBuffs.Header')/* Combat buffs */
+            ) + ` (${result.characterMetadata!.scoringMetadata.sortOption.key} DMG)`
           }
         </pre>
 

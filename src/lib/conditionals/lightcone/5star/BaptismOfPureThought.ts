@@ -1,18 +1,15 @@
-import { FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDefPen } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.BaptismOfPureThought')
@@ -52,15 +49,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   return {
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.CD.buff(r.debuffCdStacks * sValuesCd[s], SOURCE_LC)
-      x.ELEMENTAL_DMG.buff(r.postUltBuff ? sValuesDmg[s] : 0, SOURCE_LC)
-
-      buffAbilityDefPen(x, FUA_DMG_TYPE, (r.postUltBuff) ? sValuesFuaPen[s] : 0, SOURCE_LC)
-    },
-    finalizeCalculations: () => {
+      x.buff(StatKey.CD, r.debuffCdStacks * sValuesCd[s], x.source(SOURCE_LC))
+      x.buff(StatKey.DMG_BOOST, (r.postUltBuff) ? sValuesDmg[s] : 0, x.source(SOURCE_LC))
+      x.buff(StatKey.DEF_PEN, (r.postUltBuff) ? sValuesFuaPen[s] : 0, x.damageType(DamageTag.FUA).source(SOURCE_LC))
     },
   }
 }

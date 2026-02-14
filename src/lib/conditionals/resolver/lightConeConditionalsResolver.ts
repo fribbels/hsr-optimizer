@@ -345,8 +345,6 @@ export const LightConeConditionalsResolver = {
       return {
         content: () => [],
         defaults: () => ({}),
-        precomputeEffects: () => {
-        },
         finalizeCalculations: () => {
         },
       }

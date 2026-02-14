@@ -136,7 +136,7 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
           form.teammate2?.characterId,
         ]
     ),
-  ]
+  ].filter((x) => !!x)
 
   // Arcadia depends on the number of ally targets
   // Demiurge is out-of-bounds and therefore not a target

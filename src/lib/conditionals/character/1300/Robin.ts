@@ -1,20 +1,15 @@
-import {
-  AbilityType,
-  FUA_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  gpuUltAdditionalDmgAtkFinalizer,
-  ultAdditionalDmgAtkFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
-  dynamicStatConversion,
+  dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -22,11 +17,14 @@ import {
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  buffAbilityCd,
-  Target,
-} from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -37,6 +35,9 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
+export const RobinEntities = createEnum('Robin')
+export const RobinAbilities = createEnum('BASIC', 'BREAK')
+
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Robin')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_ULT_3_BASIC_TALENT_5
@@ -45,9 +46,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_SKILL,
     SOURCE_ULT,
     SOURCE_TALENT,
-    SOURCE_TECHNIQUE,
     SOURCE_TRACE,
-    SOURCE_MEMO,
     SOURCE_E1,
     SOURCE_E2,
     SOURCE_E4,
@@ -168,48 +167,100 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(RobinEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [RobinEntities.Robin]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(RobinAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.ULT_ADDITIONAL_DMG_SCALING.buff((r.concertoActive) ? ultScaling : 0, SOURCE_ULT)
+      // CD override: 1.50 normally, 6.00 with E6 + e6UltCDBoost
+      const ultAdditionalCdOverride = (e >= 6 && r.concertoActive && r.e6UltCDBoost) ? 6.00 : 1.50
 
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-
-      if (r.concertoActive) {
-        x.ATK.buff(ultAtkBuffFlatValue, SOURCE_ULT)
-        x.UNCONVERTIBLE_ATK_BUFF.buff(ultAtkBuffFlatValue, SOURCE_ULT)
+      return {
+        [RobinAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+            // Additional damage hit when concerto active (guaranteed crit with custom CD)
+            ...(
+              (r.concertoActive)
+                ? [
+                  HitDefinitionBuilder.standardAdditional()
+                    .damageElement(ElementTag.Physical)
+                    .atkScaling(ultScaling)
+                    .crOverride(1.00)
+                    .cdOverride(ultAdditionalCdOverride)
+                    .build(),
+                ]
+                : []
+            ),
+          ],
+        },
+        [RobinAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
+          ],
+        },
       }
-
-      x.ULT_ADDITIONAL_DMG_CR_OVERRIDE.buff(1.00, SOURCE_ULT)
-      x.ULT_ADDITIONAL_DMG_CD_OVERRIDE.buff((e >= 6 && r.concertoActive && r.e6UltCDBoost) ? 6.00 : 1.50, SOURCE_ULT)
-
-      return x
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // Flat ATK buff when concerto active
+      if (r.concertoActive) {
+        x.buff(StatKey.UNCONVERTIBLE_ATK_BUFF, ultAtkBuffFlatValue, x.source(SOURCE_ULT))
+        x.buff(StatKey.ATK, ultAtkBuffFlatValue, x.source(SOURCE_ULT))
+      }
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buffTeam((m.talentCdBuff) ? talentCdBuffValue : 0, SOURCE_TALENT)
-      x.RES.buffTeam((e >= 4 && m.concertoActive && m.e4TeamResBuff) ? 0.50 : 0, SOURCE_E4)
+      // Talent CD buff to team
+      x.buff(StatKey.CD, m.talentCdBuff ? talentCdBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
 
-      x.SPD_P.buffTeam((e >= 2 && m.concertoActive && m.e2UltSpdBuff) ? 0.16 : 0, SOURCE_E2)
+      // E4: RES buff to team when concerto active
+      x.buff(StatKey.RES, (e >= 4 && m.concertoActive && m.e4TeamResBuff) ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
 
-      x.ELEMENTAL_DMG.buffTeam((m.skillDmgBuff) ? skillDmgBuffValue : 0, SOURCE_SKILL)
-      x.RES_PEN.buffTeam((e >= 1 && m.concertoActive && m.e1UltResPen) ? 0.24 : 0, SOURCE_E1)
+      // E2: SPD buff to team when concerto active
+      x.buff(StatKey.SPD_P, (e >= 2 && m.concertoActive && m.e2UltSpdBuff) ? 0.16 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
+
+      // Skill DMG buff to team
+      x.buff(StatKey.DMG_BOOST, m.skillDmgBuff ? skillDmgBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+
+      // E1: RES PEN to team when concerto active
+      x.buff(StatKey.RES_PEN, (e >= 1 && m.concertoActive && m.e1UltResPen) ? 0.24 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      const atkBuff = (t.concertoActive) ? t.teammateATKValue * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
-      x.ATK.buffTeam(atkBuff, SOURCE_ULT)
-      x.UNCONVERTIBLE_ATK_BUFF.buffTeam(atkBuff, SOURCE_ULT)
+      // ATK buff based on teammate's ATK value when concerto active
+      const atkBuff = t.concertoActive ? t.teammateATKValue * ultAtkBuffScalingValue + ultAtkBuffFlatValue : 0
+      x.buff(StatKey.UNCONVERTIBLE_ATK_BUFF, atkBuff, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
+      x.buff(StatKey.ATK, atkBuff, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
 
-      buffAbilityCd(x, FUA_DMG_TYPE, t.traceFuaCdBoost && t.concertoActive ? 0.25 : 0, SOURCE_TRACE, Target.TEAM)
+      // Trace: FUA CD boost when concerto active
+      x.buff(StatKey.CD, t.traceFuaCdBoost && t.concertoActive ? 0.25 : 0, x.damageType(DamageTag.FUA).targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      ultAdditionalDmgAtkFinalizer(x)
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuUltAdditionalDmgAtkFinalizer(),
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+
     dynamicConditionals: [
       {
         id: 'RobinAtkConversionConditional',
@@ -217,13 +268,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.ATK],
         chainsTo: [Stats.ATK],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-
           return r.concertoActive
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.ATK, Stats.ATK, this, x, action, context, SOURCE_ULT, (convertibleValue) => convertibleValue * ultAtkBuffScalingValue)
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversionContainer(
+            Stats.ATK,
+            Stats.ATK,
+            this,
+            x,
+            action,
+            context,
+            SOURCE_ULT,
+            (convertibleValue) => convertibleValue * ultAtkBuffScalingValue,
+          )
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>

@@ -1,31 +1,32 @@
-import {
-  AbilityType,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
-  dynamicStatConversion,
+  dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
   Stats,
 } from 'lib/constants/constants'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
-  buffAbilityVulnerability,
-  Target,
-} from 'lib/optimization/calculateBuffs'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -35,6 +36,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const JiaoqiuEntities = createEnum('Jiaoqiu')
+export const JiaoqiuAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'DOT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jiaoqiu')
@@ -147,74 +151,135 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(JiaoqiuEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [JiaoqiuEntities.Jiaoqiu]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(JiaoqiuAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.DOT_ATK_SCALING.buff((r.ashenRoastStacks > 0) ? talentDotScaling : 0, SOURCE_TALENT)
-      x.DOT_ATK_SCALING.buff((e >= 2 && r.e2Dot && r.ashenRoastStacks > 0) ? 3.00 : 0, SOURCE_E2)
-      x.DOT_CHANCE.set(100, Source.NONE)
+      // Calculate DoT scaling based on stacks and E2
+      const dotAtkScaling = (r.ashenRoastStacks > 0)
+        ? talentDotScaling + ((e >= 2 && r.e2Dot) ? 3.00 : 0)
+        : 0
 
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-
-      return x
+      return {
+        [JiaoqiuAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [JiaoqiuAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [JiaoqiuAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(ultScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [JiaoqiuAbilities.DOT]: {
+          hits: [
+            HitDefinitionBuilder.standardDot()
+              .damageElement(ElementTag.Fire)
+              .dotBaseChance(1.0)
+              .atkScaling(dotAtkScaling)
+              .build(),
+          ],
+        },
+        [JiaoqiuAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
+          ],
+        },
+      }
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, ULT_DMG_TYPE, (m.ultFieldActive) ? ultVulnerabilityScaling : 0, SOURCE_ULT, Target.TEAM)
+      // Ult field vulnerability (ULT damage type only)
+      x.buff(
+        StatKey.VULNERABILITY,
+        (m.ultFieldActive) ? ultVulnerabilityScaling : 0,
+        x.damageType(DamageTag.ULT).targets(TargetTag.FullTeam).source(SOURCE_ULT),
+      )
 
-      x.VULNERABILITY.buffTeam((m.ashenRoastStacks > 0) ? talentVulnerabilityBase : 0, SOURCE_TALENT)
-      x.VULNERABILITY.buffTeam(Math.max(0, m.ashenRoastStacks - 1) * talentVulnerabilityScaling, SOURCE_TALENT)
+      // Ashen Roast vulnerability (all damage)
+      x.buff(StatKey.VULNERABILITY, (m.ashenRoastStacks > 0) ? talentVulnerabilityBase : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
+      x.buff(StatKey.VULNERABILITY, Math.max(0, m.ashenRoastStacks - 1) * talentVulnerabilityScaling, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
 
-      x.ELEMENTAL_DMG.buffTeam((e >= 1 && m.e1DmgBoost && m.ashenRoastStacks > 0) ? 0.40 : 0, SOURCE_E1)
+      // E1: DMG boost when enemies have Ashen Roast
+      x.buff(StatKey.DMG_BOOST, (e >= 1 && m.e1DmgBoost && m.ashenRoastStacks > 0) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
 
-      x.RES_PEN.buffTeam((e >= 6 && m.e6ResShred) ? m.ashenRoastStacks * 0.03 : 0, SOURCE_E6)
+      // E6: RES shred based on stacks
+      x.buff(StatKey.RES_PEN, (e >= 6 && m.e6ResShred) ? m.ashenRoastStacks * 0.03 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-    gpuFinalizeCalculations: () => '',
-    dynamicConditionals: [
-      {
-        id: 'JiaoqiuConversionConditional',
-        type: ConditionalType.ABILITY,
-        activation: ConditionalActivation.CONTINUOUS,
-        dependsOn: [Stats.EHR],
-        chainsTo: [Stats.ATK],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
-          return r.ehrToAtkBoost && x.a[Key.EHR] > 0.80
-        },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(
-            Stats.EHR,
-            Stats.ATK,
-            this,
-            x,
-            action,
-            context,
-            SOURCE_TRACE,
-            (convertibleValue) => Math.min(2.40, 0.60 * Math.floor((convertibleValue - 0.80) / 0.15)) * context.baseATK,
-          )
-        },
-        gpu: function(action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
 
-          return gpuDynamicStatConversion(
-            Stats.EHR,
-            Stats.ATK,
-            this,
-            action,
-            context,
-            `min(2.40, 0.60 * floor((convertibleValue - 0.80) / 0.15)) * baseATK`,
-            `${wgslTrue(r.ehrToAtkBoost)} && x.EHR > 0.80`,
-          )
-        },
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+
+    dynamicConditionals: [{
+      id: 'JiaoqiuConversionConditional',
+      type: ConditionalType.ABILITY,
+      activation: ConditionalActivation.CONTINUOUS,
+      dependsOn: [Stats.EHR],
+      chainsTo: [Stats.ATK],
+      condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+        const r = action.characterConditionals as Conditionals<typeof content>
+        return r.ehrToAtkBoost && x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) > 0.80
       },
-    ],
+      effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+        dynamicStatConversionContainer(
+          Stats.EHR,
+          Stats.ATK,
+          this,
+          x,
+          action,
+          context,
+          SOURCE_TRACE,
+          (convertibleValue) => Math.min(2.40, 0.60 * Math.floor((convertibleValue - 0.80) / 0.15)) * context.baseATK,
+        )
+      },
+      gpu: function(action: OptimizerAction, context: OptimizerContext) {
+        const r = action.characterConditionals as Conditionals<typeof content>
+        const config = action.config
+
+        return gpuDynamicStatConversion(
+          Stats.EHR,
+          Stats.ATK,
+          this,
+          action,
+          context,
+          `min(2.40, 0.60 * floor((convertibleValue - 0.80) / 0.15)) * baseATK`,
+          `${wgslTrue(r.ehrToAtkBoost)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, config)} > 0.80`,
+        )
+      },
+    }],
   }
 }

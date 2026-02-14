@@ -13,15 +13,11 @@ import {
   BasicStatsArrayCore,
 } from 'lib/optimization/basicStatsArray'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
-import { Source } from 'lib/optimization/buffSource'
 import {
   calculateContextConditionalRegistry,
   wrapTeammateDynamicConditional,
 } from 'lib/optimization/calculateConditionals'
-import {
-  calculateBaseMultis,
-  calculateDamage,
-} from 'lib/optimization/calculateDamage'
+import { calculateBaseMultis } from 'lib/optimization/calculateDamage'
 import {
   calculateBaseStats,
   calculateBasicEffects,
@@ -37,6 +33,10 @@ import {
   Key,
   KeysType,
 } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { OutputTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer, rebuildEntityRegistry } from 'lib/optimization/engine/container/computedStatsContainer'
+import { calculateEhp, getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   SortOption,
@@ -106,7 +106,11 @@ export function optimizerWorker(e: MessageEvent) {
     // @ts-ignore
   } = generateResultMinFilter(request, combatDisplay, memoDisplay)
 
-  for (const action of context.actions) {
+  // Calculate conditional registry for all actions
+  for (const action of context.rotationActions) {
+    calculateContextConditionalRegistry(action, context)
+  }
+  for (const action of context.defaultActions) {
     calculateContextConditionalRegistry(action, context)
   }
 
@@ -125,26 +129,60 @@ export function optimizerWorker(e: MessageEvent) {
     }
   }
 
-  for (const action of context.actions) {
+  // Setup teammate dynamic conditionals for all actions
+  for (const action of context.rotationActions) {
     action.teammateDynamicConditionals = []
     if (context.teammate0Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate0Metadata, 0)
     if (context.teammate1Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate1Metadata, 1)
     if (context.teammate2Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate2Metadata, 2)
 
     // Reconstruct arrays after transfer
-    action.precomputedX.a = new Float32Array(Object.values(action.precomputedX.a))
-    action.precomputedM.a = new Float32Array(Object.values(action.precomputedM.a))
+    action.precomputedStats.a = new Float32Array(Object.values(action.precomputedStats.a))
+
+    // Rebuild entityRegistry from entitiesArray after serialization
+    if (action.config) {
+      rebuildEntityRegistry(action.config)
+    }
+  }
+  for (const action of context.defaultActions) {
+    action.teammateDynamicConditionals = []
+    if (context.teammate0Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate0Metadata, 0)
+    if (context.teammate1Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate1Metadata, 1)
+    if (context.teammate2Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate2Metadata, 2)
+
+    // Reconstruct arrays after transfer
+    action.precomputedStats.a = new Float32Array(Object.values(action.precomputedStats.a))
+
+    // Rebuild entityRegistry from entitiesArray after serialization
+    if (action.config) {
+      rebuildEntityRegistry(action.config)
+    }
   }
 
   const limit = Math.min(data.permutations, data.WIDTH)
 
   const c = new BasicStatsArrayCore(false) as BasicStatsArray
-  const x = new ComputedStatsArrayCore(false) as ComputedStatsArray
-  const m = x.m
+  const x = new ComputedStatsContainer()
+
+  // Initialize arrays once with maximum size (performance optimization)
+  x.initializeArrays(context.maxContainerArrayLength, context)
+
+  // Find memosprite entity index from first default action
+  let memospriteEntityIndex = -1
+  if (context.defaultActions.length > 0) {
+    const firstAction = context.defaultActions[0]
+    for (let i = 1; i < firstAction.config.entitiesLength; i++) {
+      const entity = firstAction.config.entitiesArray[i]
+      if (entity.memosprite) {
+        memospriteEntityIndex = i
+        break
+      }
+    }
+  }
 
   const failsCombatStatsFilter = combatStatsFilter(request)
   const failsBasicStatsFilter = basicStatsFilter(request)
-  const failsRatingStatsFilter = ratingStatsFilter(request)
+  const failsEhpFilter = ehpFilter(request)
 
   for (let col = 0; col < limit; col++) {
     const index = data.skip + col
@@ -194,75 +232,87 @@ export function optimizerWorker(e: MessageEvent) {
     calculateElementalStats(c, context)
 
     // Exit early on base display filters failing
-    if (baseDisplay && summonerDisplay && (failsBasicThresholdFilter(c.a) || failsBasicStatsFilter(c.a))) {
+    if (baseDisplay && summonerDisplay && (failsBasicThresholdFilter(c.a) || failsBasicStatsFilter(c))) {
       continue
     }
 
     x.setBasic(c)
-    if (x.a[Key.MEMOSPRITE]) {
-      m.setBasic(c.m)
-      c.initMemo()
-    }
+    x.clearRegisters()
 
-    let combo = 0
-    for (let i = context.actions.length - 1; i >= 0; i--) {
-      const action = setupAction(c, i, context)
+    let comboDmg = 0
+
+    // Calculate rotation actions for combo damage
+    for (let i = 0; i < context.rotationActions.length; i++) {
+      const action = context.rotationActions[i]
+      x.setConfig(action.config)
       action.conditionalState = {}
 
-      x.setPrecompute(action.precomputedX.a)
-      if (x.a[Key.MEMOSPRITE]) {
-        m.setPrecompute(action.precomputedM.a)
-      }
-
+      x.setPrecompute(action.precomputedStats.a)
       calculateBasicEffects(x, action, context)
       calculateComputedStats(x, action, context)
       calculateBaseMultis(x, action, context)
 
-      calculateDamage(x, action, context)
+      const dotComboMultiplier = getDotComboMultiplier(action, context)
+      let sum = 0
+      for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
+        const hit = action.hits![hitIndex]
+        const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
+        x.setHitRegisterValue(hit.registerIndex, dmg)
 
-      const a = x.a
-      if (action.actionType === AbilityKind.BASIC) {
-        combo += a[Key.BASIC_DMG]
-      } else if (action.actionType === AbilityKind.SKILL) {
-        combo += a[Key.SKILL_DMG]
-      } else if (action.actionType === AbilityKind.ULT) {
-        combo += a[Key.ULT_DMG]
-      } else if (action.actionType === AbilityKind.FUA) {
-        combo += a[Key.FUA_DMG]
-      } else if (action.actionType === AbilityKind.DOT) {
-        combo += a[Key.DOT_DMG] * context.comboDot / Math.max(1, context.dotAbilities)
-      } else if (action.actionType === AbilityKind.BREAK) {
-        combo += a[Key.BREAK_DMG]
-      } else if (action.actionType === AbilityKind.MEMO_SKILL) {
-        combo += a[Key.MEMO_SKILL_DMG]
-      } else if (action.actionType === AbilityKind.MEMO_TALENT) {
-        combo += a[Key.MEMO_TALENT_DMG]
+        // Only accumulate recorded damage hits to sum and comboDmg (not heals/shields)
+        if (hit.outputTag == OutputTag.DAMAGE && hit.recorded !== false) {
+          sum += dmg
+          comboDmg += dmg * dotComboMultiplier
+        }
       }
+      x.setActionRegisterValue(action.registerIndex, sum)
+    }
 
-      if (i === 0) {
-        combo += a[Key.DOT_DMG] * (context.dotAbilities == 0 ? context.comboDot : 0)
-        x.COMBO_DMG.set(combo, Source.NONE)
+    // Calculate default actions for display stats and store in registers
+    calculateComputedStats(x, context.defaultActions[0], context)
+
+    for (let i = 0; i < context.defaultActions.length; i++) {
+      const action = context.defaultActions[i]
+      x.setConfig(action.config)
+      action.conditionalState = {}
+
+      x.setPrecompute(action.precomputedStats.a)
+      calculateBasicEffects(x, action, context)
+      calculateComputedStats(x, action, context)
+      calculateBaseMultis(x, action, context)
+
+      let sum = 0
+      for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
+        const hit = action.hits![hitIndex]
+        const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
+        x.setHitRegisterValue(hit.registerIndex, dmg)
+
+        // Only accumulate recorded damage hits to sum (not heals/shields)
+        if (hit.outputTag == OutputTag.DAMAGE && hit.recorded !== false) {
+          sum += dmg
+        }
       }
+      x.setActionRegisterValue(action.registerIndex, sum)
     }
 
-    // Combat / rating filters
-    if (baseDisplay && memoDisplay && (failsBasicThresholdFilter(x.m.c.a) || failsBasicStatsFilter(x.m.c.a))) {
-      continue
-    }
-    if (combatDisplay && summonerDisplay && (failsCombatThresholdFilter(x.a) || failsCombatStatsFilter(x.a))) {
-      continue
-    }
-    if (combatDisplay && memoDisplay && (failsCombatThresholdFilter(x.m.a) || failsCombatStatsFilter(x.m.a))) {
-      continue
-    }
-    if (summonerDisplay && failsRatingStatsFilter(x.a)) {
-      continue
-    }
-    if (memoDisplay && failsRatingStatsFilter(x.m.a)) {
+    calculateEhp(x, context)
+
+    x.a[StatKey.COMBO_DMG] = comboDmg
+
+    // Display mode filtering using entity-aware filters
+    const displayEntityIndex = (memoDisplay && memospriteEntityIndex >= 0) ? memospriteEntityIndex : 0
+
+    // Combat stats filtering
+    if (combatDisplay && failsCombatStatsFilter(x, displayEntityIndex)) {
       continue
     }
 
-    BufferPacker.packCharacter(arr, passCount, x)
+    // EHP filtering
+    if (failsEhpFilter(x)) {
+      continue
+    }
+
+    BufferPacker.packCharacterContainer(arr, passCount, x, c, context, memospriteEntityIndex)
     passCount++
   }
 
@@ -272,67 +322,94 @@ export function optimizerWorker(e: MessageEvent) {
   }, [data.buffer])
 }
 
-function addConditionIfNeeded(
-  conditions: ((stats: Float32Array) => boolean)[],
-  statKey: number,
+function addBasicConditionIfNeeded(
+  conditions: ((c: BasicStatsArray) => boolean)[],
+  statKey: any,
   min: number,
   max: number,
 ) {
   if (min !== 0 || max !== Constants.MAX_INT) {
-    conditions.push((stats) => stats[statKey] < min || stats[statKey] > max)
+    conditions.push((c) => c.a[statKey] < min || c.a[statKey] > max)
+  }
+}
+
+function addCombatConditionIfNeeded(
+  conditions: ((x: ComputedStatsContainer, entityIndex: number) => boolean)[],
+  statKey: any,
+  min: number,
+  max: number,
+) {
+  if (min !== 0 || max !== Constants.MAX_INT) {
+    conditions.push((x, entityIndex) => {
+      const entityName = x.config.entitiesArray[entityIndex].name
+      const value = x.getActionValue(statKey as any, entityName)
+      return value < min || value > max
+    })
+  }
+}
+
+function addCombatBoostedConditionIfNeeded(
+  conditions: ((x: ComputedStatsContainer, entityIndex: number) => boolean)[],
+  statKey: any,
+  boostKey: any,
+  min: number,
+  max: number,
+) {
+  if (min !== 0 || max !== Constants.MAX_INT) {
+    conditions.push((x, entityIndex) => {
+      const entityName = x.config.entitiesArray[entityIndex].name
+      const value = x.getActionValue(statKey as any, entityName) + x.getActionValue(boostKey as any, entityName)
+      return value < min || value > max
+    })
   }
 }
 
 function basicStatsFilter(request: Form) {
-  const conditions: ((stats: Float32Array) => boolean)[] = []
+  const conditions: ((c: BasicStatsArray) => boolean)[] = []
 
-  addConditionIfNeeded(conditions, Key.HP, request.minHp, request.maxHp)
-  addConditionIfNeeded(conditions, Key.ATK, request.minAtk, request.maxAtk)
-  addConditionIfNeeded(conditions, Key.DEF, request.minDef, request.maxDef)
-  addConditionIfNeeded(conditions, Key.SPD, request.minSpd, request.maxSpd)
-  addConditionIfNeeded(conditions, Key.CR, request.minCr, request.maxCr)
-  addConditionIfNeeded(conditions, Key.CD, request.minCd, request.maxCd)
-  addConditionIfNeeded(conditions, Key.EHR, request.minEhr, request.maxEhr)
-  addConditionIfNeeded(conditions, Key.RES, request.minRes, request.maxRes)
-  addConditionIfNeeded(conditions, Key.BE, request.minBe, request.maxBe)
-  addConditionIfNeeded(conditions, Key.ERR, request.minErr, request.maxErr)
+  addBasicConditionIfNeeded(conditions, StatKey.HP, request.minHp, request.maxHp)
+  addBasicConditionIfNeeded(conditions, StatKey.ATK, request.minAtk, request.maxAtk)
+  addBasicConditionIfNeeded(conditions, StatKey.DEF, request.minDef, request.maxDef)
+  addBasicConditionIfNeeded(conditions, StatKey.SPD, request.minSpd, request.maxSpd)
+  addBasicConditionIfNeeded(conditions, StatKey.CR, request.minCr, request.maxCr)
+  addBasicConditionIfNeeded(conditions, StatKey.CD, request.minCd, request.maxCd)
+  addBasicConditionIfNeeded(conditions, StatKey.EHR, request.minEhr, request.maxEhr)
+  addBasicConditionIfNeeded(conditions, StatKey.RES, request.minRes, request.maxRes)
+  addBasicConditionIfNeeded(conditions, StatKey.BE, request.minBe, request.maxBe)
+  addBasicConditionIfNeeded(conditions, StatKey.ERR, request.minErr, request.maxErr)
 
-  return (stats: Float32Array) => conditions.some((condition) => condition(stats))
+  return (c: BasicStatsArray) => conditions.some((condition) => condition(c))
 }
 
 function combatStatsFilter(request: Form) {
-  const conditions: ((stats: Float32Array) => boolean)[] = []
+  const conditions: ((x: ComputedStatsContainer, entityIndex: number) => boolean)[] = []
 
-  addConditionIfNeeded(conditions, Key.HP, request.minHp, request.maxHp)
-  addConditionIfNeeded(conditions, Key.ATK, request.minAtk, request.maxAtk)
-  addConditionIfNeeded(conditions, Key.DEF, request.minDef, request.maxDef)
-  addConditionIfNeeded(conditions, Key.SPD, request.minSpd, request.maxSpd)
-  addConditionIfNeeded(conditions, Key.CR, request.minCr, request.maxCr)
-  addConditionIfNeeded(conditions, Key.CD, request.minCd, request.maxCd)
-  addConditionIfNeeded(conditions, Key.EHR, request.minEhr, request.maxEhr)
-  addConditionIfNeeded(conditions, Key.RES, request.minRes, request.maxRes)
-  addConditionIfNeeded(conditions, Key.BE, request.minBe, request.maxBe)
-  addConditionIfNeeded(conditions, Key.ERR, request.minErr, request.maxErr)
+  addCombatConditionIfNeeded(conditions, StatKey.HP, request.minHp, request.maxHp)
+  addCombatConditionIfNeeded(conditions, StatKey.ATK, request.minAtk, request.maxAtk)
+  addCombatConditionIfNeeded(conditions, StatKey.DEF, request.minDef, request.maxDef)
+  addCombatConditionIfNeeded(conditions, StatKey.SPD, request.minSpd, request.maxSpd)
+  addCombatBoostedConditionIfNeeded(conditions, StatKey.CR, StatKey.CR_BOOST, request.minCr, request.maxCr)
+  addCombatBoostedConditionIfNeeded(conditions, StatKey.CD, StatKey.CD_BOOST, request.minCd, request.maxCd)
+  addCombatConditionIfNeeded(conditions, StatKey.EHR, request.minEhr, request.maxEhr)
+  addCombatConditionIfNeeded(conditions, StatKey.RES, request.minRes, request.maxRes)
+  addCombatConditionIfNeeded(conditions, StatKey.BE, request.minBe, request.maxBe)
+  addCombatConditionIfNeeded(conditions, StatKey.ERR, request.minErr, request.maxErr)
 
-  return (stats: Float32Array) => conditions.some((condition) => condition(stats))
+  return (x: ComputedStatsContainer, entityIndex: number) => conditions.some((condition) => condition(x, entityIndex))
 }
 
-function ratingStatsFilter(request: Form) {
-  const conditions: ((stats: Float32Array) => boolean)[] = []
+function ehpFilter(request: Form) {
+  const minEhp = request.minEhp
+  const maxEhp = request.maxEhp
 
-  addConditionIfNeeded(conditions, Key.EHP, request.minEhp, request.maxEhp)
-  addConditionIfNeeded(conditions, Key.BASIC_DMG, request.minBasic, request.maxBasic)
-  addConditionIfNeeded(conditions, Key.SKILL_DMG, request.minSkill, request.maxSkill)
-  addConditionIfNeeded(conditions, Key.ULT_DMG, request.minUlt, request.maxUlt)
-  addConditionIfNeeded(conditions, Key.FUA_DMG, request.minFua, request.maxFua)
-  addConditionIfNeeded(conditions, Key.MEMO_SKILL_DMG, request.minMemoSkill, request.maxMemoSkill)
-  addConditionIfNeeded(conditions, Key.MEMO_TALENT_DMG, request.minMemoTalent, request.maxMemoTalent)
-  addConditionIfNeeded(conditions, Key.DOT_DMG, request.minDot, request.maxDot)
-  addConditionIfNeeded(conditions, Key.BREAK_DMG, request.minBreak, request.maxBreak)
-  addConditionIfNeeded(conditions, Key.HEAL_VALUE, request.minHeal, request.maxHeal)
-  addConditionIfNeeded(conditions, Key.SHIELD_VALUE, request.minShield, request.maxShield)
+  if (minEhp === 0 && maxEhp === Constants.MAX_INT) {
+    return () => false
+  }
 
-  return (stats: Float32Array) => conditions.some((condition) => condition(stats))
+  return (x: ComputedStatsContainer) => {
+    const ehp = x.a[StatKey.EHP]
+    return ehp < minEhp || ehp > maxEhp
+  }
 }
 
 function generateResultMinFilter(request: Form, combatDisplay: string) {
@@ -363,23 +440,15 @@ function generateResultMinFilter(request: Form, combatDisplay: string) {
   }
 }
 
-function setupAction(c: BasicStatsArray, i: number, context: OptimizerContext) {
-  const originalAction = context.actions[i]
-  const action = {
-    characterConditionals: originalAction.characterConditionals,
-    lightConeConditionals: originalAction.lightConeConditionals,
-    teammate0: originalAction.teammate0,
-    teammate1: originalAction.teammate1,
-    teammate2: originalAction.teammate2,
-    teammateDynamicConditionals: originalAction.teammateDynamicConditionals,
-    setConditionals: originalAction.setConditionals,
-    conditionalRegistry: originalAction.conditionalRegistry,
-    actionType: originalAction.actionType,
-    actionIndex: originalAction.actionIndex,
-    precomputedX: originalAction.precomputedX,
-    precomputedM: originalAction.precomputedM,
-    conditionalState: {},
-  } as OptimizerAction
-
-  return action
+/**
+ * Returns the combo multiplier for a rotation action.
+ * DOT actions get their damage multiplied by (comboDot / dotAbilities) to represent
+ * multiple ticks of DOT damage occurring during the rotation.
+ * Non-DOT actions get a multiplier of 1.
+ */
+function getDotComboMultiplier(action: OptimizerAction, context: OptimizerContext): number {
+  if (action.actionType === AbilityKind.DOT && context.comboDot > 0 && context.dotAbilities > 0) {
+    return context.comboDot / context.dotAbilities
+  }
+  return 1
 }

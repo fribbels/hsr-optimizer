@@ -1,32 +1,20 @@
-import {
-  AbilityType,
-  ASHBLAZING_ATK_STACK,
-  FUA_DMG_TYPE,
-  SKILL_DMG_TYPE,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  basicAdditionalDmgAtkFinalizer,
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
-} from 'lib/conditionals/conditionalFinalizers'
-import {
-  AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityType, ASHBLAZING_ATK_STACK, } from 'lib/conditionals/conditionalConstants'
+import { boostAshblazingAtkContainer, gpuBoostAshblazingAtkContainer, } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag, } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+
+export const HertaEntities = createEnum('Herta')
+export const HertaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Herta')
@@ -165,38 +153,93 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(HertaEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [HertaEntities.Herta]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(HertaAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Stats
-      x.ATK_P.buff((r.techniqueBuff) ? 0.40 : 0, SOURCE_TECHNIQUE)
-      x.CR.buff((e >= 2) ? r.e2TalentCritStacks * 0.03 : 0, SOURCE_E2)
-      x.ATK_P.buff((e >= 6 && r.e6UltAtkBuff) ? 0.25 : 0, SOURCE_E6)
-
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.BASIC_ADDITIONAL_DMG_SCALING.buff((e >= 1 && r.enemyHpLte50) ? 0.40 : 0, SOURCE_E1)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_ATK_SCALING.buff(fuaScaling * r.fuaStacks, SOURCE_TALENT)
-
-      buffAbilityDmg(x, SKILL_DMG_TYPE, (r.enemyHpGte50) ? 0.20 : 0, SOURCE_SKILL)
-
-      // Boost
-      buffAbilityDmg(x, ULT_DMG_TYPE, (r.targetFrozen) ? 0.20 : 0, SOURCE_ULT)
-      buffAbilityDmg(x, FUA_DMG_TYPE, (e >= 4) ? 0.10 : 0, SOURCE_E4)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(10, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(5 * r.fuaStacks, SOURCE_TALENT)
-
-      return x
+      return {
+        [HertaAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Ice)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+            ...(
+              (e >= 1 && r.enemyHpLte50)
+                ? [
+                  HitDefinitionBuilder.standardAdditional()
+                    .damageElement(ElementTag.Ice)
+                    .atkScaling(0.40)
+                    .build(),
+                ]
+                : []
+            ),
+          ],
+        },
+        [HertaAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Ice)
+              .atkScaling(skillScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [HertaAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Ice)
+              .atkScaling(ultScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [HertaAbilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .damageElement(ElementTag.Ice)
+              .atkScaling(fuaScaling * r.fuaStacks)
+              .toughnessDmg(5 * r.fuaStacks)
+              .build(),
+          ],
+        },
+        [HertaAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
+          ],
+        },
+      }
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkP(x, action, context, getHitMulti(action, context))
-      basicAdditionalDmgAtkFinalizer(x)
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.ATK_P, (r.techniqueBuff) ? 0.40 : 0, x.source(SOURCE_TECHNIQUE))
+      x.buff(StatKey.CR, (e >= 2) ? r.e2TalentCritStacks * 0.03 : 0, x.source(SOURCE_E2))
+      x.buff(StatKey.ATK_P, (e >= 6 && r.e6UltAtkBuff) ? 0.25 : 0, x.source(SOURCE_E6))
+
+      x.buff(StatKey.DMG_BOOST, (r.enemyHpGte50) ? 0.20 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_SKILL))
+      x.buff(StatKey.DMG_BOOST, (r.targetFrozen) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_ULT))
+      x.buff(StatKey.DMG_BOOST, (e >= 4) ? 0.10 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E4))
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuBoostAshblazingAtkP(getHitMulti(action, context)),
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
+    },
   }
 }

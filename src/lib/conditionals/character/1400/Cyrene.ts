@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import {
   AbilityType,
   BUFF_PRIORITY_MEMO,
@@ -8,14 +7,22 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
+import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   AGLAEA,
   ANAXA,
@@ -40,6 +47,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const CyreneEntities = createEnum('Cyrene', 'Demiurge')
+export const CyreneAbilities = createEnum('BASIC', 'MEMO_SKILL', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cyrene')
@@ -242,87 +252,150 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(CyreneEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [CyreneEntities.Cyrene]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+      [CyreneEntities.Demiurge]: {
+        memoBaseSpdFlat: 0,
+        memoBaseHpScaling: 1.00,
+        memoBaseAtkScaling: 1,
+        memoBaseDefScaling: 1,
+        primary: false,
+        summon: true,
+        memosprite: true,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(CyreneAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.SUMMONS.set(1, SOURCE_TALENT)
-      x.MEMOSPRITE.set(1, SOURCE_TALENT)
-      x.MEMO_BUFF_PRIORITY.set(r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, SOURCE_TALENT)
-    },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-      x.CR.buffBaseDual((r.memospriteActive) ? ultCrBuff : 0, SOURCE_ULT)
-      x.HP_P.buffBaseDual((r.memospriteActive) ? memoTalentHpBuff : 0, SOURCE_MEMO)
+      // BASIC: Enhanced (2 hits) vs normal scaling
+      const basicHpScaling = r.memospriteActive ? basicEnhancedScaling * 2 : basicScaling
+      const basicToughness = r.memospriteActive ? 15 : 10
 
-      x.MEMO_BASE_SPD_FLAT.buff(0, SOURCE_MEMO)
-      x.MEMO_BASE_HP_SCALING.buff(1.00, SOURCE_MEMO)
-      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
-      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
-
-      x.BASIC_HP_SCALING.buff((r.memospriteActive) ? basicEnhancedScaling * 2 : basicScaling, SOURCE_BASIC)
-
-      // TODO: is this actually correct or does it only buff the odeToEgoExtraBounces?
+      // MEMO_SKILL: Complex bounce calculation
       const memoSkillScalingIndividual = memoSkillDmgScaling + (e >= 4 ? r.e4BounceStacks * 0.06 : 0)
-      x.m.MEMO_SKILL_HP_SCALING.buff(memoSkillDmgScaling, SOURCE_MEMO)
-      x.m.MEMO_SKILL_HP_SCALING.buff(r.odeToEgoExtraBounces * memoSkillScalingIndividual, Source.odeTo(CYRENE))
-      x.m.MEMO_SKILL_HP_SCALING.buff(r.e1ExtraBounces * memoSkillScalingIndividual, SOURCE_E1)
+      const memoSkillTotalHpScaling = memoSkillDmgScaling
+        + r.odeToEgoExtraBounces * memoSkillScalingIndividual
+        + r.e1ExtraBounces * memoSkillScalingIndividual
+      const memoSkillToughness = 10
+        + 5 / 3 * r.e1ExtraBounces
+        + 5 / 3 * r.odeToEgoExtraBounces
 
-      x.BASIC_TOUGHNESS_DMG.buff(r.memospriteActive ? 15 : 10, SOURCE_BASIC)
-      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
-      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(5 / 3 * r.e1ExtraBounces, SOURCE_E1)
-      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(5 / 3 * r.odeToEgoExtraBounces, Source.odeTo(CYRENE))
+      return {
+        [CyreneAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Ice)
+              .hpScaling(basicHpScaling)
+              .toughnessDmg(basicToughness)
+              .build(),
+          ],
+        },
+        [CyreneAbilities.MEMO_SKILL]: {
+          hits: [
+            HitDefinitionBuilder.crit()
+              .sourceEntity(CyreneEntities.Demiurge)
+              .damageType(DamageTag.MEMO)
+              .damageElement(ElementTag.Ice)
+              .hpScaling(memoSkillTotalHpScaling)
+              .toughnessDmg(memoSkillToughness)
+              .directHit(true)
+              .build(),
+          ],
+        },
+        [CyreneAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
+          ],
+        },
+      }
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
+      x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
+      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
+    },
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // ULT CR buff (self + memosprite)
+      x.buff(StatKey.CR, r.memospriteActive ? ultCrBuff : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_ULT))
+
+      // Memo talent HP% buff (self + memosprite)
+      x.buff(StatKey.HP_P, r.memospriteActive ? memoTalentHpBuff : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_MEMO))
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ELEMENTAL_DMG.buffTeam((m.talentDmgBuff) ? talentDmgBuff : 0, SOURCE_TALENT)
-      x.TRUE_DMG_MODIFIER.buffTeam((m.zoneActive) ? skillTrueDmgBuff : 0, SOURCE_SKILL)
-      x.TRUE_DMG_MODIFIER.buffTeam((e >= 2 && m.zoneActive) ? m.e2TrueDmgStacks * 0.06 : 0, SOURCE_E2)
+      // Talent DMG boost (full team)
+      x.buff(StatKey.DMG_BOOST, m.talentDmgBuff ? talentDmgBuff : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
 
-      x.DEF_PEN.buffTeam((e >= 6 && m.e6DefPen) ? 0.20 : 0, SOURCE_E6)
+      // Skill zone TRUE_DMG_MODIFIER (full team)
+      x.buff(StatKey.TRUE_DMG_MODIFIER, m.zoneActive ? skillTrueDmgBuff : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+
+      // E2 TRUE_DMG_MODIFIER stacks (full team)
+      x.buff(StatKey.TRUE_DMG_MODIFIER, (e >= 2 && m.zoneActive) ? m.e2TrueDmgStacks * 0.06 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
+
+      // E6 DEF PEN (full team)
+      x.buff(StatKey.DEF_PEN, (e >= 6 && m.e6DefPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
+
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ELEMENTAL_DMG.buff((t.cyreneSpdDmg) ? 0.20 : 0, SOURCE_TRACE)
+      // Trace SPD-based DMG buff
+      x.buff(StatKey.DMG_BOOST, t.cyreneSpdDmg ? 0.20 : 0, x.source(SOURCE_TRACE))
 
       if (t.specialEffect) {
         if (!chrysosHeirs[context.characterId]) {
-          x.ELEMENTAL_DMG.buffSingle((t.specialEffect) ? memoSkillDmgBuff : 0, SOURCE_MEMO)
+          // Non-chrysosHeirs get DMG buff to single target (follows memo buff priority)
+          x.buff(StatKey.DMG_BOOST, t.specialEffect ? memoSkillDmgBuff : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_MEMO))
         } else if (context.characterId == STELLE_REMEMBRANCE || context.characterId == CAELUS_REMEMBRANCE) {
-          // Cannot be inlined with the main character conditional because of the cyreneHp dependency
-
+          // Trailblazers get ATK and CR conversion buffs (self + memosprite)
           const atkBuff = memoSkillTrailblazerAtkScaling * t.cyreneHp
-          x.ATK.buffBaseDual(atkBuff, Source.odeTo(context.characterId))
-          x.UNCONVERTIBLE_ATK_BUFF.buffBaseDual(atkBuff, Source.odeTo(context.characterId))
+          x.buff(StatKey.ATK, atkBuff, x.targets(TargetTag.SelfAndMemosprite).source(Source.odeTo(context.characterId)))
+          x.buff(StatKey.UNCONVERTIBLE_ATK_BUFF, atkBuff, x.targets(TargetTag.SelfAndMemosprite).source(Source.odeTo(context.characterId)))
 
           const crBuff = memoSkillTrailblazerCrScaling * t.cyreneCr
-          x.CR.buffBaseDual(crBuff, Source.odeTo(context.characterId))
-          x.UNCONVERTIBLE_CR_BUFF.buffBaseDual(crBuff, Source.odeTo(context.characterId))
+          x.buff(StatKey.CR, crBuff, x.targets(TargetTag.SelfAndMemosprite).source(Source.odeTo(context.characterId)))
+          x.buff(StatKey.UNCONVERTIBLE_CR_BUFF, crBuff, x.targets(TargetTag.SelfAndMemosprite).source(Source.odeTo(context.characterId)))
         }
       }
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
 
-      if (x.a[Key.SPD] >= 180 && r.traceSpdBasedBuff) {
-        x.ELEMENTAL_DMG.buffBaseDual(0.20, SOURCE_TRACE)
-        x.ICE_RES_PEN.buffBaseDual(Math.floor(Math.min(60, x.a[Key.SPD] - 180)) * 0.02, SOURCE_TRACE)
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      const spd = x.getActionValue(StatKey.SPD, CyreneEntities.Cyrene)
+
+      if (spd >= 180 && r.traceSpdBasedBuff) {
+        x.buff(StatKey.DMG_BOOST, 0.20, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE))
+        x.buff(StatKey.RES_PEN, Math.floor(Math.min(60, spd - 180)) * 0.02, x.elements(ElementTag.Ice).targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE))
       }
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      return `
-if (x.SPD >= 180 && ${wgslTrue(r.traceSpdBasedBuff)}) {
-  x.ELEMENTAL_DMG += 0.20;
-  m.ELEMENTAL_DMG += 0.20;
-  
-  let penBuff = floor(min(60, x.SPD - 180)) * 0.02;
-  x.ICE_RES_PEN += penBuff;
-  m.ICE_RES_PEN += penBuff;
+      return wgsl`
+if (${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} >= 180.0 && ${wgslTrue(r.traceSpdBasedBuff)}) {
+  ${buff.action(AKey.DMG_BOOST, 0.20).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
+
+  let penBuff = floor(min(60.0, ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} - 180.0)) * 0.02;
+  ${buff.hit(HKey.RES_PEN, 'penBuff').elements(ElementTag.Ice).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
 }
-`
+      `
     },
   }
 }

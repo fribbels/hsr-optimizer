@@ -6,23 +6,26 @@ import {
   ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
+} from 'lib/conditionals/conditionalFinalizers'
+import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-
-import i18next from 'i18next'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
-  gpuStandardAtkShieldFinalizer,
-  standardAtkShieldFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { PERMANSOR_TERRAE } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
@@ -33,6 +36,9 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
+export const PermansorTerraeEntities = createEnum('PermansorTerrae', 'Souldragon')
+export const PermansorTerraeAbilities = createEnum('BASIC', 'ULT', 'FUA', 'SKILL_SHIELD', 'BREAK')
+
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.PermansorTerrae.TeammateContent')
   const tShield = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.ShieldAbility')
@@ -42,11 +48,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_SKILL,
     SOURCE_ULT,
     SOURCE_TALENT,
-    SOURCE_TECHNIQUE,
     SOURCE_TRACE,
-    SOURCE_MEMO,
     SOURCE_E1,
-    SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character('1414')
@@ -144,65 +147,128 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(PermansorTerraeEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [PermansorTerraeEntities.PermansorTerrae]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+        pet: false,
+      },
+      [PermansorTerraeEntities.Souldragon]: {
+        primary: false,
+        summon: true,
+        memosprite: false,
+        pet: true,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(PermansorTerraeAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.SUMMONS.set(1, SOURCE_TALENT)
+      // Shield scaling based on selected ability
+      let shieldScaling = talentShieldScaling
+      let shieldFlat = talentShieldFlat
+      if (r.shieldAbility == ULT_DMG_TYPE || r.shieldAbility == SKILL_DMG_TYPE) {
+        shieldScaling = talentShieldScaling * 2
+        shieldFlat = talentShieldFlat * 2
+      }
+
+      return {
+        [PermansorTerraeAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [PermansorTerraeAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(ultScaling)
+              .toughnessDmg(20)
+              .build(),
+            HitDefinitionBuilder.ultShield()
+              .atkScaling(talentShieldScaling * 2)
+              .flatShield(talentShieldFlat * 2)
+              .build(),
+          ],
+        },
+        [PermansorTerraeAbilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(fuaScaling)
+              .toughnessDmg(10)
+              .build(),
+            HitDefinitionBuilder.fuaShield()
+              .atkScaling(talentShieldScaling)
+              .flatShield(talentShieldFlat)
+              .build(),
+          ],
+        },
+        [PermansorTerraeAbilities.SKILL_SHIELD]: {
+          hits: [
+            HitDefinitionBuilder.skillShield()
+              .atkScaling(talentShieldScaling * 2)
+              .flatShield(talentShieldFlat * 2)
+              .build(),
+          ],
+        },
+        [PermansorTerraeAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
+          ],
+        },
+      }
     },
-    initializeTeammateConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
+    },
+    initializeTeammateConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SUMMONS.buff((t.bondmate) ? 1 : 0, SOURCE_SKILL)
+      x.buff(StatKey.SUMMONS, (t.bondmate) ? 1 : 0, x.source(SOURCE_SKILL))
     },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_ULT)
-
-      if (r.shieldAbility == ULT_DMG_TYPE) {
-        x.SHIELD_SCALING.buff(talentShieldScaling * 2, SOURCE_ULT)
-        x.SHIELD_FLAT.buff(talentShieldFlat * 2, SOURCE_ULT)
-      }
-      if (r.shieldAbility == SKILL_DMG_TYPE) {
-        x.SHIELD_SCALING.buff(talentShieldScaling * 2, SOURCE_SKILL)
-        x.SHIELD_FLAT.buff(talentShieldFlat * 2, SOURCE_SKILL)
-      }
-      if (r.shieldAbility == NONE_TYPE) {
-        x.SHIELD_SCALING.buff(talentShieldScaling, SOURCE_TALENT)
-        x.SHIELD_FLAT.buff(talentShieldFlat, SOURCE_TALENT)
-      }
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      // No self-buffs to apply - scaling is handled in actionDefinition
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
+
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const atkBuff = t.sourceAtk * 0.15
-      x.ATK.buffSingle((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
-      x.UNCONVERTIBLE_ATK_BUFF.buffSingle((t.bondmate) ? atkBuff : 0, SOURCE_TRACE)
+      x.buff(StatKey.ATK, (t.bondmate) ? atkBuff : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_TRACE))
+      x.buff(StatKey.UNCONVERTIBLE_ATK_BUFF, (t.bondmate) ? atkBuff : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_TRACE))
 
-      x.RES_PEN.buffSingle((e >= 1 && t.bondmate && t.e1ResPen) ? 0.18 : 0, SOURCE_E1)
-      x.DMG_RED_MULTI.multiplySingle((e >= 4 && t.bondmate && t.e4DmgReduction) ? 1 - 0.20 : 1, SOURCE_E4)
-      x.VULNERABILITY.buffTeam((e >= 6 && t.e6Buffs) ? 0.20 : 0, SOURCE_E6)
-      x.DEF_PEN.buffSingle((e >= 6 && t.e6Buffs) ? 0.12 : 0, SOURCE_E6)
+      x.buff(StatKey.RES_PEN, (e >= 1 && t.bondmate && t.e1ResPen) ? 0.18 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E1))
+      x.multiplicativeComplement(StatKey.DMG_RED, (e >= 4 && t.bondmate && t.e4DmgReduction) ? 0.20 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E4))
+      x.buff(StatKey.VULNERABILITY, (e >= 6 && t.e6Buffs) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
+      x.buff(StatKey.DEF_PEN, (e >= 6 && t.e6Buffs) ? 0.12 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E6))
 
       // Cyrene
       const cyreneDmgBoost = cyreneActionExists(originalCharacterAction!)
         ? cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.264 : 0.24
         : 0
-      x.ELEMENTAL_DMG.buffSingle((t.cyreneSpecialEffect) ? cyreneDmgBoost : 0, Source.odeTo(PERMANSOR_TERRAE))
+      x.buff(StatKey.DMG_BOOST, (t.cyreneSpecialEffect) ? cyreneDmgBoost : 0, x.source(Source.odeTo(PERMANSOR_TERRAE)))
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals as Conditionals<typeof teammateContent>
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkP(x, action, context, hitMultiByTargets[context.enemyCount])
-      standardAtkShieldFinalizer(x)
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, hitMultiByTargets[context.enemyCount])
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) =>
-      gpuBoostAshblazingAtkP(hitMultiByTargets[context.enemyCount]) + gpuStandardAtkShieldFinalizer(),
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
+    },
   }
 }

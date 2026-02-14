@@ -57,7 +57,7 @@ test('Anaxa benchmark 0', async () => {
       mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    6395631,
+    6395631.5,
     7782346,
   )
 }, TIMEOUT)
@@ -92,7 +92,7 @@ test('Anaxa benchmark 200 captain', async () => {
       stats: testStatSpread(),
     }),
     4676874,
-    5581103,
+    5581103.5,
   )
 }, TIMEOUT)
 
@@ -109,7 +109,7 @@ test('Black Swan benchmark 0 captain', async () => {
       stats: testStatSpread(),
     }),
     1498006.1736582317,
-    1704332.5,
+    1704332.625,
   )
 }, TIMEOUT)
 
@@ -127,7 +127,7 @@ test('Firefly benchmark 160', async () => {
       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    4879910.5,
+    4879910,
     5954549.5,
   )
 }, TIMEOUT)
@@ -163,7 +163,7 @@ test('The herta benchmark 100 err', async () => {
       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ERR),
       stats: testStatSpread(),
     }),
-    4252174,
+    4252174.5,
     5328330.5,
   )
 }, TIMEOUT)

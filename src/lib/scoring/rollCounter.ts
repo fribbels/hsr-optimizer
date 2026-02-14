@@ -2,7 +2,8 @@ import {
   Stats,
   SubStats,
 } from 'lib/constants/constants'
-import { Key } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import {
   PartialSimulationWrapper,
@@ -98,7 +99,7 @@ export function calculateMaxSubstatRollCounts(
   // Assumes maximum 100 CR is needed ever
   if (!simulationFlags.overcapCritRate && scoringParams.quality == 1.0) {
     const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
-    const missingCrit = Math.max(0, 100 - baselineSimResult.xa[Key.CR] * 100)
+    const missingCrit = Math.max(0, 100 - baselineSimResult.x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) * 100)
     maxCounts[Stats.CR] = Math.max(
       scoringParams.baselineFreeRolls,
       Math.max(
@@ -120,7 +121,7 @@ export function calculateMaxSubstatRollCounts(
   // Assumes maximum 120 EHR is needed ever
   if (scoringParams.quality == 1.0) {
     const ehrValue = StatCalculator.getMaxedSubstatValue(Stats.EHR, scoringParams.quality)
-    const missingEhr = Math.max(0, 120 - baselineSimResult.xa[Key.EHR] * 100)
+    const missingEhr = Math.max(0, 120 - baselineSimResult.x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) * 100)
     maxCounts[Stats.EHR] = maxCounts[Stats.EHR] == 0
       ? 0
       : Math.max(

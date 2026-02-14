@@ -3,40 +3,49 @@ import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
-  gpuStandardAdditionalDmgAtkFinalizer,
-  standardAdditionalDmgAtkFinalizer,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
   Stats,
 } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import {
+  newConditionalWgslWrapper,
+} from 'lib/gpu/conditionals/dynamicConditionals'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { CIPHER } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
-
 import { Eidolon } from 'types/character'
-
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const CipherEntities = createEnum('Cipher')
+export const CipherAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cipher.Content')
@@ -158,65 +167,156 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     defaults: () => defaults,
     teammateContent: () => Object.values(teammateContent),
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(CipherEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [CipherEntities.Cipher]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(CipherAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-    },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.ATK_P.buff((r.skillAtkBuff) ? skillAtkBuff : 0, SOURCE_SKILL)
-      x.FUA_CD_BOOST.buff(1.00, SOURCE_TRACE)
+      const e4AdditionalScaling = (e >= 4 && r.e4AdditionalDmg) ? 0.50 : 0
 
-      x.ATK_P.buff((e >= 1 && r.e1AtkBuff) ? 0.80 : 0, SOURCE_E1)
-      x.FUA_DMG_BOOST.buff((e >= 6 && r.e6FuaDmg) ? 3.50 : 0, SOURCE_E6)
-
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.ULT_ATK_SCALING.buff(ultSecondaryScaling, SOURCE_ULT)
-      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
-
-      if (e >= 4) {
-        x.BASIC_ADDITIONAL_DMG_SCALING.buff(0.50, SOURCE_E4)
-        x.SKILL_ADDITIONAL_DMG_SCALING.buff(0.50, SOURCE_E4)
-        x.ULT_ADDITIONAL_DMG_SCALING.buff(0.50, SOURCE_E4)
-        x.FUA_ADDITIONAL_DMG_SCALING.buff(0.50, SOURCE_E4)
+      return {
+        [CipherAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Quantum)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+            ...(e4AdditionalScaling > 0
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Quantum)
+                  .atkScaling(e4AdditionalScaling)
+                  .build(),
+              ]
+              : []),
+          ],
+        },
+        [CipherAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Quantum)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+            ...(e4AdditionalScaling > 0
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Quantum)
+                  .atkScaling(e4AdditionalScaling)
+                  .build(),
+              ]
+              : []),
+          ],
+        },
+        [CipherAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Quantum)
+              .atkScaling(ultScaling + ultSecondaryScaling)
+              .toughnessDmg(30)
+              .build(),
+            ...(e4AdditionalScaling > 0
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Quantum)
+                  .atkScaling(e4AdditionalScaling)
+                  .build(),
+              ]
+              : []),
+          ],
+        },
+        [CipherAbilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .damageElement(ElementTag.Quantum)
+              .atkScaling(fuaScaling)
+              .toughnessDmg(20)
+              .build(),
+            ...(e4AdditionalScaling > 0
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Quantum)
+                  .atkScaling(e4AdditionalScaling)
+                  .build(),
+              ]
+              : []),
+          ],
+        },
+        [CipherAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
+          ],
+        },
       }
+    },
+    actionModifiers: () => [],
 
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(20, SOURCE_TALENT)
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
 
-      // Cyrene
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // Skill ATK% buff
+      x.buff(StatKey.ATK_P, r.skillAtkBuff ? skillAtkBuff : 0, x.source(SOURCE_SKILL))
+
+      // Trace: FUA CD boost (+100%)
+      x.buff(StatKey.CD, r.fuaCdBoost ? 1.00 : 0, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
+
+      // E1 ATK% buff
+      x.buff(StatKey.ATK_P, (e >= 1 && r.e1AtkBuff) ? 0.80 : 0, x.source(SOURCE_E1))
+
+      // E6 FUA DMG boost
+      x.buff(StatKey.DMG_BOOST, (e >= 6 && r.e6FuaDmg) ? 3.50 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
+
+      // Cyrene special effect - DMG boost
       const cyreneDmgBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
         : 0
-      x.ELEMENTAL_DMG.buff((r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, Source.odeTo(CIPHER))
+      x.buff(StatKey.DMG_BOOST, r.cyreneSpecialEffect ? cyreneDmgBuff : 0, x.source(Source.odeTo(CIPHER)))
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
+
+    precomputeMutualEffectsContainer: (
+      x: ComputedStatsContainer,
+      action: OptimizerAction,
+      context: OptimizerContext,
+      originalCharacterAction?: OptimizerAction,
+    ) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buffTeam((m.vulnerability) ? 0.40 : 0, SOURCE_TRACE)
-      x.VULNERABILITY.buffTeam((e >= 2 && m.e2Vulnerability) ? 0.30 : 0, SOURCE_E2)
+      // Trace vulnerability (full team)
+      x.buff(StatKey.VULNERABILITY, m.vulnerability ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
-      // Cyrene
+      // E2 vulnerability (full team)
+      x.buff(StatKey.VULNERABILITY, (e >= 2 && m.e2Vulnerability) ? 0.30 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
+
+      // Cyrene special effect - DEF PEN (full team)
       const cyreneDefPen = cyreneActionExists(originalCharacterAction!)
         ? (cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.22 : 0.20)
         : 0
-      x.DEF_PEN.buffTeam((m.cyreneSpecialEffect) ? cyreneDefPen : 0, Source.odeTo(CIPHER))
+      x.buff(StatKey.DEF_PEN, m.cyreneSpecialEffect ? cyreneDefPen : 0, x.targets(TargetTag.FullTeam).source(Source.odeTo(CIPHER)))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
 
-      // TODO: Recorded value
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
 
-      boostAshblazingAtkP(x, action, context, hitMulti)
-      standardAdditionalDmgAtkFinalizer(x)
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, hitMulti)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuStandardAdditionalDmgAtkFinalizer() + gpuBoostAshblazingAtkP(hitMulti)
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(hitMulti, action)
     },
+
     dynamicConditionals: [
       {
         id: 'CipherSpdActivation140',
@@ -224,30 +324,33 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.SPD],
         chainsTo: [Stats.CR],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return r.spdBasedBuffs && x.a[Key.SPD] >= 140
+          return r.spdBasedBuffs && x.getActionValue(StatKey.SPD, CipherEntities.Cipher) >= 140
         },
-        effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+        effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
           const r = action.characterConditionals as Conditionals<typeof content>
+          const spd = x.getActionValue(StatKey.SPD, CipherEntities.Cipher)
 
-          x.CR.buffDynamic((r.spdBasedBuffs && x.a[Key.SPD] >= 140) ? 0.25 : 0, SOURCE_TRACE, action, context)
+          x.buffDynamic(StatKey.CR, (r.spdBasedBuffs && spd >= 140) ? 0.25 : 0, action, context, x.source(SOURCE_TRACE))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          return conditionalWgslWrapper(
+          return newConditionalWgslWrapper(
             this,
+            action,
+            context,
             `
 if (
-  (*p_state).CipherSpdActivation140 == 0.0 &&
-  x.SPD >= 140 &&
+  (*p_state).CipherSpdActivation140${action.actionIdentifier} == 0.0 &&
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} >= 140.0 &&
   ${wgslTrue(r.spdBasedBuffs)}
 ) {
-  (*p_state).CipherSpdActivation140 = 1.0;
-  (*p_x).CR += 0.25;
+  (*p_state).CipherSpdActivation140${action.actionIdentifier} = 1.0;
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, action.config)} += 0.25;
 }
-    `,
+          `,
           )
         },
       },
@@ -257,30 +360,33 @@ if (
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.SPD],
         chainsTo: [Stats.CR],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return r.spdBasedBuffs && x.a[Key.SPD] >= 170
+          return r.spdBasedBuffs && x.getActionValue(StatKey.SPD, CipherEntities.Cipher) >= 170
         },
-        effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+        effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
           const r = action.characterConditionals as Conditionals<typeof content>
+          const spd = x.getActionValue(StatKey.SPD, CipherEntities.Cipher)
 
-          x.CR.buffDynamic((r.spdBasedBuffs && x.a[Key.SPD] >= 170) ? 0.25 : 0, SOURCE_TRACE, action, context)
+          x.buffDynamic(StatKey.CR, (r.spdBasedBuffs && spd >= 170) ? 0.25 : 0, action, context, x.source(SOURCE_TRACE))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          return conditionalWgslWrapper(
+          return newConditionalWgslWrapper(
             this,
+            action,
+            context,
             `
 if (
-  (*p_state).CipherSpdActivation170 == 0.0 &&
-  x.SPD >= 170 &&
+  (*p_state).CipherSpdActivation170${action.actionIdentifier} == 0.0 &&
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} >= 170.0 &&
   ${wgslTrue(r.spdBasedBuffs)}
 ) {
-  (*p_state).CipherSpdActivation170 = 1.0;
-  (*p_x).CR += 0.25;
+  (*p_state).CipherSpdActivation170${action.actionIdentifier} = 1.0;
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, action.config)} += 0.25;
 }
-    `,
+          `,
           )
         },
       },

@@ -3,7 +3,6 @@ import {
   SetsOrnaments,
   SetsRelics,
   Stats,
-  StatsValues,
 } from 'lib/constants/constants'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import {
@@ -12,17 +11,20 @@ import {
   initializeGpuPipeline,
 } from 'lib/gpu/webgpuInternals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
-import {
-  Key,
-  KeyToStat,
-} from 'lib/optimization/computedStatsArray'
-import { baseComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
 import { generateContext } from 'lib/optimization/context/calculateContext'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  newStatsConfig,
+  STATS_LENGTH,
+} from 'lib/optimization/engine/config/statsConfig'
+import { OutputTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { Form } from 'types/form'
+import { OptimizerContext } from 'types/optimizer'
 
 export async function runTestRequest(request: Form, relics: RelicsByPart, device: GPUDevice) {
   request.resultSort = SortOption.COMBO.key
@@ -58,8 +60,15 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
     PlanarSphere: relics.PlanarSphere[0],
     LinkRope: relics.LinkRope[0],
   }
-  const x = simulateBuild(relicsByPart as unknown as SimulationRelicByPart, context, null, null)
-  const deltas = arrayDelta(x.a, array)
+  const { x: cpuContainer } = simulateBuild(relicsByPart as unknown as SimulationRelicByPart, context, null, null)
+
+  // Create GPU container and copy array data into it
+  const gpuContainer = new ComputedStatsContainer()
+  gpuContainer.initializeArrays(context.maxContainerArrayLength, context)
+  gpuContainer.setConfig(context.rotationActions[0].config)
+  gpuContainer.a.set(array.slice(0, context.maxContainerArrayLength))
+
+  const deltas = arrayDelta(cpuContainer, gpuContainer, context)
 
   gpuReadBuffer.unmap()
   gpuReadBuffer.destroy()
@@ -96,75 +105,97 @@ const P_4 = 0.0001
 const P_5 = 0.00001
 const P_6 = 0.000001
 
-const ignoredStats = {
-  [Key.BASE_ATK]: true,
-  [Key.BASE_DEF]: true,
-  [Key.BASE_HP]: true,
-  [Key.BASE_SPD]: true,
-  [Key.PHYSICAL_DMG_BOOST]: true,
-  [Key.FIRE_DMG_BOOST]: true,
-  [Key.ICE_DMG_BOOST]: true,
-  [Key.LIGHTNING_DMG_BOOST]: true,
-  [Key.WIND_DMG_BOOST]: true,
-  [Key.IMAGINARY_DMG_BOOST]: true,
-  [Key.QUANTUM_DMG_BOOST]: true,
+// Dynamic precision based on combo magnitude
+// Larger values have more floating point precision loss
+function getDynamicComboPrecision(value: number): number {
+  const absValue = Math.abs(value)
+  if (absValue > 1_000_000_000) return 6
+  if (absValue > 100_000_000) return 5
+  if (absValue > 10_000_000) return 4
+  if (absValue > 1_000_000) return 3
+  if (absValue > 100_000) return 2
+  return 1
 }
 
-const overridePrecision = {
-  [Key.BASIC_DMG]: P_0,
-  [Key.SKILL_DMG]: P_0,
-  [Key.ULT_DMG]: P_0,
-  [Key.FUA_DMG]: P_0,
-  [Key.DOT_DMG]: P_0,
-  [Key.BREAK_DMG]: P_0,
-  [Key.MEMO_SKILL_DMG]: P_0,
-  [Key.MEMO_TALENT_DMG]: P_0,
-  [Key.COMBO_DMG]: P_0,
-
-  [Key.HEAL_VALUE]: P_2,
-  [Key.SHIELD_VALUE]: P_2,
-
-  [Key.HP]: P_2,
-  [Key.ATK]: P_2,
-  [Key.DEF]: P_2,
-  [Key.EHP]: P_2,
-
-  [Key.UNCONVERTIBLE_HP_BUFF]: P_2,
-  [Key.UNCONVERTIBLE_ATK_BUFF]: P_2,
-  [Key.UNCONVERTIBLE_DEF_BUFF]: P_2,
-
-  [Key.BASIC_ADDITIONAL_DMG]: P_2,
-  [Key.SKILL_ADDITIONAL_DMG]: P_2,
-  [Key.ULT_ADDITIONAL_DMG]: P_2,
-  [Key.FUA_ADDITIONAL_DMG]: P_2,
-  [Key.DOT_ADDITIONAL_DMG]: P_2,
-  [Key.BREAK_ADDITIONAL_DMG]: P_2,
-  [Key.MEMO_SKILL_ADDITIONAL_DMG]: P_2,
-  [Key.MEMO_TALENT_ADDITIONAL_DMG]: P_2,
+// Map StatKey index -> Stats string for relic conversion
+const StatKeyToStat: Record<number, string> = {
+  [StatKey.HP_P]: Stats.HP_P,
+  [StatKey.ATK_P]: Stats.ATK_P,
+  [StatKey.DEF_P]: Stats.DEF_P,
+  [StatKey.SPD_P]: Stats.SPD_P,
+  [StatKey.HP]: Stats.HP,
+  [StatKey.ATK]: Stats.ATK,
+  [StatKey.DEF]: Stats.DEF,
+  [StatKey.SPD]: Stats.SPD,
+  [StatKey.CR]: Stats.CR,
+  [StatKey.CD]: Stats.CD,
+  [StatKey.EHR]: Stats.EHR,
+  [StatKey.RES]: Stats.RES,
+  [StatKey.BE]: Stats.BE,
+  [StatKey.ERR]: Stats.ERR,
+  [StatKey.OHB]: Stats.OHB,
+  [StatKey.PHYSICAL_DMG_BOOST]: Stats.Physical_DMG,
+  [StatKey.FIRE_DMG_BOOST]: Stats.Fire_DMG,
+  [StatKey.ICE_DMG_BOOST]: Stats.Ice_DMG,
+  [StatKey.LIGHTNING_DMG_BOOST]: Stats.Lightning_DMG,
+  [StatKey.WIND_DMG_BOOST]: Stats.Wind_DMG,
+  [StatKey.QUANTUM_DMG_BOOST]: Stats.Quantum_DMG,
+  [StatKey.IMAGINARY_DMG_BOOST]: Stats.Imaginary_DMG,
 }
 
-function arrayDelta(cpu: Float32Array, gpu: Float32Array) {
+const ignoredStats: Record<number, boolean> = {
+  [StatKey.BASE_ATK]: true,
+  [StatKey.BASE_DEF]: true,
+  [StatKey.BASE_HP]: true,
+  [StatKey.BASE_SPD]: true,
+  [StatKey.PHYSICAL_DMG_BOOST]: true,
+  [StatKey.FIRE_DMG_BOOST]: true,
+  [StatKey.ICE_DMG_BOOST]: true,
+  [StatKey.LIGHTNING_DMG_BOOST]: true,
+  [StatKey.WIND_DMG_BOOST]: true,
+  [StatKey.IMAGINARY_DMG_BOOST]: true,
+  [StatKey.QUANTUM_DMG_BOOST]: true,
+  // COMBO_DMG is written to registers, not the stat position - use COMBO_REGISTER instead
+  [StatKey.COMBO_DMG]: true,
+}
+
+const overridePrecision: Record<number, number> = {
+  // Flat stats (large values, float precision issues)
+  [StatKey.HP]: P_2,
+  [StatKey.ATK]: P_2,
+  [StatKey.DEF]: P_2,
+
+  // Unconvertible buffs
+  [StatKey.UNCONVERTIBLE_HP_BUFF]: P_2,
+  [StatKey.UNCONVERTIBLE_ATK_BUFF]: P_2,
+  [StatKey.UNCONVERTIBLE_DEF_BUFF]: P_2,
+
+  [StatKey.EHP]: P_2,
+}
+
+function arrayDelta(cpuContainer: ComputedStatsContainer, gpuContainer: ComputedStatsContainer, context: OptimizerContext) {
   const statDeltas: StatDeltas = {}
   let allPass = true
+
+  const cpu = cpuContainer.a
+  const gpu = gpuContainer.a
 
   // console.log(cpu)
   // console.log(gpu)
 
-  const keys = Object.keys(baseComputedStatsObject)
+  const statNames = Object.keys(newStatsConfig)
 
-  function analyze(key: number, precision: number) {
-    const delta = cpu[key] - gpu[key]
+  function analyze(statName: string, cpuValue: number, gpuValue: number, precision: number) {
+    const delta = cpuValue - gpuValue
     const pass = Math.abs(delta) <= precision
     if (!pass) {
       allPass = false
     }
 
-    const stat = keys[key]
-
-    statDeltas[stat] = {
-      key: stat,
-      cpu: cpu[key].toLocaleString('en-US', { useGrouping: false, maximumFractionDigits: 20 }),
-      gpu: gpu[key].toLocaleString('en-US', { useGrouping: false, maximumFractionDigits: 20 }),
+    statDeltas[statName] = {
+      key: statName,
+      cpu: cpuValue.toLocaleString('en-US', { useGrouping: false, maximumFractionDigits: 20 }),
+      gpu: gpuValue.toLocaleString('en-US', { useGrouping: false, maximumFractionDigits: 20 }),
       deltaValue: delta,
       deltaString: delta.toLocaleString('en-US', { useGrouping: false, maximumFractionDigits: 20 }),
       precision: precision,
@@ -172,10 +203,51 @@ function arrayDelta(cpu: Float32Array, gpu: Float32Array) {
     }
   }
 
-  for (let i = 0; i < Object.keys(baseComputedStatsObject).length; i++) {
+  // Compare stats array values
+  for (let i = 0; i < STATS_LENGTH; i++) {
     if (ignoredStats[i]) continue
+    const statName = statNames[i]
     const precision = overridePrecision[i] ?? P_4
-    analyze(i, precision)
+    analyze(statName, cpu[i], gpu[i], precision)
+  }
+
+  // Compare register values for COMBO damage (sum of rotation action registers)
+  // Also extract HEAL and SHIELD values from hit registers based on outputTag
+  let cpuCombo = 0
+  let gpuCombo = 0
+  let cpuHeal = 0
+  let gpuHeal = 0
+  let cpuShield = 0
+  let gpuShield = 0
+
+  for (const action of context.rotationActions) {
+    cpuCombo += cpuContainer.getActionRegisterValue(action.registerIndex)
+    gpuCombo += gpuContainer.getActionRegisterValue(action.registerIndex)
+
+    // Extract heal/shield values from hit registers
+    if (action.hits) {
+      for (const hit of action.hits) {
+        const cpuHitValue = cpuContainer.getHitRegisterValue(hit.registerIndex)
+        const gpuHitValue = gpuContainer.getHitRegisterValue(hit.registerIndex)
+        if (hit.outputTag === OutputTag.HEAL) {
+          cpuHeal += cpuHitValue
+          gpuHeal += gpuHitValue
+        } else if (hit.outputTag === OutputTag.SHIELD) {
+          cpuShield += cpuHitValue
+          gpuShield += gpuHitValue
+        }
+      }
+    }
+  }
+  analyze('COMBO_REGISTER', cpuCombo, gpuCombo, getDynamicComboPrecision(Math.max(cpuCombo, gpuCombo)))
+  analyze('HEAL_REGISTER', cpuHeal, gpuHeal, P_2)
+  analyze('SHIELD_REGISTER', cpuShield, gpuShield, P_2)
+
+  // Compare individual action register values
+  for (const action of context.defaultActions) {
+    const cpuValue = cpuContainer.getActionRegisterValue(action.registerIndex)
+    const gpuValue = gpuContainer.getActionRegisterValue(action.registerIndex)
+    analyze(`${action.actionName}_REGISTER`, cpuValue, gpuValue, getDynamicComboPrecision(Math.max(cpuValue, gpuValue)))
   }
 
   return {
@@ -211,8 +283,7 @@ export function uncondenseRelics(relicsByPart: RelicsByPart) {
       relic.substats = []
       condensedStats.map(([key, value]) => {
         relic.substats.push({
-          // @ts-ignore
-          stat: KeyToStat[key],
+          stat: StatKeyToStat[key] as any,
           value,
         })
       })
@@ -237,11 +308,11 @@ export function generateTestRelics() {
         id: 'cd85c14c-a662-4413-a149-a379e6d538d3',
         equippedBy: '1212',
         condensedStats: [
-          [Key.CR, 0.11016 + 0.25],
-          [Key.CD, 0.10368],
-          [Key.RES, 0.03456],
-          [Key.BE, 0.05184],
-          [Key.HP, 705.6],
+          [StatKey.CR, 0.11016 + 0.25],
+          [StatKey.CD, 0.10368],
+          [StatKey.RES, 0.03456],
+          [StatKey.BE, 0.05184],
+          [StatKey.HP, 705.6],
         ],
         weightScore: 0,
         substats: [],
@@ -263,11 +334,11 @@ export function generateTestRelics() {
         id: '798657c8-5c5c-4b44-9c5f-f5f094414289',
         equippedBy: '1212',
         condensedStats: [
-          [Key.HP_P, 0.03456],
-          [Key.SPD, 4],
-          [Key.CD, 0.2268],
-          [Key.EHR, 0.03456],
-          [Key.ATK, 352.8],
+          [StatKey.HP_P, 0.03456],
+          [StatKey.SPD, 4],
+          [StatKey.CD, 0.2268],
+          [StatKey.EHR, 0.03456],
+          [StatKey.ATK, 352.8],
         ],
         weightScore: 0,
         substats: [],
@@ -289,11 +360,11 @@ export function generateTestRelics() {
         id: 'b3376a19-62f9-489e-80e6-8f98335af158',
         equippedBy: '1212',
         condensedStats: [
-          [Key.HP, 114.31138],
-          [Key.ATK_P, 0.07344],
-          [Key.DEF_P, 0.0432],
-          [Key.CR, 0.081],
-          [Key.CD, 0.648],
+          [StatKey.HP, 114.31138],
+          [StatKey.ATK_P, 0.07344],
+          [StatKey.DEF_P, 0.0432],
+          [StatKey.CR, 0.081],
+          [StatKey.CD, 0.648],
         ],
         weightScore: 0,
         substats: [],
@@ -315,11 +386,11 @@ export function generateTestRelics() {
         id: '92c53d06-80d0-43a8-b896-2feeda419674',
         equippedBy: '1212',
         condensedStats: [
-          [Key.ATK, 21.16877],
-          [Key.ATK_P, 0.11664],
-          [Key.DEF_P, 0.0486],
-          [Key.CD, 0.17496],
-          [Key.SPD, 25.032],
+          [StatKey.ATK, 21.16877],
+          [StatKey.ATK_P, 0.11664],
+          [StatKey.DEF_P, 0.0486],
+          [StatKey.CD, 0.17496],
+          [StatKey.SPD, 25.032],
         ],
         weightScore: 0,
         substats: [],
@@ -341,11 +412,11 @@ export function generateTestRelics() {
         id: '80abbd56-b1a0-4587-a349-754c33627217',
         equippedBy: '1212',
         condensedStats: [
-          [Key.DEF, 74.09071],
-          [Key.CR, 0.05508],
-          [Key.CD, 0.12312],
-          [Key.EHR, 0.0432],
-          [Key.ICE_DMG_BOOST, 0.388803],
+          [StatKey.DEF, 74.09071],
+          [StatKey.CR, 0.05508],
+          [StatKey.CD, 0.12312],
+          [StatKey.EHR, 0.0432],
+          [StatKey.ICE_DMG_BOOST, 0.388803],
         ],
         weightScore: 0,
         substats: [],
@@ -367,11 +438,11 @@ export function generateTestRelics() {
         id: 'c521dc03-6c6e-45ef-9933-811367312441',
         equippedBy: '1212',
         condensedStats: [
-          [Key.HP, 80.44134],
-          [Key.CR, 0.08424],
-          [Key.CD, 0.10368],
-          [Key.BE, 0.05832],
-          [Key.ATK_P, 0.43200000000000005],
+          [StatKey.HP, 80.44134],
+          [StatKey.CR, 0.08424],
+          [StatKey.CD, 0.10368],
+          [StatKey.BE, 0.05832],
+          [StatKey.ATK_P, 0.43200000000000005],
         ],
         weightScore: 0,
         substats: [],

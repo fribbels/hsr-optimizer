@@ -1,20 +1,26 @@
 import {
   AbilityType,
   ASHBLAZING_ATK_STACK,
-  SKILL_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
@@ -23,6 +29,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const HimekoEntities = createEnum('Himeko')
+export const HimekoAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Himeko')
@@ -103,37 +112,92 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA, AbilityType.DOT],
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(HimekoEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [HimekoEntities.Himeko]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(HimekoAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Stats
-      x.CR.buff((r.selfCurrentHp80Percent) ? 0.15 : 0, SOURCE_TRACE)
-      x.SPD_P.buff((e >= 1 && r.e1TalentSpdBuff) ? 0.20 : 0, SOURCE_E1)
+      const e6UltScaling = (e >= 6) ? r.e6UltExtraHits * ultScaling * 0.40 : 0
 
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.ULT_ATK_SCALING.buff((e >= 6) ? r.e6UltExtraHits * ultScaling * 0.40 : 0, SOURCE_E6)
-      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
-      x.DOT_ATK_SCALING.buff(dotScaling, SOURCE_TRACE)
-
-      // Boost
-      buffAbilityDmg(x, SKILL_DMG_TYPE, (r.targetBurned) ? 0.20 : 0, SOURCE_TRACE)
-      x.ELEMENTAL_DMG.buff((e >= 2 && r.e2EnemyHp50DmgBoost) ? 0.15 : 0, SOURCE_E2)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(10, SOURCE_TALENT)
-
-      x.DOT_CHANCE.set(0.50, SOURCE_TRACE)
-
-      return x
+      return {
+        [HimekoAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [HimekoAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [HimekoAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(ultScaling + e6UltScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [HimekoAbilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(fuaScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [HimekoAbilities.DOT]: {
+          hits: [
+            HitDefinitionBuilder.standardDot()
+              .dotBaseChance(0.50)
+              .damageElement(ElementTag.Fire)
+              .atkScaling(dotScaling)
+              .build(),
+          ],
+        },
+        [HimekoAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
+          ],
+        },
+      }
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkP(x, action, context, hitMultiByTargets[context.enemyCount])
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.CR, (r.selfCurrentHp80Percent) ? 0.15 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.SPD_P, (e >= 1 && r.e1TalentSpdBuff) ? 0.20 : 0, x.source(SOURCE_E1))
+
+      x.buff(StatKey.DMG_BOOST, (r.targetBurned) ? 0.20 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_TRACE))
+      x.buff(StatKey.DMG_BOOST, (e >= 2 && r.e2EnemyHp50DmgBoost) ? 0.15 : 0, x.source(SOURCE_E2))
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuBoostAshblazingAtkP(hitMultiByTargets[context.enemyCount]),
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, hitMultiByTargets[context.enemyCount])
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
+    },
   }
 }

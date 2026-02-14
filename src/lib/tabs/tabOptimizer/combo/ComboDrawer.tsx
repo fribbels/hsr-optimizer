@@ -216,33 +216,6 @@ function AbilitySelector(props: {
 const abilityGap = 5
 const abilityWidth = 90 - abilityGap
 
-export const abilitySelectOptions = [
-  {
-    value: 'BASIC',
-    label: 'Basic',
-  },
-  {
-    value: 'SKILL',
-    label: 'Skill',
-  },
-  {
-    value: 'ULT',
-    label: 'Ult',
-  },
-  {
-    value: 'FUA',
-    label: 'Fua',
-  },
-  {
-    value: 'MEMO_SKILL',
-    label: 'MemoSkill',
-  },
-  {
-    value: 'MEMO_TALENT',
-    label: 'MemoTalent',
-  },
-] as const
-
 function ComboHeader(props: {
   comboState: ComboState,
 }) {

@@ -4,6 +4,8 @@ import {
   Form,
 } from 'antd'
 import { TFunction } from 'i18next'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { CharacterId } from 'types/character'
 import {
   AbilityKind,
   ALL_ABILITIES,
@@ -19,6 +21,7 @@ import {
 import { updateAbilityRotation } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerForm } from 'types/form'
 
 const { SHOW_CHILD } = Cascader
@@ -41,10 +44,10 @@ const cascaderTheme = {
   },
 }
 
-interface Option {
+export interface AbilityOption {
   value: string
   label: string
-  children: Option[]
+  children: AbilityOption[]
 }
 
 const start = '['
@@ -66,8 +69,30 @@ export function toI18NVisual(ability: TurnAbility, t: TFunction<'optimizerTab', 
   }
 }
 
-function generateOptions(t: TFunction<'optimizerTab', 'ComboFilter'>): Option[] {
+export function generateAbilityOptions(t: TFunction<'optimizerTab', 'ComboFilter'>, characterId?: string, characterEidolon?: number): AbilityOption[] {
   // const t = i18next.getFixedT(null, 'optimizerTab', 'ComboFilter')
+  if (characterId && characterEidolon != null) {
+    const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get({
+      characterId: characterId as CharacterId,
+      characterEidolon: characterEidolon,
+    })
+    const actions = characterConditionals.actionDeclaration ? characterConditionals.actionDeclaration() : []
+
+    return actions.map((x) => ({
+      label: x,
+      value: x,
+      children: Object.values(TurnMarker)
+        .map((marker) => {
+          const turnAbility = createAbility(x, marker)
+          return {
+            value: turnAbility.name,
+            label: toI18NVisual(turnAbility, t),
+            children: [],
+          }
+        }),
+    }))
+  }
+
   return ALL_ABILITIES.map((kind) => ({
     value: `${kind}`,
     label: t(`ComboOptions.${ComboOptionsLabelMapping[kind]}`),
@@ -86,7 +111,9 @@ function generateOptions(t: TFunction<'optimizerTab', 'ComboFilter'>): Option[] 
 export function TurnAbilitySelector({ formName, disabled }: { formName: (string | number)[], disabled: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const form = Form.useFormInstance<OptimizerForm>()
-  const options = useMemo(() => generateOptions(t), [t])
+  const characterId = Form.useWatch('characterId', form)
+  const characterEidolon = Form.useWatch('characterEidolon', form)
+  const options = useMemo(() => generateAbilityOptions(t, characterId, characterEidolon), [t, characterId, characterEidolon])
 
   return (
     <ConfigProvider theme={cascaderTheme}>
@@ -98,7 +125,7 @@ export function TurnAbilitySelector({ formName, disabled }: { formName: (string 
         })}
         noStyle
       >
-        <Cascader<Option>
+        <Cascader<AbilityOption>
           className='turn-ability-cascader-filter'
           options={options}
           displayRender={(labels: string[]) => {
@@ -130,7 +157,7 @@ export function TurnAbilitySelector({ formName, disabled }: { formName: (string 
 
 export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbilityName, index: number }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
-  const options = useMemo(() => generateOptions(t), [t])
+  const options = useMemo(() => generateAbilityOptions(t), [t])
 
   if (value == null) {
     return <></>
@@ -138,7 +165,7 @@ export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbility
 
   return (
     <ConfigProvider theme={cascaderTheme}>
-      <Cascader<Option>
+      <Cascader<AbilityOption>
         className='turn-ability-cascader-filter'
         options={options}
         // @ts-ignore
@@ -170,7 +197,10 @@ export function ControlledTurnAbilitySelector({
   style?: React.CSSProperties,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
-  const options = useMemo(() => generateOptions(t), [t])
+  const form = Form.useFormInstance<OptimizerForm>()
+  const characterId = Form.useWatch('characterId', form)
+  const characterEidolon = Form.useWatch('characterEidolon', form)
+  const options = useMemo(() => generateAbilityOptions(t, characterId, characterEidolon), [t, characterId, characterEidolon])
 
   return (
     <ConfigProvider theme={cascaderTheme}>
@@ -219,3 +249,4 @@ function findMarkerForAbility(abilityName: TurnAbilityName): TurnMarker {
   }
   return TurnMarker.DEFAULT
 }
+

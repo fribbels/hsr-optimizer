@@ -13,6 +13,8 @@ import {
   baseComputedStatsObject,
   ComputedStatsObject,
 } from 'lib/optimization/config/computedStatsConfig'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   ElementalDamageType,
   ElementalResPenType,
@@ -29,6 +31,7 @@ export type Buff = {
   source: BuffSource,
   memo?: boolean,
 }
+
 export type DefaultActionDamageValues = {
   BASIC_DMG: DamageBreakdown,
   SKILL_DMG: DamageBreakdown,
@@ -218,7 +221,7 @@ export class ComputedStatsArrayCore {
             }
 
             for (const conditional of action.conditionalRegistry[KeyToStat[stat]] ?? []) {
-              evaluateConditional(conditional, this as unknown as ComputedStatsArray, action, context)
+              evaluateConditional(conditional, this as unknown as ComputedStatsContainer, action, context)
             }
           },
           multiply: (value: number, source: BuffSource) => {
@@ -251,7 +254,7 @@ export class ComputedStatsArrayCore {
             trace(value, source)
 
             for (const conditional of action.conditionalRegistry[KeyToStat[stat]] || []) {
-              evaluateConditional(conditional, this as unknown as ComputedStatsArray, action, context)
+              evaluateConditional(conditional, this as unknown as ComputedStatsContainer, action, context)
             }
           },
           set: (value: number, source: BuffSource) => {
@@ -395,20 +398,20 @@ export function getResPenType(x: ComputedStatsArray, type: ElementalResPenType) 
 }
 
 const ElementalDmgTypeToKey = {
-  [Stats.Physical_DMG]: Key.PHYSICAL_DMG_BOOST,
-  [Stats.Fire_DMG]: Key.FIRE_DMG_BOOST,
-  [Stats.Ice_DMG]: Key.ICE_DMG_BOOST,
-  [Stats.Lightning_DMG]: Key.LIGHTNING_DMG_BOOST,
-  [Stats.Wind_DMG]: Key.WIND_DMG_BOOST,
-  [Stats.Quantum_DMG]: Key.QUANTUM_DMG_BOOST,
-  [Stats.Imaginary_DMG]: Key.IMAGINARY_DMG_BOOST,
+  [Stats.Physical_DMG]: StatKey.DMG_BOOST,
+  [Stats.Fire_DMG]: StatKey.DMG_BOOST,
+  [Stats.Ice_DMG]: StatKey.DMG_BOOST,
+  [Stats.Lightning_DMG]: StatKey.DMG_BOOST,
+  [Stats.Wind_DMG]: StatKey.DMG_BOOST,
+  [Stats.Quantum_DMG]: StatKey.DMG_BOOST,
+  [Stats.Imaginary_DMG]: StatKey.DMG_BOOST,
 } as const
 
-export function getElementalDamageType(x: ComputedStatsArray, type: ElementalDamageType) {
+export function getElementalDamageType(x: ComputedStatsContainer, type: ElementalDamageType) {
   return x.a[ElementalDmgTypeToKey[type]]
 }
 
-export function buffElementalDamageType(x: ComputedStatsArray, type: ElementalDamageType, value: number) {
+export function buffElementalDamageType(x: ComputedStatsContainer, type: ElementalDamageType, value: number) {
   const key = ElementalDmgTypeToKey[type]
   x.a[key] += value
 }

@@ -1,15 +1,19 @@
-import {
-  AbilityType,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDefPen } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -19,6 +23,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const ArgentiEntities = createEnum('Argenti')
+export const ArgentiAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Argenti')
@@ -102,36 +109,84 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(ArgentiEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [ArgentiEntities.Argenti]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(ArgentiAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Skills
-      x.CR.buff((r.talentStacks) * talentCrStackValue, SOURCE_TALENT)
+      const ultAtkScaling = r.ultEnhanced
+        ? ultEnhancedScaling + r.ultEnhancedExtraHits * ultEnhancedExtraHitScaling
+        : ultScaling
 
-      // Traces
+      const ultToughnessDmg = r.ultEnhanced
+        ? 20 + 5 * r.ultEnhancedExtraHits
+        : 20
+
+      return {
+        [ArgentiAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [ArgentiAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(skillScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [ArgentiAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(ultAtkScaling)
+              .toughnessDmg(ultToughnessDmg)
+              .build(),
+          ],
+        },
+        [ArgentiAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
+          ],
+        },
+      }
+    },
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // Talent
+      x.buff(StatKey.CR, r.talentStacks * talentCrStackValue, x.source(SOURCE_TALENT))
+
+      // Trace
+      x.buff(StatKey.DMG_BOOST, (r.enemyHp50) ? 0.15 : 0, x.source(SOURCE_TRACE))
 
       // Eidolons
-      x.CD.buff((e >= 1) ? (r.talentStacks) * 0.04 : 0, SOURCE_E1)
-      x.ATK_P.buff((e >= 2 && r.e2UltAtkBuff) ? 0.40 : 0, SOURCE_E2)
-
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff((r.ultEnhanced) ? ultEnhancedScaling : ultScaling, SOURCE_ULT)
-      x.ULT_ATK_SCALING.buff((r.ultEnhanced) ? r.ultEnhancedExtraHits * ultEnhancedExtraHitScaling : 0, SOURCE_ULT)
-
-      // BOOST
-      x.ELEMENTAL_DMG.buff((r.enemyHp50) ? 0.15 : 0, SOURCE_TRACE)
+      x.buff(StatKey.CD, (e >= 1) ? r.talentStacks * 0.04 : 0, x.source(SOURCE_E1))
+      x.buff(StatKey.ATK_P, (e >= 2 && r.e2UltAtkBuff) ? 0.40 : 0, x.source(SOURCE_E2))
       // Argenti's e6 ult buff is actually a cast type buff, not dmg type but we'll do it like this anyways
-      buffAbilityDefPen(x, ULT_DMG_TYPE, (e >= 6) ? 0.30 : 0, SOURCE_E6)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(10, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff((r.ultEnhanced) ? 20 + 5 * r.ultEnhancedExtraHits : 20, SOURCE_ULT)
-
-      return x
+      x.buff(StatKey.DEF_PEN, (e >= 6) ? 0.30 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E6))
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {},
-    gpuFinalizeCalculations: () => '',
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

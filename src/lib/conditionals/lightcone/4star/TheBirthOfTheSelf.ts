@@ -1,11 +1,11 @@
-import { FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -37,13 +37,11 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   return {
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      buffAbilityDmg(x, FUA_DMG_TYPE, sValues[s], SOURCE_LC)
-      buffAbilityDmg(x, FUA_DMG_TYPE, (r.enemyHp50FuaBuff) ? sValues[s] : 0, SOURCE_LC)
-    },
-    finalizeCalculations: () => {
+      x.buff(StatKey.DMG_BOOST, sValues[s], x.damageType(DamageTag.FUA).source(SOURCE_LC))
+      x.buff(StatKey.DMG_BOOST, (r.enemyHp50FuaBuff) ? sValues[s] : 0, x.damageType(DamageTag.FUA).source(SOURCE_LC))
     },
   }
 }

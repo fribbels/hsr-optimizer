@@ -1,11 +1,8 @@
 import { ConditionalActivation } from 'lib/constants/constants'
 import { indent } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import {
-  OptimizerAction,
-  OptimizerContext,
-  TeammateAction,
-} from 'types/optimizer'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { ConditionalValueMap } from 'types/conditionals'
+import { OptimizerAction, OptimizerContext, TeammateAction, } from 'types/optimizer'
 
 export type DynamicConditional = {
   id: string,
@@ -14,8 +11,8 @@ export type DynamicConditional = {
   dependsOn: string[],
   chainsTo: string[],
   supplementalState?: string[],
-  condition: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => boolean | number,
-  effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => void,
+  condition: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => boolean | number,
+  effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void,
   gpu: (action: OptimizerAction, context: OptimizerContext) => string,
   teammateIndex?: number,
 }
@@ -26,37 +23,38 @@ function getTeammateFromIndex(conditional: DynamicConditional, action: Optimizer
   else return action.teammate2
 }
 
-export function evaluateConditional(conditional: DynamicConditional, x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-  let conditionalAction: OptimizerAction
+export function evaluateConditional(conditional: DynamicConditional, x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+  let savedCharConds: ConditionalValueMap | undefined
+  let savedLcConds: ConditionalValueMap | undefined
+
   if (conditional.teammateIndex != null) {
     const teammate = getTeammateFromIndex(conditional, action)
-    conditionalAction = {
-      ...action,
-      teammateCharacterConditionals: teammate.characterConditionals,
-      teammateLightConeConditionals: teammate.lightConeConditionals,
-    }
-  } else {
-    conditionalAction = action
+    savedCharConds = action.teammateCharacterConditionals
+    savedLcConds = action.teammateLightConeConditionals
+    action.teammateCharacterConditionals = teammate.characterConditionals
+    action.teammateLightConeConditionals = teammate.lightConeConditionals
   }
 
   if (conditional.activation == ConditionalActivation.SINGLE) {
-    if (!action.conditionalState[conditional.id] && conditional.condition(x, conditionalAction, context)) {
+    if (!action.conditionalState[conditional.id] && conditional.condition(x, action, context)) {
       action.conditionalState[conditional.id] = 1
-      conditional.effect(x, conditionalAction, context)
+      conditional.effect(x, action, context)
     }
   } else if (conditional.activation == ConditionalActivation.CONTINUOUS) {
-    if (conditional.condition(x, conditionalAction, context)) {
-      conditional.effect(x, conditionalAction, context)
+    if (conditional.condition(x, action, context)) {
+      conditional.effect(x, action, context)
     }
-  } else {
-    // No-op
+  }
+
+  if (conditional.teammateIndex != null) {
+    action.teammateCharacterConditionals = savedCharConds!
+    action.teammateLightConeConditionals = savedLcConds!
   }
 }
 
-export function conditionalWgslWrapper(conditional: DynamicConditional, wgsl: string) {
+export function newConditionalWgslWrapper(conditional: DynamicConditional, action: OptimizerAction, context: OptimizerContext, wgsl: string) {
   return `
-fn evaluate${conditional.id}(p_x: ptr<function, ComputedStats>, p_m: ptr<function, ComputedStats>, p_sets: ptr<function, Sets>, p_state: ptr<function, ConditionalState>) {
-  let x = *p_x;
+fn evaluate${conditional.id}${action.actionIdentifier}(p_container: ptr<function, array<f32, ${context.maxContainerArrayLength}>>, p_sets: ptr<function, Sets>, p_state: ptr<function, ConditionalState>) {
 ${indent(wgsl.trim(), 1)}
 }
   `

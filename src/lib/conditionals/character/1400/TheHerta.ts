@@ -4,11 +4,16 @@ import {
   Conditionals,
   ContentDefinition,
   countTeamPath,
+  createEnum,
   mainIsPath,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { PathNames } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -16,6 +21,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const TheHertaEntities = createEnum('TheHerta')
+export const TheHertaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TheHerta')
@@ -130,20 +138,20 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   return {
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
-    content: () => Object.values(content),
-    teammateContent: () => Object.values(teammateContent),
-    defaults: () => defaults,
-    teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    entityDeclaration: () => Object.values(TheHertaEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [TheHertaEntities.TheHerta]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+    actionDeclaration: () => Object.values(TheHertaAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.ATK_P.buff((r.ultAtkBuff) ? ultAtkBuffScaling : 0, SOURCE_ULT)
-
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-
       const e6DamageMultiplier = context.enemyCount == 1 ? 4.00 : 1.40
-      x.ULT_ATK_SCALING.buff(ultScaling + r.totalInterpretationStacks * 0.01, SOURCE_TRACE)
-      x.ULT_ATK_SCALING.buff(e >= 6 && r.e6Buffs ? e6DamageMultiplier : 0, SOURCE_E6)
+      const ultAtkScaling = ultScaling + r.totalInterpretationStacks * 0.01 + (e >= 6 && r.e6Buffs ? e6DamageMultiplier : 0)
 
       const eruditionStackMultiplier = r.eruditionTeammate
         ? Math.min(2, countTeamPath(context, PathNames.Erudition))
@@ -152,29 +160,75 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         * (r.interpretationStacks + ((e >= 1 && r.e1BonusStacks) ? r.interpretationStacks * 0.5 : 0))
         * eruditionStackMultiplier
 
-      x.SKILL_ATK_SCALING.buff(
-        r.enhancedSkill ? enhancedSkillScaling * 3 + enhancedSkillStackScaling + enhancedSkillAoeScaling : skillScaling * 3,
-        SOURCE_SKILL,
-      )
-      x.SKILL_DMG_BOOST.buff((r.enhancedSkill && r.interpretationStacks >= ((e >= 1 && r.e1BonusStacks) ? 28 : 42)) ? 0.50 : 0, SOURCE_TRACE)
-      x.ICE_RES_PEN.buff((e >= 6 && r.e6Buffs) ? 0.20 : 0, SOURCE_E6)
+      const skillAtkScaling = r.enhancedSkill
+        ? enhancedSkillScaling * 3 + enhancedSkillStackScaling + enhancedSkillAoeScaling
+        : skillScaling * 3
 
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff((r.enhancedSkill) ? 25 : 20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
+      return {
+        [TheHertaAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Ice)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [TheHertaAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Ice)
+              .atkScaling(skillAtkScaling)
+              .toughnessDmg((r.enhancedSkill) ? 25 : 20)
+              .build(),
+          ],
+        },
+        [TheHertaAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Ice)
+              .atkScaling(ultAtkScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [TheHertaAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
+          ],
+        },
+      }
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+    content: () => Object.values(content),
+    teammateContent: () => Object.values(teammateContent),
+    defaults: () => defaults,
+    teammateDefaults: () => teammateDefaults,
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+
+    // New container methods
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.ATK_P, (r.ultAtkBuff) ? ultAtkBuffScaling : 0, x.source(SOURCE_ULT))
+
+      // Skill DMG boost when stacks >= threshold
+      const stackThreshold = (e >= 1 && r.e1BonusStacks) ? 28 : 42
+      x.buff(StatKey.DMG_BOOST, (r.enhancedSkill && r.interpretationStacks >= stackThreshold) ? 0.50 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_TRACE))
+
+      // E6 Ice RES PEN
+      x.buff(StatKey.RES_PEN, (e >= 6 && r.e6Buffs) ? 0.20 : 0, x.elements(ElementTag.Ice).source(SOURCE_E6))
+    },
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buff((m.eruditionTeammate && countTeamPath(context, PathNames.Erudition) >= 2) ? 0.80 : 0, SOURCE_TRACE)
+      x.buff(StatKey.CD, (m.eruditionTeammate && countTeamPath(context, PathNames.Erudition) >= 2) ? 0.80 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
-      x.SPD_P.buff((e >= 4 && m.e4EruditionSpdBuff && mainIsPath(context, PathNames.Erudition)) ? 0.12 : 0, SOURCE_E4)
+      x.buff(StatKey.SPD_P, (e >= 4 && m.e4EruditionSpdBuff && mainIsPath(context, PathNames.Erudition)) ? 0.12 : 0, x.source(SOURCE_E4))
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals as Conditionals<typeof teammateContent>
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

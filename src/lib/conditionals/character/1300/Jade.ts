@@ -1,29 +1,38 @@
 import {
   AbilityType,
   ASHBLAZING_ATK_STACK,
-  FUA_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
-import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const JadeEntities = createEnum('Jade')
+export const JadeAbilities = createEnum('BASIC', 'ULT', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jade')
@@ -50,13 +59,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const fuaScaling = talent(e, 1.20, 1.32)
   const pawnedAssetCdScaling = talent(e, 0.024, 0.0264)
 
-  const unenhancedHitMultiByTargets: NumberToNumberMap = {
+  const unenhancedHitMultiByTargets: Record<number, number> = {
     1: ASHBLAZING_ATK_STACK * (1 * 0.25 + 2 * 0.25 + 3 * 0.25 + 4 * 0.25), // 0.15
     3: ASHBLAZING_ATK_STACK * (2 * 0.25 + 5 * 0.25 + 8 * 0.25 + 8 * 0.25), // 0.345
     5: ASHBLAZING_ATK_STACK * (3 * 0.25 + 8 * 0.25 + 8 * 0.25 + 8 * 0.25), // 0.405
   }
 
-  const enhancedHitMultiByTargets: NumberToNumberMap = {
+  const enhancedHitMultiByTargets: Record<number, number> = {
     1: ASHBLAZING_ATK_STACK * (1 * 0.10 + 2 * 0.10 + 3 * 0.10 + 4 * 0.10 + 5 * 0.60), // 0.24
     3: ASHBLAZING_ATK_STACK * (2 * 0.10 + 5 * 0.10 + 8 * 0.10 + 8 * 0.10 + 8 * 0.60), // 0.426
     5: ASHBLAZING_ATK_STACK * (3 * 0.10 + 8 * 0.10 + 8 * 0.10 + 8 * 0.10 + 8 * 0.60), // 0.45
@@ -142,38 +151,81 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(JadeEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [JadeEntities.Jade]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(JadeAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.CD.buff(r.pawnedAssetStacks * pawnedAssetCdScaling, SOURCE_TALENT)
-      x.ATK_P.buff(r.pawnedAssetStacks * 0.005, SOURCE_TRACE)
-      x.CR.buff((e >= 2 && r.e2CrBuff && r.pawnedAssetStacks >= 15) ? 0.18 : 0, SOURCE_E2)
-
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
-      x.FUA_ATK_SCALING.buff((r.enhancedFollowUp) ? ultFuaScalingBuff : 0, SOURCE_ULT)
-
-      buffAbilityDmg(x, FUA_DMG_TYPE, (e >= 1 && r.e1FuaDmgBoost) ? 0.32 : 0, SOURCE_E1)
-      x.DEF_PEN.buff((e >= 4 && r.e4DefShredBuff) ? 0.12 : 0, SOURCE_E4)
-      x.QUANTUM_RES_PEN.buff((e >= 6 && r.e6ResShredBuff) ? 0.20 : 0, SOURCE_E6)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(10, SOURCE_TALENT)
-
-      return x
+      return {
+        [JadeAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Quantum)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [JadeAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Quantum)
+              .atkScaling(ultScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [JadeAbilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .damageElement(ElementTag.Quantum)
+              .atkScaling(fuaScaling + (r.enhancedFollowUp ? ultFuaScalingBuff : 0))
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [JadeAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
+          ],
+        },
+      }
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.CD, r.pawnedAssetStacks * pawnedAssetCdScaling, x.source(SOURCE_TALENT))
+      x.buff(StatKey.ATK_P, r.pawnedAssetStacks * 0.005, x.source(SOURCE_TRACE))
+      x.buff(StatKey.CR, (e >= 2 && r.e2CrBuff && r.pawnedAssetStacks >= 15) ? 0.18 : 0, x.source(SOURCE_E2))
+
+      x.buff(StatKey.DMG_BOOST, (e >= 1 && r.e1FuaDmgBoost) ? 0.32 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E1))
+      x.buff(StatKey.DEF_PEN, (e >= 4 && r.e4DefShredBuff) ? 0.12 : 0, x.source(SOURCE_E4))
+      x.buff(StatKey.RES_PEN, (e >= 6 && r.e6ResShredBuff) ? 0.20 : 0, x.elements(ElementTag.Quantum).source(SOURCE_E6))
+    },
+
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD.buffSingle((t.debtCollectorSpdBuff) ? 30 : 0, SOURCE_SKILL)
+      x.buff(StatKey.SPD, (t.debtCollectorSpdBuff) ? 30 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkP(x, action, context, getHitMulti(action, context))
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkP(getHitMulti(action, context))
+
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }

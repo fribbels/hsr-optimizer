@@ -6,29 +6,36 @@ import {
   ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  gpuStandardHpHealFinalizer,
-  standardHpHealFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
-import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
   Stats,
 } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import {
+  containerActionVal,
+  p_containerActionVal,
+} from 'lib/gpu/injection/injectUtils'
 import {
   wgslFalse,
   wgslTrue,
 } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -38,17 +45,19 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
+export const HyacineEntities = createEnum('Hyacine', 'Ica')
+export const HyacineAbilities = createEnum('BASIC', 'SKILL_HEAL', 'ULT_HEAL', 'MEMO_SKILL', 'BREAK')
+
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hyacine.Content')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
-  const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.ULT_BASIC_MEMO_SKILL_3_SKILL_TALENT_MEMO_TALENT_5
+  const { basic, skill, ult, talent, memoSkill } = AbilityEidolon.ULT_BASIC_MEMO_SKILL_3_SKILL_TALENT_MEMO_TALENT_5
   const {
     SOURCE_BASIC,
     SOURCE_SKILL,
     SOURCE_ULT,
     SOURCE_TALENT,
-    SOURCE_TECHNIQUE,
     SOURCE_TRACE,
     SOURCE_MEMO,
     SOURCE_E1,
@@ -71,8 +80,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const talentHealingDmgStackValue = talent(e, 0.80, 0.88)
 
   const memoSkillScaling = memoSkill(e, 0.20, 0.22)
-
-  // TODO: Heal tally
 
   const defaults = {
     healAbility: SKILL_DMG_TYPE,
@@ -207,70 +214,138 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    // Entity declarations
+    entityDeclaration: () => Object.values(HyacineEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [HyacineEntities.Hyacine]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+      [HyacineEntities.Ica]: {
+        primary: false,
+        summon: false,
+        memosprite: true,
+        memoBaseAtkScaling: 1.00,
+        memoBaseDefScaling: 1.00,
+        memoBaseHpScaling: 0.50,
+        memoBaseHpFlat: 0,
+        memoBaseSpdScaling: 0,
+        memoBaseSpdFlat: 0,
+      },
+    }),
+
+    // Action declarations
+    actionDeclaration: () => Object.values(HyacineAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.SUMMONS.set(1, SOURCE_TALENT)
-      x.MEMOSPRITE.set(1, SOURCE_TALENT)
-      x.MEMO_BUFF_PRIORITY.set(r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, SOURCE_TALENT)
+      // Select heal scaling based on user choice
+      const healScaling = r.healAbility === SKILL_DMG_TYPE ? skillHealScaling : ultHealScaling
+      const healFlat = r.healAbility === SKILL_DMG_TYPE ? skillHealFlat : ultHealFlat
+      const healDamageType = r.healAbility === SKILL_DMG_TYPE ? DamageTag.SKILL : DamageTag.ULT
+
+      return {
+        [HyacineAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Wind)
+              .hpScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [HyacineAbilities.SKILL_HEAL]: {
+          hits: [
+            HitDefinitionBuilder.skillHeal()
+              .hpScaling(skillHealScaling)
+              .flatHeal(skillHealFlat)
+              .build(),
+          ],
+        },
+        [HyacineAbilities.ULT_HEAL]: {
+          hits: [
+            HitDefinitionBuilder.ultHeal()
+              .hpScaling(ultHealScaling)
+              .flatHeal(ultHealFlat)
+              .build(),
+          ],
+        },
+        [HyacineAbilities.MEMO_SKILL]: {
+          hits: [
+            // Fake heal hit - computes heal value with all buffs, stores to register, but doesn't add to comboHeal
+            HitDefinitionBuilder.heal()
+              .damageType(healDamageType)
+              .hpScaling(healScaling)
+              .flatHeal(healFlat)
+              .recorded(false)
+              .build(),
+            // Damage hit - reads from previous hit's register value
+            HitDefinitionBuilder.healTally()
+              .sourceEntity(HyacineEntities.Ica)
+              .damageType(DamageTag.SKILL | DamageTag.MEMO)
+              .damageElement(ElementTag.Wind)
+              .healTallyScaling(memoSkillScaling * r.healTallyMultiplier)
+              .referenceHitOffset(-1)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [HyacineAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
+          ],
+        },
+      }
     },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    // Container methods
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.CR.buffBaseDual(1.00, SOURCE_TRACE)
-      x.OHB.buffBaseDual((r.healTargetHp50) ? 0.25 : 0, SOURCE_TRACE)
-      x.RES.buff((r.resBuff) ? 0.50 : 0, SOURCE_TRACE)
-
-      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
-      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
-      x.MEMO_BASE_HP_SCALING.buff(0.50, SOURCE_MEMO)
-      x.MEMO_BASE_HP_FLAT.buff(0, SOURCE_MEMO)
-      x.MEMO_BASE_SPD_SCALING.buff(0, SOURCE_MEMO)
-      x.MEMO_BASE_SPD_FLAT.buff(0, SOURCE_MEMO)
-
-      x.m.ELEMENTAL_DMG.buff((r.healingDmgStacks) * talentHealingDmgStackValue, SOURCE_TALENT)
-
-      x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_MEMO)
-
-      if (r.healAbility == SKILL_DMG_TYPE) {
-        x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
-        x.HEAL_SCALING.buff(skillHealScaling, SOURCE_SKILL)
-        x.HEAL_FLAT.buff(skillHealFlat, SOURCE_SKILL)
-      }
-      if (r.healAbility == ULT_DMG_TYPE) {
-        x.HEAL_TYPE.set(ULT_DMG_TYPE, SOURCE_ULT)
-        x.HEAL_SCALING.buff(ultHealScaling, SOURCE_ULT)
-        x.HEAL_FLAT.buff(ultHealFlat, SOURCE_ULT)
-      }
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(10, SOURCE_MEMO)
-
-      // Cyrene
+      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
+      x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
+      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority === BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // Trace: 100% CR
+      x.buff(StatKey.CR, 1.00, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE))
+
+      // Trace: OHB when heal target HP < 50%
+      x.buff(StatKey.OHB, (r.healTargetHp50) ? 0.25 : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE))
+
+      // Trace: RES buff
+      x.buff(StatKey.RES, (r.resBuff) ? 0.50 : 0, x.source(SOURCE_TRACE))
+
+      // Talent: Memosprite elemental DMG buff from healing stacks
+      x.buff(StatKey.DMG_BOOST, r.healingDmgStacks * talentHealingDmgStackValue, x.target(HyacineEntities.Ica).source(SOURCE_TALENT))
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.HP.buffTeam((m.clearSkies) ? ultHpBuffFlat : 0, SOURCE_ULT)
-      x.HP_P.buffTeam((m.clearSkies) ? ultHpBuffPercent : 0, SOURCE_ULT)
-      x.HP_P.buffTeam((e >= 1 && m.e1HpBuff && m.clearSkies) ? 0.50 : 0, SOURCE_E1)
+      // Ult: HP buff (Clear Skies)
+      x.buff(StatKey.HP, (m.clearSkies) ? ultHpBuffFlat : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
+      x.buff(StatKey.HP_P, (m.clearSkies) ? ultHpBuffPercent : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
 
-      x.SPD_P.buffTeam((e >= 2 && m.e2SpdBuff) ? 0.30 : 0, SOURCE_E2)
-      x.RES_PEN.buffTeam((e >= 6 && m.e6ResPen) ? 0.20 : 0, SOURCE_E6)
-    },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
+      // E1: Additional HP% buff when Clear Skies active
+      x.buff(StatKey.HP_P, (e >= 1 && m.e1HpBuff && m.clearSkies) ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
 
-      standardHpHealFinalizer(x)
-      x.m.MEMO_SKILL_DMG.buff(x.a[Key.HEAL_VALUE] * memoSkillScaling * r.healTallyMultiplier, Source.NONE)
-    },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
+      // E2: SPD% buff
+      x.buff(StatKey.SPD_P, (e >= 2 && m.e2SpdBuff) ? 0.30 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
 
-      return gpuStandardHpHealFinalizer() + `
-m.MEMO_SKILL_DMG += x.HEAL_VALUE * ${memoSkillScaling} * ${r.healTallyMultiplier};
-`
+      // E6: RES PEN buff
+      x.buff(StatKey.RES_PEN, (e >= 6 && m.e6ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
     },
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+
     dynamicConditionals: [
       {
         id: 'HyacineSpdActivation',
@@ -278,30 +353,37 @@ m.MEMO_SKILL_DMG += x.HEAL_VALUE * ${memoSkillScaling} * ${r.healTallyMultiplier
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.SPD],
         chainsTo: [Stats.HP],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return r.spd200HpBuff && x.a[Key.SPD] >= 200
+          return r.spd200HpBuff && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 200
         },
-        effect: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-          const r = action.characterConditionals as Conditionals<typeof content>
+        effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+          const selfBaseHp = x.getActionValueByIndex(StatKey.BASE_HP, SELF_ENTITY_INDEX)
+          const memoEntityIndex = action.config.entityRegistry.getIndex(HyacineEntities.Ica)
+          const memoBaseHp = x.getActionValueByIndex(StatKey.BASE_HP, memoEntityIndex)
 
-          x.HP.buffDynamic((r.spd200HpBuff && x.a[Key.SPD] >= 200) ? 0.20 * x.a[Key.BASE_HP] : 0, SOURCE_TRACE, action, context)
-          x.m.HP.buffDynamic((r.spd200HpBuff && x.a[Key.SPD] >= 200) ? 0.20 * x.m.a[Key.BASE_HP] : 0, SOURCE_TRACE, action, context)
+          x.buffDynamic(StatKey.HP, 0.20 * selfBaseHp, action, context, x.source(SOURCE_TRACE))
+          x.buffDynamic(StatKey.HP, 0.20 * memoBaseHp, action, context, x.target(HyacineEntities.Ica).source(SOURCE_TRACE))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          return conditionalWgslWrapper(
+          const config = action.config
+          const memoEntityIndex = config.entityRegistry.getIndex(HyacineEntities.Ica)
+
+          return newConditionalWgslWrapper(
             this,
+            action,
+            context,
             `
 if (
-  (*p_state).HyacineSpdActivation == 0.0 &&
-  x.SPD >= 200 &&
+  (*p_state).HyacineSpdActivation${action.actionIdentifier} == 0.0 &&
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 200.0 &&
   ${wgslTrue(r.spd200HpBuff)}
 ) {
-  (*p_state).HyacineSpdActivation = 1.0;
-  (*p_x).HP += 0.20 * baseHP;
-  (*p_m).HP += 0.20 * (*p_m).BASE_HP;
+  (*p_state).HyacineSpdActivation${action.actionIdentifier} = 1.0;
+  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.HP, config)} += 0.20 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BASE_HP, config)};
+  ${p_containerActionVal(memoEntityIndex, StatKey.HP, config)} += 0.20 * ${containerActionVal(memoEntityIndex, StatKey.BASE_HP, config)};
 }
     `,
           )
@@ -313,19 +395,19 @@ if (
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.SPD],
         chainsTo: [Stats.OHB],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return r.spd200HpBuff && x.a[Key.SPD] > 200
+          return r.spd200HpBuff && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) > 200
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           if (!r.spd200HpBuff) {
             return
           }
 
-          const statValue = x.a[Key.SPD]
-          const unconvertibleValue = x.a[Key.UNCONVERTIBLE_SPD_BUFF] ?? 0
+          const statValue = x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
+          const unconvertibleValue = x.getActionValueByIndex(StatKey.UNCONVERTIBLE_SPD_BUFF, SELF_ENTITY_INDEX)
 
           const stateValue = action.conditionalState[this.id] ?? 0
           const convertibleValue = Math.min(400, statValue - unconvertibleValue)
@@ -337,46 +419,50 @@ if (
 
           action.conditionalState[this.id] = buffFull
 
-          x.UNCONVERTIBLE_OHB_BUFF.buffBaseDual(buffDelta, SOURCE_TRACE)
-          x.OHB.buffBaseDualDynamic(buffDelta, SOURCE_TRACE, action, context)
+          x.buffDynamic(StatKey.UNCONVERTIBLE_OHB_BUFF, buffDelta, action, context, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE))
+          x.buffDynamic(StatKey.OHB, buffDelta, action, context, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE))
 
           if (e >= 4 && r.e4CdBuff) {
-            x.UNCONVERTIBLE_CD_BUFF.buffBaseDual(buffDelta * 2, SOURCE_E4)
-            x.CD.buffBaseDualDynamic(buffDelta * 2, SOURCE_E4, action, context)
+            x.buffDynamic(StatKey.UNCONVERTIBLE_CD_BUFF, buffDelta * 2, action, context, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E4))
+            x.buffDynamic(StatKey.CD, buffDelta * 2, action, context, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E4))
           }
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
+          const config = action.config
+          const memoEntityIndex = config.entityRegistry.getIndex(HyacineEntities.Ica)
 
-          return conditionalWgslWrapper(
+          return newConditionalWgslWrapper(
             this,
+            action,
+            context,
             `
 if (${wgslFalse(r.spd200HpBuff)}) {
   return;
 }
 
-let stateValue: f32 = (*p_state).${this.id};
-let convertibleValue: f32 = min(400, floor(x.SPD - x.UNCONVERTIBLE_SPD_BUFF));
+let stateValue: f32 = (*p_state).${this.id}${action.actionIdentifier};
+let convertibleValue: f32 = min(400.0, floor(${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} - ${containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_SPD_BUFF, config)}));
 
-if (convertibleValue <= 0) {
+if (convertibleValue <= 0.0) {
   return;
 }
 
-let buffFull = max(0, 0.01 * (convertibleValue - 200));
+let buffFull = max(0.0, 0.01 * (convertibleValue - 200.0));
 let buffDelta = buffFull - stateValue;
 
-(*p_state).${this.id} = buffFull;
+(*p_state).${this.id}${action.actionIdentifier} = buffFull;
 
-(*p_x).UNCONVERTIBLE_OHB_BUFF += buffDelta;
-(*p_m).UNCONVERTIBLE_OHB_BUFF += buffDelta;
-(*p_x).OHB += buffDelta;
-(*p_m).OHB += buffDelta;
+${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_OHB_BUFF, config)} += buffDelta;
+${p_containerActionVal(memoEntityIndex, StatKey.UNCONVERTIBLE_OHB_BUFF, config)} += buffDelta;
+${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.OHB, config)} += buffDelta;
+${p_containerActionVal(memoEntityIndex, StatKey.OHB, config)} += buffDelta;
 
 if (${wgslTrue(e >= 4 && r.e4CdBuff)}) {
-  (*p_x).UNCONVERTIBLE_CD_BUFF += buffDelta * 2;
-  (*p_m).UNCONVERTIBLE_CD_BUFF += buffDelta * 2;
-  (*p_x).CD += buffDelta * 2;
-  (*p_m).CD += buffDelta * 2;
+  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_CD_BUFF, config)} += buffDelta * 2.0;
+  ${p_containerActionVal(memoEntityIndex, StatKey.UNCONVERTIBLE_CD_BUFF, config)} += buffDelta * 2.0;
+  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += buffDelta * 2.0;
+  ${p_containerActionVal(memoEntityIndex, StatKey.CD, config)} += buffDelta * 2.0;
 }
     `,
           )

@@ -5,22 +5,24 @@ import {
 import { UpArrow } from 'icons/UpArrow'
 import { damageStats } from 'lib/characterPreview/StatRow'
 import { StatTextSm } from 'lib/characterPreview/StatText'
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
+  ElementName,
   ElementToDamage,
+  ElementToStatKeyDmgBoost,
   Stats,
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { iconSize } from 'lib/constants/constantsUi'
-import {
-  Key,
-  StatToKey,
-} from 'lib/optimization/computedStatsArray'
-import { SortOptionProperties } from 'lib/optimization/sortOptions'
+import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationScore } from 'lib/scoring/simScoringUtils'
+import {
+  SimulationScore,
+  StatsToStatKey,
+} from 'lib/scoring/simScoringUtils'
+import { PrimaryActionStats } from 'lib/simulations/statSimulationTypes'
 import { HeaderText } from 'lib/ui/HeaderText'
 import {
   filterUnique,
@@ -47,13 +49,12 @@ export function CharacterCardCombatStats(props: {
   const { result } = props
 
   const characterMetadata = result.characterMetadata!
-  const sortOption = characterMetadata.scoringMetadata.sortOption
-  const xa = new Float32Array(result.originalSimResult.xa)
-  const ca = result.originalSimResult.ca
+  const element = characterMetadata.element as ElementName
+  const x = result.originalSimResult.x
+  const primaryActionStats = result.originalSimResult.primaryActionStats
 
-  addOnHitStats(xa, sortOption)
   const upgradeStats: StatsValues[] = pickCombatStats(characterMetadata)
-  const upgradeDisplayWrappers = aggregateCombatStats(xa, ca, upgradeStats, preciseSpd)
+  const upgradeDisplayWrappers = aggregateCombatStats(x, upgradeStats, preciseSpd, element, primaryActionStats)
 
   const rows: ReactElement[] = []
 
@@ -99,24 +100,30 @@ type StatDisplayWrapper = {
   upgraded: boolean,
 }
 
-function aggregateCombatStats(xa: Float32Array, ca: Float32Array, upgradeStats: StatsValues[], preciseSpd: boolean) {
+function aggregateCombatStats(
+  x: ComputedStatsContainer,
+  upgradeStats: StatsValues[],
+  preciseSpd: boolean,
+  element: ElementName,
+  primaryActionStats?: PrimaryActionStats,
+) {
   const displayWrappers: StatDisplayWrapper[] = []
+
   for (const stat of upgradeStats) {
     if (percentFlatStats[stat]) continue
 
     const flat = Utils.isFlat(stat)
-    const value = damageStats[stat] ? xa[Key.ELEMENTAL_DMG] : xa[StatToKey[stat]]
-    const upgraded = damageStats[stat]
-      ? Utils.precisionRound(xa[Key.ELEMENTAL_DMG], 2) != Utils.precisionRound(ca[Key.ELEMENTAL_DMG], 2)
-      : Utils.precisionRound(xa[StatToKey[stat]], 2) != Utils.precisionRound(ca[StatToKey[stat]], 2)
+    const xaValue = getStatValue(x, stat, element, primaryActionStats!)
+    const caValue = getBasicStatValue(x, stat, element)
+    const upgraded = Utils.precisionRound(xaValue, 2) != Utils.precisionRound(caValue, 2)
 
-    let display = localeNumber(Math.floor(value))
+    let display = localeNumber(Math.floor(xaValue))
     if (stat == Stats.SPD) {
       display = preciseSpd
-        ? localeNumber_000(TsUtils.precisionRound(value, 4))
-        : localeNumber_0(Utils.truncate10ths(TsUtils.precisionRound(value, 4)))
+        ? localeNumber_000(TsUtils.precisionRound(xaValue, 3))
+        : localeNumber_0(Utils.truncate10ths(TsUtils.precisionRound(xaValue, 3)))
     } else if (!flat) {
-      display = localeNumber_0(Utils.truncate10ths(TsUtils.precisionRound(value * 100, 4)))
+      display = localeNumber_0(Utils.truncate10ths(TsUtils.precisionRound(xaValue * 100, 4)))
     }
 
     displayWrappers.push({
@@ -146,22 +153,49 @@ function pickCombatStats(characterMetadata: DBMetadataCharacter) {
   return substats
 }
 
-function addOnHitStats(xa: Float32Array, sortOption: SortOptionProperties) {
-  const ability = sortOption.key as keyof typeof AbilityType
-  const abilityDmgBoost = xa[Key[`${ability}_DMG_BOOST`]]
-  const abilityCrBoost = xa[Key[`${ability}_CR_BOOST`]]
-  const abilityCdBoost = xa[Key[`${ability}_CD_BOOST`]]
-
-  xa[Key.ELEMENTAL_DMG] += abilityDmgBoost
-
-  if (abilityCrBoost > 0) xa[Key.CR] += abilityCrBoost
-  if (abilityCdBoost > 0) xa[Key.CD] += abilityCdBoost
-}
-
 const percentFlatStats: Record<string, boolean> = {
   [Stats.ATK_P]: true,
   [Stats.DEF_P]: true,
   [Stats.HP_P]: true,
+}
+
+// Get stat value from Container with primary action's boosts included.
+// For memosprite characters, the source entity (memosprite) may differ from entity 0 (main character).
+// primaryActionStats contains fully resolved values from the source entity at primary action time,
+// matching the damage formula: cr = CR + CR_BOOST, cd = CD + CD_BOOST, dmg = DMG_BOOST + elementBoost.
+function getStatValue(
+  x: ComputedStatsContainer,
+  stat: StatsValues,
+  element: ElementName,
+  primaryActionStats: PrimaryActionStats,
+): number {
+  // Handle elemental DMG stats: source entity's element boost + generic DMG_BOOST (action+hit)
+  if (damageStats[stat]) {
+    return primaryActionStats.sourceEntityElementDmgBoost + primaryActionStats.DMG_BOOST
+  }
+
+  // For CR and CD, use the fully resolved source entity values (already includes CR_BOOST/CD_BOOST)
+  if (stat === Stats.CR) {
+    return primaryActionStats.sourceEntityCR
+  }
+  if (stat === Stats.CD) {
+    return primaryActionStats.sourceEntityCD
+  }
+
+  const statKey = StatsToStatKey[stat]
+  return x.getActionValueByIndex(statKey, SELF_ENTITY_INDEX)
+}
+
+// Get basic stat value from Container's basic stats array
+function getBasicStatValue(x: ComputedStatsContainer, stat: StatsValues, element: ElementName): number {
+  // Handle elemental DMG stats
+  if (damageStats[stat]) {
+    return x.c.a[ElementToStatKeyDmgBoost[element]]
+  }
+
+  const statKey = StatsToStatKey[stat]
+  // Basic stats use the same indices 0-14 for core stats
+  return x.c.a[statKey]
 }
 
 function Arrow() {

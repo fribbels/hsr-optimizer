@@ -3,9 +3,18 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -14,16 +23,18 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
+export const ArcherEntities = createEnum('Archer')
+export const ArcherAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
+
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Archer.Content')
-  const { basic, skill, talent, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const { basic, skill, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_BASIC,
     SOURCE_SKILL,
     SOURCE_TALENT,
     SOURCE_TRACE,
     SOURCE_ULT,
-    SOURCE_E1,
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
@@ -98,35 +109,83 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
+
+    entityDeclaration: () => Object.values(ArcherEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [ArcherEntities.Archer]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(ArcherAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      return {
+        [ArcherAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Quantum)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [ArcherAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Quantum)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [ArcherAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Quantum)
+              .atkScaling(ultScaling)
+              .toughnessDmg(30)
+              .build(),
+          ],
+        },
+        [ArcherAbilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .damageElement(ElementTag.Quantum)
+              .atkScaling(fuaScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [ArcherAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
+          ],
+        },
+      }
     },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.CD.buff(r.cdBuff ? 1.20 : 0, SOURCE_TRACE)
+      x.buff(StatKey.CD, r.cdBuff ? 1.20 : 0, x.source(SOURCE_TRACE))
 
-      x.ULT_DMG_BOOST.buff((e >= 4 && r.e4UltDmg) ? 1.50 : 0, SOURCE_E4)
-      x.SKILL_DEF_PEN.buff((e >= 6 && r.e6Buffs) ? 0.20 : 0, SOURCE_E6)
+      x.buff(StatKey.DMG_BOOST, (e >= 4 && r.e4UltDmg) ? 1.50 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E4))
+      x.buff(StatKey.DEF_PEN, (e >= 6 && r.e6Buffs) ? 0.20 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_E6))
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.SKILL_DMG_BOOST.buff(r.skillEnhances * skillEnhancedExtraScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(10, SOURCE_TALENT)
+      x.buff(StatKey.DMG_BOOST, r.skillEnhances * skillEnhancedExtraScaling, x.damageType(DamageTag.SKILL).source(SOURCE_SKILL))
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.QUANTUM_RES_PEN.buffTeam((e >= 2 && m.e2QuantumResPen) ? 0.20 : 0, SOURCE_E2)
+      x.buff(StatKey.RES_PEN, (e >= 2 && m.e2QuantumResPen) ? 0.20 : 0, x.elements(ElementTag.Quantum).targets(TargetTag.FullTeam).source(SOURCE_E2))
     },
-    finalizeCalculations: () => {
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: () => '',
   }
 }

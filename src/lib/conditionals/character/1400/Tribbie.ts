@@ -1,33 +1,26 @@
-import {
-  AbilityType,
-  DOT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  basicAdditionalDmgHpFinalizer,
-  fuaAdditionalDmgHpFinalizer,
-  gpuBasicAdditionalDmgHpFinalizer,
-  gpuFuaAdditionalDmgHpFinalizer,
-  gpuUltAdditionalDmgHpFinalizer,
-  ultAdditionalDmgHpFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  allTypesExcept,
-  buffAbilityTrueDmg,
-  Target,
-} from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  DirectnessTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TRIBBIE } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
-import i18next from 'i18next'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -35,6 +28,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const TribbieEntities = createEnum('Tribbie')
+export const TribbieAbilities = createEnum('BASIC', 'ULT', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Tribbie.Content')
@@ -164,59 +160,143 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(TribbieEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [TribbieEntities.Tribbie]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(TribbieAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.ULT_HP_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_HP_SCALING.buff(talentScaling, SOURCE_TALENT)
-
+      // Calculate additional damage scaling from ultZone
       const additionalScaling = (r.ultZone ? ultAdditionalDmgScaling : 0)
         * ((e >= 2 && r.e2AdditionalDmg) ? 1.20 * 2 : 1)
 
-      x.BASIC_ADDITIONAL_DMG_SCALING.buff(additionalScaling, SOURCE_ULT)
-      x.ULT_ADDITIONAL_DMG_SCALING.buff(additionalScaling, SOURCE_ULT)
-      x.FUA_ADDITIONAL_DMG_SCALING.buff(additionalScaling, SOURCE_ULT)
+      // Add Cyrene special effect additional scaling
+      const cyreneAdditionalScaling = (cyreneActionExists(action) && r.cyreneSpecialEffect)
+        ? additionalScaling
+        : 0
 
-      x.ELEMENTAL_DMG.buff(r.talentFuaStacks * 0.72, SOURCE_TRACE)
+      const totalAdditionalScaling = additionalScaling + cyreneAdditionalScaling
 
-      x.FUA_DMG_BOOST.buff((e >= 6 && r.e6FuaScaling) ? 7.29 : 0, SOURCE_E6)
-
-      x.HP.buff((r.ultZone) ? 0.09 * r.alliesMaxHp : 0, SOURCE_TRACE)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(5, SOURCE_TALENT)
-
-      // Cyrene
-      if (cyreneActionExists(action) && r.cyreneSpecialEffect) {
-        const cyreneDefPenBuff = cyreneSpecialEffectEidolonUpgraded(action) ? 0.132 : 0.12
-        x.DEF_PEN.buff(cyreneDefPenBuff, Source.odeTo(TRIBBIE))
-
-        x.BASIC_ADDITIONAL_DMG_SCALING.buff(additionalScaling, Source.odeTo(TRIBBIE))
-        x.ULT_ADDITIONAL_DMG_SCALING.buff(additionalScaling, Source.odeTo(TRIBBIE))
-        x.FUA_ADDITIONAL_DMG_SCALING.buff(additionalScaling, Source.odeTo(TRIBBIE))
+      return {
+        [TribbieAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Quantum)
+              .hpScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+            // Additional damage from ultZone (HP-based)
+            ...(
+              (totalAdditionalScaling > 0)
+                ? [
+                  HitDefinitionBuilder.standardAdditional()
+                    .damageElement(ElementTag.Quantum)
+                    .hpScaling(totalAdditionalScaling)
+                    .build(),
+                ]
+                : []
+            ),
+          ],
+        },
+        [TribbieAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Quantum)
+              .hpScaling(ultScaling)
+              .toughnessDmg(20)
+              .build(),
+            // Additional damage from ultZone (HP-based)
+            ...(
+              (totalAdditionalScaling > 0)
+                ? [
+                  HitDefinitionBuilder.standardAdditional()
+                    .damageElement(ElementTag.Quantum)
+                    .hpScaling(totalAdditionalScaling)
+                    .build(),
+                ]
+                : []
+            ),
+          ],
+        },
+        [TribbieAbilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .damageElement(ElementTag.Quantum)
+              .hpScaling(talentScaling)
+              .toughnessDmg(5)
+              .build(),
+            // Additional damage from ultZone (HP-based)
+            ...(
+              (totalAdditionalScaling > 0)
+                ? [
+                  HitDefinitionBuilder.standardAdditional()
+                    .damageElement(ElementTag.Quantum)
+                    .hpScaling(totalAdditionalScaling)
+                    .build(),
+                ]
+                : []
+            ),
+          ],
+        },
+        [TribbieAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
+          ],
+        },
       }
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // Elemental DMG boost from talent stacks
+      x.buff(StatKey.DMG_BOOST, r.talentFuaStacks * 0.72, x.source(SOURCE_TRACE))
+
+      // E6 FUA DMG boost
+      x.buff(StatKey.DMG_BOOST, (e >= 6 && r.e6FuaScaling) ? 7.29 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
+
+      // HP buff from ultZone based on allies' max HP
+      x.buff(StatKey.HP, (r.ultZone) ? 0.09 * r.alliesMaxHp : 0, x.source(SOURCE_TRACE))
+
+      // Cyrene special effect DEF PEN
+      if (cyreneActionExists(action) && r.cyreneSpecialEffect) {
+        const cyreneDefPenBuff = cyreneSpecialEffectEidolonUpgraded(action) ? 0.132 : 0.12
+        x.buff(StatKey.DEF_PEN, cyreneDefPenBuff, x.source(Source.odeTo(TRIBBIE)))
+      }
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.RES_PEN.buffTeam(m.numinosity ? skillResPen : 0, SOURCE_SKILL)
-      x.VULNERABILITY.buffTeam(m.ultZone ? ultVulnerability : 0, SOURCE_ULT)
+      // Team RES PEN from numinosity (skill)
+      x.buff(StatKey.RES_PEN, m.numinosity ? skillResPen : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
 
-      buffAbilityTrueDmg(x, allTypesExcept(DOT_DMG_TYPE), e >= 1 && m.ultZone && m.e1TrueDmg ? 0.24 : 0, SOURCE_E1, Target.TEAM)
+      // Team VULNERABILITY from ultZone
+      x.buff(StatKey.VULNERABILITY, m.ultZone ? ultVulnerability : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
 
-      x.DEF_PEN.buffTeam((e >= 4 && m.numinosity && m.e4DefPen) ? 0.18 : 0, SOURCE_E4)
+      // E1 TRUE_DMG_MODIFIER for team (direct actions only - excludes DOT/Break)
+      x.buff(
+        StatKey.TRUE_DMG_MODIFIER,
+        e >= 1 && m.ultZone && m.e1TrueDmg ? 0.24 : 0,
+        x.directness(DirectnessTag.Direct).targets(TargetTag.FullTeam).source(SOURCE_E1),
+      )
+
+      // E4 DEF PEN for team when numinosity active
+      x.buff(StatKey.DEF_PEN, (e >= 4 && m.numinosity && m.e4DefPen) ? 0.18 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      basicAdditionalDmgHpFinalizer(x)
-      ultAdditionalDmgHpFinalizer(x)
-      fuaAdditionalDmgHpFinalizer(x)
+
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBasicAdditionalDmgHpFinalizer()
-        + gpuUltAdditionalDmgHpFinalizer()
-        + gpuFuaAdditionalDmgHpFinalizer()
-    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

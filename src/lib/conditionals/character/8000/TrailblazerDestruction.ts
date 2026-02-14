@@ -1,19 +1,16 @@
-import {
-  AbilityType,
-  SKILL_DMG_TYPE,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray, Key } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -22,6 +19,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const TrailblazerDestructionEntities = createEnum('TrailblazerDestruction')
+export const TrailblazerDestructionAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerDestruction')
@@ -76,32 +76,72 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   return {
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
+    entityDeclaration: () => Object.values(TrailblazerDestructionEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [TrailblazerDestructionEntities.TrailblazerDestruction]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+    actionDeclaration: () => Object.values(TrailblazerDestructionAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      return {
+        [TrailblazerDestructionAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [TrailblazerDestructionAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [TrailblazerDestructionAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Physical)
+              .atkScaling((r.enhancedUlt) ? ultEnhancedScaling : ultScaling)
+              .toughnessDmg((r.enhancedUlt) ? 20 : 30)
+              .build(),
+          ],
+        },
+        [TrailblazerDestructionAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
+          ],
+        },
+      }
+    },
+    actionModifiers: () => [],
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+
+    // New container methods
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.ATK_P.buff(r.talentStacks * talentAtkScalingValue, SOURCE_TALENT)
-      x.DEF_P.buff(r.talentStacks * 0.10, SOURCE_TRACE)
-      x.CR.buff((e >= 4 && x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? 0.25 : 0, SOURCE_E4)
-
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff((r.enhancedUlt) ? ultEnhancedScaling : ultScaling, SOURCE_ULT)
+      x.buff(StatKey.ATK_P, r.talentStacks * talentAtkScalingValue, x.source(SOURCE_TALENT))
+      x.buff(StatKey.DEF_P, r.talentStacks * 0.10, x.source(SOURCE_TRACE))
+      x.buff(StatKey.CR, (e >= 4 && x.getActionValue(StatKey.ENEMY_WEAKNESS_BROKEN, TrailblazerDestructionEntities.TrailblazerDestruction)) ? 0.25 : 0, x.source(SOURCE_E4))
 
       // Boost
-      buffAbilityDmg(x, SKILL_DMG_TYPE, 0.25, SOURCE_TRACE)
-      buffAbilityDmg(x, ULT_DMG_TYPE, (r.enhancedUlt) ? 0.25 : 0, SOURCE_TRACE)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff((r.enhancedUlt) ? 20 : 30, SOURCE_ULT)
-
-      return x
+      x.buff(StatKey.DMG_BOOST, 0.25, x.damageType(DamageTag.SKILL).source(SOURCE_TRACE))
+      x.buff(StatKey.DMG_BOOST, (r.enhancedUlt) ? 0.25 : 0, x.damageType(DamageTag.ULT).source(SOURCE_TRACE))
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {},
-    gpuFinalizeCalculations: () => '',
   }
 }

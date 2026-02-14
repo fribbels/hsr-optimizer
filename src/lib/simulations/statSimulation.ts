@@ -5,15 +5,10 @@ import {
   Stats,
   SubStats,
 } from 'lib/constants/constants'
-import {
-  BasicStatsArray,
-  BasicStatsArrayCore,
-} from 'lib/optimization/basicStatsArray'
-import {
-  ComputedStatsArray,
-  ComputedStatsArrayCore,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
+import { ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import {
   cloneSimResult,
@@ -49,8 +44,9 @@ function simulationRelic(set: string, mainStat: string, mainValue: number): Simu
   }
 }
 
-const cachedComputedStatsArray = new ComputedStatsArrayCore(false) as ComputedStatsArray
-const cachedBasicStatsArray = new BasicStatsArrayCore(false) as BasicStatsArray
+// Cached arrays for non-tracing simulations (tracing creates fresh instances)
+const cachedComputedStatsArray = new ComputedStatsArrayCore(false)
+const cachedBasicStatsArray = new BasicStatsArrayCore(false)
 
 // Can be called from both main and worker
 // Context must exist
@@ -63,7 +59,7 @@ export function runStatSimulations(
   const params: RunSimulationsParams = { ...defaultSimulationParams, ...inputParams }
   const forcedBasicSpd = params.simulationFlags.benchmarkBasicSpdTarget
   const simulationResults: RunStatSimulationsResult[] = []
-  for (const action of context.actions) {
+  for (const action of context.allActions) {
     action.conditionalState = {}
   }
 
@@ -72,7 +68,7 @@ export function runStatSimulations(
     const basicStatsArray = form.trace ? new BasicStatsArrayCore(true) : cachedBasicStatsArray
     const computedStatsArray = form.trace ? new ComputedStatsArrayCore(true) : cachedComputedStatsArray
 
-    const x = simulateBuild(
+    const { x, primaryActionStats, actionDamage } = simulateBuild(
       simRelics,
       context,
       basicStatsArray,
@@ -85,8 +81,10 @@ export function runStatSimulations(
       x: x,
       xa: x.a,
       ca: x.c.a,
-      simScore: x.a[Key.COMBO_DMG],
+      simScore: x.getActionValueByIndex(StatKey.COMBO_DMG, SELF_ENTITY_INDEX),
       key: sim.key,
+      primaryActionStats,
+      actionDamage,
     }
 
     simulationResults.push(params.stabilize ? cloneSimResult(result) : result)

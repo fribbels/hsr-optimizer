@@ -1,15 +1,16 @@
-import {
-  AbilityType,
-  BASIC_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityResPen } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -19,6 +20,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const ImbibitorLunaeEntities = createEnum('ImbibitorLunae')
+export const ImbibitorLunaeAbilities = createEnum('BASIC', 'ULT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.ImbibitorLunae')
@@ -99,33 +103,78 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.ULT],
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(ImbibitorLunaeEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [ImbibitorLunaeEntities.ImbibitorLunae]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(ImbibitorLunaeAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Stats
-      x.CD.buff((context.enemyElementalWeak) ? 0.24 : 0, SOURCE_TRACE)
-      x.CD.buff(r.skillOutroarStacks * outroarStackCdValue, SOURCE_SKILL)
-
-      // Scaling
+      // Calculate basic scaling based on enhancement level
       const basicScalingValue = {
         0: basicScaling,
         1: basicEnhanced1Scaling,
         2: basicEnhanced2Scaling,
         3: basicEnhanced3Scaling,
-      }[r.basicEnhanced] ?? 0
-      x.BASIC_ATK_SCALING.buff(basicScalingValue, SOURCE_BASIC)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      }[r.basicEnhanced] ?? basicScaling
 
-      // Boost
-      x.ELEMENTAL_DMG.buff(r.talentRighteousHeartStacks * righteousHeartDmgValue, SOURCE_TALENT)
-      buffAbilityResPen(x, BASIC_DMG_TYPE, (e >= 6 && r.basicEnhanced == 3) ? 0.20 * r.e6ResPenStacks : 0, SOURCE_E6)
+      // Toughness damage scales with enhancement level
+      const basicToughnessDmg = 10 + 10 * r.basicEnhanced
 
-      x.BASIC_TOUGHNESS_DMG.buff(10 + 10 * r.basicEnhanced, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-
-      return x
+      return {
+        [ImbibitorLunaeAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(basicScalingValue)
+              .toughnessDmg(basicToughnessDmg)
+              .build(),
+          ],
+        },
+        [ImbibitorLunaeAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(ultScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [ImbibitorLunaeAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
+          ],
+        },
+      }
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {},
-    gpuFinalizeCalculations: () => '',
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // Traces - CD when enemy is elemental weak
+      x.buff(StatKey.CD, (context.enemyElementalWeak) ? 0.24 : 0, x.source(SOURCE_TRACE))
+
+      // Skill - Outroar CD stacks
+      x.buff(StatKey.CD, r.skillOutroarStacks * outroarStackCdValue, x.source(SOURCE_SKILL))
+
+      // Talent - Righteous Heart DMG boost
+      x.buff(StatKey.DMG_BOOST, r.talentRighteousHeartStacks * righteousHeartDmgValue, x.source(SOURCE_TALENT))
+
+      // E6 - RES PEN for enhanced basic 3
+      x.buff(StatKey.RES_PEN, (e >= 6 && r.basicEnhanced == 3) ? 0.20 * r.e6ResPenStacks : 0,
+        x.damageType(DamageTag.BASIC).source(SOURCE_E6))
+    },
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

@@ -7,6 +7,7 @@ import { SuperImpositionLevel } from 'types/lightCone'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThisIsMe')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { SOURCE_LC } = Source.lightCone('21030')
 
   const sValues = [0.6, 0.75, 0.9, 1.05, 1.2]
@@ -28,10 +29,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   return {
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: () => {
-    },
-    finalizeCalculations: () => {
-      // TODO: NOT IMPLEMENTED
-    },
+    // TODO: NOT IMPLEMENTED - DEF scaling ULT damage
   }
 }

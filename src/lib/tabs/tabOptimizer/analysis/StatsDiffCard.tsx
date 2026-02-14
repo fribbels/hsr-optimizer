@@ -6,6 +6,7 @@ import {
 import StatText from 'lib/characterPreview/StatText'
 import { Stats } from 'lib/constants/constants'
 import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { CharacterPreviewInternalImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
 import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
@@ -50,11 +51,14 @@ export function StatsDiffCard(props: {
 }
 
 function StatDiffSummary(props: { analysis: OptimizerResultAnalysis }) {
-  const oldStats = props.analysis.oldX.toComputedStatsObject()
-  const newStats = props.analysis.newX.toComputedStatsObject()
+  const { analysis } = props
+  const oldStats = analysis.oldX.toComputedStatsObject()
+  const newStats = analysis.newX.toComputedStatsObject()
 
-  oldStats[props.analysis.elementalDmgValue] = oldStats.ELEMENTAL_DMG
-  newStats[props.analysis.elementalDmgValue] = newStats.ELEMENTAL_DMG
+  // Elemental DMG = element-specific boost (already mapped) + generic DMG_BOOST
+  oldStats[analysis.elementalDmgValue] += analysis.oldX.getSelfValue(StatKey.DMG_BOOST)
+  newStats[analysis.elementalDmgValue] += analysis.newX.getSelfValue(StatKey.DMG_BOOST)
+
   // @ts-ignore For compatibility with StatRow
   oldStats.simScore = oldStats.COMBO_DMG
   // @ts-ignore For compatibility with StatRow

@@ -96,6 +96,17 @@ const columnsToAggregateMap = {
   HEAL: true,
   SHIELD: true,
 
+  BASIC_HEAL: true,
+  SKILL_HEAL: true,
+  ULT_HEAL: true,
+  FUA_HEAL: true,
+  TALENT_HEAL: true,
+  BASIC_SHIELD: true,
+  SKILL_SHIELD: true,
+  ULT_SHIELD: true,
+  FUA_SHIELD: true,
+  TALENT_SHIELD: true,
+
   xATK: true,
   xDEF: true,
   xHP: true,
@@ -558,6 +569,16 @@ function aggregate(subArray: OptimizerDisplayData[]) {
   setMinMax('COMBO')
   setMinMax('HEAL')
   setMinMax('SHIELD')
+  setMinMax('BASIC_HEAL')
+  setMinMax('SKILL_HEAL')
+  setMinMax('ULT_HEAL')
+  setMinMax('FUA_HEAL')
+  setMinMax('TALENT_HEAL')
+  setMinMax('BASIC_SHIELD')
+  setMinMax('SKILL_SHIELD')
+  setMinMax('ULT_SHIELD')
+  setMinMax('FUA_SHIELD')
+  setMinMax('TALENT_SHIELD')
   setMinMax('xATK')
   setMinMax('xDEF')
   setMinMax('xHP')

@@ -1,25 +1,18 @@
 import {
-  SKILL_DMG_TYPE,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
+import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { HKey, StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.FlameOfBloodBlazeMyPath.Content')
@@ -45,25 +38,29 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   return {
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      buffAbilityDmg(x, SKILL_DMG_TYPE | ULT_DMG_TYPE, (r.skillUltDmgBoost) ? sValuesSkillUltDmg[s] : 0, SOURCE_LC)
+      x.buff(StatKey.DMG_BOOST, (r.skillUltDmgBoost) ? sValuesSkillUltDmg[s] : 0,
+        x.damageType(DamageTag.SKILL | DamageTag.ULT).source(SOURCE_LC))
     },
-    finalizeCalculations: (x, action, context) => {
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
-      if (x.a[Key.HP] * sValuesHpDrain[s] > 500) {
-        buffAbilityDmg(x, SKILL_DMG_TYPE | ULT_DMG_TYPE, (r.skillUltDmgBoost) ? sValuesSkillUltDmg[s] : 0, SOURCE_LC)
+      const hp = x.getActionValueByIndex(StatKey.HP, SELF_ENTITY_INDEX)
+
+      if (hp * sValuesHpDrain[s] > 500) {
+        x.buff(StatKey.DMG_BOOST, (r.skillUltDmgBoost) ? sValuesSkillUltDmg[s] : 0,
+          x.damageType(DamageTag.SKILL | DamageTag.ULT).source(SOURCE_LC))
       }
     },
-    gpuFinalizeCalculations: (action, context) => {
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
-      return `
-if (${wgslTrue(r.skillUltDmgBoost)}) {
-  (*p_x).SKILL_DMG_BOOST += select(0.0, ${sValuesSkillUltDmg[s]}, x.HP * ${sValuesHpDrain[s]} > 500);
-  (*p_x).ULT_DMG_BOOST += select(0.0, ${sValuesSkillUltDmg[s]}, x.HP * ${sValuesHpDrain[s]} > 500);
+
+      return wgsl`
+if (${wgslTrue(r.skillUltDmgBoost)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.HP, action.config)} * ${sValuesHpDrain[s]} > 500) {
+  ${buff.hit(HKey.DMG_BOOST, sValuesSkillUltDmg[s]).damageType(DamageTag.SKILL | DamageTag.ULT).wgsl(action)}
 }
-`
+      `
     },
   }
 }

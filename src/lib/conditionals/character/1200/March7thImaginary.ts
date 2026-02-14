@@ -1,26 +1,23 @@
 import {
   AbilityType,
-  ADDITIONAL_DMG_TYPE,
   ASHBLAZING_ATK_STACK,
-  BASIC_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
-  gpuStandardAdditionalDmgAtkFinalizer,
-  standardAdditionalDmgAtkFinalizer,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  buffAbilityCd,
-  buffAbilityDmg,
-} from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -30,6 +27,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const March7thImaginaryEntities = createEnum('March7thImaginary')
+export const March7thImaginaryAbilities = createEnum('BASIC', 'ULT', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.March7thImaginary')
@@ -143,43 +143,113 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(March7thImaginaryEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [March7thImaginaryEntities.March7thImaginary]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(March7thImaginaryAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.SPD_P.buff((e >= 1 && r.selfSpdBuff) ? 0.10 : 0, SOURCE_E1)
-      buffAbilityDmg(x, BASIC_DMG_TYPE | ADDITIONAL_DMG_TYPE, (r.talentDmgBuff) ? talentDmgBuff : 0, SOURCE_TALENT)
+      const toughnessDmgBoost = (r.masterToughnessRedBuff) ? 2.0 : 1.0
 
-      buffAbilityCd(x, BASIC_DMG_TYPE | ADDITIONAL_DMG_TYPE, (e >= 6 && r.e6CdBuff && r.enhancedBasic) ? 0.50 : 0, SOURCE_E6)
+      const basicAtkScaling = (r.enhancedBasic)
+        ? basicEnhancedScaling * r.basicAttackHits
+        : basicScaling
+      const basicToughness = toughnessDmgBoost * ((r.enhancedBasic) ? 5 * r.basicAttackHits : 10)
 
+      // Additional damage scaling from master buff
       const additionalMasterBuffScaling = (r.masterAdditionalDmgBuff)
         ? basicExtraScalingMasterBuff * r.basicAttackHits
         : 0
-      x.BASIC_ATK_SCALING.buff((r.enhancedBasic) ? basicEnhancedScaling * r.basicAttackHits : basicScaling, SOURCE_BASIC)
-      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.enhancedBasic) ? additionalMasterBuffScaling : basicExtraScalingMasterBuff, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_ATK_SCALING.buff((e >= 2) ? 0.60 : 0, SOURCE_E2)
+      const basicAdditionalScaling = (r.enhancedBasic)
+        ? additionalMasterBuffScaling
+        : basicExtraScalingMasterBuff
 
-      const toughnessDmgBoost = (r.masterToughnessRedBuff) ? 2.0 : 1.0
-      x.BASIC_TOUGHNESS_DMG.buff(toughnessDmgBoost * ((r.enhancedBasic) ? 5 * r.basicAttackHits : 10), SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff((e >= 2) ? 10 : 0, SOURCE_E2)
-
-      return x
+      return {
+        [March7thImaginaryAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(basicAtkScaling)
+              .toughnessDmg(basicToughness)
+              .build(),
+            ...(
+              (basicAdditionalScaling > 0)
+                ? [
+                    HitDefinitionBuilder.standardAdditional()
+                      .damageElement(ElementTag.Imaginary)
+                      .atkScaling(basicAdditionalScaling)
+                      .build(),
+                  ]
+                : []
+            ),
+          ],
+        },
+        [March7thImaginaryAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(ultScaling)
+              .toughnessDmg(30)
+              .build(),
+          ],
+        },
+        [March7thImaginaryAbilities.FUA]: {
+          hits: [
+            ...(
+              (e >= 2)
+                ? [
+                    HitDefinitionBuilder.standardFua()
+                      .damageElement(ElementTag.Imaginary)
+                      .atkScaling(0.60)
+                      .toughnessDmg(10)
+                      .build(),
+                  ]
+                : []
+            ),
+          ],
+        },
+        [March7thImaginaryAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
+          ],
+        },
+      }
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.SPD_P, (e >= 1 && r.selfSpdBuff) ? 0.10 : 0, x.source(SOURCE_E1))
+
+      // Talent DMG buff applies to Basic and Additional damage
+      x.buff(StatKey.DMG_BOOST, (r.talentDmgBuff) ? talentDmgBuff : 0, x.damageType(DamageTag.BASIC | DamageTag.ADDITIONAL).source(SOURCE_TALENT))
+
+      // E6 CD buff applies to Basic when enhanced
+      x.buff(StatKey.CD, (e >= 6 && r.e6CdBuff && r.enhancedBasic) ? 0.50 : 0, x.damageType(DamageTag.BASIC).source(SOURCE_E6))
+    },
+
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD_P.buffSingle((t.masterBuff) ? skillSpdScaling : 0, SOURCE_SKILL)
+      x.buff(StatKey.SPD_P, (t.masterBuff) ? skillSpdScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+      x.buff(StatKey.CD, (t.masterBuff && t.masterCdBeBuffs) ? 0.60 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.BE, (t.masterBuff && t.masterCdBeBuffs) ? 0.36 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+    },
 
-      x.CD.buffSingle((t.masterBuff && t.masterCdBeBuffs) ? 0.60 : 0, SOURCE_TRACE)
-      x.BE.buffSingle((t.masterBuff && t.masterCdBeBuffs) ? 0.36 : 0, SOURCE_TRACE)
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, fuaHitCountMulti)
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkP(x, action, context, fuaHitCountMulti)
-      standardAdditionalDmgAtkFinalizer(x)
-    },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkP(fuaHitCountMulti) + gpuStandardAdditionalDmgAtkFinalizer()
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(fuaHitCountMulti, action)
     },
   }
 }

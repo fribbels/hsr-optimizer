@@ -122,7 +122,7 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   UNCONVERTIBLE_ERR_BUFF: { label: optimizerTabUnconvertible('Energy Regeneration Rate') },
 
   // EHP
-  DMG_RED_MULTI: { default: 1, label: optimizerTabMisc('DMG reduction') }, // Dmg reduction multiplier for EHP calcs - this should be multiplied by (1 - multi) instead of additive
+  DMG_RED: { label: optimizerTabMisc('DMG reduction') }, // Dmg reduction for EHP calcs - defaults to 0 (no reduction), uses MULTIPLICATIVE_COMPLEMENT operator
   EHP: { flat: true, label: optimizerTabMisc('Effective HP') },
 
   // Misc configs

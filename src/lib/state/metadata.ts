@@ -9880,6 +9880,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         [Parts.Feet]: [
           Stats.SPD,
+          Stats.ATK_P,
         ],
         [Parts.PlanarSphere]: [
           Stats.Fire_DMG,
@@ -9893,7 +9894,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       sets: {
         ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
         ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-
         ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [],
@@ -9904,42 +9904,6 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       stats: {
         [Stats.ATK]: 0,
         [Stats.ATK_P]: 0,
-        [Stats.DEF]: 0.25,
-        [Stats.DEF_P]: 0.25,
-        [Stats.HP]: 0.25,
-        [Stats.HP_P]: 0.25,
-        [Stats.SPD]: 1,
-        [Stats.CR]: 1,
-        [Stats.CD]: 0,
-        [Stats.EHR]: 0,
-        [Stats.RES]: 0.25,
-        [Stats.BE]: 0,
-      },
-      parts: {
-        [Parts.Body]: [],
-        [Parts.Feet]: [
-          Stats.SPD,
-        ],
-        [Parts.PlanarSphere]: [],
-        [Parts.LinkRope]: [
-          Stats.ERR,
-        ],
-      },
-      sets: {
-        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-        [Sets.MessengerTraversingHackerspace]: 1,
-        [Sets.SacerdosRelivedOrdeal]: 1,
-
-        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-      },
-      presets: [],
-      sortOption: SortOption.BASIC,
-      hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
-    },
-    1504: { // Ashveil
-      stats: {
-        [Stats.ATK]: 0.75,
-        [Stats.ATK_P]: 0.75,
         [Stats.DEF]: 0,
         [Stats.DEF_P]: 0,
         [Stats.HP]: 0,
@@ -9957,26 +9921,65 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           Stats.CD,
         ],
         [Parts.Feet]: [
-          Stats.ATK_P,
           Stats.SPD,
         ],
-        [Parts.PlanarSphere]: [
-          Stats.Lightning_DMG,
-          Stats.ATK_P,
-        ],
+        [Parts.PlanarSphere]: [],
         [Parts.LinkRope]: [
-          Stats.ATK_P,
+          Stats.ERR,
         ],
       },
       sets: {
-        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-        [Sets.BandOfSizzlingThunder]: 1,
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
 
-        ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [],
       sortOption: SortOption.BASIC,
-      hiddenColumns: [SortOption.DOT],
+      hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
+    // 1504: { // Ashveil
+    //   stats: {
+    //     [Stats.ATK]: 0.75,
+    //     [Stats.ATK_P]: 0.75,
+    //     [Stats.DEF]: 0,
+    //     [Stats.DEF_P]: 0,
+    //     [Stats.HP]: 0,
+    //     [Stats.HP_P]: 0,
+    //     [Stats.SPD]: 1,
+    //     [Stats.CR]: 1,
+    //     [Stats.CD]: 1,
+    //     [Stats.EHR]: 0,
+    //     [Stats.RES]: 0,
+    //     [Stats.BE]: 0,
+    //   },
+    //   parts: {
+    //     [Parts.Body]: [
+    //       Stats.CR,
+    //       Stats.CD,
+    //     ],
+    //     [Parts.Feet]: [
+    //       Stats.ATK_P,
+    //       Stats.SPD,
+    //     ],
+    //     [Parts.PlanarSphere]: [
+    //       Stats.Lightning_DMG,
+    //       Stats.ATK_P,
+    //     ],
+    //     [Parts.LinkRope]: [
+    //       Stats.ATK_P,
+    //     ],
+    //   },
+    //   sets: {
+    //     ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+    //     [Sets.BandOfSizzlingThunder]: 1,
+
+    //     ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+    //   },
+    //   presets: [],
+    //   sortOption: SortOption.BASIC,
+    //   hiddenColumns: [SortOption.DOT],
+    // },
   }
 }

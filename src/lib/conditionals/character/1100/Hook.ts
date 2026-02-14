@@ -1,19 +1,18 @@
-import {
-  AbilityType,
-  SKILL_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  gpuStandardAdditionalDmgAtkFinalizer,
-  standardAdditionalDmgAtkFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -23,6 +22,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const HookEntities = createEnum('Hook')
+export const HookAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'DOT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hook')
@@ -73,37 +75,99 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.DOT],
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(HookEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [HookEntities.Hook]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(HookAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Stats
-
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff((r.enhancedSkill) ? skillEnhancedScaling : skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.targetBurned) ? targetBurnedExtraScaling : 0, SOURCE_TALENT)
-      x.SKILL_ADDITIONAL_DMG_SCALING.buff((r.targetBurned) ? targetBurnedExtraScaling : 0, SOURCE_TALENT)
-      x.ULT_ADDITIONAL_DMG_SCALING.buff((r.targetBurned) ? targetBurnedExtraScaling : 0, SOURCE_TALENT)
-      x.DOT_ATK_SCALING.buff(dotScaling, SOURCE_SKILL)
-
-      // Boost
-      buffAbilityDmg(x, SKILL_DMG_TYPE, (e >= 1 && r.enhancedSkill) ? 0.20 : 0, SOURCE_E1)
-      x.ELEMENTAL_DMG.buff((e >= 6 && r.targetBurned) ? 0.20 : 0, SOURCE_E6)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
-
-      x.DOT_CHANCE.set(1.00, SOURCE_SKILL)
-
-      return x
+      return {
+        [HookAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+            ...(r.targetBurned
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Fire)
+                  .atkScaling(targetBurnedExtraScaling)
+                  .build(),
+              ]
+              : []),
+          ],
+        },
+        [HookAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Fire)
+              .atkScaling((r.enhancedSkill) ? skillEnhancedScaling : skillScaling)
+              .toughnessDmg(20)
+              .build(),
+            ...(r.targetBurned
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Fire)
+                  .atkScaling(targetBurnedExtraScaling)
+                  .build(),
+              ]
+              : []),
+          ],
+        },
+        [HookAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(ultScaling)
+              .toughnessDmg(30)
+              .build(),
+            ...(r.targetBurned
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Fire)
+                  .atkScaling(targetBurnedExtraScaling)
+                  .build(),
+              ]
+              : []),
+          ],
+        },
+        [HookAbilities.DOT]: {
+          hits: [
+            HitDefinitionBuilder.standardDot()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(dotScaling)
+              .dotBaseChance(1.00)
+              .build(),
+          ],
+        },
+        [HookAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
+          ],
+        },
+      }
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardAdditionalDmgAtkFinalizer(x)
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.DMG_BOOST, (e >= 1 && r.enhancedSkill) ? 0.20 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_E1))
+      x.buff(StatKey.DMG_BOOST, (e >= 6 && r.targetBurned) ? 0.20 : 0, x.source(SOURCE_E6))
     },
-    gpuFinalizeCalculations: () => {
-      return gpuStandardAdditionalDmgAtkFinalizer()
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

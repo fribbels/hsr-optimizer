@@ -1,28 +1,25 @@
-import i18next from 'i18next'
-import {
-  AbilityType,
-  FUA_DMG_TYPE,
-  SKILL_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  gpuStandardAdditionalDmgAtkFinalizer,
-  standardAdditionalDmgAtkFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
   countTeamPath,
+  createEnum,
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
   teammateMatchesId,
 } from 'lib/conditionals/conditionalUtils'
-import {
-  CURRENT_DATA_VERSION,
-  PathNames,
-} from 'lib/constants/constants'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { PathNames } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   HYACINE,
   PHAINON,
@@ -39,6 +36,9 @@ export enum PhainonEnhancedSkillType {
   FOUNDATION = 0,
   CALAMITY = 1,
 }
+
+export const PhainonEntities = createEnum('Phainon')
+export const PhainonAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Phainon.Content')
@@ -183,85 +183,194 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsArray) => {
-      x.FUA_DMG_TYPE.set(SKILL_DMG_TYPE | FUA_DMG_TYPE, SOURCE_SKILL)
-    },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(PhainonEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [PhainonEntities.Phainon]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(PhainonAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
+
+      // Cyrene additional damage scaling
       const cyreneAdditionalScaling = cyreneActionExists(action) && r.cyreneSpecialEffect
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.11 : 0.10) * 5 / context.enemyCount
         : 0
+
+      // Helper to create additional damage hit when Cyrene is active
+      const createCyreneAdditionalHit = () =>
+        HitDefinitionBuilder.standardAdditional()
+          .damageElement(ElementTag.Physical)
+          .atkScaling(cyreneAdditionalScaling)
+          .build()
+
+      // Compute skill scaling for Foundation type (depends on enemy count)
+      const foundationSkillScaling = 26 * enhancedSkillFoundationSingleHitScaling / context.enemyCount
+      const foundationSkillToughness = 16 * 3.33333 / context.enemyCount + 20
+
+      // FUA scaling (transformed)
+      const fuaScaling = fuaDmgScaling + 4 * fuaDmgExtraScaling
+
+      if (r.transformedState) {
+        // Transformed state abilities
+        return {
+          [PhainonAbilities.BASIC]: {
+            hits: [
+              HitDefinitionBuilder.standardBasic()
+                .damageElement(ElementTag.Physical)
+                .atkScaling(enhancedBasicScaling)
+                .toughnessDmg(30)
+                .build(),
+              ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
+            ],
+          },
+          [PhainonAbilities.SKILL]: {
+            hits: r.enhancedSkillType === PhainonEnhancedSkillType.FOUNDATION
+              ? [
+                  HitDefinitionBuilder.standardSkill()
+                    .damageElement(ElementTag.Physical)
+                    .atkScaling(foundationSkillScaling)
+                    .toughnessDmg(foundationSkillToughness)
+                    .trueDmgModifier(e >= 6 && r.e6TrueDmg ? 0.36 : 0)
+                    .build(),
+                  ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
+                ]
+              : [], // Calamity mode has no skill damage
+          },
+          [PhainonAbilities.ULT]: {
+            hits: [
+              HitDefinitionBuilder.standardUlt()
+                .damageElement(ElementTag.Physical)
+                .atkScaling(ultScaling)
+                .toughnessDmg(20)
+                .build(),
+              ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
+            ],
+          },
+          [PhainonAbilities.FUA]: {
+            hits: [
+              HitDefinitionBuilder.standardFua()
+                .damageType(DamageTag.SKILL | DamageTag.FUA)
+                .damageElement(ElementTag.Physical)
+                .atkScaling(fuaScaling)
+                .toughnessDmg(15)
+                .build(),
+              ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
+            ],
+          },
+          [PhainonAbilities.BREAK]: {
+            hits: [
+              HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
+            ],
+          },
+        }
+      } else {
+        // Non-transformed state abilities
+        return {
+          [PhainonAbilities.BASIC]: {
+            hits: [
+              HitDefinitionBuilder.standardBasic()
+                .damageElement(ElementTag.Physical)
+                .atkScaling(basicScaling)
+                .toughnessDmg(10)
+                .build(),
+              ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
+            ],
+          },
+          [PhainonAbilities.SKILL]: {
+            hits: [
+              HitDefinitionBuilder.standardSkill()
+                .damageElement(ElementTag.Physical)
+                .atkScaling(skillScaling)
+                .toughnessDmg(20)
+                .build(),
+              ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
+            ],
+          },
+          [PhainonAbilities.ULT]: {
+            hits: [
+              // Non-transformed ULT has no damage
+              ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
+            ],
+          },
+          [PhainonAbilities.FUA]: {
+            hits: [
+              // Non-transformed FUA has no damage
+            ],
+          },
+          [PhainonAbilities.BREAK]: {
+            hits: [
+              HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
+            ],
+          },
+        }
+      }
+    },
+    actionModifiers: () => [],
+
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // Cyrene CD buff
       const cyreneCdBuff = cyreneActionExists(action) && r.cyreneSpecialEffect
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.132 : 0.12) * (e >= 6 ? 6 : 3)
         : 0
+      x.buff(StatKey.CD, cyreneCdBuff, x.source(SOURCE_MEMO))
 
-      x.CD.buff(cyreneCdBuff, SOURCE_MEMO)
-      x.CD.buff(r.cdBuff ? talentCdBuffScaling : 0, SOURCE_TALENT)
-      x.ATK_P.buff(r.atkBuffStacks * 0.50, SOURCE_TRACE)
+      // Talent CD buff
+      x.buff(StatKey.CD, r.cdBuff ? talentCdBuffScaling : 0, x.source(SOURCE_TALENT))
 
+      // ATK% stacks trace
+      x.buff(StatKey.ATK_P, r.atkBuffStacks * 0.50, x.source(SOURCE_TRACE))
+
+      // Sustain DMG boost
       const hasSustain = teammateMatchesId(context, HYACINE)
         + countTeamPath(context, PathNames.Abundance)
         + countTeamPath(context, PathNames.Preservation)
-      x.ELEMENTAL_DMG.buff((r.sustainDmgBuff && hasSustain) ? 0.45 : 0, SOURCE_TRACE)
+      x.buff(StatKey.DMG_BOOST, (r.sustainDmgBuff && hasSustain) ? 0.45 : 0, x.source(SOURCE_TRACE))
 
-      x.CD.buff(e >= 1 && r.e1Buffs ? 0.50 : 0, SOURCE_E1)
+      // E1 CD buff
+      x.buff(StatKey.CD, e >= 1 && r.e1Buffs ? 0.50 : 0, x.source(SOURCE_E1))
 
       if (r.transformedState) {
-        x.ATK_P.buff(talentAtkBuffScaling, SOURCE_TALENT)
-        x.HP_P.buff(talentHpBuffScaling, SOURCE_TALENT)
+        // Transformed state buffs
+        x.buff(StatKey.ATK_P, talentAtkBuffScaling, x.source(SOURCE_TALENT))
+        x.buff(StatKey.HP_P, talentHpBuffScaling, x.source(SOURCE_TALENT))
 
-        x.PHYSICAL_RES_PEN.buff(e >= 2 && r.e2ResPen ? 0.20 : 0, SOURCE_E2)
+        // E2 Physical RES PEN
+        x.buff(StatKey.RES_PEN, e >= 2 && r.e2ResPen ? 0.20 : 0, x.elements(ElementTag.Physical).source(SOURCE_E2))
 
-        x.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_BASIC)
-        x.BASIC_ADDITIONAL_DMG_SCALING.buff(cyreneAdditionalScaling, SOURCE_MEMO)
-
-        if (r.enhancedSkillType == PhainonEnhancedSkillType.CALAMITY) {
-          x.DMG_RED_MULTI.multiply(1 - 0.75, SOURCE_SKILL)
-        }
-        if (r.enhancedSkillType == PhainonEnhancedSkillType.FOUNDATION) {
-          x.SKILL_ATK_SCALING.buff(26 * enhancedSkillFoundationSingleHitScaling / context.enemyCount, SOURCE_SKILL)
-          x.SKILL_ADDITIONAL_DMG_SCALING.buff(cyreneAdditionalScaling, SOURCE_MEMO)
-          x.SKILL_TOUGHNESS_DMG.buff(16 * 3.33333 / context.enemyCount + 20, SOURCE_SKILL)
-
-          x.SKILL_TRUE_DMG_MODIFIER.buff(e >= 6 && r.e6TrueDmg ? 0.36 : 0, SOURCE_E6)
+        // Calamity damage reduction
+        if (r.enhancedSkillType === PhainonEnhancedSkillType.CALAMITY) {
+          x.multiplicativeComplement(StatKey.DMG_RED, 0.75, x.source(SOURCE_SKILL))
         }
 
-        x.FUA_ATK_SCALING.buff(fuaDmgScaling + 4 * fuaDmgExtraScaling, SOURCE_SKILL)
-        x.FUA_ADDITIONAL_DMG_SCALING.buff(cyreneAdditionalScaling, SOURCE_MEMO)
-        x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-        x.ULT_ADDITIONAL_DMG_SCALING.buff(cyreneAdditionalScaling, SOURCE_MEMO)
-
-        x.BASIC_TOUGHNESS_DMG.buff(30, SOURCE_BASIC)
-        x.FUA_TOUGHNESS_DMG.buff(15, SOURCE_SKILL)
-        x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-      } else {
-        x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-        x.BASIC_ADDITIONAL_DMG_SCALING.buff(cyreneAdditionalScaling, SOURCE_MEMO)
-        x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-        x.SKILL_ADDITIONAL_DMG_SCALING.buff(cyreneAdditionalScaling, SOURCE_MEMO)
-        x.ULT_ATK_SCALING.buff(0, SOURCE_ULT)
-        x.ULT_ADDITIONAL_DMG_SCALING.buff(cyreneAdditionalScaling, SOURCE_MEMO)
-
-        x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-        x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-        x.FUA_TOUGHNESS_DMG.buff(0, SOURCE_SKILL)
-        x.ULT_TOUGHNESS_DMG.buff(0, SOURCE_ULT)
+        // Cyrene CR buff (transformed only)
+        const cyreneCrBuff = cyreneActionExists(action)
+          ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.176 : 0.16)
+          : 0
+        x.buff(StatKey.CR, r.cyreneSpecialEffect ? cyreneCrBuff : 0, x.source(Source.odeTo(PHAINON)))
       }
-
-      // Cyrene
-      const cyreneCrBuff = cyreneActionExists(action)
-        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.176 : 0.16)
-        : 0
-      x.CR.buff((r.cyreneSpecialEffect && r.transformedState) ? cyreneCrBuff : 0, Source.odeTo(PHAINON))
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction) => {
+
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.SPD_P.buffTeam(m.spdBuff ? 0.15 : 0, SOURCE_TALENT)
+      x.buff(StatKey.SPD_P, m.spdBuff ? 0.15 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardAdditionalDmgAtkFinalizer(x)
+
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: () => gpuStandardAdditionalDmgAtkFinalizer(),
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

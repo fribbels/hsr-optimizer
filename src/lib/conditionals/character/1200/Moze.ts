@@ -1,26 +1,23 @@
 import {
   AbilityType,
   ASHBLAZING_ATK_STACK,
-  FUA_DMG_TYPE,
-  ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
-  gpuStandardAdditionalDmgAtkFinalizer,
-  standardAdditionalDmgAtkFinalizer,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  buffAbilityVulnerability,
-  Target,
-} from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -30,6 +27,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const MozeEntities = createEnum('Moze')
+export const MozeAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Moze')
@@ -113,46 +113,127 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.ULT_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, SOURCE_TRACE)
-    },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(MozeEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [MozeEntities.Moze]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(MozeAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.ELEMENTAL_DMG.buff((e >= 4 && r.e4DmgBuff) ? 0.30 : 0, SOURCE_E4)
+      const e6FuaScaling = (e >= 6 && r.e6MultiplierIncrease) ? 0.25 : 0
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
-      x.FUA_ATK_SCALING.buff((e >= 6 && r.e6MultiplierIncrease) ? 0.25 : 0, SOURCE_E6)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-
-      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.preyMark) ? additionalDmgScaling : 0, SOURCE_BASIC)
-      x.SKILL_ADDITIONAL_DMG_SCALING.buff((r.preyMark) ? additionalDmgScaling : 0, SOURCE_SKILL)
-      x.FUA_ADDITIONAL_DMG_SCALING.buff((r.preyMark) ? additionalDmgScaling : 0, SOURCE_TALENT)
-      x.ULT_ADDITIONAL_DMG_SCALING.buff((r.preyMark) ? additionalDmgScaling : 0, SOURCE_ULT)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_TALENT)
-      x.FUA_TOUGHNESS_DMG.buff(10, SOURCE_ULT)
-
-      return x
+      return {
+        [MozeAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+            ...(
+              (r.preyMark)
+                ? [
+                    HitDefinitionBuilder.standardAdditional()
+                      .damageElement(ElementTag.Lightning)
+                      .atkScaling(additionalDmgScaling)
+                      .build(),
+                  ]
+                : []
+            ),
+          ],
+        },
+        [MozeAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+            ...(
+              (r.preyMark)
+                ? [
+                    HitDefinitionBuilder.standardAdditional()
+                      .damageElement(ElementTag.Lightning)
+                      .atkScaling(additionalDmgScaling)
+                      .build(),
+                  ]
+                : []
+            ),
+          ],
+        },
+        [MozeAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageType(DamageTag.ULT | DamageTag.FUA)
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(ultScaling)
+              .toughnessDmg(30)
+              .build(),
+            ...(
+              (r.preyMark)
+                ? [
+                    HitDefinitionBuilder.standardAdditional()
+                      .damageElement(ElementTag.Lightning)
+                      .atkScaling(additionalDmgScaling)
+                      .build(),
+                  ]
+                : []
+            ),
+          ],
+        },
+        [MozeAbilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(fuaScaling + e6FuaScaling)
+              .toughnessDmg(10)
+              .build(),
+            ...(
+              (r.preyMark)
+                ? [
+                    HitDefinitionBuilder.standardAdditional()
+                      .damageElement(ElementTag.Lightning)
+                      .atkScaling(additionalDmgScaling)
+                      .build(),
+                  ]
+                : []
+            ),
+          ],
+        },
+        [MozeAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
+          ],
+        },
+      }
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.DMG_BOOST, (e >= 4 && r.e4DmgBuff) ? 0.30 : 0, x.source(SOURCE_E4))
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, FUA_DMG_TYPE, (m.preyMark) ? 0.25 : 0, SOURCE_TRACE, Target.TEAM)
+      x.buff(StatKey.VULNERABILITY, (m.preyMark) ? 0.25 : 0, x.damageType(DamageTag.FUA).targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.CD, (e >= 2 && m.preyMark && m.e2CdBoost) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
+    },
 
-      x.CD.buffTeam((e >= 2 && m.preyMark && m.e2CdBoost) ? 0.40 : 0, SOURCE_E2)
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, fuaHitCountMulti)
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkP(x, action, context, fuaHitCountMulti)
-      standardAdditionalDmgAtkFinalizer(x)
-    },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkP(fuaHitCountMulti)
-        + gpuStandardAdditionalDmgAtkFinalizer()
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(fuaHitCountMulti, action)
     },
   }
 }

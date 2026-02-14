@@ -1,20 +1,16 @@
-import {
-  AbilityType,
-  NONE_TYPE,
-  SKILL_DMG_TYPE,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  gpuStandardHpHealFinalizer,
-  standardHpHealFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -24,6 +20,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const BailuEntities = createEnum('Bailu')
+export const BailuAbilities = createEnum('BASIC', 'SKILL_HEAL', 'ULT_HEAL', 'TALENT_HEAL', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Bailu')
@@ -55,7 +54,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const talentHealFlat = talent(e, 144, 160.2)
 
   const defaults = {
-    healAbility: ULT_DMG_TYPE,
     healingMaxHpBuff: true,
     talentDmgReductionBuff: true,
     e2UltHealingBuff: true,
@@ -69,18 +67,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    healAbility: {
-      id: 'healAbility',
-      formItem: 'select',
-      text: tHeal('Text'),
-      content: tHeal('Content'),
-      options: [
-        { display: tHeal('Skill'), value: SKILL_DMG_TYPE, label: tHeal('Skill') },
-        { display: tHeal('Ult'), value: ULT_DMG_TYPE, label: tHeal('Ult') },
-        { display: tHeal('Talent'), value: NONE_TYPE, label: tHeal('Talent') },
-      ],
-      fullWidth: true,
-    },
     healingMaxHpBuff: {
       id: 'healingMaxHpBuff',
       formItem: 'switch',
@@ -123,46 +109,78 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(BailuEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [BailuEntities.Bailu]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(BailuAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      return {
+        [BailuAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [BailuAbilities.SKILL_HEAL]: {
+          hits: [
+            HitDefinitionBuilder.skillHeal()
+              .hpScaling(skillHealScaling)
+              .flatHeal(skillHealFlat)
+              .build(),
+          ],
+        },
+        [BailuAbilities.ULT_HEAL]: {
+          hits: [
+            HitDefinitionBuilder.ultHeal()
+              .hpScaling(ultHealScaling)
+              .flatHeal(ultHealFlat)
+              .build(),
+          ],
+        },
+        [BailuAbilities.TALENT_HEAL]: {
+          hits: [
+            HitDefinitionBuilder.heal()
+              .hpScaling(talentHealScaling)
+              .flatHeal(talentHealFlat)
+              .build(),
+          ],
+        },
+        [BailuAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
+          ],
+        },
+      }
+    },
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.OHB.buff((e >= 2 && r.e2UltHealingBuff) ? 0.15 : 0, SOURCE_E2)
-
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-
-      if (r.healAbility == SKILL_DMG_TYPE) {
-        x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
-        x.HEAL_SCALING.buff(skillHealScaling, SOURCE_SKILL)
-        x.HEAL_FLAT.buff(skillHealFlat, SOURCE_SKILL)
-      }
-      if (r.healAbility == ULT_DMG_TYPE) {
-        x.HEAL_TYPE.set(ULT_DMG_TYPE, SOURCE_ULT)
-        x.HEAL_SCALING.buff(ultHealScaling, SOURCE_ULT)
-        x.HEAL_FLAT.buff(ultHealFlat, SOURCE_ULT)
-      }
-      if (r.healAbility == NONE_TYPE) {
-        x.HEAL_TYPE.set(NONE_TYPE, SOURCE_TALENT)
-        x.HEAL_SCALING.buff(talentHealScaling, SOURCE_TALENT)
-        x.HEAL_FLAT.buff(talentHealFlat, SOURCE_TALENT)
-      }
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-
-      return x
+      x.buff(StatKey.OHB, (e >= 2 && r.e2UltHealingBuff) ? 0.15 : 0, x.source(SOURCE_E2))
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.HP_P.buffTeam((m.healingMaxHpBuff) ? 0.10 : 0, SOURCE_TRACE)
+      x.buff(StatKey.HP_P, (m.healingMaxHpBuff) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.DMG_BOOST, (e >= 4) ? m.e4SkillHealingDmgBuffStacks * 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
+      x.multiplicativeComplement(StatKey.DMG_RED, (m.talentDmgReductionBuff) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+    },
 
-      x.ELEMENTAL_DMG.buffTeam((e >= 4) ? m.e4SkillHealingDmgBuffStacks * 0.10 : 0, SOURCE_E4)
-      x.DMG_RED_MULTI.multiplyTeam((m.talentDmgReductionBuff) ? (1 - 0.10) : 1, SOURCE_TRACE)
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {
-      standardHpHealFinalizer(x)
-    },
-    gpuFinalizeCalculations: () => gpuStandardHpHealFinalizer(),
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

@@ -1,39 +1,58 @@
-import {
-  AbilityType,
-  BREAK_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
   teammateMatchesId,
 } from 'lib/conditionals/conditionalUtils'
 import {
-  dynamicStatConversion,
+  dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
   Stats,
 } from 'lib/constants/constants'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityVulnerability } from 'lib/optimization/calculateBuffs'
 import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+  containerActionVal,
+} from 'lib/gpu/injection/injectUtils'
+import {
+  wgsl,
+  wgslTrue,
+} from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import {
+  AKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
-
-import { THE_DAHLIA } from 'lib/simulations/tests/testMetadataConstants'
 import { CharacterConditionalsController } from 'types/conditionals'
+import {
+  Hit,
+  HitDefinition,
+} from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+import { THE_DAHLIA } from 'lib/simulations/tests/testMetadataConstants'
+
+export const FireflyEntities = createEnum('Firefly')
+export const FireflyAbilities = createEnum('BASIC', 'SKILL', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Firefly')
@@ -135,71 +154,129 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL],
     content: () => Object.values(content),
     defaults: () => defaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(FireflyEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [FireflyEntities.Firefly]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(FireflyAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // The Dahlia E1 adds fixed toughness damage
+      const dahliaFixedToughnessDmg = teammateMatchesId(context, THE_DAHLIA) ? 20 : 0
+
+      const basicHit = HitDefinitionBuilder.standardBasic()
+        .damageElement(ElementTag.Fire)
+        .atkScaling(r.enhancedStateActive ? basicEnhancedScaling : basicScaling)
+        .toughnessDmg(r.enhancedStateActive ? 15 : 10)
+        .build()
+
+      const skillHit = HitDefinitionBuilder.standardSkill()
+        .damageElement(ElementTag.Fire)
+        .atkScaling(r.enhancedStateActive ? skillEnhancedAtkScaling : skillScaling)
+        .beScaling(r.enhancedStateActive ? 0.2 : 0)
+        .beCap(3.60)
+        .toughnessDmg(r.enhancedStateActive ? 30 : 20)
+        .fixedToughnessDmg(dahliaFixedToughnessDmg)
+        .build()
+
+      const addSuperBreak = r.superBreakDmg && r.enhancedStateActive
+
+      return {
+        [FireflyAbilities.BASIC]: {
+          hits: [
+            basicHit,
+            ...(addSuperBreak
+              ? [HitDefinitionBuilder.standardSuperBreak(ElementTag.Fire)
+                  .referenceHit(basicHit as Hit)
+                  .build()]
+              : []),
+          ],
+        },
+        [FireflyAbilities.SKILL]: {
+          hits: [
+            skillHit,
+            ...(addSuperBreak
+              ? [HitDefinitionBuilder.standardSuperBreak(ElementTag.Fire)
+                  .referenceHit(skillHit as Hit)
+                  .build()]
+              : []),
+          ],
+        },
+        [FireflyAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
+          ],
+        },
+      }
+    },
+    actionModifiers: () => [],
+
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.superBreakDmg) {
-        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_TRACE)
+        x.set(StatKey.ENEMY_WEAKNESS_BROKEN, 1, x.source(SOURCE_TRACE))
       }
     },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.RES.buff((r.enhancedStateActive) ? talentResBuff : 0, SOURCE_TALENT)
-      x.SPD.buff((r.enhancedStateActive && r.enhancedStateSpdBuff) ? ultSpdBuff : 0, SOURCE_ULT)
-      x.BREAK_EFFICIENCY_BOOST.buff((r.enhancedStateActive) ? 0.50 : 0, SOURCE_ULT)
-      x.DMG_RED_MULTI.multiply((r.enhancedStateActive && r.talentDmgReductionBuff) ? (1 - talentDmgReductionBuff) : 1, SOURCE_TALENT)
+      x.buff(StatKey.RES, (r.enhancedStateActive) ? talentResBuff : 0, x.source(SOURCE_TALENT))
+      x.buff(StatKey.SPD, (r.enhancedStateActive && r.enhancedStateSpdBuff) ? ultSpdBuff : 0, x.source(SOURCE_ULT))
+      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (r.enhancedStateActive) ? 0.50 : 0, x.source(SOURCE_ULT))
+      x.multiplicativeComplement(StatKey.DMG_RED, (r.enhancedStateActive && r.talentDmgReductionBuff) ? talentDmgReductionBuff : 0, x.source(SOURCE_TALENT))
 
-      buffAbilityVulnerability(
-        x,
-        BREAK_DMG_TYPE,
-        (r.enhancedStateActive && x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? ultWeaknessBrokenBreakVulnerability : 0,
-        SOURCE_ULT,
+      // Break vulnerability (only to weakness-broken enemies)
+      const isWeaknessBroken = x.getActionValue(StatKey.ENEMY_WEAKNESS_BROKEN, FireflyEntities.Firefly)
+      x.buff(
+        StatKey.VULNERABILITY,
+        (r.enhancedStateActive && isWeaknessBroken) ? ultWeaknessBrokenBreakVulnerability : 0,
+        x.damageType(DamageTag.BREAK | DamageTag.SUPER_BREAK).source(SOURCE_ULT),
       )
 
-      // Should be skill def pen but skill doesnt apply to super break
-      x.DEF_PEN.buff((e >= 1 && r.e1DefShred && r.enhancedStateActive) ? 0.15 : 0, SOURCE_E1)
-      x.RES.buff((e >= 4 && r.e4ResBuff && r.enhancedStateActive) ? 0.50 : 0, SOURCE_E4)
-      x.FIRE_RES_PEN.buff((e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.20 : 0, SOURCE_E6)
-      x.BREAK_EFFICIENCY_BOOST.buff((e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.50 : 0, SOURCE_E6)
+      // E1: DEF shred
+      x.buff(StatKey.DEF_PEN, (e >= 1 && r.e1DefShred && r.enhancedStateActive) ? 0.15 : 0, x.source(SOURCE_E1))
 
-      x.BASIC_ATK_SCALING.buff((r.enhancedStateActive) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
+      // E4: RES buff
+      x.buff(StatKey.RES, (e >= 4 && r.e4ResBuff && r.enhancedStateActive) ? 0.50 : 0, x.source(SOURCE_E4))
 
-      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 15 : 10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff((r.enhancedStateActive) ? 30 : 20, SOURCE_SKILL)
-
-      if (teammateMatchesId(context, THE_DAHLIA)) {
-        x.SKILL_FIXED_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      }
-
-      return x
+      // E6: Fire RES PEN and Break Efficiency
+      x.buff(StatKey.RES_PEN, (e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.20 : 0, x.elements(ElementTag.Fire).source(SOURCE_E6))
+      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 6 && r.e6Buffs && r.enhancedStateActive) ? 0.50 : 0, x.source(SOURCE_E6))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.SUPER_BREAK_MODIFIER.buff((r.superBreakDmg && r.enhancedStateActive && x.a[Key.BE] >= 2.00) ? 0.35 : 0, SOURCE_TRACE)
-      x.SUPER_BREAK_MODIFIER.buff((r.superBreakDmg && r.enhancedStateActive && x.a[Key.BE] >= 3.60) ? 0.15 : 0, SOURCE_TRACE)
-
-      x.SKILL_ATK_SCALING.buff(
-        (r.enhancedStateActive)
-          ? (0.2 * Math.min(3.60, x.a[Key.BE]) + skillEnhancedAtkScaling)
-          : skillScaling,
-        SOURCE_SKILL,
-      )
+      // Super break modifier based on BE thresholds
+      const be = x.getActionValue(StatKey.BE, FireflyEntities.Firefly)
+      x.buff(StatKey.SUPER_BREAK_MODIFIER, (r.superBreakDmg && r.enhancedStateActive && be >= 2.00) ? 0.35 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.SUPER_BREAK_MODIFIER, (r.superBreakDmg && r.enhancedStateActive && be >= 3.60) ? 0.15 : 0, x.source(SOURCE_TRACE))
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-      return `
-if (x.BE >= 2.00 && ${wgslTrue(r.superBreakDmg && r.enhancedStateActive)}) { x.SUPER_BREAK_MODIFIER += 0.35; }
-if (x.BE >= 3.60 && ${wgslTrue(r.superBreakDmg && r.enhancedStateActive)}) { x.SUPER_BREAK_MODIFIER += 0.15; }
 
-if (${wgslTrue(r.enhancedStateActive)}) {
-  x.SKILL_ATK_SCALING += 0.2 * min(3.60, x.BE) + ${skillEnhancedAtkScaling};
-} else {
-  x.SKILL_ATK_SCALING += ${skillScaling};
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      return wgsl`
+let be = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, action.config)};
+
+if (${wgslTrue(r.superBreakDmg && r.enhancedStateActive)} && be >= 2.00) {
+  ${buff.action(AKey.SUPER_BREAK_MODIFIER, 0.35).wgsl(action)}
+}
+if (${wgslTrue(r.superBreakDmg && r.enhancedStateActive)} && be >= 3.60) {
+  ${buff.action(AKey.SUPER_BREAK_MODIFIER, 0.15).wgsl(action)}
 }
       `
     },
+
     dynamicConditionals: [
       {
         id: 'FireflyConversionConditional',
@@ -207,13 +284,13 @@ if (${wgslTrue(r.enhancedStateActive)}) {
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.ATK],
         chainsTo: [Stats.BE],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return r.atkToBeConversion && x.a[Key.ATK] > 1800
+          return r.atkToBeConversion && x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX) > 1800
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversionContainer(
             Stats.ATK,
             Stats.BE,
             this,
@@ -233,8 +310,8 @@ if (${wgslTrue(r.enhancedStateActive)}) {
             this,
             action,
             context,
-            `0.008 * floor((convertibleValue - 1800) / 10)`,
-            `${wgslTrue(r.atkToBeConversion)} && x.ATK > 1800`,
+            `0.008 * floor((convertibleValue - 1800.0) / 10.0)`,
+            `${wgslTrue(r.atkToBeConversion)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)} > 1800.0`,
           )
         },
       },

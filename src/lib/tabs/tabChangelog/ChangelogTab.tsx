@@ -121,6 +121,18 @@ function getChangelogContent() {
     },
     {
       title: '',
+      date: '2026-02-14',
+      content: [
+        `Updated content to v4.0v5`,
+        'Added Yaoguang',
+        'yaoguang.webp',
+        'Added Sparxie',
+        'sparxie.webp',
+        'Elation DMG calculations are still a work in progress',
+      ],
+    },
+    {
+      title: '',
       date: '2026-01-19',
       content: [
         `Updated content to v4.0v3`,

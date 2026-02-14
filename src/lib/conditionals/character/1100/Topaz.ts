@@ -1,33 +1,40 @@
 import {
   AbilityType,
   ASHBLAZING_ATK_STACK,
-  BASIC_DMG_TYPE,
-  FUA_DMG_TYPE,
-  SKILL_DMG_TYPE,
+  DamageType,
 } from 'lib/conditionals/conditionalConstants'
 import {
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
+} from 'lib/conditionals/conditionalFinalizers'
+import {
   AbilityEidolon,
-  calculateAshblazingSetP,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
-  buffAbilityCd,
-  buffAbilityResPen,
-  buffAbilityVulnerability,
-  Target,
-} from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
-import { Eidolon } from 'types/character'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 
+import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const TopazEntities = createEnum('Topaz', 'Numby')
+export const TopazAbilities = createEnum('BASIC', 'SKILL', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Topaz')
@@ -115,63 +122,109 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_DMG_TYPE.set(BASIC_DMG_TYPE | FUA_DMG_TYPE, SOURCE_TRACE)
-      x.SKILL_DMG_TYPE.set(SKILL_DMG_TYPE | FUA_DMG_TYPE, SOURCE_SKILL)
-      x.SUMMONS.set(1, SOURCE_TALENT)
-    },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(TopazEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [TopazEntities.Topaz]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+        pet: false,
+      },
+      [TopazEntities.Numby]: {
+        primary: false,
+        summon: true,
+        memosprite: false,
+        pet: true,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(TopazAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      buffAbilityCd(x, SKILL_DMG_TYPE | FUA_DMG_TYPE, (r.numbyEnhancedState) ? enhancedStateFuaCdBoost : 0, SOURCE_ULT)
-      buffAbilityResPen(x, SKILL_DMG_TYPE | FUA_DMG_TYPE, (e >= 6) ? 0.10 : 0, SOURCE_E6)
-
-      // Numby buffs only applies to the skill/fua not basic, we deduct it from basic
-      buffAbilityCd(x, BASIC_DMG_TYPE, (r.numbyEnhancedState) ? -enhancedStateFuaCdBoost : 0, SOURCE_ULT)
-      buffAbilityResPen(x, BASIC_DMG_TYPE, (e >= 6) ? -0.10 : 0, SOURCE_E6)
-
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.SKILL_ATK_SCALING.buff((r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0, SOURCE_ULT)
-      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
-      x.FUA_ATK_SCALING.buff((r.numbyEnhancedState) ? enhancedStateFuaScalingBoost : 0, SOURCE_ULT)
-
-      // Boost
-      x.ELEMENTAL_DMG.buff((context.enemyElementalWeak) ? 0.15 : 0, SOURCE_TRACE)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.FUA_TOUGHNESS_DMG.buff(20, SOURCE_TALENT)
-
-      return x
+      return {
+        [TopazAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Fire)
+              .damageType(DamageType.BASIC | DamageType.FUA)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [TopazAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .sourceEntity(TopazEntities.Numby)
+              .damageElement(ElementTag.Fire)
+              .damageType(DamageType.SKILL | DamageType.FUA)
+              .atkScaling(skillScaling + (r.numbyEnhancedState ? enhancedStateFuaScalingBoost : 0))
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [TopazAbilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .sourceEntity(TopazEntities.Numby)
+              .damageElement(ElementTag.Fire)
+              .atkScaling(fuaScaling + (r.numbyEnhancedState ? enhancedStateFuaScalingBoost : 0))
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [TopazAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
+          ],
+        },
+      }
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
+    },
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.CD, (r.numbyEnhancedState) ? enhancedStateFuaCdBoost : 0, x.target(TopazEntities.Numby).source(SOURCE_ULT))
+      x.buff(StatKey.RES_PEN, (e >= 6) ? 0.10 : 0, x.target(TopazEntities.Numby).source(SOURCE_E6))
+
+      x.buff(StatKey.DMG_BOOST, (context.enemyElementalWeak) ? 0.15 : 0, x.source(SOURCE_TRACE))
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, FUA_DMG_TYPE, (m.enemyProofOfDebtDebuff) ? proofOfDebtFuaVulnerability : 0, SOURCE_SKILL, Target.TEAM)
-      buffAbilityCd(x, FUA_DMG_TYPE, (e >= 1 && m.enemyProofOfDebtDebuff) ? 0.25 * m.e1DebtorStacks : 0, SOURCE_E1, Target.TEAM)
+      x.buff(
+        StatKey.VULNERABILITY,
+        (m.enemyProofOfDebtDebuff) ? proofOfDebtFuaVulnerability : 0,
+        x.damageType(DamageTag.FUA).targets(TargetTag.FullTeam).source(SOURCE_SKILL),
+      )
+      x.buff(
+        StatKey.CD,
+        (e >= 1 && m.enemyProofOfDebtDebuff) ? 0.25 * m.e1DebtorStacks : 0,
+        x.damageType(DamageTag.FUA).targets(TargetTag.FullTeam).source(SOURCE_E1),
+      )
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-
-      const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
-      const basicAshblazingAtkP = calculateAshblazingSetP(x, action, context, basicHitCountMulti)
-      const fuaAshblazingAtkP = calculateAshblazingSetP(x, action, context, hitMulti)
-
-      x.BASIC_ATK_P_BOOST.buff(basicAshblazingAtkP, Source.NONE)
-      x.SKILL_ATK_P_BOOST.buff(fuaAshblazingAtkP, Source.NONE)
-      x.FUA_ATK_P_BOOST.buff(fuaAshblazingAtkP, Source.NONE)
+      const hitMulti = action.actionType === AbilityKind.BASIC
+        ? basicHitCountMulti
+        : (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
+      boostAshblazingAtkContainer(x, action, hitMulti)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-      const hitMulti = (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
-
-      return `
-x.BASIC_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${basicHitCountMulti});
-x.SKILL_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMulti});
-x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${hitMulti});
-      `
+      const hitMulti = action.actionType === AbilityKind.BASIC
+        ? basicHitCountMulti
+        : (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
+      return gpuBoostAshblazingAtkContainer(hitMulti, action)
     },
   }
 }

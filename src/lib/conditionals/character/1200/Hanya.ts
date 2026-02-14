@@ -1,18 +1,15 @@
-import {
-  AbilityType,
-  BASIC_DMG_TYPE,
-  SKILL_DMG_TYPE,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
-  dynamicStatConversion,
+  dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -20,11 +17,10 @@ import {
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  buffAbilityDmg,
-  Target,
-} from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -34,6 +30,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const HanyaEntities = createEnum('Hanya')
+export const HanyaAbilities = createEnum('BASIC', 'SKILL', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hanya')
@@ -129,61 +128,96 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(HanyaEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [HanyaEntities.Hanya]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(HanyaAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      return {
+        [HanyaAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [HanyaAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [HanyaAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
+          ],
+        },
+      }
+    },
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Stats
-
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-
-      x.SPD_P.buff((e >= 2 && r.e2SkillSpdBuff) ? 0.20 : 0, SOURCE_E2)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-
-      return x
+      // E2 - SPD buff after using skill
+      x.buff(StatKey.SPD_P, (e >= 2 && r.e2SkillSpdBuff) ? 0.20 : 0, x.source(SOURCE_E2))
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ATK_P.buffTeam((m.burdenAtkBuff) ? 0.10 : 0, SOURCE_TRACE)
+      // Trace - ATK buff when attacking Burdened enemy
+      x.buff(StatKey.ATK_P, (m.burdenAtkBuff) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
-      buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE | ULT_DMG_TYPE, (m.targetBurdenActive) ? talentDmgBoostValue : 0, SOURCE_TALENT, Target.TEAM)
+      // Talent - DMG boost for Basic/Skill/Ult against Burdened enemy
+      x.buff(StatKey.DMG_BOOST, (m.targetBurdenActive) ? talentDmgBoostValue : 0,
+        x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).targets(TargetTag.FullTeam).source(SOURCE_TALENT))
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
+      // Ult - SPD and ATK buff to single ally
       const spdBuff = (t.ultBuff) ? ultSpdBuffValue * t.teammateSPDValue : 0
-      x.SPD.buffSingle(spdBuff, SOURCE_ULT)
-      x.UNCONVERTIBLE_SPD_BUFF.buffSingle(spdBuff, SOURCE_ULT)
-      x.ATK_P.buffSingle((t.ultBuff) ? ultAtkBuffValue : 0, SOURCE_ULT)
+      x.buff(StatKey.SPD, spdBuff, x.targets(TargetTag.SingleTarget).source(SOURCE_ULT))
+      x.buff(StatKey.UNCONVERTIBLE_SPD_BUFF, spdBuff, x.targets(TargetTag.SingleTarget).source(SOURCE_ULT))
+      x.buff(StatKey.ATK_P, (t.ultBuff) ? ultAtkBuffValue : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_ULT))
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: () => '',
-    dynamicConditionals: [
-      {
-        id: 'HanyaSpdConditional',
-        type: ConditionalType.ABILITY,
-        activation: ConditionalActivation.CONTINUOUS,
-        dependsOn: [Stats.SPD],
-        chainsTo: [Stats.SPD],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
 
-          return r.ultBuff
-        },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.SPD, Stats.SPD, this, x, action, context, SOURCE_ULT, (convertibleValue) => convertibleValue * ultSpdBuffValue)
-        },
-        gpu: function(action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
-
-          return gpuDynamicStatConversion(Stats.SPD, Stats.SPD, this, action, context, `${ultSpdBuffValue} * convertibleValue`, `${wgslTrue(r.ultBuff)}`)
-        },
+    dynamicConditionals: [{
+      id: 'HanyaSpdConditional',
+      type: ConditionalType.ABILITY,
+      activation: ConditionalActivation.CONTINUOUS,
+      dependsOn: [Stats.SPD],
+      chainsTo: [Stats.SPD],
+      condition: function (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+        const r = action.characterConditionals as Conditionals<typeof content>
+        return r.ultBuff
       },
-    ],
+      effect: function (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+        dynamicStatConversionContainer(Stats.SPD, Stats.SPD, this, x, action, context, SOURCE_ULT, (convertibleValue) => convertibleValue * ultSpdBuffValue)
+      },
+      gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        const r = action.characterConditionals as Conditionals<typeof content>
+
+        return gpuDynamicStatConversion(Stats.SPD, Stats.SPD, this, action, context, `${ultSpdBuffValue} * convertibleValue`, `${wgslTrue(r.ultBuff)}`)
+      },
+    }],
   }
 }

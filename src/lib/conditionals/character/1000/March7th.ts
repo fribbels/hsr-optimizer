@@ -3,14 +3,18 @@ import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
-  gpuStandardDefShieldFinalizer,
-  standardDefShieldFinalizer,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
-import { AbilityEidolon } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  createEnum,
+} from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Eidolon } from 'types/character'
 
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -18,6 +22,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const March7thEntities = createEnum('March7th')
+export const March7thAbilities = createEnum('BASIC', 'ULT', 'FUA', 'SKILL_SHIELD', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -48,26 +55,73 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.FUA, AbilityType.DOT],
     content: () => [],
     defaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
-      x.FUA_DEF_SCALING.buff((e >= 4) ? 0.30 : 0, SOURCE_E4)
 
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(10, SOURCE_TALENT)
+    entityDeclaration: () => Object.values(March7thEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [March7thEntities.March7th]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
 
-      x.SHIELD_SCALING.buff(skillShieldScaling, SOURCE_SKILL)
-      x.SHIELD_FLAT.buff(skillShieldFlat, SOURCE_SKILL)
+    actionDeclaration: () => Object.values(March7thAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      // E4: FUA gains DEF scaling
+      const fuaDefScaling = (e >= 4) ? 0.30 : 0
 
-      return x
+      return {
+        [March7thAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Ice)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [March7thAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Ice)
+              .atkScaling(ultScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [March7thAbilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .damageElement(ElementTag.Ice)
+              .atkScaling(fuaScaling)
+              .defScaling(fuaDefScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [March7thAbilities.SKILL_SHIELD]: {
+          hits: [
+            HitDefinitionBuilder.skillShield()
+              .defScaling(skillShieldScaling)
+              .flatShield(skillShieldFlat)
+              .build(),
+          ],
+        },
+        [March7thAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
+          ],
+        },
+      }
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkP(x, action, context, hitMulti)
-      standardDefShieldFinalizer(x)
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuBoostAshblazingAtkP(hitMulti) + gpuStandardDefShieldFinalizer(),
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, hitMulti)
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuBoostAshblazingAtkContainer(hitMulti, action),
   }
 }

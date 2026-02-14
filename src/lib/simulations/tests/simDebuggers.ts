@@ -12,13 +12,21 @@ import {
   testStatSpread,
 } from 'lib/simulations/tests/simTestUtils'
 import {
+  A_GROUNDED_ASCENT,
+  ANAXA,
   FIREFLY,
+  FLOWING_NIGHTGLOW,
+  HUOHUO,
+  LIFE_SHOULD_BE_CAST_TO_FLAMES,
   LINGSHA,
   MEMORIES_OF_THE_PAST,
+  NIGHT_OF_FRIGHT,
   PAST_SELF_IN_MIRROR,
+  ROBIN,
   RUAN_MEI,
   SCENT_ALONE_STAYS_TRUE,
   STELLE_HARMONY,
+  SUNDAY,
   WHEREABOUTS_SHOULD_DREAMS_REST,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
@@ -31,14 +39,14 @@ export function injectBenchmarkDebuggers() {
 
 function equipTestCharacter() {
   const testInput = generateE6S5Test({
-    character: testCharacter(FIREFLY, WHEREABOUTS_SHOULD_DREAMS_REST),
-    teammate0: testCharacter(STELLE_HARMONY, MEMORIES_OF_THE_PAST),
-    teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
-    teammate2: testCharacter(LINGSHA, SCENT_ALONE_STAYS_TRUE),
-    sets: testSets(Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge, Sets.ForgeOfTheKalpagniLantern),
-    mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
-    stats: testStatSpread(),
-  })
+      character: testCharacter(FIREFLY, WHEREABOUTS_SHOULD_DREAMS_REST),
+      teammate0: testCharacter(STELLE_HARMONY, MEMORIES_OF_THE_PAST),
+      teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
+      teammate2: testCharacter(LINGSHA, SCENT_ALONE_STAYS_TRUE),
+      sets: testSets(Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge, Sets.ForgeOfTheKalpagniLantern),
+      mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
+      stats: testStatSpread(),
+    })
 
   const simulationMetadata = DB.getMetadata().characters[testInput.character.characterId].scoringMetadata.simulation!
 

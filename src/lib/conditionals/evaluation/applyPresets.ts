@@ -19,6 +19,7 @@ import {
   CYRENE,
   MOZE,
   PHAINON,
+  THE_DAHLIA,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import {
@@ -135,7 +136,7 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
           form.teammate2?.characterId,
         ]
     ),
-  ]
+  ].filter((x) => !!x)
 
   // Arcadia depends on the number of ally targets
   // Demiurge is out-of-bounds and therefore not a target
@@ -146,6 +147,10 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
   )).length
   const mozes = allyIds.filter((id) => id == MOZE).length
   form.setConditionals[Sets.ArcadiaOfWovenDreams][1] = form.characterId == PHAINON ? 1 : 4 + targetableMemosprites - mozes
+
+  if (allyIds.includes(THE_DAHLIA)) {
+    form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = true
+  }
 }
 
 export function applyTeamAwareSetConditionalPresetsToOptimizerFormInstance(formInstance: FormInstance<Form>) {

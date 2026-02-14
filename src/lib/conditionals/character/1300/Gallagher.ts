@@ -1,22 +1,19 @@
 import {
   AbilityType,
-  BREAK_DMG_TYPE,
   NONE_TYPE,
   SKILL_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  gpuStandardFlatHealFinalizer,
-  standardFlatHealFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
-import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
-  dynamicStatConversion,
+  dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -24,19 +21,24 @@ import {
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  buffAbilityVulnerability,
-  Target,
-} from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
-
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const GallagherEntities = createEnum('Gallagher')
+export const GallagherAbilities = createEnum('BASIC', 'ULT', 'SKILL_HEAL', 'TALENT_HEAL', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Gallagher')
@@ -143,41 +145,82 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(GallagherEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [GallagherEntities.Gallagher]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(GallagherAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.RES.buff((e >= 1 && r.e1ResBuff) ? 0.50 : 0, SOURCE_E1)
-      x.BE.buff((e >= 6) ? 0.20 : 0, SOURCE_E6)
-
-      x.BREAK_EFFICIENCY_BOOST.buff((e >= 6) ? 0.20 : 0, SOURCE_E6)
-
-      x.BASIC_ATK_SCALING.buff((r.basicEnhanced) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-
-      x.BASIC_TOUGHNESS_DMG.buff((r.basicEnhanced) ? 30 : 10, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-
-      if (r.healAbility == SKILL_DMG_TYPE) {
-        x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
-        x.HEAL_FLAT.buff(skillHealFlat, SOURCE_SKILL)
+      return {
+        [GallagherAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(r.basicEnhanced ? basicEnhancedScaling : basicScaling)
+              .toughnessDmg(r.basicEnhanced ? 30 : 10)
+              .build(),
+          ],
+        },
+        [GallagherAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(ultScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [GallagherAbilities.SKILL_HEAL]: {
+          hits: [
+            HitDefinitionBuilder.skillHeal()
+              .flatHeal(skillHealFlat)
+              .build(),
+          ],
+        },
+        [GallagherAbilities.TALENT_HEAL]: {
+          hits: [
+            HitDefinitionBuilder.talentHeal()
+              .flatHeal(talentHealFlat)
+              .build(),
+          ],
+        },
+        [GallagherAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
+          ],
+        },
       }
-      if (r.healAbility == NONE_TYPE) {
-        x.HEAL_TYPE.set(NONE_TYPE, SOURCE_TALENT)
-        x.HEAL_FLAT.buff(talentHealFlat, SOURCE_TALENT)
-      }
-
-      return x
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.RES, (e >= 1 && r.e1ResBuff) ? 0.50 : 0, x.source(SOURCE_E1))
+      x.buff(StatKey.BE, (e >= 6 && r.e6BeBuff) ? 0.20 : 0, x.source(SOURCE_E6))
+      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 6 && r.e6BeBuff) ? 0.20 : 0, x.source(SOURCE_E6))
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.RES.buff((e >= 2 && m.e2ResBuff) ? 0.30 : 0, SOURCE_E2)
-      buffAbilityVulnerability(x, BREAK_DMG_TYPE, (m.targetBesotted) ? talentBesottedScaling : 0, SOURCE_TALENT, Target.TEAM)
+      x.buff(StatKey.RES, (e >= 2 && m.e2ResBuff) ? 0.30 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E2))
+      x.buff(StatKey.VULNERABILITY, (m.targetBesotted) ? talentBesottedScaling : 0, x.damageType(DamageTag.BREAK).targets(TargetTag.FullTeam).source(SOURCE_TALENT))
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {
-      standardFlatHealFinalizer(x)
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: () => gpuStandardFlatHealFinalizer(),
+
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+
     dynamicConditionals: [
       {
         id: 'GallagherConversionConditional',
@@ -185,15 +228,22 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.BE],
         chainsTo: [Stats.OHB],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return r.breakEffectToOhbBoost
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
-
-          dynamicStatConversion(Stats.BE, Stats.OHB, this, x, action, context, SOURCE_TRACE, (convertibleValue) => Math.min(0.75, 0.50 * convertibleValue))
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversionContainer(
+            Stats.BE,
+            Stats.OHB,
+            this,
+            x,
+            action,
+            context,
+            SOURCE_TRACE,
+            (convertibleValue) => Math.min(0.75, 0.50 * convertibleValue),
+          )
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>

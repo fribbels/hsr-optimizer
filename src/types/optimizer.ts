@@ -6,6 +6,11 @@ import {
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ActionModifier } from 'lib/optimization/context/calculateActions'
+import {
+  ComputedStatsContainer,
+  ComputedStatsContainerConfig,
+} from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CharacterId } from 'types/character'
 import {
@@ -18,10 +23,17 @@ import {
   ElementalDamageType,
   ElementalResPenType,
 } from 'types/metadata'
+import {
+  AbilityDefinition,
+  Hit,
+} from './hitConditionalTypes'
 
 export type OptimizerAction = {
   precomputedX: ComputedStatsArray,
   precomputedM: ComputedStatsArray,
+
+  precomputedStats: ComputedStatsContainer,
+  config: ComputedStatsContainerConfig,
 
   characterConditionals: ConditionalValueMap,
   lightConeConditionals: ConditionalValueMap,
@@ -37,13 +49,22 @@ export type OptimizerAction = {
   actorId: string,
   actorEidolon: number,
   actionType: AbilityKind,
+  // Ability name
+  actionName: string,
+  // Identifier variable
+  actionIdentifier: string,
   actionIndex: number,
+
+  hits?: Hit[],
 
   teammate0: TeammateAction,
   teammate1: TeammateAction,
   teammate2: TeammateAction,
   teammateDynamicConditionals: DynamicConditional[],
   // Teammate data all gets precomputed, only the non-precomputable values go in here
+
+  registerIndices: number[],
+  registerIndex: number,
 }
 
 export type TeammateAction = {
@@ -72,6 +93,7 @@ export type SetConditional = {
   enabledWavestriderCaptain: boolean,
   enabledWorldRemakingDeliverer: boolean,
   enabledSelfEnshroudedRecluse: boolean,
+  enabledDivinerOfDistantReach: boolean,
   enabledAmphoreusTheEternalLand: boolean,
   enabledTengokuLivestream: boolean,
   valueChampionOfStreetwiseBoxing: number,
@@ -84,6 +106,7 @@ export type SetConditional = {
   valueDuranDynastyOfRunningWolves: number,
   valueSacerdosRelivedOrdeal: number,
   valueArcadiaOfWovenDreams: number,
+  valueEverGloriousMagicalGirl: number,
 }
 
 export type CharacterStatsBreakdown = {
@@ -115,7 +138,32 @@ export type CharacterMetadata = {
   element: ElementName,
 }
 
+export type ShaderVariables = {
+  actionLength: number,
+  needsEhp: boolean,
+}
+
 export type OptimizerContext = CharacterMetadata & {
+  shaderVariables: ShaderVariables,
+
+  // NEW
+  maxContainerArrayLength: number, // Maximum array size for container reuse (stats + registers)
+  maxStatsArrayLength: number, // Maximum stats array size (without registers)
+  maxEntitiesCount: number, // Maximum entities across all actions
+  maxHitsCount: number, // Maximum hits across all actions
+  actionDeclarations: string[],
+  actionModifiers: ActionModifier[],
+  characterController: CharacterConditionalsController,
+  teammateControllers: CharacterConditionalsController[],
+  outputRegistersLength: number,
+
+  // GPU buffer data (populated during WGSL generation)
+  precomputedStatsData?: Float32Array,
+
+  rotationActions: OptimizerAction[],
+  defaultActions: OptimizerAction[],
+  allActions: OptimizerAction[],
+
   teammate0Metadata: CharacterMetadata,
   teammate1Metadata: CharacterMetadata,
   teammate2Metadata: CharacterMetadata,
@@ -123,6 +171,7 @@ export type OptimizerContext = CharacterMetadata & {
   // Optimizer environment
   resultsLimit: number,
   resultSort: string,
+  primaryAbilityKey: string, // Primary ability from scoringMetadata.sortOption.key (e.g., 'BASIC', 'SKILL')
   combatBuffs: OptimizerCombatBuffs,
   deprioritizeBuffs: boolean,
 
@@ -151,7 +200,7 @@ export type OptimizerContext = CharacterMetadata & {
 
   activeAbilities: AbilityType[],
   activeAbilityFlags: number,
-  actions: OptimizerAction[],
+  hitActions?: AbilityDefinition[],
   comboDot: number,
   dotAbilities: number,
 

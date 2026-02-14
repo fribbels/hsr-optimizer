@@ -6,6 +6,7 @@ import {
 import { Message } from 'lib/interactions/message'
 import {
   ANAXA,
+  ASHVEIL,
   CASTORICE,
   CERYDRA,
   CIPHER,
@@ -29,6 +30,7 @@ import {
   PERMANSOR_TERRAE,
   PHAINON,
   SILVER_WOLF_B1,
+  SPARXIE,
   THE_DAHLIA,
   THE_HERTA,
   THIS_LOVE_FOREVER,
@@ -36,7 +38,10 @@ import {
   THUS_BURNS_THE_DAWN,
   TO_EVERNIGHTS_STARS,
   TRIBBIE,
+  WHEN_SHE_DECIDED_TO_SEE,
   WHY_DOES_THE_OCEAN_SING,
+  DAZZLED_BY_A_FLOWERY_WORLD,
+  YAO_GUANG,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB, {
   AppPages,
@@ -85,16 +90,13 @@ export function presetCharacters(): Preset[] {
   const lc = (id: LightConeId) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
-    { characterId: char(THE_DAHLIA), lightConeId: lc(NEVER_FORGET_HER_FLAME) },
-    { characterId: char(CYRENE), lightConeId: lc(THIS_LOVE_FOREVER) },
+    { characterId: char(YAO_GUANG), lightConeId: lc(WHEN_SHE_DECIDED_TO_SEE) },
+    { characterId: char(SPARXIE), lightConeId: lc(DAZZLED_BY_A_FLOWERY_WORLD) },
+    // { characterId: char(ASHVEIL), lightConeId: lc(THE_FINALE_OF_A_LIE) },
 
-    { characterId: char(CASTORICE), lightConeId: lc(MAKE_FAREWELLS_MORE_BEAUTIFUL), rerun: true },
-    { characterId: char(HYACINE), lightConeId: lc(LONG_MAY_RAINBOWS_ADORN_THE_SKY), rerun: true },
-    { characterId: char(TRIBBIE), lightConeId: lc(IF_TIME_WERE_A_FLOWER), rerun: true },
-
-    { characterId: char(PHAINON), lightConeId: lc(THUS_BURNS_THE_DAWN), rerun: true },
-    { characterId: char(CIPHER), lightConeId: lc(LIES_DANCE_ON_THE_BREEZE), rerun: true },
-    { characterId: char(MYDEI), lightConeId: lc(FLAME_OF_BLOOD_BLAZE_MY_PATH), rerun: true },
+    // { characterId: char(CASTORICE), lightConeId: lc(MAKE_FAREWELLS_MORE_BEAUTIFUL) , rerun: true},
+    // { characterId: char(HYACINE), lightConeId: lc(LONG_MAY_RAINBOWS_ADORN_THE_SKY) , rerun: true},
+    // { characterId: char(TRIBBIE), lightConeId: lc(IF_TIME_WERE_A_FLOWER), rerun: true },
 
     { custom: true },
   ].filter((x) => x.custom || !!x.characterId) as Preset[]

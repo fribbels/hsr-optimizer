@@ -30,6 +30,7 @@ export enum AbilityType {
   MEMO_TALENT = 128,
 }
 
+export const NONE_DMG_TYPE: number = 0
 export const BASIC_DMG_TYPE: number = DamageType.BASIC
 export const SKILL_DMG_TYPE: number = DamageType.SKILL
 export const ULT_DMG_TYPE: number = DamageType.ULT
@@ -80,6 +81,7 @@ export type BasicStatsObject = {
   ['Wind DMG Boost']: number,
   ['Quantum DMG Boost']: number,
   ['Imaginary DMG Boost']: number,
+  ['Elation DMG Boost']: number,
 
   'ELEMENTAL_DMG': number, // ?
 

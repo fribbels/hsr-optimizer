@@ -5,7 +5,6 @@ import {
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import DB, { AppPages } from 'lib/state/db'
-import { DamageSplits } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
 import {
   generateAnalysisData,
   getCachedForm,
@@ -80,7 +79,6 @@ function AnalysisRender(props: { analysis: OptimizerResultAnalysis }) {
         <Flex justify='space-between' style={{ width: '100%', paddingTop: 4 }} gap={10}>
           <Flex vertical gap={10}>
             <StatsDiffCard analysis={analysis} />
-            <DamageSplits analysis={analysis} />
             <DamageUpgrades analysis={analysis} />
           </Flex>
 

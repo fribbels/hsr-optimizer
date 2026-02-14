@@ -1,19 +1,19 @@
-import {
-  AbilityType,
-  NONE_TYPE,
-  SKILL_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  gpuStandardHpHealFinalizer,
-  standardHpHealFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -22,9 +22,11 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
+export const HuohuoEntities = createEnum('Huohuo')
+export const HuohuoAbilities = createEnum('BASIC', 'BREAK', 'SKILL_HEAL', 'TALENT_HEAL')
+
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Huohuo')
-  const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const { basic, ult, skill, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
   const {
     SOURCE_BASIC,
@@ -50,7 +52,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const talentHealFlat = skill(e, 120, 133.5)
 
   const defaults = {
-    healAbility: NONE_TYPE,
     ultBuff: true,
     skillBuff: true,
     e6DmgBuff: true,
@@ -63,25 +64,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    healAbility: {
-      id: 'healAbility',
-      formItem: 'select',
-      text: tHeal('Text'),
-      content: tHeal('Content'),
-      options: [
-        {
-          display: tHeal('Skill'),
-          value: SKILL_DMG_TYPE,
-          label: tHeal('Skill'),
-        },
-        {
-          display: tHeal('Talent'),
-          value: 0,
-          label: tHeal('Talent'),
-        },
-      ],
-      fullWidth: true,
-    },
     ultBuff: {
       id: 'ultBuff',
       formItem: 'switch',
@@ -116,38 +98,66 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Scaling
-      x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
+    entityDeclaration: () => Object.values(HuohuoEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [HuohuoEntities.Huohuo]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
 
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
+    actionDeclaration: () => Object.values(HuohuoAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [HuohuoAbilities.BASIC]: {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Wind)
+            .hpScaling(basicScaling)
+            .toughnessDmg(10)
+            .build(),
+        ],
+      },
+      [HuohuoAbilities.BREAK]: {
+        hits: [
+          HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
+        ],
+      },
+      [HuohuoAbilities.SKILL_HEAL]: {
+        hits: [
+          HitDefinitionBuilder.skillHeal()
+            .hpScaling(skillHealScaling)
+            .flatHeal(skillHealFlat)
+            .build(),
+        ],
+      },
+      [HuohuoAbilities.TALENT_HEAL]: {
+        hits: [
+          HitDefinitionBuilder.talentHeal()
+            .hpScaling(talentHealScaling)
+            .flatHeal(talentHealFlat)
+            .build(),
+        ],
+      },
+    }),
+    actionModifiers: () => [],
 
-      if (r.healAbility == SKILL_DMG_TYPE) {
-        x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
-        x.HEAL_SCALING.buff(skillHealScaling, SOURCE_SKILL)
-        x.HEAL_FLAT.buff(skillHealFlat, SOURCE_SKILL)
-      }
-      if (r.healAbility == NONE_TYPE) {
-        x.HEAL_TYPE.set(NONE_TYPE, SOURCE_TALENT)
-        x.HEAL_SCALING.buff(talentHealScaling, SOURCE_TALENT)
-        x.HEAL_FLAT.buff(talentHealFlat, SOURCE_TALENT)
-      }
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
 
-      return x
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ATK_P.buffTeam((m.ultBuff) ? ultBuffValue : 0, SOURCE_ULT)
-      x.SPD_P.buffTeam((e >= 1 && m.skillBuff) ? 0.12 : 0, SOURCE_E1)
+      x.buff(StatKey.ATK_P, (m.ultBuff) ? ultBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
+      x.buff(StatKey.SPD_P, (e >= 1 && m.skillBuff) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+      x.buff(StatKey.DMG_BOOST, (e >= 6 && m.e6DmgBuff) ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
+    },
 
-      x.ELEMENTAL_DMG.buffTeam((e >= 6 && m.e6DmgBuff) ? 0.50 : 0, SOURCE_E6)
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardHpHealFinalizer(x)
-    },
-    gpuFinalizeCalculations: () => gpuStandardHpHealFinalizer(),
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

@@ -2,34 +2,15 @@ import { Typography } from 'antd'
 
 import gameData from 'data/game_data.json'
 import i18next from 'i18next'
-import {
-  Constants,
-  Parts,
-  PathName,
-  PathNames,
-  Sets,
-} from 'lib/constants/constants'
+import { Constants, Parts, PathName, PathNames, Sets, } from 'lib/constants/constants'
 import { rollCounter } from 'lib/importer/characterConverter'
 import { ScannerConfig } from 'lib/importer/importConfig'
 import { Message } from 'lib/interactions/message'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
-import {
-  BLADE,
-  BLADE_B1,
-  JINGLIU,
-  JINGLIU_B1,
-  KAFKA,
-  KAFKA_B1,
-  SILVER_WOLF,
-  SILVER_WOLF_B1,
-} from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
 import semver from 'semver'
-import {
-  Character,
-  CharacterId,
-} from 'types/character'
+import { Character, CharacterId, } from 'types/character'
 import { Form } from 'types/form'
 import { Relic } from 'types/relic'
 

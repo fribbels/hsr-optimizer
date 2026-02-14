@@ -1,10 +1,10 @@
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
-import { StatsConfigByIndex } from 'lib/optimization/config/computedStatsConfig'
+import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 
 export function injectComputedStats(wgsl: string, gpuParams: GpuConstants) {
   let out = 'struct ComputedStats {\n'
-  for (const stat of StatsConfigByIndex) {
-    out += `${stat.name}: f32,\n`
+  for (const stat of Object.keys(newStatsConfig)) {
+    out += `${stat}: f32,\n`
   }
   out += '}\n'
 

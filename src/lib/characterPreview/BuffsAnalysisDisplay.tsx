@@ -12,12 +12,9 @@ import {
   BUFF_TYPE,
 } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/computedStatsArray'
-import {
-  ComputedStatsObject,
-  StatsConfig,
-} from 'lib/optimization/config/computedStatsConfig'
+import { AKeyType } from 'lib/optimization/engine/config/keys'
+import { newStatsConfig, StatConfigEntry } from 'lib/optimization/engine/config/statsConfig'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { Assets } from 'lib/rendering/assets'
 import {
   originalScoringParams,
@@ -36,6 +33,10 @@ type BuffsAnalysisProps = {
   buffGroups?: Record<BUFF_TYPE, Record<string, Buff[]>>,
   singleColumn?: boolean,
   size?: BuffDisplaySize,
+}
+
+function getStatConfig(stat: string): StatConfigEntry | undefined {
+  return newStatsConfig[stat as AKeyType]
 }
 
 export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
@@ -93,9 +94,7 @@ function rerunSim(result?: SimulationScore) {
   result.simulationForm.trace = true
   const context = generateContext(result.simulationForm)
   const rerun = runStatSimulations([result.originalSim], result.simulationForm, context, originalScoringParams)[0]
-  const optimizerDisplayData = formatOptimizerDisplayData(rerun.x)
-  const x = optimizerDisplayData.tracedX!
-  return aggregateCombatBuffs(x, result.simulationForm)
+  return aggregateCombatBuffs(rerun.x, result.simulationForm)
 }
 
 function BuffGroup(props: { id: string, buffs: Buff[], buffType: BUFF_TYPE, size: BuffDisplaySize }) {
@@ -156,9 +155,10 @@ function BuffTable(props: { buffs: Buff[], size: BuffDisplaySize }) {
   ]
 
   const data = buffs.map((buff, i) => {
-    const stat = buff.stat as keyof ComputedStatsObject
-    const percent = !StatsConfig[stat].flat
-    const bool = StatsConfig[stat].bool
+    const stat = buff.stat
+    const config = getStatConfig(stat)
+    const percent = !config?.flat
+    const bool = config?.bool
     const statLabel = translatedLabel(stat, buff.memo)
 
     let sourceLabel: string
@@ -223,20 +223,17 @@ export enum BuffDisplaySize {
   LARGE = 450,
 }
 
-function translatedLabel(stat: keyof ComputedStatsObject, isMemo = false) {
-  const label = StatsConfig[stat]?.label
-  if (!label) return stat
-  if (label.composite) {
-    // type conformity is enforced by the helper functions in src/lib/optimization/config/setsConfig
-    // @ts-ignore
-    const prefix: string = i18next.t(`${label.prefix.ns}:${label.prefix.key}`, label.prefix.args)
-    // @ts-ignore
-    const suffix: string = i18next.t(`${label.suffix.ns}:${label.suffix.key}`, label.suffix.args)
-    const finalLabel = i18next.t('optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Stats.CompositeLabels.Label', { prefix, suffix }) as string
-    return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) : finalLabel
-  } else {
-    // @ts-ignore
-    const finalLabel: string = i18next.t(`${label.ns}:${label.key}`, label.args)
-    return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) : finalLabel
+function translatedLabel(stat: string, isMemo = false): string {
+  const config = getStatConfig(stat)
+  if (!config) return stat
+
+  const label = config.label
+  if (typeof label === 'string') {
+    return isMemo ? i18next.t('MemospriteLabel', { label }) as string : label
   }
+
+  // SimpleLabel with ns/key properties
+  // @ts-ignore
+  const finalLabel: string = i18next.t(`${label.ns}:${label.key}`, label.args)
+  return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) as string : finalLabel
 }

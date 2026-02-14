@@ -70,6 +70,7 @@ export const StatCalculator = {
       [Stats.Wind_DMG]: 0,
       [Stats.Quantum_DMG]: 0,
       [Stats.Imaginary_DMG]: 0,
+      [Stats.Elation_DMG]: 0,
     }
   },
 

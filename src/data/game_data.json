@@ -6179,37 +6179,37 @@
       },
       "traceTree": [
         {
-          "id": "1321201_3.8v3",
+          "id": "1321201",
           "stat": "Break Effect",
           "value": 0.053,
           "pre": null,
           "children": [
             {
-              "id": "1321210_3.8v3",
+              "id": "1321210",
               "stat": "Break Effect",
               "value": 0.107,
-              "pre": "1321201_3.8v3",
+              "pre": "1321201",
               "children": []
             }
           ]
         },
         {
-          "id": "1321202_3.8v3",
+          "id": "1321202",
           "stat": "Effect RES",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1321203_3.8v3",
+              "id": "1321203",
               "stat": "Break Effect",
               "value": 0.053,
-              "pre": "1321202_3.8v3",
+              "pre": "1321202",
               "children": [
                 {
-                  "id": "1321204_3.8v3",
+                  "id": "1321204",
                   "stat": "SPD",
                   "value": 2,
-                  "pre": "1321203_3.8v3",
+                  "pre": "1321203",
                   "children": []
                 }
               ]
@@ -6217,22 +6217,22 @@
           ]
         },
         {
-          "id": "1321205_3.8v3",
+          "id": "1321205",
           "stat": "Break Effect",
           "value": 0.08,
           "pre": null,
           "children": [
             {
-              "id": "1321206_3.8v3",
+              "id": "1321206",
               "stat": "Effect RES",
               "value": 0.06,
-              "pre": "1321205_3.8v3",
+              "pre": "1321205",
               "children": [
                 {
-                  "id": "1321207_3.8v3",
+                  "id": "1321207",
                   "stat": "Break Effect",
                   "value": 0.08,
-                  "pre": "1321206_3.8v3",
+                  "pre": "1321206",
                   "children": []
                 }
               ]
@@ -6240,14 +6240,14 @@
           ]
         },
         {
-          "id": "1321208_3.8v3",
+          "id": "1321208",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": []
         },
         {
-          "id": "1321209_3.8v3",
+          "id": "1321209",
           "stat": "Effect RES",
           "value": 0.08,
           "pre": null,
@@ -7625,6 +7625,202 @@
         "HP": 1397.088,
         "ATK": 446.292,
         "DEF": 582.12,
+        "SPD": 101,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1501": {
+      "id": "1501",
+      "name": "Sparxie",
+      "rarity": 5,
+      "path": "Elation",
+      "element": "Fire",
+      "traces": {
+        "CRIT DMG": 0.133,
+        "CRIT Rate": 0.12,
+        "Elation": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "1501201_4.1v2",
+          "stat": "Elation",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1501202_4.1v2",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1501203_4.1v2",
+          "stat": "Elation",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1501204_4.1v2",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1501205_4.1v2",
+          "stat": "Elation",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1501206_4.1v2",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "1501205_4.1v2",
+              "children": [
+                {
+                  "id": "1501207_4.1v2",
+                  "stat": "Elation",
+                  "value": 0.06,
+                  "pre": "1501206_4.1v2",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1501208_4.1v2",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1501209_4.1v2",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "1501208_4.1v2",
+              "children": [
+                {
+                  "id": "1501210_4.1v2",
+                  "stat": "Elation",
+                  "value": 0.08,
+                  "pre": "1501209_4.1v2",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 160,
+      "stats": {
+        "HP": 1054.944,
+        "ATK": 644.6880000000001,
+        "DEF": 463.98,
+        "SPD": 107,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1502": {
+      "id": "1502",
+      "name": "Yao Guang",
+      "rarity": 5,
+      "path": "Elation",
+      "element": "Physical",
+      "traces": {
+        "Elation": 0.1,
+        "SPD": 9,
+        "CRIT Rate": 0.187
+      },
+      "traceTree": [
+        {
+          "id": "1502201_4.1v2",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1502202_4.1v2",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1502203_4.1v2",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1502204_4.1v2",
+          "stat": "Elation",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1502205_4.1v2",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1502206_4.1v2",
+              "stat": "SPD",
+              "value": 3,
+              "pre": "1502205_4.1v2",
+              "children": [
+                {
+                  "id": "1502207_4.1v2",
+                  "stat": "CRIT Rate",
+                  "value": 0.04,
+                  "pre": "1502206_4.1v2",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1502208_4.1v2",
+          "stat": "Elation",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1502209_4.1v2",
+              "stat": "SPD",
+              "value": 4,
+              "pre": "1502208_4.1v2",
+              "children": [
+                {
+                  "id": "1502210_4.1v2",
+                  "stat": "CRIT Rate",
+                  "value": 0.053,
+                  "pre": "1502209_4.1v2",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 180,
+      "stats": {
+        "HP": 1250.304,
+        "ATK": 468.86400000000003,
+        "DEF": 659.3399999999999,
         "SPD": 101,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
@@ -10610,6 +10806,78 @@
         "DEF": 396.9
       },
       "unreleased": false
+    },
+    "23053": {
+      "id": "23053",
+      "name": "Dazzled by a Flowery World",
+      "rarity": 5,
+      "path": "Elation",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 582.12,
+        "DEF": 463.05
+      },
+      "unreleased": false
+    },
+    "23054": {
+      "id": "23054",
+      "name": "When She Decided to See",
+      "rarity": 5,
+      "path": "Elation",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 529.2,
+        "DEF": 529.2
+      },
+      "unreleased": false
+    },
+    "21064": {
+      "id": "21064",
+      "name": "Mushy Shroomy's Adventures",
+      "rarity": 4,
+      "path": "Elation",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 476.28,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "21065": {
+      "id": "21065",
+      "name": "Today's Good Luck",
+      "rarity": 4,
+      "path": "Elation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 529.2,
+        "DEF": 396.9
+      },
+      "unreleased": false
+    },
+    "20023": {
+      "id": "20023",
+      "name": "Sneering",
+      "rarity": 3,
+      "path": "Elation",
+      "stats": {
+        "HP": 740.88,
+        "ATK": 370.44,
+        "DEF": 264.6
+      },
+      "unreleased": false
+    },
+    "20024": {
+      "id": "20024",
+      "name": "Lingering Tear",
+      "rarity": 3,
+      "path": "Elation",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 317.52,
+        "DEF": 264.6
+      },
+      "unreleased": false
     }
   },
   "relics": [
@@ -10737,6 +11005,16 @@
       "id": "128",
       "name": "Self-Enshrouded Recluse",
       "skills": "The provided Shield Effect increases by <b>10%</b>. Increases the Shield Effect provided by the wearer by <b>12%</b>. When an ally target holds a Shield provided by the wearer, the ally target's CRIT DMG increases by <b>15%</b>."
+    },
+    {
+      "id": "129",
+      "name": "Ever-Glorious Magical Girl",
+      "skills": "Increases CRIT DMG by <b>16%</b>. The Elation DMG dealt by the wearer and their memosprites ignores <b>10%</b> of targets' DEF. For every <b>5</b> accumulated Punchline allies gain, the Elation DMG dealt additionally ignores <b>1%</b> of targets' DEF, stacking up to <b>10</b> times."
+    },
+    {
+      "id": "130",
+      "name": "Diviner of Distant Reach",
+      "skills": "Increases SPD by <b>6%</b>. Before entering combat, if the wearer's SPD is greater than or equal to <b>120</b>/<b>160</b>, increases the wearer's CRIT Rate by <b>10%</b>/<b>18%</b>. When the wearer uses Elation Skill for the first time in each battle, increases all allies' Elation by <b>10%</b>. This effect cannot stack."
     },
     {
       "id": "127",

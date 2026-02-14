@@ -2,19 +2,17 @@ import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
+import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
+import { SELF_ENTITY_INDEX, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.LiesAflutterInTheWind')
@@ -64,29 +62,28 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.DEF_PEN.buffTeam((m.defPen) ? sValuesDefPen[s] : 0, SOURCE_LC)
+      x.buff(StatKey.DEF_PEN, (m.defPen) ? sValuesDefPen[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.DEF_PEN.buffTeam((t.defPen && t.additionalDefPen) ? sValuesDefPenAdditional[s] : 0, SOURCE_LC)
+      x.buff(StatKey.DEF_PEN, (t.defPen && t.additionalDefPen) ? sValuesDefPenAdditional[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.lightConeConditionals as Conditionals<typeof content>
+      const spd = x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
+
+      x.buff(StatKey.DEF_PEN, (r.defPen && spd >= 170) ? sValuesDefPenAdditional[s] : 0, x.source(SOURCE_LC))
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.DEF_PEN.buff((r.defPen && x.a[Key.SPD] >= 170) ? sValuesDefPenAdditional[s] : 0, SOURCE_LC)
-    },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals as Conditionals<typeof content>
-
-      return `
-if (${wgslTrue(r.defPen)} && x.SPD >= 170) {
-  x.DEF_PEN += ${sValuesDefPenAdditional[s]};
+      return wgsl`
+if (${wgslTrue(r.defPen)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} >= 170.0) {
+  ${buff.action(AKey.DEF_PEN, sValuesDefPenAdditional[s]).wgsl(action)}
 }
       `
     },

@@ -1,21 +1,22 @@
 import {
   AbilityType,
   ASHBLAZING_ATK_STACK,
-  BASIC_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
-  dynamicStatConversion,
+  dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -23,17 +24,26 @@ import {
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityCr } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 
 import { CharacterConditionalsController } from 'types/conditionals'
+import { AbilityDefinition } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const BronyaEntities = createEnum('Bronya')
+export const BronyaAbilities = createEnum('BASIC', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Bronya')
@@ -149,44 +159,87 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(BronyaEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [BronyaEntities.Bronya]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(BronyaAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [BronyaAbilities.BASIC]: {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Wind)
+            .atkScaling(basicScaling)
+            .toughnessDmg(10)
+            .build(),
+        ],
+      },
+      [BronyaAbilities.FUA]: {
+        hits: (e >= 4)
+          ? [
+            HitDefinitionBuilder.standardFua()
+              .damageElement(ElementTag.Wind)
+              .atkScaling(fuaScaling)
+              .toughnessDmg(10)
+              .build(),
+          ]
+          : [],
+      },
+      [BronyaAbilities.BREAK]: {
+        hits: [
+          HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
+        ],
+      },
+    }),
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      buffAbilityCr(x, BASIC_DMG_TYPE, 1.00, SOURCE_TRACE)
+      // Trace: BASIC CR +100%
+      x.buff(StatKey.CR, 1.00, x.damageType(DamageTag.BASIC).source(SOURCE_TRACE))
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.FUA_ATK_SCALING.buff((e >= 4) ? fuaScaling : 0, SOURCE_E4)
-
+      // Ult CD boost (base portion - the scaling portion is handled in dynamicConditionals)
       if (r.ultBuff) {
-        x.CD.buff(ultCdBoostBaseValue, SOURCE_ULT)
-        x.UNCONVERTIBLE_CD_BUFF.buff(ultCdBoostBaseValue, SOURCE_ULT)
+        x.buff(StatKey.CD, ultCdBoostBaseValue, x.source(SOURCE_ULT))
+        x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, ultCdBoostBaseValue, x.source(SOURCE_ULT))
       }
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.FUA_TOUGHNESS_DMG.buff((e >= 4) ? 10 : 0, SOURCE_E4)
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.DEF_P.buffTeam((m.battleStartDefBuff) ? 0.20 : 0, SOURCE_TRACE)
-      x.SPD_P.buffSingle((e >= 2 && m.e2SkillSpdBuff) ? 0.30 : 0, SOURCE_E2)
-      x.ATK_P.buffTeam((m.techniqueBuff) ? 0.15 : 0, SOURCE_TECHNIQUE)
-      x.ATK_P.buffTeam((m.ultBuff) ? ultAtkBoostValue : 0, SOURCE_ULT)
+      // Team buffs
+      x.buff(StatKey.DEF_P, (m.battleStartDefBuff) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.ATK_P, (m.techniqueBuff) ? 0.15 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TECHNIQUE))
+      x.buff(StatKey.ATK_P, (m.ultBuff) ? ultAtkBoostValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
+      x.buff(StatKey.DMG_BOOST, (m.teamDmgBuff) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
-      x.ELEMENTAL_DMG.buffTeam((m.teamDmgBuff) ? 0.10 : 0, SOURCE_TRACE)
-      x.ELEMENTAL_DMG.buffSingle((m.skillBuff) ? skillDmgBoostValue : 0, SOURCE_SKILL)
+      // Single target buffs
+      x.buff(StatKey.SPD_P, (e >= 2 && m.e2SkillSpdBuff) ? 0.30 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E2))
+      x.buff(StatKey.DMG_BOOST, (m.skillBuff) ? skillDmgBoostValue : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL))
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const cdBuff = (t.ultBuff) ? ultCdBoostValue * t.teammateCDValue + ultCdBoostBaseValue : 0
-      x.CD.buffTeam(cdBuff, SOURCE_ULT)
-      x.UNCONVERTIBLE_CD_BUFF.buffTeam(cdBuff, SOURCE_ULT)
+      x.buff(StatKey.CD, cdBuff, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
+      x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, cdBuff, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkP(x, action, context, hitMulti)
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, hitMulti)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuBoostAshblazingAtkP(hitMulti),
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(hitMulti, action)
+    },
     dynamicConditionals: [
       {
         id: 'BronyaCdConditional',
@@ -194,17 +247,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CD],
         chainsTo: [Stats.CD],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-
           return r.ultBuff
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.CD, Stats.CD, this, x, action, context, SOURCE_ULT, (convertibleValue) => convertibleValue * ultCdBoostValue)
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversionContainer(Stats.CD, Stats.CD, this, x, action, context, SOURCE_ULT, (convertibleValue) => convertibleValue * ultCdBoostValue)
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-
           return gpuDynamicStatConversion(Stats.CD, Stats.CD, this, action, context, `${ultCdBoostValue} * convertibleValue`, `${wgslTrue(r.ultBuff)}`)
         },
       },

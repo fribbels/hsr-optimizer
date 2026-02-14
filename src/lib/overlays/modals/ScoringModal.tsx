@@ -411,9 +411,7 @@ export default function ScoringModal() {
           </Flex>
         </Flex>
 
-        <TitleDivider>{t('Scoring.SetWeightsHeader') /* Set weights */} {'(EXPERIMENTAL)'}</TitleDivider>
-
-        <Flex gap={20}>
+        <Flex gap={20} style={{display: 'none'}}>
           <Flex vertical gap={20} flex={1}>
             <Form.List name='relicsList'>
               {(fields, { add, remove }) => (

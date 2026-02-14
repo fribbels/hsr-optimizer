@@ -3,33 +3,44 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
+  findMemospriteIndex,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
-  PathNames,
   Stats,
 } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import {
+  containerActionVal,
+  p_containerActionVal,
+} from 'lib/gpu/injection/injectUtils'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
-import {
-  JING_YUAN,
-  LINGSHA,
-  TOPAZ_NUMBY,
-} from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const SundayEntities = createEnum('Sunday')
+export const SundayAbilities = createEnum('BASIC', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sunday')
@@ -166,46 +177,72 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
 
-      x.BASIC_TOUGHNESS_DMG.set(10, SOURCE_BASIC)
+    entityDeclaration: () => Object.values(SundayEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [SundayEntities.Sunday]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(SundayAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [SundayAbilities.BASIC]: {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Imaginary)
+            .atkScaling(basicScaling)
+            .toughnessDmg(10)
+            .build(),
+        ],
+      },
+      [SundayAbilities.BREAK]: {
+        hits: [
+          HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
+        ],
+      },
+    }),
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      // Scaling moved to actionDefinition
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
+      const hasSummons = x.getActionValueByIndex(StatKey.SUMMONS, SELF_ENTITY_INDEX) > 0
 
-      x.CR.buffDual(m.talentCrBuffStacks * talentCrBuffValue, SOURCE_TALENT)
-      x.ELEMENTAL_DMG.buffDual((m.skillDmgBuff) ? skillDmgBoostValue : 0, SOURCE_SKILL)
-      x.ELEMENTAL_DMG.buffDual((m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? skillDmgBoostSummonValue : 0, SOURCE_SKILL)
-      x.ELEMENTAL_DMG.buffDual((m.techniqueDmgBuff) ? 0.50 : 0, SOURCE_TECHNIQUE)
+      // Talent CR buff
+      x.buff(StatKey.CR, m.talentCrBuffStacks * talentCrBuffValue, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_TALENT))
 
-      x.DEF_PEN.buffDual((e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.16 : 0, SOURCE_E1)
+      // Skill DMG buffs
+      x.buff(StatKey.DMG_BOOST, (m.skillDmgBuff) ? skillDmgBoostValue : 0, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_SKILL))
+      x.buff(StatKey.DMG_BOOST, (m.skillDmgBuff && hasSummons) ? skillDmgBoostSummonValue : 0, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_SKILL))
 
-      // Special cases for summons - currently the only way to buff non-memo summons directly is through FUA
-      if (context.path == PathNames.Remembrance) {
-        x.DEF_PEN.buffMemo((e >= 1 && m.e1DefPen && m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? 0.24 : 0, SOURCE_E1)
-      } else if (
-        [
-          TOPAZ_NUMBY,
-          JING_YUAN,
-          LINGSHA,
-        ].includes(context.characterId)
-      ) {
-        x.FUA_DEF_PEN.buffSingle((e >= 1 && m.e1DefPen && m.skillDmgBuff && x.a[Key.SUMMONS] > 0) ? 0.24 : 0, SOURCE_E1)
-      }
+      // Technique DMG buff
+      x.buff(StatKey.DMG_BOOST, (m.techniqueDmgBuff) ? 0.50 : 0, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_TECHNIQUE))
 
-      x.ELEMENTAL_DMG.buffDual((e >= 2 && m.e2DmgBuff) ? 0.30 : 0, SOURCE_E2)
+      // E1 DEF PEN - base 16% to self and summon
+      x.buff(StatKey.DEF_PEN, (e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.16 : 0, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_E1))
+      // E1 DEF PEN - extra 24% for summons only
+      x.buff(StatKey.DEF_PEN, (e >= 1 && m.e1DefPen && m.skillDmgBuff && hasSummons) ? 0.24 : 0, x.targets(TargetTag.SummonsOnly).deferrable().source(SOURCE_E1))
+
+      // E2 DMG buff
+      x.buff(StatKey.DMG_BOOST, (e >= 2 && m.e2DmgBuff) ? 0.30 : 0, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_E2))
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const cdBuff = (t.beatified) ? ultCdBoostValue * t.teammateCDValue + ultCdBoostBaseValue : 0
-      x.CD.buffDual(cdBuff, SOURCE_ULT)
-      x.UNCONVERTIBLE_CD_BUFF.buffDual(cdBuff, SOURCE_ULT)
+      x.buff(StatKey.CD, cdBuff, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_ULT))
+      x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, cdBuff, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_ULT))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
     teammateDynamicConditionals: [
       {
         id: 'SundayMemoCrConditional',
@@ -213,48 +250,65 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CR],
         chainsTo: [Stats.CD],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          return x.m.a[Key.CR] > 1.00
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          const memoIndex = findMemospriteIndex(action)
+          if (memoIndex === -1) return false
+          return x.getActionValueByIndex(StatKey.CR, memoIndex) > 1.00
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
-          if (!(e >= 6 && r.e6CrToCdConversion && !x.a[Key.DEPRIORITIZE_BUFFS])) {
+          const deprioritize = x.getActionValueByIndex(StatKey.DEPRIORITIZE_BUFFS, SELF_ENTITY_INDEX)
+          if (!(e >= 6 && r.e6CrToCdConversion && !deprioritize)) {
             return
           }
 
+          const memoIndex = findMemospriteIndex(action)
+          if (memoIndex === -1) return
+
+          const memoCr = x.getActionValueByIndex(StatKey.CR, memoIndex)
+          const memoUnconvertibleCr = x.getActionValueByIndex(StatKey.UNCONVERTIBLE_CR_BUFF, memoIndex)
+
           const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = Math.floor((x.m.a[Key.CR] - x.m.a[Key.UNCONVERTIBLE_CR_BUFF] - 1.00) / 0.01) * 2.00 * 0.01
+          const buffValue = Math.floor((memoCr - memoUnconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01
 
           action.conditionalState[this.id] = buffValue
-          x.m.CD.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
-          x.m.UNCONVERTIBLE_CD_BUFF.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
+          x.buffDynamic(StatKey.CD, buffValue - stateValue, action, context, x.targets(TargetTag.MemospritesOnly).source(SOURCE_E6))
+          x.buffDynamic(StatKey.UNCONVERTIBLE_CD_BUFF, buffValue - stateValue, action, context, x.targets(TargetTag.MemospritesOnly).source(SOURCE_E6))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
+          const config = action.config
+          const memoIndex = findMemospriteIndex(action)
 
-          return conditionalWgslWrapper(
+          if (memoIndex === -1) {
+            return newConditionalWgslWrapper(this, action, context, `return;`)
+          }
+
+          return newConditionalWgslWrapper(
             this,
+            action,
+            context,
             `
 if (${wgslFalse(e >= 6 && r.e6CrToCdConversion)}) {
   return;
 }
 
-if (x.DEPRIORITIZE_BUFFS > 0) {
+if (${containerActionVal(SELF_ENTITY_INDEX, StatKey.DEPRIORITIZE_BUFFS, config)} > 0) {
   return;
 }
 
-let cr = (*p_m).CR;
-let unconvertibleCr = (*p_m).UNCONVERTIBLE_CR_BUFF;
+let cr = ${containerActionVal(memoIndex, StatKey.CR, config)};
+let unconvertibleCr = ${containerActionVal(memoIndex, StatKey.UNCONVERTIBLE_CR_BUFF, config)};
 
 if (cr > 1.00) {
   let buffValue: f32 = floor((cr - unconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01;
-  let stateValue: f32 = (*p_state).${this.id};
+  let stateValue: f32 = (*p_state).${this.id}${action.actionIdentifier};
 
-  (*p_state).${this.id} = buffValue;
-  (*p_m).CD += buffValue - stateValue;
-  (*p_m).UNCONVERTIBLE_CD_BUFF += buffValue - stateValue;
+  (*p_state).${this.id}${action.actionIdentifier} = buffValue;
+  ${p_containerActionVal(memoIndex, StatKey.CD, config)} += buffValue - stateValue;
+  ${p_containerActionVal(memoIndex, StatKey.UNCONVERTIBLE_CD_BUFF, config)} += buffValue - stateValue;
 }
-          `,
+`,
           )
         },
       },
@@ -264,45 +318,55 @@ if (cr > 1.00) {
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CR],
         chainsTo: [Stats.CD],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          return x.a[Key.CR] > 1.00
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          return x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) > 1.00
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
-          if (!(e >= 6 && r.e6CrToCdConversion && !x.a[Key.DEPRIORITIZE_BUFFS])) {
+          const deprioritize = x.getActionValueByIndex(StatKey.DEPRIORITIZE_BUFFS, SELF_ENTITY_INDEX)
+          if (!(e >= 6 && r.e6CrToCdConversion && !deprioritize)) {
             return
           }
 
+          const cr = x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX)
+          const unconvertibleCr = x.getActionValueByIndex(StatKey.UNCONVERTIBLE_CR_BUFF, SELF_ENTITY_INDEX)
+
           const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = Math.floor(((x.a[Key.CR] - x.a[Key.UNCONVERTIBLE_CR_BUFF]) - 1.00) / 0.01) * 2.00 * 0.01
+          const buffValue = Math.floor((cr - unconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01
 
           action.conditionalState[this.id] = buffValue
-          x.CD.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
-          x.UNCONVERTIBLE_CD_BUFF.buffDynamic(buffValue - stateValue, SOURCE_E6, action, context)
+          x.buffDynamic(StatKey.CD, buffValue - stateValue, action, context, x.source(SOURCE_E6))
+          x.buffDynamic(StatKey.UNCONVERTIBLE_CD_BUFF, buffValue - stateValue, action, context, x.source(SOURCE_E6))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
+          const config = action.config
 
-          return conditionalWgslWrapper(
+          return newConditionalWgslWrapper(
             this,
+            action,
+            context,
             `
 if (${wgslFalse(e >= 6 && r.e6CrToCdConversion)}) {
   return;
 }
 
-if (x.DEPRIORITIZE_BUFFS > 0) {
+if (${containerActionVal(SELF_ENTITY_INDEX, StatKey.DEPRIORITIZE_BUFFS, config)} > 0) {
   return;
 }
 
-if (x.CR > 1.00) {
-  let buffValue: f32 = floor((x.CR - x.UNCONVERTIBLE_CR_BUFF - 1.00) / 0.01) * 2.00 * 0.01;
-  let stateValue: f32 = (*p_state).${this.id};
+let cr = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, config)};
+let unconvertibleCr = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_CR_BUFF, config)};
 
-  (*p_state).${this.id} = buffValue;
-  (*p_x).CD += buffValue - stateValue;
-  (*p_x).UNCONVERTIBLE_CD_BUFF += buffValue - stateValue;
+if (cr > 1.00) {
+  let buffValue: f32 = floor((cr - unconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01;
+  let stateValue: f32 = (*p_state).${this.id}${action.actionIdentifier};
+
+  (*p_state).${this.id}${action.actionIdentifier} = buffValue;
+  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += buffValue - stateValue;
+  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_CD_BUFF, config)} += buffValue - stateValue;
 }
-    `,
+`,
           )
         },
       },

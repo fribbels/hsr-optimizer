@@ -1,15 +1,19 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
-  gpuStandardDefShieldFinalizer,
-  standardDefShieldFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
-import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -18,6 +22,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const TrailblazerPreservationEntities = createEnum('TrailblazerPreservation')
+export const TrailblazerPreservationAbilities = createEnum('BASIC', 'ULT', 'TALENT_SHIELD', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerPreservation')
@@ -99,45 +106,85 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(TrailblazerPreservationEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [TrailblazerPreservationEntities.TrailblazerPreservation]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(TrailblazerPreservationAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Stats
-      x.DEF_P.buff((e >= 6) ? r.e6DefStacks * 0.10 : 0, SOURCE_E6)
-      x.ATK_P.buff((r.shieldActive) ? 0.15 : 0, SOURCE_TRACE)
+      const basicAtk = r.enhancedBasic ? basicEnhancedAtkScaling : basicAtkScaling
+      const basicDef = r.enhancedBasic ? basicEnhancedDefScaling : basicDefScaling
+      const basicToughness = r.enhancedBasic ? 20 : 10
 
-      if (r.enhancedBasic) {
-        x.BASIC_ATK_SCALING.buff(basicEnhancedAtkScaling, SOURCE_BASIC)
-        x.BASIC_DEF_SCALING.buff(basicEnhancedDefScaling, SOURCE_BASIC)
-      } else {
-        x.BASIC_ATK_SCALING.buff(basicAtkScaling, SOURCE_BASIC)
-        x.BASIC_DEF_SCALING.buff(basicDefScaling, SOURCE_BASIC)
+      return {
+        [TrailblazerPreservationAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(basicAtk)
+              .defScaling(basicDef)
+              .toughnessDmg(basicToughness)
+              .build(),
+          ],
+        },
+        [TrailblazerPreservationAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(ultAtkScaling)
+              .defScaling(ultDefScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [TrailblazerPreservationAbilities.TALENT_SHIELD]: {
+          hits: [
+            HitDefinitionBuilder.shield()
+              .defScaling(talentShieldScaling)
+              .flatShield(talentShieldFlat)
+              .build(),
+          ],
+        },
+        [TrailblazerPreservationAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
+          ],
+        },
       }
-
-      x.ULT_ATK_SCALING.buff(ultAtkScaling, Source.NONE)
-      x.ULT_DEF_SCALING.buff(ultDefScaling, Source.NONE)
-
-      // Boost
-      // This EHP buff only applies to self
-      x.DMG_RED_MULTI.multiply((r.skillActive) ? (1 - skillDamageReductionValue) : 1, SOURCE_SKILL)
-
-      x.BASIC_TOUGHNESS_DMG.buff((r.enhancedBasic) ? 20 : 10, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-
-      x.SHIELD_SCALING.buff(talentShieldScaling, SOURCE_TALENT)
-      x.SHIELD_FLAT.buff(talentShieldFlat, SOURCE_TALENT)
-
-      return x
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // E6: DEF% stacks
+      x.buff(StatKey.DEF_P, (e >= 6) ? r.e6DefStacks * 0.10 : 0, x.source(SOURCE_E6))
+
+      // Trace: ATK% when shield active
+      x.buff(StatKey.ATK_P, (r.shieldActive) ? 0.15 : 0, x.source(SOURCE_TRACE))
+
+      // Skill: Damage reduction (self only)
+      x.multiplicativeComplement(StatKey.DMG_RED, (r.skillActive) ? skillDamageReductionValue : 0, x.source(SOURCE_SKILL))
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      // This EHP buff applies to all
-      x.DMG_RED_MULTI.multiplyTeam((m.skillActive) ? (1 - 0.15) : 1, SOURCE_TRACE)
+      // Trace: 15% damage reduction for all allies
+      x.multiplicativeComplement(StatKey.DMG_RED, (m.skillActive) ? 0.15 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardDefShieldFinalizer(x)
+
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuStandardDefShieldFinalizer(),
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

@@ -2,37 +2,38 @@ import {
   AbilityType,
   ASHBLAZING_ATK_STACK,
   BREAK_DMG_TYPE,
-  NONE_TYPE,
-  SKILL_DMG_TYPE,
-  ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
-  gpuStandardAtkHealFinalizer,
-  standardAtkHealFinalizer,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import {
+  dynamicStatConversionContainer,
+  gpuDynamicStatConversion,
+} from 'lib/conditionals/evaluation/statConversion'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
   Stats,
 } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
-  buffAbilityVulnerability,
-  Target,
-} from 'lib/optimization/calculateBuffs'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -43,9 +44,11 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
+export const LingshaEntities = createEnum('Lingsha', 'Fuyuan')
+export const LingshaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK', 'SKILL_HEAL', 'ULT_HEAL', 'FUA_HEAL')
+
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lingsha')
-  const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
   const {
     SOURCE_BASIC,
@@ -83,7 +86,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const defaults = {
-    healAbility: NONE_TYPE,
     beConversion: true,
     befogState: true,
     e1DefShred: true,
@@ -99,18 +101,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    healAbility: {
-      id: 'healAbility',
-      formItem: 'select',
-      text: tHeal('Text'),
-      content: tHeal('Content'),
-      options: [
-        { display: tHeal('Skill'), value: SKILL_DMG_TYPE, label: tHeal('Skill') },
-        { display: tHeal('Ult'), value: ULT_DMG_TYPE, label: tHeal('Ult') },
-        { display: tHeal('Talent'), value: NONE_TYPE, label: tHeal('Talent') },
-      ],
-      fullWidth: true,
-    },
     beConversion: {
       id: 'beConversion',
       formItem: 'switch',
@@ -161,121 +151,198 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(LingshaEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [LingshaEntities.Lingsha]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+      [LingshaEntities.Fuyuan]: {
+        primary: false,
+        summon: true,
+        memosprite: false,
+        pet: true,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(LingshaAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.SUMMONS.set(1, SOURCE_TALENT)
+      return {
+        [LingshaAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [LingshaAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(skillScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [LingshaAbilities.SKILL_HEAL]: {
+          hits: [
+            HitDefinitionBuilder.skillHeal()
+              .atkScaling(skillHealScaling)
+              .flatHeal(skillHealFlat)
+              .build(),
+          ],
+        },
+        [LingshaAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(ultScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [LingshaAbilities.ULT_HEAL]: {
+          hits: [
+            HitDefinitionBuilder.ultHeal()
+              .atkScaling(ultHealScaling)
+              .flatHeal(ultHealFlat)
+              .build(),
+          ],
+        },
+        [LingshaAbilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .sourceEntity(LingshaEntities.Fuyuan)
+              .damageElement(ElementTag.Fire)
+              .atkScaling(fuaScaling * 2 + ((e >= 6 && r.e6ResShred) ? 0.50 : 0))
+              .toughnessDmg(10 * 2 + ((e >= 6) ? 5 : 0))
+              .build(),
+          ],
+        },
+        [LingshaAbilities.FUA_HEAL]: {
+          hits: [
+            HitDefinitionBuilder.talentHeal()
+              .atkScaling(talentHealScaling)
+              .flatHeal(talentHealFlat)
+              .build(),
+          ],
+        },
+        [LingshaAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
+          ],
+        },
+      }
     },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
+    actionModifiers: () => [],
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.FUA_ATK_SCALING.buff(fuaScaling * 2, SOURCE_TALENT)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-
-      x.BREAK_EFFICIENCY_BOOST.buff((e >= 1) ? 0.50 : 0, SOURCE_E1)
-      x.FUA_ATK_SCALING.buff((e >= 6 && r.e6ResShred) ? 0.50 : 0, SOURCE_E6)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(10, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(10 * 2, SOURCE_TALENT)
-      x.FUA_TOUGHNESS_DMG.buff((e >= 6) ? 5 : 0, SOURCE_E6)
-
-      if (r.healAbility == SKILL_DMG_TYPE) {
-        x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
-        x.HEAL_SCALING.buff(skillHealScaling, SOURCE_SKILL)
-        x.HEAL_FLAT.buff(skillHealFlat, SOURCE_SKILL)
-      }
-      if (r.healAbility == ULT_DMG_TYPE) {
-        x.HEAL_TYPE.set(ULT_DMG_TYPE, SOURCE_ULT)
-        x.HEAL_SCALING.buff(ultHealScaling, SOURCE_ULT)
-        x.HEAL_FLAT.buff(ultHealFlat, SOURCE_ULT)
-      }
-      if (r.healAbility == NONE_TYPE) {
-        x.HEAL_TYPE.set(NONE_TYPE, SOURCE_TALENT)
-        x.HEAL_SCALING.buff(talentHealScaling, SOURCE_TALENT)
-        x.HEAL_FLAT.buff(talentHealFlat, SOURCE_TALENT)
-      }
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 1) ? 0.50 : 0, x.source(SOURCE_E1))
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      if (x.a[Key.ENEMY_WEAKNESS_BROKEN]) {
-        x.DEF_PEN.buffTeam((e >= 1 && m.e1DefShred) ? 0.20 : 0, SOURCE_E1)
-      }
+      // E1 DEF shred when enemy is weakness broken
+      const isWeaknessBroken = x.getSelfValue(StatKey.ENEMY_WEAKNESS_BROKEN)
+      x.buff(StatKey.DEF_PEN, (e >= 1 && m.e1DefShred && isWeaknessBroken) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
 
-      buffAbilityVulnerability(x, BREAK_DMG_TYPE, (m.befogState) ? ultBreakVulnerability : 0, SOURCE_ULT, Target.TEAM)
-
-      x.BE.buffTeam((e >= 2 && m.e2BeBuff) ? 0.40 : 0, SOURCE_E2)
-      x.RES_PEN.buffTeam((e >= 6 && m.e6ResShred) ? 0.20 : 0, SOURCE_E6)
+      x.buff(StatKey.VULNERABILITY, (m.befogState) ? ultBreakVulnerability : 0, x.damageType(DamageTag.BREAK).targets(TargetTag.FullTeam).source(SOURCE_ULT))
+      x.buff(StatKey.BE, (e >= 2 && m.e2BeBuff) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
+      x.buff(StatKey.RES_PEN, (e >= 6 && m.e6ResShred) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkP(x, action, context, hitMultiByTargets[context.enemyCount])
-      standardAtkHealFinalizer(x)
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, hitMultiByTargets[context.enemyCount])
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkP(hitMultiByTargets[context.enemyCount]) + gpuStandardAtkHealFinalizer()
+
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
     },
-    dynamicConditionals: [{
-      id: 'LingshaConversionConditional',
-      type: ConditionalType.ABILITY,
-      activation: ConditionalActivation.CONTINUOUS,
-      dependsOn: [Stats.BE],
-      chainsTo: [Stats.ATK, Stats.OHB],
-      condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-        return true
+
+    dynamicConditionals: [
+      {
+        id: 'LingshaAtkConversionConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.BE],
+        chainsTo: [Stats.ATK],
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          return r.beConversion
+        },
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversionContainer(
+            Stats.BE,
+            Stats.ATK,
+            this,
+            x,
+            action,
+            context,
+            SOURCE_TRACE,
+            (convertibleValue) => Math.min(0.50, 0.25 * convertibleValue) * context.baseATK,
+          )
+        },
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+
+          return gpuDynamicStatConversion(
+            Stats.BE,
+            Stats.ATK,
+            this,
+            action,
+            context,
+            `min(0.50, 0.25 * convertibleValue) * baseATK`,
+            `${wgslTrue(r.beConversion)}`,
+          )
+        },
       },
-      effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-        const r = action.characterConditionals as Conditionals<typeof content>
-        if (!r.beConversion) {
-          return
-        }
+      {
+        id: 'LingshaOhbConversionConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.BE],
+        chainsTo: [Stats.OHB],
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          return r.beConversion
+        },
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversionContainer(
+            Stats.BE,
+            Stats.OHB,
+            this,
+            x,
+            action,
+            context,
+            SOURCE_TRACE,
+            (convertibleValue) => Math.min(0.20, 0.10 * convertibleValue),
+          )
+        },
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
 
-        const stateValue = action.conditionalState[this.id] || 0
-        const buffValueAtk = Math.min(0.50, 0.25 * x.a[Key.BE]) * context.baseATK
-        const buffValueOhb = Math.min(0.20, 0.10 * x.a[Key.BE])
-
-        const stateBuffValueAtk = Math.min(0.50, 0.25 * stateValue) * context.baseATK
-        const stateBuffValueOhb = Math.min(0.20, 0.10 * stateValue)
-
-        action.conditionalState[this.id] = x.a[Key.BE]
-
-        const finalBuffAtk = buffValueAtk - (stateValue ? stateBuffValueAtk : 0)
-        const finalBuffOhb = buffValueOhb - (stateValue ? stateBuffValueOhb : 0)
-
-        x.ATK.buffDynamic(finalBuffAtk, SOURCE_TRACE, action, context)
-        x.OHB.buffDynamic(finalBuffOhb, SOURCE_TRACE, action, context)
+          return gpuDynamicStatConversion(
+            Stats.BE,
+            Stats.OHB,
+            this,
+            action,
+            context,
+            `min(0.20, 0.10 * convertibleValue)`,
+            `${wgslTrue(r.beConversion)}`,
+          )
+        },
       },
-      gpu: function(action: OptimizerAction, context: OptimizerContext) {
-        const r = action.characterConditionals as Conditionals<typeof content>
-
-        return conditionalWgslWrapper(
-          this,
-          `
-if (${wgslFalse(r.beConversion)}) {
-  return;
-}
-
-let stateValue: f32 = (*p_state).LingshaConversionConditional;
-
-let buffValueAtk = min(0.50, 0.25 * x.BE) * baseATK;
-let buffValueOhb = min(0.20, 0.10 * x.BE);
-
-let stateBuffValueAtk = min(0.50, 0.25 * stateValue) * baseATK;
-let stateBuffValueOhb = min(0.20, 0.10 * stateValue);
-
-(*p_state).LingshaConversionConditional = x.BE;
-
-let finalBuffAtk = buffValueAtk - select(0.0, stateBuffValueAtk, stateValue > 0.0);
-let finalBuffOhb = buffValueOhb - select(0.0, stateBuffValueOhb, stateValue > 0.0);
-
-(*p_x).ATK += finalBuffAtk;
-(*p_x).OHB += finalBuffOhb;
-`,
-        )
-      },
-    }],
+    ],
   }
 }

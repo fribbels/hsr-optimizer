@@ -23,15 +23,13 @@ import {
   ConditionalType,
   Stats,
 } from 'lib/constants/constants'
-import { containerActionVal } from 'lib/gpu/injection/injectUtils'
-import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
-  SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'

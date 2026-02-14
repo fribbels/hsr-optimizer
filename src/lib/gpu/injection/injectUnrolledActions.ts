@@ -32,6 +32,7 @@ import {
 } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
 import { SortOption, SortOptionKey } from 'lib/optimization/sortOptions'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   CharacterConditionalsController,
   LightConeConditionalsController,
@@ -303,7 +304,7 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
       diffERR,
       diffOHB,
     );
-${addToComboDmg ? `    comboDmg += dmg${index};\n` : ''}`
+${addToComboDmg ? `    comboDmg += dmg${index} * ${getDotComboMultiplier(action, context)};\n` : ''}`
   
   const actionFunction = `
 fn unrolledAction${index}(
@@ -800,4 +801,17 @@ export function generateCombatStatFilters(request: Form, context: OptimizerConte
       continue;
     }
 `
+}
+
+/**
+ * Returns the compile-time combo multiplier for a rotation action.
+ * DOT actions get their damage multiplied by (comboDot / dotAbilities) to represent
+ * multiple ticks of DOT damage occurring during the rotation.
+ * Non-DOT actions get a multiplier of 1.0.
+ */
+function getDotComboMultiplier(action: OptimizerAction, context: OptimizerContext): string {
+  if (action.actionType === AbilityKind.DOT && context.comboDot > 0 && context.dotAbilities > 0) {
+    return `${context.comboDot / context.dotAbilities}`
+  }
+  return '1.0'
 }

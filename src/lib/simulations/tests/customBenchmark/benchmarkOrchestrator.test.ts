@@ -109,7 +109,7 @@ test('Black Swan benchmark 0 captain', async () => {
       stats: testStatSpread(),
     }),
     1498006.1736582317,
-    1704332.5,
+    1704332.625,
   )
 }, TIMEOUT)
 

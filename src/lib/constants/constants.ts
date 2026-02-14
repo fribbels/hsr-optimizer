@@ -4,15 +4,15 @@ import { StatKey, StatKeyValue, } from 'lib/optimization/engine/config/keys'
 import { BLACK_SWAN_B1, SPARKLE_B1, } from 'lib/simulations/tests/testMetadataConstants'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v4.0.1'
+export const CURRENT_OPTIMIZER_VERSION = 'v4.0.5'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '4.0v3'
+export const CURRENT_DATA_VERSION = '4.0v5'
 
 // Controls downtime messaging
 export const SHOWCASE_DOWNTIME = false
 export const RELIQUARY_DOWNTIME = false
-export const DOWNTIME_VERSION = 4.0
+export const DOWNTIME_VERSION = '4.0'
 
 export const CharacterAnnouncementMessages: Record<string, string> = {
   [SPARKLE_B1]: `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
@@ -42,6 +42,7 @@ export const Stats = {
   SPD_P: 'SPD%',
   SPD: 'SPD',
   Wind_DMG: 'Wind DMG Boost',
+  Elation_DMG: 'Elation DMG Boost',
 } as const
 
 export type StatsKeys = keyof typeof Stats
@@ -326,6 +327,7 @@ export const StatsToReadable = {
   [Stats.Wind_DMG]: 'Wind DMG',
   [Stats.Quantum_DMG]: 'Quantum DMG',
   [Stats.Imaginary_DMG]: 'Imaginary DMG',
+  [Stats.Elation_DMG]: 'Elation DMG',
 }
 
 export const Parts = {
@@ -412,6 +414,8 @@ export const SetsRelics = {
   WavestriderCaptain: 'Wavestrider Captain',
   WorldRemakingDeliverer: 'World-Remaking Deliverer',
   SelfEnshroudedRecluse: 'Self-Enshrouded Recluse',
+  EverGloriousMagicalGirl: 'Ever-Glorious Magical Girl',
+  DivinerOfDistantReach: 'Diviner of Distant Reach',
 } as const
 
 export const SetsOrnaments = {
@@ -506,6 +510,7 @@ export const PathNames = {
   Nihility: 'Nihility',
   Preservation: 'Preservation',
   Remembrance: 'Remembrance',
+  Elation: 'Elation',
 } as const
 export type PathName = typeof PathNames[keyof typeof PathNames]
 
@@ -697,6 +702,8 @@ export const setToId = {
   [Sets.WavestriderCaptain]: '126',
   [Sets.WorldRemakingDeliverer]: '127',
   [Sets.SelfEnshroudedRecluse]: '128',
+  [Sets.EverGloriousMagicalGirl]: '129',
+  [Sets.DivinerOfDistantReach]: '130',
 
   [Sets.SpaceSealingStation]: '301',
   [Sets.FleetOfTheAgeless]: '302',

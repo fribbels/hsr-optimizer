@@ -94,6 +94,16 @@ function getTotalDmgBoost(
   return 1 + genericDmgBoost + elementalDmgBoost
 }
 
+// Placeholder: Elation DMG multiplier for hits tagged with DamageTag.ELATION
+// TODO: Implement elation damage detection per-hit
+function getElationDmgMulti(
+  x: ComputedStatsContainer,
+  hit: Hit,
+  hitIndex: number,
+): number {
+  return 1
+}
+
 export const CritDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex]

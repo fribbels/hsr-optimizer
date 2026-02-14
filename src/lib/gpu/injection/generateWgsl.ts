@@ -121,6 +121,7 @@ const action${i} = Action( // ${action.actionIndex} ${action.actionName}
     ${action.setConditionals.enabledWavestriderCaptain},${gpuParams.DEBUG ? ' // enabledWavestriderCaptain' : ''}
     ${action.setConditionals.enabledWorldRemakingDeliverer},${gpuParams.DEBUG ? ' // enabledWorldRemakingDeliverer' : ''}
     ${action.setConditionals.enabledSelfEnshroudedRecluse},${gpuParams.DEBUG ? ' // enabledSelfEnshroudedRecluse' : ''}
+    ${action.setConditionals.enabledDivinerOfDistantReach},${gpuParams.DEBUG ? ' // enabledDivinerOfDistantReach' : ''}
     ${action.setConditionals.enabledAmphoreusTheEternalLand},${gpuParams.DEBUG ? ' // enabledAmphoreusTheEternalLand' : ''}
     ${action.setConditionals.enabledTengokuLivestream},${gpuParams.DEBUG ? ' // enabledTengokuLivestream' : ''}
     ${action.setConditionals.valueChampionOfStreetwiseBoxing},${gpuParams.DEBUG ? ' // valueChampionOfStreetwiseBoxing' : ''}
@@ -133,6 +134,7 @@ const action${i} = Action( // ${action.actionIndex} ${action.actionName}
     ${action.setConditionals.valueDuranDynastyOfRunningWolves},${gpuParams.DEBUG ? ' // valueDuranDynastyOfRunningWolves' : ''}
     ${action.setConditionals.valueSacerdosRelivedOrdeal},${gpuParams.DEBUG ? ' // valueSacerdosRelivedOrdeal' : ''}
     ${action.setConditionals.valueArcadiaOfWovenDreams},${gpuParams.DEBUG ? ' // valueArcadiaOfWovenDreams' : ''}
+    ${action.setConditionals.valueEverGloriousMagicalGirl},${gpuParams.DEBUG ? ' // valueEverGloriousMagicalGirl' : ''}
   ),
 );`
   }

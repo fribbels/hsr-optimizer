@@ -1,13 +1,7 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
-import {
-  Constants,
-  Parts,
-  PartsMainStats,
-  Sets,
-  Stats,
-} from 'lib/constants/constants'
+import { Constants, Parts, PartsMainStats, Sets, Stats, } from 'lib/constants/constants'
 import {
   DEFAULT_BASIC,
   DEFAULT_BREAK,
@@ -98,13 +92,7 @@ import {
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import {
-  DBMetadata,
-  DBMetadataCharacter,
-  DBMetadataLightCone,
-  DBMetadataSets,
-  ScoringMetadata,
-} from 'types/metadata'
+import { DBMetadata, DBMetadataCharacter, DBMetadataLightCone, DBMetadataSets, ScoringMetadata, } from 'types/metadata'
 
 const characters: Record<string, DBMetadataCharacter> = gameData.characters as unknown as Record<string, DBMetadataCharacter>
 const lightCones: Record<string, DBMetadataLightCone> = gameData.lightCones as unknown as Record<string, DBMetadataLightCone>
@@ -1032,6 +1020,44 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.BE]: 1.05 },
       5: { [Constants.Stats.BE]: 1.20 },
     },
+
+    23053: {
+      1: { [Constants.Stats.CD]: 0.48 },
+      2: { [Constants.Stats.CD]: 0.56 },
+      3: { [Constants.Stats.CD]: 0.64 },
+      4: { [Constants.Stats.CD]: 0.72 },
+      5: { [Constants.Stats.CD]: 0.80 },
+    },
+    23054: {
+      1: { [Constants.Stats.SPD_P]: 0.18 },
+      2: { [Constants.Stats.SPD_P]: 0.21 },
+      3: { [Constants.Stats.SPD_P]: 0.24 },
+      4: { [Constants.Stats.SPD_P]: 0.27 },
+      5: { [Constants.Stats.SPD_P]: 0.30 },
+    },
+    // 24006: {
+    //   1: { [Constants.Stats.ATK_P]: 0.20 },
+    //   2: { [Constants.Stats.ATK_P]: 0.25 },
+    //   3: { [Constants.Stats.ATK_P]: 0.30 },
+    //   4: { [Constants.Stats.ATK_P]: 0.35 },
+    //   5: { [Constants.Stats.ATK_P]: 0.40 },
+    // },
+    21064: {
+      1: { [Constants.Stats.Elation_DMG]: 0.12 },
+      2: { [Constants.Stats.Elation_DMG]: 0.14 },
+      3: { [Constants.Stats.Elation_DMG]: 0.16 },
+      4: { [Constants.Stats.Elation_DMG]: 0.18 },
+      5: { [Constants.Stats.Elation_DMG]: 0.20 },
+    },
+    21065: {
+      1: { [Constants.Stats.CR]: 0.12 },
+      2: { [Constants.Stats.CR]: 0.14 },
+      3: { [Constants.Stats.CR]: 0.16 },
+      4: { [Constants.Stats.CR]: 0.18 },
+      5: { [Constants.Stats.CR]: 0.20 },
+    },
+    20023: {},
+    20024: {},
   }
 }
 
@@ -1652,6 +1678,21 @@ function getOverrideImageCenter(): Record<string, {
       y: 950,
       z: 1.025,
     },
+    1501: { // Sparxie
+      x: 1015,
+      y: 1050,
+      z: 1.10,
+    },
+    1502: { // Yaoguang
+      x: 875,
+      y: 1060,
+      z: 1.15,
+    },
+    // 1504: { // Ashveil
+    //   x: 1024,
+    //   y: 1024,
+    //   z: 1.05,
+    // },
   }
 }
 
@@ -9802,5 +9843,128 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
       },
     },
+    1501: { // Sparxie
+      stats: {
+        [Stats.ATK]: 0.75,
+        [Stats.ATK_P]: 0.75,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+          Stats.ATK_P,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.Fire_DMG,
+          Stats.ATK_P,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ATK_P,
+          Stats.ERR,
+        ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
+      presets: [],
+      sortOption: SortOption.BASIC,
+      hiddenColumns: [SortOption.DOT],
+    },
+    1502: { // Yaoguang
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [],
+        [Parts.LinkRope]: [
+          Stats.ERR,
+        ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
+      presets: [],
+      sortOption: SortOption.BASIC,
+      hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
+    },
+    // 1504: { // Ashveil
+    //   stats: {
+    //     [Stats.ATK]: 0.75,
+    //     [Stats.ATK_P]: 0.75,
+    //     [Stats.DEF]: 0,
+    //     [Stats.DEF_P]: 0,
+    //     [Stats.HP]: 0,
+    //     [Stats.HP_P]: 0,
+    //     [Stats.SPD]: 1,
+    //     [Stats.CR]: 1,
+    //     [Stats.CD]: 1,
+    //     [Stats.EHR]: 0,
+    //     [Stats.RES]: 0,
+    //     [Stats.BE]: 0,
+    //   },
+    //   parts: {
+    //     [Parts.Body]: [
+    //       Stats.CR,
+    //       Stats.CD,
+    //     ],
+    //     [Parts.Feet]: [
+    //       Stats.ATK_P,
+    //       Stats.SPD,
+    //     ],
+    //     [Parts.PlanarSphere]: [
+    //       Stats.Lightning_DMG,
+    //       Stats.ATK_P,
+    //     ],
+    //     [Parts.LinkRope]: [
+    //       Stats.ATK_P,
+    //     ],
+    //   },
+    //   sets: {
+    //     ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+    //     [Sets.BandOfSizzlingThunder]: 1,
+
+    //     ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+    //   },
+    //   presets: [],
+    //   sortOption: SortOption.BASIC,
+    //   hiddenColumns: [SortOption.DOT],
+    // },
   }
 }

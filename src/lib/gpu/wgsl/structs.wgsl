@@ -78,6 +78,8 @@ struct Sets {
   WavestriderCaptain: i32,
   WorldRemakingDeliverer: i32,
   SelfEnshroudedRecluse: i32,
+  EverGloriousMagicalGirl: i32,
+  DivinerOfDistantReach: i32,
   SpaceSealingStation: i32,
   FleetOfTheAgeless: i32,
   PanCosmicCommercialEnterprise: i32,
@@ -123,6 +125,7 @@ struct SetConditionals {
   enabledWavestriderCaptain: bool,
   enabledWorldRemakingDeliverer: bool,
   enabledSelfEnshroudedRecluse: bool,
+  enabledDivinerOfDistantReach: bool,
   enabledAmphoreusTheEternalLand: bool,
   enabledTengokuLivestream: bool,
   valueChampionOfStreetwiseBoxing: i32,
@@ -134,7 +137,8 @@ struct SetConditionals {
   valueSigoniaTheUnclaimedDesolation: i32,
   valueDuranDynastyOfRunningWolves: i32,
   valueSacerdosRelivedOrdeal: i32,
-  valueArcadiaOfWovenDreams: i32
+  valueArcadiaOfWovenDreams: i32,
+  valueEverGloriousMagicalGirl: i32
 }
 
 struct Action {

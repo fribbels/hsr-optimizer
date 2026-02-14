@@ -77,6 +77,9 @@ import permansorTerrae from 'lib/conditionals/character/1400/PermansorTerrae'
 import phainon from 'lib/conditionals/character/1400/Phainon'
 import theHerta from 'lib/conditionals/character/1400/TheHerta'
 import tribbie from 'lib/conditionals/character/1400/Tribbie'
+import ashveil from 'lib/conditionals/character/1500/Ashveil'
+import sparxie from 'lib/conditionals/character/1500/Sparxie'
+import yaoguang from 'lib/conditionals/character/1500/Yaoguang'
 import trailblazerdestruction from 'lib/conditionals/character/8000/TrailblazerDestruction'
 import trailblazerHarmony from 'lib/conditionals/character/8000/TrailblazerHarmony'
 import trailblazerpreservation from 'lib/conditionals/character/8000/TrailblazerPreservation'
@@ -189,6 +192,10 @@ export const characterOptionMapping: Record<CharacterId, CharacterConditionalFun
   1415: cyrene,
 
   1321: theDahlia,
+
+  1501: sparxie,
+  1502: yaoguang,
+  // 1504: ashveil,
 }
 
 /**

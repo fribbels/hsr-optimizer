@@ -39,14 +39,14 @@ export function injectBenchmarkDebuggers() {
 
 function equipTestCharacter() {
   const testInput = generateE6S5Test({
-        character: testCharacter(ANAXA, LIFE_SHOULD_BE_CAST_TO_FLAMES),
-        teammate0: testCharacter(SUNDAY, A_GROUNDED_ASCENT),
-        teammate1: testCharacter(ROBIN, FLOWING_NIGHTGLOW),
-        teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
-        sets: testSets(Sets.ScholarLostInErudition, Sets.ScholarLostInErudition, Sets.RutilantArena),
-        mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
-        stats: testStatSpread(),
-      })
+      character: testCharacter(FIREFLY, WHEREABOUTS_SHOULD_DREAMS_REST),
+      teammate0: testCharacter(STELLE_HARMONY, MEMORIES_OF_THE_PAST),
+      teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
+      teammate2: testCharacter(LINGSHA, SCENT_ALONE_STAYS_TRUE),
+      sets: testSets(Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge, Sets.ForgeOfTheKalpagniLantern),
+      mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
+      stats: testStatSpread(),
+    })
 
   const simulationMetadata = DB.getMetadata().characters[testInput.character.characterId].scoringMetadata.simulation!
 

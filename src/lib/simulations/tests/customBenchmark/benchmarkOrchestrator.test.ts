@@ -127,7 +127,7 @@ test('Firefly benchmark 160', async () => {
       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    4879910.5,
+    4879910,
     5954549.5,
   )
 }, TIMEOUT)

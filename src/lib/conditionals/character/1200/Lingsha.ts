@@ -255,29 +255,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
+      // E1 DEF shred when enemy is weakness broken
+      const isWeaknessBroken = x.getSelfValue(StatKey.ENEMY_WEAKNESS_BROKEN)
+      x.buff(StatKey.DEF_PEN, (e >= 1 && m.e1DefShred && isWeaknessBroken) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+
       x.buff(StatKey.VULNERABILITY, (m.befogState) ? ultBreakVulnerability : 0, x.damageType(DamageTag.BREAK).targets(TargetTag.FullTeam).source(SOURCE_ULT))
       x.buff(StatKey.BE, (e >= 2 && m.e2BeBuff) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
       x.buff(StatKey.RES_PEN, (e >= 6 && m.e6ResShred) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals as Conditionals<typeof teammateContent>
-
-      // E1 DEF shred when enemy is weakness broken
-      const isWeaknessBroken = x.getActionValue(StatKey.ENEMY_WEAKNESS_BROKEN, LingshaEntities.Lingsha)
-      x.buff(StatKey.DEF_PEN, (e >= 1 && m.e1DefShred && isWeaknessBroken) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
-
       boostAshblazingAtkContainer(x, action, hitMultiByTargets[context.enemyCount])
     },
 
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals as Conditionals<typeof teammateContent>
-
-      return wgsl`
-if (${wgslTrue(e >= 1 && m.e1DefShred)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ENEMY_WEAKNESS_BROKEN, action.config)} > 0.0) {
-  ${buff.action(AKey.DEF_PEN, 0.20).targets(TargetTag.FullTeam).wgsl(action)}
-}
-      ` + gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
+      return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
     },
 
     dynamicConditionals: [

@@ -171,26 +171,42 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // The Dahlia E1 adds fixed toughness damage
       const dahliaFixedToughnessDmg = teammateMatchesId(context, THE_DAHLIA) ? 20 : 0
 
+      const basicHit = HitDefinitionBuilder.standardBasic()
+        .damageElement(ElementTag.Fire)
+        .atkScaling(r.enhancedStateActive ? basicEnhancedScaling : basicScaling)
+        .toughnessDmg(r.enhancedStateActive ? 15 : 10)
+        .build()
+
+      const skillHit = HitDefinitionBuilder.standardSkill()
+        .damageElement(ElementTag.Fire)
+        .atkScaling(r.enhancedStateActive ? skillEnhancedAtkScaling : skillScaling)
+        .beScaling(r.enhancedStateActive ? 0.2 : 0)
+        .beCap(3.60)
+        .toughnessDmg(r.enhancedStateActive ? 30 : 20)
+        .fixedToughnessDmg(dahliaFixedToughnessDmg)
+        .build()
+
+      const addSuperBreak = r.superBreakDmg && r.enhancedStateActive
+
       return {
         [FireflyAbilities.BASIC]: {
           hits: [
-            HitDefinitionBuilder.standardBasic()
-              .damageElement(ElementTag.Fire)
-              .atkScaling(r.enhancedStateActive ? basicEnhancedScaling : basicScaling)
-              .toughnessDmg(r.enhancedStateActive ? 15 : 10)
-              .build(),
+            basicHit,
+            ...(addSuperBreak
+              ? [HitDefinitionBuilder.standardSuperBreak(ElementTag.Fire)
+                  .referenceHit(basicHit as Hit)
+                  .build()]
+              : []),
           ],
         },
         [FireflyAbilities.SKILL]: {
           hits: [
-            HitDefinitionBuilder.standardSkill()
-              .damageElement(ElementTag.Fire)
-              .atkScaling(r.enhancedStateActive ? skillEnhancedAtkScaling : skillScaling)
-              .beScaling(r.enhancedStateActive ? 0.2 : 0)
-              .beCap(3.60)
-              .toughnessDmg(r.enhancedStateActive ? 30 : 20)
-              .fixedToughnessDmg(dahliaFixedToughnessDmg)
-              .build(),
+            skillHit,
+            ...(addSuperBreak
+              ? [HitDefinitionBuilder.standardSuperBreak(ElementTag.Fire)
+                  .referenceHit(skillHit as Hit)
+                  .build()]
+              : []),
           ],
         },
         [FireflyAbilities.BREAK]: {

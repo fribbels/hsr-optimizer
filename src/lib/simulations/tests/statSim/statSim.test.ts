@@ -82,7 +82,7 @@ test('Anaxa sim', () => {
       BREAK_DMG: 46384.46875,
       MEMO_SKILL_DMG: 0,
       MEMO_TALENT_DMG: 0,
-      COMBO_DMG: 5858483,
+      COMBO_DMG: 5858483.5,
     },
   )
 })

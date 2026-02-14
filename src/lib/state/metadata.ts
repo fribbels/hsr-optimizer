@@ -1694,14 +1694,14 @@ function getOverrideImageCenter(): Record<string, {
       z: 1.025,
     },
     1501: { // Sparxie
-      x: 1024,
-      y: 1024,
-      z: 1.05,
+      x: 1015,
+      y: 1050,
+      z: 1.10,
     },
     1502: { // Yaoguang
-      x: 1024,
-      y: 1024,
-      z: 1.05,
+      x: 875,
+      y: 1060,
+      z: 1.15,
     },
     // 1504: { // Ashveil
     //   x: 1024,

@@ -13,10 +13,11 @@ import {
   SELF_ENTITY_INDEX,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { logRegisters } from 'lib/simulations/registerLogger'
 import { useOptimizerTabStore } from 'lib/tabs/tabOptimizer/useOptimizerTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { OptimizerContext } from 'types/optimizer'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export function logIterationTimer(i: number, gpuContext: GpuExecutionContext) {
   const endTime = new Date().getTime()
@@ -115,7 +116,8 @@ function extractActionDamageFields(x: ComputedStatsContainer, context: Optimizer
   // Extract values from rotation actions
   for (const action of context.rotationActions) {
     const actionValue = x.getActionRegisterValue(action.registerIndex)
-    fields.COMBO += actionValue
+    const dotComboMultiplier = getDotComboMultiplier(action, context)
+    fields.COMBO += actionValue * dotComboMultiplier
 
     // Extract heal/shield values from hit registers for aggregate HEAL/SHIELD
     if (action.hits) {
@@ -235,4 +237,17 @@ export function debugPrintWebgpuArray(array: Float32Array) {
 
 function fixed(n: number) {
   return TsUtils.precisionRound(n, 5)
+}
+
+/**
+ * Returns the combo multiplier for a rotation action.
+ * DOT actions get their damage multiplied by (comboDot / dotAbilities) to represent
+ * multiple ticks of DOT damage occurring during the rotation.
+ * Non-DOT actions get a multiplier of 1.
+ */
+function getDotComboMultiplier(action: OptimizerAction, context: OptimizerContext): number {
+  if (action.actionType === AbilityKind.DOT && context.comboDot > 0 && context.dotAbilities > 0) {
+    return context.comboDot / context.dotAbilities
+  }
+  return 1
 }

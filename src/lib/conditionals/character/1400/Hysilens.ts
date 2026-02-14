@@ -204,10 +204,25 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-
-      const talentDot = talentDotScaling * (e >= 1 && r.e1Buffs ? 2 : 1)
+      
+      const talentDot = talentDotScaling
       const updatedUltDotScaling = (e >= 6 && r.e6Buffs) ? ultDotScaling + 0.20 : ultDotScaling
       const ultDot = r.ultDotStacks * updatedUltDotScaling
+
+      let actualUltDot = 0
+      let actualTalentDot = 0
+      if (r.dotDetonation) {
+        // Triggers ult proc
+        actualUltDot += ultDot
+        // Detonates at 1.5x
+        actualTalentDot = talentDot * 1.5
+        // E1 doubles the talent and also detonates at 1.5x
+        actualTalentDot += (e >= 1 && r.e1Buffs) ? talentDot * 1.5 : 0
+      } else {
+        actualUltDot += ultDot
+        actualTalentDot += talentDot
+        actualTalentDot += (e >= 1 && r.e1Buffs) ? talentDot : 0
+      }
 
       return {
         [HysilensAbilities.BASIC]: {
@@ -242,22 +257,27 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Fire)
-              .atkScaling(talentDot)
+              .atkScaling(actualTalentDot)
               .build(),
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Wind)
-              .atkScaling(talentDot)
+              .atkScaling(actualTalentDot)
               .build(),
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Lightning)
-              .atkScaling(talentDot)
+              .atkScaling(actualTalentDot)
               .build(),
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Physical)
-              .atkScaling(talentDot)
+              .atkScaling(actualTalentDot)
+              .build(),
+            HitDefinitionBuilder.standardDot()
+              .dotBaseChance(1.0)
+              .damageElement(ElementTag.Physical)
+              .atkScaling(actualUltDot)
               .build(),
           ],
         },
@@ -306,6 +326,23 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
+
+      // Cyrene
+      const cyreneDmgBuff = cyreneActionExists(action)
+        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 1.32 : 1.20)
+        : 0
+      x.buff(StatKey.DMG_BOOST, (r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, x.source(Source.odeTo(HYSILENS)))
+    },
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
+
+      x.buff(
+        StatKey.DMG_BOOST,
+        (e >= 2)
+          ? Math.max(0, Math.min(0.90, 0.15 * Math.floor(TsUtils.precisionRound((t.e2TeammateEhr - 0.60) / 0.10))))
+          : 0,
+        x.targets(TargetTag.FullTeam).source(SOURCE_E2),
+      )
     },
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof content>

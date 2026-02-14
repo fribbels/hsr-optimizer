@@ -177,6 +177,7 @@ export class KelzFormatParser { // TODO abstract class
 
     if (json.relics) {
       parsed.relics = json.relics
+        .filter((r) => r.set_id != "130" && r.set_id != "129")
         .map((r) => this.parseRelic(r, activatedBuffs))
         .filter((r): r is NonNullable<typeof r> => {
           if (!r) {

@@ -592,6 +592,24 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       }
     },
   },
+  EverGloriousMagicalGirl: {
+    key: 'EverGloriousMagicalGirl',
+    index: 28,
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+      c.CD.buff(0.16, Source.EverGloriousMagicalGirl)
+    },
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+    },
+  },
+  DivinerOfDistantReach: {
+    key: 'DivinerOfDistantReach',
+    index: 29,
+    p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+      c.SPD_P.buff(0.06, Source.DivinerOfDistantReach)
+    },
+    p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+    },
+  },
 }
 
 export const SetsConfig = { ...RelicSetsConfig, ...OrnamentSetsConfig }

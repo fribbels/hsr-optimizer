@@ -11007,6 +11007,16 @@
       "skills": "The provided Shield Effect increases by <b>10%</b>. Increases the Shield Effect provided by the wearer by <b>12%</b>. When an ally target holds a Shield provided by the wearer, the ally target's CRIT DMG increases by <b>15%</b>."
     },
     {
+      "id": "129",
+      "name": "Ever-Glorious Magical Girl",
+      "skills": "Increases CRIT DMG by <b>16%</b>. The Elation DMG dealt by the wearer and their memosprites ignores <b>10%</b> of targets' DEF. For every <b>5</b> accumulated Punchline allies gain, the Elation DMG dealt additionally ignores <b>1%</b> of targets' DEF, stacking up to <b>10</b> times."
+    },
+    {
+      "id": "130",
+      "name": "Diviner of Distant Reach",
+      "skills": "Increases SPD by <b>6%</b>. Before entering combat, if the wearer's SPD is greater than or equal to <b>120</b>/<b>160</b>, increases the wearer's CRIT Rate by <b>10%</b>/<b>18%</b>. When the wearer uses Elation Skill for the first time in each battle, increases all allies' Elation by <b>10%</b>. This effect cannot stack."
+    },
+    {
       "id": "127",
       "name": "World-Remaking Deliverer",
       "skills": "Increases CRIT Rate by <b>8%</b>. After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by <b>24%</b>, and increases all allies' dealt DMG by <b>15%</b>, lasting until after the wearer's next use of Basic ATK or Skill."

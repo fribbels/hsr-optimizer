@@ -165,6 +165,8 @@ export const defaultSetConditionals = {
   [Sets.WavestriderCaptain]: [undefined, true],
   [Sets.WorldRemakingDeliverer]: [undefined, true],
   [Sets.SelfEnshroudedRecluse]: [undefined, true],
+  [Sets.EverGloriousMagicalGirl]: [undefined, 10],
+  [Sets.DivinerOfDistantReach]: [undefined, true],
 
   [Sets.SpaceSealingStation]: [undefined, true],
   [Sets.FleetOfTheAgeless]: [undefined, true],

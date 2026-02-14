@@ -162,6 +162,8 @@ fn main(
     sets.WavestriderCaptain                  = i32((1 >> (setH ^ 25)) + (1 >> (setG ^ 25)) + (1 >> (setB ^ 25)) + (1 >> (setF ^ 25)));
     sets.WorldRemakingDeliverer              = i32((1 >> (setH ^ 26)) + (1 >> (setG ^ 26)) + (1 >> (setB ^ 26)) + (1 >> (setF ^ 26)));
     sets.SelfEnshroudedRecluse               = i32((1 >> (setH ^ 27)) + (1 >> (setG ^ 27)) + (1 >> (setB ^ 27)) + (1 >> (setF ^ 27)));
+    sets.EverGloriousMagicalGirl             = i32((1 >> (setH ^ 28)) + (1 >> (setG ^ 28)) + (1 >> (setB ^ 28)) + (1 >> (setF ^ 28)));
+    sets.DivinerOfDistantReach               = i32((1 >> (setH ^ 29)) + (1 >> (setG ^ 29)) + (1 >> (setB ^ 29)) + (1 >> (setF ^ 29)));
 
 
     // Calculate ornament set counts
@@ -251,7 +253,8 @@ fn main(
       0.06 * p2(sets.SacerdosRelivedOrdeal) -
       0.08 * p4(sets.PoetOfMourningCollapse) +
       0.06 * p2(sets.GiantTreeOfRaptBrooding) +
-      0.06 * p2(sets.WarriorGoddessOfSunAndThunder)
+      0.06 * p2(sets.WarriorGoddessOfSunAndThunder) +
+      0.06 * p2(sets.DivinerOfDistantReach)
     );
 
     c.HP += (baseHP) * (
@@ -291,7 +294,8 @@ fn main(
       0.16 * p2(sets.CelestialDifferentiator) +
       0.16 * p2(sets.TheWondrousBananAmusementPark) +
       0.16 * p2(sets.WavestriderCaptain) +
-      0.16 * p2(sets.TengokuLivestream)
+      0.16 * p2(sets.TengokuLivestream) +
+      0.16 * p2(sets.EverGloriousMagicalGirl)
     );
 
     c.EHR += (

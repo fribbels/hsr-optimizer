@@ -406,6 +406,7 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
     enabledWavestriderCaptain: transformConditional(conditionals[Sets.WavestriderCaptain], actionIndex),
     enabledWorldRemakingDeliverer: transformConditional(conditionals[Sets.WorldRemakingDeliverer], actionIndex),
     enabledSelfEnshroudedRecluse: transformConditional(conditionals[Sets.SelfEnshroudedRecluse], actionIndex),
+    enabledDivinerOfDistantReach: transformConditional(conditionals[Sets.DivinerOfDistantReach], actionIndex),
     enabledAmphoreusTheEternalLand: transformConditional(conditionals[Sets.AmphoreusTheEternalLand], actionIndex),
     enabledTengokuLivestream: transformConditional(conditionals[Sets.TengokuLivestream], actionIndex),
     valueChampionOfStreetwiseBoxing: transformConditional(conditionals[Sets.ChampionOfStreetwiseBoxing], actionIndex),
@@ -418,6 +419,7 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
     valueDuranDynastyOfRunningWolves: transformConditional(conditionals[Sets.DuranDynastyOfRunningWolves], actionIndex),
     valueSacerdosRelivedOrdeal: transformConditional(conditionals[Sets.SacerdosRelivedOrdeal], actionIndex),
     valueArcadiaOfWovenDreams: transformConditional(conditionals[Sets.ArcadiaOfWovenDreams], actionIndex),
+    valueEverGloriousMagicalGirl: transformConditional(conditionals[Sets.EverGloriousMagicalGirl], actionIndex),
   }
 }
 

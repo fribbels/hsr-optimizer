@@ -414,6 +414,8 @@ export const SetsRelics = {
   WavestriderCaptain: 'Wavestrider Captain',
   WorldRemakingDeliverer: 'World-Remaking Deliverer',
   SelfEnshroudedRecluse: 'Self-Enshrouded Recluse',
+  EverGloriousMagicalGirl: 'Ever-Glorious Magical Girl',
+  DivinerOfDistantReach: 'Diviner of Distant Reach',
 } as const
 
 export const SetsOrnaments = {
@@ -700,6 +702,8 @@ export const setToId = {
   [Sets.WavestriderCaptain]: '126',
   [Sets.WorldRemakingDeliverer]: '127',
   [Sets.SelfEnshroudedRecluse]: '128',
+  [Sets.EverGloriousMagicalGirl]: '129',
+  [Sets.DivinerOfDistantReach]: '130',
 
   [Sets.SpaceSealingStation]: '301',
   [Sets.FleetOfTheAgeless]: '302',

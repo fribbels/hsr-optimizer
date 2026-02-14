@@ -93,6 +93,7 @@ export type SetConditional = {
   enabledWavestriderCaptain: boolean,
   enabledWorldRemakingDeliverer: boolean,
   enabledSelfEnshroudedRecluse: boolean,
+  enabledDivinerOfDistantReach: boolean,
   enabledAmphoreusTheEternalLand: boolean,
   enabledTengokuLivestream: boolean,
   valueChampionOfStreetwiseBoxing: number,
@@ -105,6 +106,7 @@ export type SetConditional = {
   valueDuranDynastyOfRunningWolves: number,
   valueSacerdosRelivedOrdeal: number,
   valueArcadiaOfWovenDreams: number,
+  valueEverGloriousMagicalGirl: number,
 }
 
 export type CharacterStatsBreakdown = {

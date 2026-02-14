@@ -195,7 +195,7 @@ export const characterOptionMapping: Record<CharacterId, CharacterConditionalFun
 
   1501: sparxie,
   1502: yaoguang,
-  1504: ashveil,
+  // 1504: ashveil,
 }
 
 /**

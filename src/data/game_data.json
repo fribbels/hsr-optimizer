@@ -7727,7 +7727,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1502": {
       "id": "1502",
@@ -7825,104 +7825,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
-    },
-    "1504": {
-      "id": "1504",
-      "name": "Ashveil",
-      "rarity": 5,
-      "path": "Rogue",
-      "element": "Thunder",
-      "traces": {
-        "ATK%": 0.1,
-        "CRIT DMG": 0.373,
-        "Lightning DMG Boost": 0.144
-      },
-      "traceTree": [
-        {
-          "id": "1504201_4.1v2",
-          "stat": "CRIT DMG",
-          "value": 0.053,
-          "pre": null,
-          "children": []
-        },
-        {
-          "id": "1504202_4.1v2",
-          "stat": "Lightning DMG Boost",
-          "value": 0.032,
-          "pre": null,
-          "children": [
-            {
-              "id": "1504203_4.1v2",
-              "stat": "CRIT DMG",
-              "value": 0.053,
-              "pre": "1504202_4.1v2",
-              "children": []
-            }
-          ]
-        },
-        {
-          "id": "1504204_4.1v2",
-          "stat": "ATK%",
-          "value": 0.04,
-          "pre": null,
-          "children": []
-        },
-        {
-          "id": "1504205_4.1v2",
-          "stat": "CRIT DMG",
-          "value": 0.08,
-          "pre": null,
-          "children": [
-            {
-              "id": "1504206_4.1v2",
-              "stat": "Lightning DMG Boost",
-              "value": 0.048,
-              "pre": "1504205_4.1v2",
-              "children": []
-            }
-          ]
-        },
-        {
-          "id": "1504207_4.1v2",
-          "stat": "CRIT DMG",
-          "value": 0.08,
-          "pre": null,
-          "children": []
-        },
-        {
-          "id": "1504208_4.1v2",
-          "stat": "ATK%",
-          "value": 0.06,
-          "pre": null,
-          "children": [
-            {
-              "id": "1504209_4.1v2",
-              "stat": "Lightning DMG Boost",
-              "value": 0.064,
-              "pre": "1504208_4.1v2",
-              "children": []
-            },
-            {
-              "id": "1504210_4.1v2",
-              "stat": "CRIT DMG",
-              "value": 0.107,
-              "pre": "1504208_4.1v2",
-              "children": []
-            }
-          ]
-        }
-      ],
-      "max_sp": 160,
-      "stats": {
-        "HP": 1015.8720000000001,
-        "ATK": 644.6880000000001,
-        "DEF": 488.4,
-        "SPD": 105,
-        "CRIT Rate": 0.05,
-        "CRIT DMG": 0.5
-      },
-      "unreleased": true
+      "unreleased": false
     },
     "8001": {
       "id": "8001",
@@ -10914,7 +10817,7 @@
         "ATK": 582.12,
         "DEF": 463.05
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23054": {
       "id": "23054",
@@ -10926,7 +10829,7 @@
         "ATK": 529.2,
         "DEF": 529.2
       },
-      "unreleased": true
+      "unreleased": false
     },
     "24006": {
       "id": "24006",
@@ -10938,7 +10841,7 @@
         "ATK": 529.2,
         "DEF": 463.05
       },
-      "unreleased": true
+      "unreleased": false
     },
     "21064": {
       "id": "21064",
@@ -10950,7 +10853,7 @@
         "ATK": 476.28,
         "DEF": 396.9
       },
-      "unreleased": true
+      "unreleased": false
     },
     "21065": {
       "id": "21065",
@@ -10962,7 +10865,7 @@
         "ATK": 529.2,
         "DEF": 396.9
       },
-      "unreleased": true
+      "unreleased": false
     },
     "20023": {
       "id": "20023",
@@ -10974,7 +10877,7 @@
         "ATK": 370.44,
         "DEF": 264.6
       },
-      "unreleased": true
+      "unreleased": false
     },
     "20024": {
       "id": "20024",
@@ -10986,7 +10889,7 @@
         "ATK": 317.52,
         "DEF": 264.6
       },
-      "unreleased": true
+      "unreleased": false
     }
   },
   "relics": [

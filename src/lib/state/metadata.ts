@@ -1703,11 +1703,11 @@ function getOverrideImageCenter(): Record<string, {
       y: 1024,
       z: 1.05,
     },
-    1504: { // Ashveil
-      x: 1024,
-      y: 1024,
-      z: 1.05,
-    },
+    // 1504: { // Ashveil
+    //   x: 1024,
+    //   y: 1024,
+    //   z: 1.05,
+    // },
   }
 }
 

@@ -246,7 +246,7 @@ const fiveStar: Record<string, LightConeConditionalFunction> = {
   23053: DazzledByAFloweryWorld,
   23054: WhenSheDecidedToSee,
 
-  24006: ElationBrimmingWithBlessings,
+  // 24006: ElationBrimmingWithBlessings,
 }
 
 const fourStar: Record<string, LightConeConditionalFunction> = {

@@ -10831,18 +10831,6 @@
       },
       "unreleased": false
     },
-    "24006": {
-      "id": "24006",
-      "name": "Elation Brimming With Blessings",
-      "rarity": 5,
-      "path": "Elation",
-      "stats": {
-        "HP": 952.56,
-        "ATK": 529.2,
-        "DEF": 463.05
-      },
-      "unreleased": false
-    },
     "21064": {
       "id": "21064",
       "name": "Mushy Shroomy's Adventures",

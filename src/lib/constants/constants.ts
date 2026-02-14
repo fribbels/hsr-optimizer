@@ -4,10 +4,10 @@ import { StatKey, StatKeyValue, } from 'lib/optimization/engine/config/keys'
 import { BLACK_SWAN_B1, SPARKLE_B1, } from 'lib/simulations/tests/testMetadataConstants'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v4.0.1'
+export const CURRENT_OPTIMIZER_VERSION = 'v4.0.5'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '4.0v3'
+export const CURRENT_DATA_VERSION = '4.0v5'
 
 // Controls downtime messaging
 export const SHOWCASE_DOWNTIME = false

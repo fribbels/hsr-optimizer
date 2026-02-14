@@ -1,13 +1,7 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
-import {
-  Constants,
-  Parts,
-  PartsMainStats,
-  Sets,
-  Stats,
-} from 'lib/constants/constants'
+import { Constants, Parts, PartsMainStats, Sets, Stats, } from 'lib/constants/constants'
 import {
   DEFAULT_BASIC,
   DEFAULT_BREAK,
@@ -36,7 +30,6 @@ import {
   ACHERON,
   ALONG_THE_PASSING_SHORE,
   ANAXA,
-  ASHVEIL,
   AVENTURINE,
   BEFORE_THE_TUTORIAL_MISSION_STARTS,
   BLACK_SWAN_B1,
@@ -83,7 +76,6 @@ import {
   SILVER_WOLF_B1,
   SPARKLE_B1,
   SUNDAY,
-  SPARXIE,
   THE_DAHLIA,
   THE_HERTA,
   THIS_LOVE_FOREVER,
@@ -96,18 +88,11 @@ import {
   WHEREABOUTS_SHOULD_DREAMS_REST,
   WHY_DOES_THE_OCEAN_SING,
   WORRISOME_BLISSFUL,
-  YAO_GUANG,
   YET_HOPE_IS_PRICELESS,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import {
-  DBMetadata,
-  DBMetadataCharacter,
-  DBMetadataLightCone,
-  DBMetadataSets,
-  ScoringMetadata,
-} from 'types/metadata'
+import { DBMetadata, DBMetadataCharacter, DBMetadataLightCone, DBMetadataSets, ScoringMetadata, } from 'types/metadata'
 
 const characters: Record<string, DBMetadataCharacter> = gameData.characters as unknown as Record<string, DBMetadataCharacter>
 const lightCones: Record<string, DBMetadataLightCone> = gameData.lightCones as unknown as Record<string, DBMetadataLightCone>
@@ -1035,7 +1020,7 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.BE]: 1.05 },
       5: { [Constants.Stats.BE]: 1.20 },
     },
-    
+
     23053: {
       1: { [Constants.Stats.CD]: 0.48 },
       2: { [Constants.Stats.CD]: 0.56 },
@@ -1050,13 +1035,13 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
       4: { [Constants.Stats.SPD_P]: 0.27 },
       5: { [Constants.Stats.SPD_P]: 0.30 },
     },
-    24006: {
-      1: { [Constants.Stats.ATK_P]: 0.20 },
-      2: { [Constants.Stats.ATK_P]: 0.25 },
-      3: { [Constants.Stats.ATK_P]: 0.30 },
-      4: { [Constants.Stats.ATK_P]: 0.35 },
-      5: { [Constants.Stats.ATK_P]: 0.40 },
-    },
+    // 24006: {
+    //   1: { [Constants.Stats.ATK_P]: 0.20 },
+    //   2: { [Constants.Stats.ATK_P]: 0.25 },
+    //   3: { [Constants.Stats.ATK_P]: 0.30 },
+    //   4: { [Constants.Stats.ATK_P]: 0.35 },
+    //   5: { [Constants.Stats.ATK_P]: 0.40 },
+    // },
     21064: {
       1: { [Constants.Stats.Elation_DMG]: 0.12 },
       2: { [Constants.Stats.Elation_DMG]: 0.14 },

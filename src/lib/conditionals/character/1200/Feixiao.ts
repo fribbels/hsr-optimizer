@@ -1,21 +1,26 @@
 import {
   AbilityType,
   ASHBLAZING_ATK_STACK,
-  FUA_DMG_TYPE,
-  ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
+} from 'lib/conditionals/conditionalFinalizers'
+import {
   AbilityEidolon,
-  calculateAshblazingSetP,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  buffAbilityCd,
-  buffAbilityResPen,
-} from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -25,6 +30,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const FeixiaoEntities = createEnum('Feixiao')
+export const FeixiaoAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Feixiao')
@@ -128,75 +136,112 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(FeixiaoEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [FeixiaoEntities.Feixiao]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(FeixiaoAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.ULT_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, SOURCE_TRACE)
+      return {
+        [FeixiaoAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Wind)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [FeixiaoAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Wind)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [FeixiaoAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageType(DamageTag.ULT | DamageTag.FUA)
+              .damageElement(ElementTag.Wind)
+              .atkScaling(6 * (ultScaling + ultBrokenScaling) + ultFinalScaling)
+              .toughnessDmg(30)
+              .build(),
+          ],
+        },
+        [FeixiaoAbilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .damageType((e >= 6 && r.e6Buffs) ? DamageTag.ULT | DamageTag.FUA : DamageTag.FUA)
+              .damageElement(ElementTag.Wind)
+              .atkScaling(fuaScaling + ((e >= 6 && r.e6Buffs) ? 1.40 : 0))
+              .toughnessDmg(5 + ((e >= 4) ? 5 : 0))
+              .build(),
+          ],
+        },
+        [FeixiaoAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
+          ],
+        },
+      }
+    },
+    actionModifiers: () => [],
+
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.weaknessBrokenUlt) {
-        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_ULT)
-      }
-
-      if (e >= 6 && r.e6Buffs) {
-        x.FUA_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, SOURCE_E6)
+        x.set(StatKey.ENEMY_WEAKNESS_BROKEN, 1, x.source(SOURCE_ULT))
       }
     },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Special case where we force the weakness break on if the ult break option is enabled
+      // Special case where we force the weakness break on if the ult break option is disabled
       if (!r.weaknessBrokenUlt) {
-        x.ULT_BREAK_EFFICIENCY_BOOST.buff(1.00, SOURCE_ULT)
+        x.buff(StatKey.BREAK_EFFICIENCY_BOOST, 1.00, x.damageType(DamageTag.ULT).source(SOURCE_ULT))
       }
 
-      buffAbilityCd(x, FUA_DMG_TYPE, 0.36, SOURCE_TRACE)
+      // Trace: FUA CD boost
+      x.buff(StatKey.CD, 0.36, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
 
-      x.ATK_P.buff((r.skillAtkBuff) ? 0.48 : 0, SOURCE_TRACE)
-      x.ELEMENTAL_DMG.buff((r.talentDmgBuff) ? talentDmgBuff : 0, SOURCE_TALENT)
+      // Trace: ATK buff from skill
+      x.buff(StatKey.ATK_P, (r.skillAtkBuff) ? 0.48 : 0, x.source(SOURCE_TRACE))
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
+      // Talent: DMG boost
+      x.buff(StatKey.DMG_BOOST, (r.talentDmgBuff) ? talentDmgBuff : 0, x.source(SOURCE_TALENT))
 
-      x.ULT_ATK_SCALING.buff(6 * (ultScaling + ultBrokenScaling) + ultFinalScaling, SOURCE_ULT)
+      // E1: ULT Final DMG boost
+      x.buff(StatKey.FINAL_DMG_BOOST, (e >= 1 && r.e1OriginalDmgBoost) ? 0.3071 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E1))
 
-      x.ULT_FINAL_DMG_BOOST.buff((e >= 1 && r.e1OriginalDmgBoost) ? 0.3071 : 0, SOURCE_E1)
-
+      // E4: SPD buff (note: original uses SOURCE_E1)
       if (e >= 4) {
-        x.SPD_P.buff(0.08, SOURCE_E1)
-        x.FUA_TOUGHNESS_DMG.buff(5, SOURCE_E1)
+        x.buff(StatKey.SPD_P, 0.08, x.source(SOURCE_E1))
       }
 
-      if (e >= 6 && r.e6Buffs) {
-        buffAbilityResPen(x, ULT_DMG_TYPE, 0.20, SOURCE_E6)
-        x.FUA_ATK_SCALING.buff(1.40, SOURCE_E6)
-      }
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(5, SOURCE_TALENT)
-
-      return x
+      // E6: ULT RES PEN
+      x.buff(StatKey.RES_PEN, (e >= 6 && r.e6Buffs) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E6))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const ultHitMulti = getUltHitMulti(action, context)
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const fuaHitMulti = ASHBLAZING_ATK_STACK * (1 * 1.00)
-
-      const ultAshblazingAtkP = calculateAshblazingSetP(x, action, context, ultHitMulti)
-      const fuaAshblazingAtkP = calculateAshblazingSetP(x, action, context, fuaHitMulti)
-
-      x.ULT_ATK_P_BOOST.buff(ultAshblazingAtkP, Source.NONE)
-      x.FUA_ATK_P_BOOST.buff(fuaAshblazingAtkP, Source.NONE)
+      boostAshblazingAtkContainer(x, action, fuaHitMulti)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const ultHitMulti = getUltHitMulti(action, context)
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const fuaHitMulti = ASHBLAZING_ATK_STACK * (1 * 1.00)
-
-      return `
-x.ULT_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${ultHitMulti});
-x.FUA_ATK_P_BOOST += calculateAshblazingSetP(sets.TheAshblazingGrandDuke, action.setConditionals.valueTheAshblazingGrandDuke, ${fuaHitMulti});
-    `
+      return gpuBoostAshblazingAtkContainer(fuaHitMulti, action)
     },
   }
 }

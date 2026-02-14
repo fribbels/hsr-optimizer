@@ -1,27 +1,26 @@
 import {
   AbilityType,
   ASHBLAZING_ATK_STACK,
-  FUA_DMG_TYPE,
-  ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  buffAbilityCd,
-  buffAbilityCr,
-  buffAbilityDefPen,
-  buffAbilityDmg,
-  buffAbilityResPen,
-} from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -31,6 +30,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const YunliEntities = createEnum('Yunli')
+export const YunliAbilities = createEnum('BASIC', 'SKILL', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yunli')
@@ -161,50 +163,113 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-      if (r.blockActive && r.ultCull) {
-        x.FUA_DMG_TYPE.set(ULT_DMG_TYPE | FUA_DMG_TYPE, SOURCE_ULT)
-      }
-    },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(YunliEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [YunliEntities.Yunli]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(YunliAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
+      // Calculate FUA scaling based on conditionals
+      let fuaScaling: number
+      let fuaToughness: number
+      let fuaDamageType: number
+
       if (r.blockActive) {
         if (r.ultCull) {
-          x.FUA_ATK_SCALING.buff(ultCullScaling + r.ultCullHits * ultCullHitsScaling, SOURCE_ULT)
+          // Cull: multi-hit, counts as ULT + FUA
+          fuaScaling = ultCullScaling + r.ultCullHits * ultCullHitsScaling
+          fuaToughness = 20 + r.ultCullHits * 5
+          fuaDamageType = DamageTag.ULT | DamageTag.FUA
         } else {
-          x.FUA_ATK_SCALING.buff(ultSlashScaling, SOURCE_ULT)
+          // Slash: single hit
+          fuaScaling = ultSlashScaling
+          fuaToughness = 20
+          fuaDamageType = DamageTag.FUA
         }
       } else {
-        x.FUA_ATK_SCALING.buff(talentCounterScaling, SOURCE_TALENT)
+        // Talent counter (no parry)
+        fuaScaling = talentCounterScaling
+        fuaToughness = 10
+        fuaDamageType = DamageTag.FUA
       }
 
-      buffAbilityCd(x, FUA_DMG_TYPE, (r.blockActive) ? blockCdBuff : 0, SOURCE_ULT)
-      x.ATK_P.buff((r.counterAtkBuff) ? 0.30 : 0, SOURCE_TRACE)
-
-      x.DMG_RED_MULTI.multiply((r.blockActive) ? 1 - 0.20 : 1, SOURCE_TRACE)
-
-      buffAbilityDmg(x, FUA_DMG_TYPE, (e >= 1 && r.e1UltBuff && r.blockActive) ? 0.20 : 0, SOURCE_E1)
-      buffAbilityDefPen(x, FUA_DMG_TYPE, (e >= 2 && r.e2DefShred) ? 0.20 : 0, SOURCE_E2)
-      x.RES.buff((e >= 4 && r.e4ResBuff) ? 0.50 : 0, SOURCE_E4)
-      buffAbilityCr(x, FUA_DMG_TYPE, (e >= 6 && r.e6Buffs && r.blockActive) ? 0.15 : 0, SOURCE_E6)
-      buffAbilityResPen(x, FUA_DMG_TYPE, (e >= 6 && r.e6Buffs && r.blockActive) ? 0.20 : 0, SOURCE_E6)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.FUA_TOUGHNESS_DMG.buff((r.blockActive) ? 20 : 10, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff((r.blockActive && r.ultCull) ? r.ultCullHits * 5 : 0, SOURCE_ULT)
-
-      return x
+      return {
+        [YunliAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [YunliAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [YunliAbilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .damageType(fuaDamageType)
+              .damageElement(ElementTag.Physical)
+              .atkScaling(fuaScaling)
+              .toughnessDmg(fuaToughness)
+              .build(),
+          ],
+        },
+        [YunliAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
+          ],
+        },
+      }
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkP(x, action, context, getHitMulti(action, context))
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // Parry CD buff
+      x.buff(StatKey.CD, (r.blockActive) ? blockCdBuff : 0, x.damageType(DamageTag.FUA).source(SOURCE_ULT))
+
+      // Trace: Counter ATK buff
+      x.buff(StatKey.ATK_P, (r.counterAtkBuff) ? 0.30 : 0, x.source(SOURCE_TRACE))
+
+      // Trace: Damage reduction during parry
+      x.multiplicativeComplement(StatKey.DMG_RED, (r.blockActive) ? 0.20 : 0, x.source(SOURCE_TRACE))
+
+      // E1: FUA DMG boost when parry active
+      x.buff(StatKey.DMG_BOOST, (e >= 1 && r.e1UltBuff && r.blockActive) ? 0.20 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E1))
+
+      // E2: FUA DEF PEN
+      x.buff(StatKey.DEF_PEN, (e >= 2 && r.e2DefShred) ? 0.20 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E2))
+
+      // E4: RES buff
+      x.buff(StatKey.RES, (e >= 4 && r.e4ResBuff) ? 0.50 : 0, x.source(SOURCE_E4))
+
+      // E6: FUA CR and RES PEN when parry active
+      x.buff(StatKey.CR, (e >= 6 && r.e6Buffs && r.blockActive) ? 0.15 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
+      x.buff(StatKey.RES_PEN, (e >= 6 && r.e6Buffs && r.blockActive) ? 0.20 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkP(getHitMulti(action, context))
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }

@@ -77,6 +77,9 @@ import permansorTerrae from 'lib/conditionals/character/1400/PermansorTerrae'
 import phainon from 'lib/conditionals/character/1400/Phainon'
 import theHerta from 'lib/conditionals/character/1400/TheHerta'
 import tribbie from 'lib/conditionals/character/1400/Tribbie'
+import ashveil from 'lib/conditionals/character/1500/Ashveil'
+import sparxie from 'lib/conditionals/character/1500/Sparxie'
+import yaoguang from 'lib/conditionals/character/1500/Yaoguang'
 import trailblazerdestruction from 'lib/conditionals/character/8000/TrailblazerDestruction'
 import trailblazerHarmony from 'lib/conditionals/character/8000/TrailblazerHarmony'
 import trailblazerpreservation from 'lib/conditionals/character/8000/TrailblazerPreservation'
@@ -86,8 +89,8 @@ import kafkaB1 from 'lib/conditionals/character/1000/KafkaB1'
 import silverWolfB1 from 'lib/conditionals/character/1000/SilverWolfB1'
 import bladeB1 from 'lib/conditionals/character/1200/BladeB1'
 import jingliuB1 from 'lib/conditionals/character/1200/JingliuB1'
-import SparkleB1 from 'lib/conditionals/character/1300/SparkleB1'
-import BlackSwanB1 from 'lib/conditionals/character/1300/BlackSwanB1'
+import sparkleB1 from 'lib/conditionals/character/1300/SparkleB1'
+import blackSwanB1 from 'lib/conditionals/character/1300/BlackSwanB1'
 
 export type CharacterConditionalFunction = (e: Eidolon, withContent: boolean) => CharacterConditionalsController
 
@@ -177,8 +180,8 @@ export const characterOptionMapping: Record<CharacterId, CharacterConditionalFun
   '1006b1': silverWolfB1,
   '1205b1': bladeB1,
   '1212b1': jingliuB1,
-  '1306b1': SparkleB1,
-  '1307b1': BlackSwanB1,
+  '1306b1': sparkleB1,
+  '1307b1': blackSwanB1,
 
   1410: hysilens,
   1412: cerydra,
@@ -189,6 +192,10 @@ export const characterOptionMapping: Record<CharacterId, CharacterConditionalFun
   1415: cyrene,
 
   1321: theDahlia,
+
+  1501: sparxie,
+  1502: yaoguang,
+  // 1504: ashveil,
 }
 
 /**

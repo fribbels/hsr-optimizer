@@ -744,6 +744,9 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
     1415: ['#8a88e4'], // cyrene
 
     1321: ['#586bec'], // the dahlia
+
+    1501: ['#7498f1'], // sparxie
+    1502: ['#a4e1df'], // yaoguang
   }
 
   return (defaults[characterId] ?? ['#000000'])[0]

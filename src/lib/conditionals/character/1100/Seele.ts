@@ -1,18 +1,15 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
-  gpuStandardAdditionalDmgAtkFinalizer,
-  standardAdditionalDmgAtkFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
-import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -23,21 +20,17 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
+export const SeeleEntities = createEnum('Seele')
+export const SeeleAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
+
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Seele')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
-    SOURCE_BASIC,
     SOURCE_SKILL,
-    SOURCE_ULT,
     SOURCE_TALENT,
-    SOURCE_TECHNIQUE,
     SOURCE_TRACE,
-    SOURCE_MEMO,
     SOURCE_E1,
-    SOURCE_E2,
-    SOURCE_E4,
-    SOURCE_E6,
   } = Source.character('1102')
 
   const buffedStateDmgBuff = talent(e, 0.80, 0.88)
@@ -46,6 +39,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 2.20, 2.42)
   const ultScaling = ult(e, 4.25, 4.59)
+
+  // E6: Additional damage equal to 15% of Seele's Ult multiplier
+  const e6AdditionalDmgScaling = 0.15 * ultScaling
 
   const defaults = {
     buffedState: true,
@@ -89,38 +85,92 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(SeeleEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [SeeleEntities.Seele]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(SeeleAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Stats
-      x.CR.buff((e >= 1 && r.e1EnemyHp80CrBoost) ? 0.15 : 0, SOURCE_E1)
-      x.SPD_P.buff(0.25 * r.speedBoostStacks, SOURCE_SKILL)
+      const e6Active = e >= 6 && r.e6UltTargetDebuff
 
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-
-      x.BASIC_ADDITIONAL_DMG_SCALING.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_ATK_SCALING] : 0, Source.NONE)
-      x.SKILL_ADDITIONAL_DMG_SCALING.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_ATK_SCALING] : 0, Source.NONE)
-      x.ULT_ADDITIONAL_DMG_SCALING.buff((e >= 6 && r.e6UltTargetDebuff) ? 0.15 * x.a[Key.ULT_ATK_SCALING] : 0, Source.NONE)
-
-      // Boost
-      x.ELEMENTAL_DMG.buff((r.buffedState) ? buffedStateDmgBuff : 0, SOURCE_TALENT)
-      x.RES_PEN.buff((r.buffedState) ? 0.20 : 0, SOURCE_TRACE)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
-
-      return x
+      return {
+        [SeeleAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Quantum)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+            ...(e6Active
+              ? [HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Quantum)
+                  .atkScaling(e6AdditionalDmgScaling)
+                  .build()]
+              : []),
+          ],
+        },
+        [SeeleAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Quantum)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+            ...(e6Active
+              ? [HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Quantum)
+                  .atkScaling(e6AdditionalDmgScaling)
+                  .build()]
+              : []),
+          ],
+        },
+        [SeeleAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Quantum)
+              .atkScaling(ultScaling)
+              .toughnessDmg(30)
+              .build(),
+            ...(e6Active
+              ? [HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Quantum)
+                  .atkScaling(e6AdditionalDmgScaling)
+                  .build()]
+              : []),
+          ],
+        },
+        [SeeleAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
+          ],
+        },
+      }
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.CR, (e >= 1 && r.e1EnemyHp80CrBoost) ? 0.15 : 0, x.source(SOURCE_E1))
+      x.buff(StatKey.SPD_P, 0.25 * r.speedBoostStacks, x.source(SOURCE_SKILL))
+
+      x.buff(StatKey.DMG_BOOST, (r.buffedState) ? buffedStateDmgBuff : 0, x.source(SOURCE_TALENT))
+      x.buff(StatKey.RES_PEN, (r.buffedState) ? 0.20 : 0, x.source(SOURCE_TRACE))
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       // TODO: Seele's E6 should have a teammate effect but its kinda hard to calc
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardAdditionalDmgAtkFinalizer(x)
-    },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuStandardAdditionalDmgAtkFinalizer(),
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

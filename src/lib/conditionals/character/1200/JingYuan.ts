@@ -1,27 +1,26 @@
 import {
   AbilityType,
   ASHBLAZING_ATK_STACK,
-  BASIC_DMG_TYPE,
-  FUA_DMG_TYPE,
-  SKILL_DMG_TYPE,
-  ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  buffAbilityCd,
-  buffAbilityDmg,
-  buffAbilityVulnerability,
-} from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -31,6 +30,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const JingYuanEntities = createEnum('JingYuan', 'LightningLord')
+export const JingYuanAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.JingYuan')
@@ -133,43 +135,104 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(JingYuanEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [JingYuanEntities.JingYuan]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+        pet: false,
+      },
+      [JingYuanEntities.LightningLord]: {
+        primary: false,
+        summon: true,
+        memosprite: false,
+        pet: true,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(JingYuanAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.SUMMONS.set(1, SOURCE_TALENT)
+      const talentHitsPerAction = Math.max(r.talentHitsPerAction, r.talentAttacks)
+      const talentAttacks = r.talentAttacks
+
+      return {
+        [JingYuanAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [JingYuanAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(skillScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [JingYuanAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(ultScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [JingYuanAbilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .sourceEntity(JingYuanEntities.LightningLord)
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(fuaScaling * talentAttacks)
+              .toughnessDmg(5 * talentAttacks)
+              .build(),
+          ],
+        },
+        [JingYuanAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
+          ],
+        },
+      }
     },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
+    },
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      r.talentHitsPerAction = Math.max(r.talentHitsPerAction, r.talentAttacks)
+      const talentHitsPerAction = Math.max(r.talentHitsPerAction, r.talentAttacks)
 
-      // Stats
-      x.CR.buff((r.skillCritBuff) ? 0.10 : 0, SOURCE_TRACE)
+      // Skill crit buff
+      x.buff(StatKey.CR, (r.skillCritBuff) ? 0.10 : 0, x.source(SOURCE_TRACE))
 
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_ATK_SCALING.buff(fuaScaling * r.talentAttacks, SOURCE_TALENT)
+      // FUA CD boost when >= 6 hits (applies to Lightning Lord)
+      x.buff(StatKey.CD, (talentHitsPerAction >= 6) ? 0.25 : 0, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
 
-      // Boost
-      buffAbilityCd(x, FUA_DMG_TYPE, (r.talentHitsPerAction >= 6) ? 0.25 : 0, SOURCE_TRACE)
-      buffAbilityDmg(x, BASIC_DMG_TYPE | SKILL_DMG_TYPE | ULT_DMG_TYPE, (e >= 2 && r.e2DmgBuff) ? 0.20 : 0, SOURCE_E2)
-      buffAbilityVulnerability(x, FUA_DMG_TYPE, (e >= 6) ? r.e6FuaVulnerabilityStacks * 0.12 : 0, SOURCE_E6)
+      // E2 DMG boost for Basic/Skill/Ult
+      x.buff(StatKey.DMG_BOOST, (e >= 2 && r.e2DmgBuff) ? 0.20 : 0, x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).source(SOURCE_E2))
 
-      // Lightning lord calcs
-      const hits = r.talentAttacks
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(10, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(5 * hits, SOURCE_TALENT)
-
-      return x
+      // E6 FUA vulnerability
+      x.buff(StatKey.VULNERABILITY, (e >= 6) ? r.e6FuaVulnerabilityStacks * 0.12 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkP(x, action, context, getHitMulti(action, context))
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuBoostAshblazingAtkP(getHitMulti(action, context)),
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
+    },
   }
 }

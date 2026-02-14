@@ -1,22 +1,18 @@
-import {
-  AbilityType,
-  ASHBLAZING_ATK_STACK,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType, ASHBLAZING_ATK_STACK, } from 'lib/conditionals/conditionalConstants'
+import { boostAshblazingAtkContainer, gpuBoostAshblazingAtkContainer, } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
+  addSuperBreakHits,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
-
-import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
-} from 'lib/conditionals/conditionalFinalizers'
+import { ModifierContext } from 'lib/optimization/context/calculateActions'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   ANAXA,
   BOOTHILL,
@@ -29,10 +25,11 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { Hit } from 'types/hitConditionalTypes'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+
+export const TheDahliaEntities = createEnum('TheDahlia')
+export const TheDahliaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TheDahlia')
@@ -196,69 +193,163 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(TheDahliaEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [TheDahliaEntities.TheDahlia]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(TheDahliaAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      const fuaHit = HitDefinitionBuilder.standardFua()
+        .damageElement(ElementTag.Fire)
+        .atkScaling(fuaScaling * fuaHits / context.enemyCount)
+        .toughnessDmg(3 * fuaHits / context.enemyCount)
+        .build()
+
+      return {
+        [TheDahliaAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [TheDahliaAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(skillScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [TheDahliaAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Fire)
+              .atkScaling(ultScaling)
+              .toughnessDmg(30)
+              .fixedToughnessDmg(20)
+              .build(),
+          ],
+        },
+        [TheDahliaAbilities.FUA]: {
+          hits: [
+            fuaHit,
+            // FUA-specific super break hit
+            ...(
+              (r.superBreakDmg)
+                ? [
+                  HitDefinitionBuilder.standardSuperBreak(ElementTag.Fire)
+                    .extraSuperBreakModifier(fuaSuperBreakScaling)
+                    .referenceHit(fuaHit as Hit)
+                    .build(),
+                ]
+                : []
+            ),
+          ],
+        },
+        [TheDahliaAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
+          ],
+        },
+      }
+    },
+    actionModifiers() {
+      return [
+        {
+          modify: (action: OptimizerAction, context: OptimizerContext, self: ModifierContext) => {
+            const m = self.ownConditionals as Conditionals<typeof teammateContent>
+
+            if (m.superBreakDmg) {
+              addSuperBreakHits(action.hits!)
+            }
+          },
+        },
+        {
+          modify: (action: OptimizerAction, context: OptimizerContext, self: ModifierContext) => {
+            const m = self.ownConditionals as Conditionals<typeof teammateContent>
+
+            const hits = action.hits!
+            const len = hits.length
+            if (self.eidolon >= 1 && m.e1Buffs && m.dancePartner) {
+              for (let i = 0; i < len; i++) {
+                const hit = hits[i]
+
+                if (hit.toughnessDmg) {
+                  const e1ToughnessDmg = Math.max(10, Math.min(300, context.enemyMaxToughness / 30 * 0.25))
+                  hit.fixedToughnessDmg = (hit.fixedToughnessDmg ?? 0) + e1ToughnessDmg
+                }
+              }
+            }
+          },
+        },
+      ]
+    },
+
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.superBreakDmg) {
-        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_TALENT)
-
-        x.FUA_SUPER_BREAK_MODIFIER.buff(fuaSuperBreakScaling, SOURCE_TALENT)
+        x.set(StatKey.ENEMY_WEAKNESS_BROKEN, 1, x.source(SOURCE_TALENT))
       }
     },
-    initializeTeammateConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    initializeTeammateConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.superBreakDmg) {
-        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_TALENT)
+        x.set(StatKey.ENEMY_WEAKNESS_BROKEN, 1, x.source(SOURCE_TALENT))
       }
     },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_ATK_SCALING.buff(fuaScaling * fuaHits / context.enemyCount, SOURCE_TALENT)
-
-      x.SPD_P.buff((r.spdBuff) ? 0.30 : 0, SOURCE_TRACE)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(10, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(3 * fuaHits / context.enemyCount, SOURCE_TALENT)
-
-      x.ULT_FIXED_TOUGHNESS_DMG.buff(20, SOURCE_TRACE)
+      x.buff(StatKey.SPD_P, (r.spdBuff) ? 0.30 : 0, x.source(SOURCE_TRACE))
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.BREAK_EFFICIENCY_BOOST.buffTeam((m.zoneActive) ? 0.50 : 0, SOURCE_SKILL)
-      x.DEF_PEN.buffTeam((m.ultDefPen) ? ultDefPenValue : 0, SOURCE_ULT)
+      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (m.zoneActive) ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+      x.buff(StatKey.DEF_PEN, (m.ultDefPen) ? ultDefPenValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
 
       if (m.superBreakDmg) {
         if (e >= 1 && m.e1Buffs) {
-          x.SUPER_BREAK_MODIFIER.buffTeam(superBreakScaling, SOURCE_TALENT)
-          x.SUPER_BREAK_MODIFIER.buff((m.dancePartner) ? 0.40 : 0, SOURCE_E1)
+          x.buff(StatKey.SUPER_BREAK_MODIFIER, superBreakScaling, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
+          x.buff(StatKey.SUPER_BREAK_MODIFIER, (m.dancePartner) ? 0.40 : 0, x.source(SOURCE_E1))
         } else {
-          x.SUPER_BREAK_MODIFIER.buff((m.dancePartner) ? superBreakScaling : 0, SOURCE_TALENT)
+          x.buff(StatKey.SUPER_BREAK_MODIFIER, (m.dancePartner) ? superBreakScaling : 0, x.source(SOURCE_TALENT))
         }
       }
 
-      x.RES_PEN.buffTeam((e >= 2 && m.e2ResPen) ? 0.20 : 0, SOURCE_E2)
-      x.VULNERABILITY.buffTeam((e >= 4 && m.e4Vuln) ? 0.12 : 0, SOURCE_E4)
-      x.BE.buff((e >= 6 && m.e6BeBuff && m.dancePartner) ? 1.50 : 0, SOURCE_E6)
+      x.buff(StatKey.RES_PEN, (e >= 2 && m.e2ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
+      x.buff(StatKey.VULNERABILITY, (e >= 4 && m.e4Vuln) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
+      x.buff(StatKey.BE, (e >= 6 && m.e6BeBuff && m.dancePartner) ? 1.50 : 0, x.source(SOURCE_E6))
 
+      // E1: Fixed toughness damage buff for dance partner
       if (e >= 1 && m.e1Buffs && m.dancePartner) {
         const e1ToughnessDmg = Math.max(10, Math.min(300, context.enemyMaxToughness / 30 * 0.25))
-        if (x.a[Key.BASIC_TOUGHNESS_DMG] > 0) x.BASIC_FIXED_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
-        if (x.a[Key.SKILL_TOUGHNESS_DMG] > 0) x.SKILL_FIXED_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
-        if (x.a[Key.ULT_TOUGHNESS_DMG] > 0) x.ULT_FIXED_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
-        if (x.a[Key.FUA_TOUGHNESS_DMG] > 0) x.FUA_FIXED_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
-        if (x.a[Key.MEMO_SKILL_TOUGHNESS_DMG] > 0) x.MEMO_SKILL_FIXED_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
-        if (x.a[Key.MEMO_TALENT_TOUGHNESS_DMG] > 0) x.MEMO_TALENT_FIXED_TOUGHNESS_DMG.buff(e1ToughnessDmg, SOURCE_E1)
+        // x.buff(StatKey.BASIC_FIXED_TOUGHNESS_DMG, e1ToughnessDmg, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+        // x.buff(StatKey.SKILL_FIXED_TOUGHNESS_DMG, e1ToughnessDmg, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+        // x.buff(StatKey.ULT_FIXED_TOUGHNESS_DMG, e1ToughnessDmg, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+        // x.buff(StatKey.FUA_FIXED_TOUGHNESS_DMG, e1ToughnessDmg, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+        // x.buff(StatKey.MEMO_SKILL_FIXED_TOUGHNESS_DMG, e1ToughnessDmg, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+        // x.buff(StatKey.MEMO_TALENT_FIXED_TOUGHNESS_DMG, e1ToughnessDmg, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
       }
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const IMPLANT_CHARACTERS = [
@@ -269,20 +360,19 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         SILVER_WOLF,
       ]
       if (IMPLANT_CHARACTERS.includes(context.characterId)) {
-        x.SPD_P.buff((t.spdBuff) ? 0.30 : 0, SOURCE_TRACE)
+        x.buff(StatKey.SPD_P, (t.spdBuff) ? 0.30 : 0, x.source(SOURCE_TRACE))
       }
 
       const beBuff = (t.beConversion) ? t.teammateBeValue * 0.24 + 0.50 : 0
-      x.BE.buffTeam(beBuff, SOURCE_TRACE)
-      x.UNCONVERTIBLE_BE_BUFF.buffTeam(beBuff, SOURCE_TRACE)
+      x.buff(StatKey.BE, beBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.UNCONVERTIBLE_BE_BUFF, beBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
 
-      boostAshblazingAtkP(x, action, context, hitMultiByTargets[context.enemyCount])
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, hitMultiByTargets[context.enemyCount])
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkP(hitMultiByTargets[context.enemyCount])
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
     },
   }
 }

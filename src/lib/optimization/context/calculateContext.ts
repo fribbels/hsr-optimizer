@@ -30,6 +30,7 @@ export function generateContext(request: Form): OptimizerContext {
   generateCombatBuffsContext(request, context)
   generateFiltersContext(request, context)
 
+  // calculateEntities(request, context)
   calculateConditionals(request, context)
 
   initializeContextConditionals(context)
@@ -38,29 +39,34 @@ export function generateContext(request: Form): OptimizerContext {
 }
 
 function generateCombatBuffsContext(request: Form, context: OptimizerContext) {
+  // TODO: TEMPORARILY DISABLED - Extra combat buffs zeroed out
   context.combatBuffs = {
-    ATK: request.combatBuffs.ATK,
-    ATK_P: request.combatBuffs.ATK_P,
-    HP: request.combatBuffs.HP,
-    HP_P: request.combatBuffs.HP_P,
-    DEF: request.combatBuffs.DEF,
-    DEF_P: request.combatBuffs.DEF_P,
-    CR: request.combatBuffs.CR,
-    CD: request.combatBuffs.CD,
-    SPD: request.combatBuffs.SPD,
-    SPD_P: request.combatBuffs.SPD_P,
-    BE: request.combatBuffs.BE,
-    DMG_BOOST: request.combatBuffs.DMG_BOOST,
-    DEF_PEN: request.combatBuffs.DEF_PEN,
-    RES_PEN: request.combatBuffs.RES_PEN,
-    EFFECT_RES_PEN: request.combatBuffs.EFFECT_RES_PEN,
-    VULNERABILITY: request.combatBuffs.VULNERABILITY,
-    BREAK_EFFICIENCY: request.combatBuffs.BREAK_EFFICIENCY,
+    ATK: 0, // request.combatBuffs.ATK,
+    ATK_P: 0, // request.combatBuffs.ATK_P,
+    HP: 0, // request.combatBuffs.HP,
+    HP_P: 0, // request.combatBuffs.HP_P,
+    DEF: 0, // request.combatBuffs.DEF,
+    DEF_P: 0, // request.combatBuffs.DEF_P,
+    CR: 0, // request.combatBuffs.CR,
+    CD: 0, // request.combatBuffs.CD,
+    SPD: 0, // request.combatBuffs.SPD,
+    SPD_P: 0, // request.combatBuffs.SPD_P,
+    BE: 0, // request.combatBuffs.BE,
+    DMG_BOOST: 0, // request.combatBuffs.DMG_BOOST,
+    DEF_PEN: 0, // request.combatBuffs.DEF_PEN,
+    RES_PEN: 0, // request.combatBuffs.RES_PEN,
+    EFFECT_RES_PEN: 0, // request.combatBuffs.EFFECT_RES_PEN,
+    VULNERABILITY: 0, // request.combatBuffs.VULNERABILITY,
+    BREAK_EFFICIENCY: 0, // request.combatBuffs.BREAK_EFFICIENCY,
   }
 }
 
 function generateFiltersContext(request: Form, context: OptimizerContext) {
   context.resultSort = request.resultSort!
+
+  // Store the scoring metadata's sortOption key for primary ability stats capture
+  const characterMetadata = DB.getMetadata().characters[request.characterId]
+  context.primaryAbilityKey = characterMetadata?.scoringMetadata?.sortOption?.key ?? ''
 }
 
 function calculateConditionals(request: Form, context: OptimizerContext) {

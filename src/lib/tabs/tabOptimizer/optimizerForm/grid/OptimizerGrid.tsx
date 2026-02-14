@@ -13,9 +13,13 @@ import {
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { AbilityKind, AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
+import { Gradient } from 'lib/rendering/gradient'
+import { Renderer } from 'lib/rendering/renderer'
 import { getGridTheme } from 'lib/rendering/theme'
 import DB from 'lib/state/db'
 import {
+  DIGITS_5,
   getBasicColumnDefs,
   getCombatColumnDefs,
   getMemoBasicColumnDefs,
@@ -27,6 +31,7 @@ import {
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
+import { useOptimizerTabStore } from 'lib/tabs/tabOptimizer/useOptimizerTabStore'
 import { localeNumber } from 'lib/utils/i18nUtils'
 import React, {
   useCallback,
@@ -41,10 +46,6 @@ const { useToken } = theme
 
 const defaultHiddenColumns = [
   SortOption.OHB,
-  SortOption.HEAL,
-  SortOption.SHIELD,
-  SortOption.MEMO_SKILL,
-  SortOption.MEMO_TALENT,
 ]
 
 export const GRID_DIMENSIONS = {
@@ -62,6 +63,8 @@ export function OptimizerGrid() {
   const [gridDestroyed, setGridDestroyed] = useState(false)
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
   const gridLanguage = useRef(i18n.resolvedLanguage)
+
+  const context = useOptimizerTabStore((s) => s.context)
 
   window.optimizerGrid = optimizerGrid
 
@@ -93,8 +96,29 @@ export function OptimizerGrid() {
       columnDefinitions = columnDefinitions.filter((column) => !hiddenFields.includes(column.field))
     }
 
+    if (context) {
+      // Insert dynamic ability columns before COMBO (last column)
+      const comboColumn = columnDefinitions.pop()
+      for (const action of context.defaultActions) {
+        const meta = AbilityMeta[action.actionType]
+        if (meta && action.actionType !== AbilityKind.NULL) {
+          columnDefinitions.push({
+            field: action.actionName as any,
+            valueFormatter: Renderer.floor,
+            minWidth: DIGITS_5,
+            flex: 12,
+            headerName: t(`Headers.Basic.${action.actionType}`),
+            cellStyle: Gradient.getOptimizerColumnGradient,
+          })
+        }
+      }
+      if (comboColumn) {
+        columnDefinitions.push(comboColumn)
+      }
+    }
+
     return columnDefinitions
-  }, [optimizerTabFocusCharacter, statDisplay, memoDisplay, t])
+  }, [optimizerTabFocusCharacter, statDisplay, memoDisplay, context, t])
 
   optimizerGridOptions.datasource = datasource
 

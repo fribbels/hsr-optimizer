@@ -1,7 +1,9 @@
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const { SOURCE_LC } = Source.lightCone('21009')
@@ -11,10 +13,8 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   return {
     content: () => [],
     defaults: () => ({}),
-    precomputeEffects: (x: ComputedStatsArray) => {
-      x.DMG_RED_MULTI.multiply(1 - sValues[s], SOURCE_LC)
-    },
-    finalizeCalculations: () => {
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      x.multiplicativeComplement(StatKey.DMG_RED, sValues[s], x.source(SOURCE_LC))
     },
   }
 }

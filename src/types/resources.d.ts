@@ -344,7 +344,8 @@ interface Resources {
       "Lightning DMG Boost": "$t(gameData:Elements.Thunder) DMG Boost",
       "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG Boost",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum) DMG Boost",
-      "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary) DMG Boost"
+      "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary) DMG Boost",
+      "Elation DMG Boost": "Elation DMG Boost"
     },
     "ShortStats": {
       "HP%": "HP%",
@@ -368,7 +369,8 @@ interface Resources {
       "Lightning DMG Boost": "$t(gameData:Elements.Thunder)",
       "Wind DMG Boost": "$t(gameData:Elements.Wind)",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
-      "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)"
+      "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)",
+      "Elation DMG Boost": "Elation"
     },
     "ShortSpacedStats": {
       "HP%": "HP %",
@@ -392,7 +394,8 @@ interface Resources {
       "Lightning DMG Boost": "$t(gameData:Elements.Thunder)",
       "Wind DMG Boost": "$t(gameData:Elements.Wind)",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
-      "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)"
+      "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)",
+      "Elation DMG Boost": "Elation"
     },
     "Damage": "DMG",
     "DamagePercent": "DMG %",
@@ -418,7 +421,8 @@ interface Resources {
       "Lightning DMG Boost": "$t(gameData:Elements.Thunder) DMG",
       "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum) DMG",
-      "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary) DMG"
+      "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary) DMG",
+      "Elation DMG Boost": "Elation DMG"
     },
     "ShortReadableStats": {
       "HP%": "HP %",
@@ -442,7 +446,8 @@ interface Resources {
       "Lightning DMG Boost": "$t(gameData:Elements.Thunder)",
       "Wind DMG Boost": "$t(gameData:Elements.Wind)",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
-      "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)"
+      "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)",
+      "Elation DMG Boost": "Elation"
     },
     "Elements": {
       "Physical": "$t(gameData:Elements.Physical)",
@@ -4311,14 +4316,6 @@ interface Resources {
         "Name": "Stelle",
         "LongName": "Stelle (Remembrance)"
       },
-      "1306b1": {
-        "Name": "Sparkle",
-        "LongName": "Sparkle"
-      },
-      "1307b1": {
-        "Name": "Black Swan",
-        "LongName": "Black Swan"
-      },
       "1212b1": {
         "Name": "Jingliu",
         "LongName": "Jingliu"
@@ -4334,6 +4331,14 @@ interface Resources {
       "1006b1": {
         "Name": "Silver Wolf",
         "LongName": "Silver Wolf"
+      },
+      "1307b1": {
+        "Name": "Black Swan",
+        "LongName": "Black Swan"
+      },
+      "1306b1": {
+        "Name": "Sparkle",
+        "LongName": "Sparkle"
       }
     },
     "RelicSets": {
@@ -4470,7 +4475,7 @@ interface Resources {
       "127": {
         "Name": "World-Remaking Deliverer",
         "Description2pc": "Increases CRIT Rate by 8%.",
-        "Description4pc": "After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' dealt DMG by 15%, lasting until after the wearer's next use of Basic ATK or Skill."
+        "Description4pc": "After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG dealt by 15%, lasting until after the wearer's next use of Basic ATK or Skill."
       },
       "128": {
         "Name": "Self-Enshrouded Recluse",
@@ -4480,12 +4485,12 @@ interface Resources {
       "129": {
         "Name": "Ever-Glorious Magical Girl",
         "Description2pc": "Increases CRIT DMG by 16%.",
-        "Description4pc": "The Elation DMG dealt by the wearer and their memosprites ignores 10% of targets' DEF. For every 5 accumulated Punchline allies gain, the Elation DMG dealt additionally ignores 1% of targets' DEF, which stacks up to 10 times."
+        "Description4pc": "The Elation DMG dealt by the wearer and their memosprites ignores 10% of targets' DEF. For every 5 accumulated Punchline allies gain, the Elation DMG dealt additionally ignores 1% of targets' DEF, stacking up to 10 times."
       },
       "130": {
         "Name": "Diviner of Distant Reach",
         "Description2pc": "Increases SPD by 6%.",
-        "Description4pc": "Before entering combat, if the wearer's SPD is greater than or equal to 120/160, increases the wearer's CRIT Rate by 10%/18%. When the wearer uses Elation Skill for the first time in each battle, enhances all allies' Elation by 10%. This effect cannot stack."
+        "Description4pc": "Before entering combat, if the wearer's SPD is greater than or equal to 120/160, increases the wearer's CRIT Rate by 10%/18%. When the wearer uses Elation Skill for the first time in each battle, increases all allies' Elation by 10%. This effect cannot stack."
       },
       "301": {
         "Name": "Space Sealing Station",
@@ -4658,7 +4663,7 @@ interface Resources {
         "Name": "Sneering"
       },
       "20024": {
-        "Name": "Lingering Tears"
+        "Name": "Lingering Tear"
       },
       "21000": {
         "Name": "Post-Op Conversation"
@@ -5030,10 +5035,10 @@ interface Resources {
         "Name": "This Love, Forever"
       },
       "23053": {
-        "Name": "Dazzled By A Flowery World"
+        "Name": "Dazzled by a Flowery World"
       },
       "23054": {
-        "Name": "When She Decided To See"
+        "Name": "When She Decided to See"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"
@@ -5062,7 +5067,9 @@ interface Resources {
       "Warlock": "Nihility",
       "Knight": "Preservation",
       "Priest": "Abundance",
-      "Memory": "Remembrance"
+      "Memory": "Remembrance",
+      "Elation": "Elation",
+      "Unknown": "General"
     },
     "Elements": {
       "Physical": "Physical",
@@ -5910,6 +5917,8 @@ interface Resources {
     },
     "SortOptions": {
       "DMGLabel": "Damage calculations",
+      "HealLabel": "Heal calculations",
+      "ShieldLabel": "Shield calculations",
       "StatLabel": "Stats",
       "COMBO": "Sorted by Combo DMG",
       "BASIC": "Sorted by Basic DMG",
@@ -5922,6 +5931,16 @@ interface Resources {
       "BREAK": "Sorted by Break DMG",
       "HEAL": "Sorted by Heal",
       "SHIELD": "Sorted by Shield",
+      "BASIC_HEAL": "Sorted by Basic HEAL",
+      "SKILL_HEAL": "Sorted by Skill HEAL",
+      "ULT_HEAL": "Sorted by Ult HEAL",
+      "FUA_HEAL": "Sorted by Follow-up HEAL",
+      "TALENT_HEAL": "Sorted by Talent HEAL",
+      "BASIC_SHIELD": "Sorted by Basic SHIELD",
+      "SKILL_SHIELD": "Sorted by Skill SHIELD",
+      "ULT_SHIELD": "Sorted by Ult SHIELD",
+      "FUA_SHIELD": "Sorted by Follow-up SHIELD",
+      "TALENT_SHIELD": "Sorted by Talent SHIELD",
       "HP": "Sorted by $t(common:ReadableStats.HP)",
       "ATK": "Sorted by $t(common:ReadableStats.ATK)",
       "DEF": "Sorted by $t(common:ReadableStats.DEF)",
@@ -6017,6 +6036,16 @@ interface Resources {
           "MEMO_TALENT": "TALENTᴹ\nDMG",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
+          "BASIC_HEAL": "BASIC\nHEAL",
+          "SKILL_HEAL": "SKILL\nHEAL",
+          "ULT_HEAL": "ULT\nHEAL",
+          "FUA_HEAL": "FUA\nHEAL",
+          "TALENT_HEAL": "TALENT\nHEAL",
+          "BASIC_SHIELD": "BASIC\nSHIELD",
+          "SKILL_SHIELD": "SKILL\nSHIELD",
+          "ULT_SHIELD": "ULT\nSHIELD",
+          "FUA_SHIELD": "FUA\nSHIELD",
+          "TALENT_SHIELD": "TALENT\nSHIELD",
           "COMBO": "COMBO\nDMG"
         },
         "Combat": {
@@ -6044,6 +6073,16 @@ interface Resources {
           "MEMO_TALENT": "TALENTᴹ\nDMG",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
+          "BASIC_HEAL": "BASIC\nHEAL",
+          "SKILL_HEAL": "SKILL\nHEAL",
+          "ULT_HEAL": "ULT\nHEAL",
+          "FUA_HEAL": "FUA\nHEAL",
+          "TALENT_HEAL": "TALENT\nHEAL",
+          "BASIC_SHIELD": "BASIC\nSHIELD",
+          "SKILL_SHIELD": "SKILL\nSHIELD",
+          "ULT_SHIELD": "ULT\nSHIELD",
+          "FUA_SHIELD": "FUA\nSHIELD",
+          "TALENT_SHIELD": "TALENT\nSHIELD",
           "COMBO": "COMBO\nDMG"
         }
       }
@@ -6363,7 +6402,17 @@ interface Resources {
         "Dot": "Dot",
         "Break": "Break",
         "MemoSkill": "Skillᴹ",
-        "MemoTalent": "Talentᴹ"
+        "MemoTalent": "Talentᴹ",
+        "BasicHeal": "Basic HEAL",
+        "SkillHeal": "Skill HEAL",
+        "UltHeal": "Ult HEAL",
+        "FuaHeal": "Fua HEAL",
+        "TalentHeal": "Talent HEAL",
+        "BasicShield": "Basic SHIELD",
+        "SkillShield": "Skill SHIELD",
+        "UltShield": "Ult SHIELD",
+        "FuaShield": "Fua SHIELD",
+        "TalentShield": "Talent SHIELD"
       },
       "RotationButton": "Advanced rotation"
     },

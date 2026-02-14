@@ -273,4 +273,32 @@ export const Utils = {
 
     return `${hoursS}${minutesS}:${secondsS}`
   },
+
+  findAllCycles: (obj) => {
+    const cycles = new Set()
+
+    function traverse(current, seen = new Map(), path = 'root') {
+      if (current === null || typeof current !== 'object') return
+
+      if (seen.has(current)) {
+        const cycleKey = `${seen.get(current)} ← ${path}`
+        if (!cycles.has(cycleKey)) {
+          cycles.add(cycleKey)
+          console.log(`${cycleKey}`)
+        }
+        return
+      }
+
+      seen.set(current, path)
+
+      for (const key in current) {
+        if (current.hasOwnProperty(key)) {
+          traverse(current[key], new Map(seen), `${path}.${key}`)
+        }
+      }
+    }
+
+    traverse(obj)
+    console.log(`\nTotal unique cycles: ${cycles.size}`)
+  },
 }

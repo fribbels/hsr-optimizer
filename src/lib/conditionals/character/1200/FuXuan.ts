@@ -1,20 +1,15 @@
-import {
-  AbilityType,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  gpuStandardHpHealFinalizer,
-  standardHpHealFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
-  dynamicStatConversion,
+  dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -23,6 +18,9 @@ import {
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -32,6 +30,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const FuXuanEntities = createEnum('FuXuan')
+export const FuXuanAbilities = createEnum('BASIC', 'ULT', 'TALENT_HEAL', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.FuXuan')
@@ -119,46 +120,91 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(FuXuanEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [FuXuanEntities.FuXuan]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(FuXuanAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Scaling
-      x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.ULT_HP_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.ULT_HP_SCALING.buff((e >= 6) ? 2.00 * r.e6TeamHpLostPercent : 0, SOURCE_E6)
+      // E6: Bonus HP scaling based on team HP lost
+      const e6UltBonus = (e >= 6) ? 2.00 * r.e6TeamHpLostPercent : 0
 
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-
-      x.HEAL_TYPE.set(ULT_DMG_TYPE, SOURCE_TRACE)
-      x.HEAL_SCALING.buff(ultHealScaling, SOURCE_TRACE)
-      x.HEAL_FLAT.buff(ultHealFlat, SOURCE_TRACE)
-
-      return x
+      return {
+        [FuXuanAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Quantum)
+              .hpScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [FuXuanAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Quantum)
+              .hpScaling(ultScaling + e6UltBonus)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [FuXuanAbilities.TALENT_HEAL]: {
+          hits: [
+            HitDefinitionBuilder.talentHeal()
+              .hpScaling(ultHealScaling)
+              .flatHeal(ultHealFlat)
+              .build(),
+          ],
+        },
+        [FuXuanAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
+          ],
+        },
+      }
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.CR.buffTeam((m.skillActive) ? skillCrBuffValue : 0, SOURCE_SKILL)
-      x.CD.buffTeam((e >= 1 && m.skillActive) ? 0.30 : 0, SOURCE_E1)
+      // Skill: Team CR buff
+      x.buff(StatKey.CR, (m.skillActive) ? skillCrBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
 
-      // Talent ehp buff is shared
-      x.DMG_RED_MULTI.multiplyTeam((m.talentActive) ? (1 - talentDmgReductionValue) : 1, SOURCE_TALENT)
+      // E1: Team CD buff when skill active
+      x.buff(StatKey.CD, (e >= 1 && m.skillActive) ? 0.30 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+
+      // Talent: Team damage reduction (shared)
+      x.multiplicativeComplement(StatKey.DMG_RED, (m.talentActive) ? talentDmgReductionValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
+      // Skill: HP buff for teammates (based on Fu Xuan's HP)
       const hpBuff = (t.skillActive) ? skillHpBuffValue * t.teammateHPValue : 0
-      x.HP.buffTeam(hpBuff, SOURCE_SKILL)
-      x.UNCONVERTIBLE_HP_BUFF.buffTeam(hpBuff, SOURCE_SKILL)
+      x.buff(StatKey.HP, hpBuff, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+      x.buff(StatKey.UNCONVERTIBLE_HP_BUFF, hpBuff, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
 
-      // Skill ehp buff only applies to teammates
-      x.DMG_RED_MULTI.multiplyTeam((t.skillActive) ? (1 - 0.65) : 1, SOURCE_SKILL)
+      // Skill: Additional damage reduction for teammates only (65%)
+      x.multiplicativeComplement(StatKey.DMG_RED, (t.skillActive) ? 0.65 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardHpHealFinalizer(x)
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: () => gpuStandardHpHealFinalizer(),
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+
     dynamicConditionals: [
       {
         id: 'FuXuanHpConditional',
@@ -166,18 +212,34 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.HP],
         chainsTo: [Stats.HP],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-
           return r.skillActive
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.HP, Stats.HP, this, x, action, context, SOURCE_SKILL, (convertibleValue) => convertibleValue * skillHpBuffValue)
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversionContainer(
+            Stats.HP,
+            Stats.HP,
+            this,
+            x,
+            action,
+            context,
+            SOURCE_SKILL,
+            (convertibleValue) => convertibleValue * skillHpBuffValue,
+          )
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return gpuDynamicStatConversion(Stats.HP, Stats.HP, this, action, context, `${skillHpBuffValue} * convertibleValue`, `${wgslTrue(r.skillActive)}`)
+          return gpuDynamicStatConversion(
+            Stats.HP,
+            Stats.HP,
+            this,
+            action,
+            context,
+            `${skillHpBuffValue} * convertibleValue`,
+            `${wgslTrue(r.skillActive)}`,
+          )
         },
       },
     ],

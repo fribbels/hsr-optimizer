@@ -43,6 +43,7 @@ const baseCharacterStats = {
   WIND_DMG_BOOST: 0.00000001,
   QUANTUM_DMG_BOOST: 0.00000001,
   IMAGINARY_DMG_BOOST: 0.00000001,
+  ELATION_DMG_BOOST: 0.00000001,
   ELEMENTAL_DMG: 0.00000001,
 }
 
@@ -177,6 +178,7 @@ export function toBasicStatsObject(a: Float32Array, weight: number = 0, relicSet
     'Wind DMG Boost': a[Key.WIND_DMG_BOOST],
     'Quantum DMG Boost': a[Key.QUANTUM_DMG_BOOST],
     'Imaginary DMG Boost': a[Key.IMAGINARY_DMG_BOOST],
+    'Elation DMG Boost': a[Key.ELATION_DMG_BOOST],
     'ELEMENTAL_DMG': a[Key.ELEMENTAL_DMG],
     'relicSetIndex': relicSetIndex,
     'ornamentSetIndex': ornamentSetIndex,

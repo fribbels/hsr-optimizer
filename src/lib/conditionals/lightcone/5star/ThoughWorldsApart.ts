@@ -3,10 +3,9 @@ import {
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { SELF_ENTITY_INDEX, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { THOUGH_WORLDS_APART } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
@@ -53,14 +52,11 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {},
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.ELEMENTAL_DMG.buffTeam((m.dmgBoost) ? sValuesDmgBoost[s] : 0, SOURCE_LC)
-      x.ELEMENTAL_DMG.buffTeam((m.dmgBoost && x.a[Key.SUMMONS] > 0) ? sValuesDmgBoostSummons[s] : 0, SOURCE_LC)
+      x.buff(StatKey.DMG_BOOST, (m.dmgBoost) ? sValuesDmgBoost[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
+      x.buff(StatKey.DMG_BOOST, (m.dmgBoost && x.getActionValueByIndex(StatKey.SUMMONS, SELF_ENTITY_INDEX) > 0) ? sValuesDmgBoostSummons[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
-    finalizeCalculations: (x, action, context) => {},
-    gpuFinalizeCalculations: (action, context) => '',
   }
 }

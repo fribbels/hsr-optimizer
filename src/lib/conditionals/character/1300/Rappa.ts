@@ -1,31 +1,36 @@
-import {
-  AbilityType,
-  BREAK_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
+import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import {
-  buffAbilityVulnerability,
-  Target,
-} from 'lib/optimization/calculateBuffs'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
-
 import { CharacterConditionalsController } from 'types/conditionals'
+import { Hit } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const RappaEntities = createEnum('Rappa')
+export const RappaAbilities = createEnum('BASIC', 'SKILL', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Rappa')
@@ -138,60 +143,143 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    // Entity declarations
+    entityDeclaration: () => Object.values(RappaEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [RappaEntities.Rappa]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    // Action declarations
+    actionDeclaration: () => Object.values(RappaAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // Calculate break damage scaling from talent + charge stacks
+      const breakDmgScaling = talentBreakDmgModifier + r.chargeStacks * talentChargeMultiplier
+
+      // Enhanced basic toughness damage: 25 + (2 + chargeStacks)
+      const enhancedToughnessDmg = 25 + 2 + r.chargeStacks
+
+      const normalBasic = {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Imaginary)
+            .atkScaling(basicScaling)
+            .toughnessDmg(10)
+            .build(),
+        ],
+      }
+
+      // Enhanced basic main hit (needed as reference for super break)
+      const enhancedBasicMainHit = HitDefinitionBuilder.standardBasic()
+        .damageElement(ElementTag.Imaginary)
+        .atkScaling(basicEnhancedScaling)
+        .toughnessDmg(enhancedToughnessDmg)
+        .build()
+
+      // Enhanced basic only used when sealformActive - includes super break
+      const enhancedBasic = {
+        hits: [
+          enhancedBasicMainHit,
+          HitDefinitionBuilder.standardBreak(ElementTag.Imaginary)
+            .specialScaling(breakDmgScaling)
+            .build(),
+          HitDefinitionBuilder.standardSuperBreak(ElementTag.Imaginary)
+            .referenceHit(enhancedBasicMainHit as Hit)
+            .build(),
+        ],
+      }
+
+      return {
+        // Super break only happens in sealform (enhancedBasic)
+        [RappaAbilities.BASIC]: r.sealformActive ? enhancedBasic : normalBasic,
+        [RappaAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(skillScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [RappaAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
+          ],
+        },
+      }
+    },
+    actionModifiers: () => [],
+
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.sealformActive) {
-        x.ENEMY_WEAKNESS_BROKEN.config(1, SOURCE_TRACE)
+        x.set(StatKey.ENEMY_WEAKNESS_BROKEN, 1, x.source(SOURCE_TRACE))
       }
     },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BE.buff((r.sealformActive) ? ultBeBuff : 0, SOURCE_ULT)
-      x.BREAK_EFFICIENCY_BOOST.buff((r.sealformActive) ? 0.50 : 0, SOURCE_ULT)
+      // BE buff from ult (sealform)
+      x.buff(StatKey.BE, (r.sealformActive) ? ultBeBuff : 0, x.source(SOURCE_ULT))
 
-      x.DEF_PEN.buff((e >= 1 && r.sealformActive && r.e1DefPen) ? 0.15 : 0, SOURCE_E1)
+      // Break efficiency boost (sealform)
+      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (r.sealformActive) ? 0.50 : 0, x.source(SOURCE_ULT))
 
-      x.SPD_P.buff((e >= 4 && r.sealformActive && r.e4SpdBuff) ? 0.12 : 0, SOURCE_E4)
+      // E1 DEF PEN (sealform)
+      x.buff(StatKey.DEF_PEN, (e >= 1 && r.sealformActive && r.e1DefPen) ? 0.15 : 0, x.source(SOURCE_E1))
 
-      x.BASIC_SUPER_BREAK_MODIFIER.buff((r.sealformActive) ? 0.60 : 0, SOURCE_TRACE)
+      // E4 SPD buff (sealform)
+      x.buff(StatKey.SPD_P, (e >= 4 && r.sealformActive && r.e4SpdBuff) ? 0.12 : 0, x.source(SOURCE_E4))
 
-      x.BASIC_BREAK_DMG_MODIFIER.set(talentBreakDmgModifier + r.chargeStacks * talentChargeMultiplier, SOURCE_TALENT)
-
-      x.BASIC_ATK_SCALING.buff((r.sealformActive) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-
-      x.BASIC_TOUGHNESS_DMG.buff((r.sealformActive) ? 25 + (2 + r.chargeStacks) : 10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(10, SOURCE_SKILL)
-
-      return x
+      // Super break modifier (sealform) - enables super break damage
+      x.buff(StatKey.SUPER_BREAK_MODIFIER, (r.sealformActive) ? 0.60 : 0, x.source(SOURCE_TRACE))
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, BREAK_DMG_TYPE, t.teammateBreakVulnerability, SOURCE_TRACE, Target.TEAM)
+      // Break vulnerability for team
+      x.buff(
+        StatKey.VULNERABILITY,
+        t.teammateBreakVulnerability,
+        x.damageType(DamageTag.BREAK).targets(TargetTag.FullTeam).source(SOURCE_TRACE),
+      )
 
-      x.SPD_P.buffTeam((e >= 4 && t.e4SpdBuff) ? 0.12 : 0, SOURCE_E4)
+      // E4 SPD buff for team
+      x.buff(StatKey.SPD_P, (e >= 4 && t.e4SpdBuff) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      const atkOverStacks = Math.floor(TsUtils.precisionRound((x.a[Key.ATK] - 2400) / 100))
-      const buffValue = Math.min(0.08, Math.max(0, atkOverStacks) * 0.01) + 0.02
-      buffAbilityVulnerability(x, BREAK_DMG_TYPE, buffValue, SOURCE_TRACE)
+      if (r.atkToBreakVulnerability) {
+        const atk = x.getActionValue(StatKey.ATK, RappaEntities.Rappa)
+        const atkOverStacks = Math.floor(TsUtils.precisionRound((atk - 2400) / 100))
+        const buffValue = Math.min(0.08, Math.max(0, atkOverStacks) * 0.01) + 0.02
+
+        x.buff(StatKey.VULNERABILITY, buffValue, x.damageType(DamageTag.BREAK).source(SOURCE_TRACE))
+      }
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      return `
+      return wgsl`
 if (${wgslTrue(r.atkToBreakVulnerability)}) {
-  let atkOverStacks: f32 = floor((x.ATK - 2400) / 100);
-  let buffValue: f32 = min(0.08, max(0, atkOverStacks) * 0.01) + 0.02;
-  
-  buffAbilityVulnerability(p_x, BREAK_DMG_TYPE, buffValue, 1);
+  let atkOverStacks = floor((${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)} - 2400.0) / 100.0);
+  let breakVulnBuff = min(0.08, max(0.0, atkOverStacks) * 0.01) + 0.02;
+  ${buff.hit(HKey.VULNERABILITY, 'breakVulnBuff').damageType(DamageTag.BREAK).wgsl(action)}
 }
       `
     },

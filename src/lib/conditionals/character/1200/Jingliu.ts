@@ -1,16 +1,16 @@
-import {
-  AbilityType,
-  SKILL_DMG_TYPE,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -19,6 +19,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const JingliuEntities = createEnum('Jingliu')
+export const JingliuAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jingliu')
@@ -88,41 +91,85 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(JingliuEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [JingliuEntities.Jingliu]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(JingliuAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      const singleTarget = context.enemyCount == 1
+
+      // Calculate skill scaling based on enhanced state and E1
+      const skillAtkScaling = (r.talentEnhancedState)
+        ? skillEnhancedScaling + ((e >= 1 && singleTarget) ? 1 : 0)
+        : skillScaling
+
+      // Calculate ult scaling with E1 single target bonus
+      const ultAtkScaling = ultScaling + ((e >= 1 && singleTarget) ? 1 : 0)
+
+      return {
+        [JingliuAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Ice)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [JingliuAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Ice)
+              .atkScaling(skillAtkScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [JingliuAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Ice)
+              .atkScaling(ultAtkScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [JingliuAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
+          ],
+        },
+      }
+    },
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Skills
-      x.CR.buff((r.talentEnhancedState) ? talentCrBuff : 0, SOURCE_TALENT)
-      x.ATK_P.buff((r.talentEnhancedState) ? r.talentHpDrainAtkBuff : 0, SOURCE_TALENT)
+      // Talent - Enhanced State buffs
+      x.buff(StatKey.CR, (r.talentEnhancedState) ? talentCrBuff : 0, x.source(SOURCE_TALENT))
+      x.buff(StatKey.ATK_P, (r.talentEnhancedState) ? r.talentHpDrainAtkBuff : 0, x.source(SOURCE_TALENT))
 
       // Traces
-      x.RES.buff((r.talentEnhancedState) ? 0.35 : 0, SOURCE_TRACE)
-
-      r.talentEnhancedState && buffAbilityDmg(x, ULT_DMG_TYPE, 0.20, SOURCE_TRACE)
+      x.buff(StatKey.RES, (r.talentEnhancedState) ? 0.35 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.DMG_BOOST, (r.talentEnhancedState) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_TRACE))
 
       // Eidolons
-      x.CD.buff((e >= 1 && r.e1CdBuff) ? 0.24 : 0, SOURCE_E1)
-      x.CD.buff((e >= 6 && r.talentEnhancedState) ? 0.50 : 0, SOURCE_E6)
-
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-
-      x.SKILL_ATK_SCALING.buff((r.talentEnhancedState) ? skillEnhancedScaling : skillScaling, SOURCE_SKILL)
-      x.SKILL_ATK_SCALING.buff((e >= 1 && r.talentEnhancedState && (context.enemyCount ?? context.enemyCount) == 1) ? 1 : 0, SOURCE_SKILL)
-
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.ULT_ATK_SCALING.buff((e >= 1 && (context.enemyCount ?? context.enemyCount) == 1) ? 1 : 0, SOURCE_ULT)
-
-      // BOOST
-      buffAbilityDmg(x, SKILL_DMG_TYPE, (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff) ? 0.80 : 0, SOURCE_E2)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-
-      return x
+      x.buff(StatKey.CD, (e >= 1 && r.e1CdBuff) ? 0.24 : 0, x.source(SOURCE_E1))
+      x.buff(StatKey.DMG_BOOST, (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff) ? 0.80 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_E2))
+      x.buff(StatKey.CD, (e >= 6 && r.talentEnhancedState) ? 0.50 : 0, x.source(SOURCE_E6))
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {},
-    gpuFinalizeCalculations: () => '',
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

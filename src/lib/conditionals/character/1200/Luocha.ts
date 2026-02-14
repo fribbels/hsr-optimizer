@@ -1,31 +1,32 @@
-import {
-  AbilityType,
-  NONE_TYPE,
-  SKILL_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  gpuStandardAtkHealFinalizer,
-  standardAtkHealFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
-
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
+export const LuochaEntities = createEnum('Luocha')
+export const LuochaAbilities = createEnum('BASIC', 'ULT', 'SKILL_HEAL', 'TALENT_HEAL', 'BREAK')
+
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Luocha')
-  const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_BASIC,
@@ -51,7 +52,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const talentHealFlat = talent(e, 240, 267)
 
   const defaults = {
-    healAbility: NONE_TYPE,
     fieldActive: true,
     e6ResReduction: true,
   }
@@ -62,25 +62,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    healAbility: {
-      id: 'healAbility',
-      formItem: 'select',
-      text: tHeal('Text'),
-      content: tHeal('Content'),
-      options: [
-        {
-          display: tHeal('Skill'),
-          value: SKILL_DMG_TYPE,
-          label: tHeal('Skill'),
-        },
-        {
-          display: tHeal('Talent'),
-          value: NONE_TYPE,
-          label: tHeal('Talent'),
-        },
-      ],
-      fullWidth: true,
-    },
     fieldActive: {
       id: 'fieldActive',
       formItem: 'switch',
@@ -108,39 +89,74 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+    entityDeclaration: () => Object.values(LuochaEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [LuochaEntities.Luocha]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
 
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
+    actionDeclaration: () => Object.values(LuochaAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [LuochaAbilities.BASIC]: {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Imaginary)
+            .atkScaling(basicScaling)
+            .toughnessDmg(10)
+            .build(),
+        ],
+      },
+      [LuochaAbilities.ULT]: {
+        hits: [
+          HitDefinitionBuilder.standardUlt()
+            .damageElement(ElementTag.Imaginary)
+            .atkScaling(ultScaling)
+            .toughnessDmg(20)
+            .build(),
+        ],
+      },
+      [LuochaAbilities.SKILL_HEAL]: {
+        hits: [
+          HitDefinitionBuilder.skillHeal()
+            .atkScaling(skillHealScaling)
+            .flatHeal(skillHealFlat)
+            .build(),
+        ],
+      },
+      [LuochaAbilities.TALENT_HEAL]: {
+        hits: [
+          HitDefinitionBuilder.talentHeal()
+            .atkScaling(talentHealScaling)
+            .flatHeal(talentHealFlat)
+            .build(),
+        ],
+      },
+      [LuochaAbilities.BREAK]: {
+        hits: [
+          HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
+        ],
+      },
+    }),
+    actionModifiers: () => [],
 
-      if (r.healAbility == SKILL_DMG_TYPE) {
-        x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
-        x.HEAL_SCALING.buff(skillHealScaling, SOURCE_SKILL)
-        x.HEAL_FLAT.buff(skillHealFlat, SOURCE_SKILL)
-      }
-      if (r.healAbility == NONE_TYPE) {
-        x.HEAL_TYPE.set(NONE_TYPE, SOURCE_TALENT)
-        x.HEAL_SCALING.buff(talentHealScaling, SOURCE_TALENT)
-        x.HEAL_FLAT.buff(talentHealFlat, SOURCE_TALENT)
-      }
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
 
-      return x
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.ATK_P.buffTeam((e >= 1 && m.fieldActive) ? 0.20 : 0, SOURCE_E1)
+      x.buff(StatKey.ATK_P, (e >= 1 && m.fieldActive) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+      x.buff(StatKey.RES_PEN, (e >= 6 && m.e6ResReduction) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
+    },
 
-      x.RES_PEN.buffTeam((e >= 6 && m.e6ResReduction) ? 0.20 : 0, SOURCE_E6)
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {
-      standardAtkHealFinalizer(x)
-    },
-    gpuFinalizeCalculations: () => gpuStandardAtkHealFinalizer(),
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

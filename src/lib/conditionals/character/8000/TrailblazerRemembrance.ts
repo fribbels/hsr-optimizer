@@ -7,6 +7,7 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
   ConditionalActivation,
@@ -14,8 +15,13 @@ import {
   CURRENT_DATA_VERSION,
   Stats,
 } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import {
+  newConditionalWgslWrapper,
+} from 'lib/gpu/conditionals/dynamicConditionals'
+import {
+  wgsl,
+  wgslFalse,
+} from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
   ComputedStatsArray,
@@ -24,12 +30,38 @@ import {
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import i18next from 'i18next'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import {
+  containerActionVal,
+  p_containerActionVal,
+} from 'lib/gpu/injection/injectUtils'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const TrailblazerRemembranceAbilities = createEnum(
+  'BASIC',
+  'ULT',
+  'MEMO_SKILL',
+  'BREAK',
+)
+
+export const TrailblazerRemembranceEntities = createEnum(
+  'Trailblazer',
+  'Mem',
+)
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerRemembrance')
@@ -187,40 +219,118 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    initializeConfigurations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
+    entityDeclaration: () => Object.values(TrailblazerRemembranceEntities),
+    actionDeclaration: () => Object.values(TrailblazerRemembranceAbilities),
 
-      x.SUMMONS.set(1, SOURCE_TALENT)
-      x.MEMOSPRITE.set(1, SOURCE_TALENT)
-      x.MEMO_BUFF_PRIORITY.set(r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, SOURCE_TALENT)
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      return {
+        [TrailblazerRemembranceEntities.Trailblazer]: {
+          primary: true,
+          summon: false,
+          memosprite: false,
+        },
+        [TrailblazerRemembranceEntities.Mem]: {
+          memoBaseHpScaling: memoHpScaling,
+          memoBaseHpFlat: memoHpFlat,
+          memoBaseSpdFlat: 130,
+          memoBaseDefScaling: 1,
+          memoBaseAtkScaling: 1,
+          primary: false,
+          summon: true,
+          memosprite: true,
+        },
+      }
     },
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      if (r.enhancedBasic) {
-        x.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_BASIC)
-        x.m.BASIC_ATK_SCALING.buff(enhancedBasicScaling, SOURCE_MEMO)
-      } else {
-        x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
+      const basicAbility = {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Ice)
+            .atkScaling(basicScaling)
+            .toughnessDmg(10)
+            .build(),
+        ],
       }
 
-      x.MEMO_BASE_HP_SCALING.buff(memoHpScaling, SOURCE_MEMO)
-      x.MEMO_BASE_HP_FLAT.buff(memoHpFlat, SOURCE_MEMO)
-      x.MEMO_BASE_SPD_SCALING.buff(0, SOURCE_MEMO)
-      x.MEMO_BASE_SPD_FLAT.buff(130, SOURCE_MEMO)
-      x.MEMO_BASE_DEF_SCALING.buff(1, SOURCE_MEMO)
-      x.MEMO_BASE_ATK_SCALING.buff(1, SOURCE_MEMO)
+      const enhancedBasicAbility = {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Ice)
+            .atkScaling(enhancedBasicScaling)
+            .toughnessDmg(10)
+            .build(),
+          HitDefinitionBuilder.crit()
+            .sourceEntity(TrailblazerRemembranceEntities.Mem)
+            .damageType(DamageTag.BASIC | DamageTag.MEMO)
+            .damageElement(ElementTag.Ice)
+            .atkScaling(enhancedBasicScaling)
+            .directHit(true)
+            .build(),
+        ],
+      }
 
-      x.m.MEMO_SKILL_ATK_SCALING.buff(r.memoSkillHits * memoSkillHitScaling + memoSkillFinalScaling, SOURCE_MEMO)
-      x.m.ULT_ATK_SCALING.buff(ultScaling, SOURCE_MEMO)
-
-      x.m.ULT_CR_BOOST.buff((e >= 6 && r.e6UltCrBoost) ? 1.00 : 0, SOURCE_E6)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-      x.m.MEMO_SKILL_TOUGHNESS_DMG.buff(15, SOURCE_MEMO)
+      return {
+        [TrailblazerRemembranceAbilities.BASIC]: r.enhancedBasic ? enhancedBasicAbility : basicAbility,
+        [TrailblazerRemembranceAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .sourceEntity(TrailblazerRemembranceEntities.Mem)
+              .damageType(DamageTag.ULT | DamageTag.MEMO)
+              .damageElement(ElementTag.Ice)
+              .atkScaling(ultScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [TrailblazerRemembranceAbilities.MEMO_SKILL]: {
+          hits: [
+            HitDefinitionBuilder.crit()
+              .sourceEntity(TrailblazerRemembranceEntities.Mem)
+              .damageType(DamageTag.MEMO)
+              .damageElement(ElementTag.Ice)
+              .atkScaling(r.memoSkillHits * memoSkillHitScaling + memoSkillFinalScaling)
+              .toughnessDmg(15)
+              .directHit(true)
+              .build(),
+          ],
+        },
+        [TrailblazerRemembranceAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
+          ],
+        },
+      }
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    actionModifiers() {
+      return []
+    },
+
+
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
+      x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
+      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
+    },
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // E6: Ult CR boost
+      x.buff(
+        StatKey.CR,
+        (e >= 6 && r.e6UltCrBoost) ? 1.00 : 0,
+        x.target(TrailblazerRemembranceEntities.Mem).damageType(DamageTag.ULT).source(SOURCE_E6),
+      )
+    },
+
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       if (m.memsSupport) {
@@ -230,23 +340,32 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           + (e >= 4 && m.e4TrueDmgBoost ? 0.06 : 0)
 
         if (e >= 1) {
-          x.CR.buffDual((m.e1CrBuff) ? 0.10 : 0, SOURCE_E1)
-          x.TRUE_DMG_MODIFIER.buffDual(trueDmg, SOURCE_MEMO)
+          x.buff(StatKey.CR, (m.e1CrBuff) ? 0.10 : 0, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(SOURCE_E1))
+          x.buff(StatKey.TRUE_DMG_MODIFIER, trueDmg, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(SOURCE_MEMO))
         } else {
-          x.TRUE_DMG_MODIFIER.buffSingle(trueDmg, SOURCE_MEMO)
+          x.buff(StatKey.TRUE_DMG_MODIFIER, trueDmg, x.targets(TargetTag.SingleTarget).source(SOURCE_MEMO))
         }
       }
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+
+
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const teamCDBuff = t.teamCdBuff ? memoTalentCdBuffScaling * t.memCDValue + memoTalentCdBuffFlat : 0
-      x.CD.buffTeam(teamCDBuff, SOURCE_MEMO)
-      x.UNCONVERTIBLE_CD_BUFF.buffTeam(teamCDBuff, SOURCE_MEMO)
+      x.buff(StatKey.CD, teamCDBuff, x.targets(TargetTag.FullTeam).source(SOURCE_MEMO))
+      x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, teamCDBuff, x.targets(TargetTag.FullTeam).source(SOURCE_MEMO))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+
+
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return wgsl``
+    },
+
     dynamicConditionals: [
       {
         id: 'TrailblazerRemembranceCdConditional',
@@ -254,20 +373,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CD],
         chainsTo: [Stats.CD],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           return true
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           if (!r.teamCdBuff) {
             return
           }
-          if (x.a[Key.MEMOSPRITE]) {
-            return this.effect(x.m, action, context)
-          }
 
           const stateValue = action.conditionalState[this.id] || 0
-          const convertibleCdValue = x.a[Key.CD] - x.a[Key.UNCONVERTIBLE_CD_BUFF]
+          const convertibleCdValue = x.getActionValue(StatKey.CD, TrailblazerRemembranceEntities.Mem)
+            - x.getActionValue(StatKey.UNCONVERTIBLE_CD_BUFF, TrailblazerRemembranceEntities.Mem)
 
           const buffCD = memoTalentCdBuffScaling * convertibleCdValue + memoTalentCdBuffFlat
           const stateBuffCD = memoTalentCdBuffScaling * stateValue + memoTalentCdBuffFlat
@@ -275,34 +392,39 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           action.conditionalState[this.id] = convertibleCdValue
 
           const finalBuffCd = Math.max(0, buffCD - (stateValue ? stateBuffCD : 0))
-          x.UNCONVERTIBLE_CD_BUFF.buff(finalBuffCd, SOURCE_MEMO)
 
-          x.CD.buffDynamic(finalBuffCd, SOURCE_MEMO, action, context)
-          x.summoner().CD.buffDynamic(finalBuffCd, SOURCE_MEMO, action, context)
+          x.buffDynamic(StatKey.UNCONVERTIBLE_CD_BUFF, finalBuffCd, action, context, x.target(TrailblazerRemembranceEntities.Mem).source(SOURCE_MEMO))
+          x.buffDynamic(StatKey.CD, finalBuffCd, action, context, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_MEMO))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
+          const config = action.config
+          const memoEntityIndex = config.entityRegistry.getIndex(TrailblazerRemembranceEntities.Mem)
 
-          return conditionalWgslWrapper(
+          return newConditionalWgslWrapper(
             this,
+            action,
+            context,
             `
 if (${wgslFalse(r.teamCdBuff)}) {
   return;
 }
 
-let stateValue: f32 = (*p_state).TrailblazerRemembranceCdConditional;
-let convertibleCdValue: f32 = (*p_m).CD - (*p_m).UNCONVERTIBLE_CD_BUFF;
+let stateValue: f32 = (*p_state).TrailblazerRemembranceCdConditional${action.actionIdentifier};
+let convertibleCdValue: f32 = ${containerActionVal(memoEntityIndex, StatKey.CD, config)} - ${
+              containerActionVal(memoEntityIndex, StatKey.UNCONVERTIBLE_CD_BUFF, config)
+            };
 
 var buffCD: f32 = ${memoTalentCdBuffScaling} * convertibleCdValue + ${memoTalentCdBuffFlat};
 var stateBuffCD: f32 = ${memoTalentCdBuffScaling} * stateValue + ${memoTalentCdBuffFlat};
 
-(*p_state).TrailblazerRemembranceCdConditional = (*p_m).CD;
+(*p_state).TrailblazerRemembranceCdConditional${action.actionIdentifier} = convertibleCdValue;
 
 let finalBuffCd = max(0.0, buffCD - select(0.0, stateBuffCD, stateValue > 0.0));
-(*p_m).UNCONVERTIBLE_CD_BUFF += finalBuffCd;
+${p_containerActionVal(memoEntityIndex, StatKey.UNCONVERTIBLE_CD_BUFF, config)} += finalBuffCd;
 
-(*p_m).CD += finalBuffCd;
-(*p_x).CD += finalBuffCd;
+${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += finalBuffCd;
+${p_containerActionVal(memoEntityIndex, StatKey.CD, config)} += finalBuffCd;
 `,
           )
         },

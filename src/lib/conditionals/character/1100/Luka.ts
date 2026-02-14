@@ -3,9 +3,16 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -15,6 +22,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const LukaEntities = createEnum('Luka')
+export const LukaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'DOT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Luka')
@@ -103,36 +113,85 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(LukaEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [LukaEntities.Luka]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(LukaAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Stats
-      x.ATK_P.buff((e >= 4) ? r.e4TalentStacks * 0.05 : 0, SOURCE_E4)
+      const basicAtkScaling = (r.basicEnhanced)
+        ? basicEnhancedScaling + r.basicEnhancedExtraHits * basicEnhancedHitValue
+        : basicScaling
 
-      // Scaling
-      x.BASIC_ATK_SCALING.buff((r.basicEnhanced) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
-      x.BASIC_ATK_SCALING.buff((r.basicEnhanced && r.basicEnhancedExtraHits) * basicEnhancedHitValue, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.DOT_ATK_SCALING.buff(dotScaling, SOURCE_SKILL)
-
-      // Boost
-      x.ELEMENTAL_DMG.buff((e >= 1 && r.e1TargetBleeding) ? 0.15 : 0, SOURCE_E1)
-
-      x.BASIC_TOUGHNESS_DMG.buff((r.basicEnhanced) ? 20 : 10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
-
-      x.DOT_CHANCE.set(1.00, SOURCE_SKILL)
-
-      return x
+      return {
+        [LukaAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(basicAtkScaling)
+              .toughnessDmg((r.basicEnhanced) ? 20 : 10)
+              .build(),
+          ],
+        },
+        [LukaAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [LukaAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(ultScaling)
+              .toughnessDmg(30)
+              .build(),
+          ],
+        },
+        [LukaAbilities.DOT]: {
+          hits: [
+            HitDefinitionBuilder.standardDot()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(dotScaling)
+              .dotBaseChance(1.00)
+              .build(),
+          ],
+        },
+        [LukaAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
+          ],
+        },
+      }
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.ATK_P, (e >= 4) ? r.e4TalentStacks * 0.05 : 0, x.source(SOURCE_E4))
+      x.buff(StatKey.DMG_BOOST, (e >= 1 && r.e1TargetBleeding) ? 0.15 : 0, x.source(SOURCE_E1))
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buffTeam((m.targetUltDebuffed) ? targetUltDebuffDmgTakenValue : 0, SOURCE_ULT)
+      x.buff(StatKey.VULNERABILITY, (m.targetUltDebuffed) ? targetUltDebuffDmgTakenValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {},
-    gpuFinalizeCalculations: () => '',
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

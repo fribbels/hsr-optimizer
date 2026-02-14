@@ -1,7 +1,7 @@
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 
-export function transformOptimizerDisplayData(x: ComputedStatsArray, key?: string) {
+export function transformOptimizerDisplayData(x: ComputedStatsContainer, key?: string) {
   const optimizerDisplayData = formatOptimizerDisplayData(x)
 
   if (key) {

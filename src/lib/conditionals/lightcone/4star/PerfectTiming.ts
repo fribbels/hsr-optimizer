@@ -3,7 +3,7 @@ import {
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import {
-  dynamicStatConversion,
+  dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import {
@@ -13,7 +13,7 @@ import {
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -49,10 +49,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   return {
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: () => {
-    },
-    finalizeCalculations: (x: ComputedStatsArray, request) => {
-    },
     dynamicConditionals: [
       {
         id: 'PerfectTimingConditional',
@@ -60,13 +56,13 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.RES],
         chainsTo: [Stats.OHB],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.lightConeConditionals as Conditionals<typeof content>
 
           return r.resToHealingBoost
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversionContainer(
             Stats.RES,
             Stats.OHB,
             this,

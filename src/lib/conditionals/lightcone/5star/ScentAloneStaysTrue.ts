@@ -2,12 +2,13 @@ import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
+import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
+import { SELF_ENTITY_INDEX, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -64,29 +65,27 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buffTeam((m.woefreeState) ? sValuesVulnerability[s] : 0, SOURCE_LC)
+      x.buff(StatKey.VULNERABILITY, (m.woefreeState) ? sValuesVulnerability[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buffTeam((t.woefreeState && t.additionalVulnerability) ? sValuesVulnerabilityAdditional[s] : 0, SOURCE_LC)
+      x.buff(StatKey.VULNERABILITY, (t.woefreeState && t.additionalVulnerability) ? sValuesVulnerabilityAdditional[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.VULNERABILITY.buff((r.woefreeState && x.a[Key.BE] >= 1.50) ? sValuesVulnerabilityAdditional[s] : 0, SOURCE_LC)
+      x.buff(StatKey.VULNERABILITY, (r.woefreeState && x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX) >= 1.50) ? sValuesVulnerabilityAdditional[s] : 0, x.source(SOURCE_LC))
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      return `
-if (${wgslTrue(r.woefreeState)} && x.BE >= 1.50) {
-  x.VULNERABILITY += ${sValuesVulnerabilityAdditional[s]};
+      return wgsl`
+if (${wgslTrue(r.woefreeState)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, action.config)} >= 1.50) {
+  ${buff.action(AKey.VULNERABILITY, sValuesVulnerabilityAdditional[s]).wgsl(action)}
 }
       `
     },

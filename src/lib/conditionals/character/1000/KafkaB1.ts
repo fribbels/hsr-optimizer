@@ -1,37 +1,44 @@
 import {
   AbilityType,
   ASHBLAZING_ATK_STACK,
-  DOT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
   Stats,
 } from 'lib/constants/constants'
-import { conditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
+  wgsl,
   wgslFalse,
   wgslTrue,
 } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import {
-  buffAbilityDmg,
-  buffAbilityVulnerability,
-  Target,
-} from 'lib/optimization/calculateBuffs'
+  AKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -39,6 +46,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const KafkaB1Entities = createEnum('KafkaB1')
+export const KafkaB1Abilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.KafkaB1.Content')
@@ -113,48 +123,110 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
-      x.DOT_ATK_SCALING.buff(dotScaling, SOURCE_ULT)
+    entityDeclaration: () => Object.values(KafkaB1Entities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [KafkaB1Entities.KafkaB1]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
 
-      x.DOT_ATK_SCALING.buff((e >= 6) ? 1.56 : 0, SOURCE_E6)
+    actionDeclaration: () => Object.values(KafkaB1Abilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      // E6: DoT scaling bonus
+      const dotTotalScaling = dotScaling + ((e >= 6) ? 1.56 : 0)
 
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(10, SOURCE_TALENT)
-
-      x.DOT_CHANCE.set(1.00, SOURCE_TRACE)
+      return {
+        [KafkaB1Abilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [KafkaB1Abilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(skillScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [KafkaB1Abilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(ultScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [KafkaB1Abilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(fuaScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [KafkaB1Abilities.DOT]: {
+          hits: [
+            HitDefinitionBuilder.standardDot()
+              .damageElement(ElementTag.Lightning)
+              .dotBaseChance(1.00)
+              .atkScaling(dotTotalScaling)
+              .build(),
+          ],
+        },
+        [KafkaB1Abilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
+          ],
+        },
+      }
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityVulnerability(x, DOT_DMG_TYPE, (e >= 1 && m.e1DotDmgReceivedDebuff) ? 0.30 : 0, SOURCE_E1, Target.TEAM)
-      buffAbilityDmg(x, DOT_DMG_TYPE, (e >= 2 && m.e2TeamDotDmg) ? 0.33 : 0, SOURCE_E2, Target.TEAM)
+      // E1: DoT Vulnerability +30% (team)
+      x.buff(StatKey.VULNERABILITY, (e >= 1 && m.e1DotDmgReceivedDebuff) ? 0.30 : 0, x.damageType(DamageTag.DOT).targets(TargetTag.FullTeam).source(SOURCE_E1))
+
+      // E2: DoT DMG +33% (team)
+      x.buff(StatKey.DMG_BOOST, (e >= 2 && m.e2TeamDotDmg) ? 0.33 : 0, x.damageType(DamageTag.DOT).targets(TargetTag.FullTeam).source(SOURCE_E2))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      if (r.ehrBasedBuff && x.a[Key.EHR] >= 0.75) {
-        x.ATK.buff(1.00 * context.baseATK, SOURCE_TRACE)
+      // Trace: EHR >= 75% grants +100% base ATK
+      const ehrValue = x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX)
+      if (r.ehrBasedBuff && ehrValue >= 0.75) {
+        x.buff(StatKey.ATK, 1.00 * context.baseATK, x.source(SOURCE_TRACE))
       }
 
-      boostAshblazingAtkP(x, action, context, hitMulti)
+      boostAshblazingAtkContainer(x, action, hitMulti)
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      return gpuBoostAshblazingAtkP(hitMulti) + `
-if (${wgslTrue(r.ehrBasedBuff)} && x.EHR >= 0.75) {
-  (*p_x).ATK += 1.00 * baseATK;
+      return wgsl`
+if (${wgslTrue(r.ehrBasedBuff)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)} >= 0.75) {
+  ${buff.action(AKey.ATK, `1.00 * baseATK`).wgsl(action)}
 }
-`
+      ` + gpuBoostAshblazingAtkContainer(hitMulti, action)
     },
+
     teammateDynamicConditionals: [
       {
         id: 'KafkaEhrConditional',
@@ -162,34 +234,39 @@ if (${wgslTrue(r.ehrBasedBuff)} && x.EHR >= 0.75) {
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.EHR],
         chainsTo: [],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          return x.a[Key.EHR] >= 0.75
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          return x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) >= 0.75
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
           if (!r.ehrBasedBuff) {
             return
           }
 
-          if (x.a[Key.EHR] >= 0.75) {
-            x.ATK.buff(1.00 * context.baseATK, SOURCE_TRACE)
+          const ehrValue = x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX)
+          if (ehrValue >= 0.75) {
+            x.buff(StatKey.ATK, 1.00 * context.baseATK, x.source(SOURCE_TRACE))
           }
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
+          const stateKey = `${this.id}${action.actionIdentifier}`
 
-          return conditionalWgslWrapper(
+          return newConditionalWgslWrapper(
             this,
+            action,
+            context,
             `
 if (${wgslFalse(r.ehrBasedBuff)}) {
   return;
 }
 
-let stateValue: f32 = (*p_state).${this.id};
+let stateValue: f32 = (*p_state).${stateKey};
+let ehrValue: f32 = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)};
 
-if (x.EHR >= 0.75 && stateValue == 0) {
-  (*p_x).ATK += 1.00 * baseATK;
-  (*p_state).${this.id} = 1;
+if (ehrValue >= 0.75 && stateValue == 0) {
+  ${buff.action(AKey.ATK, `1.00 * baseATK`).wgsl(action)}
+  (*p_state).${stateKey} = 1;
 }
         `,
           )

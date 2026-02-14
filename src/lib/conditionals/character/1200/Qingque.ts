@@ -1,20 +1,23 @@
 import {
   AbilityType,
   ASHBLAZING_ATK_STACK,
-  ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -24,6 +27,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const QingqueEntities = createEnum('Qingque')
+export const QingqueAbilities = createEnum('BASIC', 'ULT', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Qingque')
@@ -97,33 +103,83 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(QingqueEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [QingqueEntities.Qingque]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(QingqueAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      const basicAtkScaling = (r.basicEnhanced) ? basicEnhancedScaling : basicScaling
+      const basicToughness = (r.basicEnhanced) ? 20 : 10
+
+      return {
+        [QingqueAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Quantum)
+              .atkScaling(basicAtkScaling)
+              .toughnessDmg(basicToughness)
+              .build(),
+          ],
+        },
+        [QingqueAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Quantum)
+              .atkScaling(ultScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [QingqueAbilities.FUA]: {
+          hits: [
+            ...(
+              (e >= 4)
+                ? [
+                    HitDefinitionBuilder.standardFua()
+                      .damageElement(ElementTag.Quantum)
+                      .atkScaling(basicAtkScaling)
+                      .toughnessDmg((r.basicEnhanced) ? 20 : 10)
+                      .build(),
+                  ]
+                : []
+            ),
+          ],
+        },
+        [QingqueAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
+          ],
+        },
+      }
+    },
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Stats
-      x.ATK_P.buff((r.basicEnhanced) ? talentAtkBuff : 0, SOURCE_TALENT)
-      x.SPD_P.buff((r.basicEnhancedSpdBuff) ? 0.10 : 0, SOURCE_TRACE)
-
-      // Scaling
-      x.BASIC_ATK_SCALING.buff((r.basicEnhanced) ? basicEnhancedScaling : basicScaling, SOURCE_BASIC)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_ATK_SCALING.buff((e >= 4) ? (r.basicEnhanced) ? basicEnhancedScaling : basicScaling : 0, SOURCE_E4)
+      x.buff(StatKey.ATK_P, (r.basicEnhanced) ? talentAtkBuff : 0, x.source(SOURCE_TALENT))
+      x.buff(StatKey.SPD_P, (r.basicEnhancedSpdBuff) ? 0.10 : 0, x.source(SOURCE_TRACE))
 
       // Boost
-      x.ELEMENTAL_DMG.buff(r.skillDmgIncreaseStacks * skillStackDmg, SOURCE_SKILL)
-      buffAbilityDmg(x, ULT_DMG_TYPE, (e >= 1) ? 0.10 : 0, SOURCE_E1)
-
-      x.BASIC_TOUGHNESS_DMG.buff((r.basicEnhanced) ? 20 : 10, SOURCE_BASIC)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff((e >= 4 && r.basicEnhanced) ? 20 : 10, SOURCE_E4)
-
-      return x
+      x.buff(StatKey.DMG_BOOST, r.skillDmgIncreaseStacks * skillStackDmg, x.source(SOURCE_SKILL))
+      x.buff(StatKey.DMG_BOOST, (e >= 1) ? 0.10 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E1))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkP(x, action, context, getHitMulti(action, context))
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkP(getHitMulti(action, context))
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }

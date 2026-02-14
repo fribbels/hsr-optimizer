@@ -14,11 +14,11 @@ import {
   BufferPacker,
   OptimizerDisplayData,
 } from 'lib/optimization/bufferPacker'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { OutputTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import {
   generateOrnamentSetSolutions,
@@ -26,6 +26,7 @@ import {
 } from 'lib/optimization/relicSetSolver'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { RelicFilters } from 'lib/relics/relicFilters'
+import { logRegisters } from 'lib/simulations/registerLogger'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import {
   SimulationRelic,
@@ -38,6 +39,7 @@ import {
   activateZeroResultSuggestionsModal,
 } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { useOptimizerTabStore } from 'lib/tabs/tabOptimizer/useOptimizerTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import {
@@ -55,6 +57,8 @@ import {
 
 let CANCEL = false
 
+const TESTING = false
+
 export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
   let relics = DB.getRelics()
   relics = relics.filter((x) => x.equippedBy == request.characterId)
@@ -68,7 +72,12 @@ export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
   )
 
   const context = generateContext(request)
-  const x = simulateBuild(relicsByPart as SimulationRelicByPart, context, null, null)
+  const { x } = simulateBuild(relicsByPart as SimulationRelicByPart, context, null, null)
+
+  if (request.keepCurrentRelics) {
+    logRegisters(x, context, 'Simulate Build')
+  }
+
   const optimizerDisplayData = formatOptimizerDisplayData(x)
   OptimizerTabController.setTopRow(optimizerDisplayData, true)
   window.store.getState().setOptimizerSelectedRowData(optimizerDisplayData)
@@ -152,6 +161,8 @@ export const Optimizer = {
     window.optimizerGrid.current!.api.setGridOption('loading', true)
 
     const context = generateContext(request)
+
+    useOptimizerTabStore.getState().setContext(context)
 
     // Create a special optimization request for the top row, ignoring filters and with a custom callback
     setTimeout(() => {
@@ -269,14 +280,29 @@ export const Optimizer = {
           }
         }
 
-        WorkerPool.execute(task, callback)
+        if (!TESTING) {
+          WorkerPool.execute(task, callback)
+        } else {
+          window.store.getState().setOptimizationInProgress(false)
+          results = queueResults.toArray()
+
+          OptimizerTabController.setRows(results)
+          setSortColumn(gridSortColumn)
+
+          window.optimizerGrid.current!.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+          console.log('Done', results.length)
+          resultsShown = true
+          if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)
+          return
+        }
       }
     }
   },
 }
 
 // TODO: This is a temporary tool to rename computed stats variables to fit the optimizer grid
-export function formatOptimizerDisplayData(x: ComputedStatsArray) {
+export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
+  const context = useOptimizerTabStore.getState().context!
   const c = x.c
   const d: Partial<OptimizerDisplayData> = {
     relicSetIndex: c.relicSetIndex,
@@ -287,75 +313,127 @@ export function formatOptimizerDisplayData(x: ComputedStatsArray) {
     ca: new Float32Array(c.a),
     tracedX: x,
   }
+  const a = x.a
 
-  d[Stats.HP] = c.HP.get()
-  d[Stats.ATK] = c.ATK.get()
-  d[Stats.DEF] = c.DEF.get()
-  d[Stats.SPD] = c.SPD.get()
-  d[Stats.CR] = c.CR.get()
-  d[Stats.CD] = c.CD.get()
-  d[Stats.EHR] = c.EHR.get()
-  d[Stats.RES] = c.RES.get()
-  d[Stats.BE] = c.BE.get()
-  d[Stats.ERR] = c.ERR.get()
-  d[Stats.OHB] = c.OHB.get()
+  // Use direct array access for robustness (c may be deserialized plain object)
+  d[Stats.HP] = c.a[Key.HP]
+  d[Stats.ATK] = c.a[Key.ATK]
+  d[Stats.DEF] = c.a[Key.DEF]
+  d[Stats.SPD] = c.a[Key.SPD]
+  d[Stats.CR] = c.a[Key.CR]
+  d[Stats.CD] = c.a[Key.CD]
+  d[Stats.EHR] = c.a[Key.EHR]
+  d[Stats.RES] = c.a[Key.RES]
+  d[Stats.BE] = c.a[Key.BE]
+  d[Stats.ERR] = c.a[Key.ERR]
+  d[Stats.OHB] = c.a[Key.OHB]
 
-  d.ED = c.ELEMENTAL_DMG.get()
-  d.BASIC = x.BASIC_DMG.get()
-  d.SKILL = x.SKILL_DMG.get()
-  d.ULT = x.ULT_DMG.get()
-  d.FUA = x.FUA_DMG.get()
-  d.MEMO_SKILL = x.MEMO_SKILL_DMG.get()
-  d.MEMO_TALENT = x.MEMO_TALENT_DMG.get()
-  d.DOT = x.DOT_DMG.get()
-  d.BREAK = x.BREAK_DMG.get()
-  d.COMBO = x.COMBO_DMG.get()
-  d.EHP = x.EHP.get()
-  d.HEAL = x.HEAL_VALUE.get()
-  d.SHIELD = x.SHIELD_VALUE.get()
-  d.xHP = x.HP.get()
-  d.xATK = x.ATK.get()
-  d.xDEF = x.DEF.get()
-  d.xSPD = x.SPD.get()
-  d.xCR = x.CR.get()
-  d.xCD = x.CD.get()
-  d.xEHR = x.EHR.get()
-  d.xRES = x.RES.get()
-  d.xBE = x.BE.get()
-  d.xERR = x.ERR.get()
-  d.xOHB = x.OHB.get()
-  d.xELEMENTAL_DMG = x.ELEMENTAL_DMG.get()
+  d.ED = c.a[Key.ELEMENTAL_DMG]
+  // TODO
+  // d.BASIC = a[StatKey.BASIC_DMG]
+  // d.SKILL = a[StatKey.SKILL_DMG]
+  // d.ULT = a[StatKey.ULT_DMG]
+  // d.FUA = a[StatKey.FUA_DMG]
+  // d.MEMO_SKILL = a[StatKey.MEMO_SKILL_DMG]
+  // d.MEMO_TALENT = a[StatKey.MEMO_TALENT_DMG]
+  // d.DOT = a[StatKey.DOT_DMG]
+  // d.BREAK = a[StatKey.BREAK_DMG]
+  d.COMBO = a[StatKey.COMBO_DMG]
+  d.EHP = a[StatKey.EHP]
 
-  d.mELEMENTAL_DMG = c.ELEMENTAL_DMG.get()
-  if (x.a[Key.MEMOSPRITE]) {
-    const c = x.m.c
-    d.mHP = c.HP.get()
-    d.mATK = c.ATK.get()
-    d.mDEF = c.DEF.get()
-    d.mSPD = c.SPD.get()
-    d.mCR = c.CR.get()
-    d.mCD = c.CD.get()
-    d.mEHR = c.EHR.get()
-    d.mRES = c.RES.get()
-    d.mBE = c.BE.get()
-    d.mERR = c.ERR.get()
-    d.mOHB = c.OHB.get()
+  d.xHP = a[StatKey.HP]
+  d.xATK = a[StatKey.ATK]
+  d.xDEF = a[StatKey.DEF]
+  d.xSPD = a[StatKey.SPD]
+  d.xCR = a[StatKey.CR] + a[StatKey.CR_BOOST]
+  d.xCD = a[StatKey.CD] + a[StatKey.CD_BOOST]
+  d.xEHR = a[StatKey.EHR]
+  d.xRES = a[StatKey.RES]
+  d.xBE = a[StatKey.BE]
+  d.xERR = a[StatKey.ERR]
+  d.xOHB = a[StatKey.OHB]
+  d.xELEMENTAL_DMG = a[StatKey.DMG_BOOST]
 
-    const m = x.m
-    d.mxHP = m.HP.get()
-    d.mxATK = m.ATK.get()
-    d.mxDEF = m.DEF.get()
-    d.mxSPD = m.SPD.get()
-    d.mxCR = m.CR.get()
-    d.mxCD = m.CD.get()
-    d.mxEHR = m.EHR.get()
-    d.mxRES = m.RES.get()
-    d.mxBE = m.BE.get()
-    d.mxERR = m.ERR.get()
-    d.mxOHB = m.OHB.get()
-    d.mxELEMENTAL_DMG = m.ELEMENTAL_DMG.get()
-    d.mxEHP = m.EHP.get()
+  d.mELEMENTAL_DMG = c.a[Key.ELEMENTAL_DMG]
+
+  if (context) {
+    let heal = 0
+    let shield = 0
+    for (const action of context.rotationActions) {
+      if (action.hits) {
+        for (const hit of action.hits) {
+          const hitValue = x.getHitRegisterValue(hit.registerIndex)
+          if (hit.outputTag === OutputTag.HEAL) {
+            heal += hitValue
+          } else if (hit.outputTag === OutputTag.SHIELD) {
+            shield += hitValue
+          }
+        }
+      }
+    }
+    d.HEAL = heal
+    d.SHIELD = shield
+
+    switch (context.elementalDamageType) {
+      case Stats.Physical_DMG:
+        d.xELEMENTAL_DMG += a[StatKey.PHYSICAL_DMG_BOOST]
+        break
+      case Stats.Fire_DMG:
+        d.xELEMENTAL_DMG += a[StatKey.FIRE_DMG_BOOST]
+        break
+      case Stats.Ice_DMG:
+        d.xELEMENTAL_DMG += a[StatKey.ICE_DMG_BOOST]
+        break
+      case Stats.Lightning_DMG:
+        d.xELEMENTAL_DMG += a[StatKey.LIGHTNING_DMG_BOOST]
+        break
+      case Stats.Wind_DMG:
+        d.xELEMENTAL_DMG += a[StatKey.WIND_DMG_BOOST]
+        break
+      case Stats.Quantum_DMG:
+        d.xELEMENTAL_DMG += a[StatKey.QUANTUM_DMG_BOOST]
+        break
+      case Stats.Imaginary_DMG:
+        d.xELEMENTAL_DMG += a[StatKey.IMAGINARY_DMG_BOOST]
+        break
+    }
+
+    for (const action of context.defaultActions) {
+      // @ts-ignore
+      d[action.actionName] = x.getActionRegisterValue(action.registerIndex)
+    }
   }
+
+  // TODO
+  // if (x.a[Key.MEMOSPRITE]) {
+  //   const c = x.m.c
+  //   d.mHP = c.HP.get()
+  //   d.mATK = c.ATK.get()
+  //   d.mDEF = c.DEF.get()
+  //   d.mSPD = c.SPD.get()
+  //   d.mCR = c.CR.get()
+  //   d.mCD = c.CD.get()
+  //   d.mEHR = c.EHR.get()
+  //   d.mRES = c.RES.get()
+  //   d.mBE = c.BE.get()
+  //   d.mERR = c.ERR.get()
+  //   d.mOHB = c.OHB.get()
+  //
+  //   const m = x.m
+  //   d.mxHP = m.HP.get()
+  //   d.mxATK = m.ATK.get()
+  //   d.mxDEF = m.DEF.get()
+  //   d.mxSPD = m.SPD.get()
+  //   d.mxCR = m.CR.get()
+  //   d.mxCD = m.CD.get()
+  //   d.mxEHR = m.EHR.get()
+  //   d.mxRES = m.RES.get()
+  //   d.mxBE = m.BE.get()
+  //   d.mxERR = m.ERR.get()
+  //   d.mxOHB = m.OHB.get()
+  //   d.mxELEMENTAL_DMG = m.ELEMENTAL_DMG.get()
+  //   d.mxEHP = m.EHP.get()
+  // }
 
   return d as OptimizerDisplayData
 }

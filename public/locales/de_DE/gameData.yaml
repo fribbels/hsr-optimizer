@@ -257,12 +257,6 @@ Characters:
   "8008":
     Name: Stella
     LongName: Stella (Das Gedenken)
-  1306b1:
-    Name: Sparkle
-    LongName: Sparkle
-  1307b1:
-    Name: Black Swan
-    LongName: Black Swan
   1212b1:
     Name: Jingliu
     LongName: Jingliu
@@ -275,6 +269,12 @@ Characters:
   1006b1:
     Name: Silberwolf
     LongName: Silberwolf
+  1307b1:
+    Name: Schwarzer Schwan
+    LongName: Schwarzer Schwan
+  1306b1:
+    Name: Sparkle
+    LongName: Sparkle
 RelicSets:
   "101":
     Name: Wanderer der vorbeiziehenden Wolke
@@ -389,13 +389,13 @@ RelicSets:
     Description2pc: Erhöht die gewährte Schildmenge um 10%.
     Description4pc: Erhöht die vom Träger gewährte Schildmenge um 12%. Wenn ein Verbündeter einen vom Träger gewährten Schild hat, wird sein KRIT-SCH um 15% erhöht.
   "129":
-    Name: Ever-Glorious Magical Girl
-    Description2pc: Increases CRIT DMG by 16%.
-    Description4pc: The Elation DMG dealt by the wearer and their memosprites ignores 10% of targets' DEF. For every 5 accumulated Punchline allies gain, the Elation DMG dealt additionally ignores 1% of targets' DEF, which stacks up to 10 times.
+    Name: Magisches Mädchen mit glänzendem Verdienst
+    Description2pc: Erhöht KRIT-SCH um 16%.
+    Description4pc: Der vom Träger und seinem Memogeist verursachte Hochgefühl-SCH ignoriert 10% der VTD des Ziels. Für je 5 von Verbündeten gesammelte Lachpunkte ignoriert der verursachte Hochgefühl-SCH zusätzlich 1% der VTD des Ziels. Dieser Effekt ist bis zu 10-fach stapelbar.
   "130":
-    Name: Diviner of Distant Reach
-    Description2pc: Increases SPD by 6%.
-    Description4pc: Before entering combat, if the wearer's SPD is greater than or equal to 120/160, increases the wearer's CRIT Rate by 10%/18%. When the wearer uses Elation Skill for the first time in each battle, enhances all allies' Elation by 10%. This effect cannot stack.
+    Name: Himmelweitreichender Wahrsager
+    Description2pc: Erhöht GES um 6%.
+    Description4pc: Wenn die GES des Trägers vor dem Kampfeintritt größer oder gleich 120/160 ist, wird seine KRIT-Rate um 10%/18% erhöht. Jedes Mal, wenn der Träger im Kampf zum ersten Mal seine Hochgefühl-Fähigkeit einsetzt, wird das Hochgefühl aller Verbündeten um 10% erhöht. Dieser Effekt ist nicht stapelbar.
   "301":
     Name: Raumstation für Versiegelung
     Description2pc: Erhöht ANG des Trägers um 12%. Wenn die GES des Trägers 120 oder höher erreicht, wird sein ANG zusätzlich um 12% erhöht.
@@ -516,9 +516,9 @@ Lightcones:
   "20022":
     Name: Rückblick
   "20023":
-    Name: Sneering
+    Name: Höhnisches Lachen
   "20024":
-    Name: Lingering Tears
+    Name: Verweilende Träne
   "21000":
     Name: Ein Gespräch nach der OP
   "21001":
@@ -642,9 +642,9 @@ Lightcones:
   "21062":
     Name: Wiedersehen an der Ziellinie
   "21064":
-    Name: Mushy Shroomy's Adventures
+    Name: Die Abenteuer des pilzigen Pilzes
   "21065":
-    Name: Today's Good Luck
+    Name: Glück des Tages
   "22000":
     Name: Bevor das Tutorial beginnt
   "22001":
@@ -766,9 +766,9 @@ Lightcones:
   "23052":
     Name: Liebe, so ewig wie dieser Moment
   "23053":
-    Name: Dazzled By A Flowery World
+    Name: Bezaubert von einer blumigen Welt
   "23054":
-    Name: When She Decided To See
+    Name: Der Entschluss zu sehen
   "24000":
     Name: Der Niedergang eines Äons
   "24001":
@@ -790,6 +790,8 @@ Paths:
   Knight: Die Bewahrung
   Priest: Der Überfluss
   Memory: Das Gedenken
+  Elation: Das Hochgefühl
+  Unknown: Universal
 Elements:
   Physical: Physisch
   Fire: Feuer

@@ -3,7 +3,8 @@ import {
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -28,21 +29,17 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       id: 'routedVulnerability',
       formItem: 'switch',
       text: t('Content.routedVulnerability.text'),
-      content: t('Content.routedVulnerability.content', { Vulnerability: sValuesVulnerability[s] * 100 }), // `When the wearer deals Break DMG to an enemy target, inflicts Routed on the enemy, lasting for 2 turn(s).
-      // Targets afflicted with Routed receive ${sValuesVulnerability[s] * 100}% increased Break DMG from the wearer, and their SPD is lowered by 20%.
-      // Effects of the similar type cannot be stacked.`,
+      content: t('Content.routedVulnerability.content', { Vulnerability: sValuesVulnerability[s] * 100 }),
     },
   }
 
   return {
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.VULNERABILITY.buff((r.routedVulnerability) ? sValuesVulnerability[s] : 0, SOURCE_LC)
-    },
-    finalizeCalculations: () => {
+      x.buff(StatKey.VULNERABILITY, (r.routedVulnerability) ? sValuesVulnerability[s] : 0, x.source(SOURCE_LC))
     },
   }
 }

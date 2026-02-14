@@ -1,4 +1,5 @@
 import { Flex } from 'antd'
+import { ComputedStatsArray, DamageBreakdown } from 'lib/optimization/computedStatsArray'
 import { DamageSplitsChart } from 'lib/tabs/tabOptimizer/analysis/DamageSplitsChart'
 import { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
@@ -10,16 +11,21 @@ export const DAMAGE_SPLITS_CHART_HEIGHT = 400
 export function DamageSplits(props: {
   analysis: OptimizerResultAnalysis,
 }) {
-  const splits = props.analysis.newX.dmgSplits
+  // Legacy access: newX is ComputedStatsArray at runtime but typed as ComputedStatsContainer
+  // TODO: Refactor all of this
+  const legacyX = props.analysis.newX as unknown as ComputedStatsArray
+  const splits = legacyX.dmgSplits
 
   if (!splits) {
     return <div />
   }
 
-  splits.MEMO_SKILL_DMG = props.analysis.newX.m.dmgSplits.MEMO_SKILL_DMG
-  splits.MEMO_TALENT_DMG = props.analysis.newX.m.dmgSplits.MEMO_TALENT_DMG
+  if (legacyX.m?.dmgSplits) {
+    splits.MEMO_SKILL_DMG = legacyX.m.dmgSplits.MEMO_SKILL_DMG
+    splits.MEMO_TALENT_DMG = legacyX.m.dmgSplits.MEMO_TALENT_DMG
+  }
 
-  const data = Object.values(splits)
+  const data: DamageBreakdown[] = Object.values(splits)
 
   return (
     <Flex

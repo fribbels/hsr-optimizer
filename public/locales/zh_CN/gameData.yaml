@@ -257,12 +257,6 @@ Characters:
   "8008":
     Name: 星
     LongName: 星 (记忆)
-  1306b1:
-    Name: 花火
-    LongName: 花火
-  1307b1:
-    Name: 黑天鹅
-    LongName: 黑天鹅
   1212b1:
     Name: 镜流
     LongName: 镜流
@@ -275,6 +269,12 @@ Characters:
   1006b1:
     Name: 银狼
     LongName: 银狼
+  1307b1:
+    Name: 黑天鹅
+    LongName: 黑天鹅
+  1306b1:
+    Name: 花火
+    LongName: 花火
 RelicSets:
   "101":
     Name: 云无留迹的过客
@@ -790,6 +790,8 @@ Paths:
   Knight: 存护
   Priest: 丰饶
   Memory: 记忆
+  Elation: 欢愉
+  Unknown: 通用
 Elements:
   Physical: 物理
   Fire: 火

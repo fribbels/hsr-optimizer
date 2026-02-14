@@ -186,13 +186,14 @@ export function getShowcaseStats(
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics).filter((relic) => !!relic))
   const form = OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form))
   const context = generateContext(form)
-  const x = simulateBuild(statCalculationRelics as SimulationRelicByPart, context, null, null)
+  const { x } = simulateBuild(statCalculationRelics as SimulationRelicByPart, context, null, null)
   const basicStats = x.c.toBasicStatsObject()
   const finalStats: BasicStatsObject = {
     ...basicStats,
   }
 
-  finalStats[showcaseMetadata.elementalDmgType] = finalStats.ELEMENTAL_DMG
+  // Element-specific DMG (e.g., "Ice DMG Boost") is already populated by toBasicStatsObject
+  // from the correct Key index - no need to overwrite with ELEMENTAL_DMG
 
   return finalStats
 }

@@ -1,17 +1,55 @@
 import {
+  ElementName,
+  ElementToStatKeyDmgBoost,
   Stats,
+  StatsValues,
   SubStats,
 } from 'lib/constants/constants'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import {
-  ComputedStatsArray,
-  ComputedStatsArrayCore,
-  Key,
-  StatToKey,
-} from 'lib/optimization/computedStatsArray'
+  AKeyValue,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { StatCalculator } from 'lib/relics/statCalculator'
 
 import { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
+
+// Stats string to StatKey mapping - defined here to avoid circular dependency with keys.ts
+export const StatsToStatKey: Record<StatsValues, AKeyValue> = {
+  [Stats.ATK_P]: StatKey.ATK_P,
+  [Stats.ATK]: StatKey.ATK,
+  [Stats.BE]: StatKey.BE,
+  [Stats.CD]: StatKey.CD,
+  [Stats.CR]: StatKey.CR,
+  [Stats.DEF_P]: StatKey.DEF_P,
+  [Stats.DEF]: StatKey.DEF,
+  [Stats.EHR]: StatKey.EHR,
+  [Stats.ERR]: StatKey.ERR,
+  [Stats.Fire_DMG]: StatKey.FIRE_DMG_BOOST,
+  [Stats.HP_P]: StatKey.HP_P,
+  [Stats.HP]: StatKey.HP,
+  [Stats.Ice_DMG]: StatKey.ICE_DMG_BOOST,
+  [Stats.Imaginary_DMG]: StatKey.IMAGINARY_DMG_BOOST,
+  [Stats.Lightning_DMG]: StatKey.LIGHTNING_DMG_BOOST,
+  [Stats.OHB]: StatKey.OHB,
+  [Stats.Physical_DMG]: StatKey.PHYSICAL_DMG_BOOST,
+  [Stats.Quantum_DMG]: StatKey.QUANTUM_DMG_BOOST,
+  [Stats.RES]: StatKey.RES,
+  [Stats.SPD_P]: StatKey.SPD_P,
+  [Stats.SPD]: StatKey.SPD,
+  [Stats.Wind_DMG]: StatKey.WIND_DMG_BOOST,
+  [Stats.Elation_DMG]: StatKey.ELATION_DMG_BOOST,
+}
+
+// Get combined elemental DMG from the Container for the self entity
+// DMG_BOOST (generic) + element-specific boost (e.g., ICE_DMG_BOOST)
+// Uses getSelfValue() to work with containers from fromArrays() that lack config
+export function getElementalDmgFromContainer(x: ComputedStatsContainer, element: ElementName): number {
+  const dmgBoost = x.getSelfValue(StatKey.DMG_BOOST)
+  const elementBoost = x.getSelfValue(ElementToStatKeyDmgBoost[element])
+  return dmgBoost + elementBoost
+}
 import {
   RunStatSimulationsResult,
   Simulation,
@@ -250,7 +288,7 @@ export function simSorter(a: Simulation, b: Simulation) {
 export function applyScoringFunction(result: RunStatSimulationsResult, metadata: SimulationMetadata, penalty = true, user = false) {
   if (!result) return
 
-  const unpenalizedSimScore = result.xa[Key.COMBO_DMG]
+  const unpenalizedSimScore = result.x.getSelfValue(StatKey.COMBO_DMG)
   const penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, user)
   result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)
 }
@@ -260,23 +298,25 @@ export function calculatePenaltyMultiplier(
   metadata: SimulationMetadata,
   user = false,
 ) {
+  const x = simulationResult.x
   let newPenaltyMultiplier = 1
   if (metadata.breakpoints) {
     for (const stat of Object.keys(metadata.breakpoints)) {
-      if (stat == Stats.SPD && simulationResult.xa[StatToKey[stat]] < metadata.breakpoints[stat]) {
+      const statValue = x.getSelfValue(StatsToStatKey[stat as StatsValues])
+      if (stat == Stats.SPD && statValue < metadata.breakpoints[stat]) {
         if (user) {
           // Cyrene case
           newPenaltyMultiplier *= 0.75
         }
       } else if (Utils.isFlat(stat)) {
         // Flats are penalized by their percentage
-        newPenaltyMultiplier *= (Math.min(1, simulationResult.xa[StatToKey[stat]] / metadata.breakpoints[stat]) + 1) / 2
+        newPenaltyMultiplier *= (Math.min(1, statValue / metadata.breakpoints[stat]) + 1) / 2
       } else {
         // Percents are penalize by half of the missing stat's breakpoint roll percentage
         newPenaltyMultiplier *= Math.min(
           1,
           1
-            - (metadata.breakpoints[stat] - simulationResult.xa[StatToKey[stat]])
+            - (metadata.breakpoints[stat] - statValue)
               / StatCalculator.getMaxedSubstatValue(stat as SubStats, 1.0),
         )
       }
@@ -286,36 +326,28 @@ export function calculatePenaltyMultiplier(
   return newPenaltyMultiplier
 }
 
-export function cloneComputedStatsArray(x: ComputedStatsArray) {
-  const clone = new ComputedStatsArrayCore(false)
-  clone.a.set(new Float32Array(x.a))
-  clone.c.a.set(new Float32Array(x.c.a))
-
-  clone.c.id = x.c.id
-  clone.c.relicSetIndex = x.c.relicSetIndex
-  clone.c.ornamentSetIndex = x.c.ornamentSetIndex
-
-  return clone as ComputedStatsArray
-}
-
 export function cloneSimResult(result: RunStatSimulationsResult) {
-  const x = cloneComputedStatsArray(result.x)
+  const x = result.x.clone()
   result.x = x
   result.xa = x.a
   result.ca = x.c.a
+  // primaryActionStats and actionDamage are simple objects, shallow copy is sufficient
+  if (result.primaryActionStats) {
+    result.primaryActionStats = { ...result.primaryActionStats }
+  }
+  if (result.actionDamage) {
+    result.actionDamage = { ...result.actionDamage }
+  }
 
   return result
 }
 
-// Does not clone relic/ornament set index
+// Reconstructs container from worker result arrays (no config available)
 export function cloneWorkerResult(result: RunStatSimulationsResult) {
-  const clone = new ComputedStatsArrayCore(false)
   const xa = new Float32Array(result.xa)
   const ca = new Float32Array(result.ca)
-  clone.a.set(xa)
-  clone.c.a.set(ca)
 
-  result.x = clone as ComputedStatsArray
+  result.x = ComputedStatsContainer.fromArrays(xa, ca)
   result.xa = xa
   result.ca = ca
 

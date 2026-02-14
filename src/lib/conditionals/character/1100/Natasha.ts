@@ -4,16 +4,15 @@ import {
   ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  gpuStandardHpHealFinalizer,
-  standardHpHealFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
-import {
   AbilityEidolon,
-  Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -23,22 +22,15 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
+export const NatashaEntities = createEnum('Natasha')
+export const NatashaAbilities = createEnum('BASIC', 'SKILL_HEAL', 'ULT_HEAL', 'BREAK')
+
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Natasha')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
-    SOURCE_BASIC,
-    SOURCE_SKILL,
-    SOURCE_ULT,
-    SOURCE_TALENT,
-    SOURCE_TECHNIQUE,
     SOURCE_TRACE,
-    SOURCE_MEMO,
-    SOURCE_E1,
-    SOURCE_E2,
-    SOURCE_E4,
-    SOURCE_E6,
   } = Source.character('1105')
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -49,54 +41,72 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const skillHealScaling = skill(e, 0.105, 0.112)
   const skillHealFlat = skill(e, 280, 311.5)
 
-  const content: ContentDefinition<typeof defaults> = {
-    healAbility: {
-      id: 'healAbility',
-      formItem: 'select',
-      text: tHeal('Text'),
-      content: tHeal('Content'),
-      options: [
-        { display: tHeal('Skill'), value: SKILL_DMG_TYPE, label: tHeal('Skill') },
-        { display: tHeal('Ult'), value: ULT_DMG_TYPE, label: tHeal('Ult') },
-      ],
-      fullWidth: true,
-    },
-  }
+  // E6: Basic attack gains HP scaling
+  const e6BasicHpScaling = e >= 6 ? 0.40 : 0
 
   const defaults = {
-    healAbility: ULT_DMG_TYPE,
+  }
+
+  const content: ContentDefinition<typeof defaults> = {
   }
 
   return {
     activeAbilities: [AbilityType.BASIC],
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.OHB.buff(0.10, SOURCE_TRACE)
+    entityDeclaration: () => Object.values(NatashaEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [NatashaEntities.Natasha]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
 
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.BASIC_HP_SCALING.buff((e >= 6) ? 0.40 : 0, SOURCE_E6)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-
-      if (r.healAbility == SKILL_DMG_TYPE) {
-        x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
-        x.HEAL_SCALING.buff(skillHealScaling, SOURCE_SKILL)
-        x.HEAL_FLAT.buff(skillHealFlat, SOURCE_SKILL)
+    actionDeclaration: () => Object.values(NatashaAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      return {
+        [NatashaAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Physical)
+              .atkScaling(basicScaling)
+              .hpScaling(e6BasicHpScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [NatashaAbilities.SKILL_HEAL]: {
+          hits: [
+            HitDefinitionBuilder.skillHeal()
+              .hpScaling(skillHealScaling)
+              .flatHeal(skillHealFlat)
+              .build(),
+          ],
+        },
+        [NatashaAbilities.ULT_HEAL]: {
+          hits: [
+            HitDefinitionBuilder.ultHeal()
+              .hpScaling(ultHealScaling)
+              .flatHeal(ultHealFlat)
+              .build(),
+          ],
+        },
+        [NatashaAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
+          ],
+        },
       }
-      if (r.healAbility == ULT_DMG_TYPE) {
-        x.HEAL_TYPE.set(ULT_DMG_TYPE, SOURCE_ULT)
-        x.HEAL_SCALING.buff(ultHealScaling, SOURCE_ULT)
-        x.HEAL_FLAT.buff(ultHealFlat, SOURCE_ULT)
-      }
+    },
+    actionModifiers: () => [],
 
-      return x
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      x.buff(StatKey.OHB, 0.10, x.source(SOURCE_TRACE))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardHpHealFinalizer(x)
-    },
-    gpuFinalizeCalculations: () => gpuStandardHpHealFinalizer(),
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

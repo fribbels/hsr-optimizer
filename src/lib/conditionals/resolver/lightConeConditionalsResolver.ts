@@ -9,6 +9,7 @@ import DataBank from 'lib/conditionals/lightcone/3star/DataBank'
 import Defense from 'lib/conditionals/lightcone/3star/Defense'
 import FineFruit from 'lib/conditionals/lightcone/3star/FineFruit'
 import HiddenShadow from 'lib/conditionals/lightcone/3star/HiddenShadow'
+import LingeringTear from 'lib/conditionals/lightcone/3star/LingeringTear'
 import Loop from 'lib/conditionals/lightcone/3star/Loop'
 import Mediation from 'lib/conditionals/lightcone/3star/Mediation'
 import MeshingCogs from 'lib/conditionals/lightcone/3star/MeshingCogs'
@@ -18,6 +19,7 @@ import Passkey from 'lib/conditionals/lightcone/3star/Passkey'
 import Pioneering from 'lib/conditionals/lightcone/3star/Pioneering'
 import Reminiscence from 'lib/conditionals/lightcone/3star/Reminiscence'
 import Sagacity from 'lib/conditionals/lightcone/3star/Sagacity'
+import Sneering from 'lib/conditionals/lightcone/3star/Sneering'
 import Shadowburn from 'lib/conditionals/lightcone/3star/Shadowburn'
 import ShatteredHome from 'lib/conditionals/lightcone/3star/ShatteredHome'
 import Void from 'lib/conditionals/lightcone/3star/Void'
@@ -52,6 +54,7 @@ import JourneyForeverPeaceful from 'lib/conditionals/lightcone/4star/JourneyFore
 import LandausChoice from 'lib/conditionals/lightcone/4star/LandausChoice'
 import MakeTheWorldClamor from 'lib/conditionals/lightcone/4star/MakeTheWorldClamor'
 import MemoriesOfThePast from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
+import MushyShroomysAdventures from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
 import NinjaRecordSoundHunt from 'lib/conditionals/lightcone/4star/NinjaRecordSoundHunt'
 import NowhereToRun from 'lib/conditionals/lightcone/4star/NowhereToRun'
 import OnlySilenceRemains from 'lib/conditionals/lightcone/4star/OnlySilenceRemains'
@@ -80,6 +83,7 @@ import TheSeriousnessOfBreakfast from 'lib/conditionals/lightcone/4star/TheSerio
 import TheStorysNextPage from 'lib/conditionals/lightcone/4star/TheStorysNextPage'
 import ThisIsMe from 'lib/conditionals/lightcone/4star/ThisIsMe'
 import TodayIsAnotherPeacefulDay from 'lib/conditionals/lightcone/4star/TodayIsAnotherPeacefulDay'
+import TodaysGoodLuck from 'lib/conditionals/lightcone/4star/TodaysGoodLuck'
 import TrendOfTheUniversalMarket from 'lib/conditionals/lightcone/4star/TrendOfTheUniversalMarket'
 import UnderTheBlueSky from 'lib/conditionals/lightcone/4star/UnderTheBlueSky'
 import UntoTomorrowsMorrow from 'lib/conditionals/lightcone/4star/UntoTomorrowsMorrow'
@@ -99,8 +103,10 @@ import BrighterThanTheSun from 'lib/conditionals/lightcone/5star/BrighterThanThe
 import ButTheBattleIsntOver from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import CruisingInTheStellarSea from 'lib/conditionals/lightcone/5star/CruisingInTheStellarSea'
 import DanceAtSunset from 'lib/conditionals/lightcone/5star/DanceAtSunset'
+import DazzledByAFloweryWorld from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
 import EarthlyEscapade from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import EchoesOfTheCoffin from 'lib/conditionals/lightcone/5star/EchoesOfTheCoffin'
+import ElationBrimmingWithBlessings from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
 import EpochEtchedInGoldenBlood from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
 import EternalCalculus from 'lib/conditionals/lightcone/5star/EternalCalculus'
 import FlameOfBloodBlazeMyPath from 'lib/conditionals/lightcone/5star/FlameOfBloodBlazeMyPath'
@@ -142,6 +148,7 @@ import ThoseManySprings from 'lib/conditionals/lightcone/5star/ThoseManySprings'
 import ThusBurnsTheDawn from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import TimeWaitsForNoOne from 'lib/conditionals/lightcone/5star/TimeWaitsForNoOne'
 import TimeWovenIntoGold from 'lib/conditionals/lightcone/5star/TimeWovenIntoGold'
+import WhenSheDecidedToSee from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import WhereaboutsShouldDreamsRest from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import WhyDoesTheOceanSing from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import WorrisomeBlissful from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
@@ -235,6 +242,11 @@ const fiveStar: Record<string, LightConeConditionalFunction> = {
   21060: ADreamScentedInWheat,
   21061: HolidayThermaeEscapade,
   21062: SeeYouAtTheEnd,
+
+  23053: DazzledByAFloweryWorld,
+  23054: WhenSheDecidedToSee,
+
+  // 24006: ElationBrimmingWithBlessings,
 }
 
 const fourStar: Record<string, LightConeConditionalFunction> = {
@@ -291,6 +303,9 @@ const fourStar: Record<string, LightConeConditionalFunction> = {
   21051: GeniusesGreetings,
   21052: SweatNowCryLess,
 
+  21064: MushyShroomysAdventures,
+  21065: TodaysGoodLuck,
+
   22000: BeforeTheTutorialMissionStarts,
   22001: HeyOverHere,
   22002: ForTomorrowsJourney,
@@ -325,6 +340,8 @@ const threeStar: Record<string, LightConeConditionalFunction> = {
 
   20021: Shadowburn,
   20022: Reminiscence,
+  20023: Sneering,
+  20024: LingeringTear,
 }
 
 export const lightConeOptionMapping: Record<string, LightConeConditionalFunction> = {
@@ -345,8 +362,6 @@ export const LightConeConditionalsResolver = {
       return {
         content: () => [],
         defaults: () => ({}),
-        precomputeEffects: () => {
-        },
         finalizeCalculations: () => {
         },
       }

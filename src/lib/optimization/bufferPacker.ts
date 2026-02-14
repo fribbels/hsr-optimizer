@@ -1,11 +1,14 @@
+import { ElementName, ElementToStatKeyDmgBoost } from 'lib/constants/constants'
 import {
   Buff,
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
+import { StatKey } from './engine/config/keys'
 
-const SIZE = 65
+const SIZE = 75
 
 export type OptimizerDisplayData = {
   'id': number,
@@ -78,11 +81,22 @@ export type OptimizerDisplayData = {
 
   'mxEHP': number,
 
+  'BASIC_HEAL'?: number,
+  'SKILL_HEAL'?: number,
+  'ULT_HEAL'?: number,
+  'FUA_HEAL'?: number,
+  'TALENT_HEAL'?: number,
+  'BASIC_SHIELD'?: number,
+  'SKILL_SHIELD'?: number,
+  'ULT_SHIELD'?: number,
+  'FUA_SHIELD'?: number,
+  'TALENT_SHIELD'?: number,
+
   'xa': Float32Array,
   'ca': Float32Array,
 
   // Not safe to use unless trace is activated with a new instance
-  'tracedX'?: ComputedStatsArray,
+  'tracedX'?: ComputedStatsContainer,
 
   'statSim': { key: string },
 }
@@ -99,6 +113,129 @@ export type OptimizerDisplayDataStatSim = OptimizerDisplayData & {
 }
 
 export const BufferPacker = {
+  packCharacterContainer: (arr: Float32Array, offset: number, x: any, c: any, context: any, memoEntityIndex: number) => {
+    offset = offset * SIZE
+    const ca = c.a
+
+    // [0] ID
+    arr[offset] = c.id
+
+    // [1-11] Basic stats
+    arr[offset + 1] = ca[StatKey.HP]
+    arr[offset + 2] = ca[StatKey.ATK]
+    arr[offset + 3] = ca[StatKey.DEF]
+    arr[offset + 4] = ca[StatKey.SPD]
+    arr[offset + 5] = ca[StatKey.CR]
+    arr[offset + 6] = ca[StatKey.CD]
+    arr[offset + 7] = ca[StatKey.EHR]
+    arr[offset + 8] = ca[StatKey.RES]
+    arr[offset + 9] = ca[StatKey.BE]
+    arr[offset + 10] = ca[StatKey.ERR]
+    arr[offset + 11] = ca[StatKey.OHB]
+
+    // [12-13] Elemental DMG + weight
+    arr[offset + 12] = ca[Key.ELEMENTAL_DMG]
+    arr[offset + 13] = c.weight
+
+    // [14-16] Computed values (EHP, HEAL, SHIELD)
+    const primaryEntity = x.config.entitiesArray[0].name
+    arr[offset + 14] = x.getActionValue(StatKey.EHP, primaryEntity)
+    arr[offset + 15] = 0 // HEAL_VALUE - TODO: calculate from hit registers
+    arr[offset + 16] = 0 // SHIELD_VALUE - TODO: calculate from hit registers
+
+    // [17-24] Damage values, [65-74] Heal/Shield values from action registers - dynamically mapped
+    const actionNameToOffset: Record<string, number> = {
+      'BASIC': 17,
+      'SKILL': 18,
+      'ULT': 19,
+      'FUA': 20,
+      'MEMO SKILL': 21,
+      'MEMO TALENT': 22,
+      'DOT': 23,
+      'BREAK': 24,
+      'BASIC_HEAL': 65,
+      'SKILL_HEAL': 66,
+      'ULT_HEAL': 67,
+      'FUA_HEAL': 68,
+      'TALENT_HEAL': 69,
+      'BASIC_SHIELD': 70,
+      'SKILL_SHIELD': 71,
+      'ULT_SHIELD': 72,
+      'FUA_SHIELD': 73,
+      'TALENT_SHIELD': 74,
+    }
+
+    for (let i = 0; i < context.defaultActions.length; i++) {
+      const action = context.defaultActions[i]
+      const bufferOffset = actionNameToOffset[action.actionName]
+      if (bufferOffset !== undefined) {
+        arr[offset + bufferOffset] = x.getActionRegisterValue(i)
+      }
+    }
+
+    // [25] COMBO
+    arr[offset + 25] = x.a[StatKey.COMBO_DMG]
+
+    // [26-37] Combat stats from primary entity (index 0)
+    arr[offset + 26] = x.getActionValue(StatKey.HP, primaryEntity)
+    arr[offset + 27] = x.getActionValue(StatKey.ATK, primaryEntity)
+    arr[offset + 28] = x.getActionValue(StatKey.DEF, primaryEntity)
+    arr[offset + 29] = x.getActionValue(StatKey.SPD, primaryEntity)
+    arr[offset + 30] = x.getActionValue(StatKey.CR, primaryEntity) + x.getActionValue(StatKey.CR_BOOST, primaryEntity)
+    arr[offset + 31] = x.getActionValue(StatKey.CD, primaryEntity) + x.getActionValue(StatKey.CD_BOOST, primaryEntity)
+    arr[offset + 32] = x.getActionValue(StatKey.EHR, primaryEntity)
+    arr[offset + 33] = x.getActionValue(StatKey.RES, primaryEntity)
+    arr[offset + 34] = x.getActionValue(StatKey.BE, primaryEntity)
+    arr[offset + 35] = x.getActionValue(StatKey.ERR, primaryEntity)
+    arr[offset + 36] = x.getActionValue(StatKey.OHB, primaryEntity)
+    // xELEMENTAL_DMG = generic DMG_BOOST + character's elemental boost
+    const elementalBoostKey = ElementToStatKeyDmgBoost[context.element as ElementName]
+    arr[offset + 37] = x.getActionValue(StatKey.DMG_BOOST, primaryEntity)
+      + x.getActionValue(elementalBoostKey, primaryEntity)
+
+    // [38-39] Set indices
+    arr[offset + 38] = c.relicSetIndex
+    arr[offset + 39] = c.ornamentSetIndex
+
+    // [40-64] Memosprite stats (if exists)
+    if (memoEntityIndex >= 0) {
+      const memoEntity = x.config.entitiesArray[memoEntityIndex].name
+
+      // [40-51] Memosprite basic stats (copy from primary for now)
+      arr[offset + 40] = ca[StatKey.HP]
+      arr[offset + 41] = ca[StatKey.ATK]
+      arr[offset + 42] = ca[StatKey.DEF]
+      arr[offset + 43] = ca[StatKey.SPD]
+      arr[offset + 44] = ca[StatKey.CR]
+      arr[offset + 45] = ca[StatKey.CD]
+      arr[offset + 46] = ca[StatKey.EHR]
+      arr[offset + 47] = ca[StatKey.RES]
+      arr[offset + 48] = ca[StatKey.BE]
+      arr[offset + 49] = ca[StatKey.ERR]
+      arr[offset + 50] = ca[StatKey.OHB]
+      arr[offset + 51] = ca[Key.ELEMENTAL_DMG]
+
+      // [52-63] Memosprite combat stats
+      arr[offset + 52] = x.getActionValue(StatKey.HP, memoEntity)
+      arr[offset + 53] = x.getActionValue(StatKey.ATK, memoEntity)
+      arr[offset + 54] = x.getActionValue(StatKey.DEF, memoEntity)
+      arr[offset + 55] = x.getActionValue(StatKey.SPD, memoEntity)
+      arr[offset + 56] = x.getActionValue(StatKey.CR, memoEntity) + x.getActionValue(StatKey.CR_BOOST, memoEntity)
+      arr[offset + 57] = x.getActionValue(StatKey.CD, memoEntity) + x.getActionValue(StatKey.CD_BOOST, memoEntity)
+      arr[offset + 58] = x.getActionValue(StatKey.EHR, memoEntity)
+      arr[offset + 59] = x.getActionValue(StatKey.RES, memoEntity)
+      arr[offset + 60] = x.getActionValue(StatKey.BE, memoEntity)
+      arr[offset + 61] = x.getActionValue(StatKey.ERR, memoEntity)
+      arr[offset + 62] = x.getActionValue(StatKey.OHB, memoEntity)
+      // mxELEMENTAL_DMG = generic DMG_BOOST + character's elemental boost
+      arr[offset + 63] = x.getActionValue(StatKey.DMG_BOOST, memoEntity)
+        + x.getActionValue(elementalBoostKey, memoEntity)
+
+      // [64] mxEHP
+      arr[offset + 64] = x.getActionValue(StatKey.EHP, memoEntity)
+    }
+  },
+
   extractCharacter: (arr: Float32Array, offset: number, skip: number): OptimizerDisplayData => { // Float32Array
     offset = offset * SIZE
     return {
@@ -167,6 +304,16 @@ export const BufferPacker = {
       'mxOHB': arr[offset + 62],
       'mxELEMENTAL_DMG': arr[offset + 63],
       'mxEHP': arr[offset + 64],
+      'BASIC_HEAL': arr[offset + 65],
+      'SKILL_HEAL': arr[offset + 66],
+      'ULT_HEAL': arr[offset + 67],
+      'FUA_HEAL': arr[offset + 68],
+      'TALENT_HEAL': arr[offset + 69],
+      'BASIC_SHIELD': arr[offset + 70],
+      'SKILL_SHIELD': arr[offset + 71],
+      'ULT_SHIELD': arr[offset + 72],
+      'FUA_SHIELD': arr[offset + 73],
+      'TALENT_SHIELD': arr[offset + 74],
     } as OptimizerDisplayData
   },
 

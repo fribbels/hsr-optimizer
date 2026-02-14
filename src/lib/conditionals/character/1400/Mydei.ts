@@ -3,24 +3,42 @@ import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import {
   dynamicStatConversion,
+  dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
   Stats,
 } from 'lib/constants/constants'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
+import {
+  wgsl,
+  wgslTrue,
+} from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
   ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import {
+  AKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { MYDEI } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -31,6 +49,9 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
+export const MydeiEntities = createEnum('Mydei')
+export const MydeiAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
+
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Mydei.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -39,13 +60,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_SKILL,
     SOURCE_ULT,
     SOURCE_TALENT,
-    SOURCE_TECHNIQUE,
     SOURCE_TRACE,
-    SOURCE_MEMO,
     SOURCE_E1,
     SOURCE_E2,
     SOURCE_E4,
-    SOURCE_E6,
   } = Source.character('1404')
 
   const basicScaling = basic(e, 0.50, 0.55)
@@ -133,65 +151,120 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(MydeiEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [MydeiEntities.Mydei]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(MydeiAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
+      // Calculate skill scaling based on enhance level
+      let skillHpScaling: number = skillScaling
+      if (r.skillEnhances == 1) skillHpScaling = skillEnhanced1Scaling
+      if (r.skillEnhances == 2) skillHpScaling = skillEnhanced2Scaling
 
-      x.SKILL_HP_SCALING.buff((r.skillEnhances == 0) ? skillScaling : 0, SOURCE_SKILL)
-      x.SKILL_HP_SCALING.buff((r.skillEnhances == 1) ? skillEnhanced1Scaling : 0, SOURCE_SKILL)
-      x.SKILL_HP_SCALING.buff((r.skillEnhances == 2) ? skillEnhanced2Scaling : 0, SOURCE_SKILL)
-      x.SKILL_HP_SCALING.buff((e >= 1 && r.e1EnhancedSkillBuff && r.skillEnhances == 2) ? 0.30 : 0, SOURCE_E1)
+      // E1 adds 0.30 HP scaling to enhanced skill 2
+      if (e >= 1 && r.e1EnhancedSkillBuff && r.skillEnhances == 2) {
+        skillHpScaling += 0.30
+      }
 
-      x.ULT_HP_SCALING.buff(ultScaling, SOURCE_ULT)
+      return {
+        [MydeiAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Imaginary)
+              .hpScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+          ],
+        },
+        [MydeiAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Imaginary)
+              .hpScaling(skillHpScaling)
+              .toughnessDmg((r.skillEnhances > 1) ? 30 : 20)
+              .build(),
+          ],
+        },
+        [MydeiAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Imaginary)
+              .hpScaling(ultScaling)
+              .toughnessDmg(20)
+              .build(),
+          ],
+        },
+        [MydeiAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
+          ],
+        },
+      }
+    },
+    actionModifiers: () => [],
 
-      x.DEF_PEN.buff((e >= 2 && r.e2DefPen && r.vendettaState) ? 0.15 : 0, SOURCE_E2)
-      x.CD.buff((e >= 4 && r.e4CdBuff) ? 0.30 : 0, SOURCE_E4)
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff((r.skillEnhances > 1) ? 30 : 20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
+      x.buff(StatKey.DEF_PEN, (e >= 2 && r.e2DefPen && r.vendettaState) ? 0.15 : 0, x.source(SOURCE_E2))
+      x.buff(StatKey.CD, (e >= 4 && r.e4CdBuff) ? 0.30 : 0, x.source(SOURCE_E4))
 
       // Cyrene
       const cyreneSkillCdBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 2.20 : 2.00)
         : 0
-      x.SKILL_CD_BOOST.buff((r.skillEnhances > 0 && r.cyreneSpecialEffect) ? cyreneSkillCdBuff : 0, Source.odeTo(MYDEI))
+      x.buff(StatKey.CD, (r.skillEnhances > 0 && r.cyreneSpecialEffect) ? cyreneSkillCdBuff : 0, x.damageType(DamageTag.SKILL).source(Source.odeTo(MYDEI)))
     },
-    calculateBasicEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    },
+
+    newCalculateBasicEffects: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       const crBuff = (r.hpToCrConversion) ? Math.max(0, Math.min(0.48, 0.016 * Math.floor((x.c.a[Key.HP] - 5000) / 100))) : 0
-      x.CR.buff(crBuff, SOURCE_TRACE)
-      x.UNCONVERTIBLE_CR_BUFF.buff(crBuff, SOURCE_TRACE)
+      x.buff(StatKey.UNCONVERTIBLE_CR_BUFF, crBuff, x.source(SOURCE_TRACE))
+      x.buff(StatKey.CR, crBuff, x.source(SOURCE_TRACE))
     },
-    gpuCalculateBasicEffects: (action: OptimizerAction, context: OptimizerContext) => {
+    newGpuCalculateBasicEffects: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       return `
 if (${wgslTrue(r.hpToCrConversion)}) {
-  let buffValue: f32 = max(0, min(0.48, 0.016 * floor((c.HP - 5000) / 100)));
-  x.CR += buffValue;
-  x.UNCONVERTIBLE_CR_BUFF += buffValue;
+  let buffValue: f32 = max(0, min(0.48, 0.016 * floor(((*p_c).HP - 5000) / 100)));
+  ${buff.action(AKey.CR, 'buffValue').wgsl(action)}
+  ${buff.action(AKey.UNCONVERTIBLE_CR_BUFF, 'buffValue').wgsl(action)}
 }
 `
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
+      // DEF becomes 0 in Vendetta State
       if (r.vendettaState) {
-        x.DEF.set(0, SOURCE_TALENT)
+        x.set(StatKey.DEF, 0, x.source(SOURCE_TALENT))
       }
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       return `
 if (${wgslTrue(r.vendettaState)}) {
-  x.DEF = 0;
+  ${buff.actionSet(AKey.DEF, '0.0').wgsl(action)}
 }
 `
     },
+
     dynamicConditionals: [
       {
         id: 'MydeiHpConditional',
@@ -199,15 +272,13 @@ if (${wgslTrue(r.vendettaState)}) {
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.HP],
         chainsTo: [Stats.HP],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return r.vendettaState
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          const r = action.characterConditionals as Conditionals<typeof content>
-
-          dynamicStatConversion(Stats.HP, Stats.HP, this, x, action, context, SOURCE_TALENT, (convertibleValue) => convertibleValue * 0.50)
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversionContainer(Stats.HP, Stats.HP, this, x, action, context, SOURCE_TALENT, (convertibleValue) => convertibleValue * 0.50)
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>

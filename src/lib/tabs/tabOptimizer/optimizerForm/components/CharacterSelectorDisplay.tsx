@@ -3,7 +3,13 @@ import {
   Form,
   Select,
 } from 'antd'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
+import {
+  AbilityKind,
+  AbilityMeta,
+  AbilityToSortOption,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
@@ -33,6 +39,9 @@ export default function CharacterSelectorDisplay() {
 
   const optimizerTabFocusCharacterSelectModalOpen = window.store((s) => s.optimizerTabFocusCharacterSelectModalOpen)
   const setOptimizerTabFocusCharacterSelectModalOpen = window.store((s) => s.setOptimizerTabFocusCharacterSelectModalOpen)
+
+  const form = Form.useFormInstance()
+  const characterEidolon = Form.useWatch('characterEidolon', form)
 
   useEffect(() => {
     OptimizerTabController.updateCharacter(optimizerTabFocusCharacter!)
@@ -64,23 +73,37 @@ export default function CharacterSelectorDisplay() {
   }, [t])
 
   const resultSortOptions = useMemo(() => { // `Sorted by ${key}`
+    // Get available actions for the selected character
+    let availableActions: string[] = []
+    if (optimizerTabFocusCharacter && characterEidolon != null) {
+      const characterConditionals = CharacterConditionalsResolver.get({
+        characterId: optimizerTabFocusCharacter,
+        characterEidolon: characterEidolon,
+      })
+      availableActions = characterConditionals.actionDeclaration?.() ?? []
+    }
+
+    // Build damage options: COMBO always first, then character-specific actions, then EHP
+    const damageOptions: { value: string, label: string }[] = [
+      { value: SortOption.COMBO.key, label: t('SortOptions.COMBO') },
+    ]
+
+    // Add character-specific damage options using AbilityToSortOption mapping
+    for (const action of availableActions) {
+      const sortKey = AbilityToSortOption[action as AbilityKind]
+      if (sortKey) {
+        const sortOption = SortOption[sortKey]
+        damageOptions.push({ value: sortOption.key, label: t(`SortOptions.${sortOption.key}` as const) })
+      }
+    }
+
+    // EHP always available
+    damageOptions.push({ value: SortOption.EHP.key, label: t('SortOptions.EHP') })
+
     return [
       {
         label: t('SortOptions.DMGLabel'),
-        options: [
-          { value: SortOption.COMBO.key, label: t('SortOptions.COMBO') },
-          { value: SortOption.BASIC.key, label: t('SortOptions.BASIC') },
-          { value: SortOption.SKILL.key, label: t('SortOptions.SKILL') },
-          { value: SortOption.ULT.key, label: t('SortOptions.ULT') },
-          { value: SortOption.FUA.key, label: t('SortOptions.FUA') },
-          { value: SortOption.MEMO_SKILL.key, label: t('SortOptions.MEMO_SKILL') },
-          { value: SortOption.MEMO_TALENT.key, label: t('SortOptions.MEMO_TALENT') },
-          { value: SortOption.DOT.key, label: t('SortOptions.DOT') },
-          { value: SortOption.BREAK.key, label: t('SortOptions.BREAK') },
-          { value: SortOption.HEAL.key, label: t('SortOptions.HEAL') },
-          { value: SortOption.SHIELD.key, label: t('SortOptions.SHIELD') },
-          { value: SortOption.EHP.key, label: t('SortOptions.EHP') },
-        ],
+        options: damageOptions,
       },
       {
         label: t('SortOptions.StatLabel'),
@@ -96,11 +119,10 @@ export default function CharacterSelectorDisplay() {
           { value: SortOption.BE.key, label: t('SortOptions.BE') },
           { value: SortOption.OHB.key, label: t('SortOptions.OHB') },
           { value: SortOption.ERR.key, label: t('SortOptions.ERR') },
-          { value: SortOption.ELEMENTAL_DMG.key, label: t('SortOptions.DMG') },
         ],
       },
     ]
-  }, [t])
+  }, [t, optimizerTabFocusCharacter, characterEidolon])
 
   return (
     <Flex vertical gap={optimizerTabDefaultGap}>

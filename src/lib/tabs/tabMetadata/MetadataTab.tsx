@@ -108,6 +108,7 @@ function SimulationEquivalentSetsDashboard() {
       <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Remembrance), sets)} />
       <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Preservation), sets)} />
       <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Harmony), sets)} />
+      <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Elation), sets)} />
       <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Abundance), sets)} />
     </Flex>
   )
@@ -161,6 +162,7 @@ function SimulationTeamDashboard() {
       <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Remembrance))} />
       <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Preservation))} />
       <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Harmony))} />
+      <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Elation))} />
       <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Abundance))} />
     </Flex>
   )
@@ -201,6 +203,7 @@ function SimulationComboDashboard() {
       <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Remembrance), t)} />
       <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Preservation), t)} />
       <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Harmony), t)} />
+      <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Elation), t)} />
       <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Abundance), t)} />
     </Flex>
   )
@@ -269,6 +272,7 @@ function ConditionalSetsPresetsDashboard() {
       <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Remembrance), sets)} />
       <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Preservation), sets)} />
       <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Harmony), sets)} />
+      <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Elation), sets)} />
       <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Abundance), sets)} />
     </Flex>
   )
@@ -314,6 +318,7 @@ function SubstatWeightDashboard() {
       <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Remembrance))} />
       <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Preservation))} />
       <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Harmony))} />
+      <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Elation))} />
       <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Abundance))} />
     </Flex>
   )

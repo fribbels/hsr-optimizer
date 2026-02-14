@@ -1,18 +1,16 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
-  gpuStandardAdditionalDmgAtkFinalizer,
-  standardAdditionalDmgAtkFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
-import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -22,6 +20,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const WeltEntities = createEnum('Welt')
+export const WeltAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Welt')
@@ -98,42 +99,111 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(WeltEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [WeltEntities.Welt]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(WeltAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Stats
-      x.ELEMENTAL_DMG.buff((x.a[Key.ENEMY_WEAKNESS_BROKEN]) ? 0.20 : 0, SOURCE_TRACE)
+      // Calculate additional damage scaling for talent + E1
+      const basicAdditionalScaling = r.enemySlowed
+        ? talentScaling + (e >= 1 && r.e1EnhancedState ? 0.50 * basicScaling : 0)
+        : 0
+      const skillAdditionalScaling = r.enemySlowed
+        ? talentScaling + (e >= 1 && r.e1EnhancedState ? 0.80 * skillScaling : 0)
+        : 0
+      const ultAdditionalScaling = r.enemySlowed ? talentScaling : 0
 
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
+      // Skill total scaling includes base hit + extra bounces
+      const skillTotalScaling = skillScaling * (1 + r.skillExtraHits)
+      const skillToughness = 10 + 10 * r.skillExtraHits
 
-      x.BASIC_ADDITIONAL_DMG_SCALING.buff((r.enemySlowed) ? talentScaling : 0, SOURCE_TALENT)
-      x.SKILL_ADDITIONAL_DMG_SCALING.buff((r.enemySlowed) ? talentScaling : 0, SOURCE_TALENT)
-      x.ULT_ADDITIONAL_DMG_SCALING.buff((r.enemySlowed) ? talentScaling : 0, SOURCE_TALENT)
-
-      x.BASIC_ADDITIONAL_DMG_SCALING.buff((e >= 1 && r.e1EnhancedState) ? 0.50 * basicScaling : 0, SOURCE_E1)
-      x.SKILL_ADDITIONAL_DMG_SCALING.buff((e >= 1 && r.e1EnhancedState) ? 0.80 * skillScaling : 0, SOURCE_E1)
-
-      x.SKILL_ATK_SCALING.buff(r.skillExtraHits * skillScaling, SOURCE_SKILL)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(10 + 10 * r.skillExtraHits, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(20, SOURCE_ULT)
-
-      return x
+      return {
+        [WeltAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(basicScaling)
+              .toughnessDmg(10)
+              .build(),
+            ...(basicAdditionalScaling > 0
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Imaginary)
+                  .atkScaling(basicAdditionalScaling)
+                  .build(),
+              ]
+              : []
+            ),
+          ],
+        },
+        [WeltAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(skillTotalScaling)
+              .toughnessDmg(skillToughness)
+              .build(),
+            ...(skillAdditionalScaling > 0
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Imaginary)
+                  .atkScaling(skillAdditionalScaling)
+                  .build(),
+              ]
+              : []
+            ),
+          ],
+        },
+        [WeltAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(ultScaling)
+              .toughnessDmg(20)
+              .build(),
+            ...(ultAdditionalScaling > 0
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Imaginary)
+                  .atkScaling(ultAdditionalScaling)
+                  .build(),
+              ]
+              : []
+            ),
+          ],
+        },
+        [WeltAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
+          ],
+        },
+      }
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      // Trace: +20% Elemental DMG when enemy weakness broken
+      const isWeaknessBroken = x.getActionValue(StatKey.ENEMY_WEAKNESS_BROKEN, WeltEntities.Welt)
+      x.buff(StatKey.DMG_BOOST, isWeaknessBroken ? 0.20 : 0, x.source(SOURCE_TRACE))
+    },
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.VULNERABILITY.buffTeam((m.enemyDmgTakenDebuff) ? 0.12 : 0, SOURCE_TRACE)
+      x.buff(StatKey.VULNERABILITY, (m.enemyDmgTakenDebuff) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
-    finalizeCalculations: (x: ComputedStatsArray) => {
-      standardAdditionalDmgAtkFinalizer(x)
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: () => {
-      return gpuStandardAdditionalDmgAtkFinalizer()
-    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

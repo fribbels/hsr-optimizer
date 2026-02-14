@@ -5,18 +5,16 @@ import {
   ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  gpuStandardHpHealFinalizer,
-  standardHpHealFinalizer,
-} from 'lib/conditionals/conditionalFinalizers'
-import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
-  dynamicStatConversion,
+  dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -24,7 +22,12 @@ import {
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -33,6 +36,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const LynxEntities = createEnum('Lynx')
+export const LynxAbilities = createEnum('BASIC', 'SKILL_HEAL', 'ULT_HEAL', 'TALENT_HEAL', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lynx')
@@ -123,57 +129,91 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(LynxEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [LynxEntities.Lynx]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(LynxAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [LynxAbilities.BASIC]: {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Quantum)
+            .hpScaling(basicScaling)
+            .toughnessDmg(10)
+            .build(),
+        ],
+      },
+      [LynxAbilities.BREAK]: {
+        hits: [
+          HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
+        ],
+      },
+      [LynxAbilities.SKILL_HEAL]: {
+        hits: [
+          HitDefinitionBuilder.skillHeal()
+            .hpScaling(skillHealScaling)
+            .flatHeal(skillHealFlat)
+            .build(),
+        ],
+      },
+      [LynxAbilities.ULT_HEAL]: {
+        hits: [
+          HitDefinitionBuilder.ultHeal()
+            .hpScaling(ultHealScaling)
+            .flatHeal(ultHealFlat)
+            .build(),
+        ],
+      },
+      [LynxAbilities.TALENT_HEAL]: {
+        hits: [
+          HitDefinitionBuilder.talentHeal()
+            .hpScaling(talentHealScaling)
+            .flatHeal(talentHealFlat)
+            .build(),
+        ],
+      },
+    }),
+    actionModifiers: () => [],
+
+    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.BASIC_HP_SCALING.buff(basicScaling, SOURCE_BASIC)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-
-      if (r.healAbility == SKILL_DMG_TYPE) {
-        x.HEAL_TYPE.set(SKILL_DMG_TYPE, SOURCE_SKILL)
-        x.HEAL_SCALING.buff(skillHealScaling, SOURCE_SKILL)
-        x.HEAL_FLAT.buff(skillHealFlat, SOURCE_SKILL)
-      }
-      if (r.healAbility == ULT_DMG_TYPE) {
-        x.HEAL_TYPE.set(ULT_DMG_TYPE, SOURCE_ULT)
-        x.HEAL_SCALING.buff(ultHealScaling, SOURCE_ULT)
-        x.HEAL_FLAT.buff(ultHealFlat, SOURCE_ULT)
-      }
-      if (r.healAbility == NONE_TYPE) {
-        x.HEAL_TYPE.set(NONE_TYPE, SOURCE_TALENT)
-        x.HEAL_SCALING.buff(talentHealScaling, SOURCE_TALENT)
-        x.HEAL_FLAT.buff(talentHealFlat, SOURCE_TALENT)
-      }
-
       if (r.skillBuff) {
-        x.HP.buff(skillHpFlatBuff, SOURCE_SKILL)
-        x.UNCONVERTIBLE_HP_BUFF.buff(skillHpFlatBuff, SOURCE_SKILL)
+        x.buff(StatKey.HP, skillHpFlatBuff, x.source(SOURCE_SKILL))
+        x.buff(StatKey.UNCONVERTIBLE_HP_BUFF, skillHpFlatBuff, x.source(SOURCE_SKILL))
       }
-
-      return x
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.RES.buffTeam((e >= 6 && m.skillBuff) ? 0.30 : 0, SOURCE_E6)
+      x.buff(StatKey.RES, (e >= 6 && m.skillBuff) ? 0.30 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
     },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.HP.buffTeam((t.skillBuff) ? skillHpPercentBuff * t.teammateHPValue : 0, SOURCE_SKILL)
-      x.HP.buffTeam((t.skillBuff) ? skillHpFlatBuff : 0, SOURCE_SKILL)
-      x.HP.buffTeam((e >= 6 && t.skillBuff) ? 0.06 * t.teammateHPValue : 0, SOURCE_E6)
+      x.buff(StatKey.HP, (t.skillBuff) ? skillHpPercentBuff * t.teammateHPValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+      x.buff(StatKey.HP, (t.skillBuff) ? skillHpFlatBuff : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+      x.buff(StatKey.HP, (e >= 6 && t.skillBuff) ? 0.06 * t.teammateHPValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
 
       const atkBuffValue = (e >= 4 && t.skillBuff) ? 0.03 * t.teammateHPValue : 0
-      x.ATK.buffTeam(atkBuffValue, SOURCE_E4)
+      x.buff(StatKey.ATK, atkBuffValue, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      standardHpHealFinalizer(x)
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    gpuFinalizeCalculations: () => {
-      return gpuStandardHpHealFinalizer()
-    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+
     dynamicConditionals: [
       {
         id: 'LynxHpConversionConditional',
@@ -181,15 +221,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.HP],
         chainsTo: [Stats.HP],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return r.skillBuff
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const hpBuffPercent = skillHpPercentBuff + (e >= 6 ? 0.06 : 0)
 
-          dynamicStatConversion(Stats.HP, Stats.HP, this, x, action, context, SOURCE_SKILL, (convertibleValue) => convertibleValue * hpBuffPercent)
+          dynamicStatConversionContainer(Stats.HP, Stats.HP, this, x, action, context, SOURCE_SKILL, (convertibleValue) => convertibleValue * hpBuffPercent)
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
@@ -204,13 +244,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.HP],
         chainsTo: [Stats.ATK],
-        condition: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return r.skillBuff
         },
-        effect: function(x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversion(Stats.HP, Stats.ATK, this, x, action, context, SOURCE_E4, (convertibleValue) => convertibleValue * atkBuffPercent)
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversionContainer(Stats.HP, Stats.ATK, this, x, action, context, SOURCE_E4, (convertibleValue) => convertibleValue * atkBuffPercent)
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>

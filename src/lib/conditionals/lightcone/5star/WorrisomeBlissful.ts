@@ -1,11 +1,11 @@
-import { FUA_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
 import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { buffAbilityDmg } from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -35,7 +35,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       id: 'targetTameStacks',
       formItem: 'slider',
       text: t('Content.targetTameStacks.text'),
-      content: t('Content.targetTameStacks.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }), // getContentFromLCRanks(s, lcRank2),
+      content: t('Content.targetTameStacks.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }),
       min: 0,
       max: 2,
     },
@@ -50,15 +50,13 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      buffAbilityDmg(x, FUA_DMG_TYPE, sValuesFuaDmg[s], SOURCE_LC)
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      x.buff(StatKey.DMG_BOOST, sValuesFuaDmg[s], x.damageType(DamageTag.FUA).source(SOURCE_LC))
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.CD.buffTeam(m.targetTameStacks * sValuesCd[s], SOURCE_LC)
-    },
-    finalizeCalculations: () => {
+      x.buff(StatKey.CD, m.targetTameStacks * sValuesCd[s], x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
 }

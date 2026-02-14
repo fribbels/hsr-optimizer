@@ -3,18 +3,21 @@ import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
 import {
-  boostAshblazingAtkP,
-  gpuBoostAshblazingAtkP,
-  gpuStandardAdditionalDmgAtkFinalizer,
-  standardAdditionalDmgAtkFinalizer,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
@@ -23,6 +26,9 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+export const YanqingEntities = createEnum('Yanqing')
+export const YanqingAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yanqing')
@@ -103,50 +109,138 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+
+    entityDeclaration: () => Object.values(YanqingEntities),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [YanqingEntities.Yanqing]: {
+        primary: true,
+        summon: false,
+        memosprite: false,
+      },
+    }),
+
+    actionDeclaration: () => Object.values(YanqingAbilities),
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Stats
-      x.CR.buff((r.ultBuffActive) ? 0.60 : 0, SOURCE_ULT)
-      x.CD.buff((r.ultBuffActive && r.soulsteelBuffActive) ? ultCdBuffValue : 0, SOURCE_ULT)
-      x.CR.buff((r.soulsteelBuffActive) ? talentCrBuffValue : 0, SOURCE_TALENT)
-      x.CD.buff((r.soulsteelBuffActive) ? talentCdBuffValue : 0, SOURCE_TALENT)
-      x.RES.buff((r.soulsteelBuffActive) ? 0.20 : 0, SOURCE_TRACE)
-      x.SPD_P.buff((r.critSpdBuff) ? 0.10 : 0, SOURCE_TRACE)
-      x.ERR.buff((e >= 2 && r.soulsteelBuffActive) ? 0.10 : 0, SOURCE_E2)
+      // E1: +60% ATK scaling when target frozen
+      const e1Bonus = (e >= 1 && r.e1TargetFrozen) ? 0.60 : 0
 
-      // Scaling
-      x.BASIC_ATK_SCALING.buff(basicScaling, SOURCE_BASIC)
-      x.SKILL_ATK_SCALING.buff(skillScaling, SOURCE_SKILL)
-      x.ULT_ATK_SCALING.buff(ultScaling, SOURCE_ULT)
-      x.FUA_ATK_SCALING.buff(fuaScaling, SOURCE_TALENT)
+      // Trace: Additional damage when enemy is elemental weak
+      const additionalDmgScaling = (context.enemyElementalWeak) ? 0.30 : 0
 
-      x.BASIC_ADDITIONAL_DMG_SCALING.buff((context.enemyElementalWeak) ? 0.30 : 0, SOURCE_BASIC)
-      x.SKILL_ADDITIONAL_DMG_SCALING.buff((context.enemyElementalWeak) ? 0.30 : 0, SOURCE_SKILL)
-      x.ULT_ADDITIONAL_DMG_SCALING.buff((context.enemyElementalWeak) ? 0.30 : 0, SOURCE_ULT)
-      x.FUA_ADDITIONAL_DMG_SCALING.buff((context.enemyElementalWeak) ? 0.30 : 0, SOURCE_TALENT)
-
-      x.BASIC_ATK_SCALING.buff((e >= 1 && r.e1TargetFrozen) ? 0.60 : 0, SOURCE_E1)
-      x.SKILL_ATK_SCALING.buff((e >= 1 && r.e1TargetFrozen) ? 0.60 : 0, SOURCE_E1)
-      x.ULT_ATK_SCALING.buff((e >= 1 && r.e1TargetFrozen) ? 0.60 : 0, SOURCE_E1)
-      x.FUA_ATK_SCALING.buff((e >= 1 && r.e1TargetFrozen) ? 0.60 : 0, SOURCE_E1)
-
-      // Boost
-      x.ICE_RES_PEN.buff((e >= 4 && r.e4CurrentHp80) ? 0.12 : 0, SOURCE_E4)
-
-      x.BASIC_TOUGHNESS_DMG.buff(10, SOURCE_BASIC)
-      x.SKILL_TOUGHNESS_DMG.buff(20, SOURCE_SKILL)
-      x.ULT_TOUGHNESS_DMG.buff(30, SOURCE_ULT)
-      x.FUA_TOUGHNESS_DMG.buff(10, SOURCE_TALENT)
-
-      return x
+      return {
+        [YanqingAbilities.BASIC]: {
+          hits: [
+            HitDefinitionBuilder.standardBasic()
+              .damageElement(ElementTag.Ice)
+              .atkScaling(basicScaling + e1Bonus)
+              .toughnessDmg(10)
+              .build(),
+            ...(additionalDmgScaling > 0
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Ice)
+                  .atkScaling(additionalDmgScaling)
+                  .build(),
+              ]
+              : []),
+          ],
+        },
+        [YanqingAbilities.SKILL]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Ice)
+              .atkScaling(skillScaling + e1Bonus)
+              .toughnessDmg(20)
+              .build(),
+            ...(additionalDmgScaling > 0
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Ice)
+                  .atkScaling(additionalDmgScaling)
+                  .build(),
+              ]
+              : []),
+          ],
+        },
+        [YanqingAbilities.ULT]: {
+          hits: [
+            HitDefinitionBuilder.standardUlt()
+              .damageElement(ElementTag.Ice)
+              .atkScaling(ultScaling + e1Bonus)
+              .toughnessDmg(30)
+              .build(),
+            ...(additionalDmgScaling > 0
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Ice)
+                  .atkScaling(additionalDmgScaling)
+                  .build(),
+              ]
+              : []),
+          ],
+        },
+        [YanqingAbilities.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .damageElement(ElementTag.Ice)
+              .atkScaling(fuaScaling + e1Bonus)
+              .toughnessDmg(10)
+              .build(),
+            ...(additionalDmgScaling > 0
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Ice)
+                  .atkScaling(additionalDmgScaling)
+                  .build(),
+              ]
+              : []),
+          ],
+        },
+        [YanqingAbilities.BREAK]: {
+          hits: [
+            HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
+          ],
+        },
+      }
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkP(x, action, context, hitMulti)
-      standardAdditionalDmgAtkFinalizer(x)
+    actionModifiers: () => [],
+
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // ULT: CR buff
+      x.buff(StatKey.CR, (r.ultBuffActive) ? 0.60 : 0, x.source(SOURCE_ULT))
+
+      // ULT: CD buff (requires soulsteel)
+      x.buff(StatKey.CD, (r.ultBuffActive && r.soulsteelBuffActive) ? ultCdBuffValue : 0, x.source(SOURCE_ULT))
+
+      // Talent: CR buff from soulsteel
+      x.buff(StatKey.CR, (r.soulsteelBuffActive) ? talentCrBuffValue : 0, x.source(SOURCE_TALENT))
+
+      // Talent: CD buff from soulsteel
+      x.buff(StatKey.CD, (r.soulsteelBuffActive) ? talentCdBuffValue : 0, x.source(SOURCE_TALENT))
+
+      // Trace: RES buff from soulsteel
+      x.buff(StatKey.RES, (r.soulsteelBuffActive) ? 0.20 : 0, x.source(SOURCE_TRACE))
+
+      // Trace: SPD% buff on crit
+      x.buff(StatKey.SPD_P, (r.critSpdBuff) ? 0.10 : 0, x.source(SOURCE_TRACE))
+
+      // E2: ERR buff when soulsteel active
+      x.buff(StatKey.ERR, (e >= 2 && r.soulsteelBuffActive) ? 0.10 : 0, x.source(SOURCE_E2))
+
+      // E4: Ice RES PEN when HP > 80%
+      x.buff(StatKey.RES_PEN, (e >= 4 && r.e4CurrentHp80) ? 0.12 : 0, x.elements(ElementTag.Ice).source(SOURCE_E4))
     },
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkP(hitMulti) + gpuStandardAdditionalDmgAtkFinalizer()
+
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, hitMulti)
+    },
+
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostAshblazingAtkContainer(hitMulti, action)
     },
   }
 }

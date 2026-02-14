@@ -1,6 +1,6 @@
 import { Flex } from 'antd'
 import { defaultGap } from 'lib/constants/constantsUi'
-import { Key } from 'lib/optimization/computedStatsArray'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { RunStatSimulationsResult } from 'lib/simulations/statSimulationTypes'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { useTranslation } from 'react-i18next'
@@ -11,17 +11,20 @@ type AbilityDamageSummaryProps = {
 
 export function AbilityDamageSummary({ simResult }: AbilityDamageSummaryProps) {
   const { t } = useTranslation('common', { keyPrefix: 'ShortDMGTypes' })
+
+  const actionDamage = simResult.actionDamage ?? {}
+
   return (
     <Flex gap={defaultGap} justify='space-around'>
       <Flex vertical gap={4} style={{ width: 230 }}>
-        <ScoringNumber label={String(t('Basic')) + ':'} number={simResult.xa[Key.BASIC_DMG]} precision={1} />
-        <ScoringNumber label={String(t('Skill')) + ':'} number={simResult.xa[Key.SKILL_DMG]} precision={1} />
-        <ScoringNumber label={String(t('Ult')) + ':'} number={simResult.xa[Key.ULT_DMG]} precision={1} />
-        <ScoringNumber label={String(t('Fua')) + ':'} number={simResult.xa[Key.FUA_DMG]} precision={1} />
-        <ScoringNumber label={String(t('Memo_Skill')) + ':'} number={simResult.xa[Key.MEMO_SKILL_DMG]} precision={1} />
-        <ScoringNumber label={String(t('Memo_Talent')) + ':'} number={simResult.xa[Key.MEMO_TALENT_DMG]} precision={1} />
-        <ScoringNumber label={String(t('Dot')) + ':'} number={simResult.xa[Key.DOT_DMG]} precision={1} />
-        <ScoringNumber label={String(t('Break')) + ':'} number={simResult.xa[Key.BREAK_DMG]} precision={1} />
+        <ScoringNumber label={String(t('Basic')) + ':'} number={actionDamage[AbilityKind.BASIC]} precision={1} />
+        <ScoringNumber label={String(t('Skill')) + ':'} number={actionDamage[AbilityKind.SKILL]} precision={1} />
+        <ScoringNumber label={String(t('Ult')) + ':'} number={actionDamage[AbilityKind.ULT]} precision={1} />
+        <ScoringNumber label={String(t('Fua')) + ':'} number={actionDamage[AbilityKind.FUA]} precision={1} />
+        <ScoringNumber label={String(t('Memo_Skill')) + ':'} number={actionDamage[AbilityKind.MEMO_SKILL]} precision={1} />
+        <ScoringNumber label={String(t('Memo_Talent')) + ':'} number={actionDamage[AbilityKind.MEMO_TALENT]} precision={1} />
+        <ScoringNumber label={String(t('Dot')) + ':'} number={actionDamage[AbilityKind.DOT]} precision={1} />
+        <ScoringNumber label={String(t('Break')) + ':'} number={actionDamage[AbilityKind.BREAK]} precision={1} />
       </Flex>
     </Flex>
   )

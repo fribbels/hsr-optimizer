@@ -1,22 +1,13 @@
-import { BREAK_DMG_TYPE } from 'lib/conditionals/conditionalConstants'
-import {
-  Conditionals,
-  ContentDefinition,
-} from 'lib/conditionals/conditionalUtils'
+import { Conditionals, ContentDefinition, } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  buffAbilityDmg,
-  Target,
-} from 'lib/optimization/calculateBuffs'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, TargetTag, } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { NEVER_FORGET_HER_FLAME } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.NeverForgetHerFlame.Content')
@@ -51,19 +42,15 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      buffAbilityDmg(x, BREAK_DMG_TYPE, (r.breakDmgBuff) ? sValuesBreakDmg[s] : 0, SOURCE_LC)
+      x.buff(StatKey.DMG_BOOST, (r.breakDmgBuff) ? sValuesBreakDmg[s] : 0, x.damageType(DamageTag.BREAK).source(SOURCE_LC))
     },
-    precomputeMutualEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
-    },
-    precomputeTeammateEffects: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      buffAbilityDmg(x, BREAK_DMG_TYPE, (t.breakDmgBuff) ? sValuesBreakDmg[s] : 0, SOURCE_LC, Target.SINGLE)
+      x.buff(StatKey.DMG_BOOST, (t.breakDmgBuff) ? sValuesBreakDmg[s] : 0, x.damageType(DamageTag.BREAK).targets(TargetTag.SingleTarget).source(SOURCE_LC))
     },
-    finalizeCalculations: (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext) => {},
-    gpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }

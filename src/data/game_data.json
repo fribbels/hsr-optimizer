@@ -6179,37 +6179,37 @@
       },
       "traceTree": [
         {
-          "id": "1321201_3.8v3",
+          "id": "1321201",
           "stat": "Break Effect",
           "value": 0.053,
           "pre": null,
           "children": [
             {
-              "id": "1321210_3.8v3",
+              "id": "1321210",
               "stat": "Break Effect",
               "value": 0.107,
-              "pre": "1321201_3.8v3",
+              "pre": "1321201",
               "children": []
             }
           ]
         },
         {
-          "id": "1321202_3.8v3",
+          "id": "1321202",
           "stat": "Effect RES",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1321203_3.8v3",
+              "id": "1321203",
               "stat": "Break Effect",
               "value": 0.053,
-              "pre": "1321202_3.8v3",
+              "pre": "1321202",
               "children": [
                 {
-                  "id": "1321204_3.8v3",
+                  "id": "1321204",
                   "stat": "SPD",
                   "value": 2,
-                  "pre": "1321203_3.8v3",
+                  "pre": "1321203",
                   "children": []
                 }
               ]
@@ -6217,22 +6217,22 @@
           ]
         },
         {
-          "id": "1321205_3.8v3",
+          "id": "1321205",
           "stat": "Break Effect",
           "value": 0.08,
           "pre": null,
           "children": [
             {
-              "id": "1321206_3.8v3",
+              "id": "1321206",
               "stat": "Effect RES",
               "value": 0.06,
-              "pre": "1321205_3.8v3",
+              "pre": "1321205",
               "children": [
                 {
-                  "id": "1321207_3.8v3",
+                  "id": "1321207",
                   "stat": "Break Effect",
                   "value": 0.08,
-                  "pre": "1321206_3.8v3",
+                  "pre": "1321206",
                   "children": []
                 }
               ]
@@ -6240,14 +6240,14 @@
           ]
         },
         {
-          "id": "1321208_3.8v3",
+          "id": "1321208",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": []
         },
         {
-          "id": "1321209_3.8v3",
+          "id": "1321209",
           "stat": "Effect RES",
           "value": 0.08,
           "pre": null,
@@ -7630,6 +7630,299 @@
         "CRIT DMG": 0.5
       },
       "unreleased": false
+    },
+    "1501": {
+      "id": "1501",
+      "name": "Sparxie",
+      "rarity": 5,
+      "path": "Harmony",
+      "element": "Fire",
+      "traces": {
+        "CRIT DMG": 0.133,
+        "CRIT Rate": 0.12,
+        "Elation": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "1501201_4.1v2",
+          "stat": "Elation",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1501202_4.1v2",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1501203_4.1v2",
+          "stat": "Elation",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1501204_4.1v2",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1501205_4.1v2",
+          "stat": "Elation",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1501206_4.1v2",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "1501205_4.1v2",
+              "children": [
+                {
+                  "id": "1501207_4.1v2",
+                  "stat": "Elation",
+                  "value": 0.06,
+                  "pre": "1501206_4.1v2",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1501208_4.1v2",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1501209_4.1v2",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "1501208_4.1v2",
+              "children": [
+                {
+                  "id": "1501210_4.1v2",
+                  "stat": "Elation",
+                  "value": 0.08,
+                  "pre": "1501209_4.1v2",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 160,
+      "stats": {
+        "HP": 1054.944,
+        "ATK": 644.6880000000001,
+        "DEF": 463.98,
+        "SPD": 107,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1502": {
+      "id": "1502",
+      "name": "Yao Guang",
+      "rarity": 5,
+      "path": "Harmony",
+      "element": "Physical",
+      "traces": {
+        "Elation": 0.1,
+        "SPD": 9,
+        "CRIT Rate": 0.187
+      },
+      "traceTree": [
+        {
+          "id": "1502201_4.1v2",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1502202_4.1v2",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1502203_4.1v2",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1502204_4.1v2",
+          "stat": "Elation",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1502205_4.1v2",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1502206_4.1v2",
+              "stat": "SPD",
+              "value": 3,
+              "pre": "1502205_4.1v2",
+              "children": [
+                {
+                  "id": "1502207_4.1v2",
+                  "stat": "CRIT Rate",
+                  "value": 0.04,
+                  "pre": "1502206_4.1v2",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1502208_4.1v2",
+          "stat": "Elation",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1502209_4.1v2",
+              "stat": "SPD",
+              "value": 4,
+              "pre": "1502208_4.1v2",
+              "children": [
+                {
+                  "id": "1502210_4.1v2",
+                  "stat": "CRIT Rate",
+                  "value": 0.053,
+                  "pre": "1502209_4.1v2",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 180,
+      "stats": {
+        "HP": 1250.304,
+        "ATK": 468.86400000000003,
+        "DEF": 659.3399999999999,
+        "SPD": 101,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1504": {
+      "id": "1504",
+      "name": "Ashveil",
+      "rarity": 5,
+      "path": "Rogue",
+      "element": "Thunder",
+      "traces": {
+        "ATK%": 0.1,
+        "CRIT DMG": 0.373,
+        "Lightning DMG Boost": 0.144
+      },
+      "traceTree": [
+        {
+          "id": "1504201_4.1v2",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1504202_4.1v2",
+          "stat": "Lightning DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1504203_4.1v2",
+              "stat": "CRIT DMG",
+              "value": 0.053,
+              "pre": "1504202_4.1v2",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1504204_4.1v2",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1504205_4.1v2",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1504206_4.1v2",
+              "stat": "Lightning DMG Boost",
+              "value": 0.048,
+              "pre": "1504205_4.1v2",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1504207_4.1v2",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1504208_4.1v2",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1504209_4.1v2",
+              "stat": "Lightning DMG Boost",
+              "value": 0.064,
+              "pre": "1504208_4.1v2",
+              "children": []
+            },
+            {
+              "id": "1504210_4.1v2",
+              "stat": "CRIT DMG",
+              "value": 0.107,
+              "pre": "1504208_4.1v2",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "max_sp": 160,
+      "stats": {
+        "HP": 1015.8720000000001,
+        "ATK": 644.6880000000001,
+        "DEF": 488.4,
+        "SPD": 105,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
     },
     "8001": {
       "id": "8001",

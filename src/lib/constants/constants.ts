@@ -12,7 +12,7 @@ export const CURRENT_DATA_VERSION = '4.0v5'
 // Controls downtime messaging
 export const SHOWCASE_DOWNTIME = false
 export const RELIQUARY_DOWNTIME = false
-export const DOWNTIME_VERSION = 4.0
+export const DOWNTIME_VERSION = '4.0'
 
 export const CharacterAnnouncementMessages: Record<string, string> = {
   [SPARKLE_B1]: `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,

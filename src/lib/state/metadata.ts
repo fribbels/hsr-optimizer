@@ -36,6 +36,7 @@ import {
   ACHERON,
   ALONG_THE_PASSING_SHORE,
   ANAXA,
+  ASHVEIL,
   AVENTURINE,
   BEFORE_THE_TUTORIAL_MISSION_STARTS,
   BLACK_SWAN_B1,
@@ -82,6 +83,7 @@ import {
   SILVER_WOLF_B1,
   SPARKLE_B1,
   SUNDAY,
+  SPARXIE,
   THE_DAHLIA,
   THE_HERTA,
   THIS_LOVE_FOREVER,
@@ -94,6 +96,7 @@ import {
   WHEREABOUTS_SHOULD_DREAMS_REST,
   WHY_DOES_THE_OCEAN_SING,
   WORRISOME_BLISSFUL,
+  YAO_GUANG,
   YET_HOPE_IS_PRICELESS,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
@@ -1651,6 +1654,21 @@ function getOverrideImageCenter(): Record<string, {
       x: 950,
       y: 950,
       z: 1.025,
+    },
+    1501: { // Sparxie
+      x: 1024,
+      y: 1024,
+      z: 1.05,
+    },
+    1502: { // Yaoguang
+      x: 1024,
+      y: 1024,
+      z: 1.05,
+    },
+    1504: { // Ashveil
+      x: 1024,
+      y: 1024,
+      z: 1.05,
     },
   }
 }
@@ -9801,6 +9819,126 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           },
         ],
       },
+    },
+    1501: { // Sparxie
+      stats: {
+        [Stats.ATK]: 0.75,
+        [Stats.ATK_P]: 0.75,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+        ],
+        [Parts.Feet]: [
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.Fire_DMG,
+          Stats.ATK_P,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ATK_P,
+          Stats.ERR,
+        ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
+      presets: [],
+      sortOption: SortOption.BASIC,
+      hiddenColumns: [SortOption.DOT],
+    },
+    1502: { // Yaoguang
+      stats: {
+        [Stats.ATK]: 0,
+        [Stats.ATK_P]: 0,
+        [Stats.DEF]: 0.25,
+        [Stats.DEF_P]: 0.25,
+        [Stats.HP]: 0.25,
+        [Stats.HP_P]: 0.25,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 0,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0.25,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [],
+        [Parts.Feet]: [
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [],
+        [Parts.LinkRope]: [
+          Stats.ERR,
+        ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+        [Sets.MessengerTraversingHackerspace]: 1,
+        [Sets.SacerdosRelivedOrdeal]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+      },
+      presets: [],
+      sortOption: SortOption.BASIC,
+      hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+    },
+    1504: { // Ashveil
+      stats: {
+        [Stats.ATK]: 0.75,
+        [Stats.ATK_P]: 0.75,
+        [Stats.DEF]: 0,
+        [Stats.DEF_P]: 0,
+        [Stats.HP]: 0,
+        [Stats.HP_P]: 0,
+        [Stats.SPD]: 1,
+        [Stats.CR]: 1,
+        [Stats.CD]: 1,
+        [Stats.EHR]: 0,
+        [Stats.RES]: 0,
+        [Stats.BE]: 0,
+      },
+      parts: {
+        [Parts.Body]: [
+          Stats.CR,
+          Stats.CD,
+        ],
+        [Parts.Feet]: [
+          Stats.ATK_P,
+          Stats.SPD,
+        ],
+        [Parts.PlanarSphere]: [
+          Stats.Lightning_DMG,
+          Stats.ATK_P,
+        ],
+        [Parts.LinkRope]: [
+          Stats.ATK_P,
+        ],
+      },
+      sets: {
+        ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+        [Sets.BandOfSizzlingThunder]: 1,
+
+        ...SPREAD_ORNAMENTS_2P_GENERAL_WEIGHTS,
+      },
+      presets: [],
+      sortOption: SortOption.BASIC,
+      hiddenColumns: [SortOption.DOT],
     },
   }
 }

@@ -4,6 +4,7 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import {
@@ -96,7 +97,7 @@ export function generateAnalysisData(
   const contextNew = generateContext(request)
 
   const { x: oldX } = simulateBuild(oldRelics as unknown as SimulationRelicByPart, contextOld, null, null)
-  const { x: newX } = simulateBuild(newRelics as unknown as SimulationRelicByPart, contextNew, null, new ComputedStatsArrayCore(true))
+  const { x: newX } = simulateBuild(newRelics as unknown as SimulationRelicByPart, contextNew, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
 
   const buffGroups = aggregateCombatBuffs(newX, request)
 

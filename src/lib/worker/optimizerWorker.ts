@@ -287,8 +287,8 @@ export function optimizerWorker(e: MessageEvent) {
         const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
         x.setHitRegisterValue(hit.registerIndex, dmg)
 
-        // Only accumulate recorded damage hits to sum (not heals/shields)
-        if (hit.outputTag == OutputTag.DAMAGE && hit.recorded !== false) {
+        // Accumulate recorded hits to sum (damage, heal, or shield)
+        if (hit.recorded !== false) {
           sum += dmg
         }
       }

@@ -15,6 +15,8 @@ import {
   ComputedStatsArrayCore,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { newTransformStateActions } from 'lib/optimization/rotation/actionTransform'
 import {
   AbilityKind,
@@ -255,14 +257,13 @@ export function precomputeConditionals(action: OptimizerAction, comboState: Comb
 
 function precomputeTeammates(action: OptimizerAction, comboState: ComboState, context: OptimizerContext) {
   // Precompute teammate effects
-  const x = action.precomputedX
-  const container = action.precomputedStats
+  const x = action.precomputedStats
   const teammateSetEffects: Record<string, boolean> = {}
   const teammates = [
     comboState.comboTeammate0,
     comboState.comboTeammate1,
     comboState.comboTeammate2,
-  ].filter((x) => !!x?.metadata?.characterId)
+  ].filter((t) => !!t?.metadata?.characterId)
   for (let i = 0; i < teammates.length; i++) {
     const teammate = teammates[i]!
     // This is set to null so empty light cones don't get overwritten by the main lc. TODO: There's probably a better place for this
@@ -279,17 +280,17 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
     const teammateLightConeConditionals = LightConeConditionalsResolver.get(teammate.metadata)
 
     if (teammateCharacterConditionals.precomputeMutualEffectsContainer) {
-      teammateCharacterConditionals.precomputeMutualEffectsContainer(container, teammateAction, context, action)
+      teammateCharacterConditionals.precomputeMutualEffectsContainer(x, teammateAction, context, action)
     }
     if (teammateCharacterConditionals.precomputeTeammateEffectsContainer) {
-      teammateCharacterConditionals.precomputeTeammateEffectsContainer(container, teammateAction, context, action)
+      teammateCharacterConditionals.precomputeTeammateEffectsContainer(x, teammateAction, context, action)
     }
 
     if (teammateLightConeConditionals.precomputeMutualEffectsContainer) {
-      teammateLightConeConditionals.precomputeMutualEffectsContainer(container, teammateAction, context)
+      teammateLightConeConditionals.precomputeMutualEffectsContainer(x, teammateAction, context)
     }
     if (teammateLightConeConditionals.precomputeTeammateEffectsContainer) {
-      teammateLightConeConditionals.precomputeTeammateEffectsContainer(container, teammateAction, context)
+      teammateLightConeConditionals.precomputeTeammateEffectsContainer(x, teammateAction, context)
     }
 
     for (const [key, value] of [...Object.entries(teammateRequest.relicSetConditionals), ...Object.entries(teammateRequest.ornamentSetConditionals)]) {
@@ -303,53 +304,53 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
       }
       switch (key) {
         case Sets.BrokenKeel:
-          x.CD.buffTeam(0.10, Source.BrokenKeel)
+          x.buff(StatKey.CD, 0.10, x.targets(TargetTag.FullTeam).source(Source.BrokenKeel))
           break
         case Sets.FleetOfTheAgeless:
-          x.ATK_P.buffTeam(0.08, Source.FleetOfTheAgeless)
+          x.buff(StatKey.ATK_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.FleetOfTheAgeless))
           break
         case Sets.PenaconyLandOfTheDreams:
           if (comboState.comboCharacter.metadata.element != teammateRequest.metadata.element) break
-          x.ELEMENTAL_DMG.buffDual(0.10, Source.PenaconyLandOfTheDreams)
+          x.buff(StatKey.DMG_BOOST, 0.10, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.PenaconyLandOfTheDreams))
           break
         case Sets.LushakaTheSunkenSeas:
-          x.ATK_P.buff(0.12, Source.LushakaTheSunkenSeas)
+          x.buff(StatKey.ATK_P, 0.12, x.source(Source.LushakaTheSunkenSeas))
           break
         case Sets.MessengerTraversingHackerspace:
           if (teammateSetEffects[Sets.MessengerTraversingHackerspace]) break
-          x.SPD_P.buffTeam(0.12, Source.MessengerTraversingHackerspace)
+          x.buff(StatKey.SPD_P, 0.12, x.targets(TargetTag.FullTeam).source(Source.MessengerTraversingHackerspace))
           break
         case Sets.WatchmakerMasterOfDreamMachinations:
           if (teammateSetEffects[Sets.WatchmakerMasterOfDreamMachinations]) break
-          x.BE.buffTeam(0.30, Source.WatchmakerMasterOfDreamMachinations)
+          x.buff(StatKey.BE, 0.30, x.targets(TargetTag.FullTeam).source(Source.WatchmakerMasterOfDreamMachinations))
           break
         case SACERDOS_RELIVED_ORDEAL_1_STACK:
           if (teammateAction.actorId == SUNDAY_ID) {
-            x.CD.buffDual(0.18, Source.SacerdosRelivedOrdeal)
+            x.buff(StatKey.CD, 0.18, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.SacerdosRelivedOrdeal))
           } else {
-            x.CD.buffSingle(0.18, Source.SacerdosRelivedOrdeal)
+            x.buff(StatKey.CD, 0.18, x.targets(TargetTag.SingleTarget).deferrable().source(Source.SacerdosRelivedOrdeal))
           }
           break
         case SACERDOS_RELIVED_ORDEAL_2_STACK:
           if (teammateAction.actorId == SUNDAY_ID) {
-            x.CD.buffDual(0.36, Source.SacerdosRelivedOrdeal)
+            x.buff(StatKey.CD, 0.36, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.SacerdosRelivedOrdeal))
           } else {
-            x.CD.buffSingle(0.36, Source.SacerdosRelivedOrdeal)
+            x.buff(StatKey.CD, 0.36, x.targets(TargetTag.SingleTarget).deferrable().source(Source.SacerdosRelivedOrdeal))
           }
           break
         case Sets.WarriorGoddessOfSunAndThunder:
           if (teammateSetEffects[Sets.WarriorGoddessOfSunAndThunder]) break
-          x.CD.buffTeam(0.15, Source.WarriorGoddessOfSunAndThunder)
+          x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.WarriorGoddessOfSunAndThunder))
           break
         case Sets.WorldRemakingDeliverer:
-          x.ELEMENTAL_DMG.buffTeam(0.15, Source.WorldRemakingDeliverer)
+          x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.WorldRemakingDeliverer))
           break
         case Sets.SelfEnshroudedRecluse:
-          x.CD.buffTeam(0.15, Source.SelfEnshroudedRecluse)
+          x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.SelfEnshroudedRecluse))
           break
         case Sets.AmphoreusTheEternalLand:
           if (teammateSetEffects[Sets.AmphoreusTheEternalLand]) break
-          x.SPD_P.buffTeam(0.08, Source.AmphoreusTheEternalLand)
+          x.buff(StatKey.SPD_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.AmphoreusTheEternalLand))
           break
         default:
       }

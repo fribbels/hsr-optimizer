@@ -8309,7 +8309,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.BANANA_SET,
         PresetEffects.WARRIOR_SET,
       ],
-      sortOption: SortOption.HEAL,
+      sortOption: SortOption.SKILL_HEAL,
       addedColumns: [SortOption.OHB, SortOption.HEAL, SortOption.MEMO_SKILL],
       hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.ULT],
     },

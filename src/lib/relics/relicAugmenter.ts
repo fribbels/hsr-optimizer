@@ -51,6 +51,7 @@ export const RelicAugmenter = {
     relic.augmentedStats = augmentedStats
     fixAugmentedStats([relic])
     RelicRollGrader.calculateRelicSubstatRolls(relic)
+    ;(relic as Relic).previewSubstats ??= []
     return relic as Relic
   },
 }

@@ -9,9 +9,9 @@ import i18next from 'i18next'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Message } from 'lib/interactions/message'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
+import { ScoredRelic } from 'lib/relics/scoreRelics'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { ScoredRelic } from 'lib/relics/scoreRelics'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { Relic } from 'types/relic'
 
@@ -29,7 +29,9 @@ export const RelicsTabController = {
   onRowDoubleClicked(e: RowDoubleClickedEvent<ScoredRelic>) {
     const relic = e.data
     if (!relic) return
-    useRelicsTabStore.getState().setSelectedRelicsIds([relic.id])
+    const { setSelectedRelicsIds, setRelicModalOpen } = useRelicsTabStore.getState()
+    setSelectedRelicsIds([relic.id])
+    setRelicModalOpen(true)
   },
 
   onSelectionChanged(e: SelectionChangedEvent<ScoredRelic>) {

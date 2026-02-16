@@ -24,6 +24,7 @@ import { Form } from 'types/form'
 import {
   PreviewSubstatMetadata,
   Relic,
+  UnaugmentedRelic,
 } from 'types/relic'
 
 // FIXME HIGH
@@ -200,23 +201,25 @@ export class KelzFormatParser { // TODO abstract class
     return parsed
   }
 
-  parseRelic(relic: V4ParserRelic, activatedBuffs: Record<string, string>, substatListOverride?: V4ParserSubstat[]) {
-    const parsed = readRelic(relic, substatListOverride ?? relic.substats, this)
+  parseRelic(parserRelic: V4ParserRelic, activatedBuffs: Record<string, CharacterId>, substatListOverride?: V4ParserSubstat[]) {
+    const relic = RelicAugmenter.augment(readRelic(parserRelic, substatListOverride ?? parserRelic.substats, this))
 
-    const owner = parsed.equippedBy ?? 'NONE'
+    if (relic === null) return null
+
+    const owner = relic.equippedBy ?? 'NONE'
     if (activatedBuffs[owner]) {
-      parsed.equippedBy = activatedBuffs[owner] as CharacterId
+      relic.equippedBy = activatedBuffs[owner]
     }
 
-    return RelicAugmenter.augment(parsed) as Relic | null
+    return relic
   }
 
-  parseCharacter(character: V4ParserCharacter, activatedBuffs: Record<string, string>, lightCones: V4ParserLightCone[]) {
+  parseCharacter(character: V4ParserCharacter, activatedBuffs: Record<string, CharacterId>, lightCones: V4ParserLightCone[]) {
     const parsed = readCharacter(character, lightCones) as Form | null
 
     const id = parsed?.characterId
     if (id && activatedBuffs[id]) {
-      parsed.characterId = activatedBuffs[id] as CharacterId
+      parsed.characterId = activatedBuffs[id]
     }
 
     return parsed
@@ -236,7 +239,7 @@ function generateBuffedCharacterIdMap() {
 
 export const buffedCharacters = generateBuffedCharacterIdMap()
 
-export function getMappedCharacterId(character: V4ParserCharacter): string {
+export function getMappedCharacterId(character: V4ParserCharacter): CharacterId {
   const id = character.id as CharacterId
   const abilityVersion = character.ability_version
   if (abilityVersion == null && buffedCharacters[id]) {
@@ -250,8 +253,8 @@ export function getMappedCharacterId(character: V4ParserCharacter): string {
   return id
 }
 
-export function getActivatedBuffs(rawCharacters: V4ParserCharacter[]): Record<string, string> {
-  const activatedBuffs: Record<string, string> = {}
+export function getActivatedBuffs(rawCharacters: V4ParserCharacter[]): Record<string, CharacterId> {
+  const activatedBuffs: Record<string, CharacterId> = {}
   for (const character of rawCharacters) {
     const id = character.id
     const mappedId = getMappedCharacterId(character)
@@ -288,7 +291,7 @@ function readCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCo
   }
 }
 
-function readRelic(parserRelic: V4ParserRelic, substatList: V4ParserSubstat[], scanner: KelzFormatParser): Relic {
+function readRelic(parserRelic: V4ParserRelic, substatList: V4ParserSubstat[], scanner: KelzFormatParser): UnaugmentedRelic {
   const part = parserRelic.slot.replace(/\s+/g, '') as Parts
 
   const setId = parserRelic.set_id
@@ -315,7 +318,7 @@ function readRelic(parserRelic: V4ParserRelic, substatList: V4ParserSubstat[], s
     }
   }) ?? []
 
-  const relic: Partial<Relic> = {
+  const relic: UnaugmentedRelic = {
     part,
     set,
     enhance,
@@ -329,7 +332,7 @@ function readRelic(parserRelic: V4ParserRelic, substatList: V4ParserSubstat[], s
     ageIndex: parseInt(parserRelic._uid),
   }
 
-  return relic as Relic
+  return relic
 }
 
 type MainData = {

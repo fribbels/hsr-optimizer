@@ -1,4 +1,7 @@
-import { CaretRightOutlined } from '@ant-design/icons'
+import {
+  CaretRightOutlined,
+  LockOutlined,
+} from '@ant-design/icons'
 import {
   Alert,
   Button,
@@ -76,6 +79,30 @@ function RadioIcon(props: { value: string, src: string }) {
   )
 }
 
+function defaultSubstatValues(relic: Relic): SubstatValues {
+  const substatCount = relic.substats.length
+  return relic.substats.concat(relic.previewSubstats).reduce((acc, _, idx) => {
+    const isPreview = idx >= substatCount
+    const substat = isPreview ? renderPreviewSubstat(relic, idx - substatCount) : renderSubstat(relic, idx)
+    switch (idx) {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+        acc[`substatType${idx}`] = substat?.stat
+        acc[`substatValue${idx}`] = (isPreview ? 0 : substat?.value)?.toString()
+        acc[`substat${idx}IsPreview`] = isPreview ? substat?.value : isPreview
+        break
+      default:
+        throw new Error('RelicModal::defaultSubstatValues: Illegal index reached in relic substat iterator')
+        break
+    }
+    return acc
+  }, {} as SubstatValues)
+}
+
+type SubstatValues = Pick<RelicForm, `substatType${0 | 1 | 2 | 3}` | `substatValue${0 | 1 | 2 | 3}` | `substat${0 | 1 | 2 | 3}IsPreview`>
+
 function renderMainStat(relic: Relic): { stat: MainStats, value: number } | undefined {
   const mainStat = relic.main?.stat
   const mainValue = relic.main?.value
@@ -83,6 +110,16 @@ function renderMainStat(relic: Relic): { stat: MainStats, value: number } | unde
   if (!mainStat) return
 
   return renderStat(mainStat, mainValue)
+}
+
+function renderPreviewSubstat(relic: Relic, index: number) {
+  const substat = relic.previewSubstats[index]
+  if (!substat?.stat) return
+
+  const stat = substat.stat
+  const value = substat.value
+
+  return renderStat(stat, value, relic) as { stat: SubStats, value: number }
 }
 
 function renderSubstat(relic: Relic, index: number) {
@@ -230,14 +267,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
         part: selectedRelic.part,
         mainStatType: renderMainStat(selectedRelic)?.stat,
         mainStatValue: renderMainStat(selectedRelic)?.value,
-        substatType0: renderSubstat(selectedRelic, 0)?.stat,
-        substatValue0: renderSubstat(selectedRelic, 0)?.value.toString(),
-        substatType1: renderSubstat(selectedRelic, 1)?.stat,
-        substatValue1: renderSubstat(selectedRelic, 1)?.value.toString(),
-        substatType2: renderSubstat(selectedRelic, 2)?.stat,
-        substatValue2: renderSubstat(selectedRelic, 2)?.value.toString(),
-        substatType3: renderSubstat(selectedRelic, 3)?.stat,
-        substatValue3: renderSubstat(selectedRelic, 3)?.value.toString(),
+        ...defaultSubstatValues(selectedRelic),
       }
     } else {
       const defaultPart = selectedPart ?? Constants.Parts.Head
@@ -255,6 +285,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
     }
 
     onValuesChange(defaultValues)
+
     relicForm.setFieldsValue(defaultValues)
   }, [selectedRelic, open])
 
@@ -609,8 +640,11 @@ function SubstatInput(props: {
   const [hovered, setHovered] = React.useState(false)
   const statTypeField = `substatType${props.index}` as `substatType${typeof props.index}`
   const statValueField = `substatValue${props.index}` as `substatValue${typeof props.index}`
+  const isPreviewField = `substat${props.index}IsPreview` as `substat${typeof props.index}IsPreview`
   const { t } = useTranslation('modals', { keyPrefix: 'Relic' })
   const { t: tStats } = useTranslation('common', { keyPrefix: 'Stats' })
+
+  const isPreview = Form.useWatch(isPreviewField, props.relicForm)
 
   const handleFocus = () => {
     if (inputRef.current) {
@@ -622,6 +656,7 @@ function SubstatInput(props: {
     console.log(props, quality)
 
     props.relicForm.setFieldValue(statValueField, props.upgrades[props.index][quality])
+    props.relicForm.setFieldValue(isPreviewField, false)
     props.resetUpgradeValues()
     props.plusThree()
   }
@@ -654,10 +689,37 @@ function SubstatInput(props: {
     return output
   }, [tStats])
 
+  function PreviewToggle() {
+    const onClick = () => {
+      if (isPreview) {
+        props.relicForm.setFieldValue(isPreviewField, false)
+        props.relicForm.setFieldValue(statValueField, isPreview)
+        props.resetUpgradeValues()
+      } else {
+        const value = props.relicForm.getFieldValue(statValueField)
+        if (value == 0) return
+        console.log('test')
+        props.relicForm.setFieldValue(isPreviewField, value)
+        props.relicForm.setFieldValue(statValueField, 0)
+        props.resetUpgradeValues()
+      }
+    }
+    return (
+      <Form.Item
+        name={isPreviewField}
+        style={{ width: 12, marginTop: 7, cursor: 'pointer' }}
+      >
+        {isPreview ? <LockOutlined onClick={onClick} /> : <CaretRightOutlined onClick={onClick} />}
+      </Form.Item>
+    )
+  }
+
   function UpgradeButton(subProps: {
     quality: 'low' | 'mid' | 'high',
   }) {
     const value = props.upgrades?.[props.index]?.[subProps.quality]
+
+    if (value === null) return null
 
     const displayValue = formatStat(value)
 
@@ -667,7 +729,7 @@ function SubstatInput(props: {
           type={hovered ? 'default' : 'dashed'}
           style={{ width: '100%', padding: 0 }}
           onClick={() => upgradeClicked(subProps.quality)}
-          disabled={value == undefined}
+          disabled={value === undefined}
           tabIndex={-1}
         >
           {displayValue}
@@ -709,8 +771,9 @@ function SubstatInput(props: {
           title={stat == Stats.SPD ? t('SpdInputWarning') : ''}
           placement='top'
         >
-          <Form.Item name={`substatValue${props.index}`}>
+          <Form.Item name={statValueField}>
             <Input
+              disabled={Boolean(isPreview)}
               ref={inputRef}
               onFocus={handleFocus}
               style={{ width: 80 }}
@@ -720,12 +783,14 @@ function SubstatInput(props: {
           </Form.Item>
         </Tooltip>
       </Flex>
-      <CaretRightOutlined style={{ width: 12 }} />
+      <PreviewToggle />
       <Flex gap={5} style={{ width: '100%' }}>
         <UpgradeButton quality='low' />
         <UpgradeButton quality='mid' />
         <UpgradeButton quality='high' />
       </Flex>
+      <Form.Item name={isPreviewField}>
+      </Form.Item>
     </Flex>
   )
 }

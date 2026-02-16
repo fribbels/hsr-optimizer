@@ -907,6 +907,7 @@ export const DB = {
             id: newRelic.id,
             verified: true,
             substats: newRelic.substats,
+            previewSubstats: newRelic.previewSubstats,
             augmentedStats: newRelic.augmentedStats,
           }
         }
@@ -1038,6 +1039,7 @@ export const DB = {
 
       if (match) {
         match.substats = newRelic.substats
+        match.previewSubstats = newRelic.previewSubstats
         match.main = newRelic.main
         match.enhance = newRelic.enhance
         match.verified = true

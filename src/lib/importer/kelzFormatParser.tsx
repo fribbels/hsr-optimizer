@@ -310,7 +310,8 @@ function readRelic(parserRelic: V4ParserRelic, substatList: V4ParserSubstat[], s
     }
   }
 
-  const previewSubstats: RelicSubstatMetadata[] = parserRelic.preview_substats?.map((s) => {
+  const previewSubstats: RelicSubstatMetadata[] = []
+  parserRelic.preview_substats?.forEach((s) => {
     const meta: RelicSubstatMetadata = {
       stat: mapSubstatToId(s.key),
       value: s.value,
@@ -321,8 +322,8 @@ function readRelic(parserRelic: V4ParserRelic, substatList: V4ParserSubstat[], s
         low: s.step === 0 ? 1 : 0,
       },
     }
-    return meta
-  }) ?? []
+    previewSubstats.push(meta)
+  })
 
   const relic: UnaugmentedRelic = {
     part,

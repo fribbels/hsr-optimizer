@@ -28,8 +28,12 @@ import {
   localeNumberComma_0,
 } from 'lib/utils/i18nUtils'
 import { useTranslation } from 'react-i18next'
+import { Fragment } from 'react/jsx-runtime'
 import { CharacterId } from 'types/character'
-import { Relic } from 'types/relic'
+import {
+  Relic,
+  RelicSubstatMetadata,
+} from 'types/relic'
 
 export type ShowcaseTheme = {
   cardBackgroundColor: string,
@@ -65,6 +69,7 @@ export function RelicPreview(props: {
     set: undefined,
     grade: 0,
     substats: [],
+    previewSubstats: [],
     main: undefined,
     equippedBy: undefined,
   }
@@ -96,6 +101,8 @@ export function RelicPreview(props: {
   const STAT_GAP = scoringType == ScoringType.NONE ? 6 : 0
   const ICON_SIZE = scoringType == ScoringType.NONE ? 54 : 50
   const JUSTIFY = scoringType == ScoringType.NONE ? 'space-around' : 'space-between'
+
+  const fillerStats = Array.from<RelicSubstatMetadata>({ length: 4 - relic.substats.length - relic.previewSubstats.length })
 
   return (
     <Card
@@ -153,10 +160,9 @@ export function RelicPreview(props: {
           <Divider style={{ margin: '6px 0px 6px 0px' }} />
 
           <Flex vertical gap={STAT_GAP}>
-            {GenerateStat(relic.substats[0], false, relic)}
-            {GenerateStat(relic.substats[1], false, relic)}
-            {GenerateStat(relic.substats[2], false, relic)}
-            {GenerateStat(relic.substats[3], false, relic)}
+            {relic.substats.map((s, idx) => <Fragment key={`substats-${idx}`}>{GenerateStat(s, false, relic)}</Fragment>)}
+            {relic.previewSubstats.map((s, idx) => <Fragment key={`previews-${idx}`}>{GenerateStat(s, false, relic, true)}</Fragment>)}
+            {fillerStats.map((x, idx) => <Fragment key={`fillers-${idx}`}>{GenerateStat(x, false, relic)}</Fragment>)}
           </Flex>
 
           {scoringType != ScoringType.NONE && <ScoreFooter score={score} />}

@@ -22,8 +22,8 @@ import {
 } from 'types/character'
 import { Form } from 'types/form'
 import {
-  PreviewSubstatMetadata,
   Relic,
+  RelicSubstatMetadata,
   UnaugmentedRelic,
 } from 'types/relic'
 
@@ -310,12 +310,18 @@ function readRelic(parserRelic: V4ParserRelic, substatList: V4ParserSubstat[], s
     }
   }
 
-  const previewSubstats: PreviewSubstatMetadata[] = parserRelic.preview_substats?.map((s) => {
-    return {
+  const previewSubstats: RelicSubstatMetadata[] = parserRelic.preview_substats?.map((s) => {
+    const meta: RelicSubstatMetadata = {
       stat: mapSubstatToId(s.key),
       value: s.value,
-      quality: s.step === 2 ? 'high' : s.step === 1 ? 'mid' : 'low',
+      addedRolls: 0,
+      rolls: {
+        high: s.step === 2 ? 1 : 0,
+        mid: s.step === 1 ? 1 : 0,
+        low: s.step === 0 ? 1 : 0,
+      },
     }
+    return meta
   }) ?? []
 
   const relic: UnaugmentedRelic = {

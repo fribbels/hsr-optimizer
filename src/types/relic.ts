@@ -39,7 +39,7 @@ export type Relic = {
   part: Parts,
   set: Sets,
   substats: RelicSubstatMetadata[],
-  previewSubstats: PreviewSubstatMetadata[],
+  previewSubstats: RelicSubstatMetadata[],
   initialRolls: number,
 }
 
@@ -48,12 +48,6 @@ export type RelicSubstatMetadata = {
   value: number,
   rolls?: StatRolls,
   addedRolls?: number,
-}
-
-export type PreviewSubstatMetadata = {
-  stat: SubStats,
-  value: number,
-  quality: 'high' | 'mid' | 'low',
 }
 
 export type StatRolls = {

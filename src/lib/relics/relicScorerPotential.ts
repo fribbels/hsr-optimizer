@@ -12,13 +12,29 @@ import {
   SubStats,
   SubStatValues,
 } from 'lib/constants/constants'
-import { getScoreCategory, ScoreCategory, } from 'lib/scoring/scoreComparison'
+import {
+  getScoreCategory,
+  ScoreCategory,
+} from 'lib/scoring/scoreComparison'
 import DB from 'lib/state/db'
-import { ArrayFilters, arrayToMap, stringArrayToMap, } from 'lib/utils/arrayUtils'
+import {
+  ArrayFilters,
+  arrayToMap,
+  stringArrayToMap,
+} from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { Character, CharacterId, } from 'types/character'
-import { Relic, RelicEnhance, RelicGrade, RelicId, Stat, } from 'types/relic'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
+import {
+  Relic,
+  RelicEnhance,
+  RelicGrade,
+  RelicId,
+  Stat,
+} from 'types/relic'
 
 // FIXME HIGH
 
@@ -680,8 +696,8 @@ export class RelicScorer {
     let rerollAvg = 0
     let blockerAvg = 0
     let blockedStat: SubStats | undefined
-    if (relic.grade === 5 && relic.substats.length == 4) {
-      const currentRolls = TsUtils.sumArray(relic.substats.map((x) => x.addedRolls ?? 0))
+    if (relic.grade === 5 && allSubstats.length == 4) {
+      const currentRolls = TsUtils.sumArray(allSubstats.map((x) => x.addedRolls ?? 0))
       const totalRolls = Math.min(currentRolls, 5)
 
       blockedStat = allSubstats.sort((a, b) => meta.stats[a.stat] - meta.stats[b.stat])[0].stat

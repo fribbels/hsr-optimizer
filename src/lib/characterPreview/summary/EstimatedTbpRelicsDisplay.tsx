@@ -262,7 +262,7 @@ function MetricCard(props: { relicAnalysis: RelicAnalysis, index: number }) {
     : localeNumber_0(relicAnalysis.weightedRolls)
   const valueBottom = index == 0
     ? localeNumberComma(Math.ceil(relicAnalysis.estTbp / 40) * 40)
-    : localeNumber_0(relicAnalysis.rerollDelta) + '%'
+    : localeNumber_0(relicAnalysis.rerollPotential == 0 ? 0 : relicAnalysis.rerollDelta) + '%'
 
   return (
     <Flex

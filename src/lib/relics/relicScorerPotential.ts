@@ -725,6 +725,9 @@ export class RelicScorer {
       // There is a case where a stat with less than 1 weight is the main stat, in which case the reroll value will exceed the ideal score, cap it
       rerollAvg = Math.min(rerollAvg, idealScore)
       rerollAvg = (rerollAvg + mainstatDeduction) / idealScore * 100 * percentToScore + mainstatBonus
+
+      blockerAvg = Math.min(blockerAvg, idealScore)
+      blockerAvg = (blockerAvg + mainstatDeduction) / idealScore * 100 * percentToScore + mainstatBonus
     }
 
     return {
@@ -851,6 +854,7 @@ export class RelicScorer {
       averagePct: Math.max(0, futureScore.average - mainstatBonus) / percentToScore * multiplier,
       worstPct: Math.max(0, futureScore.worst - mainstatBonus) / percentToScore * multiplier,
       rerollAvgPct: Math.max(0, futureScore.rerollAvg - mainstatBonus) / percentToScore * multiplier,
+      blockedRerolAvgPct: Math.max(0, futureScore.blockerAvg - mainstatBonus) / percentToScore * multiplier,
       meta: futureScore.meta,
     }
   }

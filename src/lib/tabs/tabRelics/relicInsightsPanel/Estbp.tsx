@@ -15,7 +15,7 @@ import {
 import { ScoringMetadata } from 'types/metadata'
 import { Relic } from 'types/relic'
 
-function useEstbpWorker(relic: Relic | null, weights: ScoringMetadata['stats'] | null) {
+function useEstbpWorker(relic: Relic | null, weights: ScoringMetadata['stats'] | undefined) {
   const [ready, setReady] = useState(false)
 
   const [output, setOutput] = useState<null | EstTbpWorkerOutput>(null)
@@ -47,7 +47,7 @@ export const EstbpCard = memo(() => {
 
   const weights = focusCharacter ? DB.getScoringMetadata(focusCharacter) : null
 
-  const { ready, output } = useEstbpWorker(selectedRelic, weights?.stats ?? null)
+  const { ready, output } = useEstbpWorker(selectedRelic, weights?.stats)
 
   const needsAnalysis = selectedRelic && weights && focusCharacter
 

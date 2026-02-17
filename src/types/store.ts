@@ -9,7 +9,6 @@ import {
 } from 'lib/simulations/statSimulationTypes'
 import { AppPage } from 'lib/state/db'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { RelicTabFilters } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
 import {
@@ -174,6 +173,7 @@ export type HsrOptimizerSaveFormat = {
     ingestCharacters: boolean,
     ingestWarpResources: boolean,
     websocketUrl: string,
+    customUrl: boolean,
   },
 }
 

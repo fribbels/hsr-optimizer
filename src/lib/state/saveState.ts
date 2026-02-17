@@ -1,13 +1,16 @@
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import DB from 'lib/state/db'
-import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
+import {
+  DEFAULT_WEBSOCKET_URL,
+  useScannerState,
+} from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { Relic } from 'types/relic'
 import { HsrOptimizerSaveFormat } from 'types/store'
-import { Relic } from "types/relic";
 
 let saveTimeout: NodeJS.Timeout | null
 
@@ -47,6 +50,7 @@ export const SaveState = {
         ingestCharacters: scannerState.ingestCharacters,
         ingestWarpResources: scannerState.ingestWarpResources,
         websocketUrl: scannerState.websocketUrl,
+        customUrl: scannerState.websocketUrl !== DEFAULT_WEBSOCKET_URL,
       },
     }
 

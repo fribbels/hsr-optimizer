@@ -68,7 +68,7 @@ type ScannerState = {
   characters: Record<string, V4ParserCharacter>,
 
   // Map of character ids to their buffed version if activated
-  activatedBuffs: Record<string, string>,
+  activatedBuffs: Record<string, CharacterId>,
 }
 
 type ScannerActions = {
@@ -116,7 +116,7 @@ type PrivateScannerActions = {
   updateCharacter: (character: V4ParserCharacter) => void,
 
   // Update the state with a new activated buffs record
-  updateActivatedBuffs: (activatedBuffs: Record<string, string>) => void,
+  updateActivatedBuffs: (activatedBuffs: Record<string, CharacterId>) => void,
 
   // Delete a relic from the state
   deleteRelic: (relicId: string) => void,
@@ -332,7 +332,7 @@ const usePrivateScannerState = create<ScannerStore>((set, get) => ({
       },
     }),
 
-  updateActivatedBuffs: (activatedBuffs: Record<string, string>) =>
+  updateActivatedBuffs: (activatedBuffs: Record<string, CharacterId>) =>
     set({
       activatedBuffs,
     }),

@@ -30,7 +30,7 @@ type ScoringMetadataOverrides = Partial<Record<CharacterId, ScoringMetadata>>
 
 // Keyed by relic reference, autoclears when cache params change
 let scoreCache: WeakMap<Relic, ScoredRelic> = new WeakMap()
-let cacheParams: { focusCharacter: Nullable<CharacterId>; excludedIds: string; metadataRef?: ScoringMetadataOverrides } | null = null
+let cacheParams: { focusCharacter: Nullable<CharacterId>, excludedIds: string, metadataRef?: ScoringMetadataOverrides } | null = null
 
 export function scoreRelics(
   relics: Array<Relic>,

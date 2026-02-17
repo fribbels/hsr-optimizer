@@ -77,7 +77,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     skillDefShred: true,
     epiphanyDebuff: true,
     ehrToDmgBoost: true,
-    combatEhr: 120,
+    combatEhr: 1.20,
     e1ResReduction: true,
     e4Vulnerability: true,
   }

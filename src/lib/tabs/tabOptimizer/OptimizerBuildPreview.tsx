@@ -54,7 +54,7 @@ export default function OptimizerBuildPreview() {
     for (let i = startingIndex; i < startingIndex + 6; i++) {
       nextRelic = relicsById[optimizerBuild[indexToPart[i % 6]]!]
       if (nextRelic) {
-        setSelectedRelic(nextRelic)
+        return setSelectedRelic(nextRelic)
       }
     }
   }
@@ -67,7 +67,7 @@ export default function OptimizerBuildPreview() {
     for (let i = startingIndex; i > startingIndex - 6; i--) {
       nextRelic = relicsById[optimizerBuild[indexToPart[i % 6]]!]
       if (nextRelic) {
-        setSelectedRelic(nextRelic)
+        return setSelectedRelic(nextRelic)
       }
     }
   }

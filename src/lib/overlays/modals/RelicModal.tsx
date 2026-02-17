@@ -1,4 +1,5 @@
 import {
+  CaretLeftOutlined,
   CaretRightOutlined,
   LockOutlined,
 } from '@ant-design/icons'
@@ -170,6 +171,8 @@ type RelicModalProps = {
   selectedRelic: Relic | null,
   selectedPart?: Parts | null,
   defaultWearer?: CharacterId,
+  next?: () => void,
+  prev?: () => void,
 }
 
 const defaultMainStatPerPart = {
@@ -181,7 +184,7 @@ const defaultMainStatPerPart = {
   [Parts.LinkRope]: Stats.HP_P,
 }
 
-export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, defaultWearer }: RelicModalProps) {
+export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, defaultWearer, next, prev }: RelicModalProps) {
   const { t } = useTranslation(['modals', 'common', 'gameData'])
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const { token } = useToken()
@@ -467,6 +470,30 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
         <Flex vertical gap={5}>
           {isLiveImport && (
             <Alert message={t('Relic.LiveImportWarning') /* Live import mode is enabled, your changes might be overwritten. */} type='warning' showIcon />
+          )}
+          {prev && (
+            <CaretLeftOutlined
+              onClick={prev}
+              style={{
+                position: 'absolute',
+                top: 240,
+                right: 560,
+                fontSize: '40px',
+                cursor: 'pointer',
+              }}
+            />
+          )}
+          {next && (
+            <CaretRightOutlined
+              onClick={next}
+              style={{
+                position: 'absolute',
+                top: 240,
+                left: 560,
+                fontSize: '40px',
+                cursor: 'pointer',
+              }}
+            />
           )}
           <Flex gap={10}>
             <Flex vertical gap={5}>
@@ -784,13 +811,11 @@ function SubstatInput(props: {
         </Tooltip>
       </Flex>
       <PreviewToggle />
-      <Flex gap={5} style={{ width: '100%' }}>
+      <Flex gap={5} style={{ minWidth: 180 }}>
         <UpgradeButton quality='low' />
         <UpgradeButton quality='mid' />
         <UpgradeButton quality='high' />
       </Flex>
-      <Form.Item name={isPreviewField}>
-      </Form.Item>
     </Flex>
   )
 }

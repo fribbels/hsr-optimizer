@@ -128,8 +128,14 @@ export default function OptimizerForm() {
       LinkRopeTotal: preFilteredRelicsByPart.LinkRope.length,
     }
     window.store.getState().setPermutationDetails(permutationDetails)
-    window.store.getState()
-      .setPermutations(relics.Head.length * relics.Hands.length * relics.Body.length * relics.Feet.length * relics.PlanarSphere.length * relics.LinkRope.length)
+    window.store.getState().setPermutations(
+      relics.Head.length
+        * relics.Hands.length
+        * relics.Body.length
+        * relics.Feet.length
+        * relics.PlanarSphere.length
+        * relics.LinkRope.length,
+    )
   }
   window.onOptimizerFormValuesChange = onValuesChange
 

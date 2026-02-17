@@ -1,16 +1,30 @@
+import { Flex } from 'antd'
+import { RelicContainer } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
+import { enrichSingleRelicAnalysis } from 'lib/characterPreview/summary/statScoringSummaryController'
 import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { sortAlphabeticEmojiLast } from 'lib/rendering/displayUtils'
 import DB from 'lib/state/db'
 import { BucketsPanel } from 'lib/tabs/tabRelics/relicInsightsPanel/BucketsPanel'
+import { EstbpCard } from 'lib/tabs/tabRelics/relicInsightsPanel/Estbp'
 import { Top10Panel } from 'lib/tabs/tabRelics/relicInsightsPanel/Top10Panel'
 import useRelicsTabStore, {
   InsightCharacters,
   RelicInsights,
 } from 'lib/tabs/tabRelics/useRelicsTabStore'
-import { useMemo } from 'react'
+import {
+  EstTbpWorkerOutput,
+  handleWork,
+} from 'lib/worker/estTbpWorkerRunner'
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
+import { ScoringMetadata } from 'types/metadata'
+import { Relic } from 'types/relic'
 
 export function RelicInsightsPanel() {
   const { insightsCharacters, insightsMode, selectedRelicId, excludedRelicPotentialCharacters } = useRelicsTabStore()
@@ -55,6 +69,8 @@ export function RelicInsightsPanel() {
       return <BucketsPanel scores={scores} />
     case RelicInsights.Top10:
       return <Top10Panel scores={scores} />
+    case RelicInsights.ESTBP:
+      return <EstbpCard />
   }
 }
 

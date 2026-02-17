@@ -119,8 +119,8 @@ function LoadingSpinner() {
   )
 }
 
-function RelicContainer(props: { ready: boolean, relicAnalysis?: RelicAnalysis }) {
-  const { ready, relicAnalysis } = props
+export function RelicContainer(props: { ready: boolean, relicAnalysis?: RelicAnalysis, withoutPreview?: boolean }) {
+  const { ready, relicAnalysis, withoutPreview } = props
 
   const cardStyle = {
     width: '100%',
@@ -133,7 +133,7 @@ function RelicContainer(props: { ready: boolean, relicAnalysis?: RelicAnalysis }
     backdropFilter: 'blur(5px)',
     border: '1px solid rgba(255, 255, 255, 0.10)',
     WebkitBackdropFilter: 'blur(5px)',
-    minHeight: 302,
+    minHeight: withoutPreview ? undefined : 302,
   }
 
   if (!ready) {
@@ -149,6 +149,8 @@ function RelicContainer(props: { ready: boolean, relicAnalysis?: RelicAnalysis }
   if (!relicAnalysis) {
     return <div style={cardStyle} />
   }
+
+  if (withoutPreview) return <RelicAnalysisCard relicAnalysis={relicAnalysis} />
 
   return (
     <Flex

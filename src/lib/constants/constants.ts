@@ -729,7 +729,7 @@ export const setToId = {
   [Sets.RevelryByTheSea]: '322',
   [Sets.AmphoreusTheEternalLand]: '323',
   [Sets.TengokuLivestream]: '324',
-} as const
+} as const satisfies Record<Sets, string>
 
 export const ABILITY_LIMIT = 12
 

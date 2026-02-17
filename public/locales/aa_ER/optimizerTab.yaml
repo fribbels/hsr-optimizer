@@ -33,6 +33,8 @@ OrnamentSetSelector:
   Placeholder: crwdns42682:0crwdne42682:0
 SortOptions:
   DMGLabel: crwdns42684:0crwdne42684:0
+  HealLabel: crwdns46228:0crwdne46228:0
+  ShieldLabel: crwdns46230:0crwdne46230:0
   StatLabel: crwdns42686:0crwdne42686:0
   COMBO: crwdns42688:0crwdne42688:0
   BASIC: crwdns42690:0crwdne42690:0
@@ -45,6 +47,16 @@ SortOptions:
   BREAK: crwdns42702:0crwdne42702:0
   HEAL: crwdns42704:0crwdne42704:0
   SHIELD: crwdns42706:0crwdne42706:0
+  BASIC_HEAL: crwdns46232:0crwdne46232:0
+  SKILL_HEAL: crwdns46234:0crwdne46234:0
+  ULT_HEAL: crwdns46236:0crwdne46236:0
+  FUA_HEAL: crwdns46238:0crwdne46238:0
+  TALENT_HEAL: crwdns46240:0crwdne46240:0
+  BASIC_SHIELD: crwdns46242:0crwdne46242:0
+  SKILL_SHIELD: crwdns46244:0crwdne46244:0
+  ULT_SHIELD: crwdns46246:0crwdne46246:0
+  FUA_SHIELD: crwdns46248:0crwdne46248:0
+  TALENT_SHIELD: crwdns46250:0crwdne46250:0
   HP: 'crwdns42708:0$t(common:ReadableStats.HP)crwdne42708:0'
   ATK: 'crwdns42710:0$t(common:ReadableStats.ATK)crwdne42710:0'
   DEF: 'crwdns42712:0$t(common:ReadableStats.DEF)crwdne42712:0'
@@ -140,6 +152,26 @@ Grid:
         crwdns42846:0crwdne42846:0
       BREAK: |-
         crwdns42848:0crwdne42848:0
+      BASIC_HEAL: |-
+        crwdns46252:0crwdne46252:0
+      SKILL_HEAL: |-
+        crwdns46254:0crwdne46254:0
+      ULT_HEAL: |-
+        crwdns46256:0crwdne46256:0
+      FUA_HEAL: |-
+        crwdns46258:0crwdne46258:0
+      TALENT_HEAL: |-
+        crwdns46260:0crwdne46260:0
+      BASIC_SHIELD: |-
+        crwdns46262:0crwdne46262:0
+      SKILL_SHIELD: |-
+        crwdns46264:0crwdne46264:0
+      ULT_SHIELD: |-
+        crwdns46266:0crwdne46266:0
+      FUA_SHIELD: |-
+        crwdns46268:0crwdne46268:0
+      TALENT_SHIELD: |-
+        crwdns46270:0crwdne46270:0
       COMBO: |-
         crwdns42850:0crwdne42850:0
     Combat:
@@ -175,6 +207,26 @@ Grid:
         crwdns42896:0crwdne42896:0
       BREAK: |-
         crwdns42898:0crwdne42898:0
+      BASIC_HEAL: |-
+        crwdns46272:0crwdne46272:0
+      SKILL_HEAL: |-
+        crwdns46274:0crwdne46274:0
+      ULT_HEAL: |-
+        crwdns46276:0crwdne46276:0
+      FUA_HEAL: |-
+        crwdns46278:0crwdne46278:0
+      TALENT_HEAL: |-
+        crwdns46280:0crwdne46280:0
+      BASIC_SHIELD: |-
+        crwdns46282:0crwdne46282:0
+      SKILL_SHIELD: |-
+        crwdns46284:0crwdne46284:0
+      ULT_SHIELD: |-
+        crwdns46286:0crwdne46286:0
+      FUA_SHIELD: |-
+        crwdns46288:0crwdne46288:0
+      TALENT_SHIELD: |-
+        crwdns46290:0crwdne46290:0
       COMBO: |-
         crwdns42900:0crwdne42900:0
 Sidebar:
@@ -447,6 +499,16 @@ ComboFilter:
     Break: crwdns45232:0crwdne45232:0
     MemoSkill: crwdns43278:0crwdne43278:0
     MemoTalent: crwdns44764:0crwdne44764:0
+    BasicHeal: crwdns46292:0crwdne46292:0
+    SkillHeal: crwdns46294:0crwdne46294:0
+    UltHeal: crwdns46296:0crwdne46296:0
+    FuaHeal: crwdns46298:0crwdne46298:0
+    TalentHeal: crwdns46300:0crwdne46300:0
+    BasicShield: crwdns46302:0crwdne46302:0
+    SkillShield: crwdns46304:0crwdne46304:0
+    UltShield: crwdns46306:0crwdne46306:0
+    FuaShield: crwdns46308:0crwdne46308:0
+    TalentShield: crwdns46310:0crwdne46310:0
   RotationButton: crwdns43280:0crwdne43280:0
 ComboDrawer:
   NoConditionals: crwdns43282:0crwdne43282:0

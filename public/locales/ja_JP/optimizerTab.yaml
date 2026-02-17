@@ -441,7 +441,7 @@ ComboFilter:
     Dot: 持続
   ComboOptions:
     None: 'なし'
-    Basic: 基礎
+    Basic: 通常
     Skill: スキル
     Ult: 必殺
     Fua: 追加

@@ -232,6 +232,7 @@ Lightcones:
     Content:
       breakDmgBuff:
         text: Aumento de Daño de Ruptura
+        content: Al entrar en combate, el Daño de Ruptura del portador y del compañero de equipo que inició el combate aumenta en un {{BreakBoost}}%. Si el combate no lo inició un compañero de equipo, el efecto se aplica al portador y al compañero de equipo con el mayor efecto de Ruptura.
   NightOfFright:
     Content:
       atkBuffStacks:
@@ -1155,7 +1156,7 @@ Characters:
       teammateATKValue:
         text: ATQ en combate de Céridra
         content: >-
-          El ATQ del personaje con Mérito militar aumenta en una cantidad equivalente al {{TalentAtkConversion}}% del ATQ de Céridra. ::BR:: Ajusta esto al valor de ATQ propio de Céridra que usa para mejorar aliados.
+          El ATQ del personaje con Mérito militar aumenta en una cantidad equivalente al {{TalentAtkConversion}}% del ATQ de Céridra. ::BR:: Ingresa el ATQ propio de Céridra que usa para mejorar aliados.
       e1DefPen:
         text: E1 PEN DEF
         content: Cuando el personaje con Mérito militar inflige daño, ignora el 16% de la DEF de cada objetivo. Si Mérito militar ya ha mejorado a Título nobiliario, el daño de habilidad básica que inflige ese personaje ignora un 20% adicional de la DEF de cada objetivo.
@@ -2250,16 +2251,41 @@ Characters:
         content: Tras activar Postura espadachina, el daño que recibe Sushang se reduce en un 20% durante 1 turno.
   TheDahlia:
     Content:
+      zoneActive:
+        text: Campo activo
+        content: Mientras el campo esté activo, la eficiencia de la Ruptura de Debilidad de todos los aliados aumenta en un 50%.
+      ultDefPen:
+        text: PEN DEF Definitiva
+        content: Reduce la DEF de los enemigos en un {{DefShred}}% y se le implantan los tipos de Debilidad de todas las Parejas de baile.
+      dancePartner:
+        text: Pareja de baile
+        content: Después de que una Pareja de baile ataque a un enemigo en estado de Ruptura de Debilidad, convierte la Reducción de Firmeza de este ataque en un {{SBScaling}}% de Daño de Ultrarruptura.
       superBreakDmg:
         text: Daño de Ultrarruptura (forzar rupt. de debilidad)
+        content: Fuerza el estado de Ruptura de Debilidad para activar los cálculos de Daño de Ultrarruptura.
       spdBuff:
         text: Mejora de VEL
+        content: Cuando un aliado implanta una Debilidad en un enemigo, la VEL aumenta en un 30% durante 2 turnos.
       e1Buffs:
         text: E1 Mejoras
+        content: El multiplicador del Daño de Ultrarruptura que el talento otorga a cada Pareja de baile pasa a tener efecto en todos los personajes aliados, y el multiplicador de cada Pareja de baile aumenta en un 40% adicional. Después de que una Pareja de baile ataque, los objetivos atacados reciben una reducción de Firmeza fija equivalente al 25% de su Firmeza máxima (10 puntos como mínimo y 300 como máximo). Este efecto solo puede activarse una vez en cada enemigo. Después de que un enemigo reciba un golpe letal, se restablece su contador de activaciones.
       e2ResPen:
         text: E2 PEN RES
+        content: Cuando la Dalia está en la batalla, la RES a todos los tipos de todos los enemigos se reduce en un 20%.
+      e4Vuln:
+        text: E4 Vulnerabilidad
+        content: Aumenta en un 12% el daño que reciben todos los enemigos durante 2 turnos.
       e6BeBuff:
         text: E6 Mejora de EdR
+        content: El efecto de Ruptura de las Parejas de baile aumenta en un 150%.
+    TeammateContent:
+      beConversion:
+        text: Conversión de Efecto de Ruptura
+        content: Al entrar en combate, aumenta el efecto de Ruptura de los demás personajes en un valor equivalente al 24% del efecto de Ruptura de la Dalia + 50% durante 1 turno. Cuando la Dalia recibe efectos de curación o escudo de un compañero de equipo, este efecto vuelve a activarse durante 3 turnos, pero en cada turno no puede activarse más de una vez.
+      teammateBeValue:
+        text: ER en combate de la Dalia
+        content: >-
+          Al entrar en combate, aumenta el efecto de Ruptura de los demás personajes en un valor equivalente al 24% del efecto de Ruptura de la Dalia + 50% durante 1 turno. ::BR:: Ingresa la Ruptura de Efecto propia de la Dalia que usa para mejorar aliados.
   TheHerta:
     Content:
       enhancedSkill:
@@ -2367,6 +2393,8 @@ Characters:
     Content:
       enhancedBasic:
         text: Básico potenciado
+        content: >-
+          Después de lanzar la habilidad definitiva, obtiene 1 acumulación de Epopeya, hasta un máximo de 2 acumulaciones. Cuando tenga Epopeya y Mem esté en el campo de batalla, el ATQ básico se potencia a "¡Escribamos el mañana!". ::BR:: Consume 1 acumulación de Epopeya y disipa todos los estados negativos de Control que afecten a Mem. La(El) Trazacaminos y Mem lanzan un ataque combinado que inflige a todos los enemigos un Daño de Hielo equivalente al {{Scaling}}% del ATQ de la(del) Trazacaminos y al {{Scaling}}% del ATQ de Mem. Después, Mem obtiene un 10% de carga.
       memoSkillHits:
         text: Golpes de Habilidad Mnemo
         content: >-

@@ -63,6 +63,7 @@ OptimizerOptions:
   PriorityFilter: 캐릭터 우선순위 필터
   Priority:
     Header: 우선순위
+    Label: '#{{rank}} - $t(common:Characters.{{id}}.LongName)'
     Name: '# {{rank}}'
   AllowEquipped: 장착된 유물 포함
   KeepCurrent: 현재 유물 유지
@@ -356,6 +357,17 @@ Presets:
     SPD171: 171.429 속도 - 3턴 동안 6행동
     SPD177: 177.778 속도 - 4턴 동안 8행동
     SPD200: 200.000 속도 - 첫 턴에 3행동
+  SpdCategories:
+    MemoryOfChaos: 혼돈의 기억
+    AnomalyArbitration: 이상 중재
+  AaSpdValues:
+    SPD120: 120.000 속도 - 첫 2라운드에서 6번 행동
+    SPD133: 133.334 속도 - 첫 라운드에서 4번 행동
+    SPD140: 140.000 속도 - 첫 2라운드에서 7번 행동
+    SPD160: 160.000 속도 - 첫 2라운드에서 8번 행동
+    SPD166: 166.667 속도 - 첫 라운드에서 5번 행동
+    SPD180: 180.000 속도 - 첫 2라운드에서 9번 행동
+    SPD200: 200.000 속도 - 첫 라운드에서 6번 행동, 첫 2라운드에서 10번 행동
   StandardLabel: '기본 $t(gameData:Characters.{{id}}.Name)'
   RecommendedPresets: 추천 프리셋
   PresetNotAvailable: 프리셋을 사용할 수 없습니다. 다른 옵션을 선택해 주세요
@@ -493,9 +505,16 @@ TeammateCard:
       Set: '$t(gameData:RelicSets.121.Name)'
       Text: 치피 36%
     Warrior:
+      Desc: '4 세트 : $t(gameData:RelicSets.125.Name) (+15% 치확)'
       Set: '$t(gameData:RelicSets.125.Name)'
       Text: 치피 15%
+    WorldRemaking:
+      Desc: '4 세트: $t(gameData:RelicSets.127.Name) (+15% 가피증)'
+      Set: '$t(gameData:RelicSets.127.Name)'
+      Text: 가피증 15%
     SelfEnshrouded:
+      Desc: '4 세트 : $t(gameData:RelicSets.128.Name) (+15% 치확)'
+      Set: '$t(gameData:RelicSets.128.Name)'
       Text: 치피 15%
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10% 치피)'
@@ -513,6 +532,10 @@ TeammateCard:
       Desc: '$t(gameData:RelicSets.317.Name) (+12% 공격력)'
       Set: '$t(gameData:RelicSets.317.Name)'
       Text: 공격력 12%
+    Amphoreus:
+      Desc: '$t(gameData:RelicSets.323.Name) (+8% 속도)'
+      Set: '$t(gameData:RelicSets.323.Name)'
+      Text: 속도 8%
 StatSimulation:
   DuplicateSimMessage: 동일한 스텟 시뮬레이션이 존재합니다.
   MissingMainstatsMessage: 주 옵션을 입력해야합니다.
@@ -631,6 +654,7 @@ ExpandedDataPanel:
           DEF PEN: 방어력 무시
           Break DEF PEN: 격파 방어력 무시
           Toughness DMG: 강인도 데미지
+          Fixed Toughness DMG: 고정 강인함 데미지
           Super Break multiplier: 슈퍼 격파 배율
           Break Efficiency boost: 약점 격파 효율 증가
           True DMG multiplier: 확정피해 배율

@@ -40,9 +40,9 @@ export type TestCharacterBasic = {
   lightCone: string,
 }
 export type TestSets = {
-  simRelicSet1: Sets,
-  simRelicSet2: Sets,
-  simOrnamentSet: Sets,
+  simRelicSet1: SetsRelics,
+  simRelicSet2: SetsRelics,
+  simOrnamentSet: SetsOrnaments,
 }
 export type TestStats = Record<string, number>
 export type TestMains = {

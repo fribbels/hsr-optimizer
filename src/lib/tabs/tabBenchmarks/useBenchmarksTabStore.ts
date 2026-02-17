@@ -1,3 +1,7 @@
+import {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/constants/constants'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterId } from 'types/character'
@@ -13,9 +17,9 @@ export type BenchmarkForm = {
   basicSpd: number,
   errRope: boolean,
   subDps: boolean,
-  simRelicSet1?: string,
-  simRelicSet2?: string,
-  simOrnamentSet?: string,
+  simRelicSet1?: SetsRelics,
+  simRelicSet2?: SetsRelics,
+  simOrnamentSet?: SetsOrnaments,
   teammate0?: SimpleCharacter,
   teammate1?: SimpleCharacter,
   teammate2?: SimpleCharacter,
@@ -39,12 +43,12 @@ export type SimpleCharacterSets = {
 }
 
 type RelicSetSelection = {
-  simRelicSet1?: string,
-  simRelicSet2?: string,
+  simRelicSet1?: SetsRelics,
+  simRelicSet2?: SetsRelics,
 }
 
 type OrnamentSetSelection = {
-  simOrnamentSet?: string,
+  simOrnamentSet?: SetsOrnaments,
 }
 
 type BenchmarksTabState = {

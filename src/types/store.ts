@@ -169,6 +169,7 @@ export type HsrOptimizerSaveFormat = {
     ingestCharacters: boolean,
     ingestWarpResources: boolean,
     websocketUrl: string,
+    customUrl: boolean,
   },
 }
 

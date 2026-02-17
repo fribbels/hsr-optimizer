@@ -61,6 +61,7 @@ Stats:
   Wind DMG Boost: 'crwdns39918:0$t(gameData:Elements.Wind)crwdne39918:0'
   Quantum DMG Boost: 'crwdns39920:0$t(gameData:Elements.Quantum)crwdne39920:0'
   Imaginary DMG Boost: 'crwdns39922:0$t(gameData:Elements.Imaginary)crwdne39922:0'
+  Elation DMG Boost: crwdns46312:0crwdne46312:0
 ShortStats:
   "HP%": crwdns39924:0crwdne39924:0
   HP: crwdns39926:0crwdne39926:0
@@ -84,6 +85,7 @@ ShortStats:
   Wind DMG Boost: 'crwdns39962:0$t(gameData:Elements.Wind)crwdne39962:0'
   Quantum DMG Boost: 'crwdns39964:0$t(gameData:Elements.Quantum)crwdne39964:0'
   Imaginary DMG Boost: 'crwdns39966:0$t(gameData:Elements.Imaginary)crwdne39966:0'
+  Elation DMG Boost: crwdns46314:0crwdne46314:0
 ShortSpacedStats:
   "HP%": crwdns39968:0crwdne39968:0
   HP: crwdns39970:0crwdne39970:0
@@ -107,6 +109,7 @@ ShortSpacedStats:
   Wind DMG Boost: 'crwdns40006:0$t(gameData:Elements.Wind)crwdne40006:0'
   Quantum DMG Boost: 'crwdns40008:0$t(gameData:Elements.Quantum)crwdne40008:0'
   Imaginary DMG Boost: 'crwdns40010:0$t(gameData:Elements.Imaginary)crwdne40010:0'
+  Elation DMG Boost: crwdns46316:0crwdne46316:0
 Damage: crwdns44903:0crwdne44903:0
 DamagePercent: crwdns40012:0crwdne40012:0
 ReadableStats:
@@ -132,6 +135,7 @@ ReadableStats:
   Wind DMG Boost: 'crwdns40052:0$t(gameData:Elements.Wind)crwdne40052:0'
   Quantum DMG Boost: 'crwdns40054:0$t(gameData:Elements.Quantum)crwdne40054:0'
   Imaginary DMG Boost: 'crwdns40056:0$t(gameData:Elements.Imaginary)crwdne40056:0'
+  Elation DMG Boost: crwdns46318:0crwdne46318:0
 ShortReadableStats:
   "HP%": crwdns40058:0crwdne40058:0
   HP: crwdns40060:0crwdne40060:0
@@ -155,6 +159,7 @@ ShortReadableStats:
   Wind DMG Boost: 'crwdns40096:0$t(gameData:Elements.Wind)crwdne40096:0'
   Quantum DMG Boost: 'crwdns40098:0$t(gameData:Elements.Quantum)crwdne40098:0'
   Imaginary DMG Boost: 'crwdns40100:0$t(gameData:Elements.Imaginary)crwdne40100:0'
+  Elation DMG Boost: crwdns46320:0crwdne46320:0
 Elements:
   Physical: 'crwdns45021:0$t(gameData:Elements.Physical)crwdne45021:0'
   Fire: 'crwdns45023:0$t(gameData:Elements.Fire)crwdne45023:0'

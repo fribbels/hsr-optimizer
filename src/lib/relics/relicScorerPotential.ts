@@ -680,13 +680,13 @@ export class RelicScorer {
     let rerollAvg = 0
     let blockerAvg = 0
     let blockedStat: SubStats | undefined
-    if (relic.grade === 5 && relic.substats.length == 4 && relic.enhance === 15) {
+    if (relic.grade === 5 && relic.substats.length == 4) {
       const currentRolls = TsUtils.sumArray(relic.substats.map((x) => x.addedRolls ?? 0))
       const totalRolls = Math.min(currentRolls, 5)
 
-      blockedStat = relic.substats.toSorted((a, b) => meta.stats[a.stat] - meta.stats[b.stat])[0].stat
+      blockedStat = allSubstats.sort((a, b) => meta.stats[a.stat] - meta.stats[b.stat])[0].stat
 
-      for (const substat of relic.substats) {
+      for (const substat of allSubstats) {
         const stat = substat.stat
         const weight = meta.stats[stat]
         const value = SubStatValues[stat][5].mid * weight * normalization[stat]

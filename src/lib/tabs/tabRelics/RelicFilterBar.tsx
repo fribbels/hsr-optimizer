@@ -76,10 +76,12 @@ export default function RelicFilterBar() {
   } = useMemo(() => {
     const locale = i18n.resolvedLanguage ?? languages.en_US.locale
     const setImageFn = (x: string) => Assets.getSetImage(x, Constants.Parts.PlanarSphere)
+    const relicSets = Object.values(SetsRelics).filter((x) => !UnreleasedSets[x])
+    const relicSetsColumnMajor = [...relicSets.filter((_, i) => i % 2 === 0), ...relicSets.filter((_, i) => i % 2 === 1)]
     return {
       setsData: [
         ...generateTooltipTags(
-          Object.values(SetsRelics).filter((x) => !UnreleasedSets[x]),
+          relicSetsColumnMajor,
           setImageFn,
           locale,
           relicSetFlexBasis,

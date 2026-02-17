@@ -88,16 +88,12 @@ type FutureScoringResult = {
   average: number,
   worst: number,
   rerollAvg: number,
-  idealScore: number,
-  meta: {
+  blockerAvg: number,
+  meta: Partial<{
     bestAddedStats: string[],
     bestUpgradedStats: string[],
-  },
-  substatScore: {
-    best: number,
-    average: number,
-    worst: number,
-  },
+    blockedStat: SubStats,
+  }>,
 }
 
 type rating = '?' | 'F' | 'F+' | 'D' | 'D+' | 'C' | 'C+' | 'B' | 'B+' | 'A' | 'A+' | 'S' | 'S+' | 'SS' | 'SS+' | 'SSS' | 'SSS+' | 'WTF' | 'WTF+'
@@ -485,7 +481,7 @@ export class RelicScorer {
    * returns the current score of the relic, as well as the best, worst, and average scores when at max enhance\
    * meta field includes the ideal added and/or upgraded substats for the relic
    */
-  scoreFutureRelic(relic: Relic | undefined, id: CharacterId | undefined, withMeta: boolean = false) {
+  scoreFutureRelic(relic: Relic | undefined, id: CharacterId | undefined, withMeta: boolean = false): FutureScoringResult {
     if (!id || !relic) {
       console.warn('scoreFutureRelic() called but lacking arguments')
       return {
@@ -494,17 +490,12 @@ export class RelicScorer {
         average: 0,
         worst: 0,
         rerollAvg: 0,
-        idealScore: 1,
+        blockerAvg: 0,
         meta: {
-          bestAddedStats: [''],
-          bestUpgradedStats: [''],
+          bestAddedStats: [],
+          bestUpgradedStats: [],
         },
-        substatScore: {
-          best: 0,
-          average: 0,
-          worst: 0,
-        },
-      } as FutureScoringResult
+      }
     }
     const meta = this.getRelicScoreMeta(id)
     if (!meta.sortedSubstats[0][0]) {
@@ -514,17 +505,12 @@ export class RelicScorer {
         average: 0,
         worst: 0,
         rerollAvg: 0,
-        idealScore: 1,
+        blockerAvg: 0,
         meta: {
-          bestAddedStats: [''],
-          bestUpgradedStats: [''],
+          bestAddedStats: [],
+          bestUpgradedStats: [],
         },
-        substatScore: {
-          best: 0,
-          average: 0,
-          worst: 0,
-        },
-      } as FutureScoringResult
+      }
     }
     const maxMainstat = (() => {
       switch (relic.grade as 2 | 3 | 4 | 5) {
@@ -706,27 +692,30 @@ export class RelicScorer {
       }
     }
 
-    let rerollValue = 0
+    // let rerollValue = 0
     let rerollAvg = 0
-    if (relic.grade === 5 && relic.substats.length == 4 && relic.enhance === maxEnhance(relic.grade)) {
+    let blockerAvg = 0
+    let blockedStat: SubStats | undefined
+    if (relic.grade === 5 && relic.substats.length == 4 && relic.enhance === 15) {
       const currentRolls = TsUtils.sumArray(relic.substats.map((x) => x.addedRolls ?? 0))
-      const remainingRolls = Math.ceil((15 - relic.enhance) / 3)
-      const totalRolls = Math.min(currentRolls + remainingRolls, 5)
+      const totalRolls = Math.min(currentRolls, 5)
+
+      blockedStat = relic.substats.toSorted((a, b) => meta.stats[a.stat] - meta.stats[b.stat])[0].stat
 
       for (const substat of relic.substats) {
         const stat = substat.stat
-        const value = SubStatValues[stat][5].mid * meta.stats[stat] * normalization[stat]
-        if (stat == bestSub.stat) {
-          rerollValue += value * (totalRolls + 1)
-        } else {
-          rerollValue += value
-        }
+        const weight = meta.stats[stat]
+        const value = SubStatValues[stat][5].mid * weight * normalization[stat]
+        // if (stat == bestSub.stat) {
+        //   rerollValue += value * (totalRolls + 1)
+        // } else {
+        //   rerollValue += value
+        // }
 
-        if (totalRolls >= 5) {
-          rerollAvg += value * 2.25
-        } else {
-          rerollAvg += value * 2
-        }
+        rerollAvg += value * (1 + totalRolls / 4)
+
+        if (stat === blockedStat) continue
+        blockerAvg += value * (1 + totalRolls / 3)
       }
 
       // These are reroll max potentials - Disabled for now
@@ -744,8 +733,9 @@ export class RelicScorer {
       average,
       worst,
       rerollAvg,
-      meta: levelupMetadata,
-    } as FutureScoringResult
+      blockerAvg,
+      meta: { ...levelupMetadata, blockedStat },
+    }
   }
 
   /**

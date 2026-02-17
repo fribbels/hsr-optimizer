@@ -1,6 +1,3 @@
-import { Flex } from 'antd'
-import { RelicContainer } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
-import { enrichSingleRelicAnalysis } from 'lib/characterPreview/summary/statScoringSummaryController'
 import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { sortAlphabeticEmojiLast } from 'lib/rendering/displayUtils'
@@ -12,19 +9,9 @@ import useRelicsTabStore, {
   InsightCharacters,
   RelicInsights,
 } from 'lib/tabs/tabRelics/useRelicsTabStore'
-import {
-  EstTbpWorkerOutput,
-  handleWork,
-} from 'lib/worker/estTbpWorkerRunner'
-import React, {
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
-import { ScoringMetadata } from 'types/metadata'
-import { Relic } from 'types/relic'
 
 export function RelicInsightsPanel() {
   const { insightsCharacters, insightsMode, selectedRelicId, excludedRelicPotentialCharacters } = useRelicsTabStore()

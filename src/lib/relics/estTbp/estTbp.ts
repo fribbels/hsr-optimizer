@@ -11,7 +11,12 @@ import {
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Relic } from 'types/relic'
 
-export function scoreTbp(relic: Relic, weights: { [stat: string]: number }): number {
+export function scoreTbp(preRrelic: Relic, weights: { [stat: string]: number }): number {
+  const relic = TsUtils.clone(preRrelic)
+  relic.previewSubstats.forEach((s) => {
+    relic.enhance += 3
+    relic.substats.push(s)
+  })
   // Round away the floating point errors from weight products
   const scoreToBeat = TsUtils.precisionRound(simpleSubstatScoreOfRelic(relic, weights))
 

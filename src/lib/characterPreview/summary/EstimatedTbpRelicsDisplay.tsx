@@ -10,6 +10,7 @@ import {
   hashEstTbpRun,
   RelicAnalysis,
 } from 'lib/characterPreview/summary/statScoringSummaryController'
+import { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Assets } from 'lib/rendering/assets'
@@ -34,6 +35,7 @@ import React, {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
+import { RelicSubstatMetadata } from 'types/relic'
 
 const cachedRelics: Record<string, EnrichedRelics> = {}
 const IN_PROGRESS = {} as EnrichedRelics
@@ -207,10 +209,9 @@ function RollsCard(props: { relicAnalysis: RelicAnalysis }) {
   return (
     <Flex vertical justify='space-between' style={{ width: '100%' }}>
       <Flex vertical>
-        <RollLine index={0} relicAnalysis={relicAnalysis} />
-        <RollLine index={1} relicAnalysis={relicAnalysis} />
-        <RollLine index={2} relicAnalysis={relicAnalysis} />
-        <RollLine index={3} relicAnalysis={relicAnalysis} />
+        {relicAnalysis.relic.substats.concat(relicAnalysis.relic.previewSubstats).map((s, idx) => (
+          <RollLine key={idx} substat={s} weights={relicAnalysis.weights} />
+        ))}
       </Flex>
       <Flex vertical style={{ height: 46, paddingBottom: 10 }} justify='space-between' gap={4}>
         <HorizontalDivider style={{ margin: 0, paddingBottom: 2 }} />
@@ -332,15 +333,14 @@ function LowRoll() {
   )
 }
 
-function RollLine(props: { index: number, relicAnalysis: RelicAnalysis }) {
-  const { index, relicAnalysis } = props
-  const substat = relicAnalysis.relic.substats[index]
+function RollLine(props: { substat: RelicSubstatMetadata | null, weights: RelicAnalysis['weights'] }) {
+  const { substat, weights } = props
   if (substat == null) {
     return <div style={{ height: 22, width: '100%' }} />
   }
 
-  const weight = relicAnalysis.weights[substat.stat] ?? 0
-  const weightDisplay = localeNumber_00(relicAnalysis.weights[substat.stat] * flatReduction(substat.stat))
+  const weight = weights[substat.stat] ?? 0
+  const weightDisplay = localeNumber_00(weights[substat.stat] * flatReduction(substat.stat))
   const rolls = substat.rolls!
   const display: ReactElement[] = []
 

@@ -1,8 +1,4 @@
-import {
-  CaretLeftOutlined,
-  CaretRightOutlined,
-  LockOutlined,
-} from '@ant-design/icons'
+import { CaretLeftOutlined, CaretRightOutlined, LockOutlined, } from '@ant-design/icons'
 import {
   Alert,
   Button,
@@ -19,15 +15,7 @@ import {
   Tooltip,
 } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
-import {
-  Constants,
-  MainStats,
-  Parts,
-  setToId,
-  Stats,
-  SubStats,
-  UnreleasedSets,
-} from 'lib/constants/constants'
+import { Constants, MainStats, Parts, setToId, Stats, SubStats, UnreleasedSets, } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import {
@@ -38,28 +26,16 @@ import {
 } from 'lib/overlays/modals/relicModalController'
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
-import {
-  lockScroll,
-  unlockScroll,
-} from 'lib/rendering/scrollController'
+import { lockScroll, unlockScroll, } from 'lib/rendering/scrollController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { HeaderText } from 'lib/ui/HeaderText'
-import {
-  localeNumber,
-  localeNumber_0,
-} from 'lib/utils/i18nUtils'
+import { localeNumber, localeNumber_0, } from 'lib/utils/i18nUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import React, {
-  ReactElement,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import React, { ReactElement, useEffect, useMemo, useRef, useState, } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
@@ -96,7 +72,6 @@ function defaultSubstatValues(relic: Relic): SubstatValues {
         break
       default:
         throw new Error('RelicModal::defaultSubstatValues: Illegal index reached in relic substat iterator')
-        break
     }
     return acc
   }, {} as SubstatValues)
@@ -725,7 +700,6 @@ function SubstatInput(props: {
       } else {
         const value = props.relicForm.getFieldValue(statValueField)
         if (value == 0) return
-        console.log('test')
         props.relicForm.setFieldValue(isPreviewField, value)
         props.relicForm.setFieldValue(statValueField, 0)
         props.resetUpgradeValues()

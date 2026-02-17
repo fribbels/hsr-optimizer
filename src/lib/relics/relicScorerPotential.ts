@@ -12,29 +12,13 @@ import {
   SubStats,
   SubStatValues,
 } from 'lib/constants/constants'
-import {
-  getScoreCategory,
-  ScoreCategory,
-} from 'lib/scoring/scoreComparison'
+import { getScoreCategory, ScoreCategory, } from 'lib/scoring/scoreComparison'
 import DB from 'lib/state/db'
-import {
-  ArrayFilters,
-  arrayToMap,
-  stringArrayToMap,
-} from 'lib/utils/arrayUtils'
+import { ArrayFilters, arrayToMap, stringArrayToMap, } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import {
-  Character,
-  CharacterId,
-} from 'types/character'
-import {
-  Relic,
-  RelicEnhance,
-  RelicGrade,
-  RelicId,
-  Stat,
-} from 'types/relic'
+import { Character, CharacterId, } from 'types/character'
+import { Relic, RelicEnhance, RelicGrade, RelicId, Stat, } from 'types/relic'
 
 // FIXME HIGH
 
@@ -854,7 +838,7 @@ export class RelicScorer {
       averagePct: Math.max(0, futureScore.average - mainstatBonus) / percentToScore * multiplier,
       worstPct: Math.max(0, futureScore.worst - mainstatBonus) / percentToScore * multiplier,
       rerollAvgPct: Math.max(0, futureScore.rerollAvg - mainstatBonus) / percentToScore * multiplier,
-      blockedRerolAvgPct: Math.max(0, futureScore.blockerAvg - mainstatBonus) / percentToScore * multiplier,
+      blockedRerollAvgPct: Math.max(0, futureScore.blockerAvg - mainstatBonus) / percentToScore * multiplier,
       meta: futureScore.meta,
     }
   }

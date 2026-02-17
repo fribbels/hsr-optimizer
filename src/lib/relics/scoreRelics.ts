@@ -11,7 +11,7 @@ export type RelicScoringWeights = {
   average: number,
   current: number,
   best: number,
-  potentialSelected: PotentialWeights & { rerollAvgPct: number, blockedRerolAvgPct: number },
+  potentialSelected: PotentialWeights & { rerollAvgPct: number, blockedRerollAvgPct: number },
   potentialAllAll: PotentialWeights,
   potentialAllCustom: PotentialWeights,
   rerollAllAll: number,
@@ -85,7 +85,7 @@ function scoreSingleRelic(
       bestPct: 0,
       averagePct: 0,
       rerollAvgPct: 0,
-      blockedRerolAvgPct: 0,
+      blockedRerollAvgPct: 0,
     },
     potentialAllAll: {
       bestPct: 0,
@@ -113,7 +113,7 @@ function scoreSingleRelic(
     const rerollAvgSelected = Math.max(0, potentialSelected.rerollAvgPct)
     const rerollAvgSelectedDelta = rerollAvgSelected == 0 ? 0 : (rerollAvgSelected - potentialSelected.averagePct)
 
-    const blockedRerollAvgSelected = Math.max(0, potentialSelected.blockedRerolAvgPct)
+    const blockedRerollAvgSelected = Math.max(0, potentialSelected.blockedRerollAvgPct)
     const blockedRerollAvgSelectedDelta = blockedRerollAvgSelected == 0 ? 0 : (blockedRerollAvgSelected - potentialSelected.averagePct)
 
     weights = {
@@ -140,7 +140,7 @@ function scoreSingleRelic(
       averagePct: Math.max(pct.averagePct, weights.potentialAllAll.averagePct),
     }
     weights.rerollAllAll = Math.max(pct.rerollAvgPct, weights.rerollAllAll)
-    weights.blockedRerollAllAll = Math.max(pct.blockedRerolAvgPct, weights.blockedRerollAllAll)
+    weights.blockedRerollAllAll = Math.max(pct.blockedRerollAvgPct, weights.blockedRerollAllAll)
 
     if (excludedRelicPotentialCharacters.includes(id)) continue
 
@@ -149,7 +149,7 @@ function scoreSingleRelic(
       averagePct: Math.max(pct.averagePct, weights.potentialAllCustom.averagePct),
     }
     weights.rerollAllCustom = Math.max(pct.rerollAvgPct, weights.rerollAllCustom)
-    weights.blockedRerollAllCustom = Math.max(pct.blockedRerolAvgPct, weights.blockedRerollAllCustom)
+    weights.blockedRerollAllCustom = Math.max(pct.blockedRerollAvgPct, weights.blockedRerollAllCustom)
   }
 
   weights.rerollAvgSelected = Math.max(0, weights.potentialSelected.rerollAvgPct)

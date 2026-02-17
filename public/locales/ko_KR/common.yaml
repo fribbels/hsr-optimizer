@@ -61,6 +61,7 @@ Stats:
   Wind DMG Boost: '$t(gameData:Elements.Wind) 속성 피해 증가'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum) 속성 피해 증가'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary) 속성 피해 증가'
+  Elation DMG Boost: 환락 가피증
 ShortStats:
   "HP%": 체력%
   HP: 체력
@@ -84,6 +85,7 @@ ShortStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
+  Elation DMG Boost: 환락도
 ShortSpacedStats:
   "HP%": 체력 %
   HP: 체력
@@ -107,6 +109,7 @@ ShortSpacedStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
+  Elation DMG Boost: 환락도
 Damage: 데미지
 DamagePercent: 데미지 %
 ReadableStats:
@@ -132,6 +135,7 @@ ReadableStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind) 속성 피해'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum) 속성 피해'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary) 속성 피해'
+  Elation DMG Boost: 환락 데미지
 ShortReadableStats:
   "HP%": 체력 %
   HP: 체력
@@ -155,6 +159,7 @@ ShortReadableStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
+  Elation DMG Boost: 환락도
 Elements:
   Physical: '$t(gameData:Elements.Physical)'
   Fire: '$t(gameData:Elements.Fire)'

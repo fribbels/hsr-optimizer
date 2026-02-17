@@ -5150,7 +5150,7 @@ interface Resources {
     "OptimizerOptions": {
       "Title": "Optimizer options",
       "PriorityFilter": "<0>Character priority filter</0> - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.",
-      "BoostMain": "<0>Boost main stat</0> - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats are not changed accordingly, so builds with lower level relics may be stronger once you level them.",
+      "BoostMain": "<0>Boost main stat</0> - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Preview substats may be included in damage calculations depending on the value of this setting. However substats will never be further upgraded, so lower ranked builds with lower level relics may be stronger once you level said relics.",
       "KeepCurrent": "<0>Keep current relics</0> - The character must use its currently equipped items and the optimizer will try to fill in empty slots",
       "AllowEquipped": "<0>Allow equipped relics</0> - When enabled, the optimizer will allow using relics that are currently equipped by a character for the search. Otherwise equipped relics are excluded",
       "Priority": "<0>Priority</0> - See: Character priority filter. Changing this setting will change the character's priority",
@@ -6818,6 +6818,18 @@ interface Resources {
           "RerollAvgEquippedDelta": {
             "Label": "Selected character: Reroll average delta potential vs equipped",
             "Header": "Selected Char\n∆ Reroll AVG\nVS Equipped"
+          },
+          "BlockedRerollAvg": {
+            "Label": "Selected character: Blocked reroll average potential",
+            "Header": "Selected Char\nBlocked Reroll\nAvg"
+          },
+          "BlockedRerollAvgDelta": {
+            "Label": "Selected character: Blocked reroll average delta potential",
+            "Header": "Selected Char\nΔ Blocked Reroll\nAvg"
+          },
+          "BlockedRerollAvgEquippedDelta": {
+            "Label": "Selected character: Blocked reroll average delta potential vs equipped",
+            "Header": "Selected Char\n∆ Blocked Reroll\nAVG VS Equipped"
           }
         },
         "CustomCharacters": {
@@ -6833,6 +6845,10 @@ interface Resources {
           "RerollAvg": {
             "Label": "Custom characters: Average reroll potential",
             "Header": "Custom Chars\nAvg Reroll"
+          },
+          "BlockedRerollAvg": {
+            "Label": "Custom characters: Average blocked reroll potential",
+            "Header": "Custom Chars\nAvg Blocked Reroll"
           }
         },
         "AllCharacters": {
@@ -6848,6 +6864,10 @@ interface Resources {
           "RerollAvg": {
             "Label": "All characters: Average reroll potential",
             "Header": "All Chars\nAvg Reroll"
+          },
+          "BlockedRerollAvg": {
+            "Label": "All characters: Average blocked reroll potential",
+            "Header": "All Chars\nAvg Blocked Reroll"
           }
         }
       }
@@ -6861,7 +6881,8 @@ interface Resources {
       },
       "InsightOptions": {
         "Buckets": "Relic Insight: Buckets",
-        "Top10": "Relic Insight: Top 10"
+        "Top10": "Relic Insight: Top 10",
+        "ESTBP": "Relic Insights: ESTBP"
       },
       "PlotOptions": {
         "PlotAll": "Show all characters",

@@ -341,7 +341,7 @@ function RollLine(props: { substat: RelicSubstatMetadata | null, weights: RelicA
 
   const weight = weights[substat.stat] ?? 0
   const weightDisplay = localeNumber_00(weights[substat.stat] * flatReduction(substat.stat))
-  const rolls = substat.rolls!
+  const rolls = substat.rolls ?? { high: 0, mid: 0, low: 0 }
   const display: ReactElement[] = []
 
   let key = 0

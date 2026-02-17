@@ -11,6 +11,7 @@ import {
   Constants,
   Parts,
   Sets,
+  SetsOrnaments,
   SetsRelics,
   setToId,
   Stats,
@@ -65,18 +66,31 @@ export default function RelicFilterBar() {
     return generateValueColumnOptions(tValueColumn)
   }, [tValueColumn])
 
+  const relicSetFlexBasis = `${100 / Math.ceil(Object.values(SetsRelics).length / 2)}%`
+  const ornamentSetFlexBasis = `${100 / Object.values(SetsOrnaments).length}%`
+
   const {
     setsData,
     mainStatsData,
     subStatsData,
   } = useMemo(() => {
     const locale = i18n.resolvedLanguage ?? languages.en_US.locale
+    const setImageFn = (x: string) => Assets.getSetImage(x, Constants.Parts.PlanarSphere)
     return {
-      setsData: generateTooltipTags(
-        Object.values(Sets).filter((x) => !UnreleasedSets[x]),
-        (x) => Assets.getSetImage(x, Constants.Parts.PlanarSphere),
-        locale,
-      ),
+      setsData: [
+        ...generateTooltipTags(
+          Object.values(SetsRelics).filter((x) => !UnreleasedSets[x]),
+          setImageFn,
+          locale,
+          relicSetFlexBasis,
+        ),
+        ...generateTooltipTags(
+          Object.values(SetsOrnaments).filter((x) => !UnreleasedSets[x]),
+          setImageFn,
+          locale,
+          ornamentSetFlexBasis,
+        ),
+      ],
       mainStatsData: generateTooltipTags(Constants.MainStats, (x) => Assets.getStatIcon(x, true), locale),
       subStatsData: generateTooltipTags(Constants.SubStats, (x) => Assets.getStatIcon(x, true), locale),
     }
@@ -155,7 +169,6 @@ export default function RelicFilterBar() {
           currentFilter={filters.set}
           setCurrentFilters={setFilter('set')}
           tags={setsData}
-          flexBasis={`${100 / Object.values(SetsRelics).length}%`}
           noHeight
         />
       </Flex>
@@ -286,10 +299,11 @@ function generatePartsTags(keys: Parts[], srcFn: (s: string) => string) {
   }))
 }
 
-function generateTooltipTags(arr: (Sets | StatsValues)[], srcFn: (s: string) => string, locale: string) {
+function generateTooltipTags(arr: (Sets | StatsValues)[], srcFn: (s: string) => string, locale: string, flexBasis?: string) {
   return arr.map((x) => ({
     key: x,
     display: generateTooltipDisplay(x, srcFn, locale),
+    flexBasis,
   }))
 }
 

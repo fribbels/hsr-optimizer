@@ -7,13 +7,13 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
   wgsl,
   wgslTrue,
 } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import {
   AKey,
   StatKey,
@@ -135,7 +135,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'Black Swan\'s combat EHR',
       content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
       min: 0,
-      max: 120,
+      max: 1.20,
+      percent: true,
     },
     e1ResReduction: content.e1ResReduction,
     e4Vulnerability: content.e4Vulnerability,

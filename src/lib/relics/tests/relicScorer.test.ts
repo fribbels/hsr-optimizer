@@ -3,6 +3,7 @@ import {
   Parts,
   Stats,
 } from 'lib/constants/constants'
+import { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import DB from 'lib/state/db'
@@ -44,9 +45,14 @@ test('relic-mainstatonly', () => {
       value: 100,
     },
     substats: subStats.map((stat) => ({ stat: stat, value: 100 })),
+    previewSubstats: [],
+    weightScore: 0,
+    ageIndex: 0,
+    augmentedStats: {} as AugmentedStats,
+    initialRolls: 0,
     id: '77bde0f9-38ce-48f6-a936-79141e3f04ce',
     equippedBy: character,
-  } as Relic
+  }
 
   const score = RelicScorer.scoreRelicPotential(relic, character)
   expect(score.bestPct).toBe(0)
@@ -82,6 +88,11 @@ test('relic-perfect', () => {
       { stat: Stats.CD, value: StatCalculator.getMaxedSubstatValue(Stats.CD) },
       { stat: Stats.SPD, value: StatCalculator.getMaxedSubstatValue(Stats.SPD) * 5 },
     ],
+    previewSubstats: [],
+    weightScore: 0,
+    ageIndex: 0,
+    augmentedStats: {} as AugmentedStats,
+    initialRolls: 0,
     id: '77bde0f9-38ce-48f6-a936-79141e3f04ce',
     equippedBy: character,
   } as Relic

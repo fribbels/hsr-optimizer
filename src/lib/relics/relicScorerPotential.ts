@@ -88,16 +88,12 @@ type FutureScoringResult = {
   average: number,
   worst: number,
   rerollAvg: number,
-  idealScore: number,
-  meta: {
+  blockerAvg: number,
+  meta: Partial<{
     bestAddedStats: string[],
     bestUpgradedStats: string[],
-  },
-  substatScore: {
-    best: number,
-    average: number,
-    worst: number,
-  },
+    blockedStat: SubStats,
+  }>,
 }
 
 type rating = '?' | 'F' | 'F+' | 'D' | 'D+' | 'C' | 'C+' | 'B' | 'B+' | 'A' | 'A+' | 'S' | 'S+' | 'SS' | 'SS+' | 'SSS' | 'SSS+' | 'WTF' | 'WTF+'
@@ -485,7 +481,7 @@ export class RelicScorer {
    * returns the current score of the relic, as well as the best, worst, and average scores when at max enhance\
    * meta field includes the ideal added and/or upgraded substats for the relic
    */
-  scoreFutureRelic(relic: Relic | undefined, id: CharacterId | undefined, withMeta: boolean = false) {
+  scoreFutureRelic(relic: Relic | undefined, id: CharacterId | undefined, withMeta: boolean = false): FutureScoringResult {
     if (!id || !relic) {
       console.warn('scoreFutureRelic() called but lacking arguments')
       return {
@@ -494,17 +490,12 @@ export class RelicScorer {
         average: 0,
         worst: 0,
         rerollAvg: 0,
-        idealScore: 1,
+        blockerAvg: 0,
         meta: {
-          bestAddedStats: [''],
-          bestUpgradedStats: [''],
+          bestAddedStats: [],
+          bestUpgradedStats: [],
         },
-        substatScore: {
-          best: 0,
-          average: 0,
-          worst: 0,
-        },
-      } as FutureScoringResult
+      }
     }
     const meta = this.getRelicScoreMeta(id)
     if (!meta.sortedSubstats[0][0]) {
@@ -514,17 +505,12 @@ export class RelicScorer {
         average: 0,
         worst: 0,
         rerollAvg: 0,
-        idealScore: 1,
+        blockerAvg: 0,
         meta: {
-          bestAddedStats: [''],
-          bestUpgradedStats: [''],
+          bestAddedStats: [],
+          bestUpgradedStats: [],
         },
-        substatScore: {
-          best: 0,
-          average: 0,
-          worst: 0,
-        },
-      } as FutureScoringResult
+      }
     }
     const maxMainstat = (() => {
       switch (relic.grade as 2 | 3 | 4 | 5) {
@@ -543,7 +529,8 @@ export class RelicScorer {
         return (getMainStatWeight(relic, meta) - 1) * maxMainstat
       } else return 0
     })()
-    const availableSubstats = meta.sortedSubstats.filter((x) => x[0] != relic.main.stat && !relic.substats.map((x) => x.stat).includes(x[0]))
+    const allSubstats = relic.substats.concat(relic.previewSubstats)
+    const availableSubstats = meta.sortedSubstats.filter((x) => x[0] != relic.main.stat && !allSubstats.map((x) => x.stat).includes(x[0]))
     const remainingRolls = Math.ceil((maxEnhance(relic.grade as 2 | 3 | 4 | 5) - relic.enhance) / 3) - (4 - relic.substats.length)
     const mainstatBonus = mainStatBonus(relic.part, relic.main.stat, meta)
     const idealScore = this.getOptimalPartScore(relic.part, relic.main.stat, id)
@@ -554,12 +541,12 @@ export class RelicScorer {
       stat: 'HP',
       value: 0,
     }]
-    for (let i = 0; i < relic.substats.length; i++) { // we pass values instead of references to avoid accidentally modifying the actual relic
-      bestSubstats[i].stat = relic.substats[i].stat
-      bestSubstats[i].value = relic.substats[i].value
+    for (let i = 0; i < allSubstats.length; i++) { // we pass values instead of references to avoid accidentally modifying the actual relic
+      bestSubstats[i].stat = allSubstats[i].stat
+      bestSubstats[i].value = allSubstats[i].value
     } // after copying over existing lines, supplement to 4 lines if necessary
-    for (let i = relic.substats.length; i < 4; i++) {
-      const stat = availableSubstats[i - relic.substats.length][0]
+    for (let i = allSubstats.length; i < 4; i++) {
+      const stat = availableSubstats[i - allSubstats.length][0]
       bestSubstats[i].stat = stat
       bestSubstats[i].value = SubStatValues[stat][5].high
     }
@@ -585,9 +572,9 @@ export class RelicScorer {
       stat: 'HP',
       value: 0,
     }]
-    for (let i = 0; i < relic.substats.length; i++) { // we pass values instead of references to avoid accidentally modifying the actual relic
-      averageSubstats[i].stat = relic.substats[i].stat
-      averageSubstats[i].value = relic.substats[i].value + remainingRolls / 4 * SubStatValues[averageSubstats[i].stat][relic.grade as 2 | 3 | 4 | 5].mid
+    for (let i = 0; i < allSubstats.length; i++) { // we pass values instead of references to avoid accidentally modifying the actual relic
+      averageSubstats[i].stat = allSubstats[i].stat
+      averageSubstats[i].value = allSubstats[i].value + remainingRolls / 4 * SubStatValues[allSubstats[i].stat][relic.grade as 2 | 3 | 4 | 5].mid
     }
     /*
      * We want to use the score() function to score relics for maximum accuracy (and easier maintainability potentially)
@@ -611,14 +598,16 @@ export class RelicScorer {
      * value = average score of 1 mid-roll * rolls / (weight * scaling)
      */
     let averageScore = 0
-    for (const pair of availableSubstats) {
-      const [stat, weight] = pair
-      averageScore += SubStatValues[stat][relic.grade as 2 | 3 | 4 | 5].mid * weight * normalization[stat]
-    }
-    averageScore = averageScore / availableSubstats.length
-    for (let i = relic.substats.length; i < 4; i++) {
-      averageSubstats[i].stat = meta.sortedSubstats[0][0]
-      averageSubstats[i].value = averageScore * (1 + remainingRolls / 4) / (normalization[meta.sortedSubstats[0][0]] * meta.sortedSubstats[0][1])
+    if (allSubstats.length < 4) {
+      for (const pair of availableSubstats) {
+        const [stat, weight] = pair
+        averageScore += SubStatValues[stat][relic.grade as 2 | 3 | 4 | 5].mid * weight * normalization[stat]
+      }
+      averageScore = averageScore / availableSubstats.length
+      for (let i = allSubstats.length; i < 4; i++) {
+        averageSubstats[i].stat = meta.sortedSubstats[0][0]
+        averageSubstats[i].value = averageScore * (1 + remainingRolls / 4) / (normalization[meta.sortedSubstats[0][0]] * meta.sortedSubstats[0][1])
+      }
     }
     fake = fakeRelic(
       relic.grade,
@@ -641,14 +630,14 @@ export class RelicScorer {
       stat: 'HP',
       value: 0,
     }]
-    for (let i = 0; i < relic.substats.length; i++) { // we pass values instead of references to avoid accidentally modifying the actual relic
-      worstSubstats[i].stat = relic.substats[i].stat
-      worstSubstats[i].value = relic.substats[i].value
+    for (let i = 0; i < allSubstats.length; i++) { // we pass values instead of references to avoid accidentally modifying the actual relic
+      worstSubstats[i].stat = allSubstats[i].stat
+      worstSubstats[i].value = allSubstats[i].value
     } // after copying over existing lines, supplement to 4 lines if necessary
-    for (let i = relic.substats.length; i < 4; i++) {
-      const stat = availableSubstats[i - relic.substats.length][0]
+    for (let i = allSubstats.length; i < 4; i++) {
+      const stat = availableSubstats[i - allSubstats.length][0]
       worstSubstats[i].stat = stat
-      worstSubstats[i].value = SubStatValues[stat][5].high
+      worstSubstats[i].value = SubStatValues[stat][5].low
     }
     const worstSub = findLowestWeight(worstSubstats, meta)
     worstSubstats[worstSub.index].value += SubStatValues[worstSub.stat][relic.grade as 2 | 3 | 4 | 5].low * remainingRolls
@@ -673,7 +662,7 @@ export class RelicScorer {
     } | undefined = undefined
     if (withMeta) {
       const bestAddedStats: SubStats[] = []
-      if (relic.substats.length < 4) {
+      if (allSubstats.length < 4) {
         for (const [stat, weight] of availableSubstats) {
           if (weight >= availableSubstats[availableSubstats.length - 1][1]) {
             bestAddedStats.push(stat)
@@ -684,7 +673,7 @@ export class RelicScorer {
       const bestUpgradedStats: SubStats[] = [] // Array of all substats possibly on relic sharing highest weight
 
       const validUpgrades: Record<SubStats, object | true | undefined> = {
-        ...arrayToMap(relic.substats, 'stat'),
+        ...arrayToMap(allSubstats, 'stat'),
         ...stringArrayToMap(bestAddedStats),
       }
 
@@ -703,27 +692,30 @@ export class RelicScorer {
       }
     }
 
-    let rerollValue = 0
+    // let rerollValue = 0
     let rerollAvg = 0
-    if (relic.grade >= 5 && relic.substats.length == 4) {
-      const currentRolls = TsUtils.sumArray(relic.substats.map((x) => x.addedRolls ?? 0))
-      const remainingRolls = Math.ceil((15 - relic.enhance) / 3)
-      const totalRolls = Math.min(currentRolls + remainingRolls, 5)
+    let blockerAvg = 0
+    let blockedStat: SubStats | undefined
+    if (relic.grade === 5 && allSubstats.length == 4) {
+      const currentRolls = TsUtils.sumArray(allSubstats.map((x) => x.addedRolls ?? 0))
+      const totalRolls = Math.min(currentRolls, 5)
 
-      for (const substat of relic.substats) {
+      blockedStat = allSubstats.sort((a, b) => meta.stats[a.stat] - meta.stats[b.stat])[0].stat
+
+      for (const substat of allSubstats) {
         const stat = substat.stat
-        const value = SubStatValues[stat][5].mid * meta.stats[stat] * normalization[stat]
-        if (stat == bestSub.stat) {
-          rerollValue += value * (totalRolls + 1)
-        } else {
-          rerollValue += value
-        }
+        const weight = meta.stats[stat]
+        const value = SubStatValues[stat][5].mid * weight * normalization[stat]
+        // if (stat == bestSub.stat) {
+        //   rerollValue += value * (totalRolls + 1)
+        // } else {
+        //   rerollValue += value
+        // }
 
-        if (totalRolls >= 5) {
-          rerollAvg += value * 2.25
-        } else {
-          rerollAvg += value * 2
-        }
+        rerollAvg += value * (1 + totalRolls / 4)
+
+        if (stat === blockedStat) continue
+        blockerAvg += value * (1 + totalRolls / 3)
       }
 
       // These are reroll max potentials - Disabled for now
@@ -733,6 +725,9 @@ export class RelicScorer {
       // There is a case where a stat with less than 1 weight is the main stat, in which case the reroll value will exceed the ideal score, cap it
       rerollAvg = Math.min(rerollAvg, idealScore)
       rerollAvg = (rerollAvg + mainstatDeduction) / idealScore * 100 * percentToScore + mainstatBonus
+
+      blockerAvg = Math.min(blockerAvg, idealScore)
+      blockerAvg = (blockerAvg + mainstatDeduction) / idealScore * 100 * percentToScore + mainstatBonus
     }
 
     return {
@@ -741,8 +736,9 @@ export class RelicScorer {
       average,
       worst,
       rerollAvg,
-      meta: levelupMetadata,
-    } as FutureScoringResult
+      blockerAvg,
+      meta: { ...levelupMetadata, blockedStat },
+    }
   }
 
   /**
@@ -858,6 +854,7 @@ export class RelicScorer {
       averagePct: Math.max(0, futureScore.average - mainstatBonus) / percentToScore * multiplier,
       worstPct: Math.max(0, futureScore.worst - mainstatBonus) / percentToScore * multiplier,
       rerollAvgPct: Math.max(0, futureScore.rerollAvg - mainstatBonus) / percentToScore * multiplier,
+      blockedRerollAvgPct: Math.max(0, futureScore.blockerAvg - mainstatBonus) / percentToScore * multiplier,
       meta: futureScore.meta,
     }
   }

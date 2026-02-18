@@ -181,7 +181,7 @@ function TooltipContent(props: TooltipProps<ValueType, NameType>) {
         {data?.bestUpgraded?.length != 0 && (
           <>
             <>{t('UpgradedStats')}</>
-            <>{data?.bestUpgraded.join(' / ')}</>
+            <>{data?.bestUpgraded?.join(' / ')}</>
           </>
         )}
       </div>
@@ -189,7 +189,7 @@ function TooltipContent(props: TooltipProps<ValueType, NameType>) {
         {data?.bestAdded?.length != 0 && (
           <>
             <>{t('NewStats')}</>
-            <>{data?.bestAdded.join(' / ')}</>
+            <>{data?.bestAdded?.join(' / ')}</>
           </>
         )}
       </div>

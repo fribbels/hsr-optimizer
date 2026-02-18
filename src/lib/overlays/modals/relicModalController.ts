@@ -29,14 +29,15 @@ import {
 } from 'types/relic'
 
 export type RelicUpgradeValues = {
-  low: number | undefined,
-  mid: number | undefined,
-  high: number | undefined,
+  low: number | undefined | null,
+  mid: number | undefined | null,
+  high: number | undefined | null,
 }
 
 type RelicFormStat = {
   stat: string | undefined,
   value: string | undefined,
+  isPreview: false | number | undefined,
 }
 
 export type RelicForm = Partial<{
@@ -54,6 +55,10 @@ export type RelicForm = Partial<{
   substatValue1: string,
   substatValue2: string,
   substatValue3: string,
+  substat0IsPreview: false | number,
+  substat1IsPreview: false | number,
+  substat2IsPreview: false | number,
+  substat3IsPreview: false | number,
   equippedBy: string,
 }>
 
@@ -176,9 +181,18 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
   if (relicForm.mainStatValue >= 1000) {
     return Message.error(t('MainTooBig') /* Main stat value is too big */)
   }
-  if (substatNumber0 <= 0 || substatNumber1 <= 0 || substatNumber2 <= 0 || substatNumber3 <= 0) {
+  if (substatNumber0 < 0 || substatNumber1 < 0 || substatNumber2 < 0 || substatNumber3 < 0) {
     return Message.error(t('SubTooSmall') /* Substat values should be positive */)
   }
+  if (
+    substatNumber0 == 0 && !relicForm.substat0IsPreview
+    || substatNumber1 == 0 && !relicForm.substat1IsPreview
+    || substatNumber2 == 0 && !relicForm.substat2IsPreview
+    || substatNumber3 == 0 && !relicForm.substat3IsPreview
+  ) {
+    return Message.error(t('SubTooSmall') /* Substat values should be positive */)
+  }
+
   if (relicForm.mainStatValue <= 0) {
     return Message.error(t('MainTooSmall') /* Main stat values should be positive */)
   }
@@ -196,31 +210,61 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
   } as Relic
 
   const substats: { value: number, stat: SubStats }[] = []
+  const previewSubstats: { value: number, stat: SubStats }[] = []
   if (relicForm.substatType0 != undefined && relicForm.substatValue0 != undefined) {
-    substats.push({
-      stat: relicForm.substatType0,
-      value: substatNumber0,
-    })
+    if (relicForm.substat0IsPreview) {
+      previewSubstats.push({
+        stat: relicForm.substatType0,
+        value: relicForm.substat0IsPreview,
+      })
+    } else {
+      substats.push({
+        stat: relicForm.substatType0,
+        value: substatNumber0,
+      })
+    }
   }
   if (relicForm.substatType1 != undefined && relicForm.substatValue1 != undefined) {
-    substats.push({
-      stat: relicForm.substatType1,
-      value: substatNumber1,
-    })
+    if (relicForm.substat1IsPreview) {
+      previewSubstats.push({
+        stat: relicForm.substatType1,
+        value: relicForm.substat1IsPreview,
+      })
+    } else {
+      substats.push({
+        stat: relicForm.substatType1,
+        value: substatNumber1,
+      })
+    }
   }
   if (relicForm.substatType2 != undefined && relicForm.substatValue2 != undefined) {
-    substats.push({
-      stat: relicForm.substatType2,
-      value: substatNumber2,
-    })
+    if (relicForm.substat2IsPreview) {
+      previewSubstats.push({
+        stat: relicForm.substatType2,
+        value: relicForm.substat2IsPreview,
+      })
+    } else {
+      substats.push({
+        stat: relicForm.substatType2,
+        value: substatNumber2,
+      })
+    }
   }
   if (relicForm.substatType3 != undefined && relicForm.substatValue3 != undefined) {
-    substats.push({
-      stat: relicForm.substatType3,
-      value: substatNumber3,
-    })
+    if (relicForm.substat3IsPreview) {
+      previewSubstats.push({
+        stat: relicForm.substatType3,
+        value: relicForm.substat3IsPreview,
+      })
+    } else {
+      substats.push({
+        stat: relicForm.substatType3,
+        value: substatNumber3,
+      })
+    }
   }
   relic.substats = substats
+  relic.previewSubstats = previewSubstats
   RelicAugmenter.augment(relic)
 
   return relic
@@ -228,15 +272,15 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
 
 export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues[] {
   const statPairs: RelicFormStat[] = [
-    { stat: relicForm.substatType0, value: relicForm.substatValue0 },
-    { stat: relicForm.substatType1, value: relicForm.substatValue1 },
-    { stat: relicForm.substatType2, value: relicForm.substatValue2 },
-    { stat: relicForm.substatType3, value: relicForm.substatValue3 },
+    { stat: relicForm.substatType0, value: relicForm.substatValue0, isPreview: relicForm.substat0IsPreview },
+    { stat: relicForm.substatType1, value: relicForm.substatValue1, isPreview: relicForm.substat1IsPreview },
+    { stat: relicForm.substatType2, value: relicForm.substatValue2, isPreview: relicForm.substat2IsPreview },
+    { stat: relicForm.substatType3, value: relicForm.substatValue3, isPreview: relicForm.substat3IsPreview },
   ]
 
   const upgradeValues: RelicUpgradeValues[] = []
 
-  for (let { stat, value } of statPairs) {
+  for (let { stat, value, isPreview } of statPairs) {
     if (stat != undefined && value != undefined) {
       if (value == '') {
         value = '0'
@@ -249,6 +293,19 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
       const fixedValue: number = RelicRollFixer.fixSubStatValue(stat, value10ths, 5)
 
       const upgrades: RelicUpgradeValues = TsUtils.clone(SubStatValues[stat as SubStats][relicForm.grade as 5 | 4 | 3 | 2])
+
+      if (isPreview) {
+        const previewValue = RelicRollFixer.fixSubStatValue(stat, Utils.truncate10ths(Utils.precisionRound(isPreview)), 5)
+        upgradeValues.push({
+          high: null,
+          mid: (Utils.isFlat(stat) && stat != Stats.SPD)
+            ? renderFlatStat(fixedValue + previewValue)
+            : renderPercentStat(fixedValue + previewValue),
+          low: null,
+        })
+
+        continue
+      }
 
       if (Utils.isFlat(stat) && stat != Stats.SPD) {
         upgrades.low = renderFlatStat(fixedValue + upgrades.low!)

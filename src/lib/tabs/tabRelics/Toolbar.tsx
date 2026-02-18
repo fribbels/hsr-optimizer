@@ -34,6 +34,7 @@ export function Toolbar() {
   const relicInsightOptions: Array<{ value: RelicInsights, label: string }> = [
     { value: RelicInsights.Buckets, label: t('InsightOptions.Buckets') /* Relic Insight: Buckets */ },
     { value: RelicInsights.Top10, label: t('InsightOptions.Top10') /* Relic Insight: Top 10 */ },
+    { value: RelicInsights.ESTBP, label: t('InsightOptions.ESTBP') /* Relic Insights: ESTBP */ },
   ]
   const characterPlotOptions: Array<{ value: InsightCharacters, label: string }> = [
     { value: InsightCharacters.All, label: t('PlotOptions.PlotAll') /* Show all characters */ },

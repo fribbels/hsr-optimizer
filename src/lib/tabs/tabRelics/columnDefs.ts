@@ -54,6 +54,28 @@ export function generateValueColumnOptions(t: TFunction<'relicsTab', 'RelicGrid'
           label: t('ValueColumns.SelectedCharacter.RerollAvgEquippedDelta.Label'),
           percent: true,
         },
+        // Selected Char\nBlocked Reroll\nAvg| Selected character: Blocked reroll average potential
+        {
+          column: t('ValueColumns.SelectedCharacter.BlockedRerollAvg.Header'),
+          value: 'weights.blockedRerollAvgSelected',
+          label: t('ValueColumns.SelectedCharacter.BlockedRerollAvg.Label'),
+          percent: true,
+        },
+        // Selected Char\nΔ Blocked Reroll\nAvg | Selected character: Blocked reroll average delta potential
+        {
+          column: t('ValueColumns.SelectedCharacter.BlockedRerollAvgDelta.Header'),
+          value: 'weights.blockedRerollAvgSelectedDelta',
+          label: t('ValueColumns.SelectedCharacter.BlockedRerollAvgDelta.Label'),
+          percent: true,
+        },
+        // Selected Char\n∆ Blocked Reroll\nAVG VS Equipped | Selected character: Blocked reroll average delta potential vs equipped
+        {
+          column: t('ValueColumns.SelectedCharacter.BlockedRerollAvgEquippedDelta.Header'),
+          value: 'weights.blockedRerollAvgSelectedEquippedDelta',
+          label: t('ValueColumns.SelectedCharacter.BlockedRerollAvgEquippedDelta.Label'),
+          percent: true,
+          width: 80,
+        },
       ],
     },
     {
@@ -78,6 +100,13 @@ export function generateValueColumnOptions(t: TFunction<'relicsTab', 'RelicGrid'
           column: t('ValueColumns.CustomCharacters.RerollAvg.Header'),
           value: 'weights.rerollAllCustom',
           label: t('ValueColumns.CustomCharacters.RerollAvg.Label'),
+          percent: true,
+        },
+        // Custom Chars\nAvg Blocked Reroll | Custom characters: Average blocked reroll potential
+        {
+          column: t('ValueColumns.CustomCharacters.BlockedRerollAvg.Header'),
+          value: 'weights.blockedRerollAllCustom',
+          label: t('ValueColumns.CustomCharacters.BlockedRerollAvg.Label'),
           percent: true,
         },
       ],
@@ -106,6 +135,13 @@ export function generateValueColumnOptions(t: TFunction<'relicsTab', 'RelicGrid'
           label: t('ValueColumns.AllCharacters.RerollAvg.Label'),
           percent: true,
         },
+        // All Chars\nAvg Blocked Reroll | All characters: Average blocked reroll potential
+        {
+          column: t('ValueColumns.AllCharacters.BlockedRerollAvg.Header'),
+          value: 'weights.blockedRerollAllAll',
+          label: t('ValueColumns.AllCharacters.BlockedRerollAvg.Label'),
+          percent: true,
+        },
       ],
     },
   ] satisfies ValueColumnGroup[]
@@ -119,6 +155,7 @@ type ValueColumnGroup = {
     label: string,
     percent?: boolean,
     disabled?: boolean,
+    width?: number,
   }[],
 }
 
@@ -131,7 +168,7 @@ export function generateOptionalColDefs(t: TFunction<'relicsTab', 'RelicGrid'>) 
           headerName: x.column,
           cellStyle: Gradient.getRelicGradient,
           valueFormatter: x.percent ? Renderer.hideNaNAndFloorPercent : Renderer.hideNaNAndFloor,
-          width: 75,
+          width: x.width ?? 75,
         }
         return colDef
       })

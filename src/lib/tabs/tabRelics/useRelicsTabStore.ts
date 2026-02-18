@@ -5,6 +5,7 @@ import {
   Sets,
   SubStats,
 } from 'lib/constants/constants'
+import DB from 'lib/state/db'
 import { generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
@@ -28,6 +29,7 @@ export type RelicTabFilters = {
 export enum RelicInsights {
   Buckets,
   Top10,
+  ESTBP,
 }
 
 export enum InsightCharacters {
@@ -38,6 +40,7 @@ export enum InsightCharacters {
 
 const defaultState: RelicsTabStateValues = {
   focusCharacter: null,
+  selectedRelic: null,
   selectedRelicId: null,
   selectedRelicsIds: [],
   relicModalOpen: false,
@@ -69,6 +72,7 @@ const defaultState: RelicsTabStateValues = {
 
 interface RelicsTabStateValues {
   focusCharacter: CharacterId | null
+  selectedRelic: Relic | null
   selectedRelicId: Relic['id'] | null
   selectedRelicsIds: Array<Relic['id']>
   relicModalOpen: boolean
@@ -101,7 +105,11 @@ type RelicsTabState = RelicsTabStateActions & RelicsTabStateValues
 const useRelicsTabStore = create<RelicsTabState>()((set) => ({
   ...defaultState,
   setFocusCharacter: (focusCharacter) => set({ focusCharacter }),
-  setSelectedRelicsIds: (ids) => set({ selectedRelicId: ids.at(-1) ?? null, selectedRelicsIds: [...ids] }),
+  setSelectedRelicsIds: (ids) => {
+    const selectedId = ids.at(-1)
+    const relic = DB.getRelicById(selectedId) ?? null
+    return set({ selectedRelic: relic, selectedRelicId: selectedId ?? null, selectedRelicsIds: [...ids] })
+  },
   setRelicModalOpen: (relicModalOpen) => set({ relicModalOpen }),
   setValueColumns: (cols) => set({ valueColumns: [...cols] }),
   setDeleteConfirmOpen: (deleteConfirmOpen) => set({ deleteConfirmOpen }),

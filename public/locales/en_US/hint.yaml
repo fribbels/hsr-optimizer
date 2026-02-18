@@ -55,8 +55,9 @@ OptimizerOptions:
     <0>Character priority filter</0> - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by higher priority
     characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.
   BoostMain: >-
-    <0>Boost main stat</0> - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats are not changed accordingly,
-    so builds with lower level relics may be stronger once you level them.
+    <0>Boost main stat</0> - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it.
+    Preview substats may be included in damage calculations depending on the value of this setting.
+    However substats will never be further upgraded, so lower ranked builds with lower level relics may be stronger once you level said relics.
   KeepCurrent: <0>Keep current relics</0> - The character must use its currently equipped items and the optimizer will try to fill in empty slots
   AllowEquipped: <0>Allow equipped relics</0> - When enabled, the optimizer will allow using relics that are currently equipped by a character for the search. Otherwise equipped relics are excluded
   Priority: "<0>Priority</0> - See: Character priority filter. Changing this setting will change the character's priority"

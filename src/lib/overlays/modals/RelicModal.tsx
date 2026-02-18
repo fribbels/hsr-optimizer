@@ -1,4 +1,4 @@
-import { CaretRightOutlined } from '@ant-design/icons'
+import { CaretLeftOutlined, CaretRightOutlined, LockOutlined, } from '@ant-design/icons'
 import {
   Alert,
   Button,
@@ -15,15 +15,7 @@ import {
   Tooltip,
 } from 'antd'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
-import {
-  Constants,
-  MainStats,
-  Parts,
-  setToId,
-  Stats,
-  SubStats,
-  UnreleasedSets,
-} from 'lib/constants/constants'
+import { Constants, MainStats, Parts, setToId, Stats, SubStats, UnreleasedSets, } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import {
@@ -34,28 +26,16 @@ import {
 } from 'lib/overlays/modals/relicModalController'
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
-import {
-  lockScroll,
-  unlockScroll,
-} from 'lib/rendering/scrollController'
+import { lockScroll, unlockScroll, } from 'lib/rendering/scrollController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { HeaderText } from 'lib/ui/HeaderText'
-import {
-  localeNumber,
-  localeNumber_0,
-} from 'lib/utils/i18nUtils'
+import { localeNumber, localeNumber_0, } from 'lib/utils/i18nUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import React, {
-  ReactElement,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import React, { ReactElement, useEffect, useMemo, useRef, useState, } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
@@ -76,6 +56,29 @@ function RadioIcon(props: { value: string, src: string }) {
   )
 }
 
+function defaultSubstatValues(relic: Relic): SubstatValues {
+  const substatCount = relic.substats.length
+  return relic.substats.concat(relic.previewSubstats).reduce((acc, _, idx) => {
+    const isPreview = idx >= substatCount
+    const substat = isPreview ? renderPreviewSubstat(relic, idx - substatCount) : renderSubstat(relic, idx)
+    switch (idx) {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+        acc[`substatType${idx}`] = substat?.stat
+        acc[`substatValue${idx}`] = (isPreview ? 0 : substat?.value)?.toString()
+        acc[`substat${idx}IsPreview`] = isPreview ? substat?.value : isPreview
+        break
+      default:
+        throw new Error('RelicModal::defaultSubstatValues: Illegal index reached in relic substat iterator')
+    }
+    return acc
+  }, {} as SubstatValues)
+}
+
+type SubstatValues = Pick<RelicForm, `substatType${0 | 1 | 2 | 3}` | `substatValue${0 | 1 | 2 | 3}` | `substat${0 | 1 | 2 | 3}IsPreview`>
+
 function renderMainStat(relic: Relic): { stat: MainStats, value: number } | undefined {
   const mainStat = relic.main?.stat
   const mainValue = relic.main?.value
@@ -83,6 +86,16 @@ function renderMainStat(relic: Relic): { stat: MainStats, value: number } | unde
   if (!mainStat) return
 
   return renderStat(mainStat, mainValue)
+}
+
+function renderPreviewSubstat(relic: Relic, index: number) {
+  const substat = relic.previewSubstats[index]
+  if (!substat?.stat) return
+
+  const stat = substat.stat
+  const value = substat.value
+
+  return renderStat(stat, value, relic) as { stat: SubStats, value: number }
 }
 
 function renderSubstat(relic: Relic, index: number) {
@@ -133,6 +146,8 @@ type RelicModalProps = {
   selectedRelic: Relic | null,
   selectedPart?: Parts | null,
   defaultWearer?: CharacterId,
+  next?: () => void,
+  prev?: () => void,
 }
 
 const defaultMainStatPerPart = {
@@ -144,7 +159,7 @@ const defaultMainStatPerPart = {
   [Parts.LinkRope]: Stats.HP_P,
 }
 
-export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, defaultWearer }: RelicModalProps) {
+export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, defaultWearer, next, prev }: RelicModalProps) {
   const { t } = useTranslation(['modals', 'common', 'gameData'])
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const { token } = useToken()
@@ -230,14 +245,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
         part: selectedRelic.part,
         mainStatType: renderMainStat(selectedRelic)?.stat,
         mainStatValue: renderMainStat(selectedRelic)?.value,
-        substatType0: renderSubstat(selectedRelic, 0)?.stat,
-        substatValue0: renderSubstat(selectedRelic, 0)?.value.toString(),
-        substatType1: renderSubstat(selectedRelic, 1)?.stat,
-        substatValue1: renderSubstat(selectedRelic, 1)?.value.toString(),
-        substatType2: renderSubstat(selectedRelic, 2)?.stat,
-        substatValue2: renderSubstat(selectedRelic, 2)?.value.toString(),
-        substatType3: renderSubstat(selectedRelic, 3)?.stat,
-        substatValue3: renderSubstat(selectedRelic, 3)?.value.toString(),
+        ...defaultSubstatValues(selectedRelic),
       }
     } else {
       const defaultPart = selectedPart ?? Constants.Parts.Head
@@ -255,6 +263,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
     }
 
     onValuesChange(defaultValues)
+
     relicForm.setFieldsValue(defaultValues)
   }, [selectedRelic, open])
 
@@ -437,6 +446,30 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
           {isLiveImport && (
             <Alert message={t('Relic.LiveImportWarning') /* Live import mode is enabled, your changes might be overwritten. */} type='warning' showIcon />
           )}
+          {prev && (
+            <CaretLeftOutlined
+              onClick={prev}
+              style={{
+                position: 'absolute',
+                top: 240,
+                right: 560,
+                fontSize: '40px',
+                cursor: 'pointer',
+              }}
+            />
+          )}
+          {next && (
+            <CaretRightOutlined
+              onClick={next}
+              style={{
+                position: 'absolute',
+                top: 240,
+                left: 560,
+                fontSize: '40px',
+                cursor: 'pointer',
+              }}
+            />
+          )}
           <Flex gap={10}>
             <Flex vertical gap={5}>
               <HeaderText>{t('Relic.Part') /* Part */}</HeaderText>
@@ -609,8 +642,11 @@ function SubstatInput(props: {
   const [hovered, setHovered] = React.useState(false)
   const statTypeField = `substatType${props.index}` as `substatType${typeof props.index}`
   const statValueField = `substatValue${props.index}` as `substatValue${typeof props.index}`
+  const isPreviewField = `substat${props.index}IsPreview` as `substat${typeof props.index}IsPreview`
   const { t } = useTranslation('modals', { keyPrefix: 'Relic' })
   const { t: tStats } = useTranslation('common', { keyPrefix: 'Stats' })
+
+  const isPreview = Form.useWatch(isPreviewField, props.relicForm)
 
   const handleFocus = () => {
     if (inputRef.current) {
@@ -622,6 +658,7 @@ function SubstatInput(props: {
     console.log(props, quality)
 
     props.relicForm.setFieldValue(statValueField, props.upgrades[props.index][quality])
+    props.relicForm.setFieldValue(isPreviewField, false)
     props.resetUpgradeValues()
     props.plusThree()
   }
@@ -654,10 +691,36 @@ function SubstatInput(props: {
     return output
   }, [tStats])
 
+  function PreviewToggle() {
+    const onClick = () => {
+      if (isPreview) {
+        props.relicForm.setFieldValue(isPreviewField, false)
+        props.relicForm.setFieldValue(statValueField, isPreview)
+        props.resetUpgradeValues()
+      } else {
+        const value = props.relicForm.getFieldValue(statValueField)
+        if (value == 0) return
+        props.relicForm.setFieldValue(isPreviewField, value)
+        props.relicForm.setFieldValue(statValueField, 0)
+        props.resetUpgradeValues()
+      }
+    }
+    return (
+      <Form.Item
+        name={isPreviewField}
+        style={{ width: 12, marginTop: 7, cursor: 'pointer' }}
+      >
+        {isPreview ? <LockOutlined onClick={onClick} /> : <CaretRightOutlined onClick={onClick} />}
+      </Form.Item>
+    )
+  }
+
   function UpgradeButton(subProps: {
     quality: 'low' | 'mid' | 'high',
   }) {
     const value = props.upgrades?.[props.index]?.[subProps.quality]
+
+    if (value === null) return null
 
     const displayValue = formatStat(value)
 
@@ -667,7 +730,7 @@ function SubstatInput(props: {
           type={hovered ? 'default' : 'dashed'}
           style={{ width: '100%', padding: 0 }}
           onClick={() => upgradeClicked(subProps.quality)}
-          disabled={value == undefined}
+          disabled={value === undefined}
           tabIndex={-1}
         >
           {displayValue}
@@ -709,8 +772,9 @@ function SubstatInput(props: {
           title={stat == Stats.SPD ? t('SpdInputWarning') : ''}
           placement='top'
         >
-          <Form.Item name={`substatValue${props.index}`}>
+          <Form.Item name={statValueField}>
             <Input
+              disabled={Boolean(isPreview)}
               ref={inputRef}
               onFocus={handleFocus}
               style={{ width: 80 }}
@@ -720,8 +784,8 @@ function SubstatInput(props: {
           </Form.Item>
         </Tooltip>
       </Flex>
-      <CaretRightOutlined style={{ width: 12 }} />
-      <Flex gap={5} style={{ width: '100%' }}>
+      <PreviewToggle />
+      <Flex gap={5} style={{ minWidth: 180 }}>
         <UpgradeButton quality='low' />
         <UpgradeButton quality='mid' />
         <UpgradeButton quality='high' />

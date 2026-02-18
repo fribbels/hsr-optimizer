@@ -11,7 +11,7 @@ export type RelicScoringWeights = {
   average: number,
   current: number,
   best: number,
-  potentialSelected: PotentialWeights & { rerollAvgPct: number },
+  potentialSelected: PotentialWeights & { rerollAvgPct: number, blockedRerollAvgPct: number },
   potentialAllAll: PotentialWeights,
   potentialAllCustom: PotentialWeights,
   rerollAllAll: number,
@@ -19,6 +19,11 @@ export type RelicScoringWeights = {
   rerollAvgSelected: number,
   rerollAvgSelectedDelta: number,
   rerollAvgSelectedEquippedDelta: number,
+  blockedRerollAllAll: number,
+  blockedRerollAllCustom: number,
+  blockedRerollAvgSelected: number,
+  blockedRerollAvgSelectedDelta: number,
+  blockedRerollAvgSelectedEquippedDelta: number,
 }
 
 type PotentialWeights = {
@@ -30,7 +35,7 @@ type ScoringMetadataOverrides = Partial<Record<CharacterId, ScoringMetadata>>
 
 // Keyed by relic reference, autoclears when cache params change
 let scoreCache: WeakMap<Relic, ScoredRelic> = new WeakMap()
-let cacheParams: { focusCharacter: Nullable<CharacterId>; excludedIds: string; metadataRef?: ScoringMetadataOverrides } | null = null
+let cacheParams: { focusCharacter: Nullable<CharacterId>, excludedIds: string, metadataRef?: ScoringMetadataOverrides } | null = null
 
 export function scoreRelics(
   relics: Array<Relic>,
@@ -80,6 +85,7 @@ function scoreSingleRelic(
       bestPct: 0,
       averagePct: 0,
       rerollAvgPct: 0,
+      blockedRerollAvgPct: 0,
     },
     potentialAllAll: {
       bestPct: 0,
@@ -94,22 +100,36 @@ function scoreSingleRelic(
     rerollAvgSelected: 0,
     rerollAvgSelectedDelta: 0,
     rerollAvgSelectedEquippedDelta: 0,
+    blockedRerollAllAll: 0,
+    blockedRerollAllCustom: 0,
+    blockedRerollAvgSelected: 0,
+    blockedRerollAvgSelectedDelta: 0,
+    blockedRerollAvgSelectedEquippedDelta: 0,
   }
 
   if (focusCharacter) {
     const potentialSelected = relicScorer.scoreRelicPotential(relic, focusCharacter)
+
     const rerollAvgSelected = Math.max(0, potentialSelected.rerollAvgPct)
     const rerollAvgSelectedDelta = rerollAvgSelected == 0 ? 0 : (rerollAvgSelected - potentialSelected.averagePct)
+
+    const blockedRerollAvgSelected = Math.max(0, potentialSelected.blockedRerollAvgPct)
+    const blockedRerollAvgSelectedDelta = blockedRerollAvgSelected == 0 ? 0 : (blockedRerollAvgSelected - potentialSelected.averagePct)
+
     weights = {
       ...weights,
       ...relicScorer.getFutureRelicScore(relic, focusCharacter),
       potentialSelected,
       rerollAvgSelected,
       rerollAvgSelectedDelta,
+      blockedRerollAvgSelected,
+      blockedRerollAvgSelectedDelta,
     }
     const equippedRelic = DB.getRelicById(DB.getCharacterById(focusCharacter)?.equipped?.[relic.part])
     if (equippedRelic) {
       weights.rerollAvgSelectedEquippedDelta = weights.rerollAvgSelected - relicScorer.scoreRelicPotential(equippedRelic, focusCharacter).averagePct
+      weights.blockedRerollAvgSelectedEquippedDelta = weights.blockedRerollAvgSelected
+        - relicScorer.scoreRelicPotential(equippedRelic, focusCharacter).averagePct
     }
   }
 
@@ -120,6 +140,7 @@ function scoreSingleRelic(
       averagePct: Math.max(pct.averagePct, weights.potentialAllAll.averagePct),
     }
     weights.rerollAllAll = Math.max(pct.rerollAvgPct, weights.rerollAllAll)
+    weights.blockedRerollAllAll = Math.max(pct.blockedRerollAvgPct, weights.blockedRerollAllAll)
 
     if (excludedRelicPotentialCharacters.includes(id)) continue
 
@@ -128,6 +149,7 @@ function scoreSingleRelic(
       averagePct: Math.max(pct.averagePct, weights.potentialAllCustom.averagePct),
     }
     weights.rerollAllCustom = Math.max(pct.rerollAvgPct, weights.rerollAllCustom)
+    weights.blockedRerollAllCustom = Math.max(pct.blockedRerollAvgPct, weights.blockedRerollAllCustom)
   }
 
   weights.rerollAvgSelected = Math.max(0, weights.potentialSelected.rerollAvgPct)

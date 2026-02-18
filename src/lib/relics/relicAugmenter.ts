@@ -46,7 +46,9 @@ export const RelicAugmenter = {
       relic.grade = 5
     }
 
-    if (!relic.id) relic.id = Utils.randomId()
+    relic.id ??= Utils.randomId()
+
+    relic.previewSubstats ??= []
 
     relic.augmentedStats = augmentedStats
     fixAugmentedStats([relic])

@@ -2,7 +2,13 @@ import { Typography } from 'antd'
 
 import gameData from 'data/game_data.json'
 import i18next from 'i18next'
-import { Constants, Parts, PathName, PathNames, Sets, } from 'lib/constants/constants'
+import {
+  Constants,
+  Parts,
+  PathName,
+  PathNames,
+  Sets,
+} from 'lib/constants/constants'
 import { rollCounter } from 'lib/importer/characterConverter'
 import { ScannerConfig } from 'lib/importer/importConfig'
 import { Message } from 'lib/interactions/message'
@@ -10,9 +16,16 @@ import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
 import semver from 'semver'
-import { Character, CharacterId, } from 'types/character'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
 import { Form } from 'types/form'
-import { Relic } from 'types/relic'
+import {
+  Relic,
+  RelicSubstatMetadata,
+  UnaugmentedRelic,
+} from 'types/relic'
 
 // FIXME HIGH
 
@@ -57,6 +70,7 @@ export type V4ParserRelic = {
   mainstat: string,
   substats: V4ParserSubstat[],
   reroll_substats?: V4ParserSubstat[],
+  preview_substats?: V4ParserSubstat[],
   location: string,
   lock: boolean,
   discard: boolean,
@@ -187,23 +201,25 @@ export class KelzFormatParser { // TODO abstract class
     return parsed
   }
 
-  parseRelic(relic: V4ParserRelic, activatedBuffs: Record<string, string>, substatListOverride?: V4ParserSubstat[]) {
-    const parsed = readRelic(relic, substatListOverride ?? relic.substats, this)
+  parseRelic(parserRelic: V4ParserRelic, activatedBuffs: Record<string, CharacterId>, substatListOverride?: V4ParserSubstat[]) {
+    const relic = RelicAugmenter.augment(readRelic(parserRelic, substatListOverride ?? parserRelic.substats, this))
 
-    const owner = parsed.equippedBy ?? 'NONE'
+    if (relic === null) return null
+
+    const owner = relic.equippedBy ?? 'NONE'
     if (activatedBuffs[owner]) {
-      parsed.equippedBy = activatedBuffs[owner] as CharacterId
+      relic.equippedBy = activatedBuffs[owner]
     }
 
-    return RelicAugmenter.augment(parsed) as Relic | null
+    return relic
   }
 
-  parseCharacter(character: V4ParserCharacter, activatedBuffs: Record<string, string>, lightCones: V4ParserLightCone[]) {
+  parseCharacter(character: V4ParserCharacter, activatedBuffs: Record<string, CharacterId>, lightCones: V4ParserLightCone[]) {
     const parsed = readCharacter(character, lightCones) as Form | null
 
     const id = parsed?.characterId
     if (id && activatedBuffs[id]) {
-      parsed.characterId = activatedBuffs[id] as CharacterId
+      parsed.characterId = activatedBuffs[id]
     }
 
     return parsed
@@ -223,7 +239,7 @@ function generateBuffedCharacterIdMap() {
 
 export const buffedCharacters = generateBuffedCharacterIdMap()
 
-export function getMappedCharacterId(character: V4ParserCharacter): string {
+export function getMappedCharacterId(character: V4ParserCharacter): CharacterId {
   const id = character.id as CharacterId
   const abilityVersion = character.ability_version
   if (abilityVersion == null && buffedCharacters[id]) {
@@ -237,8 +253,8 @@ export function getMappedCharacterId(character: V4ParserCharacter): string {
   return id
 }
 
-export function getActivatedBuffs(rawCharacters: V4ParserCharacter[]): Record<string, string> {
-  const activatedBuffs: Record<string, string> = {}
+export function getActivatedBuffs(rawCharacters: V4ParserCharacter[]): Record<string, CharacterId> {
+  const activatedBuffs: Record<string, CharacterId> = {}
   for (const character of rawCharacters) {
     const id = character.id
     const mappedId = getMappedCharacterId(character)
@@ -275,37 +291,55 @@ function readCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCo
   }
 }
 
-function readRelic(relic: V4ParserRelic, substatList: V4ParserSubstat[], scanner: KelzFormatParser): Relic {
-  const part = relic.slot.replace(/\s+/g, '') as Parts
+function readRelic(parserRelic: V4ParserRelic, substatList: V4ParserSubstat[], scanner: KelzFormatParser): UnaugmentedRelic {
+  const part = parserRelic.slot.replace(/\s+/g, '') as Parts
 
-  const setId = relic.set_id
+  const setId = parserRelic.set_id
   const set = relicSetMapping[setId].name
 
-  const enhance = Math.min(Math.max(relic.level, 0), 15)
-  const grade = Math.min(Math.max(relic.rarity, 2), 5)
+  const enhance = Math.min(Math.max(parserRelic.level, 0), 15)
+  const grade = Math.min(Math.max(parserRelic.rarity, 2), 5)
 
-  const { main, substats } = readRelicStats(relic, substatList, part, grade, enhance, scanner)
+  const { main, substats } = readRelicStats(parserRelic, substatList, part, grade, enhance, scanner)
 
   let equippedBy: CharacterId | undefined
-  if (relic.location !== '') {
-    const lookup = characterList.find((x) => x.id == relic.location)?.id
+  if (parserRelic.location !== '') {
+    const lookup = characterList.find((x) => x.id == parserRelic.location)?.id
     if (lookup) {
       equippedBy = lookup as CharacterId
     }
   }
 
-  return {
+  const previewSubstats: RelicSubstatMetadata[] = []
+  parserRelic.preview_substats?.forEach((s) => {
+    const meta: RelicSubstatMetadata = {
+      stat: mapSubstatToId(s.key),
+      value: s.value,
+      addedRolls: 0,
+      rolls: {
+        high: s.step === 2 ? 1 : 0,
+        mid: s.step === 1 ? 1 : 0,
+        low: s.step === 0 ? 1 : 0,
+      },
+    }
+    previewSubstats.push(meta)
+  })
+
+  const relic: UnaugmentedRelic = {
     part,
     set,
     enhance,
     grade,
     main,
     substats,
+    previewSubstats,
     equippedBy,
     verified: scanner.config.speedVerified,
-    id: relic._uid,
-    ageIndex: parseInt(relic._uid),
-  } as unknown as Relic
+    id: parserRelic._uid,
+    ageIndex: parseInt(parserRelic._uid),
+  }
+
+  return relic
 }
 
 type MainData = {

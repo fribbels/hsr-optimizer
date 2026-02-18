@@ -108,6 +108,7 @@ export const Optimizer = {
 
     relics = RelicFilters.applyMainFilter(request, relics)
     relics = TsUtils.clone(relics) // Past this point we modify relics, clone it first
+    RelicFilters.mergePreviewSubstats(request, relics)
     relics = RelicFilters.applyMainStatsFilter(request, relics)
     relics = RelicFilters.applySetFilter(request, relics)
 

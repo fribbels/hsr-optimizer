@@ -84,6 +84,7 @@ test('Generate from relic works correctly', () => {
     part: Parts.Head,
     set: Sets.MusketeerOfWildWheat, // does not matter
     substats: [],
+    previewSubstats: [],
     ageIndex: 0,
     initialRolls: 0,
     augmentedStats: {} as AugmentedStats,

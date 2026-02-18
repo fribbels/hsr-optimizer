@@ -26,7 +26,7 @@ Import:
     DisconnectedHint: "无法连接到扫描器，请确认其正在运行。\n\n"
     Enable: 启用实时导入（推荐）
     UpdateCharacters: 启用角色已装备遗器和光锥的更新
-    UpdateWarpResources: ' 启用跃迁资源导入（星玉、专票/通票、保底计数）'
+    UpdateWarpResources: ' 启用跃迁资源导入（星琼、专票 / 通票、保底计数）'
     AdvancedSettings:
       Title: 高级设置
       WebsocketUrl: Websocket 地址

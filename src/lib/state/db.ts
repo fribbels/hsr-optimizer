@@ -561,7 +561,7 @@ export const DB = {
           deprioritizeBuffs: scoringMetadata.simulation?.deprioritizeBuffs ?? false,
         }
         return migratedBuild
-      })
+      }) ?? []
 
       // Previously characters had customizable options, now we're defaulting to 80s
       character.form.characterLevel = 80
@@ -589,8 +589,6 @@ export const DB = {
     }
 
     for (const relic of saveData.relics) {
-      // @ts-ignore temporary while migrating relic object format
-      delete relic.weights
       RelicAugmenter.augment(relic)
       const character = charactersById[relic.equippedBy!]
       if (character && !character.equipped[relic.part]) {
@@ -1051,6 +1049,7 @@ export const DB = {
             id: newRelic.id,
             verified: true,
             substats: newRelic.substats,
+            previewSubstats: newRelic.previewSubstats,
             augmentedStats: newRelic.augmentedStats,
           }
         }
@@ -1186,6 +1185,7 @@ export const DB = {
 
       if (match) {
         match.substats = newRelic.substats
+        match.previewSubstats = newRelic.previewSubstats
         match.main = newRelic.main
         match.enhance = newRelic.enhance
         match.verified = true

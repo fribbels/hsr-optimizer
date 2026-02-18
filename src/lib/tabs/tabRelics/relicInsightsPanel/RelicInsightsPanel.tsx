@@ -3,6 +3,7 @@ import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { sortAlphabeticEmojiLast } from 'lib/rendering/displayUtils'
 import DB from 'lib/state/db'
 import { BucketsPanel } from 'lib/tabs/tabRelics/relicInsightsPanel/BucketsPanel'
+import { EstbpCard } from 'lib/tabs/tabRelics/relicInsightsPanel/Estbp'
 import { Top10Panel } from 'lib/tabs/tabRelics/relicInsightsPanel/Top10Panel'
 import useRelicsTabStore, {
   InsightCharacters,
@@ -55,6 +56,8 @@ export function RelicInsightsPanel() {
       return <BucketsPanel scores={scores} />
     case RelicInsights.Top10:
       return <Top10Panel scores={scores} />
+    case RelicInsights.ESTBP:
+      return <EstbpCard />
   }
 }
 

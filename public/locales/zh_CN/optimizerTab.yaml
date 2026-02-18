@@ -33,6 +33,8 @@ OrnamentSetSelector:
   Placeholder: 位面饰品套装
 SortOptions:
   DMGLabel: 伤害计算
+  HealLabel: 治疗量计算
+  ShieldLabel: 护盾值计算
   StatLabel: 属性
   COMBO: 按连招伤害排序
   BASIC: 按普攻伤害排序
@@ -43,8 +45,18 @@ SortOptions:
   MEMO_TALENT: 按忆灵技伤害排序
   DOT: 按持续伤害排序
   BREAK: 按击破伤害排序
-  HEAL: 按治疗值排序
+  HEAL: 按治疗量排序
   SHIELD: 按护盾值排序
+  BASIC_HEAL: 按普攻治疗量排序
+  SKILL_HEAL: 按战技治疗量排序
+  ULT_HEAL: 按终结技治疗量排序
+  FUA_HEAL: 按追加攻击治疗量排序
+  TALENT_HEAL: 按天赋治疗量排序
+  BASIC_SHIELD: 按普攻护盾值排序
+  SKILL_SHIELD: 按战技护盾值排序
+  ULT_SHIELD: 按终结技护盾值排序
+  FUA_SHIELD: 按追加攻击护盾值排序
+  TALENT_SHIELD: 按天赋护盾值排序
   HP: '按$t(common:ReadableStats.HP)排序'
   ATK: '按$t(common:ReadableStats.ATK)排序'
   DEF: '按$t(common:ReadableStats.DEF)排序'
@@ -122,7 +134,7 @@ Grid:
       ERR: 能量恢复
       DMG: 伤害
       EHP: 有效生命
-      HEAL: 治疗值
+      HEAL: 治疗量
       SHIELD: 护盾值
       BASIC: |-
         普攻
@@ -148,6 +160,36 @@ Grid:
       BREAK: |-
         击破
         伤害
+      BASIC_HEAL: |-
+        普攻
+        治疗量
+      SKILL_HEAL: |-
+        战技
+        治疗量
+      ULT_HEAL: |-
+        终结技
+        治疗量
+      FUA_HEAL: |-
+        追加攻击
+        治疗量
+      TALENT_HEAL: |-
+        天赋
+        治疗量
+      BASIC_SHIELD: |-
+        普攻
+        护盾值
+      SKILL_SHIELD: |-
+        战技
+        护盾值
+      ULT_SHIELD: |-
+        终结技
+        护盾值
+      FUA_SHIELD: |-
+        追加攻击
+        护盾值
+      TALENT_SHIELD: |-
+        天赋
+        护盾值
       COMBO: |-
         连招
         伤害
@@ -192,6 +234,36 @@ Grid:
       BREAK: |-
         击破
         伤害
+      BASIC_HEAL: |-
+        普攻
+        治疗量
+      SKILL_HEAL: |-
+        战技
+        治疗量
+      ULT_HEAL: |-
+        终结技
+        治疗量
+      FUA_HEAL: |-
+        追加攻击
+        治疗量
+      TALENT_HEAL: |-
+        天赋
+        治疗量
+      BASIC_SHIELD: |-
+        普攻
+        护盾值
+      SKILL_SHIELD: |-
+        战技
+        护盾值
+      ULT_SHIELD: |-
+        终结技
+        护盾值
+      FUA_SHIELD: |-
+        追加攻击
+        护盾值
+      TALENT_SHIELD: |-
+        天赋
+        护盾值
       COMBO: |-
         连招
         伤害
@@ -465,6 +537,16 @@ ComboFilter:
     Break: 击破
     MemoSkill: 忆灵技
     MemoTalent: 忆灵天赋
+    BasicHeal: 普攻治疗量
+    SkillHeal: 战技治疗量
+    UltHeal: 终结技治疗量
+    FuaHeal: 追加攻击治疗量
+    TalentHeal: 天赋治疗量
+    BasicShield: 普攻护盾值
+    SkillShield: 战技护盾值
+    UltShield: 终结技护盾值
+    FuaShield: 追加攻击护盾值
+    TalentShield: 天赋护盾值
   RotationButton: 高级技能循环
 ComboDrawer:
   NoConditionals: 无可应用的条件触发被动技能

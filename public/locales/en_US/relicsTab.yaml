@@ -98,6 +98,24 @@ RelicGrid:
           Selected Char
           ∆ Reroll AVG
           VS Equipped
+      BlockedRerollAvg:
+        Label: 'Selected character: Blocked reroll average potential'
+        Header: |-
+          Selected Char
+          Blocked Reroll
+          Avg
+      BlockedRerollAvgDelta:
+        Label: 'Selected character: Blocked reroll average delta potential'
+        Header: |-
+          Selected Char
+          Δ Blocked Reroll
+          Avg
+      BlockedRerollAvgEquippedDelta:
+        Label: 'Selected character: Blocked reroll average delta potential vs equipped'
+        Header: |-
+          Selected Char
+          ∆ Blocked Reroll
+          AVG VS Equipped
     CustomCharacters:
       Label: Custom characters
       AvgPotCol:
@@ -115,6 +133,11 @@ RelicGrid:
         Header: |-
           Custom Chars
           Avg Reroll
+      BlockedRerollAvg:
+        Label: 'Custom characters: Average blocked reroll potential'
+        Header: |-
+          Custom Chars
+          Avg Blocked Reroll
     AllCharacters:
       Label: All characters
       AvgPotCol:
@@ -132,6 +155,11 @@ RelicGrid:
         Header: |-
           All Chars
           Avg Reroll
+      BlockedRerollAvg:
+        Label: 'All characters: Average blocked reroll potential'
+        Header: |-
+          All Chars
+          Avg Blocked Reroll
 Toolbar:
   RelicLocator:
     Width: Inventory width
@@ -141,6 +169,7 @@ Toolbar:
   InsightOptions:
     Buckets: 'Relic Insight: Buckets'
     Top10: 'Relic Insight: Top 10'
+    ESTBP: 'Relic Insights: ESTBP'
   PlotOptions:
     PlotAll: Show all characters
     PlotCustom: Show custom characters

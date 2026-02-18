@@ -58,7 +58,7 @@ export async function runEstTbpWorker(
 
 const errorResult = { days: 0 }
 
-function handleWork(relic: Relic, weights: Record<string, number>): Promise<EstTbpWorkerOutput> {
+export function handleWork(relic: Relic, weights: Record<string, number>): Promise<EstTbpWorkerOutput> {
   if (!relic) return Promise.resolve(errorResult)
 
   return new Promise((resolve, reject) => {

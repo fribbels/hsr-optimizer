@@ -130,7 +130,7 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
 
       setEverGloriousMagicalGirl: Array.from({ length: 11 }).map((_val, i) => ({
         display: t('SelectOptions.MagicalGirl.Display', { stackCount: i }),
-        value: 0.01 * i,
+        value: i,
         label: t('SelectOptions.MagicalGirl.Label', { stackCount: i }),
       })),
 

@@ -39,124 +39,136 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
 
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
 
-  const setChampionOfStreetwiseBoxingOptions = useMemo(() => {
-    return Array.from({ length: 6 }).map((_val, i) => ({
-      display: t('SelectOptions.Streetwise.Display', { stackCount: i }), // i + 'x',
-      value: i,
-      label: t('SelectOptions.Streetwise.Label', { stackCount: i, buffValue: 5 * i }), // `${i} stacks (+${i * 5}% ATK)`,
-    }))
-  }, [t])
-  const setWastelanderOfBanditryDesert = useMemo(() => {
-    return [
-      {
-        display: t('SelectOptions.Wastelander.Off.Display'), // 'Off',
-        value: 0,
-        label: t('SelectOptions.Wastelander.Off.Label'), // 'Off',
-      },
-      {
-        display: t('SelectOptions.Wastelander.Debuffed.Display'), // 'CR',
-        value: 1,
-        label: t('SelectOptions.Wastelander.Debuffed.Label'), // 'Debuffed (+10% CR)',
-      },
-      {
-        display: t('SelectOptions.Wastelander.Imprisoned.Display'), // 'CR+CD',
-        value: 2,
-        label: t('SelectOptions.Wastelander.Imprisoned.Label'), // 'Imprisoned (+10% CR | +20% CD)',
-      },
-    ]
-  }, [t])
-  const setLongevousDiscipleOptions = useMemo(() => {
-    return Array.from({ length: 3 }).map((_val, i) => ({
-      display: t('SelectOptions.Longevous.Display', { stackCount: i }), // i + 'x',
-      value: i,
-      label: t('SelectOptions.Longevous.Label', { stackCount: i, buffValue: 8 * i }), // `${i} stacks (+${i * 8}% CR)`,
-    }))
-  }, [t])
-  const setTheAshblazingGrandDukeOptions = useMemo(() => {
-    return Array.from({ length: 9 }).map((_val, i) => ({
-      display: t('SelectOptions.Ashblazing.Display', { stackCount: i }), // i + 'x',
-      value: i,
-      label: t('SelectOptions.Ashblazing.Label', { stackCount: i, buffValue: 6 * i }), // `${i} stacks (+${6 * i}% ATK)`,
-    }))
-  }, [t])
-  const setPrisonerInDeepConfinementOptions = useMemo(() => {
-    return Array.from({ length: 4 }).map((_val, i) => ({
-      display: t('SelectOptions.Prisoner.Display', { stackCount: i }), // i + 'x',
-      value: i,
-      label: t('SelectOptions.Prisoner.Label', { stackCount: i, buffValue: 6 * i }), // `${i} stacks (+${6 * i}% DEF ignore)`,
-    }))
-  }, [t])
-  const setPioneerDiverOfDeadWaters = useMemo(() => {
-    return [
-      {
-        display: t('SelectOptions.Diver.Off.Display'), // '0x',
-        value: -1,
-        label: t('SelectOptions.Diver.Off.Label'), // '0 debuffs (+4% base CR)',
-      },
-      {
-        display: t('SelectOptions.Diver.1Debuff.Display'), // '1x',
-        value: 0,
-        label: t('SelectOptions.Diver.1Debuff.Label'), // '1 debuff (+12% DMG | +4% base CR)',
-      },
-      {
-        display: t('SelectOptions.Diver.2Debuff.Display'), // '2x',
-        value: 1,
-        label: t('SelectOptions.Diver.2Debuff.Label'), // '2 debuffs (+12% DMG | +4% base CR | +8% CD)',
-      },
-      {
-        display: t('SelectOptions.Diver.3Debuff.Display'), // '3x',
-        value: 2,
-        label: t('SelectOptions.Diver.3Debuff.Label'), // '3 debuffs (+12% DMG | +4% base CR | +12% CD)',
-      },
-      {
-        display: t('SelectOptions.Diver.2+Debuff.Display'), // '2x +',
-        value: 3,
-        label: t('SelectOptions.Diver.2+Debuff.Label'), // '2 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +16% CD)',
-      },
-      {
-        display: t('SelectOptions.Diver.3+Debuff.Display'), // '3x +',
-        value: 4,
-        label: t('SelectOptions.Diver.3+Debuff.Label'), // '3 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +24% CD)',
-      },
-    ]
-  }, [t])
-  const setSigoniaTheUnclaimedDesolation = useMemo(() => {
-    return Array.from({ length: 11 }).map((_val, i) => ({
-      display: t('SelectOptions.Sigonia.Display', { stackCount: i }), // i + 'x',
-      value: i,
-      label: t('SelectOptions.Sigonia.Label', { stackCount: i, buffValue: 4 * i }), // `${i} stacks (+${4 * i}% CD)`,
-    }))
-  }, [t])
-  const setDuranDynastyOfRunningWolves = useMemo(() => {
-    const options = Array.from({ length: 6 }).map((_val, i) => ({
-      display: t('SelectOptions.Duran.Display', { stackCount: i }), // i + 'x',
-      value: i,
-      label: t('SelectOptions.Duran.Label', { stackCount: i, buffValue: 5 * i }), // `${i} stacks (+${5 * i}% FUA DMG)`,
-    }))
+  const {
+    setChampionOfStreetwiseBoxingOptions,
+    setWastelanderOfBanditryDesert,
+    setLongevousDiscipleOptions,
+    setTheAshblazingGrandDukeOptions,
+    setPrisonerInDeepConfinementOptions,
+    setPioneerDiverOfDeadWaters,
+    setEverGloriousMagicalGirl,
+    setSigoniaTheUnclaimedDesolation,
+    setDuranDynastyOfRunningWolves,
+    setSacerdosRelivedOrdealOptions,
+    setArcadiaOfWovenDreams,
+  } = useMemo(() => {
+    return {
+      setChampionOfStreetwiseBoxingOptions: Array.from({ length: 6 }).map((_val, i) => ({
+        display: t('SelectOptions.Streetwise.Display', { stackCount: i }), // i + 'x',
+        value: i,
+        label: t('SelectOptions.Streetwise.Label', { stackCount: i, buffValue: 5 * i }), // `${i} stacks (+${i * 5}% ATK)`,
+      })),
 
-    options[5].label = t('SelectOptions.Duran.Label5') // `${5} stacks (+${5 * 5}% FUA DMG + 25% CD)`
+      setWastelanderOfBanditryDesert: [
+        {
+          display: t('SelectOptions.Wastelander.Off.Display'), // 'Off',
+          value: 0,
+          label: t('SelectOptions.Wastelander.Off.Label'), // 'Off',
+        },
+        {
+          display: t('SelectOptions.Wastelander.Debuffed.Display'), // 'CR',
+          value: 1,
+          label: t('SelectOptions.Wastelander.Debuffed.Label'), // 'Debuffed (+10% CR)',
+        },
+        {
+          display: t('SelectOptions.Wastelander.Imprisoned.Display'), // 'CR+CD',
+          value: 2,
+          label: t('SelectOptions.Wastelander.Imprisoned.Label'), // 'Imprisoned (+10% CR | +20% CD)',
+        },
+      ],
 
-    return options
-  }, [t])
-  const setSacerdosRelivedOrdealOptions = useMemo(() => {
-    return Array.from({ length: 3 }).map((_val, i) => ({
-      display: t('SelectOptions.Sacerdos.Display', { stackCount: i }), // i + 'x',
-      value: i,
-      label: t('SelectOptions.Sacerdos.Label', { stackCount: i, buffValue: 18 * i }), // `${i} stacks (+${i * 8}% CD)`,
-    }))
-  }, [t])
-  const setArcadiaOfWovenDreams = useMemo(() => {
-    return Array.from({ length: 8 }).map((_val, i) => {
-      const allyCount = i + 1
-      return {
-        display: t('SelectOptions.Arcadia.Display', { allyCount }), // `${i + 1}x`,
-        value: allyCount,
-        label: t('SelectOptions.Arcadia.Label', {
-          buffValue: Math.max(12 * (4 - allyCount), 9 * (allyCount - 4)), // `${allyCount} allies (+{{ buffValue }}% DMG)`,
-          allyCount,
-        }),
-      }
-    })
+      setLongevousDiscipleOptions: Array.from({ length: 3 }).map((_val, i) => ({
+        display: t('SelectOptions.Longevous.Display', { stackCount: i }), // i + 'x',
+        value: i,
+        label: t('SelectOptions.Longevous.Label', { stackCount: i, buffValue: 8 * i }), // `${i} stacks (+${i * 8}% CR)`,
+      })),
+
+      setTheAshblazingGrandDukeOptions: Array.from({ length: 9 }).map((_val, i) => ({
+        display: t('SelectOptions.Ashblazing.Display', { stackCount: i }), // i + 'x',
+        value: i,
+        label: t('SelectOptions.Ashblazing.Label', { stackCount: i, buffValue: 6 * i }), // `${i} stacks (+${6 * i}% ATK)`,
+      })),
+
+      setPrisonerInDeepConfinementOptions: Array.from({ length: 4 }).map((_val, i) => ({
+        display: t('SelectOptions.Prisoner.Display', { stackCount: i }), // i + 'x',
+        value: i,
+        label: t('SelectOptions.Prisoner.Label', { stackCount: i, buffValue: 6 * i }), // `${i} stacks (+${6 * i}% DEF ignore)`,
+      })),
+
+      setPioneerDiverOfDeadWaters: [
+        {
+          display: t('SelectOptions.Diver.Off.Display'), // '0x',
+          value: -1,
+          label: t('SelectOptions.Diver.Off.Label'), // '0 debuffs (+4% base CR)',
+        },
+        {
+          display: t('SelectOptions.Diver.1Debuff.Display'), // '1x',
+          value: 0,
+          label: t('SelectOptions.Diver.1Debuff.Label'), // '1 debuff (+12% DMG | +4% base CR)',
+        },
+        {
+          display: t('SelectOptions.Diver.2Debuff.Display'), // '2x',
+          value: 1,
+          label: t('SelectOptions.Diver.2Debuff.Label'), // '2 debuffs (+12% DMG | +4% base CR | +8% CD)',
+        },
+        {
+          display: t('SelectOptions.Diver.3Debuff.Display'), // '3x',
+          value: 2,
+          label: t('SelectOptions.Diver.3Debuff.Label'), // '3 debuffs (+12% DMG | +4% base CR | +12% CD)',
+        },
+        {
+          display: t('SelectOptions.Diver.2+Debuff.Display'), // '2x +',
+          value: 3,
+          label: t('SelectOptions.Diver.2+Debuff.Label'), // '2 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +16% CD)',
+        },
+        {
+          display: t('SelectOptions.Diver.3+Debuff.Display'), // '3x +',
+          value: 4,
+          label: t('SelectOptions.Diver.3+Debuff.Label'), // '3 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +24% CD)',
+        },
+      ],
+
+      setEverGloriousMagicalGirl: Array.from({ length: 11 }).map((_val, i) => ({
+        display: t('SelectOptions.MagicalGirl.Display', { stackCount: i }),
+        value: 0.01 * i,
+        label: t('SelectOptions.MagicalGirl.Label', { stackCount: i }),
+      })),
+
+      setSigoniaTheUnclaimedDesolation: Array.from({ length: 11 }).map((_val, i) => ({
+        display: t('SelectOptions.Sigonia.Display', { stackCount: i }), // i + 'x',
+        value: i,
+        label: t('SelectOptions.Sigonia.Label', { stackCount: i, buffValue: 4 * i }), // `${i} stacks (+${4 * i}% CD)`,
+      })),
+
+      setDuranDynastyOfRunningWolves: Array.from({ length: 6 }).map((_val, i) => {
+        const label = t(`SelectOptions.Duran.${i === 5 ? 'Label5' : 'Label'}`)
+        // `${i} stacks (+${5 * i}% FUA DMG)`,
+        // `${5} stacks (+${5 * 5}% FUA DMG + 25% CD)` :
+        return {
+          display: t('SelectOptions.Duran.Display', { stackCount: i }), // i + 'x',
+          value: i,
+          label,
+        }
+      }),
+
+      setSacerdosRelivedOrdealOptions: Array.from({ length: 3 }).map((_val, i) => ({
+        display: t('SelectOptions.Sacerdos.Display', { stackCount: i }), // i + 'x',
+        value: i,
+        label: t('SelectOptions.Sacerdos.Label', { stackCount: i, buffValue: 18 * i }), // `${i} stacks (+${i * 8}% CD)`,
+      })),
+
+      setArcadiaOfWovenDreams: Array.from({ length: 8 }).map((_val, i) => {
+        const allyCount = i + 1
+        return {
+          display: t('SelectOptions.Arcadia.Display', { allyCount }), // `${i + 1}x`,
+          value: allyCount,
+          label: t('SelectOptions.Arcadia.Label', {
+            buffValue: Math.max(12 * (4 - allyCount), 9 * (allyCount - 4)), // `${allyCount} allies (+{{ buffValue }}% DMG)`,
+            allyCount,
+          }),
+        }
+      }),
+    }
   }, [t])
 
   return (
@@ -360,6 +372,7 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
           />
           <ConditionalSetOption
             set={Constants.Sets.EverGloriousMagicalGirl}
+            selectOptions={setEverGloriousMagicalGirl}
             description={t('RelicDescription', { id: 129 })}
             conditional={t('Conditionals.EverGloriousMagicalGirl')}
             // 'The selected buff is applied to combat stat calculations.'

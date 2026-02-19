@@ -1932,6 +1932,40 @@ interface Resources {
           }
         }
       },
+      "BlackSwanB1": {
+        "Content": {
+          "skillDefShred": {
+            "text": null,
+            "content": null
+          },
+          "epiphanyDebuff": {
+            "text": null,
+            "content": null
+          },
+          "arcanaStacks": {
+            "text": null,
+            "content": null
+          },
+          "ehrToDmgBoost": {
+            "text": null,
+            "content": null
+          },
+          "e1ResReduction": {
+            "text": null,
+            "content": null
+          },
+          "e4Vulnerability": {
+            "text": null,
+            "content": null
+          }
+        },
+        "TeammateContent": {
+          "combatEhr": {
+            "text": null,
+            "content": null
+          }
+        }
+      },
       "Blade": {
         "Content": {
           "enhancedStateActive": {
@@ -3491,6 +3525,32 @@ interface Resources {
         }
       },
       "Sparkle": {
+        "Content": {
+          "skillCdBuff": {
+            "text": "Skill CD buff",
+            "content": "Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 1 turn.::BR::E6: The CRIT DMG Boost effect of Sparkle's Skill additionally increases by 30% of Sparkle's CRIT DMG, and when she uses her Skill, the CRIT DMG Boost effect will apply to all allies currently with Cipher. When Sparkle uses her Ultimate, this effect will spread to all allies with Cipher should the allied target have the CRIT DMG increase effect provided by the Skill active on them."
+          },
+          "cipherBuff": {
+            "text": "Cipher buff",
+            "content": "When allies with Cipher trigger the DMG Boost effect provided by Sparkle's Talent, each stack additionally increases its effect by {{cipherTalentStackBoost}}%, lasting for 2 turns.::BR::E1: The Cipher effect applied by the Ultimate lasts for 1 extra turn. All allies affected by Cipher have their ATK increased by 40%."
+          },
+          "talentStacks": {
+            "text": "Talent DMG stacks",
+            "content": "Whenever an ally consumes 1 Skill Point, all allies' DMG increases by {{talentBaseStackBoost}}%. This effect lasts for 2 turns and can stack up to 3 times.::BR::E2: Each Talent stack allows allies to ignore 8% of the enemy target's DEF when dealing DMG to enemies."
+          },
+          "quantumAlliesAtkBuff": {
+            "text": "Quantum allies ATK buff",
+            "content": "When there are 1/2/3 Quantum allies in your team, Quantum-Type allies' ATK are increased by 5%/15%/30%."
+          }
+        },
+        "TeammateContent": {
+          "teammateCDValue": {
+            "text": "Sparkle's Combat CD",
+            "content": "Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 1 turn."
+          }
+        }
+      },
+      "SparkleB1": {
         "Content": {
           "skillCdBuff": {
             "text": "Skill CD buff",
@@ -6248,6 +6308,10 @@ interface Resources {
             "Display": "3x+",
             "Label": "3 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +24% CD)"
           }
+        },
+        "MagicalGirl": {
+          "Display": "{{stackCount}}x",
+          "Label": "{{stackCount}} stacks (+{{stackCount}}% DEF PEN)"
         },
         "Sigonia": {
           "Display": "{{stackCount}}x",

@@ -1,6 +1,6 @@
 import { Flex } from 'antd'
-import { useState } from 'react'
 import { Parts } from 'lib/constants/constants'
+import { useState } from 'react'
 
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'

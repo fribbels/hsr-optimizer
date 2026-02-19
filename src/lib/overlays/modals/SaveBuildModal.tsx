@@ -68,7 +68,7 @@ export function SaveBuildModal(props: {
     } else {
       unlockScroll()
     }
-  }, [isOpen, character])
+  }, [isOpen])
 
   const setSelectedBuildWrapped = (idx: number | null) => {
     setSelectedBuild(idx)
@@ -190,7 +190,7 @@ export function SaveBuildModal(props: {
     >
       {contextHolder}
       <Flex gap={10} style={{ height: 856 }}>
-        <Flex vertical>
+        <Flex vertical style={{ width: 400 }}>
           <Form
             form={characterForm}
             preserve={false}

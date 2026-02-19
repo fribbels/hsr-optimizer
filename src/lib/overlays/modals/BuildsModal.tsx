@@ -13,10 +13,6 @@ import {
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CUSTOM_TEAM } from 'lib/constants/constants'
-import {
-  OpenCloseIDs,
-  useOpenClose,
-} from 'lib/hooks/useOpenClose'
 import { Message } from 'lib/interactions/message'
 import { defaultTeammate } from 'lib/optimization/defaultForm'
 import { Assets } from 'lib/rendering/assets'
@@ -303,8 +299,7 @@ export function BuildList(props: BuildListProps) {
       style={{
         overflowY: 'auto',
         marginBottom: 20,
-        minWidth: 400,
-        maxWidth: 400,
+        width: '100%',
         height: 840,
         ...style,
       }}

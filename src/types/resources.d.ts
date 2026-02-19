@@ -3552,27 +3552,35 @@ interface Resources {
       },
       "SparkleB1": {
         "Content": {
-          "skillCdBuff": {
-            "text": "Skill CD buff",
-            "content": "Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 1 turn.::BR::E6: The CRIT DMG Boost effect of Sparkle's Skill additionally increases by 30% of Sparkle's CRIT DMG, and when she uses her Skill, the CRIT DMG Boost effect will apply to all allies currently with Cipher. When Sparkle uses her Ultimate, this effect will spread to all allies with Cipher should the allied target have the CRIT DMG increase effect provided by the Skill active on them."
+          "skillBuffs": {
+            "text": "Skill buffs",
+            "content": "Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 2 turns. ::BR:: A6: Increases this ally's All-Type RES PEN by 10%. ::BR:: E6: The CRIT DMG Boost effect of Sparkle's Skill additionally increases by 30% of Sparkle's CRIT DMG, and when she uses her Skill, the CRIT DMG Boost effect will apply to all allies currently with Cipher. When Sparkle uses her Ultimate, this effect will spread to all allies with Cipher should the allied target have the CRIT DMG increase effect provided by the Skill active on them."
           },
           "cipherBuff": {
             "text": "Cipher buff",
-            "content": "When allies with Cipher trigger the DMG Boost effect provided by Sparkle's Talent, each stack additionally increases its effect by {{cipherTalentStackBoost}}%, lasting for 2 turns.::BR::E1: The Cipher effect applied by the Ultimate lasts for 1 extra turn. All allies affected by Cipher have their ATK increased by 40%."
+            "content": "When allies with Cipher trigger the DMG Boost effect provided by Sparkle's Talent, each stack additionally increases its effect by {{cipherTalentStackBoost}}%, lasting for 2 turns. ::BR:: E1: All allies affected by Cipher have their ATK increased by 40%."
           },
           "talentStacks": {
-            "text": "Talent DMG stacks",
-            "content": "Whenever an ally consumes 1 Skill Point, all allies' DMG increases by {{talentBaseStackBoost}}%. This effect lasts for 2 turns and can stack up to 3 times.::BR::E2: Each Talent stack allows allies to ignore 8% of the enemy target's DEF when dealing DMG to enemies."
+            "text": "Talent stacks",
+            "content": "Whenever an ally target consumes 1 Skill Point, Sparkle gains 1 stack of \"Figment,\" with each stack increasing the DMG taken by all enemies by {{talentStackScaling}}%. This effect lasts for 2 turns and can stack up to 3 times. ::BR:: E2: Each Talent stack allows allies to ignore 10% of the enemy target's DEF when dealing DMG to enemies."
           },
-          "quantumAlliesAtkBuff": {
-            "text": "Quantum allies ATK buff",
-            "content": "When there are 1/2/3 Quantum allies in your team, Quantum-Type allies' ATK are increased by 5%/15%/30%."
+          "teamAtkBuff": {
+            "text": "Team ATK buff",
+            "content": "Increases all allies' ATK by 45%."
+          },
+          "e1SpdBuff": {
+            "text": "E1 SPD Buff",
+            "content": "When the battle starts or when using Skill, increases Sparkle's SPD by 15%, lasting for 2 turns."
+          },
+          "e2DefPen": {
+            "text": "E2 DEF PEN",
+            "content": "Each stack of the Talent's effect additionally reduces the enemy target's DEF by 10%."
           }
         },
         "TeammateContent": {
           "teammateCDValue": {
             "text": "Sparkle's Combat CD",
-            "content": "Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 1 turn."
+            "content": "Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 2 turns."
           }
         }
       },

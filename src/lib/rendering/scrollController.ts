@@ -2,9 +2,11 @@
  * Helpers to control screen scrolling when drawers are open. See ComboDrawer for usage.
  */
 
+import { useEffect } from 'react'
+
 let scrollLocked = false
 
-export function lockScroll() {
+function lockScroll() {
   if (scrollLocked) return
   const scrollY = window.scrollY
   document.body.style.position = 'fixed'
@@ -13,12 +15,22 @@ export function lockScroll() {
   scrollLocked = true
 }
 
-export function unlockScroll() {
+function unlockScroll() {
   if (!scrollLocked) return
   const scrollY = parseInt(document.body.style.top || '0') * -1
   document.body.style.position = ''
   document.body.style.top = ''
   document.body.style.width = ''
   window.scrollTo(0, scrollY)
-  scrollLocked = true
+  scrollLocked = false
+}
+
+export function useScrollLock(shouldLock: boolean) {
+  useEffect(() => {
+    if (shouldLock) {
+      lockScroll()
+    } else {
+      unlockScroll()
+    }
+  }, [shouldLock])
 }

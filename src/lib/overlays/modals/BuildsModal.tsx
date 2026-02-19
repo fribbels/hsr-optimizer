@@ -16,10 +16,7 @@ import { CUSTOM_TEAM } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { defaultTeammate } from 'lib/optimization/defaultForm'
 import { Assets } from 'lib/rendering/assets'
-import {
-  lockScroll,
-  unlockScroll,
-} from 'lib/rendering/scrollController'
+import { useScrollLock } from 'lib/rendering/scrollController'
 import DB, { AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
@@ -57,15 +54,12 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
 
   const [loading, setLoading] = useState(false)
 
-  // When opening, pick the first build if there are any + update build scores
+  useScrollLock(isOpen)
+
+  // When opening, pick the first build if there are any
   useEffect(() => {
     if (isOpen && selectedCharacter?.builds?.length) {
       setSelectedBuild(0)
-    }
-    if (isOpen) {
-      lockScroll()
-    } else {
-      unlockScroll()
     }
   }, [isOpen, selectedCharacter])
 

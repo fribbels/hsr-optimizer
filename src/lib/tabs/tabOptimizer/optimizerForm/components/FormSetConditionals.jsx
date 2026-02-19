@@ -13,10 +13,7 @@ import {
 } from 'lib/constants/constants'
 import { useOpenClose } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
-import {
-  lockScroll,
-  unlockScroll,
-} from 'lib/rendering/scrollController'
+import { useScrollLock } from 'lib/rendering/scrollController'
 import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -38,13 +35,7 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
 
   const { close, isOpen } = useOpenClose(id)
 
-  useEffect(() => {
-    if (isOpen) {
-      lockScroll()
-    } else {
-      unlockScroll()
-    }
-  }, [isOpen])
+  useScrollLock(isOpen)
 
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
 

@@ -14,10 +14,7 @@ import {
   BuildList,
   BuildPreview,
 } from 'lib/overlays/modals/BuildsModal'
-import {
-  lockScroll,
-  unlockScroll,
-} from 'lib/rendering/scrollController'
+import { useScrollLock } from 'lib/rendering/scrollController'
 import DB, {
   AppPages,
   SavedBuildSource,
@@ -60,15 +57,7 @@ export function SaveBuildModal(props: {
   const [selectedBuild, setSelectedBuild] = useState<number | null>(null)
   const [inputName, setInputName] = useState<string>('')
 
-  useEffect(() => {
-    setInputName('')
-    setSelectedBuild(null)
-    if (isOpen) {
-      lockScroll()
-    } else {
-      unlockScroll()
-    }
-  }, [isOpen])
+  useScrollLock(isOpen)
 
   const setSelectedBuildWrapped = (idx: number | null) => {
     setSelectedBuild(idx)

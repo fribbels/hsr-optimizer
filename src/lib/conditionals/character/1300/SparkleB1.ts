@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
@@ -14,7 +13,6 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -131,8 +129,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateCDValue: {
       id: 'teammateCDValue',
       formItem: 'slider',
-      text: 'Sparkle\'s combat CD',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.teammateCDValue.text'),
+      content: t('TeammateContent.teammateCDValue.content'),
       min: 0,
       max: 3.50,
       percent: true,

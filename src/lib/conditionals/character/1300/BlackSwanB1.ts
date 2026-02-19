@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
@@ -7,7 +6,6 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
   wgsl,
@@ -26,6 +24,7 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -38,7 +37,7 @@ export const BlackSwanB1Entities = createEnum('BlackSwanB1')
 export const BlackSwanB1Abilities = createEnum('BASIC', 'SKILL', 'ULT', 'DOT', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.BlackSwan')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.BlackSwanB1')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
     SOURCE_BASIC,
@@ -65,10 +64,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const dotChance = talent(e, 0.65, 0.68)
 
+  const arcanaStackLimit = e >= 6 ? 80 : 50
+
   const defaults = {
     skillDefShred: true,
     epiphanyDebuff: true,
-    arcanaStacks: e >= 6 ? 80 : 50,
+    arcanaStacks: arcanaStackLimit,
     ehrToDmgBoost: true,
     e1ResReduction: true,
     e4Vulnerability: true,
@@ -86,41 +87,45 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     skillDefShred: {
       id: 'skillDefShred',
       formItem: 'switch',
-      text: 'Skill def shred',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.skillDefShred.text'),
+      content: t('Content.skillDefShred.content', { skillDefShredScaling: TsUtils.precisionRound(100 * skillDefShredValue) }),
     },
     epiphanyDebuff: {
       id: 'epiphanyDebuff',
       formItem: 'switch',
-      text: 'Epiphany Debuff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.epiphanyDebuff.text'),
+      content: t('Content.epiphanyDebuff.content', { epiphanyVulnerability: TsUtils.precisionRound(100 * epiphanyDmgTakenBoost) }),
     },
     arcanaStacks: {
       id: 'arcanaStacks',
       formItem: 'slider',
-      text: 'Arcana stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.arcanaStacks.text'),
+      content: t('Content.arcanaStacks.content', {
+        dotBaseScaling: TsUtils.precisionRound(100 * dotScaling),
+        arcanaAdditionalScaling: TsUtils.precisionRound(100 * arcanaStackMultiplier),
+        arcanaStackLimit,
+      }),
       min: 1,
       max: 100,
     },
     ehrToDmgBoost: {
       id: 'ehrToDmgBoost',
       formItem: 'switch',
-      text: 'EHR to DMG Boost',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.ehrToDmgBoost.text'),
+      content: t('Content.ehrToDmgBoost.content', {}),
     },
     e1ResReduction: {
       id: 'e1ResReduction',
       formItem: 'switch',
-      text: 'E1 Res reduction',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e1ResReduction.text'),
+      content: t('Content.e1ResReduction.content', {}),
       disabled: e < 1,
     },
     e4Vulnerability: {
       id: 'e4Vulnerability',
       formItem: 'switch',
-      text: 'E4 Vulnerability',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e4Vulnerability.text'),
+      content: t('Content.e4Vulnerability.content', {}),
       disabled: e < 4,
     },
   }
@@ -132,8 +137,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     combatEhr: {
       id: 'combatEhr',
       formItem: 'slider',
-      text: 'Black Swan\'s combat EHR',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.combatEhr.text'),
+      content: t('TeammateContent.combatEhr.content'),
       min: 0,
       max: 1.20,
       percent: true,

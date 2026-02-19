@@ -1007,27 +1007,32 @@ Characters:
   BlackSwanB1:
     Content:
       skillDefShred:
-        text:
-        content:
+        text: Skill DEF shred
+        content: When Black Swan uses her skill, there is a 100% base chance of reducing the DEF of the enemy target and the adjacent targets by {{skillDefShredScaling}}%, lasting for 3 turns.
       epiphanyDebuff:
-        text:
-        content:
+        text: Epiphany debuff
+        content: While in the "Epiphany" state, enemy targets take {{epiphanyVulnerability}}% increased DMG.
       arcanaStacks:
-        text:
-        content:
+        text: Arcana stacks
+        content: >-
+          While an enemy target is in the "Arcana" state, they are also considered to be simultaneously afflicted with Wind Shear, Bleed, Burn, and Shock.
+          The target receives Wind DoT equal to {{dotBaseScaling}}% of Black Swan's ATK at the start of each turn, after which the number of stacks is halved.
+          Each stack of "Arcana" increases this DMG multiplier by {{arcanaAdditionalScaling}}%.
+          "Arcana" can stack {{arcanaStackLimit}} times, and can continue to stack beyond this limit, with the excess stacks removed after dealing DMG.
+          DMG from "Arcana" ignores 20% of the target's DEF.
       ehrToDmgBoost:
-        text:
-        content:
+        text: EHR to DMG Boost
+        content: Increases the DMG dealt by all allies by an amount equal to 60% of Black Swan's Effect Hit Rate, up to a maximum DMG increase of 72%.
       e1ResReduction:
-        text:
-        content:
+        text: E1 Res reduction
+        content: While Black Swan is active in combat, enemies afflicted with Wind Shear, Bleed, Burn, or Shock will have their corresponding Wind, Physical, Fire, or Lightning RES respectively reduced by 25%.
       e4Vulnerability:
-        text:
-        content:
+        text: E4 Vulnerability
+        content: While in the "Epiphany" state, enemy targets take 20% increased DMG.
     TeammateContent:
       combatEhr:
-        text:
-        content:
+        text: Black Swan's combat EHR
+        content: Increases the DMG dealt by all allies by an amount equal to 60% of Black Swan's Effect Hit Rate, up to a maximum DMG increase of 72%.
   Blade:
     Content:
       enhancedStateActive:

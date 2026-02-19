@@ -159,8 +159,6 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
     })
   }, [t])
 
-  // defaultMessage = 'Enabled by default - effects will apply to combat calculations.'
-
   return (
     <Drawer
       title={t('Title')} // 'Conditional set effects'
@@ -182,18 +180,21 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
             set={Constants.Sets.PasserbyOfWanderingCloud}
             description={t('RelicDescription', { id: 101 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             p4Checked
             set={Constants.Sets.MusketeerOfWildWheat}
             description={t('RelicDescription', { id: 102 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             p4Checked
             set={Constants.Sets.KnightOfPurityPalace}
             description={t('RelicDescription', { id: 103 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             set={Constants.Sets.HunterOfGlacialForest}
@@ -213,6 +214,7 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
             set={Constants.Sets.GuardOfWutheringSnow}
             description={t('RelicDescription', { id: 106 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             set={Constants.Sets.FiresmithOfLavaForging}
@@ -237,12 +239,14 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
             set={Constants.Sets.EagleOfTwilightLine}
             description={t('RelicDescription', { id: 110 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             p4Checked
             set={Constants.Sets.ThiefOfShootingMeteor}
             description={t('RelicDescription', { id: 111 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             set={Constants.Sets.WastelanderOfBanditryDesert}
@@ -296,6 +300,7 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
             set={Constants.Sets.IronCavalryAgainstTheScourge}
             description={t('RelicDescription', { id: 119 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             set={Constants.Sets.TheWindSoaringValorous}
@@ -308,52 +313,62 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
             selectOptions={setSacerdosRelivedOrdealOptions}
             description={t('RelicDescription', { id: 121 })}
             conditional={t('Conditionals.Sacerdos')}
+            // 'The selected buff is applied to damage calculations. Characters who buff themselves can trigger this effect.'
           />
           <ConditionalSetOption
             set={Constants.Sets.ScholarLostInErudition}
             description={t('RelicDescription', { id: 122 })}
             conditional={t('Conditionals.Scholar')}
+            // 'When enabled, the DMG% buff for Skill damage will be enhanced in accordance with the character's COMBO sequence.'
           />
           <ConditionalSetOption
             set={Constants.Sets.HeroOfTriumphantSong}
             description={t('RelicDescription', { id: 123 })}
             conditional={t('Conditionals.Hero')}
+            // 'When enabled, the SPD% and CRIT Damage buffs are applied to combat stat calculations.'
           />
           <ConditionalSetOption
             p4Checked
             set={Constants.Sets.PoetOfMourningCollapse}
             description={t('RelicDescription', { id: 124 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             set={Constants.Sets.WarriorGoddessOfSunAndThunder}
             description={t('RelicDescription', { id: 125 })}
-            conditional={t('Conditionals.DefaultMessage')}
+            conditional={t('Conditionals.WarriorGoddessOfSunAndThunder')}
+            // 'When enabled, the 4pc's SPD% and CRIT Damage buffs are applied to combat stat calculations.'
           />
           <ConditionalSetOption
             set={Constants.Sets.WavestriderCaptain}
             description={t('RelicDescription', { id: 126 })}
-            conditional={t('Conditionals.DefaultMessage')}
+            conditional={t('Conditionals.WavestriderCaptain')}
+            // 'When enabled, the ATK% buff is applied to combat stat calculations.'
           />
           <ConditionalSetOption
             set={Constants.Sets.WorldRemakingDeliverer}
             description={t('RelicDescription', { id: 127 })}
-            conditional={t('Conditionals.DefaultMessage')}
+            conditional={t('Conditionals.WorldRemakingDeliverer')}
+            // 'When enabled, the HP% and DMG Boost buffs are applied to combat stat calculations.'
           />
           <ConditionalSetOption
             set={Constants.Sets.SelfEnshroudedRecluse}
             description={t('RelicDescription', { id: 128 })}
-            conditional={t('Conditionals.DefaultMessage')}
+            conditional={t('Conditionals.SelfEnshroudedRecluse')}
+            // 'When enabled, the CRIT Damage buff is applied to combat stat calculations.'
           />
           <ConditionalSetOption
             set={Constants.Sets.EverGloriousMagicalGirl}
             description={t('RelicDescription', { id: 129 })}
-            conditional={t('Conditionals.DefaultMessage')}
+            conditional={t('Conditionals.EverGloriousMagicalGirl')}
+            // 'The selected buff is applied to combat stat calculations.'
           />
           <ConditionalSetOption
             set={Constants.Sets.DivinerOfDistantReach}
             description={t('RelicDescription', { id: 130 })}
-            conditional={t('Conditionals.DefaultMessage')}
+            conditional={t('Conditionals.DivinerOfDistantReach')}
+            // 'When enabled, the Elatiom buff is applied to combat stat calculations.'
           />
         </Flex>
 
@@ -369,24 +384,28 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
             set={Constants.Sets.SpaceSealingStation}
             description={t('PlanarDescription', { id: 301 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             p2Checked
             set={Constants.Sets.FleetOfTheAgeless}
             description={t('PlanarDescription', { id: 302 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             p2Checked
             set={Constants.Sets.PanCosmicCommercialEnterprise}
             description={t('PlanarDescription', { id: 303 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             p2Checked
             set={Constants.Sets.BelobogOfTheArchitects}
             description={t('PlanarDescription', { id: 304 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             set={Constants.Sets.CelestialDifferentiator}
@@ -399,42 +418,48 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
             set={Constants.Sets.InertSalsotto}
             description={t('PlanarDescription', { id: 306 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             p2Checked
             set={Constants.Sets.TaliaKingdomOfBanditry}
             description={t('PlanarDescription', { id: 307 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             p2Checked
             set={Constants.Sets.SprightlyVonwacq}
             description={t('PlanarDescription', { id: 308 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             p2Checked
             set={Constants.Sets.RutilantArena}
             description={t('PlanarDescription', { id: 309 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             p2Checked
             set={Constants.Sets.BrokenKeel}
             description={t('PlanarDescription', { id: 310 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             p2Checked
             set={Constants.Sets.FirmamentFrontlineGlamoth}
             description={t('PlanarDescription', { id: 311 })}
             conditional={t('Conditionals.DefaultMessage')}
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             set={Constants.Sets.PenaconyLandOfTheDreams}
             description={t('PlanarDescription', { id: 312 })}
             conditional={t('Conditionals.Penacony')}
-            // When enabled, the DMG% buff will apply to the wearer's memosprite.
+            // 'When enabled, the DMG% buff will apply to the wearer's memosprite.'
           />
           <ConditionalSetOption
             set={Constants.Sets.SigoniaTheUnclaimedDesolation}
@@ -473,47 +498,47 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
             set={Constants.Sets.TheWondrousBananAmusementPark}
             description={t('PlanarDescription', { id: 318 })}
             conditional={t('Conditionals.Banana')}
-            // 'The selected buff is applied to damage calculations.'
+            // 'When enabled, the additional 32% CRIT DMG is applied to Combat stat calculations.'
           />
           <ConditionalSetOption
             p2Checked
             set={Constants.Sets.BoneCollectionsSereneDemesne}
             description={t('PlanarDescription', { id: 319 })}
             conditional={t('Conditionals.DefaultMessage')}
-            // 'The selected buff is applied to damage calculations.'
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             p2Checked
             set={Constants.Sets.GiantTreeOfRaptBrooding}
             description={t('PlanarDescription', { id: 320 })}
             conditional={t('Conditionals.DefaultMessage')}
-            // 'The selected buff is applied to damage calculations.'
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             set={Constants.Sets.ArcadiaOfWovenDreams}
             selectOptions={setArcadiaOfWovenDreams}
             description={t('PlanarDescription', { id: 321 })}
             conditional={t('Conditionals.Arcadia')}
-            // The 'selected buff is applied to Combat stat calculations. Updates automatically when team selection changes.'
+            // 'The selected buff is applied to Combat stat calculations. Updates automatically when team selection changes.'
           />
           <ConditionalSetOption
             p2Checked
             set={Constants.Sets.RevelryByTheSea}
             description={t('PlanarDescription', { id: 322 })}
             conditional={t('Conditionals.DefaultMessage')}
-            // 'The selected buff is applied to damage calculations.'
+            // 'Enabled by default - effects will apply to combat calculations.'
           />
           <ConditionalSetOption
             set={Constants.Sets.AmphoreusTheEternalLand}
             description={t('PlanarDescription', { id: 323 })}
-            conditional={t('Conditionals.DefaultMessage')}
-            // 'The selected buff is applied to damage calculations.'
+            conditional={t('Conditionals.AmphoreusTheEternalLand')}
+            // 'When enabled, if the wearer posseses a memosprite then the SPD% buff is applied to combat stat calculations.'
           />
           <ConditionalSetOption
             set={Constants.Sets.TengokuLivestream}
             description={t('PlanarDescription', { id: 324 })}
-            conditional={t('Conditionals.DefaultMessage')}
-            // 'The selected buff is applied to damage calculations.'
+            conditional={t('Conditionals.TengokuLivestream')}
+            // 'When enabled, the additional CRIT Damage buff is applied to combat stat calculations.'
           />
         </Flex>
       </Flex>
@@ -571,8 +596,7 @@ function ConditionalSetOption(props) {
             <img
               src={Assets.getSetImage(props.set, Constants.Parts.PlanarSphere)}
               style={{ width: 36, height: 36 }}
-            >
-            </img>
+            />
           </Flex>
           <Text
             style={{
@@ -624,8 +648,7 @@ function ConditionalSetOption(props) {
             <img
               src={Assets.getSetImage(props.set, Constants.Parts.PlanarSphere)}
               style={{ width: 36, height: 36 }}
-            >
-            </img>
+            />
           </Flex>
           <Text
             style={{

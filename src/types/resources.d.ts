@@ -6357,12 +6357,12 @@ interface Resources {
         "Sacerdos": "The selected buff is applied to damage calculations. Characters who buff themselves can trigger this effect.",
         "Scholar": "When enabled, the DMG% buff for Skill damage will be enhanced in accordance with the character's COMBO sequence.",
         "Hero": "When enabled, the SPD% and CRIT Damage buffs are applied to combat stat calculations.",
-        "WarriorGoddessOfSunAndThunder": "When enabled, the 4pc's SPD% and CRIT Damage buffs are applied to combat stat calculations.",
-        "WavestriderCaptain": "When enabled, the ATK% buff is applied to combat stat calculations.",
-        "WorldRemakingDeliverer": "When enabled, the HP% and DMG Boost buffs are applied to combat stat calculations.",
-        "SelfEnshroudedRecluse": "When enabled, the CRIT Damage buff is applied to combat stat calculations.",
-        "EverGloriousMagicalGirl": "The selected buff is applied to combat stat calculations.",
-        "DivinerOfDistantReach": "When enabled, the Elatiom buff is applied to combat stat calculations.",
+        "WarriorGoddess": "When enabled, the 4pc's SPD% and CRIT Damage buffs are applied to combat stat calculations.",
+        "Wavestrider": "When enabled, the ATK% buff is applied to combat stat calculations.",
+        "Deliverer": "When enabled, the HP% and DMG Boost buffs are applied to combat stat calculations.",
+        "Recluse": "When enabled, the CRIT Damage buff is applied to combat stat calculations.",
+        "MagicalGirl": "The selected buff is applied to combat stat calculations.",
+        "Diviner": "When enabled, the Elatiom buff is applied to combat stat calculations.",
         "Differentiator": "When enabled, the CRIT Rate buff is applied to Combat stat calculations.",
         "Penacony": "When enabled, the DMG% buff will apply to the wearer's memosprite.",
         "Sigonia": "The selected CRIT DMG buff is applied to Combat stat calculations, assuming the character has defeated that number of enemies.",
@@ -6372,8 +6372,8 @@ interface Resources {
         "Lushaka": "Disabled by default - This set is unable to affect its wearer.",
         "Banana": "When enabled, the additional 32% CRIT DMG is applied to Combat stat calculations.",
         "Arcadia": "The selected buff is applied to Combat stat calculations. Updates automatically when team selection changes.",
-        "AmphoreusTheEternalLand": "When enabled, if the wearer posseses a memosprite then the SPD% buff is applied to combat stat calculations.",
-        "TengokuLivestream": "When enabled, the additional CRIT Damage buff is applied to combat stat calculations."
+        "Amphoreus": "When enabled, if the wearer posseses a memosprite then the SPD% buff is applied to combat stat calculations.",
+        "Tengoku": "When enabled, the additional CRIT Damage buff is applied to combat stat calculations."
       }
     },
     "Presets": {

@@ -15,6 +15,8 @@ import {
   ABILITY_LIMIT,
   ConditionalDataType,
   Sets,
+  SetsOrnaments,
+  SetsRelics,
   setToId,
 } from 'lib/constants/constants'
 import {
@@ -52,6 +54,7 @@ import {
 import { FormSelectWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
+import { setToConditionalKey } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormSetConditionals'
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
@@ -476,11 +479,12 @@ function ComboConditionalsGroupRow(props: {
   originKey: string,
 }) {
   const { t, i18n } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
-  const { t: SetConditionalTFunction } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals.SelectOptions' })
+  const { t: setSelectOptionTFunction } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals.SelectOptions' })
+  const { t: setConditionalsTFunction } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
 
   const setContent = useMemo(() => {
-    return generateSetConditionalContent(SetConditionalTFunction)
-  }, [SetConditionalTFunction])
+    return generateSetConditionalContent(setSelectOptionTFunction)
+  }, [setSelectOptionTFunction])
 
   const renderData = useMemo(() => {
     if (!props.comboOrigin) {
@@ -515,7 +519,7 @@ function ComboConditionalsGroupRow(props: {
           disabled: disabled,
           id: setName,
           text: t(`${setToId[setName]}.Name`),
-          content: t(`${setToId[setName]}.Name`),
+          content: setConditionalsTFunction(setToConditionalKey(setName)),
         }]
       } else if (category.type == ConditionalDataType.NUMBER) {
         content = [{
@@ -523,7 +527,7 @@ function ComboConditionalsGroupRow(props: {
           disabled: disabled,
           id: setName,
           text: t(`${setToId[setName]}.Name`),
-          content: t(`${setToId[setName]}.Name`),
+          content: setConditionalsTFunction(setToConditionalKey(setName)),
           min: 0,
           max: 10,
         }]
@@ -533,7 +537,7 @@ function ComboConditionalsGroupRow(props: {
           disabled: disabled,
           id: setName,
           text: t(`${setToId[setName]}.Name`),
-          content: t(`${setToId[setName]}.Name`),
+          content: setConditionalsTFunction(setToConditionalKey(setName)),
           options: setContent[setName],
         }]
       } else {
@@ -544,13 +548,13 @@ function ComboConditionalsGroupRow(props: {
     } else if (props.originKey.includes('RelicSet')) {
       const keys = Object.keys(comboTeammate.relicSetConditionals)
       if (keys.length) {
-        const setName = keys[0]
+        const setName = keys[0] as SetsRelics
         content = [
           {
             formItem: 'switch',
             id: setName,
-            text: setName,
-            content: setName,
+            text: t(`${setToId[setName]}.Name`),
+            content: setConditionalsTFunction(setToConditionalKey(setName)),
           },
         ]
         src = Assets.getSetImage(setName, undefined, true)
@@ -561,13 +565,13 @@ function ComboConditionalsGroupRow(props: {
     } else if (props.originKey.includes('OrnamentSet')) {
       const keys = Object.keys(comboTeammate.ornamentSetConditionals)
       if (keys.length) {
-        const setName = keys[0]
+        const setName = keys[0] as SetsOrnaments
         content = [
           {
             formItem: 'switch',
             id: setName,
-            text: setName,
-            content: setName,
+            text: t(`${setToId[setName]}.Name`),
+            content: setConditionalsTFunction(setToConditionalKey(setName)),
           },
         ]
         src = Assets.getSetImage(setName, undefined, true)

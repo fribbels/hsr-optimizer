@@ -34,6 +34,7 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 
+import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import {
   ScoringType,
@@ -114,7 +115,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     const showcaseDarkMode = window.store((s) => s.savedSession.showcaseDarkMode)
     const showcaseUID = window.store((s) => s.savedSession.showcaseUID)
     const showcasePreciseSpd = window.store((s) => s.savedSession.showcasePreciseSpd)
-    const scoringMetadata = window.store(() => DB.getScoringMetadata(characterId))
+    const scoringMetadata = useScoringMetadata(characterId)
     const spdValue = window.store(() => scoringMetadata.stats[Stats.SPD])
     const deprioritizeBuffs = window.store(() => scoringMetadata.simulation?.deprioritizeBuffs ?? false)
     const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)

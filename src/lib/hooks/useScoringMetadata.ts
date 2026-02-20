@@ -10,7 +10,7 @@ import { ScoringMetadata } from 'types/metadata'
 export function useScoringMetadata(id: CharacterId): ScoringMetadata
 export function useScoringMetadata(id: Nullable<CharacterId>): null | ScoringMetadata
 export function useScoringMetadata(id: Nullable<CharacterId>) {
-  const [metadata, setMetadata] = useState<ScoringMetadata | null>(null)
+  const [metadata, setMetadata] = useState<ScoringMetadata | null>(id ? DB.getScoringMetadata(id) : null)
   const scoringMetadataOverrides = window.store((s) => s.scoringMetadataOverrides)
   const focusCharacterOverride = id ? scoringMetadataOverrides[id] : null
   useEffect(() => {

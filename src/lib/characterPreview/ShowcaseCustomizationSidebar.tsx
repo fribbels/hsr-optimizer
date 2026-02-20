@@ -116,8 +116,8 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     const showcaseUID = window.store((s) => s.savedSession.showcaseUID)
     const showcasePreciseSpd = window.store((s) => s.savedSession.showcasePreciseSpd)
     const scoringMetadata = useScoringMetadata(characterId)
-    const spdValue = window.store(() => scoringMetadata.stats[Stats.SPD])
-    const deprioritizeBuffs = window.store(() => scoringMetadata.simulation?.deprioritizeBuffs ?? false)
+    const spdValue = scoringMetadata.stats[Stats.SPD]
+    const deprioritizeBuffs = scoringMetadata.simulation?.deprioritizeBuffs ?? false
     const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
 
     useImperativeHandle(ref, () => ({

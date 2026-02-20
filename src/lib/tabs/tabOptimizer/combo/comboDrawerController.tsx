@@ -446,7 +446,9 @@ function generateSetComboConditionals(
 ) {
   const output: ComboConditionals = {}
 
-  for (const [setName, setConditionalValue] of Object.entries(setConditionals)) {
+  for (
+    const [setName, setConditionalValue] of Object.entries(setConditionals) as Array<[keyof SetConditionals, SetConditionals[keyof SetConditionals]]>
+  ) {
     const p4Value = setConditionalValue[1]
     if (ConditionalSetMetadata[setName].type == ConditionalDataType.SELECT) {
       const value: number = p4Value as number

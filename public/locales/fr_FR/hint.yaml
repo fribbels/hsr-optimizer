@@ -46,6 +46,8 @@ Actions:
   p2: Filtrer - Réappliquer les nouveaux filtres de recherche aux résultats existants. Utilisez ceci pour restreindre votre recherche sans avoir à rechercher de nouveau.
   p3: Épingler - Épingler la build sélectionnée en haut de la grille. Utilisez ceci pour comparer plusieurs builds plus aisément.
   p4: Désépingler - Effacer toutes les versions que vous avez épinglées au haut de la grille
+Builds:
+  Title: Builds
 OptimizerOptions:
   Title: Options d'optimiseur
   PriorityFilter: >-

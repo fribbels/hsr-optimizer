@@ -442,7 +442,7 @@ function TeammatePreview(props: { build: SavedBuild, display: boolean }) {
       {build.team.map((ally, idx) => (
         <Fragment key={idx}>
           <img src={Assets.getCharacterAvatarById(ally.characterId)} style={imgStyle} />
-          <img src={Assets.getLightConeIconById(ally.lightConeId)} style={imgStyle} />
+          <img src={Assets.getLightConeIconById(ally.lightConeId)} style={{ ...imgStyle, visibility: ally.characterId ? 'visible' : 'hidden' }} />
         </Fragment>
       ))}
     </Flex>

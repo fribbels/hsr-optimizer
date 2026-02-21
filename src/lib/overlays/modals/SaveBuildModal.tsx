@@ -63,7 +63,7 @@ export function SaveBuildModal(props: {
   const setSelectedBuildWrapped = (idx: number | null) => {
     setSelectedBuild(idx)
     if (idx !== null && character) {
-      const buildName = character.builds![idx].name
+      const buildName = character.builds?.[idx]?.name ?? ''
       characterForm.setFieldValue('name', buildName)
       setInputName(buildName)
     } else {
@@ -139,7 +139,7 @@ export function SaveBuildModal(props: {
   const build: SavedBuild | null = useMemo(() => {
     // if build is null then the preview will show the character's currently equipped build as seen in the character tab
     if (selectedBuild !== null && selectedBuild !== -1) {
-      return character?.builds![selectedBuild] ?? null
+      return character?.builds?.[selectedBuild] ?? null
     }
     switch (source) {
       case AppPages.CHARACTERS:

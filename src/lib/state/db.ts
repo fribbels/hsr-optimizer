@@ -862,7 +862,7 @@ export const DB = {
     const character = DB.getCharacterById(characterId)
     if (!character) return console.warn('No character to delete build for')
 
-    const updatedCharacter = { ...character, builds: character.builds!.filter((x) => x.name != name) }
+    const updatedCharacter = { ...character, builds: (character.builds ?? []).filter((x) => x.name != name) }
     DB.setCharacter(updatedCharacter)
   },
 
@@ -1374,7 +1374,7 @@ function loadCharacterBuildInOptimizer(build: SavedBuild): void
 function loadCharacterBuildInOptimizer(characterId: CharacterId, buildIndex: number): void
 function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildIndex?: number) {
   const characterId = typeof arg1 === 'string' ? arg1 : arg1.characterId
-  const build = typeof arg1 === 'string' ? DB.getCharacterById(characterId)?.builds![buildIndex!] : arg1
+  const build = typeof arg1 === 'string' ? DB.getCharacterById(characterId)?.builds?.[buildIndex!] : arg1
 
   if (!build) {
     console.error(`attempted to load build ${buildIndex} into optimizer for character ${characterId} but build does not exist`)

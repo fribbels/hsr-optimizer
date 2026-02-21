@@ -433,6 +433,14 @@ export const DB = {
 
     SaveState.delayedSave()
   },
+  clearSimulationScoreOverrides: (id: CharacterId) => {
+    let overrides = window.store.getState().scoringMetadataOverrides
+    const { simulation, ...rest } = overrides[id] ?? {}
+    overrides = { ...overrides, [id]: rest }
+    window.store.getState().setScoringMetadataOverrides(overrides)
+
+    SaveState.delayedSave()
+  },
 
   setStore: (saveData: HsrOptimizerSaveFormat, autosave = true, sanitize = true) => {
     const charactersById: Record<string, Character> = {}

@@ -393,6 +393,7 @@ function ShowcaseTeamSelectPanel(props: {
                   <Button
                     icon={<SyncOutlined />}
                     onClick={() => {
+                      DB.clearSimulationScoreOverrides(characterId)
                       if (teamSelection != DEFAULT_TEAM) setTeamSelectionByCharacter({ [characterId]: DEFAULT_TEAM })
                       setRedrawTeammates(Math.random())
 

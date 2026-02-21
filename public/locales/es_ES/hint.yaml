@@ -46,6 +46,8 @@ Actions:
   p2: Filtrar - Reaplica los filtros de búsqueda a los resultados existentes. Usa esto para ajustar los filtros sin reiniciar la búsqueda
   p3: Fijar equipamiento - Fija la fila seleccionada arriba de la grilla. Usa esto para comparar varios equipamientos con facilidad
   p4: Quitar fijados - Quita todos los equipamientos fijados arriba de la grilla
+Builds:
+  Title: Equipamientos
 OptimizerOptions:
   Title: Opciones del optimizador
   PriorityFilter: >-

@@ -241,6 +241,9 @@ Sidebar:
     Filter: Filtra
     Pin: Pinna build
     Clear: Cancella pin
+  BuildsGroup:
+    Header: Build
+    Save: Salva
 TeammateRow:
   Header: 'Compagni di squadra {{teammateCount}}'
 FormRowLabels:
@@ -302,6 +305,8 @@ SetConditionals:
       3+Debuff:
         Display: 3x+
         Label: 3 debuff, potenziati (+12% DAN | +4% CR base | +4% CR combat | +24% CD)
+    MagicalGirl:
+      Display: '{{stackCount}}x'
     Sigonia:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} stack (+{{buffValue}}% CD)'
@@ -328,7 +333,8 @@ SetConditionals:
     Ashblazing: >-
       Il buff ATT% selezionato viene applicato a tutti i calcoli, a eccezione degli attacchi Follow-up. I calcoli degli attacchi Follow-up partiranno invece con 0% ATT di buff e stackeranno in base al numero di colpi eseguiti dall'attacco. I colpi aumentano in base al numero di nemici e suppone che il bersaglio sia posizionato al centro per gli attacchi esplosivi / ad area.
     Prisoner: Il buff PEN DIF% selezionato viene applicato ai calcoli dei danni in base al numero di stack.
-    Diver: L'effetto 2 pezzi può essere disabilitato selezionando l'opzione 0x. Per 4 pezzi, buff CRIT diversi vengono applicati ai calcoli delle Stat Combat a seconda dell'opzione selezionata.
+    Diver: >-
+      L'effetto 2 pezzi può essere disabilitato selezionando l'opzione 0x. Per 4 pezzi, buff CRIT diversi vengono applicati ai calcoli delle Stat Combat a seconda dell'opzione selezionata.
     Watchmaker: Se abilitato, il buff Effetto Break viene applicato ai calcoli delle Stat Combat.
     Valorous: Se abilitato, il buff DAN% per la Ult viene applicato ai calcoli delle Stat Combat.
     Sacerdos: Il buff selezionato viene applicato ai calcoli dei danni. I personaggi che si auto buffano possono attivare questo effetto.

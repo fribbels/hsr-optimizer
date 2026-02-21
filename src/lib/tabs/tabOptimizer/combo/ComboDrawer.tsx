@@ -28,10 +28,7 @@ import {
 import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
 import { Assets } from 'lib/rendering/assets'
-import {
-  lockScroll,
-  unlockScroll,
-} from 'lib/rendering/scrollController'
+import { useScrollLock } from 'lib/rendering/scrollController'
 import {
   ComboBooleanConditional,
   ComboCharacter,
@@ -91,12 +88,12 @@ export function ComboDrawer() {
   const selectActivationState = useRef(true)
   const lastSelectedKeyState = useRef<string | undefined>(undefined)
 
+  useScrollLock(isOpenComboDrawer)
+
   useEffect(() => {
     if (!comboState || !comboState.comboTurnAbilities) return
 
     if (isOpenComboDrawer) {
-      lockScroll()
-
       const form = OptimizerTabController.getForm()
       if (!form?.characterId || !form.characterConditionals) return
 
@@ -104,8 +101,6 @@ export function ComboDrawer() {
       comboState.comboTurnAbilities = preprocessTurnAbilityNames(comboState.comboTurnAbilities)
       setComboState(comboState)
     } else {
-      unlockScroll()
-
       comboState.comboTurnAbilities = preprocessTurnAbilityNames(comboState.comboTurnAbilities)
       updateFormState(comboState)
     }

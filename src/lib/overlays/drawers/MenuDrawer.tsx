@@ -29,7 +29,6 @@ import {
   setOpen,
 } from 'lib/hooks/useOpenClose'
 import {
-  AppPage,
   AppPages,
 } from 'lib/state/db'
 import { useMemo } from 'react'
@@ -190,7 +189,7 @@ const MenuDrawer = () => {
   }) => {
     if (e.key?.includes('link')) return
 
-    setActiveKey(e.key as AppPage)
+    setActiveKey(e.key as AppPages)
   }
 
   return (

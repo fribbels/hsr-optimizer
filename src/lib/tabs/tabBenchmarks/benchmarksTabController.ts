@@ -17,7 +17,7 @@ import {
 import { filterUniqueStringify } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 
 export type BenchmarkResultWrapper = {
   fullHash: string,
@@ -157,7 +157,7 @@ export function handleCharacterSelectChange(id: CharacterId | null | undefined, 
     form.lightConeSuperimposition = character.form.lightConeSuperimposition ?? 1
   } else {
     // Null to force a blank light cone instead of using the previously existing one
-    form.lightCone = null as unknown as LightCone['id']
+    form.lightCone = null as unknown as LightConeId
     form.characterEidolon = 0
     form.lightConeSuperimposition = 1
   }

@@ -26,12 +26,12 @@ import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 import { Relic } from 'types/relic'
 
 export type SimTestUtils = {
   characterId: CharacterId,
-  lightCone: LightCone['id'],
+  lightCone: LightConeId,
   characterEidolon: number,
   lightConeSuperimposition: number,
 }

@@ -329,11 +329,21 @@ EditImage:
 SaveBuild:
   Label: Build name
   Rule: Please input a name
+  Overwrite: Overwrite
+  ConfirmOverwrite:
+    Content: Are you sure you want to overwrite this build?
+    SuccessMessage: 'Successfully overwrote build: {{name}}'
+  Tooltip:
+    SaveDisabled:
+      NameTaken: A build with this name already exists. Change the name in order to save the build.
+      NoName: Builds must have a name in order to be saved. Please enter a name for the build in order to save it.
+    OverwriteDisabled: No build with this name exists. Click on an existing build, or type in its name, in order to be able to overwrite it.
 SwitchRelics:
   Title: Switch relics with character
 Builds:
   DeleteAll: Delete All
   Equip: Equip
+  Load: Load In Optimizer
   ConfirmEquip:
     Content: Equipping this will unequip characters that use the relics in this build
     SuccessMessage: 'Successfully equipped build: {{buildName}}'

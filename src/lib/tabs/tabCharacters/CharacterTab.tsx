@@ -11,6 +11,7 @@ import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { SaveBuildModal } from 'lib/overlays/modals/SaveBuildModal'
 import { SwitchRelicsModal } from 'lib/overlays/modals/SwitchRelicsModal'
 import { getGridTheme } from 'lib/rendering/theme'
+import { AppPages } from 'lib/state/db'
 import { CharacterGrid } from 'lib/tabs/tabCharacters/CharacterGrid'
 import { CharacterMenu } from 'lib/tabs/tabCharacters/CharacterMenu'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
@@ -27,6 +28,10 @@ export default function CharacterTab() {
   const setCharacterModalOpen = useCharacterTabStore((s) => s.setCharacterModalOpen)
   const characterModalInitialCharacter = useCharacterTabStore((s) => s.characterModalInitialCharacter)
   const setCharacterModalInitialCharacter = useCharacterTabStore((s) => s.setCharacterModalInitialCharacter)
+  const saveBuildModalOpen = useCharacterTabStore((s) => s.saveBuildModalOpen)
+  const setSaveBuildModalOpen = useCharacterTabStore((s) => s.setSaveBuildModalOpen)
+  const buildsModalOpen = useCharacterTabStore((s) => s.buildsModalOpen)
+  const setBuildsModalOpen = useCharacterTabStore((s) => s.setBuildsModalOpen)
 
   console.log('======================================================================= RENDER CharacterTab')
 
@@ -86,9 +91,18 @@ export default function CharacterTab() {
 
       <SwitchRelicsModal />
 
-      <SaveBuildModal />
+      <SaveBuildModal
+        source={AppPages.CHARACTERS}
+        character={selectedCharacter}
+        isOpen={saveBuildModalOpen}
+        close={() => setSaveBuildModalOpen(false)}
+      />
 
-      <BuildsModal />
+      <BuildsModal
+        selectedCharacter={selectedCharacter}
+        isOpen={buildsModalOpen}
+        close={() => setBuildsModalOpen(false)}
+      />
     </Flex>
   )
 }

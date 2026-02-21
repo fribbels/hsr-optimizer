@@ -11,7 +11,6 @@ import {
   YAO_GUANG,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB, {
-  AppPage,
   AppPages,
   PageToRoute,
 } from 'lib/state/db'
@@ -28,7 +27,7 @@ import {
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 
 export const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'
 
@@ -40,7 +39,7 @@ export type Preset = CharacterPreset | FillerPreset
 
 export type CharacterPreset = {
   characterId: CharacterId | null,
-  lightConeId: LightCone['id'] | null,
+  lightConeId: LightConeId | null,
   rerun?: boolean,
   custom?: never,
 }
@@ -55,7 +54,7 @@ type FillerPreset = {
 export function presetCharacters(): Preset[] {
   const DBMetadata = DB.getMetadata()
   const char = (id: CharacterId) => Object.values(DBMetadata.characters).some((x) => x.id === id) ? id : null
-  const lc = (id: LightCone['id']) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
+  const lc = (id: LightConeId) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
     { characterId: char(YAO_GUANG), lightConeId: lc(WHEN_SHE_DECIDED_TO_SEE) },
@@ -119,7 +118,7 @@ export function importClicked(mode: 'relics' | 'singleCharacter' | 'multiCharact
   SaveState.delayedSave()
 }
 
-export function initialiseShowcaseTab(activeKey: AppPage) {
+export function initialiseShowcaseTab(activeKey: AppPages) {
   const { savedSession, availableCharacters } = useShowcaseTabStore.getState()
   const { scorerId } = savedSession
 

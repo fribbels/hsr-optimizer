@@ -32,10 +32,6 @@ export default function CharacterSelectorDisplay() {
   const { t } = useTranslation(['optimizerTab', 'common'])
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
   const setOptimizerTabFocusCharacter = window.store((s) => s.setOptimizerTabFocusCharacter)
-  const setOptimizerFormCharacterEidolon = window.store((s) => s.setOptimizerFormCharacterEidolon)
-
-  const setOptimizerFormSelectedLightCone = window.store((s) => s.setOptimizerFormSelectedLightCone)
-  const setOptimizerFormSelectedLightConeSuperimposition = window.store((s) => s.setOptimizerFormSelectedLightConeSuperimposition)
 
   const optimizerTabFocusCharacterSelectModalOpen = window.store((s) => s.optimizerTabFocusCharacterSelectModalOpen)
   const setOptimizerTabFocusCharacterSelectModalOpen = window.store((s) => s.setOptimizerTabFocusCharacterSelectModalOpen)
@@ -145,7 +141,6 @@ export default function CharacterSelectorDisplay() {
             showSearch
             style={{ width: 55 }}
             options={eidolonOptions}
-            onChange={setOptimizerFormCharacterEidolon}
             placeholder={t('CharacterSelector.EidolonPlaceholder')} // E
             popupMatchSelectWidth={55}
             suffixIcon={null}
@@ -163,14 +158,12 @@ export default function CharacterSelectorDisplay() {
               value={null}
               selectStyle={{ width: 151 }}
               characterId={optimizerTabFocusCharacter}
-              onChange={setOptimizerFormSelectedLightCone}
             />
           </Form.Item>
           <Form.Item name='lightConeSuperimposition'>
             <Select
               showSearch
               style={{ width: 55 }}
-              onChange={setOptimizerFormSelectedLightConeSuperimposition}
               options={superimpositionOptions}
               placeholder={t('CharacterSelector.SuperimpositionPlaceholder')} // S
               popupMatchSelectWidth={55}

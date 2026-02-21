@@ -98,7 +98,7 @@ export function calculateBasicSetEffects(c: BasicStatsArray, context: OptimizerC
 
   if (sets[4] == sets[5]) {
     const config = ornamentIndexToSetConfig[sets[4]]
-    config.p2c && config.p2c(c, context)
+    config.p2c?.(c, context)
   }
 }
 
@@ -324,15 +324,15 @@ function evaluateDynamicSetConditionals(
   context: OptimizerContext,
 ) {
   if (setsArray[4] == setsArray[5]) {
-    p2(SetKeys.SpaceSealingStation, sets) && evaluateConditional(SpaceSealingStationConditional, x, action, context)
-    p2(SetKeys.FleetOfTheAgeless, sets) && evaluateConditional(FleetOfTheAgelessConditional, x, action, context)
-    p2(SetKeys.BelobogOfTheArchitects, sets) && evaluateConditional(BelobogOfTheArchitectsConditional, x, action, context)
-    p2(SetKeys.PanCosmicCommercialEnterprise, sets) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, action, context)
-    p2(SetKeys.BrokenKeel, sets) && evaluateConditional(BrokenKeelConditional, x, action, context)
-    p2(SetKeys.TaliaKingdomOfBanditry, sets) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, action, context)
-    p2(SetKeys.BoneCollectionsSereneDemesne, sets) && evaluateConditional(BoneCollectionsSereneDemesneConditional, x, action, context)
-    p2(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding135Conditional, x, action, context)
-    p2(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding180Conditional, x, action, context)
+    let _ = p2(SetKeys.SpaceSealingStation, sets) && evaluateConditional(SpaceSealingStationConditional, x, action, context)
+    _ = p2(SetKeys.FleetOfTheAgeless, sets) && evaluateConditional(FleetOfTheAgelessConditional, x, action, context)
+    _ = p2(SetKeys.BelobogOfTheArchitects, sets) && evaluateConditional(BelobogOfTheArchitectsConditional, x, action, context)
+    _ = p2(SetKeys.PanCosmicCommercialEnterprise, sets) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, action, context)
+    _ = p2(SetKeys.BrokenKeel, sets) && evaluateConditional(BrokenKeelConditional, x, action, context)
+    _ = p2(SetKeys.TaliaKingdomOfBanditry, sets) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, action, context)
+    _ = p2(SetKeys.BoneCollectionsSereneDemesne, sets) && evaluateConditional(BoneCollectionsSereneDemesneConditional, x, action, context)
+    _ = p2(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding135Conditional, x, action, context)
+    _ = p2(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding180Conditional, x, action, context)
   }
 }
 
@@ -402,29 +402,29 @@ function executeNonDynamicCombatSets(
 
   if (set4 == set5) {
     const config = ornamentIndexToSetConfig[set4]
-    config.p2x && config.p2x(x, context, setConditionals)
+    config.p2x?.(x, context, setConditionals)
   }
 
   if (set0 === set1 && set1 === set2 && set2 === set3) {
     const config = relicIndexToSetConfig[set0]
-    config.p2x && config.p2x(x, context, setConditionals)
-    config.p4x && config.p4x(x, context, setConditionals)
+    config.p2x?.(x, context, setConditionals)
+    config.p4x?.(x, context, setConditionals)
     return
   }
 
   if (set0 === set1 || set0 === set2 || set0 === set3) {
     const config = relicIndexToSetConfig[set0]
-    config.p2x && config.p2x(x, context, setConditionals)
+    config.p2x?.(x, context, setConditionals)
   }
 
   if ((set1 === set2 || set1 === set3) && set1 !== set0) {
     const config = relicIndexToSetConfig[set1]
-    config.p2x && config.p2x(x, context, setConditionals)
+    config.p2x?.(x, context, setConditionals)
   }
 
   if (set2 === set3 && set2 !== set0 && set2 !== set1) {
     const config = relicIndexToSetConfig[set2]
-    config.p2x && config.p2x(x, context, setConditionals)
+    config.p2x?.(x, context, setConditionals)
   }
 }
 

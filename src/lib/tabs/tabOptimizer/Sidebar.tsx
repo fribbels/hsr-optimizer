@@ -31,7 +31,11 @@ import { Message } from 'lib/interactions/message'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { Optimizer } from 'lib/optimization/optimizer'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
-import DB from 'lib/state/db'
+import { BuildsModal } from 'lib/overlays/modals/BuildsModal'
+import { SaveBuildModal } from 'lib/overlays/modals/SaveBuildModal'
+import { useScrollLockState } from 'lib/rendering/scrollController'
+import DB, { AppPages } from 'lib/state/db'
+import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -39,7 +43,7 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
-import {
+import React, {
   ReactElement,
   useState,
 } from 'react'
@@ -55,8 +59,8 @@ const { useBreakpoint } = Grid
 
 const { Text } = Typography
 
-const SCROLLBAR_WIDTH = 5; //px
-const RESERVED_SPACE = 2; //px
+const SCROLLBAR_WIDTH = 5 // px
+const RESERVED_SPACE = 2 // px
 
 type GpuOption = { label: ReactElement, key: ComputeEngine }
 
@@ -138,7 +142,7 @@ function ComputeEngineSelect() {
             window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
             Message.success(t('EngineSwitchSuccessMsg.CPU') /* Switched compute engine to CPU */)
           } else {
-            verifyWebgpuSupport(true).then((device) => {
+            void verifyWebgpuSupport(true).then((device) => {
               if (device) {
                 window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, key)
                 Message.success(e.key === COMPUTE_ENGINE_GPU_EXPERIMENTAL ? t('EngineSwitchSuccessMsg.Experimental') : t('EngineSwitchSuccessMsg.Stable'))
@@ -159,10 +163,10 @@ function ComputeEngineSelect() {
             {
               t(`Display.${computeEngine}`)
               /*
-               [COMPUTE_ENGINE_GPU_EXPERIMENTAL]: 'GPU acceleration: Enabled',
-               [COMPUTE_ENGINE_GPU_STABLE]: 'GPU acceleration: Enabled',
-               [COMPUTE_ENGINE_CPU]: 'GPU acceleration: Disabled',
-               */
+                [COMPUTE_ENGINE_GPU_EXPERIMENTAL]: 'GPU acceleration: Enabled',
+                [COMPUTE_ENGINE_GPU_STABLE]: 'GPU acceleration: Enabled',
+                [COMPUTE_ENGINE_CPU]: 'GPU acceleration: Disabled',
+              */
             }
           </Text>
           <DownOutlined />
@@ -290,14 +294,21 @@ function ManyPermsModal(props: { manyPermsModalOpen: boolean, setManyPermsModalO
 
 function OptimizerSidebar(props: { isFullSize: boolean }) {
   const { token } = useToken()
-  const totalSideOffset = SCROLLBAR_WIDTH + RESERVED_SPACE;
+  const { offset, isLocked } = useScrollLockState()
+  const totalSideOffset = SCROLLBAR_WIDTH + RESERVED_SPACE
   const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
   return (
     <Flex vertical style={{ overflow: 'clip' }}>
       <Flex
         justify={props.isFullSize ? 'center' : 'space-evenly'}
         style={props.isFullSize
-          ? { position: 'sticky', top: '25.6%', transform: 'translateY(-50%)', paddingLeft: 10, height: 150 }
+          ? {
+            position: isLocked ? 'relative' : 'sticky',
+            top: isLocked ? offset + 195 : 253,
+            transform: 'translateY(-50%)',
+            paddingLeft: 10,
+            height: 150,
+          }
           : {
             height: 121,
             overflow: 'clip',
@@ -329,6 +340,7 @@ function OptimizerSidebar(props: { isFullSize: boolean }) {
             <PermutationsGroup isFullSize={props.isFullSize} />
             <OptimizerControlsGroup isFullSize={props.isFullSize} />
             <ResultsGroup isFullSize={props.isFullSize} />
+            <BuildsGroup isFullSize={props.isFullSize} />
           </Flex>
         </Flex>
       </Flex>
@@ -395,6 +407,52 @@ function ProgressDisplay() {
     </Flex>
   )
 }
+
+const BuildsGroup = React.memo((props: { isFullSize: boolean }) => {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.BuildsGroup' })
+  const [saveBuildModalOpen, setSaveBuildModalOpen] = useState(false)
+  const [buildsModalOpen, setBuildsModalOpen] = useState(false)
+  const focusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+  const charactersById = useCharacterTabStore((s) => s.charactersById)
+
+  if (!props.isFullSize || !focusCharacter) return <></>
+
+  const character = charactersById[focusCharacter] ?? null
+
+  return (
+    <Flex vertical>
+      <SaveBuildModal
+        character={character}
+        source={AppPages.OPTIMIZER}
+        isOpen={saveBuildModalOpen}
+        close={() => setSaveBuildModalOpen(false)}
+      />
+      <BuildsModal
+        selectedCharacter={character}
+        isOpen={buildsModalOpen}
+        close={() => setBuildsModalOpen(false)}
+      />
+      <Flex justify='space-between' align='center'>
+        <HeaderText>{t('Header')}</HeaderText>
+        <TooltipImage type={Hint.builds()} />
+      </Flex>
+      <Flex gap={defaultGap} justify='space-around'>
+        <Button
+          style={{ width: '100px' }}
+          onClick={() => setSaveBuildModalOpen(true)}
+        >
+          {t('Save')}
+        </Button>
+        <Button
+          style={{ width: '100px' }}
+          onClick={() => setBuildsModalOpen(true)}
+        >
+          {t('Load')}
+        </Button>
+      </Flex>
+    </Flex>
+  )
+})
 
 function ResultsGroup(props: { isFullSize: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.ResultsGroup' })

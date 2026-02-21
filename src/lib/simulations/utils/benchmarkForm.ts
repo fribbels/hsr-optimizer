@@ -14,11 +14,11 @@ import {
   LightConeConditionalsController,
 } from 'types/conditionals'
 import { Form } from 'types/form'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 
 export function generateFullDefaultForm(
   characterId: CharacterId,
-  lightCone: LightCone['id'],
+  lightCone: LightConeId,
   characterEidolon: number,
   lightConeSuperimposition: number,
   teammate = false,

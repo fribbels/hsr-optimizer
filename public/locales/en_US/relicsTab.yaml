@@ -180,6 +180,7 @@ Toolbar:
     Warning_one: Delete the selected relic?
     Warning_other: 'Delete the {{count}} selected relics?'
   AddRelic: Add New Relic
+  LiveImportTooltip: Disabled in live import mode.
 RelicInsights:
   NewStats: 'New stats: '
   UpgradedStats: 'Upgraded stats: '

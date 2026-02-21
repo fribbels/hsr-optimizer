@@ -802,10 +802,7 @@ export class RelicScorer {
     }
 
     const scoredRelics = relics.map((x) => this.getCurrentRelicScore(x, character.id))
-    let totalScore = 0
-    for (const relic of scoredRelics) {
-      totalScore += Number(relic.score) + Number(relic.mainStatScore)
-    }
+    let totalScore = scoredRelics.reduce((acc, relic) => acc + Number(relic.score) + Number(relic.mainStatScore), 0)
     const missingSets = 3 - countPairs(relics.filter(ArrayFilters.nonNullable).map((x) => x.set))
     totalScore = Math.max(0, totalScore - missingSets * 3 * minRollValue)
     const totalRating = scoredRelics.length < 6 ? '?' : scoreToRating((totalScore - 4 * 64.8) / 6)

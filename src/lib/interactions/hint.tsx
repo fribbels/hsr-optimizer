@@ -201,6 +201,23 @@ export const Hint = {
     }
   },
 
+  builds: (): HintContent => {
+    return {
+      title: i18next.t('hint:Builds.Title'),
+      content: (
+        <Flex vertical gap={10}>
+          <p>{i18next.t('hint:Builds.p1')}</p>
+          <p>{i18next.t('hint:Builds.p2')}</p>
+        </Flex>
+        /*
+          Title: Builds
+          p1: Save - Save the currently selected build as well as all the optimizer settings
+          p2: Load - Load a saved build into the optimizer. This includes teammates, conditionals, and combo settings
+        */
+      ),
+    }
+  },
+
   optimizerOptions: (): HintContent => {
     return {
       title: i18next.t('hint:OptimizerOptions.Title'), /* Optimizer options */

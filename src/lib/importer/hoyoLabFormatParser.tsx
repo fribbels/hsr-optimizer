@@ -9,7 +9,7 @@ import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
 import { CharacterId } from 'types/character'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 import { DBMetadataSets } from 'types/metadata'
 import { Relic } from 'types/relic'
 
@@ -117,7 +117,7 @@ type HoyolabCharacter = {
   characterEidolon: number,
   characterId: CharacterId,
   characterLevel: number,
-  lightCone: LightCone['id'] | null,
+  lightCone: LightConeId | null,
   lightConeLevel: number,
   lightConeSuperimposition: number,
 }
@@ -152,7 +152,7 @@ export function hoyolabParser(json: HoyolabData) {
       lightConeSuperimposition: 1,
     }
     if (character.equip != null) {
-      characterData.lightCone = character.equip.id.toString() as LightCone['id']
+      characterData.lightCone = character.equip.id.toString() as LightConeId
       characterData.lightConeSuperimposition = character.equip.rank
     }
     output.characters.push(characterData)

@@ -90,7 +90,7 @@
     "globals": "^15.0.0",
     "i18next-resources-for-ts": "^1.5.0",
     "jsdom": "^24.0.0",
-    "oxlint": "^0.16.11",
+    "oxlint": "^1.39.0",
     "terser": "^5.27.0",
     "typescript": "^5.9.3",
     "vite": "^6.4.1",

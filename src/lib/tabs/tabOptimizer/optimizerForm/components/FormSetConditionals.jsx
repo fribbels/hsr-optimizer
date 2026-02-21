@@ -13,10 +13,14 @@ import {
 } from 'lib/constants/constants'
 import { useOpenClose } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
+import { useScrollLock } from 'lib/rendering/scrollController'
 import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { useMemo } from 'react'
+import {
+  useEffect,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 
 const { Text } = Typography
@@ -30,6 +34,9 @@ export function FormSetConditionals(props /* : { open: boolean; setOpen: (boolea
   const id = props.id
 
   const { close, isOpen } = useOpenClose(id)
+
+  useScrollLock(isOpen)
+
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
 
   const setChampionOfStreetwiseBoxingOptions = useMemo(() => {

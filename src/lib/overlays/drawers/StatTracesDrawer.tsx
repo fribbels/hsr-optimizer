@@ -169,12 +169,9 @@ export const StatTracesDrawer = () => {
             const allKeys = Object.keys(nodesById)
             const deactivated = allKeys.filter((key) => !checkedKeys.includes(key))
 
-            const scoringMetadata = DB.getScoringMetadata(statTraceDrawerFocusCharacter)
-            scoringMetadata.traces = {
-              deactivated: deactivated,
-            }
+            const update = { traces: { deactivated } }
 
-            DB.updateCharacterScoreOverrides(statTraceDrawerFocusCharacter, scoringMetadata)
+            DB.updateCharacterScoreOverrides(statTraceDrawerFocusCharacter, update)
 
             setTimeout(() => {
               Message.success(tCommon('Saved'))

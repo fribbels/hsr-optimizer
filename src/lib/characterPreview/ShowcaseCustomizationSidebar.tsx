@@ -71,7 +71,10 @@ import {
   Character,
   CharacterId,
 } from 'types/character'
-import { ShowcasePreferences } from 'types/metadata'
+import {
+  ScoringMetadata,
+  ShowcasePreferences,
+} from 'types/metadata'
 import { ShowcaseSource } from './CharacterPreviewComponents'
 
 export interface ShowcaseCustomizationSidebarRef {
@@ -198,11 +201,12 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     function onShowcaseSpdValueChange(spdValue: number) {
       console.log('Set spd value to', spdValue)
 
-      const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
+      const scoringMetadata = DB.getScoringMetadata(characterId)
       scoringMetadata.stats[Stats.SPD] = spdValue
 
-      DB.updateCharacterScoreOverrides(characterId, scoringMetadata)
-      // pubRefreshRelicsScore('refreshRelicsScore', 'null')
+      const update = { stats: { ...scoringMetadata.stats, [Stats.SPD]: spdValue } }
+
+      DB.updateCharacterScoreOverrides(characterId, update)
     }
 
     function onShowcaseSpdBenchmarkChangeEvent(event: React.FocusEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) {
@@ -239,10 +243,8 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
       const scoringMetadata = DB.getScoringMetadata(characterId)
       if (scoringMetadata?.simulation) {
         console.log('Set deprioritizeBuffs to', deprioritizeBuffs)
-
-        const simulationMetadata = TsUtils.clone(scoringMetadata.simulation)
-        simulationMetadata.deprioritizeBuffs = deprioritizeBuffs
-        DB.updateSimulationScoreOverrides(characterId, simulationMetadata)
+        const update = { deprioritizeBuffs }
+        DB.updateSimulationScoreOverrides(characterId, update)
       }
     }
 

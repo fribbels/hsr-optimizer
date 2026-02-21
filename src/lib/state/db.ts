@@ -424,11 +424,11 @@ export const DB = {
 
     SaveState.delayedSave()
   },
-  updateSimulationScoreOverrides: (id: CharacterId, updatedSimulation: SimulationMetadata) => {
+  updateSimulationScoreOverrides: (id: CharacterId, updatedSimulation: Partial<SimulationMetadata>) => {
     if (!updatedSimulation) return
 
     let overrides = window.store.getState().scoringMetadataOverrides
-    overrides = { ...overrides, [id]: { ...overrides[id], simulation: updatedSimulation } }
+    overrides = { ...overrides, [id]: { ...overrides[id], simulation: { ...overrides[id]?.simulation, updatedSimulation } } }
     window.store.getState().setScoringMetadataOverrides(overrides)
 
     SaveState.delayedSave()

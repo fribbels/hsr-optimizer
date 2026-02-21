@@ -202,8 +202,6 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
       console.log('Set spd value to', spdValue)
 
       const scoringMetadata = DB.getScoringMetadata(characterId)
-      scoringMetadata.stats[Stats.SPD] = spdValue
-
       const update = { stats: { ...scoringMetadata.stats, [Stats.SPD]: spdValue } }
 
       DB.updateCharacterScoreOverrides(characterId, update)

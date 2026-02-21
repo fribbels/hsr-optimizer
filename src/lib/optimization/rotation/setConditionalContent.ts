@@ -4,6 +4,7 @@ import {
   Constants,
   Sets,
 } from 'lib/constants/constants'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 export type SelectOptionContent = {
   display: string,
@@ -328,7 +329,7 @@ function SetContentSacerdosRelivedOrdealOptions(t: SetConditionalTFunction): Sel
   return Array.from({ length: 3 }).map((_val, i) => ({
     display: t('Sacerdos.Display', { stackCount: i }), // i + 'x',
     value: i,
-    label: t('Sacerdos.Label', { stackCount: i, buffValue: 18 * i }), // `${i} stacks (+${i * 8}% CD)`,
+    label: t('Sacerdos.Label', { stackCount: i, buffValue: 18 * i }), // `${i} stacks (+${i * 18}% CD)`,
   }))
 }
 
@@ -350,7 +351,7 @@ function SetContentSigoniaTheUnclaimedDesolation(t: SetConditionalTFunction): Se
 
 function SetContentDuranDynastyOfRunningWolves(t: SetConditionalTFunction): SelectOptionContent[] {
   return Array.from({ length: 6 }).map((_val, i) => {
-    const label = t(`Duran.${i === 5 ? 'Label5' : 'Label'}`)
+    const label = i === 5 ? t('Duran.Label5') : t('Duran.Label', { stackCount: i, buffValue: TsUtils.precisionRound(5 * i) })
     // `${i} stacks (+${5 * i}% FUA DMG)`,
     // `${5} stacks (+${5 * 5}% FUA DMG + 25% CD)` :
     return {

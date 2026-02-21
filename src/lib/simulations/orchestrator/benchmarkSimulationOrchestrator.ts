@@ -233,7 +233,7 @@ export class BenchmarkSimulationOrchestrator {
     const simulationForm: Form = generateFullDefaultForm(characterId, lightCone, characterEidolon, lightConeSuperimposition, false)
 
     metadata.teammates.forEach((teammate, idx) => {
-      if (!teammate) return
+      if (!teammate?.characterId) return
       switch (idx) {
         case 0:
         case 1:

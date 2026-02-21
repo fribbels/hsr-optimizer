@@ -24,6 +24,7 @@ import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabContr
 import {
   ReactNode,
   useEffect,
+  useMemo,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -135,7 +136,7 @@ export function SaveBuildModal(props: {
   const saveDisabled = nameTaken || inputName == ''
   const overwriteDisabled = !nameTaken || inputName == ''
 
-  const build: SavedBuild | null = (() => {
+  const build: SavedBuild | null = useMemo(() => {
     // if build is null then the preview will show the character's currently equipped build as seen in the character tab
     if (selectedBuild !== null && selectedBuild !== -1) {
       return character?.builds![selectedBuild] ?? null
@@ -165,7 +166,7 @@ export function SaveBuildModal(props: {
           equipped: window.store.getState().optimizerBuild ?? {},
         }
     }
-  })()
+  }, [selectedBuild, source, character])
 
   return (
     <Modal

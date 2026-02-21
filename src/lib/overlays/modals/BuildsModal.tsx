@@ -26,6 +26,7 @@ import { Utils } from 'lib/utils/utils'
 import {
   CSSProperties,
   Fragment,
+  memo,
   ReactNode,
   useEffect,
   useState,
@@ -239,7 +240,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
   )
 }
 
-export function BuildPreview(props: { character: Character | null, build: SavedBuild | null }) {
+export const BuildPreview = memo(function BuildPreview(props: { character: Character | null, build: SavedBuild | null }) {
   if (props.character !== null) {
     return (
       <CharacterPreview
@@ -252,7 +253,7 @@ export function BuildPreview(props: { character: Character | null, build: SavedB
   }
 
   return <div style={{ width: 656, height: 856, border: '1px solid #354b7d' }}></div>
-}
+})
 
 interface BuildListBaseProps {
   character: Character | null

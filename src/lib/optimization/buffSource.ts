@@ -16,7 +16,7 @@ import {
   TRIBBIE,
 } from 'lib/simulations/tests/testMetadataConstants'
 import { CharacterId } from 'types/character'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 
 export enum BUFF_TYPE {
   PRIMARY = 'PRIMARY', // Not to be used on buffs - only an organizational token - used to separate target character from teammates in buffs display
@@ -72,8 +72,8 @@ type SetsBuffSource = {
 }
 
 type LightConeBuffSource = {
-  id: LightCone['id'],
-  label: `${LightCone['id']}_LC`,
+  id: LightConeId,
+  label: `${LightConeId}_LC`,
   ability: BUFF_ABILITY.LC,
   buffType: BUFF_TYPE.LIGHTCONE,
 }
@@ -133,7 +133,7 @@ export const Source = {
       SOURCE_E6: generateCharacterSource(BUFF_ABILITY.E6),
     }
   },
-  lightCone(id: LightCone['id']): { SOURCE_LC: LightConeBuffSource } {
+  lightCone(id: LightConeId): { SOURCE_LC: LightConeBuffSource } {
     return {
       SOURCE_LC: {
         id: id,

@@ -15,6 +15,7 @@ import { CharacterCardCombatStats } from 'lib/characterPreview/CharacterCardComb
 import {
   OverlayText,
   showcaseOutline,
+  ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import StatText from 'lib/characterPreview/StatText'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
@@ -51,6 +52,7 @@ import {
   Form,
   OptimizerForm,
 } from 'types/form'
+import { SimulationMetadata } from 'types/metadata'
 
 export function ShowcaseDpsScorePanel(props: {
   characterId: CharacterId,
@@ -58,18 +60,24 @@ export function ShowcaseDpsScorePanel(props: {
   asyncSimScoringExecution: AsyncSimScoringExecution,
   teamSelection: string,
   displayRelics: SingleRelicByPart,
-  setTeamSelectionByCharacter: (t: Record<string, string>) => void,
   setRedrawTeammates: (n: number) => void,
+  source: ShowcaseSource,
 }) {
-  const {
+  let {
     characterId,
     token,
     asyncSimScoringExecution,
     teamSelection,
     displayRelics,
-    setTeamSelectionByCharacter,
     setRedrawTeammates,
+    source,
   } = props
+
+  const readonly = source === ShowcaseSource.BUILDS_MODAL
+
+  if (readonly) {
+    teamSelection = CUSTOM_TEAM
+  }
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState<number | undefined>()
@@ -102,6 +110,7 @@ export function ShowcaseDpsScorePanel(props: {
           setCharacterModalOpen={setCharacterModalOpen}
           setSelectedTeammateIndex={setSelectedTeammateIndex}
           setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+          readonly={readonly}
         />
         <CharacterPreviewScoringTeammate
           index={1}
@@ -110,6 +119,7 @@ export function ShowcaseDpsScorePanel(props: {
           setCharacterModalOpen={setCharacterModalOpen}
           setSelectedTeammateIndex={setSelectedTeammateIndex}
           setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+          readonly={readonly}
         />
         <CharacterPreviewScoringTeammate
           index={2}
@@ -118,6 +128,7 @@ export function ShowcaseDpsScorePanel(props: {
           setCharacterModalOpen={setCharacterModalOpen}
           setSelectedTeammateIndex={setSelectedTeammateIndex}
           setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+          readonly={readonly}
         />
       </Flex>
 
@@ -128,8 +139,8 @@ export function ShowcaseDpsScorePanel(props: {
         characterModalInitialCharacter={characterModalInitialCharacter}
         isCharacterModalOpen={isCharacterModalOpen}
         setCharacterModalOpen={setCharacterModalOpen}
-        setTeamSelectionByCharacter={setTeamSelectionByCharacter}
         setRedrawTeammates={setRedrawTeammates}
+        readonly={readonly}
       />
     </Flex>
   )
@@ -178,6 +189,7 @@ function CharacterPreviewScoringTeammate(props: {
   setCharacterModalOpen: (b: boolean) => void,
   setSelectedTeammateIndex: (i: number | undefined) => void,
   setCharacterModalInitialCharacter: (character: Character) => void,
+  readonly?: boolean,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
   const {
@@ -187,9 +199,10 @@ function CharacterPreviewScoringTeammate(props: {
     setCharacterModalOpen,
     setSelectedTeammateIndex,
     setCharacterModalInitialCharacter,
+    readonly,
   } = props
 
-  const teammate = result.simulationMetadata.teammates[index]
+  const teammate = result.simulationMetadata.teammates[index] as SimulationMetadata['teammates'][number] | undefined
   const iconSize = 64
   const setSize = 24
 
@@ -207,17 +220,18 @@ function CharacterPreviewScoringTeammate(props: {
       }}
       hoverable={true}
       onClick={() => {
+        if (readonly) return
         setCharacterModalInitialCharacter({ form: teammate } as Character)
         setCharacterModalOpen(true)
 
         setSelectedTeammateIndex(index)
       }}
-      className='custom-grid'
+      className={readonly ? 'readonly-custom-grid' : 'custom-grid'}
     >
       <Flex vertical align='center' gap={0}>
         <div style={{ position: 'relative', display: 'inline-block' }}>
           <img
-            src={Assets.getCharacterAvatarById(teammate.characterId)}
+            src={Assets.getCharacterAvatarById(teammate?.characterId)}
             style={{
               height: iconSize,
               width: iconSize,
@@ -227,11 +241,11 @@ function CharacterPreviewScoringTeammate(props: {
             }}
           />
 
-          <OverlayText text={t('common:EidolonNShort', { eidolon: teammate.characterEidolon })} top={-12} />
+          <OverlayText text={t('common:EidolonNShort', { eidolon: teammate?.characterEidolon })} top={-12} />
         </div>
 
         <div style={{ position: 'relative', display: 'inline-block' }}>
-          <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize, marginTop: 0 }} />
+          <img src={Assets.getLightConeIconById(teammate?.lightCone)} style={{ height: iconSize, marginTop: 0 }} />
 
           {formTeammate.teamRelicSet && (
             <img
@@ -266,7 +280,7 @@ function CharacterPreviewScoringTeammate(props: {
           )}
 
           <OverlayText
-            text={t('common:SuperimpositionNShort', { superimposition: teammate.lightConeSuperimposition })}
+            text={t('common:SuperimpositionNShort', { superimposition: teammate?.lightConeSuperimposition })}
             top={-18}
           />
         </div>
@@ -339,10 +353,10 @@ function ShowcaseTeamSelectPanel(props: {
   teamSelection: string,
   selectedTeammateIndex: number,
   characterModalInitialCharacter: Character | undefined,
-  setTeamSelectionByCharacter: (t: Record<string, string>) => void,
   setRedrawTeammates: (random: number) => void,
   isCharacterModalOpen: boolean,
   setCharacterModalOpen: (open: boolean) => void,
+  readonly?: boolean,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
   const globalThemeConfig = window.store((s) => s.globalThemeConfig)
@@ -352,11 +366,13 @@ function ShowcaseTeamSelectPanel(props: {
     teamSelection,
     selectedTeammateIndex,
     characterModalInitialCharacter,
-    setTeamSelectionByCharacter,
     setRedrawTeammates,
     isCharacterModalOpen,
     setCharacterModalOpen,
+    readonly,
   } = props
+
+  const setTeamSelectionByCharacter = window.store((s) => s.setShowcaseTeamPreferenceById)
 
   // Teammate character modal OK
   function onCharacterModalOk(form: Form) {
@@ -367,18 +383,19 @@ function ShowcaseTeamSelectPanel(props: {
       return Message.error(t('CharacterPreview.Messages.NoSelectedLightCone') /* No Selected light cone */)
     }
 
-    const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
-    const simulation = scoringMetadata.simulation!
+    const scoringMetadata = DB.getScoringMetadata(characterId)
+    const simulation = TsUtils.clone(scoringMetadata.simulation!)
 
     simulation.teammates[selectedTeammateIndex] = form
 
     DB.updateSimulationScoreOverrides(characterId, simulation)
-    setTeamSelectionByCharacter({ [characterId]: CUSTOM_TEAM })
+    setTeamSelectionByCharacter([characterId, CUSTOM_TEAM])
     setRedrawTeammates(Math.random())
   }
 
   const tabsDisplay = (
     <Segmented
+      disabled={readonly}
       style={{ marginLeft: 10, marginRight: 10, marginTop: 2, marginBottom: 0, alignItems: 'center' }}
       onChange={(selection) => {
         if (selection == SETTINGS_TEAM) {
@@ -399,7 +416,7 @@ function ShowcaseTeamSelectPanel(props: {
 
                       DB.updateSimulationScoreOverrides(characterId, simulation)
 
-                      if (teamSelection != DEFAULT_TEAM) setTeamSelectionByCharacter({ [characterId]: DEFAULT_TEAM })
+                      if (teamSelection != DEFAULT_TEAM) setTeamSelectionByCharacter([characterId, DEFAULT_TEAM])
                       setRedrawTeammates(Math.random())
 
                       Message.success(t('modals:ScoreFooter.ResetSuccessMsg') /* Reset to default teams */)
@@ -425,7 +442,7 @@ function ShowcaseTeamSelectPanel(props: {
                       }
 
                       DB.updateSimulationScoreOverrides(characterId, simulation)
-                      if (teamSelection != CUSTOM_TEAM) setTeamSelectionByCharacter({ [characterId]: CUSTOM_TEAM })
+                      if (teamSelection != CUSTOM_TEAM) setTeamSelectionByCharacter([characterId, CUSTOM_TEAM])
                       setRedrawTeammates(Math.random())
 
                       Message.success(t('modals:ScoreFooter.SyncSuccessMsg') /* Synced teammates */)
@@ -438,7 +455,7 @@ function ShowcaseTeamSelectPanel(props: {
             ),
           })
         } else {
-          setTeamSelectionByCharacter({ [characterId]: selection })
+          setTeamSelectionByCharacter([characterId, selection as typeof DEFAULT_TEAM | typeof CUSTOM_TEAM])
         }
       }}
       value={teamSelection}

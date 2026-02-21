@@ -314,6 +314,10 @@ Sidebar:
     Filter: Filter
     Pin: Pin builds
     Clear: Clear pins
+  BuildsGroup:
+    Header: Builds
+    Save: Save
+    Load: Load
 TeammateRow:
   Header: 'Teammates {{teammateCount}}'
 FormRowLabels:

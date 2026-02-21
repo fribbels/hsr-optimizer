@@ -23,11 +23,8 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
-    "baseUrl": "./src",
     "paths": {
-      "src/*": [
-        "src/*"
-      ]
+      "*": ["./src/*"]
     },
     "esModuleInterop": true,
     "types": [

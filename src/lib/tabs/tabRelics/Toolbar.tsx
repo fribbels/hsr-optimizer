@@ -65,14 +65,14 @@ export function Toolbar() {
         onConfirm={RelicsTabController.deleteConfirmed}
         open={deleteConfirmOpen}
       >
-        <Tooltip title={isLiveImport ? 'Disabled in live import mode.' : ''}>
+        <Tooltip title={isLiveImport ? t('LiveImportTooltip') : ''}>
           <Button type='primary' style={{ width: 170 }} disabled={selectedRelicsIds.length === 0 || isLiveImport}>
             {t('DeleteRelic.ButtonText') /* Delete relic */}
           </Button>
         </Tooltip>
       </Popconfirm>
 
-      <Tooltip title={isLiveImport ? 'Disabled in live import mode.' : ''}>
+      <Tooltip title={isLiveImport ? t('LiveImportTooltip') : ''}>
         <Button
           type='primary'
           onClick={RelicsTabController.addClicked}

@@ -273,7 +273,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
       }
     }, [tScoring])
 
-    if (source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.CHARACTER_TAB) return <></>
+    if (source === ShowcaseSource.BUILDS_MODAL) return <></>
 
     return (
       <Flex
@@ -550,7 +550,7 @@ function SelectSpdPresets(props: {
       },
       ...categoryOptions,
     ]
-  }, [t, tCharacterTab, props.spdFilter, props.characterId, props.simScoringResult])
+  }, [t, tCharacterTab, props.spdFilter])
 
   return (
     <Select
@@ -570,7 +570,7 @@ function SelectSpdPresets(props: {
 function clipboardClicked(elementId: string, action: string, setLoading: (b: boolean) => void, _color: string) {
   setLoading(true)
   setTimeout(() => {
-    Utils.screenshotElementById(elementId, action, getActiveCharacterName()).finally(() => {
+    void Utils.screenshotElementById(elementId, action, getActiveCharacterName()).finally(() => {
       setLoading(false)
     })
   }, 100)

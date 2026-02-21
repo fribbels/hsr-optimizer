@@ -42,6 +42,7 @@ import { MutableRefObject } from 'react'
 import {
   Character,
   CharacterId,
+  SavedBuild,
 } from 'types/character'
 import {
   CustomImageConfig,
@@ -91,20 +92,25 @@ export type ScoringResults = {
   totalRating: string,
 }
 
-export function getPreviewRelics(source: ShowcaseSource, character: Character, relicsById: Partial<Record<string, Relic>>) {
+export function getPreviewRelics(
+  source: ShowcaseSource,
+  character: Character,
+  relicsById: Partial<Record<string, Relic>>,
+  buildOverride?: SavedBuild | null,
+) {
   let scoringResults: ScoringResults
   let displayRelics: SingleRelicByPart
   // Showcase tab relics are stored in equipped as relics instead of ids
   if (source !== ShowcaseSource.SHOWCASE_TAB) {
-    scoringResults = RelicScorer.scoreCharacter(character) as ScoringResults
     displayRelics = {
-      Head: getRelic(relicsById, character, Parts.Head)!,
-      Hands: getRelic(relicsById, character, Parts.Hands)!,
-      Body: getRelic(relicsById, character, Parts.Body)!,
-      Feet: getRelic(relicsById, character, Parts.Feet)!,
-      PlanarSphere: getRelic(relicsById, character, Parts.PlanarSphere)!,
-      LinkRope: getRelic(relicsById, character, Parts.LinkRope)!,
+      Head: getRelic(relicsById, character, Parts.Head, buildOverride)!,
+      Hands: getRelic(relicsById, character, Parts.Hands, buildOverride)!,
+      Body: getRelic(relicsById, character, Parts.Body, buildOverride)!,
+      Feet: getRelic(relicsById, character, Parts.Feet, buildOverride)!,
+      PlanarSphere: getRelic(relicsById, character, Parts.PlanarSphere, buildOverride)!,
+      LinkRope: getRelic(relicsById, character, Parts.LinkRope, buildOverride)!,
     }
+    scoringResults = RelicScorer.scoreCharacterWithRelics(character, Object.values(displayRelics))
   } else {
     const equipped = character.equipped as unknown as SingleRelicByPart
     const relicsArray = Object.values(equipped)
@@ -115,7 +121,10 @@ export function getPreviewRelics(source: ShowcaseSource, character: Character, r
   return { scoringResults, displayRelics }
 }
 
-function getRelic(relicsById: Partial<Record<string, Relic>>, character: Character, part: Parts) {
+function getRelic(relicsById: Partial<Record<string, Relic>>, character: Character, part: Parts, buildOverride?: SavedBuild | null): Relic | null {
+  if (buildOverride != undefined) {
+    return relicsById[buildOverride.equipped[part]!] ?? null
+  }
   if (character.equipped?.[part]) {
     return relicsById[character.equipped[part]] ?? null
   }

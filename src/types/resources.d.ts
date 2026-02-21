@@ -106,6 +106,8 @@ interface Resources {
       "SaveSuccess": "Successfully saved build: {{name}}",
       "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?",
       "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?",
+      "NoBuilds": "Attempted to overwrite build {{name}} but $t(gameData:Characters.{{charId}}.Name) has no saved builds",
+      "NoMatchingBuild": "attempted to overwrite build {{name}} but no such build exists",
       "BuildAlreadyExists": "Build name {{name}} already exists",
       "ImageUploadFailed": "Image upload failed",
       "InvalidFile": "File is not a valid image file"
@@ -5147,6 +5149,11 @@ interface Resources {
       "p3": "Pin build - Pin the currently selected row to the top of the grid. Use this to compare multiple builds more easily",
       "p4": "Clear pins - Clear all the builds that you pinned to the top of the grid"
     },
+    "Builds": {
+      "Title": "Builds",
+      "p1": "Save - Save the currently selected build as well as all the optimizer settings",
+      "p2": "Load - Load a saved build into the optimizer. This includes teammates, conditionals, and combo settings"
+    },
     "OptimizerOptions": {
       "Title": "Optimizer options",
       "PriorityFilter": "<0>Character priority filter</0> - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.",
@@ -5792,7 +5799,19 @@ interface Resources {
     },
     "SaveBuild": {
       "Label": "Build name",
-      "Rule": "Please input a name"
+      "Rule": "Please input a name",
+      "Overwrite": "Overwrite",
+      "ConfirmOverwrite": {
+        "Content": "Are you sure you want to overwrite this build?",
+        "SuccessMessage": "Successfully overwrote build: {{name}}"
+      },
+      "Tooltip": {
+        "SaveDisabled": {
+          "NameTaken": "A build with this name already exists. Change the name in order to save the build.",
+          "NoName": "Builds must have a name in order to be saved. Please enter a name for the build in order to save it."
+        },
+        "OverwriteDisabled": "No build with this name exists. Click on an existing build, or type in its name, in order to be able to overwrite it."
+      }
     },
     "SwitchRelics": {
       "Title": "Switch relics with character"
@@ -5800,6 +5819,7 @@ interface Resources {
     "Builds": {
       "DeleteAll": "Delete All",
       "Equip": "Equip",
+      "Load": "Load In Optimizer",
       "ConfirmEquip": {
         "Content": "Equipping this will unequip characters that use the relics in this build",
         "SuccessMessage": "Successfully equipped build: {{buildName}}"
@@ -6143,6 +6163,11 @@ interface Resources {
         "Filter": "Filter",
         "Pin": "Pin builds",
         "Clear": "Clear pins"
+      },
+      "BuildsGroup": {
+        "Header": "Builds",
+        "Save": "Save",
+        "Load": "Load"
       }
     },
     "TeammateRow": {
@@ -6895,7 +6920,8 @@ interface Resources {
         "Warning_one": "Delete the selected relic?",
         "Warning_other": "Delete the {{count}} selected relics?"
       },
-      "AddRelic": "Add New Relic"
+      "AddRelic": "Add New Relic",
+      "LiveImportTooltip": "Disabled in live import mode."
     },
     "RelicInsights": {
       "NewStats": "New stats: ",

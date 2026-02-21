@@ -792,7 +792,7 @@ export const DB = {
           lightConeId: formData.lightCone,
           superimposition: formData.lightConeSuperimposition,
           name,
-          equipped: character.equipped,
+          equipped: window.store.getState().optimizerBuild ?? {},
           optimizerMetadata,
           team,
           deprioritizeBuffs: formData.deprioritizeBuffs ?? false,

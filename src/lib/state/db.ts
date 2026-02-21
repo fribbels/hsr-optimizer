@@ -524,6 +524,8 @@ export const DB = {
     // Remove invalid characters
     saveData.characters = saveData.characters.filter((x) => dbCharacters[x.id])
 
+    const relicsById = new Map(saveData.relics.map((r) => [r.id, r]))
+
     for (const character of saveData.characters) {
       character.equipped = {}
       charactersById[character.id] = character
@@ -545,7 +547,7 @@ export const DB = {
           superimposition: character.form.lightConeSuperimposition,
           name: build.name,
           equipped: build.build.reduce((acc, cur) => {
-            const relic = saveData.relics.find((x) => x.id === cur)
+            const relic = relicsById.get(cur)
             if (relic) acc[relic.part] = cur
             return acc
           }, {} as Build),

@@ -368,7 +368,6 @@ function BuildCard(props: BuildCardProps) {
     closeModal,
   } = props
   const { t } = useTranslation('modals', { keyPrefix: 'Builds' })
-  const [hovered, setHovered] = useState(false)
   const selected = selectedBuild === index
   const { token } = useToken()
   return (
@@ -376,21 +375,17 @@ function BuildCard(props: BuildCardProps) {
       style={{
         backgroundColor: selected ? '#001529' : token.colorBorderBg,
         cursor: 'pointer',
-        height: hovered ? 80 : 32,
         padding: 24,
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: hovered ? 'rgba(255, 255, 255, 0.45)' : token.colorBorderSecondary,
+        borderColor: token.colorBorderSecondary,
         borderStyle: 'solid',
-        boxShadow: hovered ? 'rgba(0,0,0,0.3) 2px 4px' : undefined,
-        transition: 'all ease-in-out 0.2s, height ease-in-out 0.4s',
+        transition: 'all ease-in-out 0.2s',
       }}
       onClick={(e) => {
         setSelectedBuild(index)
         e.stopPropagation()
       }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
     >
       <Flex vertical gap={8}>
         <Flex justify='space-between' gap={8} align='center'>
@@ -425,7 +420,7 @@ function BuildCard(props: BuildCardProps) {
             </Flex>
           )}
         </Flex>
-        <TeammatePreview build={build} display={hovered} />
+        <TeammatePreview build={build} display={true} />
       </Flex>
     </div>
   )

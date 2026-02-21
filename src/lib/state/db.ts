@@ -860,7 +860,6 @@ export const DB = {
 
   deleteCharacterBuild: (characterId: CharacterId, name: string) => {
     const character = DB.getCharacterById(characterId)
-    console.info('intercepted attempt to delete build', name, 'for character', characterId, character?.builds)
     if (!character) return console.warn('No character to delete build for')
 
     const updatedCharacter = { ...character, builds: character.builds!.filter((x) => x.name != name) }

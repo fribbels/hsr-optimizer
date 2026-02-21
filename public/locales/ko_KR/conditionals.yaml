@@ -1005,6 +1005,16 @@ Characters:
       e4EffResPen:
         text: 4돌 적 효저 감소
         content: 발로] 상태에서 적의 효과 저항이 10% 감소한다.
+  BlackSwanB1:
+    Content:
+      skillDefShred:
+        text: 전투 스킬 방어력 감소
+      epiphanyDebuff:
+        text: '[발로] 상태'
+      arcanaStacks:
+        text: '[아르카나] 스택'
+      e4Vulnerability:
+        text: 4돌 받피증
   Blade:
     Content:
       enhancedStateActive:
@@ -2202,6 +2212,17 @@ Characters:
       teammateCDValue:
         text: 스파클 치피 (전투시)
         content: '지정된 단일 아군의 치명타 피해가 스파클 치명타 피해의 {{skillCdBuffScaling}}%에 {{skillCdBuffBase}}%를 더한 값만큼 증가한다. 지속 시간: 1턴'
+  SparkleB1:
+    Content:
+      cipherBuff:
+        text: '[기이한 수수꼐끼] 상태'
+      talentStacks:
+        text: 특성 스택
+      e2DefPen:
+        text: 2돌 방어력 무시
+    TeammateContent:
+      teammateCDValue:
+        text: 스파클 치피 (전투시)
   Sunday:
     Content:
       skillDmgBuff:

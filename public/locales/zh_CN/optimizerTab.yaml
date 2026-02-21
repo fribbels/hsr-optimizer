@@ -314,6 +314,9 @@ Sidebar:
     Filter: 过滤
     Pin: 置顶配装
     Clear: 清除所有置顶
+  BuildsGroup:
+    Header: 配装
+    Save: 保存
 TeammateRow:
   Header: '队友 {{teammateCount}}'
 FormRowLabels:
@@ -375,6 +378,8 @@ SetConditionals:
       3+Debuff:
         Display: 3层+
         Label: 3减益, 已增强 (+12% 伤害 | +4% 基础暴击 | +4% 战斗暴击 | +24% 爆伤)
+    MagicalGirl:
+      Display: '{{stackCount}}层'
     Sigonia:
       Display: '{{stackCount}}层'
       Label: '{{stackCount}}层 (+{{buffValue}}% CD)'
@@ -401,7 +406,8 @@ SetConditionals:
     Ashblazing: >-
       所选的攻击力%增益将应用于所有计算，除了追加攻击。追加攻击的计算将从0%攻击增益开始，并根据攻击时造成的击中次数叠加。击中次数将根据敌人数量增加，并假设敌方目标位于中心以进行爆炸（3人）/范围（全屏）攻击。
     Prisoner: 所选的防御穿透%增益将根据叠加层数应用于伤害计算。
-    Diver: 选择0层选项可以禁用二件套效果。对于四件套，根据所选选项应用不同的暴击增益于战斗属性计算。
+    Diver: >-
+      选择0层选项可以禁用二件套效果。对于四件套，根据所选选项应用不同的暴击增益于战斗属性计算。
     Watchmaker: 启用后，击破特攻增益将应用于战斗属性计算。
     Valorous: 启用后，终结技伤害的增伤%增益将应用于战斗属性计算。
     Sacerdos: 所选的增益将应用于伤害计算。能够自我增益的角色可以触发此效果。

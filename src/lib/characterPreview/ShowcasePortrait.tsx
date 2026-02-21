@@ -116,43 +116,31 @@ export function ShowcasePortrait(props: {
 
       <ConfigProvider theme={globalThemeConfig}>
         <Flex vertical style={{ width: 'max-content', marginLeft: 6, marginTop: 6 }} gap={7}>
-          {source != ShowcaseSource.SHOWCASE_TAB && (
-            <Button
-              style={showcaseButtonStyle}
-              className='character-build-portrait-button'
-              icon={<EditOutlined />}
-              onClick={() => {
-                setOriginalCharacterModalInitialCharacter(character)
-                setOriginalCharacterModalOpen(true)
-              }}
-              type='primary'
-            >
-              {t('CharacterPreview.EditCharacter') /* Edit character */}
-            </Button>
+          {source != ShowcaseSource.BUILDS_MODAL && (
+            <>
+              <Button
+                style={showcaseButtonStyle}
+                className='character-build-portrait-button'
+                icon={<EditOutlined />}
+                onClick={() => {
+                  setOriginalCharacterModalInitialCharacter(character)
+                  setOriginalCharacterModalOpen(true)
+                }}
+                type='primary'
+              >
+                {t('CharacterPreview.EditCharacter') /* Edit character */}
+              </Button>
+              <Button
+                style={showcaseButtonStyle}
+                className='character-build-portrait-button'
+                icon={<EditOutlined />}
+                onClick={() => setEditPortraitModalOpen(true)}
+                type='primary'
+              >
+                {t('CharacterPreview.EditPortrait') /* Edit portrait */}
+              </Button>
+            </>
           )}
-          {source == ShowcaseSource.SHOWCASE_TAB && (
-            <Button
-              style={showcaseButtonStyle}
-              className='character-build-portrait-button'
-              icon={<EditOutlined />}
-              onClick={() => {
-                setOriginalCharacterModalInitialCharacter(character)
-                setOriginalCharacterModalOpen(true)
-              }}
-              type='primary'
-            >
-              {t('CharacterPreview.EditCharacter') /* Edit character */}
-            </Button>
-          )}
-          <Button
-            style={showcaseButtonStyle}
-            className='character-build-portrait-button'
-            icon={<EditOutlined />}
-            onClick={() => setEditPortraitModalOpen(true)}
-            type='primary'
-          >
-            {t('CharacterPreview.EditPortrait') /* Edit portrait */}
-          </Button>
         </Flex>
       </ConfigProvider>
       <ConfigProvider theme={globalThemeConfig}>

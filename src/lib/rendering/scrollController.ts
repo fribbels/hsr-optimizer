@@ -57,6 +57,10 @@ export function useScrollLock(shouldLock: boolean) {
     } else {
       unlock()
     }
+    // Unlock scroll if the component unmounts while locked
+    return () => {
+      unlock()
+    }
   }, [shouldLock, lock, unlock])
 }
 

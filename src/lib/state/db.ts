@@ -1383,6 +1383,7 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
   }
   if (build.characterId !== characterId) {
     console.error(`attempted to load build`, build, `for character ${characterId} but characterIds do not match`)
+    return
   }
 
   const form = window.optimizerForm

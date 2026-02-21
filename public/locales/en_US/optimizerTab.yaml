@@ -423,7 +423,7 @@ SetConditionals:
     Deliverer: When enabled, the HP% and DMG Boost buffs are applied to combat stat calculations.
     Recluse: When enabled, the CRIT Damage buff is applied to combat stat calculations.
     MagicalGirl: The selected buff is applied to combat stat calculations.
-    Diviner: When enabled, the Elatiom buff is applied to combat stat calculations.
+    Diviner: When enabled, the Elation buff is applied to combat stat calculations.
     Differentiator: When enabled, the CRIT Rate buff is applied to Combat stat calculations.
     Penacony: When enabled, the DMG% buff will apply to the wearer's memosprite.
     Sigonia: The selected CRIT DMG buff is applied to Combat stat calculations, assuming the character has defeated that number of enemies.
@@ -433,7 +433,7 @@ SetConditionals:
     Lushaka: Disabled by default - This set is unable to affect its wearer.
     Banana: When enabled, the additional 32% CRIT DMG is applied to Combat stat calculations.
     Arcadia: The selected buff is applied to Combat stat calculations. Updates automatically when team selection changes.
-    Amphoreus: When enabled, if the wearer posseses a memosprite then the SPD% buff is applied to combat stat calculations.
+    Amphoreus: When enabled, if the wearer possesses a memosprite then the SPD% buff is applied to combat stat calculations.
     Tengoku: When enabled, the additional CRIT Damage buff is applied to combat stat calculations.
 Presets:
   SpdValues:

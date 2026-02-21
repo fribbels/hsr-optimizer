@@ -654,6 +654,14 @@ Characters:
           【奧跡】狀態下，敵方目標每回合開始時受到等同於黑天鵝{{dotScaling}}%攻擊力的風屬性持續傷害，每層【奧跡】使此傷害倍率提高{{arcanaStackMultiplier}}% 。 【奧跡】最多疊加50層。 ::BR::當【奧跡】層數大於等於3層時，對鄰近目標造成等同於黑天鵝180%攻擊力的風屬性持續傷害。當【奧跡】層數大於等於7層時，使本次造成的持續傷害無視於該目標及其相鄰目標20%的防禦力。
       e1ResReduction:
         text: 1魂屬性抗性降低
+  BlackSwanB1:
+    Content:
+      skillDefShred:
+        text: 戰技防禦削弱
+      epiphanyDebuff:
+        text: 揭露負面效果
+      arcanaStacks:
+        text: 奧跡層數
   Blade:
     Content:
       enhancedStateActive:

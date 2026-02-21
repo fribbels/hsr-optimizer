@@ -11,6 +11,7 @@ import {
   OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
+import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
@@ -32,6 +33,7 @@ export const StatTracesDrawer = () => {
   const { close: closeTracesDrawer, isOpen: isOpenTracesDrawer } = useOpenClose(OpenCloseIDs.TRACES_DRAWER)
 
   const statTraceDrawerFocusCharacter = window.store.getState().statTracesDrawerFocusCharacter
+  const scoringMetadata = useScoringMetadata(statTraceDrawerFocusCharacter)
 
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
   const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([])
@@ -39,7 +41,6 @@ export const StatTracesDrawer = () => {
 
   const treeData = useMemo(() => {
     if (statTraceDrawerFocusCharacter) {
-      const scoringMetadata = DB.getScoringMetadata(statTraceDrawerFocusCharacter)
       const tree = DB.getMetadata().characters[statTraceDrawerFocusCharacter].traceTree
       const stack = [...tree]
       const expanded: string[] = []
@@ -52,7 +53,7 @@ export const StatTracesDrawer = () => {
 
       setExpandedKeys(expanded)
 
-      if (scoringMetadata.traces) {
+      if (scoringMetadata?.traces) {
         const deactivated = scoringMetadata.traces.deactivated ?? []
 
         const active = expanded.filter((x) => !deactivated.includes(x))
@@ -64,7 +65,7 @@ export const StatTracesDrawer = () => {
       return tree
     }
     return []
-  }, [statTraceDrawerFocusCharacter])
+  }, [statTraceDrawerFocusCharacter, scoringMetadata])
 
   const nodesById: Record<string, TraceNode> = {}
   const stack = [...treeData]
@@ -168,12 +169,9 @@ export const StatTracesDrawer = () => {
             const allKeys = Object.keys(nodesById)
             const deactivated = allKeys.filter((key) => !checkedKeys.includes(key))
 
-            const scoringMetadata = DB.getScoringMetadata(statTraceDrawerFocusCharacter)
-            scoringMetadata.traces = {
-              deactivated: deactivated,
-            }
+            const update = { traces: { deactivated } }
 
-            DB.updateCharacterScoreOverrides(statTraceDrawerFocusCharacter, scoringMetadata)
+            DB.updateCharacterScoreOverrides(statTraceDrawerFocusCharacter, update)
 
             setTimeout(() => {
               Message.success(tCommon('Saved'))

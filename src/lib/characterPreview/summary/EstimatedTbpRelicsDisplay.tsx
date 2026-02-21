@@ -13,6 +13,7 @@ import {
 import { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
@@ -46,18 +47,17 @@ export const EstimatedTbpRelicsDisplay = (props: {
   displayRelics: SingleRelicByPart,
   showcaseMetadata: ShowcaseMetadata,
 }) => {
-  const [enrichedRelics, setEnrichedRelics] = useState<EnrichedRelics | null>(null)
-  const [loading, setLoading] = useState(false)
-
   const {
     scoringType,
     displayRelics,
     showcaseMetadata,
   } = props
+  const [enrichedRelics, setEnrichedRelics] = useState<EnrichedRelics | null>(null)
+  const [loading, setLoading] = useState(false)
+  const scoringMetadata = useScoringMetadata(showcaseMetadata.characterId)
 
   useEffect(() => {
     const characterId = showcaseMetadata.characterId
-    const scoringMetadata = DB.getScoringMetadata(characterId)
 
     const input: EstTbpRunnerInput = {
       displayRelics: displayRelics,
@@ -87,7 +87,7 @@ export const EstimatedTbpRelicsDisplay = (props: {
       setEnrichedRelics(enrichedRelics)
       setLoading(false)
     })
-  }, [displayRelics, showcaseMetadata])
+  }, [displayRelics, showcaseMetadata, scoringMetadata])
 
   const gridStyle = {
     display: 'grid',

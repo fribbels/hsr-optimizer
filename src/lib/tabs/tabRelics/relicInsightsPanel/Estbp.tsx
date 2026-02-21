@@ -1,6 +1,7 @@
 import { Flex } from 'antd'
 import { RelicContainer } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { enrichSingleRelicAnalysis } from 'lib/characterPreview/summary/statScoringSummaryController'
+import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import DB from 'lib/state/db'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import {
@@ -45,7 +46,7 @@ function useEstbpWorker(relic: Relic | null, weights: ScoringMetadata['stats'] |
 export const EstbpCard = memo(() => {
   const { selectedRelic, focusCharacter } = useRelicsTabStore()
 
-  const weights = focusCharacter ? DB.getScoringMetadata(focusCharacter) : null
+  const weights = useScoringMetadata(focusCharacter)
 
   const { ready, output } = useEstbpWorker(selectedRelic, weights?.stats)
 

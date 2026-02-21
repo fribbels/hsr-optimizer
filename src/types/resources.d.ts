@@ -1932,6 +1932,40 @@ interface Resources {
           }
         }
       },
+      "BlackSwanB1": {
+        "Content": {
+          "skillDefShred": {
+            "text": "Skill DEF shred",
+            "content": "When Black Swan uses her skill, there is a 100% base chance of reducing the DEF of the enemy target and the adjacent targets by {{skillDefShredScaling}}%, lasting for 3 turns."
+          },
+          "epiphanyDebuff": {
+            "text": "Epiphany debuff",
+            "content": "While in the \"Epiphany\" state, enemy targets take {{epiphanyVulnerability}}% increased DMG."
+          },
+          "arcanaStacks": {
+            "text": "Arcana stacks",
+            "content": "While an enemy target is in the \"Arcana\" state, they are also considered to be simultaneously afflicted with Wind Shear, Bleed, Burn, and Shock. The target receives Wind DoT equal to {{dotBaseScaling}}% of Black Swan's ATK at the start of each turn, after which the number of stacks is halved. Each stack of \"Arcana\" increases this DMG multiplier by {{arcanaAdditionalScaling}}%. \"Arcana\" can stack {{arcanaStackLimit}} times, and can continue to stack beyond this limit, with the excess stacks removed after dealing DMG. DMG from \"Arcana\" ignores 20% of the target's DEF."
+          },
+          "ehrToDmgBoost": {
+            "text": "EHR to DMG Boost",
+            "content": "Increases the DMG dealt by all allies by an amount equal to 60% of Black Swan's Effect Hit Rate, up to a maximum DMG increase of 72%."
+          },
+          "e1ResReduction": {
+            "text": "E1 Res reduction",
+            "content": "While Black Swan is active in combat, enemies afflicted with Wind Shear, Bleed, Burn, or Shock will have their corresponding Wind, Physical, Fire, or Lightning RES respectively reduced by 25%."
+          },
+          "e4Vulnerability": {
+            "text": "E4 Vulnerability",
+            "content": "While in the \"Epiphany\" state, enemy targets take 20% increased DMG."
+          }
+        },
+        "TeammateContent": {
+          "combatEhr": {
+            "text": "Black Swan's combat EHR",
+            "content": "Increases the DMG dealt by all allies by an amount equal to 60% of Black Swan's Effect Hit Rate, up to a maximum DMG increase of 72%."
+          }
+        }
+      },
       "Blade": {
         "Content": {
           "enhancedStateActive": {
@@ -3513,6 +3547,40 @@ interface Resources {
           "teammateCDValue": {
             "text": "Sparkle's Combat CD",
             "content": "Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 1 turn."
+          }
+        }
+      },
+      "SparkleB1": {
+        "Content": {
+          "skillBuffs": {
+            "text": "Skill buffs",
+            "content": "Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 2 turns. ::BR:: A6: Increases this ally's All-Type RES PEN by 10%. ::BR:: E6: The CRIT DMG Boost effect of Sparkle's Skill additionally increases by 30% of Sparkle's CRIT DMG, and when she uses her Skill, the CRIT DMG Boost effect will apply to all allies currently with Cipher. When Sparkle uses her Ultimate, this effect will spread to all allies with Cipher should the allied target have the CRIT DMG increase effect provided by the Skill active on them."
+          },
+          "cipherBuff": {
+            "text": "Cipher buff",
+            "content": "When allies with Cipher trigger the DMG Boost effect provided by Sparkle's Talent, each stack additionally increases its effect by {{cipherTalentStackBoost}}%, lasting for 2 turns. ::BR:: E1: All allies affected by Cipher have their ATK increased by 40%."
+          },
+          "talentStacks": {
+            "text": "Talent stacks",
+            "content": "Whenever an ally target consumes 1 Skill Point, Sparkle gains 1 stack of \"Figment,\" with each stack increasing the DMG taken by all enemies by {{talentStackScaling}}%. This effect lasts for 2 turns and can stack up to 3 times. ::BR:: E2: Each Talent stack allows allies to ignore 10% of the enemy target's DEF when dealing DMG to enemies."
+          },
+          "teamAtkBuff": {
+            "text": "Team ATK buff",
+            "content": "Increases all allies' ATK by 45%."
+          },
+          "e1SpdBuff": {
+            "text": "E1 SPD Buff",
+            "content": "When the battle starts or when using Skill, increases Sparkle's SPD by 15%, lasting for 2 turns."
+          },
+          "e2DefPen": {
+            "text": "E2 DEF PEN",
+            "content": "Each stack of the Talent's effect additionally reduces the enemy target's DEF by 10%."
+          }
+        },
+        "TeammateContent": {
+          "teammateCDValue": {
+            "text": "Sparkle's Combat CD",
+            "content": "Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 2 turns."
           }
         }
       },
@@ -6249,6 +6317,10 @@ interface Resources {
             "Label": "3 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +24% CD)"
           }
         },
+        "MagicalGirl": {
+          "Display": "{{stackCount}}x",
+          "Label": "{{stackCount}} stacks (+{{stackCount}}% DEF PEN)"
+        },
         "Sigonia": {
           "Display": "{{stackCount}}x",
           "Label": "{{stackCount}} stacks (+{{buffValue}}% CD)"
@@ -6285,6 +6357,12 @@ interface Resources {
         "Sacerdos": "The selected buff is applied to damage calculations. Characters who buff themselves can trigger this effect.",
         "Scholar": "When enabled, the DMG% buff for Skill damage will be enhanced in accordance with the character's COMBO sequence.",
         "Hero": "When enabled, the SPD% and CRIT Damage buffs are applied to combat stat calculations.",
+        "WarriorGoddess": "When enabled, the 4pc's SPD% and CRIT Damage buffs are applied to combat stat calculations.",
+        "Wavestrider": "When enabled, the ATK% buff is applied to combat stat calculations.",
+        "Deliverer": "When enabled, the HP% and DMG Boost buffs are applied to combat stat calculations.",
+        "Recluse": "When enabled, the CRIT Damage buff is applied to combat stat calculations.",
+        "MagicalGirl": "The selected buff is applied to combat stat calculations.",
+        "Diviner": "When enabled, the Elation buff is applied to combat stat calculations.",
         "Differentiator": "When enabled, the CRIT Rate buff is applied to Combat stat calculations.",
         "Penacony": "When enabled, the DMG% buff will apply to the wearer's memosprite.",
         "Sigonia": "The selected CRIT DMG buff is applied to Combat stat calculations, assuming the character has defeated that number of enemies.",
@@ -6293,7 +6371,9 @@ interface Resources {
         "Kalpagni": "When enabled, applies the Break Effect buff to combat stat calculations.",
         "Lushaka": "Disabled by default - This set is unable to affect its wearer.",
         "Banana": "When enabled, the additional 32% CRIT DMG is applied to Combat stat calculations.",
-        "Arcadia": "The selected buff is applied to Combat stat calculations. Updates automatically when team selection changes."
+        "Arcadia": "The selected buff is applied to Combat stat calculations. Updates automatically when team selection changes.",
+        "Amphoreus": "When enabled, if the wearer possesses a memosprite then the SPD% buff is applied to combat stat calculations.",
+        "Tengoku": "When enabled, the additional CRIT Damage buff is applied to combat stat calculations."
       }
     },
     "Presets": {

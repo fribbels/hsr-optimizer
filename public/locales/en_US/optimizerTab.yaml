@@ -379,6 +379,9 @@ SetConditionals:
       3+Debuff:
         Display: 3x+
         Label: 3 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +24% CD)
+    MagicalGirl:
+      Display: '{{stackCount}}x'
+      Label: '{{stackCount}} stacks (+{{stackCount}}% DEF PEN)'
     Sigonia:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} stacks (+{{buffValue}}% CD)'
@@ -403,14 +406,24 @@ SetConditionals:
     Longevous: The selected CR buff is applied to Combat stat calculations based on the number of stacks.
     Messenger: When enabled, SPD% buff is applied to Combat stat calculations.
     Ashblazing: >-
-      The selected ATK% buff is applied to all calculations except for Follow-up attacks. Follow-up attack calculations instead will start at 0% ATK buff and stack up based on the number of hits performed by the attack. Hits will increase based on the enemy count and assumes the target is positioned in the center for blast / aoe attacks.
+      The selected ATK% buff is applied to all calculations except for Follow-up attacks.
+      Follow-up attack calculations instead will start at 0% ATK buff and stack up based on the number of hits performed by the attack.
+      Hits will increase based on the enemy count and assumes the target is positioned in the center for blast / aoe attacks.
     Prisoner: The selected DEF% pen buff is applied to damage calculations based on the number of stacks.
-    Diver: The 2 piece effect can be disabled by selecting the 0x option. For 4 piece, different CRIT buffs are applied to Combat stat calculations depending on the selected option.
+    Diver: >-
+      The 2 piece effect can be disabled by selecting the 0x option.
+      For 4 piece, different CRIT buffs are applied to Combat stat calculations depending on the selected option.
     Watchmaker: When enabled, the Break Effect buff is applied to Combat stat calculations.
     Valorous: When enabled, the DMG% buff for Ultimate damage is applied to Combat stat calculations.
     Sacerdos: The selected buff is applied to damage calculations. Characters who buff themselves can trigger this effect.
     Scholar: When enabled, the DMG% buff for Skill damage will be enhanced in accordance with the character's COMBO sequence.
     Hero: When enabled, the SPD% and CRIT Damage buffs are applied to combat stat calculations.
+    WarriorGoddess: When enabled, the 4pc's SPD% and CRIT Damage buffs are applied to combat stat calculations.
+    Wavestrider: When enabled, the ATK% buff is applied to combat stat calculations.
+    Deliverer: When enabled, the HP% and DMG Boost buffs are applied to combat stat calculations.
+    Recluse: When enabled, the CRIT Damage buff is applied to combat stat calculations.
+    MagicalGirl: The selected buff is applied to combat stat calculations.
+    Diviner: When enabled, the Elation buff is applied to combat stat calculations.
     Differentiator: When enabled, the CRIT Rate buff is applied to Combat stat calculations.
     Penacony: When enabled, the DMG% buff will apply to the wearer's memosprite.
     Sigonia: The selected CRIT DMG buff is applied to Combat stat calculations, assuming the character has defeated that number of enemies.
@@ -420,6 +433,8 @@ SetConditionals:
     Lushaka: Disabled by default - This set is unable to affect its wearer.
     Banana: When enabled, the additional 32% CRIT DMG is applied to Combat stat calculations.
     Arcadia: The selected buff is applied to Combat stat calculations. Updates automatically when team selection changes.
+    Amphoreus: When enabled, if the wearer possesses a memosprite then the SPD% buff is applied to combat stat calculations.
+    Tengoku: When enabled, the additional CRIT Damage buff is applied to combat stat calculations.
 Presets:
   SpdValues:
     SPD0: No minimum speed

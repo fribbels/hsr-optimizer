@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
@@ -14,13 +13,15 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import {
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -36,7 +37,7 @@ export const SparkleB1Entities = createEnum('SparkleB1')
 export const SparkleB1Abilities = createEnum('BASIC', 'BREAK')
 
 export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sparkle')
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SparkleB1')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_BASIC,
@@ -65,6 +66,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     talentStacks: 3,
     teamAtkBuff: true,
     e1SpdBuff: true,
+    e2DefPen: true,
   }
 
   const teammateDefaults = {
@@ -80,35 +82,45 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     skillBuffs: {
       id: 'skillBuffs',
       formItem: 'switch',
-      text: 'Skill buffs',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.skillBuffs.text'),
+      content: t('Content.skillBuffs.content', {
+        skillCdBuffBase: TsUtils.precisionRound(100 * skillCdBuffBase),
+        skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling),
+      }),
     },
     cipherBuff: {
       id: 'cipherBuff',
       formItem: 'switch',
-      text: 'Cipher buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.cipherBuff.text'),
+      content: t('Content.cipherBuff.content', { cipherTalentStackBoost: TsUtils.precisionRound(100 * cipherTalentStackBoost) }),
     },
     talentStacks: {
       id: 'talentStacks',
       formItem: 'slider',
-      text: 'Talent stacks',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.talentStacks.text'),
+      content: t('Content.talentStacks.content', { talentStackScaling: TsUtils.precisionRound(100 * talentBaseStackBoost) }),
       min: 0,
       max: 3,
     },
     teamAtkBuff: {
       id: 'teamAtkBuff',
       formItem: 'switch',
-      text: 'Team ATK buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.teamAtkBuff.text'),
+      content: t('Content.teamAtkBuff.content'),
     },
     e1SpdBuff: {
       id: 'e1SpdBuff',
       formItem: 'switch',
-      text: 'E1 SPD buff',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('Content.e1SpdBuff.text'),
+      content: t('Content.e1SpdBuff.content'),
       disabled: e < 1,
+    },
+    e2DefPen: {
+      id: 'e2DefPen',
+      formItem: 'switch',
+      text: t('Content.e2DefPen.text'),
+      content: t('Content.e2DefPen.content'),
+      disabled: e < 2,
     },
   }
 
@@ -117,8 +129,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateCDValue: {
       id: 'teammateCDValue',
       formItem: 'slider',
-      text: 'Sparkle\'s combat CD',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+      text: t('TeammateContent.teammateCDValue.text'),
+      content: t('TeammateContent.teammateCDValue.content'),
       min: 0,
       max: 3.50,
       percent: true,
@@ -126,13 +138,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     cipherBuff: content.cipherBuff,
     talentStacks: content.talentStacks,
     teamAtkBuff: content.teamAtkBuff,
-    e2DefPen: {
-      id: 'e2DefPen',
-      formItem: 'switch',
-      text: 'E2 DEF PEN',
-      content: i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
-      disabled: e < 2,
-    },
+    e2DefPen: content.e2DefPen,
   }
 
   return {

@@ -1004,6 +1004,16 @@ Characters:
       e4EffResPen:
         text: 4魂效果抵抗降低
         content: '【揭露】状态下，敌方目标效果抵抗降低10%。'
+  BlackSwanB1:
+    Content:
+      skillDefShred:
+        text: 战技防御削弱
+      epiphanyDebuff:
+        text: 揭露负面效果
+      arcanaStacks:
+        text: 奥迹层数
+      e4Vulnerability:
+        text: 4魂易伤
   Blade:
     Content:
       enhancedStateActive:
@@ -2197,6 +2207,17 @@ Characters:
       teammateCDValue:
         text: 花火战斗中暴击伤害值
         content: 使指定我方单体的暴击伤害提高，提高数值等同于花火{{skillCdBuffScaling}}%暴击伤害+{{skillCdBuffBase}}%，持续1回合。
+  SparkleB1:
+    Content:
+      cipherBuff:
+        text: 谜诡增益
+      talentStacks:
+        text: 天赋层数
+      e2DefPen:
+        text: 2魂防御穿透
+    TeammateContent:
+      teammateCDValue:
+        text: 花火战斗中暴击伤害值
   Sunday:
     Content:
       skillDmgBuff:

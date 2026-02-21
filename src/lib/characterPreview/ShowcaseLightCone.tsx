@@ -6,7 +6,6 @@ import {
   showcaseBackdropFilter,
   showcaseOutline,
   showcaseShadow,
-  ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   ShowcaseDisplayDimensions,
@@ -20,29 +19,18 @@ import { Character } from 'types/character'
 
 const { Text } = Typography
 
-interface UnInteractiveShowcaseLightConeProps {
-  source: ShowcaseSource.BUILDS_MODAL
-  setOriginalCharacterModalInitialCharacter?: never
-  setOriginalCharacterModalOpen?: never
-}
-
-interface InteractiveShowcaseLightConeProps {
-  source: Exclude<ShowcaseSource, ShowcaseSource.BUILDS_MODAL>
-  setOriginalCharacterModalInitialCharacter: (c: Character) => void
-  setOriginalCharacterModalOpen: (b: boolean) => void
-}
-
 type ShowcaseLightConeProps = {
   character: Character,
   displayDimensions: ShowcaseDisplayDimensions,
   showcaseMetadata: ShowcaseMetadata,
-} & (UnInteractiveShowcaseLightConeProps | InteractiveShowcaseLightConeProps)
+  setOriginalCharacterModalInitialCharacter?: (c: Character) => void,
+  setOriginalCharacterModalOpen?: (b: boolean) => void,
+}
 
 export function ShowcaseLightConeSmall(props: ShowcaseLightConeProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
   const {
-    source,
     character,
     displayDimensions,
     setOriginalCharacterModalInitialCharacter,
@@ -116,10 +104,8 @@ export function ShowcaseLightConeSmall(props: ShowcaseLightConeProps) {
           boxShadow: showcaseShadow,
         }}
         onClick={() => {
-          if (source !== ShowcaseSource.BUILDS_MODAL) {
-            setOriginalCharacterModalInitialCharacter(character)
-            setOriginalCharacterModalOpen(true)
-          }
+          setOriginalCharacterModalInitialCharacter?.(character)
+          setOriginalCharacterModalOpen?.(true)
         }}
       >
         <LoadingBlurredImage
@@ -140,7 +126,6 @@ export function ShowcaseLightConeLarge(props: ShowcaseLightConeProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
   const {
-    source,
     character,
     displayDimensions,
     setOriginalCharacterModalInitialCharacter,
@@ -175,10 +160,8 @@ export function ShowcaseLightConeLarge(props: ShowcaseLightConeProps) {
         boxShadow: showcaseShadow,
       }}
       onClick={() => {
-        if (source !== ShowcaseSource.BUILDS_MODAL) {
-          setOriginalCharacterModalInitialCharacter(character)
-          setOriginalCharacterModalOpen(true)
-        }
+        setOriginalCharacterModalInitialCharacter?.(character)
+        setOriginalCharacterModalOpen?.(true)
       }}
     >
       <LoadingBlurredImage

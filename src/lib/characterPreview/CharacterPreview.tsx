@@ -361,15 +361,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
             />
 
             {scoringType == ScoringType.COMBAT_SCORE && (
-              // @ts-expect-error Typescript is satisfied if there are 2 instances of ShowcaseLightConeSmall
-              // i.e.
-              // <>
-              //   {source === ShowcaseSource.BUILDS_MODAL && <ShowcaseLightConeSmall ... />}
-              //   {source !== ShowcaseSource.BUILDS_MODAL && <ShowcaseLightConeSmall ... />}
-              // </>
-              // however when only 1 instance it will error due to not properly narrowing the type
               <ShowcaseLightConeSmall
-                source={source}
                 character={character}
                 showcaseMetadata={showcaseMetadata}
                 displayDimensions={displayDimensions}
@@ -446,15 +438,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
             </Flex>
 
             {scoringType != ScoringType.COMBAT_SCORE && (
-              // @ts-expect-error Typescript is satisfied if there are 2 instances of ShowcaseLightConeLarge
-              // i.e.
-              // <>
-              //   {source === ShowcaseSource.BUILDS_MODAL && <ShowcaseLightConeLarge ... />}
-              //   {source !== ShowcaseSource.BUILDS_MODAL && <ShowcaseLightConeLarge ... />}
-              // </>
-              // however when only 1 instance it will error due to not properly narrowing the type
               <ShowcaseLightConeLarge
-                source={source}
                 character={character}
                 showcaseMetadata={showcaseMetadata}
                 displayDimensions={displayDimensions}

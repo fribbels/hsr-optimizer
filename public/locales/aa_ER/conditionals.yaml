@@ -1004,6 +1004,31 @@ Characters:
       e4EffResPen:
         text: crwdns43698:0crwdne43698:0
         content: crwdns44310:0crwdne44310:0
+  BlackSwanB1:
+    Content:
+      skillDefShred:
+        text: crwdns46398:0crwdne46398:0
+        content: crwdns46400:0{{skillDefShredScaling}}crwdne46400:0
+      epiphanyDebuff:
+        text: crwdns46402:0crwdne46402:0
+        content: crwdns46404:0{{epiphanyVulnerability}}crwdne46404:0
+      arcanaStacks:
+        text: crwdns46406:0crwdne46406:0
+        content: >-
+          crwdns46408:0{{dotBaseScaling}}crwdnd46408:0{{arcanaAdditionalScaling}}crwdnd46408:0{{arcanaStackLimit}}crwdne46408:0
+      ehrToDmgBoost:
+        text: crwdns46410:0crwdne46410:0
+        content: crwdns46412:0crwdne46412:0
+      e1ResReduction:
+        text: crwdns46414:0crwdne46414:0
+        content: crwdns46416:0crwdne46416:0
+      e4Vulnerability:
+        text: crwdns46418:0crwdne46418:0
+        content: crwdns46420:0crwdne46420:0
+    TeammateContent:
+      combatEhr:
+        text: crwdns46422:0crwdne46422:0
+        content: crwdns46424:0crwdne46424:0
   Blade:
     Content:
       enhancedStateActive:
@@ -2197,6 +2222,33 @@ Characters:
       teammateCDValue:
         text: crwdns41540:0crwdne41540:0
         content: crwdns44252:0{{skillCdBuffScaling}}crwdnd44252:0{{skillCdBuffBase}}crwdne44252:0
+  SparkleB1:
+    Content:
+      skillBuffs:
+        text: crwdns46426:0crwdne46426:0
+        content: >-
+          crwdns46428:0{{skillCdBuffScaling}}crwdnd46428:0{{skillCdBuffBase}}crwdnd46428:0:BR:crwdnd46428:0:BR:crwdne46428:0
+      cipherBuff:
+        text: crwdns46430:0crwdne46430:0
+        content: >-
+          crwdns46432:0{{cipherTalentStackBoost}}crwdnd46432:0:BR:crwdne46432:0
+      talentStacks:
+        text: crwdns46434:0crwdne46434:0
+        content: >-
+          crwdns46436:0{{talentStackScaling}}crwdnd46436:0:BR:crwdne46436:0
+      teamAtkBuff:
+        text: crwdns46438:0crwdne46438:0
+        content: crwdns46440:0crwdne46440:0
+      e1SpdBuff:
+        text: crwdns46442:0crwdne46442:0
+        content: crwdns46444:0crwdne46444:0
+      e2DefPen:
+        text: crwdns46446:0crwdne46446:0
+        content: crwdns46448:0crwdne46448:0
+    TeammateContent:
+      teammateCDValue:
+        text: crwdns46450:0crwdne46450:0
+        content: crwdns46452:0{{skillCdBuffScaling}}crwdnd46452:0{{skillCdBuffBase}}crwdne46452:0
   Sunday:
     Content:
       skillDmgBuff:

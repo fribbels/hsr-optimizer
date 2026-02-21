@@ -344,42 +344,40 @@ export function CharacterPreview(props: CharacterPreviewProps) {
           />
 
           {/* Portrait left panel */}
-          {(source != ShowcaseSource.BUILDS_MODAL || source == ShowcaseSource.BUILDS_MODAL) && (
-            <Flex vertical gap={8} className='character-build-portrait'>
-              <ShowcasePortrait
+          <Flex vertical gap={8} className='character-build-portrait'>
+            <ShowcasePortrait
+              source={source}
+              character={character}
+              scoringType={scoringType}
+              displayDimensions={displayDimensions}
+              customPortrait={portraitToUse}
+              editPortraitModalOpen={editPortraitModalOpen}
+              setEditPortraitModalOpen={setEditPortraitModalOpen}
+              onEditPortraitOk={(payload: CustomImagePayload) => showcaseOnEditPortraitOk(character, payload, setCustomPortrait, setEditPortraitModalOpen)}
+              artistName={artistName}
+              setOriginalCharacterModalInitialCharacter={(character) => setOriginalCharacterModalInitialCharacter?.(character)}
+              setOriginalCharacterModalOpen={(open) => setOriginalCharacterModalOpen?.(open)}
+              onPortraitLoad={(img: string) => sidebarRef.current?.onPortraitLoad!(img, character.id)}
+            />
+
+            {scoringType == ScoringType.COMBAT_SCORE && (
+              // @ts-expect-error Typescript is satisfied if there are 2 instances of ShowcaseLightConeSmall
+              // i.e.
+              // <>
+              //   {source === ShowcaseSource.BUILDS_MODAL && <ShowcaseLightConeSmall ... />}
+              //   {source !== ShowcaseSource.BUILDS_MODAL && <ShowcaseLightConeSmall ... />}
+              // </>
+              // however when only 1 instance it will error due to not properly narrowing the type
+              <ShowcaseLightConeSmall
                 source={source}
                 character={character}
-                scoringType={scoringType}
+                showcaseMetadata={showcaseMetadata}
                 displayDimensions={displayDimensions}
-                customPortrait={portraitToUse}
-                editPortraitModalOpen={editPortraitModalOpen}
-                setEditPortraitModalOpen={setEditPortraitModalOpen}
-                onEditPortraitOk={(payload: CustomImagePayload) => showcaseOnEditPortraitOk(character, payload, setCustomPortrait, setEditPortraitModalOpen)}
-                artistName={artistName}
-                setOriginalCharacterModalInitialCharacter={(character) => setOriginalCharacterModalInitialCharacter?.(character)}
-                setOriginalCharacterModalOpen={(open) => setOriginalCharacterModalOpen?.(open)}
-                onPortraitLoad={(img: string) => sidebarRef.current?.onPortraitLoad!(img, character.id)}
+                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
               />
-
-              {scoringType == ScoringType.COMBAT_SCORE && (
-                // @ts-expect-error Typescript is satisfied if there are 2 instances of ShowcaseLightConeSmall
-                // i.e.
-                // <>
-                //   {source === ShowcaseSource.BUILDS_MODAL && <ShowcaseLightConeSmall ... />}
-                //   {source !== ShowcaseSource.BUILDS_MODAL && <ShowcaseLightConeSmall ... />}
-                // </>
-                // however when only 1 instance it will error due to not properly narrowing the type
-                <ShowcaseLightConeSmall
-                  source={source}
-                  character={character}
-                  showcaseMetadata={showcaseMetadata}
-                  displayDimensions={displayDimensions}
-                  setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                  setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                />
-              )}
-            </Flex>
-          )}
+            )}
+          </Flex>
 
           {/* Character details middle panel */}
           <Flex vertical justify='space-between' gap={8} style={{}}>

@@ -45,12 +45,12 @@ Actions:
   p2: Filtro - Riapplica i filtri di ricerca ai risultati esistenti. Usalo per restringere i filtri senza effettuare una nuova ricerca
   p3: Pinna build - Fissa la riga attualmente selezionata in cima alla griglia. Usalo per confrontare più facilmente le build
   p4: Cancella pin - Cancella tutte le build che hai fissato in cima alla griglia
+Builds:
+  Title: Build
 OptimizerOptions:
   Title: Opzioni ottimizzatore
   PriorityFilter: >-
     <0>Filtro priorità personaggio</0> - Quando questa opzione è abilitata, il personaggio può rubare reliquie solo da personaggi di priorità inferiore. L'ottimizzatore ignorerà le reliquie equipaggiate da personaggi con priorità più alta. Cambia i loro gradi nel selettore di priorità o trascinandoli nella pagina Personaggi.
-  BoostMain: >-
-    <0>Potenzia statistica principale</0> - Calcola le statistiche principali come se fossero a questo livello (o il loro massimo se non riescono a raggiungerlo) se sono attualmente al di sotto di esso. Le statistiche secondarie non vengono modificate di conseguenza, quindi le build con le reliquie di livello inferiore possono essere più forti una volta che le livelli.
   KeepCurrent: <0>Mantieni reliquie attuali</0> - Il personaggio deve utilizzare gli elementi attualmente equipaggiati e l'ottimizzatore cercherà di riempire gli slot vuoti
   AllowEquipped: <0>Includi reliquie equipaggiate</0> - Quando abilitata, l'ottimizzatore permetterà di utilizzare le reliquie che sono attualmente equipaggiate da un personaggio durante la ricerca. In caso contrario sono escluse le reliquie equipaggiate
   Priority: "<0>Priorità</0> - Vedi: Filtro priorità personaggio. Questa impostazione cambia la priorità di un personaggio"

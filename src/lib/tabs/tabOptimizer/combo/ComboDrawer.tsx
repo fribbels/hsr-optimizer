@@ -546,9 +546,9 @@ function ComboConditionalsGroupRow(props: {
       src = Assets.getSetImage(setName, undefined, true)
       conditionals = comboCharacter.setConditionals
     } else if (props.originKey.includes('RelicSet')) {
-      const keys = Object.keys(comboTeammate.relicSetConditionals)
+      const keys = Object.keys(comboTeammate.relicSetConditionals) as SetsRelics[]
       if (keys.length) {
-        const setName = keys[0] as SetsRelics
+        const setName = keys[0]
         content = [
           {
             formItem: 'switch',
@@ -563,9 +563,9 @@ function ComboConditionalsGroupRow(props: {
         return null
       }
     } else if (props.originKey.includes('OrnamentSet')) {
-      const keys = Object.keys(comboTeammate.ornamentSetConditionals)
+      const keys = Object.keys(comboTeammate.ornamentSetConditionals) as SetsOrnaments[]
       if (keys.length) {
-        const setName = keys[0] as SetsOrnaments
+        const setName = keys[0]
         content = [
           {
             formItem: 'switch',

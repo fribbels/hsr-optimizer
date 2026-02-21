@@ -242,6 +242,9 @@ Sidebar:
     Filter: 필터
     Pin: 빌드 고정
     Clear: 고정 해제
+  BuildsGroup:
+    Header: 빌드
+    Save: 저장
 TeammateRow:
   Header: '팀 {{teammateCount}}'
 FormRowLabels:
@@ -303,6 +306,8 @@ SetConditionals:
       3+Debuff:
         Display: 3x+
         Label: 3 디버프, 강화됨 (+12% 데미지 | +4% 기본 치확 | +4% 전투 치확 | +24% 치피)
+    MagicalGirl:
+      Display: '{{stackCount}}x'
     Sigonia:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} 스택 (+{{buffValue}}% 치피)'
@@ -329,7 +334,8 @@ SetConditionals:
     Ashblazing: >-
       선택한 공격력 % 버프는 추가 공격을 제외한 모든 계산에 적용됩니다. 그 대신 추가 공격 계산은 공격의 적중 횟수에 따라 0%의 공격력 % 버프로 시작되고 스택이 쌓입니다. 적중 횟수는 적의 숫자에 따라 증가하고, 적 타깃은 적 집단의 중앙에 배치되어 있다고 가정합니다.
     Prisoner: 선택된 방어력 무시 버프는 스택 수를 기준으로 데미지에 적용됩니다.
-    Diver: 2세트 효과는 0x 옵션을 선택하여 비활성화할 수 있습니다. 4세트의 경우 선택한 옵션에 따라 전투 스탯에 다른 치명타 버프가 적용됩니다.
+    Diver: >-
+      2세트 효과는 0x 옵션을 선택하여 비활성화할 수 있습니다. 4세트의 경우 선택한 옵션에 따라 전투 스탯에 다른 치명타 버프가 적용됩니다.
     Watchmaker: 활성화되면 전투 스텟에 격파 특수효과 버프가 적용됩니다.
     Valorous: 이 옵션이 활성화된 경우 계산에 필살기 가하는 피해 버프가 적용됩니다.
     Sacerdos: 선택한 버프가 피해 계산에 적용됩니다. 스스로 버프하는 캐릭터는 이 효과를 발동할 수 있습니다.

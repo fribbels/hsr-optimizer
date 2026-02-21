@@ -241,6 +241,9 @@ Sidebar:
     Filter: Filtrer
     Pin: Épingler
     Clear: Désépingler
+  BuildsGroup:
+    Header: Builds
+    Save: Enregistrer
 TeammateRow:
   Header: 'Coéquipiers {{teammateCount}}'
 FormRowLabels:
@@ -302,6 +305,8 @@ SetConditionals:
       3+Debuff:
         Display: 3x+
         Label: 3 malus, amélioré (+12% DGT | +4% TC de base | +4% TC de combat | +24% DC)
+    MagicalGirl:
+      Display: '{{stackCount}}x'
     Sigonia:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} cumuls (+{{buffValue}}% DC)'
@@ -328,7 +333,8 @@ SetConditionals:
     Ashblazing: >-
       Le buff d'ATQ% sélectionné sera appliqué à tous les calculs hormis celui des attaques de suivi. Le calcul pour les attaques de suivi commencera avec un buff de 0% et s'accumulera en fonction du nombre de coups délivrés par l'attaque. Le nombre de coups augmentera en fonction du nombre d'ennemis et supposera que la cible est située au milieu pour les attaques a plusieurs cibles.
     Prisoner: Le buff de pénétration de def% sera appliqué au calcul de dégâts en fonction du nombre de cumuls.
-    Diver: L'effet 2 pièces peut être désactivé en sélectionnant l'option 0x. Pour l'effet 4 pièces, divers buffs de crit sont appliqués en fonction de l'option sélectionnée.
+    Diver: >-
+      L'effet 2 pièces peut être désactivé en sélectionnant l'option 0x. Pour l'effet 4 pièces, divers buffs de crit sont appliqués en fonction de l'option sélectionnée.
     Watchmaker: Lorsque cette option est sélectionnée, le buff d'effet Rupture sera appliqué au calcul des stats de combat.
     Valorous: Lorsque cette option est sélectionnée, le buff de DGT% d'Ultime sera appliqué au calcul des stats de combat.
     Sacerdos: Le buff sélectionné est appliqué au calcul des stats de combat. Les personnages qui se buffent peuvent activer cet effet.

@@ -276,6 +276,10 @@ Sidebar:
     Filter: crwdns42960:0crwdne42960:0
     Pin: crwdns42962:0crwdne42962:0
     Clear: crwdns42964:0crwdne42964:0
+  BuildsGroup:
+    Header: crwdns46370:0crwdne46370:0
+    Save: crwdns46372:0crwdne46372:0
+    Load: crwdns46374:0crwdne46374:0
 TeammateRow:
   Header: 'crwdns42966:0{{teammateCount}}crwdne42966:0'
 FormRowLabels:
@@ -337,6 +341,9 @@ SetConditionals:
       3+Debuff:
         Display: crwdns43036:0crwdne43036:0
         Label: crwdns43038:0crwdne43038:0
+    MagicalGirl:
+      Display: 'crwdns46376:0{{stackCount}}crwdne46376:0'
+      Label: 'crwdns46378:0{{stackCount}}crwdnd46378:0{{stackCount}}crwdne46378:0'
     Sigonia:
       Display: 'crwdns43040:0{{stackCount}}crwdne43040:0'
       Label: 'crwdns43042:0{{stackCount}}crwdnd43042:0{{buffValue}}crwdne43042:0'
@@ -363,12 +370,19 @@ SetConditionals:
     Ashblazing: >-
       crwdns43072:0crwdne43072:0
     Prisoner: crwdns43074:0crwdne43074:0
-    Diver: crwdns43076:0crwdne43076:0
+    Diver: >-
+      crwdns43076:0crwdne43076:0
     Watchmaker: crwdns43078:0crwdne43078:0
     Valorous: crwdns45216:0crwdne45216:0
     Sacerdos: crwdns43096:0crwdne43096:0
     Scholar: crwdns45218:0crwdne45218:0
     Hero: crwdns45220:0crwdne45220:0
+    WarriorGoddess: crwdns46380:0crwdne46380:0
+    Wavestrider: crwdns46382:0crwdne46382:0
+    Deliverer: crwdns46384:0crwdne46384:0
+    Recluse: crwdns46386:0crwdne46386:0
+    MagicalGirl: crwdns46388:0crwdne46388:0
+    Diviner: crwdns46390:0crwdne46390:0
     Differentiator: crwdns43082:0crwdne43082:0
     Penacony: crwdns44792:0crwdne44792:0
     Sigonia: crwdns43084:0crwdne43084:0
@@ -378,6 +392,8 @@ SetConditionals:
     Lushaka: crwdns45222:0crwdne45222:0
     Banana: crwdns43094:0crwdne43094:0
     Arcadia: crwdns45710:0crwdne45710:0
+    Amphoreus: crwdns46392:0crwdne46392:0
+    Tengoku: crwdns46394:0crwdne46394:0
 Presets:
   SpdValues:
     SPD0: crwdns43098:0crwdne43098:0

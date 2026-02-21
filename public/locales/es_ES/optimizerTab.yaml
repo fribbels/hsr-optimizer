@@ -241,6 +241,9 @@ Sidebar:
     Filter: Filtrar
     Pin: Fijar equip.
     Clear: Borrar fijados
+  BuildsGroup:
+    Header: Equipamientos
+    Save: Guardar
 TeammateRow:
   Header: 'Aliados {{teammateCount}}'
 FormRowLabels:
@@ -302,6 +305,8 @@ SetConditionals:
       3+Debuff:
         Display: 3x+
         Label: 3 afecciones, mejorado (+12% DAÑO | +4% PC base | +4% PC en combate +24% DC)
+    MagicalGirl:
+      Display: '{{stackCount}}x'
     Sigonia:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} acumulaciones (+{{buffValue}}% DC)'
@@ -328,7 +333,8 @@ SetConditionals:
     Ashblazing: >-
       La mejora de ATQ% seleccionada se aplica a todos los cálculos exceptuando los ataques adicionales. En cambio, los cálculos de ataques adicionales comenzarán con una mejora de 0% ATQ y se acumulará de acuerdo al número de golpes logrados por el ataque. Los golpes aumentarán de acuerdo a la cantidad de enemigos y asume que el objetivo está posicionado en el medio para ataques de ráfaga / a todos los enemigos.
     Prisoner: La mejora de penetración de DEF% seleccionada se aplica a los cálculos de daño de acuerdo al número de acumulaciones.
-    Diver: El efecto de 2 piezas se puede desactivar usando la opción 0x. Para las 4 piezas, se aplican diferentes mejoras de CRIT a los cálculos de Atributos de combate de acuerdo a la opción seleccionada.
+    Diver: >-
+      El efecto de 2 piezas se puede desactivar usando la opción 0x. Para las 4 piezas, se aplican diferentes mejoras de CRIT a los cálculos de Atributos de combate de acuerdo a la opción seleccionada.
     Watchmaker: Activado, la mejora de Efecto de Ruptura se aplica a los cálculos de Atributos de combate.
     Valorous: Activado, la mejora de DAÑO% para el daño de Definitiva se aplica a los cálculos de Atributos de combate.
     Sacerdos: La mejora seleccionada se aplica a los cálculos de daño. Personajes que se mejoran a sí mismos pueden activar este efecto.

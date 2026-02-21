@@ -3,34 +3,64 @@
  */
 
 import { useEffect } from 'react'
+import { create } from 'zustand'
 
-let scrollLocked = false
-
-function lockScroll() {
-  if (scrollLocked) return
-  const scrollY = window.scrollY
-  document.body.style.position = 'fixed'
-  document.body.style.top = `-${scrollY}px`
-  document.body.style.width = '100%'
-  scrollLocked = true
+interface LockedState {
+  offset: number
+  isLocked: true
 }
 
-function unlockScroll() {
-  if (!scrollLocked) return
-  const scrollY = parseInt(document.body.style.top || '0') * -1
-  document.body.style.position = ''
-  document.body.style.top = ''
-  document.body.style.width = ''
-  window.scrollTo(0, scrollY)
-  scrollLocked = false
+interface UnLockedState {
+  offset: null
+  isLocked: false
 }
+
+type StateValues = LockedState | UnLockedState
+
+interface StateActions {
+  lock(): void
+  unlock(): void
+}
+
+type State = StateActions & StateValues
+
+const useScrollLockStore = create<State>()((set, get) => ({
+  offset: null,
+  isLocked: false,
+
+  lock() {
+    if (get().isLocked) return
+    const offset = window.scrollY
+    set({ isLocked: true, offset })
+    document.body.style.position = 'fixed'
+    document.body.style.top = `-${offset}px`
+    document.body.style.width = '100%'
+    return
+  },
+  unlock() {
+    const { isLocked, offset } = get()
+    if (!isLocked) return
+    set({ isLocked: false, offset: null })
+    document.body.style.position = ''
+    document.body.style.top = ''
+    document.body.style.width = ''
+    window.scrollTo(0, offset)
+    return
+  },
+}))
 
 export function useScrollLock(shouldLock: boolean) {
+  const { lock, unlock } = useScrollLockStore()
   useEffect(() => {
     if (shouldLock) {
-      lockScroll()
+      lock()
     } else {
-      unlockScroll()
+      unlock()
     }
-  }, [shouldLock])
+  }, [shouldLock, lock, unlock])
+}
+
+export function useScrollLockState() {
+  const { offset, isLocked } = useScrollLockStore()
+  return { offset, isLocked } as unknown as StateValues
 }

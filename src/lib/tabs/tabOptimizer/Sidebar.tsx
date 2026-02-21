@@ -33,6 +33,7 @@ import { Optimizer } from 'lib/optimization/optimizer'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { BuildsModal } from 'lib/overlays/modals/BuildsModal'
 import { SaveBuildModal } from 'lib/overlays/modals/SaveBuildModal'
+import { useScrollLockState } from 'lib/rendering/scrollController'
 import DB, { AppPages } from 'lib/state/db'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
@@ -293,6 +294,7 @@ function ManyPermsModal(props: { manyPermsModalOpen: boolean, setManyPermsModalO
 
 function OptimizerSidebar(props: { isFullSize: boolean }) {
   const { token } = useToken()
+  const { offset, isLocked } = useScrollLockState()
   const totalSideOffset = SCROLLBAR_WIDTH + RESERVED_SPACE
   const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
   return (
@@ -300,7 +302,13 @@ function OptimizerSidebar(props: { isFullSize: boolean }) {
       <Flex
         justify={props.isFullSize ? 'center' : 'space-evenly'}
         style={props.isFullSize
-          ? { position: 'sticky', top: '25.6%', transform: 'translateY(-50%)', paddingLeft: 10, height: 150 }
+          ? {
+            position: isLocked ? 'relative' : 'sticky',
+            top: isLocked ? offset + 195 : 253,
+            transform: 'translateY(-50%)',
+            paddingLeft: 10,
+            height: 150,
+          }
           : {
             height: 121,
             overflow: 'clip',

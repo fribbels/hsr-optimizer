@@ -388,7 +388,7 @@ function ShowcaseTeamSelectPanel(props: {
     const update = { teammates: simulation?.teammates.map((t, idx) => idx === selectedTeammateIndex ? form : t) }
 
     DB.updateSimulationScoreOverrides(characterId, update)
-    setTeamSelectionByCharacter({ [characterId]: CUSTOM_TEAM })
+    setTeamSelectionByCharacter([characterId, CUSTOM_TEAM])
     setRedrawTeammates(Math.random())
   }
 
@@ -411,7 +411,7 @@ function ShowcaseTeamSelectPanel(props: {
                     icon={<SyncOutlined />}
                     onClick={() => {
                       DB.clearSimulationScoreOverrides(characterId)
-                      if (teamSelection != DEFAULT_TEAM) setTeamSelectionByCharacter({ [characterId]: DEFAULT_TEAM })
+                      if (teamSelection != DEFAULT_TEAM) setTeamSelectionByCharacter([characterId, DEFAULT_TEAM])
                       setRedrawTeammates(Math.random())
 
                       Message.success(t('modals:ScoreFooter.ResetSuccessMsg') /* Reset to default teams */)
@@ -438,7 +438,7 @@ function ShowcaseTeamSelectPanel(props: {
                       }
 
                       DB.updateSimulationScoreOverrides(characterId, update)
-                      if (teamSelection != CUSTOM_TEAM) setTeamSelectionByCharacter({ [characterId]: CUSTOM_TEAM })
+                      if (teamSelection != CUSTOM_TEAM) setTeamSelectionByCharacter([characterId, CUSTOM_TEAM])
                       setRedrawTeammates(Math.random())
 
                       Message.success(t('modals:ScoreFooter.SyncSuccessMsg') /* Synced teammates */)

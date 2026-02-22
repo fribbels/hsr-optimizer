@@ -1015,11 +1015,7 @@ Characters:
       arcanaStacks:
         text: Arcana stacks
         content: >-
-          While an enemy target is in the "Arcana" state, they are also considered to be simultaneously afflicted with Wind Shear, Bleed, Burn, and Shock.
-          The target receives Wind DoT equal to {{dotBaseScaling}}% of Black Swan's ATK at the start of each turn, after which the number of stacks is halved.
-          Each stack of "Arcana" increases this DMG multiplier by {{arcanaAdditionalScaling}}%.
-          "Arcana" can stack {{arcanaStackLimit}} times, and can continue to stack beyond this limit, with the excess stacks removed after dealing DMG.
-          DMG from "Arcana" ignores 20% of the target's DEF.
+          While an enemy target is in the "Arcana" state, they are also considered to be simultaneously afflicted with Wind Shear, Bleed, Burn, and Shock. The target receives Wind DoT equal to {{dotBaseScaling}}% of Black Swan's ATK at the start of each turn, after which the number of stacks is halved. Each stack of "Arcana" increases this DMG multiplier by {{arcanaAdditionalScaling}}%. "Arcana" can stack {{arcanaStackLimit}} times, and can continue to stack beyond this limit, with the excess stacks removed after dealing DMG. DMG from "Arcana" ignores 20% of the target's DEF.
       ehrToDmgBoost:
         text: EHR to DMG Boost
         content: Increases the DMG dealt by all allies by an amount equal to 60% of Black Swan's Effect Hit Rate, up to a maximum DMG increase of 72%.
@@ -2231,23 +2227,15 @@ Characters:
       skillBuffs:
         text: Skill buffs
         content: >-
-          Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 2 turns.
-          ::BR::
-          A6: Increases this ally's All-Type RES PEN by 10%.
-          ::BR::
-          E6: The CRIT DMG Boost effect of Sparkle's Skill additionally increases by 30% of Sparkle's CRIT DMG, and when she uses her Skill, the CRIT DMG Boost effect will apply to all allies currently with Cipher. When Sparkle uses her Ultimate, this effect will spread to all allies with Cipher should the allied target have the CRIT DMG increase effect provided by the Skill active on them.
+          Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 2 turns. ::BR:: A6: Increases this ally's All-Type RES PEN by 10%. ::BR:: E6: The CRIT DMG Boost effect of Sparkle's Skill additionally increases by 30% of Sparkle's CRIT DMG, and when she uses her Skill, the CRIT DMG Boost effect will apply to all allies currently with Cipher. When Sparkle uses her Ultimate, this effect will spread to all allies with Cipher should the allied target have the CRIT DMG increase effect provided by the Skill active on them.
       cipherBuff:
         text: Cipher buff
         content: >-
-          When allies with Cipher trigger the DMG Boost effect provided by Sparkle's Talent, each stack additionally increases its effect by {{cipherTalentStackBoost}}%, lasting for 2 turns.
-          ::BR::
-          E1: All allies affected by Cipher have their ATK increased by 40%.
+          When allies with Cipher trigger the DMG Boost effect provided by Sparkle's Talent, each stack additionally increases its effect by {{cipherTalentStackBoost}}%, lasting for 3 turns. ::BR:: E1: All allies affected by Cipher have their ATK increased by 40%.
       talentStacks:
         text: Talent stacks
         content: >-
-          Whenever an ally target consumes 1 Skill Point, Sparkle gains 1 stack of "Figment," with each stack increasing the DMG taken by all enemies by {{talentStackScaling}}%. This effect lasts for 2 turns and can stack up to 3 times.
-          ::BR::
-          E2: Each Talent stack allows allies to ignore 10% of the enemy target's DEF when dealing DMG to enemies.
+          Whenever an ally target consumes 1 Skill Point, Sparkle gains 1 stack of "Figment," with each stack increasing the DMG taken by all enemies by {{talentStackScaling}}%. This effect lasts for 2 turns and can stack up to 3 times. ::BR:: E2: Each Talent stack allows allies to ignore 10% of the enemy target's DEF when dealing DMG to enemies.
       teamAtkBuff:
         text: Team ATK buff
         content: Increases all allies' ATK by 45%.
@@ -2348,9 +2336,7 @@ Characters:
       teammateBeValue:
         text: The Dahlia's Combat BE
         content: >-
-          When entering combat, increases other characters' Break Effect equal to 24% of The Dahlia's Break Effect plus 50% for 1 turns.
-          ::BR::
-          Set this to The Dahlia's self Break Effect stat that she uses to buff teammates.
+          When entering combat, increases other characters' Break Effect equal to 24% of The Dahlia's Break Effect plus 50% for 1 turns. ::BR:: Set this to The Dahlia's self Break Effect stat that she uses to buff teammates.
   TheHerta:
     Content:
       enhancedSkill:
@@ -2459,9 +2445,7 @@ Characters:
       enhancedBasic:
         text: Enhanced Basic
         content: >-
-          After using Ultimate, gains 1 stack of "Epic," up to 2 stacks. When this unit has "Epic" and Mem is on the field, Basic ATK gets enhanced to "Together, We Script Tomorrow!"
-          ::BR::
-          Consumes 1 stack of "Epic" to dispel all Crowd Control debuffs on Mem. Trailblazer and Mem launch a Joint ATK, dealing Ice DMG to all enemies equal to {{Scaling}}% of Trailblazer's ATK and {{Scaling}}% of Mem's ATK respectively. Then, Mem gains 10% Charge.
+          After using Ultimate, gains 1 stack of "Epic," up to 2 stacks. When this unit has "Epic" and Mem is on the field, Basic ATK gets enhanced to "Together, We Script Tomorrow!" ::BR:: Consumes 1 stack of "Epic" to dispel all Crowd Control debuffs on Mem. Trailblazer and Mem launch a Joint ATK, dealing Ice DMG to all enemies equal to {{Scaling}}% of Trailblazer's ATK and {{Scaling}}% of Mem's ATK respectively. Then, Mem gains 10% Charge.
       memoSkillHits:
         text: Memo Skill hits
         content: >-

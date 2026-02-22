@@ -51,7 +51,6 @@ import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
 import {
   Parts,
   ShowcaseColorMode,
-  Stats,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import {
@@ -63,6 +62,7 @@ import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
 
+import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { getShowcaseSimScoringExecution } from 'lib/scoring/dpsScore'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
@@ -153,10 +153,8 @@ export function CharacterPreview(props: CharacterPreviewProps) {
   const activeKey = window.store((s) => s.activeKey)
   const darkMode = window.store((s) => s.savedSession.showcaseDarkMode)
 
-  // Using these to trigger updates on changes
-  const refreshOnSpdValueChange = window.store((s) => !character ? undefined : s.scoringMetadataOverrides[character.id]?.stats?.[Stats.SPD])
-  const refreshOnTraceChange = window.store((s) => !character ? undefined : s.scoringMetadataOverrides[character.id]?.traces)
-  const refreshOnDeprioritizeBuffsChange = window.store((s) => !character ? undefined : s.scoringMetadataOverrides[character.id]?.simulation?.deprioritizeBuffs)
+  // Using this to trigger updates on scoring metadata changes
+  const scoringMetadata = useScoringMetadata(character?.id)
   const showcaseTemporaryOptionsByCharacter = window.store((s) => s.showcaseTemporaryOptionsByCharacter)
 
   const onRelicModalOk = (relic: Relic) => {

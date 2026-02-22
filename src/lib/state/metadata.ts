@@ -1,7 +1,13 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
-import { Constants, Parts, PartsMainStats, Sets, Stats, } from 'lib/constants/constants'
+import {
+  Constants,
+  Parts,
+  PartsMainStats,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import {
   DEFAULT_BASIC,
   DEFAULT_BREAK,
@@ -92,7 +98,13 @@ import {
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import { DBMetadata, DBMetadataCharacter, DBMetadataLightCone, DBMetadataSets, ScoringMetadata, } from 'types/metadata'
+import {
+  DBMetadata,
+  DBMetadataCharacter,
+  DBMetadataLightCone,
+  DBMetadataSets,
+  ScoringMetadata,
+} from 'types/metadata'
 
 const characters: Record<string, DBMetadataCharacter> = gameData.characters as unknown as Record<string, DBMetadataCharacter>
 const lightCones: Record<string, DBMetadataLightCone> = gameData.lightCones as unknown as Record<string, DBMetadataLightCone>

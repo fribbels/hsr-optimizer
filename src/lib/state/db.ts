@@ -12,6 +12,7 @@ import {
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
+import { SortOption } from 'lib/optimization/sortOptions'
 import {
   DefaultSettingOptions,
   SettingOptions,
@@ -458,6 +459,14 @@ export const DB = {
       // @ts-ignore
       if (character.form.resultSort === 'WEIGHT') {
         character.form.resultSort = 'SPD'
+      }
+
+      // Validate that the saved resultSort is a valid sort option, otherwise reset to default
+      if (!character.form.resultSort || !(character.form.resultSort in SortOption)) {
+        const scoringMetadata = dbCharacters[character.id]?.scoringMetadata
+        character.form.resultSort = scoringMetadata?.simulation
+          ? SortOption.COMBO.key
+          : scoringMetadata?.sortOption.key
       }
 
       // Deduplicate main stat filter values
@@ -1224,3 +1233,4 @@ function indexRelics(relics: Relic[]) {
     relics[idx] = { ...r, ageIndex: idx === 0 ? 0 : relics[idx - 1].ageIndex! + 1 }
   })
 }
+

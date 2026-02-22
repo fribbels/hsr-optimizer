@@ -383,12 +383,11 @@ function ShowcaseTeamSelectPanel(props: {
       return Message.error(t('CharacterPreview.Messages.NoSelectedLightCone') /* No Selected light cone */)
     }
 
-    const scoringMetadata = DB.getScoringMetadata(characterId)
-    const simulation = TsUtils.clone(scoringMetadata.simulation!)
+    const simulation = DB.getScoringMetadata(characterId).simulation
 
-    simulation.teammates[selectedTeammateIndex] = form
+    const update = { teammates: simulation?.teammates.map((t, idx) => idx === selectedTeammateIndex ? form : t) }
 
-    DB.updateSimulationScoreOverrides(characterId, simulation)
+    DB.updateSimulationScoreOverrides(characterId, update)
     setTeamSelectionByCharacter([characterId, CUSTOM_TEAM])
     setRedrawTeammates(Math.random())
   }
@@ -411,11 +410,7 @@ function ShowcaseTeamSelectPanel(props: {
                   <Button
                     icon={<SyncOutlined />}
                     onClick={() => {
-                      const characterMetadata = TsUtils.clone(DB.getMetadata().characters[characterId])
-                      const simulation = characterMetadata.scoringMetadata.simulation!
-
-                      DB.updateSimulationScoreOverrides(characterId, simulation)
-
+                      DB.clearSimulationScoreOverrides(characterId)
                       if (teamSelection != DEFAULT_TEAM) setTeamSelectionByCharacter([characterId, DEFAULT_TEAM])
                       setRedrawTeammates(Math.random())
 
@@ -427,21 +422,22 @@ function ShowcaseTeamSelectPanel(props: {
                   <Button
                     icon={<SwapOutlined />}
                     onClick={() => {
-                      const characterMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
-                      const simulation = characterMetadata.simulation!
+                      const characterMetadata = DB.getScoringMetadata(characterId)
 
-                      for (const teammate of simulation.teammates) {
-                        const form = DB.getCharacterById(teammate.characterId)?.form
-                        if (form == null) continue
-
-                        teammate.characterEidolon = form.characterEidolon
-                        if (form.lightCone) {
-                          teammate.lightCone = form.lightCone
-                          teammate.lightConeSuperimposition = form.lightConeSuperimposition || 1
-                        }
+                      const update = {
+                        teammates: characterMetadata.simulation?.teammates.map((t) => {
+                          const form = DB.getCharacterById(t.characterId)?.form
+                          if (!form) return t
+                          return {
+                            ...t,
+                            characterEidolon: form.characterEidolon,
+                            lightCone: form.lightCone ?? t.lightCone,
+                            lightConeSuperimposition: form.lightCone ? form.lightConeSuperimposition : t.lightConeSuperimposition,
+                          }
+                        }),
                       }
 
-                      DB.updateSimulationScoreOverrides(characterId, simulation)
+                      DB.updateSimulationScoreOverrides(characterId, update)
                       if (teamSelection != CUSTOM_TEAM) setTeamSelectionByCharacter([characterId, CUSTOM_TEAM])
                       setRedrawTeammates(Math.random())
 

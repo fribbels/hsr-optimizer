@@ -200,6 +200,7 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
       if (isRelicSet(set)) {
         relicOptions.push(
           <ConditionalSetOption
+            key={set}
             set={set}
             p4Checked={!meta.modifiable}
             description={t('RelicDescription', { id: setToId[set] })}
@@ -210,6 +211,7 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
       } else {
         ornamentOptions.push(
           <ConditionalSetOption
+            key={set}
             set={set}
             p2Checked={!meta.modifiable}
             description={t('PlanarDescription', { id: setToId[set] })}

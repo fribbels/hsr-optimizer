@@ -34,6 +34,7 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 
+import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import {
   ScoringType,
@@ -70,7 +71,10 @@ import {
   Character,
   CharacterId,
 } from 'types/character'
-import { ShowcasePreferences } from 'types/metadata'
+import {
+  ScoringMetadata,
+  ShowcasePreferences,
+} from 'types/metadata'
 import { ShowcaseSource } from './CharacterPreviewComponents'
 
 export interface ShowcaseCustomizationSidebarRef {
@@ -114,9 +118,9 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     const showcaseDarkMode = window.store((s) => s.savedSession.showcaseDarkMode)
     const showcaseUID = window.store((s) => s.savedSession.showcaseUID)
     const showcasePreciseSpd = window.store((s) => s.savedSession.showcasePreciseSpd)
-    const scoringMetadata = window.store(() => DB.getScoringMetadata(characterId))
-    const spdValue = window.store(() => scoringMetadata.stats[Stats.SPD])
-    const deprioritizeBuffs = window.store(() => scoringMetadata.simulation?.deprioritizeBuffs ?? false)
+    const scoringMetadata = useScoringMetadata(characterId)
+    const spdValue = scoringMetadata.stats[Stats.SPD]
+    const deprioritizeBuffs = scoringMetadata.simulation?.deprioritizeBuffs ?? false
     const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
 
     useImperativeHandle(ref, () => ({
@@ -197,11 +201,10 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     function onShowcaseSpdValueChange(spdValue: number) {
       console.log('Set spd value to', spdValue)
 
-      const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
-      scoringMetadata.stats[Stats.SPD] = spdValue
+      const scoringMetadata = DB.getScoringMetadata(characterId)
+      const update = { stats: { ...scoringMetadata.stats, [Stats.SPD]: spdValue } }
 
-      DB.updateCharacterScoreOverrides(characterId, scoringMetadata)
-      // pubRefreshRelicsScore('refreshRelicsScore', 'null')
+      DB.updateCharacterScoreOverrides(characterId, update)
     }
 
     function onShowcaseSpdBenchmarkChangeEvent(event: React.FocusEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) {
@@ -238,10 +241,8 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
       const scoringMetadata = DB.getScoringMetadata(characterId)
       if (scoringMetadata?.simulation) {
         console.log('Set deprioritizeBuffs to', deprioritizeBuffs)
-
-        const simulationMetadata = TsUtils.clone(scoringMetadata.simulation)
-        simulationMetadata.deprioritizeBuffs = deprioritizeBuffs
-        DB.updateSimulationScoreOverrides(characterId, simulationMetadata)
+        const update = { deprioritizeBuffs }
+        DB.updateSimulationScoreOverrides(characterId, update)
       }
     }
 

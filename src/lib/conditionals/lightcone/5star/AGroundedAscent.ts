@@ -6,12 +6,17 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SUNDAY } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { CharacterId } from 'types/character'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+export default (s: SuperImpositionLevel, withContent: boolean, { characterId }: { characterId: CharacterId }): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.AGroundedAscent')
   const { SOURCE_LC } = Source.lightCone('23034')
 
@@ -49,7 +54,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      if (action.actorId == '1313') {
+      if (characterId === SUNDAY) {
         x.buff(StatKey.DMG_BOOST, m.dmgBuffStacks * sValuesDmg[s], x.targets(TargetTag.SelfAndMemosprite).deferrable().source(SOURCE_LC))
       } else {
         x.buff(StatKey.DMG_BOOST, m.dmgBuffStacks * sValuesDmg[s], x.targets(TargetTag.SingleTarget).source(SOURCE_LC))

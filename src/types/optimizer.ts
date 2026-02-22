@@ -18,7 +18,7 @@ import {
   ConditionalValueMap,
   LightConeConditionalsController,
 } from 'types/conditionals'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 import {
   ElementalDamageType,
   ElementalResPenType,
@@ -124,7 +124,7 @@ export type CharacterStatsBreakdown = {
 export type BasicForm = {
   characterId: CharacterId,
   characterEidolon: number,
-  lightCone: LightCone['id'],
+  lightCone: LightConeId,
   lightConeSuperimposition: number,
 }
 

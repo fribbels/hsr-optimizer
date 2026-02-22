@@ -20,6 +20,8 @@ import { BASE_PATH } from 'lib/state/db'
 const { useToken } = theme
 const { Header } = Layout
 
+export const HEADER_HEIGHT = 48
+
 export function LayoutHeader() {
   const { isOpen: isOpenMenuSidebar, toggle: toggleMenuSidebar } = useOpenClose(OpenCloseIDs.MENU_SIDEBAR)
   const { token } = useToken()
@@ -31,7 +33,7 @@ export function LayoutHeader() {
         alignItems: 'center',
         paddingLeft: '30px',
         paddingRight: '0px',
-        height: 48,
+        height: HEADER_HEIGHT,
         width: '100%',
         backgroundColor: token.colorBgLayout,
         backgroundImage: 'linear-gradient(rgb(0 0 0/60%) 0 0)',

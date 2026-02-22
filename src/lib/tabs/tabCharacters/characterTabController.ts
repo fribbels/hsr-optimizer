@@ -17,6 +17,7 @@ import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import {
   AppPages,
   DB,
+  SavedBuildSource,
 } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
@@ -71,24 +72,9 @@ export const CharacterTabController = {
     window.characterGrid.current?.api?.ensureIndexVisible(character.rank)
   },
 
-  confirmSaveBuild: (name: string) => {
-    const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
-    const selectedCharacter = useCharacterTabStore.getState().selectedCharacter
-    if (!selectedCharacter) return
-    const score = RelicScorer.scoreCharacter(selectedCharacter)
-    const res = DB.saveCharacterBuild(
-      name,
-      selectedCharacter.id,
-      {
-        score: score.totalScore.toFixed(),
-        rating: score.totalRating,
-      },
-    )
-    if (res) return Message.error(res.error)
-    Message.success(t('SaveSuccess', { name }))
-    SaveState.delayedSave()
-    setClose(OpenCloseIDs.SAVE_BUILDS_MODAL)
-  },
+  confirmSaveBuild: (name: string) => updateBuilds(name, false),
+
+  confirmOverwriteBuild: (name: string) => updateBuilds(name, true),
 
   onSwitchRelicsOk: (switchTo: SwitchRelicsFormSelectedCharacter) => {
     const focusCharacter = useCharacterTabStore.getState().focusCharacter
@@ -134,4 +120,21 @@ export const CharacterTabController = {
     DB.setCharacters(sortedCharacters)
     SaveState.delayedSave()
   },
+}
+
+function updateBuilds(name: string, overwrite: boolean) {
+  const selectedCharacter = useCharacterTabStore.getState().selectedCharacter
+  if (!selectedCharacter) return
+  const res = DB.saveCharacterBuild(
+    name,
+    selectedCharacter.id,
+    SavedBuildSource.SHOWCASE,
+    overwrite,
+  )
+  if (res) return Message.error(res.error)
+  if (overwrite) {
+    Message.success(i18next.t('modals:SaveBuild.ConfirmOverwrite.SuccessMessage', { name }))
+  } else {
+    Message.success(i18next.t('charactersTab:Messages.SaveSuccess', { name }))
+  }
 }

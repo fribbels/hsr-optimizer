@@ -114,7 +114,7 @@ function generateOnClickHandler(confirm: (content: ReactNode) => Promise<boolean
         break
 
       case 'saveBuild':
-        setOpen(OpenCloseIDs.SAVE_BUILDS_MODAL)
+        useCharacterTabStore.getState().setSaveBuildModalOpen(true)
         break
 
       case 'switchRelics':
@@ -127,7 +127,7 @@ function generateOnClickHandler(confirm: (content: ReactNode) => Promise<boolean
         break
 
       case 'viewBuilds':
-        setOpen(OpenCloseIDs.BUILDS_MODAL)
+        useCharacterTabStore.getState().setBuildsModalOpen(true)
         break
 
       default:

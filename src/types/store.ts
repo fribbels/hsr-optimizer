@@ -1,5 +1,9 @@
 import { ThemeConfig } from 'antd'
-import { ComputeEngine } from 'lib/constants/constants'
+import {
+  ComputeEngine,
+  CUSTOM_TEAM,
+  DEFAULT_TEAM,
+} from 'lib/constants/constants'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
@@ -7,7 +11,7 @@ import {
   Simulation,
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
-import { AppPage } from 'lib/state/db'
+import { AppPages } from 'lib/state/db'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
@@ -18,10 +22,6 @@ import {
   Eidolon,
 } from 'types/character'
 import { Form } from 'types/form'
-import {
-  LightCone,
-  SuperImpositionLevel,
-} from 'types/lightCone'
 import {
   ScoringMetadata,
   ShowcasePreferences,
@@ -51,7 +51,7 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ optimizerTabFocusCharacter?: CharacterId | null,
   /* give own store?          */ scoringAlgorithmFocusCharacter?: CharacterId | null,
   /* give own store?          */ statTracesDrawerFocusCharacter?: CharacterId | null,
-  /* global                   */ activeKey: AppPage,
+  /* global                   */ activeKey: AppPages,
   /* optimizerTab             */ permutations: number,
   /* optimizerTab             */ permutationsResults: number,
   /* optimizerTab             */ permutationsSearched: number,
@@ -65,6 +65,7 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ optimizationId: string | null,
   /* optimizerTab             */ teammateCount: number,
   /* showcaseTab              */ relicScorerSidebarOpen: boolean,
+  /* showcase Tab             */ showcaseTeamPreferenceById: Partial<Record<CharacterId, typeof CUSTOM_TEAM | typeof DEFAULT_TEAM>>,
   /* optimizerTab             */ optimizerRunningEngine: ComputeEngine,
   /* optimizerTab             */ optimizerStartTime: number | null,
   /* optimizerTab             */ optimizerEndTime: number | null,
@@ -88,31 +89,26 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ setOptimizerStartTime: (open: number) => void,
   /* optimizerTab             */ setOptimizerEndTime: (open: number) => void,
   /* optimizerTab             */ setOptimizerRunningEngine: (s: ComputeEngine) => void,
-  /* optimizerTab             */ optimizerFormCharacterEidolon: number,
-  /* optimizerTab             */ optimizerFormSelectedLightCone: LightCone['id'] | null | undefined,
-  /* optimizerTab             */ optimizerFormSelectedLightConeSuperimposition: number,
   /* optimizerTab             */ setPermutationsResults: (n: number) => void,
   /* optimizerTab             */ setPermutationsSearched: (n: number) => void,
   /* global                   */ setRelicsById: (relicsById: Partial<Record<string, Relic>>) => void,
   /* global                   */ setSavedSessionKey: <T extends keyof GlobalSavedSession>(key: T, value: GlobalSavedSession[T]) => void,
-  /* global                   */ setActiveKey: (key: AppPage) => void,
+  /* global                   */ setActiveKey: (key: AppPages) => void,
   /* give own store?          */ setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void,
   /* give own store?          */ setStatTracesDrawerFocusCharacter: (id: CharacterId | null | undefined) => void,
   /* optimizerTab             */ setOptimizerTabFocusCharacterSelectModalOpen: (open: boolean) => void,
   /* optimizerTab             */ setStatDisplay: (display: StatDisplay) => void,
   /* optimizerTab             */ setMemoDisplay: (display: MemoDisplay) => void,
-  /* optimizerTab             */ setOptimizerFormSelectedLightConeSuperimposition: (x: SuperImpositionLevel) => void,
   /* global                   */ setColorTheme: (x: ColorThemeOverrides) => void,
   /* optimizerTab             */ setOptimizerBuild: (x: Build) => void,
   /* optimizerTab             */ setOptimizerSelectedRowData: (x: OptimizerDisplayDataStatSim | null) => void,
   /* global                   */ setSavedSession: (x: GlobalSavedSession) => void,
-  /* optimizerTab             */ setOptimizerFormSelectedLightCone: (x: LightCone['id'] | null) => void,
-  /* optimizerTab             */ setOptimizerFormCharacterEidolon: (x: Eidolon) => void,
   /* optimizerTab             */ setTeammateCount: (x: number) => void,
   /* optimizerTab             */ setSelectedStatSimulations: (x: Simulation['key'][]) => void,
   /* optimizerTab             */ setStatSimulations: (x: Simulation[]) => void,
   /* optimizerTab             */ setStatSimulationDisplay: (x: StatSimTypes) => void,
   /* global                   */ setScoringMetadataOverrides: (x: Partial<Record<CharacterId, ScoringMetadata>>) => void,
+  /* characterTab/showcaseTab */ setShowcaseTeamPreferenceById: (update: [CharacterId, typeof CUSTOM_TEAM | typeof DEFAULT_TEAM]) => void,
   /* characterTab/showcaseTab */ setShowcasePreferences: (x: Partial<Record<CharacterId, ShowcasePreferences>>) => void,
   /* characterTab/showcaseTab */ setShowcaseTemporaryOptionsByCharacter: (x: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>) => void,
   /* optimizerTab             */ setPermutations: (x: number) => void,

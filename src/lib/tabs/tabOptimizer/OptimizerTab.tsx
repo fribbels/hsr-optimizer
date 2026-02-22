@@ -13,7 +13,6 @@ import {
 import Sidebar from 'lib/tabs/tabOptimizer/Sidebar'
 import { UnreleasedCharacterDisclaimer } from 'lib/tabs/tabOptimizer/UnreleasedCharacterDisclaimer'
 import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
-import React from 'react'
 
 export default function OptimizerTab() {
   const expandedPanelPosition = window.store((s) => s.settings.ExpandedInfoPanelPosition)

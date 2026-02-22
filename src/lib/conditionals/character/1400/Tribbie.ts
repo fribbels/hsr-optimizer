@@ -21,7 +21,6 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TRIBBIE } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {

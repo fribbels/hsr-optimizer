@@ -6,12 +6,12 @@ import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/be
 import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 import { create } from 'zustand'
 
 export type BenchmarkForm = {
   characterId: CharacterId,
-  lightCone: LightCone['id'],
+  lightCone: LightConeId,
   characterEidolon: number,
   lightConeSuperimposition: number,
   basicSpd: number,
@@ -28,14 +28,14 @@ export type BenchmarkForm = {
 
 export type SimpleCharacter = {
   characterId: CharacterId,
-  lightCone: LightCone['id'],
+  lightCone: LightConeId,
   characterEidolon: number,
   lightConeSuperimposition: number,
 }
 
 export type SimpleCharacterSets = {
   characterId: CharacterId,
-  lightCone: LightCone['id'],
+  lightCone: LightConeId,
   characterEidolon: number,
   lightConeSuperimposition: number,
   teamOrnamentSet?: string,

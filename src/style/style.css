@@ -381,6 +381,8 @@ a {
     outline: 1px solid rgba(255, 255, 255, 0.4) !important;
 }
 
+/* .readonly-custom-grid {} */
+
 /* Target the second segment specifically */
 .short-segmented {
     flex-grow: 0.5 !important;

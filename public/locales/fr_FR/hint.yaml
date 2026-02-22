@@ -50,8 +50,6 @@ OptimizerOptions:
   Title: Options d'optimiseur
   PriorityFilter: >-
     <0>Filtre de priorité de personnage</0> - Lorsque cette option est sélectionnée, le personnage ne peut prendre que les reliques de personnages classés plus bas dans la liste de priorité. L'optimiseur ignorera les reliques de personnages classés plus haut dans la liste. Changez les rangs depuis le sélecteur ou en faissant glisser sur la page Personnages.
-  BoostMain: >-
-    <0>Niv. de mainstat</0> - Calcule les mainstats des reliques comme si elles étaient à leur niveau maximal. Les substats ne sont pas modifiées, donc des builds ayant des reliques de bas niveau peuvent s'améliorer une fois ces reliques améliorées.
   KeepCurrent: <0>Garder reliques courantes</0> - Le personnage gardera toutes ses reliques couramment équipées et l'optimiseur tentera de remplir les emplacements vides
   AllowEquipped: <0>Filtre reliques équipées</0> - Lorsque cette option est sélectionnée, l'optimiseur permettra au personnage d'utiliser des reliques équipées à d'autres personnages. Sinon, toutes reliques équipées seront exclues de la recherche.
   Priority: "<0>Priorité</0> - Voir: Filtre de priorité de personnage. Modifier ce paramètre modifiera la priorité du personnage."

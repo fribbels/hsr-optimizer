@@ -165,7 +165,7 @@ function CharacterPreviewSelection() {
     setScreenshotLoading(true)
     // Use a small timeout here so the spinner doesn't lag while the image is being generated
     setTimeout(() => {
-      Utils.screenshotElementById('relicScorerPreview', 'clipboard').finally(() => {
+      void Utils.screenshotElementById('relicScorerPreview', 'clipboard').finally(() => {
         setScreenshotLoading(false)
       })
     }, 100)
@@ -176,7 +176,7 @@ function CharacterPreviewSelection() {
     // Use a small timeout here so the spinner doesn't lag while the image is being generated
     setTimeout(() => {
       const name = selectedCharacter ? tCharacter(`${selectedCharacter.id}.Name`) : null
-      Utils.screenshotElementById('relicScorerPreview', 'download', name).finally(() => {
+      void Utils.screenshotElementById('relicScorerPreview', 'download', name).finally(() => {
         setDownloadLoading(false)
       })
     }, 100)

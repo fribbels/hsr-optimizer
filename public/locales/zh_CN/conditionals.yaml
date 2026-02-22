@@ -1004,6 +1004,31 @@ Characters:
       e4EffResPen:
         text: 4魂效果抵抗降低
         content: '【揭露】状态下，敌方目标效果抵抗降低10%。'
+  BlackSwanB1:
+    Content:
+      skillDefShred:
+        text: 战技防御削弱
+        content: 当黑天鹅使用战技时，有100%的基础概率使目标与相邻目标防御力降低{{skillDefShredScaling}}%，持续3回合。
+      epiphanyDebuff:
+        text: 揭露负面效果
+        content: '【揭露】状态下，敌方目标自身回合内受到的伤害提高{{epiphanyVulnerability}}%。'
+      arcanaStacks:
+        text: 奥迹层数
+        content: >-
+          敌方目标处于【奥迹】状态时，也会被视为同时陷入了风化、裂伤、灼烧、触电状态，每回合开始时受到等同于黑天鹅{{dotBaseScaling}}%攻击力的风属性持续伤害，随后层数减半。每层【奥迹】使此伤害倍率提高{{arcanaAdditionalScaling}}%。【奥迹】可以叠加{{arcanaStackLimit}}层，层数达到上限后可继续叠加，产生伤害后移除超出上限的层数。【奥迹】造成的伤害无视目标20%的防御力。
+      ehrToDmgBoost:
+        text: 效果命中转至伤害加成
+        content: 使我方全体造成的伤害提高，提高数值等同于黑天鹅效果命中的60%，最多使造成的伤害提高72%。
+      e1ResReduction:
+        text: 1魂属性抗性减免
+        content: 当黑天鹅处于可战斗状态时，处于风化、裂伤、灼烧、触电状态下的敌方目标对应的风、物理、火、雷属性抗性分别降低25%。
+      e4Vulnerability:
+        text: 4魂易伤
+        content: '【揭露】状态下，敌方目标受到的伤害额外提高20%。'
+    TeammateContent:
+      combatEhr:
+        text: 黑天鹅战斗时效果命中
+        content: 使我方全体造成的伤害提高，提高数值等同于黑天鹅效果命中的60%，最多使造成的伤害提高72%。
   Blade:
     Content:
       enhancedStateActive:
@@ -2197,6 +2222,31 @@ Characters:
       teammateCDValue:
         text: 花火战斗中暴击伤害值
         content: 使指定我方单体的暴击伤害提高，提高数值等同于花火{{skillCdBuffScaling}}%暴击伤害+{{skillCdBuffBase}}%，持续1回合。
+  SparkleB1:
+    Content:
+      skillBuffs:
+        text: 技能增益
+        content: >-
+          使指定我方单体的暴击伤害提高，提高数值等同于花火{{skillCdBuffScaling}}%暴击伤害+{{skillCdBuffBase}}%，持续2回合。::BR:: 行迹6：我方角色持有战技的暴击伤害提高效果时，全属性抗性穿透提高10%。::BR:: 6魂：战技的暴击伤害提高效果额外提高，提高数值等同于花火暴击伤害的30%，花火施放战技时，使战技的暴击伤害提高效果对持有【谜诡】的队友都会生效，花火施放终结技时，若我方单体中有目标持有战技的暴击伤害提高效果，使该效果扩散至持有【谜诡】的队友。
+      cipherBuff:
+        text: 谜诡增益
+      talentStacks:
+        text: 天赋层数
+        content: >-
+          当我方目标每消耗1点战技点，花火获得1层【幻相】，每层【幻相】使敌方全体受到的伤害提高{{talentStackScaling}}%，该效果持续2回合，最多可叠加3层。::BR:: 2魂：天赋每层效果额外使敌方目标的防御力降低10%。
+      teamAtkBuff:
+        text: 团队攻击力增益
+        content: 我方全体的攻击力提高45%。
+      e1SpdBuff:
+        text: 1魂速度增益
+        content: 战斗开始时或施放战技时，花火的速度提高15%，持续2回合。
+      e2DefPen:
+        text: 2魂防御穿透
+        content: 天赋每层效果额外使敌方目标的防御力降低10%。
+    TeammateContent:
+      teammateCDValue:
+        text: 花火战斗中暴击伤害值
+        content: 使指定我方单体的暴击伤害提高，提高数值等同于花火{{skillCdBuffScaling}}%暴击伤害+{{skillCdBuffBase}}%，持续2回合。
   Sunday:
     Content:
       skillDmgBuff:

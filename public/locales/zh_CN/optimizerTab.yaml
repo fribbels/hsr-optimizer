@@ -314,6 +314,10 @@ Sidebar:
     Filter: 过滤
     Pin: 置顶配装
     Clear: 清除所有置顶
+  BuildsGroup:
+    Header: 配装
+    Save: 保存
+    Load: 加载
 TeammateRow:
   Header: '队友 {{teammateCount}}'
 FormRowLabels:
@@ -375,6 +379,9 @@ SetConditionals:
       3+Debuff:
         Display: 3层+
         Label: 3减益, 已增强 (+12% 伤害 | +4% 基础暴击 | +4% 战斗暴击 | +24% 爆伤)
+    MagicalGirl:
+      Display: '{{stackCount}}层'
+      Label: '{{stackCount}} 层（+{{stackCount}}% 防御力穿透）'
     Sigonia:
       Display: '{{stackCount}}层'
       Label: '{{stackCount}}层 (+{{buffValue}}% CD)'
@@ -401,12 +408,19 @@ SetConditionals:
     Ashblazing: >-
       所选的攻击力%增益将应用于所有计算，除了追加攻击。追加攻击的计算将从0%攻击增益开始，并根据攻击时造成的击中次数叠加。击中次数将根据敌人数量增加，并假设敌方目标位于中心以进行爆炸（3人）/范围（全屏）攻击。
     Prisoner: 所选的防御穿透%增益将根据叠加层数应用于伤害计算。
-    Diver: 选择0层选项可以禁用二件套效果。对于四件套，根据所选选项应用不同的暴击增益于战斗属性计算。
+    Diver: >-
+      选择0层选项可以禁用二件套效果。对于四件套，根据所选选项应用不同的暴击增益于战斗属性计算。
     Watchmaker: 启用后，击破特攻增益将应用于战斗属性计算。
     Valorous: 启用后，终结技伤害的增伤%增益将应用于战斗属性计算。
     Sacerdos: 所选的增益将应用于伤害计算。能够自我增益的角色可以触发此效果。
     Scholar: 启用后，战技伤害的增伤%增益将根据角色的连招顺序增强。
     Hero: 启用后，速度%和暴击伤害增益将应用于战斗属性计算。
+    WarriorGoddess: 启用后，4件套的速度与暴击伤害加成将计入战斗属性计算。
+    Wavestrider: 启用后，攻击力加成将计入战斗属性计算。
+    Deliverer: 启用后，生命值与伤害加成将计入战斗属性计算。
+    Recluse: 启用后，暴击伤害加成将计入战斗属性计算。
+    MagicalGirl: 所选增益将计入战斗属性计算。
+    Diviner: 启用后，欢愉度增益将计入战斗属性计算。
     Differentiator: 启用后，暴击率增益将应用于战斗属性计算。
     Penacony: 启用后，伤害%增益将应用于佩戴者的忆灵。
     Sigonia: 假设角色已击败该数量的敌人，所选的暴击伤害增益将应用于战斗属性计算。
@@ -416,6 +430,8 @@ SetConditionals:
     Lushaka: 默认禁用 - 该套装无法影响佩戴者。
     Banana: 启用后，额外的32%暴击伤害将应用于战斗属性计算。
     Arcadia: 所选增益将应用于战斗属性计算。队伍选择变化时会自动更新。
+    Amphoreus: 启用后，若佩戴者拥有忆灵，速度加成将计入战斗属性计算。
+    Tengoku: 启用后，额外暴击伤害加成将计入战斗属性计算。
 Presets:
   SpdValues:
     SPD0: 无最低速度

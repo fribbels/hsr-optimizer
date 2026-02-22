@@ -42,6 +42,8 @@ Actions:
   p2: Lọc - Áp dụng lại bộ lọc tìm kiếm cho các kết quả hiện có. Sử dụng tính năng này để lọc kết quả mà không cần phải tìm kiếm lại
   p3: Ghim - Ghim hàng đã chọn hiện tại lên đầu lưới. Sử dụng tính năng này để so sánh nhiều lối lên đồ dễ dàng hơn.
   p4: Xóa ghim - Gỡ tất cả các lối lên đồ đã ghim ở đầu lưới.
+Builds:
+  Title: Lối lên đồ
 OptimizerOptions:
   Title: Tùy chọn tối ưu hóa
 Relics:

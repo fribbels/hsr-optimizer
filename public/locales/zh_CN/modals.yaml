@@ -329,11 +329,21 @@ EditImage:
 SaveBuild:
   Label: 配装名称
   Rule: 请输入名称
+  Overwrite: 覆盖
+  ConfirmOverwrite:
+    Content: 确定要覆盖该配装吗？
+    SuccessMessage: '已成功覆盖配装：{{name}}'
+  Tooltip:
+    SaveDisabled:
+      NameTaken: 已存在同名配装。请修改名称后再保存。
+      NoName: 配装必须命名后才能保存。请为配装输入名称后再保存。
+    OverwriteDisabled: 不存在该名称的配装。请选择已有配装或输入其名称后再进行覆盖。
 SwitchRelics:
   Title: 与角色交换遗器
 Builds:
   DeleteAll: 删除全部
   Equip: 装备
+  Load: 加载至优化器
   ConfirmEquip:
     Content: 装备此配装将卸下使用任何该配装中遗器的角色
     SuccessMessage: '成功装备配装：{{buildName}}'

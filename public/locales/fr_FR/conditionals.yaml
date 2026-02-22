@@ -997,6 +997,14 @@ Characters:
       e4EffResPen:
         text: 'E4: Réduction de RAE'
         content: La RÉS aux effets des cibles ennemies affectées par Épiphanie est réduite de 10%.
+  BlackSwanB1:
+    Content:
+      skillDefShred:
+        text: Réduction de DÉF
+      epiphanyDebuff:
+        text: Malus Épiphanie
+      arcanaStacks:
+        text: Cumuls d'Arcanes
   Blade:
     Content:
       enhancedStateActive:
@@ -2133,6 +2141,17 @@ Characters:
       teammateCDValue:
         text: DC en combat de Sparkle
         content: Augmente les DGT critiques d'une cible alliée unique à hauteur de {{skillCdBuffScaling}}% des DGT critiques de Sparkle + {{skillCdBuffBase}}% pendant 1 tour.
+  SparkleB1:
+    Content:
+      cipherBuff:
+        text: Bonus Énigme
+      talentStacks:
+        text: Cumuls du talent
+      e2DefPen:
+        text: 'E2: PÉN de DÉF'
+    TeammateContent:
+      teammateCDValue:
+        text: DC en combat de Sparkle
   Sunday:
     Content:
       skillDmgBuff:

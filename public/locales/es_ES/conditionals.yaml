@@ -1004,6 +1004,16 @@ Characters:
       e4EffResPen:
         text: E4 Reducción de RES a efecto
         content: En el estado de Desvelación, la RES a efecto de los objetivos enemigos se reduce en un 10%.
+  BlackSwanB1:
+    Content:
+      skillDefShred:
+        text: Reducción DEF de Habilidad
+      epiphanyDebuff:
+        text: Afección Desvelación
+      arcanaStacks:
+        text: Acumulaciones de Arcano
+      e4Vulnerability:
+        text: E4 Vulnerabilidad
   Blade:
     Content:
       enhancedStateActive:
@@ -2198,6 +2208,17 @@ Characters:
       teammateCDValue:
         text: DC en combate de Sparkle
         content: Aumenta el Daño CRIT de un aliado en un valor equivalente al {{skillCdBuffScaling}}% del Daño CRIT de Sparkle + {{skillCdBuffBase}}% durante 1 turno
+  SparkleB1:
+    Content:
+      cipherBuff:
+        text: Mejora Adivinanza
+      talentStacks:
+        text: Acumulaciones Talento
+      e2DefPen:
+        text: E2 PEN DEF
+    TeammateContent:
+      teammateCDValue:
+        text: DC en combate de Sparkle
   Sunday:
     Content:
       skillDmgBuff:

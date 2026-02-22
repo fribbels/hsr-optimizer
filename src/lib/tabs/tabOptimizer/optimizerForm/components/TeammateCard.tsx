@@ -19,7 +19,7 @@ import {
 } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
-import DB, { AppPages } from 'lib/state/db'
+import DB from 'lib/state/db'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
@@ -328,12 +328,10 @@ const TeammateCard = (props: {
   }
 
   useEffect(() => {
-    console.debug(window.lockOptimizerTeammates, teammateCharacterId, teammateLightConeId, props.index)
     updateTeammate()
   }, [teammateCharacterId, props.index])
 
   useEffect(() => {
-    console.debug(window.lockOptimizerTeammates, teammateCharacterId, teammateLightConeId, props.index)
     if (!teammateLightConeId || window.lockOptimizerTeammates) return
 
     const displayFormValues = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())

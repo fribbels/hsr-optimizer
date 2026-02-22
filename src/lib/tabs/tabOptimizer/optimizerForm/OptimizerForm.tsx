@@ -63,7 +63,6 @@ export default function OptimizerForm() {
   const dbMetadata = useMemo(() => DB.getMetadata(), [])
 
   const onValuesChange = (changedValues: Form, allValues: Form, bypass: boolean = false) => {
-    console.log('optimizer form values changed')
     if (!changedValues || !allValues?.characterId) return
     const keys = Object.keys(changedValues)
 

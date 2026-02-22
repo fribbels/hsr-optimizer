@@ -41,7 +41,7 @@ Messages:
   UnequipWarning: 'Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?'
   DeleteWarning: 'Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?'
   NoBuilds: 'Attempted to overwrite build {{name}} but $t(gameData:Characters.{{charId}}.Name) has no saved builds'
-  NoMatchingBuild: 'attempted to overwrite build {{name}} but no such build exists'
+  NoMatchingBuild: 'Attempted to overwrite build {{name}} but no such build exists'
   BuildAlreadyExists: 'Build name {{name}} already exists'
   ImageUploadFailed: Image upload failed
   InvalidFile: File is not a valid image file
@@ -114,8 +114,7 @@ CharacterPreview:
     ComboDmgUpgrade: Combo DMG Δ
   BuildAnalysis:
     ScoringNote: >-
-      DPS Score rates build quality by comparing an ability rotation's damage to benchmark builds with the same team / lightcones / eidolons.
-      Scores and Combo DMG are measured relative only to the chosen team setup, and should not be compared across different configurations.
+      DPS Score rates build quality by comparing an ability rotation's damage to benchmark builds with the same team / lightcones / eidolons. Scores and Combo DMG are measured relative only to the chosen team setup, and should not be compared across different configurations.
     RelicRarityHeader: Relic rarity upgrade comparisons
     RelicRarityNote: |-
       Estimated TBP measures the expected farming time in Days and Trailblaze Power required to upgrade each relic based on the character's stat weights.

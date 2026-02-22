@@ -1,7 +1,13 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
-import { Constants, Parts, PartsMainStats, Sets, Stats, } from 'lib/constants/constants'
+import {
+  Constants,
+  Parts,
+  PartsMainStats,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import {
   DEFAULT_BASIC,
   DEFAULT_BREAK,
@@ -92,7 +98,13 @@ import {
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import { DBMetadata, DBMetadataCharacter, DBMetadataLightCone, DBMetadataSets, ScoringMetadata, } from 'types/metadata'
+import {
+  DBMetadata,
+  DBMetadataCharacter,
+  DBMetadataLightCone,
+  DBMetadataSets,
+  ScoringMetadata,
+} from 'types/metadata'
 
 const characters: Record<string, DBMetadataCharacter> = gameData.characters as unknown as Record<string, DBMetadataCharacter>
 const lightCones: Record<string, DBMetadataLightCone> = gameData.lightCones as unknown as Record<string, DBMetadataLightCone>
@@ -1742,7 +1754,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.SKILL_SHIELD,
-      addedColumns: [SortOption.SHIELD],
+      addedColumns: [],
       hiddenColumns: [SortOption.SKILL, SortOption.DOT],
     },
     1002: { // Dan Heng
@@ -2844,7 +2856,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.ULT_SHIELD,
-      addedColumns: [SortOption.SHIELD],
+      addedColumns: [],
       hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1105: { // Natasha
@@ -2892,7 +2904,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.ULT_HEAL,
-      addedColumns: [SortOption.OHB, SortOption.HEAL],
+      addedColumns: [SortOption.OHB],
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1106: { // Pela
@@ -3326,7 +3338,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.TALENT_HEAL,
-      addedColumns: [SortOption.OHB, SortOption.HEAL],
+      addedColumns: [SortOption.OHB],
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1111: { // Luka
@@ -3792,7 +3804,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.SPD,
-      addedColumns: [SortOption.OHB, SortOption.HEAL],
+      addedColumns: [SortOption.OHB],
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     1204: { // Jing Yuan
@@ -4241,7 +4253,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.EHP,
-      addedColumns: [SortOption.OHB, SortOption.HEAL],
+      addedColumns: [SortOption.OHB],
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     1209: { // Yanqing
@@ -4452,7 +4464,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.TALENT_HEAL,
-      addedColumns: [SortOption.OHB, SortOption.HEAL],
+      addedColumns: [SortOption.OHB],
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1212: { // Jingliu
@@ -4885,7 +4897,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.TALENT_HEAL,
-      addedColumns: [SortOption.OHB, SortOption.HEAL],
+      addedColumns: [SortOption.OHB],
       hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
     },
     1218: { // Jiaoqiu
@@ -5219,7 +5231,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.FUA_HEAL,
-      addedColumns: [SortOption.OHB, SortOption.HEAL],
+      addedColumns: [SortOption.OHB],
       hiddenColumns: [SortOption.DOT],
     },
     1223: { // Moze
@@ -5617,7 +5629,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.BE,
-      addedColumns: [SortOption.OHB, SortOption.HEAL],
+      addedColumns: [SortOption.OHB],
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     1302: { // Argenti
@@ -5821,7 +5833,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.fnPioneerSet(4),
       ],
       sortOption: SortOption.FUA,
-      addedColumns: [SortOption.SHIELD],
+      addedColumns: [],
       hiddenColumns: [SortOption.SKILL, SortOption.DOT],
       simulation: {
         parts: {
@@ -7334,7 +7346,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.TALENT_SHIELD,
-      addedColumns: [SortOption.SHIELD],
+      addedColumns: [],
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     8004: { // Fire Trailblazer F
@@ -7377,7 +7389,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       presets: [],
       sortOption: SortOption.TALENT_SHIELD,
-      addedColumns: [SortOption.SHIELD],
+      addedColumns: [],
       hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
     },
     8005: { // Imaginary Trailblazer M
@@ -8310,7 +8322,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.WARRIOR_SET,
       ],
       sortOption: SortOption.SKILL_HEAL,
-      addedColumns: [SortOption.OHB, SortOption.HEAL, SortOption.MEMO_SKILL],
+      addedColumns: [SortOption.OHB, SortOption.MEMO_SKILL],
       hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.ULT],
     },
     1406: { // Cipher
@@ -9613,7 +9625,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         PresetEffects.VALOROUS_SET,
       ],
       sortOption: SortOption.ATK,
-      addedColumns: [SortOption.SHIELD],
+      addedColumns: [],
       hiddenColumns: [SortOption.DOT, SortOption.SKILL],
     },
     1415: { // Cyrene

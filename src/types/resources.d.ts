@@ -107,7 +107,7 @@ interface Resources {
       "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?",
       "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?",
       "NoBuilds": "Attempted to overwrite build {{name}} but $t(gameData:Characters.{{charId}}.Name) has no saved builds",
-      "NoMatchingBuild": "attempted to overwrite build {{name}} but no such build exists",
+      "NoMatchingBuild": "Attempted to overwrite build {{name}} but no such build exists",
       "BuildAlreadyExists": "Build name {{name}} already exists",
       "ImageUploadFailed": "Image upload failed",
       "InvalidFile": "File is not a valid image file"
@@ -3558,7 +3558,7 @@ interface Resources {
           },
           "cipherBuff": {
             "text": "Cipher buff",
-            "content": "When allies with Cipher trigger the DMG Boost effect provided by Sparkle's Talent, each stack additionally increases its effect by {{cipherTalentStackBoost}}%, lasting for 2 turns. ::BR:: E1: All allies affected by Cipher have their ATK increased by 40%."
+            "content": "When allies with Cipher trigger the DMG Boost effect provided by Sparkle's Talent, each stack additionally increases its effect by {{cipherTalentStackBoost}}%, lasting for 3 turns. ::BR:: E1: All allies affected by Cipher have their ATK increased by 40%."
           },
           "talentStacks": {
             "text": "Talent stacks",
@@ -6583,6 +6583,11 @@ interface Resources {
           "Set": "$t(gameData:RelicSets.128.Name)",
           "Text": "15% CD"
         },
+        "Diviner": {
+          "Desc": "4 Piece: $t(gameData:RelicSets.130.Name) (+10% Elation)",
+          "Set": "$t(gameData:RelicSets.130.Name)",
+          "Text": "10% Elation"
+        },
         "Keel": {
           "Desc": "$t(gameData:RelicSets.310.Name) (+10% CD)",
           "Set": "$t(gameData:RelicSets.310.Name)",
@@ -6685,8 +6690,7 @@ interface Resources {
           "DOT_DMG": "Dot",
           "BREAK_DMG": "Break",
           "MEMO_SKILL_DMG": "Skillᴹ",
-          "MEMO_TALENT_DMG": "Talentᴹ",
-          "ELATION_SKILL_DMG": "Elation"
+          "MEMO_TALENT_DMG": "Talentᴹ"
         },
         "TooltipText": {
           "abilityDmg": "Ability DMG",

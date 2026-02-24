@@ -14,38 +14,74 @@ import {
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Message } from 'lib/interactions/message'
-import { defaultTeammate, getDefaultForm, } from 'lib/optimization/defaultForm'
+import {
+  defaultTeammate,
+  getDefaultForm,
+} from 'lib/optimization/defaultForm'
 import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
 import { SortOption } from 'lib/optimization/sortOptions'
 
-import { DefaultSettingOptions, SettingOptions, } from 'lib/overlays/drawers/SettingsDrawer'
+import {
+  DefaultSettingOptions,
+  SettingOptions,
+} from 'lib/overlays/drawers/SettingsDrawer'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
-import { getGlobalThemeConfigFromColorTheme, Themes, } from 'lib/rendering/theme'
+import {
+  getGlobalThemeConfigFromColorTheme,
+  Themes,
+} from 'lib/rendering/theme'
 import { oldCharacterScoringMetadata } from 'lib/scoring/oldCharacterScoringMetadata'
 import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
-import { Simulation, StatSimTypes, } from 'lib/simulations/statSimulationTypes'
+import {
+  Simulation,
+  StatSimTypes,
+} from 'lib/simulations/statSimulationTypes'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
-import { emptyFilters, statFiltersFromForm, } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormTransform'
+import {
+  emptyFilters,
+  statFiltersFromForm,
+} from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormTransform'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
-import { ArrayFilters, definedEntries, } from 'lib/utils/arrayUtils'
+import {
+  ArrayFilters,
+  definedEntries,
+} from 'lib/utils/arrayUtils'
 import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { Build, BuildOptimizerMetadata, BuildTeammate, Character, CharacterId, SavedBuild, } from 'types/character'
+import {
+  Build,
+  BuildOptimizerMetadata,
+  BuildTeammate,
+  Character,
+  CharacterId,
+  SavedBuild,
+} from 'types/character'
 import { CustomImageConfig } from 'types/customImage'
 import { Form } from 'types/form'
-import { DBMetadata, ScoringMetadata, SimulationMetadata, } from 'types/metadata'
-import { Relic, Stat, } from 'types/relic'
-import { GlobalSavedSession, HsrOptimizerSaveFormat, HsrOptimizerStore, } from 'types/store'
+import {
+  DBMetadata,
+  ScoringMetadata,
+  SimulationMetadata,
+} from 'types/metadata'
+import {
+  Relic,
+  Stat,
+} from 'types/relic'
+import {
+  GlobalSavedSession,
+  HsrOptimizerSaveFormat,
+  HsrOptimizerStore,
+} from 'types/store'
 import { create } from 'zustand'
 
 export enum SavedBuildSource {

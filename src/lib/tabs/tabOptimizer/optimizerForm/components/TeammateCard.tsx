@@ -39,7 +39,10 @@ import {
   CharacterId,
 } from 'types/character'
 import { ReactElement } from 'types/components'
-import { TeammateProperty } from 'types/form'
+import {
+  Form,
+  TeammateProperty,
+} from 'types/form'
 import {
   LightConeId,
   SuperImpositionLevel,
@@ -294,61 +297,6 @@ const TeammateCard = (props: {
     return options
   }, [t])
 
-  function updateTeammate() {
-    window.store.getState().setTeammateCount(countTeammates())
-
-    if (!teammateCharacterId) {
-      window.optimizerForm.setFieldValue([teammateProperty], getDefaultTeammateForm())
-      return
-    }
-
-    const displayFormValues = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
-    const teammateValues = displayFormValues[teammateProperty]
-    const teammateCharacter = DB.getCharacterById(teammateCharacterId)
-    if (teammateCharacter) {
-      // Fill out fields based on the teammate's form
-      teammateValues.lightCone = teammateCharacter.form.lightCone
-      teammateValues.lightConeSuperimposition = teammateCharacter.form.lightConeSuperimposition || 1
-      teammateValues.characterEidolon = teammateCharacter.form.characterEidolon
-
-      const activeTeammateSets = calculateTeammateSets(teammateCharacter)
-      teammateValues.teamRelicSet = activeTeammateSets.teamRelicSet
-      teammateValues.teamOrnamentSet = activeTeammateSets.teamOrnamentSet
-    } else {
-      teammateValues.lightConeSuperimposition = 1
-      teammateValues.characterEidolon = 0
-    }
-
-    const characterConditionals = CharacterConditionalsResolver.get({
-      characterId: teammateCharacterId,
-      characterEidolon: teammateValues.characterEidolon,
-    })
-
-    if (characterConditionals.teammateDefaults) {
-      teammateValues.characterConditionals = Object.assign({}, characterConditionals.teammateDefaults(), teammateValues.characterConditionals)
-    }
-
-    applyTeamAwareSetConditionalPresetsToOptimizerFormInstance(window.optimizerForm)
-    window.optimizerForm.setFieldValue([teammateProperty], teammateValues)
-  }
-
-  useEffect(() => {
-    updateTeammate()
-  }, [teammateCharacterId, props.index])
-
-  useEffect(() => {
-    if (!teammateLightConeId) return
-
-    const displayFormValues = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
-    const teammate = displayFormValues[teammateProperty]
-    const conditionalResolverMetadata = generateConditionalResolverMetadata(teammate, props.dbMetadata)
-    const controller = LightConeConditionalsResolver.get(conditionalResolverMetadata)
-
-    if (!controller.teammateDefaults) return
-    const mergedConditionals = Object.assign({}, controller.teammateDefaults(), displayFormValues[teammateProperty].lightConeConditionals)
-    window.optimizerForm.setFieldValue([teammateProperty, 'lightConeConditionals'], mergedConditionals)
-  }, [teammateLightConeId, teammateSuperimposition, teammateCharacterId, props.index])
-
   return (
     <FormCard size='medium' height={cardHeight} style={{ overflow: 'auto' }}>
       <Flex vertical gap={5}>
@@ -367,7 +315,7 @@ const TeammateCard = (props: {
             style={{ width: 35 }}
             disabled={disabled}
             onClick={() => {
-              updateTeammate()
+              updateTeammate({ [`teammate${props.index}` as TeammateProperty]: { characterId: teammateCharacterId } })
               Message.success(t('TeammateSyncSuccessMessage')) // 'Synced teammate info'
             }}
           />
@@ -492,3 +440,57 @@ const TeammateCard = (props: {
 }
 
 export default TeammateCard
+
+export function updateTeammate(changedValues: Partial<Form>) {
+  const updatedTeammate = changedValues.teammate0 ?? changedValues.teammate1 ?? changedValues.teammate2!
+  let updatedId: 0 | 1 | 2
+  if (changedValues.teammate0) {
+    updatedId = 0
+  } else if (changedValues.teammate1) {
+    updatedId = 1
+  } else {
+    updatedId = 2
+  }
+  const property: TeammateProperty = `teammate${updatedId}`
+
+  if (updatedTeammate.lightCone) {
+    const displayFormValues = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
+    const teammate = displayFormValues[property]
+    const conditionalResolverMetadata = generateConditionalResolverMetadata(teammate, DB.getMetadata())
+    const controller = LightConeConditionalsResolver.get(conditionalResolverMetadata)
+    if (!controller.teammateDefaults) return
+    const mergedConditionals = Object.assign({}, controller.teammateDefaults(), displayFormValues[property].lightConeConditionals)
+    window.optimizerForm.setFieldValue([property, 'lightConeConditionals'], mergedConditionals)
+  } else {
+    const teammateCharacterId = updatedTeammate.characterId
+    window.store.getState().setTeammateCount(countTeammates())
+    if (!teammateCharacterId) {
+      window.optimizerForm.setFieldValue([property], getDefaultTeammateForm())
+      return
+    }
+    const displayFormValues = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
+    const teammateValues = displayFormValues[property]
+    const teammateCharacter = DB.getCharacterById(teammateCharacterId)
+    if (teammateCharacter) {
+      // Fill out fields based on the teammate's form
+      teammateValues.lightCone = teammateCharacter.form.lightCone
+      teammateValues.lightConeSuperimposition = teammateCharacter.form.lightConeSuperimposition || 1
+      teammateValues.characterEidolon = teammateCharacter.form.characterEidolon
+      const activeTeammateSets = calculateTeammateSets(teammateCharacter)
+      teammateValues.teamRelicSet = activeTeammateSets.teamRelicSet
+      teammateValues.teamOrnamentSet = activeTeammateSets.teamOrnamentSet
+    } else {
+      teammateValues.lightConeSuperimposition = 1
+      teammateValues.characterEidolon = 0
+    }
+    const characterConditionals = CharacterConditionalsResolver.get({
+      characterId: teammateCharacterId,
+      characterEidolon: teammateValues.characterEidolon,
+    })
+    if (characterConditionals.teammateDefaults) {
+      teammateValues.characterConditionals = Object.assign({}, characterConditionals.teammateDefaults(), teammateValues.characterConditionals)
+    }
+    applyTeamAwareSetConditionalPresetsToOptimizerFormInstance(window.optimizerForm)
+    window.optimizerForm.setFieldValue([property], teammateValues)
+  }
+}

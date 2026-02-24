@@ -625,6 +625,10 @@ TeammateCard:
       Desc: '4 Piece: $t(gameData:RelicSets.128.Name) (+15% CD)'
       Set: '$t(gameData:RelicSets.128.Name)'
       Text: 15% CD
+    Diviner:
+      Desc: '4 Piece: $t(gameData:RelicSets.130.Name) (+10% Elation)'
+      Set: '$t(gameData:RelicSets.130.Name)'
+      Text: 10% Elation
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10% CD)'
       Set: '$t(gameData:RelicSets.310.Name)'

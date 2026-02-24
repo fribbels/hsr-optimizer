@@ -352,6 +352,10 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
           if (teammateSetEffects[Sets.AmphoreusTheEternalLand]) break
           x.buff(StatKey.SPD_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.AmphoreusTheEternalLand))
           break
+        case Sets.DivinerOfDistantReach:
+          if (teammateSetEffects[Sets.DivinerOfDistantReach]) break
+          x.buff(StatKey.ELATION_DMG_BOOST, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
+          break
         default:
       }
 

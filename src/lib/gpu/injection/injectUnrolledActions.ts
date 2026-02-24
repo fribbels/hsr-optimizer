@@ -345,6 +345,14 @@ fn unrolledAction${index}(
     ${buff.action(AKey.CR, 'crValue').targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
   }
 
+  if (p4((*p_sets).DivinerOfDistantReach) >= 1) {
+    let divinerCrValue = select(0.0, 0.10, (*p_c).SPD >= 120.0) + select(0.0, 0.08, (*p_c).SPD >= 160.0);
+    ${buff.action(AKey.CR, 'divinerCrValue').wgsl(action, 2)}
+    if (setConditionals.enabledDivinerOfDistantReach == true) {
+      ${buff.action(AKey.ELATION_DMG_BOOST, 0.10).targets(TargetTag.FullTeam).wgsl(action, 3)}
+    }
+  }
+
   // ===== SPD BUFFS =====
 
   if (
@@ -533,6 +541,10 @@ fn unrolledAction${index}(
 
   if (p4((*p_sets).PrisonerInDeepConfinement) >= 1) {
     ${buff.action(AKey.DEF_PEN, `0.06 * f32(setConditionals.valuePrisonerInDeepConfinement)`).wgsl(action, 2)}
+  }
+
+  if (p4((*p_sets).EverGloriousMagicalGirl) >= 1) {
+    ${buff.hit(HKey.DEF_PEN, `0.10 + 0.01 * f32(setConditionals.valueEverGloriousMagicalGirl)`).damageType(DamageTag.ELATION).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
   }
 
   if (p2((*p_sets).GuardOfWutheringSnow) >= 1) {

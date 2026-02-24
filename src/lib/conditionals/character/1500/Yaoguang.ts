@@ -44,9 +44,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const ultResPenValue = ult(e, 0.20, 0.22)
   const talentElationScaling = talent(e, 0.20, 0.22)
 
-  const elationSkillAoeScaling = elationSkill(e, 1.00, 1.00, 1.10)
+  const elationSkillAoeScaling = elationSkill(e, 1.00, 1.05, 1.10)
   const elationSkillBounceCount = 5
-  const elationSkillBounceScaling = elationSkill(e, 0.20, 0.20, 0.22)
+  const elationSkillBounceScaling = elationSkill(e, 0.20, 0.21, 0.22)
   const elationSkillVulnerability = 0.16
 
   const ahaPunchlineValue = (e >= 1) ? 40 : 20

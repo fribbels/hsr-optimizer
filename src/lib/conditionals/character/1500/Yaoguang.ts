@@ -52,7 +52,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const ahaPunchlineValue = (e >= 1) ? 40 : 20
 
   const defaults = {
-    punchlineStacks: 20,
+    punchlineStacks: 50,
     skillZoneActive: true,
     ultResPenBuff: true,
     certifiedBanger: true,
@@ -67,7 +67,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const teammateDefaults = {
     certifiedBanger: true,
     consumesSkillPoints: true,
-    teammatePunchlineStacks: 20,
+    teammatePunchlineStacks: 50,
     skillZoneActive: true,
     teammateElationValue: 2.00,
     ultResPenBuff: true,
@@ -84,7 +84,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'Punchline stacks',
       content: betaContent,
       min: 0,
-      max: 99,
+      max: 100,
     },
     skillZoneActive: {
       id: 'skillZoneActive',
@@ -159,7 +159,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: `Yao Guang's Punchline stacks`,
       content: betaContent,
       min: 0,
-      max: 99,
+      max: 100,
     },
     skillZoneActive: content.skillZoneActive,
     teammateElationValue: {

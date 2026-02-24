@@ -52,7 +52,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const defaults = {
     enhancedBasic: true,
-    punchlineStacks: 10,
+    punchlineStacks: 35,
     engagementFarmingStacks: 20,
     certifiedBanger: true,
     atkToElation: true,
@@ -64,7 +64,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const teammateDefaults = {
-    punchlineStacks: 10,
+    punchlineStacks: 35,
     e1PunchlineResPen: true,
     punchlineCritDmg: true,
   }
@@ -82,7 +82,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'Punchline stacks',
       content: betaContent,
       min: 0,
-      max: 99,
+      max: 100,
     },
     engagementFarmingStacks: {
       id: 'engagementFarmingStacks',
@@ -149,7 +149,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'Punchline stacks',
       content: betaContent,
       min: 0,
-      max: 99,
+      max: 100,
     },
     e1PunchlineResPen: content.e1PunchlineResPen,
     punchlineCritDmg: content.punchlineCritDmg,

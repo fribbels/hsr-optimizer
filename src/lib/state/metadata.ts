@@ -9907,6 +9907,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
             Stats.ATK_P,
           ],
           [Parts.LinkRope]: [
+            Stats.ERR,
             Stats.ATK_P,
           ],
         },
@@ -10018,8 +10019,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         substats: [
           Stats.CD,
           Stats.CR,
-          Stats.SPD,
           Stats.ATK_P,
+          Stats.ATK,
+          Stats.SPD,
         ],
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
@@ -10033,6 +10035,9 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboDot: 0,
         errRopeEidolon: 0,
+        breakpoints: {
+          [Stats.SPD]: 120,
+        },
         relicSets: [
           [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
           [Sets.DivinerOfDistantReach, Sets.DivinerOfDistantReach],
@@ -10040,7 +10045,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
           ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
         ],
         ornamentSets: [
-          Sets.LushakaTheSunkenSeas, // ?
+          Sets.TengokuLivestream,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
           ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
           ...SPREAD_ORNAMENTS_2P_SUPPORT,

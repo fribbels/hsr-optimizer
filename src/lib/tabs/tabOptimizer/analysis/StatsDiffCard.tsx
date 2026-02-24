@@ -14,7 +14,9 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
 
-const cardHeight = 429
+const baseCardHeight = 429
+const basePortraitHeight = 400
+const extraRowHeight = 27
 const cardWidth = 730
 const border = '1px solid rgb(53, 75, 125)'
 
@@ -22,6 +24,9 @@ export function StatsDiffCard(props: {
   analysis: OptimizerResultAnalysis,
 }) {
   const { analysis } = props
+  const extraHeight = analysis.extraRows.length * extraRowHeight
+  const cardHeight = baseCardHeight + extraHeight
+  const portraitHeight = basePortraitHeight + extraHeight
 
   return (
     <Flex
@@ -32,7 +37,7 @@ export function StatsDiffCard(props: {
       }}
       gap={10}
     >
-      <CardImage analysis={analysis} />
+      <CardImage analysis={analysis} portraitHeight={portraitHeight} />
 
       <Flex
         style={{
@@ -80,6 +85,9 @@ function StatDiffSummary(props: { analysis: OptimizerResultAnalysis }) {
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.OHB} />
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.ERR} />
         <DiffRow oldStats={oldStats} newStats={newStats} stat={props.analysis.elementalDmgValue} />
+        {props.analysis.extraRows.map((stat) => (
+          <DiffRow key={stat} oldStats={oldStats} newStats={newStats} stat={stat} />
+        ))}
       </Flex>
     </StatText>
   )
@@ -187,7 +195,7 @@ function visualDiff(n1: number, n2: number, stat: string) {
   }
 }
 
-function CardImage(props: { analysis: OptimizerResultAnalysis }) {
+function CardImage(props: { analysis: OptimizerResultAnalysis, portraitHeight: number }) {
   return (
     <div
       style={{
@@ -198,7 +206,7 @@ function CardImage(props: { analysis: OptimizerResultAnalysis }) {
         background: '#243356',
       }}
     >
-      <CharacterPreviewInternalImage id={props.analysis.request.characterId} disableClick={true} parentH={400} />
+      <CharacterPreviewInternalImage id={props.analysis.request.characterId} disableClick={true} parentH={props.portraitHeight} />
     </div>
   )
 }

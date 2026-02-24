@@ -479,6 +479,7 @@ interface Resources {
       "Fua": "Fua DMG",
       "Memo_Skill": "Skillᴹ DMG",
       "Memo_Talent": "Talentᴹ DMG",
+      "Elation_Skill": "Aha DMG",
       "Dot": "Dot DMG",
       "Break": "Break DMG",
       "CV": "CV"

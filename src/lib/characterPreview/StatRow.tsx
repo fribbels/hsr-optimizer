@@ -48,6 +48,7 @@ export const damageStats: Record<string, string> = {
   'Physical DMG Boost': 'Physical DMG',
   'Quantum DMG Boost': 'Quantum DMG',
   'Wind DMG Boost': 'Wind DMG',
+  'Elation DMG Boost': 'Elation DMG',
 }
 
 export const displayTextMap = {
@@ -59,6 +60,7 @@ export const displayTextMap = {
   'Physical DMG Boost': 'Physical DMG',
   'Quantum DMG Boost': 'Quantum DMG',
   'Wind DMG Boost': 'Wind DMG',
+  'Elation DMG Boost': 'Elation DMG',
   'Outgoing Healing Boost': 'Healing Boost',
   'Energy Regeneration Rate': 'Energy Regen',
   'BASIC': 'Basic Damage',

@@ -6719,7 +6719,8 @@ interface Resources {
           "E1": "E1",
           "E2": "E2",
           "E4": "E4",
-          "E6": "E6"
+          "E6": "E6",
+          "ElationSkill": "Elation Skill"
         },
         "Stats": {
           "CompositeLabels": {

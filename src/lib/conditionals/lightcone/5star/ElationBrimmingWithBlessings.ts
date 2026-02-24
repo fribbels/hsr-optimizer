@@ -11,7 +11,8 @@ import { SuperImpositionLevel } from 'types/lightCone'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  const { SOURCE_LC } = Source.lightCone(ELATION_BRIMMING_WITH_BLESSINGS)
+  // const { SOURCE_LC } = Source.lightCone(ELATION_BRIMMING_WITH_BLESSINGS)
+  const SOURCE_LC = {} as any // TODO: uncomment when 24006 is added to game_data
 
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
 

@@ -59,6 +59,7 @@ export function buffAbilityTrueDmg(x: ComputedStatsArray, abilityTypeFlags: numb
   if (abilityTypeFlags & x.a[Key.BREAK_DMG_TYPE]) targetSelection(target, x.BREAK_TRUE_DMG_MODIFIER, value, source)
   if (abilityTypeFlags & x.a[Key.MEMO_SKILL_DMG_TYPE]) targetSelection(target, x.MEMO_SKILL_TRUE_DMG_MODIFIER, value, source)
   if (abilityTypeFlags & x.a[Key.MEMO_TALENT_DMG_TYPE]) targetSelection(target, x.MEMO_TALENT_TRUE_DMG_MODIFIER, value, source)
+  if (abilityTypeFlags & x.a[Key.ELATION_SKILL_DMG_TYPE]) targetSelection(target, x.ELATION_SKILL_TRUE_DMG_MODIFIER, value, source)
   // if (abilityTypeFlags & x.a[Key.SUPER_BREAK_DMG_TYPE]) targetSelection(target, x.SUPER_BREAK_TRUE_DMG_MODIFIER, value, source)
   // if (abilityTypeFlags & x.a[Key.ADDITIONAL_DMG_TYPE]) targetSelection(target, x.ADDITIONAL_TRUE_DMG_MODIFIER, value, source)
 }
@@ -74,6 +75,7 @@ export function buffAbilityDmg(x: ComputedStatsArray, abilityTypeFlags: number, 
   if (abilityTypeFlags & x.a[Key.BREAK_DMG_TYPE]) targetSelection(target, x.BREAK_DMG_BOOST, value, source)
   if (abilityTypeFlags & x.a[Key.MEMO_SKILL_DMG_TYPE]) targetSelection(target, x.MEMO_SKILL_DMG_BOOST, value, source)
   if (abilityTypeFlags & x.a[Key.MEMO_TALENT_DMG_TYPE]) targetSelection(target, x.MEMO_TALENT_DMG_BOOST, value, source)
+  if (abilityTypeFlags & x.a[Key.ELATION_SKILL_DMG_TYPE]) targetSelection(target, x.ELATION_SKILL_DMG_BOOST, value, source)
   if (abilityTypeFlags & x.a[Key.ADDITIONAL_DMG_TYPE]) targetSelection(target, x.ADDITIONAL_DMG_BOOST, value, source)
   if (abilityTypeFlags & x.a[Key.SUPER_BREAK_DMG_TYPE]) targetSelection(target, x.SUPER_BREAK_DMG_BOOST, value, source)
 }
@@ -89,6 +91,7 @@ export function buffAbilityVulnerability(x: ComputedStatsArray, abilityTypeFlags
   if (abilityTypeFlags & x.a[Key.BREAK_DMG_TYPE]) targetSelection(target, x.BREAK_VULNERABILITY, value, source)
   if (abilityTypeFlags & x.a[Key.MEMO_SKILL_DMG_TYPE]) targetSelection(target, x.MEMO_SKILL_VULNERABILITY, value, source)
   if (abilityTypeFlags & x.a[Key.MEMO_TALENT_DMG_TYPE]) targetSelection(target, x.MEMO_TALENT_VULNERABILITY, value, source)
+  if (abilityTypeFlags & x.a[Key.ELATION_SKILL_DMG_TYPE]) targetSelection(target, x.ELATION_SKILL_VULNERABILITY, value, source)
   // if (abilityTypeFlags & x.a[Key.ADDITIONAL_DMG_TYPE]) targetSelection(target, x.ADDITIONAL_VULNERABILITY, value, source)
   if (abilityTypeFlags & x.a[Key.SUPER_BREAK_DMG_TYPE]) targetSelection(target, x.SUPER_BREAK_VULNERABILITY, value, source)
 }
@@ -104,6 +107,7 @@ export function buffAbilityResPen(x: ComputedStatsArray, abilityTypeFlags: numbe
   if (abilityTypeFlags & x.a[Key.BREAK_DMG_TYPE]) targetSelection(target, x.BREAK_RES_PEN, value, source)
   if (abilityTypeFlags & x.a[Key.MEMO_SKILL_DMG_TYPE]) targetSelection(target, x.MEMO_SKILL_RES_PEN, value, source)
   if (abilityTypeFlags & x.a[Key.MEMO_TALENT_DMG_TYPE]) targetSelection(target, x.MEMO_TALENT_RES_PEN, value, source)
+  if (abilityTypeFlags & x.a[Key.ELATION_SKILL_DMG_TYPE]) targetSelection(target, x.ELATION_SKILL_RES_PEN, value, source)
   // if (abilityTypeFlags & x.a[Key.ADDITIONAL_DMG_TYPE]) targetSelection(target, x.ADDITIONAL_RES_PEN, value, source)
   // if (abilityTypeFlags & x.a[Key.SUPER_BREAK_DMG_TYPE]) targetSelection(target, x.SUPER_BREAK_RES_PEN, value, source)
 }
@@ -119,6 +123,7 @@ export function buffAbilityDefPen(x: ComputedStatsArray, abilityTypeFlags: numbe
   if (abilityTypeFlags & x.a[Key.BREAK_DMG_TYPE]) targetSelection(target, x.BREAK_DEF_PEN, value, source)
   if (abilityTypeFlags & x.a[Key.MEMO_SKILL_DMG_TYPE]) targetSelection(target, x.MEMO_SKILL_DEF_PEN, value, source)
   if (abilityTypeFlags & x.a[Key.MEMO_TALENT_DMG_TYPE]) targetSelection(target, x.MEMO_TALENT_DEF_PEN, value, source)
+  if (abilityTypeFlags & x.a[Key.ELATION_SKILL_DMG_TYPE]) targetSelection(target, x.ELATION_SKILL_DEF_PEN, value, source)
   // if (abilityTypeFlags & x.a[Key.ADDITIONAL_DMG_TYPE]) targetSelection(target, x.ADDITIONAL_DEF_PEN, value, source)
   if (abilityTypeFlags & x.a[Key.SUPER_BREAK_DMG_TYPE]) targetSelection(target, x.SUPER_BREAK_DEF_PEN, value, source)
 }
@@ -134,6 +139,7 @@ export function buffAbilityCr(x: ComputedStatsArray, abilityTypeFlags: number, v
   // if (abilityTypeFlags & x.a[Key.BREAK_DMG_TYPE]) targetSelection(target, x.BREAK_CR_BOOST, value, source)
   if (abilityTypeFlags & x.a[Key.MEMO_SKILL_DMG_TYPE]) targetSelection(target, x.MEMO_SKILL_CR_BOOST, value, source)
   if (abilityTypeFlags & x.a[Key.MEMO_TALENT_DMG_TYPE]) targetSelection(target, x.MEMO_TALENT_CR_BOOST, value, source)
+  if (abilityTypeFlags & x.a[Key.ELATION_SKILL_DMG_TYPE]) targetSelection(target, x.ELATION_SKILL_CR_BOOST, value, source)
   // if (abilityTypeFlags & x.a[Key.ADDITIONAL_DMG_TYPE]) targetSelection(target, x.ADDITIONAL_CR_BOOST, value, source)
   // if (abilityTypeFlags & x.a[Key.SUPER_BREAK_DMG_TYPE]) targetSelection(target, x.SUPER_BREAK_CR_BOOST, value, source)
 }
@@ -149,6 +155,7 @@ export function buffAbilityCd(x: ComputedStatsArray, abilityTypeFlags: number, v
   // if (abilityTypeFlags & x.a[Key.BREAK_DMG_TYPE]) targetSelection(target, x.BREAK_CD_BOOST, value, source)
   if (abilityTypeFlags & x.a[Key.MEMO_SKILL_DMG_TYPE]) targetSelection(target, x.MEMO_SKILL_CD_BOOST, value, source)
   if (abilityTypeFlags & x.a[Key.MEMO_TALENT_DMG_TYPE]) targetSelection(target, x.MEMO_TALENT_CD_BOOST, value, source)
+  if (abilityTypeFlags & x.a[Key.ELATION_SKILL_DMG_TYPE]) targetSelection(target, x.ELATION_SKILL_CD_BOOST, value, source)
   // if (abilityTypeFlags & x.a[Key.ADDITIONAL_DMG_TYPE]) targetSelection(target, x.ADDITIONAL_CD_BOOST, value, source)
   // if (abilityTypeFlags & x.a[Key.SUPER_BREAK_DMG_TYPE]) targetSelection(target, x.SUPER_BREAK_CD_BOOST, value, source)
 }

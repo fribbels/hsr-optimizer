@@ -599,6 +599,8 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       c.CD.buff(0.16, Source.EverGloriousMagicalGirl)
     },
     p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      x.buff(StatKey.DEF_PEN, 0.10 + 0.01 * setConditionals.valueEverGloriousMagicalGirl,
+        x.damageType(DamageTag.ELATION).targets(TargetTag.SelfAndMemosprite).source(Source.EverGloriousMagicalGirl))
     },
   },
   DivinerOfDistantReach: {
@@ -608,6 +610,12 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       c.SPD_P.buff(0.06, Source.DivinerOfDistantReach)
     },
     p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+      const spd = x.c.a[Key.SPD]
+      x.buff(StatKey.CR, (spd >= 120 ? 0.10 : 0) + (spd >= 160 ? 0.08 : 0),
+        x.source(Source.DivinerOfDistantReach))
+      if (setConditionals.enabledDivinerOfDistantReach) {
+        x.buff(StatKey.ELATION_DMG_BOOST, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
+      }
     },
   },
 }

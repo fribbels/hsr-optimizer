@@ -471,6 +471,7 @@ ComboFilter:
     Break: 격파
     MemoSkill: 소환물 데미지
     MemoTalent: 기억정령 특성
+    ElationSkill: 환락도
   RotationButton: 고급 사이클
 ComboDrawer:
   NoConditionals: 조건부 패시브 없음

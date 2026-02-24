@@ -50,9 +50,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const elationSkillAoeScaling = elationSkill(e, 0.50, 0.525, 0.55)
   const elationSkillBounceScaling = elationSkill(e, 0.25, 0.2625, 0.275)
 
+  let defaultPunchlines = 35
+  if (e >= 1) defaultPunchlines += 5
+  if (e >= 2) defaultPunchlines += 4
+  if (e >= 4) defaultPunchlines += 5
+
   const defaults = {
     enhancedBasic: true,
-    punchlineStacks: 35,
+    punchlineStacks: defaultPunchlines,
     engagementFarmingStacks: 20,
     certifiedBanger: true,
     atkToElation: true,
@@ -64,7 +69,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const teammateDefaults = {
-    punchlineStacks: 35,
+    punchlineStacks: 10,
     e1PunchlineResPen: true,
     punchlineCritDmg: true,
   }
@@ -82,7 +87,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'Punchline stacks',
       content: betaContent,
       min: 0,
-      max: 100,
+      max: 200,
     },
     engagementFarmingStacks: {
       id: 'engagementFarmingStacks',
@@ -149,7 +154,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'Punchline stacks',
       content: betaContent,
       min: 0,
-      max: 100,
+      max: 10,
     },
     e1PunchlineResPen: content.e1PunchlineResPen,
     punchlineCritDmg: content.punchlineCritDmg,

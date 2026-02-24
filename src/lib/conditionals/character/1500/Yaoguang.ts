@@ -84,7 +84,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'Punchline stacks',
       content: betaContent,
       min: 0,
-      max: 100,
+      max: 200,
     },
     skillZoneActive: {
       id: 'skillZoneActive',
@@ -159,7 +159,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: `Yao Guang's Punchline stacks`,
       content: betaContent,
       min: 0,
-      max: 100,
+      max: 200,
     },
     skillZoneActive: content.skillZoneActive,
     teammateElationValue: {

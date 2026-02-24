@@ -69,7 +69,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const teammateDefaults = {
-    punchlineStacks: 10,
+    punchlineStacks: defaultPunchlines,
     e1PunchlineResPen: true,
     punchlineCritDmg: true,
   }
@@ -154,7 +154,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'Punchline stacks',
       content: betaContent,
       min: 0,
-      max: 10,
+      max: 200,
     },
     e1PunchlineResPen: content.e1PunchlineResPen,
     punchlineCritDmg: content.punchlineCritDmg,

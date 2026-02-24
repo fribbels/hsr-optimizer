@@ -553,6 +553,7 @@ ComboFilter:
     Break: 击破
     MemoSkill: 忆灵技
     MemoTalent: 忆灵天赋
+    ElationSkill: 欢愉
     BasicHeal: 普攻治疗量
     SkillHeal: 战技治疗量
     UltHeal: 终结技治疗量

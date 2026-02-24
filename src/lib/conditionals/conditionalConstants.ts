@@ -17,6 +17,7 @@ export enum DamageType {
   SUPER_BREAK = 64,
   MEMO = 128,
   ADDITIONAL = 256,
+  ELATION = 512,
 }
 
 export enum AbilityType {
@@ -28,6 +29,7 @@ export enum AbilityType {
   BREAK = 32,
   MEMO_SKILL = 64,
   MEMO_TALENT = 128,
+  ELATION_SKILL = 256,
 }
 
 export const NONE_DMG_TYPE: number = 0
@@ -40,6 +42,7 @@ export const BREAK_DMG_TYPE: number = DamageType.BREAK
 export const SUPER_BREAK_DMG_TYPE: number = DamageType.SUPER_BREAK
 export const MEMO_DMG_TYPE: number = DamageType.MEMO
 export const ADDITIONAL_DMG_TYPE: number = DamageType.ADDITIONAL
+export const ELATION_DMG_TYPE: number = DamageType.ELATION
 
 export const BASIC_ABILITY_TYPE: number = AbilityType.BASIC
 export const SKILL_ABILITY_TYPE: number = AbilityType.SKILL
@@ -49,6 +52,7 @@ export const DOT_ABILITY_TYPE: number = AbilityType.DOT
 export const BREAK_ABILITY_TYPE: number = AbilityType.BREAK
 export const MEMO_SKILL_ABILITY_TYPE: number = AbilityType.MEMO_SKILL
 export const MEMO_TALENT_ABILITY_TYPE: number = AbilityType.MEMO_TALENT
+export const ELATION_SKILL_ABILITY_TYPE: number = AbilityType.ELATION_SKILL
 
 export const BUFF_PRIORITY_SELF = 0
 export const BUFF_PRIORITY_MEMO = 1

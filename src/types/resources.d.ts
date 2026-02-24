@@ -6015,6 +6015,7 @@ interface Resources {
       "FUA": "Sorted by Follow-up DMG",
       "MEMO_SKILL": "Sorted by Memo Skill DMG",
       "MEMO_TALENT": "Sorted by Memo Talent DMG",
+      "ELATION_SKILL": "Sorted by Elation DMG",
       "DOT": "Sorted by DoT DMG",
       "BREAK": "Sorted by Break DMG",
       "HEAL": "Sorted by Heal",
@@ -6122,6 +6123,7 @@ interface Resources {
           "FUA": "FUA\nDMG",
           "MEMO_SKILL": "SKILLᴹ\nDMG",
           "MEMO_TALENT": "TALENTᴹ\nDMG",
+          "ELATION_SKILL": "ELATION\nDMG",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
           "BASIC_HEAL": "BASIC\nHEAL",
@@ -6159,6 +6161,7 @@ interface Resources {
           "FUA": "FUA\nDMG",
           "MEMO_SKILL": "SKILLᴹ\nDMG",
           "MEMO_TALENT": "TALENTᴹ\nDMG",
+          "ELATION_SKILL": "ELATION\nDMG",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
           "BASIC_HEAL": "BASIC\nHEAL",
@@ -6508,6 +6511,7 @@ interface Resources {
         "Break": "Break",
         "MemoSkill": "Skillᴹ",
         "MemoTalent": "Talentᴹ",
+        "ElationSkill": "Elation",
         "BasicHeal": "Basic HEAL",
         "SkillHeal": "Skill HEAL",
         "UltHeal": "Ult HEAL",
@@ -6681,7 +6685,8 @@ interface Resources {
           "DOT_DMG": "Dot",
           "BREAK_DMG": "Break",
           "MEMO_SKILL_DMG": "Skillᴹ",
-          "MEMO_TALENT_DMG": "Talentᴹ"
+          "MEMO_TALENT_DMG": "Talentᴹ",
+          "ELATION_SKILL_DMG": "Elation"
         },
         "TooltipText": {
           "abilityDmg": "Ability DMG",
@@ -6723,7 +6728,8 @@ interface Resources {
               "Dot": "Dot",
               "Break": "Break",
               "Memo Skill": "Memo Skill",
-              "Memo Talent": "Memo Talent"
+              "Memo Talent": "Memo Talent",
+              "Elation Skill": "Elation Skill"
             },
             "Suffix": {
               "ATK scaling": "ATK scaling",
@@ -6791,7 +6797,8 @@ interface Resources {
             "Super Break Vulnerability": "Super Break Vulnerability",
             "Additional DMG boost": "Additional DMG boost",
             "Ult Additional DMG CR override": "Ult Additional DMG CR override",
-            "Ult Additional DMG CD override": "Ult Additional DMG CD override"
+            "Ult Additional DMG CD override": "Ult Additional DMG CD override",
+            "Merrymaking": "Merrymaking"
           },
           "DmgTypes": {
             "Basic": "Basic DMG type",
@@ -6802,6 +6809,7 @@ interface Resources {
             "Break": "Break DMG type",
             "MemoSkill": "Memo Skill DMG type",
             "MemoTalent": "Memo Talent DMG type",
+            "ElationSkill": "Elation DMG type",
             "Additional": "Additional DMG type",
             "SuperBreak": "Super Break DMG type"
           },

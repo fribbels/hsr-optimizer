@@ -89,6 +89,13 @@ export interface HealTallyHitDefinition extends BaseHitDefinition {
   referenceHitOffset: number // Offset from this hit's index to find the reference heal hit (e.g., -1 for previous hit)
 }
 
+export interface ElationHitDefinition extends BaseHitDefinition {
+  damageFunctionType: DamageFunctionType.Elation
+  elationScaling: number // Ability multiplier applied to Elation base damage
+  punchlineStacks: number // Number of Punchline stacks for this hit
+  minElationOverride?: number // Minimum Elation value - uses max(attacker's Elation, this value) for this hit
+}
+
 // Union type for all hit definitions
 export type HitDefinition =
   | CritHitDefinition
@@ -99,6 +106,7 @@ export type HitDefinition =
   | HealHitDefinition
   | ShieldHitDefinition
   | HealTallyHitDefinition
+  | ElationHitDefinition
 
 // Specialized Hit types (definition + runtime fields)
 export type CritHit = CritHitDefinition & HitRuntime
@@ -109,9 +117,10 @@ export type AdditionalHit = AdditionalHitDefinition & HitRuntime
 export type HealHit = HealHitDefinition & HitRuntime
 export type ShieldHit = ShieldHitDefinition & HitRuntime
 export type HealTallyHit = HealTallyHitDefinition & HitRuntime
+export type ElationHit = ElationHitDefinition & HitRuntime
 
 // Union type for all hits (definition + runtime fields)
-export type Hit = CritHit | DotHit | BreakHit | SuperBreakHit | AdditionalHit | HealHit | ShieldHit | HealTallyHit
+export type Hit = CritHit | DotHit | BreakHit | SuperBreakHit | AdditionalHit | HealHit | ShieldHit | HealTallyHit | ElationHit
 
 export interface EntityDefinition {
   primary: boolean

@@ -1,17 +1,11 @@
-import {
-  ElementName,
-  PathName,
-} from 'lib/constants/constants'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { ElementName, PathName, } from 'lib/constants/constants'
 import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { CYRENE } from 'lib/simulations/tests/testMetadataConstants'
 import { ContentItem } from 'types/conditionals'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
 import { Hit } from 'types/hitConditionalTypes'
-import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { DamageTag } from 'lib/optimization/engine/config/tag'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 /**
  * Helper methods used in conditional files
@@ -42,6 +36,15 @@ export const calculateAshblazingSetP = (x: ComputedStatsArray, action: Optimizer
 export const ability = (upgradeEidolon: number) => {
   return function<T extends number, K extends number>(eidolon: number, value1: T, value2: K): T | K {
     return eidolon >= upgradeEidolon ? value2 : value1
+  }
+}
+
+// E0-2 = value1, E3-4 = value2, E5-6 = value3
+export const tripleAbility = () => {
+  return function(eidolon: number, value1: number, value2: number, value3: number): number {
+    if (eidolon >= 5) return value3
+    if (eidolon >= 3) return value2
+    return value1
   }
 }
 
@@ -116,6 +119,13 @@ export const AbilityEidolon = {
     talent: ability(5),
     memoTalent: ability(5),
     memoSkill: ability(3),
+  },
+  SKILL_BASIC_ELATION_SKILL_3_ULT_TALENT_ELATION_SKILL_5: {
+    basic: ability(3),
+    skill: ability(3),
+    ult: ability(5),
+    talent: ability(5),
+    elationSkill: tripleAbility(),
   },
 }
 

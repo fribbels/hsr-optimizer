@@ -8,7 +8,7 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { StatKey } from './engine/config/keys'
 
-const SIZE = 75
+const SIZE = 76
 
 export type OptimizerDisplayData = {
   'id': number,
@@ -36,6 +36,7 @@ export type OptimizerDisplayData = {
   'FUA': number,
   'MEMO_SKILL': number,
   'MEMO_TALENT': number,
+  'ELATION_SKILL': number,
   'DOT': number,
   'BREAK': number,
   'COMBO': number,
@@ -151,6 +152,7 @@ export const BufferPacker = {
       'FUA': 20,
       'MEMO_SKILL': 21,
       'MEMO_TALENT': 22,
+      'ELATION_SKILL': 75,
       'DOT': 23,
       'BREAK': 24,
       'BASIC_HEAL': 65,
@@ -262,6 +264,7 @@ export const BufferPacker = {
       'FUA': arr[offset + 20],
       'MEMO_SKILL': arr[offset + 21],
       'MEMO_TALENT': arr[offset + 22],
+      'ELATION_SKILL': arr[offset + 75],
       'DOT': arr[offset + 23],
       'BREAK': arr[offset + 24], // 24
       'COMBO': arr[offset + 25],
@@ -358,6 +361,7 @@ export const BufferPacker = {
     arr[offset + 20] = a[Key.FUA_DMG]
     arr[offset + 21] = a[Key.MEMO_SKILL_DMG]
     arr[offset + 22] = a[Key.MEMO_TALENT_DMG]
+    arr[offset + 75] = a[Key.ELATION_SKILL_DMG]
     arr[offset + 23] = a[Key.DOT_DMG]
     arr[offset + 24] = a[Key.BREAK_DMG] // 22
     arr[offset + 25] = a[Key.COMBO_DMG]

@@ -1,13 +1,7 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
-import {
-  Constants,
-  Parts,
-  PartsMainStats,
-  Sets,
-  Stats,
-} from 'lib/constants/constants'
+import { Constants, Parts, PartsMainStats, Sets, Stats, } from 'lib/constants/constants'
 import {
   DEFAULT_BASIC,
   DEFAULT_BREAK,
@@ -28,7 +22,9 @@ import {
   START_SKILL,
   START_ULT,
   WHOLE_BASIC,
+  WHOLE_ELATION_SKILL,
   WHOLE_SKILL,
+  WHOLE_ULT,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
@@ -46,6 +42,7 @@ import {
   CIPHER,
   CYRENE,
   DANCE_DANCE_DANCE,
+  DAZZLED_BY_A_FLOWERY_WORLD,
   EARTHLY_ESCAPADE,
   EPOCH_ETCHED_IN_GOLDEN_BLOOD,
   EVERNIGHT,
@@ -81,6 +78,7 @@ import {
   SCENT_ALONE_STAYS_TRUE,
   SILVER_WOLF_B1,
   SPARKLE_B1,
+  SPARXIE,
   SUNDAY,
   THE_DAHLIA,
   THE_HERTA,
@@ -91,20 +89,16 @@ import {
   TO_EVERNIGHTS_STARS,
   TOPAZ_NUMBY,
   TRIBBIE,
+  WHEN_SHE_DECIDED_TO_SEE,
   WHEREABOUTS_SHOULD_DREAMS_REST,
   WHY_DOES_THE_OCEAN_SING,
   WORRISOME_BLISSFUL,
+  YAO_GUANG,
   YET_HOPE_IS_PRICELESS,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import {
-  DBMetadata,
-  DBMetadataCharacter,
-  DBMetadataLightCone,
-  DBMetadataSets,
-  ScoringMetadata,
-} from 'types/metadata'
+import { DBMetadata, DBMetadataCharacter, DBMetadataLightCone, DBMetadataSets, ScoringMetadata, } from 'types/metadata'
 
 const characters: Record<string, DBMetadataCharacter> = gameData.characters as unknown as Record<string, DBMetadataCharacter>
 const lightCones: Record<string, DBMetadataLightCone> = gameData.lightCones as unknown as Record<string, DBMetadataLightCone>
@@ -9890,12 +9884,79 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
       },
       sets: {
         ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-        ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-        ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+        [Sets.EverGloriousMagicalGirl]: 1,
+
+        [Sets.DivinerOfDistantReach]: 1,
+        ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
       },
       presets: [],
       sortOption: SortOption.BASIC,
-      hiddenColumns: [SortOption.DOT],
+      hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.SPD,
+            Stats.ATK_P,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.Fire_DMG,
+            Stats.ATK_P,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ERR,
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+        ],
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          WHOLE_ULT,
+          WHOLE_BASIC,
+          WHOLE_ELATION_SKILL,
+          WHOLE_BASIC,
+          WHOLE_ELATION_SKILL,
+          WHOLE_BASIC,
+        ],
+        comboDot: 0,
+        errRopeEidolon: 0,
+        relicSets: [
+          [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.TengokuLivestream,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+        ],
+        teammates: [
+          {
+            characterId: SPARKLE_B1,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: YAO_GUANG,
+            lightCone: WHEN_SHE_DECIDED_TO_SEE,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     1502: { // Yaoguang
       stats: {
@@ -9929,12 +9990,87 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
         [Sets.MessengerTraversingHackerspace]: 1,
         [Sets.SacerdosRelivedOrdeal]: 1,
+        [Sets.EverGloriousMagicalGirl]: 1,
 
+        [Sets.DivinerOfDistantReach]: 1,
         ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
       },
       presets: [],
-      sortOption: SortOption.BASIC,
+      sortOption: SortOption.ELATION_SKILL,
       hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
+      simulation: {
+        parts: {
+          [Parts.Body]: [
+            Stats.CR,
+            Stats.CD,
+          ],
+          [Parts.Feet]: [
+            Stats.SPD,
+          ],
+          [Parts.PlanarSphere]: [
+            Stats.ATK_P,
+            Stats.Physical_DMG,
+          ],
+          [Parts.LinkRope]: [
+            Stats.ERR,
+            Stats.ATK_P,
+          ],
+        },
+        substats: [
+          Stats.CD,
+          Stats.CR,
+          Stats.ATK_P,
+          Stats.ATK,
+          Stats.SPD,
+        ],
+        comboTurnAbilities: [
+          NULL_TURN_ABILITY_NAME,
+          WHOLE_SKILL,
+          WHOLE_ULT,
+          WHOLE_ELATION_SKILL,
+          WHOLE_BASIC,
+          WHOLE_ELATION_SKILL,
+          WHOLE_BASIC,
+          WHOLE_ELATION_SKILL,
+        ],
+        comboDot: 0,
+        errRopeEidolon: 0,
+        breakpoints: {
+          [Stats.SPD]: 120,
+        },
+        relicSets: [
+          [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
+          [Sets.DivinerOfDistantReach, Sets.DivinerOfDistantReach],
+          RELICS_2P_SPEED,
+          ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+        ],
+        ornamentSets: [
+          Sets.TengokuLivestream,
+          ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+          ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+          ...SPREAD_ORNAMENTS_2P_SUPPORT,
+        ],
+        teammates: [
+          {
+            characterId: SPARXIE,
+            lightCone: DAZZLED_BY_A_FLOWERY_WORLD,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: SPARKLE_B1,
+            lightCone: BUT_THE_BATTLE_ISNT_OVER,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+          {
+            characterId: HUOHUO,
+            lightCone: NIGHT_OF_FRIGHT,
+            characterEidolon: 0,
+            lightConeSuperimposition: 1,
+          },
+        ],
+      },
     },
     // 1504: { // Ashveil
     //   stats: {

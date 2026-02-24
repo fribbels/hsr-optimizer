@@ -117,6 +117,7 @@ const teammateRelicSets = [
   Sets.SacerdosRelivedOrdeal,
   Sets.WarriorGoddessOfSunAndThunder,
   Sets.WorldRemakingDeliverer,
+  Sets.DivinerOfDistantReach,
 ]
 const teammateOrnamentSets = [
   Sets.BrokenKeel,
@@ -208,6 +209,11 @@ export function renderTeammateRelicSetOptions(t: TFunction<'optimizerTab', 'Team
         value: Sets.SelfEnshroudedRecluse,
         desc: t('TeammateSets.SelfEnshrouded.Desc'), // '4 Piece: Self-Enshrouded Recluse (+15% CD)',
         label: labelRender(Sets.SelfEnshroudedRecluse, t('TeammateSets.SelfEnshrouded.Text')), // labelRender(Sets.SelfEnshroudedRecluse, '15% CD'),
+      },
+      {
+        value: Sets.DivinerOfDistantReach,
+        desc: t('TeammateSets.Diviner.Desc'), // '4 Piece: Diviner of Distant Reach (+10% Elation)',
+        label: labelRender(Sets.DivinerOfDistantReach, t('TeammateSets.Diviner.Text')), // labelRender(Sets.DivinerOfDistantReach, '10% Elation'),
       },
     ]
   }

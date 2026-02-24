@@ -107,7 +107,7 @@ interface Resources {
       "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?",
       "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?",
       "NoBuilds": "Attempted to overwrite build {{name}} but $t(gameData:Characters.{{charId}}.Name) has no saved builds",
-      "NoMatchingBuild": "attempted to overwrite build {{name}} but no such build exists",
+      "NoMatchingBuild": "Attempted to overwrite build {{name}} but no such build exists",
       "BuildAlreadyExists": "Build name {{name}} already exists",
       "ImageUploadFailed": "Image upload failed",
       "InvalidFile": "File is not a valid image file"
@@ -3558,7 +3558,7 @@ interface Resources {
           },
           "cipherBuff": {
             "text": "Cipher buff",
-            "content": "When allies with Cipher trigger the DMG Boost effect provided by Sparkle's Talent, each stack additionally increases its effect by {{cipherTalentStackBoost}}%, lasting for 2 turns. ::BR:: E1: All allies affected by Cipher have their ATK increased by 40%."
+            "content": "When allies with Cipher trigger the DMG Boost effect provided by Sparkle's Talent, each stack additionally increases its effect by {{cipherTalentStackBoost}}%, lasting for 3 turns. ::BR:: E1: All allies affected by Cipher have their ATK increased by 40%."
           },
           "talentStacks": {
             "text": "Talent stacks",
@@ -6015,6 +6015,7 @@ interface Resources {
       "FUA": "Sorted by Follow-up DMG",
       "MEMO_SKILL": "Sorted by Memo Skill DMG",
       "MEMO_TALENT": "Sorted by Memo Talent DMG",
+      "ELATION_SKILL": "Sorted by Elation DMG",
       "DOT": "Sorted by DoT DMG",
       "BREAK": "Sorted by Break DMG",
       "HEAL": "Sorted by Heal",
@@ -6122,6 +6123,7 @@ interface Resources {
           "FUA": "FUA\nDMG",
           "MEMO_SKILL": "SKILLᴹ\nDMG",
           "MEMO_TALENT": "TALENTᴹ\nDMG",
+          "ELATION_SKILL": "ELATION\nDMG",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
           "BASIC_HEAL": "BASIC\nHEAL",
@@ -6159,6 +6161,7 @@ interface Resources {
           "FUA": "FUA\nDMG",
           "MEMO_SKILL": "SKILLᴹ\nDMG",
           "MEMO_TALENT": "TALENTᴹ\nDMG",
+          "ELATION_SKILL": "ELATION\nDMG",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
           "BASIC_HEAL": "BASIC\nHEAL",
@@ -6508,6 +6511,7 @@ interface Resources {
         "Break": "Break",
         "MemoSkill": "Skillᴹ",
         "MemoTalent": "Talentᴹ",
+        "ElationSkill": "Elation",
         "BasicHeal": "Basic HEAL",
         "SkillHeal": "Skill HEAL",
         "UltHeal": "Ult HEAL",
@@ -6578,6 +6582,11 @@ interface Resources {
           "Desc": "4 Piece: $t(gameData:RelicSets.128.Name) (+15% CD)",
           "Set": "$t(gameData:RelicSets.128.Name)",
           "Text": "15% CD"
+        },
+        "Diviner": {
+          "Desc": "4 Piece: $t(gameData:RelicSets.130.Name) (+10% Elation)",
+          "Set": "$t(gameData:RelicSets.130.Name)",
+          "Text": "10% Elation"
         },
         "Keel": {
           "Desc": "$t(gameData:RelicSets.310.Name) (+10% CD)",
@@ -6710,7 +6719,8 @@ interface Resources {
           "E1": "E1",
           "E2": "E2",
           "E4": "E4",
-          "E6": "E6"
+          "E6": "E6",
+          "ElationSkill": "Elation Skill"
         },
         "Stats": {
           "CompositeLabels": {
@@ -6723,7 +6733,8 @@ interface Resources {
               "Dot": "Dot",
               "Break": "Break",
               "Memo Skill": "Memo Skill",
-              "Memo Talent": "Memo Talent"
+              "Memo Talent": "Memo Talent",
+              "Elation Skill": "Elation Skill"
             },
             "Suffix": {
               "ATK scaling": "ATK scaling",
@@ -6791,7 +6802,8 @@ interface Resources {
             "Super Break Vulnerability": "Super Break Vulnerability",
             "Additional DMG boost": "Additional DMG boost",
             "Ult Additional DMG CR override": "Ult Additional DMG CR override",
-            "Ult Additional DMG CD override": "Ult Additional DMG CD override"
+            "Ult Additional DMG CD override": "Ult Additional DMG CD override",
+            "Merrymaking": "Merrymaking"
           },
           "DmgTypes": {
             "Basic": "Basic DMG type",
@@ -6802,6 +6814,7 @@ interface Resources {
             "Break": "Break DMG type",
             "MemoSkill": "Memo Skill DMG type",
             "MemoTalent": "Memo Talent DMG type",
+            "ElationSkill": "Elation DMG type",
             "Additional": "Additional DMG type",
             "SuperBreak": "Super Break DMG type"
           },

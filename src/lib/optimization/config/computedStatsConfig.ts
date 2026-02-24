@@ -4,6 +4,7 @@ import {
   BASIC_DMG_TYPE,
   BREAK_DMG_TYPE,
   DOT_DMG_TYPE,
+  ELATION_DMG_TYPE,
   FUA_DMG_TYPE,
   MEMO_DMG_TYPE,
   SKILL_DMG_TYPE,
@@ -90,6 +91,7 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   QUANTUM_DMG_BOOST: { label: commonStat('Quantum DMG Boost') },
   IMAGINARY_DMG_BOOST: { label: commonStat('Imaginary DMG Boost') },
   ELATION_DMG_BOOST: { label: commonStat('Elation DMG Boost') },
+  MERRYMAKING: { label: optimizerTabMisc('Merrymaking') },
 
   ELEMENTAL_DMG: { label: optimizerTabMisc('Elemental DMG') },
 
@@ -121,6 +123,7 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   UNCONVERTIBLE_OHB_BUFF: { label: optimizerTabUnconvertible('Outgoing Healing Boost') },
   UNCONVERTIBLE_RES_BUFF: { label: optimizerTabUnconvertible('Effect RES') },
   UNCONVERTIBLE_ERR_BUFF: { label: optimizerTabUnconvertible('Energy Regeneration Rate') },
+  UNCONVERTIBLE_ELATION_BUFF: { label: optimizerTabUnconvertible('Elation DMG Boost') },
 
   // EHP
   DMG_RED: { label: optimizerTabMisc('DMG reduction') }, // Dmg reduction for EHP calcs - defaults to 0 (no reduction), uses MULTIPLICATIVE_COMPLEMENT operator
@@ -178,6 +181,7 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   BREAK_DMG_TYPE: { flat: true, default: BREAK_DMG_TYPE, label: optimizerTabDmgTypes('Break') },
   MEMO_SKILL_DMG_TYPE: { flat: true, default: MEMO_DMG_TYPE, label: optimizerTabDmgTypes('MemoSkill') },
   MEMO_TALENT_DMG_TYPE: { flat: true, default: MEMO_DMG_TYPE, label: optimizerTabDmgTypes('MemoTalent') },
+  ELATION_SKILL_DMG_TYPE: { flat: true, default: ELATION_DMG_TYPE, label: optimizerTabDmgTypes('ElationSkill') },
   ADDITIONAL_DMG_TYPE: { flat: true, default: ADDITIONAL_DMG_TYPE, label: optimizerTabDmgTypes('Additional') },
   SUPER_BREAK_DMG_TYPE: { flat: true, default: BREAK_DMG_TYPE | SUPER_BREAK_DMG_TYPE, label: optimizerTabDmgTypes('SuperBreak') },
 } as const
@@ -227,6 +231,7 @@ const abilityTypeLabels: Record<AbilityTypeKeys, SimpleLabel> = {
   BREAK: optimizerTabCompositePrefix('Break'),
   MEMO_SKILL: optimizerTabCompositePrefix('Memo Skill'),
   MEMO_TALENT: optimizerTabCompositePrefix('Memo Talent'),
+  ELATION_SKILL: optimizerTabCompositePrefix('Elation Skill'),
 }
 
 export const BaseComputedStatsConfig = {

@@ -311,6 +311,7 @@ export function injectActionDamage(context: OptimizerContext) {
   /* END MEMO_TALENT CALC */
       `
     }
+
   }
 
   return actionDamageWgsl

@@ -41,6 +41,7 @@ export type DefaultActionDamageValues = {
   BREAK_DMG: DamageBreakdown,
   MEMO_SKILL_DMG: DamageBreakdown,
   MEMO_TALENT_DMG: DamageBreakdown,
+  ELATION_SKILL_DMG: DamageBreakdown,
 }
 
 export type DamageBreakdown = {
@@ -79,6 +80,7 @@ function generateDefaultDamageValues() {
     BREAK_DMG: generateDefaultDamageBreakdown('BREAK_DMG'),
     MEMO_SKILL_DMG: generateDefaultDamageBreakdown('MEMO_SKILL_DMG'),
     MEMO_TALENT_DMG: generateDefaultDamageBreakdown('MEMO_TALENT_DMG'),
+    ELATION_SKILL_DMG: generateDefaultDamageBreakdown('ELATION_SKILL_DMG'),
   }
 }
 

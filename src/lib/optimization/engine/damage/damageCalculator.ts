@@ -19,6 +19,7 @@ import {
   BreakHit,
   CritHit,
   DotHit,
+  ElationHit,
   HealHit,
   HealTallyHit,
   Hit,
@@ -42,6 +43,7 @@ export enum DamageFunctionType {
   Heal,
   Shield,
   HealTally,
+  Elation,
 }
 
 interface DamageMultipliers {
@@ -94,16 +96,6 @@ function getTotalDmgBoost(
   return 1 + genericDmgBoost + elementalDmgBoost
 }
 
-// Placeholder: Elation DMG multiplier for hits tagged with DamageTag.ELATION
-// TODO: Implement elation damage detection per-hit
-function getElationDmgMulti(
-  x: ComputedStatsContainer,
-  hit: Hit,
-  hitIndex: number,
-): number {
-  return 1
-}
-
 export const CritDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex]
@@ -143,22 +135,25 @@ export const CritDamageFunction: DamageFunction = {
     const defScaling = hit.defScaling ?? 0
     const hitTrueDmgModifier = hit.trueDmgModifier ?? 0
 
-    // BE-based ATK scaling (e.g., Firefly skill)
+    // Stat-based ATK scaling
     const beScaling = hit.beScaling
     const beCap = hit.beCap
+    const elationAtkScaling = hit.elationAtkScaling
     const shouldRecord = hit.recorded !== false
 
     const elementalDmgBoost = hit.damageElement == ElementTag.None
       ? '0.0'
       : getValue(elementTagToStatKeyBoost[hit.damageElement])
 
-    // Build total ATK scaling expression (BE uses scalingEntityIndex)
+    // Build total ATK scaling expression
     let totalAtkScalingExpr: string
     if (beScaling != null) {
       const beExpr = beCap != null
         ? `min(${beCap}, ${getScalingValue(StatKey.BE)})`
         : getScalingValue(StatKey.BE)
       totalAtkScalingExpr = `(${atkScaling} + ${beScaling} * ${beExpr})`
+    } else if (elationAtkScaling != null) {
+      totalAtkScalingExpr = `(${atkScaling} + ${elationAtkScaling} * ${getScalingValue(StatKey.ELATION_DMG_BOOST)})`
     } else {
       totalAtkScalingExpr = `${atkScaling}`
     }
@@ -807,6 +802,95 @@ export const HealTallyDamageFunction: DamageFunction = {
   },
 }
 
+// Elation DMG = 7535.107 × elationScaling × (1 + Elation) × (1 + Merrymaking) × PunchlineMulti × Vuln × RES × CRIT × DEF × BrokenMulti (no DMG Boost)
+// PunchlineMulti = 1 + (5 × Punchline) / (Punchline + 240)
+// 7535.107 is the Elation base DMG constant at character level 80
+const ELATION_BASE_DMG = 7535.107
+
+export const ElationDamageFunction: DamageFunction = {
+  apply: (x, action, hitIndex, context) => {
+    const hit = action.hits![hitIndex] as ElationHit
+    computeCommonMultipliers(x, hitIndex, context)
+
+    const elationScaling = hit.elationScaling
+    const punchline = hit.punchlineStacks
+    const punchlineMulti = 1 + (5 * punchline) / (punchline + 240)
+    const elationMulti = 1 + Math.max(x.getValue(StatKey.ELATION_DMG_BOOST, hitIndex), hit.minElationOverride ?? 0)
+    const merrymakingMulti = 1 + x.getValue(StatKey.MERRYMAKING, hitIndex)
+    const critMulti = getCritMultiplier(x, hitIndex)
+    const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex) + (hit.trueDmgModifier ?? 0)
+
+    // Elation DMG is not affected by DMG Boost effects
+    const dmg = ELATION_BASE_DMG
+      * elationScaling
+      * elationMulti
+      * merrymakingMulti
+      * punchlineMulti
+      * m.baseUniversalMulti
+      * m.defMulti
+      * m.resMulti
+      * m.vulnMulti
+      * m.finalDmgMulti
+      * critMulti
+      * trueDmgMulti
+
+    return dmg
+  },
+  wgsl: (action, hitIndex, context) => {
+    const hit = action.hits![hitIndex] as ElationHit
+    const config = action.config
+    const entityIndex = hit.sourceEntityIndex ?? 0
+
+    const getValue = (stat: StatKeyValue) => containerGetValue(entityIndex, hitIndex, stat, config)
+
+    const elationScaling = hit.elationScaling
+    const punchline = hit.punchlineStacks
+    const hitTrueDmgModifier = hit.trueDmgModifier ?? 0
+    const shouldRecord = hit.recorded !== false
+
+    return wgsl`
+{
+  // Common multipliers
+  let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
+  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
+  let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
+  let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
+  let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
+
+  // Elation-specific
+  let elationMulti = 1.0 + max(${getValue(StatKey.ELATION_DMG_BOOST)}, ${hit.minElationOverride ?? 0});
+  let merrymakingMulti = 1.0 + ${getValue(StatKey.MERRYMAKING)};
+  let punchlineMulti = 1.0 + (5.0 * ${punchline}.0) / (${punchline}.0 + 240.0);
+
+  // Crit multiplier
+  let cr = min(1.0, ${getValue(StatKey.CR)} + ${getValue(StatKey.CR_BOOST)});
+  let cd = ${getValue(StatKey.CD)} + ${getValue(StatKey.CD_BOOST)};
+  let critMulti = cr * (1.0 + cd) + (1.0 - cr);
+
+  // True damage multiplier
+  let trueDmgMulti = 1.0 + ${getValue(StatKey.TRUE_DMG_MODIFIER)} + ${hitTrueDmgModifier};
+
+  // Elation DMG is not affected by DMG Boost effects
+  let damage = ${ELATION_BASE_DMG}
+    * ${elationScaling}
+    * elationMulti
+    * merrymakingMulti
+    * punchlineMulti
+    * baseUniversalMulti
+    * defMulti
+    * resMulti
+    * vulnMulti
+    * finalDmgMulti
+    * critMulti
+    * trueDmgMulti;
+
+  ${shouldRecord ? 'comboDmg += damage;' : ''}
+  ${wgslDebugHitRegister(hit, context)}
+}
+`
+  },
+}
+
 export const DamageFunctionRegistry: Record<DamageFunctionType, DamageFunction> = {
   [DamageFunctionType.Default]: DefaultDamageFunction,
   [DamageFunctionType.Crit]: CritDamageFunction,
@@ -817,6 +901,7 @@ export const DamageFunctionRegistry: Record<DamageFunctionType, DamageFunction> 
   [DamageFunctionType.Heal]: HealDamageFunction,
   [DamageFunctionType.Shield]: ShieldDamageFunction,
   [DamageFunctionType.HealTally]: HealTallyDamageFunction,
+  [DamageFunctionType.Elation]: ElationDamageFunction,
 }
 
 export function getDamageFunction(type: DamageFunctionType): DamageFunction {
@@ -861,6 +946,13 @@ function calculateInitialDamage(
     const be = x.getValue(StatKey.BE, hitIndex, scalingEntityIndex)
     const effectiveBe = critHit.beCap != null ? Math.min(critHit.beCap, be) : be
     totalAtkScaling += beScaling * effectiveBe
+  }
+
+  // Elation-based ATK scaling
+  const elationAtkScaling = critHit.elationAtkScaling
+  if (elationAtkScaling != null) {
+    const elation = x.getValue(StatKey.ELATION_DMG_BOOST, hitIndex, scalingEntityIndex)
+    totalAtkScaling += elationAtkScaling * elation
   }
 
   return totalAtkScaling * (atk + atkBoost * context.baseATK)

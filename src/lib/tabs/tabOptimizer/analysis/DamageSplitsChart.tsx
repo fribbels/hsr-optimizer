@@ -1,25 +1,11 @@
 import { Flex } from 'antd'
 import i18next from 'i18next'
-import {
-  DamageBreakdown,
-  DefaultActionDamageValues,
-} from 'lib/optimization/computedStatsArray'
-import {
-  DAMAGE_SPLITS_CHART_HEIGHT,
-  DAMAGE_SPLITS_CHART_WIDTH,
-} from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
+import { DamageBreakdown } from 'lib/optimization/computedStatsArray'
+import { DAMAGE_SPLITS_CHART_HEIGHT, DAMAGE_SPLITS_CHART_WIDTH, } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  Bar,
-  BarChart,
-  LabelList,
-  Legend,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
+import { Bar, BarChart, LabelList, Legend, Tooltip, XAxis, YAxis, } from 'recharts'
 
 type DamageBreakdownKeys = Exclude<keyof DamageBreakdown, 'name'>
 
@@ -102,7 +88,7 @@ export function DamageSplitsChart(props: {
           axisLine={false}
           tickLine={false}
           tick={{ fill: chartColor }}
-          tickFormatter={(key: keyof DefaultActionDamageValues) => t(`YAxisLabel.${key}`)}
+          // tickFormatter={(key: keyof DefaultActionDamageValues) => t(`YAxisLabel.${key}`)}
           tickMargin={10}
           width={20}
         />

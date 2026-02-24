@@ -45,6 +45,7 @@ export interface CritHitDefinition extends BaseHitDefinition {
   damageFunctionType: DamageFunctionType.Crit
   beScaling?: number // BE-based ATK scaling
   beCap?: number // Maximum BE value for scaling
+  elationAtkScaling?: number // Elation-based ATK scaling
 }
 
 export interface DotHitDefinition extends BaseHitDefinition {

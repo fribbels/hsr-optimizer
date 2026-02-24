@@ -135,22 +135,25 @@ export const CritDamageFunction: DamageFunction = {
     const defScaling = hit.defScaling ?? 0
     const hitTrueDmgModifier = hit.trueDmgModifier ?? 0
 
-    // BE-based ATK scaling (e.g., Firefly skill)
+    // Stat-based ATK scaling
     const beScaling = hit.beScaling
     const beCap = hit.beCap
+    const elationAtkScaling = hit.elationAtkScaling
     const shouldRecord = hit.recorded !== false
 
     const elementalDmgBoost = hit.damageElement == ElementTag.None
       ? '0.0'
       : getValue(elementTagToStatKeyBoost[hit.damageElement])
 
-    // Build total ATK scaling expression (BE uses scalingEntityIndex)
+    // Build total ATK scaling expression
     let totalAtkScalingExpr: string
     if (beScaling != null) {
       const beExpr = beCap != null
         ? `min(${beCap}, ${getScalingValue(StatKey.BE)})`
         : getScalingValue(StatKey.BE)
       totalAtkScalingExpr = `(${atkScaling} + ${beScaling} * ${beExpr})`
+    } else if (elationAtkScaling != null) {
+      totalAtkScalingExpr = `(${atkScaling} + ${elationAtkScaling} * ${getScalingValue(StatKey.ELATION_DMG_BOOST)})`
     } else {
       totalAtkScalingExpr = `${atkScaling}`
     }
@@ -943,6 +946,13 @@ function calculateInitialDamage(
     const be = x.getValue(StatKey.BE, hitIndex, scalingEntityIndex)
     const effectiveBe = critHit.beCap != null ? Math.min(critHit.beCap, be) : be
     totalAtkScaling += beScaling * effectiveBe
+  }
+
+  // Elation-based ATK scaling
+  const elationAtkScaling = critHit.elationAtkScaling
+  if (elationAtkScaling != null) {
+    const elation = x.getValue(StatKey.ELATION_DMG_BOOST, hitIndex, scalingEntityIndex)
+    totalAtkScaling += elationAtkScaling * elation
   }
 
   return totalAtkScaling * (atk + atkBoost * context.baseATK)

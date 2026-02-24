@@ -29,7 +29,7 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/ResultFilters'
 import { StatSimulationDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { SubstatWeightFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/SubstatWeightFilters'
-import TeammateCard from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard'
+import TeammateCard, { updateTeammate } from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard'
 import FilterContainer from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import {
@@ -66,9 +66,24 @@ export default function OptimizerForm() {
     if (!changedValues || !allValues?.characterId) return
     const keys = Object.keys(changedValues)
 
+    console.debug(keys, changedValues)
+
+    const firstKey = keys[0] as string | undefined
+
     if (
       keys.length == 1
-      && (keys[0] == 'characterConditionals' || keys[0] == 'lightConeConditionals' || keys[0] == 'setConditionals' || keys[0].startsWith('teammate'))
+      && firstKey?.startsWith('teammate')
+    ) {
+      updateTeammate(changedValues)
+    }
+
+    if (
+      keys.length == 1 && (
+        firstKey == 'characterConditionals'
+        || firstKey == 'lightConeConditionals'
+        || firstKey == 'setConditionals'
+        || firstKey!.startsWith('teammate')
+      )
     ) {
       updateConditionalChange(changedValues)
     }
@@ -260,9 +275,9 @@ function CharacterConditionalDisplayWrapper() {
 
 function LightConeConditionalDisplayWrapper(props: { metadata: DBMetadata }) {
   const { metadata } = props
-  const lcId = AntDForm.useWatch(['lightCone'], window.optimizerForm)
-  const superimposition = AntDForm.useWatch(['lightConeSuperimposition'], window.optimizerForm)
-  const charId = AntDForm.useWatch(['characterId'], window.optimizerForm)
+  const lcId = AntDForm.useWatch('lightCone', window.optimizerForm)
+  const superimposition = AntDForm.useWatch('lightConeSuperimposition', window.optimizerForm)
+  const charId = AntDForm.useWatch('characterId', window.optimizerForm)
 
   // Hook into light cone changes to set defaults
   useEffect(() => {

@@ -1437,7 +1437,6 @@ function indexRelics(relics: Relic[]) {
 function loadCharacterBuildInOptimizer(build: SavedBuild): void
 function loadCharacterBuildInOptimizer(characterId: CharacterId, buildIndex: number): void
 function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildIndex?: number) {
-  window.lockOptimizerTeammates = true
   const characterId = typeof arg1 === 'string' ? arg1 : arg1.characterId
   const build = typeof arg1 === 'string' ? DB.getCharacterById(characterId)?.builds?.[buildIndex!] : arg1
 
@@ -1565,5 +1564,4 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
   window.store.getState().setActiveKey(AppPages.OPTIMIZER)
   window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, characterId)
   SaveState.delayedSave()
-  setTimeout(() => window.lockOptimizerTeammates = false, 50)
 }

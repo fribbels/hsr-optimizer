@@ -84,8 +84,6 @@ declare global {
 
     showSaveFilePicker: (options?: SaveFilePickerOptions) => Promise<FileSystemFileHandle>
 
-    lockOptimizerTeammates?: boolean
-
     yaml: unknown
     WorkerPool: typeof WorkerPool
     Constants: typeof Constants

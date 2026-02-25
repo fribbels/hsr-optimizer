@@ -7,20 +7,39 @@ import {
   SettingOutlined,
   SunOutlined,
 } from '@ant-design/icons'
-import { Button, ColorPicker, Flex, InputNumber, Segmented, Select, } from 'antd'
+import {
+  Button,
+  ColorPicker,
+  Flex,
+  InputNumber,
+  Segmented,
+  Select,
+} from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
 import i18next from 'i18next'
-import { DEFAULT_SHOWCASE_COLOR, editShowcasePreferences, } from 'lib/characterPreview/showcaseCustomizationController'
+import {
+  DEFAULT_SHOWCASE_COLOR,
+  editShowcasePreferences,
+} from 'lib/characterPreview/showcaseCustomizationController'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
-import { ShowcaseColorMode, Stats, } from 'lib/constants/constants'
+import {
+  ShowcaseColorMode,
+  Stats,
+} from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { OpenCloseIDs, setOpen, } from 'lib/hooks/useOpenClose'
+import {
+  OpenCloseIDs,
+  setOpen,
+} from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
-import { ScoringType, SimulationScore, } from 'lib/scoring/simScoringUtils'
+import {
+  ScoringType,
+  SimulationScore,
+} from 'lib/scoring/simScoringUtils'
 import DB, { AppPages } from 'lib/state/db'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -28,13 +47,28 @@ import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimiz
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { modifyCustomColor, organizeColors, selectClosestColor, } from 'lib/utils/colorUtils'
+import {
+  modifyCustomColor,
+  organizeColors,
+  selectClosestColor,
+} from 'lib/utils/colorUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { getPalette, PaletteResponse, } from 'lib/utils/vibrantFork'
-import React, { forwardRef, useImperativeHandle, useMemo, useState, } from 'react'
+import {
+  getPalette,
+  PaletteResponse,
+} from 'lib/utils/vibrantFork'
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character, CharacterId, } from 'types/character'
+import {
+  Character,
+  CharacterId,
+} from 'types/character'
 import { ShowcasePreferences } from 'types/metadata'
 import { ShowcaseSource } from './CharacterPreviewComponents'
 

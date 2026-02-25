@@ -1,4 +1,8 @@
-import { ConfigProvider, Flex, theme, } from 'antd'
+import {
+  ConfigProvider,
+  Flex,
+  theme,
+} from 'antd'
 import getDesignToken from 'antd/lib/theme/getDesignToken'
 import {
   showcaseShadow,
@@ -43,9 +47,16 @@ import {
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
-import { Parts, ShowcaseColorMode, } from 'lib/constants/constants'
+import {
+  Parts,
+  ShowcaseColorMode,
+} from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { defaultGap, middleColumnWidth, parentH, } from 'lib/constants/constantsUi'
+import {
+  defaultGap,
+  middleColumnWidth,
+  parentH,
+} from 'lib/constants/constantsUi'
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { Assets } from 'lib/rendering/assets'
@@ -65,9 +76,18 @@ import {
   showcaseSegmentedColor,
   showcaseTransition,
 } from 'lib/utils/colorUtils'
-import { useRef, useState, } from 'react'
-import { Character, SavedBuild, } from 'types/character'
-import { CustomImageConfig, CustomImagePayload, } from 'types/customImage'
+import {
+  useRef,
+  useState,
+} from 'react'
+import {
+  Character,
+  SavedBuild,
+} from 'types/character'
+import {
+  CustomImageConfig,
+  CustomImagePayload,
+} from 'types/customImage'
 import { Relic } from 'types/relic'
 
 const { useToken } = theme

@@ -1,13 +1,28 @@
-import { ElementName, ElementToStatKeyDmgBoost, Stats, StatsValues, SubStats, } from 'lib/constants/constants'
+import {
+  ElementName,
+  ElementToStatKeyDmgBoost,
+  Stats,
+  StatsValues,
+  SubStats,
+} from 'lib/constants/constants'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
-import { AKeyValue, StatKey, } from 'lib/optimization/engine/config/keys'
+import {
+  AKeyValue,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
-import { RunStatSimulationsResult, Simulation, } from 'lib/simulations/statSimulationTypes'
+import {
+  RunStatSimulationsResult,
+  Simulation,
+} from 'lib/simulations/statSimulationTypes'
 import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
-import { DBMetadataCharacter, SimulationMetadata, } from 'types/metadata'
+import {
+  DBMetadataCharacter,
+  SimulationMetadata,
+} from 'types/metadata'
 import { Relic } from 'types/relic'
 
 // Stats string to StatKey mapping - defined here to avoid circular dependency with keys.ts

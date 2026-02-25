@@ -40,7 +40,7 @@ export const CharacterTabController = {
     const characterId = e.data?.id
     if (!characterId) return
     window.store.getState().setActiveKey(AppPages.OPTIMIZER)
-    OptimizerTabController.setCharacter(characterId)
+    OptimizerTabController.updateCharacter(characterId)
   },
 
   navigateToNextCell: (params: NavigateToNextCellParams<Character>) => {

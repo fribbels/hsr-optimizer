@@ -398,6 +398,8 @@ function cloneTeammate(teammate: Teammate | undefined) {
     lightConeSuperimposition: teammate.lightConeSuperimposition ?? null,
     characterConditionals: sanitizeConditionals(teammate.characterConditionals),
     lightConeConditionals: sanitizeConditionals(teammate.lightConeConditionals),
+    teamRelicSet: teammate.teamRelicSet ?? null,
+    teamOrnamentSet: teammate.teamOrnamentSet ?? null,
   } as Teammate
 }
 

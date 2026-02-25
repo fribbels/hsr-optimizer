@@ -86,7 +86,7 @@ export function generateAnalysisData(
   currentRowData: OptimizerDisplayData,
   selectedRowData: OptimizerDisplayData,
   form: OptimizerForm,
-): OptimizerResultAnalysis {
+): OptimizerResultAnalysis | null {
   const oldRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(currentRowData.id, form))
   const newRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(selectedRowData.id, form))
   const request = TsUtils.clone(form)
@@ -98,6 +98,10 @@ export function generateAnalysisData(
 
   const contextOld = generateContext(request)
   const contextNew = generateContext(request)
+
+  if (!contextOld.defaultActions?.length || !contextNew.defaultActions?.length) {
+    return null
+  }
 
   const { x: oldX } = simulateBuild(oldRelics as unknown as SimulationRelicByPart, contextOld, null, null)
   const { x: newX } = simulateBuild(newRelics as unknown as SimulationRelicByPart, contextNew, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))

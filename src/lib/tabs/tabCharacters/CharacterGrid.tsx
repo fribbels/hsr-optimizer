@@ -81,7 +81,7 @@ export function CharacterGrid() {
     if (filters.element.length && !filters.element.includes(character.element)) return false
     if (filters.path.length && !filters.path.includes(character.path)) return false
     return tGameData(`${character.id}.LongName`).toLowerCase().includes(filters.name)
-  }, [filters])
+  }, [filters, tGameData])
 
   return (
     <AgGridReact

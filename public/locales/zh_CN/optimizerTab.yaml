@@ -43,6 +43,7 @@ SortOptions:
   FUA: 按追加攻击伤害排序
   MEMO_SKILL: 按忆灵技伤害排序
   MEMO_TALENT: 按忆灵技伤害排序
+  ELATION_SKILL: 按欢愉技伤害排序
   DOT: 按持续伤害排序
   BREAK: 按击破伤害排序
   HEAL: 按治疗量排序
@@ -154,6 +155,8 @@ Grid:
       MEMO_TALENT: |-
         忆灵天赋
         伤害
+      ELATION_SKILL: |-
+        欢愉技
       DOT: |-
         持续
         伤害
@@ -228,6 +231,8 @@ Grid:
       MEMO_TALENT: |-
         忆灵天赋
         伤害
+      ELATION_SKILL: |-
+        欢愉技
       DOT: |-
         持续
         伤害

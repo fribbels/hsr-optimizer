@@ -29,7 +29,6 @@ import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
 import {
-  useEffect,
   useMemo,
   useState,
 } from 'react'
@@ -441,17 +440,12 @@ const TeammateCard = (props: {
 
 export default TeammateCard
 
+const TEAMMATE_PROPERTIES: TeammateProperty[] = ['teammate0', 'teammate1', 'teammate2']
+
 export function updateTeammate(changedValues: Partial<Form>) {
-  const updatedTeammate = changedValues.teammate0 ?? changedValues.teammate1 ?? changedValues.teammate2!
-  let updatedId: 0 | 1 | 2
-  if (changedValues.teammate0) {
-    updatedId = 0
-  } else if (changedValues.teammate1) {
-    updatedId = 1
-  } else {
-    updatedId = 2
-  }
-  const property: TeammateProperty = `teammate${updatedId}`
+  const property = TEAMMATE_PROPERTIES.find((p) => changedValues[p])
+  const updatedTeammate = property && changedValues[property]
+  if (!updatedTeammate) return
 
   if (updatedTeammate.lightCone) {
     const displayFormValues = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
@@ -461,13 +455,12 @@ export function updateTeammate(changedValues: Partial<Form>) {
     if (!controller.teammateDefaults) return
     const mergedConditionals = Object.assign({}, controller.teammateDefaults(), displayFormValues[property].lightConeConditionals)
     window.optimizerForm.setFieldValue([property, 'lightConeConditionals'], mergedConditionals)
-  } else {
+  } else if (updatedTeammate.lightCone === null) {
+    window.optimizerForm.setFieldValue([property, 'lightConeConditionals'], {})
+    window.optimizerForm.setFieldValue([property, 'lightConeSuperimposition'], 1)
+  } else if (updatedTeammate.characterId) {
     const teammateCharacterId = updatedTeammate.characterId
     window.store.getState().setTeammateCount(countTeammates())
-    if (!teammateCharacterId) {
-      window.optimizerForm.setFieldValue([property], getDefaultTeammateForm())
-      return
-    }
     const displayFormValues = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
     const teammateValues = displayFormValues[property]
     const teammateCharacter = DB.getCharacterById(teammateCharacterId)
@@ -492,5 +485,8 @@ export function updateTeammate(changedValues: Partial<Form>) {
     }
     applyTeamAwareSetConditionalPresetsToOptimizerFormInstance(window.optimizerForm)
     window.optimizerForm.setFieldValue([property], teammateValues)
+  } else if (updatedTeammate.characterId === null) {
+    window.store.getState().setTeammateCount(countTeammates())
+    window.optimizerForm.setFieldValue([property], getDefaultTeammateForm())
   }
 }

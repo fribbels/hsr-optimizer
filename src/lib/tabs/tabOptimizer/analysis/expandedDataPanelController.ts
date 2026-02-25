@@ -1,17 +1,9 @@
-import {
-  ElementToDamage,
-  PathNames,
-  Stats,
-  StatsValues,
-  SubStats,
-} from 'lib/constants/constants'
+import { ElementToDamage, PathNames, Stats, StatsValues, SubStats, } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
-import {
-  Buff,
-} from 'lib/optimization/computedStatsArray'
+import { Buff, } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { RelicFilters } from 'lib/relics/relicFilters'
@@ -85,7 +77,7 @@ export function generateAnalysisData(
   currentRowData: OptimizerDisplayData,
   selectedRowData: OptimizerDisplayData,
   form: OptimizerForm,
-): OptimizerResultAnalysis {
+): OptimizerResultAnalysis | null {
   const oldRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(currentRowData.id, form))
   const newRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(selectedRowData.id, form))
   const request = TsUtils.clone(form)
@@ -97,6 +89,10 @@ export function generateAnalysisData(
 
   const contextOld = generateContext(request)
   const contextNew = generateContext(request)
+
+  if (!contextOld.defaultActions?.length || !contextNew.defaultActions?.length) {
+    return null
+  }
 
   const { x: oldX } = simulateBuild(oldRelics as unknown as SimulationRelicByPart, contextOld, null)
   const { x: newX } = simulateBuild(newRelics as unknown as SimulationRelicByPart, contextNew, new BasicStatsArrayCore(true), true)

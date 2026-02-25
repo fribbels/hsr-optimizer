@@ -1,35 +1,19 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
-  createEnum,
-} from 'lib/conditionals/conditionalUtils'
-import {
-  dynamicStatConversionContainer,
-  gpuDynamicStatConversion,
-} from 'lib/conditionals/evaluation/statConversion'
+import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
+import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import {
-  ConditionalActivation,
-  ConditionalType,
-  Stats,
-} from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import { ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const SilverWolfB1Entities = createEnum('SilverWolfB1')
 export const SilverWolfB1Abilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
@@ -202,8 +186,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
                   .atkScaling(ultAdditionalScaling)
                   .build(),
               ]
-              : []
-            ),
+              : []),
           ],
         },
         [SilverWolfB1Abilities.BREAK]: {
@@ -245,11 +228,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.EHR],
         chainsTo: [Stats.ATK],
-        condition: function (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           return r.ehrToAtkConversion
         },
-        effect: function (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           dynamicStatConversionContainer(
             Stats.EHR,
             Stats.ATK,
@@ -261,7 +244,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             (convertibleValue) => Math.min(0.50, 0.10 * Math.floor(convertibleValue / 0.10)) * context.baseATK,
           )
         },
-        gpu: function (action: OptimizerAction, context: OptimizerContext) {
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
           return gpuDynamicStatConversion(

@@ -11,7 +11,6 @@ import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/co
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgsl, wgslFalse, wgslTrue, } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'

@@ -6,48 +6,22 @@ import {
   createEnum,
   teammateMatchesId,
 } from 'lib/conditionals/conditionalUtils'
-import {
-  dynamicStatConversionContainer,
-  gpuDynamicStatConversion,
-} from 'lib/conditionals/evaluation/statConversion'
+import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import {
-  ConditionalActivation,
-  ConditionalType,
-  Stats,
-} from 'lib/constants/constants'
-import {
-  containerActionVal,
-} from 'lib/gpu/injection/injectUtils'
-import {
-  wgsl,
-  wgslTrue,
-} from 'lib/gpu/injection/wgslUtils'
+import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
+import { wgsl, wgslTrue, } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import {
-  AKey,
-  StatKey,
-} from 'lib/optimization/engine/config/keys'
-import {
-  DamageTag,
-  ElementTag,
-  SELF_ENTITY_INDEX,
-} from 'lib/optimization/engine/config/tag'
+import { AKey, StatKey, } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag, SELF_ENTITY_INDEX, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  Hit,
-  HitDefinition,
-} from 'types/hitConditionalTypes'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { Hit } from 'types/hitConditionalTypes'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 import { THE_DAHLIA } from 'lib/simulations/tests/testMetadataConstants'
 
@@ -193,9 +167,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           hits: [
             basicHit,
             ...(addSuperBreak
-              ? [HitDefinitionBuilder.standardSuperBreak(ElementTag.Fire)
+              ? [
+                HitDefinitionBuilder.standardSuperBreak(ElementTag.Fire)
                   .referenceHit(basicHit as Hit)
-                  .build()]
+                  .build(),
+              ]
               : []),
           ],
         },
@@ -203,9 +179,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           hits: [
             skillHit,
             ...(addSuperBreak
-              ? [HitDefinitionBuilder.standardSuperBreak(ElementTag.Fire)
+              ? [
+                HitDefinitionBuilder.standardSuperBreak(ElementTag.Fire)
                   .referenceHit(skillHit as Hit)
-                  .build()]
+                  .build(),
+              ]
               : []),
           ],
         },

@@ -1,27 +1,15 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
-  createEnum,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  ElementTag,
-  TargetTag,
-} from 'lib/optimization/engine/config/tag'
+import { ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const TrailblazerPreservationEntities = createEnum('TrailblazerPreservation')
 export const TrailblazerPreservationAbilities = createEnum('BASIC', 'ULT', 'TALENT_SHIELD', 'BREAK')
@@ -181,7 +169,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Trace: 15% damage reduction for all allies
       x.multiplicativeComplement(StatKey.DMG_RED, (m.skillActive) ? 0.15 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
-
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },

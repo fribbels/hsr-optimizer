@@ -11,7 +11,6 @@ import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import {
   Buff,
-  ComputedStatsArrayCore,
 } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -99,8 +98,8 @@ export function generateAnalysisData(
   const contextOld = generateContext(request)
   const contextNew = generateContext(request)
 
-  const { x: oldX } = simulateBuild(oldRelics as unknown as SimulationRelicByPart, contextOld, null, null)
-  const { x: newX } = simulateBuild(newRelics as unknown as SimulationRelicByPart, contextNew, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
+  const { x: oldX } = simulateBuild(oldRelics as unknown as SimulationRelicByPart, contextOld, null)
+  const { x: newX } = simulateBuild(newRelics as unknown as SimulationRelicByPart, contextNew, new BasicStatsArrayCore(true), true)
 
   const buffGroups = aggregateCombatBuffs(newX, request)
 

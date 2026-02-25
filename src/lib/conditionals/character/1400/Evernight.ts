@@ -1,8 +1,4 @@
-import {
-  AbilityType,
-  BUFF_PRIORITY_MEMO,
-  BUFF_PRIORITY_SELF,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF, } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -13,41 +9,19 @@ import {
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import {
-  ConditionalActivation,
-  ConditionalType,
-  PathNames,
-  Stats,
-} from 'lib/constants/constants'
-import {
-  newConditionalWgslWrapper,
-} from 'lib/gpu/conditionals/dynamicConditionals'
-import {
-  containerActionVal,
-  p_containerActionVal,
-} from 'lib/gpu/injection/injectUtils'
+import { ConditionalActivation, ConditionalType, PathNames, Stats, } from 'lib/constants/constants'
+import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  DamageTag,
-  ElementTag,
-  SELF_ENTITY_INDEX,
-  TargetTag,
-} from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { EVERNIGHT } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const EvernightEntities = createEnum(
   'Evernight',

@@ -12,6 +12,7 @@ import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import {
   BufferPacker,
+  ElementToBasicKeyDmgBoost,
   OptimizerDisplayData,
 } from 'lib/optimization/bufferPacker'
 import { Key } from 'lib/optimization/computedStatsArray'
@@ -303,7 +304,7 @@ export const Optimizer = {
 
 // TODO: This is a temporary tool to rename computed stats variables to fit the optimizer grid
 export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
-  const context = useOptimizerTabStore.getState().context!
+  const context = useOptimizerTabStore.getState().context
   const c = x.c
   const d: Partial<OptimizerDisplayData> = {
     relicSetIndex: c.relicSetIndex,
@@ -329,7 +330,6 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
   d[Stats.ERR] = c.a[Key.ERR]
   d[Stats.OHB] = c.a[Key.OHB]
 
-  d.ED = c.a[Key.ELEMENTAL_DMG]
   // TODO
   // d.BASIC = a[StatKey.BASIC_DMG]
   // d.SKILL = a[StatKey.SKILL_DMG]
@@ -355,9 +355,10 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
   d.xOHB = a[StatKey.OHB]
   d.xELEMENTAL_DMG = a[StatKey.DMG_BOOST]
 
-  d.mELEMENTAL_DMG = c.a[Key.ELEMENTAL_DMG]
-
   if (context) {
+    const basicElementalBoostKey = ElementToBasicKeyDmgBoost[context.element]
+    d.ED = c.a[basicElementalBoostKey]
+    d.mELEMENTAL_DMG = c.a[basicElementalBoostKey]
     let heal = 0
     let shield = 0
     for (const action of context.rotationActions) {

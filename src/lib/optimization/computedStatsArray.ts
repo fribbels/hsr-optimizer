@@ -46,10 +46,6 @@ export function toComputedStatsObject(a: Float32Array) {
   return result as ComputedStatsObjectExternal
 }
 
-export function baseComputedStatsArray() {
-  return Float32Array.from(Object.values(baseComputedStatsObject))
-}
-
 export const InternalKeyToExternal: Record<string, keyof ComputedStatsObjectExternal> = {
   ATK_P: Stats.ATK_P,
   ATK: Stats.ATK,

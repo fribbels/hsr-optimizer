@@ -91,9 +91,9 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   QUANTUM_DMG_BOOST: { label: commonStat('Quantum DMG Boost') },
   IMAGINARY_DMG_BOOST: { label: commonStat('Imaginary DMG Boost') },
   ELATION: { label: commonStat('Elation') },
-  MERRYMAKING: { label: optimizerTabMisc('Merrymaking') },
 
   ELEMENTAL_DMG: { label: optimizerTabMisc('Elemental DMG') },
+  MERRYMAKING: { label: optimizerTabMisc('Merrymaking') },
 
   // Base
   BASE_HP: { flat: true, label: optimizerTabMisc('Base HP') },

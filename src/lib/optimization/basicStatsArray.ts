@@ -135,6 +135,14 @@ export class BasicStatsArrayCore {
     }
   }
 
+  initMemo() {
+    this.m.a.set(this.a)
+    if (this.trace) {
+      this.m.buffs = []
+      this.m.buffsMemo = []
+    }
+  }
+
   set(key: number, value: number, source?: BuffSource) {
     this.a[key] = value
   }

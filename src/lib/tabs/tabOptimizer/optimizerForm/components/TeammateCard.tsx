@@ -446,9 +446,7 @@ const TEAMMATE_PROPERTIES: TeammateProperty[] = ['teammate0', 'teammate1', 'team
 export function updateTeammate(changedValues: Partial<Form>) {
   const property = TEAMMATE_PROPERTIES.find((p) => changedValues[p])
   const updatedTeammate = property && changedValues[property]
-  if (!updatedTeammate || updatedTeammate.characterConditionals || updatedTeammate.lightConeConditionals) {
-    return
-  }
+  if (!updatedTeammate) return
 
   if (updatedTeammate.lightCone) {
     const displayFormValues = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
@@ -458,7 +456,7 @@ export function updateTeammate(changedValues: Partial<Form>) {
     if (!controller.teammateDefaults) return
     const mergedConditionals = Object.assign({}, controller.teammateDefaults(), displayFormValues[property].lightConeConditionals)
     window.optimizerForm.setFieldValue([property, 'lightConeConditionals'], mergedConditionals)
-  } else {
+  } else if ('characterId' in updatedTeammate) {
     const teammateCharacterId = updatedTeammate.characterId
     window.store.getState().setTeammateCount(countTeammates())
     if (!teammateCharacterId) {

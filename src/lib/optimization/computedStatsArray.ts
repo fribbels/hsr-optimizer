@@ -1,3 +1,4 @@
+import { aKeyToConvertibleStat } from 'lib/conditionals/evaluation/statConversionConfig'
 import {
   ElementToResPenType,
   Stats,
@@ -13,7 +14,7 @@ import {
   baseComputedStatsObject,
   ComputedStatsObject,
 } from 'lib/optimization/config/computedStatsConfig'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { AKeyValue, StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   ElementalDamageType,
@@ -147,7 +148,8 @@ export class ComputedStatsArrayCore {
     this.trace = trace
     // @ts-ignore
     this.dmgSplits = this.trace ? generateDefaultDamageValues() : null
-    Object.keys(baseComputedStatsObject).forEach((stat, key) => {
+    Object.keys(baseComputedStatsObject).forEach((stat, _key) => {
+      const key = _key as AKeyValue
       const trace = (value: number, source: BuffSource) => this.trace && this.buffs.push({ stat, key, value, source })
       const traceMemo = (value: number, source: BuffSource) => this.trace && this.buffsMemo.push({ stat, key, value, source })
       const traceOverwrite = (value: number, source: BuffSource) =>
@@ -222,7 +224,7 @@ export class ComputedStatsArrayCore {
               traceMemo(value, source)
             }
 
-            for (const conditional of action.conditionalRegistry[KeyToStat[stat]] ?? []) {
+            for (const conditional of action.conditionalRegistry[aKeyToConvertibleStat[key]] ?? []) {
               evaluateConditional(conditional, this as unknown as ComputedStatsContainer, action, context)
             }
           },
@@ -255,7 +257,7 @@ export class ComputedStatsArrayCore {
             this.a[key] += value
             trace(value, source)
 
-            for (const conditional of action.conditionalRegistry[KeyToStat[stat]] || []) {
+            for (const conditional of action.conditionalRegistry[aKeyToConvertibleStat[key]] || []) {
               evaluateConditional(conditional, this as unknown as ComputedStatsContainer, action, context)
             }
           },

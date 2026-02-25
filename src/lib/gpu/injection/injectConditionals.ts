@@ -12,6 +12,7 @@ import {
 import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyEvaluator'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { ConvertibleStatsType } from 'lib/conditionals/evaluation/statConversionConfig'
 import { Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { injectActionDamage } from 'lib/gpu/injection/injectActionDamage'
@@ -48,7 +49,7 @@ function getRequestTeammateIndex(request: Form, conditional: DynamicConditional)
   return teammate
 }
 
-function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: string, statName: string, request: Form, context: OptimizerContext) {
+function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: ConvertibleStatsType, statName: string, request: Form, context: OptimizerContext) {
   const conditionalEvaluators = ''
   let conditionalDefinitionsWgsl = ''
   let conditionalStateDefinition = ''

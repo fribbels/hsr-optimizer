@@ -313,8 +313,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         id: 'YaoguangSpdElationConditional',
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
-        dependsOn: [StatKey.SPD],
-        chainsTo: [StatKey.ELATION],
+        dependsOn: [Stats.SPD],
+        chainsTo: [Stats.Elation],
         condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           return r.traceSpdElation
@@ -353,8 +353,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         id: 'YaoguangElationShareConditional',
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
-        dependsOn: [StatKey.ELATION],
-        chainsTo: [StatKey.ELATION],
+        dependsOn: [Stats.Elation],
+        chainsTo: [Stats.Elation],
         condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           return r.skillZoneActive

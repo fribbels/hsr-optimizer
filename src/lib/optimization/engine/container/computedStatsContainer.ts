@@ -1,3 +1,4 @@
+import { aKeyToConvertibleStat } from 'lib/conditionals/evaluation/statConversionConfig'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Stats } from 'lib/constants/constants'
 import {
@@ -9,7 +10,6 @@ import {
   Buff,
   ComputedStatsArray,
   ComputedStatsObjectExternal,
-  KeyToStat,
 } from 'lib/optimization/computedStatsArray'
 import {
   ComputedStatsConfigBaseType,
@@ -653,7 +653,7 @@ export class ComputedStatsContainer {
   ): void {
     if (value == 0 && operator == Operator.ADD) return
 
-    for (const conditional of action.conditionalRegistry[KeyToStat[getAKeyName(key)]] || []) {
+    for (const conditional of action.conditionalRegistry[aKeyToConvertibleStat[key]] || []) {
       evaluateConditional(conditional, this, action, context)
     }
   }

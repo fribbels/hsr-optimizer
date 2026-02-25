@@ -9,7 +9,7 @@ import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsS
 import { DpsScoreSubstatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
-import { ElementToDamage, MainStats, Parts, Stats } from 'lib/constants/constants'
+import { ElementToDamage, MainStats, PathNames, Parts, Stats } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
@@ -22,6 +22,7 @@ import {
   ScoringType,
   SimulationScore,
   spdDiminishingReturnsFormula,
+  StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
 import { RunStatSimulationsResult, Simulation } from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
@@ -148,6 +149,10 @@ export const CharacterScoringSummary = (props: {
     // Combat stats: combine DMG_BOOST + element-specific boost using Container accessor
     // Use originalSimResult.x (non-cloned) because TsUtils.clone strips Container methods
     combatStats[elementalDmgValue] = getElementalDmgFromContainer(props.originalSimResult.x, element)
+
+    if (characterMetadata.path === PathNames.Elation) {
+      combatStats[Stats.Elation] = props.originalSimResult.x.getSelfValue(StatsToStatKey[Stats.Elation])
+    }
 
     const diminishingReturns: Record<string, number> = {}
     if (props.type == 'Benchmark') {

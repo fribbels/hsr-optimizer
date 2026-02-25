@@ -54,6 +54,10 @@ body {
     height: 5px !important;
 }
 
+#relicGrid .ag-body-horizontal-scroll {
+    display: none !important;
+}
+
 .ag-cell {
     display: flex;
     justify-content: center;
@@ -380,6 +384,8 @@ a {
     background-color: rgba(255, 255, 255, 0.2);
     outline: 1px solid rgba(255, 255, 255, 0.4) !important;
 }
+
+/* .readonly-custom-grid {} */
 
 /* Target the second segment specifically */
 .short-segmented {

@@ -34,6 +34,7 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 
+import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import {
   ScoringType,
@@ -41,9 +42,7 @@ import {
 } from 'lib/scoring/simScoringUtils'
 import DB, { AppPages } from 'lib/state/db'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import {
-  generateSpdPresets,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HorizontalDivider } from 'lib/ui/Dividers'
@@ -114,9 +113,9 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     const showcaseDarkMode = window.store((s) => s.savedSession.showcaseDarkMode)
     const showcaseUID = window.store((s) => s.savedSession.showcaseUID)
     const showcasePreciseSpd = window.store((s) => s.savedSession.showcasePreciseSpd)
-    const scoringMetadata = window.store(() => DB.getScoringMetadata(characterId))
-    const spdValue = window.store(() => scoringMetadata.stats[Stats.SPD])
-    const deprioritizeBuffs = window.store(() => scoringMetadata.simulation?.deprioritizeBuffs ?? false)
+    const scoringMetadata = useScoringMetadata(characterId)
+    const spdValue = scoringMetadata.stats[Stats.SPD]
+    const deprioritizeBuffs = scoringMetadata.simulation?.deprioritizeBuffs ?? false
     const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
 
     useImperativeHandle(ref, () => ({
@@ -197,11 +196,10 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     function onShowcaseSpdValueChange(spdValue: number) {
       console.log('Set spd value to', spdValue)
 
-      const scoringMetadata = TsUtils.clone(DB.getScoringMetadata(characterId))
-      scoringMetadata.stats[Stats.SPD] = spdValue
+      const scoringMetadata = DB.getScoringMetadata(characterId)
+      const update = { stats: { ...scoringMetadata.stats, [Stats.SPD]: spdValue } }
 
-      DB.updateCharacterScoreOverrides(characterId, scoringMetadata)
-      // pubRefreshRelicsScore('refreshRelicsScore', 'null')
+      DB.updateCharacterScoreOverrides(characterId, update)
     }
 
     function onShowcaseSpdBenchmarkChangeEvent(event: React.FocusEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) {
@@ -238,10 +236,8 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
       const scoringMetadata = DB.getScoringMetadata(characterId)
       if (scoringMetadata?.simulation) {
         console.log('Set deprioritizeBuffs to', deprioritizeBuffs)
-
-        const simulationMetadata = TsUtils.clone(scoringMetadata.simulation)
-        simulationMetadata.deprioritizeBuffs = deprioritizeBuffs
-        DB.updateSimulationScoreOverrides(characterId, simulationMetadata)
+        const update = { deprioritizeBuffs }
+        DB.updateSimulationScoreOverrides(characterId, update)
       }
     }
 
@@ -273,7 +269,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
       }
     }, [tScoring])
 
-    if (source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.CHARACTER_TAB) return <></>
+    if (source === ShowcaseSource.BUILDS_MODAL) return <></>
 
     return (
       <Flex
@@ -550,7 +546,7 @@ function SelectSpdPresets(props: {
       },
       ...categoryOptions,
     ]
-  }, [t, tCharacterTab, props.spdFilter, props.characterId, props.simScoringResult])
+  }, [t, tCharacterTab, props.spdFilter])
 
   return (
     <Select
@@ -570,7 +566,7 @@ function SelectSpdPresets(props: {
 function clipboardClicked(elementId: string, action: string, setLoading: (b: boolean) => void, _color: string) {
   setLoading(true)
   setTimeout(() => {
-    Utils.screenshotElementById(elementId, action, getActiveCharacterName()).finally(() => {
+    void Utils.screenshotElementById(elementId, action, getActiveCharacterName()).finally(() => {
       setLoading(false)
     })
   }, 100)
@@ -745,8 +741,8 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
 
     1321: ['#586bec'], // the dahlia
 
-    1501: ['#7498f1'], // sparxie
-    1502: ['#a4e1df'], // yaoguang
+    1501: ['#b4a8e8'], // sparxie
+    1502: ['#c3d7d8'], // yaoguang
   }
 
   return (defaults[characterId] ?? ['#000000'])[0]

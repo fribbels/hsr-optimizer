@@ -1004,6 +1004,14 @@ Characters:
       e4EffResPen:
         text: E4 Сопротивление↓
         content: Сопротивление эффектам противника со статусом Прозрение понижается на 10%.
+  BlackSwanB1:
+    Content:
+      skillDefShred:
+        text: Защита↓ от Навыка
+      epiphanyDebuff:
+        text: Прозрение на враге
+      arcanaStacks:
+        text: Стаков Аркан
   Blade:
     Content:
       enhancedStateActive:
@@ -2201,6 +2209,17 @@ Characters:
       teammateCDValue:
         text: Крит урон Искры в бою
         content: Повышает крит. урон выбранного союзника на {{skillCdBuffScaling}}% от крит. урона Искорки плюс {{skillCdBuffBase}}%, на 1 ход.
+  SparkleB1:
+    Content:
+      cipherBuff:
+        text: Бафф от Шифра
+      talentStacks:
+        text: Стаков таланта
+      e2DefPen:
+        text: E2 Игнор Защиты
+    TeammateContent:
+      teammateCDValue:
+        text: Крит урон Искры в бою
   Sunday:
     Content:
       skillDmgBuff:

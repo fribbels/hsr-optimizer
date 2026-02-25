@@ -9,13 +9,13 @@ import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import {
-  LightCone,
+  LightConeId,
   SuperImpositionLevel,
 } from 'types/lightCone'
 import { DBMetadata } from 'types/metadata'
 
 export interface LightConeConditionalDisplayProps {
-  id?: LightCone['id']
+  id?: LightConeId
   superImposition: SuperImpositionLevel
   teammateIndex?: number
   dbMetadata: DBMetadata

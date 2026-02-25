@@ -1004,6 +1004,16 @@ Characters:
       e4EffResPen:
         text: 4凸 敵効果抵抗低下
         content: '「開示」状態の敵の効果抵抗-10%。'
+  BlackSwanB1:
+    Content:
+      skillDefShred:
+        text: 防御力ダウン効果の付与
+      epiphanyDebuff:
+        text: '「開示」付与済み'
+      arcanaStacks:
+        text: '「アルカナ」付与数'
+      e4Vulnerability:
+        text: 2凸 敵被ダメージ増加
   Blade:
     Content:
       enhancedStateActive:
@@ -2200,6 +2210,17 @@ Characters:
       teammateCDValue:
         text: 会心ダメージ（戦闘時）
         content: 指定した味方単体の会心ダメージを、花火の会心ダメージ{{skillCdBuffScaling}}%分+{{skillCdBuffBase}}%アップする、1ターン継続。
+  SparkleB1:
+    Content:
+      cipherBuff:
+        text: '「奇怪な謎」有効'
+      talentStacks:
+        text: 天賦の層数
+      e2DefPen:
+        text: 2凸 敵防御力無視
+    TeammateContent:
+      teammateCDValue:
+        text: 会心ダメージ（戦闘時）
   Sunday:
     Content:
       skillDmgBuff:

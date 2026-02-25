@@ -19,10 +19,6 @@ import {
   BasicStatsArrayCore,
 } from 'lib/optimization/basicStatsArray'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
-import {
-  ComputedStatsArray,
-  ComputedStatsArrayCore,
-} from 'lib/optimization/computedStatsArray'
 import { formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
@@ -224,7 +220,6 @@ function outputResults(gpuContext: GpuExecutionContext) {
   const resultArray = gpuContext.resultsQueue.toArray().sort((a, b) => b.value - a.value)
   const outputs: OptimizerDisplayData[] = []
   const basicStatsArrayCore = new BasicStatsArrayCore(false) as BasicStatsArray
-  const computedStatsArrayCore = new ComputedStatsArrayCore(false) as ComputedStatsArray
 
   for (let i = 0; i < resultArray.length; i++) {
     const index = resultArray[i].index
@@ -247,7 +242,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
       LinkRope: relics.LinkRope[l],
     }
 
-    const { x } = simulateBuild(relicsByPart as unknown as SimulationRelicByPart, optimizerContext, basicStatsArrayCore, computedStatsArrayCore)
+    const { x } = simulateBuild(relicsByPart as unknown as SimulationRelicByPart, optimizerContext, basicStatsArrayCore)
 
     const optimizerDisplayData = formatOptimizerDisplayData(x)
     optimizerDisplayData.id = index

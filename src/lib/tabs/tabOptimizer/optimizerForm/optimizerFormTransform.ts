@@ -32,6 +32,7 @@ import { Utils } from 'lib/utils/utils'
 import { ConditionalValueMap } from 'types/conditionals'
 import {
   Form,
+  StatFilters,
   Teammate,
 } from 'types/form'
 import { OptimizerCombatBuffs } from 'types/optimizer'
@@ -395,6 +396,8 @@ function cloneTeammate(teammate: Teammate | undefined) {
     characterEidolon: teammate.characterEidolon ?? null,
     lightCone: teammate.lightCone ?? null,
     lightConeSuperimposition: teammate.lightConeSuperimposition ?? null,
+    teamRelicSet: teammate.teamRelicSet ?? null,
+    teamOrnamentSet: teammate.teamOrnamentSet ?? null,
     characterConditionals: sanitizeConditionals(teammate.characterConditionals),
     lightConeConditionals: sanitizeConditionals(teammate.lightConeConditionals),
   } as Teammate
@@ -410,4 +413,34 @@ function sanitizeConditionals(conditionals: ConditionalValueMap) {
   }
 
   return conditionals
+}
+
+export const emptyFilters: { [K in keyof StatFilters]: number | undefined } = {
+  minAtk: undefined,
+  maxAtk: undefined,
+  minHp: undefined,
+  maxHp: undefined,
+  minDef: undefined,
+  maxDef: undefined,
+  minSpd: undefined,
+  maxSpd: undefined,
+  minCr: undefined,
+  maxCr: undefined,
+  minCd: undefined,
+  maxCd: undefined,
+  minEhr: undefined,
+  maxEhr: undefined,
+  minRes: undefined,
+  maxRes: undefined,
+  minBe: undefined,
+  maxBe: undefined,
+  minErr: undefined,
+  maxErr: undefined,
+}
+
+export function statFiltersFromForm(form: Form): StatFilters {
+  return (Object.keys(emptyFilters) as Array<keyof StatFilters>).reduce((acc, key) => {
+    acc[key] = form[key]
+    return acc
+  }, {} as StatFilters)
 }

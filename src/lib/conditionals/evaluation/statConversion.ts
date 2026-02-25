@@ -11,48 +11,17 @@ import {
   getActionIndex,
 } from 'lib/gpu/injection/injectUtils'
 import { BuffSource } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AKeyValue } from 'lib/optimization/engine/config/keys'
 import {
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { matchesTargetTag } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
-
-export function dynamicStatConversion(
-  sourceStat: ConvertibleStatsType,
-  destinationStat: ConvertibleStatsType,
-  conditional: DynamicConditional,
-  x: ComputedStatsArray,
-  action: OptimizerAction,
-  context: OptimizerContext,
-  source: BuffSource,
-  buffFn: (convertibleValue: number) => number,
-) {
-  const statConfig = statConversionConfig[sourceStat]
-  const destConfig = statConversionConfig[destinationStat]
-
-  const statValue = x.a[statConfig.key]
-  const unconvertibleValue = x.a[statConfig.unconvertibleKey] ?? 0
-
-  const stateValue = action.conditionalState[conditional.id] ?? 0
-  const convertibleValue = statValue - unconvertibleValue
-
-  if (convertibleValue <= 0) return
-
-  const buffFull = Math.max(0, buffFn(convertibleValue))
-  const buffDelta = buffFull - stateValue
-
-  action.conditionalState[conditional.id] = buffFull
-
-  x[destConfig.unconvertibleProperty]?.buff(buffDelta, source)
-  x[destConfig.property].buffDynamic(buffDelta, source, action, context)
-}
 
 export function dynamicStatConversionContainer(
   sourceStat: ConvertibleStatsType,

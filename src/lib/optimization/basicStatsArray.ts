@@ -1,14 +1,16 @@
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { BuffSource } from 'lib/optimization/buffSource'
 import { SetCounts } from 'lib/optimization/calculateStats'
-import {
-  Buff,
-  Key,
-  StatController,
-} from 'lib/optimization/computedStatsArray'
+import { Buff, Key, } from 'lib/optimization/computedStatsArray'
+
+type BasicStatController = {
+  buff: (value: number, source: BuffSource) => void,
+  set: (value: number, source: BuffSource) => void,
+  get: () => number,
+}
 
 type BasicStatsArrayStatExtensions = {
-  [K in keyof typeof baseCharacterStats]: StatController
+  [K in keyof typeof baseCharacterStats]: BasicStatController
 }
 
 export type BasicStatsArray =
@@ -43,7 +45,7 @@ const baseCharacterStats = {
   WIND_DMG_BOOST: 0.00000001,
   QUANTUM_DMG_BOOST: 0.00000001,
   IMAGINARY_DMG_BOOST: 0.00000001,
-  ELATION_DMG_BOOST: 0.00000001,
+  ELATION: 0.00000001,
   ELEMENTAL_DMG: 0.00000001,
 }
 
@@ -178,7 +180,7 @@ export function toBasicStatsObject(a: Float32Array, weight: number = 0, relicSet
     'Wind DMG Boost': a[Key.WIND_DMG_BOOST],
     'Quantum DMG Boost': a[Key.QUANTUM_DMG_BOOST],
     'Imaginary DMG Boost': a[Key.IMAGINARY_DMG_BOOST],
-    'Elation DMG Boost': a[Key.ELATION_DMG_BOOST],
+    'Elation': a[Key.ELATION],
     'ELEMENTAL_DMG': a[Key.ELEMENTAL_DMG],
     'relicSetIndex': relicSetIndex,
     'ornamentSetIndex': ornamentSetIndex,

@@ -7,40 +7,20 @@ import {
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
-import {
-  dynamicStatConversion,
-  dynamicStatConversionContainer,
-  gpuDynamicStatConversion,
-} from 'lib/conditionals/evaluation/statConversion'
+import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import {
-  ConditionalActivation,
-  ConditionalType,
-  Stats,
-} from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  DamageTag,
-  ElementTag,
-  SELF_ENTITY_INDEX,
-  TargetTag,
-} from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { CERYDRA } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const CerydraEntities = createEnum('Cerydra')
 export const CerydraAbilities = createEnum('BASIC', 'ULT', 'BREAK')
@@ -243,17 +223,30 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
 
-    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
+    precomputeTeammateEffectsContainer: (
+      x: ComputedStatsContainer,
+      action: OptimizerAction,
+      context: OptimizerContext,
+      originalCharacterAction?: OptimizerAction,
+    ) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Trace: SPD buff (requires militaryMerit)
       x.buff(StatKey.SPD, (t.spdBuff && t.militaryMerit) ? 20 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_TRACE))
 
       // Skill: CD boost (requires militaryMerit and peerage)
-      x.buff(StatKey.CD, (t.militaryMerit && t.peerage) ? skillCdScaling : 0, x.damageType(DamageTag.SKILL).targets(TargetTag.SingleTarget).source(SOURCE_SKILL))
+      x.buff(
+        StatKey.CD,
+        (t.militaryMerit && t.peerage) ? skillCdScaling : 0,
+        x.damageType(DamageTag.SKILL).targets(TargetTag.SingleTarget).source(SOURCE_SKILL),
+      )
 
       // Skill: RES PEN (requires militaryMerit and peerage)
-      x.buff(StatKey.RES_PEN, (t.militaryMerit && t.peerage) ? skillResPenScaling : 0, x.damageType(DamageTag.SKILL).targets(TargetTag.SingleTarget).source(SOURCE_SKILL))
+      x.buff(
+        StatKey.RES_PEN,
+        (t.militaryMerit && t.peerage) ? skillResPenScaling : 0,
+        x.damageType(DamageTag.SKILL).targets(TargetTag.SingleTarget).source(SOURCE_SKILL),
+      )
 
       // Talent: ATK buff from Cerydra's ATK (requires militaryMerit)
       const atkBuff = talentAtkScaling * t.teammateATKValue
@@ -310,7 +303,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           const config = action.config
-
 
           return gpuDynamicStatConversion(
             Stats.ATK,

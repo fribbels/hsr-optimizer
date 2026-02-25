@@ -329,11 +329,21 @@ EditImage:
 SaveBuild:
   Label: crwdns42564:0crwdne42564:0
   Rule: crwdns42566:0crwdne42566:0
+  Overwrite: crwdns46356:0crwdne46356:0
+  ConfirmOverwrite:
+    Content: crwdns46358:0crwdne46358:0
+    SuccessMessage: 'crwdns46360:0{{name}}crwdne46360:0'
+  Tooltip:
+    SaveDisabled:
+      NameTaken: crwdns46362:0crwdne46362:0
+      NoName: crwdns46364:0crwdne46364:0
+    OverwriteDisabled: crwdns46366:0crwdne46366:0
 SwitchRelics:
   Title: crwdns42568:0crwdne42568:0
 Builds:
   DeleteAll: crwdns42570:0crwdne42570:0
   Equip: crwdns42572:0crwdne42572:0
+  Load: crwdns46368:0crwdne46368:0
   ConfirmEquip:
     Content: crwdns42574:0crwdne42574:0
     SuccessMessage: 'crwdns42576:0{{buildName}}crwdne42576:0'

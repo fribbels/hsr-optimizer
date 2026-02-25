@@ -33,6 +33,8 @@ OrnamentSetSelector:
   Placeholder: 位面饰品套装
 SortOptions:
   DMGLabel: 伤害计算
+  HealLabel: 治疗量计算
+  ShieldLabel: 护盾值计算
   StatLabel: 属性
   COMBO: 按连招伤害排序
   BASIC: 按普攻伤害排序
@@ -41,10 +43,21 @@ SortOptions:
   FUA: 按追加攻击伤害排序
   MEMO_SKILL: 按忆灵技伤害排序
   MEMO_TALENT: 按忆灵技伤害排序
+  ELATION_SKILL: 按欢愉技伤害排序
   DOT: 按持续伤害排序
   BREAK: 按击破伤害排序
-  HEAL: 按治疗值排序
+  HEAL: 按治疗量排序
   SHIELD: 按护盾值排序
+  BASIC_HEAL: 按普攻治疗量排序
+  SKILL_HEAL: 按战技治疗量排序
+  ULT_HEAL: 按终结技治疗量排序
+  FUA_HEAL: 按追加攻击治疗量排序
+  TALENT_HEAL: 按天赋治疗量排序
+  BASIC_SHIELD: 按普攻护盾值排序
+  SKILL_SHIELD: 按战技护盾值排序
+  ULT_SHIELD: 按终结技护盾值排序
+  FUA_SHIELD: 按追加攻击护盾值排序
+  TALENT_SHIELD: 按天赋护盾值排序
   HP: '按$t(common:ReadableStats.HP)排序'
   ATK: '按$t(common:ReadableStats.ATK)排序'
   DEF: '按$t(common:ReadableStats.DEF)排序'
@@ -122,7 +135,7 @@ Grid:
       ERR: 能量恢复
       DMG: 伤害
       EHP: 有效生命
-      HEAL: 治疗值
+      HEAL: 治疗量
       SHIELD: 护盾值
       BASIC: |-
         普攻
@@ -142,12 +155,44 @@ Grid:
       MEMO_TALENT: |-
         忆灵天赋
         伤害
+      ELATION_SKILL: |-
+        欢愉技
       DOT: |-
         持续
         伤害
       BREAK: |-
         击破
         伤害
+      BASIC_HEAL: |-
+        普攻
+        治疗量
+      SKILL_HEAL: |-
+        战技
+        治疗量
+      ULT_HEAL: |-
+        终结技
+        治疗量
+      FUA_HEAL: |-
+        追加攻击
+        治疗量
+      TALENT_HEAL: |-
+        天赋
+        治疗量
+      BASIC_SHIELD: |-
+        普攻
+        护盾值
+      SKILL_SHIELD: |-
+        战技
+        护盾值
+      ULT_SHIELD: |-
+        终结技
+        护盾值
+      FUA_SHIELD: |-
+        追加攻击
+        护盾值
+      TALENT_SHIELD: |-
+        天赋
+        护盾值
       COMBO: |-
         连招
         伤害
@@ -186,12 +231,44 @@ Grid:
       MEMO_TALENT: |-
         忆灵天赋
         伤害
+      ELATION_SKILL: |-
+        欢愉技
       DOT: |-
         持续
         伤害
       BREAK: |-
         击破
         伤害
+      BASIC_HEAL: |-
+        普攻
+        治疗量
+      SKILL_HEAL: |-
+        战技
+        治疗量
+      ULT_HEAL: |-
+        终结技
+        治疗量
+      FUA_HEAL: |-
+        追加攻击
+        治疗量
+      TALENT_HEAL: |-
+        天赋
+        治疗量
+      BASIC_SHIELD: |-
+        普攻
+        护盾值
+      SKILL_SHIELD: |-
+        战技
+        护盾值
+      ULT_SHIELD: |-
+        终结技
+        护盾值
+      FUA_SHIELD: |-
+        追加攻击
+        护盾值
+      TALENT_SHIELD: |-
+        天赋
+        护盾值
       COMBO: |-
         连招
         伤害
@@ -242,6 +319,10 @@ Sidebar:
     Filter: 过滤
     Pin: 置顶配装
     Clear: 清除所有置顶
+  BuildsGroup:
+    Header: 配装
+    Save: 保存
+    Load: 加载
 TeammateRow:
   Header: '队友 {{teammateCount}}'
 FormRowLabels:
@@ -303,6 +384,9 @@ SetConditionals:
       3+Debuff:
         Display: 3层+
         Label: 3减益, 已增强 (+12% 伤害 | +4% 基础暴击 | +4% 战斗暴击 | +24% 爆伤)
+    MagicalGirl:
+      Display: '{{stackCount}}层'
+      Label: '{{stackCount}} 层（+{{stackCount}}% 防御力穿透）'
     Sigonia:
       Display: '{{stackCount}}层'
       Label: '{{stackCount}}层 (+{{buffValue}}% CD)'
@@ -329,12 +413,19 @@ SetConditionals:
     Ashblazing: >-
       所选的攻击力%增益将应用于所有计算，除了追加攻击。追加攻击的计算将从0%攻击增益开始，并根据攻击时造成的击中次数叠加。击中次数将根据敌人数量增加，并假设敌方目标位于中心以进行爆炸（3人）/范围（全屏）攻击。
     Prisoner: 所选的防御穿透%增益将根据叠加层数应用于伤害计算。
-    Diver: 选择0层选项可以禁用二件套效果。对于四件套，根据所选选项应用不同的暴击增益于战斗属性计算。
+    Diver: >-
+      选择0层选项可以禁用二件套效果。对于四件套，根据所选选项应用不同的暴击增益于战斗属性计算。
     Watchmaker: 启用后，击破特攻增益将应用于战斗属性计算。
     Valorous: 启用后，终结技伤害的增伤%增益将应用于战斗属性计算。
     Sacerdos: 所选的增益将应用于伤害计算。能够自我增益的角色可以触发此效果。
     Scholar: 启用后，战技伤害的增伤%增益将根据角色的连招顺序增强。
     Hero: 启用后，速度%和暴击伤害增益将应用于战斗属性计算。
+    WarriorGoddess: 启用后，4件套的速度与暴击伤害加成将计入战斗属性计算。
+    Wavestrider: 启用后，攻击力加成将计入战斗属性计算。
+    Deliverer: 启用后，生命值与伤害加成将计入战斗属性计算。
+    Recluse: 启用后，暴击伤害加成将计入战斗属性计算。
+    MagicalGirl: 所选增益将计入战斗属性计算。
+    Diviner: 启用后，欢愉度增益将计入战斗属性计算。
     Differentiator: 启用后，暴击率增益将应用于战斗属性计算。
     Penacony: 启用后，伤害%增益将应用于佩戴者的忆灵。
     Sigonia: 假设角色已击败该数量的敌人，所选的暴击伤害增益将应用于战斗属性计算。
@@ -344,6 +435,8 @@ SetConditionals:
     Lushaka: 默认禁用 - 该套装无法影响佩戴者。
     Banana: 启用后，额外的32%暴击伤害将应用于战斗属性计算。
     Arcadia: 所选增益将应用于战斗属性计算。队伍选择变化时会自动更新。
+    Amphoreus: 启用后，若佩戴者拥有忆灵，速度加成将计入战斗属性计算。
+    Tengoku: 启用后，额外暴击伤害加成将计入战斗属性计算。
 Presets:
   SpdValues:
     SPD0: 无最低速度
@@ -465,6 +558,17 @@ ComboFilter:
     Break: 击破
     MemoSkill: 忆灵技
     MemoTalent: 忆灵天赋
+    ElationSkill: 欢愉技
+    BasicHeal: 普攻治疗量
+    SkillHeal: 战技治疗量
+    UltHeal: 终结技治疗量
+    FuaHeal: 追加攻击治疗量
+    TalentHeal: 天赋治疗量
+    BasicShield: 普攻护盾值
+    SkillShield: 战技护盾值
+    UltShield: 终结技护盾值
+    FuaShield: 追加攻击护盾值
+    TalentShield: 天赋护盾值
   RotationButton: 高级技能循环
 ComboDrawer:
   NoConditionals: 无可应用的条件触发被动技能
@@ -516,6 +620,10 @@ TeammateCard:
       Desc: '四件套: $t(gameData:RelicSets.128.Name)（+15%暴击伤害）'
       Set: '$t(gameData:RelicSets.128.Name)'
       Text: 15% 爆伤
+    Diviner:
+      Desc: '4件套：$t(gameData:RelicSets.130.Name)（+10%欢愉度）'
+      Set: '$t(gameData:RelicSets.130.Name)'
+      Text: 10%欢愉度
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10%暴击伤害)'
       Set: '$t(gameData:RelicSets.310.Name)'
@@ -628,6 +736,7 @@ ExpandedDataPanel:
       E2: 2魂
       E4: 4魂
       E6: 6魂
+      ElationSkill: 欢愉技
     Stats:
       CompositeLabels:
         Label: '{{prefix}}{{suffix}}'
@@ -640,6 +749,7 @@ ExpandedDataPanel:
           Break: 击破
           Memo Skill: 忆灵技
           Memo Talent: 忆灵天赋
+          Elation Skill: 欢愉技
         Suffix:
           ATK scaling: 攻击力加成
           DEF scaling: 防御值加成
@@ -705,6 +815,7 @@ ExpandedDataPanel:
         Additional DMG boost: 额外伤害提升
         Ult Additional DMG CR override: 终结技额外伤害暴击率覆盖
         Ult Additional DMG CD override: 终结技额外伤害爆伤覆盖
+        Merrymaking: 增笑
       DmgTypes:
         Basic: 普攻伤害类型
         Skill: 战技伤害类型
@@ -714,6 +825,7 @@ ExpandedDataPanel:
         Break: 击破伤害类型
         MemoSkill: 忆灵技伤害类型
         MemoTalent: 忆灵天赋伤害类型
+        ElationSkill: 欢愉伤害类型
         Additional: 额外伤害类型
         SuperBreak: 超击破伤害类型
       ResPen: '$t(common:Elements.{{element}})抗性穿透'

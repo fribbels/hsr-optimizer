@@ -106,6 +106,8 @@ interface Resources {
       "SaveSuccess": "Successfully saved build: {{name}}",
       "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?",
       "DeleteWarning": "Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?",
+      "NoBuilds": "Attempted to overwrite build {{name}} but $t(gameData:Characters.{{charId}}.Name) has no saved builds",
+      "NoMatchingBuild": "Attempted to overwrite build {{name}} but no such build exists",
       "BuildAlreadyExists": "Build name {{name}} already exists",
       "ImageUploadFailed": "Image upload failed",
       "InvalidFile": "File is not a valid image file"
@@ -228,6 +230,7 @@ interface Resources {
             "BREAK": "BREAK DMG",
             "MEMO_SKILL": "SKILLᴹ DMG",
             "MEMO_TALENT": "TALENTᴹ DMG",
+            "ELATION_SKILL": "ELATION SKILL DMG",
             "COMBO": "COMBO DMG"
           }
         },
@@ -345,7 +348,7 @@ interface Resources {
       "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG Boost",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum) DMG Boost",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary) DMG Boost",
-      "Elation DMG Boost": "Elation DMG Boost"
+      "Elation": "Elation"
     },
     "ShortStats": {
       "HP%": "HP%",
@@ -370,7 +373,7 @@ interface Resources {
       "Wind DMG Boost": "$t(gameData:Elements.Wind)",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)",
-      "Elation DMG Boost": "Elation"
+      "Elation": "Elation"
     },
     "ShortSpacedStats": {
       "HP%": "HP %",
@@ -395,7 +398,7 @@ interface Resources {
       "Wind DMG Boost": "$t(gameData:Elements.Wind)",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)",
-      "Elation DMG Boost": "Elation"
+      "Elation": "Elation"
     },
     "Damage": "DMG",
     "DamagePercent": "DMG %",
@@ -422,7 +425,7 @@ interface Resources {
       "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum) DMG",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary) DMG",
-      "Elation DMG Boost": "Elation DMG"
+      "Elation": "Elation"
     },
     "ShortReadableStats": {
       "HP%": "HP %",
@@ -447,7 +450,7 @@ interface Resources {
       "Wind DMG Boost": "$t(gameData:Elements.Wind)",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)",
-      "Elation DMG Boost": "Elation"
+      "Elation": "Elation"
     },
     "Elements": {
       "Physical": "$t(gameData:Elements.Physical)",
@@ -477,6 +480,7 @@ interface Resources {
       "Fua": "Fua DMG",
       "Memo_Skill": "Skillᴹ DMG",
       "Memo_Talent": "Talentᴹ DMG",
+      "Elation_Skill": "Elation Skill DMG",
       "Dot": "Dot DMG",
       "Break": "Break DMG",
       "CV": "CV"
@@ -1927,6 +1931,40 @@ interface Resources {
           "e4EffResPen": {
             "text": "E4 Effect RES shred",
             "content": "While in the Epiphany state, enemy targets have their Effect RES reduced by 10%."
+          }
+        }
+      },
+      "BlackSwanB1": {
+        "Content": {
+          "skillDefShred": {
+            "text": "Skill DEF shred",
+            "content": "When Black Swan uses her skill, there is a 100% base chance of reducing the DEF of the enemy target and the adjacent targets by {{skillDefShredScaling}}%, lasting for 3 turns."
+          },
+          "epiphanyDebuff": {
+            "text": "Epiphany debuff",
+            "content": "While in the \"Epiphany\" state, enemy targets take {{epiphanyVulnerability}}% increased DMG."
+          },
+          "arcanaStacks": {
+            "text": "Arcana stacks",
+            "content": "While an enemy target is in the \"Arcana\" state, they are also considered to be simultaneously afflicted with Wind Shear, Bleed, Burn, and Shock. The target receives Wind DoT equal to {{dotBaseScaling}}% of Black Swan's ATK at the start of each turn, after which the number of stacks is halved. Each stack of \"Arcana\" increases this DMG multiplier by {{arcanaAdditionalScaling}}%. \"Arcana\" can stack {{arcanaStackLimit}} times, and can continue to stack beyond this limit, with the excess stacks removed after dealing DMG. DMG from \"Arcana\" ignores 20% of the target's DEF."
+          },
+          "ehrToDmgBoost": {
+            "text": "EHR to DMG Boost",
+            "content": "Increases the DMG dealt by all allies by an amount equal to 60% of Black Swan's Effect Hit Rate, up to a maximum DMG increase of 72%."
+          },
+          "e1ResReduction": {
+            "text": "E1 Res reduction",
+            "content": "While Black Swan is active in combat, enemies afflicted with Wind Shear, Bleed, Burn, or Shock will have their corresponding Wind, Physical, Fire, or Lightning RES respectively reduced by 25%."
+          },
+          "e4Vulnerability": {
+            "text": "E4 Vulnerability",
+            "content": "While in the \"Epiphany\" state, enemy targets take 20% increased DMG."
+          }
+        },
+        "TeammateContent": {
+          "combatEhr": {
+            "text": "Black Swan's combat EHR",
+            "content": "Increases the DMG dealt by all allies by an amount equal to 60% of Black Swan's Effect Hit Rate, up to a maximum DMG increase of 72%."
           }
         }
       },
@@ -3511,6 +3549,40 @@ interface Resources {
           "teammateCDValue": {
             "text": "Sparkle's Combat CD",
             "content": "Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 1 turn."
+          }
+        }
+      },
+      "SparkleB1": {
+        "Content": {
+          "skillBuffs": {
+            "text": "Skill buffs",
+            "content": "Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 2 turns. ::BR:: A6: Increases this ally's All-Type RES PEN by 10%. ::BR:: E6: The CRIT DMG Boost effect of Sparkle's Skill additionally increases by 30% of Sparkle's CRIT DMG, and when she uses her Skill, the CRIT DMG Boost effect will apply to all allies currently with Cipher. When Sparkle uses her Ultimate, this effect will spread to all allies with Cipher should the allied target have the CRIT DMG increase effect provided by the Skill active on them."
+          },
+          "cipherBuff": {
+            "text": "Cipher buff",
+            "content": "When allies with Cipher trigger the DMG Boost effect provided by Sparkle's Talent, each stack additionally increases its effect by {{cipherTalentStackBoost}}%, lasting for 3 turns. ::BR:: E1: All allies affected by Cipher have their ATK increased by 40%."
+          },
+          "talentStacks": {
+            "text": "Talent stacks",
+            "content": "Whenever an ally target consumes 1 Skill Point, Sparkle gains 1 stack of \"Figment,\" with each stack increasing the DMG taken by all enemies by {{talentStackScaling}}%. This effect lasts for 2 turns and can stack up to 3 times. ::BR:: E2: Each Talent stack allows allies to ignore 10% of the enemy target's DEF when dealing DMG to enemies."
+          },
+          "teamAtkBuff": {
+            "text": "Team ATK buff",
+            "content": "Increases all allies' ATK by 45%."
+          },
+          "e1SpdBuff": {
+            "text": "E1 SPD Buff",
+            "content": "When the battle starts or when using Skill, increases Sparkle's SPD by 15%, lasting for 2 turns."
+          },
+          "e2DefPen": {
+            "text": "E2 DEF PEN",
+            "content": "Each stack of the Talent's effect additionally reduces the enemy target's DEF by 10%."
+          }
+        },
+        "TeammateContent": {
+          "teammateCDValue": {
+            "text": "Sparkle's Combat CD",
+            "content": "Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 2 turns."
           }
         }
       },
@@ -5147,10 +5219,15 @@ interface Resources {
       "p3": "Pin build - Pin the currently selected row to the top of the grid. Use this to compare multiple builds more easily",
       "p4": "Clear pins - Clear all the builds that you pinned to the top of the grid"
     },
+    "Builds": {
+      "Title": "Builds",
+      "p1": "Save - Save the currently selected build as well as all the optimizer settings",
+      "p2": "Load - Load a saved build into the optimizer. This includes teammates, conditionals, and combo settings"
+    },
     "OptimizerOptions": {
       "Title": "Optimizer options",
       "PriorityFilter": "<0>Character priority filter</0> - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.",
-      "BoostMain": "<0>Boost main stat</0> - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats are not changed accordingly, so builds with lower level relics may be stronger once you level them.",
+      "BoostMain": "<0>Boost main stat</0> - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Preview substats may be included in damage calculations depending on the value of this setting. However substats will never be further upgraded, so lower ranked builds with lower level relics may be stronger once you level said relics.",
       "KeepCurrent": "<0>Keep current relics</0> - The character must use its currently equipped items and the optimizer will try to fill in empty slots",
       "AllowEquipped": "<0>Allow equipped relics</0> - When enabled, the optimizer will allow using relics that are currently equipped by a character for the search. Otherwise equipped relics are excluded",
       "Priority": "<0>Priority</0> - See: Character priority filter. Changing this setting will change the character's priority",
@@ -5792,7 +5869,19 @@ interface Resources {
     },
     "SaveBuild": {
       "Label": "Build name",
-      "Rule": "Please input a name"
+      "Rule": "Please input a name",
+      "Overwrite": "Overwrite",
+      "ConfirmOverwrite": {
+        "Content": "Are you sure you want to overwrite this build?",
+        "SuccessMessage": "Successfully overwrote build: {{name}}"
+      },
+      "Tooltip": {
+        "SaveDisabled": {
+          "NameTaken": "A build with this name already exists. Change the name in order to save the build.",
+          "NoName": "Builds must have a name in order to be saved. Please enter a name for the build in order to save it."
+        },
+        "OverwriteDisabled": "No build with this name exists. Click on an existing build, or type in its name, in order to be able to overwrite it."
+      }
     },
     "SwitchRelics": {
       "Title": "Switch relics with character"
@@ -5800,6 +5889,7 @@ interface Resources {
     "Builds": {
       "DeleteAll": "Delete All",
       "Equip": "Equip",
+      "Load": "Load In Optimizer",
       "ConfirmEquip": {
         "Content": "Equipping this will unequip characters that use the relics in this build",
         "SuccessMessage": "Successfully equipped build: {{buildName}}"
@@ -5927,6 +6017,7 @@ interface Resources {
       "FUA": "Sorted by Follow-up DMG",
       "MEMO_SKILL": "Sorted by Memo Skill DMG",
       "MEMO_TALENT": "Sorted by Memo Talent DMG",
+      "ELATION_SKILL": "Sorted by Elation Skill DMG",
       "DOT": "Sorted by DoT DMG",
       "BREAK": "Sorted by Break DMG",
       "HEAL": "Sorted by Heal",
@@ -6034,6 +6125,7 @@ interface Resources {
           "FUA": "FUA\nDMG",
           "MEMO_SKILL": "SKILLᴹ\nDMG",
           "MEMO_TALENT": "TALENTᴹ\nDMG",
+          "ELATION_SKILL": "ELATION\nSKILL",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
           "BASIC_HEAL": "BASIC\nHEAL",
@@ -6071,6 +6163,7 @@ interface Resources {
           "FUA": "FUA\nDMG",
           "MEMO_SKILL": "SKILLᴹ\nDMG",
           "MEMO_TALENT": "TALENTᴹ\nDMG",
+          "ELATION_SKILL": "ELATION\nSKILL",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
           "BASIC_HEAL": "BASIC\nHEAL",
@@ -6143,6 +6236,11 @@ interface Resources {
         "Filter": "Filter",
         "Pin": "Pin builds",
         "Clear": "Clear pins"
+      },
+      "BuildsGroup": {
+        "Header": "Builds",
+        "Save": "Save",
+        "Load": "Load"
       }
     },
     "TeammateRow": {
@@ -6224,6 +6322,10 @@ interface Resources {
             "Label": "3 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +24% CD)"
           }
         },
+        "MagicalGirl": {
+          "Display": "{{stackCount}}x",
+          "Label": "{{stackCount}} stacks (+{{stackCount}}% DEF PEN)"
+        },
         "Sigonia": {
           "Display": "{{stackCount}}x",
           "Label": "{{stackCount}} stacks (+{{buffValue}}% CD)"
@@ -6260,6 +6362,12 @@ interface Resources {
         "Sacerdos": "The selected buff is applied to damage calculations. Characters who buff themselves can trigger this effect.",
         "Scholar": "When enabled, the DMG% buff for Skill damage will be enhanced in accordance with the character's COMBO sequence.",
         "Hero": "When enabled, the SPD% and CRIT Damage buffs are applied to combat stat calculations.",
+        "WarriorGoddess": "When enabled, the 4pc's SPD% and CRIT Damage buffs are applied to combat stat calculations.",
+        "Wavestrider": "When enabled, the ATK% buff is applied to combat stat calculations.",
+        "Deliverer": "When enabled, the HP% and DMG Boost buffs are applied to combat stat calculations.",
+        "Recluse": "When enabled, the CRIT Damage buff is applied to combat stat calculations.",
+        "MagicalGirl": "The selected buff is applied to combat stat calculations.",
+        "Diviner": "When enabled, the Elation buff is applied to combat stat calculations.",
         "Differentiator": "When enabled, the CRIT Rate buff is applied to Combat stat calculations.",
         "Penacony": "When enabled, the DMG% buff will apply to the wearer's memosprite.",
         "Sigonia": "The selected CRIT DMG buff is applied to Combat stat calculations, assuming the character has defeated that number of enemies.",
@@ -6268,7 +6376,9 @@ interface Resources {
         "Kalpagni": "When enabled, applies the Break Effect buff to combat stat calculations.",
         "Lushaka": "Disabled by default - This set is unable to affect its wearer.",
         "Banana": "When enabled, the additional 32% CRIT DMG is applied to Combat stat calculations.",
-        "Arcadia": "The selected buff is applied to Combat stat calculations. Updates automatically when team selection changes."
+        "Arcadia": "The selected buff is applied to Combat stat calculations. Updates automatically when team selection changes.",
+        "Amphoreus": "When enabled, if the wearer possesses a memosprite then the SPD% buff is applied to combat stat calculations.",
+        "Tengoku": "When enabled, the additional CRIT Damage buff is applied to combat stat calculations."
       }
     },
     "Presets": {
@@ -6403,6 +6513,7 @@ interface Resources {
         "Break": "Break",
         "MemoSkill": "Skillᴹ",
         "MemoTalent": "Talentᴹ",
+        "ElationSkill": "Elation Skill",
         "BasicHeal": "Basic HEAL",
         "SkillHeal": "Skill HEAL",
         "UltHeal": "Ult HEAL",
@@ -6473,6 +6584,11 @@ interface Resources {
           "Desc": "4 Piece: $t(gameData:RelicSets.128.Name) (+15% CD)",
           "Set": "$t(gameData:RelicSets.128.Name)",
           "Text": "15% CD"
+        },
+        "Diviner": {
+          "Desc": "4 Piece: $t(gameData:RelicSets.130.Name) (+10% Elation)",
+          "Set": "$t(gameData:RelicSets.130.Name)",
+          "Text": "10% Elation"
         },
         "Keel": {
           "Desc": "$t(gameData:RelicSets.310.Name) (+10% CD)",
@@ -6605,7 +6721,8 @@ interface Resources {
           "E1": "E1",
           "E2": "E2",
           "E4": "E4",
-          "E6": "E6"
+          "E6": "E6",
+          "ElationSkill": "Elation Skill"
         },
         "Stats": {
           "CompositeLabels": {
@@ -6618,7 +6735,8 @@ interface Resources {
               "Dot": "Dot",
               "Break": "Break",
               "Memo Skill": "Memo Skill",
-              "Memo Talent": "Memo Talent"
+              "Memo Talent": "Memo Talent",
+              "Elation Skill": "Elation Skill"
             },
             "Suffix": {
               "ATK scaling": "ATK scaling",
@@ -6686,7 +6804,8 @@ interface Resources {
             "Super Break Vulnerability": "Super Break Vulnerability",
             "Additional DMG boost": "Additional DMG boost",
             "Ult Additional DMG CR override": "Ult Additional DMG CR override",
-            "Ult Additional DMG CD override": "Ult Additional DMG CD override"
+            "Ult Additional DMG CD override": "Ult Additional DMG CD override",
+            "Merrymaking": "Merrymaking"
           },
           "DmgTypes": {
             "Basic": "Basic DMG type",
@@ -6697,6 +6816,7 @@ interface Resources {
             "Break": "Break DMG type",
             "MemoSkill": "Memo Skill DMG type",
             "MemoTalent": "Memo Talent DMG type",
+            "ElationSkill": "Elation DMG type",
             "Additional": "Additional DMG type",
             "SuperBreak": "Super Break DMG type"
           },
@@ -6818,6 +6938,18 @@ interface Resources {
           "RerollAvgEquippedDelta": {
             "Label": "Selected character: Reroll average delta potential vs equipped",
             "Header": "Selected Char\n∆ Reroll AVG\nVS Equipped"
+          },
+          "BlockedRerollAvg": {
+            "Label": "Selected character: Blocked reroll average potential",
+            "Header": "Selected Char\nBlocked Reroll\nAvg"
+          },
+          "BlockedRerollAvgDelta": {
+            "Label": "Selected character: Blocked reroll average delta potential",
+            "Header": "Selected Char\nΔ Blocked Reroll\nAvg"
+          },
+          "BlockedRerollAvgEquippedDelta": {
+            "Label": "Selected character: Blocked reroll average delta potential vs equipped",
+            "Header": "Selected Char\n∆ Blocked Reroll\nAVG VS Equipped"
           }
         },
         "CustomCharacters": {
@@ -6833,6 +6965,10 @@ interface Resources {
           "RerollAvg": {
             "Label": "Custom characters: Average reroll potential",
             "Header": "Custom Chars\nAvg Reroll"
+          },
+          "BlockedRerollAvg": {
+            "Label": "Custom characters: Average blocked reroll potential",
+            "Header": "Custom Chars\nAvg Blocked Reroll"
           }
         },
         "AllCharacters": {
@@ -6848,6 +6984,10 @@ interface Resources {
           "RerollAvg": {
             "Label": "All characters: Average reroll potential",
             "Header": "All Chars\nAvg Reroll"
+          },
+          "BlockedRerollAvg": {
+            "Label": "All characters: Average blocked reroll potential",
+            "Header": "All Chars\nAvg Blocked Reroll"
           }
         }
       }
@@ -6861,7 +7001,8 @@ interface Resources {
       },
       "InsightOptions": {
         "Buckets": "Relic Insight: Buckets",
-        "Top10": "Relic Insight: Top 10"
+        "Top10": "Relic Insight: Top 10",
+        "ESTBP": "Relic Insights: ESTBP"
       },
       "PlotOptions": {
         "PlotAll": "Show all characters",
@@ -6874,7 +7015,8 @@ interface Resources {
         "Warning_one": "Delete the selected relic?",
         "Warning_other": "Delete the {{count}} selected relics?"
       },
-      "AddRelic": "Add New Relic"
+      "AddRelic": "Add New Relic",
+      "LiveImportTooltip": "Disabled in live import mode."
     },
     "RelicInsights": {
       "NewStats": "New stats: ",

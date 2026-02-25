@@ -15,6 +15,7 @@ import {
   BreakHitDefinition,
   CritHitDefinition,
   DotHitDefinition,
+  ElationHitDefinition,
   HealHitDefinition,
   HealTallyHitDefinition,
   HitDefinition,
@@ -59,8 +60,22 @@ export function HitDefinitionBuilder(defaults?: Partial<HitDefinition>) {
   return genericBuilder<HitDefinition>({ ...BASE_HIT_DEFAULTS, ...defaults })
 }
 
+const elationHitSchema = schemaBuilder<
+  ElationHitDefinition,
+  Pick<ElationHitDefinition, 'damageFunctionType' | 'directHit' | 'outputTag'>,
+  Pick<ElationHitDefinition, 'damageElement' | 'elationScaling' | 'punchlineStacks'>
+>({
+  defaults: {
+    damageFunctionType: DamageFunctionType.Elation,
+    directHit: true,
+    outputTag: OutputTag.DAMAGE,
+  },
+  required: ['damageElement', 'elationScaling', 'punchlineStacks'],
+})
+
 // New schema-driven builders // TODO: Careful
 HitDefinitionBuilder.crit = critHitSchema
+HitDefinitionBuilder.elation = elationHitSchema
 
 HitDefinitionBuilder.standardDot = () =>
   genericBuilder<DotHitDefinition>({

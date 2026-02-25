@@ -83,6 +83,18 @@ RelicGrid:
         Label: 'crwdns44770:0crwdne44770:0'
         Header: |-
           crwdns44772:0crwdne44772:0
+      BlockedRerollAvg:
+        Label: 'crwdns46324:0crwdne46324:0'
+        Header: |-
+          crwdns46326:0crwdne46326:0
+      BlockedRerollAvgDelta:
+        Label: 'crwdns46328:0crwdne46328:0'
+        Header: |-
+          crwdns46330:0crwdne46330:0
+      BlockedRerollAvgEquippedDelta:
+        Label: 'crwdns46332:0crwdne46332:0'
+        Header: |-
+          crwdns46334:0crwdne46334:0
     CustomCharacters:
       Label: crwdns43550:0crwdne43550:0
       AvgPotCol:
@@ -97,6 +109,10 @@ RelicGrid:
         Label: 'crwdns43682:0crwdne43682:0'
         Header: |-
           crwdns43684:0crwdne43684:0
+      BlockedRerollAvg:
+        Label: 'crwdns46336:0crwdne46336:0'
+        Header: |-
+          crwdns46338:0crwdne46338:0
     AllCharacters:
       Label: crwdns43560:0crwdne43560:0
       AvgPotCol:
@@ -111,6 +127,10 @@ RelicGrid:
         Label: 'crwdns43686:0crwdne43686:0'
         Header: |-
           crwdns43688:0crwdne43688:0
+      BlockedRerollAvg:
+        Label: 'crwdns46340:0crwdne46340:0'
+        Header: |-
+          crwdns46342:0crwdne46342:0
 Toolbar:
   RelicLocator:
     Width: crwdns43576:0crwdne43576:0
@@ -120,6 +140,7 @@ Toolbar:
   InsightOptions:
     Buckets: 'crwdns43584:0crwdne43584:0'
     Top10: 'crwdns43586:0crwdne43586:0'
+    ESTBP: 'crwdns46344:0crwdne46344:0'
   PlotOptions:
     PlotAll: crwdns43588:0crwdne43588:0
     PlotCustom: crwdns43590:0crwdne43590:0
@@ -130,6 +151,7 @@ Toolbar:
     Warning_one: crwdns43596:0crwdne43596:0
     Warning_other: 'crwdns43598:0{{count}}crwdne43598:0'
   AddRelic: crwdns43600:0crwdne43600:0
+  LiveImportTooltip: crwdns46396:0crwdne46396:0
 RelicInsights:
   NewStats: 'crwdns43602:0crwdne43602:0'
   UpgradedStats: 'crwdns43604:0crwdne43604:0'

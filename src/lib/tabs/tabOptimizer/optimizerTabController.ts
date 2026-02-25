@@ -90,6 +90,7 @@ const columnsToAggregateMap = {
   FUA: true,
   MEMO_SKILL: true,
   MEMO_TALENT: true,
+  ELATION_SKILL: true,
   DOT: true,
   BREAK: true,
   COMBO: true,
@@ -488,6 +489,8 @@ export const OptimizerTabController = {
 
     window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, id)
     SaveState.delayedSave()
+
+    OptimizerTabController.updateCharacter(id)
   },
 
   // Update form values with the character
@@ -509,10 +512,7 @@ export const OptimizerTabController = {
 
     // Setting timeout so this doesn't lag the modal close animation. The delay is mostly hidden by the animation
     setTimeout(() => {
-      window.store.getState().setOptimizerFormSelectedLightCone(form.lightCone)
-      window.store.getState().setOptimizerFormSelectedLightConeSuperimposition(form.lightConeSuperimposition)
       window.store.getState().setOptimizerTabFocusCharacter(characterId)
-      window.store.getState().setOptimizerFormCharacterEidolon(form.characterEidolon)
       window.store.getState().setStatDisplay(form.statDisplay ?? DEFAULT_STAT_DISPLAY)
       window.store.getState().setStatSimulations(form.statSim?.simulations ?? [])
       window.store.getState().setOptimizerSelectedRowData(null)
@@ -520,7 +520,7 @@ export const OptimizerTabController = {
       // console.log('@updateForm', displayFormValues, character)
 
       generateContext(request)
-      void calculateCurrentlyEquippedRow(request)
+      calculateCurrentlyEquippedRow(request)
 
       window.onOptimizerFormValuesChange({} as Form, displayFormValues)
     }, 50)
@@ -564,6 +564,7 @@ function aggregate(subArray: OptimizerDisplayData[]) {
   setMinMax('FUA')
   setMinMax('MEMO_SKILL')
   setMinMax('MEMO_TALENT')
+  setMinMax('ELATION_SKILL')
   setMinMax('DOT')
   setMinMax('BREAK')
   setMinMax('COMBO')

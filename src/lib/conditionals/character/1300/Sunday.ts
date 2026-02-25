@@ -7,37 +7,19 @@ import {
   findMemospriteIndex,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import {
-  ConditionalActivation,
-  ConditionalType,
-  Stats,
-} from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import {
-  containerActionVal,
-  p_containerActionVal,
-} from 'lib/gpu/injection/injectUtils'
+import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  ElementTag,
-  SELF_ENTITY_INDEX,
-  TargetTag,
-} from 'lib/optimization/engine/config/tag'
+import { ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const SundayEntities = createEnum('Sunday')
 export const SundayAbilities = createEnum('BASIC', 'BREAK')
@@ -219,7 +201,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Skill DMG buffs
       x.buff(StatKey.DMG_BOOST, (m.skillDmgBuff) ? skillDmgBoostValue : 0, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_SKILL))
-      x.buff(StatKey.DMG_BOOST, (m.skillDmgBuff && hasSummons) ? skillDmgBoostSummonValue : 0, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_SKILL))
+      x.buff(
+        StatKey.DMG_BOOST,
+        (m.skillDmgBuff && hasSummons) ? skillDmgBoostSummonValue : 0,
+        x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_SKILL),
+      )
 
       // Technique DMG buff
       x.buff(StatKey.DMG_BOOST, (m.techniqueDmgBuff) ? 0.50 : 0, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_TECHNIQUE))
@@ -227,7 +213,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // E1 DEF PEN - base 16% to self and summon
       x.buff(StatKey.DEF_PEN, (e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.16 : 0, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_E1))
       // E1 DEF PEN - extra 24% for summons only
-      x.buff(StatKey.DEF_PEN, (e >= 1 && m.e1DefPen && m.skillDmgBuff && hasSummons) ? 0.24 : 0, x.targets(TargetTag.SummonsOnly).deferrable().source(SOURCE_E1))
+      x.buff(
+        StatKey.DEF_PEN,
+        (e >= 1 && m.e1DefPen && m.skillDmgBuff && hasSummons) ? 0.24 : 0,
+        x.targets(TargetTag.SummonsOnly).deferrable().source(SOURCE_E1),
+      )
 
       // E2 DMG buff
       x.buff(StatKey.DMG_BOOST, (e >= 2 && m.e2DmgBuff) ? 0.30 : 0, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_E2))

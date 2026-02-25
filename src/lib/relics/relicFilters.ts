@@ -266,6 +266,17 @@ export const RelicFilters = {
     }
   },
 
+  mergePreviewSubstats: (request: Form, relics: Relic[]) => {
+    const upgradeLevel = request.mainStatUpscaleLevel
+    relics.forEach((relic) => {
+      relic.previewSubstats.forEach((s, idx) => {
+        if (relic.enhance + 3 * idx < upgradeLevel) {
+          relic.substats.push(s)
+        }
+      })
+    })
+  },
+
   applyMainStatsFilter: (request: Form, relics: Relic[]) => {
     const mainStatUpscaleLevel = request.mainStatUpscaleLevel
     if (mainStatUpscaleLevel) {

@@ -1,3 +1,4 @@
+import { ConvertibleStatsType } from 'lib/conditionals/evaluation/statConversionConfig'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Stats } from 'lib/constants/constants'
@@ -37,9 +38,7 @@ export function calculateContextConditionalRegistry(
 }
 
 export function registerTeammateConditionals(
-  conditionalRegistry: {
-    [key: string]: DynamicConditional[],
-  },
+  conditionalRegistry: ConditionalRegistry,
   teammateMetadata: CharacterMetadata,
   action: OptimizerAction,
   index: number,
@@ -65,11 +64,9 @@ export function wrapTeammateDynamicConditional(dynamicConditional: DynamicCondit
   return wrapped
 }
 
-export type ConditionalRegistry = {
-  [key: string]: DynamicConditional[],
-}
+export type ConditionalRegistry = Record<ConvertibleStatsType, DynamicConditional[]>
 
-function emptyRegistry() {
+function emptyRegistry(): ConditionalRegistry {
   return {
     [Stats.HP]: [],
     [Stats.ATK]: [],
@@ -82,12 +79,11 @@ function emptyRegistry() {
     [Stats.BE]: [],
     [Stats.OHB]: [],
     [Stats.ERR]: [],
+    [Stats.Elation]: [],
   }
 }
 
-function registerConditionals(conditionalRegistry: {
-  [key: string]: DynamicConditional[],
-}, conditionals: DynamicConditional[]) {
+function registerConditionals(conditionalRegistry: ConditionalRegistry, conditionals: DynamicConditional[]) {
   for (const conditional of conditionals) {
     for (const stat of conditional.dependsOn) {
       conditionalRegistry[stat].push(conditional)

@@ -33,6 +33,8 @@ OrnamentSetSelector:
   Placeholder: crwdns42682:0crwdne42682:0
 SortOptions:
   DMGLabel: crwdns42684:0crwdne42684:0
+  HealLabel: crwdns46228:0crwdne46228:0
+  ShieldLabel: crwdns46230:0crwdne46230:0
   StatLabel: crwdns42686:0crwdne42686:0
   COMBO: crwdns42688:0crwdne42688:0
   BASIC: crwdns42690:0crwdne42690:0
@@ -41,10 +43,21 @@ SortOptions:
   FUA: crwdns42696:0crwdne42696:0
   MEMO_SKILL: crwdns42698:0crwdne42698:0
   MEMO_TALENT: crwdns44758:0crwdne44758:0
+  ELATION_SKILL: crwdns46490:0crwdne46490:0
   DOT: crwdns42700:0crwdne42700:0
   BREAK: crwdns42702:0crwdne42702:0
   HEAL: crwdns42704:0crwdne42704:0
   SHIELD: crwdns42706:0crwdne42706:0
+  BASIC_HEAL: crwdns46232:0crwdne46232:0
+  SKILL_HEAL: crwdns46234:0crwdne46234:0
+  ULT_HEAL: crwdns46236:0crwdne46236:0
+  FUA_HEAL: crwdns46238:0crwdne46238:0
+  TALENT_HEAL: crwdns46240:0crwdne46240:0
+  BASIC_SHIELD: crwdns46242:0crwdne46242:0
+  SKILL_SHIELD: crwdns46244:0crwdne46244:0
+  ULT_SHIELD: crwdns46246:0crwdne46246:0
+  FUA_SHIELD: crwdns46248:0crwdne46248:0
+  TALENT_SHIELD: crwdns46250:0crwdne46250:0
   HP: 'crwdns42708:0$t(common:ReadableStats.HP)crwdne42708:0'
   ATK: 'crwdns42710:0$t(common:ReadableStats.ATK)crwdne42710:0'
   DEF: 'crwdns42712:0$t(common:ReadableStats.DEF)crwdne42712:0'
@@ -136,10 +149,32 @@ Grid:
         crwdns42844:0crwdne42844:0
       MEMO_TALENT: |-
         crwdns44760:0crwdne44760:0
+      ELATION_SKILL: |-
+        crwdns46492:0crwdne46492:0
       DOT: |-
         crwdns42846:0crwdne42846:0
       BREAK: |-
         crwdns42848:0crwdne42848:0
+      BASIC_HEAL: |-
+        crwdns46252:0crwdne46252:0
+      SKILL_HEAL: |-
+        crwdns46254:0crwdne46254:0
+      ULT_HEAL: |-
+        crwdns46256:0crwdne46256:0
+      FUA_HEAL: |-
+        crwdns46258:0crwdne46258:0
+      TALENT_HEAL: |-
+        crwdns46260:0crwdne46260:0
+      BASIC_SHIELD: |-
+        crwdns46262:0crwdne46262:0
+      SKILL_SHIELD: |-
+        crwdns46264:0crwdne46264:0
+      ULT_SHIELD: |-
+        crwdns46266:0crwdne46266:0
+      FUA_SHIELD: |-
+        crwdns46268:0crwdne46268:0
+      TALENT_SHIELD: |-
+        crwdns46270:0crwdne46270:0
       COMBO: |-
         crwdns42850:0crwdne42850:0
     Combat:
@@ -171,10 +206,32 @@ Grid:
         crwdns42894:0crwdne42894:0
       MEMO_TALENT: |-
         crwdns44762:0crwdne44762:0
+      ELATION_SKILL: |-
+        crwdns46494:0crwdne46494:0
       DOT: |-
         crwdns42896:0crwdne42896:0
       BREAK: |-
         crwdns42898:0crwdne42898:0
+      BASIC_HEAL: |-
+        crwdns46272:0crwdne46272:0
+      SKILL_HEAL: |-
+        crwdns46274:0crwdne46274:0
+      ULT_HEAL: |-
+        crwdns46276:0crwdne46276:0
+      FUA_HEAL: |-
+        crwdns46278:0crwdne46278:0
+      TALENT_HEAL: |-
+        crwdns46280:0crwdne46280:0
+      BASIC_SHIELD: |-
+        crwdns46282:0crwdne46282:0
+      SKILL_SHIELD: |-
+        crwdns46284:0crwdne46284:0
+      ULT_SHIELD: |-
+        crwdns46286:0crwdne46286:0
+      FUA_SHIELD: |-
+        crwdns46288:0crwdne46288:0
+      TALENT_SHIELD: |-
+        crwdns46290:0crwdne46290:0
       COMBO: |-
         crwdns42900:0crwdne42900:0
 Sidebar:
@@ -224,6 +281,10 @@ Sidebar:
     Filter: crwdns42960:0crwdne42960:0
     Pin: crwdns42962:0crwdne42962:0
     Clear: crwdns42964:0crwdne42964:0
+  BuildsGroup:
+    Header: crwdns46370:0crwdne46370:0
+    Save: crwdns46372:0crwdne46372:0
+    Load: crwdns46374:0crwdne46374:0
 TeammateRow:
   Header: 'crwdns42966:0{{teammateCount}}crwdne42966:0'
 FormRowLabels:
@@ -285,6 +346,9 @@ SetConditionals:
       3+Debuff:
         Display: crwdns43036:0crwdne43036:0
         Label: crwdns43038:0crwdne43038:0
+    MagicalGirl:
+      Display: 'crwdns46376:0{{stackCount}}crwdne46376:0'
+      Label: 'crwdns46378:0{{stackCount}}crwdnd46378:0{{stackCount}}crwdne46378:0'
     Sigonia:
       Display: 'crwdns43040:0{{stackCount}}crwdne43040:0'
       Label: 'crwdns43042:0{{stackCount}}crwdnd43042:0{{buffValue}}crwdne43042:0'
@@ -311,12 +375,19 @@ SetConditionals:
     Ashblazing: >-
       crwdns43072:0crwdne43072:0
     Prisoner: crwdns43074:0crwdne43074:0
-    Diver: crwdns43076:0crwdne43076:0
+    Diver: >-
+      crwdns43076:0crwdne43076:0
     Watchmaker: crwdns43078:0crwdne43078:0
     Valorous: crwdns45216:0crwdne45216:0
     Sacerdos: crwdns43096:0crwdne43096:0
     Scholar: crwdns45218:0crwdne45218:0
     Hero: crwdns45220:0crwdne45220:0
+    WarriorGoddess: crwdns46380:0crwdne46380:0
+    Wavestrider: crwdns46382:0crwdne46382:0
+    Deliverer: crwdns46384:0crwdne46384:0
+    Recluse: crwdns46386:0crwdne46386:0
+    MagicalGirl: crwdns46388:0crwdne46388:0
+    Diviner: crwdns46390:0crwdne46390:0
     Differentiator: crwdns43082:0crwdne43082:0
     Penacony: crwdns44792:0crwdne44792:0
     Sigonia: crwdns43084:0crwdne43084:0
@@ -326,6 +397,8 @@ SetConditionals:
     Lushaka: crwdns45222:0crwdne45222:0
     Banana: crwdns43094:0crwdne43094:0
     Arcadia: crwdns45710:0crwdne45710:0
+    Amphoreus: crwdns46392:0crwdne46392:0
+    Tengoku: crwdns46394:0crwdne46394:0
 Presets:
   SpdValues:
     SPD0: crwdns43098:0crwdne43098:0
@@ -447,6 +520,17 @@ ComboFilter:
     Break: crwdns45232:0crwdne45232:0
     MemoSkill: crwdns43278:0crwdne43278:0
     MemoTalent: crwdns44764:0crwdne44764:0
+    ElationSkill: crwdns46496:0crwdne46496:0
+    BasicHeal: crwdns46292:0crwdne46292:0
+    SkillHeal: crwdns46294:0crwdne46294:0
+    UltHeal: crwdns46296:0crwdne46296:0
+    FuaHeal: crwdns46298:0crwdne46298:0
+    TalentHeal: crwdns46300:0crwdne46300:0
+    BasicShield: crwdns46302:0crwdne46302:0
+    SkillShield: crwdns46304:0crwdne46304:0
+    UltShield: crwdns46306:0crwdne46306:0
+    FuaShield: crwdns46308:0crwdne46308:0
+    TalentShield: crwdns46310:0crwdne46310:0
   RotationButton: crwdns43280:0crwdne43280:0
 ComboDrawer:
   NoConditionals: crwdns43282:0crwdne43282:0
@@ -498,6 +582,10 @@ TeammateCard:
       Desc: 'crwdns46148:0$t(gameData:RelicSets.128.Name)crwdne46148:0'
       Set: 'crwdns46150:0$t(gameData:RelicSets.128.Name)crwdne46150:0'
       Text: crwdns46152:0crwdne46152:0
+    Diviner:
+      Desc: 'crwdns46462:0$t(gameData:RelicSets.130.Name)crwdne46462:0'
+      Set: 'crwdns46464:0$t(gameData:RelicSets.130.Name)crwdne46464:0'
+      Text: crwdns46466:0crwdne46466:0
     Keel:
       Desc: 'crwdns43336:0$t(gameData:RelicSets.310.Name)crwdne43336:0'
       Set: 'crwdns43338:0$t(gameData:RelicSets.310.Name)crwdne43338:0'
@@ -610,6 +698,7 @@ ExpandedDataPanel:
       E2: crwdns44674:0crwdne44674:0
       E4: crwdns44676:0crwdne44676:0
       E6: crwdns44678:0crwdne44678:0
+      ElationSkill: crwdns46468:0crwdne46468:0
     Stats:
       CompositeLabels:
         Label: 'crwdns45035:0{{prefix}}crwdnd45035:0{{suffix}}crwdne45035:0'
@@ -622,6 +711,7 @@ ExpandedDataPanel:
           Break: crwdns45047:0crwdne45047:0
           Memo Skill: crwdns45049:0crwdne45049:0
           Memo Talent: crwdns45051:0crwdne45051:0
+          Elation Skill: crwdns46470:0crwdne46470:0
         Suffix:
           ATK scaling: crwdns45053:0crwdne45053:0
           DEF scaling: crwdns45055:0crwdne45055:0
@@ -687,6 +777,7 @@ ExpandedDataPanel:
         Additional DMG boost: crwdns45171:0crwdne45171:0
         Ult Additional DMG CR override: crwdns45173:0crwdne45173:0
         Ult Additional DMG CD override: crwdns45175:0crwdne45175:0
+        Merrymaking: crwdns46472:0crwdne46472:0
       DmgTypes:
         Basic: crwdns45177:0crwdne45177:0
         Skill: crwdns45179:0crwdne45179:0
@@ -696,6 +787,7 @@ ExpandedDataPanel:
         Break: crwdns45187:0crwdne45187:0
         MemoSkill: crwdns45189:0crwdne45189:0
         MemoTalent: crwdns45191:0crwdne45191:0
+        ElationSkill: crwdns46474:0crwdne46474:0
         Additional: crwdns45193:0crwdne45193:0
         SuperBreak: crwdns45195:0crwdne45195:0
       ResPen: 'crwdns45197:0$t(common:Elements.{{element}})crwdne45197:0'

@@ -23,6 +23,9 @@ Sidebar:
       CPU: 計算引擎已切換至CPU
       Stable: 計算引擎已切換至GPU (穩定)
       Experimental: 計算引擎已切換至GPU (實驗性)
+  BuildsGroup:
+    Header: 配裝
+    Save: 保存
 SetConditionals:
   SelectOptions:
     Wastelander:

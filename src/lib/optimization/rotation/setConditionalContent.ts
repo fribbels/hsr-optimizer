@@ -21,18 +21,13 @@ export type SetMetadata = {
 }
 
 export function generateSetConditionalContent(t: SetConditionalTFunction) {
-  const content: { [key: string]: SelectOptionContent[] } = {}
-
-  for (const setName of Object.values(Constants.Sets)) {
-    content[setName] = ConditionalSetMetadata[setName].selectionOptions
-      ? ConditionalSetMetadata[setName].selectionOptions(t)
-      : []
-  }
-
-  return content
+  return Object.values(Constants.Sets).reduce((acc, cur) => {
+    acc[cur] = ConditionalSetMetadata[cur].selectionOptions?.(t) ?? []
+    return acc
+  }, {} as Record<Sets, SelectOptionContent[]>)
 }
 
-export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
+export const ConditionalSetMetadata: Readonly<Record<Sets, SetMetadata>> = {
   // Relics
 
   [Sets.PasserbyOfWanderingCloud]: {
@@ -243,33 +238,15 @@ export const ConditionalSetMetadata: { [key: string]: SetMetadata } = {
   },
 }
 
-function SetContentSacerdosRelivedOrdealOptions(t: SetConditionalTFunction) {
-  const options: SelectOptionContent[] = []
-  for (let i = 0; i <= 2; i++) {
-    options.push({
-      display: t('Sacerdos.Display', { stackCount: i }), // i + 'x',
-      value: i,
-      label: t('Sacerdos.Label', { stackCount: i, buffValue: TsUtils.precisionRound(18 * i) }), // `${i} stacks (+${i * 18}% CD)`,
-    })
-  }
-
-  return options
+function SetContentChampionOfStreetwiseBoxing(t: SetConditionalTFunction): SelectOptionContent[] {
+  return Array.from({ length: 6 }).map((_val, i) => ({
+    display: t('Streetwise.Display', { stackCount: i }), // i + 'x',
+    value: i,
+    label: t('Streetwise.Label', { stackCount: i, buffValue: 5 * i }), // `${i} stacks (+${i * 5}% ATK)`,
+  }))
 }
 
-function SetContentChampionOfStreetwiseBoxing(t: SetConditionalTFunction) {
-  const options: SelectOptionContent[] = []
-  for (let i = 0; i <= 5; i++) {
-    options.push({
-      display: t('Streetwise.Display', { stackCount: i }), // i + 'x',
-      value: i,
-      label: t('Streetwise.Label', { stackCount: i, buffValue: TsUtils.precisionRound(5 * i) }), // `${i} stacks (+${i * 5}% ATK)`,
-    })
-  }
-
-  return options
-}
-
-function SetContentWastelanderOfBanditryDesert(t: SetConditionalTFunction) {
+function SetContentWastelanderOfBanditryDesert(t: SetConditionalTFunction): SelectOptionContent[] {
   return [
     {
       display: t('Wastelander.Off.Display'), // 'Off',
@@ -289,46 +266,31 @@ function SetContentWastelanderOfBanditryDesert(t: SetConditionalTFunction) {
   ]
 }
 
-function SetContentLongevousDisciple(t: SetConditionalTFunction) {
-  const options: SelectOptionContent[] = []
-  for (let i = 0; i <= 2; i++) {
-    options.push({
-      display: t('Longevous.Display', { stackCount: i }), // i + 'x',
-      value: i,
-      label: t('Longevous.Label', { stackCount: i, buffValue: TsUtils.precisionRound(8 * i) }), // `${i} stacks (+${i * 8}% CR)`,
-    })
-  }
-
-  return options
+function SetContentLongevousDisciple(t: SetConditionalTFunction): SelectOptionContent[] {
+  return Array.from({ length: 3 }).map((_val, i) => ({
+    display: t('Longevous.Display', { stackCount: i }), // i + 'x',
+    value: i,
+    label: t('Longevous.Label', { stackCount: i, buffValue: 8 * i }), // `${i} stacks (+${i * 8}% CR)`,
+  }))
 }
 
-function SetContentTheAshblazingGrandDuke(t: SetConditionalTFunction) {
-  const options: SelectOptionContent[] = []
-  for (let i = 0; i <= 8; i++) {
-    options.push({
-      display: t('Ashblazing.Display', { stackCount: i }), // i + 'x',
-      value: i,
-      label: t('Ashblazing.Label', { stackCount: i, buffValue: TsUtils.precisionRound(6 * i) }), // `${i} stacks (+${6 * i}% ATK)`,
-    })
-  }
-
-  return options
+function SetContentTheAshblazingGrandDuke(t: SetConditionalTFunction): SelectOptionContent[] {
+  return Array.from({ length: 9 }).map((_val, i) => ({
+    display: t('Ashblazing.Display', { stackCount: i }), // i + 'x',
+    value: i,
+    label: t('Ashblazing.Label', { stackCount: i, buffValue: 6 * i }), // `${i} stacks (+${6 * i}% ATK)`,
+  }))
 }
 
-function SetContentPrisonerInDeepConfinement(t: SetConditionalTFunction) {
-  const options: SelectOptionContent[] = []
-  for (let i = 0; i <= 3; i++) {
-    options.push({
-      display: t('Prisoner.Display', { stackCount: i }), // i + 'x',
-      value: i,
-      label: t('Prisoner.Label', { stackCount: i, buffValue: TsUtils.precisionRound(6 * i) }), // `${i} stacks (+${6 * i}% DEF ignore)`,
-    })
-  }
-
-  return options
+function SetContentPrisonerInDeepConfinement(t: SetConditionalTFunction): SelectOptionContent[] {
+  return Array.from({ length: 4 }).map((_val, i) => ({
+    display: t('Prisoner.Display', { stackCount: i }), // i + 'x',
+    value: i,
+    label: t('Prisoner.Label', { stackCount: i, buffValue: 6 * i }), // `${i} stacks (+${6 * i}% DEF ignore)`,
+  }))
 }
 
-function SetContentPioneerDiverOfDeadWaters(t: SetConditionalTFunction) {
+function SetContentPioneerDiverOfDeadWaters(t: SetConditionalTFunction): SelectOptionContent[] {
   return [
     {
       display: t('Diver.Off.Display'), // '0x',
@@ -346,14 +308,14 @@ function SetContentPioneerDiverOfDeadWaters(t: SetConditionalTFunction) {
       label: t('Diver.2Debuff.Label'), // '2 debuffs (+12% DMG | +4% base CR | +8% CD)',
     },
     {
-      display: t('Diver.2+Debuff.Display'), // '3x',
+      display: t('Diver.3Debuff.Display'), // '3x',
       value: 2,
-      label: t('Diver.2+Debuff.Label'), // '3 debuffs (+12% DMG | +4% base CR | +12% CD)',
+      label: t('Diver.3Debuff.Label'), // '3 debuffs (+12% DMG | +4% base CR | +12% CD)',
     },
     {
-      display: t('Diver.3Debuff.Display'), // '2x +',
+      display: t('Diver.2+Debuff.Display'), // '2x +',
       value: 3,
-      label: t('Diver.3Debuff.Label'), // '2 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +16% CD)',
+      label: t('Diver.2+Debuff.Label'), // '2 debuffs, enhanced (+12% DMG | +4% base CR | +4% combat CR | +16% CD)',
     },
     {
       display: t('Diver.3+Debuff.Display'), // '3x +',
@@ -363,88 +325,53 @@ function SetContentPioneerDiverOfDeadWaters(t: SetConditionalTFunction) {
   ]
 }
 
-function SetContentSigoniaTheUnclaimedDesolation(t: SetConditionalTFunction) {
-  const options: SelectOptionContent[] = []
-  for (let i = 0; i <= 10; i++) {
-    options.push({
-      display: t('Sigonia.Display', { stackCount: i }), // i + 'x',
-      value: i,
-      label: t('Sigonia.Label', { stackCount: i, buffValue: TsUtils.precisionRound(4 * i) }), // `${i} stacks (+${4 * i}% CD)`,
-    })
-  }
-
-  return options
+function SetContentSacerdosRelivedOrdealOptions(t: SetConditionalTFunction): SelectOptionContent[] {
+  return Array.from({ length: 3 }).map((_val, i) => ({
+    display: t('Sacerdos.Display', { stackCount: i }), // i + 'x',
+    value: i,
+    label: t('Sacerdos.Label', { stackCount: i, buffValue: 18 * i }), // `${i} stacks (+${i * 18}% CD)`,
+  }))
 }
 
-function SetContentDuranDynastyOfRunningWolves(t: SetConditionalTFunction) {
-  const options: SelectOptionContent[] = []
-  for (let i = 0; i <= 5; i++) {
-    options.push({
+function SetContentEverGloriousMagicalGirl(t: SetConditionalTFunction): SelectOptionContent[] {
+  return Array.from({ length: 11 }).map((_val, i) => ({
+    display: t('MagicalGirl.Display', { stackCount: i }),
+    value: i,
+    label: t('MagicalGirl.Label', { stackCount: i }),
+  }))
+}
+
+function SetContentSigoniaTheUnclaimedDesolation(t: SetConditionalTFunction): SelectOptionContent[] {
+  return Array.from({ length: 11 }).map((_val, i) => ({
+    display: t('Sigonia.Display', { stackCount: i }), // i + 'x',
+    value: i,
+    label: t('Sigonia.Label', { stackCount: i, buffValue: 4 * i }), // `${i} stacks (+${4 * i}% CD)`,
+  }))
+}
+
+function SetContentDuranDynastyOfRunningWolves(t: SetConditionalTFunction): SelectOptionContent[] {
+  return Array.from({ length: 6 }).map((_val, i) => {
+    const label = i === 5 ? t('Duran.Label5') : t('Duran.Label', { stackCount: i, buffValue: TsUtils.precisionRound(5 * i) })
+    // `${i} stacks (+${5 * i}% FUA DMG)`,
+    // `${5} stacks (+${5 * 5}% FUA DMG + 25% CD)` :
+    return {
       display: t('Duran.Display', { stackCount: i }), // i + 'x',
       value: i,
-      label: t('Duran.Label', { stackCount: i, buffValue: TsUtils.precisionRound(5 * i) }), // `${i} stacks (+${5 * i}% FUA DMG)`,
-    })
-  }
-
-  options[5].label = t('Duran.Label5') // `${5} stacks (+${5 * 5}% FUA DMG + 25% CD)`
-
-  return options
+      label,
+    }
+  })
 }
 
-function SetContentArcadiaOfWovenDreams(t: SetConditionalTFunction) {
-  return [
-    {
-      display: '1x',
-      value: 1,
-      label: '1 ally (+36% DMG)',
-    },
-    {
-      display: '2x',
-      value: 2,
-      label: '2 allies (+24% DMG)',
-    },
-    {
-      display: '3x',
-      value: 3,
-      label: '3 allies (+12% DMG)',
-    },
-    {
-      display: '4x',
-      value: 4,
-      label: '4 allies (+0% DMG)',
-    },
-    {
-      display: '5x',
-      value: 5,
-      label: '5 allies (+9% DMG)',
-    },
-    {
-      display: '6x',
-      value: 6,
-      label: '6 allies (+18% DMG)',
-    },
-    {
-      display: '7x',
-      value: 7,
-      label: '7 allies (+27% DMG)',
-    },
-    {
-      display: '8x',
-      value: 8,
-      label: '8 allies (+36% DMG)',
-    },
-  ]
-}
-
-function SetContentEverGloriousMagicalGirl(t: SetConditionalTFunction) {
-  const options: SelectOptionContent[] = []
-  for (let i = 0; i <= 10; i++) {
-    options.push({
-      display: i + 'x',
-      value: i,
-      label: `${i} stacks (+${TsUtils.precisionRound(i)}% DEF ignore)`,
-    })
-  }
-
-  return options
+function SetContentArcadiaOfWovenDreams(t: SetConditionalTFunction): SelectOptionContent[] {
+  return Array.from({ length: 8 }).map((_val, i) => {
+    const allyCount = i + 1
+    return {
+      display: t('Arcadia.Display', { allyCount }), // `${i + 1}x`,
+      value: allyCount,
+      label: t('Arcadia.Label', {
+        buffValue: Math.max(12 * (4 - allyCount), 9 * (allyCount - 4)), // `${allyCount} allies (+{{ buffValue }}% DMG)`,
+        allyCount,
+      }),
+    }
+  })
 }

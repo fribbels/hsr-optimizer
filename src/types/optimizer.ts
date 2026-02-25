@@ -5,7 +5,6 @@ import {
 } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { ActionModifier } from 'lib/optimization/context/calculateActions'
 import {
   ComputedStatsContainer,
@@ -18,7 +17,7 @@ import {
   ConditionalValueMap,
   LightConeConditionalsController,
 } from 'types/conditionals'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 import {
   ElementalDamageType,
   ElementalResPenType,
@@ -29,9 +28,6 @@ import {
 } from './hitConditionalTypes'
 
 export type OptimizerAction = {
-  precomputedX: ComputedStatsArray,
-  precomputedM: ComputedStatsArray,
-
   precomputedStats: ComputedStatsContainer,
   config: ComputedStatsContainerConfig,
 
@@ -124,7 +120,7 @@ export type CharacterStatsBreakdown = {
 export type BasicForm = {
   characterId: CharacterId,
   characterEidolon: number,
-  lightCone: LightCone['id'],
+  lightCone: LightConeId,
   lightConeSuperimposition: number,
 }
 

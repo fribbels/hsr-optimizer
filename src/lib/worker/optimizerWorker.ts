@@ -28,8 +28,6 @@ import {
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
 import {
-  ComputedStatsArray,
-  ComputedStatsArrayCore,
   Key,
   KeysType,
 } from 'lib/optimization/computedStatsArray'

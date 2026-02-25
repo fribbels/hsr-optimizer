@@ -1,4 +1,5 @@
 import { ConditionalActivation } from 'lib/constants/constants'
+import { ConvertibleStatsType } from 'lib/conditionals/evaluation/statConversionConfig'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { ConditionalValueMap } from 'types/conditionals'
@@ -8,8 +9,8 @@ export type DynamicConditional = {
   id: string,
   type: number,
   activation: number,
-  dependsOn: string[],
-  chainsTo: string[],
+  dependsOn: ConvertibleStatsType[],
+  chainsTo: ConvertibleStatsType[],
   supplementalState?: string[],
   condition: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => boolean | number,
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void,

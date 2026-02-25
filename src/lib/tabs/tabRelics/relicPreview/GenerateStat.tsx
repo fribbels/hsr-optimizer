@@ -19,15 +19,14 @@ export type SubstatDetails = {
   addedRolls?: number,
 }
 
-export const GenerateStat = (stat: SubstatDetails, main: boolean, relic: Relic) => {
+export const GenerateStat = (stat: SubstatDetails, main: boolean, relic: Relic, isPreview = false) => {
   const { t } = useTranslation('common')
   if (!stat?.stat || stat.value == null) {
     return (
       <img
         src={Assets.getBlank()}
         style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}
-      >
-      </img>
+      />
     )
   }
 
@@ -40,20 +39,19 @@ export const GenerateStat = (stat: SubstatDetails, main: boolean, relic: Relic) 
   displayValue += Utils.isFlat(stat.stat) ? '' : '%'
 
   return (
-    <Flex justify='space-between' align='center'>
+    <Flex justify='space-between' align='center' style={{ opacity: isPreview ? 0.4 : 1 }}>
       <Flex>
         <img
           src={Assets.getStatIcon(stat.stat)}
           style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}
-        >
-        </img>
+        />
         {t(`ReadableStats.${stat.stat}`)}
       </Flex>
       {!main
         ? (
           <Flex justify='space-between' style={{ width: '41.5%' }}>
             <Flex gap={0} align='center'>
-              {stat.addedRolls != null && generateRolls(stat)}
+              {generateRolls(stat)}
             </Flex>
             {displayValue}
           </Flex>
@@ -64,12 +62,12 @@ export const GenerateStat = (stat: SubstatDetails, main: boolean, relic: Relic) 
 }
 
 function generateRolls(stat: SubstatDetails) {
-  const result: ReactElement[] = []
-  for (let i = 0; i < stat.addedRolls!; i++) {
-    result.push(<RightIcon key={i} style={{ marginRight: -5, opacity: 0.75 }} />)
+  if (!stat.addedRolls) {
+    return <div></div>
   }
-  if (stat.addedRolls == 0) {
-    result.push(<div key={0}></div>)
+  const result: ReactElement[] = []
+  for (let i = 0; i < stat.addedRolls; i++) {
+    result.push(<RightIcon key={i} style={{ marginRight: -5, opacity: 0.75 }} />)
   }
   return result
 }

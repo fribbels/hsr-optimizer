@@ -35,12 +35,12 @@ Messages:
   RemoveSuccess: Personaggio rimosso con successo
   UnequipSuccess: Personaggio disequipaggiato con successo
   NoSelectedCharacter: Nessun personaggio selezionato
-  SwitchSuccess: "Scambiate reliquie con $t(gameData:Characters.{{charId}}.Name) con successo"
+  SwitchSuccess: 'Scambiate reliquie con $t(gameData:Characters.{{charId}}.Name) con successo'
   SortByScoreWarning: Sei sicuro di voler ordinare tutti i personaggi? Perderai tutti i cambiamenti sull'ordine attuale.
-  SaveSuccess: "Build salvata con successo: {{name}}"
-  UnequipWarning: "Sei sicuro di voler disequipaggiare $t(gameData:Characters.{{charId}}.Name)?"
-  DeleteWarning: "Sei sicuro di voler eliminare $t(gameData:Characters.{{charId}}.Name)?"
-  BuildAlreadyExists: "La build con nome {{name}} esiste già"
+  SaveSuccess: 'Build salvata con successo: {{name}}'
+  UnequipWarning: 'Sei sicuro di voler disequipaggiare $t(gameData:Characters.{{charId}}.Name)?'
+  DeleteWarning: 'Sei sicuro di voler eliminare $t(gameData:Characters.{{charId}}.Name)?'
+  BuildAlreadyExists: 'La build con nome {{name}} esiste già'
   ImageUploadFailed: Impossibile caricare l’immagine
   InvalidFile: Il file non è un file immagine valido
 CharacterPreview:
@@ -50,8 +50,8 @@ CharacterPreview:
       ButtonText: Tracce
     SpdPrecision:
       Header: Precisione VEL
-      Low: ".0"
-      High: ".000"
+      Low: '.0'
+      High: '.000'
     SpdWeight:
       Header: Peso VEL
       Max: 100%
@@ -74,10 +74,10 @@ CharacterPreview:
       Standard: Standard
     PaletteLabel: Tavolozza colori dell'immagine
     ShowUID: Mostra UID
-  ArtBy: "Immagine di {{artistName}}"
+  ArtBy: 'Immagine di {{artistName}}'
   EditCharacter: Modifica personaggio
   EditPortrait: Modifica immagine
-  CharacterScore: "Punteggio PG: {{score}} {{grade}}"
+  CharacterScore: 'Punteggio PG: {{score}} {{grade}}'
   Messages:
     AddedRelic: Reliquia aggiunta con successo
     SavedPortrait: Immagine di copertina salvata con successo
@@ -86,10 +86,10 @@ CharacterPreview:
     NoSelectedLightCone: Nessun cono di luce selezionato
   ScoreHeader:
     Title: Sim Combat
-    TitleBenchmark: "{{spd}} VEL Benchmark"
-    Score: "Punteggio DPS {{score}}% {{grade}}"
+    TitleBenchmark: '{{spd}} VEL Benchmark'
+    Score: 'Punteggio DPS {{score}}% {{grade}}'
   AlgorithmSlider:
-    Title: "Algoritmo del punteggio:"
+    Title: 'Algoritmo del punteggio:'
     Labels:
       CombatScore: Punteggio Combat
       CombatScoreTBD: Combat (TBD)
@@ -103,7 +103,7 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: Confronto miglioramento statistiche secondarie
     MainStatHeader: Confronto miglioramento statistiche principali
-    AddedRoll: "+1x roll {{stat}}"
+    AddedRoll: '+1x roll {{stat}}'
     MainStatUpgrade: Miglioramento Stat. Principale
     SubStatUpgrade: Miglioramento Stat. Secondaria
     DpsScorePercentUpgrade: Punteggio DPS Δ %
@@ -129,16 +129,16 @@ CharacterPreview:
       FUA: FUA
       MEMO_SKILL: ABILITÀᴹ
       MEMO_TALENT: TALENTOᴹ
-      DOTS: "DOT:"
-      BREAKS: "BREAK:"
+      DOTS: 'DOT:'
+      BREAKS: 'BREAK:'
     CombatResults:
       Header: Risultato dei danni in combattimento
-      Primary: "Abilità primaria:"
-      Character: "Danni del Personaggio:"
-      Benchmark: "Danni del Benchmark:"
-      Baseline: "Danni in linea di base:"
-      Maximum: "Danni massimi:"
-      Score: "Punteggio DPS %:"
+      Primary: 'Abilità primaria:'
+      Character: 'Danni del Personaggio:'
+      Benchmark: 'Danni del Benchmark:'
+      Baseline: 'Danni in linea di base:'
+      Maximum: 'Danni massimi:'
+      Score: 'Punteggio DPS %:'
       Abilities:
         BASIC: DANNO ATT. BASE
         SKILL: DANNO ABILITÀ
@@ -154,21 +154,21 @@ CharacterPreview:
       SubDpsHeader: Buff in combattimento (DPS secondario)
   ScoringColumn:
     Character:
-      Header: "Build personaggio ({{score}}%)"
+      Header: 'Build personaggio ({{score}}%)'
       BasicStats: Statistiche base del personaggio
       CombatStats: <1>Statistiche in combattimento</1> del personaggio
       Substats: Statistiche secondarie del personaggio (roll minimi)
       Mainstats: Statistiche principali del personaggio
       Abilities: Danni abilità del personaggio
     Benchmark:
-      Header: "Build benchmark ({{score}}%)"
+      Header: 'Build benchmark ({{score}}%)'
       BasicStats: Statistiche base del benchmark 100%
       CombatStats: <1>Statistiche in combattimento</1> del benchmark 100%
       Substats: Statistiche secondarie del benchmark 100% (roll minimi)
       Mainstats: Statistiche principali del benchmark 100%
       Abilities: Danni abilità del benchmark 100%
     Perfect:
-      Header: "Build perfetta ({{score}}%)"
+      Header: 'Build perfetta ({{score}}%)'
       BasicStats: Statistiche base perfette 200%
       CombatStats: <1>Statistiche in combattimento</1> perfette 200%
       Substats: Statistiche secondarie 200% (roll massimi)

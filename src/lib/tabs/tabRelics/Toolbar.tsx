@@ -34,6 +34,7 @@ export function Toolbar() {
   const relicInsightOptions: Array<{ value: RelicInsights, label: string }> = [
     { value: RelicInsights.Buckets, label: t('InsightOptions.Buckets') /* Relic Insight: Buckets */ },
     { value: RelicInsights.Top10, label: t('InsightOptions.Top10') /* Relic Insight: Top 10 */ },
+    { value: RelicInsights.ESTBP, label: t('InsightOptions.ESTBP') /* Relic Insights: ESTBP */ },
   ]
   const characterPlotOptions: Array<{ value: InsightCharacters, label: string }> = [
     { value: InsightCharacters.All, label: t('PlotOptions.PlotAll') /* Show all characters */ },
@@ -64,14 +65,14 @@ export function Toolbar() {
         onConfirm={RelicsTabController.deleteConfirmed}
         open={deleteConfirmOpen}
       >
-        <Tooltip title={isLiveImport ? 'Disabled in live import mode.' : ''}>
+        <Tooltip title={isLiveImport ? t('LiveImportTooltip') : ''}>
           <Button type='primary' style={{ width: 170 }} disabled={selectedRelicsIds.length === 0 || isLiveImport}>
             {t('DeleteRelic.ButtonText') /* Delete relic */}
           </Button>
         </Tooltip>
       </Popconfirm>
 
-      <Tooltip title={isLiveImport ? 'Disabled in live import mode.' : ''}>
+      <Tooltip title={isLiveImport ? t('LiveImportTooltip') : ''}>
         <Button
           type='primary'
           onClick={RelicsTabController.addClicked}

@@ -1,5 +1,4 @@
 // @ts-nocheck
-/* eslint-disable */
 // this is very much not ideal but unless the API response types can be properly downstreamed it will have to do
 import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
 

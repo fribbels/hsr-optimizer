@@ -1,21 +1,42 @@
 import { Flex } from 'antd'
+import { Parts } from 'lib/constants/constants'
+import { useState } from 'react'
 
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
-import DB, { AppPages } from 'lib/state/db'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { AppPages } from 'lib/state/db'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
-import React, { useState } from 'react'
 import { Relic } from 'types/relic'
+
+const partToIndex: Record<Parts, number> = {
+  [Parts.Head]: 0,
+  [Parts.Hands]: 1,
+  [Parts.Body]: 2,
+  [Parts.Feet]: 3,
+  [Parts.PlanarSphere]: 4,
+  [Parts.LinkRope]: 5,
+}
+
+const indexToPart: Record<number, Parts> = {
+  0: Parts.Head,
+  1: Parts.Hands,
+  2: Parts.Body,
+  3: Parts.Feet,
+  4: Parts.PlanarSphere,
+  5: Parts.LinkRope,
+}
 
 export default function OptimizerBuildPreview() {
   const optimizerBuild = window.store((s) => s.optimizerBuild)
+  const relicsById = window.store((s) => s.relicsById)
+  const characterId = window.store((s) => s.optimizerTabFocusCharacter)
+  const activeKey = window.store((s) => s.activeKey)
 
   const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false)
 
-  if (window.store.getState().activeKey != AppPages.OPTIMIZER) {
+  if (activeKey !== AppPages.OPTIMIZER || characterId == undefined) {
     return <></>
   }
 
@@ -24,8 +45,33 @@ export default function OptimizerBuildPreview() {
     setSelectedRelic(updatedRelic)
   }
 
-  const relicsById = DB.getRelicsById()
-  const characterId = OptimizerTabController.getForm().characterId
+  const next = () => {
+    if (!selectedRelic || !optimizerBuild) {
+      return
+    }
+    let startingIndex = partToIndex[selectedRelic.part] + 1
+    let nextRelic: Relic | undefined
+    for (let i = startingIndex; i < startingIndex + 6; i++) {
+      nextRelic = relicsById[optimizerBuild[indexToPart[i % 6]]!]
+      if (nextRelic) {
+        return setSelectedRelic(nextRelic)
+      }
+    }
+  }
+
+  const prev = () => {
+    if (!selectedRelic || !optimizerBuild) {
+      return
+    }
+    let startingIndex = partToIndex[selectedRelic.part] + 5
+    let nextRelic: Relic | undefined
+    for (let i = startingIndex; i > startingIndex - 6; i--) {
+      nextRelic = relicsById[optimizerBuild[indexToPart[i % 6]]!]
+      if (nextRelic) {
+        return setSelectedRelic(nextRelic)
+      }
+    }
+  }
 
   const headRelic = optimizerBuild?.Head ? relicsById[optimizerBuild.Head] : undefined
   const handsRelic = optimizerBuild?.Hands ? relicsById[optimizerBuild.Hands] : undefined
@@ -51,7 +97,7 @@ export default function OptimizerBuildPreview() {
         <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={planarSphereRelic} score={planarSphereScore} />
         <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={linkRopeRelic} score={linkRopeScore} />
       </Flex>
-      <RelicModal selectedRelic={selectedRelic} onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} />
+      <RelicModal selectedRelic={selectedRelic} onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} next={next} prev={prev} />
     </div>
   )
 }

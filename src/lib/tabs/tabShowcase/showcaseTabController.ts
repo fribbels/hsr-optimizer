@@ -5,30 +5,12 @@ import {
 } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
 import {
-  ANAXA, ASHVEIL, CASTORICE,
-  CERYDRA, CIPHER,
-  CYRENE,
-  EPOCH_ETCHED_IN_GOLDEN_BLOOD,
-  EVERNIGHT, FLAME_OF_BLOOD_BLAZE_MY_PATH, HYACINE,
-  HYSILENS, IF_TIME_WERE_A_FLOWER,
-  INCESSANT_RAIN,
-  INTO_THE_UNREACHABLE_VEIL,
-  KAFKA_B1, LIES_DANCE_ON_THE_BREEZE,
-  LIFE_SHOULD_BE_CAST_TO_FLAMES, LONG_MAY_RAINBOWS_ADORN_THE_SKY, MAKE_FAREWELLS_MORE_BEAUTIFUL, MYDEI, NEVER_FORGET_HER_FLAME,
-  PATIENCE_IS_ALL_YOU_NEED,
-  PERMANSOR_TERRAE, PHAINON,
-  SILVER_WOLF_B1, SPARXIE, THE_DAHLIA,
-  THE_HERTA,
-  THIS_LOVE_FOREVER,
-  THOUGH_WORLDS_APART, THUS_BURNS_THE_DAWN,
-  TO_EVERNIGHTS_STARS, TRIBBIE,
-  WHEN_SHE_DECIDED_TO_SEE,
-  WHY_DOES_THE_OCEAN_SING,
   DAZZLED_BY_A_FLOWERY_WORLD,
+  SPARXIE,
+  WHEN_SHE_DECIDED_TO_SEE,
   YAO_GUANG,
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB, {
-  AppPage,
   AppPages,
   PageToRoute,
 } from 'lib/state/db'
@@ -45,7 +27,7 @@ import {
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 
 export const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'
 
@@ -57,7 +39,7 @@ export type Preset = CharacterPreset | FillerPreset
 
 export type CharacterPreset = {
   characterId: CharacterId | null,
-  lightConeId: LightCone['id'] | null,
+  lightConeId: LightConeId | null,
   rerun?: boolean,
   custom?: never,
 }
@@ -72,7 +54,7 @@ type FillerPreset = {
 export function presetCharacters(): Preset[] {
   const DBMetadata = DB.getMetadata()
   const char = (id: CharacterId) => Object.values(DBMetadata.characters).some((x) => x.id === id) ? id : null
-  const lc = (id: LightCone['id']) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
+  const lc = (id: LightConeId) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
     { characterId: char(YAO_GUANG), lightConeId: lc(WHEN_SHE_DECIDED_TO_SEE) },
@@ -136,7 +118,7 @@ export function importClicked(mode: 'relics' | 'singleCharacter' | 'multiCharact
   SaveState.delayedSave()
 }
 
-export function initialiseShowcaseTab(activeKey: AppPage) {
+export function initialiseShowcaseTab(activeKey: AppPages) {
   const { savedSession, availableCharacters } = useShowcaseTabStore.getState()
   const { scorerId } = savedSession
 

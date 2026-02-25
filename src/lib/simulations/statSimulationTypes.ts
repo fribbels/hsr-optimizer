@@ -1,3 +1,7 @@
+import {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/constants/constants'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SimulationFlags } from 'lib/scoring/simScoringUtils'
@@ -19,9 +23,9 @@ export type Simulation = {
 export type SimulationRequest = {
   // This name is optionally provided from the sim form, then the parent either autogens or inherits
   name?: string,
-  simRelicSet1: string,
-  simRelicSet2: string,
-  simOrnamentSet: string,
+  simRelicSet1: SetsRelics,
+  simRelicSet2: SetsRelics,
+  simOrnamentSet: SetsOrnaments,
   simBody: string,
   simFeet: string,
   simPlanarSphere: string,

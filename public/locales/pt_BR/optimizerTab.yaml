@@ -241,6 +241,9 @@ Sidebar:
     Filter: Filtro
     Pin: Builds fixadas
     Clear: Limpar fixados
+  BuildsGroup:
+    Header: Builds
+    Save: Salvar
 TeammateRow:
   Header: 'Membros de equipe {{teammateCount}}'
 FormRowLabels:
@@ -302,6 +305,8 @@ SetConditionals:
       3+Debuff:
         Display: 3x+
         Label: 3 debuffs, aprimorado (+12% DMG | +4% CR | +4% CR em combate | +24% CD)
+    MagicalGirl:
+      Display: '{{stackCount}}x'
     Sigonia:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} acúmulos (+{{buffValue}}% CD)'
@@ -327,7 +332,8 @@ SetConditionals:
     Ashblazing: >-
       O bônus de ATQ% selecionado é aplicado a todos os cálculos, exceto aos ataques extras. Em vez disso, os cálculos de ataques extras começarão com 0% de bônus de ATQ e se acumularão com base no número de acertos realizados pelo ataque. Os acertos aumentarão com base na contagem de inimigos e pressupõem que o alvo esteja posicionado no centro para ataques blast/aoe.
     Prisoner: O bônus de penetração de DEF% selecionado é aplicado aos cálculos de dano com base no número de acúmulos.
-    Diver: O efeito de 2 peças pode ser desativado selecionando a opção 0x. Para 4 peças, diferentes buffs CRIT são aplicados aos cálculos de estatísticas de combate, dependendo da opção selecionada.
+    Diver: >-
+      O efeito de 2 peças pode ser desativado selecionando a opção 0x. Para 4 peças, diferentes buffs CRIT são aplicados aos cálculos de estatísticas de combate, dependendo da opção selecionada.
     Watchmaker: Quando ativado, o bônus de Efeito de Quebra é aplicado aos cálculos de estatísticas de combate.
     Valorous: Quando ativado, o buff de DMG% para o dano da Ultimate será aplicado aos cálculos de estatísticas de combate.
     Sacerdos: O buff selecionado é aplicado aos cálculos de dano. Os personagens que se buffam podem acionar esse efeito.

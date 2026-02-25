@@ -109,7 +109,7 @@ export function generateElementTags() {
 }
 
 export function SegmentedFilterRow<T extends string | number | boolean>(props: {
-  tags: { key: T, display: ReactElement }[],
+  tags: { key: T, display: ReactElement, flexBasis?: string }[],
   currentFilter: NoInfer<T>[],
   setCurrentFilters(filters: NoInfer<T>[]): void,
   flexBasis?: string,
@@ -145,7 +145,7 @@ export function SegmentedFilterRow<T extends string | number | boolean>(props: {
           onChange={(checked) => handleChange(tag.key, checked)}
           style={{
             flex: 1,
-            flexBasis: flexBasis,
+            flexBasis: tag.flexBasis ?? flexBasis,
             boxShadow: `1px 1px 1px 0px ${token.colorBorder}`,
             backgroundColor: currentFilter.includes(tag.key) ? token.colorPrimary : 'transparent',
           }}

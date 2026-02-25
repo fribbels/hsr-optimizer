@@ -4,6 +4,8 @@ import {
   Parts,
   PathName,
   Sets,
+  SetsOrnaments,
+  SetsRelics,
   ShowcaseColorMode,
   StatsValues,
   SubStats,
@@ -13,7 +15,7 @@ import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'
 import { PresetDefinition } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { CharacterId } from 'types/character'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 
 export type ShowcasePreferences = {
   color?: string,
@@ -47,11 +49,11 @@ export type SimulationMetadata = {
   deprioritizeBuffs?: boolean,
   comboTurnAbilities: TurnAbilityName[],
   comboDot: number,
-  relicSets: string[][],
-  ornamentSets: string[],
+  relicSets: SetsRelics[][],
+  ornamentSets: SetsOrnaments[],
   teammates: {
     characterId: CharacterId,
-    lightCone: LightCone['id'],
+    lightCone: LightConeId,
     characterEidolon: number,
     lightConeSuperimposition: number,
     teamRelicSet?: string,
@@ -111,7 +113,7 @@ export type DBMetadataCharacter = {
 }
 
 export type DBMetadataLightCone = {
-  id: LightCone['id'],
+  id: LightConeId,
   name: string,
   rarity: 5 | 4 | 3,
   path: PathName,
@@ -150,6 +152,6 @@ export type DBMetadataRelics = {
 
 export type DBMetadata = {
   characters: Record<CharacterId, DBMetadataCharacter>,
-  lightCones: Record<LightCone['id'], DBMetadataLightCone>,
+  lightCones: Record<LightConeId, DBMetadataLightCone>,
   relics: DBMetadataRelics,
 }

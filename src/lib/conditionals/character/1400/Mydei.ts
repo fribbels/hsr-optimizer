@@ -8,7 +8,6 @@ import {
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import {
-  dynamicStatConversion,
   dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
@@ -25,7 +24,6 @@ import {
 } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
-  ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
 import {

@@ -949,6 +949,14 @@ Characters:
       e4EffResPen:
         text: E4 Redução de RES
         content: Enquanto estiver no estado de Epifânia, alvos inimigos tem sua Effect RES reduzida em 10%.
+  BlackSwanB1:
+    Content:
+      skillDefShred:
+        text: Perícia de redução de DEF
+      epiphanyDebuff:
+        text: Debuff epifânico
+      arcanaStacks:
+        text: Acúmulos de Arcana
   Blade:
     Content:
       enhancedStateActive:
@@ -1940,6 +1948,17 @@ Characters:
       teammateCDValue:
         text: Tempo de recarga de combate da Sparkle
         content: Aumenta o CRIT DMG de um único aliado em {{skillCdBuffScaling}}% do CRIT DMG de Sparkle mais {{skillCdBuffBase}}%, durando por 1 turnos.
+  SparkleB1:
+    Content:
+      cipherBuff:
+        text: Buff de Cifra
+      talentStacks:
+        text: Acúmulos de Talento
+      e2DefPen:
+        text: E2 DEF PEN
+    TeammateContent:
+      teammateCDValue:
+        text: Tempo de recarga de combate da Sparkle
   Sunday:
     Content:
       skillDmgBuff:

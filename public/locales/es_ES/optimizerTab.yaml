@@ -63,6 +63,7 @@ OptimizerOptions:
   PriorityFilter: Filtrar prioridad de los pj.
   Priority:
     Header: Prioridad
+    Label: '# {{rank}} - $t(common:Characters.{{id}}.LongName)'
     Name: '# {{rank}}'
   AllowEquipped: Permitir artef. equipados
   KeepCurrent: Mantener artefactos
@@ -240,6 +241,9 @@ Sidebar:
     Filter: Filtrar
     Pin: Fijar equip.
     Clear: Borrar fijados
+  BuildsGroup:
+    Header: Equipamientos
+    Save: Guardar
 TeammateRow:
   Header: 'Aliados {{teammateCount}}'
 FormRowLabels:
@@ -301,6 +305,8 @@ SetConditionals:
       3+Debuff:
         Display: 3x+
         Label: 3 afecciones, mejorado (+12% DAÑO | +4% PC base | +4% PC en combate +24% DC)
+    MagicalGirl:
+      Display: '{{stackCount}}x'
     Sigonia:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} acumulaciones (+{{buffValue}}% DC)'
@@ -327,7 +333,8 @@ SetConditionals:
     Ashblazing: >-
       La mejora de ATQ% seleccionada se aplica a todos los cálculos exceptuando los ataques adicionales. En cambio, los cálculos de ataques adicionales comenzarán con una mejora de 0% ATQ y se acumulará de acuerdo al número de golpes logrados por el ataque. Los golpes aumentarán de acuerdo a la cantidad de enemigos y asume que el objetivo está posicionado en el medio para ataques de ráfaga / a todos los enemigos.
     Prisoner: La mejora de penetración de DEF% seleccionada se aplica a los cálculos de daño de acuerdo al número de acumulaciones.
-    Diver: El efecto de 2 piezas se puede desactivar usando la opción 0x. Para las 4 piezas, se aplican diferentes mejoras de CRIT a los cálculos de Atributos de combate de acuerdo a la opción seleccionada.
+    Diver: >-
+      El efecto de 2 piezas se puede desactivar usando la opción 0x. Para las 4 piezas, se aplican diferentes mejoras de CRIT a los cálculos de Atributos de combate de acuerdo a la opción seleccionada.
     Watchmaker: Activado, la mejora de Efecto de Ruptura se aplica a los cálculos de Atributos de combate.
     Valorous: Activado, la mejora de DAÑO% para el daño de Definitiva se aplica a los cálculos de Atributos de combate.
     Sacerdos: La mejora seleccionada se aplica a los cálculos de daño. Personajes que se mejoran a sí mismos pueden activar este efecto.
@@ -345,16 +352,27 @@ SetConditionals:
 Presets:
   SpdValues:
     SPD0: Sin velocidad mínima
-    SPD111: 111.112 VEL  - 5 acciones en los primeros cuatro ciclos
-    SPD114: 114.286 VEL - 4 acciones en los primeros tres ciclos
-    SPD120: 120.000 VEL - 3 acciones en los primeros dos ciclos
-    SPD133: 133.334 VEL  - 2 acciones en el primer ciclo, 6 acciones en los primeros cuatro ciclos
-    SPD142: 142.858 VEL - 5 acciones en los primeros tres ciclos
-    SPD155: 155.556 VEL - 7 acciones en los primeros cuatro ciclos 
-    SPD160: 160.000 VEL - 4 acciones en los primeros dos ciclos
-    SPD171: 171.429 VEL - 6 acciones en los primeros tres ciclos
-    SPD177: 177.778 VEL - 8 acciones en los primeros cuatro ciclos
-    SPD200: 200.000 VEL - 3 acciones en el primer ciclo
+    SPD111: 111.112 VEL  - 5 turnos en los primeros cuatro ciclos
+    SPD114: 114.286 VEL - 4 turnos en los primeros tres ciclos
+    SPD120: 120.000 VEL - 3 turnos en los primeros dos ciclos
+    SPD133: 133.334 VEL  - 2 turnos en el primer ciclo, 6 turnos en los primeros cuatro ciclos
+    SPD142: 142.858 VEL - 5 turnos en los primeros tres ciclos
+    SPD155: 155.556 VEL - 7 turnos en los primeros cuatro ciclos 
+    SPD160: 160.000 VEL - 4 turnos en los primeros dos ciclos
+    SPD171: 171.429 VEL - 6 turnos en los primeros tres ciclos
+    SPD177: 177.778 VEL - 8 turnos en los primeros cuatro ciclos
+    SPD200: 200.000 VEL - 3 turnos en el primer ciclo
+  SpdCategories:
+    MemoryOfChaos: Evocación caótica
+    AnomalyArbitration: Arbitraje atípico
+  AaSpdValues:
+    SPD120: 120.000 SPD - 6 turnos en los primeros dos ciclos
+    SPD133: 133.334 SPD - 4 turnos en el primer ciclo
+    SPD140: 140.000 SPD - 7 turnos en los primeros dos ciclos
+    SPD160: 160.000 SPD - 8 turnos en los primeros dos ciclos
+    SPD166: 166.667 SPD - 5 turnos en el primer ciclo
+    SPD180: 180.000 SPD - 9 turnos en los primeros dos ciclos
+    SPD200: 200.000 SPD - 6 turnos en el primer ciclo, 10 turnos en los primeros dos ciclos
   StandardLabel: '$t(gameData:Characters.{{id}}.Name) estándar'
   RecommendedPresets: Preajustes recomendados
   PresetNotAvailable: Preajuste no disponible, por favor elige otra opción

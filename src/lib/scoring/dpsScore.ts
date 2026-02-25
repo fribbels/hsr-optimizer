@@ -1,6 +1,8 @@
 import {
   Constants,
   Parts,
+  SetsOrnaments,
+  SetsRelics,
 } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import {
@@ -15,7 +17,10 @@ import {
 } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Character } from 'types/character'
+import {
+  Character,
+  SavedBuild,
+} from 'types/character'
 import {
   ShowcaseTemporaryOptions,
   SimulationMetadata,
@@ -32,9 +37,10 @@ export function getShowcaseSimScoringExecution(
   displayRelics: RelicBuild,
   teamSelection: string,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions = {},
+  buildOverride?: SavedBuild | null,
 ): AsyncSimScoringExecution {
   const characterMetadata = DB.getMetadata().characters[character.id]
-  const simulationMetadata = resolveDpsScoreSimulationMetadata(character, teamSelection)
+  const simulationMetadata = resolveDpsScoreSimulationMetadata(character, teamSelection, buildOverride)
   const singleRelicByPart = displayRelics as SingleRelicByPart
 
   const asyncResult: AsyncSimScoringExecution = {
@@ -92,18 +98,23 @@ export function getShowcaseSimScoringExecution(
 }
 
 export type SimulationSets = {
-  relicSet1: string,
-  relicSet2: string,
-  ornamentSet: string,
+  relicSet1: SetsRelics,
+  relicSet2: SetsRelics,
+  ornamentSet: SetsOrnaments,
 }
 
-export function calculateSimSets(relicSetName0: string, relicSetName1: string, ornamentSetName: string, metadata: SimulationMetadata): SimulationSets {
+export function calculateSimSets(
+  relicSetName0: SetsRelics,
+  relicSetName1: SetsRelics,
+  ornamentSetName: SetsOrnaments,
+  metadata: SimulationMetadata,
+): SimulationSets {
   // Allow equivalent sets
   let relicSet1 = metadata.relicSets[0][0]
   let relicSet2 = metadata.relicSets[0][1]
   let ornamentSet = metadata.ornamentSets[0]
 
-  const equivalents: string[][] = metadata.relicSets.map((x: string[]) => x.sort())
+  const equivalents = metadata.relicSets.map((x) => x.sort())
   for (const equivalent of equivalents) {
     // Find 4p matches
     if (relicSetName0 == equivalent[0] && relicSetName1 == equivalent[1]) {

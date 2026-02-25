@@ -13,7 +13,6 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
@@ -239,7 +238,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: t('TeammateContent.cyreneCr.text'),
       content: t('TeammateContent.cyreneCr.content', { ConversionRate: TsUtils.precisionRound(100 * memoSkillTrailblazerCrScaling) }),
       min: 0,
-      max: 1.00,
+      max: 1.50,
       percent: true,
     },
     e2TrueDmgStacks: content.e2TrueDmgStacks,
@@ -285,8 +284,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         + r.odeToEgoExtraBounces * memoSkillScalingIndividual
         + r.e1ExtraBounces * memoSkillScalingIndividual
       const memoSkillToughness = 10
-        + 5 / 3 * r.e1ExtraBounces
         + 5 / 3 * r.odeToEgoExtraBounces
+        + (e >= 1 ? 5 / 3 * r.e1ExtraBounces : 0)
 
       return {
         [CyreneAbilities.BASIC]: {

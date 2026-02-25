@@ -16,3 +16,7 @@ ShowLocatorInRelicsModal:
   Label: 유물 편집기에서 유물 위치 찾기
   Yes: 유물 편집기에 유물 위치 찾기 표시
   No: '기본값 : 유물 편집기에 유물 위치 추적을 표시하지 않음'
+ShowComboDmgWarning:
+  Label: 콤보 데미지 경고
+  Show: '기본값: 경고 표시'
+  Hide: 경고 숨기기

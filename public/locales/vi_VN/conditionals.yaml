@@ -853,6 +853,14 @@ Characters:
       e4EffResPen:
         text: E4 Giảm Kháng Hiệu Ứng
         content: Ở trạng thái Vạch Trần, Kháng Hiệu Ứng của kẻ địch giảm 10%.
+  BlackSwanB1:
+    Content:
+      skillDefShred:
+        text: Chiến Kỹ Giảm Phòng Thủ địch
+      epiphanyDebuff:
+        text: Hiệu ứng "Vạch Trần"
+      arcanaStacks:
+        text: Dấu Tích Bí Ẩn
   Blade:
     Content:
       enhancedStateActive:
@@ -1687,6 +1695,15 @@ Characters:
       teammateCDValue:
         text: Sát Thương Bạo Kích trong Combat của Sparkle
         content: Tăng Sát Thương Bạo Kích của 1 đồng đội chỉ định, mức tăng bằng {{skillCdBuffScaling}}% Sát Thương Bạo Kích của Sparkle cộng thêm {{skillCdBuffBase}}%, duy trì 1 hiệp.
+  SparkleB1:
+    Content:
+      cipherBuff:
+        text: Câu Đố Kỳ Dị
+      talentStacks:
+        text: Tích Thiên Phú
+    TeammateContent:
+      teammateCDValue:
+        text: Sát Thương Bạo Kích trong Combat của Sparkle
   Sunday:
     Content:
       skillDmgBuff:

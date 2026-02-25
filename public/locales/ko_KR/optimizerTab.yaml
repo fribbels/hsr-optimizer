@@ -63,6 +63,7 @@ OptimizerOptions:
   PriorityFilter: 캐릭터 우선순위 필터
   Priority:
     Header: 우선순위
+    Label: '#{{rank}} - $t(common:Characters.{{id}}.LongName)'
     Name: '# {{rank}}'
   AllowEquipped: 장착된 유물 포함
   KeepCurrent: 현재 유물 유지
@@ -241,6 +242,9 @@ Sidebar:
     Filter: 필터
     Pin: 빌드 고정
     Clear: 고정 해제
+  BuildsGroup:
+    Header: 빌드
+    Save: 저장
 TeammateRow:
   Header: '팀 {{teammateCount}}'
 FormRowLabels:
@@ -302,6 +306,8 @@ SetConditionals:
       3+Debuff:
         Display: 3x+
         Label: 3 디버프, 강화됨 (+12% 데미지 | +4% 기본 치확 | +4% 전투 치확 | +24% 치피)
+    MagicalGirl:
+      Display: '{{stackCount}}x'
     Sigonia:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} 스택 (+{{buffValue}}% 치피)'
@@ -328,7 +334,8 @@ SetConditionals:
     Ashblazing: >-
       선택한 공격력 % 버프는 추가 공격을 제외한 모든 계산에 적용됩니다. 그 대신 추가 공격 계산은 공격의 적중 횟수에 따라 0%의 공격력 % 버프로 시작되고 스택이 쌓입니다. 적중 횟수는 적의 숫자에 따라 증가하고, 적 타깃은 적 집단의 중앙에 배치되어 있다고 가정합니다.
     Prisoner: 선택된 방어력 무시 버프는 스택 수를 기준으로 데미지에 적용됩니다.
-    Diver: 2세트 효과는 0x 옵션을 선택하여 비활성화할 수 있습니다. 4세트의 경우 선택한 옵션에 따라 전투 스탯에 다른 치명타 버프가 적용됩니다.
+    Diver: >-
+      2세트 효과는 0x 옵션을 선택하여 비활성화할 수 있습니다. 4세트의 경우 선택한 옵션에 따라 전투 스탯에 다른 치명타 버프가 적용됩니다.
     Watchmaker: 활성화되면 전투 스텟에 격파 특수효과 버프가 적용됩니다.
     Valorous: 이 옵션이 활성화된 경우 계산에 필살기 가하는 피해 버프가 적용됩니다.
     Sacerdos: 선택한 버프가 피해 계산에 적용됩니다. 스스로 버프하는 캐릭터는 이 효과를 발동할 수 있습니다.
@@ -356,6 +363,17 @@ Presets:
     SPD171: 171.429 속도 - 3턴 동안 6행동
     SPD177: 177.778 속도 - 4턴 동안 8행동
     SPD200: 200.000 속도 - 첫 턴에 3행동
+  SpdCategories:
+    MemoryOfChaos: 혼돈의 기억
+    AnomalyArbitration: 이상 중재
+  AaSpdValues:
+    SPD120: 120.000 속도 - 첫 2라운드에서 6번 행동
+    SPD133: 133.334 속도 - 첫 라운드에서 4번 행동
+    SPD140: 140.000 속도 - 첫 2라운드에서 7번 행동
+    SPD160: 160.000 속도 - 첫 2라운드에서 8번 행동
+    SPD166: 166.667 속도 - 첫 라운드에서 5번 행동
+    SPD180: 180.000 속도 - 첫 2라운드에서 9번 행동
+    SPD200: 200.000 속도 - 첫 라운드에서 6번 행동, 첫 2라운드에서 10번 행동
   StandardLabel: '기본 $t(gameData:Characters.{{id}}.Name)'
   RecommendedPresets: 추천 프리셋
   PresetNotAvailable: 프리셋을 사용할 수 없습니다. 다른 옵션을 선택해 주세요
@@ -493,9 +511,16 @@ TeammateCard:
       Set: '$t(gameData:RelicSets.121.Name)'
       Text: 치피 36%
     Warrior:
+      Desc: '4 세트 : $t(gameData:RelicSets.125.Name) (+15% 치확)'
       Set: '$t(gameData:RelicSets.125.Name)'
       Text: 치피 15%
+    WorldRemaking:
+      Desc: '4 세트: $t(gameData:RelicSets.127.Name) (+15% 가피증)'
+      Set: '$t(gameData:RelicSets.127.Name)'
+      Text: 가피증 15%
     SelfEnshrouded:
+      Desc: '4 세트 : $t(gameData:RelicSets.128.Name) (+15% 치확)'
+      Set: '$t(gameData:RelicSets.128.Name)'
       Text: 치피 15%
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10% 치피)'
@@ -513,6 +538,10 @@ TeammateCard:
       Desc: '$t(gameData:RelicSets.317.Name) (+12% 공격력)'
       Set: '$t(gameData:RelicSets.317.Name)'
       Text: 공격력 12%
+    Amphoreus:
+      Desc: '$t(gameData:RelicSets.323.Name) (+8% 속도)'
+      Set: '$t(gameData:RelicSets.323.Name)'
+      Text: 속도 8%
 StatSimulation:
   DuplicateSimMessage: 동일한 스텟 시뮬레이션이 존재합니다.
   MissingMainstatsMessage: 주 옵션을 입력해야합니다.
@@ -631,6 +660,7 @@ ExpandedDataPanel:
           DEF PEN: 방어력 무시
           Break DEF PEN: 격파 방어력 무시
           Toughness DMG: 강인도 데미지
+          Fixed Toughness DMG: 고정 강인함 데미지
           Super Break multiplier: 슈퍼 격파 배율
           Break Efficiency boost: 약점 격파 효율 증가
           True DMG multiplier: 확정피해 배율

@@ -9,7 +9,7 @@ import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import DB from 'lib/state/db'
 import { Utils } from 'lib/utils/utils'
 import { CharacterId } from 'types/character'
-import { LightCone } from 'types/lightCone'
+import { LightConeId } from 'types/lightCone'
 import { DBMetadataSets } from 'types/metadata'
 import { Relic } from 'types/relic'
 
@@ -64,6 +64,7 @@ type Property = {
   property_type: number,
   value: string,
   times: number,
+  is_preview: boolean,
 }
 
 type Equip = {
@@ -110,13 +111,13 @@ type HoyolabOutput = {
   relics: HoyolabRelicOut[],
 }
 
-type HoyolabRelicOut = Pick<Relic, 'enhance' | 'equippedBy' | 'grade' | 'id' | 'part' | 'set' | 'main' | 'substats' | 'verified'>
+type HoyolabRelicOut = Pick<Relic, 'enhance' | 'equippedBy' | 'grade' | 'id' | 'part' | 'set' | 'main' | 'substats' | 'verified' | 'previewSubstats'>
 
 type HoyolabCharacter = {
   characterEidolon: number,
   characterId: CharacterId,
   characterLevel: number,
-  lightCone: LightCone['id'] | null,
+  lightCone: LightConeId | null,
   lightConeLevel: number,
   lightConeSuperimposition: number,
 }
@@ -151,23 +152,28 @@ export function hoyolabParser(json: HoyolabData) {
       lightConeSuperimposition: 1,
     }
     if (character.equip != null) {
-      characterData.lightCone = character.equip.id.toString() as LightCone['id']
+      characterData.lightCone = character.equip.id.toString() as LightConeId
       characterData.lightConeSuperimposition = character.equip.rank
     }
     output.characters.push(characterData)
     const relics: HoyolabRelic[] = [...character.relics, ...character.ornaments]
     for (const relic of relics) {
-      const substats: {
-        stat: SubStats,
-        value: number,
-      }[] = []
+      const substats: HoyolabRelicOut['substats'] = []
+      const previewSubstats: HoyolabRelicOut['previewSubstats'] = []
+
       for (const property of relic.properties) {
         const substat = {
           stat: getStat(property.property_type) as SubStats,
           value: readValue(property.value),
         }
-        substats.push(substat)
+
+        if (property.is_preview) {
+          previewSubstats.push(substat)
+        } else {
+          substats.push(substat)
+        }
       }
+
       output.relics.push({
         enhance: relic.level,
         equippedBy: characterId as CharacterId,
@@ -179,7 +185,8 @@ export function hoyolabParser(json: HoyolabData) {
           stat: getStat(relic.main_property.property_type) as MainStats,
           value: readValue(relic.main_property.value),
         },
-        substats: substats,
+        substats,
+        previewSubstats,
         verified: false,
       })
     }

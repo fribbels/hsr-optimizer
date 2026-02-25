@@ -2,6 +2,7 @@ import {
   BASIC_ABILITY_TYPE,
   BREAK_ABILITY_TYPE,
   DOT_ABILITY_TYPE,
+  ELATION_SKILL_ABILITY_TYPE,
   FUA_ABILITY_TYPE,
   MEMO_SKILL_ABILITY_TYPE,
   MEMO_TALENT_ABILITY_TYPE,
@@ -11,6 +12,7 @@ import {
 import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyEvaluator'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { ConvertibleStatsType } from 'lib/conditionals/evaluation/statConversionConfig'
 import { Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { injectActionDamage } from 'lib/gpu/injection/injectActionDamage'
@@ -47,7 +49,7 @@ function getRequestTeammateIndex(request: Form, conditional: DynamicConditional)
   return teammate
 }
 
-function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: string, statName: string, request: Form, context: OptimizerContext) {
+function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: ConvertibleStatsType, statName: string, request: Form, context: OptimizerContext) {
   const conditionalEvaluators = ''
   let conditionalDefinitionsWgsl = ''
   let conditionalStateDefinition = ''
@@ -116,6 +118,7 @@ export function generateDynamicConditionals(
   inject(generateDependencyEvaluator(registeredConditionals, Stats.BE, 'BE', request, context))
   inject(generateDependencyEvaluator(registeredConditionals, Stats.OHB, 'OHB', request, context))
   inject(generateDependencyEvaluator(registeredConditionals, Stats.ERR, 'ERR', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.Elation, 'Elation', request, context))
 
   wgsl += conditionalDefinitionsWgsl
   wgsl += conditionalEvaluators

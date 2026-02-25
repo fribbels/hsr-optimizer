@@ -9,9 +9,6 @@ import {
 } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  Key,
-} from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { newTransformStateActions } from 'lib/optimization/rotation/actionTransform'

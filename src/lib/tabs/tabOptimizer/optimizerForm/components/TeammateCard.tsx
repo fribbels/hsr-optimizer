@@ -441,17 +441,14 @@ const TeammateCard = (props: {
 
 export default TeammateCard
 
+const TEAMMATE_PROPERTIES: TeammateProperty[] = ['teammate0', 'teammate1', 'teammate2']
+
 export function updateTeammate(changedValues: Partial<Form>) {
-  const updatedTeammate = changedValues.teammate0 ?? changedValues.teammate1 ?? changedValues.teammate2!
-  let updatedId: 0 | 1 | 2
-  if (changedValues.teammate0) {
-    updatedId = 0
-  } else if (changedValues.teammate1) {
-    updatedId = 1
-  } else {
-    updatedId = 2
+  const property = TEAMMATE_PROPERTIES.find((p) => changedValues[p])
+  const updatedTeammate = property && changedValues[property]
+  if (!updatedTeammate || updatedTeammate.characterConditionals || updatedTeammate.lightConeConditionals) {
+    return
   }
-  const property: TeammateProperty = `teammate${updatedId}`
 
   if (updatedTeammate.lightCone) {
     const displayFormValues = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())

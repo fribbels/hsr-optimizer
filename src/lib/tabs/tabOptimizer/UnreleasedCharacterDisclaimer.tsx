@@ -1,4 +1,7 @@
-import { Alert, Form as AntDForm } from 'antd'
+import {
+  Alert,
+  Form as AntDForm,
+} from 'antd'
 import DB from 'lib/state/db'
 import { useMemo } from 'react'
 import { CharacterId } from 'types/character'

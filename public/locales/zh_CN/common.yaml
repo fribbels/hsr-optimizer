@@ -61,7 +61,7 @@ Stats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)属性伤害提高'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)属性伤害提高'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)属性伤害提高'
-  Elation DMG Boost: 欢愉伤害提高
+  Elation: 欢愉度
 ShortStats:
   "HP%": 生命值%
   HP: 生命值
@@ -85,7 +85,7 @@ ShortStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)伤'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)伤'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)伤'
-  Elation DMG Boost: 欢愉
+  Elation: 欢愉度
 ShortSpacedStats:
   "HP%": 生命值 %
   HP: 生命值
@@ -109,7 +109,7 @@ ShortSpacedStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)伤'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)伤'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)伤'
-  Elation DMG Boost: 欢愉
+  Elation: 欢愉度
 Damage: 伤害
 DamagePercent: 伤害%
 ReadableStats:
@@ -135,7 +135,7 @@ ReadableStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)属性伤害'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)属性伤害'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)属性伤害'
-  Elation DMG Boost: 欢愉伤害
+  Elation: 欢愉度
 ShortReadableStats:
   "HP%": 生命值 %
   HP: 生命值
@@ -159,7 +159,7 @@ ShortReadableStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)伤'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)伤'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)伤'
-  Elation DMG Boost: 欢愉
+  Elation: 欢愉度
 Elements:
   Physical: '$t(gameData:Elements.Physical)伤'
   Fire: '$t(gameData:Elements.Fire)伤'
@@ -186,6 +186,7 @@ ShortDMGTypes:
   Fua: 追加攻击伤害
   Memo_Skill: 忆灵技伤害
   Memo_Talent: 忆灵天赋伤害
+  Elation_Skill: 欢愉技伤害
   Dot: 持续攻击伤害
   Break: 击破伤害
   CV: 暴击值

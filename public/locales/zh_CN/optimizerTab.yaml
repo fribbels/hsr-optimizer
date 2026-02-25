@@ -43,6 +43,7 @@ SortOptions:
   FUA: 按追加攻击伤害排序
   MEMO_SKILL: 按忆灵技伤害排序
   MEMO_TALENT: 按忆灵技伤害排序
+  ELATION_SKILL: 按欢愉技伤害排序
   DOT: 按持续伤害排序
   BREAK: 按击破伤害排序
   HEAL: 按治疗量排序
@@ -154,6 +155,8 @@ Grid:
       MEMO_TALENT: |-
         忆灵天赋
         伤害
+      ELATION_SKILL: |-
+        欢愉技
       DOT: |-
         持续
         伤害
@@ -228,6 +231,8 @@ Grid:
       MEMO_TALENT: |-
         忆灵天赋
         伤害
+      ELATION_SKILL: |-
+        欢愉技
       DOT: |-
         持续
         伤害
@@ -553,6 +558,7 @@ ComboFilter:
     Break: 击破
     MemoSkill: 忆灵技
     MemoTalent: 忆灵天赋
+    ElationSkill: 欢愉技
     BasicHeal: 普攻治疗量
     SkillHeal: 战技治疗量
     UltHeal: 终结技治疗量
@@ -614,6 +620,10 @@ TeammateCard:
       Desc: '四件套: $t(gameData:RelicSets.128.Name)（+15%暴击伤害）'
       Set: '$t(gameData:RelicSets.128.Name)'
       Text: 15% 爆伤
+    Diviner:
+      Desc: '4件套：$t(gameData:RelicSets.130.Name)（+10%欢愉度）'
+      Set: '$t(gameData:RelicSets.130.Name)'
+      Text: 10%欢愉度
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10%暴击伤害)'
       Set: '$t(gameData:RelicSets.310.Name)'
@@ -726,6 +736,7 @@ ExpandedDataPanel:
       E2: 2魂
       E4: 4魂
       E6: 6魂
+      ElationSkill: 欢愉技
     Stats:
       CompositeLabels:
         Label: '{{prefix}}{{suffix}}'
@@ -738,6 +749,7 @@ ExpandedDataPanel:
           Break: 击破
           Memo Skill: 忆灵技
           Memo Talent: 忆灵天赋
+          Elation Skill: 欢愉技
         Suffix:
           ATK scaling: 攻击力加成
           DEF scaling: 防御值加成
@@ -803,6 +815,7 @@ ExpandedDataPanel:
         Additional DMG boost: 额外伤害提升
         Ult Additional DMG CR override: 终结技额外伤害暴击率覆盖
         Ult Additional DMG CD override: 终结技额外伤害爆伤覆盖
+        Merrymaking: 增笑
       DmgTypes:
         Basic: 普攻伤害类型
         Skill: 战技伤害类型
@@ -812,6 +825,7 @@ ExpandedDataPanel:
         Break: 击破伤害类型
         MemoSkill: 忆灵技伤害类型
         MemoTalent: 忆灵天赋伤害类型
+        ElationSkill: 欢愉伤害类型
         Additional: 额外伤害类型
         SuperBreak: 超击破伤害类型
       ResPen: '$t(common:Elements.{{element}})抗性穿透'

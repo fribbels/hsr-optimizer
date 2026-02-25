@@ -89,7 +89,7 @@ RelicGrid:
         Label: '選択キャラ：振り直し前後の平均ポテンシャル差異'
         Header: |-
           選択 振り直し
-          ポテンシャル差
+          差の平均
       RerollAvgEquippedDelta:
         Label: '選択キャラ：振り直し後と装備済み遺物の平均ポテンシャル差異'
         Header: |-

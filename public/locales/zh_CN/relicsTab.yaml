@@ -93,6 +93,24 @@ RelicGrid:
           选定角色
           重掷Δ均值
           与已装备对比
+      BlockedRerollAvg:
+        Label: '所选角色：屏蔽属性重掷平均潜力'
+        Header: |-
+          所选角色
+          屏蔽重掷
+          平均潜力
+      BlockedRerollAvgDelta:
+        Label: '所选角色：屏蔽属性重掷平均差值潜力'
+        Header: |-
+          所选角色
+          屏蔽重掷
+          Δ均潜
+      BlockedRerollAvgEquippedDelta:
+        Label: '所选角色：屏蔽属性重掷平均差值潜力与已装备对比'
+        Header: |-
+          所选角色屏蔽
+          重掷Δ均值
+          对比已装备
     CustomCharacters:
       Label: 自定义角色
       AvgPotCol:
@@ -110,6 +128,11 @@ RelicGrid:
         Header: |-
           自定义角色
           重掷均值
+      BlockedRerollAvg:
+        Label: '自定义角色：屏蔽属性重掷平均潜力'
+        Header: |-
+          自定义角色
+          屏蔽重掷均潜
     AllCharacters:
       Label: 所有角色
       AvgPotCol:
@@ -127,6 +150,11 @@ RelicGrid:
         Header: |-
           所有角色
           重掷均值
+      BlockedRerollAvg:
+        Label: '全部角色：屏蔽属性重掷平均潜力'
+        Header: |-
+          全部角色
+          屏蔽重掷均潜
 Toolbar:
   RelicLocator:
     Width: 物品栏宽度
@@ -136,6 +164,7 @@ Toolbar:
   InsightOptions:
     Buckets: '遗器洞察：分类'
     Top10: '遗器洞察：前十'
+    ESTBP: '遗器洞察：预估开拓力'
   PlotOptions:
     PlotAll: 显示所有角色
     PlotCustom: 显示自定义角色
@@ -146,6 +175,7 @@ Toolbar:
     Warning_one: 删除所选遗器吗？
     Warning_other: '删除{{count}}个选定的遗器吗？'
   AddRelic: 添加新遗器
+  LiveImportTooltip: 在实时导入模式下不可用。
 RelicInsights:
   NewStats: '新添加属性：'
   UpgradedStats: '升级的属性：'

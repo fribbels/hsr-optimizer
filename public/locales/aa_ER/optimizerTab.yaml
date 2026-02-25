@@ -43,6 +43,7 @@ SortOptions:
   FUA: crwdns42696:0crwdne42696:0
   MEMO_SKILL: crwdns42698:0crwdne42698:0
   MEMO_TALENT: crwdns44758:0crwdne44758:0
+  ELATION_SKILL: crwdns46490:0crwdne46490:0
   DOT: crwdns42700:0crwdne42700:0
   BREAK: crwdns42702:0crwdne42702:0
   HEAL: crwdns42704:0crwdne42704:0
@@ -148,6 +149,8 @@ Grid:
         crwdns42844:0crwdne42844:0
       MEMO_TALENT: |-
         crwdns44760:0crwdne44760:0
+      ELATION_SKILL: |-
+        crwdns46492:0crwdne46492:0
       DOT: |-
         crwdns42846:0crwdne42846:0
       BREAK: |-
@@ -203,6 +206,8 @@ Grid:
         crwdns42894:0crwdne42894:0
       MEMO_TALENT: |-
         crwdns44762:0crwdne44762:0
+      ELATION_SKILL: |-
+        crwdns46494:0crwdne46494:0
       DOT: |-
         crwdns42896:0crwdne42896:0
       BREAK: |-
@@ -515,6 +520,7 @@ ComboFilter:
     Break: crwdns45232:0crwdne45232:0
     MemoSkill: crwdns43278:0crwdne43278:0
     MemoTalent: crwdns44764:0crwdne44764:0
+    ElationSkill: crwdns46496:0crwdne46496:0
     BasicHeal: crwdns46292:0crwdne46292:0
     SkillHeal: crwdns46294:0crwdne46294:0
     UltHeal: crwdns46296:0crwdne46296:0
@@ -576,6 +582,10 @@ TeammateCard:
       Desc: 'crwdns46148:0$t(gameData:RelicSets.128.Name)crwdne46148:0'
       Set: 'crwdns46150:0$t(gameData:RelicSets.128.Name)crwdne46150:0'
       Text: crwdns46152:0crwdne46152:0
+    Diviner:
+      Desc: 'crwdns46462:0$t(gameData:RelicSets.130.Name)crwdne46462:0'
+      Set: 'crwdns46464:0$t(gameData:RelicSets.130.Name)crwdne46464:0'
+      Text: crwdns46466:0crwdne46466:0
     Keel:
       Desc: 'crwdns43336:0$t(gameData:RelicSets.310.Name)crwdne43336:0'
       Set: 'crwdns43338:0$t(gameData:RelicSets.310.Name)crwdne43338:0'
@@ -688,6 +698,7 @@ ExpandedDataPanel:
       E2: crwdns44674:0crwdne44674:0
       E4: crwdns44676:0crwdne44676:0
       E6: crwdns44678:0crwdne44678:0
+      ElationSkill: crwdns46468:0crwdne46468:0
     Stats:
       CompositeLabels:
         Label: 'crwdns45035:0{{prefix}}crwdnd45035:0{{suffix}}crwdne45035:0'
@@ -700,6 +711,7 @@ ExpandedDataPanel:
           Break: crwdns45047:0crwdne45047:0
           Memo Skill: crwdns45049:0crwdne45049:0
           Memo Talent: crwdns45051:0crwdne45051:0
+          Elation Skill: crwdns46470:0crwdne46470:0
         Suffix:
           ATK scaling: crwdns45053:0crwdne45053:0
           DEF scaling: crwdns45055:0crwdne45055:0
@@ -765,6 +777,7 @@ ExpandedDataPanel:
         Additional DMG boost: crwdns45171:0crwdne45171:0
         Ult Additional DMG CR override: crwdns45173:0crwdne45173:0
         Ult Additional DMG CD override: crwdns45175:0crwdne45175:0
+        Merrymaking: crwdns46472:0crwdne46472:0
       DmgTypes:
         Basic: crwdns45177:0crwdne45177:0
         Skill: crwdns45179:0crwdne45179:0
@@ -774,6 +787,7 @@ ExpandedDataPanel:
         Break: crwdns45187:0crwdne45187:0
         MemoSkill: crwdns45189:0crwdne45189:0
         MemoTalent: crwdns45191:0crwdne45191:0
+        ElationSkill: crwdns46474:0crwdne46474:0
         Additional: crwdns45193:0crwdne45193:0
         SuperBreak: crwdns45195:0crwdne45195:0
       ResPen: 'crwdns45197:0$t(common:Elements.{{element}})crwdne45197:0'

@@ -149,6 +149,7 @@ CharacterPreview:
         BREAK: 击破伤害
         MEMO_SKILL: 忆灵技伤害
         MEMO_TALENT: 忆灵天赋伤害
+        ELATION_SKILL: 欢愉技伤害
         COMBO: 连招伤害
     CombatBuffs:
       Header: 战斗增益

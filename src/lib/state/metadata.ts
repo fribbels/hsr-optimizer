@@ -1224,6 +1224,14 @@ function getLightConeOverrideCenter(): Record<string, number> {
     23052: 190,
 
     23050: 180,
+
+    23053: 215,
+    23054: 240,
+    // 24006: 180,
+    21064: 240,
+    21065: 155,
+    20024: 120,
+    20023: 290,
   }
 }
 // Default 200

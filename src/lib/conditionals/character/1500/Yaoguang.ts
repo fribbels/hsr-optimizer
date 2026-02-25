@@ -4,13 +4,11 @@ import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'li
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats, } from 'lib/constants/constants'
 import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
-import { containerActionVal } from 'lib/gpu/injection/injectUtils'
-import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ModifierContext } from 'lib/optimization/context/calculateActions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { YAO_GUANG } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
@@ -315,51 +313,39 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         id: 'YaoguangSpdElationConditional',
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
-        dependsOn: [Stats.SPD],
-        chainsTo: [Stats.Elation],
+        dependsOn: [StatKey.SPD],
+        chainsTo: [StatKey.ELATION],
         condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           return r.traceSpdElation
         },
         effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-          const spd = x.getActionValue(StatKey.SPD, YaoguangEntities.Yaoguang)
-          if (spd < 120) return
-
-          const excessSpd = Math.min(200, spd - 120)
-          const buffFull = 0.30 + excessSpd * 0.01
-          const stateValue = action.conditionalState[this.id] ?? 0
-          const buffDelta = buffFull - stateValue
-
-          action.conditionalState[this.id] = buffFull
-
-          x.buffDynamic(StatKey.ELATION, buffDelta, action, context, x.source(SOURCE_TRACE))
+          dynamicStatConversionContainer(
+            Stats.SPD,
+            Stats.Elation,
+            this,
+            x,
+            action,
+            context,
+            SOURCE_TRACE,
+            (convertibleValue) => {
+              if (convertibleValue < 120) return 0
+              return 0.30 + Math.min(200, convertibleValue - 120) * 0.01
+            },
+          )
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 
-          return newConditionalWgslWrapper(
+          return gpuDynamicStatConversion(
+            Stats.SPD,
+            Stats.Elation,
             this,
             action,
             context,
-            `
-if (!(${wgslTrue(r.traceSpdElation)})) {
-  return;
-}
-
-let spd = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)};
-if (spd < 120.0) {
-  return;
-}
-
-let excessSpd = min(200.0, spd - 120.0);
-let buffFull = 0.30 + excessSpd * 0.01;
-let stateValue = (*p_state).YaoguangSpdElationConditional${action.actionIdentifier};
-let buffDelta = buffFull - stateValue;
-
-(*p_state).YaoguangSpdElationConditional${action.actionIdentifier} += buffDelta;
-
-${containerActionVal(SELF_ENTITY_INDEX, StatKey.ELATION, action.config)} += buffDelta;
-            `,
+            `0.30 + min(200.0, convertibleValue - 120.0) * 0.01`,
+            `${wgslTrue(r.traceSpdElation)}`,
+            `convertibleValue >= 120.0`,
           )
         },
       },
@@ -367,8 +353,8 @@ ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ELATION, action.config)} += buff
         id: 'YaoguangElationShareConditional',
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
-        dependsOn: [Stats.Elation],
-        chainsTo: [Stats.Elation],
+        dependsOn: [StatKey.ELATION],
+        chainsTo: [StatKey.ELATION],
         condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           return r.skillZoneActive

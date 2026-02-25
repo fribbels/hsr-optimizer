@@ -5,7 +5,6 @@ import {
 } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { ActionModifier } from 'lib/optimization/context/calculateActions'
 import {
   ComputedStatsContainer,
@@ -29,9 +28,6 @@ import {
 } from './hitConditionalTypes'
 
 export type OptimizerAction = {
-  precomputedX: ComputedStatsArray,
-  precomputedM: ComputedStatsArray,
-
   precomputedStats: ComputedStatsContainer,
   config: ComputedStatsContainerConfig,
 

@@ -1,8 +1,4 @@
-import {
-  Sets,
-  Stats,
-  StatsValues,
-} from 'lib/constants/constants'
+import { Sets, Stats, StatsValues, } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   BelobogOfTheArchitectsConditional,
@@ -17,29 +13,13 @@ import {
 } from 'lib/gpu/conditionals/setConditionals'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  Key,
-  StatToKey,
-} from 'lib/optimization/computedStatsArray'
-import {
-  OrnamentSetsConfig,
-  RelicSetsConfig,
-  SetKeys,
-  SetKeyType,
-} from 'lib/optimization/config/setsConfig'
+import { Key, StatToKey, } from 'lib/optimization/computedStatsArray'
+import { OrnamentSetsConfig, RelicSetsConfig, SetKeys, SetKeyType, } from 'lib/optimization/config/setsConfig'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  DamageTag,
-  SELF_ENTITY_INDEX,
-  TargetTag,
-} from 'lib/optimization/engine/config/tag'
+import { DamageTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SimulationRelic } from 'lib/simulations/statSimulationTypes'
-import {
-  OptimizerAction,
-  OptimizerContext,
-  SetConditional,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, SetConditional, } from 'types/optimizer'
 
 const SET_EFFECTS = new Map()
 
@@ -241,16 +221,16 @@ function calculateMemospriteBaseStats(x: ComputedStatsContainer, a: Float32Array
     if (!entity.memosprite) continue
 
     // Set BASE_* stats using raw base stats with scaling only (no flat)
-    a[x.getActionIndex(entityIndex, StatKey.BASE_ATK)] = (entity.memoBaseAtkScaling ?? 1) * context.baseATK
-    a[x.getActionIndex(entityIndex, StatKey.BASE_DEF)] = (entity.memoBaseDefScaling ?? 1) * context.baseDEF
-    a[x.getActionIndex(entityIndex, StatKey.BASE_HP)] = (entity.memoBaseHpScaling ?? 1) * context.baseHP
-    a[x.getActionIndex(entityIndex, StatKey.BASE_SPD)] = (entity.memoBaseSpdScaling ?? 1) * context.baseSPD
+    a[x.getActionIndex(entityIndex, StatKey.BASE_ATK)] = (entity.memoBaseAtkScaling ?? 0) * context.baseATK
+    a[x.getActionIndex(entityIndex, StatKey.BASE_DEF)] = (entity.memoBaseDefScaling ?? 0) * context.baseDEF
+    a[x.getActionIndex(entityIndex, StatKey.BASE_HP)] = (entity.memoBaseHpScaling ?? 0) * context.baseHP
+    a[x.getActionIndex(entityIndex, StatKey.BASE_SPD)] = (entity.memoBaseSpdScaling ?? 0) * context.baseSPD
 
     // Calculate memosprite stats from primary entity's total stats (scaling * total + flat)
-    a[x.getActionIndex(entityIndex, StatKey.ATK)] += (entity.memoBaseAtkScaling ?? 1) * c.a[StatKey.ATK] + (entity.memoBaseAtkFlat ?? 0)
-    a[x.getActionIndex(entityIndex, StatKey.DEF)] += (entity.memoBaseDefScaling ?? 1) * c.a[StatKey.DEF] + (entity.memoBaseDefFlat ?? 0)
-    a[x.getActionIndex(entityIndex, StatKey.HP)] += (entity.memoBaseHpScaling ?? 1) * c.a[StatKey.HP] + (entity.memoBaseHpFlat ?? 0)
-    a[x.getActionIndex(entityIndex, StatKey.SPD)] += (entity.memoBaseSpdScaling ?? 1) * c.a[StatKey.SPD] + (entity.memoBaseSpdFlat ?? 0)
+    a[x.getActionIndex(entityIndex, StatKey.ATK)] += (entity.memoBaseAtkScaling ?? 0) * c.a[StatKey.ATK] + (entity.memoBaseAtkFlat ?? 0)
+    a[x.getActionIndex(entityIndex, StatKey.DEF)] += (entity.memoBaseDefScaling ?? 0) * c.a[StatKey.DEF] + (entity.memoBaseDefFlat ?? 0)
+    a[x.getActionIndex(entityIndex, StatKey.HP)] += (entity.memoBaseHpScaling ?? 0) * c.a[StatKey.HP] + (entity.memoBaseHpFlat ?? 0)
+    a[x.getActionIndex(entityIndex, StatKey.SPD)] += (entity.memoBaseSpdScaling ?? 0) * c.a[StatKey.SPD] + (entity.memoBaseSpdFlat ?? 0)
 
     // Copy secondary stats from primary entity
     a[x.getActionIndex(entityIndex, StatKey.CD)] += c.a[StatKey.CD]
@@ -324,15 +304,15 @@ function evaluateDynamicSetConditionals(
   context: OptimizerContext,
 ) {
   if (setsArray[4] == setsArray[5]) {
-    let _ = p2(SetKeys.SpaceSealingStation, sets) && evaluateConditional(SpaceSealingStationConditional, x, action, context)
-    _ = p2(SetKeys.FleetOfTheAgeless, sets) && evaluateConditional(FleetOfTheAgelessConditional, x, action, context)
-    _ = p2(SetKeys.BelobogOfTheArchitects, sets) && evaluateConditional(BelobogOfTheArchitectsConditional, x, action, context)
-    _ = p2(SetKeys.PanCosmicCommercialEnterprise, sets) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, action, context)
-    _ = p2(SetKeys.BrokenKeel, sets) && evaluateConditional(BrokenKeelConditional, x, action, context)
-    _ = p2(SetKeys.TaliaKingdomOfBanditry, sets) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, action, context)
-    _ = p2(SetKeys.BoneCollectionsSereneDemesne, sets) && evaluateConditional(BoneCollectionsSereneDemesneConditional, x, action, context)
-    _ = p2(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding135Conditional, x, action, context)
-    _ = p2(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding180Conditional, x, action, context)
+    p2(SetKeys.SpaceSealingStation, sets) && evaluateConditional(SpaceSealingStationConditional, x, action, context)
+   p2(SetKeys.FleetOfTheAgeless, sets) && evaluateConditional(FleetOfTheAgelessConditional, x, action, context)
+   p2(SetKeys.BelobogOfTheArchitects, sets) && evaluateConditional(BelobogOfTheArchitectsConditional, x, action, context)
+   p2(SetKeys.PanCosmicCommercialEnterprise, sets) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, action, context)
+   p2(SetKeys.BrokenKeel, sets) && evaluateConditional(BrokenKeelConditional, x, action, context)
+   p2(SetKeys.TaliaKingdomOfBanditry, sets) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, action, context)
+   p2(SetKeys.BoneCollectionsSereneDemesne, sets) && evaluateConditional(BoneCollectionsSereneDemesneConditional, x, action, context)
+   p2(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding135Conditional, x, action, context)
+   p2(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding180Conditional, x, action, context)
   }
 }
 

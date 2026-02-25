@@ -1,14 +1,20 @@
-import { ElementName, ElementToStatKeyDmgBoost } from 'lib/constants/constants'
-import {
-  Buff,
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { ElementName, ElementToStatKeyDmgBoost, } from 'lib/constants/constants'
+import { Key, } from 'lib/optimization/computedStatsArray'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { StatKey } from './engine/config/keys'
 
 const SIZE = 76
+
+export const ElementToBasicKeyDmgBoost: Record<string, number> = {
+  Physical: Key.PHYSICAL_DMG_BOOST,
+  Fire: Key.FIRE_DMG_BOOST,
+  Ice: Key.ICE_DMG_BOOST,
+  Lightning: Key.LIGHTNING_DMG_BOOST,
+  Wind: Key.WIND_DMG_BOOST,
+  Quantum: Key.QUANTUM_DMG_BOOST,
+  Imaginary: Key.IMAGINARY_DMG_BOOST,
+}
 
 export type OptimizerDisplayData = {
   'id': number,
@@ -102,11 +108,6 @@ export type OptimizerDisplayData = {
   'statSim': { key: string },
 }
 
-export type CombatBuffsTracker = {
-  buffs: Buff[],
-  buffsMemo: Buff[],
-}
-
 export type OptimizerDisplayDataStatSim = OptimizerDisplayData & {
   statSim: {
     key: string,
@@ -135,7 +136,8 @@ export const BufferPacker = {
     arr[offset + 11] = ca[StatKey.OHB]
 
     // [12-13] Elemental DMG + weight
-    arr[offset + 12] = ca[Key.ELEMENTAL_DMG]
+    const basicElementalBoostKey = ElementToBasicKeyDmgBoost[context.element]
+    arr[offset + 12] = ca[basicElementalBoostKey]
     arr[offset + 13] = c.weight
 
     // [14-16] Computed values (EHP, HEAL, SHIELD)
@@ -146,25 +148,25 @@ export const BufferPacker = {
 
     // [17-24] Damage values, [65-74] Heal/Shield values from action registers - dynamically mapped
     const actionNameToOffset: Record<string, number> = {
-      'BASIC': 17,
-      'SKILL': 18,
-      'ULT': 19,
-      'FUA': 20,
-      'MEMO_SKILL': 21,
-      'MEMO_TALENT': 22,
-      'ELATION_SKILL': 75,
-      'DOT': 23,
-      'BREAK': 24,
-      'BASIC_HEAL': 65,
-      'SKILL_HEAL': 66,
-      'ULT_HEAL': 67,
-      'FUA_HEAL': 68,
-      'TALENT_HEAL': 69,
-      'BASIC_SHIELD': 70,
-      'SKILL_SHIELD': 71,
-      'ULT_SHIELD': 72,
-      'FUA_SHIELD': 73,
-      'TALENT_SHIELD': 74,
+      BASIC: 17,
+      SKILL: 18,
+      ULT: 19,
+      FUA: 20,
+      MEMO_SKILL: 21,
+      MEMO_TALENT: 22,
+      ELATION_SKILL: 75,
+      DOT: 23,
+      BREAK: 24,
+      BASIC_HEAL: 65,
+      SKILL_HEAL: 66,
+      ULT_HEAL: 67,
+      FUA_HEAL: 68,
+      TALENT_HEAL: 69,
+      BASIC_SHIELD: 70,
+      SKILL_SHIELD: 71,
+      ULT_SHIELD: 72,
+      FUA_SHIELD: 73,
+      TALENT_SHIELD: 74,
     }
 
     for (let i = 0; i < context.defaultActions.length; i++) {
@@ -201,13 +203,14 @@ export const BufferPacker = {
 
     // [40-64] Memosprite stats (if exists)
     if (memoEntityIndex >= 0) {
-      const memoEntity = x.config.entitiesArray[memoEntityIndex].name
+      const memoEntityConfig = x.config.entitiesArray[memoEntityIndex]
+      const memoEntity = memoEntityConfig.name
 
-      // [40-51] Memosprite basic stats (copy from primary for now)
-      arr[offset + 40] = ca[StatKey.HP]
-      arr[offset + 41] = ca[StatKey.ATK]
-      arr[offset + 42] = ca[StatKey.DEF]
-      arr[offset + 43] = ca[StatKey.SPD]
+      // [40-51] Memosprite basic stats (scaled from summoner's basic stats)
+      arr[offset + 40] = (memoEntityConfig.memoBaseHpScaling ?? 0) * ca[StatKey.HP] + (memoEntityConfig.memoBaseHpFlat ?? 0)
+      arr[offset + 41] = (memoEntityConfig.memoBaseAtkScaling ?? 0) * ca[StatKey.ATK] + (memoEntityConfig.memoBaseAtkFlat ?? 0)
+      arr[offset + 42] = (memoEntityConfig.memoBaseDefScaling ?? 0) * ca[StatKey.DEF] + (memoEntityConfig.memoBaseDefFlat ?? 0)
+      arr[offset + 43] = (memoEntityConfig.memoBaseSpdScaling ?? 0) * ca[StatKey.SPD] + (memoEntityConfig.memoBaseSpdFlat ?? 0)
       arr[offset + 44] = ca[StatKey.CR]
       arr[offset + 45] = ca[StatKey.CD]
       arr[offset + 46] = ca[StatKey.EHR]
@@ -215,7 +218,7 @@ export const BufferPacker = {
       arr[offset + 48] = ca[StatKey.BE]
       arr[offset + 49] = ca[StatKey.ERR]
       arr[offset + 50] = ca[StatKey.OHB]
-      arr[offset + 51] = ca[Key.ELEMENTAL_DMG]
+      arr[offset + 51] = ca[basicElementalBoostKey]
 
       // [52-63] Memosprite combat stats
       arr[offset + 52] = x.getActionValue(StatKey.HP, memoEntity)
@@ -329,85 +332,6 @@ export const BufferPacker = {
         // Results are packed linearly and the rest are 0s, we can exit after hitting a 0
         break
       }
-    }
-  },
-
-  packCharacter: (arr: Float32Array, offset: number, x: ComputedStatsArray) => {
-    offset = offset * SIZE
-    const c = x.c
-    const a = x.a
-    const ca = c.a
-
-    arr[offset] = c.id // 0
-    arr[offset + 1] = ca[Key.HP]
-    arr[offset + 2] = ca[Key.ATK]
-    arr[offset + 3] = ca[Key.DEF]
-    arr[offset + 4] = ca[Key.SPD]
-    arr[offset + 5] = ca[Key.CR]
-    arr[offset + 6] = ca[Key.CD]
-    arr[offset + 7] = ca[Key.EHR]
-    arr[offset + 8] = ca[Key.RES]
-    arr[offset + 9] = ca[Key.BE]
-    arr[offset + 10] = ca[Key.ERR] // 10
-    arr[offset + 11] = ca[Key.OHB]
-    arr[offset + 12] = ca[Key.ELEMENTAL_DMG]
-    arr[offset + 13] = c.weight
-    arr[offset + 14] = a[Key.EHP]
-    arr[offset + 15] = a[Key.HEAL_VALUE]
-    arr[offset + 16] = a[Key.SHIELD_VALUE]
-    arr[offset + 17] = a[Key.BASIC_DMG]
-    arr[offset + 18] = a[Key.SKILL_DMG]
-    arr[offset + 19] = a[Key.ULT_DMG]
-    arr[offset + 20] = a[Key.FUA_DMG]
-    arr[offset + 21] = a[Key.MEMO_SKILL_DMG]
-    arr[offset + 22] = a[Key.MEMO_TALENT_DMG]
-    arr[offset + 75] = a[Key.ELATION_SKILL_DMG]
-    arr[offset + 23] = a[Key.DOT_DMG]
-    arr[offset + 24] = a[Key.BREAK_DMG] // 22
-    arr[offset + 25] = a[Key.COMBO_DMG]
-    arr[offset + 26] = a[Key.HP]
-    arr[offset + 27] = a[Key.ATK]
-    arr[offset + 28] = a[Key.DEF]
-    arr[offset + 29] = a[Key.SPD]
-    arr[offset + 30] = a[Key.CR]
-    arr[offset + 31] = a[Key.CD]
-    arr[offset + 32] = a[Key.EHR]
-    arr[offset + 33] = a[Key.RES]
-    arr[offset + 34] = a[Key.BE]
-    arr[offset + 35] = a[Key.ERR] // 33
-    arr[offset + 36] = a[Key.OHB]
-    arr[offset + 37] = a[Key.ELEMENTAL_DMG]
-    arr[offset + 38] = c.relicSetIndex
-    arr[offset + 39] = c.ornamentSetIndex
-    if (x.a[Key.MEMOSPRITE]) {
-      const ca = x.m.c.a
-      arr[offset + 40] = ca[Key.HP]
-      arr[offset + 41] = ca[Key.ATK]
-      arr[offset + 42] = ca[Key.DEF]
-      arr[offset + 43] = ca[Key.SPD]
-      arr[offset + 44] = ca[Key.CR]
-      arr[offset + 45] = ca[Key.CD]
-      arr[offset + 46] = ca[Key.EHR]
-      arr[offset + 47] = ca[Key.RES]
-      arr[offset + 48] = ca[Key.BE]
-      arr[offset + 49] = ca[Key.ERR]
-      arr[offset + 50] = ca[Key.OHB]
-      arr[offset + 51] = ca[Key.ELEMENTAL_DMG]
-
-      const a = x.m.a
-      arr[offset + 52] = a[Key.HP]
-      arr[offset + 53] = a[Key.ATK]
-      arr[offset + 54] = a[Key.DEF]
-      arr[offset + 55] = a[Key.SPD]
-      arr[offset + 56] = a[Key.CR]
-      arr[offset + 57] = a[Key.CD]
-      arr[offset + 58] = a[Key.EHR]
-      arr[offset + 59] = a[Key.RES]
-      arr[offset + 60] = a[Key.BE]
-      arr[offset + 61] = a[Key.ERR]
-      arr[offset + 62] = a[Key.OHB]
-      arr[offset + 63] = a[Key.ELEMENTAL_DMG]
-      arr[offset + 64] = a[Key.EHP]
     }
   },
 

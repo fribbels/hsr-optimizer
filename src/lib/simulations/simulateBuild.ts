@@ -25,7 +25,6 @@ import {
   calculateRelicStats,
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
-import { ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -46,7 +45,7 @@ export function simulateBuild(
   relics: SimulationRelicByPart,
   context: OptimizerContext,
   cachedBasicStatsArrayCore: BasicStatsArrayCore | null,
-  cachedComputedStatsArrayCore: ComputedStatsArrayCore | null,
+  trace: boolean = false,
   forcedBasicSpd: number = 0,
 ): SimulateBuildResult {
   // Compute
@@ -104,7 +103,7 @@ export function simulateBuild(
   x.setBasic(c)
 
   // Store trace request - tracing is deferred to the primary default action only
-  const shouldTrace = cachedComputedStatsArrayCore?.trace ?? false
+  const shouldTrace = trace
 
   for (let i = 0; i < context.rotationActions.length; i++) {
     const action = context.rotationActions[i]
@@ -113,9 +112,6 @@ export function simulateBuild(
     action.conditionalState = {}
 
     x.setPrecompute(action.precomputedStats.a)
-    // if (x.a[Key.MEMOSPRITE]) {
-    //   m.setPrecompute(action.precomputedM.a)
-    // }
 
     calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)

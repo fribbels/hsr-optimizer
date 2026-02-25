@@ -1,18 +1,9 @@
-import {
-  ElementToDamage,
-  PathNames,
-  Stats,
-  StatsValues,
-  SubStats,
-} from 'lib/constants/constants'
+import { ElementToDamage, PathNames, Stats, StatsValues, SubStats, } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
-import {
-  Buff,
-  ComputedStatsArrayCore,
-} from 'lib/optimization/computedStatsArray'
+import { Buff, } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { RelicFilters } from 'lib/relics/relicFilters'
@@ -103,8 +94,8 @@ export function generateAnalysisData(
     return null
   }
 
-  const { x: oldX } = simulateBuild(oldRelics as unknown as SimulationRelicByPart, contextOld, null, null)
-  const { x: newX } = simulateBuild(newRelics as unknown as SimulationRelicByPart, contextNew, new BasicStatsArrayCore(true), new ComputedStatsArrayCore(true))
+  const { x: oldX } = simulateBuild(oldRelics as unknown as SimulationRelicByPart, contextOld, null)
+  const { x: newX } = simulateBuild(newRelics as unknown as SimulationRelicByPart, contextNew, new BasicStatsArrayCore(true), true)
 
   const buffGroups = aggregateCombatBuffs(newX, request)
 

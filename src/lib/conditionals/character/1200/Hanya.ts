@@ -1,35 +1,19 @@
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
-  createEnum,
-} from 'lib/conditionals/conditionalUtils'
-import {
-  dynamicStatConversionContainer,
-  gpuDynamicStatConversion,
-} from 'lib/conditionals/evaluation/statConversion'
+import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
+import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import {
-  ConditionalActivation,
-  ConditionalType,
-  Stats,
-} from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const HanyaEntities = createEnum('Hanya')
 export const HanyaAbilities = createEnum('BASIC', 'SKILL', 'BREAK')
@@ -182,8 +166,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.ATK_P, (m.burdenAtkBuff) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // Talent - DMG boost for Basic/Skill/Ult against Burdened enemy
-      x.buff(StatKey.DMG_BOOST, (m.targetBurdenActive) ? talentDmgBoostValue : 0,
-        x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).targets(TargetTag.FullTeam).source(SOURCE_TALENT))
+      x.buff(
+        StatKey.DMG_BOOST,
+        (m.targetBurdenActive) ? talentDmgBoostValue : 0,
+        x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).targets(TargetTag.FullTeam).source(SOURCE_TALENT),
+      )
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -206,14 +193,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       activation: ConditionalActivation.CONTINUOUS,
       dependsOn: [Stats.SPD],
       chainsTo: [Stats.SPD],
-      condition: function (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+      condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
         return r.ultBuff
       },
-      effect: function (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+      effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
         dynamicStatConversionContainer(Stats.SPD, Stats.SPD, this, x, action, context, SOURCE_ULT, (convertibleValue) => convertibleValue * ultSpdBuffValue)
       },
-      gpu: function (action: OptimizerAction, context: OptimizerContext) {
+      gpu: function(action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
 
         return gpuDynamicStatConversion(Stats.SPD, Stats.SPD, this, action, context, `${ultSpdBuffValue} * convertibleValue`, `${wgslTrue(r.ultBuff)}`)

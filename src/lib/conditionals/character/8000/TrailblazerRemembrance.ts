@@ -1,55 +1,18 @@
-import {
-  AbilityType,
-  BUFF_PRIORITY_MEMO,
-  BUFF_PRIORITY_SELF,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
-  createEnum,
-} from 'lib/conditionals/conditionalUtils'
-import {
-  ConditionalActivation,
-  ConditionalType,
-  CURRENT_DATA_VERSION,
-  Stats,
-} from 'lib/constants/constants'
-import {
-  newConditionalWgslWrapper,
-} from 'lib/gpu/conditionals/dynamicConditionals'
-import {
-  wgsl,
-  wgslFalse,
-} from 'lib/gpu/injection/wgslUtils'
-import { Source } from 'lib/optimization/buffSource'
-import {
-  ComputedStatsArray,
-  Key,
-} from 'lib/optimization/computedStatsArray'
-import { TsUtils } from 'lib/utils/TsUtils'
-
-import i18next from 'i18next'
+import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF, } from 'lib/conditionals/conditionalConstants'
+import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import {
-  containerActionVal,
-  p_containerActionVal,
-} from 'lib/gpu/injection/injectUtils'
+import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
+import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
+import { wgsl, wgslFalse, } from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  DamageTag,
-  ElementTag,
-  SELF_ENTITY_INDEX,
-  TargetTag,
-} from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const TrailblazerRemembranceAbilities = createEnum(
   'BASIC',
@@ -309,7 +272,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return []
     },
 
-
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -329,7 +291,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       )
     },
 
-
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
@@ -348,8 +309,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       }
     },
 
-
-
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
@@ -360,7 +319,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-
 
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return wgsl``

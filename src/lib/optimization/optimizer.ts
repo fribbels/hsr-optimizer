@@ -2,6 +2,8 @@ import i18next from 'i18next'
 import {
   COMPUTE_ENGINE_CPU,
   Constants,
+  ElementName,
+  ElementToStatKeyDmgBoost,
   Parts,
   Stats,
 } from 'lib/constants/constants'
@@ -12,6 +14,7 @@ import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import {
   BufferPacker,
+  ElementToBasicKeyDmgBoost,
   OptimizerDisplayData,
 } from 'lib/optimization/bufferPacker'
 import { Key } from 'lib/optimization/computedStatsArray'
@@ -72,7 +75,7 @@ export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
   )
 
   const context = generateContext(request)
-  const { x } = simulateBuild(relicsByPart as SimulationRelicByPart, context, null, null)
+  const { x } = simulateBuild(relicsByPart as SimulationRelicByPart, context, null)
 
   if (request.keepCurrentRelics) {
     logRegisters(x, context, 'Simulate Build')
@@ -303,7 +306,7 @@ export const Optimizer = {
 
 // TODO: This is a temporary tool to rename computed stats variables to fit the optimizer grid
 export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
-  const context = useOptimizerTabStore.getState().context!
+  const context = useOptimizerTabStore.getState().context
   const c = x.c
   const d: Partial<OptimizerDisplayData> = {
     relicSetIndex: c.relicSetIndex,
@@ -329,7 +332,6 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
   d[Stats.ERR] = c.a[Key.ERR]
   d[Stats.OHB] = c.a[Key.OHB]
 
-  d.ED = c.a[Key.ELEMENTAL_DMG]
   // TODO
   // d.BASIC = a[StatKey.BASIC_DMG]
   // d.SKILL = a[StatKey.SKILL_DMG]
@@ -355,9 +357,10 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
   d.xOHB = a[StatKey.OHB]
   d.xELEMENTAL_DMG = a[StatKey.DMG_BOOST]
 
-  d.mELEMENTAL_DMG = c.a[Key.ELEMENTAL_DMG]
-
   if (context) {
+    const basicElementalBoostKey = ElementToBasicKeyDmgBoost[context.element]
+    d.ED = c.a[basicElementalBoostKey]
+    d.mELEMENTAL_DMG = c.a[basicElementalBoostKey]
     let heal = 0
     let shield = 0
     for (const action of context.rotationActions) {
@@ -405,36 +408,49 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
     }
   }
 
-  // TODO
-  // if (x.a[Key.MEMOSPRITE]) {
-  //   const c = x.m.c
-  //   d.mHP = c.HP.get()
-  //   d.mATK = c.ATK.get()
-  //   d.mDEF = c.DEF.get()
-  //   d.mSPD = c.SPD.get()
-  //   d.mCR = c.CR.get()
-  //   d.mCD = c.CD.get()
-  //   d.mEHR = c.EHR.get()
-  //   d.mRES = c.RES.get()
-  //   d.mBE = c.BE.get()
-  //   d.mERR = c.ERR.get()
-  //   d.mOHB = c.OHB.get()
-  //
-  //   const m = x.m
-  //   d.mxHP = m.HP.get()
-  //   d.mxATK = m.ATK.get()
-  //   d.mxDEF = m.DEF.get()
-  //   d.mxSPD = m.SPD.get()
-  //   d.mxCR = m.CR.get()
-  //   d.mxCD = m.CD.get()
-  //   d.mxEHR = m.EHR.get()
-  //   d.mxRES = m.RES.get()
-  //   d.mxBE = m.BE.get()
-  //   d.mxERR = m.ERR.get()
-  //   d.mxOHB = m.OHB.get()
-  //   d.mxELEMENTAL_DMG = m.ELEMENTAL_DMG.get()
-  //   d.mxEHP = m.EHP.get()
-  // }
+  // Memosprite stats
+  let memoEntityIndex = -1
+  for (let i = 1; i < x.config.entitiesLength; i++) {
+    if (x.config.entitiesArray[i].memosprite) {
+      memoEntityIndex = i
+      break
+    }
+  }
+
+  if (memoEntityIndex >= 0 && context) {
+    const memoEntityConfig = x.config.entitiesArray[memoEntityIndex]
+    const memoEntity = memoEntityConfig.name
+    const ca = c.a
+
+    // Memosprite basic stats (scaled from summoner's basic stats)
+    d.mHP = (memoEntityConfig.memoBaseHpScaling ?? 0) * ca[Key.HP] + (memoEntityConfig.memoBaseHpFlat ?? 0)
+    d.mATK = (memoEntityConfig.memoBaseAtkScaling ?? 0) * ca[Key.ATK] + (memoEntityConfig.memoBaseAtkFlat ?? 0)
+    d.mDEF = (memoEntityConfig.memoBaseDefScaling ?? 0) * ca[Key.DEF] + (memoEntityConfig.memoBaseDefFlat ?? 0)
+    d.mSPD = (memoEntityConfig.memoBaseSpdScaling ?? 0) * ca[Key.SPD] + (memoEntityConfig.memoBaseSpdFlat ?? 0)
+    d.mCR = ca[Key.CR]
+    d.mCD = ca[Key.CD]
+    d.mEHR = ca[Key.EHR]
+    d.mRES = ca[Key.RES]
+    d.mBE = ca[Key.BE]
+    d.mERR = ca[Key.ERR]
+    d.mOHB = ca[Key.OHB]
+
+    // Memosprite combat stats
+    d.mxHP = x.getActionValue(StatKey.HP, memoEntity)
+    d.mxATK = x.getActionValue(StatKey.ATK, memoEntity)
+    d.mxDEF = x.getActionValue(StatKey.DEF, memoEntity)
+    d.mxSPD = x.getActionValue(StatKey.SPD, memoEntity)
+    d.mxCR = x.getActionValue(StatKey.CR, memoEntity) + x.getActionValue(StatKey.CR_BOOST, memoEntity)
+    d.mxCD = x.getActionValue(StatKey.CD, memoEntity) + x.getActionValue(StatKey.CD_BOOST, memoEntity)
+    d.mxEHR = x.getActionValue(StatKey.EHR, memoEntity)
+    d.mxRES = x.getActionValue(StatKey.RES, memoEntity)
+    d.mxBE = x.getActionValue(StatKey.BE, memoEntity)
+    d.mxERR = x.getActionValue(StatKey.ERR, memoEntity)
+    d.mxOHB = x.getActionValue(StatKey.OHB, memoEntity)
+    d.mxELEMENTAL_DMG = x.getActionValue(StatKey.DMG_BOOST, memoEntity)
+      + x.getActionValue(ElementToStatKeyDmgBoost[context.element as ElementName], memoEntity)
+    d.mxEHP = x.getActionValue(StatKey.EHP, memoEntity)
+  }
 
   return d as OptimizerDisplayData
 }

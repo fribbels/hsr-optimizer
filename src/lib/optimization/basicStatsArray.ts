@@ -1,14 +1,16 @@
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { BuffSource } from 'lib/optimization/buffSource'
 import { SetCounts } from 'lib/optimization/calculateStats'
-import {
-  Buff,
-  Key,
-  StatController,
-} from 'lib/optimization/computedStatsArray'
+import { Buff, Key, } from 'lib/optimization/computedStatsArray'
+
+type BasicStatController = {
+  buff: (value: number, source: BuffSource) => void,
+  set: (value: number, source: BuffSource) => void,
+  get: () => number,
+}
 
 type BasicStatsArrayStatExtensions = {
-  [K in keyof typeof baseCharacterStats]: StatController
+  [K in keyof typeof baseCharacterStats]: BasicStatController
 }
 
 export type BasicStatsArray =

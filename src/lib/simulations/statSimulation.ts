@@ -6,7 +6,6 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
-import { ComputedStatsArrayCore } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { StatCalculator } from 'lib/relics/statCalculator'
@@ -45,7 +44,6 @@ function simulationRelic(set: string, mainStat: string, mainValue: number): Simu
 }
 
 // Cached arrays for non-tracing simulations (tracing creates fresh instances)
-const cachedComputedStatsArray = new ComputedStatsArrayCore(false)
 const cachedBasicStatsArray = new BasicStatsArrayCore(false)
 
 // Can be called from both main and worker
@@ -66,13 +64,12 @@ export function runStatSimulations(
   for (const sim of simulations) {
     const simRelics = generateSimRelics(sim, params)
     const basicStatsArray = form.trace ? new BasicStatsArrayCore(true) : cachedBasicStatsArray
-    const computedStatsArray = form.trace ? new ComputedStatsArrayCore(true) : cachedComputedStatsArray
 
     const { x, primaryActionStats, actionDamage } = simulateBuild(
       simRelics,
       context,
       basicStatsArray,
-      computedStatsArray,
+      form.trace ?? false,
       forcedBasicSpd,
     )
 

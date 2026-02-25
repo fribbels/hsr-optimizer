@@ -1,7 +1,4 @@
-import {
-  AbilityType,
-  DamageType,
-} from 'lib/conditionals/conditionalConstants'
+import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -14,33 +11,15 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
-import {
-  AKey,
-  StatKey,
-} from 'lib/optimization/engine/config/keys'
-import {
-  DamageTag,
-  ElementTag,
-  SELF_ENTITY_INDEX,
-  TargetTag,
-} from 'lib/optimization/engine/config/tag'
+import { AKey, StatKey, } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import {
-  DamageFunctionType,
-  DefaultDamageFunction,
-  DotDamageFunction,
-} from 'lib/optimization/engine/damage/damageCalculator'
 import { HYSILENS } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { Hit } from 'types/hitConditionalTypes'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const HysilensAbilities = createEnum(
   'BASIC',
@@ -204,7 +183,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-      
+
       const talentDot = talentDotScaling
       const updatedUltDotScaling = (e >= 6 && r.e6Buffs) ? ultDotScaling + 0.20 : ultDotScaling
       const ultDot = r.ultDotStacks * updatedUltDotScaling

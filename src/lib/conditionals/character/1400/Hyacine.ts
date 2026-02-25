@@ -5,45 +5,21 @@ import {
   SKILL_DMG_TYPE,
   ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
-import {
-  AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
-  createEnum,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import {
-  ConditionalActivation,
-  ConditionalType,
-  Stats,
-} from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import {
-  containerActionVal,
-  p_containerActionVal,
-} from 'lib/gpu/injection/injectUtils'
-import {
-  wgslFalse,
-  wgslTrue,
-} from 'lib/gpu/injection/wgslUtils'
+import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
+import { wgslFalse, wgslTrue, } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  DamageTag,
-  ElementTag,
-  SELF_ENTITY_INDEX,
-  TargetTag,
-} from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const HyacineEntities = createEnum('Hyacine', 'Ica')
 export const HyacineAbilities = createEnum('BASIC', 'SKILL_HEAL', 'ULT_HEAL', 'MEMO_SKILL', 'BREAK')
@@ -442,7 +418,9 @@ if (${wgslFalse(r.spd200HpBuff)}) {
 }
 
 let stateValue: f32 = (*p_state).${this.id}${action.actionIdentifier};
-let convertibleValue: f32 = min(400.0, floor(${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} - ${containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_SPD_BUFF, config)}));
+let convertibleValue: f32 = min(400.0, floor(${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} - ${
+              containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_SPD_BUFF, config)
+            }));
 
 if (convertibleValue <= 0.0) {
   return;

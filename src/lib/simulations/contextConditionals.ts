@@ -23,8 +23,6 @@ export function initializeContextConditionals(context: OptimizerContext) {
     if (context.teammate2Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate2Metadata, 2)
 
     // Reconstruct arrays after transfer
-    action.precomputedX.a = new Float32Array(Object.values(action.precomputedX.a))
-    action.precomputedM.a = new Float32Array(Object.values(action.precomputedM.a))
     action.precomputedStats.a = new Float32Array(Object.values(action.precomputedStats.a))
 
     // Rebuild entityRegistry from entitiesArray after serialization

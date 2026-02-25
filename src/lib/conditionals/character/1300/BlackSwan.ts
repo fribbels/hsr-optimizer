@@ -13,7 +13,6 @@ import {
 } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
-  ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
 import {

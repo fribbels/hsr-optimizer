@@ -9,12 +9,6 @@ import {
 } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  baseComputedStatsArray,
-  ComputedStatsArray,
-  ComputedStatsArrayCore,
-  Key,
-} from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { newTransformStateActions } from 'lib/optimization/rotation/actionTransform'
@@ -175,11 +169,6 @@ export function defineAction(
   action.setConditionals = transformSetConditionals(conditionalIndex, comboState.comboCharacter.setConditionals) as SetConditional
   action.setConditionals = overrideSetConditionals(action.setConditionals, context)
 
-  action.precomputedX = new ComputedStatsArrayCore(request.trace) as ComputedStatsArray
-  action.precomputedX.setPrecompute(baseComputedStatsArray())
-  action.precomputedM = action.precomputedX.m
-  action.precomputedM.setPrecompute(baseComputedStatsArray())
-
   if (comboState.comboTeammate0) {
     action.teammate0.actorId = comboState.comboTeammate0.metadata.characterId
     action.teammate0.actorEidolon = comboState.comboTeammate0.metadata.characterEidolon
@@ -211,15 +200,14 @@ export function precomputeConditionals(action: OptimizerAction, comboState: Comb
   const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(comboState.comboCharacter.metadata)
   const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(comboState.comboCharacter.metadata)
 
-  const x = action.precomputedX
   const container = action.precomputedStats
 
   if (context.deprioritizeBuffs) {
-    x.DEPRIORITIZE_BUFFS.set(1, Source.NONE)
+    container.actionSet(StatKey.DEPRIORITIZE_BUFFS, 1)
   }
 
   // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
-  x.ENEMY_WEAKNESS_BROKEN.config(x.a[Key.ENEMY_WEAKNESS_BROKEN] || context.enemyWeaknessBroken ? 1 : 0, Source.NONE)
+  container.actionSet(StatKey.ENEMY_WEAKNESS_BROKEN, container.a[StatKey.ENEMY_WEAKNESS_BROKEN] || context.enemyWeaknessBroken ? 1 : 0)
 
   lightConeConditionals.initializeConfigurationsContainer?.(container, action, context)
   characterConditionals.initializeConfigurationsContainer?.(container, action, context)

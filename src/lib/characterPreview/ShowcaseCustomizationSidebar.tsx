@@ -42,9 +42,7 @@ import {
 } from 'lib/scoring/simScoringUtils'
 import DB, { AppPages } from 'lib/state/db'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import {
-  generateSpdPresets,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HorizontalDivider } from 'lib/ui/Dividers'
@@ -71,10 +69,7 @@ import {
   Character,
   CharacterId,
 } from 'types/character'
-import {
-  ScoringMetadata,
-  ShowcasePreferences,
-} from 'types/metadata'
+import { ShowcasePreferences } from 'types/metadata'
 import { ShowcaseSource } from './CharacterPreviewComponents'
 
 export interface ShowcaseCustomizationSidebarRef {
@@ -746,8 +741,8 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
 
     1321: ['#586bec'], // the dahlia
 
-    1501: ['#7498f1'], // sparxie
-    1502: ['#a4e1df'], // yaoguang
+    1501: ['#8a92f7'], // sparxie
+    1502: ['#c3d7d8'], // yaoguang
   }
 
   return (defaults[characterId] ?? ['#000000'])[0]

@@ -153,7 +153,7 @@ export const CritDamageFunction: DamageFunction = {
         : getScalingValue(StatKey.BE)
       totalAtkScalingExpr = `(${atkScaling} + ${beScaling} * ${beExpr})`
     } else if (elationAtkScaling != null) {
-      totalAtkScalingExpr = `(${atkScaling} + ${elationAtkScaling} * ${getScalingValue(StatKey.ELATION_DMG_BOOST)})`
+      totalAtkScalingExpr = `(${atkScaling} + ${elationAtkScaling} * ${getScalingValue(StatKey.ELATION)})`
     } else {
       totalAtkScalingExpr = `${atkScaling}`
     }
@@ -815,7 +815,7 @@ export const ElationDamageFunction: DamageFunction = {
     const elationScaling = hit.elationScaling
     const punchline = hit.punchlineStacks
     const punchlineMulti = 1 + (5 * punchline) / (punchline + 240)
-    const elationMulti = 1 + Math.max(x.getValue(StatKey.ELATION_DMG_BOOST, hitIndex), hit.minElationOverride ?? 0)
+    const elationMulti = 1 + Math.max(x.getValue(StatKey.ELATION, hitIndex), hit.minElationOverride ?? 0)
     const merrymakingMulti = 1 + x.getValue(StatKey.MERRYMAKING, hitIndex)
     const critMulti = getCritMultiplier(x, hitIndex)
     const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex) + (hit.trueDmgModifier ?? 0)
@@ -858,7 +858,7 @@ export const ElationDamageFunction: DamageFunction = {
   let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
 
   // Elation-specific
-  let elationMulti = 1.0 + max(${getValue(StatKey.ELATION_DMG_BOOST)}, ${hit.minElationOverride ?? 0});
+  let elationMulti = 1.0 + max(${getValue(StatKey.ELATION)}, ${hit.minElationOverride ?? 0});
   let merrymakingMulti = 1.0 + ${getValue(StatKey.MERRYMAKING)};
   let punchlineMulti = 1.0 + (5.0 * ${punchline}.0) / (${punchline}.0 + 240.0);
 
@@ -951,7 +951,7 @@ function calculateInitialDamage(
   // Elation-based ATK scaling
   const elationAtkScaling = critHit.elationAtkScaling
   if (elationAtkScaling != null) {
-    const elation = x.getValue(StatKey.ELATION_DMG_BOOST, hitIndex, scalingEntityIndex)
+    const elation = x.getValue(StatKey.ELATION, hitIndex, scalingEntityIndex)
     totalAtkScaling += elationAtkScaling * elation
   }
 

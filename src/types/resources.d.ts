@@ -230,6 +230,7 @@ interface Resources {
             "BREAK": "BREAK DMG",
             "MEMO_SKILL": "SKILLᴹ DMG",
             "MEMO_TALENT": "TALENTᴹ DMG",
+            "ELATION_SKILL": "ELATION SKILL DMG",
             "COMBO": "COMBO DMG"
           }
         },
@@ -347,7 +348,7 @@ interface Resources {
       "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG Boost",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum) DMG Boost",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary) DMG Boost",
-      "Elation DMG Boost": "Elation DMG Boost"
+      "Elation": "Elation"
     },
     "ShortStats": {
       "HP%": "HP%",
@@ -372,7 +373,7 @@ interface Resources {
       "Wind DMG Boost": "$t(gameData:Elements.Wind)",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)",
-      "Elation DMG Boost": "Elation"
+      "Elation": "Elation"
     },
     "ShortSpacedStats": {
       "HP%": "HP %",
@@ -397,7 +398,7 @@ interface Resources {
       "Wind DMG Boost": "$t(gameData:Elements.Wind)",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)",
-      "Elation DMG Boost": "Elation"
+      "Elation": "Elation"
     },
     "Damage": "DMG",
     "DamagePercent": "DMG %",
@@ -424,7 +425,7 @@ interface Resources {
       "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum) DMG",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary) DMG",
-      "Elation DMG Boost": "Elation DMG"
+      "Elation": "Elation"
     },
     "ShortReadableStats": {
       "HP%": "HP %",
@@ -449,7 +450,7 @@ interface Resources {
       "Wind DMG Boost": "$t(gameData:Elements.Wind)",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)",
-      "Elation DMG Boost": "Elation"
+      "Elation": "Elation"
     },
     "Elements": {
       "Physical": "$t(gameData:Elements.Physical)",
@@ -479,6 +480,7 @@ interface Resources {
       "Fua": "Fua DMG",
       "Memo_Skill": "Skillᴹ DMG",
       "Memo_Talent": "Talentᴹ DMG",
+      "Elation_Skill": "Elation Skill DMG",
       "Dot": "Dot DMG",
       "Break": "Break DMG",
       "CV": "CV"
@@ -6015,7 +6017,7 @@ interface Resources {
       "FUA": "Sorted by Follow-up DMG",
       "MEMO_SKILL": "Sorted by Memo Skill DMG",
       "MEMO_TALENT": "Sorted by Memo Talent DMG",
-      "ELATION_SKILL": "Sorted by Elation DMG",
+      "ELATION_SKILL": "Sorted by Elation Skill DMG",
       "DOT": "Sorted by DoT DMG",
       "BREAK": "Sorted by Break DMG",
       "HEAL": "Sorted by Heal",
@@ -6123,7 +6125,7 @@ interface Resources {
           "FUA": "FUA\nDMG",
           "MEMO_SKILL": "SKILLᴹ\nDMG",
           "MEMO_TALENT": "TALENTᴹ\nDMG",
-          "ELATION_SKILL": "ELATION\nDMG",
+          "ELATION_SKILL": "ELATION\nSKILL",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
           "BASIC_HEAL": "BASIC\nHEAL",
@@ -6161,7 +6163,7 @@ interface Resources {
           "FUA": "FUA\nDMG",
           "MEMO_SKILL": "SKILLᴹ\nDMG",
           "MEMO_TALENT": "TALENTᴹ\nDMG",
-          "ELATION_SKILL": "ELATION\nDMG",
+          "ELATION_SKILL": "ELATION\nSKILL",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
           "BASIC_HEAL": "BASIC\nHEAL",
@@ -6511,7 +6513,7 @@ interface Resources {
         "Break": "Break",
         "MemoSkill": "Skillᴹ",
         "MemoTalent": "Talentᴹ",
-        "ElationSkill": "Elation",
+        "ElationSkill": "Elation Skill",
         "BasicHeal": "Basic HEAL",
         "SkillHeal": "Skill HEAL",
         "UltHeal": "Ult HEAL",

@@ -1,3 +1,4 @@
+import { ConvertibleStatsType } from 'lib/conditionals/evaluation/statConversionConfig'
 import { Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
@@ -21,8 +22,8 @@ export function evaluateDependencyOrder(registeredConditionals: ConditionalRegis
   const registry = emptyRegistry()
   const activationCount: Record<string, number> = {}
   const executedConditionals = new Set<string>()
-  const pendingEvaluations = new Set<string>()
-  const res: string[] = []
+  const pendingEvaluations = new Set<ConvertibleStatsType>()
+  const res: ConvertibleStatsType[] = []
   const conditionalMap: Record<string, DynamicConditional> = {}
   const conditionalSequence: DynamicConditional[] = []
 
@@ -42,7 +43,7 @@ export function evaluateDependencyOrder(registeredConditionals: ConditionalRegis
     return currentReachable > bestReachable ? currentStat : bestStat
   })
 
-  let priorityQueue: string[] = [bestStartingStat]
+  let priorityQueue: ConvertibleStatsType[] = [bestStartingStat]
 
   // console.log(`Starting with best Stat: ${bestStartingStat}`)
 
@@ -64,7 +65,7 @@ export function evaluateDependencyOrder(registeredConditionals: ConditionalRegis
       return bScore - aScore
     })
 
-    let stat: string | undefined = priorityQueue.shift()
+    let stat: ConvertibleStatsType | undefined = priorityQueue.shift()
 
     if (!stat && pendingEvaluations.size > 0) {
       stat = [...pendingEvaluations][0]
@@ -118,7 +119,7 @@ export function evaluateDependencyOrder(registeredConditionals: ConditionalRegis
   }
 }
 
-const statOrder = [
+const statOrder: ConvertibleStatsType[] = [
   Stats.SPD,
   Stats.BE,
   Stats.EHR,
@@ -130,9 +131,10 @@ const statOrder = [
   Stats.OHB,
   Stats.ERR,
   Stats.HP,
+  Stats.Elation,
 ]
 
-function emptyRegistry(): Record<string, DynamicConditional[]> {
+function emptyRegistry(): ConditionalRegistry {
   return {
     [Stats.HP]: [],
     [Stats.ATK]: [],
@@ -145,10 +147,11 @@ function emptyRegistry(): Record<string, DynamicConditional[]> {
     [Stats.BE]: [],
     [Stats.OHB]: [],
     [Stats.ERR]: [],
+    [Stats.Elation]: [],
   }
 }
 
-function getTotalReachableConditionals(stat: string, remainingConditionals: Set<string>, registry: ConditionalRegistry, visited = new Set<string>()): number {
+function getTotalReachableConditionals(stat: ConvertibleStatsType, remainingConditionals: Set<string>, registry: ConditionalRegistry, visited = new Set<ConvertibleStatsType>()): number {
   if (visited.has(stat)) return 0
   visited.add(stat)
 

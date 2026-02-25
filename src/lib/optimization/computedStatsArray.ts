@@ -1,3 +1,4 @@
+import { aKeyToConvertibleStat } from 'lib/conditionals/evaluation/statConversionConfig'
 import {
   ElementToResPenType,
   Stats,
@@ -13,7 +14,7 @@ import {
   baseComputedStatsObject,
   ComputedStatsObject,
 } from 'lib/optimization/config/computedStatsConfig'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { AKeyValue, StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   ElementalDamageType,
@@ -147,7 +148,8 @@ export class ComputedStatsArrayCore {
     this.trace = trace
     // @ts-ignore
     this.dmgSplits = this.trace ? generateDefaultDamageValues() : null
-    Object.keys(baseComputedStatsObject).forEach((stat, key) => {
+    Object.keys(baseComputedStatsObject).forEach((stat, _key) => {
+      const key = _key as AKeyValue
       const trace = (value: number, source: BuffSource) => this.trace && this.buffs.push({ stat, key, value, source })
       const traceMemo = (value: number, source: BuffSource) => this.trace && this.buffsMemo.push({ stat, key, value, source })
       const traceOverwrite = (value: number, source: BuffSource) =>
@@ -222,7 +224,7 @@ export class ComputedStatsArrayCore {
               traceMemo(value, source)
             }
 
-            for (const conditional of action.conditionalRegistry[KeyToStat[stat]] ?? []) {
+            for (const conditional of action.conditionalRegistry[aKeyToConvertibleStat[key]] ?? []) {
               evaluateConditional(conditional, this as unknown as ComputedStatsContainer, action, context)
             }
           },
@@ -255,7 +257,7 @@ export class ComputedStatsArrayCore {
             this.a[key] += value
             trace(value, source)
 
-            for (const conditional of action.conditionalRegistry[KeyToStat[stat]] || []) {
+            for (const conditional of action.conditionalRegistry[aKeyToConvertibleStat[key]] || []) {
               evaluateConditional(conditional, this as unknown as ComputedStatsContainer, action, context)
             }
           },
@@ -358,7 +360,7 @@ export const InternalKeyToExternal: Record<string, keyof ComputedStatsObjectExte
   SPD_P: Stats.SPD_P,
   SPD: Stats.SPD,
   WIND_DMG_BOOST: Stats.Wind_DMG,
-  ELATION_DMG_BOOST: Stats.Elation_DMG,
+  ELATION: Stats.Elation,
 }
 
 export const KeyToStat: Record<string, string> = {
@@ -384,7 +386,7 @@ export const KeyToStat: Record<string, string> = {
   SPD_P: Stats.SPD_P,
   SPD: Stats.SPD,
   WIND_DMG_BOOST: Stats.Wind_DMG,
-  ELATION_DMG_BOOST: Stats.Elation_DMG,
+  ELATION: Stats.Elation,
 }
 
 const ElementToResPenTypeToKey = {
@@ -445,7 +447,7 @@ export type ComputedStatsObjectExternal =
     | 'WIND_DMG_BOOST'
     | 'QUANTUM_DMG_BOOST'
     | 'IMAGINARY_DMG_BOOST'
-    | 'ELATION_DMG_BOOST'
+    | 'ELATION'
   >
   & {
     ['HP%']: number,
@@ -471,7 +473,7 @@ export type ComputedStatsObjectExternal =
     ['Wind DMG Boost']: number,
     ['Quantum DMG Boost']: number,
     ['Imaginary DMG Boost']: number,
-    ['Elation DMG Boost']: number,
+    ['Elation']: number,
   }
 
 export const StatToKey: Record<string, number> = {
@@ -497,5 +499,5 @@ export const StatToKey: Record<string, number> = {
   [Stats.SPD_P]: Key.SPD_P,
   [Stats.SPD]: Key.SPD,
   [Stats.Wind_DMG]: Key.WIND_DMG_BOOST,
-  [Stats.Elation_DMG]: Key.ELATION_DMG_BOOST,
+  [Stats.Elation]: Key.ELATION,
 }

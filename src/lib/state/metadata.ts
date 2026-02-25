@@ -1,7 +1,13 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
-import { Constants, Parts, PartsMainStats, Sets, Stats, } from 'lib/constants/constants'
+import {
+  Constants,
+  Parts,
+  PartsMainStats,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import {
   DEFAULT_BASIC,
   DEFAULT_BREAK,
@@ -98,7 +104,13 @@ import {
 } from 'lib/simulations/tests/testMetadataConstants'
 import DB from 'lib/state/db'
 import { PresetEffects } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import { DBMetadata, DBMetadataCharacter, DBMetadataLightCone, DBMetadataSets, ScoringMetadata, } from 'types/metadata'
+import {
+  DBMetadata,
+  DBMetadataCharacter,
+  DBMetadataLightCone,
+  DBMetadataSets,
+  ScoringMetadata,
+} from 'types/metadata'
 
 const characters: Record<string, DBMetadataCharacter> = gameData.characters as unknown as Record<string, DBMetadataCharacter>
 const lightCones: Record<string, DBMetadataLightCone> = gameData.lightCones as unknown as Record<string, DBMetadataLightCone>
@@ -1049,11 +1061,11 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
     //   5: { [Constants.Stats.ATK_P]: 0.40 },
     // },
     21064: {
-      1: { [Constants.Stats.Elation_DMG]: 0.12 },
-      2: { [Constants.Stats.Elation_DMG]: 0.14 },
-      3: { [Constants.Stats.Elation_DMG]: 0.16 },
-      4: { [Constants.Stats.Elation_DMG]: 0.18 },
-      5: { [Constants.Stats.Elation_DMG]: 0.20 },
+      1: { [Constants.Stats.Elation]: 0.12 },
+      2: { [Constants.Stats.Elation]: 0.14 },
+      3: { [Constants.Stats.Elation]: 0.16 },
+      4: { [Constants.Stats.Elation]: 0.18 },
+      5: { [Constants.Stats.Elation]: 0.20 },
     },
     21065: {
       1: { [Constants.Stats.CR]: 0.12 },
@@ -1224,6 +1236,14 @@ function getLightConeOverrideCenter(): Record<string, number> {
     23052: 190,
 
     23050: 180,
+
+    23053: 215,
+    23054: 240,
+    // 24006: 180,
+    21064: 240,
+    21065: 155,
+    20024: 120,
+    20023: 290,
   }
 }
 // Default 200
@@ -9919,12 +9939,13 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
-          WHOLE_ULT,
-          WHOLE_BASIC,
+          START_ULT,
+          DEFAULT_SKILL,
+          END_BASIC,
           WHOLE_ELATION_SKILL,
-          WHOLE_BASIC,
+          START_SKILL,
+          END_BASIC,
           WHOLE_ELATION_SKILL,
-          WHOLE_BASIC,
         ],
         comboDot: 0,
         errRopeEidolon: 0,
@@ -10025,8 +10046,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboTurnAbilities: [
           NULL_TURN_ABILITY_NAME,
-          WHOLE_SKILL,
-          WHOLE_ULT,
+          START_SKILL,
+          END_ULT,
           WHOLE_ELATION_SKILL,
           WHOLE_BASIC,
           WHOLE_ELATION_SKILL,

@@ -2,15 +2,14 @@ import i18next from 'i18next'
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
-import { containerActionVal } from 'lib/gpu/injection/injectUtils'
-import { wgsl, wgslTrue, } from 'lib/gpu/injection/wgslUtils'
+import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats, } from 'lib/constants/constants'
+import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ModifierContext } from 'lib/optimization/context/calculateActions'
-import { AKey, StatKey, } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { YAO_GUANG } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -165,7 +164,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateElationValue: {
       id: 'teammateElationValue',
       formItem: 'slider',
-      text: `Yao Guang's Elation DMG Boost`,
+      text: `Yao Guang's Elation`,
       content: betaContent,
       min: 0,
       max: 2.00,
@@ -292,7 +291,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.buff(StatKey.SPD_P, (e >= 2 && m.skillZoneActive && m.e2ZoneSpdBuff) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
 
-      x.buff(StatKey.ELATION_DMG_BOOST, (e >= 2 && m.skillZoneActive && m.e2ZoneSpdBuff) ? 0.16 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
+      x.buff(StatKey.ELATION, (e >= 2 && m.skillZoneActive && m.e2ZoneSpdBuff) ? 0.16 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
 
       x.buff(StatKey.MERRYMAKING, (e >= 6 && m.e6Merrymaking) ? 0.25 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
 
@@ -305,50 +304,87 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       const sharedElation = (t.skillZoneActive) ? t.teammateElationValue * skillElationBuff : 0
       x.buff(StatKey.UNCONVERTIBLE_ELATION_BUFF, sharedElation, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
-      x.buff(StatKey.ELATION_DMG_BOOST, sharedElation, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+      x.buff(StatKey.ELATION, sharedElation, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
     },
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    dynamicConditionals: [
+      {
+        id: 'YaoguangSpdElationConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.SPD],
+        chainsTo: [Stats.Elation],
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          return r.traceSpdElation
+        },
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversionContainer(
+            Stats.SPD,
+            Stats.Elation,
+            this,
+            x,
+            action,
+            context,
+            SOURCE_TRACE,
+            (convertibleValue) => {
+              if (convertibleValue < 120) return 0
+              return 0.30 + Math.min(200, convertibleValue - 120) * 0.01
+            },
+          )
+        },
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
 
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
+          return gpuDynamicStatConversion(
+            Stats.SPD,
+            Stats.Elation,
+            this,
+            action,
+            context,
+            `0.30 + min(200.0, convertibleValue - 120.0) * 0.01`,
+            `${wgslTrue(r.traceSpdElation)}`,
+            `convertibleValue >= 120.0`,
+          )
+        },
+      },
+      {
+        id: 'YaoguangElationShareConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.Elation],
+        chainsTo: [Stats.Elation],
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          return r.skillZoneActive
+        },
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversionContainer(
+            Stats.Elation,
+            Stats.Elation,
+            this,
+            x,
+            action,
+            context,
+            SOURCE_SKILL,
+            (convertibleValue) => convertibleValue * skillElationBuff,
+          )
+        },
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
 
-      // SPD >= 120 grants Elation +30%, +1% per excess SPD up to 200
-      if (r.traceSpdElation) {
-        const spd = x.getActionValue(StatKey.SPD, YaoguangEntities.Yaoguang)
-        if (spd >= 120) {
-          const excessSpd = Math.min(200, spd - 120)
-          const elationBuff = 0.30 + excessSpd * 0.01
-          x.buff(StatKey.ELATION_DMG_BOOST, elationBuff, x.source(SOURCE_TRACE))
-        }
-      }
-
-      // Increases all allies' Elation by 20% of Yaoguang's Elation
-      if (r.skillZoneActive) {
-        const elation = x.getActionValue(StatKey.ELATION_DMG_BOOST, YaoguangEntities.Yaoguang)
-        const sharedElation = elation * skillElationBuff
-        x.buff(StatKey.UNCONVERTIBLE_ELATION_BUFF, sharedElation, x.source(SOURCE_SKILL))
-        x.buff(StatKey.ELATION_DMG_BOOST, sharedElation, x.source(SOURCE_SKILL))
-      }
-    },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      return wgsl`
-if (${wgslTrue(r.traceSpdElation)}) {
-  let spd = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)};
-  if (spd >= 120.0) {
-    let excessSpd = min(200.0, spd - 120.0);
-    let elationBuff = 0.30 + excessSpd * 0.01;
-    ${buff.action(AKey.ELATION_DMG_BOOST, 'elationBuff').wgsl(action)}
-  }
-}
-
-if (${wgslTrue(r.skillZoneActive)}) {
-  let elation = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ELATION_DMG_BOOST, action.config)};
-  let sharedElation = elation * ${skillElationBuff};
-  ${buff.action(AKey.UNCONVERTIBLE_ELATION_BUFF, 'sharedElation').wgsl(action)}
-  ${buff.action(AKey.ELATION_DMG_BOOST, 'sharedElation').wgsl(action)}
-}
-      `
-    },
+          return gpuDynamicStatConversion(
+            Stats.Elation,
+            Stats.Elation,
+            this,
+            action,
+            context,
+            `convertibleValue * ${skillElationBuff}`,
+            `${wgslTrue(r.skillZoneActive)}`,
+          )
+        },
+      },
+    ],
   }
 }

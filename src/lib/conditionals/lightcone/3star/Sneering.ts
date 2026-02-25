@@ -37,7 +37,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.ELATION_DMG_BOOST, (r.elationBuff) ? sValues[s] : 0, x.actionKind(AbilityKind.ELATION_SKILL).source(SOURCE_LC))
+      x.buff(StatKey.ELATION, (r.elationBuff) ? sValues[s] : 0, x.actionKind(AbilityKind.ELATION_SKILL).source(SOURCE_LC))
     },
   }
 }

@@ -1,3 +1,4 @@
+import { aKeyToConvertibleStat } from 'lib/conditionals/evaluation/statConversionConfig'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { Stats } from 'lib/constants/constants'
 import {
@@ -9,7 +10,6 @@ import {
   Buff,
   ComputedStatsArray,
   ComputedStatsObjectExternal,
-  KeyToStat,
 } from 'lib/optimization/computedStatsArray'
 import {
   ComputedStatsConfigBaseType,
@@ -653,7 +653,7 @@ export class ComputedStatsContainer {
   ): void {
     if (value == 0 && operator == Operator.ADD) return
 
-    for (const conditional of action.conditionalRegistry[getAKeyName(key)] || []) {
+    for (const conditional of action.conditionalRegistry[aKeyToConvertibleStat[key]] || []) {
       evaluateConditional(conditional, this, action, context)
     }
   }
@@ -887,7 +887,7 @@ const ContainerKeyToExternal: Partial<Record<AKeyType, keyof ComputedStatsObject
   SPD_P: Stats.SPD_P as keyof ComputedStatsObjectExternal,
   SPD: Stats.SPD as keyof ComputedStatsObjectExternal,
   WIND_DMG_BOOST: Stats.Wind_DMG as keyof ComputedStatsObjectExternal,
-  ELATION_DMG_BOOST: Stats.Elation_DMG as keyof ComputedStatsObjectExternal,
+  ELATION: Stats.Elation as keyof ComputedStatsObjectExternal,
 }
 
 export type OptimizerEntity = EntityDefinition & { name: string }

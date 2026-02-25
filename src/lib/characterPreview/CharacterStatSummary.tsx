@@ -3,7 +3,7 @@ import { StatRow } from 'lib/characterPreview/StatRow'
 import StatText from 'lib/characterPreview/StatText'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { Stats } from 'lib/constants/constants'
+import { PathNames, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
@@ -54,6 +54,9 @@ export const CharacterStatSummary = (props: {
           && <StatRow finalStats={props.finalStats} stat={Stats.ERR} edits={edits} />}
 
         <StatRow finalStats={props.finalStats} stat={props.elementalDmgValue} edits={edits} />
+
+        {props.showAll && DB.getMetadata().characters[props.characterId]?.path === PathNames.Elation
+          && <StatRow finalStats={props.finalStats} stat={Stats.Elation} edits={edits} />}
 
         {props.scoringType == ScoringType.COMBAT_SCORE
           && !props.asyncSimScoringExecution?.done

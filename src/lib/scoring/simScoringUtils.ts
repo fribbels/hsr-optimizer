@@ -12,8 +12,18 @@ import {
 } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { StatCalculator } from 'lib/relics/statCalculator'
-
 import { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
+import {
+  RunStatSimulationsResult,
+  Simulation,
+} from 'lib/simulations/statSimulationTypes'
+import { Utils } from 'lib/utils/utils'
+import { Form } from 'types/form'
+import {
+  DBMetadataCharacter,
+  SimulationMetadata,
+} from 'types/metadata'
+import { Relic } from 'types/relic'
 
 // Stats string to StatKey mapping - defined here to avoid circular dependency with keys.ts
 export const StatsToStatKey: Record<StatsValues, AKeyValue> = {
@@ -39,7 +49,7 @@ export const StatsToStatKey: Record<StatsValues, AKeyValue> = {
   [Stats.SPD_P]: StatKey.SPD_P,
   [Stats.SPD]: StatKey.SPD,
   [Stats.Wind_DMG]: StatKey.WIND_DMG_BOOST,
-  [Stats.Elation_DMG]: StatKey.ELATION_DMG_BOOST,
+  [Stats.Elation]: StatKey.ELATION,
 }
 
 // Get combined elemental DMG from the Container for the self entity
@@ -50,17 +60,6 @@ export function getElementalDmgFromContainer(x: ComputedStatsContainer, element:
   const elementBoost = x.getSelfValue(ElementToStatKeyDmgBoost[element])
   return dmgBoost + elementBoost
 }
-import {
-  RunStatSimulationsResult,
-  Simulation,
-} from 'lib/simulations/statSimulationTypes'
-import { Utils } from 'lib/utils/utils'
-import { Form } from 'types/form'
-import {
-  DBMetadataCharacter,
-  SimulationMetadata,
-} from 'types/metadata'
-import { Relic } from 'types/relic'
 
 export enum ScoringType {
   COMBAT_SCORE,

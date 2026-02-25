@@ -1,5 +1,7 @@
 import {
   ElementToDamage,
+  PathNames,
+  Stats,
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
@@ -45,6 +47,7 @@ export type OptimizerResultAnalysis = {
   newX: ComputedStatsContainer,
   buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>>,
   elementalDmgValue: StatsValues,
+  extraRows: StatsValues[],
 }
 
 type StatUpgrade = {
@@ -104,6 +107,11 @@ export function generateAnalysisData(
   const characterMetadata = DB.getMetadata().characters[request.characterId]
   const elementalDmgValue = ElementToDamage[characterMetadata.element]
 
+  const extraRows: StatsValues[] = []
+  if (characterMetadata.path === PathNames.Elation) {
+    extraRows.push(Stats.Elation)
+  }
+
   return {
     oldRowData: currentRowData,
     newRowData: selectedRowData,
@@ -114,6 +122,7 @@ export function generateAnalysisData(
     newX,
     buffGroups,
     elementalDmgValue,
+    extraRows,
   }
 }
 

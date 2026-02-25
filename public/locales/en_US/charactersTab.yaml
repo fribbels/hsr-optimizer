@@ -150,6 +150,7 @@ CharacterPreview:
         BREAK: BREAK DMG
         MEMO_SKILL: SKILLᴹ DMG
         MEMO_TALENT: TALENTᴹ DMG
+        ELATION_SKILL: ELATION SKILL DMG
         COMBO: COMBO DMG
     CombatBuffs:
       Header: Combat buffs

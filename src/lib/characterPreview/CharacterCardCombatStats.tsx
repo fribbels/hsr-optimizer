@@ -9,6 +9,7 @@ import {
   ElementName,
   ElementToDamage,
   ElementToStatKeyDmgBoost,
+  PathNames,
   Stats,
   StatsValues,
   SubStats,
@@ -61,7 +62,9 @@ export function CharacterCardCombatStats(props: {
   for (const wrapper of upgradeDisplayWrappers) {
     const { stat, display, flat, upgraded } = wrapper
 
-    const statName = stat.includes('DMG Boost') ? t('DamagePercent') : t(`ReadableStats.${stat}`)
+    const isElationDmg = stat === Stats.Elation
+    const isElementalDmg = !isElationDmg && stat.includes('DMG Boost')
+    const statName = isElementalDmg ? t('DamagePercent') : t(`ReadableStats.${stat}`)
 
     // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
     rows.push(
@@ -150,6 +153,10 @@ function pickCombatStats(characterMetadata: DBMetadataCharacter) {
   substats.sort((a, b) => getIndexOf(SubStats, a) - getIndexOf(SubStats, b))
   substats.push(elementalDmgValue)
 
+  if (characterMetadata.path === PathNames.Elation) {
+    substats.push(Stats.Elation)
+  }
+
   return substats
 }
 
@@ -169,6 +176,12 @@ function getStatValue(
   element: ElementName,
   primaryActionStats: PrimaryActionStats,
 ): number {
+  // Handle Elation DMG stat separately - it's not tied to the character's element
+  if (stat === Stats.Elation) {
+    const statKey = StatsToStatKey[stat]
+    return x.getActionValueByIndex(statKey, SELF_ENTITY_INDEX)
+  }
+
   // Handle elemental DMG stats: source entity's element boost + generic DMG_BOOST (action+hit)
   if (damageStats[stat]) {
     return primaryActionStats.sourceEntityElementDmgBoost + primaryActionStats.DMG_BOOST
@@ -188,6 +201,12 @@ function getStatValue(
 
 // Get basic stat value from Container's basic stats array
 function getBasicStatValue(x: ComputedStatsContainer, stat: StatsValues, element: ElementName): number {
+  // Handle Elation DMG stat separately - it's not tied to the character's element
+  if (stat === Stats.Elation) {
+    const statKey = StatsToStatKey[stat]
+    return x.c.a[statKey]
+  }
+
   // Handle elemental DMG stats
   if (damageStats[stat]) {
     return x.c.a[ElementToStatKeyDmgBoost[element]]

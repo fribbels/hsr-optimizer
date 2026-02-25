@@ -43,7 +43,7 @@ SortOptions:
   FUA: Sorted by Follow-up DMG
   MEMO_SKILL: Sorted by Memo Skill DMG
   MEMO_TALENT: Sorted by Memo Talent DMG
-  ELATION_SKILL: Sorted by Elation DMG
+  ELATION_SKILL: Sorted by Elation Skill DMG
   DOT: Sorted by DoT DMG
   BREAK: Sorted by Break DMG
   HEAL: Sorted by Heal
@@ -157,7 +157,7 @@ Grid:
         DMG
       ELATION_SKILL: |-
         ELATION
-        DMG
+        SKILL
       DOT: |-
         DOT
         DMG
@@ -234,7 +234,7 @@ Grid:
         DMG
       ELATION_SKILL: |-
         ELATION
-        DMG
+        SKILL
       DOT: |-
         DOT
         DMG
@@ -563,7 +563,7 @@ ComboFilter:
     Break: Break
     MemoSkill: Skillᴹ
     MemoTalent: Talentᴹ
-    ElationSkill: Elation
+    ElationSkill: Elation Skill
     BasicHeal: Basic HEAL
     SkillHeal: Skill HEAL
     UltHeal: Ult HEAL

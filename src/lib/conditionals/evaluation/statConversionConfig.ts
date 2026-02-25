@@ -29,7 +29,7 @@ const statToStatProperty = {
   [Stats.RES]: 'RES',
   [Stats.SPD_P]: 'SPD_P',
   [Stats.SPD]: 'SPD',
-  [Stats.Elation_DMG]: 'ELATION_DMG_BOOST',
+  [Stats.Elation]: 'ELATION',
 } as const
 
 export type StatProperty = (typeof statToStatProperty)[keyof typeof statToStatProperty]
@@ -46,7 +46,7 @@ const statToUnconvertibleProperty: Record<string, keyof ComputedStatsObject> = {
   [Stats.OHB]: 'UNCONVERTIBLE_OHB_BUFF',
   [Stats.RES]: 'UNCONVERTIBLE_RES_BUFF',
   [Stats.ERR]: 'UNCONVERTIBLE_ERR_BUFF',
-  [Stats.Elation_DMG]: 'UNCONVERTIBLE_ELATION_BUFF',
+  [Stats.Elation]: 'UNCONVERTIBLE_ELATION_BUFF',
 }
 
 export type UnconvertibleProperty = (typeof statToUnconvertibleProperty)[keyof typeof statToUnconvertibleProperty]
@@ -141,10 +141,10 @@ export const statConversionConfig: Record<ConvertibleStatsType, StatConversionCo
     unconvertibleKey: AKey.UNCONVERTIBLE_ERR_BUFF,
     unconvertibleProperty: 'UNCONVERTIBLE_ERR_BUFF',
   },
-  [Stats.Elation_DMG]: {
-    stat: Stats.Elation_DMG,
-    key: AKey.ELATION_DMG_BOOST,
-    property: 'ELATION_DMG_BOOST',
+  [Stats.Elation]: {
+    stat: Stats.Elation,
+    key: AKey.ELATION,
+    property: 'ELATION',
     unconvertibleKey: AKey.UNCONVERTIBLE_ELATION_BUFF,
     unconvertibleProperty: 'UNCONVERTIBLE_ELATION_BUFF',
   },
@@ -162,7 +162,12 @@ const convertibleStats = [
   Stats.OHB,
   Stats.RES,
   Stats.ERR,
-  Stats.Elation_DMG,
+  Stats.Elation,
 ]
 
 export type ConvertibleStatsType = (typeof convertibleStats)[number]
+
+// Reverse map: AKeyValue -> ConvertibleStatsType
+export const aKeyToConvertibleStat = Object.fromEntries(
+  Object.entries(statConversionConfig).map(([stat, config]) => [config.key, stat]),
+) as Record<AKeyValue, ConvertibleStatsType>

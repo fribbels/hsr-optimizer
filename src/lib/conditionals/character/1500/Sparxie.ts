@@ -2,14 +2,13 @@ import i18next from 'i18next'
 import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
-import { containerActionVal } from 'lib/gpu/injection/injectUtils'
-import { wgsl, wgslTrue, } from 'lib/gpu/injection/wgslUtils'
+import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
+import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats, } from 'lib/constants/constants'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { AKey, StatKey, } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { SPARXIE } from 'lib/simulations/tests/testMetadataConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -260,7 +259,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.buff(StatKey.CD, (e >= 2) ? r.e2ThrillStacks * 0.10 : 0, x.source(SOURCE_E2))
 
-      x.buff(StatKey.ELATION_DMG_BOOST, (e >= 4 && r.e4UltElation) ? 0.36 : 0, x.source(SOURCE_E4))
+      x.buff(StatKey.ELATION, (e >= 4 && r.e4UltElation) ? 0.36 : 0, x.source(SOURCE_E4))
 
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6ResPen) ? 0.20 : 0, x.source(SOURCE_E6))
     },
@@ -281,28 +280,49 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
 
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
+    finalizeCalculations: () => {},
+    newGpuFinalizeCalculations: () => '',
+    dynamicConditionals: [
+      {
+        id: 'SparxieAtkElationConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.ATK],
+        chainsTo: [Stats.Elation],
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          return r.atkToElation
+        },
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversionContainer(
+            Stats.ATK,
+            Stats.Elation,
+            this,
+            x,
+            action,
+            context,
+            SOURCE_TRACE,
+            (convertibleValue) => {
+              if (convertibleValue < 2000) return 0
+              return Math.min(0.80, Math.floor((convertibleValue - 2000) / 100) * 0.05)
+            },
+          )
+        },
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Per 100 ATK over 2000, +5% Elation (max 80%)
-      if (r.atkToElation) {
-        const atk = x.getActionValue(StatKey.ATK, SparxieEntities.Sparxie)
-        const excessAtk = Math.max(0, atk - 2000)
-        const elationBuff = Math.min(0.80, Math.floor(excessAtk / 100) * 0.05)
-        x.buff(StatKey.ELATION_DMG_BOOST, elationBuff, x.source(SOURCE_TRACE))
-      }
-    },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      return wgsl`
-if (${wgslTrue(r.atkToElation)}) {
-  let atk = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)};
-  let excessAtk = max(0.0, atk - 2000.0);
-  let elationBuff = min(0.80, floor(excessAtk / 100.0) * 0.05);
-  ${buff.action(AKey.ELATION_DMG_BOOST, 'elationBuff').wgsl(action)}
-}
-      `
-    },
+          return gpuDynamicStatConversion(
+            Stats.ATK,
+            Stats.Elation,
+            this,
+            action,
+            context,
+            `min(0.80, floor((convertibleValue - 2000.0) / 100.0) * 0.05)`,
+            `${wgslTrue(r.atkToElation)}`,
+            `convertibleValue >= 2000.0`,
+          )
+        },
+      },
+    ],
   }
 }

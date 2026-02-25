@@ -63,7 +63,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.ELATION_DMG_BOOST, (m.elationBuff) ? sValuesElation[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
+      x.buff(StatKey.ELATION, (m.elationBuff) ? sValuesElation[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
 }

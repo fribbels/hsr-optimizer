@@ -90,7 +90,7 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   WIND_DMG_BOOST: { label: commonStat('Wind DMG Boost') },
   QUANTUM_DMG_BOOST: { label: commonStat('Quantum DMG Boost') },
   IMAGINARY_DMG_BOOST: { label: commonStat('Imaginary DMG Boost') },
-  ELATION_DMG_BOOST: { label: commonStat('Elation DMG Boost') },
+  ELATION: { label: commonStat('Elation') },
   MERRYMAKING: { label: optimizerTabMisc('Merrymaking') },
 
   ELEMENTAL_DMG: { label: optimizerTabMisc('Elemental DMG') },
@@ -123,7 +123,7 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   UNCONVERTIBLE_OHB_BUFF: { label: optimizerTabUnconvertible('Outgoing Healing Boost') },
   UNCONVERTIBLE_RES_BUFF: { label: optimizerTabUnconvertible('Effect RES') },
   UNCONVERTIBLE_ERR_BUFF: { label: optimizerTabUnconvertible('Energy Regeneration Rate') },
-  UNCONVERTIBLE_ELATION_BUFF: { label: optimizerTabUnconvertible('Elation DMG Boost') },
+  UNCONVERTIBLE_ELATION_BUFF: { label: optimizerTabUnconvertible('Elation') },
 
   // EHP
   DMG_RED: { label: optimizerTabMisc('DMG reduction') }, // Dmg reduction for EHP calcs - defaults to 0 (no reduction), uses MULTIPLICATIVE_COMPLEMENT operator

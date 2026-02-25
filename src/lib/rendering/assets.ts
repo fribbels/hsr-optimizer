@@ -40,6 +40,7 @@ const iconFromStatMapping: Record<string, string> = {
   [Stats.Wind_DMG]: 'IconWindAddedRatio.webp',
   [Stats.Quantum_DMG]: 'IconQuantumAddedRatio.webp',
   [Stats.Imaginary_DMG]: 'IconImaginaryAddedRatio.webp',
+  [Stats.Elation]: 'IconElation.webp',
 }
 
 export const Assets = {

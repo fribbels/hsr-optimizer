@@ -230,6 +230,7 @@ interface Resources {
             "BREAK": "BREAK DMG",
             "MEMO_SKILL": "SKILLᴹ DMG",
             "MEMO_TALENT": "TALENTᴹ DMG",
+            "ELATION_SKILL": "ELATION SKILL DMG",
             "COMBO": "COMBO DMG"
           }
         },
@@ -479,7 +480,7 @@ interface Resources {
       "Fua": "Fua DMG",
       "Memo_Skill": "Skillᴹ DMG",
       "Memo_Talent": "Talentᴹ DMG",
-      "Elation_Skill": "Aha DMG",
+      "Elation_Skill": "Elation Skill DMG",
       "Dot": "Dot DMG",
       "Break": "Break DMG",
       "CV": "CV"

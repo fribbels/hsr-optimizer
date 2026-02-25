@@ -482,7 +482,7 @@ export function updateTeammate(changedValues: Partial<Form>) {
     }
     applyTeamAwareSetConditionalPresetsToOptimizerFormInstance(window.optimizerForm)
     window.optimizerForm.setFieldValue([property], teammateValues)
-  } else if (updatedTeammate.characterId == null) {
+  } else if (updatedTeammate.characterId === null) {
     window.store.getState().setTeammateCount(countTeammates())
     window.optimizerForm.setFieldValue([property], getDefaultTeammateForm())
   }

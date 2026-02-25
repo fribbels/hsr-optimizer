@@ -181,7 +181,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const punchline = r.punchlineStacks
       const engagementStacks = r.enhancedBasic ? r.engagementFarmingStacks : 0
 
-      const e6ExtraBounces = (e >= 6 && r.e6ResPen) ? Math.min(40, punchline) : 0
+      const e6ExtraBounces = (e >= 6 && r.e6ResPen) ? Math.min(20, punchline) : 0
       const totalBounces = 20 + e6ExtraBounces
 
       // ============== BASIC ==============

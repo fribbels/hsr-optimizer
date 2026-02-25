@@ -7,7 +7,6 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { Hint } from 'lib/interactions/hint'
 import {
   AbilityKind,
-  AbilityMeta,
   AbilityToSortOption,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -18,7 +17,6 @@ import {
   optimizerTabDefaultGap,
   panelWidth,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { Utils } from 'lib/utils/utils'
@@ -123,7 +121,6 @@ export default function CharacterSelectorDisplay() {
           <CharacterSelect
             value={null}
             selectStyle={{ width: 151 }}
-            onChange={(id) => OptimizerTabController.updateCharacter(id!)}
             externalOpen={optimizerTabFocusCharacterSelectModalOpen}
             setExternalOpen={setOptimizerTabFocusCharacterSelectModalOpen}
           />

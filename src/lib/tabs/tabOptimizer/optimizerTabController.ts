@@ -487,10 +487,7 @@ export const OptimizerTabController = {
     window.store.getState().setOptimizerTabFocusCharacter(id)
     window.optimizerForm.setFieldValue('characterId', id)
 
-    window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, id)
     SaveState.delayedSave()
-
-    OptimizerTabController.updateCharacter(id)
   },
 
   // Update form values with the character

@@ -22,18 +22,26 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { Utils } from 'lib/utils/utils'
-import { useMemo } from 'react'
+import {
+  useEffect,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function CharacterSelectorDisplay() {
   const { t } = useTranslation(['optimizerTab', 'common'])
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+  const setOptimizerTabFocusCharacter = window.store((s) => s.setOptimizerTabFocusCharacter)
 
   const optimizerTabFocusCharacterSelectModalOpen = window.store((s) => s.optimizerTabFocusCharacterSelectModalOpen)
   const setOptimizerTabFocusCharacterSelectModalOpen = window.store((s) => s.setOptimizerTabFocusCharacterSelectModalOpen)
 
   const form = Form.useFormInstance()
   const characterEidolon = Form.useWatch('characterEidolon', form)
+
+  useEffect(() => {
+    OptimizerTabController.updateCharacter(optimizerTabFocusCharacter!)
+  }, [optimizerTabFocusCharacter])
 
   const eidolonOptions = useMemo(() => {
     const options: { value: number, label: string }[] = []
@@ -123,7 +131,7 @@ export default function CharacterSelectorDisplay() {
           <CharacterSelect
             value={null}
             selectStyle={{ width: 151 }}
-            onChange={(id) => OptimizerTabController.updateCharacter(id!)}
+            onChange={setOptimizerTabFocusCharacter}
             externalOpen={optimizerTabFocusCharacterSelectModalOpen}
             setExternalOpen={setOptimizerTabFocusCharacterSelectModalOpen}
           />

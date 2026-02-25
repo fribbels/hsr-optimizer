@@ -1476,39 +1476,28 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
       continue
     }
     if (!meta) {
-      // No saved conditionals - try to preserve conditionals from the DB form for the same teammate character
-      const dbCharForm = DB.getCharacterById(characterId)?.form
-      const dbTeammates = [dbCharForm?.teammate0, dbCharForm?.teammate1, dbCharForm?.teammate2]
-      const matchingDbTeammate = dbTeammates.find((t) => t?.characterId === teammate.characterId)
+      const characterConditionals = CharacterConditionalsResolver
+        .get({ characterId: teammate.characterId, characterEidolon: teammate.eidolon })
+        .defaults()
 
-      if (matchingDbTeammate) {
-        form.setFieldValue([key, 'characterConditionals'], matchingDbTeammate.characterConditionals)
-        form.setFieldValue([key, 'lightConeConditionals'], matchingDbTeammate.lightConeConditionals)
-      } else {
-        // Otherwise set to defaults
-        const metadata = DB.getMetadata()
-        const lightConePath = metadata.lightCones[teammate.lightConeId].path
-        const path = metadata.characters[teammate.characterId].path
-        const element = metadata.characters[teammate.characterId].element
+      const metadata = DB.getMetadata()
+      const lightConePath = metadata.lightCones[teammate.lightConeId].path
+      const path = metadata.characters[teammate.characterId].path
+      const element = metadata.characters[teammate.characterId].element
 
-        const characterConditionals = CharacterConditionalsResolver
-          .get({ characterId: teammate.characterId, characterEidolon: teammate.eidolon })
-          .defaults()
+      const lightConeConditionals = LightConeConditionalsResolver
+        .get({
+          lightCone: teammate.lightConeId,
+          lightConeSuperimposition: teammate.superimposition,
+          lightConePath,
+          path,
+          element,
+          characterId: teammate.characterId,
+        })
+        .defaults()
 
-        const lightConeConditionals = LightConeConditionalsResolver
-          .get({
-            lightCone: teammate.lightConeId,
-            lightConeSuperimposition: teammate.superimposition,
-            lightConePath,
-            path,
-            element,
-            characterId: teammate.characterId,
-          })
-          .defaults()
-
-        form.setFieldValue([key, 'characterConditionals'], characterConditionals)
-        form.setFieldValue([key, 'lightConeConditionals'], lightConeConditionals)
-      }
+      form.setFieldsValue({ [key]: { characterConditionals } })
+      form.setFieldsValue({ [key]: { lightConeConditionals } })
     }
   }
 

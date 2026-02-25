@@ -43,7 +43,7 @@ SortOptions:
   FUA: crwdns42696:0crwdne42696:0
   MEMO_SKILL: crwdns42698:0crwdne42698:0
   MEMO_TALENT: crwdns44758:0crwdne44758:0
-  ELATION_SKILL: crwdns46454:0crwdne46454:0
+  ELATION_SKILL: crwdns46490:0crwdne46490:0
   DOT: crwdns42700:0crwdne42700:0
   BREAK: crwdns42702:0crwdne42702:0
   HEAL: crwdns42704:0crwdne42704:0
@@ -150,7 +150,7 @@ Grid:
       MEMO_TALENT: |-
         crwdns44760:0crwdne44760:0
       ELATION_SKILL: |-
-        crwdns46456:0crwdne46456:0
+        crwdns46492:0crwdne46492:0
       DOT: |-
         crwdns42846:0crwdne42846:0
       BREAK: |-
@@ -207,7 +207,7 @@ Grid:
       MEMO_TALENT: |-
         crwdns44762:0crwdne44762:0
       ELATION_SKILL: |-
-        crwdns46458:0crwdne46458:0
+        crwdns46494:0crwdne46494:0
       DOT: |-
         crwdns42896:0crwdne42896:0
       BREAK: |-
@@ -520,7 +520,7 @@ ComboFilter:
     Break: crwdns45232:0crwdne45232:0
     MemoSkill: crwdns43278:0crwdne43278:0
     MemoTalent: crwdns44764:0crwdne44764:0
-    ElationSkill: crwdns46460:0crwdne46460:0
+    ElationSkill: crwdns46496:0crwdne46496:0
     BasicHeal: crwdns46292:0crwdne46292:0
     SkillHeal: crwdns46294:0crwdne46294:0
     UltHeal: crwdns46296:0crwdne46296:0

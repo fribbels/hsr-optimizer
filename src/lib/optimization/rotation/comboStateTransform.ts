@@ -354,7 +354,7 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
           break
         case Sets.DivinerOfDistantReach:
           if (teammateSetEffects[Sets.DivinerOfDistantReach]) break
-          x.buff(StatKey.ELATION_DMG_BOOST, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
+          x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
           break
         default:
       }

@@ -62,7 +62,7 @@ export function CharacterCardCombatStats(props: {
   for (const wrapper of upgradeDisplayWrappers) {
     const { stat, display, flat, upgraded } = wrapper
 
-    const isElationDmg = stat === Stats.Elation_DMG
+    const isElationDmg = stat === Stats.Elation
     const isElementalDmg = !isElationDmg && stat.includes('DMG Boost')
     const statName = isElementalDmg ? t('DamagePercent') : t(`ReadableStats.${stat}`)
 
@@ -154,7 +154,7 @@ function pickCombatStats(characterMetadata: DBMetadataCharacter) {
   substats.push(elementalDmgValue)
 
   if (characterMetadata.path === PathNames.Elation) {
-    substats.push(Stats.Elation_DMG)
+    substats.push(Stats.Elation)
   }
 
   return substats
@@ -177,7 +177,7 @@ function getStatValue(
   primaryActionStats: PrimaryActionStats,
 ): number {
   // Handle Elation DMG stat separately - it's not tied to the character's element
-  if (stat === Stats.Elation_DMG) {
+  if (stat === Stats.Elation) {
     const statKey = StatsToStatKey[stat]
     return x.getActionValueByIndex(statKey, SELF_ENTITY_INDEX)
   }
@@ -202,7 +202,7 @@ function getStatValue(
 // Get basic stat value from Container's basic stats array
 function getBasicStatValue(x: ComputedStatsContainer, stat: StatsValues, element: ElementName): number {
   // Handle Elation DMG stat separately - it's not tied to the character's element
-  if (stat === Stats.Elation_DMG) {
+  if (stat === Stats.Elation) {
     const statKey = StatsToStatKey[stat]
     return x.c.a[statKey]
   }

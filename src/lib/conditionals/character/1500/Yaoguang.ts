@@ -165,7 +165,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateElationValue: {
       id: 'teammateElationValue',
       formItem: 'slider',
-      text: `Yao Guang's Elation DMG Boost`,
+      text: `Yao Guang's Elation`,
       content: betaContent,
       min: 0,
       max: 2.00,
@@ -292,7 +292,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.buff(StatKey.SPD_P, (e >= 2 && m.skillZoneActive && m.e2ZoneSpdBuff) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
 
-      x.buff(StatKey.ELATION_DMG_BOOST, (e >= 2 && m.skillZoneActive && m.e2ZoneSpdBuff) ? 0.16 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
+      x.buff(StatKey.ELATION, (e >= 2 && m.skillZoneActive && m.e2ZoneSpdBuff) ? 0.16 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
 
       x.buff(StatKey.MERRYMAKING, (e >= 6 && m.e6Merrymaking) ? 0.25 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
 
@@ -305,7 +305,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       const sharedElation = (t.skillZoneActive) ? t.teammateElationValue * skillElationBuff : 0
       x.buff(StatKey.UNCONVERTIBLE_ELATION_BUFF, sharedElation, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
-      x.buff(StatKey.ELATION_DMG_BOOST, sharedElation, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+      x.buff(StatKey.ELATION, sharedElation, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -317,16 +317,16 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         if (spd >= 120) {
           const excessSpd = Math.min(200, spd - 120)
           const elationBuff = 0.30 + excessSpd * 0.01
-          x.buff(StatKey.ELATION_DMG_BOOST, elationBuff, x.source(SOURCE_TRACE))
+          x.buff(StatKey.ELATION, elationBuff, x.source(SOURCE_TRACE))
         }
       }
 
       // Increases all allies' Elation by 20% of Yaoguang's Elation
       if (r.skillZoneActive) {
-        const elation = x.getActionValue(StatKey.ELATION_DMG_BOOST, YaoguangEntities.Yaoguang)
+        const elation = x.getActionValue(StatKey.ELATION, YaoguangEntities.Yaoguang)
         const sharedElation = elation * skillElationBuff
         x.buff(StatKey.UNCONVERTIBLE_ELATION_BUFF, sharedElation, x.source(SOURCE_SKILL))
-        x.buff(StatKey.ELATION_DMG_BOOST, sharedElation, x.source(SOURCE_SKILL))
+        x.buff(StatKey.ELATION, sharedElation, x.source(SOURCE_SKILL))
       }
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
@@ -338,15 +338,15 @@ if (${wgslTrue(r.traceSpdElation)}) {
   if (spd >= 120.0) {
     let excessSpd = min(200.0, spd - 120.0);
     let elationBuff = 0.30 + excessSpd * 0.01;
-    ${buff.action(AKey.ELATION_DMG_BOOST, 'elationBuff').wgsl(action)}
+    ${buff.action(AKey.ELATION, 'elationBuff').wgsl(action)}
   }
 }
 
 if (${wgslTrue(r.skillZoneActive)}) {
-  let elation = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ELATION_DMG_BOOST, action.config)};
+  let elation = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ELATION, action.config)};
   let sharedElation = elation * ${skillElationBuff};
   ${buff.action(AKey.UNCONVERTIBLE_ELATION_BUFF, 'sharedElation').wgsl(action)}
-  ${buff.action(AKey.ELATION_DMG_BOOST, 'sharedElation').wgsl(action)}
+  ${buff.action(AKey.ELATION, 'sharedElation').wgsl(action)}
 }
       `
     },

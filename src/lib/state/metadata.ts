@@ -1049,11 +1049,11 @@ function getSuperimpositions(): Record<string, DBMetadataSuperimpositions> {
     //   5: { [Constants.Stats.ATK_P]: 0.40 },
     // },
     21064: {
-      1: { [Constants.Stats.Elation_DMG]: 0.12 },
-      2: { [Constants.Stats.Elation_DMG]: 0.14 },
-      3: { [Constants.Stats.Elation_DMG]: 0.16 },
-      4: { [Constants.Stats.Elation_DMG]: 0.18 },
-      5: { [Constants.Stats.Elation_DMG]: 0.20 },
+      1: { [Constants.Stats.Elation]: 0.12 },
+      2: { [Constants.Stats.Elation]: 0.14 },
+      3: { [Constants.Stats.Elation]: 0.16 },
+      4: { [Constants.Stats.Elation]: 0.18 },
+      5: { [Constants.Stats.Elation]: 0.20 },
     },
     21065: {
       1: { [Constants.Stats.CR]: 0.12 },

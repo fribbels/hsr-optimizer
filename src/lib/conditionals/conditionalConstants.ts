@@ -85,7 +85,7 @@ export type BasicStatsObject = {
   ['Wind DMG Boost']: number,
   ['Quantum DMG Boost']: number,
   ['Imaginary DMG Boost']: number,
-  ['Elation DMG Boost']: number,
+  ['Elation']: number,
 
   'ELEMENTAL_DMG': number, // ?
 

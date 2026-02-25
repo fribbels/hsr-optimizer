@@ -349,7 +349,7 @@ fn unrolledAction${index}(
     let divinerCrValue = select(0.0, 0.10, (*p_c).SPD >= 120.0) + select(0.0, 0.08, (*p_c).SPD >= 160.0);
     ${buff.action(AKey.CR, 'divinerCrValue').wgsl(action, 2)}
     if (setConditionals.enabledDivinerOfDistantReach == true) {
-      ${buff.action(AKey.ELATION_DMG_BOOST, 0.10).targets(TargetTag.FullTeam).wgsl(action, 3)}
+      ${buff.action(AKey.ELATION, 0.10).targets(TargetTag.FullTeam).wgsl(action, 3)}
     }
   }
 

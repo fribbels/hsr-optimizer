@@ -260,7 +260,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.buff(StatKey.CD, (e >= 2) ? r.e2ThrillStacks * 0.10 : 0, x.source(SOURCE_E2))
 
-      x.buff(StatKey.ELATION_DMG_BOOST, (e >= 4 && r.e4UltElation) ? 0.36 : 0, x.source(SOURCE_E4))
+      x.buff(StatKey.ELATION, (e >= 4 && r.e4UltElation) ? 0.36 : 0, x.source(SOURCE_E4))
 
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6ResPen) ? 0.20 : 0, x.source(SOURCE_E6))
     },
@@ -289,7 +289,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         const atk = x.getActionValue(StatKey.ATK, SparxieEntities.Sparxie)
         const excessAtk = Math.max(0, atk - 2000)
         const elationBuff = Math.min(0.80, Math.floor(excessAtk / 100) * 0.05)
-        x.buff(StatKey.ELATION_DMG_BOOST, elationBuff, x.source(SOURCE_TRACE))
+        x.buff(StatKey.ELATION, elationBuff, x.source(SOURCE_TRACE))
       }
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
@@ -300,7 +300,7 @@ if (${wgslTrue(r.atkToElation)}) {
   let atk = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)};
   let excessAtk = max(0.0, atk - 2000.0);
   let elationBuff = min(0.80, floor(excessAtk / 100.0) * 0.05);
-  ${buff.action(AKey.ELATION_DMG_BOOST, 'elationBuff').wgsl(action)}
+  ${buff.action(AKey.ELATION, 'elationBuff').wgsl(action)}
 }
       `
     },

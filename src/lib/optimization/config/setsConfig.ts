@@ -614,7 +614,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       x.buff(StatKey.CR, (spd >= 120 ? 0.10 : 0) + (spd >= 160 ? 0.08 : 0),
         x.source(Source.DivinerOfDistantReach))
       if (setConditionals.enabledDivinerOfDistantReach) {
-        x.buff(StatKey.ELATION_DMG_BOOST, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
+        x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
       }
     },
   },

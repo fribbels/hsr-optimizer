@@ -347,7 +347,7 @@ interface Resources {
       "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG Boost",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum) DMG Boost",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary) DMG Boost",
-      "Elation DMG Boost": "Elation DMG Boost"
+      "Elation": "Elation"
     },
     "ShortStats": {
       "HP%": "HP%",
@@ -372,7 +372,7 @@ interface Resources {
       "Wind DMG Boost": "$t(gameData:Elements.Wind)",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)",
-      "Elation DMG Boost": "Elation"
+      "Elation": "Elation"
     },
     "ShortSpacedStats": {
       "HP%": "HP %",
@@ -397,7 +397,7 @@ interface Resources {
       "Wind DMG Boost": "$t(gameData:Elements.Wind)",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)",
-      "Elation DMG Boost": "Elation"
+      "Elation": "Elation"
     },
     "Damage": "DMG",
     "DamagePercent": "DMG %",
@@ -424,7 +424,7 @@ interface Resources {
       "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum) DMG",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary) DMG",
-      "Elation DMG Boost": "Elation DMG"
+      "Elation": "Elation"
     },
     "ShortReadableStats": {
       "HP%": "HP %",
@@ -449,7 +449,7 @@ interface Resources {
       "Wind DMG Boost": "$t(gameData:Elements.Wind)",
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum)",
       "Imaginary DMG Boost": "$t(gameData:Elements.Imaginary)",
-      "Elation DMG Boost": "Elation"
+      "Elation": "Elation"
     },
     "Elements": {
       "Physical": "$t(gameData:Elements.Physical)",

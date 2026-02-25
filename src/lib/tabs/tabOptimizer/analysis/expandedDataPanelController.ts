@@ -109,7 +109,7 @@ export function generateAnalysisData(
 
   const extraRows: StatsValues[] = []
   if (characterMetadata.path === PathNames.Elation) {
-    extraRows.push(Stats.Elation_DMG)
+    extraRows.push(Stats.Elation)
   }
 
   return {

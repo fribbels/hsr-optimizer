@@ -137,7 +137,7 @@ export function calculateElementalStats(c: BasicStatsArray, context: OptimizerCo
   }
 
   // Elation DMG is calculated independently of character element - it comes from traces/LC only (not relics)
-  a[Key.ELATION_DMG_BOOST] = sumPercentStat(Stats.Elation_DMG, base, lc, trace, c, 0)
+  a[Key.ELATION] = sumPercentStat(Stats.Elation, base, lc, trace, c, 0)
 }
 
 export function calculateBaseStats(c: BasicStatsArray, context: OptimizerContext) {
@@ -224,7 +224,7 @@ function transferBaseStats(x: ComputedStatsContainer, a: Float32Array, c: BasicS
     a[o + StatKey.WIND_DMG_BOOST] += ca[Key.WIND_DMG_BOOST]
     a[o + StatKey.QUANTUM_DMG_BOOST] += ca[Key.QUANTUM_DMG_BOOST]
     a[o + StatKey.IMAGINARY_DMG_BOOST] += ca[Key.IMAGINARY_DMG_BOOST]
-    a[o + StatKey.ELATION_DMG_BOOST] += ca[Key.ELATION_DMG_BOOST]
+    a[o + StatKey.ELATION] += ca[Key.ELATION]
 
     // Base stats (actionSet = semantics)
     a[o + StatKey.BASE_ATK] = context.baseATK
@@ -268,7 +268,7 @@ function calculateMemospriteBaseStats(x: ComputedStatsContainer, a: Float32Array
     a[x.getActionIndex(entityIndex, StatKey.WIND_DMG_BOOST)] += c.a[Key.WIND_DMG_BOOST]
     a[x.getActionIndex(entityIndex, StatKey.QUANTUM_DMG_BOOST)] += c.a[Key.QUANTUM_DMG_BOOST]
     a[x.getActionIndex(entityIndex, StatKey.IMAGINARY_DMG_BOOST)] += c.a[Key.IMAGINARY_DMG_BOOST]
-    a[x.getActionIndex(entityIndex, StatKey.ELATION_DMG_BOOST)] += c.a[Key.ELATION_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.ELATION)] += c.a[Key.ELATION]
   }
 }
 

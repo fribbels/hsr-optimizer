@@ -10056,6 +10056,7 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         comboDot: 0,
         errRopeEidolon: 0,
+        deprioritizeBuffs: true,
         breakpoints: {
           [Stats.SPD]: 120,
         },

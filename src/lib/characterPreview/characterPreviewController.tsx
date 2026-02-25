@@ -262,7 +262,8 @@ export function handleTeamSelection(
   if (defaultScoringMetadata?.simulation) {
     const scoringMetadata = DB.getScoringMetadata(character.id)
 
-    const hasCustom = Utils.objectHash(scoringMetadata.simulation!.teammates) != Utils.objectHash(defaultScoringMetadata.simulation.teammates)
+    const hasCustom = scoringMetadata.simulation?.teammates
+      && Utils.objectHash(scoringMetadata.simulation.teammates) != Utils.objectHash(defaultScoringMetadata.simulation.teammates)
 
     if (hasCustom && currentSelection != DEFAULT_TEAM) {
       currentSelection = CUSTOM_TEAM

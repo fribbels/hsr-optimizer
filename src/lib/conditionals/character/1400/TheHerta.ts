@@ -10,7 +10,6 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { PathNames } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'

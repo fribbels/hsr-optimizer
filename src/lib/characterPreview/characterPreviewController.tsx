@@ -195,7 +195,7 @@ export function getShowcaseStats(
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics).filter((relic) => !!relic))
   const form = OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form))
   const context = generateContext(form)
-  const { x } = simulateBuild(statCalculationRelics as SimulationRelicByPart, context, null, null)
+  const { x } = simulateBuild(statCalculationRelics as SimulationRelicByPart, context, null)
   const basicStats = x.c.toBasicStatsObject()
   const finalStats: BasicStatsObject = {
     ...basicStats,

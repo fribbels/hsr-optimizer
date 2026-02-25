@@ -1,9 +1,8 @@
 import { BuffSource } from 'lib/optimization/buffSource'
 import {
-  ComputedStatsArray,
   Key,
-  StatController,
 } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 
 /*
  * These methods handle buffing damage types for characters who have dynamic ability types. For example Yunli's FUA
@@ -48,7 +47,7 @@ export function allTypesExcept(abilityTypeFlags: number) {
   return ~abilityTypeFlags
 }
 
-export function buffAbilityTrueDmg(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: BuffSource, target = Target.MAIN) {
+export function buffAbilityTrueDmg(x: ComputedStatsContainer, abilityTypeFlags: number, value: number, source: BuffSource, target = Target.MAIN) {
   if (value == 0) return
 
   if (abilityTypeFlags & x.a[Key.BASIC_DMG_TYPE]) targetSelection(target, x.BASIC_TRUE_DMG_MODIFIER, value, source)
@@ -64,7 +63,7 @@ export function buffAbilityTrueDmg(x: ComputedStatsArray, abilityTypeFlags: numb
   // if (abilityTypeFlags & x.a[Key.ADDITIONAL_DMG_TYPE]) targetSelection(target, x.ADDITIONAL_TRUE_DMG_MODIFIER, value, source)
 }
 
-export function buffAbilityDmg(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: BuffSource, target = Target.MAIN) {
+export function buffAbilityDmg(x: ComputedStatsContainer, abilityTypeFlags: number, value: number, source: BuffSource, target = Target.MAIN) {
   if (value == 0) return
 
   if (abilityTypeFlags & x.a[Key.BASIC_DMG_TYPE]) targetSelection(target, x.BASIC_DMG_BOOST, value, source)
@@ -80,7 +79,7 @@ export function buffAbilityDmg(x: ComputedStatsArray, abilityTypeFlags: number, 
   if (abilityTypeFlags & x.a[Key.SUPER_BREAK_DMG_TYPE]) targetSelection(target, x.SUPER_BREAK_DMG_BOOST, value, source)
 }
 
-export function buffAbilityVulnerability(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: BuffSource, target = Target.MAIN) {
+export function buffAbilityVulnerability(x: ComputedStatsContainer, abilityTypeFlags: number, value: number, source: BuffSource, target = Target.MAIN) {
   if (value == 0) return
 
   if (abilityTypeFlags & x.a[Key.BASIC_DMG_TYPE]) targetSelection(target, x.BASIC_VULNERABILITY, value, source)
@@ -96,7 +95,7 @@ export function buffAbilityVulnerability(x: ComputedStatsArray, abilityTypeFlags
   if (abilityTypeFlags & x.a[Key.SUPER_BREAK_DMG_TYPE]) targetSelection(target, x.SUPER_BREAK_VULNERABILITY, value, source)
 }
 
-export function buffAbilityResPen(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: BuffSource, target = Target.MAIN) {
+export function buffAbilityResPen(x: ComputedStatsContainer, abilityTypeFlags: number, value: number, source: BuffSource, target = Target.MAIN) {
   if (value == 0) return
 
   if (abilityTypeFlags & x.a[Key.BASIC_DMG_TYPE]) targetSelection(target, x.BASIC_RES_PEN, value, source)
@@ -112,7 +111,7 @@ export function buffAbilityResPen(x: ComputedStatsArray, abilityTypeFlags: numbe
   // if (abilityTypeFlags & x.a[Key.SUPER_BREAK_DMG_TYPE]) targetSelection(target, x.SUPER_BREAK_RES_PEN, value, source)
 }
 
-export function buffAbilityDefPen(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: BuffSource, target = Target.MAIN) {
+export function buffAbilityDefPen(x: ComputedStatsContainer, abilityTypeFlags: number, value: number, source: BuffSource, target = Target.MAIN) {
   if (value == 0) return
 
   if (abilityTypeFlags & x.a[Key.BASIC_DMG_TYPE]) targetSelection(target, x.BASIC_DEF_PEN, value, source)
@@ -128,7 +127,7 @@ export function buffAbilityDefPen(x: ComputedStatsArray, abilityTypeFlags: numbe
   if (abilityTypeFlags & x.a[Key.SUPER_BREAK_DMG_TYPE]) targetSelection(target, x.SUPER_BREAK_DEF_PEN, value, source)
 }
 
-export function buffAbilityCr(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: BuffSource, target = Target.MAIN) {
+export function buffAbilityCr(x: ComputedStatsContainer, abilityTypeFlags: number, value: number, source: BuffSource, target = Target.MAIN) {
   if (value == 0) return
 
   if (abilityTypeFlags & x.a[Key.BASIC_DMG_TYPE]) targetSelection(target, x.BASIC_CR_BOOST, value, source)
@@ -144,7 +143,7 @@ export function buffAbilityCr(x: ComputedStatsArray, abilityTypeFlags: number, v
   // if (abilityTypeFlags & x.a[Key.SUPER_BREAK_DMG_TYPE]) targetSelection(target, x.SUPER_BREAK_CR_BOOST, value, source)
 }
 
-export function buffAbilityCd(x: ComputedStatsArray, abilityTypeFlags: number, value: number, source: BuffSource, target = Target.MAIN) {
+export function buffAbilityCd(x: ComputedStatsContainer, abilityTypeFlags: number, value: number, source: BuffSource, target = Target.MAIN) {
   if (value == 0) return
 
   if (abilityTypeFlags & x.a[Key.BASIC_DMG_TYPE]) targetSelection(target, x.BASIC_CD_BOOST, value, source)

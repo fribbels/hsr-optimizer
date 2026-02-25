@@ -11,7 +11,7 @@ import {
   getActionIndex,
 } from 'lib/gpu/injection/injectUtils'
 import { BuffSource } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AKeyValue } from 'lib/optimization/engine/config/keys'
 import {
   SELF_ENTITY_INDEX,
@@ -28,7 +28,7 @@ export function dynamicStatConversion(
   sourceStat: ConvertibleStatsType,
   destinationStat: ConvertibleStatsType,
   conditional: DynamicConditional,
-  x: ComputedStatsArray,
+  x: ComputedStatsContainer,
   action: OptimizerAction,
   context: OptimizerContext,
   source: BuffSource,

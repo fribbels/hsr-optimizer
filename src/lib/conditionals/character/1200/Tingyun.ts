@@ -17,7 +17,6 @@ import {
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'

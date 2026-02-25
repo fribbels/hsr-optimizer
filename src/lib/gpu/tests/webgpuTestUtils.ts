@@ -60,7 +60,7 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
     PlanarSphere: relics.PlanarSphere[0],
     LinkRope: relics.LinkRope[0],
   }
-  const { x: cpuContainer } = simulateBuild(relicsByPart as unknown as SimulationRelicByPart, context, null, null)
+  const { x: cpuContainer } = simulateBuild(relicsByPart as unknown as SimulationRelicByPart, context, null)
 
   // Create GPU container and copy array data into it
   const gpuContainer = new ComputedStatsContainer()

@@ -8,7 +8,6 @@ import {
 import { BuffSource } from 'lib/optimization/buffSource'
 import {
   Buff,
-  ComputedStatsArray,
   ComputedStatsObjectExternal,
 } from 'lib/optimization/computedStatsArray'
 import {

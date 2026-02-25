@@ -1,6 +1,6 @@
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ElementName, PathName, } from 'lib/constants/constants'
-import { ComputedStatsArray } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { CYRENE } from 'lib/simulations/tests/testMetadataConstants'
 import { ContentItem } from 'types/conditionals'
@@ -23,7 +23,7 @@ export type Conditionals<T extends ContentDefinition<T>> = {
   [K in keyof T]: number
 }
 
-export const calculateAshblazingSetP = (x: ComputedStatsArray, action: OptimizerAction, context: OptimizerContext, hitMulti: number): number => {
+export const calculateAshblazingSetP = (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext, hitMulti: number): number => {
   if (x.c.sets.TheAshblazingGrandDuke >> 2) {
     const valueTheAshblazingGrandDuke = action.setConditionals.valueTheAshblazingGrandDuke
     const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke

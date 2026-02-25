@@ -72,7 +72,7 @@ export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
   )
 
   const context = generateContext(request)
-  const { x } = simulateBuild(relicsByPart as SimulationRelicByPart, context, null, null)
+  const { x } = simulateBuild(relicsByPart as SimulationRelicByPart, context, null)
 
   if (request.keepCurrentRelics) {
     logRegisters(x, context, 'Simulate Build')

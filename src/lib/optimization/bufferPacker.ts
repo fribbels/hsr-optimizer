@@ -1,9 +1,9 @@
 import { ElementName, ElementToStatKeyDmgBoost } from 'lib/constants/constants'
 import {
   Buff,
-  ComputedStatsArray,
   Key,
 } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { StatKey } from './engine/config/keys'
@@ -332,7 +332,7 @@ export const BufferPacker = {
     }
   },
 
-  packCharacter: (arr: Float32Array, offset: number, x: ComputedStatsArray) => {
+  packCharacter: (arr: Float32Array, offset: number, x: ComputedStatsContainer) => {
     offset = offset * SIZE
     const c = x.c
     const a = x.a

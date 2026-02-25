@@ -455,6 +455,9 @@ export function updateTeammate(changedValues: Partial<Form>) {
     if (!controller.teammateDefaults) return
     const mergedConditionals = Object.assign({}, controller.teammateDefaults(), displayFormValues[property].lightConeConditionals)
     window.optimizerForm.setFieldValue([property, 'lightConeConditionals'], mergedConditionals)
+  } else if (updatedTeammate.lightCone === null) {
+    window.optimizerForm.setFieldValue([property, 'lightConeConditionals'], {})
+    window.optimizerForm.setFieldValue([property, 'lightConeSuperimposition'], 1)
   } else if (updatedTeammate.characterId) {
     const teammateCharacterId = updatedTeammate.characterId
     window.store.getState().setTeammateCount(countTeammates())

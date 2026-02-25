@@ -82,6 +82,7 @@ function emptyRegistry() {
     [Stats.BE]: [],
     [Stats.OHB]: [],
     [Stats.ERR]: [],
+    [Stats.Elation]: [],
   }
 }
 

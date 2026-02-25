@@ -130,6 +130,7 @@ const statOrder = [
   Stats.OHB,
   Stats.ERR,
   Stats.HP,
+  Stats.Elation,
 ]
 
 function emptyRegistry(): Record<string, DynamicConditional[]> {
@@ -145,6 +146,7 @@ function emptyRegistry(): Record<string, DynamicConditional[]> {
     [Stats.BE]: [],
     [Stats.OHB]: [],
     [Stats.ERR]: [],
+    [Stats.Elation]: [],
   }
 }
 

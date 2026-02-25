@@ -117,6 +117,7 @@ export function generateDynamicConditionals(
   inject(generateDependencyEvaluator(registeredConditionals, Stats.BE, 'BE', request, context))
   inject(generateDependencyEvaluator(registeredConditionals, Stats.OHB, 'OHB', request, context))
   inject(generateDependencyEvaluator(registeredConditionals, Stats.ERR, 'ERR', request, context))
+  inject(generateDependencyEvaluator(registeredConditionals, Stats.Elation, 'Elation', request, context))
 
   wgsl += conditionalDefinitionsWgsl
   wgsl += conditionalEvaluators

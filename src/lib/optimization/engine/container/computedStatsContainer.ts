@@ -653,7 +653,7 @@ export class ComputedStatsContainer {
   ): void {
     if (value == 0 && operator == Operator.ADD) return
 
-    for (const conditional of action.conditionalRegistry[getAKeyName(key)] || []) {
+    for (const conditional of action.conditionalRegistry[KeyToStat[getAKeyName(key)]] || []) {
       evaluateConditional(conditional, this, action, context)
     }
   }

@@ -117,7 +117,7 @@ function getTeammates(
     }))
   }
   if (teamSelection === CUSTOM_TEAM) {
-    return customSimulation.teammates
+    return customSimulation.teammates ?? defaultSimulation.teammates
   }
   return defaultSimulation.teammates
 }

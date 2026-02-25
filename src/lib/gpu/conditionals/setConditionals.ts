@@ -19,8 +19,8 @@ import {
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -128,6 +128,7 @@ if (
   },
 }
 
+// Note: The ATK from this relic set conversion is NOT unconvertible. E.g. Firefly on Pan Cosmic does convert EHR -> ATK -> BE.
 export const PanCosmicCommercialEnterpriseConditional: DynamicConditional = {
   id: 'PanCosmicCommercialEnterpriseConditional',
   type: ConditionalType.SET,
@@ -160,7 +161,9 @@ if (
   p2((*p_sets).PanCosmicCommercialEnterprise) >= 1
 ) {
   let stateValue: f32 = (*p_state).PanCosmicCommercialEnterpriseConditional${action.actionIdentifier};
-  let buffValue: f32 = min(0.25, 0.25 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, config)}) * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BASE_ATK, config)};
+  let buffValue: f32 = min(0.25, 0.25 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, config)}) * ${
+        containerActionVal(SELF_ENTITY_INDEX, StatKey.BASE_ATK, config)
+      };
 
   (*p_state).PanCosmicCommercialEnterpriseConditional${action.actionIdentifier} = buffValue;
   ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} += buffValue - stateValue;

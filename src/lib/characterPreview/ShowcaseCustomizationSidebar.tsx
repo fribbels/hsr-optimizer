@@ -741,7 +741,7 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
 
     1321: ['#586bec'], // the dahlia
 
-    1501: ['#8a92f7'], // sparxie
+    1501: ['#b4a8e8'], // sparxie
     1502: ['#c3d7d8'], // yaoguang
   }
 

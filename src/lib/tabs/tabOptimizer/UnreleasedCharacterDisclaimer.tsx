@@ -1,22 +1,25 @@
-import { Alert, Form as AntDForm } from 'antd'
+import {
+  Alert,
+  Form as AntDForm,
+} from 'antd'
 import DB from 'lib/state/db'
 import { useMemo } from 'react'
 import { CharacterId } from 'types/character'
 import { LightCone } from 'types/lightCone'
 
 const UNRELEASED_CHARACTER_IDS = new Set<string>([
-  '1501', // Sparxie
-  '1502', // Yao Guang
+  // '1501', // Sparxie
+  // '1502', // Yao Guang
 ])
 
 const UNRELEASED_LIGHT_CONE_IDS = new Set<string>([
-  '23053', // Dazzled by a Flowery World
-  '23054', // When She Decided to See
-  // '24006', // Elation Brimming With Blessings
-  '21064', // Mushy Shroomy's Adventures
-  '21065', // Today's Good Luck
-  '20023', // Sneering
-  '20024', // Lingering Tear
+  // '23053', // Dazzled by a Flowery World
+  // '23054', // When She Decided to See
+  // // '24006', // Elation Brimming With Blessings
+  // '21064', // Mushy Shroomy's Adventures
+  // '21065', // Today's Good Luck
+  // '20023', // Sneering
+  // '20024', // Lingering Tear
 ])
 
 export function UnreleasedCharacterDisclaimer() {

@@ -54,6 +54,10 @@ body {
     height: 5px !important;
 }
 
+#relicGrid .ag-body-horizontal-scroll {
+    display: none !important;
+}
+
 .ag-cell {
     display: flex;
     justify-content: center;

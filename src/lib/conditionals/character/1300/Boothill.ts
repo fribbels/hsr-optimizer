@@ -285,7 +285,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         action.conditionalState[this.id] = beValue
 
         x.buffDynamic(StatKey.CR, crBuffValue - stateCrBuffValue, action, context, x.source(SOURCE_TRACE))
+        x.buffDynamic(StatKey.UNCONVERTIBLE_CR_BUFF, crBuffValue - stateCrBuffValue, action, context, x.source(SOURCE_TRACE))
         x.buffDynamic(StatKey.CD, cdBuffValue - stateCdBuffValue, action, context, x.source(SOURCE_TRACE))
+        x.buffDynamic(StatKey.UNCONVERTIBLE_CD_BUFF, cdBuffValue - stateCdBuffValue, action, context, x.source(SOURCE_TRACE))
       },
       gpu: function(action: OptimizerAction, context: OptimizerContext) {
         const r = action.characterConditionals as Conditionals<typeof content>
@@ -311,7 +313,9 @@ let cdBuffValue = min(1.50, 0.50 * be);
 (*p_state).BoothillConversionConditional${action.actionIdentifier} = be;
 
 ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, action.config)} += crBuffValue - stateCrBuffValue;
+${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_CR_BUFF, action.config)} += crBuffValue - stateCrBuffValue;
 ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, action.config)} += cdBuffValue - stateCdBuffValue;
+${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_CD_BUFF, action.config)} += cdBuffValue - stateCdBuffValue;
 `,
         )
       },

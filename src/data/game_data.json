@@ -7630,103 +7630,6 @@
       },
       "unreleased": false
     },
-    "1504": {
-      "id": "1504",
-      "name": "Ashveil",
-      "rarity": 5,
-      "path": "Hunt",
-      "element": "Lightning",
-      "traces": {
-        "ATK%": 0.1,
-        "CRIT DMG": 0.373,
-        "Lightning DMG Boost": 0.144
-      },
-      "traceTree": [
-        {
-          "id": "1504201",
-          "stat": "CRIT DMG",
-          "value": 0.053,
-          "pre": null,
-          "children": []
-        },
-        {
-          "id": "1504202",
-          "stat": "Lightning DMG Boost",
-          "value": 0.032,
-          "pre": null,
-          "children": [
-            {
-              "id": "1504203",
-              "stat": "CRIT DMG",
-              "value": 0.053,
-              "pre": "1504202",
-              "children": []
-            }
-          ]
-        },
-        {
-          "id": "1504204",
-          "stat": "ATK%",
-          "value": 0.04,
-          "pre": null,
-          "children": []
-        },
-        {
-          "id": "1504205",
-          "stat": "CRIT DMG",
-          "value": 0.08,
-          "pre": null,
-          "children": [
-            {
-              "id": "1504206",
-              "stat": "Lightning DMG Boost",
-              "value": 0.048,
-              "pre": "1504205",
-              "children": []
-            }
-          ]
-        },
-        {
-          "id": "1504207",
-          "stat": "CRIT DMG",
-          "value": 0.08,
-          "pre": null,
-          "children": []
-        },
-        {
-          "id": "1504208",
-          "stat": "ATK%",
-          "value": 0.06,
-          "pre": null,
-          "children": [
-            {
-              "id": "1504209",
-              "stat": "Lightning DMG Boost",
-              "value": 0.064,
-              "pre": "1504208",
-              "children": []
-            },
-            {
-              "id": "1504210",
-              "stat": "CRIT DMG",
-              "value": 0.107,
-              "pre": "1504208",
-              "children": []
-            }
-          ]
-        }
-      ],
-      "max_sp": 160,
-      "stats": {
-        "HP": 1009.008,
-        "ATK": 640.332,
-        "DEF": 485.1,
-        "SPD": 105,
-        "CRIT Rate": 0.05,
-        "CRIT DMG": 0.5
-      },
-      "unreleased": false
-    },
     "8001": {
       "id": "8001",
       "name": "Trailblazer",
@@ -10904,18 +10807,6 @@
       },
       "unreleased": false
     },
-    "23056": {
-      "id": "23056",
-      "name": "The Finale of a Lie",
-      "rarity": 5,
-      "path": "Hunt",
-      "stats": {
-        "HP": 1058.4,
-        "ATK": 582.12,
-        "DEF": 463.05
-      },
-      "unreleased": false
-    },
     "24000": {
       "id": "24000",
       "name": "On the Fall of an Aeon",
@@ -10985,18 +10876,6 @@
         "HP": 1058.4,
         "ATK": 529.2,
         "DEF": 396.9
-      },
-      "unreleased": false
-    },
-    "24006": {
-      "id": "24006",
-      "name": "Elation Brimming With Blessings",
-      "rarity": 5,
-      "path": "Elation",
-      "stats": {
-        "HP": 952.56,
-        "ATK": 529.2,
-        "DEF": 463.05
       },
       "unreleased": false
     }
@@ -11150,7 +11029,7 @@
     {
       "id": "130",
       "name": "Diviner of Distant Reach",
-      "skills": "Increases SPD by <b>6%</b>. Before entering combat, if the wearer's SPD is greater than or equal to <b>120</b>/<b>160</b>, increases the wearer's CRIT Rate by <b>10%</b>/<b>18%</b>. When the wearer uses Elation Skill for the first time in each battle, enhances all allies' Elation by <b>10%</b>. This effect cannot stack."
+      "skills": "Increases SPD by <b>6%</b>. Before entering combat, if the wearer's SPD is greater than or equal to <b>120</b>/<b>160</b>, increases the wearer's CRIT Rate by <b>10%</b>/<b>18%</b>. When the wearer uses Elation Skill for the first time in each battle, increases all allies' Elation by <b>10%</b>. This effect cannot stack."
     },
     {
       "id": "301",
@@ -11271,16 +11150,6 @@
       "id": "324",
       "name": "Tengoku@Livestream",
       "skills": "Increases the wearer's CRIT DMG by <b>16%</b>. If <b>3</b> or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by <b>32%</b>, lasting for <b>3</b> turns."
-    },
-    {
-      "id": "325",
-      "name": "Punklorde Stage Zero",
-      "skills": "Increases the wearer's Elation by <b>10%</b>. When Elation reaches <b>40%</b>/<b>80%</b> for the first time in battle, increases the wearer's CRIT DMG by <b>20%</b>/<b>30%</b>."
-    },
-    {
-      "id": "326",
-      "name": "City of Myriad Forms",
-      "skills": "When the wearer uses a Follow-Up ATK, their ATK increases by <b>24%</b> for <b>2</b> turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by <b>12%</b> for the rest of the current battle. This effect cannot stack."
     }
   ]
 }

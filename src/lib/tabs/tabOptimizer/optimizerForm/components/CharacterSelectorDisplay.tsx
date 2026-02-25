@@ -123,7 +123,7 @@ export default function CharacterSelectorDisplay() {
           <CharacterSelect
             value={null}
             selectStyle={{ width: 151 }}
-            onChange={OptimizerTabController.updateCharacter}
+            onChange={(id) => OptimizerTabController.updateCharacter(id!)}
             externalOpen={optimizerTabFocusCharacterSelectModalOpen}
             setExternalOpen={setOptimizerTabFocusCharacterSelectModalOpen}
           />

@@ -203,13 +203,14 @@ export const BufferPacker = {
 
     // [40-64] Memosprite stats (if exists)
     if (memoEntityIndex >= 0) {
-      const memoEntity = x.config.entitiesArray[memoEntityIndex].name
+      const memoEntityConfig = x.config.entitiesArray[memoEntityIndex]
+      const memoEntity = memoEntityConfig.name
 
-      // [40-51] Memosprite basic stats (copy from primary for now)
-      arr[offset + 40] = ca[StatKey.HP]
-      arr[offset + 41] = ca[StatKey.ATK]
-      arr[offset + 42] = ca[StatKey.DEF]
-      arr[offset + 43] = ca[StatKey.SPD]
+      // [40-51] Memosprite basic stats (scaled from summoner's basic stats)
+      arr[offset + 40] = (memoEntityConfig.memoBaseHpScaling ?? 0) * ca[StatKey.HP] + (memoEntityConfig.memoBaseHpFlat ?? 0)
+      arr[offset + 41] = (memoEntityConfig.memoBaseAtkScaling ?? 0) * ca[StatKey.ATK] + (memoEntityConfig.memoBaseAtkFlat ?? 0)
+      arr[offset + 42] = (memoEntityConfig.memoBaseDefScaling ?? 0) * ca[StatKey.DEF] + (memoEntityConfig.memoBaseDefFlat ?? 0)
+      arr[offset + 43] = (memoEntityConfig.memoBaseSpdScaling ?? 0) * ca[StatKey.SPD] + (memoEntityConfig.memoBaseSpdFlat ?? 0)
       arr[offset + 44] = ca[StatKey.CR]
       arr[offset + 45] = ca[StatKey.CD]
       arr[offset + 46] = ca[StatKey.EHR]

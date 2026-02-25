@@ -673,15 +673,15 @@ function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = T
       lines.push(
         `\
   // Entity ${entityIndex}: ${entityName} | Base index: ${baseIndex}
-  ${containerActionVal(entityIndex, AKey.BASE_ATK, config)} = ${entity.memoBaseAtkScaling ?? 1} * baseATK;
-  ${containerActionVal(entityIndex, AKey.BASE_DEF, config)} = ${entity.memoBaseDefScaling ?? 1} * baseDEF;
-  ${containerActionVal(entityIndex, AKey.BASE_HP, config)} = ${entity.memoBaseHpScaling ?? 1} * baseHP;
-  ${containerActionVal(entityIndex, AKey.BASE_SPD, config)} = ${entity.memoBaseSpdScaling ?? 1} * baseSPD;
+  ${containerActionVal(entityIndex, AKey.BASE_ATK, config)} = ${entity.memoBaseAtkScaling ?? 0} * baseATK;
+  ${containerActionVal(entityIndex, AKey.BASE_DEF, config)} = ${entity.memoBaseDefScaling ?? 0} * baseDEF;
+  ${containerActionVal(entityIndex, AKey.BASE_HP, config)} = ${entity.memoBaseHpScaling ?? 0} * baseHP;
+  ${containerActionVal(entityIndex, AKey.BASE_SPD, config)} = ${entity.memoBaseSpdScaling ?? 0} * baseSPD;
 
-  ${containerActionVal(entityIndex, AKey.ATK, config)} += diffATK * ${entity.memoBaseAtkScaling ?? 1} + ${entity.memoBaseAtkFlat ?? 0};
-  ${containerActionVal(entityIndex, AKey.DEF, config)} += diffDEF * ${entity.memoBaseDefScaling ?? 1} + ${entity.memoBaseDefFlat ?? 0};
-  ${containerActionVal(entityIndex, AKey.HP, config)} += diffHP * ${entity.memoBaseHpScaling ?? 1} + ${entity.memoBaseHpFlat ?? 0};
-  ${containerActionVal(entityIndex, AKey.SPD, config)} += diffSPD * ${entity.memoBaseSpdScaling ?? 1} + ${entity.memoBaseSpdFlat ?? 0};
+  ${containerActionVal(entityIndex, AKey.ATK, config)} += diffATK * ${entity.memoBaseAtkScaling ?? 0} + ${entity.memoBaseAtkFlat ?? 0};
+  ${containerActionVal(entityIndex, AKey.DEF, config)} += diffDEF * ${entity.memoBaseDefScaling ?? 0} + ${entity.memoBaseDefFlat ?? 0};
+  ${containerActionVal(entityIndex, AKey.HP, config)} += diffHP * ${entity.memoBaseHpScaling ?? 0} + ${entity.memoBaseHpFlat ?? 0};
+  ${containerActionVal(entityIndex, AKey.SPD, config)} += diffSPD * ${entity.memoBaseSpdScaling ?? 0} + ${entity.memoBaseSpdFlat ?? 0};
   ${containerActionVal(entityIndex, AKey.CD, config)} += diffCD;
   ${containerActionVal(entityIndex, AKey.CR, config)} += diffCR;
   ${containerActionVal(entityIndex, AKey.EHR, config)} += diffEHR;

@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import { Constants } from 'lib/constants/constants'
 import { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'

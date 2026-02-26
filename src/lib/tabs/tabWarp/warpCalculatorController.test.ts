@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import { Metadata } from 'lib/state/metadata'
 import {
   BannerRotation,

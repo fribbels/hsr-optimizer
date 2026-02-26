@@ -23,9 +23,7 @@ import {
   wgslTrue,
 } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  Key,
-} from 'lib/optimization/computedStatsArray'
+import { BasicKey } from 'lib/optimization/basicStatsArray'
 import {
   AKey,
   StatKey,
@@ -229,7 +227,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     newCalculateBasicEffects: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      const crBuff = (r.hpToCrConversion) ? Math.max(0, Math.min(0.48, 0.016 * Math.floor((x.c.a[Key.HP] - 5000) / 100))) : 0
+      const crBuff = (r.hpToCrConversion) ? Math.max(0, Math.min(0.48, 0.016 * Math.floor((x.c.a[BasicKey.HP] - 5000) / 100))) : 0
       x.buff(StatKey.UNCONVERTIBLE_CR_BUFF, crBuff, x.source(SOURCE_TRACE))
       x.buff(StatKey.CR, crBuff, x.source(SOURCE_TRACE))
     },

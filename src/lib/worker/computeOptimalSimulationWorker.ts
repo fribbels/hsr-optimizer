@@ -2,7 +2,6 @@ import {
   Stats,
   SubStats,
 } from 'lib/constants/constants'
-import { StatToKey } from 'lib/optimization/computedStatsArray'
 import {
   applyScoringFunction,
   SimulationResult,

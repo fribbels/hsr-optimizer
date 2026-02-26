@@ -1,7 +1,7 @@
 // This file tracks the mapping between various stat property references between the optimizer / worker / grid / buffer packer
 // This sucks - clean up the discrepancies eventually
 
-import { Key } from 'lib/optimization/computedStatsArray'
+import { BasicKey } from 'lib/optimization/basicStatsArray'
 
 export type SortOptionKey = keyof typeof SortOption
 
@@ -61,7 +61,7 @@ export const SortOption: {
     combatGridColumn: 'xATK',
     memoBasicGridColumn: 'mATK',
     memoCombatGridColumn: 'mxATK',
-    optimizerKey: Key.ATK,
+    optimizerKey: BasicKey.ATK,
   },
   DEF: {
     key: 'DEF',
@@ -72,7 +72,7 @@ export const SortOption: {
     combatGridColumn: 'xDEF',
     memoBasicGridColumn: 'mATK',
     memoCombatGridColumn: 'mxATK',
-    optimizerKey: Key.DEF,
+    optimizerKey: BasicKey.DEF,
   },
   HP: {
     key: 'HP',
@@ -83,7 +83,7 @@ export const SortOption: {
     combatGridColumn: 'xHP',
     memoBasicGridColumn: 'mATK',
     memoCombatGridColumn: 'mxATK',
-    optimizerKey: Key.HP,
+    optimizerKey: BasicKey.HP,
   },
   SPD: {
     key: 'SPD',
@@ -94,7 +94,7 @@ export const SortOption: {
     combatGridColumn: 'xSPD',
     memoBasicGridColumn: 'mSPD',
     memoCombatGridColumn: 'mxSPD',
-    optimizerKey: Key.SPD,
+    optimizerKey: BasicKey.SPD,
   },
   CR: {
     key: 'CR',
@@ -105,7 +105,7 @@ export const SortOption: {
     combatGridColumn: 'xCR',
     memoBasicGridColumn: 'mCR',
     memoCombatGridColumn: 'mxCR',
-    optimizerKey: Key.CR,
+    optimizerKey: BasicKey.CR,
   },
   CD: {
     key: 'CD',
@@ -116,7 +116,7 @@ export const SortOption: {
     combatGridColumn: 'xCD',
     memoBasicGridColumn: 'mCD',
     memoCombatGridColumn: 'mxCD',
-    optimizerKey: Key.CD,
+    optimizerKey: BasicKey.CD,
   },
   EHR: {
     key: 'EHR',
@@ -127,7 +127,7 @@ export const SortOption: {
     combatGridColumn: 'xEHR',
     memoBasicGridColumn: 'mEHR',
     memoCombatGridColumn: 'mxEHR',
-    optimizerKey: Key.EHR,
+    optimizerKey: BasicKey.EHR,
   },
   RES: {
     key: 'RES',
@@ -138,7 +138,7 @@ export const SortOption: {
     combatGridColumn: 'xRES',
     memoBasicGridColumn: 'mRES',
     memoCombatGridColumn: 'mxRES',
-    optimizerKey: Key.RES,
+    optimizerKey: BasicKey.RES,
   },
   BE: {
     key: 'BE',
@@ -149,7 +149,7 @@ export const SortOption: {
     combatGridColumn: 'xBE',
     memoBasicGridColumn: 'mBE',
     memoCombatGridColumn: 'mxBE',
-    optimizerKey: Key.BE,
+    optimizerKey: BasicKey.BE,
   },
   OHB: {
     key: 'OHB',
@@ -160,7 +160,7 @@ export const SortOption: {
     combatGridColumn: 'xOHB',
     memoBasicGridColumn: 'mOHB',
     memoCombatGridColumn: 'mxOHB',
-    optimizerKey: Key.OHB,
+    optimizerKey: BasicKey.OHB,
   },
   ERR: {
     key: 'ERR',
@@ -171,7 +171,7 @@ export const SortOption: {
     combatGridColumn: 'xERR',
     memoBasicGridColumn: 'mERR',
     memoCombatGridColumn: 'mxERR',
-    optimizerKey: Key.ERR,
+    optimizerKey: BasicKey.ERR,
   },
   EHP: {
     key: 'EHP',
@@ -182,7 +182,7 @@ export const SortOption: {
     combatGridColumn: 'EHP',
     memoBasicGridColumn: 'mxEHP',
     memoCombatGridColumn: 'mxEHP',
-    optimizerKey: Key.EHP,
+    optimizerKey: -1,
     isComputedRating: true,
   },
   BASIC: {
@@ -194,7 +194,7 @@ export const SortOption: {
     combatGridColumn: 'BASIC',
     memoBasicGridColumn: 'BASIC',
     memoCombatGridColumn: 'BASIC',
-    optimizerKey: Key.BASIC_DMG,
+    optimizerKey: -1,
     isComputedRating: true,
   },
   SKILL: {
@@ -206,7 +206,7 @@ export const SortOption: {
     combatGridColumn: 'SKILL',
     memoBasicGridColumn: 'SKILL',
     memoCombatGridColumn: 'SKILL',
-    optimizerKey: Key.SKILL_DMG,
+    optimizerKey: -1,
     isComputedRating: true,
   },
   ULT: {
@@ -218,7 +218,7 @@ export const SortOption: {
     combatGridColumn: 'ULT',
     memoBasicGridColumn: 'ULT',
     memoCombatGridColumn: 'ULT',
-    optimizerKey: Key.ULT_DMG,
+    optimizerKey: -1,
     isComputedRating: true,
   },
   FUA: {
@@ -230,7 +230,7 @@ export const SortOption: {
     combatGridColumn: 'FUA',
     memoBasicGridColumn: 'FUA',
     memoCombatGridColumn: 'FUA',
-    optimizerKey: Key.FUA_DMG,
+    optimizerKey: -1,
     isComputedRating: true,
   },
   MEMO_SKILL: {
@@ -242,7 +242,7 @@ export const SortOption: {
     combatGridColumn: 'MEMO_SKILL',
     memoBasicGridColumn: 'MEMO_SKILL',
     memoCombatGridColumn: 'MEMO_SKILL',
-    optimizerKey: Key.MEMO_SKILL_DMG,
+    optimizerKey: -1,
     isComputedRating: true,
   },
   MEMO_TALENT: {
@@ -254,7 +254,7 @@ export const SortOption: {
     combatGridColumn: 'MEMO_TALENT',
     memoBasicGridColumn: 'MEMO_TALENT',
     memoCombatGridColumn: 'MEMO_TALENT',
-    optimizerKey: Key.MEMO_TALENT_DMG,
+    optimizerKey: -1,
     isComputedRating: true,
   },
   ELATION_SKILL: {
@@ -266,7 +266,7 @@ export const SortOption: {
     combatGridColumn: 'ELATION_SKILL',
     memoBasicGridColumn: 'ELATION_SKILL',
     memoCombatGridColumn: 'ELATION_SKILL',
-    optimizerKey: Key.ELATION_SKILL_DMG,
+    optimizerKey: -1,
     isComputedRating: true,
   },
   DOT: {
@@ -278,7 +278,7 @@ export const SortOption: {
     combatGridColumn: 'DOT',
     memoBasicGridColumn: 'DOT',
     memoCombatGridColumn: 'DOT',
-    optimizerKey: Key.DOT_DMG,
+    optimizerKey: -1,
     isComputedRating: true,
   },
   BREAK: {
@@ -290,7 +290,7 @@ export const SortOption: {
     combatGridColumn: 'BREAK',
     memoBasicGridColumn: 'BREAK',
     memoCombatGridColumn: 'BREAK',
-    optimizerKey: Key.BREAK_DMG,
+    optimizerKey: -1,
     isComputedRating: true,
   },
   COMBO: {
@@ -302,7 +302,7 @@ export const SortOption: {
     combatGridColumn: 'COMBO',
     memoBasicGridColumn: 'COMBO',
     memoCombatGridColumn: 'COMBO',
-    optimizerKey: Key.COMBO_DMG,
+    optimizerKey: -1,
     isComputedRating: true,
   },
   BASIC_HEAL: {

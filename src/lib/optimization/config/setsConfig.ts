@@ -6,7 +6,7 @@ import {
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { Key } from 'lib/optimization/computedStatsArray'
+import { BasicKey } from 'lib/optimization/basicStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
@@ -70,7 +70,7 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
       c.CD.buff(0.16, Source.CelestialDifferentiator)
     },
     p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledCelestialDifferentiator && x.c.a[Key.CD] >= 1.20) {
+      if (setConditionals.enabledCelestialDifferentiator && x.c.a[BasicKey.CD] >= 1.20) {
         x.buff(StatKey.CR, 0.60, x.source(Source.CelestialDifferentiator))
       }
     },
@@ -537,7 +537,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       c.SPD_P.buff(-0.08, Source.PoetOfMourningCollapse)
     },
     p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-      const spd = x.c.a[Key.SPD]
+      const spd = x.c.a[BasicKey.SPD]
       x.buff(StatKey.CR, (spd < 110 ? 0.20 : 0) + (spd < 95 ? 0.12 : 0), x.targets(TargetTag.SelfAndMemosprite).source(Source.PoetOfMourningCollapse))
     },
   },
@@ -610,7 +610,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       c.SPD_P.buff(0.06, Source.DivinerOfDistantReach)
     },
     p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-      const spd = x.c.a[Key.SPD]
+      const spd = x.c.a[BasicKey.SPD]
       x.buff(StatKey.CR, (spd >= 120 ? 0.10 : 0) + (spd >= 160 ? 0.08 : 0),
         x.source(Source.DivinerOfDistantReach))
       if (setConditionals.enabledDivinerOfDistantReach) {

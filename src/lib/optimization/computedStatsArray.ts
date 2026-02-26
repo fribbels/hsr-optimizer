@@ -38,7 +38,7 @@ export function toComputedStatsObject(a: Float32Array) {
   for (const key in Key) {
     const typedKey = key as KeysType
 
-    const externalKey = InternalKeyToExternal[typedKey] ?? typedKey
+    const externalKey = InternalKeyToExternal[typedKey] ?? typedKey as keyof ComputedStatsObjectExternal
     const numericKey = Key[typedKey]
     result[externalKey] = a[numericKey]
   }
@@ -46,7 +46,7 @@ export function toComputedStatsObject(a: Float32Array) {
   return result as ComputedStatsObjectExternal
 }
 
-export const InternalKeyToExternal: Record<string, keyof ComputedStatsObjectExternal> = {
+export const InternalKeyToExternal: Partial<Record<KeysType, keyof ComputedStatsObjectExternal>> = {
   ATK_P: Stats.ATK_P,
   ATK: Stats.ATK,
   BE: Stats.BE,
@@ -125,29 +125,3 @@ export type ComputedStatsObjectExternal =
     ['Imaginary DMG Boost']: number,
     ['Elation']: number,
   }
-
-export const StatToKey: Record<string, number> = {
-  [Stats.ATK_P]: Key.ATK_P,
-  [Stats.ATK]: Key.ATK,
-  [Stats.BE]: Key.BE,
-  [Stats.CD]: Key.CD,
-  [Stats.CR]: Key.CR,
-  [Stats.DEF_P]: Key.DEF_P,
-  [Stats.DEF]: Key.DEF,
-  [Stats.EHR]: Key.EHR,
-  [Stats.ERR]: Key.ERR,
-  [Stats.Fire_DMG]: Key.FIRE_DMG_BOOST,
-  [Stats.HP_P]: Key.HP_P,
-  [Stats.HP]: Key.HP,
-  [Stats.Ice_DMG]: Key.ICE_DMG_BOOST,
-  [Stats.Imaginary_DMG]: Key.IMAGINARY_DMG_BOOST,
-  [Stats.Lightning_DMG]: Key.LIGHTNING_DMG_BOOST,
-  [Stats.OHB]: Key.OHB,
-  [Stats.Physical_DMG]: Key.PHYSICAL_DMG_BOOST,
-  [Stats.Quantum_DMG]: Key.QUANTUM_DMG_BOOST,
-  [Stats.RES]: Key.RES,
-  [Stats.SPD_P]: Key.SPD_P,
-  [Stats.SPD]: Key.SPD,
-  [Stats.Wind_DMG]: Key.WIND_DMG_BOOST,
-  [Stats.Elation]: Key.ELATION,
-}

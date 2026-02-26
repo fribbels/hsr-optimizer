@@ -13,9 +13,6 @@ import {
 } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
-  Key,
-} from 'lib/optimization/computedStatsArray'
-import {
   AKey,
   StatKey,
 } from 'lib/optimization/engine/config/keys'

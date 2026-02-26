@@ -1,4 +1,4 @@
-import { Key } from 'lib/optimization/computedStatsArray'
+import { BasicKey } from 'lib/optimization/basicStatsArray'
 import { SimulationFlags } from 'lib/scoring/simScoringUtils'
 import { RunStatSimulationsResult } from 'lib/simulations/statSimulationTypes'
 
@@ -16,10 +16,10 @@ export function applyBasicSpeedTargetFlag(
 
   // When the sim has poet, use the lowest possible poet SPD breakpoint for benchmarks - though match the custom benchmark spd within the breakpoint range
   if (simulationFlags.simPoetActive) {
-    if (baselineSimResult.ca[Key.SPD] < 95) {
+    if (baselineSimResult.ca[BasicKey.SPD] < 95) {
       simulationFlags.benchmarkBasicSpdTarget = Math.min(originalSpd, 94.999, spdBenchmark ?? 94.999)
       return
-    } else if (baselineSimResult.ca[Key.SPD] < 110) {
+    } else if (baselineSimResult.ca[BasicKey.SPD] < 110) {
       simulationFlags.benchmarkBasicSpdTarget = Math.min(originalSpd, 109.999, spdBenchmark ?? 109.999)
       return
     }

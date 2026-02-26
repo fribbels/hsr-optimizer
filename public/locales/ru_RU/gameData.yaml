@@ -233,6 +233,9 @@ Characters:
   "1502":
     Name: Яо Гуан
     LongName: Яо Гуан
+  "1504":
+    Name: Ashveil
+    LongName: Ashveil
   "8001":
     Name: Келус
     LongName: Келус (Разрушение)
@@ -468,6 +471,12 @@ RelicSets:
   "324":
     Name: Тэнгоку @Стрим
     Description2pc: Повышает крит. урон владельца на 16%. Если в течение одного хода расходуется 3 или более очков навыков, крит. урон владельца дополнительно повышается на 32% на 3 хода.
+  "325":
+    Name: Punklorde Stage Zero
+    Description2pc: Increases the wearer's Elation by <unbreak>10%</unbreak>. When Elation reaches <unbreak>40%</unbreak>/<unbreak>80%</unbreak> for the first time in battle, increases the wearer's CRIT DMG by <unbreak>20%</unbreak>/<unbreak>30%</unbreak>.
+  "326":
+    Name: City of Myriad Forms
+    Description2pc: When the wearer uses a Follow-Up ATK, their ATK increases by <unbreak>24%</unbreak> for <unbreak>2</unbreak> turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by <unbreak>12%</unbreak> for the rest of the current battle. This effect cannot stack.
 Lightcones:
   "20000":
     Name: Стрелы
@@ -769,6 +778,8 @@ Lightcones:
     Name: Зачарованные царством огоньков
   "23054":
     Name: Когда она решилась увидеть
+  "23056":
+    Name: The Finale of a Lie
   "24000":
     Name: О падении Эона
   "24001":
@@ -781,6 +792,8 @@ Lightcones:
     Name: Беспрерывные вычисления
   "24005":
     Name: Не падёт занавес памяти
+  "24006":
+    Name: Elation Brimming With Blessings
 Paths:
   Warrior: Разрушение
   Rogue: Охота
@@ -791,7 +804,6 @@ Paths:
   Priest: Изобилие
   Memory: Память
   Elation: Радость
-  Unknown: Обычный
 Elements:
   Physical: Физический
   Fire: Огненный

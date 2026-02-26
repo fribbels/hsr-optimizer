@@ -233,6 +233,9 @@ Characters:
   "1502":
     Name: Yao Guang
     LongName: Yao Guang
+  "1504":
+    Name: Ashveil
+    LongName: Ashveil
   "8001":
     Name: Caelus
     LongName: Caelus (Die Zerstörung)
@@ -468,6 +471,12 @@ RelicSets:
   "324":
     Name: Tengoku@Livestream
     Description2pc: Erhöht den KRIT-SCH des Trägers um 16%. Wenn in derselben Runde mindestens 3 Fertigkeitspunkte verbraucht werden, wird der KRIT-SCH des Trägers für 3 Rd. zusätzlich um 32% erhöht.
+  "325":
+    Name: Punklorde Stage Zero
+    Description2pc: Increases the wearer's Elation by <unbreak>10%</unbreak>. When Elation reaches <unbreak>40%</unbreak>/<unbreak>80%</unbreak> for the first time in battle, increases the wearer's CRIT DMG by <unbreak>20%</unbreak>/<unbreak>30%</unbreak>.
+  "326":
+    Name: City of Myriad Forms
+    Description2pc: When the wearer uses a Follow-Up ATK, their ATK increases by <unbreak>24%</unbreak> for <unbreak>2</unbreak> turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by <unbreak>12%</unbreak> for the rest of the current battle. This effect cannot stack.
 Lightcones:
   "20000":
     Name: Pfeile
@@ -769,6 +778,8 @@ Lightcones:
     Name: Bezaubert von einer blumigen Welt
   "23054":
     Name: Der Entschluss zu sehen
+  "23056":
+    Name: The Finale of a Lie
   "24000":
     Name: Der Niedergang eines Äons
   "24001":
@@ -781,6 +792,8 @@ Lightcones:
     Name: Unermüdliche Berechnung
   "24005":
     Name: Der Vorhang der Erinnerung fällt nie
+  "24006":
+    Name: Elation Brimming With Blessings
 Paths:
   Warrior: Die Zerstörung
   Rogue: Die Jagd
@@ -791,7 +804,6 @@ Paths:
   Priest: Der Überfluss
   Memory: Das Gedenken
   Elation: Das Hochgefühl
-  Unknown: Universal
 Elements:
   Physical: Physisch
   Fire: Feuer

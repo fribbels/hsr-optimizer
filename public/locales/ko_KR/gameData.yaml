@@ -233,6 +233,9 @@ Characters:
   "1502":
     Name: 효광
     LongName: 효광
+  "1504":
+    Name: Ashveil
+    LongName: Ashveil
   "8001":
     Name: 카일루스
     LongName: 카일루스 (파멸)
@@ -468,6 +471,12 @@ RelicSets:
   "324":
     Name: 텐고쿠@라이브스트리밍
     Description2pc: "장착한\_캐릭터의\_치명타\_피해가\_16%\_증가하며,\_같은\_턴에\_전투\_스킬\_포인트를\_3pt\_이상\_소모\_시\_추가로\_장착한\_캐릭터의\_치명타\_피해가\_32%\_증가한다,\_지속\_시간:\_3턴"
+  "325":
+    Name: Punklorde Stage Zero
+    Description2pc: Increases the wearer's Elation by <unbreak>10%</unbreak>. When Elation reaches <unbreak>40%</unbreak>/<unbreak>80%</unbreak> for the first time in battle, increases the wearer's CRIT DMG by <unbreak>20%</unbreak>/<unbreak>30%</unbreak>.
+  "326":
+    Name: City of Myriad Forms
+    Description2pc: When the wearer uses a Follow-Up ATK, their ATK increases by <unbreak>24%</unbreak> for <unbreak>2</unbreak> turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by <unbreak>12%</unbreak> for the rest of the current battle. This effect cannot stack.
 Lightcones:
   "20000":
     Name: 화살촉
@@ -769,6 +778,8 @@ Lightcones:
     Name: "눈부신\_파키의\_세상"
   "23054":
     Name: "그녀가\_보기로\_결심했을\_때"
+  "23056":
+    Name: The Finale of a Lie
   "24000":
     Name: "어떤\_에이언즈의\_몰락"
   "24001":
@@ -781,6 +792,8 @@ Lightcones:
     Name: "멈추지\_않는\_연산"
   "24005":
     Name: "기억은\_영원히\_막을\_내리지\_않는다"
+  "24006":
+    Name: Elation Brimming With Blessings
 Paths:
   Warrior: 파멸
   Rogue: 수렵
@@ -791,7 +804,6 @@ Paths:
   Priest: 풍요
   Memory: 기억
   Elation: 환락
-  Unknown: 범용
 Elements:
   Physical: 물리
   Fire: 화염

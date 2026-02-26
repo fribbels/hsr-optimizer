@@ -11,7 +11,6 @@ import { iconSize } from 'lib/constants/constantsUi'
 import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 
 import { Assets } from 'lib/rendering/assets'
-import { SimulationResult } from 'lib/scoring/simScoringUtils'
 import {
   localeNumber,
   localeNumber_0,
@@ -72,7 +71,7 @@ export const displayTextMap = {
 
 export function StatRow(props: {
   stat: string,
-  finalStats: BasicStatsObject | SimulationResult | ComputedStatsObjectExternal,
+  finalStats: BasicStatsObject | ComputedStatsObjectExternal,
   value?: number,
   edits?: Record<string, boolean>,
   preciseSpd?: boolean,

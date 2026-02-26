@@ -4,7 +4,6 @@ import {
   GridOptions,
 } from 'ag-grid-community'
 import { TFunction } from 'i18next'
-import { Constants } from 'lib/constants/constants'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
@@ -72,7 +71,7 @@ export function getBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
     },
 
     {
-      field: Constants.Stats.ATK,
+      field: 'ATK' as const,
       valueFormatter: Renderer.floor,
       minWidth: DIGITS_4,
       flex: 10,
@@ -80,7 +79,7 @@ export function getBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
       cellStyle: Gradient.getOptimizerColumnGradient,
     },
     {
-      field: Constants.Stats.DEF,
+      field: 'DEF' as const,
       valueFormatter: Renderer.floor,
       minWidth: DIGITS_4,
       flex: 10,
@@ -88,7 +87,7 @@ export function getBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
       cellStyle: Gradient.getOptimizerColumnGradient,
     },
     {
-      field: Constants.Stats.HP,
+      field: 'HP' as const,
       valueFormatter: Renderer.floor,
       minWidth: DIGITS_4,
       flex: 10,
@@ -96,7 +95,7 @@ export function getBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
       cellStyle: Gradient.getOptimizerColumnGradient,
     },
     {
-      field: Constants.Stats.SPD,
+      field: 'SPD' as const,
       valueFormatter: Renderer.tenths,
       minWidth: DIGITS_4,
       flex: 10,
@@ -104,7 +103,7 @@ export function getBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
       cellStyle: Gradient.getOptimizerColumnGradient,
     },
     {
-      field: Constants.Stats.CR,
+      field: 'CR' as const,
       valueFormatter: Renderer.x100Tenths,
       minWidth: DIGITS_4,
       flex: 10,
@@ -112,7 +111,7 @@ export function getBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
       cellStyle: Gradient.getOptimizerColumnGradient,
     },
     {
-      field: Constants.Stats.CD,
+      field: 'CD' as const,
       valueFormatter: Renderer.x100Tenths,
       minWidth: DIGITS_4,
       flex: 10,
@@ -120,7 +119,7 @@ export function getBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
       cellStyle: Gradient.getOptimizerColumnGradient,
     },
     {
-      field: Constants.Stats.EHR,
+      field: 'EHR' as const,
       valueFormatter: Renderer.x100Tenths,
       minWidth: DIGITS_4,
       flex: 10,
@@ -128,7 +127,7 @@ export function getBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
       cellStyle: Gradient.getOptimizerColumnGradient,
     },
     {
-      field: Constants.Stats.RES,
+      field: 'RES' as const,
       valueFormatter: Renderer.x100Tenths,
       minWidth: DIGITS_3,
       flex: 10,
@@ -136,7 +135,7 @@ export function getBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
       cellStyle: Gradient.getOptimizerColumnGradient,
     },
     {
-      field: Constants.Stats.BE,
+      field: 'BE' as const,
       valueFormatter: Renderer.x100Tenths,
       minWidth: DIGITS_4,
       flex: 10,
@@ -144,14 +143,14 @@ export function getBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
       cellStyle: Gradient.getOptimizerColumnGradient,
     },
     {
-      field: Constants.Stats.OHB,
+      field: 'OHB' as const,
       valueFormatter: Renderer.x100Tenths,
       minWidth: DIGITS_3,
       flex: 10,
       headerName: t('Headers.Basic.OHB'), // 'OHB',
     },
     {
-      field: Constants.Stats.ERR,
+      field: 'ERR' as const,
       valueFormatter: Renderer.x100Tenths,
       minWidth: DIGITS_3,
       flex: 10,

@@ -8,7 +8,6 @@ import {
   Constants,
   DEFAULT_STAT_DISPLAY,
   Parts,
-  Stats,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import {
@@ -23,7 +22,6 @@ import {
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { calculateCurrentlyEquippedRow } from 'lib/optimization/optimizer'
-import { StatCalculator } from 'lib/relics/statCalculator'
 import { GridAggregations } from 'lib/rendering/gradient'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
@@ -67,17 +65,17 @@ let filterModel: Form
 let sortModel: SortModel
 
 const columnsToAggregateMap = {
-  [Stats.HP]: true,
-  [Stats.ATK]: true,
-  [Stats.DEF]: true,
-  [Stats.SPD]: true,
-  [Stats.CR]: true,
-  [Stats.CD]: true,
-  [Stats.EHR]: true,
-  [Stats.RES]: true,
-  [Stats.BE]: true,
-  [Stats.ERR]: true,
-  [Stats.OHB]: true,
+  HP: true,
+  ATK: true,
+  DEF: true,
+  SPD: true,
+  CR: true,
+  CD: true,
+  EHR: true,
+  RES: true,
+  BE: true,
+  ERR: true,
+  OHB: true,
 
   // For custom rows remember to set the min/max in aggregate()
 
@@ -537,83 +535,17 @@ export const OptimizerTabController = {
 }
 
 function aggregate(subArray: OptimizerDisplayData[]) {
-  const minAgg: Record<string, number> = StatCalculator.getZeroes()
+  const minAgg: Record<string, number> = {}
+  const maxAgg: Record<string, number> = {}
   for (const column of OptimizerTabController.getColumnsToAggregate()) {
     minAgg[column] = Constants.MAX_INT
+    maxAgg[column] = 0
   }
 
-  function setMinMax(name: string) {
-    minAgg[name] = Constants.MAX_INT
-    maxAgg[name] = 0
-  }
-
-  const maxAgg: Record<string, number> = StatCalculator.getZeroes()
   minAgg.ED = Constants.MAX_INT
   maxAgg.ED = 0
   minAgg.WEIGHT = Constants.MAX_INT
   maxAgg.WEIGHT = 0
-  minAgg.EHP = Constants.MAX_INT
-  maxAgg.EHP = 0
-
-  setMinMax('BASIC')
-  setMinMax('SKILL')
-  setMinMax('ULT')
-  setMinMax('FUA')
-  setMinMax('MEMO_SKILL')
-  setMinMax('MEMO_TALENT')
-  setMinMax('ELATION_SKILL')
-  setMinMax('DOT')
-  setMinMax('BREAK')
-  setMinMax('COMBO')
-  setMinMax('HEAL')
-  setMinMax('SHIELD')
-  setMinMax('BASIC_HEAL')
-  setMinMax('SKILL_HEAL')
-  setMinMax('ULT_HEAL')
-  setMinMax('FUA_HEAL')
-  setMinMax('TALENT_HEAL')
-  setMinMax('BASIC_SHIELD')
-  setMinMax('SKILL_SHIELD')
-  setMinMax('ULT_SHIELD')
-  setMinMax('FUA_SHIELD')
-  setMinMax('TALENT_SHIELD')
-  setMinMax('xATK')
-  setMinMax('xDEF')
-  setMinMax('xHP')
-  setMinMax('xSPD')
-  setMinMax('xCR')
-  setMinMax('xCD')
-  setMinMax('xEHR')
-  setMinMax('xRES')
-  setMinMax('xBE')
-  setMinMax('xERR')
-  setMinMax('xOHB')
-  setMinMax('xELEMENTAL_DMG')
-  setMinMax('mATK')
-  setMinMax('mDEF')
-  setMinMax('mHP')
-  setMinMax('mSPD')
-  setMinMax('mCR')
-  setMinMax('mCD')
-  setMinMax('mEHR')
-  setMinMax('mRES')
-  setMinMax('mBE')
-  setMinMax('mERR')
-  setMinMax('mOHB')
-  setMinMax('mELEMENTAL_DMG')
-  setMinMax('mxATK')
-  setMinMax('mxDEF')
-  setMinMax('mxHP')
-  setMinMax('mxSPD')
-  setMinMax('mxCR')
-  setMinMax('mxCD')
-  setMinMax('mxEHR')
-  setMinMax('mxRES')
-  setMinMax('mxBE')
-  setMinMax('mxERR')
-  setMinMax('mxOHB')
-  setMinMax('mxELEMENTAL_DMG')
-  setMinMax('mxEHP')
 
   for (const row of subArray) {
     for (const column of OptimizerTabController.getColumnsToAggregate()) {
@@ -731,16 +663,16 @@ function filter(filterModel: Form) {
     } else {
       for (let i = 0; i < rows.length; i++) {
         const row = rows[i]
-        const valid = row[Stats.HP] >= filterModel.minHp && row[Stats.HP] <= filterModel.maxHp
-          && row[Stats.ATK] >= filterModel.minAtk && row[Stats.ATK] <= filterModel.maxAtk
-          && row[Stats.DEF] >= filterModel.minDef && row[Stats.DEF] <= filterModel.maxDef
-          && row[Stats.SPD] >= filterModel.minSpd && row[Stats.SPD] <= filterModel.maxSpd
-          && row[Stats.CR] >= filterModel.minCr && row[Stats.CR] <= filterModel.maxCr
-          && row[Stats.CD] >= filterModel.minCd && row[Stats.CD] <= filterModel.maxCd
-          && row[Stats.EHR] >= filterModel.minEhr && row[Stats.EHR] <= filterModel.maxEhr
-          && row[Stats.RES] >= filterModel.minRes && row[Stats.RES] <= filterModel.maxRes
-          && row[Stats.BE] >= filterModel.minBe && row[Stats.BE] <= filterModel.maxBe
-          && row[Stats.ERR] >= filterModel.minErr && row[Stats.ERR] <= filterModel.maxErr
+        const valid = row.HP >= filterModel.minHp && row.HP <= filterModel.maxHp
+          && row.ATK >= filterModel.minAtk && row.ATK <= filterModel.maxAtk
+          && row.DEF >= filterModel.minDef && row.DEF <= filterModel.maxDef
+          && row.SPD >= filterModel.minSpd && row.SPD <= filterModel.maxSpd
+          && row.CR >= filterModel.minCr && row.CR <= filterModel.maxCr
+          && row.CD >= filterModel.minCd && row.CD <= filterModel.maxCd
+          && row.EHR >= filterModel.minEhr && row.EHR <= filterModel.maxEhr
+          && row.RES >= filterModel.minRes && row.RES <= filterModel.maxRes
+          && row.BE >= filterModel.minBe && row.BE <= filterModel.maxBe
+          && row.ERR >= filterModel.minErr && row.ERR <= filterModel.maxErr
           && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
           && row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic
           && row.SKILL >= filterModel.minSkill && row.SKILL <= filterModel.maxSkill

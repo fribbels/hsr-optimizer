@@ -256,7 +256,10 @@ function outputResults(gpuContext: GpuExecutionContext) {
   }
 
   const sortOption = SortOption[gpuContext.request.resultSort as keyof typeof SortOption]
-  const gridSortColumn = gpuContext.request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
+  const showMemo = gpuContext.request.memoDisplay === 'memo'
+  const gridSortColumn = gpuContext.request.statDisplay == 'combat'
+    ? (showMemo ? sortOption.memoCombatGridColumn : sortOption.combatGridColumn)
+    : (showMemo ? sortOption.memoBasicGridColumn : sortOption.basicGridColumn)
   setSortColumn(gridSortColumn)
   OptimizerTabController.setRows(outputs)
   window.optimizerGrid.current!.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })

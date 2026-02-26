@@ -74,9 +74,6 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
     "@types/chroma-js": "^2.4.4",
     "@types/js-yaml": "^4.0.9",
     "@types/json-stable-stringify": "^1.0.36",

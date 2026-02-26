@@ -28,9 +28,11 @@ import {
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { calculateEhp, getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
+import {
+  calculateEhp,
+  getDamageFunction,
+} from 'lib/optimization/engine/damage/damageCalculator'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
-import { logRegisters } from 'lib/simulations/registerLogger'
 import {
   ActionDamage,
   PrimaryActionStats,
@@ -38,7 +40,10 @@ import {
   SimulationRelic,
   SimulationRelicByPart,
 } from 'lib/simulations/statSimulationTypes'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 // To use after combo state and context has been initialized
 export function simulateBuild(
@@ -80,23 +85,9 @@ export function simulateBuild(
     c.SPD.set(forcedBasicSpd, Source.NONE)
   }
 
-  // if (x.a[Key.MEMOSPRITE]) {
-  //   m.setBasic(c.m)
-  //   c.initMemo()
-  // }
-
   let comboDmg = 0
 
-  let combo = 0
-  const hitActions = context.hitActions!
   const defaultActions = context.defaultActions
-
-  // for (let i = 0; i < hitActions.length; i++) {
-  //   calculateAction(hitActions[i])
-  // }
-  // for (let i = 0; i < defaultActions.length; i++) {
-  //   calculateAction(defaultActions[i])
-  // }
 
   const x = new ComputedStatsContainer()
   x.initializeArrays(context.maxContainerArrayLength, context)
@@ -179,16 +170,11 @@ export function simulateBuild(
       const elementDmgBoostKey = ElementToStatKeyDmgBoost[context.element as ElementName]
 
       // Capture fully resolved stats matching the damage formula:
-      //   cr = getValue(CR) + getActionValue(CR_BOOST)   = (action+hit CR) + (action CR_BOOST)
-      //   cd = getValue(CD) + getActionValue(CD_BOOST)   = (action+hit CD) + (action CD_BOOST)
-      //   dmg = getValue(DMG_BOOST) + getActionValue(elementDmgBoost)
       const hasHits = action.hits?.length ?? 0
       primaryActionStats = {
         DMG_BOOST: hasHits ? x.getValue(StatKey.DMG_BOOST, 0) : 0,
-        sourceEntityCR: (hasHits ? x.getValue(StatKey.CR, 0) : 0)
-          + x.getActionValueByIndex(StatKey.CR_BOOST, sourceEntityIndex),
-        sourceEntityCD: (hasHits ? x.getValue(StatKey.CD, 0) : 0)
-          + x.getActionValueByIndex(StatKey.CD_BOOST, sourceEntityIndex),
+        sourceEntityCR: (hasHits ? x.getValue(StatKey.CR, 0) : 0) + x.getActionValueByIndex(StatKey.CR_BOOST, sourceEntityIndex),
+        sourceEntityCD: (hasHits ? x.getValue(StatKey.CD, 0) : 0) + x.getActionValueByIndex(StatKey.CD_BOOST, sourceEntityIndex),
         sourceEntityElementDmgBoost: x.getActionValueByIndex(elementDmgBoostKey, sourceEntityIndex),
       }
     }

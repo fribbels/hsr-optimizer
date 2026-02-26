@@ -53,7 +53,6 @@ void verifyWebgpuSupport(false)
 
 const defaultErrorRender = ({ error }: { error: { message: string } }) => <Typography>Something went wrong: {error.message}</Typography>
 
-document.addEventListener('DOMContentLoaded', function() {
   const root = ReactDOM.createRoot(document.getElementById('root')!)
 
   OverlayScrollbars(document.body, {})
@@ -63,4 +62,3 @@ document.addEventListener('DOMContentLoaded', function() {
       <WrappedApp />
     </ErrorBoundary>,
   )
-})

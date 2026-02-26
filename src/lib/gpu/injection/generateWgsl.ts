@@ -1,9 +1,4 @@
-import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyEvaluator'
-import {
-  Constants,
-  PathNames,
-} from 'lib/constants/constants'
-import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { Constants } from 'lib/constants/constants'
 import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
 import { generateDynamicConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
@@ -54,7 +49,6 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
   wgsl = injectBasicFilters(wgsl, request, context, gpuParams)
   wgsl = injectSetFilters(wgsl, gpuParams)
   wgsl = injectComputedStats(wgsl, gpuParams)
-  // wgsl = injectSuppressions(wgsl, request, context, gpuParams)
 
   return wgsl
 }
@@ -143,50 +137,6 @@ const action${i} = Action( // ${action.actionIndex} ${action.actionName}
   // Combat conditionals
 
   wgsl += generateDynamicConditionals(request, context)
-
-  // function generateConditionalExecution(conditional: DynamicConditional) {
-  //   return `evaluate${conditional.id}(p_container, p_sets, p_state);`
-  // }
-
-  // const { conditionalSequence, terminalConditionals } = evaluateDependencyOrder(context.defaultActions[0].conditionalRegistry)
-  // let conditionalSequenceWgsl = '\n'
-  // conditionalSequenceWgsl += conditionalSequence.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 0)).join('\n') + '\n'
-
-  // conditionalSequenceWgsl += '\n'
-  // conditionalSequenceWgsl += terminalConditionals.map(generateConditionalExecution).map((wgsl) => indent(wgsl, 0)).join('\n') + '\n'
-
-  // wgsl = wgsl.replace(
-  //   '/* INJECT COMBAT CONDITIONALS */',
-  //   conditionalSequenceWgsl,
-  // )
-
-  return wgsl
-}
-
-function injectSuppressions(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
-  if (context.path != PathNames.Remembrance) {
-    wgsl = suppress(wgsl, 'COPY MEMOSPRITE BASIC STATS')
-    wgsl = suppress(wgsl, 'MEMOSPRITE DAMAGE CALCS')
-    wgsl = suppress(wgsl, 'MC ASSIGNMENT')
-  }
-
-  if (context.resultSort != SortOption.EHP.key && !gpuParams.DEBUG && request.minEhp == 0 && request.maxEhp == Constants.MAX_INT) {
-    wgsl = suppress(wgsl, 'EHP CALC')
-  }
-
-  if (context.resultSort != SortOption.COMBO.key && !gpuParams.DEBUG) {
-    if (context.resultSort != SortOption.DOT.key && request.minDot == 0 && request.maxDot == Constants.MAX_INT) wgsl = suppress(wgsl, 'DOT CALC')
-    if (context.resultSort != SortOption.BASIC.key && request.minBasic == 0 && request.maxBasic == Constants.MAX_INT) wgsl = suppress(wgsl, 'BASIC CALC')
-    if (context.resultSort != SortOption.SKILL.key && request.minSkill == 0 && request.maxSkill == Constants.MAX_INT) wgsl = suppress(wgsl, 'SKILL CALC')
-    if (context.resultSort != SortOption.ULT.key && request.minUlt == 0 && request.maxUlt == Constants.MAX_INT) wgsl = suppress(wgsl, 'ULT CALC')
-    if (context.resultSort != SortOption.FUA.key && request.minFua == 0 && request.maxFua == Constants.MAX_INT) wgsl = suppress(wgsl, 'FUA CALC')
-    if (context.resultSort != SortOption.MEMO_SKILL.key && request.minMemoSkill == 0 && request.maxMemoSkill == Constants.MAX_INT) {
-      wgsl = suppress(wgsl, 'MEMO_SKILL CALC')
-    }
-    if (context.resultSort != SortOption.MEMO_TALENT.key && request.minMemoTalent == 0 && request.maxMemoTalent == Constants.MAX_INT) {
-      wgsl = suppress(wgsl, 'MEMO_TALENT CALC')
-    }
-  }
 
   return wgsl
 }

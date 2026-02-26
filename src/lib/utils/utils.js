@@ -1,9 +1,8 @@
 import * as htmlToImage from 'html-to-image'
 import i18next from 'i18next'
 import stringify from 'json-stable-stringify'
-import { Constants } from 'lib/constants/constants'
-import { Message } from 'lib/interactions/message.js'
-import { currentLocale } from 'lib/utils/i18nUtils.js'
+import {Constants} from 'lib/constants/constants'
+import {Message} from 'lib/interactions/message.js'
 
 console.debug = (...args) => {
   const messageConfig = '%c%s '

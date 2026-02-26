@@ -1,31 +1,8 @@
-import {
-  BASIC_ABILITY_TYPE,
-  BREAK_ABILITY_TYPE,
-  DOT_ABILITY_TYPE,
-  ELATION_SKILL_ABILITY_TYPE,
-  FUA_ABILITY_TYPE,
-  MEMO_SKILL_ABILITY_TYPE,
-  MEMO_TALENT_ABILITY_TYPE,
-  SKILL_ABILITY_TYPE,
-  ULT_ABILITY_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyEvaluator'
-import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
-import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { ConvertibleStatsType } from 'lib/conditionals/evaluation/statConversionConfig'
 import { Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { injectActionDamage } from 'lib/gpu/injection/injectActionDamage'
 import { indent } from 'lib/gpu/injection/wgslUtils'
-import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
-import { countDotAbilities } from 'lib/optimization/rotation/comboStateTransform'
-import { SortOption } from 'lib/optimization/sortOptions'
-import { StringToNumberMap } from 'types/common'
-import {
-  CharacterConditionalsController,
-  LightConeConditionalsController,
-} from 'types/conditionals'
 import {
   Form,
   Teammate,
@@ -49,7 +26,13 @@ function getRequestTeammateIndex(request: Form, conditional: DynamicConditional)
   return teammate
 }
 
-function generateDependencyEvaluator(registeredConditionals: ConditionalRegistry, stat: ConvertibleStatsType, statName: string, request: Form, context: OptimizerContext) {
+function generateDependencyEvaluator(
+  registeredConditionals: ConditionalRegistry,
+  stat: ConvertibleStatsType,
+  statName: string,
+  request: Form,
+  context: OptimizerContext,
+) {
   const conditionalEvaluators = ''
   let conditionalDefinitionsWgsl = ''
   let conditionalStateDefinition = ''

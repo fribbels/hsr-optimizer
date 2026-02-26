@@ -11,15 +11,26 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { AKey, StatKey, } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
+import {
+  AKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { HYSILENS } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export const HysilensAbilities = createEnum(
   'BASIC',
@@ -268,40 +279,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       }
     },
     actionModifiers() {
-      return [
-        // {
-        //   modify: (action: OptimizerAction, context: OptimizerContext) => {
-        //     const hits = action.hits!
-        //     const len = hits.length
-        //     for (let i = 0; i < len; i++) {
-        //       const hit = hits[i]
-        //
-        //       if (hit.directHit) {
-        //         const trueDmgHit = {
-        //           damageFunctionType: DamageFunctionType.Default,
-        //           damageType: DamageType.DOT,
-        //           damageElement: ElementTag.Physical,
-        //           directHit: false,
-        //         }
-        //
-        //         hits.push(trueDmgHit as Hit)
-        //       }
-        //
-        //       if (hit.toughnessDmg) {
-        //         const superBreakHit = {
-        //           damageFunctionType: DamageFunctionType.Default,
-        //           damageType: DamageType.SUPER_BREAK,
-        //           damageElement: ElementTag.Physical,
-        //           directHit: false,
-        //           toughnessDmg: hit.toughnessDmg,
-        //         }
-        //
-        //         hits.push(superBreakHit as Hit)
-        //       }
-        //     }
-        //   },
-        // },
-      ]
+      return []
     },
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -333,14 +311,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-
-      // x.buff(
-      //   ActionKey.ELEMENTAL_DMG,
-      //   (r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * Math.floor((x.a[ActionKey.EHR] - 0.60) / 0.10))) : 0,
-      //   Source.NONE,
-      //   EntityType.SELF,
-      //   EntityType.SELF,
-      // )
 
       const ehrValue = x.getActionValue(StatKey.EHR, HysilensEntities.Hysilens)
       const ehrBoost = (r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * Math.floor((ehrValue - 0.60) / 0.10))) : 0

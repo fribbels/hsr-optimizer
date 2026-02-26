@@ -2,10 +2,7 @@ import {
   Constants,
   Stats,
 } from 'lib/constants/constants'
-import { indent } from 'lib/gpu/injection/wgslUtils'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
-import { STATS_LENGTH } from 'lib/optimization/engine/config/statsConfig'
-import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
@@ -18,7 +15,6 @@ export function injectSettings(wgsl: string, context: OptimizerContext, request:
   wgsl += generateCharacterStats(context.characterStatsBreakdown.traces, 'trace')
   wgsl += generateElement(context)
   wgsl += generateRequest(request)
-  wgsl += generateActions(context)
   wgsl += generateConsts(context, relics)
 
   wgsl += '\n'
@@ -39,43 +35,6 @@ const hSize = ${relics.Head.length};
 `
 
   return wgsl
-}
-
-function generateActions(context: OptimizerContext) {
-  const actionLength = context.resultSort == SortOption.COMBO.key ? context.defaultActions.length + context.rotationActions.length : 1
-  const computedStatsLength = context.maxContainerArrayLength / STATS_LENGTH
-  let actionSwitcher = ``
-  for (let i = 0; i < actionLength; i++) {
-    const label = i == 0
-      ? 'Action Stats'
-      : (
-        i < context.defaultActions.length
-          ? context.defaultActions[i].actionName
-          : context.rotationActions[i - context.defaultActions.length].actionName
-      )
-    actionSwitcher += indent(
-      `
-case ${i}: { 
-(*outAction) = action${i}; // ${i == 0 ? 'Action Stats' : label}
-(*outX) = computedStatsX${i}; 
-}
-  `,
-      0,
-    )
-  }
-
-  const wgsl = `
-fn getAction(actionIndex: i32, outAction: ptr<function, Action>, outX: ptr<function, array<f32, ${context.maxContainerArrayLength}>>) {
-  switch (actionIndex) {
-    ${actionSwitcher}
-    default: { 
-      (*outAction) = action0; 
-    }
-  }
-}
-  `
-
-  return ''
 }
 
 function generateRequest(request: Form) {

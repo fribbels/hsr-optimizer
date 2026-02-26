@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "dist",
+    "build",
+    "misc",
+    "node_modules",
+    "playwright-report",
+    "test-results",
+    "tests",
+    "src/types/i18next.ts"
+  ]
+}

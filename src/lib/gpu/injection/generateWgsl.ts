@@ -244,7 +244,7 @@ if (relicSetSolutionsMatrix[relicSetIndex] < 1 || ornamentSetSolutionsMatrix[orn
 
 export function injectBasicFilters(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   const sortOption = SortOption[request.resultSort!]
-  const sortOptionGpu: string = sortOption.gpuProperty
+  const sortKey: string = sortOption.key
   const sortOptionComputed = sortOption.isComputedRating
   const filter = filterFn(request)
 
@@ -252,7 +252,7 @@ export function injectBasicFilters(wgsl: string, request: Form, context: Optimiz
   // threshold check is in generateSortOptionReturn
   let sortString = ''
   if (!sortOptionComputed) {
-    sortString = `c.${sortOptionGpu} < threshold`
+    sortString = `c.${sortKey} < threshold`
   }
 
   const basicFilters = [

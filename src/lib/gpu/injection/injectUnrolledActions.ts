@@ -136,7 +136,6 @@ const SortOptionBoostKey: Partial<Record<SortOptionKey, AKeyValue>> = {
  */
 function generateSortOptionReturn(request: Form, context: OptimizerContext): string {
   const sortOption = SortOption[request.resultSort!]
-  const sortOptionGpu = sortOption.gpuProperty
   const sortKey = sortOption.key
 
   // Basic stats (not isComputedRating)
@@ -157,8 +156,8 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
 
     return `
     if (statDisplay == 1) {
-      if (c.${sortOptionGpu} > threshold) {
-        results[index] = c.${sortOptionGpu};
+      if (c.${sortKey} > threshold) {
+        results[index] = c.${sortKey};
         failures = 1;
       } else {
         results[index] = -failures; failures = failures + 1;

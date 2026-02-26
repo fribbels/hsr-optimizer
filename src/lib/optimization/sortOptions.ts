@@ -2,7 +2,6 @@ export type SortOptionKey = keyof typeof SortOption
 
 export type SortOptionProperties = {
   key: SortOptionKey,
-  gpuProperty: string,
   basicGridColumn: string,
   combatGridColumn: string,
   memoBasicGridColumn: string,
@@ -14,7 +13,6 @@ export type SortOptionProperties = {
 function baseStat(key: string): SortOptionProperties {
   return {
     key: key as SortOptionKey,
-    gpuProperty: key,
     basicGridColumn: key,
     combatGridColumn: `x${key}`,
     memoBasicGridColumn: `m${key}`,
@@ -26,7 +24,6 @@ function baseStat(key: string): SortOptionProperties {
 function computed(key: string): SortOptionProperties {
   return {
     key: key as SortOptionKey,
-    gpuProperty: key,
     basicGridColumn: key,
     combatGridColumn: key,
     memoBasicGridColumn: key,

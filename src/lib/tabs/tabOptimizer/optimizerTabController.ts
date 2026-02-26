@@ -77,8 +77,6 @@ const columnsToAggregateMap = {
   ERR: true,
   OHB: true,
 
-  // For custom rows remember to set the min/max in aggregate()
-
   ED: true,
   EHP: true,
 

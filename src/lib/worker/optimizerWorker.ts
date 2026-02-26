@@ -415,7 +415,7 @@ function generateResultMinFilter(request: Form) {
     }
   }
 
-  const key = BasicKey[sortOption.gpuProperty as BasicKeyType]
+  const key = BasicKey[sortOption.key as BasicKeyType]
   return {
     failsBasicThresholdFilter: (candidate: Float32Array) => {
       return candidate[key] < filter

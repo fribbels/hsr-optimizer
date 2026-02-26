@@ -11,7 +11,7 @@ import {
   BUFF_ABILITY,
   BUFF_TYPE,
 } from 'lib/optimization/buffSource'
-import { Buff } from 'lib/optimization/computedStatsArray'
+import { Buff } from 'lib/optimization/basicStatsArray'
 import { AKeyType } from 'lib/optimization/engine/config/keys'
 import { newStatsConfig, StatConfigEntry } from 'lib/optimization/engine/config/statsConfig'
 import { generateContext } from 'lib/optimization/context/calculateContext'

@@ -5,7 +5,14 @@ import {
 } from 'lib/constants/constants'
 import { BuffSource } from 'lib/optimization/buffSource'
 import { SetCounts } from 'lib/optimization/calculateStats'
-import { Buff } from 'lib/optimization/computedStatsArray'
+
+export type Buff = {
+  stat: string,
+  key: number,
+  value: number,
+  source: BuffSource,
+  memo?: boolean,
+}
 
 type BasicStatController = {
   buff: (value: number, source: BuffSource) => void,

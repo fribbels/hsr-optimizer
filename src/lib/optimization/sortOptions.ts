@@ -1,3 +1,5 @@
+import { StatKey, StatKeyValue } from 'lib/optimization/engine/config/keys'
+
 export type SortOptionKey = keyof typeof SortOption
 
 export type SortOptionProperties = {
@@ -7,6 +9,9 @@ export type SortOptionProperties = {
   memoBasicGridColumn: string,
   memoCombatGridColumn: string,
   isComputedRating?: boolean,
+  minFilterKey?: string,
+  maxFilterKey?: string,
+  statKey?: StatKeyValue,
 }
 
 // Builder for base stats — derives all 4 grid columns from the short key
@@ -20,8 +25,14 @@ function baseStat(key: string): SortOptionProperties {
   }
 }
 
+// BASIC → Basic, MEMO_SKILL → MemoSkill
+function toPascalCase(key: string): string {
+  return key.split('_').map((s) => s[0] + s.slice(1).toLowerCase()).join('')
+}
+
 // Builder for computed ratings — all 4 grid columns are identical (the value is display-mode-independent)
-function computed(key: string): SortOptionProperties {
+function computed(key: string, filterable?: boolean): SortOptionProperties {
+  const pascal = filterable ? toPascalCase(key) : undefined
   return {
     key: key as SortOptionKey,
     basicGridColumn: key,
@@ -29,6 +40,8 @@ function computed(key: string): SortOptionProperties {
     memoBasicGridColumn: key,
     memoCombatGridColumn: key,
     isComputedRating: true,
+    minFilterKey: pascal ? `min${pascal}` : undefined,
+    maxFilterKey: pascal ? `max${pascal}` : undefined,
   }
 }
 
@@ -80,19 +93,19 @@ export const SortOption: {
   ERR: baseStat('ERR'),
 
   // EHP is a computed rating but has a separate memo variant (mxEHP)
-  EHP: { ...computed('EHP'), memoBasicGridColumn: 'mxEHP', memoCombatGridColumn: 'mxEHP' },
+  EHP: { ...computed('EHP'), memoBasicGridColumn: 'mxEHP', memoCombatGridColumn: 'mxEHP', statKey: StatKey.EHP },
 
   // Computed damage ratings — same column in all display modes
-  BASIC: computed('BASIC'),
-  SKILL: computed('SKILL'),
-  ULT: computed('ULT'),
-  FUA: computed('FUA'),
-  MEMO_SKILL: computed('MEMO_SKILL'),
-  MEMO_TALENT: computed('MEMO_TALENT'),
-  ELATION_SKILL: computed('ELATION_SKILL'),
-  DOT: computed('DOT'),
-  BREAK: computed('BREAK'),
-  COMBO: computed('COMBO'),
+  BASIC: computed('BASIC', true),
+  SKILL: computed('SKILL', true),
+  ULT: computed('ULT', true),
+  FUA: computed('FUA', true),
+  MEMO_SKILL: computed('MEMO_SKILL', true),
+  MEMO_TALENT: computed('MEMO_TALENT', true),
+  ELATION_SKILL: computed('ELATION_SKILL', true),
+  DOT: computed('DOT', true),
+  BREAK: computed('BREAK', true),
+  COMBO: { ...computed('COMBO'), statKey: StatKey.COMBO_DMG },
 
   // Computed heal/shield ratings
   BASIC_HEAL: computed('BASIC_HEAL'),

@@ -23,6 +23,12 @@ import { generateContext } from 'lib/optimization/context/calculateContext'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { calculateCurrentlyEquippedRow } from 'lib/optimization/optimizer'
 import { GridAggregations } from 'lib/rendering/gradient'
+import {
+  columnsToAggregateMap,
+  getGridColumn,
+  SortOption,
+  SortOptionProperties,
+} from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
@@ -64,86 +70,6 @@ let filteredIndices: number[]
 let filterModel: Form
 let sortModel: SortModel
 
-const columnsToAggregateMap = {
-  HP: true,
-  ATK: true,
-  DEF: true,
-  SPD: true,
-  CR: true,
-  CD: true,
-  EHR: true,
-  RES: true,
-  BE: true,
-  ERR: true,
-  OHB: true,
-
-  ED: true,
-  EHP: true,
-
-  BASIC: true,
-  SKILL: true,
-  ULT: true,
-  FUA: true,
-  MEMO_SKILL: true,
-  MEMO_TALENT: true,
-  ELATION_SKILL: true,
-  DOT: true,
-  BREAK: true,
-  COMBO: true,
-  HEAL: true,
-  SHIELD: true,
-
-  BASIC_HEAL: true,
-  SKILL_HEAL: true,
-  ULT_HEAL: true,
-  FUA_HEAL: true,
-  TALENT_HEAL: true,
-  BASIC_SHIELD: true,
-  SKILL_SHIELD: true,
-  ULT_SHIELD: true,
-  FUA_SHIELD: true,
-  TALENT_SHIELD: true,
-
-  xATK: true,
-  xDEF: true,
-  xHP: true,
-  xSPD: true,
-  xCR: true,
-  xCD: true,
-  xEHR: true,
-  xRES: true,
-  xBE: true,
-  xERR: true,
-  xOHB: true,
-  xELEMENTAL_DMG: true,
-
-  mATK: true,
-  mDEF: true,
-  mHP: true,
-  mSPD: true,
-  mCR: true,
-  mCD: true,
-  mEHR: true,
-  mRES: true,
-  mBE: true,
-  mERR: true,
-  mOHB: true,
-  mELEMENTAL_DMG: true,
-
-  mxATK: true,
-  mxDEF: true,
-  mxHP: true,
-  mxSPD: true,
-  mxCR: true,
-  mxCD: true,
-  mxEHR: true,
-  mxRES: true,
-  mxBE: true,
-  mxERR: true,
-  mxOHB: true,
-  mxELEMENTAL_DMG: true,
-  mxEHP: true,
-}
 const columnsToAggregate = Object.keys(columnsToAggregateMap)
 
 export const OptimizerTabController = {
@@ -540,8 +466,6 @@ function aggregate(subArray: OptimizerDisplayData[]) {
     maxAgg[column] = 0
   }
 
-  minAgg.ED = Constants.MAX_INT
-  maxAgg.ED = 0
   minAgg.WEIGHT = Constants.MAX_INT
   maxAgg.WEIGHT = 0
 
@@ -567,125 +491,41 @@ function sort() {
 }
 
 function filter(filterModel: Form) {
-  const isCombat = filterModel.statDisplay == 'combat'
-  const isMemo = filterModel.memoDisplay == 'memo'
-  const indices: number[] = []
+  const statDisplay = filterModel.statDisplay ?? ''
+  const memoDisplay = filterModel.memoDisplay ?? ''
 
-  if (isCombat) {
-    if (isMemo) {
-      for (let i = 0; i < rows.length; i++) {
-        const row = rows[i]
-        const valid = row.mxHP >= filterModel.minHp && row.mxHP <= filterModel.maxHp
-          && row.mxATK >= filterModel.minAtk && row.mxATK <= filterModel.maxAtk
-          && row.mxDEF >= filterModel.minDef && row.mxDEF <= filterModel.maxDef
-          && row.mxSPD >= filterModel.minSpd && row.mxSPD <= filterModel.maxSpd
-          && row.mxCR >= filterModel.minCr && row.mxCR <= filterModel.maxCr
-          && row.mxCD >= filterModel.minCd && row.mxCD <= filterModel.maxCd
-          && row.mxEHR >= filterModel.minEhr && row.mxEHR <= filterModel.maxEhr
-          && row.mxRES >= filterModel.minRes && row.mxRES <= filterModel.maxRes
-          && row.mxBE >= filterModel.minBe && row.mxBE <= filterModel.maxBe
-          && row.mxERR >= filterModel.minErr && row.mxERR <= filterModel.maxErr
-          && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
-          && row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic
-          && row.SKILL >= filterModel.minSkill && row.SKILL <= filterModel.maxSkill
-          && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
-          && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
-          && row.MEMO_SKILL >= filterModel.minMemoSkill && row.MEMO_SKILL <= filterModel.maxMemoSkill
-          && row.MEMO_TALENT >= filterModel.minMemoTalent && row.MEMO_TALENT <= filterModel.maxMemoTalent
-          && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
-          && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
-          && row.HEAL >= filterModel.minHeal && row.HEAL <= filterModel.maxHeal
-          && row.SHIELD >= filterModel.minShield && row.SHIELD <= filterModel.maxShield
-        if (valid) {
-          indices.push(i)
-        }
-      }
-    } else {
-      for (let i = 0; i < rows.length; i++) {
-        const row = rows[i]
-        const valid = row.xHP >= filterModel.minHp && row.xHP <= filterModel.maxHp
-          && row.xATK >= filterModel.minAtk && row.xATK <= filterModel.maxAtk
-          && row.xDEF >= filterModel.minDef && row.xDEF <= filterModel.maxDef
-          && row.xSPD >= filterModel.minSpd && row.xSPD <= filterModel.maxSpd
-          && row.xCR >= filterModel.minCr && row.xCR <= filterModel.maxCr
-          && row.xCD >= filterModel.minCd && row.xCD <= filterModel.maxCd
-          && row.xEHR >= filterModel.minEhr && row.xEHR <= filterModel.maxEhr
-          && row.xRES >= filterModel.minRes && row.xRES <= filterModel.maxRes
-          && row.xBE >= filterModel.minBe && row.xBE <= filterModel.maxBe
-          && row.xERR >= filterModel.minErr && row.xERR <= filterModel.maxErr
-          && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
-          && row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic
-          && row.SKILL >= filterModel.minSkill && row.SKILL <= filterModel.maxSkill
-          && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
-          && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
-          && row.MEMO_SKILL >= filterModel.minMemoSkill && row.MEMO_SKILL <= filterModel.maxMemoSkill
-          && row.MEMO_TALENT >= filterModel.minMemoTalent && row.MEMO_TALENT <= filterModel.maxMemoTalent
-          && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
-          && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
-          && row.HEAL >= filterModel.minHeal && row.HEAL <= filterModel.maxHeal
-          && row.SHIELD >= filterModel.minShield && row.SHIELD <= filterModel.maxShield
-        if (valid) {
-          indices.push(i)
-        }
+  // Precompute active filter checks from SortOption (grid column depends on display mode)
+  const checks: { col: keyof OptimizerDisplayData, min: number, max: number }[] = []
+  for (const option of Object.values(SortOption)) {
+    if (!option.minFilterKey || !option.maxFilterKey) continue
+    const min = filterModel[option.minFilterKey as keyof Form] as number
+    const max = filterModel[option.maxFilterKey as keyof Form] as number
+    if (min === 0 && max === Constants.MAX_INT) continue
+    const col = getGridColumn(option, statDisplay, memoDisplay) as keyof OptimizerDisplayData
+    checks.push({ col, min, max })
+  }
+
+  // HEAL/SHIELD are filterable but not SortOptions
+  if (filterModel.minHeal !== 0 || filterModel.maxHeal !== Constants.MAX_INT) {
+    checks.push({ col: 'HEAL' as keyof OptimizerDisplayData, min: filterModel.minHeal, max: filterModel.maxHeal })
+  }
+  if (filterModel.minShield !== 0 || filterModel.maxShield !== Constants.MAX_INT) {
+    checks.push({ col: 'SHIELD' as keyof OptimizerDisplayData, min: filterModel.minShield, max: filterModel.maxShield })
+  }
+
+  const indices: number[] = []
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i]
+    let valid = true
+    for (const check of checks) {
+      const value = row[check.col] as number
+      if (value < check.min || value > check.max) {
+        valid = false
+        break
       }
     }
-  } else {
-    if (isMemo) {
-      for (let i = 0; i < rows.length; i++) {
-        const row = rows[i]
-        const valid = row.mHP >= filterModel.minHp && row.mHP <= filterModel.maxHp
-          && row.mATK >= filterModel.minAtk && row.mATK <= filterModel.maxAtk
-          && row.mDEF >= filterModel.minDef && row.mDEF <= filterModel.maxDef
-          && row.mSPD >= filterModel.minSpd && row.mSPD <= filterModel.maxSpd
-          && row.mCR >= filterModel.minCr && row.mCR <= filterModel.maxCr
-          && row.mCD >= filterModel.minCd && row.mCD <= filterModel.maxCd
-          && row.mEHR >= filterModel.minEhr && row.mEHR <= filterModel.maxEhr
-          && row.mRES >= filterModel.minRes && row.mRES <= filterModel.maxRes
-          && row.mBE >= filterModel.minBe && row.mBE <= filterModel.maxBe
-          && row.mERR >= filterModel.minErr && row.mERR <= filterModel.maxErr
-          && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
-          && row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic
-          && row.SKILL >= filterModel.minSkill && row.SKILL <= filterModel.maxSkill
-          && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
-          && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
-          && row.MEMO_SKILL >= filterModel.minMemoSkill && row.MEMO_SKILL <= filterModel.maxMemoSkill
-          && row.MEMO_TALENT >= filterModel.minMemoTalent && row.MEMO_TALENT <= filterModel.maxMemoTalent
-          && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
-          && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
-          && row.HEAL >= filterModel.minHeal && row.HEAL <= filterModel.maxHeal
-          && row.SHIELD >= filterModel.minShield && row.SHIELD <= filterModel.maxShield
-        if (valid) {
-          indices.push(i)
-        }
-      }
-    } else {
-      for (let i = 0; i < rows.length; i++) {
-        const row = rows[i]
-        const valid = row.HP >= filterModel.minHp && row.HP <= filterModel.maxHp
-          && row.ATK >= filterModel.minAtk && row.ATK <= filterModel.maxAtk
-          && row.DEF >= filterModel.minDef && row.DEF <= filterModel.maxDef
-          && row.SPD >= filterModel.minSpd && row.SPD <= filterModel.maxSpd
-          && row.CR >= filterModel.minCr && row.CR <= filterModel.maxCr
-          && row.CD >= filterModel.minCd && row.CD <= filterModel.maxCd
-          && row.EHR >= filterModel.minEhr && row.EHR <= filterModel.maxEhr
-          && row.RES >= filterModel.minRes && row.RES <= filterModel.maxRes
-          && row.BE >= filterModel.minBe && row.BE <= filterModel.maxBe
-          && row.ERR >= filterModel.minErr && row.ERR <= filterModel.maxErr
-          && row.EHP >= filterModel.minEhp && row.EHP <= filterModel.maxEhp
-          && row.BASIC >= filterModel.minBasic && row.BASIC <= filterModel.maxBasic
-          && row.SKILL >= filterModel.minSkill && row.SKILL <= filterModel.maxSkill
-          && row.ULT >= filterModel.minUlt && row.ULT <= filterModel.maxUlt
-          && row.FUA >= filterModel.minFua && row.FUA <= filterModel.maxFua
-          && row.MEMO_SKILL >= filterModel.minMemoSkill && row.MEMO_SKILL <= filterModel.maxMemoSkill
-          && row.MEMO_TALENT >= filterModel.minMemoTalent && row.MEMO_TALENT <= filterModel.maxMemoTalent
-          && row.DOT >= filterModel.minDot && row.DOT <= filterModel.maxDot
-          && row.BREAK >= filterModel.minBreak && row.BREAK <= filterModel.maxBreak
-          && row.HEAL >= filterModel.minHeal && row.HEAL <= filterModel.maxHeal
-          && row.SHIELD >= filterModel.minShield && row.SHIELD <= filterModel.maxShield
-        if (valid) {
-          indices.push(i)
-        }
-      }
+    if (valid) {
+      indices.push(i)
     }
   }
 

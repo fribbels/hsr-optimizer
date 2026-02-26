@@ -158,7 +158,7 @@ export function getBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
     },
 
     {
-      field: 'ED' as const,
+      field: 'ELEMENTAL_DMG' as const,
       valueFormatter: Renderer.x100Tenths,
       minWidth: DIGITS_4,
       flex: 10,

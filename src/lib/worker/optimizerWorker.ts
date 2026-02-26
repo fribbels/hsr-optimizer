@@ -445,8 +445,7 @@ function ratingFilter(request: Form, context: OptimizerContext) {
 // Basic stats can be checked before simulation (early exit), computed ratings only after.
 function generateResultMinFilter(request: Form, context: OptimizerContext) {
   const threshold = request.resultMinFilter
-  // @ts-ignore
-  const sortOption = SortOption[request.resultSort] as SortOptionProperties
+  const sortOption = SortOption[request.resultSort!] as SortOptionProperties
   const pass = () => false
 
   if (!sortOption.isComputedRating) {

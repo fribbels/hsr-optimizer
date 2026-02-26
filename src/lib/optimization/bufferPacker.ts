@@ -34,7 +34,7 @@ export type OptimizerDisplayData = {
   'ERR': number,
   'OHB': number,
 
-  'ED': number,
+  'ELEMENTAL_DMG': number,
   'WEIGHT': number,
   'EHP': number,
   'HEAL': number,
@@ -259,7 +259,7 @@ export const BufferPacker = {
       'BE': arr[offset + 9],
       'ERR': arr[offset + 10], // 10
       'OHB': arr[offset + 11],
-      'ED': arr[offset + 12],
+      'ELEMENTAL_DMG': arr[offset + 12],
       'WEIGHT': arr[offset + 13], // DELETE
       'EHP': arr[offset + 14],
       'HEAL': arr[offset + 15],

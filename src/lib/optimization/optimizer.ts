@@ -363,7 +363,7 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
 
   if (context) {
     const basicElementalBoostKey = ElementToBasicKeyDmgBoost[context.element]
-    d.ED = c.a[basicElementalBoostKey]
+    d.ELEMENTAL_DMG = c.a[basicElementalBoostKey]
     d.mELEMENTAL_DMG = c.a[basicElementalBoostKey]
     let heal = 0
     let shield = 0

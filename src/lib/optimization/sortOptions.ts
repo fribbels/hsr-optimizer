@@ -15,13 +15,16 @@ export type SortOptionProperties = {
 }
 
 // Builder for base stats — derives all 4 grid columns from the short key
-function baseStat(key: string): SortOptionProperties {
+function baseStat(key: string, filterable?: boolean): SortOptionProperties {
+  const pascal = filterable ? toPascalCase(key) : undefined
   return {
     key: key as SortOptionKey,
     basicGridColumn: key,
     combatGridColumn: `x${key}`,
     memoBasicGridColumn: `m${key}`,
     memoCombatGridColumn: `mx${key}`,
+    minFilterKey: pascal ? `min${pascal}` : undefined,
+    maxFilterKey: pascal ? `max${pascal}` : undefined,
   }
 }
 
@@ -80,20 +83,20 @@ export const SortOption: {
   TALENT_SHIELD: SortOptionProperties,
 } = {
   // Base stats — each has basic/combat/memo-basic/memo-combat grid columns
-  ATK: baseStat('ATK'),
-  DEF: baseStat('DEF'),
-  HP: baseStat('HP'),
-  SPD: baseStat('SPD'),
-  CR: baseStat('CR'),
-  CD: baseStat('CD'),
-  EHR: baseStat('EHR'),
-  RES: baseStat('RES'),
-  BE: baseStat('BE'),
+  ATK: baseStat('ATK', true),
+  DEF: baseStat('DEF', true),
+  HP: baseStat('HP', true),
+  SPD: baseStat('SPD', true),
+  CR: baseStat('CR', true),
+  CD: baseStat('CD', true),
+  EHR: baseStat('EHR', true),
+  RES: baseStat('RES', true),
+  BE: baseStat('BE', true),
   OHB: baseStat('OHB'),
-  ERR: baseStat('ERR'),
+  ERR: baseStat('ERR', true),
 
   // EHP is a computed rating but has a separate memo variant (mxEHP)
-  EHP: { ...computed('EHP'), memoBasicGridColumn: 'mxEHP', memoCombatGridColumn: 'mxEHP', statKey: StatKey.EHP },
+  EHP: { ...computed('EHP', true), memoBasicGridColumn: 'mxEHP', memoCombatGridColumn: 'mxEHP', statKey: StatKey.EHP },
 
   // Computed damage ratings — same column in all display modes
   BASIC: computed('BASIC', true),
@@ -101,8 +104,8 @@ export const SortOption: {
   ULT: computed('ULT', true),
   FUA: computed('FUA', true),
   MEMO_SKILL: computed('MEMO_SKILL', true),
-  MEMO_TALENT: computed('MEMO_TALENT', true),
-  ELATION_SKILL: computed('ELATION_SKILL', true),
+  MEMO_TALENT: computed('MEMO_TALENT'),
+  ELATION_SKILL: computed('ELATION_SKILL'),
   DOT: computed('DOT', true),
   BREAK: computed('BREAK', true),
   COMBO: { ...computed('COMBO'), statKey: StatKey.COMBO_DMG },
@@ -118,4 +121,23 @@ export const SortOption: {
   ULT_SHIELD: computed('ULT_SHIELD'),
   FUA_SHIELD: computed('FUA_SHIELD'),
   TALENT_SHIELD: computed('TALENT_SHIELD'),
+}
+
+export function getGridColumn(option: SortOptionProperties, statDisplay: string, memoDisplay: string): string {
+  if (memoDisplay === 'memo') {
+    return statDisplay === 'combat' ? option.memoCombatGridColumn : option.memoBasicGridColumn
+  }
+  return statDisplay === 'combat' ? option.combatGridColumn : option.basicGridColumn
+}
+
+export const columnsToAggregateMap: Record<string, boolean> = {}
+for (const option of Object.values(SortOption)) {
+  columnsToAggregateMap[option.basicGridColumn] = true
+  columnsToAggregateMap[option.combatGridColumn] = true
+  columnsToAggregateMap[option.memoBasicGridColumn] = true
+  columnsToAggregateMap[option.memoCombatGridColumn] = true
+}
+// Display-only columns not in SortOption but needed for gradient coloring
+for (const col of ['ELEMENTAL_DMG', 'xELEMENTAL_DMG', 'mELEMENTAL_DMG', 'mxELEMENTAL_DMG', 'HEAL', 'SHIELD']) {
+  columnsToAggregateMap[col] = true
 }

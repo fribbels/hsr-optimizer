@@ -76,10 +76,12 @@ const dmgFields: Record<DisplayMode, string> = {
 }
 
 function buildColumnDefs(mode: DisplayMode, t: TFunction<'optimizerTab', 'Grid'>) {
-  const headerGroup = mode.includes('combat') ? 'Headers.Combat' : 'Headers.Basic'
-  const suffix = mode.startsWith('memo') ? MEMO_MARKER : ''
-  const statDisplay = mode.includes('combat') ? 'combat' : ''
-  const memoDisplay = mode.startsWith('memo') ? 'memo' : ''
+  const isCombat = mode === 'combat' || mode === 'memoCombat'
+  const isMemo = mode === 'memoBasic' || mode === 'memoCombat'
+  const headerGroup = isCombat ? 'Headers.Combat' : 'Headers.Basic'
+  const suffix = isMemo ? MEMO_MARKER : ''
+  const statDisplay = isCombat ? 'combat' : ''
+  const memoDisplay = isMemo ? 'memo' : ''
 
   const header = (key: string) => t(`${headerGroup}.${key}` as any)
   const headerMemo = (key: string) => t(`${headerGroup}.${key}` as any) + suffix

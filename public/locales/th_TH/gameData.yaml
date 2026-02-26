@@ -233,6 +233,9 @@ Characters:
   "1502":
     Name: Yao Guang
     LongName: Yao Guang
+  "1504":
+    Name: Ashveil
+    LongName: Ashveil
   "8001":
     Name: Caelus
     LongName: Caelus (ทำลายล้าง)
@@ -468,6 +471,12 @@ RelicSets:
   "324":
     Name: Tengoku@Livestream
     Description2pc: DMG คริติคอลของผู้สวมใส่ เพิ่มขึ้น 16% หากภายในหนึ่งเทิร์น ใช้แต้มสกิลต่อสู้มากกว่าหรือเท่ากับ 3 แต้ม จะทำให้ DMG คริติคอลของผู้สวมใส่ เพิ่มขึ้นอีก 32% เป็นเวลา 3 เทิร์น
+  "325":
+    Name: Punklorde Stage Zero
+    Description2pc: Increases the wearer's Elation by <unbreak>10%</unbreak>. When Elation reaches <unbreak>40%</unbreak>/<unbreak>80%</unbreak> for the first time in battle, increases the wearer's CRIT DMG by <unbreak>20%</unbreak>/<unbreak>30%</unbreak>.
+  "326":
+    Name: City of Myriad Forms
+    Description2pc: When the wearer uses a Follow-Up ATK, their ATK increases by <unbreak>24%</unbreak> for <unbreak>2</unbreak> turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by <unbreak>12%</unbreak> for the rest of the current battle. This effect cannot stack.
 Lightcones:
   "20000":
     Name: Arrows
@@ -769,6 +778,8 @@ Lightcones:
     Name: Dazzled by a Flowery World
   "23054":
     Name: When She Decided to See
+  "23056":
+    Name: The Finale of a Lie
   "24000":
     Name: On the Fall of an Aeon
   "24001":
@@ -781,6 +792,8 @@ Lightcones:
     Name: Eternal Calculus
   "24005":
     Name: Memory's Curtain Never Falls
+  "24006":
+    Name: Elation Brimming With Blessings
 Paths:
   Warrior: ทำลายล้าง
   Rogue: ล่าสังหาร
@@ -791,7 +804,6 @@ Paths:
   Priest: เฟื่องฟู
   Memory: ความทรงจำ
   Elation: ปิติสุข
-  Unknown: ทั่วไป
 Elements:
   Physical: กายภาพ
   Fire: ไฟ

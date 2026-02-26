@@ -233,6 +233,9 @@ Characters:
   "1502":
     Name: Yao Guang
     LongName: Yao Guang
+  "1504":
+    Name: Ashveil
+    LongName: Ashveil
   "8001":
     Name: Caelus
     LongName: Caelus (La Destruction)
@@ -468,6 +471,12 @@ RelicSets:
   "324":
     Name: Tengoku@Stream
     Description2pc: Augmente les DGT critiques du porteur de 16%. Lorsque 3 points de compétence ou plus sont consommés dans un même tour, les DGT critiques du porteur augmentent de 32% pendant 3 tours.
+  "325":
+    Name: Punklorde Stage Zero
+    Description2pc: Increases the wearer's Elation by <unbreak>10%</unbreak>. When Elation reaches <unbreak>40%</unbreak>/<unbreak>80%</unbreak> for the first time in battle, increases the wearer's CRIT DMG by <unbreak>20%</unbreak>/<unbreak>30%</unbreak>.
+  "326":
+    Name: City of Myriad Forms
+    Description2pc: When the wearer uses a Follow-Up ATK, their ATK increases by <unbreak>24%</unbreak> for <unbreak>2</unbreak> turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by <unbreak>12%</unbreak> for the rest of the current battle. This effect cannot stack.
 Lightcones:
   "20000":
     Name: Flèches
@@ -769,6 +778,8 @@ Lightcones:
     Name: Écran d'artifice
   "23054":
     Name: Lorsqu'elle décida de voir
+  "23056":
+    Name: The Finale of a Lie
   "24000":
     Name: La chute d'un Aiôn
   "24001":
@@ -781,6 +792,8 @@ Lightcones:
     Name: Calcul éternel
   "24005":
     Name: Le rideau de la mémoire ne tombe jamais
+  "24006":
+    Name: Elation Brimming With Blessings
 Paths:
   Warrior: La Destruction
   Rogue: La Chasse
@@ -791,7 +804,6 @@ Paths:
   Priest: L'Abondance
   Memory: Le Souvenir
   Elation: L'Allégresse
-  Unknown: Général
 Elements:
   Physical: Physique
   Fire: Feu

@@ -233,6 +233,9 @@ Characters:
   "1502":
     Name: 爻光
     LongName: 爻光
+  "1504":
+    Name: Ashveil
+    LongName: Ashveil
   "8001":
     Name: 穹
     LongName: 穹 (壊滅)
@@ -468,6 +471,12 @@ RelicSets:
   "324":
     Name: 天国@配信ルーム
     Description2pc: 装備キャラの会心ダメージ+16%。1ターン以内にSPを3以上消費した場合、さらに会心ダメージ+32%、3ターン継続。
+  "325":
+    Name: Punklorde Stage Zero
+    Description2pc: Increases the wearer's Elation by <unbreak>10%</unbreak>. When Elation reaches <unbreak>40%</unbreak>/<unbreak>80%</unbreak> for the first time in battle, increases the wearer's CRIT DMG by <unbreak>20%</unbreak>/<unbreak>30%</unbreak>.
+  "326":
+    Name: City of Myriad Forms
+    Description2pc: When the wearer uses a Follow-Up ATK, their ATK increases by <unbreak>24%</unbreak> for <unbreak>2</unbreak> turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by <unbreak>12%</unbreak> for the rest of the current battle. This effect cannot stack.
 Lightcones:
   "20000":
     Name: 矢じり
@@ -769,6 +778,8 @@ Lightcones:
     Name: きらびやかな世界
   "23054":
     Name: 彼女が視ると決めた時
+  "23056":
+    Name: The Finale of a Lie
   "24000":
     Name: とある星神の殞落を記す
   "24001":
@@ -781,6 +792,8 @@ Lightcones:
     Name: 絶え間ない演算
   "24005":
     Name: 尽きぬ追憶
+  "24006":
+    Name: Elation Brimming With Blessings
 Paths:
   Warrior: 壊滅
   Rogue: 巡狩
@@ -791,7 +804,6 @@ Paths:
   Priest: 豊穣
   Memory: 記憶
   Elation: 愉悦
-  Unknown: 共用
 Elements:
   Physical: 物理
   Fire: 炎

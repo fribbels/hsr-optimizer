@@ -84,10 +84,6 @@ export function displayToForm(form: Form) {
   form.minDot = getNumber(form.minDot, 0)
   form.maxBreak = getNumber(form.maxBreak, MAX_INT)
   form.minBreak = getNumber(form.minBreak, 0)
-  form.maxHeal = getNumber(form.maxHeal, MAX_INT)
-  form.minHeal = getNumber(form.minHeal, 0)
-  form.maxShield = getNumber(form.maxShield, MAX_INT)
-  form.minShield = getNumber(form.minShield, 0)
 
   if (!form.combatBuffs) form.combatBuffs = {}
   for (const buff of Object.values(CombatBuffs)) {
@@ -155,10 +151,6 @@ export function formToDisplay(form: Form) {
   newForm.minDot = unsetMin(form.minDot)
   newForm.maxBreak = unsetMax(form.maxBreak)
   newForm.minBreak = unsetMin(form.minBreak)
-  newForm.maxHeal = unsetMax(form.maxHeal)
-  newForm.minHeal = unsetMin(form.minHeal)
-  newForm.maxShield = unsetMax(form.maxShield)
-  newForm.minShield = unsetMin(form.minShield)
 
   const combatBuffs = {} as Partial<OptimizerCombatBuffs>
   if (!form.combatBuffs) form.combatBuffs = {}

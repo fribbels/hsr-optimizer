@@ -48,8 +48,6 @@ export const MinMaxRatingFilters = () => {
         <FilterRow name='MemoSkill' label={t('MEMOSKILLLabel')} />
         <FilterRow name='Dot' label={t('DOTLabel')} />
         <FilterRow name='Break' label={t('BREAKLabel')} />
-        <FilterRow name='Heal' label={t('HEALLabel')} />
-        <FilterRow name='Shield' label={t('SHIELDLabel')} />
       </Flex>
     </Flex>
   )

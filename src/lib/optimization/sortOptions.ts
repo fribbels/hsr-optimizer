@@ -138,6 +138,6 @@ for (const option of Object.values(SortOption)) {
   columnsToAggregateMap[option.memoCombatGridColumn] = true
 }
 // Display-only columns not in SortOption but needed for gradient coloring
-for (const col of ['ELEMENTAL_DMG', 'xELEMENTAL_DMG', 'mELEMENTAL_DMG', 'mxELEMENTAL_DMG', 'HEAL', 'SHIELD']) {
+for (const col of ['ELEMENTAL_DMG', 'xELEMENTAL_DMG', 'mELEMENTAL_DMG', 'mxELEMENTAL_DMG']) {
   columnsToAggregateMap[col] = true
 }

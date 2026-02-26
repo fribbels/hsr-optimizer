@@ -505,14 +505,6 @@ function filter(filterModel: Form) {
     checks.push({ col, min, max })
   }
 
-  // HEAL/SHIELD are filterable but not SortOptions
-  if (filterModel.minHeal !== 0 || filterModel.maxHeal !== Constants.MAX_INT) {
-    checks.push({ col: 'HEAL' as keyof OptimizerDisplayData, min: filterModel.minHeal, max: filterModel.maxHeal })
-  }
-  if (filterModel.minShield !== 0 || filterModel.maxShield !== Constants.MAX_INT) {
-    checks.push({ col: 'SHIELD' as keyof OptimizerDisplayData, min: filterModel.minShield, max: filterModel.maxShield })
-  }
-
   const indices: number[] = []
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i]

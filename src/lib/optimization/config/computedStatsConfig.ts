@@ -310,5 +310,3 @@ export type ComputedStatsObject = {
 export const baseComputedStatsObject: ComputedStatsObject = Object.fromEntries(
   Object.entries(StatsConfig).map(([key, value]) => [key, value.default]),
 ) as ComputedStatsObject
-
-export const StatsConfigByIndex: StatConfig[] = Object.values(StatsConfig).sort((a, b) => a.index - b.index)

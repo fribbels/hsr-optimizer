@@ -40,7 +40,9 @@ export function initializeGpuPipeline(
     DEBUG,
   })
 
-  console.log(wgsl)
+  if (window.location.hostname === 'localhost') {
+    console.log(wgsl)
+  }
   if (DEBUG && !silent) {
   } else {
     // console.log(wgsl)

@@ -164,7 +164,9 @@ export function CharacterPreview(props: CharacterPreviewProps) {
     }
   }
 
-  if (!character || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE && activeKey != AppPages.OPTIMIZER)) {
+  if (!character
+    || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE && activeKey != AppPages.OPTIMIZER)
+    || (source === ShowcaseSource.CHARACTER_TAB && activeKey === AppPages.OPTIMIZER)) {
     return (
       <div
         style={{

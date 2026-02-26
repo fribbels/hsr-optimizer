@@ -1,5 +1,8 @@
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export function calculateBaseMultis(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
   const lightConeConditionalController = context.lightConeConditionalController

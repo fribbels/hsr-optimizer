@@ -13,6 +13,7 @@
   },
   "scripts": {
     "start": "vite",
+    "find-deadcode": "ts-prune | grep -v \"used in module\"",
     "start:prod": "vite build && vite preview",
     "build": "vite build",
     "lint": "oxlint",
@@ -92,6 +93,7 @@
     "jsdom": "^24.0.0",
     "oxlint": "^1.39.0",
     "terser": "^5.27.0",
+    "ts-prune": "^0.10.3",
     "typescript": "^5.9.3",
     "vite": "^6.4.1",
     "vite-tsconfig-paths": "^4.3.1",

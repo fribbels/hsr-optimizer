@@ -27,10 +27,7 @@ import {
   calculateRelicStats,
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
-import {
-  Key,
-  KeysType,
-} from 'lib/optimization/computedStatsArray'
+import { BasicKey, BasicKeyType } from 'lib/optimization/basicStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer, rebuildEntityRegistry } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -98,11 +95,7 @@ export function optimizerWorker(e: MessageEvent) {
   const summonerDisplay = !memoDisplay
   let passCount = 0
 
-  const {
-    failsBasicThresholdFilter,
-    failsCombatThresholdFilter,
-    // @ts-ignore
-  } = generateResultMinFilter(request, combatDisplay, memoDisplay)
+  const { failsBasicThresholdFilter } = generateResultMinFilter(request)
 
   // Calculate conditional registry for all actions
   for (const action of context.rotationActions) {
@@ -410,31 +403,23 @@ function ehpFilter(request: Form) {
   }
 }
 
-function generateResultMinFilter(request: Form, combatDisplay: string) {
+function generateResultMinFilter(request: Form) {
   const filter = request.resultMinFilter
   // @ts-ignore
   const sortOption = SortOption[request.resultSort] as SortOptionProperties
   const isComputedRating = sortOption.isComputedRating
 
-  // Combat and basic filters apply at different places in the loop
-  // Computed ratings (EHP, DMG, WEIGHT) only apply to the computed x values independent of the stat display
-  if (combatDisplay || isComputedRating) {
-    const key = sortOption.optimizerKey
+  if (isComputedRating) {
     return {
       failsBasicThresholdFilter: () => false,
-      failsCombatThresholdFilter: (candidate: Float32Array) => {
-        return candidate[key] < filter
-      },
     }
-  } else {
-    const property = sortOption.gpuProperty as KeysType
-    const key = Key[property]
-    return {
-      failsBasicThresholdFilter: (candidate: Float32Array) => {
-        return candidate[key] < filter
-      },
-      failsCombatThresholdFilter: () => false,
-    }
+  }
+
+  const key = BasicKey[sortOption.gpuProperty as BasicKeyType]
+  return {
+    failsBasicThresholdFilter: (candidate: Float32Array) => {
+      return candidate[key] < filter
+    },
   }
 }
 

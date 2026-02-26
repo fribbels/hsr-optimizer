@@ -684,8 +684,8 @@ export class RelicScorer {
           bestUpgradedStats.push(stat)
         }
       }
-      bestAddedStats.forEach((s, i) => bestAddedStats[i] = i18next.t(`common:Stats.${s}`))
-      bestUpgradedStats.forEach((s, i) => bestUpgradedStats[i] = i18next.t(`common:Stats.${s}`))
+      bestAddedStats.forEach((s, i) => bestAddedStats[i] = i18next.t(`common:Stats.${s}`) as SubStats)
+      bestUpgradedStats.forEach((s, i) => bestUpgradedStats[i] = i18next.t(`common:Stats.${s}`) as SubStats)
       levelupMetadata = {
         bestAddedStats: bestAddedStats,
         bestUpgradedStats: bestUpgradedStats,

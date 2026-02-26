@@ -30,7 +30,7 @@ export function getAKeyName(key: AKeyValue): AKeyType {
 // ============== HKey ==============
 
 const hitStatEntries = Object.entries(newStatsConfig)
-  .filter(([_, value]) => (value as { hit?: boolean }).hit === true)
+  .filter(([_, value]) => (value as { hit?: boolean }).hit)
 
 // HKeyType is the subset of AKeyType that has hit: true
 export type HKeyType = (typeof hitStatEntries)[number][0]
@@ -86,4 +86,3 @@ export const StatKey = AKey
 export type StatKeyType = AKeyType
 export type StatKeyValue = AKeyValue
 export const getStatKeyName = getAKeyName
-

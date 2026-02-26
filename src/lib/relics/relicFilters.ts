@@ -4,13 +4,14 @@ import {
   RelicSetFilterOptions,
   SetsOrnaments,
   SetsRelics,
+  StatsValues,
   SubStatValues,
 } from 'lib/constants/constants'
 import {
   RelicsByPart,
   SingleRelicByPart,
 } from 'lib/gpu/webgpuTypes'
-import { StatToKey } from 'lib/optimization/computedStatsArray'
+import { BasicStatToKey } from 'lib/optimization/basicStatsArray'
 import DB from 'lib/state/db'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -298,13 +299,13 @@ export const RelicFilters = {
       relic.condensedStats = []
       for (const substat of relic.substats) {
         const stat = substat.stat
-        const key = StatToKey[stat]
+        const key = BasicStatToKey[stat]
         const value = getValueByStatType(stat, substat.value)
 
         relic.condensedStats.push([key, value])
       }
       // Use augmented main value for maxed main stat filter
-      relic.condensedStats.push([StatToKey[relic.augmentedStats!.mainStat], relic.augmentedStats!.mainValue])
+      relic.condensedStats.push([BasicStatToKey[relic.augmentedStats!.mainStat as StatsValues], relic.augmentedStats!.mainValue])
     }
   },
 

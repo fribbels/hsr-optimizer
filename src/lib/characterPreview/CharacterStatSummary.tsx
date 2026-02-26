@@ -6,7 +6,7 @@ import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { PathNames, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
-import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import {

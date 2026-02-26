@@ -1,7 +1,18 @@
 import { Flex } from 'antd'
 import i18next from 'i18next'
-import { DamageBreakdown } from 'lib/optimization/computedStatsArray'
 import { DAMAGE_SPLITS_CHART_HEIGHT, DAMAGE_SPLITS_CHART_WIDTH, } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
+
+export type DamageBreakdown = {
+  name: string,
+  abilityDmg: number,
+  additionalDmg: number,
+  breakDmg: number,
+  superBreakDmg: number,
+  jointDmg: number,
+  trueDmg: number,
+  dotDmg: number,
+  memoDmg: number,
+}
 import { localeNumberComma } from 'lib/utils/i18nUtils'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'

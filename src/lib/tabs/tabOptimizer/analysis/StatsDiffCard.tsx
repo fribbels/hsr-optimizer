@@ -5,7 +5,7 @@ import {
 } from 'lib/characterPreview/StatRow'
 import StatText from 'lib/characterPreview/StatText'
 import { Stats } from 'lib/constants/constants'
-import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { CharacterPreviewInternalImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'

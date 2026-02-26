@@ -8,7 +8,7 @@ import {
   StatsValues,
 } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
-import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 
 import { Assets } from 'lib/rendering/assets'
 import { SimulationResult } from 'lib/scoring/simScoringUtils'

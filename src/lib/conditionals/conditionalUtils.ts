@@ -1,11 +1,16 @@
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ElementName, PathName, } from 'lib/constants/constants'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  ElementName,
+  PathName,
+} from 'lib/constants/constants'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { CYRENE } from 'lib/simulations/tests/testMetadataConstants'
 import { ContentItem } from 'types/conditionals'
 import { Hit } from 'types/hitConditionalTypes'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 /**
  * Helper methods used in conditional files
@@ -21,16 +26,6 @@ export type ContentDefinition<T extends Record<string, unknown>> = {
 
 export type Conditionals<T extends ContentDefinition<T>> = {
   [K in keyof T]: number
-}
-
-export const calculateAshblazingSetP = (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext, hitMulti: number): number => {
-  if (x.c.sets.TheAshblazingGrandDuke >> 2) {
-    const valueTheAshblazingGrandDuke = action.setConditionals.valueTheAshblazingGrandDuke
-    const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke
-    return hitMulti - ashblazingAtk
-  } else {
-    return 0
-  }
 }
 
 export const ability = (upgradeEidolon: number) => {

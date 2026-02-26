@@ -1,5 +1,8 @@
-import { ElementName, ElementToStatKeyDmgBoost, } from 'lib/constants/constants'
-import { Key, } from 'lib/optimization/computedStatsArray'
+import {
+  ElementName,
+  ElementToStatKeyDmgBoost,
+} from 'lib/constants/constants'
+import { BasicKey } from 'lib/optimization/basicStatsArray'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { StatKey } from './engine/config/keys'
@@ -7,13 +10,13 @@ import { StatKey } from './engine/config/keys'
 const SIZE = 76
 
 export const ElementToBasicKeyDmgBoost: Record<string, number> = {
-  Physical: Key.PHYSICAL_DMG_BOOST,
-  Fire: Key.FIRE_DMG_BOOST,
-  Ice: Key.ICE_DMG_BOOST,
-  Lightning: Key.LIGHTNING_DMG_BOOST,
-  Wind: Key.WIND_DMG_BOOST,
-  Quantum: Key.QUANTUM_DMG_BOOST,
-  Imaginary: Key.IMAGINARY_DMG_BOOST,
+  Physical: BasicKey.PHYSICAL_DMG_BOOST,
+  Fire: BasicKey.FIRE_DMG_BOOST,
+  Ice: BasicKey.ICE_DMG_BOOST,
+  Lightning: BasicKey.LIGHTNING_DMG_BOOST,
+  Wind: BasicKey.WIND_DMG_BOOST,
+  Quantum: BasicKey.QUANTUM_DMG_BOOST,
+  Imaginary: BasicKey.IMAGINARY_DMG_BOOST,
 }
 
 export type OptimizerDisplayData = {

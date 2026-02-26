@@ -1,11 +1,6 @@
 import { ElementNames } from 'lib/constants/constants'
 import { GpuExecutionContext } from 'lib/gpu/webgpuTypes'
-import {
-  ComputedStatsObjectExternal,
-  InternalKeyToExternal,
-  Key,
-  KeysType,
-} from 'lib/optimization/computedStatsArray'
+import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import {
@@ -219,14 +214,7 @@ export function debugPinOptimizerWebgpuArray(array: Float32Array) {
 }
 
 export function debugWebgpuComputedStats(array: Float32Array): ComputedStatsObjectExternal {
-  const result: Partial<ComputedStatsObjectExternal> = {}
-
-  for (const key in Key) {
-    const externalKey = InternalKeyToExternal[key] ?? key
-    const numericKey = Key[key as KeysType]
-    result[externalKey] = array[numericKey]
-  }
-  return result as ComputedStatsObjectExternal
+  return ComputedStatsContainer.fromArrays(array, new Float32Array(0)).toComputedStatsObject()
 }
 
 // export type WebgpuComputedStats = ReturnType<typeof debugWebgpuComputedStats>

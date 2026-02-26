@@ -1,7 +1,18 @@
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
+import {
+  Stats,
+  StatsValues,
+} from 'lib/constants/constants'
 import { BuffSource } from 'lib/optimization/buffSource'
 import { SetCounts } from 'lib/optimization/calculateStats'
-import { Buff, Key, } from 'lib/optimization/computedStatsArray'
+
+export type Buff = {
+  stat: string,
+  key: number,
+  value: number,
+  source: BuffSource,
+  memo?: boolean,
+}
 
 type BasicStatController = {
   buff: (value: number, source: BuffSource) => void,
@@ -47,6 +58,42 @@ const baseCharacterStats = {
   IMAGINARY_DMG_BOOST: 0.00000001,
   ELATION: 0.00000001,
   ELEMENTAL_DMG: 0.00000001,
+}
+
+export type BasicKeyType = keyof typeof baseCharacterStats
+
+export const BasicKey: Record<BasicKeyType, number> = Object.keys(baseCharacterStats).reduce(
+  (acc, key, index) => {
+    acc[key as BasicKeyType] = index
+    return acc
+  },
+  {} as Record<BasicKeyType, number>,
+)
+
+export const BasicStatToKey: Record<StatsValues, number> = {
+  [Stats.ATK_P]: BasicKey.ATK_P,
+  [Stats.ATK]: BasicKey.ATK,
+  [Stats.BE]: BasicKey.BE,
+  [Stats.CD]: BasicKey.CD,
+  [Stats.CR]: BasicKey.CR,
+  [Stats.DEF_P]: BasicKey.DEF_P,
+  [Stats.DEF]: BasicKey.DEF,
+  [Stats.EHR]: BasicKey.EHR,
+  [Stats.ERR]: BasicKey.ERR,
+  [Stats.Fire_DMG]: BasicKey.FIRE_DMG_BOOST,
+  [Stats.HP_P]: BasicKey.HP_P,
+  [Stats.HP]: BasicKey.HP,
+  [Stats.Ice_DMG]: BasicKey.ICE_DMG_BOOST,
+  [Stats.Imaginary_DMG]: BasicKey.IMAGINARY_DMG_BOOST,
+  [Stats.Lightning_DMG]: BasicKey.LIGHTNING_DMG_BOOST,
+  [Stats.OHB]: BasicKey.OHB,
+  [Stats.Physical_DMG]: BasicKey.PHYSICAL_DMG_BOOST,
+  [Stats.Quantum_DMG]: BasicKey.QUANTUM_DMG_BOOST,
+  [Stats.RES]: BasicKey.RES,
+  [Stats.SPD_P]: BasicKey.SPD_P,
+  [Stats.SPD]: BasicKey.SPD,
+  [Stats.Wind_DMG]: BasicKey.WIND_DMG_BOOST,
+  [Stats.Elation]: BasicKey.ELATION,
 }
 
 export function baseBasicStatsArray() {
@@ -158,30 +205,30 @@ export class BasicStatsArrayCore {
 
 export function toBasicStatsObject(a: Float32Array, weight: number = 0, relicSetIndex: number = 0, ornamentSetIndex: number = 0) {
   const result: Partial<BasicStatsObject> = {
-    'HP%': a[Key.HP_P],
-    'ATK%': a[Key.ATK_P],
-    'DEF%': a[Key.DEF_P],
-    'SPD%': a[Key.SPD_P],
-    'HP': a[Key.HP],
-    'ATK': a[Key.ATK],
-    'DEF': a[Key.DEF],
-    'SPD': a[Key.SPD],
-    'CRIT Rate': a[Key.CR],
-    'CRIT DMG': a[Key.CD],
-    'Effect Hit Rate': a[Key.EHR],
-    'Effect RES': a[Key.RES],
-    'Break Effect': a[Key.BE],
-    'Energy Regeneration Rate': a[Key.ERR],
-    'Outgoing Healing Boost': a[Key.OHB],
-    'Physical DMG Boost': a[Key.PHYSICAL_DMG_BOOST],
-    'Fire DMG Boost': a[Key.FIRE_DMG_BOOST],
-    'Ice DMG Boost': a[Key.ICE_DMG_BOOST],
-    'Lightning DMG Boost': a[Key.LIGHTNING_DMG_BOOST],
-    'Wind DMG Boost': a[Key.WIND_DMG_BOOST],
-    'Quantum DMG Boost': a[Key.QUANTUM_DMG_BOOST],
-    'Imaginary DMG Boost': a[Key.IMAGINARY_DMG_BOOST],
-    'Elation': a[Key.ELATION],
-    'ELEMENTAL_DMG': a[Key.ELEMENTAL_DMG],
+    'HP%': a[BasicKey.HP_P],
+    'ATK%': a[BasicKey.ATK_P],
+    'DEF%': a[BasicKey.DEF_P],
+    'SPD%': a[BasicKey.SPD_P],
+    'HP': a[BasicKey.HP],
+    'ATK': a[BasicKey.ATK],
+    'DEF': a[BasicKey.DEF],
+    'SPD': a[BasicKey.SPD],
+    'CRIT Rate': a[BasicKey.CR],
+    'CRIT DMG': a[BasicKey.CD],
+    'Effect Hit Rate': a[BasicKey.EHR],
+    'Effect RES': a[BasicKey.RES],
+    'Break Effect': a[BasicKey.BE],
+    'Energy Regeneration Rate': a[BasicKey.ERR],
+    'Outgoing Healing Boost': a[BasicKey.OHB],
+    'Physical DMG Boost': a[BasicKey.PHYSICAL_DMG_BOOST],
+    'Fire DMG Boost': a[BasicKey.FIRE_DMG_BOOST],
+    'Ice DMG Boost': a[BasicKey.ICE_DMG_BOOST],
+    'Lightning DMG Boost': a[BasicKey.LIGHTNING_DMG_BOOST],
+    'Wind DMG Boost': a[BasicKey.WIND_DMG_BOOST],
+    'Quantum DMG Boost': a[BasicKey.QUANTUM_DMG_BOOST],
+    'Imaginary DMG Boost': a[BasicKey.IMAGINARY_DMG_BOOST],
+    'Elation': a[BasicKey.ELATION],
+    'ELEMENTAL_DMG': a[BasicKey.ELEMENTAL_DMG],
     'relicSetIndex': relicSetIndex,
     'ornamentSetIndex': ornamentSetIndex,
   }

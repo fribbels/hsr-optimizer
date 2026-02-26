@@ -1,11 +1,12 @@
 import {
   Stats,
+  StatsValues,
   SubStats,
 } from 'lib/constants/constants'
-import { StatToKey } from 'lib/optimization/computedStatsArray'
 import {
   applyScoringFunction,
   SimulationResult,
+  StatsToStatKey,
   substatRollsModifier,
 } from 'lib/scoring/simScoringUtils'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
@@ -140,7 +141,7 @@ function computeOptimalSimulationReduction(input: ComputeOptimalSimulationWorker
       simulationRuns++
 
       if (breakpointsCap && breakpoints?.[stat]) {
-        if (newSimResult.xa[StatToKey[stat]] < breakpoints[stat]) {
+        if (newSimResult.xa[StatsToStatKey[stat as StatsValues]] < breakpoints[stat]) {
           currentSimulation.request.stats[stat] = undo
           continue
         }

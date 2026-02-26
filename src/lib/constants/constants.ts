@@ -734,8 +734,6 @@ export const setToId = {
 
 export const ABILITY_LIMIT = 12
 
-export const DamageKeys = ['BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK']
-
 export const DEFAULT_TEAM = 'Default'
 export const CUSTOM_TEAM = 'Custom'
 export const SETTINGS_TEAM = 'Settings'

@@ -11,9 +11,9 @@ import {
   SpaceSealingStationConditional,
   TaliaKingdomOfBanditryConditional,
 } from 'lib/gpu/conditionals/setConditionals'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicKey, BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { Key, StatToKey, } from 'lib/optimization/computedStatsArray'
+import { BasicStatToKey } from 'lib/optimization/basicStatsArray'
 import { OrnamentSetsConfig, RelicSetsConfig, SetKeys, SetKeyType, } from 'lib/optimization/config/setsConfig'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
@@ -91,33 +91,33 @@ export function calculateElementalStats(c: BasicStatsArray, context: OptimizerCo
 
   // NOTE: c.ELEMENTAL_DMG represents the character's type, while x.ELEMENTAL_DMG represents ALL types.
   // This is mostly because there isn't a need to split out damage types while we're calculating display stats.
-  a[Key.ELEMENTAL_DMG] = 0
+  a[BasicKey.ELEMENTAL_DMG] = 0
   switch (context.elementalDamageType) {
     case Stats.Physical_DMG:
-      a[Key.PHYSICAL_DMG_BOOST] = sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0)
+      a[BasicKey.PHYSICAL_DMG_BOOST] = sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0)
       break
     case Stats.Fire_DMG:
-      a[Key.FIRE_DMG_BOOST] = sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0)
+      a[BasicKey.FIRE_DMG_BOOST] = sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0)
       break
     case Stats.Ice_DMG:
-      a[Key.ICE_DMG_BOOST] = sumPercentStat(Stats.Ice_DMG, base, lc, trace, c, 0)
+      a[BasicKey.ICE_DMG_BOOST] = sumPercentStat(Stats.Ice_DMG, base, lc, trace, c, 0)
       break
     case Stats.Lightning_DMG:
-      a[Key.LIGHTNING_DMG_BOOST] = sumPercentStat(Stats.Lightning_DMG, base, lc, trace, c, 0)
+      a[BasicKey.LIGHTNING_DMG_BOOST] = sumPercentStat(Stats.Lightning_DMG, base, lc, trace, c, 0)
       break
     case Stats.Wind_DMG:
-      a[Key.WIND_DMG_BOOST] = sumPercentStat(Stats.Wind_DMG, base, lc, trace, c, 0)
+      a[BasicKey.WIND_DMG_BOOST] = sumPercentStat(Stats.Wind_DMG, base, lc, trace, c, 0)
       break
     case Stats.Quantum_DMG:
-      a[Key.QUANTUM_DMG_BOOST] = sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0)
+      a[BasicKey.QUANTUM_DMG_BOOST] = sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0)
       break
     case Stats.Imaginary_DMG:
-      a[Key.IMAGINARY_DMG_BOOST] = sumPercentStat(Stats.Imaginary_DMG, base, lc, trace, c, 0)
+      a[BasicKey.IMAGINARY_DMG_BOOST] = sumPercentStat(Stats.Imaginary_DMG, base, lc, trace, c, 0)
       break
   }
 
   // Elation DMG is calculated independently of character element - it comes from traces/LC only (not relics)
-  a[Key.ELATION] = sumPercentStat(Stats.Elation, base, lc, trace, c, 0)
+  a[BasicKey.ELATION] = sumPercentStat(Stats.Elation, base, lc, trace, c, 0)
 }
 
 export function calculateBaseStats(c: BasicStatsArray, context: OptimizerContext) {
@@ -126,17 +126,17 @@ export function calculateBaseStats(c: BasicStatsArray, context: OptimizerContext
   const trace = context.characterStatsBreakdown.traces
   const a = c.a
 
-  a[Key.SPD] = sumFlatStat(Stats.SPD, Stats.SPD_P, context.baseSPD, lc, trace, c, 0)
-  a[Key.HP] = sumFlatStat(Stats.HP, Stats.HP_P, context.baseHP, lc, trace, c, 0)
-  a[Key.ATK] = sumFlatStat(Stats.ATK, Stats.ATK_P, context.baseATK, lc, trace, c, 0)
-  a[Key.DEF] = sumFlatStat(Stats.DEF, Stats.DEF_P, context.baseDEF, lc, trace, c, 0)
-  a[Key.CR] = sumPercentStat(Stats.CR, base, lc, trace, c, 0)
-  a[Key.CD] = sumPercentStat(Stats.CD, base, lc, trace, c, 0)
-  a[Key.EHR] = sumPercentStat(Stats.EHR, base, lc, trace, c, 0)
-  a[Key.RES] = sumPercentStat(Stats.RES, base, lc, trace, c, 0)
-  a[Key.BE] = sumPercentStat(Stats.BE, base, lc, trace, c, 0)
-  a[Key.ERR] = sumPercentStat(Stats.ERR, base, lc, trace, c, 0)
-  a[Key.OHB] = sumPercentStat(Stats.OHB, base, lc, trace, c, 0)
+  a[BasicKey.SPD] = sumFlatStat(Stats.SPD, Stats.SPD_P, context.baseSPD, lc, trace, c, 0)
+  a[BasicKey.HP] = sumFlatStat(Stats.HP, Stats.HP_P, context.baseHP, lc, trace, c, 0)
+  a[BasicKey.ATK] = sumFlatStat(Stats.ATK, Stats.ATK_P, context.baseATK, lc, trace, c, 0)
+  a[BasicKey.DEF] = sumFlatStat(Stats.DEF, Stats.DEF_P, context.baseDEF, lc, trace, c, 0)
+  a[BasicKey.CR] = sumPercentStat(Stats.CR, base, lc, trace, c, 0)
+  a[BasicKey.CD] = sumPercentStat(Stats.CD, base, lc, trace, c, 0)
+  a[BasicKey.EHR] = sumPercentStat(Stats.EHR, base, lc, trace, c, 0)
+  a[BasicKey.RES] = sumPercentStat(Stats.RES, base, lc, trace, c, 0)
+  a[BasicKey.BE] = sumPercentStat(Stats.BE, base, lc, trace, c, 0)
+  a[BasicKey.ERR] = sumPercentStat(Stats.ERR, base, lc, trace, c, 0)
+  a[BasicKey.OHB] = sumPercentStat(Stats.OHB, base, lc, trace, c, 0)
 }
 
 export function calculateBasicEffects(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
@@ -197,14 +197,14 @@ function transferBaseStats(x: ComputedStatsContainer, a: Float32Array, c: BasicS
     a[o + StatKey.OHB] += ca[StatKey.OHB]
 
     // Elemental damage boosts
-    a[o + StatKey.PHYSICAL_DMG_BOOST] += ca[Key.PHYSICAL_DMG_BOOST]
-    a[o + StatKey.FIRE_DMG_BOOST] += ca[Key.FIRE_DMG_BOOST]
-    a[o + StatKey.ICE_DMG_BOOST] += ca[Key.ICE_DMG_BOOST]
-    a[o + StatKey.LIGHTNING_DMG_BOOST] += ca[Key.LIGHTNING_DMG_BOOST]
-    a[o + StatKey.WIND_DMG_BOOST] += ca[Key.WIND_DMG_BOOST]
-    a[o + StatKey.QUANTUM_DMG_BOOST] += ca[Key.QUANTUM_DMG_BOOST]
-    a[o + StatKey.IMAGINARY_DMG_BOOST] += ca[Key.IMAGINARY_DMG_BOOST]
-    a[o + StatKey.ELATION] += ca[Key.ELATION]
+    a[o + StatKey.PHYSICAL_DMG_BOOST] += ca[BasicKey.PHYSICAL_DMG_BOOST]
+    a[o + StatKey.FIRE_DMG_BOOST] += ca[BasicKey.FIRE_DMG_BOOST]
+    a[o + StatKey.ICE_DMG_BOOST] += ca[BasicKey.ICE_DMG_BOOST]
+    a[o + StatKey.LIGHTNING_DMG_BOOST] += ca[BasicKey.LIGHTNING_DMG_BOOST]
+    a[o + StatKey.WIND_DMG_BOOST] += ca[BasicKey.WIND_DMG_BOOST]
+    a[o + StatKey.QUANTUM_DMG_BOOST] += ca[BasicKey.QUANTUM_DMG_BOOST]
+    a[o + StatKey.IMAGINARY_DMG_BOOST] += ca[BasicKey.IMAGINARY_DMG_BOOST]
+    a[o + StatKey.ELATION] += ca[BasicKey.ELATION]
 
     // Base stats (actionSet = semantics)
     a[o + StatKey.BASE_ATK] = context.baseATK
@@ -241,14 +241,14 @@ function calculateMemospriteBaseStats(x: ComputedStatsContainer, a: Float32Array
     a[x.getActionIndex(entityIndex, StatKey.ERR)] += c.a[StatKey.ERR]
     a[x.getActionIndex(entityIndex, StatKey.OHB)] += c.a[StatKey.OHB]
 
-    a[x.getActionIndex(entityIndex, StatKey.PHYSICAL_DMG_BOOST)] += c.a[Key.PHYSICAL_DMG_BOOST]
-    a[x.getActionIndex(entityIndex, StatKey.FIRE_DMG_BOOST)] += c.a[Key.FIRE_DMG_BOOST]
-    a[x.getActionIndex(entityIndex, StatKey.ICE_DMG_BOOST)] += c.a[Key.ICE_DMG_BOOST]
-    a[x.getActionIndex(entityIndex, StatKey.LIGHTNING_DMG_BOOST)] += c.a[Key.LIGHTNING_DMG_BOOST]
-    a[x.getActionIndex(entityIndex, StatKey.WIND_DMG_BOOST)] += c.a[Key.WIND_DMG_BOOST]
-    a[x.getActionIndex(entityIndex, StatKey.QUANTUM_DMG_BOOST)] += c.a[Key.QUANTUM_DMG_BOOST]
-    a[x.getActionIndex(entityIndex, StatKey.IMAGINARY_DMG_BOOST)] += c.a[Key.IMAGINARY_DMG_BOOST]
-    a[x.getActionIndex(entityIndex, StatKey.ELATION)] += c.a[Key.ELATION]
+    a[x.getActionIndex(entityIndex, StatKey.PHYSICAL_DMG_BOOST)] += c.a[BasicKey.PHYSICAL_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.FIRE_DMG_BOOST)] += c.a[BasicKey.FIRE_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.ICE_DMG_BOOST)] += c.a[BasicKey.ICE_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.LIGHTNING_DMG_BOOST)] += c.a[BasicKey.LIGHTNING_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.WIND_DMG_BOOST)] += c.a[BasicKey.WIND_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.QUANTUM_DMG_BOOST)] += c.a[BasicKey.QUANTUM_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.IMAGINARY_DMG_BOOST)] += c.a[BasicKey.IMAGINARY_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.ELATION)] += c.a[BasicKey.ELATION]
   }
 }
 
@@ -454,7 +454,7 @@ function sumPercentStat(
   relicSum: BasicStatsArray,
   setEffects: number,
 ): number {
-  return base[stat] + lc[stat] + relicSum.a[StatToKey[stat]] + trace[stat] + setEffects
+  return base[stat] + lc[stat] + relicSum.a[BasicStatToKey[stat]] + trace[stat] + setEffects
 }
 
 function sumFlatStat(
@@ -466,7 +466,7 @@ function sumFlatStat(
   relicSum: BasicStatsArray,
   setEffects: number,
 ): number {
-  return baseValue * (1 + setEffects + relicSum.a[StatToKey[statP]] + trace[statP] + lc[statP]) + relicSum.a[StatToKey[stat]] + trace[stat]
+  return baseValue * (1 + setEffects + relicSum.a[BasicStatToKey[statP]] + trace[statP] + lc[statP]) + relicSum.a[BasicStatToKey[stat]] + trace[stat]
 }
 
 const pioneerSetIndexToCd: Record<number, number> = {

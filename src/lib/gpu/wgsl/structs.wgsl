@@ -47,6 +47,7 @@ struct BasicStats {
   WIND_DMG_BOOST: f32,
   QUANTUM_DMG_BOOST: f32,
   IMAGINARY_DMG_BOOST: f32,
+  ELATION: f32,
 }
 
 struct Sets {

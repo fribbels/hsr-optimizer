@@ -122,6 +122,7 @@ const paramStatNames = {
   Wind_DMG: Stats.Wind_DMG,
   Quantum_DMG: Stats.Quantum_DMG,
   Imaginary_DMG: Stats.Imaginary_DMG,
+  Elation: Stats.Elation,
 }
 
 const paramElementToIndex = {

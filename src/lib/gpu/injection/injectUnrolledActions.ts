@@ -743,6 +743,7 @@ function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = T
   ${containerActionVal(entityIndex, AKey.WIND_DMG_BOOST, config)} += (*p_c).WIND_DMG_BOOST;
   ${containerActionVal(entityIndex, AKey.QUANTUM_DMG_BOOST, config)} += (*p_c).QUANTUM_DMG_BOOST;
   ${containerActionVal(entityIndex, AKey.IMAGINARY_DMG_BOOST, config)} += (*p_c).IMAGINARY_DMG_BOOST;
+  ${containerActionVal(entityIndex, AKey.ELATION, config)} += (*p_c).ELATION;
 `,
       )
     }

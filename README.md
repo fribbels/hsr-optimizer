@@ -1,4 +1,4 @@
-# About
+# Fribbels Honkai Star Rail Optimizer
 
 Tools for optimizing your Honkai Star Rail builds, including the Character Optimizer and Relic Scorer.
 

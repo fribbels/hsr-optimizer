@@ -83,8 +83,8 @@ function buildColumnDefs(mode: DisplayMode, t: TFunction<'optimizerTab', 'Grid'>
   const statDisplay = isCombat ? 'combat' : ''
   const memoDisplay = isMemo ? 'memo' : ''
 
-  const header = (key: string) => t(`${headerGroup}.${key}` as any)
-  const headerMemo = (key: string) => t(`${headerGroup}.${key}` as any) + suffix
+  const header = (key: string) => t(`${headerGroup}.${key}` as any) as string
+  const headerMemo = (key: string) => (t(`${headerGroup}.${key}` as any) as string) + suffix
 
   return [
     { field: 'relicSetIndex' as const, cellRenderer: Renderer.relicSet, width: 72, headerName: header('Set') },

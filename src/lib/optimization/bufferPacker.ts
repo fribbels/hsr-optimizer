@@ -19,7 +19,6 @@ export const ElementToBasicKeyDmgBoost: Record<string, number> = {
   Imaginary: BasicKey.IMAGINARY_DMG_BOOST,
 }
 
-
 export type OptimizerDisplayData = {
   'id': number,
 

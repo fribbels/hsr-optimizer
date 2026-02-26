@@ -1,4 +1,8 @@
-import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF, } from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityType,
+  BUFF_PRIORITY_MEMO,
+  BUFF_PRIORITY_SELF,
+} from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -7,23 +11,45 @@ import {
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
-import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgsl, wgslFalse, wgslTrue, } from 'lib/gpu/injection/wgslUtils'
-import { Source } from 'lib/optimization/buffSource'
-import { TsUtils } from 'lib/utils/TsUtils'
 
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
-import { HKey, StatKey, } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Stats,
+} from 'lib/constants/constants'
+import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import {
+  containerActionVal,
+  p_containerActionVal,
+} from 'lib/gpu/injection/injectUtils'
+import {
+  wgsl,
+  wgslFalse,
+  wgslTrue,
+} from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
+import {
+  HKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { AbilityDefinition } from 'types/hitConditionalTypes'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export const AglaeaAbilities = createEnum(
   'BASIC',
@@ -162,9 +188,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     actionDeclaration: () => Object.values(AglaeaAbilities),
 
     entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
-      // x.set(StatKey.MEMO_BASE_HP_SCALING, memoBaseHpScaling, x.source(SOURCE_MEMO))
-      // x.MEMO_BASE_HP_FLAT.buff(memoBaseHpFlat, SOURCE_MEMO)
-      // x.MEMO_BASE_SPD_SCALING.buff(0.35, SOURCE_MEMO)
       return {
         [AglaeaEntities.Aglaea]: {
           primary: true,
@@ -303,9 +326,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
         x.buff(StatKey.DMG_BOOST, jointBoost, x.damageType(DamageTag.BASIC).targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6))
       }
-
-      // TODO
-      // x.buff(StatKey.ATK, 3436, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -345,22 +365,6 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
   }
 }
       `
-      //       return `
-      // if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
-      //   if (x.SPD > 320 || m.SPD > 320) {
-      //     x.BASIC_DMG_BOOST += 0.60;
-      //     m.BASIC_DMG_BOOST += 0.60;
-      //   } else if (x.SPD > 240 || m.SPD > 240) {
-      //     x.BASIC_DMG_BOOST += 0.30;
-      //     m.BASIC_DMG_BOOST += 0.30;
-      //   } else if (x.SPD > 160 || m.SPD > 160) {
-      //     x.BASIC_DMG_BOOST += 0.10;
-      //     m.BASIC_DMG_BOOST += 0.10;
-      //   }
-      // }
-      //
-      // ${gpuBasicAdditionalDmgAtkFinalizer()}
-      // `
     },
     dynamicConditionals: [
       {

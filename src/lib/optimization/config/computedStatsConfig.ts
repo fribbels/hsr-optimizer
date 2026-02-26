@@ -306,7 +306,3 @@ export const StatsConfig: ComputedStatsConfigType = Object.fromEntries(
 export type ComputedStatsObject = {
   [K in keyof typeof StatsConfig]: number
 }
-
-export const baseComputedStatsObject: ComputedStatsObject = Object.fromEntries(
-  Object.entries(StatsConfig).map(([key, value]) => [key, value.default]),
-) as ComputedStatsObject

@@ -775,7 +775,7 @@ type NestedObject = {
 
 function shiftAllActivations(obj: NestedObject, index: number): void {
   for (const key in obj) {
-    if (!Object.prototype.hasOwnProperty.call(obj, key)) continue
+    if (!Object.hasOwn(obj, key)) continue
 
     if (key === 'activations' && Array.isArray(obj[key])) {
       shiftLeft(obj[key] as boolean[], index)
@@ -789,7 +789,7 @@ function shiftAllActivations(obj: NestedObject, index: number): void {
 
 function setActivationIndexToDefault(obj: NestedObject, index: number): void {
   for (const key in obj) {
-    if (!Object.prototype.hasOwnProperty.call(obj, key)) continue
+    if (!Object.hasOwn(obj, key)) continue
 
     if (key === 'activations' && Array.isArray(obj[key])) {
       obj[key][index] = (obj[key] as boolean[])[0]

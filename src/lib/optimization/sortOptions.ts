@@ -1,16 +1,51 @@
-// This file tracks the mapping between various stat property references between the optimizer / worker / grid / buffer packer
-// This sucks - clean up the discrepancies eventually
+import { StatKey, StatKeyValue } from 'lib/optimization/engine/config/keys'
 
 export type SortOptionKey = keyof typeof SortOption
 
 export type SortOptionProperties = {
   key: SortOptionKey,
-  gpuProperty: string,
   basicGridColumn: string,
   combatGridColumn: string,
   memoBasicGridColumn: string,
   memoCombatGridColumn: string,
   isComputedRating?: boolean,
+  minFilterKey?: string,
+  maxFilterKey?: string,
+  statKey?: StatKeyValue,
+}
+
+// Builder for base stats — derives all 4 grid columns from the short key
+function baseStat(key: string, filterable?: boolean): SortOptionProperties {
+  const pascal = filterable ? toPascalCase(key) : undefined
+  return {
+    key: key as SortOptionKey,
+    basicGridColumn: key,
+    combatGridColumn: `x${key}`,
+    memoBasicGridColumn: `m${key}`,
+    memoCombatGridColumn: `mx${key}`,
+    minFilterKey: pascal ? `min${pascal}` : undefined,
+    maxFilterKey: pascal ? `max${pascal}` : undefined,
+  }
+}
+
+// BASIC → Basic, MEMO_SKILL → MemoSkill
+function toPascalCase(key: string): string {
+  return key.split('_').map((s) => s[0] + s.slice(1).toLowerCase()).join('')
+}
+
+// Builder for computed ratings — all 4 grid columns are identical (the value is display-mode-independent)
+function computed(key: string, filterable?: boolean): SortOptionProperties {
+  const pascal = filterable ? toPascalCase(key) : undefined
+  return {
+    key: key as SortOptionKey,
+    basicGridColumn: key,
+    combatGridColumn: key,
+    memoBasicGridColumn: key,
+    memoCombatGridColumn: key,
+    isComputedRating: true,
+    minFilterKey: pascal ? `min${pascal}` : undefined,
+    maxFilterKey: pascal ? `max${pascal}` : undefined,
+  }
 }
 
 export const SortOption: {
@@ -47,281 +82,62 @@ export const SortOption: {
   FUA_SHIELD: SortOptionProperties,
   TALENT_SHIELD: SortOptionProperties,
 } = {
-  ATK: {
-    key: 'ATK',
-    gpuProperty: 'ATK',
-    basicGridColumn: 'ATK',
-    combatGridColumn: 'xATK',
-    memoBasicGridColumn: 'mATK',
-    memoCombatGridColumn: 'mxATK',
-  },
-  DEF: {
-    key: 'DEF',
-    gpuProperty: 'DEF',
-    basicGridColumn: 'DEF',
-    combatGridColumn: 'xDEF',
-    memoBasicGridColumn: 'mATK',
-    memoCombatGridColumn: 'mxATK',
-  },
-  HP: {
-    key: 'HP',
-    gpuProperty: 'HP',
-    basicGridColumn: 'HP',
-    combatGridColumn: 'xHP',
-    memoBasicGridColumn: 'mATK',
-    memoCombatGridColumn: 'mxATK',
-  },
-  SPD: {
-    key: 'SPD',
-    gpuProperty: 'SPD',
-    basicGridColumn: 'SPD',
-    combatGridColumn: 'xSPD',
-    memoBasicGridColumn: 'mSPD',
-    memoCombatGridColumn: 'mxSPD',
-  },
-  CR: {
-    key: 'CR',
-    gpuProperty: 'CR',
-    basicGridColumn: 'CRIT Rate',
-    combatGridColumn: 'xCR',
-    memoBasicGridColumn: 'mCR',
-    memoCombatGridColumn: 'mxCR',
-  },
-  CD: {
-    key: 'CD',
-    gpuProperty: 'CD',
-    basicGridColumn: 'CRIT DMG',
-    combatGridColumn: 'xCD',
-    memoBasicGridColumn: 'mCD',
-    memoCombatGridColumn: 'mxCD',
-  },
-  EHR: {
-    key: 'EHR',
-    gpuProperty: 'EHR',
-    basicGridColumn: 'Effect Hit Rate',
-    combatGridColumn: 'xEHR',
-    memoBasicGridColumn: 'mEHR',
-    memoCombatGridColumn: 'mxEHR',
-  },
-  RES: {
-    key: 'RES',
-    gpuProperty: 'RES',
-    basicGridColumn: 'Effect RES',
-    combatGridColumn: 'xRES',
-    memoBasicGridColumn: 'mRES',
-    memoCombatGridColumn: 'mxRES',
-  },
-  BE: {
-    key: 'BE',
-    gpuProperty: 'BE',
-    basicGridColumn: 'Break Effect',
-    combatGridColumn: 'xBE',
-    memoBasicGridColumn: 'mBE',
-    memoCombatGridColumn: 'mxBE',
-  },
-  OHB: {
-    key: 'OHB',
-    gpuProperty: 'OHB',
-    basicGridColumn: 'Outgoing Healing Boost',
-    combatGridColumn: 'xOHB',
-    memoBasicGridColumn: 'mOHB',
-    memoCombatGridColumn: 'mxOHB',
-  },
-  ERR: {
-    key: 'ERR',
-    gpuProperty: 'ERR',
-    basicGridColumn: 'Energy Regeneration Rate',
-    combatGridColumn: 'xERR',
-    memoBasicGridColumn: 'mERR',
-    memoCombatGridColumn: 'mxERR',
-  },
-  EHP: {
-    key: 'EHP',
-    gpuProperty: 'EHP',
-    basicGridColumn: 'EHP',
-    combatGridColumn: 'EHP',
-    memoBasicGridColumn: 'mxEHP',
-    memoCombatGridColumn: 'mxEHP',
-    isComputedRating: true,
-  },
-  BASIC: {
-    key: 'BASIC',
-    gpuProperty: 'BASIC_DMG',
-    basicGridColumn: 'BASIC',
-    combatGridColumn: 'BASIC',
-    memoBasicGridColumn: 'BASIC',
-    memoCombatGridColumn: 'BASIC',
-    isComputedRating: true,
-  },
-  SKILL: {
-    key: 'SKILL',
-    gpuProperty: 'SKILL_DMG',
-    basicGridColumn: 'SKILL',
-    combatGridColumn: 'SKILL',
-    memoBasicGridColumn: 'SKILL',
-    memoCombatGridColumn: 'SKILL',
-    isComputedRating: true,
-  },
-  ULT: {
-    key: 'ULT',
-    gpuProperty: 'ULT_DMG',
-    basicGridColumn: 'ULT',
-    combatGridColumn: 'ULT',
-    memoBasicGridColumn: 'ULT',
-    memoCombatGridColumn: 'ULT',
-    isComputedRating: true,
-  },
-  FUA: {
-    key: 'FUA',
-    gpuProperty: 'FUA_DMG',
-    basicGridColumn: 'FUA',
-    combatGridColumn: 'FUA',
-    memoBasicGridColumn: 'FUA',
-    memoCombatGridColumn: 'FUA',
-    isComputedRating: true,
-  },
-  MEMO_SKILL: {
-    key: 'MEMO_SKILL',
-    gpuProperty: 'MEMO_SKILL_DMG',
-    basicGridColumn: 'MEMO_SKILL',
-    combatGridColumn: 'MEMO_SKILL',
-    memoBasicGridColumn: 'MEMO_SKILL',
-    memoCombatGridColumn: 'MEMO_SKILL',
-    isComputedRating: true,
-  },
-  MEMO_TALENT: {
-    key: 'MEMO_TALENT',
-    gpuProperty: 'MEMO_TALENT_DMG',
-    basicGridColumn: 'MEMO_TALENT',
-    combatGridColumn: 'MEMO_TALENT',
-    memoBasicGridColumn: 'MEMO_TALENT',
-    memoCombatGridColumn: 'MEMO_TALENT',
-    isComputedRating: true,
-  },
-  ELATION_SKILL: {
-    key: 'ELATION_SKILL',
-    gpuProperty: 'ELATION_SKILL_DMG',
-    basicGridColumn: 'ELATION_SKILL',
-    combatGridColumn: 'ELATION_SKILL',
-    memoBasicGridColumn: 'ELATION_SKILL',
-    memoCombatGridColumn: 'ELATION_SKILL',
-    isComputedRating: true,
-  },
-  DOT: {
-    key: 'DOT',
-    gpuProperty: 'DOT_DMG',
-    basicGridColumn: 'DOT',
-    combatGridColumn: 'DOT',
-    memoBasicGridColumn: 'DOT',
-    memoCombatGridColumn: 'DOT',
-    isComputedRating: true,
-  },
-  BREAK: {
-    key: 'BREAK',
-    gpuProperty: 'BREAK_DMG',
-    basicGridColumn: 'BREAK',
-    combatGridColumn: 'BREAK',
-    memoBasicGridColumn: 'BREAK',
-    memoCombatGridColumn: 'BREAK',
-    isComputedRating: true,
-  },
-  COMBO: {
-    key: 'COMBO',
-    gpuProperty: 'COMBO_DMG',
-    basicGridColumn: 'COMBO',
-    combatGridColumn: 'COMBO',
-    memoBasicGridColumn: 'COMBO',
-    memoCombatGridColumn: 'COMBO',
-    isComputedRating: true,
-  },
-  BASIC_HEAL: {
-    key: 'BASIC_HEAL',
-    gpuProperty: 'BASIC_HEAL',
-    basicGridColumn: 'BASIC_HEAL',
-    combatGridColumn: 'BASIC_HEAL',
-    memoBasicGridColumn: 'BASIC_HEAL',
-    memoCombatGridColumn: 'BASIC_HEAL',
-    isComputedRating: true,
-  },
-  SKILL_HEAL: {
-    key: 'SKILL_HEAL',
-    gpuProperty: 'SKILL_HEAL',
-    basicGridColumn: 'SKILL_HEAL',
-    combatGridColumn: 'SKILL_HEAL',
-    memoBasicGridColumn: 'SKILL_HEAL',
-    memoCombatGridColumn: 'SKILL_HEAL',
-    isComputedRating: true,
-  },
-  ULT_HEAL: {
-    key: 'ULT_HEAL',
-    gpuProperty: 'ULT_HEAL',
-    basicGridColumn: 'ULT_HEAL',
-    combatGridColumn: 'ULT_HEAL',
-    memoBasicGridColumn: 'ULT_HEAL',
-    memoCombatGridColumn: 'ULT_HEAL',
-    isComputedRating: true,
-  },
-  FUA_HEAL: {
-    key: 'FUA_HEAL',
-    gpuProperty: 'FUA_HEAL',
-    basicGridColumn: 'FUA_HEAL',
-    combatGridColumn: 'FUA_HEAL',
-    memoBasicGridColumn: 'FUA_HEAL',
-    memoCombatGridColumn: 'FUA_HEAL',
-    isComputedRating: true,
-  },
-  TALENT_HEAL: {
-    key: 'TALENT_HEAL',
-    gpuProperty: 'TALENT_HEAL',
-    basicGridColumn: 'TALENT_HEAL',
-    combatGridColumn: 'TALENT_HEAL',
-    memoBasicGridColumn: 'TALENT_HEAL',
-    memoCombatGridColumn: 'TALENT_HEAL',
-    isComputedRating: true,
-  },
-  BASIC_SHIELD: {
-    key: 'BASIC_SHIELD',
-    gpuProperty: 'BASIC_SHIELD',
-    basicGridColumn: 'BASIC_SHIELD',
-    combatGridColumn: 'BASIC_SHIELD',
-    memoBasicGridColumn: 'BASIC_SHIELD',
-    memoCombatGridColumn: 'BASIC_SHIELD',
-    isComputedRating: true,
-  },
-  SKILL_SHIELD: {
-    key: 'SKILL_SHIELD',
-    gpuProperty: 'SKILL_SHIELD',
-    basicGridColumn: 'SKILL_SHIELD',
-    combatGridColumn: 'SKILL_SHIELD',
-    memoBasicGridColumn: 'SKILL_SHIELD',
-    memoCombatGridColumn: 'SKILL_SHIELD',
-    isComputedRating: true,
-  },
-  ULT_SHIELD: {
-    key: 'ULT_SHIELD',
-    gpuProperty: 'ULT_SHIELD',
-    basicGridColumn: 'ULT_SHIELD',
-    combatGridColumn: 'ULT_SHIELD',
-    memoBasicGridColumn: 'ULT_SHIELD',
-    memoCombatGridColumn: 'ULT_SHIELD',
-    isComputedRating: true,
-  },
-  FUA_SHIELD: {
-    key: 'FUA_SHIELD',
-    gpuProperty: 'FUA_SHIELD',
-    basicGridColumn: 'FUA_SHIELD',
-    combatGridColumn: 'FUA_SHIELD',
-    memoBasicGridColumn: 'FUA_SHIELD',
-    memoCombatGridColumn: 'FUA_SHIELD',
-    isComputedRating: true,
-  },
-  TALENT_SHIELD: {
-    key: 'TALENT_SHIELD',
-    gpuProperty: 'TALENT_SHIELD',
-    basicGridColumn: 'TALENT_SHIELD',
-    combatGridColumn: 'TALENT_SHIELD',
-    memoBasicGridColumn: 'TALENT_SHIELD',
-    memoCombatGridColumn: 'TALENT_SHIELD',
-    isComputedRating: true,
-  },
+  // Base stats — each has basic/combat/memo-basic/memo-combat grid columns
+  ATK: baseStat('ATK', true),
+  DEF: baseStat('DEF', true),
+  HP: baseStat('HP', true),
+  SPD: baseStat('SPD', true),
+  CR: baseStat('CR', true),
+  CD: baseStat('CD', true),
+  EHR: baseStat('EHR', true),
+  RES: baseStat('RES', true),
+  BE: baseStat('BE', true),
+  OHB: baseStat('OHB'),
+  ERR: baseStat('ERR', true),
+
+  // EHP is a computed rating but has a separate memo variant (mxEHP)
+  EHP: { ...computed('EHP', true), memoBasicGridColumn: 'mxEHP', memoCombatGridColumn: 'mxEHP', statKey: StatKey.EHP },
+
+  // Computed damage ratings — same column in all display modes
+  BASIC: computed('BASIC', true),
+  SKILL: computed('SKILL', true),
+  ULT: computed('ULT', true),
+  FUA: computed('FUA', true),
+  MEMO_SKILL: computed('MEMO_SKILL', true),
+  MEMO_TALENT: computed('MEMO_TALENT'),
+  ELATION_SKILL: computed('ELATION_SKILL'),
+  DOT: computed('DOT', true),
+  BREAK: computed('BREAK', true),
+  COMBO: { ...computed('COMBO'), statKey: StatKey.COMBO_DMG },
+
+  // Computed heal/shield ratings
+  BASIC_HEAL: computed('BASIC_HEAL'),
+  SKILL_HEAL: computed('SKILL_HEAL'),
+  ULT_HEAL: computed('ULT_HEAL'),
+  FUA_HEAL: computed('FUA_HEAL'),
+  TALENT_HEAL: computed('TALENT_HEAL'),
+  BASIC_SHIELD: computed('BASIC_SHIELD'),
+  SKILL_SHIELD: computed('SKILL_SHIELD'),
+  ULT_SHIELD: computed('ULT_SHIELD'),
+  FUA_SHIELD: computed('FUA_SHIELD'),
+  TALENT_SHIELD: computed('TALENT_SHIELD'),
+}
+
+export function getGridColumn(option: SortOptionProperties, statDisplay: string, memoDisplay: string): string {
+  if (memoDisplay === 'memo') {
+    return statDisplay === 'combat' ? option.memoCombatGridColumn : option.memoBasicGridColumn
+  }
+  return statDisplay === 'combat' ? option.combatGridColumn : option.basicGridColumn
+}
+
+export const columnsToAggregateMap: Record<string, boolean> = {}
+for (const option of Object.values(SortOption)) {
+  columnsToAggregateMap[option.basicGridColumn] = true
+  columnsToAggregateMap[option.combatGridColumn] = true
+  columnsToAggregateMap[option.memoBasicGridColumn] = true
+  columnsToAggregateMap[option.memoCombatGridColumn] = true
+}
+// Display-only columns not in SortOption but needed for gradient coloring
+for (const col of ['ELEMENTAL_DMG', 'xELEMENTAL_DMG', 'mELEMENTAL_DMG', 'mxELEMENTAL_DMG']) {
+  columnsToAggregateMap[col] = true
 }

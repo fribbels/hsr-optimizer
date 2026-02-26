@@ -95,7 +95,7 @@ export function optimizerWorker(e: MessageEvent) {
   const summonerDisplay = !memoDisplay
   let passCount = 0
 
-  const { failsBasicThresholdFilter } = generateResultMinFilter(request)
+  const { failsBasicThresholdFilter, failsComputedThresholdFilter } = generateResultMinFilter(request, context)
 
   // Calculate conditional registry for all actions
   for (const action of context.rotationActions) {
@@ -174,6 +174,7 @@ export function optimizerWorker(e: MessageEvent) {
   const failsCombatStatsFilter = combatStatsFilter(request)
   const failsBasicStatsFilter = basicStatsFilter(request)
   const failsEhpFilter = ehpFilter(request)
+  const failsRatingFilter = ratingFilter(request, context)
 
   for (let col = 0; col < limit; col++) {
     const index = data.skip + col
@@ -303,6 +304,16 @@ export function optimizerWorker(e: MessageEvent) {
       continue
     }
 
+    // Rating filters (BASIC, SKILL, ULT, FUA, DOT, BREAK, MEMO_SKILL, MEMO_TALENT)
+    if (failsRatingFilter(x)) {
+      continue
+    }
+
+    // Computed rating threshold filter (rising floor from priority queue)
+    if (failsComputedThresholdFilter(x)) {
+      continue
+    }
+
     BufferPacker.packCharacterContainer(arr, passCount, x, c, context, memospriteEntityIndex)
     passCount++
   }
@@ -403,23 +414,65 @@ function ehpFilter(request: Form) {
   }
 }
 
-function generateResultMinFilter(request: Form) {
-  const filter = request.resultMinFilter
-  // @ts-ignore
-  const sortOption = SortOption[request.resultSort] as SortOptionProperties
-  const isComputedRating = sortOption.isComputedRating
+function ratingFilter(request: Form, context: OptimizerContext) {
+  const conditions: ((x: ComputedStatsContainer) => boolean)[] = []
 
-  if (isComputedRating) {
+  for (const sortOption of Object.values(SortOption)) {
+    if (!sortOption.minFilterKey || !sortOption.maxFilterKey) continue
+
+    const min = request[sortOption.minFilterKey as keyof Form] as number
+    const max = request[sortOption.maxFilterKey as keyof Form] as number
+    if (min === 0 && max === Constants.MAX_INT) continue
+
+    const action = context.defaultActions.find((a) => a.actionName === sortOption.key)
+    if (!action) continue
+
+    const registerIndex = action.registerIndex
+    conditions.push((x) => {
+      const value = x.getActionRegisterValue(registerIndex)
+      return value < min || value > max
+    })
+  }
+
+  if (conditions.length === 0) {
+    return () => false
+  }
+
+  return (x: ComputedStatsContainer) => conditions.some((condition) => condition(x))
+}
+
+// Returns threshold filters that skip builds whose sort value is below the rising min floor.
+// Basic stats can be checked before simulation (early exit), computed ratings only after.
+function generateResultMinFilter(request: Form, context: OptimizerContext) {
+  const threshold = request.resultMinFilter
+  const sortOption = SortOption[request.resultSort!] as SortOptionProperties
+  const pass = () => false
+
+  if (!sortOption.isComputedRating) {
+    const key = BasicKey[sortOption.key as BasicKeyType]
     return {
-      failsBasicThresholdFilter: () => false,
+      failsBasicThresholdFilter: (c: Float32Array) => c[key] < threshold,
+      failsComputedThresholdFilter: pass,
     }
   }
 
-  const key = BasicKey[sortOption.gpuProperty as BasicKeyType]
+  let getComputedValue: (x: ComputedStatsContainer) => number
+
+  if (sortOption.statKey != null) {
+    const statKey = sortOption.statKey
+    getComputedValue = (x) => x.a[statKey]
+  } else {
+    const action = context.defaultActions.find((a) => a.actionName === sortOption.key)
+    if (!action) {
+      return { failsBasicThresholdFilter: pass, failsComputedThresholdFilter: pass }
+    }
+    const registerIndex = action.registerIndex
+    getComputedValue = (x) => x.getActionRegisterValue(registerIndex)
+  }
+
   return {
-    failsBasicThresholdFilter: (candidate: Float32Array) => {
-      return candidate[key] < filter
-    },
+    failsBasicThresholdFilter: pass,
+    failsComputedThresholdFilter: (x: ComputedStatsContainer) => getComputedValue(x) < threshold,
   }
 }
 

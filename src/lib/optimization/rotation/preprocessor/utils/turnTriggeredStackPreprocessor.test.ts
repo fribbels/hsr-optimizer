@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import { Sets } from 'lib/constants/constants'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import {

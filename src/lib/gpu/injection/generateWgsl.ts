@@ -52,7 +52,6 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)
   wgsl = injectRelicIndexStrategy(wgsl, relics)
   wgsl = injectBasicFilters(wgsl, request, context, gpuParams)
-  // wgsl = injectRatingFilters(wgsl, request, gpuParams)
   wgsl = injectSetFilters(wgsl, gpuParams)
   wgsl = injectComputedStats(wgsl, gpuParams)
   // wgsl = injectSuppressions(wgsl, request, context, gpuParams)
@@ -244,7 +243,7 @@ if (relicSetSolutionsMatrix[relicSetIndex] < 1 || ornamentSetSolutionsMatrix[orn
 
 export function injectBasicFilters(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   const sortOption = SortOption[request.resultSort!]
-  const sortOptionGpu: string = sortOption.gpuProperty
+  const sortKey: string = sortOption.key
   const sortOptionComputed = sortOption.isComputedRating
   const filter = filterFn(request)
 
@@ -252,7 +251,7 @@ export function injectBasicFilters(wgsl: string, request: Form, context: Optimiz
   // threshold check is in generateSortOptionReturn
   let sortString = ''
   if (!sortOptionComputed) {
-    sortString = `c.${sortOptionGpu} < threshold`
+    sortString = `c.${sortKey} < threshold`
   }
 
   const basicFilters = [
@@ -294,53 +293,6 @@ ${format(basicFilters)}
 }
   `,
       2,
-    ),
-  )
-
-  return wgsl
-}
-
-function injectRatingFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
-  const filter = filterFn(request)
-
-  const ratingFilters = [
-    filter('x.EHP < minEhp'),
-    filter('x.EHP > maxEhp'),
-    filter('x.BASIC_DMG < minBasic'),
-    filter('x.BASIC_DMG > maxBasic'),
-    filter('x.SKILL_DMG < minSkill'),
-    filter('x.SKILL_DMG > maxSkill'),
-    filter('x.ULT_DMG < minUlt'),
-    filter('x.ULT_DMG > maxUlt'),
-    filter('x.FUA_DMG < minFua'),
-    filter('x.FUA_DMG > maxFua'),
-    filter('x.MEMO_SKILL_DMG < minMemoSkill'),
-    filter('x.MEMO_SKILL_DMG > maxMemoSkill'),
-    filter('x.MEMO_TALENT_DMG < minMemoTalent'),
-    filter('x.MEMO_TALENT_DMG > maxMemoTalent'),
-    filter('x.DOT_DMG < minDot'),
-    filter('x.DOT_DMG > maxDot'),
-    filter('x.BREAK_DMG < minBreak'),
-    filter('x.BREAK_DMG > maxBreak'),
-    filter('x.HEAL_VALUE < minHeal'),
-    filter('x.HEAL_VALUE > maxHeal'),
-    filter('x.SHIELD_VALUE < minShield'),
-    filter('x.SHIELD_VALUE > maxShield'),
-  ].filter((str) => str.length > 0).join(' ||\n')
-
-  // CTRL+ F: RESULTS ASSIGNMENT
-  wgsl = wgsl.replace(
-    '/* INJECT RATING STAT FILTERS */',
-    indent(
-      `
-if (
-${format(ratingFilters, 1)}
-) {
-  results[index] = ${gpuParams.DEBUG ? 'ComputedStats()' : '-failures; failures = failures + 1'};
-  break;
-}
-  `,
-      4,
     ),
   )
 

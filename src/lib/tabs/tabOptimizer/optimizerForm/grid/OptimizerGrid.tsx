@@ -108,7 +108,6 @@ export function OptimizerGrid() {
             minWidth: DIGITS_5,
             flex: 12,
             headerName: t(`Headers.Basic.${action.actionType}`),
-            cellStyle: Gradient.getOptimizerColumnGradient,
           })
         }
       }

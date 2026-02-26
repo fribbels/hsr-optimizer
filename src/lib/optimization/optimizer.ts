@@ -20,7 +20,6 @@ import {
 } from 'lib/optimization/bufferPacker'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import {
@@ -178,7 +177,11 @@ export const Optimizer = {
     let results = []
 
     const sortOption = SortOption[request.resultSort!]
-    const gridSortColumn = (request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn) as keyof OptimizerDisplayData
+    const showMemo = request.memoDisplay === 'memo'
+    const gridSortColumn = (request.statDisplay == 'combat'
+      ? (showMemo ? sortOption.memoCombatGridColumn : sortOption.combatGridColumn)
+      : (showMemo ? sortOption.memoBasicGridColumn : sortOption.basicGridColumn)
+    ) as keyof OptimizerDisplayData
     const resultsLimit = request.resultsLimit ?? 1024
     const queueResults = new FixedSizePriorityQueue<OptimizerDisplayData>(
       resultsLimit,
@@ -320,17 +323,17 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
   const a = x.a
 
   // Use direct array access for robustness (c may be deserialized plain object)
-  d[Stats.HP] = c.a[BasicKey.HP]
-  d[Stats.ATK] = c.a[BasicKey.ATK]
-  d[Stats.DEF] = c.a[BasicKey.DEF]
-  d[Stats.SPD] = c.a[BasicKey.SPD]
-  d[Stats.CR] = c.a[BasicKey.CR]
-  d[Stats.CD] = c.a[BasicKey.CD]
-  d[Stats.EHR] = c.a[BasicKey.EHR]
-  d[Stats.RES] = c.a[BasicKey.RES]
-  d[Stats.BE] = c.a[BasicKey.BE]
-  d[Stats.ERR] = c.a[BasicKey.ERR]
-  d[Stats.OHB] = c.a[BasicKey.OHB]
+  d.HP = c.a[BasicKey.HP]
+  d.ATK = c.a[BasicKey.ATK]
+  d.DEF = c.a[BasicKey.DEF]
+  d.SPD = c.a[BasicKey.SPD]
+  d.CR = c.a[BasicKey.CR]
+  d.CD = c.a[BasicKey.CD]
+  d.EHR = c.a[BasicKey.EHR]
+  d.RES = c.a[BasicKey.RES]
+  d.BE = c.a[BasicKey.BE]
+  d.ERR = c.a[BasicKey.ERR]
+  d.OHB = c.a[BasicKey.OHB]
 
   // TODO
   // d.BASIC = a[StatKey.BASIC_DMG]
@@ -359,24 +362,8 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
 
   if (context) {
     const basicElementalBoostKey = ElementToBasicKeyDmgBoost[context.element]
-    d.ED = c.a[basicElementalBoostKey]
+    d.ELEMENTAL_DMG = c.a[basicElementalBoostKey]
     d.mELEMENTAL_DMG = c.a[basicElementalBoostKey]
-    let heal = 0
-    let shield = 0
-    for (const action of context.rotationActions) {
-      if (action.hits) {
-        for (const hit of action.hits) {
-          const hitValue = x.getHitRegisterValue(hit.registerIndex)
-          if (hit.outputTag === OutputTag.HEAL) {
-            heal += hitValue
-          } else if (hit.outputTag === OutputTag.SHIELD) {
-            shield += hitValue
-          }
-        }
-      }
-    }
-    d.HEAL = heal
-    d.SHIELD = shield
 
     switch (context.elementalDamageType) {
       case Stats.Physical_DMG:

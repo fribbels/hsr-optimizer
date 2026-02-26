@@ -26,19 +26,17 @@ export type OptimizerDisplayData = {
   'ATK': number,
   'DEF': number,
   'SPD': number,
-  'CRIT Rate': number,
-  'CRIT DMG': number,
-  'Effect Hit Rate': number,
-  'Effect RES': number,
-  'Break Effect': number,
-  'Energy Regeneration Rate': number,
-  'Outgoing Healing Boost': number,
+  'CR': number,
+  'CD': number,
+  'EHR': number,
+  'RES': number,
+  'BE': number,
+  'ERR': number,
+  'OHB': number,
 
-  'ED': number,
+  'ELEMENTAL_DMG': number,
   'WEIGHT': number,
   'EHP': number,
-  'HEAL': number,
-  'SHIELD': number,
   'BASIC': number,
   'SKILL': number,
   'ULT': number,
@@ -143,11 +141,9 @@ export const BufferPacker = {
     arr[offset + 12] = ca[basicElementalBoostKey]
     arr[offset + 13] = c.weight
 
-    // [14-16] Computed values (EHP, HEAL, SHIELD)
+    // [14] EHP
     const primaryEntity = x.config.entitiesArray[0].name
     arr[offset + 14] = x.getActionValue(StatKey.EHP, primaryEntity)
-    arr[offset + 15] = 0 // HEAL_VALUE - TODO: calculate from hit registers
-    arr[offset + 16] = 0 // SHIELD_VALUE - TODO: calculate from hit registers
 
     // [17-24] Damage values, [65-74] Heal/Shield values from action registers - dynamically mapped
     const actionNameToOffset: Record<string, number> = {
@@ -252,18 +248,16 @@ export const BufferPacker = {
       'ATK': arr[offset + 2],
       'DEF': arr[offset + 3],
       'SPD': arr[offset + 4],
-      'CRIT Rate': arr[offset + 5],
-      'CRIT DMG': arr[offset + 6],
-      'Effect Hit Rate': arr[offset + 7],
-      'Effect RES': arr[offset + 8],
-      'Break Effect': arr[offset + 9],
-      'Energy Regeneration Rate': arr[offset + 10], // 10
-      'Outgoing Healing Boost': arr[offset + 11],
-      'ED': arr[offset + 12],
+      'CR': arr[offset + 5],
+      'CD': arr[offset + 6],
+      'EHR': arr[offset + 7],
+      'RES': arr[offset + 8],
+      'BE': arr[offset + 9],
+      'ERR': arr[offset + 10], // 10
+      'OHB': arr[offset + 11],
+      'ELEMENTAL_DMG': arr[offset + 12],
       'WEIGHT': arr[offset + 13], // DELETE
       'EHP': arr[offset + 14],
-      'HEAL': arr[offset + 15],
-      'SHIELD': arr[offset + 16],
       'BASIC': arr[offset + 17],
       'SKILL': arr[offset + 18],
       'ULT': arr[offset + 19],

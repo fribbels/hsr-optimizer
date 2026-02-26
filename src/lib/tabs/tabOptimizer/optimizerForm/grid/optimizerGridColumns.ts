@@ -4,8 +4,14 @@ import {
   GridOptions,
 } from 'ag-grid-community'
 import { TFunction } from 'i18next'
-import { Constants } from 'lib/constants/constants'
-import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import {
+  OptimizerDisplayData,
+  OptimizerDisplayDataStatSim,
+} from 'lib/optimization/bufferPacker'
+import {
+  getGridColumn,
+  SortOption,
+} from 'lib/optimization/sortOptions'
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { Utils } from 'lib/utils/utils'
@@ -44,498 +50,81 @@ export const optimizerGridDefaultColDef: ColDef<OptimizerDisplayDataStatSim> = {
   autoHeaderHeight: true,
 }
 
-const memo = 'ᴹ'
+const MEMO_MARKER = '\u1D39' // ᴹ
 
-function comboColumnDef(headerName: string) {
-  return {
-    field: 'COMBO' as const,
-    valueFormatter: Renderer.floor,
-    minWidth: DIGITS_6, // DIGITS_7
-    flex: 13, // 14
-    headerName: headerName,
-  }
+const statColumns = [
+  { option: SortOption.ATK, headerKey: 'ATK', renderer: Renderer.floor, minWidth: DIGITS_4 },
+  { option: SortOption.DEF, headerKey: 'DEF', renderer: Renderer.floor, minWidth: DIGITS_4 },
+  { option: SortOption.HP, headerKey: 'HP', renderer: Renderer.floor, minWidth: DIGITS_4 },
+  { option: SortOption.SPD, headerKey: 'SPD', renderer: Renderer.tenths, minWidth: DIGITS_4 },
+  { option: SortOption.CR, headerKey: 'CR', renderer: Renderer.x100Tenths, minWidth: DIGITS_4 },
+  { option: SortOption.CD, headerKey: 'CD', renderer: Renderer.x100Tenths, minWidth: DIGITS_4 },
+  { option: SortOption.EHR, headerKey: 'EHR', renderer: Renderer.x100Tenths, minWidth: DIGITS_4 },
+  { option: SortOption.RES, headerKey: 'RES', renderer: Renderer.x100Tenths, minWidth: DIGITS_3 },
+  { option: SortOption.BE, headerKey: 'BE', renderer: Renderer.x100Tenths, minWidth: DIGITS_4 },
+  { option: SortOption.OHB, headerKey: 'OHB', renderer: Renderer.x100Tenths, minWidth: DIGITS_3 },
+  { option: SortOption.ERR, headerKey: 'ERR', renderer: Renderer.x100Tenths, minWidth: DIGITS_3 },
+]
+
+type DisplayMode = 'basic' | 'combat' | 'memoBasic' | 'memoCombat'
+
+const dmgFields: Record<DisplayMode, string> = {
+  basic: 'ELEMENTAL_DMG',
+  combat: 'xELEMENTAL_DMG',
+  memoBasic: 'mELEMENTAL_DMG',
+  memoCombat: 'mxELEMENTAL_DMG',
+}
+
+function buildColumnDefs(mode: DisplayMode, t: TFunction<'optimizerTab', 'Grid'>) {
+  const isCombat = mode === 'combat' || mode === 'memoCombat'
+  const isMemo = mode === 'memoBasic' || mode === 'memoCombat'
+  const headerGroup = isCombat ? 'Headers.Combat' : 'Headers.Basic'
+  const suffix = isMemo ? MEMO_MARKER : ''
+  const statDisplay = isCombat ? 'combat' : ''
+  const memoDisplay = isMemo ? 'memo' : ''
+
+  const header = (key: string) => t(`${headerGroup}.${key}` as any) as string
+  const headerMemo = (key: string) => (t(`${headerGroup}.${key}` as any) as string) + suffix
+
+  return [
+    { field: 'relicSetIndex' as const, cellRenderer: Renderer.relicSet, width: 72, headerName: header('Set') },
+    { field: 'ornamentSetIndex' as const, cellRenderer: Renderer.ornamentSet, width: 42, headerName: header('Set') },
+
+    ...statColumns.map((col) => ({
+      field: getGridColumn(col.option, statDisplay, memoDisplay) as keyof OptimizerDisplayData,
+      valueFormatter: col.renderer,
+      minWidth: col.minWidth,
+      flex: 10,
+      headerName: headerMemo(col.headerKey),
+    })),
+
+    { field: dmgFields[mode] as keyof OptimizerDisplayData, valueFormatter: Renderer.x100Tenths, minWidth: DIGITS_4, flex: 10, headerName: headerMemo('DMG') },
+    {
+      field: getGridColumn(SortOption.EHP, statDisplay, memoDisplay) as keyof OptimizerDisplayData,
+      valueFormatter: Renderer.floor,
+      minWidth: DIGITS_4,
+      flex: 10,
+      headerName: header('EHP'),
+    },
+    // Dynamic ability columns (BASIC, SKILL, ULT, etc.) are injected in OptizerGrid.tsx
+    { field: getGridColumn(SortOption.COMBO, statDisplay, memoDisplay) as keyof OptimizerDisplayData, valueFormatter: Renderer.floor, minWidth: DIGITS_6, flex: 13, headerName: header('COMBO') },
+  ]
 }
 
 export function getBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
-  return [
-    {
-      field: 'relicSetIndex' as const,
-      cellRenderer: Renderer.relicSet,
-      width: 72,
-      headerName: t('Headers.Basic.Set'), /* 'Set' */
-    },
-    {
-      field: 'ornamentSetIndex' as const,
-      cellRenderer: Renderer.ornamentSet,
-      width: 42,
-      headerName: t('Headers.Basic.Set'), /* 'Set' */
-    },
-
-    {
-      field: Constants.Stats.ATK,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.ATK'), // 'ATK',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: Constants.Stats.DEF,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.DEF'), // 'DEF',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: Constants.Stats.HP,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.HP'), // 'HP',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: Constants.Stats.SPD,
-      valueFormatter: Renderer.tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.SPD'), // 'SPD',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: Constants.Stats.CR,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.CR'), // 'CR',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: Constants.Stats.CD,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.CD'), // 'CD',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: Constants.Stats.EHR,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.EHR'), // 'EHR',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: Constants.Stats.RES,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Basic.RES'), // 'RES',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: Constants.Stats.BE,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.BE'), // 'BE',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: Constants.Stats.OHB,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Basic.OHB'), // 'OHB',
-    },
-    {
-      field: Constants.Stats.ERR,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Basic.ERR'), // 'ERR',
-    },
-
-    {
-      field: 'ED' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.DMG'), // 'DMG',
-    },
-    {
-      field: 'EHP' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.EHP'), // 'EHP',
-    },
-    // Dynamic ability columns (BASIC, SKILL, ULT, etc.) are injected in OptimizerGrid.tsx
-    comboColumnDef(t('Headers.Basic.COMBO')),
-  ]
+  return buildColumnDefs('basic', t)
 }
 
 export function getMemoBasicColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
-  return [
-    {
-      field: 'relicSetIndex' as const,
-      cellRenderer: Renderer.relicSet,
-      width: 72,
-      headerName: t('Headers.Basic.Set'), /* 'Set' */
-    },
-    {
-      field: 'ornamentSetIndex' as const,
-      cellRenderer: Renderer.ornamentSet,
-      width: 42,
-      headerName: t('Headers.Basic.Set'), /* 'Set' */
-    },
-
-    {
-      field: 'mATK' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.ATK') + memo, // 'ATK',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: 'mDEF' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.DEF') + memo, // 'DEF',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: 'mHP' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.HP') + memo, // 'HP',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: 'mSPD' as const,
-      valueFormatter: Renderer.tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.SPD') + memo, // 'SPD',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: 'mCR' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.CR') + memo, // 'CR',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: 'mCD' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.CD') + memo, // 'CD',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: 'mEHR' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.EHR') + memo, // 'EHR',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: 'mRES' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Basic.RES') + memo, // 'RES',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: 'mBE' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.BE') + memo, // 'BE',
-      cellStyle: Gradient.getOptimizerColumnGradient,
-    },
-    {
-      field: 'mOHB' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Basic.OHB') + memo, // 'OHB',
-    },
-    {
-      field: 'mERR' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Basic.ERR') + memo, // 'ERR',
-    },
-
-    {
-      field: 'mELEMENTAL_DMG' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.DMG') + memo, // 'DMG',
-    },
-    {
-      field: 'mxEHP' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Basic.EHP'), // 'EHP',
-    },
-    // Dynamic ability columns (BASIC, SKILL, ULT, etc.) are injected in OptimizerGrid.tsx
-    comboColumnDef(t('Headers.Basic.COMBO')),
-  ]
+  return buildColumnDefs('memoBasic', t)
 }
 
 export function getCombatColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
-  return [
-    {
-      field: 'relicSetIndex' as const,
-      cellRenderer: Renderer.relicSet,
-      width: 72,
-      headerName: t('Headers.Combat.Set'),
-    }, // Set
-    {
-      field: 'ornamentSetIndex' as const,
-      cellRenderer: Renderer.ornamentSet,
-      width: 42,
-      headerName: t('Headers.Combat.Set'),
-    }, // Set
-    {
-      field: 'xATK' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.ATK'), // 'Σ ATK',
-    },
-    {
-      field: 'xDEF' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.DEF'), // 'Σ DEF',
-    },
-    {
-      field: 'xHP' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.HP'), // 'Σ HP',
-    },
-    {
-      field: 'xSPD' as const,
-      valueFormatter: Renderer.tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.SPD'), // 'Σ SPD',
-    },
-    {
-      field: 'xCR' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.CR'), // 'Σ CR',
-    },
-    {
-      field: 'xCD' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.CD'), // 'Σ CD',
-    },
-    {
-      field: 'xEHR' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.EHR'), // 'Σ EHR',
-    },
-    {
-      field: 'xRES' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_3,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.RES'), // 'Σ RES',
-    },
-    {
-      field: 'xBE' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.BE'), // 'Σ BE',
-    },
-    {
-      field: 'xOHB' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Combat.OHB'), // 'Σ OHB',
-    },
-    {
-      field: 'xERR' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Combat.ERR'), // 'Σ ERR',
-    },
-
-    {
-      field: 'xELEMENTAL_DMG' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Combat.DMG'), // 'Σ DMG',
-    },
-    {
-      field: 'EHP' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Combat.EHP'), // 'EHP',
-    },
-    // Dynamic ability columns (BASIC, SKILL, ULT, etc.) are injected in OptimizerGrid.tsx
-    comboColumnDef(t('Headers.Combat.COMBO')),
-  ]
+  return buildColumnDefs('combat', t)
 }
 
 export function getMemoCombatColumnDefs(t: TFunction<'optimizerTab', 'Grid'>) {
-  return [
-    {
-      field: 'relicSetIndex' as const,
-      cellRenderer: Renderer.relicSet,
-      width: 72,
-      headerName: t('Headers.Combat.Set'),
-    }, // Set
-    {
-      field: 'ornamentSetIndex' as const,
-      cellRenderer: Renderer.ornamentSet,
-      width: 42,
-      headerName: t('Headers.Combat.Set'),
-    }, // Set
-    {
-      field: 'mxATK' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.ATK') + memo, // 'Σ ATK',
-    },
-    {
-      field: 'mxDEF' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.DEF') + memo, // 'Σ DEF',
-    },
-    {
-      field: 'mxHP' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.HP') + memo, // 'Σ HP',
-    },
-    {
-      field: 'mxSPD' as const,
-      valueFormatter: Renderer.tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.SPD') + memo, // 'Σ SPD',
-    },
-    {
-      field: 'mxCR' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.CR') + memo, // 'Σ CR',
-    },
-    {
-      field: 'mxCD' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.CD') + memo, // 'Σ CD',
-    },
-    {
-      field: 'mxEHR' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.EHR') + memo, // 'Σ EHR',
-    },
-    {
-      field: 'mxRES' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_3,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.RES') + memo, // 'Σ RES',
-    },
-    {
-      field: 'mxBE' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      cellStyle: Gradient.getOptimizerColumnGradient,
-      headerName: t('Headers.Combat.BE') + memo, // 'Σ BE',
-    },
-    {
-      field: 'mxOHB' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Combat.OHB') + memo, // 'Σ OHB',
-    },
-    {
-      field: 'mxERR' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_3,
-      flex: 10,
-      headerName: t('Headers.Combat.ERR') + memo, // 'Σ ERR',
-    },
-
-    {
-      field: 'mxELEMENTAL_DMG' as const,
-      valueFormatter: Renderer.x100Tenths,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Combat.DMG') + memo, // 'Σ DMG',
-    },
-    {
-      field: 'mxEHP' as const,
-      valueFormatter: Renderer.floor,
-      minWidth: DIGITS_4,
-      flex: 10,
-      headerName: t('Headers.Combat.EHP'), // 'EHP',
-    },
-    // Dynamic ability columns (BASIC, SKILL, ULT, etc.) are injected in OptimizerGrid.tsx
-    comboColumnDef(t('Headers.Combat.COMBO')),
-  ]
+  return buildColumnDefs('memoCombat', t)
 }
 
 // this stops ts from whining when we filter the columns later on

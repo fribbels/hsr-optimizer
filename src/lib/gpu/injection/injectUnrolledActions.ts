@@ -90,6 +90,7 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
   }
 
   if (!gpuParams.DEBUG) {
+    unrolledActionCallsWgsl += generateRatingFilters(request, context, gpuParams)
     unrolledActionCallsWgsl += generateSortOptionReturn(request, context)
   } else {
     unrolledActionCallsWgsl += `
@@ -131,12 +132,48 @@ const SortOptionBoostKey: Partial<Record<SortOptionKey, AKeyValue>> = {
 }
 
 /**
+ * Generates WGSL rating filters (BASIC, SKILL, ULT, etc.) that check dmg{i} variables
+ * against user-specified min/max thresholds. Injected after all actions compute but before sort.
+ */
+function generateRatingFilters(request: Form, context: OptimizerContext, gpuParams: GpuConstants): string {
+  const conditions: string[] = []
+
+  for (const sortOption of Object.values(SortOption)) {
+    if (!sortOption.minFilterKey || !sortOption.maxFilterKey) continue
+
+    const minVal = request[sortOption.minFilterKey as keyof Form] as number
+    const maxVal = request[sortOption.maxFilterKey as keyof Form] as number
+    const hasMin = minVal > 0
+    const hasMax = maxVal < Constants.MAX_INT
+
+    if (!hasMin && !hasMax) continue
+
+    const actionIndex = context.defaultActions.findIndex((a) => a.actionName === sortOption.key)
+    if (actionIndex < 0) continue
+
+    if (hasMin) conditions.push(`dmg${actionIndex} < ${sortOption.minFilterKey}`)
+    if (hasMax) conditions.push(`dmg${actionIndex} > ${sortOption.maxFilterKey}`)
+  }
+
+  if (conditions.length === 0) return ''
+
+  return `
+    // Rating filters (damage min/max)
+    if (
+      ${conditions.join(' ||\n      ')}
+    ) {
+      results[index] = ${gpuParams.DEBUG ? 'debugContainer' : '-failures; failures = failures + 1'};
+      continue;
+    }
+`
+}
+
+/**
  * Generates WGSL code to output the result based on the selected sort option.
  * Currently handles: basic stats + COMBO
  */
 function generateSortOptionReturn(request: Form, context: OptimizerContext): string {
   const sortOption = SortOption[request.resultSort!]
-  const sortOptionGpu = sortOption.gpuProperty
   const sortKey = sortOption.key
 
   // Basic stats (not isComputedRating)
@@ -157,8 +194,8 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
 
     return `
     if (statDisplay == 1) {
-      if (c.${sortOptionGpu} > threshold) {
-        results[index] = c.${sortOptionGpu};
+      if (c.${sortKey} > threshold) {
+        results[index] = c.${sortKey};
         failures = 1;
       } else {
         results[index] = -failures; failures = failures + 1;
@@ -199,7 +236,7 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
 
   // Ability damage sorts - find matching default action
   const matchingIndex = context.defaultActions.findIndex((action) => {
-    return action.actionType === sortKey
+    return action.actionName === sortKey
   })
 
   if (matchingIndex >= 0) {

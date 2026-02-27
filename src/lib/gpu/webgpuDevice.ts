@@ -10,12 +10,7 @@ export async function getWebgpuDevice(notify?: boolean) {
       throw new Error()
     }
 
-    const canTimestamp = adapter.features.has('timestamp-query')
-
     return await adapter.requestDevice({
-      requiredFeatures: [
-        ...(canTimestamp ? ['timestamp-query' as GPUFeatureName] : []),
-      ],
       requiredLimits: {
         // Investigate limits for high-end experimental channel
         // maxComputeInvocationsPerWorkgroup: 512,

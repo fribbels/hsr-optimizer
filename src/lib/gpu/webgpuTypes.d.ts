@@ -35,7 +35,6 @@ export type GpuExecutionContext = {
   resultMatrixBufferSize: number,
   permutations: number,
   iterations: number,
-  startTime: number,
   relics: RelicsByPart,
   resultsQueue: FixedSizePriorityQueue<GpuResult>,
   cancelled: boolean,
@@ -55,12 +54,6 @@ export type GpuExecutionContext = {
   precomputedStatsBuffer: GPUBuffer,
 
   gpuReadBuffers: [GPUBuffer, GPUBuffer],
-
-  // Timestamp profiling (optional — only present when timestamp-query is supported)
-  canTimestamp: boolean,
-  querySet?: GPUQuerySet,
-  timestampResolveBuffer?: GPUBuffer,
-  timestampReadBuffers?: [GPUBuffer, GPUBuffer],
 
   // Atomic compaction buffers
   COMPACT_LIMIT: number,

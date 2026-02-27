@@ -24,12 +24,19 @@ export function initializeGpuPipeline(
   debug = false,
   silent = false,
 ): GpuExecutionContext {
+  // Threads per workgroup
   const WORKGROUP_SIZE = 256
+  // Workgroups dispatched per pass
   const NUM_WORKGROUPS = 256
+  // Total threads per dispatch
   const BLOCK_SIZE = WORKGROUP_SIZE * NUM_WORKGROUPS
+  // Permutations each thread evaluates per dispatch
   const CYCLES_PER_INVOCATION = 512
+  // Top-N results to keep
   const RESULTS_LIMIT = request.resultsLimit ?? 1024
+  // Compact buffer sizing multiplier over RESULTS_LIMIT
   const COMPACT_OVERFLOW_FACTOR = 4
+  // Max compact entries per dispatch before overflow triggers revisit
   const COMPACT_LIMIT = RESULTS_LIMIT * COMPACT_OVERFLOW_FACTOR
   const DEBUG = debug
 
@@ -54,7 +61,7 @@ export function initializeGpuPipeline(
 
   const paramsMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * 8
   const resultMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * BLOCK_SIZE * CYCLES_PER_INVOCATION
-  // In non-DEBUG mode, the shader doesn't write to results[] so we only need a minimal buffer for the DEBUG path
+  // Only DEBUG mode needs the full results buffer
   const resultBufferSize = DEBUG ? resultMatrixBufferSize : 4
   const resultMatrixBuffers: [GPUBuffer, GPUBuffer] = [
     device.createBuffer({ size: resultBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
@@ -64,8 +71,6 @@ export function initializeGpuPipeline(
     size: paramsMatrixBufferSize,
     usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST,
   })
-
-  // console.log('Results buffer length: ', BLOCK_SIZE * CYCLES_PER_INVOCATION)
 
   const mergedRelics = mergeRelicsIntoArray(relics)
 
@@ -126,30 +131,6 @@ export function initializeGpuPipeline(
     device.createBuffer({ size: resultBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
   ]
 
-  // Timestamp query resources for GPU profiling (compute vs copy breakdown)
-  // timestampReadBuffers is double-buffered so pipelined dispatches don't serialize on mapAsync
-  const canTimestamp = device.features.has('timestamp-query')
-  let querySet: GPUQuerySet | undefined
-  let timestampResolveBuffer: GPUBuffer | undefined
-  let timestampReadBuffers: [GPUBuffer, GPUBuffer] | undefined
-
-  if (canTimestamp) {
-    querySet = device.createQuerySet({
-      type: 'timestamp',
-      count: 2,
-    })
-
-    timestampResolveBuffer = device.createBuffer({
-      size: 2 * 8, // 2 timestamps × 8 bytes
-      usage: GPUBufferUsage.QUERY_RESOLVE | GPUBufferUsage.COPY_SRC,
-    })
-
-    timestampReadBuffers = [
-      device.createBuffer({ size: 2 * 8, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
-      device.createBuffer({ size: 2 * 8, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
-    ]
-  }
-
   const iterations = Math.ceil(permutations / BLOCK_SIZE / CYCLES_PER_INVOCATION)
   const resultsQueue = new FixedSizePriorityQueue<GpuResult>(RESULTS_LIMIT, (a, b) => a.value - b.value)
 
@@ -168,7 +149,6 @@ export function initializeGpuPipeline(
     resultMatrixBufferSize,
     permutations,
     iterations,
-    startTime: 0,
     relics,
     resultsQueue,
     cancelled: false,
@@ -187,11 +167,6 @@ export function initializeGpuPipeline(
     precomputedStatsBuffer,
 
     gpuReadBuffers,
-
-    canTimestamp,
-    querySet,
-    timestampResolveBuffer,
-    timestampReadBuffers,
 
     COMPACT_LIMIT,
     compactResultsBufferSize,
@@ -230,30 +205,13 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
   // Clear the atomic counter to 0 before dispatch
   commandEncoder.clearBuffer(compactCountBuffer, 0, 4)
 
-  // Add timestamp writes to the compute pass if supported
-  const computePassDescriptor: GPUComputePassDescriptor = {}
-  if (gpuContext.canTimestamp && gpuContext.querySet) {
-    computePassDescriptor.timestampWrites = {
-      querySet: gpuContext.querySet,
-      beginningOfPassWriteIndex: 0,
-      endOfPassWriteIndex: 1,
-    }
-  }
-
-  const passEncoder = commandEncoder.beginComputePass(computePassDescriptor)
+  const passEncoder = commandEncoder.beginComputePass()
   passEncoder.setPipeline(computePipeline)
   passEncoder.setBindGroup(0, bindGroup0)
   passEncoder.setBindGroup(1, bindGroup1)
   passEncoder.setBindGroup(2, bindGroup2)
   passEncoder.dispatchWorkgroups(gpuContext.NUM_WORKGROUPS)
   passEncoder.end()
-
-  // Resolve timestamp queries into the resolve buffer, then copy to double-buffered CPU-readable buffer
-  if (gpuContext.canTimestamp && gpuContext.querySet && gpuContext.timestampResolveBuffer && gpuContext.timestampReadBuffers) {
-    const timestampReadBuffer = gpuContext.timestampReadBuffers[bufferIndex]
-    commandEncoder.resolveQuerySet(gpuContext.querySet, 0, 2, gpuContext.timestampResolveBuffer, 0)
-    commandEncoder.copyBufferToBuffer(gpuContext.timestampResolveBuffer, 0, timestampReadBuffer, 0, 2 * 8)
-  }
 
   // Copy compact count + results into merged read buffer: [count(4B) | results(N*8B)]
   commandEncoder.copyBufferToBuffer(compactCountBuffer, 0, compactReadBuffer, 0, 4)
@@ -320,8 +278,4 @@ export function destroyPipeline(gpuContext: GpuExecutionContext) {
   gpuContext.compactCountBuffers.forEach((b) => b.destroy())
   gpuContext.compactResultsBuffers.forEach((b) => b.destroy())
   gpuContext.compactReadBuffers.forEach((b) => b.destroy())
-
-  gpuContext.querySet?.destroy()
-  gpuContext.timestampResolveBuffer?.destroy()
-  gpuContext.timestampReadBuffers?.forEach((b) => b.destroy())
 }

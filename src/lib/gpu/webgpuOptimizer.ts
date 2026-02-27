@@ -77,28 +77,10 @@ export async function gpuOptimize(props: {
   // console.log('Raw inputs', { context, request, relics, permutations })
   // console.log('GPU execution context', gpuContext)
 
-  if (!gpuContext.startTime) {
-    gpuContext.startTime = performance.now()
-  }
-
   // Double-buffered loop: while CPU reads buffer N, GPU writes buffer N+1.
 
   const permStride = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
 
-  // Profiling accumulators
-  let totalMapAsync = 0
-  let totalDispatch = 0
-  let totalCpuRead = 0
-  let totalUnmap = 0
-  let totalIterationTime = 0
-  let totalGpuCompute = 0
-  let minGpuCompute = Infinity
-  let maxGpuCompute = 0
-  let timestampReadCount = 0
-  let profiledIterations = 0
-  let totalCompactCount = 0
-  let maxCompactCount = 0
-  let queueSaturatedIteration = -1
   // Overflowed dispatches are revisited after the main loop. seenIndices deduplicates partial captures vs revisit results.
   const overflowedOffsets: number[] = []
   const seenIndices = new Set<number>()
@@ -106,74 +88,36 @@ export async function gpuOptimize(props: {
 
   // Submit the first dispatch (buffer A)
   let currentBufferIndex = 0
-  let t0 = performance.now()
   let currentPassResult = generateExecutionPass(gpuContext, 0, currentBufferIndex)
-  const firstDispatchTime = performance.now() - t0
 
   for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {
-    const iterStart = performance.now()
     const offset = iteration * permStride
     const maxPermNumber = offset + permStride
     const passResult = currentPassResult
-    const bufferIdx = currentBufferIndex
 
     // Determine if there will be a next iteration
     const hasNext = iteration + 1 < gpuContext.iterations && gpuContext.permutations > maxPermNumber
 
     // Submit next dispatch BEFORE awaiting current results (pipelining)
-    const nextBufferIndex = 1 - bufferIdx
+    const nextBufferIndex = 1 - currentBufferIndex
     let nextPassResult: ExecutionPassResult | undefined
-    t0 = performance.now()
     if (hasNext) {
       nextPassResult = generateExecutionPass(gpuContext, (iteration + 1) * permStride, nextBufferIndex)
     }
-    const dispatchTime = performance.now() - t0
 
     // Await current dispatch and read results (DEBUG vs compact path)
-    t0 = performance.now()
-    let mapTime: number
-    let cpuReadTime: number
-
     if (gpuContext.DEBUG) {
       await passResult.gpuReadBuffer.mapAsync(GPUMapMode.READ)
-      mapTime = performance.now() - t0
-
-      t0 = performance.now()
       readBufferMapped(offset, passResult.gpuReadBuffer, gpuContext)
-      cpuReadTime = performance.now() - t0
       permutationsSearched += permStride
-
-      t0 = performance.now()
       passResult.gpuReadBuffer.unmap()
     } else {
       await passResult.compactReadBuffer.mapAsync(GPUMapMode.READ)
-      mapTime = performance.now() - t0
 
-      // Read GPU timestamp only on the last iteration (no pipelined dispatch ahead to stall on)
-      if (!hasNext && gpuContext.canTimestamp && gpuContext.timestampReadBuffers) {
-        try {
-          const tsBuffer = gpuContext.timestampReadBuffers[bufferIdx]
-          await tsBuffer.mapAsync(GPUMapMode.READ)
-          const timestamps = new BigUint64Array(tsBuffer.getMappedRange())
-          const computeMs = Number(timestamps[1] - timestamps[0]) / 1_000_000
-          totalGpuCompute += computeMs
-          minGpuCompute = Math.min(minGpuCompute, computeMs)
-          maxGpuCompute = Math.max(maxGpuCompute, computeMs)
-          timestampReadCount++
-          tsBuffer.unmap()
-        } catch {
-          // Non-fatal
-        }
-      }
-
-      t0 = performance.now()
       const mappedRange = passResult.compactReadBuffer.getMappedRange()
       const rawCount = new Uint32Array(mappedRange, 0, 1)[0]
       const count = Math.min(rawCount, gpuContext.COMPACT_LIMIT)
       const isOverflow = rawCount >= gpuContext.COMPACT_LIMIT
-
-      totalCompactCount += rawCount
-      maxCompactCount = Math.max(maxCompactCount, rawCount)
 
       if (isOverflow) {
         overflowedOffsets.push(offset)
@@ -182,28 +126,13 @@ export async function gpuOptimize(props: {
       }
 
       processCompactResults(offset, count, mappedRange, gpuContext, isOverflow ? seenIndices : undefined)
-
-      if (queueSaturatedIteration === -1 && gpuContext.resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
-        queueSaturatedIteration = iteration
-      }
-      cpuReadTime = performance.now() - t0
-
-      t0 = performance.now()
       passResult.compactReadBuffer.unmap()
     }
-
-    totalMapAsync += mapTime
-    totalDispatch += dispatchTime
-    totalCpuRead += cpuReadTime
-    totalUnmap += performance.now() - t0
 
     if (hasNext && nextPassResult) {
       currentBufferIndex = nextBufferIndex
       currentPassResult = nextPassResult
     }
-
-    profiledIterations++
-    totalIterationTime += performance.now() - iterStart
 
     const searchedSnapshot = permutationsSearched
     setTimeout(() => {
@@ -220,19 +149,8 @@ export async function gpuOptimize(props: {
   }
 
   // Revisit overflowed dispatches now that the threshold is established.
-  const { revisitTime, totalRevisitPasses } = await revisitOverflowedDispatches(
-    overflowedOffsets, gpuContext, seenIndices,
-  )
+  await revisitOverflowedDispatches(overflowedOffsets, gpuContext, seenIndices)
   permutationsSearched += overflowedOffsets.length * permStride
-
-  logProfilingResults({
-    profiledIterations, permStride, totalIterationTime,
-    totalMapAsync, totalDispatch, totalCpuRead, totalUnmap,
-    totalGpuCompute, minGpuCompute, maxGpuCompute, timestampReadCount,
-    totalCompactCount, maxCompactCount, queueSaturatedIteration,
-    firstDispatchTime, overflowedOffsets, totalRevisitPasses, revisitTime,
-    gpuContext,
-  })
 
   if (window.store.getState().optimizationInProgress) {
     window.store.getState().setPermutationsSearched(gpuContext.permutations)
@@ -349,13 +267,8 @@ async function revisitOverflowedDispatches(
   gpuContext: GpuExecutionContext,
   seenIndices: Set<number>,
 ) {
-  let totalRevisitPasses = 0
-  let revisitTime = 0
-
   if (overflowedOffsets.length > 0 && window.store.getState().optimizationInProgress) {
-    const revisitStart = performance.now()
     for (const overflowOffset of overflowedOffsets) {
-      let passes = 0
       let rawCount: number
       do {
         const passResult = generateExecutionPass(gpuContext, overflowOffset, 0)
@@ -368,77 +281,9 @@ async function revisitOverflowedDispatches(
 
         processCompactResults(overflowOffset, count, mappedRange, gpuContext, seenIndices)
         passResult.compactReadBuffer.unmap()
-        passes++
       } while (rawCount >= gpuContext.COMPACT_LIMIT)
-
-      totalRevisitPasses += passes
     }
-    revisitTime = performance.now() - revisitStart
   }
-
-  return { revisitTime, totalRevisitPasses }
-}
-
-function logProfilingResults(p: {
-  profiledIterations: number,
-  permStride: number,
-  totalIterationTime: number,
-  totalMapAsync: number,
-  totalDispatch: number,
-  totalCpuRead: number,
-  totalUnmap: number,
-  totalGpuCompute: number,
-  minGpuCompute: number,
-  maxGpuCompute: number,
-  timestampReadCount: number,
-  totalCompactCount: number,
-  maxCompactCount: number,
-  queueSaturatedIteration: number,
-  firstDispatchTime: number,
-  overflowedOffsets: number[],
-  totalRevisitPasses: number,
-  revisitTime: number,
-  gpuContext: GpuExecutionContext,
-}) {
-  if (p.profiledIterations <= 0) return
-
-  const pct = (v: number) => (100 * v / p.totalIterationTime).toFixed(1)
-  const permsPerSec = Math.floor(p.profiledIterations * p.permStride / (p.totalIterationTime / 1000))
-
-  let log = `[GPU Profiling] ${p.profiledIterations} iterations, ${p.totalIterationTime.toFixed(1)}ms total, ${permsPerSec.toLocaleString()} perms/sec\n`
-    + `  mapAsync (GPU compute+copy wait): ${p.totalMapAsync.toFixed(1)}ms total, ${(p.totalMapAsync / p.profiledIterations).toFixed(2)}ms avg (${pct(p.totalMapAsync)}%)\n`
-
-  if (p.timestampReadCount >= p.profiledIterations) {
-    const gpuCopyDerived = p.totalMapAsync - p.totalGpuCompute
-    log += `    -> GPU compute (timestamp):     ${p.totalGpuCompute.toFixed(1)}ms total, ${(p.totalGpuCompute / p.timestampReadCount).toFixed(2)}ms avg, ${p.minGpuCompute.toFixed(2)}ms min, ${p.maxGpuCompute.toFixed(2)}ms max (${pct(p.totalGpuCompute)}%)\n`
-    log += `    -> buffer copy (derived):       ${gpuCopyDerived.toFixed(1)}ms total, ${(gpuCopyDerived / p.timestampReadCount).toFixed(2)}ms avg (${pct(gpuCopyDerived)}%)\n`
-  } else if (p.timestampReadCount > 0) {
-    const avgGpuCompute = p.totalGpuCompute / p.timestampReadCount
-    const estimatedTotalCompute = avgGpuCompute * p.profiledIterations
-    const estimatedCopy = p.totalMapAsync - estimatedTotalCompute
-    log += `    -> GPU compute (${p.timestampReadCount} sample${p.timestampReadCount > 1 ? 's' : ''}): ${avgGpuCompute.toFixed(2)}ms avg, ~${estimatedTotalCompute.toFixed(0)}ms est. total (${pct(estimatedTotalCompute)}%)\n`
-    log += `    -> buffer copy (est.):          ~${estimatedCopy.toFixed(0)}ms est. total (${pct(estimatedCopy)}%)\n`
-  } else {
-    log += `    -> (timestamp-query not available — cannot split compute vs copy)\n`
-  }
-
-  const avgCompactCount = (p.totalCompactCount / p.profiledIterations).toFixed(1)
-  const saturationStr = p.queueSaturatedIteration >= 0 ? `iteration ${p.queueSaturatedIteration}` : 'never'
-  const finalThreshold = (p.gpuContext.resultsQueue.top()?.value ?? 0).toFixed(3)
-
-  log +=
-    `  dispatch (submit next):           ${p.totalDispatch.toFixed(1)}ms total, ${(p.totalDispatch / p.profiledIterations).toFixed(2)}ms avg (${pct(p.totalDispatch)}%)\n`
-    + `  cpuRead (process results):        ${p.totalCpuRead.toFixed(1)}ms total, ${(p.totalCpuRead / p.profiledIterations).toFixed(2)}ms avg (${pct(p.totalCpuRead)}%)\n`
-    + `  unmap:                            ${p.totalUnmap.toFixed(1)}ms total, ${(p.totalUnmap / p.profiledIterations).toFixed(2)}ms avg (${pct(p.totalUnmap)}%)\n`
-    + `  first dispatch:                   ${p.firstDispatchTime.toFixed(2)}ms\n`
-    + `  overhead:                         ${(p.totalIterationTime - p.totalMapAsync - p.totalDispatch - p.totalCpuRead - p.totalUnmap).toFixed(1)}ms\n`
-    + `  compact fill:                     ${avgCompactCount} avg, ${p.maxCompactCount} max / ${p.gpuContext.COMPACT_LIMIT} limit\n`
-    + `  compact overflows:                ${p.overflowedOffsets.length}\n`
-    + `  queue saturated:                  ${saturationStr}\n`
-    + `  threshold final:                  ${finalThreshold}\n`
-    + `  revisit:                          ${p.overflowedOffsets.length} offsets, ${p.totalRevisitPasses} passes, ${p.revisitTime.toFixed(1)}ms`
-
-  console.log(log)
 }
 
 function outputResults(gpuContext: GpuExecutionContext) {

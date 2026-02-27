@@ -80,6 +80,10 @@ fn main(
 
     let index = cycleIndex + i;
 
+    if (index >= i32(params.permLimit)) {
+      break;
+    }
+
     // Calculate relic index per slot based on the index (global index + invocation index)
 
     // START RELIC SLOT INDEX STRATEGY

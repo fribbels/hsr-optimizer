@@ -35,6 +35,9 @@ export function generateParamsMatrix(
     ((offset - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize))
     % hSize
 
+  const permStride = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
+  const permLimit = Math.min(permStride, gpuContext.permutations - offset)
+
   return new Float32Array([
     l,
     p,
@@ -43,6 +46,7 @@ export function generateParamsMatrix(
     g,
     h,
     gpuContext.resultsQueue.size() >= gpuContext.RESULTS_LIMIT ? (gpuContext.resultsQueue.top()?.value ?? 0) : 0,
+    permLimit,
   ])
   // return createGpuBuffer(device, new Float32Array(paramsArray), GPUBufferUsage.STORAGE)
 }

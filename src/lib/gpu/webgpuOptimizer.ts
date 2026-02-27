@@ -276,40 +276,31 @@ export async function gpuOptimize(props: {
   // console.log(`Average Time per Iteration: ${averageTime.toFixed(4)} ms`)
 
   // Revisit overflowed dispatches now that the threshold is established.
+  // Each pass raises the queue threshold, so rawCount decreases until no overflow.
   if (overflowedOffsets.length > 0 && window.store.getState().optimizationInProgress) {
     console.log(`[GPU] Revisiting ${overflowedOffsets.length} overflowed dispatch(es)`)
     for (const overflowOffset of overflowedOffsets) {
-      const passResult = generateExecutionPass(gpuContext, overflowOffset, 0)
+      let passes = 0
+      let rawCount: number
+      do {
+        const passResult = generateExecutionPass(gpuContext, overflowOffset, 0)
 
-      await Promise.all([
-        passResult.compactCountReadBuffer.mapAsync(GPUMapMode.READ),
-        passResult.compactResultsReadBuffer.mapAsync(GPUMapMode.READ),
-      ])
+        await Promise.all([
+          passResult.compactCountReadBuffer.mapAsync(GPUMapMode.READ),
+          passResult.compactResultsReadBuffer.mapAsync(GPUMapMode.READ),
+        ])
 
-      const countArray = new Uint32Array(passResult.compactCountReadBuffer.getMappedRange())
-      const rawCount = countArray[0]
-      const count = Math.min(rawCount, gpuContext.COMPACT_LIMIT)
+        rawCount = new Uint32Array(passResult.compactCountReadBuffer.getMappedRange())[0]
+        const count = Math.min(rawCount, gpuContext.COMPACT_LIMIT)
 
-      processCompactResults(overflowOffset, count, passResult, gpuContext, seenIndices)
-      passResult.compactCountReadBuffer.unmap()
-      passResult.compactResultsReadBuffer.unmap()
+        processCompactResults(overflowOffset, count, passResult, gpuContext, seenIndices)
+        passResult.compactCountReadBuffer.unmap()
+        passResult.compactResultsReadBuffer.unmap()
+        passes++
+      } while (rawCount >= gpuContext.COMPACT_LIMIT)
 
-      if (rawCount >= gpuContext.COMPACT_LIMIT) {
-        // Still overflows — fall back to full buffer read
-        const commandEncoder = gpuContext.device.createCommandEncoder()
-        commandEncoder.copyBufferToBuffer(
-          gpuContext.resultMatrixBuffers[0],
-          0,
-          gpuContext.gpuReadBuffers[0],
-          0,
-          gpuContext.resultMatrixBufferSize,
-        )
-        gpuContext.device.queue.submit([commandEncoder.finish()])
-
-        await gpuContext.gpuReadBuffers[0].mapAsync(GPUMapMode.READ)
-        const arrayBuffer = gpuContext.gpuReadBuffers[0].getMappedRange()
-        processResults(overflowOffset, new Float32Array(arrayBuffer), gpuContext, 0, seenIndices)
-        gpuContext.gpuReadBuffers[0].unmap()
+      if (passes > 1) {
+        console.log(`[GPU] Offset ${overflowOffset}: needed ${passes} revisit passes`)
       }
 
       permutationsSearched += permStride

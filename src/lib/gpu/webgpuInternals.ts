@@ -51,7 +51,7 @@ export function initializeGpuPipeline(
 
   const computePipeline = generatePipeline(device, wgsl)
 
-  const paramsMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * 7
+  const paramsMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * 8
   const resultMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * BLOCK_SIZE * CYCLES_PER_INVOCATION
   const resultMatrixBuffers: [GPUBuffer, GPUBuffer] = [
     device.createBuffer({ size: resultMatrixBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
@@ -135,7 +135,7 @@ export function initializeGpuPipeline(
     })
 
     timestampResolveBuffer = device.createBuffer({
-      size: 2 * 8, // 2 timestamps × 8 bytes (BigUint64)
+      size: 2 * 8, // 2 timestamps × 8 bytes
       usage: GPUBufferUsage.QUERY_RESOLVE | GPUBufferUsage.COPY_SRC,
     })
 

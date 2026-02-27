@@ -155,4 +155,5 @@ struct Params {
   xg: f32,
   xh: f32,
   threshold: f32,
+  permLimit: f32,
 }

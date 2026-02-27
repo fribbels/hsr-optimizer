@@ -59,15 +59,15 @@ export type GpuExecutionContext = {
   canTimestamp: boolean,
   querySet?: GPUQuerySet,
   timestampResolveBuffer?: GPUBuffer,
-  timestampReadBuffer?: GPUBuffer,
+  timestampReadBuffers?: [GPUBuffer, GPUBuffer],
 
   // Atomic compaction buffers
   COMPACT_LIMIT: number,
   compactResultsBufferSize: number,
+  compactReadBufferSize: number,
   compactCountBuffers: [GPUBuffer, GPUBuffer],
   compactResultsBuffers: [GPUBuffer, GPUBuffer],
-  compactCountReadBuffers: [GPUBuffer, GPUBuffer],
-  compactResultsReadBuffers: [GPUBuffer, GPUBuffer],
+  compactReadBuffers: [GPUBuffer, GPUBuffer],
 }
 
 export type RelicsByPart = {

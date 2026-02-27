@@ -70,8 +70,6 @@ fn main(
   let threshold = params.threshold;
   let cycleIndex = indexGlobal * CYCLES_PER_INVOCATION;
 
-  var failures: f32 = 1;
-
   var emptyComputedStats = ComputedStats();
 
   for (var i = 0; i < CYCLES_PER_INVOCATION; i++) {

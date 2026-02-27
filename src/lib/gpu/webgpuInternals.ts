@@ -28,7 +28,7 @@ export function initializeGpuPipeline(
   const BLOCK_SIZE = 65536
   const CYCLES_PER_INVOCATION = 512
   const RESULTS_LIMIT = request.resultsLimit ?? 1024
-  const COMPACT_OVERFLOW_FACTOR = 1
+  const COMPACT_OVERFLOW_FACTOR = 4
   const COMPACT_LIMIT = RESULTS_LIMIT * COMPACT_OVERFLOW_FACTOR
   const DEBUG = debug
 
@@ -101,13 +101,11 @@ export function initializeGpuPipeline(
     device.createBuffer({ size: compactResultsBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
     device.createBuffer({ size: compactResultsBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
   ]
-  const compactCountReadBuffers: [GPUBuffer, GPUBuffer] = [
-    device.createBuffer({ size: 4, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
-    device.createBuffer({ size: 4, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
-  ]
-  const compactResultsReadBuffers: [GPUBuffer, GPUBuffer] = [
-    device.createBuffer({ size: compactResultsBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
-    device.createBuffer({ size: compactResultsBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
+  // Merged read buffer: [u32 count (4 bytes)][CompactEntry[] (compactResultsBufferSize bytes)]
+  const compactReadBufferSize = 4 + compactResultsBufferSize
+  const compactReadBuffers: [GPUBuffer, GPUBuffer] = [
+    device.createBuffer({ size: compactReadBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
+    device.createBuffer({ size: compactReadBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
   ]
 
   const bindGroups2: [GPUBindGroup, GPUBindGroup] = [0, 1].map((i) =>
@@ -127,10 +125,11 @@ export function initializeGpuPipeline(
   ]
 
   // Timestamp query resources for GPU profiling (compute vs copy breakdown)
+  // timestampReadBuffers is double-buffered so pipelined dispatches don't serialize on mapAsync
   const canTimestamp = device.features.has('timestamp-query')
   let querySet: GPUQuerySet | undefined
   let timestampResolveBuffer: GPUBuffer | undefined
-  let timestampReadBuffer: GPUBuffer | undefined
+  let timestampReadBuffers: [GPUBuffer, GPUBuffer] | undefined
 
   if (canTimestamp) {
     querySet = device.createQuerySet({
@@ -143,10 +142,10 @@ export function initializeGpuPipeline(
       usage: GPUBufferUsage.QUERY_RESOLVE | GPUBufferUsage.COPY_SRC,
     })
 
-    timestampReadBuffer = device.createBuffer({
-      size: 2 * 8,
-      usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
-    })
+    timestampReadBuffers = [
+      device.createBuffer({ size: 2 * 8, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
+      device.createBuffer({ size: 2 * 8, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
+    ]
   }
 
   const iterations = Math.ceil(permutations / BLOCK_SIZE / CYCLES_PER_INVOCATION)
@@ -189,21 +188,20 @@ export function initializeGpuPipeline(
     canTimestamp,
     querySet,
     timestampResolveBuffer,
-    timestampReadBuffer,
+    timestampReadBuffers,
 
     COMPACT_LIMIT,
     compactResultsBufferSize,
+    compactReadBufferSize,
     compactCountBuffers,
     compactResultsBuffers,
-    compactCountReadBuffers,
-    compactResultsReadBuffers,
+    compactReadBuffers,
   }
 }
 
 export type ExecutionPassResult = {
   gpuReadBuffer: GPUBuffer,
-  compactCountReadBuffer: GPUBuffer,
-  compactResultsReadBuffer: GPUBuffer,
+  compactReadBuffer: GPUBuffer,
 }
 
 export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: number, bufferIndex: number = 0): ExecutionPassResult {
@@ -220,8 +218,7 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
 
   const compactCountBuffer = gpuContext.compactCountBuffers[bufferIndex]
   const compactResultsBuffer = gpuContext.compactResultsBuffers[bufferIndex]
-  const compactCountReadBuffer = gpuContext.compactCountReadBuffers[bufferIndex]
-  const compactResultsReadBuffer = gpuContext.compactResultsReadBuffers[bufferIndex]
+  const compactReadBuffer = gpuContext.compactReadBuffers[bufferIndex]
 
   device.queue.writeBuffer(gpuContext.paramsMatrixBuffer, 0, newParamsMatrix)
 
@@ -248,15 +245,16 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
   passEncoder.dispatchWorkgroups(gpuContext.WORKGROUP_SIZE)
   passEncoder.end()
 
-  // Resolve timestamp queries into the resolve buffer, then copy to CPU-readable buffer
-  if (gpuContext.canTimestamp && gpuContext.querySet && gpuContext.timestampResolveBuffer && gpuContext.timestampReadBuffer) {
+  // Resolve timestamp queries into the resolve buffer, then copy to double-buffered CPU-readable buffer
+  if (gpuContext.canTimestamp && gpuContext.querySet && gpuContext.timestampResolveBuffer && gpuContext.timestampReadBuffers) {
+    const timestampReadBuffer = gpuContext.timestampReadBuffers[bufferIndex]
     commandEncoder.resolveQuerySet(gpuContext.querySet, 0, 2, gpuContext.timestampResolveBuffer, 0)
-    commandEncoder.copyBufferToBuffer(gpuContext.timestampResolveBuffer, 0, gpuContext.timestampReadBuffer, 0, 2 * 8)
+    commandEncoder.copyBufferToBuffer(gpuContext.timestampResolveBuffer, 0, timestampReadBuffer, 0, 2 * 8)
   }
 
-  // Always copy compact count + compact results
-  commandEncoder.copyBufferToBuffer(compactCountBuffer, 0, compactCountReadBuffer, 0, 4)
-  commandEncoder.copyBufferToBuffer(compactResultsBuffer, 0, compactResultsReadBuffer, 0, gpuContext.compactResultsBufferSize)
+  // Copy compact count + results into merged read buffer: [count(4B) | results(N*8B)]
+  commandEncoder.copyBufferToBuffer(compactCountBuffer, 0, compactReadBuffer, 0, 4)
+  commandEncoder.copyBufferToBuffer(compactResultsBuffer, 0, compactReadBuffer, 4, gpuContext.compactResultsBufferSize)
 
   if (gpuContext.DEBUG) {
     // DEBUG mode: also copy the full results buffer (128MB)
@@ -265,7 +263,7 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
 
   device.queue.submit([commandEncoder.finish()])
 
-  return { gpuReadBuffer, compactCountReadBuffer, compactResultsReadBuffer }
+  return { gpuReadBuffer, compactReadBuffer }
 }
 
 export function generatePipeline(device: GPUDevice, wgsl: string) {
@@ -318,10 +316,9 @@ export function destroyPipeline(gpuContext: GpuExecutionContext) {
 
   gpuContext.compactCountBuffers.forEach((b) => b.destroy())
   gpuContext.compactResultsBuffers.forEach((b) => b.destroy())
-  gpuContext.compactCountReadBuffers.forEach((b) => b.destroy())
-  gpuContext.compactResultsReadBuffers.forEach((b) => b.destroy())
+  gpuContext.compactReadBuffers.forEach((b) => b.destroy())
 
   gpuContext.querySet?.destroy()
   gpuContext.timestampResolveBuffer?.destroy()
-  gpuContext.timestampReadBuffer?.destroy()
+  gpuContext.timestampReadBuffers?.forEach((b) => b.destroy())
 }

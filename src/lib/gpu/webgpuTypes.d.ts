@@ -20,6 +20,7 @@ export type GpuConstants = {
 export type GpuExecutionContext = {
   // GPU constants
   WORKGROUP_SIZE: number,
+  NUM_WORKGROUPS: number,
   BLOCK_SIZE: number,
   CYCLES_PER_INVOCATION: number,
   RESULTS_LIMIT: number,

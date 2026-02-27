@@ -25,7 +25,8 @@ export function initializeGpuPipeline(
   silent = false,
 ): GpuExecutionContext {
   const WORKGROUP_SIZE = 256
-  const BLOCK_SIZE = 65536
+  const NUM_WORKGROUPS = 256
+  const BLOCK_SIZE = WORKGROUP_SIZE * NUM_WORKGROUPS
   const CYCLES_PER_INVOCATION = 512
   const RESULTS_LIMIT = request.resultsLimit ?? 1024
   const COMPACT_OVERFLOW_FACTOR = 4
@@ -91,7 +92,8 @@ export function initializeGpuPipeline(
   })
 
   // Atomic compaction buffers
-  const compactResultsBufferSize = COMPACT_LIMIT * 2 * 4 // CompactEntry per entry = 8 bytes each
+  const COMPACT_ENTRY_BYTES = 8 // CompactEntry: i32 index (4B) + f32 value (4B)
+  const compactResultsBufferSize = COMPACT_LIMIT * COMPACT_ENTRY_BYTES
 
   const compactCountBuffers: [GPUBuffer, GPUBuffer] = [
     device.createBuffer({ size: 4, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST }),
@@ -120,8 +122,8 @@ export function initializeGpuPipeline(
   ) as [GPUBindGroup, GPUBindGroup]
 
   const gpuReadBuffers: [GPUBuffer, GPUBuffer] = [
-    device.createBuffer({ size: DEBUG ? resultMatrixBufferSize : 4, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
-    device.createBuffer({ size: DEBUG ? resultMatrixBufferSize : 4, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
+    device.createBuffer({ size: resultBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
+    device.createBuffer({ size: resultBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
   ]
 
   // Timestamp query resources for GPU profiling (compute vs copy breakdown)
@@ -153,6 +155,7 @@ export function initializeGpuPipeline(
 
   return {
     WORKGROUP_SIZE,
+    NUM_WORKGROUPS,
     BLOCK_SIZE,
     CYCLES_PER_INVOCATION,
     RESULTS_LIMIT,
@@ -242,7 +245,7 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
   passEncoder.setBindGroup(0, bindGroup0)
   passEncoder.setBindGroup(1, bindGroup1)
   passEncoder.setBindGroup(2, bindGroup2)
-  passEncoder.dispatchWorkgroups(gpuContext.WORKGROUP_SIZE)
+  passEncoder.dispatchWorkgroups(gpuContext.NUM_WORKGROUPS)
   passEncoder.end()
 
   // Resolve timestamp queries into the resolve buffer, then copy to double-buffered CPU-readable buffer

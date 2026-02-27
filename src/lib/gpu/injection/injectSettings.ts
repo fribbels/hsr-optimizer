@@ -26,12 +26,19 @@ function generateConsts(context: OptimizerContext, relics: RelicsByPart) {
   const wgsl = `
 const relicSetCount = ${Object.keys(Constants.SetsRelics).length};
 const ornamentSetCount = ${Object.keys(Constants.SetsOrnaments).length};
+
 const lSize = ${relics.LinkRope.length};
 const pSize = ${relics.PlanarSphere.length};
 const fSize = ${relics.Feet.length};
 const bSize = ${relics.Body.length};
 const gSize = ${relics.Hands.length};
 const hSize = ${relics.Head.length};
+
+const handsOffset = hSize;
+const bodyOffset = hSize + gSize;
+const feetOffset = hSize + gSize + bSize;
+const planarOffset = hSize + gSize + bSize + fSize;
+const ropeOffset = hSize + gSize + bSize + fSize + pSize;
 `
 
   return wgsl

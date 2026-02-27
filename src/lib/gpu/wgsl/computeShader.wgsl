@@ -107,11 +107,11 @@ fn main(
     // Calculate Relic structs
 
     let head         : Relic = (relics[finalH]);
-    let hands        : Relic = (relics[finalG + hSize]);
-    let body         : Relic = (relics[finalB + hSize + gSize]);
-    let feet         : Relic = (relics[finalF + hSize + gSize + bSize]);
-    let planarSphere : Relic = (relics[finalP + hSize + gSize + bSize + fSize]);
-    let linkRope     : Relic = (relics[finalL + hSize + gSize + bSize + fSize + pSize]);
+    let hands        : Relic = (relics[finalG + handsOffset]);
+    let body         : Relic = (relics[finalB + bodyOffset]);
+    let feet         : Relic = (relics[finalF + feetOffset]);
+    let planarSphere : Relic = (relics[finalP + planarOffset]);
+    let linkRope     : Relic = (relics[finalL + ropeOffset]);
 
     // Convert set ID
 

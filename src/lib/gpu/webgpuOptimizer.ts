@@ -99,6 +99,13 @@ export async function gpuOptimize(props: {
   let timestampReadCount = 0
   let profiledIterations = 0
 
+  // Overflow safety: track dispatches where compact buffer overflowed (more results than COMPACT_LIMIT)
+  // These are revisited after the main loop with a well-calibrated threshold.
+  // seenIndices prevents duplicates between partial captures and revisit results.
+  const overflowedOffsets: number[] = []
+  const seenIndices = new Set<number>()
+  let permutationsSearched = 0
+
   // Submit the first dispatch (buffer A)
   let currentBufferIndex = 0
   let currentOffset = 0
@@ -134,6 +141,7 @@ export async function gpuOptimize(props: {
       t0 = performance.now()
       readBufferMapped(offset, passResult.gpuReadBuffer, gpuContext)
       const cpuReadTime = performance.now() - t0
+      permutationsSearched += permStride
 
       totalMapAsync += mapTime
       totalDispatch += dispatchTime
@@ -181,7 +189,18 @@ export async function gpuOptimize(props: {
 
       // CPU reads compact results (typically 0-4096 entries instead of 33.5M floats)
       t0 = performance.now()
-      processCompactResults(offset, passResult, gpuContext)
+      const countArray = new Uint32Array(passResult.compactCountReadBuffer.getMappedRange())
+      const rawCount = countArray[0]
+      const count = Math.min(rawCount, gpuContext.COMPACT_LIMIT)
+      const isOverflow = rawCount >= gpuContext.COMPACT_LIMIT
+
+      if (isOverflow) {
+        overflowedOffsets.push(offset)
+      } else {
+        permutationsSearched += permStride
+      }
+
+      processCompactResults(offset, count, passResult, gpuContext, isOverflow ? seenIndices : undefined)
       const cpuReadTime = performance.now() - t0
 
       totalMapAsync += mapTime
@@ -202,11 +221,12 @@ export async function gpuOptimize(props: {
     profiledIterations++
     totalIterationTime += performance.now() - iterStart
 
+    const searchedSnapshot = permutationsSearched
     setTimeout(() => {
       const state = window.store.getState()
       state.setOptimizerEndTime(Date.now())
       state.setPermutationsResults(gpuContext.resultsQueue.size())
-      state.setPermutationsSearched(Math.min(gpuContext.permutations, maxPermNumber))
+      state.setPermutationsSearched(Math.min(gpuContext.permutations, searchedSnapshot))
     }, 0)
 
     if (gpuContext.permutations <= maxPermNumber || !window.store.getState().optimizationInProgress) {
@@ -234,7 +254,8 @@ export async function gpuOptimize(props: {
       + `  cpuRead (process results):        ${totalCpuRead.toFixed(1)}ms total, ${(totalCpuRead / profiledIterations).toFixed(2)}ms avg (${(100 * totalCpuRead / totalIterationTime).toFixed(1)}%)\n`
       + `  unmap:                            ${totalUnmap.toFixed(1)}ms total, ${(totalUnmap / profiledIterations).toFixed(2)}ms avg (${(100 * totalUnmap / totalIterationTime).toFixed(1)}%)\n`
       + `  first dispatch:                   ${firstDispatchTime.toFixed(2)}ms\n`
-      + `  overhead:                         ${(totalIterationTime - totalMapAsync - totalDispatch - totalCpuRead - totalUnmap).toFixed(1)}ms`
+      + `  overhead:                         ${(totalIterationTime - totalMapAsync - totalDispatch - totalCpuRead - totalUnmap).toFixed(1)}ms\n`
+      + `  compact overflows:                ${overflowedOffsets.length}`
 
     console.log(log)
   }
@@ -249,6 +270,48 @@ export async function gpuOptimize(props: {
   // const averageTime = totalTime / gpuContext.iterations
   // console.log(`Total Time: ${totalTime.toFixed(4)} ms`)
   // console.log(`Average Time per Iteration: ${averageTime.toFixed(4)} ms`)
+
+  // Revisit overflowed dispatches with well-calibrated threshold.
+  // By this point the priority queue threshold is near-optimal from non-overflowed dispatches,
+  // so the revisit compact buffer should easily hold all passing results (~1024).
+  // seenIndices prevents duplicates from partial captures during the main loop.
+  if (overflowedOffsets.length > 0 && window.store.getState().optimizationInProgress) {
+    console.log(`[GPU] Revisiting ${overflowedOffsets.length} overflowed dispatch(es)`)
+    for (const overflowOffset of overflowedOffsets) {
+      const passResult = generateExecutionPass(gpuContext, overflowOffset, 0)
+
+      await Promise.all([
+        passResult.compactCountReadBuffer.mapAsync(GPUMapMode.READ),
+        passResult.compactResultsReadBuffer.mapAsync(GPUMapMode.READ),
+      ])
+
+      const countArray = new Uint32Array(passResult.compactCountReadBuffer.getMappedRange())
+      const rawCount = countArray[0]
+      const count = Math.min(rawCount, gpuContext.COMPACT_LIMIT)
+
+      processCompactResults(overflowOffset, count, passResult, gpuContext, seenIndices)
+      passResult.compactCountReadBuffer.unmap()
+      passResult.compactResultsReadBuffer.unmap()
+
+      if (rawCount >= gpuContext.COMPACT_LIMIT) {
+        // Still overflows (tiny run with high pass rate) — full buffer fallback
+        const commandEncoder = gpuContext.device.createCommandEncoder()
+        commandEncoder.copyBufferToBuffer(
+          gpuContext.resultMatrixBuffer, 0,
+          gpuContext.gpuReadBuffer, 0,
+          gpuContext.resultMatrixBufferSize,
+        )
+        gpuContext.device.queue.submit([commandEncoder.finish()])
+
+        await gpuContext.gpuReadBuffer.mapAsync(GPUMapMode.READ)
+        const arrayBuffer = gpuContext.gpuReadBuffer.getMappedRange()
+        processResults(overflowOffset, new Float32Array(arrayBuffer), gpuContext, 0, seenIndices)
+        gpuContext.gpuReadBuffer.unmap()
+      }
+
+      permutationsSearched += permStride
+    }
+  }
 
   if (!gpuContext.cancelled) {
     window.store.getState().setPermutationsSearched(gpuContext.permutations)
@@ -274,7 +337,7 @@ function readBufferMapped(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
   }
 }
 
-function processResults(offset: number, array: Float32Array, gpuContext: GpuExecutionContext, elementOffset: number = 0) {
+function processResults(offset: number, array: Float32Array, gpuContext: GpuExecutionContext, elementOffset: number = 0, seenIndices?: Set<number>) {
   const resultsQueue = gpuContext.resultsQueue
   let top = resultsQueue.top()?.value ?? 0
 
@@ -294,6 +357,7 @@ function processResults(offset: number, array: Float32Array, gpuContext: GpuExec
         continue
       }
       if (value <= top) continue
+      if (seenIndices?.has(indexOffset + j)) continue
 
       top = resultsQueue.fixedSizePushOvercapped({
         index: indexOffset + j,
@@ -311,6 +375,7 @@ function processResults(offset: number, array: Float32Array, gpuContext: GpuExec
       if (value <= top && resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
         continue
       }
+      if (seenIndices?.has(indexOffset + j)) continue
 
       resultsQueue.fixedSizePush({
         index: indexOffset + j,
@@ -323,40 +388,42 @@ function processResults(offset: number, array: Float32Array, gpuContext: GpuExec
 
 // Reads compact results from atomic compaction buffers (production path)
 // offset = dispatch permutation offset (iteration * permStride), added to local index to get global permutation index
-function processCompactResults(offset: number, passResult: ExecutionPassResult, gpuContext: GpuExecutionContext) {
-  const countArray = new Uint32Array(passResult.compactCountReadBuffer.getMappedRange())
-  const count = Math.min(countArray[0], gpuContext.COMPACT_LIMIT)
-
+// count = number of entries to process (clamped to COMPACT_LIMIT by caller)
+// seenIndices = optional Set for deduplication during overflow handling
+function processCompactResults(offset: number, count: number, passResult: ExecutionPassResult, gpuContext: GpuExecutionContext, seenIndices?: Set<number>) {
   if (count === 0) return
 
   const mappedRange = passResult.compactResultsReadBuffer.getMappedRange()
   const u32View = new Uint32Array(mappedRange)
   const f32View = new Float32Array(mappedRange)
-  // Each entry is vec2<u32>: [localIndex_as_u32, bitcast<u32>(value_f32)]
-  // Reading f32View[i*2+1] reinterprets the u32 bits back as f32
-  // Global permutation index = offset + localIndex
 
   const resultsQueue = gpuContext.resultsQueue
   let top = resultsQueue.top()?.value ?? 0
 
   if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
     for (let i = 0; i < count; i++) {
+      const globalIndex = offset + u32View[i * 2]
+      if (seenIndices?.has(globalIndex)) continue
       const value = f32View[i * 2 + 1]
       if (value <= top) continue
       top = resultsQueue.fixedSizePushOvercapped({
-        index: offset + u32View[i * 2],
+        index: globalIndex,
         value: value,
       }).value
+      seenIndices?.add(globalIndex)
     }
   } else {
     for (let i = 0; i < count; i++) {
+      const globalIndex = offset + u32View[i * 2]
+      if (seenIndices?.has(globalIndex)) continue
       const value = f32View[i * 2 + 1]
       if (value <= top && resultsQueue.size() >= gpuContext.RESULTS_LIMIT) continue
       resultsQueue.fixedSizePush({
-        index: offset + u32View[i * 2],
+        index: globalIndex,
         value: value,
       })
       top = resultsQueue.top()!.value
+      seenIndices?.add(globalIndex)
     }
   }
 }

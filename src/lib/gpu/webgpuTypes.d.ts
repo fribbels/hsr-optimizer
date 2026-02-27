@@ -54,7 +54,6 @@ export type GpuExecutionContext = {
   precomputedStatsBuffer: GPUBuffer,
 
   gpuReadBuffers: [GPUBuffer, GPUBuffer],
-  bindGroupLayouts: GPUBindGroupLayout[],
 
   // Timestamp profiling (optional — only present when timestamp-query is supported)
   canTimestamp: boolean,

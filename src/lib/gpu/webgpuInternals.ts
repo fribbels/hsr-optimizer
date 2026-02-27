@@ -28,7 +28,7 @@ export function initializeGpuPipeline(
   const BLOCK_SIZE = 65536
   const CYCLES_PER_INVOCATION = 512
   const RESULTS_LIMIT = request.resultsLimit ?? 1024
-  const COMPACT_OVERFLOW_FACTOR = 4
+  const COMPACT_OVERFLOW_FACTOR = 32
   const COMPACT_LIMIT = RESULTS_LIMIT * COMPACT_OVERFLOW_FACTOR
   const DEBUG = debug
 
@@ -110,14 +110,16 @@ export function initializeGpuPipeline(
     device.createBuffer({ size: compactResultsBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
   ]
 
-  const bindGroups2: [GPUBindGroup, GPUBindGroup] = [0, 1].map((i) => device.createBindGroup({
-    layout: computePipeline.getBindGroupLayout(2),
-    entries: [
-      ...(DEBUG ? [{ binding: 0, resource: { buffer: resultMatrixBuffers[i] } }] : []),
-      { binding: 1, resource: { buffer: compactCountBuffers[i] } },
-      { binding: 2, resource: { buffer: compactResultsBuffers[i] } },
-    ],
-  })) as [GPUBindGroup, GPUBindGroup]
+  const bindGroups2: [GPUBindGroup, GPUBindGroup] = [0, 1].map((i) =>
+    device.createBindGroup({
+      layout: computePipeline.getBindGroupLayout(2),
+      entries: [
+        ...(DEBUG ? [{ binding: 0, resource: { buffer: resultMatrixBuffers[i] } }] : []),
+        { binding: 1, resource: { buffer: compactCountBuffers[i] } },
+        { binding: 2, resource: { buffer: compactResultsBuffers[i] } },
+      ],
+    })
+  ) as [GPUBindGroup, GPUBindGroup]
 
   const gpuReadBuffers: [GPUBuffer, GPUBuffer] = [
     device.createBuffer({ size: DEBUG ? resultMatrixBufferSize : 4, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
@@ -183,7 +185,6 @@ export function initializeGpuPipeline(
     precomputedStatsBuffer,
 
     gpuReadBuffers,
-    bindGroupLayouts: [],
 
     canTimestamp,
     querySet,
@@ -308,6 +309,8 @@ export function createGpuBuffer(
 
 export function destroyPipeline(gpuContext: GpuExecutionContext) {
   gpuContext.resultMatrixBuffers.forEach((b) => b.destroy())
+  gpuContext.gpuReadBuffers.forEach((b) => b.destroy())
+  gpuContext.paramsMatrixBuffer.destroy()
   gpuContext.relicsMatrixBuffer.destroy()
   gpuContext.relicSetSolutionsMatrixBuffer.destroy()
   gpuContext.ornamentSetSolutionsMatrixBuffer.destroy()
@@ -317,4 +320,8 @@ export function destroyPipeline(gpuContext: GpuExecutionContext) {
   gpuContext.compactResultsBuffers.forEach((b) => b.destroy())
   gpuContext.compactCountReadBuffers.forEach((b) => b.destroy())
   gpuContext.compactResultsReadBuffers.forEach((b) => b.destroy())
+
+  gpuContext.querySet?.destroy()
+  gpuContext.timestampResolveBuffer?.destroy()
+  gpuContext.timestampReadBuffer?.destroy()
 }

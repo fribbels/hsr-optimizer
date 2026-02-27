@@ -11,8 +11,6 @@ import {
 import {
   indent,
   wgsl,
-  wgslFalse,
-  wgslTrue,
 } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import {
@@ -31,8 +29,11 @@ import {
   matchesTargetTag,
 } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
-import { SortOption, SortOptionKey } from 'lib/optimization/sortOptions'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  SortOption,
+  SortOptionKey,
+} from 'lib/optimization/sortOptions'
 import {
   CharacterConditionalsController,
   LightConeConditionalsController,
@@ -172,11 +173,15 @@ function generateRatingFilters(request: Form, context: OptimizerContext, gpuPara
  * Generates WGSL for atomic compaction: claims a slot and writes (index, value) to compact buffer.
  */
 function compactWrite(valueExpr: string): string {
-  return `
-        let slot = atomicAdd(&compactCount, 1u);
-        if (slot < COMPACT_LIMIT) {
-          compactResults[slot] = vec2<u32>(u32(index), bitcast<u32>(${valueExpr}));
-        }`
+  return indent(
+    `
+let slot = atomicAdd(&compactCount, 1u);
+if (slot < COMPACT_LIMIT) {
+  compactResults[slot] = CompactEntry(index, ${valueExpr});
+}
+`,
+    3,
+  )
 }
 
 /**
@@ -843,7 +848,9 @@ export function generateCombatStatFilters(request: Form, context: OptimizerConte
       extractions.push(`let ehpHp${entityIndex} = container0[${hpIndex}];`)
       extractions.push(`let ehpDef${entityIndex} = container0[${defIndex}];`)
       extractions.push(`let ehpDmgRed${entityIndex} = container0[${dmgRedIndex}];`)
-      extractions.push(`let ehp${entityIndex} = ehpHp${entityIndex} / (1.0 - ehpDef${entityIndex} / (ehpDef${entityIndex} + 200.0 + 10.0 * f32(enemyLevel))) / (1.0 - ehpDmgRed${entityIndex});`)
+      extractions.push(
+        `let ehp${entityIndex} = ehpHp${entityIndex} / (1.0 - ehpDef${entityIndex} / (ehpDef${entityIndex} + 200.0 + 10.0 * f32(enemyLevel))) / (1.0 - ehpDmgRed${entityIndex});`,
+      )
       extractions.push(`container0[${ehpIndex}] = ehp${entityIndex};`)
     }
 

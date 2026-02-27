@@ -13,6 +13,7 @@ export type GpuConstants = {
   BLOCK_SIZE: number,
   CYCLES_PER_INVOCATION: number,
   RESULTS_LIMIT: number,
+  COMPACT_LIMIT: number,
   DEBUG: boolean,
 }
 
@@ -66,7 +67,7 @@ export type GpuExecutionContext = {
   timestampResolveBuffer?: GPUBuffer,
   timestampReadBuffer?: GPUBuffer,
 
-  // Atomic compaction buffers (non-DEBUG only)
+  // Atomic compaction buffers
   COMPACT_LIMIT: number,
   compactResultsBufferSize: number,
   compactCountBuffer: GPUBuffer,

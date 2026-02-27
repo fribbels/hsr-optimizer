@@ -28,6 +28,8 @@ export function initializeGpuPipeline(
   const BLOCK_SIZE = 65536
   const CYCLES_PER_INVOCATION = 512
   const RESULTS_LIMIT = request.resultsLimit ?? 1024
+  const COMPACT_OVERFLOW_FACTOR = 4
+  const COMPACT_LIMIT = RESULTS_LIMIT * COMPACT_OVERFLOW_FACTOR
   const DEBUG = debug
 
   const wgsl = generateWgsl(context, request, relics, {
@@ -35,6 +37,7 @@ export function initializeGpuPipeline(
     BLOCK_SIZE,
     CYCLES_PER_INVOCATION,
     RESULTS_LIMIT,
+    COMPACT_LIMIT,
     DEBUG,
   })
 
@@ -89,9 +92,8 @@ export function initializeGpuPipeline(
     ],
   })
 
-  // Atomic compaction buffers (non-DEBUG only)
-  const COMPACT_LIMIT = RESULTS_LIMIT * 4
-  const compactResultsBufferSize = COMPACT_LIMIT * 2 * 4 // vec2<u32> per entry = 8 bytes each
+  // Atomic compaction buffers
+  const compactResultsBufferSize = COMPACT_LIMIT * 2 * 4 // CompactEntry per entry = 8 bytes each
 
   const compactCountBuffer = device.createBuffer({
     size: 4,
@@ -128,7 +130,7 @@ export function initializeGpuPipeline(
     usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
   })
 
-  // Bind group 2: results buffer + compact buffers (compact only in non-DEBUG)
+  // Bind group 2: results buffer + compact buffers
   const group2Entries: GPUBindGroupEntry[] = [
     { binding: 0, resource: { buffer: resultMatrixBuffer } },
   ]
@@ -249,9 +251,9 @@ export function initializeGpuPipeline(
 }
 
 export type ExecutionPassResult = {
-  gpuReadBuffer: GPUBuffer
-  compactCountReadBuffer: GPUBuffer
-  compactResultsReadBuffer: GPUBuffer
+  gpuReadBuffer: GPUBuffer,
+  compactCountReadBuffer: GPUBuffer,
+  compactResultsReadBuffer: GPUBuffer,
 }
 
 export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: number, bufferIndex: number = 0): ExecutionPassResult {
@@ -276,7 +278,7 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
 
   const commandEncoder = device.createCommandEncoder()
 
-  // Clear the atomic counter to 0 before dispatch (non-DEBUG only)
+  // Clear the atomic counter to 0 before dispatch
   if (!gpuContext.DEBUG) {
     commandEncoder.clearBuffer(compactCountBuffer, 0, 4)
   }
@@ -318,8 +320,10 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
     // Production mode: copy only the compact count (4 bytes) + compact results (~32KB max)
     commandEncoder.copyBufferToBuffer(compactCountBuffer, 0, compactCountReadBuffer, 0, 4)
     commandEncoder.copyBufferToBuffer(
-      compactResultsBuffer, 0,
-      compactResultsReadBuffer, 0,
+      compactResultsBuffer,
+      0,
+      compactResultsReadBuffer,
+      0,
       gpuContext.compactResultsBufferSize,
     )
   }

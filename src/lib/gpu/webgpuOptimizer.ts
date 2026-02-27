@@ -313,7 +313,7 @@ export async function gpuOptimize(props: {
     }
   }
 
-  if (!gpuContext.cancelled) {
+  if (window.store.getState().optimizationInProgress) {
     window.store.getState().setPermutationsSearched(gpuContext.permutations)
   }
   window.store.getState().setOptimizationInProgress(false)
@@ -394,7 +394,7 @@ function processCompactResults(offset: number, count: number, passResult: Execut
   if (count === 0) return
 
   const mappedRange = passResult.compactResultsReadBuffer.getMappedRange()
-  const u32View = new Uint32Array(mappedRange)
+  const i32View = new Int32Array(mappedRange)
   const f32View = new Float32Array(mappedRange)
 
   const resultsQueue = gpuContext.resultsQueue
@@ -402,7 +402,7 @@ function processCompactResults(offset: number, count: number, passResult: Execut
 
   if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
     for (let i = 0; i < count; i++) {
-      const globalIndex = offset + u32View[i * 2]
+      const globalIndex = offset + i32View[i * 2]
       if (seenIndices?.has(globalIndex)) continue
       const value = f32View[i * 2 + 1]
       if (value <= top) continue
@@ -414,7 +414,7 @@ function processCompactResults(offset: number, count: number, passResult: Execut
     }
   } else {
     for (let i = 0; i < count; i++) {
-      const globalIndex = offset + u32View[i * 2]
+      const globalIndex = offset + i32View[i * 2]
       if (seenIndices?.has(globalIndex)) continue
       const value = f32View[i * 2 + 1]
       if (value <= top && resultsQueue.size() >= gpuContext.RESULTS_LIMIT) continue

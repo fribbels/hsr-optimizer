@@ -98,14 +98,14 @@ export async function gpuOptimize(props: {
     // Determine if there will be a next iteration
     const hasNext = iteration + 1 < gpuContext.iterations && gpuContext.permutations > maxPermNumber
 
-    // Submit next dispatch BEFORE awaiting current results (pipelining)
+    // Submit next dispatch BEFORE awaiting current results
     const nextBufferIndex = 1 - currentBufferIndex
     let nextPassResult: ExecutionPassResult | undefined
     if (hasNext) {
       nextPassResult = generateExecutionPass(gpuContext, (iteration + 1) * permStride, nextBufferIndex)
     }
 
-    // Await current dispatch and read results (DEBUG vs compact path)
+    // Await current dispatch and read results
     if (gpuContext.DEBUG) {
       await passResult.gpuReadBuffer.mapAsync(GPUMapMode.READ)
       readBufferMapped(offset, passResult.gpuReadBuffer, gpuContext)
@@ -150,7 +150,6 @@ export async function gpuOptimize(props: {
 
   // Revisit overflowed dispatches now that the threshold is established.
   await revisitOverflowedDispatches(overflowedOffsets, gpuContext, seenIndices)
-  permutationsSearched += overflowedOffsets.length * permStride
 
   if (window.store.getState().optimizationInProgress) {
     window.store.getState().setPermutationsSearched(gpuContext.permutations)

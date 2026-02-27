@@ -218,7 +218,7 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
   commandEncoder.copyBufferToBuffer(compactResultsBuffer, 0, compactReadBuffer, 4, gpuContext.compactResultsBufferSize)
 
   if (gpuContext.DEBUG) {
-    // DEBUG mode: also copy the full results buffer (128MB)
+    // DEBUG mode: also copy the full results buffer
     commandEncoder.copyBufferToBuffer(resultMatrixBuffer, 0, gpuReadBuffer, 0, resultMatrixBufferSize)
   }
 
@@ -232,7 +232,6 @@ export function generatePipeline(device: GPUDevice, wgsl: string) {
     code: wgsl,
   })
 
-  // Use 'auto' layout so the pipeline matches the shader's actual bindings
   return device.createComputePipeline({
     layout: 'auto',
     compute: {

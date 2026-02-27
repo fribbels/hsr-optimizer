@@ -272,29 +272,23 @@ const WORKGROUP_SIZE = ${gpuParams.WORKGROUP_SIZE};
 const BLOCK_SIZE = ${gpuParams.BLOCK_SIZE};
 const CYCLES_PER_INVOCATION = ${cyclesPerInvocation};
 const DEBUG = ${gpuParams.DEBUG ? 1 : 0};
-${gpuParams.DEBUG ? '' : `const COMPACT_LIMIT = ${gpuParams.COMPACT_LIMIT}u;`}
+const COMPACT_LIMIT = ${gpuParams.COMPACT_LIMIT}u;
 ${debugValues}
   `,
   )
 
-  if (gpuParams.DEBUG) {
-    wgsl = wgsl.replace(
-      '/* INJECT RESULTS BUFFER */',
-      `
-@group(2) @binding(0) var<storage, read_write> results : array<array<f32, ${context.maxContainerArrayLength}>>; // DEBUG
-    `,
-    )
-  } else {
-    wgsl = wgsl.replace(
-      '/* INJECT RESULTS BUFFER */',
-      `
+  const compactDeclarations = `
 struct CompactEntry { index: i32, value: f32 }
-@group(2) @binding(0) var<storage, read_write> results : array<f32>;
+
 @group(2) @binding(1) var<storage, read_write> compactCount : atomic<u32>;
-@group(2) @binding(2) var<storage, read_write> compactResults : array<CompactEntry>;
-    `,
-    )
-  }
+@group(2) @binding(2) var<storage, read_write> compactResults : array<CompactEntry>;`
+
+  wgsl = wgsl.replace(
+    '/* INJECT RESULTS BUFFER */',
+    gpuParams.DEBUG
+      ? `@group(2) @binding(0) var<storage, read_write> results : array<array<f32, ${context.maxContainerArrayLength}>>; // DEBUG${compactDeclarations}`
+      : `@group(2) @binding(0) var<storage, read_write> results : array<f32>;${compactDeclarations}`,
+  )
 
   if (context.resultSort == SortOption.COMBO.key) {
     wgsl = wgsl.replace(

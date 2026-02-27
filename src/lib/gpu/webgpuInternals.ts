@@ -133,20 +133,14 @@ export function initializeGpuPipeline(
   // Bind group 2: results buffer + compact buffers
   const group2Entries: GPUBindGroupEntry[] = [
     { binding: 0, resource: { buffer: resultMatrixBuffer } },
+    { binding: 1, resource: { buffer: compactCountBuffer } },
+    { binding: 2, resource: { buffer: compactResultsBuffer } },
   ]
   const group2BEntries: GPUBindGroupEntry[] = [
     { binding: 0, resource: { buffer: resultMatrixBufferB } },
+    { binding: 1, resource: { buffer: compactCountBufferB } },
+    { binding: 2, resource: { buffer: compactResultsBufferB } },
   ]
-  if (!DEBUG) {
-    group2Entries.push(
-      { binding: 1, resource: { buffer: compactCountBuffer } },
-      { binding: 2, resource: { buffer: compactResultsBuffer } },
-    )
-    group2BEntries.push(
-      { binding: 1, resource: { buffer: compactCountBufferB } },
-      { binding: 2, resource: { buffer: compactResultsBufferB } },
-    )
-  }
 
   const bindGroup2 = device.createBindGroup({
     layout: computePipeline.getBindGroupLayout(2),
@@ -279,9 +273,7 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
   const commandEncoder = device.createCommandEncoder()
 
   // Clear the atomic counter to 0 before dispatch
-  if (!gpuContext.DEBUG) {
-    commandEncoder.clearBuffer(compactCountBuffer, 0, 4)
-  }
+  commandEncoder.clearBuffer(compactCountBuffer, 0, 4)
 
   // Add timestamp writes to the compute pass if supported
   const computePassDescriptor: GPUComputePassDescriptor = {}
@@ -307,25 +299,13 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
     commandEncoder.copyBufferToBuffer(gpuContext.timestampResolveBuffer, 0, gpuContext.timestampReadBuffer, 0, 2 * 8)
   }
 
+  // Always copy compact count + compact results
+  commandEncoder.copyBufferToBuffer(compactCountBuffer, 0, compactCountReadBuffer, 0, 4)
+  commandEncoder.copyBufferToBuffer(compactResultsBuffer, 0, compactResultsReadBuffer, 0, gpuContext.compactResultsBufferSize)
+
   if (gpuContext.DEBUG) {
-    // DEBUG mode: copy the full results buffer (128MB) for debugging
-    commandEncoder.copyBufferToBuffer(
-      resultMatrixBuffer,
-      0,
-      gpuReadBuffer,
-      0,
-      resultMatrixBufferSize,
-    )
-  } else {
-    // Production mode: copy only the compact count (4 bytes) + compact results (~32KB max)
-    commandEncoder.copyBufferToBuffer(compactCountBuffer, 0, compactCountReadBuffer, 0, 4)
-    commandEncoder.copyBufferToBuffer(
-      compactResultsBuffer,
-      0,
-      compactResultsReadBuffer,
-      0,
-      gpuContext.compactResultsBufferSize,
-    )
+    // DEBUG mode: also copy the full results buffer (128MB)
+    commandEncoder.copyBufferToBuffer(resultMatrixBuffer, 0, gpuReadBuffer, 0, resultMatrixBufferSize)
   }
 
   device.queue.submit([commandEncoder.finish()])
@@ -339,7 +319,6 @@ export function generatePipeline(device: GPUDevice, wgsl: string) {
   })
 
   // Use 'auto' layout so the pipeline matches the shader's actual bindings
-  // (group 2 has 1 binding in DEBUG mode, 3 bindings in production mode)
   return device.createComputePipeline({
     layout: 'auto',
     compute: {

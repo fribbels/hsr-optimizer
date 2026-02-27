@@ -28,7 +28,7 @@ export function initializeGpuPipeline(
   const BLOCK_SIZE = 65536
   const CYCLES_PER_INVOCATION = 512
   const RESULTS_LIMIT = request.resultsLimit ?? 1024
-  const COMPACT_OVERFLOW_FACTOR = 32
+  const COMPACT_OVERFLOW_FACTOR = 1
   const COMPACT_LIMIT = RESULTS_LIMIT * COMPACT_OVERFLOW_FACTOR
   const DEBUG = debug
 

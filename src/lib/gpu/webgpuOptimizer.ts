@@ -242,7 +242,37 @@ export async function gpuOptimize(props: {
     }
   }
 
-  // Log profiling summary
+  // Revisit overflowed dispatches now that the threshold is established.
+  // Each pass raises the queue threshold, so rawCount decreases until no overflow.
+  if (overflowedOffsets.length > 0 && window.store.getState().optimizationInProgress) {
+    const revisitStart = performance.now()
+    for (const overflowOffset of overflowedOffsets) {
+      let passes = 0
+      let rawCount: number
+      do {
+        const passResult = generateExecutionPass(gpuContext, overflowOffset, 0)
+
+        await Promise.all([
+          passResult.compactCountReadBuffer.mapAsync(GPUMapMode.READ),
+          passResult.compactResultsReadBuffer.mapAsync(GPUMapMode.READ),
+        ])
+
+        rawCount = new Uint32Array(passResult.compactCountReadBuffer.getMappedRange())[0]
+        const count = Math.min(rawCount, gpuContext.COMPACT_LIMIT)
+
+        processCompactResults(overflowOffset, count, passResult, gpuContext, seenIndices)
+        passResult.compactCountReadBuffer.unmap()
+        passResult.compactResultsReadBuffer.unmap()
+        passes++
+      } while (rawCount >= gpuContext.COMPACT_LIMIT)
+
+      totalRevisitPasses += passes
+      permutationsSearched += permStride
+    }
+    revisitTime = performance.now() - revisitStart
+  }
+
+  // Log profiling summary (after revisit so all metrics are final)
   if (profiledIterations > 0) {
     const permsPerSec = Math.floor(profiledIterations * permStride / (totalIterationTime / 1000))
     const gpuCopyDerived = timestampReadCount > 0 ? totalMapAsync - totalGpuCompute : undefined
@@ -286,47 +316,6 @@ export async function gpuOptimize(props: {
       + `  revisit:                          ${overflowedOffsets.length} offsets, ${totalRevisitPasses} passes, ${revisitTime.toFixed(1)}ms`
 
     console.log(log)
-  }
-
-  // Profiling tools
-  // const totalTime = 0
-  // const start = performance.now()
-  // const end = performance.now()
-  // const elapsedTime = end - start
-  // totalTime += elapsedTime
-  // console.log(`Iteration: ${elapsedTime.toFixed(4)} ms`)
-  // const averageTime = totalTime / gpuContext.iterations
-  // console.log(`Total Time: ${totalTime.toFixed(4)} ms`)
-  // console.log(`Average Time per Iteration: ${averageTime.toFixed(4)} ms`)
-
-  // Revisit overflowed dispatches now that the threshold is established.
-  // Each pass raises the queue threshold, so rawCount decreases until no overflow.
-  if (overflowedOffsets.length > 0 && window.store.getState().optimizationInProgress) {
-    const revisitStart = performance.now()
-    for (const overflowOffset of overflowedOffsets) {
-      let passes = 0
-      let rawCount: number
-      do {
-        const passResult = generateExecutionPass(gpuContext, overflowOffset, 0)
-
-        await Promise.all([
-          passResult.compactCountReadBuffer.mapAsync(GPUMapMode.READ),
-          passResult.compactResultsReadBuffer.mapAsync(GPUMapMode.READ),
-        ])
-
-        rawCount = new Uint32Array(passResult.compactCountReadBuffer.getMappedRange())[0]
-        const count = Math.min(rawCount, gpuContext.COMPACT_LIMIT)
-
-        processCompactResults(overflowOffset, count, passResult, gpuContext, seenIndices)
-        passResult.compactCountReadBuffer.unmap()
-        passResult.compactResultsReadBuffer.unmap()
-        passes++
-      } while (rawCount >= gpuContext.COMPACT_LIMIT)
-
-      totalRevisitPasses += passes
-      permutationsSearched += permStride
-    }
-    revisitTime = performance.now() - revisitStart
   }
 
   if (window.store.getState().optimizationInProgress) {

@@ -182,7 +182,6 @@ function injectSetFilters(wgsl: string, gpuParams: GpuConstants) {
     indent(
       `
 if (relicSetSolutionsMatrix[relicSetIndex] < 1 || ornamentSetSolutionsMatrix[ornamentSetIndex] < 1) {
-  ${gpuParams.DEBUG ? '' : 'results[index] = -failures; failures = failures + 1'};
   continue;
 }
   `,
@@ -237,7 +236,6 @@ if (statDisplay == 1) {
   if (
 ${format(basicFilters)}
   ) {
-    ${gpuParams.DEBUG ? '' : 'results[index] = -failures; failures = failures + 1'};
     continue;
   }
 }
@@ -287,7 +285,7 @@ struct CompactEntry { index: i32, value: f32 }
     '/* INJECT RESULTS BUFFER */',
     gpuParams.DEBUG
       ? `@group(2) @binding(0) var<storage, read_write> results : array<array<f32, ${context.maxContainerArrayLength}>>; // DEBUG${compactDeclarations}`
-      : `@group(2) @binding(0) var<storage, read_write> results : array<f32>;${compactDeclarations}`,
+      : compactDeclarations,
   )
 
   if (context.resultSort == SortOption.COMBO.key) {

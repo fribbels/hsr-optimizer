@@ -92,8 +92,15 @@ export async function gpuOptimize(props: {
   let totalUnmap = 0
   let totalIterationTime = 0
   let totalGpuCompute = 0
+  let minGpuCompute = Infinity
+  let maxGpuCompute = 0
   let timestampReadCount = 0
   let profiledIterations = 0
+  let totalCompactCount = 0
+  let maxCompactCount = 0
+  let queueSaturatedIteration = -1
+  let revisitTime = 0
+  let totalRevisitPasses = 0
 
   // Overflowed dispatches are revisited after the main loop. seenIndices deduplicates partial captures vs revisit results.
   const overflowedOffsets: number[] = []
@@ -160,8 +167,10 @@ export async function gpuOptimize(props: {
         try {
           await gpuContext.timestampReadBuffer.mapAsync(GPUMapMode.READ)
           const timestamps = new BigUint64Array(gpuContext.timestampReadBuffer.getMappedRange())
-          const computeNs = Number(timestamps[1] - timestamps[0])
-          totalGpuCompute += computeNs / 1_000_000
+          const computeMs = Number(timestamps[1] - timestamps[0]) / 1_000_000
+          totalGpuCompute += computeMs
+          minGpuCompute = Math.min(minGpuCompute, computeMs)
+          maxGpuCompute = Math.max(maxGpuCompute, computeMs)
           timestampReadCount++
           gpuContext.timestampReadBuffer.unmap()
         } catch {
@@ -185,6 +194,9 @@ export async function gpuOptimize(props: {
       const count = Math.min(rawCount, gpuContext.COMPACT_LIMIT)
       const isOverflow = rawCount >= gpuContext.COMPACT_LIMIT
 
+      totalCompactCount += rawCount
+      maxCompactCount = Math.max(maxCompactCount, rawCount)
+
       if (isOverflow) {
         overflowedOffsets.push(offset)
       } else {
@@ -192,6 +204,10 @@ export async function gpuOptimize(props: {
       }
 
       processCompactResults(offset, count, passResult, gpuContext, isOverflow ? seenIndices : undefined)
+
+      if (queueSaturatedIteration === -1 && gpuContext.resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
+        queueSaturatedIteration = iteration
+      }
       const cpuReadTime = performance.now() - t0
 
       totalMapAsync += mapTime
@@ -237,7 +253,7 @@ export async function gpuOptimize(props: {
       }%)\n`
 
     if (timestampReadCount > 0) {
-      log += `    -> GPU compute (timestamp):     ${totalGpuCompute.toFixed(1)}ms total, ${(totalGpuCompute / timestampReadCount).toFixed(2)}ms avg (${
+      log += `    -> GPU compute (timestamp):     ${totalGpuCompute.toFixed(1)}ms total, ${(totalGpuCompute / timestampReadCount).toFixed(2)}ms avg, ${minGpuCompute.toFixed(2)}ms min, ${maxGpuCompute.toFixed(2)}ms max (${
         (100 * totalGpuCompute / totalIterationTime).toFixed(1)
       }%)\n`
       log += `    -> buffer copy (derived):       ${gpuCopyDerived!.toFixed(1)}ms total, ${(gpuCopyDerived! / timestampReadCount).toFixed(2)}ms avg (${
@@ -246,6 +262,10 @@ export async function gpuOptimize(props: {
     } else {
       log += `    -> (timestamp-query not available — cannot split compute vs copy)\n`
     }
+
+    const avgCompactCount = profiledIterations > 0 ? (totalCompactCount / profiledIterations).toFixed(1) : '0'
+    const saturationStr = queueSaturatedIteration >= 0 ? `iteration ${queueSaturatedIteration}` : 'never'
+    const finalThreshold = (gpuContext.resultsQueue.top()?.value ?? 0).toFixed(3)
 
     log +=
       `  dispatch (submit next):           ${totalDispatch.toFixed(1)}ms total, ${(totalDispatch / profiledIterations).toFixed(2)}ms avg (${
@@ -259,7 +279,11 @@ export async function gpuOptimize(props: {
       }%)\n`
       + `  first dispatch:                   ${firstDispatchTime.toFixed(2)}ms\n`
       + `  overhead:                         ${(totalIterationTime - totalMapAsync - totalDispatch - totalCpuRead - totalUnmap).toFixed(1)}ms\n`
-      + `  compact overflows:                ${overflowedOffsets.length}`
+      + `  compact fill:                     ${avgCompactCount} avg, ${maxCompactCount} max / ${gpuContext.COMPACT_LIMIT} limit\n`
+      + `  compact overflows:                ${overflowedOffsets.length}\n`
+      + `  queue saturated:                  ${saturationStr}\n`
+      + `  threshold final:                  ${finalThreshold}\n`
+      + `  revisit:                          ${overflowedOffsets.length} offsets, ${totalRevisitPasses} passes, ${revisitTime.toFixed(1)}ms`
 
     console.log(log)
   }
@@ -278,7 +302,7 @@ export async function gpuOptimize(props: {
   // Revisit overflowed dispatches now that the threshold is established.
   // Each pass raises the queue threshold, so rawCount decreases until no overflow.
   if (overflowedOffsets.length > 0 && window.store.getState().optimizationInProgress) {
-    console.log(`[GPU] Revisiting ${overflowedOffsets.length} overflowed dispatch(es)`)
+    const revisitStart = performance.now()
     for (const overflowOffset of overflowedOffsets) {
       let passes = 0
       let rawCount: number
@@ -299,12 +323,10 @@ export async function gpuOptimize(props: {
         passes++
       } while (rawCount >= gpuContext.COMPACT_LIMIT)
 
-      if (passes > 1) {
-        console.log(`[GPU] Offset ${overflowOffset}: needed ${passes} revisit passes`)
-      }
-
+      totalRevisitPasses += passes
       permutationsSearched += permStride
     }
+    revisitTime = performance.now() - revisitStart
   }
 
   if (window.store.getState().optimizationInProgress) {

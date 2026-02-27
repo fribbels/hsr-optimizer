@@ -53,9 +53,11 @@ export function initializeGpuPipeline(
 
   const paramsMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * 8
   const resultMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * BLOCK_SIZE * CYCLES_PER_INVOCATION
+  // In non-DEBUG mode, the shader doesn't write to results[] so we only need a minimal buffer for the DEBUG path
+  const resultBufferSize = DEBUG ? resultMatrixBufferSize : 4
   const resultMatrixBuffers: [GPUBuffer, GPUBuffer] = [
-    device.createBuffer({ size: resultMatrixBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
-    device.createBuffer({ size: resultMatrixBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
+    device.createBuffer({ size: resultBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
+    device.createBuffer({ size: resultBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
   ]
   const paramsMatrixBuffer = device.createBuffer({
     size: paramsMatrixBufferSize,
@@ -111,15 +113,15 @@ export function initializeGpuPipeline(
   const bindGroups2: [GPUBindGroup, GPUBindGroup] = [0, 1].map((i) => device.createBindGroup({
     layout: computePipeline.getBindGroupLayout(2),
     entries: [
-      { binding: 0, resource: { buffer: resultMatrixBuffers[i] } },
+      ...(DEBUG ? [{ binding: 0, resource: { buffer: resultMatrixBuffers[i] } }] : []),
       { binding: 1, resource: { buffer: compactCountBuffers[i] } },
       { binding: 2, resource: { buffer: compactResultsBuffers[i] } },
     ],
   })) as [GPUBindGroup, GPUBindGroup]
 
   const gpuReadBuffers: [GPUBuffer, GPUBuffer] = [
-    device.createBuffer({ size: resultMatrixBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
-    device.createBuffer({ size: resultMatrixBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
+    device.createBuffer({ size: DEBUG ? resultMatrixBufferSize : 4, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
+    device.createBuffer({ size: DEBUG ? resultMatrixBufferSize : 4, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
   ]
 
   // Timestamp query resources for GPU profiling (compute vs copy breakdown)
@@ -305,21 +307,12 @@ export function createGpuBuffer(
 }
 
 export function destroyPipeline(gpuContext: GpuExecutionContext) {
-  gpuContext.resultMatrixBuffers.forEach((b) => { b.unmap(); b.destroy() })
-
-  gpuContext.relicsMatrixBuffer.unmap()
+  gpuContext.resultMatrixBuffers.forEach((b) => b.destroy())
   gpuContext.relicsMatrixBuffer.destroy()
-
-  gpuContext.relicSetSolutionsMatrixBuffer.unmap()
   gpuContext.relicSetSolutionsMatrixBuffer.destroy()
-
-  gpuContext.ornamentSetSolutionsMatrixBuffer.unmap()
   gpuContext.ornamentSetSolutionsMatrixBuffer.destroy()
-
-  gpuContext.precomputedStatsBuffer.unmap()
   gpuContext.precomputedStatsBuffer.destroy()
 
-  // Compact buffers
   gpuContext.compactCountBuffers.forEach((b) => b.destroy())
   gpuContext.compactResultsBuffers.forEach((b) => b.destroy())
   gpuContext.compactCountReadBuffers.forEach((b) => b.destroy())

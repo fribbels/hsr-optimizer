@@ -163,7 +163,6 @@ function generateRatingFilters(request: Form, context: OptimizerContext, gpuPara
     if (
       ${conditions.join(' ||\n      ')}
     ) {
-      results[index] = ${gpuParams.DEBUG ? 'debugContainer' : '-failures; failures = failures + 1'};
       continue;
     }
 `
@@ -211,20 +210,12 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
     return `
     if (statDisplay == 1) {
       if (c.${sortKey} > threshold) {
-        results[index] = c.${sortKey};
-        failures = 1;
 ${compactWrite(`c.${sortKey}`)}
-      } else {
-        results[index] = -failures; failures = failures + 1;
       }
     } else {
       let sortValue = container0[${statIndex}]${boostExpr};
       if (sortValue > threshold) {
-        results[index] = sortValue;
-        failures = 1;
 ${compactWrite('sortValue')}
-      } else {
-        results[index] = -failures; failures = failures + 1;
       }
     }
 `
@@ -233,11 +224,7 @@ ${compactWrite('sortValue')}
   if (sortKey === SortOption.COMBO.key) {
     return `
     if (comboDmg > threshold) {
-      results[index] = comboDmg;
-      failures = 1;
 ${compactWrite('comboDmg')}
-    } else {
-      results[index] = -failures; failures = failures + 1;
     }
 `
   }
@@ -245,11 +232,7 @@ ${compactWrite('comboDmg')}
   if (sortKey === SortOption.EHP.key) {
     return `
     if (ehp0 > threshold) {
-      results[index] = ehp0;
-      failures = 1;
 ${compactWrite('ehp0')}
-    } else {
-      results[index] = -failures; failures = failures + 1;
     }
 `
   }
@@ -262,11 +245,7 @@ ${compactWrite('ehp0')}
   if (matchingIndex >= 0) {
     return `
     if (dmg${matchingIndex} > threshold) {
-      results[index] = dmg${matchingIndex};
-      failures = 1;
 ${compactWrite(`dmg${matchingIndex}`)}
-    } else {
-      results[index] = -failures; failures = failures + 1;
     }
 `
   }
@@ -874,7 +853,6 @@ export function generateCombatStatFilters(request: Form, context: OptimizerConte
     if (
       ${conditions.join(' ||\n      ')}
     ) {
-      results[index] = ${gpuParams.DEBUG ? 'debugContainer' : '-failures; failures = failures + 1'};
       continue;
     }
 `

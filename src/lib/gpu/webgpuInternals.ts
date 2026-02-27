@@ -53,14 +53,10 @@ export function initializeGpuPipeline(
 
   const paramsMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * 7
   const resultMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * BLOCK_SIZE * CYCLES_PER_INVOCATION
-  const resultMatrixBuffer = device.createBuffer({
-    size: resultMatrixBufferSize,
-    usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC,
-  })
-  const resultMatrixBufferB = device.createBuffer({
-    size: resultMatrixBufferSize,
-    usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC,
-  })
+  const resultMatrixBuffers: [GPUBuffer, GPUBuffer] = [
+    device.createBuffer({ size: resultMatrixBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
+    device.createBuffer({ size: resultMatrixBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
+  ]
   const paramsMatrixBuffer = device.createBuffer({
     size: paramsMatrixBufferSize,
     usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST,
@@ -95,72 +91,36 @@ export function initializeGpuPipeline(
   // Atomic compaction buffers
   const compactResultsBufferSize = COMPACT_LIMIT * 2 * 4 // CompactEntry per entry = 8 bytes each
 
-  const compactCountBuffer = device.createBuffer({
-    size: 4,
-    usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST,
-  })
-  const compactCountBufferB = device.createBuffer({
-    size: 4,
-    usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST,
-  })
-  const compactResultsBuffer = device.createBuffer({
-    size: compactResultsBufferSize,
-    usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC,
-  })
-  const compactResultsBufferB = device.createBuffer({
-    size: compactResultsBufferSize,
-    usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC,
-  })
-
-  // Staging buffers for compact CPU read
-  const compactCountReadBuffer = device.createBuffer({
-    size: 4,
-    usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
-  })
-  const compactCountReadBufferB = device.createBuffer({
-    size: 4,
-    usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
-  })
-  const compactResultsReadBuffer = device.createBuffer({
-    size: compactResultsBufferSize,
-    usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
-  })
-  const compactResultsReadBufferB = device.createBuffer({
-    size: compactResultsBufferSize,
-    usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
-  })
-
-  // Bind group 2: results buffer + compact buffers
-  const group2Entries: GPUBindGroupEntry[] = [
-    { binding: 0, resource: { buffer: resultMatrixBuffer } },
-    { binding: 1, resource: { buffer: compactCountBuffer } },
-    { binding: 2, resource: { buffer: compactResultsBuffer } },
+  const compactCountBuffers: [GPUBuffer, GPUBuffer] = [
+    device.createBuffer({ size: 4, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST }),
+    device.createBuffer({ size: 4, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST }),
   ]
-  const group2BEntries: GPUBindGroupEntry[] = [
-    { binding: 0, resource: { buffer: resultMatrixBufferB } },
-    { binding: 1, resource: { buffer: compactCountBufferB } },
-    { binding: 2, resource: { buffer: compactResultsBufferB } },
+  const compactResultsBuffers: [GPUBuffer, GPUBuffer] = [
+    device.createBuffer({ size: compactResultsBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
+    device.createBuffer({ size: compactResultsBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
+  ]
+  const compactCountReadBuffers: [GPUBuffer, GPUBuffer] = [
+    device.createBuffer({ size: 4, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
+    device.createBuffer({ size: 4, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
+  ]
+  const compactResultsReadBuffers: [GPUBuffer, GPUBuffer] = [
+    device.createBuffer({ size: compactResultsBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
+    device.createBuffer({ size: compactResultsBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
   ]
 
-  const bindGroup2 = device.createBindGroup({
+  const bindGroups2: [GPUBindGroup, GPUBindGroup] = [0, 1].map((i) => device.createBindGroup({
     layout: computePipeline.getBindGroupLayout(2),
-    entries: group2Entries,
-  })
+    entries: [
+      { binding: 0, resource: { buffer: resultMatrixBuffers[i] } },
+      { binding: 1, resource: { buffer: compactCountBuffers[i] } },
+      { binding: 2, resource: { buffer: compactResultsBuffers[i] } },
+    ],
+  })) as [GPUBindGroup, GPUBindGroup]
 
-  const bindGroup2B = device.createBindGroup({
-    layout: computePipeline.getBindGroupLayout(2),
-    entries: group2BEntries,
-  })
-
-  const gpuReadBuffer = device.createBuffer({
-    size: resultMatrixBufferSize,
-    usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
-  })
-
-  const gpuReadBufferB = device.createBuffer({
-    size: resultMatrixBufferSize,
-    usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
-  })
+  const gpuReadBuffers: [GPUBuffer, GPUBuffer] = [
+    device.createBuffer({ size: resultMatrixBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
+    device.createBuffer({ size: resultMatrixBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
+  ]
 
   // Timestamp query resources for GPU profiling (compute vs copy breakdown)
   const canTimestamp = device.features.has('timestamp-query')
@@ -212,18 +172,15 @@ export function initializeGpuPipeline(
     computePipeline,
     bindGroup0,
     bindGroup1,
-    bindGroup2,
-    bindGroup2B,
+    bindGroups2,
     paramsMatrixBuffer,
-    resultMatrixBuffer,
-    resultMatrixBufferB,
+    resultMatrixBuffers,
     relicsMatrixBuffer,
     relicSetSolutionsMatrixBuffer,
     ornamentSetSolutionsMatrixBuffer,
     precomputedStatsBuffer,
 
-    gpuReadBuffer,
-    gpuReadBufferB,
+    gpuReadBuffers,
     bindGroupLayouts: [],
 
     canTimestamp,
@@ -233,14 +190,10 @@ export function initializeGpuPipeline(
 
     COMPACT_LIMIT,
     compactResultsBufferSize,
-    compactCountBuffer,
-    compactCountBufferB,
-    compactResultsBuffer,
-    compactResultsBufferB,
-    compactCountReadBuffer,
-    compactCountReadBufferB,
-    compactResultsReadBuffer,
-    compactResultsReadBufferB,
+    compactCountBuffers,
+    compactResultsBuffers,
+    compactCountReadBuffers,
+    compactResultsReadBuffers,
   }
 }
 
@@ -257,16 +210,15 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
   const computePipeline = gpuContext.computePipeline
   const bindGroup0 = gpuContext.bindGroup0
   const bindGroup1 = gpuContext.bindGroup1
-  const bindGroup2 = bufferIndex === 0 ? gpuContext.bindGroup2 : gpuContext.bindGroup2B
+  const bindGroup2 = gpuContext.bindGroups2[bufferIndex]
   const resultMatrixBufferSize = gpuContext.resultMatrixBufferSize
-  const resultMatrixBuffer = bufferIndex === 0 ? gpuContext.resultMatrixBuffer : gpuContext.resultMatrixBufferB
-  const gpuReadBuffer = bufferIndex === 0 ? gpuContext.gpuReadBuffer : gpuContext.gpuReadBufferB
+  const resultMatrixBuffer = gpuContext.resultMatrixBuffers[bufferIndex]
+  const gpuReadBuffer = gpuContext.gpuReadBuffers[bufferIndex]
 
-  // Select compact buffers for this buffer index
-  const compactCountBuffer = bufferIndex === 0 ? gpuContext.compactCountBuffer : gpuContext.compactCountBufferB
-  const compactResultsBuffer = bufferIndex === 0 ? gpuContext.compactResultsBuffer : gpuContext.compactResultsBufferB
-  const compactCountReadBuffer = bufferIndex === 0 ? gpuContext.compactCountReadBuffer : gpuContext.compactCountReadBufferB
-  const compactResultsReadBuffer = bufferIndex === 0 ? gpuContext.compactResultsReadBuffer : gpuContext.compactResultsReadBufferB
+  const compactCountBuffer = gpuContext.compactCountBuffers[bufferIndex]
+  const compactResultsBuffer = gpuContext.compactResultsBuffers[bufferIndex]
+  const compactCountReadBuffer = gpuContext.compactCountReadBuffers[bufferIndex]
+  const compactResultsReadBuffer = gpuContext.compactResultsReadBuffers[bufferIndex]
 
   device.queue.writeBuffer(gpuContext.paramsMatrixBuffer, 0, newParamsMatrix)
 
@@ -353,11 +305,7 @@ export function createGpuBuffer(
 }
 
 export function destroyPipeline(gpuContext: GpuExecutionContext) {
-  gpuContext.resultMatrixBuffer.unmap()
-  gpuContext.resultMatrixBuffer.destroy()
-
-  gpuContext.resultMatrixBufferB.unmap()
-  gpuContext.resultMatrixBufferB.destroy()
+  gpuContext.resultMatrixBuffers.forEach((b) => { b.unmap(); b.destroy() })
 
   gpuContext.relicsMatrixBuffer.unmap()
   gpuContext.relicsMatrixBuffer.destroy()
@@ -372,12 +320,8 @@ export function destroyPipeline(gpuContext: GpuExecutionContext) {
   gpuContext.precomputedStatsBuffer.destroy()
 
   // Compact buffers
-  gpuContext.compactCountBuffer.destroy()
-  gpuContext.compactCountBufferB.destroy()
-  gpuContext.compactResultsBuffer.destroy()
-  gpuContext.compactResultsBufferB.destroy()
-  gpuContext.compactCountReadBuffer.destroy()
-  gpuContext.compactCountReadBufferB.destroy()
-  gpuContext.compactResultsReadBuffer.destroy()
-  gpuContext.compactResultsReadBufferB.destroy()
+  gpuContext.compactCountBuffers.forEach((b) => b.destroy())
+  gpuContext.compactResultsBuffers.forEach((b) => b.destroy())
+  gpuContext.compactCountReadBuffers.forEach((b) => b.destroy())
+  gpuContext.compactResultsReadBuffers.forEach((b) => b.destroy())
 }

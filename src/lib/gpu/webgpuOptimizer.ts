@@ -298,18 +298,18 @@ export async function gpuOptimize(props: {
         // Still overflows — fall back to full buffer read
         const commandEncoder = gpuContext.device.createCommandEncoder()
         commandEncoder.copyBufferToBuffer(
-          gpuContext.resultMatrixBuffer,
+          gpuContext.resultMatrixBuffers[0],
           0,
-          gpuContext.gpuReadBuffer,
+          gpuContext.gpuReadBuffers[0],
           0,
           gpuContext.resultMatrixBufferSize,
         )
         gpuContext.device.queue.submit([commandEncoder.finish()])
 
-        await gpuContext.gpuReadBuffer.mapAsync(GPUMapMode.READ)
-        const arrayBuffer = gpuContext.gpuReadBuffer.getMappedRange()
+        await gpuContext.gpuReadBuffers[0].mapAsync(GPUMapMode.READ)
+        const arrayBuffer = gpuContext.gpuReadBuffers[0].getMappedRange()
         processResults(overflowOffset, new Float32Array(arrayBuffer), gpuContext, 0, seenIndices)
-        gpuContext.gpuReadBuffer.unmap()
+        gpuContext.gpuReadBuffers[0].unmap()
       }
 
       permutationsSearched += permStride

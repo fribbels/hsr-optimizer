@@ -45,21 +45,16 @@ export type GpuExecutionContext = {
   computePipeline: GPUComputePipeline,
   bindGroup0: GPUBindGroup,
   bindGroup1: GPUBindGroup,
-  bindGroup2: GPUBindGroup,
+  bindGroups2: [GPUBindGroup, GPUBindGroup],
   paramsMatrixBuffer: GPUBuffer,
-  resultMatrixBuffer: GPUBuffer,
+  resultMatrixBuffers: [GPUBuffer, GPUBuffer],
   relicsMatrixBuffer: GPUBuffer,
   relicSetSolutionsMatrixBuffer: GPUBuffer,
   ornamentSetSolutionsMatrixBuffer: GPUBuffer,
   precomputedStatsBuffer: GPUBuffer,
 
-  gpuReadBuffer: GPUBuffer,
+  gpuReadBuffers: [GPUBuffer, GPUBuffer],
   bindGroupLayouts: GPUBindGroupLayout[],
-
-  // Double-buffering: second buffer set for GPU/CPU overlap
-  resultMatrixBufferB: GPUBuffer,
-  gpuReadBufferB: GPUBuffer,
-  bindGroup2B: GPUBindGroup,
 
   // Timestamp profiling (optional — only present when timestamp-query is supported)
   canTimestamp: boolean,
@@ -70,14 +65,10 @@ export type GpuExecutionContext = {
   // Atomic compaction buffers
   COMPACT_LIMIT: number,
   compactResultsBufferSize: number,
-  compactCountBuffer: GPUBuffer,
-  compactCountBufferB: GPUBuffer,
-  compactResultsBuffer: GPUBuffer,
-  compactResultsBufferB: GPUBuffer,
-  compactCountReadBuffer: GPUBuffer,
-  compactCountReadBufferB: GPUBuffer,
-  compactResultsReadBuffer: GPUBuffer,
-  compactResultsReadBufferB: GPUBuffer,
+  compactCountBuffers: [GPUBuffer, GPUBuffer],
+  compactResultsBuffers: [GPUBuffer, GPUBuffer],
+  compactCountReadBuffers: [GPUBuffer, GPUBuffer],
+  compactResultsReadBuffers: [GPUBuffer, GPUBuffer],
 }
 
 export type RelicsByPart = {

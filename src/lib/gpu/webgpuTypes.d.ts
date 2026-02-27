@@ -42,11 +42,9 @@ export type GpuExecutionContext = {
   // Webgpu internal objects
   device: GPUDevice,
   computePipeline: GPUComputePipeline,
-  postComputePipeline: GPUComputePipeline,
   bindGroup0: GPUBindGroup,
   bindGroup1: GPUBindGroup,
   bindGroup2: GPUBindGroup,
-  postComputeBindGroup0: GPUBindGroup,
   paramsMatrixBuffer: GPUBuffer,
   resultMatrixBuffer: GPUBuffer,
   relicsMatrixBuffer: GPUBuffer,
@@ -56,6 +54,29 @@ export type GpuExecutionContext = {
 
   gpuReadBuffer: GPUBuffer,
   bindGroupLayouts: GPUBindGroupLayout[],
+
+  // Double-buffering: second buffer set for GPU/CPU overlap
+  resultMatrixBufferB: GPUBuffer,
+  gpuReadBufferB: GPUBuffer,
+  bindGroup2B: GPUBindGroup,
+
+  // Timestamp profiling (optional — only present when timestamp-query is supported)
+  canTimestamp: boolean,
+  querySet?: GPUQuerySet,
+  timestampResolveBuffer?: GPUBuffer,
+  timestampReadBuffer?: GPUBuffer,
+
+  // Atomic compaction buffers (non-DEBUG only)
+  COMPACT_LIMIT: number,
+  compactResultsBufferSize: number,
+  compactCountBuffer: GPUBuffer,
+  compactCountBufferB: GPUBuffer,
+  compactResultsBuffer: GPUBuffer,
+  compactResultsBufferB: GPUBuffer,
+  compactCountReadBuffer: GPUBuffer,
+  compactCountReadBufferB: GPUBuffer,
+  compactResultsReadBuffer: GPUBuffer,
+  compactResultsReadBufferB: GPUBuffer,
 }
 
 export type RelicsByPart = {

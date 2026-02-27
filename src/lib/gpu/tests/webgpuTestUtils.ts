@@ -47,9 +47,9 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
     true,
   )
 
-  const gpuReadBuffer = generateExecutionPass(gpuContext, 0)
-  await gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 10000)
-  const arrayBuffer = gpuReadBuffer.getMappedRange(0, 10000)
+  const passResult = generateExecutionPass(gpuContext, 0)
+  await passResult.gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 10000)
+  const arrayBuffer = passResult.gpuReadBuffer.getMappedRange(0, 10000)
   const array = new Float32Array(arrayBuffer)
 
   const relicsByPart = {
@@ -70,8 +70,8 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
 
   const deltas = arrayDelta(cpuContainer, gpuContainer, context)
 
-  gpuReadBuffer.unmap()
-  gpuReadBuffer.destroy()
+  passResult.gpuReadBuffer.unmap()
+  passResult.gpuReadBuffer.destroy()
   destroyPipeline(gpuContext)
 
   return deltas

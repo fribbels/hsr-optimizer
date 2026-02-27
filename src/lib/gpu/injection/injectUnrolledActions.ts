@@ -169,6 +169,17 @@ function generateRatingFilters(request: Form, context: OptimizerContext, gpuPara
 }
 
 /**
+ * Generates WGSL for atomic compaction: claims a slot and writes (index, value) to compact buffer.
+ */
+function compactWrite(valueExpr: string): string {
+  return `
+        let slot = atomicAdd(&compactCount, 1u);
+        if (slot < COMPACT_LIMIT) {
+          compactResults[slot] = vec2<u32>(u32(index), bitcast<u32>(${valueExpr}));
+        }`
+}
+
+/**
  * Generates WGSL code to output the result based on the selected sort option.
  * Currently handles: basic stats + COMBO
  */
@@ -197,6 +208,7 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
       if (c.${sortKey} > threshold) {
         results[index] = c.${sortKey};
         failures = 1;
+${compactWrite(`c.${sortKey}`)}
       } else {
         results[index] = -failures; failures = failures + 1;
       }
@@ -205,6 +217,7 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
       if (sortValue > threshold) {
         results[index] = sortValue;
         failures = 1;
+${compactWrite('sortValue')}
       } else {
         results[index] = -failures; failures = failures + 1;
       }
@@ -217,6 +230,7 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
     if (comboDmg > threshold) {
       results[index] = comboDmg;
       failures = 1;
+${compactWrite('comboDmg')}
     } else {
       results[index] = -failures; failures = failures + 1;
     }
@@ -228,6 +242,7 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
     if (ehp0 > threshold) {
       results[index] = ehp0;
       failures = 1;
+${compactWrite('ehp0')}
     } else {
       results[index] = -failures; failures = failures + 1;
     }
@@ -244,6 +259,7 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
     if (dmg${matchingIndex} > threshold) {
       results[index] = dmg${matchingIndex};
       failures = 1;
+${compactWrite(`dmg${matchingIndex}`)}
     } else {
       results[index] = -failures; failures = failures + 1;
     }

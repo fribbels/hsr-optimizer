@@ -272,6 +272,7 @@ const WORKGROUP_SIZE = ${gpuParams.WORKGROUP_SIZE};
 const BLOCK_SIZE = ${gpuParams.BLOCK_SIZE};
 const CYCLES_PER_INVOCATION = ${cyclesPerInvocation};
 const DEBUG = ${gpuParams.DEBUG ? 1 : 0};
+${gpuParams.DEBUG ? '' : `const COMPACT_LIMIT = ${gpuParams.RESULTS_LIMIT * 4}u;`}
 ${debugValues}
   `,
   )
@@ -288,6 +289,8 @@ ${debugValues}
       '/* INJECT RESULTS BUFFER */',
       `
 @group(2) @binding(0) var<storage, read_write> results : array<f32>;
+@group(2) @binding(1) var<storage, read_write> compactCount : atomic<u32>;
+@group(2) @binding(2) var<storage, read_write> compactResults : array<vec2<u32>>;
     `,
     )
   }

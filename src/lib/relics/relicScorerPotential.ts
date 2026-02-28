@@ -714,8 +714,11 @@ export class RelicScorer {
 
         rerollAvg += value * (1 + totalRolls / 4)
 
-        if (stat === blockedStat) continue
-        blockerAvg += value * (1 + totalRolls / 3)
+        if (stat === blockedStat) {
+          blockerAvg += value
+        } else {
+          blockerAvg += value * (1 + totalRolls / 3)
+        }
       }
 
       // These are reroll max potentials - Disabled for now

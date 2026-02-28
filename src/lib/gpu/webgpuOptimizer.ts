@@ -317,13 +317,15 @@ function outputResults(gpuContext: GpuExecutionContext) {
     const index = resultArray[i].index
 
     const l = index % lSize
-    const p = ((index - l) / lSize) % pSize
-    const f = ((index - p * lSize - l) / (lSize * pSize)) % fSize
-    const b = ((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize
-    const g = ((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize
-    const h =
-      ((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize))
-      % hSize
+    const c1 = (index - l) / lSize
+    const p = c1 % pSize
+    const c2 = (c1 - p) / pSize
+    const f = c2 % fSize
+    const c3 = (c2 - f) / fSize
+    const b = c3 % bSize
+    const c4 = (c3 - b) / bSize
+    const g = c4 % gSize
+    const h = (c4 - g) / gSize
 
     const relicsByPart = {
       Head: relics.Head[h],

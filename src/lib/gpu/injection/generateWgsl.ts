@@ -317,43 +317,26 @@ for (var actionIndex = 0; actionIndex < actionCount; actionIndex++) {
 
 /**
  * Decides which {@link https://web.archive.org/web/20250531050143/https://en.wikipedia.org/wiki/Mixed_radix mixed-radix}
- * strategy should be used for accessing the relics array slots. This is needed because, as of now,  wgsl only supports
+ * strategy should be used for accessing the relics array slots. This is needed because, as of now, wgsl only supports
  * 32 bit types, which can overflow if not used cautiously.
+ *
+ * Uses a sequential carry chain (5 divs + 5 mods) which is naturally overflow-safe since each intermediate value is
+ * smaller than the previous.
  */
 function injectRelicIndexStrategy(wgsl: string, relics: RelicsByPart): string {
-  const injectionLabel = '/* INJECT RELIC SLOT INDEX STRATEGY */'
-  const overflows = (relics.LinkRope.length
-    * relics.PlanarSphere.length
-    * relics.Feet.length
-    * relics.Body.length
-    * relics.Hands.length) > 2147483647
-  if (overflows) {
-    return wgsl.replace(
-      injectionLabel,
-      `
-    let l = (index % lSize);
-    let indexCarryL = index / lSize;
-    let p = (indexCarryL % pSize);
-    let indexCarryP = indexCarryL / pSize;
-    let f = (indexCarryP % fSize);
-    let indexCarryF = indexCarryP / fSize;
-    let b = (indexCarryF % bSize);
-    let indexCarryB = indexCarryF / bSize;
-    let g = (indexCarryB % gSize);
-    let indexCarryG = indexCarryB / gSize;
-    let h = (indexCarryG % hSize);
-  `,
-    )
-  }
   return wgsl.replace(
-    injectionLabel,
+    '/* INJECT RELIC SLOT INDEX STRATEGY */',
     `
     let l = (index % lSize);
-    let p = (((index - l) / lSize) % pSize);
-    let f = (((index - p * lSize - l) / (lSize * pSize)) % fSize);
-    let b = (((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize);
-    let g = (((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize);
-    let h = (((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize)) % hSize);
+    let c1 = index / lSize;
+    let p = (c1 % pSize);
+    let c2 = c1 / pSize;
+    let f = (c2 % fSize);
+    let c3 = c2 / fSize;
+    let b = (c3 % bSize);
+    let c4 = c3 / bSize;
+    let g = (c4 % gSize);
+    let h = c4 / gSize;
   `,
   )
 }

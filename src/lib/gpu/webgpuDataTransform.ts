@@ -27,13 +27,15 @@ export function generateParamsMatrix(
   const hSize = relics.Head.length
 
   const l = offset % lSize
-  const p = ((offset - l) / lSize) % pSize
-  const f = ((offset - p * lSize - l) / (lSize * pSize)) % fSize
-  const b = ((offset - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize
-  const g = ((offset - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize
-  const h =
-    ((offset - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize))
-    % hSize
+  const c1 = (offset - l) / lSize
+  const p = c1 % pSize
+  const c2 = (c1 - p) / pSize
+  const f = c2 % fSize
+  const c3 = (c2 - f) / fSize
+  const b = c3 % bSize
+  const c4 = (c3 - b) / bSize
+  const g = c4 % gSize
+  const h = (c4 - g) / gSize
 
   const permStride = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
   const permLimit = Math.min(permStride, gpuContext.permutations - offset)

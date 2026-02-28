@@ -33,6 +33,7 @@ const ELATION_SKILL_ABILITY_TYPE = 256;
 
 
 const epsilon = 0.00000001f;
+const eps4 = vec4<f32>(epsilon, epsilon, epsilon, epsilon);
 
 @group(0) @binding(0) var<uniform> params : Params;
 
@@ -113,14 +114,14 @@ fn main(
     let planarSphere : Relic = (relics[finalP + planarOffset]);
     let linkRope     : Relic = (relics[finalL + ropeOffset]);
 
-    // Convert set ID
+    // Convert set ID (relicSet is v5.z)
 
-    let setH: u32 = u32(head.relicSet);
-    let setG: u32 = u32(hands.relicSet);
-    let setB: u32 = u32(body.relicSet);
-    let setF: u32 = u32(feet.relicSet);
-    let setP: u32 = u32(planarSphere.relicSet);
-    let setL: u32 = u32(linkRope.relicSet);
+    let setH: u32 = u32(head.v5.z);
+    let setG: u32 = u32(hands.v5.z);
+    let setB: u32 = u32(body.v5.z);
+    let setF: u32 = u32(feet.v5.z);
+    let setP: u32 = u32(planarSphere.v5.z);
+    let setL: u32 = u32(linkRope.v5.z);
 
     // Get the index for set permutation lookup
 
@@ -154,31 +155,20 @@ fn main(
 
     var c: BasicStats = BasicStats();
 
-    // Calculate relic stat sums
-    // NOTE: Performance is worse if we don't add elemental dmg from head/hands/body/feet/rope
+    // Vec4 relic stat sums
+    let s0 =        head.v0 + hands.v0 + body.v0 + feet.v0 + planarSphere.v0 + linkRope.v0;
+    let s1 = eps4 + head.v1 + hands.v1 + body.v1 + feet.v1 + planarSphere.v1 + linkRope.v1;
+    let s2 = eps4 + head.v2 + hands.v2 + body.v2 + feet.v2 + planarSphere.v2 + linkRope.v2;
+    let s3 = eps4 + head.v3 + hands.v3 + body.v3 + feet.v3 + planarSphere.v3 + linkRope.v3;
+    let s4 = eps4 + head.v4 + hands.v4 + body.v4 + feet.v4 + planarSphere.v4 + linkRope.v4;
+    let s5 = eps4 + head.v5 + hands.v5 + body.v5 + feet.v5 + planarSphere.v5 + linkRope.v5;
 
-    c.HP_P  = head.HP_P + hands.HP_P + body.HP_P + feet.HP_P + planarSphere.HP_P + linkRope.HP_P;
-    c.ATK_P = head.ATK_P + hands.ATK_P + body.ATK_P + feet.ATK_P + planarSphere.ATK_P + linkRope.ATK_P;
-    c.DEF_P = head.DEF_P + hands.DEF_P + body.DEF_P + feet.DEF_P + planarSphere.DEF_P + linkRope.DEF_P;
-    c.SPD_P = head.SPD_P + hands.SPD_P + body.SPD_P + feet.SPD_P + planarSphere.SPD_P + linkRope.SPD_P;
-    c.HP  = epsilon + head.HP + hands.HP + body.HP + feet.HP + planarSphere.HP + linkRope.HP;
-    c.ATK = epsilon + head.ATK + hands.ATK + body.ATK + feet.ATK + planarSphere.ATK + linkRope.ATK;
-    c.DEF = epsilon + head.DEF + hands.DEF + body.DEF + feet.DEF + planarSphere.DEF + linkRope.DEF;
-    c.SPD = epsilon + head.SPD + hands.SPD + body.SPD + feet.SPD + planarSphere.SPD + linkRope.SPD;
-    c.CR  = epsilon + head.CR + hands.CR + body.CR + feet.CR + planarSphere.CR + linkRope.CR;
-    c.CD  = epsilon + head.CD + hands.CD + body.CD + feet.CD + planarSphere.CD + linkRope.CD;
-    c.EHR = epsilon + head.EHR + hands.EHR + body.EHR + feet.EHR + planarSphere.EHR + linkRope.EHR;
-    c.RES = epsilon + head.RES + hands.RES + body.RES + feet.RES + planarSphere.RES + linkRope.RES;
-    c.BE  = epsilon + head.BE + hands.BE + body.BE + feet.BE + planarSphere.BE + linkRope.BE;
-    c.ERR = epsilon + head.ERR + hands.ERR + body.ERR + feet.ERR + planarSphere.ERR + linkRope.ERR;
-    c.OHB = epsilon + head.OHB + hands.OHB + body.OHB + feet.OHB + planarSphere.OHB + linkRope.OHB;
-    c.PHYSICAL_DMG_BOOST  = epsilon + head.PHYSICAL_DMG_BOOST + hands.PHYSICAL_DMG_BOOST + body.PHYSICAL_DMG_BOOST + feet.PHYSICAL_DMG_BOOST + planarSphere.PHYSICAL_DMG_BOOST + linkRope.PHYSICAL_DMG_BOOST;
-    c.FIRE_DMG_BOOST      = epsilon + head.FIRE_DMG_BOOST + hands.FIRE_DMG_BOOST + body.FIRE_DMG_BOOST + feet.FIRE_DMG_BOOST + planarSphere.FIRE_DMG_BOOST + linkRope.FIRE_DMG_BOOST;
-    c.ICE_DMG_BOOST       = epsilon + head.ICE_DMG_BOOST + hands.ICE_DMG_BOOST + body.ICE_DMG_BOOST + feet.ICE_DMG_BOOST + planarSphere.ICE_DMG_BOOST + linkRope.ICE_DMG_BOOST;
-    c.LIGHTNING_DMG_BOOST = epsilon + head.LIGHTNING_DMG_BOOST + hands.LIGHTNING_DMG_BOOST + body.LIGHTNING_DMG_BOOST + feet.LIGHTNING_DMG_BOOST + planarSphere.LIGHTNING_DMG_BOOST + linkRope.LIGHTNING_DMG_BOOST;
-    c.WIND_DMG_BOOST      = epsilon + head.WIND_DMG_BOOST + hands.WIND_DMG_BOOST + body.WIND_DMG_BOOST + feet.WIND_DMG_BOOST + planarSphere.WIND_DMG_BOOST + linkRope.WIND_DMG_BOOST;
-    c.QUANTUM_DMG_BOOST   = epsilon + head.QUANTUM_DMG_BOOST + hands.QUANTUM_DMG_BOOST + body.QUANTUM_DMG_BOOST + feet.QUANTUM_DMG_BOOST + planarSphere.QUANTUM_DMG_BOOST + linkRope.QUANTUM_DMG_BOOST;
-    c.IMAGINARY_DMG_BOOST = epsilon + head.IMAGINARY_DMG_BOOST + hands.IMAGINARY_DMG_BOOST + body.IMAGINARY_DMG_BOOST + feet.IMAGINARY_DMG_BOOST + planarSphere.IMAGINARY_DMG_BOOST + linkRope.IMAGINARY_DMG_BOOST;
+    c.HP_P  = s0.x;  c.ATK_P = s0.y;  c.DEF_P = s0.z;  c.SPD_P = s0.w;
+    c.HP    = s1.x;  c.ATK   = s1.y;  c.DEF   = s1.z;  c.SPD   = s1.w;
+    c.CR    = s2.x;  c.CD    = s2.y;  c.EHR   = s2.z;  c.RES   = s2.w;
+    c.BE    = s3.x;  c.ERR   = s3.y;  c.OHB   = s3.z;  c.PHYSICAL_DMG_BOOST  = s3.w;
+    c.FIRE_DMG_BOOST = s4.x;  c.ICE_DMG_BOOST = s4.y;  c.LIGHTNING_DMG_BOOST = s4.z;  c.WIND_DMG_BOOST = s4.w;
+    c.QUANTUM_DMG_BOOST = s5.x;  c.IMAGINARY_DMG_BOOST = s5.y;
 
     // Calculate basic stats
 

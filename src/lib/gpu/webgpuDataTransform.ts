@@ -64,7 +64,7 @@ export function mergeRelicsIntoArray(relics: RelicsByPart) {
   ])
 }
 
-const RELIC_ARG_SIZE = 23
+const RELIC_ARG_SIZE = 24
 
 function relicsToArray(relics: Relic[]) {
   const output: number[] = []
@@ -101,6 +101,7 @@ function relicsToArray(relics: Relic[]) {
     output[startIndex + j++] = uncondensedStats[BasicKey.QUANTUM_DMG_BOOST] || 0 // 20
     output[startIndex + j++] = uncondensedStats[BasicKey.IMAGINARY_DMG_BOOST] || 0
     output[startIndex + j++] = relicSetToIndex(relic) // 22
+    output[startIndex + j++] = 0 // 23: vec4 padding
   }
 
   return output

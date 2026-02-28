@@ -1,27 +1,10 @@
 struct Relic {
-  HP_P: f32,
-  ATK_P: f32,
-  DEF_P: f32,
-  SPD_P: f32,
-  HP: f32,
-  ATK: f32,
-  DEF: f32,
-  SPD: f32,
-  CR: f32,
-  CD: f32,
-  EHR: f32,
-  RES: f32,
-  BE: f32,
-  ERR: f32,
-  OHB: f32,
-  PHYSICAL_DMG_BOOST: f32,
-  FIRE_DMG_BOOST: f32,
-  ICE_DMG_BOOST: f32,
-  LIGHTNING_DMG_BOOST: f32,
-  WIND_DMG_BOOST: f32,
-  QUANTUM_DMG_BOOST: f32,
-  IMAGINARY_DMG_BOOST: f32,
-  relicSet: f32, // 22
+  v0: vec4<f32>,  // HP_P, ATK_P, DEF_P, SPD_P
+  v1: vec4<f32>,  // HP, ATK, DEF, SPD
+  v2: vec4<f32>,  // CR, CD, EHR, RES
+  v3: vec4<f32>,  // BE, ERR, OHB, PHYSICAL_DMG_BOOST
+  v4: vec4<f32>,  // FIRE, ICE, LIGHTNING, WIND
+  v5: vec4<f32>,  // QUANTUM, IMAGINARY, relicSet, _pad
 }
 
 struct BasicStats {

@@ -17,6 +17,7 @@
     "build": "vite build",
     "lint": "oxlint",
     "vitest": "vitest --dir src/lib --no-watch --pool=threads",
+    "vitest:fast": "vitest --dir src/lib --no-watch --pool=threads --exclude '**/simulations/tests/**/*Orchestrator*'",
     "vitest:silent": "vitest --dir src/lib --no-watch --pool=threads --silent",
     "vitest:watch": "vitest --dir src/lib --watch",
     "test": "npx playwright test --config tests/playwright.config.ts --trace on",

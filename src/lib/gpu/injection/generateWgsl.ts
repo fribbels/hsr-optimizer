@@ -183,7 +183,8 @@ function injectSetFilters(wgsl: string, gpuParams: GpuConstants) {
     '/* INJECT SET FILTERS */',
     indent(
       `
-if (relicSetSolutionsMatrix[relicSetIndex] < 1 || ornamentSetSolutionsMatrix[ornamentSetIndex] < 1) {
+if (((relicSetSolutionsMatrix[relicSetIndex >> 5u] >> (relicSetIndex & 31u)) & 1) == 0
+ || ((ornamentSetSolutionsMatrix[ornamentSetIndex >> 5u] >> (ornamentSetIndex & 31u)) & 1) == 0) {
   continue;
 }
   `,

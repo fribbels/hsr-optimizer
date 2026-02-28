@@ -130,6 +130,28 @@ function convertRelicSetIndicesTo1D(setIndices: number[][]) {
   return arr
 }
 
+export function condenseRelicSetSolutions(relicSetSolutions: number[]) {
+  return bitpackBooleanArray(relicSetSolutions)
+}
+
+export function condenseOrnamentSetSolutions(ornamentSetSolutions: number[]) {
+  return bitpackBooleanArray(ornamentSetSolutions)
+}
+
+function bitpackBooleanArray(arr: number[]) {
+  const paddedLength = Math.ceil(arr.length / 32) * 32
+  const result: number[] = []
+  for (let i = 0; i < paddedLength; i += 32) {
+    let packedValue = 0
+    for (let j = 0; j < 32; j++) {
+      const val = i + j < arr.length ? arr[i + j] : 0
+      packedValue |= (val << j)
+    }
+    result.push(packedValue >>> 0)
+  }
+  return result
+}
+
 const permutator = (inputArr: number[]) => {
   const result: number[][] = []
 

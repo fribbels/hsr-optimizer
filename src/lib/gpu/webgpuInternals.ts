@@ -4,6 +4,10 @@ import {
   mergeRelicsIntoArray,
 } from 'lib/gpu/webgpuDataTransform'
 import {
+  condenseOrnamentSetSolutions,
+  condenseRelicSetSolutions,
+} from 'lib/optimization/relicSetSolver'
+import {
   GpuExecutionContext,
   GpuResult,
   RelicsByPart,
@@ -52,10 +56,6 @@ export function initializeGpuPipeline(
   if (window.location.hostname === 'localhost') {
     console.log(wgsl)
   }
-  if (DEBUG && !silent) {
-  } else {
-    // console.log(wgsl)
-  }
 
   const computePipeline = generatePipeline(device, wgsl)
 
@@ -73,10 +73,12 @@ export function initializeGpuPipeline(
   })
 
   const mergedRelics = mergeRelicsIntoArray(relics)
+  const condensedRelicSets = condenseRelicSetSolutions(relicSetSolutions)
+  const condensedOrnamentSets = condenseOrnamentSetSolutions(ornamentSetSolutions)
 
   const relicsMatrixBuffer = createGpuBuffer(device, new Float32Array(mergedRelics), GPUBufferUsage.STORAGE)
-  const relicSetSolutionsMatrixBuffer = createGpuBuffer(device, new Int32Array(relicSetSolutions), GPUBufferUsage.STORAGE, true, true)
-  const ornamentSetSolutionsMatrixBuffer = createGpuBuffer(device, new Int32Array(ornamentSetSolutions), GPUBufferUsage.STORAGE, true, true)
+  const relicSetSolutionsMatrixBuffer = createGpuBuffer(device, new Int32Array(condensedRelicSets), GPUBufferUsage.STORAGE, true, true)
+  const ornamentSetSolutionsMatrixBuffer = createGpuBuffer(device, new Int32Array(condensedOrnamentSets), GPUBufferUsage.STORAGE, true, true)
   const precomputedStatsBuffer = createGpuBuffer(device, context.precomputedStatsData!, GPUBufferUsage.STORAGE)
 
   const bindGroup0 = device.createBindGroup({
@@ -256,7 +258,7 @@ export function createGpuBuffer(
 
   const arrayBuffer = gpuBuffer.getMappedRange()
   if (int) {
-    new Int32Array(arrayBuffer).set(matrix)
+    new Uint32Array(arrayBuffer).set(matrix)
   } else {
     new Float32Array(arrayBuffer).set(matrix)
   }

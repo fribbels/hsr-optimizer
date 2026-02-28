@@ -51,61 +51,15 @@ struct BasicStats {
 }
 
 struct Sets {
-  PasserbyOfWanderingCloud: i32,
-  MusketeerOfWildWheat: i32,
-  KnightOfPurityPalace: i32,
-  HunterOfGlacialForest: i32,
-  ChampionOfStreetwiseBoxing: i32,
-  GuardOfWutheringSnow: i32,
-  FiresmithOfLavaForging: i32,
-  GeniusOfBrilliantStars: i32,
-  BandOfSizzlingThunder: i32,
-  EagleOfTwilightLine: i32,
-  ThiefOfShootingMeteor: i32,
-  WastelanderOfBanditryDesert: i32,
-  LongevousDisciple: i32,
-  MessengerTraversingHackerspace: i32,
-  TheAshblazingGrandDuke: i32,
-  PrisonerInDeepConfinement: i32,
-  PioneerDiverOfDeadWaters: i32,
-  WatchmakerMasterOfDreamMachinations: i32,
-  IronCavalryAgainstTheScourge: i32,
-  TheWindSoaringValorous: i32,
-  SacerdosRelivedOrdeal: i32,
-  ScholarLostInErudition: i32,
-  HeroOfTriumphantSong: i32,
-  PoetOfMourningCollapse: i32,
-  WarriorGoddessOfSunAndThunder: i32,
-  WavestriderCaptain: i32,
-  WorldRemakingDeliverer: i32,
-  SelfEnshroudedRecluse: i32,
-  EverGloriousMagicalGirl: i32,
-  DivinerOfDistantReach: i32,
-  SpaceSealingStation: i32,
-  FleetOfTheAgeless: i32,
-  PanCosmicCommercialEnterprise: i32,
-  BelobogOfTheArchitects: i32,
-  CelestialDifferentiator: i32,
-  InertSalsotto: i32,
-  TaliaKingdomOfBanditry: i32,
-  SprightlyVonwacq: i32,
-  RutilantArena: i32,
-  BrokenKeel: i32,
-  FirmamentFrontlineGlamoth: i32,
-  PenaconyLandOfTheDreams: i32,
-  SigoniaTheUnclaimedDesolation: i32,
-  IzumoGenseiAndTakamaDivineRealm: i32,
-  DuranDynastyOfRunningWolves: i32,
-  ForgeOfTheKalpagniLantern: i32,
-  LushakaTheSunkenSeas: i32,
-  TheWondrousBananAmusementPark: i32,
-  BoneCollectionsSereneDemesne: i32,
-  GiantTreeOfRaptBrooding: i32,
-  ArcadiaOfWovenDreams: i32,
-  RevelryByTheSea: i32,
-  AmphoreusTheEternalLand: i32,
-  TengokuLivestream: i32,
+  relicMatch2: u32,   // bit N set = relic set N has >= 2 pieces
+  relicMatch4: u32,   // bit N set = relic set N has 4 pieces
+  ornamentMatch2: u32, // bit N set = ornament set N has 2 pieces
 }
+
+// Bitmask set accessors: extract whether set at bit index has 2p/4p
+fn rp2(s: Sets, bit: u32) -> f32 { return f32((s.relicMatch2 >> bit) & 1u); }
+fn rp4(s: Sets, bit: u32) -> f32 { return f32((s.relicMatch4 >> bit) & 1u); }
+fn op2(s: Sets, bit: u32) -> f32 { return f32((s.ornamentMatch2 >> bit) & 1u); }
 
 struct SetConditionals {
   enabledHunterOfGlacialForest: bool,

@@ -3,6 +3,7 @@ import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
 import { generateDynamicConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
 import { injectUnrolledActions } from 'lib/gpu/injection/injectUnrolledActions'
+import { generateSetBitConstants } from 'lib/gpu/injection/setIndexMap'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import {
   GpuConstants,
@@ -149,6 +150,7 @@ function suppress(wgsl: string, label: string) {
 }
 
 function injectComputeShader(wgsl: string) {
+  wgsl += generateSetBitConstants()
   wgsl += `
 ${computeShader}
 

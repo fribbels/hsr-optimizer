@@ -46,7 +46,6 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
   wgsl = injectUnrolledActions(wgsl, request, context, gpuParams)
   wgsl = injectConditionalsNew(wgsl, request, context, gpuParams)
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)
-  wgsl = injectRelicIndexStrategy(wgsl, relics)
   wgsl = injectBasicFilters(wgsl, request, context, gpuParams)
   wgsl = injectSetFilters(wgsl, request, gpuParams)
   wgsl = injectComputedStats(wgsl, gpuParams)
@@ -336,30 +335,4 @@ for (var actionIndex = 0; actionIndex < actionCount; actionIndex++) {
   }
 
   return wgsl
-}
-
-/**
- * Decides which {@link https://web.archive.org/web/20250531050143/https://en.wikipedia.org/wiki/Mixed_radix mixed-radix}
- * strategy should be used for accessing the relics array slots. This is needed because, as of now, wgsl only supports
- * 32 bit types, which can overflow if not used cautiously.
- *
- * Uses a sequential carry chain (5 divs + 5 mods) which is naturally overflow-safe since each intermediate value is
- * smaller than the previous.
- */
-function injectRelicIndexStrategy(wgsl: string, relics: RelicsByPart): string {
-  return wgsl.replace(
-    '/* INJECT RELIC SLOT INDEX STRATEGY */',
-    `
-    let l = (index % lSize);
-    let c1 = index / lSize;
-    let p = (c1 % pSize);
-    let c2 = c1 / pSize;
-    let f = (c2 % fSize);
-    let c3 = c2 / fSize;
-    let b = (c3 % bSize);
-    let c4 = c3 / bSize;
-    let g = (c4 % gSize);
-    let h = c4 / gSize;
-  `,
-  )
 }

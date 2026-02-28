@@ -7,6 +7,26 @@ struct Relic {
   v5: vec4<f32>,  // QUANTUM, IMAGINARY, relicSet, _pad
 }
 
+struct OuterRelicStats {
+  s0: vec4<f32>,
+  s1: vec4<f32>,
+  s2: vec4<f32>,
+  s3: vec4<f32>,
+  s4: vec4<f32>,
+  s5: vec4<f32>,
+}
+
+fn sumOuterRelics(head: Relic, hands: Relic, body: Relic, feet: Relic) -> OuterRelicStats {
+  return OuterRelicStats(
+    head.v0 + hands.v0 + body.v0 + feet.v0,
+    head.v1 + hands.v1 + body.v1 + feet.v1,
+    head.v2 + hands.v2 + body.v2 + feet.v2,
+    head.v3 + hands.v3 + body.v3 + feet.v3,
+    head.v4 + hands.v4 + body.v4 + feet.v4,
+    head.v5 + hands.v5 + body.v5 + feet.v5,
+  );
+}
+
 struct BasicStats {
   HP_P: f32,
   ATK_P: f32,

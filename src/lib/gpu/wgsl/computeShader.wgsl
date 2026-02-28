@@ -71,9 +71,56 @@ fn main(
 
   var emptyComputedStats = ComputedStats();
 
-  for (var i = 0; i < CYCLES_PER_INVOCATION; i++) {
+  // Decompose initial index into mixed-radix digits
+  let index = cycleIndex;
 
-    // Calculate global_invocation_index
+  let l = (index % lSize);
+  let c1 = index / lSize;
+  let p = (c1 % pSize);
+  let c2 = c1 / pSize;
+  let f = (c2 % fSize);
+  let c3 = c2 / fSize;
+  let b = (c3 % bSize);
+  let c4 = c3 / bSize;
+  let g = (c4 % gSize);
+  let h = c4 / gSize;
+
+  // Apply carry-chain offsets for odometer starting position
+  let carryL = (l + xl) / lSize;
+  var curL = (l + xl) % lSize;
+  let carryP = (p + xp + carryL) / pSize;
+  var curP = (p + xp + carryL) % pSize;
+  let carryF = (f + xf + carryP) / fSize;
+  var curF = (f + xf + carryP) % fSize;
+  let carryB = (b + xb + carryF) / bSize;
+  var curB = (b + xb + carryF) % bSize;
+  let carryG = (g + xg + carryB) / gSize;
+  var curG = (g + xg + carryB) % gSize;
+  var curH = (h + xh + carryG) % hSize;
+
+  // Pre-load relics — outer 4 are loop-invariant most iterations
+  var head         = relics[curH];
+  var hands        = relics[curG + handsOffset];
+  var body         = relics[curB + bodyOffset];
+  var feet         = relics[curF + feetOffset];
+  var planarSphere = relics[curP + planarOffset];
+
+  var outerStats = sumOuterRelics(head, hands, body, feet);
+
+  var setH = u32(head.v5.z);
+  var setG = u32(hands.v5.z);
+  var setB = u32(body.v5.z);
+  var setF = u32(feet.v5.z);
+  var setP = u32(planarSphere.v5.z);
+
+  var maskH = 1u << setH;
+  var maskG = 1u << setG;
+  var maskB = 1u << setB;
+  var maskF = 1u << setF;
+
+  var i: i32 = 0;
+  loop {
+    if (i >= CYCLES_PER_INVOCATION) { break; }
 
     let index = cycleIndex + i;
 
@@ -81,47 +128,8 @@ fn main(
       break;
     }
 
-    // Calculate relic index per slot based on the index (global index + invocation index)
-
-    // START RELIC SLOT INDEX STRATEGY
-    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-    /* INJECT RELIC SLOT INDEX STRATEGY */
-    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
-    // START RELIC SLOT INDEX STRATEGY
-
-    // Sum this invocation slots with the block offset
-
-    let finalL = (l + xl) % lSize;
-    let carryL = (l + xl) / lSize;
-    let finalP = (p + xp + carryL) % pSize;
-    let carryP = (p + xp + carryL) / pSize;
-    let finalF = (f + xf + carryP) % fSize;
-    let carryF = (f + xf + carryP) / fSize;
-    let finalB = (b + xb + carryF) % bSize;
-    let carryB = (b + xb + carryF) / bSize;
-    let finalG = (g + xg + carryB) % gSize;
-    let carryG = (g + xg + carryB) / gSize;
-    let finalH = (h + xh + carryG) % hSize;
-
-    // Calculate Relic structs
-
-    let head         : Relic = (relics[finalH]);
-    let hands        : Relic = (relics[finalG + handsOffset]);
-    let body         : Relic = (relics[finalB + bodyOffset]);
-    let feet         : Relic = (relics[finalF + feetOffset]);
-    let planarSphere : Relic = (relics[finalP + planarOffset]);
-    let linkRope     : Relic = (relics[finalL + ropeOffset]);
-
-    // Convert set ID (relicSet is v5.z)
-
-    let setH: u32 = u32(head.v5.z);
-    let setG: u32 = u32(hands.v5.z);
-    let setB: u32 = u32(body.v5.z);
-    let setF: u32 = u32(feet.v5.z);
-    let setP: u32 = u32(planarSphere.v5.z);
-    let setL: u32 = u32(linkRope.v5.z);
-
-    // Get the index for set permutation lookup
+    let linkRope = relics[curL + ropeOffset];
+    let setL = u32(linkRope.v5.z);
 
     let relicSetIndex: u32 = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount;
     let ornamentSetIndex: u32 = setP + setL * ornamentSetCount;
@@ -132,34 +140,21 @@ fn main(
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
     // END SET FILTERS
 
-    // Calculate set bitmasks — 21 ops replacing 360+ ALU ops
-    // Each bit position corresponds to a set index (SET_* constants)
-
     var sets = Sets();
-    let maskH = 1u << setH;
-    let maskG = 1u << setG;
-    let maskB = 1u << setB;
-    let maskF = 1u << setF;
-
-    // Pairwise AND: bit N set if relic set N has >= 2 pieces among the 4 slots
     sets.relicMatch2 = (maskH & maskG) | (maskH & maskB) | (maskH & maskF)
                      | (maskG & maskB) | (maskG & maskF) | (maskB & maskF);
-
-    // All-four AND: bit N set if relic set N has exactly 4 pieces
     sets.relicMatch4 = maskH & maskG & maskB & maskF;
-
-    // Ornament 2p: bit N set if both ornament slots share set N
     sets.ornamentMatch2 = (1u << setP) & (1u << setL);
 
     var c: BasicStats = BasicStats();
 
-    // Vec4 relic stat sums
-    let s0 = head.v0 + hands.v0 + body.v0 + feet.v0 + planarSphere.v0 + linkRope.v0;
-    let s1 = head.v1 + hands.v1 + body.v1 + feet.v1 + planarSphere.v1 + linkRope.v1;
-    let s2 = head.v2 + hands.v2 + body.v2 + feet.v2 + planarSphere.v2 + linkRope.v2;
-    let s3 = head.v3 + hands.v3 + body.v3 + feet.v3 + planarSphere.v3 + linkRope.v3;
-    let s4 = head.v4 + hands.v4 + body.v4 + feet.v4 + planarSphere.v4 + linkRope.v4;
-    let s5 = head.v5 + hands.v5 + body.v5 + feet.v5 + planarSphere.v5 + linkRope.v5;
+    // Vec4 relic stat sums — outer 4 cached, only add planarSphere + linkRope
+    let s0 = outerStats.s0 + planarSphere.v0 + linkRope.v0;
+    let s1 = outerStats.s1 + planarSphere.v1 + linkRope.v1;
+    let s2 = outerStats.s2 + planarSphere.v2 + linkRope.v2;
+    let s3 = outerStats.s3 + planarSphere.v3 + linkRope.v3;
+    let s4 = outerStats.s4 + planarSphere.v4 + linkRope.v4;
+    let s5 = outerStats.s5 + planarSphere.v5 + linkRope.v5;
 
     c.HP_P  = s0.x;
     c.ATK_P = s0.y;
@@ -316,6 +311,48 @@ fn main(
     /* INJECT UNROLLED ACTIONS */
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
     // END UNROLLED ACTIONS
+
+    continuing {
+      i++;
+
+      curL += 1;
+      if (curL >= lSize) {
+        curL = 0;
+        curP += 1;
+        if (curP >= pSize) {
+          curP = 0;
+          curF += 1;
+          if (curF >= fSize) {
+            curF = 0;
+            curB += 1;
+            if (curB >= bSize) {
+              curB = 0;
+              curG += 1;
+              if (curG >= gSize) {
+                curG = 0;
+                curH = (curH + 1) % hSize;
+                head = relics[curH];
+                setH = u32(head.v5.z);
+                maskH = 1u << setH;
+              }
+              hands = relics[curG + handsOffset];
+              setG = u32(hands.v5.z);
+              maskG = 1u << setG;
+            }
+            body = relics[curB + bodyOffset];
+            setB = u32(body.v5.z);
+            maskB = 1u << setB;
+          }
+          feet = relics[curF + feetOffset];
+          setF = u32(feet.v5.z);
+          maskF = 1u << setF;
+
+          outerStats = sumOuterRelics(head, hands, body, feet);
+        }
+        planarSphere = relics[curP + planarOffset];
+        setP = u32(planarSphere.v5.z);
+      }
+    }
   }
 }
 

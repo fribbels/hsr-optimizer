@@ -193,93 +193,93 @@ fn main(
     c.BE  += baseBE + traceBE;
     c.ERR += baseERR + traceERR;
     c.OHB += baseOHB + traceOHB;
-    c.PHYSICAL_DMG_BOOST  += tracePhysical_DMG + 0.10 * rp2(sets, SET_ChampionOfStreetwiseBoxing);
-    c.FIRE_DMG_BOOST      += traceFire_DMG + 0.10 * rp2(sets, SET_FiresmithOfLavaForging);
-    c.ICE_DMG_BOOST       += traceIce_DMG + 0.10 * rp2(sets, SET_HunterOfGlacialForest);
-    c.LIGHTNING_DMG_BOOST += traceLightning_DMG + 0.10 * rp2(sets, SET_BandOfSizzlingThunder);
-    c.WIND_DMG_BOOST      += traceWind_DMG + 0.10 * rp2(sets, SET_EagleOfTwilightLine);
-    c.QUANTUM_DMG_BOOST   += traceQuantum_DMG + 0.10 * rp2(sets, SET_GeniusOfBrilliantStars) + 0.10 * rp2(sets, SET_PoetOfMourningCollapse);
-    c.IMAGINARY_DMG_BOOST += traceImaginary_DMG + 0.10 * rp2(sets, SET_WastelanderOfBanditryDesert);
+    c.PHYSICAL_DMG_BOOST  += tracePhysical_DMG + 0.10 * relic2p(sets, SET_ChampionOfStreetwiseBoxing);
+    c.FIRE_DMG_BOOST      += traceFire_DMG + 0.10 * relic2p(sets, SET_FiresmithOfLavaForging);
+    c.ICE_DMG_BOOST       += traceIce_DMG + 0.10 * relic2p(sets, SET_HunterOfGlacialForest);
+    c.LIGHTNING_DMG_BOOST += traceLightning_DMG + 0.10 * relic2p(sets, SET_BandOfSizzlingThunder);
+    c.WIND_DMG_BOOST      += traceWind_DMG + 0.10 * relic2p(sets, SET_EagleOfTwilightLine);
+    c.QUANTUM_DMG_BOOST   += traceQuantum_DMG + 0.10 * relic2p(sets, SET_GeniusOfBrilliantStars) + 0.10 * relic2p(sets, SET_PoetOfMourningCollapse);
+    c.IMAGINARY_DMG_BOOST += traceImaginary_DMG + 0.10 * relic2p(sets, SET_WastelanderOfBanditryDesert);
     c.ELATION += traceElation + baseElation;
 
     // Calculate set effects
 
     c.SPD += (baseSPD) * (
-      0.06 * rp2(sets, SET_MessengerTraversingHackerspace) +
-      0.06 * op2(sets, SET_ForgeOfTheKalpagniLantern) +
-      0.06 * rp4(sets, SET_MusketeerOfWildWheat) +
-      0.06 * rp2(sets, SET_SacerdosRelivedOrdeal) -
-      0.08 * rp4(sets, SET_PoetOfMourningCollapse) +
-      0.06 * op2(sets, SET_GiantTreeOfRaptBrooding) +
-      0.06 * rp2(sets, SET_WarriorGoddessOfSunAndThunder) +
-      0.06 * rp2(sets, SET_DivinerOfDistantReach)
+      0.06 * relic2p(sets, SET_MessengerTraversingHackerspace) +
+      0.06 * ornament2p(sets, SET_ForgeOfTheKalpagniLantern) +
+      0.06 * relic4p(sets, SET_MusketeerOfWildWheat) +
+      0.06 * relic2p(sets, SET_SacerdosRelivedOrdeal) -
+      0.08 * relic4p(sets, SET_PoetOfMourningCollapse) +
+      0.06 * ornament2p(sets, SET_GiantTreeOfRaptBrooding) +
+      0.06 * relic2p(sets, SET_WarriorGoddessOfSunAndThunder) +
+      0.06 * relic2p(sets, SET_DivinerOfDistantReach)
     );
 
     c.HP += (baseHP) * (
-      0.12 * op2(sets, SET_FleetOfTheAgeless) +
-      0.12 * rp2(sets, SET_LongevousDisciple) +
-      0.12 * op2(sets, SET_BoneCollectionsSereneDemesne)
+      0.12 * ornament2p(sets, SET_FleetOfTheAgeless) +
+      0.12 * relic2p(sets, SET_LongevousDisciple) +
+      0.12 * ornament2p(sets, SET_BoneCollectionsSereneDemesne)
     );
 
     c.ATK += (baseATK) * (
-      0.12 * op2(sets, SET_SpaceSealingStation) +
-      0.12 * op2(sets, SET_FirmamentFrontlineGlamoth) +
-      0.12 * rp2(sets, SET_MusketeerOfWildWheat) +
-      0.12 * rp2(sets, SET_PrisonerInDeepConfinement) +
-      0.12 * op2(sets, SET_IzumoGenseiAndTakamaDivineRealm) +
-      0.12 * rp2(sets, SET_TheWindSoaringValorous) +
-      0.12 * rp2(sets, SET_HeroOfTriumphantSong) +
-      0.12 * op2(sets, SET_RevelryByTheSea)
+      0.12 * ornament2p(sets, SET_SpaceSealingStation) +
+      0.12 * ornament2p(sets, SET_FirmamentFrontlineGlamoth) +
+      0.12 * relic2p(sets, SET_MusketeerOfWildWheat) +
+      0.12 * relic2p(sets, SET_PrisonerInDeepConfinement) +
+      0.12 * ornament2p(sets, SET_IzumoGenseiAndTakamaDivineRealm) +
+      0.12 * relic2p(sets, SET_TheWindSoaringValorous) +
+      0.12 * relic2p(sets, SET_HeroOfTriumphantSong) +
+      0.12 * ornament2p(sets, SET_RevelryByTheSea)
     );
 
     c.DEF += (baseDEF) * (
-      0.15 * op2(sets, SET_BelobogOfTheArchitects) +
-      0.15 * rp2(sets, SET_KnightOfPurityPalace)
+      0.15 * ornament2p(sets, SET_BelobogOfTheArchitects) +
+      0.15 * relic2p(sets, SET_KnightOfPurityPalace)
     );
 
     c.CR += (
-      0.08 * op2(sets, SET_InertSalsotto) +
-      0.08 * op2(sets, SET_RutilantArena) +
-      0.04 * rp4(sets, SET_PioneerDiverOfDeadWaters) +
-      0.04 * op2(sets, SET_SigoniaTheUnclaimedDesolation) +
-      0.06 * rp4(sets, SET_TheWindSoaringValorous) +
-      0.08 * rp2(sets, SET_ScholarLostInErudition) +
-      0.08 * rp2(sets, SET_WorldRemakingDeliverer) +
-      0.08 * op2(sets, SET_AmphoreusTheEternalLand)
+      0.08 * ornament2p(sets, SET_InertSalsotto) +
+      0.08 * ornament2p(sets, SET_RutilantArena) +
+      0.04 * relic4p(sets, SET_PioneerDiverOfDeadWaters) +
+      0.04 * ornament2p(sets, SET_SigoniaTheUnclaimedDesolation) +
+      0.06 * relic4p(sets, SET_TheWindSoaringValorous) +
+      0.08 * relic2p(sets, SET_ScholarLostInErudition) +
+      0.08 * relic2p(sets, SET_WorldRemakingDeliverer) +
+      0.08 * ornament2p(sets, SET_AmphoreusTheEternalLand)
     );
 
     c.CD += (
-      0.16 * op2(sets, SET_CelestialDifferentiator) +
-      0.16 * op2(sets, SET_TheWondrousBananAmusementPark) +
-      0.16 * rp2(sets, SET_WavestriderCaptain) +
-      0.16 * op2(sets, SET_TengokuLivestream) +
-      0.16 * rp2(sets, SET_EverGloriousMagicalGirl)
+      0.16 * ornament2p(sets, SET_CelestialDifferentiator) +
+      0.16 * ornament2p(sets, SET_TheWondrousBananAmusementPark) +
+      0.16 * relic2p(sets, SET_WavestriderCaptain) +
+      0.16 * ornament2p(sets, SET_TengokuLivestream) +
+      0.16 * relic2p(sets, SET_EverGloriousMagicalGirl)
     );
 
     c.EHR += (
-      0.10 * op2(sets, SET_PanCosmicCommercialEnterprise)
+      0.10 * ornament2p(sets, SET_PanCosmicCommercialEnterprise)
     );
 
     c.RES += (
-      0.10 * op2(sets, SET_BrokenKeel)
+      0.10 * ornament2p(sets, SET_BrokenKeel)
     );
 
     c.BE += (
-      0.16 * op2(sets, SET_TaliaKingdomOfBanditry) +
-      0.16 * rp2(sets, SET_ThiefOfShootingMeteor) +
-      0.16 * rp4(sets, SET_ThiefOfShootingMeteor) +
-      0.16 * rp2(sets, SET_WatchmakerMasterOfDreamMachinations) +
-      0.16 * rp2(sets, SET_IronCavalryAgainstTheScourge)
+      0.16 * ornament2p(sets, SET_TaliaKingdomOfBanditry) +
+      0.16 * relic2p(sets, SET_ThiefOfShootingMeteor) +
+      0.16 * relic4p(sets, SET_ThiefOfShootingMeteor) +
+      0.16 * relic2p(sets, SET_WatchmakerMasterOfDreamMachinations) +
+      0.16 * relic2p(sets, SET_IronCavalryAgainstTheScourge)
     );
 
     c.ERR += (
-      0.05 * op2(sets, SET_SprightlyVonwacq) +
-      0.05 * op2(sets, SET_PenaconyLandOfTheDreams) +
-      0.05 * op2(sets, SET_LushakaTheSunkenSeas)
+      0.05 * ornament2p(sets, SET_SprightlyVonwacq) +
+      0.05 * ornament2p(sets, SET_PenaconyLandOfTheDreams) +
+      0.05 * ornament2p(sets, SET_LushakaTheSunkenSeas)
     );
 
     c.OHB += (
-      0.10 * rp2(sets, SET_PasserbyOfWanderingCloud)
+      0.10 * relic2p(sets, SET_PasserbyOfWanderingCloud)
     );
 
     // Basic filters here

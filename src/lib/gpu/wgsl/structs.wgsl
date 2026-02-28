@@ -57,9 +57,9 @@ struct Sets {
 }
 
 // Bitmask set accessors: extract whether set at bit index has 2p/4p
-fn rp2(s: Sets, bit: u32) -> f32 { return f32((s.relicMatch2 >> bit) & 1u); }
-fn rp4(s: Sets, bit: u32) -> f32 { return f32((s.relicMatch4 >> bit) & 1u); }
-fn op2(s: Sets, bit: u32) -> f32 { return f32((s.ornamentMatch2 >> bit) & 1u); }
+fn relic2p(s: Sets, bit: u32) -> f32 { return f32((s.relicMatch2 >> bit) & 1u); }
+fn relic4p(s: Sets, bit: u32) -> f32 { return f32((s.relicMatch4 >> bit) & 1u); }
+fn ornament2p(s: Sets, bit: u32) -> f32 { return f32((s.ornamentMatch2 >> bit) & 1u); }
 
 struct SetConditionals {
   enabledHunterOfGlacialForest: bool,

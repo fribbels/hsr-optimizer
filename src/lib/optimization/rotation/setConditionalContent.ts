@@ -190,6 +190,7 @@ export const ConditionalSetMetadata: Readonly<Record<Sets, SetMetadata>> = {
   },
   [Sets.PenaconyLandOfTheDreams]: {
     type: ConditionalDataType.BOOLEAN,
+    modifiable: true,
   },
   [Sets.SigoniaTheUnclaimedDesolation]: {
     type: ConditionalDataType.SELECT,
@@ -232,9 +233,11 @@ export const ConditionalSetMetadata: Readonly<Record<Sets, SetMetadata>> = {
   },
   [Sets.AmphoreusTheEternalLand]: {
     type: ConditionalDataType.BOOLEAN,
+    modifiable: true,
   },
   [Sets.TengokuLivestream]: {
     type: ConditionalDataType.BOOLEAN,
+    modifiable: true,
   },
 }
 

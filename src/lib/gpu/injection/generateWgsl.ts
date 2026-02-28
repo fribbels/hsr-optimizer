@@ -79,7 +79,7 @@ function injectConditionalsNew(wgsl: string, request: Form, context: OptimizerCo
 
   // Buffer declaration (added to actionsDefinition)
   const bufferDeclaration = `
-@group(1) @binding(3) var<storage> precomputedStats : array<array<f32, ${containerLength}>, ${actionLength}>;
+@group(1) @binding(3) var<uniform> precomputedStats : array<array<f32, ${containerLength}>, ${actionLength}>;
 `
 
   let actionsDefinition = `

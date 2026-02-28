@@ -84,7 +84,7 @@ export function initializeGpuPipeline(
   const ornamentSetSolutionsMatrixBuffer = hasOrnamentFilter
     ? createGpuBuffer(device, new Int32Array(condenseOrnamentSetSolutions(ornamentSetSolutions)), GPUBufferUsage.STORAGE, true, true)
     : null
-  const precomputedStatsBuffer = createGpuBuffer(device, context.precomputedStatsData!, GPUBufferUsage.STORAGE)
+  const precomputedStatsBuffer = createGpuBuffer(device, context.precomputedStatsData!, GPUBufferUsage.UNIFORM)
 
   const bindGroup0 = device.createBindGroup({
     layout: computePipeline.getBindGroupLayout(0),

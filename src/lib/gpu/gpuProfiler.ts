@@ -1,5 +1,5 @@
 export class GpuProfiler {
-  private iterations: { phases: Map<string, number>; total: number }[] = []
+  private iterations: { phases: Map<string, number>, total: number }[] = []
   private iterStart = 0
   private phaseStart = 0
   private phases = new Map<string, number>()
@@ -21,7 +21,7 @@ export class GpuProfiler {
     this.iterations.push({ phases: this.phases, total: performance.now() - this.iterStart })
   }
 
-  summary(meta?: { permutations: number; permStride: number }) {
+  summary(meta?: { permutations: number, permStride: number }) {
     const n = this.iterations.length
     if (n === 0) return
 
@@ -40,7 +40,9 @@ export class GpuProfiler {
     const pad = Math.max(...phaseNames.map((p) => p.length), 5)
     const sep = '  |  '
     const row = (label: string, s: ReturnType<typeof stats>, showPct = true) =>
-      `${label.padEnd(pad)}${sep}total: ${fmt(s.total)}${sep}avg: ${fmt(s.avg)}${sep}min: ${fmt(s.min)}${sep}max: ${fmt(s.max)}${showPct ? sep + 'pct: ' + pct(s.total) : ''}`
+      `${label.padEnd(pad)}${sep}total: ${fmt(s.total)}${sep}avg: ${fmt(s.avg)}${sep}min: ${fmt(s.min)}${sep}max: ${fmt(s.max)}${
+        showPct ? sep + 'pct: ' + pct(s.total) : ''
+      }`
 
     const lines = [`[GpuProfiler] ${n} iterations  |  ${grandTotal.toFixed(2)}ms total`]
 
@@ -58,8 +60,5 @@ export class GpuProfiler {
 
     const output = lines.join('\n')
     console.log(output)
-
-    // Access via copy(window.gpuProfilerOutput) in console
-    ;(window as any).gpuProfilerOutput = output
   }
 }

@@ -76,7 +76,7 @@ function injectConditionalsNew(wgsl: string, request: Form, context: OptimizerCo
   // Store for later use in pipeline creation
   context.precomputedStatsData = precomputedStatsData
 
-  // Buffer declaration (added to actionsDefinition)
+  // Buffer declaration
   const bufferDeclaration = `
 @group(1) @binding(3) var<uniform> precomputedStats : array<array<f32, ${containerLength}>, ${actionLength}>;
 `

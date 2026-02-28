@@ -4,15 +4,15 @@ import {
   mergeRelicsIntoArray,
 } from 'lib/gpu/webgpuDataTransform'
 import {
-  condenseOrnamentSetSolutions,
-  condenseRelicSetSolutions,
-} from 'lib/optimization/relicSetSolver'
-import {
   GpuExecutionContext,
   GpuResult,
   RelicsByPart,
 } from 'lib/gpu/webgpuTypes'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
+import {
+  condenseOrnamentSetSolutions,
+  condenseRelicSetSolutions,
+} from 'lib/optimization/relicSetSolver'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
@@ -28,21 +28,28 @@ export function initializeGpuPipeline(
   debug = false,
   silent = false,
 ): GpuExecutionContext {
+  const DEBUG = debug
+
   // Threads per workgroup
   const WORKGROUP_SIZE = 256
+
   // Workgroups dispatched per pass
   const NUM_WORKGROUPS = 256
+
   // Total threads per dispatch
   const BLOCK_SIZE = WORKGROUP_SIZE * NUM_WORKGROUPS
+
   // Permutations each thread evaluates per dispatch
-  const CYCLES_PER_INVOCATION = 512
+  const CYCLES_PER_INVOCATION = 2048
+
   // Top-N results to keep
   const RESULTS_LIMIT = request.resultsLimit ?? 1024
+
   // Compact buffer sizing multiplier over RESULTS_LIMIT
   const COMPACT_OVERFLOW_FACTOR = 4
+
   // Max compact entries per dispatch before overflow triggers revisit
   const COMPACT_LIMIT = RESULTS_LIMIT * COMPACT_OVERFLOW_FACTOR
-  const DEBUG = debug
 
   const wgsl = generateWgsl(context, request, relics, {
     WORKGROUP_SIZE,
@@ -115,6 +122,7 @@ export function initializeGpuPipeline(
     device.createBuffer({ size: compactResultsBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
     device.createBuffer({ size: compactResultsBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
   ]
+
   // Merged read buffer: [u32 count (4 bytes)][CompactEntry[] (compactResultsBufferSize bytes)]
   const compactReadBufferSize = 4 + compactResultsBufferSize
   const compactReadBuffers: [GPUBuffer, GPUBuffer] = [
@@ -277,9 +285,9 @@ export function destroyPipeline(gpuContext: GpuExecutionContext) {
   gpuContext.gpuReadBuffers.forEach((b) => b.destroy())
   gpuContext.paramsMatrixBuffer.destroy()
   gpuContext.relicsMatrixBuffer.destroy()
+  gpuContext.precomputedStatsBuffer.destroy()
   gpuContext.relicSetSolutionsMatrixBuffer?.destroy()
   gpuContext.ornamentSetSolutionsMatrixBuffer?.destroy()
-  gpuContext.precomputedStatsBuffer.destroy()
 
   gpuContext.compactCountBuffers.forEach((b) => b.destroy())
   gpuContext.compactResultsBuffers.forEach((b) => b.destroy())

@@ -124,7 +124,7 @@ export async function gpuOptimize(props: {
       const mappedRange = passResult.compactReadBuffer.getMappedRange()
       const rawCount = new Uint32Array(mappedRange, 0, 1)[0]
       const count = Math.min(rawCount, gpuContext.COMPACT_LIMIT)
-      const isOverflow = rawCount >= gpuContext.COMPACT_LIMIT
+      const isOverflow = rawCount > gpuContext.COMPACT_LIMIT
 
       if (isOverflow) {
         overflowedOffsets.push(offset)
@@ -291,7 +291,7 @@ async function revisitOverflowedDispatches(
 
         processCompactResults(overflowOffset, count, mappedRange, gpuContext, seenIndices)
         passResult.compactReadBuffer.unmap()
-      } while (rawCount >= gpuContext.COMPACT_LIMIT)
+      } while (rawCount > gpuContext.COMPACT_LIMIT)
     }
   }
 }

@@ -4,8 +4,6 @@ const { SetsRelics, SetsOrnaments } = Constants
 
 const relicSetKeys = Object.keys(SetsRelics)
 const ornamentSetKeys = Object.keys(SetsOrnaments)
-const ornamentSetKeySet = new Set(ornamentSetKeys)
-
 /**
  * Generate WGSL constant declarations for set bit indices.
  * These map each set name to its bit position in the bitmask registers.
@@ -22,9 +20,4 @@ export function generateSetBitConstants(): string {
     wgsl += `const SET_${ornamentSetKeys[i]}: u32 = ${i}u;\n`
   }
   return wgsl
-}
-
-/** Returns true if the set name is an ornament set */
-export function isOrnamentSet(setName: string): boolean {
-  return ornamentSetKeySet.has(setName)
 }

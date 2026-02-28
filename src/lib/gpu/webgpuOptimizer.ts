@@ -157,7 +157,7 @@ export async function gpuOptimize(props: {
     }
   }
 
-  profiler.summary({ permutations: gpuContext.permutations, permStride: permStride })
+  profiler.summary(gpuContext)
 
   // Revisit overflowed dispatches now that the threshold is established.
   await revisitOverflowedDispatches(overflowedOffsets, gpuContext, seenIndices)

@@ -9,10 +9,7 @@ import {
   RelicsByPart,
 } from 'lib/gpu/webgpuTypes'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
-import {
-  condenseOrnamentSetSolutions,
-  condenseRelicSetSolutions,
-} from 'lib/optimization/relicSetSolver'
+import { bitpackBooleanArray } from 'lib/optimization/relicSetSolver'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
@@ -86,10 +83,10 @@ export function initializeGpuPipeline(
 
   const relicsMatrixBuffer = createGpuBuffer(device, new Float32Array(mergedRelics), GPUBufferUsage.STORAGE)
   const relicSetSolutionsMatrixBuffer = hasRelicFilter
-    ? createGpuBuffer(device, new Int32Array(condenseRelicSetSolutions(relicSetSolutions)), GPUBufferUsage.STORAGE, true, true)
+    ? createGpuBuffer(device, new Int32Array(bitpackBooleanArray(relicSetSolutions)), GPUBufferUsage.STORAGE, true, true)
     : null
   const ornamentSetSolutionsMatrixBuffer = hasOrnamentFilter
-    ? createGpuBuffer(device, new Int32Array(condenseOrnamentSetSolutions(ornamentSetSolutions)), GPUBufferUsage.STORAGE, true, true)
+    ? createGpuBuffer(device, new Int32Array(bitpackBooleanArray(ornamentSetSolutions)), GPUBufferUsage.STORAGE, true, true)
     : null
   const precomputedStatsBuffer = createGpuBuffer(device, context.precomputedStatsData!, GPUBufferUsage.UNIFORM)
 

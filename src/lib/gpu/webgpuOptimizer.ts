@@ -1,4 +1,5 @@
 import { ComputeEngine } from 'lib/constants/constants'
+import { GpuProfiler } from 'lib/gpu/gpuProfiler'
 import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
 import {
   destroyPipeline,
@@ -89,8 +90,10 @@ export async function gpuOptimize(props: {
   // Submit the first dispatch (buffer A)
   let currentBufferIndex = 0
   let currentPassResult = generateExecutionPass(gpuContext, 0, currentBufferIndex)
+  const profiler = new GpuProfiler()
 
   for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {
+    profiler.start()
     const offset = iteration * permStride
     const maxPermNumber = offset + permStride
     const passResult = currentPassResult
@@ -105,14 +108,18 @@ export async function gpuOptimize(props: {
       nextPassResult = generateExecutionPass(gpuContext, (iteration + 1) * permStride, nextBufferIndex)
     }
 
+    profiler.mark('dispatch')
+
     // Await current dispatch and read results
     if (gpuContext.DEBUG) {
       await passResult.gpuReadBuffer.mapAsync(GPUMapMode.READ)
+      profiler.mark('gpuWait')
       readBufferMapped(offset, passResult.gpuReadBuffer, gpuContext)
       permutationsSearched += permStride
       passResult.gpuReadBuffer.unmap()
     } else {
       await passResult.compactReadBuffer.mapAsync(GPUMapMode.READ)
+      profiler.mark('gpuWait')
 
       const mappedRange = passResult.compactReadBuffer.getMappedRange()
       const rawCount = new Uint32Array(mappedRange, 0, 1)[0]
@@ -128,6 +135,8 @@ export async function gpuOptimize(props: {
       processCompactResults(offset, count, mappedRange, gpuContext, isOverflow ? seenIndices : undefined)
       passResult.compactReadBuffer.unmap()
     }
+
+    profiler.end('cpuProcess')
 
     if (hasNext && nextPassResult) {
       currentBufferIndex = nextBufferIndex
@@ -147,6 +156,8 @@ export async function gpuOptimize(props: {
       break
     }
   }
+
+  profiler.summary({ permutations: gpuContext.permutations, permStride: permStride })
 
   // Revisit overflowed dispatches now that the threshold is established.
   await revisitOverflowedDispatches(overflowedOffsets, gpuContext, seenIndices)

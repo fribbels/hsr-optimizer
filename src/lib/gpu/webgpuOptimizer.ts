@@ -244,6 +244,7 @@ function processCompactResults(offset: number, count: number, mappedRange: Array
   const resultsQueue = gpuContext.resultsQueue
   let top = resultsQueue.top()?.value ?? 0
 
+  // Split to skip size check when queue is full
   if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
     for (let i = 0; i < count; i++) {
       const globalIndex = offset + i32View[i * 2]
@@ -280,6 +281,7 @@ async function revisitOverflowedDispatches(
   if (overflowedOffsets.length > 0 && window.store.getState().optimizationInProgress) {
     for (const overflowOffset of overflowedOffsets) {
       let rawCount: number
+      let retries = 0
       do {
         const passResult = generateExecutionPass(gpuContext, overflowOffset, 0)
 
@@ -291,7 +293,7 @@ async function revisitOverflowedDispatches(
 
         processCompactResults(overflowOffset, count, mappedRange, gpuContext, seenIndices)
         passResult.compactReadBuffer.unmap()
-      } while (rawCount > gpuContext.COMPACT_LIMIT)
+      } while (rawCount > gpuContext.COMPACT_LIMIT && retries++ < 100000)
     }
   }
 }

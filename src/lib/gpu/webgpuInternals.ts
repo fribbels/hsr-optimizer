@@ -33,11 +33,11 @@ export function initializeGpuPipeline(
   // Workgroups dispatched per pass
   const NUM_WORKGROUPS = 256
 
-  // Total threads per dispatch
-  const BLOCK_SIZE = WORKGROUP_SIZE * NUM_WORKGROUPS
-
   // Permutations each thread evaluates per dispatch
   const CYCLES_PER_INVOCATION = 2048
+
+  // Total threads per dispatch
+  const BLOCK_SIZE = WORKGROUP_SIZE * NUM_WORKGROUPS
 
   // Top-N results to keep
   const RESULTS_LIMIT = request.resultsLimit ?? 1024

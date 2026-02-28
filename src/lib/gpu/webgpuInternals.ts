@@ -1,3 +1,4 @@
+import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants/constants'
 import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
 import {
   generateParamsMatrix,
@@ -30,11 +31,15 @@ export function initializeGpuPipeline(
   // Threads per workgroup
   const WORKGROUP_SIZE = 256
 
-  // Workgroups dispatched per pass
-  const NUM_WORKGROUPS = 256
+  // Workgroups dispatched per pass — experimental uses more workgroups, clamped to device limit
+  const NUM_WORKGROUPS = computeEngine === COMPUTE_ENGINE_GPU_EXPERIMENTAL
+    ? Math.min(2048, device.limits.maxComputeWorkgroupsPerDimension)
+    : 512
 
-  // Permutations each thread evaluates per dispatch
-  const CYCLES_PER_INVOCATION = 2048
+  // Permutations each thread evaluates per dispatch — experimental uses shorter loops for better cache behavior
+  const CYCLES_PER_INVOCATION = computeEngine === COMPUTE_ENGINE_GPU_EXPERIMENTAL
+    ? 256
+    : 256
 
   // Total threads per dispatch
   const BLOCK_SIZE = WORKGROUP_SIZE * NUM_WORKGROUPS

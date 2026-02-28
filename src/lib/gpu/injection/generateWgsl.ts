@@ -48,7 +48,7 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)
   wgsl = injectRelicIndexStrategy(wgsl, relics)
   wgsl = injectBasicFilters(wgsl, request, context, gpuParams)
-  wgsl = injectSetFilters(wgsl, gpuParams)
+  wgsl = injectSetFilters(wgsl, request, gpuParams)
   wgsl = injectComputedStats(wgsl, gpuParams)
 
   return wgsl
@@ -177,14 +177,36 @@ function format(text: string, levels: number = 2) {
   return indent(text.length > 0 ? text : 'false', levels)
 }
 
-function injectSetFilters(wgsl: string, gpuParams: GpuConstants) {
+function injectSetFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
+  const hasRelicFilter = (request.relicSets?.length ?? 0) > 0
+  const hasOrnamentFilter = (request.ornamentSets?.length ?? 0) > 0
+
+  // Strip unused binding declarations so auto layout doesn't expect them
+  if (!hasRelicFilter) {
+    wgsl = wgsl.replace('@group(1) @binding(2) var<storage> relicSetSolutionsMatrix : array<i32>;', '')
+  }
+  if (!hasOrnamentFilter) {
+    wgsl = wgsl.replace('@group(1) @binding(1) var<storage> ornamentSetSolutionsMatrix : array<i32>;', '')
+  }
+
+  if (!hasRelicFilter && !hasOrnamentFilter) {
+    return wgsl.replace('/* INJECT SET FILTERS */', '')
+  }
+
+  const conditions: string[] = []
+  if (hasRelicFilter) {
+    conditions.push('((relicSetSolutionsMatrix[relicSetIndex >> 5u] >> (relicSetIndex & 31u)) & 1) == 0')
+  }
+  if (hasOrnamentFilter) {
+    conditions.push('((ornamentSetSolutionsMatrix[ornamentSetIndex >> 5u] >> (ornamentSetIndex & 31u)) & 1) == 0')
+  }
+
   // CTRL+ F: RESULTS ASSIGNMENT
   return wgsl.replace(
     '/* INJECT SET FILTERS */',
     indent(
       `
-if (((relicSetSolutionsMatrix[relicSetIndex >> 5u] >> (relicSetIndex & 31u)) & 1) == 0
- || ((ornamentSetSolutionsMatrix[ornamentSetIndex >> 5u] >> (ornamentSetIndex & 31u)) & 1) == 0) {
+if (${conditions.join('\n || ')}) {
   continue;
 }
   `,

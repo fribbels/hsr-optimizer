@@ -49,8 +49,8 @@ export type GpuExecutionContext = {
   paramsMatrixBuffer: GPUBuffer,
   resultMatrixBuffers: [GPUBuffer, GPUBuffer],
   relicsMatrixBuffer: GPUBuffer,
-  relicSetSolutionsMatrixBuffer: GPUBuffer,
-  ornamentSetSolutionsMatrixBuffer: GPUBuffer,
+  relicSetSolutionsMatrixBuffer: GPUBuffer | null,
+  ornamentSetSolutionsMatrixBuffer: GPUBuffer | null,
   precomputedStatsBuffer: GPUBuffer,
 
   gpuReadBuffers: [GPUBuffer, GPUBuffer],

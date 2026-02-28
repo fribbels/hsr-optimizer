@@ -72,13 +72,18 @@ export function initializeGpuPipeline(
     usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST,
   })
 
+  const hasRelicFilter = (request.relicSets?.length ?? 0) > 0
+  const hasOrnamentFilter = (request.ornamentSets?.length ?? 0) > 0
+
   const mergedRelics = mergeRelicsIntoArray(relics)
-  const condensedRelicSets = condenseRelicSetSolutions(relicSetSolutions)
-  const condensedOrnamentSets = condenseOrnamentSetSolutions(ornamentSetSolutions)
 
   const relicsMatrixBuffer = createGpuBuffer(device, new Float32Array(mergedRelics), GPUBufferUsage.STORAGE)
-  const relicSetSolutionsMatrixBuffer = createGpuBuffer(device, new Int32Array(condensedRelicSets), GPUBufferUsage.STORAGE, true, true)
-  const ornamentSetSolutionsMatrixBuffer = createGpuBuffer(device, new Int32Array(condensedOrnamentSets), GPUBufferUsage.STORAGE, true, true)
+  const relicSetSolutionsMatrixBuffer = hasRelicFilter
+    ? createGpuBuffer(device, new Int32Array(condenseRelicSetSolutions(relicSetSolutions)), GPUBufferUsage.STORAGE, true, true)
+    : null
+  const ornamentSetSolutionsMatrixBuffer = hasOrnamentFilter
+    ? createGpuBuffer(device, new Int32Array(condenseOrnamentSetSolutions(ornamentSetSolutions)), GPUBufferUsage.STORAGE, true, true)
+    : null
   const precomputedStatsBuffer = createGpuBuffer(device, context.precomputedStatsData!, GPUBufferUsage.STORAGE)
 
   const bindGroup0 = device.createBindGroup({
@@ -92,8 +97,8 @@ export function initializeGpuPipeline(
     layout: computePipeline.getBindGroupLayout(1),
     entries: [
       { binding: 0, resource: { buffer: relicsMatrixBuffer } },
-      { binding: 1, resource: { buffer: ornamentSetSolutionsMatrixBuffer } },
-      { binding: 2, resource: { buffer: relicSetSolutionsMatrixBuffer } },
+      ...ornamentSetSolutionsMatrixBuffer ? [{ binding: 1, resource: { buffer: ornamentSetSolutionsMatrixBuffer } }] : [],
+      ...relicSetSolutionsMatrixBuffer ? [{ binding: 2, resource: { buffer: relicSetSolutionsMatrixBuffer } }] : [],
       { binding: 3, resource: { buffer: precomputedStatsBuffer } },
     ],
   })
@@ -272,8 +277,8 @@ export function destroyPipeline(gpuContext: GpuExecutionContext) {
   gpuContext.gpuReadBuffers.forEach((b) => b.destroy())
   gpuContext.paramsMatrixBuffer.destroy()
   gpuContext.relicsMatrixBuffer.destroy()
-  gpuContext.relicSetSolutionsMatrixBuffer.destroy()
-  gpuContext.ornamentSetSolutionsMatrixBuffer.destroy()
+  gpuContext.relicSetSolutionsMatrixBuffer?.destroy()
+  gpuContext.ornamentSetSolutionsMatrixBuffer?.destroy()
   gpuContext.precomputedStatsBuffer.destroy()
 
   gpuContext.compactCountBuffers.forEach((b) => b.destroy())

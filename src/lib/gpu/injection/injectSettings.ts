@@ -96,11 +96,18 @@ function generateElement(context: OptimizerContext) {
   return wgsl
 }
 
+const EPSILON = 0.00000001
+const EPSILON_STATS = new Set(['HP', 'ATK', 'DEF', 'SPD', 'CR', 'CD', 'EHR', 'RES', 'BE', 'ERR', 'OHB'])
+
 function generateCharacterStats(characterStats: { [key: string]: number }, prefix: string) {
   let wgsl = '\n'
 
   for (const [name, stat] of Object.entries(paramStatNames)) {
-    wgsl += `const ${prefix}${name}: f32 = ${characterStats[stat]};\n`
+    let value = characterStats[stat] ?? 0
+    if (prefix === 'trace' && EPSILON_STATS.has(name)) {
+      value += EPSILON
+    }
+    wgsl += `const ${prefix}${name}: f32 = ${value};\n`
   }
 
   return wgsl

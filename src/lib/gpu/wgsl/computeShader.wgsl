@@ -32,8 +32,6 @@ const MEMO_TALENT_ABILITY_TYPE = 128;
 const ELATION_SKILL_ABILITY_TYPE = 256;
 
 
-const epsilon = 0.00000001f;
-const eps4 = vec4<f32>(epsilon, epsilon, epsilon, epsilon);
 
 @group(0) @binding(0) var<uniform> params : Params;
 
@@ -156,19 +154,40 @@ fn main(
     var c: BasicStats = BasicStats();
 
     // Vec4 relic stat sums
-    let s0 =        head.v0 + hands.v0 + body.v0 + feet.v0 + planarSphere.v0 + linkRope.v0;
-    let s1 = eps4 + head.v1 + hands.v1 + body.v1 + feet.v1 + planarSphere.v1 + linkRope.v1;
-    let s2 = eps4 + head.v2 + hands.v2 + body.v2 + feet.v2 + planarSphere.v2 + linkRope.v2;
-    let s3 = eps4 + head.v3 + hands.v3 + body.v3 + feet.v3 + planarSphere.v3 + linkRope.v3;
-    let s4 = eps4 + head.v4 + hands.v4 + body.v4 + feet.v4 + planarSphere.v4 + linkRope.v4;
-    let s5 = eps4 + head.v5 + hands.v5 + body.v5 + feet.v5 + planarSphere.v5 + linkRope.v5;
+    let s0 = head.v0 + hands.v0 + body.v0 + feet.v0 + planarSphere.v0 + linkRope.v0;
+    let s1 = head.v1 + hands.v1 + body.v1 + feet.v1 + planarSphere.v1 + linkRope.v1;
+    let s2 = head.v2 + hands.v2 + body.v2 + feet.v2 + planarSphere.v2 + linkRope.v2;
+    let s3 = head.v3 + hands.v3 + body.v3 + feet.v3 + planarSphere.v3 + linkRope.v3;
+    let s4 = head.v4 + hands.v4 + body.v4 + feet.v4 + planarSphere.v4 + linkRope.v4;
+    let s5 = head.v5 + hands.v5 + body.v5 + feet.v5 + planarSphere.v5 + linkRope.v5;
 
-    c.HP_P  = s0.x;  c.ATK_P = s0.y;  c.DEF_P = s0.z;  c.SPD_P = s0.w;
-    c.HP    = s1.x;  c.ATK   = s1.y;  c.DEF   = s1.z;  c.SPD   = s1.w;
-    c.CR    = s2.x;  c.CD    = s2.y;  c.EHR   = s2.z;  c.RES   = s2.w;
-    c.BE    = s3.x;  c.ERR   = s3.y;  c.OHB   = s3.z;  c.PHYSICAL_DMG_BOOST  = s3.w;
-    c.FIRE_DMG_BOOST = s4.x;  c.ICE_DMG_BOOST = s4.y;  c.LIGHTNING_DMG_BOOST = s4.z;  c.WIND_DMG_BOOST = s4.w;
-    c.QUANTUM_DMG_BOOST = s5.x;  c.IMAGINARY_DMG_BOOST = s5.y;
+    c.HP_P  = s0.x;
+    c.ATK_P = s0.y;
+    c.DEF_P = s0.z;
+    c.SPD_P = s0.w;
+
+    c.HP    = s1.x;
+    c.ATK   = s1.y;
+    c.DEF   = s1.z;
+    c.SPD   = s1.w;
+
+    c.CR    = s2.x;
+    c.CD    = s2.y;
+    c.EHR   = s2.z;
+    c.RES   = s2.w;
+
+    c.BE    = s3.x;
+    c.ERR   = s3.y;
+    c.OHB   = s3.z;
+    c.PHYSICAL_DMG_BOOST  = s3.w;
+
+    c.FIRE_DMG_BOOST      = s4.x;
+    c.ICE_DMG_BOOST       = s4.y;
+    c.LIGHTNING_DMG_BOOST = s4.z;
+    c.WIND_DMG_BOOST      = s4.w;
+
+    c.QUANTUM_DMG_BOOST   = s5.x;
+    c.IMAGINARY_DMG_BOOST = s5.y;
 
     // Calculate basic stats
 

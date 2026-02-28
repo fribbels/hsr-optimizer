@@ -13,12 +13,14 @@ export type GpuConstants = {
   BLOCK_SIZE: number,
   CYCLES_PER_INVOCATION: number,
   RESULTS_LIMIT: number,
+  COMPACT_LIMIT: number,
   DEBUG: boolean,
 }
 
 export type GpuExecutionContext = {
   // GPU constants
   WORKGROUP_SIZE: number,
+  NUM_WORKGROUPS: number,
   BLOCK_SIZE: number,
   CYCLES_PER_INVOCATION: number,
   RESULTS_LIMIT: number,
@@ -33,7 +35,6 @@ export type GpuExecutionContext = {
   resultMatrixBufferSize: number,
   permutations: number,
   iterations: number,
-  startTime: number,
   relics: RelicsByPart,
   resultsQueue: FixedSizePriorityQueue<GpuResult>,
   cancelled: boolean,
@@ -42,20 +43,25 @@ export type GpuExecutionContext = {
   // Webgpu internal objects
   device: GPUDevice,
   computePipeline: GPUComputePipeline,
-  postComputePipeline: GPUComputePipeline,
   bindGroup0: GPUBindGroup,
   bindGroup1: GPUBindGroup,
-  bindGroup2: GPUBindGroup,
-  postComputeBindGroup0: GPUBindGroup,
+  bindGroups2: [GPUBindGroup, GPUBindGroup],
   paramsMatrixBuffer: GPUBuffer,
-  resultMatrixBuffer: GPUBuffer,
+  resultMatrixBuffers: [GPUBuffer, GPUBuffer],
   relicsMatrixBuffer: GPUBuffer,
-  relicSetSolutionsMatrixBuffer: GPUBuffer,
-  ornamentSetSolutionsMatrixBuffer: GPUBuffer,
+  relicSetSolutionsMatrixBuffer: GPUBuffer | null,
+  ornamentSetSolutionsMatrixBuffer: GPUBuffer | null,
   precomputedStatsBuffer: GPUBuffer,
 
-  gpuReadBuffer: GPUBuffer,
-  bindGroupLayouts: GPUBindGroupLayout[],
+  gpuReadBuffers: [GPUBuffer, GPUBuffer],
+
+  // Atomic compaction buffers
+  COMPACT_LIMIT: number,
+  compactResultsBufferSize: number,
+  compactReadBufferSize: number,
+  compactCountBuffers: [GPUBuffer, GPUBuffer],
+  compactResultsBuffers: [GPUBuffer, GPUBuffer],
+  compactReadBuffers: [GPUBuffer, GPUBuffer],
 }
 
 export type RelicsByPart = {

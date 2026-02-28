@@ -27,13 +27,18 @@ export function generateParamsMatrix(
   const hSize = relics.Head.length
 
   const l = offset % lSize
-  const p = ((offset - l) / lSize) % pSize
-  const f = ((offset - p * lSize - l) / (lSize * pSize)) % fSize
-  const b = ((offset - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize
-  const g = ((offset - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize
-  const h =
-    ((offset - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize))
-    % hSize
+  const c1 = (offset - l) / lSize
+  const p = c1 % pSize
+  const c2 = (c1 - p) / pSize
+  const f = c2 % fSize
+  const c3 = (c2 - f) / fSize
+  const b = c3 % bSize
+  const c4 = (c3 - b) / bSize
+  const g = c4 % gSize
+  const h = (c4 - g) / gSize
+
+  const permStride = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
+  const permLimit = Math.min(permStride, gpuContext.permutations - offset)
 
   return new Float32Array([
     l,
@@ -43,6 +48,7 @@ export function generateParamsMatrix(
     g,
     h,
     gpuContext.resultsQueue.size() >= gpuContext.RESULTS_LIMIT ? (gpuContext.resultsQueue.top()?.value ?? 0) : 0,
+    permLimit,
   ])
   // return createGpuBuffer(device, new Float32Array(paramsArray), GPUBufferUsage.STORAGE)
 }
@@ -58,7 +64,7 @@ export function mergeRelicsIntoArray(relics: RelicsByPart) {
   ])
 }
 
-const RELIC_ARG_SIZE = 23
+const RELIC_ARG_SIZE = 24
 
 function relicsToArray(relics: Relic[]) {
   const output: number[] = []
@@ -95,6 +101,7 @@ function relicsToArray(relics: Relic[]) {
     output[startIndex + j++] = uncondensedStats[BasicKey.QUANTUM_DMG_BOOST] || 0 // 20
     output[startIndex + j++] = uncondensedStats[BasicKey.IMAGINARY_DMG_BOOST] || 0
     output[startIndex + j++] = relicSetToIndex(relic) // 22
+    output[startIndex + j++] = 0 // 23: vec4 padding
   }
 
   return output

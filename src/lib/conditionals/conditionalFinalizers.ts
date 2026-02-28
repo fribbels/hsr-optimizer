@@ -21,7 +21,7 @@ export function boostAshblazingAtkContainer(x: ComputedStatsContainer, action: O
 export function gpuBoostAshblazingAtkContainer(hitMulti: number, action: OptimizerAction) {
   const config = action.config
   return wgsl`
-if (p4((*p_sets).TheAshblazingGrandDuke) >= 1) {
+if (relic4p(*p_sets, SET_TheAshblazingGrandDuke) >= 1) {
   let ashblazingDelta = ${hitMulti} - 0.06 * f32(setConditionals.valueTheAshblazingGrandDuke);
   let ashblazingBaseATK = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BASE_ATK, config)};
   ${buff.hit(HKey.ATK, 'ashblazingDelta * ashblazingBaseATK').damageType(DamageTag.FUA).wgsl(action)}

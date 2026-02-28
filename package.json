@@ -17,6 +17,7 @@
     "build": "vite build",
     "lint": "oxlint",
     "vitest": "vitest --dir src/lib --no-watch --pool=threads",
+    "vitest:fast": "vitest --dir src/lib --no-watch --pool=threads --exclude '**/simulations/tests/**/*Orchestrator*'",
     "vitest:silent": "vitest --dir src/lib --no-watch --pool=threads --silent",
     "vitest:watch": "vitest --dir src/lib --watch",
     "test": "npx playwright test --config tests/playwright.config.ts --trace on",
@@ -24,7 +25,7 @@
     "test:ui": "npm run test -- --ui",
     "test:report": "npx playwright show-report",
     "typecheck": "npm run update-resources && tsc --noEmit -p ./tsconfig.json",
-    "typecheckfast": "tsc --noEmit -p ./tsconfig.fast.json",
+    "typecheck:fast": "tsc --noEmit -p ./tsconfig.fast.json",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "update-resources": "npx i18next-resources-for-ts interface -i ./public/locales/en_US -o ./src/types/resources.d.ts"

@@ -148,3 +148,4 @@ backend/infra.js
 
 # game data files
 src/lib/i18n/*.json
+shader.txt

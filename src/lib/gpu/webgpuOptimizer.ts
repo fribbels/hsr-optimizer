@@ -1,10 +1,8 @@
-import {
-  COMPUTE_ENGINE_GPU_EXPERIMENTAL,
-  ComputeEngine,
-} from 'lib/constants/constants'
+import { ComputeEngine } from 'lib/constants/constants'
 import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
 import {
   destroyPipeline,
+  ExecutionPassResult,
   generateExecutionPass,
   initializeGpuPipeline,
 } from 'lib/gpu/webgpuInternals'
@@ -79,44 +77,78 @@ export async function gpuOptimize(props: {
   // console.log('Raw inputs', { context, request, relics, permutations })
   // console.log('GPU execution context', gpuContext)
 
-  if (!gpuContext.startTime) {
-    gpuContext.startTime = performance.now()
-  }
+  // Double-buffered loop: while CPU reads buffer N, GPU writes buffer N+1.
+
+  const permStride = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
+
+  // Overflowed dispatches are revisited after the main loop. seenIndices deduplicates partial captures vs revisit results.
+  const overflowedOffsets: number[] = []
+  const seenIndices = new Set<number>()
+  let permutationsSearched = 0
+
+  // Submit the first dispatch (buffer A)
+  let currentBufferIndex = 0
+  let currentPassResult = generateExecutionPass(gpuContext, 0, currentBufferIndex)
+  // const profiler = new GpuProfiler()
 
   for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {
-    const offset = iteration * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
-    const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
+    // profiler.start()
+    const offset = iteration * permStride
+    const maxPermNumber = offset + permStride
+    const passResult = currentPassResult
 
-    const gpuReadBuffer = generateExecutionPass(gpuContext, offset)
+    // Determine if there will be a next iteration
+    const hasNext = iteration + 1 < gpuContext.iterations && gpuContext.permutations > maxPermNumber
 
-    if (computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL) {
-      await gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 4)
-
-      const firstElement = new Float32Array(gpuReadBuffer.getMappedRange(0, 4))[0]
-      gpuReadBuffer.unmap()
-
-      if (firstElement == -2304) {
-        // Skip
-      } else if (firstElement <= -2048) {
-        const workgroupsSkipped = -(firstElement + 2048)
-        const elementOffset = workgroupsSkipped * 512 * 256
-
-        await readBuffer(offset, gpuReadBuffer, gpuContext, elementOffset)
-      } else {
-        await readBuffer(offset, gpuReadBuffer, gpuContext)
-      }
-    } else {
-      await readBuffer(offset, gpuReadBuffer, gpuContext)
+    // Submit next dispatch BEFORE awaiting current results
+    const nextBufferIndex = 1 - currentBufferIndex
+    let nextPassResult: ExecutionPassResult | undefined
+    if (hasNext) {
+      nextPassResult = generateExecutionPass(gpuContext, (iteration + 1) * permStride, nextBufferIndex)
     }
 
+    // profiler.mark('dispatch')
+
+    // Await current dispatch and read results
+    if (gpuContext.DEBUG) {
+      await passResult.gpuReadBuffer.mapAsync(GPUMapMode.READ)
+      // profiler.mark('gpuWait')
+      readBufferMapped(offset, passResult.gpuReadBuffer, gpuContext)
+      permutationsSearched += permStride
+      passResult.gpuReadBuffer.unmap()
+    } else {
+      await passResult.compactReadBuffer.mapAsync(GPUMapMode.READ)
+      // profiler.mark('gpuWait')
+
+      const mappedRange = passResult.compactReadBuffer.getMappedRange()
+      const rawCount = new Uint32Array(mappedRange, 0, 1)[0]
+      const count = Math.min(rawCount, gpuContext.COMPACT_LIMIT)
+      const isOverflow = rawCount > gpuContext.COMPACT_LIMIT
+
+      if (isOverflow) {
+        overflowedOffsets.push(offset)
+      } else {
+        permutationsSearched += permStride
+      }
+
+      processCompactResults(offset, count, mappedRange, gpuContext, isOverflow ? seenIndices : undefined)
+      passResult.compactReadBuffer.unmap()
+    }
+
+    // profiler.end('cpuProcess')
+
+    if (hasNext && nextPassResult) {
+      currentBufferIndex = nextBufferIndex
+      currentPassResult = nextPassResult
+    }
+
+    const searchedSnapshot = permutationsSearched
     setTimeout(() => {
       const state = window.store.getState()
       state.setOptimizerEndTime(Date.now())
       state.setPermutationsResults(gpuContext.resultsQueue.size())
-      state.setPermutationsSearched(Math.min(gpuContext.permutations, maxPermNumber))
+      state.setPermutationsSearched(Math.min(gpuContext.permutations, searchedSnapshot))
     }, 0)
-
-    gpuReadBuffer.unmap()
 
     if (gpuContext.permutations <= maxPermNumber || !window.store.getState().optimizationInProgress) {
       gpuContext.cancelled = true
@@ -124,18 +156,12 @@ export async function gpuOptimize(props: {
     }
   }
 
-  // Profiling tools
-  // const totalTime = 0
-  // const start = performance.now()
-  // const end = performance.now()
-  // const elapsedTime = end - start
-  // totalTime += elapsedTime
-  // console.log(`Iteration: ${elapsedTime.toFixed(4)} ms`)
-  // const averageTime = totalTime / gpuContext.iterations
-  // console.log(`Total Time: ${totalTime.toFixed(4)} ms`)
-  // console.log(`Average Time per Iteration: ${averageTime.toFixed(4)} ms`)
+  // profiler.summary(gpuContext)
 
-  if (!gpuContext.cancelled) {
+  // Revisit overflowed dispatches now that the threshold is established.
+  await revisitOverflowedDispatches(overflowedOffsets, gpuContext, seenIndices)
+
+  if (window.store.getState().optimizationInProgress) {
     window.store.getState().setPermutationsSearched(gpuContext.permutations)
   }
   window.store.getState().setOptimizationInProgress(false)
@@ -147,13 +173,19 @@ export async function gpuOptimize(props: {
   }, 1)
 }
 
-// eslint-disable-next-line
-async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: GpuExecutionContext, elementOffset: number = 0) {
-  await gpuReadBuffer.mapAsync(GPUMapMode.READ, elementOffset)
-
+// Reads results from an already-mapped buffer
+function readBufferMapped(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: GpuExecutionContext, elementOffset: number = 0) {
   const arrayBuffer = gpuReadBuffer.getMappedRange(elementOffset * 4)
   const array = new Float32Array(arrayBuffer)
 
+  processResults(offset, array, gpuContext, elementOffset)
+
+  if (gpuContext.DEBUG) {
+    debugWebgpuOutput(gpuContext, arrayBuffer)
+  }
+}
+
+function processResults(offset: number, array: Float32Array, gpuContext: GpuExecutionContext, elementOffset: number = 0) {
   const resultsQueue = gpuContext.resultsQueue
   let top = resultsQueue.top()?.value ?? 0
 
@@ -198,9 +230,70 @@ async function readBuffer(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
       top = resultsQueue.top()!.value
     }
   }
+}
 
-  if (gpuContext.DEBUG) {
-    debugWebgpuOutput(gpuContext, arrayBuffer)
+// Reads compact results from merged mapped buffer: [count(4B) | CompactEntry[](N*8B)]
+function processCompactResults(offset: number, count: number, mappedRange: ArrayBuffer, gpuContext: GpuExecutionContext, seenIndices?: Set<number>) {
+  if (count === 0) return
+
+  // Results start at byte offset 4 (after the u32 count)
+  const i32View = new Int32Array(mappedRange, 4)
+  const f32View = new Float32Array(mappedRange, 4)
+
+  const resultsQueue = gpuContext.resultsQueue
+  let top = resultsQueue.top()?.value ?? 0
+
+  // Split to skip size check when queue is full
+  if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
+    for (let i = 0; i < count; i++) {
+      const globalIndex = offset + i32View[i * 2]
+      if (seenIndices?.has(globalIndex)) continue
+      const value = f32View[i * 2 + 1]
+      if (value <= top) continue
+      top = resultsQueue.fixedSizePushOvercapped({
+        index: globalIndex,
+        value: value,
+      }).value
+      seenIndices?.add(globalIndex)
+    }
+  } else {
+    for (let i = 0; i < count; i++) {
+      const globalIndex = offset + i32View[i * 2]
+      if (seenIndices?.has(globalIndex)) continue
+      const value = f32View[i * 2 + 1]
+      if (value <= top && resultsQueue.size() >= gpuContext.RESULTS_LIMIT) continue
+      resultsQueue.fixedSizePush({
+        index: globalIndex,
+        value: value,
+      })
+      top = resultsQueue.top()!.value
+      seenIndices?.add(globalIndex)
+    }
+  }
+}
+
+async function revisitOverflowedDispatches(
+  overflowedOffsets: number[],
+  gpuContext: GpuExecutionContext,
+  seenIndices: Set<number>,
+) {
+  if (overflowedOffsets.length > 0 && window.store.getState().optimizationInProgress) {
+    for (const overflowOffset of overflowedOffsets) {
+      let rawCount: number
+      let retries = 0
+      do {
+        const passResult = generateExecutionPass(gpuContext, overflowOffset, 0)
+
+        await passResult.compactReadBuffer.mapAsync(GPUMapMode.READ)
+
+        const mappedRange = passResult.compactReadBuffer.getMappedRange()
+        rawCount = new Uint32Array(mappedRange, 0, 1)[0]
+        const count = Math.min(rawCount, gpuContext.COMPACT_LIMIT)
+
+        processCompactResults(overflowOffset, count, mappedRange, gpuContext, seenIndices)
+        passResult.compactReadBuffer.unmap()
+      } while (rawCount > gpuContext.COMPACT_LIMIT && retries++ < 100000)
+    }
   }
 }
 
@@ -225,13 +318,15 @@ function outputResults(gpuContext: GpuExecutionContext) {
     const index = resultArray[i].index
 
     const l = index % lSize
-    const p = ((index - l) / lSize) % pSize
-    const f = ((index - p * lSize - l) / (lSize * pSize)) % fSize
-    const b = ((index - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize)) % bSize
-    const g = ((index - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize)) % gSize
-    const h =
-      ((index - g * bSize * fSize * pSize * lSize - b * fSize * pSize * lSize - f * pSize * lSize - p * lSize - l) / (lSize * pSize * fSize * bSize * gSize))
-      % hSize
+    const c1 = (index - l) / lSize
+    const p = c1 % pSize
+    const c2 = (c1 - p) / pSize
+    const f = c2 % fSize
+    const c3 = (c2 - f) / fSize
+    const b = c3 % bSize
+    const c4 = (c3 - b) / bSize
+    const g = c4 % gSize
+    const h = (c4 - g) / gSize
 
     const relicsByPart = {
       Head: relics.Head[h],

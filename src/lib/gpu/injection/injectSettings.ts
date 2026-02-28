@@ -26,12 +26,19 @@ function generateConsts(context: OptimizerContext, relics: RelicsByPart) {
   const wgsl = `
 const relicSetCount = ${Object.keys(Constants.SetsRelics).length};
 const ornamentSetCount = ${Object.keys(Constants.SetsOrnaments).length};
+
 const lSize = ${relics.LinkRope.length};
 const pSize = ${relics.PlanarSphere.length};
 const fSize = ${relics.Feet.length};
 const bSize = ${relics.Body.length};
 const gSize = ${relics.Hands.length};
 const hSize = ${relics.Head.length};
+
+const handsOffset = hSize;
+const bodyOffset = hSize + gSize;
+const feetOffset = hSize + gSize + bSize;
+const planarOffset = hSize + gSize + bSize + fSize;
+const ropeOffset = hSize + gSize + bSize + fSize + pSize;
 `
 
   return wgsl
@@ -89,11 +96,18 @@ function generateElement(context: OptimizerContext) {
   return wgsl
 }
 
+const EPSILON = 0.00000001
+const EPSILON_STATS = new Set(['HP', 'ATK', 'DEF', 'SPD', 'CR', 'CD', 'EHR', 'RES', 'BE', 'ERR', 'OHB'])
+
 function generateCharacterStats(characterStats: { [key: string]: number }, prefix: string) {
   let wgsl = '\n'
 
   for (const [name, stat] of Object.entries(paramStatNames)) {
-    wgsl += `const ${prefix}${name}: f32 = ${characterStats[stat]};\n`
+    let value = characterStats[stat] ?? 0
+    if (prefix === 'trace' && EPSILON_STATS.has(name)) {
+      value += EPSILON
+    }
+    wgsl += `const ${prefix}${name}: f32 = ${value};\n`
   }
 
   return wgsl

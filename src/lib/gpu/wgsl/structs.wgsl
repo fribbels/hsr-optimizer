@@ -1,27 +1,30 @@
 struct Relic {
-  HP_P: f32,
-  ATK_P: f32,
-  DEF_P: f32,
-  SPD_P: f32,
-  HP: f32,
-  ATK: f32,
-  DEF: f32,
-  SPD: f32,
-  CR: f32,
-  CD: f32,
-  EHR: f32,
-  RES: f32,
-  BE: f32,
-  ERR: f32,
-  OHB: f32,
-  PHYSICAL_DMG_BOOST: f32,
-  FIRE_DMG_BOOST: f32,
-  ICE_DMG_BOOST: f32,
-  LIGHTNING_DMG_BOOST: f32,
-  WIND_DMG_BOOST: f32,
-  QUANTUM_DMG_BOOST: f32,
-  IMAGINARY_DMG_BOOST: f32,
-  relicSet: f32, // 22
+  v0: vec4<f32>,  // HP_P, ATK_P, DEF_P, SPD_P
+  v1: vec4<f32>,  // HP, ATK, DEF, SPD
+  v2: vec4<f32>,  // CR, CD, EHR, RES
+  v3: vec4<f32>,  // BE, ERR, OHB, PHYSICAL_DMG_BOOST
+  v4: vec4<f32>,  // FIRE, ICE, LIGHTNING, WIND
+  v5: vec4<f32>,  // QUANTUM, IMAGINARY, relicSet, _pad
+}
+
+struct OuterRelicStats {
+  s0: vec4<f32>,
+  s1: vec4<f32>,
+  s2: vec4<f32>,
+  s3: vec4<f32>,
+  s4: vec4<f32>,
+  s5: vec4<f32>,
+}
+
+fn sumOuterRelics(head: Relic, hands: Relic, body: Relic, feet: Relic) -> OuterRelicStats {
+  return OuterRelicStats(
+    head.v0 + hands.v0 + body.v0 + feet.v0,
+    head.v1 + hands.v1 + body.v1 + feet.v1,
+    head.v2 + hands.v2 + body.v2 + feet.v2,
+    head.v3 + hands.v3 + body.v3 + feet.v3,
+    head.v4 + hands.v4 + body.v4 + feet.v4,
+    head.v5 + hands.v5 + body.v5 + feet.v5,
+  );
 }
 
 struct BasicStats {
@@ -51,61 +54,15 @@ struct BasicStats {
 }
 
 struct Sets {
-  PasserbyOfWanderingCloud: i32,
-  MusketeerOfWildWheat: i32,
-  KnightOfPurityPalace: i32,
-  HunterOfGlacialForest: i32,
-  ChampionOfStreetwiseBoxing: i32,
-  GuardOfWutheringSnow: i32,
-  FiresmithOfLavaForging: i32,
-  GeniusOfBrilliantStars: i32,
-  BandOfSizzlingThunder: i32,
-  EagleOfTwilightLine: i32,
-  ThiefOfShootingMeteor: i32,
-  WastelanderOfBanditryDesert: i32,
-  LongevousDisciple: i32,
-  MessengerTraversingHackerspace: i32,
-  TheAshblazingGrandDuke: i32,
-  PrisonerInDeepConfinement: i32,
-  PioneerDiverOfDeadWaters: i32,
-  WatchmakerMasterOfDreamMachinations: i32,
-  IronCavalryAgainstTheScourge: i32,
-  TheWindSoaringValorous: i32,
-  SacerdosRelivedOrdeal: i32,
-  ScholarLostInErudition: i32,
-  HeroOfTriumphantSong: i32,
-  PoetOfMourningCollapse: i32,
-  WarriorGoddessOfSunAndThunder: i32,
-  WavestriderCaptain: i32,
-  WorldRemakingDeliverer: i32,
-  SelfEnshroudedRecluse: i32,
-  EverGloriousMagicalGirl: i32,
-  DivinerOfDistantReach: i32,
-  SpaceSealingStation: i32,
-  FleetOfTheAgeless: i32,
-  PanCosmicCommercialEnterprise: i32,
-  BelobogOfTheArchitects: i32,
-  CelestialDifferentiator: i32,
-  InertSalsotto: i32,
-  TaliaKingdomOfBanditry: i32,
-  SprightlyVonwacq: i32,
-  RutilantArena: i32,
-  BrokenKeel: i32,
-  FirmamentFrontlineGlamoth: i32,
-  PenaconyLandOfTheDreams: i32,
-  SigoniaTheUnclaimedDesolation: i32,
-  IzumoGenseiAndTakamaDivineRealm: i32,
-  DuranDynastyOfRunningWolves: i32,
-  ForgeOfTheKalpagniLantern: i32,
-  LushakaTheSunkenSeas: i32,
-  TheWondrousBananAmusementPark: i32,
-  BoneCollectionsSereneDemesne: i32,
-  GiantTreeOfRaptBrooding: i32,
-  ArcadiaOfWovenDreams: i32,
-  RevelryByTheSea: i32,
-  AmphoreusTheEternalLand: i32,
-  TengokuLivestream: i32,
+  relicMatch2: u32,   // bit N set = relic set N has >= 2 pieces
+  relicMatch4: u32,   // bit N set = relic set N has 4 pieces
+  ornamentMatch2: u32, // bit N set = ornament set N has 2 pieces
 }
+
+// Bitmask set accessors: extract whether set at bit index has 2p/4p
+fn relic2p(s: Sets, bit: u32) -> f32 { return f32((s.relicMatch2 >> bit) & 1u); }
+fn relic4p(s: Sets, bit: u32) -> f32 { return f32((s.relicMatch4 >> bit) & 1u); }
+fn ornament2p(s: Sets, bit: u32) -> f32 { return f32((s.ornamentMatch2 >> bit) & 1u); }
 
 struct SetConditionals {
   enabledHunterOfGlacialForest: bool,
@@ -155,4 +112,5 @@ struct Params {
   xg: f32,
   xh: f32,
   threshold: f32,
+  permLimit: f32,
 }

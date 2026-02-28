@@ -14,14 +14,6 @@ import { useOptimizerTabStore } from 'lib/tabs/tabOptimizer/useOptimizerTabStore
 import { TsUtils } from 'lib/utils/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export function logIterationTimer(i: number, gpuContext: GpuExecutionContext) {
-  const endTime = new Date().getTime()
-  const timeTaken = (endTime - gpuContext.startTime) / 1000
-  const permsCompleted = i * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
-  const perSec = Math.floor(permsCompleted / timeTaken)
-  console.log(`Iteration: ${i}, Time: ${timeTaken}s, Completed: ${permsCompleted}, Per sec: ${perSec.toLocaleString()}`)
-}
-
 export function debugWebgpuOutput(gpuContext: GpuExecutionContext, arrayBuffer: ArrayBuffer) {
   const array = new Float32Array(arrayBuffer)
   console.log(array.slice(0, 1000))

@@ -48,7 +48,7 @@ export const SpaceSealingStationConditional: DynamicConditional = {
       context,
       `
 if (
-  p2((*p_sets).SpaceSealingStation) >= 1 &&
+  ornament2p(*p_sets, SET_SpaceSealingStation) >= 1 &&
   (*p_state).SpaceSealingStationConditional${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 120.0
 ) {
@@ -82,7 +82,7 @@ export const FleetOfTheAgelessConditional: DynamicConditional = {
       context,
       `
 if (
-  p2((*p_sets).FleetOfTheAgeless) >= 1 &&
+  ornament2p(*p_sets, SET_FleetOfTheAgeless) >= 1 &&
   (*p_state).FleetOfTheAgelessConditional${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 120.0
 ) {
@@ -116,7 +116,7 @@ export const BelobogOfTheArchitectsConditional: DynamicConditional = {
       context,
       `
 if (
-  p2((*p_sets).BelobogOfTheArchitects) >= 1 &&
+  ornament2p(*p_sets, SET_BelobogOfTheArchitects) >= 1 &&
   (*p_state).BelobogOfTheArchitectsConditional${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, config)} >= 0.50
 ) {
@@ -158,7 +158,7 @@ export const PanCosmicCommercialEnterpriseConditional: DynamicConditional = {
       context,
       `
 if (
-  p2((*p_sets).PanCosmicCommercialEnterprise) >= 1
+  ornament2p(*p_sets, SET_PanCosmicCommercialEnterprise) >= 1
 ) {
   let stateValue: f32 = (*p_state).PanCosmicCommercialEnterpriseConditional${action.actionIdentifier};
   let buffValue: f32 = min(0.25, 0.25 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, config)}) * ${
@@ -194,7 +194,7 @@ export const BrokenKeelConditional: DynamicConditional = {
       context,
       `
 if (
-  p2((*p_sets).BrokenKeel) >= 1 &&
+  ornament2p(*p_sets, SET_BrokenKeel) >= 1 &&
   (*p_state).BrokenKeelConditional${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.RES, config)} >= 0.30
 ) {
@@ -227,7 +227,7 @@ export const TaliaKingdomOfBanditryConditional: DynamicConditional = {
       context,
       `
 if (
-  p2((*p_sets).TaliaKingdomOfBanditry) >= 1 &&
+  ornament2p(*p_sets, SET_TaliaKingdomOfBanditry) >= 1 &&
   (*p_state).TaliaKingdomOfBanditryConditional${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 145.0
 ) {
@@ -260,7 +260,7 @@ export const GiantTreeOfRaptBrooding135Conditional: DynamicConditional = {
       context,
       `
 if (
-  p2((*p_sets).GiantTreeOfRaptBrooding) >= 1 &&
+  ornament2p(*p_sets, SET_GiantTreeOfRaptBrooding) >= 1 &&
   (*p_state).GiantTreeOfRaptBrooding135Conditional${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 135.0
 ) {
@@ -293,7 +293,7 @@ export const GiantTreeOfRaptBrooding180Conditional: DynamicConditional = {
       context,
       `
 if (
-  p2((*p_sets).GiantTreeOfRaptBrooding) >= 1 &&
+  ornament2p(*p_sets, SET_GiantTreeOfRaptBrooding) >= 1 &&
   (*p_state).GiantTreeOfRaptBrooding180Conditional${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 180.0
 ) {
@@ -326,7 +326,7 @@ export const BoneCollectionsSereneDemesneConditional: DynamicConditional = {
       context,
       `
 if (
-  p2((*p_sets).BoneCollectionsSereneDemesne) >= 1 &&
+  ornament2p(*p_sets, SET_BoneCollectionsSereneDemesne) >= 1 &&
   (*p_state).BoneCollectionsSereneDemesneConditional${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.HP, config)} >= 5000.0
 ) {

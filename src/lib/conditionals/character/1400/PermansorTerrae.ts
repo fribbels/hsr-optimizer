@@ -257,7 +257,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneDmgBoost = cyreneActionExists(originalCharacterAction!)
         ? cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.264 : 0.24
         : 0
-      x.buff(StatKey.DMG_BOOST, (t.cyreneSpecialEffect) ? cyreneDmgBoost : 0, x.source(Source.odeTo(PERMANSOR_TERRAE)))
+      x.buff(StatKey.DMG_BOOST, (t.cyreneSpecialEffect) ? cyreneDmgBoost : 0, x.targets(TargetTag.SingleTarget).source(Source.odeTo(PERMANSOR_TERRAE)))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

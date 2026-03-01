@@ -239,7 +239,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.DMG_BOOST, t.ehrToDmgBoost ? Math.min(0.72, 0.60 * t.combatEhr) : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.DMG_BOOST, t.ehrToDmgBoost ? Math.min(0.72, 0.60 * t.combatEhr) : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

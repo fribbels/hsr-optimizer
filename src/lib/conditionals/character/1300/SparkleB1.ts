@@ -197,7 +197,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.ATK_P, (e >= 1 && m.cipherBuff) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
 
       // B1: RES_PEN self buff when skillBuffs (unique to B1)
-      x.buff(StatKey.RES_PEN, m.skillBuffs ? 0.10 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.RES_PEN, m.skillBuffs ? 0.10 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_TRACE))
 
       // B1: VULNERABILITY team (vs DMG_BOOST in migrated Sparkle)
       x.buff(

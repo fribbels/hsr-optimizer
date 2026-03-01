@@ -356,7 +356,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Trace SPD-based DMG buff
-      x.buff(StatKey.DMG_BOOST, t.cyreneSpdDmg ? 0.20 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.DMG_BOOST, t.cyreneSpdDmg ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       if (t.specialEffect) {
         if (!chrysosHeirs[context.characterId]) {

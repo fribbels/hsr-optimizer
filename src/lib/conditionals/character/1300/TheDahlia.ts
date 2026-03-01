@@ -339,15 +339,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       if (m.superBreakDmg) {
         if (e >= 1 && m.e1Buffs) {
           x.buff(StatKey.SUPER_BREAK_MODIFIER, superBreakScaling, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
-          x.buff(StatKey.SUPER_BREAK_MODIFIER, (m.dancePartner) ? 0.40 : 0, x.source(SOURCE_E1))
+          x.buff(StatKey.SUPER_BREAK_MODIFIER, (m.dancePartner) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
         } else {
-          x.buff(StatKey.SUPER_BREAK_MODIFIER, (m.dancePartner) ? superBreakScaling : 0, x.source(SOURCE_TALENT))
+          x.buff(StatKey.SUPER_BREAK_MODIFIER, (m.dancePartner) ? superBreakScaling : 0, x.targets(TargetTag.SelfAndPet).source(SOURCE_TALENT))
         }
       }
 
       x.buff(StatKey.RES_PEN, (e >= 2 && m.e2ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
       x.buff(StatKey.VULNERABILITY, (e >= 4 && m.e4Vuln) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
-      x.buff(StatKey.BE, (e >= 6 && m.e6BeBuff && m.dancePartner) ? 1.50 : 0, x.source(SOURCE_E6))
+      x.buff(StatKey.BE, (e >= 6 && m.e6BeBuff && m.dancePartner) ? 1.50 : 0, x.targets(TargetTag.SelfAndPet).source(SOURCE_E6))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -361,7 +361,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         SILVER_WOLF,
       ]
       if (IMPLANT_CHARACTERS.includes(context.characterId)) {
-        x.buff(StatKey.SPD_P, (t.spdBuff) ? 0.30 : 0, x.source(SOURCE_TRACE))
+        x.buff(StatKey.SPD_P, (t.spdBuff) ? 0.30 : 0, x.targets(TargetTag.SelfAndPet).source(SOURCE_TRACE))
       }
 
       const beBuff = (t.beConversion) ? t.teammateBeValue * 0.24 + 0.50 : 0

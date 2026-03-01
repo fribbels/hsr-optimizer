@@ -105,7 +105,7 @@ export const newStatsConfig = {
   SUMMONS: { flat: true, label: optimizerTabMisc('Summons') }, // Remove
   MEMOSPRITE: { bool: true, label: optimizerTabMisc('Memosprite') }, // Remove
   ENEMY_WEAKNESS_BROKEN: { bool: true, label: optimizerTabMisc('Enemy weakness broken') }, // Remove
-  MEMO_BUFF_PRIORITY: { bool: true, label: optimizerTabMisc('Prioritize memosprite buffs') }, // Remove
+
   DEPRIORITIZE_BUFFS: { bool: true, label: optimizerTabMisc('Deprioritize buffs') }, // Remove
   COMBO_DMG: { flat: true, label: optimizerTabMisc('Combo DMG') }, // Remove
 

@@ -121,8 +121,6 @@ export type EntityFilter = (entity: OptimizerEntity) => boolean
 export const EntityFilters = {
   primaryOrPet: (e: OptimizerEntity) => Boolean(e.primary || e.pet),
   memo: (e: OptimizerEntity) => e.memosprite,
-  all: () => true,
-  summon: (e: OptimizerEntity) => e.pet || e.memosprite,
 } as const
 
 // ============== Action Buffing ==============

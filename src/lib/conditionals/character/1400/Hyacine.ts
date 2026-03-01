@@ -193,24 +193,28 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
     // Entity declarations
     entityDeclaration: () => Object.values(HyacineEntities),
-    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [HyacineEntities.Hyacine]: {
-        primary: true,
-        summon: false,
-        memosprite: false,
-      },
-      [HyacineEntities.Ica]: {
-        primary: false,
-        summon: true,
-        memosprite: true,
-        memoBaseAtkScaling: 1.00,
-        memoBaseDefScaling: 1.00,
-        memoBaseHpScaling: 0.50,
-        memoBaseHpFlat: 0,
-        memoBaseSpdScaling: 0,
-        memoBaseSpdFlat: 0,
-      },
-    }),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      return {
+        [HyacineEntities.Hyacine]: {
+          primary: true,
+          summon: false,
+          memosprite: false,
+          memoBuffPriority: r.buffPriority !== BUFF_PRIORITY_SELF,
+        },
+        [HyacineEntities.Ica]: {
+          primary: false,
+          summon: true,
+          memosprite: true,
+          memoBaseAtkScaling: 1.00,
+          memoBaseDefScaling: 1.00,
+          memoBaseHpScaling: 0.50,
+          memoBaseHpFlat: 0,
+          memoBaseSpdScaling: 0,
+          memoBaseSpdFlat: 0,
+        },
+      }
+    },
 
     // Action declarations
     actionDeclaration: () => Object.values(HyacineAbilities),
@@ -283,7 +287,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
       x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority === BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
+
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

@@ -188,11 +188,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     actionDeclaration: () => Object.values(AglaeaAbilities),
 
     entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
       return {
         [AglaeaEntities.Aglaea]: {
           primary: true,
           summon: false,
           memosprite: false,
+          memoBuffPriority: r.buffPriority !== BUFF_PRIORITY_SELF,
         },
         [AglaeaEntities.Garmentmaker]: {
           memoBaseHpScaling,
@@ -273,7 +275,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
       x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
+
     },
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

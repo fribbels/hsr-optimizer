@@ -199,22 +199,26 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateDefaults: () => teammateDefaults,
 
     entityDeclaration: () => Object.values(CastoriceEntities),
-    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [CastoriceEntities.Castorice]: {
-        primary: true,
-        summon: false,
-        memosprite: false,
-      },
-      [CastoriceEntities.Netherwing]: {
-        primary: false,
-        summon: true,
-        memosprite: true,
-        memoBaseSpdFlat: 165,
-        memoBaseHpFlat: 34000,
-        memoBaseAtkScaling: 1,
-        memoBaseDefScaling: 1,
-      },
-    }),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      return {
+        [CastoriceEntities.Castorice]: {
+          primary: true,
+          summon: false,
+          memosprite: false,
+          memoBuffPriority: r.buffPriority !== BUFF_PRIORITY_SELF,
+        },
+        [CastoriceEntities.Netherwing]: {
+          primary: false,
+          summon: true,
+          memosprite: true,
+          memoBaseSpdFlat: 165,
+          memoBaseHpFlat: 34000,
+          memoBaseAtkScaling: 1,
+          memoBaseDefScaling: 1,
+        },
+      }
+    },
 
     actionDeclaration: () => Object.values(CastoriceAbilities),
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
@@ -319,7 +323,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
       x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
+
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

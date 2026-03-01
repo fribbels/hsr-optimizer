@@ -232,22 +232,26 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateDefaults: () => teammateDefaults,
 
     entityDeclaration: () => Object.values(EvernightEntities),
-    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [EvernightEntities.Evernight]: {
-        primary: true,
-        summon: false,
-        memosprite: false,
-      },
-      [EvernightEntities.Evey]: {
-        memoBaseSpdFlat: 160,
-        memoBaseHpScaling: 0.50,
-        memoBaseAtkScaling: 1,
-        memoBaseDefScaling: 1,
-        primary: false,
-        summon: true,
-        memosprite: true,
-      },
-    }),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      return {
+        [EvernightEntities.Evernight]: {
+          primary: true,
+          summon: false,
+          memosprite: false,
+          memoBuffPriority: r.buffPriority !== BUFF_PRIORITY_SELF,
+        },
+        [EvernightEntities.Evey]: {
+          memoBaseSpdFlat: 160,
+          memoBaseHpScaling: 0.50,
+          memoBaseAtkScaling: 1,
+          memoBaseDefScaling: 1,
+          primary: false,
+          summon: true,
+          memosprite: true,
+        },
+      }
+    },
 
     actionDeclaration: () => Object.values(EvernightAbilities),
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
@@ -306,7 +310,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
       x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
+
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

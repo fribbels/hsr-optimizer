@@ -19,7 +19,6 @@ import {
   getAKeyName,
   HIT_STATS_LENGTH,
   HKeyValue,
-  isHitStat,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
@@ -518,11 +517,6 @@ export class ComputedStatsContainer {
   }
 
   public actionBuff(key: AKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
-    // Optimization temporarily disabled
-    // if (this.config.entitiesLength === 1) {
-    //   this.a[key as number] += value
-    //   return
-    // }
     const cacheKey = (targetTags << 8) | (key as number)
     const indices = this.config.actionBuffIndices[cacheKey]
 
@@ -532,11 +526,6 @@ export class ComputedStatsContainer {
   }
 
   public actionSet(key: AKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
-    // Optimization temporarily disabled
-    // if (this.config.entitiesLength === 1) {
-    //   this.a[key as number] = value
-    //   return
-    // }
     const cacheKey = (targetTags << 8) | (key as number)
     const indices = this.config.actionBuffIndices[cacheKey]
 
@@ -648,7 +637,7 @@ export class ComputedStatsContainer {
     const targets: number[] = []
     for (let i = 0; i < this.config.entitiesLength; i++) {
       const entity = this.config.entitiesArray[i]
-      if (this.matchesTargetTags(entity, i, targetTags)) {
+      if (this.matchesTargetTags(entity, targetTags)) {
         targets.push(i)
       }
     }
@@ -684,7 +673,7 @@ export class ComputedStatsContainer {
     }
   }
 
-  private matchesTargetTags(entity: OptimizerEntity, entityIndex: number, targetTags: TargetTag): boolean {
+  private matchesTargetTags(entity: OptimizerEntity, targetTags: TargetTag): boolean {
     if (targetTags & TargetTag.FullTeam) return true
     if (targetTags & TargetTag.SingleTarget) {
       const primaryEntity = this.config.entitiesArray[SELF_ENTITY_INDEX]

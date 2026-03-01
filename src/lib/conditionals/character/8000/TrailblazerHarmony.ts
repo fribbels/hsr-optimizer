@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   addSuperBreakHits,
@@ -109,7 +108,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL],
     entityDeclaration: () => Object.values(TrailblazerHarmonyEntities),
     entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
       [TrailblazerHarmonyEntities.TrailblazerHarmony]: {

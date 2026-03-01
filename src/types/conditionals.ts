@@ -87,7 +87,6 @@ export interface LightConeConditionalsController extends ConditionalsController 
 }
 
 export interface CharacterConditionalsController extends ConditionalsController {
-  activeAbilities: AbilityType[]
   entityDeclaration: () => string[]
   entityDefinition: (action: OptimizerAction, context: OptimizerContext) => Record<string, EntityDefinition>
   actionDeclaration: () => string[]

@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   ElementName,
   PathName,
@@ -194,8 +193,6 @@ export type OptimizerContext = CharacterMetadata & {
   enemyWeaknessBroken: boolean,
   weaknessBrokenMultiplier: number,
 
-  activeAbilities: AbilityType[],
-  activeAbilityFlags: number,
   hitActions?: AbilityDefinition[],
   comboDot: number,
   dotAbilities: number,

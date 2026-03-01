@@ -1,4 +1,4 @@
-import { AbilityType, ASHBLAZING_ATK_STACK, } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, } from 'lib/conditionals/conditionalConstants'
 import { boostAshblazingAtkContainer, gpuBoostAshblazingAtkContainer, } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
@@ -39,7 +39,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const skillShieldFlat = skill(e, 760, 845.5)
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.FUA, AbilityType.DOT],
     content: () => [],
     defaults: () => ({}),
 

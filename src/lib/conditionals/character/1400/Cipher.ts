@@ -1,5 +1,4 @@
 import {
-  AbilityType,
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
 import {
@@ -161,7 +160,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     * (1 * 0.20 + 2 * 0.10 + 3 * 0.10 + 4 * 0.60)
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
     teammateContent: () => Object.values(teammateContent),

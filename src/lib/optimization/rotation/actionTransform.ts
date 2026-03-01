@@ -189,8 +189,6 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
   const characterConditionalController = CharacterConditionalsResolver.get(context)
   context.dotAbilities = countDotAbilities(rotationActions)
   context.comboDot = comboDot || 0
-  context.activeAbilities = characterConditionalController.activeAbilities ?? []
-  context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
 }
 
 function computeEntityBaseStats(def: EntityDefinition, context: OptimizerContext) {

@@ -137,6 +137,11 @@ export async function gpuOptimize(props: {
 
     // profiler.end('cpuProcess')
 
+    // Reset start time after first dispatch to exclude shader compilation from perms/sec
+    if (iteration === 0) {
+      window.store.getState().setOptimizerStartTime(Date.now())
+    }
+
     if (hasNext && nextPassResult) {
       currentBufferIndex = nextBufferIndex
       currentPassResult = nextPassResult

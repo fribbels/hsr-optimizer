@@ -201,7 +201,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
       [HyacineEntities.Ica]: {
         primary: false,
-        summon: false,
+        summon: true,
         memosprite: true,
         memoBaseAtkScaling: 1.00,
         memoBaseDefScaling: 1.00,

@@ -125,7 +125,7 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
     },
     p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
       if (setConditionals.enabledPenaconyLandOfTheDreams) {
-        x.buff(StatKey.DMG_BOOST, 0.10, x.targets(TargetTag.MemospritesOnly).source(Source.PenaconyLandOfTheDreams))
+        x.buff(StatKey.DMG_BOOST, 0.10, x.targets(TargetTag.Memosprite).source(Source.PenaconyLandOfTheDreams))
       }
     },
   },

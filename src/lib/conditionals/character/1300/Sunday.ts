@@ -216,7 +216,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(
         StatKey.DEF_PEN,
         (e >= 1 && m.e1DefPen && m.skillDmgBuff && hasSummons) ? 0.24 : 0,
-        x.targets(TargetTag.SummonsOnly).deferrable().source(SOURCE_E1),
+        x.targets(TargetTag.Summon).deferrable().source(SOURCE_E1),
       )
 
       // E2 DMG buff
@@ -262,8 +262,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           const buffValue = Math.floor((memoCr - memoUnconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01
 
           action.conditionalState[this.id] = buffValue
-          x.buffDynamic(StatKey.CD, buffValue - stateValue, action, context, x.targets(TargetTag.MemospritesOnly).source(SOURCE_E6))
-          x.buffDynamic(StatKey.UNCONVERTIBLE_CD_BUFF, buffValue - stateValue, action, context, x.targets(TargetTag.MemospritesOnly).source(SOURCE_E6))
+          x.buffDynamic(StatKey.CD, buffValue - stateValue, action, context, x.targets(TargetTag.Memosprite).source(SOURCE_E6))
+          x.buffDynamic(StatKey.UNCONVERTIBLE_CD_BUFF, buffValue - stateValue, action, context, x.targets(TargetTag.Memosprite).source(SOURCE_E6))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>

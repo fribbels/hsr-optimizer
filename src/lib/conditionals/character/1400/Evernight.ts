@@ -329,7 +329,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.CD, (e >= 2 && r.e2CdBuff) ? 0.40 : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E2))
 
       // E4 Break Efficiency (memosprite only)
-      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 4 && r.e4Buffs) ? 0.25 : 0, x.targets(TargetTag.MemospritesOnly).source(SOURCE_E4))
+      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 4 && r.e4Buffs) ? 0.25 : 0, x.targets(TargetTag.Memosprite).source(SOURCE_E4))
 
       // Cyrene special effect - MEMO_SKILL DMG boost
       const cyreneMemoSkillDmgBuff = cyreneActionExists(action)
@@ -349,17 +349,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.VULNERABILITY, (m.enhancedState) ? ultVulnScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
 
       // E1 Final DMG boost (memosprites only, team-wide)
-      x.buff(StatKey.FINAL_DMG_BOOST, (e >= 1 && m.e1FinalDmg) ? e1FinalDmgMap[context.enemyCount] : 0, x.targets(TargetTag.MemospritesOnly).source(SOURCE_E1))
+      x.buff(StatKey.FINAL_DMG_BOOST, (e >= 1 && m.e1FinalDmg) ? e1FinalDmgMap[context.enemyCount] : 0, x.targets(TargetTag.Memosprite).source(SOURCE_E1))
 
       // E4 Break Efficiency (memosprites only, team-wide)
-      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 4 && m.e4Buffs) ? 0.25 : 0, x.targets(TargetTag.MemospritesOnly).source(SOURCE_E4))
+      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 4 && m.e4Buffs) ? 0.25 : 0, x.targets(TargetTag.Memosprite).source(SOURCE_E4))
 
       // Trace: Team memosprite CD buff based on Remembrance path count
       const memosprites = countTeamPath(context, PathNames.Remembrance)
-      if (memosprites == 1) x.buff(StatKey.CD, 0.05, x.targets(TargetTag.MemospritesOnly).source(SOURCE_TRACE))
-      if (memosprites == 2) x.buff(StatKey.CD, 0.15, x.targets(TargetTag.MemospritesOnly).source(SOURCE_TRACE))
-      if (memosprites == 3) x.buff(StatKey.CD, 0.50, x.targets(TargetTag.MemospritesOnly).source(SOURCE_TRACE))
-      if (memosprites == 4) x.buff(StatKey.CD, 0.65, x.targets(TargetTag.MemospritesOnly).source(SOURCE_TRACE))
+      if (memosprites == 1) x.buff(StatKey.CD, 0.05, x.targets(TargetTag.Memosprite).source(SOURCE_TRACE))
+      if (memosprites == 2) x.buff(StatKey.CD, 0.15, x.targets(TargetTag.Memosprite).source(SOURCE_TRACE))
+      if (memosprites == 3) x.buff(StatKey.CD, 0.50, x.targets(TargetTag.Memosprite).source(SOURCE_TRACE))
+      if (memosprites == 4) x.buff(StatKey.CD, 0.65, x.targets(TargetTag.Memosprite).source(SOURCE_TRACE))
 
       // E6 RES PEN (full team)
       x.buff(StatKey.RES_PEN, (e >= 6 && m.e6ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
@@ -374,11 +374,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Skill CD buff to teammate's memosprite
-      x.buff(StatKey.CD, t.skillMemoCdBuff ? skillCdScaling * t.evernightCombatCD : 0, x.targets(TargetTag.MemospritesOnly).source(SOURCE_SKILL))
+      x.buff(StatKey.CD, t.skillMemoCdBuff ? skillCdScaling * t.evernightCombatCD : 0, x.targets(TargetTag.Memosprite).source(SOURCE_SKILL))
       x.buff(
         StatKey.UNCONVERTIBLE_CD_BUFF,
         t.skillMemoCdBuff ? skillCdScaling * t.evernightCombatCD : 0,
-        x.targets(TargetTag.MemospritesOnly).source(SOURCE_SKILL),
+        x.targets(TargetTag.Memosprite).source(SOURCE_SKILL),
       )
 
       // Cyrene additional CD buff
@@ -387,12 +387,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.buff(
           StatKey.CD,
           t.skillMemoCdBuff ? cyreneAdditionalCdScaling * t.evernightCombatCD : 0,
-          x.targets(TargetTag.MemospritesOnly).source(Source.odeTo(EVERNIGHT)),
+          x.targets(TargetTag.Memosprite).source(Source.odeTo(EVERNIGHT)),
         )
         x.buff(
           StatKey.UNCONVERTIBLE_CD_BUFF,
           t.skillMemoCdBuff ? cyreneAdditionalCdScaling * t.evernightCombatCD : 0,
-          x.targets(TargetTag.MemospritesOnly).source(Source.odeTo(EVERNIGHT)),
+          x.targets(TargetTag.Memosprite).source(Source.odeTo(EVERNIGHT)),
         )
       }
     },
@@ -443,11 +443,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           const ownFinalBuffCd = Math.max(0, ownBuffCD - (stateValue ? ownStateBuffCD : 0))
           const odeFinalBuffCd = Math.max(0, odeBuffCD - (stateValue ? odeStateBuffCD : 0))
 
-          x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, ownFinalBuffCd, x.targets(TargetTag.MemospritesOnly).source(SOURCE_SKILL))
-          x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, odeFinalBuffCd, x.targets(TargetTag.MemospritesOnly).source(Source.odeTo(EVERNIGHT)))
+          x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, ownFinalBuffCd, x.targets(TargetTag.Memosprite).source(SOURCE_SKILL))
+          x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, odeFinalBuffCd, x.targets(TargetTag.Memosprite).source(Source.odeTo(EVERNIGHT)))
 
-          x.buffDynamic(StatKey.CD, ownFinalBuffCd, action, context, x.targets(TargetTag.MemospritesOnly).source(SOURCE_SKILL))
-          x.buffDynamic(StatKey.CD, odeFinalBuffCd, action, context, x.targets(TargetTag.MemospritesOnly).source(Source.odeTo(EVERNIGHT)))
+          x.buffDynamic(StatKey.CD, ownFinalBuffCd, action, context, x.targets(TargetTag.Memosprite).source(SOURCE_SKILL))
+          x.buffDynamic(StatKey.CD, odeFinalBuffCd, action, context, x.targets(TargetTag.Memosprite).source(Source.odeTo(EVERNIGHT)))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>

@@ -6,6 +6,7 @@ import {
   ModifierContext,
 } from 'lib/optimization/context/calculateActions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
+import { computeTargetMask } from 'lib/optimization/engine/config/tag'
 import {
   ComputedStatsContainer,
   ComputedStatsContainerConfig,
@@ -233,17 +234,17 @@ function prepareEntitiesForAction(
   }
 
   // Build primary entity registry
-  const primaryEntities: OptimizerEntity[] = primaryEntityNames.map((name) => ({
-    name: name,
-    ...entityDefinitionsMap[name],
-  }))
+  const primaryEntities: OptimizerEntity[] = primaryEntityNames.map((name) => {
+    const def = entityDefinitionsMap[name]
+    return { name, ...def, targetMask: computeTargetMask(def) }
+  })
   const primaryEntityRegistry = new NamedArray(primaryEntities, (entity) => entity.name)
 
   // Build teammate entity registry
-  const teammateEntities: OptimizerEntity[] = teammateEntityNames.map((name) => ({
-    name: name,
-    ...entityDefinitionsMap[name],
-  }))
+  const teammateEntities: OptimizerEntity[] = teammateEntityNames.map((name) => {
+    const def = entityDefinitionsMap[name]
+    return { name, ...def, targetMask: computeTargetMask(def) }
+  })
   const teammateEntityRegistry = new NamedArray(teammateEntities, (entity) => entity.name)
 
   return { primaryEntityRegistry, teammateEntityRegistry }

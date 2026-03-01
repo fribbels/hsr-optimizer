@@ -24,21 +24,13 @@ import { OptimizerEntity } from 'lib/optimization/engine/container/computedStats
 import { OptimizerAction } from 'types/optimizer'
 
 export function matchesTargetTag(entity: OptimizerEntity, targetTag: TargetTag, entities?: OptimizerEntity[]): boolean {
-  if (targetTag === TargetTag.None) return false
-  if (targetTag & TargetTag.Self) return entity.primary
-  if (targetTag & TargetTag.SelfAndPet) return entity.primary || (entity.pet ?? false)
   if (targetTag & TargetTag.FullTeam) return true
-  if (targetTag & TargetTag.SelfAndMemosprite) return entity.primary || entity.memosprite
-  if (targetTag & TargetTag.TargetAndMemosprite) return entity.memosprite
-  if (targetTag & TargetTag.SummonsOnly) return entity.summon
-  if (targetTag & TargetTag.SelfAndSummon) return entity.primary || entity.summon
-  if (targetTag & TargetTag.MemospritesOnly) return entity.memosprite
   if (targetTag & TargetTag.SingleTarget) {
     const primaryEntity = entities?.[SELF_ENTITY_INDEX]
     if (primaryEntity?.memoBuffPriority && entities?.some((e) => e.memosprite)) return entity.memosprite
     return entity.primary || (entity.pet ?? false)
   }
-  return false
+  return (targetTag & entity.targetMask) !== 0
 }
 
 // Value can be a number (compile-time constant) or string (WGSL runtime expression)

@@ -8,10 +8,6 @@ import {
 } from 'lib/optimization/basicStatsArray'
 import { BuffSource } from 'lib/optimization/buffSource'
 import {
-  ComputedStatsConfigBaseType,
-  ComputedStatsConfigType,
-} from 'lib/optimization/config/computedStatsConfig'
-import {
   ACTION_STATS_LENGTH,
   AKeyType,
   AKeyValue,
@@ -48,11 +44,6 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
-
-enum StatCategory {
-  CD,
-  NONE,
-}
 
 export enum Operator {
   ADD,
@@ -150,26 +141,6 @@ function buildEntityTargetCaches(
 
   return { indices, offsets }
 }
-
-export const FullStatsConfig: ComputedStatsConfigType = Object.fromEntries(
-  Object.entries(newStatsConfig).map(([key, value], index) => {
-    const baseValue = value as ComputedStatsConfigBaseType
-
-    return [
-      key,
-      {
-        name: key,
-        index: index,
-        default: baseValue.default ?? 0,
-        flat: baseValue.flat ?? false,
-        whole: baseValue.whole ?? false,
-        bool: baseValue.bool ?? false,
-        category: baseValue.category ?? StatCategory.NONE,
-        label: baseValue.label,
-      },
-    ]
-  }),
-) as ComputedStatsConfigType
 
 export class ComputedStatsContainerConfig {
   public entityRegistry: NamedArray<OptimizerEntity>

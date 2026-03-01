@@ -7,9 +7,7 @@ interface tInput {
   args?: Record<string, string>
 }
 
-interface SimpleLabel extends tInput {
-  composite?: false
-}
+interface SimpleLabel extends tInput {}
 
 export interface StatConfigEntry {
   hit?: boolean
@@ -28,11 +26,8 @@ const keyPrefix = 'ExpandedDataPanel.BuffsAnalysisDisplay.Stats'
 type Prefixed = Resources['optimizerTab']['ExpandedDataPanel']['BuffsAnalysisDisplay']['Stats']
 
 const commonReadableStat = createI18nKey<keyof Resources['common']['ReadableStats']>('common', 'ReadableStats')
-const commonStat = createI18nKey<keyof Resources['common']['Stats']>('common', 'Stats')
 const optimizerTabMisc = createI18nKey<keyof Prefixed['Misc']>('optimizerTab', `${keyPrefix}.Misc`)
-const optimizerTabDmgTypes = createI18nKey<keyof Prefixed['DmgTypes']>('optimizerTab', `${keyPrefix}.DmgTypes`)
 const optimizerTabCompositeSuffix = createI18nKey<keyof Prefixed['CompositeLabels']['Suffix']>('optimizerTab', `${keyPrefix}.CompositeLabels.Suffix`)
-const optimizerTabCompositePrefix = createI18nKey<keyof Prefixed['CompositeLabels']['Prefix']>('optimizerTab', `${keyPrefix}.CompositeLabels.Prefix`)
 const optimizerTabUnconvertible = createI18nKey<keyof Resources['common']['Stats']>('optimizerTab', `${keyPrefix}.Unconvertible`, 'stat')
 const optimizerTabResPen = createI18nKey<keyof Resources['common']['Elements']>('optimizerTab', `${keyPrefix}.ResPen`, 'element')
 

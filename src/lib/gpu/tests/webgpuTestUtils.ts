@@ -155,8 +155,6 @@ const ignoredStats: Record<number, boolean> = {
   [StatKey.WIND_DMG_BOOST]: true,
   [StatKey.IMAGINARY_DMG_BOOST]: true,
   [StatKey.QUANTUM_DMG_BOOST]: true,
-  // COMBO_DMG is written to registers, not the stat position - use COMBO_REGISTER instead
-  [StatKey.COMBO_DMG]: true,
 }
 
 const overridePrecision: Record<number, number> = {

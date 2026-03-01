@@ -25,7 +25,7 @@ import {
   calculateRelicStats,
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
@@ -197,7 +197,7 @@ export function simulateBuild(
 
   calculateEhp(x, context)
 
-  x.a[StatKey.COMBO_DMG] = comboDmg
+  x.setGlobalRegisterValue(GlobalRegister.COMBO_DMG, comboDmg)
 
   // Capture action damage for each default action
   const actionDamage: ActionDamage = {}

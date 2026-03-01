@@ -16,6 +16,7 @@ import {
   AKeyType,
   AKeyValue,
   AToHKey,
+  GLOBAL_REGISTERS_LENGTH,
   getAKeyName,
   HIT_STATS_LENGTH,
   HKeyValue,
@@ -181,11 +182,12 @@ export class ComputedStatsContainerConfig {
   public entityStride: number // actionStatsLength + (hitsLength * hitStatsLength)
   public arrayLength: number
 
-  // Register layout: [Stats...][Action Registers][Hit Registers]
+  // Register layout: [Stats...][Action Registers][Global Registers][Hit Registers]
   public registersOffset: number // Where registers start in array
   public actionRegistersLength: number // Number of action registers
+  public globalRegistersLength: number // Number of global registers (e.g., COMBO_DMG)
   public hitRegistersLength: number // Number of hit registers
-  public totalRegistersLength: number // action + hit registers
+  public totalRegistersLength: number // action + global + hit registers
 
   public actionBuffIndices: Record<number, number[]> // Cached indices for actionBuff/actionSet
   public entityBaseOffsets: Record<number, number[]> // Per-TargetTag entity base offsets for loop-flipped stat writes
@@ -219,13 +221,15 @@ export class ComputedStatsContainerConfig {
     // Stats section: each entity has action stats + hit stats per hit
     const statsArrayLength = this.entitiesLength * this.entityStride
 
-    // Registers section: [Action Registers][Hit Registers]
+    // Registers section: [Action Registers][Global Registers][Hit Registers]
     // Action registers: 1 per action (default + rotation)
+    // Global registers: fixed-size section for cross-action aggregates (e.g., COMBO_DMG)
     // Hit registers: 1 per hit across all actions
     this.registersOffset = statsArrayLength
     this.actionRegistersLength = context.allActions.length
+    this.globalRegistersLength = GLOBAL_REGISTERS_LENGTH
     this.hitRegistersLength = context.outputRegistersLength
-    this.totalRegistersLength = this.actionRegistersLength + this.hitRegistersLength
+    this.totalRegistersLength = this.actionRegistersLength + this.globalRegistersLength + this.hitRegistersLength
 
     // Total array length includes stats + registers
     this.arrayLength = statsArrayLength + this.totalRegistersLength
@@ -338,7 +342,7 @@ export class ComputedStatsContainer {
     this.a = new Float32Array(maxArrayLength)
 
     // Create empty registers array for efficient clearing
-    const totalRegistersLength = context.allActions.length + context.outputRegistersLength
+    const totalRegistersLength = context.allActions.length + GLOBAL_REGISTERS_LENGTH + context.outputRegistersLength
     this.emptyRegisters = new Float32Array(totalRegistersLength)
     this.registersOffset = maxArrayLength - totalRegistersLength
   }
@@ -690,11 +694,15 @@ export class ComputedStatsContainer {
   }
 
   // ============== Registers ==============
-  // Layout: [Stats...][Action Registers][Hit Registers]
+  // Layout: [Stats...][Action Registers][Global Registers][Hit Registers]
   // Indexed from end of array (using maxArrayLength for stability across actions)
 
   setActionRegisterValue(index: number, value: number) {
     this.a[this.registersOffset + index] = value
+  }
+
+  setGlobalRegisterValue(index: number, value: number) {
+    this.a[this.registersOffset + this.config.actionRegistersLength + index] = value
   }
 
   setHitRegisterValue(index: number, value: number) {
@@ -703,6 +711,10 @@ export class ComputedStatsContainer {
 
   getActionRegisterValue(index: number) {
     return this.a[this.registersOffset + index]
+  }
+
+  getGlobalRegisterValue(index: number) {
+    return this.a[this.registersOffset + this.config.actionRegistersLength + index]
   }
 
   getHitRegisterValue(index: number) {

@@ -1,6 +1,7 @@
 import {
   AKeyValue,
   AToHKey,
+  GLOBAL_REGISTERS_LENGTH,
   getAKeyName,
   getHKeyName,
   HKeyValue,
@@ -40,8 +41,13 @@ export function getHitRegisterIndex(hitRegisterIndex: number, config: ComputedSt
 
 // WGSL versions that use maxArrayLength for stability (since WGSL container is always maxArrayLength)
 export function getActionRegisterIndexWgsl(actionRegisterIndex: number, context: OptimizerContext): number {
-  const totalRegistersLength = context.allActions.length + context.outputRegistersLength
+  const totalRegistersLength = context.allActions.length + GLOBAL_REGISTERS_LENGTH + context.outputRegistersLength
   return context.maxContainerArrayLength - totalRegistersLength + actionRegisterIndex
+}
+
+export function getGlobalRegisterIndexWgsl(globalRegisterIndex: number, context: OptimizerContext): number {
+  const totalRegistersLength = context.allActions.length + GLOBAL_REGISTERS_LENGTH + context.outputRegistersLength
+  return context.maxContainerArrayLength - totalRegistersLength + context.allActions.length + globalRegisterIndex
 }
 
 export function getHitRegisterIndexWgsl(hitRegisterIndex: number, context: OptimizerContext): number {

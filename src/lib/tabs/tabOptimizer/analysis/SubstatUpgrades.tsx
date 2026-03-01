@@ -5,7 +5,8 @@ import {
 } from 'antd'
 import { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
-import { AKeyType, StatKey } from 'lib/optimization/engine/config/keys'
+import { AKeyType, GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
 import {
   calculateStatUpgrades,
@@ -57,10 +58,12 @@ export function DamageUpgrades(props: {
       key: metric,
       upgrades: [],
     }
-    const statKeyValue = StatKey[metric as AKeyType]
+    const getValue = metric in GlobalRegister
+      ? (x: ComputedStatsContainer) => x.getGlobalRegisterValue(GlobalRegister[metric as keyof typeof GlobalRegister])
+      : (x: ComputedStatsContainer) => x.getSelfValue(StatKey[metric as AKeyType])
     for (const statUpgrade of statUpgrades) {
-      const baseValue = analysis.newX.getSelfValue(statKeyValue)
-      const upgradeValue = statUpgrade.x.getSelfValue(statKeyValue)
+      const baseValue = getValue(analysis.newX)
+      const upgradeValue = getValue(statUpgrade.x)
       const diff = upgradeValue - baseValue
       if (diff > 1) {
         const percent = diff / baseValue

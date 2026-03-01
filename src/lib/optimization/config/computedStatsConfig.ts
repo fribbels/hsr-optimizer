@@ -129,8 +129,6 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   DMG_RED: { label: optimizerTabMisc('DMG reduction') }, // Dmg reduction for EHP calcs - defaults to 0 (no reduction), uses MULTIPLICATIVE_COMPLEMENT operator
   EHP: { flat: true, label: optimizerTabMisc('Effective HP') },
 
-  COMBO_DMG: { flat: true, label: optimizerTabMisc('Combo DMG') },
-
   // DOT
   DOT_CHANCE: { label: optimizerTabMisc('Dot base chance') },
   EFFECT_RES_PEN: { label: optimizerTabMisc('Effect RES PEN') },

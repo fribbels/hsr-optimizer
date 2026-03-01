@@ -6,6 +6,7 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   containerActionVal,
   getActionIndex,
+  getGlobalRegisterIndexWgsl,
   wgslDebugActionRegister,
 } from 'lib/gpu/injection/injectUtils'
 import {
@@ -16,6 +17,8 @@ import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import {
   AKey,
   AKeyValue,
+  GLOBAL_REGISTERS_LENGTH,
+  GlobalRegister,
   HKey,
 } from 'lib/optimization/engine/config/keys'
 import {
@@ -90,10 +93,14 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
     }
   }
 
+  // Write comboDmg to global register for debug mode
+  const comboGlobalRegIdx = getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_DMG, context)
+
   if (!gpuParams.DEBUG) {
     unrolledActionCallsWgsl += generateRatingFilters(request, context, gpuParams)
     unrolledActionCallsWgsl += generateSortOptionReturn(request, context)
   } else {
+    unrolledActionCallsWgsl += `    debugContainer[${comboGlobalRegIdx}] = comboDmg; // GlobalRegister[COMBO_DMG]\n`
     unrolledActionCallsWgsl += `
     results[index] = debugContainer;
 `
@@ -255,9 +262,9 @@ ${compactWrite(`dmg${matchingIndex}`)}
 }
 
 function generateRegisterCopy(actionIndex: number, action: OptimizerAction, context: OptimizerContext): string {
-  const registersOffset = context.maxContainerArrayLength - (context.allActions.length + context.outputRegistersLength)
+  const registersOffset = context.maxContainerArrayLength - (context.allActions.length + GLOBAL_REGISTERS_LENGTH + context.outputRegistersLength)
   const actionRegisterOffset = registersOffset
-  const hitRegisterOffset = registersOffset + context.allActions.length
+  const hitRegisterOffset = registersOffset + context.allActions.length + GLOBAL_REGISTERS_LENGTH
 
   let code = `    // Copy action ${actionIndex} registers to debug container\n`
 

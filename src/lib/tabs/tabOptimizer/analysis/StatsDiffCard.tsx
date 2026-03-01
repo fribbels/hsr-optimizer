@@ -6,7 +6,7 @@ import {
 import StatText from 'lib/characterPreview/StatText'
 import { Stats } from 'lib/constants/constants'
 import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { CharacterPreviewInternalImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
 import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
@@ -64,10 +64,15 @@ function StatDiffSummary(props: { analysis: OptimizerResultAnalysis }) {
   oldStats[analysis.elementalDmgValue] += analysis.oldX.getSelfValue(StatKey.DMG_BOOST)
   newStats[analysis.elementalDmgValue] += analysis.newX.getSelfValue(StatKey.DMG_BOOST)
 
+  // COMBO_DMG is stored in global registers, inject for display
+  const oldCombo = analysis.oldX.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
+  const newCombo = analysis.newX.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
+  ;(oldStats as Record<string, number>).COMBO_DMG = oldCombo
+  ;(newStats as Record<string, number>).COMBO_DMG = newCombo
   // @ts-ignore For compatibility with StatRow
-  oldStats.simScore = oldStats.COMBO_DMG
+  oldStats.simScore = oldCombo
   // @ts-ignore For compatibility with StatRow
-  newStats.simScore = newStats.COMBO_DMG
+  newStats.simScore = newCombo
 
   return (
     <StatText style={{ width: '100%' }}>
@@ -96,11 +101,11 @@ function StatDiffSummary(props: { analysis: OptimizerResultAnalysis }) {
 function DiffRow(props: {
   oldStats: ComputedStatsObjectExternal,
   newStats: ComputedStatsObjectExternal,
-  stat: keyof ComputedStatsObjectExternal,
+  stat: keyof ComputedStatsObjectExternal | 'COMBO_DMG',
 }) {
   const { oldStats, newStats, stat } = props
-  const oldValue = TsUtils.precisionRound(oldStats[stat])
-  const newValue = TsUtils.precisionRound(newStats[stat])
+  const oldValue = TsUtils.precisionRound((oldStats as Record<string, number>)[stat])
+  const newValue = TsUtils.precisionRound((newStats as Record<string, number>)[stat])
 
   const { valueDisplay } = getStatRenderValues(
     newValue,

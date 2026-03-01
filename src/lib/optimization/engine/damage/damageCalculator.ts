@@ -160,7 +160,7 @@ export const CritDamageFunction: DamageFunction = {
     return wgsl`
 {
   // Common multipliers
-  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? 1.0 : 0.9};
+  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
   let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
   let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
@@ -258,7 +258,7 @@ export const DotDamageFunction: DamageFunction = {
     return wgsl`
 {
   // Common multipliers
-  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? 1.0 : 0.9};
+  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
   let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
   let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
@@ -351,7 +351,7 @@ export const BreakDamageFunction: DamageFunction = {
     return wgsl`
 {
   // Common multipliers
-  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? 1.0 : 0.9};
+  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
   let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
   let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
@@ -440,7 +440,7 @@ export const SuperBreakDamageFunction: DamageFunction = {
     return wgsl`
 {
   // Common multipliers
-  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? 1.0 : 0.9};
+  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
   let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
   let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
@@ -539,7 +539,7 @@ export const AdditionalDamageFunction: DamageFunction = {
     return wgsl`
 {
   // Common multipliers
-  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? 1.0 : 0.9};
+  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
   let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
   let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
@@ -762,7 +762,7 @@ export const HealTallyDamageFunction: DamageFunction = {
     return wgsl`
 {
   // Common multipliers
-  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? 1.0 : 0.9};
+  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
   let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
   let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
@@ -850,7 +850,7 @@ export const ElationDamageFunction: DamageFunction = {
     return wgsl`
 {
   // Common multipliers
-  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? 1.0 : 0.9};
+  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
   let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
   let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};

@@ -560,7 +560,7 @@ export class ComputedStatsContainer {
     actionKind: string | undefined,
     deferrable: boolean = false,
   ): void {
-    if (value == 0 && operator == Operator.ADD) return
+    if (value === 0 && operator === Operator.ADD) return
 
     // Deferrable buffs are skipped when the character deprioritizes buffs (subdps)
     if (deferrable && this.config.deprioritizeBuffs) return
@@ -633,7 +633,7 @@ export class ComputedStatsContainer {
     damageTags: DamageTag,
     outputTags: OutputTag,
   ): void {
-    if (value == 0 && operator == Operator.ADD) return
+    if (value === 0 && operator === Operator.ADD) return
 
     for (const conditional of action.conditionalRegistry[aKeyToConvertibleStat[key]] || []) {
       evaluateConditional(conditional, this, action, context)

@@ -7,9 +7,7 @@ interface tInput {
   args?: Record<string, string>
 }
 
-interface SimpleLabel extends tInput {
-  composite?: false
-}
+interface SimpleLabel extends tInput {}
 
 export interface StatConfigEntry {
   hit?: boolean

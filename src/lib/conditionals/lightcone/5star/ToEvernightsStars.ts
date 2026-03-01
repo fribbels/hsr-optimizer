@@ -65,7 +65,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.DEF_PEN, (m.defPen) ? sValuesDefPen[s] : 0, x.targets(TargetTag.MemospritesOnly).source(SOURCE_LC))
+      x.buff(StatKey.DEF_PEN, (m.defPen) ? sValuesDefPen[s] : 0, x.targets(TargetTag.Memosprite).source(SOURCE_LC))
     },
   }
 }

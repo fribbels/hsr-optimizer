@@ -128,6 +128,7 @@ export interface EntityDefinition {
   summon: boolean
   memosprite: boolean
   pet?: boolean
+  targetMask?: number
 
   teammate?: boolean
 

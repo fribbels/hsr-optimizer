@@ -596,7 +596,7 @@ fn unrolledAction${index}(
     ornament2p(*p_sets, SET_PenaconyLandOfTheDreams) >= 1
     && setConditionals.enabledPenaconyLandOfTheDreams == true
   ) {
-    ${buff.action(AKey.DMG_BOOST, 0.10).targets(TargetTag.MemospritesOnly).wgsl(action, 2)}
+    ${buff.action(AKey.DMG_BOOST, 0.10).targets(TargetTag.Memosprite).wgsl(action, 2)}
   }
 
   if (ornament2p(*p_sets, SET_ArcadiaOfWovenDreams) >= 1) {

@@ -40,7 +40,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.CD_BOOST, r.memoCdBoost ? sValuesMemoCd[s] : 0, x.targets(TargetTag.MemospritesOnly).source(SOURCE_LC))
+      x.buff(StatKey.CD_BOOST, r.memoCdBoost ? sValuesMemoCd[s] : 0, x.targets(TargetTag.Memosprite).source(SOURCE_LC))
     },
   }
 }

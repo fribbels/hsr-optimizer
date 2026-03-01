@@ -25,15 +25,26 @@ export enum ElementTag {
 
 export enum TargetTag {
   None = 0,
+
+  // Atomic entity flags
   Self = 1,
-  SelfAndPet = 2,
-  FullTeam = 4,
-  TargetAndMemosprite = 8,
-  SelfAndMemosprite = 16,
-  SummonsOnly = 32,
-  SelfAndSummon = 64,
-  MemospritesOnly = 128,
-  SingleTarget = 256,
+  Pet = 2,
+  Memosprite = 4,
+  Summon = 8,
+  FullTeam = 16,
+  SingleTarget = 32,
+
+  // Composed
+  SelfAndPet = Self | Pet,
+  SelfAndMemosprite = Self | Memosprite,
+  SelfAndSummon = Self | Summon,
+}
+
+export function computeTargetMask(entity: { primary: boolean; pet?: boolean; memosprite: boolean; summon: boolean }): number {
+  return (entity.primary ? TargetTag.Self : 0)
+    | (entity.pet ? TargetTag.Pet : 0)
+    | (entity.memosprite ? TargetTag.Memosprite : 0)
+    | (entity.summon ? TargetTag.Summon : 0)
 }
 
 export type Tag = ElementTag | DamageTag

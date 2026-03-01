@@ -85,29 +85,20 @@ const OPERATOR_MAP: Record<Operator, Operation> = {
 function entityMatchesTargetTag(
   entity: OptimizerEntity,
   targetTags: number,
-  entityRegistry: NamedArray<OptimizerEntity>,
-  entitiesLength: number,
+  entities: OptimizerEntity[],
 ): boolean {
-  if (targetTags & TargetTag.Self) return entity.primary
-  else if (targetTags & TargetTag.SelfAndPet) return entity.primary || (entity.pet ?? false)
-  else if (targetTags & TargetTag.FullTeam) return true
-  else if (targetTags & TargetTag.SelfAndMemosprite) return entity.primary || entity.memosprite
-  else if (targetTags & TargetTag.SummonsOnly) return entity.summon
-  else if (targetTags & TargetTag.SelfAndSummon) return entity.primary || entity.summon
-  else if (targetTags & TargetTag.MemospritesOnly) return entity.memosprite
-  else if (targetTags & TargetTag.SingleTarget) {
-    const primaryEntity = entityRegistry.get(SELF_ENTITY_INDEX)!
-    const hasMemosprite = Array.from({ length: entitiesLength }, (_, i) => entityRegistry.get(i)!).some((e) => e.memosprite)
-    if (primaryEntity.memoBuffPriority && hasMemosprite) return entity.memosprite
-    else return entity.primary || (entity.pet ?? false)
-  } else if (targetTags === TargetTag.None) return false
-  return false
+  if (targetTags & TargetTag.FullTeam) return true
+  if (targetTags & TargetTag.SingleTarget) {
+    const primaryEntity = entities[SELF_ENTITY_INDEX]
+    if (primaryEntity.memoBuffPriority && entities.some((e) => e.memosprite)) return entity.memosprite
+    return entity.primary || (entity.pet ?? false)
+  }
+  return (targetTags & entity.targetMask) !== 0
 }
 
 // Precompute all actionBuff/actionSet indices
 function buildActionBuffIndexCache(
-  entityRegistry: NamedArray<OptimizerEntity>,
-  entitiesLength: number,
+  entities: OptimizerEntity[],
   actionStatsLength: number,
   hitStatsLength: number,
   hitsLength: number,
@@ -121,9 +112,8 @@ function buildActionBuffIndexCache(
     for (let statKey = 0; statKey < actionStatsLength; statKey++) {
       const indices: number[] = []
 
-      for (let entityIndex = 0; entityIndex < entitiesLength; entityIndex++) {
-        const entity = entityRegistry.get(entityIndex)!
-        if (entityMatchesTargetTag(entity, targetTags, entityRegistry, entitiesLength)) {
+      for (let entityIndex = 0; entityIndex < entities.length; entityIndex++) {
+        if (entityMatchesTargetTag(entities[entityIndex], targetTags, entities)) {
           indices.push(entityIndex * entityStride + statKey)
         }
       }
@@ -138,8 +128,7 @@ function buildActionBuffIndexCache(
 
 // Precompute entity base offsets per TargetTag for loop-flipped stat writes
 function buildEntityBaseOffsets(
-  entityRegistry: NamedArray<OptimizerEntity>,
-  entitiesLength: number,
+  entities: OptimizerEntity[],
   entityStride: number,
 ): Record<number, number[]> {
   const offsets: Record<number, number[]> = {}
@@ -147,9 +136,8 @@ function buildEntityBaseOffsets(
 
   for (const targetTags of allTargetTags) {
     const matched: number[] = []
-    for (let entityIndex = 0; entityIndex < entitiesLength; entityIndex++) {
-      const entity = entityRegistry.get(entityIndex)!
-      if (entityMatchesTargetTag(entity, targetTags, entityRegistry, entitiesLength)) {
+    for (let entityIndex = 0; entityIndex < entities.length; entityIndex++) {
+      if (entityMatchesTargetTag(entities[entityIndex], targetTags, entities)) {
         matched.push(entityIndex * entityStride)
       }
     }
@@ -242,8 +230,7 @@ export class ComputedStatsContainerConfig {
 
     // Precompute actionBuff indices for performance
     this.actionBuffIndices = buildActionBuffIndexCache(
-      entityRegistry,
-      this.entitiesLength,
+      this.entitiesArray,
       this.actionStatsLength,
       this.hitStatsLength,
       this.hitsLength,
@@ -251,8 +238,7 @@ export class ComputedStatsContainerConfig {
 
     // Precompute entity base offsets per TargetTag for loop-flipped stat writes
     this.entityBaseOffsets = buildEntityBaseOffsets(
-      entityRegistry,
-      this.entitiesLength,
+      this.entitiesArray,
       this.entityStride,
     )
 
@@ -699,19 +685,13 @@ export class ComputedStatsContainer {
   }
 
   private matchesTargetTags(entity: OptimizerEntity, entityIndex: number, targetTags: TargetTag): boolean {
-    if (targetTags & TargetTag.Self) return entity.primary
-    if (targetTags & TargetTag.SelfAndPet) return entity.primary || (entity.pet ?? false)
     if (targetTags & TargetTag.FullTeam) return true
-    if (targetTags & TargetTag.SelfAndMemosprite) return entity.primary || entity.memosprite
-    if (targetTags & TargetTag.SummonsOnly) return entity.summon
-    if (targetTags & TargetTag.SelfAndSummon) return entity.primary || entity.summon
-    if (targetTags & TargetTag.MemospritesOnly) return entity.memosprite
     if (targetTags & TargetTag.SingleTarget) {
       const primaryEntity = this.config.entitiesArray[SELF_ENTITY_INDEX]
       if (primaryEntity.memoBuffPriority && this.config.entitiesArray.some((e) => e.memosprite)) return entity.memosprite
       return entity.primary || (entity.pet ?? false)
     }
-    return false
+    return (targetTags & entity.targetMask) !== 0
   }
 
   // ============== Registers ==============
@@ -888,4 +868,4 @@ const ContainerKeyToExternal: Partial<Record<AKeyType, StatsValues>> = {
   ELATION: Stats.Elation,
 }
 
-export type OptimizerEntity = EntityDefinition & { name: string }
+export type OptimizerEntity = EntityDefinition & { name: string; targetMask: number }

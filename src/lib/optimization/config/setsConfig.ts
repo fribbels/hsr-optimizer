@@ -233,7 +233,7 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
       c.CR.buff(0.08, Source.AmphoreusTheEternalLand)
     },
     p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (x.getActionValueByIndex(StatKey.MEMOSPRITE, SELF_ENTITY_INDEX) > 0 && setConditionals.enabledAmphoreusTheEternalLand) {
+      if (x.config.hasMemosprite && setConditionals.enabledAmphoreusTheEternalLand) {
         x.buff(StatKey.SPD_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.AmphoreusTheEternalLand))
       }
     },

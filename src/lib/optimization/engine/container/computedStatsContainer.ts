@@ -190,6 +190,8 @@ export class ComputedStatsContainerConfig {
   public actionBuffIndices: Record<number, number[]> // Cached indices for actionBuff/actionSet
   public entityBaseOffsets: Record<number, number[]> // Per-TargetTag entity base offsets for loop-flipped stat writes
   public deprioritizeBuffs: boolean
+  public hasMemosprite: boolean
+  public hasSummons: boolean
 
   constructor(
     action: OptimizerAction,
@@ -242,6 +244,8 @@ export class ComputedStatsContainerConfig {
     )
 
     this.deprioritizeBuffs = context.deprioritizeBuffs
+    this.hasMemosprite = this.entitiesArray.some((e) => e.memosprite)
+    this.hasSummons = this.entitiesArray.some((e) => e.summon)
   }
 }
 

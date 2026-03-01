@@ -418,7 +418,7 @@ fn unrolledAction${index}(
   if (
     ornament2p(*p_sets, SET_AmphoreusTheEternalLand) >= 1
     && setConditionals.enabledAmphoreusTheEternalLand == true
-    && ${containerActionVal(SELF_ENTITY_INDEX, AKey.MEMOSPRITE, action.config)} >= 1
+    && ${action.config.hasMemosprite}
   ) {
     ${buff.action(AKey.SPD_P, 0.08).targets(TargetTag.FullTeam).wgsl(action, 2)}
   }

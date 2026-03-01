@@ -194,7 +194,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
-      const hasSummons = x.getActionValueByIndex(StatKey.SUMMONS, SELF_ENTITY_INDEX) > 0
+      const hasSummons = action.config.hasSummons
 
       // Talent CR buff
       x.buff(StatKey.CR, m.talentCrBuffStacks * talentCrBuffValue, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_TALENT))

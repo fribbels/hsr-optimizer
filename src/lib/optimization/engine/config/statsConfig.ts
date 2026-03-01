@@ -102,8 +102,6 @@ export const newStatsConfig = {
   EHP: { flat: true, label: optimizerTabMisc('Effective HP') },
 
   // Misc configs
-  SUMMONS: { flat: true, label: optimizerTabMisc('Summons') }, // Remove
-  MEMOSPRITE: { bool: true, label: optimizerTabMisc('Memosprite') }, // Remove
   ENEMY_WEAKNESS_BROKEN: { bool: true, label: optimizerTabMisc('Enemy weakness broken') }, // Remove
 
 

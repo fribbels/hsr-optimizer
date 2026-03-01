@@ -130,8 +130,6 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   EHP: { flat: true, label: optimizerTabMisc('Effective HP') },
 
   // Misc configs
-  SUMMONS: { flat: true, label: optimizerTabMisc('Summons') },
-  MEMOSPRITE: { bool: true, label: optimizerTabMisc('Memosprite') },
   ENEMY_WEAKNESS_BROKEN: { bool: true, label: optimizerTabMisc('Enemy weakness broken') },
 
 

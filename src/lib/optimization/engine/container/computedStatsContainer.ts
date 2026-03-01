@@ -126,25 +126,29 @@ function buildActionBuffIndexCache(
   return cache
 }
 
-// Precompute entity base offsets per TargetTag for loop-flipped stat writes
-function buildEntityBaseOffsets(
+// Precompute per-TargetTag entity indices and base offsets
+function buildEntityTargetCaches(
   entities: OptimizerEntity[],
   entityStride: number,
-): Record<number, number[]> {
+): { indices: Record<number, number[]>; offsets: Record<number, number[]> } {
+  const indices: Record<number, number[]> = {}
   const offsets: Record<number, number[]> = {}
   const allTargetTags = Object.values(TargetTag).filter((v): v is number => typeof v === 'number')
 
   for (const targetTags of allTargetTags) {
-    const matched: number[] = []
+    const matchedIndices: number[] = []
+    const matchedOffsets: number[] = []
     for (let entityIndex = 0; entityIndex < entities.length; entityIndex++) {
       if (entityMatchesTargetTag(entities[entityIndex], targetTags, entities)) {
-        matched.push(entityIndex * entityStride)
+        matchedIndices.push(entityIndex)
+        matchedOffsets.push(entityIndex * entityStride)
       }
     }
-    offsets[targetTags] = matched
+    indices[targetTags] = matchedIndices
+    offsets[targetTags] = matchedOffsets
   }
 
-  return offsets
+  return { indices, offsets }
 }
 
 export const FullStatsConfig: ComputedStatsConfigType = Object.fromEntries(
@@ -190,6 +194,7 @@ export class ComputedStatsContainerConfig {
 
   public actionBuffIndices: Record<number, number[]> // Cached indices for actionBuff/actionSet
   public entityBaseOffsets: Record<number, number[]> // Per-TargetTag entity base offsets for loop-flipped stat writes
+  public targetEntityIndices: Record<number, number[]> // Per-TargetTag entity indices for internalBuff
   public deprioritizeBuffs: boolean
 
   constructor(
@@ -236,11 +241,13 @@ export class ComputedStatsContainerConfig {
       this.hitsLength,
     )
 
-    // Precompute entity base offsets per TargetTag for loop-flipped stat writes
-    this.entityBaseOffsets = buildEntityBaseOffsets(
+    // Precompute per-TargetTag entity indices and base offsets
+    const entityCaches = buildEntityTargetCaches(
       this.entitiesArray,
       this.entityStride,
     )
+    this.targetEntityIndices = entityCaches.indices
+    this.entityBaseOffsets = entityCaches.offsets
 
     this.deprioritizeBuffs = context.deprioritizeBuffs
   }
@@ -560,7 +567,7 @@ export class ComputedStatsContainer {
     actionKind: string | undefined,
     deferrable: boolean = false,
   ): void {
-    if (value == 0 && operator == Operator.ADD) return
+    if (value === 0 && operator === Operator.ADD) return
 
     // Deferrable buffs are skipped when the character deprioritizes buffs (subdps)
     if (deferrable && this.config.deprioritizeBuffs) return
@@ -633,7 +640,7 @@ export class ComputedStatsContainer {
     damageTags: DamageTag,
     outputTags: OutputTag,
   ): void {
-    if (value == 0 && operator == Operator.ADD) return
+    if (value === 0 && operator === Operator.ADD) return
 
     for (const conditional of action.conditionalRegistry[aKeyToConvertibleStat[key]] || []) {
       evaluateConditional(conditional, this, action, context)
@@ -645,14 +652,7 @@ export class ComputedStatsContainer {
       return [target]
     }
 
-    const targets: number[] = []
-    for (let i = 0; i < this.config.entitiesLength; i++) {
-      const entity = this.config.entitiesArray[i]
-      if (this.matchesTargetTags(entity, i, targetTags)) {
-        targets.push(i)
-      }
-    }
-    return targets
+    return this.config.targetEntityIndices[targetTags]
   }
 
   private applyToMatchingHits(
@@ -682,16 +682,6 @@ export class ComputedStatsContainer {
         operation(this.a, this.getHitIndex(entityIndex, hitIndex, hitKey), value)
       }
     }
-  }
-
-  private matchesTargetTags(entity: OptimizerEntity, entityIndex: number, targetTags: TargetTag): boolean {
-    if (targetTags & TargetTag.FullTeam) return true
-    if (targetTags & TargetTag.SingleTarget) {
-      const primaryEntity = this.config.entitiesArray[SELF_ENTITY_INDEX]
-      if (primaryEntity.memoBuffPriority && this.config.entitiesArray.some((e) => e.memosprite)) return entity.memosprite
-      return entity.primary || (entity.pet ?? false)
-    }
-    return (targetTags & entity.targetMask) !== 0
   }
 
   // ============== Registers ==============

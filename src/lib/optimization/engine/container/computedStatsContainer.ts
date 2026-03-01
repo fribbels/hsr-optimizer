@@ -192,6 +192,7 @@ export class ComputedStatsContainerConfig {
   public deprioritizeBuffs: boolean
   public hasMemosprite: boolean
   public hasSummons: boolean
+  public enemyWeaknessBroken: boolean
 
   constructor(
     action: OptimizerAction,
@@ -246,6 +247,7 @@ export class ComputedStatsContainerConfig {
     this.deprioritizeBuffs = context.deprioritizeBuffs
     this.hasMemosprite = this.entitiesArray.some((e) => e.memosprite)
     this.hasSummons = this.entitiesArray.some((e) => e.summon)
+    this.enemyWeaknessBroken = context.enemyWeaknessBroken
   }
 }
 

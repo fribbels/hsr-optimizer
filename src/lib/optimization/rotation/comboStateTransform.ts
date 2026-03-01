@@ -203,9 +203,6 @@ export function precomputeConditionals(action: OptimizerAction, comboState: Comb
   const container = action.precomputedStats
 
 
-  // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
-  container.actionSet(StatKey.ENEMY_WEAKNESS_BROKEN, container.a[StatKey.ENEMY_WEAKNESS_BROKEN] || context.enemyWeaknessBroken ? 1 : 0)
-
   lightConeConditionals.initializeConfigurationsContainer?.(container, action, context)
   characterConditionals.initializeConfigurationsContainer?.(container, action, context)
 

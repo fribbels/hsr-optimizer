@@ -101,10 +101,6 @@ export const newStatsConfig = {
   DMG_RED: { label: optimizerTabMisc('DMG reduction') }, // Dmg reduction for EHP calcs - defaults to 0 (no reduction), uses MULTIPLICATIVE_COMPLEMENT operator
   EHP: { flat: true, label: optimizerTabMisc('Effective HP') },
 
-  // Misc configs
-  ENEMY_WEAKNESS_BROKEN: { bool: true, label: optimizerTabMisc('Enemy weakness broken') }, // Remove
-
-
   COMBO_DMG: { flat: true, label: optimizerTabMisc('Combo DMG') }, // Remove
 
   EFFECT_RES_PEN: { label: optimizerTabMisc('Effect RES PEN') },

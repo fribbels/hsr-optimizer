@@ -252,7 +252,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // E1 DEF shred when enemy is weakness broken
-      const isWeaknessBroken = x.getSelfValue(StatKey.ENEMY_WEAKNESS_BROKEN)
+      const isWeaknessBroken = action.config.enemyWeaknessBroken
       x.buff(StatKey.DEF_PEN, (e >= 1 && m.e1DefShred && isWeaknessBroken) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
 
       x.buff(StatKey.VULNERABILITY, (m.befogState) ? ultBreakVulnerability : 0, x.damageType(DamageTag.BREAK).targets(TargetTag.FullTeam).source(SOURCE_ULT))

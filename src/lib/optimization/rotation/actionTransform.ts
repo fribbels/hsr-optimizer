@@ -5,7 +5,6 @@ import {
   ActionModifier,
   ModifierContext,
 } from 'lib/optimization/context/calculateActions'
-import { StatKey } from 'lib/optimization/engine/config/keys'
 import { computeTargetMask } from 'lib/optimization/engine/config/tag'
 import {
   ComputedStatsContainer,
@@ -181,10 +180,6 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
   // ========== PHASE 4: PRECOMPUTATION ==========
 
   for (const action of allActions) {
-    if (context.enemyWeaknessBroken) {
-      action.precomputedStats.actionBuff(StatKey.ENEMY_WEAKNESS_BROKEN, 1)
-    }
-
     precomputeConditionals(action, comboState, context)
     calculateContextConditionalRegistry(action, context)
   }

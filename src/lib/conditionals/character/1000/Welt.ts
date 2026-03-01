@@ -180,7 +180,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       // Trace: +20% Elemental DMG when enemy weakness broken
-      const isWeaknessBroken = x.getActionValue(StatKey.ENEMY_WEAKNESS_BROKEN, WeltEntities.Welt)
+      const isWeaknessBroken = action.config.enemyWeaknessBroken
       x.buff(StatKey.DMG_BOOST, isWeaknessBroken ? 0.20 : 0, x.source(SOURCE_TRACE))
     },
 

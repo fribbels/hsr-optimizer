@@ -57,7 +57,6 @@ export type OptimizerAction = {
   teammateDynamicConditionals: DynamicConditional[],
   // Teammate data all gets precomputed, only the non-precomputable values go in here
 
-  registerIndices: number[],
   registerIndex: number,
 }
 

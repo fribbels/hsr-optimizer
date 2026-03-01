@@ -90,13 +90,10 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
   const allActions = [...defaultActions, ...rotationActions]
 
   for (const action of allActions) {
-    action.registerIndices = []
-
     for (let i = 0; i < action.hits!.length; i++) {
       const hit = action.hits![i]
       hit.localHitIndex = i
       hit.registerIndex = hitCounter
-      action.registerIndices.push(hitCounter)
       hitCounter++
     }
     action.registerIndex = actionCounter++

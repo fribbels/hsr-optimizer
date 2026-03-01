@@ -11,27 +11,6 @@
 // END ACTIONS DEFINITION
 
 
-const BASIC_DMG_TYPE = 1;
-const SKILL_DMG_TYPE = 2;
-const ULT_DMG_TYPE = 4;
-const FUA_DMG_TYPE = 8;
-const DOT_DMG_TYPE = 16;
-const BREAK_DMG_TYPE = 32;
-const SUPER_BREAK_DMG_TYPE = 64;
-const MEMO_DMG_TYPE = 128;
-const ADDITIONAL_DMG_TYPE = 256;
-
-const BASIC_ABILITY_TYPE = 1;
-const SKILL_ABILITY_TYPE = 2;
-const ULT_ABILITY_TYPE = 4;
-const FUA_ABILITY_TYPE = 8;
-const DOT_ABILITY_TYPE = 16;
-const BREAK_ABILITY_TYPE = 32;
-const MEMO_SKILL_ABILITY_TYPE = 64;
-const MEMO_TALENT_ABILITY_TYPE = 128;
-const ELATION_SKILL_ABILITY_TYPE = 256;
-
-
 
 @group(0) @binding(0) var<uniform> params : Params;
 
@@ -357,25 +336,6 @@ fn main(
 }
 
 
-fn calculateInitial(
-  p_x: ptr<function, ComputedStats>,
-  abilityDmg: f32,
-  hpScaling: f32,
-  defScaling: f32,
-  atkScaling: f32,
-  atkBoostP: f32
-) -> f32 {
-  let x = *p_x;
-  return abilityDmg
-    + hpScaling * x.HP
-    + defScaling * x.DEF
-    + atkScaling * (x.ATK + atkBoostP * baseATK);
-}
-
-fn calculateDefMulti(defPen: f32) -> f32 {
-  return (100.0f) / ((f32(enemyLevel) + 20.0f) * max(0.0f, 1.0f - defPen) + 100.0f);
-}
-
 
 fn getPioneerSetValue(
   index: i32,
@@ -433,20 +393,6 @@ fn getArcadiaOfWovenDreamsValue(
   }
 }
 
-fn calculateAshblazingSetP(
-  setCount: i32,
-  valueTheAshblazingGrandDuke: i32,
-  hitMulti: f32,
-) -> f32 {
-  if (setCount >= 4) {
-    let ashblazingAtk = 0.06 * f32(valueTheAshblazingGrandDuke);
-    let ashblazingMulti = hitMulti;
-
-    return ashblazingMulti - ashblazingAtk;
-  }
-
-  return 0;
-}
 
 // START UNROLLED ACTION FUNCTIONS
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗

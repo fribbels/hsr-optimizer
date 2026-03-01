@@ -25,7 +25,8 @@ import {
   calculateComputedStats,
   calculateElementalStats,
   calculateRelicStats,
-  calculateSetCounts,
+  calculateSetCountsInPlace,
+  SetCounts,
 } from 'lib/optimization/calculateStats'
 import { BasicKey, BasicKeyType } from 'lib/optimization/basicStatsArray'
 import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
@@ -176,6 +177,9 @@ export function optimizerWorker(e: MessageEvent) {
   const failsEhpFilter = ehpFilter(request)
   const failsRatingFilter = ratingFilter(request, context)
 
+  const sets = new Array(6)
+  const setCounts: SetCounts = { relicMatch2: 0, relicMatch4: 0, ornamentMatch2: 0 }
+
   for (let col = 0; col < limit; col++) {
     const index = data.skip + col
 
@@ -214,8 +218,14 @@ export function optimizerWorker(e: MessageEvent) {
       continue
     }
 
-    const sets = [setH, setG, setB, setF, setP, setL]
-    const setCounts = calculateSetCounts(sets)
+    sets[0] = setH
+    sets[1] = setG
+    sets[2] = setB
+    sets[3] = setF
+    sets[4] = setP
+    sets[5] = setL
+
+    calculateSetCountsInPlace(setCounts, sets)
     c.init(relicSetIndex, ornamentSetIndex, setCounts, sets, col)
 
     calculateBasicSetEffects(c, context, setCounts, sets)

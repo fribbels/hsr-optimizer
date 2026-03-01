@@ -124,8 +124,7 @@ export class BasicStatsArrayCore {
     this.trace = trace
     this.relicSetIndex = 0
     this.ornamentSetIndex = 0
-    // @ts-ignore
-    this.sets = {}
+    this.sets = { relicMatch2: 0, relicMatch4: 0, ornamentMatch2: 0 }
     this.setsArray = []
     this.id = -1
     this.weight = 0

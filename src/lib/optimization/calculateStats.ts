@@ -1,4 +1,4 @@
-import { Sets, Stats, StatsValues, } from 'lib/constants/constants'
+import { Stats, StatsValues, } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   BelobogOfTheArchitectsConditional,
@@ -27,52 +27,60 @@ const ornamentIndexToSetConfig = Object.entries(OrnamentSetsConfig)
   .sort((a, b) => a[1].index - b[1].index)
   .map((entry) => entry[1])
 
-const ornamentIndexToSetKey = Object.entries(OrnamentSetsConfig)
-  .sort((a, b) => a[1].index - b[1].index)
-  .map((entry) => entry[0]) as (keyof typeof Sets)[]
-
 const relicIndexToSetConfig = Object.entries(RelicSetsConfig)
   .sort((a, b) => a[1].index - b[1].index)
   .map((entry) => entry[1])
 
-const relicIndexToSetKey = Object.entries(RelicSetsConfig)
-  .sort((a, b) => a[1].index - b[1].index)
-  .map((entry) => entry[0]) as (keyof typeof Sets)[]
-
-export type SetCounts = Record<keyof typeof Sets, number>
+export type SetCounts = {
+  relicMatch2: number
+  relicMatch4: number
+  ornamentMatch2: number
+}
 
 export function calculateSetCounts(
   sets: number[],
-) {
-  const setCounts: Record<keyof typeof Sets, number> = Object.create(null)
+): SetCounts {
+  const maskH = 1 << sets[0]
+  const maskG = 1 << sets[1]
+  const maskB = 1 << sets[2]
+  const maskF = 1 << sets[3]
 
-  for (let i = 0; i < 4; i++) {
-    const key = relicIndexToSetKey[sets[i]]
-    setCounts[key] = (setCounts[key] ?? 0) + 1
+  return {
+    relicMatch2: (maskH & maskG) | (maskH & maskB) | (maskH & maskF)
+               | (maskG & maskB) | (maskG & maskF) | (maskB & maskF),
+    relicMatch4: maskH & maskG & maskB & maskF,
+    ornamentMatch2: (1 << sets[4]) & (1 << sets[5]),
   }
+}
 
-  if (sets[4] == sets[5]) {
-    setCounts[ornamentIndexToSetKey[sets[4]]] = 2
-  }
+export function calculateSetCountsInPlace(
+  setCounts: SetCounts,
+  sets: number[],
+): void {
+  const maskH = 1 << sets[0]
+  const maskG = 1 << sets[1]
+  const maskB = 1 << sets[2]
+  const maskF = 1 << sets[3]
 
-  return setCounts
+  setCounts.relicMatch2 = (maskH & maskG) | (maskH & maskB) | (maskH & maskF)
+                        | (maskG & maskB) | (maskG & maskF) | (maskB & maskF)
+  setCounts.relicMatch4 = maskH & maskG & maskB & maskF
+  setCounts.ornamentMatch2 = (1 << sets[4]) & (1 << sets[5])
 }
 
 export function calculateBasicSetEffects(c: BasicStatsArray, context: OptimizerContext, setCounts: SetCounts, sets: number[]) {
-  const processed: Record<number, boolean> = {}
   for (let i = 0; i < 4; i++) {
     const set = sets[i]
 
-    if (processed[set]) continue
-    processed[set] = true
+    // Skip if this set was already processed by an earlier slot
+    if ((i > 0 && sets[0] === set) || (i > 1 && sets[1] === set) || (i > 2 && sets[2] === set)) continue
 
-    const key = relicIndexToSetKey[set]
-    const count = setCounts[key] ?? 0
-    if (count >= 2) {
+    const bit = 1 << set
+    if (setCounts.relicMatch2 & bit) {
       const config = relicIndexToSetConfig[set]
 
-      if (count >= 2 && config.p2c) config.p2c(c, context)
-      if (count >= 4 && config.p4c) config.p4c(c, context)
+      if (config.p2c) config.p2c(c, context)
+      if ((setCounts.relicMatch4 & bit) && config.p4c) config.p4c(c, context)
     }
   }
 
@@ -293,27 +301,36 @@ function evaluateDynamicSetConditionals(
   context: OptimizerContext,
 ) {
   if (setsArray[4] == setsArray[5]) {
-    p2(SetKeys.SpaceSealingStation, sets) && evaluateConditional(SpaceSealingStationConditional, x, action, context)
-   p2(SetKeys.FleetOfTheAgeless, sets) && evaluateConditional(FleetOfTheAgelessConditional, x, action, context)
-   p2(SetKeys.BelobogOfTheArchitects, sets) && evaluateConditional(BelobogOfTheArchitectsConditional, x, action, context)
-   p2(SetKeys.PanCosmicCommercialEnterprise, sets) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, action, context)
-   p2(SetKeys.BrokenKeel, sets) && evaluateConditional(BrokenKeelConditional, x, action, context)
-   p2(SetKeys.TaliaKingdomOfBanditry, sets) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, action, context)
-   p2(SetKeys.BoneCollectionsSereneDemesne, sets) && evaluateConditional(BoneCollectionsSereneDemesneConditional, x, action, context)
-   p2(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding135Conditional, x, action, context)
-   p2(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding180Conditional, x, action, context)
+    ornament2p(SetKeys.SpaceSealingStation, sets) && evaluateConditional(SpaceSealingStationConditional, x, action, context)
+    ornament2p(SetKeys.FleetOfTheAgeless, sets) && evaluateConditional(FleetOfTheAgelessConditional, x, action, context)
+    ornament2p(SetKeys.BelobogOfTheArchitects, sets) && evaluateConditional(BelobogOfTheArchitectsConditional, x, action, context)
+    ornament2p(SetKeys.PanCosmicCommercialEnterprise, sets) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, action, context)
+    ornament2p(SetKeys.BrokenKeel, sets) && evaluateConditional(BrokenKeelConditional, x, action, context)
+    ornament2p(SetKeys.TaliaKingdomOfBanditry, sets) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, action, context)
+    ornament2p(SetKeys.BoneCollectionsSereneDemesne, sets) && evaluateConditional(BoneCollectionsSereneDemesneConditional, x, action, context)
+    ornament2p(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding135Conditional, x, action, context)
+    ornament2p(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding180Conditional, x, action, context)
   }
 }
 
 function evaluateDynamicConditionals(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-  for (const conditional of context.characterConditionalController.dynamicConditionals ?? []) {
-    evaluateConditional(conditional, x, action, context)
+  const characterConditionals = context.characterConditionalController.dynamicConditionals
+  if (characterConditionals) {
+    for (let i = 0; i < characterConditionals.length; i++) {
+      evaluateConditional(characterConditionals[i], x, action, context)
+    }
   }
-  for (const conditional of context.lightConeConditionalController.dynamicConditionals ?? []) {
-    evaluateConditional(conditional, x, action, context)
+  const lightConeConditionals = context.lightConeConditionalController.dynamicConditionals
+  if (lightConeConditionals) {
+    for (let i = 0; i < lightConeConditionals.length; i++) {
+      evaluateConditional(lightConeConditionals[i], x, action, context)
+    }
   }
-  for (const conditional of action.teammateDynamicConditionals ?? []) {
-    evaluateConditional(conditional, x, action, context)
+  const teammateConditionals = action.teammateDynamicConditionals
+  if (teammateConditionals) {
+    for (let i = 0; i < teammateConditionals.length; i++) {
+      evaluateConditional(teammateConditionals[i], x, action, context)
+    }
   }
 }
 
@@ -327,20 +344,20 @@ function evaluateTerminalSetConditionals(
 ) {
   // Terminal ornament set conditionals
   if (setsArray[4] == setsArray[5]) {
-    if (p2(SetKeys.FirmamentFrontlineGlamoth, sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 135) {
+    if (ornament2p(SetKeys.FirmamentFrontlineGlamoth, sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 135) {
       const spd = x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
       x.buff(StatKey.DMG_BOOST, spd >= 160 ? 0.18 : 0.12, x.source(Source.FirmamentFrontlineGlamoth))
     }
 
-    if (p2(SetKeys.RutilantArena, sets) && x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) >= 0.70) {
+    if (ornament2p(SetKeys.RutilantArena, sets) && x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) >= 0.70) {
       x.buff(StatKey.DMG_BOOST, 0.20, x.damageType(DamageTag.BASIC | DamageTag.SKILL).source(Source.RutilantArena))
     }
 
-    if (p2(SetKeys.InertSalsotto, sets) && x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) >= 0.50) {
+    if (ornament2p(SetKeys.InertSalsotto, sets) && x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) >= 0.50) {
       x.buff(StatKey.DMG_BOOST, 0.15, x.damageType(DamageTag.ULT | DamageTag.FUA).source(Source.InertSalsotto))
     }
 
-    if (p2(SetKeys.RevelryByTheSea, sets)) {
+    if (ornament2p(SetKeys.RevelryByTheSea, sets)) {
       const atk = x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX)
       if (atk >= 3600) {
         x.buff(StatKey.DMG_BOOST, 0.24, x.damageType(DamageTag.DOT).source(Source.RevelryByTheSea))
@@ -351,7 +368,7 @@ function evaluateTerminalSetConditionals(
   }
 
   // Terminal relic set conditionals
-  if (p4(SetKeys.IronCavalryAgainstTheScourge, sets) && x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX) >= 1.50) {
+  if (relic4p(SetKeys.IronCavalryAgainstTheScourge, sets) && x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX) >= 1.50) {
     const be = x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX)
     x.buff(StatKey.DEF_PEN, 0.10, x.damageType(DamageTag.BREAK).source(Source.IronCavalryAgainstTheScourge))
     if (be >= 2.50) {
@@ -397,12 +414,24 @@ function executeNonDynamicCombatSets(
   }
 }
 
-export function p2(key: SetKeyType, sets: SetCounts) {
-  return sets[key] >> 1
+// Bitmask-based set matching — mirrors GPU relic2p/relic4p/ornament2p
+export const OrnamentSetBitIndex: Record<string, number> = Object.fromEntries(
+  Object.entries(OrnamentSetsConfig).map(([key, config]) => [key, config.index]),
+)
+export const RelicSetBitIndex: Record<string, number> = Object.fromEntries(
+  Object.entries(RelicSetsConfig).map(([key, config]) => [key, config.index]),
+)
+
+export function ornament2p(key: SetKeyType, sets: SetCounts) {
+  return (sets.ornamentMatch2 >> OrnamentSetBitIndex[key]) & 1
 }
 
-export function p4(key: SetKeyType, sets: SetCounts) {
-  return sets[key] >> 2
+export function relic2p(key: SetKeyType, sets: SetCounts) {
+  return (sets.relicMatch2 >> RelicSetBitIndex[key]) & 1
+}
+
+export function relic4p(key: SetKeyType, sets: SetCounts) {
+  return (sets.relicMatch4 >> RelicSetBitIndex[key]) & 1
 }
 
 export function calculateRelicStats(

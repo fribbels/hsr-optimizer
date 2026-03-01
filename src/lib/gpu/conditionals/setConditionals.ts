@@ -12,7 +12,7 @@ import {
   p_containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { p2 } from 'lib/optimization/calculateStats'
+import { ornament2p } from 'lib/optimization/calculateStats'
 import { SetKeys } from 'lib/optimization/config/setsConfig'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -33,7 +33,7 @@ export const SpaceSealingStationConditional: DynamicConditional = {
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.ATK],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return p2(SetKeys.SpaceSealingStation, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 120
+    return ornament2p(SetKeys.SpaceSealingStation, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 120
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     const baseAtk = action.config.selfEntity.baseAtk
@@ -67,7 +67,7 @@ export const FleetOfTheAgelessConditional: DynamicConditional = {
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.ATK],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return p2(SetKeys.FleetOfTheAgeless, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 120
+    return ornament2p(SetKeys.FleetOfTheAgeless, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 120
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     const baseAtk = action.config.selfEntity.baseAtk
@@ -101,7 +101,7 @@ export const BelobogOfTheArchitectsConditional: DynamicConditional = {
   dependsOn: [Stats.EHR],
   chainsTo: [Stats.DEF],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return p2(SetKeys.BelobogOfTheArchitects, x.c.sets) && x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) >= 0.50
+    return ornament2p(SetKeys.BelobogOfTheArchitects, x.c.sets) && x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) >= 0.50
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     const baseDef = action.config.selfEntity.baseDef
@@ -136,7 +136,7 @@ export const PanCosmicCommercialEnterpriseConditional: DynamicConditional = {
   dependsOn: [Stats.EHR],
   chainsTo: [Stats.ATK],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return p2(SetKeys.PanCosmicCommercialEnterprise, x.c.sets)
+    return ornament2p(SetKeys.PanCosmicCommercialEnterprise, x.c.sets)
   },
   effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
@@ -178,7 +178,7 @@ export const BrokenKeelConditional: DynamicConditional = {
   dependsOn: [Stats.RES],
   chainsTo: [Stats.CD],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return p2(SetKeys.BrokenKeel, x.c.sets) && x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX) >= 0.30
+    return ornament2p(SetKeys.BrokenKeel, x.c.sets) && x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX) >= 0.30
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     x.buffDynamic(StatKey.CD, 0.10, action, context, x.targets(TargetTag.SelfAndMemosprite).source(Source.BrokenKeel))
@@ -211,7 +211,7 @@ export const TaliaKingdomOfBanditryConditional: DynamicConditional = {
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.BE],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return p2(SetKeys.TaliaKingdomOfBanditry, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 145
+    return ornament2p(SetKeys.TaliaKingdomOfBanditry, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 145
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     x.buffDynamic(StatKey.BE, 0.20, action, context, x.source(Source.TaliaKingdomOfBanditry))
@@ -244,7 +244,7 @@ export const GiantTreeOfRaptBrooding135Conditional: DynamicConditional = {
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.OHB],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return p2(SetKeys.GiantTreeOfRaptBrooding, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 135
+    return ornament2p(SetKeys.GiantTreeOfRaptBrooding, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 135
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     x.buffDynamic(StatKey.OHB, 0.12, action, context, x.targets(TargetTag.SelfAndMemosprite).source(Source.GiantTreeOfRaptBrooding))
@@ -277,7 +277,7 @@ export const GiantTreeOfRaptBrooding180Conditional: DynamicConditional = {
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.OHB],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return p2(SetKeys.GiantTreeOfRaptBrooding, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 180
+    return ornament2p(SetKeys.GiantTreeOfRaptBrooding, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 180
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     x.buffDynamic(StatKey.OHB, 0.08, action, context, x.targets(TargetTag.SelfAndMemosprite).source(Source.GiantTreeOfRaptBrooding))
@@ -310,7 +310,7 @@ export const BoneCollectionsSereneDemesneConditional: DynamicConditional = {
   dependsOn: [Stats.HP],
   chainsTo: [Stats.CD],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return p2(SetKeys.BoneCollectionsSereneDemesne, x.c.sets) && x.getActionValueByIndex(StatKey.HP, SELF_ENTITY_INDEX) >= 5000
+    return ornament2p(SetKeys.BoneCollectionsSereneDemesne, x.c.sets) && x.getActionValueByIndex(StatKey.HP, SELF_ENTITY_INDEX) >= 5000
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     x.buffDynamic(StatKey.CD, 0.28, action, context, x.targets(TargetTag.SelfAndMemosprite).source(Source.BoneCollectionsSereneDemesne))

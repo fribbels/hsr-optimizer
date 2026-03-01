@@ -137,6 +137,11 @@ export async function gpuOptimize(props: {
 
     // profiler.end('cpuProcess')
 
+    // Reset start time after first dispatch to exclude shader compilation from perms/sec
+    if (iteration === 0) {
+      window.store.getState().setOptimizerStartTime(Date.now())
+    }
+
     if (hasNext && nextPassResult) {
       currentBufferIndex = nextBufferIndex
       currentPassResult = nextPassResult
@@ -159,7 +164,7 @@ export async function gpuOptimize(props: {
   // profiler.summary(gpuContext)
 
   // Revisit overflowed dispatches now that the threshold is established.
-  await revisitOverflowedDispatches(overflowedOffsets, gpuContext, seenIndices)
+  await revisitOverflowedDispatches(overflowedOffsets, gpuContext, seenIndices, permStride, permutationsSearched)
 
   if (window.store.getState().optimizationInProgress) {
     window.store.getState().setPermutationsSearched(gpuContext.permutations)
@@ -276,6 +281,8 @@ async function revisitOverflowedDispatches(
   overflowedOffsets: number[],
   gpuContext: GpuExecutionContext,
   seenIndices: Set<number>,
+  permStride: number,
+  permutationsSearched: number,
 ) {
   if (overflowedOffsets.length > 0 && window.store.getState().optimizationInProgress) {
     for (const overflowOffset of overflowedOffsets) {
@@ -293,6 +300,16 @@ async function revisitOverflowedDispatches(
         processCompactResults(overflowOffset, count, mappedRange, gpuContext, seenIndices)
         passResult.compactReadBuffer.unmap()
       } while (rawCount > gpuContext.COMPACT_LIMIT && retries++ < 100000)
+
+      permutationsSearched += permStride
+      const searchedSnapshot = permutationsSearched
+      await new Promise<void>((resolve) => setTimeout(() => {
+        const state = window.store.getState()
+        state.setOptimizerEndTime(Date.now())
+        state.setPermutationsResults(gpuContext.resultsQueue.size())
+        state.setPermutationsSearched(Math.min(gpuContext.permutations, searchedSnapshot))
+        resolve()
+      }, 0))
     }
   }
 }

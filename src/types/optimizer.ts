@@ -193,8 +193,7 @@ export type OptimizerContext = CharacterMetadata & {
   comboDot: number,
   dotAbilities: number,
 
-  characterConditionalController: CharacterConditionalsController,
-  lightConeConditionalController: LightConeConditionalsController,
+  lightConeController: LightConeConditionalsController,
 }
 
 export type OptimizerCombatBuffs = {

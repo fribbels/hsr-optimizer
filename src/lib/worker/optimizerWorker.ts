@@ -106,8 +106,8 @@ export function optimizerWorker(e: MessageEvent) {
     calculateContextConditionalRegistry(action, context)
   }
 
-  context.characterConditionalController = CharacterConditionalsResolver.get(context)
-  context.lightConeConditionalController = LightConeConditionalsResolver.get(context)
+  context.characterController = CharacterConditionalsResolver.get(context)
+  context.lightConeController = LightConeConditionalsResolver.get(context)
 
   function calculateTeammateDynamicConditionals(action: OptimizerAction, teammateMetadata: CharacterMetadata, index: number) {
     if (teammateMetadata?.characterId) {

@@ -11,12 +11,46 @@ interface SimpleLabel extends tInput {
   composite?: false
 }
 
+export type Label = SimpleLabel | string
+
 export interface StatConfigEntry {
   hit?: boolean
   flat?: boolean
   bool?: boolean
   default?: number
-  label: SimpleLabel | string
+  label: Label
+}
+
+export enum StatCategory {
+  CD,
+  NONE,
+}
+
+export type ComputedStatsConfigBaseType = {
+  category?: StatCategory
+  default?: number
+  flat?: boolean
+  whole?: boolean
+  separated?: boolean
+  bool?: boolean
+  label: Label
+}
+
+export type ComputedStatKeys = keyof typeof newStatsConfig
+
+export type StatConfig = {
+  name: string
+  label: Label
+  index: number
+  default: number
+  flat: boolean
+  whole: boolean
+  bool: boolean
+  category: StatCategory
+}
+
+export type ComputedStatsConfigType = {
+  [K in ComputedStatKeys]: StatConfig
 }
 
 const createI18nKey = <K extends string>(ns: SimpleLabel['ns'], path: string, argName?: string) => (value: K): SimpleLabel =>

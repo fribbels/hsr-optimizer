@@ -1,5 +1,4 @@
 import { Sets } from 'lib/constants/constants'
-import { ComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
 import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 
 export const ASHBLAZING_ATK_STACK = 0.06
@@ -86,5 +85,5 @@ export type BasicStatsObject = {
   'id': number,
 
   'sets': SetsType,
-  'x': ComputedStatsObject | ComputedStatsObjectExternal,
+  'x': ComputedStatsObjectExternal,
 }

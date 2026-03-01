@@ -10,7 +10,8 @@ import { BuffSource } from 'lib/optimization/buffSource'
 import {
   ComputedStatsConfigBaseType,
   ComputedStatsConfigType,
-} from 'lib/optimization/config/computedStatsConfig'
+  StatCategory,
+} from 'lib/optimization/engine/config/statsConfig'
 import {
   ACTION_STATS_LENGTH,
   AKeyType,
@@ -48,11 +49,6 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
-
-enum StatCategory {
-  CD,
-  NONE,
-}
 
 export enum Operator {
   ADD,

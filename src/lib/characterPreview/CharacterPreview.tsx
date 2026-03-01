@@ -65,7 +65,6 @@ import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { getShowcaseSimScoringExecution } from 'lib/scoring/dpsScore'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
-import { CYRENE } from 'lib/simulations/tests/testMetadataConstants'
 import DB, { AppPages } from 'lib/state/db'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import {
@@ -261,17 +260,8 @@ export function CharacterPreview(props: CharacterPreviewProps) {
   const artistName = getArtistName(character)
   const finalStats = getShowcaseStats(character, displayRelics, showcaseMetadata)
 
-  const yOffset = (
-    {
-      [CYRENE]: 0,
-    } as Record<string, number>
-  )[character.id] ?? 0
-
-  const zoom = (
-    {
-      [CYRENE]: 200,
-    } as Record<string, number>
-  )[character.id] ?? 150
+  const yOffset = 0
+  const zoom = 150
 
   return (
     <Flex vertical style={{ width: source == ShowcaseSource.BUILDS_MODAL ? 1076 : 1068, minHeight: source == ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>

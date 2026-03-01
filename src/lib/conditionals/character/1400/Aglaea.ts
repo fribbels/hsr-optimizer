@@ -14,6 +14,8 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
+  Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -39,7 +41,32 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  MATCH_2P_WEIGHT,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  AGLAEA,
+  CYRENE,
+  PERMANSOR_TERRAE,
+  SUNDAY,
+  THIS_LOVE_FOREVER,
+  THOUGH_WORLDS_APART,
+  A_GROUNDED_ASCENT,
+} from 'lib/simulations/tests/testMetadataConstants'
+import {
+  DEFAULT_MEMO_SKILL,
+  END_BASIC,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  WHOLE_BASIC,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -60,7 +87,7 @@ export const AglaeaEntities = createEnum(
   'Garmentmaker',
 )
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aglaea')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_BASIC_MEMO_TALENT_3_ULT_TALENT_MEMO_SKILL_5
@@ -419,4 +446,147 @@ ${p_containerActionVal(memoEntityIndex, StatKey.UNCONVERTIBLE_ATK_BUFF, config)}
       },
     ],
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Lightning_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    END_BASIC,
+    DEFAULT_MEMO_SKILL,
+    DEFAULT_MEMO_SKILL,
+    DEFAULT_MEMO_SKILL,
+    WHOLE_BASIC,
+    WHOLE_BASIC,
+    DEFAULT_MEMO_SKILL,
+    DEFAULT_MEMO_SKILL,
+    DEFAULT_MEMO_SKILL,
+    WHOLE_BASIC,
+  ],
+  comboDot: 0,
+  errRopeEidolon: 0,
+  relicSets: [
+    [Sets.HeroOfTriumphantSong, Sets.HeroOfTriumphantSong],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.TheWondrousBananAmusementPark,
+    Sets.RutilantArena,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: SUNDAY,
+      lightCone: A_GROUNDED_ASCENT,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: CYRENE,
+      lightCone: THIS_LOVE_FOREVER,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PERMANSOR_TERRAE,
+      lightCone: THOUGH_WORLDS_APART,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0.5,
+    [Stats.ATK_P]: 0.5,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Lightning_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.ERR,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+    [Sets.BandOfSizzlingThunder]: MATCH_2P_WEIGHT,
+    [Sets.HeroOfTriumphantSong]: 1,
+    [Sets.ScholarLostInErudition]: 1,
+
+    [Sets.TheWondrousBananAmusementPark]: 1,
+    [Sets.RutilantArena]: 1,
+    [Sets.FirmamentFrontlineGlamoth]: 1,
+  },
+  presets: [
+    PresetEffects.BANANA_SET,
+    PresetEffects.WARRIOR_SET,
+  ],
+  sortOption: SortOption.BASIC,
+  hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+  addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 1200,
+    y: 750,
+    z: 1.10,
+  },
+  showcaseColor: '#86bdf1',
+}
+
+export const Aglaea: CharacterConfig = {
+  id: '1402',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

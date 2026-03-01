@@ -5,6 +5,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -13,11 +14,19 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 
 import { CharacterConditionalsController } from 'types/conditionals'
+import { ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -26,7 +35,7 @@ import {
 export const PelaEntities = createEnum('Pela')
 export const PelaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Pela')
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
@@ -201,4 +210,70 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
+}
+
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 1,
+    [Stats.RES]: 0.25,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.EHR,
+      Stats.HP_P,
+      Stats.DEF_P,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.DEF_P,
+      Stats.Ice_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+    [Sets.EagleOfTwilightLine]: 1,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  },
+  presets: [
+    PresetEffects.fnPioneerSet(4),
+  ],
+  sortOption: SortOption.SPD,
+  hiddenColumns: [
+    SortOption.FUA,
+    SortOption.DOT,
+  ],
+}
+
+const display = {
+  imageCenter: {
+    x: 780,
+    y: 1100,
+    z: 1,
+  },
+  showcaseColor: '#4b88e0',
+}
+
+export const Pela: CharacterConfig = {
+  id: '1106',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

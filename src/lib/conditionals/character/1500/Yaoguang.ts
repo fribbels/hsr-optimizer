@@ -1,7 +1,7 @@
 import i18next from 'i18next'
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats, } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Parts, Sets, Stats, } from 'lib/constants/constants'
 import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
@@ -9,7 +9,34 @@ import { ModifierContext } from 'lib/optimization/context/calculateActions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { YAO_GUANG } from 'lib/simulations/tests/testMetadataConstants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  RELICS_2P_SPEED,
+  SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import {
+  BUT_THE_BATTLE_ISNT_OVER,
+  DAZZLED_BY_A_FLOWERY_WORLD,
+  HUOHUO,
+  NIGHT_OF_FRIGHT,
+  SPARXIE,
+  SPARKLE_B1,
+  YAO_GUANG,
+} from 'lib/simulations/tests/testMetadataConstants'
+import {
+  END_ULT,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  WHOLE_BASIC,
+  WHOLE_ELATION_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { ElationHit } from 'types/hitConditionalTypes'
@@ -18,7 +45,7 @@ import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 export const YaoguangEntities = createEnum('Yaoguang')
 export const YaoguangAbilities = createEnum('BASIC', 'ELATION_SKILL', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_BASIC_ELATION_SKILL_3_ULT_TALENT_ELATION_SKILL_5
   const {
     SOURCE_BASIC,
@@ -385,4 +412,140 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     ],
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Physical_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.ATK_P,
+    Stats.ATK,
+    Stats.SPD,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_SKILL,
+    END_ULT,
+    WHOLE_ELATION_SKILL,
+    WHOLE_BASIC,
+    WHOLE_ELATION_SKILL,
+    WHOLE_BASIC,
+    WHOLE_ELATION_SKILL,
+  ],
+  comboDot: 0,
+  errRopeEidolon: 0,
+  deprioritizeBuffs: true,
+  breakpoints: {
+    [Stats.SPD]: 120,
+  },
+  relicSets: [
+    [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
+    [Sets.DivinerOfDistantReach, Sets.DivinerOfDistantReach],
+    RELICS_2P_SPEED,
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.TengokuLivestream,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+    ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: SPARXIE,
+      lightCone: DAZZLED_BY_A_FLOWERY_WORLD,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: SPARKLE_B1,
+      lightCone: BUT_THE_BATTLE_ISNT_OVER,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: HUOHUO,
+      lightCone: NIGHT_OF_FRIGHT,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+    [Sets.MessengerTraversingHackerspace]: 1,
+    [Sets.SacerdosRelivedOrdeal]: 1,
+    [Sets.EverGloriousMagicalGirl]: 1,
+
+    [Sets.DivinerOfDistantReach]: 1,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  },
+  presets: [],
+  sortOption: SortOption.ELATION_SKILL,
+  hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 875,
+    y: 1060,
+    z: 1.15,
+  },
+  showcaseColor: '#c3d7d8',
+}
+
+export const Yaoguang: CharacterConfig = {
+  id: '1502',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

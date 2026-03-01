@@ -1,7 +1,7 @@
 import { BuffPriority, } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
 import { wgsl, wgslFalse, } from 'lib/gpu/injection/wgslUtils'
@@ -10,6 +10,13 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata } from 'types/metadata'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
@@ -26,7 +33,7 @@ export const TrailblazerRemembranceEntities = createEnum(
   'Mem',
 )
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerRemembrance')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_TALENT_MEMO_TALENT_3_ULT_BASIC_MEMO_SKILL_5
@@ -389,4 +396,86 @@ ${p_containerActionVal(memoEntityIndex, StatKey.CD, config)} += finalBuffCd;
       },
     ],
   }
+}
+
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.25,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CD,
+      Stats.OHB,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.ERR,
+    ],
+  },
+  sets: {
+    [Sets.MessengerTraversingHackerspace]: 1,
+    [Sets.SacerdosRelivedOrdeal]: 1,
+    [Sets.HeroOfTriumphantSong]: 1,
+    [Sets.EagleOfTwilightLine]: 1,
+
+    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  },
+  presets: [
+    PresetEffects.BANANA_SET,
+    PresetEffects.WARRIOR_SET,
+  ],
+  sortOption: SortOption.CD,
+  hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+  addedColumns: [SortOption.MEMO_SKILL],
+}
+
+const displayCaelus = {
+  imageCenter: {
+    x: 955,
+    y: 975,
+    z: 0.95,
+  },
+  showcaseColor: '#f0a1fa',
+}
+
+const displayStelle = {
+  imageCenter: {
+    x: 955,
+    y: 975,
+    z: 0.95,
+  },
+  showcaseColor: '#f0a1fa',
+}
+
+export const TrailblazerRemembranceCaelus: CharacterConfig = {
+  id: '8007',
+  info: { displayName: 'Caelus (Remembrance)' },
+  conditionals,
+  scoring,
+  display: displayCaelus,
+}
+
+export const TrailblazerRemembranceStelle: CharacterConfig = {
+  id: '8008',
+  info: { displayName: 'Stelle (Remembrance)' },
+  conditionals,
+  scoring,
+  display: displayStelle,
 }

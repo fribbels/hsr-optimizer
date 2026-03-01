@@ -24,7 +24,7 @@ import {
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ANAXA } from 'lib/simulations/tests/testMetadataConstants'
-import { Metadata } from 'lib/state/metadata'
+import { Metadata } from 'lib/state/metadataInitializer'
 import {
   ComboBooleanConditional,
   ComboNumberConditional,

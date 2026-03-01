@@ -9,7 +9,16 @@ import {
   teammateMatchesId,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { PathNames } from 'lib/constants/constants'
+import { Parts, PathNames, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  T2_WEIGHT,
+} from 'lib/scoring/scoringConstants'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -19,9 +28,22 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  CERYDRA,
+  CYRENE,
+  EPOCH_ETCHED_IN_GOLDEN_BLOOD,
   HYACINE,
   PHAINON,
+  SUNDAY,
+  A_GROUNDED_ASCENT,
+  THIS_LOVE_FOREVER,
 } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  DEFAULT_BASIC,
+  DEFAULT_SKILL,
+  END_ULT,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -38,7 +60,7 @@ export enum PhainonEnhancedSkillType {
 export const PhainonEntities = createEnum('Phainon')
 export const PhainonAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Phainon.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -370,4 +392,141 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.ATK_P,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Physical_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_SKILL,
+    DEFAULT_BASIC,
+    DEFAULT_SKILL,
+    DEFAULT_BASIC,
+    DEFAULT_BASIC,
+    DEFAULT_SKILL,
+    DEFAULT_BASIC,
+    END_ULT,
+  ],
+  comboDot: 0,
+  relicSets: [
+    [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.RutilantArena,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: SUNDAY,
+      lightCone: A_GROUNDED_ASCENT,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: CERYDRA,
+      lightCone: EPOCH_ETCHED_IN_GOLDEN_BLOOD,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: CYRENE,
+      lightCone: THIS_LOVE_FOREVER,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0.75,
+    [Stats.ATK_P]: 0.75,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.ATK_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Physical_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+    [Sets.WavestriderCaptain]: 1,
+    [Sets.ScholarLostInErudition]: T2_WEIGHT,
+
+    [Sets.ArcadiaOfWovenDreams]: 1,
+    [Sets.RutilantArena]: 1,
+    [Sets.BoneCollectionsSereneDemesne]: 1,
+    [Sets.FirmamentFrontlineGlamoth]: T2_WEIGHT,
+    [Sets.SpaceSealingStation]: T2_WEIGHT,
+  },
+  presets: [],
+  sortOption: SortOption.SKILL,
+  hiddenColumns: [SortOption.DOT],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 935,
+    y: 975,
+    z: 1.05,
+  },
+  showcaseColor: '#97c2fa',
+}
+
+export const Phainon: CharacterConfig = {
+  id: '1408',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

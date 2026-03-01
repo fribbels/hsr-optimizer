@@ -12,6 +12,8 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -19,9 +21,35 @@ import {
   ElementTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  MATCH_2P_WEIGHT,
+  SPREAD_ORNAMENTS_2P_FUA,
+  SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  DEFAULT_SKILL,
+  END_FUA,
+  DEFAULT_FUA,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  ROBIN,
+  TRIBBIE,
+  PERMANSOR_TERRAE,
+  FLOWING_NIGHTGLOW,
+  IF_TIME_WERE_A_FLOWER,
+  THOUGH_WORLDS_APART,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -32,7 +60,7 @@ import {
 export const FeixiaoEntities = createEnum('Feixiao')
 export const FeixiaoAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Feixiao')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -241,4 +269,145 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return gpuBoostAshblazingAtkContainer(fuaHitMulti, action)
     },
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Wind_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.ATK_P,
+    Stats.CR,
+    Stats.CD,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_SKILL,
+    END_FUA,
+    DEFAULT_FUA,
+    START_ULT,
+    DEFAULT_SKILL,
+    END_FUA,
+    DEFAULT_FUA,
+  ],
+  comboDot: 0,
+  relicSets: [
+    [Sets.TheWindSoaringValorous, Sets.TheWindSoaringValorous],
+    [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
+    [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.DuranDynastyOfRunningWolves,
+    ...SPREAD_ORNAMENTS_2P_FUA,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: ROBIN,
+      lightCone: FLOWING_NIGHTGLOW,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: TRIBBIE,
+      lightCone: IF_TIME_WERE_A_FLOWER,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PERMANSOR_TERRAE,
+      lightCone: THOUGH_WORLDS_APART,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0.75,
+    [Stats.ATK_P]: 0.75,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Wind_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+    [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
+    [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+    [Sets.TheWindSoaringValorous]: 1,
+    [Sets.TheAshblazingGrandDuke]: 1,
+
+    ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+    [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+  },
+  presets: [
+    PresetEffects.fnAshblazingSet(1),
+    PresetEffects.VALOROUS_SET,
+  ],
+  sortOption: SortOption.ULT,
+  hiddenColumns: [
+    SortOption.DOT,
+  ],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 1024,
+    y: 1050,
+    z: 1,
+  },
+  showcaseColor: '#7fd9e1',
+}
+
+export const Feixiao: CharacterConfig = {
+  id: '1220',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

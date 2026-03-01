@@ -19,6 +19,8 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
+  Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -30,12 +32,16 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS } from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 
 import { CharacterConditionalsController } from 'types/conditionals'
 import { AbilityDefinition } from 'types/hitConditionalTypes'
+import { ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -44,7 +50,7 @@ import {
 export const BronyaEntities = createEnum('Bronya')
 export const BronyaAbilities = createEnum('BASIC', 'FUA', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Bronya')
   const { basic, skill, ult } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
   const {
@@ -259,4 +265,64 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     ],
   }
+}
+
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.25,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+    ],
+  },
+  sets: {
+    [Sets.MessengerTraversingHackerspace]: 1,
+    [Sets.SacerdosRelivedOrdeal]: 1,
+    [Sets.EagleOfTwilightLine]: 1,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  },
+  presets: [],
+  sortOption: SortOption.CD,
+  hiddenColumns: [
+    SortOption.SKILL,
+    SortOption.ULT,
+    SortOption.DOT,
+  ],
+}
+
+const display = {
+  imageCenter: {
+    x: 950,
+    y: 1200,
+    z: 1.1,
+  },
+  showcaseColor: '#375ee1',
+}
+
+export const Bronya: CharacterConfig = {
+  id: '1101',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

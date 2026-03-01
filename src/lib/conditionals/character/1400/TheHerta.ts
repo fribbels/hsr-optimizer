@@ -7,7 +7,31 @@ import {
   mainIsPath,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { PathNames } from 'lib/constants/constants'
+import { Parts, PathNames, Sets, Stats } from 'lib/constants/constants'
+import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  T2_WEIGHT,
+} from 'lib/scoring/scoringConstants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  END_ULT,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  IF_TIME_WERE_A_FLOWER,
+  JADE,
+  PERMANSOR_TERRAE,
+  THOUGH_WORLDS_APART,
+  TRIBBIE,
+  YET_HOPE_IS_PRICELESS,
+} from 'lib/simulations/tests/testMetadataConstants'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
@@ -23,7 +47,7 @@ import {
 export const TheHertaEntities = createEnum('TheHerta')
 export const TheHertaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TheHerta')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
@@ -228,4 +252,137 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
   }
+}
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Ice_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_SKILL,
+    END_ULT,
+    WHOLE_SKILL,
+    WHOLE_SKILL,
+  ],
+  comboDot: 0,
+  errRopeEidolon: 0,
+  relicSets: [
+    [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.IzumoGenseiAndTakamaDivineRealm,
+    Sets.RutilantArena,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: JADE,
+      lightCone: YET_HOPE_IS_PRICELESS,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: TRIBBIE,
+      lightCone: IF_TIME_WERE_A_FLOWER,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PERMANSOR_TERRAE,
+      lightCone: THOUGH_WORLDS_APART,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0.75,
+    [Stats.ATK_P]: 0.75,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Ice_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.ERR,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+    [Sets.ScholarLostInErudition]: 1,
+    [Sets.HunterOfGlacialForest]: T2_WEIGHT,
+    [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+    [Sets.RutilantArena]: 1,
+    [Sets.FirmamentFrontlineGlamoth]: 1,
+    [Sets.SigoniaTheUnclaimedDesolation]: 1,
+  },
+  presets: [],
+  sortOption: SortOption.SKILL,
+  hiddenColumns: [
+    SortOption.FUA,
+    SortOption.DOT,
+  ],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 1000,
+    y: 1085,
+    z: 1.275,
+  },
+  showcaseColor: '#aa81fa',
+}
+
+export const TheHerta: CharacterConfig = {
+  id: '1401',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

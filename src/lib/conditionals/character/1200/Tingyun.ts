@@ -12,15 +12,25 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
+  Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_ATK_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata } from 'types/metadata'
 
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -31,7 +41,7 @@ import {
 export const TingyunEntities = createEnum('Tingyun')
 export const TingyunAbilities = createEnum('BASIC', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Tingyun')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -227,4 +237,70 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     ],
   }
+}
+
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0.75,
+    [Stats.ATK_P]: 0.75,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.25,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.ATK_P,
+      Stats.HP_P,
+      Stats.DEF_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.DEF_P,
+      Stats.ATK_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+    [Sets.SacerdosRelivedOrdeal]: 1,
+    [Sets.MessengerTraversingHackerspace]: 1,
+    [Sets.MusketeerOfWildWheat]: 1,
+
+    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  },
+  presets: [],
+  sortOption: SortOption.SPD,
+  hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
+}
+
+const display = {
+  imageCenter: {
+    x: 1024,
+    y: 950,
+    z: 1,
+  },
+  showcaseColor: '#f4b5d4',
+}
+
+export const Tingyun: CharacterConfig = {
+  id: '1202',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

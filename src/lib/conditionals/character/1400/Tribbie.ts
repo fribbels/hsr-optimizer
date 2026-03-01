@@ -7,6 +7,11 @@ import {
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import {
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -16,11 +21,44 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TRIBBIE } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  DEFAULT_FUA,
+  DEFAULT_ULT,
+  END_ULT,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  WHOLE_BASIC,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  MATCH_2P_WEIGHT,
+  SPREAD_ORNAMENTS_2P_FUA,
+  SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import {
+  ANAXA,
+  INTO_THE_UNREACHABLE_VEIL,
+  LIFE_SHOULD_BE_CAST_TO_FLAMES,
+  PERMANSOR_TERRAE,
+  THE_HERTA,
+  THOUGH_WORLDS_APART,
+  TRIBBIE,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
+import {
+  ScoringMetadata,
+  SimulationMetadata,
+} from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -29,7 +67,7 @@ import {
 export const TribbieEntities = createEnum('Tribbie')
 export const TribbieAbilities = createEnum('BASIC', 'ULT', 'FUA', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Tribbie.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -294,4 +332,151 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
+}
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.HP_P,
+    ],
+    [Parts.Feet]: [
+      Stats.HP_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.Quantum_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.HP_P,
+    Stats.HP,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_SKILL,
+    END_ULT,
+    DEFAULT_FUA,
+    DEFAULT_FUA,
+    WHOLE_BASIC,
+    DEFAULT_FUA,
+    DEFAULT_ULT,
+    DEFAULT_FUA,
+    WHOLE_BASIC,
+    DEFAULT_FUA,
+    DEFAULT_FUA,
+  ],
+  comboDot: 0,
+  errRopeEidolon: 0,
+  deprioritizeBuffs: true,
+  relicSets: [
+    [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+    [Sets.LongevousDisciple, Sets.LongevousDisciple],
+    [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.BoneCollectionsSereneDemesne,
+    ...SPREAD_ORNAMENTS_2P_FUA,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: THE_HERTA,
+      lightCone: INTO_THE_UNREACHABLE_VEIL,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: ANAXA,
+      lightCone: LIFE_SHOULD_BE_CAST_TO_FLAMES,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PERMANSOR_TERRAE,
+      lightCone: THOUGH_WORLDS_APART,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 1,
+    [Stats.HP_P]: 1,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CD,
+      Stats.CR,
+      Stats.HP_P,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.HP_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.Quantum_DMG,
+      Stats.HP_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+      Stats.ERR,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+    [Sets.GeniusOfBrilliantStars]: MATCH_2P_WEIGHT,
+    [Sets.PoetOfMourningCollapse]: 1,
+    [Sets.LongevousDisciple]: 1,
+    [Sets.ScholarLostInErudition]: 1,
+    [Sets.EagleOfTwilightLine]: 1,
+
+    ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+    [Sets.BoneCollectionsSereneDemesne]: 1,
+  },
+  presets: [
+    PresetEffects.VALOROUS_SET,
+  ],
+  sortOption: SortOption.FUA,
+  hiddenColumns: [],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 875,
+    y: 1000,
+    z: 1.075,
+  },
+  showcaseColor: '#979af7',
+}
+
+export const Tribbie: CharacterConfig = {
+  id: '1403',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

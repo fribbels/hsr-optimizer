@@ -7,27 +7,47 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgsl, wgslTrue, } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { AKey, StatKey, } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag, SELF_ENTITY_INDEX, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import {
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  DEFAULT_SKILL,
+  END_BREAK,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  T2_WEIGHT,
+} from 'lib/scoring/scoringConstants'
+import {
+  THE_DAHLIA,
+  FUGUE,
+  LONG_ROAD_LEADS_HOME,
+  NEVER_FORGET_HER_FLAME,
+  LINGSHA,
+  SCENT_ALONE_STAYS_TRUE,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { Hit } from 'types/hitConditionalTypes'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
-
-import { THE_DAHLIA } from 'lib/simulations/tests/testMetadataConstants'
 
 export const FireflyEntities = createEnum('Firefly')
 export const FireflyAbilities = createEnum('BASIC', 'SKILL', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Firefly')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
@@ -293,4 +313,132 @@ if (${wgslTrue(r.superBreakDmg && r.enhancedStateActive)} && be >= 3.60) {
       },
     ],
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.ATK_P,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.BE,
+    ],
+  },
+  substats: [
+    Stats.BE,
+    Stats.ATK_P,
+    Stats.ATK,
+    Stats.CR,
+    Stats.CD,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_SKILL,
+    END_BREAK,
+    WHOLE_SKILL,
+    WHOLE_SKILL,
+    WHOLE_SKILL,
+  ],
+  comboDot: 0,
+  relicSets: [
+    [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.ForgeOfTheKalpagniLantern,
+  ],
+  teammates: [
+    {
+      characterId: FUGUE,
+      lightCone: LONG_ROAD_LEADS_HOME,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: THE_DAHLIA,
+      lightCone: NEVER_FORGET_HER_FLAME,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: LINGSHA,
+      lightCone: SCENT_ALONE_STAYS_TRUE,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0.5,
+    [Stats.ATK_P]: 0.5,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 1,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.ATK_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.BE,
+    ],
+  },
+  sets: {
+    [Sets.IronCavalryAgainstTheScourge]: 1,
+    [Sets.ThiefOfShootingMeteor]: T2_WEIGHT,
+
+    [Sets.ForgeOfTheKalpagniLantern]: 1,
+    [Sets.TaliaKingdomOfBanditry]: 1,
+  },
+  presets: [],
+  sortOption: SortOption.SKILL,
+  hiddenColumns: [
+    SortOption.ULT,
+    SortOption.FUA,
+    SortOption.DOT,
+  ],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 930,
+    y: 1075,
+    z: 1.25,
+  },
+  showcaseColor: '#a0efec',
+}
+
+export const Firefly: CharacterConfig = {
+  id: '1310',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

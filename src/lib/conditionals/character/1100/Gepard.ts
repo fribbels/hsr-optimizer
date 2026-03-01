@@ -12,6 +12,8 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
+  Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
@@ -21,10 +23,17 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 
 import { CharacterConditionalsController } from 'types/conditionals'
+import { ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -33,7 +42,7 @@ import {
 export const GepardEntities = createEnum('Gepard')
 export const GepardAbilities = createEnum('BASIC', 'SKILL', 'ULT_SHIELD', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Gepard')
   const { basic, skill, ult } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
   const {
@@ -160,4 +169,69 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     ],
   }
+}
+
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 1,
+    [Stats.DEF_P]: 1,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0.75,
+    [Stats.RES]: 0.50,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.DEF_P,
+    ],
+    [Parts.Feet]: [
+      Stats.DEF_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.DEF_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.DEF_P,
+      Stats.ERR,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+    [Sets.KnightOfPurityPalace]: 1,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+    [Sets.BelobogOfTheArchitects]: 1,
+  },
+  presets: [],
+  sortOption: SortOption.ULT_SHIELD,
+  addedColumns: [],
+  hiddenColumns: [
+    SortOption.ULT,
+    SortOption.FUA,
+    SortOption.DOT,
+  ],
+}
+
+const display = {
+  imageCenter: {
+    x: 1150,
+    y: 1110,
+    z: 1,
+  },
+  showcaseColor: '#0f4eef',
+}
+
+export const Gepard: CharacterConfig = {
+  id: '1104',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

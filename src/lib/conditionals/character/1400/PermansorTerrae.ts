@@ -17,6 +17,11 @@ import {
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import {
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -24,11 +29,20 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_ATK_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
 import { PERMANSOR_TERRAE } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -37,7 +51,7 @@ import {
 export const PermansorTerraeEntities = createEnum('PermansorTerrae', 'Souldragon')
 export const PermansorTerraeAbilities = createEnum('BASIC', 'ULT', 'FUA', 'SKILL_SHIELD', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.PermansorTerrae.TeammateContent')
   const tShield = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.ShieldAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -240,7 +254,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // No self-buffs to apply - scaling is handled in actionDefinition
     },
 
-    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
+    precomputeTeammateEffectsContainer: (
+      x: ComputedStatsContainer,
+      action: OptimizerAction,
+      context: OptimizerContext,
+      originalCharacterAction?: OptimizerAction,
+    ) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const atkBuff = t.sourceAtk * 0.15
@@ -269,4 +288,73 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
     },
   }
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 1,
+    [Stats.ATK_P]: 1,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.25,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.ATK_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.ATK_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+      Stats.ATK_P,
+    ],
+  },
+  sets: {
+    [Sets.SelfEnshroudedRecluse]: 1,
+    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+    [Sets.SacerdosRelivedOrdeal]: 1,
+    [Sets.MessengerTraversingHackerspace]: 1,
+    [Sets.MusketeerOfWildWheat]: 1,
+
+    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  },
+  presets: [
+    PresetEffects.BANANA_SET,
+    PresetEffects.fnAshblazingSet(8),
+    PresetEffects.VALOROUS_SET,
+  ],
+  sortOption: SortOption.ATK,
+  addedColumns: [],
+  hiddenColumns: [SortOption.DOT, SortOption.SKILL],
+}
+
+const display = {
+  imageCenter: {
+    x: 975,
+    y: 1024,
+    z: 1.05,
+  },
+  showcaseColor: '#aefcf3',
+}
+
+export const PermansorTerrae: CharacterConfig = {
+  id: '1414',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

@@ -5,6 +5,8 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -12,18 +14,42 @@ import {
   ElementTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  MATCH_2P_WEIGHT,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  T2_WEIGHT,
+} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata, SimulationMetadata } from 'types/metadata'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import {
+  DEFAULT_ULT,
+  END_ULT,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  BRONYA,
+  HYACINE,
+  TRIBBIE,
+  BUT_THE_BATTLE_ISNT_OVER,
+  IF_TIME_WERE_A_FLOWER,
+  LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+} from 'lib/simulations/tests/testMetadataConstants'
 
 export const JingliuB1Entities = createEnum('JingliuB1')
 export const JingliuB1Abilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.JingliuB1.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
   const {
@@ -202,4 +228,141 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CD,
+      Stats.HP_P,
+    ],
+    [Parts.Feet]: [
+      Stats.HP_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.Ice_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.HP_P,
+    Stats.HP,
+  ],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_ULT,
+    WHOLE_SKILL,
+    WHOLE_SKILL,
+    START_SKILL,
+    END_ULT,
+    WHOLE_SKILL,
+    WHOLE_SKILL,
+  ],
+  comboDot: 0,
+  relicSets: [
+    [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+    [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.BoneCollectionsSereneDemesne,
+    Sets.RutilantArena,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: BRONYA,
+      lightCone: BUT_THE_BATTLE_ISNT_OVER,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: TRIBBIE,
+      lightCone: IF_TIME_WERE_A_FLOWER,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: HYACINE,
+      lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 1,
+    [Stats.HP_P]: 1,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.HP_P,
+    ],
+    [Parts.Feet]: [
+      Stats.HP_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.Ice_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+      Stats.ERR,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+    [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+    [Sets.ScholarLostInErudition]: 1,
+    [Sets.GeniusOfBrilliantStars]: 1,
+    [Sets.HunterOfGlacialForest]: T2_WEIGHT,
+
+    [Sets.BoneCollectionsSereneDemesne]: 1,
+    [Sets.RutilantArena]: 1,
+    [Sets.InertSalsotto]: T2_WEIGHT,
+  },
+  presets: [],
+  sortOption: SortOption.SKILL,
+  hiddenColumns: [SortOption.FUA, SortOption.DOT],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 1024,
+    y: 930,
+    z: 1,
+  },
+  showcaseColor: '#3e65f2',
+}
+
+export const JingliuB1: CharacterConfig = {
+  id: '1212b1',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

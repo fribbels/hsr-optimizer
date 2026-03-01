@@ -5,13 +5,40 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { BLADE_B1 } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  MATCH_2P_WEIGHT,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  T2_WEIGHT,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  DEFAULT_ULT,
+  END_BASIC,
+  DEFAULT_FUA,
+  WHOLE_BASIC,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  BLADE_B1,
+  TRIBBIE,
+  SUNDAY,
+  HYACINE,
+  IF_TIME_WERE_A_FLOWER,
+  A_GROUNDED_ASCENT,
+  LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
@@ -21,7 +48,7 @@ import {
 export const BladeB1Entities = createEnum('BladeB1')
 export const BladeB1Abilities = createEnum('BASIC', 'ULT', 'FUA', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.BladeB1.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
   const {
@@ -182,4 +209,145 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.HP_P,
+    ],
+    [Parts.Feet]: [
+      Stats.HP_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.Wind_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.HP_P,
+    Stats.HP,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_SKILL,
+    DEFAULT_ULT,
+    END_BASIC,
+    DEFAULT_FUA,
+    WHOLE_BASIC,
+    WHOLE_BASIC,
+    DEFAULT_FUA,
+    WHOLE_BASIC,
+  ],
+  comboDot: 0,
+  relicSets: [
+    [Sets.LongevousDisciple, Sets.LongevousDisciple],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.BoneCollectionsSereneDemesne,
+    Sets.InertSalsotto,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: TRIBBIE,
+      lightCone: IF_TIME_WERE_A_FLOWER,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: SUNDAY,
+      lightCone: A_GROUNDED_ASCENT,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: HYACINE,
+      lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 1,
+    [Stats.HP_P]: 1,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CD,
+      Stats.CR,
+      Stats.HP_P,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.HP_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.Wind_DMG,
+      Stats.HP_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+    ],
+  },
+  sets: {
+    [Sets.ScholarLostInErudition]: MATCH_2P_WEIGHT,
+    [Sets.LongevousDisciple]: 1,
+    [Sets.EagleOfTwilightLine]: 1,
+    [Sets.MusketeerOfWildWheat]: T2_WEIGHT,
+
+    [Sets.BoneCollectionsSereneDemesne]: 1,
+    [Sets.RutilantArena]: 1,
+    [Sets.InertSalsotto]: 1,
+  },
+  presets: [
+    PresetEffects.VALOROUS_SET,
+    PresetEffects.fnSacerdosSet(1),
+  ],
+  sortOption: SortOption.BASIC,
+  hiddenColumns: [
+    SortOption.SKILL,
+    SortOption.DOT,
+  ],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 990,
+    y: 800,
+    z: 1,
+  },
+  showcaseColor: '#4d69be',
+}
+
+export const BladeB1: CharacterConfig = {
+  id: '1205b1',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

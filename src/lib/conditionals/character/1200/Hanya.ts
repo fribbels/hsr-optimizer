@@ -1,15 +1,22 @@
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata } from 'types/metadata'
 
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
@@ -17,7 +24,7 @@ import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 export const HanyaEntities = createEnum('Hanya')
 export const HanyaAbilities = createEnum('BASIC', 'SKILL', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hanya')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
@@ -205,4 +212,63 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }],
   }
+}
+
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.25,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+    [Sets.MessengerTraversingHackerspace]: 1,
+    [Sets.SacerdosRelivedOrdeal]: 1,
+
+    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  },
+  presets: [],
+  sortOption: SortOption.SPD,
+  hiddenColumns: [
+    SortOption.ULT,
+    SortOption.FUA,
+    SortOption.DOT,
+  ],
+}
+
+const display = {
+  imageCenter: {
+    x: 1000,
+    y: 1024,
+    z: 1.1,
+  },
+  showcaseColor: '#9a90e6',
+}
+
+export const Hanya: CharacterConfig = {
+  id: '1215',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

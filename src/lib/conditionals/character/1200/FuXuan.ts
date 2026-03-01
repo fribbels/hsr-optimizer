@@ -1,15 +1,24 @@
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  MATCH_2P_WEIGHT,
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata } from 'types/metadata'
 
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
@@ -17,7 +26,7 @@ import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 export const FuXuanEntities = createEnum('FuXuan')
 export const FuXuanAbilities = createEnum('BASIC', 'ULT', 'TALENT_HEAL', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.FuXuan')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
@@ -226,4 +235,76 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     ],
   }
+}
+
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0.75,
+    [Stats.DEF_P]: 0.75,
+    [Stats.HP]: 1,
+    [Stats.HP_P]: 1,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.5,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.HP_P,
+      Stats.DEF_P,
+    ],
+    [Parts.Feet]: [
+      Stats.HP_P,
+      Stats.DEF_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.DEF_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+      Stats.DEF_P,
+      Stats.ERR,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+    [Sets.LongevousDisciple]: 1,
+    [Sets.GuardOfWutheringSnow]: MATCH_2P_WEIGHT,
+
+    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  },
+  presets: [
+    PresetEffects.WARRIOR_SET,
+  ],
+  sortOption: SortOption.EHP,
+  addedColumns: [SortOption.OHB],
+  hiddenColumns: [
+    SortOption.SKILL,
+    SortOption.FUA,
+    SortOption.DOT,
+  ],
+}
+
+const display = {
+  imageCenter: {
+    x: 920,
+    y: 950,
+    z: 1,
+  },
+  showcaseColor: '#dd9cf2',
+}
+
+export const FuXuan: CharacterConfig = {
+  id: '1208',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

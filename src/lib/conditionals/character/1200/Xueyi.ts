@@ -12,8 +12,10 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Source } from 'lib/optimization/buffSource'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -23,20 +25,47 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import {
+  MATCH_2P_WEIGHT,
+  SPREAD_ORNAMENTS_2P_FUA,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_2P_ATK_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  T2_WEIGHT,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata, SimulationMetadata } from 'types/metadata'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import {
+  DEFAULT_BREAK,
+  DEFAULT_FUA,
+  END_SKILL,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  FUGUE,
+  LINGSHA,
+  THE_DAHLIA,
+  LONG_ROAD_LEADS_HOME,
+  NEVER_FORGET_HER_FLAME,
+  SCENT_ALONE_STAYS_TRUE,
+} from 'lib/simulations/tests/testMetadataConstants'
 
 export const XueyiEntities = createEnum('Xueyi')
 export const XueyiAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Xueyi')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
@@ -213,4 +242,149 @@ if (${wgslTrue(r.beToDmgBoost)}) {
       ` + gpuBoostAshblazingAtkContainer(hitMultiByFuaHits[r.fuaHits], action)
     },
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Quantum_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.BE,
+    ],
+  },
+  substats: [
+    Stats.BE,
+    Stats.ATK_P,
+    Stats.CR,
+    Stats.CD,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_BREAK,
+    DEFAULT_FUA,
+    END_SKILL,
+    DEFAULT_FUA,
+    WHOLE_SKILL,
+    DEFAULT_FUA,
+    WHOLE_SKILL,
+  ],
+  comboDot: 0,
+  relicSets: [
+    [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+    [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.TaliaKingdomOfBanditry,
+    Sets.InertSalsotto,
+    Sets.SpaceSealingStation,
+    Sets.FirmamentFrontlineGlamoth,
+    ...SPREAD_ORNAMENTS_2P_FUA,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: THE_DAHLIA,
+      lightCone: NEVER_FORGET_HER_FLAME,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: FUGUE,
+      lightCone: LONG_ROAD_LEADS_HOME,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: LINGSHA,
+      lightCone: SCENT_ALONE_STAYS_TRUE,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0.75,
+    [Stats.ATK_P]: 0.75,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 1,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.Quantum_DMG,
+      Stats.ATK_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.BE,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+    [Sets.WatchmakerMasterOfDreamMachinations]: MATCH_2P_WEIGHT,
+    [Sets.GeniusOfBrilliantStars]: 1,
+    [Sets.ThiefOfShootingMeteor]: T2_WEIGHT,
+
+    [Sets.TaliaKingdomOfBanditry]: 1,
+    [Sets.SpaceSealingStation]: 1,
+    [Sets.InertSalsotto]: 1,
+    [Sets.FirmamentFrontlineGlamoth]: 1,
+  },
+  presets: [
+    PresetEffects.fnAshblazingSet(3),
+    PresetEffects.VALOROUS_SET,
+  ],
+  sortOption: SortOption.SKILL,
+  hiddenColumns: [SortOption.DOT],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 1000,
+    y: 900,
+    z: 1,
+  },
+  showcaseColor: '#3571e7',
+}
+
+export const Xueyi: CharacterConfig = {
+  id: '1214',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

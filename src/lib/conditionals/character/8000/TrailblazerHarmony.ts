@@ -6,6 +6,15 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_BREAK_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata } from 'types/metadata'
 import { Source } from 'lib/optimization/buffSource'
 import { ModifierContext } from 'lib/optimization/context/calculateActions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -21,7 +30,7 @@ import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 export const TrailblazerHarmonyEntities = createEnum('TrailblazerHarmony')
 export const TrailblazerHarmonyAbilities = createEnum('BASIC', 'SKILL', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerHarmony')
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
@@ -202,4 +211,71 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.UNCONVERTIBLE_BE_BUFF, beBuff, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
   }
+}
+
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.25,
+    [Stats.BE]: 1,
+  },
+  parts: {
+    [Parts.Body]: [],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [],
+    [Parts.LinkRope]: [
+      Stats.BE,
+      Stats.ERR,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+    ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+    [Sets.WatchmakerMasterOfDreamMachinations]: 1,
+    [Sets.ThiefOfShootingMeteor]: 1,
+
+    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+    [Sets.TaliaKingdomOfBanditry]: 1,
+    [Sets.ForgeOfTheKalpagniLantern]: 1,
+  },
+  presets: [],
+  sortOption: SortOption.BE,
+  hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
+}
+
+const display = {
+  imageCenter: {
+    x: 1040,
+    y: 1000,
+    z: 1.1,
+  },
+  showcaseColor: '#8d7abc',
+}
+
+export const TrailblazerHarmonyCaelus: CharacterConfig = {
+  id: '8005',
+  info: { displayName: 'Caelus (Harmony)' },
+  conditionals,
+  scoring,
+  display,
+}
+
+export const TrailblazerHarmonyStelle: CharacterConfig = {
+  id: '8006',
+  info: { displayName: 'Stelle (Harmony)' },
+  conditionals,
+  scoring,
+  display,
 }

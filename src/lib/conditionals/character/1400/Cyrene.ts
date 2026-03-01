@@ -8,10 +8,22 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import {
+  Parts,
+  Sets,
+  Stats
+} from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
-import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import {
+  wgsl,
+  wgslTrue
+} from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  AKey,
+  HKey,
+  StatKey
+} from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
@@ -20,6 +32,19 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import {
+  DEFAULT_MEMO_SKILL,
+  DEFAULT_ULT,
+  NULL_TURN_ABILITY_NAME,
+  WHOLE_BASIC,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  RELICS_2P_SPEED,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
 import {
   AGLAEA,
   ANAXA,
@@ -31,15 +56,20 @@ import {
   EVERNIGHT,
   HYACINE,
   HYSILENS,
+  LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+  MAKE_FAREWELLS_MORE_BEAUTIFUL,
   MYDEI,
   PERMANSOR_TERRAE,
   PHAINON,
   STELLE_REMEMBRANCE,
+  TO_EVERNIGHTS_STARS,
   TRIBBIE,
 } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -48,7 +78,7 @@ import {
 export const CyreneEntities = createEnum('Cyrene', 'Demiurge')
 export const CyreneAbilities = createEnum('BASIC', 'MEMO_SKILL', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cyrene')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
 
@@ -398,3 +428,142 @@ if (${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} >= 180.
     },
   }
 }
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.HP_P,
+    ],
+    [Parts.Feet]: [
+      Stats.HP_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.Ice_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.HP_P,
+    Stats.HP,
+    Stats.SPD,
+  ],
+  breakpoints: { [Stats.SPD]: 180 },
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_ULT,
+    DEFAULT_MEMO_SKILL,
+    WHOLE_BASIC,
+    DEFAULT_MEMO_SKILL,
+    WHOLE_BASIC,
+    DEFAULT_MEMO_SKILL,
+  ],
+  comboDot: 0,
+  deprioritizeBuffs: true,
+  relicSets: [
+    [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
+    RELICS_2P_SPEED,
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.BoneCollectionsSereneDemesne,
+    Sets.AmphoreusTheEternalLand,
+    Sets.ArcadiaOfWovenDreams,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: CASTORICE,
+      lightCone: MAKE_FAREWELLS_MORE_BEAUTIFUL,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: EVERNIGHT,
+      lightCone: TO_EVERNIGHTS_STARS,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: HYACINE,
+      lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 1,
+    [Stats.HP_P]: 1,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.HP_P,
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.Ice_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+    ],
+  },
+  sets: {},
+  presets: [
+    PresetEffects.BANANA_SET,
+  ],
+  sortOption: SortOption.MEMO_SKILL,
+  hiddenColumns: [
+    SortOption.SKILL,
+    SortOption.FUA,
+    SortOption.ULT,
+    SortOption.DOT,
+  ],
+  addedColumns: [
+    SortOption.MEMO_SKILL,
+  ],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 1030,
+    y: 1225,
+    z: 1.60,
+  },
+  showcaseColor: '#8a88e4',
+}
+
+export const Cyrene: CharacterConfig = {
+  id: '1415',
+  info: {},
+  conditionals,
+  scoring,
+  display,
+}
+
+

@@ -9,7 +9,7 @@ import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import DB from 'lib/state/db'
 
-import { Metadata } from 'lib/state/metadata'
+import { Metadata } from 'lib/state/metadataInitializer'
 import { Relic } from 'types/relic'
 import {
   expect,

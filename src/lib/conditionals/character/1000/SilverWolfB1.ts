@@ -1,23 +1,52 @@
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  END_SKILL,
+  WHOLE_BASIC,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  RELICS_2P_SPEED,
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_ORNAMENTS_2P_ENERGY_REGEN_WEIGHTS,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  T2_WEIGHT,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  ACHERON,
+  ALONG_THE_PASSING_SHORE,
+  CIPHER,
+  LIES_DANCE_ON_THE_BREEZE,
+  PERMANSOR_TERRAE,
+  THOUGH_WORLDS_APART,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
-
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const SilverWolfB1Entities = createEnum('SilverWolfB1')
 export const SilverWolfB1Abilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SilverWolfB1.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
@@ -258,4 +287,160 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     ],
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.ATK_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Quantum_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.ATK_P,
+    Stats.CR,
+    Stats.CD,
+    Stats.ATK,
+    Stats.EHR,
+  ],
+  breakpoints: {
+    [Stats.EHR]: 0.50,
+  },
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    END_SKILL,
+    WHOLE_BASIC,
+  ],
+  deprioritizeBuffs: true,
+  comboDot: 0,
+  errRopeEidolon: 0,
+  relicSets: [
+    [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+    [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+    [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+    RELICS_2P_SPEED,
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.InertSalsotto,
+    Sets.FirmamentFrontlineGlamoth,
+    Sets.IzumoGenseiAndTakamaDivineRealm,
+    Sets.RutilantArena,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+    ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+  ],
+  teammates: [
+    {
+      characterId: ACHERON,
+      lightCone: ALONG_THE_PASSING_SHORE,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: CIPHER,
+      lightCone: LIES_DANCE_ON_THE_BREEZE,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PERMANSOR_TERRAE,
+      lightCone: THOUGH_WORLDS_APART,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0.75,
+    [Stats.ATK_P]: 0.75,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 1,
+    [Stats.RES]: 0.25,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CD,
+      Stats.CR,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.Quantum_DMG,
+      Stats.ATK_P,
+      Stats.HP_P,
+      Stats.DEF_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+      Stats.ATK_P,
+      Stats.BE,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+    [Sets.GeniusOfBrilliantStars]: 1,
+    [Sets.PioneerDiverOfDeadWaters]: 1,
+
+    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+    ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN_WEIGHTS,
+    [Sets.InertSalsotto]: 1,
+    [Sets.FirmamentFrontlineGlamoth]: 1,
+    [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+    [Sets.RutilantArena]: 1,
+    [Sets.PanCosmicCommercialEnterprise]: T2_WEIGHT,
+  },
+  presets: [
+    PresetEffects.fnPioneerSet(4),
+  ],
+  sortOption: SortOption.ULT,
+  hiddenColumns: [
+    SortOption.FUA,
+    SortOption.DOT,
+  ],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 1050,
+    y: 950,
+    z: 1,
+  },
+  showcaseColor: '#8483eb',
+}
+
+export const SilverWolfB1: CharacterConfig = {
+  id: '1006b1',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

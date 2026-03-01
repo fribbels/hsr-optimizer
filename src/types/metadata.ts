@@ -13,7 +13,7 @@ import {
 import { statConversion } from 'lib/importer/characterConverter'
 import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'
-import { PresetDefinition } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { PresetDefinition } from 'lib/scoring/presetEffects'
 import { CharacterId } from 'types/character'
 import { LightConeId } from 'types/lightCone'
 

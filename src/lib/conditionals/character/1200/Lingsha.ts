@@ -20,9 +20,12 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
+  Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -32,9 +35,18 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import {
+  MATCH_2P_WEIGHT,
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_BREAK_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata } from 'types/metadata'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -45,7 +57,7 @@ import {
 export const LingshaEntities = createEnum('Lingsha', 'Fuyuan')
 export const LingshaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK', 'SKILL_HEAL', 'ULT_HEAL', 'FUA_HEAL')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lingsha')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
   const {
@@ -341,4 +353,83 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     ],
   }
+}
+
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 1.00,
+    [Stats.ATK_P]: 1.00,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.50,
+    [Stats.BE]: 1,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.ATK_P,
+      Stats.OHB,
+      Stats.DEF_P,
+      Stats.HP_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.DEF_P,
+      Stats.HP_P,
+      Stats.Fire_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.BE,
+      Stats.ERR,
+      Stats.ATK_P,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+    ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+    [Sets.PasserbyOfWanderingCloud]: MATCH_2P_WEIGHT,
+    [Sets.IronCavalryAgainstTheScourge]: 1,
+    [Sets.ThiefOfShootingMeteor]: 1,
+
+    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+    [Sets.GiantTreeOfRaptBrooding]: 1,
+    [Sets.ForgeOfTheKalpagniLantern]: 1,
+    [Sets.TaliaKingdomOfBanditry]: 1,
+  },
+  presets: [
+    PresetEffects.BANANA_SET,
+    PresetEffects.fnAshblazingSet(6),
+    PresetEffects.VALOROUS_SET,
+    PresetEffects.WARRIOR_SET,
+  ],
+  sortOption: SortOption.FUA_HEAL,
+  addedColumns: [SortOption.OHB],
+  hiddenColumns: [SortOption.DOT],
+}
+
+const display = {
+  imageCenter: {
+    x: 1110,
+    y: 1000,
+    z: 1.1,
+  },
+  showcaseColor: '#ffeef5',
+}
+
+export const Lingsha: CharacterConfig = {
+  id: '1222',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

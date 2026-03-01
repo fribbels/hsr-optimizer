@@ -5,6 +5,8 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -12,8 +14,14 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata } from 'types/metadata'
 
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -24,7 +32,7 @@ import {
 export const YukongEntities = createEnum('Yukong')
 export const YukongAbilities = createEnum('BASIC', 'ULT', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yukong')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
@@ -176,4 +184,69 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
+}
+
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0.75,
+    [Stats.ATK_P]: 0.75,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Imaginary_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+      Stats.ATK_P,
+    ],
+  },
+  sets: {
+    [Sets.MessengerTraversingHackerspace]: 1,
+    [Sets.SacerdosRelivedOrdeal]: 1,
+
+    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  },
+  presets: [
+    PresetEffects.WASTELANDER_SET,
+    PresetEffects.fnSacerdosSet(1),
+  ],
+  sortOption: SortOption.ULT,
+  hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+}
+
+const display = {
+  imageCenter: {
+    x: 900,
+    y: 1055,
+    z: 1.1,
+  },
+  showcaseColor: '#90a0e6',
+}
+
+export const Yukong: CharacterConfig = {
+  id: '1207',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

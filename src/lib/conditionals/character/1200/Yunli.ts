@@ -12,6 +12,8 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -19,20 +21,45 @@ import {
   ElementTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  MATCH_2P_WEIGHT,
+  SPREAD_ORNAMENTS_2P_FUA,
+  SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata, SimulationMetadata } from 'types/metadata'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import {
+  DEFAULT_FUA,
+  END_SKILL,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  DANCE_DANCE_DANCE,
+  HUOHUO,
+  MEMORIES_OF_THE_PAST,
+  NIGHT_OF_FRIGHT,
+  SPARKLE_B1,
+  TINGYUN,
+} from 'lib/simulations/tests/testMetadataConstants'
 
 export const YunliEntities = createEnum('Yunli')
 export const YunliAbilities = createEnum('BASIC', 'SKILL', 'FUA', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yunli')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -269,4 +296,139 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Physical_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    END_SKILL,
+    DEFAULT_FUA,
+    DEFAULT_FUA,
+  ],
+  comboDot: 0,
+  relicSets: [
+    [Sets.TheWindSoaringValorous, Sets.TheWindSoaringValorous],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.DuranDynastyOfRunningWolves,
+    ...SPREAD_ORNAMENTS_2P_FUA,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: SPARKLE_B1,
+      lightCone: DANCE_DANCE_DANCE,
+      characterEidolon: 0,
+      lightConeSuperimposition: 5,
+    },
+    {
+      characterId: TINGYUN,
+      lightCone: MEMORIES_OF_THE_PAST,
+      characterEidolon: 6,
+      lightConeSuperimposition: 5,
+    },
+    {
+      characterId: HUOHUO,
+      lightCone: NIGHT_OF_FRIGHT,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0.75,
+    [Stats.ATK_P]: 0.75,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Physical_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.ERR,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+    [Sets.ChampionOfStreetwiseBoxing]: MATCH_2P_WEIGHT,
+    [Sets.TheWindSoaringValorous]: 1,
+    [Sets.PoetOfMourningCollapse]: 1,
+    [Sets.TheAshblazingGrandDuke]: 1,
+
+    ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+  },
+  presets: [
+    PresetEffects.VALOROUS_SET,
+    PresetEffects.fnPioneerSet(4),
+    PresetEffects.fnAshblazingSet(8),
+  ],
+  sortOption: SortOption.FUA,
+  hiddenColumns: [SortOption.ULT, SortOption.DOT],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 1024,
+    y: 1075,
+    z: 1.1,
+  },
+  showcaseColor: '#a2e9f5',
+}
+
+export const Yunli: CharacterConfig = {
+  id: '1221',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

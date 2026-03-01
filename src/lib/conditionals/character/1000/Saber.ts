@@ -1,18 +1,42 @@
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  END_BASIC,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  T2_WEIGHT,
+} from 'lib/scoring/scoringConstants'
+import {
+  SUNDAY,
+  A_GROUNDED_ASCENT,
+  TINGYUN,
+  DANCE_DANCE_DANCE,
+  HUOHUO,
+  NIGHT_OF_FRIGHT,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const SaberEntities = createEnum('Saber')
 export const SaberAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Saber.Content')
   const { basic, skill, talent, ult } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -234,4 +258,140 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.ATK_P,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Wind_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    END_BASIC,
+    WHOLE_SKILL,
+    WHOLE_SKILL,
+  ],
+  comboDot: 0,
+  errRopeEidolon: 0,
+  relicSets: [
+    [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
+    [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.InertSalsotto,
+    Sets.FirmamentFrontlineGlamoth,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: SUNDAY,
+      lightCone: A_GROUNDED_ASCENT,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: TINGYUN,
+      lightCone: DANCE_DANCE_DANCE,
+      characterEidolon: 6,
+      lightConeSuperimposition: 5,
+    },
+    {
+      characterId: HUOHUO,
+      lightCone: NIGHT_OF_FRIGHT,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0.75,
+    [Stats.ATK_P]: 0.75,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.ATK_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Wind_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.ERR,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+    [Sets.WavestriderCaptain]: 1,
+    [Sets.ScholarLostInErudition]: 1,
+
+    [Sets.InertSalsotto]: 1,
+    [Sets.RutilantArena]: 1,
+    [Sets.SpaceSealingStation]: T2_WEIGHT,
+  },
+  presets: [],
+  sortOption: SortOption.ULT,
+  hiddenColumns: [
+    SortOption.DOT,
+  ],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 900,
+    y: 950,
+    z: 1.05,
+  },
+  showcaseColor: '#3e65f2',
+}
+
+export const Saber: CharacterConfig = {
+  id: '1014',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

@@ -6,7 +6,9 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { ModifierContext } from 'lib/optimization/context/calculateActions'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -15,9 +17,34 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  RELICS_2P_BREAK_EFFECT_SPEED,
+  SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_2P_BREAK_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import {
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  DEFAULT_BASIC,
+  END_BREAK,
+  START_BASIC,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  FIREFLY,
+  THE_DAHLIA,
+  LINGSHA,
+  WHEREABOUTS_SHOULD_DREAMS_REST,
+  NEVER_FORGET_HER_FLAME,
+  SCENT_ALONE_STAYS_TRUE,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { HitDefinition } from 'types/hitConditionalTypes'
 import {
@@ -28,7 +55,7 @@ import {
 export const FugueEntities = createEnum('Fugue')
 export const FugueAbilities = createEnum('BASIC', 'ULT', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Fugue')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
@@ -221,4 +248,145 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.ATK_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.ATK_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Fire_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.BE,
+    ],
+  },
+  substats: [
+    Stats.BE,
+    Stats.ATK_P,
+    Stats.CR,
+    Stats.CD,
+    Stats.EHR,
+  ],
+  errRopeEidolon: 0,
+  breakpoints: {
+    [Stats.EHR]: 0.67,
+  },
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_BASIC,
+    END_BREAK,
+    START_BASIC,
+    END_BREAK,
+    START_BASIC,
+    END_BREAK,
+  ],
+  comboDot: 0,
+  deprioritizeBuffs: true,
+  relicSets: [
+    [Sets.ThiefOfShootingMeteor, Sets.ThiefOfShootingMeteor],
+    [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
+    RELICS_2P_BREAK_EFFECT_SPEED,
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.ForgeOfTheKalpagniLantern,
+    Sets.TaliaKingdomOfBanditry,
+    ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: FIREFLY,
+      lightCone: WHEREABOUTS_SHOULD_DREAMS_REST,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: THE_DAHLIA,
+      lightCone: NEVER_FORGET_HER_FLAME,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: LINGSHA,
+      lightCone: SCENT_ALONE_STAYS_TRUE,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 1,
+    [Stats.RES]: 0,
+    [Stats.BE]: 1,
+  },
+  parts: {
+    [Parts.Body]: [],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+      Stats.BE,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+    ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+    [Sets.IronCavalryAgainstTheScourge]: 1,
+    [Sets.ThiefOfShootingMeteor]: 1,
+
+    [Sets.ForgeOfTheKalpagniLantern]: 1,
+    [Sets.TaliaKingdomOfBanditry]: 1,
+    [Sets.SprightlyVonwacq]: 1,
+    [Sets.LushakaTheSunkenSeas]: 1,
+  },
+  presets: [],
+  sortOption: SortOption.BASIC,
+  hiddenColumns: [
+    SortOption.SKILL,
+    SortOption.FUA,
+    SortOption.DOT,
+  ],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 875,
+    y: 1125,
+    z: 1.15,
+  },
+  showcaseColor: '#fce4f7',
+}
+
+export const Fugue: CharacterConfig = {
+  id: '1225',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

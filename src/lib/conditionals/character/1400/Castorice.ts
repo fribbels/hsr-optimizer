@@ -10,6 +10,15 @@ import {
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  MATCH_2P_WEIGHT,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  T2_WEIGHT,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -18,7 +27,25 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { CASTORICE } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  CASTORICE,
+  CYRENE,
+  EVERNIGHT,
+  HYACINE,
+  LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+  MAKE_FAREWELLS_MORE_BEAUTIFUL,
+  THIS_LOVE_FOREVER,
+  TO_EVERNIGHTS_STARS,
+} from 'lib/simulations/tests/testMetadataConstants'
+import {
+  DEFAULT_MEMO_SKILL,
+  DEFAULT_MEMO_TALENT,
+  DEFAULT_ULT,
+  NULL_TURN_ABILITY_NAME,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -42,7 +69,7 @@ export const CastoriceAbilities = createEnum(
   'BREAK',
 )
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Castorice.Content')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.ULT_BASIC_MEMO_TALENT_3_SKILL_TALENT_MEMO_SKILL_5
@@ -359,4 +386,143 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.HP_P,
+    ],
+    [Parts.Feet]: [
+      Stats.HP_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.Quantum_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.HP_P,
+    Stats.HP,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    WHOLE_SKILL,
+    WHOLE_SKILL,
+    DEFAULT_ULT,
+    DEFAULT_MEMO_SKILL,
+    DEFAULT_MEMO_SKILL,
+    DEFAULT_MEMO_SKILL,
+    DEFAULT_MEMO_SKILL,
+    DEFAULT_MEMO_TALENT,
+  ],
+  comboDot: 0,
+  relicSets: [
+    [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.BoneCollectionsSereneDemesne,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: CYRENE,
+      lightCone: THIS_LOVE_FOREVER,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: EVERNIGHT,
+      lightCone: TO_EVERNIGHTS_STARS,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: HYACINE,
+      lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 1,
+    [Stats.HP_P]: 1,
+    [Stats.SPD]: 0,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.HP_P,
+    ],
+    [Parts.Feet]: [
+      Stats.HP_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.Quantum_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+    ],
+  },
+  sets: {
+    [Sets.PoetOfMourningCollapse]: 1,
+    [Sets.ScholarLostInErudition]: T2_WEIGHT,
+    [Sets.LongevousDisciple]: MATCH_2P_WEIGHT,
+    [Sets.GeniusOfBrilliantStars]: MATCH_2P_WEIGHT,
+
+    [Sets.BoneCollectionsSereneDemesne]: 1,
+    [Sets.TheWondrousBananAmusementPark]: T2_WEIGHT,
+    [Sets.FleetOfTheAgeless]: T2_WEIGHT,
+    [Sets.RutilantArena]: T2_WEIGHT,
+    [Sets.InertSalsotto]: T2_WEIGHT,
+  },
+  presets: [
+    PresetEffects.BANANA_SET,
+    PresetEffects.WARRIOR_SET,
+  ],
+  sortOption: SortOption.MEMO_SKILL,
+  addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
+  hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.ULT],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 875,
+    y: 950,
+    z: 1.00,
+  },
+  showcaseColor: '#b985fd',
+}
+
+export const Castorice: CharacterConfig = {
+  id: '1407',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

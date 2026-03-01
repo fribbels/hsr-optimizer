@@ -2,13 +2,38 @@ import i18next from 'i18next'
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
-import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats, } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Parts, Sets, Stats, } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { SPARXIE } from 'lib/simulations/tests/testMetadataConstants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import {
+  BUT_THE_BATTLE_ISNT_OVER,
+  DAZZLED_BY_A_FLOWERY_WORLD,
+  HUOHUO,
+  NIGHT_OF_FRIGHT,
+  SPARXIE,
+  SPARKLE_B1,
+  WHEN_SHE_DECIDED_TO_SEE,
+  YAO_GUANG,
+} from 'lib/simulations/tests/testMetadataConstants'
+import {
+  DEFAULT_SKILL,
+  END_BASIC,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  START_ULT,
+  WHOLE_ELATION_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { HitDefinition } from 'types/hitConditionalTypes'
@@ -17,7 +42,7 @@ import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 export const SparxieEntities = createEnum('Sparxie')
 export const SparxieAbilities = createEnum('BASIC', 'ULT', 'ELATION_SKILL', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_BASIC_ELATION_SKILL_3_ULT_TALENT_ELATION_SKILL_5
   const {
     SOURCE_BASIC,
@@ -323,4 +348,135 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     ],
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.ATK_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.Fire_DMG,
+      Stats.ATK_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_SKILL,
+    END_BASIC,
+    WHOLE_ELATION_SKILL,
+    START_SKILL,
+    END_BASIC,
+    WHOLE_ELATION_SKILL,
+  ],
+  comboDot: 0,
+  errRopeEidolon: 0,
+  relicSets: [
+    [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.TengokuLivestream,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: SPARKLE_B1,
+      lightCone: BUT_THE_BATTLE_ISNT_OVER,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: YAO_GUANG,
+      lightCone: WHEN_SHE_DECIDED_TO_SEE,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: HUOHUO,
+      lightCone: NIGHT_OF_FRIGHT,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0.75,
+    [Stats.ATK_P]: 0.75,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.ATK_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.Fire_DMG,
+      Stats.ATK_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.ERR,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+    [Sets.EverGloriousMagicalGirl]: 1,
+
+    [Sets.DivinerOfDistantReach]: 1,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  },
+  presets: [],
+  sortOption: SortOption.BASIC,
+  hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 1015,
+    y: 1050,
+    z: 1.10,
+  },
+  showcaseColor: '#b4a8e8',
+}
+
+export const Sparxie: CharacterConfig = {
+  id: '1501',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

@@ -8,6 +8,8 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
+  Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import {
@@ -26,13 +28,39 @@ import {
   SELF_ENTITY_INDEX,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  DEFAULT_ULT,
+  DEFAULT_BASIC,
+  END_BREAK,
+  WHOLE_BASIC,
+  START_BASIC,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+  SPREAD_RELICS_2P_BREAK_WEIGHTS,
+  RELICS_2P_BREAK_EFFECT_SPEED,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import {
+  FUGUE,
+  LONG_ROAD_LEADS_HOME,
+  THE_DAHLIA,
+  NEVER_FORGET_HER_FLAME,
+  LINGSHA,
+  SCENT_ALONE_STAYS_TRUE,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { HitDefinition } from 'types/hitConditionalTypes'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -41,7 +69,7 @@ import {
 export const BoothillEntities = createEnum('Boothill')
 export const BoothillAbilities = createEnum('BASIC', 'ULT', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Boothill')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -315,4 +343,133 @@ ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_CD_BUFF, action.
       },
     }],
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.Physical_DMG,
+      Stats.ATK_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.BE,
+    ],
+  },
+  substats: [
+    Stats.BE,
+    Stats.CD,
+    Stats.CR,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_SKILL,
+    DEFAULT_ULT,
+    DEFAULT_BASIC,
+    END_BREAK,
+    WHOLE_BASIC,
+    START_BASIC,
+    END_BREAK,
+  ],
+  comboDot: 0,
+  relicSets: [
+    [Sets.ThiefOfShootingMeteor, Sets.WatchmakerMasterOfDreamMachinations],
+    [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+    RELICS_2P_BREAK_EFFECT_SPEED,
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.TaliaKingdomOfBanditry,
+  ],
+  teammates: [
+    {
+      characterId: FUGUE,
+      lightCone: LONG_ROAD_LEADS_HOME,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: THE_DAHLIA,
+      lightCone: NEVER_FORGET_HER_FLAME,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: LINGSHA,
+      lightCone: SCENT_ALONE_STAYS_TRUE,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0.25,
+    [Stats.ATK_P]: 0.25,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0.25,
+    [Stats.CD]: 0.25,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 1,
+  },
+  parts: {
+    [Parts.Body]: [],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [],
+    [Parts.LinkRope]: [
+      Stats.BE,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+    ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
+    [Sets.IronCavalryAgainstTheScourge]: 1,
+    [Sets.ThiefOfShootingMeteor]: 1,
+    [Sets.EagleOfTwilightLine]: 1,
+
+    [Sets.TaliaKingdomOfBanditry]: 1,
+    [Sets.ForgeOfTheKalpagniLantern]: 1,
+  },
+  presets: [],
+  sortOption: SortOption.BASIC,
+  hiddenColumns: [
+    SortOption.SKILL,
+    SortOption.FUA,
+    SortOption.DOT,
+  ],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 1000,
+    y: 1100,
+    z: 1,
+  },
+  showcaseColor: '#a49ed2',
+}
+
+export const Boothill: CharacterConfig = {
+  id: '1315',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

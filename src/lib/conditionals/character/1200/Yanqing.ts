@@ -12,23 +12,50 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  MATCH_2P_WEIGHT,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata, SimulationMetadata } from 'types/metadata'
 
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import {
+  DEFAULT_SKILL,
+  END_FUA,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  START_ULT,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  BRONYA,
+  PERMANSOR_TERRAE,
+  ROBIN,
+  BUT_THE_BATTLE_ISNT_OVER,
+  FLOWING_NIGHTGLOW,
+  THOUGH_WORLDS_APART,
+} from 'lib/simulations/tests/testMetadataConstants'
 
 export const YanqingEntities = createEnum('Yanqing')
 export const YanqingAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yanqing')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
@@ -240,4 +267,140 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return gpuBoostAshblazingAtkContainer(hitMulti, action)
     },
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Ice_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.CR,
+    Stats.CD,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_SKILL,
+    END_FUA,
+    START_SKILL,
+    END_FUA,
+    WHOLE_SKILL,
+    WHOLE_SKILL,
+  ],
+  comboDot: 0,
+  relicSets: [
+    [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+    [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.RutilantArena,
+    Sets.FirmamentFrontlineGlamoth,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: BRONYA,
+      lightCone: BUT_THE_BATTLE_ISNT_OVER,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: ROBIN,
+      lightCone: FLOWING_NIGHTGLOW,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PERMANSOR_TERRAE,
+      lightCone: THOUGH_WORLDS_APART,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0.75,
+    [Stats.ATK_P]: 0.75,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Ice_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+    [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
+    [Sets.ScholarLostInErudition]: 1,
+    [Sets.HunterOfGlacialForest]: 1,
+
+    [Sets.FirmamentFrontlineGlamoth]: 1,
+    [Sets.RutilantArena]: 1,
+    [Sets.SpaceSealingStation]: 1,
+  },
+  presets: [
+    PresetEffects.VALOROUS_SET,
+    PresetEffects.fnAshblazingSet(2),
+  ],
+  sortOption: SortOption.ULT,
+  hiddenColumns: [SortOption.DOT],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 1000,
+    y: 1000,
+    z: 1,
+  },
+  showcaseColor: '#6db1f4',
+}
+
+export const Yanqing: CharacterConfig = {
+  id: '1209',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

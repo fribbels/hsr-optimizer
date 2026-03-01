@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { Metadata } from 'lib/state/metadata'
+import { Metadata } from 'lib/state/metadataInitializer'
 import {
   BannerRotation,
   EidolonLevel,

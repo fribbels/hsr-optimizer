@@ -8,7 +8,16 @@ import {
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { PathNames } from 'lib/constants/constants'
+import { Parts, PathNames, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_2P_ATK_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -17,7 +26,24 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { ANAXA } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  ANAXA,
+  CERYDRA,
+  CYRENE,
+  EPOCH_ETCHED_IN_GOLDEN_BLOOD,
+  PERMANSOR_TERRAE,
+  THIS_LOVE_FOREVER,
+  THOUGH_WORLDS_APART,
+} from 'lib/simulations/tests/testMetadataConstants'
+import {
+  DEFAULT_SKILL,
+  END_SKILL,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  START_ULT,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -29,7 +55,7 @@ import {
 export const AnaxaEntities = createEnum('Anaxa')
 export const AnaxaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Anaxa.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -271,4 +297,150 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.ATK_P,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Wind_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_SKILL,
+    END_SKILL,
+    START_SKILL,
+    END_SKILL,
+  ],
+  comboDot: 0,
+  errRopeEidolon: 0,
+  deprioritizeBuffs: false,
+  relicSets: [
+    [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+    [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+    [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.RutilantArena,
+    Sets.FirmamentFrontlineGlamoth,
+    Sets.IzumoGenseiAndTakamaDivineRealm,
+    Sets.SpaceSealingStation,
+    Sets.FirmamentFrontlineGlamoth,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: CYRENE,
+      lightCone: THIS_LOVE_FOREVER,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: CERYDRA,
+      lightCone: EPOCH_ETCHED_IN_GOLDEN_BLOOD,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PERMANSOR_TERRAE,
+      lightCone: THOUGH_WORLDS_APART,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 1,
+    [Stats.ATK_P]: 1,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.ATK_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Wind_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.ERR,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
+    [Sets.EagleOfTwilightLine]: 1,
+    [Sets.PioneerDiverOfDeadWaters]: 1,
+    [Sets.GeniusOfBrilliantStars]: 1,
+    [Sets.ScholarLostInErudition]: 1,
+
+    [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
+    [Sets.RutilantArena]: 1,
+  },
+  presets: [
+    PresetEffects.fnPioneerSet(4),
+    PresetEffects.GENIUS_SET,
+  ],
+  sortOption: SortOption.SKILL,
+  hiddenColumns: [SortOption.FUA, SortOption.DOT],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 1235,
+    y: 1025,
+    z: 0.90,
+  },
+  showcaseColor: '#93d4c2',
+}
+
+export const Anaxa: CharacterConfig = {
+  id: '1405',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

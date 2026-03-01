@@ -5,7 +5,7 @@ import {
 } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
 import { wgslFalse, wgslTrue, } from 'lib/gpu/injection/wgslUtils'
@@ -14,6 +14,15 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+  T2_WEIGHT,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata } from 'types/metadata'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -22,7 +31,7 @@ import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 export const HyacineEntities = createEnum('Hyacine', 'Ica')
 export const HyacineAbilities = createEnum('BASIC', 'SKILL_HEAL', 'ULT_HEAL', 'MEMO_SKILL', 'BREAK')
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hyacine.Content')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
@@ -448,4 +457,72 @@ if (${wgslTrue(e >= 4 && r.e4CdBuff)}) {
       },
     ],
   }
+}
+
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 1,
+    [Stats.HP_P]: 1,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0.50,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.50,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.OHB,
+      Stats.HP_P,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+      Stats.HP_P,
+    ],
+  },
+  sets: {
+    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
+    [Sets.WarriorGoddessOfSunAndThunder]: 1,
+    [Sets.MessengerTraversingHackerspace]: 1,
+    [Sets.PasserbyOfWanderingCloud]: T2_WEIGHT,
+
+    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+    [Sets.TheWondrousBananAmusementPark]: 1,
+    [Sets.GiantTreeOfRaptBrooding]: 1,
+  },
+  presets: [
+    PresetEffects.BANANA_SET,
+    PresetEffects.WARRIOR_SET,
+  ],
+  sortOption: SortOption.SKILL_HEAL,
+  addedColumns: [SortOption.OHB, SortOption.MEMO_SKILL],
+  hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.ULT],
+}
+
+const display = {
+  imageCenter: {
+    x: 1215,
+    y: 1025,
+    z: 1.05,
+  },
+  showcaseColor: '#a8ffde',
+}
+
+export const Hyacine: CharacterConfig = {
+  id: '1409',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

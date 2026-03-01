@@ -29,7 +29,7 @@ import {
   SUNDAY,
   THOSE_MANY_SPRINGS,
 } from 'lib/simulations/tests/testMetadataConstants'
-import { Metadata } from 'lib/state/metadata'
+import { Metadata } from 'lib/state/metadataInitializer'
 import { test } from 'vitest'
 
 Metadata.initialize()

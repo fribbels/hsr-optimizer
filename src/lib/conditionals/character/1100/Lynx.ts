@@ -1,5 +1,4 @@
 import {
-  AbilityType,
   NONE_TYPE,
   SKILL_DMG_TYPE,
   ULT_DMG_TYPE,
@@ -124,7 +123,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,

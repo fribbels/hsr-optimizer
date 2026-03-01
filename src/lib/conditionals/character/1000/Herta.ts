@@ -1,4 +1,4 @@
-import { AbilityType, ASHBLAZING_ATK_STACK, } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, } from 'lib/conditionals/conditionalConstants'
 import { boostAshblazingAtkContainer, gpuBoostAshblazingAtkContainer, } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
@@ -150,7 +150,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
 

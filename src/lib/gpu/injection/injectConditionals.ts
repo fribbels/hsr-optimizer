@@ -33,7 +33,6 @@ function generateDependencyEvaluator(
   request: Form,
   context: OptimizerContext,
 ) {
-  const conditionalEvaluators = ''
   let conditionalDefinitionsWgsl = ''
   let conditionalStateDefinition = ''
 
@@ -60,7 +59,6 @@ function generateDependencyEvaluator(
   }
 
   return {
-    conditionalEvaluators,
     conditionalDefinitionsWgsl,
     conditionalStateDefinition,
   }
@@ -72,18 +70,15 @@ export function generateDynamicConditionals(
 ) {
   let wgsl = ''
 
-  let conditionalEvaluators = '\n'
   let conditionalDefinitionsWgsl = '\n'
   let conditionalStateDefinition = '\n'
 
   function inject(
     conditionalWgsl: {
-      conditionalEvaluators: string,
       conditionalDefinitionsWgsl: string,
       conditionalStateDefinition: string,
     },
   ) {
-    conditionalEvaluators += conditionalWgsl.conditionalEvaluators
     conditionalDefinitionsWgsl += conditionalWgsl.conditionalDefinitionsWgsl
     conditionalStateDefinition += conditionalWgsl.conditionalStateDefinition
   }
@@ -104,7 +99,6 @@ export function generateDynamicConditionals(
   inject(generateDependencyEvaluator(registeredConditionals, Stats.Elation, 'Elation', request, context))
 
   wgsl += conditionalDefinitionsWgsl
-  wgsl += conditionalEvaluators
 
   wgsl += `
 struct ConditionalState {

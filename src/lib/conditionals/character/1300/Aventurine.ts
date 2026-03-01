@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
@@ -124,7 +123,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,

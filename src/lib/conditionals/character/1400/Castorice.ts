@@ -1,5 +1,4 @@
 import {
-  AbilityType,
   BuffPriority,
 } from 'lib/conditionals/conditionalConstants'
 import {
@@ -191,7 +190,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.MEMO_SKILL, AbilityType.MEMO_TALENT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,

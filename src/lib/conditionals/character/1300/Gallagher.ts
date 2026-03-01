@@ -1,5 +1,4 @@
 import {
-  AbilityType,
   NONE_TYPE,
   SKILL_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
@@ -139,7 +138,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.ULT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,

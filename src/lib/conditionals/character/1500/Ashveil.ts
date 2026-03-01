@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   ContentDefinition,
@@ -47,7 +46,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {}
 
   return {
-    activeAbilities: [AbilityType.BASIC],
     content: () => Object.values(content),
     defaults: () => defaults,
     teammateContent: () => Object.values(teammateContent),

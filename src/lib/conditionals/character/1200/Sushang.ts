@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
@@ -90,7 +89,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
     content: () => Object.values(content),
     defaults: () => defaults,
 

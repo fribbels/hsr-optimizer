@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ActionModifier } from 'lib/optimization/context/calculateActions'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -87,7 +86,6 @@ export interface LightConeConditionalsController extends ConditionalsController 
 }
 
 export interface CharacterConditionalsController extends ConditionalsController {
-  activeAbilities: AbilityType[]
   entityDeclaration: () => string[]
   entityDefinition: (action: OptimizerAction, context: OptimizerContext) => Record<string, EntityDefinition>
   actionDeclaration: () => string[]

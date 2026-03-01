@@ -90,13 +90,10 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
   const allActions = [...defaultActions, ...rotationActions]
 
   for (const action of allActions) {
-    action.registerIndices = []
-
     for (let i = 0; i < action.hits!.length; i++) {
       const hit = action.hits![i]
       hit.localHitIndex = i
       hit.registerIndex = hitCounter
-      action.registerIndices.push(hitCounter)
       hitCounter++
     }
     action.registerIndex = actionCounter++
@@ -186,11 +183,8 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
 
   // ========== FINALIZE CONTEXT ==========
 
-  const characterConditionalController = CharacterConditionalsResolver.get(context)
   context.dotAbilities = countDotAbilities(rotationActions)
   context.comboDot = comboDot || 0
-  context.activeAbilities = characterConditionalController.activeAbilities ?? []
-  context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
 }
 
 function computeEntityBaseStats(def: EntityDefinition, context: OptimizerContext) {

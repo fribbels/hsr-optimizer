@@ -148,11 +148,11 @@ export function calculateBaseStats(c: BasicStatsArray, context: OptimizerContext
 }
 
 export function calculateBasicEffects(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-  const lightConeConditionalController = context.lightConeConditionalController
-  const characterConditionalController = context.characterConditionalController
+  const lightConeController = context.lightConeController
+  const characterController = context.characterController
 
-  if (lightConeConditionalController.newCalculateBasicEffects) lightConeConditionalController.newCalculateBasicEffects(x, action, context)
-  if (characterConditionalController.newCalculateBasicEffects) characterConditionalController.newCalculateBasicEffects(x, action, context)
+  if (lightConeController.newCalculateBasicEffects) lightConeController.newCalculateBasicEffects(x, action, context)
+  if (characterController.newCalculateBasicEffects) characterController.newCalculateBasicEffects(x, action, context)
 }
 
 export function calculateComputedStats(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
@@ -314,13 +314,13 @@ function evaluateDynamicSetConditionals(
 }
 
 function evaluateDynamicConditionals(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-  const characterConditionals = context.characterConditionalController.dynamicConditionals
+  const characterConditionals = context.characterController.dynamicConditionals
   if (characterConditionals) {
     for (let i = 0; i < characterConditionals.length; i++) {
       evaluateConditional(characterConditionals[i], x, action, context)
     }
   }
-  const lightConeConditionals = context.lightConeConditionalController.dynamicConditionals
+  const lightConeConditionals = context.lightConeController.dynamicConditionals
   if (lightConeConditionals) {
     for (let i = 0; i < lightConeConditionals.length; i++) {
       evaluateConditional(lightConeConditionals[i], x, action, context)

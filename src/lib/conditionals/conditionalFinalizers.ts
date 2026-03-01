@@ -1,7 +1,7 @@
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgsl } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { p4 } from 'lib/optimization/calculateStats'
+import { relic4p } from 'lib/optimization/calculateStats'
 import { SetKeys } from 'lib/optimization/config/setsConfig'
 import { HKey, StatKey, } from 'lib/optimization/engine/config/keys'
 import { DamageTag, SELF_ENTITY_INDEX, } from 'lib/optimization/engine/config/tag'
@@ -10,7 +10,7 @@ import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { OptimizerAction } from 'types/optimizer'
 
 export function boostAshblazingAtkContainer(x: ComputedStatsContainer, action: OptimizerAction, hitMulti: number) {
-  if (p4(SetKeys.TheAshblazingGrandDuke, x.c.sets)) {
+  if (relic4p(SetKeys.TheAshblazingGrandDuke, x.c.sets)) {
     const stacks = action.setConditionals.valueTheAshblazingGrandDuke
     const delta = hitMulti - 0.06 * stacks
     const baseATK = x.getSelfValue(StatKey.BASE_ATK)

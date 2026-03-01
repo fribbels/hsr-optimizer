@@ -1,6 +1,6 @@
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'
-import EstTbpWorker from 'lib/worker/baseWorker.ts?worker&inline'
+import { baseWorkerPool } from 'lib/simulations/workerPool'
 import { WorkerType } from 'lib/worker/workerUtils'
 import { Relic } from 'types/relic'
 

@@ -44,8 +44,6 @@ export type WorkerResult = {
 const workers: Worker[] = []
 const buffers: ArrayBuffer[] = []
 let taskQueue: WorkerTaskWrapper[] = []
-const taskStatus: Record<string, boolean> = {}
-
 export const WorkerPool = {
   initializeWorker: () => {
     if (initializedWorkers < poolSize) {
@@ -106,6 +104,9 @@ export const WorkerPool = {
         initializedWorkers--
         task.attempts++
 
+        // The buffer was transferred to the worker and is lost when it's terminated - replace it
+        buffers.push(BufferPacker.createFloatBuffer(Constants.THREAD_BUFFER_LENGTH))
+
         // We don't try to reuse this worker - kill it and start a new one and requeue the task
         taskQueue.push({ task, callback })
         worker.terminate()
@@ -123,8 +124,7 @@ export const WorkerPool = {
     }
   },
 
-  cancel: (id: string) => {
-    taskStatus[id] = false
+  cancel: () => {
     taskQueue = []
   },
 

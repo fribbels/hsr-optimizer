@@ -250,7 +250,6 @@ ${compactWrite(`dmg${matchingIndex}`)}
 `
   }
 
-  // TODO: Handle other computed ratings (ELEMENTAL_DMG)
   throw new Error(`GPU sort: unsupported sort option '${sortKey}'`)
 }
 

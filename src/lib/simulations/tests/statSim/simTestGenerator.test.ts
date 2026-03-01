@@ -21,7 +21,7 @@ import {
   ROBIN,
   SUNDAY,
 } from 'lib/simulations/tests/testMetadataConstants'
-import { Metadata } from 'lib/state/metadata'
+import { Metadata } from 'lib/state/metadataInitializer'
 import { test } from 'vitest'
 
 test('generateTest', () => {

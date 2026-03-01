@@ -42,7 +42,7 @@ import {
   TRIBBIE,
   VICTORY_IN_A_BLINK,
 } from 'lib/simulations/tests/testMetadataConstants'
-import { Metadata } from 'lib/state/metadata'
+import { Metadata } from 'lib/state/metadataInitializer'
 import { test } from 'vitest'
 
 Metadata.initialize()

@@ -4,7 +4,7 @@ import {
   TestResultByName,
 } from 'lib/simulations/tests/simTestUtils'
 import DB from 'lib/state/db'
-import { Metadata } from 'lib/state/metadata'
+import { Metadata } from 'lib/state/metadataInitializer'
 import { expect } from 'vitest'
 
 Metadata.initialize()

@@ -69,6 +69,7 @@ import {
   Character,
   CharacterId,
 } from 'types/character'
+import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { ShowcasePreferences } from 'types/metadata'
 import { ShowcaseSource } from './CharacterPreviewComponents'
 
@@ -638,6 +639,11 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
 
   if (DB.getCharacterById(characterId)?.portrait && urlToColorCache[portraitUrl]) {
     return urlToColorCache[portraitUrl]
+  }
+
+  const configColor = getCharacterConfig(characterId)?.display.showcaseColor
+  if (configColor) {
+    return configColor
   }
 
   const defaults: Record<CharacterId, string[]> = {

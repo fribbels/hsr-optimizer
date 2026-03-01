@@ -9,7 +9,7 @@ import {
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, PathNames, Stats, } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Parts, PathNames, Sets, Stats, } from 'lib/constants/constants'
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
@@ -17,7 +17,32 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { EVERNIGHT } from 'lib/simulations/tests/testMetadataConstants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  MATCH_2P_WEIGHT,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  T2_WEIGHT,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  CASTORICE,
+  CYRENE,
+  EVERNIGHT,
+  HYACINE,
+  LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+  MAKE_FAREWELLS_MORE_BEAUTIFUL,
+  THIS_LOVE_FOREVER,
+} from 'lib/simulations/tests/testMetadataConstants'
+import {
+  DEFAULT_MEMO_SKILL,
+  END_SKILL,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -35,7 +60,7 @@ export const EvernightAbilities = createEnum(
   'BREAK',
 )
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Evernight')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_BASIC_MEMO_TALENT_3_ULT_TALENT_MEMO_SKILL_5
@@ -490,4 +515,148 @@ ${p_containerActionVal(memoEntityIndex, StatKey.CD, config)} += finalBuffCd;
       },
     ],
   }
+}
+
+
+const simulation: SimulationMetadata = {
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.HP_P,
+    ],
+    [Parts.Feet]: [
+      Stats.HP_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.Ice_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+      Stats.ERR,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.HP_P,
+    Stats.HP,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    END_SKILL,
+    DEFAULT_MEMO_SKILL,
+    DEFAULT_MEMO_SKILL,
+    WHOLE_SKILL,
+    DEFAULT_MEMO_SKILL,
+    DEFAULT_MEMO_SKILL,
+  ],
+  comboDot: 0,
+  deprioritizeBuffs: true,
+  errRopeEidolon: 0,
+  relicSets: [
+    [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
+    [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.BoneCollectionsSereneDemesne,
+    Sets.ArcadiaOfWovenDreams,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: CYRENE,
+      lightCone: THIS_LOVE_FOREVER,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: CASTORICE,
+      lightCone: MAKE_FAREWELLS_MORE_BEAUTIFUL,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: HYACINE,
+      lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+}
+
+const scoring: ScoringMetadata = {
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 1,
+    [Stats.HP_P]: 1,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.HP_P,
+    ],
+    [Parts.Feet]: [
+      Stats.HP_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.Ice_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+    ],
+  },
+  sets: {
+    [Sets.WorldRemakingDeliverer]: 1,
+    [Sets.PoetOfMourningCollapse]: 1,
+    [Sets.ScholarLostInErudition]: T2_WEIGHT,
+    [Sets.LongevousDisciple]: MATCH_2P_WEIGHT,
+    [Sets.GeniusOfBrilliantStars]: MATCH_2P_WEIGHT,
+
+    [Sets.BoneCollectionsSereneDemesne]: 1,
+    [Sets.ArcadiaOfWovenDreams]: 1,
+    [Sets.TheWondrousBananAmusementPark]: T2_WEIGHT,
+    [Sets.RutilantArena]: T2_WEIGHT,
+    [Sets.InertSalsotto]: T2_WEIGHT,
+  },
+  presets: [
+    PresetEffects.BANANA_SET,
+  ],
+  sortOption: SortOption.MEMO_SKILL,
+  addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
+  hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.MEMO_TALENT],
+  simulation,
+}
+
+const display = {
+  imageCenter: {
+    x: 985,
+    y: 985,
+    z: 1.075,
+  },
+  showcaseColor: '#f2a8e5',
+}
+
+export const Evernight: CharacterConfig = {
+  id: '1413',
+  info: {},
+  conditionals,
+  scoring,
+  display,
 }

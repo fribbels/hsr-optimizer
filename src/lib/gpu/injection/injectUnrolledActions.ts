@@ -263,7 +263,7 @@ ${compactWrite(`dmg${matchingIndex}`)}
 function generateRegisterCopy(actionIndex: number, action: OptimizerAction, context: OptimizerContext): string {
   const registersOffset = context.maxContainerArrayLength - (context.allActions.length + GLOBAL_REGISTERS_LENGTH + context.outputRegistersLength)
   const actionRegisterOffset = registersOffset
-  const hitRegisterOffset = registersOffset + context.allActions.length + GLOBAL_REGISTERS_LENGTH
+  const hitRegisterOffset = registersOffset + context.allActions.length
 
   let code = `    // Copy action ${actionIndex} registers to debug container\n`
 

@@ -31,12 +31,13 @@ export function getHitIndex(entityIndex: number, hitIndex: number, hitKey: HKeyV
 
 // ============== Register Index Helpers ==============
 
+// Layout: [Action Registers][Hit Registers][Global Registers]
 export function getActionRegisterIndex(actionRegisterIndex: number, config: ComputedStatsContainerConfig): number {
   return config.arrayLength - config.totalRegistersLength + actionRegisterIndex
 }
 
 export function getHitRegisterIndex(hitRegisterIndex: number, config: ComputedStatsContainerConfig): number {
-  return config.arrayLength - config.hitRegistersLength + hitRegisterIndex
+  return config.arrayLength - config.totalRegistersLength + config.actionRegistersLength + hitRegisterIndex
 }
 
 // WGSL versions that use maxArrayLength for stability (since WGSL container is always maxArrayLength)
@@ -45,13 +46,13 @@ export function getActionRegisterIndexWgsl(actionRegisterIndex: number, context:
   return context.maxContainerArrayLength - totalRegistersLength + actionRegisterIndex
 }
 
-export function getGlobalRegisterIndexWgsl(globalRegisterIndex: number, context: OptimizerContext): number {
+export function getHitRegisterIndexWgsl(hitRegisterIndex: number, context: OptimizerContext): number {
   const totalRegistersLength = context.allActions.length + GLOBAL_REGISTERS_LENGTH + context.outputRegistersLength
-  return context.maxContainerArrayLength - totalRegistersLength + context.allActions.length + globalRegisterIndex
+  return context.maxContainerArrayLength - totalRegistersLength + context.allActions.length + hitRegisterIndex
 }
 
-export function getHitRegisterIndexWgsl(hitRegisterIndex: number, context: OptimizerContext): number {
-  return context.maxContainerArrayLength - context.outputRegistersLength + hitRegisterIndex
+export function getGlobalRegisterIndexWgsl(globalRegisterIndex: number, context: OptimizerContext): number {
+  return context.maxContainerArrayLength - GLOBAL_REGISTERS_LENGTH + globalRegisterIndex
 }
 
 // Debug utility to generate WGSL code that stores hit damage to register

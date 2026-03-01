@@ -226,10 +226,10 @@ export class ComputedStatsContainerConfig {
     // Stats section: each entity has action stats + hit stats per hit
     const statsArrayLength = this.entitiesLength * this.entityStride
 
-    // Registers section: [Action Registers][Global Registers][Hit Registers]
+    // Registers section: [Action Registers][Hit Registers][Global Registers]
     // Action registers: 1 per action (default + rotation)
-    // Global registers: fixed-size section for cross-action aggregates (e.g., COMBO_DMG)
     // Hit registers: 1 per hit across all actions
+    // Global registers: fixed-size section for cross-action aggregates (e.g., COMBO_DMG)
     this.registersOffset = statsArrayLength
     this.actionRegistersLength = context.allActions.length
     this.globalRegistersLength = GLOBAL_REGISTERS_LENGTH
@@ -534,6 +534,10 @@ export class ComputedStatsContainer {
   }
 
   public actionBuff(key: AKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
+    if (this.config.entitiesLength === 1) {
+      this.a[key as number] += value
+      return
+    }
     const cacheKey = (targetTags << 8) | (key as number)
     const indices = this.config.actionBuffIndices[cacheKey]
 
@@ -543,6 +547,10 @@ export class ComputedStatsContainer {
   }
 
   public actionSet(key: AKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
+    if (this.config.entitiesLength === 1) {
+      this.a[key as number] = value
+      return
+    }
     const cacheKey = (targetTags << 8) | (key as number)
     const indices = this.config.actionBuffIndices[cacheKey]
 
@@ -684,31 +692,31 @@ export class ComputedStatsContainer {
   }
 
   // ============== Registers ==============
-  // Layout: [Stats...][Action Registers][Global Registers][Hit Registers]
+  // Layout: [Stats...][Action Registers][Hit Registers][Global Registers]
   // Indexed from end of array (using maxArrayLength for stability across actions)
 
   setActionRegisterValue(index: number, value: number) {
     this.a[this.registersOffset + index] = value
   }
 
-  setGlobalRegisterValue(index: number, value: number) {
+  setHitRegisterValue(index: number, value: number) {
     this.a[this.registersOffset + this.config.actionRegistersLength + index] = value
   }
 
-  setHitRegisterValue(index: number, value: number) {
-    this.a[this.registersOffset + this.emptyRegisters.length - this.config.hitRegistersLength + index] = value
+  setGlobalRegisterValue(index: number, value: number) {
+    this.a[this.registersOffset + this.config.actionRegistersLength + this.config.hitRegistersLength + index] = value
   }
 
   getActionRegisterValue(index: number) {
     return this.a[this.registersOffset + index]
   }
 
-  getGlobalRegisterValue(index: number) {
+  getHitRegisterValue(index: number) {
     return this.a[this.registersOffset + this.config.actionRegistersLength + index]
   }
 
-  getHitRegisterValue(index: number) {
-    return this.a[this.registersOffset + this.emptyRegisters.length - this.config.hitRegistersLength + index]
+  getGlobalRegisterValue(index: number) {
+    return this.a[this.registersOffset + this.config.actionRegistersLength + this.config.hitRegistersLength + index]
   }
 
   clearRegisters() {

@@ -176,6 +176,8 @@ export function optimizerWorker(e: MessageEvent) {
   const failsEhpFilter = ehpFilter(request)
   const failsRatingFilter = ratingFilter(request, context)
 
+  const sets = new Array(6)
+
   for (let col = 0; col < limit; col++) {
     const index = data.skip + col
 
@@ -214,7 +216,13 @@ export function optimizerWorker(e: MessageEvent) {
       continue
     }
 
-    const sets = [setH, setG, setB, setF, setP, setL]
+    sets[0] = setH
+    sets[1] = setG
+    sets[2] = setB
+    sets[3] = setF
+    sets[4] = setP
+    sets[5] = setL
+
     const setCounts = calculateSetCounts(sets)
     c.init(relicSetIndex, ornamentSetIndex, setCounts, sets, col)
 

@@ -59,12 +59,11 @@ export function calculateSetCounts(
 }
 
 export function calculateBasicSetEffects(c: BasicStatsArray, context: OptimizerContext, setCounts: SetCounts, sets: number[]) {
-  const processed: Record<number, boolean> = {}
   for (let i = 0; i < 4; i++) {
     const set = sets[i]
 
-    if (processed[set]) continue
-    processed[set] = true
+    // Skip if this set was already processed by an earlier slot
+    if ((i > 0 && sets[0] === set) || (i > 1 && sets[1] === set) || (i > 2 && sets[2] === set)) continue
 
     const key = relicIndexToSetKey[set]
     const count = setCounts[key] ?? 0

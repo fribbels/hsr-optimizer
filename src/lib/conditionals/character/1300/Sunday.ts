@@ -10,7 +10,7 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
@@ -194,7 +194,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
-      const hasSummons = x.getActionValueByIndex(StatKey.SUMMONS, SELF_ENTITY_INDEX) > 0
+      const hasSummons = action.config.hasSummons
 
       // Talent CR buff
       x.buff(StatKey.CR, m.talentCrBuffStacks * talentCrBuffValue, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_TALENT))
@@ -247,8 +247,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
         effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
-          const deprioritize = x.getActionValueByIndex(StatKey.DEPRIORITIZE_BUFFS, SELF_ENTITY_INDEX)
-          if (!(e >= 6 && r.e6CrToCdConversion && !deprioritize)) {
+          if (!(e >= 6 && r.e6CrToCdConversion && !context.deprioritizeBuffs)) {
             return
           }
 
@@ -283,7 +282,7 @@ if (${wgslFalse(e >= 6 && r.e6CrToCdConversion)}) {
   return;
 }
 
-if (${containerActionVal(SELF_ENTITY_INDEX, StatKey.DEPRIORITIZE_BUFFS, config)} > 0) {
+if (${wgslTrue(action.config.deprioritizeBuffs)}) {
   return;
 }
 
@@ -313,8 +312,7 @@ if (cr > 1.00) {
         },
         effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
-          const deprioritize = x.getActionValueByIndex(StatKey.DEPRIORITIZE_BUFFS, SELF_ENTITY_INDEX)
-          if (!(e >= 6 && r.e6CrToCdConversion && !deprioritize)) {
+          if (!(e >= 6 && r.e6CrToCdConversion && !context.deprioritizeBuffs)) {
             return
           }
 
@@ -341,7 +339,7 @@ if (${wgslFalse(e >= 6 && r.e6CrToCdConversion)}) {
   return;
 }
 
-if (${containerActionVal(SELF_ENTITY_INDEX, StatKey.DEPRIORITIZE_BUFFS, config)} > 0) {
+if (${wgslTrue(action.config.deprioritizeBuffs)}) {
   return;
 }
 

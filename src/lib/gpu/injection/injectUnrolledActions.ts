@@ -6,6 +6,7 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   containerActionVal,
   getActionIndex,
+  getGlobalRegisterIndexWgsl,
   wgslDebugActionRegister,
 } from 'lib/gpu/injection/injectUtils'
 import {
@@ -16,6 +17,8 @@ import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import {
   AKey,
   AKeyValue,
+  GLOBAL_REGISTERS_LENGTH,
+  GlobalRegister,
   HKey,
 } from 'lib/optimization/engine/config/keys'
 import {
@@ -90,10 +93,14 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
     }
   }
 
+  // Write comboDmg to global register for debug mode
+  const comboGlobalRegIdx = getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_DMG, context)
+
   if (!gpuParams.DEBUG) {
     unrolledActionCallsWgsl += generateRatingFilters(request, context, gpuParams)
     unrolledActionCallsWgsl += generateSortOptionReturn(request, context)
   } else {
+    unrolledActionCallsWgsl += `    debugContainer[${comboGlobalRegIdx}] = comboDmg; // GlobalRegister[COMBO_DMG]\n`
     unrolledActionCallsWgsl += `
     results[index] = debugContainer;
 `
@@ -254,7 +261,7 @@ ${compactWrite(`dmg${matchingIndex}`)}
 }
 
 function generateRegisterCopy(actionIndex: number, action: OptimizerAction, context: OptimizerContext): string {
-  const registersOffset = context.maxContainerArrayLength - (context.allActions.length + context.outputRegistersLength)
+  const registersOffset = context.maxContainerArrayLength - (context.allActions.length + GLOBAL_REGISTERS_LENGTH + context.outputRegistersLength)
   const actionRegisterOffset = registersOffset
   const hitRegisterOffset = registersOffset + context.allActions.length
 
@@ -417,7 +424,7 @@ fn unrolledAction${index}(
   if (
     ornament2p(*p_sets, SET_AmphoreusTheEternalLand) >= 1
     && setConditionals.enabledAmphoreusTheEternalLand == true
-    && ${containerActionVal(SELF_ENTITY_INDEX, AKey.MEMOSPRITE, action.config)} >= 1
+    && ${action.config.hasMemosprite}
   ) {
     ${buff.action(AKey.SPD_P, 0.08).targets(TargetTag.FullTeam).wgsl(action, 2)}
   }
@@ -713,11 +720,6 @@ function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = T
       lines.push(
         `\
   // Entity ${entityIndex}: ${entityName} | Base index: ${baseIndex}
-  ${containerActionVal(entityIndex, AKey.BASE_ATK, config)} = ${atkScaling} * baseATK;
-  ${containerActionVal(entityIndex, AKey.BASE_DEF, config)} = ${defScaling} * baseDEF;
-  ${containerActionVal(entityIndex, AKey.BASE_HP, config)} = ${hpScaling} * baseHP;
-  ${containerActionVal(entityIndex, AKey.BASE_SPD, config)} = ${spdScaling} * baseSPD;
-
   ${containerActionVal(entityIndex, AKey.ATK, config)} += diffATK * ${atkScaling} + ${entity.memoBaseAtkFlat ?? 0};
   ${containerActionVal(entityIndex, AKey.DEF, config)} += diffDEF * ${defScaling} + ${entity.memoBaseDefFlat ?? 0};
   ${containerActionVal(entityIndex, AKey.HP, config)} += diffHP * ${hpScaling} + ${entity.memoBaseHpFlat ?? 0};
@@ -729,11 +731,11 @@ function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = T
   ${containerActionVal(entityIndex, AKey.BE, config)} += diffBE;
   ${containerActionVal(entityIndex, AKey.ERR, config)} += diffERR;
   ${containerActionVal(entityIndex, AKey.OHB, config)} += diffOHB;
-        
-  ${containerActionVal(entityIndex, AKey.ATK, config)} += ${containerActionVal(entityIndex, AKey.ATK_P, config)} * ${containerActionVal(entityIndex, AKey.BASE_ATK, config)};
-  ${containerActionVal(entityIndex, AKey.DEF, config)} += ${containerActionVal(entityIndex, AKey.DEF_P, config)} * ${containerActionVal(entityIndex, AKey.BASE_DEF, config)};
-  ${containerActionVal(entityIndex, AKey.HP, config)} += ${containerActionVal(entityIndex, AKey.HP_P, config)} * ${containerActionVal(entityIndex, AKey.BASE_HP, config)};
-  ${containerActionVal(entityIndex, AKey.SPD, config)} += ${containerActionVal(entityIndex, AKey.SPD_P, config)} * ${containerActionVal(entityIndex, AKey.BASE_SPD, config)};
+
+  ${containerActionVal(entityIndex, AKey.ATK, config)} += ${containerActionVal(entityIndex, AKey.ATK_P, config)} * ${entity.baseAtk};
+  ${containerActionVal(entityIndex, AKey.DEF, config)} += ${containerActionVal(entityIndex, AKey.DEF_P, config)} * ${entity.baseDef};
+  ${containerActionVal(entityIndex, AKey.HP, config)} += ${containerActionVal(entityIndex, AKey.HP_P, config)} * ${entity.baseHp};
+  ${containerActionVal(entityIndex, AKey.SPD, config)} += ${containerActionVal(entityIndex, AKey.SPD_P, config)} * ${entity.baseSpd};
         
   ${containerActionVal(entityIndex, AKey.PHYSICAL_DMG_BOOST, config)} += (*p_c).PHYSICAL_DMG_BOOST;
   ${containerActionVal(entityIndex, AKey.FIRE_DMG_BOOST, config)} += (*p_c).FIRE_DMG_BOOST;

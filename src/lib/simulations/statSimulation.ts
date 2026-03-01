@@ -6,8 +6,7 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
-import { StatKey } from 'lib/optimization/engine/config/keys'
-import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
+import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import {
   cloneSimResult,
@@ -78,7 +77,7 @@ export function runStatSimulations(
       x: x,
       xa: x.a,
       ca: x.c.a,
-      simScore: x.getActionValueByIndex(StatKey.COMBO_DMG, SELF_ENTITY_INDEX),
+      simScore: x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG),
       key: sim.key,
       primaryActionStats,
       actionDamage,

@@ -56,7 +56,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
       x.buff(StatKey.DMG_BOOST, (m.dmgBoost) ? sValuesDmgBoost[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
-      x.buff(StatKey.DMG_BOOST, (m.dmgBoost && x.getActionValueByIndex(StatKey.SUMMONS, SELF_ENTITY_INDEX) > 0) ? sValuesDmgBoostSummons[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
+      x.buff(StatKey.DMG_BOOST, (m.dmgBoost && action.config.hasSummons) ? sValuesDmgBoostSummons[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
 }

@@ -144,10 +144,6 @@ const StatKeyToStat: Record<number, string> = {
 }
 
 const ignoredStats: Record<number, boolean> = {
-  [StatKey.BASE_ATK]: true,
-  [StatKey.BASE_DEF]: true,
-  [StatKey.BASE_HP]: true,
-  [StatKey.BASE_SPD]: true,
   [StatKey.PHYSICAL_DMG_BOOST]: true,
   [StatKey.FIRE_DMG_BOOST]: true,
   [StatKey.ICE_DMG_BOOST]: true,
@@ -155,8 +151,6 @@ const ignoredStats: Record<number, boolean> = {
   [StatKey.WIND_DMG_BOOST]: true,
   [StatKey.IMAGINARY_DMG_BOOST]: true,
   [StatKey.QUANTUM_DMG_BOOST]: true,
-  // COMBO_DMG is written to registers, not the stat position - use COMBO_REGISTER instead
-  [StatKey.COMBO_DMG]: true,
 }
 
 const overridePrecision: Record<number, number> = {

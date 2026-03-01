@@ -47,8 +47,6 @@ export function computeTargetMask(entity: { primary: boolean; pet?: boolean; mem
     | (entity.summon ? TargetTag.Summon : 0)
 }
 
-export type Tag = ElementTag | DamageTag
-
 export const SELF_ENTITY_INDEX = 0
 
 export const ALL_DAMAGE_TAGS = Object.values(DamageTag)
@@ -66,10 +64,6 @@ export enum OutputTag {
   HEAL = 2,
   SHIELD = 4,
 }
-
-export const ALL_OUTPUT_TAGS = Object.values(OutputTag)
-  .filter((v): v is number => typeof v === 'number')
-  .reduce((acc, val) => acc | val, 0)
 
 // DirectnessTag classifies whether an action is "direct" (player-initiated attacks)
 // or "indirect" (automatic damage like DOT/Break). 

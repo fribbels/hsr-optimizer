@@ -200,7 +200,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.superBreakDmg) {
-        x.set(StatKey.ENEMY_WEAKNESS_BROKEN, 1, x.source(SOURCE_TRACE))
+        action.config.enemyWeaknessBroken = true
       }
     },
 
@@ -213,7 +213,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.multiplicativeComplement(StatKey.DMG_RED, (r.enhancedStateActive && r.talentDmgReductionBuff) ? talentDmgReductionBuff : 0, x.source(SOURCE_TALENT))
 
       // Break vulnerability (only to weakness-broken enemies)
-      const isWeaknessBroken = x.getActionValue(StatKey.ENEMY_WEAKNESS_BROKEN, FireflyEntities.Firefly)
+      const isWeaknessBroken = action.config.enemyWeaknessBroken
       x.buff(
         StatKey.VULNERABILITY,
         (r.enhancedStateActive && isWeaknessBroken) ? ultWeaknessBrokenBreakVulnerability : 0,

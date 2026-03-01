@@ -1,7 +1,6 @@
 import {
   AbilityType,
-  BUFF_PRIORITY_MEMO,
-  BUFF_PRIORITY_SELF,
+  BuffPriority,
 } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
@@ -78,7 +77,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const memoTalentScaling = memoTalent(e, 0.40, 0.44)
 
   const defaults = {
-    buffPriority: BUFF_PRIORITY_MEMO,
+    buffPriority: BuffPriority.MEMO,
     memospriteActive: true,
     spdBuff: true,
     talentDmgStacks: 3,
@@ -103,8 +102,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tBuff('Text'),
       content: tBuff('Content'),
       options: [
-        { display: tBuff('Self'), value: BUFF_PRIORITY_SELF, label: tBuff('Self') },
-        { display: tBuff('Memo'), value: BUFF_PRIORITY_MEMO, label: tBuff('Memo') },
+        { display: tBuff('Self'), value: BuffPriority.SELF, label: tBuff('Self') },
+        { display: tBuff('Memo'), value: BuffPriority.MEMO, label: tBuff('Memo') },
       ],
       fullWidth: true,
     },
@@ -199,22 +198,26 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateDefaults: () => teammateDefaults,
 
     entityDeclaration: () => Object.values(CastoriceEntities),
-    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [CastoriceEntities.Castorice]: {
-        primary: true,
-        summon: false,
-        memosprite: false,
-      },
-      [CastoriceEntities.Netherwing]: {
-        primary: false,
-        summon: true,
-        memosprite: true,
-        memoBaseSpdFlat: 165,
-        memoBaseHpFlat: 34000,
-        memoBaseAtkScaling: 1,
-        memoBaseDefScaling: 1,
-      },
-    }),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      return {
+        [CastoriceEntities.Castorice]: {
+          primary: true,
+          summon: false,
+          memosprite: false,
+          memoBuffPriority: r.buffPriority !== BuffPriority.SELF,
+        },
+        [CastoriceEntities.Netherwing]: {
+          primary: false,
+          summon: true,
+          memosprite: true,
+          memoBaseSpdFlat: 165,
+          memoBaseHpFlat: 34000,
+          memoBaseAtkScaling: 1,
+          memoBaseDefScaling: 1,
+        },
+      }
+    },
 
     actionDeclaration: () => Object.values(CastoriceAbilities),
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
@@ -317,9 +320,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
+
+
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

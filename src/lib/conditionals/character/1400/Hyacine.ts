@@ -1,7 +1,6 @@
 import {
   AbilityType,
-  BUFF_PRIORITY_MEMO,
-  BUFF_PRIORITY_SELF,
+  BuffPriority,
   SKILL_DMG_TYPE,
   ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
@@ -59,7 +58,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const defaults = {
     healAbility: SKILL_DMG_TYPE,
-    buffPriority: BUFF_PRIORITY_MEMO,
+    buffPriority: BuffPriority.MEMO,
     clearSkies: true,
     healTargetHp50: true,
     resBuff: true,
@@ -86,8 +85,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tBuff('Text'),
       content: tBuff('Content'),
       options: [
-        { display: tBuff('Self'), value: BUFF_PRIORITY_SELF, label: tBuff('Self') },
-        { display: tBuff('Memo'), value: BUFF_PRIORITY_MEMO, label: tBuff('Memo') },
+        { display: tBuff('Self'), value: BuffPriority.SELF, label: tBuff('Self') },
+        { display: tBuff('Memo'), value: BuffPriority.MEMO, label: tBuff('Memo') },
       ],
       fullWidth: true,
     },
@@ -193,24 +192,28 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
     // Entity declarations
     entityDeclaration: () => Object.values(HyacineEntities),
-    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [HyacineEntities.Hyacine]: {
-        primary: true,
-        summon: false,
-        memosprite: false,
-      },
-      [HyacineEntities.Ica]: {
-        primary: false,
-        summon: true,
-        memosprite: true,
-        memoBaseAtkScaling: 1.00,
-        memoBaseDefScaling: 1.00,
-        memoBaseHpScaling: 0.50,
-        memoBaseHpFlat: 0,
-        memoBaseSpdScaling: 0,
-        memoBaseSpdFlat: 0,
-      },
-    }),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      return {
+        [HyacineEntities.Hyacine]: {
+          primary: true,
+          summon: false,
+          memosprite: false,
+          memoBuffPriority: r.buffPriority !== BuffPriority.SELF,
+        },
+        [HyacineEntities.Ica]: {
+          primary: false,
+          summon: true,
+          memosprite: true,
+          memoBaseAtkScaling: 1.00,
+          memoBaseDefScaling: 1.00,
+          memoBaseHpScaling: 0.50,
+          memoBaseHpFlat: 0,
+          memoBaseSpdScaling: 0,
+          memoBaseSpdFlat: 0,
+        },
+      }
+    },
 
     // Action declarations
     actionDeclaration: () => Object.values(HyacineAbilities),
@@ -281,9 +284,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority === BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
+
+
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -335,9 +337,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return r.spd200HpBuff && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 200
         },
         effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-          const selfBaseHp = x.getActionValueByIndex(StatKey.BASE_HP, SELF_ENTITY_INDEX)
+          const selfBaseHp = action.config.selfEntity.baseHp
           const memoEntityIndex = action.config.entityRegistry.getIndex(HyacineEntities.Ica)
-          const memoBaseHp = x.getActionValueByIndex(StatKey.BASE_HP, memoEntityIndex)
+          const memoBaseHp = action.config.entitiesArray[memoEntityIndex].baseHp
 
           x.buffDynamic(StatKey.HP, 0.20 * selfBaseHp, action, context, x.source(SOURCE_TRACE))
           x.buffDynamic(StatKey.HP, 0.20 * memoBaseHp, action, context, x.target(HyacineEntities.Ica).source(SOURCE_TRACE))
@@ -358,8 +360,8 @@ if (
   ${wgslTrue(r.spd200HpBuff)}
 ) {
   (*p_state).HyacineSpdActivation${action.actionIdentifier} = 1.0;
-  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.HP, config)} += 0.20 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BASE_HP, config)};
-  ${p_containerActionVal(memoEntityIndex, StatKey.HP, config)} += 0.20 * ${containerActionVal(memoEntityIndex, StatKey.BASE_HP, config)};
+  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.HP, config)} += 0.20 * ${config.selfEntity.baseHp};
+  ${p_containerActionVal(memoEntityIndex, StatKey.HP, config)} += 0.20 * ${config.entitiesArray[memoEntityIndex].baseHp};
 }
     `,
           )

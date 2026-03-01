@@ -95,12 +95,6 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   ELEMENTAL_DMG: { label: optimizerTabMisc('Elemental DMG') },
   MERRYMAKING: { label: optimizerTabMisc('Merrymaking') },
 
-  // Base
-  BASE_HP: { flat: true, label: optimizerTabMisc('Base HP') },
-  BASE_ATK: { flat: true, label: optimizerTabMisc('Base ATK') },
-  BASE_DEF: { flat: true, label: optimizerTabMisc('Base DEF') },
-  BASE_SPD: { flat: true, label: optimizerTabMisc('Base SPD') },
-
   // Memosprites
   MEMO_BASE_HP_SCALING: { label: optimizerTabMisc('Memosprite base HP scaling') },
   MEMO_BASE_DEF_SCALING: { label: optimizerTabMisc('Memosprite base DEF scaling') },
@@ -128,14 +122,6 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   // EHP
   DMG_RED: { label: optimizerTabMisc('DMG reduction') }, // Dmg reduction for EHP calcs - defaults to 0 (no reduction), uses MULTIPLICATIVE_COMPLEMENT operator
   EHP: { flat: true, label: optimizerTabMisc('Effective HP') },
-
-  // Misc configs
-  SUMMONS: { flat: true, label: optimizerTabMisc('Summons') },
-  MEMOSPRITE: { bool: true, label: optimizerTabMisc('Memosprite') },
-  ENEMY_WEAKNESS_BROKEN: { bool: true, label: optimizerTabMisc('Enemy weakness broken') },
-  MEMO_BUFF_PRIORITY: { bool: true, label: optimizerTabMisc('Prioritize memosprite buffs') },
-  DEPRIORITIZE_BUFFS: { bool: true, label: optimizerTabMisc('Deprioritize buffs') },
-  COMBO_DMG: { flat: true, label: optimizerTabMisc('Combo DMG') },
 
   // DOT
   DOT_CHANCE: { label: optimizerTabMisc('Dot base chance') },
@@ -192,7 +178,6 @@ export const newBaseComputedStatsAbilityPropertiesConfig = {
   HP_SCALING: { separated: true, label: optimizerTabCompositeSuffix('HP scaling') },
   SPECIAL_SCALING: { separated: true, label: optimizerTabCompositeSuffix('Special scaling') },
 
-  ATK_P_BOOST: { label: optimizerTabCompositeSuffix('ATK % boost') },
   CR_BOOST: { label: optimizerTabCompositeSuffix('Crit Rate boost') },
   CD_BOOST: { label: optimizerTabCompositeSuffix('Crit DMG boost') },
   DMG_BOOST: { separated: true, label: optimizerTabCompositeSuffix('DMG boost') }, // When merged this is just ELEMENTAL_DMG

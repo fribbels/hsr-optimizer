@@ -1,4 +1,4 @@
-import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF, } from 'lib/conditionals/conditionalConstants'
+import { AbilityType, BuffPriority, } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -70,7 +70,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const memoTalentDmgBoost = memoTalent(e, 0.50, 0.55)
 
   const defaults = {
-    buffPriority: BUFF_PRIORITY_MEMO,
+    buffPriority: BuffPriority.MEMO,
     memoTalentDmgBuff: true,
     traceCritBuffs: true,
     skillMemoCdBuff: true,
@@ -101,8 +101,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tBuff('Text'),
       content: tBuff('Content'),
       options: [
-        { display: tBuff('Self'), value: BUFF_PRIORITY_SELF, label: tBuff('Self') },
-        { display: tBuff('Memo'), value: BUFF_PRIORITY_MEMO, label: tBuff('Memo') },
+        { display: tBuff('Self'), value: BuffPriority.SELF, label: tBuff('Self') },
+        { display: tBuff('Memo'), value: BuffPriority.MEMO, label: tBuff('Memo') },
       ],
       fullWidth: true,
     },
@@ -232,22 +232,26 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateDefaults: () => teammateDefaults,
 
     entityDeclaration: () => Object.values(EvernightEntities),
-    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [EvernightEntities.Evernight]: {
-        primary: true,
-        summon: false,
-        memosprite: false,
-      },
-      [EvernightEntities.Evey]: {
-        memoBaseSpdFlat: 160,
-        memoBaseHpScaling: 0.50,
-        memoBaseAtkScaling: 1,
-        memoBaseDefScaling: 1,
-        primary: false,
-        summon: true,
-        memosprite: true,
-      },
-    }),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      return {
+        [EvernightEntities.Evernight]: {
+          primary: true,
+          summon: false,
+          memosprite: false,
+          memoBuffPriority: r.buffPriority !== BuffPriority.SELF,
+        },
+        [EvernightEntities.Evey]: {
+          memoBaseSpdFlat: 160,
+          memoBaseHpScaling: 0.50,
+          memoBaseAtkScaling: 1,
+          memoBaseDefScaling: 1,
+          primary: false,
+          summon: true,
+          memosprite: true,
+        },
+      }
+    },
 
     actionDeclaration: () => Object.values(EvernightAbilities),
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
@@ -304,9 +308,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
+
+
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -417,8 +420,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             return
           }
 
-          const memosprite = x.getActionValue(StatKey.MEMOSPRITE, EvernightEntities.Evernight)
-          if (!memosprite) {
+          if (!action.config.hasMemosprite) {
             return
           }
 

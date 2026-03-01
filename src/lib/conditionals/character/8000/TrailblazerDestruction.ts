@@ -136,7 +136,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Stats
       x.buff(StatKey.ATK_P, r.talentStacks * talentAtkScalingValue, x.source(SOURCE_TALENT))
       x.buff(StatKey.DEF_P, r.talentStacks * 0.10, x.source(SOURCE_TRACE))
-      x.buff(StatKey.CR, (e >= 4 && x.getActionValue(StatKey.ENEMY_WEAKNESS_BROKEN, TrailblazerDestructionEntities.TrailblazerDestruction)) ? 0.25 : 0, x.source(SOURCE_E4))
+      x.buff(StatKey.CR, (e >= 4 && action.config.enemyWeaknessBroken) ? 0.25 : 0, x.source(SOURCE_E4))
 
       // Boost
       x.buff(StatKey.DMG_BOOST, 0.25, x.damageType(DamageTag.SKILL).source(SOURCE_TRACE))

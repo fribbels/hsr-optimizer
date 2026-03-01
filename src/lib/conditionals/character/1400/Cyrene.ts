@@ -1,7 +1,6 @@
 import {
   AbilityType,
-  BUFF_PRIORITY_MEMO,
-  BUFF_PRIORITY_SELF,
+  BuffPriority,
 } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
@@ -103,7 +102,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const defaults = {
-    buffPriority: BUFF_PRIORITY_SELF,
+    buffPriority: BuffPriority.SELF,
     memospriteActive: true,
     zoneActive: true,
     talentDmgBuff: true,
@@ -133,8 +132,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tBuff('Text'),
       content: tBuff('Content'),
       options: [
-        { display: tBuff('Self'), value: BUFF_PRIORITY_SELF, label: tBuff('Self') },
-        { display: tBuff('Memo'), value: BUFF_PRIORITY_MEMO, label: tBuff('Memo') },
+        { display: tBuff('Self'), value: BuffPriority.SELF, label: tBuff('Self') },
+        { display: tBuff('Memo'), value: BuffPriority.MEMO, label: tBuff('Memo') },
       ],
       fullWidth: true,
     },
@@ -253,22 +252,26 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     teammateDefaults: () => teammateDefaults,
 
     entityDeclaration: () => Object.values(CyreneEntities),
-    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [CyreneEntities.Cyrene]: {
-        primary: true,
-        summon: false,
-        memosprite: false,
-      },
-      [CyreneEntities.Demiurge]: {
-        memoBaseSpdFlat: 0,
-        memoBaseHpScaling: 1.00,
-        memoBaseAtkScaling: 1,
-        memoBaseDefScaling: 1,
-        primary: false,
-        summon: true,
-        memosprite: true,
-      },
-    }),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      return {
+        [CyreneEntities.Cyrene]: {
+          primary: true,
+          summon: false,
+          memosprite: false,
+          memoBuffPriority: r.buffPriority !== BuffPriority.SELF,
+        },
+        [CyreneEntities.Demiurge]: {
+          memoBaseSpdFlat: 0,
+          memoBaseHpScaling: 1.00,
+          memoBaseAtkScaling: 1,
+          memoBaseDefScaling: 1,
+          primary: false,
+          summon: true,
+          memosprite: true,
+        },
+      }
+    },
 
     actionDeclaration: () => Object.values(CyreneAbilities),
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
@@ -321,9 +324,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
+
+
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

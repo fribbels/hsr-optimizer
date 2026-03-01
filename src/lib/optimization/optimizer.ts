@@ -19,7 +19,7 @@ import {
   OptimizerDisplayData,
 } from 'lib/optimization/bufferPacker'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import {
@@ -344,7 +344,7 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
   // d.MEMO_TALENT = a[StatKey.MEMO_TALENT_DMG]
   // d.DOT = a[StatKey.DOT_DMG]
   // d.BREAK = a[StatKey.BREAK_DMG]
-  d.COMBO = a[StatKey.COMBO_DMG]
+  d.COMBO = x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
   d.EHP = a[StatKey.EHP]
 
   d.xHP = a[StatKey.HP]

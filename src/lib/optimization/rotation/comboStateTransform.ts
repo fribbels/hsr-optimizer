@@ -202,12 +202,6 @@ export function precomputeConditionals(action: OptimizerAction, comboState: Comb
 
   const container = action.precomputedStats
 
-  if (context.deprioritizeBuffs) {
-    container.actionSet(StatKey.DEPRIORITIZE_BUFFS, 1)
-  }
-
-  // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
-  container.actionSet(StatKey.ENEMY_WEAKNESS_BROKEN, container.a[StatKey.ENEMY_WEAKNESS_BROKEN] || context.enemyWeaknessBroken ? 1 : 0)
 
   lightConeConditionals.initializeConfigurationsContainer?.(container, action, context)
   characterConditionals.initializeConfigurationsContainer?.(container, action, context)
@@ -225,6 +219,7 @@ export function precomputeConditionals(action: OptimizerAction, comboState: Comb
       actorEidolon: teammate.metadata.characterEidolon,
       characterConditionals: transformConditionals(action.actionIndex, teammate.characterConditionals),
       lightConeConditionals: transformConditionals(action.actionIndex, teammate.lightConeConditionals),
+      config: action.config,
     } as OptimizerAction
 
     const teammateCharacterConditionals = CharacterConditionalsResolver.get(teammate.metadata)
@@ -262,6 +257,7 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
       actorEidolon: teammate.metadata.characterEidolon,
       characterConditionals: transformConditionals(action.actionIndex, teammate.characterConditionals),
       lightConeConditionals: transformConditionals(action.actionIndex, teammate.lightConeConditionals),
+      config: action.config,
     } as OptimizerAction
 
     const teammateCharacterConditionals = CharacterConditionalsResolver.get(teammate.metadata)

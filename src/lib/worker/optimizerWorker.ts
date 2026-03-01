@@ -28,7 +28,7 @@ import {
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
 import { BasicKey, BasicKeyType } from 'lib/optimization/basicStatsArray'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer, rebuildEntityRegistry } from 'lib/optimization/engine/container/computedStatsContainer'
 import { calculateEhp, getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
@@ -289,7 +289,7 @@ export function optimizerWorker(e: MessageEvent) {
 
     calculateEhp(x, context)
 
-    x.a[StatKey.COMBO_DMG] = comboDmg
+    x.setGlobalRegisterValue(GlobalRegister.COMBO_DMG, comboDmg)
 
     // Display mode filtering using entity-aware filters
     const displayEntityIndex = (memoDisplay && memospriteEntityIndex >= 0) ? memospriteEntityIndex : 0
@@ -461,6 +461,9 @@ function generateResultMinFilter(request: Form, context: OptimizerContext) {
   if (sortOption.statKey != null) {
     const statKey = sortOption.statKey
     getComputedValue = (x) => x.a[statKey]
+  } else if (sortOption.globalRegisterIndex != null) {
+    const globalRegisterIndex = sortOption.globalRegisterIndex
+    getComputedValue = (x) => x.getGlobalRegisterValue(globalRegisterIndex)
   } else {
     const action = context.defaultActions.find((a) => a.actionName === sortOption.key)
     if (!action) {

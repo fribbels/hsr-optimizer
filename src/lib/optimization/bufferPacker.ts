@@ -5,7 +5,7 @@ import {
 import { BasicKey } from 'lib/optimization/basicStatsArray'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
-import { StatKey } from './engine/config/keys'
+import { GlobalRegister, StatKey } from './engine/config/keys'
 
 const SIZE = 76
 
@@ -177,7 +177,7 @@ export const BufferPacker = {
     }
 
     // [25] COMBO
-    arr[offset + 25] = x.a[StatKey.COMBO_DMG]
+    arr[offset + 25] = x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
 
     // [26-37] Combat stats from primary entity (index 0)
     arr[offset + 26] = x.getActionValue(StatKey.HP, primaryEntity)

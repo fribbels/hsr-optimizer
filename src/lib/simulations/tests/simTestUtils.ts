@@ -12,7 +12,7 @@ import {
   StatConfig,
   StatsConfig,
 } from 'lib/optimization/config/computedStatsConfig'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import { StatCalculator } from 'lib/relics/statCalculator'
@@ -208,9 +208,9 @@ export function collectResults(input: TestInput) {
     )
   }
 
-  // EHP and COMBO_DMG via correct StatKey indices
+  // EHP and COMBO_DMG
   nameCombatResults['EHP'] = TsUtils.precisionRound(x.a[StatKey.EHP], 7)
-  nameCombatResults['COMBO_DMG'] = TsUtils.precisionRound(x.a[StatKey.COMBO_DMG], 7)
+  nameCombatResults['COMBO_DMG'] = TsUtils.precisionRound(x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG), 7)
 
   // Default all ability damage types to 0, then populate from actionDamage
   const damageAbilities = ['BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK', 'MEMO_SKILL', 'MEMO_TALENT']

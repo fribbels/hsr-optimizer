@@ -5,7 +5,6 @@ import {
   ActionModifier,
   ModifierContext,
 } from 'lib/optimization/context/calculateActions'
-import { StatKey } from 'lib/optimization/engine/config/keys'
 import { computeTargetMask } from 'lib/optimization/engine/config/tag'
 import {
   ComputedStatsContainer,
@@ -28,7 +27,7 @@ import {
   Form,
   OptimizerForm,
 } from 'types/form'
-import { Hit } from 'types/hitConditionalTypes'
+import { EntityDefinition, Hit } from 'types/hitConditionalTypes'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -181,10 +180,6 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
   // ========== PHASE 4: PRECOMPUTATION ==========
 
   for (const action of allActions) {
-    if (context.enemyWeaknessBroken) {
-      action.precomputedStats.actionBuff(StatKey.ENEMY_WEAKNESS_BROKEN, 1)
-    }
-
     precomputeConditionals(action, comboState, context)
     calculateContextConditionalRegistry(action, context)
   }
@@ -196,6 +191,23 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
   context.comboDot = comboDot || 0
   context.activeAbilities = characterConditionalController.activeAbilities ?? []
   context.activeAbilityFlags = context.activeAbilities.reduce((ability, flags) => ability | flags, 0)
+}
+
+function computeEntityBaseStats(def: EntityDefinition, context: OptimizerContext) {
+  if (def.memosprite) {
+    return {
+      baseAtk: (def.memoBaseAtkScaling ?? 0) * context.baseATK,
+      baseDef: (def.memoBaseDefScaling ?? 0) * context.baseDEF,
+      baseHp: (def.memoBaseHpScaling ?? 0) * context.baseHP,
+      baseSpd: (def.memoBaseSpdScaling ?? 0) * context.baseSPD,
+    }
+  }
+  return {
+    baseAtk: context.baseATK,
+    baseDef: context.baseDEF,
+    baseHp: context.baseHP,
+    baseSpd: context.baseSPD,
+  }
 }
 
 interface PreparedEntities {
@@ -236,14 +248,14 @@ function prepareEntitiesForAction(
   // Build primary entity registry
   const primaryEntities: OptimizerEntity[] = primaryEntityNames.map((name) => {
     const def = entityDefinitionsMap[name]
-    return { name, ...def, targetMask: computeTargetMask(def) }
+    return { name, ...def, targetMask: computeTargetMask(def), ...computeEntityBaseStats(def, context) }
   })
   const primaryEntityRegistry = new NamedArray(primaryEntities, (entity) => entity.name)
 
   // Build teammate entity registry
   const teammateEntities: OptimizerEntity[] = teammateEntityNames.map((name) => {
     const def = entityDefinitionsMap[name]
-    return { name, ...def, targetMask: computeTargetMask(def) }
+    return { name, ...def, targetMask: computeTargetMask(def), ...computeEntityBaseStats(def, context) }
   })
   const teammateEntityRegistry = new NamedArray(teammateEntities, (entity) => entity.name)
 

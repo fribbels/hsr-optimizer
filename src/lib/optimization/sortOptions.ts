@@ -1,4 +1,4 @@
-import { StatKey, StatKeyValue } from 'lib/optimization/engine/config/keys'
+import { GlobalRegister, StatKey, StatKeyValue } from 'lib/optimization/engine/config/keys'
 
 export type SortOptionKey = keyof typeof SortOption
 
@@ -12,6 +12,7 @@ export type SortOptionProperties = {
   minFilterKey?: string,
   maxFilterKey?: string,
   statKey?: StatKeyValue,
+  globalRegisterIndex?: number,
 }
 
 // Builder for base stats — derives all 4 grid columns from the short key
@@ -108,7 +109,7 @@ export const SortOption: {
   ELATION_SKILL: computed('ELATION_SKILL'),
   DOT: computed('DOT', true),
   BREAK: computed('BREAK', true),
-  COMBO: { ...computed('COMBO'), statKey: StatKey.COMBO_DMG },
+  COMBO: { ...computed('COMBO'), globalRegisterIndex: GlobalRegister.COMBO_DMG },
 
   // Computed heal/shield ratings
   BASIC_HEAL: computed('BASIC_HEAL'),

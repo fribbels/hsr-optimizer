@@ -16,10 +16,10 @@ import {
   AKeyType,
   AKeyValue,
   AToHKey,
+  GLOBAL_REGISTERS_LENGTH,
   getAKeyName,
   HIT_STATS_LENGTH,
   HKeyValue,
-  isHitStat,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
@@ -186,16 +186,20 @@ export class ComputedStatsContainerConfig {
   public entityStride: number // actionStatsLength + (hitsLength * hitStatsLength)
   public arrayLength: number
 
-  // Register layout: [Stats...][Action Registers][Hit Registers]
+  // Register layout: [Stats...][Action Registers][Global Registers][Hit Registers]
   public registersOffset: number // Where registers start in array
   public actionRegistersLength: number // Number of action registers
+  public globalRegistersLength: number // Number of global registers (e.g., COMBO_DMG)
   public hitRegistersLength: number // Number of hit registers
-  public totalRegistersLength: number // action + hit registers
+  public totalRegistersLength: number // action + global + hit registers
 
   public actionBuffIndices: Record<number, number[]> // Cached indices for actionBuff/actionSet
   public entityBaseOffsets: Record<number, number[]> // Per-TargetTag entity base offsets for loop-flipped stat writes
   public targetEntityIndices: Record<number, number[]> // Per-TargetTag entity indices for internalBuff
   public deprioritizeBuffs: boolean
+  public hasMemosprite: boolean
+  public hasSummons: boolean
+  public enemyWeaknessBroken: boolean
 
   constructor(
     action: OptimizerAction,
@@ -222,13 +226,15 @@ export class ComputedStatsContainerConfig {
     // Stats section: each entity has action stats + hit stats per hit
     const statsArrayLength = this.entitiesLength * this.entityStride
 
-    // Registers section: [Action Registers][Hit Registers]
+    // Registers section: [Action Registers][Hit Registers][Global Registers]
     // Action registers: 1 per action (default + rotation)
     // Hit registers: 1 per hit across all actions
+    // Global registers: fixed-size section for cross-action aggregates (e.g., COMBO_DMG)
     this.registersOffset = statsArrayLength
     this.actionRegistersLength = context.allActions.length
+    this.globalRegistersLength = GLOBAL_REGISTERS_LENGTH
     this.hitRegistersLength = context.outputRegistersLength
-    this.totalRegistersLength = this.actionRegistersLength + this.hitRegistersLength
+    this.totalRegistersLength = this.actionRegistersLength + this.globalRegistersLength + this.hitRegistersLength
 
     // Total array length includes stats + registers
     this.arrayLength = statsArrayLength + this.totalRegistersLength
@@ -250,6 +256,9 @@ export class ComputedStatsContainerConfig {
     this.entityBaseOffsets = entityCaches.offsets
 
     this.deprioritizeBuffs = context.deprioritizeBuffs
+    this.hasMemosprite = this.entitiesArray.some((e) => e.memosprite)
+    this.hasSummons = this.entitiesArray.some((e) => e.summon)
+    this.enemyWeaknessBroken = context.enemyWeaknessBroken
   }
 }
 
@@ -340,7 +349,7 @@ export class ComputedStatsContainer {
     this.a = new Float32Array(maxArrayLength)
 
     // Create empty registers array for efficient clearing
-    const totalRegistersLength = context.allActions.length + context.outputRegistersLength
+    const totalRegistersLength = context.allActions.length + GLOBAL_REGISTERS_LENGTH + context.outputRegistersLength
     this.emptyRegisters = new Float32Array(totalRegistersLength)
     this.registersOffset = maxArrayLength - totalRegistersLength
   }
@@ -525,11 +534,10 @@ export class ComputedStatsContainer {
   }
 
   public actionBuff(key: AKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
-    // Optimization temporarily disabled
-    // if (this.config.entitiesLength === 1) {
-    //   this.a[key as number] += value
-    //   return
-    // }
+    if (this.config.entitiesLength === 1) {
+      this.a[key as number] += value
+      return
+    }
     const cacheKey = (targetTags << 8) | (key as number)
     const indices = this.config.actionBuffIndices[cacheKey]
 
@@ -539,11 +547,10 @@ export class ComputedStatsContainer {
   }
 
   public actionSet(key: AKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
-    // Optimization temporarily disabled
-    // if (this.config.entitiesLength === 1) {
-    //   this.a[key as number] = value
-    //   return
-    // }
+    if (this.config.entitiesLength === 1) {
+      this.a[key as number] = value
+      return
+    }
     const cacheKey = (targetTags << 8) | (key as number)
     const indices = this.config.actionBuffIndices[cacheKey]
 
@@ -685,7 +692,7 @@ export class ComputedStatsContainer {
   }
 
   // ============== Registers ==============
-  // Layout: [Stats...][Action Registers][Hit Registers]
+  // Layout: [Stats...][Action Registers][Hit Registers][Global Registers]
   // Indexed from end of array (using maxArrayLength for stability across actions)
 
   setActionRegisterValue(index: number, value: number) {
@@ -693,7 +700,11 @@ export class ComputedStatsContainer {
   }
 
   setHitRegisterValue(index: number, value: number) {
-    this.a[this.registersOffset + this.emptyRegisters.length - this.config.hitRegistersLength + index] = value
+    this.a[this.registersOffset + this.config.actionRegistersLength + index] = value
+  }
+
+  setGlobalRegisterValue(index: number, value: number) {
+    this.a[this.registersOffset + this.config.actionRegistersLength + this.config.hitRegistersLength + index] = value
   }
 
   getActionRegisterValue(index: number) {
@@ -701,7 +712,11 @@ export class ComputedStatsContainer {
   }
 
   getHitRegisterValue(index: number) {
-    return this.a[this.registersOffset + this.emptyRegisters.length - this.config.hitRegistersLength + index]
+    return this.a[this.registersOffset + this.config.actionRegistersLength + index]
+  }
+
+  getGlobalRegisterValue(index: number) {
+    return this.a[this.registersOffset + this.config.actionRegistersLength + this.config.hitRegistersLength + index]
   }
 
   clearRegisters() {
@@ -858,4 +873,11 @@ const ContainerKeyToExternal: Partial<Record<AKeyType, StatsValues>> = {
   ELATION: Stats.Elation,
 }
 
-export type OptimizerEntity = EntityDefinition & { name: string; targetMask: number }
+export type OptimizerEntity = EntityDefinition & {
+  name: string
+  targetMask: number
+  baseAtk: number
+  baseDef: number
+  baseHp: number
+  baseSpd: number
+}

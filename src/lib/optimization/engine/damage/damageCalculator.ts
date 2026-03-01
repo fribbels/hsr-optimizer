@@ -1,5 +1,4 @@
 import {
-  containerActionVal,
   containerGetValue,
   containerHitRegister,
   containerHitVal,
@@ -161,7 +160,7 @@ export const CritDamageFunction: DamageFunction = {
     return wgsl`
 {
   // Common multipliers
-  let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
+  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
   let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
   let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
@@ -174,8 +173,7 @@ export const CritDamageFunction: DamageFunction = {
   let atk = ${getScalingValue(StatKey.ATK)};
   let hp = ${getScalingValue(StatKey.HP)};
   let def = ${getScalingValue(StatKey.DEF)};
-  let atkPBoost = ${getScalingValue(StatKey.ATK_P_BOOST)};
-  let abilityMulti = ${totalAtkScalingExpr} * (atk + atkPBoost * ${getScalingValue(StatKey.BASE_ATK)})
+  let abilityMulti = ${totalAtkScalingExpr} * atk
     + ${hpScaling} * hp
     + ${defScaling} * def;
 
@@ -259,7 +257,7 @@ export const DotDamageFunction: DamageFunction = {
     return wgsl`
 {
   // Common multipliers
-  let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
+  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
   let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
   let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
@@ -272,8 +270,7 @@ export const DotDamageFunction: DamageFunction = {
   let atk = ${getScalingValue(StatKey.ATK)};
   let hp = ${getScalingValue(StatKey.HP)};
   let def = ${getScalingValue(StatKey.DEF)};
-  let atkPBoost = ${getScalingValue(StatKey.ATK_P_BOOST)};
-  let abilityMulti = ${atkScaling} * (atk + atkPBoost * ${getScalingValue(StatKey.BASE_ATK)})
+  let abilityMulti = ${atkScaling} * atk
     + ${hpScaling} * hp
     + ${defScaling} * def;
 
@@ -352,7 +349,7 @@ export const BreakDamageFunction: DamageFunction = {
     return wgsl`
 {
   // Common multipliers
-  let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
+  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
   let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
   let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
@@ -441,7 +438,7 @@ export const SuperBreakDamageFunction: DamageFunction = {
     return wgsl`
 {
   // Common multipliers
-  let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
+  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
   let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
   let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
@@ -540,7 +537,7 @@ export const AdditionalDamageFunction: DamageFunction = {
     return wgsl`
 {
   // Common multipliers
-  let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
+  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
   let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
   let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
@@ -553,8 +550,7 @@ export const AdditionalDamageFunction: DamageFunction = {
   let atk = ${getScalingValue(StatKey.ATK)};
   let hp = ${getScalingValue(StatKey.HP)};
   let def = ${getScalingValue(StatKey.DEF)};
-  let atkPBoost = ${getScalingValue(StatKey.ATK_P_BOOST)};
-  let abilityMulti = ${atkScaling} * (atk + atkPBoost * ${getScalingValue(StatKey.BASE_ATK)})
+  let abilityMulti = ${atkScaling} * atk
     + ${hpScaling} * hp
     + ${defScaling} * def;
 
@@ -763,7 +759,7 @@ export const HealTallyDamageFunction: DamageFunction = {
     return wgsl`
 {
   // Common multipliers
-  let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
+  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
   let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
   let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
@@ -851,7 +847,7 @@ export const ElationDamageFunction: DamageFunction = {
     return wgsl`
 {
   // Common multipliers
-  let baseUniversalMulti = 0.9 + ${containerActionVal(0, StatKey.ENEMY_WEAKNESS_BROKEN, config)} * 0.1;
+  let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
   let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - combatBuffsDEF_PEN - ${getValue(StatKey.DEF_PEN)}) + 100.0);
   let resMulti = 1.0 - (enemyDamageResistance - combatBuffsRES_PEN - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
@@ -916,7 +912,7 @@ function computeCommonMultipliers(
   const defPen = x.getValue(StatKey.DEF_PEN, hitIndex)
   const resPen = x.getValue(StatKey.RES_PEN, hitIndex)
 
-  m.baseUniversalMulti = x.a[StatKey.ENEMY_WEAKNESS_BROKEN] ? 1 : 0.9
+  m.baseUniversalMulti = x.config.enemyWeaknessBroken ? 1 : 0.9
   m.defMulti = calculateDefMulti(context.enemyLevel, context.combatBuffs.DEF_PEN + defPen)
   m.resMulti = 1 - (context.enemyDamageResistance - context.combatBuffs.RES_PEN - resPen)
   m.vulnMulti = 1 + x.getValue(StatKey.VULNERABILITY, hitIndex)
@@ -936,7 +932,6 @@ function calculateInitialDamage(
   const atk = x.getValue(StatKey.ATK, hitIndex, scalingEntityIndex)
   const hp = x.getValue(StatKey.HP, hitIndex, scalingEntityIndex)
   const def = x.getValue(StatKey.DEF, hitIndex, scalingEntityIndex)
-  const atkBoost = x.getValue(StatKey.ATK_P_BOOST, hitIndex, scalingEntityIndex)
 
   // BE-based ATK scaling
   const critHit = hit as CritHit
@@ -955,7 +950,7 @@ function calculateInitialDamage(
     totalAtkScaling += elationAtkScaling * elation
   }
 
-  return totalAtkScaling * (atk + atkBoost * context.baseATK)
+  return totalAtkScaling * atk
     + (hit.hpScaling ?? 0) * hp
     + (hit.defScaling ?? 0) * def
 }

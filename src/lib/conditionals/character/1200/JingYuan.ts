@@ -206,7 +206,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     actionModifiers: () => [],
 
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

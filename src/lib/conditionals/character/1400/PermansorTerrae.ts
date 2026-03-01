@@ -229,12 +229,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     actionModifiers: () => [],
 
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
     },
     initializeTeammateConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.SUMMONS, (t.bondmate) ? 1 : 0, x.source(SOURCE_SKILL))
+      if (t.bondmate) {
+        action.config.hasSummons = true
+      }
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

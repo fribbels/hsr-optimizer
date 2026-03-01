@@ -173,8 +173,7 @@ export const CritDamageFunction: DamageFunction = {
   let atk = ${getScalingValue(StatKey.ATK)};
   let hp = ${getScalingValue(StatKey.HP)};
   let def = ${getScalingValue(StatKey.DEF)};
-  let atkPBoost = ${getScalingValue(StatKey.ATK_P_BOOST)};
-  let abilityMulti = ${totalAtkScalingExpr} * (atk + atkPBoost * ${getScalingValue(StatKey.BASE_ATK)})
+  let abilityMulti = ${totalAtkScalingExpr} * atk
     + ${hpScaling} * hp
     + ${defScaling} * def;
 
@@ -271,8 +270,7 @@ export const DotDamageFunction: DamageFunction = {
   let atk = ${getScalingValue(StatKey.ATK)};
   let hp = ${getScalingValue(StatKey.HP)};
   let def = ${getScalingValue(StatKey.DEF)};
-  let atkPBoost = ${getScalingValue(StatKey.ATK_P_BOOST)};
-  let abilityMulti = ${atkScaling} * (atk + atkPBoost * ${getScalingValue(StatKey.BASE_ATK)})
+  let abilityMulti = ${atkScaling} * atk
     + ${hpScaling} * hp
     + ${defScaling} * def;
 
@@ -552,8 +550,7 @@ export const AdditionalDamageFunction: DamageFunction = {
   let atk = ${getScalingValue(StatKey.ATK)};
   let hp = ${getScalingValue(StatKey.HP)};
   let def = ${getScalingValue(StatKey.DEF)};
-  let atkPBoost = ${getScalingValue(StatKey.ATK_P_BOOST)};
-  let abilityMulti = ${atkScaling} * (atk + atkPBoost * ${getScalingValue(StatKey.BASE_ATK)})
+  let abilityMulti = ${atkScaling} * atk
     + ${hpScaling} * hp
     + ${defScaling} * def;
 
@@ -935,7 +932,6 @@ function calculateInitialDamage(
   const atk = x.getValue(StatKey.ATK, hitIndex, scalingEntityIndex)
   const hp = x.getValue(StatKey.HP, hitIndex, scalingEntityIndex)
   const def = x.getValue(StatKey.DEF, hitIndex, scalingEntityIndex)
-  const atkBoost = x.getValue(StatKey.ATK_P_BOOST, hitIndex, scalingEntityIndex)
 
   // BE-based ATK scaling
   const critHit = hit as CritHit
@@ -954,7 +950,7 @@ function calculateInitialDamage(
     totalAtkScaling += elationAtkScaling * elation
   }
 
-  return totalAtkScaling * (atk + atkBoost * context.baseATK)
+  return totalAtkScaling * atk
     + (hit.hpScaling ?? 0) * hp
     + (hit.defScaling ?? 0) * def
 }

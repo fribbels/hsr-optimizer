@@ -95,12 +95,6 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   ELEMENTAL_DMG: { label: optimizerTabMisc('Elemental DMG') },
   MERRYMAKING: { label: optimizerTabMisc('Merrymaking') },
 
-  // Base
-  BASE_HP: { flat: true, label: optimizerTabMisc('Base HP') },
-  BASE_ATK: { flat: true, label: optimizerTabMisc('Base ATK') },
-  BASE_DEF: { flat: true, label: optimizerTabMisc('Base DEF') },
-  BASE_SPD: { flat: true, label: optimizerTabMisc('Base SPD') },
-
   // Memosprites
   MEMO_BASE_HP_SCALING: { label: optimizerTabMisc('Memosprite base HP scaling') },
   MEMO_BASE_DEF_SCALING: { label: optimizerTabMisc('Memosprite base DEF scaling') },
@@ -184,7 +178,6 @@ export const newBaseComputedStatsAbilityPropertiesConfig = {
   HP_SCALING: { separated: true, label: optimizerTabCompositeSuffix('HP scaling') },
   SPECIAL_SCALING: { separated: true, label: optimizerTabCompositeSuffix('Special scaling') },
 
-  ATK_P_BOOST: { label: optimizerTabCompositeSuffix('ATK % boost') },
   CR_BOOST: { label: optimizerTabCompositeSuffix('Crit Rate boost') },
   CD_BOOST: { label: optimizerTabCompositeSuffix('Crit DMG boost') },
   DMG_BOOST: { separated: true, label: optimizerTabCompositeSuffix('DMG boost') }, // When merged this is just ELEMENTAL_DMG

@@ -875,4 +875,11 @@ const ContainerKeyToExternal: Partial<Record<AKeyType, StatsValues>> = {
   ELATION: Stats.Elation,
 }
 
-export type OptimizerEntity = EntityDefinition & { name: string; targetMask: number }
+export type OptimizerEntity = EntityDefinition & {
+  name: string
+  targetMask: number
+  baseAtk: number
+  baseDef: number
+  baseHp: number
+  baseSpd: number
+}

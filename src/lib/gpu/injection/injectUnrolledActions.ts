@@ -721,11 +721,6 @@ function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = T
       lines.push(
         `\
   // Entity ${entityIndex}: ${entityName} | Base index: ${baseIndex}
-  ${containerActionVal(entityIndex, AKey.BASE_ATK, config)} = ${atkScaling} * baseATK;
-  ${containerActionVal(entityIndex, AKey.BASE_DEF, config)} = ${defScaling} * baseDEF;
-  ${containerActionVal(entityIndex, AKey.BASE_HP, config)} = ${hpScaling} * baseHP;
-  ${containerActionVal(entityIndex, AKey.BASE_SPD, config)} = ${spdScaling} * baseSPD;
-
   ${containerActionVal(entityIndex, AKey.ATK, config)} += diffATK * ${atkScaling} + ${entity.memoBaseAtkFlat ?? 0};
   ${containerActionVal(entityIndex, AKey.DEF, config)} += diffDEF * ${defScaling} + ${entity.memoBaseDefFlat ?? 0};
   ${containerActionVal(entityIndex, AKey.HP, config)} += diffHP * ${hpScaling} + ${entity.memoBaseHpFlat ?? 0};
@@ -737,11 +732,11 @@ function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = T
   ${containerActionVal(entityIndex, AKey.BE, config)} += diffBE;
   ${containerActionVal(entityIndex, AKey.ERR, config)} += diffERR;
   ${containerActionVal(entityIndex, AKey.OHB, config)} += diffOHB;
-        
-  ${containerActionVal(entityIndex, AKey.ATK, config)} += ${containerActionVal(entityIndex, AKey.ATK_P, config)} * ${containerActionVal(entityIndex, AKey.BASE_ATK, config)};
-  ${containerActionVal(entityIndex, AKey.DEF, config)} += ${containerActionVal(entityIndex, AKey.DEF_P, config)} * ${containerActionVal(entityIndex, AKey.BASE_DEF, config)};
-  ${containerActionVal(entityIndex, AKey.HP, config)} += ${containerActionVal(entityIndex, AKey.HP_P, config)} * ${containerActionVal(entityIndex, AKey.BASE_HP, config)};
-  ${containerActionVal(entityIndex, AKey.SPD, config)} += ${containerActionVal(entityIndex, AKey.SPD_P, config)} * ${containerActionVal(entityIndex, AKey.BASE_SPD, config)};
+
+  ${containerActionVal(entityIndex, AKey.ATK, config)} += ${containerActionVal(entityIndex, AKey.ATK_P, config)} * ${entity.baseAtk};
+  ${containerActionVal(entityIndex, AKey.DEF, config)} += ${containerActionVal(entityIndex, AKey.DEF_P, config)} * ${entity.baseDef};
+  ${containerActionVal(entityIndex, AKey.HP, config)} += ${containerActionVal(entityIndex, AKey.HP_P, config)} * ${entity.baseHp};
+  ${containerActionVal(entityIndex, AKey.SPD, config)} += ${containerActionVal(entityIndex, AKey.SPD_P, config)} * ${entity.baseSpd};
         
   ${containerActionVal(entityIndex, AKey.PHYSICAL_DMG_BOOST, config)} += (*p_c).PHYSICAL_DMG_BOOST;
   ${containerActionVal(entityIndex, AKey.FIRE_DMG_BOOST, config)} += (*p_c).FIRE_DMG_BOOST;

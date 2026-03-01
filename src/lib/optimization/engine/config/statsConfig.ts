@@ -77,12 +77,6 @@ export const newStatsConfig = {
   ELATION: { label: 'Elation' },
   MERRYMAKING: { label: 'Merrymaking' },
 
-  // Base
-  BASE_HP: { flat: true, label: optimizerTabMisc('Base HP') }, // Remove
-  BASE_ATK: { flat: true, label: optimizerTabMisc('Base ATK') }, // Remove
-  BASE_DEF: { flat: true, label: optimizerTabMisc('Base DEF') }, // Remove
-  BASE_SPD: { flat: true, label: optimizerTabMisc('Base SPD') }, // Remove
-
   // Secondary conversions
   UNCONVERTIBLE_HP_BUFF: { flat: true, label: optimizerTabUnconvertible('HP') },
   UNCONVERTIBLE_ATK_BUFF: { flat: true, label: optimizerTabUnconvertible('ATK') },
@@ -103,7 +97,6 @@ export const newStatsConfig = {
 
   EFFECT_RES_PEN: { label: optimizerTabMisc('Effect RES PEN') },
 
-  ATK_P_BOOST: { label: optimizerTabCompositeSuffix('ATK % boost') },
   CR_BOOST: { label: optimizerTabCompositeSuffix('Crit Rate boost') },
   CD_BOOST: { label: optimizerTabCompositeSuffix('Crit DMG boost') },
 

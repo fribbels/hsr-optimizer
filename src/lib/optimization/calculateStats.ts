@@ -206,11 +206,6 @@ function transferBaseStats(x: ComputedStatsContainer, a: Float32Array, c: BasicS
     a[o + StatKey.IMAGINARY_DMG_BOOST] += ca[BasicKey.IMAGINARY_DMG_BOOST]
     a[o + StatKey.ELATION] += ca[BasicKey.ELATION]
 
-    // Base stats (actionSet = semantics)
-    a[o + StatKey.BASE_ATK] = context.baseATK
-    a[o + StatKey.BASE_DEF] = context.baseDEF
-    a[o + StatKey.BASE_HP] = context.baseHP
-    a[o + StatKey.BASE_SPD] = context.baseSPD
   }
 }
 
@@ -219,12 +214,6 @@ function calculateMemospriteBaseStats(x: ComputedStatsContainer, a: Float32Array
     const entity = x.config.entitiesArray[entityIndex]
 
     if (!entity.memosprite) continue
-
-    // Set BASE_* stats using raw base stats with scaling only (no flat)
-    a[x.getActionIndex(entityIndex, StatKey.BASE_ATK)] = (entity.memoBaseAtkScaling ?? 0) * context.baseATK
-    a[x.getActionIndex(entityIndex, StatKey.BASE_DEF)] = (entity.memoBaseDefScaling ?? 0) * context.baseDEF
-    a[x.getActionIndex(entityIndex, StatKey.BASE_HP)] = (entity.memoBaseHpScaling ?? 0) * context.baseHP
-    a[x.getActionIndex(entityIndex, StatKey.BASE_SPD)] = (entity.memoBaseSpdScaling ?? 0) * context.baseSPD
 
     // Calculate memosprite stats from primary entity's total stats (scaling * total + flat)
     a[x.getActionIndex(entityIndex, StatKey.ATK)] += (entity.memoBaseAtkScaling ?? 0) * c.a[StatKey.ATK] + (entity.memoBaseAtkFlat ?? 0)
@@ -289,10 +278,10 @@ function applyPercentStats(x: ComputedStatsContainer, a: Float32Array, context: 
 
     if (!entity.memosprite) continue
 
-    a[x.getActionIndex(entityIndex, StatKey.SPD)] += a[x.getActionIndex(entityIndex, StatKey.SPD_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_SPD)]
-    a[x.getActionIndex(entityIndex, StatKey.ATK)] += a[x.getActionIndex(entityIndex, StatKey.ATK_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_ATK)]
-    a[x.getActionIndex(entityIndex, StatKey.DEF)] += a[x.getActionIndex(entityIndex, StatKey.DEF_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_DEF)]
-    a[x.getActionIndex(entityIndex, StatKey.HP)] += a[x.getActionIndex(entityIndex, StatKey.HP_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_HP)]
+    a[x.getActionIndex(entityIndex, StatKey.SPD)] += a[x.getActionIndex(entityIndex, StatKey.SPD_P)] * entity.baseSpd
+    a[x.getActionIndex(entityIndex, StatKey.ATK)] += a[x.getActionIndex(entityIndex, StatKey.ATK_P)] * entity.baseAtk
+    a[x.getActionIndex(entityIndex, StatKey.DEF)] += a[x.getActionIndex(entityIndex, StatKey.DEF_P)] * entity.baseDef
+    a[x.getActionIndex(entityIndex, StatKey.HP)] += a[x.getActionIndex(entityIndex, StatKey.HP_P)] * entity.baseHp
   }
 }
 

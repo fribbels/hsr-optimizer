@@ -144,10 +144,6 @@ const StatKeyToStat: Record<number, string> = {
 }
 
 const ignoredStats: Record<number, boolean> = {
-  [StatKey.BASE_ATK]: true,
-  [StatKey.BASE_DEF]: true,
-  [StatKey.BASE_HP]: true,
-  [StatKey.BASE_SPD]: true,
   [StatKey.PHYSICAL_DMG_BOOST]: true,
   [StatKey.FIRE_DMG_BOOST]: true,
   [StatKey.ICE_DMG_BOOST]: true,

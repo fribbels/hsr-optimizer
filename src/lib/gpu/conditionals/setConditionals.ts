@@ -36,7 +36,7 @@ export const SpaceSealingStationConditional: DynamicConditional = {
     return p2(SetKeys.SpaceSealingStation, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 120
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-    const baseAtk = x.getActionValueByIndex(StatKey.BASE_ATK, SELF_ENTITY_INDEX)
+    const baseAtk = action.config.selfEntity.baseAtk
     x.buffDynamic(StatKey.ATK, 0.12 * baseAtk, action, context, x.source(Source.SpaceSealingStation))
   },
   gpu: function(action: OptimizerAction, context: OptimizerContext) {
@@ -53,7 +53,7 @@ if (
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 120.0
 ) {
   (*p_state).SpaceSealingStationConditional${action.actionIdentifier} = 1.0;
-  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} += 0.12 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BASE_ATK, config)};
+  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} += 0.12 * ${config.selfEntity.baseAtk};
 }
     `,
     )
@@ -70,7 +70,7 @@ export const FleetOfTheAgelessConditional: DynamicConditional = {
     return p2(SetKeys.FleetOfTheAgeless, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 120
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-    const baseAtk = x.getActionValueByIndex(StatKey.BASE_ATK, SELF_ENTITY_INDEX)
+    const baseAtk = action.config.selfEntity.baseAtk
     x.buffDynamic(StatKey.ATK, 0.08 * baseAtk, action, context, x.targets(TargetTag.SelfAndMemosprite).source(Source.FleetOfTheAgeless))
   },
   gpu: function(action: OptimizerAction, context: OptimizerContext) {
@@ -87,7 +87,7 @@ if (
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 120.0
 ) {
   (*p_state).FleetOfTheAgelessConditional${action.actionIdentifier} = 1.0;
-  ${buff.action(StatKey.ATK, `0.08 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BASE_ATK, config)}`).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
+  ${buff.action(StatKey.ATK, `0.08 * ${config.selfEntity.baseAtk}`).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
 }
     `,
     )
@@ -104,7 +104,7 @@ export const BelobogOfTheArchitectsConditional: DynamicConditional = {
     return p2(SetKeys.BelobogOfTheArchitects, x.c.sets) && x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) >= 0.50
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-    const baseDef = x.getActionValueByIndex(StatKey.BASE_DEF, SELF_ENTITY_INDEX)
+    const baseDef = action.config.selfEntity.baseDef
     x.buffDynamic(StatKey.DEF, 0.15 * baseDef, action, context, x.source(Source.BelobogOfTheArchitects))
   },
   gpu: function(action: OptimizerAction, context: OptimizerContext) {
@@ -121,7 +121,7 @@ if (
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, config)} >= 0.50
 ) {
   (*p_state).BelobogOfTheArchitectsConditional${action.actionIdentifier} = 1.0;
-  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.DEF, config)} += 0.15 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BASE_DEF, config)};
+  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.DEF, config)} += 0.15 * ${config.selfEntity.baseDef};
 }
     `,
     )
@@ -141,7 +141,7 @@ export const PanCosmicCommercialEnterpriseConditional: DynamicConditional = {
   effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
     const ehr = x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX)
-    const baseAtk = x.getActionValueByIndex(StatKey.BASE_ATK, SELF_ENTITY_INDEX)
+    const baseAtk = action.config.selfEntity.baseAtk
     const buffValue = Math.min(0.25, 0.25 * ehr) * baseAtk
 
     action.conditionalState[this.id] = buffValue
@@ -161,9 +161,7 @@ if (
   ornament2p(*p_sets, SET_PanCosmicCommercialEnterprise) >= 1
 ) {
   let stateValue: f32 = (*p_state).PanCosmicCommercialEnterpriseConditional${action.actionIdentifier};
-  let buffValue: f32 = min(0.25, 0.25 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, config)}) * ${
-        containerActionVal(SELF_ENTITY_INDEX, StatKey.BASE_ATK, config)
-      };
+  let buffValue: f32 = min(0.25, 0.25 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, config)}) * ${config.selfEntity.baseAtk};
 
   (*p_state).PanCosmicCommercialEnterpriseConditional${action.actionIdentifier} = buffValue;
   ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} += buffValue - stateValue;

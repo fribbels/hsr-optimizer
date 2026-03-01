@@ -337,9 +337,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return r.spd200HpBuff && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 200
         },
         effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-          const selfBaseHp = x.getActionValueByIndex(StatKey.BASE_HP, SELF_ENTITY_INDEX)
+          const selfBaseHp = action.config.selfEntity.baseHp
           const memoEntityIndex = action.config.entityRegistry.getIndex(HyacineEntities.Ica)
-          const memoBaseHp = x.getActionValueByIndex(StatKey.BASE_HP, memoEntityIndex)
+          const memoBaseHp = action.config.entitiesArray[memoEntityIndex].baseHp
 
           x.buffDynamic(StatKey.HP, 0.20 * selfBaseHp, action, context, x.source(SOURCE_TRACE))
           x.buffDynamic(StatKey.HP, 0.20 * memoBaseHp, action, context, x.target(HyacineEntities.Ica).source(SOURCE_TRACE))
@@ -360,8 +360,8 @@ if (
   ${wgslTrue(r.spd200HpBuff)}
 ) {
   (*p_state).HyacineSpdActivation${action.actionIdentifier} = 1.0;
-  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.HP, config)} += 0.20 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BASE_HP, config)};
-  ${p_containerActionVal(memoEntityIndex, StatKey.HP, config)} += 0.20 * ${containerActionVal(memoEntityIndex, StatKey.BASE_HP, config)};
+  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.HP, config)} += 0.20 * ${config.selfEntity.baseHp};
+  ${p_containerActionVal(memoEntityIndex, StatKey.HP, config)} += 0.20 * ${config.entitiesArray[memoEntityIndex].baseHp};
 }
     `,
           )

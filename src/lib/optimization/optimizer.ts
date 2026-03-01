@@ -91,9 +91,9 @@ export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
 }
 
 export const Optimizer = {
-  cancel: (id: string) => {
+  cancel: () => {
     CANCEL = true
-    WorkerPool.cancel(id)
+    WorkerPool.cancel()
   },
 
   getFilteredRelics: (request: Form) => {

@@ -225,7 +225,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       x.buff(StatKey.CD, (m.eruditionTeammate && countTeamPath(context, PathNames.Erudition) >= 2) ? 0.80 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
-      x.buff(StatKey.SPD_P, (e >= 4 && m.e4EruditionSpdBuff && mainIsPath(context, PathNames.Erudition)) ? 0.12 : 0, x.source(SOURCE_E4))
+      x.buff(StatKey.SPD_P, (e >= 4 && m.e4EruditionSpdBuff && mainIsPath(context, PathNames.Erudition)) ? 0.12 : 0, x.targets(TargetTag.SelfAndPet).source(SOURCE_E4))
     },
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },

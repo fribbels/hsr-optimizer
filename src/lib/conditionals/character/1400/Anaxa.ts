@@ -244,10 +244,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Trace: DMG boost when 2+ Erudition members or E6 active
       const eruditionMembers = countTeamPath(context, PathNames.Erudition)
-      x.buff(StatKey.DMG_BOOST, (m.eruditionTeammateBuffs && eruditionMembers >= 2 || e >= 6 && m.e6Buffs) ? 0.50 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.DMG_BOOST, (m.eruditionTeammateBuffs && eruditionMembers >= 2 || e >= 6 && m.e6Buffs) ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // E1: DEF PEN
-      x.buff(StatKey.DEF_PEN, (e >= 1 && m.e1DefPen) ? 0.16 : 0, x.source(SOURCE_E1))
+      x.buff(StatKey.DEF_PEN, (e >= 1 && m.e1DefPen) ? 0.16 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
 
       // E2: RES PEN (full team)
       x.buff(StatKey.RES_PEN, (e >= 2 && m.e2ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
@@ -258,12 +258,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneSkillDmgBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.44 : 0.40)
         : 0
-      x.buff(StatKey.DMG_BOOST, cyreneBuffActive ? cyreneSkillDmgBuff : 0, x.damageType(DamageTag.SKILL).source(Source.odeTo(ANAXA)))
+      x.buff(StatKey.DMG_BOOST, cyreneBuffActive ? cyreneSkillDmgBuff : 0, x.damageType(DamageTag.SKILL).targets(TargetTag.SelfAndPet).source(Source.odeTo(ANAXA)))
 
       const cyreneAtkBuff = cyreneActionExists(originalCharacterAction!)
         ? (cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.66 : 0.60)
         : 0
-      x.buff(StatKey.ATK_P, cyreneBuffActive ? cyreneAtkBuff : 0, x.source(Source.odeTo(ANAXA)))
+      x.buff(StatKey.ATK_P, cyreneBuffActive ? cyreneAtkBuff : 0, x.targets(TargetTag.SelfAndPet).source(Source.odeTo(ANAXA)))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

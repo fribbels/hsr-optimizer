@@ -202,9 +202,6 @@ export function precomputeConditionals(action: OptimizerAction, comboState: Comb
 
   const container = action.precomputedStats
 
-  if (context.deprioritizeBuffs) {
-    container.actionSet(StatKey.DEPRIORITIZE_BUFFS, 1)
-  }
 
   // If the conditionals forced weakness break, keep it. Otherwise use the request's broken status
   container.actionSet(StatKey.ENEMY_WEAKNESS_BROKEN, container.a[StatKey.ENEMY_WEAKNESS_BROKEN] || context.enemyWeaknessBroken ? 1 : 0)

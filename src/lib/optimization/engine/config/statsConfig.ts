@@ -106,7 +106,7 @@ export const newStatsConfig = {
   MEMOSPRITE: { bool: true, label: optimizerTabMisc('Memosprite') }, // Remove
   ENEMY_WEAKNESS_BROKEN: { bool: true, label: optimizerTabMisc('Enemy weakness broken') }, // Remove
 
-  DEPRIORITIZE_BUFFS: { bool: true, label: optimizerTabMisc('Deprioritize buffs') }, // Remove
+
   COMBO_DMG: { flat: true, label: optimizerTabMisc('Combo DMG') }, // Remove
 
   EFFECT_RES_PEN: { label: optimizerTabMisc('Effect RES PEN') },

@@ -134,7 +134,7 @@ export const newBaseComputedStatsCorePropertiesConfig = {
   MEMOSPRITE: { bool: true, label: optimizerTabMisc('Memosprite') },
   ENEMY_WEAKNESS_BROKEN: { bool: true, label: optimizerTabMisc('Enemy weakness broken') },
 
-  DEPRIORITIZE_BUFFS: { bool: true, label: optimizerTabMisc('Deprioritize buffs') },
+
   COMBO_DMG: { flat: true, label: optimizerTabMisc('Combo DMG') },
 
   // DOT

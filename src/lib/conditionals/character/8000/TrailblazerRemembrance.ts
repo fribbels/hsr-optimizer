@@ -1,4 +1,4 @@
-import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF, } from 'lib/conditionals/conditionalConstants'
+import { AbilityType, BuffPriority, } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
@@ -63,7 +63,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   // additionally increases the multiplier of the True DMG dealt via "Mem's Support" by 2%, up to a max increase of 20%.
 
   const defaults = {
-    buffPriority: BUFF_PRIORITY_SELF,
+    buffPriority: BuffPriority.SELF,
     enhancedBasic: false,
     memoSkillHits: 4,
     teamCdBuff: true,
@@ -90,8 +90,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tBuff('Text'),
       content: tBuff('Content'),
       options: [
-        { display: tBuff('Self'), value: BUFF_PRIORITY_SELF, label: tBuff('Self') },
-        { display: tBuff('Memo'), value: BUFF_PRIORITY_MEMO, label: tBuff('Memo') },
+        { display: tBuff('Self'), value: BuffPriority.SELF, label: tBuff('Self') },
+        { display: tBuff('Memo'), value: BuffPriority.MEMO, label: tBuff('Memo') },
       ],
       fullWidth: true,
     },
@@ -192,7 +192,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           primary: true,
           summon: false,
           memosprite: false,
-          memoBuffPriority: r.buffPriority !== BUFF_PRIORITY_SELF,
+          memoBuffPriority: r.buffPriority !== BuffPriority.SELF,
         },
         [TrailblazerRemembranceEntities.Mem]: {
           memoBaseHpScaling: memoHpScaling,

@@ -44,8 +44,10 @@ export const MEMO_DMG_TYPE: number = DamageType.MEMO
 export const ADDITIONAL_DMG_TYPE: number = DamageType.ADDITIONAL
 export const ELATION_DMG_TYPE: number = DamageType.ELATION
 
-export const BUFF_PRIORITY_SELF = 0
-export const BUFF_PRIORITY_MEMO = 1
+export enum BuffPriority {
+  SELF = 0,
+  MEMO = 1,
+}
 
 export type SetsType = {
   [K in keyof typeof Sets]: number

@@ -1,7 +1,6 @@
 import {
   AbilityType,
-  BUFF_PRIORITY_MEMO,
-  BUFF_PRIORITY_SELF,
+  BuffPriority,
 } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
@@ -95,7 +94,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const memoSpdStacksMax = e >= 4 ? 7 : 6
 
   const defaults = {
-    buffPriority: BUFF_PRIORITY_SELF,
+    buffPriority: BuffPriority.SELF,
     supremeStanceState: true,
     seamStitch: true,
     memoSpdStacks: memoSpdStacksMax,
@@ -117,8 +116,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tBuff('Text'),
       content: tBuff('Content'),
       options: [
-        { display: tBuff('Self'), value: BUFF_PRIORITY_SELF, label: tBuff('Self') },
-        { display: tBuff('Memo'), value: BUFF_PRIORITY_MEMO, label: tBuff('Memo') },
+        { display: tBuff('Self'), value: BuffPriority.SELF, label: tBuff('Self') },
+        { display: tBuff('Memo'), value: BuffPriority.MEMO, label: tBuff('Memo') },
       ],
       fullWidth: true,
     },
@@ -194,7 +193,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           primary: true,
           summon: false,
           memosprite: false,
-          memoBuffPriority: r.buffPriority !== BUFF_PRIORITY_SELF,
+          memoBuffPriority: r.buffPriority !== BuffPriority.SELF,
         },
         [AglaeaEntities.Garmentmaker]: {
           memoBaseHpScaling,

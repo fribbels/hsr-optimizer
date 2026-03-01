@@ -186,7 +186,6 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
 
   // ========== FINALIZE CONTEXT ==========
 
-  const characterConditionalController = CharacterConditionalsResolver.get(context)
   context.dotAbilities = countDotAbilities(rotationActions)
   context.comboDot = comboDot || 0
 }

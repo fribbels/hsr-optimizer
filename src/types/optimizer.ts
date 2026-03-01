@@ -22,7 +22,6 @@ import {
   ElementalResPenType,
 } from 'types/metadata'
 import {
-  AbilityDefinition,
   Hit,
 } from './hitConditionalTypes'
 
@@ -164,7 +163,6 @@ export type OptimizerContext = CharacterMetadata & {
   teammate2Metadata: CharacterMetadata,
 
   // Optimizer environment
-  resultsLimit: number,
   resultSort: string,
   primaryAbilityKey: string, // Primary ability from scoringMetadata.sortOption.key (e.g., 'BASIC', 'SKILL')
   combatBuffs: OptimizerCombatBuffs,
@@ -191,9 +189,7 @@ export type OptimizerContext = CharacterMetadata & {
   enemyEffectResistance: number,
   enemyElementalWeak: boolean,
   enemyWeaknessBroken: boolean,
-  weaknessBrokenMultiplier: number,
 
-  hitActions?: AbilityDefinition[],
   comboDot: number,
   dotAbilities: number,
 

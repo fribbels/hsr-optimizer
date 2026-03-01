@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ActionModifier } from 'lib/optimization/context/calculateActions'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'

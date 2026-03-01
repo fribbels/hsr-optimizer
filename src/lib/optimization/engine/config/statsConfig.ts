@@ -11,46 +11,12 @@ interface SimpleLabel extends tInput {
   composite?: false
 }
 
-export type Label = SimpleLabel | string
-
 export interface StatConfigEntry {
   hit?: boolean
   flat?: boolean
   bool?: boolean
   default?: number
-  label: Label
-}
-
-export enum StatCategory {
-  CD,
-  NONE,
-}
-
-export type ComputedStatsConfigBaseType = {
-  category?: StatCategory
-  default?: number
-  flat?: boolean
-  whole?: boolean
-  separated?: boolean
-  bool?: boolean
-  label: Label
-}
-
-export type ComputedStatKeys = keyof typeof newStatsConfig
-
-export type StatConfig = {
-  name: string
-  label: Label
-  index: number
-  default: number
-  flat: boolean
-  whole: boolean
-  bool: boolean
-  category: StatCategory
-}
-
-export type ComputedStatsConfigType = {
-  [K in ComputedStatKeys]: StatConfig
+  label: SimpleLabel | string
 }
 
 const createI18nKey = <K extends string>(ns: SimpleLabel['ns'], path: string, argName?: string) => (value: K): SimpleLabel =>
@@ -62,11 +28,8 @@ const keyPrefix = 'ExpandedDataPanel.BuffsAnalysisDisplay.Stats'
 type Prefixed = Resources['optimizerTab']['ExpandedDataPanel']['BuffsAnalysisDisplay']['Stats']
 
 const commonReadableStat = createI18nKey<keyof Resources['common']['ReadableStats']>('common', 'ReadableStats')
-const commonStat = createI18nKey<keyof Resources['common']['Stats']>('common', 'Stats')
 const optimizerTabMisc = createI18nKey<keyof Prefixed['Misc']>('optimizerTab', `${keyPrefix}.Misc`)
-const optimizerTabDmgTypes = createI18nKey<keyof Prefixed['DmgTypes']>('optimizerTab', `${keyPrefix}.DmgTypes`)
 const optimizerTabCompositeSuffix = createI18nKey<keyof Prefixed['CompositeLabels']['Suffix']>('optimizerTab', `${keyPrefix}.CompositeLabels.Suffix`)
-const optimizerTabCompositePrefix = createI18nKey<keyof Prefixed['CompositeLabels']['Prefix']>('optimizerTab', `${keyPrefix}.CompositeLabels.Prefix`)
 const optimizerTabUnconvertible = createI18nKey<keyof Resources['common']['Stats']>('optimizerTab', `${keyPrefix}.Unconvertible`, 'stat')
 const optimizerTabResPen = createI18nKey<keyof Resources['common']['Elements']>('optimizerTab', `${keyPrefix}.ResPen`, 'element')
 

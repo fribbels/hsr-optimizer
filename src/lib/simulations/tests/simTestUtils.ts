@@ -8,9 +8,8 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { BasicKey, BasicKeyType } from 'lib/optimization/basicStatsArray'
-import { AKeyType } from 'lib/optimization/engine/config/keys'
-import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
+import { BasicKey } from 'lib/optimization/basicStatsArray'
+import { AKeyValue, getAKeyName, GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import { StatCalculator } from 'lib/relics/statCalculator'
@@ -141,39 +140,42 @@ export function testMains(simBody: MainStats, simFeet: MainStats, simPlanarSpher
 
 // Stats 0-14 (HP_P through OHB) have matching indices between AKey and BasicKey.
 // Stats past OHB are populated manually in collectResults using StatKey / actionDamage / primaryActionStats.
-export const trackedCombatStats: AKeyType[] = [
-  'ATK',
-  'DEF',
-  'HP',
-  'SPD',
-  'CR',
-  'CD',
-  'EHR',
-  'RES',
-  'BE',
-  'OHB',
-  'ERR',
+export const trackedCombatStatKeys: AKeyValue[] = [
+  StatKey.ATK,
+  StatKey.DEF,
+  StatKey.HP,
+  StatKey.SPD,
+  StatKey.CR,
+  StatKey.CD,
+  StatKey.EHR,
+  StatKey.RES,
+  StatKey.BE,
+  StatKey.OHB,
+  StatKey.ERR,
 ]
-export const trackedBasicStats: BasicKeyType[] = [
-  'ATK',
-  'DEF',
-  'HP',
-  'SPD',
-  'CR',
-  'CD',
-  'EHR',
-  'RES',
-  'BE',
-  'OHB',
-  'ERR',
-  'PHYSICAL_DMG_BOOST',
-  'FIRE_DMG_BOOST',
-  'ICE_DMG_BOOST',
-  'LIGHTNING_DMG_BOOST',
-  'WIND_DMG_BOOST',
-  'QUANTUM_DMG_BOOST',
-  'IMAGINARY_DMG_BOOST',
+
+export const trackedBasicStatKeys: number[] = [
+  BasicKey.ATK,
+  BasicKey.DEF,
+  BasicKey.HP,
+  BasicKey.SPD,
+  BasicKey.CR,
+  BasicKey.CD,
+  BasicKey.EHR,
+  BasicKey.RES,
+  BasicKey.BE,
+  BasicKey.OHB,
+  BasicKey.ERR,
+  BasicKey.PHYSICAL_DMG_BOOST,
+  BasicKey.FIRE_DMG_BOOST,
+  BasicKey.ICE_DMG_BOOST,
+  BasicKey.LIGHTNING_DMG_BOOST,
+  BasicKey.WIND_DMG_BOOST,
+  BasicKey.QUANTUM_DMG_BOOST,
+  BasicKey.IMAGINARY_DMG_BOOST,
 ]
+
+const BasicKeyNames = Object.keys(BasicKey) as (keyof typeof BasicKey)[]
 
 export function collectResults(input: TestInput) {
   const result = runTest(input)
@@ -186,12 +188,11 @@ export function collectResults(input: TestInput) {
   const nameBasicResults: TestResultByName = {}
 
   // Stats 0-14 have matching indices between AKey and BasicKey
-  for (const stat of trackedCombatStats) {
-    const index = StatKey[stat]
-    const value = TsUtils.precisionRound(x.a[index], 7)
+  for (const key of trackedCombatStatKeys) {
+    const value = TsUtils.precisionRound(x.a[key], 7)
 
-    keyCombatResults[index] = value
-    nameCombatResults[stat] = value
+    keyCombatResults[key] = value
+    nameCombatResults[getAKeyName(key)] = value
   }
 
   // CR and CD display values include their respective _BOOST components
@@ -241,12 +242,11 @@ export function collectResults(input: TestInput) {
     nameCombatResults['SHIELD_VALUE'] = TsUtils.precisionRound(shieldValue, 7)
   }
 
-  for (const stat of trackedBasicStats) {
-    const index = BasicKey[stat]
-    const value = TsUtils.precisionRound(x.c.a[index], 7)
+  for (const key of trackedBasicStatKeys) {
+    const value = TsUtils.precisionRound(x.c.a[key], 7)
 
-    keyBasicResults[index] = value
-    nameBasicResults[stat] = value
+    keyBasicResults[key] = value
+    nameBasicResults[BasicKeyNames[key]] = value
   }
 
   return testCase(input, nameBasicResults, nameCombatResults)

@@ -124,7 +124,6 @@ function generateEnemyContext(request: Form, context: Partial<OptimizerContext>)
   context.enemyEffectResistance = request.enemyEffectResistance
   context.enemyElementalWeak = request.enemyElementalWeak
   context.enemyWeaknessBroken = request.enemyWeaknessBroken
-  context.weaknessBrokenMultiplier = request.enemyWeaknessBroken ? 1 : 0.9 // TODO: Remove?
 }
 
 function generateBaseStatsContext(request: Form, context: Partial<OptimizerContext>) {

@@ -14,7 +14,6 @@ import { StringToNumberMap } from 'types/common'
 import { Relic } from 'types/relic'
 
 export function generateParamsMatrix(
-  device: GPUDevice,
   offset: number,
   relics: RelicsByPart,
   gpuContext: GpuExecutionContext,
@@ -50,7 +49,6 @@ export function generateParamsMatrix(
     gpuContext.resultsQueue.size() >= gpuContext.RESULTS_LIMIT ? (gpuContext.resultsQueue.top()?.value ?? 0) : 0,
     permLimit,
   ])
-  // return createGpuBuffer(device, new Float32Array(paramsArray), GPUBufferUsage.STORAGE)
 }
 
 export function mergeRelicsIntoArray(relics: RelicsByPart) {

@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   ElementName,
   PathName,
@@ -23,7 +22,6 @@ import {
   ElementalResPenType,
 } from 'types/metadata'
 import {
-  AbilityDefinition,
   Hit,
 } from './hitConditionalTypes'
 
@@ -59,7 +57,6 @@ export type OptimizerAction = {
   teammateDynamicConditionals: DynamicConditional[],
   // Teammate data all gets precomputed, only the non-precomputable values go in here
 
-  registerIndices: number[],
   registerIndex: number,
 }
 
@@ -165,7 +162,6 @@ export type OptimizerContext = CharacterMetadata & {
   teammate2Metadata: CharacterMetadata,
 
   // Optimizer environment
-  resultsLimit: number,
   resultSort: string,
   primaryAbilityKey: string, // Primary ability from scoringMetadata.sortOption.key (e.g., 'BASIC', 'SKILL')
   combatBuffs: OptimizerCombatBuffs,
@@ -192,16 +188,11 @@ export type OptimizerContext = CharacterMetadata & {
   enemyEffectResistance: number,
   enemyElementalWeak: boolean,
   enemyWeaknessBroken: boolean,
-  weaknessBrokenMultiplier: number,
 
-  activeAbilities: AbilityType[],
-  activeAbilityFlags: number,
-  hitActions?: AbilityDefinition[],
   comboDot: number,
   dotAbilities: number,
 
-  characterConditionalController: CharacterConditionalsController,
-  lightConeConditionalController: LightConeConditionalsController,
+  lightConeController: LightConeConditionalsController,
 }
 
 export type OptimizerCombatBuffs = {

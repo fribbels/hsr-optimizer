@@ -2,13 +2,10 @@ import {
   AKeyValue,
   AToHKey,
   GLOBAL_REGISTERS_LENGTH,
-  getAKeyName,
-  getHKeyName,
   HKeyValue,
 } from 'lib/optimization/engine/config/keys'
 import {
   ComputedStatsContainerConfig,
-  OptimizerEntity,
 } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Hit } from 'types/hitConditionalTypes'
 import {
@@ -99,105 +96,9 @@ export function p_containerActionVal(entityIndex: number, actionKey: AKeyValue, 
   return containerActionVal(entityIndex, actionKey, config)
 }
 
-export function p_containerHitVal(entityIndex: number, hitIndex: number, hitKey: HKeyValue, config: ComputedStatsContainerConfig) {
-  return containerHitVal(entityIndex, hitIndex, hitKey, config)
-}
-
 // ============== Register Accessors ==============
-
-export function containerActionRegister(actionRegisterIndex: number, config: ComputedStatsContainerConfig) {
-  return `(*p_container)[${getActionRegisterIndex(actionRegisterIndex, config)}]`
-}
 
 export function containerHitRegister(hitRegisterIndex: number, config: ComputedStatsContainerConfig) {
   return `(*p_container)[${getHitRegisterIndex(hitRegisterIndex, config)}]`
 }
 
-export function p_containerActionRegister(actionRegisterIndex: number, config: ComputedStatsContainerConfig) {
-  return `(*p_container)[${getActionRegisterIndex(actionRegisterIndex, config)}]`
-}
-
-export function p_containerHitRegister(hitRegisterIndex: number, config: ComputedStatsContainerConfig) {
-  return `(*p_container)[${getHitRegisterIndex(hitRegisterIndex, config)}]`
-}
-
-// ============== Entity Filters ==============
-
-export type EntityFilter = (entity: OptimizerEntity) => boolean
-
-export const EntityFilters = {
-  primaryOrPet: (e: OptimizerEntity) => Boolean(e.primary || e.pet),
-  memo: (e: OptimizerEntity) => e.memosprite,
-} as const
-
-// ============== Action Buffing ==============
-
-function actionBuffFiltered(
-  actionKey: AKeyValue,
-  value: number,
-  action: OptimizerAction,
-  context: OptimizerContext,
-  filter: EntityFilter,
-) {
-  const lines: string[] = []
-  for (let entityIndex = 0; entityIndex < action.config.entitiesLength; entityIndex++) {
-    const entity = action.config.entitiesArray[entityIndex]
-
-    if (filter(entity)) {
-      const index = getActionIndex(entityIndex, actionKey, action.config)
-      lines.push(`(*p_container)[${index}] += ${value}; // ${entity.name} ${getAKeyName(actionKey)}`)
-    }
-  }
-  return lines.filter(Boolean).join('\n        ')
-}
-
-export const actionBuff = (
-  actionKey: AKeyValue,
-  value: number,
-  action: OptimizerAction,
-  context: OptimizerContext,
-) => actionBuffFiltered(actionKey, value, action, context, EntityFilters.primaryOrPet)
-
-export const actionBuffMemo = (
-  actionKey: AKeyValue,
-  value: number,
-  action: OptimizerAction,
-  context: OptimizerContext,
-) => actionBuffFiltered(actionKey, value, action, context, EntityFilters.memo)
-
-// ============== Hit Buffing ==============
-
-function hitBuffFiltered(
-  hitKey: HKeyValue,
-  value: number,
-  action: OptimizerAction,
-  context: OptimizerContext,
-  filter: EntityFilter,
-) {
-  const lines: string[] = []
-  for (let entityIndex = 0; entityIndex < action.config.entitiesLength; entityIndex++) {
-    const entity = action.config.entitiesArray[entityIndex]
-
-    for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
-      if (filter(entity)) {
-        const index = getHitIndex(entityIndex, hitIndex, hitKey, action.config)
-        lines.push(`(*p_container)[${index}] += ${value}; // ${entity.name} hit${hitIndex} ${getHKeyName(hitKey)}`)
-      }
-    }
-  }
-  return lines.filter(Boolean).join('\n        ')
-}
-
-export const hitBuff = (
-  hitKey: HKeyValue,
-  value: number,
-  action: OptimizerAction,
-  context: OptimizerContext,
-) => hitBuffFiltered(hitKey, value, action, context, EntityFilters.primaryOrPet)
-
-export const hitBuffMemo = (
-  hitKey: HKeyValue,
-  value: number,
-  action: OptimizerAction,
-  context: OptimizerContext,
-) => hitBuffFiltered(hitKey, value, action, context, EntityFilters.memo)

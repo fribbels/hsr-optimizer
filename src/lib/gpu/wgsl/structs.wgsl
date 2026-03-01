@@ -100,7 +100,6 @@ struct SetConditionals {
 }
 
 struct Action {
-  abilityType: f32,
   setConditionals: SetConditionals,
 }
 

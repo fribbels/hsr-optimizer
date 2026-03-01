@@ -94,7 +94,6 @@ const statsLength = ${statsLength};
 
     actionsDefinition += `
 const action${i} = Action( // ${action.actionIndex} ${action.actionName}
-  0,
   SetConditionals(
     ${action.setConditionals.enabledHunterOfGlacialForest},${gpuParams.DEBUG ? ' // enabledHunterOfGlacialForest' : ''}
     ${action.setConditionals.enabledFiresmithOfLavaForging},${gpuParams.DEBUG ? ' // enabledFiresmithOfLavaForging' : ''}
@@ -268,19 +267,6 @@ ${format(basicFilters)}
 function injectGpuParams(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   const cyclesPerInvocation = gpuParams.DEBUG ? 1 : gpuParams.CYCLES_PER_INVOCATION
 
-  let debugValues = ''
-
-  if (gpuParams.DEBUG) {
-    //     debugValues = `
-    // const DEBUG_BASIC_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.BASIC).length};
-    // const DEBUG_SKILL_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.SKILL).length};
-    // const DEBUG_ULT_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.ULT).length};
-    // const DEBUG_FUA_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.FUA).length};
-    // const DEBUG_DOT_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.DOT).length};
-    // const DEBUG_BREAK_COMBO: f32 = ${request.comboTurnAbilities.filter((x) => getAbilityKind(x) == AbilityKind.BREAK).length};
-    // `
-  }
-
   wgsl = wgsl.replace(
     '/* INJECT GPU PARAMS */',
     `
@@ -289,7 +275,6 @@ const BLOCK_SIZE = ${gpuParams.BLOCK_SIZE};
 const CYCLES_PER_INVOCATION = ${cyclesPerInvocation};
 const DEBUG = ${gpuParams.DEBUG ? 1 : 0};
 const COMPACT_LIMIT = ${gpuParams.COMPACT_LIMIT}u;
-${debugValues}
   `,
   )
 
@@ -305,28 +290,6 @@ struct CompactEntry { index: i32, value: f32 }
       ? `@group(2) @binding(0) var<storage, read_write> results : array<array<f32, ${context.maxContainerArrayLength}>>; // DEBUG${compactDeclarations}`
       : compactDeclarations,
   )
-
-  if (context.resultSort == SortOption.COMBO.key) {
-    wgsl = wgsl.replace(
-      '/* INJECT ACTION ITERATOR */',
-      indent(
-        `
-for (var actionIndex = actionCount - 1; actionIndex >= 0; actionIndex--) {
-    `,
-        4,
-      ),
-    )
-  } else {
-    wgsl = wgsl.replace(
-      '/* INJECT ACTION ITERATOR */',
-      indent(
-        `
-for (var actionIndex = 0; actionIndex < actionCount; actionIndex++) {
-    `,
-        4,
-      ),
-    )
-  }
 
   return wgsl
 }

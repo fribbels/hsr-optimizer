@@ -8,11 +8,8 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import {
-  StatConfig,
-  StatsConfig,
-} from 'lib/optimization/config/computedStatsConfig'
-import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
+import { BasicKey } from 'lib/optimization/basicStatsArray'
+import { AKeyValue, getAKeyName, GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import { StatCalculator } from 'lib/relics/statCalculator'
@@ -141,41 +138,44 @@ export function testMains(simBody: MainStats, simFeet: MainStats, simPlanarSpher
   return { simBody, simFeet, simPlanarSphere, simLinkRope }
 }
 
-// Only stats 0-14 (HP_P through OHB) have matching indices between StatsConfig and StatKey.
+// Stats 0-14 (HP_P through OHB) have matching indices between AKey and BasicKey.
 // Stats past OHB are populated manually in collectResults using StatKey / actionDamage / primaryActionStats.
-export const trackedCombatStats: StatConfig[] = [
-  StatsConfig.ATK,
-  StatsConfig.DEF,
-  StatsConfig.HP,
-  StatsConfig.SPD,
-  StatsConfig.CR,
-  StatsConfig.CD,
-  StatsConfig.EHR,
-  StatsConfig.RES,
-  StatsConfig.BE,
-  StatsConfig.OHB,
-  StatsConfig.ERR,
+export const trackedCombatStatKeys: AKeyValue[] = [
+  StatKey.ATK,
+  StatKey.DEF,
+  StatKey.HP,
+  StatKey.SPD,
+  StatKey.CR,
+  StatKey.CD,
+  StatKey.EHR,
+  StatKey.RES,
+  StatKey.BE,
+  StatKey.OHB,
+  StatKey.ERR,
 ]
-export const trackedBasicStats: StatConfig[] = [
-  StatsConfig.ATK,
-  StatsConfig.DEF,
-  StatsConfig.HP,
-  StatsConfig.SPD,
-  StatsConfig.CR,
-  StatsConfig.CD,
-  StatsConfig.EHR,
-  StatsConfig.RES,
-  StatsConfig.BE,
-  StatsConfig.OHB,
-  StatsConfig.ERR,
-  StatsConfig.PHYSICAL_DMG_BOOST,
-  StatsConfig.FIRE_DMG_BOOST,
-  StatsConfig.ICE_DMG_BOOST,
-  StatsConfig.LIGHTNING_DMG_BOOST,
-  StatsConfig.WIND_DMG_BOOST,
-  StatsConfig.QUANTUM_DMG_BOOST,
-  StatsConfig.IMAGINARY_DMG_BOOST,
+
+export const trackedBasicStatKeys: number[] = [
+  BasicKey.ATK,
+  BasicKey.DEF,
+  BasicKey.HP,
+  BasicKey.SPD,
+  BasicKey.CR,
+  BasicKey.CD,
+  BasicKey.EHR,
+  BasicKey.RES,
+  BasicKey.BE,
+  BasicKey.OHB,
+  BasicKey.ERR,
+  BasicKey.PHYSICAL_DMG_BOOST,
+  BasicKey.FIRE_DMG_BOOST,
+  BasicKey.ICE_DMG_BOOST,
+  BasicKey.LIGHTNING_DMG_BOOST,
+  BasicKey.WIND_DMG_BOOST,
+  BasicKey.QUANTUM_DMG_BOOST,
+  BasicKey.IMAGINARY_DMG_BOOST,
 ]
+
+const BasicKeyNames = Object.keys(BasicKey) as (keyof typeof BasicKey)[]
 
 export function collectResults(input: TestInput) {
   const result = runTest(input)
@@ -187,12 +187,12 @@ export function collectResults(input: TestInput) {
   const keyBasicResults: TestResultByKey = {}
   const nameBasicResults: TestResultByName = {}
 
-  // Stats 0-14 have matching indices between StatsConfig and StatKey
-  for (const stat of trackedCombatStats) {
-    const value = TsUtils.precisionRound(x.a[stat.index], 7)
+  // Stats 0-14 have matching indices between AKey and BasicKey
+  for (const key of trackedCombatStatKeys) {
+    const value = TsUtils.precisionRound(x.a[key], 7)
 
-    keyCombatResults[stat.index] = value
-    nameCombatResults[stat.name] = value
+    keyCombatResults[key] = value
+    nameCombatResults[getAKeyName(key)] = value
   }
 
   // CR and CD display values include their respective _BOOST components
@@ -242,11 +242,11 @@ export function collectResults(input: TestInput) {
     nameCombatResults['SHIELD_VALUE'] = TsUtils.precisionRound(shieldValue, 7)
   }
 
-  for (const stat of trackedBasicStats) {
-    const value = TsUtils.precisionRound(x.c.a[stat.index], 7)
+  for (const key of trackedBasicStatKeys) {
+    const value = TsUtils.precisionRound(x.c.a[key], 7)
 
-    keyBasicResults[stat.index] = value
-    nameBasicResults[stat.name] = value
+    keyBasicResults[key] = value
+    nameBasicResults[BasicKeyNames[key]] = value
   }
 
   return testCase(input, nameBasicResults, nameCombatResults)

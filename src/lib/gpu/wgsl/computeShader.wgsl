@@ -48,8 +48,6 @@ fn main(
   let threshold = params.threshold;
   let cycleIndex = indexGlobal * CYCLES_PER_INVOCATION;
 
-  var emptyComputedStats = ComputedStats();
-
   // Decompose initial index into mixed-radix digits
   let index = cycleIndex;
 

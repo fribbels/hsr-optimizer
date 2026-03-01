@@ -17,11 +17,11 @@ import {
 export function calculateContextConditionalRegistry(
   action: OptimizerAction,
   context: OptimizerContext,
-  characterConditionalController?: CharacterConditionalsController,
-  lightConeConditionalController?: LightConeConditionalsController,
+  characterController?: CharacterConditionalsController,
+  lightConeController?: LightConeConditionalsController,
 ) {
-  const characterConditionals: CharacterConditionalsController = characterConditionalController ?? CharacterConditionalsResolver.get(context)
-  const lightConeConditionals: LightConeConditionalsController = lightConeConditionalController ?? LightConeConditionalsResolver.get(context)
+  const characterConditionals: CharacterConditionalsController = characterController ?? CharacterConditionalsResolver.get(context)
+  const lightConeConditionals: LightConeConditionalsController = lightConeController ?? LightConeConditionalsResolver.get(context)
 
   const conditionalRegistry: ConditionalRegistry = emptyRegistry()
 

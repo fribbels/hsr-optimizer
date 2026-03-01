@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -160,7 +159,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
     entityDeclaration: () => Object.values(TheHertaEntities),
     entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
       [TheHertaEntities.TheHerta]: {

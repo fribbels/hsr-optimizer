@@ -1,9 +1,8 @@
 import { Parts, Stats } from 'lib/constants/constants'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { CharacterId } from 'types/character'
+import { CharacterId, Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { ScoringMetadata } from 'types/metadata'
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   ContentDefinition,
@@ -12,7 +11,6 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
@@ -52,7 +50,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {}
 
   return {
-    activeAbilities: [AbilityType.BASIC],
     content: () => Object.values(content),
     defaults: () => defaults,
     teammateContent: () => Object.values(teammateContent),

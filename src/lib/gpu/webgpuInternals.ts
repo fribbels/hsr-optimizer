@@ -202,7 +202,7 @@ export type ExecutionPassResult = {
 }
 
 export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: number, bufferIndex: number = 0): ExecutionPassResult {
-  const newParamsMatrix = generateParamsMatrix(gpuContext.device, offset, gpuContext.relics, gpuContext)
+  const newParamsMatrix = generateParamsMatrix(offset, gpuContext.relics, gpuContext)
 
   const device = gpuContext.device
   const computePipeline = gpuContext.computePipeline

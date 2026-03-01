@@ -325,14 +325,23 @@ function evaluateDynamicSetConditionals(
 }
 
 function evaluateDynamicConditionals(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-  for (const conditional of context.characterConditionalController.dynamicConditionals ?? []) {
-    evaluateConditional(conditional, x, action, context)
+  const characterConditionals = context.characterConditionalController.dynamicConditionals
+  if (characterConditionals) {
+    for (let i = 0; i < characterConditionals.length; i++) {
+      evaluateConditional(characterConditionals[i], x, action, context)
+    }
   }
-  for (const conditional of context.lightConeConditionalController.dynamicConditionals ?? []) {
-    evaluateConditional(conditional, x, action, context)
+  const lightConeConditionals = context.lightConeConditionalController.dynamicConditionals
+  if (lightConeConditionals) {
+    for (let i = 0; i < lightConeConditionals.length; i++) {
+      evaluateConditional(lightConeConditionals[i], x, action, context)
+    }
   }
-  for (const conditional of action.teammateDynamicConditionals ?? []) {
-    evaluateConditional(conditional, x, action, context)
+  const teammateConditionals = action.teammateDynamicConditionals
+  if (teammateConditionals) {
+    for (let i = 0; i < teammateConditionals.length; i++) {
+      evaluateConditional(teammateConditionals[i], x, action, context)
+    }
   }
 }
 

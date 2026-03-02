@@ -41,30 +41,6 @@ const conditionals: SetConditionals = {
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(StatKey.CD, 0.18 * setConditionals.valueSacerdosRelivedOrdeal, x.source(Source.SacerdosRelivedOrdeal))
   },
-  gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic4p(*p_sets, SET_SacerdosRelivedOrdeal) >= 1) {
-      ${buff.action(AKey.CD, `0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal)`).wgsl(action, 2)}
-    }
-  `,
-}
-
-const display: SetDisplay = {
-  conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Sacerdos',
-  modifiable: true,
-  selectionOptions: selectionOptions,
-  defaultValue: 0,
-}
-
-export const SacerdosRelivedOrdeal: SetConfig = {
-  id: 'SacerdosRelivedOrdeal',
-  info: {
-    index: 20,
-    setType: SetType.RELIC,
-    ingameId: '121',
-  },
-  conditionals,
-  display,
   teammate: [
     {
       value: SACERDOS_RELIVED_ORDEAL_1_STACK,
@@ -93,4 +69,28 @@ export const SacerdosRelivedOrdeal: SetConfig = {
       },
     },
   ],
+  gpu: (action: OptimizerAction, context: OptimizerContext) => `
+    if (relic4p(*p_sets, SET_SacerdosRelivedOrdeal) >= 1) {
+      ${buff.action(AKey.CD, `0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal)`).wgsl(action, 2)}
+    }
+  `,
+}
+
+const display: SetDisplay = {
+  conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Sacerdos',
+  modifiable: true,
+  selectionOptions: selectionOptions,
+  defaultValue: 0,
+}
+
+export const SacerdosRelivedOrdeal: SetConfig = {
+  id: 'SacerdosRelivedOrdeal',
+  info: {
+    index: 20,
+    setType: SetType.RELIC,
+    ingameId: '121',
+  },
+  conditionals,
+  display,
 }

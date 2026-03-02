@@ -71,6 +71,14 @@ const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.RES.buff(0.10, Source.BrokenKeel)
   },
+  teammate: [{
+    value: Sets.BrokenKeel,
+    i18nKey: 'Keel',
+    nonstackable: false,
+    effect: ({ x }) => {
+      x.buff(StatKey.CD, 0.10, x.targets(TargetTag.FullTeam).source(Source.BrokenKeel))
+    },
+  }],
   dynamicConditionals: [BrokenKeelConditional],
 }
 
@@ -88,12 +96,4 @@ export const BrokenKeel: SetConfig = {
   },
   conditionals,
   display,
-  teammate: [{
-    value: Sets.BrokenKeel,
-    i18nKey: 'Keel',
-    nonstackable: false,
-    effect: ({ x }) => {
-      x.buff(StatKey.CD, 0.10, x.targets(TargetTag.FullTeam).source(Source.BrokenKeel))
-    },
-  }],
 }

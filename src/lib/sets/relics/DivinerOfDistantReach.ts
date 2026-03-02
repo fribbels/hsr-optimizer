@@ -35,6 +35,14 @@ const conditionals: SetConditionals = {
       x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
     }
   },
+  teammate: [{
+    value: Sets.DivinerOfDistantReach,
+    i18nKey: 'Diviner',
+    nonstackable: true,
+    effect: ({ x }) => {
+      x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
+    },
+  }],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_DivinerOfDistantReach) >= 1) {
       let divinerCrValue = select(0.0, 0.10, (*p_c).SPD >= 120.0) + select(0.0, 0.08, (*p_c).SPD >= 160.0);
@@ -62,12 +70,4 @@ export const DivinerOfDistantReach: SetConfig = {
   },
   conditionals,
   display,
-  teammate: [{
-    value: Sets.DivinerOfDistantReach,
-    i18nKey: 'Diviner',
-    nonstackable: true,
-    effect: ({ x }) => {
-      x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
-    },
-  }],
 }

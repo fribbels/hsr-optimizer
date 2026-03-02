@@ -1,12 +1,15 @@
-import { countTeamPath } from 'lib/conditionals/conditionalUtils'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
   ConditionalDataType,
-  Sets,
 } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { getTeammateOption } from 'lib/sets/setConfigRegistry'
+import {
+  getConditionalFieldName,
+  getOrderedSetConditionalFields,
+  getTeammateOption,
+  setConfigRegistry,
+} from 'lib/sets/setConfigRegistry'
 import { newTransformStateActions } from 'lib/optimization/rotation/actionTransform'
 import {
   AbilityKind,
@@ -94,7 +97,7 @@ export function defineAction(
 
   action.characterConditionals = transformConditionals(conditionalIndex, comboState.comboCharacter.characterConditionals)
   action.lightConeConditionals = transformConditionals(conditionalIndex, comboState.comboCharacter.lightConeConditionals)
-  action.setConditionals = transformSetConditionals(conditionalIndex, comboState.comboCharacter.setConditionals) as SetConditional
+  action.setConditionals = transformSetConditionals(conditionalIndex, comboState.comboCharacter.setConditionals)
   action.setConditionals = overrideSetConditionals(action.setConditionals, context)
 
   if (comboState.comboTeammate0) {
@@ -260,41 +263,13 @@ function transformConditional(category: ComboConditionalCategory, actionIndex: n
   return 0
 }
 
-function transformSetConditionals(actionIndex: number, conditionals: ComboConditionals) {
-  return {
-    enabledHunterOfGlacialForest: transformConditional(conditionals[Sets.HunterOfGlacialForest], actionIndex),
-    enabledFiresmithOfLavaForging: transformConditional(conditionals[Sets.FiresmithOfLavaForging], actionIndex),
-    enabledGeniusOfBrilliantStars: transformConditional(conditionals[Sets.GeniusOfBrilliantStars], actionIndex),
-    enabledBandOfSizzlingThunder: transformConditional(conditionals[Sets.BandOfSizzlingThunder], actionIndex),
-    enabledMessengerTraversingHackerspace: transformConditional(conditionals[Sets.MessengerTraversingHackerspace], actionIndex),
-    enabledCelestialDifferentiator: transformConditional(conditionals[Sets.CelestialDifferentiator], actionIndex),
-    enabledWatchmakerMasterOfDreamMachinations: transformConditional(conditionals[Sets.WatchmakerMasterOfDreamMachinations], actionIndex),
-    enabledPenaconyLandOfTheDreams: transformConditional(conditionals[Sets.PenaconyLandOfTheDreams], actionIndex),
-    enabledIzumoGenseiAndTakamaDivineRealm: transformConditional(conditionals[Sets.IzumoGenseiAndTakamaDivineRealm], actionIndex),
-    enabledForgeOfTheKalpagniLantern: transformConditional(conditionals[Sets.ForgeOfTheKalpagniLantern], actionIndex),
-    enabledTheWindSoaringValorous: transformConditional(conditionals[Sets.TheWindSoaringValorous], actionIndex),
-    enabledTheWondrousBananAmusementPark: transformConditional(conditionals[Sets.TheWondrousBananAmusementPark], actionIndex),
-    enabledScholarLostInErudition: transformConditional(conditionals[Sets.ScholarLostInErudition], actionIndex),
-    enabledHeroOfTriumphantSong: transformConditional(conditionals[Sets.HeroOfTriumphantSong], actionIndex),
-    enabledWarriorGoddessOfSunAndThunder: transformConditional(conditionals[Sets.WarriorGoddessOfSunAndThunder], actionIndex),
-    enabledWavestriderCaptain: transformConditional(conditionals[Sets.WavestriderCaptain], actionIndex),
-    enabledWorldRemakingDeliverer: transformConditional(conditionals[Sets.WorldRemakingDeliverer], actionIndex),
-    enabledSelfEnshroudedRecluse: transformConditional(conditionals[Sets.SelfEnshroudedRecluse], actionIndex),
-    enabledDivinerOfDistantReach: transformConditional(conditionals[Sets.DivinerOfDistantReach], actionIndex),
-    enabledAmphoreusTheEternalLand: transformConditional(conditionals[Sets.AmphoreusTheEternalLand], actionIndex),
-    enabledTengokuLivestream: transformConditional(conditionals[Sets.TengokuLivestream], actionIndex),
-    valueChampionOfStreetwiseBoxing: transformConditional(conditionals[Sets.ChampionOfStreetwiseBoxing], actionIndex),
-    valueWastelanderOfBanditryDesert: transformConditional(conditionals[Sets.WastelanderOfBanditryDesert], actionIndex),
-    valueLongevousDisciple: transformConditional(conditionals[Sets.LongevousDisciple], actionIndex),
-    valueTheAshblazingGrandDuke: transformConditional(conditionals[Sets.TheAshblazingGrandDuke], actionIndex),
-    valuePrisonerInDeepConfinement: transformConditional(conditionals[Sets.PrisonerInDeepConfinement], actionIndex),
-    valuePioneerDiverOfDeadWaters: transformConditional(conditionals[Sets.PioneerDiverOfDeadWaters], actionIndex),
-    valueSigoniaTheUnclaimedDesolation: transformConditional(conditionals[Sets.SigoniaTheUnclaimedDesolation], actionIndex),
-    valueDuranDynastyOfRunningWolves: transformConditional(conditionals[Sets.DuranDynastyOfRunningWolves], actionIndex),
-    valueSacerdosRelivedOrdeal: transformConditional(conditionals[Sets.SacerdosRelivedOrdeal], actionIndex),
-    valueArcadiaOfWovenDreams: transformConditional(conditionals[Sets.ArcadiaOfWovenDreams], actionIndex),
-    valueEverGloriousMagicalGirl: transformConditional(conditionals[Sets.EverGloriousMagicalGirl], actionIndex),
+function transformSetConditionals(actionIndex: number, conditionals: ComboConditionals): SetConditional {
+  const result = {} as SetConditional
+  for (const field of getOrderedSetConditionalFields()) {
+    const comboEntry = conditionals[field.setKey]
+    ;(result as Record<string, boolean | number>)[field.fieldName] = transformConditional(comboEntry, actionIndex)
   }
+  return result
 }
 
 export enum ComboType {
@@ -322,10 +297,16 @@ export function getComboTypeAbilities(form: OptimizerForm) {
 }
 
 function overrideSetConditionals(setConditionals: SetConditional, context: OptimizerContext): SetConditional {
-  return {
-    ...setConditionals,
-    enabledIzumoGenseiAndTakamaDivineRealm: setConditionals.enabledIzumoGenseiAndTakamaDivineRealm && countTeamPath(context, context.path) >= 2,
+  const record = setConditionals as Record<string, boolean | number>
+  for (const config of setConfigRegistry.values()) {
+    if (config.conditionals.overrideConditional) {
+      const fieldName = getConditionalFieldName(config)
+      if (fieldName && record[fieldName] !== undefined) {
+        record[fieldName] = config.conditionals.overrideConditional(record[fieldName], context)
+      }
+    }
   }
+  return setConditionals
 }
 
 export function countDotAbilities(actions: OptimizerAction[]) {

@@ -68,38 +68,8 @@ export type TeammateAction = {
 }
 
 export type SetConditional = {
-  enabledHunterOfGlacialForest: boolean,
-  enabledFiresmithOfLavaForging: boolean,
-  enabledGeniusOfBrilliantStars: boolean,
-  enabledBandOfSizzlingThunder: boolean,
-  enabledMessengerTraversingHackerspace: boolean,
-  enabledCelestialDifferentiator: boolean,
-  enabledWatchmakerMasterOfDreamMachinations: boolean,
-  enabledPenaconyLandOfTheDreams: boolean,
-  enabledIzumoGenseiAndTakamaDivineRealm: boolean,
-  enabledForgeOfTheKalpagniLantern: boolean,
-  enabledTheWindSoaringValorous: boolean,
-  enabledTheWondrousBananAmusementPark: boolean,
-  enabledScholarLostInErudition: boolean,
-  enabledHeroOfTriumphantSong: boolean,
-  enabledWarriorGoddessOfSunAndThunder: boolean,
-  enabledWavestriderCaptain: boolean,
-  enabledWorldRemakingDeliverer: boolean,
-  enabledSelfEnshroudedRecluse: boolean,
-  enabledDivinerOfDistantReach: boolean,
-  enabledAmphoreusTheEternalLand: boolean,
-  enabledTengokuLivestream: boolean,
-  valueChampionOfStreetwiseBoxing: number,
-  valueWastelanderOfBanditryDesert: number,
-  valueLongevousDisciple: number,
-  valueTheAshblazingGrandDuke: number,
-  valuePrisonerInDeepConfinement: number,
-  valuePioneerDiverOfDeadWaters: number,
-  valueSigoniaTheUnclaimedDesolation: number,
-  valueDuranDynastyOfRunningWolves: number,
-  valueSacerdosRelivedOrdeal: number,
-  valueArcadiaOfWovenDreams: number,
-  valueEverGloriousMagicalGirl: number,
+  [key: `enabled${string}`]: boolean
+  [key: `value${string}`]: number
 }
 
 export type CharacterStatsBreakdown = {

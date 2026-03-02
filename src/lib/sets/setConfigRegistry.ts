@@ -1,8 +1,9 @@
-import { Sets } from 'lib/constants/constants'
+import { ConditionalDataType, Sets } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   OptimizerAction,
   OptimizerContext,
+  SetConditional,
 } from 'types/optimizer'
 import { SetConfig, SetType, TeammateOption } from 'types/setConfig'
 
@@ -105,8 +106,8 @@ const teammateRelicOptions: TeammateOption[] = []
 const teammateOrnamentOptions: TeammateOption[] = []
 
 for (const config of setConfigRegistry.values()) {
-  if (config.teammate) {
-    for (const option of config.teammate) {
+  if (config.conditionals.teammate) {
+    for (const option of config.conditionals.teammate) {
       teammateOptionsMap.set(option.value, option)
       if (config.info.setType === SetType.RELIC) {
         teammateRelicOptions.push(option)
@@ -127,4 +128,70 @@ export function getTeammateRelicOptions(): TeammateOption[] {
 
 export function getTeammateOrnamentOptions(): TeammateOption[] {
   return teammateOrnamentOptions
+}
+
+// ── Set Conditional Field Registry ──
+
+export type SetConditionalFieldInfo = {
+  fieldName: string
+  wgslType: 'bool' | 'i32'
+  setKey: Sets
+}
+
+function buildOrderedSetConditionalFields(): SetConditionalFieldInfo[] {
+  const boolFields: { index: number; id: string; field: SetConditionalFieldInfo }[] = []
+  const intFields: { index: number; id: string; field: SetConditionalFieldInfo }[] = []
+
+  for (const config of setConfigRegistry.values()) {
+    if (!config.display.conditionalI18nKey || !config.display.modifiable) continue
+
+    const isBoolean = config.display.conditionalType === ConditionalDataType.BOOLEAN
+    const prefix = isBoolean ? 'enabled' : 'value'
+    const field: SetConditionalFieldInfo = {
+      fieldName: `${prefix}${config.id}`,
+      wgslType: isBoolean ? 'bool' : 'i32',
+      setKey: Sets[config.id],
+    }
+
+    const entry = { index: config.info.index, id: config.id, field }
+    if (isBoolean) {
+      boolFields.push(entry)
+    } else {
+      intFields.push(entry)
+    }
+  }
+
+  const sort = (a: { index: number; id: string }, b: { index: number; id: string }) =>
+    a.index - b.index || a.id.localeCompare(b.id)
+
+  boolFields.sort(sort)
+  intFields.sort(sort)
+
+  return [...boolFields.map((e) => e.field), ...intFields.map((e) => e.field)]
+}
+
+const orderedSetConditionalFields = buildOrderedSetConditionalFields()
+
+export function getOrderedSetConditionalFields(): SetConditionalFieldInfo[] {
+  return orderedSetConditionalFields
+}
+
+export function getConditionalFieldName(config: SetConfig): string | undefined {
+  if (!config.display.conditionalI18nKey || !config.display.modifiable) return undefined
+  const prefix = config.display.conditionalType === ConditionalDataType.BOOLEAN ? 'enabled' : 'value'
+  return `${prefix}${config.id}`
+}
+
+export function generateSetConditionalsStruct(): string {
+  const fields = orderedSetConditionalFields
+    .map((f) => `  ${f.fieldName}: ${f.wgslType},`)
+    .join('\n')
+  return `struct SetConditionals {\n${fields}\n}`
+}
+
+export function generateSetConditionalsInitializer(setConditionals: SetConditional, debug: boolean = false): string {
+  const record = setConditionals as Record<string, boolean | number>
+  return orderedSetConditionalFields
+    .map((f) => `${record[f.fieldName]},${debug ? ` // ${f.fieldName}` : ''}`)
+    .join('\n    ')
 }

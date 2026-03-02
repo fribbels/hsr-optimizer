@@ -1,3 +1,4 @@
+import { countTeamPath } from 'lib/conditionals/conditionalUtils'
 import { ConditionalDataType } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
@@ -24,6 +25,9 @@ const conditionals: SetConditionals = {
     if (setConditionals.enabledIzumoGenseiAndTakamaDivineRealm) {
       x.buff(StatKey.CR, 0.12, x.source(Source.IzumoGenseiAndTakamaDivineRealm))
     }
+  },
+  overrideConditional: (value, context) => {
+    return (value as boolean) && countTeamPath(context, context.path) >= 2
   },
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (

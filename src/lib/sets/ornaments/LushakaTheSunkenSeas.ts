@@ -17,6 +17,14 @@ const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ERR.buff(0.05, Source.LushakaTheSunkenSeas)
   },
+  teammate: [{
+    value: Sets.LushakaTheSunkenSeas,
+    i18nKey: 'Lushaka',
+    nonstackable: false,
+    effect: ({ x }) => {
+      x.buff(StatKey.ATK_P, 0.12, x.source(Source.LushakaTheSunkenSeas))
+    },
+  }],
 }
 
 const display: SetDisplay = {
@@ -34,12 +42,4 @@ export const LushakaTheSunkenSeas: SetConfig = {
   },
   conditionals,
   display,
-  teammate: [{
-    value: Sets.LushakaTheSunkenSeas,
-    i18nKey: 'Lushaka',
-    nonstackable: false,
-    effect: ({ x }) => {
-      x.buff(StatKey.ATK_P, 0.12, x.source(Source.LushakaTheSunkenSeas))
-    },
-  }],
 }

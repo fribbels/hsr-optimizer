@@ -45,6 +45,14 @@ const conditionals: SetConditionals = {
       }
     }
   `,
+  teammate: [{
+    value: Sets.WorldRemakingDeliverer,
+    i18nKey: 'WorldRemaking',
+    nonstackable: false,
+    effect: ({ x }) => {
+      x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.WorldRemakingDeliverer))
+    },
+  }],
 }
 
 const display: SetDisplay = {
@@ -63,12 +71,4 @@ export const WorldRemakingDeliverer: SetConfig = {
   },
   conditionals,
   display,
-  teammate: [{
-    value: Sets.WorldRemakingDeliverer,
-    i18nKey: 'WorldRemaking',
-    nonstackable: false,
-    effect: ({ x }) => {
-      x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.WorldRemakingDeliverer))
-    },
-  }],
 }

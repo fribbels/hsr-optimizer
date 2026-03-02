@@ -72,6 +72,14 @@ const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.HP_P.buff(0.12, Source.FleetOfTheAgeless)
   },
+  teammate: [{
+    value: Sets.FleetOfTheAgeless,
+    i18nKey: 'Ageless',
+    nonstackable: false,
+    effect: ({ x }) => {
+      x.buff(StatKey.ATK_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.FleetOfTheAgeless))
+    },
+  }],
   dynamicConditionals: [FleetOfTheAgelessConditional],
 }
 
@@ -89,12 +97,4 @@ export const FleetOfTheAgeless: SetConfig = {
   },
   conditionals,
   display,
-  teammate: [{
-    value: Sets.FleetOfTheAgeless,
-    i18nKey: 'Ageless',
-    nonstackable: false,
-    effect: ({ x }) => {
-      x.buff(StatKey.ATK_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.FleetOfTheAgeless))
-    },
-  }],
 }

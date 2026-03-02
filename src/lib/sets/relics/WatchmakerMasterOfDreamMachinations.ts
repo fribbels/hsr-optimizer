@@ -40,6 +40,14 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.BE, 0.30).targets(TargetTag.FullTeam).wgsl(action, 2)}
     }
   `,
+  teammate: [{
+    value: Sets.WatchmakerMasterOfDreamMachinations,
+    i18nKey: 'Watchmaker',
+    nonstackable: true,
+    effect: ({ x }) => {
+      x.buff(StatKey.BE, 0.30, x.targets(TargetTag.FullTeam).source(Source.WatchmakerMasterOfDreamMachinations))
+    },
+  }],
 }
 
 const display: SetDisplay = {
@@ -58,12 +66,4 @@ export const WatchmakerMasterOfDreamMachinations: SetConfig = {
   },
   conditionals,
   display,
-  teammate: [{
-    value: Sets.WatchmakerMasterOfDreamMachinations,
-    i18nKey: 'Watchmaker',
-    nonstackable: true,
-    effect: ({ x }) => {
-      x.buff(StatKey.BE, 0.30, x.targets(TargetTag.FullTeam).source(Source.WatchmakerMasterOfDreamMachinations))
-    },
-  }],
 }

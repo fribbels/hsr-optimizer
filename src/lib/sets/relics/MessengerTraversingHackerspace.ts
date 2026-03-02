@@ -40,6 +40,14 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.SPD_P, 0.12).targets(TargetTag.FullTeam).wgsl(action, 2)}
     }
   `,
+  teammate: [{
+    value: Sets.MessengerTraversingHackerspace,
+    i18nKey: 'Messenger',
+    nonstackable: true,
+    effect: ({ x }) => {
+      x.buff(StatKey.SPD_P, 0.12, x.targets(TargetTag.FullTeam).source(Source.MessengerTraversingHackerspace))
+    },
+  }],
 }
 
 const display: SetDisplay = {
@@ -58,12 +66,4 @@ export const MessengerTraversingHackerspace: SetConfig = {
   },
   conditionals,
   display,
-  teammate: [{
-    value: Sets.MessengerTraversingHackerspace,
-    i18nKey: 'Messenger',
-    nonstackable: true,
-    effect: ({ x }) => {
-      x.buff(StatKey.SPD_P, 0.12, x.targets(TargetTag.FullTeam).source(Source.MessengerTraversingHackerspace))
-    },
-  }],
 }

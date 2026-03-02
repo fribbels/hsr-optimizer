@@ -41,6 +41,14 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.SPD_P, 0.08).targets(TargetTag.FullTeam).wgsl(action, 2)}
     }
   `,
+  teammate: [{
+    value: Sets.AmphoreusTheEternalLand,
+    i18nKey: 'Amphoreus',
+    nonstackable: true,
+    effect: ({ x }) => {
+      x.buff(StatKey.SPD_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.AmphoreusTheEternalLand))
+    },
+  }],
 }
 
 const display: SetDisplay = {
@@ -59,12 +67,4 @@ export const AmphoreusTheEternalLand: SetConfig = {
   },
   conditionals,
   display,
-  teammate: [{
-    value: Sets.AmphoreusTheEternalLand,
-    i18nKey: 'Amphoreus',
-    nonstackable: true,
-    effect: ({ x }) => {
-      x.buff(StatKey.SPD_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.AmphoreusTheEternalLand))
-    },
-  }],
 }

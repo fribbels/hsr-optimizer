@@ -14,6 +14,10 @@ import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
 import structs from 'lib/gpu/wgsl/structs.wgsl?raw'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  generateSetConditionalsInitializer,
+  generateSetConditionalsStruct,
+} from 'lib/sets/setConfigRegistry'
 import { Form } from 'types/form'
 import {
   OptimizerContext,
@@ -99,38 +103,7 @@ const statsLength = ${statsLength};
     actionsDefinition += `
 const action${i} = Action( // ${action.actionIndex} ${action.actionName}
   SetConditionals(
-    ${action.setConditionals.enabledHunterOfGlacialForest},${gpuParams.DEBUG ? ' // enabledHunterOfGlacialForest' : ''}
-    ${action.setConditionals.enabledFiresmithOfLavaForging},${gpuParams.DEBUG ? ' // enabledFiresmithOfLavaForging' : ''}
-    ${action.setConditionals.enabledGeniusOfBrilliantStars},${gpuParams.DEBUG ? ' // enabledGeniusOfBrilliantStars' : ''}
-    ${action.setConditionals.enabledBandOfSizzlingThunder},${gpuParams.DEBUG ? ' // enabledBandOfSizzlingThunder' : ''}
-    ${action.setConditionals.enabledMessengerTraversingHackerspace},${gpuParams.DEBUG ? ' // enabledMessengerTraversingHackerspace' : ''}
-    ${action.setConditionals.enabledCelestialDifferentiator},${gpuParams.DEBUG ? ' // enabledCelestialDifferentiator' : ''}
-    ${action.setConditionals.enabledWatchmakerMasterOfDreamMachinations},${gpuParams.DEBUG ? ' // enabledWatchmakerMasterOfDreamMachinations' : ''}
-    ${action.setConditionals.enabledPenaconyLandOfTheDreams},${gpuParams.DEBUG ? ' // enabledPenaconyLandOfTheDreams' : ''}
-    ${action.setConditionals.enabledIzumoGenseiAndTakamaDivineRealm},${gpuParams.DEBUG ? ' // enabledIzumoGenseiAndTakamaDivineRealm' : ''}
-    ${action.setConditionals.enabledForgeOfTheKalpagniLantern},${gpuParams.DEBUG ? ' // enabledForgeOfTheKalpagniLantern' : ''}
-    ${action.setConditionals.enabledTheWindSoaringValorous},${gpuParams.DEBUG ? ' // enabledTheWindSoaringValorous' : ''}
-    ${action.setConditionals.enabledTheWondrousBananAmusementPark},${gpuParams.DEBUG ? ' // enabledTheWondrousBananAmusementPark' : ''}
-    ${action.setConditionals.enabledScholarLostInErudition},${gpuParams.DEBUG ? ' // enabledScholarLostInErudition' : ''}
-    ${action.setConditionals.enabledHeroOfTriumphantSong},${gpuParams.DEBUG ? ' // enabledHeroOfTriumphantSong' : ''}
-    ${action.setConditionals.enabledWarriorGoddessOfSunAndThunder},${gpuParams.DEBUG ? ' // enabledWarriorGoddessOfSunAndThunder' : ''}
-    ${action.setConditionals.enabledWavestriderCaptain},${gpuParams.DEBUG ? ' // enabledWavestriderCaptain' : ''}
-    ${action.setConditionals.enabledWorldRemakingDeliverer},${gpuParams.DEBUG ? ' // enabledWorldRemakingDeliverer' : ''}
-    ${action.setConditionals.enabledSelfEnshroudedRecluse},${gpuParams.DEBUG ? ' // enabledSelfEnshroudedRecluse' : ''}
-    ${action.setConditionals.enabledDivinerOfDistantReach},${gpuParams.DEBUG ? ' // enabledDivinerOfDistantReach' : ''}
-    ${action.setConditionals.enabledAmphoreusTheEternalLand},${gpuParams.DEBUG ? ' // enabledAmphoreusTheEternalLand' : ''}
-    ${action.setConditionals.enabledTengokuLivestream},${gpuParams.DEBUG ? ' // enabledTengokuLivestream' : ''}
-    ${action.setConditionals.valueChampionOfStreetwiseBoxing},${gpuParams.DEBUG ? ' // valueChampionOfStreetwiseBoxing' : ''}
-    ${action.setConditionals.valueWastelanderOfBanditryDesert},${gpuParams.DEBUG ? ' // valueWastelanderOfBanditryDesert' : ''}
-    ${action.setConditionals.valueLongevousDisciple},${gpuParams.DEBUG ? ' // valueLongevousDisciple' : ''}
-    ${action.setConditionals.valueTheAshblazingGrandDuke},${gpuParams.DEBUG ? ' // valueTheAshblazingGrandDuke' : ''}
-    ${action.setConditionals.valuePrisonerInDeepConfinement},${gpuParams.DEBUG ? ' // valuePrisonerInDeepConfinement' : ''}
-    ${action.setConditionals.valuePioneerDiverOfDeadWaters},${gpuParams.DEBUG ? ' // valuePioneerDiverOfDeadWaters' : ''}
-    ${action.setConditionals.valueSigoniaTheUnclaimedDesolation},${gpuParams.DEBUG ? ' // valueSigoniaTheUnclaimedDesolation' : ''}
-    ${action.setConditionals.valueDuranDynastyOfRunningWolves},${gpuParams.DEBUG ? ' // valueDuranDynastyOfRunningWolves' : ''}
-    ${action.setConditionals.valueSacerdosRelivedOrdeal},${gpuParams.DEBUG ? ' // valueSacerdosRelivedOrdeal' : ''}
-    ${action.setConditionals.valueArcadiaOfWovenDreams},${gpuParams.DEBUG ? ' // valueArcadiaOfWovenDreams' : ''}
-    ${action.setConditionals.valueEverGloriousMagicalGirl},${gpuParams.DEBUG ? ' // valueEverGloriousMagicalGirl' : ''}
+    ${generateSetConditionalsInitializer(action.setConditionals, gpuParams.DEBUG)}
   ),
 );`
   }
@@ -147,10 +120,11 @@ const action${i} = Action( // ${action.actionIndex} ${action.actionName}
 
 function injectComputeShader(wgsl: string) {
   wgsl += generateSetBitConstants()
+  const injectedStructs = structs.replace('/* INJECT SET_CONDITIONALS_STRUCT */', generateSetConditionalsStruct())
   wgsl += `
 ${computeShader}
 
-${structs}
+${injectedStructs}
   `
   return wgsl
 }

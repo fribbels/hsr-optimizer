@@ -45,6 +45,14 @@ const conditionals: SetConditionals = {
       }
     }
   `,
+  teammate: [{
+    value: Sets.SelfEnshroudedRecluse,
+    i18nKey: 'SelfEnshrouded',
+    nonstackable: false,
+    effect: ({ x }) => {
+      x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.SelfEnshroudedRecluse))
+    },
+  }],
 }
 
 const display: SetDisplay = {
@@ -63,12 +71,4 @@ export const SelfEnshroudedRecluse: SetConfig = {
   },
   conditionals,
   display,
-  teammate: [{
-    value: Sets.SelfEnshroudedRecluse,
-    i18nKey: 'SelfEnshrouded',
-    nonstackable: false,
-    effect: ({ x }) => {
-      x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.SelfEnshroudedRecluse))
-    },
-  }],
 }

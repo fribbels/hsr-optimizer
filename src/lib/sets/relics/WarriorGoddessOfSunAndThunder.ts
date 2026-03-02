@@ -45,6 +45,14 @@ const conditionals: SetConditionals = {
       }
     }
   `,
+  teammate: [{
+    value: Sets.WarriorGoddessOfSunAndThunder,
+    i18nKey: 'Warrior',
+    nonstackable: true,
+    effect: ({ x }) => {
+      x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.WarriorGoddessOfSunAndThunder))
+    },
+  }],
 }
 
 const display: SetDisplay = {
@@ -63,12 +71,4 @@ export const WarriorGoddessOfSunAndThunder: SetConfig = {
   },
   conditionals,
   display,
-  teammate: [{
-    value: Sets.WarriorGoddessOfSunAndThunder,
-    i18nKey: 'Warrior',
-    nonstackable: true,
-    effect: ({ x }) => {
-      x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.WarriorGoddessOfSunAndThunder))
-    },
-  }],
 }

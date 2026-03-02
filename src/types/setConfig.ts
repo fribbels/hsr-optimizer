@@ -36,6 +36,8 @@ export type SetConditionals = {
   p4x?: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => void
   p2t?: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => void
   p4t?: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => void
+  overrideConditional?: (value: boolean | number, context: OptimizerContext) => boolean | number
+  teammate?: TeammateOption[]
   dynamicConditionals?: DynamicConditional[]
   gpu?: (action: OptimizerAction, context: OptimizerContext) => string
   gpuTerminal?: (action: OptimizerAction, context: OptimizerContext) => string
@@ -70,5 +72,4 @@ export type SetConfig = {
   info: SetInfo
   conditionals: SetConditionals
   display: SetDisplay
-  teammate?: TeammateOption[]
 }

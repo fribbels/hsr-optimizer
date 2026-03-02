@@ -35,6 +35,15 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.DMG_BOOST, 0.10).targets(TargetTag.Memosprite).wgsl(action, 2)}
     }
   `,
+  teammate: [{
+    value: Sets.PenaconyLandOfTheDreams,
+    i18nKey: 'Penacony',
+    nonstackable: false,
+    effect: ({ x, characterElement, teammateElement }) => {
+      if (characterElement != teammateElement) return
+      x.buff(StatKey.DMG_BOOST, 0.10, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.PenaconyLandOfTheDreams))
+    },
+  }],
 }
 
 const display: SetDisplay = {
@@ -53,13 +62,4 @@ export const PenaconyLandOfTheDreams: SetConfig = {
   },
   conditionals,
   display,
-  teammate: [{
-    value: Sets.PenaconyLandOfTheDreams,
-    i18nKey: 'Penacony',
-    nonstackable: false,
-    effect: ({ x, characterElement, teammateElement }) => {
-      if (characterElement != teammateElement) return
-      x.buff(StatKey.DMG_BOOST, 0.10, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.PenaconyLandOfTheDreams))
-    },
-  }],
 }

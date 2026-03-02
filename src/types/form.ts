@@ -39,7 +39,7 @@ export type Teammate = {
   teamRelicSet?: string,
   characterConditionals?: ConditionalValueMap,
   lightConeConditionals?: ConditionalValueMap,
-} & Form
+}
 
 export type OptimizerForm = Form
 

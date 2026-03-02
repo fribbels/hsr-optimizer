@@ -14,8 +14,8 @@ import {
   p_containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ornament2p } from 'lib/optimization/calculateStats'
 import { SetKeys } from 'lib/optimization/config/setsConfig'
+import { ornament2p } from 'lib/optimization/calculateStats'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'

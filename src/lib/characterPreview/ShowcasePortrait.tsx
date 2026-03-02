@@ -68,15 +68,10 @@ export function ShowcasePortrait(props: {
   } = props
 
   const {
-    tempLcParentW,
-    tempLcParentH,
-    tempLcInnerW,
-    tempLcInnerH,
     tempInnerW,
     tempParentH,
     newLcHeight,
     newLcMargin,
-    lcCenter,
     charCenter,
   } = displayDimensions
 

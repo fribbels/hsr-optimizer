@@ -13,5 +13,5 @@ export type LightCone = {
   path: string,
   rarity: number,
   superimpositions: DBMetadataSuperimpositions,
-  imageCenter: number,
+  imageOffset: { x: number; y: number; s: number },
 }

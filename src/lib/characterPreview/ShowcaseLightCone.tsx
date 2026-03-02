@@ -13,6 +13,7 @@ import {
 } from 'lib/characterPreview/characterPreviewController'
 import StatText, { StatTextEllipses } from 'lib/characterPreview/StatText'
 import { parentW } from 'lib/constants/constantsUi'
+import { computeLcTransform } from 'lib/rendering/lcImageTransform'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
@@ -41,10 +42,8 @@ export function ShowcaseLightConeSmall(props: ShowcaseLightConeProps) {
   const {
     tempLcParentW,
     tempLcParentH,
-    tempLcInnerW,
-    tempLcInnerH,
     newLcHeight,
-    lcCenter,
+    lcImageOffset,
   } = displayDimensions
 
   const {
@@ -53,6 +52,8 @@ export function ShowcaseLightConeSmall(props: ShowcaseLightConeProps) {
     lightConeLevel,
     lightConeSuperimposition,
   } = showcaseMetadata
+
+  const { dy, scale } = computeLcTransform(lcImageOffset, tempLcParentW, tempLcParentH)
 
   return (
     <Flex vertical>
@@ -96,12 +97,14 @@ export function ShowcaseLightConeSmall(props: ShowcaseLightConeProps) {
         style={{
           width: `${tempLcParentW}px`,
           height: `${tempLcParentH}px`,
-          position: 'relative',
           overflow: 'hidden',
           zIndex: 20,
           borderRadius: '8px',
           border: showcaseOutline,
           boxShadow: showcaseShadow,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
         onClick={() => {
           setOriginalCharacterModalInitialCharacter?.(character)
@@ -111,10 +114,8 @@ export function ShowcaseLightConeSmall(props: ShowcaseLightConeProps) {
         <LoadingBlurredImage
           src={lightConeSrc}
           style={{
-            position: 'absolute',
-            width: 420,
-            top: -lcCenter + newLcHeight / 2,
-            left: -8,
+            width: '100%',
+            transform: `translateY(${dy}px) scale(${scale})`,
           }}
         />
       </Flex>
@@ -136,8 +137,7 @@ export function ShowcaseLightConeLarge(props: ShowcaseLightConeProps) {
   const {
     tempLcParentW,
     tempLcParentH,
-    tempLcInnerW,
-    tempLcInnerH,
+    lcImageOffset,
   } = displayDimensions
 
   const {
@@ -146,6 +146,8 @@ export function ShowcaseLightConeLarge(props: ShowcaseLightConeProps) {
     lightConeLevel,
     lightConeSuperimposition,
   } = showcaseMetadata
+
+  const { dy, scale } = computeLcTransform(lcImageOffset, tempLcParentW, tempLcParentH)
 
   return (
     <div
@@ -158,6 +160,9 @@ export function ShowcaseLightConeLarge(props: ShowcaseLightConeProps) {
         zIndex: 20,
         border: showcaseOutline,
         boxShadow: showcaseShadow,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
       onClick={() => {
         setOriginalCharacterModalInitialCharacter?.(character)
@@ -167,11 +172,8 @@ export function ShowcaseLightConeLarge(props: ShowcaseLightConeProps) {
       <LoadingBlurredImage
         src={lightConeSrc}
         style={{
-          width: tempLcInnerW,
-          // Magic # 8 to fit certain LCs
-          transform: `translate(${(tempLcInnerW - tempLcParentW) / 2 / tempLcInnerW * -100}%, ${
-            (tempLcInnerH - tempLcParentH) / 2 / tempLcInnerH * -100 + 8
-          }%)`,
+          width: '100%',
+          transform: `translateY(${dy}px) scale(${scale})`,
         }}
       />
     </div>

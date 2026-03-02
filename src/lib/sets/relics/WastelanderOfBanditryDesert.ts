@@ -1,0 +1,73 @@
+import {
+  ConditionalDataType,
+  Stats,
+} from 'lib/constants/constants'
+import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SelectOptionContent } from 'lib/optimization/rotation/setConditionalContent'
+import { TFunction } from 'i18next'
+import {
+  OptimizerContext,
+  SetConditional,
+} from 'types/optimizer'
+import {
+  SetConditionals,
+  SetConfig,
+  SetDisplay,
+  SetType,
+} from 'types/setConfig'
+
+type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
+
+function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
+  return [
+    {
+      display: t('Wastelander.Off.Display'),
+      value: 0,
+      label: t('Wastelander.Off.Label'),
+    },
+    {
+      display: t('Wastelander.Debuffed.Display'),
+      value: 1,
+      label: t('Wastelander.Debuffed.Label'),
+    },
+    {
+      display: t('Wastelander.Imprisoned.Display'),
+      value: 2,
+      label: t('Wastelander.Imprisoned.Label'),
+    },
+  ]
+}
+
+const conditionals: SetConditionals = {
+  p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+    if (context.elementalDamageType == Stats.Imaginary_DMG) {
+      c.IMAGINARY_DMG_BOOST.buff(0.10, Source.WastelanderOfBanditryDesert)
+    }
+  },
+  p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+    x.buff(StatKey.CD_BOOST, 0.20 * (setConditionals.valueWastelanderOfBanditryDesert == 2 ? 1 : 0), x.source(Source.WastelanderOfBanditryDesert))
+    if (setConditionals.valueWastelanderOfBanditryDesert > 0) {
+      x.buff(StatKey.CR_BOOST, 0.10, x.source(Source.WastelanderOfBanditryDesert))
+    }
+  },
+}
+
+const display: SetDisplay = {
+  conditionalType: ConditionalDataType.SELECT,
+  selectionOptions: selectionOptions,
+  modifiable: true,
+  defaultValue: 1,
+}
+
+export const WastelanderOfBanditryDesert: SetConfig = {
+  id: 'WastelanderOfBanditryDesert',
+  info: {
+    index: 11,
+    setType: SetType.RELIC,
+  },
+  conditionals,
+  display,
+}

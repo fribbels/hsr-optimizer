@@ -178,6 +178,7 @@ export class ComputedStatsContainerConfig {
   public hasMemosprite: boolean
   public hasSummons: boolean
   public enemyWeaknessBroken: boolean
+  public teammateSetEffects: Record<string, boolean> = {}
 
   constructor(
     action: OptimizerAction,

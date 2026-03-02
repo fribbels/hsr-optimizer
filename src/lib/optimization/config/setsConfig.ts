@@ -233,7 +233,7 @@ export const OrnamentSetsConfig: Record<keyof typeof SetsOrnaments, SetsDefiniti
       c.CR.buff(0.08, Source.AmphoreusTheEternalLand)
     },
     p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (x.config.hasMemosprite && setConditionals.enabledAmphoreusTheEternalLand) {
+      if (x.config.hasMemosprite && setConditionals.enabledAmphoreusTheEternalLand && !x.config.teammateSetEffects[Sets.AmphoreusTheEternalLand]) {
         x.buff(StatKey.SPD_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.AmphoreusTheEternalLand))
       }
     },
@@ -410,7 +410,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       c.SPD_P.buff(0.06, Source.MessengerTraversingHackerspace)
     },
     p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledMessengerTraversingHackerspace) {
+      if (setConditionals.enabledMessengerTraversingHackerspace && !x.config.teammateSetEffects[Sets.MessengerTraversingHackerspace]) {
         x.buff(StatKey.SPD_P, 0.12, x.targets(TargetTag.FullTeam).source(Source.MessengerTraversingHackerspace))
       }
     },
@@ -462,7 +462,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       c.BE.buff(0.16, Source.WatchmakerMasterOfDreamMachinations)
     },
     p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-      if (setConditionals.enabledWatchmakerMasterOfDreamMachinations) {
+      if (setConditionals.enabledWatchmakerMasterOfDreamMachinations && !x.config.teammateSetEffects[Sets.WatchmakerMasterOfDreamMachinations]) {
         x.buff(StatKey.BE, 0.30, x.targets(TargetTag.FullTeam).source(Source.WatchmakerMasterOfDreamMachinations))
       }
     },
@@ -550,7 +550,9 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
       if (setConditionals.enabledWarriorGoddessOfSunAndThunder) {
         x.buff(StatKey.SPD_P, 0.06, x.source(Source.WarriorGoddessOfSunAndThunder))
-        x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.WarriorGoddessOfSunAndThunder))
+        if (!x.config.teammateSetEffects[Sets.WarriorGoddessOfSunAndThunder]) {
+          x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.WarriorGoddessOfSunAndThunder))
+        }
       }
     },
   },
@@ -575,7 +577,9 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
       if (setConditionals.enabledWorldRemakingDeliverer) {
         x.buff(StatKey.HP_P, 0.24, x.targets(TargetTag.SelfAndMemosprite).source(Source.WorldRemakingDeliverer))
-        x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.WorldRemakingDeliverer))
+        if (!x.config.teammateSetEffects[Sets.WorldRemakingDeliverer]) {
+          x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.WorldRemakingDeliverer))
+        }
       }
     },
   },
@@ -587,7 +591,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
     },
     p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
       x.buff(StatKey.DMG_BOOST, 0.12, x.outputType(OutputTag.SHIELD).source(Source.SelfEnshroudedRecluse))
-      if (setConditionals.enabledSelfEnshroudedRecluse) {
+      if (setConditionals.enabledSelfEnshroudedRecluse && !x.config.teammateSetEffects[Sets.SelfEnshroudedRecluse]) {
         x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.SelfEnshroudedRecluse))
       }
     },
@@ -613,7 +617,7 @@ export const RelicSetsConfig: Record<keyof typeof SetsRelics, SetsDefinition> = 
       const spd = x.c.a[BasicKey.SPD]
       x.buff(StatKey.CR, (spd >= 120 ? 0.10 : 0) + (spd >= 160 ? 0.08 : 0),
         x.source(Source.DivinerOfDistantReach))
-      if (setConditionals.enabledDivinerOfDistantReach) {
+      if (setConditionals.enabledDivinerOfDistantReach && !x.config.teammateSetEffects[Sets.DivinerOfDistantReach]) {
         x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
       }
     },

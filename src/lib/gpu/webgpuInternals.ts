@@ -1,4 +1,5 @@
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants/constants'
+import { isFirefox } from 'lib/utils/TsUtils'
 import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
 import {
   generateParamsMatrix,
@@ -95,7 +96,7 @@ export function initializeGpuPipeline(
   const ornamentSetSolutionsMatrixBuffer = hasOrnamentFilter
     ? createGpuBuffer(device, new Int32Array(bitpackBooleanArray(ornamentSetSolutions)), GPUBufferUsage.STORAGE, true, true)
     : null
-  const precomputedStatsBuffer = createGpuBuffer(device, context.precomputedStatsData!, GPUBufferUsage.UNIFORM)
+  const precomputedStatsBuffer = createGpuBuffer(device, context.precomputedStatsData!, isFirefox() ? GPUBufferUsage.STORAGE : GPUBufferUsage.UNIFORM)
 
   const bindGroup0 = device.createBindGroup({
     layout: computePipeline.getBindGroupLayout(0),

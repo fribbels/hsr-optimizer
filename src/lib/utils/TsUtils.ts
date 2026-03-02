@@ -133,6 +133,10 @@ export const TsUtils = {
   },
 }
 
+export function isFirefox(): boolean {
+  return /firefox/i.test(navigator.userAgent)
+}
+
 const getEmptyT = <
   Ns extends Namespace | null = DefaultNamespace,
   TKPrefix extends KeyPrefix<ActualNs> = undefined,

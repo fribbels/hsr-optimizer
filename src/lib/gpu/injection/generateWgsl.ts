@@ -1,4 +1,5 @@
 import { Constants } from 'lib/constants/constants'
+import { isFirefox } from 'lib/utils/TsUtils'
 import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
 import { generateDynamicConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
@@ -76,9 +77,12 @@ function injectConditionalsNew(wgsl: string, request: Form, context: OptimizerCo
   // Store for later use in pipeline creation
   context.precomputedStatsData = precomputedStatsData
 
+  // Firefox requires storage address space — uniform array<f32> violates its 16-byte stride enforcement
+  const precomputedStatsAddressSpace = isFirefox() ? 'storage, read' : 'uniform'
+
   // Buffer declaration
   const bufferDeclaration = `
-@group(1) @binding(3) var<uniform> precomputedStats : array<array<f32, ${containerLength}>, ${actionLength}>;
+@group(1) @binding(3) var<${precomputedStatsAddressSpace}> precomputedStats : array<array<f32, ${containerLength}>, ${actionLength}>;
 `
 
   let actionsDefinition = `

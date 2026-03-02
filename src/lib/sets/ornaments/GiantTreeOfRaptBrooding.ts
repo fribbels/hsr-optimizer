@@ -98,19 +98,19 @@ if (
   },
 }
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.GiantTreeOfRaptBrooding)
   },
   dynamicConditionals: [GiantTreeOfRaptBrooding135Conditional, GiantTreeOfRaptBrooding180Conditional],
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const GiantTreeOfRaptBrooding: SetConfig = {
+export const GiantTreeOfRaptBrooding = {
   id: 'GiantTreeOfRaptBrooding',
   info: {
     index: 19,
@@ -119,4 +119,4 @@ export const GiantTreeOfRaptBrooding: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

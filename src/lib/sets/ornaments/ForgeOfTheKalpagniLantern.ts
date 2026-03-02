@@ -16,7 +16,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.ForgeOfTheKalpagniLantern)
   },
@@ -33,16 +33,16 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.BE, 0.40).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Kalpagni',
   modifiable: true,
   defaultValue: false,
-}
+} as const satisfies SetDisplay
 
-export const ForgeOfTheKalpagniLantern: SetConfig = {
+export const ForgeOfTheKalpagniLantern = {
   id: 'ForgeOfTheKalpagniLantern',
   info: {
     index: 15,
@@ -51,4 +51,4 @@ export const ForgeOfTheKalpagniLantern: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

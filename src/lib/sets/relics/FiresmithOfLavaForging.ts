@@ -20,7 +20,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     if (context.elementalDamageType == Stats.Fire_DMG) {
       c.FIRE_DMG_BOOST.buff(0.10, Source.FiresmithOfLavaForging)
@@ -40,16 +40,16 @@ const conditionals: SetConditionals = {
       }
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Firesmith',
   modifiable: true,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const FiresmithOfLavaForging: SetConfig = {
+export const FiresmithOfLavaForging = {
   id: 'FiresmithOfLavaForging',
   info: {
     index: 6,
@@ -58,4 +58,4 @@ export const FiresmithOfLavaForging: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

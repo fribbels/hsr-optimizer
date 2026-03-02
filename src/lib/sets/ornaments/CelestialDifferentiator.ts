@@ -19,7 +19,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CD.buff(0.16, Source.CelestialDifferentiator)
   },
@@ -37,16 +37,16 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.CR, 0.60).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Differentiator',
   modifiable: true,
   defaultValue: false,
-}
+} as const satisfies SetDisplay
 
-export const CelestialDifferentiator: SetConfig = {
+export const CelestialDifferentiator = {
   id: 'CelestialDifferentiator',
   info: {
     index: 4,
@@ -55,4 +55,4 @@ export const CelestialDifferentiator: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

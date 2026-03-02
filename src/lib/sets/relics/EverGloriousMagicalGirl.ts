@@ -32,7 +32,7 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   }))
 }
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CD.buff(0.16, Source.EverGloriousMagicalGirl)
   },
@@ -45,17 +45,17 @@ const conditionals: SetConditionals = {
       ${buff.hit(HKey.DEF_PEN, `0.10 + 0.01 * f32(setConditionals.valueEverGloriousMagicalGirl)`).damageType(DamageTag.ELATION).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.SELECT,
   conditionalI18nKey: 'Conditionals.MagicalGirl',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 10,
-}
+} as const satisfies SetDisplay
 
-export const EverGloriousMagicalGirl: SetConfig = {
+export const EverGloriousMagicalGirl = {
   id: 'EverGloriousMagicalGirl',
   info: {
     index: 28,
@@ -64,4 +64,4 @@ export const EverGloriousMagicalGirl: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

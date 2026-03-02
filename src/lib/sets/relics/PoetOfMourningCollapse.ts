@@ -21,7 +21,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     if (context.elementalDamageType == Stats.Quantum_DMG) {
       c.QUANTUM_DMG_BOOST.buff(0.10, Source.PoetOfMourningCollapse)
@@ -40,15 +40,15 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.CR, 'crValue').targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   modifiable: false,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const PoetOfMourningCollapse: SetConfig = {
+export const PoetOfMourningCollapse = {
   id: 'PoetOfMourningCollapse',
   info: {
     index: 23,
@@ -57,4 +57,4 @@ export const PoetOfMourningCollapse: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

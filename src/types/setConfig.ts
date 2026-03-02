@@ -37,8 +37,8 @@ export type SetConditionals = {
   p2t?: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => void
   p4t?: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => void
   overrideConditional?: (value: boolean | number, context: OptimizerContext) => boolean | number
-  teammate?: TeammateOption[]
-  dynamicConditionals?: DynamicConditional[]
+  teammate?: readonly TeammateOption[]
+  dynamicConditionals?: readonly DynamicConditional[]
   gpu?: (action: OptimizerAction, context: OptimizerContext) => string
   gpuTerminal?: (action: OptimizerAction, context: OptimizerContext) => string
 }
@@ -62,7 +62,8 @@ export type TeammateEffectParams = {
 
 export type TeammateOption = {
   value: string
-  i18nKey: string
+  label: (t: TFunction<'optimizerTab', 'TeammateCard'>) => string
+  desc: (t: TFunction<'optimizerTab', 'TeammateCard'>) => string
   nonstackable: boolean
   effect: (params: TeammateEffectParams) => void
 }

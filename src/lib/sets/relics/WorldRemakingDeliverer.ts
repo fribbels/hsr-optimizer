@@ -19,10 +19,9 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
-  TeammateOption,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CR.buff(0.08, Source.WorldRemakingDeliverer)
   },
@@ -47,22 +46,23 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.WorldRemakingDeliverer,
-    i18nKey: 'WorldRemaking',
+    label: (t) => t('TeammateSets.WorldRemaking.Text'),
+    desc: (t) => t('TeammateSets.WorldRemaking.Desc'),
     nonstackable: false,
     effect: ({ x }) => {
       x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.WorldRemakingDeliverer))
     },
   }],
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Deliverer',
   modifiable: true,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const WorldRemakingDeliverer: SetConfig = {
+export const WorldRemakingDeliverer = {
   id: 'WorldRemakingDeliverer',
   info: {
     index: 26,
@@ -71,4 +71,4 @@ export const WorldRemakingDeliverer: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

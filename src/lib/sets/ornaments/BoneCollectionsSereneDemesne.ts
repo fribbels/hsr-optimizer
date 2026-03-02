@@ -65,19 +65,19 @@ if (
   },
 }
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.HP_P.buff(0.12, Source.BoneCollectionsSereneDemesne)
   },
   dynamicConditionals: [BoneCollectionsSereneDemesneConditional],
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const BoneCollectionsSereneDemesne: SetConfig = {
+export const BoneCollectionsSereneDemesne = {
   id: 'BoneCollectionsSereneDemesne',
   info: {
     index: 18,
@@ -86,4 +86,4 @@ export const BoneCollectionsSereneDemesne: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

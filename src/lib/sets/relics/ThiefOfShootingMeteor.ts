@@ -11,21 +11,21 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.BE.buff(0.16, Source.ThiefOfShootingMeteor)
   },
   p4c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.BE.buff(0.16, Source.ThiefOfShootingMeteor)
   },
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const ThiefOfShootingMeteor: SetConfig = {
+export const ThiefOfShootingMeteor = {
   id: 'ThiefOfShootingMeteor',
   info: {
     index: 10,
@@ -34,4 +34,4 @@ export const ThiefOfShootingMeteor: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

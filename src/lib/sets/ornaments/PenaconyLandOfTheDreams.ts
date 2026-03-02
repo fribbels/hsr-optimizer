@@ -15,10 +15,9 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
-  TeammateOption,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ERR.buff(0.05, Source.PenaconyLandOfTheDreams)
   },
@@ -37,23 +36,24 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.PenaconyLandOfTheDreams,
-    i18nKey: 'Penacony',
+    label: (t) => t('TeammateSets.Penacony.Text'),
+    desc: (t) => t('TeammateSets.Penacony.Desc'),
     nonstackable: false,
     effect: ({ x, characterElement, teammateElement }) => {
       if (characterElement != teammateElement) return
       x.buff(StatKey.DMG_BOOST, 0.10, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.PenaconyLandOfTheDreams))
     },
   }],
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Penacony',
   modifiable: true,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const PenaconyLandOfTheDreams: SetConfig = {
+export const PenaconyLandOfTheDreams = {
   id: 'PenaconyLandOfTheDreams',
   info: {
     index: 11,
@@ -62,4 +62,4 @@ export const PenaconyLandOfTheDreams: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

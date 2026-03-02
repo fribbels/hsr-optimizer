@@ -19,10 +19,9 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
-  TeammateOption,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CR.buff(0.08, Source.AmphoreusTheEternalLand)
   },
@@ -43,22 +42,23 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.AmphoreusTheEternalLand,
-    i18nKey: 'Amphoreus',
+    label: (t) => t('TeammateSets.Amphoreus.Text'),
+    desc: (t) => t('TeammateSets.Amphoreus.Desc'),
     nonstackable: true,
     effect: ({ x }) => {
       x.buff(StatKey.SPD_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.AmphoreusTheEternalLand))
     },
   }],
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Amphoreus',
   modifiable: true,
   defaultValue: false,
-}
+} as const satisfies SetDisplay
 
-export const AmphoreusTheEternalLand: SetConfig = {
+export const AmphoreusTheEternalLand = {
   id: 'AmphoreusTheEternalLand',
   info: {
     index: 22,
@@ -67,4 +67,4 @@ export const AmphoreusTheEternalLand: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

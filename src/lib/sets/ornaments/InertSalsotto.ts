@@ -18,7 +18,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CR.buff(0.08, Source.InertSalsotto)
   },
@@ -35,14 +35,14 @@ const conditionals: SetConditionals = {
     ${buff.hit(HKey.DMG_BOOST, 0.15).damageType(DamageTag.ULT | DamageTag.FUA).wgsl(action, 2)}
   }
 `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const InertSalsotto: SetConfig = {
+export const InertSalsotto = {
   id: 'InertSalsotto',
   info: {
     index: 5,
@@ -51,4 +51,4 @@ export const InertSalsotto: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

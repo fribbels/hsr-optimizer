@@ -17,7 +17,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.IzumoGenseiAndTakamaDivineRealm)
   },
@@ -37,16 +37,16 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.CR, 0.12).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Izumo',
   modifiable: true,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const IzumoGenseiAndTakamaDivineRealm: SetConfig = {
+export const IzumoGenseiAndTakamaDivineRealm = {
   id: 'IzumoGenseiAndTakamaDivineRealm',
   info: {
     index: 13,
@@ -55,4 +55,4 @@ export const IzumoGenseiAndTakamaDivineRealm: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

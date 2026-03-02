@@ -28,7 +28,7 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   }))
 }
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.PrisonerInDeepConfinement)
   },
@@ -40,17 +40,17 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.DEF_PEN, `0.06 * f32(setConditionals.valuePrisonerInDeepConfinement)`).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.SELECT,
   conditionalI18nKey: 'Conditionals.Prisoner',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 0,
-}
+} as const satisfies SetDisplay
 
-export const PrisonerInDeepConfinement: SetConfig = {
+export const PrisonerInDeepConfinement = {
   id: 'PrisonerInDeepConfinement',
   info: {
     index: 15,
@@ -59,4 +59,4 @@ export const PrisonerInDeepConfinement: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

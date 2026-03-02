@@ -14,20 +14,20 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     if (context.elementalDamageType == Stats.Wind_DMG) {
       c.WIND_DMG_BOOST.buff(0.10, Source.EagleOfTwilightLine)
     }
   },
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const EagleOfTwilightLine: SetConfig = {
+export const EagleOfTwilightLine = {
   id: 'EagleOfTwilightLine',
   info: {
     index: 9,
@@ -36,4 +36,4 @@ export const EagleOfTwilightLine: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

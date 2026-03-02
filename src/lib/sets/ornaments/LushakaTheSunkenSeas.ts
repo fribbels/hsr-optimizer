@@ -10,30 +10,30 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
-  TeammateOption,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ERR.buff(0.05, Source.LushakaTheSunkenSeas)
   },
   teammate: [{
     value: Sets.LushakaTheSunkenSeas,
-    i18nKey: 'Lushaka',
+    label: (t) => t('TeammateSets.Lushaka.Text'),
+    desc: (t) => t('TeammateSets.Lushaka.Desc'),
     nonstackable: false,
     effect: ({ x }) => {
       x.buff(StatKey.ATK_P, 0.12, x.source(Source.LushakaTheSunkenSeas))
     },
   }],
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Lushaka',
   defaultValue: false,
-}
+} as const satisfies SetDisplay
 
-export const LushakaTheSunkenSeas: SetConfig = {
+export const LushakaTheSunkenSeas = {
   id: 'LushakaTheSunkenSeas',
   info: {
     index: 16,
@@ -42,4 +42,4 @@ export const LushakaTheSunkenSeas: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

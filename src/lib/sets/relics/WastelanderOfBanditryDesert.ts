@@ -43,7 +43,7 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   ]
 }
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     if (context.elementalDamageType == Stats.Imaginary_DMG) {
       c.IMAGINARY_DMG_BOOST.buff(0.10, Source.WastelanderOfBanditryDesert)
@@ -65,17 +65,17 @@ const conditionals: SetConditionals = {
       }
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.SELECT,
   conditionalI18nKey: 'Conditionals.Wastelander',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 1,
-}
+} as const satisfies SetDisplay
 
-export const WastelanderOfBanditryDesert: SetConfig = {
+export const WastelanderOfBanditryDesert = {
   id: 'WastelanderOfBanditryDesert',
   info: {
     index: 11,
@@ -84,4 +84,4 @@ export const WastelanderOfBanditryDesert: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

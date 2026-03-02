@@ -64,7 +64,7 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   ]
 }
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     if (setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
       x.buff(StatKey.DMG_BOOST, 0.12, x.source(Source.PioneerDiverOfDeadWaters))
@@ -90,17 +90,17 @@ const conditionals: SetConditionals = {
       }
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.SELECT,
   conditionalI18nKey: 'Conditionals.Diver',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 2,
-}
+} as const satisfies SetDisplay
 
-export const PioneerDiverOfDeadWaters: SetConfig = {
+export const PioneerDiverOfDeadWaters = {
   id: 'PioneerDiverOfDeadWaters',
   info: {
     index: 16,
@@ -109,4 +109,4 @@ export const PioneerDiverOfDeadWaters: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

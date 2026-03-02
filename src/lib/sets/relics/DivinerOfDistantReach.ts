@@ -20,10 +20,9 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
-  TeammateOption,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.DivinerOfDistantReach)
   },
@@ -37,7 +36,8 @@ const conditionals: SetConditionals = {
   },
   teammate: [{
     value: Sets.DivinerOfDistantReach,
-    i18nKey: 'Diviner',
+    label: (t) => t('TeammateSets.Diviner.Text'),
+    desc: (t) => t('TeammateSets.Diviner.Desc'),
     nonstackable: true,
     effect: ({ x }) => {
       x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
@@ -52,16 +52,16 @@ const conditionals: SetConditionals = {
       }
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Diviner',
   modifiable: true,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const DivinerOfDistantReach: SetConfig = {
+export const DivinerOfDistantReach = {
   id: 'DivinerOfDistantReach',
   info: {
     index: 29,
@@ -70,4 +70,4 @@ export const DivinerOfDistantReach: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

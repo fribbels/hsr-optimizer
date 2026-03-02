@@ -18,7 +18,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.RevelryByTheSea)
   },
@@ -39,14 +39,14 @@ const conditionals: SetConditionals = {
     }
   }
 `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const RevelryByTheSea: SetConfig = {
+export const RevelryByTheSea = {
   id: 'RevelryByTheSea',
   info: {
     index: 21,
@@ -55,4 +55,4 @@ export const RevelryByTheSea: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

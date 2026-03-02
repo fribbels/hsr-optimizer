@@ -19,10 +19,9 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
-  TeammateOption,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.BE.buff(0.16, Source.WatchmakerMasterOfDreamMachinations)
   },
@@ -42,22 +41,23 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.WatchmakerMasterOfDreamMachinations,
-    i18nKey: 'Watchmaker',
+    label: (t) => t('TeammateSets.Watchmaker.Text'),
+    desc: (t) => t('TeammateSets.Watchmaker.Desc'),
     nonstackable: true,
     effect: ({ x }) => {
       x.buff(StatKey.BE, 0.30, x.targets(TargetTag.FullTeam).source(Source.WatchmakerMasterOfDreamMachinations))
     },
   }],
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Watchmaker',
   modifiable: true,
   defaultValue: false,
-}
+} as const satisfies SetDisplay
 
-export const WatchmakerMasterOfDreamMachinations: SetConfig = {
+export const WatchmakerMasterOfDreamMachinations = {
   id: 'WatchmakerMasterOfDreamMachinations',
   info: {
     index: 17,
@@ -66,4 +66,4 @@ export const WatchmakerMasterOfDreamMachinations: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

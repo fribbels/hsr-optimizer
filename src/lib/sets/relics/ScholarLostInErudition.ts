@@ -17,7 +17,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CR.buff(0.08, Source.ScholarLostInErudition)
   },
@@ -35,16 +35,16 @@ const conditionals: SetConditionals = {
       }
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Scholar',
   modifiable: true,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const ScholarLostInErudition: SetConfig = {
+export const ScholarLostInErudition = {
   id: 'ScholarLostInErudition',
   info: {
     index: 21,
@@ -53,4 +53,4 @@ export const ScholarLostInErudition: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

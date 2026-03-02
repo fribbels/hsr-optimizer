@@ -180,8 +180,8 @@ export function renderTeammateRelicSetOptions(t: TFunction<'optimizerTab', 'Team
   return () => {
     return teammateRelicOptions.map((option) => ({
       value: option.value,
-      desc: t(`TeammateSets.${option.i18nKey}.Desc`),
-      label: labelRender(option.value, t(`TeammateSets.${option.i18nKey}.Text`)),
+      desc: option.desc(t),
+      label: labelRender(option.value, option.label(t)),
     }))
   }
 }
@@ -190,8 +190,8 @@ export function renderTeammateOrnamentSetOptions(t: TFunction<'optimizerTab', 'T
   return () => {
     return teammateOrnamentOptions.map((option) => ({
       value: option.value,
-      desc: t(`TeammateSets.${option.i18nKey}.Desc`),
-      label: labelRender(option.value, t(`TeammateSets.${option.i18nKey}.Text`)),
+      desc: option.desc(t),
+      label: labelRender(option.value, option.label(t)),
     }))
   }
 }

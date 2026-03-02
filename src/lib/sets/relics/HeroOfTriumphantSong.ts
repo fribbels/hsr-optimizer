@@ -17,7 +17,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.HeroOfTriumphantSong)
   },
@@ -36,16 +36,16 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.CD, 0.30).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Hero',
   modifiable: true,
   defaultValue: false,
-}
+} as const satisfies SetDisplay
 
-export const HeroOfTriumphantSong: SetConfig = {
+export const HeroOfTriumphantSong = {
   id: 'HeroOfTriumphantSong',
   info: {
     index: 22,
@@ -54,4 +54,4 @@ export const HeroOfTriumphantSong: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

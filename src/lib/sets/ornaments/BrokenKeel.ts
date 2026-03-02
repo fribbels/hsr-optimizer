@@ -31,7 +31,6 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
-  TeammateOption,
 } from 'types/setConfig'
 
 const BrokenKeelConditional: DynamicConditional = {
@@ -67,27 +66,28 @@ if (
   },
 }
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.RES.buff(0.10, Source.BrokenKeel)
   },
   teammate: [{
     value: Sets.BrokenKeel,
-    i18nKey: 'Keel',
+    label: (t) => t('TeammateSets.Keel.Text'),
+    desc: (t) => t('TeammateSets.Keel.Desc'),
     nonstackable: false,
     effect: ({ x }) => {
       x.buff(StatKey.CD, 0.10, x.targets(TargetTag.FullTeam).source(Source.BrokenKeel))
     },
   }],
   dynamicConditionals: [BrokenKeelConditional],
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const BrokenKeel: SetConfig = {
+export const BrokenKeel = {
   id: 'BrokenKeel',
   info: {
     index: 9,
@@ -96,4 +96,4 @@ export const BrokenKeel: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

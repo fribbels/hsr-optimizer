@@ -45,7 +45,7 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   })
 }
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(
       StatKey.DMG_BOOST,
@@ -59,17 +59,17 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.DMG_BOOST, 'arcadiaBuffValue').targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.SELECT,
   conditionalI18nKey: 'Conditionals.Arcadia',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 4,
-}
+} as const satisfies SetDisplay
 
-export const ArcadiaOfWovenDreams: SetConfig = {
+export const ArcadiaOfWovenDreams = {
   id: 'ArcadiaOfWovenDreams',
   info: {
     index: 20,
@@ -78,4 +78,4 @@ export const ArcadiaOfWovenDreams: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

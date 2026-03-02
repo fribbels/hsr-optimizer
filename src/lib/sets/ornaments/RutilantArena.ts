@@ -18,7 +18,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CR.buff(0.08, Source.RutilantArena)
   },
@@ -35,14 +35,14 @@ const conditionals: SetConditionals = {
     ${buff.hit(HKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action, 2)}
   }
 `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const RutilantArena: SetConfig = {
+export const RutilantArena = {
   id: 'RutilantArena',
   info: {
     index: 8,
@@ -51,4 +51,4 @@ export const RutilantArena: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

@@ -62,19 +62,19 @@ if (
   },
 }
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.BE.buff(0.16, Source.TaliaKingdomOfBanditry)
   },
   dynamicConditionals: [TaliaKingdomOfBanditryConditional],
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const TaliaKingdomOfBanditry: SetConfig = {
+export const TaliaKingdomOfBanditry = {
   id: 'TaliaKingdomOfBanditry',
   info: {
     index: 6,
@@ -83,4 +83,4 @@ export const TaliaKingdomOfBanditry: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

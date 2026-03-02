@@ -16,7 +16,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CD.buff(0.16, Source.TheWondrousBananAmusementPark)
   },
@@ -33,16 +33,16 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.CD, 0.32).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Banana',
   modifiable: true,
   defaultValue: false,
-}
+} as const satisfies SetDisplay
 
-export const TheWondrousBananAmusementPark: SetConfig = {
+export const TheWondrousBananAmusementPark = {
   id: 'TheWondrousBananAmusementPark',
   info: {
     index: 17,
@@ -51,4 +51,4 @@ export const TheWondrousBananAmusementPark: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

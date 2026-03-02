@@ -28,7 +28,7 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   }))
 }
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CR.buff(0.04, Source.SigoniaTheUnclaimedDesolation)
   },
@@ -40,17 +40,17 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.CD, `0.04 * f32(setConditionals.valueSigoniaTheUnclaimedDesolation)`).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.SELECT,
   conditionalI18nKey: 'Conditionals.Sigonia',
   modifiable: true,
   selectionOptions: selectionOptions,
   defaultValue: 4,
-}
+} as const satisfies SetDisplay
 
-export const SigoniaTheUnclaimedDesolation: SetConfig = {
+export const SigoniaTheUnclaimedDesolation = {
   id: 'SigoniaTheUnclaimedDesolation',
   info: {
     index: 12,
@@ -59,4 +59,4 @@ export const SigoniaTheUnclaimedDesolation: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

@@ -17,7 +17,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.TheWindSoaringValorous)
   },
@@ -34,16 +34,16 @@ const conditionals: SetConditionals = {
       ${buff.hit(HKey.DMG_BOOST, `0.36 * f32(setConditionals.enabledTheWindSoaringValorous)`).damageType(DamageTag.ULT).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Valorous',
   modifiable: true,
   defaultValue: false,
-}
+} as const satisfies SetDisplay
 
-export const TheWindSoaringValorous: SetConfig = {
+export const TheWindSoaringValorous = {
   id: 'TheWindSoaringValorous',
   info: {
     index: 19,
@@ -52,4 +52,4 @@ export const TheWindSoaringValorous: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

@@ -63,19 +63,19 @@ if (
   },
 }
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.SpaceSealingStation)
   },
   dynamicConditionals: [SpaceSealingStationConditional],
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const SpaceSealingStation: SetConfig = {
+export const SpaceSealingStation = {
   id: 'SpaceSealingStation',
   info: {
     index: 0,
@@ -84,4 +84,4 @@ export const SpaceSealingStation: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

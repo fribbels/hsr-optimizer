@@ -16,7 +16,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
   },
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
@@ -27,14 +27,14 @@ const conditionals: SetConditionals = {
       ${buff.actionMultiplicativeComplement(AKey.DMG_RED, 0.08).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const GuardOfWutheringSnow: SetConfig = {
+export const GuardOfWutheringSnow = {
   id: 'GuardOfWutheringSnow',
   info: {
     index: 5,
@@ -43,4 +43,4 @@ export const GuardOfWutheringSnow: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

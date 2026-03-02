@@ -11,18 +11,18 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.OHB.buff(0.10, Source.PasserbyOfWanderingCloud)
   },
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const PasserbyOfWanderingCloud: SetConfig = {
+export const PasserbyOfWanderingCloud = {
   id: 'PasserbyOfWanderingCloud',
   info: {
     index: 0,
@@ -31,4 +31,4 @@ export const PasserbyOfWanderingCloud: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

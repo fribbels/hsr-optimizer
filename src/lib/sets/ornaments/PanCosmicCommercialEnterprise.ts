@@ -72,19 +72,19 @@ if (
   },
 }
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.EHR.buff(0.10, Source.PanCosmicCommercialEnterprise)
   },
   dynamicConditionals: [PanCosmicCommercialEnterpriseConditional],
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const PanCosmicCommercialEnterprise: SetConfig = {
+export const PanCosmicCommercialEnterprise = {
   id: 'PanCosmicCommercialEnterprise',
   info: {
     index: 2,
@@ -93,4 +93,4 @@ export const PanCosmicCommercialEnterprise: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

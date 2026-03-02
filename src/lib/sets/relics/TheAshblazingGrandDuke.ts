@@ -29,7 +29,7 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   }))
 }
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
   },
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
@@ -46,17 +46,17 @@ const conditionals: SetConditionals = {
       }
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.SELECT,
   conditionalI18nKey: 'Conditionals.Ashblazing',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 0,
-}
+} as const satisfies SetDisplay
 
-export const TheAshblazingGrandDuke: SetConfig = {
+export const TheAshblazingGrandDuke = {
   id: 'TheAshblazingGrandDuke',
   info: {
     index: 14,
@@ -65,4 +65,4 @@ export const TheAshblazingGrandDuke: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

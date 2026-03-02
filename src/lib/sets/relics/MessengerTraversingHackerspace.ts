@@ -19,10 +19,9 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
-  TeammateOption,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.MessengerTraversingHackerspace)
   },
@@ -42,22 +41,23 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.MessengerTraversingHackerspace,
-    i18nKey: 'Messenger',
+    label: (t) => t('TeammateSets.Messenger.Text'),
+    desc: (t) => t('TeammateSets.Messenger.Desc'),
     nonstackable: true,
     effect: ({ x }) => {
       x.buff(StatKey.SPD_P, 0.12, x.targets(TargetTag.FullTeam).source(Source.MessengerTraversingHackerspace))
     },
   }],
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Messenger',
   modifiable: true,
   defaultValue: false,
-}
+} as const satisfies SetDisplay
 
-export const MessengerTraversingHackerspace: SetConfig = {
+export const MessengerTraversingHackerspace = {
   id: 'MessengerTraversingHackerspace',
   info: {
     index: 13,
@@ -66,4 +66,4 @@ export const MessengerTraversingHackerspace: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

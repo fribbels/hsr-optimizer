@@ -11,18 +11,18 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ERR.buff(0.05, Source.SprightlyVonwacq)
   },
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const SprightlyVonwacq: SetConfig = {
+export const SprightlyVonwacq = {
   id: 'SprightlyVonwacq',
   info: {
     index: 7,
@@ -31,4 +31,4 @@ export const SprightlyVonwacq: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

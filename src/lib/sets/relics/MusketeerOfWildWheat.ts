@@ -17,7 +17,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.MusketeerOfWildWheat)
   },
@@ -32,14 +32,14 @@ const conditionals: SetConditionals = {
       ${buff.hit(HKey.DMG_BOOST, 0.10).damageType(DamageTag.BASIC).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const MusketeerOfWildWheat: SetConfig = {
+export const MusketeerOfWildWheat = {
   id: 'MusketeerOfWildWheat',
   info: {
     index: 1,
@@ -48,4 +48,4 @@ export const MusketeerOfWildWheat: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

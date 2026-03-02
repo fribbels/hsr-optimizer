@@ -18,7 +18,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.FirmamentFrontlineGlamoth)
   },
@@ -36,14 +36,14 @@ const conditionals: SetConditionals = {
     ${buff.action(AKey.DMG_BOOST, `select(0.12, 0.18, ${containerActionVal(SELF_ENTITY_INDEX, AKey.SPD, action.config)} >= 160.0)`).wgsl(action, 2)}
   }
 `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const FirmamentFrontlineGlamoth: SetConfig = {
+export const FirmamentFrontlineGlamoth = {
   id: 'FirmamentFrontlineGlamoth',
   info: {
     index: 10,
@@ -52,4 +52,4 @@ export const FirmamentFrontlineGlamoth: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

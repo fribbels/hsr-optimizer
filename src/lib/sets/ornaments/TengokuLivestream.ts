@@ -16,7 +16,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CD.buff(0.16, Source.TengokuLivestream)
   },
@@ -33,16 +33,16 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.CD, 0.32).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Tengoku',
   modifiable: true,
   defaultValue: false,
-}
+} as const satisfies SetDisplay
 
-export const TengokuLivestream: SetConfig = {
+export const TengokuLivestream = {
   id: 'TengokuLivestream',
   info: {
     index: 23,
@@ -51,4 +51,4 @@ export const TengokuLivestream: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

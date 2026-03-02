@@ -17,7 +17,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.DEF_P.buff(0.15, Source.KnightOfPurityPalace)
   },
@@ -29,14 +29,14 @@ const conditionals: SetConditionals = {
       ${buff.hit(HKey.DMG_BOOST, 0.20).outputType(OutputTag.SHIELD).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const KnightOfPurityPalace: SetConfig = {
+export const KnightOfPurityPalace = {
   id: 'KnightOfPurityPalace',
   info: {
     index: 2,
@@ -45,4 +45,4 @@ export const KnightOfPurityPalace: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

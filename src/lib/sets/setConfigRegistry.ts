@@ -14,6 +14,130 @@ import {
   TeammateOption,
 } from 'types/setConfig'
 
+// ── Typed config imports for type derivation ──
+import { AmphoreusTheEternalLand } from './ornaments/AmphoreusTheEternalLand'
+import { ArcadiaOfWovenDreams } from './ornaments/ArcadiaOfWovenDreams'
+import { BelobogOfTheArchitects } from './ornaments/BelobogOfTheArchitects'
+import { BoneCollectionsSereneDemesne } from './ornaments/BoneCollectionsSereneDemesne'
+import { BrokenKeel } from './ornaments/BrokenKeel'
+import { CelestialDifferentiator } from './ornaments/CelestialDifferentiator'
+import { DuranDynastyOfRunningWolves } from './ornaments/DuranDynastyOfRunningWolves'
+import { FirmamentFrontlineGlamoth } from './ornaments/FirmamentFrontlineGlamoth'
+import { FleetOfTheAgeless } from './ornaments/FleetOfTheAgeless'
+import { ForgeOfTheKalpagniLantern } from './ornaments/ForgeOfTheKalpagniLantern'
+import { GiantTreeOfRaptBrooding } from './ornaments/GiantTreeOfRaptBrooding'
+import { InertSalsotto } from './ornaments/InertSalsotto'
+import { IzumoGenseiAndTakamaDivineRealm } from './ornaments/IzumoGenseiAndTakamaDivineRealm'
+import { LushakaTheSunkenSeas } from './ornaments/LushakaTheSunkenSeas'
+import { PanCosmicCommercialEnterprise } from './ornaments/PanCosmicCommercialEnterprise'
+import { PenaconyLandOfTheDreams } from './ornaments/PenaconyLandOfTheDreams'
+import { RevelryByTheSea } from './ornaments/RevelryByTheSea'
+import { RutilantArena } from './ornaments/RutilantArena'
+import { SigoniaTheUnclaimedDesolation } from './ornaments/SigoniaTheUnclaimedDesolation'
+import { SpaceSealingStation } from './ornaments/SpaceSealingStation'
+import { SprightlyVonwacq } from './ornaments/SprightlyVonwacq'
+import { TaliaKingdomOfBanditry } from './ornaments/TaliaKingdomOfBanditry'
+import { TengokuLivestream } from './ornaments/TengokuLivestream'
+import { TheWondrousBananAmusementPark } from './ornaments/TheWondrousBananAmusementPark'
+import { BandOfSizzlingThunder } from './relics/BandOfSizzlingThunder'
+import { ChampionOfStreetwiseBoxing } from './relics/ChampionOfStreetwiseBoxing'
+import { DivinerOfDistantReach } from './relics/DivinerOfDistantReach'
+import { EagleOfTwilightLine } from './relics/EagleOfTwilightLine'
+import { EverGloriousMagicalGirl } from './relics/EverGloriousMagicalGirl'
+import { FiresmithOfLavaForging } from './relics/FiresmithOfLavaForging'
+import { GeniusOfBrilliantStars } from './relics/GeniusOfBrilliantStars'
+import { GuardOfWutheringSnow } from './relics/GuardOfWutheringSnow'
+import { HeroOfTriumphantSong } from './relics/HeroOfTriumphantSong'
+import { HunterOfGlacialForest } from './relics/HunterOfGlacialForest'
+import { IronCavalryAgainstTheScourge } from './relics/IronCavalryAgainstTheScourge'
+import { KnightOfPurityPalace } from './relics/KnightOfPurityPalace'
+import { LongevousDisciple } from './relics/LongevousDisciple'
+import { MessengerTraversingHackerspace } from './relics/MessengerTraversingHackerspace'
+import { MusketeerOfWildWheat } from './relics/MusketeerOfWildWheat'
+import { PasserbyOfWanderingCloud } from './relics/PasserbyOfWanderingCloud'
+import { PioneerDiverOfDeadWaters } from './relics/PioneerDiverOfDeadWaters'
+import { PoetOfMourningCollapse } from './relics/PoetOfMourningCollapse'
+import { PrisonerInDeepConfinement } from './relics/PrisonerInDeepConfinement'
+import { SacerdosRelivedOrdeal } from './relics/SacerdosRelivedOrdeal'
+import { ScholarLostInErudition } from './relics/ScholarLostInErudition'
+import { SelfEnshroudedRecluse } from './relics/SelfEnshroudedRecluse'
+import { TheAshblazingGrandDuke } from './relics/TheAshblazingGrandDuke'
+import { TheWindSoaringValorous } from './relics/TheWindSoaringValorous'
+import { ThiefOfShootingMeteor } from './relics/ThiefOfShootingMeteor'
+import { WarriorGoddessOfSunAndThunder } from './relics/WarriorGoddessOfSunAndThunder'
+import { WastelanderOfBanditryDesert } from './relics/WastelanderOfBanditryDesert'
+import { WatchmakerMasterOfDreamMachinations } from './relics/WatchmakerMasterOfDreamMachinations'
+import { WavestriderCaptain } from './relics/WavestriderCaptain'
+import { WorldRemakingDeliverer } from './relics/WorldRemakingDeliverer'
+
+const ALL_RELIC_CONFIGS = [
+  PasserbyOfWanderingCloud,
+  MusketeerOfWildWheat,
+  KnightOfPurityPalace,
+  HunterOfGlacialForest,
+  ChampionOfStreetwiseBoxing,
+  GuardOfWutheringSnow,
+  FiresmithOfLavaForging,
+  GeniusOfBrilliantStars,
+  BandOfSizzlingThunder,
+  EagleOfTwilightLine,
+  ThiefOfShootingMeteor,
+  WastelanderOfBanditryDesert,
+  LongevousDisciple,
+  MessengerTraversingHackerspace,
+  TheAshblazingGrandDuke,
+  PrisonerInDeepConfinement,
+  PioneerDiverOfDeadWaters,
+  WatchmakerMasterOfDreamMachinations,
+  IronCavalryAgainstTheScourge,
+  TheWindSoaringValorous,
+  SacerdosRelivedOrdeal,
+  ScholarLostInErudition,
+  HeroOfTriumphantSong,
+  PoetOfMourningCollapse,
+  WarriorGoddessOfSunAndThunder,
+  WavestriderCaptain,
+  WorldRemakingDeliverer,
+  SelfEnshroudedRecluse,
+  EverGloriousMagicalGirl,
+  DivinerOfDistantReach,
+] as const
+
+const ALL_ORNAMENT_CONFIGS = [
+  SpaceSealingStation,
+  FleetOfTheAgeless,
+  PanCosmicCommercialEnterprise,
+  BelobogOfTheArchitects,
+  CelestialDifferentiator,
+  InertSalsotto,
+  TaliaKingdomOfBanditry,
+  SprightlyVonwacq,
+  RutilantArena,
+  BrokenKeel,
+  FirmamentFrontlineGlamoth,
+  PenaconyLandOfTheDreams,
+  SigoniaTheUnclaimedDesolation,
+  IzumoGenseiAndTakamaDivineRealm,
+  DuranDynastyOfRunningWolves,
+  ForgeOfTheKalpagniLantern,
+  LushakaTheSunkenSeas,
+  TheWondrousBananAmusementPark,
+  BoneCollectionsSereneDemesne,
+  GiantTreeOfRaptBrooding,
+  ArcadiaOfWovenDreams,
+  RevelryByTheSea,
+  AmphoreusTheEternalLand,
+  TengokuLivestream,
+] as const
+
+const ALL_CONFIGS = [...ALL_RELIC_CONFIGS, ...ALL_ORNAMENT_CONFIGS] as const
+
+type ExtractConditionalI18nKey<T> = T extends { conditionalI18nKey: infer K } ? NonNullable<K> : never
+export type RelicSetIngameId = (typeof ALL_CONFIGS)[number]['info']['ingameId']
+export type SetConditionalI18nKey =
+  | ExtractConditionalI18nKey<(typeof ALL_CONFIGS)[number]['display']>
+  | 'Conditionals.DefaultMessage'
+
 export type SetConditionalFieldInfo = {
   fieldName: string,
   wgslType: 'bool' | 'i32',
@@ -22,27 +146,10 @@ export type SetConditionalFieldInfo = {
 
 // ── Registry ──
 
-const setModules = import.meta.glob<Record<string, unknown>>(
-  ['./**/*.ts', '!./setConfigRegistry.ts'],
-  { eager: true },
-)
-
 export const setConfigRegistry = new Map<keyof typeof Sets, SetConfig>()
 
-for (const mod of Object.values(setModules)) {
-  for (const value of Object.values(mod)) {
-    if (
-      value != null
-      && typeof value === 'object'
-      && 'id' in value
-      && 'info' in value
-      && 'conditionals' in value
-      && 'display' in value
-    ) {
-      const config = value as SetConfig
-      setConfigRegistry.set(config.id, config)
-    }
-  }
+for (const config of ALL_CONFIGS) {
+  setConfigRegistry.set(config.id, config)
 }
 
 // ── Derived data ──
@@ -60,13 +167,13 @@ type IndexedField = {
 
 const relicConfigs: IndexedConfig[] = []
 const ornamentConfigs: IndexedConfig[] = []
-const setToConditionalKeyMap = new Map<Sets, string>()
+const setToConditionalKeyMap = new Map<Sets, SetConditionalI18nKey>()
 const teammateOptionsMap = new Map<string, TeammateOption>()
 const boolFields: IndexedField[] = []
 const intFields: IndexedField[] = []
 export const teammateRelicOptions: TeammateOption[] = []
 export const teammateOrnamentOptions: TeammateOption[] = []
-export const setToId = {} as Record<Sets, string>
+export const setToId = {} as Record<Sets, RelicSetIngameId>
 
 for (const config of setConfigRegistry.values()) {
   const setKey = Sets[config.id]
@@ -80,11 +187,11 @@ for (const config of setConfigRegistry.values()) {
   }
 
   // ID mapping
-  setToId[setKey] = config.info.ingameId
+  setToId[setKey] = config.info.ingameId as RelicSetIngameId
 
   // Conditional i18n keys
   if (config.display.conditionalI18nKey) {
-    setToConditionalKeyMap.set(setKey, config.display.conditionalI18nKey)
+    setToConditionalKeyMap.set(setKey, config.display.conditionalI18nKey as SetConditionalI18nKey)
   }
 
   // Teammates
@@ -132,7 +239,7 @@ export const orderedSetConditionalFields = [
 
 // ── Usage ──
 
-export function setToConditionalKey(set: Sets): string {
+export function setToConditionalKey(set: Sets): SetConditionalI18nKey {
   return setToConditionalKeyMap.get(set) ?? 'Conditionals.DefaultMessage'
 }
 

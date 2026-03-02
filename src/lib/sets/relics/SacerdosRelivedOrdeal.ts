@@ -21,7 +21,6 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
-  TeammateOption,
 } from 'types/setConfig'
 
 type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
@@ -34,7 +33,7 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   }))
 }
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.SacerdosRelivedOrdeal)
   },
@@ -44,7 +43,8 @@ const conditionals: SetConditionals = {
   teammate: [
     {
       value: SACERDOS_RELIVED_ORDEAL_1_STACK,
-      i18nKey: 'Sacerdos1Stack',
+      label: (t) => t('TeammateSets.Sacerdos1Stack.Text'),
+      desc: (t) => t('TeammateSets.Sacerdos1Stack.Desc'),
       nonstackable: false,
       effect: ({ x, teammateActorId }) => {
         const SUNDAY_ID = '1313'
@@ -57,7 +57,8 @@ const conditionals: SetConditionals = {
     },
     {
       value: SACERDOS_RELIVED_ORDEAL_2_STACK,
-      i18nKey: 'Sacerdos2Stack',
+      label: (t) => t('TeammateSets.Sacerdos2Stack.Text'),
+      desc: (t) => t('TeammateSets.Sacerdos2Stack.Desc'),
       nonstackable: false,
       effect: ({ x, teammateActorId }) => {
         const SUNDAY_ID = '1313'
@@ -74,17 +75,17 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.CD, `0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal)`).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.SELECT,
   conditionalI18nKey: 'Conditionals.Sacerdos',
   modifiable: true,
   selectionOptions: selectionOptions,
   defaultValue: 0,
-}
+} as const satisfies SetDisplay
 
-export const SacerdosRelivedOrdeal: SetConfig = {
+export const SacerdosRelivedOrdeal = {
   id: 'SacerdosRelivedOrdeal',
   info: {
     index: 20,
@@ -93,4 +94,4 @@ export const SacerdosRelivedOrdeal: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

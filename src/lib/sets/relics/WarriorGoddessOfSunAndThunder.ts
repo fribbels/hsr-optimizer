@@ -19,10 +19,9 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
-  TeammateOption,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.WarriorGoddessOfSunAndThunder)
   },
@@ -47,22 +46,23 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.WarriorGoddessOfSunAndThunder,
-    i18nKey: 'Warrior',
+    label: (t) => t('TeammateSets.Warrior.Text'),
+    desc: (t) => t('TeammateSets.Warrior.Desc'),
     nonstackable: true,
     effect: ({ x }) => {
       x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.WarriorGoddessOfSunAndThunder))
     },
   }],
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.WarriorGoddess',
   modifiable: true,
   defaultValue: false,
-}
+} as const satisfies SetDisplay
 
-export const WarriorGoddessOfSunAndThunder: SetConfig = {
+export const WarriorGoddessOfSunAndThunder = {
   id: 'WarriorGoddessOfSunAndThunder',
   info: {
     index: 24,
@@ -71,4 +71,4 @@ export const WarriorGoddessOfSunAndThunder: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

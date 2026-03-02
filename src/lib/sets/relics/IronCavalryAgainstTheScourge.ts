@@ -18,7 +18,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.BE.buff(0.16, Source.IronCavalryAgainstTheScourge)
   },
@@ -39,14 +39,14 @@ const conditionals: SetConditionals = {
     ${buff.hit(HKey.DEF_PEN, `select(0.0, 0.15, ${containerActionVal(SELF_ENTITY_INDEX, AKey.BE, action.config)} >= 2.50)`).damageType(DamageTag.SUPER_BREAK).wgsl(action, 2)}
   }
 `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const IronCavalryAgainstTheScourge: SetConfig = {
+export const IronCavalryAgainstTheScourge = {
   id: 'IronCavalryAgainstTheScourge',
   info: {
     index: 18,
@@ -55,4 +55,4 @@ export const IronCavalryAgainstTheScourge: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

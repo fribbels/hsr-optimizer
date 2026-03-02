@@ -63,19 +63,19 @@ if (
   },
 }
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.DEF_P.buff(0.15, Source.BelobogOfTheArchitects)
   },
   dynamicConditionals: [BelobogOfTheArchitectsConditional],
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const BelobogOfTheArchitects: SetConfig = {
+export const BelobogOfTheArchitects = {
   id: 'BelobogOfTheArchitects',
   info: {
     index: 3,
@@ -84,4 +84,4 @@ export const BelobogOfTheArchitects: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

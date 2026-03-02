@@ -21,10 +21,9 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
-  TeammateOption,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(StatKey.DMG_BOOST, 0.10, x.outputType(OutputTag.SHIELD).source(Source.SelfEnshroudedRecluse))
   },
@@ -47,22 +46,23 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.SelfEnshroudedRecluse,
-    i18nKey: 'SelfEnshrouded',
+    label: (t) => t('TeammateSets.SelfEnshrouded.Text'),
+    desc: (t) => t('TeammateSets.SelfEnshrouded.Desc'),
     nonstackable: false,
     effect: ({ x }) => {
       x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.SelfEnshroudedRecluse))
     },
   }],
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Recluse',
   modifiable: true,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const SelfEnshroudedRecluse: SetConfig = {
+export const SelfEnshroudedRecluse = {
   id: 'SelfEnshroudedRecluse',
   info: {
     index: 27,
@@ -71,4 +71,4 @@ export const SelfEnshroudedRecluse: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

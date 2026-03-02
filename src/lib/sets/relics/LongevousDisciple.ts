@@ -28,7 +28,7 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   }))
 }
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.HP_P.buff(0.12, Source.LongevousDisciple)
   },
@@ -40,17 +40,17 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.CR, `0.08 * f32(setConditionals.valueLongevousDisciple)`).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.SELECT,
   conditionalI18nKey: 'Conditionals.Longevous',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 2,
-}
+} as const satisfies SetDisplay
 
-export const LongevousDisciple: SetConfig = {
+export const LongevousDisciple = {
   id: 'LongevousDisciple',
   info: {
     index: 12,
@@ -59,4 +59,4 @@ export const LongevousDisciple: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

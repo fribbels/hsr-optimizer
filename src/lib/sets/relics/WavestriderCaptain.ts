@@ -16,7 +16,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CD.buff(0.16, Source.WavestriderCaptain)
   },
@@ -33,16 +33,16 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.ATK_P, 0.48).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Wavestrider',
   modifiable: true,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const WavestriderCaptain: SetConfig = {
+export const WavestriderCaptain = {
   id: 'WavestriderCaptain',
   info: {
     index: 25,
@@ -51,4 +51,4 @@ export const WavestriderCaptain: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

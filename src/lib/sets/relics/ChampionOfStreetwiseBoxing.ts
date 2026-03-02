@@ -31,7 +31,7 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   }))
 }
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     if (context.elementalDamageType == Stats.Physical_DMG) {
       c.PHYSICAL_DMG_BOOST.buff(0.10, Source.ChampionOfStreetwiseBoxing)
@@ -45,17 +45,17 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.ATK_P, `0.05 * f32(setConditionals.valueChampionOfStreetwiseBoxing)`).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.SELECT,
   conditionalI18nKey: 'Conditionals.Streetwise',
   modifiable: true,
   selectionOptions: selectionOptions,
   defaultValue: 5,
-}
+} as const satisfies SetDisplay
 
-export const ChampionOfStreetwiseBoxing: SetConfig = {
+export const ChampionOfStreetwiseBoxing = {
   id: 'ChampionOfStreetwiseBoxing',
   info: {
     index: 4,
@@ -64,4 +64,4 @@ export const ChampionOfStreetwiseBoxing: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

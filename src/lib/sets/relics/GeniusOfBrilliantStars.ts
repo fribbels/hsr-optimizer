@@ -19,7 +19,7 @@ import {
   SetType,
 } from 'types/setConfig'
 
-const conditionals: SetConditionals = {
+const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     if (context.elementalDamageType == Stats.Quantum_DMG) {
       c.QUANTUM_DMG_BOOST.buff(0.10, Source.GeniusOfBrilliantStars)
@@ -33,16 +33,16 @@ const conditionals: SetConditionals = {
       ${buff.action(AKey.DEF_PEN, `select(0.10, 0.20, setConditionals.enabledGeniusOfBrilliantStars == true)`).wgsl(action, 2)}
     }
   `,
-}
+} as const satisfies SetConditionals
 
-const display: SetDisplay = {
+const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Genius',
   modifiable: true,
   defaultValue: true,
-}
+} as const satisfies SetDisplay
 
-export const GeniusOfBrilliantStars: SetConfig = {
+export const GeniusOfBrilliantStars = {
   id: 'GeniusOfBrilliantStars',
   info: {
     index: 7,
@@ -51,4 +51,4 @@ export const GeniusOfBrilliantStars: SetConfig = {
   },
   conditionals,
   display,
-}
+} as const satisfies SetConfig

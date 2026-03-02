@@ -4,7 +4,7 @@ import {
   StatsValues,
 } from 'lib/constants/constants'
 import { BuffSource } from 'lib/optimization/buffSource'
-import { SetCounts } from 'lib/optimization/calculateStats'
+import { SetCounts } from 'lib/optimization/setMatching'
 
 export type Buff = {
   stat: string,

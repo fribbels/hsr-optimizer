@@ -1,20 +1,11 @@
 import { Stats, StatsValues, } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import {
-  BelobogOfTheArchitectsConditional,
-  BoneCollectionsSereneDemesneConditional,
-  BrokenKeelConditional,
-  FleetOfTheAgelessConditional,
-  GiantTreeOfRaptBrooding135Conditional,
-  GiantTreeOfRaptBrooding180Conditional,
-  PanCosmicCommercialEnterpriseConditional,
-  SpaceSealingStationConditional,
-  TaliaKingdomOfBanditryConditional,
-} from 'lib/gpu/conditionals/setConditionals'
 import { BasicKey, BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { BasicStatToKey } from 'lib/optimization/basicStatsArray'
-import { OrnamentSetsConfig, RelicSetsConfig, SetKeys, SetKeyType, } from 'lib/optimization/config/setsConfig'
+import { OrnamentSetsConfig, RelicSetsConfig, } from 'lib/optimization/config/setsConfig'
+import { ornament2p, relic4p, SetCounts, SetKeys, SetKeyType } from 'lib/optimization/setMatching'
+import { getAllSetDynamicConditionals } from 'lib/sets/setConfigRegistry'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -30,12 +21,6 @@ const ornamentIndexToSetConfig = Object.entries(OrnamentSetsConfig)
 const relicIndexToSetConfig = Object.entries(RelicSetsConfig)
   .sort((a, b) => a[1].index - b[1].index)
   .map((entry) => entry[1])
-
-export type SetCounts = {
-  relicMatch2: number
-  relicMatch4: number
-  ornamentMatch2: number
-}
 
 export function calculateSetCounts(
   sets: number[],
@@ -293,6 +278,8 @@ function applyPercentStats(x: ComputedStatsContainer, a: Float32Array, context: 
   }
 }
 
+const setDynamicConditionals = getAllSetDynamicConditionals()
+
 function evaluateDynamicSetConditionals(
   x: ComputedStatsContainer,
   sets: SetCounts,
@@ -301,15 +288,9 @@ function evaluateDynamicSetConditionals(
   context: OptimizerContext,
 ) {
   if (setsArray[4] == setsArray[5]) {
-    ornament2p(SetKeys.SpaceSealingStation, sets) && evaluateConditional(SpaceSealingStationConditional, x, action, context)
-    ornament2p(SetKeys.FleetOfTheAgeless, sets) && evaluateConditional(FleetOfTheAgelessConditional, x, action, context)
-    ornament2p(SetKeys.BelobogOfTheArchitects, sets) && evaluateConditional(BelobogOfTheArchitectsConditional, x, action, context)
-    ornament2p(SetKeys.PanCosmicCommercialEnterprise, sets) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, action, context)
-    ornament2p(SetKeys.BrokenKeel, sets) && evaluateConditional(BrokenKeelConditional, x, action, context)
-    ornament2p(SetKeys.TaliaKingdomOfBanditry, sets) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, action, context)
-    ornament2p(SetKeys.BoneCollectionsSereneDemesne, sets) && evaluateConditional(BoneCollectionsSereneDemesneConditional, x, action, context)
-    ornament2p(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding135Conditional, x, action, context)
-    ornament2p(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding180Conditional, x, action, context)
+    for (let i = 0; i < setDynamicConditionals.length; i++) {
+      evaluateConditional(setDynamicConditionals[i], x, action, context)
+    }
   }
 }
 
@@ -412,26 +393,6 @@ function executeNonDynamicCombatSets(
     const config = relicIndexToSetConfig[set2]
     config.p2x?.(x, context, setConditionals)
   }
-}
-
-// Bitmask-based set matching — mirrors GPU relic2p/relic4p/ornament2p
-export const OrnamentSetBitIndex: Record<string, number> = Object.fromEntries(
-  Object.entries(OrnamentSetsConfig).map(([key, config]) => [key, config.index]),
-)
-export const RelicSetBitIndex: Record<string, number> = Object.fromEntries(
-  Object.entries(RelicSetsConfig).map(([key, config]) => [key, config.index]),
-)
-
-export function ornament2p(key: SetKeyType, sets: SetCounts) {
-  return (sets.ornamentMatch2 >> OrnamentSetBitIndex[key]) & 1
-}
-
-export function relic2p(key: SetKeyType, sets: SetCounts) {
-  return (sets.relicMatch2 >> RelicSetBitIndex[key]) & 1
-}
-
-export function relic4p(key: SetKeyType, sets: SetCounts) {
-  return (sets.relicMatch4 >> RelicSetBitIndex[key]) & 1
 }
 
 export function calculateRelicStats(

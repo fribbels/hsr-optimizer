@@ -121,7 +121,7 @@ export type DBMetadataLightCone = {
   unreleased: boolean,
   superimpositions: Record<number, Record<string, number>>,
   displayName: string,
-  imageCenter: number,
+  imageOffset: { x: number; y: number; s: number },
 }
 
 export type DBMetadataSets = {

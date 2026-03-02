@@ -82,7 +82,7 @@ export type ShowcaseDisplayDimensions = {
   tempParentH: number,
   newLcHeight: number,
   newLcMargin: number,
-  lcCenter: number,
+  lcImageOffset: { x: number; y: number; s: number },
   charCenter: ImageCenter,
 }
 
@@ -151,10 +151,11 @@ export function getArtistName(character: Character) {
 
 export function getShowcaseDisplayDimensions(character: Character, simScore: boolean): ShowcaseDisplayDimensions {
   const charCenter = DB.getMetadata().characters[character.id].imageCenter
+  const defaultOffset = { x: 0, y: 0, s: 1.15 }
   // @ts-ignore Some APIs return empty light cone as '0'
-  const lcCenter = (character.form.lightCone && character.form.lightCone != '0' && DB.getMetadata().lightCones[character.form.lightCone])
-    ? DB.getMetadata().lightCones[character.form.lightCone].imageCenter
-    : 0
+  const lcImageOffset = (character.form.lightCone && character.form.lightCone != '0' && DB.getMetadata().lightCones[character.form.lightCone])
+    ? DB.getMetadata().lightCones[character.form.lightCone].imageOffset ?? defaultOffset
+    : defaultOffset
 
   let tempLcParentW = lcParentW
   let tempLcParentH = lcParentH
@@ -182,7 +183,7 @@ export function getShowcaseDisplayDimensions(character: Character, simScore: boo
     newLcHeight: newLcHeight,
     newLcMargin: newLcMargin,
     charCenter: charCenter,
-    lcCenter: lcCenter,
+    lcImageOffset: lcImageOffset,
   }
 }
 

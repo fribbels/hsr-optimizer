@@ -190,7 +190,7 @@ function LeftPanel() {
   const lightCone = AntDForm.useWatch('lightCone', form) ?? ''
 
   const lightConeMetadata = DB.getMetadata().lightCones[lightCone]
-  const offset = lightConeMetadata?.imageCenter ?? undefined
+  const lcOffset = lightConeMetadata?.imageOffset ?? { x: 0, y: 0, s: 1.15 }
 
   return (
     <Flex vertical gap={GAP}>
@@ -206,9 +206,7 @@ function LeftPanel() {
         src={Assets.getLightConePortraitById(lightCone)}
         containerW={250}
         containerH={90}
-        zoom={1.05}
-        centerY={offset}
-        relativeHeight={585}
+        imageOffset={lcOffset}
       />
     </Flex>
   )

@@ -15,11 +15,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.HolidayThermaeEscapade.Content')
   const { SOURCE_LC } = Source.lightCone('21061')
 
-  const sValuesElementalDmg = [0.16, 0.20, 0.24, 0.28, 0.32]
   const sValuesVulnerability = [0.10, 0.115, 0.13, 0.145, 0.16]
 
   const defaults = {
-    dmgBoost: true,
     vulnerability: true,
   }
 
@@ -28,13 +26,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    dmgBoost: {
-      lc: true,
-      id: 'dmgBoost',
-      formItem: 'switch',
-      text: t('dmgBoost.text'),
-      content: t('dmgBoost.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesElementalDmg[s]) }),
-    },
     vulnerability: {
       lc: true,
       id: 'vulnerability',
@@ -53,10 +44,7 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
-    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.lightConeConditionals as Conditionals<typeof content>
-
-      x.buff(StatKey.DMG_BOOST, r.dmgBoost ? sValuesElementalDmg[s] : 0, x.source(SOURCE_LC))
+    precomputeEffectsContainer: (_x: ComputedStatsContainer, _action: OptimizerAction, _context: OptimizerContext) => {
     },
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>

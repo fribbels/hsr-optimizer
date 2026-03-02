@@ -17,22 +17,13 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TheSeriousnessOfBreakfast')
   const { SOURCE_LC } = Source.lightCone('21027')
 
-  const sValuesDmgBoost = [0.12, 0.15, 0.18, 0.21, 0.24]
   const sValuesStacks = [0.04, 0.05, 0.06, 0.07, 0.08]
 
   const defaults = {
-    dmgBoost: true,
     defeatedEnemyAtkStacks: 3,
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    dmgBoost: {
-      lc: true,
-      id: 'dmgBoost',
-      formItem: 'switch',
-      text: t('Content.dmgBoost.text'),
-      content: t('Content.dmgBoost.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmgBoost[s]) }),
-    },
     defeatedEnemyAtkStacks: {
       lc: true,
       id: 'defeatedEnemyAtkStacks',
@@ -51,7 +42,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.ATK_P, r.defeatedEnemyAtkStacks * sValuesStacks[s], x.source(SOURCE_LC))
-      x.buff(StatKey.DMG_BOOST, (r.dmgBoost) ? sValuesDmgBoost[s] : 0, x.source(SOURCE_LC))
     },
   }
 }

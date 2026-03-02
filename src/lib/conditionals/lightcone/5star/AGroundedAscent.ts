@@ -11,12 +11,13 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean, { characterId }: { characterId: CharacterId }): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean, { characterId }: { characterId: CharacterId }): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.AGroundedAscent')
   const { SOURCE_LC } = Source.lightCone('23034')
 
@@ -61,4 +62,9 @@ export default (s: SuperImpositionLevel, withContent: boolean, { characterId }: 
       }
     },
   }
+}
+
+export const AGroundedAscent: LightConeConfig = {
+  id: '23034',
+  conditionals,
 }

@@ -16,13 +16,14 @@ import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { SuperImpositionLevel } from 'types/lightCone'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.PerfectTiming')
   const { SOURCE_LC } = Source.lightCone('21014')
 
@@ -89,4 +90,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       },
     ],
   }
+}
+
+export const PerfectTiming: LightConeConfig = {
+  id: '21014',
+  conditionals,
 }

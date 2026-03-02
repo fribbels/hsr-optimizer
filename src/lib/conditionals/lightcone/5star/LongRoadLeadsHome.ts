@@ -9,9 +9,10 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.LongRoadLeadsHome')
   const { SOURCE_LC } = Source.lightCone('23035')
 
@@ -56,4 +57,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       )
     },
   }
+}
+
+export const LongRoadLeadsHome: LightConeConfig = {
+  id: '23035',
+  conditionals,
 }

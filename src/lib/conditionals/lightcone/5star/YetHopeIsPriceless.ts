@@ -12,12 +12,13 @@ import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.YetHopeIsPriceless')
   const { SOURCE_LC } = Source.lightCone('23028')
 
@@ -72,4 +73,9 @@ if (${wgslTrue(r.fuaDmgBoost)}) {
     `
     },
   }
+}
+
+export const YetHopeIsPriceless: LightConeConfig = {
+  id: '23028',
+  conditionals,
 }

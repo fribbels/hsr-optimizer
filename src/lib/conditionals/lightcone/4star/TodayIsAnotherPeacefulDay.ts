@@ -7,14 +7,14 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
-
+import { LightConeConfig } from 'types/lightConeConfig'
 import { SuperImpositionLevel } from 'types/lightCone'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TodayIsAnotherPeacefulDay')
   const { SOURCE_LC } = Source.lightCone('21034')
 
@@ -45,4 +45,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       }
     },
   }
+}
+
+export const TodayIsAnotherPeacefulDay: LightConeConfig = {
+  id: '21034',
+  conditionals,
 }

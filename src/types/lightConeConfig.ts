@@ -11,6 +11,6 @@ export type LightConeDisplay = {
 export type LightConeConfig = {
   id: LightConeId
   info?: LightConeInfo
-  conditionals: (s: SuperImpositionLevel, withContent: boolean, wearerMetadata?: WearerMetadata) => LightConeConditionalsController
+  conditionals: (s: SuperImpositionLevel, withContent: boolean, wearerMetadata: WearerMetadata) => LightConeConditionalsController
   display?: LightConeDisplay
 }

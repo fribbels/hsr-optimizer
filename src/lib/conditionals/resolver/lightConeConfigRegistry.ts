@@ -15,7 +15,6 @@ for (const mod of Object.values(lightConeModules)) {
       && typeof value === 'object'
       && 'id' in value
       && 'conditionals' in value
-      && !('scoring' in value)
     ) {
       const config = value as LightConeConfig
       lightConeConfigRegistry.set(config.id, config)

@@ -7,9 +7,10 @@ import { NEVER_FORGET_HER_FLAME } from 'lib/simulations/tests/testMetadataConsta
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.NeverForgetHerFlame.Content')
   const { SOURCE_LC } = Source.lightCone(NEVER_FORGET_HER_FLAME)
 
@@ -53,4 +54,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.DMG_BOOST, (t.breakDmgBuff) ? sValuesBreakDmg[s] : 0, x.damageType(DamageTag.BREAK).targets(TargetTag.SingleTarget).source(SOURCE_LC))
     },
   }
+}
+
+export const NeverForgetHerFlame: LightConeConfig = {
+  id: '23050',
+  conditionals,
 }

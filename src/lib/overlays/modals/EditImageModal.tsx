@@ -58,6 +58,46 @@ const DEFAULT_CUSTOM_IMAGE_PARAMS = {
 const MIN_ZOOM = 1
 const MAX_ZOOM = 5
 
+const MAX_IMAGE_SIZE_MB = 20
+const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024
+
+// Validates file size against limit
+function validateFileSize(file: RcFile, maxSizeBytes: number = MAX_IMAGE_SIZE_BYTES): { valid: boolean; error?: string } {
+  if (file.size > maxSizeBytes) {
+    return {
+      valid: false,
+      error: `Image exceeds ${MAX_IMAGE_SIZE_MB}MB limit. Please resize or choose a different image.`,
+    }
+  }
+  return { valid: true }
+}
+
+// Validates URL file size by fetching Content-Length header (no full download)
+async function validateUrlFileSize(url: string, maxSizeBytes: number = MAX_IMAGE_SIZE_BYTES): Promise<{ valid: boolean; error?: string }> {
+  try {
+    const response = await fetch(url, { method: 'HEAD', mode: 'cors' })
+    const contentLength = response.headers.get('content-length')
+
+    if (!contentLength) {
+      // If no Content-Length header, allow it to proceed (server might not support HEAD)
+      return { valid: true }
+    }
+
+    const fileSizeBytes = parseInt(contentLength, 10)
+    if (fileSizeBytes > maxSizeBytes) {
+      return {
+        valid: false,
+        error: `Image exceeds ${MAX_IMAGE_SIZE_MB}MB limit. Please resize or choose a different image.`,
+      }
+    }
+    return { valid: true }
+  } catch (error) {
+    // If HEAD request fails, allow it to proceed and let imgur handle it
+    console.warn('Could not validate file size via HEAD request:', error)
+    return { valid: true }
+  }
+}
+
 const EditImageModal: React.FC<EditImageModalProps> = ({
   existingConfig,
   aspectRatio,
@@ -350,6 +390,14 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
 
   const handleBeforeUpload = async (file: RcFile) => {
     const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
+
+    // Check file size first
+    const sizeValidation = validateFileSize(file)
+    if (!sizeValidation.valid) {
+      Message.error(sizeValidation.error!)
+      return false
+    }
+
     // Check if the file is not a valid image file
     if (!(await isValidImageFile(file))) {
       console.error('File is not a valid image file')
@@ -401,6 +449,19 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       setVerifiedImageUrl(imageUrl)
       setCurrent(current + 1)
     } else {
+      // Validate file size before uploading to imgur
+      const sizeValidation = await validateUrlFileSize(imageUrl)
+      if (!sizeValidation.valid) {
+        customImageForm.setFields([
+          {
+            name: 'imageUrl',
+            errors: [sizeValidation.error!],
+          },
+        ])
+        setIsVerificationLoading(false)
+        return
+      }
+
       // Attempt to upload image to Imgur when CORS is blocked
       const imgurUrl = await uploadToImgurByUrl(imageUrl)
       if (imgurUrl) {

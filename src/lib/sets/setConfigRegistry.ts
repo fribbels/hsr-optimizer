@@ -1,4 +1,5 @@
 import { Sets } from 'lib/constants/constants'
+import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { SetConfig } from 'types/setConfig'
 
 const setModules = import.meta.glob<Record<string, unknown>>(
@@ -30,4 +31,14 @@ export function getSetConfig(id: keyof typeof Sets): SetConfig | undefined {
 
 export function getAllSetConfigs(): Map<keyof typeof Sets, SetConfig> {
   return setConfigRegistry
+}
+
+export function getAllSetDynamicConditionals(): DynamicConditional[] {
+  const result: DynamicConditional[] = []
+  for (const config of setConfigRegistry.values()) {
+    if (config.conditionals.dynamicConditionals) {
+      result.push(...config.conditionals.dynamicConditionals)
+    }
+  }
+  return result
 }

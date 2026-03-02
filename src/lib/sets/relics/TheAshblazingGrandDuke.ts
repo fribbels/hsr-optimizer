@@ -4,13 +4,13 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { SelectOptionContent } from 'lib/optimization/rotation/setConditionalContent'
 import { TFunction } from 'i18next'
 import {
   OptimizerContext,
   SetConditional,
 } from 'types/optimizer'
 import {
+  SelectOptionContent,
   SetConditionals,
   SetConfig,
   SetDisplay,

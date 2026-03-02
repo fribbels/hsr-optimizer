@@ -5,12 +5,9 @@ import {
   Sets,
 } from 'lib/constants/constants'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { SelectOptionContent } from 'types/setConfig'
 
-export type SelectOptionContent = {
-  display: string,
-  value: number,
-  label: string,
-}
+export type { SelectOptionContent } from 'types/setConfig'
 
 type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
 

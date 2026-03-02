@@ -4,7 +4,6 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { SelectOptionContent } from 'lib/optimization/rotation/setConditionalContent'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { TFunction } from 'i18next'
 import {
@@ -12,6 +11,7 @@ import {
   SetConditional,
 } from 'types/optimizer'
 import {
+  SelectOptionContent,
   SetConditionals,
   SetConfig,
   SetDisplay,

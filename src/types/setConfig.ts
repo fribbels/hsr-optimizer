@@ -6,11 +6,16 @@ import {
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { SelectOptionContent } from 'lib/optimization/rotation/setConditionalContent'
 import {
   OptimizerContext,
   SetConditional,
 } from 'types/optimizer'
+
+export type SelectOptionContent = {
+  display: string
+  value: number
+  label: string
+}
 
 export enum SetType {
   RELIC = 'relic',

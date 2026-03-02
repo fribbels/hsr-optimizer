@@ -6,13 +6,13 @@ import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { SelectOptionContent } from 'lib/optimization/rotation/setConditionalContent'
 import { TFunction } from 'i18next'
 import {
   OptimizerContext,
   SetConditional,
 } from 'types/optimizer'
 import {
+  SelectOptionContent,
   SetConditionals,
   SetConfig,
   SetDisplay,

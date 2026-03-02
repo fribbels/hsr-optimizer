@@ -50,6 +50,7 @@ export enum Operator {
   SET,
   MULTIPLY,
   MULTIPLICATIVE_COMPLEMENT,
+  MULTIPLICATIVE_BOOST,
 }
 
 type Operation = (a: Float32Array, index: number, value: number) => void
@@ -69,6 +70,12 @@ const OPERATOR_MAP: Record<Operator, Operation> = {
     // Default 0 means no reduction. 0.08 means 8% reduction.
     // Two 8% + 10% reductions: 1 - (1-0)*(1-0.08) = 0.08, then 1 - (1-0.08)*(1-0.10) = 0.172
     a[i] = 1 - (1 - a[i]) * (1 - v)
+  },
+  [Operator.MULTIPLICATIVE_BOOST]: (a, i, v) => {
+    // Composes damage boosts multiplicatively: (1 + current) * (1 + new) - 1
+    // Default 0 means no boost. 0.20 means 20% boost.
+    // Two 20% boosts: (1+0)*(1+0.20)-1 = 0.20, then (1+0.20)*(1+0.20)-1 = 0.44
+    a[i] = (1 + a[i]) * (1 + v) - 1
   },
 }
 
@@ -459,6 +466,24 @@ export class ComputedStatsContainer {
       key,
       value,
       Operator.MULTIPLICATIVE_COMPLEMENT,
+      config._source,
+      config._origin,
+      config._target,
+      config._targetTags,
+      config._elementTags,
+      config._damageTags,
+      config._outputTags,
+      config._directnessTag,
+      config._actionKind,
+      config._deferrable,
+    )
+  }
+
+  multiplicativeBoost(key: AKeyValue, value: number, config: BuffBuilder<true>) {
+    this.internalBuff(
+      key,
+      value,
+      Operator.MULTIPLICATIVE_BOOST,
       config._source,
       config._origin,
       config._target,

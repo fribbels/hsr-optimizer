@@ -321,7 +321,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.MERRYMAKING, (e >= 6 && m.e6Merrymaking) ? 0.25 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
 
       const primaryAhaMoment = originalCharacterAction!.characterConditionals.ahaMoment
-      x.buff(StatKey.FINAL_DMG_BOOST, (e >= 4 && primaryAhaMoment) ? 0.50 : 0, x.damageType(DamageTag.ELATION).targets(TargetTag.FullTeam).source(SOURCE_E4))
+      x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 4 && primaryAhaMoment) ? 0.50 : 0, x.damageType(DamageTag.ELATION).targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

@@ -335,7 +335,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.FINAL_DMG_BOOST, (e >= 1 && m.e1Buffs) ? 0.16 : 0, x.targets(TargetTag.FullTeam).damageType(DamageTag.DOT).source(SOURCE_E1))
+      x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 1 && m.e1Buffs) ? 0.16 : 0, x.targets(TargetTag.FullTeam).damageType(DamageTag.DOT).source(SOURCE_E1))
       x.buff(StatKey.VULNERABILITY, (m.skillVulnerability) ? skillVulnScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
       x.buff(StatKey.DEF_PEN, (m.ultZone) ? ultDefPenScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
       x.buff(StatKey.RES_PEN, (e >= 4 && m.e4ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))

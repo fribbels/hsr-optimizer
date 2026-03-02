@@ -395,7 +395,7 @@ function cloneTeammate(teammate: Teammate | undefined) {
   } as Teammate
 }
 
-function sanitizeConditionals(conditionals: ConditionalValueMap) {
+function sanitizeConditionals(conditionals: ConditionalValueMap | undefined) {
   if (!conditionals) return null
 
   for (const key of Object.keys(conditionals)) {

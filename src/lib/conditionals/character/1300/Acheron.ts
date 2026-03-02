@@ -241,7 +241,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const originalDmgBoost = r.nihilityTeammatesBuff
         ? nihilityTeammateScaling[countTeamPath(context, PathNames.Nihility) - 1]
         : 0
-      x.buff(StatKey.FINAL_DMG_BOOST, originalDmgBoost, x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).source(SOURCE_TRACE))
+      x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, originalDmgBoost, x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).source(SOURCE_TRACE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

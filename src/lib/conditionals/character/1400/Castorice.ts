@@ -360,7 +360,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // E1: Final DMG boost for Netherwing
       if (e >= 1) {
-        x.buff(StatKey.FINAL_DMG_BOOST, (r.e1EnemyHp50) ? 0.40 : 0.20, x.target(CastoriceEntities.Netherwing).source(SOURCE_E1))
+        x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (r.e1EnemyHp50) ? 0.40 : 0.20, x.target(CastoriceEntities.Netherwing).source(SOURCE_E1))
       }
 
       // E6: Quantum RES PEN (both Castorice and Netherwing)

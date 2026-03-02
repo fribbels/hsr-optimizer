@@ -256,7 +256,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.ATK_P, (e >= 4) ? r.e4AtkBuffStacks * 0.30 : 0, x.source(SOURCE_E4))
 
       // E6: Final DMG boost
-      x.buff(StatKey.FINAL_DMG_BOOST, (e >= 6 && r.e6Buffs) ? 0.30 : 0, x.source(SOURCE_E6))
+      x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 6 && r.e6Buffs) ? 0.30 : 0, x.source(SOURCE_E6))
 
       // Trace: CD buff when solo Erudition or E6 active
       const eruditionMembers = countTeamPath(context, PathNames.Erudition)

@@ -394,7 +394,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.VULNERABILITY, (m.enhancedState) ? ultVulnScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
 
       // E1 Final DMG boost (memosprites only, team-wide)
-      x.buff(StatKey.FINAL_DMG_BOOST, (e >= 1 && m.e1FinalDmg) ? e1FinalDmgMap[context.enemyCount] : 0, x.targets(TargetTag.Memosprite).source(SOURCE_E1))
+      x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 1 && m.e1FinalDmg) ? e1FinalDmgMap[context.enemyCount] : 0, x.targets(TargetTag.Memosprite).source(SOURCE_E1))
 
       // E4 Break Efficiency (memosprites only, team-wide)
       x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 4 && m.e4Buffs) ? 0.25 : 0, x.targets(TargetTag.Memosprite).source(SOURCE_E4))

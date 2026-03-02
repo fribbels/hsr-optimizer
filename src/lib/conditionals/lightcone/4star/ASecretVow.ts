@@ -39,7 +39,6 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.DMG_BOOST, sValues[s], x.source(SOURCE_LC))
       x.buff(StatKey.DMG_BOOST, (r.enemyHpHigherDmgBoost) ? sValues[s] : 0, x.source(SOURCE_LC))
     },
   }

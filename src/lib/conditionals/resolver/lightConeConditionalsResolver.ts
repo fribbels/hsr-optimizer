@@ -1,4 +1,3 @@
-import Adversarial from 'lib/conditionals/lightcone/3star/Adversarial'
 import Amber from 'lib/conditionals/lightcone/3star/Amber'
 import Arrows from 'lib/conditionals/lightcone/3star/Arrows'
 import Chorus from 'lib/conditionals/lightcone/3star/Chorus'
@@ -157,9 +156,10 @@ import {
   ElementName,
   PathName,
 } from 'lib/constants/constants'
+import { lightConeConfigRegistry } from 'lib/conditionals/resolver/lightConeConfigRegistry'
 import { CharacterId } from 'types/character'
 import { LightConeConditionalsController } from 'types/conditionals'
-import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeId, SuperImpositionLevel } from 'types/lightCone'
 import ThoughWorldsApart from '../lightcone/5star/ThoughWorldsApart'
 import ToEvernightsStars from '../lightcone/5star/ToEvernightsStars'
 
@@ -330,7 +330,6 @@ const threeStar: Record<string, LightConeConditionalFunction> = {
   20011: Loop,
   20012: MeshingCogs,
   20013: Passkey,
-  20014: Adversarial,
   20015: Multiplication,
   20016: MutualDemise,
   20017: Pioneering,
@@ -355,7 +354,7 @@ export const LightConeConditionalsResolver = {
     request: { lightCone: string, lightConeSuperimposition: number, lightConePath: PathName, path: PathName, element: ElementName, characterId: CharacterId },
     withContent = false,
   ): LightConeConditionalsController => {
-    const lcFn = lightConeOptionMapping[request.lightCone]
+    const lcFn = lightConeConfigRegistry.get(request.lightCone as LightConeId)?.conditionals ?? lightConeOptionMapping[request.lightCone]
     // GPU debugger should be able to use all light cones
     // Otherwise path mismatches disable light cone effects
     if (!lcFn || (request.lightConePath !== request.path && !globalThis?.WEBGPU_DEBUG)) {

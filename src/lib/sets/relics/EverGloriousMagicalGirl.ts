@@ -42,6 +42,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.MagicalGirl',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 10,
@@ -52,6 +53,7 @@ export const EverGloriousMagicalGirl: SetConfig = {
   info: {
     index: 28,
     setType: SetType.RELIC,
+    ingameId: '129',
   },
   conditionals,
   display,

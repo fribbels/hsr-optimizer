@@ -16,6 +16,7 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
+  TeammateOption,
 } from 'types/setConfig'
 
 const conditionals: SetConditionals = {
@@ -31,6 +32,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Messenger',
   modifiable: true,
   defaultValue: false,
 }
@@ -40,7 +42,16 @@ export const MessengerTraversingHackerspace: SetConfig = {
   info: {
     index: 13,
     setType: SetType.RELIC,
+    ingameId: '114',
   },
   conditionals,
   display,
+  teammate: [{
+    value: Sets.MessengerTraversingHackerspace,
+    i18nKey: 'Messenger',
+    nonstackable: true,
+    effect: ({ x }) => {
+      x.buff(StatKey.SPD_P, 0.12, x.targets(TargetTag.FullTeam).source(Source.MessengerTraversingHackerspace))
+    },
+  }],
 }

@@ -115,6 +115,7 @@ export const GiantTreeOfRaptBrooding: SetConfig = {
   info: {
     index: 19,
     setType: SetType.ORNAMENT,
+    ingameId: '320',
   },
   conditionals,
   display,

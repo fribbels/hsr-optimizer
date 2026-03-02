@@ -17,6 +17,7 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
+  TeammateOption,
 } from 'types/setConfig'
 
 const conditionals: SetConditionals = {
@@ -35,6 +36,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Diviner',
   modifiable: true,
   defaultValue: true,
 }
@@ -44,7 +46,16 @@ export const DivinerOfDistantReach: SetConfig = {
   info: {
     index: 29,
     setType: SetType.RELIC,
+    ingameId: '130',
   },
   conditionals,
   display,
+  teammate: [{
+    value: Sets.DivinerOfDistantReach,
+    i18nKey: 'Diviner',
+    nonstackable: true,
+    effect: ({ x }) => {
+      x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
+    },
+  }],
 }

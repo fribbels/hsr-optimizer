@@ -27,6 +27,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Wavestrider',
   modifiable: true,
   defaultValue: true,
 }
@@ -36,6 +37,7 @@ export const WavestriderCaptain: SetConfig = {
   info: {
     index: 25,
     setType: SetType.RELIC,
+    ingameId: '126',
   },
   conditionals,
   display,

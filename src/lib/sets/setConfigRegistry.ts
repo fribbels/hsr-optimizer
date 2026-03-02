@@ -1,6 +1,6 @@
 import { Sets } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { SetConfig } from 'types/setConfig'
+import { SetConfig, SetType, TeammateOption } from 'types/setConfig'
 
 const setModules = import.meta.glob<Record<string, unknown>>(
   ['./**/*.ts', '!./setConfigRegistry.ts'],
@@ -41,4 +41,66 @@ export function getAllSetDynamicConditionals(): DynamicConditional[] {
     }
   }
   return result
+}
+
+function buildIndexToConfigArray(setType: SetType): SetConfig[] {
+  const configs: { index: number; config: SetConfig }[] = []
+  for (const config of setConfigRegistry.values()) {
+    if (config.info.setType === setType) {
+      configs.push({ index: config.info.index, config })
+    }
+  }
+  configs.sort((a, b) => a.index - b.index)
+  return configs.map((c) => c.config)
+}
+
+export const relicIndexToSetConfig = buildIndexToConfigArray(SetType.RELIC)
+export const ornamentIndexToSetConfig = buildIndexToConfigArray(SetType.ORNAMENT)
+
+export const setToId: Record<Sets, string> = (() => {
+  const result = {} as Record<Sets, string>
+  for (const config of setConfigRegistry.values()) {
+    result[Sets[config.id]] = config.info.ingameId
+  }
+  return result
+})()
+
+const setToConditionalKeyMap = new Map<Sets, string>()
+for (const config of setConfigRegistry.values()) {
+  if (config.display.conditionalI18nKey) {
+    setToConditionalKeyMap.set(Sets[config.id], config.display.conditionalI18nKey)
+  }
+}
+
+export function setToConditionalKey(set: Sets): string {
+  return setToConditionalKeyMap.get(set) ?? 'Conditionals.DefaultMessage'
+}
+
+const teammateOptionsMap = new Map<string, TeammateOption>()
+const teammateRelicOptions: TeammateOption[] = []
+const teammateOrnamentOptions: TeammateOption[] = []
+
+for (const config of setConfigRegistry.values()) {
+  if (config.teammate) {
+    for (const option of config.teammate) {
+      teammateOptionsMap.set(option.value, option)
+      if (config.info.setType === SetType.RELIC) {
+        teammateRelicOptions.push(option)
+      } else {
+        teammateOrnamentOptions.push(option)
+      }
+    }
+  }
+}
+
+export function getTeammateOption(key: string): TeammateOption | undefined {
+  return teammateOptionsMap.get(key)
+}
+
+export function getTeammateRelicOptions(): TeammateOption[] {
+  return teammateRelicOptions
+}
+
+export function getTeammateOrnamentOptions(): TeammateOption[] {
+  return teammateOrnamentOptions
 }

@@ -81,6 +81,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Diver',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 2,
@@ -91,6 +92,7 @@ export const PioneerDiverOfDeadWaters: SetConfig = {
   info: {
     index: 16,
     setType: SetType.RELIC,
+    ingameId: '117',
   },
   conditionals,
   display,

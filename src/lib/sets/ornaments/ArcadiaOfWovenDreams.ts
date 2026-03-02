@@ -55,6 +55,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Arcadia',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 4,
@@ -65,6 +66,7 @@ export const ArcadiaOfWovenDreams: SetConfig = {
   info: {
     index: 20,
     setType: SetType.ORNAMENT,
+    ingameId: '321',
   },
   conditionals,
   display,

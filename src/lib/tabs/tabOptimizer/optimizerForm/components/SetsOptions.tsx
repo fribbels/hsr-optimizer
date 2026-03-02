@@ -3,9 +3,9 @@ import i18next from 'i18next'
 import {
   Constants,
   RelicSetFilterOptions,
-  setToId,
   UnreleasedSets,
 } from 'lib/constants/constants'
+import { setToId } from 'lib/sets/setConfigRegistry'
 import { Assets } from 'lib/rendering/assets'
 import { ReactElement } from 'types/components'
 

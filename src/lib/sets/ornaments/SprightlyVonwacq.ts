@@ -27,6 +27,7 @@ export const SprightlyVonwacq: SetConfig = {
   info: {
     index: 7,
     setType: SetType.ORNAMENT,
+    ingameId: '308',
   },
   conditionals,
   display,

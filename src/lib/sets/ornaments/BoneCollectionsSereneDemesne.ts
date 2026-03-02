@@ -82,6 +82,7 @@ export const BoneCollectionsSereneDemesne: SetConfig = {
   info: {
     index: 18,
     setType: SetType.ORNAMENT,
+    ingameId: '319',
   },
   conditionals,
   display,

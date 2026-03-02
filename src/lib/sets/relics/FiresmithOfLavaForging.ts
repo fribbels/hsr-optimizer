@@ -34,6 +34,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Firesmith',
   modifiable: true,
   defaultValue: true,
 }
@@ -43,6 +44,7 @@ export const FiresmithOfLavaForging: SetConfig = {
   info: {
     index: 6,
     setType: SetType.RELIC,
+    ingameId: '107',
   },
   conditionals,
   display,

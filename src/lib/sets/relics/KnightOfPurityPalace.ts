@@ -34,6 +34,7 @@ export const KnightOfPurityPalace: SetConfig = {
   info: {
     index: 2,
     setType: SetType.RELIC,
+    ingameId: '103',
   },
   conditionals,
   display,

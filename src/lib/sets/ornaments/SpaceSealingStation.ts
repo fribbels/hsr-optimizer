@@ -80,6 +80,7 @@ export const SpaceSealingStation: SetConfig = {
   info: {
     index: 0,
     setType: SetType.ORNAMENT,
+    ingameId: '301',
   },
   conditionals,
   display,

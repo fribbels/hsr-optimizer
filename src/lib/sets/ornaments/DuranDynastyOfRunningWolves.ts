@@ -44,6 +44,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Duran',
   modifiable: true,
   selectionOptions: selectionOptions,
   defaultValue: 5,
@@ -54,6 +55,7 @@ export const DuranDynastyOfRunningWolves: SetConfig = {
   info: {
     index: 14,
     setType: SetType.ORNAMENT,
+    ingameId: '315',
   },
   conditionals,
   display,

@@ -11,9 +11,9 @@ import {
   MainStats,
   Parts,
   Sets,
-  setToId,
   Stats,
 } from 'lib/constants/constants'
+import { setToId } from 'lib/sets/setConfigRegistry'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'

@@ -17,8 +17,8 @@ import {
   Sets,
   SetsOrnaments,
   SetsRelics,
-  setToId,
 } from 'lib/constants/constants'
+import { setToId } from 'lib/sets/setConfigRegistry'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -54,7 +54,7 @@ import {
 import { FormSelectWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
-import { setToConditionalKey } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormSetConditionals'
+import { setToConditionalKey } from 'lib/sets/setConfigRegistry'
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'

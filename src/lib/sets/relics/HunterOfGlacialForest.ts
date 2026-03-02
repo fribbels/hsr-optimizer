@@ -32,6 +32,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Hunter',
   modifiable: true,
   defaultValue: true,
 }
@@ -41,6 +42,7 @@ export const HunterOfGlacialForest: SetConfig = {
   info: {
     index: 3,
     setType: SetType.RELIC,
+    ingameId: '104',
   },
   conditionals,
   display,

@@ -27,6 +27,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Kalpagni',
   modifiable: true,
   defaultValue: false,
 }
@@ -36,6 +37,7 @@ export const ForgeOfTheKalpagniLantern: SetConfig = {
   info: {
     index: 15,
     setType: SetType.ORNAMENT,
+    ingameId: '316',
   },
   conditionals,
   display,

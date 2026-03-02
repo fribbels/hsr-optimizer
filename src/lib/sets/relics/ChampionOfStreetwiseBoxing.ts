@@ -42,6 +42,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Streetwise',
   modifiable: true,
   selectionOptions: selectionOptions,
   defaultValue: 5,
@@ -52,6 +53,7 @@ export const ChampionOfStreetwiseBoxing: SetConfig = {
   info: {
     index: 4,
     setType: SetType.RELIC,
+    ingameId: '105',
   },
   conditionals,
   display,

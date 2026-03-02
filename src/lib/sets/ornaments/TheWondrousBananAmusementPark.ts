@@ -27,6 +27,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Banana',
   modifiable: true,
   defaultValue: false,
 }
@@ -36,6 +37,7 @@ export const TheWondrousBananAmusementPark: SetConfig = {
   info: {
     index: 17,
     setType: SetType.ORNAMENT,
+    ingameId: '318',
   },
   conditionals,
   display,

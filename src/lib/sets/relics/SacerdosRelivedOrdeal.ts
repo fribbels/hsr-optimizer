@@ -1,7 +1,12 @@
-import { ConditionalDataType } from 'lib/constants/constants'
+import {
+  ConditionalDataType,
+  SACERDOS_RELIVED_ORDEAL_1_STACK,
+  SACERDOS_RELIVED_ORDEAL_2_STACK,
+} from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
+import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TFunction } from 'i18next'
 import {
@@ -14,6 +19,7 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
+  TeammateOption,
 } from 'types/setConfig'
 
 type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
@@ -37,6 +43,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Sacerdos',
   modifiable: true,
   selectionOptions: selectionOptions,
   defaultValue: 0,
@@ -47,7 +54,36 @@ export const SacerdosRelivedOrdeal: SetConfig = {
   info: {
     index: 20,
     setType: SetType.RELIC,
+    ingameId: '121',
   },
   conditionals,
   display,
+  teammate: [
+    {
+      value: SACERDOS_RELIVED_ORDEAL_1_STACK,
+      i18nKey: 'Sacerdos1Stack',
+      nonstackable: false,
+      effect: ({ x, teammateActorId }) => {
+        const SUNDAY_ID = '1313'
+        if (teammateActorId == SUNDAY_ID) {
+          x.buff(StatKey.CD, 0.18, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.SacerdosRelivedOrdeal))
+        } else {
+          x.buff(StatKey.CD, 0.18, x.targets(TargetTag.SingleTarget).deferrable().source(Source.SacerdosRelivedOrdeal))
+        }
+      },
+    },
+    {
+      value: SACERDOS_RELIVED_ORDEAL_2_STACK,
+      i18nKey: 'Sacerdos2Stack',
+      nonstackable: false,
+      effect: ({ x, teammateActorId }) => {
+        const SUNDAY_ID = '1313'
+        if (teammateActorId == SUNDAY_ID) {
+          x.buff(StatKey.CD, 0.36, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.SacerdosRelivedOrdeal))
+        } else {
+          x.buff(StatKey.CD, 0.36, x.targets(TargetTag.SingleTarget).deferrable().source(Source.SacerdosRelivedOrdeal))
+        }
+      },
+    },
+  ],
 }

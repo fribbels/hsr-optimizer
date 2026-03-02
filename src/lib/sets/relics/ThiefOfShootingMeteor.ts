@@ -30,6 +30,7 @@ export const ThiefOfShootingMeteor: SetConfig = {
   info: {
     index: 10,
     setType: SetType.RELIC,
+    ingameId: '111',
   },
   conditionals,
   display,

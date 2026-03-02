@@ -32,6 +32,7 @@ export const GuardOfWutheringSnow: SetConfig = {
   info: {
     index: 5,
     setType: SetType.RELIC,
+    ingameId: '106',
   },
   conditionals,
   display,

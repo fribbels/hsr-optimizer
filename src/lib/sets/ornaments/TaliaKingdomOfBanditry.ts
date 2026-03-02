@@ -79,6 +79,7 @@ export const TaliaKingdomOfBanditry: SetConfig = {
   info: {
     index: 6,
     setType: SetType.ORNAMENT,
+    ingameId: '307',
   },
   conditionals,
   display,

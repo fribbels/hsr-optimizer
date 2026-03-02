@@ -27,6 +27,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Tengoku',
   modifiable: true,
   defaultValue: false,
 }
@@ -36,6 +37,7 @@ export const TengokuLivestream: SetConfig = {
   info: {
     index: 23,
     setType: SetType.ORNAMENT,
+    ingameId: '324',
   },
   conditionals,
   display,

@@ -57,6 +57,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Wastelander',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 1,
@@ -67,6 +68,7 @@ export const WastelanderOfBanditryDesert: SetConfig = {
   info: {
     index: 11,
     setType: SetType.RELIC,
+    ingameId: '112',
   },
   conditionals,
   display,

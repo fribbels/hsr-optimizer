@@ -27,6 +27,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Izumo',
   modifiable: true,
   defaultValue: true,
 }
@@ -36,6 +37,7 @@ export const IzumoGenseiAndTakamaDivineRealm: SetConfig = {
   info: {
     index: 13,
     setType: SetType.ORNAMENT,
+    ingameId: '314',
   },
   conditionals,
   display,

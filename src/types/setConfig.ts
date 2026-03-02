@@ -25,6 +25,7 @@ export enum SetType {
 export type SetInfo = {
   index: number
   setType: SetType
+  ingameId: string
 }
 
 export type SetConditionals = {
@@ -41,9 +42,24 @@ type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.Select
 
 export type SetDisplay = {
   conditionalType: ConditionalDataType
+  conditionalI18nKey?: string
   modifiable?: boolean
   selectionOptions?: (t: SetConditionalTFunction) => SelectOptionContent[]
   defaultValue: boolean | number
+}
+
+export type TeammateEffectParams = {
+  x: ComputedStatsContainer
+  characterElement: string
+  teammateElement: string
+  teammateActorId: string
+}
+
+export type TeammateOption = {
+  value: string
+  i18nKey: string
+  nonstackable: boolean
+  effect: (params: TeammateEffectParams) => void
 }
 
 export type SetConfig = {
@@ -51,4 +67,5 @@ export type SetConfig = {
   info: SetInfo
   conditionals: SetConditionals
   display: SetDisplay
+  teammate?: TeammateOption[]
 }

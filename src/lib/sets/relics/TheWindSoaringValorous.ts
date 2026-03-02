@@ -31,6 +31,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Valorous',
   modifiable: true,
   defaultValue: false,
 }
@@ -40,6 +41,7 @@ export const TheWindSoaringValorous: SetConfig = {
   info: {
     index: 19,
     setType: SetType.RELIC,
+    ingameId: '120',
   },
   conditionals,
   display,

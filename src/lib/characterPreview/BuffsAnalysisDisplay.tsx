@@ -3,10 +3,8 @@ import {
   Table,
 } from 'antd'
 import i18next from 'i18next'
-import {
-  Sets,
-  setToId,
-} from 'lib/constants/constants'
+import { Sets } from 'lib/constants/constants'
+import { setToId } from 'lib/sets/setConfigRegistry'
 import {
   BUFF_ABILITY,
   BUFF_TYPE,

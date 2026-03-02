@@ -37,6 +37,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Prisoner',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 0,
@@ -47,6 +48,7 @@ export const PrisonerInDeepConfinement: SetConfig = {
   info: {
     index: 15,
     setType: SetType.RELIC,
+    ingameId: '116',
   },
   conditionals,
   display,

@@ -16,6 +16,7 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
+  TeammateOption,
 } from 'types/setConfig'
 
 const conditionals: SetConditionals = {
@@ -31,6 +32,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Amphoreus',
   modifiable: true,
   defaultValue: false,
 }
@@ -40,7 +42,16 @@ export const AmphoreusTheEternalLand: SetConfig = {
   info: {
     index: 22,
     setType: SetType.ORNAMENT,
+    ingameId: '323',
   },
   conditionals,
   display,
+  teammate: [{
+    value: Sets.AmphoreusTheEternalLand,
+    i18nKey: 'Amphoreus',
+    nonstackable: true,
+    effect: ({ x }) => {
+      x.buff(StatKey.SPD_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.AmphoreusTheEternalLand))
+    },
+  }],
 }

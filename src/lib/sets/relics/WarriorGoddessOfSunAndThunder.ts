@@ -16,6 +16,7 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
+  TeammateOption,
 } from 'types/setConfig'
 
 const conditionals: SetConditionals = {
@@ -34,6 +35,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.WarriorGoddess',
   modifiable: true,
   defaultValue: false,
 }
@@ -43,7 +45,16 @@ export const WarriorGoddessOfSunAndThunder: SetConfig = {
   info: {
     index: 24,
     setType: SetType.RELIC,
+    ingameId: '125',
   },
   conditionals,
   display,
+  teammate: [{
+    value: Sets.WarriorGoddessOfSunAndThunder,
+    i18nKey: 'Warrior',
+    nonstackable: true,
+    effect: ({ x }) => {
+      x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.WarriorGoddessOfSunAndThunder))
+    },
+  }],
 }

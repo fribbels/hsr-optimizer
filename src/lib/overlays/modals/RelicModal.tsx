@@ -23,11 +23,11 @@ import {
   Constants,
   MainStats,
   Parts,
-  setToId,
   Stats,
   SubStats,
   UnreleasedSets,
 } from 'lib/constants/constants'
+import { setToId } from 'lib/sets/setConfigRegistry'
 import { Message } from 'lib/interactions/message'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import {

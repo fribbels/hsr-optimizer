@@ -27,6 +27,7 @@ export const PasserbyOfWanderingCloud: SetConfig = {
   info: {
     index: 0,
     setType: SetType.RELIC,
+    ingameId: '101',
   },
   conditionals,
   display,

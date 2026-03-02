@@ -16,6 +16,7 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
+  TeammateOption,
 } from 'types/setConfig'
 
 const conditionals: SetConditionals = {
@@ -34,6 +35,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Deliverer',
   modifiable: true,
   defaultValue: true,
 }
@@ -43,7 +45,16 @@ export const WorldRemakingDeliverer: SetConfig = {
   info: {
     index: 26,
     setType: SetType.RELIC,
+    ingameId: '127',
   },
   conditionals,
   display,
+  teammate: [{
+    value: Sets.WorldRemakingDeliverer,
+    i18nKey: 'WorldRemaking',
+    nonstackable: false,
+    effect: ({ x }) => {
+      x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.WorldRemakingDeliverer))
+    },
+  }],
 }

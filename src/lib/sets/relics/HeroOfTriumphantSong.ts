@@ -29,6 +29,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Hero',
   modifiable: true,
   defaultValue: false,
 }
@@ -38,6 +39,7 @@ export const HeroOfTriumphantSong: SetConfig = {
   info: {
     index: 22,
     setType: SetType.RELIC,
+    ingameId: '123',
   },
   conditionals,
   display,

@@ -30,6 +30,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Genius',
   modifiable: true,
   defaultValue: true,
 }
@@ -39,6 +40,7 @@ export const GeniusOfBrilliantStars: SetConfig = {
   info: {
     index: 7,
     setType: SetType.RELIC,
+    ingameId: '108',
   },
   conditionals,
   display,

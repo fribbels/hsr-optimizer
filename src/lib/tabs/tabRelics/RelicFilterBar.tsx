@@ -13,11 +13,11 @@ import {
   Sets,
   SetsOrnaments,
   SetsRelics,
-  setToId,
   Stats,
   StatsValues,
   UnreleasedSets,
 } from 'lib/constants/constants'
+import { setToId } from 'lib/sets/setConfigRegistry'
 import {
   OpenCloseIDs,
   setOpen,

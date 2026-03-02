@@ -2,6 +2,7 @@ import {
   ConditionalActivation,
   ConditionalDataType,
   ConditionalType,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
@@ -30,6 +31,7 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
+  TeammateOption,
 } from 'types/setConfig'
 
 const BrokenKeelConditional: DynamicConditional = {
@@ -82,7 +84,16 @@ export const BrokenKeel: SetConfig = {
   info: {
     index: 9,
     setType: SetType.ORNAMENT,
+    ingameId: '310',
   },
   conditionals,
   display,
+  teammate: [{
+    value: Sets.BrokenKeel,
+    i18nKey: 'Keel',
+    nonstackable: false,
+    effect: ({ x }) => {
+      x.buff(StatKey.CD, 0.10, x.targets(TargetTag.FullTeam).source(Source.BrokenKeel))
+    },
+  }],
 }

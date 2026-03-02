@@ -89,6 +89,7 @@ export const PanCosmicCommercialEnterprise: SetConfig = {
   info: {
     index: 2,
     setType: SetType.ORNAMENT,
+    ingameId: '303',
   },
   conditionals,
   display,

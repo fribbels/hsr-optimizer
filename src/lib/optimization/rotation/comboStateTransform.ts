@@ -3,14 +3,10 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
   ConditionalDataType,
-  SACERDOS_RELIVED_ORDEAL_1_STACK,
-  SACERDOS_RELIVED_ORDEAL_2_STACK,
   Sets,
 } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
-import { TargetTag } from 'lib/optimization/engine/config/tag'
+import { getTeammateOption } from 'lib/sets/setConfigRegistry'
 import { newTransformStateActions } from 'lib/optimization/rotation/actionTransform'
 import {
   AbilityKind,
@@ -42,8 +38,6 @@ import {
   OptimizerContext,
   SetConditional,
 } from 'types/optimizer'
-
-const SUNDAY_ID = '1313'
 
 export function transformComboState(request: Form, context: OptimizerContext) {
   // console.log('transformComboState')
@@ -220,62 +214,17 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
       } else {
         continue
       }
-      switch (key) {
-        case Sets.BrokenKeel:
-          x.buff(StatKey.CD, 0.10, x.targets(TargetTag.FullTeam).source(Source.BrokenKeel))
-          break
-        case Sets.FleetOfTheAgeless:
-          x.buff(StatKey.ATK_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.FleetOfTheAgeless))
-          break
-        case Sets.PenaconyLandOfTheDreams:
-          if (comboState.comboCharacter.metadata.element != teammateRequest.metadata.element) break
-          x.buff(StatKey.DMG_BOOST, 0.10, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.PenaconyLandOfTheDreams))
-          break
-        case Sets.LushakaTheSunkenSeas:
-          x.buff(StatKey.ATK_P, 0.12, x.source(Source.LushakaTheSunkenSeas))
-          break
-        case Sets.MessengerTraversingHackerspace:
-          if (teammateSetEffects[Sets.MessengerTraversingHackerspace]) break
-          x.buff(StatKey.SPD_P, 0.12, x.targets(TargetTag.FullTeam).source(Source.MessengerTraversingHackerspace))
-          break
-        case Sets.WatchmakerMasterOfDreamMachinations:
-          if (teammateSetEffects[Sets.WatchmakerMasterOfDreamMachinations]) break
-          x.buff(StatKey.BE, 0.30, x.targets(TargetTag.FullTeam).source(Source.WatchmakerMasterOfDreamMachinations))
-          break
-        case SACERDOS_RELIVED_ORDEAL_1_STACK:
-          if (teammateAction.actorId == SUNDAY_ID) {
-            x.buff(StatKey.CD, 0.18, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.SacerdosRelivedOrdeal))
-          } else {
-            x.buff(StatKey.CD, 0.18, x.targets(TargetTag.SingleTarget).deferrable().source(Source.SacerdosRelivedOrdeal))
-          }
-          break
-        case SACERDOS_RELIVED_ORDEAL_2_STACK:
-          if (teammateAction.actorId == SUNDAY_ID) {
-            x.buff(StatKey.CD, 0.36, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.SacerdosRelivedOrdeal))
-          } else {
-            x.buff(StatKey.CD, 0.36, x.targets(TargetTag.SingleTarget).deferrable().source(Source.SacerdosRelivedOrdeal))
-          }
-          break
-        case Sets.WarriorGoddessOfSunAndThunder:
-          if (teammateSetEffects[Sets.WarriorGoddessOfSunAndThunder]) break
-          x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.WarriorGoddessOfSunAndThunder))
-          break
-        case Sets.WorldRemakingDeliverer:
-          x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.WorldRemakingDeliverer))
-          break
-        case Sets.SelfEnshroudedRecluse:
-          x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.SelfEnshroudedRecluse))
-          break
-        case Sets.AmphoreusTheEternalLand:
-          if (teammateSetEffects[Sets.AmphoreusTheEternalLand]) break
-          x.buff(StatKey.SPD_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.AmphoreusTheEternalLand))
-          break
-        case Sets.DivinerOfDistantReach:
-          if (teammateSetEffects[Sets.DivinerOfDistantReach]) break
-          x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
-          break
-        default:
-      }
+
+      const teammateOption = getTeammateOption(key)
+      if (!teammateOption) continue
+      if (teammateOption.nonstackable && teammateSetEffects[key]) continue
+
+      teammateOption.effect({
+        x,
+        characterElement: comboState.comboCharacter.metadata.element,
+        teammateElement: teammateRequest.metadata.element,
+        teammateActorId: teammateAction.actorId,
+      })
 
       // Track unique buffs
       teammateSetEffects[key] = true

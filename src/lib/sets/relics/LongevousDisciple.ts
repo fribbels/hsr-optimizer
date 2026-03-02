@@ -37,6 +37,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Longevous',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 2,
@@ -47,6 +48,7 @@ export const LongevousDisciple: SetConfig = {
   info: {
     index: 12,
     setType: SetType.RELIC,
+    ingameId: '113',
   },
   conditionals,
   display,

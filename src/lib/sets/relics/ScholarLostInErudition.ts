@@ -29,6 +29,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Scholar',
   modifiable: true,
   defaultValue: true,
 }
@@ -38,6 +39,7 @@ export const ScholarLostInErudition: SetConfig = {
   info: {
     index: 21,
     setType: SetType.RELIC,
+    ingameId: '122',
   },
   conditionals,
   display,

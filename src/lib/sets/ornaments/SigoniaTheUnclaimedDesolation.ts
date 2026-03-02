@@ -37,6 +37,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Sigonia',
   modifiable: true,
   selectionOptions: selectionOptions,
   defaultValue: 4,
@@ -47,6 +48,7 @@ export const SigoniaTheUnclaimedDesolation: SetConfig = {
   info: {
     index: 12,
     setType: SetType.ORNAMENT,
+    ingameId: '313',
   },
   conditionals,
   display,

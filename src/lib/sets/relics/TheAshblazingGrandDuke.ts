@@ -40,6 +40,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Ashblazing',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 0,
@@ -50,6 +51,7 @@ export const TheAshblazingGrandDuke: SetConfig = {
   info: {
     index: 14,
     setType: SetType.RELIC,
+    ingameId: '115',
   },
   conditionals,
   display,

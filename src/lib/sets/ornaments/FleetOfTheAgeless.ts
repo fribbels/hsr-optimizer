@@ -2,6 +2,7 @@ import {
   ConditionalActivation,
   ConditionalDataType,
   ConditionalType,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
@@ -30,6 +31,7 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
+  TeammateOption,
 } from 'types/setConfig'
 
 const FleetOfTheAgelessConditional: DynamicConditional = {
@@ -83,7 +85,16 @@ export const FleetOfTheAgeless: SetConfig = {
   info: {
     index: 1,
     setType: SetType.ORNAMENT,
+    ingameId: '302',
   },
   conditionals,
   display,
+  teammate: [{
+    value: Sets.FleetOfTheAgeless,
+    i18nKey: 'Ageless',
+    nonstackable: false,
+    effect: ({ x }) => {
+      x.buff(StatKey.ATK_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.FleetOfTheAgeless))
+    },
+  }],
 }

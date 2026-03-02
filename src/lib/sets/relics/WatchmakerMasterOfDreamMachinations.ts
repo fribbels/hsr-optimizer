@@ -16,6 +16,7 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
+  TeammateOption,
 } from 'types/setConfig'
 
 const conditionals: SetConditionals = {
@@ -31,6 +32,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Watchmaker',
   modifiable: true,
   defaultValue: false,
 }
@@ -40,7 +42,16 @@ export const WatchmakerMasterOfDreamMachinations: SetConfig = {
   info: {
     index: 17,
     setType: SetType.RELIC,
+    ingameId: '118',
   },
   conditionals,
   display,
+  teammate: [{
+    value: Sets.WatchmakerMasterOfDreamMachinations,
+    i18nKey: 'Watchmaker',
+    nonstackable: true,
+    effect: ({ x }) => {
+      x.buff(StatKey.BE, 0.30, x.targets(TargetTag.FullTeam).source(Source.WatchmakerMasterOfDreamMachinations))
+    },
+  }],
 }

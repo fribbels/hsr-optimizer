@@ -30,6 +30,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Differentiator',
   modifiable: true,
   defaultValue: false,
 }
@@ -39,6 +40,7 @@ export const CelestialDifferentiator: SetConfig = {
   info: {
     index: 4,
     setType: SetType.ORNAMENT,
+    ingameId: '305',
   },
   conditionals,
   display,

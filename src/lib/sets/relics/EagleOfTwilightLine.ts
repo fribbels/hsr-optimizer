@@ -32,6 +32,7 @@ export const EagleOfTwilightLine: SetConfig = {
   info: {
     index: 9,
     setType: SetType.RELIC,
+    ingameId: '110',
   },
   conditionals,
   display,

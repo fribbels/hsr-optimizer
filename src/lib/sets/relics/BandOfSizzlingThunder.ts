@@ -32,6 +32,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Thunder',
   modifiable: true,
   defaultValue: true,
 }
@@ -41,6 +42,7 @@ export const BandOfSizzlingThunder: SetConfig = {
   info: {
     index: 8,
     setType: SetType.RELIC,
+    ingameId: '109',
   },
   conditionals,
   display,

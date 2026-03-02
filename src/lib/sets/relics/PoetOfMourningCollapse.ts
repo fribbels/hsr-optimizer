@@ -45,6 +45,7 @@ export const PoetOfMourningCollapse: SetConfig = {
   info: {
     index: 23,
     setType: SetType.RELIC,
+    ingameId: '124',
   },
   conditionals,
   display,

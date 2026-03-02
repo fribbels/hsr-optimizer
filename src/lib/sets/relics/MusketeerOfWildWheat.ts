@@ -37,6 +37,7 @@ export const MusketeerOfWildWheat: SetConfig = {
   info: {
     index: 1,
     setType: SetType.RELIC,
+    ingameId: '102',
   },
   conditionals,
   display,

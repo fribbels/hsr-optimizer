@@ -18,6 +18,7 @@ import {
   SetConfig,
   SetDisplay,
   SetType,
+  TeammateOption,
 } from 'types/setConfig'
 
 const conditionals: SetConditionals = {
@@ -34,6 +35,7 @@ const conditionals: SetConditionals = {
 
 const display: SetDisplay = {
   conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Recluse',
   modifiable: true,
   defaultValue: true,
 }
@@ -43,7 +45,16 @@ export const SelfEnshroudedRecluse: SetConfig = {
   info: {
     index: 27,
     setType: SetType.RELIC,
+    ingameId: '128',
   },
   conditionals,
   display,
+  teammate: [{
+    value: Sets.SelfEnshroudedRecluse,
+    i18nKey: 'SelfEnshrouded',
+    nonstackable: false,
+    effect: ({ x }) => {
+      x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.SelfEnshroudedRecluse))
+    },
+  }],
 }

@@ -80,6 +80,7 @@ export const BelobogOfTheArchitects: SetConfig = {
   info: {
     index: 3,
     setType: SetType.ORNAMENT,
+    ingameId: '304',
   },
   conditionals,
   display,

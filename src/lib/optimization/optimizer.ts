@@ -23,6 +23,7 @@ import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import {
+  bitpackBooleanArray,
   generateOrnamentSetSolutions,
   generateRelicSetSolutions,
 } from 'lib/optimization/relicSetSolver'
@@ -245,8 +246,8 @@ export const Optimizer = {
             WIDTH: run.runSize,
             skip: run.skip,
             permutations: permutations,
-            relicSetSolutions: relicSetSolutions,
-            ornamentSetSolutions: ornamentSetSolutions,
+            relicSetSolutions: bitpackBooleanArray(relicSetSolutions),
+            ornamentSetSolutions: bitpackBooleanArray(ornamentSetSolutions),
             workerType: WorkerType.OPTIMIZER,
           },
           getMinFilter: (): number => {

@@ -1,5 +1,9 @@
 import { Sets } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 import { SetConfig, SetType, TeammateOption } from 'types/setConfig'
 
 const setModules = import.meta.glob<Record<string, unknown>>(
@@ -31,6 +35,26 @@ export function getSetConfig(id: keyof typeof Sets): SetConfig | undefined {
 
 export function getAllSetConfigs(): Map<keyof typeof Sets, SetConfig> {
   return setConfigRegistry
+}
+
+export function generateSetCombatWgsl(action: OptimizerAction, context: OptimizerContext): string {
+  let wgsl = ''
+  for (const config of setConfigRegistry.values()) {
+    if (config.conditionals.gpu) {
+      wgsl += config.conditionals.gpu(action, context)
+    }
+  }
+  return wgsl
+}
+
+export function generateSetTerminalWgsl(action: OptimizerAction, context: OptimizerContext): string {
+  let wgsl = ''
+  for (const config of setConfigRegistry.values()) {
+    if (config.conditionals.gpuTerminal) {
+      wgsl += config.conditionals.gpuTerminal(action, context)
+    }
+  }
+  return wgsl
 }
 
 export function getAllSetDynamicConditionals(): DynamicConditional[] {

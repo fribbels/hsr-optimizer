@@ -4,10 +4,12 @@ import {
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TFunction } from 'i18next'
 import {
+  OptimizerAction,
   OptimizerContext,
   SetConditional,
 } from 'types/optimizer'
@@ -53,6 +55,16 @@ const conditionals: SetConditionals = {
       x.buff(StatKey.CR_BOOST, 0.10, x.source(Source.WastelanderOfBanditryDesert))
     }
   },
+  gpu: (action: OptimizerAction, context: OptimizerContext) => `
+    if (relic4p(*p_sets, SET_WastelanderOfBanditryDesert) >= 1) {
+      if (setConditionals.valueWastelanderOfBanditryDesert > 0) {
+        ${buff.action(AKey.CR_BOOST, 0.10).wgsl(action, 3)}
+      }
+      if (setConditionals.valueWastelanderOfBanditryDesert == 2) {
+        ${buff.action(AKey.CD_BOOST, 0.20).wgsl(action, 3)}
+      }
+    }
+  `,
 }
 
 const display: SetDisplay = {

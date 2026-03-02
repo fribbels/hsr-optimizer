@@ -1,10 +1,13 @@
 import { ConditionalDataType } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
+  OptimizerAction,
   OptimizerContext,
   SetConditional,
 } from 'types/optimizer'
@@ -25,6 +28,14 @@ const conditionals: SetConditionals = {
       x.buff(StatKey.DMG_BOOST, spd >= 160 ? 0.18 : 0.12, x.source(Source.FirmamentFrontlineGlamoth))
     }
   },
+  gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
+  if (
+    ornament2p(*p_sets, SET_FirmamentFrontlineGlamoth) >= 1
+    && ${containerActionVal(SELF_ENTITY_INDEX, AKey.SPD, action.config)} >= 135.0
+  ) {
+    ${buff.action(AKey.DMG_BOOST, `select(0.12, 0.18, ${containerActionVal(SELF_ENTITY_INDEX, AKey.SPD, action.config)} >= 160.0)`).wgsl(action, 2)}
+  }
+`,
 }
 
 const display: SetDisplay = {

@@ -5,11 +5,13 @@ import {
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TFunction } from 'i18next'
 import {
+  OptimizerAction,
   OptimizerContext,
   SetConditional,
 } from 'types/optimizer'
@@ -39,6 +41,11 @@ const conditionals: SetConditionals = {
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(StatKey.CD, 0.18 * setConditionals.valueSacerdosRelivedOrdeal, x.source(Source.SacerdosRelivedOrdeal))
   },
+  gpu: (action: OptimizerAction, context: OptimizerContext) => `
+    if (relic4p(*p_sets, SET_SacerdosRelivedOrdeal) >= 1) {
+      ${buff.action(AKey.CD, `0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal)`).wgsl(action, 2)}
+    }
+  `,
 }
 
 const display: SetDisplay = {

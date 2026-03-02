@@ -1,12 +1,14 @@
 import { ConditionalDataType } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { TFunction } from 'i18next'
 import {
+  OptimizerAction,
   OptimizerContext,
   SetConditional,
 } from 'types/optimizer'
@@ -40,6 +42,14 @@ const conditionals: SetConditionals = {
       x.buff(StatKey.CD, 0.25, x.source(Source.DuranDynastyOfRunningWolves))
     }
   },
+  gpu: (action: OptimizerAction, context: OptimizerContext) => `
+    if (ornament2p(*p_sets, SET_DuranDynastyOfRunningWolves) >= 1) {
+      ${buff.hit(HKey.DMG_BOOST, `0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves)`).damageType(DamageTag.FUA).wgsl(action, 2)}
+      if (setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
+        ${buff.action(AKey.CD, 0.25).wgsl(action, 3)}
+      }
+    }
+  `,
 }
 
 const display: SetDisplay = {

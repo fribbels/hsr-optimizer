@@ -7,6 +7,7 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  OptimizerAction,
   OptimizerContext,
   SetConditional,
 } from 'types/optimizer'
@@ -36,6 +37,8 @@ export type SetConditionals = {
   p2t?: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => void
   p4t?: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => void
   dynamicConditionals?: DynamicConditional[]
+  gpu?: (action: OptimizerAction, context: OptimizerContext) => string
+  gpuTerminal?: (action: OptimizerAction, context: OptimizerContext) => string
 }
 
 type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>

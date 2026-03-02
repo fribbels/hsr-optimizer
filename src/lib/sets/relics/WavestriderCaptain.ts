@@ -1,9 +1,11 @@
 import { ConditionalDataType } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  OptimizerAction,
   OptimizerContext,
   SetConditional,
 } from 'types/optimizer'
@@ -23,6 +25,14 @@ const conditionals: SetConditionals = {
       x.buff(StatKey.ATK_P, 0.48, x.source(Source.WavestriderCaptain))
     }
   },
+  gpu: (action: OptimizerAction, context: OptimizerContext) => `
+    if (
+      relic4p(*p_sets, SET_WavestriderCaptain) >= 1
+      && setConditionals.enabledWavestriderCaptain == true
+    ) {
+      ${buff.action(AKey.ATK_P, 0.48).wgsl(action, 2)}
+    }
+  `,
 }
 
 const display: SetDisplay = {

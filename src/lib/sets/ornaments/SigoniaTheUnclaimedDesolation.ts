@@ -1,10 +1,12 @@
 import { ConditionalDataType } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TFunction } from 'i18next'
 import {
+  OptimizerAction,
   OptimizerContext,
   SetConditional,
 } from 'types/optimizer'
@@ -33,6 +35,11 @@ const conditionals: SetConditionals = {
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(StatKey.CD, 0.04 * setConditionals.valueSigoniaTheUnclaimedDesolation, x.source(Source.SigoniaTheUnclaimedDesolation))
   },
+  gpu: (action: OptimizerAction, context: OptimizerContext) => `
+    if (ornament2p(*p_sets, SET_SigoniaTheUnclaimedDesolation) >= 1) {
+      ${buff.action(AKey.CD, `0.04 * f32(setConditionals.valueSigoniaTheUnclaimedDesolation)`).wgsl(action, 2)}
+    }
+  `,
 }
 
 const display: SetDisplay = {

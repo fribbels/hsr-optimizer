@@ -1,10 +1,12 @@
 import { ConditionalDataType } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  OptimizerAction,
   OptimizerContext,
   SetConditional,
 } from 'types/optimizer'
@@ -25,6 +27,15 @@ const conditionals: SetConditionals = {
       x.buff(StatKey.CD, 0.30, x.targets(TargetTag.SelfAndMemosprite).source(Source.HeroOfTriumphantSong))
     }
   },
+  gpu: (action: OptimizerAction, context: OptimizerContext) => `
+    if (
+      relic4p(*p_sets, SET_HeroOfTriumphantSong) >= 1
+      && setConditionals.enabledHeroOfTriumphantSong == true
+    ) {
+      ${buff.action(AKey.SPD_P, 0.06).wgsl(action, 2)}
+      ${buff.action(AKey.CD, 0.30).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
+    }
+  `,
 }
 
 const display: SetDisplay = {

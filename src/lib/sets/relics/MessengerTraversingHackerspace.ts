@@ -4,10 +4,13 @@ import {
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import {
+  OptimizerAction,
   OptimizerContext,
   SetConditional,
 } from 'types/optimizer'
@@ -28,6 +31,15 @@ const conditionals: SetConditionals = {
       x.buff(StatKey.SPD_P, 0.12, x.targets(TargetTag.FullTeam).source(Source.MessengerTraversingHackerspace))
     }
   },
+  gpu: (action: OptimizerAction, context: OptimizerContext) => `
+    if (
+      relic4p(*p_sets, SET_MessengerTraversingHackerspace) >= 1
+      && setConditionals.enabledMessengerTraversingHackerspace == true
+      && ${wgslFalse(action.config.teammateSetEffects[Sets.MessengerTraversingHackerspace])}
+    ) {
+      ${buff.action(AKey.SPD_P, 0.12).targets(TargetTag.FullTeam).wgsl(action, 2)}
+    }
+  `,
 }
 
 const display: SetDisplay = {

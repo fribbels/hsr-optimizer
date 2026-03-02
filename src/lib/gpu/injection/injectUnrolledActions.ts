@@ -1,7 +1,7 @@
 import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyEvaluator'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { Constants, Sets } from 'lib/constants/constants'
+import { Constants } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   containerActionVal,
@@ -12,7 +12,6 @@ import {
 import {
   indent,
   wgsl,
-  wgslFalse,
 } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import {
@@ -20,18 +19,13 @@ import {
   AKeyValue,
   GLOBAL_REGISTERS_LENGTH,
   GlobalRegister,
-  HKey,
 } from 'lib/optimization/engine/config/keys'
 import {
-  DamageTag,
-  OutputTag,
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import {
-  buff,
-  matchesTargetTag,
-} from 'lib/optimization/engine/container/gpuBuffBuilder'
+import { matchesTargetTag } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import { generateSetCombatWgsl, generateSetTerminalWgsl } from 'lib/sets/setConfigRegistry'
 import { getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
@@ -330,6 +324,11 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
 
   //////////
 
+  const setCombatWgsl = generateSetCombatWgsl(action, context)
+  const setTerminalWgsl = generateSetTerminalWgsl(action, context)
+
+  //////////
+
   const actionCall = `
     var container${index}: array<f32, ${context.maxContainerArrayLength}> = precomputedStats[${index}];
     let dmg${index} = unrolledAction${index}(
@@ -376,257 +375,7 @@ fn unrolledAction${index}(
   var comboHeal = 0.0;
   var comboShield = 0.0;
 
-  if (
-    ornament2p(*p_sets, SET_CelestialDifferentiator) >= 1
-    && setConditionals.enabledCelestialDifferentiator == true
-    && (*p_c).CD >= 1.20
-  ) {
-    ${buff.action(AKey.CR, 0.60).wgsl(action, 2)}
-  }
-
-  if (relic4p(*p_sets, SET_PoetOfMourningCollapse) >= 1) {
-    let crValue = select(0.0, 0.20, (*p_c).SPD < 110.0) + select(0.0, 0.12, (*p_c).SPD < 95.0);
-    ${buff.action(AKey.CR, 'crValue').targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
-  }
-
-  if (relic4p(*p_sets, SET_DivinerOfDistantReach) >= 1) {
-    let divinerCrValue = select(0.0, 0.10, (*p_c).SPD >= 120.0) + select(0.0, 0.08, (*p_c).SPD >= 160.0);
-    ${buff.action(AKey.CR, 'divinerCrValue').wgsl(action, 2)}
-    if (setConditionals.enabledDivinerOfDistantReach == true && ${wgslFalse(action.config.teammateSetEffects[Sets.DivinerOfDistantReach])}) {
-      ${buff.action(AKey.ELATION, 0.10).targets(TargetTag.FullTeam).wgsl(action, 3)}
-    }
-  }
-
-  // ===== SPD BUFFS =====
-
-  if (
-    relic4p(*p_sets, SET_MessengerTraversingHackerspace) >= 1
-    && setConditionals.enabledMessengerTraversingHackerspace == true
-    && ${wgslFalse(action.config.teammateSetEffects[Sets.MessengerTraversingHackerspace])}
-  ) {
-    ${buff.action(AKey.SPD_P, 0.12).targets(TargetTag.FullTeam).wgsl(action, 2)}
-  }
-
-  if (
-    relic4p(*p_sets, SET_HeroOfTriumphantSong) >= 1
-    && setConditionals.enabledHeroOfTriumphantSong == true
-  ) {
-    ${buff.action(AKey.SPD_P, 0.06).wgsl(action, 2)}
-    ${buff.action(AKey.CD, 0.30).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
-  }
-
-  if (
-    relic4p(*p_sets, SET_WarriorGoddessOfSunAndThunder) >= 1
-    && setConditionals.enabledWarriorGoddessOfSunAndThunder == true
-  ) {
-    ${buff.action(AKey.SPD_P, 0.06).wgsl(action, 4)}
-    if (${wgslFalse(action.config.teammateSetEffects[Sets.WarriorGoddessOfSunAndThunder])}) {
-      ${buff.action(AKey.CD, 0.15).targets(TargetTag.FullTeam).wgsl(action, 2)}
-    }
-  }
-
-  if (
-    ornament2p(*p_sets, SET_AmphoreusTheEternalLand) >= 1
-    && setConditionals.enabledAmphoreusTheEternalLand == true
-    && ${action.config.hasMemosprite}
-    && ${wgslFalse(action.config.teammateSetEffects[Sets.AmphoreusTheEternalLand])}
-  ) {
-    ${buff.action(AKey.SPD_P, 0.08).targets(TargetTag.FullTeam).wgsl(action, 2)}
-  }
-
-  // ===== ATK BUFFS =====
-
-  if (relic4p(*p_sets, SET_ChampionOfStreetwiseBoxing) >= 1) {
-    ${buff.action(AKey.ATK_P, `0.05 * f32(setConditionals.valueChampionOfStreetwiseBoxing)`).wgsl(action, 2)}
-  }
-
-  if (
-    relic4p(*p_sets, SET_BandOfSizzlingThunder) >= 1
-    && setConditionals.enabledBandOfSizzlingThunder == true
-  ) {
-    ${buff.action(AKey.ATK_P, 0.20).wgsl(action, 2)}
-  }
-
-  if (relic2p(*p_sets, SET_TheAshblazingGrandDuke) >= 1) {
-    ${buff.hit(HKey.DMG_BOOST, 0.20).damageType(DamageTag.FUA).wgsl(action, 2)}
-    if (relic4p(*p_sets, SET_TheAshblazingGrandDuke) >= 1) {
-      ${buff.action(AKey.ATK_P, `0.06 * f32(setConditionals.valueTheAshblazingGrandDuke)`).wgsl(action, 3)}
-    }
-  }
-
-  if (
-    relic4p(*p_sets, SET_WavestriderCaptain) >= 1
-    && setConditionals.enabledWavestriderCaptain == true
-  ) {
-    ${buff.action(AKey.ATK_P, 0.48).wgsl(action, 2)}
-  }
-
-  // ===== HP BUFFS =====
-
-  if (
-    relic4p(*p_sets, SET_WorldRemakingDeliverer) >= 1
-    && setConditionals.enabledWorldRemakingDeliverer == true
-  ) {
-    ${buff.action(AKey.HP_P, 0.24).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
-    if (${wgslFalse(action.config.teammateSetEffects[Sets.WorldRemakingDeliverer])}) {
-      ${buff.action(AKey.DMG_BOOST, 0.15).targets(TargetTag.FullTeam).wgsl(action, 2)}
-    }
-  }
-
-  // ===== CD BUFFS =====
-
-  if (
-    relic4p(*p_sets, SET_HunterOfGlacialForest) >= 1
-    && setConditionals.enabledHunterOfGlacialForest == true
-  ) {
-    ${buff.action(AKey.CD, 0.25).wgsl(action, 2)}
-  }
-
-  if (relic4p(*p_sets, SET_WastelanderOfBanditryDesert) >= 1) {
-    if (setConditionals.valueWastelanderOfBanditryDesert > 0) {
-      ${buff.action(AKey.CR_BOOST, 0.10).wgsl(action, 3)}
-    }
-    if (setConditionals.valueWastelanderOfBanditryDesert == 2) {
-      ${buff.action(AKey.CD_BOOST, 0.20).wgsl(action, 3)}
-    }
-  }
-
-  if (relic2p(*p_sets, SET_PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
-    ${buff.action(AKey.DMG_BOOST, 0.12).wgsl(action, 2)}
-    if (relic4p(*p_sets, SET_PioneerDiverOfDeadWaters) >= 1) {
-      ${buff.action(AKey.CD_BOOST, `getPioneerSetValue(setConditionals.valuePioneerDiverOfDeadWaters)`).wgsl(action, 3)}
-      if (setConditionals.valuePioneerDiverOfDeadWaters > 2) {
-        ${buff.action(AKey.CR, 0.04).wgsl(action, 4)}
-      }
-    }
-  }
-
-  if (ornament2p(*p_sets, SET_SigoniaTheUnclaimedDesolation) >= 1) {
-    ${buff.action(AKey.CD, `0.04 * f32(setConditionals.valueSigoniaTheUnclaimedDesolation)`).wgsl(action, 2)}
-  }
-
-  if (ornament2p(*p_sets, SET_DuranDynastyOfRunningWolves) >= 1) {
-    ${buff.hit(HKey.DMG_BOOST, `0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves)`).damageType(DamageTag.FUA).wgsl(action, 2)}
-    if (setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
-      ${buff.action(AKey.CD, 0.25).wgsl(action, 3)}
-    }
-  }
-
-  if (
-    ornament2p(*p_sets, SET_TheWondrousBananAmusementPark) >= 1
-    && setConditionals.enabledTheWondrousBananAmusementPark == true
-  ) {
-    ${buff.action(AKey.CD, 0.32).wgsl(action, 2)}
-  }
-
-  if (relic4p(*p_sets, SET_SacerdosRelivedOrdeal) >= 1) {
-    ${buff.action(AKey.CD, `0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal)`).wgsl(action, 2)}
-  }
-
-  if (
-    ornament2p(*p_sets, SET_TengokuLivestream) >= 1
-    && setConditionals.enabledTengokuLivestream == true
-  ) {
-    ${buff.action(AKey.CD, 0.32).wgsl(action, 2)}
-  }
-
-  // ===== CR BUFFS =====
-
-  if (relic4p(*p_sets, SET_LongevousDisciple) >= 1) {
-    ${buff.action(AKey.CR, `0.08 * f32(setConditionals.valueLongevousDisciple)`).wgsl(action, 2)}
-  }
-
-  if (
-    ornament2p(*p_sets, SET_IzumoGenseiAndTakamaDivineRealm) >= 1
-    && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm == true
-  ) {
-    ${buff.action(AKey.CR, 0.12).wgsl(action, 2)}
-  }
-
-  // ===== BE BUFFS =====
-
-  if (
-    relic4p(*p_sets, SET_WatchmakerMasterOfDreamMachinations) >= 1
-    && setConditionals.enabledWatchmakerMasterOfDreamMachinations == true
-    && ${wgslFalse(action.config.teammateSetEffects[Sets.WatchmakerMasterOfDreamMachinations])}
-  ) {
-    ${buff.action(AKey.BE, 0.30).targets(TargetTag.FullTeam).wgsl(action, 2)}
-  }
-
-  if (
-    ornament2p(*p_sets, SET_ForgeOfTheKalpagniLantern) >= 1
-    && setConditionals.enabledForgeOfTheKalpagniLantern == true
-  ) {
-    ${buff.action(AKey.BE, 0.40).wgsl(action, 2)}
-  }
-
-  // ===== ABILITY DMG BOOSTS =====
-
-  if (relic4p(*p_sets, SET_MusketeerOfWildWheat) >= 1) {
-    ${buff.hit(HKey.DMG_BOOST, 0.10).damageType(DamageTag.BASIC).wgsl(action, 2)}
-  }
-
-  if (relic4p(*p_sets, SET_FiresmithOfLavaForging) >= 1) {
-    ${buff.hit(HKey.DMG_BOOST, 0.12).damageType(DamageTag.SKILL).wgsl(action, 2)}
-    if (setConditionals.enabledFiresmithOfLavaForging == true) {
-      ${buff.action(AKey.FIRE_DMG_BOOST, 0.12).wgsl(action, 3)}
-    }
-  }
-
-  if (relic4p(*p_sets, SET_TheWindSoaringValorous) >= 1) {
-    ${buff.hit(HKey.DMG_BOOST, `0.36 * f32(setConditionals.enabledTheWindSoaringValorous)`).damageType(DamageTag.ULT).wgsl(action, 2)}
-  }
-
-  if (relic4p(*p_sets, SET_ScholarLostInErudition) >= 1) {
-    ${buff.hit(HKey.DMG_BOOST, 0.20).damageType(DamageTag.SKILL | DamageTag.ULT).wgsl(action, 2)}
-    if (setConditionals.enabledScholarLostInErudition == true) {
-      ${buff.hit(HKey.DMG_BOOST, 0.25).damageType(DamageTag.SKILL).wgsl(action, 3)}
-    }
-  }
-
-  // ===== OTHER BOOSTS =====
-
-  if (relic4p(*p_sets, SET_GeniusOfBrilliantStars) >= 1) {
-    ${buff.action(AKey.DEF_PEN, `select(0.10, 0.20, setConditionals.enabledGeniusOfBrilliantStars == true)`).wgsl(action, 2)}
-  }
-
-  if (relic4p(*p_sets, SET_PrisonerInDeepConfinement) >= 1) {
-    ${buff.action(AKey.DEF_PEN, `0.06 * f32(setConditionals.valuePrisonerInDeepConfinement)`).wgsl(action, 2)}
-  }
-
-  if (relic4p(*p_sets, SET_EverGloriousMagicalGirl) >= 1) {
-    ${buff.hit(HKey.DEF_PEN, `0.10 + 0.01 * f32(setConditionals.valueEverGloriousMagicalGirl)`).damageType(DamageTag.ELATION).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
-  }
-
-  if (relic2p(*p_sets, SET_GuardOfWutheringSnow) >= 1) {
-    ${buff.actionMultiplicativeComplement(AKey.DMG_RED, 0.08).wgsl(action, 2)}
-  }
-
-  if (relic4p(*p_sets, SET_KnightOfPurityPalace) >= 1) {
-    ${buff.hit(HKey.DMG_BOOST, 0.20).outputType(OutputTag.SHIELD).wgsl(action, 2)}
-  }
-
-  if (
-    ornament2p(*p_sets, SET_PenaconyLandOfTheDreams) >= 1
-    && setConditionals.enabledPenaconyLandOfTheDreams == true
-  ) {
-    ${buff.action(AKey.DMG_BOOST, 0.10).targets(TargetTag.Memosprite).wgsl(action, 2)}
-  }
-
-  if (ornament2p(*p_sets, SET_ArcadiaOfWovenDreams) >= 1) {
-    let arcadiaBuffValue = getArcadiaOfWovenDreamsValue(setConditionals.valueArcadiaOfWovenDreams);
-    ${buff.action(AKey.DMG_BOOST, 'arcadiaBuffValue').targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
-  }
-
-  if (relic2p(*p_sets, SET_SelfEnshroudedRecluse) >= 1) {
-    ${buff.hit(HKey.DMG_BOOST, 0.10).outputType(OutputTag.SHIELD).wgsl(action, 2)}
-    if (relic4p(*p_sets, SET_SelfEnshroudedRecluse) >= 1) {
-      ${buff.hit(HKey.DMG_BOOST, 0.12).outputType(OutputTag.SHIELD).wgsl(action, 3)}
-      if (setConditionals.enabledSelfEnshroudedRecluse == true && ${wgslFalse(action.config.teammateSetEffects[Sets.SelfEnshroudedRecluse])}) {
-        ${buff.action(AKey.CD, 0.15).targets(TargetTag.FullTeam).wgsl(action, 4)}
-      }
-    }
-  }
+  ${setCombatWgsl}
 
   // Set the Action-scope stats, to be added to the Hit-scope stats later
   ${unrollEntityBaseStats(action)}
@@ -639,42 +388,7 @@ fn unrolledAction${index}(
   
   ${lightConeConditionalWgsl}
 
-  if (
-    ornament2p(*p_sets, SET_FirmamentFrontlineGlamoth) >= 1
-    && ${containerActionVal(SELF_ENTITY_INDEX, AKey.SPD, action.config)} >= 135.0
-  ) {
-    ${buff.action(AKey.DMG_BOOST, `select(0.12, 0.18, ${containerActionVal(SELF_ENTITY_INDEX, AKey.SPD, action.config)} >= 160.0)`).wgsl(action, 2)}
-  }
-
-  if (
-    ornament2p(*p_sets, SET_RutilantArena) >= 1
-    && ${containerActionVal(SELF_ENTITY_INDEX, AKey.CR, action.config)} >= 0.70
-  ) {
-    ${buff.hit(HKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action, 2)}
-  }
-
-  if (
-    ornament2p(*p_sets, SET_InertSalsotto) >= 1
-    && ${containerActionVal(SELF_ENTITY_INDEX, AKey.CR, action.config)} >= 0.50
-  ) {
-    ${buff.hit(HKey.DMG_BOOST, 0.15).damageType(DamageTag.ULT | DamageTag.FUA).wgsl(action, 2)}
-  }
-
-  if (ornament2p(*p_sets, SET_RevelryByTheSea) >= 1) {
-    if (${containerActionVal(SELF_ENTITY_INDEX, AKey.ATK, action.config)} >= 3600.0) {
-      ${buff.hit(HKey.DMG_BOOST, 0.24).damageType(DamageTag.DOT).wgsl(action, 3)}
-    } else if (${containerActionVal(SELF_ENTITY_INDEX, AKey.ATK, action.config)} >= 2400.0) {
-      ${buff.hit(HKey.DMG_BOOST, 0.12).damageType(DamageTag.DOT).wgsl(action, 3)}
-    }
-  }
-
-  if (
-    relic4p(*p_sets, SET_IronCavalryAgainstTheScourge) >= 1
-    && ${containerActionVal(SELF_ENTITY_INDEX, AKey.BE, action.config)} >= 1.50
-  ) {
-    ${buff.hit(HKey.DEF_PEN, 0.10).damageType(DamageTag.BREAK).wgsl(action, 2)}
-    ${buff.hit(HKey.DEF_PEN, `select(0.0, 0.15, ${containerActionVal(SELF_ENTITY_INDEX, AKey.BE, action.config)} >= 2.50)`).damageType(DamageTag.SUPER_BREAK).wgsl(action, 2)}
-  }
+  ${setTerminalWgsl}
   
   ${damageCalculationWgsl}
   

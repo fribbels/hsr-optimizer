@@ -5,9 +5,8 @@ import {
 } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
-  getConditionalFieldName,
-  getOrderedSetConditionalFields,
   getTeammateOption,
+  orderedSetConditionalFields,
   setConfigRegistry,
 } from 'lib/sets/setConfigRegistry'
 import { newTransformStateActions } from 'lib/optimization/rotation/actionTransform'
@@ -265,7 +264,7 @@ function transformConditional(category: ComboConditionalCategory, actionIndex: n
 
 function transformSetConditionals(actionIndex: number, conditionals: ComboConditionals): SetConditional {
   const result = {} as SetConditional
-  for (const field of getOrderedSetConditionalFields()) {
+  for (const field of orderedSetConditionalFields) {
     const comboEntry = conditionals[field.setKey]
     ;(result as Record<string, boolean | number>)[field.fieldName] = transformConditional(comboEntry, actionIndex)
   }
@@ -300,8 +299,9 @@ function overrideSetConditionals(setConditionals: SetConditional, context: Optim
   const record = setConditionals as Record<string, boolean | number>
   for (const config of setConfigRegistry.values()) {
     if (config.conditionals.overrideConditional) {
-      const fieldName = getConditionalFieldName(config)
-      if (fieldName && record[fieldName] !== undefined) {
+      const prefix = config.display.conditionalType === ConditionalDataType.BOOLEAN ? 'enabled' : 'value'
+      const fieldName = `${prefix}${config.id}`
+      if (record[fieldName] !== undefined) {
         record[fieldName] = config.conditionals.overrideConditional(record[fieldName], context)
       }
     }

@@ -4356,6 +4356,10 @@ interface Resources {
         "Name": "Yao Guang",
         "LongName": "Yao Guang"
       },
+      "1504": {
+        "Name": "Ashveil",
+        "LongName": "Ashveil"
+      },
       "8001": {
         "Name": "Caelus",
         "LongName": "Caelus (Destruction)"
@@ -4659,6 +4663,14 @@ interface Resources {
       "324": {
         "Name": "Tengoku@Livestream",
         "Description2pc": "Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32%, lasting for 3 turns."
+      },
+      "325": {
+        "Name": "Punklorde Stage Zero",
+        "Description2pc": "Increases the wearer's Elation by <unbreak>10%</unbreak>. When Elation reaches <unbreak>40%</unbreak>/<unbreak>80%</unbreak> for the first time in battle, increases the wearer's CRIT DMG by <unbreak>20%</unbreak>/<unbreak>30%</unbreak>."
+      },
+      "326": {
+        "Name": "City of Myriad Forms",
+        "Description2pc": "When the wearer uses a Follow-Up ATK, their ATK increases by <unbreak>24%</unbreak> for <unbreak>2</unbreak> turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by <unbreak>12%</unbreak> for the rest of the current battle. This effect cannot stack."
       }
     },
     "Lightcones": {
@@ -5112,6 +5124,9 @@ interface Resources {
       "23054": {
         "Name": "When She Decided to See"
       },
+      "23056": {
+        "Name": "The Finale of a Lie"
+      },
       "24000": {
         "Name": "On the Fall of an Aeon"
       },
@@ -5129,6 +5144,9 @@ interface Resources {
       },
       "24005": {
         "Name": "Memory's Curtain Never Falls"
+      },
+      "24006": {
+        "Name": "Elation Brimming With Blessings"
       }
     },
     "Paths": {
@@ -5140,8 +5158,7 @@ interface Resources {
       "Knight": "Preservation",
       "Priest": "Abundance",
       "Memory": "Remembrance",
-      "Elation": "Elation",
-      "Unknown": "General"
+      "Elation": "Elation"
     },
     "Elements": {
       "Physical": "Physical",

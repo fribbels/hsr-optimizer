@@ -9,7 +9,7 @@ import {
   DEFAULT_STAT_DISPLAY,
   Sets,
 } from 'lib/constants/constants'
-import { getAllSetConfigs } from 'lib/sets/setConfigRegistry'
+import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
 import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
@@ -139,7 +139,7 @@ export function defaultEnemyOptions() {
 
 function buildDefaultSetConditionals(): Record<Sets, [undefined, boolean | number]> {
   const result = {} as Record<Sets, [undefined, boolean | number]>
-  for (const [id, config] of getAllSetConfigs()) {
+  for (const [id, config] of setConfigRegistry) {
     result[Sets[id]] = [undefined, config.display.defaultValue]
   }
   return result

@@ -1,4 +1,4 @@
-import { getAllSetConfigs } from 'lib/sets/setConfigRegistry'
+import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
 import { SetType } from 'types/setConfig'
 
 /**
@@ -11,7 +11,7 @@ export function generateSetBitConstants(): string {
   const relics: { id: string; index: number }[] = []
   const ornaments: { id: string; index: number }[] = []
 
-  for (const config of getAllSetConfigs().values()) {
+  for (const config of setConfigRegistry.values()) {
     const entry = { id: config.id, index: config.info.index }
     if (config.info.setType === SetType.RELIC) {
       relics.push(entry)

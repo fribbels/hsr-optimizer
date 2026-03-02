@@ -17,7 +17,7 @@ import {
   SACERDOS_RELIVED_ORDEAL_2_STACK,
   Sets,
 } from 'lib/constants/constants'
-import { getTeammateOrnamentOptions, getTeammateRelicOptions } from 'lib/sets/setConfigRegistry'
+import { teammateOrnamentOptions, teammateRelicOptions } from 'lib/sets/setConfigRegistry'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
@@ -178,7 +178,7 @@ export type OptionRender = {
 
 export function renderTeammateRelicSetOptions(t: TFunction<'optimizerTab', 'TeammateCard'>) {
   return () => {
-    return getTeammateRelicOptions().map((option) => ({
+    return teammateRelicOptions.map((option) => ({
       value: option.value,
       desc: t(`TeammateSets.${option.i18nKey}.Desc`),
       label: labelRender(option.value, t(`TeammateSets.${option.i18nKey}.Text`)),
@@ -188,7 +188,7 @@ export function renderTeammateRelicSetOptions(t: TFunction<'optimizerTab', 'Team
 
 export function renderTeammateOrnamentSetOptions(t: TFunction<'optimizerTab', 'TeammateCard'>) {
   return () => {
-    return getTeammateOrnamentOptions().map((option) => ({
+    return teammateOrnamentOptions.map((option) => ({
       value: option.value,
       desc: t(`TeammateSets.${option.i18nKey}.Desc`),
       label: labelRender(option.value, t(`TeammateSets.${option.i18nKey}.Text`)),

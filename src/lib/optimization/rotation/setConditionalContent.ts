@@ -4,7 +4,7 @@ import {
   Constants,
   Sets,
 } from 'lib/constants/constants'
-import { getAllSetConfigs } from 'lib/sets/setConfigRegistry'
+import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
 import { SelectOptionContent } from 'types/setConfig'
 
 export type { SelectOptionContent } from 'types/setConfig'
@@ -26,7 +26,7 @@ export function generateSetConditionalContent(t: SetConditionalTFunction) {
 
 function buildConditionalSetMetadata(): Record<Sets, SetMetadata> {
   const result = {} as Record<Sets, SetMetadata>
-  for (const [id, config] of getAllSetConfigs()) {
+  for (const [id, config] of setConfigRegistry) {
     result[Sets[id]] = {
       type: config.display.conditionalType,
       modifiable: config.display.modifiable,

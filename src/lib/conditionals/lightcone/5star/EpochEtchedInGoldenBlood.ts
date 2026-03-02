@@ -10,9 +10,10 @@ import { EPOCH_ETCHED_IN_GOLDEN_BLOOD } from 'lib/simulations/tests/testMetadata
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.EpochEtchedInGoldenBlood.Content')
   const { SOURCE_LC } = Source.lightCone(EPOCH_ETCHED_IN_GOLDEN_BLOOD)
 
@@ -43,4 +44,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.DMG_BOOST, (t.skillDmgBoost) ? sValuesSkillDmg[s] : 0, x.damageType(DamageTag.SKILL).source(SOURCE_LC))
     },
   }
+}
+
+export const EpochEtchedInGoldenBlood: LightConeConfig = {
+  id: '23048',
+  conditionals,
 }

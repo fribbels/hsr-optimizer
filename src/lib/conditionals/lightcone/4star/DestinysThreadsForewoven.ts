@@ -7,12 +7,13 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const { SOURCE_LC } = Source.lightCone('21039')
 
   const sValues = [0.008, 0.009, 0.01, 0.011, 0.012]
@@ -33,4 +34,9 @@ ${buff.action(AKey.DMG_BOOST, 'dmgBuff').wgsl(action)}
       `
     },
   }
+}
+
+export const DestinysThreadsForewoven: LightConeConfig = {
+  id: '21039',
+  conditionals,
 }

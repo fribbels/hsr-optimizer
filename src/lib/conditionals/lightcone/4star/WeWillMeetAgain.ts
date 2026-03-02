@@ -11,13 +11,14 @@ import {
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { Hit } from 'types/hitConditionalTypes'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { SuperImpositionLevel } from 'types/lightCone'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean, wearerMeta: WearerMetadata): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean, wearerMeta: WearerMetadata): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.WeWillMeetAgain')
 
   const sValues = [0.48, 0.60, 0.72, 0.84, 0.96]
@@ -62,4 +63,9 @@ export default (s: SuperImpositionLevel, withContent: boolean, wearerMeta: Weare
       },
     }],
   }
+}
+
+export const WeWillMeetAgain: LightConeConfig = {
+  id: '21029',
+  conditionals,
 }

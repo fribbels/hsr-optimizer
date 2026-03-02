@@ -4,9 +4,13 @@ import { WearerMetadata } from 'lib/conditionals/resolver/lightConeConditionalsR
 
 export type LightConeInfo = Record<string, never>
 
+export type LightConeDisplay = {
+  imageOffset?: { x: number; y: number; s: number }
+}
+
 export type LightConeConfig = {
   id: LightConeId
-  info: LightConeInfo
-  conditionals: (s: SuperImpositionLevel, withContent: boolean, wearerMetadata?: WearerMetadata) => LightConeConditionalsController
-  superimpositions: Record<number, Record<string, number>>
+  info?: LightConeInfo
+  conditionals: (s: SuperImpositionLevel, withContent: boolean, wearerMetadata: WearerMetadata) => LightConeConditionalsController
+  display?: LightConeDisplay
 }

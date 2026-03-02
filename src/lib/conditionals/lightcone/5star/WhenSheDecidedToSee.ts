@@ -8,9 +8,10 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { WHEN_SHE_DECIDED_TO_SEE } from 'lib/simulations/tests/testMetadataConstants'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const { SOURCE_LC } = Source.lightCone(WHEN_SHE_DECIDED_TO_SEE)
 
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
@@ -58,4 +59,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.CD, (m.greatFortune) ? sValuesCd[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
+}
+
+export const WhenSheDecidedToSee: LightConeConfig = {
+  id: '23054',
+  conditionals,
 }

@@ -10,12 +10,13 @@ import { THIS_LOVE_FOREVER } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThisLoveForever.Content')
   const { SOURCE_LC } = Source.lightCone(THIS_LOVE_FOREVER)
 
@@ -85,4 +86,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       )
     },
   }
+}
+
+export const ThisLoveForever: LightConeConfig = {
+  id: '23052',
+  conditionals,
 }

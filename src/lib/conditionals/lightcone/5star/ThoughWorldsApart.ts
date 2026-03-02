@@ -10,12 +10,13 @@ import { THOUGH_WORLDS_APART } from 'lib/simulations/tests/testMetadataConstants
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThoughWorldsApart.Content')
   const { SOURCE_LC } = Source.lightCone(THOUGH_WORLDS_APART)
 
@@ -59,4 +60,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.DMG_BOOST, (m.dmgBoost && action.config.hasSummons) ? sValuesDmgBoostSummons[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
+}
+
+export const ThoughWorldsApart: LightConeConfig = {
+  id: '23051',
+  conditionals,
 }

@@ -12,12 +12,13 @@ import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ScentAloneStaysTrue')
   const { SOURCE_LC } = Source.lightCone('23032')
 
@@ -90,4 +91,9 @@ if (${wgslTrue(r.woefreeState)} && ${containerActionVal(SELF_ENTITY_INDEX, StatK
       `
     },
   }
+}
+
+export const ScentAloneStaysTrue: LightConeConfig = {
+  id: '23032',
+  conditionals,
 }

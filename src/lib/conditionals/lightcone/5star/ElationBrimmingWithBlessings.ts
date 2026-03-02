@@ -5,10 +5,11 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { LightConeConditionalsController } from 'types/conditionals'
-import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeId, SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   // const { SOURCE_LC } = Source.lightCone(ELATION_BRIMMING_WITH_BLESSINGS)
   const SOURCE_LC = {} as any // TODO: uncomment when 24006 is added to game_data
 
@@ -41,4 +42,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.ELATION, (t.elationBuff) ? sValues[s] : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_LC))
     },
   }
+}
+
+export const ElationBrimmingWithBlessings: LightConeConfig = {
+  id: '24006' as LightConeId,
+  conditionals,
 }

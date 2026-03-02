@@ -8,9 +8,10 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { DAZZLED_BY_A_FLOWERY_WORLD } from 'lib/simulations/tests/testMetadataConstants'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const { SOURCE_LC } = Source.lightCone(DAZZLED_BY_A_FLOWERY_WORLD)
 
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
@@ -66,4 +67,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.ELATION, (m.elationBuff) ? sValuesElation[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
+}
+
+export const DazzledByAFloweryWorld: LightConeConfig = {
+  id: '23053',
+  conditionals,
 }

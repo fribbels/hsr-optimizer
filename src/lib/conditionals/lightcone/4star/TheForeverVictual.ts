@@ -9,12 +9,13 @@ import { THE_FOREVER_VICTUAL } from 'lib/simulations/tests/testMetadataConstants
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TheForeverVictual.Content')
   const { SOURCE_LC } = Source.lightCone(THE_FOREVER_VICTUAL)
 
@@ -45,4 +46,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.ATK_P, r.atkStacks * sValuesAtk[s], x.source(SOURCE_LC))
     },
   }
+}
+
+export const TheForeverVictual: LightConeConfig = {
+  id: '22005',
+  conditionals,
 }

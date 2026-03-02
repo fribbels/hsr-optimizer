@@ -8,13 +8,14 @@ import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { SuperImpositionLevel } from 'types/lightCone'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ResolutionShinesAsPearlsOfSweat')
   const { SOURCE_LC } = Source.lightCone('21015')
 
@@ -53,4 +54,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.DEF_PEN, (m.targetEnsnared) ? sValues[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
+}
+
+export const ResolutionShinesAsPearlsOfSweat: LightConeConfig = {
+  id: '21015',
+  conditionals,
 }

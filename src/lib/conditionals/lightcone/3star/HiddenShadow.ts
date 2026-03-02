@@ -12,12 +12,13 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { Hit } from 'types/hitConditionalTypes'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean, wearerMeta: WearerMetadata): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean, wearerMeta: WearerMetadata): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.HiddenShadow')
 
   const sValues = [0.60, 0.75, 0.90, 1.05, 1.20]
@@ -62,4 +63,9 @@ export default (s: SuperImpositionLevel, withContent: boolean, wearerMeta: Weare
       },
     }],
   }
+}
+
+export const HiddenShadow: LightConeConfig = {
+  id: '20018',
+  conditionals,
 }

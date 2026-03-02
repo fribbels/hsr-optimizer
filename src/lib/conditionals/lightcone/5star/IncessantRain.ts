@@ -9,9 +9,10 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.IncessantRain')
   const { SOURCE_LC } = Source.lightCone('23007')
 
@@ -64,4 +65,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.VULNERABILITY, (m.targetCodeDebuff) ? sValuesDmg[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
+}
+
+export const IncessantRain: LightConeConfig = {
+  id: '23007',
+  conditionals,
 }

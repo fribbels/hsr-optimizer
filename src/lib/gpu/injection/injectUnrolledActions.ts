@@ -1,7 +1,7 @@
 import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyEvaluator'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { Constants } from 'lib/constants/constants'
+import { Constants, Sets } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   containerActionVal,
@@ -12,6 +12,7 @@ import {
 import {
   indent,
   wgsl,
+  wgslFalse,
 } from 'lib/gpu/injection/wgslUtils'
 import { GpuConstants } from 'lib/gpu/webgpuTypes'
 import {
@@ -391,7 +392,7 @@ fn unrolledAction${index}(
   if (relic4p(*p_sets, SET_DivinerOfDistantReach) >= 1) {
     let divinerCrValue = select(0.0, 0.10, (*p_c).SPD >= 120.0) + select(0.0, 0.08, (*p_c).SPD >= 160.0);
     ${buff.action(AKey.CR, 'divinerCrValue').wgsl(action, 2)}
-    if (setConditionals.enabledDivinerOfDistantReach == true) {
+    if (setConditionals.enabledDivinerOfDistantReach == true && ${wgslFalse(action.config.teammateSetEffects[Sets.DivinerOfDistantReach])}) {
       ${buff.action(AKey.ELATION, 0.10).targets(TargetTag.FullTeam).wgsl(action, 3)}
     }
   }
@@ -401,6 +402,7 @@ fn unrolledAction${index}(
   if (
     relic4p(*p_sets, SET_MessengerTraversingHackerspace) >= 1
     && setConditionals.enabledMessengerTraversingHackerspace == true
+    && ${wgslFalse(action.config.teammateSetEffects[Sets.MessengerTraversingHackerspace])}
   ) {
     ${buff.action(AKey.SPD_P, 0.12).targets(TargetTag.FullTeam).wgsl(action, 2)}
   }
@@ -418,13 +420,16 @@ fn unrolledAction${index}(
     && setConditionals.enabledWarriorGoddessOfSunAndThunder == true
   ) {
     ${buff.action(AKey.SPD_P, 0.06).wgsl(action, 4)}
-    ${buff.action(AKey.CD, 0.15).targets(TargetTag.FullTeam).wgsl(action, 2)}
+    if (${wgslFalse(action.config.teammateSetEffects[Sets.WarriorGoddessOfSunAndThunder])}) {
+      ${buff.action(AKey.CD, 0.15).targets(TargetTag.FullTeam).wgsl(action, 2)}
+    }
   }
 
   if (
     ornament2p(*p_sets, SET_AmphoreusTheEternalLand) >= 1
     && setConditionals.enabledAmphoreusTheEternalLand == true
     && ${action.config.hasMemosprite}
+    && ${wgslFalse(action.config.teammateSetEffects[Sets.AmphoreusTheEternalLand])}
   ) {
     ${buff.action(AKey.SPD_P, 0.08).targets(TargetTag.FullTeam).wgsl(action, 2)}
   }
@@ -463,7 +468,9 @@ fn unrolledAction${index}(
     && setConditionals.enabledWorldRemakingDeliverer == true
   ) {
     ${buff.action(AKey.HP_P, 0.24).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
-    ${buff.action(AKey.DMG_BOOST, 0.15).targets(TargetTag.FullTeam).wgsl(action, 2)}
+    if (${wgslFalse(action.config.teammateSetEffects[Sets.WorldRemakingDeliverer])}) {
+      ${buff.action(AKey.DMG_BOOST, 0.15).targets(TargetTag.FullTeam).wgsl(action, 2)}
+    }
   }
 
   // ===== CD BUFFS =====
@@ -541,6 +548,7 @@ fn unrolledAction${index}(
   if (
     relic4p(*p_sets, SET_WatchmakerMasterOfDreamMachinations) >= 1
     && setConditionals.enabledWatchmakerMasterOfDreamMachinations == true
+    && ${wgslFalse(action.config.teammateSetEffects[Sets.WatchmakerMasterOfDreamMachinations])}
   ) {
     ${buff.action(AKey.BE, 0.30).targets(TargetTag.FullTeam).wgsl(action, 2)}
   }
@@ -614,7 +622,7 @@ fn unrolledAction${index}(
     ${buff.hit(HKey.DMG_BOOST, 0.10).outputType(OutputTag.SHIELD).wgsl(action, 2)}
     if (relic4p(*p_sets, SET_SelfEnshroudedRecluse) >= 1) {
       ${buff.hit(HKey.DMG_BOOST, 0.12).outputType(OutputTag.SHIELD).wgsl(action, 3)}
-      if (setConditionals.enabledSelfEnshroudedRecluse == true) {
+      if (setConditionals.enabledSelfEnshroudedRecluse == true && ${wgslFalse(action.config.teammateSetEffects[Sets.SelfEnshroudedRecluse])}) {
         ${buff.action(AKey.CD, 0.15).targets(TargetTag.FullTeam).wgsl(action, 4)}
       }
     }

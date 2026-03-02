@@ -281,6 +281,8 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
       teammateSetEffects[key] = true
     }
   }
+
+  action.config.teammateSetEffects = teammateSetEffects
 }
 
 export function transformConditionals(actionIndex: number, conditionals: ComboConditionals) {

@@ -4,6 +4,7 @@ import {
   Conditionals,
   ContentDefinition,
   createEnum,
+  getYaoguangAhaPunchlineValue,
 } from 'lib/conditionals/conditionalUtils'
 import {
   dynamicStatConversionContainer,
@@ -99,11 +100,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const elationSkillBounceScaling = elationSkill(e, 0.20, 0.21, 0.22)
   const elationSkillVulnerability = 0.16
 
-  const ahaPunchlineValue = (e >= 1) ? 40 : 20
-
   const defaults = {
-    punchlineStacks: 50,
-    certifiedBangerStacks: 50,
+    punchlineStacks: 30,
+    certifiedBangerStacks: 90,
     skillZoneActive: true,
     ultResPenBuff: true,
     certifiedBanger: true,
@@ -118,7 +117,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const teammateDefaults = {
     certifiedBanger: true,
     consumesSkillPoints: true,
-    teammateCertifiedBangerStacks: 50,
+    yaoguangAhaInstant: false,
+    teammateCertifiedBangerStacks: 90,
     skillZoneActive: true,
     teammateElationValue: 1.00,
     ultResPenBuff: true,
@@ -135,7 +135,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'Punchline stacks',
       content: betaContent,
       min: 0,
-      max: 200,
+      max: 100,
     },
     certifiedBangerStacks: {
       id: 'certifiedBangerStacks',
@@ -212,6 +212,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'Consumes skill points',
       content: betaContent,
     },
+    yaoguangAhaInstant: content.yaoguangAhaInstant,
     teammateCertifiedBangerStacks: {
       id: 'teammateCertifiedBangerStacks',
       formItem: 'slider',
@@ -255,7 +256,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDeclaration: () => Object.values(YaoguangAbilities),
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-      const punchlineStacks = (r.yaoguangAhaInstant) ? ahaPunchlineValue : r.punchlineStacks
+      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
 
       // Combined Elation Skill scaling: AoE base + bounce hits averaged per enemy
       const baseElationScaling = elationSkillAoeScaling + elationSkillBounceCount * elationSkillBounceScaling / context.enemyCount
@@ -586,3 +587,4 @@ export const Yaoguang: CharacterConfig = {
   scoring,
   display,
 }
+

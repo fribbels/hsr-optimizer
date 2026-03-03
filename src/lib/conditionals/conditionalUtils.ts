@@ -4,7 +4,10 @@ import {
   PathName,
 } from 'lib/constants/constants'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
-import { CYRENE } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  CYRENE,
+  YAO_GUANG,
+} from 'lib/simulations/tests/testMetadataConstants'
 import { ContentItem } from 'types/conditionals'
 import { Hit } from 'types/hitConditionalTypes'
 import {
@@ -212,6 +215,27 @@ export function teammateConditionalActive(action: OptimizerAction, teammateId: s
   if (!teammateAction) return false
 
   return teammateAction.characterConditionals[conditionalId]
+}
+
+export function getYaoguangAhaPunchlineValue(action: OptimizerAction, context: OptimizerContext): number | undefined {
+  const yaoguangAction = [
+    action.teammate0,
+    action.teammate1,
+    action.teammate2,
+    action,
+  ].find((x) => x && x.actorId == YAO_GUANG)
+
+  if (!yaoguangAction) return undefined
+  if (!yaoguangAction.characterConditionals.yaoguangAhaInstant) return undefined
+
+  const yaoguangEidolon = [
+    context.teammate0Metadata,
+    context.teammate1Metadata,
+    context.teammate2Metadata,
+    context,
+  ].find((t) => t?.characterId == YAO_GUANG)?.characterEidolon ?? 0
+
+  return (yaoguangEidolon >= 1) ? 40 : 20
 }
 
 // Returns the entity index of the memosprite, or -1 if not found

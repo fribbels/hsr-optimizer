@@ -214,7 +214,9 @@ export function optimizerWorker(e: MessageEvent) {
     const ornamentSetIndex = setP + setL * ornamentSetCount
 
     // Exit early if sets don't match
-    if (relicSetSolutions[relicSetIndex] != 1 || ornamentSetSolutions[ornamentSetIndex] != 1) {
+    const relicValid = ((relicSetSolutions[relicSetIndex >> 5] >> (relicSetIndex & 31)) & 1) === 1
+    const ornamentValid = ((ornamentSetSolutions[ornamentSetIndex >> 5] >> (ornamentSetIndex & 31)) & 1) === 1
+    if (!relicValid || !ornamentValid) {
       continue
     }
 

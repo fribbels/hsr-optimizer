@@ -263,12 +263,12 @@ function transformConditional(category: ComboConditionalCategory, actionIndex: n
 }
 
 function transformSetConditionals(actionIndex: number, conditionals: ComboConditionals): SetConditional {
-  const result = {} as SetConditional
+  const result: Record<string, boolean | number> = {}
   for (const field of orderedSetConditionalFields) {
     const comboEntry = conditionals[field.setKey]
-    ;(result as Record<string, boolean | number>)[field.fieldName] = transformConditional(comboEntry, actionIndex)
+    result[field.fieldName] = transformConditional(comboEntry, actionIndex)
   }
-  return result
+  return result as SetConditional
 }
 
 export enum ComboType {

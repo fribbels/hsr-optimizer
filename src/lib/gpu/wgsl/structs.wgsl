@@ -54,8 +54,8 @@ struct BasicStats {
 }
 
 struct Sets {
-  relicMatch2: u32,   // bit N set = relic set N has >= 2 pieces
-  relicMatch4: u32,   // bit N set = relic set N has 4 pieces
+  relicMatch2: u32,    // bit N set = relic set N has >= 2 pieces
+  relicMatch4: u32,    // bit N set = relic set N has 4 pieces
   ornamentMatch2: u32, // bit N set = ornament set N has 2 pieces
 }
 
@@ -64,7 +64,11 @@ fn relic2p(s: Sets, bit: u32) -> f32 { return f32((s.relicMatch2 >> bit) & 1u); 
 fn relic4p(s: Sets, bit: u32) -> f32 { return f32((s.relicMatch4 >> bit) & 1u); }
 fn ornament2p(s: Sets, bit: u32) -> f32 { return f32((s.ornamentMatch2 >> bit) & 1u); }
 
+// START SET_CONDITIONALS_STRUCT
+// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
 /* INJECT SET_CONDITIONALS_STRUCT */
+// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+// END SET_CONDITIONALS_STRUCT
 
 struct Action {
   setConditionals: SetConditionals,

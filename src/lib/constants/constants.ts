@@ -387,6 +387,7 @@ export const PartsMainStats = {
 }
 
 export const Sets = {
+  // Relics
   PasserbyOfWanderingCloud: 'Passerby of Wandering Cloud',
   MusketeerOfWildWheat: 'Musketeer of Wild Wheat',
   KnightOfPurityPalace: 'Knight of Purity Palace',
@@ -417,6 +418,8 @@ export const Sets = {
   SelfEnshroudedRecluse: 'Self-Enshrouded Recluse',
   EverGloriousMagicalGirl: 'Ever-Glorious Magical Girl',
   DivinerOfDistantReach: 'Diviner of Distant Reach',
+
+  // Ornaments
   SpaceSealingStation: 'Space Sealing Station',
   FleetOfTheAgeless: 'Fleet of the Ageless',
   PanCosmicCommercialEnterprise: 'Pan-Cosmic Commercial Enterprise',

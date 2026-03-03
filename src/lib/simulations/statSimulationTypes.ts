@@ -1,10 +1,11 @@
-import {
-  SetsOrnaments,
-  SetsRelics,
-} from 'lib/constants/constants'
+
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SimulationFlags } from 'lib/scoring/simScoringUtils'
+import {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 
 export enum StatSimTypes {
   Disabled = 'disabled',

@@ -1,12 +1,12 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { Constants } from 'lib/constants/constants'
 import {
-  Constants,
   OrnamentSetToIndex,
   RelicSetToIndex,
   SetsOrnaments,
   SetsRelics,
-} from 'lib/constants/constants'
+} from 'lib/sets/setConfigRegistry'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   BasicStatsArray,

@@ -1,9 +1,13 @@
 import {
   Constants,
   Parts,
+} from 'lib/constants/constants'
+import {
+  OrnamentSetToIndex,
+  RelicSetToIndex,
   SetsOrnaments,
   SetsRelics,
-} from 'lib/constants/constants'
+} from 'lib/sets/setConfigRegistry'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import {
   RelicBuild,
@@ -169,7 +173,7 @@ export function calculateRelicSets(relicSets: (string | number)[], nameProvided 
   while (relicSets.length > 0) {
     const value = relicSets[0]
     if (relicSets.lastIndexOf(value)) {
-      const setName = nameProvided ? value : Object.entries(Constants.RelicSetToIndex).find((x) => x[1] == value)![0]
+      const setName = nameProvided ? value : Object.entries(RelicSetToIndex).find((x) => x[1] == value)![0]
       relicSetNames.push(setName as string)
 
       const otherIndex = relicSets.lastIndexOf(value)
@@ -186,7 +190,7 @@ export function calculateOrnamentSets(ornamentSets: unknown[], nameProvided = tr
     return (
       nameProvided
         ? ornamentSets[1] as string
-        : Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == ornamentSets[1])![0]
+        : Object.entries(OrnamentSetToIndex).find((x) => x[1] == ornamentSets[1])![0]
     )
   }
   return undefined

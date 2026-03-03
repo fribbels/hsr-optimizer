@@ -1,8 +1,8 @@
+import { Sets } from 'lib/constants/constants'
 import {
-  Sets,
   SetsOrnaments,
   SetsRelics,
-} from 'lib/constants/constants'
+} from 'lib/sets/setConfigRegistry'
 
 export type PresetDefinition = {
   name: string,

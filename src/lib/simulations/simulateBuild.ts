@@ -1,15 +1,17 @@
 import {
   ElementName,
   ElementToStatKeyDmgBoost,
-  OrnamentSetCount,
-  OrnamentSetToIndex,
   Parts,
   PartsArray,
+} from 'lib/constants/constants'
+import {
+  OrnamentSetCount,
+  OrnamentSetToIndex,
   RelicSetCount,
   RelicSetToIndex,
   SetsOrnaments,
   SetsRelics,
-} from 'lib/constants/constants'
+} from 'lib/sets/setConfigRegistry'
 import {
   BasicStatsArray,
   BasicStatsArrayCore,

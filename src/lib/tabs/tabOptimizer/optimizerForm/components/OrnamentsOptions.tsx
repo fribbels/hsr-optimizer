@@ -2,10 +2,12 @@ import { Flex } from 'antd'
 import i18next from 'i18next'
 import {
   Constants,
-  SetsOrnaments,
   UnreleasedSets,
 } from 'lib/constants/constants'
-import { setToId } from 'lib/sets/setConfigRegistry'
+import {
+  SetsOrnaments,
+  setToId,
+} from 'lib/sets/setConfigRegistry'
 
 import { Assets } from 'lib/rendering/assets'
 

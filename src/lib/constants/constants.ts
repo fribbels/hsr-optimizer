@@ -386,7 +386,7 @@ export const PartsMainStats = {
   [Parts.LinkRope]: [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.BE, Stats.ERR],
 }
 
-export const SetsRelics = {
+export const Sets = {
   PasserbyOfWanderingCloud: 'Passerby of Wandering Cloud',
   MusketeerOfWildWheat: 'Musketeer of Wild Wheat',
   KnightOfPurityPalace: 'Knight of Purity Palace',
@@ -417,9 +417,6 @@ export const SetsRelics = {
   SelfEnshroudedRecluse: 'Self-Enshrouded Recluse',
   EverGloriousMagicalGirl: 'Ever-Glorious Magical Girl',
   DivinerOfDistantReach: 'Diviner of Distant Reach',
-} as const
-
-export const SetsOrnaments = {
   SpaceSealingStation: 'Space Sealing Station',
   FleetOfTheAgeless: 'Fleet of the Ageless',
   PanCosmicCommercialEnterprise: 'Pan-Cosmic Commercial Enterprise',
@@ -445,6 +442,7 @@ export const SetsOrnaments = {
   AmphoreusTheEternalLand: 'Amphoreus, The Eternal Land',
   TengokuLivestream: 'Tengoku@Livestream',
 } as const
+export type Sets = typeof Sets[keyof typeof Sets]
 
 // Delete unreleased data
 export const officialOnly = false
@@ -453,15 +451,6 @@ const lightCones = gameData.lightCones
 export const UnreleasedSets: Partial<Record<Sets, boolean>> = {}
 
 if (officialOnly) {
-  // UnreleasedSets[SetsRelics.SacerdosRelivedOrdeal] = true
-  // UnreleasedSets[SetsRelics.ScholarLostInErudition] = true
-
-  // Delete unreleased sets
-  // @ts-ignore
-  // delete SetsRelics.SacerdosRelivedOrdeal
-  // @ts-ignore
-  // delete SetsRelics.ScholarLostInErudition
-
   // Delete unreleased characters
   for (const character of Object.values(characters)) {
     if (character.unreleased) {
@@ -476,31 +465,6 @@ if (officialOnly) {
     }
   }
 }
-
-export type SetsRelics = typeof SetsRelics[keyof typeof SetsRelics]
-export type SetsOrnaments = typeof SetsOrnaments[keyof typeof SetsOrnaments]
-
-export const Sets = {
-  ...SetsRelics,
-  ...SetsOrnaments,
-}
-export type Sets = typeof Sets[keyof typeof Sets]
-
-export const SetsRelicsNames = Object.values(SetsRelics)
-export const SetsOrnamentsNames = Object.values(SetsOrnaments)
-
-export const OrnamentSetToIndex: Record<SetsOrnaments, number> = {} as Record<SetsOrnaments, number>
-for (let i = 0; i < SetsOrnamentsNames.length; i++) {
-  OrnamentSetToIndex[SetsOrnamentsNames[i]] = i
-}
-
-export const RelicSetToIndex: Record<SetsRelics, number> = {} as Record<SetsRelics, number>
-for (let i = 0; i < SetsRelicsNames.length; i++) {
-  RelicSetToIndex[SetsRelicsNames[i]] = i
-}
-
-export const RelicSetCount = Object.values(SetsRelics).length
-export const OrnamentSetCount = Object.values(SetsOrnaments).length
 
 export const PathNames = {
   Abundance: 'Abundance',
@@ -563,15 +527,9 @@ export const Constants = {
   MainStats,
   MainStatsValues,
   SubStats,
-  SetsOrnaments,
-  SetsRelics,
-  SetsRelicsNames,
-  SetsOrnamentsNames,
   StatsToReadable,
   PartsToReadable,
   PartsMainStats,
-  RelicSetToIndex,
-  OrnamentSetToIndex,
   // StatMaxes,
   MAX_INT: 2147483647,
   THREAD_BUFFER_LENGTH: 150000,

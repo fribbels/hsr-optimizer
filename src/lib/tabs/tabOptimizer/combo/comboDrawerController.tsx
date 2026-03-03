@@ -6,11 +6,13 @@ import {
   ConditionalDataType,
   ElementName,
   PathName,
+} from 'lib/constants/constants'
+import {
   SetsOrnaments,
   SetsOrnamentsNames,
   SetsRelics,
   SetsRelicsNames,
-} from 'lib/constants/constants'
+} from 'lib/sets/setConfigRegistry'
 import {
   defaultSetConditionals,
   getDefaultForm,

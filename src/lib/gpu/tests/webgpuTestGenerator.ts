@@ -1,7 +1,4 @@
-import {
-  SetsOrnamentsNames,
-  SetsRelicsNames,
-} from 'lib/constants/constants'
+
 import {
   generateTestRelics,
   StatDeltaAnalysis,
@@ -45,6 +42,10 @@ import {
   DBMetadata,
   DBMetadataLightCone,
 } from 'types/metadata'
+import {
+  SetsOrnamentsNames,
+  SetsRelicsNames,
+} from 'lib/sets/setConfigRegistry'
 
 export type WebgpuTest = {
   name: string,

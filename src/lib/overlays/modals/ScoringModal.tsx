@@ -14,12 +14,14 @@ import {
   Constants,
   Parts,
   Sets,
+  Stats,
+} from 'lib/constants/constants'
+import {
   SetsOrnaments,
   SetsOrnamentsNames,
   SetsRelics,
   SetsRelicsNames,
-  Stats,
-} from 'lib/constants/constants'
+} from 'lib/sets/setConfigRegistry'
 import {
   OpenCloseIDs,
   useOpenClose,

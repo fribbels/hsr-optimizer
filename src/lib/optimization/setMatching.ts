@@ -1,9 +1,8 @@
+import { Sets } from 'lib/constants/constants'
 import {
-  Constants,
-  Sets,
-} from 'lib/constants/constants'
-
-const { SetsRelics, SetsOrnaments } = Constants
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 
 // SetKeyType is a union of all set key names (e.g. 'SpaceSealingStation' | 'MusketeerOfWildWheat' | ...)
 export type SetKeyType = keyof typeof Sets

@@ -2,11 +2,13 @@ import {
   MainStats,
   Parts,
   Sets,
-  SetsOrnaments,
-  SetsRelics,
   Stats,
   SubStats,
 } from 'lib/constants/constants'
+import {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BasicKey } from 'lib/optimization/basicStatsArray'
 import { AKeyValue, getAKeyName, GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'

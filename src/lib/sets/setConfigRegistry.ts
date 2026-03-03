@@ -237,6 +237,36 @@ export const orderedSetConditionalFields = [
   ...intFields.map((e) => e.field),
 ]
 
+type ToNameMap<T extends ReadonlyArray<{ id: string; info: { name: string } }>> = {
+  readonly [K in T[number]['id']]: Extract<T[number], { id: K }>['info']['name']
+}
+
+export const SetsRelics = Object.fromEntries(
+  ALL_RELIC_CONFIGS.map((c) => [c.id, c.info.name]),
+) as ToNameMap<typeof ALL_RELIC_CONFIGS>
+export type SetsRelics = typeof SetsRelics[keyof typeof SetsRelics]
+
+export const SetsOrnaments = Object.fromEntries(
+  ALL_ORNAMENT_CONFIGS.map((c) => [c.id, c.info.name]),
+) as ToNameMap<typeof ALL_ORNAMENT_CONFIGS>
+export type SetsOrnaments = typeof SetsOrnaments[keyof typeof SetsOrnaments]
+
+export const SetsRelicsNames = Object.values(SetsRelics) as SetsRelics[]
+export const SetsOrnamentsNames = Object.values(SetsOrnaments) as SetsOrnaments[]
+
+export const RelicSetToIndex: Record<SetsRelics, number> = {} as Record<SetsRelics, number>
+for (let i = 0; i < SetsRelicsNames.length; i++) {
+  RelicSetToIndex[SetsRelicsNames[i]] = i
+}
+
+export const OrnamentSetToIndex: Record<SetsOrnaments, number> = {} as Record<SetsOrnaments, number>
+for (let i = 0; i < SetsOrnamentsNames.length; i++) {
+  OrnamentSetToIndex[SetsOrnamentsNames[i]] = i
+}
+
+export const RelicSetCount = ALL_RELIC_CONFIGS.length
+export const OrnamentSetCount = ALL_ORNAMENT_CONFIGS.length
+
 // ── Usage ──
 
 export function setToConditionalKey(set: Sets): SetConditionalI18nKey {

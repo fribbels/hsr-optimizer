@@ -1,9 +1,11 @@
 import {
   COMPUTE_ENGINE_GPU_STABLE,
-  SetsOrnaments,
-  SetsRelics,
   Stats,
 } from 'lib/constants/constants'
+import {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import {
   destroyPipeline,

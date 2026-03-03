@@ -10,10 +10,14 @@ import {
 import {
   Constants,
   Sets,
+} from 'lib/constants/constants'
+import {
   SetsOrnaments,
   SetsRelics,
-} from 'lib/constants/constants'
-import { setToConditionalKey, setToId } from 'lib/sets/setConfigRegistry'
+  SetsRelicsNames,
+  setToConditionalKey,
+  setToId,
+} from 'lib/sets/setConfigRegistry'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -185,7 +189,7 @@ function isRelicProps(props: ConditionalSetOptionsProps): props is RelicConditio
 }
 
 function isRelicSet(set: Sets): set is SetsRelics {
-  return (Constants.SetsRelicsNames as Array<Sets>).includes(set)
+  return (SetsRelicsNames as Array<Sets>).includes(set)
 }
 
 export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {

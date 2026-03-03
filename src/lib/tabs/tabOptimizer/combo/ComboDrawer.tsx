@@ -15,10 +15,12 @@ import {
   ABILITY_LIMIT,
   ConditionalDataType,
   Sets,
+} from 'lib/constants/constants'
+import {
   SetsOrnaments,
   SetsRelics,
-} from 'lib/constants/constants'
-import { setToId } from 'lib/sets/setConfigRegistry'
+  setToId,
+} from 'lib/sets/setConfigRegistry'
 import {
   OpenCloseIDs,
   useOpenClose,

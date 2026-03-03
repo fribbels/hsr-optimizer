@@ -27,6 +27,7 @@ export type SetInfo = {
   index: number
   setType: SetType
   ingameId: string
+  name: Sets
 }
 
 export type SetConditionals = {

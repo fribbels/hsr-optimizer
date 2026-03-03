@@ -266,6 +266,13 @@ export const OrnamentSetToIndex = Object.fromEntries(
   SetsOrnamentsNames.map((name, i) => [name, i]),
 ) as Record<SetsOrnaments, number>
 
+export const RelicSetKeyToIndex: Record<string, number> = Object.fromEntries(
+  Object.keys(SetsRelics).map((key, i) => [key, i]),
+)
+export const OrnamentSetKeyToIndex: Record<string, number> = Object.fromEntries(
+  Object.keys(SetsOrnaments).map((key, i) => [key, i]),
+)
+
 export const RelicSetCount = ALL_RELIC_CONFIGS.length
 export const OrnamentSetCount = ALL_ORNAMENT_CONFIGS.length
 

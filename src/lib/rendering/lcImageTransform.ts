@@ -12,9 +12,7 @@ export type LcImageOffset = { x: number; y: number; s: number }
 
 /**
  * Compute the raw vertical offset (dy) from game data.
- * Uses the game's offset formula to convert raw {x, y, s} into a pixel dy
- * for a given container width. The dx and scale from the game formula are
- * not used — we only apply vertical centering with a fixed border-hiding zoom.
+ * Uses metadata mapping to convert raw metadata y into container-space pixels.
  */
 function computeRawDy(offset: LcImageOffset, containerWidth: number): number {
   const elemAdj = containerWidth * BORDER_SCALAR
@@ -24,13 +22,20 @@ function computeRawDy(offset: LcImageOffset, containerWidth: number): number {
 }
 
 /**
+ * Metadata scale used by in-game style rendering after border correction.
+ */
+function computeMetadataScale(offset: LcImageOffset): number {
+  return (offset.s ?? 1) / BORDER_SCALAR
+}
+
+/**
  * Compute the CSS transform for an LC portrait image.
  *
  * Applies:
- * 1. A fixed zoom (BORDER_HIDE_ZOOM) to push the baked-in 14px white border
- *    outside the visible container.
- * 2. A vertical offset (dy) derived from the game's imageOffset data to
- *    center the point of interest.
+ * 1. A fixed zoom (BORDER_HIDE_ZOOM) so the baked-in 14px white border
+ *    stays outside the visible container.
+ * 2. A vertical offset (dy) derived from the game's imageOffset data using the
+ *    guide's conversion math.
  * 3. Clamping so the viewing window never extends beyond the image edge
  *    (which would show empty space or the border we're hiding).
  *
@@ -42,6 +47,7 @@ export function computeLcTransform(
   containerWidth: number,
   containerHeight: number,
 ): { dy: number; scale: number } {
+  // Keep render zoom fixed to border-hide behavior.
   const scale = BORDER_HIDE_ZOOM
 
   // Rendered image height at width: 100% * scale
@@ -53,8 +59,10 @@ export function computeLcTransform(
   // Maximum |dy| before the image edge (minus border) enters the container
   const maxDy = Math.max(0, (imgH - containerHeight) / 2 - border)
 
-  // Raw dy from game offset data
-  const rawDy = computeRawDy(offset, containerWidth)
+  // Convert metadata-space dy into our fixed-scale render space.
+  const metadataDy = computeRawDy(offset, containerWidth)
+  const metadataScale = computeMetadataScale(offset)
+  const rawDy = metadataDy * (scale / metadataScale)
 
   // Clamp to safe range
   const dy = Math.max(-maxDy, Math.min(maxDy, rawDy))

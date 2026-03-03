@@ -51,4 +51,11 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
 export const AlongThePassingShore: LightConeConfig = {
   id: '23024',
   conditionals,
+  display: {
+    imageOffset: {
+      x: 8,
+      y: -333,
+      s: 1.9,
+    },
+  },
 }

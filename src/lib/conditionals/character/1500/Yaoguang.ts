@@ -30,6 +30,7 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  AbilityKind,
   END_ULT,
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
@@ -355,11 +356,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       x.buff(StatKey.MERRYMAKING, (e >= 6 && m.e6Merrymaking) ? 0.25 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
 
-      const primaryAhaMoment = originalCharacterAction!.characterConditionals.yaoguangAhaInstant
       x.multiplicativeBoost(
         StatKey.FINAL_DMG_BOOST,
-        (e >= 4 && primaryAhaMoment) ? 0.50 : 0,
-        x.damageType(DamageTag.ELATION).targets(TargetTag.FullTeam).source(SOURCE_E4),
+        (e >= 4 && m.yaoguangAhaInstant) ? 0.50 : 0,
+        x.damageType(DamageTag.ELATION).targets(TargetTag.FullTeam).actionKind(AbilityKind.ELATION_SKILL).source(SOURCE_E4),
       )
     },
 

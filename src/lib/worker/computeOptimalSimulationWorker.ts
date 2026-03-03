@@ -2,6 +2,7 @@ import {
   Stats,
   SubStats,
 } from 'lib/constants/constants'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   applyScoringFunction,
   SimulationResult,
@@ -94,6 +95,10 @@ export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWo
     currentSimulation.request.stats[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
   }
 
+  // Cached container reused across all damageFunction calls to avoid repeated allocations
+  const cachedComputedStatsContainer = new ComputedStatsContainer()
+  cachedComputedStatsContainer.initializeArrays(context.maxContainerArrayLength, context)
+
   function damageFunction(stats: SubstatCounts, stabilize = false): number {
     currentSimulation.request.stats = stats
     currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, {
@@ -101,7 +106,7 @@ export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWo
       substatRollsModifier: scoringParams.substatRollsModifier,
       simulationFlags: simulationFlags,
       stabilize: stabilize,
-    })[0]
+    }, cachedComputedStatsContainer)[0]
 
     applyScoringFunction(currentSimulation.result, metadata)
     return currentSimulation.result.simScore

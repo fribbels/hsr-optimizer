@@ -273,8 +273,6 @@ export function optimizerWorker(e: MessageEvent) {
     }
 
     // Calculate default actions for display stats and store in registers
-    calculateComputedStats(x, context.defaultActions[0], context)
-
     for (let i = 0; i < context.defaultActions.length; i++) {
       const action = context.defaultActions[i]
       x.setConfig(action.config)

@@ -5,14 +5,6 @@ import {
   PartsArray,
 } from 'lib/constants/constants'
 import {
-  OrnamentSetCount,
-  OrnamentSetToIndex,
-  RelicSetCount,
-  RelicSetToIndex,
-  SetsOrnaments,
-  SetsRelics,
-} from 'lib/sets/setConfigRegistry'
-import {
   BasicStatsArray,
   BasicStatsArrayCore,
 } from 'lib/optimization/basicStatsArray'
@@ -27,7 +19,10 @@ import {
   calculateRelicStats,
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
-import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  GlobalRegister,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
@@ -35,6 +30,14 @@ import {
   getDamageFunction,
 } from 'lib/optimization/engine/damage/damageCalculator'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  OrnamentSetCount,
+  OrnamentSetToIndex,
+  RelicSetCount,
+  RelicSetToIndex,
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 import {
   ActionDamage,
   PrimaryActionStats,
@@ -52,6 +55,7 @@ export function simulateBuild(
   relics: SimulationRelicByPart,
   context: OptimizerContext,
   cachedBasicStatsArrayCore: BasicStatsArrayCore | null,
+  cachedComputedStatsContainer: ComputedStatsContainer | null = null,
   trace: boolean = false,
   forcedBasicSpd: number = 0,
 ): SimulateBuildResult {
@@ -91,8 +95,13 @@ export function simulateBuild(
 
   const defaultActions = context.defaultActions
 
-  const x = new ComputedStatsContainer()
-  x.initializeArrays(context.maxContainerArrayLength, context)
+  const x = cachedComputedStatsContainer ?? new ComputedStatsContainer()
+
+  if (cachedComputedStatsContainer) {
+    x.clearRegisters()
+  } else {
+    x.initializeArrays(context.maxContainerArrayLength, context)
+  }
   x.setBasic(c)
 
   // Store trace request - tracing is deferred to the primary default action only
@@ -129,8 +138,6 @@ export function simulateBuild(
 
     x.setActionRegisterValue(action.registerIndex, sum)
   }
-
-  calculateComputedStats(x, context.defaultActions[0], context)
 
   // Track primary action stats for the scoring action (for combat stats display)
   let primaryActionStats: PrimaryActionStats = {

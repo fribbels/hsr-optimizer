@@ -6,7 +6,8 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
-import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { GlobalRegister } from 'lib/optimization/engine/config/keys'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import {
   cloneSimResult,
@@ -45,34 +46,38 @@ function simulationRelic(set: string, mainStat: string, mainValue: number): Simu
 // Cached arrays for non-tracing simulations (tracing creates fresh instances)
 const cachedBasicStatsArray = new BasicStatsArrayCore(false)
 
-// Can be called from both main and worker
-// Context must exist
+// Optional cachedComputedStatsContainer reuses a single container across calls to avoid repeated allocations.
+// Result.x is a shared reference when cached — use stabilize or clone to retain results.
 export function runStatSimulations(
   simulations: Simulation[],
   form: Form,
   context: OptimizerContext,
   inputParams: Partial<RunSimulationsParams> = {},
+  cachedComputedStatsContainer: ComputedStatsContainer | null = null,
 ): RunStatSimulationsResult[] {
   const params: RunSimulationsParams = { ...defaultSimulationParams, ...inputParams }
+  const trace = !!form.trace
   const forcedBasicSpd = params.simulationFlags.benchmarkBasicSpdTarget
   const simulationResults: RunStatSimulationsResult[] = []
   for (const action of context.allActions) {
     action.conditionalState = {}
   }
 
+  const container = trace ? null : cachedComputedStatsContainer
+
   for (const sim of simulations) {
     const simRelics = generateSimRelics(sim, params)
-    const basicStatsArray = form.trace ? new BasicStatsArrayCore(true) : cachedBasicStatsArray
+    const basicStatsArray = trace ? new BasicStatsArrayCore(true) : cachedBasicStatsArray
 
     const { x, primaryActionStats, actionDamage } = simulateBuild(
       simRelics,
       context,
       basicStatsArray,
-      form.trace ?? false,
+      container,
+      trace,
       forcedBasicSpd,
     )
 
-    // x is only stable only if a single run was computed
     const result: RunStatSimulationsResult = {
       x: x,
       xa: x.a,

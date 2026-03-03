@@ -445,7 +445,8 @@ export const Sets = {
   AmphoreusTheEternalLand: 'Amphoreus, The Eternal Land',
   TengokuLivestream: 'Tengoku@Livestream',
 } as const
-export type Sets = typeof Sets[keyof typeof Sets]
+export type SetKey = keyof typeof Sets
+export type Sets = typeof Sets[SetKey]
 
 // Delete unreleased data
 export const officialOnly = false

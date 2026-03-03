@@ -3,7 +3,7 @@ import {
   Table,
 } from 'antd'
 import i18next from 'i18next'
-import { Sets } from 'lib/constants/constants'
+import { SetKey, Sets } from 'lib/constants/constants'
 import { setToId } from 'lib/sets/setConfigRegistry'
 import {
   BUFF_ABILITY,
@@ -103,7 +103,7 @@ function BuffGroup(props: { id: string, buffs: Buff[], buffType: BUFF_TYPE, size
   if (buffType == BUFF_TYPE.PRIMARY) src = Assets.getCharacterAvatarById(id)
   else if (buffType == BUFF_TYPE.CHARACTER) src = Assets.getCharacterAvatarById(id)
   else if (buffType == BUFF_TYPE.LIGHTCONE) src = Assets.getLightConeIconById(id)
-  else if (buffType == BUFF_TYPE.SETS) src = Assets.getSetImage(Sets[id as keyof typeof Sets])
+  else if (buffType == BUFF_TYPE.SETS) src = Assets.getSetImage(Sets[id as SetKey])
   else src = Assets.getBlank()
 
   return (

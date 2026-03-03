@@ -1,5 +1,6 @@
 import {
   ConditionalDataType,
+  SetKey,
   Sets,
 } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -149,7 +150,7 @@ export type SetConditionalFieldInfo = {
 
 // ── Registry ──
 
-export const setConfigRegistry = new Map<keyof typeof Sets, SetConfig>()
+export const setConfigRegistry = new Map<SetKey, SetConfig>()
 
 for (const config of ALL_CONFIGS) {
   setConfigRegistry.set(config.id, config)

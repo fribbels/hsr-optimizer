@@ -1,4 +1,4 @@
-import { Sets } from 'lib/constants/constants'
+import { SetKey, Sets } from 'lib/constants/constants'
 import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 
 export const ASHBLAZING_ATK_STACK = 0.06
@@ -49,7 +49,7 @@ export enum BuffPriority {
 }
 
 export type SetsType = {
-  [K in keyof typeof Sets]: number
+  [K in SetKey]: number
 }
 
 export type BasicStatsObject = {

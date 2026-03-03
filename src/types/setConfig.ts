@@ -1,6 +1,7 @@
 import { TFunction } from 'i18next'
 import {
   ConditionalDataType,
+  SetKey,
   Sets,
 } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -70,7 +71,7 @@ export type TeammateOption = {
 }
 
 export type SetConfig = {
-  id: keyof typeof Sets
+  id: SetKey
   info: SetInfo
   conditionals: SetConditionals
   display: SetDisplay

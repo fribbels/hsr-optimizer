@@ -3,6 +3,7 @@ import {
   MainStats,
   Parts,
   PathName,
+  SetKey,
   Sets,
   ShowcaseColorMode,
   StatsValues,
@@ -127,7 +128,7 @@ export type DBMetadataLightCone = {
 }
 
 export type DBMetadataSets = {
-  id: keyof typeof Sets,
+  id: SetKey,
   name: Sets,
 }
 

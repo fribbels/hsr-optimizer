@@ -2,6 +2,7 @@ import gameData from 'data/game_data.json' with { type: 'json' }
 import relicMainAffixes from 'data/relic_main_affixes.json' with { type: 'json' }
 import relicSubAffixes from 'data/relic_sub_affixes.json' with { type: 'json' }
 import { getAllCharacterConfigs } from 'lib/conditionals/resolver/characterConfigRegistry'
+import { getAllLightConeConfigs } from 'lib/conditionals/resolver/lightConeConfigRegistry'
 import {
   Parts,
   PartsMainStats,
@@ -9,6 +10,8 @@ import {
   StatsValues,
 } from 'lib/constants/constants'
 import DB from 'lib/state/db'
+import { CharacterId } from 'types/character'
+import { LightConeId } from 'types/lightCone'
 import {
   DBMetadata,
   DBMetadataCharacter,
@@ -76,56 +79,26 @@ const lcConfigStatConversion: Record<LcConfigConvertibleStat, StatsValues> = {
   ElationDamageAddedRatioBase: Stats.Elation,
 }
 
+const DEFAULT_IMAGE_CENTER = { x: 1024, y: 1024, z: 1 }
+
 export const Metadata = {
   initialize: () => {
     const dbMetadataCharacters: Record<string, DBMetadataCharacter> = characters
+    const lightConeConfigs = getAllLightConeConfigs()
+    const characterConfigs = getAllCharacterConfigs()
 
     for (const lightCone of Object.values(lightCones)) {
-      const converted: DBMetadataSuperimpositions = {}
-      for (const [level, stats] of Object.entries(lightCone.superimpositions)) {
-        const convertedStats: Partial<Record<StatsValues, number>> = {}
-        for (const [stat, value] of Object.entries(stats)) {
-          if (stat === LcConfigStatProperty.AllDamageTypeAddedRatio) {
-            for (const elemStat of ALL_ELEMENT_DMG_STATS) {
-              convertedStats[elemStat] = value
-            }
-          } else if (stat in lcConfigStatConversion) {
-            convertedStats[lcConfigStatConversion[stat as LcConfigConvertibleStat]] = value
-          } else {
-            convertedStats[stat as StatsValues] = value
-          }
-        }
-        converted[Number(level)] = convertedStats
-      }
-      lightCone.superimpositions = converted
+      lightCone.superimpositions = convertLcSuperimpositions(lightCone)
       lightCone.displayName = lightCone.name
+      applyLightConeDisplayConfig(lightConeConfigs, lightCone)
     }
-
-    const characterConfigs = getAllCharacterConfigs()
 
     for (const [id, dbMetadataCharacter] of Object.entries(characters)) {
       if (!characters[id]) {
         // Unreleased
         continue
       }
-
-      const cfg = characterConfigs.get(id as Parameters<typeof characterConfigs.get>[0])
-      const imageCenter = cfg?.display.imageCenter ?? { x: 1024, y: 1024, z: 1 }
-      const displayName = cfg?.info.displayName ?? characters[id].name
-      const metadata = cfg?.scoring
-
-      characters[id].traces = dbMetadataCharacter.traces
-      characters[id].traceTree = dbMetadataCharacter.traceTree
-      characters[id].imageCenter = imageCenter
-      characters[id].displayName = displayName
-      if (metadata) {
-        for (const part of [Parts.Body, Parts.Feet, Parts.PlanarSphere, Parts.LinkRope]) {
-          if (metadata.parts[part].length === 0) {
-            metadata.parts[part] = PartsMainStats[part]
-          }
-        }
-        characters[id].scoringMetadata = metadata
-      }
+      applyCharacterConfig(characterConfigs, id, dbMetadataCharacter)
     }
 
     const relicSets = gameData.relics.reduce<Record<string, DBMetadataSets>>((acc, obj) => {
@@ -148,6 +121,61 @@ export const Metadata = {
 
     return augmentedDbMetadata
   },
+}
+
+function convertLcSuperimpositions(lightCone: DBMetadataLightCone): DBMetadataSuperimpositions {
+  const converted: DBMetadataSuperimpositions = {}
+  for (const [level, stats] of Object.entries(lightCone.superimpositions)) {
+    const convertedStats: Partial<Record<StatsValues, number>> = {}
+    for (const [stat, value] of Object.entries(stats)) {
+      if (stat === LcConfigStatProperty.AllDamageTypeAddedRatio) {
+        for (const elemStat of ALL_ELEMENT_DMG_STATS) {
+          convertedStats[elemStat] = value
+        }
+      } else if (stat in lcConfigStatConversion) {
+        convertedStats[lcConfigStatConversion[stat as LcConfigConvertibleStat]] = value
+      } else {
+        convertedStats[stat as StatsValues] = value
+      }
+    }
+    converted[Number(level)] = convertedStats
+  }
+  return converted
+}
+
+function applyLightConeDisplayConfig(
+  lightConeConfigs: ReturnType<typeof getAllLightConeConfigs>,
+  lightCone: DBMetadataLightCone,
+) {
+  const config = lightConeConfigs.get(lightCone.id as LightConeId)
+  if (config?.display?.imageOffset) {
+    lightCone.imageOffset = config.display.imageOffset
+  }
+}
+
+function applyCharacterConfig(
+  characterConfigs: ReturnType<typeof getAllCharacterConfigs>,
+  characterId: string,
+  dbMetadataCharacter: DBMetadataCharacter,
+) {
+  const config = characterConfigs.get(characterId as CharacterId)
+  const imageCenter = config?.display.imageCenter ?? DEFAULT_IMAGE_CENTER
+  const displayName = config?.info.displayName ?? characters[characterId].name
+  const metadata = config?.scoring
+
+  characters[characterId].traces = dbMetadataCharacter.traces
+  characters[characterId].traceTree = dbMetadataCharacter.traceTree
+  characters[characterId].imageCenter = imageCenter
+  characters[characterId].displayName = displayName
+
+  if (metadata) {
+    for (const part of [Parts.Body, Parts.Feet, Parts.PlanarSphere, Parts.LinkRope]) {
+      if (metadata.parts[part].length === 0) {
+        metadata.parts[part] = PartsMainStats[part]
+      }
+    }
+    characters[characterId].scoringMetadata = metadata
+  }
 }
 
 export type DBMetadataSuperimpositions = Record<number, Partial<Record<StatsValues, number>>>

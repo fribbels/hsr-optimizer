@@ -15,8 +15,20 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 10,
+  setType: SetType.ORNAMENT,
+  ingameId: '311',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  defaultValue: true,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -38,18 +50,9 @@ const conditionals = {
 `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
 export const FirmamentFrontlineGlamoth = {
   id: 'FirmamentFrontlineGlamoth',
-  info: {
-    index: 10,
-    setType: SetType.ORNAMENT,
-    ingameId: '311',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

@@ -7,7 +7,6 @@ import { Source } from 'lib/optimization/buffSource'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TFunction } from 'i18next'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -15,33 +14,27 @@ import {
 } from 'types/optimizer'
 import {
   SelectOptionContent,
+  SetConditionalTFunction,
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
 
-type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
+const info = {
+  index: 11,
+  setType: SetType.RELIC,
+  ingameId: '112',
+} as const satisfies SetInfo
 
-function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
-  return [
-    {
-      display: t('Wastelander.Off.Display'),
-      value: 0,
-      label: t('Wastelander.Off.Label'),
-    },
-    {
-      display: t('Wastelander.Debuffed.Display'),
-      value: 1,
-      label: t('Wastelander.Debuffed.Label'),
-    },
-    {
-      display: t('Wastelander.Imprisoned.Display'),
-      value: 2,
-      label: t('Wastelander.Imprisoned.Label'),
-    },
-  ]
-}
+const display = {
+  conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Wastelander',
+  selectionOptions: selectionOptions,
+  modifiable: true,
+  defaultValue: 1,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -67,21 +60,29 @@ const conditionals = {
   `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Wastelander',
-  selectionOptions: selectionOptions,
-  modifiable: true,
-  defaultValue: 1,
-} as const satisfies SetDisplay
+function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
+  return [
+    {
+      display: t('Wastelander.Off.Display'),
+      value: 0,
+      label: t('Wastelander.Off.Label'),
+    },
+    {
+      display: t('Wastelander.Debuffed.Display'),
+      value: 1,
+      label: t('Wastelander.Debuffed.Label'),
+    },
+    {
+      display: t('Wastelander.Imprisoned.Display'),
+      value: 2,
+      label: t('Wastelander.Imprisoned.Label'),
+    },
+  ]
+}
 
 export const WastelanderOfBanditryDesert = {
   id: 'WastelanderOfBanditryDesert',
-  info: {
-    index: 11,
-    setType: SetType.RELIC,
-    ingameId: '112',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

@@ -16,8 +16,22 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 7,
+  setType: SetType.RELIC,
+  ingameId: '108',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Genius',
+  modifiable: true,
+  defaultValue: true,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -35,20 +49,9 @@ const conditionals = {
   `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Genius',
-  modifiable: true,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
 export const GeniusOfBrilliantStars = {
   id: 'GeniusOfBrilliantStars',
-  info: {
-    index: 7,
-    setType: SetType.RELIC,
-    ingameId: '108',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

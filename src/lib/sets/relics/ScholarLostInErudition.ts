@@ -14,8 +14,22 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 21,
+  setType: SetType.RELIC,
+  ingameId: '122',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Scholar',
+  modifiable: true,
+  defaultValue: true,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -37,20 +51,9 @@ const conditionals = {
   `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Scholar',
-  modifiable: true,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
 export const ScholarLostInErudition = {
   id: 'ScholarLostInErudition',
-  info: {
-    index: 21,
-    setType: SetType.RELIC,
-    ingameId: '122',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

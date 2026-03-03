@@ -30,6 +30,7 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
 
@@ -66,10 +67,22 @@ if (
   },
 }
 
+const info = {
+  index: 9,
+  setType: SetType.ORNAMENT,
+  ingameId: '310',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  defaultValue: true,
+} as const satisfies SetDisplay
+
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.RES.buff(0.10, Source.BrokenKeel)
   },
+  dynamicConditionals: [BrokenKeelConditional],
   teammate: [{
     value: Sets.BrokenKeel,
     label: (t) => t('TeammateSets.Keel.Text'),
@@ -79,21 +92,11 @@ const conditionals = {
       x.buff(StatKey.CD, 0.10, x.targets(TargetTag.FullTeam).source(Source.BrokenKeel))
     },
   }],
-  dynamicConditionals: [BrokenKeelConditional],
 } as const satisfies SetConditionals
-
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  defaultValue: true,
-} as const satisfies SetDisplay
 
 export const BrokenKeel = {
   id: 'BrokenKeel',
-  info: {
-    index: 9,
-    setType: SetType.ORNAMENT,
-    ingameId: '310',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

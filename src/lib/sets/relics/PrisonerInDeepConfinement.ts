@@ -4,7 +4,6 @@ import { Source } from 'lib/optimization/buffSource'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TFunction } from 'i18next'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -12,21 +11,27 @@ import {
 } from 'types/optimizer'
 import {
   SelectOptionContent,
+  SetConditionalTFunction,
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
 
-type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
+const info = {
+  index: 15,
+  setType: SetType.RELIC,
+  ingameId: '116',
+} as const satisfies SetInfo
 
-function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
-  return Array.from({ length: 4 }).map((_val, i) => ({
-    display: t('Prisoner.Display', { stackCount: i }),
-    value: i,
-    label: t('Prisoner.Label', { stackCount: i, buffValue: 6 * i }),
-  }))
-}
+const display = {
+  conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Prisoner',
+  selectionOptions: selectionOptions,
+  modifiable: true,
+  defaultValue: 0,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -42,21 +47,17 @@ const conditionals = {
   `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Prisoner',
-  selectionOptions: selectionOptions,
-  modifiable: true,
-  defaultValue: 0,
-} as const satisfies SetDisplay
+function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
+  return Array.from({ length: 4 }).map((_val, i) => ({
+    display: t('Prisoner.Display', { stackCount: i }),
+    value: i,
+    label: t('Prisoner.Label', { stackCount: i, buffValue: 6 * i }),
+  }))
+}
 
 export const PrisonerInDeepConfinement = {
   id: 'PrisonerInDeepConfinement',
-  info: {
-    index: 15,
-    setType: SetType.RELIC,
-    ingameId: '116',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

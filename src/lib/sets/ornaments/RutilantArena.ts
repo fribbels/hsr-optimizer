@@ -15,8 +15,20 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 8,
+  setType: SetType.ORNAMENT,
+  ingameId: '309',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  defaultValue: true,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -37,18 +49,9 @@ const conditionals = {
 `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
 export const RutilantArena = {
   id: 'RutilantArena',
-  info: {
-    index: 8,
-    setType: SetType.ORNAMENT,
-    ingameId: '309',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

@@ -26,6 +26,7 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
 
@@ -62,6 +63,17 @@ if (
   },
 }
 
+const info = {
+  index: 6,
+  setType: SetType.ORNAMENT,
+  ingameId: '307',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  defaultValue: true,
+} as const satisfies SetDisplay
+
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.BE.buff(0.16, Source.TaliaKingdomOfBanditry)
@@ -69,18 +81,9 @@ const conditionals = {
   dynamicConditionals: [TaliaKingdomOfBanditryConditional],
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
 export const TaliaKingdomOfBanditry = {
   id: 'TaliaKingdomOfBanditry',
-  info: {
-    index: 6,
-    setType: SetType.ORNAMENT,
-    ingameId: '307',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

@@ -13,8 +13,22 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 25,
+  setType: SetType.RELIC,
+  ingameId: '126',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Wavestrider',
+  modifiable: true,
+  defaultValue: true,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -35,20 +49,9 @@ const conditionals = {
   `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Wavestrider',
-  modifiable: true,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
 export const WavestriderCaptain = {
   id: 'WavestriderCaptain',
-  info: {
-    index: 25,
-    setType: SetType.RELIC,
-    ingameId: '126',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

@@ -26,6 +26,7 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
 
@@ -72,6 +73,17 @@ if (
   },
 }
 
+const info = {
+  index: 2,
+  setType: SetType.ORNAMENT,
+  ingameId: '303',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  defaultValue: true,
+} as const satisfies SetDisplay
+
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.EHR.buff(0.10, Source.PanCosmicCommercialEnterprise)
@@ -79,18 +91,9 @@ const conditionals = {
   dynamicConditionals: [PanCosmicCommercialEnterpriseConditional],
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
 export const PanCosmicCommercialEnterprise = {
   id: 'PanCosmicCommercialEnterprise',
-  info: {
-    index: 2,
-    setType: SetType.ORNAMENT,
-    ingameId: '303',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

@@ -16,8 +16,22 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 3,
+  setType: SetType.RELIC,
+  ingameId: '104',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Hunter',
+  modifiable: true,
+  defaultValue: true,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -40,20 +54,9 @@ const conditionals = {
   `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Hunter',
-  modifiable: true,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
 export const HunterOfGlacialForest = {
   id: 'HunterOfGlacialForest',
-  info: {
-    index: 3,
-    setType: SetType.RELIC,
-    ingameId: '104',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

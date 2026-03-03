@@ -6,7 +6,6 @@ import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { TFunction } from 'i18next'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -14,24 +13,27 @@ import {
 } from 'types/optimizer'
 import {
   SelectOptionContent,
+  SetConditionalTFunction,
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
 
-type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
+const info = {
+  index: 14,
+  setType: SetType.ORNAMENT,
+  ingameId: '315',
+} as const satisfies SetInfo
 
-function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
-  return Array.from({ length: 6 }).map((_val, i) => {
-    const label = i === 5 ? t('Duran.Label5') : t('Duran.Label', { stackCount: i, buffValue: TsUtils.precisionRound(5 * i) })
-    return {
-      display: t('Duran.Display', { stackCount: i }),
-      value: i,
-      label,
-    }
-  })
-}
+const display = {
+  conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Duran',
+  modifiable: true,
+  selectionOptions: selectionOptions,
+  defaultValue: 5,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -52,21 +54,20 @@ const conditionals = {
   `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Duran',
-  modifiable: true,
-  selectionOptions: selectionOptions,
-  defaultValue: 5,
-} as const satisfies SetDisplay
+function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
+  return Array.from({ length: 6 }).map((_val, i) => {
+    const label = i === 5 ? t('Duran.Label5') : t('Duran.Label', { stackCount: i, buffValue: TsUtils.precisionRound(5 * i) })
+    return {
+      display: t('Duran.Display', { stackCount: i }),
+      value: i,
+      label,
+    }
+  })
+}
 
 export const DuranDynastyOfRunningWolves = {
   id: 'DuranDynastyOfRunningWolves',
-  info: {
-    index: 14,
-    setType: SetType.ORNAMENT,
-    ingameId: '315',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

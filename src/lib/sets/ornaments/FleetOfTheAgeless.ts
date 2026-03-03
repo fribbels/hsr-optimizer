@@ -30,6 +30,7 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
 
@@ -67,10 +68,22 @@ if (
   },
 }
 
+const info = {
+  index: 1,
+  setType: SetType.ORNAMENT,
+  ingameId: '302',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  defaultValue: true,
+} as const satisfies SetDisplay
+
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.HP_P.buff(0.12, Source.FleetOfTheAgeless)
   },
+  dynamicConditionals: [FleetOfTheAgelessConditional],
   teammate: [{
     value: Sets.FleetOfTheAgeless,
     label: (t) => t('TeammateSets.Ageless.Text'),
@@ -80,21 +93,11 @@ const conditionals = {
       x.buff(StatKey.ATK_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.FleetOfTheAgeless))
     },
   }],
-  dynamicConditionals: [FleetOfTheAgelessConditional],
 } as const satisfies SetConditionals
-
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  defaultValue: true,
-} as const satisfies SetDisplay
 
 export const FleetOfTheAgeless = {
   id: 'FleetOfTheAgeless',
-  info: {
-    index: 1,
-    setType: SetType.ORNAMENT,
-    ingameId: '302',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

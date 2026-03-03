@@ -29,6 +29,7 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
 
@@ -65,6 +66,17 @@ if (
   },
 }
 
+const info = {
+  index: 18,
+  setType: SetType.ORNAMENT,
+  ingameId: '319',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  defaultValue: true,
+} as const satisfies SetDisplay
+
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.HP_P.buff(0.12, Source.BoneCollectionsSereneDemesne)
@@ -72,18 +84,9 @@ const conditionals = {
   dynamicConditionals: [BoneCollectionsSereneDemesneConditional],
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
 export const BoneCollectionsSereneDemesne = {
   id: 'BoneCollectionsSereneDemesne',
-  info: {
-    index: 18,
-    setType: SetType.ORNAMENT,
-    ingameId: '319',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

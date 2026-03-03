@@ -4,7 +4,6 @@ import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TFunction } from 'i18next'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -12,13 +11,13 @@ import {
 } from 'types/optimizer'
 import {
   SelectOptionContent,
+  SetConditionalTFunction,
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
-
-type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
 
 const arcadiaSetIndexToDmg: Record<number, number> = {
   1: 0.36,
@@ -31,19 +30,19 @@ const arcadiaSetIndexToDmg: Record<number, number> = {
   8: 0.36,
 }
 
-function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
-  return Array.from({ length: 8 }).map((_val, i) => {
-    const allyCount = i + 1
-    return {
-      display: t('Arcadia.Display', { allyCount }),
-      value: allyCount,
-      label: t('Arcadia.Label', {
-        buffValue: Math.max(12 * (4 - allyCount), 9 * (allyCount - 4)),
-        allyCount,
-      }),
-    }
-  })
-}
+const info = {
+  index: 20,
+  setType: SetType.ORNAMENT,
+  ingameId: '321',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Arcadia',
+  selectionOptions: selectionOptions,
+  modifiable: true,
+  defaultValue: 4,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
@@ -61,21 +60,23 @@ const conditionals = {
   `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Arcadia',
-  selectionOptions: selectionOptions,
-  modifiable: true,
-  defaultValue: 4,
-} as const satisfies SetDisplay
+function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
+  return Array.from({ length: 8 }).map((_val, i) => {
+    const allyCount = i + 1
+    return {
+      display: t('Arcadia.Display', { allyCount }),
+      value: allyCount,
+      label: t('Arcadia.Label', {
+        buffValue: Math.max(12 * (4 - allyCount), 9 * (allyCount - 4)),
+        allyCount,
+      }),
+    }
+  })
+}
 
 export const ArcadiaOfWovenDreams = {
   id: 'ArcadiaOfWovenDreams',
-  info: {
-    index: 20,
-    setType: SetType.ORNAMENT,
-    ingameId: '321',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

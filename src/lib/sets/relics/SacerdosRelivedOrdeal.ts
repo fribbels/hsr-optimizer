@@ -9,7 +9,6 @@ import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TFunction } from 'i18next'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -17,21 +16,27 @@ import {
 } from 'types/optimizer'
 import {
   SelectOptionContent,
+  SetConditionalTFunction,
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
 
-type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
+const info = {
+  index: 20,
+  setType: SetType.RELIC,
+  ingameId: '121',
+} as const satisfies SetInfo
 
-function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
-  return Array.from({ length: 3 }).map((_val, i) => ({
-    display: t('Sacerdos.Display', { stackCount: i }),
-    value: i,
-    label: t('Sacerdos.Label', { stackCount: i, buffValue: 18 * i }),
-  }))
-}
+const display = {
+  conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Sacerdos',
+  modifiable: true,
+  selectionOptions: selectionOptions,
+  defaultValue: 0,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -40,6 +45,11 @@ const conditionals = {
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(StatKey.CD, 0.18 * setConditionals.valueSacerdosRelivedOrdeal, x.source(Source.SacerdosRelivedOrdeal))
   },
+  gpu: (action: OptimizerAction, context: OptimizerContext) => `
+    if (relic4p(*p_sets, SET_SacerdosRelivedOrdeal) >= 1) {
+      ${buff.action(AKey.CD, `0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal)`).wgsl(action, 2)}
+    }
+  `,
   teammate: [
     {
       value: SACERDOS_RELIVED_ORDEAL_1_STACK,
@@ -70,28 +80,19 @@ const conditionals = {
       },
     },
   ],
-  gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic4p(*p_sets, SET_SacerdosRelivedOrdeal) >= 1) {
-      ${buff.action(AKey.CD, `0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal)`).wgsl(action, 2)}
-    }
-  `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Sacerdos',
-  modifiable: true,
-  selectionOptions: selectionOptions,
-  defaultValue: 0,
-} as const satisfies SetDisplay
+function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
+  return Array.from({ length: 3 }).map((_val, i) => ({
+    display: t('Sacerdos.Display', { stackCount: i }),
+    value: i,
+    label: t('Sacerdos.Label', { stackCount: i, buffValue: 18 * i }),
+  }))
+}
 
 export const SacerdosRelivedOrdeal = {
   id: 'SacerdosRelivedOrdeal',
-  info: {
-    index: 20,
-    setType: SetType.RELIC,
-    ingameId: '121',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

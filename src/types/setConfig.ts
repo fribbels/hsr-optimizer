@@ -43,7 +43,7 @@ export type SetConditionals = {
   gpuTerminal?: (action: OptimizerAction, context: OptimizerContext) => string
 }
 
-type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
+export type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
 
 export type SetDisplay = {
   conditionalType: ConditionalDataType

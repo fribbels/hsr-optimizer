@@ -9,8 +9,21 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 16,
+  setType: SetType.ORNAMENT,
+  ingameId: '317',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Lushaka',
+  defaultValue: false,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -27,19 +40,9 @@ const conditionals = {
   }],
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Lushaka',
-  defaultValue: false,
-} as const satisfies SetDisplay
-
 export const LushakaTheSunkenSeas = {
   id: 'LushakaTheSunkenSeas',
-  info: {
-    index: 16,
-    setType: SetType.ORNAMENT,
-    ingameId: '317',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

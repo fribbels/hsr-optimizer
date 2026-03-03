@@ -14,8 +14,22 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 13,
+  setType: SetType.ORNAMENT,
+  ingameId: '314',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Izumo',
+  modifiable: true,
+  defaultValue: true,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -39,20 +53,9 @@ const conditionals = {
   `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Izumo',
-  modifiable: true,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
 export const IzumoGenseiAndTakamaDivineRealm = {
   id: 'IzumoGenseiAndTakamaDivineRealm',
-  info: {
-    index: 13,
-    setType: SetType.ORNAMENT,
-    ingameId: '314',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

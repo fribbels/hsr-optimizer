@@ -18,8 +18,22 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 17,
+  setType: SetType.RELIC,
+  ingameId: '118',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Watchmaker',
+  modifiable: true,
+  defaultValue: false,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -50,20 +64,9 @@ const conditionals = {
   }],
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Watchmaker',
-  modifiable: true,
-  defaultValue: false,
-} as const satisfies SetDisplay
-
 export const WatchmakerMasterOfDreamMachinations = {
   id: 'WatchmakerMasterOfDreamMachinations',
-  info: {
-    index: 17,
-    setType: SetType.RELIC,
-    ingameId: '118',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

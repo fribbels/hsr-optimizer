@@ -26,6 +26,7 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
 
@@ -63,6 +64,17 @@ if (
   },
 }
 
+const info = {
+  index: 0,
+  setType: SetType.ORNAMENT,
+  ingameId: '301',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  defaultValue: true,
+} as const satisfies SetDisplay
+
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.SpaceSealingStation)
@@ -70,18 +82,9 @@ const conditionals = {
   dynamicConditionals: [SpaceSealingStationConditional],
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
 export const SpaceSealingStation = {
   id: 'SpaceSealingStation',
-  info: {
-    index: 0,
-    setType: SetType.ORNAMENT,
-    ingameId: '301',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

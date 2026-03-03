@@ -13,8 +13,22 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 15,
+  setType: SetType.ORNAMENT,
+  ingameId: '316',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Kalpagni',
+  modifiable: true,
+  defaultValue: false,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -35,20 +49,9 @@ const conditionals = {
   `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Kalpagni',
-  modifiable: true,
-  defaultValue: false,
-} as const satisfies SetDisplay
-
 export const ForgeOfTheKalpagniLantern = {
   id: 'ForgeOfTheKalpagniLantern',
-  info: {
-    index: 15,
-    setType: SetType.ORNAMENT,
-    ingameId: '316',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

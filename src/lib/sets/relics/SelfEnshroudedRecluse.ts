@@ -20,8 +20,22 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 27,
+  setType: SetType.RELIC,
+  ingameId: '128',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Recluse',
+  modifiable: true,
+  defaultValue: true,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
@@ -55,20 +69,9 @@ const conditionals = {
   }],
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Recluse',
-  modifiable: true,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
 export const SelfEnshroudedRecluse = {
   id: 'SelfEnshroudedRecluse',
-  info: {
-    index: 27,
-    setType: SetType.RELIC,
-    ingameId: '128',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

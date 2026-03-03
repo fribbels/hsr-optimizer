@@ -19,8 +19,22 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 29,
+  setType: SetType.RELIC,
+  ingameId: '130',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Diviner',
+  modifiable: true,
+  defaultValue: true,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -34,15 +48,6 @@ const conditionals = {
       x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
     }
   },
-  teammate: [{
-    value: Sets.DivinerOfDistantReach,
-    label: (t) => t('TeammateSets.Diviner.Text'),
-    desc: (t) => t('TeammateSets.Diviner.Desc'),
-    nonstackable: true,
-    effect: ({ x }) => {
-      x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
-    },
-  }],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_DivinerOfDistantReach) >= 1) {
       let divinerCrValue = select(0.0, 0.10, (*p_c).SPD >= 120.0) + select(0.0, 0.08, (*p_c).SPD >= 160.0);
@@ -52,22 +57,20 @@ const conditionals = {
       }
     }
   `,
+  teammate: [{
+    value: Sets.DivinerOfDistantReach,
+    label: (t) => t('TeammateSets.Diviner.Text'),
+    desc: (t) => t('TeammateSets.Diviner.Desc'),
+    nonstackable: true,
+    effect: ({ x }) => {
+      x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
+    },
+  }],
 } as const satisfies SetConditionals
-
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Diviner',
-  modifiable: true,
-  defaultValue: true,
-} as const satisfies SetDisplay
 
 export const DivinerOfDistantReach = {
   id: 'DivinerOfDistantReach',
-  info: {
-    index: 29,
-    setType: SetType.RELIC,
-    ingameId: '130',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

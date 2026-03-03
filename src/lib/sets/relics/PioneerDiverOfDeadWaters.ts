@@ -4,7 +4,6 @@ import { Source } from 'lib/optimization/buffSource'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TFunction } from 'i18next'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -12,13 +11,19 @@ import {
 } from 'types/optimizer'
 import {
   SelectOptionContent,
+  SetConditionalTFunction,
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
 
-type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
+const info = {
+  index: 16,
+  setType: SetType.RELIC,
+  ingameId: '117',
+} as const satisfies SetInfo
 
 const pioneerSetIndexToCd: Record<number, number> = {
   [-1]: 0,
@@ -28,6 +33,42 @@ const pioneerSetIndexToCd: Record<number, number> = {
   3: 0.16,
   4: 0.24,
 }
+
+const display = {
+  conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Diver',
+  selectionOptions: selectionOptions,
+  modifiable: true,
+  defaultValue: 2,
+} as const satisfies SetDisplay
+
+const conditionals = {
+  p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+    if (setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
+      x.buff(StatKey.DMG_BOOST, 0.12, x.source(Source.PioneerDiverOfDeadWaters))
+    }
+  },
+  p4c: (c: BasicStatsArray, context: OptimizerContext) => {
+    c.CR.buff(0.04, Source.PioneerDiverOfDeadWaters)
+  },
+  p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
+    x.buff(StatKey.CD_BOOST, pioneerSetIndexToCd[setConditionals.valuePioneerDiverOfDeadWaters], x.source(Source.PioneerDiverOfDeadWaters))
+    if (setConditionals.valuePioneerDiverOfDeadWaters > 2) {
+      x.buff(StatKey.CR, 0.04, x.source(Source.PioneerDiverOfDeadWaters))
+    }
+  },
+  gpu: (action: OptimizerAction, context: OptimizerContext) => `
+    if (relic2p(*p_sets, SET_PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
+      ${buff.action(AKey.DMG_BOOST, 0.12).wgsl(action, 2)}
+      if (relic4p(*p_sets, SET_PioneerDiverOfDeadWaters) >= 1) {
+        ${buff.action(AKey.CD_BOOST, `getPioneerSetValue(setConditionals.valuePioneerDiverOfDeadWaters)`).wgsl(action, 3)}
+        if (setConditionals.valuePioneerDiverOfDeadWaters > 2) {
+          ${buff.action(AKey.CR, 0.04).wgsl(action, 4)}
+        }
+      }
+    }
+  `,
+} as const satisfies SetConditionals
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return [
@@ -64,49 +105,9 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   ]
 }
 
-const conditionals = {
-  p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-    if (setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
-      x.buff(StatKey.DMG_BOOST, 0.12, x.source(Source.PioneerDiverOfDeadWaters))
-    }
-  },
-  p4c: (c: BasicStatsArray, context: OptimizerContext) => {
-    c.CR.buff(0.04, Source.PioneerDiverOfDeadWaters)
-  },
-  p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-    x.buff(StatKey.CD_BOOST, pioneerSetIndexToCd[setConditionals.valuePioneerDiverOfDeadWaters], x.source(Source.PioneerDiverOfDeadWaters))
-    if (setConditionals.valuePioneerDiverOfDeadWaters > 2) {
-      x.buff(StatKey.CR, 0.04, x.source(Source.PioneerDiverOfDeadWaters))
-    }
-  },
-  gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic2p(*p_sets, SET_PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
-      ${buff.action(AKey.DMG_BOOST, 0.12).wgsl(action, 2)}
-      if (relic4p(*p_sets, SET_PioneerDiverOfDeadWaters) >= 1) {
-        ${buff.action(AKey.CD_BOOST, `getPioneerSetValue(setConditionals.valuePioneerDiverOfDeadWaters)`).wgsl(action, 3)}
-        if (setConditionals.valuePioneerDiverOfDeadWaters > 2) {
-          ${buff.action(AKey.CR, 0.04).wgsl(action, 4)}
-        }
-      }
-    }
-  `,
-} as const satisfies SetConditionals
-
-const display = {
-  conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Diver',
-  selectionOptions: selectionOptions,
-  modifiable: true,
-  defaultValue: 2,
-} as const satisfies SetDisplay
-
 export const PioneerDiverOfDeadWaters = {
   id: 'PioneerDiverOfDeadWaters',
-  info: {
-    index: 16,
-    setType: SetType.RELIC,
-    ingameId: '117',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

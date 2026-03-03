@@ -5,7 +5,6 @@ import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TFunction } from 'i18next'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -13,21 +12,27 @@ import {
 } from 'types/optimizer'
 import {
   SelectOptionContent,
+  SetConditionalTFunction,
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
 
-type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
+const info = {
+  index: 14,
+  setType: SetType.RELIC,
+  ingameId: '115',
+} as const satisfies SetInfo
 
-function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
-  return Array.from({ length: 9 }).map((_val, i) => ({
-    display: t('Ashblazing.Display', { stackCount: i }),
-    value: i,
-    label: t('Ashblazing.Label', { stackCount: i, buffValue: 6 * i }),
-  }))
-}
+const display = {
+  conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Ashblazing',
+  selectionOptions: selectionOptions,
+  modifiable: true,
+  defaultValue: 0,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -48,21 +53,17 @@ const conditionals = {
   `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Ashblazing',
-  selectionOptions: selectionOptions,
-  modifiable: true,
-  defaultValue: 0,
-} as const satisfies SetDisplay
+function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
+  return Array.from({ length: 9 }).map((_val, i) => ({
+    display: t('Ashblazing.Display', { stackCount: i }),
+    value: i,
+    label: t('Ashblazing.Label', { stackCount: i, buffValue: 6 * i }),
+  }))
+}
 
 export const TheAshblazingGrandDuke = {
   id: 'TheAshblazingGrandDuke',
-  info: {
-    index: 14,
-    setType: SetType.RELIC,
-    ingameId: '115',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

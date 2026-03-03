@@ -15,8 +15,20 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 18,
+  setType: SetType.RELIC,
+  ingameId: '119',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  defaultValue: true,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -41,18 +53,9 @@ const conditionals = {
 `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
 export const IronCavalryAgainstTheScourge = {
   id: 'IronCavalryAgainstTheScourge',
-  info: {
-    index: 18,
-    setType: SetType.RELIC,
-    ingameId: '119',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

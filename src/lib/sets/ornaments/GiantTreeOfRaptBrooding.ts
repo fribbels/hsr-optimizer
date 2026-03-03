@@ -29,6 +29,7 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
 
@@ -98,6 +99,17 @@ if (
   },
 }
 
+const info = {
+  index: 19,
+  setType: SetType.ORNAMENT,
+  ingameId: '320',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  defaultValue: true,
+} as const satisfies SetDisplay
+
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.GiantTreeOfRaptBrooding)
@@ -105,18 +117,9 @@ const conditionals = {
   dynamicConditionals: [GiantTreeOfRaptBrooding135Conditional, GiantTreeOfRaptBrooding180Conditional],
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
 export const GiantTreeOfRaptBrooding = {
   id: 'GiantTreeOfRaptBrooding',
-  info: {
-    index: 19,
-    setType: SetType.ORNAMENT,
-    ingameId: '320',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

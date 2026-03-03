@@ -8,7 +8,6 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TFunction } from 'i18next'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -16,21 +15,27 @@ import {
 } from 'types/optimizer'
 import {
   SelectOptionContent,
+  SetConditionalTFunction,
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
 
-type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
+const info = {
+  index: 28,
+  setType: SetType.RELIC,
+  ingameId: '129',
+} as const satisfies SetInfo
 
-function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
-  return Array.from({ length: 11 }).map((_val, i) => ({
-    display: t('MagicalGirl.Display', { stackCount: i }),
-    value: i,
-    label: t('MagicalGirl.Label', { stackCount: i }),
-  }))
-}
+const display = {
+  conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.MagicalGirl',
+  selectionOptions: selectionOptions,
+  modifiable: true,
+  defaultValue: 10,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -47,21 +52,17 @@ const conditionals = {
   `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.MagicalGirl',
-  selectionOptions: selectionOptions,
-  modifiable: true,
-  defaultValue: 10,
-} as const satisfies SetDisplay
+function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
+  return Array.from({ length: 11 }).map((_val, i) => ({
+    display: t('MagicalGirl.Display', { stackCount: i }),
+    value: i,
+    label: t('MagicalGirl.Label', { stackCount: i }),
+  }))
+}
 
 export const EverGloriousMagicalGirl = {
   id: 'EverGloriousMagicalGirl',
-  info: {
-    index: 28,
-    setType: SetType.RELIC,
-    ingameId: '129',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

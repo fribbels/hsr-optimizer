@@ -14,8 +14,22 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 11,
+  setType: SetType.ORNAMENT,
+  ingameId: '312',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Penacony',
+  modifiable: true,
+  defaultValue: true,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -46,20 +60,9 @@ const conditionals = {
   }],
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Penacony',
-  modifiable: true,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
 export const PenaconyLandOfTheDreams = {
   id: 'PenaconyLandOfTheDreams',
-  info: {
-    index: 11,
-    setType: SetType.ORNAMENT,
-    ingameId: '312',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

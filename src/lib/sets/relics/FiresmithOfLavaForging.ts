@@ -17,8 +17,22 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 6,
+  setType: SetType.RELIC,
+  ingameId: '107',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Firesmith',
+  modifiable: true,
+  defaultValue: true,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -42,20 +56,9 @@ const conditionals = {
   `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Firesmith',
-  modifiable: true,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
 export const FiresmithOfLavaForging = {
   id: 'FiresmithOfLavaForging',
-  info: {
-    index: 6,
-    setType: SetType.RELIC,
-    ingameId: '107',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

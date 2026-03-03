@@ -14,8 +14,22 @@ import {
   SetConditionals,
   SetConfig,
   SetDisplay,
+  SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 19,
+  setType: SetType.RELIC,
+  ingameId: '120',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalI18nKey: 'Conditionals.Valorous',
+  modifiable: true,
+  defaultValue: false,
+} as const satisfies SetDisplay
 
 const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -36,20 +50,9 @@ const conditionals = {
   `,
 } as const satisfies SetConditionals
 
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Valorous',
-  modifiable: true,
-  defaultValue: false,
-} as const satisfies SetDisplay
-
 export const TheWindSoaringValorous = {
   id: 'TheWindSoaringValorous',
-  info: {
-    index: 19,
-    setType: SetType.RELIC,
-    ingameId: '120',
-  },
-  conditionals,
+  info,
   display,
+  conditionals,
 } as const satisfies SetConfig

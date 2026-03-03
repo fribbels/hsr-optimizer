@@ -81,6 +81,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const defaults = {
     enhancedBasic: true,
     punchlineStacks: defaultPunchlines,
+    certifiedBangerStacks: defaultPunchlines,
     engagementFarmingStacks: 20,
     certifiedBanger: true,
     atkToElation: true,
@@ -108,6 +109,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'punchlineStacks',
       formItem: 'slider',
       text: 'Punchline stacks',
+      content: betaContent,
+      min: 0,
+      max: 200,
+    },
+    certifiedBangerStacks: {
+      id: 'certifiedBangerStacks',
+      formItem: 'slider',
+      text: 'Certified Banger stacks',
       content: betaContent,
       min: 0,
       max: 200,
@@ -201,10 +210,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDeclaration: () => Object.values(SparxieAbilities),
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-      const punchline = r.punchlineStacks
+      const punchlineStacks = r.punchlineStacks
+      const certifiedBangerStacks = r.certifiedBangerStacks
       const engagementStacks = r.enhancedBasic ? r.engagementFarmingStacks : 0
 
-      const e6ExtraBounces = (e >= 6 && r.e6ResPen) ? Math.min(20, punchline) : 0
+      const e6ExtraBounces = (e >= 6 && r.e6ResPen) ? Math.min(20, punchlineStacks) : 0
       const totalBounces = 20 + e6ExtraBounces
 
       // ============== BASIC ==============
@@ -221,7 +231,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Fire)
         .elationScaling(talentMainElationScaling + talentEngagementElationScaling * engagementStacks / context.enemyCount)
-        .punchlineStacks(punchline)
+        .punchlineStacks(certifiedBangerStacks)
         .toughnessDmg(5)
         .build()
 
@@ -238,7 +248,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Fire)
         .elationScaling(talentUltElationScaling)
-        .punchlineStacks(punchline)
+        .punchlineStacks(certifiedBangerStacks)
         .toughnessDmg(0)
         .build()
 
@@ -262,7 +272,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Fire)
         .elationScaling(elationSkillAoeScaling + totalBounces * elationSkillBounceScaling / context.enemyCount)
-        .punchlineStacks(punchline)
+        .punchlineStacks(punchlineStacks)
         .toughnessDmg(6.67 + 1.67 * totalBounces / context.enemyCount)
         .build()
 
@@ -289,14 +299,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-      const punchline = r.punchlineStacks
+      const punchlineStacks = r.punchlineStacks
 
       // Per Punchline, +8% CRIT DMG to all allies (max 80%)
-      const cdBuff = r.punchlineCritDmg ? Math.min(0.80, punchline * 0.08) : 0
+      const cdBuff = r.punchlineCritDmg ? Math.min(0.80, punchlineStacks * 0.08) : 0
       x.buff(StatKey.CD, cdBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // E1: Per Punchline, +1.5% All-Type RES PEN to all allies (max 15%)
-      const resPenBuff = (e >= 1 && r.e1PunchlineResPen) ? Math.min(0.15, punchline * 0.015) : 0
+      const resPenBuff = (e >= 1 && r.e1PunchlineResPen) ? Math.min(0.15, punchlineStacks * 0.015) : 0
       x.buff(StatKey.RES_PEN, resPenBuff, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
     },
 

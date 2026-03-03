@@ -1,14 +1,40 @@
 import i18next from 'i18next'
-import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  createEnum,
+} from 'lib/conditionals/conditionalUtils'
+import {
+  dynamicStatConversionContainer,
+  gpuDynamicStatConversion,
+} from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Parts, Sets, Stats, } from 'lib/constants/constants'
-import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  CURRENT_DATA_VERSION,
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { ModifierContext } from 'lib/optimization/context/calculateActions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
+import {
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  END_ULT,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  WHOLE_BASIC,
+  WHOLE_ELATION_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
   RELICS_2P_SPEED,
@@ -24,23 +50,22 @@ import {
   DAZZLED_BY_A_FLOWERY_WORLD,
   HUOHUO,
   NIGHT_OF_FRIGHT,
-  SPARXIE,
   SPARKLE_B1,
+  SPARXIE,
   YAO_GUANG,
 } from 'lib/simulations/tests/testMetadataConstants'
-import {
-  END_ULT,
-  NULL_TURN_ABILITY_NAME,
-  START_SKILL,
-  WHOLE_BASIC,
-  WHOLE_ELATION_SKILL,
-} from 'lib/optimization/rotation/turnAbilityConfig'
-import { CharacterConfig } from 'types/characterConfig'
-import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { ElationHit } from 'types/hitConditionalTypes'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  ScoringMetadata,
+  SimulationMetadata,
+} from 'types/metadata'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export const YaoguangEntities = createEnum('Yaoguang')
 export const YaoguangAbilities = createEnum('BASIC', 'ELATION_SKILL', 'BREAK')
@@ -78,10 +103,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const defaults = {
     punchlineStacks: 50,
+    certifiedBangerStacks: 50,
     skillZoneActive: true,
     ultResPenBuff: true,
     certifiedBanger: true,
-    ahaMoment: false,
+    yaoguangAhaInstant: false,
     woesWhisperVulnerability: true,
     traceSpdElation: true,
     e1DefPen: true,
@@ -92,9 +118,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const teammateDefaults = {
     certifiedBanger: true,
     consumesSkillPoints: true,
-    teammatePunchlineStacks: 50,
+    teammateCertifiedBangerStacks: 50,
     skillZoneActive: true,
-    teammateElationValue: 2.00,
+    teammateElationValue: 1.00,
     ultResPenBuff: true,
     woesWhisperVulnerability: true,
     e1DefPen: true,
@@ -107,6 +133,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'punchlineStacks',
       formItem: 'slider',
       text: 'Punchline stacks',
+      content: betaContent,
+      min: 0,
+      max: 200,
+    },
+    certifiedBangerStacks: {
+      id: 'certifiedBangerStacks',
+      formItem: 'slider',
+      text: 'Certified Banger stacks',
       content: betaContent,
       min: 0,
       max: 200,
@@ -129,10 +163,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'Certified Banger',
       content: betaContent,
     },
-    ahaMoment: {
-      id: 'ahaMoment',
+    yaoguangAhaInstant: {
+      id: 'yaoguangAhaInstant',
       formItem: 'switch',
-      text: 'Aha Moment',
+      text: 'Ult Aha Instant',
       content: betaContent,
     },
     woesWhisperVulnerability: {
@@ -178,10 +212,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'Consumes skill points',
       content: betaContent,
     },
-    teammatePunchlineStacks: {
-      id: 'teammatePunchlineStacks',
+    teammateCertifiedBangerStacks: {
+      id: 'teammateCertifiedBangerStacks',
       formItem: 'slider',
-      text: `Yao Guang's Punchline stacks`,
+      text: `Yao Guang's Certified Banger stacks`,
       content: betaContent,
       min: 0,
       max: 200,
@@ -221,7 +255,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDeclaration: () => Object.values(YaoguangAbilities),
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-      const punchline = (r.ahaMoment) ? ahaPunchlineValue : r.punchlineStacks
+      const punchlineStacks = (r.yaoguangAhaInstant) ? ahaPunchlineValue : r.punchlineStacks
 
       // Combined Elation Skill scaling: AoE base + bounce hits averaged per enemy
       const baseElationScaling = elationSkillAoeScaling + elationSkillBounceCount * elationSkillBounceScaling / context.enemyCount
@@ -245,7 +279,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageType(DamageTag.ELATION)
               .damageElement(ElementTag.Physical)
               .elationScaling(combinedElationScaling)
-              .punchlineStacks(punchline)
+              .punchlineStacks(punchlineStacks)
               .toughnessDmg(combinedToughness)
               .build(),
           ],
@@ -264,9 +298,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         const hasDirectHit = action.hits?.some((hit) => hit.directHit)
         if (!hasDirectHit) return
 
-        const punchline = (self.isTeammate)
-          ? self.ownConditionals.teammatePunchlineStacks as number
-          : ((self.ownConditionals.ahaMoment) ? ahaPunchlineValue : self.ownConditionals.punchlineStacks as number)
+        const certifiedBangerStacks = (self.isTeammate)
+          ? self.ownConditionals.teammateCertifiedBangerStacks as number
+          : self.ownConditionals.certifiedBangerStacks as number
 
         // If attacker's Elation < Yaoguang's, use Yaoguang's Elation for Great Boon calculation
         const minElation = (self.isTeammate)
@@ -284,7 +318,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .damageType(DamageTag.ELATION)
             .damageElement(attackElement)
             .elationScaling(talentElationScaling)
-            .punchlineStacks(punchline)
+            .punchlineStacks(certifiedBangerStacks)
             .toughnessDmg(0)
             .build() as ElationHit
           greatBoonHit.minElationOverride = minElation
@@ -320,8 +354,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       x.buff(StatKey.MERRYMAKING, (e >= 6 && m.e6Merrymaking) ? 0.25 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
 
-      const primaryAhaMoment = originalCharacterAction!.characterConditionals.ahaMoment
-      x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 4 && primaryAhaMoment) ? 0.50 : 0, x.damageType(DamageTag.ELATION).targets(TargetTag.FullTeam).source(SOURCE_E4))
+      const primaryAhaMoment = originalCharacterAction!.characterConditionals.yaoguangAhaInstant
+      x.multiplicativeBoost(
+        StatKey.FINAL_DMG_BOOST,
+        (e >= 4 && primaryAhaMoment) ? 0.50 : 0,
+        x.damageType(DamageTag.ELATION).targets(TargetTag.FullTeam).source(SOURCE_E4),
+      )
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -413,7 +451,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ],
   }
 }
-
 
 const simulation: SimulationMetadata = {
   parts: {
